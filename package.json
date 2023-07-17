@@ -21,6 +21,9 @@
 		"npm": "please-use-yarn",
 		"yarn": "3.6.1"
 	},
+	"dependencies": {
+		"raknet-native": "^1.2.3"
+	},
 	"devDependencies": {
 		"@types/eslint": "^8.44.0",
 		"@types/node": "^20.4.2",
