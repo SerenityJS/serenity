@@ -1,11 +1,39 @@
 {
-  "name": "serenity",
-  "version": "1.0.0",
-  "description": "Serenity",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "serenity",
+	"version": "0.0.0",
+	"description": "Serenity",
+	"private": true,
+	"contributors": [
+		"PMK744",
+		"nobu-sh <chat@nobu.sh>"
+	],
+	"scripts": {
+		"build": "tsc",
+		"dev": "nodemon --config nodemon.json src/index.ts",
+		"format": "prettier --write . && cross-env TIMING=1 eslint src --ext .js,.ts --fix --format=pretty",
+		"lint": "prettier --check . && cross-env TIMING=1 eslint src --ext .js,.ts --format=pretty",
+		"prepare": "husky install",
+		"start": "node ."
+	},
+	"packageManager": "yarn@3.6.1",
+	"engines": {
+		"node": ">=18.0.0",
+		"npm": "please-use-yarn",
+		"yarn": "3.6.1"
+	},
+	"devDependencies": {
+		"@types/eslint": "^8.44.0",
+		"@types/node": "^20.4.2",
+		"@types/prettier": "^2.7.3",
+		"cross-env": "^7.0.3",
+		"eslint": "^8.45.0",
+		"eslint-config-neon": "^0.1.47",
+		"eslint-formatter-pretty": "^5.0.0",
+		"husky": "^8.0.3",
+		"lint-staged": "^13.2.3",
+		"nodemon": "^3.0.1",
+		"prettier": "^3.0.0",
+		"ts-node": "^10.9.1",
+		"typescript": "^5.1.6"
+	}
 }
