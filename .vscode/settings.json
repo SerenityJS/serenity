@@ -1,0 +1,22 @@
+{
+	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true,
+		"source.organizeImports": false
+	},
+	"editor.trimAutoWhitespace": false,
+	"files.insertFinalNewline": true,
+	"files.eol": "\n",
+	"npm.packageManager": "yarn",
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.expand": false,
+	"explorer.fileNesting.patterns": {
+		"tsconfig.json": "tsconfig.*.json",
+		"package.json": "package-lock.json, yarn.lock, .yarnrc.yml",
+		".eslintrc.json": ".eslintignore, .prettierignore, .prettierrc.js, .prettierrc.json, .lintstagedrc.js, .lintstagedrc.cjs, .lintstagedrc.json, .commitlintrc.js, .commitlintrc.json",
+		".gitignore": ".gitattributes",
+		"README.md": "LICENSE, LICENSE.md"
+	}
+}

@@ -18,7 +18,8 @@
 		"@typescript-eslint/consistent-type-definitions": ["error", "interface"],
 		"@typescript-eslint/lines-between-class-members": "off",
 		"promise/prefer-await-to-callbacks": "off",
-		"promise/prefer-await-to-then": "off"
+		"promise/prefer-await-to-then": "off",
+		"@typescript-eslint/no-confusing-void-expression": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }

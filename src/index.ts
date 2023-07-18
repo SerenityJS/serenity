@@ -1,70 +1,56 @@
+import { Buffer } from 'node:buffer';
 import process from 'node:process';
-import { Server as RakNetServer } from 'raknet-native';
-import { makeMotd } from '../../protocol';
-
-interface ServerOptions {
-	maxConnections: number;
-	motd?: string;
-}
-
-class Server {
-	public readonly protocolVersion = 594;
-	public readonly minecraftVersion = '1.20.10';
-	public readonly host: string;
-	public readonly port: number;
-	public readonly options: ServerOptions;
-	public readonly raknet: RakNetServer;
-
-	public constructor(host: string, port: number, options?: ServerOptions) {
-		this.host = host;
-		this.port = port;
-		this.options = options ?? {
-			maxConnections: 20,
-		};
-		this.raknet = new RakNetServer(this.host, this.port, {
-			maxConnections: this.options.maxConnections,
-			protocolVersion: this.protocolVersion,
-		});
-		this.setMotd(this.options.motd ?? '§aSerenityJS§r');
-	}
-
-	public async start(): Promise<void> {
-		return this.raknet.listen();
-	}
-
-	public setMotd(motd: string): void {
-		this.options.motd = motd;
-		this.raknet.setOfflineMessage(
-			makeMotd(
-				motd,
-				this.protocolVersion,
-				this.minecraftVersion,
-				0,
-				20,
-				'12345567',
-				'SerenityJS',
-				'Creative',
-				1,
-				this.port,
-				this.port,
-			),
-		);
-	}
-}
-
-export { Server };
+import {
+	framePackets,
+	getPacketId,
+	RequestNetworkSettingsPacket,
+	NetworkSettingsPacket,
+	CompressionAlgorithm,
+	LoginPacket,
+} from '../../protocol';
+import { Server } from './Server';
+import { getNativeObjectAsJsObject } from './utils';
 
 const server = new Server('127.0.0.1', 19_132);
+
+server.on('starting', (server) => {
+	// No way to really tell when the server is open raknet native start
+	// server returns a promise that resolves once the server closes
+	console.log(`Starting server on ${server.host}:${server.port}!`);
+});
+
+server.on('packet', ({ bin, id }, client) => {
+	// console.log(`Received packet ${id} from ${client.guid}`);
+
+	switch (id) {
+		case RequestNetworkSettingsPacket.id(): {
+			const networkSettings = new NetworkSettingsPacket(512, CompressionAlgorithm.Deflate, false, 0, 0);
+
+			client.send(networkSettings.serialize());
+
+			break;
+		}
+
+		case LoginPacket.id(): {
+			const data = LoginPacket.deserialize(bin);
+
+			console.log('Recieved Login Packet from', client.guid);
+			console.log(getNativeObjectAsJsObject(data));
+
+			break;
+		}
+
+		default:
+			return console.log(`Unhandled packet:`, id.toString(16));
+	}
+});
+
 server
 	.start()
 	.then(() => {
-		console.log('Server started!');
+		console.log('Server cleanup goes here.');
 	})
 	.catch((error) => {
 		console.error(error);
 		process.exit(1);
 	});
-
-server.raknet.on('encapsulated', (client) => {
-	console.log(client);
-});
