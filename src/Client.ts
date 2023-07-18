@@ -25,4 +25,8 @@ export class Client {
 
 		return this.internal.send(batch, PacketPriority.MEDIUM_PRIORITY, PacketReliability.RELIABLE_ORDERED, 0);
 	}
+
+	public disconnect(): void {
+		this.internal.close();
+	}
 }

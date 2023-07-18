@@ -11,6 +11,7 @@ import {
 	LoginPacket,
 	ServerToClientHandshakePacket,
 } from '../../protocol';
+import { Player } from './Player';
 import { Server } from './Server';
 import { getNativeObjectAsJsObject } from './utils';
 
@@ -41,9 +42,13 @@ server.on('packet', ({ bin, id }, client) => {
 		case LoginPacket.id(): {
 			const data = LoginPacket.deserialize(bin);
 
-			decodeLoginToken(data.tokens);
+			// Check client protocol version with server protocol version
+			// Player class probably shouldnt have a protocolVersion property, cause we want the client and server to match
+			// Player class should not be created unless the protocol versions match
+			// Also we need to start tracking the player instance with the client instance, once the player instance is created
+			const player = new Player(client, data.tokens);
 
-			console.log('Recieved Login Packet from', client.guid);
+			console.log('Recieved Login Packet from', player.name, player.uuid, player.xuid);
 			console.log(getNativeObjectAsJsObject(data));
 
 			break;
@@ -53,34 +58,6 @@ server.on('packet', ({ bin, id }, client) => {
 			return console.log(`Unhandled packet:`, id.toString(16));
 	}
 });
-
-interface LoginTokenData {
-	clientData: any;
-	displayName: string;
-	identityPublicKey: string;
-	uuid: string;
-	xuid: string;
-}
-
-function decodeLoginToken(token: LoginToken): LoginTokenData | undefined {
-	const decode = fastJWT.createDecoder();
-	const decodedJWT = decode(token.client);
-	const chainData = JSON.parse(token.identity);
-
-	for (const chain of chainData.chain) {
-		const decodedChain = decode(chain);
-
-		if (decodedChain.extraData) {
-			return {
-				displayName: decodedChain.extraData.displayName,
-				identityPublicKey: decodedChain.identityPublicKey,
-				uuid: decodedChain.extraData.identity,
-				xuid: decodedChain.extraData.XUID,
-				clientData: decodedJWT,
-			};
-		}
-	}
-}
 
 server
 	.start()
