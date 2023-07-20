@@ -61,6 +61,7 @@ class Server extends EventEmitter {
 			this.clients.set(client.guid, client);
 		});
 		this.raknet.on('encapsulated', ({ buffer, address, guid }) => {
+			console.log('buf', buffer);
 			const client = this.clients.get(guid);
 			if (!client) throw new Error('Client not found');
 			this.emit('binary', buffer, client);

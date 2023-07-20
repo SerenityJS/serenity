@@ -19,7 +19,8 @@
 		"@typescript-eslint/lines-between-class-members": "off",
 		"promise/prefer-await-to-callbacks": "off",
 		"promise/prefer-await-to-then": "off",
-		"@typescript-eslint/no-confusing-void-expression": "off"
+		"@typescript-eslint/no-confusing-void-expression": "off",
+		"n/no-sync": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }
