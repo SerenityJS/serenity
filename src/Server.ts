@@ -61,7 +61,6 @@ class Server extends EventEmitter {
 			this.clients.set(client.guid, client);
 		});
 		this.raknet.on('encapsulated', ({ buffer, address, guid }) => {
-			console.log('buf', buffer);
 			const client = this.clients.get(guid);
 			if (!client) throw new Error('Client not found');
 			this.emit('binary', buffer, client);
@@ -71,18 +70,26 @@ class Server extends EventEmitter {
 			if (buffer[0] !== 0xfe) throw new Error('Invalid packet header!');
 			const payload = buffer.slice(1);
 
-			// Network settings request is never compressed
-			// if the inflate fails we can assume its not deflated
-			const inflated = unwrap(
-				() => inflateRawSync(payload, { chunkSize: 512_000 }),
-				() => payload,
-			);
+			if (client.encryptionEnabled && client.decipher) {
+				client.decipher(payload, (deciphered) => {
+					const inflated = inflateRawSync(deciphered);
 
-			const packets = unframePackets(inflated);
+					const packets = unframePackets(inflated);
 
-			for (const packet of packets) {
-				const packetId = getPacketId(packet);
-				this.emit('packet', { bin: packet, id: packetId }, client);
+					for (const packet of packets) {
+						const packetId = getPacketId(packet);
+						this.emit('packet', { bin: packet, id: packetId }, client);
+					}
+				});
+			} else {
+				const inflated = client.compressionEnabled ? inflateRawSync(payload) : payload;
+
+				const packets = unframePackets(inflated);
+
+				for (const packet of packets) {
+					const packetId = getPacketId(packet);
+					this.emit('packet', { bin: packet, id: packetId }, client);
+				}
 			}
 		});
 	}
@@ -115,7 +122,7 @@ class Server extends EventEmitter {
 			this.port,
 			this.port,
 		);
-		this.updateOffilineMessage(buffer);
+		this.updateOfflineMessage(buffer);
 	}
 
 	public getMaxPlayers(): number {
@@ -137,7 +144,7 @@ class Server extends EventEmitter {
 			this.port,
 			this.port,
 		);
-		this.updateOffilineMessage(buffer);
+		this.updateOfflineMessage(buffer);
 	}
 
 	public getOnlinePlayers(): number {
@@ -159,10 +166,10 @@ class Server extends EventEmitter {
 			this.port,
 			this.port,
 		);
-		this.updateOffilineMessage(buffer);
+		this.updateOfflineMessage(buffer);
 	}
 
-	public updateOffilineMessage(buffer: Buffer): void {
+	public updateOfflineMessage(buffer: Buffer): void {
 		this.raknet.setOfflineMessage(buffer);
 	}
 }

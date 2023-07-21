@@ -9,6 +9,10 @@ import {
 	CompressionAlgorithm,
 	LoginPacket,
 	ServerToClientHandshakePacket,
+	ClientToServerHandshakePacket,
+	ResourcePacksInfoPacket,
+	PlayStatus,
+	PlayStatusPacket,
 } from '../../protocol';
 import { Server } from './Server';
 import { getNativeObjectAsJsObject } from './utils';
@@ -27,9 +31,9 @@ server.on('packet', ({ bin, id }, client) => {
 	// console.log(`Received packet ${id} from ${client.guid}`);
 	switch (id) {
 		case RequestNetworkSettingsPacket.id(): {
-			const networkSettings = new NetworkSettingsPacket(512, CompressionAlgorithm.Deflate, false, 0, 0);
-
+			const networkSettings = new NetworkSettingsPacket(256, CompressionAlgorithm.Deflate, false, 0, 0);
 			client.send(networkSettings.serialize());
+			client.compressionEnabled = true;
 
 			break;
 		}
@@ -46,6 +50,19 @@ server.on('packet', ({ bin, id }, client) => {
 
 			const serverToClientHandshake = new ServerToClientHandshakePacket(token);
 			client.send(serverToClientHandshake.serialize());
+			client.encryptionEnabled = true;
+
+			break;
+		}
+
+		case ClientToServerHandshakePacket.id(): {
+			const playStatus = new PlayStatusPacket(PlayStatus.LoginSuccess);
+			client.send(playStatus.serialize());
+			console.log('Sent Play Status Packet');
+
+			const resourcePacksInfo = new ResourcePacksInfoPacket(false, false, false, [], []);
+			client.send(resourcePacksInfo.serialize());
+			console.log('Sent Resource Packs Info Packet');
 
 			break;
 		}
