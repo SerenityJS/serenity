@@ -309,26 +309,20 @@
 "@rushstack/eslint-patch@^1.2.0":
   version "1.3.2"
 
-"@serenityjs/protocol-rust@file:../protocol-rust":
-  version "0.0.2"
-  resolved "file:../protocol-rust"
-  optionalDependencies:
-    "@serenityjs/protocol-darwin-x64" "0.0.2"
-    "@serenityjs/protocol-linux-x64-gnu" "0.0.2"
-    "@serenityjs/protocol-win32-x64-msvc" "0.0.2"
-
-"@serenityjs/protocol@file:../protocol":
-  version "0.0.1"
-  resolved "file:../protocol"
+"@serenityjs/protocol@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@serenityjs/protocol/-/protocol-1.0.1.tgz"
+  integrity sha512-9P+zoDNpAL9HQh7tkYcBufMzO66vPvnnZfj0fPsVQowbkSrBZWaQGArDQizaS2pNR4L6eyg0pow9JvDFZG0Vrg==
   dependencies:
-    "@serenityjs/raknet.js" "file:../raknet.js"
-    binarystream.js "file:../../BinaryStreamJS"
+    "@serenityjs/raknet.js" "^1.0.0"
+    binarystream.js "^0.2.0"
 
-"@serenityjs/raknet.js@file:../raknet.js":
+"@serenityjs/raknet.js@^1.0.0":
   version "1.0.0"
-  resolved "file:../raknet.js"
+  resolved "https://registry.npmjs.org/@serenityjs/raknet.js/-/raknet.js-1.0.0.tgz"
+  integrity sha512-XxvnPfxC+QytyxmePNjY73JoU5S8pwNK48jvHSQYpRdcrPaWD7CHhwKVLnzw2EJ01MbaHwCUfX4cn/z43D8ZoA==
   dependencies:
-    binarystream.js "file:../../BinaryStreamJS"
+    binarystream.js "^0.2.0"
     cross-env "^7.0.3"
     reflect-metadata "^0.1.13"
     ts-node "^10.9.1"
@@ -3079,6 +3073,11 @@ readdirp@~3.6.0:
   version "3.6.0"
   dependencies:
     picomatch "^2.2.1"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.13.tgz"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 regenerator-runtime@^0.13.11:
   version "0.13.11"
