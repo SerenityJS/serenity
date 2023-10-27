@@ -20,7 +20,10 @@
 		"promise/prefer-await-to-callbacks": "off",
 		"promise/prefer-await-to-then": "off",
 		"@typescript-eslint/no-confusing-void-expression": "off",
-		"n/no-sync": "off"
+		"n/no-sync": "off",
+		"no-warning-comments": "off",
+		"no-useless-concat": "off",
+		"id-length": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }

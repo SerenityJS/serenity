@@ -18,13 +18,19 @@
 	"packageManager": "yarn@3.6.1",
 	"engines": {
 		"node": ">=18.0.0",
-		"npm": "please-use-yarn",
+		"npm": ">=7.0.0",
 		"yarn": "3.6.1"
 	},
 	"dependencies": {
-		"fast-jwt": "^3.1.1",
-		"jsonwebtoken": "^9.0.1",
-		"raknet-native": "^1.2.3"
+		"@serenityjs/protocol": "file:../protocol",
+		"@serenityjs/protocol-rust": "file:../protocol-rust",
+		"@serenityjs/raknet.js": "file:../raknet.js",
+		"binarystream.js": "^0.2.0",
+		"chalk": "^4.0.0",
+		"fast-jwt": "^3.3.1",
+		"jsonwebtoken": "^9.0.2",
+		"moment": "^2.29.4",
+		"remove": "^0.1.5"
 	},
 	"devDependencies": {
 		"@types/eslint": "^8.44.0",
