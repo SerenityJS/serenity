@@ -1,0 +1,202 @@
+import { Buffer } from 'node:buffer';
+import { BinaryStream, Endianness } from 'binarystream.js';
+import type { ClientData } from '../types';
+
+interface SkinImage {
+	data: Buffer;
+	height: number;
+	width: number;
+}
+
+interface SkinAnimation {
+	expression: number;
+	frames: number;
+	image: SkinImage;
+	type: number;
+}
+
+interface SkinCape {
+	id: string;
+	image: SkinImage;
+}
+
+interface SkinPersona {
+	pieces: SkinPersonaPiece[];
+	tintColors: SkinPersonaTintColor[];
+}
+
+interface SkinPersonaPiece {
+	def: boolean;
+	packId: string;
+	pieceId: string;
+	pieceType: string;
+	productId: string;
+}
+
+interface SkinPersonaTintColor {
+	colors: string[];
+	type: string;
+}
+
+class Skin {
+	public readonly id: string;
+	public readonly playFabId: string;
+	public readonly resourcePatch: string;
+	public readonly color: string;
+	public readonly skinImage: SkinImage;
+	public readonly animations: SkinAnimation[];
+	public readonly cape: SkinCape;
+	public readonly geometry: string;
+	public readonly animationData: string;
+	public readonly premium: boolean;
+	public readonly persona: boolean;
+	public readonly capeOnClassic: boolean;
+	public readonly armSize: string;
+	public readonly personaData?: SkinPersona;
+	public readonly isTrusted: boolean;
+	public readonly fullId: string;
+
+	public constructor(data: ClientData) {
+		this.id = data.SkinId;
+		this.resourcePatch = Buffer.from(data.SkinResourcePatch, 'base64').toString();
+		this.skinImage = {
+			width: data.SkinImageWidth,
+			height: data.SkinImageHeight,
+			data: Buffer.from(data.SkinData, 'base64'),
+		};
+		this.playFabId = data.PlayFabId;
+		this.color = data.SkinColor;
+		this.armSize = data.ArmSize;
+
+		this.animations = [];
+		for (const animation of data.AnimatedImageData) {
+			this.animations.push({
+				frames: animation.Frames,
+				type: animation.Type,
+				expression: animation.AnimationExpression,
+				image: {
+					width: animation.ImageWidth,
+					height: animation.ImageHeight,
+					data: Buffer.from(animation.Image, 'base64'),
+				},
+			});
+		}
+
+		this.cape = {
+			id: data.CapeId,
+			image: {
+				width: data.CapeImageWidth,
+				height: data.CapeImageHeight,
+				data: Buffer.from(data.CapeData, 'base64'),
+			},
+		};
+
+		this.geometry = Buffer.from(data.SkinGeometryData, 'base64').toString();
+		this.animationData = Buffer.from(data.SkinAnimationData, 'base64').toString();
+		this.premium = data.PremiumSkin;
+
+		this.persona = data.PersonaSkin;
+		if (this.persona) {
+			this.personaData = {
+				pieces: [],
+				tintColors: [],
+			};
+
+			for (const piece of data.PersonaPieces) {
+				this.personaData.pieces.push({
+					def: piece.IsDefault,
+					packId: piece.PackId,
+					pieceId: piece.PieceId,
+					pieceType: piece.PieceType,
+					productId: piece.ProductId,
+				});
+			}
+
+			for (const tint of data.PieceTintColors) {
+				this.personaData.tintColors.push({
+					colors: tint.Colors,
+					type: tint.PieceType,
+				});
+			}
+		}
+
+		this.capeOnClassic = data.CapeOnClassicSkin;
+		this.isTrusted = data.TrustedSkin;
+		this.fullId = data.SkinId + data.CapeId;
+	}
+
+	public serialize(): Buffer {
+		const stream = new BinaryStream();
+		stream.writeBigString(this.id);
+		stream.writeBigString(this.playFabId);
+		stream.writeBigString(this.resourcePatch);
+
+		// Image
+		stream.writeInt32(this.skinImage.width, Endianness.Little);
+		stream.writeInt32(this.skinImage.height, Endianness.Little);
+		stream.writeVarInt(this.skinImage.data.length);
+		stream.write(this.skinImage.data);
+
+		// Animations
+		stream.writeInt32(this.animations.length, Endianness.Little);
+		for (const animation of this.animations) {
+			// Image
+			stream.writeInt32(animation.image.width, Endianness.Little);
+			stream.writeInt32(animation.image.height, Endianness.Little);
+			stream.writeVarInt(animation.image.data.length);
+			stream.write(animation.image.data);
+
+			stream.writeInt32(animation.type, Endianness.Little);
+			stream.writeLF32(animation.frames);
+			stream.writeLF32(animation.expression);
+		}
+
+		// Cape Image
+		stream.writeInt32(this.cape.image.width, Endianness.Little);
+		stream.writeInt32(this.cape.image.height, Endianness.Little);
+		stream.writeVarInt(this.cape.image.data.length);
+		stream.write(this.cape.image.data);
+
+		stream.writeBigString(this.geometry);
+		stream.writeBigString('0.0.0');
+		stream.writeBigString(this.animationData);
+		stream.writeBigString(this.cape.id);
+		stream.writeBigString(this.fullId);
+		stream.writeBigString(this.armSize);
+		stream.writeBigString(this.color);
+
+		// Persona
+		if (this.persona) {
+			stream.writeInt32(this.personaData!.pieces.length, Endianness.Little);
+			for (const piece of this.personaData!.pieces) {
+				stream.writeBigString(piece.pieceId);
+				stream.writeBigString(piece.pieceType);
+				stream.writeBigString(piece.packId);
+				stream.writeBool(piece.def);
+				stream.writeBigString(piece.productId);
+			}
+
+			stream.writeInt32(this.personaData!.tintColors.length, Endianness.Little);
+			for (const tint of this.personaData!.tintColors) {
+				stream.writeBigString(tint.type);
+				stream.writeInt32(tint.colors.length, Endianness.Little);
+				for (const color of tint.colors) {
+					stream.writeBigString(color);
+				}
+			}
+		} else {
+			stream.writeInt32(0, Endianness.Little);
+			stream.writeInt32(0, Endianness.Little);
+		}
+
+		stream.writeBool(this.premium);
+		stream.writeBool(this.persona);
+		stream.writeBool(this.capeOnClassic);
+		stream.writeBool(false);
+		stream.writeBool(true);
+
+		return stream.getBuffer();
+	}
+}
+
+export { Skin };
