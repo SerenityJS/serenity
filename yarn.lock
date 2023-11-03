@@ -309,13 +309,13 @@
 "@rushstack/eslint-patch@^1.2.0":
   version "1.3.2"
 
-"@serenityjs/protocol@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/@serenityjs/protocol/-/protocol-1.0.5.tgz"
-  integrity sha512-AGw/OE8zksBaL1zG/4PXXUMi1+7I2atDeK1e1FSMQmPYlXaUB5Oe0C7sK4sKVZmHmvf6KJtDA8EDz0jVEI3Vrg==
+"@serenityjs/protocol@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/@serenityjs/protocol/-/protocol-1.0.6.tgz"
+  integrity sha512-Cvo1+mVtdwoswIJCwf7EkiFrhvOPzLi3U3VZoF5g5mO3nyo1qF9p1A2cbWVFDz+vZxZvdAyR0rl5m8x64jpq+Q==
   dependencies:
     "@serenityjs/raknet.js" "^1.1.1"
-    binarystream.js "^0.2.4"
+    binarystream.js "^0.2.5"
 
 "@serenityjs/raknet.js@^1.1.1":
   version "1.1.1"
@@ -693,10 +693,10 @@ big-integer@^1.6.44:
 binary-extensions@^2.0.0:
   version "2.2.0"
 
-binarystream.js@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.npmjs.org/binarystream.js/-/binarystream.js-0.2.4.tgz"
-  integrity sha512-bMHffzFgM1W5WE4RZY6U+j9OvTUq3SaILGNklhVvAAoYfXcjwQlOwAhgCwPqPAxMjae8PhtDKDPe2S5SGWdTtg==
+binarystream.js@^0.2.4, binarystream.js@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.npmjs.org/binarystream.js/-/binarystream.js-0.2.5.tgz"
+  integrity sha512-2FyLE6thrYfNWcLHVHpzNDLVZQnsrFfe9rikduQrM0ihBURtaBEM5AxRsLhFHPamqtZNHlEvBTtRitReUulQJw==
   dependencies:
     cross-env "^7.0.3"
     ts-node "^10.9.1"

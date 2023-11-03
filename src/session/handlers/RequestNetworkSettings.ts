@@ -1,8 +1,8 @@
 import { CompressionMethod, DisconectReason, NetworkSettings, type RequestNetworkSettings } from '@serenityjs/protocol';
 import type { NetworkSession } from '../NetworkSession';
-import { Handler } from './Handler';
+import { SessionHandler } from './SessionHandler';
 
-class RequestNetworkSettingsHandler extends Handler {
+class RequestNetworkSettingsHandler extends SessionHandler {
 	public static override handle(packet: RequestNetworkSettings, session: NetworkSession): void {
 		const protocol = this.serenity.protocolVerison;
 		// Check if the player is using the correct protocol version

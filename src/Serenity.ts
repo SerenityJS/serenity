@@ -1,11 +1,9 @@
 import type { Buffer } from 'node:buffer';
-import { Packets } from '@serenityjs/protocol';
 import { Raknet } from '@serenityjs/raknet.js';
 import { Logger } from './logger';
-import { NetworkSession } from './player';
 import type { Player } from './player';
-import { Handler } from './player/handlers';
-import type { LoginTokenData } from './types';
+import { PlayerHandler } from './player';
+import { NetworkSession, SessionHandler } from './session';
 import { EventEmitter } from './utils';
 import { World } from './world';
 
@@ -15,7 +13,7 @@ interface Packet {
 }
 
 interface SerenityEvents {
-	Login: [LoginTokenData, NetworkSession];
+	packet: [Packet, NetworkSession, Player?];
 }
 
 class Serenity extends EventEmitter<SerenityEvents> {
@@ -41,10 +39,12 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		this.raknet = new Raknet(this.protocolVerison, this.minecraftVersion);
 		this.raknet.motd = 'SerenityJS';
 
-		this.defaultWorld = new World(this, 'default');
-		this.worlds.set(this.defaultWorld.name, this.defaultWorld);
+		this.defaultWorld = new World(this);
+		this.worlds.set(this.defaultWorld.settings.getWorldName(), this.defaultWorld);
 
-		Handler.serenity = this;
+		// Set the handlers serenity instance
+		SessionHandler.serenity = this;
+		PlayerHandler.serenity = this;
 	}
 
 	public start(): void {

@@ -12,35 +12,26 @@ import {
 	DisconectReason,
 } from '@serenityjs/protocol';
 import type { StartGame } from '@serenityjs/protocol';
-import type { NetworkSession } from '../NetworkSession';
-import { Handler } from './Handler';
+import type { Player } from '../Player';
+import { PlayerHandler } from './PlayerHandler';
 
-class StartGameHandler extends Handler {
-	public static override handle(packet: StartGame, session: NetworkSession): void {
-		// At this point, the player should be logged in, and a Player instance should be available
-		// So we need to get that player instance from our NetworkSession
-		// So lets get the player. And we will check if the player is available
-		const player = this.serenity.getPlayerFromNetworkSession(session);
-		if (!player) {
-			this.logger.error(`Failed to get player instance from session! (${session.session.guid})`);
-			return session.disconnect('Failed to get player instance from session!', false, DisconectReason.MissingClient);
-		}
-
+class StartGameHandler extends PlayerHandler {
+	public static override handle(packet: StartGame, player: Player): void {
 		// New we need to send a StartGame packet to the player
 		// Will put us in the next stage of the Spawn process
-		packet.entityId = session.runtimeId; // TODO: Change to player entity id
-		packet.runtimeEntityId = session.runtimeId;
-		packet.playerGamemode = 5;
-		packet.playerPosition = { x: 0, y: 30, z: 0 };
+		packet.entityId = player.runtimeId; // TODO: Change to player entity id
+		packet.runtimeEntityId = player.runtimeId;
+		packet.playerGamemode = player.world.settings.getGamemode();
+		packet.playerPosition = { x: 0, y: 0, z: 0 };
 		packet.rotation = { x: 0, z: 0 };
-		packet.seed = 0n;
+		packet.seed = player.world.settings.seed;
 		packet.biomeType = 0;
 		packet.biomeName = 'plains';
 		packet.dimension = 0;
 		packet.generator = 1;
 		packet.worldGamemode = 0;
 		packet.difficulty = 1;
-		packet.spawnPosition = { x: 0, y: 30, z: 0 };
+		packet.spawnPosition = { x: 0, y: 0, z: 0 };
 		packet.achievementsDisabled = true;
 		packet.editorWorldType = 0;
 		packet.createdInEdior = false;
@@ -262,7 +253,7 @@ class StartGameHandler extends Handler {
 		packet.experimentsPreviouslyToggled = false;
 		packet.bonusChest = false;
 		packet.mapEnabled = false;
-		packet.permissionLevel = 2;
+		packet.permissionLevel = player.world.settings.getPermissionLevel();
 		packet.serverChunkTickRange = 4;
 		packet.hasLockedBehaviorPack = false;
 		packet.hasLockedResourcePack = false;
@@ -285,8 +276,8 @@ class StartGameHandler extends Handler {
 		packet.experimentalGameplayOverride = false;
 		packet.chatRestrictionLevel = 0;
 		packet.disablePlayerInteractions = false;
-		packet.levelId = player.world.name;
-		packet.worldName = player.world.name;
+		packet.levelId = player.world.settings.getWorldName();
+		packet.worldName = player.world.settings.getWorldName();
 		packet.premiumWorldTemplateId = '00000000-0000-0000-0000-000000000000';
 		packet.isTrial = false;
 		packet.movementAuthority = 0;
@@ -302,8 +293,8 @@ class StartGameHandler extends Handler {
 		packet.propertyData = {};
 		packet.blockPaletteChecksum = 0n;
 		packet.worldTemplateId = '00000000-0000-0000-0000-000000000000';
-		packet.clientSideGeneration = false;
-		packet.blockNetworkIdsAreHashes = false;
+		packet.clientSideGeneration = true;
+		packet.blockNetworkIdsAreHashes = true;
 		packet.serverControlledSounds = false;
 		// Now lets send the packet to the player
 		player.sendPacket(packet);
@@ -312,12 +303,12 @@ class StartGameHandler extends Handler {
 		// Send the creative content packet to the player
 		const creative = new CreativeContent();
 		creative.items = [];
-		session.send(creative.serialize());
+		player.sendPacket(creative);
 
 		// Send the biome definition list packet to the player
 		const biome = new BiomeDefinitionList();
 		biome.biomes = BiomeDefinitions;
-		session.send(biome.serialize());
+		player.sendPacket(biome);
 
 		// Send the level chunk packet to the player
 		player.world.sendChunk(player);
@@ -327,8 +318,8 @@ class StartGameHandler extends Handler {
 		setTimeout(() => {
 			const spawn = new PlayStatus();
 			spawn.status = PlayerStatus.PlayerSpawn;
-			session.send(spawn.serialize());
-		}, 4_000);
+			player.sendPacket(spawn);
+		}, 2_000);
 	}
 }
 

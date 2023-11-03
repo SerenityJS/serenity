@@ -23,7 +23,8 @@
 		"n/no-sync": "off",
 		"no-warning-comments": "off",
 		"no-useless-concat": "off",
-		"id-length": "off"
+		"id-length": "off",
+		"tsdoc/syntax": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }

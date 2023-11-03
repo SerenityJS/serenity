@@ -1,11 +1,10 @@
 import type { ResourcePackClientResponse } from '@serenityjs/protocol';
-import { Packets, ResourcePackStack, ResourceStatus, StartGame } from '@serenityjs/protocol';
-import type { NetworkSession } from '../NetworkSession';
-import { Handler } from './Handler';
-import { Handlers } from './index';
+import { ResourcePackStack, ResourceStatus, StartGame } from '@serenityjs/protocol';
+import type { Player } from '../Player';
+import { PlayerHandler } from './PlayerHandler';
 
-class ResourcePackClientResponseHandler extends Handler {
-	public static override handle(packet: ResourcePackClientResponse, session: NetworkSession): void {
+class ResourcePackClientResponseHandler extends PlayerHandler {
+	public static override handle(packet: ResourcePackClientResponse, player: Player): void {
 		switch (packet.status) {
 			case ResourceStatus.HaveAllPacks: {
 				// Send a ResourcePackStack packet to the player
@@ -17,7 +16,7 @@ class ResourcePackClientResponseHandler extends Handler {
 				stack.resourcePacks = [];
 				stack.behaviorPacks = [];
 				// Send the stack to the player
-				return session.send(stack.serialize());
+				return player.sendPacket(stack);
 			}
 
 			case ResourceStatus.None: {
@@ -35,7 +34,12 @@ class ResourcePackClientResponseHandler extends Handler {
 			case ResourceStatus.Completed: {
 				// This is were we continue the login process
 				// Send the start game packet to the player
-				Handlers.get(Packets.StartGame)!.handle(new StartGame(), session);
+				const handler = player.getHandler('StartGame');
+				if (!handler) {
+					return this.logger.error('Failed to get StartGame handler!');
+				}
+
+				return handler.handle(new StartGame(), player);
 			}
 		}
 	}

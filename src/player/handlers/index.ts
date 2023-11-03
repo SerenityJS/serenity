@@ -1,23 +1,25 @@
-import { Packets } from '@serenityjs/protocol';
-import type { Handler } from './Handler';
-import { LoginHandler } from './Login';
+import { ClientCacheStatusHandler } from './ClientCacheStatus';
+import { InteractHandler } from './Interact';
 import { MovePlayerHandler } from './MovePlayer';
-import { RequestNetworkSettingsHandler } from './RequestNetworkSettings';
+import { PlayerActionHandler } from './PlayerAction';
+import { RequestChunkRadiusHandler } from './RequestChunkRadius';
 import { ResourcePackClientResponseHandler } from './ResourcePackClientResponse';
 import { SetLocalPlayerAsInitializedHandler } from './SetLocalPlayerAsInitialized';
 import { StartGameHandler } from './StartGame';
+import { TextHandler } from './Text';
 import { TickSyncHandler } from './TickSync';
 
-export * from './Handler';
+export * from './PlayerHandler';
 
-const Handlers: Map<Packets, typeof Handler> = new Map();
-
-Handlers.set(Packets.RequestNetworkSettings, RequestNetworkSettingsHandler);
-Handlers.set(Packets.Login, LoginHandler);
-Handlers.set(Packets.ResourcePackClientResponse, ResourcePackClientResponseHandler);
-Handlers.set(Packets.StartGame, StartGameHandler);
-Handlers.set(Packets.MovePlayer, MovePlayerHandler);
-Handlers.set(Packets.TickSync, TickSyncHandler);
-Handlers.set(Packets.SetLocalPlayerAsInitialized, SetLocalPlayerAsInitializedHandler);
-
-export { Handlers };
+export const playerHandlers = [
+	RequestChunkRadiusHandler,
+	ResourcePackClientResponseHandler,
+	StartGameHandler,
+	InteractHandler,
+	ClientCacheStatusHandler,
+	MovePlayerHandler,
+	PlayerActionHandler,
+	SetLocalPlayerAsInitializedHandler,
+	TextHandler,
+	TickSyncHandler,
+];

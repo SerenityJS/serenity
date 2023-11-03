@@ -1,40 +1,68 @@
 import { Buffer } from 'node:buffer';
-import { LevelChunk, PlayerList, NetworkChunkPublisherUpdate, AddPlayer } from '@serenityjs/protocol';
+import {
+	LevelChunk,
+	PlayerList,
+	NetworkChunkPublisherUpdate,
+	AddPlayer,
+	MovePlayer,
+	MoveMode,
+} from '@serenityjs/protocol';
 import type { BlockCoordinate, ChunkCoord, Encapsulated } from '@serenityjs/protocol';
 import type { Serenity } from '../Serenity';
 import type { Logger } from '../logger';
 import type { Player } from '../player';
+import { Settings } from './Settings';
 
 class World {
 	private readonly serenity: Serenity;
 	private readonly logger: Logger;
-	public readonly name: string;
+	public readonly settings: Settings;
 	public readonly players: Map<bigint, Player>;
 
-	public constructor(serenity: Serenity, name: string) {
+	public tick = 0n;
+
+	public constructor(serenity: Serenity) {
 		this.serenity = serenity;
 		this.logger = serenity.logger;
-		this.name = name;
+		this.settings = new Settings(serenity, this);
 		this.players = new Map();
+
+		// TODO: Remove this, it's just for testing
+		// Add world specific ticking
+		setInterval(() => {
+			for (const player of this.players.values()) {
+				const net = new NetworkChunkPublisherUpdate();
+				net.coordinate = { x: 0, z: 0, y: 0 };
+				net.radius = 64;
+				net.savedChunks = [];
+				player.sendPacket(net);
+			}
+		}, 2_000);
 	}
 
-	public send(packet: Encapsulated): void {
-		for (const player of this.players.values()) {
-			player.sendPacket(packet);
+	public sendPacket(packet: Encapsulated): void {
+		for (const [name, player] of this.players) {
+			try {
+				player.sendPacket(packet);
+			} catch (error) {
+				this.logger.error(`Failed to send packet "${packet.constructor.name}" to player "${name}"!`, error);
+			}
 		}
 	}
 
 	public addPlayer(player: Player): void {
 		this.players.set(player.guid, player);
 		this.logger.info(
-			`Player "${player.username}" (${player.xuid}) is joining the server, and will be placed in world "${this.name}."`,
+			`Player "${player.username}" (${
+				player.xuid
+			}) is joining the server, and will be placed in world "${this.settings.getWorldName()}."`,
 		);
 
 		// Send all connected players the new player
 		const players = [...this.players.values()].filter((p) => p !== player);
 		for (const x of players) {
 			x.addPlayerToList(player);
-			// x.spawnPlayer(player);
+			x.spawnPlayer(player);
 		}
 	}
 
@@ -52,16 +80,36 @@ class World {
 	// TODO: Implement this
 	// It will be this for now
 	public sendChunk(player: Player): void {
-		const pk = new LevelChunk();
-		pk.x = 0;
-		pk.z = 0;
-		pk.cacheEnabled = false;
-		pk.subChunkCount = 4;
-		pk.data = getChunkData();
-		player.sendPacket(pk);
+		const net = new NetworkChunkPublisherUpdate();
+		net.coordinate = { x: 0, z: 0, y: 0 };
+		net.radius = 64;
+		net.savedChunks = [];
+		player.sendPacket(net);
+
+		for (
+			let x = player.position.z - this.settings.getChunkRadius();
+			x < player.position.z + this.settings.getChunkRadius();
+			x++
+		) {
+			for (
+				let z = player.position.z - this.settings.getChunkRadius();
+				z < player.position.z + this.settings.getChunkRadius();
+				z++
+			) {
+				const chunk = new LevelChunk();
+				chunk.x = x;
+				chunk.z = z;
+				chunk.subChunkCount = 1;
+				chunk.cacheEnabled = false;
+				chunk.data = getChunkData();
+				player.sendPacket(chunk);
+			}
+		}
 	}
 }
 
+// Sourced from GreenFrog MCBE
+// TODO: Make own generator
 function getChunkData(): Buffer {
 	const airThreshold = 1 / 3_000;
 	const hillThreshold = 5 / 600;

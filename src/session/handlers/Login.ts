@@ -1,12 +1,12 @@
 import type { Login, Tokens } from '@serenityjs/protocol';
 import { PlayStatus, PlayerStatus, ResourcePacksInfo } from '@serenityjs/protocol';
 import fastJwt from 'fast-jwt';
+import { Player } from '../../player';
 import type { ClientData, IdentityData, LoginTokenData } from '../../types';
 import type { NetworkSession } from '../NetworkSession';
-import { Player } from '../Player';
-import { Handler } from './Handler';
+import { SessionHandler } from './SessionHandler';
 
-class LoginHandler extends Handler {
+class LoginHandler extends SessionHandler {
 	public static decoder = fastJwt.createDecoder();
 
 	public static override handle(packet: Login, session: NetworkSession): void {

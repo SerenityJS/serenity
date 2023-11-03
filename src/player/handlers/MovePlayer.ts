@@ -1,21 +1,11 @@
-import { DisconectReason } from '@serenityjs/protocol';
 import type { MovePlayer } from '@serenityjs/protocol';
-import type { NetworkSession } from '../NetworkSession';
-import { Handler } from './Handler';
+import type { Player } from '../Player';
+import { PlayerHandler } from './PlayerHandler';
 
-class MovePlayerHandler extends Handler {
-	public static override handle(packet: MovePlayer, session: NetworkSession): void {
+class MovePlayerHandler extends PlayerHandler {
+	public static override handle(packet: MovePlayer, player: Player): void {
 		if (packet.cause) {
-			return this.logger.error('Not implemented yet: MovePlayer.cause case');
-		}
-
-		// At this point, the player should be logged in, and a Player instance should be available
-		// So we need to get that player instance from our NetworkSession
-		// So lets get the player. And we will check if the player is available
-		const player = this.serenity.getPlayerFromNetworkSession(session);
-		if (!player) {
-			this.logger.error(`Failed to get player instance from session! (${session.session.guid})`);
-			return session.disconnect('Failed to get player instance from session!', false, DisconectReason.MissingClient);
+			return this.logger.error('MovePlayerHandler not implemented yet: MovePlayer.cause case');
 		}
 
 		// Update the player position
@@ -23,6 +13,11 @@ class MovePlayerHandler extends Handler {
 		player.rotation = { x: packet.pitch, z: packet.yaw };
 		player.headYaw = packet.headYaw;
 		player.onGround = packet.onGround;
+
+		const players = [...player.world.players.values()].filter((p) => p !== player);
+		for (const p of players) {
+			p.broadcastMovement(packet.mode, player);
+		}
 	}
 }
 
