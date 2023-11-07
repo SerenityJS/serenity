@@ -309,26 +309,33 @@
 "@rushstack/eslint-patch@^1.2.0":
   version "1.3.2"
 
-"@serenityjs/binarystream@file:../SerenityJS/binarystream":
-  version "1.0.6"
-  resolved "file:../SerenityJS/binarystream"
+"@serenityjs/binarystream-win32-x64-msvc@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@serenityjs/binarystream-win32-x64-msvc/-/binarystream-win32-x64-msvc-1.1.0.tgz"
+  integrity sha512-sL/Kbar5SbKrvJI+YjLeHKR2VnsbdFFsxsDOP5F97pjDy1RraQ/r6zziioYbeudfGMkIaD3Dn+z/jD78VZ3hDw==
+
+"@serenityjs/binarystream@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@serenityjs/binarystream/-/binarystream-1.1.0.tgz"
+  integrity sha512-LfvbZwEmBKPhYb3LvMIY2IgfAlqtTwBjkpC+fYJUEX5n0boW4haiN2zCI0FdxuUqveA26DD1kTTMokzflw8OHg==
   optionalDependencies:
-    "@serenityjs/binarystream-darwin-x64" "1.0.6"
-    "@serenityjs/binarystream-linux-x64-gnu" "1.0.6"
-    "@serenityjs/binarystream-win32-x64-msvc" "1.0.6"
+    "@serenityjs/binarystream-darwin-x64" "1.1.0"
+    "@serenityjs/binarystream-linux-x64-gnu" "1.1.0"
+    "@serenityjs/binarystream-win32-x64-msvc" "1.1.0"
 
-"@serenityjs/protocol@file:../SerenityJS/protocol":
-  version "1.0.6"
-  resolved "file:../SerenityJS/protocol"
+"@serenityjs/protocol@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@serenityjs/protocol/-/protocol-1.1.0.tgz"
+  integrity sha512-AmolkWjxUvnE43qhmrDCvUGei/0IRi3rWSF4Xbfu2/Yx+0hxOWtMM0RSVzoGpLFQ2J5GpABISl/xqHoH6Wv3Ag==
   dependencies:
-    "@serenityjs/binarystream" "file:../binarystream"
-    "@serenityjs/raknet.js" "file:../raknet.js"
+    "@serenityjs/binarystream" "^1.1.0"
+    "@serenityjs/raknet.js" "^1.2.2"
 
-"@serenityjs/raknet.js@file:../SerenityJS/raknet.js":
-  version "1.2.1"
+"@serenityjs/raknet.js@^1.2.2", "@serenityjs/raknet.js@file:../SerenityJS/raknet.js":
+  version "1.2.2"
   resolved "file:../SerenityJS/raknet.js"
   dependencies:
-    "@serenityjs/binarystream" "file:../binarystream"
+    "@serenityjs/binarystream" "^1.1.0"
     reflect-metadata "^0.1.13"
 
 "@tsconfig/node10@^1.0.7":

@@ -22,8 +22,8 @@
 		"yarn": "3.6.1"
 	},
 	"dependencies": {
-		"@serenityjs/binarystream": "file:../SerenityJS/binarystream",
-		"@serenityjs/protocol": "file:../SerenityJS/protocol",
+		"@serenityjs/binarystream": "^1.1.0",
+		"@serenityjs/protocol": "^1.1.0",
 		"@serenityjs/raknet.js": "file:../SerenityJS/raknet.js",
 		"chalk": "^4.0.0",
 		"fast-jwt": "^3.3.1",
