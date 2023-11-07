@@ -24,7 +24,7 @@
 	"dependencies": {
 		"@serenityjs/binarystream": "^1.1.0",
 		"@serenityjs/protocol": "^1.1.0",
-		"@serenityjs/raknet.js": "file:../SerenityJS/raknet.js",
+		"@serenityjs/raknet.js": "^1.2.2",
 		"chalk": "^4.0.0",
 		"fast-jwt": "^3.3.1",
 		"jsonwebtoken": "^9.0.2",

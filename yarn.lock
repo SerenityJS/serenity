@@ -331,9 +331,10 @@
     "@serenityjs/binarystream" "^1.1.0"
     "@serenityjs/raknet.js" "^1.2.2"
 
-"@serenityjs/raknet.js@^1.2.2", "@serenityjs/raknet.js@file:../SerenityJS/raknet.js":
+"@serenityjs/raknet.js@^1.2.2":
   version "1.2.2"
-  resolved "file:../SerenityJS/raknet.js"
+  resolved "https://registry.npmjs.org/@serenityjs/raknet.js/-/raknet.js-1.2.2.tgz"
+  integrity sha512-5u+5JUGJSVK9N7iPR6dU9+CFoFay8ZfNTT8R2qPgX+vKmXutBuQ8T/T8/KccF6hAwBgOToHFXGIfDAc2tvnECw==
   dependencies:
     "@serenityjs/binarystream" "^1.1.0"
     reflect-metadata "^0.1.13"
@@ -3074,6 +3075,11 @@ readdirp@~3.6.0:
   version "3.6.0"
   dependencies:
     picomatch "^2.2.1"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.13.tgz"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 regenerator-runtime@^0.13.11:
   version "0.13.11"
