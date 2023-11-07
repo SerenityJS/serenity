@@ -64,7 +64,7 @@ export const AttributesDefaults = [
 		min: 0,
 		max: 20,
 		default: 20,
-		current: 10,
+		current: 0,
 		modifiers: [],
 	},
 	{
@@ -80,7 +80,7 @@ export const AttributesDefaults = [
 		min: 0,
 		max: 24_791,
 		default: 0,
-		current: 744,
+		current: 0,
 		modifiers: [],
 	},
 	{
@@ -88,7 +88,7 @@ export const AttributesDefaults = [
 		min: 0,
 		max: 1,
 		default: 0,
-		current: 0.6,
+		current: 0,
 		modifiers: [],
 	},
 	{
