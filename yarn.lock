@@ -309,20 +309,26 @@
 "@rushstack/eslint-patch@^1.2.0":
   version "1.3.2"
 
-"@serenityjs/protocol@^1.0.6":
+"@serenityjs/binarystream@file:../SerenityJS/binarystream":
   version "1.0.6"
-  resolved "https://registry.npmjs.org/@serenityjs/protocol/-/protocol-1.0.6.tgz"
-  integrity sha512-Cvo1+mVtdwoswIJCwf7EkiFrhvOPzLi3U3VZoF5g5mO3nyo1qF9p1A2cbWVFDz+vZxZvdAyR0rl5m8x64jpq+Q==
-  dependencies:
-    "@serenityjs/raknet.js" "^1.1.1"
-    binarystream.js "^0.2.5"
+  resolved "file:../SerenityJS/binarystream"
+  optionalDependencies:
+    "@serenityjs/binarystream-darwin-x64" "1.0.6"
+    "@serenityjs/binarystream-linux-x64-gnu" "1.0.6"
+    "@serenityjs/binarystream-win32-x64-msvc" "1.0.6"
 
-"@serenityjs/raknet.js@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@serenityjs/raknet.js/-/raknet.js-1.1.1.tgz"
-  integrity sha512-e35aWF7lFh2Pxnp2H6SHRyVbxy/RMofdX3Yz62WJ+R6V/+N6Kp8a1roqcigbXDvuZ4T9sb7T1q+HPBk0Mhd57g==
+"@serenityjs/protocol@file:../SerenityJS/protocol":
+  version "1.0.6"
+  resolved "file:../SerenityJS/protocol"
   dependencies:
-    binarystream.js "^0.2.4"
+    "@serenityjs/binarystream" "file:../binarystream"
+    "@serenityjs/raknet.js" "file:../raknet.js"
+
+"@serenityjs/raknet.js@file:../SerenityJS/raknet.js":
+  version "1.2.1"
+  resolved "file:../SerenityJS/raknet.js"
+  dependencies:
+    "@serenityjs/binarystream" "file:../binarystream"
     reflect-metadata "^0.1.13"
 
 "@tsconfig/node10@^1.0.7":
@@ -692,15 +698,6 @@ big-integer@^1.6.44:
 
 binary-extensions@^2.0.0:
   version "2.2.0"
-
-binarystream.js@^0.2.4, binarystream.js@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.npmjs.org/binarystream.js/-/binarystream.js-0.2.5.tgz"
-  integrity sha512-2FyLE6thrYfNWcLHVHpzNDLVZQnsrFfe9rikduQrM0ihBURtaBEM5AxRsLhFHPamqtZNHlEvBTtRitReUulQJw==
-  dependencies:
-    cross-env "^7.0.3"
-    ts-node "^10.9.1"
-    typescript "^5.2.2"
 
 bn.js@^4.0.0:
   version "4.12.0"
@@ -3071,11 +3068,6 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
-reflect-metadata@^0.1.13:
-  version "0.1.13"
-  resolved "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.13.tgz"
-  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
-
 regenerator-runtime@^0.13.11:
   version "0.13.11"
 
@@ -3600,7 +3592,7 @@ typed-array-length@^1.0.4:
 typedarray@^0.0.6:
   version "0.0.6"
 
-typescript@*, "typescript@^3 || ^4 || ^5", typescript@^5.1.6, typescript@^5.2.2, typescript@>=2.7, "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", typescript@>=4.0.0:
+typescript@*, "typescript@^3 || ^4 || ^5", typescript@^5.1.6, typescript@>=2.7, "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", typescript@>=4.0.0:
   version "5.2.2"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.2.2.tgz"
   integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==

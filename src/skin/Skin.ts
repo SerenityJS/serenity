@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer';
-import { BinaryStream, Endianness } from 'binarystream.js';
+import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import type { ClientData } from '../types';
 
 interface SkinImage {
@@ -135,7 +135,7 @@ class Skin {
 		stream.writeInt32(this.skinImage.width, Endianness.Little);
 		stream.writeInt32(this.skinImage.height, Endianness.Little);
 		stream.writeVarInt(this.skinImage.data.length);
-		stream.write(this.skinImage.data);
+		stream.writeBuffer(this.skinImage.data);
 
 		// Animations
 		stream.writeInt32(this.animations.length, Endianness.Little);
@@ -144,18 +144,18 @@ class Skin {
 			stream.writeInt32(animation.image.width, Endianness.Little);
 			stream.writeInt32(animation.image.height, Endianness.Little);
 			stream.writeVarInt(animation.image.data.length);
-			stream.write(animation.image.data);
+			stream.writeBuffer(animation.image.data);
 
 			stream.writeInt32(animation.type, Endianness.Little);
-			stream.writeLF32(animation.frames);
-			stream.writeLF32(animation.expression);
+			stream.writeFloat32(animation.frames, Endianness.Little);
+			stream.writeFloat32(animation.expression, Endianness.Little);
 		}
 
 		// Cape Image
 		stream.writeInt32(this.cape.image.width, Endianness.Little);
 		stream.writeInt32(this.cape.image.height, Endianness.Little);
 		stream.writeVarInt(this.cape.image.data.length);
-		stream.write(this.cape.image.data);
+		stream.writeBuffer(this.cape.image.data);
 
 		stream.writeBigString(this.geometry);
 		stream.writeBigString('0.0.0');

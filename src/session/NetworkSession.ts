@@ -1,5 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { inflateRawSync, deflateRawSync } from 'node:zlib';
+import { BinaryStream } from '@serenityjs/binarystream';
 import type {
 	RequestNetworkSettings,
 	Login,
@@ -11,7 +12,6 @@ import type {
 import { Framer, Packets, Packet, getPacketId, DisconectReason, Disconect } from '@serenityjs/protocol';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet.js';
 import type { Session } from '@serenityjs/raknet.js';
-import { BinaryStream } from 'binarystream.js';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
 import { EventEmitter } from '../utils';
@@ -77,8 +77,8 @@ class NetworkSession extends EventEmitter<NetworkSessionEvents> {
 		} else {
 			// We must concat the game byte to the front of the framed packet.
 			const stream = new BinaryStream();
-			stream.writeUInt8(GameByte[0]);
-			stream.write(compressed);
+			stream.writeUint8(GameByte[0]);
+			stream.writeBuffer(compressed);
 
 			const frame = new Frame();
 			frame.reliability = Reliability.Unreliable;
@@ -99,7 +99,7 @@ class NetworkSession extends EventEmitter<NetworkSessionEvents> {
 	public async incoming(buffer: Buffer): Promise<void> {
 		// create the stream
 		const stream = new BinaryStream(buffer);
-		const header = stream.readUInt8();
+		const header = stream.readUint8();
 		if (header !== GameByte[0])
 			return this.serenity.logger.error(
 				`Got invalid header "${header}" from "${this.session.remote.address}:${this.session.remote.port}"!`,
@@ -109,7 +109,7 @@ class NetworkSession extends EventEmitter<NetworkSessionEvents> {
 			this.serenity.logger.warn('Encryption is not supported yet!');
 		} else {
 			// Inflate the packet if compression is enabled, otherwise just read the packet
-			const inflated = this.compression ? inflateRawSync(stream.readRemaining()) : stream.readRemaining();
+			const inflated = this.compression ? inflateRawSync(stream.readRemainingBuffer()) : stream.readRemainingBuffer();
 			const frames = Framer.unframe(inflated);
 			// Handle each frame individually
 			for (const frame of frames) {

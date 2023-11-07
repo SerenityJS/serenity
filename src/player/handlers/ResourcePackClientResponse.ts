@@ -10,11 +10,12 @@ class ResourcePackClientResponseHandler extends PlayerHandler {
 				// Send a ResourcePackStack packet to the player
 				const stack = new ResourcePackStack();
 				stack.mustAccept = false;
+				stack.behaviorPacks = [];
+				stack.resourcePacks = [];
 				stack.gameVersion = this.serenity.minecraftVersion;
 				stack.experiments = [];
 				stack.experimentsPreviouslyToggled = false;
-				stack.resourcePacks = [];
-				stack.behaviorPacks = [];
+
 				// Send the stack to the player
 				return player.sendPacket(stack);
 			}
