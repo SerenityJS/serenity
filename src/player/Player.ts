@@ -4,7 +4,7 @@ import type { Session } from '@serenityjs/raknet.js';
 import type { Serenity } from '../Serenity';
 import { PlayerAbilities } from '../abilities';
 import { PlayerAttributes } from '../attributes';
-import { MessageForm } from '../forms';
+import { ActionForm, MessageForm } from '../forms';
 import type { Logger } from '../logger';
 import type { NetworkSession } from '../session';
 import { Skin } from '../skin';
@@ -66,6 +66,10 @@ class Player {
 
 	public createMessageForm(): MessageForm {
 		return new MessageForm(this);
+	}
+
+	public createActionForm(): ActionForm {
+		return new ActionForm(this);
 	}
 
 	public addPlayerToList(...players: Player[]): void {
