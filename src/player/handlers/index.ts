@@ -1,5 +1,6 @@
 import { ClientCacheStatusHandler } from './ClientCacheStatus';
 import { InteractHandler } from './Interact';
+import { ModalFormResponseHandler } from './ModalFormResponse';
 import { MovePlayerHandler } from './MovePlayer';
 import { PlayerActionHandler } from './PlayerAction';
 import { RequestChunkRadiusHandler } from './RequestChunkRadius';
@@ -22,4 +23,5 @@ export const playerHandlers = [
 	SetLocalPlayerAsInitializedHandler,
 	TextHandler,
 	TickSyncHandler,
+	ModalFormResponseHandler,
 ];

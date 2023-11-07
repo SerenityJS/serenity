@@ -1,14 +1,8 @@
 import { Buffer } from 'node:buffer';
-import {
-	LevelChunk,
-	PlayerList,
-	NetworkChunkPublisherUpdate,
-	AddPlayer,
-	MovePlayer,
-	MoveMode,
-} from '@serenityjs/protocol';
-import type { BlockCoordinate, ChunkCoord, Encapsulated } from '@serenityjs/protocol';
+import { LevelChunk, NetworkChunkPublisherUpdate } from '@serenityjs/protocol';
+import type { Encapsulated } from '@serenityjs/protocol';
 import type { Serenity } from '../Serenity';
+import { FormManager } from '../forms';
 import type { Logger } from '../logger';
 import type { Player } from '../player';
 import { Settings } from './Settings';
@@ -18,6 +12,7 @@ class World {
 	private readonly logger: Logger;
 	public readonly settings: Settings;
 	public readonly players: Map<bigint, Player>;
+	public readonly forms: FormManager;
 
 	public tick = 0n;
 
@@ -26,6 +21,7 @@ class World {
 		this.logger = serenity.logger;
 		this.settings = new Settings(serenity, this);
 		this.players = new Map();
+		this.forms = new FormManager();
 
 		// TODO: Remove this, it's just for testing
 		// Add world specific ticking
