@@ -1,5 +1,6 @@
 import type { Buffer } from 'node:buffer';
 import { BinaryStream } from '@serenityjs/binarystream';
+import type { Packet } from '../enums';
 
 /**
  * Get the packet ID from a buffer. ( VarInt )
@@ -7,7 +8,7 @@ import { BinaryStream } from '@serenityjs/binarystream';
  * @param buffer
  * @returns {number}
  */
-function getPacketId(buffer: Buffer): number {
+function getPacketId(buffer: Buffer): Packet {
 	const stream = BinaryStream.fromBuffer(buffer);
 
 	return stream.readVarInt();

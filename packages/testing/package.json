@@ -1,0 +1,17 @@
+{
+	"private": true,
+	"name": "@serenityjs/testing",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsc",
+		"dev": "nodemon --config nodemon.json src/index.ts",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"lint": "eslint --ext .ts src"
+	},
+	"dependencies": {
+		"@serenityjs/serenity": "^1.0.0",
+		"@serenityjs/bedrock-protocol": "^1.0.0"
+	}
+}

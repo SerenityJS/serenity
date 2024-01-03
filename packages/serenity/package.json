@@ -1,10 +1,11 @@
 {
-	"name": "@serenityjs/bedrock-protocol",
+	"name": "@serenityjs/serenity",
 	"version": "1.0.0",
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
 		"build": "tsc",
+		"dev": "nodemon --config nodemon.json src/index.ts",
 		"format": "prettier --write \"src/**/*.ts\"",
 		"lint": "eslint --ext .ts src"
 	},
@@ -18,7 +19,9 @@
 		"require": "./dist/index.js"
 	},
 	"dependencies": {
+		"@serenityjs/bedrock-protocol": "^1.0.0",
 		"@serenityjs/binarystream": "^1.2.3",
-		"@serenityjs/raknet-protocol": "^1.0.3"
+		"@serenityjs/raknet-protocol": "^1.0.3",
+		"@serenityjs/raknet-server": "^1.0.4"
 	}
 }

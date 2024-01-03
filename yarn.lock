@@ -401,6 +401,39 @@
     "@serenityjs/binarystream" "^1.2.3"
     reflect-metadata "^0.1.13"
 
+"@serenityjs/raknet-server@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@serenityjs/raknet-server/-/raknet-server-1.0.4.tgz#c8b89b8ef8bc0f7f82b5e9e8601088f75bdecda7"
+  integrity sha512-Tl5evH4vCkaEcjgujuGJtyQEYuOVGlZo3IHUjEIZIBinxc55m92X9qbQtbU5PphLSWM/HKzuG7ceJYWInk0MFw==
+  dependencies:
+    "@serenityjs/binarystream" "^1.2.3"
+    "@serenityjs/raknet-protocol" "^1.0.3"
+    "@serenityjs/raknet-socket" "^1.0.4"
+
+"@serenityjs/raknet-socket-darwin-x64@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@serenityjs/raknet-socket-darwin-x64/-/raknet-socket-darwin-x64-1.0.4.tgz#62631e2e5db68cae055aae5760093808d1513964"
+  integrity sha512-bgpoivR7+JoQVPTVnxACZeQoF2sx/rJbJ7U7Ef6edUWBR0OihiBxEJfP4Sy5MtTpcc5Qp74DgfG1ZMG1KtvMRQ==
+
+"@serenityjs/raknet-socket-linux-x64-gnu@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@serenityjs/raknet-socket-linux-x64-gnu/-/raknet-socket-linux-x64-gnu-1.0.4.tgz#44ec0ee533e4b8f64015a8b38697090c0fb63d41"
+  integrity sha512-06Zka0JLUb3dF0Mixn+W6rVmJyOiRjkCAVuwOVQBGp6+EGuizLz8maleBxxBUHRXbPpHsi2oVfZABvD8X6B5hA==
+
+"@serenityjs/raknet-socket-win32-x64-msvc@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@serenityjs/raknet-socket-win32-x64-msvc/-/raknet-socket-win32-x64-msvc-1.0.4.tgz#70d19f135d1c3f85813de8256e5acaf6a6c8cce2"
+  integrity sha512-brBeSOKIkA51dgKJPZNKLeSVKvyXO0SrviWFAgBj5wpdaosA8z1x7fCnXrvXXFh9iqZ+TadLK2QVUgXczOadUA==
+
+"@serenityjs/raknet-socket@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@serenityjs/raknet-socket/-/raknet-socket-1.0.4.tgz#c297ee9f9da322b5ff397e64d06e3b8f7b536456"
+  integrity sha512-yME7vXO/DEQc5q2NH/wAuMRsYEZVuEbWfhdLl2bWJyrcQIy8TpxPX6//zq8GtTG2Bj4nrSvvQabdfOk8pUSl6g==
+  optionalDependencies:
+    "@serenityjs/raknet-socket-darwin-x64" "1.0.4"
+    "@serenityjs/raknet-socket-linux-x64-gnu" "1.0.4"
+    "@serenityjs/raknet-socket-win32-x64-msvc" "1.0.4"
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.9.tgz#df4907fc07a886922637b15e02d4cebc4c0021b2"
