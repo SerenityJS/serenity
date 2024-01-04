@@ -4,14 +4,24 @@
 
 import { Buffer } from 'node:buffer';
 import { inflateRawSync, deflateRawSync } from 'node:zlib';
-import type { Packet, DataPacket, Login, RequestNetworkSettings, Disconnect } from '@serenityjs/bedrock-protocol';
-import { Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
+import type {
+	DataPacket,
+	Login,
+	RequestNetworkSettings,
+	Disconnect,
+	NetworkSettings,
+	PlayStatus,
+	ResourcePacksInfo,
+	ResourcePackClientResponse,
+	ResourcePackStack,
+} from '@serenityjs/bedrock-protocol';
+import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
-import type { Connection } from '@serenityjs/raknet-server';
 import type { Serenity } from '..';
 import { EventEmitter } from '../utils';
 import type { NetworkSession } from './Session';
+import { NETWORK_HANDLERS, NetworkHandler } from './handlers';
 
 // TODO: Move elsewhere
 
@@ -29,7 +39,12 @@ interface NetworkPacketEvent<T extends DataPacket> {
 
 interface NetworkEvents {
 	[Packet.Login]: [NetworkPacketEvent<Login>];
+	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatus>];
 	[Packet.Disconnect]: [NetworkPacketEvent<Disconnect>];
+	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfo>];
+	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStack>];
+	[Packet.ResourcePackClientResponse]: [NetworkPacketEvent<ResourcePackClientResponse>];
+	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
 	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
 }
 
@@ -46,11 +61,14 @@ class Network extends EventEmitter<NetworkEvents> {
 
 		this.serenity = serenity;
 		this.sessions = new Map();
+
+		NetworkHandler.serenity = serenity;
 	}
 
 	public async incoming(session: NetworkSession, ...payloads: Buffer[]): Promise<void> {
 		// Loop through each buffer.
 		// We may receive multiple packets in one payload.
+
 		for (const buffer of payloads) {
 			// Construct a new BinaryStream from the buffer.
 			// And check if the first byte is 0xfe AKA the game packet header.
@@ -77,7 +95,7 @@ class Network extends EventEmitter<NetworkEvents> {
 				// Reads the packet id from the frame, which is a varint.
 				const id = getPacketId(frame);
 				const packet = Packets[id];
-				if (packet === undefined) return console.log('Unknown packet', id);
+				if (packet === undefined) return console.log('Unknown packet', id.toString(16));
 
 				// We will attempt to deserialize the packet, and if it fails, we will just ignore it for now.
 				try {
@@ -100,7 +118,27 @@ class Network extends EventEmitter<NetworkEvents> {
 					// Check if the packet was cancelled.
 					if (!value) continue;
 
-					console.log('todo handle', instance);
+					// Attempt to find a handler for the packet.
+					const handler = NETWORK_HANDLERS.find((x) => x.name.startsWith(Packet[instance.getId() as Packet]));
+
+					// Check if a handler was not found.
+					// If so, we will emit a warning and continue to the next packet.
+					if (handler) {
+						// We will then attempt to handle the packet.
+						// If an error occurs, we will emit the error event.
+						try {
+							void handler.handle(instance as any, session);
+						} catch (error) {
+							void this.serenity.emit('error', error);
+						}
+					} else {
+						void this.serenity.emit(
+							'warning',
+							`Unable to find network handler for ${Packet[id]} (0x${id.toString(16)}) packet from "${
+								session.identifier.address
+							}:${session.identifier.port}"!`,
+						);
+					}
 				} catch (error) {
 					// If an error occurs, we will emit the error event.
 					void this.serenity.emit('error', error);

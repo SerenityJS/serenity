@@ -1,9 +1,11 @@
 import { Server } from '@serenityjs/raknet-server';
 import { Network, NetworkSession } from './network';
+import type { Player } from './player';
 import { EventEmitter } from './utils';
 
 interface SerenityEvents {
 	error: [Error | any];
+	warning: [string];
 }
 
 class Serenity extends EventEmitter<SerenityEvents> {
@@ -12,6 +14,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly version: string;
 
 	public readonly network: Network;
+	public readonly players: Map<string, Player>;
 
 	public constructor(protocol: number, version: string, address: string, port?: number) {
 		super();
@@ -21,6 +24,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		this.version = version;
 
 		this.network = new Network(this);
+		this.players = new Map();
 	}
 
 	public start(): void {
@@ -45,8 +49,12 @@ class Serenity extends EventEmitter<SerenityEvents> {
 			// Return if they aren't.
 			if (!check) return console.log('Got disconnection request from unconnected user', connection.guid);
 
-			// Get the session.
+			// Get the session and attempt to get a player instance.
+			// If there is a player instance, then we will remove it from the players map.
+			// If there isn't, then we will just ignore it.
 			const session = this.network.sessions.get(connection.guid)!;
+			const player = session.getPlayerInstance();
+			if (player) this.players.delete(player.xuid);
 
 			// Emit the disconnect event.
 			return this.network.sessions.delete(connection.guid);

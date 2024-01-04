@@ -24,7 +24,8 @@
 		"no-warning-comments": "off",
 		"no-useless-concat": "off",
 		"id-length": "off",
-		"tsdoc/syntax": "off"
+		"tsdoc/syntax": "off",
+		"require-atomic-updates": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }

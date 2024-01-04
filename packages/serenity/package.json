@@ -22,6 +22,7 @@
 		"@serenityjs/bedrock-protocol": "^1.0.0",
 		"@serenityjs/binarystream": "^1.2.3",
 		"@serenityjs/raknet-protocol": "^1.0.3",
-		"@serenityjs/raknet-server": "^1.0.4"
+		"@serenityjs/raknet-server": "^1.0.4",
+		"fast-jwt": "^3.3.2"
 	}
 }

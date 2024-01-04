@@ -1,12 +1,12 @@
 enum Packet {
 	Login = 0x01, // 1
-	// PlayStatus = 0x02, // 2
+	PlayStatus = 0x02, // 2
 	// ServerToClientHandshake = 0x03, // 3
 	// ClientToServerHandshake = 0x04, // 4
 	Disconnect = 0x05, // 5
-	// ResourcePacksInfo = 0x06, // 6
-	// ResourcePackStack = 0x07, // 7
-	// ResourcePackClientResponse = 0x08, // 8
+	ResourcePacksInfo = 0x06, // 6
+	ResourcePackStack = 0x07, // 7
+	ResourcePackClientResponse = 0x08, // 8
 	// Text = 0x09, // 9
 	// // Gap
 	// StartGame = 0x0b, // 11
@@ -50,7 +50,7 @@ enum Packet {
 	// // Gap
 	// ClientCacheStatus = 0x81, // 129
 	// // Gap
-	// NetworkSettings = 0x8f, // 143
+	NetworkSettings = 0x8f, // 143
 	// PlayerAuthInput = 0x90, // 144
 	// CreativeContent = 0x91, // 145
 	// // Gap

@@ -1,30 +1,22 @@
-import { Disconnect, Packet } from '@serenityjs/bedrock-protocol';
-import { Serenity, NetworkStatus } from '@serenityjs/serenity';
+import { Packet } from '@serenityjs/bedrock-protocol';
+import { Serenity } from '@serenityjs/serenity';
 
-const serenity = new Serenity(630, '1.20.51', '127.0.0.1');
+const serenity = new Serenity(630, '1.20.51', '0.0.0.0');
 
 serenity.start();
 
-const network = serenity.network;
-
-network.on(Packet.RequestNetworkSettings, ({ session }) => {
-	// const disconnect = new Disconnect();
-	// disconnect.reason = 40;
-	// disconnect.hideDisconnectionScreen = false;
-	// disconnect.message = 'test';
-	// network.send(session, disconnect);
+serenity.on('error', (error) => {
+	console.log('Error', error);
 });
 
-network.before(Packet.Disconnect, ({ packet, status }) => {
-	if (status === NetworkStatus.Incoming) {
-		console.log('Incoming disconnect packet', packet);
-	}
+serenity.on('warning', (warning) => {
+	console.log('Warning', warning);
+});
 
-	if (status === NetworkStatus.Outgoing) {
-		console.log('Outgoing disconnect packet', packet);
-	}
+const network = serenity.network;
 
-	packet.message = 'intercepted test';
+network.before(Packet.ResourcePackClientResponse, ({ packet }) => {
+	console.log(packet);
 
 	return true;
 });
