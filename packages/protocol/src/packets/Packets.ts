@@ -1,5 +1,8 @@
 import { Disconnect } from '@serenityjs/raknet-protocol';
 import { Packet } from '../enums';
+import { BiomeDefinitionList } from './BiomeDefinitionList';
+import { CreativeContent } from './CreativeContent';
+import { LevelChunk } from './LevelChunk';
 import { Login } from './Login';
 import { NetworkSettings } from './NetworkSettings';
 import { PlayStatus } from './PlayStatus';
@@ -20,7 +23,13 @@ const Packets = {
 	// Gap
 	[Packet.StartGame]: StartGame, // 11
 	// Gap
+	[Packet.LevelChunk]: LevelChunk, // 58
+	// Gap
+	[Packet.BiomeDefinitionList]: BiomeDefinitionList, // 122
+	// Gap
 	[Packet.NetworkSettings]: NetworkSettings, // 143
+	// Gap
+	[Packet.CreativeContent]: CreativeContent, // 145
 	// Gap
 	[Packet.RequestNetworkSettings]: RequestNetworkSettings, // 193
 };

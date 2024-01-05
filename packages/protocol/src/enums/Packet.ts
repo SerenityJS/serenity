@@ -32,7 +32,7 @@ enum Packet {
 	// // Gap
 	// InventoryContent = 0x31, // 49
 	// // Gap
-	// LevelChunk = 0x3a, // 58
+	LevelChunk = 0x3a, // 58
 	// SetDifficulty = 0x3c, // 60
 	// // Gap
 	// PlayerList = 0x3f, // 63
@@ -46,13 +46,13 @@ enum Packet {
 	// SetLocalPlayerAsInitialized = 0x71, // 113
 	// // Gap
 	// NetworkChunkPublisherUpdate = 0x79, // 121
-	// BiomeDefinitionList = 0x7a, // 122
+	BiomeDefinitionList = 0x7a, // 122
 	// // Gap
 	// ClientCacheStatus = 0x81, // 129
 	// // Gap
 	NetworkSettings = 0x8f, // 143
 	// PlayerAuthInput = 0x90, // 144
-	// CreativeContent = 0x91, // 145
+	CreativeContent = 0x91, // 145
 	// // Gap
 	// ItemComponent = 0xa2, // 162
 	// // Gap

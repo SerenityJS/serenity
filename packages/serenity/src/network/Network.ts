@@ -15,6 +15,9 @@ import type {
 	ResourcePackClientResponse,
 	ResourcePackStack,
 	StartGame,
+	CreativeContent,
+	BiomeDefinitionList,
+	LevelChunk,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
@@ -46,7 +49,10 @@ interface NetworkEvents {
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStack>];
 	[Packet.ResourcePackClientResponse]: [NetworkPacketEvent<ResourcePackClientResponse>];
 	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
+	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
+	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
+	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
 	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
 }
 

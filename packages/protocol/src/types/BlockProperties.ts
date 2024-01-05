@@ -48,9 +48,9 @@ class BlockProperties extends DataType {
 			stream.writeVarString(property.name);
 
 			// TODO: Implement NBT, for now we just write null.
-			stream.writeUint8(0);
-			stream.writeUint8(0);
-			stream.writeUint8(0);
+			stream.writeUint8(0x0a);
+			stream.writeUint8(0x00);
+			stream.writeUint8(0x00);
 		}
 	}
 }
