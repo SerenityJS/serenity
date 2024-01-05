@@ -7,6 +7,7 @@ import { RequestNetworkSettings } from './RequestNetworkSettings';
 import { ResourcePackClientResponse } from './ResourcePackClientResponse';
 import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
+import { StartGame } from './StartGame';
 
 const Packets = {
 	[Packet.Login]: Login, // 1
@@ -16,6 +17,8 @@ const Packets = {
 	[Packet.ResourcePacksInfo]: ResourcePacksInfo, // 6
 	[Packet.ResourcePackStack]: ResourcePackStack, // 7
 	[Packet.ResourcePackClientResponse]: ResourcePackClientResponse, // 8
+	// Gap
+	[Packet.StartGame]: StartGame, // 11
 	// Gap
 	[Packet.NetworkSettings]: NetworkSettings, // 143
 	// Gap

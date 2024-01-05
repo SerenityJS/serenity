@@ -3,3 +3,7 @@ export * from './DisconnectReason';
 export * from './CompressionMethod';
 export * from './PlayStatus';
 export * from './ResourceStatus';
+export * from './Gamemode';
+export * from './Difficulty';
+export * from './GameRuleType';
+export * from './PermissionLevel';

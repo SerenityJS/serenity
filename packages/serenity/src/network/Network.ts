@@ -14,6 +14,7 @@ import type {
 	ResourcePacksInfo,
 	ResourcePackClientResponse,
 	ResourcePackStack,
+	StartGame,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
@@ -44,6 +45,7 @@ interface NetworkEvents {
 	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfo>];
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStack>];
 	[Packet.ResourcePackClientResponse]: [NetworkPacketEvent<ResourcePackClientResponse>];
+	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
 	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
 }
