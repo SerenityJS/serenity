@@ -4,7 +4,9 @@
 	"repository": "https://github.com/SerenityJS/serenity.git",
 	"license": "MIT",
 	"workspaces": [
-		"packages/*"
+		"packages/protocol",
+		"packages/serenity",
+		"packages/testing"
 	],
 	"scripts": {
 		"build": "yarn workspaces run build",

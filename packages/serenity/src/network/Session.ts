@@ -1,6 +1,6 @@
 import { Disconnect, type DataPacket, type DisconnectReason } from '@serenityjs/bedrock-protocol';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
-import type { Serenity } from '..';
+import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
 import type { Network } from './Network';
 

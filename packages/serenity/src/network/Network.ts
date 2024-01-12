@@ -22,7 +22,7 @@ import type {
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
-import type { Serenity } from '..';
+import type { Serenity } from '../Serenity';
 import { EventEmitter } from '../utils';
 import type { NetworkSession } from './Session';
 import { NETWORK_HANDLERS, NetworkHandler } from './handlers';

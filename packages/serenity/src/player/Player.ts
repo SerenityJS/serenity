@@ -1,4 +1,5 @@
-import type { Network, NetworkSession, Serenity } from '..';
+import type { Serenity } from '../Serenity';
+import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
 
 class Player {
