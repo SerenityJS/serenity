@@ -9,7 +9,7 @@ enum Packet {
 	ResourcePacksInfo = 0x06, // 6
 	ResourcePackStack = 0x07, // 7
 	ResourcePackClientResponse = 0x08, // 8
-	// Text = 0x09, // 9
+	Text = 0x09, // 9
 	// // Gap
 	StartGame = 0x0b, // 11
 	// AddPlayer = 0x0c, // 12

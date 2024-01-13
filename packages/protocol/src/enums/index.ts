@@ -14,3 +14,4 @@ export * from './ViolationSeverity';
 export * from './CommandPermissionLevel';
 export * from './AbilityLayerType';
 export * from './AbilityLayerFlag';
+export * from './ChatTypes';

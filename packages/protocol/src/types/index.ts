@@ -14,3 +14,5 @@ export * from './Itemstates';
 export * from './TeleportCause';
 export * from './Records';
 export * from './AbilityLayers';
+export * from './TextSource';
+export * from './TextParameters';

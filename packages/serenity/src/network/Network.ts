@@ -24,6 +24,7 @@ import type {
 	PacketViolationWarning,
 	UpdateAbilities,
 	SetLocalPlayerAsInitialized,
+	Text,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
@@ -55,6 +56,7 @@ interface NetworkEvents {
 	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfo>];
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStack>];
 	[Packet.ResourcePackClientResponse]: [NetworkPacketEvent<ResourcePackClientResponse>];
+	[Packet.Text]: [NetworkPacketEvent<Text>];
 	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];

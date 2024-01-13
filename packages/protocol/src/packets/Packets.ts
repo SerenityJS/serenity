@@ -18,6 +18,7 @@ import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
 import { StartGame } from './StartGame';
+import { Text } from './Text';
 import { UpdateAbilities } from './UpdateAbilities';
 
 const Packets = {
@@ -28,6 +29,7 @@ const Packets = {
 	[Packet.ResourcePacksInfo]: ResourcePacksInfo, // 6
 	[Packet.ResourcePackStack]: ResourcePackStack, // 7
 	[Packet.ResourcePackClientResponse]: ResourcePackClientResponse, // 8
+	[Packet.Text]: Text, // 9
 	// Gap
 	[Packet.StartGame]: StartGame, // 11
 	// Gap
