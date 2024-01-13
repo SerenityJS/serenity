@@ -24,6 +24,7 @@ import type {
 	PacketViolationWarning,
 	UpdateAbilities,
 	SetLocalPlayerAsInitialized,
+	SlashCommand,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
@@ -59,6 +60,7 @@ interface NetworkEvents {
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
+	[Packet.SlashCommand]: [NetworkPacketEvent<SlashCommand>];
 	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
@@ -118,13 +120,14 @@ class Network extends EventEmitter<NetworkEvents> {
 				// Reads the packet id from the frame, which is a varint.
 				const id = getPacketId(frame);
 				const packet = Packets[id];
-				if (packet === undefined)
+				if (packet === undefined) {
 					return this.logger.debug(
 						`Recieved unknown packet with the id "0x${
 							id.toString(16).length === 1 ? `0${id.toString(16)}` : id.toString(16)
 						}" from "${session.identifier.address}:${session.identifier.port}"!`,
 					);
-
+				} 
+				
 				// We will attempt to deserialize the packet, and if it fails, we will just ignore it for now.
 				try {
 					// Contruct the packet instance.
@@ -137,7 +140,6 @@ class Network extends EventEmitter<NetworkEvents> {
 						session,
 						status: NetworkStatus.Incoming,
 					} as NetworkPacketEvent<any>;
-
 					// Emit the packet event will return a promise with a boolean value.
 					// If the value is false, the packet was cancelled from being handled.
 					// If the value is true, the packet was either modified or not listened to.

@@ -9,7 +9,7 @@ enum Packet {
 	ResourcePacksInfo = 0x06, // 6
 	ResourcePackStack = 0x07, // 7
 	ResourcePackClientResponse = 0x08, // 8
-	// Text = 0x09, // 9
+	// ChatReceive = 0x09, // 9
 	// // Gap
 	StartGame = 0x0b, // 11
 	// AddPlayer = 0x0c, // 12
@@ -41,6 +41,8 @@ enum Packet {
 	// Gap
 	// RequestChunkRadius = 0x45, // 69
 	// ChunkRadiusUpdate = 0x46, // 70
+	
+	SlashCommand = 0x4d, 
 	// // Gap
 	// ModalFormRequest = 0x64, // 100
 	// ModalFormResponse = 0x65, // 101
