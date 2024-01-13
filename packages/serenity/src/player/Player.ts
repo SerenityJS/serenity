@@ -40,9 +40,22 @@ class Player {
 	 *
 	 * @param mayFly Whether the player can fly or not.
 	 */
-	public setMayFly(mayFly: boolean): void {
+	public setMayFly(mayFly: boolean): boolean {
 		// Set the may fly ability.
 		this.abilities.setAbility(AbilityLayerFlag.MayFly, mayFly);
+
+		// Return the value of the may fly ability.
+		return this.getMayFly();
+	}
+
+	/**
+	 * Gets the player's ability to fly.
+	 *
+	 * @returns Whether the player can fly or not.
+	 */
+	public getMayFly(): boolean {
+		// Return the may fly ability.
+		return this.abilities.getAbility(AbilityLayerFlag.MayFly);
 	}
 }
 
