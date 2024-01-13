@@ -28,15 +28,16 @@ serenity.network.before(Packet.StartGame, (event) => {
 });
 
 serenity.network.on(Packet.CommandRequest, (event) => {
-	// const text = new Text();
-	// text.type = ChatTypes.Chat;
-	// text.needsTranslation = false;
-	// text.source = '';
-	// text.message = 'Hello World!';
-	// text.parameters = [];
-	// text.xuid = event.session.getPlayerInstance()!.xuid;
-	// text.platformChatId = '';
-	// event.session.send(text);
+	const text = new Text();
+	text.type = ChatTypes.Chat;
+	text.needsTranslation = false;
+	text.source = '';
+	text.message = 'Hello World!';
+	text.parameters = [];
+	text.xuid = event.session.getPlayerInstance()!.xuid;
+	text.platformChatId = '';
 
-	event.session.disconnect('You have been kicked.', 0);
+	void event.session.send(text);
+
+	// event.session.disconnect('You have been kicked.', 0);
 });
