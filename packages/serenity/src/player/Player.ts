@@ -17,6 +17,8 @@ class Player {
 	public readonly xuid: string;
 	public readonly uuid: string;
 	public readonly guid: bigint;
+	public readonly runtimeId: bigint;
+	public readonly uniqueId: bigint;
 	public readonly skin: Skin;
 	public readonly abilities: Abilities;
 
@@ -40,6 +42,8 @@ class Player {
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
 		this.guid = session.guid;
+		this.runtimeId = session.runtimeId;
+		this.uniqueId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
 		this.abilities = new Abilities(this);
 	}

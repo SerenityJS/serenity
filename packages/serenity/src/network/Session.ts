@@ -4,12 +4,16 @@ import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
 import type { Network } from './Network';
 
+let runtimeId = 0n;
+
 class NetworkSession {
 	public readonly serenity: Serenity;
 	public readonly network: Network;
 	public readonly connection: Connection;
 	public readonly guid: bigint;
 	public readonly identifier: NetworkIdentifier;
+	public readonly runtimeId: bigint;
+	public readonly uniqueId: bigint;
 
 	public encryption: boolean = false;
 	public compression: boolean = false;
@@ -27,6 +31,8 @@ class NetworkSession {
 		this.connection = connection;
 		this.guid = connection.guid;
 		this.identifier = connection.identifier;
+		this.runtimeId = runtimeId++;
+		this.uniqueId = BigInt.asUintN(64, this.guid ^ this.runtimeId);
 	}
 
 	/**
