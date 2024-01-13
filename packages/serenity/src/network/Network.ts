@@ -233,9 +233,11 @@ class Network extends EventEmitter<NetworkEvents> {
 			// The frame contains the reliability and priority of the packet.
 			// As well as the payload itself.
 			const frame = new Frame();
-			frame.reliability = Reliability.Unreliable;
+			frame.reliability = Reliability.ReliableOrdered;
 			frame.orderChannel = 0;
 			frame.body = payload;
+
+			console.log(packets[0].getId().toString(16));
 
 			// And send the frame to the session.
 			return session.connection.sendFrame(frame, Priority.Normal);

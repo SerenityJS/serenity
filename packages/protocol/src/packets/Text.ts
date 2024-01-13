@@ -6,7 +6,7 @@ import { TextSource, TextParameters } from '../types';
 
 @Packet(PacketId.Text)
 class Text extends DataPacket {
-	@Serialize(Uint8) public types!: ChatTypes;
+	@Serialize(Uint8) public type!: ChatTypes;
 	@Serialize(Bool) public needsTranslation!: boolean;
 	@Serialize(TextSource) public source!: string | null;
 	@Serialize(VarString) public message!: string;

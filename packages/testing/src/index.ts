@@ -1,8 +1,8 @@
-import { Packet } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Packet, Text } from '@serenityjs/bedrock-protocol';
 import { Serenity } from '@serenityjs/serenity';
 
 const serenity = new Serenity({
-	address: '0.0.0.0',
+	address: '127.0.0.1',
 	debug: true,
 });
 
@@ -26,6 +26,17 @@ serenity.network.before(Packet.StartGame, (event) => {
 	packet.playerPosition = { x: 0, y: -64, z: 0 };
 	return true;
 });
+
 serenity.network.on(Packet.CommandRequest, (event) => {
-	console.log('Command:', event.packet.rawCommand);
+	// const text = new Text();
+	// text.type = ChatTypes.Chat;
+	// text.needsTranslation = false;
+	// text.source = '';
+	// text.message = 'Hello World!';
+	// text.parameters = [];
+	// text.xuid = event.session.getPlayerInstance()!.xuid;
+	// text.platformChatId = '';
+	// event.session.send(text);
+
+	event.session.disconnect('You have been kicked.', 0);
 });
