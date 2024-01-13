@@ -12,6 +12,7 @@ export * from './StartGame';
 export * from './MovePlayer';
 export * from './LevelChunk';
 export * from './PlayerList';
+export * from './SetLocalPlayerAsInitialized';
 export * from './BiomeDefinitionList';
 export * from './NetworkSettings';
 export * from './CreativeContent';

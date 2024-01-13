@@ -1,12 +1,19 @@
+import {
+	PROTOCOL_VERSION,
+	MINECRAFT_VERSION,
+	Packet,
+	Disconnect,
+	DisconnectReason,
+} from '@serenityjs/bedrock-protocol';
 import { Server } from '@serenityjs/raknet-server';
-import { Logger, LoggerColors } from './console';
-import { Network, NetworkSession } from './network';
+import { Logger } from './console';
+import type { AbstractEvent } from './events';
+import { SERENITY_EVENTS } from './events';
+import type { NetworkPacketEvent } from './network';
+import { Network, NetworkSession, NetworkStatus } from './network';
 import type { Player } from './player';
+import type { SerenityEvents, SerenityOptions } from './types';
 import { EventEmitter } from './utils';
-
-interface SerenityEvents {
-	test: [];
-}
 
 class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly logger: Logger;
@@ -14,22 +21,47 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly protocol: number;
 	public readonly version: string;
 
+	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
 	public readonly players: Map<string, Player>;
 
-	public constructor(protocol: number, version: string, address: string, port?: number, debug = false) {
+	public constructor(options: SerenityOptions) {
 		super();
 
-		Logger.DEBUG = debug;
+		Logger.DEBUG = options.debug ?? false;
 		this.logger = new Logger('Serenity', '#a742f5');
-		this.server = new Server(address, port);
-		this.protocol = protocol;
-		this.version = version;
+		this.server = new Server(options.address, options.port);
+		this.protocol = options.protocol ?? PROTOCOL_VERSION;
+		this.version = options.version ?? MINECRAFT_VERSION;
 
+		this.events = new Map();
 		this.network = new Network(this);
 		this.players = new Map();
 
-		if (debug) this.logger.info('Software is running in debug mode. Debug messages will now be shown.');
+		if (Logger.DEBUG) this.logger.info('Software is running in debug mode. Debug messages will now be shown.');
+
+		// Register all events.
+		// Loop through all events and construct them.
+		// Bind the logic function to the packet hook
+		for (const event of SERENITY_EVENTS) {
+			// Attempt to construct the event.
+			// If it fails, then we will log the error and continue.
+			try {
+				// Construct the event.
+				const construct = new event(this);
+
+				// Hook the logic method to the packet event.
+				// Events will run after the packet has been handled.
+				// This is to ensure that is the packet data has changed, the event will still run with the updated data.
+				this.network.after(construct.packetHook, construct.logic.bind(construct) as never);
+
+				// Add the event to the map.
+				this.events.set(event.name, construct);
+			} catch (error) {
+				this.logger.error(`Failed to register event ${event.name}!`);
+				this.logger.error(error);
+			}
+		}
 	}
 
 	public start(): boolean {
@@ -54,14 +86,33 @@ class Serenity extends EventEmitter<SerenityEvents> {
 			// Return if they aren't.
 			if (!check) return this.logger.debug('Got disconnection request from unconnected user', connection.guid);
 
-			// Get the session and attempt to get a player instance.
+			// Get the session from the network.
+			const session = this.network.sessions.get(connection.guid)!;
+
+			// Emit a dummy disconnect event.
+			// This will be used for events to listen to.
+			// First we will construct the packet.
+			const packet = new Disconnect();
+			packet.message = 'Player disconnected.';
+			packet.reason = DisconnectReason.Disconnected;
+			packet.hideDisconnectionScreen = true;
+
+			// Then we will build the event.
+			const event = {
+				packet,
+				session,
+				status: NetworkStatus.Incoming,
+			} as NetworkPacketEvent<Disconnect>;
+
+			// Now we will emit the event.
+			void this.network.emit(Packet.Disconnect, event);
+
 			// If there is a player instance, then we will remove it from the players map.
 			// If there isn't, then we will just ignore it.
-			const session = this.network.sessions.get(connection.guid)!;
 			const player = session.getPlayerInstance();
 			if (player) this.players.delete(player.xuid);
 
-			// Emit the disconnect event.
+			// Remove the session from the network.
 			return this.network.sessions.delete(connection.guid);
 		});
 

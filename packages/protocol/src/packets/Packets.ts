@@ -16,6 +16,7 @@ import { ResourcePackClientResponse } from './ResourcePackClientResponse';
 import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
+import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
 import { StartGame } from './StartGame';
 import { UpdateAbilities } from './UpdateAbilities';
 
@@ -35,6 +36,8 @@ const Packets = {
 	[Packet.LevelChunk]: LevelChunk, // 58
 	// Gap
 	[Packet.PlayerList]: PlayerList, // 63
+	// Gap
+	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113
 	// Gap
 	[Packet.BiomeDefinitionList]: BiomeDefinitionList, // 122
 	// Gap

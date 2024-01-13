@@ -23,6 +23,7 @@ import type {
 	PlayerList,
 	PacketViolationWarning,
 	UpdateAbilities,
+	SetLocalPlayerAsInitialized,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
@@ -41,7 +42,7 @@ export enum NetworkStatus {
 	Outgoing,
 }
 
-interface NetworkPacketEvent<T extends DataPacket> {
+export interface NetworkPacketEvent<T extends DataPacket> {
 	packet: T;
 	session: NetworkSession;
 	status: NetworkStatus;
@@ -58,6 +59,7 @@ interface NetworkEvents {
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
+	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];

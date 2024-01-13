@@ -45,7 +45,7 @@ enum Packet {
 	// ModalFormRequest = 0x64, // 100
 	// ModalFormResponse = 0x65, // 101
 	// // Gap
-	// SetLocalPlayerAsInitialized = 0x71, // 113
+	SetLocalPlayerAsInitialized = 0x71, // 113
 	// // Gap
 	// NetworkChunkPublisherUpdate = 0x79, // 121
 	BiomeDefinitionList = 0x7a, // 122

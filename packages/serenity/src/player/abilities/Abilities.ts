@@ -90,6 +90,9 @@ class Abilities {
 			this.logger.debug(`Attempted to set invalid ability flag ${flag}!`);
 		}
 
+		// Then we will update the abilities of the player.
+		(this as any)[flag] = value;
+
 		// Then we will create a new updated abilities packet.
 		const update = new UpdateAbilities();
 		update.entityUniqueId = 0n; // TODO: add entity unique id to player
@@ -98,19 +101,16 @@ class Abilities {
 		update.abilities = [
 			{
 				type: AbilityLayerType.Base,
-				flags: [
-					{
-						flag,
-						value,
-					},
-				],
+				flags: DEFAULT_ABILITIES.map((entry) => {
+					return {
+						flag: entry.flag,
+						value: (this as any)[entry.flag],
+					};
+				}),
 				flySpeed: 0.05,
 				walkSpeed: 0.1,
 			},
 		];
-
-		// Then we will update the abilities of the player.
-		(this as any)[flag] = value;
 
 		// Finally we will send the abilities packet.
 		// TODO: Possibly await this? Allow the event loop to handle this?
