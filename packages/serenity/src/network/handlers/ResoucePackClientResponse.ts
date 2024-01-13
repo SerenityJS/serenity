@@ -52,8 +52,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 			case ResourceStatus.Completed: {
 				const start = new StartGame();
-				start.entityId = 0n; // TODO: Change to player entity id
-				start.runtimeEntityId = 0n;
+				start.entityId = session.uniqueId;
+				start.runtimeEntityId = session.runtimeId;
 				start.playerGamemode = Gamemode.Creative;
 				start.playerPosition = { x: 0, y: 0, z: 0 };
 				start.rotation = { x: 0, z: 0 };
@@ -65,7 +65,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.worldGamemode = Gamemode.Creative;
 				start.difficulty = Difficulty.Normal;
 				start.spawnPosition = { x: 0, y: 0, z: 0 };
-				start.achievementsDisabled = true;
+				start.achievementsDisabled = false;
 				start.editorWorldType = 0;
 				start.createdInEdior = false;
 				start.exportedFromEdior = false;

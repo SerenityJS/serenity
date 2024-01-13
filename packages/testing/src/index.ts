@@ -9,7 +9,7 @@ const serenity = new Serenity({
 serenity.start();
 
 serenity.on('PlayerJoined', (player) => {
-	console.log(player.runtimeId, player.uniqueId);
+	//
 });
 
 serenity.on('PlayerSpawned', (player) => {
