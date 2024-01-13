@@ -1,4 +1,4 @@
-import type { Vec2f, Vec3f } from '@serenityjs/bedrock-protocol';
+import { AbilityLayerFlag, type Vec2f, type Vec3f } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
@@ -33,6 +33,16 @@ class Player {
 		this.guid = session.guid;
 		this.skin = new Skin(tokens.clientData);
 		this.abilities = new Abilities(this);
+	}
+
+	/**
+	 * Sets the player's ability to fly.
+	 *
+	 * @param mayFly Whether the player can fly or not.
+	 */
+	public setMayFly(mayFly: boolean): void {
+		// Set the may fly ability.
+		this.abilities.setAbility(AbilityLayerFlag.MayFly, mayFly);
 	}
 }
 
