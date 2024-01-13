@@ -26,6 +26,6 @@ serenity.network.before(Packet.StartGame, (event) => {
 	packet.playerPosition = { x: 0, y: -64, z: 0 };
 	return true;
 });
-serenity.network.on(Packet.SlashCommand, (event)=>{
-	console.log("Command:", event.packet.rawCommand);
+serenity.network.on(Packet.CommandRequest, (event) => {
+	console.log('Command:', event.packet.rawCommand);
 });

@@ -25,7 +25,7 @@ import type {
 	UpdateAbilities,
 	SetLocalPlayerAsInitialized,
 	Text,
-	SlashCommand,
+	CommandRequest,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
@@ -62,7 +62,7 @@ interface NetworkEvents {
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
-	[Packet.SlashCommand]: [NetworkPacketEvent<SlashCommand>];
+	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
 	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];

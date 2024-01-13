@@ -3,6 +3,7 @@
 import { Disconnect } from '@serenityjs/raknet-protocol';
 import { Packet } from '../enums';
 import { BiomeDefinitionList } from './BiomeDefinitionList';
+import { CommandRequest } from './CommandRequest';
 import { CreativeContent } from './CreativeContent';
 import { LevelChunk } from './LevelChunk';
 import { Login } from './Login';
@@ -17,7 +18,6 @@ import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
-import { SlashCommand } from './SlashCommand';
 import { StartGame } from './StartGame';
 import { Text } from './Text';
 import { UpdateAbilities } from './UpdateAbilities';
@@ -39,7 +39,8 @@ const Packets = {
 	[Packet.LevelChunk]: LevelChunk, // 58
 	// Gap
 	[Packet.PlayerList]: PlayerList, // 63
-	[Packet.SlashCommand]: SlashCommand, // 77
+	// Gap
+	[Packet.CommandRequest]: CommandRequest, // 77
 	// Gap
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113
 	// Gap
