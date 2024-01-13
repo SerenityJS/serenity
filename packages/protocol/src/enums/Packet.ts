@@ -41,6 +41,8 @@ enum Packet {
 	// Gap
 	// RequestChunkRadius = 0x45, // 69
 	// ChunkRadiusUpdate = 0x46, // 70
+
+	SlashCommand = 0x4d,
 	// // Gap
 	// ModalFormRequest = 0x64, // 100
 	// ModalFormResponse = 0x65, // 101

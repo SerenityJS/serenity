@@ -21,3 +21,4 @@ export * from './PacketViolationWarning';
 export * from './ScriptMessage';
 export * from './UpdateAbilities';
 export * from './RequestNetworkSettings';
+export * from './SlashCommand';
