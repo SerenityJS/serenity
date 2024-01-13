@@ -5,6 +5,9 @@ import type { LoginTokenData } from '../types';
 import { Abilities } from './abilities';
 import { Skin } from './skin';
 
+/**
+ * The player class.
+ */
 class Player {
 	protected readonly serenity: Serenity;
 	public readonly network: Network;
@@ -22,6 +25,12 @@ class Player {
 	public headYaw: number = 0;
 	public onGround: boolean = false;
 
+	/**
+	 * Creates a new player.
+	 *
+	 * @param session The network session.
+	 * @param tokens The login tokens.
+	 */
 	public constructor(session: NetworkSession, tokens: LoginTokenData) {
 		this.serenity = session.serenity;
 		this.network = session.network;
