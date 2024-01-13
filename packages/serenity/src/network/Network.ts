@@ -18,11 +18,17 @@ import type {
 	CreativeContent,
 	BiomeDefinitionList,
 	LevelChunk,
+	MovePlayer,
+	ScriptMessage,
+	PlayerList,
+	PacketViolationWarning,
+	UpdateAbilities,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
 import type { Serenity } from '../Serenity';
+import { Logger, LoggerColors } from '../console';
 import { EventEmitter } from '../utils';
 import type { NetworkSession } from './Session';
 import { NETWORK_HANDLERS, NetworkHandler } from './handlers';
@@ -49,10 +55,15 @@ interface NetworkEvents {
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStack>];
 	[Packet.ResourcePackClientResponse]: [NetworkPacketEvent<ResourcePackClientResponse>];
 	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
+	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
+	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
+	[Packet.PacketViolationWarning]: [NetworkPacketEvent<PacketViolationWarning>];
+	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessage>];
+	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilities>];
 	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
 }
 
@@ -62,12 +73,14 @@ const GameByte = Buffer.from([0xfe]);
 
 class Network extends EventEmitter<NetworkEvents> {
 	protected readonly serenity: Serenity;
+	public readonly logger: Logger;
 	public readonly sessions: Map<bigint, NetworkSession>;
 
 	public constructor(serenity: Serenity) {
 		super();
 
 		this.serenity = serenity;
+		this.logger = new Logger('Network', LoggerColors.Blue);
 		this.sessions = new Map();
 
 		NetworkHandler.serenity = serenity;
@@ -103,7 +116,12 @@ class Network extends EventEmitter<NetworkEvents> {
 				// Reads the packet id from the frame, which is a varint.
 				const id = getPacketId(frame);
 				const packet = Packets[id];
-				if (packet === undefined) return console.log('Unknown packet', id.toString(16));
+				if (packet === undefined)
+					return this.logger.debug(
+						`Recieved unknown packet with the id "0x${
+							id.toString(16).length === 1 ? `0${id.toString(16)}` : id.toString(16)
+						}" from "${session.identifier.address}:${session.identifier.port}"!`,
+					);
 
 				// We will attempt to deserialize the packet, and if it fails, we will just ignore it for now.
 				try {
@@ -137,11 +155,10 @@ class Network extends EventEmitter<NetworkEvents> {
 						try {
 							void handler.handle(instance as any, session);
 						} catch (error) {
-							void this.serenity.emit('error', error);
+							this.logger.error(error);
 						}
 					} else {
-						void this.serenity.emit(
-							'warning',
+						return this.logger.debug(
 							`Unable to find network handler for ${Packet[id]} (0x${id.toString(16)}) packet from "${
 								session.identifier.address
 							}:${session.identifier.port}"!`,
@@ -149,7 +166,7 @@ class Network extends EventEmitter<NetworkEvents> {
 					}
 				} catch (error) {
 					// If an error occurs, we will emit the error event.
-					void this.serenity.emit('error', error);
+					return this.logger.error(error);
 				}
 			}
 		}
@@ -218,7 +235,7 @@ class Network extends EventEmitter<NetworkEvents> {
 			return session.connection.sendFrame(frame, Priority.Normal);
 		} catch (error) {
 			// If an error occurs, we will emit the error event.
-			void this.serenity.emit('error', error);
+			this.logger.error(error);
 		}
 	}
 }

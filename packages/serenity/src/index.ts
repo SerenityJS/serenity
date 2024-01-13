@@ -1,3 +1,5 @@
+import './config/Loader';
+
 export * from './Serenity';
 export * from './console';
 export * from './network';

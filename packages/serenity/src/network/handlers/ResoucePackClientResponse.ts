@@ -12,6 +12,8 @@ import {
 	LevelChunk,
 	PlayStatus,
 	PlayerStatus,
+	PlayerList,
+	RecordAction,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
@@ -52,7 +54,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				const start = new StartGame();
 				start.entityId = 0n; // TODO: Change to player entity id
 				start.runtimeEntityId = 0n;
-				start.playerGamemode = Gamemode.Survival;
+				start.playerGamemode = Gamemode.Creative;
 				start.playerPosition = { x: 0, y: 0, z: 0 };
 				start.rotation = { x: 0, z: 0 };
 				start.seed = 0n;
@@ -60,7 +62,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.biomeName = 'plains';
 				start.dimension = 0;
 				start.generator = 1;
-				start.worldGamemode = Gamemode.Survival;
+				start.worldGamemode = Gamemode.Creative;
 				start.difficulty = Difficulty.Normal;
 				start.spawnPosition = { x: 0, y: 0, z: 0 };
 				start.achievementsDisabled = true;
@@ -329,6 +331,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.serverControlledSounds = false;
 
 				await session.send(start);
+
+				session.getPlayerInstance()!.abilities.setDefaults();
 
 				const content = new CreativeContent();
 				content.items = 0;

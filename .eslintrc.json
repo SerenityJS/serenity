@@ -25,7 +25,8 @@
 		"no-useless-concat": "off",
 		"id-length": "off",
 		"tsdoc/syntax": "off",
-		"require-atomic-updates": "off"
+		"require-atomic-updates": "off",
+		"unicorn/prefer-string-replace-all": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }

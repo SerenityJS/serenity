@@ -1,3 +1,5 @@
+// NOTE: Please try to put the packets in the order according to their id. Thx!
+
 enum Packet {
 	Login = 0x01, // 1
 	PlayStatus = 0x02, // 2
@@ -14,7 +16,7 @@ enum Packet {
 	// AddEntity = 0x0d, // 13
 	// RemoveEntity = 0x0e, // 14
 	// // Gap
-	// MovePlayer = 0x13, // 19
+	MovePlayer = 0x13, // 19
 	// // Gap
 	// TickSync = 0x17, // 23
 	// // Gap
@@ -34,9 +36,9 @@ enum Packet {
 	// // Gap
 	LevelChunk = 0x3a, // 58
 	// SetDifficulty = 0x3c, // 60
-	// // Gap
-	// PlayerList = 0x3f, // 63
-	// // Gap
+	// Gap
+	PlayerList = 0x3f, // 63
+	// Gap
 	// RequestChunkRadius = 0x45, // 69
 	// ChunkRadiusUpdate = 0x46, // 70
 	// // Gap
@@ -53,11 +55,15 @@ enum Packet {
 	NetworkSettings = 0x8f, // 143
 	// PlayerAuthInput = 0x90, // 144
 	CreativeContent = 0x91, // 145
+	// Gap
+	PacketViolationWarning = 0x9c, // 147
 	// // Gap
 	// ItemComponent = 0xa2, // 162
+	// Gap
+	ScriptMessage = 0xb1, // 177
 	// // Gap
 	// ToastRequest = 0xba, // 186
-	// UpdateAbilities = 0xbb, // 187
+	UpdateAbilities = 0xbb, // 187
 	// UpdateAdventureSettings = 0xbc, // 188
 	// Gap
 	RequestNetworkSettings = 0xc1, // 193

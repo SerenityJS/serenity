@@ -7,6 +7,8 @@ import type { LoggerColors } from './LoggerColors';
  * Logger adds
  */
 class Logger {
+	public static DEBUG: boolean = false;
+
 	public readonly name: string;
 	public readonly color: LoggerColors | string;
 	public readonly chalk: Chalk;
@@ -19,7 +21,7 @@ class Logger {
 	}
 
 	public log(...args: unknown[]): void {
-		const format = `${chalk.gray('<')}${moment().format('YYYY-MM-DD HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
+		const format = `${chalk.gray('<')}${moment().format('MM-DD-YYYY HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
 			'[',
 		)}${this.chalk(`${this.name}`)}${chalk.gray(']')}`;
 
@@ -27,7 +29,7 @@ class Logger {
 	}
 
 	public info(...args: unknown[]): void {
-		const format = `${chalk.gray('<')}${moment().format('YYYY-MM-DD HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
+		const format = `${chalk.gray('<')}${moment().format('MM-DD-YYYY HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
 			'[',
 		)}${this.chalk(`${this.name}`)}${chalk.gray(']')} ${chalk.gray('[')}${chalk.cyan('Info')}${chalk.gray(']')}`;
 
@@ -35,7 +37,7 @@ class Logger {
 	}
 
 	public warn(...args: unknown[]): void {
-		const format = `${chalk.gray('<')}${moment().format('YYYY-MM-DD HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
+		const format = `${chalk.gray('<')}${moment().format('MM-DD-YYYY HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
 			'[',
 		)}${this.chalk(`${this.name}`)}${chalk.gray(']')} ${chalk.gray('[')}${chalk.yellow('Warning')}${chalk.gray(']')}`;
 
@@ -43,7 +45,7 @@ class Logger {
 	}
 
 	public error(...args: unknown[]): void {
-		const format = `${chalk.gray('<')}${moment().format('YYYY-MM-DD HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
+		const format = `${chalk.gray('<')}${moment().format('MM-DD-YYYY HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
 			'[',
 		)}${this.chalk(`${this.name}`)}${chalk.gray(']')} ${chalk.gray('[')}${chalk.red('Error')}${chalk.gray(']')}`;
 
@@ -51,7 +53,7 @@ class Logger {
 	}
 
 	public success(...args: unknown[]): void {
-		const format = `${chalk.gray('<')}${moment().format('YYYY-MM-DD HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
+		const format = `${chalk.gray('<')}${moment().format('MM-DD-YYYY HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
 			'[',
 		)}${this.chalk(`${this.name}`)}${chalk.gray(']')} ${chalk.gray('[')}${chalk.greenBright('Success')}${chalk.gray(
 			']',
@@ -61,9 +63,11 @@ class Logger {
 	}
 
 	public debug(...args: unknown[]): void {
-		const format = `${chalk.gray('<')}${moment().format('YYYY-MM-DD HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
+		if (!Logger.DEBUG) return;
+
+		const format = `${chalk.gray('<')}${moment().format('MM-DD-YYYY HH:mm:ss')}${chalk.gray('>')} ${chalk.gray(
 			'[',
-		)}${this.chalk(`${this.name}`)}${chalk.gray(']')} ${chalk.gray('[')}${chalk.gray('DEBUG')}${chalk.gray(']')}`;
+		)}${this.chalk(`${this.name}`)}${chalk.gray(']')} ${chalk.gray('[')}${chalk.redBright('DEBUG')}${chalk.gray(']')}`;
 
 		console.info(format, ...args);
 	}

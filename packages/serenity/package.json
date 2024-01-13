@@ -21,10 +21,11 @@
 	"dependencies": {
 		"@serenityjs/bedrock-protocol": "^1.0.0",
 		"@serenityjs/binarystream": "^1.2.3",
-		"@serenityjs/raknet-protocol": "^1.0.3",
-		"@serenityjs/raknet-server": "^1.0.4",
+		"@serenityjs/raknet-protocol": "^1.0.4",
+		"@serenityjs/raknet-server": "^1.0.5",
 		"chalk": "4.0.0",
 		"fast-jwt": "^3.3.2",
-		"moment": "^2.30.1"
+		"moment": "^2.30.1",
+		"yaml": "^2.3.4"
 	}
 }
