@@ -1,4 +1,4 @@
-import './config/Loader';
+// import './config/Loader';
 
 export * from './Serenity';
 export * from './console';

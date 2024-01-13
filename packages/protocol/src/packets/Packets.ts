@@ -17,6 +17,7 @@ import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
+import { SlashCommand } from './SlashCommand';
 import { StartGame } from './StartGame';
 import { UpdateAbilities } from './UpdateAbilities';
 
@@ -36,6 +37,7 @@ const Packets = {
 	[Packet.LevelChunk]: LevelChunk, // 58
 	// Gap
 	[Packet.PlayerList]: PlayerList, // 63
+	[Packet.SlashCommand]: SlashCommand, // 77
 	// Gap
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113
 	// Gap
