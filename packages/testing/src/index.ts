@@ -30,16 +30,7 @@ serenity.network.before(Packet.StartGame, (event) => {
 serenity.network.on(Packet.Text, (event) => {
 	if (event.status !== NetworkStatus.Incoming) return;
 
-	const text = new Text();
-	text.type = ChatTypes.Chat;
-	text.needsTranslation = false;
-	text.source = '';
-	text.message = event.packet.message;
-	text.parameters = [];
-	text.xuid = event.session.getPlayerInstance()!.xuid;
-	text.platformChatId = '';
+	const { packet, session } = event;
 
-	void event.session.send(text);
-
-	// event.session.disconnect('You have been kicked.', 0);
+	session.sendTextPacket('test', ChatTypes.Chat);
 });

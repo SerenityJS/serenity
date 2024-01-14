@@ -70,6 +70,10 @@ class Player {
 		// Return the may fly ability.
 		return this.abilities.getAbility(AbilityLayerFlag.MayFly);
 	}
+
+	public sendMessage(message: string): void {
+		// crea
+	}
 }
 
 export { Player };
