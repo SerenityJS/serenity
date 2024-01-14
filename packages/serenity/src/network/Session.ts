@@ -72,41 +72,6 @@ class NetworkSession {
 		// Return the player.
 		return player;
 	}
-
-	/**
-	 * Sends a text packet to the client.
-	 * This will automatically construct the packet for you.
-	 *
-	 * @param message The message to send.
-	 * @param type The type of chat.
-	 * @param source The source of the message.
-	 * @param xuid The xuid of the player.
-	 * @param parameters The parameters of the message.
-	 * @param needsTranslation Whether the message needs to be translated.
-	 * @param platformChatId The platform chat id.
-	 */
-	public sendTextPacket(
-		message: string,
-		type: ChatTypes,
-		source?: string,
-		xuid?: string,
-		parameters?: string[],
-		needsTranslation?: boolean,
-		platformChatId?: string,
-	): void {
-		// Construct the text packet.
-		const packet = new Text();
-		packet.message = message;
-		packet.type = type;
-		packet.source = source ?? '';
-		packet.xuid = xuid ?? '0000000000000000';
-		packet.parameters = parameters ?? [];
-		packet.needsTranslation = needsTranslation ?? false;
-		packet.platformChatId = platformChatId ?? '';
-
-		// Return and send the packet.
-		return void this.send(packet);
-	}
 }
 
 export { NetworkSession };

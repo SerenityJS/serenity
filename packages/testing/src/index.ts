@@ -31,6 +31,7 @@ serenity.network.on(Packet.Text, (event) => {
 	if (event.status !== NetworkStatus.Incoming) return;
 
 	const { packet, session } = event;
+	const player = session.getPlayerInstance()!;
 
-	session.sendTextPacket('test', ChatTypes.Chat);
+	player.sendMessage(`Hello world!`);
 });

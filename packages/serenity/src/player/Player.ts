@@ -1,4 +1,4 @@
-import { AbilityLayerFlag, type Vec2f, type Vec3f } from '@serenityjs/bedrock-protocol';
+import { AbilityLayerFlag, ChatTypes, type Vec2f, type Vec3f, Text } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
@@ -72,7 +72,20 @@ class Player {
 	}
 
 	public sendMessage(message: string): void {
-		// crea
+		// Create a new text packet.
+		const packet = new Text();
+
+		// Then set the packet's data.
+		packet.type = ChatTypes.Raw;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = message;
+		packet.parameters = null;
+		packet.xuid = this.xuid;
+		packet.platformChatId = '';
+
+		// Return and send the packet to the player.
+		return void this.session.send(packet);
 	}
 }
 
