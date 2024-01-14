@@ -1,5 +1,5 @@
 import { ChatTypes, Packet, Text } from '@serenityjs/bedrock-protocol';
-import { Serenity } from '@serenityjs/serenity';
+import { NetworkStatus, Serenity } from '@serenityjs/serenity';
 
 const serenity = new Serenity({
 	address: '127.0.0.1',
@@ -27,12 +27,14 @@ serenity.network.before(Packet.StartGame, (event) => {
 	return true;
 });
 
-serenity.network.on(Packet.CommandRequest, (event) => {
+serenity.network.on(Packet.Text, (event) => {
+	if (event.status !== NetworkStatus.Incoming) return;
+
 	const text = new Text();
 	text.type = ChatTypes.Chat;
 	text.needsTranslation = false;
 	text.source = '';
-	text.message = 'Hello World!';
+	text.message = event.packet.message;
 	text.parameters = [];
 	text.xuid = event.session.getPlayerInstance()!.xuid;
 	text.platformChatId = '';
