@@ -1,5 +1,13 @@
-import { AbilityLayerFlag, ChatTypes, Text, ToastRequest, SetTitle } from '@serenityjs/bedrock-protocol';
-import { TitleTypes, type Vec2f, type Vec3f } from '@serenityjs/bedrock-protocol';
+import type { DataPacket, MoveMode, Vec2f, Vec3f } from '@serenityjs/bedrock-protocol';
+import {
+	AbilityLayerFlag,
+	ChatTypes,
+	Text,
+	ToastRequest,
+	SetTitle,
+	TitleTypes,
+	MovePlayer,
+} from '@serenityjs/bedrock-protocol';
 import { ZigZag } from '@serenityjs/binarystream';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
@@ -105,6 +113,31 @@ class Player {
 
 		// Return and send the packet to the player.
 		return void this.session.send(packet);
+	}
+
+	public async broadcastMovement(mode: MoveMode, ...players: Player[]) {
+		// Check if length is 0
+		if (players.length === 0) {
+			return;
+		}
+
+		for (const player of players) {
+			const packet = new MovePlayer();
+			packet.runtimeId = player.runtimeId;
+			packet.position = player.position;
+			packet.pitch = player.rotation.x;
+			packet.yaw = player.rotation.z;
+			packet.headYaw = player.headYaw;
+			packet.mode = mode;
+			packet.onGround = player.onGround;
+			packet.riddenRuntimeId = 0n;
+			packet.tick = 0n;
+			await this.sendPacket(packet);
+		}
+	}
+
+	public async sendPacket(packet: DataPacket): Promise<void> {
+		return this.session.send(packet);
 	}
 
 	public sendToast(title: string, message: string): void {

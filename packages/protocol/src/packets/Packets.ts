@@ -4,6 +4,7 @@ import { Disconnect } from '@serenityjs/raknet-protocol';
 import { Packet } from '../enums';
 import { BiomeDefinitionList } from './BiomeDefinitionList';
 import { CommandRequest } from './CommandRequest';
+import { ContainerClose } from './ContainerClose';
 import { ContainerOpen } from './ContainerOpen';
 import { CreativeContent } from './CreativeContent';
 import { Interact } from './Interact';
@@ -13,6 +14,7 @@ import { MovePlayer } from './MovePlayer';
 import { NetworkSettings } from './NetworkSettings';
 import { PacketViolationWarning } from './PacketViolationWarning';
 import { PlayStatus } from './PlayStatus';
+import { PlayerAction } from './PlayerAction';
 import { PlayerList } from './PlayerList';
 import { RequestNetworkSettings } from './RequestNetworkSettings';
 import { ResourcePackClientResponse } from './ResourcePackClientResponse';
@@ -42,7 +44,10 @@ const Packets = {
 	// Gap
 	[Packet.Interact]: Interact, // 33
 	// Gap
+	[Packet.PlayerAction]: PlayerAction, // 36
+	// Gap
 	[Packet.ContainerOpen]: ContainerOpen, // 46
+	[Packet.ContainerClose]: ContainerClose, // 47
 	// Gap
 	[Packet.LevelChunk]: LevelChunk, // 58
 	// Gap

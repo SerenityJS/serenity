@@ -24,13 +24,14 @@ enum Packet {
 	// // Gap
 	Interact = 0x21, // 33
 	// // Gap
-	// PlayerAction = 0x24, // 36
+	PlayerAction = 0x24, // 36
 	// // Gap
 	// SetEntityData = 0x27, // 39
 	// // Gap
 	// SetSpawnPosition = 0x2b, // 43
 	// Respawn = 0x2d, // 45
 	ContainerOpen = 0x2e, // 46
+	ContainerClose = 0x2f, // 47
 	// // Gap
 	// InventoryContent = 0x31, // 49
 	// // Gap

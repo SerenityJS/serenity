@@ -23,6 +23,14 @@ class MovePlayerHandler extends NetworkHandler {
 		player.onGround = packet.onGround;
 
 		// TODO: Broadcast the player's movement to other players.
+		// idk if this is 100% correct, but it works for now (i hope) cus i cant test it
+		await Promise.all(
+			[...this.serenity.players.values()].map(async (p) => {
+				if (p !== player) {
+					return p.broadcastMovement(packet.mode, player);
+				}
+			}),
+		);
 	}
 }
 

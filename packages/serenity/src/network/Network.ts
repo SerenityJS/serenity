@@ -29,6 +29,8 @@ import type {
 	ToastRequest,
 	Interact,
 	ContainerOpen,
+	ContainerClose,
+	PlayerAction,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -65,7 +67,9 @@ interface NetworkEvents {
 	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.Interact]: [NetworkPacketEvent<Interact>];
+	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
+	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
