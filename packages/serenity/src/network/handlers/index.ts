@@ -1,3 +1,4 @@
+import { InteractHandler } from './Interact';
 import { LoginHandler } from './Login';
 import { MovePlayerHandler } from './MovePlayer';
 import { PacketViolationWarningHandler } from './PacketViolationWarning';
@@ -14,6 +15,7 @@ const NETWORK_HANDLERS = [
 	MovePlayerHandler,
 	PacketViolationWarningHandler,
 	TextHandler,
+	InteractHandler,
 ];
 
 export { NETWORK_HANDLERS };

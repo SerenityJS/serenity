@@ -15,3 +15,7 @@ export * from './CommandPermissionLevel';
 export * from './AbilityLayerType';
 export * from './AbilityLayerFlag';
 export * from './ChatTypes';
+export * from './TitleTypes';
+export * from './InteractActions';
+export * from './WindowsIds';
+export * from './WindowsTypes';

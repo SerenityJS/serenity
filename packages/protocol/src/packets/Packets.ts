@@ -4,7 +4,9 @@ import { Disconnect } from '@serenityjs/raknet-protocol';
 import { Packet } from '../enums';
 import { BiomeDefinitionList } from './BiomeDefinitionList';
 import { CommandRequest } from './CommandRequest';
+import { ContainerOpen } from './ContainerOpen';
 import { CreativeContent } from './CreativeContent';
+import { Interact } from './Interact';
 import { LevelChunk } from './LevelChunk';
 import { Login } from './Login';
 import { MovePlayer } from './MovePlayer';
@@ -18,8 +20,10 @@ import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
+import { SetTitle } from './SetTitle';
 import { StartGame } from './StartGame';
 import { Text } from './Text';
+import { ToastRequest } from './ToastRequest';
 import { UpdateAbilities } from './UpdateAbilities';
 
 const Packets = {
@@ -36,11 +40,17 @@ const Packets = {
 	// Gap
 	[Packet.MovePlayer]: MovePlayer, // 19
 	// Gap
+	[Packet.Interact]: Interact, // 33
+	// Gap
+	[Packet.ContainerOpen]: ContainerOpen, // 46
+	// Gap
 	[Packet.LevelChunk]: LevelChunk, // 58
 	// Gap
 	[Packet.PlayerList]: PlayerList, // 63
 	// Gap
 	[Packet.CommandRequest]: CommandRequest, // 77
+	// Gap
+	[Packet.SetTitle]: SetTitle, // 88
 	// Gap
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113
 	// Gap
@@ -54,6 +64,7 @@ const Packets = {
 	// Gap
 	[Packet.ScriptMessage]: ScriptMessage, // 177
 	// Gap
+	[Packet.ToastRequest]: ToastRequest, // 186
 	[Packet.UpdateAbilities]: UpdateAbilities, // 187
 	// Gap
 	[Packet.RequestNetworkSettings]: RequestNetworkSettings, // 193

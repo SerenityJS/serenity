@@ -1,4 +1,6 @@
-import { AbilityLayerFlag, ChatTypes, type Vec2f, type Vec3f, Text } from '@serenityjs/bedrock-protocol';
+import { AbilityLayerFlag, ChatTypes, Text, ToastRequest, SetTitle } from '@serenityjs/bedrock-protocol';
+import { TitleTypes, type Vec2f, type Vec3f } from '@serenityjs/bedrock-protocol';
+import { ZigZag } from '@serenityjs/binarystream';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
@@ -104,6 +106,37 @@ class Player {
 		// Return and send the packet to the player.
 		return void this.session.send(packet);
 	}
-}
 
+	public sendToast(title: string, message: string): void {
+		// Create a new toast packet.
+		const packet = new ToastRequest();
+		packet.Title = title;
+		packet.Message = message;
+
+		// Return and send the packet to the player.
+		return void this.session.send(packet);
+	}
+
+	public sendTitle(
+		title: string,
+		subtitle: string,
+		fadeInTime: number,
+		stayTime: number,
+		fadeOutTime: number,
+		type: TitleTypes = TitleTypes.SetTitle,
+	): void {
+		// Create a new SetTitle packet.
+		const packet = new SetTitle();
+		packet.type = type;
+		packet.text = title;
+		packet.fadeInTime = fadeInTime;
+		packet.stayTime = stayTime;
+		packet.fadeOutTime = fadeOutTime;
+		packet.xuid = this.xuid;
+		packet.platformOnlineId = '';
+
+		// Return and send the packet to the player.
+		return void this.session.send(packet);
+	}
+}
 export { Player };
