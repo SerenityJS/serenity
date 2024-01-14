@@ -87,6 +87,23 @@ class Player {
 		// Return and send the packet to the player.
 		return void this.session.send(packet);
 	}
+
+	public sendJukeboxPopup(message: string): void {
+		// Create a new text packet.
+		const packet = new Text();
+
+		// Then set the packet's data.
+		packet.type = ChatTypes.JukeboxPopup;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = message;
+		packet.parameters = [];
+		packet.xuid = this.xuid;
+		packet.platformChatId = '';
+
+		// Return and send the packet to the player.
+		return void this.session.send(packet);
+	}
 }
 
 export { Player };
