@@ -12,6 +12,7 @@ import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
 import { Abilities } from './abilities';
+import { Attributes } from './attributes';
 import { Skin } from './skin';
 
 /**
@@ -30,6 +31,7 @@ class Player {
 	public readonly uniqueId: bigint;
 	public readonly skin: Skin;
 	public readonly abilities: Abilities;
+	public readonly attributes: Attributes;
 
 	public position: Vec3f = { x: 0, y: 0, z: 0 };
 	public rotation: Vec2f = { x: 0, z: 0 };
@@ -55,6 +57,7 @@ class Player {
 		this.uniqueId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
 		this.abilities = new Abilities(this);
+		this.attributes = new Attributes(this);
 	}
 
 	/**

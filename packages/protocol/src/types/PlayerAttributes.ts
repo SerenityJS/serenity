@@ -1,6 +1,7 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
+import type { Attribute } from '../enums';
 
 interface PlayerAttribute {
 	current: number;
@@ -8,7 +9,7 @@ interface PlayerAttribute {
 	max: number;
 	min: number;
 	modifiers: AttributeModifier[];
-	name: string;
+	name: Attribute;
 }
 
 interface AttributeModifier {
@@ -36,7 +37,7 @@ class PlayerAttributes extends DataType {
 			const max = stream.readFloat32(Endianness.Little);
 			const current = stream.readFloat32(Endianness.Little);
 			const default_ = stream.readFloat32(Endianness.Little);
-			const name = stream.readVarString();
+			const name = stream.readVarString() as Attribute;
 
 			// Prepare an array to store the modifiers.
 			const modifiers: AttributeModifier[] = [];
