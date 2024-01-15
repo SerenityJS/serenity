@@ -1,4 +1,4 @@
-import { ChatTypes, Packet, Text } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Packet, Text, TitleTypes } from '@serenityjs/bedrock-protocol';
 import { NetworkStatus, Serenity } from '@serenityjs/serenity';
 
 const serenity = new Serenity({

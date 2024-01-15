@@ -1,4 +1,14 @@
-import { AbilityLayerFlag, ChatTypes, type Vec2f, type Vec3f, Text } from '@serenityjs/bedrock-protocol';
+import type { DataPacket, MoveMode, Vec2f, Vec3f } from '@serenityjs/bedrock-protocol';
+import {
+	AbilityLayerFlag,
+	ChatTypes,
+	Text,
+	ToastRequest,
+	SetTitle,
+	TitleTypes,
+	MovePlayer,
+} from '@serenityjs/bedrock-protocol';
+import { ZigZag } from '@serenityjs/binarystream';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
@@ -104,6 +114,62 @@ class Player {
 		// Return and send the packet to the player.
 		return void this.session.send(packet);
 	}
-}
 
+	public async broadcastMovement(mode: MoveMode, ...players: Player[]) {
+		// Check if length is 0
+		if (players.length === 0) {
+			return;
+		}
+
+		for (const player of players) {
+			const packet = new MovePlayer();
+			packet.runtimeId = player.runtimeId;
+			packet.position = player.position;
+			packet.pitch = player.rotation.x;
+			packet.yaw = player.rotation.z;
+			packet.headYaw = player.headYaw;
+			packet.mode = mode;
+			packet.onGround = player.onGround;
+			packet.riddenRuntimeId = 0n;
+			packet.tick = 0n;
+			await this.sendPacket(packet);
+		}
+	}
+
+	public async sendPacket(packet: DataPacket): Promise<void> {
+		return this.session.send(packet);
+	}
+
+	public sendToast(title: string, message: string): void {
+		// Create a new toast packet.
+		const packet = new ToastRequest();
+		packet.Title = title;
+		packet.Message = message;
+
+		// Return and send the packet to the player.
+		return void this.session.send(packet);
+	}
+
+	public sendTitle(
+		title: string,
+		subtitle: string,
+		fadeInTime: number,
+		stayTime: number,
+		fadeOutTime: number,
+		type: TitleTypes = TitleTypes.SetTitle,
+	): void {
+		// Create a new SetTitle packet.
+		const packet = new SetTitle();
+		packet.type = type;
+		packet.text = title;
+		packet.fadeInTime = fadeInTime;
+		packet.stayTime = stayTime;
+		packet.fadeOutTime = fadeOutTime;
+		packet.xuid = this.xuid;
+		packet.platformOnlineId = '';
+
+		// Return and send the packet to the player.
+		return void this.session.send(packet);
+	}
+}
 export { Player };

@@ -22,15 +22,16 @@ enum Packet {
 	// // Gap
 	// UpdateAttributes = 0x1d, // 29
 	// // Gap
-	// Interact = 0x21, // 33
+	Interact = 0x21, // 33
 	// // Gap
-	// PlayerAction = 0x24, // 36
+	PlayerAction = 0x24, // 36
 	// // Gap
 	// SetEntityData = 0x27, // 39
 	// // Gap
 	// SetSpawnPosition = 0x2b, // 43
 	// Respawn = 0x2d, // 45
-	// ContainerOpen = 0x2e, // 46
+	ContainerOpen = 0x2e, // 46
+	ContainerClose = 0x2f, // 47
 	// // Gap
 	// InventoryContent = 0x31, // 49
 	// // Gap
@@ -43,6 +44,8 @@ enum Packet {
 	// ChunkRadiusUpdate = 0x46, // 70
 	// Gap
 	CommandRequest = 0x4d, // 77
+	// Gap
+	SetTitle = 0x58, // 88
 	// // Gap
 	// ModalFormRequest = 0x64, // 100
 	// ModalFormResponse = 0x65, // 101
@@ -64,7 +67,7 @@ enum Packet {
 	// Gap
 	ScriptMessage = 0xb1, // 177
 	// // Gap
-	// ToastRequest = 0xba, // 186
+	ToastRequest = 0xba, // 186
 	UpdateAbilities = 0xbb, // 187
 	// UpdateAdventureSettings = 0xbc, // 188
 	// Gap

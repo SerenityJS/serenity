@@ -26,8 +26,14 @@ import type {
 	SetLocalPlayerAsInitialized,
 	Text,
 	CommandRequest,
+	ToastRequest,
+	Interact,
+	ContainerOpen,
+	ContainerClose,
+	PlayerAction,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
+import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
 import type { Serenity } from '../Serenity';
@@ -60,15 +66,21 @@ interface NetworkEvents {
 	[Packet.Text]: [NetworkPacketEvent<Text>];
 	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
+	[Packet.Interact]: [NetworkPacketEvent<Interact>];
+	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
+	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
+	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
+	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
 	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
 	[Packet.PacketViolationWarning]: [NetworkPacketEvent<PacketViolationWarning>];
 	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessage>];
+	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequest>];
 	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilities>];
 	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
 }

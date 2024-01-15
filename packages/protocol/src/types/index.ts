@@ -16,3 +16,4 @@ export * from './Records';
 export * from './AbilityLayers';
 export * from './TextSource';
 export * from './TextParameters';
+export * from './InteractPosition';
