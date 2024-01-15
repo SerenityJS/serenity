@@ -256,6 +256,20 @@ class Network extends EventEmitter<NetworkEvents> {
 			this.logger.error(error);
 		}
 	}
+
+	/**
+	 * Broadcasts a packet to all players.
+	 *
+	 * @param packets The packets to broadcast.
+	 * @returns A promise that resolves when the packets have been broadcasted.
+	 */
+	public async broadcast(...packets: DataPacket[]): Promise<void> {
+		// Loop through each session.
+		for (const session of this.sessions.values()) {
+			// Send the packet to the session.
+			await this.send(session, ...packets);
+		}
+	}
 }
 
 export { Network };
