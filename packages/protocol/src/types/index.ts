@@ -19,3 +19,4 @@ export * from './TextParameters';
 export * from './InteractPosition';
 export * from './ItemLegacy';
 export * from './CreativeContent';
+export * from './PlayerAttributes';

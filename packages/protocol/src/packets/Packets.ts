@@ -27,6 +27,7 @@ import { StartGame } from './StartGame';
 import { Text } from './Text';
 import { ToastRequest } from './ToastRequest';
 import { UpdateAbilities } from './UpdateAbilities';
+import { UpdateAttributes } from './UpdateAttributes';
 
 const Packets = {
 	[Packet.Login]: Login, // 1
@@ -41,6 +42,8 @@ const Packets = {
 	[Packet.StartGame]: StartGame, // 11
 	// Gap
 	[Packet.MovePlayer]: MovePlayer, // 19
+	// Gap
+	[Packet.UpdateAttributes]: UpdateAttributes, // 29
 	// Gap
 	[Packet.Interact]: Interact, // 33
 	// Gap

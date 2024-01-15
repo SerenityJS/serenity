@@ -335,7 +335,168 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				session.getPlayerInstance()!.abilities.setDefaults();
 
 				const content = new CreativeContent();
-				content.items = [];
+				content.items = [
+					{
+						entryId: 1,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 934_006_095,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 2,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_722_777_465,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 3,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_990_300_350,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 4,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: -1_108_868_186,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 5,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_984_705_437,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 6,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_501_952_743,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 7,
+						item: {
+							networkId: -486,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 647_292_747,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 8,
+						item: {
+							networkId: -537,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_754_553_875,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 9,
+						item: {
+							networkId: -510,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: -1_843_072_030,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 10,
+						item: {
+							networkId: -509,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 832_568_857,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								nbt: [],
+								ticking: null,
+							},
+						},
+					},
+				];
 
 				await session.send(content);
 

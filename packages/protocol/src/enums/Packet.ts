@@ -20,7 +20,7 @@ enum Packet {
 	// // Gap
 	// TickSync = 0x17, // 23
 	// // Gap
-	// UpdateAttributes = 0x1d, // 29
+	UpdateAttributes = 0x1d, // 29
 	// // Gap
 	Interact = 0x21, // 33
 	// // Gap

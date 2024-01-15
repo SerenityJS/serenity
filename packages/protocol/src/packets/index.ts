@@ -11,6 +11,7 @@ export * from './ResourcePackClientResponse';
 export * from './Text';
 export * from './StartGame';
 export * from './MovePlayer';
+export * from './UpdateAttributes';
 export * from './Interact';
 export * from './PlayerAction';
 export * from './ContainerOpen';
