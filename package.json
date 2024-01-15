@@ -2,7 +2,7 @@
 	"private": true,
 	"name": "@serenityjs/serenity",
 	"repository": "https://github.com/SerenityJS/serenity.git",
-	"license": "MIT",
+	"license": "./LICENSE",
 	"workspaces": [
 		"packages/protocol",
 		"packages/serenity",

@@ -3,7 +3,7 @@
 	"name": "@serenityjs/testing",
 	"version": "1.0.0",
 	"main": "dist/index.js",
-	"license": "MIT",
+	"license": "../../LICENSE",
 	"scripts": {
 		"build": "tsc",
 		"dev": "nodemon --config nodemon.json src/index.ts",

@@ -8,7 +8,6 @@ import {
 	TitleTypes,
 	MovePlayer,
 } from '@serenityjs/bedrock-protocol';
-import { ZigZag } from '@serenityjs/binarystream';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
