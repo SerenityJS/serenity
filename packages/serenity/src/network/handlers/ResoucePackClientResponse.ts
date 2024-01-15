@@ -335,7 +335,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				session.getPlayerInstance()!.abilities.setDefaults();
 
 				const content = new CreativeContent();
-				content.items = 0;
+				content.items = [];
 
 				await session.send(content);
 

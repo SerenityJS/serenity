@@ -17,3 +17,5 @@ export * from './AbilityLayers';
 export * from './TextSource';
 export * from './TextParameters';
 export * from './InteractPosition';
+export * from './ItemLegacy';
+export * from './CreativeContent';

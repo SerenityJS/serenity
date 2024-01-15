@@ -1,5 +1,5 @@
-import { Disconnect, Text } from '@serenityjs/bedrock-protocol';
-import type { ChatTypes, DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { Disconnect } from '@serenityjs/bedrock-protocol';
+import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';

@@ -13,20 +13,9 @@ serenity.on('PlayerJoined', (player) => {
 });
 
 serenity.on('PlayerSpawned', (player) => {
-	player.setMayFly(true);
+	//
 });
 
 serenity.after('PlayerLeft', (player) => {
 	// Do something when a player leaves.
-});
-
-serenity.network.before(Packet.StartGame, (event) => {
-	const { packet } = event;
-
-	packet.playerPosition = { x: 0, y: -64, z: 0 };
-	return true;
-});
-
-serenity.network.on(Packet.Text, ({ packet }) => {
-	console.log(packet);
 });

@@ -18,8 +18,6 @@ class InteractHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		console.log(packet);
-
 		if (packet.ActionId === InteractActions.OpenInventory) {
 			const openPacket = new ContainerOpen();
 			openPacket.WindowId = WindowsIds.Inventory;
