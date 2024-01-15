@@ -12,16 +12,16 @@ class TextHandler extends NetworkHandler {
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
 		// Send the message to the player.
-		const textPacket = new Text();
-		textPacket.type = packet.type;
-		textPacket.needsTranslation = packet.needsTranslation;
-		textPacket.source = packet.source;
-		textPacket.message = packet.message;
-		textPacket.parameters = packet.parameters;
-		textPacket.xuid = packet.xuid;
-		textPacket.platformChatId = packet.platformChatId;
+		const text = new Text();
+		text.type = packet.type;
+		text.needsTranslation = packet.needsTranslation;
+		text.source = packet.source;
+		text.message = packet.message;
+		text.parameters = packet.parameters;
+		text.xuid = packet.xuid;
+		text.platformChatId = packet.platformChatId;
 
-		await session.send(textPacket);
+		await this.serenity.network.broadcast(text);
 	}
 }
 

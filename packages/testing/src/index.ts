@@ -2,7 +2,7 @@ import { ChatTypes, Packet, Text, TitleTypes } from '@serenityjs/bedrock-protoco
 import { NetworkStatus, Serenity } from '@serenityjs/serenity';
 
 const serenity = new Serenity({
-	address: '127.0.0.1',
+	address: '0.0.0.0',
 	debug: true,
 });
 
@@ -27,11 +27,6 @@ serenity.network.before(Packet.StartGame, (event) => {
 	return true;
 });
 
-serenity.network.on(Packet.Text, (event) => {
-	if (event.status !== NetworkStatus.Incoming) return;
-
-	const { packet, session } = event;
-	const player = session.getPlayerInstance()!;
-
-	player.sendMessage(`Hello world!`);
+serenity.network.on(Packet.Text, ({ packet }) => {
+	console.log(packet);
 });

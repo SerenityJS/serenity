@@ -19,6 +19,6 @@
 	},
 	"dependencies": {
 		"@serenityjs/binarystream": "^1.2.3",
-		"@serenityjs/raknet-protocol": "^1.0.4"
+		"@serenityjs/raknet-protocol": "^1.0.5"
 	}
 }
