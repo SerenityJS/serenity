@@ -1,7 +1,6 @@
 import { Buffer } from 'node:buffer';
 import {
 	ResourceStatus,
-	type ResourcePackClientResponse,
 	ResourcePackStack,
 	StartGame,
 	Gamemode,
@@ -9,14 +8,59 @@ import {
 	PermissionLevel,
 	CreativeContent,
 	BiomeDefinitionList,
-	LevelChunk,
 	PlayStatus,
 	PlayerStatus,
+	NetworkChunkPublisherUpdate,
+} from '@serenityjs/bedrock-protocol';
+import type {
+	ChunkCoord,
+	ResourcePackClientResponse,
+	LevelChunk,
 	PlayerList,
 	RecordAction,
 } from '@serenityjs/bedrock-protocol';
+import { ChunkColumn } from '../../world';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
+
+const superflatLayers = [
+	// Supposedly bedrock
+	{
+		id: 7,
+		size: 1,
+	},
+	// Supposedly dirt
+	{
+		id: 3,
+		size: 2,
+	},
+	// Supposedly grass
+	{
+		id: 2,
+		size: 1,
+	},
+];
+
+// Chunks don't use absolute starting coordinates but relative ones from the spawn chunk
+// EG: spawn chunk would be (0, 0) then the chunk to the right would be (1, 0)
+function generateFlatChunk(relX: number, relZ: number): ChunkColumn {
+	const chunk = new ChunkColumn(relX, relZ);
+
+	const yLayers = superflatLayers.flatMap((layer) => {
+		return Array.from({ length: layer.size }).fill(layer.id) as number[];
+	});
+
+	// TODO: Blocks that are not defined in the chunk need to be set as air.
+	for (let x = 0; x < 16; x++) {
+		for (let z = 0; z < 16; z++) {
+			for (const [y, block] of yLayers.entries()) {
+				chunk.setBlock(0, x, y, z, block);
+			}
+		}
+	}
+
+	return chunk;
+}
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
 	public static override async handle(packet: ResourcePackClientResponse, session: NetworkSession): Promise<void> {
@@ -505,17 +549,36 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				await session.send(biome);
 
-				for (let x = 0; x < 16; x++) {
-					for (let z = 0; z < 16; z++) {
-						const chunk = new LevelChunk();
-						chunk.x = x;
-						chunk.z = z;
-						chunk.subChunkCount = 0;
-						chunk.cacheEnabled = false;
-						chunk.data = Buffer.alloc(16 * 256 * 16).fill(0);
+				const minX = 0 - 4;
+				const maxX = 0 + 4;
+				const minZ = 0 - 4;
+				const maxZ = 0 + 4;
 
-						await session.send(chunk);
+				const sendQueue: ChunkColumn[] = [];
+				for (let chunkX = minX; chunkX <= maxX; ++chunkX) {
+					for (let chunkZ = minZ; chunkZ <= maxZ; ++chunkZ) {
+						// TODO: vanilla does not send all of them, but in a range
+						// for example it does send them from x => [-3; 3] and z => [-3; 2]
+						sendQueue.push(generateFlatChunk(chunkX, chunkZ));
 					}
+				}
+
+				// Map chunks into the publisher update
+				const savedChunks: ChunkCoord[] = sendQueue.map((chunk) => {
+					return { x: chunk.x, z: chunk.z };
+				});
+
+				const radMul = 4;
+
+				const update = new NetworkChunkPublisherUpdate();
+				update.coordinate = { x: 0, y: 0, z: 0 };
+				update.radius = radMul << 4;
+				update.savedChunks = savedChunks;
+
+				await session.send(update);
+
+				for (const chunk of sendQueue) {
+					await session.sendChunk(chunk);
 				}
 
 				const status = new PlayStatus();

@@ -1,8 +1,9 @@
-import { Disconnect } from '@serenityjs/bedrock-protocol';
+import { Disconnect, LevelChunk } from '@serenityjs/bedrock-protocol';
 import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
+import type { ChunkColumn } from '../world';
 import type { Network } from './Network';
 
 let runtimeId = 0n;
@@ -71,6 +72,23 @@ class NetworkSession {
 
 		// Return the player.
 		return player;
+	}
+
+	public async sendChunk(chunk: ChunkColumn): Promise<void> {
+		const ser = chunk.serialize();
+
+		console.log(Array.from(ser));
+
+		const packet = new LevelChunk();
+		packet.x = chunk.x;
+		packet.z = chunk.z;
+		packet.subChunkCount = chunk.getSubChunkSendCount();
+		packet.cacheEnabled = false;
+		packet.data = ser;
+
+		// TODO: add to loaded chunks via hash
+
+		await this.send(packet);
 	}
 }
 

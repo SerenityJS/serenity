@@ -11,6 +11,7 @@ import { Interact } from './Interact';
 import { LevelChunk } from './LevelChunk';
 import { Login } from './Login';
 import { MovePlayer } from './MovePlayer';
+import { NetworkChunkPublisherUpdate } from './NetworkChunkPublisherUpdate';
 import { NetworkSettings } from './NetworkSettings';
 import { PacketViolationWarning } from './PacketViolationWarning';
 import { PlayStatus } from './PlayStatus';
@@ -62,6 +63,7 @@ const Packets = {
 	// Gap
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113
 	// Gap
+	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdate, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionList, // 122
 	// Gap
 	[Packet.NetworkSettings]: NetworkSettings, // 143

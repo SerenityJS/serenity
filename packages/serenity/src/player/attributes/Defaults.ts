@@ -80,7 +80,7 @@ export const DEFAULT_ATTRIBUTES = [
 		min: 0,
 		max: 24_791,
 		default: 0,
-		current: 0,
+		current: 744,
 		modifiers: [],
 	},
 	{

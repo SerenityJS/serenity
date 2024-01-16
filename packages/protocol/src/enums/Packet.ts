@@ -52,7 +52,7 @@ enum Packet {
 	// // Gap
 	SetLocalPlayerAsInitialized = 0x71, // 113
 	// // Gap
-	// NetworkChunkPublisherUpdate = 0x79, // 121
+	NetworkChunkPublisherUpdate = 0x79, // 121
 	BiomeDefinitionList = 0x7a, // 122
 	// // Gap
 	// ClientCacheStatus = 0x81, // 129

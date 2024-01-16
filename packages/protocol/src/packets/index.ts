@@ -21,6 +21,7 @@ export * from './PlayerList';
 export * from './CommandRequest';
 export * from './SetTitle';
 export * from './SetLocalPlayerAsInitialized';
+export * from './NetworkChunkPublisherUpdate';
 export * from './BiomeDefinitionList';
 export * from './NetworkSettings';
 export * from './CreativeContent';

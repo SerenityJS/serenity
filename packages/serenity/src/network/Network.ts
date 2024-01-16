@@ -32,6 +32,7 @@ import type {
 	ContainerClose,
 	PlayerAction,
 	UpdateAttributes,
+	NetworkChunkPublisherUpdate,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -77,6 +78,7 @@ interface NetworkEvents {
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
 	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
+	[Packet.NetworkChunkPublisherUpdate]: [NetworkPacketEvent<NetworkChunkPublisherUpdate>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
