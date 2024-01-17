@@ -23,6 +23,7 @@ enum Packet {
 	UpdateAttributes = 0x1d, // 29
 	// // Gap
 	Interact = 0x21, // 33
+	BlockPickRequest = 0x22, // 34
 	// // Gap
 	PlayerAction = 0x24, // 36
 	// // Gap

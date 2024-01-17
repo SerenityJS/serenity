@@ -13,6 +13,7 @@ export * from './StartGame';
 export * from './MovePlayer';
 export * from './UpdateAttributes';
 export * from './Interact';
+export * from './BlockPickRequest';
 export * from './PlayerAction';
 export * from './ContainerOpen';
 export * from './ContainerClose';

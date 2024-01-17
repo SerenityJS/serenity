@@ -3,6 +3,7 @@
 import { Disconnect } from '@serenityjs/raknet-protocol';
 import { Packet } from '../enums';
 import { BiomeDefinitionList } from './BiomeDefinitionList';
+import { BlockPickRequest } from './BlockPickRequest';
 import { CommandRequest } from './CommandRequest';
 import { ContainerClose } from './ContainerClose';
 import { ContainerOpen } from './ContainerOpen';
@@ -47,6 +48,7 @@ const Packets = {
 	[Packet.UpdateAttributes]: UpdateAttributes, // 29
 	// Gap
 	[Packet.Interact]: Interact, // 33
+	[Packet.BlockPickRequest]: BlockPickRequest, // 34
 	// Gap
 	[Packet.PlayerAction]: PlayerAction, // 36
 	// Gap

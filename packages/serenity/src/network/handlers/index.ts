@@ -1,3 +1,4 @@
+import { BlockPickRequestHandler } from './BlockPickRequest';
 import { ContainerCloseHandler } from './ContainerCloseHandler';
 import { InteractHandler } from './Interact';
 import { LoginHandler } from './Login';
@@ -20,6 +21,7 @@ const NETWORK_HANDLERS = [
 	InteractHandler,
 	ContainerCloseHandler,
 	PlayerActionHandler,
+	BlockPickRequestHandler,
 ];
 
 export { NETWORK_HANDLERS };

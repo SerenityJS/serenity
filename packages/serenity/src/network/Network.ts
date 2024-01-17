@@ -33,6 +33,7 @@ import type {
 	PlayerAction,
 	UpdateAttributes,
 	NetworkChunkPublisherUpdate,
+	BlockPickRequest,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -70,6 +71,7 @@ interface NetworkEvents {
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
 	[Packet.Interact]: [NetworkPacketEvent<Interact>];
+	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
