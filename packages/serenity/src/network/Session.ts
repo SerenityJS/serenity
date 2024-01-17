@@ -1,5 +1,8 @@
-import { Disconnect, LevelChunk } from '@serenityjs/bedrock-protocol';
+import type { Buffer } from 'node:buffer';
+import { writeFileSync } from 'node:fs';
+import { Disconnect, LevelChunk, NetworkChunkPublisherUpdate } from '@serenityjs/bedrock-protocol';
 import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
@@ -75,16 +78,12 @@ class NetworkSession {
 	}
 
 	public async sendChunk(chunk: ChunkColumn): Promise<void> {
-		const ser = chunk.serialize();
-
-		console.log(Array.from(ser));
-
 		const packet = new LevelChunk();
 		packet.x = chunk.x;
 		packet.z = chunk.z;
-		packet.subChunkCount = chunk.getSubChunkSendCount();
+		packet.subChunkCount = 1;
 		packet.cacheEnabled = false;
-		packet.data = ser;
+		packet.data = chunk.serialize();
 
 		// TODO: add to loaded chunks via hash
 

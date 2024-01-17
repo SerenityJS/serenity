@@ -2,6 +2,10 @@ import type { Buffer } from 'node:buffer';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { SubChunk } from './SubChunk';
 
+// Note: This is a temporary implementation of the chunk column class.
+// I do not believe this is the best way to implement this, but it works for now.
+// I'm not smart enough to figure out how to implement this properly at the moment lol.
+
 class ChunkColumn {
 	public readonly x: number;
 	public readonly z: number;
@@ -25,9 +29,14 @@ class ChunkColumn {
 		return this.subchunks[index];
 	}
 
-	public setBlock(layer: number, x: number, y: number, z: number, id: number): void {
+	public setBlock(x: number, y: number, z: number, id: number): void {
 		const subChunk = this.getSubChunk(y >> 4);
-		subChunk.setBlock(layer, x, y & 0xf, z, id);
+		subChunk.setBlock(x, y & 0xf, z, id);
+	}
+
+	public getBlock(x: number, y: number, z: number): number {
+		const subChunk = this.getSubChunk(y >> 4);
+		return subChunk.getBlock(x, y & 0xf, z);
 	}
 
 	public getSubChunkSendCount(): number {
@@ -39,8 +48,6 @@ class ChunkColumn {
 				break;
 			}
 		}
-
-		console.log(16 - topEmpty);
 
 		return 16 - topEmpty;
 	}

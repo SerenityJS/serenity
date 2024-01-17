@@ -2,7 +2,7 @@
 	"name": "@serenityjs/bedrock-protocol",
 	"version": "1.0.0",
 	"main": "index.js",
-	"license": "../../LICENSE",
+	"license": "MIT",
 	"scripts": {
 		"build": "tsc",
 		"format": "prettier --write \"src/**/*.ts\"",

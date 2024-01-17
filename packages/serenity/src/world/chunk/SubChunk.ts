@@ -1,16 +1,23 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
-import { BlockStorage } from './BlockStorage';
+
+// NOTE: This is a temporary implementation of the subchunk class.
+// I do not believe this is the best way to implement this, but it works for now.
+// I'm not smart enough to figure out how to implement this properly at the moment lol.
 
 class SubChunk {
-	public readonly storages: BlockStorage[];
+	public readonly blocks: number[];
 
-	public constructor(storages?: BlockStorage[]) {
-		this.storages = storages ?? [];
+	public constructor(blocks?: number[]) {
+		this.blocks = blocks ?? Array.from({ length: 4_096 }, () => 0);
+	}
+
+	public static getIndexOf(bx: number, by: number, bz: number): number {
+		return (bx << 8) | (bz << 4) | by;
 	}
 
 	public isEmpty(): boolean {
-		for (const storage of this.storages) {
-			if (!storage.isEmpty()) {
+		for (const block of this.blocks) {
+			if (block !== 0) {
 				return false;
 			}
 		}
@@ -18,25 +25,20 @@ class SubChunk {
 		return true;
 	}
 
-	public getStorage(layer: number): BlockStorage {
-		if (this.storages[layer] === undefined) {
-			this.storages[layer] = new BlockStorage();
-		}
+	public setBlock(bx: number, by: number, bz: number, id: number): number {
+		const index = SubChunk.getIndexOf(bx, by, bz);
+		this.blocks[index] = id;
 
-		return this.storages[layer];
+		return index;
 	}
 
-	public setBlock(layer: number, x: number, y: number, z: number, id: number): void {
-		const storage = this.getStorage(layer);
-		storage.setBlock(x, y, z, id);
+	public getBlock(bx: number, by: number, bz: number): number {
+		const index = SubChunk.getIndexOf(bx, by, bz);
+		return this.blocks[index];
 	}
 
 	public serialize(stream: BinaryStream): void {
-		stream.writeUint8(8);
-		stream.writeUint8(this.storages.length);
-		for (const storage of this.storages) {
-			storage.serialize(stream);
-		}
+		stream.write(this.blocks);
 	}
 }
 

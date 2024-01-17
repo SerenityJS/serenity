@@ -24,6 +24,11 @@ import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 const superflatLayers = [
+	// Supposedly grass
+	{
+		id: 2,
+		size: 1,
+	},
 	// Supposedly bedrock
 	{
 		id: 7,
@@ -32,12 +37,7 @@ const superflatLayers = [
 	// Supposedly dirt
 	{
 		id: 3,
-		size: 2,
-	},
-	// Supposedly grass
-	{
-		id: 2,
-		size: 1,
+		size: 14,
 	},
 ];
 
@@ -51,10 +51,10 @@ function generateFlatChunk(relX: number, relZ: number): ChunkColumn {
 	});
 
 	// TODO: Blocks that are not defined in the chunk need to be set as air.
-	for (let x = 0; x < 16; x++) {
-		for (let z = 0; z < 16; z++) {
+	for (let x = 0; x <= 16; x++) {
+		for (let z = 0; z <= 16; z++) {
 			for (const [y, block] of yLayers.entries()) {
-				chunk.setBlock(0, x, y, z, block);
+				chunk.setBlock(x, y, z, block);
 			}
 		}
 	}
@@ -99,7 +99,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.entityId = session.uniqueId;
 				start.runtimeEntityId = session.runtimeId;
 				start.playerGamemode = Gamemode.Creative;
-				start.playerPosition = { x: 0, y: 0, z: 0 };
+				start.playerPosition = { x: 0, y: -46, z: 0 };
 				start.rotation = { x: 0, z: 0 };
 				start.seed = 0n;
 				start.biomeType = 0;
@@ -108,7 +108,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.generator = 1;
 				start.worldGamemode = Gamemode.Creative;
 				start.difficulty = Difficulty.Normal;
-				start.spawnPosition = { x: 0, y: 0, z: 0 };
+				start.spawnPosition = { x: 0, y: -46, z: 0 };
 				start.achievementsDisabled = false;
 				start.editorWorldType = 0;
 				start.createdInEdior = false;
@@ -371,7 +371,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.blockPaletteChecksum = 0n;
 				start.worldTemplateId = '00000000000000000000000000000000';
 				start.clientSideGeneration = true;
-				start.blockNetworkIdsAreHashes = false; // Important
+				start.blockNetworkIdsAreHashes = true; // Important
 				start.serverControlledSounds = false;
 
 				await session.send(start);
