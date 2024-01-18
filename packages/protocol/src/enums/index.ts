@@ -23,3 +23,4 @@ export * from './ActionIds';
 export * from './Attribute';
 export * from './MetadataKeys';
 export * from './MetadataType';
+export * from './MetadataFlags';

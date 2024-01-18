@@ -1,7 +1,11 @@
 import {
 	DisconnectReason,
+	MetadataFlags,
+	MetadataKey,
+	MetadataType,
 	PlayerList,
 	RecordAction,
+	SetEntityData,
 	type SetLocalPlayerAsInitialized,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
@@ -40,6 +44,24 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		await session.send(list);
 
 		player.world.sendMessage(`§e${player.username} joined the server.`);
+
+		const data = new SetEntityData<any>();
+		data.runtimeEntityId = player.runtimeId;
+		data.metadata = [
+			{
+				key: MetadataKey.Flags,
+				type: MetadataType.Long,
+				value: BigInt(0),
+				flag: MetadataFlags.AffectedByGravity,
+			},
+		];
+		data.properties = {
+			ints: [],
+			floats: [],
+		};
+		data.tick = BigInt(0);
+
+		await session.send(data);
 	}
 }
 
