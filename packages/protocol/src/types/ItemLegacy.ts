@@ -1,5 +1,6 @@
 import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
+import { NBTTagData, type NBTData } from './NBTTags';
 
 interface ItemStackLegacy {
 	blockRuntimeId?: number;
@@ -13,7 +14,7 @@ interface ItemStackLegacyExtras {
 	canDestroy: string[];
 	canPlaceOn: string[];
 	hasNbt: boolean;
-	nbt: number[]; // TODO: implement this
+	nbt?: NBTData<any>;
 	ticking?: bigint | null;
 }
 
@@ -34,9 +35,10 @@ class ItemLegacy extends DataType {
 		// Extra data.
 		const extras = stream.readVarInt();
 		const hasNbt = stream.readUint16(Endianness.Little) === 0xffff;
-		let nbt: number[] = [];
+		let nbt: NBTData<any> | undefined;
 		if (hasNbt) {
-			nbt = stream.read(extras - 10);
+			const n = stream.readByte(); // unknown prefix 0x01 is used, when zero maybe its empty NBT data
+			if(n) nbt = NBTTagData.read(stream, null);
 		}
 
 		const canPlaceStrings: string[] = [];
@@ -91,7 +93,11 @@ class ItemLegacy extends DataType {
 		const extras = new BinaryStream();
 		const hasNbt = value.extras!.hasNbt ? 0xffff : 0x0000;
 		extras.writeUint16(hasNbt, Endianness.Little);
-		if (value.extras!.hasNbt) extras.write(value.extras!.nbt!);
+		if (value.extras!.hasNbt) {
+			extras.writeByte(0x01);
+			NBTTagData.write(extras, value.extras!.nbt!);
+			// extras.write(value.extras!.nbt!);
+		}
 
 		// CanPlaceOn data
 		extras.writeInt32(value.extras!.canPlaceOn.length, Endianness.Little);
