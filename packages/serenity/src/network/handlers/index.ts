@@ -7,6 +7,7 @@ import { PacketViolationWarningHandler } from './PacketViolationWarning';
 import { PlayerActionHandler } from './PlayerActionHandler';
 import { RequestNetworkSettingsHandler } from './RequestNetworkSettings';
 import { ResourcePackClientResponseHandler } from './ResoucePackClientResponse';
+import { SetLocalPlayerAsInitializedHandler } from './SetLocalPlayerAsInitialized';
 import { TextHandler } from './Text';
 
 export * from './NetworkHandler';
@@ -22,6 +23,7 @@ const NETWORK_HANDLERS = [
 	ContainerCloseHandler,
 	PlayerActionHandler,
 	BlockPickRequestHandler,
+	SetLocalPlayerAsInitializedHandler,
 ];
 
 export { NETWORK_HANDLERS };

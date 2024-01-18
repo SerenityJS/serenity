@@ -1,4 +1,4 @@
-import type { DataPacket } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, PlayerList, RecordAction, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
@@ -28,7 +28,7 @@ class World {
 		// Loop through each player.
 		for (const player of this.players.values()) {
 			// Send the packet to that player.
-			await this.serenity.network.send(player.session, ...packets);
+			await player.session.send(...packets);
 		}
 	}
 
@@ -84,6 +84,23 @@ class World {
 
 		// Return the chunk's setBlock index.
 		return chunk.getBlock(x & 0xf, y & 0xf, z & 0xf);
+	}
+
+	public sendMessage(message: string): void {
+		// Create a new text packet.
+		const packet = new Text();
+
+		// Assign the message to the packet.
+		packet.type = ChatTypes.Raw;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = message;
+		packet.parameters = null;
+		packet.xuid = '';
+		packet.platformChatId = '';
+
+		// Send the packet to all players.
+		void this.broadcast(packet);
 	}
 }
 

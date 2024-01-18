@@ -25,7 +25,6 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
 	public readonly players: Map<string, Player>;
-
 	public readonly world: World; // This is temporary.
 
 	public constructor(options: SerenityOptions) {
@@ -40,8 +39,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		this.events = new Map();
 		this.network = new Network(this);
 		this.players = new Map();
-
-		this.world = new World(this); // This is temporary.
+		this.world = new World(this); // This is the default world.
 
 		if (Logger.DEBUG) this.logger.info('Software is running in debug mode. Debug messages will now be shown.');
 

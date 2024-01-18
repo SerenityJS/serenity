@@ -6,7 +6,7 @@ import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
-import type { ChunkColumn } from '../world';
+import { ChunkColumn } from '../world';
 import type { Network } from './Network';
 
 let runtimeId = 0n;
@@ -19,6 +19,7 @@ class NetworkSession {
 	public readonly identifier: NetworkIdentifier;
 	public readonly runtimeId: bigint;
 	public readonly uniqueId: bigint;
+	public readonly chunks: Map<bigint, ChunkColumn>;
 
 	public encryption: boolean = false;
 	public compression: boolean = false;
@@ -38,6 +39,7 @@ class NetworkSession {
 		this.identifier = connection.identifier;
 		this.runtimeId = runtimeId++;
 		this.uniqueId = BigInt.asUintN(64, this.guid ^ this.runtimeId);
+		this.chunks = new Map();
 	}
 
 	/**
@@ -81,11 +83,12 @@ class NetworkSession {
 		const packet = new LevelChunk();
 		packet.x = chunk.x;
 		packet.z = chunk.z;
-		packet.subChunkCount = 1;
+		packet.subChunkCount = chunk.getSubChunkSendCount();
 		packet.cacheEnabled = false;
 		packet.data = chunk.serialize();
 
-		// TODO: add to loaded chunks via hash
+		const hash = ChunkColumn.getHash(chunk.x, chunk.z);
+		this.chunks.set(hash, chunk);
 
 		await this.send(packet);
 	}

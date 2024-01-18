@@ -11,6 +11,7 @@ import {
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
+import type { World } from '../world';
 import { Abilities } from './abilities';
 import { Attributes } from './attributes';
 import { Skin } from './skin';
@@ -33,6 +34,7 @@ class Player {
 	public readonly abilities: Abilities;
 	public readonly attributes: Attributes;
 
+	public world: World;
 	public position: Vec3f = { x: 0, y: 0, z: 0 };
 	public rotation: Vec2f = { x: 0, z: 0 };
 	public headYaw: number = 0;
@@ -44,7 +46,7 @@ class Player {
 	 * @param session The network session.
 	 * @param tokens The login tokens.
 	 */
-	public constructor(session: NetworkSession, tokens: LoginTokenData) {
+	public constructor(session: NetworkSession, tokens: LoginTokenData, world?: World) {
 		this.serenity = session.serenity;
 		this.network = session.network;
 		this.session = session;
@@ -56,6 +58,7 @@ class Player {
 		this.runtimeId = session.runtimeId;
 		this.uniqueId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
+		this.world = world ?? this.serenity.world;
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 	}
