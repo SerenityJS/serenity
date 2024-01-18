@@ -11,6 +11,12 @@ import {
 	PlayStatus,
 	PlayerStatus,
 	NetworkChunkPublisherUpdate,
+	NBTValue,
+	CompoudValue,
+	TypedArrayValue,
+	NBTTag,
+	Int16Value,
+	StringValue,
 } from '@serenityjs/bedrock-protocol';
 import type {
 	ChunkCoord,
@@ -367,15 +373,31 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 					{
 						entryId: 1,
 						item: {
-							networkId: 5,
+							networkId: 357,
 							count: 1,
 							metadata: 0,
-							blockRuntimeId: 934_006_095,
+							blockRuntimeId: 0,
 							extras: {
 								canDestroy: [],
 								canPlaceOn: [],
-								hasNbt: false,
-								nbt: [],
+								hasNbt: true,
+								nbt: new CompoudValue({
+									display: new CompoudValue({
+										Name: new StringValue("Some Custom Display Name"),
+										Lore: new TypedArrayValue([new StringValue("Custom Lore")], NBTTag.String)
+									}),
+									Trim: new CompoudValue({
+										Material: new StringValue("netherite"),
+										Pattern: new StringValue("vex")
+									}),
+									ench: new TypedArrayValue([
+										new CompoudValue({id: new Int16Value(5), lvl: new Int16Value(10)}),
+										new CompoudValue({id: new Int16Value(6), lvl: new Int16Value(10)}),
+										new CompoudValue({id: new Int16Value(8), lvl: new Int16Value(20)}),
+										new CompoudValue({id: new Int16Value(10), lvl: new Int16Value(1_000)}),
+										new CompoudValue({id: new Int16Value(30), lvl: new Int16Value(-5)})
+									], NBTTag.Compoud)
+								}),
 								ticking: null,
 							},
 						},
@@ -391,7 +413,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -407,7 +428,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -423,7 +443,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -439,7 +458,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -455,7 +473,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -471,7 +488,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -487,7 +503,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -503,7 +518,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
@@ -519,7 +533,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: false,
-								nbt: [],
 								ticking: null,
 							},
 						},
