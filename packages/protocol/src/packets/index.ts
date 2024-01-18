@@ -10,6 +10,7 @@ export * from './ResourcePackStack';
 export * from './ResourcePackClientResponse';
 export * from './Text';
 export * from './StartGame';
+export * from './AddPlayer';
 export * from './MovePlayer';
 export * from './UpdateAttributes';
 export * from './Interact';
