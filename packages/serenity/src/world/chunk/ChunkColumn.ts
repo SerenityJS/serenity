@@ -1,4 +1,5 @@
 import type { Buffer } from 'node:buffer';
+import type { Vec2f } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { SubChunk } from './SubChunk';
 
@@ -7,18 +8,31 @@ import { SubChunk } from './SubChunk';
 // I'm not smart enough to figure out how to implement this properly at the moment lol.
 
 class ChunkColumn {
+	public readonly hash: bigint;
 	public readonly x: number;
 	public readonly z: number;
 	public readonly subchunks: SubChunk[];
 
 	public constructor(x: number, z: number, subchunks?: SubChunk[]) {
+		this.hash = ChunkColumn.getHash(x, z);
 		this.x = x;
 		this.z = z;
 		this.subchunks = subchunks ?? Array.from({ length: 16 }, () => new SubChunk());
 	}
 
+	public static getHash(x: number, z: number): bigint {
+		return ((BigInt(x) & 0xffffffffn) << 32n) | (BigInt(z) & 0xffffffffn);
+	}
+
+	public static fromHash(hash: bigint): Vec2f {
+		return {
+			x: Number(hash >> 32n),
+			z: Number(hash & 0xffffffffn),
+		};
+	}
+
 	public getSubChunk(index: number): SubChunk {
-		if (index < 0 || index > 16) {
+		if (index < 0 || index > 24) {
 			throw new Error(`Invalid subchunk height: ${index}`);
 		}
 
@@ -29,14 +43,16 @@ class ChunkColumn {
 		return this.subchunks[index];
 	}
 
-	public setBlock(x: number, y: number, z: number, id: number): void {
+	public setBlock(x: number, y: number, z: number, id: number): number {
 		const subChunk = this.getSubChunk(y >> 4);
-		subChunk.setBlock(x, y & 0xf, z, id);
+
+		return subChunk.setBlock(x, y, z, id);
 	}
 
 	public getBlock(x: number, y: number, z: number): number {
 		const subChunk = this.getSubChunk(y >> 4);
-		return subChunk.getBlock(x, y & 0xf, z);
+
+		return subChunk.getBlock(x, y, z);
 	}
 
 	public getSubChunkSendCount(): number {

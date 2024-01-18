@@ -5,9 +5,9 @@ import { Packet as PacketId } from '../enums';
 
 @Packet(PacketId.BlockPickRequest)
 class BlockPickRequest extends DataPacket {
-	@Serialize(ZigZag) public x!: string;
-	@Serialize(ZigZag) public y!: string;
-	@Serialize(ZigZag) public z!: string;
+	@Serialize(ZigZag) public x!: number;
+	@Serialize(ZigZag) public y!: number;
+	@Serialize(ZigZag) public z!: number;
 	@Serialize(Bool) public addData!: boolean;
 	@Serialize(Uint8) public selectedSlot!: number;
 }

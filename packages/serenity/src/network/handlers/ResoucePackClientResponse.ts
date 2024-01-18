@@ -19,43 +19,26 @@ import type {
 	PlayerList,
 	RecordAction,
 } from '@serenityjs/bedrock-protocol';
-import { ChunkColumn } from '../../world';
+import type { Serenity } from '../../Serenity';
+import type { ChunkColumn } from '../../world';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
-const superflatLayers = [
-	// Supposedly grass
-	{
-		id: 2,
-		size: 1,
-	},
-	// Supposedly bedrock
-	{
-		id: 7,
-		size: 1,
-	},
-	// Supposedly dirt
-	{
-		id: 3,
-		size: 14,
-	},
-];
-
 // Chunks don't use absolute starting coordinates but relative ones from the spawn chunk
 // EG: spawn chunk would be (0, 0) then the chunk to the right would be (1, 0)
-function generateFlatChunk(relX: number, relZ: number): ChunkColumn {
-	const chunk = new ChunkColumn(relX, relZ);
-
-	const yLayers = superflatLayers.flatMap((layer) => {
-		return Array.from({ length: layer.size }).fill(layer.id) as number[];
-	});
+function generateFlatChunk(serenity: Serenity, relX: number, relZ: number): ChunkColumn {
+	const chunk = serenity.world.getChunk(relX, relZ);
 
 	// TODO: Blocks that are not defined in the chunk need to be set as air.
-	for (let x = 0; x <= 16; x++) {
-		for (let z = 0; z <= 16; z++) {
-			for (const [y, block] of yLayers.entries()) {
-				chunk.setBlock(x, y, z, block);
-			}
+	for (let x = 0; x < 16; x++) {
+		for (let z = 0; z < 16; z++) {
+			chunk.setBlock(x, 0, z, 7);
+			chunk.setBlock(x, 1, z, 1);
+			chunk.setBlock(x, 2, z, 1);
+			chunk.setBlock(x, 3, z, 1);
+			chunk.setBlock(x, 4, z, 3);
+			chunk.setBlock(x, 5, z, 3);
+			chunk.setBlock(x, 6, z, 2);
 		}
 	}
 
@@ -559,7 +542,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 					for (let chunkZ = minZ; chunkZ <= maxZ; ++chunkZ) {
 						// TODO: vanilla does not send all of them, but in a range
 						// for example it does send them from x => [-3; 3] and z => [-3; 2]
-						sendQueue.push(generateFlatChunk(chunkX, chunkZ));
+						sendQueue.push(generateFlatChunk(this.serenity, chunkX, chunkZ));
 					}
 				}
 

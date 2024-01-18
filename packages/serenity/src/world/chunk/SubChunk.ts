@@ -34,10 +34,12 @@ class SubChunk {
 
 	public getBlock(bx: number, by: number, bz: number): number {
 		const index = SubChunk.getIndexOf(bx, by, bz);
+
 		return this.blocks[index];
 	}
 
 	public serialize(stream: BinaryStream): void {
+		stream.writeUint8(0); // Layer id? 0 = solid, 1 = liquid
 		stream.write(this.blocks);
 	}
 }

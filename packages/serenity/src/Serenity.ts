@@ -14,6 +14,7 @@ import { Network, NetworkSession, NetworkStatus } from './network';
 import type { Player } from './player';
 import type { SerenityEvents, SerenityOptions } from './types';
 import { EventEmitter } from './utils';
+import { World } from './world';
 
 class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly logger: Logger;
@@ -24,6 +25,8 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
 	public readonly players: Map<string, Player>;
+
+	public readonly world: World; // This is temporary.
 
 	public constructor(options: SerenityOptions) {
 		super();
@@ -37,6 +40,8 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		this.events = new Map();
 		this.network = new Network(this);
 		this.players = new Map();
+
+		this.world = new World(this); // This is temporary.
 
 		if (Logger.DEBUG) this.logger.info('Software is running in debug mode. Debug messages will now be shown.');
 
