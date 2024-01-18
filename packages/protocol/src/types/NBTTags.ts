@@ -28,7 +28,8 @@ export const NUMBER_SIZES = {
     [NBTTag.Float]: 4,
     [NBTTag.Double]: 8,
 };
-class NBTValue<T = any> {
+export class NBTValue<T = any> {
+    public static readonly EMPTY: NBTValue<0> = new NBTValue(NBTTag.Byte, 0);
     public value: T;
     public readonly type: NBTTag;
     public constructor(type: NBTTag, value: T){
@@ -53,7 +54,8 @@ export class CompoudValue extends NBTValue<{[K: string]: NBTValue;}>{
     public get size(){return Object.getOwnPropertyNames(this.value).length;}
 }
 // @ts-expect-error //Readonly suppression
-CompoudValue.prototype[Symbol.iterator] = this.entries;
+// eslint-disable-next-line @typescript-eslint/unbound-method
+CompoudValue.prototype[Symbol.iterator] = CompoudValue.prototype.entries;
 export class TypedArrayValue<T> extends NBTValue<NBTValue<T>[]>{
     public readonly arrayType;
     public constructor(v: NBTValue<T>[], type: NBTTag){
@@ -170,16 +172,15 @@ const NBT_Writers = {
     [NBTTag.Float](myStream: BinaryStream, value: FloatValue){myStream.writeFloat32(value.value, Endianness.Little);},
     [NBTTag.Double](myStream: BinaryStream, value: DoubleValue){myStream.writeFloat64(value.value, Endianness.Little);}
 };
-
-
-export class NBTTagData extends DataType{
-    public static write(stream: BinaryStream, value: NBTValue, endian?: Endianness | null | undefined, param?: any): void {
-        stream.writeByte(value.type);
-        NBT_Writers[value.type as 10](stream, value as CompoudValue);
-    }
-    public static read(stream: BinaryStream, endian?: Endianness | null | undefined, param?: any): NBTValue<any> {
-        const type = NBT_Readers.readType(stream);
-        return NBT_Readers[type as 10](stream);
-    }
-}
 export type NBTData<T = any> = NBTValue<T>;
+
+export function WriteTag(stream: BinaryStream, tag: NBTValue, isRoodTag = true){
+    stream.writeByte(tag.type);
+    if(isRoodTag) stream.writeString16("",Endianness.Little);
+    NBT_Writers[tag.type as 1](stream, tag as ByteValue);
+}
+
+export function ReadTag(stream: BinaryStream, type?: NBTTag){ let t = type;
+    if(!t) t = stream.readByte() as NBTTag;
+    return NBT_Readers[t as NBTTag.Byte](stream) as NBTValue<any>;
+}
