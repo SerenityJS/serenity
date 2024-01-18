@@ -16,6 +16,7 @@ export * from './UpdateAttributes';
 export * from './Interact';
 export * from './BlockPickRequest';
 export * from './PlayerAction';
+export * from './SetEntityData';
 export * from './ContainerOpen';
 export * from './ContainerClose';
 export * from './LevelChunk';
