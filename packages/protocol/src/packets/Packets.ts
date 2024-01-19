@@ -10,6 +10,7 @@ import { ContainerClose } from './ContainerClose';
 import { ContainerOpen } from './ContainerOpen';
 import { CreativeContent } from './CreativeContent';
 import { Interact } from './Interact';
+import { InventoryTransaction } from './InventoryTransaction';
 import { LevelChunk } from './LevelChunk';
 import { Login } from './Login';
 import { MovePlayer } from './MovePlayer';
@@ -50,6 +51,7 @@ const Packets = {
 	[Packet.MovePlayer]: MovePlayer, // 19
 	// Gap
 	[Packet.UpdateAttributes]: UpdateAttributes, // 29
+	[Packet.InventoryTransaction]: InventoryTransaction, // 30
 	// Gap
 	[Packet.Interact]: Interact, // 33
 	[Packet.BlockPickRequest]: BlockPickRequest, // 34

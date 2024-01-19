@@ -21,6 +21,7 @@ enum Packet {
 	// TickSync = 0x17, // 23
 	// Gap
 	UpdateAttributes = 0x1d, // 29
+	InventoryTransaction = 0x1e, // 30
 	// SelectedSlot = 0x1f,
 	Interact = 0x21, // 33
 	BlockPickRequest = 0x22, // 34

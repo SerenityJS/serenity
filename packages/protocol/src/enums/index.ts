@@ -24,3 +24,8 @@ export * from './Attribute';
 export * from './MetadataKeys';
 export * from './MetadataType';
 export * from './MetadataFlags';
+export * from './TransactionType';
+export * from './TransactionSourceType';
+export * from './UseItemAction';
+export * from './UseItemOnEntityAction';
+export * from './ItemReleaseAction';

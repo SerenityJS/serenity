@@ -14,6 +14,8 @@ class PlayerActionHandler extends NetworkHandler {
 
 		// console.log(packet);
 
+		console.log(ActionIds[packet.action], packet.blockPosition, packet.resultPosition);
+
 		// switch (packet.ActionType) {
 		// 	case ActionIds.StartBreak:
 		// 		console.log('Received PlayerAction StartBreak');

@@ -35,8 +35,9 @@ import type {
 	NetworkChunkPublisherUpdate,
 	BlockPickRequest,
 	AddPlayer,
-    //	SelectedSlot,
-	SetEntityData
+	//	SelectedSlot,
+	SetEntityData,
+	InventoryTransaction,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -74,6 +75,7 @@ interface NetworkEvents {
 	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayer>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
+	[Packet.InventoryTransaction]: [NetworkPacketEvent<InventoryTransaction>];
 	[Packet.Interact]: [NetworkPacketEvent<Interact>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
