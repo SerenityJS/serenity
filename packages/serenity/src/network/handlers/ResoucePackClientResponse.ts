@@ -11,12 +11,8 @@ import {
 	PlayStatus,
 	PlayerStatus,
 	NetworkChunkPublisherUpdate,
-	NBTValue,
-	CompoudValue,
-	TypedArrayValue,
-	NBTTag,
-	Int16Value,
-	StringValue,
+	Int32,
+	NBTTag
 } from '@serenityjs/bedrock-protocol';
 import type {
 	ChunkCoord,
@@ -381,7 +377,12 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canDestroy: [],
 								canPlaceOn: [],
 								hasNbt: true,
-								nbt: new CompoudValue({
+								nbt: {
+									display: {Name:"§rCustom Item", Lore:["Data"]},
+									ench: [].typeOf(NBTTag.TypedList),
+									Trim: {Material: "netherite", Pattern: "vex"}
+								},
+								/* new CompoudValue({
 									display: new CompoudValue({
 										Name: new StringValue("Some Custom Display Name"),
 										Lore: new TypedArrayValue([new StringValue("Custom Lore")], NBTTag.String)
@@ -397,7 +398,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 										new CompoudValue({id: new Int16Value(10), lvl: new Int16Value(1_000)}),
 										new CompoudValue({id: new Int16Value(30), lvl: new Int16Value(-5)})
 									], NBTTag.Compoud)
-								}),
+								}),*/
 								ticking: null,
 							},
 						},

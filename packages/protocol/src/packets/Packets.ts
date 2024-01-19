@@ -24,6 +24,7 @@ import { ResourcePackClientResponse } from './ResourcePackClientResponse';
 import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
+// import { SelectedSlot } from './SelectedSlot';
 import { SetEntityData } from './SetEntityData';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
 import { SetTitle } from './SetTitle';

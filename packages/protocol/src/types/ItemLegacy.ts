@@ -1,6 +1,7 @@
 import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { type NBTData } from './NBTTags';
+import { Byte} from './NBTTags';
+import type { NBTSerializable, NBTCompoud } from './NBTTags';
 import { NBTTagItemData } from './NBTTypes';
 
 interface ItemStackLegacy {
@@ -15,7 +16,7 @@ interface ItemStackLegacyExtras {
 	canDestroy: string[];
 	canPlaceOn: string[];
 	hasNbt: boolean;
-	nbt?: NBTData<any>;
+	nbt?: NBTCompoud;
 	ticking?: bigint | null;
 }
 
@@ -36,7 +37,7 @@ class ItemLegacy extends DataType {
 		// Extra data.
 		const extras = stream.readVarInt();
 		const hasNbt = stream.readUint16(Endianness.Little) === 0xffff;
-		let nbt: NBTData<any> | undefined;
+		let nbt: NBTSerializable = Byte(0);
 		if (hasNbt) {
 			const n = stream.readByte(); // unknown prefix 0x01 is used, when zero maybe its empty NBT data
 			if(n) nbt = NBTTagItemData.read(stream, null);
@@ -68,7 +69,7 @@ class ItemLegacy extends DataType {
 			canDestroy: canDestroyStrings,
 			canPlaceOn: canPlaceStrings,
 			hasNbt,
-			nbt,
+			nbt:(nbt as NBTCompoud),
 			ticking,
 		};
 

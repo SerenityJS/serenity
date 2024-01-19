@@ -35,7 +35,8 @@ import type {
 	NetworkChunkPublisherUpdate,
 	BlockPickRequest,
 	AddPlayer,
-	SetEntityData,
+    //	SelectedSlot,
+	SetEntityData
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
