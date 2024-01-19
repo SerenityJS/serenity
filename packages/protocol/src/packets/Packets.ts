@@ -25,6 +25,7 @@ import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
 import { SelectedSlot } from './SelectedSlot';
+import { SetEntityData } from './SetEntityData';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
 import { SetTitle } from './SetTitle';
 import { StartGame } from './StartGame';
@@ -56,6 +57,8 @@ const Packets = {
 	[Packet.BlockPickRequest]: BlockPickRequest, // 34
 	// Gap
 	[Packet.PlayerAction]: PlayerAction, // 36
+	// Gap
+	[Packet.SetEntityData]: SetEntityData, // 39
 	// Gap
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47

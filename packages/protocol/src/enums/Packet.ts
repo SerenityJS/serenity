@@ -10,25 +10,24 @@ enum Packet {
 	ResourcePackStack = 0x07, // 7
 	ResourcePackClientResponse = 0x08, // 8
 	Text = 0x09, // 9
-	// // Gap
+	// Gap
 	StartGame = 0x0b, // 11
 	AddPlayer = 0x0c, // 12
 	// AddEntity = 0x0d, // 13
 	// RemoveEntity = 0x0e, // 14
-	// // Gap
+	// Gap
 	MovePlayer = 0x13, // 19
-	// // Gap
+	// Gap
 	// TickSync = 0x17, // 23
-	// // Gap
+	// Gap
 	UpdateAttributes = 0x1d, // 29
 	SelectedSlot = 0x1f,
-	// // Gap
 	Interact = 0x21, // 33
 	BlockPickRequest = 0x22, // 34
-	// // Gap
+	// Gap
 	PlayerAction = 0x24, // 36
-	// // Gap
-	// SetEntityData = 0x27, // 39
+	// Gap
+	SetEntityData = 0x27, // 39
 	// // Gap
 	// SetSpawnPosition = 0x2b, // 43
 	// Respawn = 0x2d, // 45

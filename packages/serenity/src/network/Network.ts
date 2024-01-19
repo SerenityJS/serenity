@@ -36,6 +36,7 @@ import type {
 	BlockPickRequest,
 	AddPlayer,
 	SelectedSlot,
+	SetEntityData,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -76,6 +77,7 @@ interface NetworkEvents {
 	[Packet.Interact]: [NetworkPacketEvent<Interact>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
+	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityData>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];

@@ -23,3 +23,5 @@ export * from './PlayerAttributes';
 export * from './ChunkCoords';
 export * from './NBTTags';
 export * from './NBTTypes';
+export * from './MetadataDictionary';
+export * from './EntityProperties';

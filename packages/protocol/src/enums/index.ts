@@ -21,3 +21,6 @@ export * from './WindowsIds';
 export * from './WindowsTypes';
 export * from './ActionIds';
 export * from './Attribute';
+export * from './MetadataKeys';
+export * from './MetadataType';
+export * from './MetadataFlags';
