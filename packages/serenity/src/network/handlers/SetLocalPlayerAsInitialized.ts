@@ -45,13 +45,13 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
 		player.world.sendMessage(`§e${player.username} joined the server.`);
 
-		const data = new SetEntityData<any>();
+		const data = new SetEntityData<boolean>();
 		data.runtimeEntityId = player.runtimeId;
 		data.metadata = [
 			{
 				key: MetadataKey.Flags,
 				type: MetadataType.Long,
-				value: BigInt(0),
+				value: true,
 				flag: MetadataFlags.AffectedByGravity,
 			},
 		];

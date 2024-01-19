@@ -1,4 +1,13 @@
-import { ChatTypes, Packet, Text, TitleTypes } from '@serenityjs/bedrock-protocol';
+import {
+	ChatTypes,
+	MetadataFlags,
+	MetadataKey,
+	MetadataType,
+	Packet,
+	SetEntityData,
+	Text,
+	TitleTypes,
+} from '@serenityjs/bedrock-protocol';
 import { NetworkStatus, Serenity } from '@serenityjs/serenity';
 
 const serenity = new Serenity({
@@ -18,4 +27,44 @@ serenity.on('PlayerSpawned', (player) => {
 
 serenity.after('PlayerLeft', (player) => {
 	// Do something when a player leaves.
+});
+
+serenity.network.on(Packet.Text, ({ packet, session }) => {
+	if (packet.message === 'on') {
+		const data = new SetEntityData<boolean>();
+		data.runtimeEntityId = session.runtimeId;
+		data.metadata = [
+			{
+				key: MetadataKey.Flags,
+				type: MetadataType.Long,
+				value: true,
+				flag: MetadataFlags.AffectedByGravity,
+			},
+		];
+		data.properties = {
+			ints: [],
+			floats: [],
+		};
+		data.tick = BigInt(0);
+
+		void session.send(data);
+	} else if (packet.message === 'off') {
+		const data = new SetEntityData<boolean>();
+		data.runtimeEntityId = session.runtimeId;
+		data.metadata = [
+			{
+				key: MetadataKey.Flags,
+				type: MetadataType.Long,
+				value: false,
+				flag: MetadataFlags.AffectedByGravity,
+			},
+		];
+		data.properties = {
+			ints: [],
+			floats: [],
+		};
+		data.tick = BigInt(0);
+
+		void session.send(data);
+	}
 });
