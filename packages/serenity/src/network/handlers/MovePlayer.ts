@@ -13,7 +13,8 @@ class MovePlayerHandler extends NetworkHandler {
 
 		// Adjust the player's Y position.
 		// For some reason, the client sends the player's Y position as 1.62 blocks higher than it should be.
-		packet.position.y -= 1.62;
+		// returns a head possition
+		packet.position.y -= 1.622;
 
 		// TODO: Add seperate logic for different move modes.
 		// Set the player's position, rotation, head yaw, and on ground status.

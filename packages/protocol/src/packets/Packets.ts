@@ -24,6 +24,7 @@ import { ResourcePackClientResponse } from './ResourcePackClientResponse';
 import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
 import { ScriptMessage } from './ScriptMessage';
+import { SelectedSlot } from './SelectedSlot';
 import { SetEntityData } from './SetEntityData';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
 import { SetTitle } from './SetTitle';
@@ -49,6 +50,8 @@ const Packets = {
 	[Packet.MovePlayer]: MovePlayer, // 19
 	// Gap
 	[Packet.UpdateAttributes]: UpdateAttributes, // 29
+	// Gap
+	[Packet.SelectedSlot]: SelectedSlot, // 31
 	// Gap
 	[Packet.Interact]: Interact, // 33
 	[Packet.BlockPickRequest]: BlockPickRequest, // 34

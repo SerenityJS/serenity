@@ -35,6 +35,7 @@ import type {
 	NetworkChunkPublisherUpdate,
 	BlockPickRequest,
 	AddPlayer,
+	SelectedSlot,
 	SetEntityData,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
@@ -93,6 +94,7 @@ interface NetworkEvents {
 	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequest>];
 	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilities>];
 	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
+	[Packet.SelectedSlot]: [NetworkPacketEvent<SelectedSlot>];
 }
 
 const GameByte = Buffer.from([0xfe]);
