@@ -8,12 +8,10 @@ interface CreativeItem {
 }
 
 class CreativeItems extends DataType {
-	public readonly items: ItemStackLegacy[] = [];
-	public constructor(){ super(); }
-	public static override read(stream: BinaryStream): CreativeItems {
+	public static override read(stream: BinaryStream): CreativeItem[] {
 		// Prepare an array to store the items.
-		const data = new this();
-		const items = data.items;
+		const items: CreativeItem[] = [];
+
 		// Read the number of items.
 		const amount = stream.readVarInt();
 
@@ -25,28 +23,26 @@ class CreativeItems extends DataType {
 			const item = ItemLegacy.read(stream);
 
 			// Push the item to the array.
-			items.push(item);
+			items.push({
+				entryId,
+				item,
+			});
 		}
 
 		// Return the items.
-		return data;
+		return items;
 	}
 
-	public static override write(stream: BinaryStream, value: CreativeItems): void {
+	public static override write(stream: BinaryStream, value: CreativeItem[]): void {
 		// Write the number of items given in the array.
-		stream.writeVarInt(value.items.length);
+		stream.writeVarInt(value.length);
 
 		// Loop through the items.
-		let entryId = 0;
-		for (const item of value.items) {
+		for (const item of value) {
 			// Write the fields for the item.
-			stream.writeVarInt(entryId++);
-			ItemLegacy.write(stream, item);
+			stream.writeVarInt(item.entryId);
+			ItemLegacy.write(stream, item.item);
 		}
-	}
-	public add(item: ItemStackLegacy){
-		this.items.push(item);
-		return this;
 	}
 }
 

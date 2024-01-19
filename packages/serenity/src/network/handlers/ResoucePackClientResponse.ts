@@ -11,10 +11,12 @@ import {
 	PlayStatus,
 	PlayerStatus,
 	NetworkChunkPublisherUpdate,
-	Int16,
-	Int32,
-	CreativeItems,
-	NBTTag
+	NBTValue,
+	CompoudValue,
+	TypedArrayValue,
+	NBTTag,
+	Int16Value,
+	StringValue,
 } from '@serenityjs/bedrock-protocol';
 import type {
 	ChunkCoord,
@@ -367,8 +369,175 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				session.getPlayerInstance()!.attributes.setDefaults();
 
 				const content = new CreativeContent();
-				content.items = SomeInvetoryConent(new CreativeItems());
-				
+				content.items = [
+					{
+						entryId: 1,
+						item: {
+							networkId: 357,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 0,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: true,
+								nbt: new CompoudValue({
+									display: new CompoudValue({
+										Name: new StringValue("Some Custom Display Name"),
+										Lore: new TypedArrayValue([new StringValue("Custom Lore")], NBTTag.String)
+									}),
+									Trim: new CompoudValue({
+										Material: new StringValue("netherite"),
+										Pattern: new StringValue("vex")
+									}),
+									ench: new TypedArrayValue([
+										new CompoudValue({id: new Int16Value(5), lvl: new Int16Value(10)}),
+										new CompoudValue({id: new Int16Value(6), lvl: new Int16Value(10)}),
+										new CompoudValue({id: new Int16Value(8), lvl: new Int16Value(20)}),
+										new CompoudValue({id: new Int16Value(10), lvl: new Int16Value(1_000)}),
+										new CompoudValue({id: new Int16Value(30), lvl: new Int16Value(-5)})
+									], NBTTag.Compoud)
+								}),
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 2,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_722_777_465,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 3,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_990_300_350,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 4,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: -1_108_868_186,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 5,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_984_705_437,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 6,
+						item: {
+							networkId: 5,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_501_952_743,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 7,
+						item: {
+							networkId: -486,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 647_292_747,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 8,
+						item: {
+							networkId: -537,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 1_754_553_875,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 9,
+						item: {
+							networkId: -510,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: -1_843_072_030,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+					{
+						entryId: 10,
+						item: {
+							networkId: -509,
+							count: 1,
+							metadata: 0,
+							blockRuntimeId: 832_568_857,
+							extras: {
+								canDestroy: [],
+								canPlaceOn: [],
+								hasNbt: false,
+								ticking: null,
+							},
+						},
+					},
+				];
 
 				await session.send(content);
 
@@ -418,227 +587,3 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 }
 
 export { ResourcePackClientResponseHandler };
-
-
-function SomeInvetoryConent(creativeItem: CreativeItems){
-	creativeItem.add({
-		networkId:357,
-		count:1,
-		metadata:0,
-		blockRuntimeId: 0,
-		extras: {
-			canDestroy: [],
-			canPlaceOn: [],
-			hasNbt: true,
-			nbt: {
-				display: {
-					Name: "Custom Display",
-					Lore: ["Custom Lore"]
-				},
-				Trim: {
-					Material: "netherite",
-					Pattern: "vex"
-				},
-				ench: [
-					{id:Int16(10), lvl: Int16(10)},
-					{id:Int16(12), lvl: Int16(10)}
-				],
-				Damage: Int32(90)
-			},
-			ticking: null,
-		}
-	});	
-	creativeItem.add({
-		networkId:565,
-		count:1,
-		metadata:1,
-		blockRuntimeId: 0,
-		extras: {
-			canDestroy: [],
-			canPlaceOn: [],
-			hasNbt: true,
-			nbt: {
-				display: {
-					Name: "Netherite Sword",
-					Lore: ["+DATA"]
-				},
-				Trim: {
-					Material: "netherite",
-					Pattern: "vex"
-				},
-				ench: [
-					{id:Int16(10), lvl: Int16(10)},
-					{id:Int16(12), lvl: Int16(10)},
-					{id:Int16(25), lvl: Int16(5)}
-				],
-				Damage: Int32(90)
-			},
-			ticking: null,
-		}
-	});
-	creativeItem.add({
-		networkId:426,
-		count:1,
-		metadata:0,
-		blockRuntimeId: 0,
-		extras: {
-			canDestroy: [],
-			canPlaceOn: [],
-			hasNbt: true,
-			nbt: {
-				display: {
-					Name: "§rNetherite Sword",
-					Lore: ["+DATA"]
-				},
-				Trim: {
-					Material: "netherite",
-					Pattern: "vex"
-				},
-				ench: [].typeOf(NBTTag.TypedList),
-				Damage: Int32(90)
-			},
-			ticking: null,
-		}
-	});
-	// eslint-disable-next-line @typescript-eslint/no-use-before-define
-	for (const {item} of RAW_ITEMS) creativeItem.add(item);
-	return creativeItem;
-}
-
-const RAW_ITEMS = [
-	{
-		entryId: 2,
-		item: {
-			networkId: 5,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: 1_722_777_465,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 3,
-		item: {
-			networkId: 5,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: 1_990_300_350,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 4,
-		item: {
-			networkId: 5,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: -1_108_868_186,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 5,
-		item: {
-			networkId: 5,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: 1_984_705_437,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 6,
-		item: {
-			networkId: 5,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: 1_501_952_743,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 7,
-		item: {
-			networkId: -486,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: 647_292_747,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 8,
-		item: {
-			networkId: -537,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: 1_754_553_875,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 9,
-		item: {
-			networkId: -510,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: -1_843_072_030,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-	{
-		entryId: 10,
-		item: {
-			networkId: -509,
-			count: 1,
-			metadata: 0,
-			blockRuntimeId: 832_568_857,
-			extras: {
-				canDestroy: [],
-				canPlaceOn: [],
-				hasNbt: false,
-				ticking: null,
-			},
-		},
-	},
-];

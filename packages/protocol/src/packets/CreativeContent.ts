@@ -6,7 +6,7 @@ import { CreativeItems } from '../types';
 
 @Packet(PacketId.CreativeContent)
 class CreativeContent extends DataPacket {
-	@Serialize(CreativeItems) public items!: CreativeItems;
+	@Serialize(CreativeItems) public items!: CreativeItem[];
 }
 
 export { CreativeContent };
