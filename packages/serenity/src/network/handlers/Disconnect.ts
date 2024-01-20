@@ -18,6 +18,8 @@ class DisconnectHandler extends NetworkHandler {
 
 		// TEMP: remove the player from the world.
 		player.world.players.delete(player.uniqueId);
+
+		player.world.sendMessage(`§e${player.username} left the server.`);
 	}
 }
 
