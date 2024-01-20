@@ -16,10 +16,8 @@ class DisconnectHandler extends NetworkHandler {
 		// Return if the player is null or undefined.
 		if (!player) return;
 
-		// TEMP: remove the player from the world.
-		player.world.players.delete(player.uniqueId);
-
-		player.world.sendMessage(`§e${player.username} left the server.`);
+		// Remove the player from the world.
+		player.world.removePlayer(player);
 	}
 }
 

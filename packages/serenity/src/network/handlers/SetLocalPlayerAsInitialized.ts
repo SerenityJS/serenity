@@ -25,31 +25,10 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		// Send the player list to the client.
-		const players = [...this.serenity.players.values()].filter((x) => x !== player);
+		// Add the player to the world.
+		player.world.addPlayer(player);
 
-		// Construct the player list packet.
-		const list = new PlayerList();
-
-		// Add the fields to the packet.
-		list.action = RecordAction.Add;
-		list.records = players.map((player) => ({
-			uuid: player.uuid,
-			entityUniqueId: player.uniqueId,
-			username: player.username,
-			xuid: player.xuid,
-			platformChatId: '', // ?? dont know what this is
-			buildPlatform: 0, // ?? dont know what this is
-			skin: player.skin.serialize(),
-			isTeacher: false,
-			isHost: false,
-		}));
-
-		// Send the packet.
-		await session.send(list);
-
-		player.world.sendMessage(`§e${player.username} joined the server.`);
-
+		// TODO: Move elsewhere.
 		const data = new SetEntityData<boolean>();
 		data.runtimeEntityId = player.runtimeId;
 		data.metadata = [

@@ -1,4 +1,4 @@
-import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, PlayerList, RecordAction, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
@@ -38,6 +38,111 @@ class World {
 			// Send the packet to that player.
 			await player.session.send(...packets);
 		}
+	}
+
+	/**
+	 * Broadcasts a packet to all players except one.
+	 *
+	 * @param player The player to exclude.
+	 * @param packets The packets to broadcast.
+	 * @returns A promise that resolves when the packet has been sent.
+	 */
+	public async broadcastExcept(player: Player, ...packets: DataPacket[]): Promise<void> {
+		// Loop through each player.
+		for (const other of this.players.values()) {
+			if (other === player) continue;
+
+			// Send the packet to that player.
+			await other.session.send(...packets);
+		}
+	}
+
+	/**
+	 * Adds a player to the world.
+	 *
+	 * @param player The player to add.
+	 */
+	public addPlayer(player: Player): void {
+		// Check if the player is already in the world.
+		if (this.players.has(player.uniqueId)) {
+			return this.logger.error(`${player.username} (${player.xuid}) is already in the world!`);
+		}
+
+		// Send the player the player list.
+		// Setting the type to add.
+		// Mapping the player list to the player's data.
+		let playerList = new PlayerList();
+		playerList.action = RecordAction.Add;
+		playerList.records = [...this.players.values()].map((entry) => ({
+			uuid: entry.uuid,
+			entityUniqueId: entry.uniqueId,
+			username: entry.username,
+			xuid: entry.xuid,
+			platformChatId: '',
+			buildPlatform: 0,
+			skin: entry.skin.serialize(),
+			isTeacher: false,
+			isHost: false,
+		}));
+
+		// Send the player list to the player.
+		void player.session.send(playerList);
+
+		// Add the player to the players map.
+		this.players.set(player.uniqueId, player);
+
+		// Send a new player list add packet to all players.
+		playerList = new PlayerList();
+		playerList.action = RecordAction.Add;
+		playerList.records = [
+			{
+				uuid: player.uuid,
+				entityUniqueId: player.uniqueId,
+				username: player.username,
+				xuid: player.xuid,
+				platformChatId: '',
+				buildPlatform: 0,
+				skin: player.skin.serialize(),
+				isTeacher: false,
+				isHost: false,
+			},
+		];
+
+		// Send the packet to all players except the new player.
+		void this.broadcastExcept(player, playerList);
+
+		// Send the join message to all players.
+		return this.sendMessage(`§e${player.username} joined the game.`);
+	}
+
+	/**
+	 * Removes a player from the world.
+	 *
+	 * @param player The player to remove.
+	 */
+	public removePlayer(player: Player): void {
+		// Check if the player is not in the world.
+		if (!this.players.has(player.uniqueId)) {
+			return this.logger.error(`${player.username} (${player.xuid}) is not in the world!`);
+		}
+
+		// Remove the player from the players map.
+		this.players.delete(player.uniqueId);
+
+		// Send a new player list remove packet to all players.
+		const playerList = new PlayerList();
+		playerList.action = RecordAction.Remove;
+		playerList.records = [
+			{
+				uuid: player.uuid,
+			},
+		];
+
+		// Send the packet to all players.
+		void this.broadcast(playerList);
+
+		// Send the leave message to all players.
+		return this.sendMessage(`§e${player.username} left the game.`);
 	}
 
 	/**
@@ -94,6 +199,11 @@ class World {
 		return chunk.getBlock(x & 0xf, y & 0xf, z & 0xf);
 	}
 
+	/**
+	 * Sends a message to all players.
+	 *
+	 * @param message The message to send.
+	 */
 	public sendMessage(message: string): void {
 		// Create a new text packet.
 		const packet = new Text();

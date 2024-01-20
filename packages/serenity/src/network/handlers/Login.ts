@@ -56,10 +56,6 @@ class LoginHandler extends NetworkHandler {
 		const player = new Player(session, data);
 		this.serenity.players.set(xuid, player);
 
-		// TEMP: add the player to the world.
-		// This needs to be changed in the future.
-		player.world.players.set(player.uniqueId, player);
-
 		// TODO: Emit the login event.
 		// Not sure how the event system will work yet, so this will be implemented later.
 
