@@ -12,7 +12,7 @@ import {
 	PlayerStatus,
 	NetworkChunkPublisherUpdate,
 	Int32,
-	NBTTag
+	NBTTag,
 } from '@serenityjs/bedrock-protocol';
 import type {
 	ChunkCoord,
@@ -25,27 +25,6 @@ import type { Serenity } from '../../Serenity';
 import type { ChunkColumn } from '../../world';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
-
-// Chunks don't use absolute starting coordinates but relative ones from the spawn chunk
-// EG: spawn chunk would be (0, 0) then the chunk to the right would be (1, 0)
-function generateFlatChunk(serenity: Serenity, relX: number, relZ: number): ChunkColumn {
-	const chunk = serenity.world.getChunk(relX, relZ);
-
-	// TODO: Blocks that are not defined in the chunk need to be set as air.
-	for (let x = 0; x < 16; x++) {
-		for (let z = 0; z < 16; z++) {
-			chunk.setBlock(x, 0, z, 7);
-			chunk.setBlock(x, 1, z, 1);
-			chunk.setBlock(x, 2, z, 1);
-			chunk.setBlock(x, 3, z, 1);
-			chunk.setBlock(x, 4, z, 3);
-			chunk.setBlock(x, 5, z, 3);
-			chunk.setBlock(x, 6, z, 2);
-		}
-	}
-
-	return chunk;
-}
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
 	public static override async handle(packet: ResourcePackClientResponse, session: NetworkSession): Promise<void> {
@@ -378,9 +357,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 								canPlaceOn: [],
 								hasNbt: true,
 								nbt: {
-									display: {Name:"§rCustom Item", Lore:["Data"]},
+									display: { Name: '§rCustom Item', Lore: ['Data'] },
 									ench: [].typeOf(NBTTag.TypedList),
-									Trim: {Material: "netherite", Pattern: "vex"}
+									Trim: { Material: 'netherite', Pattern: 'vex' },
 								},
 								/* new CompoudValue({
 									display: new CompoudValue({
@@ -556,7 +535,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 					for (let chunkZ = minZ; chunkZ <= maxZ; ++chunkZ) {
 						// TODO: vanilla does not send all of them, but in a range
 						// for example it does send them from x => [-3; 3] and z => [-3; 2]
-						sendQueue.push(generateFlatChunk(this.serenity, chunkX, chunkZ));
+						sendQueue.push(this.serenity.world.getChunk(chunkX, chunkZ));
 					}
 				}
 

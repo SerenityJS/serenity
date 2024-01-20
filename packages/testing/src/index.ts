@@ -30,41 +30,17 @@ serenity.after('PlayerLeft', (player) => {
 });
 
 serenity.network.on(Packet.Text, ({ packet, session }) => {
-	if (packet.message === 'on') {
-		const data = new SetEntityData<boolean>();
-		data.runtimeEntityId = session.runtimeId;
-		data.metadata = [
-			{
-				key: MetadataKey.Flags,
-				type: MetadataType.Long,
-				value: true,
-				flag: MetadataFlags.AffectedByGravity,
-			},
-		];
-		data.properties = {
-			ints: [],
-			floats: [],
-		};
-		data.tick = BigInt(0);
+	if (packet.message === 'fill') {
+		serenity.world.setBlock(0, -58, 0, 1);
+		serenity.world.setBlock(1, -58, 0, 1);
+		serenity.world.setBlock(0, -58, 1, 1);
+		serenity.world.setBlock(1, -58, 1, 1);
+		serenity.world.setBlock(-1, -58, 0, 1);
+		serenity.world.setBlock(0, -58, -1, 1);
+		serenity.world.setBlock(-1, -58, -1, 1);
+		serenity.world.setBlock(-1, -58, 1, 1);
+		serenity.world.setBlock(1, -58, -1, 1);
 
-		void session.send(data);
-	} else if (packet.message === 'off') {
-		const data = new SetEntityData<boolean>();
-		data.runtimeEntityId = session.runtimeId;
-		data.metadata = [
-			{
-				key: MetadataKey.Flags,
-				type: MetadataType.Long,
-				value: false,
-				flag: MetadataFlags.AffectedByGravity,
-			},
-		];
-		data.properties = {
-			ints: [],
-			floats: [],
-		};
-		data.tick = BigInt(0);
-
-		void session.send(data);
+		session.getPlayerInstance()?.sendMessage('Reload to see changes.');
 	}
 });

@@ -1,20 +1,28 @@
-import { ChatTypes, PlayerList, RecordAction, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
 import { ChunkColumn } from './chunk';
+import type { Generator } from './generator';
+import { Flat } from './generator';
 
+/**
+ * Represents a world.
+ */
 class World {
 	protected readonly serenity: Serenity;
 	protected readonly logger: Logger;
 
 	public readonly players: Map<bigint, Player>;
+	public readonly generator: Generator;
 	public readonly chunks: Map<bigint, ChunkColumn>;
 
-	public constructor(serenity: Serenity) {
+	public constructor(serenity: Serenity, generator?: Generator) {
 		this.serenity = serenity;
 		this.logger = new Logger('World', LoggerColors.Cyan);
+
 		this.players = new Map();
+		this.generator = generator ?? new Flat(this.serenity, 0); // TODO: Seed
 		this.chunks = new Map();
 	}
 
@@ -44,9 +52,9 @@ class World {
 		const hash = ChunkColumn.getHash(x, z);
 
 		// Get the chunk from the chunks map.
-		// If the chunk is not found, create a new chunk.
+		// If the chunk is not found, create a new chunk using the generator.
 		// And add it to the chunks map.
-		const chunk = this.chunks.has(hash) ? this.chunks.get(hash) : new ChunkColumn(x, z);
+		const chunk = this.chunks.has(hash) ? this.chunks.get(hash) : this.generator.generateChunk(x, z);
 		if (!this.chunks.has(hash)) this.chunks.set(hash, chunk!);
 
 		// Return the chunk.
