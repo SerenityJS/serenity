@@ -59,6 +59,12 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 				value: true,
 				flag: MetadataFlags.AffectedByGravity,
 			},
+			{
+				key: MetadataKey.Flags,
+				type: MetadataType.Long,
+				value: true,
+				flag: MetadataFlags.Breathing,
+			},
 		];
 		data.properties = {
 			ints: [],
