@@ -1,9 +1,13 @@
-import type { PlayerAction } from '@serenityjs/bedrock-protocol';
-import { ActionIds, DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { PlayerAction, DisconnectReason } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class PlayerActionHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = PlayerAction.ID;
+
 	public static override async handle(packet: PlayerAction, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.

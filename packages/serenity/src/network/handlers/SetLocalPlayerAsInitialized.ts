@@ -6,12 +6,17 @@ import {
 	PlayerList,
 	RecordAction,
 	SetEntityData,
-	type SetLocalPlayerAsInitialized,
+	SetLocalPlayerAsInitialized,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = SetLocalPlayerAsInitialized.ID;
+
 	public static override async handle(packet: SetLocalPlayerAsInitialized, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.

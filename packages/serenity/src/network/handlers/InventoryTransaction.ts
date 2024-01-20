@@ -1,9 +1,13 @@
-import type { InventoryTransaction } from '@serenityjs/bedrock-protocol';
-import { DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { InventoryTransaction, DisconnectReason } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class InventoryTransactionHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = InventoryTransaction.ID;
+
 	public static override async handle(packet: InventoryTransaction, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.

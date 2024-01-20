@@ -11,6 +11,7 @@ import type { AbstractEvent } from './events';
 import { SERENITY_EVENTS } from './events';
 import type { NetworkPacketEvent } from './network';
 import { Network, NetworkSession, NetworkStatus } from './network';
+import { NETWORK_HANDLERS } from './network/handlers';
 import type { Player } from './player';
 import type { SerenityEvents, SerenityOptions } from './types';
 import { EventEmitter } from './utils';
@@ -109,6 +110,11 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 			// Now we will emit the event.
 			void this.network.emit(Packet.Disconnect, event);
+
+			// Now we will trigger the disconnect handler.
+			const handler = NETWORK_HANDLERS.find((x) => x.packet === Disconnect.ID);
+			if (!handler) return this.logger.error('Failed to find disconnect handler.');
+			void handler.handle(packet as never, session);
 
 			// If there is a player instance, then we will remove it from the players map.
 			// If there isn't, then we will just ignore it.

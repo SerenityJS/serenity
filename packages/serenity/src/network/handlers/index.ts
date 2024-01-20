@@ -1,5 +1,6 @@
 import { BlockPickRequestHandler } from './BlockPickRequest';
-import { ContainerCloseHandler } from './ContainerCloseHandler';
+import { ContainerCloseHandler } from './ContainerClose';
+import { DisconnectHandler } from './Disconnect';
 import { InteractHandler } from './Interact';
 import { InventoryTransactionHandler } from './InventoryTransaction';
 import { LoginHandler } from './Login';
@@ -26,6 +27,7 @@ const NETWORK_HANDLERS = [
 	BlockPickRequestHandler,
 	SetLocalPlayerAsInitializedHandler,
 	InventoryTransactionHandler,
+	DisconnectHandler,
 ];
 
 export { NETWORK_HANDLERS };

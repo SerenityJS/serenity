@@ -3,6 +3,11 @@ import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class TextHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = Text.ID;
+
 	public static override async handle(packet: Text, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
@@ -21,7 +26,7 @@ class TextHandler extends NetworkHandler {
 		text.xuid = packet.xuid;
 		text.platformChatId = packet.platformChatId;
 
-		await this.serenity.network.broadcast(text);
+		await player.world.broadcast(text);
 	}
 }
 

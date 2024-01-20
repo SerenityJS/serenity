@@ -176,7 +176,7 @@ class Network extends EventEmitter<NetworkEvents> {
 					if (!value) continue;
 
 					// Attempt to find a handler for the packet.
-					const handler = NETWORK_HANDLERS.find((x) => x.name.startsWith(Packet[instance.getId() as Packet]));
+					const handler = NETWORK_HANDLERS.find((x) => x.packet === instance.getId());
 
 					// Check if a handler was not found.
 					// If so, we will emit a warning and continue to the next packet.

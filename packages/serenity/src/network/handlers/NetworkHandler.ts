@@ -1,4 +1,4 @@
-import type { DataPacket } from '@serenityjs/bedrock-protocol';
+import type { DataPacket, Packet } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../../Serenity';
 import type { NetworkSession } from '../Session';
 
@@ -12,6 +12,11 @@ abstract class NetworkHandler {
 	 * The serenity instance.
 	 */
 	public static serenity: Serenity;
+
+	/**
+	 * The packet of the network handler.
+	 */
+	public static packet: Packet;
 
 	/**
 	 * Handles a packet.

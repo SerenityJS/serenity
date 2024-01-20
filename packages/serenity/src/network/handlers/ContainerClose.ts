@@ -1,15 +1,13 @@
-import {
-	DisconnectReason,
-	InteractActions,
-	type Interact,
-	ContainerClose,
-	WindowsIds,
-	WindowsTypes,
-} from '@serenityjs/bedrock-protocol';
+import { DisconnectReason, ContainerClose } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class ContainerCloseHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = ContainerClose.ID;
+
 	public static override async handle(packet: ContainerClose, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.

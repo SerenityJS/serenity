@@ -1,4 +1,5 @@
 import { Buffer } from 'node:buffer';
+import type { ChunkCoord } from '@serenityjs/bedrock-protocol';
 import {
 	ResourceStatus,
 	ResourcePackStack,
@@ -13,9 +14,7 @@ import {
 	NetworkChunkPublisherUpdate,
 	Int32,
 	NBTTag,
-} from '@serenityjs/bedrock-protocol';
-import type {
-	ChunkCoord,
+	RequestNetworkSettings,
 	ResourcePackClientResponse,
 	LevelChunk,
 	PlayerList,
@@ -27,6 +26,11 @@ import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = ResourcePackClientResponse.ID;
+
 	public static override async handle(packet: ResourcePackClientResponse, session: NetworkSession): Promise<void> {
 		// TODO: Add support for resource packs.
 		// For now, we will just send the empty response.

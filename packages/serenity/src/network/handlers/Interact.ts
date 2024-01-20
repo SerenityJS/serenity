@@ -1,7 +1,7 @@
 import {
 	DisconnectReason,
 	InteractActions,
-	type Interact,
+	Interact,
 	ContainerOpen,
 	WindowsIds,
 	WindowsTypes,
@@ -10,6 +10,11 @@ import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class InteractHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = Interact.ID;
+
 	public static override async handle(packet: Interact, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.

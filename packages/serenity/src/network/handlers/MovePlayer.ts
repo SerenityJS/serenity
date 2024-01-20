@@ -1,8 +1,13 @@
-import { DisconnectReason, ScriptMessage, type MovePlayer } from '@serenityjs/bedrock-protocol';
+import { DisconnectReason, MovePlayer } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class MovePlayerHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = MovePlayer.ID;
+
 	public static override async handle(packet: MovePlayer, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.

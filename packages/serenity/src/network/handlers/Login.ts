@@ -1,6 +1,6 @@
 import {
 	PlayStatus,
-	type Login,
+	Login,
 	type Tokens,
 	PlayerStatus,
 	DisconnectReason,
@@ -13,6 +13,11 @@ import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
 class LoginHandler extends NetworkHandler {
+	/**
+	 * The packet of the network handler.
+	 */
+	public static override packet = Login.ID;
+
 	public static decoder = fastJwt.createDecoder();
 
 	public static override async handle(packet: Login, session: NetworkSession): Promise<void> {
@@ -50,6 +55,10 @@ class LoginHandler extends NetworkHandler {
 		// We will also add the player to the players map.
 		const player = new Player(session, data);
 		this.serenity.players.set(xuid, player);
+
+		// TEMP: add the player to the world.
+		// This needs to be changed in the future.
+		player.world.players.set(player.uniqueId, player);
 
 		// TODO: Emit the login event.
 		// Not sure how the event system will work yet, so this will be implemented later.
