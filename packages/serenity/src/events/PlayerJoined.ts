@@ -6,18 +6,12 @@ import { HookMethod } from '../types';
 import { AbstractEvent } from './AbstractEvent';
 
 class PlayerJoined extends AbstractEvent {
-	protected readonly serenity: Serenity;
+	public static serenity: Serenity;
 
-	public readonly hook = Packet.PlayStatus;
-	public readonly method = HookMethod.After;
+	public static readonly hook = Packet.PlayStatus;
+	public static readonly method = HookMethod.After;
 
-	public constructor(serenity: Serenity) {
-		super();
-
-		this.serenity = serenity;
-	}
-
-	public async logic(data: NetworkPacketEvent<PlayStatus>): Promise<void> {
+	public static async logic(data: NetworkPacketEvent<PlayStatus>): Promise<void> {
 		// Separate the data into variables.
 		const { packet, session, status } = data;
 

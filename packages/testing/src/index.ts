@@ -18,20 +18,13 @@ const serenity = new Serenity({
 serenity.start();
 
 serenity.on('PlayerJoined', (player) => {
-	// Do something when a player joins.
+	console.log('join');
 });
 
 serenity.on('PlayerSpawned', (player) => {
-	// serenity.world.setBlock(0, -58, 0, 1);
+	console.log('spawn');
 });
 
 serenity.after('PlayerLeft', (player) => {
-	// Do something when a player leaves.
-});
-
-serenity.before('PlayerChat', (player, packet) => {
-	// eslint-disable-next-line no-param-reassign
-	packet.message = 'intercepted';
-
-	return true;
+	console.log('left');
 });

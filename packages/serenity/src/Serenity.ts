@@ -23,7 +23,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly protocol: number;
 	public readonly version: string;
 
-	public readonly events: Map<string, AbstractEvent>;
+	public readonly events: Map<string, typeof AbstractEvent>;
 	public readonly network: Network;
 	public readonly players: Map<string, Player>;
 	public readonly world: World; // This is temporary.
@@ -48,30 +48,29 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		// Loop through all events and construct them.
 		// Bind the logic function to the packet hook
 		for (const event of SERENITY_EVENTS) {
-			// Attempt to construct the event.
-			// If it fails, then we will log the error and continue.
-			try {
-				// Construct the event.
-				const construct = new event(this);
+			// Assign the serenity instance to the event.
+			// This is so we can access the serenity instance from the event.
+			event.serenity = this;
 
+			try {
 				// Hook the logic method to the packet event.
 				// Events will either be before, on, or after the packet event.
 				// This is to ensure that is the packet data has changed, the event will still run with the updated data.
 				// this.network.after(construct.packetHook, construct.logic.bind(construct) as never);
-				switch (construct.method as HookMethod) {
+				switch (event.method as HookMethod) {
 					case HookMethod.Before:
-						this.network.before(construct.hook, construct.logic.bind(construct) as never);
+						this.network.before(event.hook, event.logic.bind(event) as never);
 						break;
 					case HookMethod.On:
-						this.network.on(construct.hook, construct.logic.bind(construct) as never);
+						this.network.on(event.hook, event.logic.bind(event) as never);
 						break;
 					case HookMethod.After:
-						this.network.after(construct.hook, construct.logic.bind(construct) as never);
+						this.network.after(event.hook, event.logic.bind(event) as never);
 						break;
 				}
 
 				// Add the event to the map.
-				this.events.set(event.name, construct);
+				this.events.set(event.name, event);
 			} catch (error) {
 				this.logger.error(`Failed to register event ${event.name}!`);
 				this.logger.error(error);

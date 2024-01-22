@@ -3,13 +3,12 @@ import type { Serenity } from '../Serenity';
 import type { HookMethod } from '../types';
 
 abstract class AbstractEvent {
-	protected abstract readonly serenity: Serenity;
-
-	public abstract readonly hook: Packet;
-
-	public abstract readonly method: HookMethod;
-
-	public abstract logic(...args: unknown[]): void;
+	public static serenity: Serenity;
+	public static readonly hook: Packet;
+	public static readonly method: HookMethod;
+	public static logic(...args: unknown[]): void {
+		throw new Error('Logic method not implemented.');
+	}
 }
 
 export { AbstractEvent };
