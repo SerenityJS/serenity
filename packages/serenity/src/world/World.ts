@@ -1,4 +1,16 @@
-import { ChatTypes, PlayerList, RecordAction, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
+import {
+	AddPlayer,
+	ChatTypes,
+	DeviceOS,
+	Gamemode,
+	MetadataFlags,
+	MetadataKey,
+	MetadataType,
+	PlayerList,
+	RecordAction,
+	Text,
+	type DataPacket,
+} from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
@@ -108,8 +120,50 @@ class World {
 			},
 		];
 
+		const entity = new AddPlayer<any>();
+		entity.uuid = player.uuid;
+		entity.username = player.username;
+		entity.runtimeId = player.runtimeId;
+		entity.platformChatId = '';
+		entity.position = player.position;
+		entity.velocity = { x: 0, y: 0, z: 0 };
+		entity.rotation = player.rotation;
+		entity.headYaw = player.headYaw;
+		entity.heldItem = {
+			networkId: 0,
+			count: null,
+			metadata: null,
+			hasStackId: null,
+			stackId: null,
+			blockRuntimeId: null,
+			extras: null,
+		};
+		entity.gamemode = Gamemode.Creative;
+		entity.metadata = [
+			{
+				key: MetadataKey.Flags,
+				type: MetadataType.Long,
+				value: true,
+				flag: MetadataFlags.AffectedByGravity,
+			},
+		];
+		entity.properties = {
+			ints: [],
+			floats: [],
+		};
+		entity.uniqueEntityId = player.uniqueId;
+		entity.premissionLevel = 2;
+		entity.commandPermission = 0;
+		entity.abilities = [];
+		entity.links = [];
+		entity.deviceId = 'Win10';
+		entity.deviceOS = DeviceOS.Win10;
+
 		// Send the packet to all players except the new player.
 		void this.broadcastExcept(player, playerList);
+
+		// Send the packet to the new player.
+		void this.broadcastExcept(player, entity);
 
 		// Send the join message to all players.
 		return this.sendMessage(`§e${player.username} joined the game.`);

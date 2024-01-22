@@ -45,6 +45,7 @@ import { BinaryStream } from '@serenityjs/binarystream';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
+import type { Player } from '../player';
 import { EventEmitter } from '../utils';
 import type { NetworkSession } from './Session';
 import { NETWORK_HANDLERS, NetworkHandler } from './handlers';
@@ -59,6 +60,7 @@ export enum NetworkStatus {
 
 export interface NetworkPacketEvent<T extends DataPacket> {
 	packet: T;
+	player: Player | null;
 	session: NetworkSession;
 	status: NetworkStatus;
 }
@@ -166,6 +168,7 @@ class Network extends EventEmitter<NetworkEvents> {
 						packet: instance,
 						session,
 						status: NetworkStatus.Incoming,
+						player: session.getPlayerInstance(), // NOTE: Player is null if the player is not fully logged in.
 					} as NetworkPacketEvent<any>;
 					// Emit the packet event will return a promise with a boolean value.
 					// If the value is false, the packet was cancelled from being handled.
@@ -216,6 +219,7 @@ class Network extends EventEmitter<NetworkEvents> {
 					packet,
 					session,
 					status: NetworkStatus.Outgoing,
+					player: session.getPlayerInstance(), // NOTE: Player is null if the player is not fully logged in.
 				} as NetworkPacketEvent<any>;
 
 				// Emit the packet event will return a promise with a boolean value.

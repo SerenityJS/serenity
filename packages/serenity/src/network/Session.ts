@@ -24,6 +24,8 @@ class NetworkSession {
 	public encryption: boolean = false;
 	public compression: boolean = false;
 
+	protected player: Player | null = null;
+
 	/**
 	 * Creates a new network session.
 	 *
@@ -67,6 +69,9 @@ class NetworkSession {
 	 * @returns The player instance.
 	 */
 	public getPlayerInstance(): Player | null {
+		// Check if the player is already set.
+		if (this.player) return this.player;
+
 		// Sort the players map into an array.
 		// Then we will attempt to find the player with the same session as this.
 		const players = [...this.serenity.players.values()];
@@ -74,6 +79,9 @@ class NetworkSession {
 
 		// If the player is not found, return null.
 		if (!player) return null;
+
+		// Set the player to this session.
+		this.player = player;
 
 		// Return the player.
 		return player;

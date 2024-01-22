@@ -29,3 +29,4 @@ export * from './TransactionSourceType';
 export * from './UseItemAction';
 export * from './UseItemOnEntityAction';
 export * from './ItemReleaseAction';
+export * from './DeviceOS';

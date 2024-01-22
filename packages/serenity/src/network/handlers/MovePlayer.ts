@@ -27,15 +27,21 @@ class MovePlayerHandler extends NetworkHandler {
 		player.headYaw = packet.headYaw;
 		player.onGround = packet.onGround;
 
-		// TODO: Broadcast the player's movement to other players.
-		// idk if this is 100% correct, but it works for now (i hope) cus i cant test it
-		await Promise.all(
-			[...this.serenity.players.values()].map(async (p) => {
-				if (p !== player) {
-					return p.broadcastMovement(packet.mode, player);
-				}
-			}),
-		);
+		// Create a new move player packet.
+		const move = new MovePlayer();
+		move.runtimeId = player.runtimeId;
+		move.position = player.position;
+		move.pitch = player.rotation.x;
+		move.yaw = player.rotation.z;
+		move.headYaw = player.headYaw;
+		move.mode = packet.mode;
+		move.onGround = player.onGround;
+		move.riddenRuntimeId = 0n;
+		move.cause = packet.cause;
+		move.tick = 0n;
+
+		// Broadcast the player's movement to all players except the player.
+		void player.world.broadcastExcept(player, move);
 	}
 }
 

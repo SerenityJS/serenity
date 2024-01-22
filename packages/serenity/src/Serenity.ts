@@ -13,7 +13,7 @@ import type { NetworkPacketEvent } from './network';
 import { Network, NetworkSession, NetworkStatus } from './network';
 import { NETWORK_HANDLERS } from './network/handlers';
 import type { Player } from './player';
-import type { SerenityEvents, SerenityOptions } from './types';
+import { HookMethod, type SerenityEvents, type SerenityOptions } from './types';
 import { EventEmitter } from './utils';
 import { World } from './world';
 
@@ -55,9 +55,20 @@ class Serenity extends EventEmitter<SerenityEvents> {
 				const construct = new event(this);
 
 				// Hook the logic method to the packet event.
-				// Events will run after the packet has been handled.
+				// Events will either be before, on, or after the packet event.
 				// This is to ensure that is the packet data has changed, the event will still run with the updated data.
-				this.network.after(construct.packetHook, construct.logic.bind(construct) as never);
+				// this.network.after(construct.packetHook, construct.logic.bind(construct) as never);
+				switch (construct.method as HookMethod) {
+					case HookMethod.Before:
+						this.network.before(construct.hook, construct.logic.bind(construct) as never);
+						break;
+					case HookMethod.On:
+						this.network.on(construct.hook, construct.logic.bind(construct) as never);
+						break;
+					case HookMethod.After:
+						this.network.after(construct.hook, construct.logic.bind(construct) as never);
+						break;
+				}
 
 				// Add the event to the map.
 				this.events.set(event.name, construct);

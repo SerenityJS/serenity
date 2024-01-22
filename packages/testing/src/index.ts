@@ -29,18 +29,9 @@ serenity.after('PlayerLeft', (player) => {
 	// Do something when a player leaves.
 });
 
-serenity.network.on(Packet.Text, ({ packet, session }) => {
-	if (packet.message === 'fill') {
-		serenity.world.setBlock(0, -58, 0, 1);
-		serenity.world.setBlock(1, -58, 0, 1);
-		serenity.world.setBlock(0, -58, 1, 1);
-		serenity.world.setBlock(1, -58, 1, 1);
-		serenity.world.setBlock(-1, -58, 0, 1);
-		serenity.world.setBlock(0, -58, -1, 1);
-		serenity.world.setBlock(-1, -58, -1, 1);
-		serenity.world.setBlock(-1, -58, 1, 1);
-		serenity.world.setBlock(1, -58, -1, 1);
+serenity.before('PlayerChat', (player, packet) => {
+	// eslint-disable-next-line no-param-reassign
+	packet.message = 'intercepted';
 
-		session.getPlayerInstance()?.sendMessage('Reload to see changes.');
-	}
+	return true;
 });

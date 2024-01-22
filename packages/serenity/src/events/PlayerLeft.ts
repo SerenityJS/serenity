@@ -2,11 +2,14 @@ import type { Disconnect } from '@serenityjs/bedrock-protocol';
 import { DisconnectReason, Packet, PlayerStatus } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { NetworkStatus, type NetworkPacketEvent, type NetworkSession } from '../network';
+import { HookMethod } from '../types';
 import { AbstractEvent } from './AbstractEvent';
 
 class PlayerLeft extends AbstractEvent {
 	protected readonly serenity: Serenity;
-	public readonly packetHook = Packet.Disconnect;
+
+	public readonly hook = Packet.Disconnect;
+	public readonly method = HookMethod.After;
 
 	public constructor(serenity: Serenity) {
 		super();
