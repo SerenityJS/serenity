@@ -159,6 +159,14 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		return true;
 	}
+
+	public setMotd(motd: string): void {
+		this.server.motd = motd;
+	}
+
+	public getMotd(): string {
+		return this.server.motd ?? 'SerenityJS';
+	}
 }
 
 export { Serenity };
