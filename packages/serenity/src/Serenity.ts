@@ -23,7 +23,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly protocol: number;
 	public readonly version: string;
 
-	public readonly events: Map<string, typeof AbstractEvent>;
+	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
 	public readonly players: Map<string, Player>;
 	public readonly world: World; // This is temporary.

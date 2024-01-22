@@ -1,9 +1,10 @@
-import type { Player } from '../player';
+import type { PlayerChat, PlayerJoined, PlayerLeft, PlayerSpawned } from '../events';
 
 interface SerenityEvents {
-	PlayerJoined: [Player];
-	PlayerLeft: [Player];
-	PlayerSpawned: [Player];
+	PlayerChat: [PlayerChat];
+	PlayerJoined: [PlayerJoined];
+	PlayerLeft: [PlayerLeft];
+	PlayerSpawned: [PlayerSpawned];
 }
 
 export type { SerenityEvents };
