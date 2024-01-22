@@ -1,14 +1,4 @@
-import {
-	ChatTypes,
-	MetadataFlags,
-	MetadataKey,
-	MetadataType,
-	Packet,
-	SetEntityData,
-	Text,
-	TitleTypes,
-} from '@serenityjs/bedrock-protocol';
-import { NetworkStatus, Player, Serenity } from '@serenityjs/serenity';
+import { Serenity } from '@serenityjs/serenity';
 
 const serenity = new Serenity({
 	address: '0.0.0.0',

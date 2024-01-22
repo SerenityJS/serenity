@@ -25,17 +25,21 @@ class World {
 	protected readonly serenity: Serenity;
 	protected readonly logger: Logger;
 
-	public readonly players: Map<bigint, Player>;
+	public readonly name: string;
+	public readonly seed: number;
 	public readonly generator: Generator;
 	public readonly chunks: Map<bigint, ChunkColumn>;
+	public readonly players: Map<bigint, Player>;
 
-	public constructor(serenity: Serenity, generator?: Generator) {
+	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: Generator) {
 		this.serenity = serenity;
 		this.logger = new Logger('World', LoggerColors.Cyan);
 
-		this.players = new Map();
-		this.generator = generator ?? new Flat(this.serenity, 0); // TODO: Seed
+		this.name = name ?? 'Serenity World';
+		this.seed = seed ?? 0;
+		this.generator = generator ?? new Flat(this.serenity, this.seed);
 		this.chunks = new Map();
+		this.players = new Map();
 	}
 
 	/**

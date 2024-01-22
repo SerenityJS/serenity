@@ -63,13 +63,19 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 			}
 
 			case ResourceStatus.Completed: {
+				const player = session.getPlayerInstance(); // TEMP
+
+				if (!player) return; // TEMP
+
+				const world = player.world; // TEMP
+
 				const start = new StartGame();
 				start.entityId = session.uniqueId;
 				start.runtimeEntityId = session.runtimeId;
 				start.playerGamemode = Gamemode.Creative;
 				start.playerPosition = { x: 0, y: -46, z: 0 };
 				start.rotation = { x: 0, z: 0 };
-				start.seed = 0n;
+				start.seed = BigInt(world.seed);
 				start.biomeType = 0;
 				start.biomeName = 'plains';
 				start.dimension = 0;
@@ -319,8 +325,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.experimentalGameplayOverride = false;
 				start.chatRestrictionLevel = 0;
 				start.disablePlayerInteractions = false;
-				start.levelId = 'level';
-				start.worldName = 'name';
+				start.levelId = 'SerenityJS';
+				start.worldName = world.name;
 				start.premiumWorldTemplateId = '00000000-0000-0000-0000-000000000000';
 				start.isTrial = false;
 				start.movementAuthority = 0;
