@@ -33,7 +33,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		Logger.DEBUG = options.debug ?? false;
 		this.logger = new Logger('Serenity', '#a742f5');
-		this.server = new Server(options.address, options.port);
+		this.server = new Server(options.address, options.port, options.maxConnections);
 		this.protocol = options.protocol ?? PROTOCOL_VERSION;
 		this.version = options.version ?? MINECRAFT_VERSION;
 

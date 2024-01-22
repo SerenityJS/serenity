@@ -1,8 +1,7 @@
-import type { SerenityEvents } from './SerenityEvents';
-
 interface SerenityOptions {
 	address: string;
 	debug?: boolean;
+	maxConnections?: number;
 	port?: number;
 	protocol?: number;
 	version?: string;
