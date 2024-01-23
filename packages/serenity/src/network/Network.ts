@@ -38,6 +38,7 @@ import type {
 	//	SelectedSlot,
 	SetEntityData,
 	InventoryTransaction,
+	RemoveEntity,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -75,6 +76,7 @@ interface NetworkEvents {
 	[Packet.Text]: [NetworkPacketEvent<Text>];
 	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
 	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayer>];
+	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntity>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
 	[Packet.InventoryTransaction]: [NetworkPacketEvent<InventoryTransaction>];

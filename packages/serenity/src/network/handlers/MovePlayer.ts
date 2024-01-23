@@ -18,7 +18,7 @@ class MovePlayerHandler extends NetworkHandler {
 
 		// Adjust the player's Y position.
 		// For some reason, the client sends the player's Y position as 1.62 blocks higher than it should be.
-		packet.position.y -= 1.62;
+		// packet.position.y -= 1.62;
 
 		// TODO: Add seperate logic for different move modes.
 		// Set the player's position, rotation, head yaw, and on ground status.
@@ -27,21 +27,15 @@ class MovePlayerHandler extends NetworkHandler {
 		player.headYaw = packet.headYaw;
 		player.onGround = packet.onGround;
 
-		// Create a new move player packet.
-		const move = new MovePlayer();
-		move.runtimeId = player.runtimeId;
-		move.position = player.position;
-		move.pitch = player.rotation.x;
-		move.yaw = player.rotation.z;
-		move.headYaw = player.headYaw;
-		move.mode = packet.mode;
-		move.onGround = player.onGround;
-		move.riddenRuntimeId = 0n;
-		move.cause = packet.cause;
-		move.tick = 0n;
+		// Send the movement packet to all players.
+		// Except for the player that sent the movement packet.
+		// This is to prevent the player from seeing themselves move.
+		for (const [, other] of player.world.players) {
+			if (other === player) continue;
 
-		// Broadcast the player's movement to all players except the player.
-		void player.world.broadcastExcept(player, move);
+			// Since the player is receiving the movement packet, we will hanlde this in the session.
+			other.session.receiveMovement(player, packet);
+		}
 	}
 }
 

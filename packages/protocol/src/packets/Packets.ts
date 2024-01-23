@@ -20,6 +20,7 @@ import { PacketViolationWarning } from './PacketViolationWarning';
 import { PlayStatus } from './PlayStatus';
 import { PlayerAction } from './PlayerAction';
 import { PlayerList } from './PlayerList';
+import { RemoveEntity } from './RemoveEntity';
 import { RequestNetworkSettings } from './RequestNetworkSettings';
 import { ResourcePackClientResponse } from './ResourcePackClientResponse';
 import { ResourcePackStack } from './ResourcePackStack';
@@ -47,6 +48,7 @@ const Packets = {
 	// Gap
 	[Packet.StartGame]: StartGame, // 11
 	[Packet.AddPlayer]: AddPlayer, // 12
+	[Packet.RemoveEntity]: RemoveEntity, // 14
 	// Gap
 	[Packet.MovePlayer]: MovePlayer, // 19
 	// Gap

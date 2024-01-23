@@ -73,7 +73,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.entityId = session.uniqueId;
 				start.runtimeEntityId = session.runtimeId;
 				start.playerGamemode = Gamemode.Creative;
-				start.playerPosition = { x: 0, y: -46, z: 0 };
+				start.playerPosition = { x: 0, y: -55, z: 0 };
 				start.rotation = { x: 0, z: 0 };
 				start.seed = BigInt(world.seed);
 				start.biomeType = 0;
@@ -82,7 +82,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				start.generator = 1;
 				start.worldGamemode = Gamemode.Creative;
 				start.difficulty = Difficulty.Normal;
-				start.spawnPosition = { x: 0, y: -46, z: 0 };
+				start.spawnPosition = { x: 0, y: -55, z: 0 };
 				start.achievementsDisabled = false;
 				start.editorWorldType = 0;
 				start.createdInEdior = false;

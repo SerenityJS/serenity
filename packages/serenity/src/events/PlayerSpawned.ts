@@ -29,7 +29,7 @@ class PlayerSpawned extends AbstractEvent {
 		// First we need to check if their is a player instance.
 		if (!player) {
 			return this.serenity.logger.error(
-				`Failed to find player instance for ${session.identifier.address}:${session.identifier.port}!`,
+				`Failed to find player instance for ${session.identifier.address}:${session.identifier.port}! PlayerSpawned.logic()`,
 			);
 		}
 

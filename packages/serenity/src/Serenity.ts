@@ -116,6 +116,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 				packet,
 				session,
 				status: NetworkStatus.Incoming,
+				player: session.getPlayerInstance(),
 			} as NetworkPacketEvent<Disconnect>;
 
 			// Now we will emit the event.

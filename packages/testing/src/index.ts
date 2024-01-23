@@ -8,13 +8,13 @@ const serenity = new Serenity({
 serenity.start();
 
 serenity.on('PlayerJoined', ({ player }) => {
-	// console.log('join');
+	console.log(player.world.players.size);
 });
 
 serenity.on('PlayerSpawned', ({ player }) => {
-	// console.log('spawn');
+	console.log(player.world.players.size);
 });
 
 serenity.on('PlayerLeft', ({ player }) => {
-	// console.log('left');
+	console.log(player.world.players.size);
 });

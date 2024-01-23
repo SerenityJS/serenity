@@ -18,9 +18,8 @@ import { ChunkColumn } from './chunk';
 import type { Generator } from './generator';
 import { Flat } from './generator';
 
-/**
- * Represents a world.
- */
+const RUNTIME_ID = 0n;
+
 class World {
 	protected readonly serenity: Serenity;
 	protected readonly logger: Logger;
@@ -80,94 +79,22 @@ class World {
 	 */
 	public addPlayer(player: Player): void {
 		// Check if the player is already in the world.
-		if (this.players.has(player.uniqueId)) {
+		if (this.players.has(player.uniqueEntityId)) {
 			return this.logger.error(`${player.username} (${player.xuid}) is already in the world!`);
 		}
 
-		// Send the player the player list.
-		// Setting the type to add.
-		// Mapping the player list to the player's data.
-		let playerList = new PlayerList();
-		playerList.action = RecordAction.Add;
-		playerList.records = [...this.players.values()].map((entry) => ({
-			uuid: entry.uuid,
-			entityUniqueId: entry.uniqueId,
-			username: entry.username,
-			xuid: entry.xuid,
-			platformChatId: '',
-			buildPlatform: 0,
-			skin: entry.skin.serialize(),
-			isTeacher: false,
-			isHost: false,
-		}));
+		// Render the player to all other players.
+		for (const other of this.players.values()) {
+			other.render.addPlayer(player);
+		}
 
-		// Send the player list to the player.
-		void player.session.send(playerList);
+		// Render all other players to the player.
+		for (const other of this.players.values()) {
+			player.render.addPlayer(other);
+		}
 
-		// Add the player to the players map.
-		this.players.set(player.uniqueId, player);
-
-		// Send a new player list add packet to all players.
-		playerList = new PlayerList();
-		playerList.action = RecordAction.Add;
-		playerList.records = [
-			{
-				uuid: player.uuid,
-				entityUniqueId: player.uniqueId,
-				username: player.username,
-				xuid: player.xuid,
-				platformChatId: '',
-				buildPlatform: 0,
-				skin: player.skin.serialize(),
-				isTeacher: false,
-				isHost: false,
-			},
-		];
-
-		const entity = new AddPlayer<any>();
-		entity.uuid = player.uuid;
-		entity.username = player.username;
-		entity.runtimeId = player.runtimeId;
-		entity.platformChatId = '';
-		entity.position = player.position;
-		entity.velocity = { x: 0, y: 0, z: 0 };
-		entity.rotation = player.rotation;
-		entity.headYaw = player.headYaw;
-		entity.heldItem = {
-			networkId: 0,
-			count: null,
-			metadata: null,
-			hasStackId: null,
-			stackId: null,
-			blockRuntimeId: null,
-			extras: null,
-		};
-		entity.gamemode = Gamemode.Creative;
-		entity.metadata = [
-			{
-				key: MetadataKey.Flags,
-				type: MetadataType.Long,
-				value: true,
-				flag: MetadataFlags.AffectedByGravity,
-			},
-		];
-		entity.properties = {
-			ints: [],
-			floats: [],
-		};
-		entity.uniqueEntityId = player.uniqueId;
-		entity.premissionLevel = 2;
-		entity.commandPermission = 0;
-		entity.abilities = [];
-		entity.links = [];
-		entity.deviceId = 'Win10';
-		entity.deviceOS = DeviceOS.Win10;
-
-		// Send the packet to all players except the new player.
-		void this.broadcastExcept(player, playerList);
-
-		// Send the packet to the new player.
-		void this.broadcastExcept(player, entity);
+		// Set the player's world to this world.
+		this.players.set(player.uniqueEntityId, player);
 
 		// Send the join message to all players.
 		return this.sendMessage(`§e${player.username} joined the game.`);
@@ -180,24 +107,17 @@ class World {
 	 */
 	public removePlayer(player: Player): void {
 		// Check if the player is not in the world.
-		if (!this.players.has(player.uniqueId)) {
+		if (!this.players.has(player.uniqueEntityId)) {
 			return this.logger.error(`${player.username} (${player.xuid}) is not in the world!`);
 		}
 
 		// Remove the player from the players map.
-		this.players.delete(player.uniqueId);
+		this.players.delete(player.uniqueEntityId);
 
-		// Send a new player list remove packet to all players.
-		const playerList = new PlayerList();
-		playerList.action = RecordAction.Remove;
-		playerList.records = [
-			{
-				uuid: player.uuid,
-			},
-		];
-
-		// Send the packet to all players.
-		void this.broadcast(playerList);
+		// Unrender the player from all other players.
+		for (const other of this.players.values()) {
+			other.render.removePlayer(player);
+		}
 
 		// Send the leave message to all players.
 		return this.sendMessage(`§e${player.username} left the game.`);

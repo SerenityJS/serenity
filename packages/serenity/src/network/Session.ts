@@ -1,6 +1,6 @@
 import type { Buffer } from 'node:buffer';
 import { writeFileSync } from 'node:fs';
-import { Disconnect, LevelChunk, NetworkChunkPublisherUpdate } from '@serenityjs/bedrock-protocol';
+import { Disconnect, LevelChunk, NetworkChunkPublisherUpdate, MovePlayer } from '@serenityjs/bedrock-protocol';
 import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
 import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
@@ -10,6 +10,16 @@ import { ChunkColumn } from '../world';
 import type { Network } from './Network';
 
 let runtimeId = 0n;
+
+// NOTE
+// STRUCTURE FOR PLAYER AND NEWORKSESSION CLASS
+// Any methods that will directly interact with the player should be in the player class.
+// Any methods that will NOT directly interact with the player should be in the network session class.
+// The methods in the network session class should be used for reiceving packets from other players.
+// For example, the player class has a sendMessage() method, this method will directly interact with the player, by sending a message on screen.
+// Another example, the network session class has a receiveMovement() method, this method will NOT directly interact with the player,
+// As this method handles the movement of other players, not the player itself.
+//
 
 class NetworkSession {
 	public readonly serenity: Serenity;
@@ -87,6 +97,7 @@ class NetworkSession {
 		return player;
 	}
 
+	// TODO: move to player class
 	public async sendChunk(chunk: ChunkColumn): Promise<void> {
 		const packet = new LevelChunk();
 		packet.x = chunk.x;
@@ -99,6 +110,42 @@ class NetworkSession {
 		this.chunks.set(hash, chunk);
 
 		await this.send(packet);
+	}
+
+	/**
+	 * Handles movement from other players.
+	 *
+	 * @param player The player that moved.
+	 * @param packet The movement packet.
+	 */
+	public receiveMovement(player: Player, packet: MovePlayer): void {
+		// Check if our player instance is null.
+		// If it is, we will log an error and return.
+		if (!this.player) {
+			return this.serenity.logger.error(
+				`Failed to find player instance for ${this.identifier.address}:${this.identifier.port}! NetworkSession.receiveMovement()`,
+			);
+		}
+
+		// Check if the player is rendered to our player.
+		// If it isn't, we will return.
+		if (!this.player.render.players.has(player.uniqueEntityId)) return;
+
+		// Create a new movement packet.
+		const move = new MovePlayer();
+		move.runtimeId = player.runtimeId;
+		move.position = packet.position;
+		move.pitch = player.rotation.x;
+		move.yaw = player.rotation.z;
+		move.headYaw = player.headYaw;
+		move.mode = packet.mode;
+		move.onGround = player.onGround;
+		move.riddenRuntimeId = 0n;
+		move.cause = packet.cause;
+		move.tick = 0n;
+
+		// Send the movement packet
+		void this.send(move);
 	}
 }
 

@@ -30,7 +30,7 @@ class PlayerChat extends AbstractEvent {
 		// Check if the player exists.
 		if (!player) {
 			this.serenity.logger.error(
-				`Failed to find player instance for ${session.identifier.address}:${session.identifier.port}!`,
+				`Failed to find player instance for ${session.identifier.address}:${session.identifier.port}! PlayerChat.logic()`,
 			);
 
 			return false;
