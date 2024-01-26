@@ -4,6 +4,7 @@
 	"repository": "https://github.com/SerenityJS/serenity.git",
 	"license": "./LICENSE",
 	"workspaces": [
+		"packages/nbt",
 		"packages/protocol",
 		"packages/serenity",
 		"packages/testing"

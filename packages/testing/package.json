@@ -11,7 +11,9 @@
 		"lint": "eslint --ext .ts src"
 	},
 	"dependencies": {
-		"@serenityjs/serenity": "^1.0.0",
-		"@serenityjs/bedrock-protocol": "^1.0.0"
+		"@serenityjs/bedrock-protocol": "^1.0.0",
+		"@serenityjs/binarystream": "^1.2.3",
+		"@serenityjs/nbt": "^1.0.0",
+		"@serenityjs/serenity": "^1.0.0"
 	}
 }

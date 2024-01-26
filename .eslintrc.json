@@ -26,7 +26,8 @@
 		"id-length": "off",
 		"tsdoc/syntax": "off",
 		"require-atomic-updates": "off",
-		"unicorn/prefer-string-replace-all": "off"
+		"unicorn/prefer-string-replace-all": "off",
+		"@typescript-eslint/unbound-method": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }

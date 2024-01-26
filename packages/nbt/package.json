@@ -1,0 +1,23 @@
+{
+	"name": "@serenityjs/nbt",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsc",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"lint": "eslint --ext .ts src"
+	},
+	"types": "./dist/index.d.ts",
+	"module": "./dist/index.js",
+	"files": [
+		"dist"
+	],
+	"exports": {
+		"import": "./dist/index.js",
+		"require": "./dist/index.js"
+	},
+	"dependencies": {
+		"@serenityjs/binarystream": "^1.2.3"
+	}
+}
