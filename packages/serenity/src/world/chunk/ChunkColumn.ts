@@ -3,21 +3,17 @@ import type { Vec2f } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { SubChunk } from './SubChunk';
 
-// Note: This is a temporary implementation of the chunk column class.
-// I do not believe this is the best way to implement this, but it works for now.
-// I'm not smart enough to figure out how to implement this properly at the moment lol.
-
 class ChunkColumn {
-	public readonly hash: bigint;
+	public static readonly MAX_SUB_CHUNKS = 16;
+
 	public readonly x: number;
 	public readonly z: number;
 	public readonly subchunks: SubChunk[];
 
 	public constructor(x: number, z: number, subchunks?: SubChunk[]) {
-		this.hash = ChunkColumn.getHash(x, z);
 		this.x = x;
 		this.z = z;
-		this.subchunks = subchunks ?? Array.from({ length: 16 }, () => new SubChunk());
+		this.subchunks = subchunks ?? Array.from({ length: ChunkColumn.MAX_SUB_CHUNKS }, () => new SubChunk());
 	}
 
 	public static getHash(x: number, z: number): bigint {
@@ -32,61 +28,77 @@ class ChunkColumn {
 	}
 
 	public getSubChunk(index: number): SubChunk {
-		if (index < 0 || index > 24) {
-			throw new Error(`Invalid subchunk height: ${index}`);
+		// Check if the sub chunk exists.
+		if (!this.subchunks[index]) {
+			// Create a new sub chunk.
+			for (let i = 0; i <= index; i++) {
+				if (!this.subchunks[i]) {
+					this.subchunks[i] = new SubChunk();
+				}
+			}
 		}
 
-		if (this.subchunks[index] === undefined) {
-			this.subchunks[index] = new SubChunk();
-		}
-
+		// Return the sub chunk.
 		return this.subchunks[index];
 	}
 
-	public setBlock(x: number, y: number, z: number, id: number): number {
-		const subChunk = this.getSubChunk(y >> 4);
+	public setBlock(x: number, y: number, z: number, runtimeId: number): void {
+		// Get the sub chunk.
+		const subchunk = this.getSubChunk(y >> 4);
 
-		return subChunk.setBlock(x, y, z, id);
+		// Set the block.
+		subchunk.setBlock(x, y, z, runtimeId, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
 	public getBlock(x: number, y: number, z: number): number {
-		const subChunk = this.getSubChunk(y >> 4);
+		// Get the sub chunk.
+		const subchunk = this.getSubChunk(y >> 4);
 
-		return subChunk.getBlock(x, y, z);
+		// Get the block.
+		return subchunk.getBlock(x, y, z, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
 	public getSubChunkSendCount(): number {
-		let topEmpty = 0;
-		for (let ci = 16 - 1; ci >= 0; ci--) {
-			if (this.subchunks[ci].isEmpty()) {
-				topEmpty++;
+		// Loop through each sub chunk.
+		let count = 0;
+		for (let i = ChunkColumn.MAX_SUB_CHUNKS - 1; i >= 0; i--) {
+			// Check if the sub chunk is empty.
+			if (this.subchunks[i].isEmpty()) {
+				count++;
 			} else {
 				break;
 			}
 		}
 
-		return 16 - topEmpty;
+		return ChunkColumn.MAX_SUB_CHUNKS - count;
 	}
 
 	public serialize(): Buffer {
+		// Create a new stream.
 		const stream = new BinaryStream();
 
-		// for (let y = 0; y < 4; ++y) {
-		// 	stream.writeByte(8); // subchunk version 8
-		// 	stream.writeByte(0); // 0 layers (all air)
-		// }
+		// Write 4 empty subchunks
+		// This eliminates the -64 to 0 y coordinate bug
+		for (let i = 0; i < 4; i++) {
+			stream.writeUint8(8);
+			stream.writeUint8(0);
+		}
 
+		// Serialize each sub chunk.
 		for (let i = 0; i < this.getSubChunkSendCount(); ++i) {
 			this.subchunks[i].serialize(stream);
 		}
 
+		// Biomes?
 		for (let i = 0; i < 24; i++) {
-			stream.writeByte(0); // fake biome palette, non persistent
-			stream.writeVarInt(1 << 1); // plains
+			stream.writeByte(0);
+			stream.writeVarInt(1 << 1);
 		}
 
-		stream.writeByte(0); // border ?
+		// Border blocks?
+		stream.writeByte(0);
 
+		// Return the buffer.
 		return stream.getBuffer();
 	}
 }

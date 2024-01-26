@@ -18,13 +18,13 @@ class Flat extends Generator {
 		// Generate the chunk.
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
-				chunk.setBlock(x, 0, z, 7); // Bedrock
-				chunk.setBlock(x, 1, z, 1); // Stone
-				chunk.setBlock(x, 2, z, 1); // Stone
-				chunk.setBlock(x, 3, z, 1); // Stone
-				chunk.setBlock(x, 4, z, 3); // Dirt
-				chunk.setBlock(x, 5, z, 3); // Dirt
-				chunk.setBlock(x, 6, z, 2); // Grass
+				chunk.setBlock(x, 0, z, 12_229); // Bedrock
+				chunk.setBlock(x, 1, z, 5_904); // Glowing Obsidian
+				chunk.setBlock(x, 2, z, 1_774); // Stone
+				chunk.setBlock(x, 3, z, 1_774); // Stone
+				chunk.setBlock(x, 4, z, 9_550); // Dirt
+				chunk.setBlock(x, 5, z, 9_550); // Dirt
+				chunk.setBlock(x, 6, z, 12_183); // Grass
 			}
 		}
 

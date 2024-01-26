@@ -102,7 +102,7 @@ class NetworkSession {
 		const packet = new LevelChunk();
 		packet.x = chunk.x;
 		packet.z = chunk.z;
-		packet.subChunkCount = chunk.getSubChunkSendCount();
+		packet.subChunkCount = chunk.getSubChunkSendCount() + 4;
 		packet.cacheEnabled = false;
 		packet.data = chunk.serialize();
 

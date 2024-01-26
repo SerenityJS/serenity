@@ -1,16 +1,4 @@
-import {
-	AddPlayer,
-	ChatTypes,
-	DeviceOS,
-	Gamemode,
-	MetadataFlags,
-	MetadataKey,
-	MetadataType,
-	PlayerList,
-	RecordAction,
-	Text,
-	type DataPacket,
-} from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
@@ -153,7 +141,7 @@ class World {
 	 * @param block The block to set.
 	 * @returns The chunk's setBlock index.
 	 */
-	public setBlock(x: number, y: number, z: number, block: number): number {
+	public setBlock(x: number, y: number, z: number, block: number): void {
 		// Get the chunk.
 		const chunk = this.getChunk(x >> 4, z >> 4);
 
