@@ -41,6 +41,7 @@ import type {
 	RemoveEntity,
 	RequestChunkRadius,
 	ChunkRadiusUpdate,
+	Respawn,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -86,6 +87,7 @@ interface NetworkEvents {
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
 	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityData>];
+	[Packet.Respawn]: [NetworkPacketEvent<Respawn>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];

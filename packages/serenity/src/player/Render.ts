@@ -1,4 +1,12 @@
-import { AddPlayer, LevelChunk, PlayerList, RecordAction, RemoveEntity } from '@serenityjs/bedrock-protocol';
+import {
+	AddPlayer,
+	CommandPermissionLevel,
+	LevelChunk,
+	PermissionLevel,
+	PlayerList,
+	RecordAction,
+	RemoveEntity,
+} from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { ChunkColumn } from '../world';
 import type { Player } from './Player';
@@ -50,7 +58,7 @@ class Render {
 		const entity = new AddPlayer();
 		entity.uuid = player.uuid;
 		entity.username = player.username;
-		entity.runtimeId = player.runtimeId;
+		entity.runtimeId = player.runtimeEntityId;
 		entity.platformChatId = ''; // TODO: Not sure what this is.
 		entity.position = player.position;
 		entity.velocity = { x: 0, y: 5, z: 0 };
@@ -72,8 +80,8 @@ class Render {
 			floats: [],
 		};
 		entity.uniqueEntityId = player.uniqueEntityId;
-		entity.premissionLevel = 2; // TODO: Get the permission level from the player.
-		entity.commandPermission = 0; // TODO: Get the command permission from the player.
+		entity.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the player.
+		entity.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the player.
 		entity.abilities = [];
 		entity.links = [];
 		entity.deviceId = 'Win10';

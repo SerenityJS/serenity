@@ -24,7 +24,7 @@ enum Packet {
 	PlayerAction = 0x24, // 36
 	SetEntityData = 0x27, // 39
 	// SetSpawnPosition = 0x2b, // 43
-	// Respawn = 0x2d, // 45
+	Respawn = 0x2d, // 45
 	ContainerOpen = 0x2e, // 46
 	ContainerClose = 0x2f, // 47
 	// InventoryContent = 0x31, // 49

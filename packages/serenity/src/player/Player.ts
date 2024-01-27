@@ -1,5 +1,5 @@
-import type { DisconnectReason, Vec2f, Vec3f } from '@serenityjs/bedrock-protocol';
-import { ChatTypes, Disconnect, Text } from '@serenityjs/bedrock-protocol';
+import type { DisconnectReason, Vec2f, Vec3f, RespawnState } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Disconnect, Respawn, Text } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
@@ -32,7 +32,7 @@ class Player {
 	public readonly xuid: string;
 	public readonly uuid: string;
 	public readonly guid: bigint;
-	public readonly runtimeId: bigint;
+	public readonly runtimeEntityId: bigint;
 	public readonly uniqueEntityId: bigint;
 	public readonly skin: Skin;
 	public readonly abilities: Abilities;
@@ -60,7 +60,7 @@ class Player {
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
 		this.guid = session.guid;
-		this.runtimeId = session.runtimeId;
+		this.runtimeEntityId = session.runtimeId;
 		this.uniqueEntityId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
 		this.world = world ?? this.serenity.world;
@@ -115,6 +115,25 @@ class Player {
 		packet.parameters = null;
 		packet.xuid = '';
 		packet.platformChatId = '';
+
+		// Send the packet.
+		void this.session.send(packet);
+	}
+
+	/**
+	 * Respawns the player.
+	 *
+	 * @param position The position to respawn the player at.
+	 * @param state The respawn state.
+	 */
+	public respawn(position: Vec3f, state: RespawnState): void {
+		// Create a new respawn packet.
+		const packet = new Respawn();
+
+		// Assign the packet data.
+		packet.position = position;
+		packet.state = state;
+		packet.runtimeEntityId = this.runtimeEntityId;
 
 		// Send the packet.
 		void this.session.send(packet);

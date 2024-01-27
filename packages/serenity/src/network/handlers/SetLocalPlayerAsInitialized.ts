@@ -30,7 +30,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
 		// TODO: Move elsewhere.
 		const data = new SetEntityData<boolean>();
-		data.runtimeEntityId = player.runtimeId;
+		data.runtimeEntityId = player.runtimeEntityId;
 		data.metadata = [
 			{
 				key: MetadataKey.Flags,

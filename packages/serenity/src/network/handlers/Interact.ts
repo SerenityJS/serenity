@@ -28,7 +28,7 @@ class InteractHandler extends NetworkHandler {
 			openPacket.WindowId = WindowsIds.Inventory;
 			openPacket.WindowType = WindowsTypes.Inventory;
 			openPacket.position = { x: 0, y: -66, z: 0 };
-			openPacket.targetRuntimeId = player.runtimeId;
+			openPacket.targetRuntimeId = player.runtimeEntityId;
 			await session.send(openPacket);
 			console.log('sent container open');
 		}

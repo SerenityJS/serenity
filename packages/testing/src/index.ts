@@ -1,3 +1,4 @@
+import { AbilityLayerFlag } from '@serenityjs/bedrock-protocol';
 import { Serenity } from '@serenityjs/serenity';
 
 const serenity = new Serenity({
@@ -20,7 +21,5 @@ serenity.on('PlayerLeft', ({ player }) => {
 });
 
 serenity.on('PlayerChat', ({ player }) => {
-	const chunk = player.getCurrentChunk();
-
-	player.sendMessage(`You are in chunk ${chunk.x}, ${chunk.z}.`);
+	player.abilities.setAbility(AbilityLayerFlag.MayFly, false);
 });

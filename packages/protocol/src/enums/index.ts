@@ -30,3 +30,4 @@ export * from './UseItemAction';
 export * from './UseItemOnEntityAction';
 export * from './ItemReleaseAction';
 export * from './DeviceOS';
+export * from './RespawnState';

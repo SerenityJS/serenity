@@ -1,4 +1,4 @@
-import { InventoryTransaction, DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { UseItemAction, InventoryTransaction, DisconnectReason, TransactionType } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
@@ -16,7 +16,23 @@ class InventoryTransactionHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		// console.log(packet);
+		switch (packet.type) {
+			default:
+				break;
+			case TransactionType.ItemUse:
+				return this.handleItemUse(packet, session);
+		}
+	}
+
+	private static handleItemUse(packet: InventoryTransaction, session: NetworkSession): void {
+		switch (packet.data.action as UseItemAction) {
+			default:
+				break;
+			case UseItemAction.BreakBlock: {
+				console.log('break block');
+				break;
+			}
+		}
 	}
 }
 

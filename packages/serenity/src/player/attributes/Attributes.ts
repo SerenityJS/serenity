@@ -55,7 +55,7 @@ class Attributes {
 	public setDefaults(): void {
 		// First we will create a new updated Atributes packet.
 		const update = new UpdateAttributes();
-		update.runtimeEntityId = this.player.runtimeId;
+		update.runtimeEntityId = this.player.runtimeEntityId;
 		update.attributes = DEFAULT_ATTRIBUTES;
 		update.tick = 0n; // TODO: implement ticking
 
@@ -85,7 +85,7 @@ class Attributes {
 
 		// Then we will create a new updated abilities packet.
 		const update = new UpdateAttributes();
-		update.runtimeEntityId = this.player.runtimeId;
+		update.runtimeEntityId = this.player.runtimeEntityId;
 		update.attributes = DEFAULT_ATTRIBUTES.map((entry) => {
 			return {
 				...entry,

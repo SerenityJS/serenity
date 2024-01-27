@@ -27,6 +27,7 @@ import { RequestNetworkSettings } from './RequestNetworkSettings';
 import { ResourcePackClientResponse } from './ResourcePackClientResponse';
 import { ResourcePackStack } from './ResourcePackStack';
 import { ResourcePacksInfo } from './ResourcePacksInfo';
+import { Respawn } from './Respawn';
 import { ScriptMessage } from './ScriptMessage';
 // import { SelectedSlot } from './SelectedSlot';
 import { SetEntityData } from './SetEntityData';
@@ -56,6 +57,7 @@ const Packets = {
 	[Packet.BlockPickRequest]: BlockPickRequest, // 34
 	[Packet.PlayerAction]: PlayerAction, // 36
 	[Packet.SetEntityData]: SetEntityData, // 39
+	[Packet.Respawn]: Respawn, // 45
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
 	[Packet.LevelChunk]: LevelChunk, // 58
