@@ -3,7 +3,7 @@ import { Disconnect } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
-import type { World } from '../world';
+import type { ChunkColumn, World } from '../world';
 import { Render } from './Render';
 import { Abilities } from './abilities';
 import { Attributes } from './attributes';
@@ -87,6 +87,15 @@ class Player {
 
 		// Send the packet.
 		void this.session.send(packet);
+	}
+
+	/**
+	 * Gets the player's current chunk.
+	 *
+	 * @returns The player's current chunk.
+	 */
+	public getCurrentChunk(): ChunkColumn {
+		return this.world.getChunk(this.position.x >> 4, this.position.z >> 4);
 	}
 }
 export { Player };

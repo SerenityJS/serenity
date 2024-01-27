@@ -18,3 +18,9 @@ serenity.on('PlayerSpawned', ({ player }) => {
 serenity.on('PlayerLeft', ({ player }) => {
 	//
 });
+
+serenity.on('PlayerChat', ({ player }) => {
+	const chunk = player.getCurrentChunk();
+
+	console.log(chunk.getHash());
+});
