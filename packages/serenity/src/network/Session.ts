@@ -29,7 +29,6 @@ class NetworkSession {
 	public readonly identifier: NetworkIdentifier;
 	public readonly runtimeId: bigint;
 	public readonly uniqueId: bigint;
-	public readonly chunks: Map<bigint, ChunkColumn>;
 
 	public encryption: boolean = false;
 	public compression: boolean = false;
@@ -51,7 +50,6 @@ class NetworkSession {
 		this.identifier = connection.identifier;
 		this.runtimeId = runtimeId++;
 		this.uniqueId = BigInt.asUintN(64, this.guid ^ this.runtimeId);
-		this.chunks = new Map();
 	}
 
 	/**

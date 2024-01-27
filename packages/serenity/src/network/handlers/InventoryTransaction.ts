@@ -16,7 +16,7 @@ class InventoryTransactionHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		console.log(packet);
+		// console.log(packet);
 	}
 }
 

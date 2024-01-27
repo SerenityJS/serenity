@@ -1,5 +1,5 @@
 import type { DisconnectReason, Vec2f, Vec3f } from '@serenityjs/bedrock-protocol';
-import { Disconnect } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Disconnect, Text } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
@@ -96,6 +96,28 @@ class Player {
 	 */
 	public getCurrentChunk(): ChunkColumn {
 		return this.world.getChunk(this.position.x >> 4, this.position.z >> 4);
+	}
+
+	/**
+	 * Sends a message to the player.
+	 *
+	 * @param message The message to send.
+	 */
+	public sendMessage(message: string): void {
+		// Construct the text packet.
+		const packet = new Text();
+
+		// Assign the packet data.
+		packet.type = ChatTypes.Raw;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = message;
+		packet.parameters = null;
+		packet.xuid = '';
+		packet.platformChatId = '';
+
+		// Send the packet.
+		void this.session.send(packet);
 	}
 }
 export { Player };

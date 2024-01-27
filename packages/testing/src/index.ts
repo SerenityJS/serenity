@@ -22,5 +22,5 @@ serenity.on('PlayerLeft', ({ player }) => {
 serenity.on('PlayerChat', ({ player }) => {
 	const chunk = player.getCurrentChunk();
 
-	console.log(chunk.getHash());
+	player.sendMessage(`You are in chunk ${chunk.x}, ${chunk.z}.`);
 });
