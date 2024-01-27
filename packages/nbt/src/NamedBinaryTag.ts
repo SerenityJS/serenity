@@ -2,13 +2,13 @@ import { Buffer } from 'node:buffer';
 import { Endianness, BinaryStream } from '@serenityjs/binarystream';
 import { NbtTag } from './NbtTag';
 
-interface TagEntry<T extends NbtTag, V> {
+export interface TagEntry<T extends NbtTag, V> {
 	name: string;
 	type: T;
 	value: V;
 }
 
-interface NbtTags<C = unknown> {
+export interface NbtTags<C = unknown> {
 	[NbtTag.End]: TagEntry<NbtTag.End, null>;
 	[NbtTag.Byte]: TagEntry<NbtTag.Byte, number>;
 	[NbtTag.Short]: TagEntry<NbtTag.Short, number>;

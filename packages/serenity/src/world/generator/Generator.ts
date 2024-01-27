@@ -1,4 +1,5 @@
 import type { Serenity } from '../../Serenity';
+import type { World } from '../World';
 import type { ChunkColumn } from '../chunk';
 
 /**
@@ -8,9 +9,9 @@ import type { ChunkColumn } from '../chunk';
  */
 abstract class Generator {
 	/**
-	 * The serenity instance.
+	 * The world instance.
 	 */
-	protected readonly serenity: Serenity;
+	protected readonly world: World;
 
 	/**
 	 * The seed of the generator.
@@ -20,11 +21,11 @@ abstract class Generator {
 	/**
 	 * Creates a new generator instance.
 	 *
-	 * @param serenity The serenity instance.
+	 * @param world The world instance.
 	 * @param seed The seed of the generator.
 	 */
-	public constructor(serenity: Serenity, seed: number) {
-		this.serenity = serenity;
+	public constructor(world: World, seed: number) {
+		this.world = world;
 		this.seed = seed;
 	}
 

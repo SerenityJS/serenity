@@ -18,6 +18,7 @@
 		"require": "./dist/index.js"
 	},
 	"dependencies": {
+		"@serenityjs/bedrock-data": "^0.0.1",
 		"@serenityjs/binarystream": "^1.2.3",
 		"@serenityjs/raknet-protocol": "^1.0.5"
 	}
