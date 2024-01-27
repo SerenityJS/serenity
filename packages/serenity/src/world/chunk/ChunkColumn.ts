@@ -27,6 +27,10 @@ class ChunkColumn {
 		};
 	}
 
+	public getHash(): bigint {
+		return ChunkColumn.getHash(this.x, this.z);
+	}
+
 	public getSubChunk(index: number): SubChunk {
 		// Check if the sub chunk exists.
 		if (!this.subchunks[index]) {

@@ -1,5 +1,6 @@
-import { AddPlayer, PlayerList, RecordAction, RemoveEntity } from '@serenityjs/bedrock-protocol';
+import { AddPlayer, LevelChunk, PlayerList, RecordAction, RemoveEntity } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
+import type { ChunkColumn } from '../world';
 import type { Player } from './Player';
 
 class Render {
@@ -11,11 +12,17 @@ class Render {
 	 */
 	public readonly players: Set<bigint>;
 
+	/**
+	 * The chunks that are being rendered to this player.
+	 */
+	public readonly chunks: Set<bigint>;
+
 	public constructor(serenity: Serenity, player: Player) {
 		this.serenity = serenity;
 		this.player = player;
 
 		this.players = new Set();
+		this.chunks = new Set();
 	}
 
 	public addPlayer(player: Player): void {
@@ -101,6 +108,27 @@ class Render {
 
 		// Send the packet to the player.
 		void this.player.session.send(list, entity);
+	}
+
+	public sendChunk(chunk: ChunkColumn): void {
+		// Check if the chunk is already being rendered.
+		if (this.chunks.has(chunk.getHash())) return;
+
+		// Construct a new LevelChunk packet.
+		const packet = new LevelChunk();
+
+		// And assign the packet data.
+		packet.x = chunk.x;
+		packet.z = chunk.z;
+		packet.subChunkCount = chunk.getSubChunkSendCount() + 4;
+		packet.cacheEnabled = false;
+		packet.data = chunk.serialize();
+
+		// Add the chunk to the set.
+		this.chunks.add(chunk.getHash());
+
+		// Send the packet to the player.
+		void this.player.session.send(packet);
 	}
 }
 
