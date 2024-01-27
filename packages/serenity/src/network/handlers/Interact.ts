@@ -23,14 +23,19 @@ class InteractHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		if (packet.ActionId === InteractActions.OpenInventory) {
-			const openPacket = new ContainerOpen();
-			openPacket.WindowId = WindowsIds.Inventory;
-			openPacket.WindowType = WindowsTypes.Inventory;
-			openPacket.position = { x: 0, y: -66, z: 0 };
-			openPacket.targetRuntimeId = player.runtimeEntityId;
-			await session.send(openPacket);
-			console.log('sent container open');
+		// Check if the packet is a open inventory packet.
+		if (packet.action === InteractActions.OpenInventory) {
+			// Create a new ContainerOpen packet.
+			const container = new ContainerOpen();
+
+			// Assign the packet data.
+			container.windowId = WindowsIds.Inventory;
+			container.windowType = WindowsTypes.Inventory;
+			container.position = { x: 0, y: -66, z: 0 };
+			container.targetRuntimeEntityId = player.runtimeEntityId;
+
+			// Send the packet.
+			await session.send(container);
 		}
 	}
 }

@@ -16,11 +16,15 @@ class ContainerCloseHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		const ContainerClosePacket = new ContainerClose();
-		ContainerClosePacket.WindowId = packet.WindowId;
-		ContainerClosePacket.ServerInitiated = packet.ServerInitiated;
+		// Create a new ContainerClose packet.
+		const close = new ContainerClose();
 
-		await session.send(ContainerClosePacket);
+		// Assign the packet data.
+		close.windowId = packet.windowId;
+		close.serverInitiated = packet.serverInitiated;
+
+		// Send the packet.
+		await session.send(close);
 	}
 }
 
