@@ -39,6 +39,7 @@ import type {
 	SetEntityData,
 	InventoryTransaction,
 	RemoveEntity,
+	RequestChunkRadius,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -88,6 +89,7 @@ interface NetworkEvents {
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
+	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadius>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
 	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];

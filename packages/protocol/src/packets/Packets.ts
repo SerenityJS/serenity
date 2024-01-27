@@ -21,6 +21,7 @@ import { PlayStatus } from './PlayStatus';
 import { PlayerAction } from './PlayerAction';
 import { PlayerList } from './PlayerList';
 import { RemoveEntity } from './RemoveEntity';
+import { RequestChunkRadius } from './RequestChunkRadius';
 import { RequestNetworkSettings } from './RequestNetworkSettings';
 import { ResourcePackClientResponse } from './ResourcePackClientResponse';
 import { ResourcePackStack } from './ResourcePackStack';
@@ -39,56 +40,37 @@ import { UpdateAttributes } from './UpdateAttributes';
 const Packets = {
 	[Packet.Login]: Login, // 1
 	[Packet.PlayStatus]: PlayStatus, // 2
-	// Gap
 	[Packet.Disconnect]: Disconnect, // 5
 	[Packet.ResourcePacksInfo]: ResourcePacksInfo, // 6
 	[Packet.ResourcePackStack]: ResourcePackStack, // 7
 	[Packet.ResourcePackClientResponse]: ResourcePackClientResponse, // 8
 	[Packet.Text]: Text, // 9
-	// Gap
 	[Packet.StartGame]: StartGame, // 11
 	[Packet.AddPlayer]: AddPlayer, // 12
 	[Packet.RemoveEntity]: RemoveEntity, // 14
-	// Gap
 	[Packet.MovePlayer]: MovePlayer, // 19
-	// Gap
 	[Packet.UpdateAttributes]: UpdateAttributes, // 29
 	[Packet.InventoryTransaction]: InventoryTransaction, // 30
-	// Gap
 	[Packet.Interact]: Interact, // 33
 	[Packet.BlockPickRequest]: BlockPickRequest, // 34
-	// Gap
 	[Packet.PlayerAction]: PlayerAction, // 36
-	// Gap
 	[Packet.SetEntityData]: SetEntityData, // 39
-	// Gap
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
-	// Gap
 	[Packet.LevelChunk]: LevelChunk, // 58
-	// Gap
 	[Packet.PlayerList]: PlayerList, // 63
-	// Gap
+	[Packet.RequestChunkRadius]: RequestChunkRadius, // 69
 	[Packet.CommandRequest]: CommandRequest, // 77
-	// Gap
 	[Packet.SetTitle]: SetTitle, // 88
-	// Gap
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113
-	// Gap
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdate, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionList, // 122
-	// Gap
 	[Packet.NetworkSettings]: NetworkSettings, // 143
-	// Gap
 	[Packet.CreativeContent]: CreativeContent, // 145
-	// Gap
 	[Packet.PacketViolationWarning]: PacketViolationWarning, // 156
-	// Gap
 	[Packet.ScriptMessage]: ScriptMessage, // 177
-	// Gap
 	[Packet.ToastRequest]: ToastRequest, // 186
 	[Packet.UpdateAbilities]: UpdateAbilities, // 187
-	// Gap
 	[Packet.RequestNetworkSettings]: RequestNetworkSettings, // 193
 };
 

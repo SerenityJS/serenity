@@ -7,6 +7,7 @@ import { LoginHandler } from './Login';
 import { MovePlayerHandler } from './MovePlayer';
 import { PacketViolationWarningHandler } from './PacketViolationWarning';
 import { PlayerActionHandler } from './PlayerAction';
+import { RequestChunkRadiusHandler } from './RequestChunkRadius';
 import { RequestNetworkSettingsHandler } from './RequestNetworkSettings';
 import { ResourcePackClientResponseHandler } from './ResoucePackClientResponse';
 import { SetLocalPlayerAsInitializedHandler } from './SetLocalPlayerAsInitialized';
@@ -28,6 +29,7 @@ const NETWORK_HANDLERS = [
 	SetLocalPlayerAsInitializedHandler,
 	InventoryTransactionHandler,
 	DisconnectHandler,
+	RequestChunkRadiusHandler,
 ];
 
 export { NETWORK_HANDLERS };
