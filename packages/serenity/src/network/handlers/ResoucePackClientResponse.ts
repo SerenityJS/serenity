@@ -58,6 +58,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				session.getPlayerInstance()!.abilities.setDefaults();
 				session.getPlayerInstance()!.attributes.setDefaults();
 
+				await session.sendCreativeContent();
+
 				await session.sendBiomeDefinitionList();
 
 				const minX = 0 - 4;
