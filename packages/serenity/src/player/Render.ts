@@ -130,6 +130,10 @@ class Render {
 		// Send the packet to the player.
 		void this.player.session.send(packet);
 	}
+
+	public getChunks(): ChunkColumn[] {
+		return [...this.chunks.values()].map((x) => this.player.world.chunks.get(x)) as ChunkColumn[];
+	}
 }
 
 export { Render };

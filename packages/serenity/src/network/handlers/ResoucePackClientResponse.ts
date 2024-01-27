@@ -564,7 +564,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				await session.send(update);
 
 				for (const chunk of sendQueue) {
-					await session.sendChunk(chunk);
+					player.render.sendChunk(chunk);
 				}
 
 				const status = new PlayStatus();

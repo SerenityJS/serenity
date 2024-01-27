@@ -6,7 +6,7 @@ import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
-import { ChunkColumn } from '../world';
+import type { ChunkColumn } from '../world';
 import type { Network } from './Network';
 
 let runtimeId = 0n;
@@ -95,21 +95,6 @@ class NetworkSession {
 
 		// Return the player.
 		return player;
-	}
-
-	// TODO: move to player class
-	public async sendChunk(chunk: ChunkColumn): Promise<void> {
-		const packet = new LevelChunk();
-		packet.x = chunk.x;
-		packet.z = chunk.z;
-		packet.subChunkCount = chunk.getSubChunkSendCount() + 4;
-		packet.cacheEnabled = false;
-		packet.data = chunk.serialize();
-
-		const hash = ChunkColumn.getHash(chunk.x, chunk.z);
-		this.chunks.set(hash, chunk);
-
-		await this.send(packet);
 	}
 
 	/**
