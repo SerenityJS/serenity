@@ -1,4 +1,4 @@
-import { RequestChunkRadius, DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { RequestChunkRadius, DisconnectReason, ChunkRadiusUpdate } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
@@ -16,7 +16,12 @@ class RequestChunkRadiusHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		console.log(packet);
+		// TODO: Set up proper handling for this packet.
+
+		const radius = new ChunkRadiusUpdate();
+		radius.radius = 96;
+
+		await session.send(radius);
 	}
 }
 

@@ -5,6 +5,7 @@ import { Packet } from '../enums';
 import { AddPlayer } from './AddPlayer';
 import { BiomeDefinitionList } from './BiomeDefinitionList';
 import { BlockPickRequest } from './BlockPickRequest';
+import { ChunkRadiusUpdate } from './ChunkRadiusUpdate';
 import { CommandRequest } from './CommandRequest';
 import { ContainerClose } from './ContainerClose';
 import { ContainerOpen } from './ContainerOpen';
@@ -60,6 +61,7 @@ const Packets = {
 	[Packet.LevelChunk]: LevelChunk, // 58
 	[Packet.PlayerList]: PlayerList, // 63
 	[Packet.RequestChunkRadius]: RequestChunkRadius, // 69
+	[Packet.ChunkRadiusUpdate]: ChunkRadiusUpdate, // 70
 	[Packet.CommandRequest]: CommandRequest, // 77
 	[Packet.SetTitle]: SetTitle, // 88
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113

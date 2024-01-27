@@ -24,6 +24,7 @@ export * from './ContainerClose';
 export * from './LevelChunk';
 export * from './PlayerList';
 export * from './RequestChunkRadius';
+export * from './ChunkRadiusUpdate';
 export * from './CommandRequest';
 export * from './SetTitle';
 export * from './SetLocalPlayerAsInitialized';
