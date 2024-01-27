@@ -47,7 +47,7 @@ class ChunkColumn {
 		const subchunk = this.getSubChunk(y >> 4);
 
 		// Set the block.
-		subchunk.setBlock(x, y, z, runtimeId, 0); // 0 = Solids, 1 = Liquids or Logged
+		subchunk.setBlock(x & 0xf, y & 0xf, z & 0xf, runtimeId, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
 	public getBlock(x: number, y: number, z: number): number {
@@ -55,7 +55,7 @@ class ChunkColumn {
 		const subchunk = this.getSubChunk(y >> 4);
 
 		// Get the block.
-		return subchunk.getBlock(x, y, z, 0); // 0 = Solids, 1 = Liquids or Logged
+		return subchunk.getBlock(x & 0xf, y & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
 	public getSubChunkSendCount(): number {

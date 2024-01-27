@@ -43,7 +43,7 @@ class BlockStorage {
 	public getBlock(bx: number, by: number, bz: number): number {
 		// Get the index of the block.
 		// Which is the index of the palette.
-		const blockIndex = BlockStorage.getIndex(bx, by, bz);
+		const blockIndex = this.blocks[BlockStorage.getIndex(bx, by, bz)];
 
 		// Get the runtime ID from the palette.
 		// Return the runtime ID.

@@ -149,7 +149,7 @@ class World {
 		const chunk = this.getChunk(x >> 4, z >> 4);
 
 		// Return the chunk's setBlock index.
-		return chunk.setBlock(x & 0xf, y & 0xf, z & 0xf, block);
+		return chunk.setBlock(x, y, z, block);
 	}
 
 	/**
@@ -165,7 +165,7 @@ class World {
 		const chunk = this.getChunk(x >> 4, z >> 4);
 
 		// Return the chunk's setBlock index.
-		return chunk.getBlock(x & 0xf, y & 0xf, z & 0xf);
+		return chunk.getBlock(x, y, z);
 	}
 
 	/**

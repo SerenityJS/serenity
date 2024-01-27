@@ -18,7 +18,11 @@ class BlockPickRequestHandler extends NetworkHandler {
 
 		const block = this.serenity.world.getBlock(packet.x, packet.y, packet.z);
 
-		// player.sendMessage(`You picked block id ${block}.`);
+		this.serenity.logger.debug(
+			`${player.username} BlockPickRequest: "${player.world.mappings.getBlockName(block)}" at ${packet.x}, ${
+				packet.y
+			}, ${packet.z}`,
+		);
 	}
 }
 
