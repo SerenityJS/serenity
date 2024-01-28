@@ -14,6 +14,7 @@ import { Interact } from './Interact';
 import { InventoryTransaction } from './InventoryTransaction';
 import { LevelChunk } from './LevelChunk';
 import { Login } from './Login';
+import { ModalFormRequest } from './ModalFormRequest';
 import { MovePlayer } from './MovePlayer';
 import { NetworkChunkPublisherUpdate } from './NetworkChunkPublisherUpdate';
 import { NetworkSettings } from './NetworkSettings';
@@ -66,6 +67,7 @@ const Packets = {
 	[Packet.ChunkRadiusUpdate]: ChunkRadiusUpdate, // 70
 	[Packet.CommandRequest]: CommandRequest, // 77
 	[Packet.SetTitle]: SetTitle, // 88
+	[Packet.ModalFormRequest]: ModalFormRequest, // 100
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitialized, // 113
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdate, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionList, // 122

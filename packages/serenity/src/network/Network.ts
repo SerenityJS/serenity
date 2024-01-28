@@ -42,6 +42,7 @@ import type {
 	RequestChunkRadius,
 	ChunkRadiusUpdate,
 	Respawn,
+	ModalFormRequest,
 } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
 import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
@@ -96,6 +97,7 @@ interface NetworkEvents {
 	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdate>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
+	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequest>];
 	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
 	[Packet.NetworkChunkPublisherUpdate]: [NetworkPacketEvent<NetworkChunkPublisherUpdate>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];

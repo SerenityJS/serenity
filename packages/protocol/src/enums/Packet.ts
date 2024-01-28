@@ -35,7 +35,7 @@ enum Packet {
 	ChunkRadiusUpdate = 0x46, // 70
 	CommandRequest = 0x4d, // 77
 	SetTitle = 0x58, // 88
-	// ModalFormRequest = 0x64, // 100
+	ModalFormRequest = 0x64, // 100
 	// ModalFormResponse = 0x65, // 101
 	SetLocalPlayerAsInitialized = 0x71, // 113
 	NetworkChunkPublisherUpdate = 0x79, // 121

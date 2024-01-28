@@ -31,7 +31,7 @@ class InteractHandler extends NetworkHandler {
 			// Assign the packet data.
 			container.windowId = WindowsIds.Inventory;
 			container.windowType = WindowsTypes.Inventory;
-			container.position = { x: 0, y: -66, z: 0 };
+			container.position = { x: 0, y: 0, z: 0 }; // Default position.
 			container.targetRuntimeEntityId = player.runtimeEntityId;
 
 			// Send the packet.
