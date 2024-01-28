@@ -1,35 +1,33 @@
 import { CANONICAL_BLOCK_STATES } from '@serenityjs/bedrock-data';
-import type { NbtTag, TagEntry } from '@serenityjs/nbt';
-import { NamedBinaryTag } from '@serenityjs/nbt';
+import { BinaryStream } from '@serenityjs/binarystream';
+import { LightNBT, NBTTag } from '@serenityjs/nbt';
 
 class Mappings {
 	public readonly blocks: Map<number, string> = new Map();
 
 	public constructor() {
+		const strm = new BinaryStream(CANONICAL_BLOCK_STATES);
 		// Construct the block mappings
-		const nbt = new NamedBinaryTag(CANONICAL_BLOCK_STATES, true);
 
 		// Predefine the runtimeId
 		let runtimeId = 0;
 
 		// Loop through the blocks, reading their names and IDs
 		do {
+			// If next tag is not compoud, CANONICAL_BLOCK_STATES file could be corrupted
+			if(CANONICAL_BLOCK_STATES[strm.offset] !== NBTTag.Compoud) break;
 			// Read the tag
-			const tag = nbt.readTag<NbtTag.Compound, string>();
-
-			// Check if the tag is null
-			if (tag === null) {
-				break;
-			}
-
+			const tag = LightNBT.ReadRootTag(strm) as {
+				name: string;
+				states: {[k: string]: number;};
+				version: number;
+			};
 			// Get the name and ID
 			// TODO: Handle the block states
-			const name = tag.value[0].value;
-			const id = runtimeId++;
 
 			// Add the block to the map
-			this.blocks.set(id, name);
-		} while (!nbt.cursorAtEnd());
+			this.blocks.set(runtimeId++, tag.name);
+		} while (!strm.cursorAtEnd());
 	}
 
 	public getBlockRuntimeId(name: string, index = 0): number | null {

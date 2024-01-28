@@ -1,13 +1,14 @@
 import type { Endianness , BinaryStream } from "@serenityjs/binarystream";
+import type { NBTCompoud, NBTValue } from "@serenityjs/nbt";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { BedrockNBT } from "@serenityjs/nbt";
 import { DataType } from "@serenityjs/raknet-protocol";
-import { WriteTag, ReadTag } from "./NBTTags";
-import type { NBTCompoud, NBTSerializable } from "./NBTTags";
 
 export class NBTTagItemData extends DataType{
-    public static write(stream: BinaryStream, value: NBTCompoud, endian?: Endianness | null | undefined, param?: any): void {
-        WriteTag(stream,value);
+    public static write(stream: BinaryStream, value: NBTValue, endian?: Endianness | null | undefined, param?: any): void {
+        BedrockNBT.WriteRootTag(stream, value);
     }
     public static read(stream: BinaryStream, endian?: Endianness | null | undefined, param?: any): NBTCompoud {
-        return ReadTag(stream) as NBTCompoud;
+        return BedrockNBT.ReadRootTag(stream) as NBTCompoud;
     }
 }

@@ -1,7 +1,7 @@
 import { BinaryStream, Endianness } from '@serenityjs/binarystream';
+import { Byte} from '@serenityjs/nbt';
+import type { NBTSerializable, NBTCompoud } from '@serenityjs/nbt';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { Byte} from './NBTTags';
-import type { NBTSerializable, NBTCompoud } from './NBTTags';
 import { NBTTagItemData } from './NBTTypes';
 
 interface ItemStackLegacy {
