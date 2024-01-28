@@ -14,7 +14,6 @@
 		"eol-last": "error",
 		"semi": "off",
 		"@typescript-eslint/semi": "error",
-		"@typescript-eslint/member-delimiter-style": "error",
 		"@typescript-eslint/consistent-type-definitions": ["error", "interface"],
 		"@typescript-eslint/lines-between-class-members": "off",
 		"promise/prefer-await-to-callbacks": "off",
@@ -28,7 +27,8 @@
 		"require-atomic-updates": "off",
 		"unicorn/prefer-string-replace-all": "off",
 		"@typescript-eslint/unbound-method": "off",
-		"eslint-plugin-import/no-extraneous-dependencies": "off"
+		"eslint-plugin-import/no-extraneous-dependencies": "off",
+		"@typescript-eslint/member-delimiter-style": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }
