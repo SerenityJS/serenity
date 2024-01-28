@@ -33,11 +33,11 @@ class LightNBTDefinitionReader extends GeneralNBTDefinitionReader{
 }
 
 class LightNBT extends NBT{
-    public static ReadRootTag(stream: BinaryStream){ return new LightNBTDefinitionReader(stream).ReadRootTag(); }
-    public static ReadTag(stream: BinaryStream){ return new LightNBTDefinitionReader(stream).ReadTag(); }
-    public static Read(tag: number, stream: BinaryStream){ return new LightNBTDefinitionReader(stream).Read(tag); }
-    public static WriteRootTag(stream: BinaryStream, tag: NBTSerializable){ new LightNBTDefinitionWriter(stream).WriteRootTag(tag); }
-    public static WriteTag(stream: BinaryStream, tag: NBTSerializable){ new LightNBTDefinitionWriter(stream).WriteTag(tag); }
-    public static Write(stream: BinaryStream, tag: NBTSerializable){ new LightNBTDefinitionWriter(stream).Write(tag); }
+    public static ReadRootTag(stream: BinaryStream): NBTValue{ return new LightNBTDefinitionReader(stream).ReadRootTag() as any; }
+    public static ReadTag(stream: BinaryStream): NBTValue{ return new LightNBTDefinitionReader(stream).ReadTag() as any; }
+    public static Read<T extends number>(tag: T, stream: BinaryStream): NBTSerializable<T>{ return new LightNBTDefinitionReader(stream).Read(tag) as any; }
+    public static WriteRootTag(stream: BinaryStream, tag: NBTValue){ new LightNBTDefinitionWriter(stream).WriteRootTag(tag); }
+    public static WriteTag(stream: BinaryStream, tag: NBTValue){ new LightNBTDefinitionWriter(stream).WriteTag(tag); }
+    public static Write(stream: BinaryStream, tag: NBTValue){ new LightNBTDefinitionWriter(stream).Write(tag); }
 }
 export {LightNBT, LightNBTDefinitionReader, LightNBTDefinitionWriter};

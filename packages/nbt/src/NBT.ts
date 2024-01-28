@@ -136,7 +136,7 @@ const Float = function (v: number) { return BaseFunction(v??0, new.target??Float
 const Double = function (v: number) { return BaseFunction(v??0, new.target??Double, (new.target as any)?.[Construct]??NumberWrapper); } as unknown as NBTKindConstructor<Double>;
 
 function BaseFunction(v: any, as: {prototype: any;}, ctor: typeof BigIntWrapper | typeof NumberWrapper = NumberWrapper){ return Object.setPrototypeOf(Object.assign(new (ctor as typeof NumberWrapper)(v as any) as any,{[NBT_TYPE]: as.prototype[NBT_TYPE]}), as.prototype); }
-type NBTValue = Byte | Double | Float | Int16 | Int32 | Int64 | List<number> | NBTValue[] | bigint | number | string | {[KEY: string]: NBTValue;};
+type NBTValue = BigInt64Array | BigUint64Array | Byte | Double | Float | Int16 | Int32 | Int32Array | Int64 | List<number> | NBTSerializable<number> | NBTValue[] | Uint32Array | bigint | number | string | {[KEY: string]: NBTValue;};
 interface NBTCompoud {[key: string]: NBTValue;}
 
 const DATA_MAPING = [Byte, Int16, Int32, Int64, Float, Double];

@@ -9,5 +9,9 @@ export {
 export {
     BedrockNBT,
     LightNBT,
-    StringifiedNBT
+    StringifiedNBT,
+    BedrockNBTDefinitionReader,
+    BedrockNBTDefinitionWriter,
+    LightNBTDefinitionReader,
+    LightNBTDefinitionWriter
 } from "./NBTDefinitions";

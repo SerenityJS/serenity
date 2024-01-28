@@ -1,6 +1,6 @@
 import { Endianness } from "@serenityjs/binarystream";
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { NBTSerializable} from "../NBT";
+import type { NBTSerializable, NBTValue} from "../NBT";
 import { 
     NBTTag, Int16, Int32, Int64, Float, Double 
 } from "../NBT";
@@ -27,11 +27,11 @@ class BedrockNBTDefinitionReader extends GeneralNBTDefinitionReader{
     public [NBTTag.String](): string { return this.stream.readString16(Endianness.Little); }
 }
 class BedrockNBT extends NBT{
-    public static ReadRootTag(stream: BinaryStream){ return new BedrockNBTDefinitionReader(stream).ReadRootTag(); }
-    public static ReadTag(stream: BinaryStream){ return new BedrockNBTDefinitionReader(stream).ReadTag(); }
-    public static Read(tag: number, stream: BinaryStream){ return new BedrockNBTDefinitionReader(stream).Read(tag); }
-    public static WriteRootTag(stream: BinaryStream, tag: NBTSerializable){ new BedrockNBTDefinitionWriter(stream).WriteRootTag(tag); }
-    public static WriteTag(stream: BinaryStream, tag: NBTSerializable){ new BedrockNBTDefinitionWriter(stream).WriteTag(tag); }
-    public static Write(stream: BinaryStream, tag: NBTSerializable){ new BedrockNBTDefinitionWriter(stream).Write(tag); }
+    public static ReadRootTag(stream: BinaryStream): NBTValue{ return new BedrockNBTDefinitionReader(stream).ReadRootTag() as NBTValue; }
+    public static ReadTag(stream: BinaryStream): NBTValue{ return new BedrockNBTDefinitionReader(stream).ReadTag() as NBTValue; }
+    public static Read<T extends number>(tag: T, stream: BinaryStream): NBTSerializable<T>{ return new BedrockNBTDefinitionReader(stream).Read(tag) as any; }
+    public static WriteRootTag(stream: BinaryStream, tag: NBTValue){ new BedrockNBTDefinitionWriter(stream).WriteRootTag(tag); }
+    public static WriteTag(stream: BinaryStream, tag: NBTValue){ new BedrockNBTDefinitionWriter(stream).WriteTag(tag); }
+    public static Write(stream: BinaryStream, tag: NBTValue){ new BedrockNBTDefinitionWriter(stream).Write(tag); }
 }
 export {BedrockNBT, BedrockNBTDefinitionReader, BedrockNBTDefinitionWriter};
