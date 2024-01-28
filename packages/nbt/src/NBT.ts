@@ -169,8 +169,24 @@ function BaseFunction(
 }
 
 type NBTValue =
-	BigInt64Array | BigUint64Array | Byte | Double | Float | Int16 | Int32 | Int32Array | Int64 | List<number> | NBTSerializable<number> | NBTValue[] | Uint32Array | bigint | number | string | { [KEY: string]: NBTValue };
-	
+	| BigInt64Array
+	| BigUint64Array
+	| Byte
+	| Double
+	| Float
+	| Int16
+	| Int32
+	| Int32Array
+	| Int64
+	| List<number>
+	| NBTSerializable<number>
+	| NBTValue[]
+	| Uint32Array
+	| bigint
+	| number
+	| string
+	| { [KEY: string]: NBTValue };
+
 interface NBTCompoud {
 	[key: string]: NBTValue;
 }

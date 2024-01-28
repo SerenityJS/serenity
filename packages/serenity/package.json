@@ -19,10 +19,10 @@
 		"require": "./dist/index.js"
 	},
 	"dependencies": {
-		"@serenityjs/nbt": "^1.0.0",
-		"@serenityjs/bedrock-data": "^0.0.1",
+		"@serenityjs/bedrock-data": "^0.0.2",
 		"@serenityjs/bedrock-protocol": "^1.0.0",
 		"@serenityjs/binarystream": "^1.2.3",
+		"@serenityjs/nbt": "^1.0.0",
 		"@serenityjs/raknet-protocol": "^1.0.5",
 		"@serenityjs/raknet-server": "^1.0.8",
 		"chalk": "4.0.0",

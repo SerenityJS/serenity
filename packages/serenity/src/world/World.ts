@@ -2,7 +2,7 @@ import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
-import { Mappings } from './block';
+import { BlockMappings } from './block';
 import { ChunkColumn } from './chunk';
 import type { Generator } from './generator';
 import { Flat } from './generator';
@@ -14,7 +14,7 @@ class World {
 	protected readonly logger: Logger;
 
 	public readonly name: string;
-	public readonly mappings: Mappings;
+	public readonly mappings: BlockMappings;
 	public readonly seed: number;
 	public readonly generator: Generator;
 	public readonly chunks: Map<bigint, ChunkColumn>;
@@ -25,7 +25,7 @@ class World {
 		this.logger = new Logger('World', LoggerColors.Cyan);
 
 		this.name = name ?? 'Serenity World';
-		this.mappings = new Mappings();
+		this.mappings = new BlockMappings();
 		this.seed = seed ?? 0;
 		this.generator = generator ?? new Flat(this, this.seed);
 		this.chunks = new Map();

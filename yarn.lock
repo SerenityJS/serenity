@@ -379,6 +379,11 @@
   resolved "https://registry.yarnpkg.com/@serenityjs/bedrock-data/-/bedrock-data-0.0.1.tgz#3d4e238aa5533b8c068e0a3dfb26d8b9c2d67c5b"
   integrity sha512-PkJfOBCJtdSycQtBLxFzhR9pcF80aNJDDuSXL4XZ1mkkPFcPZOP/mLftWA/IvJbnlorbt4TjqlGHqzz9LvK7iw==
 
+"@serenityjs/bedrock-data@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@serenityjs/bedrock-data/-/bedrock-data-0.0.2.tgz#a5f614921a3871d70e2945e1def80424d1553c88"
+  integrity sha512-NyEnNllQeKdVr6ZzkHc5JNtOoC+ewlPEdrokOTabQVNqwI8+TdAkMyw2GS25XeotPAhRcAvjxPFlaCJU4G84VQ==
+
 "@serenityjs/binarystream-darwin-x64@1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@serenityjs/binarystream-darwin-x64/-/binarystream-darwin-x64-1.2.3.tgz#333618971337101f67f4754bde202b0b83b25dd7"

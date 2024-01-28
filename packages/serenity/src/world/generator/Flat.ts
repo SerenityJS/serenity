@@ -16,11 +16,11 @@ class Flat extends Generator {
 		const chunk = new ChunkColumn(x, z);
 
 		// Get the runtime IDs of the blocks.
-		const bedrock = this.world.mappings.getBlockRuntimeId('minecraft:bedrock')!;
-		const glowingobsidian = this.world.mappings.getBlockRuntimeId('minecraft:glowingobsidian')!;
-		const stone = this.world.mappings.getBlockRuntimeId('minecraft:stone')!;
-		const dirt = this.world.mappings.getBlockRuntimeId('minecraft:dirt')!;
-		const grass = this.world.mappings.getBlockRuntimeId('minecraft:grass')!;
+		const bedrock = this.world.mappings.getBlockPermutation('minecraft:bedrock')!.runtimeId;
+		const glowingobsidian = this.world.mappings.getBlockPermutation('minecraft:glowingobsidian')!.runtimeId;
+		const stone = this.world.mappings.getBlockPermutation('minecraft:stone')!.runtimeId;
+		const dirt = this.world.mappings.getBlockPermutation('minecraft:dirt')!.runtimeId;
+		const grass = this.world.mappings.getBlockPermutation('minecraft:grass')!.runtimeId;
 
 		// Generate the chunk.
 		for (let x = 0; x < 16; x++) {

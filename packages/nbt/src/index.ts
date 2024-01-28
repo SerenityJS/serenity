@@ -20,4 +20,12 @@ export {
 	type NBTValue,
 	type NBTCompoud,
 } from './NBT';
-export { BedrockNBT, LightNBT, StringifiedNBT, BedrockNBTDefinitionReader, BedrockNBTDefinitionWriter, LightNBTDefinitionReader, LightNBTDefinitionWriter } from './NBTDefinitions';
+export {
+	BedrockNBT,
+	LightNBT,
+	StringifiedNBT,
+	BedrockNBTDefinitionReader,
+	BedrockNBTDefinitionWriter,
+	LightNBTDefinitionReader,
+	LightNBTDefinitionWriter,
+} from './NBTDefinitions';

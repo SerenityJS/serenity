@@ -6,4 +6,3 @@ export * from './world';
 export * from './forms';
 export * from './utils';
 export * from './types';
-export * from "./world/block/Block";

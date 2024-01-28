@@ -1,6 +1,6 @@
 import { Endianness } from '@serenityjs/binarystream';
 import type { BinaryStream } from '@serenityjs/binarystream';
-import type { NBTSerializable, NBTValue } from '../NBT';
+import type { NBTValue } from '../NBT';
 import { NBTTag, Int16, Int32, Int64, Float, Double } from '../NBT';
 import { GeneralNBTDefinitionWriter, GeneralNBTDefinitionReader, NBT } from './General';
 
@@ -60,10 +60,10 @@ class BedrockNBT extends NBT {
 	public static ReadRootTag(stream: BinaryStream): NBTValue {
 		return new BedrockNBTDefinitionReader(stream).ReadRootTag();
 	}
-	public static ReadTag(stream: BinaryStream): NBTValue  {
+	public static ReadTag(stream: BinaryStream): NBTValue {
 		return new BedrockNBTDefinitionReader(stream).ReadTag();
 	}
-	public static Read(tag: number, stream: BinaryStream): NBTValue  {
+	public static Read(tag: number, stream: BinaryStream): NBTValue {
 		return new BedrockNBTDefinitionReader(stream).Read(tag);
 	}
 	public static WriteRootTag(stream: BinaryStream, tag: NBTValue) {
