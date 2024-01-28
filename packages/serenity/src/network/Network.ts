@@ -1,124 +1,38 @@
-// Network
-// Handles all incoming and outgoing network traffic
-// ----------------------------------
-
 import { Buffer } from 'node:buffer';
 import { inflateRawSync, deflateRawSync } from 'node:zlib';
-import type {
-	DataPacket,
-	Login,
-	RequestNetworkSettings,
-	Disconnect,
-	NetworkSettings,
-	PlayStatus,
-	ResourcePacksInfo,
-	ResourcePackClientResponse,
-	ResourcePackStack,
-	StartGame,
-	CreativeContent,
-	BiomeDefinitionList,
-	LevelChunk,
-	MovePlayer,
-	ScriptMessage,
-	PlayerList,
-	PacketViolationWarning,
-	UpdateAbilities,
-	SetLocalPlayerAsInitialized,
-	Text,
-	CommandRequest,
-	ToastRequest,
-	Interact,
-	ContainerOpen,
-	ContainerClose,
-	PlayerAction,
-	UpdateAttributes,
-	NetworkChunkPublisherUpdate,
-	BlockPickRequest,
-	AddPlayer,
-	//	SelectedSlot,
-	SetEntityData,
-	InventoryTransaction,
-	RemoveEntity,
-	RequestChunkRadius,
-	ChunkRadiusUpdate,
-	Respawn,
-	ModalFormRequest,
-} from '@serenityjs/bedrock-protocol';
+import type { DataPacket } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId } from '@serenityjs/bedrock-protocol';
-import type { SetTitle } from '@serenityjs/bedrock-protocol/dist/packets/SetTitle';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
-import type { Player } from '../player';
 import { EventEmitter } from '../utils';
+import type { NetworkEvents, NetworkPacketEvent } from './Events';
+import { GAME_BYTE } from './GameByte';
 import type { NetworkSession } from './Session';
+import { NetworkStatus } from './Status';
 import { NETWORK_HANDLERS, NetworkHandler } from './handlers';
 
-// TODO: Move elsewhere
-
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-export enum NetworkStatus {
-	Incoming,
-	Outgoing,
-}
-
-export interface NetworkPacketEvent<T extends DataPacket> {
-	packet: T;
-	player: Player | null;
-	session: NetworkSession;
-	status: NetworkStatus;
-}
-
-interface NetworkEvents {
-	[Packet.Login]: [NetworkPacketEvent<Login>];
-	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatus>];
-	[Packet.Disconnect]: [NetworkPacketEvent<Disconnect>];
-	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfo>];
-	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStack>];
-	[Packet.ResourcePackClientResponse]: [NetworkPacketEvent<ResourcePackClientResponse>];
-	[Packet.Text]: [NetworkPacketEvent<Text>];
-	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
-	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayer>];
-	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntity>];
-	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
-	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
-	[Packet.InventoryTransaction]: [NetworkPacketEvent<InventoryTransaction>];
-	[Packet.Interact]: [NetworkPacketEvent<Interact>];
-	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
-	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
-	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityData>];
-	[Packet.Respawn]: [NetworkPacketEvent<Respawn>];
-	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
-	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
-	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
-	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
-	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadius>];
-	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdate>];
-	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
-	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
-	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequest>];
-	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
-	[Packet.NetworkChunkPublisherUpdate]: [NetworkPacketEvent<NetworkChunkPublisherUpdate>];
-	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
-	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
-	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
-	[Packet.PacketViolationWarning]: [NetworkPacketEvent<PacketViolationWarning>];
-	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessage>];
-	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequest>];
-	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilities>];
-	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
-}
-
-const GameByte = Buffer.from([0xfe]);
-
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+/**
+ * The network class.
+ * Handles all incoming and outgoing network traffic.
+ */
 class Network extends EventEmitter<NetworkEvents> {
 	protected readonly serenity: Serenity;
+
+	/**
+	 * The logger instance.
+	 */
 	public readonly logger: Logger;
+	/**
+	 * The sessions map.
+	 */
 	public readonly sessions: Map<bigint, NetworkSession>;
 
+	/**
+	 * The network instance.
+	 * Handles all incoming and outgoing network traffic.
+	 */
 	public constructor(serenity: Serenity) {
 		super();
 
@@ -126,19 +40,26 @@ class Network extends EventEmitter<NetworkEvents> {
 		this.logger = new Logger('Network', LoggerColors.Blue);
 		this.sessions = new Map();
 
+		// Set the serenity instance for the abstract network handler.
 		NetworkHandler.serenity = serenity;
 	}
 
+	/**
+	 * Handles all incoming packets from a session.
+	 *
+	 * @param session The session that sent the packets.
+	 * @param payloads The payloads that were sent.
+	 * @returns A promise that resolves when the packets have been handled.
+	 */
 	public async incoming(session: NetworkSession, ...payloads: Buffer[]): Promise<void> {
 		// Loop through each buffer.
 		// We may receive multiple packets in one payload.
-
 		for (const buffer of payloads) {
 			// Construct a new BinaryStream from the buffer.
 			// And check if the first byte is 0xfe AKA the game packet header.
 			const stream = new BinaryStream(buffer);
 			const header = stream.readUint8();
-			if (header !== GameByte[0]) return console.log('Invalid packet header', header);
+			if (header !== GAME_BYTE[0]) return console.log('Invalid packet header', header);
 
 			// Check if the session is encrypted.
 			// NOTE: Encryption is not implemented yet. So we will just handle the packet as if it was not encrypted.
@@ -216,6 +137,13 @@ class Network extends EventEmitter<NetworkEvents> {
 		}
 	}
 
+	/**
+	 * Sends packets to a session.
+	 *
+	 * @param session The session to send the packets to.
+	 * @param packets The packets to send.
+	 * @returns A promise that resolves when the packets have been sent.
+	 */
 	public async send(session: NetworkSession, ...packets: DataPacket[]): Promise<void> {
 		try {
 			// Prepare an array of buffers
@@ -266,7 +194,7 @@ class Network extends EventEmitter<NetworkEvents> {
 			const encrypted = session.encryption ? deflated : deflated;
 
 			// We will then construct the final payload with the game header and the encrypted compressed payload.
-			const payload = Buffer.concat([GameByte, encrypted]);
+			const payload = Buffer.concat([GAME_BYTE, encrypted]);
 
 			// Finally we will assemble a new frame with the payload.
 			// The frame contains the reliability and priority of the packet.
