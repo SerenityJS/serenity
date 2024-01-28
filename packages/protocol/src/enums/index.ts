@@ -31,3 +31,4 @@ export * from './UseItemOnEntityAction';
 export * from './ItemReleaseAction';
 export * from './DeviceOS';
 export * from './RespawnState';
+export * from './FormType';

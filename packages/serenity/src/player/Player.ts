@@ -1,6 +1,7 @@
-import type { DisconnectReason, Vec2f, Vec3f, RespawnState } from '@serenityjs/bedrock-protocol';
 import { ChatTypes, Disconnect, Respawn, Text } from '@serenityjs/bedrock-protocol';
+import type { DisconnectReason, Vec2f, Vec3f, RespawnState } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
+import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
 import type { ChunkColumn, World } from '../world';
@@ -38,6 +39,7 @@ class Player {
 	public readonly abilities: Abilities;
 	public readonly attributes: Attributes;
 	public readonly render: Render;
+	public readonly forms: Map<number, (data: any) => void>;
 
 	public world: World;
 	public position: Vec3f = { x: 0, y: 0, z: 0 };
@@ -67,6 +69,7 @@ class Player {
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 		this.render = new Render(this.serenity, this);
+		this.forms = new Map();
 	}
 
 	/**
@@ -118,6 +121,15 @@ class Player {
 
 		// Send the packet.
 		void this.session.send(packet);
+	}
+
+	public async sendMessageForm(form: MessageForm, callback: (data: boolean) => void): Promise<void> {
+		// Send the form and wait for the response.
+		// This will return the ID of the newly created form.
+		const id = await this.session.sendModalFormRequest(form.toPayload());
+
+		// Store the callback.
+		this.forms.set(id, callback);
 	}
 
 	/**

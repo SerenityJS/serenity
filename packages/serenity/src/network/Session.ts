@@ -1,10 +1,6 @@
-import type { Buffer } from 'node:buffer';
-import { writeFileSync } from 'node:fs';
 import { BIOME_DEFINITION_LIST } from '@serenityjs/bedrock-data';
 import {
 	Disconnect,
-	LevelChunk,
-	NetworkChunkPublisherUpdate,
 	MovePlayer,
 	StartGame,
 	Gamemode,
@@ -12,13 +8,12 @@ import {
 	PermissionLevel,
 	CreativeContent,
 	BiomeDefinitionList,
+	ModalFormRequest,
 } from '@serenityjs/bedrock-protocol';
 import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
-import { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
-import type { ChunkColumn } from '../world';
 import type { Network } from './Network';
 
 let runtimeId = 0n;
@@ -46,6 +41,7 @@ class NetworkSession {
 	public compression: boolean = false;
 
 	protected player: Player | null = null;
+	protected formId: number = 0;
 
 	/**
 	 * Creates a new network session.
@@ -456,6 +452,30 @@ class NetworkSession {
 
 		// Send the biome definition list packet.
 		return this.send(packet);
+	}
+
+	/**
+	 * Sends a modal form request to the client.
+	 *
+	 * @param payload The payload to send.
+	 * @returns The form id.
+	 */
+	public async sendModalFormRequest(payload: string): Promise<number> {
+		// Create a new modal form request packet.
+		const packet = new ModalFormRequest();
+
+		// Get the next form id.
+		const formId = this.formId++;
+
+		// Assign the modal form request packet.
+		packet.formId = formId;
+		packet.payload = payload;
+
+		// Send the modal form request packet.
+		await this.send(packet);
+
+		// Return the form id.
+		return formId;
 	}
 
 	/**
