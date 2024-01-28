@@ -3,6 +3,9 @@ import { BinaryStream } from "@serenityjs/binarystream";
 import type { NBTCompoud, NBTSerializable, NBTValue} from "@serenityjs/nbt";
 import { Byte, LightNBT, List, NBTTag, NBT_TYPE, StringifiedNBT, BedrockNBTDefinitionWriter, Int32 } from "@serenityjs/nbt";
 
+const a = true;
+if(a) throw new Error("Stop");
+
 const CANONICAL_BLOCK_STATES = fs.readFileSync("canonical_block_states.nbt");
 const BIOME_FULL = fs.readFileSync("biome_definitions_full.nbt");
 const strm = new BinaryStream(CANONICAL_BLOCK_STATES);

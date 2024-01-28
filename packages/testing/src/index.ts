@@ -9,7 +9,8 @@ const serenity = new Serenity({
 });
 
 serenity.start();
-console.log(BlockPermutation.Resolve("minecraft:dirt",{dirt_type:"coarse"}) === BlockPermutation.FromRuntimeId(9_551));
+const isSamePermutation = BlockPermutation.Resolve("minecraft:dirt",{dirt_type:"coarse"}) === BlockPermutation.FromRuntimeId(9_551);
+console.log(BlockPermutation.Resolve("minecraft:cobblestone")?.runtimeId, isSamePermutation);
 
 serenity.on('PlayerJoined', ({ player }) => {
 	//
