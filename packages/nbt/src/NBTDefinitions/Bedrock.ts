@@ -1,6 +1,6 @@
 import { Endianness } from '@serenityjs/binarystream';
 import type { BinaryStream } from '@serenityjs/binarystream';
-import type { NBTSerializable } from '../NBT';
+import type { NBTSerializable, NBTValue } from '../NBT';
 import { NBTTag, Int16, Int32, Int64, Float, Double } from '../NBT';
 import { GeneralNBTDefinitionWriter, GeneralNBTDefinitionReader, NBT } from './General';
 
@@ -57,22 +57,22 @@ class BedrockNBTDefinitionReader extends GeneralNBTDefinitionReader {
 	}
 }
 class BedrockNBT extends NBT {
-	public static ReadRootTag(stream: BinaryStream) {
+	public static ReadRootTag(stream: BinaryStream): NBTValue {
 		return new BedrockNBTDefinitionReader(stream).ReadRootTag();
 	}
-	public static ReadTag(stream: BinaryStream) {
+	public static ReadTag(stream: BinaryStream): NBTValue  {
 		return new BedrockNBTDefinitionReader(stream).ReadTag();
 	}
-	public static Read(tag: number, stream: BinaryStream) {
+	public static Read(tag: number, stream: BinaryStream): NBTValue  {
 		return new BedrockNBTDefinitionReader(stream).Read(tag);
 	}
-	public static WriteRootTag(stream: BinaryStream, tag: NBTSerializable) {
+	public static WriteRootTag(stream: BinaryStream, tag: NBTValue) {
 		new BedrockNBTDefinitionWriter(stream).WriteRootTag(tag);
 	}
-	public static WriteTag(stream: BinaryStream, tag: NBTSerializable) {
+	public static WriteTag(stream: BinaryStream, tag: NBTValue) {
 		new BedrockNBTDefinitionWriter(stream).WriteTag(tag);
 	}
-	public static Write(stream: BinaryStream, tag: NBTSerializable) {
+	public static Write(stream: BinaryStream, tag: NBTValue) {
 		new BedrockNBTDefinitionWriter(stream).Write(tag);
 	}
 }
