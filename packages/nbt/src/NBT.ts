@@ -181,10 +181,10 @@ type NBTValue =
 	| number
 	| string
 	| { [KEY: string]: NBTValue };
+	
 interface NBTCompoud {
 	[key: string]: NBTValue;
 }
-
 const DATA_MAPING = [Byte, Int16, Int32, Int64, Float, Double];
 const DATA_BASES = [NumberWrapper, NumberWrapper, NumberWrapper, BigIntWrapper, NumberWrapper, NumberWrapper];
 const DATA_MAP_TYPES = [NBTTag.Byte, NBTTag.Int16, NBTTag.Int32, NBTTag.Int64, NBTTag.Float, NBTTag.Double];

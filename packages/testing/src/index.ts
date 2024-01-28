@@ -1,5 +1,7 @@
 import { AbilityLayerFlag, Packet } from '@serenityjs/bedrock-protocol';
-import { MessageForm, Serenity } from '@serenityjs/serenity';
+import { MessageForm, Serenity, BlockTypes, BlockPermutation } from '@serenityjs/serenity';
+
+// import "./mapping_build";
 
 const serenity = new Serenity({
 	address: '0.0.0.0',
@@ -7,6 +9,7 @@ const serenity = new Serenity({
 });
 
 serenity.start();
+console.log(BlockPermutation.Resolve("minecraft:dirt",{dirt_type:"coarse"}) === BlockPermutation.FromRuntimeId(9_551));
 
 serenity.on('PlayerJoined', ({ player }) => {
 	//
@@ -37,5 +40,5 @@ serenity.network.on(Packet.BlockPickRequest, ({ player, packet }) => {
 		'No',
 	);
 
-	player.sendMessageForm(form, (data) => {});
+	player.sendMessageForm(form, (data) => {}).catch(console.error);
 });
