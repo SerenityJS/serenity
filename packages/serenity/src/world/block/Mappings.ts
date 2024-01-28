@@ -1,13 +1,13 @@
 import { CANONICAL_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { BinaryStream } from '@serenityjs/binarystream';
-import { LightNBT, NBTTag } from '@serenityjs/nbt';
+import { LightNBT, NBTTag, BedrockNBT } from '@serenityjs/nbt';
 
 class Mappings {
 	public readonly blocks: Map<number, string> = new Map();
 
 	public constructor() {
-		const strm = new BinaryStream(CANONICAL_BLOCK_STATES);
-		// Construct the block mappings
+		// Create a new stream from the CANONICAL_BLOCK_STATES file
+		const stream = new BinaryStream(CANONICAL_BLOCK_STATES);
 
 		// Predefine the runtimeId
 		let runtimeId = 0;
@@ -15,19 +15,18 @@ class Mappings {
 		// Loop through the blocks, reading their names and IDs
 		do {
 			// If next tag is not compoud, CANONICAL_BLOCK_STATES file could be corrupted
-			if(CANONICAL_BLOCK_STATES[strm.offset] !== NBTTag.Compoud) break;
+			if (CANONICAL_BLOCK_STATES[stream.offset] !== NBTTag.Compoud) break;
+
 			// Read the tag
-			const tag = LightNBT.ReadRootTag(strm) as {
+			const tag = LightNBT.ReadRootTag(stream) as {
 				name: string;
-				states: {[k: string]: number;};
+				states: { [k: string]: number };
 				version: number;
 			};
-			// Get the name and ID
-			// TODO: Handle the block states
 
 			// Add the block to the map
 			this.blocks.set(runtimeId++, tag.name);
-		} while (!strm.cursorAtEnd());
+		} while (!stream.cursorAtEnd());
 	}
 
 	public getBlockRuntimeId(name: string, index = 0): number | null {
