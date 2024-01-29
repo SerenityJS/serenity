@@ -1,5 +1,5 @@
 import type { Int16 } from '@serenityjs/nbt';
-import type { MappedBlockStatePermutation, MappedBlockStateType } from './Interfaces';
+import type { MappedBlockStatePermutation, MappedBlockStateType } from '../../../types';
 import type { BlockPermutation } from './Permutation';
 import { MappedBlockPermutation } from './Permutation';
 

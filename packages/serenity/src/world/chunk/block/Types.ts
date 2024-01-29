@@ -1,7 +1,7 @@
 import type { Buffer } from 'node:buffer';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { LightNBT } from '@serenityjs/nbt';
-import type { MappedBlockStateEntry } from './Interfaces';
+import type { MappedBlockStateEntry } from '../../../types';
 import { MappedBlockPermutation, type BlockPermutation } from './Permutation';
 import type { BlockType } from './Type';
 import { MappedBlockType } from './Type';

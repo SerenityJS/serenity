@@ -1,6 +1,6 @@
 import { BinaryStream } from '@serenityjs/binarystream';
 import { BedrockNBTDefinitionWriter, NBT_SERIALIZER } from '@serenityjs/nbt';
-import type { MappedBlockStatePermutation } from './Interfaces';
+import type { MappedBlockStatePermutation } from '../../../types';
 import type { BlockType, MappedBlockType } from './Type';
 
 export abstract class BlockPermutation {

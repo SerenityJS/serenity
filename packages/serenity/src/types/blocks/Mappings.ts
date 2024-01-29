@@ -1,11 +1,11 @@
 import type { Int16 } from '@serenityjs/nbt';
 
-export interface MappedBlockStateEntry {
+interface MappedBlockStateEntry {
 	permutations: { [entry: string]: MappedBlockState };
 	version: number;
 }
 
-export interface MappedBlockState {
+interface MappedBlockState {
 	id: Int16;
 	name: string;
 	permutations: MappedBlockStatePermutation[];
@@ -13,13 +13,15 @@ export interface MappedBlockState {
 	type: MappedBlockStateType;
 }
 
-export interface MappedBlockStatePermutation {
+interface MappedBlockStatePermutation {
 	i: Int16;
 	v: any[];
 }
 
-export interface MappedBlockStateType {
+interface MappedBlockStateType {
 	length: number;
 	names: string[];
 	types: number[];
 }
+
+export type { MappedBlockStateEntry, MappedBlockState, MappedBlockStatePermutation, MappedBlockStateType };
