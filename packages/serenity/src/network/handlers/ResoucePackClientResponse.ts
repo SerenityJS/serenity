@@ -7,7 +7,7 @@ import {
 	NetworkChunkPublisherUpdate,
 	ResourcePackClientResponse,
 } from '@serenityjs/bedrock-protocol';
-import type { ChunkColumn } from '../../world';
+import type { Chunk } from '../../world/chunk';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
 
@@ -67,12 +67,13 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				const minZ = 0 - 4;
 				const maxZ = 0 + 4;
 
-				const sendQueue: ChunkColumn[] = [];
+				// const sendQueue: ChunkColumn[] = [];
+				const sendQueue: Chunk[] = [];
 				for (let chunkX = minX; chunkX <= maxX; ++chunkX) {
 					for (let chunkZ = minZ; chunkZ <= maxZ; ++chunkZ) {
 						// TODO: vanilla does not send all of them, but in a range
 						// for example it does send them from x => [-3; 3] and z => [-3; 2]
-						sendQueue.push(this.serenity.world.getChunk(chunkX, chunkZ));
+						sendQueue.push(this.serenity.world.chunkManager.getChunk(chunkX, chunkZ));
 					}
 				}
 

@@ -15,14 +15,14 @@ class BlockPickRequestHandler extends NetworkHandler {
 
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
-
+		/*
 		// Get the block at the position.
 		// And check if the block is null or undefined.
 		const block = this.serenity.world.getBlock(packet.x, packet.y, packet.z);
 		if (!block) return;
 
 		// Fire the block pick event.
-		return block.onBlockPick(player, packet);
+		return block.onBlockPick(player, packet);*/
 	}
 }
 

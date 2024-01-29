@@ -1,3 +1,3 @@
 export * from './chunk';
-export * from './block';
+export * from './generator';
 export * from './World';

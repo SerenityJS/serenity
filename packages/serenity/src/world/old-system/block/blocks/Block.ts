@@ -1,5 +1,5 @@
 import type { BlockPickRequest } from '@serenityjs/bedrock-protocol';
-import type { Player } from '../../../player';
+import type { Player } from '../../../../player';
 import type { BlockPermutation, BlockType } from '../data';
 
 // TODO: Implement metadata for chunk serialization.

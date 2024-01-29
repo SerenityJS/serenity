@@ -1,18 +1,11 @@
-import type { Serenity } from '../../Serenity';
-import type { World } from '../World';
-import type { ChunkColumn } from '../chunk';
+import type { Chunk } from '../chunk';
 
 /**
  * Represents a generic generator.
  *
  * @abstract
  */
-abstract class Generator {
-	/**
-	 * The world instance.
-	 */
-	protected readonly world: World;
-
+export abstract class TerrainGenerator {
 	/**
 	 * The seed of the generator.
 	 */
@@ -21,11 +14,9 @@ abstract class Generator {
 	/**
 	 * Creates a new generator instance.
 	 *
-	 * @param world The world instance.
 	 * @param seed The seed of the generator.
 	 */
-	public constructor(world: World, seed: number) {
-		this.world = world;
+	public constructor(seed: number) {
 		this.seed = seed;
 	}
 
@@ -35,9 +26,5 @@ abstract class Generator {
 	 * @param x The x coordinate of the chunk.
 	 * @param z The z coordinate of the chunk.
 	 */
-	public generateChunk(x: number, z: number): ChunkColumn {
-		throw new Error('Generator.generateChunk() is not implemented!');
-	}
+	public abstract apply(chunk: Chunk): Chunk;
 }
-
-export { Generator };

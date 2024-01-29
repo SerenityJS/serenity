@@ -1,12 +1,11 @@
+import { MAPPED_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
-import type { Block } from './block';
-import { Air, BlockMappings } from './block';
-import { ChunkColumn } from './chunk';
-import type { Generator } from './generator';
-import { Flat } from './generator';
+import { BlockTypes, ChunkManager } from './chunk';
+import type { TerrainGenerator } from './generator';
+import { BetterFlat } from './generator';
 
 const RUNTIME_ID = 0n;
 
@@ -15,24 +14,28 @@ class World {
 	protected readonly logger: Logger;
 
 	public readonly name: string;
-	public readonly mappings: BlockMappings;
 	public readonly seed: number;
-	public readonly generator: Generator;
-	public readonly chunks: Map<bigint, ChunkColumn>;
 	public readonly players: Map<bigint, Player>;
-
-	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: Generator) {
+	public readonly blockTypes;
+	public readonly chunkManager;
+	
+	
+	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: (that: World)=>TerrainGenerator) {
 		this.serenity = serenity;
 		this.logger = new Logger('World', LoggerColors.Cyan);
 
 		this.name = name ?? 'Serenity World';
-		this.mappings = new BlockMappings();
 		this.seed = seed ?? 0;
-		this.generator = generator ?? new Flat(this, this.seed);
-		this.chunks = new Map();
 		this.players = new Map();
+		
+		
+		this.blockTypes = new BlockTypes(MAPPED_BLOCK_STATES);
+		this.chunkManager = new ChunkManager(
+			this,
+			generator?.(this)??BetterFlat.BasicFlat(this.blockTypes),
+			this.blockTypes.resolvePermutation("air")
+		);
 	}
-
 	/**
 	 * Broadcasts a packet to all players.
 	 *
@@ -121,7 +124,7 @@ class World {
 	 * @param x The chunk X coordinate.
 	 * @param z The chunk Z coordinate.
 	 * @returns The chunk.
-	 */
+	 *//*
 	public getChunk(x: number, z: number): ChunkColumn {
 		// Create a hash for the chunk.
 		const hash = ChunkColumn.getHash(x, z);
@@ -134,7 +137,7 @@ class World {
 
 		// Return the chunk.
 		return chunk!;
-	}
+	}*/
 
 	/**
 	 * Gets a block from the world.
@@ -144,14 +147,14 @@ class World {
 	 * @param z The block Z coordinate.
 	 * @param block The block to set.
 	 * @returns The chunk's setBlock index.
-	 */
+	 *//*
 	public setBlock(x: number, y: number, z: number, block: typeof Block): void {
 		// Get the chunk.
 		const chunk = this.getChunk(x >> 4, z >> 4);
 
 		// Return the chunk's setBlock index.
 		return chunk.setBlock(x, y, z, block.getRuntimeId());
-	}
+	}*/
 
 	/**
 	 * Gets a block from the world.
@@ -161,6 +164,8 @@ class World {
 	 * @param z The block Z coordinate.
 	 * @returns The block.
 	 */
+	/// NEEDS a reimplementation
+	/*
 	public getBlock(x: number, y: number, z: number): typeof Block {
 		// Get the chunk.
 		const chunk = this.getChunk(x >> 4, z >> 4);
@@ -180,7 +185,7 @@ class World {
 
 		// Return the block.
 		return block;
-	}
+	}*/
 
 	/**
 	 * Sends a message to all players.

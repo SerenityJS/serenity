@@ -4,7 +4,7 @@ import type { Serenity } from '../Serenity';
 import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
-import type { ChunkColumn, World } from '../world';
+import type { Chunk, World } from '../world';
 import { Render } from './Render';
 import { Abilities } from './abilities';
 import { Attributes } from './attributes';
@@ -97,8 +97,8 @@ class Player {
 	 *
 	 * @returns The player's current chunk.
 	 */
-	public getCurrentChunk(): ChunkColumn {
-		return this.world.getChunk(this.position.x >> 4, this.position.z >> 4);
+	public getCurrentChunk(): Chunk {
+		return this.world.chunkManager.getChunk(this.position.x >> 4, this.position.z >> 4);
 	}
 
 	/**

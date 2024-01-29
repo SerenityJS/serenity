@@ -1,5 +1,6 @@
 import { MAPPED_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { BinaryStream } from '@serenityjs/binarystream';
+import type { Int16} from '@serenityjs/nbt';
 import { LightNBT } from '@serenityjs/nbt';
 import type { Block } from './blocks';
 import { VANILLA_BLOCKS } from './blocks';

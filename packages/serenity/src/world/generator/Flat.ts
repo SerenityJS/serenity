@@ -1,37 +1,21 @@
-import { ChunkColumn } from '../chunk';
-import { Generator } from './Generator';
+import type { BlockPermutation , BlockTypes, Chunk } from '../chunk';
+import { TerrainGenerator } from './Generator';
 
-/**
- * Represents a flat world generator.
- */
-class Flat extends Generator {
+export class TerrainFlat extends TerrainGenerator {
+	public readonly flatLayers;
+	public constructor(flatLayers: BlockPermutation[]){
+		super(0);
+		this.flatLayers = flatLayers;
+	}
 	/**
 	 * Generates a chunk.
 	 *
-	 * @param x The x coordinate of the chunk.
-	 * @param z The z coordinate of the chunk.
 	 */
-	public override generateChunk(x: number, z: number): ChunkColumn {
-		// Construct a new chunk column.
-		const chunk = new ChunkColumn(x, z);
-
-		// Get the runtime IDs of the blocks.
-		const bedrock = this.world.mappings.getBlockPermutation('minecraft:bedrock')!.runtimeId;
-		const glowingobsidian = this.world.mappings.getBlockPermutation('minecraft:glowingobsidian')!.runtimeId;
-		const stone = this.world.mappings.getBlockPermutation('minecraft:stone')!.runtimeId;
-		const dirt = this.world.mappings.getBlockPermutation('minecraft:dirt')!.runtimeId;
-		const grass = this.world.mappings.getBlockPermutation('minecraft:grass')!.runtimeId;
-
+	public apply(chunk: Chunk): Chunk {
 		// Generate the chunk.
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
-				chunk.setBlock(x, 0, z, bedrock);
-				chunk.setBlock(x, 1, z, glowingobsidian);
-				chunk.setBlock(x, 2, z, stone);
-				chunk.setBlock(x, 3, z, stone);
-				chunk.setBlock(x, 4, z, dirt);
-				chunk.setBlock(x, 5, z, dirt);
-				chunk.setBlock(x, 6, z, grass);
+				for (let y = 0; y < this.flatLayers.length; y++) chunk.setBlock(x, y, z, this.flatLayers[y]);
 			}
 		}
 
@@ -39,5 +23,37 @@ class Flat extends Generator {
 		return chunk;
 	}
 }
+export class BetterFlat extends TerrainGenerator{
+	public readonly layersMetrix;
+	public constructor(flatLayers: (BlockPermutation | BlockPermutation[])[]){
+		super(0);
+		this.layersMetrix = flatLayers.map(e=>Array.isArray(e)?e:[e]);
+	}
+	/**
+	 * Generates a chunk.
+	 *
+	 */
+	public apply(chunk: Chunk): Chunk {
+		// Generate the chunk.
+		for (let x = 0; x < 16; x++) {
+			for (let z = 0; z < 16; z++) {
+				for (let y = 0; y < this.layersMetrix.length; y++) {
+					const palette = this.layersMetrix[y];
+					chunk.setBlock(x, y - 64, z, palette[Math.floor(palette.length * Math.random())]);
+				}
+			}
+		}
 
-export { Flat };
+		// Return the chunk.
+		return chunk;
+	}
+	public static BasicFlat(blockTypes: BlockTypes){
+		return new this([
+			blockTypes.resolvePermutation("minecraft:bedrock"),
+			[blockTypes.resolvePermutation("minecraft:dirt",{"dirt_type":"coarse"}),blockTypes.resolvePermutation("minecraft:dirt",{"dirt_type":"coarse"})],
+			[blockTypes.resolvePermutation("minecraft:dirt"),blockTypes.resolvePermutation("minecraft:dirt",{"dirt_type":"coarse"})],
+			[blockTypes.resolvePermutation("minecraft:dirt"),blockTypes.resolvePermutation("minecraft:dirt")],
+			[blockTypes.resolvePermutation("minecraft:grass"),blockTypes.resolvePermutation("minecraft:grass"),blockTypes.resolvePermutation("minecraft:moss_block"),]
+		]);
+	}
+}

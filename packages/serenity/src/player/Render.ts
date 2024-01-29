@@ -8,7 +8,7 @@ import {
 	RemoveEntity,
 } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
-import type { ChunkColumn } from '../world';
+import type { Chunk } from '../world/chunk';
 import type { Player } from './Player';
 
 class Render {
@@ -118,7 +118,7 @@ class Render {
 		void this.player.session.send(list, entity);
 	}
 
-	public sendChunk(chunk: ChunkColumn): void {
+	public sendChunk(chunk: Chunk): void {
 		// Check if the chunk is already being rendered.
 		if (this.chunks.has(chunk.getHash())) return;
 
@@ -137,10 +137,9 @@ class Render {
 
 		// Send the packet to the player.
 		void this.player.session.send(packet);
-	}
-
-	public getChunks(): ChunkColumn[] {
-		return [...this.chunks.values()].map((x) => this.player.world.chunks.get(x)) as ChunkColumn[];
+	}	
+	public getChunks(): Chunk[] {
+		return [...this.chunks.values()].map((x) => this.player.world.chunkManager.getFromHash(x)) as Chunk[];
 	}
 }
 
