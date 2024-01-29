@@ -1,3 +1,5 @@
+import type { BlockPickRequest } from '@serenityjs/bedrock-protocol';
+import type { Player } from '../../../player';
 import type { BlockPermutation, BlockType } from '../data';
 
 // TODO: Implement metadata for chunk serialization.
@@ -44,6 +46,14 @@ abstract class Block {
 	public static getName(): string {
 		return this.type.name;
 	}
+
+	/**
+	 * Fires when a player sends a block pick request.
+	 *
+	 * @param player - The player who sent the request.
+	 * @param packet - The packet.
+	 */
+	public static onBlockPick(player: Player, packet: BlockPickRequest): void {}
 }
 
 export { Block };

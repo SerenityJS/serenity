@@ -26,19 +26,19 @@ serenity.on('PlayerChat', ({ player }) => {
 	player.abilities.setAbility(AbilityLayerFlag.MayFly, false);
 });
 
-serenity.network.on(Packet.BlockPickRequest, ({ player, packet }) => {
-	if (!player) return;
+// serenity.network.on(Packet.BlockPickRequest, ({ player, packet }) => {
+// 	if (!player) return;
 
-	const block = player.world.getBlock(packet.x, packet.y, packet.z);
+// 	const block = player.world.getBlock(packet.x, packet.y, packet.z);
 
-	player.world.setBlock(packet.x, packet.y, packet.z, Air);
+// 	player.world.setBlock(packet.x, packet.y, packet.z, Air);
 
-	const form = new MessageForm(
-		'BlockPickRequest',
-		`You block picked "${block.getName()}". Would you like to destroy this block?`,
-		'Yes',
-		'No',
-	);
+// 	const form = new MessageForm(
+// 		'BlockPickRequest',
+// 		`You block picked "${block.getName()}". Would you like to destroy this block?`,
+// 		'Yes',
+// 		'No',
+// 	);
 
-	player.sendMessageForm(form, (data) => {}).catch(console.error);
-});
+// 	player.sendMessageForm(form, (data) => {}).catch(console.error);
+// });
