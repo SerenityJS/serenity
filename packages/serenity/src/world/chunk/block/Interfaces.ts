@@ -1,4 +1,4 @@
-import type { Int16 } from "@serenityjs/nbt";
+import type { Int16 } from '@serenityjs/nbt';
 
 export interface MappedBlockStateEntry {
 	permutations: { [entry: string]: MappedBlockState };

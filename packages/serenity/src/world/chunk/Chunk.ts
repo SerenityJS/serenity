@@ -2,18 +2,17 @@ import type { Buffer } from 'node:buffer';
 import type { Vec2f } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { SubChunk } from './SubChunk';
-import type { BlockPermutation } from './Types';
-
+import type { BlockPermutation } from './block';
 
 export class Chunk {
 	public static readonly MAX_SUB_CHUNKS = 20;
 
 	public readonly x: number;
 	public readonly z: number;
-	
+
 	protected readonly subchunks: SubChunk[];
 	protected readonly defaultPermutation: BlockPermutation;
-	
+
 	public constructor(x: number, z: number, defaultPermutation: BlockPermutation) {
 		this.x = x;
 		this.z = z;
@@ -49,7 +48,9 @@ export class Chunk {
 		};
 	}
 
-	public getHash(): bigint { return Chunk.getHash(this.x, this.z); }
+	public getHash(): bigint {
+		return Chunk.getHash(this.x, this.z);
+	}
 
 	protected getSubChunk(index: number): SubChunk {
 		// Check if the sub chunk exists.
@@ -82,7 +83,7 @@ export class Chunk {
 	public serialize(): Buffer {
 		// Create a new stream.
 		const stream = new BinaryStream();
-		
+
 		// Write 4 empty subchunks
 		// This eliminates the -64 to 0 y coordinate bug
 		/*

@@ -1,23 +1,23 @@
-import type { BinaryStream} from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
-import type { BlockPermutation } from './Types';
+import type { BlockPermutation } from './block';
 
-export class SubChunkLayer{
+export class SubChunkLayer {
 	public static readonly MAX_X = 16;
 	public static readonly MAX_Y = 16;
 	public static readonly MAX_Z = 16;
-	public static readonly MAX_SIZE = 16*16*16;
-	
+	public static readonly MAX_SIZE = 16 * 16 * 16;
+
 	/**
 	 * Blocks voxel areay 16*16*16
 	 */
-	protected readonly blocks: (BlockPermutation | null | undefined)[];	
-	
+	protected readonly blocks: (BlockPermutation | null | undefined)[];
+
 	/**
 	 * Palette mapping is used to map used Permutations
 	 */
 	protected readonly paletteMapping = new Map<BlockPermutation, number>();
-	
+
 	/**
 	 * Number of not empty blocks, empty when zero
 	 */
@@ -29,40 +29,42 @@ export class SubChunkLayer{
 	protected readonly defaultPermutation;
 	public constructor(defaultPermutation: BlockPermutation) {
 		this.defaultPermutation = defaultPermutation;
-		this.blocks = Array.from({length:new.target.MAX_SIZE});
+		this.blocks = Array.from({ length: new.target.MAX_SIZE });
 	}
 
 	public static getIndex(bx: number, by: number, bz: number): number {
-		return ((bx&0xf) << 8) | ((bz&0xf) << 4) | (by&0xf);
+		return ((bx & 0xf) << 8) | ((bz & 0xf) << 4) | (by & 0xf);
 	}
 
-	public isEmpty(): boolean { return this.notEmptyCount === 0n; }
+	public isEmpty(): boolean {
+		return this.notEmptyCount === 0n;
+	}
 
 	public setBlock(bx: number, by: number, bz: number, p?: BlockPermutation): void {
-		const index = SubChunkLayer.getIndex(bx,by,bz);
+		const index = SubChunkLayer.getIndex(bx, by, bz);
 		let permutation = p;
 
 		// defualt permutation should be mapped to undefined
-		if(permutation === this.defaultPermutation) permutation = undefined;
-		
+		if (permutation === this.defaultPermutation) permutation = undefined;
+
 		// if permutation is same as before just do nothing
 		const oldPermutation = this.blocks[index];
-		if(oldPermutation === permutation) return;
-		
+		if (oldPermutation === permutation) return;
+
 		// If permutation is empty or defualt it cleans that space
-		if(permutation === undefined) this.notEmptyCount--;
-		else{
+		if (permutation === undefined) this.notEmptyCount--;
+		else {
 			// When permutation is not empty we increase a paletteDefinitions and notEmptyCount
-			const count = this.paletteMapping.get(permutation)??0;
+			const count = this.paletteMapping.get(permutation) ?? 0;
 			this.paletteMapping.set(permutation, count + 1);
 			this.notEmptyCount++;
 		}
-		
+
 		// if old permutation wasn't undefined we updates states if palettes
-		if(oldPermutation){
-			const count = this.paletteMapping.get(oldPermutation)??0;
-			if(count <= 1) this.paletteMapping.delete(oldPermutation);
-			else this.paletteMapping.set(oldPermutation, count - 1); 
+		if (oldPermutation) {
+			const count = this.paletteMapping.get(oldPermutation) ?? 0;
+			if (count <= 1) this.paletteMapping.delete(oldPermutation);
+			else this.paletteMapping.set(oldPermutation, count - 1);
 		}
 
 		this.blocks[index] = permutation;
@@ -71,7 +73,7 @@ export class SubChunkLayer{
 	public getBlock(bx: number, by: number, bz: number): BlockPermutation {
 		// Get the index of the block.
 		// Which is the index of the palette.
-		return this.blocks[SubChunkLayer.getIndex(bx, by, bz)]??this.defaultPermutation;
+		return this.blocks[SubChunkLayer.getIndex(bx, by, bz)] ?? this.defaultPermutation;
 	}
 
 	public serialize(stream: BinaryStream): void {
@@ -83,8 +85,8 @@ export class SubChunkLayer{
 		const palette = new Map<BlockPermutation, number>();
 		// Skiping Zero for defualt permutation
 		let index = 1;
-		for (const [k, v] of this.paletteMapping.entries()) palette.set(k,index++);
-		
+		for (const [k, v] of this.paletteMapping.entries()) palette.set(k, index++);
+
 		// Add padding to the bits per block if needed.
 		switch (bitsPerBlock) {
 			case 0:
@@ -112,16 +114,16 @@ export class SubChunkLayer{
 		// Calculate the blocks per word & words per block.
 		const blocksPerWord = Math.floor(32 / bitsPerBlock);
 		const wordsPerBlock = Math.ceil(4_096 / blocksPerWord);
-		
+
 		// Write the word to the stream.
 		let position = 0;
 		for (let w = 0; w < wordsPerBlock; w++) {
 			let word = 0;
 			for (let block = 0; block < blocksPerWord; block++) {
-				const state = palette.get(this.blocks[position++] as BlockPermutation)??0;
+				const state = palette.get(this.blocks[position++] as BlockPermutation) ?? 0;
 				word |= state << (bitsPerBlock * block);
 			}
-			
+
 			stream.writeInt32(word, Endianness.Little);
 		}
 
@@ -129,12 +131,12 @@ export class SubChunkLayer{
 		// And each runtime ID in the palette.
 		stream.writeZigZag(palette.size + 1);
 		// Adding defualt 0 permutation
-		stream.writeZigZag(this.defaultPermutation.runtimeId); 
+		stream.writeZigZag(this.defaultPermutation.runtimeId);
 		// Serializing palette
 		for (const permutation of palette.keys()) stream.writeZigZag(permutation.runtimeId);
 	}
 }
-export class SubChunk{
+export class SubChunk {
 	public readonly version: number;
 	public readonly layers: SubChunkLayer[];
 	public readonly defaultPermutation: BlockPermutation;
@@ -173,7 +175,7 @@ export class SubChunk{
 
 	public setBlock(bx: number, by: number, bz: number, permutation?: BlockPermutation, layer?: number): void {
 		// Get the storage.
-		const storage = this.getLayer(layer??0);
+		const storage = this.getLayer(layer ?? 0);
 
 		// Set the block.
 		storage.setBlock(bx, by, bz, permutation);
