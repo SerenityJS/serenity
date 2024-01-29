@@ -1,5 +1,5 @@
 import { AbilityLayerFlag, Packet } from '@serenityjs/bedrock-protocol';
-import { MessageForm, Serenity } from '@serenityjs/serenity';
+import { Air, MessageForm, Serenity } from '@serenityjs/serenity';
 
 // import "./mapping_build";
 
@@ -9,12 +9,6 @@ const serenity = new Serenity({
 });
 
 serenity.start();
-// const isSamePermutation =
-// 	BlockPermutation.resolveFromName('minecraft:dirt', { dirt_type: 'coarse' }) === BlockPermutation.fromRuntimeId(9_551);
-// console.log(BlockPermutation.resolveFromName('minecraft:cobblestone')?.runtimeId, isSamePermutation);
-
-console.log(serenity.world.mappings.getBlockPermutation('minecraft:dirt')?.runtimeId);
-console.log(serenity.world.mappings.getBlockPermutation('minecraft:dirt', { dirt_type: 'coarse' })?.runtimeId);
 
 serenity.on('PlayerJoined', ({ player }) => {
 	//
@@ -36,14 +30,15 @@ serenity.network.on(Packet.BlockPickRequest, ({ player, packet }) => {
 	if (!player) return;
 
 	const block = player.world.getBlock(packet.x, packet.y, packet.z);
-	// const name = player.world.mappings.getBlockName(block);
 
-	// const form = new MessageForm(
-	// 	'BlockPickRequest',
-	// 	`You block picked "${name}". Would you like to destroy this block?`,
-	// 	'Yes',
-	// 	'No',
-	// );
+	player.world.setBlock(packet.x, packet.y, packet.z, Air);
 
-	// player.sendMessageForm(form, (data) => {}).catch(console.error);
+	const form = new MessageForm(
+		'BlockPickRequest',
+		`You block picked "${block.getName()}". Would you like to destroy this block?`,
+		'Yes',
+		'No',
+	);
+
+	player.sendMessageForm(form, (data) => {}).catch(console.error);
 });

@@ -1,3 +1,3 @@
 export * from './Mappings';
-export * from './Permutation';
-export * from './Type';
+export * from './data';
+export * from './blocks';

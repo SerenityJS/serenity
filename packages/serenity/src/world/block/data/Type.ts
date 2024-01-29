@@ -1,4 +1,4 @@
-import type { MappedBlockStatePermutation, MappedBlockStateType } from './Mappings';
+import type { MappedBlockStatePermutation, MappedBlockStateType } from '../Mappings';
 import { BlockPermutation } from './Permutation';
 
 class BlockType {

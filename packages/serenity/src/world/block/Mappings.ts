@@ -1,8 +1,9 @@
 import { MAPPED_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { LightNBT } from '@serenityjs/nbt';
-import { BlockPermutation } from './Permutation';
-import { BlockType } from './Type';
+import type { Block } from './blocks';
+import { VANILLA_BLOCKS } from './blocks';
+import { BlockPermutation, BlockType } from './data';
 
 interface MappedBlockStateEntry {
 	permutations: { [entry: string]: MappedBlockState };
@@ -31,6 +32,7 @@ interface MappedBlockStateType {
 class BlockMappings {
 	public readonly types: Map<number, BlockType> = new Map();
 	public readonly permutations: Map<number, BlockPermutation> = new Map();
+	public readonly blocks: Map<number, typeof Block> = new Map();
 
 	public constructor() {
 		// Create a new stream from the MAPPED_BLOCK_STATES file
@@ -54,6 +56,18 @@ class BlockMappings {
 				const permutation = blockType.permutations[key];
 				this.permutations.set(permutation.runtimeId, permutation);
 			}
+
+			// Get the block class
+			// And check if it exists
+			const block = VANILLA_BLOCKS.find((block) => block.id === name);
+			if (!block) continue;
+
+			// Set the block type and permutation
+			block.type = this.getBlockType(name)!;
+			block.permutation = this.getBlockPermutation(name, block.states)!; // TODO: Implement states
+
+			// Add the block to the map
+			this.blocks.set(block.permutation.runtimeId, block);
 		}
 	}
 
@@ -79,6 +93,29 @@ class BlockMappings {
 
 	public getBlockPermutationByRuntimeId(id: number): BlockPermutation | null {
 		return this.permutations.get(id) ?? null;
+	}
+
+	public getBlockType(name: string): BlockType | null {
+		// Get the block type
+		const type = [...this.types.values()].find((type) => type.name === name);
+
+		// Return the block type
+		return type ?? null;
+	}
+
+	public getBlockTypeByRuntimeId(id: number): BlockType | null {
+		// Get the block type & return it
+		return [...this.permutations.values()].find((permutation) => permutation.runtimeId === id)?.type ?? null;
+	}
+
+	public getBlock(name: string, states?: { [entry: string]: any }): typeof Block | null {
+		// Get the block & return it
+		return this.blocks.get(this.getBlockPermutation(name, states)?.runtimeId ?? -1) ?? null;
+	}
+
+	public getBlockByRuntimeId(id: number): typeof Block | null {
+		// Get the block & return it
+		return this.blocks.get(id) ?? null;
 	}
 }
 

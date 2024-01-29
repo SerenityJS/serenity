@@ -2,7 +2,8 @@ import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
-import { BlockMappings } from './block';
+import type { Block } from './block';
+import { Air, BlockMappings } from './block';
 import { ChunkColumn } from './chunk';
 import type { Generator } from './generator';
 import { Flat } from './generator';
@@ -144,12 +145,12 @@ class World {
 	 * @param block The block to set.
 	 * @returns The chunk's setBlock index.
 	 */
-	public setBlock(x: number, y: number, z: number, block: number): void {
+	public setBlock(x: number, y: number, z: number, block: typeof Block): void {
 		// Get the chunk.
 		const chunk = this.getChunk(x >> 4, z >> 4);
 
 		// Return the chunk's setBlock index.
-		return chunk.setBlock(x, y, z, block);
+		return chunk.setBlock(x, y, z, block.getRuntimeId());
 	}
 
 	/**
@@ -160,12 +161,25 @@ class World {
 	 * @param z The block Z coordinate.
 	 * @returns The block.
 	 */
-	public getBlock(x: number, y: number, z: number): number {
+	public getBlock(x: number, y: number, z: number): typeof Block {
 		// Get the chunk.
 		const chunk = this.getChunk(x >> 4, z >> 4);
 
-		// Return the chunk's setBlock index.
-		return chunk.getBlock(x, y, z);
+		// Get the block runtime ID.
+		const runtimeId = chunk.getBlock(x, y, z);
+
+		// Get the block.
+		// And check if the block is null or undefined.
+		const block = this.mappings.getBlockByRuntimeId(runtimeId);
+		if (!block) {
+			this.logger.error(`Failed to get block instance at ${x}, ${y}, ${z}: ${runtimeId}`);
+
+			// Return air.
+			return Air;
+		}
+
+		// Return the block.
+		return block;
 	}
 
 	/**
