@@ -1,5 +1,6 @@
 import type {
 	AddPlayer,
+	AvailableCommands,
 	BiomeDefinitionList,
 	BlockPickRequest,
 	ChunkRadiusUpdate,
@@ -75,6 +76,7 @@ interface NetworkEvents {
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
 	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadius>];
 	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdate>];
+	[Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommands>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequest>];
