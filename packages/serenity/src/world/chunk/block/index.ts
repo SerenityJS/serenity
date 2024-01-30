@@ -1,3 +1,3 @@
+export * from './Mapper';
 export * from './Type';
-export * from './Types';
 export * from './Permutation';
