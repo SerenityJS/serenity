@@ -1,3 +1,5 @@
+// import './mapper';
+
 import { AbilityLayerFlag, Packet } from '@serenityjs/bedrock-protocol';
 import { MessageForm, Serenity } from '@serenityjs/serenity';
 
@@ -10,21 +12,21 @@ const serenity = new Serenity({
 
 serenity.start();
 
-serenity.on('PlayerJoined', ({ player }) => {
-	//
-});
+// serenity.on('PlayerJoined', ({ player }) => {
+// 	//
+// });
 
-serenity.on('PlayerSpawned', ({ player }) => {
-	//
-});
+// serenity.on('PlayerSpawned', ({ player }) => {
+// 	//
+// });
 
-serenity.on('PlayerLeft', ({ player }) => {
-	//
-});
+// serenity.on('PlayerLeft', ({ player }) => {
+// 	//
+// });
 
-serenity.on('PlayerChat', ({ player }) => {
-	player.abilities.setAbility(AbilityLayerFlag.MayFly, false);
-});
+// serenity.on('PlayerChat', ({ player }) => {
+// 	player.abilities.setAbility(AbilityLayerFlag.MayFly, false);
+// });
 
 // serenity.network.on(Packet.BlockPickRequest, ({ player, packet }) => {
 // 	if (!player) return;

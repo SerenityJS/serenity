@@ -3,7 +3,7 @@ import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
-import { BlockTypes, ChunkManager } from './chunk';
+import { ChunkManager, BlockMapper } from './chunk';
 import type { TerrainGenerator } from './generator';
 import { BetterFlat } from './generator';
 
@@ -16,24 +16,21 @@ class World {
 	public readonly name: string;
 	public readonly seed: number;
 	public readonly players: Map<bigint, Player>;
-	public readonly blockTypes;
 	public readonly chunkManager;
-	
-	
-	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: (that: World)=>TerrainGenerator) {
+
+	public readonly mapper = new BlockMapper();
+
+	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: (that: World) => TerrainGenerator) {
 		this.serenity = serenity;
 		this.logger = new Logger('World', LoggerColors.Cyan);
 
 		this.name = name ?? 'Serenity World';
 		this.seed = seed ?? 0;
 		this.players = new Map();
-		
-		
-		this.blockTypes = new BlockTypes(MAPPED_BLOCK_STATES);
 		this.chunkManager = new ChunkManager(
 			this,
-			generator?.(this)??BetterFlat.BasicFlat(this.blockTypes),
-			this.blockTypes.resolvePermutation("air")
+			generator?.(this) ?? BetterFlat.BasicFlat(this.mapper),
+			this.mapper.getBlockPermutation('minecraft:air')!,
 		);
 	}
 	/**
@@ -124,7 +121,7 @@ class World {
 	 * @param x The chunk X coordinate.
 	 * @param z The chunk Z coordinate.
 	 * @returns The chunk.
-	 *//*
+	 */ /*
 	public getChunk(x: number, z: number): ChunkColumn {
 		// Create a hash for the chunk.
 		const hash = ChunkColumn.getHash(x, z);
@@ -147,7 +144,7 @@ class World {
 	 * @param z The block Z coordinate.
 	 * @param block The block to set.
 	 * @returns The chunk's setBlock index.
-	 *//*
+	 */ /*
 	public setBlock(x: number, y: number, z: number, block: typeof Block): void {
 		// Get the chunk.
 		const chunk = this.getChunk(x >> 4, z >> 4);
