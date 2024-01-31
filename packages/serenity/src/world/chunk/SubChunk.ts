@@ -131,9 +131,9 @@ export class SubChunkLayer {
 		// And each runtime ID in the palette.
 		stream.writeZigZag(palette.size + 1);
 		// Adding defualt 0 permutation
-		stream.writeZigZag(this.defaultPermutation.getRuntimeId());
+		stream.writeZigZag(this.defaultPermutation.runtimeId);
 		// Serializing palette
-		for (const permutation of palette.keys()) stream.writeZigZag(permutation.getRuntimeId());
+		for (const permutation of palette.keys()) stream.writeZigZag(permutation.runtimeId);
 	}
 }
 export class SubChunk {

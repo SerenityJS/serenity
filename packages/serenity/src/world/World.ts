@@ -1,24 +1,20 @@
-import { MAPPED_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
-import { ChunkManager, BlockMapper } from './chunk';
+import { ChunkManager, BlockMapper, Chunk } from './chunk';
 import type { TerrainGenerator } from './generator';
 import { BetterFlat } from './generator';
 
-const RUNTIME_ID = 0n;
-
 class World {
 	protected readonly serenity: Serenity;
-	protected readonly logger: Logger;
 
+	public readonly logger: Logger;
 	public readonly name: string;
 	public readonly seed: number;
 	public readonly players: Map<bigint, Player>;
-	public readonly chunkManager;
-
-	public readonly mapper = new BlockMapper();
+	public readonly chunkManager: ChunkManager;
+	public readonly blocks: BlockMapper;
 
 	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: (that: World) => TerrainGenerator) {
 		this.serenity = serenity;
@@ -27,10 +23,11 @@ class World {
 		this.name = name ?? 'Serenity World';
 		this.seed = seed ?? 0;
 		this.players = new Map();
+		this.blocks = new BlockMapper();
 		this.chunkManager = new ChunkManager(
 			this,
-			generator?.(this) ?? BetterFlat.BasicFlat(this.mapper),
-			this.mapper.getBlockPermutation('minecraft:air')!,
+			generator?.(this) ?? BetterFlat.BasicFlat(this.blocks),
+			this.blocks.getBlockPermutation('minecraft:air')!,
 		);
 	}
 	/**

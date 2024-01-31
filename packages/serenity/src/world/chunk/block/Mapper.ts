@@ -1,34 +1,18 @@
 import type { Buffer } from 'node:buffer';
 import { CANONICAL_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { BinaryStream } from '@serenityjs/binarystream';
-import type { Byte } from '@serenityjs/nbt';
 import { LightNBT, NBTTag } from '@serenityjs/nbt';
-import type { BlockPermutation } from './Permutation';
+import type { MappedBlock, RawBlock } from '../../../types';
+import { BlockPermutation } from './Permutation';
 import { BlockType } from './Type';
 
-interface RawBlock {
-	name: string;
-	states: { [k: string]: Byte | string };
-	version: number;
-}
-
-interface MappedBlock {
-	identifier: string;
-	permutations: MappedBlockPermutation[];
-	runtimeId: number;
-	states: string[];
-	version: number;
-}
-
-interface MappedBlockPermutation {
-	runtimeId: number;
-	state: string;
-	value: number | string;
-}
-
 class BlockMapper {
-	public readonly blocks: Map<string, MappedBlock> = new Map();
+	protected readonly blocks: Map<string, MappedBlock> = new Map();
+
 	public readonly types: Map<string, BlockType> = new Map();
+	public readonly permutations: Map<number, BlockPermutation> = new Map();
+
+	protected readonly AIR_TYPE!: BlockType;
 
 	protected RUNTIME_ID = 0;
 
@@ -46,121 +30,81 @@ class BlockMapper {
 			// Assign a runtime ID.
 			const runtimeId = this.RUNTIME_ID++;
 
-			// Check if the block already exists.
-			if (this.blocks.has(data.name)) {
-				// Get the block.
-				// And get the states.
-				const block = this.blocks.get(data.name)!;
-				const states = Object.keys(data.states);
-				const permutations = Object.values(data.states).map((state, index) => {
-					return {
-						value: state.valueOf(),
-						runtimeId: runtimeId + index,
-						state: states[index % states.length],
-					};
-				});
-
-				// Update the block.
+			if (!this.blocks.has(data.name)) {
 				this.blocks.set(data.name, {
-					identifier: block.identifier,
-					runtimeId: block.runtimeId,
-					version: block.version,
-					states: [...block.states],
-					permutations: [...block.permutations, ...permutations],
+					identifier: data.name,
+					permutations: [],
+					version: data.version.valueOf(),
 				});
-			} else {
-				// Construct the block.
-				const identifier = data.name;
-				const states = Object.keys(data.states);
-				const version = Number(data.version);
-				const permutations = Object.values(data.states).map((state, index) => {
-					return {
-						value: state.valueOf(),
-						runtimeId: runtimeId + index,
-						state: states[index % states.length],
-					};
-				});
+			}
 
-				// Add the block to the map.
-				this.blocks.set(identifier, { identifier, runtimeId, version, states, permutations });
+			// Get the block.
+			const block = this.blocks.get(data.name)!;
+
+			// Push the permutation.
+			block.permutations.push({
+				runtimeId,
+				state: data.states,
+			});
+
+			// Update the block.
+			this.blocks.set(data.name, block);
+
+			// Loop and create the block types.
+			for (const [identifier, block] of this.blocks.entries()) {
+				// Create a new block type.
+				const type = new BlockType(block.version, identifier);
+
+				// Loop through the permutations.
+				for (const permutation of block.permutations) {
+					// Create a new block permutation.
+					const mappedPermutation = new BlockPermutation(type, permutation.runtimeId, permutation.state);
+
+					// Add the permutation to the block type.
+					type.permutations.push(mappedPermutation);
+				}
+
+				// Add the block type to the map.
+				this.types.set(identifier, type);
 			}
 		} while (!stream.cursorAtEnd());
 
-		// Loop through the blocks.
-		for (const block of this.blocks.values()) {
-			// Construct the block type.
-			// And add it to the map.
-			const type = new BlockType(block);
-			this.types.set(type.identifier, type);
+		// Loop through the block types.
+		for (const type of this.types.values()) {
+			// Loop through the permutations.
+			for (const permutation of type.permutations) {
+				// Add the permutation to the map.
+				this.permutations.set(permutation.runtimeId, permutation);
+			}
 		}
+
+		this.AIR_TYPE = this.types.get('minecraft:air')!;
 	}
 
 	public getBlockType(identifier: string): BlockType {
-		return this.types.get(identifier) ?? this.types.get('minecraft:air')!;
+		// Check if the block type exists.
+		return this.types.get(identifier) ?? this.AIR_TYPE;
 	}
 
-	public getBlockTypeByRuntimeId(runtimeId: number): BlockType {
-		return (
-			[...this.types.values()].find((type) => type.getRuntimeId() === runtimeId) ?? this.types.get('minecraft:air')!
-		);
-	}
-
-	public getBlockPermutation(
-		identifier: string,
-		states?: { [k: string]: boolean | number | string },
-	): BlockPermutation {
+	public getBlockPermutation(identifier: string, state?: Record<string, number | string>): BlockPermutation {
 		// Get the block type.
-		// And return null if it doesn't exists.
-		const block = this.types.get(identifier);
-		if (!block) return this.getBlockType('minecraft:air')!.defaultPermutation;
+		const type = this.getBlockType(identifier);
 
-		// No states specified, returing defualt permutation
-		if (!states) return this.getBlockType(identifier)!.defaultPermutation;
-
-		// Check if the queried states are valid.
-		const statesKeys = Object.keys(states);
-
-		// Loop through the states.
-		for (const [, state] of statesKeys.entries()) {
-			// Check if the state is valid.
-			if (!block.states.includes(state)) {
-				// The state is not valid.
-				return this.getBlockType('minecraft:air')!.defaultPermutation;
-			}
+		// Check if the block type has any permutations.
+		if (type.permutations.length === 0) {
+			// Return the default permutation.
+			return type.getDefaultPermutation();
 		}
 
-		// Prepare a list of runtimes
-		// And then sort them by the most common runtime
-		const runtimes: number[] = [];
-		for (const state of statesKeys) {
-			const value = states[state];
-
-			for (const permutation of block.permutations) {
-				if (permutation.state === state && permutation.value === value) {
-					runtimes.push(permutation.getRuntimeId());
-				}
-			}
-		}
-
-		// Find the mode of the runtimes
-		// And check if it exists
-		const runtime = runtimes
-			.sort((a, b) => runtimes.filter((v) => v === a).length - runtimes.filter((v) => v === b).length)
-			.pop();
-		if (!runtime) return this.getBlockType('minecraft:air')!.defaultPermutation;
+		// Find the permutation.
+		// Apparently you cant compare objects for equality in JS
+		const permutation = type.permutations.find((x) => JSON.stringify(x.value) === JSON.stringify(state));
 
 		// Return the permutation.
-		return this.getBlockPermutationByRuntimeId(runtime);
-	}
-
-	public getBlockPermutationByRuntimeId(runtimeId: number): BlockPermutation {
-		for (const type of this.types.values()) {
-			const permutation = type.permutations.find((permutation) => permutation.getRuntimeId() === runtimeId);
-			if (permutation) return permutation;
-		}
-
-		return this.types.get('minecraft:air')!.defaultPermutation;
+		return permutation ?? type.getDefaultPermutation();
 	}
 }
 
-export { BlockMapper, type MappedBlock, type MappedBlockPermutation };
+export { BlockMapper };
+
+export { type MappedBlock, type MappedBlockPermutation } from '../../../types';

@@ -1,27 +1,18 @@
-import type { Int16 } from '@serenityjs/nbt';
-
-interface MappedBlockStateEntry {
-	permutations: { [entry: string]: MappedBlockState };
+interface RawBlock {
+	name: string;
+	states: Record<string, number | string>;
 	version: number;
 }
 
-interface MappedBlockState {
-	id: Int16;
-	name: string;
-	permutations: MappedBlockStatePermutation[];
-	size: number;
-	type: MappedBlockStateType;
+interface MappedBlock {
+	identifier: string;
+	permutations: MappedBlockPermutation[];
+	version: number;
 }
 
-interface MappedBlockStatePermutation {
-	i: Int16;
-	v: any[];
+interface MappedBlockPermutation {
+	runtimeId: number;
+	state: Record<string, number | string>;
 }
 
-interface MappedBlockStateType {
-	length: number;
-	names: string[];
-	types: number[];
-}
-
-export type { MappedBlockStateEntry, MappedBlockState, MappedBlockStatePermutation, MappedBlockStateType };
+export type { RawBlock, MappedBlock, MappedBlockPermutation };
