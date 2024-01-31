@@ -1,4 +1,5 @@
-import type { BlockMapper, BlockPermutation, Chunk } from '../chunk';
+import type { BlockMapper, Chunk } from '../chunk';
+import { BlockPermutation } from '../chunk';
 import { TerrainGenerator } from './Generator';
 
 export class TerrainFlat extends TerrainGenerator {
@@ -49,17 +50,17 @@ export class BetterFlat extends TerrainGenerator {
 	}
 	public static BasicFlat(blockTypes: BlockMapper) {
 		return new this([
-			blockTypes.getBlockPermutation('minecraft:bedrock')!,
-			[blockTypes.getBlockPermutation('minecraft:stone')!, blockTypes.getBlockPermutation('minecraft:cobblestone')!],
+			BlockPermutation.resolve('minecraft:bedrock')!,
+			[BlockPermutation.resolve('minecraft:stone')!, BlockPermutation.resolve('minecraft:cobblestone')!],
 			[
-				blockTypes.getBlockPermutation('minecraft:dirt')!,
-				blockTypes.getBlockPermutation('minecraft:dirt', { dirt_type: 'coarse' })!,
+				BlockPermutation.resolve('minecraft:dirt')!,
+				BlockPermutation.resolve('minecraft:dirt', { dirt_type: 'coarse' })!,
 			],
-			[blockTypes.getBlockPermutation('minecraft:dirt')!, blockTypes.getBlockPermutation('minecraft:dirt')!],
+			[BlockPermutation.resolve('minecraft:dirt')!, BlockPermutation.resolve('minecraft:dirt')!],
 			[
-				blockTypes.getBlockPermutation('minecraft:grass')!,
-				blockTypes.getBlockPermutation('minecraft:grass')!,
-				blockTypes.getBlockPermutation('minecraft:moss_block')!,
+				BlockPermutation.resolve('minecraft:grass')!,
+				BlockPermutation.resolve('minecraft:grass')!,
+				BlockPermutation.resolve('minecraft:moss_block')!,
 			],
 		]);
 	}

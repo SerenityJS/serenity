@@ -12,7 +12,7 @@ interface MappedBlock {
 
 interface MappedBlockPermutation {
 	runtimeId: number;
-	state: Record<string, number | string>;
+	states: Record<string, number | string>;
 }
 
 export type { RawBlock, MappedBlock, MappedBlockPermutation };

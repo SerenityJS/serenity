@@ -1,7 +1,8 @@
-import type { MappedBlock } from './Mapper';
 import type { BlockPermutation } from './Permutation';
 
 class BlockType {
+	public static types: BlockType[] = [];
+
 	protected readonly version: number;
 
 	public readonly identifier: string;
@@ -16,6 +17,10 @@ class BlockType {
 
 	public getDefaultPermutation(): BlockPermutation {
 		return this.permutations[0];
+	}
+
+	public static resolve(identifier: string): BlockType {
+		return this.types.find((type) => type.identifier === identifier)!;
 	}
 }
 

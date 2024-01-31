@@ -2,7 +2,7 @@ import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
-import { ChunkManager, BlockMapper, Chunk } from './chunk';
+import { ChunkManager, BlockMapper, Chunk, BlockPermutation } from './chunk';
 import type { TerrainGenerator } from './generator';
 import { BetterFlat } from './generator';
 
@@ -27,7 +27,7 @@ class World {
 		this.chunkManager = new ChunkManager(
 			this,
 			generator?.(this) ?? BetterFlat.BasicFlat(this.blocks),
-			this.blocks.getBlockPermutation('minecraft:air')!,
+			BlockPermutation.resolve('minecraft:air'),
 		);
 	}
 	/**

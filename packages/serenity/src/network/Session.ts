@@ -140,8 +140,8 @@ class NetworkSession {
 		packet.createdInEdior = false;
 		packet.exportedFromEdior = false;
 		packet.dayCycleStopTime = 8_250;
-		packet.eduOffer = 0;
-		packet.eduFeatures = false;
+		packet.eduOffer = 1;
+		packet.eduFeatures = true;
 		packet.eduProductUuid = '';
 		packet.rainLevel = 0;
 		packet.lightningLevel = 0;
