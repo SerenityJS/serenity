@@ -3,6 +3,7 @@
 import { Disconnect } from '@serenityjs/raknet-protocol';
 import { Packet } from '../enums';
 import { AddPlayer } from './AddPlayer';
+import { AvailableCommands } from './AvailableCommands';
 import { BiomeDefinitionList } from './BiomeDefinitionList';
 import { BlockPickRequest } from './BlockPickRequest';
 import { ChunkRadiusUpdate } from './ChunkRadiusUpdate';
@@ -65,6 +66,7 @@ const Packets = {
 	[Packet.PlayerList]: PlayerList, // 63
 	[Packet.RequestChunkRadius]: RequestChunkRadius, // 69
 	[Packet.ChunkRadiusUpdate]: ChunkRadiusUpdate, // 70
+	[Packet.AvailableCommands]: AvailableCommands, // 76
 	[Packet.CommandRequest]: CommandRequest, // 77
 	[Packet.SetTitle]: SetTitle, // 88
 	[Packet.ModalFormRequest]: ModalFormRequest, // 100

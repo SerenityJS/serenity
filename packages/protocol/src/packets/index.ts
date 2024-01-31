@@ -39,3 +39,4 @@ export * from './ScriptMessage';
 export * from './ToastRequest';
 export * from './UpdateAbilities';
 export * from './RequestNetworkSettings';
+export * from './AvailableCommands';

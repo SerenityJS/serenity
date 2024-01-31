@@ -33,6 +33,7 @@ enum Packet {
 	PlayerList = 0x3f, // 63
 	RequestChunkRadius = 0x45, // 69
 	ChunkRadiusUpdate = 0x46, // 70
+	AvailableCommands = 0x4c,
 	CommandRequest = 0x4d, // 77
 	SetTitle = 0x58, // 88
 	ModalFormRequest = 0x64, // 100

@@ -6,6 +6,7 @@ import {
 	PlayerList,
 	RecordAction,
 	SetEntityData,
+	AvailableCommands,
 	SetLocalPlayerAsInitialized,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
@@ -50,8 +51,49 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 			floats: [],
 		};
 		data.tick = BigInt(0);
-
-		await session.send(data);
+		const avCommands = new AvailableCommands();
+		avCommands.CommandDefinition = {
+			command_data:[
+				{
+					name: "test",
+					alias: 0,
+					chained_subcommand_offsets: [],
+					description: "Description",
+					flags: 0,
+					overloads: [
+						{
+							chaining: false,
+							parameters:[
+								{
+									enum_type: 0x30,
+									name: "<bob>",
+									optional: false,
+									options: 5,
+									type: 0
+								}
+							]
+						}
+					],
+					permission_level: 0
+				}
+			],
+			chained_subcommand_values:[],
+			chained_subcommands:[],
+			dynamic_enums:[],
+			enum_constraints:[],
+			enum_values:[
+				"test",
+				"testenum2"
+			],
+			enums:[
+				{
+					name: "bob",
+					values:[0,1]
+				}
+			],
+			suffixes:[]
+		};
+		await session.send(data,avCommands);
 	}
 }
 
