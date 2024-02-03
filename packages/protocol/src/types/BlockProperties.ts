@@ -1,5 +1,5 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
-import { Endianness } from '@serenityjs/binarystream';
+import { LightNBT } from '@serenityjs/nbt';
 import { DataType } from '@serenityjs/raknet-protocol';
 
 interface BlockProperty {
@@ -21,11 +21,8 @@ class BlockProperties extends DataType {
 			// Read all the fields for the rule.
 			const name = stream.readVarString();
 
-			// TODO: Implement NBT, for now we just read null.
-			stream.readUint8();
-			stream.readUint8();
-			stream.readUint8();
-			const nbt = null;
+			// Read the nbt for the property.
+			const nbt = LightNBT.ReadRootTag(stream);
 
 			// Push the rule to the array.
 			properties.push({
@@ -47,10 +44,8 @@ class BlockProperties extends DataType {
 			// Write the fields for the property.
 			stream.writeVarString(property.name);
 
-			// TODO: Implement NBT, for now we just write null.
-			stream.writeUint8(0x0a);
-			stream.writeUint8(0x00);
-			stream.writeUint8(0x00);
+			// Write the nbt for the property.
+			LightNBT.WriteRootTag(stream, property.nbt);
 		}
 	}
 }
