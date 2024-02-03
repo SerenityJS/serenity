@@ -33,6 +33,7 @@ import type {
 	ScriptMessage,
 	SetEntityData,
 	SetLocalPlayerAsInitialized,
+	SetPlayerGameType,
 	SetTitle,
 	StartGame,
 	Text,
@@ -73,6 +74,7 @@ interface NetworkEvents {
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
+	[Packet.SetPlayerGameType]: [NetworkPacketEvent<SetPlayerGameType>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
 	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadius>];
 	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdate>];

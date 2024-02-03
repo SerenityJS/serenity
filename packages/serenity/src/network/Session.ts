@@ -125,7 +125,7 @@ class NetworkSession {
 		packet.entityId = this.player.uniqueEntityId;
 		packet.runtimeEntityId = this.player.runtimeEntityId;
 		packet.playerGamemode = Gamemode.Creative;
-		packet.playerPosition = { x: 0, y: 20, z: 0 };
+		packet.playerPosition = { x: 0, y: -54, z: 0 };
 		packet.rotation = { x: 0, z: 0 };
 		packet.seed = BigInt(this.player.world.seed);
 		packet.biomeType = 0;
@@ -134,7 +134,7 @@ class NetworkSession {
 		packet.generator = 1;
 		packet.worldGamemode = Gamemode.Creative;
 		packet.difficulty = Difficulty.Normal;
-		packet.spawnPosition = { x: 0, y: 20, z: 0 };
+		packet.spawnPosition = { x: 0, y: -54, z: 0 };
 		packet.achievementsDisabled = false;
 		packet.editorWorldType = 0;
 		packet.createdInEdior = false;

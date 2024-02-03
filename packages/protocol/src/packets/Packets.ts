@@ -34,6 +34,7 @@ import { ScriptMessage } from './ScriptMessage';
 // import { SelectedSlot } from './SelectedSlot';
 import { SetEntityData } from './SetEntityData';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
+import { SetPlayerGameType } from './SetPlayerGameType';
 import { SetTitle } from './SetTitle';
 import { StartGame } from './StartGame';
 import { Text } from './Text';
@@ -63,6 +64,7 @@ const Packets = {
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
 	[Packet.LevelChunk]: LevelChunk, // 58
+	[Packet.SetPlayerGameType]: SetPlayerGameType, // 62
 	[Packet.PlayerList]: PlayerList, // 63
 	[Packet.RequestChunkRadius]: RequestChunkRadius, // 69
 	[Packet.ChunkRadiusUpdate]: ChunkRadiusUpdate, // 70
