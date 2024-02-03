@@ -30,6 +30,7 @@ enum Packet {
 	// InventoryContent = 0x31, // 49
 	LevelChunk = 0x3a, // 58
 	// SetDifficulty = 0x3c, // 60
+	ChangeDimension = 0x3d, // 61
 	SetPlayerGameType = 0x3e, // 62
 	PlayerList = 0x3f, // 63
 	RequestChunkRadius = 0x45, // 69

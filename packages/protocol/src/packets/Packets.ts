@@ -6,6 +6,7 @@ import { AddPlayer } from './AddPlayer';
 import { AvailableCommands } from './AvailableCommands';
 import { BiomeDefinitionList } from './BiomeDefinitionList';
 import { BlockPickRequest } from './BlockPickRequest';
+import { ChangeDimension } from './ChangeDimension';
 import { ChunkRadiusUpdate } from './ChunkRadiusUpdate';
 import { CommandRequest } from './CommandRequest';
 import { ContainerClose } from './ContainerClose';
@@ -64,6 +65,7 @@ const Packets = {
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
 	[Packet.LevelChunk]: LevelChunk, // 58
+	[Packet.ChangeDimension]: ChangeDimension, // 61
 	[Packet.SetPlayerGameType]: SetPlayerGameType, // 62
 	[Packet.PlayerList]: PlayerList, // 63
 	[Packet.RequestChunkRadius]: RequestChunkRadius, // 69

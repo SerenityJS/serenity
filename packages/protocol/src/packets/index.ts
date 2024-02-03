@@ -23,6 +23,7 @@ export * from './Respawn';
 export * from './ContainerOpen';
 export * from './ContainerClose';
 export * from './LevelChunk';
+export * from './ChangeDimension';
 export * from './SetPlayerGameType';
 export * from './PlayerList';
 export * from './RequestChunkRadius';

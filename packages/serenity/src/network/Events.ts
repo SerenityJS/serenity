@@ -3,6 +3,7 @@ import type {
 	AvailableCommands,
 	BiomeDefinitionList,
 	BlockPickRequest,
+	ChangeDimension,
 	ChunkRadiusUpdate,
 	CommandRequest,
 	ContainerClose,
@@ -74,6 +75,7 @@ interface NetworkEvents {
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
+	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimension>];
 	[Packet.SetPlayerGameType]: [NetworkPacketEvent<SetPlayerGameType>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
 	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadius>];
