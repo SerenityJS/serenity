@@ -1,4 +1,4 @@
-import { ChatTypes, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Gamemode, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
@@ -15,6 +15,8 @@ class World {
 	public readonly players: Map<bigint, Player>;
 	public readonly chunkManager: ChunkManager;
 	public readonly blocks: BlockMapper;
+
+	public gamemode: Gamemode = Gamemode.Survival;
 
 	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: (that: World) => TerrainGenerator) {
 		this.serenity = serenity;

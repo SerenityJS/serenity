@@ -1,5 +1,5 @@
-import { ChatTypes, Disconnect, Respawn, Text } from '@serenityjs/bedrock-protocol';
-import type { DisconnectReason, Vec2f, Vec3f, RespawnState } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Disconnect, Respawn, SetPlayerGameType, Text } from '@serenityjs/bedrock-protocol';
+import type { DisconnectReason, Vec2f, Vec3f, RespawnState, Gamemode } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
@@ -41,6 +41,8 @@ class Player {
 	public readonly render: Render;
 	public readonly forms: Map<number, (data: any) => void>;
 
+	protected gamemode: Gamemode;
+
 	public world: World;
 	public position: Vec3f = { x: 0, y: 0, z: 0 };
 	public rotation: Vec2f = { x: 0, z: 0 };
@@ -66,6 +68,7 @@ class Player {
 		this.uniqueEntityId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
 		this.world = world ?? this.serenity.world;
+		this.gamemode = this.world.gamemode;
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 		this.render = new Render(this.serenity, this);
@@ -149,6 +152,31 @@ class Player {
 
 		// Send the packet.
 		void this.session.send(packet);
+	}
+
+	/**
+	 * Sets the player's gamemode.
+	 *
+	 * @param gamemode The gamemode to set.
+	 */
+	public setGamemode(gamemode: Gamemode): void {
+		// Create a new set player game type packet.
+		const packet = new SetPlayerGameType();
+
+		// Assign the packet data.
+		packet.gamemode = gamemode;
+
+		// Send the packet.
+		void this.session.send(packet);
+	}
+
+	/**
+	 * Gets the player's gamemode.
+	 *
+	 * @returns The player's gamemode.
+	 */
+	public getGamemode(): Gamemode {
+		return this.gamemode;
 	}
 }
 export { Player };
