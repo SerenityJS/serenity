@@ -127,7 +127,7 @@ class NetworkSession {
 		packet.playerGamemode = Gamemode.Creative;
 		packet.playerPosition = { x: 0, y: -54, z: 0 };
 		packet.rotation = { x: 0, z: 0 };
-		packet.seed = BigInt(this.player.world.seed);
+		packet.seed = BigInt(this.player.getWorld().seed);
 		packet.biomeType = 0;
 		packet.biomeName = 'plains';
 		packet.dimension = 0;
@@ -378,7 +378,7 @@ class NetworkSession {
 		packet.chatRestrictionLevel = 0;
 		packet.disablePlayerInteractions = false;
 		packet.levelId = 'SerenityJS';
-		packet.worldName = this.player.world.name;
+		packet.worldName = this.player.getWorld().name;
 		packet.premiumWorldTemplateId = '00000000-0000-0000-0000-000000000000';
 		packet.isTrial = false;
 		packet.movementAuthority = 0;

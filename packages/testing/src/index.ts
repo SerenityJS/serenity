@@ -9,11 +9,8 @@ const serenity = new Serenity({
 serenity.start();
 
 serenity.on('PlayerChat', (event) => {
-	if (event.message === 'gamemode c') {
-		event.player.setGamemode(Gamemode.Creative);
-	} else if (event.message === 'gamemode s') {
-		event.player.setGamemode(Gamemode.Survival);
-	} else if (event.message === 'gamemode spec') {
-		event.player.setGamemode(Gamemode.Spectator);
+	if (event.message === 'dim') {
+		const dim = serenity.world.getDimension('minecraft:nether');
+		event.player.setDimension(dim);
 	}
 });

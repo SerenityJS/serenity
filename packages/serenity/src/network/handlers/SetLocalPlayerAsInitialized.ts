@@ -27,7 +27,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
 		// Add the player to the world.
-		player.world.addPlayer(player);
+		player.getWorld().addPlayer(player);
 
 		// TODO: Move elsewhere.
 		const data = new SetEntityData<boolean>();
@@ -53,47 +53,44 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		data.tick = BigInt(0);
 		const avCommands = new AvailableCommands();
 		avCommands.CommandDefinition = {
-			command_data:[
+			command_data: [
 				{
-					name: "test",
+					name: 'test',
 					alias: 0,
 					chained_subcommand_offsets: [],
-					description: "Description",
+					description: 'Description',
 					flags: 0,
 					overloads: [
 						{
 							chaining: false,
-							parameters:[
+							parameters: [
 								{
 									enum_type: 0x30,
-									name: "<bob>",
+									name: '<bob>',
 									optional: false,
 									options: 5,
-									type: 0
-								}
-							]
-						}
+									type: 0,
+								},
+							],
+						},
 					],
-					permission_level: 0
-				}
+					permission_level: 0,
+				},
 			],
-			chained_subcommand_values:[],
-			chained_subcommands:[],
-			dynamic_enums:[],
-			enum_constraints:[],
-			enum_values:[
-				"test",
-				"testenum2"
-			],
-			enums:[
+			chained_subcommand_values: [],
+			chained_subcommands: [],
+			dynamic_enums: [],
+			enum_constraints: [],
+			enum_values: ['test', 'testenum2'],
+			enums: [
 				{
-					name: "bob",
-					values:[0,1]
-				}
+					name: 'bob',
+					values: [0, 1],
+				},
 			],
-			suffixes:[]
+			suffixes: [],
 		};
-		await session.send(data,avCommands);
+		await session.send(data, avCommands);
 	}
 }
 

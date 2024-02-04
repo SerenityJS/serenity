@@ -128,7 +128,7 @@ class Render {
 		// And assign the packet data.
 		packet.x = chunk.x;
 		packet.z = chunk.z;
-		packet.subChunkCount = chunk.getSubChunkSendCount() + 4;
+		packet.subChunkCount = chunk.getSubChunkSendCount();
 		packet.cacheEnabled = false;
 		packet.data = chunk.serialize();
 
@@ -137,9 +137,10 @@ class Render {
 
 		// Send the packet to the player.
 		void this.player.session.send(packet);
-	}	
+	}
+
 	public getChunks(): Chunk[] {
-		return [...this.chunks.values()].map((x) => this.player.world.chunkManager.getFromHash(x)) as Chunk[];
+		return [...this.chunks.values()].map((x) => this.player.getDimension().getChunkFromHash(x)) as Chunk[];
 	}
 }
 

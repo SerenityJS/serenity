@@ -1,10 +1,20 @@
-import { ChatTypes, Disconnect, Respawn, SetPlayerGameType, Text } from '@serenityjs/bedrock-protocol';
+import {
+	ChangeDimension,
+	ChatTypes,
+	Disconnect,
+	NetworkChunkPublisherUpdate,
+	PlayStatus,
+	PlayerStatus,
+	Respawn,
+	SetPlayerGameType,
+	Text,
+} from '@serenityjs/bedrock-protocol';
 import type { DisconnectReason, Vec2f, Vec3f, RespawnState, Gamemode } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
 import type { LoginTokenData } from '../types';
-import type { Chunk, World } from '../world';
+import type { Chunk, World, Dimension } from '../world';
 import { Render } from './Render';
 import { Abilities } from './abilities';
 import { Attributes } from './attributes';
@@ -42,8 +52,9 @@ class Player {
 	public readonly forms: Map<number, (data: any) => void>;
 
 	protected gamemode: Gamemode;
+	protected world: World;
+	protected dimension: Dimension;
 
-	public world: World;
 	public position: Vec3f = { x: 0, y: 0, z: 0 };
 	public rotation: Vec2f = { x: 0, z: 0 };
 	public headYaw: number = 0;
@@ -69,10 +80,59 @@ class Player {
 		this.skin = new Skin(tokens.clientData);
 		this.world = world ?? this.serenity.world;
 		this.gamemode = this.world.gamemode;
+		this.dimension = this.world.getDimension('minecraft:overworld');
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 		this.render = new Render(this.serenity, this);
 		this.forms = new Map();
+	}
+
+	public getWorld(): World {
+		return this.world;
+	}
+
+	public setWorld(world: World): void {
+		throw new Error('Player.setWorld is not implemented');
+	}
+
+	public getDimension(): Dimension {
+		return this.dimension;
+	}
+
+	public setDimension(dimension: Dimension): void {
+		this.dimension = dimension;
+
+		const change = new ChangeDimension();
+		change.dimension = dimension.identifier;
+		change.position = dimension.spawnPosition;
+		change.respawn = true;
+
+		void this.session.send(change);
+
+		this.render.chunks.clear();
+
+		const chunks = this.dimension.getSpawnChunks();
+
+		const update = new NetworkChunkPublisherUpdate();
+		update.coordinate = this.dimension.spawnPosition;
+		update.radius = this.dimension.viewDistance;
+		update.savedChunks = chunks.map((chunk: Chunk) => {
+			return {
+				x: chunk.x,
+				z: chunk.z,
+			};
+		});
+
+		void this.session.send(update);
+
+		for (const chunk of chunks) {
+			this.render.sendChunk(chunk);
+		}
+
+		const status = new PlayStatus();
+		status.status = PlayerStatus.PlayerSpawn;
+
+		void this.session.send(status);
 	}
 
 	/**
@@ -101,7 +161,12 @@ class Player {
 	 * @returns The player's current chunk.
 	 */
 	public getCurrentChunk(): Chunk {
-		return this.world.chunkManager.getChunk(this.position.x >> 4, this.position.z >> 4);
+		// TODO: get the players current dimension.
+		// Get the dimension.
+		const dimension = this.world.getDimension('minecraft:overworld');
+
+		// Return the chunk.
+		return dimension.getChunk(this.position.x >> 4, this.position.z >> 4);
 	}
 
 	/**

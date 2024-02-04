@@ -17,7 +17,7 @@ class DisconnectHandler extends NetworkHandler {
 		if (!player) return;
 
 		// Remove the player from the world.
-		player.world.removePlayer(player);
+		player.getWorld().removePlayer(player);
 	}
 }
 

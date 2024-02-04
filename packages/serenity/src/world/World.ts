@@ -2,36 +2,54 @@ import { ChatTypes, Gamemode, Text, type DataPacket } from '@serenityjs/bedrock-
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import type { Player } from '../player';
-import { ChunkManager, BlockMapper, Chunk, BlockPermutation } from './chunk';
+import { BlockMapper, BlockPermutation } from './chunk';
+import { Dimension } from './dimension';
 import type { TerrainGenerator } from './generator';
-import { BetterFlat } from './generator';
+import { BetterFlat, NetherFlat } from './generator';
 
 class World {
 	protected readonly serenity: Serenity;
+	protected readonly dimensions: Map<string, Dimension>;
 
 	public readonly logger: Logger;
 	public readonly name: string;
 	public readonly seed: number;
 	public readonly players: Map<bigint, Player>;
-	public readonly chunkManager: ChunkManager;
 	public readonly blocks: BlockMapper;
 
 	public gamemode: Gamemode = Gamemode.Survival;
 
-	public constructor(serenity: Serenity, name?: string, seed?: number, generator?: (that: World) => TerrainGenerator) {
+	public constructor(serenity: Serenity, name?: string, seed?: number) {
 		this.serenity = serenity;
 		this.logger = new Logger('World', LoggerColors.Cyan);
+		this.dimensions = new Map();
 
 		this.name = name ?? 'Serenity World';
 		this.seed = seed ?? 0;
 		this.players = new Map();
 		this.blocks = new BlockMapper();
-		this.chunkManager = new ChunkManager(
-			this,
-			generator?.(this) ?? BetterFlat.BasicFlat(this.blocks),
-			BlockPermutation.resolve('minecraft:air'),
+
+		this.dimensions.set(
+			'minecraft:overworld',
+			new Dimension(this, BetterFlat.BasicFlat(this.blocks), 0, 'minecraft:overworld'),
+		);
+
+		this.dimensions.set(
+			'minecraft:nether',
+			new Dimension(this, NetherFlat.BasicFlat(this.blocks), 1, 'minecraft:nether'),
 		);
 	}
+
+	/**
+	 * Get a dimension from the world.
+	 *
+	 * @param name The dimension name.
+	 * @returns The dimension.
+	 */
+	public getDimension(name: string): Dimension {
+		return this.dimensions.get(name) ?? this.dimensions.get('minecraft:overworld')!;
+	}
+
 	/**
 	 * Broadcasts a packet to all players.
 	 *

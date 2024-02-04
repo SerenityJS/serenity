@@ -62,36 +62,21 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				await session.sendBiomeDefinitionList();
 
-				const minX = 0 - 4;
-				const maxX = 0 + 4;
-				const minZ = 0 - 4;
-				const maxZ = 0 + 4;
-
-				// const sendQueue: ChunkColumn[] = [];
-				const sendQueue: Chunk[] = [];
-				for (let chunkX = minX; chunkX <= maxX; ++chunkX) {
-					for (let chunkZ = minZ; chunkZ <= maxZ; ++chunkZ) {
-						// TODO: vanilla does not send all of them, but in a range
-						// for example it does send them from x => [-3; 3] and z => [-3; 2]
-						sendQueue.push(this.serenity.world.chunkManager.getChunk(chunkX, chunkZ));
-					}
-				}
-
-				// Map chunks into the publisher update
-				const savedChunks: ChunkCoord[] = sendQueue.map((chunk) => {
-					return { x: chunk.x, z: chunk.z };
-				});
-
-				const radMul = 4;
+				const chunks = player.getDimension().getSpawnChunks();
 
 				const update = new NetworkChunkPublisherUpdate();
 				update.coordinate = { x: 0, y: 0, z: 0 };
-				update.radius = radMul << 4;
-				update.savedChunks = savedChunks;
+				update.radius = player.getDimension().viewDistance;
+				update.savedChunks = chunks.map((chunk: Chunk) => {
+					return {
+						x: chunk.x,
+						z: chunk.z,
+					};
+				});
 
 				await session.send(update);
 
-				for (const chunk of sendQueue) {
+				for (const chunk of chunks) {
 					player.render.sendChunk(chunk);
 				}
 
