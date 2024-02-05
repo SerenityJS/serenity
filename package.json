@@ -10,9 +10,13 @@
 		"packages/testing"
 	],
 	"scripts": {
-		"build": "yarn workspaces run build",
+		"build": "yarn workspaces run build & tsc",
+		"build:launcher": "tsc",
+		"build:packages": "yarn workspaces run build",
 		"format": "yarn workspaces run format",
-		"lint": "yarn workspaces run lint"
+		"lint": "yarn workspaces run lint",
+		"launch": "node ./dist/index.js",
+		"dev:launch": "nodemon --config nodemon.json launcher/index.ts"
 	},
 	"packageManager": "yarn@1.22.21",
 	"engines": {
