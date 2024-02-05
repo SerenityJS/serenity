@@ -1,6 +1,13 @@
-import type { Vec3f } from '@serenityjs/bedrock-protocol';
+import {
+	UpdateBlock,
+	UpdateBlockFlagsType,
+	UpdateBlockLayerType,
+	type DataPacket,
+	type Vec3f,
+} from '@serenityjs/bedrock-protocol';
+import type { Player } from '../../player';
 import type { World } from '../World';
-import { BlockPermutation, Chunk } from '../chunk';
+import { Block, BlockPermutation, Chunk } from '../chunk';
 import type { TerrainGenerator } from '../generator';
 
 class Dimension {
@@ -26,6 +33,14 @@ class Dimension {
 		this.identifier = identifier;
 		this.name = name;
 		this.chunks = chunks ?? new Map();
+	}
+
+	public getPlayers(): Player[] {
+		return Array.from(this.world.players.values()).filter((player) => player.getDimension() === this);
+	}
+
+	public broadcast(...packets: DataPacket[]): void {
+		for (const player of this.getPlayers()) void player.session.send(...packets);
 	}
 
 	/**
@@ -108,13 +123,33 @@ class Dimension {
 		return chunks;
 	}
 
-	// TODO: wrap the permutation in a Block class
-	public getBlock(x: number, y: number, z: number): BlockPermutation {
+	public getBlock(x: number, y: number, z: number): Block {
 		// Get the chunk
 		const chunk = this.getChunk(x >> 4, z >> 4);
 
-		// Get the block
-		return chunk.getBlock(x, y, z);
+		// Get the block permutation
+		const permutation = chunk.getPermutation(x, y, z);
+
+		// Convert the permutation to a block and return it
+		return new Block(this, permutation, { x, y, z });
+	}
+
+	public setPermutation(x: number, y: number, z: number, permutation: BlockPermutation): void {
+		// Get the chunk
+		const chunk = this.getChunk(x >> 4, z >> 4);
+
+		// Set the permutation
+		chunk.setPermutation(x, y, z, permutation);
+
+		for (const player of this.getPlayers()) {
+			const update = new UpdateBlock();
+			update.blockRuntimeId = permutation.getRuntimeId();
+			update.position = { x, y, z };
+			update.flags = UpdateBlockFlagsType.Network;
+			update.layer = UpdateBlockLayerType.Normal;
+
+			void player.session.send(update);
+		}
 	}
 }
 

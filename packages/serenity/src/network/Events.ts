@@ -41,6 +41,7 @@ import type {
 	ToastRequest,
 	UpdateAbilities,
 	UpdateAttributes,
+	UpdateBlock,
 } from '@serenityjs/bedrock-protocol';
 import type { Player } from '../player';
 import type { NetworkSession } from './Session';
@@ -65,6 +66,7 @@ interface NetworkEvents {
 	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayer>];
 	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntity>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
+	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlock>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
 	[Packet.InventoryTransaction]: [NetworkPacketEvent<InventoryTransaction>];
 	[Packet.Interact]: [NetworkPacketEvent<Interact>];

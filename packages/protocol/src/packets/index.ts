@@ -13,6 +13,7 @@ export * from './StartGame';
 export * from './AddPlayer';
 export * from './RemoveEntity';
 export * from './MovePlayer';
+export * from './UpdateBlock';
 export * from './UpdateAttributes';
 export * from './InventoryTransaction';
 export * from './Interact';

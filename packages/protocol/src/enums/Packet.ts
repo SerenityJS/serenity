@@ -15,6 +15,7 @@ enum Packet {
 	// AddEntity = 0x0d, // 13
 	RemoveEntity = 0x0e, // 14
 	MovePlayer = 0x13, // 19
+	UpdateBlock = 0x15, // 21
 	// TickSync = 0x17, // 23
 	UpdateAttributes = 0x1d, // 29
 	InventoryTransaction = 0x1e, // 30

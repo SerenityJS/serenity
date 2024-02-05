@@ -42,6 +42,7 @@ import { Text } from './Text';
 import { ToastRequest } from './ToastRequest';
 import { UpdateAbilities } from './UpdateAbilities';
 import { UpdateAttributes } from './UpdateAttributes';
+import { UpdateBlock } from './UpdateBlock';
 
 const Packets = {
 	[Packet.Login]: Login, // 1
@@ -55,6 +56,7 @@ const Packets = {
 	[Packet.AddPlayer]: AddPlayer, // 12
 	[Packet.RemoveEntity]: RemoveEntity, // 14
 	[Packet.MovePlayer]: MovePlayer, // 19
+	[Packet.UpdateBlock]: UpdateBlock, // 21
 	[Packet.UpdateAttributes]: UpdateAttributes, // 29
 	[Packet.InventoryTransaction]: InventoryTransaction, // 30
 	[Packet.Interact]: Interact, // 33

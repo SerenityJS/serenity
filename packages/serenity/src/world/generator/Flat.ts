@@ -16,7 +16,7 @@ export class TerrainFlat extends TerrainGenerator {
 		// Generate the chunk.
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
-				for (let y = 0; y < this.flatLayers.length; y++) chunk.setBlock(x, y, z, this.flatLayers[y]);
+				for (let y = 0; y < this.flatLayers.length; y++) chunk.setPermutation(x, y, z, this.flatLayers[y]);
 			}
 		}
 
@@ -40,7 +40,7 @@ export class BetterFlat extends TerrainGenerator {
 			for (let z = 0; z < 16; z++) {
 				for (let y = 0; y < this.layersMetrix.length; y++) {
 					const palette = this.layersMetrix[y];
-					chunk.setBlock(x, y - 64, z, palette[Math.floor(palette.length * Math.random())]);
+					chunk.setPermutation(x, y - 64, z, palette[Math.floor(palette.length * Math.random())]);
 				}
 			}
 		}

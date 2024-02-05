@@ -17,24 +17,25 @@ export class Chunk {
 		this.x = x;
 		this.z = z;
 		this.defaultPermutation = defaultPermutation;
-		this.subchunks = Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk(defaultPermutation));
-	}
-	public setBlock(x: number, y: number, z: number, permutation?: BlockPermutation): void {
-		const yl = y + 64;
-		// Get the sub chunk.
-		const subchunk = this.getSubChunk(yl >> 4);
-
-		// Set the block.
-		subchunk.setBlock(x & 0xf, yl & 0xf, z & 0xf, permutation, 0); // 0 = Solids, 1 = Liquids or Logged
+		this.subchunks = Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
 	}
 
-	public getBlock(x: number, y: number, z: number): BlockPermutation {
+	public getPermutation(x: number, y: number, z: number): BlockPermutation {
 		const yl = y + 64;
 		// Get the sub chunk.
 		const subchunk = this.getSubChunk(yl >> 4);
 
 		// Get the block.
-		return subchunk.getBlock(x & 0xf, yl & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
+		return subchunk.getPermutation(x & 0xf, yl & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
+	}
+
+	public setPermutation(x: number, y: number, z: number, permutation: BlockPermutation): void {
+		const yl = y + 64;
+		// Get the sub chunk.
+		const subchunk = this.getSubChunk(yl >> 4);
+
+		// Set the block.
+		subchunk.setPermutation(x & 0xf, yl & 0xf, z & 0xf, permutation, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
 	public static getHash(x: number, z: number): bigint {
@@ -58,7 +59,7 @@ export class Chunk {
 			// Create a new sub chunk.
 			for (let i = 0; i <= index; i++) {
 				if (!this.subchunks[i]) {
-					this.subchunks[i] = new SubChunk(this.defaultPermutation);
+					this.subchunks[i] = new SubChunk();
 				}
 			}
 		}
