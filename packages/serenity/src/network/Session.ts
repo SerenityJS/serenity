@@ -16,7 +16,7 @@ import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
 import type { Network } from './Network';
 
-let runtimeId = 0n;
+let RUNTIME_ID = 1n;
 
 // NOTE
 // STRUCTURE FOR PLAYER AND NEWORKSESSION CLASS
@@ -56,7 +56,7 @@ class NetworkSession {
 		this.connection = connection;
 		this.guid = connection.guid;
 		this.identifier = connection.identifier;
-		this.runtimeId = runtimeId++;
+		this.runtimeId = RUNTIME_ID++;
 		this.uniqueId = BigInt.asUintN(64, this.guid ^ this.runtimeId);
 	}
 
@@ -130,7 +130,7 @@ class NetworkSession {
 		packet.seed = BigInt(this.player.getWorld().seed);
 		packet.biomeType = 0;
 		packet.biomeName = 'plains';
-		packet.dimension = 0;
+		packet.dimension = this.player.getDimension().type;
 		packet.generator = 1;
 		packet.worldGamemode = Gamemode.Creative;
 		packet.difficulty = Difficulty.Normal;
@@ -476,42 +476,6 @@ class NetworkSession {
 
 		// Return the form id.
 		return formId;
-	}
-
-	/**
-	 * Handles movement from other players.
-	 *
-	 * @param player The player that moved.
-	 * @param packet The movement packet.
-	 */
-	public receiveMovement(player: Player, packet: MovePlayer): void {
-		// Check if our player instance is null.
-		// If it is, we will log an error and return.
-		if (!this.player) {
-			return this.serenity.logger.error(
-				`Failed to find player instance for ${this.identifier.address}:${this.identifier.port}! NetworkSession.receiveMovement()`,
-			);
-		}
-
-		// Check if the player is rendered to our player.
-		// If it isn't, we will return.
-		if (!this.player.render.players.has(player.uniqueEntityId)) return;
-
-		// Create a new movement packet.
-		const move = new MovePlayer();
-		move.runtimeId = player.runtimeEntityId;
-		move.position = packet.position;
-		move.pitch = player.rotation.x;
-		move.yaw = player.rotation.z;
-		move.headYaw = player.headYaw;
-		move.mode = packet.mode;
-		move.onGround = player.onGround;
-		move.riddenRuntimeId = 0n;
-		move.cause = packet.cause;
-		move.tick = 0n;
-
-		// Send the movement packet
-		void this.send(move);
 	}
 }
 

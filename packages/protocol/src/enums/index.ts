@@ -34,3 +34,4 @@ export * from './RespawnState';
 export * from './FormType';
 export * from './UpdateBlockLayerType';
 export * from './UpdateBlockFlagsType';
+export * from './DimensionType';

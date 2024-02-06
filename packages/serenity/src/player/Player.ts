@@ -38,7 +38,6 @@ class Player {
 
 	public readonly network: Network;
 	public readonly session: NetworkSession;
-
 	public readonly username: string;
 	public readonly xuid: string;
 	public readonly uuid: string;
@@ -68,9 +67,9 @@ class Player {
 	 */
 	public constructor(session: NetworkSession, tokens: LoginTokenData, world?: World) {
 		this.serenity = session.serenity;
+
 		this.network = session.network;
 		this.session = session;
-
 		this.username = tokens.identityData.displayName;
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
@@ -78,9 +77,11 @@ class Player {
 		this.runtimeEntityId = session.runtimeId;
 		this.uniqueEntityId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
+
 		this.world = world ?? this.serenity.world;
 		this.gamemode = this.world.gamemode;
 		this.dimension = this.world.getDimension('minecraft:overworld');
+
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 		this.render = new Render(this.serenity, this);
@@ -103,7 +104,7 @@ class Player {
 		this.dimension = dimension;
 
 		const change = new ChangeDimension();
-		change.dimension = dimension.identifier;
+		change.dimension = dimension.type;
 		change.position = dimension.spawnPosition;
 		change.respawn = true;
 

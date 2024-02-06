@@ -30,11 +30,23 @@ class MovePlayerHandler extends NetworkHandler {
 		// Send the movement packet to all players.
 		// Except for the player that sent the movement packet.
 		// This is to prevent the player from seeing themselves move.
-		for (const [, other] of player.getWorld().players) {
+		for (const other of player.getDimension().getPlayers()) {
 			if (other === player) continue;
 
-			// Since the player is receiving the movement packet, we will hanlde this in the session.
-			other.session.receiveMovement(player, packet);
+			const move = new MovePlayer();
+			move.runtimeId = player.runtimeEntityId;
+			move.position = packet.position;
+			move.pitch = player.rotation.x;
+			move.yaw = player.rotation.z;
+			move.headYaw = player.headYaw;
+			move.mode = packet.mode;
+			move.onGround = player.onGround;
+			move.riddenRuntimeId = 0n;
+			move.cause = packet.cause;
+			move.tick = 0n;
+
+			// Send the movement packet to the player.
+			void other.session.send(move);
 		}
 	}
 }

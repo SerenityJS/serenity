@@ -1,46 +1,146 @@
 import {
+	AddPlayer,
+	CommandPermissionLevel,
+	PermissionLevel,
+	RemoveEntity,
 	UpdateBlock,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
-	type DataPacket,
-	type Vec3f,
 } from '@serenityjs/bedrock-protocol';
-import type { Player } from '../../player';
+import type { DimensionType, DataPacket, Vec3f } from '@serenityjs/bedrock-protocol';
+import { Logger } from '../../console';
+import { Player } from '../../player';
 import type { World } from '../World';
 import { Block, BlockPermutation, Chunk } from '../chunk';
 import type { TerrainGenerator } from '../generator';
 
 class Dimension {
 	protected readonly world: World;
+	protected readonly logger: Logger;
 
 	public generator: TerrainGenerator;
 	public spawnPosition: Vec3f = { x: 0, y: 0, z: 0 };
 	public viewDistance: number = 64;
 
-	public readonly identifier: number;
-	public readonly name: string;
+	public readonly type: DimensionType;
+	public readonly identifier: string;
 	public readonly chunks: Map<bigint, Chunk>;
+	public readonly players: Set<bigint>;
 
 	public constructor(
 		world: World,
+		type: DimensionType,
+		identifier: string,
 		generator: TerrainGenerator,
-		identifier: number,
-		name: string,
 		chunks?: Map<bigint, Chunk>,
 	) {
 		this.world = world;
-		this.generator = generator;
+		this.logger = new Logger(`Dimension [${identifier}]`, '#03fca9');
+		this.type = type;
 		this.identifier = identifier;
-		this.name = name;
+		this.generator = generator;
 		this.chunks = chunks ?? new Map();
+		this.players = new Set();
+	}
+
+	public async broadcast(...packets: DataPacket[]): Promise<void> {
+		// Loop through each player.
+		for (const player of this.getPlayers().values()) {
+			// Send the packet to that player.
+			await player.session.send(...packets);
+		}
+	}
+
+	public async broadcastExcept(player: Player, ...packets: DataPacket[]): Promise<void> {
+		// Loop through each player.
+		for (const other of this.getPlayers().values()) {
+			if (other === player) continue;
+
+			// Send the packet to that player.
+			await other.session.send(...packets);
+		}
+	}
+
+	public spawnEntity(entity: Player | any): void {
+		// Check if the entity is a player
+		if (entity instanceof Player) {
+			// Check if the player is already in the dimension
+			if (this.players.has(entity.uniqueEntityId)) {
+				return this.logger.error(`${entity.username} (${entity.xuid}) is already in the dimension!`);
+			}
+
+			// Create a new add entity packet
+			const spawn = new AddPlayer();
+			spawn.uuid = entity.uuid;
+			spawn.username = entity.username;
+			spawn.runtimeId = entity.runtimeEntityId;
+			spawn.platformChatId = ''; // TODO: Not sure what this is.
+			spawn.position = entity.position;
+			spawn.velocity = { x: 0, y: 0, z: 0 };
+			spawn.rotation = entity.rotation;
+			spawn.headYaw = entity.headYaw;
+			spawn.heldItem = {
+				networkId: 0,
+				count: null,
+				metadata: null,
+				hasStackId: null,
+				stackId: null,
+				blockRuntimeId: null,
+				extras: null,
+			};
+			spawn.gamemode = entity.getGamemode(); // TODO: Get the gamemode from the entity.
+			spawn.metadata = [];
+			spawn.properties = {
+				ints: [],
+				floats: [],
+			};
+			spawn.uniqueEntityId = entity.uniqueEntityId;
+			spawn.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the entity.
+			spawn.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the entity.
+			spawn.abilities = [];
+			spawn.links = [];
+			spawn.deviceId = 'Win10';
+			spawn.deviceOS = 7; // TODO: Get the device OS from the entity.
+
+			void this.broadcast(spawn);
+
+			// Add the player to the dimension
+			this.players.add(entity.uniqueEntityId);
+		}
+	}
+
+	public despawnEntity(entity: Player | any): void {
+		// Check if the entity is a player
+		if (entity instanceof Player) {
+			// Check if the player is not in the dimension
+			if (!this.players.has(entity.uniqueEntityId)) {
+				return this.logger.error(`${entity.username} (${entity.xuid}) is not in the dimension!`);
+			}
+
+			// Remove the player from the dimension
+			this.players.delete(entity.uniqueEntityId);
+
+			// Create a new remove entity packet
+			const remove = new RemoveEntity();
+			remove.uniqueEntityId = entity.uniqueEntityId;
+
+			// Send the packet to all players
+			void this.broadcast(remove);
+		}
 	}
 
 	public getPlayers(): Player[] {
-		return Array.from(this.world.players.values()).filter((player) => player.getDimension() === this);
-	}
+		const players = [];
 
-	public broadcast(...packets: DataPacket[]): void {
-		for (const player of this.getPlayers()) void player.session.send(...packets);
+		for (const uniqueEntityId of this.players) {
+			const player = this.world.players.get(uniqueEntityId);
+
+			if (player) {
+				players.push(player);
+			}
+		}
+
+		return players;
 	}
 
 	/**

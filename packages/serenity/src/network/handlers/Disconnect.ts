@@ -17,7 +17,7 @@ class DisconnectHandler extends NetworkHandler {
 		if (!player) return;
 
 		// Remove the player from the world.
-		player.getWorld().removePlayer(player);
+		player.getWorld().despawnEntity(player);
 	}
 }
 

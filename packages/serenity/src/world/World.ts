@@ -1,11 +1,11 @@
-import { ChatTypes, Gamemode, Text, type DataPacket } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Gamemode, Text } from '@serenityjs/bedrock-protocol';
+import type { DimensionType, DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
-import type { Player } from '../player';
-import { BlockMapper, BlockPermutation } from './chunk';
+import { Player } from '../player';
+import { BlockMapper } from './chunk';
 import { Dimension } from './dimension';
 import type { TerrainGenerator } from './generator';
-import { BetterFlat, NetherFlat } from './generator';
 
 class World {
 	protected readonly serenity: Serenity;
@@ -28,16 +28,6 @@ class World {
 		this.seed = seed ?? 0;
 		this.players = new Map();
 		this.blocks = new BlockMapper();
-
-		this.dimensions.set(
-			'minecraft:overworld',
-			new Dimension(this, BetterFlat.BasicFlat(this.blocks), 0, 'minecraft:overworld'),
-		);
-
-		this.dimensions.set(
-			'minecraft:nether',
-			new Dimension(this, NetherFlat.BasicFlat(this.blocks), 1, 'minecraft:nether'),
-		);
 	}
 
 	/**
@@ -48,6 +38,14 @@ class World {
 	 */
 	public getDimension(name: string): Dimension {
 		return this.dimensions.get(name) ?? this.dimensions.get('minecraft:overworld')!;
+	}
+
+	public registerDimension(type: DimensionType, identifier: string, generator: TerrainGenerator): void {
+		if (this.dimensions.has(identifier)) {
+			return this.logger.error(`Failed to register dimension, dimension identifier [${identifier}] already exists!`);
+		}
+
+		this.dimensions.set(identifier, new Dimension(this, type, identifier, generator));
 	}
 
 	/**
@@ -81,125 +79,37 @@ class World {
 		}
 	}
 
-	/**
-	 * Adds a player to the world.
-	 *
-	 * @param player The player to add.
-	 */
-	public addPlayer(player: Player): void {
-		// Check if the player is already in the world.
-		if (this.players.has(player.uniqueEntityId)) {
-			return this.logger.error(`${player.username} (${player.xuid}) is already in the world!`);
+	public spawnEntity(entity: Player | any, dimension?: Dimension): void {
+		// Check if the entity is a player
+		if (entity instanceof Player) {
+			// Check if the player is already in the dimension
+			if (this.players.has(entity.uniqueEntityId)) {
+				return this.logger.error(`${entity.username} (${entity.xuid}) is already in the world!`);
+			}
+
+			// Set the player's world to this world.
+			this.players.set(entity.uniqueEntityId, entity);
+
+			// Add the player to the dimension.
+			(dimension ?? entity.getDimension()).spawnEntity(entity);
 		}
-
-		// Render the player to all other players.
-		for (const other of this.players.values()) {
-			other.render.addPlayer(player);
-		}
-
-		// Render all other players to the player.
-		for (const other of this.players.values()) {
-			player.render.addPlayer(other);
-		}
-
-		// Set the player's world to this world.
-		this.players.set(player.uniqueEntityId, player);
-
-		// Send the join message to all players.
-		return this.sendMessage(`§e${player.username} joined the game.`);
 	}
 
-	/**
-	 * Removes a player from the world.
-	 *
-	 * @param player The player to remove.
-	 */
-	public removePlayer(player: Player): void {
-		// Check if the player is not in the world.
-		if (!this.players.has(player.uniqueEntityId)) {
-			return this.logger.error(`${player.username} (${player.xuid}) is not in the world!`);
+	public despawnEntity(entity: Player | any, dimension?: Dimension): void {
+		// Check if the entity is a player
+		if (entity instanceof Player) {
+			// Check if the player is not in the dimension
+			if (!this.players.has(entity.uniqueEntityId)) {
+				return this.logger.error(`${entity.username} (${entity.xuid}) is not in the world!`);
+			}
+
+			// Remove the player from the dimension.
+			(dimension ?? entity.getDimension()).despawnEntity(entity);
+
+			// Remove the player from the players map.
+			this.players.delete(entity.uniqueEntityId);
 		}
-
-		// Remove the player from the players map.
-		this.players.delete(player.uniqueEntityId);
-
-		// Unrender the player from all other players.
-		for (const other of this.players.values()) {
-			other.render.removePlayer(player);
-		}
-
-		// Send the leave message to all players.
-		return this.sendMessage(`§e${player.username} left the game.`);
 	}
-
-	/**
-	 * Gets a chunk from the world.
-	 *
-	 * @param x The chunk X coordinate.
-	 * @param z The chunk Z coordinate.
-	 * @returns The chunk.
-	 */ /*
-	public getChunk(x: number, z: number): ChunkColumn {
-		// Create a hash for the chunk.
-		const hash = ChunkColumn.getHash(x, z);
-
-		// Get the chunk from the chunks map.
-		// If the chunk is not found, create a new chunk using the generator.
-		// And add it to the chunks map.
-		const chunk = this.chunks.has(hash) ? this.chunks.get(hash) : this.generator.generateChunk(x, z);
-		if (!this.chunks.has(hash)) this.chunks.set(hash, chunk!);
-
-		// Return the chunk.
-		return chunk!;
-	}*/
-
-	/**
-	 * Gets a block from the world.
-	 *
-	 * @param x The block X coordinate.
-	 * @param y The block Y coordinate.
-	 * @param z The block Z coordinate.
-	 * @param block The block to set.
-	 * @returns The chunk's setBlock index.
-	 */ /*
-	public setBlock(x: number, y: number, z: number, block: typeof Block): void {
-		// Get the chunk.
-		const chunk = this.getChunk(x >> 4, z >> 4);
-
-		// Return the chunk's setBlock index.
-		return chunk.setBlock(x, y, z, block.getRuntimeId());
-	}*/
-
-	/**
-	 * Gets a block from the world.
-	 *
-	 * @param x The block X coordinate.
-	 * @param y The block Y coordinate.
-	 * @param z The block Z coordinate.
-	 * @returns The block.
-	 */
-	/// NEEDS a reimplementation
-	/*
-	public getBlock(x: number, y: number, z: number): typeof Block {
-		// Get the chunk.
-		const chunk = this.getChunk(x >> 4, z >> 4);
-
-		// Get the block runtime ID.
-		const runtimeId = chunk.getBlock(x, y, z);
-
-		// Get the block.
-		// And check if the block is null or undefined.
-		const block = this.mappings.getBlockByRuntimeId(runtimeId);
-		if (!block) {
-			this.logger.error(`Failed to get block instance at ${x}, ${y}, ${z}: ${runtimeId}`);
-
-			// Return air.
-			return Air;
-		}
-
-		// Return the block.
-		return block;
-	}*/
 
 	/**
 	 * Sends a message to all players.

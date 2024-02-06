@@ -8,6 +8,9 @@ import {
 	SetEntityData,
 	AvailableCommands,
 	SetLocalPlayerAsInitialized,
+	AddPlayer,
+	PermissionLevel,
+	CommandPermissionLevel,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
@@ -27,7 +30,45 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
 		// Add the player to the world.
-		player.getWorld().addPlayer(player);
+		player.getWorld().spawnEntity(player);
+
+		for (const other of player.getDimension().getPlayers()) {
+			if (other === player) continue;
+
+			const spawn = new AddPlayer();
+			spawn.uuid = other.uuid;
+			spawn.username = other.username;
+			spawn.runtimeId = other.runtimeEntityId;
+			spawn.platformChatId = ''; // TODO: Not sure what this is.
+			spawn.position = other.position;
+			spawn.velocity = { x: 0, y: 0, z: 0 };
+			spawn.rotation = other.rotation;
+			spawn.headYaw = other.headYaw;
+			spawn.heldItem = {
+				networkId: 0,
+				count: null,
+				metadata: null,
+				hasStackId: null,
+				stackId: null,
+				blockRuntimeId: null,
+				extras: null,
+			};
+			spawn.gamemode = other.getGamemode(); // TODO: Get the gamemode from the other.
+			spawn.metadata = [];
+			spawn.properties = {
+				ints: [],
+				floats: [],
+			};
+			spawn.uniqueEntityId = other.uniqueEntityId;
+			spawn.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the other.
+			spawn.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the other.
+			spawn.abilities = [];
+			spawn.links = [];
+			spawn.deviceId = 'Win10';
+			spawn.deviceOS = 7; // TODO: Get the device OS from the other.
+
+			await session.send(spawn);
+		}
 
 		// TODO: Move elsewhere.
 		const data = new SetEntityData<boolean>();
