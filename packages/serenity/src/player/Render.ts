@@ -128,6 +128,7 @@ class Render {
 		// And assign the packet data.
 		packet.x = chunk.x;
 		packet.z = chunk.z;
+		packet.dimension = this.player.getDimension().type;
 		packet.subChunkCount = chunk.getSubChunkSendCount();
 		packet.cacheEnabled = false;
 		packet.data = chunk.serialize();

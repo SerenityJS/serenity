@@ -374,15 +374,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.6.1.tgz#9ab8f811930d7af3e3d549183a50884f9eb83f36"
   integrity sha512-UY+FGM/2jjMkzQLn8pxcHGMaVLh9aEitG3zY2CiY7XHdLiz3bZOwa6oDxNqEMv7zZkV+cj5DOdz0cQ1BP5Hjgw==
 
-"@serenityjs/bedrock-data@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@serenityjs/bedrock-data/-/bedrock-data-0.0.1.tgz#3d4e238aa5533b8c068e0a3dfb26d8b9c2d67c5b"
-  integrity sha512-PkJfOBCJtdSycQtBLxFzhR9pcF80aNJDDuSXL4XZ1mkkPFcPZOP/mLftWA/IvJbnlorbt4TjqlGHqzz9LvK7iw==
-
-"@serenityjs/bedrock-data@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@serenityjs/bedrock-data/-/bedrock-data-0.0.2.tgz#a5f614921a3871d70e2945e1def80424d1553c88"
-  integrity sha512-NyEnNllQeKdVr6ZzkHc5JNtOoC+ewlPEdrokOTabQVNqwI8+TdAkMyw2GS25XeotPAhRcAvjxPFlaCJU4G84VQ==
+"@serenityjs/bedrock-data@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@serenityjs/bedrock-data/-/bedrock-data-0.0.3.tgz#b22dc598cffff0655c7c6df869af4628d69e1d79"
+  integrity sha512-9KRMT59mZFW0Tume5kY4B3VdQpqsbVPgtK+GPbh+UAGrt5WdBKhvYmp1vvoq9VQ87T2/jlU1pvsmwAiAduJOKg==
 
 "@serenityjs/binarystream-darwin-x64@1.2.3":
   version "1.2.3"

@@ -19,7 +19,7 @@
 		"require": "./dist/index.js"
 	},
 	"dependencies": {
-		"@serenityjs/bedrock-data": "^0.0.2",
+		"@serenityjs/bedrock-data": "^0.0.3",
 		"@serenityjs/bedrock-protocol": "^1.0.0",
 		"@serenityjs/binarystream": "^1.2.3",
 		"@serenityjs/nbt": "^1.0.0",
