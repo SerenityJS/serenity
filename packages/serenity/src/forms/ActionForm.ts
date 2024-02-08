@@ -1,16 +1,16 @@
 import { FormType, ModalFormRequest } from '@serenityjs/bedrock-protocol';
 import type { Player } from '../player';
-import type { MessageFormResponse, MessageFormJson } from '../types';
+import type { ActionFormResponse, ActionFormJson, ActionFormButton, ActionFormImage } from '../types';
 import { Form } from './Form';
 
 /**
  * Represents a generic message form.
  */
-class MessageForm extends Form {
+class ActionForm extends Form {
 	/**
 	 * The type of form.
 	 */
-	public static readonly TYPE = FormType.Message;
+	public static readonly TYPE = FormType.Action;
 
 	/**
 	 * The title of the form.
@@ -23,14 +23,9 @@ class MessageForm extends Form {
 	protected _content: string = '';
 
 	/**
-	 * The first button of the form.
+	 * The buttons of the form.
 	 */
-	protected _button1: string = '';
-
-	/**
-	 * The second button of the form.
-	 */
-	protected _button2: string = '';
+	protected _buttons: ActionFormButton[] = [];
 
 	/**
 	 * Sets the title of the form.
@@ -55,24 +50,14 @@ class MessageForm extends Form {
 	}
 
 	/**
-	 * Sets the first button of the form.
+	 * Adds a button to the form.
 	 *
-	 * @param button - The first button of the form.
+	 * @param text - The text of the button.
+	 * @param image - The image of the button.
 	 * @returns The message form.
 	 */
-	public button1(button: string): this {
-		this._button1 = button;
-		return this;
-	}
-
-	/**
-	 * Sets the second button of the form.
-	 *
-	 * @param button - The second button of the form.
-	 * @returns The message form.
-	 */
-	public button2(button: string): this {
-		this._button2 = button;
+	public button(text: string, image?: ActionFormImage): this {
+		this._buttons.push({ text, image });
 		return this;
 	}
 
@@ -81,13 +66,12 @@ class MessageForm extends Form {
 	 *
 	 * @returns The json object.
 	 */
-	public toJson(): MessageFormJson {
+	public toJson(): ActionFormJson {
 		// Return the json object.
 		return {
-			button1: this._button1,
-			button2: this._button2,
-			content: this._content,
 			title: this._title,
+			content: this._content,
+			buttons: this._buttons,
 		};
 	}
 
@@ -107,15 +91,15 @@ class MessageForm extends Form {
 	 * @param player - The player to show the form to.
 	 * @returns The response of the form.
 	 */
-	public async show(player: Player): Promise<MessageFormResponse> {
+	public async show(player: Player): Promise<ActionFormResponse> {
 		return new Promise((resolve, reject) => {
 			// Add the form to the player's forms.
-			player.forms.set(this.id, { resolve: resolve as any, reject, type: MessageForm.TYPE });
+			player.forms.set(this.id, { resolve: resolve as any, reject, type: ActionForm.TYPE });
 
 			// Create the form.
 			const form = new ModalFormRequest();
 			form.id = this.id;
-			form.payload = JSON.stringify({ type: MessageForm.TYPE, ...this.toJson() });
+			form.payload = JSON.stringify({ type: ActionForm.TYPE, ...this.toJson() });
 
 			// Send the form to the player.
 			void player.session.send(form);
@@ -123,4 +107,4 @@ class MessageForm extends Form {
 	}
 }
 
-export { MessageForm };
+export { ActionForm };

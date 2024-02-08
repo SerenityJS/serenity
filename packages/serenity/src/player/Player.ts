@@ -9,11 +9,11 @@ import {
 	SetPlayerGameType,
 	Text,
 } from '@serenityjs/bedrock-protocol';
-import type { DisconnectReason, Vec2f, Vec3f, RespawnState, Gamemode } from '@serenityjs/bedrock-protocol';
+import type { DisconnectReason, Vec2f, Vec3f, RespawnState, Gamemode, FormType } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
-import type { LoginTokenData, MessageFormResponse } from '../types';
+import type { ActionFormResponse, LoginTokenData, MessageFormResponse } from '../types';
 import type { Chunk, World, Dimension } from '../world';
 import { Render } from './Render';
 import { Abilities } from './abilities';
@@ -48,7 +48,10 @@ class Player {
 	public readonly abilities: Abilities;
 	public readonly attributes: Attributes;
 	public readonly render: Render;
-	public readonly forms: Map<number, { reject(value: Error): void; resolve(value: MessageFormResponse): void }>;
+	public readonly forms: Map<
+		number,
+		{ reject(value: Error): void; resolve(value: ActionFormResponse | MessageFormResponse): void; type: FormType }
+	>;
 
 	protected gamemode: Gamemode;
 	protected world: World;
