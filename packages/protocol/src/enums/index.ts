@@ -35,3 +35,4 @@ export * from './FormType';
 export * from './UpdateBlockLayerType';
 export * from './UpdateBlockFlagsType';
 export * from './DimensionType';
+export * from './ModalFormCanceledReason';

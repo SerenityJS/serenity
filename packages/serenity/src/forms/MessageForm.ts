@@ -1,4 +1,6 @@
-import { FormType } from '@serenityjs/bedrock-protocol';
+import { FormType, ModalFormRequest } from '@serenityjs/bedrock-protocol';
+import type { Player } from '../player';
+import type { MessageFormResponse, MessageFormJson } from '../types';
 import { Form } from './Form';
 
 /**
@@ -44,22 +46,43 @@ class MessageForm extends Form {
 	}
 
 	/**
-	 * Converts the form to a payload.
+	 * Converts the form to a json object.
 	 *
-	 * @returns The payload.
+	 * @returns The json object.
 	 */
-	public toPayload(): string {
-		// Create a payload object.
-		const payload = {
-			type: FormType.Message,
-			title: this.title,
-			content: this.content,
+	public toJson(): MessageFormJson {
+		// Return the json object.
+		return {
 			button1: this.button1,
 			button2: this.button2,
+			content: this.content,
+			title: this.title,
 		};
+	}
 
-		// Return the payload as a JSON string.
-		return JSON.stringify(payload);
+	/**
+	 * Converts the form to a stringified json.
+	 *
+	 * @returns The stringified json.
+	 */
+	public toString(): string {
+		// Return the stringified json.
+		return JSON.stringify(this.toJson());
+	}
+
+	public async show(player: Player): Promise<MessageFormResponse> {
+		return new Promise((resolve, reject) => {
+			// Add the form to the player's forms.
+			player.forms.set(this.id, { resolve, reject });
+
+			// Create the form.
+			const form = new ModalFormRequest();
+			form.id = this.id;
+			form.payload = JSON.stringify({ type: MessageForm.TYPE, ...this.toJson() });
+
+			// Send the form to the player.
+			void player.session.send(form);
+		});
 	}
 }
 

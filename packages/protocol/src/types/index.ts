@@ -32,4 +32,6 @@ export * from './TransactionUseItemOnEntity';
 export * from './TransactionData';
 export * from './TransactionItemRelease';
 export * from './Links';
-export * from "./CommandDefinition";
+export * from './CommandDefinition';
+export * from './ModalFormData';
+export * from './ModalFormCanceled';

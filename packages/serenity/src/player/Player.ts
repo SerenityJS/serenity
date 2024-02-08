@@ -13,7 +13,7 @@ import type { DisconnectReason, Vec2f, Vec3f, RespawnState, Gamemode } from '@se
 import type { Serenity } from '../Serenity';
 import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
-import type { LoginTokenData } from '../types';
+import type { LoginTokenData, MessageFormResponse } from '../types';
 import type { Chunk, World, Dimension } from '../world';
 import { Render } from './Render';
 import { Abilities } from './abilities';
@@ -48,7 +48,7 @@ class Player {
 	public readonly abilities: Abilities;
 	public readonly attributes: Attributes;
 	public readonly render: Render;
-	public readonly forms: Map<number, (data: any) => void>;
+	public readonly forms: Map<number, { reject(value: Error): void; resolve(value: MessageFormResponse): void }>;
 
 	protected gamemode: Gamemode;
 	protected world: World;
@@ -190,15 +190,6 @@ class Player {
 
 		// Send the packet.
 		void this.session.send(packet);
-	}
-
-	public async sendMessageForm(form: MessageForm, callback: (data: boolean) => void): Promise<void> {
-		// Send the form and wait for the response.
-		// This will return the ID of the newly created form.
-		const id = await this.session.sendModalFormRequest(form.toPayload());
-
-		// Store the callback.
-		this.forms.set(id, callback);
 	}
 
 	/**

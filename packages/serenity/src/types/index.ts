@@ -3,3 +3,4 @@ export * from './SerenityEvents';
 export * from './SerenityOptions';
 export * from './HookMethod';
 export * from './blocks';
+export * from './forms';

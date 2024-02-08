@@ -4,6 +4,7 @@ import { DisconnectHandler } from './Disconnect';
 import { InteractHandler } from './Interact';
 import { InventoryTransactionHandler } from './InventoryTransaction';
 import { LoginHandler } from './Login';
+import { ModalFormResponseHandler } from './ModalFormResponse';
 import { MovePlayerHandler } from './MovePlayer';
 import { PacketViolationWarningHandler } from './PacketViolationWarning';
 import { PlayerActionHandler } from './PlayerAction';
@@ -30,6 +31,7 @@ const NETWORK_HANDLERS = [
 	InventoryTransactionHandler,
 	DisconnectHandler,
 	RequestChunkRadiusHandler,
+	ModalFormResponseHandler,
 ];
 
 export { NETWORK_HANDLERS };

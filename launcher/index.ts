@@ -1,5 +1,5 @@
 import { DimensionType, Packet, TransactionType } from '@serenityjs/bedrock-protocol';
-import { BlockPermutation, Serenity, BetterFlat } from '@serenityjs/serenity';
+import { BlockPermutation, Serenity, BetterFlat, MessageForm } from '@serenityjs/serenity';
 
 const serenity = new Serenity({
 	address: '0.0.0.0',
@@ -15,16 +15,15 @@ serenity.on('PlayerChat', (event) => {
 serenity.network.after(Packet.InventoryTransaction, (event) => {
 	if (event.packet.type !== TransactionType.ItemUse || !event.player) return;
 
-	const permutation = BlockPermutation.resolve('minecraft:diamond_ore');
-	const block = event.player
-		.getDimension()
-		.getBlock(
-			event.packet.data.blockPosition!.x,
-			event.packet.data.blockPosition!.y,
-			event.packet.data.blockPosition!.z,
-		);
-
-	block.setPermutation(permutation);
+	const form = new MessageForm('Hello, World!', 'This is a test message.', 'Button 1', 'Button 2');
+	form
+		.show(event.player)
+		.then((response) => {
+			console.log(response);
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 });
 
 serenity.world.registerDimension(

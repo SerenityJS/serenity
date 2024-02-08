@@ -5,7 +5,7 @@ import { Packet as PacketId } from '../enums';
 
 @Packet(PacketId.ModalFormRequest)
 class ModalFormRequest extends DataPacket {
-	@Serialize(VarInt) public formId!: number;
+	@Serialize(VarInt) public id!: number;
 	@Serialize(VarString) public payload!: string;
 }
 

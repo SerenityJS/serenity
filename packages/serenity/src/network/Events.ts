@@ -16,6 +16,7 @@ import type {
 	LevelChunk,
 	Login,
 	ModalFormRequest,
+	ModalFormResponse,
 	MovePlayer,
 	NetworkChunkPublisherUpdate,
 	NetworkSettings,
@@ -86,6 +87,7 @@ interface NetworkEvents {
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequest>];
+	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponse>];
 	[Packet.SetLocalPlayerAsInitialized]: [NetworkPacketEvent<SetLocalPlayerAsInitialized>];
 	[Packet.NetworkChunkPublisherUpdate]: [NetworkPacketEvent<NetworkChunkPublisherUpdate>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];

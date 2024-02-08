@@ -32,6 +32,7 @@ export * from './ChunkRadiusUpdate';
 export * from './CommandRequest';
 export * from './SetTitle';
 export * from './ModalFormRequest';
+export * from './ModalFormResponse';
 export * from './SetLocalPlayerAsInitialized';
 export * from './NetworkChunkPublisherUpdate';
 export * from './BiomeDefinitionList';
