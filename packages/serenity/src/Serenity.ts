@@ -6,6 +6,7 @@ import {
 	DisconnectReason,
 } from '@serenityjs/bedrock-protocol';
 import { Server } from '@serenityjs/raknet-server';
+import { ServerProperties, WorldParser } from './build';
 import { Logger } from './console';
 import type { AbstractEvent } from './events';
 import { SERENITY_EVENTS } from './events';
@@ -19,6 +20,7 @@ import { World } from './world';
 
 class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly logger: Logger;
+	public readonly properties: ServerProperties;
 	public readonly server: Server;
 	public readonly protocol: number;
 	public readonly version: string;
@@ -27,13 +29,22 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly network: Network;
 	public readonly players: Map<string, Player>;
 	public readonly world: World; // This is temporary.
+	public readonly worlds: Map<string, World>;
 
 	public constructor(options: SerenityOptions) {
 		super();
 
 		Logger.DEBUG = options.debug ?? false;
 		this.logger = new Logger('Serenity', '#a742f5');
-		this.server = new Server(options.address, options.port, options.maxConnections);
+		this.properties = new ServerProperties(this.logger);
+
+		new WorldParser(this.logger);
+
+		this.server = new Server(
+			this.properties.values.address,
+			this.properties.values.port,
+			this.properties.values.maxConnections,
+		);
 		this.protocol = options.protocol ?? PROTOCOL_VERSION;
 		this.version = options.version ?? MINECRAFT_VERSION;
 
@@ -41,6 +52,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		this.network = new Network(this);
 		this.players = new Map();
 		this.world = new World(this); // This is the default world.
+		this.worlds = new Map();
 
 		if (Logger.DEBUG) this.logger.info('Software is running in debug mode. Debug messages will now be shown.');
 
@@ -147,7 +159,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		});
 
 		// Check if the server started successfully.
-		const start = this.server.start(this.protocol, this.version);
+		const start = this.server.start(this.protocol, this.version, this.properties.values.motd);
 		if (!start) {
 			this.logger.error(
 				`Failed to start server on ${this.server.address}:${this.server.port}, make sure the port is not already in use or the server is not already running.`,
