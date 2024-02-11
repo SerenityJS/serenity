@@ -1,20 +1,61 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { UseItemOnEntityAction } from '../enums';
-import { Item, type ItemEntry } from './Item';
-import { Vector3f, type Vec3f } from './Vector3f';
-
-interface TransactionUseItemOnEntityEntry {
-	action: UseItemOnEntityAction;
-	clickPosition: Vec3f;
-	entityRuntimeId: bigint;
-	heldItem: ItemEntry;
-	hotbarSlot: number;
-	playerPosition: Vec3f;
-}
+import { Item } from './Item';
+import { Vector3f } from './Vector3f';
 
 class TransactionUseItemOnEntity extends DataType {
-	public static override read(stream: BinaryStream): TransactionUseItemOnEntityEntry {
+	/**
+	 * The action.
+	 */
+	public action: UseItemOnEntityAction;
+
+	/**
+	 * The click position.
+	 */
+	public clickPosition: Vector3f;
+
+	/**
+	 * The entity runtime id.
+	 */
+	public entityRuntimeId: bigint;
+
+	/**
+	 * The held item.
+	 */
+	public heldItem: Item;
+
+	/**
+	 * The hotbar slot.
+	 */
+	public hotbarSlot: number;
+
+	/**
+	 * The player position.
+	 */
+	public playerPosition: Vector3f;
+
+	/**
+	 * Creates a new TransactionUseItemOnEntity.
+	 */
+	public constructor(
+		action: UseItemOnEntityAction,
+		clickPosition: Vector3f,
+		entityRuntimeId: bigint,
+		heldItem: Item,
+		hotbarSlot: number,
+		playerPosition: Vector3f,
+	) {
+		super();
+		this.action = action;
+		this.clickPosition = clickPosition;
+		this.entityRuntimeId = entityRuntimeId;
+		this.heldItem = heldItem;
+		this.hotbarSlot = hotbarSlot;
+		this.playerPosition = playerPosition;
+	}
+
+	public static override read(stream: BinaryStream): TransactionUseItemOnEntity {
 		// Read the entity runtime id.
 		const entityRuntimeId = stream.readVarLong();
 
@@ -34,17 +75,10 @@ class TransactionUseItemOnEntity extends DataType {
 		const clickPosition = Vector3f.read(stream);
 
 		// Return the TransactionUseItemOnEntityEntry.
-		return {
-			entityRuntimeId,
-			action,
-			clickPosition,
-			heldItem,
-			hotbarSlot,
-			playerPosition,
-		};
+		return new TransactionUseItemOnEntity(action, clickPosition, entityRuntimeId, heldItem, hotbarSlot, playerPosition);
 	}
 
-	public static override write(stream: BinaryStream, value: TransactionUseItemOnEntityEntry): void {
+	public static override write(stream: BinaryStream, value: TransactionUseItemOnEntity): void {
 		// Write the entity runtime id.
 		stream.writeVarLong(value.entityRuntimeId);
 
@@ -65,4 +99,4 @@ class TransactionUseItemOnEntity extends DataType {
 	}
 }
 
-export { TransactionUseItemOnEntity, type TransactionUseItemOnEntityEntry };
+export { TransactionUseItemOnEntity };

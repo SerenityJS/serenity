@@ -1,16 +1,20 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { ItemLegacy, type ItemStackLegacy } from './ItemLegacy';
-
-interface CreativeItem {
-	entryId: number;
-	item: ItemStackLegacy;
-}
+import { ItemLegacy } from './ItemLegacy';
 
 class CreativeItems extends DataType {
-	public static override read(stream: BinaryStream): CreativeItem[] {
+	public entryId: number;
+	public item: ItemLegacy;
+
+	public constructor(entryId: number, item: ItemLegacy) {
+		super();
+		this.entryId = entryId;
+		this.item = item;
+	}
+
+	public static override read(stream: BinaryStream): CreativeItems[] {
 		// Prepare an array to store the items.
-		const items: CreativeItem[] = [];
+		const items: CreativeItems[] = [];
 
 		// Read the number of items.
 		const amount = stream.readVarInt();
@@ -23,17 +27,14 @@ class CreativeItems extends DataType {
 			const item = ItemLegacy.read(stream);
 
 			// Push the item to the array.
-			items.push({
-				entryId,
-				item,
-			});
+			items.push(new CreativeItems(entryId, item));
 		}
 
 		// Return the items.
 		return items;
 	}
 
-	public static override write(stream: BinaryStream, value: CreativeItem[]): void {
+	public static override write(stream: BinaryStream, value: CreativeItems[]): void {
 		// Write the number of items given in the array.
 		stream.writeVarInt(value.length);
 
@@ -46,4 +47,4 @@ class CreativeItems extends DataType {
 	}
 }
 
-export { CreativeItems, type CreativeItem };
+export { CreativeItems };

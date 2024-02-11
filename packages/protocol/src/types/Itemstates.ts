@@ -2,16 +2,21 @@ import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface Itemstate {
-	componentBased: boolean;
-	name: string;
-	runtimeId: number;
-}
-
 class Itemstates extends DataType {
-	public static override read(stream: BinaryStream): Itemstate[] {
+	public componentBased: boolean;
+	public name: string;
+	public runtimeId: number;
+
+	public constructor(componentBased: boolean, name: string, runtimeId: number) {
+		super();
+		this.componentBased = componentBased;
+		this.name = name;
+		this.runtimeId = runtimeId;
+	}
+
+	public static override read(stream: BinaryStream): Itemstates[] {
 		// Prepare an array to store the states.
-		const states: Itemstate[] = [];
+		const states: Itemstates[] = [];
 
 		// Read the number of states.
 		const amount = stream.readVarInt();
@@ -25,18 +30,14 @@ class Itemstates extends DataType {
 			const componentBased = stream.readBool();
 
 			// Push the state to the array.
-			states.push({
-				name,
-				runtimeId,
-				componentBased,
-			});
+			states.push(new Itemstates(componentBased, name, runtimeId));
 		}
 
 		// Return the states.
 		return states;
 	}
 
-	public static override write(stream: BinaryStream, value: Itemstate[]): void {
+	public static override write(stream: BinaryStream, value: Itemstates[]): void {
 		// Write the number of states given in the array.
 		stream.writeVarInt(value.length);
 
@@ -50,4 +51,4 @@ class Itemstates extends DataType {
 	}
 }
 
-export { Itemstates, type Itemstate };
+export { Itemstates };

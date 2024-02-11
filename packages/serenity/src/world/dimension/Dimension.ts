@@ -8,7 +8,7 @@ import {
 	UpdateBlockLayerType,
 	DimensionType,
 } from '@serenityjs/bedrock-protocol';
-import type { DataPacket, Vec3f } from '@serenityjs/bedrock-protocol';
+import type { DataPacket, Vector3f } from '@serenityjs/bedrock-protocol';
 import { Logger } from '../../console';
 import { Player } from '../../player';
 import type { DimensionProperties } from '../../types';
@@ -27,7 +27,7 @@ class Dimension {
 	public readonly players: Set<bigint>;
 
 	public generator: TerrainGenerator;
-	public spawn: Vec3f;
+	public spawn: Vector3f;
 	public viewDistance: number = 64;
 
 	public constructor(
@@ -176,10 +176,10 @@ class Dimension {
 	 */
 	public getChunkFromHash(hash: bigint): Chunk {
 		// Calulate the x and z values
-		const vec2f = Chunk.fromHash(hash);
+		const coords = Chunk.fromHash(hash);
 
 		// Return the chunk
-		return this.getChunk(vec2f.x, vec2f.z);
+		return this.getChunk(coords.x, coords.z);
 	}
 
 	public getSpawnChunks(): Chunk[] {

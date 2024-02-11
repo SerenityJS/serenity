@@ -2,15 +2,19 @@ import type { BinaryStream } from '@serenityjs/binarystream';
 import { LightNBT } from '@serenityjs/nbt';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface BlockProperty {
-	name: string;
-	nbt: any;
-}
-
 class BlockProperties extends DataType {
-	public static override read(stream: BinaryStream): BlockProperty[] {
+	public name: string;
+	public nbt: any;
+
+	public constructor(name: string, nbt: any) {
+		super();
+		this.name = name;
+		this.nbt = nbt;
+	}
+
+	public static override read(stream: BinaryStream): BlockProperties[] {
 		// Prepare an array to store the properties.
-		const properties: BlockProperty[] = [];
+		const properties: BlockProperties[] = [];
 
 		// Read the number of properties.
 		const amount = stream.readVarInt();
@@ -25,17 +29,14 @@ class BlockProperties extends DataType {
 			const nbt = LightNBT.ReadRootTag(stream);
 
 			// Push the rule to the array.
-			properties.push({
-				name,
-				nbt,
-			});
+			properties.push(new BlockProperties(name, nbt));
 		}
 
 		// Return the properties.
 		return properties;
 	}
 
-	public static override write(stream: BinaryStream, value: BlockProperty[]): void {
+	public static override write(stream: BinaryStream, value: BlockProperties[]): void {
 		// Write the number of properties given in the array.
 		stream.writeVarInt(value.length);
 
@@ -50,4 +51,4 @@ class BlockProperties extends DataType {
 	}
 }
 
-export { BlockProperties, type BlockProperty };
+export { BlockProperties };

@@ -1,18 +1,22 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface TransactionLegacyEntry {
-	requestId: number;
-	transactions: Transactions[] | null;
-}
-
 interface Transactions {
 	changedSlots: number[];
 	containerId: number;
 }
 
 class TransactionLegacy extends DataType {
-	public static override read(stream: BinaryStream): TransactionLegacyEntry {
+	public requestId: number;
+	public transactions: Transactions[] | null;
+
+	public constructor(requestId: number, transactions: Transactions[] | null) {
+		super();
+		this.requestId = requestId;
+		this.transactions = transactions;
+	}
+
+	public static override read(stream: BinaryStream): TransactionLegacy {
 		// Read the request id.
 		const requestId = stream.readZigZag();
 
@@ -61,13 +65,10 @@ class TransactionLegacy extends DataType {
 		}
 
 		// Return the transaction.
-		return {
-			requestId,
-			transactions,
-		};
+		return new TransactionLegacy(requestId, transactions);
 	}
 
-	public static override write(stream: BinaryStream, value: TransactionLegacyEntry): void {
+	public static override write(stream: BinaryStream, value: TransactionLegacy): void {
 		// Write the request id.
 		stream.writeZigZag(value.requestId);
 
@@ -95,4 +96,4 @@ class TransactionLegacy extends DataType {
 	}
 }
 
-export { TransactionLegacy, type TransactionLegacyEntry };
+export { TransactionLegacy };

@@ -1,16 +1,19 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
-import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface PackLink {
-	id: string;
-	url: string;
-}
-
 class PackLinks extends DataType {
-	public static override read(stream: BinaryStream): PackLink[] {
+	public id: string;
+	public url: string;
+
+	public constructor(id: string, url: string) {
+		super();
+		this.id = id;
+		this.url = url;
+	}
+
+	public static override read(stream: BinaryStream): PackLinks[] {
 		// Prepare an array to store the packs.
-		const packs: PackLink[] = [];
+		const packs: PackLinks[] = [];
 
 		// Read the number of packs.
 		const amount = stream.readVarInt();
@@ -23,17 +26,14 @@ class PackLinks extends DataType {
 			const url = stream.readVarString();
 
 			// Push the pack to the array.
-			packs.push({
-				id,
-				url,
-			});
+			packs.push(new PackLinks(id, url));
 		}
 
 		// Return the packs.
 		return packs;
 	}
 
-	public static override write(stream: BinaryStream, value: PackLink[]): void {
+	public static override write(stream: BinaryStream, value: PackLinks[]): void {
 		// Write the number of packs given in the array.
 		stream.writeVarInt(value.length);
 
@@ -46,4 +46,4 @@ class PackLinks extends DataType {
 	}
 }
 
-export { PackLinks, type PackLink };
+export { PackLinks };

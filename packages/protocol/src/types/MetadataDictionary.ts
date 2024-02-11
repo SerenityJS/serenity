@@ -5,17 +5,23 @@ import type { MetadataFlags } from '../enums';
 import { MetadataType, MetadataKey } from '../enums';
 import { Vector3f } from './Vector3f';
 
-interface Metadata<T> {
-	flag?: MetadataFlags;
-	key: MetadataKey;
-	type: MetadataType;
-	value: T;
-}
-
 class MetadataDictionary extends DataType {
-	public static override read(stream: BinaryStream): Metadata<any>[] {
+	public flag?: MetadataFlags;
+	public key: MetadataKey;
+	public type: MetadataType;
+	public value: any;
+
+	public constructor(key: MetadataKey, type: MetadataType, value: any, flag?: MetadataFlags) {
+		super();
+		this.key = key;
+		this.type = type;
+		this.value = value;
+		this.flag = flag;
+	}
+
+	public static override read(stream: BinaryStream): MetadataDictionary[] {
 		// Prepare an array to store the metadata.
-		const metadata: Metadata<any>[] = [];
+		const metadata: MetadataDictionary[] = [];
 
 		// Read the number of metadata.
 		const amount = stream.readVarInt();
@@ -78,11 +84,7 @@ class MetadataDictionary extends DataType {
 				}
 
 				// Push the metadata to the array.
-				metadata.push({
-					key,
-					type,
-					value,
-				});
+				metadata.push(new MetadataDictionary(key, type, value));
 			}
 		}
 
@@ -91,7 +93,7 @@ class MetadataDictionary extends DataType {
 	}
 
 	// TODO: Finish this
-	public static override write(stream: BinaryStream, value: Metadata<any>[]): void {
+	public static override write(stream: BinaryStream, value: MetadataDictionary[]): void {
 		// Write the number of metadata given in the array.
 		stream.writeVarInt(value.length);
 
@@ -170,4 +172,4 @@ class MetadataDictionary extends DataType {
 	}
 }
 
-export { MetadataDictionary, type Metadata };
+export { MetadataDictionary };

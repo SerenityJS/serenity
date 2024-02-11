@@ -21,6 +21,6 @@
 		"@serenityjs/bedrock-data": "^0.0.3",
 		"@serenityjs/binarystream": "^1.2.3",
 		"@serenityjs/nbt": "^1.0.0",
-		"@serenityjs/raknet-protocol": "^1.0.5"
+		"@serenityjs/raknet-protocol": "^1.0.7"
 	}
 }

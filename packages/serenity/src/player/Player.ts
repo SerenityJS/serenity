@@ -9,7 +9,14 @@ import {
 	SetPlayerGameType,
 	Text,
 } from '@serenityjs/bedrock-protocol';
-import type { DisconnectReason, Vec2f, Vec3f, RespawnState, Gamemode, FormType } from '@serenityjs/bedrock-protocol';
+import type {
+	DisconnectReason,
+	Vector2f,
+	RespawnState,
+	Gamemode,
+	FormType,
+	Vector3f,
+} from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
@@ -58,8 +65,8 @@ class Player {
 	protected world: World;
 	protected dimension: Dimension;
 
-	public position: Vec3f;
-	public rotation: Vec2f;
+	public position: Vector3f;
+	public rotation: Vector2f;
 	public headYaw: number = 0;
 	public onGround: boolean = false;
 
@@ -214,7 +221,7 @@ class Player {
 	 * @param position The position to respawn the player at.
 	 * @param state The respawn state.
 	 */
-	public respawn(position: Vec3f, state: RespawnState): void {
+	public respawn(position: Vector3f, state: RespawnState): void {
 		// Create a new respawn packet.
 		const packet = new Respawn();
 

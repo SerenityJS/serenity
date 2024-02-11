@@ -3,15 +3,6 @@ import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { Attribute } from '../enums';
 
-interface PlayerAttribute {
-	current: number;
-	default: number;
-	max: number;
-	min: number;
-	modifiers: AttributeModifier[];
-	name: Attribute;
-}
-
 interface AttributeModifier {
 	amount: number;
 	id: string;
@@ -22,9 +13,33 @@ interface AttributeModifier {
 }
 
 class PlayerAttributes extends DataType {
-	public static override read(stream: BinaryStream): PlayerAttribute[] {
+	public current: number;
+	public default: number;
+	public max: number;
+	public min: number;
+	public modifiers: AttributeModifier[];
+	public name: Attribute;
+
+	public constructor(
+		current: number,
+		default_: number,
+		max: number,
+		min: number,
+		modifiers: AttributeModifier[],
+		name: Attribute,
+	) {
+		super();
+		this.current = current;
+		this.default = default_;
+		this.max = max;
+		this.min = min;
+		this.modifiers = modifiers;
+		this.name = name;
+	}
+
+	public static override read(stream: BinaryStream): PlayerAttributes[] {
 		// Prepare an array to store the attributes.
-		const attributes: PlayerAttribute[] = [];
+		const attributes: PlayerAttributes[] = [];
 
 		// Read the number of attributes.
 		const amount = stream.readVarInt();
@@ -68,21 +83,14 @@ class PlayerAttributes extends DataType {
 			}
 
 			// Push the attribute to the array.
-			attributes.push({
-				current,
-				default: default_,
-				max,
-				min,
-				modifiers,
-				name,
-			});
+			attributes.push(new PlayerAttributes(current, default_, max, min, modifiers, name));
 		}
 
 		// Return the attributes.
 		return attributes;
 	}
 
-	public static override write(stream: BinaryStream, value: PlayerAttribute[]): void {
+	public static override write(stream: BinaryStream, value: PlayerAttributes[]): void {
 		// Write the amount of attributes.
 		stream.writeVarInt(value.length);
 
@@ -112,4 +120,4 @@ class PlayerAttributes extends DataType {
 	}
 }
 
-export { PlayerAttributes, type PlayerAttribute };
+export { PlayerAttributes };

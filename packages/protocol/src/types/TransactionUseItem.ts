@@ -1,23 +1,42 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { UseItemAction } from '../enums';
-import { BlockCoordinates, type BlockCoordinate } from './BlockCoordinates';
-import { Item, type ItemEntry } from './Item';
-import { Vector3f, type Vec3f } from './Vector3f';
-
-interface TransactionUseItemEntry {
-	action: UseItemAction;
-	blockPosition: BlockCoordinate;
-	blockRuntimeId: number;
-	clickPosition: Vec3f;
-	face: number;
-	heldItem: ItemEntry;
-	hotbarSlot: number;
-	playerPosition: Vec3f;
-}
+import { BlockCoordinates } from './BlockCoordinates';
+import { Item } from './Item';
+import { Vector3f } from './Vector3f';
 
 class TransactionUseItem extends DataType {
-	public static override read(stream: BinaryStream): TransactionUseItemEntry {
+	public action: UseItemAction;
+	public blockPosition: BlockCoordinates;
+	public blockRuntimeId: number;
+	public clickPosition: Vector3f;
+	public face: number;
+	public heldItem: Item;
+	public hotbarSlot: number;
+	public playerPosition: Vector3f;
+
+	public constructor(
+		action: UseItemAction,
+		blockPosition: BlockCoordinates,
+		blockRuntimeId: number,
+		clickPosition: Vector3f,
+		face: number,
+		heldItem: Item,
+		hotbarSlot: number,
+		playerPosition: Vector3f,
+	) {
+		super();
+		this.action = action;
+		this.blockPosition = blockPosition;
+		this.blockRuntimeId = blockRuntimeId;
+		this.clickPosition = clickPosition;
+		this.face = face;
+		this.heldItem = heldItem;
+		this.hotbarSlot = hotbarSlot;
+		this.playerPosition = playerPosition;
+	}
+
+	public static override read(stream: BinaryStream): TransactionUseItem {
 		// Read the action.
 		const action = stream.readVarInt();
 
@@ -42,8 +61,8 @@ class TransactionUseItem extends DataType {
 		// Read the block runtime id.
 		const blockRuntimeId = stream.readVarInt();
 
-		// Return the TransactionUseItemEntry.
-		return {
+		// Return the TransactionUseItem.
+		return new TransactionUseItem(
 			action,
 			blockPosition,
 			blockRuntimeId,
@@ -52,10 +71,10 @@ class TransactionUseItem extends DataType {
 			heldItem,
 			hotbarSlot,
 			playerPosition,
-		};
+		);
 	}
 
-	public static override write(stream: BinaryStream, value: TransactionUseItemEntry): void {
+	public static override write(stream: BinaryStream, value: TransactionUseItem): void {
 		// Write the action.
 		stream.writeVarInt(value.action);
 
@@ -82,4 +101,4 @@ class TransactionUseItem extends DataType {
 	}
 }
 
-export { TransactionUseItem, type TransactionUseItemEntry };
+export { TransactionUseItem };

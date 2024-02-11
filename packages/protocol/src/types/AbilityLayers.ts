@@ -4,13 +4,6 @@ import { DataType } from '@serenityjs/raknet-protocol';
 import type { AbilityLayerType } from '../enums';
 import { MoveMode, AbilityLayerFlag } from '../enums';
 
-interface AbilityLayer {
-	flags: AbilityFlag[];
-	flySpeed: number;
-	type: AbilityLayerType;
-	walkSpeed: number;
-}
-
 interface AbilityFlag {
 	flag: AbilityLayerFlag;
 	value: boolean;
@@ -22,9 +15,22 @@ interface EncodedAbilityFlags {
 }
 
 class AbilityLayers extends DataType {
-	public static override read(stream: BinaryStream): AbilityLayer[] {
+	public flags: AbilityFlag[];
+	public flySpeed: number;
+	public type: AbilityLayerType;
+	public walkSpeed: number;
+
+	public constructor(flags: AbilityFlag[], flySpeed: number, type: AbilityLayerType, walkSpeed: number) {
+		super();
+		this.flags = flags;
+		this.flySpeed = flySpeed;
+		this.type = type;
+		this.walkSpeed = walkSpeed;
+	}
+
+	public static override read(stream: BinaryStream): AbilityLayers[] {
 		// Prepare an array to store the layers.
-		const layers: AbilityLayer[] = [];
+		const layers: AbilityLayers[] = [];
 
 		// Read the number of layers.
 		const amount = stream.readUint8();
@@ -41,19 +47,14 @@ class AbilityLayers extends DataType {
 			const walkSpeed = stream.readFloat32(Endianness.Little);
 
 			// Push the layer to the array.
-			layers.push({
-				flags,
-				flySpeed,
-				type,
-				walkSpeed,
-			});
+			layers.push(new AbilityLayers(flags, flySpeed, type, walkSpeed));
 		}
 
 		// Return the layers.
 		return layers;
 	}
 
-	public static override write(stream: BinaryStream, value: AbilityLayer[]): void {
+	public static override write(stream: BinaryStream, value: AbilityLayers[]): void {
 		// Write the amount of layers.
 		stream.writeUint8(value.length);
 
@@ -99,4 +100,4 @@ class AbilityLayers extends DataType {
 	}
 }
 
-export { AbilityLayers, type AbilityLayer };
+export { AbilityLayers };

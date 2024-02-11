@@ -2,32 +2,51 @@ import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { TransactionType } from '../enums';
 import type { ItemReleaseAction, UseItemOnEntityAction, UseItemAction } from '../enums';
-import type { BlockCoordinate } from './BlockCoordinates';
-import type { ItemEntry } from './Item';
+import type { BlockCoordinates } from './BlockCoordinates';
+import type { Item } from './Item';
 import { TransactionItemRelease } from './TransactionItemRelease';
 import { TransactionUseItem } from './TransactionUseItem';
 import { TransactionUseItemOnEntity } from './TransactionUseItemOnEntity';
-import type { Vec3f } from './Vector3f';
-
-interface TransactionDataEntry {
-	action: ItemReleaseAction | UseItemAction | UseItemOnEntityAction | null;
-	blockPosition: BlockCoordinate | null;
-	blockRuntimeId: number | null;
-	clickPosition: Vec3f | null;
-	entityRuntimeId: bigint | null;
-	face: number | null;
-	headPosition: Vec3f | null;
-	heldItem: ItemEntry | null;
-	hotbarSlot: number | null;
-	playerPosition: Vec3f | null;
-}
+import type { Vector3f } from './Vector3f';
 
 class TransactionData extends DataType {
-	public static override read(
-		stream: BinaryStream,
-		endian: Endianness,
-		type: TransactionType,
-	): TransactionDataEntry | null {
+	public action: ItemReleaseAction | UseItemAction | UseItemOnEntityAction | null;
+	public blockPosition: BlockCoordinates | null;
+	public blockRuntimeId: number | null;
+	public clickPosition: Vector3f | null;
+	public entityRuntimeId: bigint | null;
+	public face: number | null;
+	public headPosition: Vector3f | null;
+	public heldItem: Item | null;
+	public hotbarSlot: number | null;
+	public playerPosition: Vector3f | null;
+
+	public constructor(
+		action: ItemReleaseAction | UseItemAction | UseItemOnEntityAction | null,
+		blockPosition: BlockCoordinates | null,
+		blockRuntimeId: number | null,
+		clickPosition: Vector3f | null,
+		entityRuntimeId: bigint | null,
+		face: number | null,
+		headPosition: Vector3f | null,
+		heldItem: Item | null,
+		hotbarSlot: number | null,
+		playerPosition: Vector3f | null,
+	) {
+		super();
+		this.action = action;
+		this.blockPosition = blockPosition;
+		this.blockRuntimeId = blockRuntimeId;
+		this.clickPosition = clickPosition;
+		this.entityRuntimeId = entityRuntimeId;
+		this.face = face;
+		this.headPosition = headPosition;
+		this.heldItem = heldItem;
+		this.hotbarSlot = hotbarSlot;
+		this.playerPosition = playerPosition;
+	}
+
+	public static override read(stream: BinaryStream, endian: Endianness, type: TransactionType): TransactionData | null {
 		// Check if the type is Normal or InventoryMismatch.
 		if (type === TransactionType.Normal || type === TransactionType.InventoryMismatch) return null;
 
@@ -36,7 +55,7 @@ class TransactionData extends DataType {
 			// Read the data.
 			const data = TransactionUseItem.read(stream);
 
-			// Return the TransactionUseItemEntry.
+			// Return the TransactionUseItem.
 			return {
 				headPosition: null,
 				entityRuntimeId: null,
@@ -79,7 +98,7 @@ class TransactionData extends DataType {
 		return null;
 	}
 
-	public static override write(stream: BinaryStream, value: TransactionDataEntry): void {}
+	public static override write(stream: BinaryStream, value: TransactionData): void {}
 }
 
-export { TransactionData, type TransactionDataEntry };
+export { TransactionData };

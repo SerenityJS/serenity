@@ -1,29 +1,29 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
-import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface BlockCoordinate {
-	x: number;
-	y: number;
-	z: number;
-}
-
 class BlockCoordinates extends DataType {
-	public static override read(stream: BinaryStream): BlockCoordinate {
+	public x: number;
+	public y: number;
+	public z: number;
+
+	public constructor(x: number, y: number, z: number) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	public static override read(stream: BinaryStream): BlockCoordinates {
 		// Reads a x, y, z float from the stream
 		const x = stream.readZigZag();
 		const y = stream.readVarInt();
 		const z = stream.readZigZag();
 
 		// Returns the x, y, z float
-		return {
-			x,
-			y,
-			z,
-		};
+		return new BlockCoordinates(x, y, z);
 	}
 
-	public static override write(stream: BinaryStream, value: BlockCoordinate): void {
+	public static override write(stream: BinaryStream, value: BlockCoordinates): void {
 		// Writes a x, y, z float to the stream
 		stream.writeZigZag(value.x);
 		stream.writeVarInt(value.y);
@@ -31,4 +31,4 @@ class BlockCoordinates extends DataType {
 	}
 }
 
-export { BlockCoordinates, type BlockCoordinate };
+export { BlockCoordinates };

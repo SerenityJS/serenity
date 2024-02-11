@@ -7,13 +7,17 @@ interface EntityPropertyData {
 	value: number;
 }
 
-interface EntityProperty {
-	floats: EntityPropertyData[];
-	ints: EntityPropertyData[];
-}
-
 class EntityProperties extends DataType {
-	public static override read(stream: BinaryStream): EntityProperty {
+	public floats: EntityPropertyData[];
+	public ints: EntityPropertyData[];
+
+	public constructor(floats: EntityPropertyData[], ints: EntityPropertyData[]) {
+		super();
+		this.floats = floats;
+		this.ints = ints;
+	}
+
+	public static override read(stream: BinaryStream): EntityProperties {
 		// Prepare an array to store the ints.
 		const ints: EntityPropertyData[] = [];
 
@@ -55,13 +59,10 @@ class EntityProperties extends DataType {
 		}
 
 		// Return the properties.
-		return {
-			floats,
-			ints,
-		};
+		return new EntityProperties(floats, ints);
 	}
 
-	public static override write(stream: BinaryStream, value: EntityProperty): void {
+	public static override write(stream: BinaryStream, value: EntityProperties): void {
 		// Write the number of ints given in the array.
 		stream.writeVarInt(value.ints.length);
 
@@ -84,4 +85,4 @@ class EntityProperties extends DataType {
 	}
 }
 
-export { EntityProperties, type EntityProperty };
+export { EntityProperties };

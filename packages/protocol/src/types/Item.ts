@@ -4,16 +4,6 @@ import type { NBTSerializable, NBTCompoud } from '@serenityjs/nbt';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { NBTTagItemData } from './NBTTypes';
 
-interface ItemEntry {
-	blockRuntimeId?: number | null;
-	count: number | null;
-	extras: ItemExtras | null;
-	hasStackId: boolean | null;
-	metadata: number | null;
-	networkId: number;
-	stackId: number | null;
-}
-
 interface ItemExtras {
 	canDestroy: string[];
 	canPlaceOn: string[];
@@ -23,21 +13,40 @@ interface ItemExtras {
 }
 
 class Item extends DataType {
-	public static override read(stream: BinaryStream): ItemEntry {
+	public blockRuntimeId: number | null;
+	public count: number | null;
+	public extras: ItemExtras | null;
+	public hasStackId: boolean | null;
+	public metadata: number | null;
+	public networkId: number;
+	public stackId: number | null;
+
+	public constructor(
+		networkId: number,
+		count: number | null,
+		metadata: number | null,
+		blockRuntimeId: number | null,
+		extras: ItemExtras | null,
+		hasStackId: boolean | null,
+		stackId: number | null,
+	) {
+		super();
+		this.networkId = networkId;
+		this.count = count ?? null;
+		this.metadata = metadata ?? null;
+		this.blockRuntimeId = blockRuntimeId ?? null;
+		this.extras = extras ?? null;
+		this.hasStackId = hasStackId ?? null;
+		this.stackId = stackId ?? null;
+	}
+
+	public static override read(stream: BinaryStream): Item {
 		// Gets the network id of the value.
 		const networkId = stream.readZigZag();
 
 		// Checks if the network id is 0.
 		// If it is, then we return an empty value. (air)
-		if (networkId === 0)
-			return {
-				count: null,
-				extras: null,
-				hasStackId: null,
-				metadata: null,
-				networkId,
-				stackId: null,
-			};
+		if (networkId === 0) return new Item(networkId, null, null, null, null, null, null);
 
 		// Read the rest of the value.
 		const count = stream.readUint16(Endianness.Little);
@@ -94,18 +103,10 @@ class Item extends DataType {
 			ticking,
 		};
 
-		return {
-			blockRuntimeId,
-			count,
-			extras: extrasObjs,
-			hasStackId,
-			metadata,
-			networkId,
-			stackId,
-		};
+		return new Item(networkId, count, metadata, blockRuntimeId, extrasObjs, hasStackId, stackId);
 	}
 
-	public static override write(stream: BinaryStream, value: ItemEntry): void {
+	public static override write(stream: BinaryStream, value: Item): void {
 		// Write the network id.
 		stream.writeZigZag(value.networkId);
 
@@ -161,4 +162,4 @@ class Item extends DataType {
 	}
 }
 
-export { Item, type ItemEntry, type ItemExtras };
+export { Item, type ItemExtras };

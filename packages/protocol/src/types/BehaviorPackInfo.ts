@@ -2,20 +2,37 @@ import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface BehaviorPack {
-	contentIdentity: string;
-	contentKey: string;
-	hasScripts: boolean;
-	size: number;
-	subpackName: string;
-	uuid: string;
-	version: string;
-}
-
 class BehaviorPackInfo extends DataType {
-	public static override read(stream: BinaryStream): BehaviorPack[] {
+	public contentIdentity: string;
+	public contentKey: string;
+	public hasScripts: boolean;
+	public size: number;
+	public subpackName: string;
+	public uuid: string;
+	public version: string;
+
+	public constructor(
+		contentIdentity: string,
+		contentKey: string,
+		hasScripts: boolean,
+		size: number,
+		subpackName: string,
+		uuid: string,
+		version: string,
+	) {
+		super();
+		this.contentIdentity = contentIdentity;
+		this.contentKey = contentKey;
+		this.hasScripts = hasScripts;
+		this.size = size;
+		this.subpackName = subpackName;
+		this.uuid = uuid;
+		this.version = version;
+	}
+
+	public static override read(stream: BinaryStream): BehaviorPackInfo[] {
 		// Prepare an array to store the packs.
-		const packs: BehaviorPack[] = [];
+		const packs: BehaviorPackInfo[] = [];
 
 		// Read the number of packs.
 		const amount = stream.readInt16(Endianness.Little);
@@ -33,22 +50,14 @@ class BehaviorPackInfo extends DataType {
 			const hasScripts = stream.readBool();
 
 			// Push the pack to the array.
-			packs.push({
-				contentIdentity,
-				contentKey,
-				hasScripts,
-				size,
-				subpackName,
-				uuid,
-				version,
-			});
+			packs.push(new BehaviorPackInfo(contentIdentity, contentKey, hasScripts, size, subpackName, uuid, version));
 		}
 
 		// Return the packs.
 		return packs;
 	}
 
-	public static override write(stream: BinaryStream, value: BehaviorPack[]): void {
+	public static override write(stream: BinaryStream, value: BehaviorPackInfo[]): void {
 		// Write the number of packs given in the array.
 		stream.writeInt16(value.length, Endianness.Little);
 
@@ -66,4 +75,4 @@ class BehaviorPackInfo extends DataType {
 	}
 }
 
-export { BehaviorPackInfo, type BehaviorPack };
+export { BehaviorPackInfo };

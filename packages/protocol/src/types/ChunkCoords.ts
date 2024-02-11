@@ -2,15 +2,19 @@ import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface ChunkCoord {
-	x: number;
-	z: number;
-}
-
 class ChunkCoords extends DataType {
-	public static override read(stream: BinaryStream): ChunkCoord[] {
+	public x: number;
+	public z: number;
+
+	public constructor(x: number, z: number) {
+		super();
+		this.x = x;
+		this.z = z;
+	}
+
+	public static override read(stream: BinaryStream): ChunkCoords[] {
 		// Prepare an array to store the chunks.
-		const chunks: ChunkCoord[] = [];
+		const chunks: ChunkCoords[] = [];
 
 		// Read the number of chunks.
 		const amount = stream.readUint32(Endianness.Little);
@@ -23,13 +27,14 @@ class ChunkCoords extends DataType {
 			const z = stream.readZigZag();
 
 			// Push the chunk to the array.
+			chunks.push(new ChunkCoords(x, z));
 		}
 
 		// Return the chunks.
 		return chunks;
 	}
 
-	public static override write(stream: BinaryStream, value: ChunkCoord[]): void {
+	public static override write(stream: BinaryStream, value: ChunkCoords[]): void {
 		// Write the number of chunks given in the array.
 		stream.writeUint32(value.length, Endianness.Little);
 
@@ -42,4 +47,4 @@ class ChunkCoords extends DataType {
 	}
 }
 
-export { ChunkCoords, type ChunkCoord };
+export { ChunkCoords };

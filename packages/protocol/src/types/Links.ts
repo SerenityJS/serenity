@@ -1,19 +1,31 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
-import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface Link {
-	immediate: boolean;
-	riddenEntityId: bigint;
-	riderEntityId: bigint;
-	riderInitiated: boolean;
-	type: number;
-}
-
 class Links extends DataType {
-	public static override read(stream: BinaryStream): Link[] {
+	public immediate: boolean;
+	public riddenEntityId: bigint;
+	public riderEntityId: bigint;
+	public riderInitiated: boolean;
+	public type: number;
+
+	public constructor(
+		immediate: boolean,
+		riddenEntityId: bigint,
+		riderEntityId: bigint,
+		riderInitiated: boolean,
+		type: number,
+	) {
+		super();
+		this.immediate = immediate;
+		this.riddenEntityId = riddenEntityId;
+		this.riderEntityId = riderEntityId;
+		this.riderInitiated = riderInitiated;
+		this.type = type;
+	}
+
+	public static override read(stream: BinaryStream): Links[] {
 		// Prepare an array to store the links.
-		const links: Link[] = [];
+		const links: Links[] = [];
 
 		// Read the number of links
 		const amount = stream.readVarInt();
@@ -29,20 +41,14 @@ class Links extends DataType {
 			const riderInitiated = stream.readBool();
 
 			// Push the link to the array.
-			links.push({
-				immediate,
-				riddenEntityId,
-				riderEntityId,
-				riderInitiated,
-				type,
-			});
+			links.push(new Links(immediate, riddenEntityId, riderEntityId, riderInitiated, type));
 		}
 
 		// Return the links.
 		return links;
 	}
 
-	public static override write(stream: BinaryStream, value: Link[]): void {
+	public static override write(stream: BinaryStream, value: Links[]): void {
 		// Write the number of links given in the array.
 		stream.writeVarInt(value.length);
 
@@ -58,4 +64,4 @@ class Links extends DataType {
 	}
 }
 
-export { Links, type Link };
+export { Links };

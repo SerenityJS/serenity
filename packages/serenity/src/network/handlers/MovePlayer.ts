@@ -23,7 +23,7 @@ class MovePlayerHandler extends NetworkHandler {
 		// TODO: Add seperate logic for different move modes.
 		// Set the player's position, rotation, head yaw, and on ground status.
 		player.position = packet.position;
-		player.rotation = { x: packet.pitch, z: packet.yaw };
+		player.rotation = { x: packet.pitch, y: packet.yaw };
 		player.headYaw = packet.headYaw;
 		player.onGround = packet.onGround;
 
@@ -37,7 +37,7 @@ class MovePlayerHandler extends NetworkHandler {
 			move.runtimeId = player.runtimeEntityId;
 			move.position = packet.position;
 			move.pitch = player.rotation.x;
-			move.yaw = player.rotation.z;
+			move.yaw = player.rotation.y;
 			move.headYaw = player.headYaw;
 			move.mode = packet.mode;
 			move.onGround = player.onGround;

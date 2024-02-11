@@ -1,15 +1,19 @@
 import { Endianness, type BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface Experiment {
-	enabled: boolean;
-	name: string;
-}
-
 class Experiments extends DataType {
-	public static override read(stream: BinaryStream): Experiment[] {
+	public enabled: boolean;
+	public name: string;
+
+	public constructor(name: string, enabled: boolean) {
+		super();
+		this.name = name;
+		this.enabled = enabled;
+	}
+
+	public static override read(stream: BinaryStream): Experiments[] {
 		// Prepare an array to store the experiments.
-		const packs: Experiment[] = [];
+		const packs: Experiments[] = [];
 
 		// Read the number of experiments.
 		const amount = stream.readInt32(Endianness.Little);
@@ -22,17 +26,14 @@ class Experiments extends DataType {
 			const enabled = stream.readBool();
 
 			// Push the pack to the array.
-			packs.push({
-				name,
-				enabled,
-			});
+			packs.push(new Experiments(name, enabled));
 		}
 
 		// Return the packs.
 		return packs;
 	}
 
-	public static override write(stream: BinaryStream, value: Experiment[]): void {
+	public static override write(stream: BinaryStream, value: Experiments[]): void {
 		// Write the number of experiments given in the array.
 		stream.writeInt32(value.length, Endianness.Little);
 
@@ -45,4 +46,4 @@ class Experiments extends DataType {
 	}
 }
 
-export { Experiments, type Experiment };
+export { Experiments };

@@ -1,4 +1,3 @@
-import type { ChunkCoord } from '@serenityjs/bedrock-protocol';
 import {
 	ResourceStatus,
 	ResourcePackStack,

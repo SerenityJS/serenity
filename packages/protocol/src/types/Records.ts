@@ -3,22 +3,43 @@ import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { RecordAction } from '../enums';
 
-interface Record {
-	buildPlatform?: number;
-	entityUniqueId?: bigint;
-	isHost?: boolean;
-	isTeacher?: boolean;
-	platformChatId?: string;
-	skin?: Buffer;
-	username?: string;
-	uuid: string;
-	xuid?: string;
-}
-
 class Records extends DataType {
-	public static override read(stream: BinaryStream, endian: Endianness, action: RecordAction): Record[] {
+	public buildPlatform?: number;
+	public entityUniqueId?: bigint;
+	public isHost?: boolean;
+	public isTeacher?: boolean;
+	public platformChatId?: string;
+	public skin?: Buffer;
+	public username?: string;
+	public uuid: string;
+	public xuid?: string;
+
+	public constructor(
+		uuid: string,
+		buildPlatform?: number,
+		entityUniqueId?: bigint,
+		isHost?: boolean,
+		isTeacher?: boolean,
+		platformChatId?: string,
+		skin?: Buffer,
+		username?: string,
+		xuid?: string,
+	) {
+		super();
+		this.buildPlatform = buildPlatform;
+		this.entityUniqueId = entityUniqueId;
+		this.isHost = isHost;
+		this.isTeacher = isTeacher;
+		this.platformChatId = platformChatId;
+		this.skin = skin;
+		this.username = username;
+		this.uuid = uuid;
+		this.xuid = xuid;
+	}
+
+	public static override read(stream: BinaryStream, endian: Endianness, action: RecordAction): Records[] {
 		// Prepare an array to store the records.
-		const records: Record[] = [];
+		const records: Records[] = [];
 
 		// Read the number of records.
 		const amount = stream.readVarInt();
@@ -44,17 +65,9 @@ class Records extends DataType {
 				const isHost = stream.readBool();
 
 				// Push the record to the array.
-				records.push({
-					buildPlatform,
-					entityUniqueId,
-					isHost,
-					isTeacher,
-					platformChatId,
-					skin,
-					username,
-					uuid,
-					xuid,
-				});
+				records.push(
+					new Records(uuid, buildPlatform, entityUniqueId, isHost, isTeacher, platformChatId, skin, username, xuid),
+				);
 			} else {
 				// We only push the uuid to the array.
 				// This is because the other fields are not present.
@@ -68,7 +81,7 @@ class Records extends DataType {
 		return records;
 	}
 
-	public static override write(stream: BinaryStream, value: Record[], endian: Endianness, action: RecordAction): void {
+	public static override write(stream: BinaryStream, value: Records[], endian: Endianness, action: RecordAction): void {
 		// Write the number of records.
 		stream.writeVarInt(value.length);
 
@@ -101,4 +114,4 @@ class Records extends DataType {
 	}
 }
 
-export { Records, type Record };
+export { Records };

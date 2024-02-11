@@ -1,16 +1,21 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface ResourceIdVersion {
-	name: string;
-	uuid: string;
-	version: string;
-}
-
 class ResourceIdVersions extends DataType {
-	public static override read(stream: BinaryStream): ResourceIdVersion[] {
+	public name: string;
+	public uuid: string;
+	public version: string;
+
+	public constructor(name: string, uuid: string, version: string) {
+		super();
+		this.name = name;
+		this.uuid = uuid;
+		this.version = version;
+	}
+
+	public static override read(stream: BinaryStream): ResourceIdVersions[] {
 		// Prepare an array to store the packs.
-		const packs: ResourceIdVersion[] = [];
+		const packs: ResourceIdVersions[] = [];
 
 		// Read the number of packs.
 		const amount = stream.readVarInt();
@@ -24,18 +29,14 @@ class ResourceIdVersions extends DataType {
 			const name = stream.readVarString();
 
 			// Push the pack to the array.
-			packs.push({
-				name,
-				uuid,
-				version,
-			});
+			packs.push(new ResourceIdVersions(name, uuid, version));
 		}
 
 		// Return the packs.
 		return packs;
 	}
 
-	public static override write(stream: BinaryStream, value: ResourceIdVersion[]): void {
+	public static override write(stream: BinaryStream, value: ResourceIdVersions[]): void {
 		// Write the number of packs given in the array.
 		stream.writeVarInt(value.length);
 
@@ -49,4 +50,4 @@ class ResourceIdVersions extends DataType {
 	}
 }
 
-export { ResourceIdVersions, type ResourceIdVersion };
+export { ResourceIdVersions };

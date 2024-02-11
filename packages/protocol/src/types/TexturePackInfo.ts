@@ -2,21 +2,40 @@ import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 
-interface TexturePack {
-	contentIdentity: string;
-	contentKey: string;
-	hasScripts: boolean;
-	rtxEnabled: boolean;
-	size: number;
-	subpackName: string;
-	uuid: string;
-	version: string;
-}
-
 class TexturePackInfo extends DataType {
-	public static override read(stream: BinaryStream): TexturePack[] {
+	public contentIdentity: string;
+	public contentKey: string;
+	public hasScripts: boolean;
+	public rtxEnabled: boolean;
+	public size: number;
+	public subpackName: string;
+	public uuid: string;
+	public version: string;
+
+	public constructor(
+		contentIdentity: string,
+		contentKey: string,
+		hasScripts: boolean,
+		rtxEnabled: boolean,
+		size: number,
+		subpackName: string,
+		uuid: string,
+		version: string,
+	) {
+		super();
+		this.contentIdentity = contentIdentity;
+		this.contentKey = contentKey;
+		this.hasScripts = hasScripts;
+		this.rtxEnabled = rtxEnabled;
+		this.size = size;
+		this.subpackName = subpackName;
+		this.uuid = uuid;
+		this.version = version;
+	}
+
+	public static override read(stream: BinaryStream): TexturePackInfo[] {
 		// Prepare an array to store the packs.
-		const packs: TexturePack[] = [];
+		const packs: TexturePackInfo[] = [];
 
 		// Read the number of packs.
 		const amount = stream.readInt16(Endianness.Little);
@@ -35,23 +54,16 @@ class TexturePackInfo extends DataType {
 			const rtxEnabled = stream.readBool();
 
 			// Push the pack to the array.
-			packs.push({
-				contentIdentity,
-				contentKey,
-				hasScripts,
-				size,
-				subpackName,
-				uuid,
-				version,
-				rtxEnabled,
-			});
+			packs.push(
+				new TexturePackInfo(contentIdentity, contentKey, hasScripts, rtxEnabled, size, subpackName, uuid, version),
+			);
 		}
 
 		// Return the packs.
 		return packs;
 	}
 
-	public static override write(stream: BinaryStream, value: TexturePack[]): void {
+	public static override write(stream: BinaryStream, value: TexturePackInfo[]): void {
 		// Write the number of packs given in the array.
 		stream.writeInt16(value.length, Endianness.Little);
 
@@ -70,4 +82,4 @@ class TexturePackInfo extends DataType {
 	}
 }
 
-export { TexturePackInfo, type TexturePack };
+export { TexturePackInfo };

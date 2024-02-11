@@ -1,7 +1,7 @@
 import {
 	PlayStatus,
 	Login,
-	type Tokens,
+	type LoginTokens,
 	PlayerStatus,
 	DisconnectReason,
 	ResourcePacksInfo,
@@ -112,7 +112,7 @@ class LoginHandler extends NetworkHandler {
 		await session.send(packs);
 	}
 
-	public static decode(tokens: Tokens): LoginTokenData {
+	public static decode(tokens: LoginTokens): LoginTokenData {
 		// Contains data about the users client. (Device, game version, etc.)
 		const clientData: ClientData = this.decoder(tokens.client);
 		// Parse the identity chain data

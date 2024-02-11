@@ -1,18 +1,24 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { ItemReleaseAction } from '../enums';
-import { Item, type ItemEntry } from './Item';
-import { Vector3f, type Vec3f } from './Vector3f';
-
-interface TransactionItemReleaseEntry {
-	action: ItemReleaseAction;
-	headPosition: Vec3f;
-	heldItem: ItemEntry;
-	hotbarSlot: number;
-}
+import { Item } from './Item';
+import { Vector3f } from './Vector3f';
 
 class TransactionItemRelease extends DataType {
-	public static override read(stream: BinaryStream): TransactionItemReleaseEntry {
+	public action: ItemReleaseAction;
+	public headPosition: Vector3f;
+	public heldItem: Item;
+	public hotbarSlot: number;
+
+	public constructor(action: ItemReleaseAction, headPosition: Vector3f, heldItem: Item, hotbarSlot: number) {
+		super();
+		this.action = action;
+		this.headPosition = headPosition;
+		this.heldItem = heldItem;
+		this.hotbarSlot = hotbarSlot;
+	}
+
+	public static override read(stream: BinaryStream): TransactionItemRelease {
 		// Read the action.
 		const action = stream.readVarInt();
 
@@ -25,16 +31,11 @@ class TransactionItemRelease extends DataType {
 		// Read the player head position.
 		const headPosition = Vector3f.read(stream);
 
-		// Return the TransactionItemReleaseEntry.
-		return {
-			action,
-			headPosition,
-			heldItem,
-			hotbarSlot,
-		};
+		// Return the TransactionItemRelease.
+		return new TransactionItemRelease(action, headPosition, heldItem, hotbarSlot);
 	}
 
-	public static override write(stream: BinaryStream, value: TransactionItemReleaseEntry): void {
+	public static override write(stream: BinaryStream, value: TransactionItemRelease): void {
 		// Write the action.
 		stream.writeVarInt(value.action);
 
@@ -49,4 +50,4 @@ class TransactionItemRelease extends DataType {
 	}
 }
 
-export { TransactionItemRelease, type TransactionItemReleaseEntry };
+export { TransactionItemRelease };

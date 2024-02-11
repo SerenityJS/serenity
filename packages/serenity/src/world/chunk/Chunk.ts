@@ -1,5 +1,5 @@
 import type { Buffer } from 'node:buffer';
-import type { Vec2f } from '@serenityjs/bedrock-protocol';
+import { ChunkCoords, Vector2f } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { SubChunk } from './SubChunk';
 import type { BlockPermutation } from './block';
@@ -40,11 +40,8 @@ export class Chunk {
 		return ((BigInt(x) & 0xffffffffn) << 32n) | (BigInt(z) & 0xffffffffn);
 	}
 
-	public static fromHash(hash: bigint): Vec2f {
-		return {
-			x: Number(hash >> 32n),
-			z: Number(hash & 0xffffffffn),
-		};
+	public static fromHash(hash: bigint): ChunkCoords {
+		return new ChunkCoords(Number(hash >> 32n), Number(hash & 0xffffffffn));
 	}
 
 	public getHash(): bigint {

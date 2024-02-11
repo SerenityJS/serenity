@@ -386,7 +386,7 @@ class NetworkSession {
 		packet.currentTick = 0n;
 		packet.enchantmentSeed = 0;
 		packet.blockProperties = [];
-		packet.itemStates = [];
+		packet.itemstates = [];
 		packet.multiplayerCorrelationId = '<raknet>a555-7ece-2f1c-8f69';
 		packet.serverAuthoritativeInventory = true;
 		packet.engine = '*';

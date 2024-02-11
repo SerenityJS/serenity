@@ -2,22 +2,39 @@ import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { WindowsIds } from '../enums';
 import { TransactionSourceType } from '../enums';
-import { Item, type ItemEntry } from './Item';
-
-interface TransactionAction {
-	action: number | null;
-	flags: number | null;
-	inventoryId: WindowsIds | null;
-	newItem: ItemEntry;
-	oldItem: ItemEntry;
-	slot: number;
-	sourceType: TransactionSourceType;
-}
+import { Item } from './Item';
 
 class TransactionActions extends DataType {
-	public static override read(stream: BinaryStream): TransactionAction[] {
+	public action: number | null;
+	public flags: number | null;
+	public inventoryId: WindowsIds | null;
+	public newItem: Item;
+	public oldItem: Item;
+	public slot: number;
+	public sourceType: TransactionSourceType;
+
+	public constructor(
+		action: number | null,
+		flags: number | null,
+		inventoryId: WindowsIds | null,
+		newItem: Item,
+		oldItem: Item,
+		slot: number,
+		sourceType: TransactionSourceType,
+	) {
+		super();
+		this.action = action;
+		this.flags = flags;
+		this.inventoryId = inventoryId;
+		this.newItem = newItem;
+		this.oldItem = oldItem;
+		this.slot = slot;
+		this.sourceType = sourceType;
+	}
+
+	public static override read(stream: BinaryStream): TransactionActions[] {
 		// Prepare an array to store the actions.
-		const transactions: TransactionAction[] = [];
+		const transactions: TransactionActions[] = [];
 
 		// Read the number of actions.
 		const amount = stream.readVarInt();
@@ -63,22 +80,14 @@ class TransactionActions extends DataType {
 			const newItem = Item.read(stream);
 
 			// Push the action to the array.
-			transactions.push({
-				action,
-				flags,
-				inventoryId,
-				slot,
-				sourceType,
-				newItem,
-				oldItem,
-			});
+			transactions.push(new TransactionActions(action, flags, inventoryId, newItem, oldItem, slot, sourceType));
 		}
 
 		// Return the actions.
 		return transactions;
 	}
 
-	public static override write(stream: BinaryStream, value: TransactionAction): void {
+	public static override write(stream: BinaryStream, value: TransactionActions): void {
 		// Write the source type.
 		stream.writeVarInt(value.sourceType);
 
@@ -109,4 +118,4 @@ class TransactionActions extends DataType {
 	}
 }
 
-export { TransactionActions, type TransactionAction };
+export { TransactionActions };

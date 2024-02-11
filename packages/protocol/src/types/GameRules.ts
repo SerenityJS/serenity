@@ -3,17 +3,23 @@ import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { GameRuleType } from '../enums';
 
-interface GameRule {
-	editable: boolean;
-	name: string;
-	type: GameRuleType;
-	value: boolean | number | string;
-}
-
 class GameRules extends DataType {
-	public static override read(stream: BinaryStream): GameRule[] {
+	public editable: boolean;
+	public name: string;
+	public type: GameRuleType;
+	public value: boolean | number | string;
+
+	public constructor(editable: boolean, name: string, type: GameRuleType, value: boolean | number | string) {
+		super();
+		this.editable = editable;
+		this.name = name;
+		this.type = type;
+		this.value = value;
+	}
+
+	public static override read(stream: BinaryStream): GameRules[] {
 		// Prepare an array to store the rules.
-		const rules: GameRule[] = [];
+		const rules: GameRules[] = [];
 
 		// Read the number of rules.
 		const amount = stream.readVarInt();
@@ -43,19 +49,14 @@ class GameRules extends DataType {
 			}
 
 			// Push the rule to the array.
-			rules.push({
-				editable,
-				name,
-				type,
-				value,
-			});
+			rules.push(new GameRules(editable, name, type, value));
 		}
 
 		// Return the rules.
 		return rules;
 	}
 
-	public static override write(stream: BinaryStream, value: GameRule[]): void {
+	public static override write(stream: BinaryStream, value: GameRules[]): void {
 		// Write the number of rules given in the array.
 		stream.writeVarInt(value.length);
 
@@ -84,4 +85,4 @@ class GameRules extends DataType {
 	}
 }
 
-export { GameRules, type GameRule };
+export { GameRules };

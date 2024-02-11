@@ -17,27 +17,15 @@ import {
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket';
 import { Difficulty, Gamemode, Packet as PacketId, PermissionLevel } from '../enums';
-import type { GameRule, Experiment, BlockProperty, Itemstate } from '../types';
-import {
-	Vec3f,
-	Vector3f,
-	Vec2f,
-	Vector2f,
-	BlockCoordinate,
-	BlockCoordinates,
-	GameRules,
-	Experiments,
-	BlockProperties,
-	Itemstates,
-} from '../types';
+import { Vector3f, Vector2f, BlockCoordinates, GameRules, Experiments, BlockProperties, Itemstates } from '../types';
 
 @Packet(PacketId.StartGame)
 class StartGame extends DataPacket {
 	@Serialize(ZigZong) public entityId!: bigint;
 	@Serialize(VarLong) public runtimeEntityId!: bigint;
 	@Serialize(ZigZag) public playerGamemode!: Gamemode;
-	@Serialize(Vector3f) public playerPosition!: Vec3f;
-	@Serialize(Vector2f) public rotation!: Vec2f;
+	@Serialize(Vector3f) public playerPosition!: Vector3f;
+	@Serialize(Vector2f) public rotation!: Vector2f;
 	@Serialize(Uint64, Endianness.Little) public seed!: bigint;
 	@Serialize(Int16, Endianness.Little) public biomeType!: number;
 	@Serialize(VarString) public biomeName!: string;
@@ -45,7 +33,7 @@ class StartGame extends DataPacket {
 	@Serialize(ZigZag) public generator!: number;
 	@Serialize(ZigZag) public worldGamemode!: Gamemode;
 	@Serialize(ZigZag) public difficulty!: Difficulty;
-	@Serialize(BlockCoordinates) public spawnPosition!: BlockCoordinate;
+	@Serialize(BlockCoordinates) public spawnPosition!: BlockCoordinates;
 	@Serialize(Bool) public achievementsDisabled!: boolean;
 	@Serialize(ZigZag) public editorWorldType!: number;
 	@Serialize(Bool) public createdInEdior!: boolean;
@@ -63,8 +51,8 @@ class StartGame extends DataPacket {
 	@Serialize(VarInt) public platformBroadcastMode!: number;
 	@Serialize(Bool) public commandsEnabled!: boolean;
 	@Serialize(Bool) public texturePacksRequired!: boolean;
-	@Serialize(GameRules) public gamerules!: GameRule[];
-	@Serialize(Experiments) public experiments!: Experiment[];
+	@Serialize(GameRules) public gamerules!: GameRules[];
+	@Serialize(Experiments) public experiments!: Experiments[];
 	@Serialize(Bool) public experimentsPreviouslyToggled!: boolean;
 	@Serialize(Bool) public bonusChest!: boolean;
 	@Serialize(Bool) public mapEnabled!: boolean;
@@ -98,8 +86,8 @@ class StartGame extends DataPacket {
 	@Serialize(Bool) public serverAuthoritativeBlockBreaking!: boolean;
 	@Serialize(Int64, Endianness.Little) public currentTick!: bigint;
 	@Serialize(ZigZag) public enchantmentSeed!: number;
-	@Serialize(BlockProperties) public blockProperties!: BlockProperty[];
-	@Serialize(Itemstates) public itemStates!: Itemstate[];
+	@Serialize(BlockProperties) public blockProperties!: BlockProperties[];
+	@Serialize(Itemstates) public itemstates!: Itemstates[];
 	@Serialize(VarString) public multiplayerCorrelationId!: string;
 	@Serialize(Bool) public serverAuthoritativeInventory!: boolean;
 	@Serialize(VarString) public engine!: string;

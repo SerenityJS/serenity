@@ -1,16 +1,8 @@
 import { BinaryStream, Endianness } from '@serenityjs/binarystream';
-import { Byte} from '@serenityjs/nbt';
+import { Byte } from '@serenityjs/nbt';
 import type { NBTSerializable, NBTCompoud } from '@serenityjs/nbt';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { NBTTagItemData } from './NBTTypes';
-
-interface ItemStackLegacy {
-	blockRuntimeId?: number;
-	count?: number;
-	extras?: ItemStackLegacyExtras;
-	metadata?: number;
-	networkId: number;
-}
 
 interface ItemStackLegacyExtras {
 	canDestroy: string[];
@@ -21,13 +13,34 @@ interface ItemStackLegacyExtras {
 }
 
 class ItemLegacy extends DataType {
-	public static override read(stream: BinaryStream): ItemStackLegacy {
+	public blockRuntimeId: number | null;
+	public count: number | null;
+	public extras: ItemStackLegacyExtras | null;
+	public metadata: number | null;
+	public networkId: number;
+
+	public constructor(
+		networkId: number,
+		count?: number,
+		metadata?: number,
+		blockRuntimeId?: number,
+		extras?: ItemStackLegacyExtras,
+	) {
+		super();
+		this.networkId = networkId;
+		this.count = count ?? null;
+		this.metadata = metadata ?? null;
+		this.blockRuntimeId = blockRuntimeId ?? null;
+		this.extras = extras ?? null;
+	}
+
+	public static override read(stream: BinaryStream): ItemLegacy {
 		// Gets the network id of the value.
 		const networkId = stream.readZigZag();
 
 		// Checks if the network id is 0.
 		// If it is, then we return an empty value. (air)
-		if (networkId === 0) return { networkId };
+		if (networkId === 0) return new ItemLegacy(networkId);
 
 		// Read the rest of the value.
 		const count = stream.readUint16(Endianness.Little);
@@ -40,7 +53,7 @@ class ItemLegacy extends DataType {
 		let nbt: NBTSerializable = Byte(0);
 		if (hasNbt) {
 			const n = stream.readByte(); // unknown prefix 0x01 is used, when zero maybe its empty NBT data
-			if(n) nbt = NBTTagItemData.read(stream, null);
+			if (n) nbt = NBTTagItemData.read(stream, null);
 		}
 
 		const canPlaceStrings: string[] = [];
@@ -69,20 +82,14 @@ class ItemLegacy extends DataType {
 			canDestroy: canDestroyStrings,
 			canPlaceOn: canPlaceStrings,
 			hasNbt,
-			nbt:(nbt as NBTCompoud),
+			nbt: nbt as NBTCompoud,
 			ticking,
 		};
 
-		return {
-			blockRuntimeId,
-			count,
-			extras: extrasObjs,
-			metadata,
-			networkId,
-		};
+		return new ItemLegacy(networkId, count, metadata, blockRuntimeId, extrasObjs);
 	}
 
-	public static override write(stream: BinaryStream, value: ItemStackLegacy): void {
+	public static override write(stream: BinaryStream, value: ItemLegacy): void {
 		stream.writeZigZag(value.networkId);
 		// If the item is air, we continue
 		if (value.networkId === 0) return;
@@ -127,4 +134,4 @@ class ItemLegacy extends DataType {
 	}
 }
 
-export { ItemLegacy, type ItemStackLegacy, type ItemStackLegacyExtras };
+export { ItemLegacy, type ItemStackLegacyExtras };
