@@ -19,6 +19,9 @@ class DisconnectHandler extends NetworkHandler {
 		// Remove the player from the world.
 		player.getWorld().despawnEntity(player);
 
+		// Save the player's properties.
+		player.saveProperties();
+
 		// TEMP: Save the dimension chunks
 		const world = player.getWorld();
 		const dimension = world.getDimension('minecraft:overworld');

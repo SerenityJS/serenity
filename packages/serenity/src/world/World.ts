@@ -3,7 +3,7 @@ import type { DimensionType, DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import { Player } from '../player';
-import type { WorldProperties } from '../types';
+import type { DimensionProperties, WorldProperties } from '../types';
 import { BlockMapper } from './chunk';
 import { Dimension } from './dimension';
 import type { TerrainGenerator } from './generator';
@@ -11,10 +11,10 @@ import type { Provider } from './provider';
 
 class World {
 	protected readonly serenity: Serenity;
+	protected readonly properties: WorldProperties;
 	public readonly dimensions: Map<string, Dimension>;
 	public readonly provider: Provider; // TODO: Make this private.
 
-	public readonly properties: WorldProperties;
 	public readonly logger: Logger;
 	public readonly players: Map<bigint, Player>;
 	public readonly blocks: BlockMapper;
@@ -36,6 +36,14 @@ class World {
 		// TODO: Implement world tick.
 	}
 
+	public getName(): string {
+		return this.properties.name;
+	}
+
+	public getSeed(): number {
+		return this.properties.seed;
+	}
+
 	/**
 	 * Get a dimension from the world.
 	 *
@@ -46,16 +54,26 @@ class World {
 		return this.dimensions.get(name) ?? this.dimensions.get('minecraft:overworld')!;
 	}
 
-	public registerDimension(type: DimensionType, identifier: string, generator: TerrainGenerator): Dimension {
-		if (this.dimensions.has(identifier)) {
-			this.logger.error(`Failed to register dimension, dimension identifier [${identifier}] already exists!`);
+	public getDefaultDimension(): Dimension {
+		return this.dimensions.get(this.properties.dimension)!;
+	}
 
-			return this.dimensions.get(identifier)!;
+	public registerDimension(
+		type: DimensionType,
+		properties: DimensionProperties,
+		generator: TerrainGenerator,
+	): Dimension {
+		if (this.dimensions.has(properties.identifier)) {
+			this.logger.error(
+				`Failed to register dimension, dimension identifier [${properties.identifier}] already exists!`,
+			);
+
+			return this.dimensions.get(properties.identifier)!;
 		}
 
-		this.dimensions.set(identifier, new Dimension(this, type, identifier, generator));
+		this.dimensions.set(properties.identifier, new Dimension(this, type, properties, generator));
 
-		return this.dimensions.get(identifier)!;
+		return this.dimensions.get(properties.identifier)!;
 	}
 
 	/**

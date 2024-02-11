@@ -7,7 +7,7 @@ import {
 	ResourcePacksInfo,
 } from '@serenityjs/bedrock-protocol';
 import fastJwt from 'fast-jwt';
-import { Player } from '../../player';
+import { DEFAULT_PLAYER_PROPERTIES, Player } from '../../player';
 import type { ClientData, IdentityData, LoginTokenData } from '../../types';
 import type { NetworkSession } from '../Session';
 import { NetworkHandler } from './NetworkHandler';
@@ -18,8 +18,17 @@ class LoginHandler extends NetworkHandler {
 	 */
 	public static override packet = Login.ID;
 
+	/**
+	 * The decoder for the network handler.
+	 */
 	public static decoder = fastJwt.createDecoder();
 
+	/**
+	 * Handles the network handler.
+	 *
+	 * @param packet The packet.
+	 * @param session The network session.
+	 */
 	public static override async handle(packet: Login, session: NetworkSession): Promise<void> {
 		// Decode the tokens given by the client.
 		// This contains the client data, identity data, and public key.
@@ -50,10 +59,30 @@ class LoginHandler extends NetworkHandler {
 			return session.disconnect('You are already logged in another location.', DisconnectReason.LoggedInOtherLocation);
 		}
 
+		// Get the player properties from the world provider.
+		// And check if the xuid is the same as the xuid from the properties.
+		// If not, this means that the player does not exist in the world provider.
+		const world = this.serenity.getDefaultWorld();
+		let properties = world.provider.readPlayerProperties(xuid);
+		if (properties.xuid !== xuid) {
+			const defaultProperties = DEFAULT_PLAYER_PROPERTIES;
+			defaultProperties.xuid = xuid;
+			defaultProperties.username = data.identityData.displayName;
+			defaultProperties.uuid = data.identityData.identity;
+			defaultProperties.position = world.getDefaultDimension().spawn;
+			defaultProperties.dimension = world.getDefaultDimension().properties.identifier;
+
+			// Write the default player properties to the world provider.
+			world.provider.writePlayerProperties(xuid, defaultProperties);
+
+			// Set the properties to the default properties.
+			properties = defaultProperties;
+		}
+
 		// Create a new player instance.
 		// Since we have gotten the players login data, we can create a new player instance.
 		// We will also add the player to the players map.
-		const player = new Player(session, data);
+		const player = new Player(session, data, properties, world);
 		this.serenity.players.set(xuid, player);
 
 		// TODO: Emit the login event.

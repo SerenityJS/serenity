@@ -2,16 +2,16 @@ import { Buffer } from 'node:buffer';
 import { readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import process from 'node:process';
-import { DimensionType } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { parse, stringify } from 'yaml';
 import type { Serenity } from '../../../Serenity';
 import { Logger } from '../../../console';
-import type { DimensionProperties, WorldProperties } from '../../../types';
+import { DEFAULT_PLAYER_PROPERTIES } from '../../../player';
+import type { DimensionProperties, PlayerProperties, WorldProperties } from '../../../types';
 import { DEFAULT_DIMENSION_PROPERTIES, DEFAULT_WORLD_PROPERTIES } from '../../Properties';
 import { World } from '../../World';
 import { Chunk } from '../../chunk';
-import type { Dimension } from '../../dimension';
+import { Dimension } from '../../dimension';
 import { BetterFlat } from '../../generator';
 import { Provider } from '../Provider';
 
@@ -28,7 +28,7 @@ class Filesystem extends Provider {
 	}
 
 	public readChunks(dimension: Dimension): Chunk[] {
-		const path = resolve(this.path, 'dimensions', dimension.identifier.replace(':', '-'), 'storage.bin');
+		const path = resolve(this.path, 'dimensions', dimension.properties.identifier.replace(':', '-'), 'storage.bin');
 
 		const stream = new BinaryStream(readFileSync(path));
 
@@ -49,7 +49,7 @@ class Filesystem extends Provider {
 	}
 
 	public writeChunks(chunks: Chunk[], dimension: Dimension): void {
-		const path = resolve(this.path, 'dimensions', dimension.identifier.replace(':', '-'), 'storage.bin');
+		const path = resolve(this.path, 'dimensions', dimension.properties.identifier.replace(':', '-'), 'storage.bin');
 
 		const stream = new BinaryStream();
 
@@ -80,6 +80,24 @@ class Filesystem extends Provider {
 			writeFileSync(resolve(this.path, 'world.properties'), stringify(properties, { indent: 2 }));
 		} catch {
 			Filesystem.logger.error(`Failed to write world properties at "${resolve(this.path, 'world.properties')}"`);
+		}
+	}
+
+	public readPlayerProperties(xuid: string): PlayerProperties {
+		try {
+			return JSON.parse(readFileSync(resolve(this.path, 'players', `${xuid}.json`), 'utf8'));
+		} catch {
+			return DEFAULT_PLAYER_PROPERTIES;
+		}
+	}
+
+	public writePlayerProperties(xuid: string, properties: PlayerProperties): void {
+		try {
+			writeFileSync(resolve(this.path, 'players', `${xuid}.json`), JSON.stringify(properties, null, 2));
+		} catch {
+			Filesystem.logger.error(
+				`Failed to write player properties at "${resolve(this.path, 'players', `${xuid}.json`)}"`,
+			);
 		}
 	}
 
@@ -136,12 +154,7 @@ class Filesystem extends Provider {
 
 				// Create the default dimension directory.
 				mkdirSync(
-					resolve(
-						path,
-						serenity.properties.values.world.default,
-						'dimensions',
-						properties.defaultDimension.replace(':', '-'),
-					),
+					resolve(path, serenity.properties.values.world.default, 'dimensions', properties.dimension.replace(':', '-')),
 				);
 
 				// Create the players directory.
@@ -169,7 +182,7 @@ class Filesystem extends Provider {
 					mkdirSync(resolve(path, world, 'dimensions'));
 
 					// Create the default dimension directory.
-					mkdirSync(resolve(path, world, 'dimensions', DEFAULT_WORLD_PROPERTIES.defaultDimension.replace(':', '-')));
+					mkdirSync(resolve(path, world, 'dimensions', DEFAULT_WORLD_PROPERTIES.dimension.replace(':', '-')));
 
 					// Log the creation of the missing dimensions directory.
 					// And its path of the world.
@@ -216,16 +229,12 @@ class Filesystem extends Provider {
 
 				// Create the world instance, and add it to the serenity instance.
 				const newWorld = new World(serenity, filesystem);
-				serenity.worlds.set(newWorld.properties.name, newWorld);
+				serenity.worlds.set(newWorld.getName(), newWorld);
 
 				// Read the world dimensions properties, and register them.
 				for (const properties of filesystem.readDimensionsProperties()) {
 					// TODO: Update the dimension properties with the correct generator.
-					newWorld.registerDimension(
-						DimensionType.Overworld,
-						properties.identifier,
-						BetterFlat.BasicFlat(newWorld.blocks),
-					);
+					newWorld.registerDimension(Dimension.resolveType(properties.type), properties, BetterFlat.BasicFlat());
 				}
 
 				// Load the chunks for each dimension.
@@ -236,7 +245,9 @@ class Filesystem extends Provider {
 					}
 
 					Filesystem.logger.success(
-						`Loaded ${chunks.length} chunks for dimension "${dimension.identifier}" in world "${newWorld.properties.name}."`,
+						`Loaded ${chunks.length} chunks for dimension "${
+							dimension.properties.identifier
+						}" in world "${newWorld.getName()}."`,
 					);
 				}
 			}

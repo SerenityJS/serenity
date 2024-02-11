@@ -33,9 +33,6 @@ class BlockMapper {
 		// Check if the first tag is a compound tag.
 		if (stream.binary[stream.offset] !== NBTTag.Compoud) return;
 
-		// Log the start of the mapping.
-		this.logger.info('Block type and permutation mapping process started...');
-
 		do {
 			// Read the root tag.
 			const data = LightNBT.ReadRootTag(stream) as RawBlock;
@@ -99,8 +96,8 @@ class BlockMapper {
 			BlockPermutation.permutations = permutations;
 		} while (!stream.cursorAtEnd());
 
-		this.logger.success(
-			`Successfully mapped ${BlockType.types.length} block types, and ${BlockPermutation.permutations.length} block permutations!`,
+		this.logger.debug(
+			`Fully mapped ${BlockType.types.length} block types, and ${BlockPermutation.permutations.length} block permutations!`,
 		);
 	}
 }

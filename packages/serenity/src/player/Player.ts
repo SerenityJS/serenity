@@ -13,7 +13,7 @@ import type { DisconnectReason, Vec2f, Vec3f, RespawnState, Gamemode, FormType }
 import type { Serenity } from '../Serenity';
 import type { MessageForm } from '../forms';
 import type { Network, NetworkSession } from '../network';
-import type { ActionFormResponse, LoginTokenData, MessageFormResponse } from '../types';
+import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerProperties } from '../types';
 import type { Chunk, World, Dimension } from '../world';
 import { Render } from './Render';
 import { Abilities } from './abilities';
@@ -35,6 +35,7 @@ import { Skin } from './skin';
  */
 class Player {
 	protected readonly serenity: Serenity;
+	protected readonly properties: PlayerProperties;
 
 	public readonly network: Network;
 	public readonly session: NetworkSession;
@@ -57,8 +58,8 @@ class Player {
 	protected world: World;
 	protected dimension: Dimension;
 
-	public position: Vec3f = { x: 0, y: 0, z: 0 };
-	public rotation: Vec2f = { x: 0, z: 0 };
+	public position: Vec3f;
+	public rotation: Vec2f;
 	public headYaw: number = 0;
 	public onGround: boolean = false;
 
@@ -68,8 +69,9 @@ class Player {
 	 * @param session The network session.
 	 * @param tokens The login tokens.
 	 */
-	public constructor(session: NetworkSession, tokens: LoginTokenData, world?: World) {
+	public constructor(session: NetworkSession, tokens: LoginTokenData, properties: PlayerProperties, world: World) {
 		this.serenity = session.serenity;
+		this.properties = properties;
 
 		this.network = session.network;
 		this.session = session;
@@ -81,14 +83,25 @@ class Player {
 		this.uniqueEntityId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
 
-		this.world = world ?? this.serenity.getDefaultWorld();
+		this.world = world;
 		this.gamemode = this.world.gamemode;
 		this.dimension = this.world.getDimension('minecraft:overworld');
+
+		this.position = this.properties.position;
+		this.rotation = this.properties.rotation;
 
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 		this.render = new Render(this.serenity, this);
 		this.forms = new Map();
+	}
+
+	public saveProperties(): void {
+		this.properties.dimension = this.getDimension().properties.identifier;
+		this.properties.position = this.position;
+		this.properties.rotation = this.rotation;
+
+		this.world.provider.writePlayerProperties(this.xuid, this.properties);
 	}
 
 	public getWorld(): World {
@@ -108,7 +121,7 @@ class Player {
 
 		const change = new ChangeDimension();
 		change.dimension = dimension.type;
-		change.position = dimension.spawnPosition;
+		change.position = dimension.spawn;
 		change.respawn = true;
 
 		void this.session.send(change);
@@ -118,7 +131,7 @@ class Player {
 		const chunks = this.dimension.getSpawnChunks();
 
 		const update = new NetworkChunkPublisherUpdate();
-		update.coordinate = this.dimension.spawnPosition;
+		update.coordinate = this.dimension.spawn;
 		update.radius = this.dimension.viewDistance;
 		update.savedChunks = chunks.map((chunk: Chunk) => {
 			return {

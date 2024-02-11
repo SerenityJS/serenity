@@ -6,10 +6,12 @@ import {
 	UpdateBlock,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
+	DimensionType,
 } from '@serenityjs/bedrock-protocol';
-import type { DimensionType, DataPacket, Vec3f } from '@serenityjs/bedrock-protocol';
+import type { DataPacket, Vec3f } from '@serenityjs/bedrock-protocol';
 import { Logger } from '../../console';
 import { Player } from '../../player';
+import type { DimensionProperties } from '../../types';
 import type { World } from '../World';
 import type { BlockPermutation } from '../chunk';
 import { Block, Chunk } from '../chunk';
@@ -19,29 +21,30 @@ class Dimension {
 	protected readonly world: World;
 	protected readonly logger: Logger;
 
-	public generator: TerrainGenerator;
-	public spawnPosition: Vec3f = { x: 0, y: 0, z: 0 };
-	public viewDistance: number = 64;
-
 	public readonly type: DimensionType;
-	public readonly identifier: string;
+	public readonly properties: DimensionProperties;
 	public readonly chunks: Map<bigint, Chunk>;
 	public readonly players: Set<bigint>;
+
+	public generator: TerrainGenerator;
+	public spawn: Vec3f;
+	public viewDistance: number = 64;
 
 	public constructor(
 		world: World,
 		type: DimensionType,
-		identifier: string,
+		properties: DimensionProperties,
 		generator: TerrainGenerator,
 		chunks?: Map<bigint, Chunk>,
 	) {
 		this.world = world;
-		this.logger = new Logger(`Dimension [${identifier}]`, '#03fca9');
+		this.logger = new Logger(`Dimension [${properties.identifier}]`, '#03fca9');
 		this.type = type;
-		this.identifier = identifier;
-		this.generator = generator;
+		this.properties = properties;
 		this.chunks = chunks ?? new Map();
 		this.players = new Set();
+		this.generator = generator;
+		this.spawn = properties.spawn;
 	}
 
 	public async broadcast(...packets: DataPacket[]): Promise<void> {
@@ -186,10 +189,10 @@ class Dimension {
 		// Calculate the view distance in chunks
 		const distance = this.viewDistance >> 4;
 
-		const minX = this.spawnPosition.x - distance;
-		const minZ = this.spawnPosition.z - distance;
-		const maxX = this.spawnPosition.x + distance;
-		const maxZ = this.spawnPosition.z + distance;
+		const minX = this.spawn.x - distance;
+		const minZ = this.spawn.z - distance;
+		const maxX = this.spawn.x + distance;
+		const maxZ = this.spawn.z + distance;
 
 		for (let cx = minX; cx <= maxX; ++cx) {
 			for (let cz = minZ; cz <= maxZ; ++cz) {
@@ -249,6 +252,25 @@ class Dimension {
 			update.layer = UpdateBlockLayerType.Normal;
 
 			void player.session.send(update);
+		}
+	}
+
+	public static resolveType(type: number | string): DimensionType {
+		switch (type) {
+			case 0:
+			case 'overworld':
+			case 'minecraft:overworld':
+				return DimensionType.Overworld;
+			case 1:
+			case 'nether':
+			case 'minecraft:nether':
+				return DimensionType.Nether;
+			case 2:
+			case 'end':
+			case 'minecraft:end':
+				return DimensionType.End;
+			default:
+				return DimensionType.Overworld;
 		}
 	}
 }

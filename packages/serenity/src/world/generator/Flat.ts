@@ -48,7 +48,7 @@ export class BetterFlat extends TerrainGenerator {
 		// Return the chunk.
 		return chunk;
 	}
-	public static BasicFlat(blockTypes: BlockMapper) {
+	public static BasicFlat() {
 		return new this([
 			BlockPermutation.resolve('minecraft:bedrock')!,
 			[BlockPermutation.resolve('minecraft:stone')!, BlockPermutation.resolve('minecraft:cobblestone')!],

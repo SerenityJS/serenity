@@ -1,5 +1,5 @@
 interface WorldProperties {
-	defaultDimension: string;
+	dimension: string;
 	name: string;
 	seed: number;
 }
@@ -7,7 +7,7 @@ interface WorldProperties {
 interface DimensionProperties {
 	generator: string;
 	identifier: string;
-	spawnPosition: { x: number; y: number; z: number };
+	spawn: { x: number; y: number; z: number };
 	type: string;
 }
 
