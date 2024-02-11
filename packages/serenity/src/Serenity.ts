@@ -1,3 +1,4 @@
+import { setTimeout, clearTimeout } from 'node:timers';
 import {
 	PROTOCOL_VERSION,
 	MINECRAFT_VERSION,
@@ -21,6 +22,7 @@ import { WorldManager } from './world';
 
 class Serenity extends EventEmitter<SerenityEvents> {
 	protected readonly worldManager: WorldManager;
+	protected interval: NodeJS.Timeout | null = null;
 
 	public readonly logger: Logger;
 	public readonly properties: ServerProperties;
@@ -174,10 +176,25 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		this.logger.info(`Started server on ${this.server.address}:${this.server.port}!`);
 
+		// TODO: Make better
+
+		const tick = () =>
+			setTimeout(() => {
+				for (const world of this.worlds.values()) {
+					world.tick();
+				}
+
+				tick();
+			}, 50);
+
+		this.interval = tick().unref();
+
 		return true;
 	}
 
 	public stop(): void {
+		clearTimeout(this.interval!);
+
 		void this.server.stop();
 	}
 

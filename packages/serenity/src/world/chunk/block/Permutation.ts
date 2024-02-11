@@ -84,6 +84,20 @@ class BlockPermutation {
 		// Return the permutation.
 		return permutation ?? type.getDefaultPermutation();
 	}
+
+	/**
+	 * Resolves a block permutation.
+	 *
+	 * @param runtimeId The runtime ID.
+	 * @returns Returns the block permutation.
+	 */
+	public static resolveByRuntimeId(runtimeId: number): BlockPermutation {
+		// Find the permutation.
+		const permutation = BlockPermutation.permutations.find((permutation) => permutation.runtimeId === runtimeId);
+
+		// Return the permutation.
+		return permutation!;
+	}
 }
 
 export { BlockPermutation };

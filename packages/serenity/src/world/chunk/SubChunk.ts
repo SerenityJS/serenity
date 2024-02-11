@@ -109,4 +109,26 @@ export class SubChunk {
 			storage.serialize(stream);
 		}
 	}
+
+	/**
+	 * Deserializes the sub chunk.
+	 *
+	 * @param stream The binary stream to read from.
+	 */
+	public static deserialize(stream: BinaryStream): SubChunk {
+		// Read the version.
+		const version = stream.readUint8();
+
+		// Read the storage count.
+		const count = stream.readUint8();
+
+		// Loop through each storage and deserialize it.
+		const layers: BlockStorage[] = [];
+		for (let i = 0; i < count; i++) {
+			layers.push(BlockStorage.deserialize(stream));
+		}
+
+		// Return the sub chunk.
+		return new SubChunk(version, layers);
+	}
 }

@@ -11,8 +11,8 @@ import type { Provider } from './provider';
 
 class World {
 	protected readonly serenity: Serenity;
-	protected readonly dimensions: Map<string, Dimension>;
-	protected readonly provider: Provider;
+	public readonly dimensions: Map<string, Dimension>;
+	public readonly provider: Provider; // TODO: Make this private.
 
 	public readonly properties: WorldProperties;
 	public readonly logger: Logger;
@@ -30,6 +30,10 @@ class World {
 		this.logger = new Logger(this.properties.name, '#34eb92');
 		this.players = new Map();
 		this.blocks = new BlockMapper(this.logger);
+	}
+
+	public tick(): void {
+		// TODO: Implement world tick.
 	}
 
 	/**

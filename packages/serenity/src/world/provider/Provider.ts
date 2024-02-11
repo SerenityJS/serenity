@@ -1,8 +1,8 @@
-import type { Buffer } from 'node:buffer';
 import type { Serenity } from '../../Serenity';
 import type { Logger } from '../../console';
 import type { WorldProperties } from '../../types';
-import type { World } from '../World';
+import type { Chunk } from '../chunk';
+import type { Dimension } from '../dimension';
 
 abstract class Provider {
 	public static readonly logger: Logger;
@@ -11,7 +11,9 @@ abstract class Provider {
 
 	public abstract readonly path: string;
 
-	public abstract readChunk(x: number, z: number): Buffer;
+	public abstract readChunks(dimension: Dimension): Chunk[];
+
+	public abstract writeChunks(chunks: Chunk[], dimension: Dimension): void;
 
 	public abstract readProperties(): WorldProperties;
 

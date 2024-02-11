@@ -11,7 +11,8 @@ import type { DimensionType, DataPacket, Vec3f } from '@serenityjs/bedrock-proto
 import { Logger } from '../../console';
 import { Player } from '../../player';
 import type { World } from '../World';
-import { Block, BlockPermutation, Chunk } from '../chunk';
+import type { BlockPermutation } from '../chunk';
+import { Block, Chunk } from '../chunk';
 import type { TerrainGenerator } from '../generator';
 
 class Dimension {
@@ -155,8 +156,7 @@ class Dimension {
 		const hash = Chunk.getHash(x, y);
 
 		// Check if the chunk is already generated
-		const chunk =
-			this.chunks.get(hash) ?? this.generator.apply(new Chunk(x, y, BlockPermutation.resolve('minecraft:air')!));
+		const chunk = this.chunks.get(hash) ?? this.generator.apply(new Chunk(x, y));
 
 		// Set the chunk
 		this.chunks.set(hash, chunk);

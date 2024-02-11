@@ -3,12 +3,15 @@ import { readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import process from 'node:process';
 import { DimensionType } from '@serenityjs/bedrock-protocol';
+import { BinaryStream } from '@serenityjs/binarystream';
 import { parse, stringify } from 'yaml';
 import type { Serenity } from '../../../Serenity';
 import { Logger } from '../../../console';
 import type { DimensionProperties, WorldProperties } from '../../../types';
 import { DEFAULT_DIMENSION_PROPERTIES, DEFAULT_WORLD_PROPERTIES } from '../../Properties';
 import { World } from '../../World';
+import { Chunk } from '../../chunk';
+import type { Dimension } from '../../dimension';
 import { BetterFlat } from '../../generator';
 import { Provider } from '../Provider';
 
@@ -24,8 +27,42 @@ class Filesystem extends Provider {
 		this.path = path;
 	}
 
-	public readChunk(x: number, z: number): Buffer {
-		return Buffer.from('');
+	public readChunks(dimension: Dimension): Chunk[] {
+		const path = resolve(this.path, 'dimensions', dimension.identifier.replace(':', '-'), 'storage.bin');
+
+		const stream = new BinaryStream(readFileSync(path));
+
+		if (stream.cursorAtEnd()) return [];
+
+		const chunks = [];
+
+		do {
+			const x = stream.readZigZag();
+			const z = stream.readZigZag();
+			const length = stream.readVarInt();
+			const buffer = stream.readBuffer(length);
+
+			chunks.push(Chunk.deserialize(x, z, buffer));
+		} while (!stream.cursorAtEnd());
+
+		return chunks;
+	}
+
+	public writeChunks(chunks: Chunk[], dimension: Dimension): void {
+		const path = resolve(this.path, 'dimensions', dimension.identifier.replace(':', '-'), 'storage.bin');
+
+		const stream = new BinaryStream();
+
+		for (const chunk of chunks) {
+			const buffer = chunk.serialize();
+
+			stream.writeZigZag(chunk.x);
+			stream.writeZigZag(chunk.z);
+			stream.writeVarInt(buffer.byteLength);
+			stream.writeBuffer(buffer);
+		}
+
+		writeFileSync(path, stream.getBuffer());
 	}
 
 	public readProperties(): WorldProperties {
@@ -188,6 +225,18 @@ class Filesystem extends Provider {
 						DimensionType.Overworld,
 						properties.identifier,
 						BetterFlat.BasicFlat(newWorld.blocks),
+					);
+				}
+
+				// Load the chunks for each dimension.
+				for (const [, dimension] of newWorld.dimensions) {
+					const chunks = filesystem.readChunks(dimension);
+					for (const chunk of chunks) {
+						dimension.chunks.set(chunk.getHash(), chunk);
+					}
+
+					Filesystem.logger.success(
+						`Loaded ${chunks.length} chunks for dimension "${dimension.identifier}" in world "${newWorld.properties.name}."`,
 					);
 				}
 			}

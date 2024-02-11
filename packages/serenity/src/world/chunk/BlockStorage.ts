@@ -128,12 +128,10 @@ class BlockStorage {
 		const wordsPerBlock = Math.ceil(4_096 / blocksPerWord);
 
 		// Write the word to the stream.
-		let position = 0;
 		for (let w = 0; w < wordsPerBlock; w++) {
 			let word = 0;
 			for (let block = 0; block < blocksPerWord; block++) {
-				const state = this.blocks[position++];
-				word |= state << (bitsPerBlock * block);
+				word |= (this.blocks[w * blocksPerWord + block] & ((1 << bitsPerBlock) - 1)) << (bitsPerBlock * block);
 			}
 
 			stream.writeInt32(word, Endianness.Little);
@@ -144,6 +142,40 @@ class BlockStorage {
 		for (const permutation of this.palette) {
 			stream.writeZigZag(permutation.getRuntimeId());
 		}
+	}
+
+	/**
+	 * Deserializes the block storage from a binary stream.
+	 *
+	 * @param stream The binary stream to read from.
+	 * @returns The block storage.
+	 */
+	public static deserialize(stream: BinaryStream): BlockStorage {
+		// Read the bits per block.
+		const bitsPerBlock = stream.readByte() >> 1;
+
+		// Calculate the blocks per word & words per block.
+		const blocksPerWord = Math.floor(32 / bitsPerBlock);
+		const wordsPerBlock = Math.ceil(4_096 / blocksPerWord);
+
+		// Read the blocks.
+		const blocks: number[] = [];
+		for (let w = 0; w < wordsPerBlock; w++) {
+			const word = stream.readInt32(Endianness.Little);
+			for (let block = 0; block < blocksPerWord; block++) {
+				blocks.push((word >> (bitsPerBlock * block)) & ((1 << bitsPerBlock) - 1));
+			}
+		}
+
+		// Read the palette.
+		const palette: BlockPermutation[] = [];
+		const paletteLength = stream.readZigZag();
+		for (let i = 0; i < paletteLength; i++) {
+			palette.push(BlockPermutation.resolveByRuntimeId(stream.readZigZag()));
+		}
+
+		// Return the block storage.
+		return new BlockStorage(blocks, palette);
 	}
 }
 

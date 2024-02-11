@@ -7,17 +7,15 @@ import type { BlockPermutation } from './block';
 export class Chunk {
 	public static readonly MAX_SUB_CHUNKS = 20;
 
+	protected readonly subchunks: SubChunk[];
+
 	public readonly x: number;
 	public readonly z: number;
 
-	protected readonly subchunks: SubChunk[];
-	protected readonly defaultPermutation: BlockPermutation;
-
-	public constructor(x: number, z: number, defaultPermutation: BlockPermutation) {
+	public constructor(x: number, z: number, subchunks?: SubChunk[]) {
 		this.x = x;
 		this.z = z;
-		this.defaultPermutation = defaultPermutation;
-		this.subchunks = Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
+		this.subchunks = subchunks ?? Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
 	}
 
 	public getPermutation(x: number, y: number, z: number): BlockPermutation {
@@ -109,5 +107,20 @@ export class Chunk {
 
 		// Return the buffer.
 		return stream.getBuffer();
+	}
+
+	public static deserialize(x: number, z: number, buffer: Buffer): Chunk {
+		// Create a new stream.
+		const stream = new BinaryStream(buffer);
+
+		// Deserialize each sub chunk.
+		const subchunks: SubChunk[] = Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
+		for (let i = 0; i < Chunk.MAX_SUB_CHUNKS; ++i) {
+			if (stream.binary[stream.offset] !== 8) break;
+			subchunks[i] = SubChunk.deserialize(stream);
+		}
+
+		// Return the chunk.
+		return new Chunk(x, z, subchunks);
 	}
 }
