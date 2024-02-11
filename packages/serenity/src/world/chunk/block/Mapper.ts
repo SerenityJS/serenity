@@ -2,18 +2,31 @@ import type { Buffer } from 'node:buffer';
 import { CANONICAL_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { LightNBT, NBTTag } from '@serenityjs/nbt';
-import { Logger } from '../../../console';
+import type { Logger } from '../../../console';
 import type { MappedBlock, RawBlock } from '../../../types';
 import { BlockPermutation } from './Permutation';
 import { BlockType } from './Type';
 
 class BlockMapper {
+	/**
+	 * The mapped blocks.
+	 */
 	protected readonly blocks: Map<string, MappedBlock> = new Map();
-	protected readonly logger = new Logger('Blocks', '#fc033d');
 
+	/**
+	 * The logger.
+	 */
+	protected readonly logger: Logger;
+
+	/**
+	 * The runtime ID.
+	 */
 	protected RUNTIME_ID = 0;
 
-	public constructor(states?: Buffer) {
+	public constructor(logger: Logger, states?: Buffer) {
+		// Set the logger.
+		this.logger = logger;
+
 		// Create a new BinaryStream from the states buffer.
 		const stream = new BinaryStream(states ?? CANONICAL_BLOCK_STATES);
 

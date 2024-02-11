@@ -6,7 +6,7 @@ import {
 	DisconnectReason,
 } from '@serenityjs/bedrock-protocol';
 import { Server } from '@serenityjs/raknet-server';
-import { ServerProperties, WorldParser } from './build';
+import { ServerProperties } from './Properties';
 import { Logger } from './console';
 import type { AbstractEvent } from './events';
 import { SERENITY_EVENTS } from './events';
@@ -16,45 +16,49 @@ import { NETWORK_HANDLERS } from './network/handlers';
 import type { Player } from './player';
 import { HookMethod, type SerenityEvents, type SerenityOptions } from './types';
 import { EventEmitter } from './utils';
-import { World } from './world';
+import type { World } from './world';
+import { WorldManager } from './world';
 
 class Serenity extends EventEmitter<SerenityEvents> {
+	protected readonly worldManager: WorldManager;
+
 	public readonly logger: Logger;
 	public readonly properties: ServerProperties;
+	public readonly worlds: Map<string, World>;
 	public readonly server: Server;
 	public readonly protocol: number;
 	public readonly version: string;
-
 	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
 	public readonly players: Map<string, Player>;
-	public readonly world: World; // This is temporary.
-	public readonly worlds: Map<string, World>;
 
-	public constructor(options: SerenityOptions) {
+	/**
+	 * Constructs a new serenity instance.
+	 *
+	 * @note If no options are provided, the default options will be pulled from the server.properties file.
+	 * @param options - The options for the serenity instance.
+	 */
+	public constructor(options?: SerenityOptions) {
 		super();
 
-		Logger.DEBUG = options.debug ?? false;
 		this.logger = new Logger('Serenity', '#a742f5');
 		this.properties = new ServerProperties(this.logger);
-
-		new WorldParser(this.logger);
-
+		Logger.DEBUG = options?.debug ?? this.properties.values.server.debug;
+		this.worlds = new Map();
+		this.worldManager = new WorldManager(this);
 		this.server = new Server(
-			this.properties.values.address,
-			this.properties.values.port,
-			this.properties.values.maxConnections,
+			options?.address ?? this.properties.values.server.address,
+			options?.port ?? this.properties.values.server.port,
+			options?.maxConnections ?? this.properties.values.server.maxConnections,
 		);
-		this.protocol = options.protocol ?? PROTOCOL_VERSION;
-		this.version = options.version ?? MINECRAFT_VERSION;
+		this.protocol = options?.protocol ?? PROTOCOL_VERSION;
+		this.version = options?.version ?? MINECRAFT_VERSION;
 
 		this.events = new Map();
 		this.network = new Network(this);
 		this.players = new Map();
-		this.world = new World(this); // This is the default world.
-		this.worlds = new Map();
 
-		if (Logger.DEBUG) this.logger.info('Software is running in debug mode. Debug messages will now be shown.');
+		if (Logger.DEBUG) this.logger.debug('Software is running in debug mode. Debug messages will now be shown.');
 
 		// Register all events.
 		// Loop through all events and construct them.
@@ -159,7 +163,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		});
 
 		// Check if the server started successfully.
-		const start = this.server.start(this.protocol, this.version, this.properties.values.motd);
+		const start = this.server.start(this.protocol, this.version, this.properties.values.server.motd);
 		if (!start) {
 			this.logger.error(
 				`Failed to start server on ${this.server.address}:${this.server.port}, make sure the port is not already in use or the server is not already running.`,
@@ -173,12 +177,20 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		return true;
 	}
 
+	public stop(): void {
+		void this.server.stop();
+	}
+
 	public setMotd(motd: string): void {
 		this.server.motd = motd;
 	}
 
 	public getMotd(): string {
 		return this.server.motd ?? 'SerenityJS';
+	}
+
+	public getDefaultWorld(): World {
+		return this.worlds.get(this.properties.values.world.default)!;
 	}
 }
 

@@ -3,31 +3,33 @@ import type { DimensionType, DataPacket } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity';
 import { Logger, LoggerColors } from '../console';
 import { Player } from '../player';
+import type { WorldProperties } from '../types';
 import { BlockMapper } from './chunk';
 import { Dimension } from './dimension';
 import type { TerrainGenerator } from './generator';
+import type { Provider } from './provider';
 
 class World {
 	protected readonly serenity: Serenity;
 	protected readonly dimensions: Map<string, Dimension>;
+	protected readonly provider: Provider;
 
+	public readonly properties: WorldProperties;
 	public readonly logger: Logger;
-	public readonly name: string;
-	public readonly seed: number;
 	public readonly players: Map<bigint, Player>;
 	public readonly blocks: BlockMapper;
 
 	public gamemode: Gamemode = Gamemode.Survival;
 
-	public constructor(serenity: Serenity, name?: string, seed?: number) {
+	public constructor(serenity: Serenity, provider: Provider) {
 		this.serenity = serenity;
-		this.logger = new Logger('World', LoggerColors.Cyan);
 		this.dimensions = new Map();
+		this.provider = provider;
 
-		this.name = name ?? 'Serenity World';
-		this.seed = seed ?? 0;
+		this.properties = provider.readProperties();
+		this.logger = new Logger(this.properties.name, '#34eb92');
 		this.players = new Map();
-		this.blocks = new BlockMapper();
+		this.blocks = new BlockMapper(this.logger);
 	}
 
 	/**
@@ -40,12 +42,16 @@ class World {
 		return this.dimensions.get(name) ?? this.dimensions.get('minecraft:overworld')!;
 	}
 
-	public registerDimension(type: DimensionType, identifier: string, generator: TerrainGenerator): void {
+	public registerDimension(type: DimensionType, identifier: string, generator: TerrainGenerator): Dimension {
 		if (this.dimensions.has(identifier)) {
-			return this.logger.error(`Failed to register dimension, dimension identifier [${identifier}] already exists!`);
+			this.logger.error(`Failed to register dimension, dimension identifier [${identifier}] already exists!`);
+
+			return this.dimensions.get(identifier)!;
 		}
 
 		this.dimensions.set(identifier, new Dimension(this, type, identifier, generator));
+
+		return this.dimensions.get(identifier)!;
 	}
 
 	/**

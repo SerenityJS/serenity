@@ -81,7 +81,7 @@ class Player {
 		this.uniqueEntityId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
 
-		this.world = world ?? this.serenity.world;
+		this.world = world ?? this.serenity.getDefaultWorld();
 		this.gamemode = this.world.gamemode;
 		this.dimension = this.world.getDimension('minecraft:overworld');
 
