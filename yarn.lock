@@ -411,10 +411,10 @@
     "@serenityjs/binarystream" "^1.2.3"
     reflect-metadata "^0.1.13"
 
-"@serenityjs/raknet-server@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@serenityjs/raknet-server/-/raknet-server-1.1.0.tgz#d571503f5a2098788eefa7a0f321664851b8baab"
-  integrity sha512-b8CWfMMHTI5jztgsdYkHrNR5kXgMOkP0KnIcSMQ4Firi4GP5qZF/29F/i5XqFwlRmeRJ9hMx9qNdxP8QKdYBig==
+"@serenityjs/raknet-server@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@serenityjs/raknet-server/-/raknet-server-1.1.3.tgz#11447ceb479d13b7030f6ed59cefc12db6df037d"
+  integrity sha512-vOOPUCFKMSXKHpi4gAdv/XXGBSqtUIVxnJtdVZwkyAgmPdcBuRlAN6u7cKxaswbiwRTSaIQsQukpsMHp7OJgYQ==
   dependencies:
     "@serenityjs/binarystream" "^1.2.3"
     "@serenityjs/raknet-protocol" "^1.0.7"

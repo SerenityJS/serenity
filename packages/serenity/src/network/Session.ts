@@ -11,6 +11,7 @@ import {
 	ModalFormRequest,
 } from '@serenityjs/bedrock-protocol';
 import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { Priority } from '@serenityjs/raknet-protocol';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
 import type { Serenity } from '../Serenity';
 import type { Player } from '../player';
@@ -66,7 +67,11 @@ class NetworkSession {
 	 * @returns A promise that resolves when the packet has been sent.
 	 */
 	public async send(...packets: DataPacket[]): Promise<void> {
-		return this.network.send(this, ...packets);
+		return this.network.send(this, Priority.Normal, ...packets);
+	}
+
+	public async sendImmediate(...packets: DataPacket[]): Promise<void> {
+		return this.network.send(this, Priority.Immediate, ...packets);
 	}
 
 	public disconnect(message: string, reason: DisconnectReason, hideReason = false): void {
@@ -126,7 +131,7 @@ class NetworkSession {
 		packet.playerGamemode = Gamemode.Creative;
 		packet.playerPosition = this.player.position;
 		packet.rotation = this.player.rotation;
-		packet.seed = BigInt(this.player.getWorld().getSeed());
+		packet.seed = BigInt(this.player.getWorld().properties.seed);
 		packet.biomeType = 0;
 		packet.biomeName = 'plains';
 		packet.dimension = this.player.getDimension().type;
@@ -377,7 +382,7 @@ class NetworkSession {
 		packet.chatRestrictionLevel = 0;
 		packet.disablePlayerInteractions = false;
 		packet.levelId = 'SerenityJS';
-		packet.worldName = this.player.getWorld().getName();
+		packet.worldName = this.player.getWorld().properties.name;
 		packet.premiumWorldTemplateId = '00000000-0000-0000-0000-000000000000';
 		packet.isTrial = false;
 		packet.movementAuthority = 0;

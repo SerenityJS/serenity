@@ -1,4 +1,4 @@
-import { setTimeout, clearTimeout } from 'node:timers';
+import { setTimeout } from 'node:timers';
 import {
 	PROTOCOL_VERSION,
 	MINECRAFT_VERSION,
@@ -9,7 +9,7 @@ import {
 import { Server } from '@serenityjs/raknet-server';
 import { ServerProperties } from './Properties';
 import { Logger } from './console';
-import type { AbstractEvent } from './events';
+import type { AbstractEvent, Shutdown } from './events';
 import { SERENITY_EVENTS } from './events';
 import type { NetworkPacketEvent } from './network';
 import { Network, NetworkSession, NetworkStatus } from './network';
@@ -42,8 +42,10 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	 */
 	public constructor(options?: SerenityOptions) {
 		super();
-
 		this.logger = new Logger('Serenity', '#a742f5');
+
+		this.logger.info('Server is now starting...');
+
 		this.properties = new ServerProperties(this.logger);
 		Logger.DEBUG = options?.debug ?? this.properties.values.server.debug;
 		this.worlds = new Map();
@@ -51,7 +53,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		this.server = new Server(
 			options?.address ?? this.properties.values.server.address,
 			options?.port ?? this.properties.values.server.port,
-			options?.maxConnections ?? this.properties.values.server.maxConnections,
+			options?.maxConnections ?? this.properties.values.server['max-connections'],
 		);
 		this.protocol = options?.protocol ?? PROTOCOL_VERSION;
 		this.version = options?.version ?? MINECRAFT_VERSION;
@@ -77,13 +79,18 @@ class Serenity extends EventEmitter<SerenityEvents> {
 				// this.network.after(construct.packetHook, construct.logic.bind(construct) as never);
 				switch (event.method as HookMethod) {
 					case HookMethod.Before:
-						this.network.before(event.hook, event.logic.bind(event) as never);
+						this.network.before(event.hook!, event.logic.bind(event) as never);
 						break;
 					case HookMethod.On:
-						this.network.on(event.hook, event.logic.bind(event) as never);
+						this.network.on(event.hook!, event.logic.bind(event) as never);
 						break;
 					case HookMethod.After:
-						this.network.after(event.hook, event.logic.bind(event) as never);
+						this.network.after(event.hook!, event.logic.bind(event) as never);
+						break;
+					default:
+						// Custom logic events will not be hooked to any packet event.
+						// This may be used for custom events that are not related to packet events.
+						event.initialize();
 						break;
 				}
 
@@ -180,10 +187,6 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		const tick = () =>
 			setTimeout(() => {
-				for (const world of this.worlds.values()) {
-					world.tick();
-				}
-
 				tick();
 			}, 50);
 
@@ -192,10 +195,9 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		return true;
 	}
 
-	public stop(): void {
-		clearTimeout(this.interval!);
-
-		void this.server.stop();
+	public stop(reason?: string): void {
+		const shutdown = this.events.get('Shutdown') as typeof Shutdown;
+		void shutdown.logic(1, reason ?? 'Server is now shutting down...');
 	}
 
 	public setMotd(motd: string): void {

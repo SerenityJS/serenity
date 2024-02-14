@@ -229,7 +229,7 @@ class Filesystem extends Provider {
 
 				// Create the world instance, and add it to the serenity instance.
 				const newWorld = new World(serenity, filesystem);
-				serenity.worlds.set(newWorld.getName(), newWorld);
+				serenity.worlds.set(newWorld.properties.name, newWorld);
 
 				// Read the world dimensions properties, and register them.
 				for (const properties of filesystem.readDimensionsProperties()) {
@@ -245,9 +245,7 @@ class Filesystem extends Provider {
 					}
 
 					Filesystem.logger.success(
-						`Loaded ${chunks.length} chunks for dimension "${
-							dimension.properties.identifier
-						}" in world "${newWorld.getName()}."`,
+						`Loaded ${chunks.length} chunks for dimension "${dimension.properties.identifier}" in world "${newWorld.properties.name}."`,
 					);
 				}
 			}

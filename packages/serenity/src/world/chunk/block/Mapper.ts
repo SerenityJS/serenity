@@ -2,11 +2,14 @@ import type { Buffer } from 'node:buffer';
 import { CANONICAL_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { LightNBT, NBTTag } from '@serenityjs/nbt';
-import type { Logger } from '../../../console';
 import type { MappedBlock, RawBlock } from '../../../types';
+import type { World } from '../../World';
 import { BlockPermutation } from './Permutation';
 import { BlockType } from './Type';
 
+/**
+ * The block mapper class.
+ */
 class BlockMapper {
 	/**
 	 * The mapped blocks.
@@ -14,18 +17,24 @@ class BlockMapper {
 	protected readonly blocks: Map<string, MappedBlock> = new Map();
 
 	/**
-	 * The logger.
+	 * The world instance.
 	 */
-	protected readonly logger: Logger;
+	protected readonly world: World;
 
 	/**
 	 * The runtime ID.
 	 */
 	protected RUNTIME_ID = 0;
 
-	public constructor(logger: Logger, states?: Buffer) {
-		// Set the logger.
-		this.logger = logger;
+	/**
+	 * Constructs a new block mapper.
+	 *
+	 * @param world - The world instance.
+	 * @param states - The block states.
+	 */
+	public constructor(world: World, states?: Buffer) {
+		// Assign the world.
+		this.world = world;
 
 		// Create a new BinaryStream from the states buffer.
 		const stream = new BinaryStream(states ?? CANONICAL_BLOCK_STATES);
@@ -33,6 +42,7 @@ class BlockMapper {
 		// Check if the first tag is a compound tag.
 		if (stream.binary[stream.offset] !== NBTTag.Compoud) return;
 
+		// Decode the NBT data.
 		do {
 			// Read the root tag.
 			const data = LightNBT.ReadRootTag(stream) as RawBlock;
@@ -92,13 +102,46 @@ class BlockMapper {
 				types.push(type);
 			}
 
+			// Assign the types and permutations.
 			BlockType.types = types;
 			BlockPermutation.permutations = permutations;
 		} while (!stream.cursorAtEnd());
 
-		this.logger.debug(
+		// Log the block types and permutations.
+		this.world.logger.debug(
 			`Fully mapped ${BlockType.types.length} block types, and ${BlockPermutation.permutations.length} block permutations!`,
 		);
+	}
+
+	/**
+	 * Resolves a block permutation.
+	 *
+	 * @param identifier - The block identifier.
+	 * @param states - The block states.
+	 * @returns Returns the block permutation.
+	 */
+	public resolvePermutation(identifier: string, states?: Record<string, number | string>): BlockPermutation {
+		return BlockPermutation.resolve(identifier, states);
+	}
+
+	/**
+	 * Resolves a block permutation.
+	 *
+	 * @param runtimeId - The runtime ID.
+	 * @returns Returns the block permutation.
+	 */
+	public resolvePermutationByRuntimeId(runtimeId: number): BlockPermutation {
+		return BlockPermutation.resolveByRuntimeId(runtimeId);
+	}
+
+	/**
+	 * Resolves a block type.
+	 *
+	 * @param identifier - The block identifier.
+	 * @returns Returns the block type.
+	 */
+	public resolveType(identifier: string): BlockType {
+		return BlockType.resolve(identifier);
 	}
 }
 

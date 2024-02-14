@@ -156,10 +156,11 @@ class Network extends EventEmitter<NetworkEvents> {
 	 * Sends packets to a session.
 	 *
 	 * @param session The session to send the packets to.
+	 * @param priority The priority of the packets.
 	 * @param packets The packets to send.
 	 * @returns A promise that resolves when the packets have been sent.
 	 */
-	public async send(session: NetworkSession, ...packets: DataPacket[]): Promise<void> {
+	public async send(session: NetworkSession, priority = Priority.Normal, ...packets: DataPacket[]): Promise<void> {
 		try {
 			// Prepare an array of buffers
 			const payloads: Buffer[] = [];
@@ -223,7 +224,7 @@ class Network extends EventEmitter<NetworkEvents> {
 			frame.body = payload;
 
 			// And send the frame to the session.
-			return session.connection.sendFrame(frame, Priority.Normal);
+			return session.connection.sendFrame(frame, priority);
 		} catch (error) {
 			// If an error occurs, we will emit the error event.
 			this.logger.error(
@@ -244,7 +245,21 @@ class Network extends EventEmitter<NetworkEvents> {
 		// Loop through each session.
 		for (const session of this.sessions.values()) {
 			// Send the packet to the session.
-			await this.send(session, ...packets);
+			await this.send(session, Priority.Normal, ...packets);
+		}
+	}
+
+	/**
+	 * Broadcasts a packet to all players immediately.
+	 *
+	 * @param packets The packets to broadcast.
+	 * @returns A promise that resolves when the packets have been broadcasted.
+	 */
+	public async broadcastImmediate(...packets: DataPacket[]): Promise<void> {
+		// Loop through each session.
+		for (const session of this.sessions.values()) {
+			// Send the packet to the session.
+			await this.send(session, Priority.Immediate, ...packets);
 		}
 	}
 }

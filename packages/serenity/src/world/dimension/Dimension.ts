@@ -47,6 +47,10 @@ class Dimension {
 		this.spawn = properties.spawn;
 	}
 
+	public save(): void {
+		this.world.provider.writeChunks([...this.chunks.values()], this);
+	}
+
 	public async broadcast(...packets: DataPacket[]): Promise<void> {
 		// Loop through each player.
 		for (const player of this.getPlayers().values()) {

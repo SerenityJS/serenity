@@ -82,7 +82,7 @@ class BlockPermutation {
 		);
 
 		// Return the permutation.
-		return permutation ?? type.getDefaultPermutation();
+		return permutation ?? type.getPermutation();
 	}
 
 	/**

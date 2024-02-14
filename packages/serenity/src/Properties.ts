@@ -8,7 +8,7 @@ const DEFAULT_SERVER_PROPERTIES = {
 	server: {
 		address: '0.0.0.0',
 		port: 19_132,
-		maxConnections: 10,
+		'max-connections': 10,
 		motd: 'SerenityJS',
 		debug: false,
 	},

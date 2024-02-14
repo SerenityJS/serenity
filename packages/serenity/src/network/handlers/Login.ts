@@ -69,8 +69,8 @@ class LoginHandler extends NetworkHandler {
 			defaultProperties.xuid = xuid;
 			defaultProperties.username = data.identityData.displayName;
 			defaultProperties.uuid = data.identityData.identity;
-			defaultProperties.position = world.getDefaultDimension().spawn;
-			defaultProperties.dimension = world.getDefaultDimension().properties.identifier;
+			defaultProperties.position = world.getDimension().spawn;
+			defaultProperties.dimension = world.getDimension().properties.identifier;
 
 			// Write the default player properties to the world provider.
 			world.provider.writePlayerProperties(xuid, defaultProperties);

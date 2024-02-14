@@ -11,8 +11,10 @@ abstract class Provider {
 
 	public abstract readonly path: string;
 
+	// remove
 	public abstract readChunks(dimension: Dimension): Chunk[];
 
+	// remove
 	public abstract writeChunks(chunks: Chunk[], dimension: Dimension): void;
 
 	public abstract readProperties(): WorldProperties;
