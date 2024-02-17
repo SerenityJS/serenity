@@ -1,8 +1,8 @@
 import { ZigZag, Bool } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { DimensionType, Packet as PacketId } from '../enums';
-import { Vector3f } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { DimensionType, Packet as PacketId } from '../enums/index.js';
+import { Vector3f } from '../types/index.js';
 
 @Packet(PacketId.ChangeDimension)
 class ChangeDimension extends DataPacket {

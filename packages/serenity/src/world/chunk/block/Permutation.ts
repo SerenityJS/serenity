@@ -1,4 +1,4 @@
-import { BlockType } from './Type';
+import { BlockType } from './Type.js';
 
 /**
  * Represents a block permutation.

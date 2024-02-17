@@ -1,8 +1,8 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { AbilityLayerType } from '../enums';
-import { MoveMode, AbilityLayerFlag } from '../enums';
+import type { AbilityLayerType } from '../enums/index.js';
+import { AbilityLayerFlag } from '../enums/index.js';
 
 interface AbilityFlag {
 	flag: AbilityLayerFlag;

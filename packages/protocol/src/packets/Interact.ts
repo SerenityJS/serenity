@@ -1,8 +1,8 @@
 import { Uint8, Endianness, VarLong } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { InteractActions, Packet as PacketId } from '../enums';
-import { InteractPosition, Vector3f } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { InteractActions, Packet as PacketId } from '../enums/index.js';
+import { InteractPosition, Vector3f } from '../types/index.js';
 
 @Packet(PacketId.Interact)
 class Interact extends DataPacket {

@@ -1,10 +1,10 @@
 import type { Disconnect } from '@serenityjs/bedrock-protocol';
-import { DisconnectReason, Packet, PlayerStatus } from '@serenityjs/bedrock-protocol';
-import type { Serenity } from '../Serenity';
-import { NetworkStatus, type NetworkPacketEvent, type NetworkSession } from '../network';
-import type { Player } from '../player';
-import { HookMethod } from '../types';
-import { AbstractEvent } from './AbstractEvent';
+import { DisconnectReason, Packet } from '@serenityjs/bedrock-protocol';
+import type { Serenity } from '../Serenity.js';
+import { NetworkStatus, type NetworkPacketEvent } from '../network/index.js';
+import type { Player } from '../player/index.js';
+import { HookMethod } from '../types/index.js';
+import { AbstractEvent } from './AbstractEvent.js';
 
 class PlayerLeft extends AbstractEvent {
 	public static serenity: Serenity;

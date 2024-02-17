@@ -1,11 +1,11 @@
 import { Endianness, Float32, Uuid, VarLong, VarString, ZigZag, Int64, Uint8, Int32 } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { CommandPermissionLevel, DeviceOS, Gamemode, Packet as PacketId, PermissionLevel } from '../enums';
-import { EntityProperties, Item, MetadataDictionary, Vector3f, AbilityLayers, Links, Vector2f } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { CommandPermissionLevel, DeviceOS, Gamemode, Packet as PacketId, PermissionLevel } from '../enums/index.js';
+import { EntityProperties, Item, MetadataDictionary, Vector3f, AbilityLayers, Links, Vector2f } from '../types/index.js';
 
 @Packet(PacketId.AddPlayer)
-class AddPlayer<T = unknown> extends DataPacket {
+class AddPlayer extends DataPacket {
 	@Serialize(Uuid) public uuid!: string;
 	@Serialize(VarString) public username!: string;
 	@Serialize(VarLong) public runtimeId!: bigint;

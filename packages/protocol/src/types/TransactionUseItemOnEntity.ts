@@ -1,8 +1,8 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { UseItemOnEntityAction } from '../enums';
-import { Item } from './Item';
-import { Vector3f } from './Vector3f';
+import type { UseItemOnEntityAction } from '../enums/index.js';
+import { Item } from './Item.js';
+import { Vector3f } from './Vector3f.js';
 
 class TransactionUseItemOnEntity extends DataType {
 	/**

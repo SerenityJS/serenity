@@ -1,4 +1,4 @@
-import type { PlayerChat, PlayerJoined, PlayerLeft, PlayerSpawned, Shutdown } from '../events';
+import type { PlayerChat, PlayerJoined, PlayerLeft, PlayerSpawned, Shutdown } from '../events/index.js';
 
 interface SerenityEvents {
 	PlayerChat: [PlayerChat];

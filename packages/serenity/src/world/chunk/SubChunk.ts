@@ -1,6 +1,6 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
-import { BlockStorage } from './BlockStorage';
-import type { BlockPermutation } from './block';
+import { BlockStorage } from './BlockStorage.js';
+import type { BlockPermutation } from './block/index.js';
 
 /**
  * Represents a sub chunk.

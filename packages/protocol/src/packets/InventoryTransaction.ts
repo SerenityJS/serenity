@@ -1,8 +1,8 @@
 import { Endianness, VarInt } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Packet as PacketId, TransactionType } from '../enums';
-import { TransactionActions, TransactionData, TransactionLegacy } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { Packet as PacketId, TransactionType } from '../enums/index.js';
+import { TransactionActions, TransactionData, TransactionLegacy } from '../types/index.js';
 
 @Packet(PacketId.InventoryTransaction)
 class InventoryTransaction extends DataPacket {

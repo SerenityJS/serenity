@@ -15,9 +15,17 @@ import {
 	Uuid,
 } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Difficulty, Gamemode, Packet as PacketId, PermissionLevel } from '../enums';
-import { Vector3f, Vector2f, BlockCoordinates, GameRules, Experiments, BlockProperties, Itemstates } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { Difficulty, Gamemode, Packet as PacketId, PermissionLevel } from '../enums/index.js';
+import {
+	Vector3f,
+	Vector2f,
+	BlockCoordinates,
+	GameRules,
+	Experiments,
+	BlockProperties,
+	Itemstates,
+} from '../types/index.js';
 
 @Packet(PacketId.StartGame)
 class StartGame extends DataPacket {

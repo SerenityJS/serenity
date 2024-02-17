@@ -1,7 +1,7 @@
 import { Bool, Endianness, Float32, Short, Uint8 } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { CompressionMethod, Packet as PacketId } from '../enums';
+import { DataPacket } from '../DataPacket.js';
+import { CompressionMethod, Packet as PacketId } from '../enums/index.js';
 
 @Packet(PacketId.NetworkSettings)
 class NetworkSettings extends DataPacket {

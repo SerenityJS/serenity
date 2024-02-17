@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { BinaryStream, Endianness } from '@serenityjs/binarystream';
-import type { ClientData } from '../../types';
+import type { ClientData } from '../../types/index.js';
 
 //
 // TODO: Document this file, and split it up into multiple files.

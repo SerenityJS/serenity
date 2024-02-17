@@ -12,7 +12,7 @@ enum Packet {
 	Text = 0x09, // 9
 	StartGame = 0x0b, // 11
 	AddPlayer = 0x0c, // 12
-	// AddEntity = 0x0d, // 13
+	AddEntity = 0x0d, // 13
 	RemoveEntity = 0x0e, // 14
 	MovePlayer = 0x13, // 19
 	UpdateBlock = 0x15, // 21

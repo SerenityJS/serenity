@@ -17,15 +17,15 @@ import type {
 	FormType,
 	Vector3f,
 } from '@serenityjs/bedrock-protocol';
-import type { Serenity } from '../Serenity';
-import type { MessageForm } from '../forms';
-import type { Network, NetworkSession } from '../network';
-import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerProperties } from '../types';
-import type { Chunk, World, Dimension } from '../world';
-import { Render } from './Render';
-import { Abilities } from './abilities';
-import { Attributes } from './attributes';
-import { Skin } from './skin';
+import type { Serenity } from '../Serenity.js';
+import { Entity } from '../entity/index.js';
+import type { Network, NetworkSession } from '../network/index.js';
+import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerProperties } from '../types/index.js';
+import type { Chunk, World, Dimension } from '../world/index.js';
+import { Render } from './Render.js';
+import { Abilities } from './abilities/index.js';
+import { Attributes } from './attributes/index.js';
+import { Skin } from './skin/Skin.js';
 
 // NOTE
 // STRUCTURE FOR PLAYER AND NEWORKSESSION CLASS
@@ -40,9 +40,8 @@ import { Skin } from './skin';
 /**
  * The player class.
  */
-class Player {
+class Player extends Entity {
 	protected readonly serenity: Serenity;
-	protected readonly properties: PlayerProperties;
 
 	public readonly network: Network;
 	public readonly session: NetworkSession;
@@ -50,8 +49,6 @@ class Player {
 	public readonly xuid: string;
 	public readonly uuid: string;
 	public readonly guid: bigint;
-	public readonly runtimeEntityId: bigint;
-	public readonly uniqueEntityId: bigint;
 	public readonly skin: Skin;
 	public readonly abilities: Abilities;
 	public readonly attributes: Attributes;
@@ -62,12 +59,7 @@ class Player {
 	>;
 
 	protected gamemode: Gamemode;
-	protected world: World;
-	protected dimension: Dimension;
 
-	public position: Vector3f;
-	public rotation: Vector2f;
-	public headYaw: number = 0;
 	public onGround: boolean = false;
 
 	/**
@@ -76,26 +68,18 @@ class Player {
 	 * @param session The network session.
 	 * @param tokens The login tokens.
 	 */
-	public constructor(session: NetworkSession, tokens: LoginTokenData, properties: PlayerProperties, world: World) {
+	public constructor(session: NetworkSession, tokens: LoginTokenData, dimension: Dimension) {
+		super('minecraft:player', dimension, session.uniqueId);
 		this.serenity = session.serenity;
-		this.properties = properties;
-
 		this.network = session.network;
 		this.session = session;
 		this.username = tokens.identityData.displayName;
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
 		this.guid = session.guid;
-		this.runtimeEntityId = session.runtimeId;
-		this.uniqueEntityId = session.uniqueId;
 		this.skin = new Skin(tokens.clientData);
 
-		this.world = world;
-		this.gamemode = this.world.gamemode;
-		this.dimension = this.world.getDimension('minecraft:overworld');
-
-		this.position = this.properties.position;
-		this.rotation = this.properties.rotation;
+		this.gamemode = this.dimension.world.gamemode;
 
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
@@ -103,60 +87,12 @@ class Player {
 		this.forms = new Map();
 	}
 
-	public saveProperties(): void {
-		this.properties.dimension = this.getDimension().properties.identifier;
-		this.properties.position = this.position;
-		this.properties.rotation = this.rotation;
-
-		this.world.provider.writePlayerProperties(this.xuid, this.properties);
-	}
-
 	public getWorld(): World {
-		return this.world;
-	}
-
-	public setWorld(world: World): void {
-		throw new Error('Player.setWorld is not implemented');
+		return this.dimension.world;
 	}
 
 	public getDimension(): Dimension {
 		return this.dimension;
-	}
-
-	public setDimension(dimension: Dimension): void {
-		this.dimension = dimension;
-
-		const change = new ChangeDimension();
-		change.dimension = dimension.type;
-		change.position = dimension.spawn;
-		change.respawn = true;
-
-		void this.session.send(change);
-
-		this.render.chunks.clear();
-
-		const chunks = this.dimension.getSpawnChunks();
-
-		const update = new NetworkChunkPublisherUpdate();
-		update.coordinate = this.dimension.spawn;
-		update.radius = this.dimension.viewDistance;
-		update.savedChunks = chunks.map((chunk: Chunk) => {
-			return {
-				x: chunk.x,
-				z: chunk.z,
-			};
-		});
-
-		void this.session.send(update);
-
-		for (const chunk of chunks) {
-			this.render.sendChunk(chunk);
-		}
-
-		const status = new PlayStatus();
-		status.status = PlayerStatus.PlayerSpawn;
-
-		void this.session.send(status);
 	}
 
 	/**
@@ -185,12 +121,8 @@ class Player {
 	 * @returns The player's current chunk.
 	 */
 	public getCurrentChunk(): Chunk {
-		// TODO: get the players current dimension.
-		// Get the dimension.
-		const dimension = this.world.getDimension('minecraft:overworld');
-
 		// Return the chunk.
-		return dimension.getChunk(this.position.x >> 4, this.position.z >> 4);
+		return this.dimension.getChunk(this.position.x >> 4, this.position.z >> 4);
 	}
 
 	/**
@@ -228,7 +160,7 @@ class Player {
 		// Assign the packet data.
 		packet.position = position;
 		packet.state = state;
-		packet.runtimeEntityId = this.runtimeEntityId;
+		packet.runtimeEntityId = this.runtimeId;
 
 		// Send the packet.
 		void this.session.send(packet);

@@ -1,7 +1,7 @@
 import { ZigZag } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Gamemode, Packet as PacketId } from '../enums';
+import { DataPacket } from '../DataPacket.js';
+import { Gamemode, Packet as PacketId } from '../enums/index.js';
 
 @Packet(PacketId.SetPlayerGameType)
 class SetPlayerGameType extends DataPacket {

@@ -1,8 +1,8 @@
 import { Endianness } from '@serenityjs/binarystream';
 import type { BinaryStream } from '@serenityjs/binarystream';
-import type { NBTValue } from '../NBT';
-import { NBTTag, Int16, Int32, Int64, Float, Double } from '../NBT';
-import { GeneralNBTDefinitionWriter, GeneralNBTDefinitionReader, NBT } from './General';
+import { NBTTag, Int16, Int32, Int64, Float, Double } from '../NBT.js';
+import type { NBTValue } from '../NBT.js';
+import { GeneralNBTDefinitionWriter, GeneralNBTDefinitionReader, NBT } from './General.js';
 
 class BedrockNBTDefinitionWriter extends GeneralNBTDefinitionWriter {
 	public [NBTTag.Int16](value: number): void {

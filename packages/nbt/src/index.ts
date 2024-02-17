@@ -19,7 +19,7 @@ export {
 	type NBTSerializable,
 	type NBTValue,
 	type NBTCompoud,
-} from './NBT';
+} from './NBT.js';
 export {
 	BedrockNBT,
 	LightNBT,
@@ -28,4 +28,4 @@ export {
 	BedrockNBTDefinitionWriter,
 	LightNBTDefinitionReader,
 	LightNBTDefinitionWriter,
-} from './NBTDefinitions';
+} from './NBTDefinitions/index.js';

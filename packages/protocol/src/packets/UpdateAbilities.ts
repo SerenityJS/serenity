@@ -1,8 +1,8 @@
 import { Endianness, Int64, Uint8 } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { CommandPermissionLevel, Packet as PacketId, PermissionLevel } from '../enums';
-import { AbilityLayers } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { CommandPermissionLevel, Packet as PacketId, PermissionLevel } from '../enums/index.js';
+import { AbilityLayers } from '../types/index.js';
 
 @Packet(PacketId.UpdateAbilities)
 class UpdateAbilities extends DataPacket {

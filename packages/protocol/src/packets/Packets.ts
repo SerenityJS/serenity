@@ -1,49 +1,50 @@
 // NOTE: Please try to put the packets in the order according to their id. Thx!
 
 import { Disconnect } from '@serenityjs/raknet-protocol';
-import { Packet } from '../enums';
-import { AddPlayer } from './AddPlayer';
-import { AvailableCommands } from './AvailableCommands';
-import { BiomeDefinitionList } from './BiomeDefinitionList';
-import { BlockPickRequest } from './BlockPickRequest';
-import { ChangeDimension } from './ChangeDimension';
-import { ChunkRadiusUpdate } from './ChunkRadiusUpdate';
-import { CommandRequest } from './CommandRequest';
-import { ContainerClose } from './ContainerClose';
-import { ContainerOpen } from './ContainerOpen';
-import { CreativeContent } from './CreativeContent';
-import { Interact } from './Interact';
-import { InventoryTransaction } from './InventoryTransaction';
-import { LevelChunk } from './LevelChunk';
-import { Login } from './Login';
-import { ModalFormRequest } from './ModalFormRequest';
-import { ModalFormResponse } from './ModalFormResponse';
-import { MovePlayer } from './MovePlayer';
-import { NetworkChunkPublisherUpdate } from './NetworkChunkPublisherUpdate';
-import { NetworkSettings } from './NetworkSettings';
-import { PacketViolationWarning } from './PacketViolationWarning';
-import { PlayStatus } from './PlayStatus';
-import { PlayerAction } from './PlayerAction';
-import { PlayerList } from './PlayerList';
-import { RemoveEntity } from './RemoveEntity';
-import { RequestChunkRadius } from './RequestChunkRadius';
-import { RequestNetworkSettings } from './RequestNetworkSettings';
-import { ResourcePackClientResponse } from './ResourcePackClientResponse';
-import { ResourcePackStack } from './ResourcePackStack';
-import { ResourcePacksInfo } from './ResourcePacksInfo';
-import { Respawn } from './Respawn';
-import { ScriptMessage } from './ScriptMessage';
-// import { SelectedSlot } from './SelectedSlot';
-import { SetEntityData } from './SetEntityData';
-import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized';
-import { SetPlayerGameType } from './SetPlayerGameType';
-import { SetTitle } from './SetTitle';
-import { StartGame } from './StartGame';
-import { Text } from './Text';
-import { ToastRequest } from './ToastRequest';
-import { UpdateAbilities } from './UpdateAbilities';
-import { UpdateAttributes } from './UpdateAttributes';
-import { UpdateBlock } from './UpdateBlock';
+import { Packet } from '../enums/index.js';
+import { AddEntity } from './AddEntity.js';
+import { AddPlayer } from './AddPlayer.js';
+import { AvailableCommands } from './AvailableCommands.js';
+import { BiomeDefinitionList } from './BiomeDefinitionList.js';
+import { BlockPickRequest } from './BlockPickRequest.js';
+import { ChangeDimension } from './ChangeDimension.js';
+import { ChunkRadiusUpdate } from './ChunkRadiusUpdate.js';
+import { CommandRequest } from './CommandRequest.js';
+import { ContainerClose } from './ContainerClose.js';
+import { ContainerOpen } from './ContainerOpen.js';
+import { CreativeContent } from './CreativeContent.js';
+import { Interact } from './Interact.js';
+import { InventoryTransaction } from './InventoryTransaction.js';
+import { LevelChunk } from './LevelChunk.js';
+import { Login } from './Login.js';
+import { ModalFormRequest } from './ModalFormRequest.js';
+import { ModalFormResponse } from './ModalFormResponse.js';
+import { MovePlayer } from './MovePlayer.js';
+import { NetworkChunkPublisherUpdate } from './NetworkChunkPublisherUpdate.js';
+import { NetworkSettings } from './NetworkSettings.js';
+import { PacketViolationWarning } from './PacketViolationWarning.js';
+import { PlayStatus } from './PlayStatus.js';
+import { PlayerAction } from './PlayerAction.js';
+import { PlayerList } from './PlayerList.js';
+import { RemoveEntity } from './RemoveEntity.js';
+import { RequestChunkRadius } from './RequestChunkRadius.js';
+import { RequestNetworkSettings } from './RequestNetworkSettings.js';
+import { ResourcePackClientResponse } from './ResourcePackClientResponse.js';
+import { ResourcePackStack } from './ResourcePackStack.js';
+import { ResourcePacksInfo } from './ResourcePacksInfo.js';
+import { Respawn } from './Respawn.js';
+import { ScriptMessage } from './ScriptMessage.js';
+// import { SelectedSlot } from './SelectedSlot.js';
+import { SetEntityData } from './SetEntityData.js';
+import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized.js';
+import { SetPlayerGameType } from './SetPlayerGameType.js';
+import { SetTitle } from './SetTitle.js';
+import { StartGame } from './StartGame.js';
+import { Text } from './Text.js';
+import { ToastRequest } from './ToastRequest.js';
+import { UpdateAbilities } from './UpdateAbilities.js';
+import { UpdateAttributes } from './UpdateAttributes.js';
+import { UpdateBlock } from './UpdateBlock.js';
 
 const Packets = {
 	[Packet.Login]: Login, // 1
@@ -55,6 +56,7 @@ const Packets = {
 	[Packet.Text]: Text, // 9
 	[Packet.StartGame]: StartGame, // 11
 	[Packet.AddPlayer]: AddPlayer, // 12
+	[Packet.AddEntity]: AddEntity, // 13
 	[Packet.RemoveEntity]: RemoveEntity, // 14
 	[Packet.MovePlayer]: MovePlayer, // 19
 	[Packet.UpdateBlock]: UpdateBlock, // 21

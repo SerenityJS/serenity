@@ -1,1 +1,1 @@
-export * from './Skin';
+export * from './Skin.js';

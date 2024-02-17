@@ -1,6 +1,6 @@
 import type { Packet } from '@serenityjs/bedrock-protocol';
-import type { Serenity } from '../Serenity';
-import type { HookMethod } from '../types';
+import type { Serenity } from '../Serenity.js';
+import type { HookMethod } from '../types/index.js';
 
 /**
  * The abstract event class.

@@ -1,13 +1,13 @@
 import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { TransactionType } from '../enums';
-import type { ItemReleaseAction, UseItemOnEntityAction, UseItemAction } from '../enums';
-import type { BlockCoordinates } from './BlockCoordinates';
-import type { Item } from './Item';
-import { TransactionItemRelease } from './TransactionItemRelease';
-import { TransactionUseItem } from './TransactionUseItem';
-import { TransactionUseItemOnEntity } from './TransactionUseItemOnEntity';
-import type { Vector3f } from './Vector3f';
+import { TransactionType } from '../enums/index.js';
+import type { ItemReleaseAction, UseItemOnEntityAction, UseItemAction } from '../enums/index.js';
+import type { BlockCoordinates } from './BlockCoordinates.js';
+import type { Item } from './Item.js';
+import { TransactionItemRelease } from './TransactionItemRelease.js';
+import { TransactionUseItem } from './TransactionUseItem.js';
+import { TransactionUseItemOnEntity } from './TransactionUseItemOnEntity.js';
+import type { Vector3f } from './Vector3f.js';
 
 class TransactionData extends DataType {
 	public action: ItemReleaseAction | UseItemAction | UseItemOnEntityAction | null;

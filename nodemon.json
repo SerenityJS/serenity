@@ -1,9 +1,9 @@
 {
 	"restartable": "rs",
 	"ignore": ["node_modules/"],
-	"watch": ["src/", "launcher/"],
+	"watch": ["src/", "launcher/", "dist/"],
 	"execMap": {
-		"ts": "node -r ts-node/register"
+		"ts": "node --loader ts-node/esm --no-warnings"
 	},
 	"env": {
 		"NODE_ENV": "development"

@@ -1,6 +1,6 @@
-import type { BlockMapper, Chunk } from '../chunk';
-import { BlockPermutation } from '../chunk';
-import { TerrainGenerator } from './Generator';
+import type { BlockMapper, Chunk } from '../chunk/index.js';
+import { BlockPermutation } from '../chunk/index.js';
+import { TerrainGenerator } from './Generator.js';
 
 export class NetherFlat extends TerrainGenerator {
 	public readonly layersMetrix;

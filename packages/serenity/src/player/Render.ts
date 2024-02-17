@@ -7,9 +7,9 @@ import {
 	RecordAction,
 	RemoveEntity,
 } from '@serenityjs/bedrock-protocol';
-import type { Serenity } from '../Serenity';
-import type { Chunk } from '../world/chunk';
-import type { Player } from './Player';
+import type { Serenity } from '../Serenity.js';
+import type { Chunk } from '../world/index.js';
+import type { Player } from './Player.js';
 
 class Render {
 	protected readonly serenity: Serenity;
@@ -35,7 +35,7 @@ class Render {
 
 	public addPlayer(player: Player): void {
 		// Check if the player is already being rendered.
-		if (this.players.has(player.uniqueEntityId)) return;
+		if (this.players.has(player.uniqueId)) return;
 
 		// Construct the a new PlayerList packet.
 		const list = new PlayerList();
@@ -43,7 +43,7 @@ class Render {
 		list.records = [
 			{
 				uuid: player.uuid,
-				entityUniqueId: player.uniqueEntityId,
+				entityUniqueId: player.uniqueId,
 				username: player.username,
 				xuid: player.xuid,
 				platformChatId: '',
@@ -58,12 +58,12 @@ class Render {
 		const entity = new AddPlayer();
 		entity.uuid = player.uuid;
 		entity.username = player.username;
-		entity.runtimeId = player.runtimeEntityId;
+		entity.runtimeId = player.runtimeId;
 		entity.platformChatId = ''; // TODO: Not sure what this is.
 		entity.position = player.position;
 		entity.velocity = { x: 0, y: 5, z: 0 };
 		entity.rotation = player.rotation;
-		entity.headYaw = player.headYaw;
+		entity.headYaw = player.rotation.z;
 		entity.heldItem = {
 			networkId: 0,
 			count: null,
@@ -79,7 +79,7 @@ class Render {
 			ints: [],
 			floats: [],
 		};
-		entity.uniqueEntityId = player.uniqueEntityId;
+		entity.uniqueEntityId = player.uniqueId;
 		entity.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the player.
 		entity.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the player.
 		entity.abilities = [];
@@ -88,7 +88,7 @@ class Render {
 		entity.deviceOS = 7; // TODO: Get the device OS from the player.
 
 		// Add the player to the set.
-		this.players.add(player.uniqueEntityId);
+		this.players.add(player.uniqueId);
 
 		// Send the packets to the player.
 		void this.player.session.send(list, entity);
@@ -96,7 +96,7 @@ class Render {
 
 	public removePlayer(player: Player): void {
 		// Check if the player is not being rendered.
-		if (!this.players.has(player.uniqueEntityId)) return;
+		if (!this.players.has(player.uniqueId)) return;
 
 		// Construct the a new PlayerList packet.
 		const list = new PlayerList();
@@ -109,10 +109,10 @@ class Render {
 
 		// Construct the a new RemoveEntity packet.
 		const entity = new RemoveEntity();
-		entity.uniqueEntityId = player.uniqueEntityId;
+		entity.uniqueEntityId = player.uniqueId;
 
 		// Remove the player from the set.
-		this.players.delete(player.uniqueEntityId);
+		this.players.delete(player.uniqueId);
 
 		// Send the packet to the player.
 		void this.player.session.send(list, entity);

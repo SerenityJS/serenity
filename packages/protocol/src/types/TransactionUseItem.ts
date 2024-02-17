@@ -1,9 +1,9 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { UseItemAction } from '../enums';
-import { BlockCoordinates } from './BlockCoordinates';
-import { Item } from './Item';
-import { Vector3f } from './Vector3f';
+import type { UseItemAction } from '../enums/index.js';
+import { BlockCoordinates } from './BlockCoordinates.js';
+import { Item } from './Item.js';
+import { Vector3f } from './Vector3f.js';
 
 class TransactionUseItem extends DataType {
 	public action: UseItemAction;

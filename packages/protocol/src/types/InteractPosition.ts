@@ -1,7 +1,7 @@
 import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { InteractActions } from '../enums';
-import { Vector3f } from './Vector3f';
+import { InteractActions } from '../enums/index.js';
+import { Vector3f } from './Vector3f.js';
 
 class InteractPosition extends DataType {
 	public static read(stream: BinaryStream, endian: Endianness, action: InteractActions): Vector3f | null {

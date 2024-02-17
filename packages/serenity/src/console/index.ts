@@ -1,2 +1,2 @@
-export * from './Logger';
-export * from './LoggerColors';
+export * from './Logger.js';
+export * from './LoggerColors.js';

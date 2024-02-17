@@ -1,6 +1,6 @@
 import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { ModalFormCanceledReason } from '../enums';
+import type { ModalFormCanceledReason } from '../enums/index.js';
 
 class ModalFormCanceled extends DataType {
 	public static override read(

@@ -1,25 +1,22 @@
 import { ChatTypes, Gamemode, Text } from '@serenityjs/bedrock-protocol';
-import type { DimensionType, DataPacket } from '@serenityjs/bedrock-protocol';
-import type { Serenity } from '../Serenity';
-import { Logger, LoggerColors } from '../console';
-import { Player } from '../player';
-import type { DimensionProperties, WorldProperties } from '../types';
-import { WorldNetwork } from './Network';
-import { BlockMapper } from './chunk';
-import { Dimension } from './dimension';
-import type { TerrainGenerator } from './generator';
-import type { Provider } from './provider';
+import type { DimensionType } from '@serenityjs/bedrock-protocol';
+import { Logger } from '../console/index.js';
+import type { Player } from '../player/index.js';
+import type { WorldProvider } from '../provider/index.js';
+import type { WorldProperties } from '../types/index.js';
+import { WorldNetwork } from './Network.js';
+import { DEFAULT_WORLD_PROPERTIES } from './Properties.js';
+import { BlockMapper } from './chunk/index.js';
+import { Dimension } from './dimension/index.js';
+import type { TerrainGenerator } from './generator/index.js';
 
 class World {
-	/**
-	 * The serenity instance.
-	 */
-	protected readonly serenity: Serenity;
+	public readonly name: string;
 
 	/**
 	 * This is the provider for the world, it handles reading and writing the world data.
 	 */
-	public readonly provider: Provider;
+	public readonly provider: WorldProvider;
 
 	/**
 	 * The world network handles the sending and receiving of packets for the world.
@@ -48,31 +45,27 @@ class World {
 	 */
 	public readonly dimensions: Map<string, Dimension>;
 
-	/**
-	 * The players in the world mapped by their raknet guid.
-	 */
-	public readonly players: Map<bigint, Player>;
-
 	public gamemode: Gamemode = Gamemode.Survival;
 
-	public constructor(serenity: Serenity, provider: Provider) {
-		this.serenity = serenity;
+	public constructor(name: string, provider: WorldProvider, properties?: WorldProperties) {
+		this.name = name;
 		this.provider = provider;
+		this.properties = properties ?? DEFAULT_WORLD_PROPERTIES;
 		this.network = new WorldNetwork(this);
-		this.properties = provider.readProperties();
 		this.logger = new Logger(this.properties.name, '#34eb92');
 		this.blocks = new BlockMapper(this);
 		this.dimensions = new Map();
-		this.players = new Map();
 	}
 
-	// TODO: move this to the provider, as writeAdd or something
-	public save(): void {
-		this.provider.writeProperties(this.properties);
+	/**
+	 * Get the players in the world.
+	 *
+	 * @returns The players in the world.
+	 */
+	public getPlayers(): Player[] {
+		const players = [...this.dimensions.values()].map((dimension) => dimension.getPlayers());
 
-		for (const dimension of this.dimensions.values()) {
-			dimension.save();
-		}
+		return players.flat();
 	}
 
 	/**
@@ -86,54 +79,23 @@ class World {
 		return this.dimensions.get(name ?? this.properties.dimension)!;
 	}
 
-	public registerDimension(
-		type: DimensionType,
-		properties: DimensionProperties,
-		generator: TerrainGenerator,
-	): Dimension {
-		if (this.dimensions.has(properties.identifier)) {
-			this.logger.error(
-				`Failed to register dimension, dimension identifier [${properties.identifier}] already exists!`,
-			);
+	public registerDimension(identifier: string, type: DimensionType, generator: TerrainGenerator): Dimension {
+		// Check if the dimension is already registered.
+		if (this.dimensions.has(identifier)) {
+			this.logger.error(`Failed to register dimension, dimension identifier [${identifier}] already exists!`);
 
-			return this.dimensions.get(properties.identifier)!;
+			return this.dimensions.get(identifier)!;
 		}
 
-		this.dimensions.set(properties.identifier, new Dimension(this, type, properties, generator));
+		// Construct the dimension.
+		const dimension = new Dimension(identifier, type, generator, this);
 
-		return this.dimensions.get(properties.identifier)!;
-	}
+		// Add the dimension to the map.
 
-	public spawnEntity(entity: Player | any, dimension?: Dimension): void {
-		// Check if the entity is a player
-		if (entity instanceof Player) {
-			// Check if the player is already in the dimension
-			if (this.players.has(entity.uniqueEntityId)) {
-				return this.logger.error(`${entity.username} (${entity.xuid}) is already in the world!`);
-			}
+		this.dimensions.set(identifier, dimension);
 
-			// Set the player's world to this world.
-			this.players.set(entity.uniqueEntityId, entity);
-
-			// Add the player to the dimension.
-			(dimension ?? entity.getDimension()).spawnEntity(entity);
-		}
-	}
-
-	public despawnEntity(entity: Player | any, dimension?: Dimension): void {
-		// Check if the entity is a player
-		if (entity instanceof Player) {
-			// Check if the player is not in the dimension
-			if (!this.players.has(entity.uniqueEntityId)) {
-				return this.logger.error(`${entity.username} (${entity.xuid}) is not in the world!`);
-			}
-
-			// Remove the player from the dimension.
-			(dimension ?? entity.getDimension()).despawnEntity(entity);
-
-			// Remove the player from the players map.
-			this.players.delete(entity.uniqueEntityId);
-		}
+		// Return the dimension.
+		return dimension;
 	}
 
 	/**

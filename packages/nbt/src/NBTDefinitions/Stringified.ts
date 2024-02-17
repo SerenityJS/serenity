@@ -1,6 +1,6 @@
 /* eslint-disable no-inner-declarations */
 import type { Buffer } from 'node:buffer';
-import type { NBTSerializable, NBTValue } from '../NBT';
+import type { NBTSerializable, NBTValue } from '../NBT.js';
 import {
 	NBTTag,
 	Byte,
@@ -13,8 +13,8 @@ import {
 	DefinitionWriter,
 	NBT_SERIALIZER,
 	NBT_TYPE,
-} from '../NBT';
-import { NBT } from './General';
+} from '../NBT.js';
+import { NBT } from './General.js';
 
 class StringifiedNBTDefinitionWriter extends DefinitionWriter {
 	public writeType(value: number): void {

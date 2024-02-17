@@ -1,10 +1,10 @@
 import type { Text } from '@serenityjs/bedrock-protocol';
 import { Packet } from '@serenityjs/bedrock-protocol';
-import type { Serenity } from '../Serenity';
-import { NetworkStatus, type NetworkPacketEvent } from '../network';
-import type { Player } from '../player';
-import { HookMethod } from '../types';
-import { AbstractEvent } from './AbstractEvent';
+import type { Serenity } from '../Serenity.js';
+import { NetworkStatus, type NetworkPacketEvent } from '../network/index.js';
+import type { Player } from '../player/index.js';
+import { HookMethod } from '../types/index.js';
+import { AbstractEvent } from './AbstractEvent.js';
 
 class PlayerChat extends AbstractEvent {
 	public static serenity: Serenity;

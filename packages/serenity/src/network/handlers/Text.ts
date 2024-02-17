@@ -1,17 +1,18 @@
+import type { Packet } from '@serenityjs/bedrock-protocol';
 import { DisconnectReason, Text } from '@serenityjs/bedrock-protocol';
-import type { NetworkSession } from '../Session';
-import { NetworkHandler } from './NetworkHandler';
+import type { NetworkSession } from '../Session.js';
+import { NetworkHandler } from './NetworkHandler.js';
 
 class TextHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet = Text.ID;
+	public static override packet: Packet = Text.ID;
 
 	public static override async handle(packet: Text, session: NetworkSession): Promise<void> {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
-		const player = session.getPlayerInstance();
+		const player = session.player;
 
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);

@@ -1,8 +1,8 @@
 import { Int8, ZigZong } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Packet as PacketId, WindowsIds, WindowsTypes } from '../enums';
-import { BlockCoordinates } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { Packet as PacketId, WindowsIds, WindowsTypes } from '../enums/index.js';
+import { BlockCoordinates } from '../types/index.js';
 
 @Packet(PacketId.ContainerOpen)
 class ContainerOpen extends DataPacket {

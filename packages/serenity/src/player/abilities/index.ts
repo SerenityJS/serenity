@@ -1,2 +1,2 @@
-export * from './Abilities';
-export * from './Defaults';
+export * from './Abilities.js';
+export * from './Defaults.js';

@@ -2,10 +2,10 @@ import type { Buffer } from 'node:buffer';
 import { CANONICAL_BLOCK_STATES } from '@serenityjs/bedrock-data';
 import { BinaryStream } from '@serenityjs/binarystream';
 import { LightNBT, NBTTag } from '@serenityjs/nbt';
-import type { MappedBlock, RawBlock } from '../../../types';
-import type { World } from '../../World';
-import { BlockPermutation } from './Permutation';
-import { BlockType } from './Type';
+import type { MappedBlock, RawBlock } from '../../../types/index.js';
+import type { World } from '../../World.js';
+import { BlockPermutation } from './Permutation.js';
+import { BlockType } from './Type.js';
 
 /**
  * The block mapper class.

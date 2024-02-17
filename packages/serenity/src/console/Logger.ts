@@ -1,7 +1,7 @@
 import type { Chalk } from 'chalk';
 import chalk from 'chalk';
 import moment from 'moment';
-import type { LoggerColors } from './LoggerColors';
+import type { LoggerColors } from './LoggerColors.js';
 
 /**
  * Logger adds

@@ -1,8 +1,8 @@
 import { Bool } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Packet as PacketId } from '../enums';
-import { BehaviorPackInfo, TexturePackInfo, PackLinks } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { Packet as PacketId } from '../enums/index.js';
+import { BehaviorPackInfo, TexturePackInfo, PackLinks } from '../types/index.js';
 
 @Packet(PacketId.ResourcePacksInfo)
 class ResourcePacksInfo extends DataPacket {

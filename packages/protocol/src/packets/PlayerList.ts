@@ -1,8 +1,8 @@
 import { Endianness, Uint8 } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Packet as PacketId, RecordAction } from '../enums';
-import { Records } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { Packet as PacketId, RecordAction } from '../enums/index.js';
+import { Records } from '../types/index.js';
 
 @Packet(PacketId.PlayerList)
 class PlayerList extends DataPacket {

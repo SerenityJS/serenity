@@ -1,7 +1,7 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { Attribute } from '../enums';
+import type { Attribute } from '../enums/index.js';
 
 interface AttributeModifier {
 	amount: number;

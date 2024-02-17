@@ -6,9 +6,9 @@ import {
 	Attribute,
 	UpdateAttributes,
 } from '@serenityjs/bedrock-protocol';
-import type { Logger } from '../../console';
-import type { Player } from '../Player';
-import { DEFAULT_ATTRIBUTES } from './Defaults';
+import type { Logger } from '../../console/index.js';
+import type { Player } from '../Player.js';
+import { DEFAULT_ATTRIBUTES } from './Defaults.js';
 
 /**
  * The attributes manager for a player.
@@ -55,7 +55,7 @@ class Attributes {
 	public setDefaults(): void {
 		// First we will create a new updated Atributes packet.
 		const update = new UpdateAttributes();
-		update.runtimeEntityId = this.player.runtimeEntityId;
+		update.runtimeEntityId = this.player.runtimeId;
 		update.attributes = DEFAULT_ATTRIBUTES;
 		update.tick = 0n; // TODO: implement ticking
 
@@ -85,7 +85,7 @@ class Attributes {
 
 		// Then we will create a new updated abilities packet.
 		const update = new UpdateAttributes();
-		update.runtimeEntityId = this.player.runtimeEntityId;
+		update.runtimeEntityId = this.player.runtimeId;
 		update.attributes = DEFAULT_ATTRIBUTES.map((entry) => {
 			return {
 				...entry,

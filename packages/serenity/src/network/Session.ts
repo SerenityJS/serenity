@@ -13,11 +13,9 @@ import {
 import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
 import { Priority } from '@serenityjs/raknet-protocol';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';
-import type { Serenity } from '../Serenity';
-import type { Player } from '../player';
-import type { Network } from './Network';
-
-let RUNTIME_ID = 1n;
+import type { Serenity } from '../Serenity.js';
+import type { Player } from '../player/index.js';
+import type { Network } from './Network.js';
 
 // NOTE
 // STRUCTURE FOR PLAYER AND NEWORKSESSION CLASS
@@ -35,13 +33,11 @@ class NetworkSession {
 	public readonly connection: Connection;
 	public readonly guid: bigint;
 	public readonly identifier: NetworkIdentifier;
-	public readonly runtimeId: bigint;
 	public readonly uniqueId: bigint;
 
 	public encryption: boolean = false;
 	public compression: boolean = false;
-
-	protected player: Player | null = null;
+	public player: Player | null = null;
 
 	/**
 	 * Creates a new network session.
@@ -56,8 +52,7 @@ class NetworkSession {
 		this.connection = connection;
 		this.guid = connection.guid;
 		this.identifier = connection.identifier;
-		this.runtimeId = RUNTIME_ID++;
-		this.uniqueId = BigInt.asUintN(64, this.guid ^ this.runtimeId);
+		this.uniqueId = BigInt.asUintN(64, this.guid);
 	}
 
 	/**
@@ -84,30 +79,6 @@ class NetworkSession {
 	}
 
 	/**
-	 * Gets the player instance for this session.
-	 *
-	 * @returns The player instance.
-	 */
-	public getPlayerInstance(): Player | null {
-		// Check if the player is already set.
-		if (this.player) return this.player;
-
-		// Sort the players map into an array.
-		// Then we will attempt to find the player with the same session as this.
-		const players = [...this.serenity.players.values()];
-		const player = players.find((x) => x.session === this);
-
-		// If the player is not found, return null.
-		if (!player) return null;
-
-		// Set the player to this session.
-		this.player = player;
-
-		// Return the player.
-		return player;
-	}
-
-	/**
 	 * Sends the start game packet to the client.
 	 *
 	 * @returns
@@ -126,8 +97,8 @@ class NetworkSession {
 		const packet = new StartGame();
 
 		// Assign the start game packet.
-		packet.entityId = this.player.uniqueEntityId;
-		packet.runtimeEntityId = this.player.runtimeEntityId;
+		packet.entityId = this.player.uniqueId;
+		packet.runtimeEntityId = this.player.runtimeId;
 		packet.playerGamemode = Gamemode.Creative;
 		packet.playerPosition = this.player.position;
 		packet.rotation = this.player.rotation;

@@ -1,8 +1,8 @@
 import { Float32, Endianness, Uint8, Bool, VarLong } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { MoveMode, Packet as PacketId } from '../enums';
-import { Vector3f, TeleportCause } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { MoveMode, Packet as PacketId } from '../enums/index.js';
+import { Vector3f, TeleportCause } from '../types/index.js';
 
 @Packet(PacketId.MovePlayer)
 class MovePlayer extends DataPacket {

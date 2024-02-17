@@ -1,3 +1,4 @@
+import type { Packet } from '@serenityjs/bedrock-protocol';
 import {
 	ResourceStatus,
 	ResourcePackStack,
@@ -6,15 +7,15 @@ import {
 	NetworkChunkPublisherUpdate,
 	ResourcePackClientResponse,
 } from '@serenityjs/bedrock-protocol';
-import type { Chunk } from '../../world/chunk';
-import type { NetworkSession } from '../Session';
-import { NetworkHandler } from './NetworkHandler';
+import type { Chunk } from '../../world/index.js';
+import type { NetworkSession } from '../Session.js';
+import { NetworkHandler } from './NetworkHandler.js';
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet = ResourcePackClientResponse.ID;
+	public static override packet: Packet = ResourcePackClientResponse.ID;
 
 	public static override async handle(packet: ResourcePackClientResponse, session: NetworkSession): Promise<void> {
 		// TODO: Add support for resource packs.
@@ -48,14 +49,14 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 			}
 
 			case ResourceStatus.Completed: {
-				const player = session.getPlayerInstance(); // TEMP
+				const player = session.player;
 
 				if (!player) return; // TEMP
 
 				await session.sendStartGame();
 
-				session.getPlayerInstance()!.abilities.setDefaults();
-				session.getPlayerInstance()!.attributes.setDefaults();
+				session.player!.abilities.setDefaults();
+				session.player!.attributes.setDefaults();
 
 				await session.sendCreativeContent();
 

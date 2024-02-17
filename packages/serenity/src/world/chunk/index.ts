@@ -1,3 +1,3 @@
-export * from './SubChunk';
-export * from './Chunk';
-export * from './block';
+export * from './SubChunk.js';
+export * from './Chunk.js';
+export * from './block/index.js';

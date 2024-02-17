@@ -5,9 +5,9 @@ import {
 	PermissionLevel,
 	UpdateAbilities,
 } from '@serenityjs/bedrock-protocol';
-import type { Logger } from '../../console';
-import type { Player } from '../Player';
-import { DEFAULT_ABILITIES } from './Defaults';
+import type { Logger } from '../../console/index.js';
+import type { Player } from '../Player.js';
+import { DEFAULT_ABILITIES } from './Defaults.js';
 
 /**
  * The ability manager for a player.

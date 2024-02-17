@@ -1,8 +1,8 @@
 import { Bool, VarString } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Packet as PacketId } from '../enums';
-import { ResourceIdVersions, Experiments } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { Packet as PacketId } from '../enums/index.js';
+import { ResourceIdVersions, Experiments } from '../types/index.js';
 
 @Packet(PacketId.ResourcePackStack)
 class ResourcePackStack extends DataPacket {

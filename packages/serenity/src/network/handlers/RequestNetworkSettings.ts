@@ -1,17 +1,18 @@
+import type { Packet } from '@serenityjs/bedrock-protocol';
 import {
 	CompressionMethod,
 	DisconnectReason,
 	NetworkSettings,
 	RequestNetworkSettings,
 } from '@serenityjs/bedrock-protocol';
-import type { NetworkSession } from '../Session';
-import { NetworkHandler } from './NetworkHandler';
+import type { NetworkSession } from '../Session.js';
+import { NetworkHandler } from './NetworkHandler.js';
 
 class RequestNetworkSettingsHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet = RequestNetworkSettings.ID;
+	public static override packet: Packet = RequestNetworkSettings.ID;
 
 	public static override async handle(packet: RequestNetworkSettings, session: NetworkSession): Promise<void> {
 		// Check if the client is using the correct protocol version.

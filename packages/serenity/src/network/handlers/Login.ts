@@ -1,22 +1,16 @@
-import {
-	PlayStatus,
-	Login,
-	type LoginTokens,
-	PlayerStatus,
-	DisconnectReason,
-	ResourcePacksInfo,
-} from '@serenityjs/bedrock-protocol';
+import { PlayStatus, Login, PlayerStatus, DisconnectReason, ResourcePacksInfo } from '@serenityjs/bedrock-protocol';
+import type { Packet, LoginTokens } from '@serenityjs/bedrock-protocol';
 import fastJwt from 'fast-jwt';
-import { DEFAULT_PLAYER_PROPERTIES, Player } from '../../player';
-import type { ClientData, IdentityData, LoginTokenData } from '../../types';
-import type { NetworkSession } from '../Session';
-import { NetworkHandler } from './NetworkHandler';
+import { Player } from '../../player/index.js';
+import type { ClientData, IdentityData, LoginTokenData } from '../../types/index.js';
+import type { NetworkSession } from '../Session.js';
+import { NetworkHandler } from './NetworkHandler.js';
 
 class LoginHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet = Login.ID;
+	public static override packet: Packet = Login.ID;
 
 	/**
 	 * The decoder for the network handler.
@@ -53,37 +47,24 @@ class LoginHandler extends NetworkHandler {
 		// Check if there is a player with the same xuid.
 		// This would mean that the player is trying to login from another location.
 		// Maybe add the ability to kick the player thats already logged in.
-		const check = this.serenity.players.has(xuid);
-		if (check) {
-			// If there is, disconnect the player trying to connect.
-			return session.disconnect('You are already logged in another location.', DisconnectReason.LoggedInOtherLocation);
-		}
 
-		// Get the player properties from the world provider.
-		// And check if the xuid is the same as the xuid from the properties.
-		// If not, this means that the player does not exist in the world provider.
-		const world = this.serenity.getDefaultWorld();
-		let properties = world.provider.readPlayerProperties(xuid);
-		if (properties.xuid !== xuid) {
-			const defaultProperties = DEFAULT_PLAYER_PROPERTIES;
-			defaultProperties.xuid = xuid;
-			defaultProperties.username = data.identityData.displayName;
-			defaultProperties.uuid = data.identityData.identity;
-			defaultProperties.position = world.getDimension().spawn;
-			defaultProperties.dimension = world.getDimension().properties.identifier;
+		// TODO: Reimplement this.
+		// const check = this.serenity.players.has(xuid);
+		// if (check) {
+		// 	// If there is, disconnect the player trying to connect.
+		// 	return session.disconnect('You are already logged in another location.', DisconnectReason.LoggedInOtherLocation);
+		// }
 
-			// Write the default player properties to the world provider.
-			world.provider.writePlayerProperties(xuid, defaultProperties);
+		// TODO: Read the players properties from the database.
 
-			// Set the properties to the default properties.
-			properties = defaultProperties;
-		}
+		// Get the default world.
+		const world = this.serenity.getWorld();
 
 		// Create a new player instance.
 		// Since we have gotten the players login data, we can create a new player instance.
 		// We will also add the player to the players map.
-		const player = new Player(session, data, properties, world);
-		this.serenity.players.set(xuid, player);
+		const player = new Player(session, data, world.getDimension());
+		session.player = player;
 
 		// TODO: Emit the login event.
 		// Not sure how the event system will work yet, so this will be implemented later.

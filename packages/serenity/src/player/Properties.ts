@@ -1,4 +1,4 @@
-import type { PlayerProperties } from '../types';
+import type { PlayerProperties } from '../types/index.js';
 
 const DEFAULT_PLAYER_PROPERTIES: PlayerProperties = {
 	dimension: 'minecraft:overworld',

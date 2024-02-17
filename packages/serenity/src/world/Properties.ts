@@ -1,7 +1,7 @@
-import type { DimensionProperties, WorldProperties } from '../types';
+import type { DimensionProperties, WorldProperties } from '../types/index.js';
 
 const DEFAULT_WORLD_PROPERTIES: WorldProperties = {
-	name: 'Default World',
+	name: 'default-world',
 	seed: 12_345,
 	dimension: 'minecraft:overworld',
 };

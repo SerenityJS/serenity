@@ -1,2 +1,2 @@
-export * from './Attributes';
-export * from './Defaults';
+export * from './Attributes.js';
+export * from './Defaults.js';

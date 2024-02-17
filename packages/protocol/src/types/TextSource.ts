@@ -1,6 +1,6 @@
 import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { ChatTypes } from '../enums';
+import { ChatTypes } from '../enums/index.js';
 
 class TextSource extends DataType {
 	public static override read(stream: BinaryStream, _: Endianness, type: ChatTypes): string | null {

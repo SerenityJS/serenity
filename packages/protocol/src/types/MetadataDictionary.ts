@@ -1,9 +1,9 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { MetadataFlags } from '../enums';
-import { MetadataType, MetadataKey } from '../enums';
-import { Vector3f } from './Vector3f';
+import type { MetadataFlags } from '../enums/index.js';
+import { MetadataType, MetadataKey } from '../enums/index.js';
+import { Vector3f } from './Vector3f.js';
 
 class MetadataDictionary extends DataType {
 	public flag?: MetadataFlags;

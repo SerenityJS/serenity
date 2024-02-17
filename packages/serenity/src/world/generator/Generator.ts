@@ -1,4 +1,4 @@
-import type { Chunk } from '../chunk';
+import type { Chunk } from '../chunk/index.js';
 
 /**
  * Represents a generic generator.

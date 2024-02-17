@@ -1,2 +1,2 @@
-export * from './MessageForm';
-export * from './ActionForm';
+export * from './MessageForm.js';
+export * from './ActionForm.js';

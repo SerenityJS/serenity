@@ -1,6 +1,6 @@
 import type { BlockCoordinates } from '@serenityjs/bedrock-protocol';
-import type { Dimension } from '../../dimension';
-import type { BlockPermutation } from './Permutation';
+import type { Dimension } from '../../dimension/index.js';
+import type { BlockPermutation } from './Permutation.js';
 
 class Block {
 	public readonly dimension: Dimension;

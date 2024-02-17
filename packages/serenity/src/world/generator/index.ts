@@ -1,3 +1,3 @@
-export * from './Generator';
-export * from './Flat';
-export * from './Nether';
+export * from './Generator.js';
+export * from './Flat.js';
+export * from './Nether.js';

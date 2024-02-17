@@ -7,32 +7,32 @@ import {
 	DisconnectReason,
 } from '@serenityjs/bedrock-protocol';
 import { Server } from '@serenityjs/raknet-server';
-import { ServerProperties } from './Properties';
-import { Logger } from './console';
-import type { AbstractEvent, Shutdown } from './events';
-import { SERENITY_EVENTS } from './events';
-import type { NetworkPacketEvent } from './network';
-import { Network, NetworkSession, NetworkStatus } from './network';
-import { NETWORK_HANDLERS } from './network/handlers';
-import type { Player } from './player';
-import { HookMethod, type SerenityEvents, type SerenityOptions } from './types';
-import { EventEmitter } from './utils';
-import type { World } from './world';
-import { WorldManager } from './world';
+import { ServerProperties } from './Properties.js';
+import { Logger } from './console/index.js';
+import type { AbstractEvent, Shutdown } from './events/index.js';
+import { SERENITY_EVENTS } from './events/index.js';
+import { NETWORK_HANDLERS } from './network/handlers/index.js';
+import { Network, NetworkSession, NetworkStatus } from './network/index.js';
+import type { NetworkPacketEvent } from './network/index.js';
+import type { WorldProvider } from './provider/index.js';
+import type { WorldProperties, SerenityEvents, SerenityOptions } from './types/index.js';
+import { HookMethod } from './types/index.js';
+import { EventEmitter } from './utils/index.js';
+import { World } from './world/index.js';
 
 class Serenity extends EventEmitter<SerenityEvents> {
-	protected readonly worldManager: WorldManager;
 	protected interval: NodeJS.Timeout | null = null;
 
 	public readonly logger: Logger;
 	public readonly properties: ServerProperties;
+	public readonly providers: Map<string, WorldProvider>;
+
 	public readonly worlds: Map<string, World>;
 	public readonly server: Server;
 	public readonly protocol: number;
 	public readonly version: string;
 	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
-	public readonly players: Map<string, Player>;
 
 	/**
 	 * Constructs a new serenity instance.
@@ -47,9 +47,9 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		this.logger.info('Server is now starting...');
 
 		this.properties = new ServerProperties(this.logger);
+		this.providers = new Map();
 		Logger.DEBUG = options?.debug ?? this.properties.values.server.debug;
 		this.worlds = new Map();
-		this.worldManager = new WorldManager(this);
 		this.server = new Server(
 			options?.address ?? this.properties.values.server.address,
 			options?.port ?? this.properties.values.server.port,
@@ -60,7 +60,6 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		this.events = new Map();
 		this.network = new Network(this);
-		this.players = new Map();
 
 		if (Logger.DEBUG) this.logger.debug('Software is running in debug mode. Debug messages will now be shown.');
 
@@ -141,7 +140,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 				packet,
 				session,
 				status: NetworkStatus.Incoming,
-				player: session.getPlayerInstance(),
+				player: session.player,
 			} as NetworkPacketEvent<Disconnect>;
 
 			// Now we will emit the event.
@@ -154,8 +153,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 			// If there is a player instance, then we will remove it from the players map.
 			// If there isn't, then we will just ignore it.
-			const player = session.getPlayerInstance();
-			if (player) this.players.delete(player.xuid);
+			const player = session.player;
 
 			// Remove the session from the network.
 			return this.network.sessions.delete(connection.guid);
@@ -200,16 +198,109 @@ class Serenity extends EventEmitter<SerenityEvents> {
 		void shutdown.logic(1, reason ?? 'Server is now shutting down...');
 	}
 
-	public setMotd(motd: string): void {
-		this.server.motd = motd;
+	/**
+	 * Gets a world provider from the serenity instance.
+	 * If no identifier is provided, the default provider set in the "server.properties" file will be returned.
+	 *
+	 * @param identifier - The identifier of the provider to get.
+	 * @returns The provider.
+	 */
+	public getProvider(identifier?: string): WorldProvider {
+		return this.providers.get(identifier ?? this.properties.values.world.provider)!;
 	}
 
-	public getMotd(): string {
-		return this.server.motd ?? 'SerenityJS';
+	/**
+	 * Register a new world provider to the serenity instance.
+	 *
+	 * @param provider - The provider to register.
+	 */
+	public registerProvider(provider: typeof WorldProvider): WorldProvider {
+		// Check if the provider is already registered.
+		if (this.providers.has(provider.identifier)) {
+			this.logger.error(`Failed to register provider, provider identifier [${provider.identifier}] already exists!`);
+
+			return this.providers.get(provider.identifier)!;
+		}
+
+		// Construct the provider.
+		const instance = new provider(this);
+
+		// Add the provider to the map.
+		this.providers.set(provider.identifier, instance);
+
+		// Return the provider.
+		return instance;
 	}
 
-	public getDefaultWorld(): World {
-		return this.worlds.get(this.properties.values.world.default)!;
+	/**
+	 * Unregister a world provider from the serenity instance.
+	 *
+	 * @param identifier - The identifier of the provider to unregister.
+	 */
+	public unregisterProvider(identifier: string): void {
+		// Check if the provider is already registered.
+		if (!this.providers.has(identifier)) {
+			this.logger.error(`Failed to unregister provider, provider identifier [${identifier}] does not exist!`);
+
+			return;
+		}
+
+		// Remove the provider from the map.
+		this.providers.delete(identifier);
+	}
+
+	/**
+	 * Get a world from the serenity instance.
+	 * If no name is provided, the default world provided in the "server.properties" file will be returned.
+	 *
+	 * @param name - The world name.
+	 * @returns The world.
+	 */
+	public getWorld(name?: string): World {
+		return this.worlds.get(name ?? this.properties.values.world.default)!;
+	}
+
+	/**
+	 * Register a new world to the serenity instance.
+	 *
+	 * @param name - The name of the world to register.
+	 * @param provider - The provider of the world.
+	 * @param properties - The properties of the world.
+	 * @returns The provider.
+	 */
+	public registerWorld(name: string, provider: WorldProvider, properties?: WorldProperties): World {
+		// Check if the world is already registered.
+		if (this.worlds.has(name)) {
+			this.logger.error(`Failed to register world, world name [${name}] already exists!`);
+
+			return this.worlds.get(name)!;
+		}
+
+		// Construct the world.
+		const instance = new World(name, provider, properties);
+
+		// Add the world to the map.
+		this.worlds.set(name, instance);
+
+		// Return the world.
+		return instance;
+	}
+
+	/**
+	 * Unregister a world from the serenity instance.
+	 *
+	 * @param name - The name of the world to unregister.
+	 */
+	public unregisterWorld(name: string): void {
+		// Check if the world is already registered.
+		if (!this.worlds.has(name)) {
+			this.logger.error(`Failed to unregister world, world name [${name}] does not exist!`);
+
+			return;
+		}
+
+		// Remove the world from the map.
+		this.worlds.delete(name);
 	}
 }
 

@@ -1,7 +1,7 @@
 import type { Buffer } from 'node:buffer';
 import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { RecordAction } from '../enums';
+import { RecordAction } from '../enums/index.js';
 
 class Records extends DataType {
 	public buildPlatform?: number;

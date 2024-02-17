@@ -1,6 +1,6 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import { ItemLegacy } from './ItemLegacy';
+import { ItemLegacy } from './ItemLegacy.js';
 
 class CreativeItems extends DataType {
 	public entryId: number;

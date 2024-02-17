@@ -1,1 +1,1 @@
-export * from './Mappings';
+export * from './Mappings.js';

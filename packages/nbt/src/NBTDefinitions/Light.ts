@@ -1,9 +1,9 @@
 import { Buffer } from 'node:buffer';
 import { Endianness } from '@serenityjs/binarystream';
 import type { BinaryStream } from '@serenityjs/binarystream';
-import type { NBTValue } from '../NBT';
-import { NBTTag, Int16, Int32, Int64, Float, Double } from '../NBT';
-import { GeneralNBTDefinitionWriter, GeneralNBTDefinitionReader, NBT } from './General';
+import type { NBTValue } from '../NBT.js';
+import { NBTTag, Int16, Int32, Int64, Float, Double } from '../NBT.js';
+import { GeneralNBTDefinitionWriter, GeneralNBTDefinitionReader, NBT } from './General.js';
 
 class LightNBTDefinitionWriter extends GeneralNBTDefinitionWriter {
 	public [NBTTag.Int16](value: number): void {

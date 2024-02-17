@@ -1,6 +1,6 @@
-import type { BlockMapper, Chunk } from '../chunk';
-import { BlockPermutation } from '../chunk';
-import { TerrainGenerator } from './Generator';
+import { BlockPermutation } from '../chunk/index.js';
+import type { Chunk } from '../chunk/index.js';
+import { TerrainGenerator } from './Generator.js';
 
 export class TerrainFlat extends TerrainGenerator {
 	public readonly flatLayers;

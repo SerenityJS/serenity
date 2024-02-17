@@ -1,9 +1,9 @@
 import type { Buffer } from 'node:buffer';
 import { Endianness } from '@serenityjs/binarystream';
 import { Packet } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import type { DimensionType } from '../enums';
-import { Packet as PacketId } from '../enums';
+import { DataPacket } from '../DataPacket.js';
+import type { DimensionType } from '../enums/index.js';
+import { Packet as PacketId } from '../enums/index.js';
 
 @Packet(PacketId.LevelChunk)
 class LevelChunk extends DataPacket {

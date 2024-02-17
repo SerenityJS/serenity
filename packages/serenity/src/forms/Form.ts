@@ -1,5 +1,5 @@
 import type { FormType } from '@serenityjs/bedrock-protocol';
-import type { Player } from '../player';
+import type { Player } from '../player/index.js';
 
 let FORM_ID = 0;
 

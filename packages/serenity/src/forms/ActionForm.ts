@@ -1,7 +1,7 @@
 import { FormType, ModalFormRequest } from '@serenityjs/bedrock-protocol';
-import type { Player } from '../player';
-import type { ActionFormResponse, ActionFormJson, ActionFormButton, ActionFormImage } from '../types';
-import { Form } from './Form';
+import type { Player } from '../player/index.js';
+import type { ActionFormResponse, ActionFormJson, ActionFormButton, ActionFormImage } from '../types/index.js';
+import { Form } from './Form.js';
 
 /**
  * Represents a generic message form.

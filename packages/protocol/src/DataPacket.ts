@@ -1,7 +1,7 @@
 import type { Buffer } from 'node:buffer';
 import { VarInt } from '@serenityjs/binarystream';
 import { BasePacket } from '@serenityjs/raknet-protocol';
-import type { Packet } from './enums';
+import type { Packet } from './enums/index.js';
 
 class DataPacket extends BasePacket {
 	public static override readonly ID: Packet;

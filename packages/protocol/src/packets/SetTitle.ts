@@ -1,7 +1,7 @@
 import { Uint8, Bool, VarString, Endianness, ZigZag } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { ChatTypes, Packet as PacketId, TitleTypes } from '../enums';
+import { DataPacket } from '../DataPacket.js';
+import { ChatTypes, Packet as PacketId, TitleTypes } from '../enums/index.js';
 
 @Packet(PacketId.SetTitle)
 class SetTitle extends DataPacket {

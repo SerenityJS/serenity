@@ -7,48 +7,39 @@ import {
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
 	DimensionType,
+	AddEntity,
+	SetEntityData,
 } from '@serenityjs/bedrock-protocol';
 import type { DataPacket, Vector3f } from '@serenityjs/bedrock-protocol';
-import { Logger } from '../../console';
-import { Player } from '../../player';
-import type { DimensionProperties } from '../../types';
-import type { World } from '../World';
-import type { BlockPermutation } from '../chunk';
-import { Block, Chunk } from '../chunk';
-import type { TerrainGenerator } from '../generator';
+import { Entity } from '../../entity/index.js';
+import type { Player } from '../../player/index.js';
+import type { WorldProvider } from '../../provider/index.js';
+import type { World } from '../World.js';
+import { Block, Chunk } from '../chunk/index.js';
+import type { BlockPermutation } from '../chunk/index.js';
+import type { TerrainGenerator } from '../generator/index.js';
 
 class Dimension {
-	protected readonly world: World;
-	protected readonly logger: Logger;
-
+	public readonly identifier: string;
 	public readonly type: DimensionType;
-	public readonly properties: DimensionProperties;
-	public readonly chunks: Map<bigint, Chunk>;
-	public readonly players: Set<bigint>;
+	public readonly world: World;
+	public readonly provider: WorldProvider;
+	public readonly entities: Map<bigint, Entity>;
+	public readonly players: Map<bigint, Player>;
 
 	public generator: TerrainGenerator;
 	public spawn: Vector3f;
 	public viewDistance: number = 64;
 
-	public constructor(
-		world: World,
-		type: DimensionType,
-		properties: DimensionProperties,
-		generator: TerrainGenerator,
-		chunks?: Map<bigint, Chunk>,
-	) {
-		this.world = world;
-		this.logger = new Logger(`Dimension [${properties.identifier}]`, '#03fca9');
+	public constructor(identifier: string, type: DimensionType, generator: TerrainGenerator, world: World) {
+		this.identifier = identifier;
 		this.type = type;
-		this.properties = properties;
-		this.chunks = chunks ?? new Map();
-		this.players = new Set();
+		this.world = world;
+		this.provider = this.world.provider;
+		this.entities = new Map();
+		this.players = new Map();
 		this.generator = generator;
-		this.spawn = properties.spawn;
-	}
-
-	public save(): void {
-		this.world.provider.writeChunks([...this.chunks.values()], this);
+		this.spawn = { x: 0, y: 0, z: 0 };
 	}
 
 	public async broadcast(...packets: DataPacket[]): Promise<void> {
@@ -69,107 +60,123 @@ class Dimension {
 		}
 	}
 
-	public spawnEntity(entity: Player | any): void {
-		// Check if the entity is a player
-		if (entity instanceof Player) {
-			// Check if the player is already in the dimension
-			if (this.players.has(entity.uniqueEntityId)) {
-				return this.logger.error(`${entity.username} (${entity.xuid}) is already in the dimension!`);
-			}
+	public spawnEntity(identifier: string, position: Vector3f): Entity {
+		// Construct a new Entity.
+		const entity = new Entity(identifier, this);
 
-			// Create a new add entity packet
-			const spawn = new AddPlayer();
-			spawn.uuid = entity.uuid;
-			spawn.username = entity.username;
-			spawn.runtimeId = entity.runtimeEntityId;
-			spawn.platformChatId = ''; // TODO: Not sure what this is.
-			spawn.position = entity.position;
-			spawn.velocity = { x: 0, y: 0, z: 0 };
-			spawn.rotation = entity.rotation;
-			spawn.headYaw = entity.headYaw;
-			spawn.heldItem = {
-				networkId: 0,
-				count: null,
-				metadata: null,
-				hasStackId: null,
-				stackId: null,
-				blockRuntimeId: null,
-				extras: null,
-			};
-			spawn.gamemode = entity.getGamemode(); // TODO: Get the gamemode from the entity.
-			spawn.metadata = [];
-			spawn.properties = {
-				ints: [],
-				floats: [],
-			};
-			spawn.uniqueEntityId = entity.uniqueEntityId;
-			spawn.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the entity.
-			spawn.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the entity.
-			spawn.abilities = [];
-			spawn.links = [];
-			spawn.deviceId = 'Win10';
-			spawn.deviceOS = 7; // TODO: Get the device OS from the entity.
+		// Set the position of the entity.
+		entity.position.x = position.x;
+		entity.position.y = position.y;
+		entity.position.z = position.z;
 
-			void this.broadcast(spawn);
+		// Construct a new AddEntity packet.
+		const packet = new AddEntity();
+		packet.uniqueEntityId = entity.uniqueId;
+		packet.runtimeId = entity.runtimeId;
+		packet.identifier = entity.identifier;
+		packet.position = entity.position;
+		packet.velocity = entity.velocity;
+		packet.rotation = entity.rotation;
+		packet.bodyYaw = entity.rotation.y;
+		packet.attributes = [];
+		packet.metadata = entity.getMetadata();
+		packet.properties = {
+			ints: [],
+			floats: [],
+		};
+		packet.links = [];
 
-			// Add the player to the dimension
-			this.players.add(entity.uniqueEntityId);
-		}
+		// Broadcast the packet to the dimension.
+		void this.broadcast(packet);
+
+		// Add the entity to the dimension.
+		this.entities.set(entity.uniqueId, entity);
+
+		// Return the entity.
+		return entity;
 	}
 
-	public despawnEntity(entity: Player | any): void {
-		// Check if the entity is a player
-		if (entity instanceof Player) {
-			// Check if the player is not in the dimension
-			if (!this.players.has(entity.uniqueEntityId)) {
-				return this.logger.error(`${entity.username} (${entity.xuid}) is not in the dimension!`);
-			}
+	public despawnEntity(entity: Entity): void {
+		// Construct a new RemoveEntity packet.
+		const packet = new RemoveEntity();
+		packet.uniqueEntityId = entity.uniqueId;
 
-			// Remove the player from the dimension
-			this.players.delete(entity.uniqueEntityId);
+		// Broadcast the packet to the dimension.
+		void this.broadcast(packet);
 
-			// Create a new remove entity packet
-			const remove = new RemoveEntity();
-			remove.uniqueEntityId = entity.uniqueEntityId;
+		// Remove the entity from the dimension.
+		this.entities.delete(entity.uniqueId);
+	}
 
-			// Send the packet to all players
-			void this.broadcast(remove);
-		}
+	public updateEntity(entity: Entity): void {
+		// Construct a new SetEntityData packet.
+		const packet = new SetEntityData();
+
+		// Set the packet data.
+		packet.runtimeEntityId = entity.runtimeId;
+		packet.metadata = entity.getMetadata();
+		packet.properties = {
+			ints: [],
+			floats: [],
+		};
+		packet.tick = 0n;
+
+		// Send the packet to the dimension.
+		void this.broadcast(packet);
+	}
+
+	public spawnPlayer(player: Player): void {
+		const spawn = new AddPlayer();
+		spawn.uuid = player.uuid;
+		spawn.username = player.username;
+		spawn.runtimeId = player.runtimeId;
+		spawn.platformChatId = ''; // TODO: Not sure what this is.
+		spawn.position = player.position;
+		spawn.velocity = { x: 0, y: 0, z: 0 };
+		spawn.rotation = player.rotation;
+		spawn.headYaw = player.rotation.z;
+		spawn.heldItem = {
+			networkId: 0,
+			count: null,
+			metadata: null,
+			hasStackId: null,
+			stackId: null,
+			blockRuntimeId: null,
+			extras: null,
+		};
+		spawn.gamemode = player.getGamemode(); // TODO: Get the gamemode from the player.
+		spawn.metadata = [];
+		spawn.properties = {
+			ints: [],
+			floats: [],
+		};
+		spawn.uniqueEntityId = player.uniqueId;
+		spawn.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the entity.
+		spawn.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the entity.
+		spawn.abilities = [];
+		spawn.links = [];
+		spawn.deviceId = 'Win10';
+		spawn.deviceOS = 7; // TODO: Get the device OS from the entity.
+
+		void this.broadcast(spawn);
+
+		// Add the player to the dimension
+		this.players.set(player.uniqueId, player);
 	}
 
 	public getPlayers(): Player[] {
-		const players = [];
-
-		for (const uniqueEntityId of this.players) {
-			const player = this.world.players.get(uniqueEntityId);
-
-			if (player) {
-				players.push(player);
-			}
-		}
-
-		return players;
+		return [...this.players.values()];
 	}
 
 	/**
 	 * Get a chunk from the dimension.
 	 *
-	 * @param x Chunk x.
-	 * @param y Chunk z.
+	 * @param cx Chunk x.
+	 * @param cy Chunk z.
 	 * @returns Already generated or new chunk.
 	 */
-	public getChunk(x: number, y: number): Chunk {
-		// Calulate the hash value
-		const hash = Chunk.getHash(x, y);
-
-		// Check if the chunk is already generated
-		const chunk = this.chunks.get(hash) ?? this.generator.apply(new Chunk(x, y));
-
-		// Set the chunk
-		this.chunks.set(hash, chunk);
-
-		// Return the chunk
-		return chunk;
+	public getChunk(cx: number, cy: number): Chunk {
+		return this.provider.readChunk(cx, cy, this);
 	}
 
 	/**

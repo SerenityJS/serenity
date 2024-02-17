@@ -1,7 +1,7 @@
 import { Int8, Bool } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Packet as PacketId, WindowsIds } from '../enums';
+import { DataPacket } from '../DataPacket.js';
+import { Packet as PacketId, WindowsIds } from '../enums/index.js';
 
 @Packet(PacketId.ContainerClose)
 class ContainerClose extends DataPacket {

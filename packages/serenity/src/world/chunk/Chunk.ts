@@ -1,8 +1,8 @@
 import type { Buffer } from 'node:buffer';
-import { ChunkCoords, Vector2f } from '@serenityjs/bedrock-protocol';
+import { ChunkCoords } from '@serenityjs/bedrock-protocol';
 import { BinaryStream } from '@serenityjs/binarystream';
-import { SubChunk } from './SubChunk';
-import type { BlockPermutation } from './block';
+import { SubChunk } from './SubChunk.js';
+import type { BlockPermutation } from './block/index.js';
 
 export class Chunk {
 	public static readonly MAX_SUB_CHUNKS = 20;

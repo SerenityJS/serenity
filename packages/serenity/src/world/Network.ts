@@ -1,5 +1,5 @@
 import type { DataPacket } from '@serenityjs/bedrock-protocol';
-import type { World } from './World';
+import type { World } from './World.js';
 
 /**
  * The world network class.
@@ -18,7 +18,7 @@ class WorldNetwork {
 	 */
 	public async broadcast(...packets: DataPacket[]): Promise<void> {
 		// Loop through each player.
-		for (const player of this.world.players.values()) {
+		for (const player of this.world.getPlayers().values()) {
 			// Send the packet to that player.
 			await player.session.send(...packets);
 		}
@@ -31,7 +31,7 @@ class WorldNetwork {
 	 */
 	public async broadcastImmediate(...packets: DataPacket[]): Promise<void> {
 		// Loop through each player.
-		for (const player of this.world.players.values()) {
+		for (const player of this.world.getPlayers().values()) {
 			// Send the packet to that player.
 			await player.session.sendImmediate(...packets);
 		}

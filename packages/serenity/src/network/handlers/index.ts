@@ -1,20 +1,20 @@
-import { BlockPickRequestHandler } from './BlockPickRequest';
-import { ContainerCloseHandler } from './ContainerClose';
-import { DisconnectHandler } from './Disconnect';
-import { InteractHandler } from './Interact';
-import { InventoryTransactionHandler } from './InventoryTransaction';
-import { LoginHandler } from './Login';
-import { ModalFormResponseHandler } from './ModalFormResponse';
-import { MovePlayerHandler } from './MovePlayer';
-import { PacketViolationWarningHandler } from './PacketViolationWarning';
-import { PlayerActionHandler } from './PlayerAction';
-import { RequestChunkRadiusHandler } from './RequestChunkRadius';
-import { RequestNetworkSettingsHandler } from './RequestNetworkSettings';
-import { ResourcePackClientResponseHandler } from './ResoucePackClientResponse';
-import { SetLocalPlayerAsInitializedHandler } from './SetLocalPlayerAsInitialized';
-import { TextHandler } from './Text';
+import { BlockPickRequestHandler } from './BlockPickRequest.js';
+import { ContainerCloseHandler } from './ContainerClose.js';
+import { DisconnectHandler } from './Disconnect.js';
+import { InteractHandler } from './Interact.js';
+import { InventoryTransactionHandler } from './InventoryTransaction.js';
+import { LoginHandler } from './Login.js';
+import { ModalFormResponseHandler } from './ModalFormResponse.js';
+import { MovePlayerHandler } from './MovePlayer.js';
+import { PacketViolationWarningHandler } from './PacketViolationWarning.js';
+import { PlayerActionHandler } from './PlayerAction.js';
+import { RequestChunkRadiusHandler } from './RequestChunkRadius.js';
+import { RequestNetworkSettingsHandler } from './RequestNetworkSettings.js';
+import { ResourcePackClientResponseHandler } from './ResoucePackClientResponse.js';
+import { SetLocalPlayerAsInitializedHandler } from './SetLocalPlayerAsInitialized.js';
+import { TextHandler } from './Text.js';
 
-export * from './NetworkHandler';
+export * from './NetworkHandler.js';
 
 const NETWORK_HANDLERS = [
 	RequestNetworkSettingsHandler,

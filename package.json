@@ -3,6 +3,7 @@
 	"name": "@serenityjs/monorepo",
 	"repository": "https://github.com/SerenityJS/serenity.git",
 	"license": "./LICENSE",
+	"type": "module",
 	"workspaces": [
 		"packages/nbt",
 		"packages/protocol",

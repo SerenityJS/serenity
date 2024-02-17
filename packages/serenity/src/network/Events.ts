@@ -1,4 +1,5 @@
 import type {
+	AddEntity,
 	AddPlayer,
 	AvailableCommands,
 	BiomeDefinitionList,
@@ -44,9 +45,9 @@ import type {
 	UpdateAttributes,
 	UpdateBlock,
 } from '@serenityjs/bedrock-protocol';
-import type { Player } from '../player';
-import type { NetworkSession } from './Session';
-import type { NetworkStatus } from './Status';
+import type { Player } from '../player/index.js';
+import type { NetworkSession } from './Session.js';
+import type { NetworkStatus } from './Status.js';
 
 interface NetworkPacketEvent<T extends DataPacket> {
 	packet: T;
@@ -65,6 +66,7 @@ interface NetworkEvents {
 	[Packet.Text]: [NetworkPacketEvent<Text>];
 	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
 	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayer>];
+	[Packet.AddEntity]: [NetworkPacketEvent<AddEntity>];
 	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntity>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlock>];

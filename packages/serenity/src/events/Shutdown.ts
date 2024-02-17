@@ -1,8 +1,6 @@
 import process from 'node:process';
-import { Disconnect, DisconnectReason } from '@serenityjs/bedrock-protocol';
-import { Priority } from '@serenityjs/raknet-protocol';
-import type { Serenity } from '../Serenity';
-import { AbstractEvent } from './AbstractEvent';
+import type { Serenity } from '../Serenity.js';
+import { AbstractEvent } from './AbstractEvent.js';
 
 enum ShutdownCause {
 	Interupt,
@@ -49,11 +47,6 @@ class Shutdown extends AbstractEvent {
 
 		// Log the shutdown event.
 		this.serenity.logger.info('Server is now shutting down...');
-
-		// Save the world data.
-		for (const world of this.serenity.worlds.values()) {
-			world.save();
-		}
 
 		// Exit the process.
 		process.exit(cause);

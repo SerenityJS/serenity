@@ -1,12 +1,13 @@
+import type { Packet } from '@serenityjs/bedrock-protocol';
 import { PacketViolationWarning, ViolationSeverity, ViolationType } from '@serenityjs/bedrock-protocol';
-import type { NetworkSession } from '../Session';
-import { NetworkHandler } from './NetworkHandler';
+import type { NetworkSession } from '../Session.js';
+import { NetworkHandler } from './NetworkHandler.js';
 
 class PacketViolationWarningHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet = PacketViolationWarning.ID;
+	public static override packet: Packet = PacketViolationWarning.ID;
 
 	public static override async handle(packet: PacketViolationWarning, session: NetworkSession): Promise<void> {
 		// Format the packet id.

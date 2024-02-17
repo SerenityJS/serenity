@@ -1,8 +1,8 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { ItemReleaseAction } from '../enums';
-import { Item } from './Item';
-import { Vector3f } from './Vector3f';
+import type { ItemReleaseAction } from '../enums/index.js';
+import { Item } from './Item.js';
+import { Vector3f } from './Vector3f.js';
 
 class TransactionItemRelease extends DataType {
 	public action: ItemReleaseAction;

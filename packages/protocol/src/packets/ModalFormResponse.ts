@@ -1,9 +1,9 @@
 import { VarInt, Bool, Endianness } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import type { ModalFormCanceledReason } from '../enums';
-import { Packet as PacketId } from '../enums';
-import { ModalFormCanceled, ModalFormData } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import type { ModalFormCanceledReason } from '../enums/index.js';
+import { Packet as PacketId } from '../enums/index.js';
+import { ModalFormCanceled, ModalFormData } from '../types/index.js';
 
 @Packet(PacketId.ModalFormResponse)
 class ModalFormResponse extends DataPacket {

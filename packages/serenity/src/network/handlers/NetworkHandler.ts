@@ -1,6 +1,6 @@
 import type { DataPacket, Packet } from '@serenityjs/bedrock-protocol';
-import type { Serenity } from '../../Serenity';
-import type { NetworkSession } from '../Session';
+import type { Serenity } from '../../Serenity.js';
+import type { NetworkSession } from '../Session.js';
 
 /**
  * Represents a generic network handler.

@@ -1,8 +1,8 @@
 import type { BinaryStream } from '@serenityjs/binarystream';
 import { DataType } from '@serenityjs/raknet-protocol';
-import type { WindowsIds } from '../enums';
-import { TransactionSourceType } from '../enums';
-import { Item } from './Item';
+import { TransactionSourceType } from '../enums/index.js';
+import type { WindowsIds } from '../enums/index.js';
+import { Item } from './Item.js';
 
 class TransactionActions extends DataType {
 	public action: number | null;

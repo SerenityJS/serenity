@@ -2,7 +2,7 @@ import { readdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import process from 'node:process';
 import { stringify, parse } from 'yaml';
-import type { Logger } from './console';
+import type { Logger } from './console/index.js';
 
 const DEFAULT_SERVER_PROPERTIES = {
 	server: {
@@ -13,7 +13,7 @@ const DEFAULT_SERVER_PROPERTIES = {
 		debug: false,
 	},
 	world: {
-		provider: 'filesystem',
+		provider: 'internal',
 		default: 'default-world',
 	},
 };

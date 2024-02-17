@@ -1,17 +1,17 @@
-import { PlayerChat } from './PlayerChat';
-import { PlayerJoined } from './PlayerJoined';
-import { PlayerLeft } from './PlayerLeft';
-import { PlayerSpawned } from './PlayerSpawned';
-import { Shutdown } from './Shutdown';
+import { PlayerChat } from './PlayerChat.js';
+import { PlayerJoined } from './PlayerJoined.js';
+import { PlayerLeft } from './PlayerLeft.js';
+import { PlayerSpawned } from './PlayerSpawned.js';
+import { Shutdown } from './Shutdown.js';
 
-export * from './AbstractEvent';
+export * from './AbstractEvent.js';
 
 const SERENITY_EVENTS = [Shutdown, PlayerJoined, PlayerLeft, PlayerSpawned, PlayerChat];
 
 export { SERENITY_EVENTS };
 
-export * from './Shutdown';
-export * from './PlayerJoined';
-export * from './PlayerLeft';
-export * from './PlayerSpawned';
-export * from './PlayerChat';
+export * from './Shutdown.js';
+export * from './PlayerJoined.js';
+export * from './PlayerLeft.js';
+export * from './PlayerSpawned.js';
+export * from './PlayerChat.js';

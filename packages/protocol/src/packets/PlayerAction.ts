@@ -1,8 +1,8 @@
 import { VarLong, ZigZag } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { ActionIds, Packet as PacketId } from '../enums';
-import { BlockCoordinates } from '../types';
+import { DataPacket } from '../DataPacket.js';
+import { ActionIds, Packet as PacketId } from '../enums/index.js';
+import { BlockCoordinates } from '../types/index.js';
 
 @Packet(PacketId.PlayerAction)
 class PlayerAction extends DataPacket {

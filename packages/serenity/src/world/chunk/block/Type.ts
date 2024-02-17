@@ -1,4 +1,4 @@
-import { BlockPermutation } from './Permutation';
+import { BlockPermutation } from './Permutation.js';
 
 class BlockType {
 	/**

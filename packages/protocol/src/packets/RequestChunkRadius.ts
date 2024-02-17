@@ -1,7 +1,7 @@
 import { Uint8, ZigZag } from '@serenityjs/binarystream';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
-import { DataPacket } from '../DataPacket';
-import { Packet as PacketId } from '../enums';
+import { DataPacket } from '../DataPacket.js';
+import { Packet as PacketId } from '../enums/index.js';
 
 @Packet(PacketId.RequestChunkRadius)
 class RequestChunkRadius extends DataPacket {
