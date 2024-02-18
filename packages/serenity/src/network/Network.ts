@@ -7,10 +7,10 @@ import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
 import type { Serenity } from '../Serenity.js';
 import { Logger, LoggerColors } from '../console/index.js';
 import { EventEmitter } from '../utils/index.js';
+import { NetworkBound } from './Bound.js';
 import type { NetworkEvents, NetworkPacketEvent } from './Events.js';
 import { GAME_BYTE } from './GameByte.js';
 import type { NetworkSession } from './Session.js';
-import { NetworkStatus } from './Status.js';
 import { NETWORK_HANDLERS, NetworkHandler } from './handlers/index.js';
 
 /**
@@ -109,8 +109,7 @@ class Network extends EventEmitter<NetworkEvents> {
 						const event = {
 							packet: instance,
 							session,
-							status: NetworkStatus.Incoming,
-							player: session.player, // NOTE: Player is null if the player is not fully logged in.
+							bound: NetworkBound.Server,
 						} as NetworkPacketEvent<any>;
 						// Emit the packet event will return a promise with a boolean value.
 						// If the value is false, the packet was cancelled from being handled.
@@ -172,8 +171,7 @@ class Network extends EventEmitter<NetworkEvents> {
 				const event = {
 					packet,
 					session,
-					status: NetworkStatus.Outgoing,
-					player: session.player, // NOTE: Player is null if the player is not fully logged in.
+					bound: NetworkBound.Client,
 				} as NetworkPacketEvent<any>;
 
 				// Emit the packet event will return a promise with a boolean value.

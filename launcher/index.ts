@@ -22,8 +22,31 @@ world.registerDimension('minecraft:overworld', DimensionType.Overworld, BetterFl
 // Start the server.
 serenity.start();
 
-serenity.network.on(Packet.BlockPickRequest, ({ packet, player }) => {
-	const entity = player?.dimension.spawnEntity('minecraft:pig', new Vector3f(packet.x, packet.y + 1, packet.z));
+serenity.network.on(Packet.BlockPickRequest, ({ packet, session, bound }) => {
+	if (!session.player) return;
 
-	entity?.setNameTag(`unqiueId ${Number(entity.uniqueId)}n`);
+	const player = session.player;
+
+	const entity = player.dimension.spawnEntity('minecraft:npc', new Vector3f(packet.x, packet.y + 1, packet.z));
+
+	entity.nametag = entity.identifier;
+	entity.scale = 1.25;
+	entity.variant = Math.floor(Math.random() * 20);
+});
+
+serenity.on('PlayerChat', (event) => {
+	switch (event.message) {
+		case 'survival':
+			event.player.gamemode = 0;
+			break;
+		case 'creative':
+			event.player.gamemode = 1;
+			break;
+		case 'adventure':
+			event.player.gamemode = 2;
+			break;
+		case 'spectator':
+			event.player.gamemode = 3;
+			break;
+	}
 });

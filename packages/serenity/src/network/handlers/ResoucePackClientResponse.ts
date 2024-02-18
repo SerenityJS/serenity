@@ -53,14 +53,14 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				if (!player) return; // TEMP
 
-				await session.sendStartGame();
+				player.dimension.world.network.sendStartGame(player);
 
 				session.player!.abilities.setDefaults();
 				session.player!.attributes.setDefaults();
 
-				await session.sendCreativeContent();
+				player.dimension.world.network.sendCreativeContent(player);
 
-				await session.sendBiomeDefinitionList();
+				player.dimension.world.network.sendBiomeDefinitionList(player);
 
 				const chunks = player.getDimension().getSpawnChunks();
 

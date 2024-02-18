@@ -12,7 +12,7 @@ import { Logger } from './console/index.js';
 import type { AbstractEvent, Shutdown } from './events/index.js';
 import { SERENITY_EVENTS } from './events/index.js';
 import { NETWORK_HANDLERS } from './network/handlers/index.js';
-import { Network, NetworkSession, NetworkStatus } from './network/index.js';
+import { Network, NetworkSession, NetworkBound } from './network/index.js';
 import type { NetworkPacketEvent } from './network/index.js';
 import type { WorldProvider } from './provider/index.js';
 import type { WorldProperties, SerenityEvents, SerenityOptions } from './types/index.js';
@@ -139,8 +139,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 			const event = {
 				packet,
 				session,
-				status: NetworkStatus.Incoming,
-				player: session.player,
+				bound: NetworkBound.Server,
 			} as NetworkPacketEvent<Disconnect>;
 
 			// Now we will emit the event.
@@ -150,10 +149,6 @@ class Serenity extends EventEmitter<SerenityEvents> {
 			const handler = NETWORK_HANDLERS.find((x) => x.packet === Disconnect.ID);
 			if (!handler) return this.logger.error('Failed to find disconnect handler.');
 			void handler.handle(packet as never, session);
-
-			// If there is a player instance, then we will remove it from the players map.
-			// If there isn't, then we will just ignore it.
-			const player = session.player;
 
 			// Remove the session from the network.
 			return this.network.sessions.delete(connection.guid);

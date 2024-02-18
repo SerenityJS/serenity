@@ -45,15 +45,13 @@ import type {
 	UpdateAttributes,
 	UpdateBlock,
 } from '@serenityjs/bedrock-protocol';
-import type { Player } from '../player/index.js';
+import type { NetworkBound } from './Bound.js';
 import type { NetworkSession } from './Session.js';
-import type { NetworkStatus } from './Status.js';
 
 interface NetworkPacketEvent<T extends DataPacket> {
+	bound: NetworkBound;
 	packet: T;
-	player: Player | null;
 	session: NetworkSession;
-	status: NetworkStatus;
 }
 
 interface NetworkEvents {

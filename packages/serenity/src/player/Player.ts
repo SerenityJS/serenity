@@ -1,26 +1,9 @@
-import {
-	ChangeDimension,
-	ChatTypes,
-	Disconnect,
-	NetworkChunkPublisherUpdate,
-	PlayStatus,
-	PlayerStatus,
-	Respawn,
-	SetPlayerGameType,
-	Text,
-} from '@serenityjs/bedrock-protocol';
-import type {
-	DisconnectReason,
-	Vector2f,
-	RespawnState,
-	Gamemode,
-	FormType,
-	Vector3f,
-} from '@serenityjs/bedrock-protocol';
+import type { DisconnectReason, RespawnState, FormType, Vector3f } from '@serenityjs/bedrock-protocol';
+import { ChatTypes, Disconnect, Respawn, Text, Gamemode, SetPlayerGameType } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { Entity } from '../entity/index.js';
 import type { Network, NetworkSession } from '../network/index.js';
-import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerProperties } from '../types/index.js';
+import type { ActionFormResponse, LoginTokenData, MessageFormResponse } from '../types/index.js';
 import type { Chunk, World, Dimension } from '../world/index.js';
 import { Render } from './Render.js';
 import { Abilities } from './abilities/index.js';
@@ -58,8 +41,6 @@ class Player extends Entity {
 		{ reject(value: Error): void; resolve(value: ActionFormResponse | MessageFormResponse): void; type: FormType }
 	>;
 
-	protected gamemode: Gamemode;
-
 	public onGround: boolean = false;
 
 	/**
@@ -78,13 +59,16 @@ class Player extends Entity {
 		this.uuid = tokens.identityData.identity;
 		this.guid = session.guid;
 		this.skin = new Skin(tokens.clientData);
-
-		this.gamemode = this.dimension.world.gamemode;
-
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 		this.render = new Render(this.serenity, this);
 		this.forms = new Map();
+
+		// Settting player metadata
+		this.nametag = this.username;
+
+		// Setting player properties
+		this.gamemode = Gamemode.Survival;
 	}
 
 	public getWorld(): World {
@@ -93,6 +77,34 @@ class Player extends Entity {
 
 	public getDimension(): Dimension {
 		return this.dimension;
+	}
+
+	/**
+	 * Gets the player's current gamemode.
+	 */
+	public get gamemode(): Gamemode {
+		// Get the gamemode from the properties.
+		const gamemode = this.properties.get('gamemode');
+
+		// Return fallback if the gamemode is null.
+		if (!gamemode) return Gamemode.Fallback;
+
+		// Return the gamemode.
+		return gamemode as Gamemode;
+	}
+
+	public set gamemode(gamemode: Gamemode) {
+		// Create a new SetPlayerGameType packet.
+		const packet = new SetPlayerGameType();
+
+		// Assign the packet data.
+		packet.gamemode = gamemode;
+
+		// Send the packet.
+		void this.session.send(packet);
+
+		// Set the gamemode in the properties.
+		this.properties.set('gamemode', gamemode);
 	}
 
 	/**
@@ -164,31 +176,6 @@ class Player extends Entity {
 
 		// Send the packet.
 		void this.session.send(packet);
-	}
-
-	/**
-	 * Sets the player's gamemode.
-	 *
-	 * @param gamemode The gamemode to set.
-	 */
-	public setGamemode(gamemode: Gamemode): void {
-		// Create a new set player game type packet.
-		const packet = new SetPlayerGameType();
-
-		// Assign the packet data.
-		packet.gamemode = gamemode;
-
-		// Send the packet.
-		void this.session.send(packet);
-	}
-
-	/**
-	 * Gets the player's gamemode.
-	 *
-	 * @returns The player's gamemode.
-	 */
-	public getGamemode(): Gamemode {
-		return this.gamemode;
 	}
 }
 export { Player };

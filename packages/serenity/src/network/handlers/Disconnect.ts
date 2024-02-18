@@ -15,10 +15,10 @@ class DisconnectHandler extends NetworkHandler {
 		const player = session.player;
 
 		// Return if the player is null or undefined.
-		// if (!player) return;
+		if (!player) return;
 
-		// TODO: Remove the player from the world.
-		// player.getWorld().despawnEntity(player);
+		// Despawn the player from the dimension.
+		player.dimension.despawnPlayer(player);
 	}
 }
 

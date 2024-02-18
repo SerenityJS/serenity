@@ -79,7 +79,7 @@ class Dimension {
 		packet.rotation = entity.rotation;
 		packet.bodyYaw = entity.rotation.y;
 		packet.attributes = [];
-		packet.metadata = entity.getMetadata();
+		packet.metadata = entity.getMetadataDictionary();
 		packet.properties = {
 			ints: [],
 			floats: [],
@@ -114,7 +114,7 @@ class Dimension {
 
 		// Set the packet data.
 		packet.runtimeEntityId = entity.runtimeId;
-		packet.metadata = entity.getMetadata();
+		packet.metadata = entity.getMetadataDictionary();
 		packet.properties = {
 			ints: [],
 			floats: [],
@@ -144,7 +144,7 @@ class Dimension {
 			blockRuntimeId: null,
 			extras: null,
 		};
-		spawn.gamemode = player.getGamemode(); // TODO: Get the gamemode from the player.
+		spawn.gamemode = player.gamemode; // TODO: Get the gamemode from the player.
 		spawn.metadata = [];
 		spawn.properties = {
 			ints: [],
@@ -162,6 +162,16 @@ class Dimension {
 
 		// Add the player to the dimension
 		this.players.set(player.uniqueId, player);
+	}
+
+	public despawnPlayer(player: Player): void {
+		const despawn = new RemoveEntity();
+		despawn.uniqueEntityId = player.uniqueId;
+
+		void this.broadcast(despawn);
+
+		// Remove the player from the dimension
+		this.players.delete(player.uniqueId);
 	}
 
 	public getPlayers(): Player[] {

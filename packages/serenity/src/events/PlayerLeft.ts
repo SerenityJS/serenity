@@ -1,7 +1,7 @@
 import type { Disconnect } from '@serenityjs/bedrock-protocol';
 import { DisconnectReason, Packet } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
-import { NetworkStatus, type NetworkPacketEvent } from '../network/index.js';
+import { NetworkBound, type NetworkPacketEvent } from '../network/index.js';
 import type { Player } from '../player/index.js';
 import { HookMethod } from '../types/index.js';
 import { AbstractEvent } from './AbstractEvent.js';
@@ -21,18 +21,21 @@ class PlayerLeft extends AbstractEvent {
 
 	public static async logic(data: NetworkPacketEvent<Disconnect>): Promise<void> {
 		// Separate the data into variables.
-		const { session, player, status, packet } = data;
+		const { session, bound, packet } = data;
 
 		// Check if the disconnect reason is "disconnected".
 		// Also check if the packet is incoming. Meaning the packet is being sent to by client.
-		if (packet.reason !== DisconnectReason.Disconnected || status !== NetworkStatus.Incoming) return;
+		if (packet.reason !== DisconnectReason.Disconnected || bound !== NetworkBound.Server) return;
 
 		// First we need to check if their is a player instance.
-		if (!player) {
+		if (!session.player) {
 			return this.serenity.logger.error(
 				`Failed to find player instance for ${session.identifier.address}:${session.identifier.port}! PlayerLeft.logic()`,
 			);
 		}
+
+		// Declare the player.
+		const player = session.player;
 
 		// Emit the new player event.
 		// Await the event to ensure that no data was changed.

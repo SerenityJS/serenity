@@ -54,7 +54,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 				blockRuntimeId: null,
 				extras: null,
 			};
-			spawn.gamemode = other.getGamemode(); // TODO: Get the gamemode from the other.
+			spawn.gamemode = other.gamemode; // TODO: Get the gamemode from the other.
 			spawn.metadata = [];
 			spawn.properties = {
 				ints: [],
