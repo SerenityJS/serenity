@@ -1,6 +1,7 @@
 import type { MetadataDictionary, Vector3f, MetadataFlags } from '@serenityjs/bedrock-protocol';
 import { MetadataKey, MetadataType } from '@serenityjs/bedrock-protocol';
-import type { Dimension } from '../world/index.js';
+import type { Dimension, Item } from '../world/index.js';
+import { EntityInventory } from './Inventory.js';
 
 let RUNTIME_ID = 1n;
 
@@ -20,6 +21,7 @@ class Entity {
 	public readonly rotation: Vector3f;
 	public readonly metadata: Map<MetadataFlags | MetadataKey, EntityMetadata>;
 	public readonly properties: Map<string, bigint | number | string>;
+	public readonly inventory: EntityInventory;
 
 	public constructor(identifier: string, dimension: Dimension, uniqueId?: bigint) {
 		this.runtimeId = RUNTIME_ID++;
@@ -31,6 +33,7 @@ class Entity {
 		this.rotation = { x: 0, y: 0, z: 0 };
 		this.metadata = new Map();
 		this.properties = new Map();
+		this.inventory = new EntityInventory(this);
 	}
 
 	/**

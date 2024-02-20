@@ -36,3 +36,6 @@ export * from './UpdateBlockLayerType.js';
 export * from './UpdateBlockFlagsType.js';
 export * from './DimensionType.js';
 export * from './ModalFormCanceledReason.js';
+export * from './ItemStackActionType.js';
+export * from './ContainerSlotType.js';
+export * from './ItemStackStatus.js';

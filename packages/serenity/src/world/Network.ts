@@ -10,6 +10,8 @@ import {
 } from '@serenityjs/bedrock-protocol';
 import type { Player } from '../player/Player.js';
 import type { World } from './World.js';
+import { BlockPermutation } from './chunk/index.js';
+import { ItemType } from './items/Type.js';
 
 /**
  * The world network class.
@@ -344,7 +346,120 @@ class WorldNetwork {
 		const packet = new CreativeContent();
 
 		// Assign the creative content packet.
-		packet.items = [];
+		packet.items = ItemType.types.map((item) => {
+			return {
+				entryId: item.runtimeId,
+				item: {
+					blockRuntimeId: item.permutation?.getRuntimeId() ?? 0,
+					count: 1,
+					metadata: item.metadata,
+					networkId: item.networkId,
+					extras: {
+						canDestroy: [],
+						canPlaceOn: [],
+						hasNbt: false,
+						nbt: {},
+					},
+				},
+			};
+		});
+		// 	{
+		// 		entryId: 1,
+		// 		item: {
+		// 			networkId: 5,
+		// 			count: 1,
+		// 			metadata: 0,
+		// 			blockRuntimeId: 0,
+		// 			extras: {
+		// 				canDestroy: [],
+		// 				canPlaceOn: [],
+		// 				hasNbt: false,
+		// 				nbt: {},
+		// 				ticking: null,
+		// 			},
+		// 		},
+		// 	},
+		// 	{
+		// 		entryId: 2,
+		// 		item: {
+		// 			networkId: 5,
+		// 			count: 1,
+		// 			metadata: 0,
+		// 			blockRuntimeId: BlockPermutation.resolve('minecraft:spruce_planks').getRuntimeId(),
+		// 			extras: {
+		// 				canDestroy: [],
+		// 				canPlaceOn: [],
+		// 				hasNbt: false,
+		// 				nbt: {},
+		// 				ticking: null,
+		// 			},
+		// 		},
+		// 	},
+		// 	{
+		// 		entryId: 3,
+		// 		item: {
+		// 			networkId: 5,
+		// 			count: 1,
+		// 			metadata: 0,
+		// 			blockRuntimeId: BlockPermutation.resolve('minecraft:spruce_planks').getRuntimeId(),
+		// 			extras: {
+		// 				canDestroy: [],
+		// 				canPlaceOn: [],
+		// 				hasNbt: false,
+		// 				nbt: {},
+		// 				ticking: null,
+		// 			},
+		// 		},
+		// 	},
+		// 	{
+		// 		entryId: 4,
+		// 		item: {
+		// 			networkId: 5,
+		// 			count: 1,
+		// 			metadata: 0,
+		// 			blockRuntimeId: BlockPermutation.resolve('minecraft:spruce_planks').getRuntimeId(),
+		// 			extras: {
+		// 				canDestroy: [],
+		// 				canPlaceOn: [],
+		// 				hasNbt: false,
+		// 				nbt: {},
+		// 				ticking: null,
+		// 			},
+		// 		},
+		// 	},
+		// 	{
+		// 		entryId: 5,
+		// 		item: {
+		// 			networkId: 5,
+		// 			count: 1,
+		// 			metadata: 0,
+		// 			blockRuntimeId: BlockPermutation.resolve('minecraft:spruce_planks').getRuntimeId(),
+		// 			extras: {
+		// 				canDestroy: [],
+		// 				canPlaceOn: [],
+		// 				hasNbt: false,
+		// 				nbt: {},
+		// 				ticking: null,
+		// 			},
+		// 		},
+		// 	},
+		// 	{
+		// 		entryId: 6,
+		// 		item: {
+		// 			networkId: 5,
+		// 			count: 1,
+		// 			metadata: 0,
+		// 			blockRuntimeId: BlockPermutation.resolve('minecraft:spruce_planks').getRuntimeId(),
+		// 			extras: {
+		// 				canDestroy: [],
+		// 				canPlaceOn: [],
+		// 				hasNbt: false,
+		// 				nbt: {},
+		// 				ticking: null,
+		// 			},
+		// 		},
+		// 	},
+		// ];
 
 		// Send the creative content packet to the player.
 		void player.session.send(packet);

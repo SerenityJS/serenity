@@ -36,3 +36,6 @@ export * from './CommandDefinition.js';
 export * from './ModalFormData.js';
 export * from './ModalFormCanceled.js';
 export * from './EntityAttributes.js';
+export * from './ItemStackRequests.js';
+export * from './StackRequestSlotInfo.js';
+export * from './ItemStackResponses.js';

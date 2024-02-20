@@ -14,7 +14,10 @@ import { ContainerClose } from './ContainerClose.js';
 import { ContainerOpen } from './ContainerOpen.js';
 import { CreativeContent } from './CreativeContent.js';
 import { Interact } from './Interact.js';
+import { InventorySlot } from './InventorySlot.js';
 import { InventoryTransaction } from './InventoryTransaction.js';
+import { ItemStackRequest } from './ItemStackRequest.js';
+import { ItemStackResponse } from './ItemStackResponse.js';
 import { LevelChunk } from './LevelChunk.js';
 import { Login } from './Login.js';
 import { ModalFormRequest } from './ModalFormRequest.js';
@@ -69,6 +72,7 @@ const Packets = {
 	[Packet.Respawn]: Respawn, // 45
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
+	[Packet.InventorySlot]: InventorySlot, // 50
 	[Packet.LevelChunk]: LevelChunk, // 58
 	[Packet.ChangeDimension]: ChangeDimension, // 61
 	[Packet.SetPlayerGameType]: SetPlayerGameType, // 62
@@ -85,6 +89,8 @@ const Packets = {
 	[Packet.BiomeDefinitionList]: BiomeDefinitionList, // 122
 	[Packet.NetworkSettings]: NetworkSettings, // 143
 	[Packet.CreativeContent]: CreativeContent, // 145
+	[Packet.ItemStackRequest]: ItemStackRequest, // 147
+	[Packet.ItemStackResponse]: ItemStackResponse, // 148
 	[Packet.PacketViolationWarning]: PacketViolationWarning, // 156
 	[Packet.ScriptMessage]: ScriptMessage, // 177
 	[Packet.ToastRequest]: ToastRequest, // 186

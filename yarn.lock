@@ -374,10 +374,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.6.1.tgz#9ab8f811930d7af3e3d549183a50884f9eb83f36"
   integrity sha512-UY+FGM/2jjMkzQLn8pxcHGMaVLh9aEitG3zY2CiY7XHdLiz3bZOwa6oDxNqEMv7zZkV+cj5DOdz0cQ1BP5Hjgw==
 
-"@serenityjs/bedrock-data@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@serenityjs/bedrock-data/-/bedrock-data-0.0.3.tgz#b22dc598cffff0655c7c6df869af4628d69e1d79"
-  integrity sha512-9KRMT59mZFW0Tume5kY4B3VdQpqsbVPgtK+GPbh+UAGrt5WdBKhvYmp1vvoq9VQ87T2/jlU1pvsmwAiAduJOKg==
+"@serenityjs/bedrock-data@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@serenityjs/bedrock-data/-/bedrock-data-0.0.7.tgz#8ac5c71d0c606ce34a6c8cc4bc1c75dfabe9a163"
+  integrity sha512-k7V+YSyZhOymk/a/IDR5iF+RwVDOXeTT0p5ZGeQ2PlhsL+OaK71aegJJPGY5PlfgZHPgGjYDtV5/PCU1yn7BCw==
 
 "@serenityjs/binarystream-darwin-x64@1.2.3":
   version "1.2.3"

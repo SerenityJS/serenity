@@ -9,6 +9,7 @@ import { DEFAULT_WORLD_PROPERTIES } from './Properties.js';
 import { BlockMapper } from './chunk/index.js';
 import { Dimension } from './dimension/index.js';
 import type { TerrainGenerator } from './generator/index.js';
+import { ItemMapper } from './items/Mapper.js';
 
 class World {
 	public readonly name: string;
@@ -40,6 +41,8 @@ class World {
 	 */
 	public readonly blocks: BlockMapper;
 
+	public readonly items: ItemMapper;
+
 	/**
 	 * The dimensions in the world mapped by their identifier.
 	 */
@@ -54,6 +57,7 @@ class World {
 		this.network = new WorldNetwork(this);
 		this.logger = new Logger(this.properties.name, '#34eb92');
 		this.blocks = new BlockMapper(this);
+		this.items = new ItemMapper(this);
 		this.dimensions = new Map();
 	}
 

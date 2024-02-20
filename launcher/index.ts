@@ -1,5 +1,6 @@
 import { DimensionType, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
-import { Serenity, InternalProvider, BetterFlat } from '@serenityjs/serenity';
+import { Serenity, InternalProvider, BetterFlat, BlockPermutation } from '@serenityjs/serenity';
+import { ItemType } from '../packages/serenity/dist/world/items/Type.js';
 
 // Create a new serenity instance.
 const serenity = new Serenity();

@@ -3,6 +3,7 @@ import { ContainerCloseHandler } from './ContainerClose.js';
 import { DisconnectHandler } from './Disconnect.js';
 import { InteractHandler } from './Interact.js';
 import { InventoryTransactionHandler } from './InventoryTransaction.js';
+import { ItemStackRequestHandler } from './ItemStackRequest.js';
 import { LoginHandler } from './Login.js';
 import { ModalFormResponseHandler } from './ModalFormResponse.js';
 import { MovePlayerHandler } from './MovePlayer.js';
@@ -32,6 +33,7 @@ const NETWORK_HANDLERS = [
 	DisconnectHandler,
 	RequestChunkRadiusHandler,
 	ModalFormResponseHandler,
+	ItemStackRequestHandler,
 ];
 
 export { NETWORK_HANDLERS };

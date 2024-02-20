@@ -13,7 +13,10 @@ import type {
 	DataPacket,
 	Disconnect,
 	Interact,
+	InventorySlot,
 	InventoryTransaction,
+	ItemStackRequest,
+	ItemStackResponse,
 	LevelChunk,
 	Login,
 	ModalFormRequest,
@@ -77,6 +80,7 @@ interface NetworkEvents {
 	[Packet.Respawn]: [NetworkPacketEvent<Respawn>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
+	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlot>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimension>];
 	[Packet.SetPlayerGameType]: [NetworkPacketEvent<SetPlayerGameType>];
@@ -93,6 +97,8 @@ interface NetworkEvents {
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
+	[Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequest>];
+	[Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponse>];
 	[Packet.PacketViolationWarning]: [NetworkPacketEvent<PacketViolationWarning>];
 	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessage>];
 	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequest>];

@@ -29,6 +29,7 @@ enum Packet {
 	ContainerOpen = 0x2e, // 46
 	ContainerClose = 0x2f, // 47
 	// InventoryContent = 0x31, // 49
+	InventorySlot = 0x32, // 50
 	LevelChunk = 0x3a, // 58
 	// SetDifficulty = 0x3c, // 60
 	ChangeDimension = 0x3d, // 61
@@ -48,7 +49,9 @@ enum Packet {
 	NetworkSettings = 0x8f, // 143
 	// PlayerAuthInput = 0x90, // 144
 	CreativeContent = 0x91, // 145
-	PacketViolationWarning = 0x9c, // 147
+	ItemStackRequest = 0x93, // 147
+	ItemStackResponse = 0x94, // 148
+	PacketViolationWarning = 0x9c, // 156
 	// ItemComponent = 0xa2, // 162
 	ScriptMessage = 0xb1, // 177
 	ToastRequest = 0xba, // 186

@@ -4,7 +4,8 @@ import type { Serenity } from '../Serenity.js';
 import { Entity } from '../entity/index.js';
 import type { Network, NetworkSession } from '../network/index.js';
 import type { ActionFormResponse, LoginTokenData, MessageFormResponse } from '../types/index.js';
-import type { Chunk, World, Dimension } from '../world/index.js';
+import type { Chunk, World, Dimension, Item } from '../world/index.js';
+import { PlayerInventory } from './Inventory.js';
 import { Render } from './Render.js';
 import { Abilities } from './abilities/index.js';
 import { Attributes } from './attributes/index.js';
@@ -36,6 +37,7 @@ class Player extends Entity {
 	public readonly abilities: Abilities;
 	public readonly attributes: Attributes;
 	public readonly render: Render;
+	public readonly inventory: PlayerInventory;
 	public readonly forms: Map<
 		number,
 		{ reject(value: Error): void; resolve(value: ActionFormResponse | MessageFormResponse): void; type: FormType }
@@ -62,13 +64,14 @@ class Player extends Entity {
 		this.abilities = new Abilities(this);
 		this.attributes = new Attributes(this);
 		this.render = new Render(this.serenity, this);
+		this.inventory = new PlayerInventory(this);
 		this.forms = new Map();
 
 		// Settting player metadata
 		this.nametag = this.username;
 
 		// Setting player properties
-		this.gamemode = Gamemode.Survival;
+		this.gamemode = Gamemode.Creative;
 	}
 
 	public getWorld(): World {
