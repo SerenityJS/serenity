@@ -57,7 +57,7 @@ class Network extends EventEmitter<NetworkEvents> {
 			// We may receive multiple packets in one payload.
 			for (const buffer of payloads) {
 				// Check if the first byte is 0xfe AKA the game packet header.
-				if (buffer[0] !== GAME_BYTE[0]) return console.log('Invalid packet header', buffer[0]);
+				if (buffer[0] !== GAME_BYTE[0]) return this.logger.error('Invalid packet header', buffer[0]);
 
 				// Check if the session is encrypted.
 				// NOTE: Encryption is not implemented yet. So we will just handle the packet as if it was not encrypted.
@@ -88,7 +88,7 @@ class Network extends EventEmitter<NetworkEvents> {
 						inflated = decrypted;
 						break;
 					default:
-						return console.log('Invalid compression algorithm', algorithm);
+						return this.logger.error('Invalid compression algorithm', algorithm);
 				}
 
 				// Unframe the inflated payload.
