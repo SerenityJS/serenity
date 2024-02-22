@@ -28,11 +28,11 @@ class WorldNetwork {
 	 *
 	 * @param packets - The packets to broadcast.
 	 */
-	public async broadcast(...packets: DataPacket[]): Promise<void> {
+	public broadcast(...packets: DataPacket[]): void {
 		// Loop through each player.
 		for (const player of this.world.getPlayers().values()) {
 			// Send the packet to that player.
-			await player.session.send(...packets);
+			player.session.send(...packets);
 		}
 	}
 
@@ -41,11 +41,11 @@ class WorldNetwork {
 	 *
 	 * @param packets - The packets to broadcast.
 	 */
-	public async broadcastImmediate(...packets: DataPacket[]): Promise<void> {
+	public broadcastImmediate(...packets: DataPacket[]): void {
 		// Loop through each player.
 		for (const player of this.world.getPlayers().values()) {
 			// Send the packet to that player.
-			await player.session.sendImmediate(...packets);
+			player.session.sendImmediate(...packets);
 		}
 	}
 
@@ -338,7 +338,7 @@ class WorldNetwork {
 		packet.serverControlledSounds = false;
 
 		// Send the start game packet to the player.
-		void player.session.send(packet);
+		player.session.send(packet);
 	}
 
 	public sendCreativeContent(player: Player): void {
@@ -462,7 +462,7 @@ class WorldNetwork {
 		// ];
 
 		// Send the creative content packet to the player.
-		void player.session.send(packet);
+		player.session.send(packet);
 	}
 
 	public sendBiomeDefinitionList(player: Player): void {
@@ -473,7 +473,7 @@ class WorldNetwork {
 		packet.biomes = BIOME_DEFINITION_LIST;
 
 		// Send the biome definition list packet to the player.
-		void player.session.send(packet);
+		player.session.send(packet);
 	}
 }
 

@@ -81,7 +81,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 						},
 					];
 
-					return void player.session.send(response);
+					return player.session.send(response);
 				}
 
 				// Get the cursor component.
@@ -177,7 +177,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 						},
 					];
 
-					return void player.session.send(response);
+					return player.session.send(response);
 				}
 
 				// Get the inventory component

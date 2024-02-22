@@ -85,7 +85,7 @@ class Render {
 		this.players.add(player.uniqueId);
 
 		// Send the packets to the player.
-		void this.player.session.send(list, entity);
+		this.player.session.send(list, entity);
 	}
 
 	public removePlayer(player: Player): void {
@@ -109,7 +109,7 @@ class Render {
 		this.players.delete(player.uniqueId);
 
 		// Send the packet to the player.
-		void this.player.session.send(list, entity);
+		this.player.session.send(list, entity);
 	}
 
 	public sendChunk(chunk: Chunk): void {
@@ -131,7 +131,7 @@ class Render {
 		this.chunks.add(chunk.getHash());
 
 		// Send the packet to the player.
-		void this.player.session.send(packet);
+		this.player.session.send(packet);
 	}
 
 	public getChunks(): Chunk[] {

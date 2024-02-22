@@ -101,7 +101,7 @@ class Player extends Entity {
 		packet.gamemode = gamemode;
 
 		// Send the packet.
-		void this.session.send(packet);
+		this.session.send(packet);
 
 		// Set the gamemode in the properties.
 		this.properties.set('gamemode', gamemode);
@@ -124,7 +124,7 @@ class Player extends Entity {
 		packet.hideDisconnectionScreen = hideReason;
 
 		// Send the packet.
-		void this.session.send(packet);
+		this.session.send(packet);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Player extends Entity {
 		packet.platformChatId = '';
 
 		// Send the packet.
-		void this.session.send(packet);
+		this.session.send(packet);
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Player extends Entity {
 		packet.runtimeEntityId = this.runtimeId;
 
 		// Send the packet.
-		void this.session.send(packet);
+		this.session.send(packet);
 	}
 }
 export { Player };

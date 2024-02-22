@@ -245,7 +245,7 @@ class EntityContainer {
 				};
 
 				// Send the packet.
-				return void container.entity.session.send(packet);
+				return container.entity.session.send(packet);
 			}
 
 			// Get the item from the slot.
@@ -280,7 +280,7 @@ class EntityContainer {
 			};
 
 			// Send the packet.
-			void container.entity.session.send(packet);
+			container.entity.session.send(packet);
 
 			// Calculate the empty slots count.
 			container.calculateEmptySlotsCount();
@@ -297,7 +297,7 @@ class EntityContainer {
 				networkId: 0,
 			};
 
-			void container.entity.session.send(packet);
+			container.entity.session.send(packet);
 		}
 	}
 }

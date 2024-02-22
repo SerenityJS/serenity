@@ -62,7 +62,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 			spawn.deviceId = 'Win10';
 			spawn.deviceOS = 7; // TODO: Get the device OS from the other.
 
-			await session.send(spawn);
+			session.send(spawn);
 		}
 
 		// TODO: Move elsewhere.
@@ -126,7 +126,8 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 			],
 			suffixes: [],
 		};
-		await session.send(data, avCommands);
+
+		session.send(data, avCommands);
 	}
 }
 
