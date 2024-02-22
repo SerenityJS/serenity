@@ -1,6 +1,14 @@
-import { DimensionType, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
-import { Serenity, InternalProvider, BetterFlat, BlockPermutation } from '@serenityjs/serenity';
-import { ItemType } from '../packages/serenity/dist/world/items/Type.js';
+import { ContainerSlotType, DimensionType, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
+import {
+	Serenity,
+	InternalProvider,
+	BetterFlat,
+	EntityInventoryComponent,
+	EntityCursorComponent,
+	EntityContainer,
+	Item,
+	ItemType,
+} from '@serenityjs/serenity';
 
 // Create a new serenity instance.
 const serenity = new Serenity();
@@ -35,19 +43,38 @@ serenity.network.on(Packet.BlockPickRequest, ({ packet, session, bound }) => {
 	entity.variant = Math.floor(Math.random() * 20);
 });
 
+serenity.on('PlayerJoined', (event) => {
+	// Create a new inventory container.
+	const container = new EntityContainer(event.player, ContainerSlotType.Inventory, 36);
+
+	// Create a new inventory component.
+	const inventory = new EntityInventoryComponent(event.player, container);
+
+	// Register the component to the player.
+	event.player.setComponent(inventory);
+
+	// Create a new cursor container.
+	const container2 = new EntityContainer(event.player, ContainerSlotType.Cursor, 1);
+
+	// Create a new cursor component.
+	const cursor = new EntityCursorComponent(event.player, container2);
+
+	// Register the component to the player.
+	event.player.setComponent(cursor);
+});
+
 serenity.on('PlayerChat', (event) => {
-	switch (event.message) {
-		case 'survival':
-			event.player.gamemode = 0;
-			break;
-		case 'creative':
-			event.player.gamemode = 1;
-			break;
-		case 'adventure':
-			event.player.gamemode = 2;
-			break;
-		case 'spectator':
-			event.player.gamemode = 3;
-			break;
-	}
+	// Get the item to add & and the amount.
+	const [name, amount] = event.message.split(' ');
+
+	// Get the player's inventory and container.
+	const inventory = event.player.components.get('minecraft:inventory') as EntityInventoryComponent;
+	const container = inventory.container;
+
+	// Construct the item with the container and the item type.
+	// This will automatically resolve the item type and create the item, and add it to the container.
+	const item = new Item(ItemType.resolve(name)!, Number(amount ?? 1));
+
+	// Add the item to the container.
+	container.setItem(4, item);
 });

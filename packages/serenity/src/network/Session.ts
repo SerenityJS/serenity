@@ -50,11 +50,11 @@ class NetworkSession {
 	 * @param packets The packets to send.
 	 * @returns A promise that resolves when the packet has been sent.
 	 */
-	public async send(...packets: DataPacket[]): Promise<void> {
+	public send(...packets: DataPacket[]): void {
 		return this.network.send(this, Priority.Normal, ...packets);
 	}
 
-	public async sendImmediate(...packets: DataPacket[]): Promise<void> {
+	public sendImmediate(...packets: DataPacket[]): void {
 		return this.network.send(this, Priority.Immediate, ...packets);
 	}
 
@@ -64,7 +64,7 @@ class NetworkSession {
 		packet.reason = reason;
 		packet.hideDisconnectionScreen = hideReason;
 
-		void this.send(packet);
+		this.send(packet);
 	}
 }
 

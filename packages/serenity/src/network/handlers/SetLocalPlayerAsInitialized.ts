@@ -47,12 +47,6 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 			spawn.headYaw = other.rotation.z;
 			spawn.heldItem = {
 				networkId: 0,
-				count: null,
-				metadata: null,
-				hasStackId: null,
-				stackId: null,
-				blockRuntimeId: null,
-				extras: null,
 			};
 			spawn.gamemode = other.gamemode; // TODO: Get the gamemode from the other.
 			spawn.metadata = [];

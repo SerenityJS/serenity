@@ -13,31 +13,31 @@ interface ItemExtras {
 }
 
 class Item extends DataType {
-	public blockRuntimeId: number | null;
-	public count: number | null;
-	public extras: ItemExtras | null;
-	public hasStackId: boolean | null;
-	public metadata: number | null;
+	public blockRuntimeId?: number;
+	public count?: number;
+	public extras?: ItemExtras;
+	public hasStackId?: boolean;
+	public metadata?: number;
 	public networkId: number;
-	public stackId: number | null;
+	public stackId?: number;
 
 	public constructor(
 		networkId: number,
-		count: number | null,
-		metadata: number | null,
-		blockRuntimeId: number | null,
-		extras: ItemExtras | null,
-		hasStackId: boolean | null,
-		stackId: number | null,
+		count?: number,
+		metadata?: number,
+		blockRuntimeId?: number,
+		extras?: ItemExtras,
+		hasStackId?: boolean,
+		stackId?: number,
 	) {
 		super();
 		this.networkId = networkId;
-		this.count = count ?? null;
-		this.metadata = metadata ?? null;
-		this.blockRuntimeId = blockRuntimeId ?? null;
-		this.extras = extras ?? null;
-		this.hasStackId = hasStackId ?? null;
-		this.stackId = stackId ?? null;
+		this.count = count;
+		this.metadata = metadata;
+		this.blockRuntimeId = blockRuntimeId;
+		this.extras = extras;
+		this.hasStackId = hasStackId;
+		this.stackId = stackId;
 	}
 
 	public static override read(stream: BinaryStream): Item {
@@ -46,7 +46,7 @@ class Item extends DataType {
 
 		// Checks if the network id is 0.
 		// If it is, then we return an empty value. (air)
-		if (networkId === 0) return new Item(networkId, null, null, null, null, null, null);
+		if (networkId === 0) return new Item(networkId);
 
 		// Read the rest of the value.
 		const count = stream.readUint16(Endianness.Little);
@@ -103,7 +103,7 @@ class Item extends DataType {
 			ticking,
 		};
 
-		return new Item(networkId, count, metadata, blockRuntimeId, extrasObjs, hasStackId, stackId);
+		return new Item(networkId, count, metadata, blockRuntimeId, extrasObjs, hasStackId, stackId ?? 0);
 	}
 
 	public static override write(stream: BinaryStream, value: Item): void {

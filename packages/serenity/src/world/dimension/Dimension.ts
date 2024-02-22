@@ -42,21 +42,21 @@ class Dimension {
 		this.spawn = { x: 0, y: 0, z: 0 };
 	}
 
-	public async broadcast(...packets: DataPacket[]): Promise<void> {
+	public broadcast(...packets: DataPacket[]): void {
 		// Loop through each player.
 		for (const player of this.getPlayers().values()) {
 			// Send the packet to that player.
-			await player.session.send(...packets);
+			player.session.send(...packets);
 		}
 	}
 
-	public async broadcastExcept(player: Player, ...packets: DataPacket[]): Promise<void> {
+	public broadcastExcept(player: Player, ...packets: DataPacket[]): void {
 		// Loop through each player.
 		for (const other of this.getPlayers().values()) {
 			if (other === player) continue;
 
 			// Send the packet to that player.
-			await other.session.send(...packets);
+			other.session.send(...packets);
 		}
 	}
 
@@ -87,7 +87,7 @@ class Dimension {
 		packet.links = [];
 
 		// Broadcast the packet to the dimension.
-		void this.broadcast(packet);
+		this.broadcast(packet);
 
 		// Add the entity to the dimension.
 		this.entities.set(entity.uniqueId, entity);
@@ -102,7 +102,7 @@ class Dimension {
 		packet.uniqueEntityId = entity.uniqueId;
 
 		// Broadcast the packet to the dimension.
-		void this.broadcast(packet);
+		this.broadcast(packet);
 
 		// Remove the entity from the dimension.
 		this.entities.delete(entity.uniqueId);
@@ -122,7 +122,7 @@ class Dimension {
 		packet.tick = 0n;
 
 		// Send the packet to the dimension.
-		void this.broadcast(packet);
+		this.broadcast(packet);
 	}
 
 	public spawnPlayer(player: Player): void {
@@ -137,12 +137,6 @@ class Dimension {
 		spawn.headYaw = player.rotation.z;
 		spawn.heldItem = {
 			networkId: 0,
-			count: null,
-			metadata: null,
-			hasStackId: null,
-			stackId: null,
-			blockRuntimeId: null,
-			extras: null,
 		};
 		spawn.gamemode = player.gamemode; // TODO: Get the gamemode from the player.
 		spawn.metadata = [];
@@ -158,7 +152,7 @@ class Dimension {
 		spawn.deviceId = 'Win10';
 		spawn.deviceOS = 7; // TODO: Get the device OS from the entity.
 
-		void this.broadcast(spawn);
+		this.broadcast(spawn);
 
 		// Add the player to the dimension
 		this.players.set(player.uniqueId, player);
@@ -168,7 +162,7 @@ class Dimension {
 		const despawn = new RemoveEntity();
 		despawn.uniqueEntityId = player.uniqueId;
 
-		void this.broadcast(despawn);
+		this.broadcast(despawn);
 
 		// Remove the player from the dimension
 		this.players.delete(player.uniqueId);
@@ -272,7 +266,7 @@ class Dimension {
 			update.flags = UpdateBlockFlagsType.Network;
 			update.layer = UpdateBlockLayerType.Normal;
 
-			void player.session.send(update);
+			player.session.send(update);
 		}
 	}
 

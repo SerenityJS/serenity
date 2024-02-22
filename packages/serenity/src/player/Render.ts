@@ -66,12 +66,6 @@ class Render {
 		entity.headYaw = player.rotation.z;
 		entity.heldItem = {
 			networkId: 0,
-			count: null,
-			metadata: null,
-			hasStackId: null,
-			stackId: null,
-			blockRuntimeId: null,
-			extras: null,
 		};
 		entity.gamemode = 0; // TODO: Get the gamemode from the player.
 		entity.metadata = [];

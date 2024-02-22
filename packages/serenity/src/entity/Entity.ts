@@ -1,7 +1,8 @@
 import type { MetadataDictionary, Vector3f, MetadataFlags } from '@serenityjs/bedrock-protocol';
 import { MetadataKey, MetadataType } from '@serenityjs/bedrock-protocol';
-import type { Dimension, Item } from '../world/index.js';
-import { EntityInventory } from './Inventory.js';
+import type { EntityComponents } from '../types/index.js';
+import type { Dimension } from '../world/index.js';
+import type { EntityComponent } from './components/index.js';
 
 let RUNTIME_ID = 1n;
 
@@ -21,7 +22,7 @@ class Entity {
 	public readonly rotation: Vector3f;
 	public readonly metadata: Map<MetadataFlags | MetadataKey, EntityMetadata>;
 	public readonly properties: Map<string, bigint | number | string>;
-	public readonly inventory: EntityInventory;
+	public readonly components: Map<keyof EntityComponents, EntityComponent>; // TODO: Probably should merge properties into components.
 
 	public constructor(identifier: string, dimension: Dimension, uniqueId?: bigint) {
 		this.runtimeId = RUNTIME_ID++;
@@ -33,7 +34,26 @@ class Entity {
 		this.rotation = { x: 0, y: 0, z: 0 };
 		this.metadata = new Map();
 		this.properties = new Map();
-		this.inventory = new EntityInventory(this);
+		this.components = new Map();
+	}
+
+	/**
+	 * Gets the component from the entity.
+	 *
+	 * @param type - The type of the component.
+	 * @returns The component.
+	 */
+	public getComponent<T extends keyof EntityComponents>(type: T): EntityComponents[T] {
+		return this.components.get(type) as EntityComponents[T];
+	}
+
+	/**
+	 * Sets the component to the entity.
+	 *
+	 * @param component - The component to set.
+	 */
+	public setComponent<T extends keyof EntityComponents>(component: EntityComponents[T]): void {
+		this.components.set(component.type, component);
 	}
 
 	/**

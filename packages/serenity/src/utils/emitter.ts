@@ -1,6 +1,5 @@
 // Experimental Event Emitter
-export type Awaitable<T> = PromiseLike<T> | T;
-export type Listener<T extends any[], R = unknown> = (...args: T) => Awaitable<R>;
+export type Listener<T extends any[], R = unknown> = (...args: T) => R;
 export type ForceArray<T> = T extends any[] ? T : never;
 
 export class EventEmitter<T> {
@@ -19,23 +18,23 @@ export class EventEmitter<T> {
 	}
 
 	// Returns true if all listeners were called. Returns false if a before hook returned false.
-	public async emit<K extends keyof T>(event: K, ...args: ForceArray<T[K]>): Promise<boolean> {
+	public emit<K extends keyof T>(event: K, ...args: ForceArray<T[K]>): boolean {
 		const beforeHooks = this._beforeHooks.get(event) ?? [];
 		const listeners = this._listeners.get(event) ?? [];
 		const afterHooks = this._afterHooks.get(event) ?? [];
 
 		// TODO: Optional optimization point. Listeners can be called in parallel for promises.
 		for (const hook of beforeHooks) {
-			const result = await hook(...args);
+			const result = hook(...args);
 			if (result === false) return false;
 		}
 
 		for (const listener of listeners) {
-			await listener(...args);
+			listener(...args);
 		}
 
 		for (const hook of afterHooks) {
-			await hook(...args);
+			hook(...args);
 		}
 
 		return true;

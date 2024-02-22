@@ -1,15 +1,16 @@
 import type { ItemStackRequests, ItemStackAction, Packet } from '@serenityjs/bedrock-protocol';
 import {
+	ContainerSlotType,
 	ItemStackRequest,
 	DisconnectReason,
 	ItemStackActionType,
-	ContainerSlotType,
 	Gamemode,
 	ItemStackResponse,
 	ItemStackStatus,
 } from '@serenityjs/bedrock-protocol';
+import type { EntityInventoryComponent } from '../../entity/index.js';
 import type { Player } from '../../player/Player.js';
-import { ItemType, Item } from '../../world/index.js';
+import { Item, ItemType } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
 
@@ -31,7 +32,6 @@ class ItemStackRequestHandler extends NetworkHandler {
 		for (const request of packet.requests) {
 			// Loop through the actions.
 			for (const action of request.actions) {
-				console.log(action);
 				// Switch the action type.
 				switch (action.type) {
 					default:
@@ -39,9 +39,11 @@ class ItemStackRequestHandler extends NetworkHandler {
 						break;
 
 					case ItemStackActionType.Take:
-						return this.handleTakeAction(player, action, request);
+						this.handleTakeAction(player, action, request);
+						break;
 					case ItemStackActionType.Place:
-						return this.handlePlaceAction(player, action, request);
+						this.handlePlaceAction(player, action, request);
+						break;
 				}
 			}
 		}
@@ -52,124 +54,100 @@ class ItemStackRequestHandler extends NetworkHandler {
 		const source = action.source!;
 		const destination = action.destination!;
 
-		// Switch the source type.
-		switch (source.type) {
+		switch (destination.type) {
 			default:
-				console.log('TakeAction not implemented:', ContainerSlotType[source.type]);
+				console.log('ItemStackTakeAction$destination not implemented:', ContainerSlotType[destination.type]);
 				break;
 
-			case ContainerSlotType.Hotbar: {
-				// Get the item from the hotbar.
-				const item = player.inventory.hotbar.get(source.slot);
+			case ContainerSlotType.Cursor: {
+				console.log(
+					`source: ${ContainerSlotType[source.type]} ${source.slot}, destination: ${
+						ContainerSlotType[destination.type]
+					} ${destination.slot}, count: ${action.count}`,
+				);
+				// Get the inventory component
+				const inventory = player.getComponent('minecraft:inventory');
 
-				// Return if the item is null.
-				if (!item) return;
+				// Get the item from the source.
+				const item = inventory.container.getItem(source.slot);
 
-				// Create a new ItemStackResponse packet.
-				const packet = new ItemStackResponse();
-				packet.responses = [
-					{
-						id: request.id,
-						status: ItemStackStatus.Ok,
-						containers: [
-							{
-								type: ContainerSlotType.Hotbar,
-								slots: [
-									{
-										slot: source.slot,
-										hotbarSlot: source.slot,
-										amount: 0,
-										runtimeId: 0,
-										nametag: String(),
-										durabilityCorrection: 0,
-									},
-								],
-							},
-							{
-								type: ContainerSlotType.Cursor,
-								slots: [
-									{
-										slot: destination.slot,
-										hotbarSlot: destination.slot,
-										amount: item.amount,
-										runtimeId: item.type.runtimeId,
-										nametag: item.nametag,
-										durabilityCorrection: 0,
-									},
-								],
-							},
-						],
-					},
-				];
+				// If the item is null, then return an error.
+				if (item === null) {
+					const response = new ItemStackResponse();
+					response.responses = [
+						{
+							status: ItemStackStatus.Error,
+							id: request.id,
+						},
+					];
 
-				// Send the player the packet.
-				void player.session.send(packet);
+					return void player.session.send(response);
+				}
 
-				// Set the hotbar slot.
-				player.inventory.hotbar.delete(source.slot);
+				// Get the cursor component.
+				const cursor = player.getComponent('minecraft:cursor');
 
-				// Set the cursor to the item.
-				player.inventory.cursor = item;
-				break;
-			}
+				// Get the item from the cursor.
+				const cursorItem = cursor.container.getItem(0);
 
-			case ContainerSlotType.CreativeOutput: {
-				// Check if the player is in creative mode.
-				// If the player is not in creative mode kick them.
-				if (player.gamemode !== Gamemode.Creative)
-					return player.disconnect('Inventory transaction exploit.', DisconnectReason.KickedForExploit);
+				// If the cursor item exists, then we will add the item to the cursor.
+				if (cursorItem) {
+					// Add the amount to the cursor item.
+					cursorItem.amount += action.count!;
 
-				// NOTE: A new Item should be created here.
-				// We construct a new Item instance using a type and a count.
-				// But we must first find the type of the item.
-				// This action is sent with 2 other actions. The first action will contain the runtimeId of the item.
-				const runtimeId = request.actions[0].runtimeId!;
+					// Remove the amount from the item.
+					item.amount -= action.count!;
 
-				// Find the item type.
-				// And return if the item type is null.
-				const type = ItemType.resolveByRuntimeId(runtimeId);
-				if (!type) break; // TODO: Send an error to the client.
+					// Check if the item amount is 0.
+					if (item.amount === 0) {
+						// Clear the item from the source.
+						inventory.container.clearSlot(source.slot);
+					}
+				} else {
+					// Construct a new item for the cursor.
+					const cursorItem = new Item(item.type, action.count!);
 
-				// Create the item.
-				const item = new Item(player, type, action.count!);
+					// Set the item to the cursor.
+					cursor.container.setItem(0, cursorItem);
 
-				// Check if the destination is the cursor.
-				if (destination.type !== ContainerSlotType.Cursor) return;
+					// Remove the amount from the item.
+					item.amount -= action.count!;
 
-				// Create a new ItemStackResponse packet.
-				const packet = new ItemStackResponse();
-
-				// Assign the packet data.
-				packet.responses = [
-					{
-						id: request.id,
-						status: ItemStackStatus.Ok,
-						containers: [
-							{
-								type: ContainerSlotType.Cursor,
-								slots: [
-									{
-										slot: destination.slot,
-										hotbarSlot: destination.slot,
-										amount: item.amount,
-										runtimeId: item.type.runtimeId,
-										nametag: item.nametag,
-										durabilityCorrection: 0,
-									},
-								],
-							},
-						],
-					},
-				];
-
-				// Send the packet.
-				void player.session.send(packet);
-
-				// Set the item in the cursor.
-				player.inventory.cursor = item;
-				break;
+					// Check if the item amount is 0.
+					if (item.amount === 0) {
+						// Clear the item from the source.
+						inventory.container.clearSlot(source.slot);
+					}
+				}
 			}
 		}
+
+		// switch (source.type) {
+		// 	default:
+		// 		console.log('ItemStackTakeAction not implemented:', ContainerSlotType[source.type]);
+		// 		break;
+
+		// 	case ContainerSlotType.Hotbar:
+		// 	case ContainerSlotType.Inventory:
+		// 	case ContainerSlotType.HotbarAndInventory: {
+		// 		// Get the inventory component
+		// 		const inventory = player.components.get('minecraft:inventory') as EntityInventoryComponent;
+		// 		const container = inventory.container;
+
+		// 		// Get the item from the source.
+		// 		const item = container.getItem(source.slot)!;
+
+		// 		// Remove the amount from the item.
+		// 		item.amount -= action.count!;
+
+		// 		// Create a new item for the cursor.
+		// 		const cursor = new Item(item.type, action.count!); // Probably need to add a clone method to the item class.
+
+		// 		// Set the cursor to the player's cursor.
+		// 		this.cursors.set(player.uniqueId, cursor);
+		// 		break;
+		// 	}
+		// }
 	}
 
 	protected static handlePlaceAction(player: Player, action: ItemStackAction, request: ItemStackRequests): void {
@@ -177,67 +155,65 @@ class ItemStackRequestHandler extends NetworkHandler {
 		const source = action.source!;
 		const destination = action.destination!;
 
-		// Switch the destination type.
-		switch (destination.type) {
+		switch (source.type) {
 			default:
-				console.log('PlaceAction not implemented:', ContainerSlotType[destination.type]);
+				console.log('ItemStackPlaceAction$source not implemented:', ContainerSlotType[source.type]);
 				break;
 
-			case ContainerSlotType.Hotbar: {
-				// Check if the source is the cursor.
+			case ContainerSlotType.Cursor: {
+				// Get the cursor component.
+				const cursor = player.getComponent('minecraft:cursor');
 
-				if (source.type === ContainerSlotType.Cursor) {
-					// Get the item from the cursor.
-					const item = player.inventory.cursor;
+				// Get the item from the cursor.
+				const item = cursor.container.getItem(0);
 
-					// Return if the item is null.
-					if (!item) return;
-
-					// Create a new ItemStackResponse packet.
-					const packet = new ItemStackResponse();
-					packet.responses = [
+				// If the item is null, then return an error.
+				if (item === null) {
+					const response = new ItemStackResponse();
+					response.responses = [
 						{
+							status: ItemStackStatus.Error,
 							id: request.id,
-							status: ItemStackStatus.Ok,
-							containers: [
-								{
-									type: ContainerSlotType.Hotbar,
-									slots: [
-										{
-											slot: destination.slot,
-											hotbarSlot: destination.slot,
-											amount: item.amount,
-											runtimeId: item.type.runtimeId,
-											nametag: item.nametag,
-											durabilityCorrection: 0, // TODO: Implement durability.
-										},
-									],
-								},
-								{
-									type: ContainerSlotType.Cursor,
-									slots: [
-										{
-											slot: 0,
-											hotbarSlot: 0,
-											amount: 0,
-											runtimeId: 0,
-											nametag: String(),
-											durabilityCorrection: 0,
-										},
-									],
-								},
-							],
 						},
 					];
 
-					// Send the player the packet.
-					void player.session.send(packet);
+					return void player.session.send(response);
+				}
 
-					// Set the hotbar slot.
-					player.inventory.hotbar.set(destination.slot, item);
+				// Get the inventory component
+				const inventory = player.getComponent('minecraft:inventory');
 
-					// Set the cursor to null.
-					player.inventory.cursor = null;
+				// Get the item from the destination.
+				const destinationItem = inventory.container.getItem(destination.slot);
+
+				// If the item already exists in the destination, then we will add the item to the destination.
+				if (destinationItem) {
+					// Add the amount to the destination item.
+					destinationItem.amount += item.amount;
+
+					// Remove the amount from the cursor item.
+					item.amount -= item.amount;
+
+					// Check if the cursor item amount is 0.
+					if (item.amount === 0) {
+						// Clear the cursor item.
+						cursor.container.clearSlot(0);
+					}
+				} else {
+					// Construct a new item for the destination.
+					const newItem = new Item(item.type, action.count!);
+
+					// Set the item to the destination.
+					inventory.container.setItem(destination.slot, newItem);
+
+					// Remove the amount from the cursor item.
+					item.amount -= action.count!;
+
+					// Check if the cursor item amount is 0.
+					if (item.amount === 0) {
+						// Clear the cursor item.
+						cursor.container.clearSlot(0);
+					}
 				}
 			}
 		}

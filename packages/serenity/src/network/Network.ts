@@ -51,7 +51,7 @@ class Network extends EventEmitter<NetworkEvents> {
 	 * @param payloads The payloads that were sent.
 	 * @returns A promise that resolves when the packets have been handled.
 	 */
-	public async incoming(session: NetworkSession, ...payloads: Buffer[]): Promise<void> {
+	public incoming(session: NetworkSession, ...payloads: Buffer[]): void {
 		try {
 			// Loop through each buffer.
 			// We may receive multiple packets in one payload.
@@ -114,7 +114,7 @@ class Network extends EventEmitter<NetworkEvents> {
 						// Emit the packet event will return a promise with a boolean value.
 						// If the value is false, the packet was cancelled from being handled.
 						// If the value is true, the packet was either modified or not listened to.
-						const value = await this.emit(instance.getId() as Packet, event);
+						const value = this.emit(instance.getId() as Packet, event);
 
 						// Check if the packet was cancelled.
 						if (!value) continue;
@@ -159,7 +159,7 @@ class Network extends EventEmitter<NetworkEvents> {
 	 * @param packets The packets to send.
 	 * @returns A promise that resolves when the packets have been sent.
 	 */
-	public async send(session: NetworkSession, priority = Priority.Normal, ...packets: DataPacket[]): Promise<void> {
+	public send(session: NetworkSession, priority = Priority.Normal, ...packets: DataPacket[]): void {
 		try {
 			// Prepare an array of buffers
 			const payloads: Buffer[] = [];
@@ -177,7 +177,7 @@ class Network extends EventEmitter<NetworkEvents> {
 				// Emit the packet event will return a promise with a boolean value.
 				// If the value is false, the packet was cancelled from sending.
 				// If the value is true, the packet was either modified or not listened to.
-				const value = await this.emit(packet.getId() as Packet, event);
+				const value = this.emit(packet.getId() as Packet, event);
 
 				// Check if the packet was cancelled.
 				// If so, we will ignore the packet and continue to the next one.
@@ -239,11 +239,11 @@ class Network extends EventEmitter<NetworkEvents> {
 	 * @param packets The packets to broadcast.
 	 * @returns A promise that resolves when the packets have been broadcasted.
 	 */
-	public async broadcast(...packets: DataPacket[]): Promise<void> {
+	public broadcast(...packets: DataPacket[]): void {
 		// Loop through each session.
 		for (const session of this.sessions.values()) {
 			// Send the packet to the session.
-			await this.send(session, Priority.Normal, ...packets);
+			this.send(session, Priority.Normal, ...packets);
 		}
 	}
 
@@ -253,11 +253,11 @@ class Network extends EventEmitter<NetworkEvents> {
 	 * @param packets The packets to broadcast.
 	 * @returns A promise that resolves when the packets have been broadcasted.
 	 */
-	public async broadcastImmediate(...packets: DataPacket[]): Promise<void> {
+	public broadcastImmediate(...packets: DataPacket[]): void {
 		// Loop through each session.
 		for (const session of this.sessions.values()) {
 			// Send the packet to the session.
-			await this.send(session, Priority.Immediate, ...packets);
+			this.send(session, Priority.Immediate, ...packets);
 		}
 	}
 }
