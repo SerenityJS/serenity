@@ -68,21 +68,35 @@ class Network extends EventEmitter<NetworkEvents> {
 				// eslint-disable-next-line sonarjs/no-all-duplicated-branches
 				let decrypted = session.encryption ? stream.readRemainingBuffer() : stream.readRemainingBuffer();
 
-				// FIXME: For some odd reason we are only receiving 1 packet that is compressed.
-				// And the others come in as uncompressed... Not sure why minecraft is doing this.
+				// Some packets have a byte that represents the compression algorithm.
+				// Read the compression algorithm from the buffer.
+				const algorithm: CompressionMethod = CompressionMethod[decrypted[0]]
+					? decrypted.readUint8()
+					: CompressionMethod.NotPresent;
 
-				// Check if the session has compression enabled.
-				// If so, we will read the compression algorithm from the buffer.
-				// TODO: Check if the compression algorithm is the correct algorithm for the session.
-				const algorithm = session.compression ? decrypted[0] : null;
-				if (algorithm !== null) decrypted = decrypted.subarray(1);
-				const skip = algorithm === CompressionMethod.None || algorithm === null;
+				// Remove the compression algorithm from the buffer.
+				// Only if the buffer has compression enabled.
+				if (algorithm !== CompressionMethod.NotPresent) decrypted = decrypted.subarray(1);
 
-				// Inflates the buffer if the session has compression enabled.
-				// If not, will read the remaining buffer.
-				// We will then unframe the buffer into packets.
-				// Sometimes we will get multiple packets in one payload.
-				const inflated = skip ? decrypted : inflateRawSync(decrypted);
+				// Prepare a buffer for the inflated payload.
+				let inflated: Buffer;
+
+				// Switch based on the compression algorithm given by the packet.
+				switch (algorithm) {
+					case CompressionMethod.Zlib:
+						inflated = inflateRawSync(decrypted);
+						break;
+					case CompressionMethod.None:
+					case CompressionMethod.NotPresent:
+						inflated = decrypted;
+						break;
+					default:
+						return console.log('Invalid compression algorithm', algorithm);
+				}
+
+				// Unframe the inflated payload.
+				// Payloads can sometime contain multiple packets.
+				// But it seems like a rare case for that to happen.
 				const frames = Framer.unframe(inflated);
 
 				// Loop through each frame, and handle the packet.

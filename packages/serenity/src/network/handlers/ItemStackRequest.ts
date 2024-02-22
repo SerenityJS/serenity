@@ -60,11 +60,6 @@ class ItemStackRequestHandler extends NetworkHandler {
 				break;
 
 			case ContainerSlotType.Cursor: {
-				console.log(
-					`source: ${ContainerSlotType[source.type]} ${source.slot}, destination: ${
-						ContainerSlotType[destination.type]
-					} ${destination.slot}, count: ${action.count}`,
-				);
 				// Get the inventory component
 				const inventory = player.getComponent('minecraft:inventory');
 
