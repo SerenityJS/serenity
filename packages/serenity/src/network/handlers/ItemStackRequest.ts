@@ -20,7 +20,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = ItemStackRequest.ID;
 
-	public static override async handle(packet: ItemStackRequest, session: NetworkSession): Promise<void> {
+	public static override handle(packet: ItemStackRequest, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;

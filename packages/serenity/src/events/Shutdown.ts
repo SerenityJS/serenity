@@ -28,13 +28,13 @@ class Shutdown extends AbstractEvent {
 		process.on('SIGINT', async () => this.logic(ShutdownCause.Interupt, null));
 	}
 
-	public static async logic(cause: ShutdownCause, reason: string | null): Promise<void> {
+	public static logic(cause: ShutdownCause, reason: string | null): void {
 		// Construct the shutdown event.
 		const event = new Shutdown(cause, reason);
 
 		// Emit the shutdown event.
 		// Await the event to ensure that no data was changed.
-		const value = await this.serenity.emit('Shutdown', event);
+		const value = this.serenity.emit('Shutdown', event);
 
 		// If the value is false, the event was cancelled.
 		// But is the cause is an interupt, we still want to shutdown the server.

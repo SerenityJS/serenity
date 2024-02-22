@@ -52,7 +52,7 @@ class PlayerChat extends AbstractEvent {
 		const event = new PlayerChat(player, packet.message, packet.source);
 
 		// Call the event.
-		const value = await this.serenity.emit('PlayerChat', event);
+		const value = this.serenity.emit('PlayerChat', event);
 
 		// Reassign variables to the packet.
 		packet.message = event.message;

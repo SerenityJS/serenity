@@ -9,15 +9,13 @@ class InventoryTransactionHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = InventoryTransaction.ID;
 
-	public static override async handle(packet: InventoryTransaction, session: NetworkSession): Promise<void> {
+	public static override handle(packet: InventoryTransaction, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;
 
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
-
-		console.log('inventory transaction', packet);
 	}
 
 	private static handleItemUse(packet: InventoryTransaction, session: NetworkSession): void {

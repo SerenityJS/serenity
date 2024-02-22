@@ -39,7 +39,7 @@ class PlayerSpawned extends AbstractEvent {
 		// Emit the new player event.
 		// Await the event to ensure that no data was changed.
 		// Which in this case, it doesn't matter if the data was changed.
-		const value = await this.serenity.emit('PlayerSpawned', new this(player));
+		const value = this.serenity.emit('PlayerSpawned', new this(player));
 
 		// If the value is false, the event was cancelled.
 		// In this case, we disconnect the player.

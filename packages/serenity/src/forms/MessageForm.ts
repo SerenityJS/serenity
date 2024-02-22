@@ -118,7 +118,7 @@ class MessageForm extends Form {
 			form.payload = JSON.stringify({ type: MessageForm.TYPE, ...this.toJson() });
 
 			// Send the form to the player.
-			void player.session.send(form);
+			player.session.send(form);
 		});
 	}
 }

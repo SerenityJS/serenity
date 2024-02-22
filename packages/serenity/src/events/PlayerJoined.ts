@@ -18,7 +18,7 @@ class PlayerJoined extends AbstractEvent {
 		this.player = player;
 	}
 
-	public static async logic(data: NetworkPacketEvent<PlayStatus>): Promise<void> {
+	public static logic(data: NetworkPacketEvent<PlayStatus>): void {
 		// Separate the data into variables.
 		const { session, bound, packet } = data;
 
@@ -38,7 +38,7 @@ class PlayerJoined extends AbstractEvent {
 
 		// Emit the new player event.
 		// Await the event to ensure that no data was changed.
-		const value = await this.serenity.emit('PlayerJoined', new this(player));
+		const value = this.serenity.emit('PlayerJoined', new this(player));
 
 		// If the value is false, the event was cancelled.
 		// In this case, we will disconnect the player.

@@ -23,7 +23,7 @@ class LoginHandler extends NetworkHandler {
 	 * @param packet The packet.
 	 * @param session The network session.
 	 */
-	public static override async handle(packet: Login, session: NetworkSession): Promise<void> {
+	public static override handle(packet: Login, session: NetworkSession): void {
 		// Decode the tokens given by the client.
 		// This contains the client data, identity data, and public key.
 		// Along with the players XUID, display name, and uuid.
@@ -76,7 +76,7 @@ class LoginHandler extends NetworkHandler {
 		login.status = PlayerStatus.LoginSuccess;
 
 		// Send the login packet.
-		await session.send(login);
+		session.send(login);
 
 		// TODO: Implement to ability to use resource packs.
 		// We will now send an empty resource pack info packet.
@@ -90,7 +90,7 @@ class LoginHandler extends NetworkHandler {
 		packs.links = [];
 
 		// We will now send the resource pack info packet.
-		await session.send(packs);
+		session.send(packs);
 	}
 
 	public static decode(tokens: LoginTokens): LoginTokenData {

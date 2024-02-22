@@ -102,7 +102,7 @@ class ActionForm extends Form {
 			form.payload = JSON.stringify({ type: ActionForm.TYPE, ...this.toJson() });
 
 			// Send the form to the player.
-			void player.session.send(form);
+			player.session.send(form);
 		});
 	}
 }

@@ -9,7 +9,7 @@ class MovePlayerHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = MovePlayer.ID;
 
-	public static override async handle(packet: MovePlayer, session: NetworkSession): Promise<void> {
+	public static override handle(packet: MovePlayer, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;
@@ -54,7 +54,7 @@ class MovePlayerHandler extends NetworkHandler {
 			move.tick = 0n;
 
 			// Send the movement packet to the player.
-			void other.session.send(move);
+			other.session.send(move);
 		}
 	}
 }

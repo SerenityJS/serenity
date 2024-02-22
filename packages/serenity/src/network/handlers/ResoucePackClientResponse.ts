@@ -17,7 +17,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = ResourcePackClientResponse.ID;
 
-	public static override async handle(packet: ResourcePackClientResponse, session: NetworkSession): Promise<void> {
+	public static override async handle(
+		packet: ResourcePackClientResponse,
+		session: NetworkSession,
+	): Promise<Promise<void>> {
 		// TODO: Add support for resource packs.
 		// For now, we will just send the empty response.
 		// And once we get a completed response, we will send the start the spawn sequence.
@@ -74,7 +77,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 					};
 				});
 
-				await session.send(update);
+				session.send(update);
 
 				for (const chunk of chunks) {
 					player.render.sendChunk(chunk);
@@ -83,7 +86,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				const status = new PlayStatus();
 				status.status = PlayerStatus.PlayerSpawn;
 
-				await session.send(status);
+				session.send(status);
 			}
 		}
 	}

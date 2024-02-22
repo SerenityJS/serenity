@@ -56,17 +56,14 @@ class Network extends EventEmitter<NetworkEvents> {
 			// Loop through each buffer.
 			// We may receive multiple packets in one payload.
 			for (const buffer of payloads) {
-				// Construct a new BinaryStream from the buffer.
-				// And check if the first byte is 0xfe AKA the game packet header.
-				const stream = new BinaryStream(buffer);
-				const header = stream.readUint8();
-				if (header !== GAME_BYTE[0]) return console.log('Invalid packet header', header);
+				// Check if the first byte is 0xfe AKA the game packet header.
+				if (buffer[0] !== GAME_BYTE[0]) return console.log('Invalid packet header', buffer[0]);
 
 				// Check if the session is encrypted.
 				// NOTE: Encryption is not implemented yet. So we will just handle the packet as if it was not encrypted.
 				// TODO: Implement encryption for the session.
 				// eslint-disable-next-line sonarjs/no-all-duplicated-branches
-				let decrypted = session.encryption ? stream.readRemainingBuffer() : stream.readRemainingBuffer();
+				let decrypted = session.encryption ? buffer.subarray(1) : buffer.subarray(1);
 
 				// Some packets have a byte that represents the compression algorithm.
 				// Read the compression algorithm from the buffer.

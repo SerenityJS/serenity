@@ -9,7 +9,7 @@ class ModalFormResponseHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = ModalFormResponse.ID;
 
-	public static override async handle(packet: ModalFormResponse, session: NetworkSession): Promise<void> {
+	public static override handle(packet: ModalFormResponse, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;

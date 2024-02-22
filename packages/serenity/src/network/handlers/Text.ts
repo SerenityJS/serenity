@@ -9,7 +9,7 @@ class TextHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = Text.ID;
 
-	public static override async handle(packet: Text, session: NetworkSession): Promise<void> {
+	public static override handle(packet: Text, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;
@@ -27,7 +27,7 @@ class TextHandler extends NetworkHandler {
 		text.xuid = packet.xuid;
 		text.platformChatId = packet.platformChatId;
 
-		await player.getWorld().network.broadcast(text);
+		player.getWorld().network.broadcast(text);
 	}
 }
 

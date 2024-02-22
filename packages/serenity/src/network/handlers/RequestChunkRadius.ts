@@ -9,7 +9,7 @@ class RequestChunkRadiusHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = RequestChunkRadius.ID;
 
-	public static override async handle(packet: RequestChunkRadius, session: NetworkSession): Promise<void> {
+	public static override handle(packet: RequestChunkRadius, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;
@@ -22,7 +22,7 @@ class RequestChunkRadiusHandler extends NetworkHandler {
 		const radius = new ChunkRadiusUpdate();
 		radius.radius = 96;
 
-		await session.send(radius);
+		session.send(radius);
 	}
 }
 

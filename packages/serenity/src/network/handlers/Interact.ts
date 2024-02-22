@@ -16,7 +16,7 @@ class InteractHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = Interact.ID;
 
-	public static override async handle(packet: Interact, session: NetworkSession): Promise<void> {
+	public static override handle(packet: Interact, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;
@@ -36,7 +36,7 @@ class InteractHandler extends NetworkHandler {
 			container.targetRuntimeEntityId = player.runtimeId;
 
 			// Send the packet.
-			await session.send(container);
+			session.send(container);
 		}
 	}
 }

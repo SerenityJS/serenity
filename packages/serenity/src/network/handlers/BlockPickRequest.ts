@@ -9,7 +9,7 @@ class BlockPickRequestHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = BlockPickRequest.ID;
 
-	public static override async handle(packet: BlockPickRequest, session: NetworkSession): Promise<void> {
+	public static override handle(packet: BlockPickRequest, session: NetworkSession): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;

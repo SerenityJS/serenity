@@ -9,7 +9,7 @@ class PacketViolationWarningHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = PacketViolationWarning.ID;
 
-	public static override async handle(packet: PacketViolationWarning, session: NetworkSession): Promise<void> {
+	public static override handle(packet: PacketViolationWarning, session: NetworkSession): void {
 		// Format the packet id.
 		const id =
 			packet.packetId.toString(16).length === 1 ? `0${packet.packetId.toString(16)}` : packet.packetId.toString(16);

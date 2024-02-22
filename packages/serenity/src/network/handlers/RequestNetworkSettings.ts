@@ -14,7 +14,7 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
 	 */
 	public static override packet: Packet = RequestNetworkSettings.ID;
 
-	public static override async handle(packet: RequestNetworkSettings, session: NetworkSession): Promise<void> {
+	public static override handle(packet: RequestNetworkSettings, session: NetworkSession): void {
 		// Check if the client is using the correct protocol version.
 		const protocol = this.serenity.protocol;
 
@@ -46,7 +46,7 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
 		settings.clientScalar = 0;
 
 		// Send the settings to the client.
-		await session.send(settings);
+		session.send(settings);
 
 		// Set the compression to true.
 		// For here on out, all packets will be compressed.
