@@ -62,19 +62,3 @@ serenity.on('PlayerJoined', (event) => {
 	// Register the component to the player.
 	event.player.setComponent(cursor);
 });
-
-serenity.on('PlayerChat', (event) => {
-	// Get the item to add & and the amount.
-	const [name, amount] = event.message.split(' ');
-
-	// Get the player's inventory and container.
-	const inventory = event.player.components.get('minecraft:inventory') as EntityInventoryComponent;
-	const container = inventory.container;
-
-	// Construct the item with the container and the item type.
-	// This will automatically resolve the item type and create the item, and add it to the container.
-	const item = new Item(ItemType.resolve(name)!, Number(amount ?? 1));
-
-	// Add the item to the container.
-	container.setItem(4, item);
-});

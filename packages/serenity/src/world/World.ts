@@ -121,7 +121,7 @@ class World {
 		packet.platformChatId = '';
 
 		// Send the packet to all players.
-		void this.network.broadcast(packet);
+		this.network.broadcast(packet);
 	}
 }
 

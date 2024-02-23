@@ -73,6 +73,10 @@ class ItemMapper {
 
 		ItemType.types = [...this.items.values()];
 	}
+
+	public getTypes(): ItemType[] {
+		return [...this.items.values()];
+	}
 }
 
 export { ItemMapper };

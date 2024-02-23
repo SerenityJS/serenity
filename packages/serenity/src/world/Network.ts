@@ -324,7 +324,13 @@ class WorldNetwork {
 		packet.currentTick = 0n;
 		packet.enchantmentSeed = 0;
 		packet.blockProperties = [];
-		packet.itemstates = [];
+		packet.itemstates = this.world.items.getTypes().map((item) => {
+			return {
+				name: item.identifier,
+				runtimeId: item.networkId,
+				componentBased: false,
+			};
+		});
 		packet.multiplayerCorrelationId = '<raknet>a555-7ece-2f1c-8f69';
 		packet.serverAuthoritativeInventory = true;
 		packet.engine = '*';

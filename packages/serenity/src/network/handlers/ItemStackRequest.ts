@@ -60,6 +60,22 @@ class ItemStackRequestHandler extends NetworkHandler {
 				break;
 
 			case ContainerSlotType.Cursor: {
+				if (source.type === ContainerSlotType.CreativeOutput) {
+					// Get the cursor component.
+					const cursor = player.getComponent('minecraft:cursor');
+
+					// Get the runtime ID of the item.
+					const runtimeId = request.actions[0].runtimeId!;
+
+					// Create a new item for the cursor.
+					const cursorItem = new Item(ItemType.resolveByRuntimeId(runtimeId)!, action.count!);
+
+					// Set the item to the cursor.
+					cursor.container.setItem(0, cursorItem);
+
+					break;
+				}
+
 				// Get the inventory component
 				const inventory = player.getComponent('minecraft:inventory');
 
