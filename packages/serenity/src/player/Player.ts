@@ -1,12 +1,18 @@
-import type { DisconnectReason, RespawnState, FormType, Vector3f } from '@serenityjs/bedrock-protocol';
+import type {
+	DisconnectReason,
+	RespawnState,
+	FormType,
+	Vector3f,
+	AbilityLayerFlag,
+	Attribute,
+} from '@serenityjs/bedrock-protocol';
 import { ChatTypes, Disconnect, Respawn, Text, Gamemode, SetPlayerGameType } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
-import { Entity } from '../entity/index.js';
+import { EntityAttributeComponent, Entity } from '../entity/index.js';
 import type { Network, NetworkSession } from '../network/index.js';
 import type { ActionFormResponse, LoginTokenData, MessageFormResponse } from '../types/index.js';
 import type { Chunk, World, Dimension } from '../world/index.js';
 import { Render } from './Render.js';
-import { Abilities } from './abilities/index.js';
 import { Attributes } from './attributes/index.js';
 import { Skin } from './skin/Skin.js';
 
@@ -33,8 +39,7 @@ class Player extends Entity {
 	public readonly uuid: string;
 	public readonly guid: bigint;
 	public readonly skin: Skin;
-	public readonly abilities: Abilities;
-	public readonly attributes: Attributes;
+	public readonly abilities: Map<AbilityLayerFlag, boolean>;
 	public readonly render: Render;
 	public readonly forms: Map<
 		number,
@@ -59,8 +64,7 @@ class Player extends Entity {
 		this.uuid = tokens.identityData.identity;
 		this.guid = session.guid;
 		this.skin = new Skin(tokens.clientData);
-		this.abilities = new Abilities(this);
-		this.attributes = new Attributes(this);
+		this.abilities = new Map();
 		this.render = new Render(this.serenity, this);
 		this.forms = new Map();
 
@@ -75,8 +79,22 @@ class Player extends Entity {
 		return this.dimension.world;
 	}
 
-	public getDimension(): Dimension {
-		return this.dimension;
+	public getAbility(flag: AbilityLayerFlag): boolean {
+		return this.abilities.get(flag)!;
+	}
+
+	public setAbility(flag: AbilityLayerFlag, value: boolean): void {
+		this.abilities.set(flag, value);
+
+		// Update the player's abilities.
+		this.dimension.world.updateAbilities(this);
+	}
+
+	public getAttributes(): EntityAttributeComponent[] {
+		// Filter the components to only include the entity attribute components.
+		return [...this.components.values()].filter(
+			(component) => component instanceof EntityAttributeComponent,
+		) as EntityAttributeComponent[];
 	}
 
 	/**

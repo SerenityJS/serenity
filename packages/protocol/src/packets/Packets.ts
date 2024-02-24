@@ -14,6 +14,7 @@ import { ContainerClose } from './ContainerClose.js';
 import { ContainerOpen } from './ContainerOpen.js';
 import { CreativeContent } from './CreativeContent.js';
 import { Interact } from './Interact.js';
+import { InventoryContent } from './InventoryContent.js';
 import { InventorySlot } from './InventorySlot.js';
 import { InventoryTransaction } from './InventoryTransaction.js';
 import { ItemStackRequest } from './ItemStackRequest.js';
@@ -72,6 +73,7 @@ const Packets = {
 	[Packet.Respawn]: Respawn, // 45
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
+	[Packet.InventoryContent]: InventoryContent, // 49
 	[Packet.InventorySlot]: InventorySlot, // 50
 	[Packet.LevelChunk]: LevelChunk, // 58
 	[Packet.ChangeDimension]: ChangeDimension, // 61

@@ -13,6 +13,7 @@ import type {
 	DataPacket,
 	Disconnect,
 	Interact,
+	InventoryContent,
 	InventorySlot,
 	InventoryTransaction,
 	ItemStackRequest,
@@ -80,6 +81,7 @@ interface NetworkEvents {
 	[Packet.Respawn]: [NetworkPacketEvent<Respawn>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
+	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContent>];
 	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlot>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
 	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimension>];

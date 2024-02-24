@@ -6,6 +6,8 @@ import {
 	ContainerOpen,
 	WindowsIds,
 	WindowsTypes,
+	Gamemode,
+	InventoryContent,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
@@ -29,10 +31,13 @@ class InteractHandler extends NetworkHandler {
 			// Create a new ContainerOpen packet.
 			const container = new ContainerOpen();
 
+			// Get the player's inventory component.
+			const inventory = player.getComponent('minecraft:inventory');
+
 			// Assign the packet data.
-			container.windowId = WindowsIds.Inventory;
+			container.windowId = inventory.container.getWindowId();
 			container.windowType = WindowsTypes.Inventory;
-			container.position = { x: 0, y: 0, z: 0 }; // Default position.
+			container.position = player.position;
 			container.targetRuntimeEntityId = player.runtimeId;
 
 			// Send the packet.

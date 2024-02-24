@@ -1,3 +1,4 @@
+import type { EntityComponents } from '../../types/index.js';
 import type { Entity } from '../Entity.js';
 
 /**
@@ -12,7 +13,7 @@ abstract class EntityComponent {
 	/**
 	 * The type of the component.
 	 */
-	public abstract readonly type: string;
+	public abstract readonly type: keyof EntityComponents;
 
 	/**
 	 * Initializes the component.

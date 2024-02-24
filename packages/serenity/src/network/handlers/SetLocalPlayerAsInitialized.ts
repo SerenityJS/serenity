@@ -4,14 +4,13 @@ import {
 	MetadataFlags,
 	MetadataKey,
 	MetadataType,
-	PlayerList,
-	RecordAction,
 	SetEntityData,
 	AvailableCommands,
 	SetLocalPlayerAsInitialized,
 	AddPlayer,
 	PermissionLevel,
 	CommandPermissionLevel,
+	AbilityLayerFlag,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
@@ -30,10 +29,26 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
-		// Add the player to the world.
-		player.dimension.spawnPlayer(player);
+		player.setAbility(AbilityLayerFlag.Build, true);
+		player.setAbility(AbilityLayerFlag.Mine, true);
+		player.setAbility(AbilityLayerFlag.DoorsAndSwitches, true);
+		player.setAbility(AbilityLayerFlag.OpenContainers, true);
+		player.setAbility(AbilityLayerFlag.AttackPlayers, true);
+		player.setAbility(AbilityLayerFlag.AttackMobs, true);
+		player.setAbility(AbilityLayerFlag.OperatorCommands, true);
+		player.setAbility(AbilityLayerFlag.Teleport, true);
+		player.setAbility(AbilityLayerFlag.Invulnerable, true);
+		player.setAbility(AbilityLayerFlag.Flying, true);
+		player.setAbility(AbilityLayerFlag.InstantBuild, true);
+		player.setAbility(AbilityLayerFlag.FlySpeed, true);
+		player.setAbility(AbilityLayerFlag.WalkSpeed, true);
+		player.setAbility(AbilityLayerFlag.Muted, false);
+		player.setAbility(AbilityLayerFlag.WorldBuilder, false);
+		player.setAbility(AbilityLayerFlag.NoClip, false);
+		player.setAbility(AbilityLayerFlag.PrivilegedBuilder, false);
+		player.setAbility(AbilityLayerFlag.Count, false);
 
-		for (const other of player.getDimension().getPlayers()) {
+		for (const other of player.dimension.getPlayers()) {
 			if (other === player) continue;
 
 			const spawn = new AddPlayer();

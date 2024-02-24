@@ -28,7 +28,8 @@
 		"unicorn/prefer-string-replace-all": "off",
 		"@typescript-eslint/unbound-method": "off",
 		"eslint-plugin-import/no-extraneous-dependencies": "off",
-		"@typescript-eslint/member-delimiter-style": "off"
+		"@typescript-eslint/member-delimiter-style": "off",
+		"no-param-reassign": "off"
 	},
 	"ignorePatterns": ["**/dist/*"]
 }

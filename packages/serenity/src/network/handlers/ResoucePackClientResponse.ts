@@ -6,6 +6,7 @@ import {
 	PlayerStatus,
 	NetworkChunkPublisherUpdate,
 	ResourcePackClientResponse,
+	AbilityLayerFlag,
 } from '@serenityjs/bedrock-protocol';
 import type { Chunk } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
@@ -58,18 +59,15 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				player.dimension.world.network.sendStartGame(player);
 
-				session.player!.abilities.setDefaults();
-				session.player!.attributes.setDefaults();
+				player.dimension.world.network.sendBiomeDefinitionList(player);
 
 				player.dimension.world.network.sendCreativeContent(player);
 
-				player.dimension.world.network.sendBiomeDefinitionList(player);
-
-				const chunks = player.getDimension().getSpawnChunks();
+				const chunks = player.dimension.getSpawnChunks();
 
 				const update = new NetworkChunkPublisherUpdate();
-				update.coordinate = { x: 0, y: 0, z: 0 };
-				update.radius = player.getDimension().viewDistance;
+				update.coordinate = player.dimension.spawn;
+				update.radius = player.dimension.viewDistance;
 				update.savedChunks = chunks.map((chunk: Chunk) => {
 					return {
 						x: chunk.x,

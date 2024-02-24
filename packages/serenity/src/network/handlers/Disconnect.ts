@@ -17,6 +17,9 @@ class DisconnectHandler extends NetworkHandler {
 		// Return if the player is null or undefined.
 		if (!player) return;
 
+		// Remove the player from the map.
+		player.dimension.players.delete(player.uniqueId);
+
 		// Despawn the player from the dimension.
 		player.dimension.despawnPlayer(player);
 	}

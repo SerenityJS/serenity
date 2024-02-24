@@ -153,9 +153,6 @@ class Dimension {
 		spawn.deviceOS = 7; // TODO: Get the device OS from the entity.
 
 		this.broadcast(spawn);
-
-		// Add the player to the dimension
-		this.players.set(player.uniqueId, player);
 	}
 
 	public despawnPlayer(player: Player): void {
@@ -163,9 +160,6 @@ class Dimension {
 		despawn.uniqueEntityId = player.uniqueId;
 
 		this.broadcast(despawn);
-
-		// Remove the player from the dimension
-		this.players.delete(player.uniqueId);
 	}
 
 	public getPlayers(): Player[] {

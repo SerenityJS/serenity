@@ -1,4 +1,14 @@
-import { ContainerSlotType, DimensionType, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
+import {
+	AbilityLayerFlag,
+	AbilityLayerType,
+	CommandPermissionLevel,
+	ContainerSlotType,
+	DimensionType,
+	Packet,
+	PermissionLevel,
+	UpdateAbilities,
+	Vector3f,
+} from '@serenityjs/bedrock-protocol';
 import {
 	Serenity,
 	InternalProvider,
@@ -8,6 +18,7 @@ import {
 	EntityContainer,
 	Item,
 	ItemType,
+	EntityMovementComponent,
 } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
@@ -31,18 +42,6 @@ world.registerDimension('minecraft:overworld', DimensionType.Overworld, BetterFl
 // Start the server.
 serenity.start();
 
-serenity.network.on(Packet.BlockPickRequest, ({ packet, session, bound }) => {
-	if (!session.player) return;
-
-	const player = session.player;
-
-	const entity = player.dimension.spawnEntity('minecraft:npc', new Vector3f(packet.x, packet.y + 1, packet.z));
-
-	entity.nametag = entity.identifier;
-	entity.scale = 1.25;
-	entity.variant = Math.floor(Math.random() * 20);
-});
-
 serenity.on('PlayerJoined', (event) => {
 	// Create a new inventory container.
 	const container = new EntityContainer(event.player, ContainerSlotType.Inventory, 36);
@@ -61,4 +60,18 @@ serenity.on('PlayerJoined', (event) => {
 
 	// Register the component to the player.
 	event.player.setComponent(cursor);
+
+	const movement = new EntityMovementComponent(event.player);
+
+	event.player.setComponent(movement);
+});
+
+serenity.on('PlayerChat', (event) => {
+	const speed = Number(event.message);
+
+	const movement = event.player.getComponent('minecraft:movement');
+
+	movement.setCurrentValue(speed);
+
+	console.log(movement);
 });

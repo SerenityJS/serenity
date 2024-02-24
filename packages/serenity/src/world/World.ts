@@ -1,4 +1,11 @@
-import { ChatTypes, Gamemode, Text } from '@serenityjs/bedrock-protocol';
+import {
+	AbilityLayerType,
+	ChatTypes,
+	Gamemode,
+	Text,
+	UpdateAbilities,
+	UpdateAttributes,
+} from '@serenityjs/bedrock-protocol';
 import type { DimensionType } from '@serenityjs/bedrock-protocol';
 import { Logger } from '../console/index.js';
 import type { Player } from '../player/index.js';
@@ -121,6 +128,49 @@ class World {
 		packet.platformChatId = '';
 
 		// Send the packet to all players.
+		this.network.broadcast(packet);
+	}
+
+	public updateAbilities(player: Player): void {
+		// Construct the packet.
+		const packet = new UpdateAbilities();
+
+		// Assign the packet data.
+		packet.entityUniqueId = player.uniqueId;
+		packet.permissionLevel = 2; // TODO
+		packet.commandPersmissionLevel = 2; // TODO
+		packet.abilities = [
+			{
+				type: AbilityLayerType.Base,
+				flags: [...player.abilities.entries()].map(([flag, value]) => ({ flag, value })),
+				flySpeed: 0.05,
+				walkSpeed: 0.1,
+			},
+		];
+
+		// Broadcast the packet.
+		this.network.broadcast(packet);
+	}
+
+	public updateAttributes(player: Player): void {
+		// Construct the packet.
+		const packet = new UpdateAttributes();
+
+		// Assign the packet data.
+		packet.runtimeEntityId = player.runtimeId;
+		packet.attributes = player.getAttributes().map((component) => {
+			return {
+				name: component.attribute,
+				min: component.effectiveMin,
+				max: component.effectiveMax,
+				current: component.currentValue,
+				default: component.defaultValue,
+				modifiers: [],
+			};
+		});
+		packet.tick = 0n; // TODO: implement ticking
+
+		// Broadcast the packet.
 		this.network.broadcast(packet);
 	}
 }

@@ -24,6 +24,7 @@ export * from './SetEntityData.js';
 export * from './Respawn.js';
 export * from './ContainerOpen.js';
 export * from './ContainerClose.js';
+export * from './InventoryContent.js';
 export * from './InventorySlot.js';
 export * from './LevelChunk.js';
 export * from './ChangeDimension.js';

@@ -38,7 +38,7 @@ class MovePlayerHandler extends NetworkHandler {
 		// Send the movement packet to all players.
 		// Except for the player that sent the movement packet.
 		// This is to prevent the player from seeing themselves move.
-		for (const other of player.getDimension().getPlayers()) {
+		for (const other of player.dimension.getPlayers()) {
 			if (other === player) continue;
 
 			const move = new MovePlayer();

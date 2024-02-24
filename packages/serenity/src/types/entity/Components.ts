@@ -1,8 +1,9 @@
-import type { EntityCursorComponent, EntityInventoryComponent } from '../../entity/index.js';
+import type { EntityCursorComponent, EntityInventoryComponent, EntityMovementComponent } from '../../entity/index.js';
 
 interface EntityComponents {
 	'minecraft:cursor': EntityCursorComponent;
 	'minecraft:inventory': EntityInventoryComponent;
+	'minecraft:movement': EntityMovementComponent;
 }
 
 export type { EntityComponents };

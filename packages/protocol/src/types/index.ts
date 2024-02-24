@@ -39,3 +39,4 @@ export * from './EntityAttributes.js';
 export * from './ItemStackRequests.js';
 export * from './StackRequestSlotInfo.js';
 export * from './ItemStackResponses.js';
+export * from './ItemStacks.js';

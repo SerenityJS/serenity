@@ -48,7 +48,7 @@ export const DEFAULT_ATTRIBUTES = [
 		min: 0,
 		max: LF32_MAX,
 		default: 0.1,
-		current: 0.1,
+		current: 2,
 		modifiers: [],
 	},
 	{

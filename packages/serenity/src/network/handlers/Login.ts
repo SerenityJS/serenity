@@ -66,8 +66,8 @@ class LoginHandler extends NetworkHandler {
 		const player = new Player(session, data, world.getDimension());
 		session.player = player;
 
-		// TODO: Emit the login event.
-		// Not sure how the event system will work yet, so this will be implemented later.
+		// Add the player to the players map.
+		player.dimension.players.set(player.uniqueId, player);
 
 		// TODO: Enable encryption, the public key is given in the tokens
 		// This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet

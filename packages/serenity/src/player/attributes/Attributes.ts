@@ -65,7 +65,7 @@ class Attributes {
 		}
 
 		// Finally we will send the Atributes packet.
-		void this.player.session.send(update);
+		this.player.session.send(update);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Attributes {
 		update.tick = 0n; // TODO: implement ticking
 
 		// Finally we will send the abilities packet.
-		void this.player.session.send(update);
+		this.player.session.send(update);
 	}
 
 	/**

@@ -122,7 +122,7 @@ class Render {
 		// And assign the packet data.
 		packet.x = chunk.x;
 		packet.z = chunk.z;
-		packet.dimension = this.player.getDimension().type;
+		packet.dimension = this.player.dimension.type;
 		packet.subChunkCount = chunk.getSubChunkSendCount();
 		packet.cacheEnabled = false;
 		packet.data = chunk.serialize();
@@ -135,7 +135,7 @@ class Render {
 	}
 
 	public getChunks(): Chunk[] {
-		return [...this.chunks.values()].map((x) => this.player.getDimension().getChunkFromHash(x)) as Chunk[];
+		return [...this.chunks.values()].map((x) => this.player.dimension.getChunkFromHash(x)) as Chunk[];
 	}
 }
 
