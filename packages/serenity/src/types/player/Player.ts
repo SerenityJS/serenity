@@ -1,4 +1,6 @@
 import type { Vector3f, Vector2f } from '@serenityjs/bedrock-protocol';
+import type { PlayerHungerComponent } from '../../player/index.js';
+import type { EntityComponents } from '../entity/Components.js';
 
 interface PlayerProperties {
 	dimension: string;
@@ -9,4 +11,8 @@ interface PlayerProperties {
 	xuid: string;
 }
 
-export type { PlayerProperties };
+interface PlayerComponents extends EntityComponents {
+	'minecraft:player.hunger': PlayerHungerComponent;
+}
+
+export type { PlayerProperties, PlayerComponents };

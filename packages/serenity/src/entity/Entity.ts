@@ -22,7 +22,7 @@ class Entity {
 	public readonly rotation: Vector3f;
 	public readonly metadata: Map<MetadataFlags | MetadataKey, EntityMetadata>;
 	public readonly properties: Map<string, bigint | number | string>;
-	public readonly components: Map<keyof EntityComponents, EntityComponent>; // TODO: Probably should merge properties into components.
+	public readonly components: Map<string, EntityComponent>; // TODO: Probably should merge properties into components.
 
 	public constructor(identifier: string, dimension: Dimension, uniqueId?: bigint) {
 		this.runtimeId = RUNTIME_ID++;

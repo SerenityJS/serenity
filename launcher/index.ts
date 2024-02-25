@@ -8,6 +8,7 @@ import {
 	EntityContainer,
 	EntityMovementComponent,
 	EntityHealthComponent,
+	PlayerHungerComponent,
 } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
@@ -63,6 +64,12 @@ serenity.on('PlayerJoined', (event) => {
 
 	// Register the component to the player.
 	event.player.setComponent(health);
+
+	// Create a new hunger component.
+	const hunger = new PlayerHungerComponent(event.player);
+
+	// Register the component to the player.
+	event.player.setComponent(hunger);
 });
 
 serenity.on('PlayerSpawned', (event) => {
@@ -70,4 +77,16 @@ serenity.on('PlayerSpawned', (event) => {
 		// Set to default value.
 		attribute.resetToDefaultValue();
 	}
+});
+
+serenity.on('PlayerChat', (event) => {
+	const value = Number(event.message);
+
+	const hunger = event.player.getComponent('minecraft:player.hunger');
+
+	hunger.setCurrentValue(value);
+
+	const health = event.player.getComponent('minecraft:health');
+
+	health.setCurrentValue(value);
 });

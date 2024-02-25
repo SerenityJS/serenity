@@ -2,6 +2,11 @@ import { Attribute } from '@serenityjs/bedrock-protocol';
 
 const LF32_MAX = 3.402_823_466e+38;
 
+// NOTE: This file is not used anymore, it is kept for reference.
+// Shall be removed in the future.
+
+// These values need to be transferred to an EntityAttributeComponent
+
 export const DEFAULT_ATTRIBUTES = [
 	{
 		name: Attribute.Absorption,

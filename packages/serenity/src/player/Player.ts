@@ -4,16 +4,16 @@ import type {
 	FormType,
 	Vector3f,
 	AbilityLayerFlag,
-	Attribute,
 } from '@serenityjs/bedrock-protocol';
 import { ChatTypes, Disconnect, Respawn, Text, Gamemode, SetPlayerGameType } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
-import { EntityAttributeComponent, Entity } from '../entity/index.js';
+import { EntityAttributeComponent } from '../entity/components/Attribute.js';
+import { Entity } from '../entity/index.js';
 import type { Network, NetworkSession } from '../network/index.js';
-import type { ActionFormResponse, LoginTokenData, MessageFormResponse } from '../types/index.js';
+import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerComponents } from '../types/index.js';
 import type { Chunk, World, Dimension } from '../world/index.js';
 import { Render } from './Render.js';
-import { Attributes } from './attributes/index.js';
+import type { PlayerComponent, PlayerAttributeComponent } from './components/index.js';
 import { Skin } from './skin/Skin.js';
 
 // NOTE
@@ -39,6 +39,7 @@ class Player extends Entity {
 	public readonly uuid: string;
 	public readonly guid: bigint;
 	public readonly skin: Skin;
+	public readonly components: Map<string, PlayerComponent>;
 	public readonly abilities: Map<AbilityLayerFlag, boolean>;
 	public readonly render: Render;
 	public readonly forms: Map<
@@ -64,6 +65,7 @@ class Player extends Entity {
 		this.uuid = tokens.identityData.identity;
 		this.guid = session.guid;
 		this.skin = new Skin(tokens.clientData);
+		this.components = new Map();
 		this.abilities = new Map();
 		this.render = new Render(this.serenity, this);
 		this.forms = new Map();
@@ -72,11 +74,37 @@ class Player extends Entity {
 		this.nametag = this.username;
 
 		// Setting player properties
-		this.gamemode = Gamemode.Creative;
+		this.gamemode = Gamemode.Survival;
 	}
 
 	public getWorld(): World {
 		return this.dimension.world;
+	}
+
+	/**
+	 * Gets the component from the player.
+	 *
+	 * @param type - The type of the component.
+	 * @returns The component.
+	 */
+	public getComponent<T extends keyof PlayerComponents>(type: T): PlayerComponents[T] {
+		return this.components.get(type) as PlayerComponents[T];
+	}
+
+	/**
+	 * Sets the component to the player.
+	 *
+	 * @param component - The component to set.
+	 */
+	public setComponent<T extends keyof PlayerComponents>(component: PlayerComponents[T]): void {
+		this.components.set(component.type, component);
+	}
+
+	public getAttributes(): PlayerAttributeComponent[] {
+		// Filter the components to only include the entity attribute components.
+		return [...this.components.values()].filter(
+			(component) => component instanceof EntityAttributeComponent,
+		) as PlayerAttributeComponent[];
 	}
 
 	public getAbility(flag: AbilityLayerFlag): boolean {
@@ -88,13 +116,6 @@ class Player extends Entity {
 
 		// Update the player's abilities.
 		this.dimension.world.updateAbilities(this);
-	}
-
-	public getAttributes(): EntityAttributeComponent[] {
-		// Filter the components to only include the entity attribute components.
-		return [...this.components.values()].filter(
-			(component) => component instanceof EntityAttributeComponent,
-		) as EntityAttributeComponent[];
 	}
 
 	/**

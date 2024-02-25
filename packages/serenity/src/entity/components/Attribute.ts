@@ -1,5 +1,5 @@
 import type { Attribute } from '@serenityjs/bedrock-protocol';
-import { Player } from '../../player/index.js';
+import { Player } from '../../player/Player.js';
 import type { Entity } from '../index.js';
 import { EntityComponent } from './Component.js';
 
