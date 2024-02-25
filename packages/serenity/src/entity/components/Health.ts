@@ -3,14 +3,9 @@ import { EntityAttributeComponent } from './Attribute.js';
 
 class EntityHealthComponent extends EntityAttributeComponent {
 	/**
-	 * The attribute this component represents.
-	 */
-	public readonly attribute = Attribute.Health;
-
-	/**
 	 * The type of the component
 	 */
-	public readonly type = 'minecraft:health';
+	public readonly type = Attribute.Health;
 
 	/**
 	 * The minimum health allowed for the entity.

@@ -1,11 +1,11 @@
 import { Attribute } from '@serenityjs/bedrock-protocol';
 import { EntityAttributeComponent } from './Attribute.js';
 
-class EntityMovementComponent extends EntityAttributeComponent {
+class EntityUnderwaterMovementComponent extends EntityAttributeComponent {
 	/**
 	 * The type of the component
 	 */
-	public readonly type = Attribute.Movement;
+	public readonly type = Attribute.UnderwaterMovement;
 
 	/**
 	 * The minimum speed allowed for the entity.
@@ -20,7 +20,7 @@ class EntityMovementComponent extends EntityAttributeComponent {
 	/**
 	 * The default speed for the entity.
 	 */
-	public readonly defaultValue = 0.1;
+	public readonly defaultValue = 0.02;
 
 	/**
 	 * The placeholder for the current speed of the entity.
@@ -28,4 +28,4 @@ class EntityMovementComponent extends EntityAttributeComponent {
 	public currentValue = this.defaultValue;
 }
 
-export { EntityMovementComponent };
+export { EntityUnderwaterMovementComponent };
