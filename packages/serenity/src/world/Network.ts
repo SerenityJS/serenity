@@ -61,7 +61,7 @@ class WorldNetwork {
 		// Assign the start game packet.
 		packet.entityId = player.uniqueId;
 		packet.runtimeEntityId = player.runtimeId;
-		packet.playerGamemode = Gamemode.Creative;
+		packet.playerGamemode = player.gamemode;
 		packet.playerPosition = player.position;
 		packet.rotation = player.rotation;
 		packet.seed = BigInt(this.world.properties.seed);
@@ -69,7 +69,7 @@ class WorldNetwork {
 		packet.biomeName = 'plains';
 		packet.dimension = player.dimension.type;
 		packet.generator = 1;
-		packet.worldGamemode = Gamemode.Creative;
+		packet.worldGamemode = Gamemode.Survival;
 		packet.difficulty = Difficulty.Normal;
 		packet.spawnPosition = { x: 0, y: -54, z: 0 }; // TODO
 		packet.achievementsDisabled = false;

@@ -37,9 +37,9 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		player.setAbility(AbilityLayerFlag.AttackMobs, true);
 		player.setAbility(AbilityLayerFlag.OperatorCommands, true);
 		player.setAbility(AbilityLayerFlag.Teleport, true);
-		player.setAbility(AbilityLayerFlag.Invulnerable, true);
+		player.setAbility(AbilityLayerFlag.Invulnerable, false);
 		player.setAbility(AbilityLayerFlag.Flying, true);
-		player.setAbility(AbilityLayerFlag.InstantBuild, true);
+		player.setAbility(AbilityLayerFlag.InstantBuild, player.gamemode === 1);
 		player.setAbility(AbilityLayerFlag.FlySpeed, true);
 		player.setAbility(AbilityLayerFlag.WalkSpeed, true);
 		player.setAbility(AbilityLayerFlag.Muted, false);

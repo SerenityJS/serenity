@@ -1,5 +1,6 @@
 import type { Attribute } from '@serenityjs/bedrock-protocol';
-import { Player } from '../../player/Player.js';
+import { Player } from '../../player/index.js';
+import type { Entity } from '../index.js';
 import { EntityComponent } from './Component.js';
 
 abstract class EntityAttributeComponent extends EntityComponent {
@@ -27,6 +28,18 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	 * The current value of the attribute.
 	 */
 	public abstract currentValue: number;
+
+	/**
+	 * The constructor of the entity attribute component.
+	 *
+	 * @param entity The entity to construct the component for.
+	 */
+	public constructor(entity: Entity) {
+		super(entity);
+
+		// Set the default value
+		this.resetToDefaultValue();
+	}
 
 	/**
 	 * Sets the current value of the attribute.

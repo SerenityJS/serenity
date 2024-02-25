@@ -67,8 +67,8 @@ class Render {
 		entity.heldItem = {
 			networkId: 0,
 		};
-		entity.gamemode = 0; // TODO: Get the gamemode from the player.
-		entity.metadata = [];
+		entity.gamemode = player.gamemode; // TODO: Get the gamemode from the player.
+		entity.metadata = player.getMetadataDictionary();
 		entity.properties = {
 			ints: [],
 			floats: [],

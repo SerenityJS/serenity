@@ -1,14 +1,4 @@
-import {
-	AbilityLayerFlag,
-	AbilityLayerType,
-	CommandPermissionLevel,
-	ContainerSlotType,
-	DimensionType,
-	Packet,
-	PermissionLevel,
-	UpdateAbilities,
-	Vector3f,
-} from '@serenityjs/bedrock-protocol';
+import { ContainerSlotType, DimensionType } from '@serenityjs/bedrock-protocol';
 import {
 	Serenity,
 	InternalProvider,
@@ -16,9 +6,8 @@ import {
 	EntityInventoryComponent,
 	EntityCursorComponent,
 	EntityContainer,
-	Item,
-	ItemType,
 	EntityMovementComponent,
+	EntityHealthComponent,
 } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
@@ -42,6 +31,8 @@ world.registerDimension('minecraft:overworld', DimensionType.Overworld, BetterFl
 // Start the server.
 serenity.start();
 
+// Components need to be registered when the player joins.
+// When the player spawns, we will update the components with the stored or default data.
 serenity.on('PlayerJoined', (event) => {
 	// Create a new inventory container.
 	const container = new EntityContainer(event.player, ContainerSlotType.Inventory, 36);
@@ -61,17 +52,22 @@ serenity.on('PlayerJoined', (event) => {
 	// Register the component to the player.
 	event.player.setComponent(cursor);
 
+	// Create a new movement component.
 	const movement = new EntityMovementComponent(event.player);
 
+	// Register the component to the player.
 	event.player.setComponent(movement);
+
+	// Create a new health component.
+	const health = new EntityHealthComponent(event.player);
+
+	// Register the component to the player.
+	event.player.setComponent(health);
 });
 
-serenity.on('PlayerChat', (event) => {
-	const speed = Number(event.message);
-
-	const movement = event.player.getComponent('minecraft:movement');
-
-	movement.setCurrentValue(speed);
-
-	console.log(movement);
+serenity.on('PlayerSpawned', (event) => {
+	for (const attribute of event.player.getAttributes()) {
+		// Set to default value.
+		attribute.resetToDefaultValue();
+	}
 });
