@@ -1,4 +1,3 @@
 export * from './Component.js';
-export * from './Attribute.js';
-export * from './Hunger.js';
+export * from './attributes/index.js';
 export * from './ability/index.js';

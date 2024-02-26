@@ -1,5 +1,5 @@
-import { EntityAttributeComponent } from '../../entity/index.js';
-import type { Player } from '../Player.js';
+import { EntityAttributeComponent } from '../../../entity/index.js';
+import type { Player } from '../../Player.js';
 
 abstract class PlayerAttributeComponent extends EntityAttributeComponent {
 	/**
