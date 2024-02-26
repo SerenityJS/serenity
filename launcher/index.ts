@@ -1,15 +1,5 @@
-import { ContainerSlotType, DimensionType } from '@serenityjs/bedrock-protocol';
-import {
-	Serenity,
-	InternalProvider,
-	BetterFlat,
-	EntityInventoryComponent,
-	EntityCursorComponent,
-	EntityContainer,
-	EntityMovementComponent,
-	EntityHealthComponent,
-	PlayerHungerComponent,
-} from '@serenityjs/serenity';
+import { DimensionType } from '@serenityjs/bedrock-protocol';
+import { Serenity, InternalProvider, BetterFlat } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
 const serenity = new Serenity();
@@ -32,61 +22,11 @@ world.registerDimension('minecraft:overworld', DimensionType.Overworld, BetterFl
 // Start the server.
 serenity.start();
 
-// Components need to be registered when the player joins.
-// When the player spawns, we will update the components with the stored or default data.
-serenity.on('PlayerJoined', (event) => {
-	// Create a new inventory container.
-	const container = new EntityContainer(event.player, ContainerSlotType.Inventory, 36);
-
-	// Create a new inventory component.
-	const inventory = new EntityInventoryComponent(event.player, container);
-
-	// Register the component to the player.
-	event.player.setComponent(inventory);
-
-	// Create a new cursor container.
-	const container2 = new EntityContainer(event.player, ContainerSlotType.Cursor, 1);
-
-	// Create a new cursor component.
-	const cursor = new EntityCursorComponent(event.player, container2);
-
-	// Register the component to the player.
-	event.player.setComponent(cursor);
-
-	// Create a new movement component.
-	const movement = new EntityMovementComponent(event.player);
-
-	// Register the component to the player.
-	event.player.setComponent(movement);
-
-	// Create a new health component.
-	const health = new EntityHealthComponent(event.player);
-
-	// Register the component to the player.
-	event.player.setComponent(health);
-
-	// Create a new hunger component.
-	const hunger = new PlayerHungerComponent(event.player);
-
-	// Register the component to the player.
-	event.player.setComponent(hunger);
-});
-
-serenity.on('PlayerSpawned', (event) => {
-	for (const attribute of event.player.getAttributes()) {
-		// Set to default value.
-		attribute.resetToDefaultValue();
-	}
-});
-
 serenity.on('PlayerChat', (event) => {
-	const value = Number(event.message);
+	const inventory = event.player.getComponent('minecraft:inventory');
+	const container = inventory.container;
 
-	const hunger = event.player.getComponent('minecraft:player.hunger');
+	const item = container.getItem(0);
 
-	hunger.setCurrentValue(value);
-
-	const health = event.player.getComponent('minecraft:health');
-
-	health.setCurrentValue(value);
+	console.log(item);
 });

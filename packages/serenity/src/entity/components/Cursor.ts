@@ -1,7 +1,6 @@
-import type { ContainerSlotType } from '@serenityjs/bedrock-protocol';
+import { ContainerSlotType } from '@serenityjs/bedrock-protocol';
 import type { Entity } from '../Entity.js';
-import type { EntityContainer } from '../index.js';
-import { EntityComponent } from '../index.js';
+import { EntityContainer, EntityComponent } from '../index.js';
 
 // TODO: Need to be moved to player/components/Cursor.ts
 // Non player entities can not have a cursor component
@@ -29,12 +28,11 @@ class EntityCursorComponent extends EntityComponent {
 	 * Initializes the inventory component.
 	 *
 	 * @param entity - The entity this component is attached to.
-	 * @param container - The container of the inventory.
 	 */
-	public constructor(entity: Entity, container: EntityContainer) {
+	public constructor(entity: Entity) {
 		super(entity);
-		this.container = container;
-		this.containerType = container.type;
+		this.containerType = ContainerSlotType.Cursor;
+		this.container = new EntityContainer(entity, this.containerType, 1);
 	}
 }
 

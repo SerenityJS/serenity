@@ -8,12 +8,18 @@ import type {
 import { ChatTypes, Disconnect, Respawn, Text, Gamemode, SetPlayerGameType } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { EntityAttributeComponent } from '../entity/components/Attribute.js';
+import {
+	EntityInventoryComponent,
+	EntityCursorComponent,
+	EntityMovementComponent,
+	EntityHealthComponent,
+} from '../entity/components/index.js';
 import { Entity } from '../entity/index.js';
 import type { Network, NetworkSession } from '../network/index.js';
 import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerComponents } from '../types/index.js';
-import type { Chunk, World, Dimension } from '../world/index.js';
+import type { Chunk, Dimension } from '../world/index.js';
 import { Render } from './Render.js';
-import type { PlayerComponent, PlayerAttributeComponent } from './components/index.js';
+import { type PlayerComponent, type PlayerAttributeComponent, PlayerHungerComponent } from './components/index.js';
 import { Skin } from './skin/Skin.js';
 
 // NOTE
@@ -30,6 +36,20 @@ import { Skin } from './skin/Skin.js';
  * The player class.
  */
 class Player extends Entity {
+	/**
+	 * The default components for a player.
+	 */
+	public static readonly components: (typeof PlayerComponent)[] = [
+		EntityInventoryComponent,
+		EntityCursorComponent,
+		EntityMovementComponent,
+		EntityHealthComponent,
+		PlayerHungerComponent,
+	];
+
+	/**
+	 * The serenity instance.
+	 */
 	protected readonly serenity: Serenity;
 
 	public readonly network: Network;
@@ -74,11 +94,7 @@ class Player extends Entity {
 		this.nametag = this.username;
 
 		// Setting player properties
-		this.gamemode = Gamemode.Survival;
-	}
-
-	public getWorld(): World {
-		return this.dimension.world;
+		this.gamemode = Gamemode.Creative;
 	}
 
 	/**
@@ -100,6 +116,11 @@ class Player extends Entity {
 		this.components.set(component.type, component);
 	}
 
+	/**
+	 * Gets the player's attributes component.
+	 *
+	 * @returns The player's attributes component.
+	 */
 	public getAttributes(): PlayerAttributeComponent[] {
 		// Filter the components to only include the entity attribute components.
 		return [...this.components.values()].filter(

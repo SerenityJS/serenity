@@ -48,6 +48,11 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		player.setAbility(AbilityLayerFlag.PrivilegedBuilder, false);
 		player.setAbility(AbilityLayerFlag.Count, false);
 
+		// Set the player attribute component values.
+		for (const component of player.getAttributes()) {
+			component.resetToDefaultValue();
+		}
+
 		for (const other of player.dimension.getPlayers()) {
 			if (other === player) continue;
 

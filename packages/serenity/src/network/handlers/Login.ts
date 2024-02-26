@@ -1,6 +1,7 @@
 import { PlayStatus, Login, PlayerStatus, DisconnectReason, ResourcePacksInfo } from '@serenityjs/bedrock-protocol';
 import type { Packet, LoginTokens } from '@serenityjs/bedrock-protocol';
 import fastJwt from 'fast-jwt';
+import type { PlayerComponent } from '../../player/index.js';
 import { Player } from '../../player/index.js';
 import type { ClientData, IdentityData, LoginTokenData } from '../../types/index.js';
 import type { NetworkSession } from '../Session.js';
@@ -49,7 +50,7 @@ class LoginHandler extends NetworkHandler {
 		// Maybe add the ability to kick the player thats already logged in.
 
 		// TODO: Reimplement this.
-		// const check = this.serenity.players.has(xuid);
+		// const check = this.serenity;
 		// if (check) {
 		// 	// If there is, disconnect the player trying to connect.
 		// 	return session.disconnect('You are already logged in another location.', DisconnectReason.LoggedInOtherLocation);
@@ -65,6 +66,15 @@ class LoginHandler extends NetworkHandler {
 		// We will also add the player to the players map.
 		const player = new Player(session, data, world.getDimension());
 		session.player = player;
+
+		// Construct the registered components for the player.
+		for (const component of Player.components) {
+			// Construct the component.
+			const instance: PlayerComponent = new (component as any)(player);
+
+			// Set the component to the player.
+			player.components.set(instance.type, instance);
+		}
 
 		// Add the player to the players map.
 		player.dimension.players.set(player.uniqueId, player);

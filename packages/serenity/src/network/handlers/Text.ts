@@ -27,7 +27,8 @@ class TextHandler extends NetworkHandler {
 		text.xuid = packet.xuid;
 		text.platformChatId = packet.platformChatId;
 
-		player.getWorld().network.broadcast(text);
+		// Send the packet.
+		player.dimension.world.network.broadcast(text);
 	}
 }
 
