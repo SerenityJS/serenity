@@ -142,7 +142,12 @@ class World {
 		packet.abilities = [
 			{
 				type: AbilityLayerType.Base,
-				flags: [...player.abilities.entries()].map(([flag, value]) => ({ flag, value })),
+				flags: player.getAbilities().map((component) => {
+					return {
+						flag: component.flag,
+						value: component.currentValue,
+					};
+				}),
 				flySpeed: 0.05,
 				walkSpeed: 0.1,
 			},

@@ -320,7 +320,7 @@ class WorldNetwork {
 		packet.isTrial = false;
 		packet.movementAuthority = 0;
 		packet.rewindHistorySize = 40;
-		packet.serverAuthoritativeBlockBreaking = false;
+		packet.serverAuthoritativeBlockBreaking = true;
 		packet.currentTick = 0n;
 		packet.enchantmentSeed = 0;
 		packet.blockProperties = [];
@@ -339,7 +339,7 @@ class WorldNetwork {
 		packet.propertyData3 = 0x00;
 		packet.blockPaletteChecksum = 0n;
 		packet.worldTemplateId = '00000000000000000000000000000000';
-		packet.clientSideGeneration = true;
+		packet.clientSideGeneration = false;
 		packet.blockNetworkIdsAreHashes = false; // Important
 		packet.serverControlledSounds = false;
 

@@ -19,6 +19,29 @@ import type { Network, NetworkSession } from '../network/index.js';
 import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerComponents } from '../types/index.js';
 import type { Chunk, Dimension } from '../world/index.js';
 import { Render } from './Render.js';
+import {
+	PlayerBuildComponent,
+	PlayerMineComponent,
+	PlayerDoorsAndSwitchesComponent,
+	PlayerOpenContainersComponent,
+	PlayerAttackPlayersComponent,
+	PlayerAttackMobsComponent,
+	PlayerOperatorCommandsComponent,
+	PlayerInvulnerableComponent,
+	PlayerFlyingComponent,
+	PlayerMayFlyComponent,
+	PlayerInstantBuildComponent,
+	PlayerLightningComponent,
+	PlayerWalkSpeedComponent,
+	PlayerFlySpeedComponent,
+	PlayerTeleportComponent,
+	PlayerMutedComponent,
+	PlayerWorldBuilderComponent,
+	PlayerNoClipComponent,
+	PlayerPrivilegedBuilderComponent,
+	PlayerCountComponent,
+	PlayerAbilityComponent,
+} from './components/index.js';
 import { type PlayerComponent, type PlayerAttributeComponent, PlayerHungerComponent } from './components/index.js';
 import { Skin } from './skin/Skin.js';
 
@@ -45,6 +68,26 @@ class Player extends Entity {
 		EntityMovementComponent,
 		EntityHealthComponent,
 		PlayerHungerComponent,
+		PlayerBuildComponent,
+		PlayerMineComponent,
+		PlayerDoorsAndSwitchesComponent,
+		PlayerOpenContainersComponent,
+		PlayerAttackPlayersComponent,
+		PlayerAttackMobsComponent,
+		PlayerOperatorCommandsComponent,
+		PlayerTeleportComponent,
+		PlayerInvulnerableComponent,
+		PlayerFlyingComponent,
+		PlayerMayFlyComponent,
+		PlayerInstantBuildComponent,
+		PlayerLightningComponent,
+		PlayerFlySpeedComponent,
+		PlayerWalkSpeedComponent,
+		PlayerMutedComponent,
+		PlayerWorldBuilderComponent,
+		PlayerNoClipComponent,
+		PlayerPrivilegedBuilderComponent,
+		PlayerCountComponent,
 	];
 
 	/**
@@ -60,7 +103,6 @@ class Player extends Entity {
 	public readonly guid: bigint;
 	public readonly skin: Skin;
 	public readonly components: Map<string, PlayerComponent>;
-	public readonly abilities: Map<AbilityLayerFlag, boolean>;
 	public readonly render: Render;
 	public readonly forms: Map<
 		number,
@@ -86,7 +128,6 @@ class Player extends Entity {
 		this.guid = session.guid;
 		this.skin = new Skin(tokens.clientData);
 		this.components = new Map();
-		this.abilities = new Map();
 		this.render = new Render(this.serenity, this);
 		this.forms = new Map();
 
@@ -117,9 +158,9 @@ class Player extends Entity {
 	}
 
 	/**
-	 * Gets the player's attributes component.
+	 * Gets the player's attribute components.
 	 *
-	 * @returns The player's attributes component.
+	 * @returns The player's attribute components.
 	 */
 	public getAttributes(): PlayerAttributeComponent[] {
 		// Filter the components to only include the entity attribute components.
@@ -128,15 +169,15 @@ class Player extends Entity {
 		) as PlayerAttributeComponent[];
 	}
 
-	public getAbility(flag: AbilityLayerFlag): boolean {
-		return this.abilities.get(flag)!;
-	}
-
-	public setAbility(flag: AbilityLayerFlag, value: boolean): void {
-		this.abilities.set(flag, value);
-
-		// Update the player's abilities.
-		this.dimension.world.updateAbilities(this);
+	/**
+	 * Gets the player's ability components.
+	 *
+	 * @returns The player's ability components.
+	 */
+	public getAbilities(): PlayerAbilityComponent[] {
+		return [...this.components.values()].filter(
+			(component) => component instanceof PlayerAbilityComponent,
+		) as PlayerAbilityComponent[];
 	}
 
 	/**

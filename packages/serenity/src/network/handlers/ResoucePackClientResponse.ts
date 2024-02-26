@@ -7,6 +7,10 @@ import {
 	NetworkChunkPublisherUpdate,
 	ResourcePackClientResponse,
 	AbilityLayerFlag,
+	SetEntityData,
+	MetadataKey,
+	MetadataType,
+	MetadataFlags,
 } from '@serenityjs/bedrock-protocol';
 import type { Chunk } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
@@ -61,6 +65,11 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				player.dimension.world.network.sendBiomeDefinitionList(player);
 
+				// Set the player abiliry component values.
+				for (const component of player.getAbilities()) {
+					component.resetToDefaultValue();
+				}
+
 				player.dimension.world.network.sendCreativeContent(player);
 
 				const chunks = player.dimension.getSpawnChunks();
@@ -81,8 +90,37 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 					player.render.sendChunk(chunk);
 				}
 
+				// Set the player attribute component values.
+				for (const component of player.getAttributes()) {
+					component.resetToDefaultValue();
+				}
+
+				const data = new SetEntityData();
+				data.runtimeEntityId = player.runtimeId;
+				data.metadata = [
+					{
+						key: MetadataKey.Flags,
+						type: MetadataType.Long,
+						value: true,
+						flag: MetadataFlags.AffectedByGravity,
+					},
+					{
+						key: MetadataKey.Flags,
+						type: MetadataType.Long,
+						value: true,
+						flag: MetadataFlags.Breathing,
+					},
+				];
+				data.properties = {
+					ints: [],
+					floats: [],
+				};
+				data.tick = BigInt(0);
+
 				const status = new PlayStatus();
 				status.status = PlayerStatus.PlayerSpawn;
+
+				session.send(data);
 
 				session.send(status);
 			}

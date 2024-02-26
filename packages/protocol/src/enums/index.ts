@@ -39,3 +39,4 @@ export * from './ModalFormCanceledReason.js';
 export * from './ItemStackActionType.js';
 export * from './ContainerSlotType.js';
 export * from './ItemStackStatus.js';
+export * from './AbilitySet.js';

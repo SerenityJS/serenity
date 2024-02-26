@@ -29,7 +29,7 @@ class Dimension {
 
 	public generator: TerrainGenerator;
 	public spawn: Vector3f;
-	public viewDistance: number = 64;
+	public viewDistance: number = 128;
 
 	public constructor(identifier: string, type: DimensionType, generator: TerrainGenerator, world: World) {
 		this.identifier = identifier;
