@@ -7,7 +7,7 @@ import type {
 } from '@serenityjs/bedrock-protocol';
 import { ChatTypes, Disconnect, Respawn, Text, Gamemode, SetPlayerGameType } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
-import { EntityAttributeComponent } from '../entity/components/Attribute.js';
+import { EntityAttributeComponent } from '../entity/components/attributes/Attribute.js';
 import {
 	EntityInventoryComponent,
 	EntityCursorComponent,
