@@ -1,95 +1,52 @@
 <br/>
 <p align="center">
   <a href="https://github.com/SerenityJS/serenity">
-    <img src="https://avatars.githubusercontent.com/u/92610726?s=48&v=4" alt="Logo" width="80" height="80">
+    <img src="./public/Serenitylogo.png" alt="Logo" width="145" height="145">
   </a>
 
-  <h3 align="center">Serenity</h3>
+  <h3 align="center">SerenityJS</h3>
 
   <p align="center">
-    A MCBE server software written in Typescript
+    A Minecraft Minecraft Bedrock Edition Server Software
     <br/>
     <br/>
-    <a href="https://github.com/SerenityJS/serenity"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/SerenityJS/serenity"><strong>Explore Now »</strong></a>
     <br/>
     <br/>
-    <a href="https://github.com/SerenityJS/serenity">View Demo</a>
-    .
     <a href="https://github.com/SerenityJS/serenity/issues">Report Bug</a>
-    .
-    <a href="https://github.com/SerenityJS/serenity/issues">Request Feature</a>
+    <br/>
+    <br/>
+    <a href="https://discord.gg/jUcC3q59zg">
+      <img alt="discord" src="https://img.shields.io/discord/854092607239356457?style=for-the-badge&color=%237289DA&label=Discord&logo=discord&logoColor=white">
+    <a/>
+    <a href="https://github.com/SerenityJS/serenity/blob/main/LICENSE">
+      <img alt="License" src="https://img.shields.io/github/license/SerenityJS/serenity?style=for-the-badge&label=Liscense&color=hotpink">
+    <a/>
+    <a href="https://www.npmjs.com/package/@serenityjs/serenity">
+      <img alt="License" src="https://img.shields.io/npm/v/@serenityjs/serenity?style=for-the-badge&label=NPM&logo=npm&logoColor=white">
+    <a/>
   </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/SerenityJS/serenity/total) ![Contributors](https://img.shields.io/github/contributors/SerenityJS/serenity?color=dark-green) ![Stargazers](https://img.shields.io/github/stars/SerenityJS/serenity?style=social) ![Issues](https://img.shields.io/github/issues/SerenityJS/serenity) ![License](https://img.shields.io/github/license/SerenityJS/serenity)
-
-## Table Of Contents
-
-- [About the Project](#about-the-project)
-- [Built With](#built-with)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-- [Contributing](#contributing)
-- [License](#license)
-- [Authors](#authors)
-- [Acknowledgements](#acknowledgements)
-
 ## About The Project
 
-![Screen Shot](https://avatars.githubusercontent.com/u/92610726?s=48&v=4)
-
-Serenity is a robust and flexible Minecraft server framework built with TypeScript. It provides a comprehensive set of tools and abstractions for building Minecraft servers, allowing developers to focus on creating unique gameplay experiences without worrying about the underlying network and protocol details.
-
-Key features of Serenity include:
-
-Event-Driven Architecture: Serenity uses an event-driven model, making it easy to react to various game events such as player joining, leaving, or spawning.
-Network Abstraction: Serenity provides a high-level network abstraction, simplifying the process of sending and receiving packets.
-Extensibility: Serenity is designed to be extensible, allowing developers to easily add new features or modify existing ones.
-Debugging Support: Serenity includes built-in debugging support, making it easier to diagnose and fix issues.
-Serenity is part of a larger project that also includes a RakNet server implementation and a Bedrock protocol parser. Together, these tools provide everything you need to create custom Minecraft servers.
-
-## Built With
-
-[TypeScript](https://www.typescriptlang.org/)
-[BinaryStream](https://github.com/SerenityJS/binarystream)
-[Raknet](https://github.com/SerenityJS/raknet)
+Serenity is a robust and flexible Minecraft Bedrock Edition Server Software that was built from the ground up using [Rust](https://www.rust-lang.org/) and [TypeScript](https://www.typescriptlang.org/). Serenity provides a well written set of apis and tools for building Minecraft Bedrock servers, allowing developers to focus on creating unique gameplay experiences, without worrying about the underlying network and protocol details. As Serenity is still in a early version of development, it is recommended not to use Serenity for any offical purposes, as the code structure of the api will be rapidly changing, and may cause plugins to break without notice.
 
 ## Getting Started
 
 ### Prerequisites
 
-This is an example of how set up the project
+Before installing Serenity you first need to make sure you have the lastest recommended version of [Node.js](https://nodejs.org/en/) installed on your machine. Once installed, it is recommened to fully restart your machine to allow for the full Node.js experience to be enabled. You will also need to use an integrated development environment of personal choice. [Visual Studio Code](https://code.visualstudio.com/) is the recommended environment for Serenity development.
 
-- yarn
+Serenity is built off of the foundation of [Yarn Workspaces](https://yarnpkg.com/features/workspaces) for quick and easy development. Before installing Serenity, you will first need to install [Yarn](https://yarnpkg.com/). To do this, please read through the [Installation Guide](https://yarnpkg.com/getting-started/install) provided by the developers of Yarn.
 
-```sh
-yarn
-yarn run build
-cd .\packages\testing\
-yarn run dev
-```
+### Installing Serenity
 
-## Contributing
+Clone or download a local copy of the Serenity repository to a perferred area on your machine. You can then open the Serenity folder in your perferred integrated development environment. You will now need to run a few terminal commands before starting.
 
-### Creating A Pull Request
+- First you will need to initialize the folder using Yarn. Copy and run the command `yarn install`, follow any steps that may appear on screen.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Next you are now ready to build the project, since the project is coded in TypeScript, it will first need to be compiled to JavaScript before running. To do this, run the command `yarn run build`, this command will then compile the project into JavaScript.
 
-## License
-
-Distributed under the MIT License. See [LICENSE](https://github.com/SerenityJS/serenity/blob/main/LICENSE.md) for more information.
-
-## Authors
-
-- \***\* - ** - []() - \*\*
-- \***\* - ** - []() - \*\*
-
-## Acknowledgements
-
-- []()
-- []()
-- []()
+- Finally you are now ready to start the Serenity server. To do this run the command `yarn run launch`, you should then see the server starting.
+  If you are making modifications to the source code and do not want to rebuild the project each time, run the command `yarn run dev:launch`. This will run the source TypeScript files without having to build each time.

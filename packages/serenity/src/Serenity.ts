@@ -190,7 +190,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 	public stop(reason?: string): void {
 		const shutdown = this.events.get('Shutdown') as typeof Shutdown;
-		void shutdown.logic(1, reason ?? 'Server is now shutting down...');
+		shutdown.logic(1, reason ?? 'Server is now shutting down...');
 	}
 
 	/**
