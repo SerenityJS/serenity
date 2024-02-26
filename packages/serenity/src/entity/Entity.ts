@@ -1,5 +1,5 @@
-import type { MetadataDictionary, Vector3f, MetadataFlags } from '@serenityjs/bedrock-protocol';
-import { MetadataKey, MetadataType } from '@serenityjs/bedrock-protocol';
+import type { MetadataDictionary, MetadataFlags } from '@serenityjs/bedrock-protocol';
+import { Vector3f, MetadataKey, MetadataType } from '@serenityjs/bedrock-protocol';
 import type { EntityComponents } from '../types/index.js';
 import type { Dimension } from '../world/index.js';
 import type { EntityComponent } from './components/index.js';
@@ -31,9 +31,9 @@ class Entity {
 		this.uniqueId = uniqueId ?? BigInt.asIntN(64, BigInt(Math.floor((Math.random() * 256) ^ Number(this.runtimeId))));
 		this.identifier = identifier;
 		this.dimension = dimension;
-		this.position = { x: 0, y: 0, z: 0 };
-		this.velocity = { x: 0, y: 0, z: 0 };
-		this.rotation = { x: 0, y: 0, z: 0 };
+		this.position = new Vector3f(0, 0, 0);
+		this.velocity = new Vector3f(0, 0, 0);
+		this.rotation = new Vector3f(0, 0, 0);
 		this.metadata = new Map();
 		this.properties = new Map();
 		this.components = new Map();

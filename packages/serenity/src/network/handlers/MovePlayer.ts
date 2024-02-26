@@ -1,5 +1,6 @@
 import type { Packet } from '@serenityjs/bedrock-protocol';
-import { DisconnectReason, MovePlayer } from '@serenityjs/bedrock-protocol';
+import { DisconnectReason, MovePlayer, NetworkChunkPublisherUpdate } from '@serenityjs/bedrock-protocol';
+import type { Chunk } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
 
@@ -56,6 +57,32 @@ class MovePlayerHandler extends NetworkHandler {
 			// Send the movement packet to the player.
 			other.session.send(move);
 		}
+
+		// Calculate the new chunk view for the player.
+		const px = player.position.x >> 4;
+		const pz = player.position.z >> 4;
+
+		const viewx = 128 >> 4;
+		const viewz = 128 >> 4;
+
+		// Prepare an array to store the chunks that need to be sent to the player.
+		const chunks: Chunk[] = [];
+
+		// Get the chunks to render.
+		for (let x = -viewx + px; x <= viewx + px; x++) {
+			for (let z = -viewz + pz; z <= viewz + pz; z++) {
+				const chunk = player.dimension.getChunk(x, z);
+
+				// Check if the chunk is already being rendered.
+				if (player.chunks.has(chunk.getHash())) continue;
+
+				// Add the chunk to the array.
+				chunks.push(chunk);
+			}
+		}
+
+		// Send the chunks to the player.
+		player.sendChunk(...chunks);
 	}
 }
 

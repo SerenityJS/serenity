@@ -1,4 +1,4 @@
-import { DimensionType, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
+import { DimensionType, NetworkChunkPublisherUpdate, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
 import { Serenity, InternalProvider, BetterFlat } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
@@ -22,16 +22,12 @@ world.registerDimension('minecraft:overworld', DimensionType.Overworld, BetterFl
 // Start the server.
 serenity.start();
 
-serenity.on('PlayerChat', (event) => {
-	const build = event.player.getComponent('minecraft:ability.build');
-	const mine = event.player.getComponent('minecraft:ability.mine');
-
-	build.setCurrentValue(false);
-	mine.setCurrentValue(false);
+serenity.on('PlayerSpawned', (event) => {
+	event.player.getComponent('minecraft:ability.may_fly').setCurrentValue(true);
 });
 
 serenity.network.on(Packet.BlockPickRequest, ({ session, packet }) => {
 	if (!session.player) return;
 
-	const entity = session.player.dimension.spawnEntity('minecraft:npc', new Vector3f(packet.x, packet.y + 1, packet.z));
+	session.player.dimension.spawnEntity('minecraft:npc', new Vector3f(packet.x, packet.y + 1, packet.z));
 });

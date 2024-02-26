@@ -1,11 +1,14 @@
-import type {
-	DisconnectReason,
-	RespawnState,
-	FormType,
-	Vector3f,
-	AbilityLayerFlag,
+import type { DisconnectReason, RespawnState, FormType, Vector3f } from '@serenityjs/bedrock-protocol';
+import {
+	ChatTypes,
+	Disconnect,
+	Respawn,
+	Text,
+	Gamemode,
+	SetPlayerGameType,
+	LevelChunk,
+	NetworkChunkPublisherUpdate,
 } from '@serenityjs/bedrock-protocol';
-import { ChatTypes, Disconnect, Respawn, Text, Gamemode, SetPlayerGameType } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { EntityAttributeComponent } from '../entity/components/attributes/Attribute.js';
 import {
@@ -17,8 +20,8 @@ import {
 import { Entity } from '../entity/index.js';
 import type { Network, NetworkSession } from '../network/index.js';
 import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerComponents } from '../types/index.js';
-import type { Chunk, Dimension } from '../world/index.js';
-import { Render } from './Render.js';
+import { Chunk } from '../world/index.js';
+import type { Dimension } from '../world/index.js';
 import {
 	PlayerBuildComponent,
 	PlayerMineComponent,
@@ -107,7 +110,7 @@ class Player extends Entity {
 	public readonly guid: bigint;
 	public readonly skin: Skin;
 	public readonly components: Map<string, PlayerComponent>;
-	public readonly render: Render;
+	public readonly chunks: Map<bigint, boolean>;
 	public readonly forms: Map<
 		number,
 		{ reject(value: Error): void; resolve(value: ActionFormResponse | MessageFormResponse): void; type: FormType }
@@ -132,14 +135,40 @@ class Player extends Entity {
 		this.guid = session.guid;
 		this.skin = new Skin(tokens.clientData);
 		this.components = new Map();
-		this.render = new Render(this.serenity, this);
+		this.chunks = new Map();
 		this.forms = new Map();
 
 		// Settting player metadata
 		this.nametag = this.username;
 
 		// Setting player properties
-		this.gamemode = Gamemode.Survival;
+		this.gamemode = Gamemode.Creative;
+	}
+
+	/**
+	 * Fired when the server ticks.
+	 */
+	public tick(): void {
+		// Get the chunks that are not rendered.
+		const chunks = [...this.chunks.entries()].filter(([, rendered]) => !rendered);
+		const coords = chunks.map(([hash]) => Chunk.fromHash(hash));
+
+		// Check if there are chunks to render.
+		if (chunks.length > 0) {
+			// Create a new NetworkChunkPublisherUpdate packet.
+			const packet = new NetworkChunkPublisherUpdate();
+
+			// Assign the packet data.
+			packet.radius = this.dimension.viewDistance;
+			packet.coordinate = this.position.floor();
+			packet.savedChunks = coords;
+
+			// Send the packet to the player.
+			this.session.send(packet);
+
+			// Set the chunks to rendered.
+			for (const [hash] of chunks) this.chunks.set(hash, true);
+		}
 	}
 
 	/**
@@ -182,6 +211,44 @@ class Player extends Entity {
 		return [...this.components.values()].filter(
 			(component) => component instanceof PlayerAbilityComponent,
 		) as PlayerAbilityComponent[];
+	}
+
+	/**
+	 * Send chunks to the player.
+	 * This method will only send the chunks, it will not render them.
+	 *
+	 * @param chunks - The chunks to send.
+	 */
+	public sendChunk(...chunks: Chunk[]): void {
+		// Prepare an array to store the LevelChunk packets.
+		const packets: LevelChunk[] = [];
+
+		// Loop through the chunks.
+		for (const chunk of chunks) {
+			// Check if the chunk is already rendered.
+			if (this.chunks.has(chunk.getHash())) continue;
+
+			// Add the chunk to the chunks map.
+			// And set it to false, as it has not been rendered yet.
+			this.chunks.set(chunk.getHash(), false);
+
+			// Construct a new LevelChunk packet.
+			const packet = new LevelChunk();
+
+			// Assign the packet data.
+			packet.x = chunk.x;
+			packet.z = chunk.z;
+			packet.dimension = this.dimension.type;
+			packet.subChunkCount = chunk.getSubChunkSendCount();
+			packet.cacheEnabled = false;
+			packet.data = chunk.serialize();
+
+			// Add the packet to the array.
+			packets.push(packet);
+		}
+
+		// Send the packets to the player.
+		this.session.send(...packets);
 	}
 
 	/**

@@ -1,3 +1,4 @@
+import type { DataPacket } from '@serenityjs/bedrock-protocol';
 import {
 	AddPlayer,
 	CommandPermissionLevel,
@@ -9,8 +10,8 @@ import {
 	DimensionType,
 	AddEntity,
 	SetEntityData,
+	Vector3f,
 } from '@serenityjs/bedrock-protocol';
-import type { DataPacket, Vector3f } from '@serenityjs/bedrock-protocol';
 import { Entity } from '../../entity/index.js';
 import type { Player } from '../../player/index.js';
 import type { WorldProvider } from '../../provider/index.js';
@@ -39,7 +40,7 @@ class Dimension {
 		this.entities = new Map();
 		this.players = new Map();
 		this.generator = generator;
-		this.spawn = { x: 0, y: 0, z: 0 };
+		this.spawn = new Vector3f(0, 0, 0);
 	}
 
 	public broadcast(...packets: DataPacket[]): void {
@@ -132,7 +133,7 @@ class Dimension {
 		spawn.runtimeId = player.runtimeId;
 		spawn.platformChatId = ''; // TODO: Not sure what this is.
 		spawn.position = player.position;
-		spawn.velocity = { x: 0, y: 0, z: 0 };
+		spawn.velocity = new Vector3f(0, 0, 0);
 		spawn.rotation = player.rotation;
 		spawn.headYaw = player.rotation.z;
 		spawn.heldItem = {

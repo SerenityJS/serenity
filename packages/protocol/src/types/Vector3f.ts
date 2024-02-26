@@ -37,6 +37,19 @@ class Vector3f extends DataType {
 	}
 
 	/**
+	 * Floors the coordinates of the 3D vector.
+	 *
+	 * @returns The 3D vector with the coordinates floored.
+	 */
+	public floor(): this {
+		this.x = Math.floor(this.x);
+		this.y = Math.floor(this.y);
+		this.z = Math.floor(this.z);
+
+		return this;
+	}
+
+	/**
 	 * Reads a 3D vector from the stream.
 	 *
 	 * @param stream The stream to read from.

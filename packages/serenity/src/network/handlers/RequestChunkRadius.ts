@@ -20,7 +20,7 @@ class RequestChunkRadiusHandler extends NetworkHandler {
 		// TODO: Set up proper handling for this packet.
 
 		const radius = new ChunkRadiusUpdate();
-		radius.radius = 4;
+		radius.radius = 64;
 
 		session.send(radius);
 	}

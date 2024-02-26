@@ -74,21 +74,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				const chunks = player.dimension.getSpawnChunks();
 
-				const update = new NetworkChunkPublisherUpdate();
-				update.coordinate = player.dimension.spawn;
-				update.radius = player.dimension.viewDistance;
-				update.savedChunks = chunks.map((chunk: Chunk) => {
-					return {
-						x: chunk.x,
-						z: chunk.z,
-					};
-				});
-
-				session.send(update);
-
-				for (const chunk of chunks) {
-					player.render.sendChunk(chunk);
-				}
+				player.sendChunk(...chunks);
 
 				// Set the player attribute component values.
 				for (const component of player.getAttributes()) {
