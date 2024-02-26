@@ -6,11 +6,13 @@ import type {
 	PlayerBuildComponent,
 	PlayerCountComponent,
 	PlayerDoorsAndSwitchesComponent,
+	PlayerExperienceComponent,
 	PlayerFlySpeedComponent,
 	PlayerFlyingComponent,
 	PlayerHungerComponent,
 	PlayerInstantBuildComponent,
 	PlayerInvulnerableComponent,
+	PlayerLevelComponent,
 	PlayerLightningComponent,
 	PlayerMayFlyComponent,
 	PlayerMutedComponent,
@@ -54,7 +56,9 @@ interface PlayerComponents extends EntityComponents {
 	'minecraft:ability.teleport': PlayerTeleportComponent;
 	'minecraft:ability.walk_speed': PlayerWalkSpeedComponent;
 	'minecraft:ability.world_builder': PlayerWorldBuilderComponent;
+	'minecraft:player.experience': PlayerExperienceComponent;
 	'minecraft:player.hunger': PlayerHungerComponent;
+	'minecraft:player.level': PlayerLevelComponent;
 }
 
 export type { PlayerProperties, PlayerComponents };

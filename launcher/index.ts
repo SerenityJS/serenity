@@ -23,20 +23,11 @@ world.registerDimension('minecraft:overworld', DimensionType.Overworld, BetterFl
 serenity.start();
 
 serenity.on('PlayerChat', (event) => {
-	const component = event.player.getComponent('minecraft:ability.may_fly');
+	const component = event.player.getComponent('minecraft:player.level');
 
-	switch (event.message) {
-		default:
-			break;
+	const num = Number(event.message ?? 0);
 
-		case 'off':
-			component.setCurrentValue(false);
-			break;
-
-		case 'on':
-			component.setCurrentValue(true);
-			break;
-	}
+	component.setCurrentValue(num);
 });
 
 serenity.network.on(Packet.BlockPickRequest, ({ session, packet }) => {

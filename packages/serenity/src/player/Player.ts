@@ -41,6 +41,8 @@ import {
 	PlayerPrivilegedBuilderComponent,
 	PlayerCountComponent,
 	PlayerAbilityComponent,
+	PlayerExperienceComponent,
+	PlayerLevelComponent,
 } from './components/index.js';
 import { type PlayerComponent, type PlayerAttributeComponent, PlayerHungerComponent } from './components/index.js';
 import { Skin } from './skin/Skin.js';
@@ -68,6 +70,8 @@ class Player extends Entity {
 		EntityMovementComponent,
 		EntityHealthComponent,
 		PlayerHungerComponent,
+		PlayerLevelComponent,
+		PlayerExperienceComponent,
 		PlayerBuildComponent,
 		PlayerMineComponent,
 		PlayerDoorsAndSwitchesComponent,
@@ -135,7 +139,7 @@ class Player extends Entity {
 		this.nametag = this.username;
 
 		// Setting player properties
-		this.gamemode = Gamemode.Creative;
+		this.gamemode = Gamemode.Survival;
 	}
 
 	/**
