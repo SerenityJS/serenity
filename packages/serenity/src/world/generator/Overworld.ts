@@ -9,7 +9,7 @@ class Overworld extends TerrainGenerator {
 	public readonly treeNoise: NoiseFunction2D;
 
 	public constructor() {
-		super(2_098_374_763_508_623);
+		super(0);
 
 		// Create the noise functions.
 		this.worldNoise = createNoise2D(() => this.seed);

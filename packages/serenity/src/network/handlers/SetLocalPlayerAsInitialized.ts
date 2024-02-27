@@ -28,6 +28,50 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
+
+		const commands = new AvailableCommands();
+
+		commands.commands = [
+			{
+				name: 'test',
+				description: 'Test command',
+				permissionLevel: PermissionLevel.Member,
+				subcommands: [],
+				flags: 0,
+				overloads: [
+					{
+						chaining: false,
+						parameters: [
+							{
+								enumType: 0x10,
+								name: 'param',
+								optional: false,
+								options: 0,
+								valueType: 44,
+							},
+							{
+								enumType: 0x10,
+								name: 'param2',
+								optional: false,
+								options: 0,
+								valueType: 8,
+							},
+						],
+					},
+				],
+				alias: 0,
+			},
+		];
+
+		commands.subcommandValues = [];
+		commands.subcommands = [];
+		commands.dynamicEnums = [];
+		commands.enumConstraints = [];
+		commands.enumValues = [];
+		commands.enums = [];
+		commands.suffixes = [];
+
+		session.send(commands);
 	}
 }
 
