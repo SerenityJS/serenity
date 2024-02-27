@@ -40,7 +40,7 @@ class Dimension {
 		this.entities = new Map();
 		this.players = new Map();
 		this.generator = generator;
-		this.spawn = new Vector3f(0, 0, 0);
+		this.spawn = new Vector3f(0, 65, 0);
 	}
 
 	public broadcast(...packets: DataPacket[]): void {

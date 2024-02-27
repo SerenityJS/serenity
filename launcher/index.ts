@@ -1,5 +1,5 @@
 import { DimensionType, NetworkChunkPublisherUpdate, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
-import { Serenity, InternalProvider, BetterFlat } from '@serenityjs/serenity';
+import { Serenity, InternalProvider, BetterFlat, Overworld, BlockPermutation } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
 const serenity = new Serenity();
@@ -17,7 +17,7 @@ const world = serenity.registerWorld('default-world', provider);
 
 // Now we need to register a dimension for the world.
 // The dimension is the actual area that players will play in.
-world.registerDimension('minecraft:overworld', DimensionType.Overworld, BetterFlat.BasicFlat());
+world.registerDimension('minecraft:overworld', DimensionType.Overworld, new Overworld());
 
 // Start the server.
 serenity.start();

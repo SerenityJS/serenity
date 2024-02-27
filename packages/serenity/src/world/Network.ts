@@ -62,7 +62,7 @@ class WorldNetwork {
 		packet.entityId = player.uniqueId;
 		packet.runtimeEntityId = player.runtimeId;
 		packet.playerGamemode = player.gamemode;
-		packet.playerPosition = player.position;
+		packet.playerPosition = player.dimension.spawn;
 		packet.rotation = player.rotation;
 		packet.seed = BigInt(this.world.properties.seed);
 		packet.biomeType = 0;
@@ -71,7 +71,7 @@ class WorldNetwork {
 		packet.generator = 1;
 		packet.worldGamemode = Gamemode.Survival;
 		packet.difficulty = Difficulty.Normal;
-		packet.spawnPosition = { x: 0, y: -54, z: 0 }; // TODO
+		packet.spawnPosition = player.dimension.spawn;
 		packet.achievementsDisabled = false;
 		packet.editorWorldType = 0;
 		packet.createdInEdior = false;

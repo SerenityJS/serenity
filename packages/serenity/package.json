@@ -29,6 +29,7 @@
 		"chalk": "4.0.0",
 		"fast-jwt": "^3.3.2",
 		"moment": "^2.30.1",
+		"simplex-noise": "^4.0.1",
 		"yaml": "^2.3.4"
 	}
 }
