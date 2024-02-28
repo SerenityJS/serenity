@@ -4,6 +4,7 @@ server.properties
 # Worlds
 /worlds
 
+
 # Logs
 logs
 *.log

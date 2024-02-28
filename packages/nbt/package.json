@@ -20,5 +20,11 @@
 	},
 	"dependencies": {
 		"@serenityjs/binarystream": "^1.2.3"
-	}
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.16",
+		"ts-node": "^10.9.1",
+		"typescript": "^5.2.2"
+	},
+	"packageManager": "yarn@4.1.0"
 }

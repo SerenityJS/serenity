@@ -10,21 +10,20 @@
 		"packages/serenity"
 	],
 	"scripts": {
-		"build": "yarn workspaces run build & tsc",
-		"build:launcher": "tsc",
-		"build:packages": "yarn workspaces run build",
-		"format": "yarn workspaces run format",
-		"lint": "yarn workspaces run lint",
-		"launch": "node ./dist/index.js",
+		"build": "yarn workspaces foreach --since run build",
+		"build:all": "yarn workspaces foreach --all run build & tsc",
 		"dev:launch": "nodemon --config nodemon.json launcher/index.ts"
 	},
-	"packageManager": "yarn@1.22.21",
+	"packageManager": "yarn@4.1.0",
 	"engines": {
 		"node": ">=18.0.0",
-		"yarn": ">=1.0.0",
+		"yarn": ">=4.0.0",
 		"npm": "please use yarn instead of npm"
 	},
 	"devDependencies": {
+		"@serenityjs/bedrock-protocol": "^1.0.0",
+		"@serenityjs/serenity": "^1.0.0",
+		"@types/node": "^20.11.16",
 		"cross-env": "^7.0.3",
 		"eslint": "^8.56.0",
 		"eslint-config-neon": "^0.1.57",
@@ -32,8 +31,6 @@
 		"nodemon": "^3.0.2",
 		"prettier": "^3.1.1",
 		"ts-node": "^10.9.2",
-		"typescript": "^5.3.3",
-		"@serenityjs/serenity": "^1.0.0",
-		"@serenityjs/bedrock-protocol": "^1.0.0"
+		"typescript": "^5.3.3"
 	}
 }
