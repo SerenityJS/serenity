@@ -1,13 +1,10 @@
 <br/>
 <p align="center">
   <a href="https://github.com/SerenityJS/serenity">
-    <img src="./public/Serenitylogo.png" alt="Logo" width="145" height="145">
+    <img src="./public/serenityjs-banner.png" alt="Logo">
   </a>
-
-  <h3 align="center">SerenityJS</h3>
-
   <p align="center">
-    A Minecraft Minecraft Bedrock Edition Server Software
+    <strong><font size = 5.5>Minecraft Bedrock Edition Server Software</font></strong>
     <br/>
     <br/>
     <a href="https://github.com/SerenityJS/serenity"><strong>Explore Now »</strong></a>
