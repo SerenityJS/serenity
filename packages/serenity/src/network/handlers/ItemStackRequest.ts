@@ -4,11 +4,9 @@ import {
 	ItemStackRequest,
 	DisconnectReason,
 	ItemStackActionType,
-	Gamemode,
 	ItemStackResponse,
 	ItemStackStatus,
 } from '@serenityjs/bedrock-protocol';
-import type { EntityInventoryComponent } from '../../entity/index.js';
 import type { Player } from '../../player/Player.js';
 import { Item, ItemType } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
@@ -35,14 +33,22 @@ class ItemStackRequestHandler extends NetworkHandler {
 				// Switch the action type.
 				switch (action.type) {
 					default:
-						console.log('ItemStackAction not implemented:', ItemStackActionType[action.type]);
+						this.serenity.network.logger.debug('ItemStackAction not implemented:', ItemStackActionType[action.type]);
 						break;
+
+					case ItemStackActionType.CraftCreative:
+					case ItemStackActionType.ResultsDeprecated: {
+						break;
+					}
 
 					case ItemStackActionType.Take:
 						this.handleTakeAction(player, action, request);
 						break;
 					case ItemStackActionType.Place:
 						this.handlePlaceAction(player, action, request);
+						break;
+					case ItemStackActionType.Destroy:
+						this.handleDestroyAction(player, action);
 						break;
 				}
 			}
@@ -56,7 +62,10 @@ class ItemStackRequestHandler extends NetworkHandler {
 
 		switch (destination.type) {
 			default:
-				console.log('ItemStackTakeAction$destination not implemented:', ContainerSlotType[destination.type]);
+				this.serenity.network.logger.debug(
+					'ItemStackTakeAction$destination not implemented:',
+					ContainerSlotType[destination.type],
+				);
 				break;
 
 			case ContainerSlotType.Cursor: {
@@ -132,33 +141,6 @@ class ItemStackRequestHandler extends NetworkHandler {
 				}
 			}
 		}
-
-		// switch (source.type) {
-		// 	default:
-		// 		console.log('ItemStackTakeAction not implemented:', ContainerSlotType[source.type]);
-		// 		break;
-
-		// 	case ContainerSlotType.Hotbar:
-		// 	case ContainerSlotType.Inventory:
-		// 	case ContainerSlotType.HotbarAndInventory: {
-		// 		// Get the inventory component
-		// 		const inventory = player.components.get('minecraft:inventory') as EntityInventoryComponent;
-		// 		const container = inventory.container;
-
-		// 		// Get the item from the source.
-		// 		const item = container.getItem(source.slot)!;
-
-		// 		// Remove the amount from the item.
-		// 		item.amount -= action.count!;
-
-		// 		// Create a new item for the cursor.
-		// 		const cursor = new Item(item.type, action.count!); // Probably need to add a clone method to the item class.
-
-		// 		// Set the cursor to the player's cursor.
-		// 		this.cursors.set(player.uniqueId, cursor);
-		// 		break;
-		// 	}
-		// }
 	}
 
 	protected static handlePlaceAction(player: Player, action: ItemStackAction, request: ItemStackRequests): void {
@@ -168,7 +150,10 @@ class ItemStackRequestHandler extends NetworkHandler {
 
 		switch (source.type) {
 			default:
-				console.log('ItemStackPlaceAction$source not implemented:', ContainerSlotType[source.type]);
+				this.serenity.network.logger.debug(
+					'ItemStackPlaceAction$source not implemented:',
+					ContainerSlotType[source.type],
+				);
 				break;
 
 			case ContainerSlotType.Cursor: {
@@ -200,10 +185,10 @@ class ItemStackRequestHandler extends NetworkHandler {
 				// If the item already exists in the destination, then we will add the item to the destination.
 				if (destinationItem) {
 					// Add the amount to the destination item.
-					destinationItem.amount += item.amount;
+					destinationItem.amount += action.count!;
 
 					// Remove the amount from the cursor item.
-					item.amount -= item.amount;
+					item.amount -= action.count!;
 
 					// Check if the cursor item amount is 0.
 					if (item.amount === 0) {
@@ -226,7 +211,131 @@ class ItemStackRequestHandler extends NetworkHandler {
 						cursor.container.clearSlot(0);
 					}
 				}
+
+				break;
 			}
+
+			case ContainerSlotType.HotbarAndInventory:
+			case ContainerSlotType.Inventory:
+			case ContainerSlotType.Hotbar: {
+				// Get the inventory component
+				const inventory = player.getComponent('minecraft:inventory');
+
+				// Get the item from the source.
+				const item = inventory.container.getItem(source.slot)!;
+
+				// Check if the destination is the cursor.
+				if (destination.type === ContainerSlotType.Cursor) {
+					// Get the cursor component.
+					const cursor = player.getComponent('minecraft:cursor');
+
+					// Get the cursor item.
+					const cursorItem = cursor.container.getItem(0);
+
+					// If the cursor item exists, then we will add the item to the cursor.
+					if (cursorItem) {
+						// Add the amount to the cursor item.
+						cursorItem.amount += action.count!;
+
+						// Remove the amount from the item.
+						item.amount -= action.count!;
+
+						// Check if the item amount is 0.
+						if (item.amount === 0) {
+							// Clear the item from the source.
+							inventory.container.clearSlot(source.slot);
+						}
+					} else {
+						// Construct a new item for the cursor.
+						const cursorItem = new Item(item.type, action.count!);
+
+						// Set the item to the cursor.
+						cursor.container.setItem(0, cursorItem);
+
+						// Remove the amount from the item.
+						item.amount -= action.count!;
+
+						// Check if the item amount is 0.
+						if (item.amount === 0) {
+							// Clear the item from the source.
+							inventory.container.clearSlot(source.slot);
+						}
+					}
+				} else {
+					// Get the destination item.
+					const destinationItem = inventory.container.getItem(destination.slot);
+
+					// If the item already exists in the destination, then we will add the item to the destination.
+					if (destinationItem) {
+						// Add the amount to the destination item.
+						destinationItem.amount += action.count!;
+
+						// Remove the amount from the source item.
+						item.amount -= action.count!;
+
+						// Check if the source item amount is 0.
+						if (item.amount === 0) {
+							// Clear the source item.
+							inventory.container.clearSlot(source.slot);
+						}
+					} else {
+						// Construct a new item for the destination.
+						const newItem = new Item(item.type, action.count!);
+
+						// Set the item to the destination.
+						inventory.container.setItem(destination.slot, newItem);
+
+						// Remove the amount from the source item.
+						item.amount -= action.count!;
+
+						// Check if the source item amount is 0.
+						if (item.amount === 0) {
+							// Clear the source item.
+							inventory.container.clearSlot(source.slot);
+						}
+					}
+				}
+
+				// Send the response.
+
+				break;
+			}
+
+			case ContainerSlotType.CreativeOutput: {
+				// Get the inventory component
+				const inventory = player.getComponent('minecraft:inventory');
+
+				// Get the item from the source.
+				const runtimeId = request.actions[0].runtimeId!;
+
+				// Create a new item for the destination.
+				const newItem = new Item(ItemType.resolveByRuntimeId(runtimeId)!, action.count!);
+
+				// Set the item to the destination.
+				inventory.container.setItem(destination.slot, newItem);
+
+				break;
+			}
+		}
+	}
+
+	protected static handleDestroyAction(player: Player, action: ItemStackAction): void {
+		// Get the source.
+		const source = action.source!;
+
+		// Check if the source is the cursor.
+		if (source.type === ContainerSlotType.Cursor) {
+			// Get the cursor component.
+			const cursor = player.getComponent('minecraft:cursor');
+
+			// Clear the cursor.
+			cursor.container.clearSlot(0);
+		} else {
+			// Get the inventory component
+			const inventory = player.getComponent('minecraft:inventory');
+
+			// Clear the source.
+			inventory.container.clearSlot(source.slot);
 		}
 	}
 }
