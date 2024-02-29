@@ -1,4 +1,11 @@
-import { DimensionType, NetworkChunkPublisherUpdate, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
+import {
+	DimensionType,
+	NetworkChunkPublisherUpdate,
+	Packet,
+	PlayerHotbar,
+	Vector3f,
+	WindowsIds,
+} from '@serenityjs/bedrock-protocol';
 import { Serenity, InternalProvider, BetterFlat, Overworld, BlockPermutation } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
@@ -29,5 +36,9 @@ serenity.on('PlayerSpawned', (event) => {
 serenity.network.on(Packet.BlockPickRequest, ({ session, packet }) => {
 	if (!session.player) return;
 
-	session.player.dimension.spawnEntity('minecraft:npc', new Vector3f(packet.x, packet.y + 1, packet.z));
+	const inventory = session.player.getComponent('minecraft:inventory');
+
+	const selectedSlot = inventory.selectedSlot;
+
+	session.player.sendMessage(`You selected slot ${selectedSlot}`);
 });

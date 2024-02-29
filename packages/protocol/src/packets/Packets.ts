@@ -30,6 +30,7 @@ import { NetworkSettings } from './NetworkSettings.js';
 import { PacketViolationWarning } from './PacketViolationWarning.js';
 import { PlayStatus } from './PlayStatus.js';
 import { PlayerAction } from './PlayerAction.js';
+import { PlayerHotbar } from './PlayerHotbar.js';
 import { PlayerList } from './PlayerList.js';
 import { RemoveEntity } from './RemoveEntity.js';
 import { RequestChunkRadius } from './RequestChunkRadius.js';
@@ -75,6 +76,7 @@ const Packets = {
 	[Packet.Respawn]: Respawn, // 45
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
+	[Packet.PlayerHotbar]: PlayerHotbar, // 48
 	[Packet.InventoryContent]: InventoryContent, // 49
 	[Packet.InventorySlot]: InventorySlot, // 50
 	[Packet.LevelChunk]: LevelChunk, // 58

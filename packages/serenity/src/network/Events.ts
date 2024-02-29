@@ -30,6 +30,7 @@ import type {
 	PacketViolationWarning,
 	PlayStatus,
 	PlayerAction,
+	PlayerHotbar,
 	PlayerList,
 	RemoveEntity,
 	RequestChunkRadius,
@@ -83,6 +84,7 @@ interface NetworkEvents {
 	[Packet.Respawn]: [NetworkPacketEvent<Respawn>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
+	[Packet.PlayerHotbar]: [NetworkPacketEvent<PlayerHotbar>];
 	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContent>];
 	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlot>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];

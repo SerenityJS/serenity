@@ -28,6 +28,7 @@ enum Packet {
 	Respawn = 0x2d, // 45
 	ContainerOpen = 0x2e, // 46
 	ContainerClose = 0x2f, // 47
+	PlayerHotbar = 0x30, // 48
 	InventoryContent = 0x31, // 49
 	InventorySlot = 0x32, // 50
 	LevelChunk = 0x3a, // 58

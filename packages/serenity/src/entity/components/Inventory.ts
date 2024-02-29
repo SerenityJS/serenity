@@ -1,4 +1,5 @@
-import { ContainerSlotType } from '@serenityjs/bedrock-protocol';
+import { ContainerSlotType, PlayerHotbar } from '@serenityjs/bedrock-protocol';
+import { Player } from '../../index.js';
 import type { Entity } from '../Entity.js';
 import { EntityContainer } from '../container/index.js';
 import { EntityComponent } from './Component.js';
@@ -25,6 +26,11 @@ class EntityInventoryComponent extends EntityComponent {
 	public readonly inventorySize: number;
 
 	/**
+	 * The selected slot of the inventory.
+	 */
+	public selectedSlot = 0;
+
+	/**
 	 * Initializes the inventory component.
 	 *
 	 * @param entity - The entity this component is attached to.
@@ -34,6 +40,39 @@ class EntityInventoryComponent extends EntityComponent {
 		this.containerType = ContainerSlotType.Inventory;
 		this.inventorySize = 36;
 		this.container = new EntityContainer(entity, this.containerType, this.inventorySize);
+	}
+
+	/**
+	 * Selects a slot in the inventory.
+	 *
+	 * @param slot - The slot to select.
+	 */
+	public selectSlot(slot: number): void {
+		// Check if the entity is a player.
+		if (this.entity instanceof Player) {
+			// Create a new player hotbar packet.
+			const packet = new PlayerHotbar();
+
+			// Set the selected slot of the packet.
+			packet.selectedSlot = slot;
+
+			// Set the window id of the packet.
+			packet.windowId = 0;
+
+			// Set the select slot of the packet.
+			packet.selectSlot = true;
+
+			// Send the packet to the player.
+			this.entity.session.send(packet);
+
+			// Set the selected slot of the inventory.
+			this.selectedSlot = slot;
+		} else {
+			// TODO: Add support for non-player entities.
+
+			// Set the selected slot of the inventory.
+			this.selectedSlot = slot;
+		}
 	}
 }
 

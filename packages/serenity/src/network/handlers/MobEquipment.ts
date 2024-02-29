@@ -1,6 +1,5 @@
 import type { Packet } from '@serenityjs/bedrock-protocol';
 import { DisconnectReason, MobEquipment } from '@serenityjs/bedrock-protocol';
-import { it } from 'node:test';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
 
@@ -36,6 +35,11 @@ class MobEquipmentHandler extends NetworkHandler {
 				`Player ${player.username} has been disconnected due to inventory out of sync, mismatch item count.`,
 			);
 		}
+
+		// Update the players selected slot.
+		// NOTE: We don't need to use the selectSlot method from the inventory component,
+		// Since that method is only used to send the packet to the client.
+		inventory.selectedSlot = packet.selectedSlot;
 
 		// NOTE: This could be broken, same client recieved a broken packet error.
 		// Create a new mob equipment packet.
