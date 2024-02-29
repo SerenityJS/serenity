@@ -33,12 +33,12 @@ serenity.on('PlayerSpawned', (event) => {
 	event.player.getComponent('minecraft:ability.may_fly').setCurrentValue(true);
 });
 
-serenity.network.on(Packet.BlockPickRequest, ({ session, packet }) => {
-	if (!session.player) return;
+serenity.after('PlayerSelectSlot', (event) => {
+	const inventory = event.player.getComponent('minecraft:inventory');
 
-	const inventory = session.player.getComponent('minecraft:inventory');
+	const item = inventory.container.getItem(event.slot);
 
-	const selectedSlot = inventory.selectedSlot;
+	if (!item) return;
 
-	session.player.sendMessage(`You selected slot ${selectedSlot}`);
+	event.player.sendMessage(`You selected slot ${event.slot} with item ${item.type.identifier} x${item.amount}`);
 });
