@@ -21,6 +21,7 @@ import { ItemStackRequest } from './ItemStackRequest.js';
 import { ItemStackResponse } from './ItemStackResponse.js';
 import { LevelChunk } from './LevelChunk.js';
 import { Login } from './Login.js';
+import { MobEquipment } from './MobEquipment.js';
 import { ModalFormRequest } from './ModalFormRequest.js';
 import { ModalFormResponse } from './ModalFormResponse.js';
 import { MovePlayer } from './MovePlayer.js';
@@ -66,6 +67,7 @@ const Packets = {
 	[Packet.UpdateBlock]: UpdateBlock, // 21
 	[Packet.UpdateAttributes]: UpdateAttributes, // 29
 	[Packet.InventoryTransaction]: InventoryTransaction, // 30
+	[Packet.MobEquipment]: MobEquipment, // 31
 	[Packet.Interact]: Interact, // 33
 	[Packet.BlockPickRequest]: BlockPickRequest, // 34
 	[Packet.PlayerAction]: PlayerAction, // 36

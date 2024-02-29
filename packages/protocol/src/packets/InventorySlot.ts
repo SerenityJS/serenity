@@ -12,3 +12,9 @@ class InventorySlot extends DataPacket {
 }
 
 export { InventorySlot };
+
+const string = 'welcome to the jungle';
+
+// get the amount of "e's" in the string
+
+const eCount = string.split('').filter((char) => char === 'e').length;

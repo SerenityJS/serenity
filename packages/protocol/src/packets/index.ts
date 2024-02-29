@@ -17,6 +17,7 @@ export * from './MovePlayer.js';
 export * from './UpdateBlock.js';
 export * from './UpdateAttributes.js';
 export * from './InventoryTransaction.js';
+export * from './MobEquipment.js';
 export * from './Interact.js';
 export * from './BlockPickRequest.js';
 export * from './PlayerAction.js';

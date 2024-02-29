@@ -20,6 +20,7 @@ import type {
 	ItemStackResponse,
 	LevelChunk,
 	Login,
+	MobEquipment,
 	ModalFormRequest,
 	ModalFormResponse,
 	MovePlayer,
@@ -74,6 +75,7 @@ interface NetworkEvents {
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlock>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
 	[Packet.InventoryTransaction]: [NetworkPacketEvent<InventoryTransaction>];
+	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipment>];
 	[Packet.Interact]: [NetworkPacketEvent<Interact>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];

@@ -5,6 +5,7 @@ import { InteractHandler } from './Interact.js';
 import { InventoryTransactionHandler } from './InventoryTransaction.js';
 import { ItemStackRequestHandler } from './ItemStackRequest.js';
 import { LoginHandler } from './Login.js';
+import { MobEquipmentHandler } from './MobEquipment.js';
 import { ModalFormResponseHandler } from './ModalFormResponse.js';
 import { MovePlayerHandler } from './MovePlayer.js';
 import { PacketViolationWarningHandler } from './PacketViolationWarning.js';
@@ -34,6 +35,7 @@ const NETWORK_HANDLERS = [
 	RequestChunkRadiusHandler,
 	ModalFormResponseHandler,
 	ItemStackRequestHandler,
+	MobEquipmentHandler,
 ];
 
 export { NETWORK_HANDLERS };
