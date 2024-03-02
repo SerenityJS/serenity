@@ -1,5 +1,6 @@
 import {
 	DimensionType,
+	Gamemode,
 	NetworkChunkPublisherUpdate,
 	Packet,
 	PlayerHotbar,
@@ -31,6 +32,8 @@ serenity.start();
 
 serenity.on('PlayerSpawned', (event) => {
 	event.player.getComponent('minecraft:ability.may_fly').setCurrentValue(true);
+
+	event.player.gamemode = Gamemode.Creative;
 });
 
 serenity.after('PlayerSelectSlot', (event) => {

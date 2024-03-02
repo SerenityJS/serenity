@@ -8,6 +8,7 @@ class Records extends DataType {
 	public entityUniqueId?: bigint;
 	public isHost?: boolean;
 	public isTeacher?: boolean;
+	public isSubclient?: boolean;
 	public platformChatId?: string;
 	public skin?: Buffer;
 	public username?: string;
@@ -20,6 +21,7 @@ class Records extends DataType {
 		entityUniqueId?: bigint,
 		isHost?: boolean,
 		isTeacher?: boolean,
+		isSubclient?: boolean,
 		platformChatId?: string,
 		skin?: Buffer,
 		username?: string,
@@ -30,6 +32,7 @@ class Records extends DataType {
 		this.entityUniqueId = entityUniqueId;
 		this.isHost = isHost;
 		this.isTeacher = isTeacher;
+		this.isSubclient = isSubclient;
 		this.platformChatId = platformChatId;
 		this.skin = skin;
 		this.username = username;
@@ -63,10 +66,22 @@ class Records extends DataType {
 				const skin = stream.readBuffer(skinLength);
 				const isTeacher = stream.readBool();
 				const isHost = stream.readBool();
+				const isSubclient = stream.readBool();
 
 				// Push the record to the array.
 				records.push(
-					new Records(uuid, buildPlatform, entityUniqueId, isHost, isTeacher, platformChatId, skin, username, xuid),
+					new Records(
+						uuid,
+						buildPlatform,
+						entityUniqueId,
+						isHost,
+						isTeacher,
+						isSubclient,
+						platformChatId,
+						skin,
+						username,
+						xuid,
+					),
 				);
 			} else {
 				// We only push the uuid to the array.
@@ -101,6 +116,7 @@ class Records extends DataType {
 				stream.writeBuffer(record.skin!);
 				stream.writeBool(record.isTeacher!);
 				stream.writeBool(record.isHost!);
+				stream.writeBool(record.isSubclient!);
 			}
 		}
 

@@ -45,3 +45,4 @@ export * from './Subcommands.js';
 export * from './Commands.js';
 export * from './DynamicEnums.js';
 export * from './EnumConstraints.js';
+export * from './AnimateAction.js';

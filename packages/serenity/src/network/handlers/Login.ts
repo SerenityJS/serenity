@@ -1,6 +1,15 @@
-import { PlayStatus, Login, PlayerStatus, DisconnectReason, ResourcePacksInfo } from '@serenityjs/bedrock-protocol';
+import {
+	PlayStatus,
+	Login,
+	PlayerStatus,
+	DisconnectReason,
+	ResourcePacksInfo,
+	PlayerList,
+	RecordAction,
+} from '@serenityjs/bedrock-protocol';
 import type { Packet, LoginTokens } from '@serenityjs/bedrock-protocol';
 import fastJwt from 'fast-jwt';
+import { ENTITY_COMPONENTS } from '../../entity/index.js';
 import type { PlayerComponent } from '../../player/index.js';
 import { Player } from '../../player/index.js';
 import type { ClientData, IdentityData, LoginTokenData } from '../../types/index.js';
@@ -48,15 +57,11 @@ class LoginHandler extends NetworkHandler {
 		// Check if there is a player with the same xuid.
 		// This would mean that the player is trying to login from another location.
 		// Maybe add the ability to kick the player thats already logged in.
-
-		// TODO: Reimplement this.
-		// const check = this.serenity;
-		// if (check) {
-		// 	// If there is, disconnect the player trying to connect.
-		// 	return session.disconnect('You are already logged in another location.', DisconnectReason.LoggedInOtherLocation);
-		// }
-
-		// TODO: Read the players properties from the database.
+		const check = [...this.serenity.worlds.values()].find((world) => world.getPlayers().find((x) => x.xuid === xuid));
+		if (check) {
+			// If there is, disconnect the player trying to connect.
+			return session.disconnect('You are already logged in another location.', DisconnectReason.LoggedInOtherLocation);
+		}
 
 		// Get the default world.
 		const world = this.serenity.getWorld();
@@ -68,7 +73,7 @@ class LoginHandler extends NetworkHandler {
 		session.player = player;
 
 		// Construct the registered components for the player.
-		for (const component of Player.components) {
+		for (const component of ENTITY_COMPONENTS['minecraft:player']) {
 			// Construct the component.
 			const instance: PlayerComponent = new (component as any)(player);
 
@@ -85,9 +90,6 @@ class LoginHandler extends NetworkHandler {
 		const login = new PlayStatus();
 		login.status = PlayerStatus.LoginSuccess;
 
-		// Send the login packet.
-		session.send(login);
-
 		// TODO: Implement to ability to use resource packs.
 		// We will now send an empty resource pack info packet.
 		// This will tell the client that there are no resource packs to download for now.
@@ -100,7 +102,7 @@ class LoginHandler extends NetworkHandler {
 		packs.links = [];
 
 		// We will now send the resource pack info packet.
-		session.send(packs);
+		session.send(login, packs);
 	}
 
 	public static decode(tokens: LoginTokens): LoginTokenData {

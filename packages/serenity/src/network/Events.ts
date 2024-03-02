@@ -1,6 +1,7 @@
 import type {
 	AddEntity,
 	AddPlayer,
+	Animate,
 	AvailableCommands,
 	BiomeDefinitionList,
 	BlockPickRequest,
@@ -30,6 +31,7 @@ import type {
 	PacketViolationWarning,
 	PlayStatus,
 	PlayerAction,
+	PlayerAuthInput,
 	PlayerHotbar,
 	PlayerList,
 	RemoveEntity,
@@ -48,6 +50,7 @@ import type {
 	Text,
 	ToastRequest,
 	UpdateAbilities,
+	UpdateAdventureSettings,
 	UpdateAttributes,
 	UpdateBlock,
 } from '@serenityjs/bedrock-protocol';
@@ -81,6 +84,7 @@ interface NetworkEvents {
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
 	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityData>];
+	[Packet.Animate]: [NetworkPacketEvent<Animate>];
 	[Packet.Respawn]: [NetworkPacketEvent<Respawn>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
 	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
@@ -102,6 +106,7 @@ interface NetworkEvents {
 	[Packet.NetworkChunkPublisherUpdate]: [NetworkPacketEvent<NetworkChunkPublisherUpdate>];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
+	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInput>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
 	[Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequest>];
 	[Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponse>];
@@ -109,6 +114,7 @@ interface NetworkEvents {
 	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessage>];
 	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequest>];
 	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilities>];
+	[Packet.UpdateAdventureSettings]: [NetworkPacketEvent<UpdateAdventureSettings>];
 	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
 }
 

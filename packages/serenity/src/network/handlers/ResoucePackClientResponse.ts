@@ -11,6 +11,8 @@ import {
 	MetadataKey,
 	MetadataType,
 	MetadataFlags,
+	RespawnState,
+	UpdateAdventureSettings,
 } from '@serenityjs/bedrock-protocol';
 import type { Chunk } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
@@ -65,16 +67,17 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				player.dimension.world.network.sendBiomeDefinitionList(player);
 
+				const settings = new UpdateAdventureSettings();
+				settings.noPvm = false;
+				settings.noPvp = false;
+				settings.immutableWorld = false;
+				settings.showNameTags = true;
+				settings.autoJump = true;
+
 				// Set the player abiliry component values.
 				for (const component of player.getAbilities()) {
 					component.resetToDefaultValue();
 				}
-
-				player.dimension.world.network.sendCreativeContent(player);
-
-				const chunks = player.dimension.getSpawnChunks();
-
-				player.sendChunk(...chunks);
 
 				// Set the player attribute component values.
 				for (const component of player.getAttributes()) {
@@ -103,12 +106,20 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				};
 				data.tick = BigInt(0);
 
+				player.dimension.world.network.sendCreativeContent(player);
+
+				player.respawn(player.dimension.spawn, RespawnState.ServerSearchingForSpawn);
+				player.respawn(player.dimension.spawn, RespawnState.ClientReadyToSpawn);
+				player.respawn(player.dimension.spawn, RespawnState.ServerReadyToSpawn);
+
 				const status = new PlayStatus();
 				status.status = PlayerStatus.PlayerSpawn;
 
-				session.send(data);
+				session.send(settings, data, status);
 
-				session.send(status);
+				const chunks = player.dimension.getSpawnChunks();
+
+				player.sendChunk(...chunks);
 			}
 		}
 	}

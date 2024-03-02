@@ -12,7 +12,8 @@ import {
 	SetEntityData,
 	Vector3f,
 } from '@serenityjs/bedrock-protocol';
-import { Entity } from '../../entity/index.js';
+import type { EntityComponent } from '../../entity/index.js';
+import { ENTITY_COMPONENTS, Entity } from '../../entity/index.js';
 import type { Player } from '../../player/index.js';
 import type { WorldProvider } from '../../provider/index.js';
 import type { World } from '../World.js';
@@ -92,6 +93,16 @@ class Dimension {
 
 		// Add the entity to the dimension.
 		this.entities.set(entity.uniqueId, entity);
+
+		// Get the entities components.
+		const components = ENTITY_COMPONENTS[(identifier ?? 'minecraft:generic') as keyof typeof ENTITY_COMPONENTS];
+		for (const component of components) {
+			// Create a new instance of the component.
+			const instance: EntityComponent = new (component as any)(entity);
+
+			// Set the component to the entity.
+			entity.components.set(instance.type, instance);
+		}
 
 		// Return the entity.
 		return entity;
@@ -179,6 +190,15 @@ class Dimension {
 	}
 
 	/**
+	 * Set a chunk in the dimension.
+	 *
+	 * @param chunk The chunk to set.
+	 */
+	public setChunk(chunk: Chunk): void {
+		this.provider.writeChunk(chunk, this);
+	}
+
+	/**
 	 * Get a chunk from the dimension.
 	 *
 	 * @param hash The chunk hash.
@@ -263,6 +283,9 @@ class Dimension {
 
 			player.session.send(update);
 		}
+
+		// Set th chunk
+		return this.setChunk(chunk);
 	}
 
 	public static resolveType(type: number | string): DimensionType {

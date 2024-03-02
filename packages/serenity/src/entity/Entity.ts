@@ -13,8 +13,6 @@ interface EntityMetadata {
 }
 
 class Entity {
-	public static readonly components: (typeof EntityComponent)[] = [];
-
 	public readonly runtimeId: bigint;
 	public readonly uniqueId: bigint;
 	public readonly identifier: string;
@@ -38,16 +36,6 @@ class Entity {
 		this.properties = new Map();
 		this.components = new Map();
 	}
-
-	/**
-	 * Registers a specific component to an entity type.
-	 *
-	 * @param component - The component to register.
-	 */
-	public static registerComponent(component: typeof EntityComponent): void {
-		this.components.push(component);
-	}
-
 	/**
 	 * Gets the component from the entity.
 	 *

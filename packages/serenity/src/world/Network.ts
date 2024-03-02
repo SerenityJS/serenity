@@ -5,6 +5,7 @@ import {
 	Difficulty,
 	Gamemode,
 	PermissionLevel,
+	PlayerList,
 	StartGame,
 	type DataPacket,
 } from '@serenityjs/bedrock-protocol';
@@ -69,16 +70,16 @@ class WorldNetwork {
 		packet.biomeName = 'plains';
 		packet.dimension = player.dimension.type;
 		packet.generator = 1;
-		packet.worldGamemode = Gamemode.Survival;
-		packet.difficulty = Difficulty.Normal;
+		packet.worldGamemode = Gamemode.Creative;
+		packet.difficulty = Difficulty.Easy;
 		packet.spawnPosition = player.dimension.spawn;
-		packet.achievementsDisabled = false;
+		packet.achievementsDisabled = true;
 		packet.editorWorldType = 0;
 		packet.createdInEdior = false;
 		packet.exportedFromEdior = false;
-		packet.dayCycleStopTime = 8_250;
-		packet.eduOffer = 1;
-		packet.eduFeatures = true;
+		packet.dayCycleStopTime = 0;
+		packet.eduOffer = 0;
+		packet.eduFeatures = false;
 		packet.eduProductUuid = '';
 		packet.rainLevel = 0;
 		packet.lightningLevel = 0;
@@ -294,7 +295,7 @@ class WorldNetwork {
 		packet.bonusChest = false;
 		packet.mapEnabled = false;
 		packet.permissionLevel = PermissionLevel.Member;
-		packet.serverChunkTickRange = 4;
+		packet.serverChunkTickRange = 0;
 		packet.hasLockedBehaviorPack = false;
 		packet.hasLockedResourcePack = false;
 		packet.isFromLockedWorldTemplate = false;
@@ -319,9 +320,9 @@ class WorldNetwork {
 		packet.premiumWorldTemplateId = '00000000-0000-0000-0000-000000000000';
 		packet.isTrial = false;
 		packet.movementAuthority = 0;
-		packet.rewindHistorySize = 40;
+		packet.rewindHistorySize = 0;
 		packet.serverAuthoritativeBlockBreaking = true;
-		packet.currentTick = 0n;
+		packet.currentTick = 10_000n;
 		packet.enchantmentSeed = 0;
 		packet.blockProperties = [];
 		packet.itemstates = this.world.items.getTypes().map((item) => {
@@ -339,7 +340,7 @@ class WorldNetwork {
 		packet.propertyData3 = 0x00;
 		packet.blockPaletteChecksum = 0n;
 		packet.worldTemplateId = '00000000000000000000000000000000';
-		packet.clientSideGeneration = false;
+		packet.clientSideGeneration = true;
 		packet.blockNetworkIdsAreHashes = false; // Important
 		packet.serverControlledSounds = false;
 
@@ -347,6 +348,11 @@ class WorldNetwork {
 		player.session.send(packet);
 	}
 
+	/**
+	 * Send the creative content packet to the player.
+	 *
+	 * @param player - The player to send the creative content packet to.
+	 */
 	public sendCreativeContent(player: Player): void {
 		// Create a new CreativeContent packet.
 		const packet = new CreativeContent();
@@ -369,7 +375,6 @@ class WorldNetwork {
 				},
 			};
 		});
-		// 	{
 		// 		entryId: 1,
 		// 		item: {
 		// 			networkId: 5,
@@ -471,6 +476,11 @@ class WorldNetwork {
 		player.session.send(packet);
 	}
 
+	/**
+	 * Send the biome definition list packet to the player.
+	 *
+	 * @param player - The player to send the biome definition list packet to.
+	 */
 	public sendBiomeDefinitionList(player: Player): void {
 		// Create a new BiomeDefinitionList packet.
 		const packet = new BiomeDefinitionList();

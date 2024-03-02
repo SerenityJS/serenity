@@ -4,6 +4,7 @@ import { Disconnect } from '@serenityjs/raknet-protocol';
 import { Packet } from '../enums/index.js';
 import { AddEntity } from './AddEntity.js';
 import { AddPlayer } from './AddPlayer.js';
+import { Animate } from './Animate.js';
 import { AvailableCommands } from './AvailableCommands.js';
 import { BiomeDefinitionList } from './BiomeDefinitionList.js';
 import { BlockPickRequest } from './BlockPickRequest.js';
@@ -30,6 +31,7 @@ import { NetworkSettings } from './NetworkSettings.js';
 import { PacketViolationWarning } from './PacketViolationWarning.js';
 import { PlayStatus } from './PlayStatus.js';
 import { PlayerAction } from './PlayerAction.js';
+import { PlayerAuthInput } from './PlayerAuthInput.js';
 import { PlayerHotbar } from './PlayerHotbar.js';
 import { PlayerList } from './PlayerList.js';
 import { RemoveEntity } from './RemoveEntity.js';
@@ -49,6 +51,7 @@ import { StartGame } from './StartGame.js';
 import { Text } from './Text.js';
 import { ToastRequest } from './ToastRequest.js';
 import { UpdateAbilities } from './UpdateAbilities.js';
+import { UpdateAdventureSettings } from './UpdateAdventureSettings.js';
 import { UpdateAttributes } from './UpdateAttributes.js';
 import { UpdateBlock } from './UpdateBlock.js';
 
@@ -73,6 +76,7 @@ const Packets = {
 	[Packet.BlockPickRequest]: BlockPickRequest, // 34
 	[Packet.PlayerAction]: PlayerAction, // 36
 	[Packet.SetEntityData]: SetEntityData, // 39
+	[Packet.Animate]: Animate, // 44
 	[Packet.Respawn]: Respawn, // 45
 	[Packet.ContainerOpen]: ContainerOpen, // 46
 	[Packet.ContainerClose]: ContainerClose, // 47
@@ -94,6 +98,7 @@ const Packets = {
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdate, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionList, // 122
 	[Packet.NetworkSettings]: NetworkSettings, // 143
+	[Packet.PlayerAuthInput]: PlayerAuthInput, // 144
 	[Packet.CreativeContent]: CreativeContent, // 145
 	[Packet.ItemStackRequest]: ItemStackRequest, // 147
 	[Packet.ItemStackResponse]: ItemStackResponse, // 148
@@ -101,6 +106,7 @@ const Packets = {
 	[Packet.ScriptMessage]: ScriptMessage, // 177
 	[Packet.ToastRequest]: ToastRequest, // 186
 	[Packet.UpdateAbilities]: UpdateAbilities, // 187
+	[Packet.UpdateAdventureSettings]: UpdateAdventureSettings, // 188
 	[Packet.RequestNetworkSettings]: RequestNetworkSettings, // 193
 };
 

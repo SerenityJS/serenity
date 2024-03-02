@@ -1,16 +1,9 @@
 import type { Packet } from '@serenityjs/bedrock-protocol';
 import {
 	DisconnectReason,
-	MetadataFlags,
-	MetadataKey,
-	MetadataType,
-	SetEntityData,
 	AvailableCommands,
 	SetLocalPlayerAsInitialized,
-	AddPlayer,
 	PermissionLevel,
-	CommandPermissionLevel,
-	AbilityLayerFlag,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';

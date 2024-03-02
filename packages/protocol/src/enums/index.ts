@@ -40,3 +40,4 @@ export * from './ItemStackActionType.js';
 export * from './ContainerSlotType.js';
 export * from './ItemStackStatus.js';
 export * from './AbilitySet.js';
+export * from './AnimateId.js';

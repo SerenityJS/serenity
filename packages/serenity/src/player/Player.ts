@@ -11,43 +11,12 @@ import {
 } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { EntityAttributeComponent } from '../entity/components/attributes/Attribute.js';
-import {
-	EntityInventoryComponent,
-	EntityCursorComponent,
-	EntityMovementComponent,
-	EntityHealthComponent,
-} from '../entity/components/index.js';
 import { Entity } from '../entity/index.js';
 import type { Network, NetworkSession } from '../network/index.js';
 import type { ActionFormResponse, LoginTokenData, MessageFormResponse, PlayerComponents } from '../types/index.js';
 import { Chunk } from '../world/index.js';
 import type { Dimension } from '../world/index.js';
-import {
-	PlayerBuildComponent,
-	PlayerMineComponent,
-	PlayerDoorsAndSwitchesComponent,
-	PlayerOpenContainersComponent,
-	PlayerAttackPlayersComponent,
-	PlayerAttackMobsComponent,
-	PlayerOperatorCommandsComponent,
-	PlayerInvulnerableComponent,
-	PlayerFlyingComponent,
-	PlayerMayFlyComponent,
-	PlayerInstantBuildComponent,
-	PlayerLightningComponent,
-	PlayerWalkSpeedComponent,
-	PlayerFlySpeedComponent,
-	PlayerTeleportComponent,
-	PlayerMutedComponent,
-	PlayerWorldBuilderComponent,
-	PlayerNoClipComponent,
-	PlayerPrivilegedBuilderComponent,
-	PlayerCountComponent,
-	PlayerAbilityComponent,
-	PlayerExperienceComponent,
-	PlayerLevelComponent,
-} from './components/index.js';
-import { type PlayerComponent, type PlayerAttributeComponent, PlayerHungerComponent } from './components/index.js';
+import { type PlayerComponent, type PlayerAttributeComponent, PlayerAbilityComponent } from './components/index.js';
 import { Skin } from './skin/Skin.js';
 
 // NOTE
@@ -64,39 +33,6 @@ import { Skin } from './skin/Skin.js';
  * The player class.
  */
 class Player extends Entity {
-	/**
-	 * The default components for a player.
-	 */
-	public static readonly components: (typeof PlayerComponent)[] = [
-		EntityInventoryComponent,
-		EntityCursorComponent,
-		EntityMovementComponent,
-		EntityHealthComponent,
-		PlayerHungerComponent,
-		PlayerLevelComponent,
-		PlayerExperienceComponent,
-		PlayerBuildComponent,
-		PlayerMineComponent,
-		PlayerDoorsAndSwitchesComponent,
-		PlayerOpenContainersComponent,
-		PlayerAttackPlayersComponent,
-		PlayerAttackMobsComponent,
-		PlayerOperatorCommandsComponent,
-		PlayerTeleportComponent,
-		PlayerInvulnerableComponent,
-		PlayerFlyingComponent,
-		PlayerMayFlyComponent,
-		PlayerInstantBuildComponent,
-		PlayerLightningComponent,
-		PlayerFlySpeedComponent,
-		PlayerWalkSpeedComponent,
-		PlayerMutedComponent,
-		PlayerWorldBuilderComponent,
-		PlayerNoClipComponent,
-		PlayerPrivilegedBuilderComponent,
-		PlayerCountComponent,
-	];
-
 	/**
 	 * The serenity instance.
 	 */
@@ -142,7 +78,7 @@ class Player extends Entity {
 		this.nametag = this.username;
 
 		// Setting player properties
-		this.gamemode = Gamemode.Creative;
+		this.gamemode = Gamemode.Survival;
 	}
 
 	/**

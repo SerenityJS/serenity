@@ -48,6 +48,9 @@ class World {
 	 */
 	public readonly blocks: BlockMapper;
 
+	/**
+	 * The item mapper for the world, which maps the item identifier to their respective item.
+	 */
 	public readonly items: ItemMapper;
 
 	/**

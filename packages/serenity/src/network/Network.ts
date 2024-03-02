@@ -2,7 +2,6 @@ import { Buffer } from 'node:buffer';
 import { inflateRawSync, deflateRawSync } from 'node:zlib';
 import type { DataPacket } from '@serenityjs/bedrock-protocol';
 import { Packet, Packets, Framer, getPacketId, CompressionMethod } from '@serenityjs/bedrock-protocol';
-import { BinaryStream } from '@serenityjs/binarystream';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
 import type { Serenity } from '../Serenity.js';
 import { Logger, LoggerColors } from '../console/index.js';
@@ -144,7 +143,7 @@ class Network extends EventEmitter<NetworkEvents> {
 								this.logger.error(error);
 							}
 						} else {
-							return this.logger.debug(
+							this.logger.debug(
 								`Unable to find network handler for ${Packet[id]} (0x${id.toString(16)}) packet from "${
 									session.identifier.address
 								}:${session.identifier.port}"!`,
@@ -152,7 +151,7 @@ class Network extends EventEmitter<NetworkEvents> {
 						}
 					} catch (error) {
 						// If an error occurs, we will emit the error event.
-						return this.logger.error(error);
+						this.logger.error(error);
 					}
 				}
 			}

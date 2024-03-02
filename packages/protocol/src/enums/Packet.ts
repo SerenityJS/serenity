@@ -25,6 +25,7 @@ enum Packet {
 	PlayerAction = 0x24, // 36
 	SetEntityData = 0x27, // 39
 	// SetSpawnPosition = 0x2b, // 43
+	Animate = 0x2c, // 44
 	Respawn = 0x2d, // 45
 	ContainerOpen = 0x2e, // 46
 	ContainerClose = 0x2f, // 47
@@ -48,6 +49,7 @@ enum Packet {
 	BiomeDefinitionList = 0x7a, // 122
 	// ClientCacheStatus = 0x81, // 129
 	NetworkSettings = 0x8f, // 143
+	PlayerAuthInput = 0x90, // 144
 	// PlayerAuthInput = 0x90, // 144
 	CreativeContent = 0x91, // 145
 	ItemStackRequest = 0x93, // 147
@@ -57,6 +59,7 @@ enum Packet {
 	ScriptMessage = 0xb1, // 177
 	ToastRequest = 0xba, // 186
 	UpdateAbilities = 0xbb, // 187
+	UpdateAdventureSettings = 0xbc, // 188
 	// UpdateAdventureSettings = 0xbc, // 188
 	RequestNetworkSettings = 0xc1, // 193
 }

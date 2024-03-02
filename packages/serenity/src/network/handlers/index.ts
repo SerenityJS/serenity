@@ -1,3 +1,4 @@
+import { AnimateHandler } from './Animate.js';
 import { BlockPickRequestHandler } from './BlockPickRequest.js';
 import { ContainerCloseHandler } from './ContainerClose.js';
 import { DisconnectHandler } from './Disconnect.js';
@@ -10,6 +11,7 @@ import { ModalFormResponseHandler } from './ModalFormResponse.js';
 import { MovePlayerHandler } from './MovePlayer.js';
 import { PacketViolationWarningHandler } from './PacketViolationWarning.js';
 import { PlayerActionHandler } from './PlayerAction.js';
+import { PlayerAuthInputHandler } from './PlayerAuthInput.js';
 import { RequestChunkRadiusHandler } from './RequestChunkRadius.js';
 import { RequestNetworkSettingsHandler } from './RequestNetworkSettings.js';
 import { ResourcePackClientResponseHandler } from './ResoucePackClientResponse.js';
@@ -36,6 +38,8 @@ const NETWORK_HANDLERS = [
 	ModalFormResponseHandler,
 	ItemStackRequestHandler,
 	MobEquipmentHandler,
+	PlayerAuthInputHandler,
+	AnimateHandler,
 ];
 
 export { NETWORK_HANDLERS };
