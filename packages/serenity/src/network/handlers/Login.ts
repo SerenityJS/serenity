@@ -81,8 +81,9 @@ class LoginHandler extends NetworkHandler {
 			player.components.set(instance.type, instance);
 		}
 
-		// Add the player to the players map.
-		player.dimension.players.set(player.uniqueId, player);
+		// Spawn the player in the dimension.
+		// This will also add the player to the dimension players map.
+		player.spawn();
 
 		// TODO: Enable encryption, the public key is given in the tokens
 		// This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet

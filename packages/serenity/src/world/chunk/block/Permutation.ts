@@ -10,6 +10,7 @@ class BlockPermutation {
 	 * The runtime ID of the permutation.
 	 */
 	protected readonly runtimeId: number;
+
 	/**
 	 * The block states.
 	 */

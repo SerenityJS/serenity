@@ -21,6 +21,7 @@ import { InventoryTransaction } from './InventoryTransaction.js';
 import { ItemStackRequest } from './ItemStackRequest.js';
 import { ItemStackResponse } from './ItemStackResponse.js';
 import { LevelChunk } from './LevelChunk.js';
+import { LevelEvent } from './LevelEvent.js';
 import { Login } from './Login.js';
 import { MobEquipment } from './MobEquipment.js';
 import { ModalFormRequest } from './ModalFormRequest.js';
@@ -69,6 +70,7 @@ const Packets = {
 	[Packet.RemoveEntity]: RemoveEntity, // 14
 	[Packet.MovePlayer]: MovePlayer, // 19
 	[Packet.UpdateBlock]: UpdateBlock, // 21
+	[Packet.LevelEvent]: LevelEvent, // 25
 	[Packet.UpdateAttributes]: UpdateAttributes, // 29
 	[Packet.InventoryTransaction]: InventoryTransaction, // 30
 	[Packet.MobEquipment]: MobEquipment, // 31

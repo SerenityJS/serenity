@@ -15,6 +15,7 @@ export * from './AddEntity.js';
 export * from './RemoveEntity.js';
 export * from './MovePlayer.js';
 export * from './UpdateBlock.js';
+export * from './LevelEvent.js';
 export * from './UpdateAttributes.js';
 export * from './InventoryTransaction.js';
 export * from './MobEquipment.js';

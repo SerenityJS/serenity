@@ -20,6 +20,7 @@ import type {
 	ItemStackRequest,
 	ItemStackResponse,
 	LevelChunk,
+	LevelEvent,
 	Login,
 	MobEquipment,
 	ModalFormRequest,
@@ -77,6 +78,7 @@ interface NetworkEvents {
 	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntity>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlock>];
+	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEvent>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
 	[Packet.InventoryTransaction]: [NetworkPacketEvent<InventoryTransaction>];
 	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipment>];

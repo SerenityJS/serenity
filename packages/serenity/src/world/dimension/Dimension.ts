@@ -14,7 +14,7 @@ import {
 } from '@serenityjs/bedrock-protocol';
 import type { EntityComponent } from '../../entity/index.js';
 import { ENTITY_COMPONENTS, Entity } from '../../entity/index.js';
-import type { Player } from '../../player/index.js';
+import { Player } from '../../player/index.js';
 import type { WorldProvider } from '../../provider/index.js';
 import type { World } from '../World.js';
 import { Block, Chunk } from '../chunk/index.js';
@@ -27,7 +27,6 @@ class Dimension {
 	public readonly world: World;
 	public readonly provider: WorldProvider;
 	public readonly entities: Map<bigint, Entity>;
-	public readonly players: Map<bigint, Player>;
 
 	public generator: TerrainGenerator;
 	public spawn: Vector3f;
@@ -39,7 +38,6 @@ class Dimension {
 		this.world = world;
 		this.provider = this.world.provider;
 		this.entities = new Map();
-		this.players = new Map();
 		this.generator = generator;
 		this.spawn = new Vector3f(0, 65, 0);
 	}
@@ -71,29 +69,6 @@ class Dimension {
 		entity.position.y = position.y;
 		entity.position.z = position.z;
 
-		// Construct a new AddEntity packet.
-		const packet = new AddEntity();
-		packet.uniqueEntityId = entity.uniqueId;
-		packet.runtimeId = entity.runtimeId;
-		packet.identifier = entity.identifier;
-		packet.position = entity.position;
-		packet.velocity = entity.velocity;
-		packet.rotation = entity.rotation;
-		packet.bodyYaw = entity.rotation.y;
-		packet.attributes = [];
-		packet.metadata = entity.getMetadataDictionary();
-		packet.properties = {
-			ints: [],
-			floats: [],
-		};
-		packet.links = [];
-
-		// Broadcast the packet to the dimension.
-		this.broadcast(packet);
-
-		// Add the entity to the dimension.
-		this.entities.set(entity.uniqueId, entity);
-
 		// Get the entities components.
 		const components = ENTITY_COMPONENTS[(identifier ?? 'minecraft:generic') as keyof typeof ENTITY_COMPONENTS];
 		for (const component of components) {
@@ -103,6 +78,9 @@ class Dimension {
 			// Set the component to the entity.
 			entity.components.set(instance.type, instance);
 		}
+
+		// Spawn the entity.
+		entity.spawn();
 
 		// Return the entity.
 		return entity;
@@ -137,45 +115,8 @@ class Dimension {
 		this.broadcast(packet);
 	}
 
-	public spawnPlayer(player: Player): void {
-		const spawn = new AddPlayer();
-		spawn.uuid = player.uuid;
-		spawn.username = player.username;
-		spawn.runtimeId = player.runtimeId;
-		spawn.platformChatId = ''; // TODO: Not sure what this is.
-		spawn.position = player.position;
-		spawn.velocity = new Vector3f(0, 0, 0);
-		spawn.rotation = player.rotation;
-		spawn.headYaw = player.rotation.z;
-		spawn.heldItem = {
-			networkId: 0,
-		};
-		spawn.gamemode = player.gamemode; // TODO: Get the gamemode from the player.
-		spawn.metadata = [];
-		spawn.properties = {
-			ints: [],
-			floats: [],
-		};
-		spawn.uniqueEntityId = player.uniqueId;
-		spawn.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the entity.
-		spawn.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the entity.
-		spawn.abilities = [];
-		spawn.links = [];
-		spawn.deviceId = 'Win10';
-		spawn.deviceOS = 7; // TODO: Get the device OS from the entity.
-
-		this.broadcast(spawn);
-	}
-
-	public despawnPlayer(player: Player): void {
-		const despawn = new RemoveEntity();
-		despawn.uniqueEntityId = player.uniqueId;
-
-		this.broadcast(despawn);
-	}
-
 	public getPlayers(): Player[] {
-		return [...this.players.values()];
+		return [...this.entities.values()].filter((entity) => entity instanceof Player) as Player[];
 	}
 
 	/**
@@ -263,8 +204,14 @@ class Dimension {
 		// Get the block permutation
 		const permutation = chunk.getPermutation(x, y, z);
 
-		// Convert the permutation to a block and return it
-		return new Block(this, permutation, { x, y, z });
+		// Convert the permutation to a block.
+		const block = new Block(this, permutation, { x, y, z });
+
+		// Fire the block construct event.
+		permutation.type.behavior.onConstructed?.(block);
+
+		// Return the block
+		return block;
 	}
 
 	public setPermutation(x: number, y: number, z: number, permutation: BlockPermutation): void {

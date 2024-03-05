@@ -12,6 +12,11 @@ const DEFAULT_SERVER_PROPERTIES = {
 		motd: 'SerenityJS',
 		debug: false,
 	},
+	network: {
+		'compression-threshold': 256,
+		'compression-method': 'zlib',
+		'packets-per-frame': 32,
+	},
 	world: {
 		provider: 'internal',
 		default: 'default-world',

@@ -4,6 +4,7 @@ import { BinaryStream } from '@serenityjs/binarystream';
 import { LightNBT, NBTTag } from '@serenityjs/nbt';
 import type { MappedBlock, RawBlock } from '../../../types/index.js';
 import type { World } from '../../World.js';
+import { BlockBehavior } from './Behavior.js';
 import { BlockPermutation } from './Permutation.js';
 import { BlockType } from './Type.js';
 
@@ -15,6 +16,11 @@ class BlockMapper {
 	 * The mapped blocks.
 	 */
 	protected readonly blocks: Map<string, MappedBlock> = new Map();
+
+	/**
+	 * The block behaviors.
+	 */
+	protected readonly behaviors: Map<string, typeof BlockBehavior> = new Map();
 
 	/**
 	 * The world instance.
@@ -85,8 +91,11 @@ class BlockMapper {
 
 			// Loop and create the block types.
 			for (const [identifier, block] of this.blocks.entries()) {
+				// Create a new behavior for the block type.
+				const behavior = new (this.behaviors.get(identifier) ?? BlockBehavior)();
+
 				// Create a new block type.
-				const type = new BlockType(block.version, identifier);
+				const type = new BlockType(block.version, identifier, behavior);
 
 				// Loop through the permutations.
 				for (const permutation of block.permutations) {
@@ -111,6 +120,29 @@ class BlockMapper {
 		this.world.logger.debug(
 			`Fully mapped ${BlockType.types.length} block types, and ${BlockPermutation.permutations.length} block permutations!`,
 		);
+	}
+
+	/**
+	 * Registers a block behavior.
+	 *
+	 * @param identifier - The block identifier.
+	 * @param behavior - The block behavior.
+	 */
+	public registerBehavior(identifier: string, behavior: typeof BlockBehavior): void {
+		// Set the behavior.
+		this.behaviors.set(identifier, behavior);
+
+		// Get the block type.
+		const type = BlockType.resolve(identifier);
+
+		// Check if the type is null.
+		if (!type) return;
+
+		// Set the behavior.
+		const instance = new behavior();
+
+		// Set the behavior.
+		type.behavior = instance;
 	}
 
 	/**

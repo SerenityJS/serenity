@@ -16,14 +16,32 @@ class InventoryTransactionHandler extends NetworkHandler {
 
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
+
+		// Switch the transaction type.
+		switch (packet.type) {
+			default:
+				this.serenity.logger.debug(`Unhandled TransactionType: ${TransactionType[packet.type as TransactionType]}`);
+				break;
+			case TransactionType.ItemUse: {
+				this.handleItemUse(packet, session);
+				break;
+			}
+		}
 	}
 
 	private static handleItemUse(packet: InventoryTransaction, session: NetworkSession): void {
 		switch (packet.data.action as UseItemAction) {
 			default:
+				this.serenity.logger.debug(`Unhandled UseItemAction: ${UseItemAction[packet.data.action as UseItemAction]}`);
 				break;
+
 			case UseItemAction.BreakBlock: {
-				console.log('break block');
+				// console.log('BreakBlock', packet);
+				break;
+			}
+
+			case UseItemAction.ClickBlock: {
+				// console.log('ClickBlock', packet);
 				break;
 			}
 		}

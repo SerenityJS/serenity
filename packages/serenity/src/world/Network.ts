@@ -322,7 +322,7 @@ class WorldNetwork {
 		packet.movementAuthority = 0;
 		packet.rewindHistorySize = 0;
 		packet.serverAuthoritativeBlockBreaking = true;
-		packet.currentTick = 10_000n;
+		packet.currentTick = 0n;
 		packet.enchantmentSeed = 0;
 		packet.blockProperties = [];
 		packet.itemstates = this.world.items.getTypes().map((item) => {

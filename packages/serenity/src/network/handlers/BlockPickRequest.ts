@@ -1,5 +1,6 @@
 import type { Packet } from '@serenityjs/bedrock-protocol';
 import { BlockPickRequest, DisconnectReason } from '@serenityjs/bedrock-protocol';
+import { Item } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
 
@@ -16,14 +17,24 @@ class BlockPickRequestHandler extends NetworkHandler {
 
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
-		/*
-		// Get the block at the position.
-		// And check if the block is null or undefined.
-		const block = this.serenity.world.getBlock(packet.x, packet.y, packet.z);
-		if (!block) return;
 
-		// Fire the block pick event.
-		return block.onBlockPick(player, packet);*/
+		// Get the players inventory component.
+		const inventory = player.getComponent('minecraft:inventory');
+
+		// Get the block from the dimension.
+		const block = player.dimension.getBlock(packet.x, packet.y, packet.z);
+
+		// Get the item type from the block.
+		const itemType = player.dimension.world.items.resolveType(block.permutation.type.identifier);
+
+		// Check if the item type is null.
+		if (!itemType) return;
+
+		// Create a new item instance.
+		const item = new Item(itemType, 1);
+
+		// Add the item to the players inventory.
+		inventory.container.setItem(inventory.selectedSlot, item);
 	}
 }
 

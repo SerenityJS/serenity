@@ -1,13 +1,6 @@
-import {
-	DimensionType,
-	Gamemode,
-	NetworkChunkPublisherUpdate,
-	Packet,
-	PlayerHotbar,
-	Vector3f,
-	WindowsIds,
-} from '@serenityjs/bedrock-protocol';
-import { Serenity, InternalProvider, BetterFlat, Overworld, BlockPermutation } from '@serenityjs/serenity';
+import { DimensionType, Gamemode, Packet } from '@serenityjs/bedrock-protocol';
+import type { Block } from '@serenityjs/serenity';
+import { Serenity, InternalProvider, Overworld, BlockBehavior } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
 const serenity = new Serenity();
@@ -33,15 +26,15 @@ serenity.start();
 serenity.on('PlayerSpawned', (event) => {
 	event.player.getComponent('minecraft:ability.may_fly').setCurrentValue(true);
 
-	event.player.gamemode = Gamemode.Creative;
+	event.player.gamemode = Gamemode.Survival;
 });
 
-serenity.after('PlayerSelectSlot', (event) => {
-	const inventory = event.player.getComponent('minecraft:inventory');
+serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
+	if (!session.player) return;
 
-	const item = inventory.container.getItem(event.slot);
+	const { x, y, z } = packet;
 
-	if (!item) return;
+	const block = session.player.dimension.getBlock(x, y, z);
 
-	event.player.sendMessage(`You selected slot ${event.slot} with item ${item.type.identifier} x${item.amount}`);
+	console.log(block.permutation.type);
 });

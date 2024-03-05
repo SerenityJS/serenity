@@ -1,7 +1,14 @@
 import { Buffer } from 'node:buffer';
 import { inflateRawSync, deflateRawSync } from 'node:zlib';
 import type { DataPacket } from '@serenityjs/bedrock-protocol';
-import { Packet, Packets, Framer, getPacketId, CompressionMethod } from '@serenityjs/bedrock-protocol';
+import {
+	Packet,
+	Packets,
+	Framer,
+	getPacketId,
+	CompressionMethod,
+	DisconnectReason,
+} from '@serenityjs/bedrock-protocol';
 import { Frame, Reliability, Priority } from '@serenityjs/raknet-protocol';
 import type { Serenity } from '../Serenity.js';
 import { Logger, LoggerColors } from '../console/index.js';
@@ -23,10 +30,26 @@ class Network extends EventEmitter<NetworkEvents> {
 	 * The logger instance.
 	 */
 	public readonly logger: Logger;
+
 	/**
 	 * The sessions map.
 	 */
 	public readonly sessions: Map<bigint, NetworkSession>;
+
+	/**
+	 * The compression threshold.
+	 */
+	public readonly compressThreshold: number;
+
+	/**
+	 * The compression method.
+	 */
+	public readonly compressMethod: CompressionMethod;
+
+	/**
+	 * The amount of packets that can be sent per frame.
+	 */
+	public readonly packetsPerFrame: number;
 
 	/**
 	 * The network instance.
@@ -38,6 +61,14 @@ class Network extends EventEmitter<NetworkEvents> {
 		this.serenity = serenity;
 		this.logger = new Logger('Network', LoggerColors.Blue);
 		this.sessions = new Map();
+		this.packetsPerFrame = serenity.properties.values.network['packets-per-frame'];
+		this.compressThreshold = serenity.properties.values.network['compression-threshold'];
+		this.compressMethod =
+			serenity.properties.values.network['compression-method'].toLocaleLowerCase() === 'zlib'
+				? CompressionMethod.Zlib
+				: serenity.properties.values.network['compression-method'].toLocaleLowerCase() === 'snappy'
+					? CompressionMethod.Snappy
+					: CompressionMethod.None;
 
 		// Set the serenity instance for the abstract network handler.
 		NetworkHandler.serenity = serenity;
@@ -52,9 +83,11 @@ class Network extends EventEmitter<NetworkEvents> {
 	 */
 	public incoming(session: NetworkSession, ...payloads: Buffer[]): void {
 		try {
-			// Loop through each buffer.
-			// We may receive multiple packets in one payload.
+			// Loop through each payload and handle the packet.
 			for (const buffer of payloads) {
+				// TODO: Add checks if we are receiving too many packets at once.
+				// TODO: Add checks if the buffer is too large.
+
 				// Check if the first byte is 0xfe AKA the game packet header.
 				if (buffer[0] !== GAME_BYTE[0]) return this.logger.error('Invalid packet header', buffer[0]);
 
@@ -87,13 +120,24 @@ class Network extends EventEmitter<NetworkEvents> {
 						inflated = decrypted;
 						break;
 					default:
-						return this.logger.error('Invalid compression algorithm', algorithm);
+						return this.logger.error('Invalid compression algorithm', CompressionMethod[algorithm]);
 				}
 
 				// Unframe the inflated payload.
 				// Payloads can sometime contain multiple packets.
 				// But it seems like a rare case for that to happen.
 				const frames = Framer.unframe(inflated);
+
+				// Check if the frames amount is greater than the packets per frame.
+				// If so, we will log a warning and disconnect the session.
+				// This could be an attempt to crash the server, or some other malicious intent.
+				if (frames.length > this.packetsPerFrame) {
+					// Log a warning if too many packets were sent at once.
+					this.logger.warn(`Too many packets sent from "${session.identifier.address}:${session.identifier.port}"!`);
+
+					// Disconnect the session if too many packets were sent at once.
+					return session.disconnect('Received too many packets sent at once.', DisconnectReason.BadPacket);
+				}
 
 				// Loop through each frame, and handle the packet.
 				// Ignore unknown packets for now.
@@ -204,13 +248,13 @@ class Network extends EventEmitter<NetworkEvents> {
 			// Followed by the packet buffer itself. This continues until all packets are framed.
 			const framed = Framer.frame(...payloads);
 
-			// We will then check if compression is enabled for the session.
-			// If so, we will deflate the framed payload.
-			// If not, we will just use the framed payload.
-			const deflated = Buffer.concat([
-				Buffer.from([CompressionMethod.Zlib]),
-				session.compression ? deflateRawSync(framed) : framed,
-			]);
+			// Depending on the size of the framed payload, we will check if compression is enabled for the session.
+			const deflated =
+				framed.byteLength > this.compressThreshold && session.compression
+					? Buffer.from([this.compressThreshold, ...deflateRawSync(framed)])
+					: session.compression
+						? Buffer.from([CompressionMethod.None, ...framed])
+						: framed;
 
 			// We will then check if encryption is enabled for the session.
 			// If so, we will encrypt the deflated payload.

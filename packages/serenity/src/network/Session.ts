@@ -1,4 +1,4 @@
-import { Disconnect } from '@serenityjs/bedrock-protocol';
+import { Disconnect, CompressionMethod } from '@serenityjs/bedrock-protocol';
 import type { DataPacket, DisconnectReason } from '@serenityjs/bedrock-protocol';
 import { Priority } from '@serenityjs/raknet-protocol';
 import type { Connection, NetworkIdentifier } from '@serenityjs/raknet-server';

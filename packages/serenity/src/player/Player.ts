@@ -1,4 +1,10 @@
-import type { DisconnectReason, RespawnState, FormType, Vector3f } from '@serenityjs/bedrock-protocol';
+import type {
+	DisconnectReason,
+	RespawnState,
+	FormType,
+	Vector3f,
+	BlockCoordinates,
+} from '@serenityjs/bedrock-protocol';
 import {
 	ChatTypes,
 	Disconnect,
@@ -6,8 +12,13 @@ import {
 	Text,
 	Gamemode,
 	SetPlayerGameType,
-	LevelChunk,
 	NetworkChunkPublisherUpdate,
+	AddPlayer,
+	PermissionLevel,
+	CommandPermissionLevel,
+	AbilityLayerType,
+	RemoveEntity,
+	LevelChunk,
 } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { EntityAttributeComponent } from '../entity/components/attributes/Attribute.js';
@@ -52,6 +63,7 @@ class Player extends Entity {
 		{ reject(value: Error): void; resolve(value: ActionFormResponse | MessageFormResponse): void; type: FormType }
 	>;
 
+	public mining: BlockCoordinates | null = null;
 	public onGround: boolean = false;
 
 	/**
@@ -85,25 +97,45 @@ class Player extends Entity {
 	 * Fired when the server ticks.
 	 */
 	public tick(): void {
-		// Get the chunks that are not rendered.
-		const chunks = [...this.chunks.entries()].filter(([, rendered]) => !rendered);
-		const coords = chunks.map(([hash]) => Chunk.fromHash(hash));
+		// Get the chunk hashes that are not rendered.
+		const hashes = [...this.chunks.entries()].filter(([, rendered]) => !rendered);
+		const coords = hashes.map(([hash]) => Chunk.fromHash(hash));
 
 		// Check if there are chunks to render.
-		if (chunks.length > 0) {
+		if (hashes.length > 0) {
+			// Loop through the chunks.
+			for (const [hash] of hashes) {
+				// Get the chunk from the hash.
+				const chunk = this.dimension.getChunkFromHash(hash);
+
+				// Create a new level chunk packet.
+				const packet = new LevelChunk();
+
+				// Assign the packet data.
+				packet.x = chunk.x;
+				packet.z = chunk.z;
+				packet.dimension = this.dimension.type;
+				packet.subChunkCount = chunk.getSubChunkSendCount();
+				packet.cacheEnabled = false;
+				packet.data = chunk.serialize();
+
+				// Add the chunk packet to the array.
+				this.session.send(packet);
+			}
+
 			// Create a new NetworkChunkPublisherUpdate packet.
-			const packet = new NetworkChunkPublisherUpdate();
+			const update = new NetworkChunkPublisherUpdate();
 
-			// Assign the packet data.
-			packet.radius = this.dimension.viewDistance;
-			packet.coordinate = this.position.floor();
-			packet.savedChunks = coords;
+			// Assign the update data.
+			update.radius = this.dimension.viewDistance;
+			update.coordinate = this.position.floor();
+			update.savedChunks = coords;
 
-			// Send the packet to the player.
-			this.session.send(packet);
+			// Send the update to the player.
+			this.session.send(update);
 
 			// Set the chunks to rendered.
-			for (const [hash] of chunks) this.chunks.set(hash, true);
+			for (const [hash] of hashes) this.chunks.set(hash, true);
 		}
 	}
 
@@ -156,9 +188,6 @@ class Player extends Entity {
 	 * @param chunks - The chunks to send.
 	 */
 	public sendChunk(...chunks: Chunk[]): void {
-		// Prepare an array to store the LevelChunk packets.
-		const packets: LevelChunk[] = [];
-
 		// Loop through the chunks.
 		for (const chunk of chunks) {
 			// Check if the chunk is already rendered.
@@ -167,24 +196,7 @@ class Player extends Entity {
 			// Add the chunk to the chunks map.
 			// And set it to false, as it has not been rendered yet.
 			this.chunks.set(chunk.getHash(), false);
-
-			// Construct a new LevelChunk packet.
-			const packet = new LevelChunk();
-
-			// Assign the packet data.
-			packet.x = chunk.x;
-			packet.z = chunk.z;
-			packet.dimension = this.dimension.type;
-			packet.subChunkCount = chunk.getSubChunkSendCount();
-			packet.cacheEnabled = false;
-			packet.data = chunk.serialize();
-
-			// Add the packet to the array.
-			packets.push(packet);
 		}
-
-		// Send the packets to the player.
-		this.session.send(...packets);
 	}
 
 	/**
@@ -284,6 +296,68 @@ class Player extends Entity {
 
 		// Send the packet.
 		this.session.send(packet);
+	}
+
+	/**
+	 * Spawns the player into the world.
+	 * If a player is provided, the player will only be sent to the player.
+	 *
+	 * @param player The player to send the player to.
+	 */
+	public spawn(player?: Player): void {
+		// Create a new AddPlayer packet.
+		const packet = new AddPlayer();
+
+		// Assign the packet data.
+		packet.uuid = this.uuid;
+		packet.username = this.username;
+		packet.runtimeId = this.runtimeId;
+		packet.platformChatId = ''; // TODO: Not sure what this is.
+		packet.position = this.position;
+		packet.velocity = this.velocity;
+		packet.rotation = this.rotation;
+		packet.headYaw = this.rotation.z;
+		packet.heldItem = {
+			networkId: 0, // TODO: Get the network ID from the entity.
+		};
+		packet.gamemode = this.gamemode;
+		packet.metadata = this.getMetadataDictionary();
+		packet.properties = {
+			ints: [],
+			floats: [],
+		};
+		packet.uniqueEntityId = this.uniqueId;
+		packet.premissionLevel = PermissionLevel.Member; // TODO: Get the permission level from the entity.
+		packet.commandPermission = CommandPermissionLevel.Normal; // TODO: Get the command permission from the entity.
+		packet.abilities = [
+			{
+				type: AbilityLayerType.Base,
+				flags: this.getAbilities().map((component) => {
+					return {
+						flag: component.flag,
+						value: component.currentValue,
+					};
+				}),
+				flySpeed: 0.05,
+				walkSpeed: 0.1,
+			},
+		];
+		packet.links = [];
+		packet.deviceId = 'Win10';
+		packet.deviceOS = 7; // TODO: Get the device OS from the entity.
+
+		// Check if the player is provided.
+		// If so, then we will only send the packet to the player.
+		if (player) {
+			// Send the packet to the player.
+			player.session.send(packet);
+		} else {
+			// Broadcast the packet.
+			this.dimension.broadcast(packet);
+
+			// Add the player to the dimension entities map.
+			this.dimension.entities.set(this.uniqueId, this);
+		}
 	}
 }
 export { Player };

@@ -16,6 +16,15 @@ class AnimateHandler extends NetworkHandler {
 
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
+
+		// Create a new animation event.
+		const animate = new Animate();
+		animate.runtimeEntityId = packet.runtimeEntityId;
+		animate.id = packet.id;
+		animate.boatRowingTime = packet.boatRowingTime;
+
+		// Broadcast the animation event to all players in the dimension.
+		player.dimension.broadcast(animate);
 	}
 }
 

@@ -22,6 +22,17 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
 
+		// Spawn all the entities in the dimension.
+		const entities = player.dimension.entities;
+		for (const [, entity] of entities) {
+			// Skip if the entity is the player.
+			if (entity === player) continue;
+
+			// When we provide a player to the spawn method,
+			// It will send the spawn packet to the player, instead of broadcasting it to all players.
+			entity.spawn(player);
+		}
+
 		const commands = new AvailableCommands();
 
 		commands.commands = [

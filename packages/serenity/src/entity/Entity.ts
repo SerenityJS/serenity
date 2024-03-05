@@ -1,5 +1,6 @@
 import type { MetadataDictionary, MetadataFlags } from '@serenityjs/bedrock-protocol';
-import { Vector3f, MetadataKey, MetadataType } from '@serenityjs/bedrock-protocol';
+import { Vector3f, MetadataKey, MetadataType, AddEntity, RemoveEntity } from '@serenityjs/bedrock-protocol';
+import type { Player } from '../index.js';
 import type { EntityComponents } from '../types/index.js';
 import type { Dimension } from '../world/index.js';
 import type { EntityComponent } from './components/index.js';
@@ -16,7 +17,7 @@ class Entity {
 	public readonly runtimeId: bigint;
 	public readonly uniqueId: bigint;
 	public readonly identifier: string;
-	public readonly dimension: Dimension; // Should we not store the dimension in the entity? Not sure.
+	public readonly dimension: Dimension;
 	public readonly position: Vector3f;
 	public readonly velocity: Vector3f;
 	public readonly rotation: Vector3f;
@@ -71,6 +72,7 @@ class Entity {
 		});
 	}
 
+	// TODO: Make Component
 	/**
 	 * The variant of the entity.
 	 */
@@ -85,6 +87,7 @@ class Entity {
 		return varint.value as number;
 	}
 
+	// TODO: Make Component
 	/**
 	 * Set the variant of the entity.
 	 */
@@ -96,6 +99,7 @@ class Entity {
 		this.dimension.updateEntity(this);
 	}
 
+	// TODO: Make Component
 	/**
 	 * The name tag of the entity.
 	 */
@@ -110,6 +114,7 @@ class Entity {
 		return name.value as string;
 	}
 
+	// TODO: Make Component
 	/**
 	 * Set the name tag of the entity.
 	 */
@@ -121,6 +126,7 @@ class Entity {
 		this.dimension.updateEntity(this);
 	}
 
+	// TODO: Make Component
 	/**
 	 * The scale of the entity.
 	 */
@@ -135,6 +141,7 @@ class Entity {
 		return scale.value as number;
 	}
 
+	// TODO: Make Component
 	/**
 	 * Set the scale of the entity.
 	 */
@@ -144,6 +151,63 @@ class Entity {
 
 		// Send the metadata to the world.
 		this.dimension.updateEntity(this);
+	}
+
+	/**
+	 * Spawns the entity into the world.
+	 * If a player is provided, the entity will only be sent to the player.
+	 *
+	 * @param player - The player to send the entity to.
+	 */
+	public spawn(player?: Player): void {
+		// Create a new AddEntity packet.
+		const packet = new AddEntity();
+
+		// Assign packet data.
+		packet.uniqueEntityId = this.uniqueId;
+		packet.runtimeId = this.runtimeId;
+		packet.identifier = this.identifier;
+		packet.position = this.position;
+		packet.velocity = this.velocity;
+		packet.rotation = this.rotation;
+		packet.bodyYaw = this.rotation.y;
+		packet.attributes = [];
+		packet.metadata = this.getMetadataDictionary();
+		packet.properties = {
+			ints: [],
+			floats: [],
+		};
+		packet.links = [];
+
+		// Check if the player is provided.
+		// If so, then we will only send the packet to the player.
+		if (player) {
+			// Send the packet to the player.
+			player.session.send(packet);
+		} else {
+			// Broadcast the packet to the dimension.
+			this.dimension.broadcast(packet);
+
+			// Add the entity to the dimension entities map.
+			this.dimension.entities.set(this.uniqueId, this);
+		}
+	}
+
+	/**
+	 * Despawns the entity from the world.
+	 */
+	public despawn(): void {
+		// Create a new RemoveEntity packet.
+		const packet = new RemoveEntity();
+
+		// Assign packet data.
+		packet.uniqueEntityId = this.uniqueId;
+
+		// Broadcast the packet to the dimension.
+		this.dimension.broadcast(packet);
+
+		// Remove the entity from the dimension entities map.
+		this.dimension.entities.delete(this.uniqueId);
 	}
 }
 

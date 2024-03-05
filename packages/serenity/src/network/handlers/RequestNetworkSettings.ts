@@ -36,11 +36,10 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
 
 		// Now we will send the network settings to the client.
 		// The client will use these settings to configure their network.
-		// TODO: Add a way to configure these settings in the future.
 		// I believe nintendo switch has a different compression threshold, not positive though. Needs testing.
 		const settings = new NetworkSettings();
-		settings.compressionThreshold = 256;
-		settings.compressionMethod = CompressionMethod.Zlib;
+		settings.compressionThreshold = session.network.compressThreshold;
+		settings.compressionMethod = session.network.compressMethod;
 		settings.clientThrottle = false;
 		settings.clientThreshold = 0;
 		settings.clientScalar = 0;

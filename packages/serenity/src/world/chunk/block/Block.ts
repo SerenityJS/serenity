@@ -1,6 +1,8 @@
 import type { BlockCoordinates } from '@serenityjs/bedrock-protocol';
+import type { BlockComponents } from '../../../types/index.js';
 import type { Dimension } from '../../dimension/index.js';
 import type { BlockPermutation } from './Permutation.js';
+import type { BlockComponent } from './components/Component.js';
 
 /**
  * Represents a block in the world.
@@ -10,6 +12,16 @@ class Block {
 	 * The dimension the block is in.
 	 */
 	public readonly dimension: Dimension;
+
+	/**
+	 * If the block is air.
+	 */
+	public readonly isAir: boolean;
+
+	/**
+	 * If the block is liquid.
+	 */
+	public readonly isLiquid: boolean;
 
 	/**
 	 * The permutation of the block.
@@ -22,6 +34,11 @@ class Block {
 	public readonly location: BlockCoordinates;
 
 	/**
+	 * The components of the block.
+	 */
+	public readonly components: Map<string, BlockComponent>;
+
+	/**
 	 * Represents a block in the world.
 	 *
 	 * @param dimension The dimension the block is in.
@@ -30,8 +47,31 @@ class Block {
 	 */
 	public constructor(dimension: Dimension, permutation: BlockPermutation, location: BlockCoordinates) {
 		this.dimension = dimension;
+		this.isAir = permutation.type.identifier === 'minecraft:air';
+		this.isLiquid =
+			permutation.type.identifier === 'minecraft:water' || permutation.type.identifier === 'minecraft:lava';
 		this.permutation = permutation;
 		this.location = location;
+		this.components = new Map();
+	}
+
+	/**
+	 * Gets the component of the block.
+	 *
+	 * @param type The type of the component.
+	 * @returns The component of the block.
+	 */
+	public getComponent<T extends keyof BlockComponents>(type: T): BlockComponents[T] {
+		return this.components.get(type) as BlockComponents[T];
+	}
+
+	/**
+	 * Sets the component of the block.
+	 *
+	 * @param component The component to set.
+	 */
+	public setComponent<T extends keyof BlockComponents>(component: BlockComponents[T]): void {
+		this.components.set(component.type, component);
 	}
 
 	/**
@@ -95,6 +135,17 @@ class Block {
 	 */
 	public setPermutation(permutation: BlockPermutation): void {
 		this.dimension.setPermutation(this.location.x, this.location.y, this.location.z, permutation);
+	}
+
+	/**
+	 * Destroys the block.
+	 */
+	public destroy(): void {
+		// Get the air permutation.
+		const air = this.dimension.world.blocks.resolvePermutation('minecraft:air');
+
+		// Set the block permutation to air.
+		this.dimension.setPermutation(this.location.x, this.location.y, this.location.z, air);
 	}
 }
 

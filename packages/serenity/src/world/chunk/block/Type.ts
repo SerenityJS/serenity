@@ -1,3 +1,4 @@
+import type { BlockBehavior } from './Behavior.js';
 import { BlockPermutation } from './Permutation.js';
 
 class BlockType {
@@ -9,7 +10,7 @@ class BlockType {
 	/**
 	 * The block version.
 	 */
-	protected readonly version: number;
+	public readonly version: number;
 
 	/**
 	 * The block identifier.
@@ -22,15 +23,21 @@ class BlockType {
 	public readonly permutations: BlockPermutation[];
 
 	/**
+	 * The block behavior.
+	 */
+	public behavior: BlockBehavior;
+
+	/**
 	 * Creates a new block type instance.
 	 *
 	 * @param version The block version.
 	 * @param identifier The block identifier.
 	 */
-	public constructor(version: number, identifier: string) {
+	public constructor(version: number, identifier: string, behavior: BlockBehavior) {
 		this.version = version;
 		this.identifier = identifier;
 		this.permutations = [];
+		this.behavior = behavior;
 	}
 
 	/**

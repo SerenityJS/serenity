@@ -77,6 +77,10 @@ class ItemMapper {
 	public getTypes(): ItemType[] {
 		return [...this.items.values()];
 	}
+
+	public resolveType(identifier: string): ItemType | undefined {
+		return [...this.items.values()].find((type) => type.identifier === identifier);
+	}
 }
 
 export { ItemMapper };
