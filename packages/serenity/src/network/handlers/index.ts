@@ -1,5 +1,6 @@
 import { AnimateHandler } from './Animate.js';
 import { BlockPickRequestHandler } from './BlockPickRequest.js';
+import { CommandRequest } from './CommandRequest.js';
 import { ContainerCloseHandler } from './ContainerClose.js';
 import { DisconnectHandler } from './Disconnect.js';
 import { InteractHandler } from './Interact.js';
@@ -40,6 +41,7 @@ const NETWORK_HANDLERS = [
 	MobEquipmentHandler,
 	PlayerAuthInputHandler,
 	AnimateHandler,
+  CommandRequest
 ];
 
 export { NETWORK_HANDLERS };

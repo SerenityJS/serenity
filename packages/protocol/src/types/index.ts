@@ -46,3 +46,6 @@ export * from './Commands.js';
 export * from './DynamicEnums.js';
 export * from './EnumConstraints.js';
 export * from './AnimateAction.js';
+export * from './CommandOriginData.js';
+export * from './CommandOutputData.js';
+export * from './CommandOutputMessage.js';
