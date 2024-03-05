@@ -538,43 +538,43 @@ __metadata:
   resolution: "@serenityjs/bedrock-protocol@workspace:packages/protocol"
   dependencies:
     "@serenityjs/bedrock-data": "npm:^0.0.7"
-    "@serenityjs/binarystream": "npm:^1.2.3"
+    "@serenityjs/binarystream": "npm:^1.3.4"
     "@serenityjs/nbt": "npm:^1.0.0"
-    "@serenityjs/raknet-protocol": "npm:^1.0.7"
+    "@serenityjs/raknet-protocol": "npm:^1.0.9"
     "@types/node": "npm:^20.11.16"
     ts-node: "npm:^10.9.1"
     typescript: "npm:^5.2.2"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/binarystream-darwin-x64@npm:1.2.3":
-  version: 1.2.3
-  resolution: "@serenityjs/binarystream-darwin-x64@npm:1.2.3"
+"@serenityjs/binarystream-darwin-x64@npm:1.3.4":
+  version: 1.3.4
+  resolution: "@serenityjs/binarystream-darwin-x64@npm:1.3.4"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream-linux-x64-gnu@npm:1.2.3":
-  version: 1.2.3
-  resolution: "@serenityjs/binarystream-linux-x64-gnu@npm:1.2.3"
+"@serenityjs/binarystream-linux-x64-gnu@npm:1.3.4":
+  version: 1.3.4
+  resolution: "@serenityjs/binarystream-linux-x64-gnu@npm:1.3.4"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream-win32-x64-msvc@npm:1.2.3":
-  version: 1.2.3
-  resolution: "@serenityjs/binarystream-win32-x64-msvc@npm:1.2.3"
+"@serenityjs/binarystream-win32-x64-msvc@npm:1.3.4":
+  version: 1.3.4
+  resolution: "@serenityjs/binarystream-win32-x64-msvc@npm:1.3.4"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "@serenityjs/binarystream@npm:1.2.3"
+"@serenityjs/binarystream@npm:^1.3.4":
+  version: 1.3.4
+  resolution: "@serenityjs/binarystream@npm:1.3.4"
   dependencies:
-    "@serenityjs/binarystream-darwin-x64": "npm:1.2.3"
-    "@serenityjs/binarystream-linux-x64-gnu": "npm:1.2.3"
-    "@serenityjs/binarystream-win32-x64-msvc": "npm:1.2.3"
+    "@serenityjs/binarystream-darwin-x64": "npm:1.3.4"
+    "@serenityjs/binarystream-linux-x64-gnu": "npm:1.3.4"
+    "@serenityjs/binarystream-win32-x64-msvc": "npm:1.3.4"
   dependenciesMeta:
     "@serenityjs/binarystream-darwin-x64":
       optional: true
@@ -582,7 +582,7 @@ __metadata:
       optional: true
     "@serenityjs/binarystream-win32-x64-msvc":
       optional: true
-  checksum: 10/de3239c3f91700bc601dc0c6eaac9d53a33dd1b20b582020eefe4dcec34f9dc3a5af50952d586b70f4f9de5be3a41f1d0356fbbbf4b3dd567d665b1e2e5e27d6
+  checksum: 10/1edd39b0e1f7165c1492b36d8b0eef1f0380cdeb1bb1fb67b91ea4942467cde859886bee2c79c3f922d60f9ab8cefcad25036778df9b87e6ccab29672219c7f0
   languageName: node
   linkType: hard
 
@@ -608,38 +608,38 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
-    "@serenityjs/binarystream": "npm:^1.2.3"
+    "@serenityjs/binarystream": "npm:^1.3.4"
     "@types/node": "npm:^20.11.16"
     ts-node: "npm:^10.9.1"
     typescript: "npm:^5.2.2"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/raknet-protocol@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "@serenityjs/raknet-protocol@npm:1.0.7"
+"@serenityjs/raknet-protocol@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "@serenityjs/raknet-protocol@npm:1.0.9"
   dependencies:
-    "@serenityjs/binarystream": "npm:^1.2.3"
+    "@serenityjs/binarystream": "npm:^1.3.4"
     reflect-metadata: "npm:^0.1.13"
-  checksum: 10/ddbf3ccd20f2dfed4235db10dda3ae6c8a8a5df919c803d32c93d8f97e4b2fd97e01ef3d4338bb5b7cb7ffee1d8001750b13434c43f87f33c6ea24d51d3c4bf0
+  checksum: 10/6f6cda3162fffdd94bd84d6b24463f792f36d8d7a19988fd4b4a640d69c36d219ccf254e7a5efa77dc8077b2864b1f32bfa733a09adb6dea5e01acab038b89f7
   languageName: node
   linkType: hard
 
-"@serenityjs/raknet-server@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "@serenityjs/raknet-server@npm:1.1.3"
+"@serenityjs/raknet-server@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "@serenityjs/raknet-server@npm:1.1.5"
   dependencies:
-    "@serenityjs/binarystream": "npm:^1.2.3"
-    "@serenityjs/raknet-protocol": "npm:^1.0.7"
-    "@serenityjs/raknet-socket": "npm:^1.0.6"
-  checksum: 10/06f3df92dfc44e3b88a0b583ead418a513a1724909912e3929143118fcaa874163eb7f751dd74b283a1633093f7cb9c92dac8060d601fc665755fa4f70233327
+    "@serenityjs/binarystream": "npm:^1.3.4"
+    "@serenityjs/raknet-protocol": "npm:^1.0.9"
+    "@serenityjs/raknet-socket": "npm:^1.0.7"
+  checksum: 10/fe690f5abe291a54276fb11646271f4cd296ffbc1e6ad4813c4971094147bf2de1bc91e33b48d91ac85eba681946cee2b5feb52da38046bd1e5dc71e2f6c5a78
   languageName: node
   linkType: hard
 
-"@serenityjs/raknet-socket@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "@serenityjs/raknet-socket@npm:1.0.6"
-  checksum: 10/a608fbb2074f1b6870864e871486f3c26e1667851fcc88cc5fde53a63f5ffd9a3c820a3d10331544e6c06b80f9f7c198c0d6a85204ec494632fd390b95c7700b
+"@serenityjs/raknet-socket@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "@serenityjs/raknet-socket@npm:1.0.7"
+  checksum: 10/56f518bc0b16548a9dab1918c740d279a5f29fb85358486eb5fbc6bfdf416ace06e0d6f2b623adb26475ce0484ebb987936b4e09bac38460c2128fa73bf4af29
   languageName: node
   linkType: hard
 
@@ -649,10 +649,10 @@ __metadata:
   dependencies:
     "@serenityjs/bedrock-data": "npm:^0.0.7"
     "@serenityjs/bedrock-protocol": "npm:^1.0.0"
-    "@serenityjs/binarystream": "npm:^1.2.3"
+    "@serenityjs/binarystream": "npm:^1.3.4"
     "@serenityjs/nbt": "npm:^1.0.0"
-    "@serenityjs/raknet-protocol": "npm:^1.0.7"
-    "@serenityjs/raknet-server": "npm:^1.1.3"
+    "@serenityjs/raknet-protocol": "npm:^1.0.9"
+    "@serenityjs/raknet-server": "npm:^1.1.5"
     "@types/node": "npm:^20.11.16"
     chalk: "npm:4.0.0"
     fast-jwt: "npm:^3.3.2"
