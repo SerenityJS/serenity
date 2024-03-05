@@ -55,3 +55,6 @@ export * from './UpdateAbilities.js';
 export * from './UpdateAdventureSettings.js';
 export * from './RequestNetworkSettings.js';
 export * from './AvailableCommands.js';
+export * from './SetCommandsEnabled.js';
+export * from './CommandRequest.js';
+export * from './CommandOutput.js';
