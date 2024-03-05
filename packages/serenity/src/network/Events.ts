@@ -7,6 +7,7 @@ import type {
 	BlockPickRequest,
 	ChangeDimension,
 	ChunkRadiusUpdate,
+	CommandOutput,
 	CommandRequest,
 	ContainerClose,
 	ContainerOpen,
@@ -43,6 +44,7 @@ import type {
 	ResourcePacksInfo,
 	Respawn,
 	ScriptMessage,
+	SetCommandsEnabled,
 	SetEntityData,
 	SetLocalPlayerAsInitialized,
 	SetPlayerGameType,
@@ -94,6 +96,7 @@ interface NetworkEvents {
 	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContent>];
 	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlot>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
+	[Packet.SetCommandsEnabled]: [NetworkPacketEvent<SetCommandsEnabled>];
 	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimension>];
 	[Packet.SetPlayerGameType]: [NetworkPacketEvent<SetPlayerGameType>];
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
@@ -101,6 +104,7 @@ interface NetworkEvents {
 	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdate>];
 	[Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommands>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
+	[Packet.CommandOutput]: [NetworkPacketEvent<CommandOutput>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequest>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponse>];

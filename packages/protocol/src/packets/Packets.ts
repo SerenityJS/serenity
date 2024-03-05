@@ -10,6 +10,7 @@ import { BiomeDefinitionList } from './BiomeDefinitionList.js';
 import { BlockPickRequest } from './BlockPickRequest.js';
 import { ChangeDimension } from './ChangeDimension.js';
 import { ChunkRadiusUpdate } from './ChunkRadiusUpdate.js';
+import { CommandOutput } from './CommandOutput.js';
 import { CommandRequest } from './CommandRequest.js';
 import { ContainerClose } from './ContainerClose.js';
 import { ContainerOpen } from './ContainerOpen.js';
@@ -44,6 +45,7 @@ import { ResourcePacksInfo } from './ResourcePacksInfo.js';
 import { Respawn } from './Respawn.js';
 import { ScriptMessage } from './ScriptMessage.js';
 // import { SelectedSlot } from './SelectedSlot.js';
+import { SetCommandsEnabled } from './SetCommandsEnabled.js';
 import { SetEntityData } from './SetEntityData.js';
 import { SetLocalPlayerAsInitialized } from './SetLocalPlayerAsInitialized.js';
 import { SetPlayerGameType } from './SetPlayerGameType.js';
@@ -55,8 +57,6 @@ import { UpdateAbilities } from './UpdateAbilities.js';
 import { UpdateAdventureSettings } from './UpdateAdventureSettings.js';
 import { UpdateAttributes } from './UpdateAttributes.js';
 import { UpdateBlock } from './UpdateBlock.js';
-import { SetCommandsEnabled } from './SetCommandsEnabled.js';
-import { CommandOutput } from './CommandOutput.js';
 
 const Packets = {
 	[Packet.Login]: Login, // 1
@@ -88,7 +88,7 @@ const Packets = {
 	[Packet.InventoryContent]: InventoryContent, // 49
 	[Packet.InventorySlot]: InventorySlot, // 50
 	[Packet.LevelChunk]: LevelChunk, // 58
-  [Packet.SetCommandsEnabled]: SetCommandsEnabled, // 59
+	[Packet.SetCommandsEnabled]: SetCommandsEnabled, // 59
 	[Packet.ChangeDimension]: ChangeDimension, // 61
 	[Packet.SetPlayerGameType]: SetPlayerGameType, // 62
 	[Packet.PlayerList]: PlayerList, // 63
@@ -96,7 +96,7 @@ const Packets = {
 	[Packet.ChunkRadiusUpdate]: ChunkRadiusUpdate, // 70
 	[Packet.AvailableCommands]: AvailableCommands, // 76
 	[Packet.CommandRequest]: CommandRequest, // 77
-  [Packet.CommandOutput]: CommandOutput, // 79
+	[Packet.CommandOutput]: CommandOutput, // 79
 	[Packet.SetTitle]: SetTitle, // 88
 	[Packet.ModalFormRequest]: ModalFormRequest, // 100
 	[Packet.ModalFormResponse]: ModalFormResponse, // 101
