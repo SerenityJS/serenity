@@ -1,4 +1,4 @@
-import type { DataPacket } from '@serenityjs/bedrock-protocol';
+import type { DataPacket, MetadataFlags } from '@serenityjs/bedrock-protocol';
 import {
 	AddPlayer,
 	CommandPermissionLevel,
@@ -11,6 +11,7 @@ import {
 	AddEntity,
 	SetEntityData,
 	Vector3f,
+	MetadataKey,
 } from '@serenityjs/bedrock-protocol';
 import type { EntityComponent } from '../../entity/index.js';
 import { ENTITY_COMPONENTS, Entity } from '../../entity/index.js';
@@ -70,7 +71,8 @@ class Dimension {
 		entity.position.z = position.z;
 
 		// Get the entities components.
-		const components = ENTITY_COMPONENTS[(identifier ?? 'minecraft:generic') as keyof typeof ENTITY_COMPONENTS];
+		const components =
+			ENTITY_COMPONENTS[identifier as keyof typeof ENTITY_COMPONENTS] ?? ENTITY_COMPONENTS['minecraft:generic'];
 		for (const component of components) {
 			// Create a new instance of the component.
 			const instance: EntityComponent = new (component as any)(entity);
@@ -104,7 +106,14 @@ class Dimension {
 
 		// Set the packet data.
 		packet.runtimeEntityId = entity.runtimeId;
-		packet.metadata = entity.getMetadataDictionary();
+		packet.metadata = entity.getMetadata().map((entry) => {
+			return {
+				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+				type: entry.dataType,
+				value: entry.currentValue,
+				flag: entry.flag ? (entry.key as MetadataFlags) : undefined,
+			};
+		});
 		packet.properties = {
 			ints: [],
 			floats: [],

@@ -4,6 +4,7 @@ import type { Player } from '../index.js';
 import type { EntityComponents } from '../types/index.js';
 import type { Dimension } from '../world/index.js';
 import type { EntityComponent } from './components/index.js';
+import { EntityMetaComponent } from './components/meta/index.js';
 
 let RUNTIME_ID = 1n;
 
@@ -70,6 +71,17 @@ class Entity {
 				flag: value.flag ? (key as MetadataFlags) : undefined,
 			};
 		});
+	}
+
+	/**
+	 * Gets the metadata components from the entity.
+	 *
+	 * @returns The metadata components.
+	 */
+	public getMetadata(): EntityMetaComponent[] {
+		return [...this.components.values()].filter(
+			(component): component is EntityMetaComponent => component instanceof EntityMetaComponent,
+		);
 	}
 
 	// TODO: Make Component

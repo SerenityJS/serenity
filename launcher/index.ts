@@ -1,4 +1,4 @@
-import { DimensionType, Gamemode, Packet } from '@serenityjs/bedrock-protocol';
+import { DimensionType, Gamemode, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
 import type { Block } from '@serenityjs/serenity';
 import { Serenity, InternalProvider, Overworld, BlockBehavior } from '@serenityjs/serenity';
 
@@ -34,7 +34,9 @@ serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
 
 	const { x, y, z } = packet;
 
-	const block = session.player.dimension.getBlock(x, y, z);
+	const entity = session.player.dimension.spawnEntity('minecraft:pig', new Vector3f(x, y + 1, z));
 
-	console.log(block.permutation.type);
+	const scale = entity.getComponent('minecraft:scale');
+
+	scale.setCurrentValue(2.5);
 });

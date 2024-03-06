@@ -74,8 +74,6 @@ abstract class EntityAttributeComponent extends EntityComponent {
 		if (this.entity instanceof Player) {
 			// Update the attributes of the player
 			this.entity.dimension.world.updateAttributes(this.entity);
-		} else {
-			throw new TypeError("Component 'EntityMovementComponent' is not implemented for non-player entities.");
 		}
 	}
 
@@ -90,8 +88,6 @@ abstract class EntityAttributeComponent extends EntityComponent {
 		if (this.entity instanceof Player) {
 			// Update the attributes of the player
 			this.entity.dimension.world.updateAttributes(this.entity);
-		} else {
-			throw new TypeError("Component 'EntityMovementComponent' is not implemented for non-player entities.");
 		}
 	}
 
