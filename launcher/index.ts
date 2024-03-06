@@ -34,9 +34,9 @@ serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
 
 	const { x, y, z } = packet;
 
-	const entity = session.player.dimension.spawnEntity('minecraft:pig', new Vector3f(x, y + 1, z));
+	const entity = session.player.dimension.spawnEntity('minecraft:npc', new Vector3f(x, y + 1, z));
 
-	const scale = entity.getComponent('minecraft:scale');
+	const component = entity.getComponent('minecraft:variant');
 
-	scale.setCurrentValue(2.5);
+	component.setCurrentValue(3);
 });

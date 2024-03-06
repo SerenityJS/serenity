@@ -6,6 +6,7 @@ import type {
 	EntityMovementComponent,
 	EntityScaleComponent,
 	EntityUnderwaterMovementComponent,
+	EntityVariantComponent,
 } from '../../entity/index.js';
 
 interface EntityComponents {
@@ -16,6 +17,7 @@ interface EntityComponents {
 	'minecraft:movement': EntityMovementComponent;
 	'minecraft:scale': EntityScaleComponent;
 	'minecraft:underwater_movement': EntityUnderwaterMovementComponent;
+	'minecraft:variant': EntityVariantComponent;
 }
 
 export type { EntityComponents };
