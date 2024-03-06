@@ -51,7 +51,10 @@ class PlayerLeft extends AbstractEvent {
 		}
 
 		// Log the player leaving.
-		this.serenity.logger.info(`${player.username} (${player.xuid}) left the server.`);
+		this.serenity.logger.info(`${player.username} (${player.xuid}) left the game.`);
+
+		// Send a message to all players.
+		this.serenity.getWorld().sendMessage(`§e${player.username} left the game.`);
 	}
 }
 

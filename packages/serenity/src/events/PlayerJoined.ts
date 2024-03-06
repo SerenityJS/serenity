@@ -47,7 +47,9 @@ class PlayerJoined extends AbstractEvent {
 		}
 
 		// Log the player's join.
-		this.serenity.logger.info(`${player.username} (${player.xuid}) joined the server.`);
+		this.serenity.logger.info(`${player.username} joined the game.`);
+
+		player.dimension.world.sendMessage(`§e${player.username} joined the game.`);
 	}
 }
 
