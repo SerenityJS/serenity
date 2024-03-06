@@ -86,33 +86,6 @@ class Entity {
 
 	// TODO: Make Component
 	/**
-	 * The variant of the entity.
-	 */
-	public get variant(): number {
-		// Get the variant from the metadata.
-		const varint = this.metadata.get(MetadataKey.Variant);
-
-		// Return 0 if the varint is null.
-		if (!varint) return Number();
-
-		// Return the varint as a number.
-		return varint.value as number;
-	}
-
-	// TODO: Make Component
-	/**
-	 * Set the variant of the entity.
-	 */
-	public set variant(value: number) {
-		// Set the variant in the metadata.
-		this.metadata.set(MetadataKey.Variant, { type: MetadataType.Int, value });
-
-		// Send the metadata to the world.
-		this.dimension.updateEntity(this);
-	}
-
-	// TODO: Make Component
-	/**
 	 * The name tag of the entity.
 	 */
 	public get nametag(): string {
