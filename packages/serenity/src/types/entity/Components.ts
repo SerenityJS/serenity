@@ -4,6 +4,7 @@ import type {
 	EntityInventoryComponent,
 	EntityLavaMovementComponent,
 	EntityMovementComponent,
+	EntityNametagComponent,
 	EntityScaleComponent,
 	EntityUnderwaterMovementComponent,
 	EntityVariantComponent,
@@ -15,6 +16,7 @@ interface EntityComponents {
 	'minecraft:inventory': EntityInventoryComponent;
 	'minecraft:lava_movement': EntityLavaMovementComponent;
 	'minecraft:movement': EntityMovementComponent;
+	'minecraft:nametag': EntityNametagComponent;
 	'minecraft:scale': EntityScaleComponent;
 	'minecraft:underwater_movement': EntityUnderwaterMovementComponent;
 	'minecraft:variant': EntityVariantComponent;

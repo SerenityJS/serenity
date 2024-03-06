@@ -26,12 +26,12 @@ abstract class EntityMetaComponent extends EntityComponent {
 	/**
 	 * The default value for the metadata component.
 	 */
-	public abstract readonly defaultValue: number;
+	public abstract readonly defaultValue: bigint | boolean | number | string;
 
 	/**
 	 * The current value of the metadata component.
 	 */
-	public abstract currentValue: number;
+	public abstract currentValue: bigint | boolean | number | string;
 
 	/**
 	 * The constructor of the entity metadata component.
@@ -50,7 +50,7 @@ abstract class EntityMetaComponent extends EntityComponent {
 	 *
 	 * @param value The value to set.
 	 */
-	public setCurrentValue(value: number): void {
+	public setCurrentValue(value: bigint | boolean | number | string): void {
 		// Set the value
 		this.currentValue = value;
 
