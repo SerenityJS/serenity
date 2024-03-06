@@ -138,33 +138,6 @@ class Entity {
 		this.dimension.updateEntity(this);
 	}
 
-	// TODO: Make Component
-	/**
-	 * The scale of the entity.
-	 */
-	public get scale(): number {
-		// Get the scale from the metadata.
-		const scale = this.metadata.get(MetadataKey.Scale);
-
-		// Return 1 if the scale is null.
-		if (!scale) return Number(1);
-
-		// Return the scale as a number.
-		return scale.value as number;
-	}
-
-	// TODO: Make Component
-	/**
-	 * Set the scale of the entity.
-	 */
-	public set scale(value: number) {
-		// Set the scale in the metadata.
-		this.metadata.set(MetadataKey.Scale, { type: MetadataType.Float, value });
-
-		// Send the metadata to the world.
-		this.dimension.updateEntity(this);
-	}
-
 	/**
 	 * Spawns the entity into the world.
 	 * If a player is provided, the entity will only be sent to the player.
