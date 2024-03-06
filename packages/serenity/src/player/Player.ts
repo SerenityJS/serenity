@@ -89,7 +89,7 @@ class Player extends Entity {
 		this.forms = new Map();
 
 		// Setting player properties
-		this.gamemode = Gamemode.Survival;
+		this.gamemode = Gamemode.Creative;
 	}
 
 	/**

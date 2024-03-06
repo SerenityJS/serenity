@@ -9,7 +9,7 @@ import {
 } from '@serenityjs/bedrock-protocol';
 import type { Packet, LoginTokens } from '@serenityjs/bedrock-protocol';
 import fastJwt from 'fast-jwt';
-import { ENTITY_COMPONENTS, EntityNametagComponent } from '../../entity/index.js';
+import { ENTITY_COMPONENTS, EntityAlwaysShowNametagComponent, EntityNametagComponent } from '../../entity/index.js';
 import type { PlayerComponent } from '../../player/index.js';
 import { Player } from '../../player/index.js';
 import type { ClientData, IdentityData, LoginTokenData } from '../../types/index.js';
@@ -82,9 +82,16 @@ class LoginHandler extends NetworkHandler {
 
 			// Check if the component is the EntityNametag component.
 			// If so, set the nametag default value to the players display name.
+			// Also set the current value to the players display name.
+			// This will make the players nametag show their display name.
+			// We will also set the EntityAlwaysShowNametag component to true.
+			// This will make the players nametag always show.
 			if (instance instanceof EntityNametagComponent) {
 				instance.currentValue = player.username;
 				instance.defaultValue = player.username;
+			} else if (instance instanceof EntityAlwaysShowNametagComponent) {
+				instance.currentValue = true;
+				instance.defaultValue = true;
 			}
 		}
 

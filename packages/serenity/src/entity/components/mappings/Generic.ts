@@ -6,6 +6,8 @@ import {
 	EntityScaleComponent,
 	EntityVariantComponent,
 	EntityNametagComponent,
+	EntityAlwaysShowNametagComponent,
+	EntityCanShowNametagComponent,
 } from '../index.js';
 
 const GENERIC_COMPONENTS: (typeof EntityComponent)[] = [
@@ -15,6 +17,8 @@ const GENERIC_COMPONENTS: (typeof EntityComponent)[] = [
 	EntityScaleComponent,
 	EntityVariantComponent,
 	EntityNametagComponent,
+	EntityAlwaysShowNametagComponent,
+	EntityCanShowNametagComponent,
 ];
 
 export { GENERIC_COMPONENTS };

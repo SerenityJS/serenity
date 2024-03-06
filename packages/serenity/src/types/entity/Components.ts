@@ -1,4 +1,6 @@
 import type {
+	EntityAlwaysShowNametagComponent,
+	EntityCanShowNametagComponent,
 	EntityCursorComponent,
 	EntityHealthComponent,
 	EntityInventoryComponent,
@@ -11,6 +13,8 @@ import type {
 } from '../../entity/index.js';
 
 interface EntityComponents {
+	'minecraft:always_show_nametag': EntityAlwaysShowNametagComponent;
+	'minecraft:can_show_nametag': EntityCanShowNametagComponent;
 	'minecraft:cursor': EntityCursorComponent;
 	'minecraft:health': EntityHealthComponent;
 	'minecraft:inventory': EntityInventoryComponent;
