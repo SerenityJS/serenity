@@ -27,10 +27,6 @@ serenity.on('PlayerSpawned', (event) => {
 	event.player.getComponent('minecraft:ability.may_fly').setCurrentValue(true);
 
 	event.player.gamemode = Gamemode.Survival;
-
-	const nametag = event.player.getComponent('minecraft:nametag');
-
-	console.log(nametag);
 });
 
 serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
@@ -40,7 +36,15 @@ serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
 
 	const entity = session.player.dimension.spawnEntity('minecraft:npc', new Vector3f(x, y + 1, z));
 
-	const component = entity.getComponent('minecraft:nametag');
+	const scale = entity.getComponent('minecraft:scale');
 
-	component.setCurrentValue('Im an NPC!');
+	scale.setCurrentValue(0.5);
+
+	const variant = entity.getComponent('minecraft:variant');
+
+	variant.setCurrentValue(9);
+
+	const nametag = entity.getComponent('minecraft:nametag');
+
+	nametag.setCurrentValue('Im an NPC!');
 });

@@ -1,5 +1,5 @@
-import type { MetadataDictionary, MetadataFlags } from '@serenityjs/bedrock-protocol';
-import { Vector3f, MetadataKey, MetadataType, AddEntity, RemoveEntity } from '@serenityjs/bedrock-protocol';
+import type { MetadataDictionary, MetadataFlags, MetadataType } from '@serenityjs/bedrock-protocol';
+import { Vector3f, MetadataKey, AddEntity, RemoveEntity } from '@serenityjs/bedrock-protocol';
 import type { Player } from '../index.js';
 import type { EntityComponents } from '../types/index.js';
 import type { Dimension } from '../world/index.js';
@@ -58,22 +58,6 @@ class Entity {
 	}
 
 	/**
-	 * Gets the metadata value from the metadata map.
-	 *
-	 * @returns The metadata dictionary.
-	 */
-	public getMetadataDictionary(): MetadataDictionary[] {
-		return [...this.metadata.entries()].map(([key, value]) => {
-			return {
-				key: value.flag ? MetadataKey.Flags : (key as MetadataKey),
-				type: value.type,
-				value: value.value,
-				flag: value.flag ? (key as MetadataFlags) : undefined,
-			};
-		});
-	}
-
-	/**
 	 * Gets the metadata components from the entity.
 	 *
 	 * @returns The metadata components.
@@ -82,33 +66,6 @@ class Entity {
 		return [...this.components.values()].filter(
 			(component): component is EntityMetaComponent => component instanceof EntityMetaComponent,
 		);
-	}
-
-	// TODO: Make Component
-	/**
-	 * The name tag of the entity.
-	 */
-	public get nametag(): string {
-		// Get the name tag from the metadata.
-		const name = this.metadata.get(MetadataKey.Nametag);
-
-		// Return an empty string if the name is null.
-		if (!name) return String();
-
-		// Return the name as a string.
-		return name.value as string;
-	}
-
-	// TODO: Make Component
-	/**
-	 * Set the name tag of the entity.
-	 */
-	public set nametag(value: string) {
-		// Set the name tag in the metadata.
-		this.metadata.set(MetadataKey.Nametag, { type: MetadataType.String, value });
-
-		// Send the metadata to the world.
-		this.dimension.updateEntity(this);
 	}
 
 	/**
@@ -130,7 +87,14 @@ class Entity {
 		packet.rotation = this.rotation;
 		packet.bodyYaw = this.rotation.y;
 		packet.attributes = [];
-		packet.metadata = this.getMetadataDictionary();
+		packet.metadata = this.getMetadata().map((entry) => {
+			return {
+				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+				type: entry.type,
+				value: entry.currentValue,
+				flag: entry.flag ? (entry.key as MetadataFlags) : undefined,
+			};
+		});
 		packet.properties = {
 			ints: [],
 			floats: [],
