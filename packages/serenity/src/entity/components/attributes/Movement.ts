@@ -3,9 +3,9 @@ import { EntityAttributeComponent } from './Attribute.js';
 
 class EntityMovementComponent extends EntityAttributeComponent {
 	/**
-	 * The type of the component
+	 * The identifier of the component
 	 */
-	public readonly type = Attribute.Movement;
+	public readonly identifier = Attribute.Movement;
 
 	/**
 	 * The minimum speed allowed for the entity.

@@ -78,7 +78,7 @@ class Dimension {
 			const instance: EntityComponent = new (component as any)(entity);
 
 			// Set the component to the entity.
-			entity.components.set(instance.type, instance);
+			entity.components.set(instance.identifier, instance);
 		}
 
 		// Spawn the entity.
@@ -109,7 +109,7 @@ class Dimension {
 		packet.metadata = entity.getMetadata().map((entry) => {
 			return {
 				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
-				type: entry.dataType,
+				type: entry.type,
 				value: entry.currentValue,
 				flag: entry.flag ? (entry.key as MetadataFlags) : undefined,
 			};

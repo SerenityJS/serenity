@@ -78,7 +78,7 @@ class LoginHandler extends NetworkHandler {
 			const instance: PlayerComponent = new (component as any)(player);
 
 			// Set the component to the player.
-			player.components.set(instance.type, instance);
+			player.components.set(instance.identifier, instance);
 		}
 
 		// Spawn the player in the dimension.

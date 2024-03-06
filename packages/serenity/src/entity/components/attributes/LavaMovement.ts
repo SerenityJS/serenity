@@ -3,9 +3,9 @@ import { EntityAttributeComponent } from './Attribute.js';
 
 class EntityLavaMovementComponent extends EntityAttributeComponent {
 	/**
-	 * The type of the component
+	 * The identifier of the component
 	 */
-	public readonly type = Attribute.LavaMovement;
+	public readonly identifier = Attribute.LavaMovement;
 
 	/**
 	 * The minimum speed allowed for the entity.

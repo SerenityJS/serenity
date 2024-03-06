@@ -4,9 +4,9 @@ import { EntityComponent } from '../Component.js';
 
 abstract class EntityMetaComponent extends EntityComponent {
 	/**
-	 * The type of the component.
+	 * The identifier of the component.
 	 */
-	public abstract readonly type: string;
+	public abstract readonly identifier: string;
 
 	/**
 	 * The flag of the metadata component.
@@ -21,7 +21,7 @@ abstract class EntityMetaComponent extends EntityComponent {
 	/**
 	 * The type of the metadata component.
 	 */
-	public abstract readonly dataType: MetadataType;
+	public abstract readonly type: MetadataType;
 
 	/**
 	 * The default value for the metadata component.

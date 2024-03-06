@@ -5,9 +5,9 @@ import { EntityComponent } from '../Component.js';
 
 abstract class EntityAttributeComponent extends EntityComponent {
 	/**
-	 * The type of the component.
+	 * The identifier of the component.
 	 */
-	public abstract readonly type: Attribute;
+	public abstract readonly identifier: Attribute;
 
 	/**
 	 * The minimum value allowed for the attribute.

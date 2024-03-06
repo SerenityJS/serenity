@@ -155,7 +155,7 @@ class Player extends Entity {
 	 * @param component - The component to set.
 	 */
 	public setComponent<T extends keyof PlayerComponents>(component: PlayerComponents[T]): void {
-		this.components.set(component.type, component);
+		this.components.set(component.identifier, component);
 	}
 
 	/**

@@ -10,9 +10,9 @@ import { EntityContainer, EntityComponent } from '../index.js';
  */
 class EntityCursorComponent extends EntityComponent {
 	/**
-	 * The type of the component.
+	 * The identifier of the component.
 	 */
-	public readonly type = 'minecraft:cursor';
+	public readonly identifier = 'minecraft:cursor';
 
 	/**
 	 * The container of the inventory.

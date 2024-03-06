@@ -169,7 +169,7 @@ class World {
 		packet.runtimeEntityId = player.runtimeId;
 		packet.attributes = player.getAttributes().map((component) => {
 			return {
-				name: component.type,
+				name: component.identifier,
 				min: component.effectiveMin,
 				max: component.effectiveMax,
 				current: component.currentValue,

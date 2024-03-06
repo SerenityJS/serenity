@@ -2,7 +2,7 @@ import { AbilityLayerFlag, AbilitySet } from '@serenityjs/bedrock-protocol';
 import { PlayerAbilityComponent } from './Ability.js';
 
 class PlayerPrivilegedBuilderComponent extends PlayerAbilityComponent {
-	public readonly type = AbilitySet.PrivilegedBuilder;
+	public readonly identifier = AbilitySet.PrivilegedBuilder;
 
 	public readonly flag = AbilityLayerFlag.PrivilegedBuilder;
 

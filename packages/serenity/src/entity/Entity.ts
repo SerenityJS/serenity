@@ -54,7 +54,7 @@ class Entity {
 	 * @param component - The component to set.
 	 */
 	public setComponent<T extends keyof EntityComponents>(component: EntityComponents[T]): void {
-		this.components.set(component.type, component);
+		this.components.set(component.identifier, component);
 	}
 
 	/**

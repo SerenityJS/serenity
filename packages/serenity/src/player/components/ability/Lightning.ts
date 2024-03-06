@@ -2,7 +2,7 @@ import { AbilityLayerFlag, AbilitySet } from '@serenityjs/bedrock-protocol';
 import { PlayerAbilityComponent } from './Ability.js';
 
 class PlayerLightningComponent extends PlayerAbilityComponent {
-	public readonly type = AbilitySet.Lightning;
+	public readonly identifier = AbilitySet.Lightning;
 
 	public readonly flag = AbilityLayerFlag.Lightning;
 

@@ -3,9 +3,9 @@ import { EntityAttributeComponent } from './Attribute.js';
 
 class EntityUnderwaterMovementComponent extends EntityAttributeComponent {
 	/**
-	 * The type of the component
+	 * The identifier of the component
 	 */
-	public readonly type = Attribute.UnderwaterMovement;
+	public readonly identifier = Attribute.UnderwaterMovement;
 
 	/**
 	 * The minimum speed allowed for the entity.
