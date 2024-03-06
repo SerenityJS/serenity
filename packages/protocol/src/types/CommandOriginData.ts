@@ -51,8 +51,6 @@ class CommandOriginData extends DataType {
 		if (value.origin === CommandOriginDataTypes.ORIGIN_DEV_CONSOLE || value.origin === CommandOriginDataTypes.ORIGIN_TEST) {
 			stream.writeVarLong(value.playerActorUniqueId);
 		}
-
-		console.log(value.origin, value.uuid, value.requestId, value.playerActorUniqueId);
 	}
 }
 

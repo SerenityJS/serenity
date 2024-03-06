@@ -4,6 +4,7 @@ import {
 	AvailableCommands,
 	SetLocalPlayerAsInitialized,
 	PermissionLevel,
+  Commands,
 } from '@serenityjs/bedrock-protocol';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
@@ -35,6 +36,36 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
 		const commands = new AvailableCommands();
 
+		const avaliableCommands = [];
+		for (const [name, command] of this.serenity.commandManager.getCommands().entries()) {
+      const commandName = name.includes(':') ? name.split(':')[1] : name;
+      
+			avaliableCommands.push(
+				new Commands(
+					commandName,
+					command.description,
+					0,
+					PermissionLevel.Member,
+					0,
+					[],
+					[
+						{
+							chaining: false,
+							parameters: [
+								{
+									enumType: 0x10,
+									name: 'args',
+									optional: true,
+									options: 0,
+									valueType: 44,
+								},
+							],
+						},
+					],
+				),
+			);
+		}
+
 		commands.commands = [
 			{
 				name: 'test',
@@ -65,6 +96,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 				],
 				alias: 0,
 			},
+      ...avaliableCommands
 		];
 
 		commands.subcommandValues = [];

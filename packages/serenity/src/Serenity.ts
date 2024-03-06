@@ -8,6 +8,7 @@ import {
 } from '@serenityjs/bedrock-protocol';
 import { Server } from '@serenityjs/raknet-server';
 import { ServerProperties } from './Properties.js';
+import { CommandManager } from './command/CommandManager.js';
 import { Logger } from './console/index.js';
 import type { AbstractEvent, Shutdown } from './events/index.js';
 import { SERENITY_EVENTS } from './events/index.js';
@@ -33,6 +34,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly version: string;
 	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
+  public readonly commandManager: CommandManager;
 
 	/**
 	 * Constructs a new serenity instance.
@@ -60,6 +62,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		this.events = new Map();
 		this.network = new Network(this);
+    this.commandManager = new CommandManager(this);
 
 		if (Logger.DEBUG) this.logger.debug('Software is running in debug mode. Debug messages will now be shown.');
 

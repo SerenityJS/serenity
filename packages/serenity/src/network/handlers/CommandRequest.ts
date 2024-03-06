@@ -15,8 +15,7 @@ class CommandRequest extends NetworkHandler {
 		// Disconnect the player if they are null or undefined.
 		if (!player) return session.disconnect('Failed to get player instance.', DisconnectReason.MissingClient);
     
-    // CommandManager
-    this.serenity.logger.debug(session.player?.username + " :" + packet.rawCommand);
+    void this.serenity.commandManager.dispatchCommand(player, packet.rawCommand.slice(1));
   }
 }
 

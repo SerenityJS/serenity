@@ -49,10 +49,7 @@ class CommandOutputData extends DataType {
 			data = stream.readVarString();
 		}
     
-    console.log('CommandOutput');
-    console.log(originData, outputType, successCount, messages, amount, data);
-
-		return new CommandOutputData(originData, outputType, successCount, messages, data);
+    return new CommandOutputData(originData, outputType, successCount, messages, data);
 	}
 
 	public static override write(stream: BinaryStream, value: CommandOutputData): void {
