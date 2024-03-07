@@ -1,7 +1,6 @@
-import { readdirSync } from 'node:fs';
-import { fileURLToPath, URL } from 'node:url';
 import type { Player, Serenity } from '../index.js';
 import type { Command } from './Command.js';
+import { DefaultCommands } from './defaults/index.js';
 
 class CommandManager {
 	private readonly serenity: Serenity;
@@ -9,20 +8,15 @@ class CommandManager {
 
 	public constructor(serenity: Serenity) {
 		this.serenity = serenity;
-    
-     void this.start();
+
+		void this.start();
 	}
 
 	public async start(): Promise<void> {
-		const commands = readdirSync(fileURLToPath(new URL('defaults', import.meta.url)))
-			.filter((name) => !name.includes('.d.ts') && !name.includes('.map'))
-			.map((name) => '/defaults/' + name);
+		const commands = DefaultCommands;
 
 		await Promise.all(
-			commands.map(async (name: string) => {
-				const { default: Command } = await import('./' + name);
-				const command: Command = new Command();
-
+			commands.map(async (command: Command) => {
 				this.commands.set(command.name, command);
 				this.serenity.logger.debug('Command: ' + command.name + ' has been registered.');
 			}),

@@ -11,4 +11,4 @@ class VersionCommand extends Command {
 	}
 }
 
-export default VersionCommand;
+export { VersionCommand };
