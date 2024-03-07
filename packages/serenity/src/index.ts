@@ -8,3 +8,5 @@ export * from './utils/index.js';
 export * from './types/index.js';
 export * from './provider/index.js';
 export * from './player/index.js';
+export * from './plugin/index.js';
+export * from './events/index.js';

@@ -30,7 +30,7 @@ class Shutdown extends AbstractEvent {
 		process.on('SIGINT', async () => this.logic(ShutdownCause.Interupt, null));
 	}
 
-	public static logic(cause: ShutdownCause, reason: string | null): void {
+	public static async logic(cause: ShutdownCause, reason: string | null): Promise<void> {
 		// Construct the shutdown event.
 		const event = new Shutdown(cause, reason);
 
@@ -56,6 +56,10 @@ class Shutdown extends AbstractEvent {
 
 		// Log the shutdown event.
 		this.serenity.logger.info('Server is now shutting down...');
+    
+    for (const [id, plugin] of this.serenity.pluginManager.plugins) {
+      await plugin.main?.onDisable?.();
+    }
 
 		// Exit the process.
 		// TODO: make better
