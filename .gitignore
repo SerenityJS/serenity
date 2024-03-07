@@ -1,6 +1,9 @@
 # Properties
 server.properties
 
+# Plugins
+/plugins
+
 # Worlds
 /worlds
 
