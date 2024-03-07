@@ -11,6 +11,9 @@ const DEFAULT_SERVER_PROPERTIES = {
 		'max-connections': 10,
 		motd: 'SerenityJS',
 		debug: false,
+		shutdown: {
+			message: 'Server closed',
+		},
 	},
 	network: {
 		'compression-threshold': 256,

@@ -1,4 +1,6 @@
 import process from 'node:process';
+import { setTimeout } from 'node:timers';
+import { DisconnectReason } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { AbstractEvent } from './AbstractEvent.js';
 
@@ -40,16 +42,25 @@ class Shutdown extends AbstractEvent {
 		// But is the cause is an interupt, we still want to shutdown the server.
 		if (!value && cause !== ShutdownCause.Interupt) return;
 
-		// Check if the cause is not an interupt.
-		if (cause !== ShutdownCause.Interupt) {
-			// TODO: Send a disconnect packet to all players.
+		// Send disconnect packet to all players.
+		for (const [guid, session] of this.serenity.network.sessions) {
+			const player = session.player;
+
+			if (player) {
+				player.disconnect(
+					this.serenity.properties.values.server.shutdown.message ?? 'Server closed',
+					DisconnectReason.Shutdown,
+				);
+			}
 		}
 
 		// Log the shutdown event.
 		this.serenity.logger.info('Server is now shutting down...');
 
 		// Exit the process.
-		process.exit(cause);
+		// TODO: make better
+		// NOTE: the process.exit are called before the player disconnects
+		setTimeout(() => process.exit(cause), 50);
 	}
 }
 
