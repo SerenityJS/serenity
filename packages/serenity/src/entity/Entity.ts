@@ -1,9 +1,10 @@
-import type { MetadataDictionary, MetadataFlags } from '@serenityjs/bedrock-protocol';
-import { Vector3f, MetadataKey, MetadataType, AddEntity, RemoveEntity } from '@serenityjs/bedrock-protocol';
+import type { MetadataDictionary, MetadataFlags, MetadataType } from '@serenityjs/bedrock-protocol';
+import { Vector3f, MetadataKey, AddEntity, RemoveEntity } from '@serenityjs/bedrock-protocol';
 import type { Player } from '../index.js';
 import type { EntityComponents } from '../types/index.js';
 import type { Dimension } from '../world/index.js';
 import type { EntityComponent } from './components/index.js';
+import { EntityMetaComponent } from './components/meta/index.js';
 
 let RUNTIME_ID = 1n;
 
@@ -53,104 +54,18 @@ class Entity {
 	 * @param component - The component to set.
 	 */
 	public setComponent<T extends keyof EntityComponents>(component: EntityComponents[T]): void {
-		this.components.set(component.type, component);
+		this.components.set(component.identifier, component);
 	}
 
 	/**
-	 * Gets the metadata value from the metadata map.
+	 * Gets the metadata components from the entity.
 	 *
-	 * @returns The metadata dictionary.
+	 * @returns The metadata components.
 	 */
-	public getMetadataDictionary(): MetadataDictionary[] {
-		return [...this.metadata.entries()].map(([key, value]) => {
-			return {
-				key: value.flag ? MetadataKey.Flags : (key as MetadataKey),
-				type: value.type,
-				value: value.value,
-				flag: value.flag ? (key as MetadataFlags) : undefined,
-			};
-		});
-	}
-
-	// TODO: Make Component
-	/**
-	 * The variant of the entity.
-	 */
-	public get variant(): number {
-		// Get the variant from the metadata.
-		const varint = this.metadata.get(MetadataKey.Variant);
-
-		// Return 0 if the varint is null.
-		if (!varint) return Number();
-
-		// Return the varint as a number.
-		return varint.value as number;
-	}
-
-	// TODO: Make Component
-	/**
-	 * Set the variant of the entity.
-	 */
-	public set variant(value: number) {
-		// Set the variant in the metadata.
-		this.metadata.set(MetadataKey.Variant, { type: MetadataType.Int, value });
-
-		// Send the metadata to the world.
-		this.dimension.updateEntity(this);
-	}
-
-	// TODO: Make Component
-	/**
-	 * The name tag of the entity.
-	 */
-	public get nametag(): string {
-		// Get the name tag from the metadata.
-		const name = this.metadata.get(MetadataKey.Nametag);
-
-		// Return an empty string if the name is null.
-		if (!name) return String();
-
-		// Return the name as a string.
-		return name.value as string;
-	}
-
-	// TODO: Make Component
-	/**
-	 * Set the name tag of the entity.
-	 */
-	public set nametag(value: string) {
-		// Set the name tag in the metadata.
-		this.metadata.set(MetadataKey.Nametag, { type: MetadataType.String, value });
-
-		// Send the metadata to the world.
-		this.dimension.updateEntity(this);
-	}
-
-	// TODO: Make Component
-	/**
-	 * The scale of the entity.
-	 */
-	public get scale(): number {
-		// Get the scale from the metadata.
-		const scale = this.metadata.get(MetadataKey.Scale);
-
-		// Return 1 if the scale is null.
-		if (!scale) return Number(1);
-
-		// Return the scale as a number.
-		return scale.value as number;
-	}
-
-	// TODO: Make Component
-	/**
-	 * Set the scale of the entity.
-	 */
-	public set scale(value: number) {
-		// Set the scale in the metadata.
-		this.metadata.set(MetadataKey.Scale, { type: MetadataType.Float, value });
-
-		// Send the metadata to the world.
-		this.dimension.updateEntity(this);
+	public getMetadata(): EntityMetaComponent[] {
+		return [...this.components.values()].filter(
+			(component): component is EntityMetaComponent => component instanceof EntityMetaComponent,
+		);
 	}
 
 	/**
@@ -172,7 +87,14 @@ class Entity {
 		packet.rotation = this.rotation;
 		packet.bodyYaw = this.rotation.y;
 		packet.attributes = [];
-		packet.metadata = this.getMetadataDictionary();
+		packet.metadata = this.getMetadata().map((entry) => {
+			return {
+				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+				type: entry.type,
+				value: entry.currentValue,
+				flag: entry.flag ? (entry.key as MetadataFlags) : undefined,
+			};
+		});
 		packet.properties = {
 			ints: [],
 			floats: [],

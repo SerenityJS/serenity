@@ -2,7 +2,7 @@ import { AbilityLayerFlag, AbilitySet } from '@serenityjs/bedrock-protocol';
 import { PlayerAbilityComponent } from './Ability.js';
 
 class PlayerWalkSpeedComponent extends PlayerAbilityComponent {
-	public readonly type = AbilitySet.WalkSpeed;
+	public readonly identifier = AbilitySet.WalkSpeed;
 
 	public readonly flag = AbilityLayerFlag.WalkSpeed;
 

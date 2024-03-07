@@ -3,9 +3,9 @@ import { PlayerAttributeComponent } from './Attribute.js';
 
 class PlayerExperienceComponent extends PlayerAttributeComponent {
 	/**
-	 * The type of the component
+	 * The identifier of the component
 	 */
-	public readonly type = Attribute.PlayerExperience;
+	public readonly identifier = Attribute.PlayerExperience;
 
 	/**
 	 * The minimum experience level allowed for the player.

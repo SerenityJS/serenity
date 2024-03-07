@@ -3,9 +3,9 @@ import { EntityAttributeComponent } from './Attribute.js';
 
 class EntityHealthComponent extends EntityAttributeComponent {
 	/**
-	 * The type of the component
+	 * The identifier of the component
 	 */
-	public readonly type = Attribute.Health;
+	public readonly identifier = Attribute.Health;
 
 	/**
 	 * The minimum health allowed for the entity.

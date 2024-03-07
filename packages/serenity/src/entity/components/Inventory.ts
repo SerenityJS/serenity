@@ -8,7 +8,10 @@ import { EntityComponent } from './Component.js';
  * Represents an inventory component of an entity.
  */
 class EntityInventoryComponent extends EntityComponent {
-	public readonly type = 'minecraft:inventory';
+	/**
+	 * The identifier of the component.
+	 */
+	public readonly identifier = 'minecraft:inventory';
 
 	/**
 	 * The container of the inventory.

@@ -3,9 +3,9 @@ import { PlayerAttributeComponent } from './Attribute.js';
 
 class PlayerHungerComponent extends PlayerAttributeComponent {
 	/**
-	 * The type of the component
+	 * The identifier of the component
 	 */
-	public readonly type = Attribute.PlayerHunger;
+	public readonly identifier = Attribute.PlayerHunger;
 
 	/**
 	 * The minimum health allowed for the entity.

@@ -3,9 +3,9 @@ import { PlayerAttributeComponent } from './Attribute.js';
 
 class PlayerLevelComponent extends PlayerAttributeComponent {
 	/**
-	 * The type of the component
+	 * The identifier of the component
 	 */
-	public readonly type = Attribute.PlayerLevel;
+	public readonly identifier = Attribute.PlayerLevel;
 
 	/**
 	 * The minimum level allowed for the player.

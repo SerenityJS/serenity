@@ -9,7 +9,7 @@ class MetadataDictionary extends DataType {
 	public flag?: MetadataFlags;
 	public key: MetadataKey;
 	public type: MetadataType;
-	public value: any;
+	public value: Vector3f | bigint | boolean | number | string;
 
 	public constructor(key: MetadataKey, type: MetadataType, value: any, flag?: MetadataFlags) {
 		super();
@@ -139,32 +139,35 @@ class MetadataDictionary extends DataType {
 				// Write the fields for the metadata.
 				stream.writeByte(metadata.type);
 
+				// Convert the value to a number if it's a boolean.
+				const value = metadata.value === true ? 1 : metadata.value === false ? 0 : metadata.value;
+
 				// Write the value for the metadata.
 				switch (metadata.type) {
 					case MetadataType.Byte:
-						stream.writeByte(metadata.value);
+						stream.writeByte(value as number);
 						break;
 					case MetadataType.Short:
-						stream.writeInt16(metadata.value, Endianness.Little);
+						stream.writeInt16(value as number, Endianness.Little);
 						break;
 					case MetadataType.Int:
-						stream.writeZigZag(metadata.value);
+						stream.writeZigZag(value as number);
 						break;
 					case MetadataType.Float:
-						stream.writeFloat32(metadata.value, Endianness.Little);
+						stream.writeFloat32(value as number, Endianness.Little);
 						break;
 					case MetadataType.String:
-						stream.writeVarString(metadata.value);
+						stream.writeVarString(value as string);
 						break;
 					case MetadataType.Compound:
 						break;
 					case MetadataType.Vec3i:
 						break;
 					case MetadataType.Long:
-						stream.writeZigZong(metadata.value);
+						stream.writeZigZong(value as bigint);
 						break;
 					case MetadataType.Vec3f:
-						Vector3f.write(stream, metadata.value);
+						Vector3f.write(stream, value as Vector3f);
 						break;
 				}
 			}

@@ -5,9 +5,9 @@ import { EntityComponent } from '../Component.js';
 
 abstract class EntityAttributeComponent extends EntityComponent {
 	/**
-	 * The type of the component.
+	 * The identifier of the component.
 	 */
-	public abstract readonly type: Attribute;
+	public abstract readonly identifier: Attribute;
 
 	/**
 	 * The minimum value allowed for the attribute.
@@ -74,8 +74,6 @@ abstract class EntityAttributeComponent extends EntityComponent {
 		if (this.entity instanceof Player) {
 			// Update the attributes of the player
 			this.entity.dimension.world.updateAttributes(this.entity);
-		} else {
-			throw new TypeError("Component 'EntityMovementComponent' is not implemented for non-player entities.");
 		}
 	}
 
@@ -90,8 +88,6 @@ abstract class EntityAttributeComponent extends EntityComponent {
 		if (this.entity instanceof Player) {
 			// Update the attributes of the player
 			this.entity.dimension.world.updateAttributes(this.entity);
-		} else {
-			throw new TypeError("Component 'EntityMovementComponent' is not implemented for non-player entities.");
 		}
 	}
 

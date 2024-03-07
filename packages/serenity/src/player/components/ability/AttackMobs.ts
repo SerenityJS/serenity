@@ -2,7 +2,7 @@ import { AbilityLayerFlag, AbilitySet } from '@serenityjs/bedrock-protocol';
 import { PlayerAbilityComponent } from './Ability.js';
 
 class PlayerAttackMobsComponent extends PlayerAbilityComponent {
-	public readonly type = AbilitySet.AttackMobs;
+	public readonly identifier = AbilitySet.AttackMobs;
 
 	public readonly flag = AbilityLayerFlag.AttackMobs;
 

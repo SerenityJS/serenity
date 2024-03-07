@@ -10,9 +10,9 @@ abstract class EntityComponent {
 	protected readonly entity: Entity;
 
 	/**
-	 * The type of the component.
+	 * The identifier of the component.
 	 */
-	public abstract readonly type: string;
+	public abstract readonly identifier: string;
 
 	/**
 	 * Initializes the component.

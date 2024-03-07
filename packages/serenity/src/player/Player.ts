@@ -4,6 +4,7 @@ import type {
 	FormType,
 	Vector3f,
 	BlockCoordinates,
+	MetadataFlags,
 } from '@serenityjs/bedrock-protocol';
 import {
 	ChatTypes,
@@ -19,6 +20,7 @@ import {
 	AbilityLayerType,
 	RemoveEntity,
 	LevelChunk,
+	MetadataKey,
 } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { EntityAttributeComponent } from '../entity/components/attributes/Attribute.js';
@@ -86,11 +88,8 @@ class Player extends Entity {
 		this.chunks = new Map();
 		this.forms = new Map();
 
-		// Settting player metadata
-		this.nametag = this.username;
-
 		// Setting player properties
-		this.gamemode = Gamemode.Survival;
+		this.gamemode = Gamemode.Creative;
 	}
 
 	/**
@@ -155,7 +154,7 @@ class Player extends Entity {
 	 * @param component - The component to set.
 	 */
 	public setComponent<T extends keyof PlayerComponents>(component: PlayerComponents[T]): void {
-		this.components.set(component.type, component);
+		this.components.set(component.identifier, component);
 	}
 
 	/**
@@ -321,7 +320,14 @@ class Player extends Entity {
 			networkId: 0, // TODO: Get the network ID from the entity.
 		};
 		packet.gamemode = this.gamemode;
-		packet.metadata = this.getMetadataDictionary();
+		packet.metadata = this.getMetadata().map((entry) => {
+			return {
+				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+				type: entry.type,
+				value: entry.currentValue,
+				flag: entry.flag ? (entry.key as MetadataFlags) : undefined,
+			};
+		});
 		packet.properties = {
 			ints: [],
 			floats: [],

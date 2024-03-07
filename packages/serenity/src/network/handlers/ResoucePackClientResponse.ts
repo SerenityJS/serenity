@@ -84,27 +84,32 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 					component.resetToDefaultValue();
 				}
 
-				const data = new SetEntityData();
-				data.runtimeEntityId = player.runtimeId;
-				data.metadata = [
-					{
-						key: MetadataKey.Flags,
-						type: MetadataType.Long,
-						value: true,
-						flag: MetadataFlags.AffectedByGravity,
-					},
-					{
-						key: MetadataKey.Flags,
-						type: MetadataType.Long,
-						value: true,
-						flag: MetadataFlags.Breathing,
-					},
-				];
-				data.properties = {
-					ints: [],
-					floats: [],
-				};
-				data.tick = BigInt(0);
+				// Set the player metadata component values.
+				for (const component of player.getMetadata()) {
+					component.resetToDefaultValue();
+				}
+
+				// const data = new SetEntityData();
+				// data.runtimeEntityId = player.runtimeId;
+				// data.metadata = [
+				// 	{
+				// 		key: MetadataKey.Flags,
+				// 		type: MetadataType.Long,
+				// 		value: true,
+				// 		flag: MetadataFlags.AffectedByGravity,
+				// 	},
+				// 	{
+				// 		key: MetadataKey.Flags,
+				// 		type: MetadataType.Long,
+				// 		value: true,
+				// 		flag: MetadataFlags.Breathing,
+				// 	},
+				// ];
+				// data.properties = {
+				// 	ints: [],
+				// 	floats: [],
+				// };
+				// data.tick = BigInt(0);
 
 				player.dimension.world.network.sendCreativeContent(player);
 
@@ -115,7 +120,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				const status = new PlayStatus();
 				status.status = PlayerStatus.PlayerSpawn;
 
-				session.send(settings, data, status);
+				session.send(settings, status);
 
 				const chunks = player.dimension.getSpawnChunks();
 

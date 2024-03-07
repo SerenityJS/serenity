@@ -1,4 +1,4 @@
-import { DimensionType, Gamemode, Packet } from '@serenityjs/bedrock-protocol';
+import { DimensionType, Gamemode, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
 import type { Block } from '@serenityjs/serenity';
 import { Serenity, InternalProvider, Overworld, BlockBehavior } from '@serenityjs/serenity';
 
@@ -25,8 +25,6 @@ serenity.start();
 
 serenity.on('PlayerSpawned', (event) => {
 	event.player.getComponent('minecraft:ability.may_fly').setCurrentValue(true);
-
-	event.player.gamemode = Gamemode.Survival;
 });
 
 serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
@@ -34,7 +32,20 @@ serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
 
 	const { x, y, z } = packet;
 
-	const block = session.player.dimension.getBlock(x, y, z);
+	const entity = session.player.dimension.spawnEntity('minecraft:npc', new Vector3f(x, y + 1, z));
 
-	console.log(block.permutation.type);
+	const nametag = entity.getComponent('minecraft:nametag');
+
+	nametag.setCurrentValue('Hello, World!');
+
+	const component = entity.getComponent('minecraft:always_show_nametag');
+
+	component.setCurrentValue(true);
+
+	// Random number between 0 and 20.
+	const random = Math.floor(Math.random() * 20);
+
+	const variant = entity.getComponent('minecraft:variant');
+
+	variant.setCurrentValue(random);
 });

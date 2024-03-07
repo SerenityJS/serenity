@@ -2,7 +2,7 @@ import { AbilityLayerFlag, AbilitySet } from '@serenityjs/bedrock-protocol';
 import { PlayerAbilityComponent } from './Ability.js';
 
 class PlayerDoorsAndSwitchesComponent extends PlayerAbilityComponent {
-	public readonly type = AbilitySet.DoorsAndSwitches;
+	public readonly identifier = AbilitySet.DoorsAndSwitches;
 
 	public readonly flag = AbilityLayerFlag.DoorsAndSwitches;
 

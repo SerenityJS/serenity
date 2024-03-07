@@ -2,7 +2,7 @@ import { AbilityLayerFlag, AbilitySet } from '@serenityjs/bedrock-protocol';
 import { PlayerAbilityComponent } from './Ability.js';
 
 class PlayerInvulnerableComponent extends PlayerAbilityComponent {
-	public readonly type = AbilitySet.Invulnerable;
+	public readonly identifier = AbilitySet.Invulnerable;
 
 	public readonly flag = AbilityLayerFlag.Invulnerable;
 

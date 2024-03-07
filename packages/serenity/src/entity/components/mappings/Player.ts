@@ -24,18 +24,12 @@ import {
 	PlayerLevelComponent,
 } from '../../../player/components/index.js';
 import type { EntityComponent } from '../Component.js';
-import {
-	EntityCursorComponent,
-	EntityInventoryComponent,
-	EntityMovementComponent,
-	EntityHealthComponent,
-} from '../index.js';
+import { EntityCursorComponent } from '../Cursor.js';
+import { GENERIC_COMPONENTS } from './Generic.js';
 
 const PLAYER_COMPONENTS: (typeof EntityComponent)[] = [
-	EntityInventoryComponent,
+	...GENERIC_COMPONENTS,
 	EntityCursorComponent,
-	EntityMovementComponent,
-	EntityHealthComponent,
 	PlayerHungerComponent,
 	PlayerLevelComponent,
 	PlayerExperienceComponent,

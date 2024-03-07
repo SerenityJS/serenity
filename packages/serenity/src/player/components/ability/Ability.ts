@@ -4,9 +4,9 @@ import { PlayerComponent } from '../Component.js';
 
 abstract class PlayerAbilityComponent extends PlayerComponent {
 	/**
-	 * The type of the ability.
+	 * The identifier of the ability.
 	 */
-	public abstract readonly type: AbilitySet;
+	public abstract readonly identifier: AbilitySet;
 
 	/**
 	 * The flag of the ability. (For protocol purposes)
