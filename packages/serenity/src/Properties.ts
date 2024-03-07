@@ -24,6 +24,10 @@ const DEFAULT_SERVER_PROPERTIES = {
 		provider: 'internal',
 		default: 'default-world',
 	},
+	plugins: {
+		enabled: true,
+		path: './plugins',
+	},
 };
 
 class ServerProperties {

@@ -56,10 +56,10 @@ class Shutdown extends AbstractEvent {
 
 		// Log the shutdown event.
 		this.serenity.logger.info('Server is now shutting down...');
-    
-    for (const [id, plugin] of this.serenity.pluginManager.plugins) {
-      await plugin.main?.onDisable?.();
-    }
+
+		// for (const [id, plugin] of this.serenity.plugins.plugins) {
+		// 	await plugin.main?.onDisable?.();
+		// }
 
 		// Exit the process.
 		// TODO: make better

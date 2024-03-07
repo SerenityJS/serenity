@@ -34,7 +34,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly version: string;
 	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
-	public readonly pluginManager: PluginManager;
+	public readonly plugins: PluginManager;
 
 	/**
 	 * Constructs a new serenity instance.
@@ -62,7 +62,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		this.events = new Map();
 		this.network = new Network(this);
-		this.pluginManager = new PluginManager(this);
+		this.plugins = new PluginManager(this);
 
 		if (Logger.DEBUG) this.logger.debug('Software is running in debug mode. Debug messages will now be shown.');
 
@@ -200,7 +200,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public stop(reason?: string): void {
 		const shutdown = this.events.get('Shutdown') as typeof Shutdown;
 
-		shutdown.logic(1, reason ?? 'Server is now shutting down...');
+		shutdown.logic(1, reason ?? 'Server is now shutting down...').catch((error) => {});
 	}
 
 	/**
