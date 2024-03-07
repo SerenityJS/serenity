@@ -14,7 +14,7 @@ import { SERENITY_EVENTS } from './events/index.js';
 import { NETWORK_HANDLERS } from './network/handlers/index.js';
 import { Network, NetworkSession, NetworkBound } from './network/index.js';
 import type { NetworkPacketEvent } from './network/index.js';
-import { PluginBase, PluginManager } from './plugin/index.js';
+import { PluginManager } from './plugin/index.js';
 import type { WorldProvider } from './provider/index.js';
 import type { WorldProperties, SerenityEvents, SerenityOptions } from './types/index.js';
 import { HookMethod } from './types/index.js';
