@@ -1,10 +1,10 @@
 import type {
 	DisconnectReason,
-	RespawnState,
 	FormType,
 	Vector3f,
 	BlockCoordinates,
 	MetadataFlags,
+	RespawnState,
 } from '@serenityjs/bedrock-protocol';
 import {
 	ChatTypes,
@@ -18,7 +18,6 @@ import {
 	PermissionLevel,
 	CommandPermissionLevel,
 	AbilityLayerType,
-	RemoveEntity,
 	LevelChunk,
 	MetadataKey,
 	ToastRequest,

@@ -1,5 +1,5 @@
-import type { MetadataDictionary, MetadataFlags, MetadataType } from '@serenityjs/bedrock-protocol';
-import { Vector3f, MetadataKey, AddEntity, RemoveEntity } from '@serenityjs/bedrock-protocol';
+import type { MetadataDictionary, MetadataFlags, MetadataType, Rotation } from '@serenityjs/bedrock-protocol';
+import { Vector3f, MetadataKey, AddEntity, RemoveEntity, MoveEntity } from '@serenityjs/bedrock-protocol';
 import type { Player } from '../index.js';
 import type { EntityComponents } from '../types/index.js';
 import type { Dimension } from '../world/index.js';
@@ -18,7 +18,7 @@ class Entity {
 	public readonly runtimeId: bigint;
 	public readonly uniqueId: bigint;
 	public readonly identifier: string;
-	public readonly dimension: Dimension;
+	public dimension: Dimension;
 	public readonly position: Vector3f;
 	public readonly velocity: Vector3f;
 	public readonly rotation: Vector3f;

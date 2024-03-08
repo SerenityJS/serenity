@@ -8,7 +8,7 @@ import {
 	MetadataType,
 } from '@serenityjs/bedrock-protocol';
 import type { Block } from '@serenityjs/serenity';
-import { Serenity, InternalProvider, Overworld, BlockBehavior } from '@serenityjs/serenity';
+import { Serenity, InternalProvider, Overworld, BetterFlat } from '@serenityjs/serenity';
 
 // Create a new serenity instance.
 const serenity = new Serenity();

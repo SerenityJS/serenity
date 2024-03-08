@@ -13,6 +13,7 @@ export * from './StartGame.js';
 export * from './AddPlayer.js';
 export * from './AddEntity.js';
 export * from './RemoveEntity.js';
+export * from './MoveEntity.js';
 export * from './MovePlayer.js';
 export * from './UpdateBlock.js';
 export * from './LevelEvent.js';

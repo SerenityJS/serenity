@@ -14,6 +14,7 @@ enum Packet {
 	AddPlayer = 0x0c, // 12
 	AddEntity = 0x0d, // 13
 	RemoveEntity = 0x0e, // 14
+	MoveEntity = 0x12, // 18
 	MovePlayer = 0x13, // 19
 	UpdateBlock = 0x15, // 21
 	LevelEvent = 0x19, // 25
@@ -34,7 +35,7 @@ enum Packet {
 	InventoryContent = 0x31, // 49
 	InventorySlot = 0x32, // 50
 	LevelChunk = 0x3a, // 58
-  SetCommandsEnabled = 0x3b, // 59
+	SetCommandsEnabled = 0x3b, // 59
 	// SetDifficulty = 0x3c, // 60
 	ChangeDimension = 0x3d, // 61
 	SetPlayerGameType = 0x3e, // 62
@@ -43,7 +44,7 @@ enum Packet {
 	ChunkRadiusUpdate = 0x46, // 70
 	AvailableCommands = 0x4c,
 	CommandRequest = 0x4d, // 77
-  CommandOutput = 0x4f, // 79
+	CommandOutput = 0x4f, // 79
 	SetTitle = 0x58, // 88
 	ModalFormRequest = 0x64, // 100
 	ModalFormResponse = 0x65, // 101
