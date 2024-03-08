@@ -1,17 +1,17 @@
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
-import { join, resolve, relative } from 'node:path';
-import process, { cwd } from 'node:process';
-import type { Serenity } from '../index.js';
+import { resolve } from 'node:path';
+import process from 'node:process';
+import type { BasePlugin, Serenity } from '../index.js';
 import { Logger, LoggerColors } from '../index.js';
 
 interface Plugin {
-	instance: any;
+	instance: BasePlugin;
 	package: Record<string, any>;
 	plugin: any;
 }
 
-class PluginManager {
+class Plugins {
 	/**
 	 * The serenity instance.
 	 */
@@ -32,6 +32,11 @@ class PluginManager {
 	 */
 	public readonly plugins: Map<string, Plugin>;
 
+	/**
+	 * Constructs a new plugins instance.
+	 *
+	 * @param serenity - The serenity instance.
+	 */
 	public constructor(serenity: Serenity) {
 		this.serenity = serenity;
 		this.logger = new Logger('Plugins', '#32a8a4');
@@ -79,6 +84,22 @@ class PluginManager {
 
 			// Validate the package.json file
 			if (!this.validatePackage(file.name, pack)) continue;
+
+			// Check if the plugin has a node_modules folder
+			const needModules = existsSync(resolve(file.path, file.name, 'node_modules'));
+
+			// Install the node_modules folder
+			if (!needModules) {
+				try {
+					execSync('npm install', { cwd: resolve(file.path, file.name) });
+				} catch {
+					this.logger.error(`Failed to install node_modules for plugin "${file.name}".`);
+					continue;
+				}
+
+				// Log the success of the installation
+				this.logger.success(`Installed node_modules for plugin "${file.name}".`);
+			}
 
 			// Check if the plugin is using TypeScript
 			const typescript = files.find((file) => file.name === 'tsconfig.json');
@@ -185,4 +206,4 @@ class PluginManager {
 	}
 }
 
-export { PluginManager };
+export { Plugins };

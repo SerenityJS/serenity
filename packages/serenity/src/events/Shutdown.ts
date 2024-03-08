@@ -54,17 +54,22 @@ class Shutdown extends AbstractEvent {
 			}
 		}
 
-		// Log the shutdown event.
-		this.serenity.logger.info('Server is now shutting down...');
-
-		// for (const [id, plugin] of this.serenity.plugins.plugins) {
-		// 	await plugin.main?.onDisable?.();
-		// }
+		// Loop through all the plugins and call the shutdown method.
+		for (const [_, plugin] of this.serenity.plugins.plugins) {
+			try {
+				plugin.instance.shutdown();
+			} catch (error) {
+				this.serenity.logger.error(`Error while shutting down plugin ${plugin.constructor.name}:`, error);
+			}
+		}
 
 		// Exit the process.
 		// TODO: make better
 		// NOTE: the process.exit are called before the player disconnects
 		setTimeout(() => process.exit(cause), 50);
+
+		// Log the shutdown event.
+		this.serenity.logger.info('Server has been shutdown...');
 	}
 }
 
