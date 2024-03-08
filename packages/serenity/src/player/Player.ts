@@ -21,6 +21,7 @@ import {
 	RemoveEntity,
 	LevelChunk,
 	MetadataKey,
+	ToastRequest,
 } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { EntityAttributeComponent } from '../entity/components/attributes/Attribute.js';
@@ -273,6 +274,24 @@ class Player extends Entity {
 		packet.parameters = null;
 		packet.xuid = '';
 		packet.platformChatId = '';
+
+		// Send the packet.
+		this.session.send(packet);
+	}
+
+	/**
+	 * Sends a notification message to the player.
+	 *
+	 * @param title The title of the notification.
+	 * @param message The message of the notification.
+	 */
+	public sendNotification(title: string, message: string): void {
+		// Create a new ToastRequest packet.
+		const packet = new ToastRequest();
+
+		// Assign the packet data.
+		packet.title = title;
+		packet.message = message;
 
 		// Send the packet.
 		this.session.send(packet);
