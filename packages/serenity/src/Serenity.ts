@@ -14,7 +14,7 @@ import { SERENITY_EVENTS } from './events/index.js';
 import { NETWORK_HANDLERS } from './network/handlers/index.js';
 import { Network, NetworkSession, NetworkBound } from './network/index.js';
 import type { NetworkPacketEvent } from './network/index.js';
-import { PluginManager } from './plugin/index.js';
+import { Plugins } from './plugin/index.js';
 import type { WorldProvider } from './provider/index.js';
 import type { WorldProperties, SerenityEvents, SerenityOptions } from './types/index.js';
 import { HookMethod } from './types/index.js';
@@ -34,7 +34,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 	public readonly version: string;
 	public readonly events: Map<string, AbstractEvent>;
 	public readonly network: Network;
-	public readonly plugins: PluginManager;
+	public readonly plugins: Plugins;
 
 	/**
 	 * Constructs a new serenity instance.
@@ -62,7 +62,7 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		this.events = new Map();
 		this.network = new Network(this);
-		this.plugins = new PluginManager(this);
+		this.plugins = new Plugins(this);
 
 		if (Logger.DEBUG) this.logger.debug('Software is running in debug mode. Debug messages will now be shown.');
 
