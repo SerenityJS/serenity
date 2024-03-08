@@ -4,17 +4,10 @@ import {
 	ResourcePackStack,
 	PlayStatus,
 	PlayerStatus,
-	NetworkChunkPublisherUpdate,
 	ResourcePackClientResponse,
-	AbilityLayerFlag,
-	SetEntityData,
-	MetadataKey,
-	MetadataType,
-	MetadataFlags,
 	RespawnState,
 	UpdateAdventureSettings,
 } from '@serenityjs/bedrock-protocol';
-import type { Chunk } from '../../world/index.js';
 import type { NetworkSession } from '../Session.js';
 import { NetworkHandler } from './NetworkHandler.js';
 
@@ -88,28 +81,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				for (const component of player.getMetadata()) {
 					component.resetToDefaultValue();
 				}
-
-				// const data = new SetEntityData();
-				// data.runtimeEntityId = player.runtimeId;
-				// data.metadata = [
-				// 	{
-				// 		key: MetadataKey.Flags,
-				// 		type: MetadataType.Long,
-				// 		value: true,
-				// 		flag: MetadataFlags.AffectedByGravity,
-				// 	},
-				// 	{
-				// 		key: MetadataKey.Flags,
-				// 		type: MetadataType.Long,
-				// 		value: true,
-				// 		flag: MetadataFlags.Breathing,
-				// 	},
-				// ];
-				// data.properties = {
-				// 	ints: [],
-				// 	floats: [],
-				// };
-				// data.tick = BigInt(0);
 
 				player.dimension.world.network.sendCreativeContent(player);
 

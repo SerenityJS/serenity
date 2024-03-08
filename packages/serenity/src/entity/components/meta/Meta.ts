@@ -64,6 +64,9 @@ abstract class EntityMetaComponent extends EntityComponent {
 	public resetToDefaultValue(): void {
 		// Set the current value to the default value
 		this.currentValue = this.defaultValue;
+
+		// Update the entity
+		this.entity.dimension.updateEntity(this.entity);
 	}
 }
 

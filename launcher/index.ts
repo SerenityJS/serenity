@@ -1,4 +1,12 @@
-import { DimensionType, Gamemode, Packet, Vector3f } from '@serenityjs/bedrock-protocol';
+import {
+	MetadataFlags,
+	DimensionType,
+	Gamemode,
+	MetadataKey,
+	Packet,
+	Vector3f,
+	MetadataType,
+} from '@serenityjs/bedrock-protocol';
 import type { Block } from '@serenityjs/serenity';
 import { Serenity, InternalProvider, Overworld, BlockBehavior } from '@serenityjs/serenity';
 
