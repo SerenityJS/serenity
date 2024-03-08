@@ -2,7 +2,15 @@ import { Endianness, Float32, Uuid, VarLong, VarString, ZigZag, Int64, Uint8, In
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { CommandPermissionLevel, DeviceOS, Gamemode, Packet as PacketId, PermissionLevel } from '../enums/index.js';
-import { EntityProperties, Item, MetadataDictionary, Vector3f, AbilityLayers, Links, Vector2f } from '../types/index.js';
+import {
+	EntityProperties,
+	Item,
+	MetadataDictionary,
+	Vector3f,
+	AbilityLayers,
+	Links,
+	Vector2f,
+} from '../types/index.js';
 
 @Packet(PacketId.AddPlayer)
 class AddPlayer extends DataPacket {
@@ -12,7 +20,8 @@ class AddPlayer extends DataPacket {
 	@Serialize(VarString) public platformChatId!: string;
 	@Serialize(Vector3f) public position!: Vector3f;
 	@Serialize(Vector3f) public velocity!: Vector3f;
-	@Serialize(Vector2f) public rotation!: Vector2f;
+	@Serialize(Float32, Endianness.Little) public pitch!: number;
+	@Serialize(Float32, Endianness.Little) public yaw!: number;
 	@Serialize(Float32, Endianness.Little) public headYaw!: number;
 	@Serialize(Item) public heldItem!: Item;
 	@Serialize(ZigZag) public gamemode!: Gamemode;

@@ -11,8 +11,10 @@ class AddEntity extends DataPacket {
 	@Serialize(VarString) public identifier!: string;
 	@Serialize(Vector3f) public position!: Vector3f;
 	@Serialize(Vector3f) public velocity!: Vector3f;
-	@Serialize(Vector3f) public rotation!: Vector3f; // Pitch, Yaw, HeadYaw
-	@Serialize(Float32, Endianness.Little) public bodyYaw!: number; // Apparently this is the same as rotation.y (Yaw). Mojang moment.
+	@Serialize(Float32, Endianness.Little) public pitch!: number;
+	@Serialize(Float32, Endianness.Little) public yaw!: number;
+	@Serialize(Float32, Endianness.Little) public headYaw!: number;
+	@Serialize(Float32, Endianness.Little) public bodyYaw!: number;
 	@Serialize(EntityAttributes) public attributes!: EntityAttributes[];
 	@Serialize(MetadataDictionary) public metadata!: MetadataDictionary[];
 	@Serialize(EntityProperties) public properties!: EntityProperties;

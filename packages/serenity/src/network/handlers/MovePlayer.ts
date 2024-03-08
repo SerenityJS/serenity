@@ -29,9 +29,9 @@ class MovePlayerHandler extends NetworkHandler {
 		player.position.z = packet.position.z;
 
 		// Set the player's rotation.
-		player.rotation.x = packet.pitch;
-		player.rotation.y = packet.yaw;
-		player.rotation.z = packet.headYaw;
+		player.rotation.pitch = packet.pitch;
+		player.rotation.yaw = packet.yaw;
+		player.rotation.headYaw = packet.headYaw;
 
 		// Set the player's on ground status.
 		player.onGround = packet.onGround;
@@ -45,9 +45,9 @@ class MovePlayerHandler extends NetworkHandler {
 			const move = new MovePlayer();
 			move.runtimeId = player.runtimeId;
 			move.position = packet.position;
-			move.pitch = player.rotation.x;
-			move.yaw = player.rotation.y;
-			move.headYaw = player.rotation.z;
+			move.pitch = player.rotation.pitch;
+			move.yaw = player.rotation.yaw;
+			move.headYaw = player.rotation.headYaw;
 			move.mode = packet.mode;
 			move.onGround = player.onGround;
 			move.riddenRuntimeId = 0n;

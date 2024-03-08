@@ -42,18 +42,5 @@ serenity.network.on(Packet.BlockPickRequest, ({ packet, session }) => {
 
 	const entity = session.player.dimension.spawnEntity('minecraft:npc', new Vector3f(x, y + 1, z));
 
-	const nametag = entity.getComponent('minecraft:nametag');
-
-	nametag.setCurrentValue('Hello, World!');
-
-	const component = entity.getComponent('minecraft:always_show_nametag');
-
-	component.setCurrentValue(true);
-
-	// Random number between 0 and 20.
-	const random = Math.floor(Math.random() * 20);
-
-	const variant = entity.getComponent('minecraft:variant');
-
-	variant.setCurrentValue(random);
+	entity.teleport(session.player.position, session.player.rotation);
 });

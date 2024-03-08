@@ -5,6 +5,7 @@ import type {
 	BlockCoordinates,
 	MetadataFlags,
 	RespawnState,
+	Rotation,
 } from '@serenityjs/bedrock-protocol';
 import {
 	ChatTypes,
@@ -21,6 +22,9 @@ import {
 	LevelChunk,
 	MetadataKey,
 	ToastRequest,
+	MovePlayer,
+	MoveMode,
+	TeleportCause,
 } from '@serenityjs/bedrock-protocol';
 import type { Serenity } from '../Serenity.js';
 import { EntityAttributeComponent } from '../entity/components/attributes/Attribute.js';
@@ -332,8 +336,9 @@ class Player extends Entity {
 		packet.platformChatId = ''; // TODO: Not sure what this is.
 		packet.position = this.position;
 		packet.velocity = this.velocity;
-		packet.rotation = this.rotation;
-		packet.headYaw = this.rotation.z;
+		packet.pitch = this.rotation.pitch;
+		packet.yaw = this.rotation.yaw;
+		packet.headYaw = this.rotation.headYaw;
 		packet.heldItem = {
 			networkId: 0, // TODO: Get the network ID from the entity.
 		};
@@ -382,6 +387,25 @@ class Player extends Entity {
 			// Add the player to the dimension entities map.
 			this.dimension.entities.set(this.uniqueId, this);
 		}
+	}
+
+	public teleport(position: Vector3f, rotation?: Rotation): void {
+		// Create a new MovePlayer packet.
+		const packet = new MovePlayer();
+
+		// Assign the packet data.
+		packet.runtimeId = this.runtimeId;
+		packet.position = position;
+		packet.pitch = rotation?.pitch ?? this.rotation.pitch;
+		packet.yaw = rotation?.yaw ?? this.rotation.yaw;
+		packet.headYaw = rotation?.headYaw ?? this.rotation.headYaw;
+		packet.mode = MoveMode.Normal;
+		packet.onGround = this.onGround;
+		packet.riddenRuntimeId = 0n;
+		packet.tick = 0n;
+
+		// Broadcast the packet.
+		this.dimension.broadcast(packet);
 	}
 }
 export { Player };

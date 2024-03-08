@@ -79,9 +79,9 @@ class Rotation extends DataType {
 	 * @param value The rotation to write.
 	 */
 	public static override write(stream: BinaryStream, value: Rotation): void {
-		stream.writeByte(value.yaw / (360 / 256));
-		stream.writeByte(value.pitch / (360 / 256));
-		stream.writeByte(value.headYaw / (360 / 256));
+		stream.writeByte(Math.floor(value.pitch / (360 / 256)));
+		stream.writeByte(Math.floor(value.headYaw / (360 / 256)));
+		stream.writeByte(Math.floor(value.yaw / (360 / 256)));
 	}
 }
 

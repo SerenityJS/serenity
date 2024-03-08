@@ -8,7 +8,6 @@ import {
 } from '@serenityjs/bedrock-protocol';
 import type { DimensionType } from '@serenityjs/bedrock-protocol';
 import { Logger } from '../console/index.js';
-import { Entity } from '../entity/Entity.js';
 import type { Player } from '../player/index.js';
 import type { WorldProvider } from '../provider/index.js';
 import type { WorldProperties } from '../types/index.js';

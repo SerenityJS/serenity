@@ -1,5 +1,13 @@
-import type { MetadataDictionary, MetadataFlags, MetadataType, Rotation } from '@serenityjs/bedrock-protocol';
-import { Vector3f, MetadataKey, AddEntity, RemoveEntity, MoveEntity } from '@serenityjs/bedrock-protocol';
+import type { MetadataFlags, MetadataType } from '@serenityjs/bedrock-protocol';
+import {
+	MetadataDictionary,
+	Rotation,
+	Vector3f,
+	MetadataKey,
+	AddEntity,
+	RemoveEntity,
+	MoveEntity,
+} from '@serenityjs/bedrock-protocol';
 import type { Player } from '../index.js';
 import type { EntityComponents } from '../types/index.js';
 import type { Dimension } from '../world/index.js';
@@ -21,7 +29,7 @@ class Entity {
 	public dimension: Dimension;
 	public readonly position: Vector3f;
 	public readonly velocity: Vector3f;
-	public readonly rotation: Vector3f;
+	public readonly rotation: Rotation;
 	public readonly metadata: Map<MetadataFlags | MetadataKey, EntityMetadata>;
 	public readonly properties: Map<string, bigint | number | string>;
 	public readonly components: Map<string, EntityComponent>; // TODO: Probably should merge properties into components.
@@ -33,7 +41,7 @@ class Entity {
 		this.dimension = dimension;
 		this.position = new Vector3f(0, 0, 0);
 		this.velocity = new Vector3f(0, 0, 0);
-		this.rotation = new Vector3f(0, 0, 0);
+		this.rotation = new Rotation(0, 0, 0);
 		this.metadata = new Map();
 		this.properties = new Map();
 		this.components = new Map();
@@ -84,8 +92,10 @@ class Entity {
 		packet.identifier = this.identifier;
 		packet.position = this.position;
 		packet.velocity = this.velocity;
-		packet.rotation = this.rotation;
-		packet.bodyYaw = this.rotation.y;
+		packet.pitch = this.rotation.pitch;
+		packet.yaw = this.rotation.yaw;
+		packet.headYaw = this.rotation.headYaw;
+		packet.bodyYaw = this.rotation.yaw;
 		packet.attributes = [];
 		packet.metadata = this.getMetadata().map((entry) => {
 			return {
@@ -130,6 +140,39 @@ class Entity {
 
 		// Remove the entity from the dimension entities map.
 		this.dimension.entities.delete(this.uniqueId);
+	}
+
+	/**
+	 * Teleports the entity to the specified position.
+	 *
+	 * @param position - The position to teleport to.
+	 * @param rotation - The rotation to teleport to.
+	 */
+	public teleport(position: Vector3f, rotation?: Rotation): void {
+		// Create a new MoveEntity packet.
+		let packet = new MoveEntity();
+
+		// Assign packet data.
+		packet.runtimeEntityId = this.runtimeId;
+		packet.flags = 0x04;
+		packet.position = position;
+		packet.rotation = rotation ?? this.rotation;
+
+		// Broadcast the packet to the dimension.
+		this.dimension.broadcast(packet);
+
+		// For some reason, we must send another packet to update the rotation.
+		if (!rotation) return;
+
+		// Create a new MoveEntity packet.
+		packet = new MoveEntity();
+		packet.runtimeEntityId = this.runtimeId;
+		packet.flags = 0x04;
+		packet.position = position;
+		packet.rotation = rotation;
+
+		// Broadcast the packet to the dimension.
+		this.dimension.broadcast(packet);
 	}
 }
 
