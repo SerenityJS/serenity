@@ -9,6 +9,7 @@ import {
 	EntityAlwaysShowNametagComponent,
 	EntityCanShowNametagComponent,
 	EntityBreathingComponent,
+	EntityHasGravityComponent,
 } from '../index.js';
 
 const GENERIC_COMPONENTS: (typeof EntityComponent)[] = [
@@ -21,6 +22,7 @@ const GENERIC_COMPONENTS: (typeof EntityComponent)[] = [
 	EntityAlwaysShowNametagComponent,
 	EntityCanShowNametagComponent,
 	EntityBreathingComponent,
+	EntityHasGravityComponent,
 ];
 
 export { GENERIC_COMPONENTS };

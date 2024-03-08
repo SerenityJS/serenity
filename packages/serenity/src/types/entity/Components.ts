@@ -1,7 +1,9 @@
 import type {
 	EntityAlwaysShowNametagComponent,
+	EntityBreathingComponent,
 	EntityCanShowNametagComponent,
 	EntityCursorComponent,
+	EntityHasGravityComponent,
 	EntityHealthComponent,
 	EntityInventoryComponent,
 	EntityLavaMovementComponent,
@@ -14,8 +16,10 @@ import type {
 
 interface EntityComponents {
 	'minecraft:always_show_nametag': EntityAlwaysShowNametagComponent;
+	'minecraft:breathing': EntityBreathingComponent;
 	'minecraft:can_show_nametag': EntityCanShowNametagComponent;
 	'minecraft:cursor': EntityCursorComponent;
+	'minecraft:has_gravity': EntityHasGravityComponent;
 	'minecraft:health': EntityHealthComponent;
 	'minecraft:inventory': EntityInventoryComponent;
 	'minecraft:lava_movement': EntityLavaMovementComponent;
