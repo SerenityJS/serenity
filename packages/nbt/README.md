@@ -1,1 +1,0 @@
-# Serenity Named Binary Tag

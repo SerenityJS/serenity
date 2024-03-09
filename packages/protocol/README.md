@@ -1,1 +1,0 @@
-# Serenity Bedrock Protocol
