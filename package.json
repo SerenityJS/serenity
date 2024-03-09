@@ -8,7 +8,12 @@
     "new": "turbo gen"
   },
   "devDependencies": {
+    "@serenityjs/eslint-config": "*",
+    "@serenityjs/typescript-config": "*",
     "@turbo/gen": "^1.12.5",
+    "@types/cross-spawn": "^6.0.6",
+    "cross-spawn": "^7.0.3",
+    "json5": "^2.2.3",
     "turbo": "latest"
   },
   "engines": {

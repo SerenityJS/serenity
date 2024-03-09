@@ -1269,12 +1269,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/jest-presets@workspace:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
+"@serenityjs/jest-presets@npm:*, @serenityjs/jest-presets@workspace:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
   version: 0.0.0-use.local
   resolution: "@serenityjs/jest-presets@workspace:packages/jest-presets"
   dependencies:
     jest-environment-jsdom: "npm:^29.7.0"
     ts-jest: "npm:^29.1.2"
+  languageName: unknown
+  linkType: soft
+
+"@serenityjs/test@workspace:packages/test":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/test@workspace:packages/test"
+  dependencies:
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    jest: "npm:^29.7.0"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
 
@@ -1441,6 +1456,15 @@ __metadata:
   dependencies:
     "@babel/types": "npm:^7.20.7"
   checksum: 10c0/033abcb2f4c084ad33e30c3efaad82161240f351e3c71b6154ed289946b33b363696c0fbd42502b68e4582a87413c418321f40eb1ea863e34fe525641345e05b
+  languageName: node
+  linkType: hard
+
+"@types/cross-spawn@npm:^6.0.6":
+  version: 6.0.6
+  resolution: "@types/cross-spawn@npm:6.0.6"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/e3d476bb6b3a54a8934a97fe6ee4bd13e2e5eb29073929a4be76a52466602ffaea420b20774ffe8503f9fa24f3ae34817e95e7f625689fb0d1c10404f5b2889c
   languageName: node
   linkType: hard
 
@@ -5853,7 +5877,7 @@ __metadata:
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
     tsup: "npm:^8.0.2"
-    typescript: "npm:^5.3.3"
+    typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
 
@@ -7630,7 +7654,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "serenityjs@workspace:."
   dependencies:
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@turbo/gen": "npm:^1.12.5"
+    "@types/cross-spawn": "npm:^6.0.6"
+    cross-spawn: "npm:^7.0.3"
+    json5: "npm:^2.2.3"
     turbo: "npm:latest"
   languageName: unknown
   linkType: soft
@@ -8622,7 +8651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5, typescript@npm:^5.3.3, typescript@npm:^5.4.2":
+"typescript@npm:^5, typescript@npm:^5.4.2":
   version: 5.4.2
   resolution: "typescript@npm:5.4.2"
   bin:
@@ -8632,7 +8661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.2#optional!builtin<compat/typescript>":
   version: 5.4.2
   resolution: "typescript@patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"
   bin:
