@@ -183,10 +183,9 @@ class Serenity extends EventEmitter<SerenityEvents> {
 
 		const tick = () =>
 			setTimeout(() => {
-				// TODO: Tick the worlds.
-
-				for (const player of this.getWorld().getPlayers()) {
-					player.tick();
+				// Loop through each world.
+				for (const world of this.worlds.values()) {
+					world.tick();
 				}
 
 				tick();

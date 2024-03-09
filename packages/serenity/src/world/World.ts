@@ -72,6 +72,16 @@ class World {
 	}
 
 	/**
+	 * Handles the tick for the world.
+	 */
+	public tick(): void {
+		// Loop through each dimension.
+		for (const dimension of this.dimensions.values()) {
+			dimension.tick();
+		}
+	}
+
+	/**
 	 * Get the players in the world.
 	 *
 	 * @returns The players in the world.

@@ -43,6 +43,16 @@ class Dimension {
 		this.spawn = new Vector3f(0, 65, 0);
 	}
 
+	/**
+	 * Handles the tick for the dimension.
+	 */
+	public tick(): void {
+		// Loop through each entity.
+		for (const entity of this.entities.values()) {
+			entity.tick();
+		}
+	}
+
 	public broadcast(...packets: DataPacket[]): void {
 		// Loop through each player.
 		for (const player of this.getPlayers().values()) {

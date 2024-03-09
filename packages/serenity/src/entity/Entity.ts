@@ -46,6 +46,12 @@ class Entity {
 		this.properties = new Map();
 		this.components = new Map();
 	}
+
+	/**
+	 * Handles the a tick for the entity.
+	 */
+	public tick(): void {}
+
 	/**
 	 * Gets the component from the entity.
 	 *
