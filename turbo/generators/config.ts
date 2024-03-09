@@ -50,7 +50,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 	});
 
 	// Creates a new action in plop that allows updating the workspace config.
-	plop.setActionType("updateWorkspaceConfig", (answers) => {
+	plop.setActionType("updateWorkspaceConfig", (answers: { type?: "Rust" }) => {
 		const pathToWorkspaceConfig = plop.renderString(
 			`{{ turbo.paths.root }}/.vscode/${WorkspaceConfigName}`,
 			answers
@@ -59,7 +59,8 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 			readFileSync(pathToWorkspaceConfig, "utf8")
 		) as WorkspaceConfigMin;
 
-		const name = plop.renderString(`📦 {{ titleCase name }}`, answers);
+		const emoji = answers?.type === "Rust" ? "🦀" : "📦";
+		const name = plop.renderString(`${emoji} {{ titleCase name }}`, answers);
 		const path = plop.renderString("{{ dashCase name }}", answers);
 
 		workspaceConfig.folders.push({
