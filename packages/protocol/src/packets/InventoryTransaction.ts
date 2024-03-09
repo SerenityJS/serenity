@@ -1,4 +1,4 @@
-import { Endianness, VarInt } from '@serenityjs/binarystream';
+import { Endianness, VarInt } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { Packet as PacketId, TransactionType } from '../enums/index.js';

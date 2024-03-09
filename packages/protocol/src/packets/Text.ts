@@ -1,4 +1,4 @@
-import { Uint8, Bool, VarString, Endianness } from '@serenityjs/binarystream';
+import { Uint8, Bool, VarString, Endianness } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { ChatTypes, Packet as PacketId } from '../enums/index.js';

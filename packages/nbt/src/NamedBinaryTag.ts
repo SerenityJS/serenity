@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer';
-import { Endianness, BinaryStream } from '@serenityjs/binarystream';
+import { Endianness, BinaryStream } from '@serenityjs/binaryutils';
 import { NbtTag } from './NbtTag.js';
 
 export interface TagEntry<T extends NbtTag, V> {

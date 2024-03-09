@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer';
-import { BinaryStream, Endianness } from '@serenityjs/binarystream';
+import { BinaryStream, Endianness } from '@serenityjs/binaryutils';
 import type { ClientData } from '../../types/index.js';
 
 //

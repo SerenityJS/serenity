@@ -1,5 +1,5 @@
 import type { Buffer } from 'node:buffer';
-import { Endianness } from '@serenityjs/binarystream';
+import { Endianness } from '@serenityjs/binaryutils';
 import { Packet } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import type { DimensionType } from '../enums/index.js';

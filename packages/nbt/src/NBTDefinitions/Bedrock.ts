@@ -1,5 +1,5 @@
-import { Endianness } from '@serenityjs/binarystream';
-import type { BinaryStream } from '@serenityjs/binarystream';
+import { Endianness } from '@serenityjs/binaryutils';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { NBTTag, Int16, Int32, Int64, Float, Double } from '../NBT.js';
 import type { NBTValue } from '../NBT.js';
 import { GeneralNBTDefinitionWriter, GeneralNBTDefinitionReader, NBT } from './General.js';

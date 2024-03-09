@@ -1,4 +1,4 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { CommandOriginData } from './CommandOriginData.js';
 import { CommandOutputMessage } from './CommandOutputMessage.js';
@@ -39,7 +39,7 @@ class CommandOutputData extends DataType {
 
 		const amount = stream.readVarInt();
 
-    const messages = [];
+		const messages = [];
 		for (let i = 0; i < amount; i++) {
 			messages.push(CommandOutputMessage.read(stream));
 		}
@@ -48,7 +48,7 @@ class CommandOutputData extends DataType {
 		if (outputType === CommandOutputType.TYPE_DATA_SET) {
 			data = stream.readVarString();
 		}
-    
+
     return new CommandOutputData(originData, outputType, successCount, messages, data);
 	}
 

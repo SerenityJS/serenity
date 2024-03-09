@@ -1,4 +1,4 @@
-import { Bool, Endianness, Float32, Short, Uint8 } from '@serenityjs/binarystream';
+import { Bool, Endianness, Float32, Short, Uint8 } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { CompressionMethod, Packet as PacketId } from '../enums/index.js';

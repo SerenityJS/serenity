@@ -1,4 +1,4 @@
-import { VarString, ZigZag } from '@serenityjs/binarystream';
+import { VarString, ZigZag } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { Packet as PacketId, ViolationSeverity, ViolationType } from '../enums/index.js';

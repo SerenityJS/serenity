@@ -1,4 +1,4 @@
-import { VarInt } from '@serenityjs/binarystream';
+import { VarInt } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { Packet as PacketId, UpdateBlockFlagsType, UpdateBlockLayerType } from '../enums/index.js';

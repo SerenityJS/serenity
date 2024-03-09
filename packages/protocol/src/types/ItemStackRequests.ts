@@ -1,4 +1,4 @@
-import { Endianness, type BinaryStream } from '@serenityjs/binarystream';
+import { Endianness, type BinaryStream } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { ItemStackActionType } from '../enums/ItemStackActionType.js';
 import { ItemLegacy } from './ItemLegacy.js';

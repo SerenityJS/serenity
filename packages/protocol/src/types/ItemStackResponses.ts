@@ -1,4 +1,4 @@
-import { type BinaryStream } from '@serenityjs/binarystream';
+import { type BinaryStream } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { ItemStackStatus, ContainerSlotType } from '../enums/index.js';
 

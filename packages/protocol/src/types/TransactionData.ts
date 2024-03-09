@@ -1,4 +1,4 @@
-import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
+import type { BinaryStream, Endianness } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { TransactionType } from '../enums/index.js';
 import type { ItemReleaseAction, UseItemOnEntityAction, UseItemAction } from '../enums/index.js';

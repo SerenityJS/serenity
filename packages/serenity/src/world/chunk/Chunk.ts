@@ -1,6 +1,6 @@
 import type { Buffer } from 'node:buffer';
 import { ChunkCoords } from '@serenityjs/bedrock-protocol';
-import { BinaryStream } from '@serenityjs/binarystream';
+import { BinaryStream } from '@serenityjs/binaryutils';
 import { SubChunk } from './SubChunk.js';
 import type { BlockPermutation } from './block/index.js';
 

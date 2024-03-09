@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@serenityjs/bedrock-data": "^0.0.7",
-		"@serenityjs/binarystream": "^1.3.4",
+		"@serenityjs/binaryutils": "^2.0.0",
 		"@serenityjs/nbt": "^1.0.0",
 		"@serenityjs/raknet-protocol": "^1.0.9"
 	},

@@ -1,4 +1,4 @@
-import { Uint8 } from '@serenityjs/binarystream';
+import { Uint8 } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { Packet as PacketId, ResourceStatus } from '../enums/index.js';

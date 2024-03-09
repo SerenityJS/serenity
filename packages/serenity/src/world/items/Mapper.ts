@@ -1,6 +1,6 @@
 import { ITEM_STATES, CREATIVE_CONTENT } from '@serenityjs/bedrock-data';
 import { Itemstates, CreativeItems } from '@serenityjs/bedrock-protocol';
-import { BinaryStream } from '@serenityjs/binarystream';
+import { BinaryStream } from '@serenityjs/binaryutils';
 import type { World } from '../World.js';
 import { BlockPermutation, BlockType } from '../chunk/index.js';
 import { ItemType } from './Type.js';

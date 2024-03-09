@@ -1,4 +1,4 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { TransactionSourceType } from '../enums/index.js';
 import type { WindowsIds } from '../enums/index.js';

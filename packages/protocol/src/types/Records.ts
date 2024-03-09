@@ -1,5 +1,5 @@
 import type { Buffer } from 'node:buffer';
-import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
+import type { BinaryStream, Endianness } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { RecordAction } from '../enums/index.js';
 

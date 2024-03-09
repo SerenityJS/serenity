@@ -1,4 +1,4 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { BlockStorage } from './BlockStorage.js';
 import type { BlockPermutation } from './block/index.js';
 
