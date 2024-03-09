@@ -6,7 +6,7 @@ process.env["ESLINT_PROJECT_ROOT"] = process.cwd();
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  extends: ["@ariesclark/eslint-config", "eslint-config-turbo"],
+  extends: ["@ariesclark/eslint-config", "@ariesclark/eslint-config/node", "eslint-config-turbo"],
   env: {
     node: true,
   },
@@ -16,9 +16,6 @@ module.exports = {
         project,
       },
     },
-    react: {
-      version: "18",
-    }
   },
   ignorePatterns: [
     "node_modules/",
