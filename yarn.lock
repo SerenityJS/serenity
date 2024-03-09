@@ -1259,41 +1259,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/eslint-config@npm:*, @serenityjs/eslint-config@workspace:*, @serenityjs/eslint-config@workspace:packages/eslint-config":
+"@serenityjs/eslint-config@npm:*, @serenityjs/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/eslint-config@workspace:packages/eslint-config"
   dependencies:
     "@ariesclark/eslint-config": "npm:^1.6.10"
+    eslint: "npm:^8.57.0"
     eslint-config-turbo: "npm:^1.12.5"
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/jest-presets@npm:*, @serenityjs/jest-presets@workspace:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
+"@serenityjs/jest-presets@npm:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
   version: 0.0.0-use.local
   resolution: "@serenityjs/jest-presets@workspace:packages/jest-presets"
   dependencies:
+    jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     ts-jest: "npm:^29.1.2"
-  languageName: unknown
-  linkType: soft
-
-"@serenityjs/test@workspace:packages/test":
-  version: 0.0.0-use.local
-  resolution: "@serenityjs/test@workspace:packages/test"
-  dependencies:
-    "@serenityjs/eslint-config": "npm:*"
-    "@serenityjs/jest-presets": "npm:*"
-    "@serenityjs/typescript-config": "npm:*"
-    "@types/jest": "npm:^29.5.12"
-    "@types/node": "npm:^20.11.24"
-    jest: "npm:^29.7.0"
-    tsup: "npm:^8.0.2"
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/typescript-config@npm:*, @serenityjs/typescript-config@workspace:*, @serenityjs/typescript-config@workspace:packages/typescript-config":
+"@serenityjs/typescript-config@npm:*, @serenityjs/typescript-config@workspace:packages/typescript-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/typescript-config@workspace:packages/typescript-config"
   languageName: unknown
@@ -3800,7 +3788,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8, eslint@npm:^8.52.0":
+"eslint@npm:^8, eslint@npm:^8.52.0, eslint@npm:^8.57.0":
   version: 8.57.0
   resolution: "eslint@npm:8.57.0"
   dependencies:
@@ -5870,9 +5858,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "launcher@workspace:launcher"
   dependencies:
-    "@serenityjs/eslint-config": "workspace:*"
-    "@serenityjs/jest-presets": "workspace:*"
-    "@serenityjs/typescript-config": "workspace:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
