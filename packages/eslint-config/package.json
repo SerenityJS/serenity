@@ -1,0 +1,14 @@
+{
+  "name": "@serenityjs/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "index.js",
+    "next.js"
+  ],
+  "devDependencies": {
+    "@ariesclark/eslint-config": "^1.6.10",
+    "eslint-config-turbo": "^1.12.5",
+    "typescript": "^5.4.2"
+  }
+}
