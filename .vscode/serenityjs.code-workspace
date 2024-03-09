@@ -5,6 +5,14 @@
       "path": "../",
     },
     {
+      "name": "📀 Launcher",
+      "path": "../launcher",
+    },
+    {
+      "name": "🌐 Documentation",
+      "path": "../docs",
+    },
+    {
       "name": "📦 Packages",
       "path": "../packages",
     },
