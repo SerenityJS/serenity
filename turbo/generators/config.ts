@@ -5,6 +5,7 @@ import { PlopTypes } from "@turbo/gen";
 import { sync } from "cross-spawn";
 
 const WorkspaceConfigName = "serenityjs.code-workspace";
+const WorkflowsLocation = ".github/workflows";
 const PackagesRoot = "packages";
 
 function validateProjectName(input: string): string | boolean {
@@ -21,7 +22,14 @@ interface WorkspaceConfigMin {
 	folders: Array<{ path: string; name: string }>;
 }
 
+interface HelperMin {
+	fn: CallableFunction;
+}
+
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
+	// Add raw block helper
+	plop.addHelper("raw", (options: HelperMin) => options.fn());
+
 	// Creates a new action in plop that allows running commands.
 	plop.setActionType("runCommand", (answers, config) => {
 		if (
@@ -76,7 +84,14 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 				type: "list",
 				name: "type",
 				message: "What type of package do you want to create?",
-				choices: ["TypeScript"]
+				choices: ["TypeScript", "Rust"]
+			},
+			{
+				type: "confirm",
+				name: "useCI",
+				default: false,
+				message: "Would you like to use CI for this package?",
+				when: (answers) => answers.type === "Rust"
 			},
 			{
 				type: "input",
@@ -95,6 +110,17 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 					dot: true
 				},
 				skipIfExists: true
+			},
+			// doci
+			{
+				type: "add",
+				path: `{{ turbo.paths.root }}/${WorkflowsLocation}/{{ dashCase name }}/ci.yml`,
+				templateFile: "templates/rust-ci.yml.hbs",
+				skip: (answers: { useCI?: boolean }) => {
+					if (!answers.useCI) {
+						return "Skipping CI file creation";
+					}
+				}
 			},
 			{
 				type: "updateWorkspaceConfig",
