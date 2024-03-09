@@ -20,6 +20,10 @@ module.exports = {
   ignorePatterns: [
     "node_modules/",
     "dist/",
+
+    // Generated outputs
+    "index.js",
+    "index.d.ts",
   ],
   overrides: [
     {
