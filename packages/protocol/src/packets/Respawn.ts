@@ -1,4 +1,4 @@
-import { Uint8, VarLong } from '@serenityjs/binarystream';
+import { Uint8, VarLong } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { Packet as PacketId, RespawnState } from '../enums/index.js';

@@ -1,4 +1,4 @@
-import { Endianness, type BinaryStream } from '@serenityjs/binarystream';
+import { Endianness, type BinaryStream } from '@serenityjs/binaryutils';
 import { BlockPermutation } from './block/index.js';
 
 // TODO: Add logged blocks, light blocks, and biomes.

@@ -1,4 +1,4 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { LightNBT } from '@serenityjs/nbt';
 import { DataType } from '@serenityjs/raknet-protocol';
 

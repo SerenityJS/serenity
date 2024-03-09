@@ -1,4 +1,4 @@
-import type { BinaryStream, Endianness } from '@serenityjs/binarystream';
+import type { BinaryStream, Endianness } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { ChatTypes } from '../enums/index.js';
 

@@ -1,4 +1,4 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import { Item } from './Item.js';
 

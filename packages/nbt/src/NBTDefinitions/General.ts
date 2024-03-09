@@ -1,6 +1,6 @@
 import type { Buffer } from 'node:buffer';
-import { Endianness } from '@serenityjs/binarystream';
-import type { BinaryStream } from '@serenityjs/binarystream';
+import { Endianness } from '@serenityjs/binaryutils';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import type { NBTSerializable } from '../NBT.js';
 import { NBTTag, NBT_TYPE, NBT_SERIALIZER, ARRAY_TYPE, DefinitionReader, DefinitionWriter, Byte } from '../NBT.js';
 

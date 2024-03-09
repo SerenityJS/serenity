@@ -1,4 +1,4 @@
-import { BinaryStream, Endianness } from '@serenityjs/binarystream';
+import { BinaryStream, Endianness } from '@serenityjs/binaryutils';
 import { Byte } from '@serenityjs/nbt';
 import type { NBTSerializable, NBTCompoud } from '@serenityjs/nbt';
 import { DataType } from '@serenityjs/raknet-protocol';

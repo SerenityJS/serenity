@@ -13,7 +13,7 @@ import {
 	ZigZag,
 	ZigZong,
 	Uuid,
-} from '@serenityjs/binarystream';
+} from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { Difficulty, Gamemode, Packet as PacketId, PermissionLevel } from '../enums/index.js';

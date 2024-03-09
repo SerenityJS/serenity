@@ -19,7 +19,7 @@
 		"require": "./dist/index.js"
 	},
 	"dependencies": {
-		"@serenityjs/binarystream": "^1.3.4"
+		"@serenityjs/binaryutils": "^2.0.0"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.16",

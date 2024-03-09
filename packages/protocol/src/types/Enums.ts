@@ -1,4 +1,4 @@
-import { Uint16, Uint32, Uint8, type BinaryStream, type Endianness } from '@serenityjs/binarystream';
+import { Uint16, Uint32, Uint8, type BinaryStream, type Endianness } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 
 class Enums extends DataType {

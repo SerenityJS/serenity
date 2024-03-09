@@ -1,5 +1,5 @@
 import type { Buffer } from 'node:buffer';
-import { VarInt } from '@serenityjs/binarystream';
+import { VarInt } from '@serenityjs/binaryutils';
 import { BasePacket } from '@serenityjs/raknet-protocol';
 import type { Packet } from './enums/index.js';
 

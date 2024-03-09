@@ -1,5 +1,5 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
-import { Endianness } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
+import { Endianness } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { Vector3f } from './Vector3f.js';
 

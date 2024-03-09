@@ -1,4 +1,4 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 
 class CommandOutputMessage extends DataType {
@@ -30,11 +30,11 @@ class CommandOutputMessage extends DataType {
 	public static override write(stream: BinaryStream, value: CommandOutputMessage): void {
 		stream.writeBool(value.isInternal);
 		stream.writeVarString(value.messageId);
-    
+
 		stream.writeVarInt(value.parameters.length);
 		for (const parameter of value.parameters) {
-      stream.writeVarString(parameter);
-    }
+			stream.writeVarString(parameter);
+		}
 	}
 }
 

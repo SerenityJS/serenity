@@ -1,4 +1,4 @@
-import type { BinaryStream } from '@serenityjs/binarystream';
+import type { BinaryStream } from '@serenityjs/binaryutils';
 import { DataType } from '@serenityjs/raknet-protocol';
 import type { UseItemAction } from '../enums/index.js';
 import { BlockCoordinates } from './BlockCoordinates.js';

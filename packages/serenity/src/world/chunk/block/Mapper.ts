@@ -1,6 +1,6 @@
 import type { Buffer } from 'node:buffer';
 import { CANONICAL_BLOCK_STATES } from '@serenityjs/bedrock-data';
-import { BinaryStream } from '@serenityjs/binarystream';
+import { BinaryStream } from '@serenityjs/binaryutils';
 import { LightNBT, NBTTag } from '@serenityjs/nbt';
 import type { MappedBlock, RawBlock } from '../../../types/index.js';
 import type { World } from '../../World.js';

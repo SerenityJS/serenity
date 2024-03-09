@@ -1,4 +1,4 @@
-import { Endianness, Int64, Uint8 } from '@serenityjs/binarystream';
+import { Endianness, Int64, Uint8 } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { CommandPermissionLevel, Packet as PacketId, PermissionLevel } from '../enums/index.js';

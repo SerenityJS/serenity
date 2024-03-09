@@ -1,4 +1,4 @@
-import { VarInt, Bool, Endianness } from '@serenityjs/binarystream';
+import { VarInt, Bool, Endianness } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import type { ModalFormCanceledReason } from '../enums/index.js';

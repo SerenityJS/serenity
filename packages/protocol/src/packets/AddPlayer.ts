@@ -1,4 +1,4 @@
-import { Endianness, Float32, Uuid, VarLong, VarString, ZigZag, Int64, Uint8, Int32 } from '@serenityjs/binarystream';
+import { Endianness, Float32, Uuid, VarLong, VarString, ZigZag, Int64, Uint8, Int32 } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { CommandPermissionLevel, DeviceOS, Gamemode, Packet as PacketId, PermissionLevel } from '../enums/index.js';

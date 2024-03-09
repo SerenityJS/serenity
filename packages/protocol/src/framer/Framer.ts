@@ -1,5 +1,5 @@
 import type { Buffer } from 'node:buffer';
-import { BinaryStream } from '@serenityjs/binarystream';
+import { BinaryStream } from '@serenityjs/binaryutils';
 
 class Framer {
 	public static unframe(buffer: Buffer): Buffer[] {

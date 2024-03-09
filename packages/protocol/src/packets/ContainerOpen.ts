@@ -1,4 +1,4 @@
-import { Int8, ZigZong } from '@serenityjs/binarystream';
+import { Int8, ZigZong } from '@serenityjs/binaryutils';
 import { Packet, Serialize } from '@serenityjs/raknet-protocol';
 import { DataPacket } from '../DataPacket.js';
 import { Packet as PacketId, WindowsIds, WindowsTypes } from '../enums/index.js';
