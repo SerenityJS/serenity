@@ -1,9 +1,9 @@
-import { getName } from "..";
+import { foo } from "..";
 
-describe("getName function", () => {
+describe("foo function", () => {
   it("should return '@serenityjs/{{ dashCase name }}'", () => {
     const expectedOutput = "@serenityjs/{{ dashCase name }}";
-    const result = getName();
+    const result = foo();
     expect(result).toBe(expectedOutput);
   });
 });

@@ -1,7 +1,7 @@
-name: {{ name }} CI Build Bindings
+name: {{ titleCase name }} CI Build Bindings
 env:
   DEBUG: napi:*
-  APP_NAME: @serenityjs/{{ name }}
+  APP_NAME: '@serenityjs/{{ dashCase name }}'
   MACOSX_DEPLOYMENT_TARGET: '10.13'
 permissions:
   contents: write
@@ -14,7 +14,7 @@ permissions:
       - '**'
     paths:
       # This will only run if the relevant package was affected in the push.
-			- 'packages/{{ name }}/**'
+			- 'packages/{{ dashCase name }}/**'
   pull_request: null
   workflow_dispatch:
     inputs:
