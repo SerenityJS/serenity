@@ -12,6 +12,7 @@ class PlayerJoined extends AbstractEvent {
 	public static readonly method = HookMethod.After;
 
 	public readonly player: Player;
+	private joinMessage: string | null = null;
 
 	public constructor(player: Player) {
 		super();
@@ -38,18 +39,39 @@ class PlayerJoined extends AbstractEvent {
 
 		// Emit the new player event.
 		// Await the event to ensure that no data was changed.
-		const value = this.serenity.emit('PlayerJoined', new this(player));
+		const playerJoinedEvent = new this(player);
+		const value = this.serenity.emit('PlayerJoined', playerJoinedEvent);
 
 		// If the value is false, the event was cancelled.
 		// In this case, we will disconnect the player.
 		if (!value) {
-			return session.disconnect('You were kicked from the server.', DisconnectReason.Kicked);
+				return session.disconnect('You were kicked from the server.', DisconnectReason.Kicked);
 		}
 
 		// Log the player's join.
 		this.serenity.logger.info(`${player.username} joined the game.`);
 
-		player.dimension.world.sendMessage(`§e${player.username} joined the game.`);
+		// Get the join message
+		const joinMessage = playerJoinedEvent.getJoinMessage() || `§e${player.username} joined the game.`;
+
+		// Send the join message to the player's dimension
+		player.dimension.world.sendMessage(joinMessage);
+	}
+
+	/**
+	 * Sets a custom join message.
+	 * @param message The custom join message.
+	 */
+	public setJoinMessage(message: string): void {
+			this.joinMessage = message;
+	}
+
+	/**
+	 * Gets the current join message.
+	 * If no custom join message is set, returns null.
+	 */
+	public getJoinMessage(): string | null {
+		return this.joinMessage;
 	}
 }
 
