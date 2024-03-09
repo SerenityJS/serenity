@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "bierner.comment-tagged-templates",
+    "mikestead.dotenv",
+    "naumovs.color-highlight",
+    "exodiusstudios.comment-anchors",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "prisma.prisma",
+    "bradlc.vscode-tailwindcss"
+  ]
+}

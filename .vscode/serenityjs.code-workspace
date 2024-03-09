@@ -1,0 +1,40 @@
+{
+  "folders": [
+    {
+      "name": "📁 Repository",
+      "path": "../",
+    },
+    {
+      "name": "📦 Packages",
+      "path": "../packages",
+    },
+  ],
+  "settings": {
+    "files.exclude": {
+      "node_modules/": true,
+    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "eslint.format.enable": true,
+    "editor.insertSpaces": false,
+    "editor.tabSize": 2,
+    "files.eol": "\n",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "[mdx]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "bierner.comment-tagged-templates",
+      "mikestead.dotenv",
+      "naumovs.color-highlight",
+      "exodiusstudios.comment-anchors",
+      "christian-kohler.npm-intellisense",
+      "christian-kohler.path-intellisense",
+      "prisma.prisma",
+      "bradlc.vscode-tailwindcss",
+    ],
+  },
+}
