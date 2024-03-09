@@ -13,6 +13,7 @@ class PlayerLeft extends AbstractEvent {
 	public static readonly method = HookMethod.After;
 
 	public readonly player: Player;
+	private leaveMessage: string | null = null;
 
 	public constructor(player: Player) {
 		super();
@@ -27,7 +28,7 @@ class PlayerLeft extends AbstractEvent {
 		// Also check if the packet is incoming. Meaning the packet is being sent to by client.
 		if (packet.reason !== DisconnectReason.Disconnected || bound !== NetworkBound.Server) return;
 
-		// First we need to check if their is a player instance.
+		// First we need to check if there is a player instance.
 		if (!session.player) {
 			return this.serenity.logger.error(
 				`Failed to find player instance for ${session.identifier.address}:${session.identifier.port}! PlayerLeft.logic()`,
@@ -39,7 +40,8 @@ class PlayerLeft extends AbstractEvent {
 
 		// Emit the new player event.
 		// Which in this case, it doesn't matter if the data was changed.
-		const value = this.serenity.emit('PlayerLeft', new PlayerLeft(player));
+		const playerLeftEvent = new PlayerLeft(player);
+		const value = this.serenity.emit('PlayerLeft', playerLeftEvent);
 
 		// If the value is false, the event was cancelled.
 		// In this case, we will log an error.
@@ -53,8 +55,27 @@ class PlayerLeft extends AbstractEvent {
 		// Log the player leaving.
 		this.serenity.logger.info(`${player.username} (${player.xuid}) left the game.`);
 
+		// Get the leave message
+		const leaveMessage = playerLeftEvent.getLeaveMessage() || `§e${player.username} left the game.`;
+
 		// Send a message to all players.
-		this.serenity.getWorld().sendMessage(`§e${player.username} left the game.`);
+		this.serenity.getWorld().sendMessage(leaveMessage);
+	}
+
+	/**
+	 * Sets a custom leave message.
+	 * @param message The custom leave message.
+	 */
+	public setLeaveMessage(message: string): void {
+		this.leaveMessage = message;
+	}
+
+	/**
+	 * Gets the current leave message.
+	 * If no custom leave message is set, returns null.
+	 */
+	public getLeaveMessage(): string | null {
+		return this.leaveMessage;
 	}
 }
 
