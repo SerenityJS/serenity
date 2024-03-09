@@ -1,7 +1,8 @@
 // This configuration only applies to the package manager root.
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-	ignorePatterns: ["apps/**", "packages/**"],
+	root: true,
+	ignorePatterns: ["launcher", "docs", "packages/**"],
 	extends: ["@serenityjs/eslint-config/index.js"],
 	parserOptions: {
 		project: true
