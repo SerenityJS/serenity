@@ -64,7 +64,8 @@ class WorldNetwork {
 		packet.runtimeEntityId = player.runtimeId;
 		packet.playerGamemode = player.gamemode;
 		packet.playerPosition = player.dimension.spawn;
-		packet.rotation = player.rotation;
+		packet.pitch = player.rotation.pitch;
+		packet.yaw = player.rotation.yaw;
 		packet.seed = BigInt(this.world.properties.seed);
 		packet.biomeType = 0;
 		packet.biomeName = 'plains';

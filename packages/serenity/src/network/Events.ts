@@ -26,6 +26,7 @@ import type {
 	MobEquipment,
 	ModalFormRequest,
 	ModalFormResponse,
+	MoveEntity,
 	MovePlayer,
 	NetworkChunkPublisherUpdate,
 	NetworkSettings,
@@ -78,6 +79,7 @@ interface NetworkEvents {
 	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayer>];
 	[Packet.AddEntity]: [NetworkPacketEvent<AddEntity>];
 	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntity>];
+	[Packet.MoveEntity]: [NetworkPacketEvent<MoveEntity>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlock>];
 	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEvent>];

@@ -27,6 +27,7 @@ import { Login } from './Login.js';
 import { MobEquipment } from './MobEquipment.js';
 import { ModalFormRequest } from './ModalFormRequest.js';
 import { ModalFormResponse } from './ModalFormResponse.js';
+import { MoveEntity } from './MoveEntity.js';
 import { MovePlayer } from './MovePlayer.js';
 import { NetworkChunkPublisherUpdate } from './NetworkChunkPublisherUpdate.js';
 import { NetworkSettings } from './NetworkSettings.js';
@@ -70,6 +71,7 @@ const Packets = {
 	[Packet.AddPlayer]: AddPlayer, // 12
 	[Packet.AddEntity]: AddEntity, // 13
 	[Packet.RemoveEntity]: RemoveEntity, // 14
+	[Packet.MoveEntity]: MoveEntity, // 18
 	[Packet.MovePlayer]: MovePlayer, // 19
 	[Packet.UpdateBlock]: UpdateBlock, // 21
 	[Packet.LevelEvent]: LevelEvent, // 25

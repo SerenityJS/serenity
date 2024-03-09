@@ -49,3 +49,4 @@ export * from './AnimateAction.js';
 export * from './CommandOriginData.js';
 export * from './CommandOutputData.js';
 export * from './CommandOutputMessage.js';
+export * from './Rotation.js';

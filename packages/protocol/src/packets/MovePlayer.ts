@@ -14,7 +14,7 @@ class MovePlayer extends DataPacket {
 	@Serialize(Uint8) public mode!: MoveMode;
 	@Serialize(Bool) public onGround!: boolean;
 	@Serialize(VarLong) public riddenRuntimeId!: bigint;
-	@Serialize(TeleportCause) public cause!: TeleportCause | null;
+	@Serialize(TeleportCause, Endianness.Little) public cause!: TeleportCause | null;
 	@Serialize(VarLong) public tick!: bigint;
 }
 

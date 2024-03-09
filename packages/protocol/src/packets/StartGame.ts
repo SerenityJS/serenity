@@ -33,7 +33,8 @@ class StartGame extends DataPacket {
 	@Serialize(VarLong) public runtimeEntityId!: bigint;
 	@Serialize(ZigZag) public playerGamemode!: Gamemode;
 	@Serialize(Vector3f) public playerPosition!: Vector3f;
-	@Serialize(Vector2f) public rotation!: Vector2f;
+	@Serialize(Float32, Endianness.Little) public pitch!: number;
+	@Serialize(Float32, Endianness.Little) public yaw!: number;
 	@Serialize(Uint64, Endianness.Little) public seed!: bigint;
 	@Serialize(Int16, Endianness.Little) public biomeType!: number;
 	@Serialize(VarString) public biomeName!: string;
