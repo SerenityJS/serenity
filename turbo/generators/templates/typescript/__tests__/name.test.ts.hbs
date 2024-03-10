@@ -1,8 +1,8 @@
 import { getName } from "..";
 
 describe("getName function", () => {
-  it("should return '@typescript-rust-turbo/{{ dashCase name }}'", () => {
-    const expectedOutput = "@typescript-rust-turbo/{{ dashCase name }}";
+  it("should return '@serenityjs/{{ dashCase name }}'", () => {
+    const expectedOutput = "@serenityjs/{{ dashCase name }}";
     const result = getName();
     expect(result).toBe(expectedOutput);
   });
