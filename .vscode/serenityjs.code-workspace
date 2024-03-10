@@ -2,51 +2,51 @@
   "folders": [
     {
       "name": "📁 Repository",
-      "path": "../"
+      "path": "../",
     },
     {
       "name": "📀 Launcher",
-      "path": "../launcher"
+      "path": "../launcher",
     },
     {
       "name": "🌐 Documentation",
-      "path": "../docs"
+      "path": "../docs",
     },
     {
       "name": "📦 Packages",
-      "path": "../packages"
+      "path": "../packages",
     },
     {
       "name": "📦 Raknet",
-      "path": "../packages/raknet"
+      "path": "../packages/raknet",
     },
     {
       "name": "🦀 Binaryutils",
-      "path": "../packages/binaryutils"
+      "path": "../packages/binaryutils",
     },
     {
       "name": "📦 Emitter",
-      "path": "../packages/emitter"
+      "path": "../packages/emitter",
     },
     {
       "name": "📦 Protocol",
-      "path": "../packages/protocol"
-    }
+      "path": "../packages/protocol",
+    },
   ],
   "settings": {
     "files.exclude": {
-      "node_modules/": true
+      "node_modules/": true,
     },
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "eslint.format.enable": true,
-    "editor.insertSpaces": false,
+    "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "files.eol": "\n",
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "[mdx]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
   },
   "extensions": {
     "recommendations": [
@@ -59,7 +59,7 @@
       "christian-kohler.path-intellisense",
       "prisma.prisma",
       "bradlc.vscode-tailwindcss",
-      "1yib.rust-bundle"
-    ]
-  }
+      "1yib.rust-bundle",
+    ],
+  },
 }

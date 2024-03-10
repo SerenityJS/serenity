@@ -5,7 +5,7 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "eslint.format.enable": true,
-  "editor.insertSpaces": false,
+  "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "files.eol": "\n",
   "typescript.preferences.importModuleSpecifier": "non-relative",

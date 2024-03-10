@@ -14,7 +14,7 @@ permissions:
       - '**'
     paths:
       # This will only run if the relevant package was affected in the push.
-			- 'packages/{{ dashCase name }}/**'
+      - 'packages/{{ dashCase name }}/**'
   pull_request: null
   workflow_dispatch:
     inputs:
