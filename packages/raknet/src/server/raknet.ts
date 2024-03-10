@@ -8,19 +8,65 @@ import { Bitflags, RaknetTickLength } from "../constants";
 import { Offline } from "./offline";
 import { Connection } from "./connection";
 
+/**
+ * The raknet server
+ */
 class RaknetServer extends Emitter<RaknetEvents> {
+	/**
+	 * The server tick interval
+	 */
 	protected interval: NodeJS.Timeout | null = null;
 
+	/**
+	 * The server socket
+	 */
 	public readonly socket: Socket;
 
+	/**
+	 * The server address
+	 */
 	public readonly address: string;
 
+	/**
+	 * The server port
+	 */
 	public readonly port: number;
 
+	/**
+	 * The server guid
+	 */
 	public readonly guid: bigint;
 
+	/**
+	 * The server connections
+	 */
 	public readonly connections: Map<string, Connection>;
 
+	/**
+	 * The server protocol
+	 */
+	public protocol: number | null = null;
+
+	/**
+	 * The server version
+	 */
+	public version: string | null = null;
+
+	/**
+	 * The server message
+	 */
+	public message: string | null = null;
+
+	/**
+	 * The server max connections
+	 */
+	public maxConnections: number | null = null;
+
+	/**
+	 * Creates a new raknet server
+	 * @param address the server address
+	 * @param port the server port
+	 */
 	public constructor(address: string, port = 19_132) {
 		super();
 		this.socket = createSocket("udp4");
@@ -32,15 +78,21 @@ class RaknetServer extends Emitter<RaknetEvents> {
 		Offline.server = this;
 	}
 
+	/**
+	 * Starts the server
+	 */
 	public start() {
 		try {
+			// Bind the socket to the address and port
 			this.socket.bind(this.port, this.address);
 
+			// Bind the socket message event to the incoming function
 			this.socket.on("message", this.incoming.bind(this));
 
 			// Emit any socket errors that may occur
 			this.socket.on("error", (error) => this.emit("error", error));
 
+			// Create the tick function
 			const tick = () =>
 				setTimeout(() => {
 					for (const [, connection] of this.connections) {
@@ -63,10 +115,35 @@ class RaknetServer extends Emitter<RaknetEvents> {
 		}
 	}
 
+	/**
+	 * Stops the server
+	 */
+	public stop() {
+		try {
+			// Clear the interval
+			if (this.interval) clearInterval(this.interval);
+
+			// Close the socket
+			this.socket.close();
+		} catch {
+			void this.emit("error", new Error("Failed to close the server"));
+		}
+	}
+
+	/**
+	 * Sends a buffer to the specified network identifier
+	 * @param buffer the buffer to send
+	 * @param identifier the network identifier to send the buffer to
+	 */
 	public send(buffer: Buffer, identifier: NetworkIdentifier): void {
 		this.socket.send(buffer, identifier.port, identifier.address);
 	}
 
+	/**
+	 * Handles incoming packets
+	 * @param buffer the packet buffer
+	 * @param rinfo the remote info
+	 */
 	private incoming(buffer: Buffer, rinfo: RemoteInfo): void {
 		// Deconstructs the packet into its buffer, address, port, and version
 		const { address, port, family } = rinfo;

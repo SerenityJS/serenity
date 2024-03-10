@@ -94,11 +94,11 @@ class Offline {
 		pong.message =
 			[
 				"MCPE", // MCEE = Minecraft: Education Edition
-				"Raknet Server", // TODO
-				390, // TODO
-				"1.14.60", // TODO
-				0, // TODO
-				10, // TODO
+				this.server.message ?? "Raknet Server",
+				this.server.protocol ?? 100,
+				this.server.version ?? "1.0.0",
+				this.server.connections.size,
+				this.server.maxConnections ?? 10,
 				this.server.guid,
 				"SerenityJS",
 				"Survival",

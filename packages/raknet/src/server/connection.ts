@@ -18,15 +18,33 @@ import { NetworkIdentifier } from "../types";
 
 import { RaknetServer } from "./raknet";
 
+/**
+ * Represents a connection in the server
+ */
 class Connection {
+	/**
+	 * The server instance
+	 */
 	protected readonly server: RaknetServer;
 
+	/**
+	 * The status of the connection
+	 */
 	public status = Status.Connecting;
 
+	/**
+	 * The network identifier of the connection
+	 */
 	public readonly identifier: NetworkIdentifier;
 
+	/**
+	 * The GUID of the connection
+	 */
 	public readonly guid: bigint;
 
+	/**
+	 * The maximum transmission unit of the connection
+	 */
 	public readonly mtu: number;
 
 	// Inputs
@@ -49,6 +67,13 @@ class Connection {
 	protected outputReliableIndex = 0;
 	protected outputFragmentIndex = 0;
 
+	/**
+	 * Creates a new connection
+	 * @param server The server instance
+	 * @param identifier The network identifier
+	 * @param guid The GUID
+	 * @param mtu The maximum transmission unit
+	 */
 	public constructor(
 		server: RaknetServer,
 		identifier: NetworkIdentifier,
@@ -75,6 +100,9 @@ class Connection {
 		this.outputSequenceIndex = Array.from<number>({ length: 32 }).fill(0);
 	}
 
+	/**
+	 * Ticks the connection
+	 */
 	public tick(): void {
 		// Check if the client is disconnecting or disconnected
 		if (
@@ -108,10 +136,16 @@ class Connection {
 		return this.sendFrameQueue();
 	}
 
+	/**
+	 * Sends a buffer to the connection
+	 */
 	public send(buffer: Buffer): void {
 		this.server.send(buffer, this.identifier);
 	}
 
+	/**
+	 * Disconnects the connection
+	 */
 	public disconnect(): void {
 		// Set the status to disconnecting
 		this.status = Status.Disconnecting;
@@ -136,6 +170,10 @@ class Connection {
 		this.status = Status.Disconnected;
 	}
 
+	/**
+	 * Handles incoming packets
+	 * @param buffer The packet buffer
+	 */
 	public incoming(buffer: Buffer): void {
 		// Reads the header of the packet (u8)
 		// And masks it with 0xf0 to get the header
@@ -145,25 +183,34 @@ class Connection {
 		// If there is no case for the header, it will log the packet id as unknown
 		switch (header) {
 			default: {
+				// Format the packet id to a hex string
 				const id =
 					header.toString(16).length === 1
 						? "0" + header.toString(16)
 						: header.toString(16);
-				return console.log(
-					`Caught unhandled online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+
+				// Emit an error for unknown packet headers
+				return void this.server.emit(
+					"error",
+					new Error(
+						`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+					)
 				);
 			}
 
+			// Handle incoming acks
 			case Packet.Ack: {
 				this.handleIncomingAck(buffer);
 				break;
 			}
 
+			// Handle incoming nacks
 			case Packet.Nack: {
 				this.handleIncomingNack(buffer);
 				break;
 			}
 
+			// Handle incoming framesets
 			case Bitflags.Valid: {
 				this.handleIncomingFrameSet(buffer);
 				break;
@@ -171,6 +218,10 @@ class Connection {
 		}
 	}
 
+	/**
+	 * Handles incoming batch packets
+	 * @param buffer The packet buffer
+	 */
 	public incomingBatch(buffer: Buffer): void {
 		// Reads the header of the packet (u8)
 		const header = buffer[0]!;
@@ -179,15 +230,22 @@ class Connection {
 		if (this.status === Status.Connecting) {
 			switch (header) {
 				default: {
+					// Format the packet id to a hex string
 					const id =
 						header.toString(16).length === 1
 							? "0" + header.toString(16)
 							: header.toString(16);
-					return console.log(
-						`Caught unhandled online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+
+					// Emit an error for unknown packet headers
+					return void this.server.emit(
+						"error",
+						new Error(
+							`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+						)
 					);
 				}
 
+				// Check if the packet is a disconnect packet
 				case Packet.Disconnect: {
 					this.status = Status.Disconnecting;
 					const key = `${this.identifier.address}:${this.identifier.port}:${this.identifier.version}`;
@@ -196,10 +254,14 @@ class Connection {
 					break;
 				}
 
+				// Check if the packet is a connection request packet
 				case Packet.ConnectionRequest: {
-					return this.handleIncomingConnectionRequest(buffer);
+					this.handleIncomingConnectionRequest(buffer);
+					break;
 				}
 
+				// Check if the packet is a new incoming connection packet
+				// If so, emit the connect event
 				case Packet.NewIncomingConnection: {
 					this.status = Status.Connected;
 					void this.server.emit("connect", this);
@@ -213,15 +275,22 @@ class Connection {
 		// Handle the connected packets
 		switch (header) {
 			default: {
+				// Format the packet id to a hex string
 				const id =
 					header.toString(16).length === 1
 						? "0" + header.toString(16)
 						: header.toString(16);
-				return console.log(
-					`Caught unhandled online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+
+				// Emit an error for unknown packet headers
+				return void this.server.emit(
+					"error",
+					new Error(
+						`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+					)
 				);
 			}
 
+			// Check if the packet is a disconnect packet
 			case Packet.Disconnect: {
 				this.status = Status.Disconnecting;
 				void this.server.emit("disconnect", this);
@@ -231,16 +300,22 @@ class Connection {
 				break;
 			}
 
+			// Check if the packet is a ping packet
 			case Packet.ConnectedPing: {
 				return this.handleIncomingConnectedPing(buffer);
 			}
 
+			// Check if the a game packet
 			case 0xfe: {
 				void this.server.emit("encapsulated", this, buffer);
 			}
 		}
 	}
 
+	/**
+	 * Handles incoming acks
+	 * @param buffer The packet buffer
+	 */
 	private handleIncomingAck(buffer: Buffer): void {
 		// Create a new Ack instance and deserialize the buffer
 		const ack = new Ack(buffer).deserialize();
@@ -253,6 +328,10 @@ class Connection {
 		}
 	}
 
+	/**
+	 * Handles incoming nacks
+	 * @param buffer The packet buffer
+	 */
 	private handleIncomingNack(buffer: Buffer): void {
 		// Create a new Nack instance and deserialize the buffer
 		const nack = new Nack(buffer).deserialize();
@@ -271,14 +350,21 @@ class Connection {
 		}
 	}
 
+	/**
+	 * Handles incoming framesets
+	 * @param buffer The packet buffer
+	 */
 	private handleIncomingFrameSet(buffer: Buffer): void {
 		// Create a new FrameSet instance and deserialize the buffer
 		const frameset = new FrameSet(buffer).deserialize();
 
 		// Checks if the sequence of the frameset has already been recieved
 		if (this.receivedFrameSequences.has(frameset.sequence)) {
-			return console.log(
-				`Recieved duplicate frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+			return void this.server.emit(
+				"error",
+				new Error(
+					`Recieved duplicate frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+				)
 			);
 		}
 
@@ -290,8 +376,11 @@ class Connection {
 			frameset.sequence < this.lastInputSequence ||
 			frameset.sequence === this.lastInputSequence
 		) {
-			return console.log(
-				`Recieved out of order frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+			return void this.server.emit(
+				"error",
+				new Error(
+					`Recieved out of order frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+				)
 			);
 		}
 
@@ -325,6 +414,10 @@ class Connection {
 		}
 	}
 
+	/**
+	 * Handles incoming frames
+	 * @param frame The frame
+	 */
 	private handleFrame(frame: Frame): void {
 		// Checks if the packet is fragmented
 		if (frame.isFragmented()) return this.handleFragment(frame);
@@ -336,8 +429,11 @@ class Connection {
 					this.inputHighestSequenceIndex[frame.orderChannel]! ||
 				frame.orderIndex < this.inputOrderIndex[frame.orderChannel]!
 			) {
-				return console.log(
-					`Recieved out of order frame ${frame.sequenceIndex} from ${this.identifier.address}:${this.identifier.port}!`
+				return void this.server.emit(
+					"error",
+					new Error(
+						`Recieved out of order frame ${frame.sequenceIndex} from ${this.identifier.address}:${this.identifier.port}!`
+					)
 				);
 			}
 
@@ -376,6 +472,10 @@ class Connection {
 		}
 	}
 
+	/**
+	 * Handles fragmented frames
+	 * @param frame The frame
+	 */
 	private handleFragment(frame: Frame): void {
 		// Check if we already have the fragment id
 		if (this.fragmentsQueue.has(frame.fragmentId)) {
@@ -416,13 +516,10 @@ class Connection {
 	}
 
 	/**
-	 * **sendFrame**
-	 *
 	 * Sends a frame to the connection.
 	 *
-	 * @param {Frame} frame - The frame to send
-	 * @param {Priority} priority - The priority of the frame
-	 * @returns {void}
+	 * @param frame - The frame to send
+	 * @param priority - The priority of the frame
 	 */
 	public sendFrame(frame: Frame, priority: Priority): void {
 		// Check if the packet is sequenced or ordered
@@ -458,6 +555,11 @@ class Connection {
 		}
 	}
 
+	/**
+	 * Adds a frame to the output queue
+	 * @param frame The frame
+	 * @param priority The priority
+	 */
 	private addFrameToQueue(frame: Frame, priority: Priority): void {
 		let length = 4;
 		// Add the length of the frame to the length
@@ -477,6 +579,9 @@ class Connection {
 		if (priority === Priority.Immediate) return this.sendFrameQueue();
 	}
 
+	/**
+	 * Sends the output frame queue
+	 */
 	public sendFrameQueue(): void {
 		// Check if the queue is empty
 		if (this.outputFrameQueue.frames.length > 0) {
@@ -490,6 +595,10 @@ class Connection {
 		}
 	}
 
+	/**
+	 * Sends a frame set to the connection
+	 * @param frameset The frame set
+	 */
 	private sendFrameSet(frameset: FrameSet): void {
 		// Send the frame set
 		this.send(frameset.serialize());
@@ -500,6 +609,10 @@ class Connection {
 		);
 	}
 
+	/**
+	 * Handles an incoming connection request
+	 * @param buffer The packet buffer
+	 */
 	private handleIncomingConnectionRequest(buffer: Buffer): void {
 		// Create a new ConnectionRequest instance and deserialize the buffer
 		const request = new ConnectionRequest(buffer).deserialize();
@@ -529,6 +642,10 @@ class Connection {
 		return this.sendFrame(frame, Priority.Normal);
 	}
 
+	/**
+	 * Handles an incoming connected ping
+	 * @param buffer The packet buffer
+	 */
 	private handleIncomingConnectedPing(buffer: Buffer): void {
 		// Create a new ConnectedPing instance and deserialize the buffer
 		const ping = new ConnectedPing(buffer).deserialize();
