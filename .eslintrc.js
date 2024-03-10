@@ -2,7 +2,7 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
 	root: true,
-	ignorePatterns: ["launcher", "docs", "packages/**"],
+	ignorePatterns: ["launcher", "docs", "packages"],
 	extends: ["@serenityjs/eslint-config/index.js"],
 	parserOptions: {
 		project: true
