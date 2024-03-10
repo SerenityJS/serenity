@@ -27,6 +27,10 @@
     {
       "name": "📦 Emitter",
       "path": "../packages/emitter"
+    },
+    {
+      "name": "📦 Protocol",
+      "path": "../packages/protocol"
     }
   ],
   "settings": {

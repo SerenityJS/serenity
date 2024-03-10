@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@serenityjs/binaryutils": "workspace:^",
+    "@serenityjs/protocol": "workspace:^",
     "@serenityjs/raknet": "workspace:^"
   }
 }

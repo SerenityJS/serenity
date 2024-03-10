@@ -1320,6 +1320,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/protocol@workspace:^, @serenityjs/protocol@workspace:packages/protocol":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/protocol@workspace:packages/protocol"
+  dependencies:
+    "@serenityjs/binaryutils": "workspace:^"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/raknet": "workspace:^"
+    "@serenityjs/typescript-config": "npm:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    jest: "npm:^29.7.0"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@serenityjs/raknet@workspace:^, @serenityjs/raknet@workspace:packages/raknet":
   version: 0.0.0-use.local
   resolution: "@serenityjs/raknet@workspace:packages/raknet"
@@ -5918,6 +5935,7 @@ __metadata:
     "@serenityjs/binaryutils": "workspace:^"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/protocol": "workspace:^"
     "@serenityjs/raknet": "workspace:^"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
