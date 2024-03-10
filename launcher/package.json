@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
+    "watch": "tsup --watch --onSuccess \"node dist/index.js\"",
     "build": "tsup",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
@@ -25,8 +26,8 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@serenityjs/binaryutils": "workspace:^",
-    "@serenityjs/protocol": "workspace:^",
-    "@serenityjs/raknet": "workspace:^"
+    "@serenityjs/binaryutils": "*",
+    "@serenityjs/protocol": "*",
+    "@serenityjs/raknet": "*"
   }
 }

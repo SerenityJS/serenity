@@ -13,7 +13,8 @@
       "persistent": true
     },
     "watch": {
-      "dependsOn": ["^watch"]
+      "persistent": true,
+      "cache": false
     }
   }
 }

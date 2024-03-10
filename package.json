@@ -4,6 +4,7 @@
   "scripts": {
     "watch": "turbo watch",
     "build": "turbo build",
+    "build:pkgs": "turbo build --filter='./packages/*'",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "new": "turbo gen"
