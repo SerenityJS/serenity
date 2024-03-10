@@ -2,6 +2,7 @@
   "name": "serenityjs",
   "private": true,
   "scripts": {
+    "watch": "turbo watch",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
