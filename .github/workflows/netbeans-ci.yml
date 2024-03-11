@@ -169,7 +169,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: .
+          path: ${{ env.APP_DIRECTORY }}
       - name: List packages
         run: ls -R .
         shell: bash
