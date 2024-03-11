@@ -13,6 +13,7 @@
       "persistent": true
     },
     "watch": {
+      "dependsOn": ["^build"],
       "persistent": true,
       "cache": false
     }

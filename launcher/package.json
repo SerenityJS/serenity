@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
-    "watch": "tsup --watch --onSuccess \"node dist/index.js\"",
+    "watch": "chokidar '../packages/**/dist/*' '../packages/**/target/*.json' './src/*' --initial -c 'tsup --onSuccess \"node ./dist/index.js\"'",
     "build": "tsup",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
@@ -16,6 +16,7 @@
     "preset": "@serenityjs/jest-presets/jest/node"
   },
   "devDependencies": {
+    "@serenityjs/chokidar": "*",
     "@serenityjs/eslint-config": "*",
     "@serenityjs/jest-presets": "*",
     "@serenityjs/typescript-config": "*",
