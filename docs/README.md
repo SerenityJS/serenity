@@ -1,28 +1,26 @@
-## Getting Started
-
-First, run the development server:
-
-```bash
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-To create [API routes](https://nextjs.org/docs/app/building-your-application/routing/router-handlers) add an `api/` directory to the `app/` directory with a `route.ts` file. For individual endpoints, create a subfolder in the `api` directory, like `api/hello/route.ts` would map to [http://localhost:3000/api/hello](http://localhost:3000/api/hello).
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn/foundations/about-nextjs) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_source=github.com&utm_medium=referral&utm_campaign=turborepo-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<br/>
+<p align="center">
+  <a href="https://github.com/SerenityJS/serenity">
+    <img src="./public/serenityjs-banner.png" alt="Logo">
+  </a>
+  <p align="center">
+    <strong><font size = 5.5>Minecraft Bedrock Edition Server Software</font></strong>
+    <br/>
+    <br/>
+    <a href="https://github.com/SerenityJS/serenity"><strong>Explore Now »</strong></a>
+    <br/>
+    <br/>
+    <a href="https://github.com/SerenityJS/serenity/issues">Report Bug</a>
+    <br/>
+    <br/>
+    <a href="https://discord.gg/jUcC3q59zg">
+      <img alt="discord" src="https://img.shields.io/discord/854092607239356457?style=for-the-badge&color=%237289DA&label=Discord&logo=discord&logoColor=white">
+    <a/>
+    <a href="https://github.com/SerenityJS/serenity/blob/main/LICENSE">
+      <img alt="License" src="https://img.shields.io/github/license/SerenityJS/serenity?style=for-the-badge&label=Liscense&color=hotpink">
+    <a/>
+    <a href="https://www.npmjs.com/package/@serenityjs/serenity">
+      <img alt="License" src="https://img.shields.io/npm/v/@serenityjs/serenity?style=for-the-badge&label=NPM&logo=npm&logoColor=white">
+    <a/>
+  </p>
+</p>
