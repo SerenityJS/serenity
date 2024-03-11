@@ -9,8 +9,8 @@ console.log(packet.serialize());
 const request = new ToastRequest(packet.serialize()).deserialize();
 console.log(request);
 
-setTimeout(() => {
-	console.log("I WAS ALIVE FOR 10 SECONDS!");
-}, 10_000);
+// setTimeout(() => {
+// 	console.log("I WAS ALIVE FOR 10 SECONDS!");
+// }, 10_000);
 
-// jfewioji
+// jfewioj
