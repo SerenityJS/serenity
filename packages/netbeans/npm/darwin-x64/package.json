@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/netbeans-darwin-x64",
-  "version": "0.0.0",
+  "version": "2.1.0",
   "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "darwin"
