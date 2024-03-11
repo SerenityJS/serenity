@@ -1,6 +1,7 @@
 {
   "name": "@serenityjs/binaryutils-darwin-x64",
   "version": "2.1.0",
+  "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "darwin"
   ],

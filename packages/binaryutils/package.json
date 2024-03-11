@@ -3,6 +3,7 @@
   "version": "2.1.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "repository": "https://github.com/SerenityJS/serenity",
   "napi": {
     "name": "binaryutils",
     "triples": {}
