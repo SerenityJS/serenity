@@ -1,7 +1,8 @@
 name: {{ titleCase name }} CI Build Bindings
 env:
   DEBUG: napi:*
-  APP_NAME: '@serenityjs/{{ dashCase name }}'
+  APP_NAME: '{{ dashCase name }}'
+  APP_DIRECTORY: '{{ dashCase name }}'
   MACOSX_DEPLOYMENT_TARGET: '10.13'
 permissions:
   contents: write
@@ -24,6 +25,7 @@ permissions:
         default: 'Latest'
         type: choice
         options:
+          - 'No Release'
           - 'Latest'
           - 'Next'
 {{{{raw}}}}
@@ -66,8 +68,8 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            .cargo-cache
-            target/
+            ${{ env.APP_DIRECTORY }}/.cargo-cache
+            ${{ env.APP_DIRECTORY }}/target/
           key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
@@ -95,17 +97,18 @@ jobs:
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
-          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
-          run: ${{ matrix.settings.build }}
+          options: '--user 0:0 -v ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
+          run: cd ${{ env.APP_DIRECTORY }} && ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
         if: ${{ !matrix.settings.docker }}
         shell: bash
+        working-directory: ${{ env.APP_DIRECTORY }}
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.APP_NAME }}.*.node
+          path: ${{ env.APP_DIRECTORY }}/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -136,12 +139,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: .
+          path: ${{ env.APP_DIRECTORY }}
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Test bindings
         run: yarn test
+        working-directory: ${{ env.APP_DIRECTORY }}
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -166,12 +170,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: .
+          path: ${{ env.APP_DIRECTORY }}
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim yarn test
+        run: |
+          docker run --rm -v $(pwd):/build -w /build/${{ env.APP_DIRECTORY }} node:${{ matrix.node }}-slim yarn test
   publish:
     name: Publish
     runs-on: ubuntu-latest
@@ -190,15 +195,17 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: artifacts
+          path: ${{ env.APP_DIRECTORY }}/artifacts
       - name: Move artifacts
         run: yarn artifacts
+        working-directory: ${{ env.APP_DIRECTORY }}
       - name: List packages
         run: ls -R ./npm
         shell: bash
+        working-directory: ${{ env.APP_DIRECTORY }}
       - name: Publish
         run: |
-          npm config set provenance true
+          npm config set provenance true --workspaces=false
           if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
@@ -207,17 +214,18 @@ jobs:
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             npm publish --tag next --access public
-          elif [[ "${{ github.event.inputs.version }}" == "Next" ]]; # Check if version input is "Next"
+          elif [[ "${{ github.event.inputs.version }}" == "Next" ]];
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             npm publish --tag next --access public
-          elif [[ "${{ github.event.inputs.version }}" == "Latest" ]]; # Check if version input is "Latest"
+          elif [[ "${{ github.event.inputs.version }}" == "Latest" ]];
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             npm publish --access public
           else
             echo "Not a release, skipping publish"
           fi
+        working-directory: ${{ env.APP_DIRECTORY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
