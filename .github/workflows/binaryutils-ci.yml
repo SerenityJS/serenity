@@ -175,7 +175,7 @@ jobs:
         shell: bash
       - name: Test bindings
         run: |
-          docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim /bin/sh -c "yarn && yarn test"
+          docker run --rm -v $(pwd):/${{ env.APP_DIRECTORY }}/build -w /build node:${{ matrix.node }}-slim yarn test
         working-directory: ${{ env.APP_DIRECTORY }}
   publish:
     name: Publish
