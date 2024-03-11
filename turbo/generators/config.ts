@@ -115,7 +115,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 			// doci
 			{
 				type: "add",
-				path: `{{ turbo.paths.root }}/${WorkflowsLocation}/{{ dashCase name }}/ci.yml`,
+				path: `{{ turbo.paths.root }}/${WorkflowsLocation}/{{ dashCase name }}-ci.yml`,
 				templateFile: "templates/rust-ci.yml.hbs",
 				skip: (answers: { useCI?: boolean }) => {
 					if (!answers.useCI) {
