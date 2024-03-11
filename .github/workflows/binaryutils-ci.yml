@@ -205,6 +205,9 @@ jobs:
       - name: Publish
         run: |
           npm config set provenance true
+          # Log the current working directory
+          echo "Current working directory: $(pwd)"
+
           if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
@@ -213,14 +216,16 @@ jobs:
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             npm publish --tag next --access public
-          elif [[ "${{ github.event.inputs.version }}" == "Next" ]]; # Check if version input is "Next"
+          elif [[ "${{ github.event.inputs.version }}" == "Next" ]];
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            npm publish --tag next --access public
-          elif [[ "${{ github.event.inputs.version }}" == "Latest" ]]; # Check if version input is "Latest"
+            # npm publish --tag next --access public
+            echo "Publishing next"
+          elif [[ "${{ github.event.inputs.version }}" == "Latest" ]];
           then
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            npm publish --access public
+            # npm publish --access public
+            echo "Publishing"
           else
             echo "Not a release, skipping publish"
           fi
