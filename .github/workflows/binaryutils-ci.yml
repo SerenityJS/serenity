@@ -22,9 +22,10 @@ permissions:
       version:
         description: 'Select A Release Target'
         required: true
-        default: 'Latest'
+        default: 'No Release'
         type: choice
         options:
+          - 'No Release'
           - 'Latest'
           - 'Next'
 jobs:
