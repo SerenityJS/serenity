@@ -1028,6 +1028,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lukeed/ms@npm:^2.0.1":
+  version: 2.0.2
+  resolution: "@lukeed/ms@npm:2.0.2"
+  checksum: 10c0/843b922717313bcde4943f478145d8bc13115b9b91d83bbaed53739b5644122984412310aed574792f4e6b492f2cbda178175f601856d310f67e14834c3f17a0
+  languageName: node
+  linkType: hard
+
 "@napi-rs/cli@npm:^2.18.0":
   version: 2.18.0
   resolution: "@napi-rs/cli@npm:2.18.0"
@@ -1277,6 +1284,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@serenityjs/bedrock-data@npm:^0.0.8":
+  version: 0.0.8
+  resolution: "@serenityjs/bedrock-data@npm:0.0.8"
+  checksum: 10c0/329b5c86009776cbb79f8338d484d1f7d66b4affa2f2b54456a3c49bcb4bb116af4e6d2928adcf37e64e5f6011ebcecf4e64d743c6b9476abf7b4deaabe90016
+  languageName: node
+  linkType: hard
+
 "@serenityjs/binaryutils@npm:*, @serenityjs/binaryutils@workspace:packages/binaryutils":
   version: 0.0.0-use.local
   resolution: "@serenityjs/binaryutils@workspace:packages/binaryutils"
@@ -1358,6 +1372,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:^, @serenityjs/nbt@workspace:packages/nbt":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/nbt@workspace:packages/nbt"
+  dependencies:
+    "@serenityjs/binaryutils": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    jest: "npm:^29.7.0"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@serenityjs/netbeans@workspace:packages/netbeans":
   version: 0.0.0-use.local
   resolution: "@serenityjs/netbeans@workspace:packages/netbeans"
@@ -1380,6 +1410,7 @@ __metadata:
     "@serenityjs/binaryutils": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/nbt": "workspace:^"
     "@serenityjs/raknet": "npm:*"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
@@ -2429,6 +2460,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"asn1.js@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "asn1.js@npm:5.4.1"
+  dependencies:
+    bn.js: "npm:^4.0.0"
+    inherits: "npm:^2.0.1"
+    minimalistic-assert: "npm:^1.0.0"
+    safer-buffer: "npm:^2.1.0"
+  checksum: 10c0/b577232fa6069cc52bb128e564002c62b2b1fe47f7137bdcd709c0b8495aa79cee0f8cc458a831b2d8675900eea0d05781b006be5e1aa4f0ae3577a73ec20324
+  languageName: node
+  linkType: hard
+
 "ast-types-flow@npm:^0.0.8":
   version: 0.0.8
   resolution: "ast-types-flow@npm:0.0.8"
@@ -2616,6 +2659,13 @@ __metadata:
     inherits: "npm:^2.0.4"
     readable-stream: "npm:^3.4.0"
   checksum: 10c0/02847e1d2cb089c9dc6958add42e3cdeaf07d13f575973963335ac0fdece563a50ac770ac4c8fa06492d2dd276f6cc3b7f08c7cd9c7a7ad0f8d388b2a28def5f
+  languageName: node
+  linkType: hard
+
+"bn.js@npm:^4.0.0":
+  version: 4.12.0
+  resolution: "bn.js@npm:4.12.0"
+  checksum: 10c0/9736aaa317421b6b3ed038ff3d4491935a01419ac2d83ddcfebc5717385295fcfcf0c57311d90fe49926d0abbd7a9dbefdd8861e6129939177f7e67ebc645b21
   languageName: node
   linkType: hard
 
@@ -2847,6 +2897,16 @@ __metadata:
     escape-string-regexp: "npm:^1.0.5"
     supports-color: "npm:^5.3.0"
   checksum: 10c0/e6543f02ec877732e3a2d1c3c3323ddb4d39fbab687c23f526e25bd4c6a9bf3b83a696e8c769d078e04e5754921648f7821b2a2acfd16c550435fd630026e073
+  languageName: node
+  linkType: hard
+
+"chalk@npm:4.0.0":
+  version: 4.0.0
+  resolution: "chalk@npm:4.0.0"
+  dependencies:
+    ansi-styles: "npm:^4.1.0"
+    supports-color: "npm:^7.1.0"
+  checksum: 10c0/5982b6132154e086e3b15f68783778aa50be0871acb2e3f2bdde9b28f7016ca9bce4d840ea5ebf12eaf41bba5e131a5d5b528cfee512a14da40834ebbbbb37c7
   languageName: node
   linkType: hard
 
@@ -3554,6 +3614,15 @@ __metadata:
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
   checksum: 10c0/26f364ebcdb6395f95124fda411f63137a4bfb5d3a06453f7f23dfe52502905bd84e0488172e0f9ec295fdc45f05c23d5d91baf16bd26f0fe9acd777a188dc39
+  languageName: node
+  linkType: hard
+
+"ecdsa-sig-formatter@npm:^1.0.11":
+  version: 1.0.11
+  resolution: "ecdsa-sig-formatter@npm:1.0.11"
+  dependencies:
+    safe-buffer: "npm:^5.0.1"
+  checksum: 10c0/ebfbf19d4b8be938f4dd4a83b8788385da353d63307ede301a9252f9f7f88672e76f2191618fd8edfc2f24679236064176fab0b78131b161ee73daa37125408c
   languageName: node
   linkType: hard
 
@@ -4391,6 +4460,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-jwt@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "fast-jwt@npm:4.0.0"
+  dependencies:
+    "@lukeed/ms": "npm:^2.0.1"
+    asn1.js: "npm:^5.4.1"
+    ecdsa-sig-formatter: "npm:^1.0.11"
+    mnemonist: "npm:^0.39.5"
+  checksum: 10c0/415c3cec84e1ce39b3cf5955c5dedf058f6aa33f3cdead63f4a38a9a6a1d7315d693dbc5a63484a1d2e635da2063e091d1dc2296715b0666d6a7cc1f13c709e6
+  languageName: node
+  linkType: hard
+
 "fast-levenshtein@npm:^2.0.6":
   version: 2.0.6
   resolution: "fast-levenshtein@npm:2.0.6"
@@ -5116,7 +5197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inherits@npm:2, inherits@npm:^2.0.3, inherits@npm:^2.0.4":
+"inherits@npm:2, inherits@npm:^2.0.1, inherits@npm:^2.0.3, inherits@npm:^2.0.4":
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
   checksum: 10c0/4e531f648b29039fb7426fb94075e6545faa1eb9fe83c29f0b6d9e7263aceb4289d2d4557db0d428188eeb449cc7c5e77b0a0b2c4e248ff2a65933a0dee49ef2
@@ -6323,16 +6404,23 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "launcher@workspace:launcher"
   dependencies:
+    "@serenityjs/bedrock-data": "npm:^0.0.8"
     "@serenityjs/binaryutils": "npm:*"
     "@serenityjs/chokidar": "npm:*"
+    "@serenityjs/emitter": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/nbt": "npm:*"
     "@serenityjs/protocol": "npm:*"
     "@serenityjs/raknet": "npm:*"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
+    chalk: "npm:4.0.0"
+    fast-jwt: "npm:^4.0.0"
     jest: "npm:^29.7.0"
+    moment: "npm:^2.30.1"
+    simplex-noise: "npm:^4.0.1"
     tsup: "npm:^8.0.2"
     typescript: "npm:^5.4.2"
   languageName: unknown
@@ -6654,6 +6742,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimalistic-assert@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "minimalistic-assert@npm:1.0.1"
+  checksum: 10c0/96730e5601cd31457f81a296f521eb56036e6f69133c0b18c13fe941109d53ad23a4204d946a0d638d7f3099482a0cec8c9bb6d642604612ce43ee536be3dddd
+  languageName: node
+  linkType: hard
+
 "minimatch@npm:9.0.3, minimatch@npm:^9.0.0, minimatch@npm:^9.0.1":
   version: 9.0.3
   resolution: "minimatch@npm:9.0.3"
@@ -6780,6 +6875,22 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: 10c0/46ea0f3ffa8bc6a5bc0c7081ffc3907777f0ed6516888d40a518c5111f8366d97d2678911ad1a6882bf592fa9de6c784fea32e1687bb94e1f4944170af48a5cf
+  languageName: node
+  linkType: hard
+
+"mnemonist@npm:^0.39.5":
+  version: 0.39.8
+  resolution: "mnemonist@npm:0.39.8"
+  dependencies:
+    obliterator: "npm:^2.0.1"
+  checksum: 10c0/fa810768d290919c4ecd3f8ba5c8458bc45df08d1c72fac8f3897721cd90ab42ee1c642cc5208cfd649d40222998dc011127702117c0ca676f243cc80f42cc11
+  languageName: node
+  linkType: hard
+
+"moment@npm:^2.30.1":
+  version: 2.30.1
+  resolution: "moment@npm:2.30.1"
+  checksum: 10c0/865e4279418c6de666fca7786607705fd0189d8a7b7624e2e56be99290ac846f90878a6f602e34b4e0455c549b85385b1baf9966845962b313699e7cb847543a
   languageName: node
   linkType: hard
 
@@ -7122,6 +7233,13 @@ __metadata:
     define-properties: "npm:^1.2.0"
     es-abstract: "npm:^1.22.1"
   checksum: 10c0/e869d6a37fb7afdd0054dea49036d6ccebb84854a8848a093bbd1bc516f53e690bba88f0bc3e83fdfa74c601469ee6989c9b13359cda9604144c6e732fad3b6b
+  languageName: node
+  linkType: hard
+
+"obliterator@npm:^2.0.1":
+  version: 2.0.4
+  resolution: "obliterator@npm:2.0.4"
+  checksum: 10c0/ff2c10d4de7d62cd1d588b4d18dfc42f246c9e3a259f60d5716f7f88e5b3a3f79856b3207db96ec9a836a01d0958a21c15afa62a3f4e73a1e0b75f2c2f6bab40
   languageName: node
   linkType: hard
 
@@ -8159,7 +8277,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safer-buffer@npm:>= 2.1.2 < 3, safer-buffer@npm:>= 2.1.2 < 3.0.0":
+"safer-buffer@npm:>= 2.1.2 < 3, safer-buffer@npm:>= 2.1.2 < 3.0.0, safer-buffer@npm:^2.1.0":
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: 10c0/7e3c8b2e88a1841c9671094bbaeebd94448111dd90a81a1f606f3f67708a6ec57763b3b47f06da09fc6054193e0e6709e77325415dc8422b04497a8070fa02d4
@@ -8303,6 +8421,13 @@ __metadata:
   version: 4.1.0
   resolution: "signal-exit@npm:4.1.0"
   checksum: 10c0/41602dce540e46d599edba9d9860193398d135f7ff72cab629db5171516cfae628d21e7bfccde1bbfdf11c48726bc2a6d1a8fb8701125852fbfda7cf19c6aa83
+  languageName: node
+  linkType: hard
+
+"simplex-noise@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "simplex-noise@npm:4.0.1"
+  checksum: 10c0/d3eb0608fc3ba63d3daa89d69d5dadeb5bd7afff4f2e32910a5b373ebc2e807dcc62987afd95f822972a2214b77d0ecec6393ac402dd564aa9317be0fffa5092
   languageName: node
   linkType: hard
 

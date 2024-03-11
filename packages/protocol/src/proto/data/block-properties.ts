@@ -1,13 +1,16 @@
 import { DataType } from "@serenityjs/raknet";
+import { LightNBT, NBTValue } from "@serenityjs/nbt";
 
 import type { BinaryStream } from "@serenityjs/binaryutils";
 
 class BlockProperties extends DataType {
 	public name: string;
+	public nbt: NBTValue;
 
-	public constructor(name: string) {
+	public constructor(name: string, nbt: NBTValue) {
 		super();
 		this.name = name;
+		this.nbt = nbt;
 	}
 
 	public static override read(stream: BinaryStream): Array<BlockProperties> {
@@ -24,10 +27,10 @@ class BlockProperties extends DataType {
 			const name = stream.readVarString();
 
 			// Read the nbt for the property.
-			// const nbt = LightNBT.ReadRootTag(stream);
+			const nbt = LightNBT.ReadRootTag(stream);
 
 			// Push the rule to the array.
-			properties.push(new BlockProperties(name));
+			properties.push(new BlockProperties(name, nbt));
 		}
 
 		// Return the properties.
@@ -47,7 +50,7 @@ class BlockProperties extends DataType {
 			stream.writeVarString(property.name);
 
 			// Write the nbt for the property.
-			// LightNBT.WriteRootTag(stream, property.nbt);
+			LightNBT.WriteRootTag(stream, property.nbt);
 		}
 	}
 }

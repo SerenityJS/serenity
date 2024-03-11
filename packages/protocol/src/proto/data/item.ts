@@ -1,11 +1,15 @@
 import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
 import { DataType } from "@serenityjs/raknet";
 
+import { NBTTagItemData } from "./nbt-types";
+
+import type { NBTCompoud } from "@serenityjs/nbt";
+
 interface ItemExtras {
 	canDestroy: Array<string>;
 	canPlaceOn: Array<string>;
 	hasNbt: boolean;
-	nbt?: unknown;
+	nbt?: NBTCompoud | null;
 	ticking?: bigint | null;
 }
 
@@ -64,10 +68,10 @@ class Item extends DataType {
 		// Extra data.
 		const _extras = stream.readVarInt();
 		const hasNbt = stream.readUint16(Endianness.Little) === 0xff_ff;
-		let nbt: number | null = null;
+		let nbt: NBTCompoud | null = null;
 		if (hasNbt) {
 			const n = stream.readByte(); // unknown prefix 0x01 is used, when zero maybe its empty NBT data
-			nbt = n;
+			if (n) nbt = NBTTagItemData.read(stream);
 		}
 
 		const canPlaceStrings: Array<string> = [];
@@ -92,8 +96,7 @@ class Item extends DataType {
 			canDestroy: canDestroyStrings,
 			canPlaceOn: canPlaceStrings,
 			hasNbt,
-			// @ts-ignore
-			nbt: nbt as NBTCompoud,
+			nbt: nbt,
 			ticking
 		};
 
@@ -134,7 +137,7 @@ class Item extends DataType {
 		extras.writeUint16(hasNbt, Endianness.Little);
 		if (value.extras!.hasNbt) {
 			extras.writeByte(0x01);
-			// extras.write(value.extras!.nbt!);
+			NBTTagItemData.write(extras, value.extras!.nbt!);
 		}
 
 		// CanPlaceOn data

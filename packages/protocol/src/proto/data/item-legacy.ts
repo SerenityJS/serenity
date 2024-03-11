@@ -1,5 +1,10 @@
 import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
 import { DataType } from "@serenityjs/raknet";
+import { Byte } from "@serenityjs/nbt";
+
+import { NBTTagItemData } from "./nbt-types";
+
+import type { NBTSerializable, NBTCompoud } from "@serenityjs/nbt";
 
 interface ItemStackLegacyExtras {
 	canDestroy: Array<string>;
@@ -45,12 +50,13 @@ class ItemLegacy extends DataType {
 		const blockRuntimeId = stream.readZigZag();
 
 		// Extra data.
-		const extras = stream.readVarInt();
+		const _extras = stream.readVarInt();
 		const hasNbt = stream.readUint16(Endianness.Little) === 0xff_ff;
-		let nbt: unknown | null = null;
+		let nbt: NBTSerializable = Byte(0);
 		if (hasNbt) {
 			const n = stream.readByte(); // unknown prefix 0x01 is used, when zero maybe its empty NBT data
-			if (n) nbt = 0; // TODO: Read NBT data
+			// @ts-ignore
+			if (n) nbt = NBTTagItemData.read(stream, null);
 		}
 
 		const canPlaceStrings: Array<string> = [];
@@ -75,7 +81,8 @@ class ItemLegacy extends DataType {
 			canDestroy: canDestroyStrings,
 			canPlaceOn: canPlaceStrings,
 			hasNbt,
-			nbt,
+			// @ts-ignore
+			nbt: nbt as NBTCompoud,
 			ticking
 		};
 
@@ -103,7 +110,8 @@ class ItemLegacy extends DataType {
 		extras.writeUint16(hasNbt, Endianness.Little);
 		if (value.extras!.hasNbt) {
 			extras.writeByte(0x01);
-			// NBTTagItemData.write(extras, value.extras!.nbt!);
+			// @ts-ignore
+			NBTTagItemData.write(extras, value.extras!.nbt!);
 			// extras.write(value.extras!.nbt!);
 		}
 
