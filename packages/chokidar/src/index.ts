@@ -218,6 +218,10 @@ function run(command: string, options: Options, logger: Logger): void {
 
 	if (isRunning) {
 		logger.warn("CKR", `killing running process...`);
+		// This is really stinky but there is not a straight-forward
+		// cross-platform way to kill a process and all its children.
+		// We can possibly iterate on this in the future based off
+		// nodemon's implementations.
 		terminate(currentProcess!.pid!, (error) => {
 			if (error) {
 				logger.error(
