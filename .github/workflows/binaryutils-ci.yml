@@ -1,7 +1,8 @@
 name: Binaryutils CI Build Bindings
 env:
   DEBUG: napi:*
-  APP_NAME: '@serenityjs/binaryutils'
+  APP_NAME: 'binaryutils'
+  APP_DIRECTORY: 'packages/binaryutils'
   MACOSX_DEPLOYMENT_TARGET: '10.13'
 permissions:
   contents: write
@@ -65,8 +66,8 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            .cargo-cache
-            target/
+            ${{ env.APP_DIRECTORY }}/.cargo-cache
+            ${{ env.APP_DIRECTORY }}/target/
           key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
@@ -94,7 +95,7 @@ jobs:
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
-          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
+          options: '--user 0:0 -v ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/${{ env.APP_DIRECTORY }}/build -w /build'
           run: ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
@@ -104,7 +105,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.APP_NAME }}.*.node
+          path: ${{ env.APP_DIRECTORY }}/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -141,6 +142,7 @@ jobs:
         shell: bash
       - name: Test bindings
         run: yarn test
+        working-directory: ${{ env.APP_DIRECTORY }}
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -171,6 +173,7 @@ jobs:
         shell: bash
       - name: Test bindings
         run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim yarn test
+        working-directory: ${{ env.APP_DIRECTORY }}
   publish:
     name: Publish
     runs-on: ubuntu-latest
