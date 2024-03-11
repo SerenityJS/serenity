@@ -1,6 +1,7 @@
 {
   "name": "launcher",
   "version": "0.0.0",
+  "repository": "https://github.com/SerenityJS/serenity",
   "private": true,
   "scripts": {
     "start": "node dist/index.js",
