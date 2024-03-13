@@ -45,7 +45,7 @@ Clone or download a local copy of the Serenity repository to a perferred area on
 
 - First you will need to initialize the folder using Yarn. Copy and run the command `yarn install`, follow any steps that may appear on screen.
 
-- Next you are now ready to build the project, since the project is coded in TypeScript, it will first need to be compiled to JavaScript before running. To do this, run the command `yarn run build`, this command will then compile the project into JavaScript.
+- Next you are now ready to build the project, since the project is coded in TypeScript, it will first need to be compiled to JavaScript before running. To do this, run the command `yarn build`, this command will then compile the project into JavaScript.
 
-- Finally you are now ready to start the Serenity server. To do this run the command `yarn run launch`, you should then see the server starting.
-  If you are making modifications to the source code and do not want to rebuild the project each time, run the command `yarn run dev:launch`. This will run the source TypeScript files without having to build each time.
+- Finally you are now ready to start the Serenity server. To do this run the command `yarn dev`, you should then see the server starting in the console.
+
