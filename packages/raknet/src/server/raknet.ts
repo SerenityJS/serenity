@@ -1,9 +1,11 @@
 import { RemoteInfo, Socket, createSocket } from "node:dgram";
 
 import { Emitter } from "@serenityjs/emitter";
+import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { NetworkIdentifier, RaknetEvents } from "../types";
-import { Bitflags, RaknetTickLength } from "../constants";
+import { RaknetTickLength } from "../constants";
+import { Bitflags } from "../enums";
 
 import { Offline } from "./offline";
 import { Connection } from "./connection";
@@ -16,6 +18,11 @@ class RaknetServer extends Emitter<RaknetEvents> {
 	 * The server tick interval
 	 */
 	protected interval: NodeJS.Timeout | null = null;
+
+	/**
+	 * The raknet server logger
+	 */
+	public readonly logger: Logger;
 
 	/**
 	 * The server socket
@@ -69,6 +76,7 @@ class RaknetServer extends Emitter<RaknetEvents> {
 	 */
 	public constructor(address: string, port = 19_132) {
 		super();
+		this.logger = new Logger("Raknet", LoggerColors.Blue);
 		this.socket = createSocket("udp4");
 		this.address = address;
 		this.port = port;
@@ -106,6 +114,11 @@ class RaknetServer extends Emitter<RaknetEvents> {
 			// Sets the interval to the tick function
 			this.interval = tick().unref();
 		} catch {
+			// Log an error for failing to bind to the address and port
+			this.logger.error(
+				`Failed to bind to the address and port, make sure the address and port are not in use.`
+			);
+
 			void this.emit(
 				"error",
 				new Error(
@@ -164,6 +177,11 @@ class RaknetServer extends Emitter<RaknetEvents> {
 
 		// Check if we got a valid packet, without a valid connection
 		if ((buffer[0]! & Bitflags.Valid) !== 0) {
+			// Log a debug message for the invalid packet
+			this.logger.debug(
+				`Received a valid packet without a valid connection from ${key}`
+			);
+
 			// Emit an error for the invalid packet
 			return void this.emit(
 				"error",

@@ -1,7 +1,6 @@
 import { BinaryStream } from "@serenityjs/binaryutils";
 
-import { Bitflags, Priority, Reliability, Status } from "../constants";
-import { Packet } from "../enums";
+import { Bitflags, Priority, Reliability, Status, Packet } from "../enums";
 import {
 	Ack,
 	Address,
@@ -189,6 +188,11 @@ class Connection {
 						? "0" + header.toString(16)
 						: header.toString(16);
 
+				// Log a debug message for unknown packet headers
+				this.server.logger.debug(
+					`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+				);
+
 				// Emit an error for unknown packet headers
 				return void this.server.emit(
 					"error",
@@ -236,6 +240,11 @@ class Connection {
 							? "0" + header.toString(16)
 							: header.toString(16);
 
+					// Log a debug message for unknown packet headers
+					this.server.logger.debug(
+						`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+					);
+
 					// Emit an error for unknown packet headers
 					return void this.server.emit(
 						"error",
@@ -280,6 +289,11 @@ class Connection {
 					header.toString(16).length === 1
 						? "0" + header.toString(16)
 						: header.toString(16);
+
+				// Log a debug message for unknown packet headers
+				this.server.logger.debug(
+					`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+				);
 
 				// Emit an error for unknown packet headers
 				return void this.server.emit(
@@ -360,6 +374,11 @@ class Connection {
 
 		// Checks if the sequence of the frameset has already been recieved
 		if (this.receivedFrameSequences.has(frameset.sequence)) {
+			// Log a debug message for duplicate framesets
+			this.server.logger.debug(
+				`Received duplicate frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+			);
+
 			return void this.server.emit(
 				"error",
 				new Error(
@@ -376,6 +395,11 @@ class Connection {
 			frameset.sequence < this.lastInputSequence ||
 			frameset.sequence === this.lastInputSequence
 		) {
+			// Log a debug message for out of order framesets
+			this.server.logger.debug(
+				`Received out of order frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+			);
+
 			return void this.server.emit(
 				"error",
 				new Error(
@@ -429,6 +453,11 @@ class Connection {
 					this.inputHighestSequenceIndex[frame.orderChannel]! ||
 				frame.orderIndex < this.inputOrderIndex[frame.orderChannel]!
 			) {
+				// Log a debug message for out of order frames
+				this.server.logger.debug(
+					`Recieved out of order frame ${frame.sequenceIndex} from ${this.identifier.address}:${this.identifier.port}!`
+				);
+
 				return void this.server.emit(
 					"error",
 					new Error(

@@ -1,5 +1,4 @@
 export * from "./serenity";
-export * from "./console";
 export * from "./network";
 export * from "./entity";
 export * from "./world";
@@ -14,7 +13,7 @@ import { DimensionType } from "@serenityjs/protocol";
 
 import { InternalProvider } from "./provider";
 import { Serenity } from "./serenity";
-import { BlockPermutation, Overworld } from "./world";
+import { Overworld } from "./world";
 
 const serenity = new Serenity();
 
@@ -41,4 +40,8 @@ serenity.start();
 
 serenity.on("PlayerSpawned", (event) => {
 	event.player.getComponent("minecraft:ability.may_fly").setCurrentValue(true);
+	event.player.sendNotification(
+		"Welcome to Serenity!",
+		"We hope you enjoy your stay!"
+	);
 });

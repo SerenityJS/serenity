@@ -6,8 +6,7 @@ import {
 	UpdateAbilities,
 	UpdateAttributes
 } from "@serenityjs/protocol";
-
-import { Logger } from "../console";
+import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { WorldNetwork } from "./network";
 import { DEFAULT_WORLD_PROPERTIES } from "./properties";
@@ -72,7 +71,7 @@ class World {
 		this.provider = provider;
 		this.properties = properties ?? DEFAULT_WORLD_PROPERTIES;
 		this.network = new WorldNetwork(this);
-		this.logger = new Logger(this.properties.name, "#34eb92");
+		this.logger = new Logger(this.properties.name, LoggerColors.GreenBright);
 		this.blocks = new BlockMapper(this);
 		this.items = new ItemMapper(this);
 		this.dimensions = new Map();

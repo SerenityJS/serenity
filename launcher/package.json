@@ -31,6 +31,7 @@
     "@serenityjs/bedrock-data": "^0.0.9",
     "@serenityjs/binaryutils": "*",
     "@serenityjs/emitter": "*",
+    "@serenityjs/logger": "workspace:^",
     "@serenityjs/nbt": "*",
     "@serenityjs/protocol": "*",
     "@serenityjs/raknet": "*",

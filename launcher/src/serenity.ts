@@ -9,9 +9,9 @@ import {
 } from "@serenityjs/protocol";
 import { RaknetServer } from "@serenityjs/raknet";
 import { Emitter } from "@serenityjs/emitter";
+import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { ServerProperties } from "./properties";
-import { Logger } from "./console";
 import { SERENITY_EVENTS } from "./events";
 import { NETWORK_HANDLERS } from "./network/handlers";
 import { Network, NetworkSession, NetworkBound } from "./network";
@@ -47,7 +47,7 @@ class Serenity extends Emitter<SerenityEvents> {
 	 */
 	public constructor(options?: SerenityOptions) {
 		super();
-		this.logger = new Logger("Serenity", "#a742f5");
+		this.logger = new Logger("Serenity", LoggerColors.Magenta);
 
 		this.logger.info("Server is now starting...");
 

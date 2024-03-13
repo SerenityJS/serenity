@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import process from "node:process";
 
-import { Logger, LoggerColors } from "..";
+import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { BasePlugin } from "./base";
 
@@ -43,7 +43,7 @@ class Plugins {
 	 */
 	public constructor(serenity: Serenity) {
 		this.serenity = serenity;
-		this.logger = new Logger("Plugins", "#32a8a4");
+		this.logger = new Logger("Plugins", LoggerColors.RedBright);
 		this.path = resolve(
 			process.cwd(),
 			this.serenity.properties.values.plugins.path

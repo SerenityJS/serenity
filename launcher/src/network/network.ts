@@ -12,8 +12,7 @@ import {
 } from "@serenityjs/protocol";
 import { Frame, Reliability, Priority } from "@serenityjs/raknet";
 import Emitter from "@serenityjs/emitter";
-
-import { Logger, LoggerColors } from "../console";
+import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { NetworkBound } from "./bound";
 import { GAME_BYTE } from "./game-byte";

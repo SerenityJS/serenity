@@ -1,6 +1,6 @@
 import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
 
-import { Bitflags, Reliability } from "../../constants";
+import { Bitflags, Reliability } from "../../enums";
 
 import { DataType } from "./type";
 

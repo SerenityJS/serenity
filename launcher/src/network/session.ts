@@ -70,6 +70,8 @@ class NetworkSession {
 		packet.hideDisconnectionScreen = hideReason;
 
 		this.send(packet);
+
+		this.connection.disconnect();
 	}
 }
 

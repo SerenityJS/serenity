@@ -39,6 +39,10 @@
     {
       "name": "📦 Nbt",
       "path": "../packages/nbt"
+    },
+    {
+      "name": "📦 Logger",
+      "path": "../packages/logger"
     }
   ],
   "settings": {
