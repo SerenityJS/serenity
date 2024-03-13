@@ -9,6 +9,7 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.ResourcePacksInfo)
 class ResourcePacksInfo extends DataPacket {
 	@Serialize(Bool) public mustAccept!: boolean;
+	@Serialize(Bool) public hasAddons!: boolean;
 	@Serialize(Bool) public hasScripts!: boolean;
 	@Serialize(Bool) public forceServerPacks!: boolean;
 	@Serialize(BehaviorPackInfo) public behaviorPacks!: Array<BehaviorPackInfo>;

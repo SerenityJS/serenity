@@ -29,7 +29,7 @@ class Overworld extends TerrainGenerator {
 		const bedrock = BlockPermutation.resolve("minecraft:bedrock");
 		const stone = BlockPermutation.resolve("minecraft:stone");
 		const dirt = BlockPermutation.resolve("minecraft:dirt");
-		const grass = BlockPermutation.resolve("minecraft:grass");
+		const grass = BlockPermutation.resolve("minecraft:grass_block");
 		const water = BlockPermutation.resolve("minecraft:water");
 		const tulip_pink = BlockPermutation.resolve("minecraft:red_flower", {
 			flower_type: "tulip_pink"

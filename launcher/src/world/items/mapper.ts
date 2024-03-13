@@ -44,6 +44,10 @@ class ItemMapper {
 			// Check if the state is null.
 			if (!state) continue;
 
+			// TODO: Remove when updated creative content is added.
+			if (state.name === "minecraft:grass")
+				state.name = "minecraft:grass_block";
+
 			if (entry.item.blockRuntimeId === 0) {
 				// Create the item type.
 				const itemType = new ItemType(

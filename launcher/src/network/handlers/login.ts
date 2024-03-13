@@ -121,6 +121,7 @@ class LoginHandler extends NetworkHandler {
 		// This will tell the client that there are no resource packs to download for now.
 		const packs = new ResourcePacksInfo();
 		packs.mustAccept = false;
+		packs.hasAddons = false;
 		packs.hasScripts = false;
 		packs.forceServerPacks = false;
 		packs.behaviorPacks = [];

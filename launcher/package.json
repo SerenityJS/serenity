@@ -28,7 +28,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@serenityjs/bedrock-data": "^0.0.8",
+    "@serenityjs/bedrock-data": "^0.0.9",
     "@serenityjs/binaryutils": "*",
     "@serenityjs/emitter": "*",
     "@serenityjs/nbt": "*",

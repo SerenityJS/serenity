@@ -79,8 +79,8 @@ export class BetterFlat extends TerrainGenerator {
 				BlockPermutation.resolve("minecraft:dirt")!
 			],
 			[
-				BlockPermutation.resolve("minecraft:grass")!,
-				BlockPermutation.resolve("minecraft:grass")!,
+				BlockPermutation.resolve("minecraft:grass_block")!,
+				BlockPermutation.resolve("minecraft:grass_block")!,
 				BlockPermutation.resolve("minecraft:moss_block")!
 			]
 		]);

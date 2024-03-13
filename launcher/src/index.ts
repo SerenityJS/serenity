@@ -14,7 +14,7 @@ import { DimensionType } from "@serenityjs/protocol";
 
 import { InternalProvider } from "./provider";
 import { Serenity } from "./serenity";
-import { Overworld } from "./world";
+import { BlockPermutation, Overworld } from "./world";
 
 const serenity = new Serenity();
 
@@ -38,3 +38,7 @@ world.registerDimension(
 );
 
 serenity.start();
+
+serenity.on("PlayerSpawned", (event) => {
+	event.player.getComponent("minecraft:ability.may_fly").setCurrentValue(true);
+});

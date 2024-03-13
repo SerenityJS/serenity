@@ -101,10 +101,11 @@ enum LevelEventId {
 	ParticlePunchBlockWest = 3607,
 	ParticlePunchBlockEast = 3608,
 	ParticleShootWhiteSmoke = 3609,
-	ParticleWindExplosion = 3610,
+	ParticleBreezeWindExplosion = 3610,
 	ParticleTrialSpawnerDetection = 3611,
 	ParticleTrialSpawnerSpawning = 3612,
 	ParticleTrialSpawnerEjecting = 3613,
+	ParticleWindExplosion = 3614,
 
 	SetData = 4000,
 	PlayersSleeping = 9800,

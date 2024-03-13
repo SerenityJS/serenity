@@ -95,6 +95,13 @@ class BlockPermutation {
 				JSON.stringify(permutation.states) === JSON.stringify(states)
 		);
 
+		// Check if the type is null.
+		if (!type) {
+			// TODO: Debug the error.
+			// Return the air permutation.
+			return this.resolve("minecraft:air");
+		}
+
 		// Return the permutation.
 		return permutation ?? type.getPermutation();
 	}

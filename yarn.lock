@@ -1284,10 +1284,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/bedrock-data@npm:^0.0.8":
-  version: 0.0.8
-  resolution: "@serenityjs/bedrock-data@npm:0.0.8"
-  checksum: 10c0/329b5c86009776cbb79f8338d484d1f7d66b4affa2f2b54456a3c49bcb4bb116af4e6d2928adcf37e64e5f6011ebcecf4e64d743c6b9476abf7b4deaabe90016
+"@serenityjs/bedrock-data@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@serenityjs/bedrock-data@npm:0.0.9"
+  checksum: 10c0/077aa80abfdc461c8cbd86309cf391ecbca0ca2e68dbf433add9e42e9eecfe3d3c2c22a0e7bf45b9e718581428f417603e014da77be54cbe0082600ef4056b42
   languageName: node
   linkType: hard
 
@@ -6404,7 +6404,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "launcher@workspace:launcher"
   dependencies:
-    "@serenityjs/bedrock-data": "npm:^0.0.8"
+    "@serenityjs/bedrock-data": "npm:^0.0.9"
     "@serenityjs/binaryutils": "npm:*"
     "@serenityjs/chokidar": "npm:*"
     "@serenityjs/emitter": "npm:*"
