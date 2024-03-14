@@ -43,6 +43,10 @@
     {
       "name": "📦 Logger",
       "path": "../packages/logger"
+    },
+    {
+      "name": "📦 Network",
+      "path": "../packages/network"
     }
   ],
   "settings": {

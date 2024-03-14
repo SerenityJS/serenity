@@ -33,6 +33,7 @@
     "@serenityjs/emitter": "*",
     "@serenityjs/logger": "workspace:^",
     "@serenityjs/nbt": "*",
+    "@serenityjs/network": "workspace:^",
     "@serenityjs/protocol": "*",
     "@serenityjs/raknet": "*",
     "chalk": "4.0.0",
