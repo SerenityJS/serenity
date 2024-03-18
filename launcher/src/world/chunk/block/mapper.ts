@@ -1,6 +1,6 @@
 import { CANONICAL_BLOCK_STATES } from "@serenityjs/bedrock-data";
 import { BinaryStream } from "@serenityjs/binaryutils";
-import { LightNBT, NBTTag } from "@serenityjs/nbt";
+import { CompoundTag, Tag } from "@serenityjs/nbt";
 
 import { BlockBehavior } from "./behavior";
 import { BlockPermutation } from "./permutation";
@@ -48,13 +48,13 @@ class BlockMapper {
 		const stream = new BinaryStream(states ?? CANONICAL_BLOCK_STATES);
 
 		// Check if the first tag is a compound tag.
-		if (stream.binary[stream.offset] !== NBTTag.Compoud) return;
+		if (stream.binary[stream.offset] !== Tag.Compound) return;
 
 		// Decode the NBT data.
 		do {
 			// Read the root tag.
 			// @ts-ignore
-			const data = LightNBT.ReadRootTag(stream) as RawBlock;
+			const data = CompoundTag.read(stream, true, true).valueOf() as RawBlock;
 
 			// Assign a runtime ID.
 			const runtimeId = this.RUNTIME_ID++;

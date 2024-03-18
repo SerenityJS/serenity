@@ -1,15 +1,12 @@
 import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
 import { DataType } from "@serenityjs/raknet";
-
-import { NBTTagItemData } from "./nbt-types";
-
-import type { NBTCompoud } from "@serenityjs/nbt";
+import { CompoundTag } from "@serenityjs/nbt";
 
 interface ItemExtras {
 	canDestroy: Array<string>;
 	canPlaceOn: Array<string>;
 	hasNbt: boolean;
-	nbt?: NBTCompoud | null;
+	nbt?: CompoundTag<unknown> | null;
 	ticking?: bigint | null;
 }
 
@@ -68,23 +65,23 @@ class Item extends DataType {
 		// Extra data.
 		const _extras = stream.readVarInt();
 		const hasNbt = stream.readUint16(Endianness.Little) === 0xff_ff;
-		let nbt: NBTCompoud | null = null;
+		let nbt: CompoundTag<unknown> | null = null;
 		if (hasNbt) {
 			const n = stream.readByte(); // unknown prefix 0x01 is used, when zero maybe its empty NBT data
-			if (n) nbt = NBTTagItemData.read(stream);
+			if (n) nbt = CompoundTag.read(stream, true, false);
 		}
 
 		const canPlaceStrings: Array<string> = [];
 		const canPlaceOnLength = stream.readInt32(Endianness.Little);
 		for (let index = 0; index < canPlaceOnLength; index++) {
-			const string = stream.readString32(Endianness.Little);
+			const string = stream.readVarString();
 			canPlaceStrings.push(string);
 		}
 
 		const canDestroyStrings: Array<string> = [];
 		const canDestroyLength = stream.readInt32(Endianness.Little);
 		for (let index = 0; index < canDestroyLength; index++) {
-			const string = stream.readString32(Endianness.Little);
+			const string = stream.readVarString();
 			canDestroyStrings.push(string);
 		}
 
@@ -137,7 +134,7 @@ class Item extends DataType {
 		extras.writeUint16(hasNbt, Endianness.Little);
 		if (value.extras!.hasNbt) {
 			extras.writeByte(0x01);
-			NBTTagItemData.write(extras, value.extras!.nbt!);
+			CompoundTag.write(extras, value.extras!.nbt!, false);
 		}
 
 		// CanPlaceOn data

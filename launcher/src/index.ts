@@ -40,8 +40,4 @@ serenity.start();
 
 serenity.on("PlayerSpawned", (event) => {
 	event.player.getComponent("minecraft:ability.may_fly").setCurrentValue(true);
-	event.player.sendNotification(
-		"Welcome to Serenity!",
-		"We hope you enjoy your stay!"
-	);
 });

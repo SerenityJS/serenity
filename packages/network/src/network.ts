@@ -133,6 +133,24 @@ class Network extends Emitter<NetworkEvents> {
 	}
 
 	/**
+	 * Registers a network handler.
+	 *
+	 * @param handler The network handler to register.
+	 */
+	public registerHandler(handler: typeof NetworkHandler): void {
+		this.handlers.push(handler);
+	}
+
+	/**
+	 * Unregisters a network handler.
+	 *
+	 * @param handler The network handler to unregister.
+	 */
+	public unregisterHandler(handler: typeof NetworkHandler): void {
+		this.handlers.splice(this.handlers.indexOf(handler), 1);
+	}
+
+	/**
 	 * Handles all incoming packets from a raknet connection.
 	 *
 	 * @param connection The connection that sent the packets.
@@ -258,18 +276,21 @@ class Network extends Emitter<NetworkEvents> {
 						// Check if the packet was cancelled.
 						if (!value) continue;
 
-						// Attempt to find a handler for the packet.
-						const handler = this.handlers.find(
+						// Attempt to find handlers registered for the packet.
+						const handlers = this.handlers.filter(
 							(x) => x.packet === instance.getId()
 						);
 
-						// Check if a handler was not found.
+						// Check if a no handlers were found.
 						// If so, we will emit a warning and continue to the next packet.
-						if (handler) {
+						if (handlers.length > 0) {
 							// We will then attempt to handle the packet.
 							// If an error occurs, log the error and continue to the next packet.
 							try {
-								void handler.handle(instance, session);
+								// Loop through each handler and handle the packet.
+								for (const handler of handlers) {
+									handler.handle(instance, session);
+								}
 							} catch (reason) {
 								this.logger.error(reason);
 							}

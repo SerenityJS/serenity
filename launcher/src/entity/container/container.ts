@@ -3,6 +3,7 @@ import {
 	InventorySlot,
 	WindowsIds
 } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { Player } from "../../player/player";
 import { Item } from "../../world";
@@ -283,12 +284,7 @@ class EntityContainer {
 					canPlaceOn: [],
 					canDestroy: [],
 					hasNbt: true,
-					nbt: {
-						// // TODO: Add component system to Item
-						// display: {
-						// 	Name: item.nametag,
-						// },
-					}
+					nbt: new CompoundTag("", {})
 				}
 			};
 
