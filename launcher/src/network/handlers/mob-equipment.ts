@@ -1,4 +1,4 @@
-import { DisconnectReason, MobEquipment } from "@serenityjs/protocol";
+import { DisconnectReason, MobEquipmentPacket } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -9,10 +9,10 @@ class MobEquipmentHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = MobEquipment.id;
+	public static override packet: Packet = MobEquipmentPacket.id;
 
 	public static override handle(
-		packet: MobEquipment,
+		packet: MobEquipmentPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -54,7 +54,7 @@ class MobEquipmentHandler extends NetworkHandler {
 
 		// NOTE: This could be broken, same client recieved a broken packet error.
 		// Create a new mob equipment packet.
-		const equipment = new MobEquipment();
+		const equipment = new MobEquipmentPacket();
 		equipment.runtimeEntityId = packet.runtimeEntityId;
 		equipment.item = packet.item;
 		equipment.slot = packet.slot;

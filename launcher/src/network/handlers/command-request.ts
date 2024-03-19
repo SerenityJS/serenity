@@ -1,7 +1,4 @@
-import {
-	CommandRequest as CommandRequestPacket,
-	DisconnectReason
-} from "@serenityjs/protocol";
+import { CommandRequestPacket, DisconnectReason } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 

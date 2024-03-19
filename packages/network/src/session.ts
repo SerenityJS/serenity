@@ -1,5 +1,9 @@
 import { Connection, NetworkIdentifier, Priority } from "@serenityjs/raknet";
-import { DisconnectReason, Disconnect, DataPacket } from "@serenityjs/protocol";
+import {
+	DisconnectReason,
+	DisconnectPacket,
+	DataPacket
+} from "@serenityjs/protocol";
 
 import { Network } from "./network";
 
@@ -63,12 +67,12 @@ class NetworkSession {
 		hideReason = false
 	): void {
 		// Create a new disconnect packet.
-		const packet = new Disconnect();
+		const packet = new DisconnectPacket();
 
 		// Assign the packet properties.
 		packet.message = message;
 		packet.reason = reason;
-		packet.hideDisconnectionScreen = hideReason;
+		packet.hideDisconnectScreen = hideReason;
 
 		// Send the packet with the highest priority.
 		this.network.send(this, Priority.Immediate, packet);

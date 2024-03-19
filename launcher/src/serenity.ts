@@ -4,7 +4,7 @@ import {
 	PROTOCOL_VERSION,
 	MINECRAFT_VERSION,
 	Packet,
-	Disconnect,
+	DisconnectPacket,
 	DisconnectReason
 } from "@serenityjs/protocol";
 import { RaknetServer } from "@serenityjs/raknet";
@@ -150,23 +150,25 @@ class Serenity extends Emitter<SerenityEvents> {
 			// Emit a dummy disconnect event.
 			// This will be used for events to listen to.
 			// First we will construct the packet.
-			const packet = new Disconnect();
+			const packet = new DisconnectPacket();
 			packet.message = "Player disconnected.";
 			packet.reason = DisconnectReason.Disconnected;
-			packet.hideDisconnectionScreen = true;
+			packet.hideDisconnectScreen = true;
 
 			// Then we will build the event.
 			const event = {
 				packet,
 				session,
 				bound: NetworkBound.Server
-			} as NetworkPacketEvent<Disconnect>;
+			} as NetworkPacketEvent<DisconnectPacket>;
 
 			// Now we will emit the event.
 			void this.network.emit(Packet.Disconnect, event);
 
 			// Now we will trigger the disconnect handler.
-			const handler = NETWORK_HANDLERS.find((x) => x.packet === Disconnect.id);
+			const handler = NETWORK_HANDLERS.find(
+				(x) => x.packet === DisconnectPacket.id
+			);
 			if (!handler)
 				return this.logger.error("Failed to find disconnect handler.");
 			void handler.handle(packet as never, session);

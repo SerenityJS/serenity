@@ -1,12 +1,12 @@
 import {
-	PlayerAction,
+	PlayerActionPacket,
 	DisconnectReason,
 	ActionIds,
 	Gamemode,
-	UpdateBlock,
+	UpdateBlockPacket,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
-	LevelEvent,
+	LevelEventPacket,
 	LevelEventId,
 	Vector3f
 } from "@serenityjs/protocol";
@@ -22,10 +22,10 @@ class PlayerActionHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = PlayerAction.id;
+	public static override packet: Packet = PlayerActionPacket.id;
 
 	public static override handle(
-		packet: PlayerAction,
+		packet: PlayerActionPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -82,7 +82,10 @@ class PlayerActionHandler extends NetworkHandler {
 		}
 	}
 
-	private static handleStartBreak(packet: PlayerAction, player: Player): void {
+	private static handleStartBreak(
+		packet: PlayerActionPacket,
+		player: Player
+	): void {
 		// Return if the player is in creative mode.
 		if (player.gamemode === Gamemode.Creative) return;
 
@@ -102,7 +105,7 @@ class PlayerActionHandler extends NetworkHandler {
 		const breakTime = Math.ceil(hardness * 20);
 
 		// Create a new LevelEvent packet.
-		const event = new LevelEvent();
+		const event = new LevelEventPacket();
 		event.event = LevelEventId.BlockStartBreak;
 		event.position = new Vector3f(x, y, z);
 		event.data = 65_535 / breakTime;
@@ -111,7 +114,10 @@ class PlayerActionHandler extends NetworkHandler {
 		player.dimension.broadcast(event);
 	}
 
-	private static handleAbortBreak(packet: PlayerAction, player: Player): void {
+	private static handleAbortBreak(
+		packet: PlayerActionPacket,
+		player: Player
+	): void {
 		// Get the block position from the packet.
 		const { x, y, z } =
 			packet.blockPosition === player.mining
@@ -119,7 +125,7 @@ class PlayerActionHandler extends NetworkHandler {
 				: player.mining ?? { x: 0, y: 0, z: 0 };
 
 		// Create a new LevelEvent packet.
-		const event = new LevelEvent();
+		const event = new LevelEventPacket();
 		event.event = LevelEventId.BlockStopBreak;
 		event.position = new Vector3f(x, y, z);
 		event.data = 0;
@@ -129,7 +135,7 @@ class PlayerActionHandler extends NetworkHandler {
 	}
 
 	private static handleCreativePlayerDestroyBlock(
-		packet: PlayerAction,
+		packet: PlayerActionPacket,
 		player: Player
 	): void {
 		// Get the block position from the packet.
@@ -142,7 +148,7 @@ class PlayerActionHandler extends NetworkHandler {
 		// If not, we will return.
 		if (player.gamemode !== Gamemode.Creative) {
 			// Create a new UpdateBlock packet.
-			const update = new UpdateBlock();
+			const update = new UpdateBlockPacket();
 			update.blockRuntimeId = block.permutation.getRuntimeId();
 			update.position = { x, y, z };
 			update.flags = UpdateBlockFlagsType.Network;
@@ -154,7 +160,7 @@ class PlayerActionHandler extends NetworkHandler {
 
 		// Send the block break particles to the dimension.
 		// Create a new LevelEvent packet.
-		const event = new LevelEvent();
+		const event = new LevelEventPacket();
 		event.event = LevelEventId.ParticleDestroyBlockNoSound;
 		event.position = new Vector3f(x, y, z);
 		event.data = block.permutation.getRuntimeId();
@@ -167,7 +173,7 @@ class PlayerActionHandler extends NetworkHandler {
 	}
 
 	private static handlePredictBreak(
-		packet: PlayerAction,
+		packet: PlayerActionPacket,
 		player: Player
 	): void {
 		// Check if the player is in creative mode.
@@ -182,7 +188,7 @@ class PlayerActionHandler extends NetworkHandler {
 
 		// Emit the block break particles to the dimension.
 		// Create a new LevelEvent packet.
-		const event = new LevelEvent();
+		const event = new LevelEventPacket();
 		event.event = LevelEventId.ParticleDestroyBlockNoSound;
 		event.position = new Vector3f(x, y, z);
 		event.data = block.permutation.getRuntimeId();
@@ -213,14 +219,14 @@ class PlayerActionHandler extends NetworkHandler {
 	}
 
 	private static handleContinueBreak(
-		packet: PlayerAction,
+		packet: PlayerActionPacket,
 		player: Player
 	): void {
 		// Check if the player was already mining.
 		// If so, stop the mining.
 		if (player.mining) {
 			// Create a new LevelEvent packet.
-			const event = new LevelEvent();
+			const event = new LevelEventPacket();
 
 			// Set the event to stop the block break.
 			event.event = LevelEventId.BlockStopBreak;
@@ -252,7 +258,7 @@ class PlayerActionHandler extends NetworkHandler {
 		const breakTime = Math.ceil(hardness * 20);
 
 		// Create a new LevelEvent packet.
-		const event = new LevelEvent();
+		const event = new LevelEventPacket();
 		event.event = LevelEventId.BlockStartBreak;
 		event.position = new Vector3f(
 			packet.blockPosition.x,
@@ -266,7 +272,7 @@ class PlayerActionHandler extends NetworkHandler {
 	}
 
 	private static handleStopItemUseOn(
-		packet: PlayerAction,
+		packet: PlayerActionPacket,
 		player: Player
 	): void {
 		// Get the inventory component from the player.

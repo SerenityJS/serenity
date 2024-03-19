@@ -1,4 +1,7 @@
-import { InventoryTransaction, DisconnectReason } from "@serenityjs/protocol";
+import {
+	InventoryTransactionPacket,
+	DisconnectReason
+} from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -9,10 +12,10 @@ class InventoryTransactionHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = InventoryTransaction.id;
+	public static override packet: Packet = InventoryTransactionPacket.id;
 
 	public static override handle(
-		packet: InventoryTransaction,
+		packet: InventoryTransactionPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.

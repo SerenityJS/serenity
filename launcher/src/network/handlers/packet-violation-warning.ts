@@ -1,5 +1,5 @@
 import {
-	PacketViolationWarning,
+	PacketViolationWarningPacket,
 	ViolationSeverity,
 	ViolationType
 } from "@serenityjs/protocol";
@@ -13,10 +13,10 @@ class PacketViolationWarningHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = PacketViolationWarning.id;
+	public static override packet: Packet = PacketViolationWarningPacket.id;
 
 	public static override handle(
-		packet: PacketViolationWarning,
+		packet: PacketViolationWarningPacket,
 		session: NetworkSession
 	): void {
 		// Format the packet id.

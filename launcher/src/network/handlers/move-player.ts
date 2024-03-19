@@ -1,4 +1,4 @@
-import { DisconnectReason, MovePlayer } from "@serenityjs/protocol";
+import { DisconnectReason, MovePlayerPacket } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -10,10 +10,10 @@ class MovePlayerHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = MovePlayer.id;
+	public static override packet: Packet = MovePlayerPacket.id;
 
 	public static override handle(
-		packet: MovePlayer,
+		packet: MovePlayerPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -51,7 +51,7 @@ class MovePlayerHandler extends NetworkHandler {
 		for (const other of player.dimension.getPlayers()) {
 			if (other === player) continue;
 
-			const move = new MovePlayer();
+			const move = new MovePlayerPacket();
 			move.runtimeId = player.runtimeId;
 			move.position = packet.position;
 			move.pitch = player.rotation.pitch;

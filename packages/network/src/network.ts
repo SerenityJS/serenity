@@ -5,6 +5,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
 	CompressionMethod,
 	DataPacket,
+	DisconnectPacket,
 	DisconnectReason,
 	Framer,
 	Packets,
@@ -118,6 +119,22 @@ class Network extends Emitter<NetworkEvents> {
 			// Check if the session exists.
 			const session = this.sessions.get(connection.guid);
 			if (session) {
+				// Create a new disconnect packet.
+				const packet = new DisconnectPacket();
+				packet.message = "Player disconnected.";
+				packet.reason = DisconnectReason.Disconnected;
+				packet.hideDisconnectScreen = true;
+
+				// Then we will create a dummy payload.
+				const payload = Buffer.from([
+					GAME_BYTE,
+					CompressionMethod.None,
+					...packet.serialize()
+				]);
+
+				// Let the incoming method handle the packet.
+				this.incoming(connection, payload);
+
 				// Remove the session from the sessions map.
 				this.sessions.delete(connection.guid);
 			} else {

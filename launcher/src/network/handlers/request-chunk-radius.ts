@@ -1,7 +1,7 @@
 import {
-	RequestChunkRadius,
+	RequestChunkRadiusPacket,
 	DisconnectReason,
-	ChunkRadiusUpdate
+	ChunkRadiusUpdatePacket
 } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
@@ -13,10 +13,10 @@ class RequestChunkRadiusHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = RequestChunkRadius.id;
+	public static override packet: Packet = RequestChunkRadiusPacket.id;
 
 	public static override handle(
-		packet: RequestChunkRadius,
+		packet: RequestChunkRadiusPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -32,7 +32,7 @@ class RequestChunkRadiusHandler extends NetworkHandler {
 
 		// TODO: Set up proper handling for this packet.
 
-		const radius = new ChunkRadiusUpdate();
+		const radius = new ChunkRadiusUpdatePacket();
 		radius.radius = 64;
 
 		session.send(radius);

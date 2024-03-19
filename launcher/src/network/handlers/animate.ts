@@ -1,4 +1,4 @@
-import { DisconnectReason, Animate } from "@serenityjs/protocol";
+import { DisconnectReason, AnimatePacket } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -9,10 +9,10 @@ class AnimateHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = Animate.id;
+	public static override packet: Packet = AnimatePacket.id;
 
 	public static override handle(
-		packet: Animate,
+		packet: AnimatePacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -27,7 +27,7 @@ class AnimateHandler extends NetworkHandler {
 			);
 
 		// Create a new animation event.
-		const animate = new Animate();
+		const animate = new AnimatePacket();
 		animate.runtimeEntityId = packet.runtimeEntityId;
 		animate.id = packet.id;
 		animate.boatRowingTime = packet.boatRowingTime;

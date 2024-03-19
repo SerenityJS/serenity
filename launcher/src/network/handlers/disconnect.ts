@@ -1,4 +1,4 @@
-import { Disconnect } from "@serenityjs/protocol";
+import { DisconnectPacket } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -9,10 +9,10 @@ class DisconnectHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = Disconnect.id;
+	public static override packet: Packet = DisconnectPacket.id;
 
 	public static override handle(
-		packet: Disconnect,
+		packet: DisconnectPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.

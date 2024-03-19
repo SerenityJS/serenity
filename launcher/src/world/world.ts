@@ -1,10 +1,10 @@
 import {
 	AbilityLayerType,
-	ChatTypes,
+	TextPacketType,
 	Gamemode,
-	Text,
-	UpdateAbilities,
-	UpdateAttributes
+	TextPacket,
+	UpdateAbilitiesPacket,
+	UpdateAttributesPacket
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
@@ -143,10 +143,10 @@ class World {
 	 */
 	public sendMessage(message: string): void {
 		// Create a new text packet.
-		const packet = new Text();
+		const packet = new TextPacket();
 
 		// Assign the message to the packet.
-		packet.type = ChatTypes.Raw;
+		packet.type = TextPacketType.Raw;
 		packet.needsTranslation = false;
 		packet.source = null;
 		packet.message = message;
@@ -160,7 +160,7 @@ class World {
 
 	public updateAbilities(player: Player): void {
 		// Construct the packet.
-		const packet = new UpdateAbilities();
+		const packet = new UpdateAbilitiesPacket();
 
 		// Assign the packet data.
 		packet.entityUniqueId = player.uniqueId;
@@ -186,7 +186,7 @@ class World {
 
 	public updateAttributes(player: Player): void {
 		// Construct the packet.
-		const packet = new UpdateAttributes();
+		const packet = new UpdateAttributesPacket();
 
 		// Assign the packet data.
 		packet.runtimeEntityId = player.runtimeId;

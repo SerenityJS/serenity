@@ -1,11 +1,11 @@
 import {
 	ResourceStatus,
-	ResourcePackStack,
+	ResourcePackStackPacket,
+	PlayStatusPacket,
 	PlayStatus,
-	PlayerStatus,
-	ResourcePackClientResponse,
+	ResourcePackClientResponsePacket,
 	RespawnState,
-	UpdateAdventureSettings
+	UpdateAdventureSettingsPacket
 } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
@@ -17,10 +17,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = ResourcePackClientResponse.id;
+	public static override packet: Packet = ResourcePackClientResponsePacket.id;
 
 	public static override async handle(
-		packet: ResourcePackClientResponse,
+		packet: ResourcePackClientResponsePacket,
 		session: NetworkSession
 	): Promise<Promise<void>> {
 		// TODO: Add support for resource packs.
@@ -41,7 +41,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 			case ResourceStatus.HaveAllPacks: {
 				// Send the ResourcePackStack packet which contains the resource packs.
-				const stack = new ResourcePackStack();
+				const stack = new ResourcePackStackPacket();
 				stack.mustAccept = false;
 				stack.behaviorPacks = [];
 				stack.texturePacks = [];
@@ -62,7 +62,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
 				player.dimension.world.network.sendBiomeDefinitionList(player);
 
-				const settings = new UpdateAdventureSettings();
+				const settings = new UpdateAdventureSettingsPacket();
 				settings.noPvm = false;
 				settings.noPvp = false;
 				settings.immutableWorld = false;
@@ -93,8 +93,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 				player.respawn(player.dimension.spawn, RespawnState.ClientReadyToSpawn);
 				player.respawn(player.dimension.spawn, RespawnState.ServerReadyToSpawn);
 
-				const status = new PlayStatus();
-				status.status = PlayerStatus.PlayerSpawn;
+				const status = new PlayStatusPacket();
+				status.status = PlayStatus.PlayerSpawn;
 
 				session.send(settings, status);
 

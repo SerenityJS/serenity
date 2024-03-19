@@ -1,13 +1,14 @@
 import { BIOME_DEFINITION_LIST } from "@serenityjs/bedrock-data";
 import {
-	BiomeDefinitionList,
-	CreativeContent,
+	BiomeDefinitionListPacket,
+	CreativeContentPacket,
 	Difficulty,
 	Gamemode,
 	PermissionLevel,
-	StartGame,
+	StartGamePacket,
 	type DataPacket
 } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemType } from "./items";
 
@@ -57,7 +58,7 @@ class WorldNetwork {
 	 */
 	public sendStartGame(player: Player): void {
 		// Create a new start game packet.
-		const packet = new StartGame();
+		const packet = new StartGamePacket();
 
 		// Assign the start game packet.
 		packet.entityId = player.uniqueId;
@@ -356,7 +357,7 @@ class WorldNetwork {
 	 */
 	public sendCreativeContent(player: Player): void {
 		// Create a new CreativeContent packet.
-		const packet = new CreativeContent();
+		const packet = new CreativeContentPacket();
 
 		// Assign the creative content packet.
 		packet.items = ItemType.types.map((item) => {
@@ -371,7 +372,7 @@ class WorldNetwork {
 						canDestroy: [],
 						canPlaceOn: [],
 						hasNbt: false,
-						nbt: {}
+						nbt: new CompoundTag("", {})
 					}
 				}
 			};
@@ -484,7 +485,7 @@ class WorldNetwork {
 	 */
 	public sendBiomeDefinitionList(player: Player): void {
 		// Create a new BiomeDefinitionList packet.
-		const packet = new BiomeDefinitionList();
+		const packet = new BiomeDefinitionListPacket();
 
 		// Assign the biome definition list packet.
 		packet.biomes = BIOME_DEFINITION_LIST;

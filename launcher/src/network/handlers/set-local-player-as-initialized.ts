@@ -1,7 +1,7 @@
 import {
 	DisconnectReason,
-	AvailableCommands,
-	SetLocalPlayerAsInitialized,
+	AvailableCommandsPacket,
+	SetLocalPlayerAsInitializedPacket,
 	PermissionLevel
 } from "@serenityjs/protocol";
 
@@ -14,10 +14,10 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = SetLocalPlayerAsInitialized.id;
+	public static override packet: Packet = SetLocalPlayerAsInitializedPacket.id;
 
 	public static override handle(
-		packet: SetLocalPlayerAsInitialized,
+		packet: SetLocalPlayerAsInitializedPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -42,7 +42,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 			entity.spawn(player);
 		}
 
-		const commands = new AvailableCommands();
+		const commands = new AvailableCommandsPacket();
 
 		commands.commands = [
 			{

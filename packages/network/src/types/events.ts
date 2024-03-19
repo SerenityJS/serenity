@@ -1,133 +1,139 @@
 import { NetworkPacketEvent } from "./packet-event";
 
 import type {
-	AddEntity,
-	AddPlayer,
-	Animate,
-	AvailableCommands,
-	BiomeDefinitionList,
-	BlockPickRequest,
-	ChangeDimension,
-	ChunkRadiusUpdate,
-	CommandOutput,
-	CommandRequest,
-	ContainerClose,
-	ContainerOpen,
-	CreativeContent,
-	Disconnect,
-	Interact,
-	InventoryContent,
-	InventorySlot,
-	InventoryTransaction,
-	ItemStackRequest,
-	ItemStackResponse,
-	LevelChunk,
-	LevelEvent,
-	Login,
-	MobEquipment,
-	ModalFormRequest,
-	ModalFormResponse,
-	MoveEntity,
-	MovePlayer,
-	NetworkChunkPublisherUpdate,
-	NetworkSettings,
+	AddEntityPacket,
+	AddPlayerPacket,
+	AnimatePacket,
+	AvailableCommandsPacket,
+	BiomeDefinitionListPacket,
+	BlockPickRequestPacket,
+	ChangeDimensionPacket,
+	ChunkRadiusUpdatePacket,
+	CommandOutputPacket,
+	CommandRequestPacket,
+	ContainerClosePacket,
+	ContainerOpenPacket,
+	CreativeContentPacket,
+	DisconnectPacket,
+	InteractPacket,
+	InventoryContentPacket,
+	InventorySlotPacket,
+	InventoryTransactionPacket,
+	ItemStackRequestPacket,
+	ItemStackResponsePacket,
+	LevelChunkPacket,
+	LevelEventPacket,
+	LoginPacket,
+	MobEquipmentPacket,
+	ModalFormRequestPacket,
+	ModalFormResponsePacket,
+	MoveEntityPacket,
+	MovePlayerPacket,
+	NetworkChunkPublisherUpdatePacket,
+	NetworkSettingsPacket,
 	Packet,
-	PacketViolationWarning,
-	PlayStatus,
-	PlayerAction,
-	PlayerAuthInput,
-	PlayerHotbar,
-	PlayerList,
-	RemoveEntity,
-	RequestChunkRadius,
-	RequestNetworkSettings,
-	ResourcePackClientResponse,
-	ResourcePackStack,
-	ResourcePacksInfo,
-	Respawn,
-	ScriptMessage,
-	SetCommandsEnabled,
-	SetEntityData,
-	SetLocalPlayerAsInitialized,
-	SetPlayerGameType,
-	SetTitle,
-	StartGame,
-	Text,
-	ToastRequest,
-	UpdateAbilities,
-	UpdateAdventureSettings,
-	UpdateAttributes,
-	UpdateBlock
+	PacketViolationWarningPacket,
+	PlayStatusPacket,
+	PlayerActionPacket,
+	PlayerAuthInputPacket,
+	PlayerHotbarPacket,
+	PlayerListPacket,
+	RemoveEntityPacket,
+	RequestChunkRadiusPacket,
+	RequestNetworkSettingsPacket,
+	ResourcePackClientResponsePacket,
+	ResourcePackStackPacket,
+	ResourcePacksInfoPacket,
+	RespawnPacket,
+	ScriptMessagePacket,
+	SetCommandsEnabledPacket,
+	SetEntityDataPacket,
+	SetLocalPlayerAsInitializedPacket,
+	SetPlayerGameTypePacket,
+	SetTitlePacket,
+	StartGamePacket,
+	TextPacket,
+	ToastRequestPacket,
+	UpdateAbilitiesPacket,
+	UpdateAdventureSettingsPacket,
+	UpdateAttributesPacket,
+	UpdateBlockPacket
 } from "@serenityjs/protocol";
 
 /**
  * All available network events.
  */
 interface NetworkEvents {
-	[Packet.Login]: [NetworkPacketEvent<Login>];
-	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatus>];
-	[Packet.Disconnect]: [NetworkPacketEvent<Disconnect>];
-	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfo>];
-	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStack>];
+	[Packet.Login]: [NetworkPacketEvent<LoginPacket>];
+	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatusPacket>];
+	[Packet.Disconnect]: [NetworkPacketEvent<DisconnectPacket>];
+	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfoPacket>];
+	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStackPacket>];
 	[Packet.ResourcePackClientResponse]: [
-		NetworkPacketEvent<ResourcePackClientResponse>
+		NetworkPacketEvent<ResourcePackClientResponsePacket>
 	];
-	[Packet.Text]: [NetworkPacketEvent<Text>];
-	[Packet.StartGame]: [NetworkPacketEvent<StartGame>];
-	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayer>];
-	[Packet.AddEntity]: [NetworkPacketEvent<AddEntity>];
-	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntity>];
-	[Packet.MoveEntity]: [NetworkPacketEvent<MoveEntity>];
-	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayer>];
-	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlock>];
-	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEvent>];
-	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributes>];
-	[Packet.InventoryTransaction]: [NetworkPacketEvent<InventoryTransaction>];
-	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipment>];
-	[Packet.Interact]: [NetworkPacketEvent<Interact>];
-	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequest>];
-	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerAction>];
-	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityData>];
-	[Packet.Animate]: [NetworkPacketEvent<Animate>];
-	[Packet.Respawn]: [NetworkPacketEvent<Respawn>];
-	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpen>];
-	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClose>];
-	[Packet.PlayerHotbar]: [NetworkPacketEvent<PlayerHotbar>];
-	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContent>];
-	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlot>];
-	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunk>];
-	[Packet.SetCommandsEnabled]: [NetworkPacketEvent<SetCommandsEnabled>];
-	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimension>];
-	[Packet.SetPlayerGameType]: [NetworkPacketEvent<SetPlayerGameType>];
-	[Packet.PlayerList]: [NetworkPacketEvent<PlayerList>];
-	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadius>];
-	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdate>];
-	[Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommands>];
-	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequest>];
-	[Packet.CommandOutput]: [NetworkPacketEvent<CommandOutput>];
-	[Packet.SetTitle]: [NetworkPacketEvent<SetTitle>];
-	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequest>];
-	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponse>];
+	[Packet.Text]: [NetworkPacketEvent<TextPacket>];
+	[Packet.StartGame]: [NetworkPacketEvent<StartGamePacket>];
+	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayerPacket>];
+	[Packet.AddEntity]: [NetworkPacketEvent<AddEntityPacket>];
+	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntityPacket>];
+	[Packet.MoveEntity]: [NetworkPacketEvent<MoveEntityPacket>];
+	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayerPacket>];
+	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlockPacket>];
+	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEventPacket>];
+	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributesPacket>];
+	[Packet.InventoryTransaction]: [
+		NetworkPacketEvent<InventoryTransactionPacket>
+	];
+	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipmentPacket>];
+	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
+	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
+	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
+	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityDataPacket>];
+	[Packet.Animate]: [NetworkPacketEvent<AnimatePacket>];
+	[Packet.Respawn]: [NetworkPacketEvent<RespawnPacket>];
+	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpenPacket>];
+	[Packet.ContainerClose]: [NetworkPacketEvent<ContainerClosePacket>];
+	[Packet.PlayerHotbar]: [NetworkPacketEvent<PlayerHotbarPacket>];
+	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContentPacket>];
+	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlotPacket>];
+	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunkPacket>];
+	[Packet.SetCommandsEnabled]: [NetworkPacketEvent<SetCommandsEnabledPacket>];
+	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimensionPacket>];
+	[Packet.SetPlayerGameType]: [NetworkPacketEvent<SetPlayerGameTypePacket>];
+	[Packet.PlayerList]: [NetworkPacketEvent<PlayerListPacket>];
+	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadiusPacket>];
+	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdatePacket>];
+	[Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommandsPacket>];
+	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequestPacket>];
+	[Packet.CommandOutput]: [NetworkPacketEvent<CommandOutputPacket>];
+	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
+	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
+	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
 	[Packet.SetLocalPlayerAsInitialized]: [
-		NetworkPacketEvent<SetLocalPlayerAsInitialized>
+		NetworkPacketEvent<SetLocalPlayerAsInitializedPacket>
 	];
 	[Packet.NetworkChunkPublisherUpdate]: [
-		NetworkPacketEvent<NetworkChunkPublisherUpdate>
+		NetworkPacketEvent<NetworkChunkPublisherUpdatePacket>
 	];
-	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionList>];
-	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettings>];
-	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInput>];
-	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContent>];
-	[Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequest>];
-	[Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponse>];
-	[Packet.PacketViolationWarning]: [NetworkPacketEvent<PacketViolationWarning>];
-	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessage>];
-	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequest>];
-	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilities>];
+	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionListPacket>];
+	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettingsPacket>];
+	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInputPacket>];
+	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContentPacket>];
+	[Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequestPacket>];
+	[Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponsePacket>];
+	[Packet.PacketViolationWarning]: [
+		NetworkPacketEvent<PacketViolationWarningPacket>
+	];
+	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessagePacket>];
+	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequestPacket>];
+	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilitiesPacket>];
 	[Packet.UpdateAdventureSettings]: [
-		NetworkPacketEvent<UpdateAdventureSettings>
+		NetworkPacketEvent<UpdateAdventureSettingsPacket>
 	];
-	[Packet.RequestNetworkSettings]: [NetworkPacketEvent<RequestNetworkSettings>];
+	[Packet.RequestNetworkSettings]: [
+		NetworkPacketEvent<RequestNetworkSettingsPacket>
+	];
 }
 
 export { NetworkEvents };

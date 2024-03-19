@@ -37,8 +37,8 @@ abstract class NBTTag<T = unknown> extends DataType {
 	 *
 	 * @returns The value of the tag.
 	 */
-	public valueOf(snbt?: boolean): string | unknown {
-		return snbt ? this.value + "" : this.value;
+	public valueOf(_snbt?: boolean): string | unknown {
+		return this.value as unknown;
 	}
 
 	/**

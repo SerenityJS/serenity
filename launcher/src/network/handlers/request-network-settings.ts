@@ -1,7 +1,7 @@
 import {
 	DisconnectReason,
-	NetworkSettings,
-	RequestNetworkSettings
+	NetworkSettingsPacket,
+	RequestNetworkSettingsPacket
 } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
@@ -13,10 +13,10 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = RequestNetworkSettings.id;
+	public static override packet: Packet = RequestNetworkSettingsPacket.id;
 
 	public static override handle(
-		packet: RequestNetworkSettings,
+		packet: RequestNetworkSettingsPacket,
 		session: NetworkSession
 	): void {
 		// Check if the client is using the correct protocol version.
@@ -41,7 +41,7 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
 		// Now we will send the network settings to the client.
 		// The client will use these settings to configure their network.
 		// I believe nintendo switch has a different compression threshold, not positive though. Needs testing.
-		const settings = new NetworkSettings();
+		const settings = new NetworkSettingsPacket();
 		settings.compressionThreshold = session.network.compressThreshold;
 		settings.compressionMethod = session.network.compressMethod;
 		settings.clientThrottle = false;

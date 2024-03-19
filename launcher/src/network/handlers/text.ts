@@ -1,4 +1,4 @@
-import { DisconnectReason, Text } from "@serenityjs/protocol";
+import { DisconnectReason, TextPacket } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -9,9 +9,12 @@ class TextHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = Text.id;
+	public static override packet: Packet = TextPacket.id;
 
-	public static override handle(packet: Text, session: NetworkSession): void {
+	public static override handle(
+		packet: TextPacket,
+		session: NetworkSession
+	): void {
 		// Get the player from the session.
 		// And check if the player is null or undefined.
 		const player = session.player;
@@ -24,7 +27,7 @@ class TextHandler extends NetworkHandler {
 			);
 
 		// Send the message to the player.
-		const text = new Text();
+		const text = new TextPacket();
 		text.type = packet.type;
 		text.needsTranslation = packet.needsTranslation;
 		text.source = packet.source;

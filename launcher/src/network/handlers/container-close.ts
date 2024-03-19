@@ -1,4 +1,4 @@
-import { DisconnectReason, ContainerClose } from "@serenityjs/protocol";
+import { DisconnectReason, ContainerClosePacket } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -9,10 +9,10 @@ class ContainerCloseHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = ContainerClose.id;
+	public static override packet: Packet = ContainerClosePacket.id;
 
 	public static override handle(
-		packet: ContainerClose,
+		packet: ContainerClosePacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -27,7 +27,7 @@ class ContainerCloseHandler extends NetworkHandler {
 			);
 
 		// Create a new ContainerClose packet.
-		const close = new ContainerClose();
+		const close = new ContainerClosePacket();
 
 		// Assign the packet data.
 		close.windowId = packet.windowId;

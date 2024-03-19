@@ -1,9 +1,9 @@
 import {
 	ContainerSlotType,
-	ItemStackRequest,
+	ItemStackRequestPacket,
 	DisconnectReason,
 	ItemStackActionType,
-	ItemStackResponse,
+	ItemStackResponsePacket,
 	ItemStackStatus
 } from "@serenityjs/protocol";
 
@@ -23,10 +23,10 @@ class ItemStackRequestHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = ItemStackRequest.id;
+	public static override packet: Packet = ItemStackRequestPacket.id;
 
 	public static override handle(
-		packet: ItemStackRequest,
+		packet: ItemStackRequestPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -122,7 +122,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 
 				// If the item is null, then return an error.
 				if (!item) {
-					const response = new ItemStackResponse();
+					const response = new ItemStackResponsePacket();
 					response.responses = [
 						{
 							status: ItemStackStatus.Error,
@@ -199,7 +199,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 
 				// If the item is null, then return an error.
 				if (!item) {
-					const response = new ItemStackResponse();
+					const response = new ItemStackResponsePacket();
 					response.responses = [
 						{
 							status: ItemStackStatus.Error,

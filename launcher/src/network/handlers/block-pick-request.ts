@@ -1,4 +1,4 @@
-import { BlockPickRequest, DisconnectReason } from "@serenityjs/protocol";
+import { BlockPickRequestPacket, DisconnectReason } from "@serenityjs/protocol";
 
 import { Item } from "../../world";
 
@@ -11,10 +11,10 @@ class BlockPickRequestHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = BlockPickRequest.id;
+	public static override packet: Packet = BlockPickRequestPacket.id;
 
 	public static override handle(
-		packet: BlockPickRequest,
+		packet: BlockPickRequestPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.

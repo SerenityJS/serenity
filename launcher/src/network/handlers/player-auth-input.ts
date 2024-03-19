@@ -1,4 +1,4 @@
-import { PlayerAuthInput, DisconnectReason } from "@serenityjs/protocol";
+import { PlayerAuthInputPacket, DisconnectReason } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "./network-handler";
 
@@ -9,10 +9,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = PlayerAuthInput.id;
+	public static override packet: Packet = PlayerAuthInputPacket.id;
 
 	public static override handle(
-		_packet: PlayerAuthInput,
+		_packet: PlayerAuthInputPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.

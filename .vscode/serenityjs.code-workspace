@@ -47,6 +47,10 @@
     {
       "name": "📦 Network",
       "path": "../packages/network"
+    },
+    {
+      "name": "📦 World",
+      "path": "../packages/world"
     }
   ],
   "settings": {

@@ -8,7 +8,7 @@ import { NBT_TAGS } from "./tags";
 /**
  * A tag that contains a compound list value.
  */
-class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
+class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	public static readonly type = Tag.Compound;
 
 	/**
@@ -19,7 +19,7 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 	 * @returns A new compound tag.
 	 */
 	public addTag(tag: NBTTag<T>): void {
-		this.value[tag.name] = tag;
+		(this.value as Record<string, NBTTag<T>>)[tag.name] = tag;
 	}
 
 	/**
@@ -28,7 +28,7 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 	 * @param name The name of the tag to remove.
 	 */
 	public removeTag(name: string): void {
-		delete this.value[name];
+		delete (this.value as Record<string, NBTTag<T>>)[name];
 	}
 
 	/**
@@ -38,7 +38,7 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 	 * @returns The tag that was found.
 	 */
 	public getTag(name: string): NBTTag<T> | undefined {
-		return this.value[name];
+		return (this.value as Record<string, NBTTag<T>>)[name];
 	}
 
 	/**
@@ -48,7 +48,7 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 	 * @returns The tag that was found.
 	 */
 	public hasTag(name: string): boolean {
-		return name in this.value;
+		return name in (this.value as Record<string, NBTTag<T>>);
 	}
 
 	/**
@@ -57,18 +57,22 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 	 * @returns All the tags in the compound tag.
 	 */
 	public getTags(): Array<NBTTag<T>> {
-		return Object.values(this.value);
+		return Object.values(this.value as Record<string, NBTTag<T>>);
 	}
 
-	public valueOf(snbt?: boolean): Record<string, T> | string {
+	public valueOf<K = unknown>(snbt?: boolean): K | string {
 		if (snbt) {
 			const value: Record<string, string> = {};
 
 			for (const key in this.value) {
 				value[key] =
 					this.value[key] instanceof CompoundTag
-						? JSON.parse(this.value[key]!.valueOf(true) as string)
-						: this.value[key]!.valueOf(true);
+						? JSON.parse(
+								(this.value as Record<string, NBTTag<T>>)[key]!.valueOf(
+									true
+								) as string
+							)
+						: (this.value as Record<string, NBTTag<T>>)[key]!.valueOf(true);
 			}
 
 			return JSON.stringify(value);
@@ -79,14 +83,14 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 				value[key] = this.value[key]!.valueOf() as T;
 			}
 
-			return value;
+			return value as unknown as K;
 		}
 	}
 
 	/**
 	 * Reads a compound tag from the stream.
 	 */
-	public static read<T = unknown>(
+	public static read<T = Record<string, NBTTag<unknown>>>(
 		stream: BinaryStream,
 		type = true,
 		varint = false
@@ -131,7 +135,7 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 		} while (!stream.cursorAtEnd());
 
 		// Return the tag.
-		return new CompoundTag(name, value);
+		return new CompoundTag(name, value as T);
 	}
 
 	/**
@@ -151,7 +155,7 @@ class CompoundTag<T = unknown> extends NBTTag<Record<string, NBTTag<T>>> {
 		// Write the tags.
 		for (const key in tag.value) {
 			// Get the type.
-			const type = tag.value[key]!;
+			const type = tag.value[key] as NBTTag<unknown>;
 
 			// Find the tag.
 			const writter = NBT_TAGS.find(

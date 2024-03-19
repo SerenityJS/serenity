@@ -1,9 +1,9 @@
 import {
+	PlayStatusPacket,
+	LoginPacket,
 	PlayStatus,
-	Login,
-	PlayerStatus,
 	DisconnectReason,
-	ResourcePacksInfo
+	ResourcePacksInfoPacket
 } from "@serenityjs/protocol";
 import { createDecoder } from "fast-jwt";
 
@@ -25,7 +25,7 @@ class LoginHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = Login.id;
+	public static override packet: Packet = LoginPacket.id;
 
 	/**
 	 * The decoder for the network handler.
@@ -38,7 +38,10 @@ class LoginHandler extends NetworkHandler {
 	 * @param packet The packet.
 	 * @param session The network session.
 	 */
-	public static override handle(packet: Login, session: NetworkSession): void {
+	public static override handle(
+		packet: LoginPacket,
+		session: NetworkSession
+	): void {
 		// Decode the tokens given by the client.
 		// This contains the client data, identity data, and public key.
 		// Along with the players XUID, display name, and uuid.
@@ -113,13 +116,13 @@ class LoginHandler extends NetworkHandler {
 		// TODO: Enable encryption, the public key is given in the tokens
 		// This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet
 		// But for now, we will just send the player the login status, this will skip the encryption
-		const login = new PlayStatus();
-		login.status = PlayerStatus.LoginSuccess;
+		const login = new PlayStatusPacket();
+		login.status = PlayStatus.LoginSuccess;
 
 		// TODO: Implement to ability to use resource packs.
 		// We will now send an empty resource pack info packet.
 		// This will tell the client that there are no resource packs to download for now.
-		const packs = new ResourcePacksInfo();
+		const packs = new ResourcePacksInfoPacket();
 		packs.mustAccept = false;
 		packs.hasAddons = false;
 		packs.hasScripts = false;

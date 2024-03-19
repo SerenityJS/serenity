@@ -1,6 +1,6 @@
 import {
 	DisconnectReason,
-	ModalFormResponse,
+	ModalFormResponsePacket,
 	ModalFormCanceledReason,
 	FormType
 } from "@serenityjs/protocol";
@@ -14,10 +14,10 @@ class ModalFormResponseHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = ModalFormResponse.id;
+	public static override packet: Packet = ModalFormResponsePacket.id;
 
 	public static override handle(
-		packet: ModalFormResponse,
+		packet: ModalFormResponsePacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.

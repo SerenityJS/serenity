@@ -1,8 +1,8 @@
 import {
 	DisconnectReason,
 	InteractActions,
-	Interact,
-	ContainerOpen,
+	InteractPacket,
+	ContainerOpenPacket,
 	WindowsTypes
 } from "@serenityjs/protocol";
 
@@ -15,10 +15,10 @@ class InteractHandler extends NetworkHandler {
 	/**
 	 * The packet of the network handler.
 	 */
-	public static override packet: Packet = Interact.id;
+	public static override packet: Packet = InteractPacket.id;
 
 	public static override handle(
-		packet: Interact,
+		packet: InteractPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session.
@@ -35,7 +35,7 @@ class InteractHandler extends NetworkHandler {
 		// Check if the packet is a open inventory packet.
 		if (packet.action === InteractActions.OpenInventory) {
 			// Create a new ContainerOpen packet.
-			const container = new ContainerOpen();
+			const container = new ContainerOpenPacket();
 
 			// Get the player's inventory component.
 			const inventory = player.getComponent("minecraft:inventory");
