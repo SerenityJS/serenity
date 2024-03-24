@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@serenityjs/binaryutils": "*",
-    "@serenityjs/nbt": "workspace:^",
+    "@serenityjs/nbt": "*",
     "@serenityjs/raknet": "*"
   }
 }

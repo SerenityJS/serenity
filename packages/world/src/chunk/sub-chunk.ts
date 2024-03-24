@@ -1,13 +1,24 @@
 import { BlockStorage } from "./block-storage";
 
 import type { BinaryStream } from "@serenityjs/binaryutils";
-import type { BlockPermutation } from "../block";
 
 /**
  * Represents a sub chunk.
  */
 export class SubChunk {
+	/**
+	 * Whether or not the sub chunk uses hashes.
+	 */
+	public readonly hashes: boolean;
+
+	/**
+	 * The version of the sub chunk.
+	 */
 	public readonly version: number;
+
+	/**
+	 * The layers of the sub chunk.
+	 */
 	public readonly layers: Array<BlockStorage>;
 
 	/**
@@ -16,7 +27,12 @@ export class SubChunk {
 	 * @param version The version of the sub chunk.
 	 * @param layers The layers of the sub chunk.
 	 */
-	public constructor(version?: number, layers?: Array<BlockStorage>) {
+	public constructor(
+		hashes: boolean,
+		version?: number,
+		layers?: Array<BlockStorage>
+	) {
+		this.hashes = hashes;
 		this.version = version ?? 8;
 		this.layers = layers ?? [];
 	}
@@ -51,7 +67,8 @@ export class SubChunk {
 		if (!this.layers[index]) {
 			// Create a new storage.
 			for (let index_ = 0; index_ <= index; index_++) {
-				if (!this.layers[index_]) this.layers[index_] = new BlockStorage();
+				if (!this.layers[index_])
+					this.layers[index_] = new BlockStorage(this.hashes);
 			}
 		}
 
@@ -60,48 +77,43 @@ export class SubChunk {
 	}
 
 	/**
-	 * Gets the block permutation at the given coordinates.
+	 * Gets the block state at the given coordinates.
 	 *
 	 * @param bx The x coordinate of the block.
 	 * @param by The y coordinate of the block.
 	 * @param bz The z coordinate of the block.
-	 * @param layer The storage layer type. (0 = Normal Blocks, 1 = Water Logged Blocks)
-	 * @returns The block permutation.
+	 * @param layer The layer of the block.
+	 * @returns The block state.
 	 */
-	public getPermutation(
-		bx: number,
-		by: number,
-		bz: number,
-		layer: number
-	): BlockPermutation {
+	public getState(bx: number, by: number, bz: number, layer: number): number {
 		// Get the storage.
 		const storage = this.getLayer(layer);
 
-		// Get the block.
-		return storage.getPermutation(bx, by, bz);
+		// Get the block state.
+		return storage.getState(bx, by, bz);
 	}
 
 	/**
-	 * Sets the block permutation at the given coordinates.
+	 * Sets the block state at the given coordinates.
 	 *
 	 * @param bx The x coordinate of the block.
 	 * @param by The y coordinate of the block.
 	 * @param bz The z coordinate of the block.
-	 * @param permutation The block permutation.
-	 * @param layer The storage layer type. (0 = Normal Blocks, 1 = Water Logged Blocks)
+	 * @param state The block state.
+	 * @param layer The layer of the block.
 	 */
-	public setPermutation(
+	public setState(
 		bx: number,
 		by: number,
 		bz: number,
-		permutation: BlockPermutation,
+		state: number,
 		layer?: number
 	): void {
 		// Get the storage.
 		const storage = this.getLayer(layer ?? 0);
 
-		// Set the block.
-		storage.setPermutation(bx, by, bz, permutation);
+		// Set the block state.
+		storage.setState(bx, by, bz, state);
 	}
 
 	/**
@@ -109,16 +121,17 @@ export class SubChunk {
 	 *
 	 * @param stream The binary stream to write to.
 	 */
-	public serialize(stream: BinaryStream): void {
+	public static serialize(subchunk: SubChunk, stream: BinaryStream): void {
 		// Write the version.
-		stream.writeUint8(this.version);
+		stream.writeUint8(subchunk.version);
 
 		// Write the storage count.
-		stream.writeUint8(this.layers.length);
+		stream.writeUint8(subchunk.layers.length);
 
 		// Loop through each storage and serialize it.
-		for (const storage of this.layers) {
-			storage.serialize(stream);
+		for (const storage of subchunk.layers) {
+			// Serialize the storage.
+			BlockStorage.serialize(storage, stream);
 		}
 	}
 
@@ -127,7 +140,7 @@ export class SubChunk {
 	 *
 	 * @param stream The binary stream to read from.
 	 */
-	public static deserialize(stream: BinaryStream): SubChunk {
+	public static deserialize(hashes: boolean, stream: BinaryStream): SubChunk {
 		// Read the version.
 		const version = stream.readUint8();
 
@@ -137,10 +150,10 @@ export class SubChunk {
 		// Loop through each storage and deserialize it.
 		const layers: Array<BlockStorage> = [];
 		for (let index = 0; index < count; index++) {
-			layers.push(BlockStorage.deserialize(stream));
+			layers.push(BlockStorage.deserialize(hashes, stream));
 		}
 
 		// Return the sub chunk.
-		return new SubChunk(version, layers);
+		return new SubChunk(hashes, version, layers);
 	}
 }

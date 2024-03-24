@@ -51,6 +51,10 @@
     {
       "name": "📦 World",
       "path": "../packages/world"
+    },
+    {
+      "name": "📦 Data",
+      "path": "../packages/data"
     }
   ],
   "settings": {

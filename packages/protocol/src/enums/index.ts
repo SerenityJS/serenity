@@ -2,7 +2,7 @@ export * from "./packet";
 export * from "./disconnect-reason";
 export * from "./compression-method";
 export * from "./play-status";
-export * from "./resource-status";
+export * from "./resource-pack-response";
 export * from "./gamemode";
 export * from "./difficulty";
 export * from "./game-rule-type";

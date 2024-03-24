@@ -6,5 +6,5 @@
     "outDir": "./dist"
   },
   "exclude": ["node_modules"],
-  "include": ["."]
+  "include": [".", "../packages/world/src/types/login-data.ts"]
 }

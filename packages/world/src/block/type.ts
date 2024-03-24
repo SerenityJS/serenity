@@ -1,5 +1,5 @@
 import { BlockIdentifier } from "../enums";
-import { BlockState, CanonicalState } from "../types";
+import { BlockState } from "../types";
 
 import { BlockPermutation } from "./permutation";
 
@@ -31,9 +31,9 @@ class BlockType {
 	 * Creates a new block type.
 	 * @param state The block state to create the type from.
 	 */
-	public constructor(state: CanonicalState) {
-		this.version = state.version;
-		this.identifier = state.name;
+	public constructor(identifier: BlockIdentifier, version: number) {
+		this.identifier = identifier;
+		this.version = version;
 		this.permutations = [];
 	}
 

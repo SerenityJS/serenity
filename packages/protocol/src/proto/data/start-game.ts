@@ -23,7 +23,7 @@ import {
 	GameRules,
 	Experiments,
 	BlockProperties,
-	Itemstates
+	ItemData
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -97,7 +97,7 @@ class StartGamePacket extends DataPacket {
 	@Serialize(Int64, Endianness.Little) public currentTick!: bigint;
 	@Serialize(ZigZag) public enchantmentSeed!: number;
 	@Serialize(BlockProperties) public blockProperties!: Array<BlockProperties>;
-	@Serialize(Itemstates) public itemstates!: Array<Itemstates>;
+	@Serialize(ItemData) public items!: Array<ItemData>;
 	@Serialize(VarString) public multiplayerCorrelationId!: string;
 	@Serialize(Bool) public serverAuthoritativeInventory!: boolean;
 	@Serialize(VarString) public engine!: string;

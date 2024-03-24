@@ -60,3 +60,4 @@ export * from "./available-commands";
 export * from "./set-commands-enabled";
 export * from "./command-request";
 export * from "./command-output";
+export * from "./varint-array";

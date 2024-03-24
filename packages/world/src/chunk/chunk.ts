@@ -1,24 +1,35 @@
 import { ChunkCoords } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binaryutils";
 
-import { SubChunk } from "./sub-chunk";
+import { BlockPermutation } from "../block";
 
-import type { BlockPermutation } from "../block";
+import { SubChunk } from "./sub-chunk";
 
 export class Chunk {
 	public static readonly MAX_SUB_CHUNKS = 20;
 
-	protected readonly subchunks: Array<SubChunk>;
-
 	public readonly x: number;
 	public readonly z: number;
 
-	public constructor(x: number, z: number, subchunks?: Array<SubChunk>) {
+	public readonly hashes: boolean;
+
+	public readonly subchunks: Array<SubChunk>;
+
+	public constructor(
+		x: number,
+		z: number,
+		hashes: boolean,
+		subchunks?: Array<SubChunk>
+	) {
 		this.x = x;
 		this.z = z;
+		this.hashes = hashes;
 		this.subchunks =
 			subchunks ??
-			Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
+			Array.from(
+				{ length: Chunk.MAX_SUB_CHUNKS },
+				() => new SubChunk(this.hashes)
+			);
 	}
 
 	public getPermutation(x: number, y: number, z: number): BlockPermutation {
@@ -26,8 +37,13 @@ export class Chunk {
 		// Get the sub chunk.
 		const subchunk = this.getSubChunk(yl >> 4);
 
-		// Get the block.
-		return subchunk.getPermutation(x & 0xf, yl & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
+		// Get the block state.
+		const state = subchunk.getState(x & 0xf, yl & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
+
+		// Return the permutation.
+		return this.hashes
+			? BlockPermutation.resolveByHash(state)
+			: BlockPermutation.resolveByRuntime(state);
 	}
 
 	public setPermutation(
@@ -40,8 +56,11 @@ export class Chunk {
 		// Get the sub chunk.
 		const subchunk = this.getSubChunk(yl >> 4);
 
+		// Get the block state.
+		const state = this.hashes ? permutation.hash : permutation.runtime;
+
 		// Set the block.
-		subchunk.setPermutation(x & 0xf, yl & 0xf, z & 0xf, permutation, 0); // 0 = Solids, 1 = Liquids or Logged
+		subchunk.setState(x & 0xf, yl & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
 	public static getHash(x: number, z: number): bigint {
@@ -56,13 +75,13 @@ export class Chunk {
 		return Chunk.getHash(this.x, this.z);
 	}
 
-	protected getSubChunk(index: number): SubChunk {
+	public getSubChunk(index: number): SubChunk {
 		// Check if the sub chunk exists.
 		if (!this.subchunks[index]) {
 			// Create a new sub chunk.
 			for (let index_ = 0; index_ <= index; index_++) {
 				if (!this.subchunks[index_]) {
-					this.subchunks[index_] = new SubChunk();
+					this.subchunks[index_] = new SubChunk(this.hashes);
 				}
 			}
 		}
@@ -84,21 +103,13 @@ export class Chunk {
 		return Chunk.MAX_SUB_CHUNKS - count;
 	}
 
-	public serialize(): Buffer {
+	public static serialize(chunk: Chunk): Buffer {
 		// Create a new stream.
 		const stream = new BinaryStream();
 
-		// Write 4 empty subchunks
-		// This eliminates the -64 to 0 y coordinate bug
-		/*
-		for (let i = 0; i < 4; i++) {
-			stream.writeUint8(8);
-			stream.writeUint8(0);
-		}*/
-
 		// Serialize each sub chunk.
-		for (let index = 0; index < this.getSubChunkSendCount(); ++index) {
-			this.subchunks[index]!.serialize(stream);
+		for (let index = 0; index < chunk.getSubChunkSendCount(); ++index) {
+			SubChunk.serialize(chunk.subchunks[index]!, stream);
 		}
 
 		// Biomes?
@@ -114,21 +125,28 @@ export class Chunk {
 		return stream.getBuffer();
 	}
 
-	public static deserialize(x: number, z: number, buffer: Buffer): Chunk {
+	public static deserialize(
+		x: number,
+		z: number,
+		hashes: boolean,
+		buffer: Buffer
+	): Chunk {
 		// Create a new stream.
 		const stream = new BinaryStream(buffer);
 
 		// Deserialize each sub chunk.
 		const subchunks: Array<SubChunk> = Array.from(
 			{ length: Chunk.MAX_SUB_CHUNKS },
-			() => new SubChunk()
+			() => new SubChunk(hashes)
 		);
+
+		// Loop through each sub chunk.
 		for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; ++index) {
 			if (stream.binary[stream.offset] !== 8) break;
-			subchunks[index] = SubChunk.deserialize(stream);
+			subchunks[index] = SubChunk.deserialize(hashes, stream);
 		}
 
 		// Return the chunk.
-		return new Chunk(x, z, subchunks);
+		return new Chunk(x, z, hashes, subchunks);
 	}
 }

@@ -28,8 +28,8 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@serenityjs/bedrock-data": "^0.0.9",
     "@serenityjs/binaryutils": "*",
+    "@serenityjs/data": "*",
     "@serenityjs/emitter": "*",
     "@serenityjs/logger": "*",
     "@serenityjs/nbt": "*",

@@ -103,6 +103,16 @@ impl BinaryStream {
       )
     }
 
+    // Check if the offset is in the bounds of the binary.
+    if self.offset + length > self.binary.len() as u32 {
+      return Err(
+        Error::new(
+          GenericFailure,
+          "Offset is out of bounds.".to_string()
+        )
+      )
+    }
+
     // Get the start and end of the bytes.
     let start = self.offset as usize;
     let end = (self.offset + length) as usize;

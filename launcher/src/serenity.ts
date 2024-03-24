@@ -1,345 +1,143 @@
-import { setTimeout } from "node:timers";
-
-import {
-	PROTOCOL_VERSION,
-	MINECRAFT_VERSION,
-	Packet,
-	DisconnectPacket,
-	DisconnectReason
-} from "@serenityjs/protocol";
-import { RaknetServer } from "@serenityjs/raknet";
-import { Emitter } from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
+import { RaknetServer } from "@serenityjs/raknet";
+import { Network, NetworkSession } from "@serenityjs/network";
+import { Player, World, WorldProvider } from "@serenityjs/world";
+import { MINECRAFT_TICK_SPEED } from "@serenityjs/protocol";
 
-import { ServerProperties } from "./properties";
-import { SERENITY_EVENTS } from "./events";
-import { NETWORK_HANDLERS } from "./network/handlers";
-import { Network, NetworkSession, NetworkBound } from "./network";
-import { Plugins } from "./plugin";
-import { HookMethod } from "./types";
-import { World } from "./world";
+import { SerenityHandler, HANDLERS } from "./handlers";
 
-import type { WorldProperties, SerenityEvents, SerenityOptions } from "./types";
-import type { WorldProvider } from "./provider";
-import type { NetworkPacketEvent } from "./network";
-import type { AbstractEvent, Shutdown } from "./events";
+// TODO: Add server.properties
 
-class Serenity extends Emitter<SerenityEvents> {
-	protected interval: NodeJS.Timeout | null = null;
+Logger.DEBUG = true; // TODO: Add option to enable/disable in server.properties
 
+class Serenity {
+	/**
+	 * The server logger instance
+	 */
 	public readonly logger: Logger;
-	public readonly properties: ServerProperties;
-	public readonly providers: Map<string, WorldProvider>;
-
-	public readonly worlds: Map<string, World>;
-	public readonly server: RaknetServer;
-	public readonly protocol: number;
-	public readonly version: string;
-	public readonly events: Map<string, AbstractEvent>;
-	public readonly network: Network;
-	public readonly plugins: Plugins;
 
 	/**
-	 * Constructs a new serenity instance.
-	 *
-	 * @note If no options are provided, the default options will be pulled from the server.properties file.
-	 * @param options - The options for the serenity instance.
+	 * The raknet server instance
 	 */
-	public constructor(options?: SerenityOptions) {
-		super();
+	public readonly raknet: RaknetServer;
+
+	/**
+	 * The network instance
+	 */
+	public readonly network: Network;
+
+	/**
+	 * The players map
+	 */
+	public readonly players: Map<string, Player>;
+
+	/**
+	 * The worlds map
+	 */
+	public readonly worlds: Map<string, World>;
+
+	/**
+	 * The server tick interval
+	 */
+	public interval: NodeJS.Timeout | null = null;
+
+	/**
+	 * The server ticks
+	 */
+	public ticks: Array<number> = [];
+
+	/**
+	 * The server ticks per second
+	 */
+	public tps: number = 20; // TODO: Add option to set in server.properties
+
+	public constructor() {
+		// Assign instances
 		this.logger = new Logger("Serenity", LoggerColors.Magenta);
-
-		this.logger.info("Server is now starting...");
-
-		this.properties = new ServerProperties(this.logger);
-		this.providers = new Map();
-		Logger.DEBUG = options?.debug ?? this.properties.values.server.debug;
+		this.raknet = new RaknetServer("0.0.0.0", 19_132);
+		this.network = new Network(this.raknet, 256, 0, 32, HANDLERS); // TODO: Assign the correct values from server.properties
+		this.players = new Map();
 		this.worlds = new Map();
-		this.server = new RaknetServer(
-			options?.address ?? this.properties.values.server.address,
-			options?.port ?? this.properties.values.server.port
-		);
-		this.protocol = options?.protocol ?? PROTOCOL_VERSION;
-		this.version = options?.version ?? MINECRAFT_VERSION;
 
-		this.events = new Map();
-		this.network = new Network(this);
-		this.plugins = new Plugins(this);
+		// Set the Serenity instance for all handlers
+		SerenityHandler.serenity = this;
 
-		if (Logger.DEBUG)
-			this.logger.debug(
-				"Software is running in debug mode. Debug messages will now be shown."
-			);
-
-		// Register all events.
-		// Loop through all events and construct them.
-		// Bind the logic function to the packet hook
-		for (const event of SERENITY_EVENTS) {
-			// Assign the serenity instance to the event.
-			// This is so we can access the serenity instance from the event.
-			event.serenity = this;
-
-			try {
-				// Hook the logic method to the packet event.
-				// Events will either be before, on, or after the packet event.
-				// This is to ensure that is the packet data has changed, the event will still run with the updated data.
-				// this.network.after(construct.packetHook, construct.logic.bind(construct) as never);
-				switch (event.method as HookMethod) {
-					case HookMethod.Before: {
-						this.network.before(event.hook!, event.logic.bind(event) as never);
-						break;
-					}
-					case HookMethod.On: {
-						this.network.on(event.hook!, event.logic.bind(event) as never);
-						break;
-					}
-					case HookMethod.After: {
-						this.network.after(event.hook!, event.logic.bind(event) as never);
-						break;
-					}
-					default: {
-						// Custom logic events will not be hooked to any packet event.
-						// This may be used for custom events that are not related to packet events.
-						event.initialize();
-						break;
-					}
-				}
-
-				// Add the event to the map.
-				this.events.set(event.name, event);
-			} catch (reason) {
-				this.logger.error(`Failed to register event ${event.name}!`);
-				this.logger.error(reason);
-			}
-		}
+		// Log the startup message
+		this.logger.info("Serenity is now starting up...");
 	}
 
-	public start(): boolean {
-		this.server.on("connect", (connection) => {
-			// Check if the user is already connected.
-			const check = this.network.sessions.has(connection.guid);
+	public start(): void {
+		// Start the raknet instance.
+		this.raknet.start();
 
-			// Return if they are.
-			if (check)
-				return this.logger.debug(
-					"Got connection request from already connected user",
-					connection.guid
-				);
-
-			// Create a new session for the user.
-			const session = new NetworkSession(this, connection);
-
-			// Add the session to the network.
-			return this.network.sessions.set(connection.guid, session);
-		});
-
-		this.server.on("disconnect", (connection) => {
-			// Check if the user is connected.
-			const check = this.network.sessions.has(connection.guid);
-
-			// Return if they aren't.
-			if (!check)
-				return this.logger.debug(
-					"Got disconnection request from unconnected user",
-					connection.guid
-				);
-
-			// Get the session from the network.
-			const session = this.network.sessions.get(connection.guid)!;
-
-			// Emit a dummy disconnect event.
-			// This will be used for events to listen to.
-			// First we will construct the packet.
-			const packet = new DisconnectPacket();
-			packet.message = "Player disconnected.";
-			packet.reason = DisconnectReason.Disconnected;
-			packet.hideDisconnectScreen = true;
-
-			// Then we will build the event.
-			const event = {
-				packet,
-				session,
-				bound: NetworkBound.Server
-			} as NetworkPacketEvent<DisconnectPacket>;
-
-			// Now we will emit the event.
-			void this.network.emit(Packet.Disconnect, event);
-
-			// Now we will trigger the disconnect handler.
-			const handler = NETWORK_HANDLERS.find(
-				(x) => x.packet === DisconnectPacket.id
-			);
-			if (!handler)
-				return this.logger.error("Failed to find disconnect handler.");
-			void handler.handle(packet as never, session);
-
-			// Remove the session from the network.
-			return this.network.sessions.delete(connection.guid);
-		});
-
-		this.server.on("encapsulated", async (connection, buffer) => {
-			const check = this.network.sessions.has(connection.guid);
-
-			if (!check)
-				return this.logger.debug(
-					"Got packet from unconnected user",
-					connection.guid
-				);
-
-			const session = this.network.sessions.get(connection.guid)!;
-
-			return this.network.incoming(session, buffer);
-		});
-
-		// Check if the server started successfully.
-		this.server.start();
-
-		this.logger.info(
-			`Started server on ${this.server.address}:${this.server.port}!`
-		);
-
-		// TODO: Make better
-
+		// Create a ticking loop with default 50ms interval
+		// Handle delta time and tick the world
 		const tick = () =>
 			setTimeout(() => {
-				// Loop through each world.
-				for (const world of this.worlds.values()) {
-					world.tick();
-				}
+				// Assign the current time to the now variable
+				const now = Date.now();
 
+				// Push the current time to the ticks array
+				this.ticks.push(now);
+
+				// Calculate the ticking threshold
+				// Filter the ticks array to remove all ticks older than 1000ms
+				const threshold = now - 1000;
+				this.ticks = this.ticks.filter((tick) => tick > threshold);
+
+				// Calculate the TPS
+				this.tps = this.ticks.length;
+
+				// Tick all the worlds
+				for (const world of this.worlds.values()) world.tick();
+
+				// Tick the server
 				tick();
-			}, 50);
+			}, MINECRAFT_TICK_SPEED - 3.25);
 
+		// Start the ticking loop
 		this.interval = tick().unref();
 
-		return true;
+		// Log the startup message
+		this.logger.info(
+			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
+		);
 	}
 
-	public stop(reason?: string): void {
-		const shutdown = this.events.get("Shutdown") as typeof Shutdown;
+	public stop(): void {
+		// Clear the ticking interval
+		if (this.interval) clearInterval(this.interval);
 
-		shutdown
-			.logic(1, reason ?? "Server is now shutting down...")
-			.catch(() => {});
+		// Stop the raknet instance
+		this.raknet.stop();
 	}
 
-	/**
-	 * Gets a world provider from the serenity instance.
-	 * If no identifier is provided, the default provider set in the "server.properties" file will be returned.
-	 *
-	 * @param identifier - The identifier of the provider to get.
-	 * @returns The provider.
-	 */
-	public getProvider(identifier?: string): WorldProvider {
-		return this.providers.get(
-			identifier ?? this.properties.values.world.provider
-		)!;
+	public getPlayer(session: NetworkSession): Player | undefined {
+		return [...this.players.values()].find(
+			(player) => player.session === session
+		);
 	}
 
-	/**
-	 * Register a new world provider to the serenity instance.
-	 *
-	 * @param provider - The provider to register.
-	 */
-	public registerProvider(provider: typeof WorldProvider): WorldProvider {
-		// Check if the provider is already registered.
-		if (this.providers.has(provider.identifier)) {
-			this.logger.error(
-				`Failed to register provider, provider identifier [${provider.identifier}] already exists!`
-			);
-
-			return this.providers.get(provider.identifier)!;
-		}
-
-		// Construct the provider.
-		const instance = new provider(this);
-
-		// Add the provider to the map.
-		this.providers.set(provider.identifier, instance);
-
-		// Return the provider.
-		return instance;
-	}
-
-	/**
-	 * Unregister a world provider from the serenity instance.
-	 *
-	 * @param identifier - The identifier of the provider to unregister.
-	 */
-	public unregisterProvider(identifier: string): void {
-		// Check if the provider is already registered.
-		if (!this.providers.has(identifier)) {
-			this.logger.error(
-				`Failed to unregister provider, provider identifier [${identifier}] does not exist!`
-			);
-
-			return;
-		}
-
-		// Remove the provider from the map.
-		this.providers.delete(identifier);
-	}
-
-	/**
-	 * Get a world from the serenity instance.
-	 * If no name is provided, the default world provided in the "server.properties" file will be returned.
-	 *
-	 * @param name - The world name.
-	 * @returns The world.
-	 */
 	public getWorld(name?: string): World {
-		return this.worlds.get(name ?? this.properties.values.world.default)!;
+		return this.worlds.get(name ?? "default")!;
 	}
 
-	/**
-	 * Register a new world to the serenity instance.
-	 *
-	 * @param name - The name of the world to register.
-	 * @param provider - The provider of the world.
-	 * @param properties - The properties of the world.
-	 * @returns The provider.
-	 */
-	public registerWorld(
-		name: string,
-		provider: WorldProvider,
-		properties?: WorldProperties
-	): World {
-		// Check if the world is already registered.
+	public createWorld(name: string, provider: WorldProvider): World {
+		// Check if the world already exists
 		if (this.worlds.has(name)) {
-			this.logger.error(
-				`Failed to register world, world name [${name}] already exists!`
-			);
+			this.logger.error(`Failed to create world "${name}," it already exists.`);
 
 			return this.worlds.get(name)!;
 		}
 
-		// Construct the world.
-		const instance = new World(name, provider, properties);
+		// Create the world
+		const world = new World(name, provider);
 
-		// Add the world to the map.
-		this.worlds.set(name, instance);
+		// Set the world
+		this.worlds.set(name, world);
 
-		// Return the world.
-		return instance;
-	}
-
-	/**
-	 * Unregister a world from the serenity instance.
-	 *
-	 * @param name - The name of the world to unregister.
-	 */
-	public unregisterWorld(name: string): void {
-		// Check if the world is already registered.
-		if (!this.worlds.has(name)) {
-			this.logger.error(
-				`Failed to unregister world, world name [${name}] does not exist!`
-			);
-
-			return;
-		}
-
-		// Remove the world from the map.
-		this.worlds.delete(name);
+		// Return the world
+		return world;
 	}
 }
 

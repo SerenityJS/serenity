@@ -76,7 +76,7 @@ class RaknetServer extends Emitter<RaknetEvents> {
 	 */
 	public constructor(address: string, port = 19_132) {
 		super();
-		this.logger = new Logger("Raknet", LoggerColors.Blue);
+		this.logger = new Logger("Raknet", LoggerColors.CyanBright);
 		this.socket = createSocket("udp4");
 		this.address = address;
 		this.port = port;
@@ -158,41 +158,51 @@ class RaknetServer extends Emitter<RaknetEvents> {
 	 * @param rinfo the remote info
 	 */
 	private incoming(buffer: Buffer, rinfo: RemoteInfo): void {
-		// Deconstructs the packet into its buffer, address, port, and version
-		const { address, port, family } = rinfo;
+		try {
+			// Deconstructs the packet into its buffer, address, port, and version
+			const { address, port, family } = rinfo;
 
-		// Constructs the identifier from the address, port, and version
-		const version = family === "IPv4" ? 4 : 6;
+			// Constructs the identifier from the address, port, and version
+			const version = family === "IPv4" ? 4 : 6;
 
-		// Creates the identifier key from the address and port
-		const identifier: NetworkIdentifier = { address, port, version };
-		const key = `${address}:${port}:${version}`;
+			// Creates the identifier key from the address and port
+			const identifier: NetworkIdentifier = { address, port, version };
+			const key = `${address}:${port}:${version}`;
 
-		// Get the connection from the connections map
-		const connection = this.connections.get(key);
+			// Get the connection from the connections map
+			const connection = this.connections.get(key);
 
-		// Check if the connection is valid & the buffer is valid
-		if (connection && (buffer[0]! & Bitflags.Valid) !== 0)
-			return connection.incoming(buffer);
+			// Check if the connection is valid & the buffer is valid
+			if (connection && (buffer[0]! & Bitflags.Valid) !== 0)
+				return connection.incoming(buffer);
 
-		// Check if we got a valid packet, without a valid connection
-		if ((buffer[0]! & Bitflags.Valid) !== 0) {
-			// Log a debug message for the invalid packet
-			this.logger.debug(
-				`Received a valid packet without a valid connection from ${key}`
+			// Check if we got a valid packet, without a valid connection
+			if ((buffer[0]! & Bitflags.Valid) !== 0) {
+				// Log a debug message for the invalid packet
+				this.logger.debug(
+					`Received a valid packet without a valid connection from ${key}`
+				);
+
+				// Emit an error for the invalid packet
+				return void this.emit(
+					"error",
+					new Error(
+						"Received a valid packet without a valid connection from " + key
+					)
+				);
+			}
+
+			// Let the offline handler handle the incoming packet
+			return Offline.incoming(buffer, identifier);
+		} catch (reason: Error | unknown) {
+			// Log an error for the incoming packet
+			this.logger.error(
+				`Failed to handle incoming packet from ${rinfo.address}:${rinfo.port}, "${(reason as Error).message}"`
 			);
 
-			// Emit an error for the invalid packet
-			return void this.emit(
-				"error",
-				new Error(
-					"Received a valid packet without a valid connection from " + key
-				)
-			);
+			// Emit an error for the incoming packet
+			void this.emit("error", reason as Error);
 		}
-
-		// Let the offline handler handle the incoming packet
-		return Offline.incoming(buffer, identifier);
 	}
 }
 

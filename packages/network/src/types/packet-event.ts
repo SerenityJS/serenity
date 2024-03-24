@@ -1,6 +1,7 @@
 import { DataPacket } from "@serenityjs/protocol";
 
 import { NetworkBound } from "../enums";
+import { NetworkSession } from "../session";
 
 /**
  * Represents a network packet event.
@@ -19,7 +20,7 @@ interface NetworkPacketEvent<T extends DataPacket> {
 	/**
 	 * The network session instance.
 	 */
-	session: unknown; // TODO: NetworkSession;
+	session: NetworkSession;
 }
 
 export { NetworkPacketEvent };

@@ -29,9 +29,11 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
-		"@serenityjs/bedrock-data": "^0.0.9",
 		"@serenityjs/binaryutils": "*",
+		"@serenityjs/data": "*",
+		"@serenityjs/logger": "*",
 		"@serenityjs/nbt": "*",
-		"@serenityjs/protocol": "*"
+		"@serenityjs/protocol": "*",
+		"simplex-noise": "^4.0.1"
 	}
 }

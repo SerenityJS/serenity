@@ -9,15 +9,45 @@ import { BlockIdentifier } from "../enums";
  * Represents a block storage.
  */
 class BlockStorage {
+	/**
+	 * The maximum chunk size in the x direction.
+	 */
 	public static readonly MAX_X = 16;
+
+	/**
+	 * The maximum chunk size in the y direction.
+	 */
 	public static readonly MAX_Y = 16;
+
+	/**
+	 * The maximum chunk size in the z direction.
+	 */
 	public static readonly MAX_Z = 16;
+
+	/**
+	 * The total maximum chunk size.
+	 */
 	public static readonly MAX_SIZE = 16 * 16 * 16;
 
-	protected readonly air: BlockPermutation;
+	/**
+	 * Whether or not the block storage uses hashes.
+	 */
+	public readonly hashes: boolean;
 
+	/**
+	 * The palette of the storage.
+	 */
+	public readonly palette: Array<number>;
+
+	/**
+	 * The blocks of the storage.
+	 */
 	public readonly blocks: Array<number>;
-	public readonly palette: Array<BlockPermutation>;
+
+	/**
+	 * The air value of the storage.
+	 */
+	public readonly air: number;
 
 	/**
 	 * Creates a new block storage.
@@ -26,50 +56,42 @@ class BlockStorage {
 	 * @param palette The optional palette.
 	 */
 	public constructor(
-		blocks?: Array<number>,
-		palette?: Array<BlockPermutation>
+		hashes: boolean,
+		palette?: Array<number>,
+		blocks?: Array<number>
 	) {
-		// Resolve the air block permutation.
-		this.air = BlockPermutation.resolve(BlockIdentifier.Air)!;
+		// Assign the hashes value.
+		this.hashes = hashes;
+
+		// Find the air value.
+		const permutation = BlockPermutation.resolve(BlockIdentifier.Air);
+		this.air = this.hashes ? permutation.hash : permutation.runtime;
+
+		// Assign the palette.
+		// When we create chunks, we will provide the palette with the current air value.
+		this.palette = palette ?? [this.air];
 
 		// Create the block storage.
 		this.blocks =
-			blocks ?? Array.from({ length: new.target.MAX_SIZE }, () => 0);
-
-		// Create the palette.
-		this.palette = palette ?? [this.air];
+			blocks ?? Array.from({ length: BlockStorage.MAX_SIZE }, () => 0);
 	}
 
 	/**
-	 * Calculates the index of the block.
-	 *
-	 * @param bx The x coordinate of the block.
-	 * @param by The y coordinate of the block.
-	 * @param bz The z coordinate of the block.
-	 * @returns The index of the block.
-	 */
-	public static getIndex(bx: number, by: number, bz: number): number {
-		return ((bx & 0xf) << 8) | ((bz & 0xf) << 4) | (by & 0xf);
-	}
-
-	/**
-	 * Checks if the storage is empty.
-	 *
-	 * @returns True if the storage is empty, false otherwise.
+	 * Checks if the block storage is empty.
 	 */
 	public isEmpty(): boolean {
 		return this.palette.length === 1 && this.palette[0] === this.air;
 	}
 
 	/**
-	 * Gets the block permutation at the given coordinates.
+	 * Gets the block state at the given coordinates.
 	 *
 	 * @param bx The x coordinate of the block.
 	 * @param by The y coordinate of the block.
 	 * @param bz The z coordinate of the block.
-	 * @returns The block permutation.
+	 * @returns The block state.
 	 */
-	public getPermutation(bx: number, by: number, bz: number): BlockPermutation {
+	public getState(bx: number, by: number, bz: number): number {
 		// Calculate the index.
 		const index = BlockStorage.getIndex(bx, by, bz);
 
@@ -81,28 +103,35 @@ class BlockStorage {
 	}
 
 	/**
-	 * Sets the block permutation at the given coordinates.
+	 * Sets the block state at the given coordinates.
 	 *
 	 * @param bx The x coordinate of the block.
 	 * @param by The y coordinate of the block.
 	 * @param bz The z coordinate of the block.
-	 * @param permutation The block permutation.
+	 * @param state The block state.
 	 */
-	public setPermutation(
-		bx: number,
-		by: number,
-		bz: number,
-		permutation: BlockPermutation
-	): void {
-		// Check if the permutation is in the palette.
-		let paletteIndex = this.palette.indexOf(permutation);
+	public setState(bx: number, by: number, bz: number, state: number): void {
+		// Check if the state exists in the palette.
+		let paletteIndex = this.palette.indexOf(state);
 		if (paletteIndex === -1) {
-			// Add the permutation to the palette.
-			paletteIndex = this.palette.push(permutation) - 1;
+			// Add the state to the palette.
+			paletteIndex = this.palette.push(state) - 1;
 		}
 
-		// Set the block.
+		// Set the block state.
 		this.blocks[BlockStorage.getIndex(bx, by, bz)] = paletteIndex;
+	}
+
+	/**
+	 * Calculates the index of the block position.
+	 *
+	 * @param bx The x coordinate of the block.
+	 * @param by The y coordinate of the block.
+	 * @param bz The z coordinate of the block.
+	 * @returns The index of the block.
+	 */
+	public static getIndex(bx: number, by: number, bz: number): number {
+		return ((bx & 0xf) << 8) | ((bz & 0xf) << 4) | (by & 0xf);
 	}
 
 	/**
@@ -110,10 +139,10 @@ class BlockStorage {
 	 *
 	 * @param stream The binary stream to write to.
 	 */
-	public serialize(stream: BinaryStream): void {
+	public static serialize(storage: BlockStorage, stream: BinaryStream): void {
 		// Calculate the bits per block.
 		// Which is the log2 of the palette length.
-		let bitsPerBlock = Math.ceil(Math.log2(this.palette.length));
+		let bitsPerBlock = Math.ceil(Math.log2(storage.palette.length));
 
 		// Add padding to the bits per block if needed.
 		switch (bitsPerBlock) {
@@ -147,23 +176,31 @@ class BlockStorage {
 		const blocksPerWord = Math.floor(32 / bitsPerBlock);
 		const wordsPerBlock = Math.ceil(4096 / blocksPerWord);
 
-		// Write the word to the stream.
+		// Iterate over the words.
 		for (let w = 0; w < wordsPerBlock; w++) {
+			// Prepare the word.
 			let word = 0;
+
+			// Iterate over the blocks.
 			for (let block = 0; block < blocksPerWord; block++) {
+				// Calculate the block index.
 				word |=
-					(this.blocks[w * blocksPerWord + block]! &
+					(storage.blocks[w * blocksPerWord + block]! &
 						((1 << bitsPerBlock) - 1)) <<
 					(bitsPerBlock * block);
 			}
 
+			// Write the word to the stream.
 			stream.writeInt32(word, Endianness.Little);
 		}
 
-		// Write the palette.
-		stream.writeZigZag(this.palette.length);
-		for (const permutation of this.palette) {
-			stream.writeZigZag(permutation.identifier);
+		// Write the palette length.
+		stream.writeZigZag(storage.palette.length);
+
+		// Iterate over the palette.
+		for (const state of storage.palette) {
+			// Write the state to the stream.
+			stream.writeZigZag(state);
 		}
 	}
 
@@ -173,7 +210,10 @@ class BlockStorage {
 	 * @param stream The binary stream to read from.
 	 * @returns The block storage.
 	 */
-	public static deserialize(stream: BinaryStream): BlockStorage {
+	public static deserialize(
+		hashes: boolean,
+		stream: BinaryStream
+	): BlockStorage {
 		// Read the bits per block.
 		const bitsPerBlock = stream.readByte() >> 1;
 
@@ -192,15 +232,23 @@ class BlockStorage {
 			}
 		}
 
-		// Read the palette.
-		const palette: Array<BlockPermutation> = [];
+		// Prepare the palette.
+		const palette: Array<number> = [];
+
+		// Read the palette length.
 		const paletteLength = stream.readZigZag();
+
+		// Iterate over the palette.
 		for (let index = 0; index < paletteLength; index++) {
-			palette.push(BlockPermutation.resolveByIdentifier(stream.readZigZag()));
+			// Read the state from the stream.
+			const state = stream.readZigZag();
+
+			// Add the state to the palette.
+			palette.push(state);
 		}
 
 		// Return the block storage.
-		return new BlockStorage(blocks, palette);
+		return new BlockStorage(hashes, blocks, palette);
 	}
 }
 

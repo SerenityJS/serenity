@@ -1,17 +1,28 @@
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
 import { BinaryStream } from "@serenityjs/binaryutils";
-import { CANONICAL_BLOCK_STATES } from "@serenityjs/bedrock-data";
+import { CANONICAL_BLOCK_STATES } from "@serenityjs/data";
 
-import { CanonicalStateNBT, CanonicalState, BlockState } from "../types";
+import { BlockStateNBT, BlockState } from "../types";
 import { BlockIdentifier } from "../enums";
 
 import { BlockType } from "./type";
 import { BlockPermutation } from "./permutation";
 
+type BlockNbt = CompoundTag<{
+	name: StringTag;
+	states: BlockStateNBT;
+	version: IntTag;
+}>;
+
 /**
  * A block registry.
  */
 class BlockRegistry {
+	/**
+	 *  Whether or not the client expects the server to send block hashes.
+	 */
+	public static hashes = true;
+
 	/**
 	 * Creates a new block registry.
 	 */
@@ -23,39 +34,45 @@ class BlockRegistry {
 		do {
 			// Each block state is stored as a compound tag.
 			// So we can just read the next compound tag from the stream.
-			const nbt = CompoundTag.read<CanonicalStateNBT>(stream, true, true);
+			const nbt = CompoundTag.read<BlockNbt>(stream, true, true);
 
-			// Convert the NBT data to a block state object.
-			const block = nbt.valueOf<CanonicalState>() as CanonicalState;
+			// Get the block name from the NBT data.
+			const name = nbt.getTag("name")?.valueOf() as BlockIdentifier;
+
+			// Get the block states from the NBT data.
+			const states = nbt.getTag("states") as unknown as BlockStateNBT;
 
 			// Check if the block state is already in the map.
-			if (BlockType.types.has(block.name)) {
+			if (BlockType.types.has(name)) {
 				// Get the block type from the map.
-				const type = BlockType.types.get(block.name)!;
+				const type = BlockType.types.get(name)!;
 
 				// Create a new permutation.
-				const permutation = new BlockPermutation(type, block.states);
+				const permutation = new BlockPermutation(type, states);
 
 				// Push the permutation to the block type.
 				type.permutations.push(permutation);
 
 				// Add the permutation to the collective map.
-				BlockPermutation.permutations.set(permutation.identifier, permutation);
+				BlockPermutation.permutations.set(permutation.runtime, permutation);
 			} else {
+				// Get the block version from the NBT data.
+				const version = nbt.getTag("version")?.valueOf() as number;
+
 				// Create a new block type.
-				const type = new BlockType(block);
+				const type = new BlockType(name, version);
 
 				// Create a new permutation.
-				const permutation = new BlockPermutation(type, block.states);
+				const permutation = new BlockPermutation(type, states);
 
 				// Push the permutation to the block type.
 				type.permutations.push(permutation);
 
 				// Add the type to the collective map.
-				BlockType.types.set(block.name, type);
+				BlockType.types.set(name, type);
 
 				// Add the permutation to the collective map.
-				BlockPermutation.permutations.set(permutation.identifier, permutation);
+				BlockPermutation.permutations.set(permutation.runtime, permutation);
 			}
 		} while (!stream.cursorAtEnd());
 	}
@@ -90,7 +107,7 @@ class BlockRegistry {
 	public resolvePermutationByIdentifier<T = BlockState>(
 		identifier: number
 	): BlockPermutation<T> {
-		return BlockPermutation.resolveByIdentifier(identifier);
+		return BlockPermutation.resolveByRuntime(identifier);
 	}
 }
 

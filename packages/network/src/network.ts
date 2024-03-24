@@ -8,13 +8,13 @@ import {
 	DisconnectPacket,
 	DisconnectReason,
 	Framer,
+	Packet,
 	Packets,
 	getPacketId
 } from "@serenityjs/protocol";
 import {
 	Connection,
 	Frame,
-	Packet,
 	Priority,
 	RaknetServer,
 	Reliability
@@ -76,9 +76,9 @@ class Network extends Emitter<NetworkEvents> {
 	 */
 	public constructor(
 		raknet: RaknetServer,
-		compressThreshold: number,
-		compressMethod: CompressionMethod,
-		packetsPerFrame: number,
+		compressThreshold?: number,
+		compressMethod?: CompressionMethod,
+		packetsPerFrame?: number,
 		handlers?: Array<typeof NetworkHandler>
 	) {
 		super();
@@ -86,9 +86,9 @@ class Network extends Emitter<NetworkEvents> {
 		this.raknet = raknet;
 		this.logger = new Logger("Network", LoggerColors.Blue);
 		this.sessions = new Map();
-		this.compressThreshold = compressThreshold;
-		this.compressMethod = compressMethod;
-		this.packetsPerFrame = packetsPerFrame;
+		this.compressThreshold = compressThreshold ?? 256;
+		this.compressMethod = compressMethod ?? CompressionMethod.Zlib;
+		this.packetsPerFrame = packetsPerFrame ?? 32;
 		this.handlers = handlers ?? [];
 
 		// Bind the network events.
@@ -129,7 +129,7 @@ class Network extends Emitter<NetworkEvents> {
 				const payload = Buffer.from([
 					GAME_BYTE,
 					CompressionMethod.None,
-					...packet.serialize()
+					...Framer.frame(packet.serialize())
 				]);
 
 				// Let the incoming method handle the packet.
