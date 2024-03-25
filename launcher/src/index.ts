@@ -26,7 +26,7 @@ const world = serenity.createWorld("default", provider);
 world.createDimension(
 	"minecraft:overworld",
 	DimensionType.Overworld,
-	new Superflat()
+	new Superflat() // Super flat world generator.
 );
 
 serenity.start();

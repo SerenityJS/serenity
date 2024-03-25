@@ -1,4 +1,10 @@
-import { DataPacket, DimensionType, Vector3f } from "@serenityjs/protocol";
+import {
+	DataPacket,
+	DimensionType,
+	MoveMode,
+	MovePlayerPacket,
+	Vector3f
+} from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
 import { Player } from "../player";
@@ -102,6 +108,17 @@ class Dimension {
 	public broadcastImmediate(...packets: Array<DataPacket>): void {
 		for (const player of this.getPlayers())
 			player.session.sendImmediate(...packets);
+	}
+
+	/**
+	 * Broadcasts packets to all the players in the dimension except one.
+	 *
+	 * @param player The player to exclude.
+	 * @param packets The packets to broadcast.
+	 */
+	public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
+		for (const x of this.getPlayers())
+			if (x !== player) x.session.send(...packets);
 	}
 
 	/**

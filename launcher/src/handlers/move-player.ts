@@ -30,6 +30,9 @@ class MovePlayer extends SerenityHandler {
 		player.rotation.yaw = packet.yaw;
 		player.rotation.headYaw = packet.headYaw;
 
+		// Send the move player packet to all the players in the dimension.
+		player.dimension.broadcastExcept(player, packet);
+
 		// Calculate the new chunk view for the player.
 		const px = player.position.x >> 4;
 		const pz = player.position.z >> 4;

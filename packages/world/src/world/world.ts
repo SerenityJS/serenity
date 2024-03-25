@@ -133,6 +133,11 @@ class World {
 		for (const player of this.getPlayers())
 			player.session.sendImmediate(...packets);
 	}
+
+	public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
+		for (const x of this.getPlayers())
+			if (x !== player) x.session.send(...packets);
+	}
 }
 
 export { World };

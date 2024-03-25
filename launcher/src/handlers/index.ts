@@ -6,6 +6,7 @@ import { Login } from "./login";
 import { MovePlayer } from "./move-player";
 import { RequestNetworkSettings } from "./request-network-settings";
 import { ResourcePackClientResponse } from "./resource-pack-client-response";
+import { SetLocalPlayerAsIntialized } from "./set-local-player-as-initialized";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -15,7 +16,8 @@ const HANDLERS = [
 	MovePlayer,
 	Interact,
 	ContainerClose,
-	ItemStackRequest
+	ItemStackRequest,
+	SetLocalPlayerAsIntialized
 ];
 
 export { HANDLERS };
@@ -29,3 +31,4 @@ export * from "./move-player";
 export * from "./interact";
 export * from "./container-close";
 export * from "./item-stack-request";
+export * from "./set-local-player-as-initialized";

@@ -114,7 +114,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.entityId = player.unique;
 				packet.runtimeEntityId = player.runtime;
 				packet.playerGamemode = 1;
-				packet.playerPosition = new Vector3f(0, 0, 0);
+				packet.playerPosition = new Vector3f(0, -58, 0);
 				packet.pitch = 0;
 				packet.yaw = 0;
 				packet.seed = BigInt(0);
@@ -441,10 +441,6 @@ class ResourcePackClientResponse extends SerenityHandler {
 					// Reset the metadata to the default value
 					metadata.resetToDefaultValue();
 				}
-
-				// TODO: send when the player is ready
-				const chunks = player.dimension.getSpawnChunks();
-				player.sendChunk(...chunks);
 			}
 		}
 	}

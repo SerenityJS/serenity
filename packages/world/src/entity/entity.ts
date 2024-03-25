@@ -1,5 +1,7 @@
 import {
 	AddEntityPacket,
+	MetadataFlags,
+	MetadataKey,
 	RemoveEntityPacket,
 	Rotation,
 	Vector3f
@@ -22,7 +24,7 @@ class Entity {
 	/**
 	 * The running total of the entity runtime id.
 	 */
-	public static runtime = 0n;
+	public static runtime = 1n;
 
 	/**
 	 * The components of the entity.
@@ -100,7 +102,14 @@ class Entity {
 		packet.headYaw = this.rotation.headYaw;
 		packet.bodyYaw = this.rotation.yaw;
 		packet.attributes = [];
-		packet.metadata = [];
+		packet.metadata = this.getMetadatas().map((entry) => {
+			return {
+				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+				type: entry.type,
+				value: entry.currentValue,
+				flag: entry.flag ? (entry.key as MetadataFlags) : undefined
+			};
+		});
 		packet.properties = {
 			ints: [],
 			floats: []

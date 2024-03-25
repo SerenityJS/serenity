@@ -1,8 +1,12 @@
 import { NetworkSession } from "@serenityjs/network";
 import {
+	AbilityLayerType,
 	AddPlayerPacket,
 	LevelChunkPacket,
-	NetworkChunkPublisherUpdatePacket
+	MetadataFlags,
+	MetadataKey,
+	NetworkChunkPublisherUpdatePacket,
+	PlayStatus
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
@@ -135,7 +139,14 @@ class Player extends Entity {
 			networkId: 0
 		};
 		packet.gamemode = 0;
-		packet.metadata = [];
+		packet.metadata = this.getMetadatas().map((entry) => {
+			return {
+				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+				type: entry.type,
+				value: entry.currentValue,
+				flag: entry.flag ? (entry.key as MetadataFlags) : undefined
+			};
+		});
 		packet.properties = {
 			ints: [],
 			floats: []
@@ -143,7 +154,19 @@ class Player extends Entity {
 		packet.uniqueEntityId = this.unique;
 		packet.premissionLevel = 0;
 		packet.commandPermission = 0;
-		packet.abilities = [];
+		packet.abilities = [
+			{
+				type: AbilityLayerType.Base,
+				flags: this.getAbilities().map((component) => {
+					return {
+						flag: component.flag,
+						value: component.currentValue
+					};
+				}),
+				flySpeed: 0.05,
+				walkSpeed: 0.1
+			}
+		];
 		packet.links = [];
 		packet.deviceId = "";
 		packet.deviceOS = 0;
