@@ -14,8 +14,6 @@ class PlayerCursorComponent extends PlayerComponent {
 
 	public readonly inventorySize: number;
 
-	public selectedSlot: number = 0;
-
 	public constructor(player: Player) {
 		super(player);
 		this.containerId = ContainerId.Ui;

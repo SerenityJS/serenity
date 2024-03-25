@@ -5,8 +5,7 @@ import {
 	LevelChunkPacket,
 	MetadataFlags,
 	MetadataKey,
-	NetworkChunkPublisherUpdatePacket,
-	PlayStatus
+	NetworkChunkPublisherUpdatePacket
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
@@ -46,6 +45,7 @@ import {
 	PlayerWorldBuilderComponent
 } from "../components";
 import { Chunk } from "../chunk";
+import { Item } from "../item";
 
 class Player extends Entity {
 	public readonly session: NetworkSession;
@@ -125,6 +125,11 @@ class Player extends Entity {
 		// Create a new AddPlayerPacket
 		const packet = new AddPlayerPacket();
 
+		// Get the players inventory
+		const inventory = this.getComponent("minecraft:inventory");
+
+		const heldItem = inventory.getHeldItem();
+
 		// Set the packet properties
 		packet.uuid = this.uuid;
 		packet.username = this.username;
@@ -135,9 +140,8 @@ class Player extends Entity {
 		packet.pitch = this.rotation.pitch;
 		packet.yaw = this.rotation.yaw;
 		packet.headYaw = this.rotation.headYaw;
-		packet.heldItem = {
-			networkId: 0
-		};
+		packet.heldItem =
+			heldItem === null ? { network: 0 } : Item.toItemStack(heldItem);
 		packet.gamemode = 0;
 		packet.metadata = this.getMetadatas().map((entry) => {
 			return {

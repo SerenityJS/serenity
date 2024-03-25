@@ -20,11 +20,11 @@ import {
 } from "../../enums";
 import {
 	EntityProperties,
-	Item,
 	MetadataDictionary,
 	Vector3f,
 	AbilityLayers,
-	Links
+	Links,
+	NetworkItemStackDescriptor
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -40,7 +40,9 @@ class AddPlayerPacket extends DataPacket {
 	@Serialize(Float32, Endianness.Little) public pitch!: number;
 	@Serialize(Float32, Endianness.Little) public yaw!: number;
 	@Serialize(Float32, Endianness.Little) public headYaw!: number;
-	@Serialize(Item) public heldItem!: Item;
+	@Serialize(NetworkItemStackDescriptor)
+	public heldItem!: NetworkItemStackDescriptor;
+
 	@Serialize(ZigZag) public gamemode!: Gamemode;
 	@Serialize(MetadataDictionary) public metadata!: Array<MetadataDictionary>;
 	@Serialize(EntityProperties) public properties!: EntityProperties;

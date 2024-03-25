@@ -3,6 +3,7 @@ import { Disconnect } from "./disconnect";
 import { Interact } from "./interact";
 import { ItemStackRequest } from "./item-stack-request";
 import { Login } from "./login";
+import { MobEquipment } from "./mob-equipment";
 import { MovePlayer } from "./move-player";
 import { RequestNetworkSettings } from "./request-network-settings";
 import { ResourcePackClientResponse } from "./resource-pack-client-response";
@@ -17,7 +18,8 @@ const HANDLERS = [
 	Interact,
 	ContainerClose,
 	ItemStackRequest,
-	SetLocalPlayerAsIntialized
+	SetLocalPlayerAsIntialized,
+	MobEquipment
 ];
 
 export { HANDLERS };
@@ -32,3 +34,4 @@ export * from "./interact";
 export * from "./container-close";
 export * from "./item-stack-request";
 export * from "./set-local-player-as-initialized";
+export * from "./mob-equipment";

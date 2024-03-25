@@ -40,7 +40,7 @@ serenity.network.on(Packet.Text, (data) => {
 
 	const spawnEgg = new Item(ItemIdentifier.AgentSpawnEgg, 45, container);
 	const water = new Item(ItemIdentifier.Water, 1, container);
-	const lava = new Item(ItemIdentifier.Lava, 1, container);
+	const lava = new Item(ItemIdentifier.Element10, 1, container);
 
 	container.addItem(spawnEgg);
 	container.addItem(water);

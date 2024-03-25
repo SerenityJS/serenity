@@ -1,10 +1,4 @@
-import {
-	DataPacket,
-	DimensionType,
-	MoveMode,
-	MovePlayerPacket,
-	Vector3f
-} from "@serenityjs/protocol";
+import { DataPacket, DimensionType, Vector3f } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
 import { Player } from "../player";
@@ -40,7 +34,14 @@ class Dimension {
 	 */
 	public readonly entities: Map<bigint, Entity>;
 
+	/**
+	 * The spawn position of the dimension.
+	 */
 	public spawn = new Vector3f(0, 0, 0);
+
+	/**
+	 * The view distance of the dimension.
+	 */
 	public viewDistance: number = 128;
 
 	/**
