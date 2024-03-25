@@ -1,4 +1,4 @@
-enum WindowsTypes {
+enum ContainerType {
 	None = -9,
 	Inventory = -1,
 	Container = 0,
@@ -40,4 +40,4 @@ enum WindowsTypes {
 	Crafter = 36
 }
 
-export { WindowsTypes };
+export { ContainerType };

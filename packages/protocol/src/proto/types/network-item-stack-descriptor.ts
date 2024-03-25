@@ -3,18 +3,20 @@ import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
 
 import { ItemInstanceUserData } from "./item-instance-user-data";
 
-class NetworkItemInstanceDescriptor extends DataType {
+class NetworkItemStackDescriptor extends DataType {
 	public network: number;
 	public stackSize?: number;
 	public metadata?: number;
+	public stackNetId?: number | null;
 	public blockRuntimeId?: number;
 	public extras?: ItemInstanceUserData | null;
 
 	/**
-	 * Creates an instance of NetworkItemInstanceDescriptor.
+	 * Creates an instance of NetworkItemStackDescriptor.
 	 * @param id The network id of the item.
 	 * @param stackSize The size of the stack.
 	 * @param metadata The metadata of the item.
+	 * @param includeStackNetId Whether to include the stack net id.
 	 * @param auxValue The aux value of the item.
 	 * @param userData The user data of the item.
 	 */
@@ -22,6 +24,7 @@ class NetworkItemInstanceDescriptor extends DataType {
 		network: number,
 		stackSize?: number,
 		metadata?: number,
+		stackNetId?: number | null,
 		blockRuntimeId?: number,
 		extras?: ItemInstanceUserData | null
 	) {
@@ -29,35 +32,45 @@ class NetworkItemInstanceDescriptor extends DataType {
 		this.network = network;
 		this.stackSize = stackSize;
 		this.metadata = metadata;
+		this.stackNetId = stackNetId;
 		this.blockRuntimeId = blockRuntimeId;
 		this.extras = extras;
 	}
 
-	public static read(stream: BinaryStream): NetworkItemInstanceDescriptor {
+	public static read(stream: BinaryStream): NetworkItemStackDescriptor {
 		// Read the network id of the item.
 		const network = stream.readZigZag();
 
 		// Check if the network id is 0.
 		// If it is, then we return an empty value. (air)
-		if (network === 0) return new NetworkItemInstanceDescriptor(network);
+		if (network === 0) return new NetworkItemStackDescriptor(network);
 
 		// Read the remaining fields of the item.
 		const stackSize = stream.readUint16(Endianness.Little);
 		const metadata = stream.readVarInt();
+
+		// Check if the stack net id should be included.
+		const stackNetId = stream.readBool() ? stream.readVarInt() : null;
+
+		// Read the block runtime id.
 		const blockRuntimeId = stream.readZigZag();
 
 		// Check if the item has extra data.
 		const length = stream.readVarInt();
+
+		// The length will indicate if extra data is present.
+		// If it is, we read the extra data.
 		const extras =
 			length > 0
 				? ItemInstanceUserData.read(stream, Endianness.Little, network)
 				: null;
 
 		// Return the item instance descriptor.
-		return new NetworkItemInstanceDescriptor(
+		return new NetworkItemStackDescriptor(
 			network,
 			stackSize,
 			metadata,
+			stackNetId,
 			blockRuntimeId,
 			extras
 		);
@@ -65,7 +78,7 @@ class NetworkItemInstanceDescriptor extends DataType {
 
 	public static write(
 		stream: BinaryStream,
-		value: NetworkItemInstanceDescriptor
+		value: NetworkItemStackDescriptor
 	): void {
 		// Write the network id of the item.
 		stream.writeZigZag(value.network);
@@ -77,6 +90,19 @@ class NetworkItemInstanceDescriptor extends DataType {
 		// Write the remaining fields of the item.
 		stream.writeUint16(value.stackSize ?? 0, Endianness.Little);
 		stream.writeVarInt(value.metadata ?? 0);
+
+		// Check if the stack net id should be included.
+		if (value.stackNetId) {
+			// Write a boolean to indicate that the stack net id is included.
+			// Then write the stack net id.
+			stream.writeBool(true);
+			stream.writeVarInt(value.stackNetId);
+		} else {
+			// Write a boolean to indicate that the stack net id is not included.
+			stream.writeBool(false);
+		}
+
+		// Write the block runtime id.
 		stream.writeZigZag(value.blockRuntimeId ?? 0);
 
 		// Check if the item has extra data.
@@ -107,4 +133,4 @@ class NetworkItemInstanceDescriptor extends DataType {
 	}
 }
 
-export { NetworkItemInstanceDescriptor };
+export { NetworkItemStackDescriptor };

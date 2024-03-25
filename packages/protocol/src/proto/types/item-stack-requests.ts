@@ -3,8 +3,8 @@ import { DataType } from "@serenityjs/raknet";
 
 import { ItemStackActionType } from "../../enums";
 
-import { ItemLegacy } from "./item-legacy";
 import { StackRequestSlotInfo } from "./stack-request-slot-info";
+import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
 
 interface ItemStackAction {
 	cost?: number;
@@ -17,7 +17,7 @@ interface ItemStackAction {
 	primaryEffect?: number;
 	randomly?: boolean;
 	recipeNetworkId?: number;
-	resultItems?: Array<ItemLegacy>;
+	resultItems?: Array<NetworkItemInstanceDescriptor>;
 	resultedSlotId?: number;
 	runtimeId?: number;
 	secondaryEffect?: number;
@@ -279,11 +279,11 @@ class ItemStackRequests extends DataType {
 						// Read the item amount.
 						const count = stream.readVarInt();
 
-						const items: Array<ItemLegacy> = [];
+						const items: Array<NetworkItemInstanceDescriptor> = [];
 
 						// Read the items.
 						for (let index = 0; index < count; index++) {
-							items.push(ItemLegacy.read(stream));
+							items.push(NetworkItemInstanceDescriptor.read(stream));
 						}
 
 						// Read the times crafted.
@@ -319,14 +319,6 @@ class ItemStackRequests extends DataType {
 
 		// Return the stacks.
 		return stacks;
-	}
-
-	// TODO: Implement write method
-	public static override write(
-		stream: BinaryStream,
-		value: Array<ItemStackRequests>
-	): void {
-		throw new Error("Method not implemented.");
 	}
 }
 

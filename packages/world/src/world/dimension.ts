@@ -4,6 +4,7 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { TerrainGenerator } from "../generator";
 import { Chunk } from "../chunk";
+import { Block } from "../block";
 
 import { World } from "./world";
 
@@ -164,6 +165,28 @@ class Dimension {
 
 		// Return the chunks
 		return chunks;
+	}
+
+	/**
+	 * Gets a block from the dimension.
+	 *
+	 * @param x The X coordinate of the block.
+	 * @param y The Y coordinate of the block.
+	 * @param z The Z coordinate of the block.
+	 * @returns The block.
+	 */
+	public getBlock(x: number, y: number, z: number): Block {
+		// Get the chunk
+		const chunk = this.getChunk(x >> 4, z >> 4);
+
+		// Get the block permutation
+		const permutation = chunk.getPermutation(x, y, z);
+
+		// Convert the permutation to a block.
+		const block = new Block(this, permutation, { x, y, z });
+
+		// Return the block
+		return block;
 	}
 }
 

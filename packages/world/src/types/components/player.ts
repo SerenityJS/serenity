@@ -3,6 +3,7 @@ import {
 	PlayerAttackPlayersComponent,
 	PlayerBuildComponent,
 	PlayerCountComponent,
+	PlayerCursorComponent,
 	PlayerDoorsAndSwitchesComponent,
 	PlayerFlySpeedComponent,
 	PlayerFlyingComponent,
@@ -46,6 +47,8 @@ interface PlayerAbilityComponents {
 	"minecraft:ability.world_builder": PlayerWorldBuilderComponent;
 }
 
-interface PlayerComponents extends EntityComponents, PlayerAbilityComponents {}
+interface PlayerComponents extends EntityComponents, PlayerAbilityComponents {
+	"minecraft:cursor": PlayerCursorComponent;
+}
 
 export { PlayerComponents, PlayerAbilityComponents };

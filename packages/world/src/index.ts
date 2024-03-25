@@ -8,3 +8,4 @@ export * from "./world";
 export * from "./generator";
 export * from "./provider";
 export * from "./components";
+export * from "./item";

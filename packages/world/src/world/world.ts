@@ -52,7 +52,7 @@ class World {
 		this.identifier = identifier;
 		this.provider = provider;
 		this.blocks = new BlockRegistry();
-		this.items = new ItemRegistry();
+		this.items = new ItemRegistry(this);
 		this.dimensions = new Map();
 		this.logger = new Logger(identifier, LoggerColors.GreenBright);
 	}

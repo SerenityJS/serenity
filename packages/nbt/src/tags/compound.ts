@@ -18,8 +18,14 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 * @param value The value of the tag.
 	 * @returns A new compound tag.
 	 */
-	public addTag(tag: NBTTag<T>): void {
-		(this.value as Record<string, NBTTag<T>>)[tag.name] = tag;
+	public addTag(...tags: Array<NBTTag<T>>): this {
+		// Iterate over the tags.
+		for (const tag of tags) {
+			// Add the tag to the value.
+			(this.value as Record<string, NBTTag<T>>)[tag.name] = tag;
+		}
+
+		return this;
 	}
 
 	/**
@@ -27,8 +33,10 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 *
 	 * @param name The name of the tag to remove.
 	 */
-	public removeTag(name: string): void {
+	public removeTag(name: string): this {
 		delete (this.value as Record<string, NBTTag<T>>)[name];
+
+		return this;
 	}
 
 	/**

@@ -57,6 +57,30 @@ class BlockType {
 	public static resolve(identifier: BlockIdentifier): BlockType {
 		return this.types.get(identifier)!;
 	}
+
+	/**
+	 * Registers a new block type.
+	 * @param identifier The identifier of the block type.
+	 * @returns The block type.
+	 */
+	public static register(identifier: string): BlockType {
+		// Check if the block type is already in the map.
+		if (this.types.has(identifier)) {
+			throw new Error(
+				`Block type with identifier "${identifier}" already exists.`
+			);
+		}
+
+		// Create a new block type.
+		// We will use -1 version to indicate a custom block type.
+		const type = new BlockType(identifier as BlockIdentifier, -1);
+
+		// Add the type to the collective map.
+		this.types.set(identifier, type);
+
+		// Return the block type.
+		return type;
+	}
 }
 
 export { BlockType };

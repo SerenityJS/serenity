@@ -37,11 +37,11 @@ function Proto(id: number) {
 				if (!metadata) return this.getBuffer();
 
 				// Loop through the metadata and write the properties to the binary stream.
-				for (const { name, type, endian, paramater } of metadata) {
+				for (const { name, type, endian, parameter } of metadata) {
 					// Check if there is a parameter for type testing.
-					if (paramater) {
+					if (parameter) {
 						// Pull the value from the class using the parameter.
-						const value = this[paramater as keyof BasePacket];
+						const value = this[parameter as keyof BasePacket];
 
 						// Write the property to the binary stream using the type.
 						type.write(this, (this as never)[name], endian, value);
@@ -71,11 +71,11 @@ function Proto(id: number) {
 				if (!metadata) return this;
 
 				// Loop through the metadata and read the properties from the binary stream.
-				for (const { name, type, endian, paramater } of metadata) {
+				for (const { name, type, endian, parameter } of metadata) {
 					// Check if there is a parameter for type testing.
-					if (paramater) {
+					if (parameter) {
 						// Read the property from the binary stream using the parameter.
-						const value = this[paramater as keyof BasePacket];
+						const value = this[parameter as keyof BasePacket];
 
 						// Set the property using the parameter and the type.
 						(this[name as keyof BasePacket] as unknown) = type.read(

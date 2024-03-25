@@ -7,7 +7,7 @@ class PlayerMayFlyComponent extends PlayerAbilityComponent {
 
 	public readonly flag = AbilityLayerFlag.MayFly;
 
-	public readonly defaultValue = false;
+	public readonly defaultValue = true;
 
 	public currentValue = this.defaultValue;
 }

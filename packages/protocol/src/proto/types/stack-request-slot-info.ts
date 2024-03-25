@@ -1,10 +1,10 @@
 import { DataType } from "@serenityjs/raknet";
 
 import type { BinaryStream } from "@serenityjs/binaryutils";
-import type { ContainerSlotType } from "../../enums";
+import type { ContainerName } from "../../enums";
 
 class StackRequestSlotInfo extends DataType {
-	public type: ContainerSlotType;
+	public type: ContainerName;
 	public slot: number;
 	public stackId: number;
 

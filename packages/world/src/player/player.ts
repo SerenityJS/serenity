@@ -14,6 +14,7 @@ import {
 	EntityAlwaysShowNametagComponent,
 	EntityBreathingComponent,
 	EntityHasGravityComponent,
+	EntityInvetoryComponent,
 	EntityMovementComponent,
 	EntityNametagComponent,
 	PlayerAbilityComponent,
@@ -22,6 +23,7 @@ import {
 	PlayerBuildComponent,
 	PlayerComponent,
 	PlayerCountComponent,
+	PlayerCursorComponent,
 	PlayerDoorsAndSwitchesComponent,
 	PlayerFlyingComponent,
 	PlayerFlySpeedComponent,
@@ -232,6 +234,8 @@ class Player extends Entity {
 export { Player };
 
 // Register the player components
+Player.registerComponent(PlayerCursorComponent);
+Player.registerComponent(EntityInvetoryComponent);
 Player.registerComponent(EntityMovementComponent);
 Player.registerComponent(EntityHasGravityComponent);
 Player.registerComponent(EntityBreathingComponent);

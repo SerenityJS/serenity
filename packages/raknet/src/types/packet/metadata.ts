@@ -5,7 +5,7 @@ import { ValidTypes } from "./valid";
 interface PacketMetadata {
 	endian: Endianness;
 	name: string;
-	paramater: string;
+	parameter: string;
 	type: ValidTypes;
 }
 

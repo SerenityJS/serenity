@@ -1,11 +1,11 @@
 import { type BinaryStream } from "@serenityjs/binaryutils";
 import { DataType } from "@serenityjs/raknet";
 
-import type { ItemStackStatus, ContainerSlotType } from "../../enums";
+import type { ItemStackStatus, ContainerName } from "../../enums";
 
 interface ItemStackContainer {
 	slots: Array<ContainerSlot>;
-	type: ContainerSlotType;
+	type: ContainerName;
 }
 
 interface ContainerSlot {

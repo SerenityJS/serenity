@@ -1,5 +1,11 @@
-import { InternalProvider, Superflat } from "@serenityjs/world";
-import { DimensionType, Packet } from "@serenityjs/protocol";
+import {
+	InternalProvider,
+	Superflat,
+	ItemIdentifier,
+	Item,
+	ItemType
+} from "@serenityjs/world";
+import { DimensionType, Packet, TextPacketType } from "@serenityjs/protocol";
 
 import { Serenity } from "./serenity";
 
@@ -30,14 +36,14 @@ serenity.network.on(Packet.Text, (data) => {
 	const player = serenity.getPlayer(data.session);
 	if (!player) return;
 
-	const build = player.getComponent("minecraft:ability.build");
-	const mine = player.getAbility("minecraft:ability.mine");
+	const inventory = player.getComponent("minecraft:inventory");
+	const container = inventory.container;
 
-	if (build.currentValue) {
-		build.setCurrentValue(false);
-		mine.setCurrentValue(false);
-	} else {
-		build.setCurrentValue(true);
-		mine.setCurrentValue(true);
-	}
+	const spawnEgg = new Item(ItemIdentifier.AgentSpawnEgg, 45, container);
+	const water = new Item(ItemIdentifier.Water, 1, container);
+	const lava = new Item(ItemIdentifier.Lava, 1, container);
+
+	container.addItem(spawnEgg);
+	container.addItem(water);
+	container.addItem(lava);
 });

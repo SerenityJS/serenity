@@ -13,14 +13,17 @@ import {
 	BiomeDefinitionListPacket,
 	PlayStatusPacket,
 	PlayStatus,
-	DisconnectReason
+	DisconnectReason,
+	BlockProperties
 } from "@serenityjs/protocol";
 import { NetworkSession } from "@serenityjs/network";
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
 import {
+	CustomBlockType,
 	EntityAlwaysShowNametagComponent,
 	EntityNametagComponent
 } from "@serenityjs/world";
+import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -78,6 +81,35 @@ class ResourcePackClientResponse extends SerenityHandler {
 			}
 
 			case ResourcePackResponse.Completed: {
+				const nbt = new CompoundTag("", {});
+				nbt.addTag(new IntTag("client_prediction_overrides", 0));
+
+				const menu_category = new CompoundTag("menu_category", {});
+				menu_category.addTag(new StringTag("category", "construction"));
+				// menu_category.addTag(new StringTag("group", "itemGroup.name.concrete"));
+				// menu_category.addTag(new ByteTag("is_hidden_in_commands", 0));
+
+				nbt.addTag(menu_category);
+
+				nbt.addTag(new IntTag("molangVersion", 0));
+
+				const vanilla_block_data = new CompoundTag("vanilla_block_data", {});
+				vanilla_block_data.addTag(new IntTag("block_id", 10_000));
+				// vanilla_block_data.addTag(new StringTag("material", "dirt"));
+
+				nbt.addTag(vanilla_block_data);
+
+				const blocks: Array<BlockProperties> = player.dimension.world.blocks
+					.getCustomBlocks()
+					.map((block) => {
+						const nbt = CustomBlockType.getBlockProperty(block);
+
+						return {
+							name: block.identifier,
+							nbt: nbt
+						};
+					});
+
 				const packet = new StartGamePacket();
 				packet.entityId = player.unique;
 				packet.runtimeEntityId = player.runtime;
@@ -103,7 +135,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.exportedFromEdior = false;
 				packet.dayCycleStopTime = 0;
 				packet.eduOffer = 0;
-				packet.eduFeatures = true;
+				packet.eduFeatures = false;
 				packet.eduProductUuid = "";
 				packet.rainLevel = 0;
 				packet.lightningLevel = 0;
@@ -348,7 +380,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.serverAuthoritativeBlockBreaking = true;
 				packet.currentTick = 0n;
 				packet.enchantmentSeed = 0;
-				packet.blockProperties = [];
+				packet.blockProperties = blocks;
 				packet.items = [];
 				packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
 				packet.serverAuthoritativeInventory = true;
@@ -367,7 +399,15 @@ class ResourcePackClientResponse extends SerenityHandler {
 				biomes.biomes = BIOME_DEFINITION_LIST;
 
 				const content = new CreativeContentPacket();
-				content.items = [];
+				content.items = [
+					{
+						network: 10_000,
+						blockRuntimeId: 0,
+						metadata: 0,
+						stackSize: 1
+					},
+					...player.dimension.world.items.creative
+				];
 
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;

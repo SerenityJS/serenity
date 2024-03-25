@@ -12,12 +12,12 @@ function Serialize(
 	if (!type) throw new Error("@Serialize() failed, no type provided.");
 
 	// Return the serialize decorator.
-	return function (target: BasePacket, propertyKey: string) {
+	return function (target: BasePacket, name: string) {
 		// Get the properties of the target.
 		const properties = Reflect.getMetadata("properties", target) || [];
 
 		// Push the property to the properties array.
-		properties.push({ name: propertyKey, type, endian, parameter });
+		properties.push({ name, type, endian, parameter });
 
 		// Set the properties metadata.
 		Reflect.defineMetadata("properties", properties, target);

@@ -4,13 +4,13 @@ import { TransactionSourceType } from "../../enums";
 
 import { Item } from "./item";
 
-import type { WindowsIds } from "../../enums";
+import type { ContainerId } from "../../enums";
 import type { BinaryStream } from "@serenityjs/binaryutils";
 
 class TransactionActions extends DataType {
 	public action: number | null;
 	public flags: number | null;
-	public inventoryId: WindowsIds | null;
+	public inventoryId: ContainerId | null;
 	public newItem: Item;
 	public oldItem: Item;
 	public slot: number;
@@ -19,7 +19,7 @@ class TransactionActions extends DataType {
 	public constructor(
 		action: number | null,
 		flags: number | null,
-		inventoryId: WindowsIds | null,
+		inventoryId: ContainerId | null,
 		newItem: Item,
 		oldItem: Item,
 		slot: number,

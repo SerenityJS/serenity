@@ -3,6 +3,7 @@ import {
 	EntityBreathingComponent,
 	EntityHasGravityComponent,
 	EntityHealthComponent,
+	EntityInvetoryComponent,
 	EntityNametagComponent
 } from "../../components";
 
@@ -28,7 +29,9 @@ interface EntityMetadataComponents {
  */
 interface EntityComponents
 	extends EntityAttributeComponents,
-		EntityMetadataComponents {}
+		EntityMetadataComponents {
+	"minecraft:inventory": EntityInvetoryComponent;
+}
 
 export {
 	EntityAttributeComponents,

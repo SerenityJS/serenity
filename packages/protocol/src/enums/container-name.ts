@@ -1,4 +1,4 @@
-enum ContainerSlotType {
+enum ContainerName {
 	AnvilInput,
 	AnvilMaterial,
 	AnvilResult,
@@ -64,4 +64,4 @@ enum ContainerSlotType {
 	Crafter
 }
 
-export { ContainerSlotType };
+export { ContainerName };

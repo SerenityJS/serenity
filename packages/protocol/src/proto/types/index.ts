@@ -50,4 +50,5 @@ export * from "./command-output-message";
 export * from "./rotation";
 export * from "./item-instance-user-data";
 export * from "./network-item-instance-descriptor";
+export * from "./network-item-stack-descriptor";
 export * from "./creative-items";

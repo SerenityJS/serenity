@@ -1,8 +1,9 @@
-import { CompoundTag, StringTag } from "@serenityjs/nbt";
 import { BinaryStream } from "@serenityjs/binaryutils";
+import { CompoundTag, StringTag } from "@serenityjs/nbt";
 
 import { BlockIdentifier } from "../enums";
-import { BlockState, BlockStateNBT } from "../types";
+import { BlockState } from "../types";
+import { getHash } from "../utils";
 
 import { BlockType } from "./type";
 
@@ -45,11 +46,11 @@ class BlockPermutation<T = BlockState> {
 	 * @param type The block type of the permutation.
 	 * @param states The states of the permutation.
 	 */
-	public constructor(type: BlockType, states: BlockStateNBT) {
+	public constructor(type: BlockType, states: T, hash: number) {
 		this.type = type;
 		this.runtime = BlockPermutation.runtime++;
-		this.hash = BlockPermutation.getHash(type.identifier, states);
-		this.states = states.valueOf<T>() as T;
+		this.states = states;
+		this.hash = hash;
 	}
 
 	/**
@@ -73,48 +74,6 @@ class BlockPermutation<T = BlockState> {
 
 		// Return the permutation.
 		return permutation !== undefined;
-	}
-
-	/**
-	 * Gets the hash of the permutation.
-	 * @param identifier The identifier of the block type.
-	 * @param states The states of the block type.
-	 * @returns The hash of the permutation.
-	 */
-	public static getHash(
-		identifier: BlockIdentifier,
-		states: BlockStateNBT
-	): number {
-		// Create a new compound tag.
-		const tag = new CompoundTag("", {});
-
-		// Add the name to the tag.
-		tag.addTag(new StringTag("name", identifier));
-
-		// Add the states to the tag.
-		tag.addTag(states);
-
-		// Create a new binary stream.
-		const stream = new BinaryStream();
-
-		// Write the tag to the stream.
-		CompoundTag.write(stream, tag);
-
-		// Assign the offset to the hash.
-		const offset = 0x81_1c_9d_c5;
-
-		// Assign the hash to the offset.
-		let hash = offset;
-
-		// Loop through each element in the buffer.
-		for (const element of stream.getBuffer()) {
-			hash ^= element;
-			hash +=
-				(hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
-		}
-
-		// Return the hash.
-		return hash;
 	}
 
 	/**
@@ -163,6 +122,41 @@ class BlockPermutation<T = BlockState> {
 		return [...this.permutations.values()].find(
 			(permutation) => permutation.hash === hash
 		) as BlockPermutation<T>;
+	}
+
+	/**
+	 * Registers a new block permutation.
+	 * @param type The block type of the permutation.
+	 * @returns The block permutation.
+	 */
+	public static register(type: BlockType): BlockPermutation {
+		// Create a new nbt stream.
+		const stream = new BinaryStream();
+
+		// Create the root compound tag.
+		const root = new CompoundTag("", {});
+
+		// Write the name of the block type, and the states.
+		root.addTag(new StringTag("name", type.identifier));
+		root.addTag(new CompoundTag("states", {}));
+
+		// Write the root tag to the stream.
+		CompoundTag.write(stream, root);
+
+		// Caluclate the hash of the permutation.
+		const hash = getHash(stream.getBuffer());
+
+		// Create a new permutation.
+		const permutation = new BlockPermutation(type, {}, hash);
+
+		// Push the permutation to the block type.
+		type.permutations.push(permutation);
+
+		// Add the permutation to the collective map.
+		this.permutations.set(permutation.runtime, permutation);
+
+		// Return the permutation.
+		return permutation;
 	}
 }
 

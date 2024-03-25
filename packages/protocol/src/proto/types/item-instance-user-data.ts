@@ -95,7 +95,7 @@ class ItemInstanceUserData extends DataType {
 		}
 
 		// Check if the item is a shield.
-		const ticking = id === 357 ? stream.readInt64(Endianness.Little) : null;
+		const ticking = id === 358 ? stream.readInt64(Endianness.Little) : null;
 
 		// Return the instance.
 		return new ItemInstanceUserData(nbt, canPlaceOn, canDestroy, ticking);
@@ -110,7 +110,7 @@ class ItemInstanceUserData extends DataType {
 		// Check if the nbt is null.
 		if (value.nbt) {
 			// Write the nbt marker for nbt data.
-			stream.writeInt16(0xff_ff);
+			stream.writeUint16(0xff_ff, Endianness.Little);
 
 			// Write the nbt version.
 			stream.writeInt8(0x01);
@@ -119,12 +119,12 @@ class ItemInstanceUserData extends DataType {
 			CompoundTag.write(stream, value.nbt, false);
 		} else {
 			// Write the nbt marker for no nbt data.
-			stream.writeInt16(0x00_00);
+			stream.writeUint16(0x00_00, Endianness.Little);
 		}
 
 		// Write the can place on strings.
 		// Write the length of the array.
-		stream.writeUint32(value.canPlaceOn.length, Endianness.Little);
+		stream.writeInt32(value.canPlaceOn.length, Endianness.Little);
 
 		// Loop through the array.
 		for (const string of value.canPlaceOn) {
@@ -134,7 +134,7 @@ class ItemInstanceUserData extends DataType {
 
 		// Write the can destroy strings.
 		// Write the length of the array.
-		stream.writeUint32(value.canDestroy.length, Endianness.Little);
+		stream.writeInt32(value.canDestroy.length, Endianness.Little);
 
 		// Loop through the array.
 		for (const string of value.canDestroy) {
@@ -143,7 +143,7 @@ class ItemInstanceUserData extends DataType {
 		}
 
 		// Check if the item is a shield.
-		if (id === 357) {
+		if (id === 358) {
 			stream.writeInt64(value.ticking ?? BigInt(0), Endianness.Little);
 		}
 	}

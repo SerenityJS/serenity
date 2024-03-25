@@ -26,11 +26,11 @@ const CREATIVE_CONTENT = readFileSync(resolve(data, "creative_content.bin"));
 /**
  * Raw binary data for the item states.
  */
-const ITEMSTATES = readFileSync(resolve(data, "itemstates.bin"));
+const ITEMDATA = readFileSync(resolve(data, "itemdata.bin"));
 
 export {
 	CANONICAL_BLOCK_STATES,
 	BIOME_DEFINITION_LIST,
 	CREATIVE_CONTENT,
-	ITEMSTATES
+	ITEMDATA
 };

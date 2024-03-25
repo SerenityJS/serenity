@@ -4,9 +4,11 @@ import { CANONICAL_BLOCK_STATES } from "@serenityjs/data";
 
 import { BlockStateNBT, BlockState } from "../types";
 import { BlockIdentifier } from "../enums";
+import { getHash } from "../utils";
 
 import { BlockType } from "./type";
 import { BlockPermutation } from "./permutation";
+import { CustomBlockType } from "./custom";
 
 type BlockNbt = CompoundTag<{
 	name: StringTag;
@@ -18,11 +20,6 @@ type BlockNbt = CompoundTag<{
  * A block registry.
  */
 class BlockRegistry {
-	/**
-	 *  Whether or not the client expects the server to send block hashes.
-	 */
-	public static hashes = true;
-
 	/**
 	 * Creates a new block registry.
 	 */
@@ -40,7 +37,22 @@ class BlockRegistry {
 			const name = nbt.getTag("name")?.valueOf() as BlockIdentifier;
 
 			// Get the block states from the NBT data.
-			const states = nbt.getTag("states") as unknown as BlockStateNBT;
+			const states = nbt.getTag("states")?.valueOf() as BlockStateNBT;
+
+			// Get the version from the NBT data.
+			const version = nbt.getTag("version")?.valueOf() as number;
+
+			// Create the hash key.
+			// The hash key consists of the block type name and states.
+			// So we need to remove the version tag from the NBT data.
+			const key = nbt.removeTag("version");
+
+			// Create and write the states to a new stream.
+			const hasher = new BinaryStream();
+			CompoundTag.write(hasher, key);
+
+			// Calculate the hash from the stream.
+			const hash = getHash(hasher.getBuffer());
 
 			// Check if the block state is already in the map.
 			if (BlockType.types.has(name)) {
@@ -48,7 +60,11 @@ class BlockRegistry {
 				const type = BlockType.types.get(name)!;
 
 				// Create a new permutation.
-				const permutation = new BlockPermutation(type, states);
+				const permutation = new BlockPermutation(
+					type,
+					states.valueOf() as BlockState,
+					hash
+				);
 
 				// Push the permutation to the block type.
 				type.permutations.push(permutation);
@@ -56,14 +72,15 @@ class BlockRegistry {
 				// Add the permutation to the collective map.
 				BlockPermutation.permutations.set(permutation.runtime, permutation);
 			} else {
-				// Get the block version from the NBT data.
-				const version = nbt.getTag("version")?.valueOf() as number;
-
 				// Create a new block type.
 				const type = new BlockType(name, version);
 
 				// Create a new permutation.
-				const permutation = new BlockPermutation(type, states);
+				const permutation = new BlockPermutation(
+					type,
+					states.valueOf() as BlockState,
+					hash
+				);
 
 				// Push the permutation to the block type.
 				type.permutations.push(permutation);
@@ -108,6 +125,16 @@ class BlockRegistry {
 		identifier: number
 	): BlockPermutation<T> {
 		return BlockPermutation.resolveByRuntime(identifier);
+	}
+
+	/**
+	 * Gets all the custom blocks registered.
+	 * @returns The custom blocks.
+	 */
+	public getCustomBlocks(): Array<CustomBlockType> {
+		return [...BlockType.types.values()].filter(
+			(type) => type instanceof CustomBlockType
+		) as Array<CustomBlockType>;
 	}
 }
 

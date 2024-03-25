@@ -1,5 +1,7 @@
+import { ContainerClose } from "./container-close";
 import { Disconnect } from "./disconnect";
 import { Interact } from "./interact";
+import { ItemStackRequest } from "./item-stack-request";
 import { Login } from "./login";
 import { MovePlayer } from "./move-player";
 import { RequestNetworkSettings } from "./request-network-settings";
@@ -11,7 +13,9 @@ const HANDLERS = [
 	Disconnect,
 	ResourcePackClientResponse,
 	MovePlayer,
-	Interact
+	Interact,
+	ContainerClose,
+	ItemStackRequest
 ];
 
 export { HANDLERS };
@@ -23,3 +27,5 @@ export * from "./disconnect";
 export * from "./resource-pack-client-response";
 export * from "./move-player";
 export * from "./interact";
+export * from "./container-close";
+export * from "./item-stack-request";

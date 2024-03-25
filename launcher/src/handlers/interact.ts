@@ -3,8 +3,8 @@ import {
 	DisconnectReason,
 	InteractActions,
 	InteractPacket,
-	WindowsIds,
-	WindowsTypes
+	ContainerId,
+	ContainerType
 } from "@serenityjs/protocol";
 import { NetworkSession } from "@serenityjs/network";
 
@@ -28,8 +28,8 @@ class Interact extends SerenityHandler {
 			const container = new ContainerOpenPacket();
 
 			// Assign the packet data.
-			container.windowId = WindowsIds.Inventory;
-			container.windowType = WindowsTypes.Inventory;
+			container.containerId = ContainerId.Inventory;
+			container.containerType = ContainerType.Inventory;
 			container.position = player.position;
 			container.targetRuntimeEntityId = player.runtime;
 
