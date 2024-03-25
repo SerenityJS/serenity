@@ -1328,7 +1328,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/data@npm:*, @serenityjs/data@workspace:^, @serenityjs/data@workspace:packages/data":
+"@serenityjs/data@npm:*, @serenityjs/data@workspace:packages/data":
   version: 0.0.0-use.local
   resolution: "@serenityjs/data@workspace:packages/data"
   dependencies:
@@ -1495,7 +1495,7 @@ __metadata:
   resolution: "@serenityjs/world@workspace:packages/world"
   dependencies:
     "@serenityjs/binaryutils": "npm:*"
-    "@serenityjs/data": "workspace:^"
+    "@serenityjs/data": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/logger": "npm:*"
