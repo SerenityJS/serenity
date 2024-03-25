@@ -33,6 +33,7 @@
 		"@serenityjs/data": "*",
 		"@serenityjs/logger": "*",
 		"@serenityjs/nbt": "*",
+		"@serenityjs/network": "*",
 		"@serenityjs/protocol": "*",
 		"simplex-noise": "^4.0.1"
 	}

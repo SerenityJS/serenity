@@ -2,10 +2,9 @@ import {
 	InternalProvider,
 	Superflat,
 	ItemIdentifier,
-	Item,
-	ItemType
+	Item
 } from "@serenityjs/world";
-import { DimensionType, Packet, TextPacketType } from "@serenityjs/protocol";
+import { DimensionType, Packet } from "@serenityjs/protocol";
 
 import { Serenity } from "./serenity";
 

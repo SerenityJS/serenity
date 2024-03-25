@@ -1428,7 +1428,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/network@npm:*, @serenityjs/network@workspace:packages/network":
+"@serenityjs/network@npm:*, @serenityjs/network@workspace:^, @serenityjs/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@serenityjs/network@workspace:packages/network"
   dependencies:
@@ -1500,6 +1500,7 @@ __metadata:
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"
+    "@serenityjs/network": "workspace:^"
     "@serenityjs/protocol": "npm:*"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
