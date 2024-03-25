@@ -1,4 +1,4 @@
-enum LevelEventId {
+enum LevelEvent {
 	SoundClick = 1000,
 	SoundClickFail = 1001,
 	SoundShoot = 1002,
@@ -195,4 +195,4 @@ enum LevelEventId {
 	AddParticleElectricSpark = 16_465 // 81
 }
 
-export { LevelEventId };
+export { LevelEvent };

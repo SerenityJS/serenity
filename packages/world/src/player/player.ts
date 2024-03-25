@@ -2,6 +2,8 @@ import { NetworkSession } from "@serenityjs/network";
 import {
 	AbilityLayerType,
 	AddPlayerPacket,
+	BlockCoordinates,
+	Gamemode,
 	LevelChunkPacket,
 	MetadataFlags,
 	MetadataKey,
@@ -53,6 +55,9 @@ class Player extends Entity {
 	public readonly xuid: string;
 	public readonly uuid: string;
 	public readonly chunks: Map<bigint, boolean>;
+
+	public mining: BlockCoordinates | null = null;
+	public gamemode: Gamemode = Gamemode.Creative;
 
 	public constructor(
 		session: NetworkSession,

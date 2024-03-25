@@ -1,8 +1,11 @@
 import {
 	BlockCoordinates,
+	LevelEvent,
+	LevelEventPacket,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
-	UpdateBlockPacket
+	UpdateBlockPacket,
+	Vector3f
 } from "@serenityjs/protocol";
 
 import { Dimension } from "../world";
@@ -168,7 +171,7 @@ class Block {
 	/**
 	 * Destroys the block.
 	 */
-	public destroy(): void {
+	public destroy(hideParticles?: boolean): void {
 		// Get the air permutation.
 		const air = this.dimension.world.blocks.resolvePermutation(
 			BlockIdentifier.Air
@@ -176,6 +179,30 @@ class Block {
 
 		// Set the block permutation to air.
 		this.setPermutation(air);
+
+		// Check if we should hide the particles.
+		if (!hideParticles) {
+			// Create a new LevelEventPacket.
+			const event = new LevelEventPacket();
+
+			// Set event id
+			event.event = LevelEvent.ParticleDestroyBlockNoSound;
+
+			// Set the position of the event.
+			event.position = new Vector3f(
+				this.location.x,
+				this.location.y,
+				this.location.z
+			);
+
+			// Set the data of the event.
+			event.data = this.dimension.world.provider.hashes
+				? this.permutation.hash
+				: this.permutation.runtime;
+
+			// Broadcast the event to the dimension.
+			this.dimension.broadcastImmediate(event);
+		}
 	}
 }
 

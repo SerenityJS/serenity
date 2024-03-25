@@ -77,6 +77,12 @@ class ItemRegistry {
 			(type) => type.runtime === runtime
 		)!;
 	}
+
+	public static resolveByNetwork(network: number): ItemType {
+		return [...ItemType.types.values()].find(
+			(type) => type.network === network
+		)!;
+	}
 }
 
 export { ItemRegistry };

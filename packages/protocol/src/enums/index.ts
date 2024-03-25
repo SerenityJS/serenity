@@ -41,4 +41,4 @@ export * from "./item-stack-action-type";
 export * from "./item-stack-status";
 export * from "./ability-set";
 export * from "./animate-id";
-export * from "./level-event-id";
+export * from "./level-event";

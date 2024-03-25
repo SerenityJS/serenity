@@ -114,7 +114,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.entityId = player.unique;
 				packet.runtimeEntityId = player.runtime;
 				packet.playerGamemode = 1;
-				packet.playerPosition = new Vector3f(0, -58, 0);
+				packet.playerPosition = new Vector3f(0, 6, 0);
 				packet.pitch = 0;
 				packet.yaw = 0;
 				packet.seed = BigInt(0);

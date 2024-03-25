@@ -1,3 +1,4 @@
+import { Animate } from "./animate";
 import { ContainerClose } from "./container-close";
 import { Disconnect } from "./disconnect";
 import { Interact } from "./interact";
@@ -5,6 +6,7 @@ import { ItemStackRequest } from "./item-stack-request";
 import { Login } from "./login";
 import { MobEquipment } from "./mob-equipment";
 import { MovePlayer } from "./move-player";
+import { PlayerAction } from "./player-action";
 import { RequestNetworkSettings } from "./request-network-settings";
 import { ResourcePackClientResponse } from "./resource-pack-client-response";
 import { SetLocalPlayerAsIntialized } from "./set-local-player-as-initialized";
@@ -19,7 +21,9 @@ const HANDLERS = [
 	ContainerClose,
 	ItemStackRequest,
 	SetLocalPlayerAsIntialized,
-	MobEquipment
+	MobEquipment,
+	PlayerAction,
+	Animate
 ];
 
 export { HANDLERS };
@@ -35,3 +39,5 @@ export * from "./container-close";
 export * from "./item-stack-request";
 export * from "./set-local-player-as-initialized";
 export * from "./mob-equipment";
+export * from "./player-action";
+export * from "./animate";
