@@ -1,6 +1,7 @@
 import { CustomBlockType } from "../block";
 import { ItemCategory, ItemGroup, ItemIdentifier } from "../enums";
 
+import { CreativeContentRegistry } from "./creative";
 import { ItemType } from "./type";
 
 /**
@@ -46,6 +47,12 @@ class CustomItemType extends ItemType {
 
 		// Register the item type.
 		ItemType.types.set(identifier, this);
+
+		// Check if the item needs to be registered to the creative content.
+		if (this.category !== ItemCategory.None) {
+			// Register the item to the creative content.
+			CreativeContentRegistry.register(this);
+		}
 	}
 }
 

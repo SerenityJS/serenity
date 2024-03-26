@@ -2967,16 +2967,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:4.0.0":
-  version: 4.0.0
-  resolution: "chalk@npm:4.0.0"
-  dependencies:
-    ansi-styles: "npm:^4.1.0"
-    supports-color: "npm:^7.1.0"
-  checksum: 10c0/5982b6132154e086e3b15f68783778aa50be0871acb2e3f2bdde9b28f7016ca9bce4d840ea5ebf12eaf41bba5e131a5d5b528cfee512a14da40834ebbbbb37c7
-  languageName: node
-  linkType: hard
-
 "chalk@npm:^3.0.0":
   version: 3.0.0
   resolution: "chalk@npm:3.0.0"
@@ -6486,7 +6476,6 @@ __metadata:
     "@serenityjs/world": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
-    chalk: "npm:4.0.0"
     fast-jwt: "npm:^4.0.0"
     jest: "npm:^29.7.0"
     moment: "npm:^2.30.1"

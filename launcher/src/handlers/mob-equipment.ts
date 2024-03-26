@@ -55,7 +55,7 @@ class MobEquipment extends SerenityHandler {
 		// Set the packet data
 		mobEquipment.runtimeEntityId = player.runtime;
 		mobEquipment.item =
-			item === null ? { network: 0 } : ItemStack.toDescriptor(item);
+			item === null ? { network: 0 } : ItemStack.toNetworkStack(item);
 		mobEquipment.slot = packet.slot;
 		mobEquipment.selectedSlot = packet.selectedSlot;
 		mobEquipment.containerId = packet.containerId;

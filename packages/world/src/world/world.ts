@@ -6,7 +6,7 @@ import { BlockRegistry } from "../block";
 import { Player } from "../player";
 import { TerrainGenerator } from "../generator";
 import { Entity } from "../entity";
-import { ItemRegistry } from "../item";
+import { CreativeContentRegistry, ItemRegistry } from "../item";
 
 import { Dimension } from "./dimension";
 
@@ -14,12 +14,17 @@ class World {
 	/**
 	 * The items registry for all the items in all the worlds.
 	 */
-	public static readonly items: ItemRegistry = new ItemRegistry();
+	public static readonly items = new ItemRegistry();
 
 	/**
 	 * The blocks registry for all the blocks in all the worlds.
 	 */
-	public static readonly blocks: BlockRegistry = new BlockRegistry();
+	public static readonly blocks = new BlockRegistry();
+
+	/**
+	 * The creative content registry for all the creative content in all the worlds.
+	 */
+	public static readonly creative = new CreativeContentRegistry();
 
 	/**
 	 * The identifier of the world.

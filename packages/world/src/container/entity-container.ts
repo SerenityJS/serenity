@@ -65,7 +65,7 @@ class EntityContainer extends Container {
 		// Set properties of the packet.
 		packet.containerId = this.identifier;
 		packet.slot = slot;
-		packet.item = ItemStack.toDescriptor(item);
+		packet.item = ItemStack.toNetworkStack(item);
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
