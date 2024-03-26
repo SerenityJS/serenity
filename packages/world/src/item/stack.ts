@@ -42,7 +42,7 @@ class ItemStack {
 		this.container.setItem(slot, this);
 	}
 
-	public static toItemStack(item: ItemStack): NetworkItemStackDescriptor {
+	public static toDescriptor(item: ItemStack): NetworkItemStackDescriptor {
 		// Get the block permutation of the item.
 		const block = item.type.block?.getPermutation();
 

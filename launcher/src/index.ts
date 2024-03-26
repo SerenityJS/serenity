@@ -5,12 +5,7 @@ import {
 	ItemStack,
 	ItemType
 } from "@serenityjs/world";
-import {
-	ContainerId,
-	DimensionType,
-	InventorySlotPacket,
-	Packet
-} from "@serenityjs/protocol";
+import { DimensionType, Packet } from "@serenityjs/protocol";
 
 import { Serenity } from "./serenity";
 
@@ -46,7 +41,10 @@ serenity.network.on(Packet.Text, (data) => {
 	const inventory = player.getComponent("minecraft:inventory");
 	const container = inventory.container;
 
-	const item1 = ItemType.resolve(ItemIdentifier.Dirt).create(32, 0);
+	const item1 = ItemType.resolve("serenity:ruby_ore" as ItemIdentifier).create(
+		32,
+		0
+	);
 
 	const item2 = new ItemStack(ItemIdentifier.Dirt, 32, 0);
 
