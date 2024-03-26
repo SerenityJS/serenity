@@ -3,6 +3,7 @@ import { RaknetServer } from "@serenityjs/raknet";
 import { Network, NetworkSession } from "@serenityjs/network";
 import { Player, World, WorldProvider } from "@serenityjs/world";
 import { MINECRAFT_TICK_SPEED } from "@serenityjs/protocol";
+import { Commands } from "@serenityjs/command";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
 
@@ -37,6 +38,11 @@ class Serenity {
 	public readonly worlds: Map<string, World>;
 
 	/**
+	 * The commands instance
+	 */
+	public readonly commands: Commands;
+
+	/**
 	 * The server tick interval
 	 */
 	public interval: NodeJS.Timeout | null = null;
@@ -58,6 +64,7 @@ class Serenity {
 		this.network = new Network(this.raknet, 256, 0, 32, HANDLERS); // TODO: Assign the correct values from server.properties
 		this.players = new Map();
 		this.worlds = new Map();
+		this.commands = new Commands();
 
 		// Set the Serenity instance for all handlers
 		SerenityHandler.serenity = this;

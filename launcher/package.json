@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@serenityjs/binaryutils": "*",
+    "@serenityjs/command": "*",
     "@serenityjs/data": "*",
     "@serenityjs/emitter": "*",
     "@serenityjs/logger": "*",

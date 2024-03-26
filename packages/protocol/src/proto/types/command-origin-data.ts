@@ -65,13 +65,6 @@ class CommandOriginData extends DataType {
 		) {
 			stream.writeVarLong(value.playerActorUniqueId);
 		}
-
-		console.log(
-			value.origin,
-			value.uuid,
-			value.requestId,
-			value.playerActorUniqueId
-		);
 	}
 }
 

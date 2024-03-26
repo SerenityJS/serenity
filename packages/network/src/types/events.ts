@@ -136,6 +136,8 @@ interface NetworkEvents {
 	[Packet.RequestNetworkSettings]: [
 		NetworkPacketEvent<RequestNetworkSettingsPacket>
 	];
+	[Packet.Text]: [NetworkPacketEvent<TextPacket>];
+	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequestPacket>];
 }
 
 export { NetworkEvents };

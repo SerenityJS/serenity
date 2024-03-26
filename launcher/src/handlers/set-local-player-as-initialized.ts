@@ -1,6 +1,10 @@
 import {
+	AvailableCommandsPacket,
+	Commands,
 	DisconnectReason,
-	SetLocalPlayerAsInitializedPacket
+	PermissionLevel,
+	SetLocalPlayerAsInitializedPacket,
+	CommandParameterType
 } from "@serenityjs/protocol";
 import { NetworkSession } from "@serenityjs/network";
 
@@ -35,6 +39,83 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		// Send the player the spawn chunks
 		const chunks = player.dimension.getSpawnChunks();
 		player.sendChunk(...chunks);
+
+		const commands = new AvailableCommandsPacket();
+
+		const avaliableCommands = [];
+		for (const [name, command] of this.serenity.commands
+			.getCommands()
+			.entries()) {
+			const commandName = name.includes(":") ? name.split(":")[1] : name;
+
+			avaliableCommands.push(
+				new Commands(
+					commandName as string,
+					command.description,
+					0,
+					PermissionLevel.Member,
+					CommandParameterType.Command,
+					[],
+					[
+						{
+							chaining: false,
+							parameters: [
+								{
+									enumType: 0x10,
+									name: "args",
+									optional: true,
+									options: 0,
+									valueType: CommandParameterType.RawText
+								}
+							]
+						}
+					]
+				)
+			);
+		}
+
+		commands.commands = [
+			{
+				name: "test",
+				description: "Test command",
+				permissionLevel: PermissionLevel.Member,
+				subcommands: [],
+				flags: 87,
+				overloads: [
+					{
+						chaining: false,
+						parameters: [
+							{
+								enumType: 0x10,
+								name: "param",
+								optional: false,
+								options: 0,
+								valueType: CommandParameterType.RawText
+							},
+							{
+								enumType: 0x10,
+								name: "param2",
+								optional: false,
+								options: 0,
+								valueType: CommandParameterType.Target
+							}
+						]
+					}
+				],
+				alias: 0
+			},
+			...avaliableCommands
+		];
+
+		commands.subcommandValues = [];
+		commands.subcommands = [];
+		commands.dynamicEnums = [];
+		commands.enumConstraints = [];
+		commands.enumValues = [];
+		commands.enums = [];
+		commands.suffixes = [];
+
+		session.send(commands);
 	}
 }
 

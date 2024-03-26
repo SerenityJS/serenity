@@ -1328,6 +1328,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/command@npm:*, @serenityjs/command@workspace:packages/command":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/command@workspace:packages/command"
+  dependencies:
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/world": "npm:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    jest: "npm:^29.7.0"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@serenityjs/data@npm:*, @serenityjs/data@workspace:packages/data":
   version: 0.0.0-use.local
   resolution: "@serenityjs/data@workspace:packages/data"
@@ -6463,6 +6480,7 @@ __metadata:
   dependencies:
     "@serenityjs/binaryutils": "npm:*"
     "@serenityjs/chokidar": "npm:*"
+    "@serenityjs/command": "npm:*"
     "@serenityjs/data": "npm:*"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
