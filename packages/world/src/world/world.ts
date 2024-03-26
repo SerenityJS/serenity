@@ -12,6 +12,16 @@ import { Dimension } from "./dimension";
 
 class World {
 	/**
+	 * The items registry for all the items in all the worlds.
+	 */
+	public static readonly items: ItemRegistry = new ItemRegistry();
+
+	/**
+	 * The blocks registry for all the blocks in all the worlds.
+	 */
+	public static readonly blocks: BlockRegistry = new BlockRegistry();
+
+	/**
 	 * The identifier of the world.
 	 */
 	public readonly identifier: string;
@@ -20,16 +30,6 @@ class World {
 	 * The data provider for the world.
 	 */
 	public readonly provider: WorldProvider;
-
-	/**
-	 * The block registry for the world.
-	 */
-	public readonly blocks: BlockRegistry;
-
-	/**
-	 * The item registry for the world.
-	 */
-	public readonly items: ItemRegistry;
 
 	/**
 	 * The dimensions within the world.
@@ -51,8 +51,6 @@ class World {
 	public constructor(identifier: string, provider: WorldProvider) {
 		this.identifier = identifier;
 		this.provider = provider;
-		this.blocks = new BlockRegistry();
-		this.items = new ItemRegistry(this);
 		this.dimensions = new Map();
 		this.logger = new Logger(identifier, LoggerColors.GreenBright);
 	}

@@ -21,7 +21,9 @@ import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
 import {
 	CustomBlockType,
 	EntityAlwaysShowNametagComponent,
-	EntityNametagComponent
+	EntityNametagComponent,
+	ItemType,
+	World
 } from "@serenityjs/world";
 import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
 
@@ -99,7 +101,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 
 				nbt.addTag(vanilla_block_data);
 
-				const blocks: Array<BlockProperties> = player.dimension.world.blocks
+				const blocks: Array<BlockProperties> = World.blocks
 					.getCustomBlocks()
 					.map((block) => {
 						const nbt = CustomBlockType.getBlockProperty(block);
@@ -381,7 +383,14 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.currentTick = 0n;
 				packet.enchantmentSeed = 0;
 				packet.blockProperties = blocks;
-				packet.items = [];
+				packet.items = [...ItemType.types.values()].map((item) => {
+					return {
+						name: item.identifier,
+						networkId: item.network,
+						componentBased: false
+					};
+				});
+
 				packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
 				packet.serverAuthoritativeInventory = true;
 				packet.engine = "*";
@@ -390,7 +399,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.propertyData3 = 0x00;
 				packet.blockPaletteChecksum = 0n;
 				packet.worldTemplateId = "00000000000000000000000000000000";
-				packet.clientSideGeneration = true;
+				packet.clientSideGeneration = false;
 				packet.blockNetworkIdsAreHashes =
 					player.dimension.world.provider.hashes;
 				packet.serverControlledSounds = false;
@@ -399,18 +408,26 @@ class ResourcePackClientResponse extends SerenityHandler {
 				biomes.biomes = BIOME_DEFINITION_LIST;
 
 				const content = new CreativeContentPacket();
-				content.items = [
-					{
-						network: 10_000,
-						blockRuntimeId: 0,
-						metadata: 0,
-						stackSize: 1
-					},
-					...player.dimension.world.items.creative
-				];
+				content.items = World.items.creative;
 
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;
+
+				for (const item of World.items.getCustomItems()) {
+					packet.items.push({
+						name: item.identifier,
+						networkId: item.network,
+						componentBased: false
+					});
+
+					content.items.push({
+						network: item.network,
+						blockRuntimeId: item.block?.getPermutation().hash ?? 0,
+						metadata: 0,
+						stackSize: 1,
+						extras: null
+					});
+				}
 
 				session.sendImmediate(packet, biomes, content, status);
 

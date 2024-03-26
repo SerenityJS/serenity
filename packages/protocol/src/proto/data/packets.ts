@@ -20,6 +20,7 @@ import { InteractPacket } from "./interact";
 import { InventoryContentPacket } from "./inventory-content";
 import { InventorySlotPacket } from "./inventory-slot";
 import { InventoryTransactionPacket } from "./inventory-transaction";
+import { ItemComponentPacket } from "./item-component";
 import { ItemStackRequestPacket } from "./item-stack-request";
 import { ItemStackResponsePacket } from "./item-stack-response";
 import { LevelChunkPacket } from "./level-chunk";
@@ -111,6 +112,7 @@ const Packets = {
 	[Packet.ItemStackRequest]: ItemStackRequestPacket, // 147
 	[Packet.ItemStackResponse]: ItemStackResponsePacket, // 148
 	[Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
+	[Packet.ItemComponent]: ItemComponentPacket, // 162
 	[Packet.ScriptMessage]: ScriptMessagePacket, // 177
 	[Packet.ToastRequest]: ToastRequestPacket, // 186
 	[Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187

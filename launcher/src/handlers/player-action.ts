@@ -71,6 +71,34 @@ class PlayerAction extends SerenityHandler {
 				this.handleStopItemUseOn(packet, player);
 				break;
 			}
+
+			case ActionIds.StartFlying: {
+				// Get the players mayfly component
+				const mayfly = player.getComponent("minecraft:ability.may_fly");
+
+				// Get the player's flying ability
+				const flying = player.getComponent("minecraft:ability.flying");
+
+				// This stops horion flying exploit
+				// Check if the player has the mayfly ability
+				if (!mayfly.currentValue) {
+					// Set the player's flying ability to false
+					flying.setCurrentValue(false);
+					break;
+				}
+
+				// Set the player's flying ability to true
+				flying.setCurrentValue(true);
+				break;
+			}
+
+			case ActionIds.StopFlying: {
+				// Get the player's flying ability
+				const flying = player.getComponent("minecraft:ability.flying");
+
+				// Set the player's flying ability to false
+				flying.setCurrentValue(false);
+			}
 		}
 	}
 
@@ -238,7 +266,7 @@ class PlayerAction extends SerenityHandler {
 		// Check if the it is has a block permutation.
 		// If so, we will place the block.
 		// If not, we will return for now.
-		const permutation = item?.type.permutations[0];
+		const permutation = item?.type.block?.getPermutation();
 		if (!permutation) return;
 
 		// Get the block position from the packet.

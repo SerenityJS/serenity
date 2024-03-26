@@ -51,6 +51,7 @@ export * from "./creative-content";
 export * from "./item-stack-request";
 export * from "./item-stack-response";
 export * from "./packet-violation-warning";
+export * from "./item-component";
 export * from "./script-message";
 export * from "./toast-request";
 export * from "./update-abilities";

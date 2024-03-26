@@ -38,12 +38,15 @@ class Item {
 	}
 
 	public static toItemStack(item: Item): NetworkItemStackDescriptor {
+		// Get the block permutation of the item.
+		const block = item.type.block?.getPermutation();
+
 		return {
 			network: item.type.network,
 			stackSize: item.amount,
 			metadata: 0, // TODO: Implement metadata
 			stackNetId: null,
-			blockRuntimeId: item.type.permutations[0]?.runtime ?? 0, // TODO: Index by metadata value
+			blockRuntimeId: block?.hash ?? 0,
 			extras: null // TODO: Implement extras
 		};
 	}

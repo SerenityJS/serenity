@@ -1,4 +1,5 @@
 import { BlockIdentifier } from "../enums";
+import { ItemType } from "../item";
 import { BlockState } from "../types";
 
 import { BlockPermutation } from "./permutation";
@@ -28,12 +29,24 @@ class BlockType {
 	public readonly permutations: Array<BlockPermutation>;
 
 	/**
-	 * Creates a new block type.
-	 * @param state The block state to create the type from.
+	 * The item of the block state.
 	 */
-	public constructor(identifier: BlockIdentifier, version: number) {
+	public readonly item: ItemType;
+
+	/**
+	 * Creates a new block type.
+	 * @param identifier The identifier of the block state.
+	 * @param version The version of the block state.
+	 * @param item The item of the block state.
+	 */
+	public constructor(
+		identifier: BlockIdentifier,
+		version: number,
+		item: ItemType
+	) {
 		this.identifier = identifier;
 		this.version = version;
+		this.item = item;
 		this.permutations = [];
 	}
 
@@ -71,9 +84,19 @@ class BlockType {
 			);
 		}
 
+		// Find the item type for the block.
+		const item = ItemType.types.get(identifier);
+
+		// Check if the item type exists.
+		if (!item) {
+			throw new Error(
+				`Item type with identifier "${identifier}" does not exist.`
+			);
+		}
+
 		// Create a new block type.
 		// We will use -1 version to indicate a custom block type.
-		const type = new BlockType(identifier as BlockIdentifier, -1);
+		const type = new BlockType(identifier as BlockIdentifier, -1, item);
 
 		// Add the type to the collective map.
 		this.types.set(identifier, type);

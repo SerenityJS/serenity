@@ -59,7 +59,7 @@ enum Packet {
 	ItemStackRequest = 0x93, // 147
 	ItemStackResponse = 0x94, // 148
 	PacketViolationWarning = 0x9c, // 156
-	// ItemComponent = 0xa2, // 162
+	ItemComponent = 0xa2, // 162
 	ScriptMessage = 0xb1, // 177
 	ToastRequest = 0xba, // 186
 	UpdateAbilities = 0xbb, // 187

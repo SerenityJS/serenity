@@ -2,9 +2,19 @@ import {
 	InternalProvider,
 	Superflat,
 	ItemIdentifier,
-	Item
+	Item,
+	CustomItemType,
+	ItemCategory,
+	ItemGroup,
+	CustomBlockType,
+	BlockPermutation
 } from "@serenityjs/world";
-import { DimensionType, Packet } from "@serenityjs/protocol";
+import {
+	ContainerId,
+	DimensionType,
+	InventorySlotPacket,
+	Packet
+} from "@serenityjs/protocol";
 
 import { Serenity } from "./serenity";
 
@@ -20,6 +30,8 @@ const provider = new InternalProvider(true); // Boolean indicates hash block val
 // Register the world with the serenity instance.
 // The provider is what the world will use to read/write chunks and other data.
 const world = serenity.createWorld("default", provider);
+
+import "./custom-block";
 
 // Now we need to register a dimension for the world.
 // The dimension is the actual area that players will play in.
@@ -45,4 +57,29 @@ serenity.network.on(Packet.Text, (data) => {
 	container.addItem(spawnEgg);
 	container.addItem(water);
 	container.addItem(lava);
+
+	const packet = new InventorySlotPacket();
+	packet.slot = 7;
+	packet.containerId = ContainerId.Inventory;
+	packet.item = {
+		network: 10_000,
+		blockRuntimeId: 0,
+		metadata: 0,
+		stackNetId: null,
+		stackSize: 1,
+		extras: null
+	};
+
+	player.session.send(packet);
 });
+
+// serenity.network.on(Packet.MovePlayer, (data) => {
+// 	const player = serenity.getPlayer(data.session);
+// 	if (!player) return;
+
+// 	const pos = data.packet.position.floor();
+
+// 	const block = player.dimension.getBlock(pos.x, 3, pos.z);
+
+// 	// block.setPermutation(blockPermutation);
+// });

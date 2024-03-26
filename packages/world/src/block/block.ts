@@ -8,7 +8,7 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 
-import { Dimension } from "../world";
+import { Dimension, World } from "../world";
 import { BlockIdentifier } from "../enums";
 
 import { BlockPermutation } from "./permutation";
@@ -173,9 +173,7 @@ class Block {
 	 */
 	public destroy(hideParticles?: boolean): void {
 		// Get the air permutation.
-		const air = this.dimension.world.blocks.resolvePermutation(
-			BlockIdentifier.Air
-		);
+		const air = World.blocks.resolvePermutation(BlockIdentifier.Air);
 
 		// Set the block permutation to air.
 		this.setPermutation(air);

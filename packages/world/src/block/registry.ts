@@ -5,6 +5,7 @@ import { CANONICAL_BLOCK_STATES } from "@serenityjs/data";
 import { BlockStateNBT, BlockState } from "../types";
 import { BlockIdentifier } from "../enums";
 import { getHash } from "../utils";
+import { ItemType } from "../item";
 
 import { BlockType } from "./type";
 import { BlockPermutation } from "./permutation";
@@ -72,8 +73,20 @@ class BlockRegistry {
 				// Add the permutation to the collective map.
 				BlockPermutation.permutations.set(permutation.runtime, permutation);
 			} else {
+				// Find the item type for the block.
+				const item = ItemType.types.get(name);
+
+				// Check if the item type exists.
+				if (!item) {
+					console.log(`TODO REMOVE: Missing item for block: ${name}`);
+					continue;
+				}
+
 				// Create a new block type.
-				const type = new BlockType(name, version);
+				const type = new BlockType(name, version, item);
+
+				// Set the block from the item type.
+				item.block = type;
 
 				// Create a new permutation.
 				const permutation = new BlockPermutation(

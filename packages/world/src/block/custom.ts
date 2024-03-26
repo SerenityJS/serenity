@@ -1,35 +1,27 @@
 import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
 
-import { BlockIdentifier, ItemCategory, ItemGroup } from "../enums";
+import { BlockIdentifier } from "../enums";
+import { CustomItemType } from "../item";
 
 import { BlockType } from "./type";
 
 class CustomBlockType extends BlockType {
-	/**
-	 * The creative category of the block.
-	 */
-	public readonly category: ItemCategory;
-
-	/**
-	 * The creative category group of the block.
-	 */
-	public readonly group: ItemGroup | null;
+	public readonly item: CustomItemType;
 
 	/**
 	 * Create a custom block type.
 	 * @param identifier The identifier of the block.
-	 * @param category The creative category of the block.
-	 * @param group The creative category group of the block.
 	 */
-	public constructor(
-		identifier: string,
-		category?: ItemCategory,
-		group?: ItemGroup
-	) {
-		super(identifier as BlockIdentifier, -1);
-		this.category = category ?? ItemCategory.None;
-		this.group = group ?? null;
+	public constructor(identifier: string, item: CustomItemType) {
+		super(identifier as BlockIdentifier, -1, item);
 
+		// Set the item.
+		this.item = item;
+
+		// Register the block type to the custom item type.
+		item.block = this;
+
+		// Register the block type to the collective map.
 		CustomBlockType.types.set(identifier, this);
 	}
 
@@ -39,12 +31,12 @@ class CustomBlockType extends BlockType {
 
 		// Create the vanilla block data tag.
 		const data = new CompoundTag("vanilla_block_data", {});
-		data.addTag(new IntTag("block_id", 10_000)); // TODO: Get the block ID from the registry.
+		data.addTag(new IntTag("block_id", type.item.network)); // TODO: Get the block ID from the registry.
 
 		// Create the menu category tag.
 		const menu = new CompoundTag("menu_category", {});
-		menu.addTag(new StringTag("category", type.category));
-		if (type.group) menu.addTag(new StringTag("group", type.group));
+		menu.addTag(new StringTag("category", type.item.category));
+		if (type.item.group) menu.addTag(new StringTag("group", type.item.group));
 
 		// Create the molang version tag.
 		const molang = new IntTag("molang_version", 0);

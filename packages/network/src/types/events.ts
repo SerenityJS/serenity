@@ -19,6 +19,7 @@ import type {
 	InventoryContentPacket,
 	InventorySlotPacket,
 	InventoryTransactionPacket,
+	ItemComponentPacket,
 	ItemStackRequestPacket,
 	ItemStackResponsePacket,
 	LevelChunkPacket,
@@ -125,6 +126,7 @@ interface NetworkEvents {
 	[Packet.PacketViolationWarning]: [
 		NetworkPacketEvent<PacketViolationWarningPacket>
 	];
+	[Packet.ItemComponent]: [NetworkPacketEvent<ItemComponentPacket>];
 	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessagePacket>];
 	[Packet.ToastRequest]: [NetworkPacketEvent<ToastRequestPacket>];
 	[Packet.UpdateAbilities]: [NetworkPacketEvent<UpdateAbilitiesPacket>];

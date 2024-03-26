@@ -52,3 +52,4 @@ export * from "./item-instance-user-data";
 export * from "./network-item-instance-descriptor";
 export * from "./network-item-stack-descriptor";
 export * from "./creative-items";
+export * from "./component-item";
