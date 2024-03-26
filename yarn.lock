@@ -1328,7 +1328,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/command@workspace:packages/command":
+"@serenityjs/command@npm:*, @serenityjs/command@workspace:packages/command":
   version: 0.0.0-use.local
   resolution: "@serenityjs/command@workspace:packages/command"
   dependencies:
@@ -6480,6 +6480,7 @@ __metadata:
   dependencies:
     "@serenityjs/binaryutils": "npm:*"
     "@serenityjs/chokidar": "npm:*"
+    "@serenityjs/command": "npm:*"
     "@serenityjs/data": "npm:*"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
