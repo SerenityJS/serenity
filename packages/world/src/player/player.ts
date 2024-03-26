@@ -7,7 +7,9 @@ import {
 	LevelChunkPacket,
 	MetadataFlags,
 	MetadataKey,
-	NetworkChunkPublisherUpdatePacket
+	NetworkChunkPublisherUpdatePacket,
+	TextPacket,
+	TextPacketType
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
@@ -260,6 +262,28 @@ class Player extends Entity {
 			// Set the chunk to false to indicate that it has been rendered
 			this.chunks.set(chunk.getHash(), false);
 		}
+	}
+
+	/**
+	 * Sends a message to the player.
+	 *
+	 * @param message The message to send.
+	 */
+	public sendMessage(message: string): void {
+		// Construct the text packet.
+		const packet = new TextPacket();
+
+		// Assign the packet data.
+		packet.type = TextPacketType.Raw;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = message;
+		packet.parameters = null;
+		packet.xuid = "";
+		packet.platformChatId = "";
+
+		// Send the packet.
+		this.session.send(packet);
 	}
 }
 

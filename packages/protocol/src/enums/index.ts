@@ -12,6 +12,7 @@ export * from "./record-action";
 export * from "./violation-type";
 export * from "./violation-severity";
 export * from "./command-permission-level";
+export * from "./command-parameter-type";
 export * from "./ability-layer-type";
 export * from "./ability-layer-flag";
 export * from "./text-packet-type";
