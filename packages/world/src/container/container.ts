@@ -1,6 +1,6 @@
 import { ContainerId } from "@serenityjs/protocol";
 
-import { Item } from "../item";
+import { ItemStack } from "../item";
 
 /**
  * Represents a container.
@@ -19,7 +19,7 @@ abstract class Container {
 	/**
 	 * The storage of the container.
 	 */
-	public readonly storage: Array<Item | null>;
+	public readonly storage: Array<ItemStack | null>;
 
 	/**
 	 * The amount of empty slots in the container.
@@ -50,21 +50,21 @@ abstract class Container {
 	 * @param slot The slot to get the item from.
 	 * @returns The item in the slot.
 	 */
-	public abstract getItem(slot: number): Item | null;
+	public abstract getItem(slot: number): ItemStack | null;
 
 	/**
 	 * Sets an item in the container.
 	 * @param slot The slot to set the item in.
 	 * @param item The item to set.
 	 */
-	public abstract setItem(slot: number, item: Item): void;
+	public abstract setItem(slot: number, item: ItemStack): void;
 
 	/**
 	 * Adds an item to the container.
 	 * @param item The item to add.
 	 * @returns The added item.
 	 */
-	public abstract addItem(item: Item): void;
+	public abstract addItem(item: ItemStack): void;
 
 	/**
 	 * Removes an item from the container.

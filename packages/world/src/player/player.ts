@@ -47,7 +47,7 @@ import {
 	PlayerWorldBuilderComponent
 } from "../components";
 import { Chunk } from "../chunk";
-import { Item } from "../item";
+import { ItemStack } from "../item";
 
 class Player extends Entity {
 	public readonly session: NetworkSession;
@@ -146,7 +146,7 @@ class Player extends Entity {
 		packet.yaw = this.rotation.yaw;
 		packet.headYaw = this.rotation.headYaw;
 		packet.heldItem =
-			heldItem === null ? { network: 0 } : Item.toItemStack(heldItem);
+			heldItem === null ? { network: 0 } : ItemStack.toItemStack(heldItem);
 		packet.gamemode = 0;
 		packet.metadata = this.getMetadatas().map((entry) => {
 			return {

@@ -1,4 +1,4 @@
 export * from "./registry";
 export * from "./type";
-export * from "./item";
+export * from "./stack";
 export * from "./custom";

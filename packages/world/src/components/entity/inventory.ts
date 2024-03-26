@@ -2,7 +2,7 @@ import { ContainerId } from "@serenityjs/protocol";
 
 import { EntityContainer } from "../../container";
 import { Entity } from "../../entity";
-import { Item } from "../../item";
+import { ItemStack } from "../../item";
 
 import { EntityComponent } from "./entity-component";
 
@@ -28,7 +28,7 @@ class EntityInvetoryComponent extends EntityComponent {
 		);
 	}
 
-	public getHeldItem(): Item | null {
+	public getHeldItem(): ItemStack | null {
 		return this.container.getItem(this.selectedSlot);
 	}
 }

@@ -5,21 +5,23 @@ import { Container } from "../container";
 
 import { ItemType } from "./type";
 
-class Item {
+class ItemStack {
 	public readonly type: ItemType;
 
-	public readonly container: Container;
+	public readonly metadata: number;
 
 	protected _amount: number;
+
+	public container: Container | null = null;
 
 	public constructor(
 		identifier: ItemIdentifier,
 		amount: number,
-		container: Container
+		metadata: number
 	) {
 		this.type = ItemType.resolve(identifier);
 		this._amount = amount;
-		this.container = container;
+		this.metadata = metadata;
 	}
 
 	public get amount(): number {
@@ -30,6 +32,9 @@ class Item {
 		// Set the amount of the item.
 		this._amount = value;
 
+		// Check if the item is in a container.
+		if (!this.container) return;
+
 		// Get the slot of the item in the container.
 		const slot = this.container.storage.indexOf(this);
 
@@ -37,7 +42,7 @@ class Item {
 		this.container.setItem(slot, this);
 	}
 
-	public static toItemStack(item: Item): NetworkItemStackDescriptor {
+	public static toItemStack(item: ItemStack): NetworkItemStackDescriptor {
 		// Get the block permutation of the item.
 		const block = item.type.block?.getPermutation();
 
@@ -52,4 +57,4 @@ class Item {
 	}
 }
 
-export { Item };
+export { ItemStack };

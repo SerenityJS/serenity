@@ -9,7 +9,7 @@ import {
 	ItemStackStatus
 } from "@serenityjs/protocol";
 import { NetworkSession } from "@serenityjs/network";
-import { Item, ItemType, Player } from "@serenityjs/world";
+import { ItemStack, ItemType, Player } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -115,10 +115,10 @@ class ItemStackRequest extends SerenityHandler {
 					const itemType = ItemType.resolveByNetwork(descriptor?.network ?? 0);
 
 					// Create a new item for the cursor.
-					const cursorItem = new Item(
+					const cursorItem = new ItemStack(
 						itemType.identifier,
 						action.count!,
-						cursor.container
+						0
 					);
 
 					// Set the item to the cursor.
@@ -167,10 +167,10 @@ class ItemStackRequest extends SerenityHandler {
 					}
 				} else {
 					// Construct a new item for the cursor.
-					const cursorItem = new Item(
+					const cursorItem = new ItemStack(
 						item.type.identifier,
 						action.count!,
-						cursor.container
+						0
 					);
 
 					// Set the item to the cursor.
@@ -248,11 +248,7 @@ class ItemStackRequest extends SerenityHandler {
 					}
 				} else {
 					// Construct a new item for the destination.
-					const newItem = new Item(
-						item.type.identifier,
-						action.count!,
-						inventory.container
-					);
+					const newItem = new ItemStack(item.type.identifier, action.count!, 0);
 
 					// Set the item to the destination.
 					inventory.container.setItem(destination.slot, newItem);
@@ -302,10 +298,10 @@ class ItemStackRequest extends SerenityHandler {
 						}
 					} else {
 						// Construct a new item for the cursor.
-						const cursorItem = new Item(
+						const cursorItem = new ItemStack(
 							item.type.identifier,
 							action.count!,
-							cursor.container
+							0
 						);
 
 						// Set the item to the cursor.
@@ -339,10 +335,10 @@ class ItemStackRequest extends SerenityHandler {
 						}
 					} else {
 						// Construct a new item for the destination.
-						const newItem = new Item(
+						const newItem = new ItemStack(
 							item.type.identifier,
 							action.count!,
-							inventory.container
+							0
 						);
 
 						// Set the item to the destination.
@@ -395,11 +391,7 @@ class ItemStackRequest extends SerenityHandler {
 				const itemType = ItemType.resolveByNetwork(descriptor.network);
 
 				// Create a new item for the destination.
-				const newItem = new Item(
-					itemType.identifier,
-					action.count!,
-					inventory.container
-				);
+				const newItem = new ItemStack(itemType.identifier, action.count!, 0);
 
 				// Set the item to the destination.
 				inventory.container.setItem(destination.slot, newItem);

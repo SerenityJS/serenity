@@ -2,12 +2,8 @@ import {
 	InternalProvider,
 	Superflat,
 	ItemIdentifier,
-	Item,
-	CustomItemType,
-	ItemCategory,
-	ItemGroup,
-	CustomBlockType,
-	BlockPermutation
+	ItemStack,
+	ItemType
 } from "@serenityjs/world";
 import {
 	ContainerId,
@@ -50,27 +46,12 @@ serenity.network.on(Packet.Text, (data) => {
 	const inventory = player.getComponent("minecraft:inventory");
 	const container = inventory.container;
 
-	const spawnEgg = new Item(ItemIdentifier.AgentSpawnEgg, 45, container);
-	const water = new Item(ItemIdentifier.Water, 1, container);
-	const lava = new Item(ItemIdentifier.Element10, 1, container);
+	const item1 = ItemType.resolve(ItemIdentifier.Dirt).create(32, 0);
 
-	container.addItem(spawnEgg);
-	container.addItem(water);
-	container.addItem(lava);
+	const item2 = new ItemStack(ItemIdentifier.Dirt, 32, 0);
 
-	const packet = new InventorySlotPacket();
-	packet.slot = 7;
-	packet.containerId = ContainerId.Inventory;
-	packet.item = {
-		network: 10_000,
-		blockRuntimeId: 0,
-		metadata: 0,
-		stackNetId: null,
-		stackSize: 1,
-		extras: null
-	};
-
-	player.session.send(packet);
+	container.addItem(item1);
+	container.addItem(item2);
 });
 
 // serenity.network.on(Packet.MovePlayer, (data) => {

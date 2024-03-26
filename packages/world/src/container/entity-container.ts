@@ -5,7 +5,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
-import { Item } from "../item";
+import { ItemStack } from "../item";
 
 import { Container } from "./container";
 
@@ -33,7 +33,7 @@ class EntityContainer extends Container {
 	 * @param slot The slot to set the item in.
 	 * @param item The item to set.
 	 */
-	public getItem(slot: number): Item | null {
+	public getItem(slot: number): ItemStack | null {
 		return this.storage[slot] ?? null;
 	}
 
@@ -42,7 +42,7 @@ class EntityContainer extends Container {
 	 * @param slot The slot to set the item in.
 	 * @param item The item to set.
 	 */
-	public setItem(slot: number, item: Item): void {
+	public setItem(slot: number, item: ItemStack): void {
 		// Set the item in the storage.
 		this.storage[slot] = item;
 
@@ -53,6 +53,9 @@ class EntityContainer extends Container {
 		// Calculate the amount of empty slots in the container.
 		this.calculateEmptySlotCount();
 
+		// Set the items container instance.
+		item.container = this;
+
 		// Check if the entity is a player, if so, return.
 		if (!this.entity.isPlayer()) return;
 
@@ -62,7 +65,7 @@ class EntityContainer extends Container {
 		// Set properties of the packet.
 		packet.containerId = this.identifier;
 		packet.slot = slot;
-		packet.item = Item.toItemStack(item);
+		packet.item = ItemStack.toItemStack(item);
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
@@ -72,7 +75,7 @@ class EntityContainer extends Container {
 	 * Adds an item to the container.
 	 * @param item The item to add.
 	 */
-	public addItem(item: Item): void {
+	public addItem(item: ItemStack): void {
 		// Find a slot that has the same item type and isn't full (x64)
 		// If there is no slot, find the next empty slot.
 		const slot = this.storage.findIndex((slot) => {
@@ -117,7 +120,7 @@ class EntityContainer extends Container {
 	 * @param slot The slot to remove the item from.
 	 * @param amount The amount of the item to remove.
 	 */
-	public removeItem(slot: number, amount: number): Item | null {
+	public removeItem(slot: number, amount: number): ItemStack | null {
 		// Get the item in the slot.
 		const item = this.getItem(slot);
 		if (item === null) return null;

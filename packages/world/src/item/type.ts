@@ -1,6 +1,8 @@
 import { BlockType } from "../block";
 import { ItemIdentifier } from "../enums";
 
+import { ItemStack } from "./stack";
+
 /**
  * An item type.
  */
@@ -33,6 +35,10 @@ class ItemType {
 	public constructor(identifier: ItemIdentifier, network: number) {
 		this.identifier = identifier;
 		this.network = network;
+	}
+
+	public create(amount: number, metadata: number): ItemStack {
+		return new ItemStack(this.identifier, amount, metadata);
 	}
 
 	public static resolve(identifier: ItemIdentifier): ItemType {
