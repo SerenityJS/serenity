@@ -408,26 +408,26 @@ class ResourcePackClientResponse extends SerenityHandler {
 				biomes.biomes = BIOME_DEFINITION_LIST;
 
 				const content = new CreativeContentPacket();
-				content.items = World.items.creative;
+				content.items = World.creative.getNetworkInstance();
 
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;
 
-				for (const item of World.items.getCustomItems()) {
-					packet.items.push({
-						name: item.identifier,
-						networkId: item.network,
-						componentBased: false
-					});
+				// for (const item of World.items.getCustomItems()) {
+				// 	packet.items.push({
+				// 		name: item.identifier,
+				// 		networkId: item.network,
+				// 		componentBased: false
+				// 	});
 
-					content.items.push({
-						network: item.network,
-						blockRuntimeId: item.block?.getPermutation().hash ?? 0,
-						metadata: 0,
-						stackSize: 1,
-						extras: null
-					});
-				}
+				// 	content.items.push({
+				// 		network: item.network,
+				// 		blockRuntimeId: item.block?.getPermutation().hash ?? 0,
+				// 		metadata: 0,
+				// 		stackSize: 1,
+				// 		extras: null
+				// 	});
+				// }
 
 				session.sendImmediate(packet, biomes, content, status);
 

@@ -23,6 +23,11 @@ class ItemType {
 	public readonly network: number;
 
 	/**
+	 * The valid metadata values of the item type.
+	 */
+	public readonly metadata: Array<number>;
+
+	/**
 	 * The block permutation of the item type.
 	 */
 	public block: BlockType | null = null;
@@ -31,10 +36,17 @@ class ItemType {
 	 * Creates a new item type.
 	 * @param identifier The identifier of the item type.
 	 * @param legacy The legacy identifier of the item type.
+	 * @param network The network identifier of the item type.
+	 * @param metadata The valid metadata values of the item type.
 	 */
-	public constructor(identifier: ItemIdentifier, network: number) {
+	public constructor(
+		identifier: ItemIdentifier,
+		network: number,
+		metadata?: Array<number>
+	) {
 		this.identifier = identifier;
 		this.network = network;
+		this.metadata = metadata ?? [0];
 	}
 
 	public create(amount: number, metadata: number): ItemStack {

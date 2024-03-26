@@ -29,7 +29,7 @@ import "./custom-block";
 world.createDimension(
 	"minecraft:overworld",
 	DimensionType.Overworld,
-	new Superflat() // Super flat world generator.
+	new Superflat()
 );
 
 serenity.start();

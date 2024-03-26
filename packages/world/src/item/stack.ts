@@ -1,4 +1,7 @@
-import { NetworkItemStackDescriptor } from "@serenityjs/protocol";
+import {
+	NetworkItemInstanceDescriptor,
+	NetworkItemStackDescriptor
+} from "@serenityjs/protocol";
 
 import { ItemIdentifier } from "../enums";
 import { Container } from "../container";
@@ -42,18 +45,42 @@ class ItemStack {
 		this.container.setItem(slot, this);
 	}
 
-	public static toDescriptor(item: ItemStack): NetworkItemStackDescriptor {
-		// Get the block permutation of the item.
-		const block = item.type.block?.getPermutation();
+	/**
+	 * Converts the item stack to a network item instance descriptor.
+	 * Which is used on the protocol level.
+	 * @param item The item stack to convert.
+	 * @returns The network item instance descriptor.
+	 */
+	public static toNetworkInstance(
+		item: ItemStack
+	): NetworkItemInstanceDescriptor {
+		// Get the permtuation of the block.
+		const permutation = item.type.block?.permutations[item.metadata];
 
-		// Return the item descriptor.
+		// Return the item instance descriptor.
 		return {
 			network: item.type.network,
 			stackSize: item.amount,
 			metadata: item.metadata,
-			stackNetId: null,
-			blockRuntimeId: block?.hash ?? 0,
+			blockRuntimeId: permutation?.hash ?? 0,
 			extras: null // TODO: Implement extras
+		};
+	}
+
+	/**
+	 * Converts the item stack to a network item stack descriptor.
+	 * Which is used on the protocol level.
+	 * @param item The item stack to convert.
+	 * @returns The network item stack descriptor.
+	 */
+	public static toNetworkStack(item: ItemStack): NetworkItemStackDescriptor {
+		// Get network item instance descriptor.
+		const instance = ItemStack.toNetworkInstance(item);
+
+		// Return the item stack descriptor.
+		return {
+			...instance,
+			stackNetId: null // TODO: Implement stackNetId, this is so that the server can track the item stack.
 		};
 	}
 }

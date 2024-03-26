@@ -148,7 +148,7 @@ class Player extends Entity {
 		packet.yaw = this.rotation.yaw;
 		packet.headYaw = this.rotation.headYaw;
 		packet.heldItem =
-			heldItem === null ? { network: 0 } : ItemStack.toDescriptor(heldItem);
+			heldItem === null ? { network: 0 } : ItemStack.toNetworkStack(heldItem);
 		packet.gamemode = 0;
 		packet.metadata = this.getMetadatas().map((entry) => {
 			return {
