@@ -1,4 +1,10 @@
-import { DataPacket, DimensionType, Vector3f } from "@serenityjs/protocol";
+import {
+	DataPacket,
+	DimensionType,
+	TextPacket,
+	TextPacketType,
+	Vector3f
+} from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
 import { Player } from "../player";
@@ -205,6 +211,27 @@ class Dimension {
 
 		// Return the block
 		return block;
+	}
+
+	/**
+	 * Sends a message to all the players in the dimension.
+	 * @param message The message to send.
+	 */
+	public sendMessage(message: string): void {
+		// Create a new TextPacket
+		const packet = new TextPacket();
+
+		// Set the packet properties
+		packet.type = TextPacketType.Raw;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = message;
+		packet.parameters = null;
+		packet.xuid = "";
+		packet.platformChatId = "";
+
+		// Broadcast the packet
+		this.broadcast(packet);
 	}
 }
 

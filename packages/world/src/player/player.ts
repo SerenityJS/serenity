@@ -52,10 +52,29 @@ import { Chunk } from "../chunk";
 import { ItemStack } from "../item";
 
 class Player extends Entity {
+	/**
+	 * The player's network session.
+	 */
 	public readonly session: NetworkSession;
+
+	/**
+	 * The player's username.
+	 */
 	public readonly username: string;
+
+	/**
+	 * The player's Xbox Live User ID.
+	 */
 	public readonly xuid: string;
+
+	/**
+	 * The player's Universally Unique Identifier.
+	 */
 	public readonly uuid: string;
+
+	/**
+	 * The player's rendered chunks.
+	 */
 	public readonly chunks: Map<bigint, boolean>;
 
 	public mining: BlockCoordinates | null = null;
