@@ -6500,6 +6500,7 @@ __metadata:
     simplex-noise: "npm:^4.0.1"
     tsup: "npm:^8.0.2"
     typescript: "npm:^5.4.2"
+    yaml: "npm:^2.4.1"
   languageName: unknown
   linkType: soft
 
@@ -9930,7 +9931,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.3.4":
+"yaml@npm:^2.3.4, yaml@npm:^2.4.1":
   version: 2.4.1
   resolution: "yaml@npm:2.4.1"
   bin:

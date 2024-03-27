@@ -31,8 +31,7 @@ class Text extends SerenityHandler {
 		// Send the packet.
 		player.dimension.world.broadcast(text);
 		// We shall log the message!
-		this.serenity.logger.chat(text.source, text.message)
-
+		this.serenity.logger.chat(text.source, text.message);
 	}
 }
 

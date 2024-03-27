@@ -6,16 +6,18 @@ import { MINECRAFT_TICK_SPEED } from "@serenityjs/protocol";
 import { Commands } from "@serenityjs/command";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
-
-// TODO: Add server.properties
-
-Logger.DEBUG = true; // TODO: Add option to enable/disable in server.properties
+import { ServerProperties } from "./properties";
 
 class Serenity {
 	/**
 	 * The server logger instance
 	 */
 	public readonly logger: Logger;
+
+	/**
+	 * The server properties instance
+	 */
+	public readonly properties: ServerProperties;
 
 	/**
 	 * The raknet server instance
@@ -60,8 +62,31 @@ class Serenity {
 	public constructor() {
 		// Assign instances
 		this.logger = new Logger("Serenity", LoggerColors.Magenta);
-		this.raknet = new RaknetServer("0.0.0.0", 19_132);
-		this.network = new Network(this.raknet, 256, 0, 32, HANDLERS); // TODO: Assign the correct values from server.properties
+		this.properties = new ServerProperties();
+
+		// Set the debug logging
+		Logger.DEBUG = this.properties.values["debug-logging"];
+
+		// Create the raknet using the server address and port
+		this.raknet = new RaknetServer(
+			this.properties.values["server-address"],
+			this.properties.values["server-port"]
+		);
+
+		// Set the max connections
+		this.raknet.maxConnections = this.properties.values["max-players"];
+
+		// Create the network instance using the raknet instance
+		this.network = new Network(
+			this.raknet,
+			this.properties.values["network-comression-threshold"],
+			this.properties.values["network-compression-algorithm"] === "zlib"
+				? 0
+				: 1,
+			this.properties.values["network-packets-per-frame"],
+			HANDLERS
+		);
+
 		this.players = new Map();
 		this.worlds = new Map();
 		this.commands = new Commands();
