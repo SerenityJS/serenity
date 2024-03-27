@@ -4,6 +4,8 @@ import {
 	Gamemode,
 	LevelEvent,
 	LevelEventPacket,
+	LevelSoundEvent,
+	LevelSoundEventPacket,
 	PlayerActionPacket,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
@@ -67,6 +69,11 @@ class PlayerAction extends SerenityHandler {
 				break;
 			}
 
+			case ActionIds.StartItemUseOn: {
+				this.handleStartItemUseOn(packet, player);
+				break;
+			}
+
 			case ActionIds.StopItemUseOn: {
 				this.handleStopItemUseOn(packet, player);
 				break;
@@ -120,7 +127,7 @@ class PlayerAction extends SerenityHandler {
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
-		event.event = LevelEvent.BlockStartBreak;
+		event.event = LevelEvent.StartBlockCracking;
 		event.position = new Vector3f(x, y, z);
 		event.data = 65_535 / breakTime;
 
@@ -140,7 +147,7 @@ class PlayerAction extends SerenityHandler {
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
-		event.event = LevelEvent.BlockStopBreak;
+		event.event = LevelEvent.StopBlockCracking;
 		event.position = new Vector3f(x, y, z);
 		event.data = 0;
 
@@ -163,9 +170,7 @@ class PlayerAction extends SerenityHandler {
 		if (player.gamemode !== Gamemode.Creative) {
 			// Create a new UpdateBlock packet.
 			const update = new UpdateBlockPacket();
-			update.blockRuntimeId = player.dimension.world.provider.hashes
-				? block.permutation.hash
-				: block.permutation.runtime;
+			update.blockRuntimeId = block.permutation.hash;
 			update.position = { x, y, z };
 			update.flags = UpdateBlockFlagsType.Network;
 			update.layer = UpdateBlockLayerType.Normal;
@@ -173,6 +178,17 @@ class PlayerAction extends SerenityHandler {
 			// Send the update to the player.
 			return player.session.send(update);
 		}
+
+		// Create a new LevelEvent packet.
+		const event = new LevelEventPacket();
+
+		// Set the event to destroy the block.
+		event.event = LevelEvent.ParticlesDestroyBlock;
+		event.position = new Vector3f(x, y, z);
+		event.data = block.permutation.hash;
+
+		// Broadcast the event to the dimension.
+		player.dimension.broadcast(event);
 
 		// Destroy the block.
 		block.destroy();
@@ -195,13 +211,9 @@ class PlayerAction extends SerenityHandler {
 		// Emit the block break particles to the dimension.
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
-		event.event = LevelEvent.ParticleDestroyBlockNoSound;
+		event.event = LevelEvent.ParticlesDestroyBlock;
 		event.position = new Vector3f(x, y, z);
-		event.data = player.dimension.world.provider.hashes
-			? block.permutation.hash
-			: player.dimension.world.provider.hashes
-				? block.permutation.hash
-				: block.permutation.runtime;
+		event.data = block.permutation.hash;
 
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
@@ -221,7 +233,7 @@ class PlayerAction extends SerenityHandler {
 			const event = new LevelEventPacket();
 
 			// Set the event to stop the block break.
-			event.event = LevelEvent.BlockStopBreak;
+			event.event = LevelEvent.StopBlockCracking;
 			event.position = new Vector3f(
 				player.mining.x,
 				player.mining.y,
@@ -241,7 +253,7 @@ class PlayerAction extends SerenityHandler {
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
-		event.event = LevelEvent.BlockStartBreak;
+		event.event = LevelEvent.StartBlockCracking;
 		event.position = new Vector3f(
 			packet.blockPosition.x,
 			packet.blockPosition.y,
@@ -252,6 +264,11 @@ class PlayerAction extends SerenityHandler {
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
 	}
+
+	private static handleStartItemUseOn(
+		_packet: PlayerActionPacket,
+		_player: Player
+	): void {}
 
 	private static handleStopItemUseOn(
 		packet: PlayerActionPacket,
@@ -271,6 +288,21 @@ class PlayerAction extends SerenityHandler {
 
 		// Get the block position from the packet.
 		const { x, y, z } = packet.blockPosition;
+
+		const sound = new LevelSoundEventPacket();
+
+		sound.event = LevelSoundEvent.Place;
+		sound.position = new Vector3f(x, y, z);
+
+		sound.data = permutation.hash;
+
+		sound.actorIdentifier = "";
+
+		sound.isBabyMob = false;
+
+		sound.isGlobal = true;
+
+		player.dimension.broadcastImmediate(sound);
 
 		// Set the block permutation to the dimension.
 		player.dimension.getBlock(x, y, z).setPermutation(permutation);

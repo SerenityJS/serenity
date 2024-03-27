@@ -7,6 +7,10 @@ import {
 	CommandParameterType
 } from "@serenityjs/protocol";
 import { NetworkSession } from "@serenityjs/network";
+import {
+	EntityAlwaysShowNametagComponent,
+	EntityNametagComponent
+} from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -25,6 +29,34 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 				"Failed to connect due to an invalid player. Please try again.",
 				DisconnectReason.InvalidPlayer
 			);
+
+		// Set the player ability values
+		for (const ability of player.getAbilities()) {
+			// Reset the ability to the default value
+			ability.resetToDefaultValue();
+		}
+
+		// Set the player attribute values
+		for (const attribute of player.getAttributes()) {
+			// Reset the attribute to the default value
+			attribute.resetToDefaultValue();
+		}
+
+		// Set the player metadata values
+		for (const metadata of player.getMetadatas()) {
+			// Check if the component is nametag
+			// And check for always show nametag
+			if (metadata instanceof EntityNametagComponent) {
+				// Set the default value to the player's username
+				metadata.defaultValue = player.username;
+			} else if (metadata instanceof EntityAlwaysShowNametagComponent) {
+				// Set the default value to true
+				metadata.defaultValue = true;
+			}
+
+			// Reset the metadata to the default value
+			metadata.resetToDefaultValue();
+		}
 
 		// Spawn the current entities that are in the dimension
 		for (const [, entity] of player.dimension.entities) {

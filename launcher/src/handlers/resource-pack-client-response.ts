@@ -18,14 +18,7 @@ import {
 } from "@serenityjs/protocol";
 import { NetworkSession } from "@serenityjs/network";
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
-import {
-	CustomBlockType,
-	EntityAlwaysShowNametagComponent,
-	EntityNametagComponent,
-	ItemType,
-	World
-} from "@serenityjs/world";
-import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
+import { CustomBlockType, ItemType, World } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -83,24 +76,6 @@ class ResourcePackClientResponse extends SerenityHandler {
 			}
 
 			case ResourcePackResponse.Completed: {
-				const nbt = new CompoundTag("", {});
-				nbt.addTag(new IntTag("client_prediction_overrides", 0));
-
-				const menu_category = new CompoundTag("menu_category", {});
-				menu_category.addTag(new StringTag("category", "construction"));
-				// menu_category.addTag(new StringTag("group", "itemGroup.name.concrete"));
-				// menu_category.addTag(new ByteTag("is_hidden_in_commands", 0));
-
-				nbt.addTag(menu_category);
-
-				nbt.addTag(new IntTag("molangVersion", 0));
-
-				const vanilla_block_data = new CompoundTag("vanilla_block_data", {});
-				vanilla_block_data.addTag(new IntTag("block_id", 10_000));
-				// vanilla_block_data.addTag(new StringTag("material", "dirt"));
-
-				nbt.addTag(vanilla_block_data);
-
 				const blocks: Array<BlockProperties> = World.blocks
 					.getCustomBlocks()
 					.map((block) => {
@@ -115,7 +90,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				const packet = new StartGamePacket();
 				packet.entityId = player.unique;
 				packet.runtimeEntityId = player.runtime;
-				packet.playerGamemode = 1;
+				packet.playerGamemode = player.gamemode;
 				packet.playerPosition = new Vector3f(0, 6, 0);
 				packet.pitch = 0;
 				packet.yaw = 0;
@@ -402,7 +377,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.clientSideGeneration = false;
 				packet.blockNetworkIdsAreHashes =
 					player.dimension.world.provider.hashes;
-				packet.serverControlledSounds = false;
+				packet.serverControlledSounds = true;
 
 				const biomes = new BiomeDefinitionListPacket();
 				biomes.biomes = BIOME_DEFINITION_LIST;
@@ -413,51 +388,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;
 
-				// for (const item of World.items.getCustomItems()) {
-				// 	packet.items.push({
-				// 		name: item.identifier,
-				// 		networkId: item.network,
-				// 		componentBased: false
-				// 	});
-
-				// 	content.items.push({
-				// 		network: item.network,
-				// 		blockRuntimeId: item.block?.getPermutation().hash ?? 0,
-				// 		metadata: 0,
-				// 		stackSize: 1,
-				// 		extras: null
-				// 	});
-				// }
-
 				session.sendImmediate(packet, biomes, content, status);
-
-				// Set the player ability values
-				for (const ability of player.getAbilities()) {
-					// Reset the ability to the default value
-					ability.resetToDefaultValue();
-				}
-
-				// Set the player attribute values
-				for (const attribute of player.getAttributes()) {
-					// Reset the attribute to the default value
-					attribute.resetToDefaultValue();
-				}
-
-				// Set the player metadata values
-				for (const metadata of player.getMetadatas()) {
-					// Check if the component is nametag
-					// And check for always show nametag
-					if (metadata instanceof EntityNametagComponent) {
-						// Set the default value to the player's username
-						metadata.defaultValue = player.username;
-					} else if (metadata instanceof EntityAlwaysShowNametagComponent) {
-						// Set the default value to true
-						metadata.defaultValue = true;
-					}
-
-					// Reset the metadata to the default value
-					metadata.resetToDefaultValue();
-				}
 			}
 		}
 	}
