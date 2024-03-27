@@ -1,7 +1,7 @@
-export type Awaitable<T> = PromiseLike<T> | T;
+// Experimental Event Emitter
 export type Listener<T extends Array<unknown>, R = unknown> = (
 	...arguments_: T
-) => Awaitable<R>;
+) => R;
 export type ForceArray<T> = T extends Array<unknown> ? T : never;
 
 export class Emitter<T> {
@@ -31,26 +31,26 @@ export class Emitter<T> {
 	}
 
 	// Returns true if all listeners were called. Returns false if a before hook returned false.
-	public async emit<K extends keyof T>(
+	public emit<K extends keyof T>(
 		event: K,
 		...arguments_: ForceArray<T[K]>
-	): Promise<boolean> {
+	): boolean {
 		const beforeHooks = this._beforeHooks.get(event) ?? [];
 		const listeners = this._listeners.get(event) ?? [];
 		const afterHooks = this._afterHooks.get(event) ?? [];
 
 		// TODO: Optional optimization point. Listeners can be called in parallel for promises.
 		for (const hook of beforeHooks) {
-			const result = await hook(...(arguments_ as ForceArray<T[never]>));
+			const result = hook(...(arguments_ as ForceArray<T[never]>));
 			if (result === false) return false;
 		}
 
 		for (const listener of listeners) {
-			await listener(...(arguments_ as ForceArray<T[never]>));
+			listener(...(arguments_ as ForceArray<T[never]>));
 		}
 
 		for (const hook of afterHooks) {
-			await hook(...(arguments_ as ForceArray<T[never]>));
+			hook(...(arguments_ as ForceArray<T[never]>));
 		}
 
 		return true;
@@ -65,7 +65,7 @@ export class Emitter<T> {
 		const listeners = map.get(event) ?? [];
 		if (listeners.length >= this._maxListeners) {
 			console.trace(
-				`warning: possible Emitter memory leak detected. ${listeners.length} listeners added. Use #setMaxListeners() to increase limit`
+				`warning: possible EventEmitter memory leak detected. ${listeners.length} listeners added. Use #setMaxListeners() to increase limit`
 			);
 		}
 
@@ -80,7 +80,7 @@ export class Emitter<T> {
 		listener: Listener<ForceArray<T[K]>>
 	): this {
 		const wrapper = (...arguments_: ForceArray<T[K]>) => {
-			this._removeListener(map as never, event, wrapper);
+			this._removeListener(map, event, wrapper);
 			return listener(...arguments_);
 		};
 

@@ -1,10 +1,4 @@
-import {
-	InternalProvider,
-	Superflat,
-	ItemIdentifier,
-	ItemStack,
-	ItemType
-} from "@serenityjs/world";
+import { InternalProvider, Superflat } from "@serenityjs/world";
 import { DimensionType, Packet } from "@serenityjs/protocol";
 
 import { Serenity } from "./serenity";
@@ -22,8 +16,6 @@ const provider = new InternalProvider(true); // Boolean indicates hash block val
 // The provider is what the world will use to read/write chunks and other data.
 const world = serenity.createWorld("default", provider);
 
-import "./custom-block";
-
 // Now we need to register a dimension for the world.
 // The dimension is the actual area that players will play in.
 world.createDimension(
@@ -34,31 +26,8 @@ world.createDimension(
 
 serenity.start();
 
-serenity.network.on(Packet.Text, (data) => {
-	const player = serenity.getPlayer(data.session);
-	if (!player) return;
+serenity.network.before(Packet.Text, (data) => {
+	if (data.packet.message === "cancel") return false;
 
-	const inventory = player.getComponent("minecraft:inventory");
-	const container = inventory.container;
-
-	const item1 = ItemType.resolve("serenity:ruby_ore" as ItemIdentifier).create(
-		32,
-		0
-	);
-
-	const item2 = new ItemStack(ItemIdentifier.Dirt, 32, 0);
-
-	container.addItem(item1);
-	container.addItem(item2);
+	return true;
 });
-
-// serenity.network.on(Packet.MovePlayer, (data) => {
-// 	const player = serenity.getPlayer(data.session);
-// 	if (!player) return;
-
-// 	const pos = data.packet.position.floor();
-
-// 	const block = player.dimension.getBlock(pos.x, 3, pos.z);
-
-// 	// block.setPermutation(blockPermutation);
-// });
