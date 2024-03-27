@@ -119,6 +119,22 @@ class Logger {
 
 		console.info(format, ...arguments_);
 	}
+
+		
+	/**
+	 * Logs a chat message to the console.
+	 * This shoud not be handeled by anyone just the TextPacket
+	 * @param arguments_ - The arguments to log.
+	 */
+	public chat(...arguments_: Array<unknown>): void {
+		const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
+			"["
+		)}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyanBright("chat")}${this.colorette.gray(
+			"]"
+		)}`;
+
+		console.info(format, arguments_[0],' > ', arguments_[1]);
+	}
 }
 
 export { Logger };
