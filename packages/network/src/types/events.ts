@@ -24,6 +24,7 @@ import type {
 	ItemStackResponsePacket,
 	LevelChunkPacket,
 	LevelEventPacket,
+	LevelSoundEventPacket,
 	LoginPacket,
 	MobEquipmentPacket,
 	ModalFormRequestPacket,
@@ -118,6 +119,7 @@ interface NetworkEvents {
 		NetworkPacketEvent<NetworkChunkPublisherUpdatePacket>
 	];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionListPacket>];
+	[Packet.LevelSoundEvent]: [NetworkPacketEvent<LevelSoundEventPacket>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettingsPacket>];
 	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInputPacket>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContentPacket>];

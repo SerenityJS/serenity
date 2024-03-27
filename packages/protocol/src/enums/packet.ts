@@ -51,6 +51,7 @@ enum Packet {
 	SetLocalPlayerAsInitialized = 0x71, // 113
 	NetworkChunkPublisherUpdate = 0x79, // 121
 	BiomeDefinitionList = 0x7a, // 122
+	LevelSoundEvent = 0x7b, // 123
 	// ClientCacheStatus = 0x81, // 129
 	NetworkSettings = 0x8f, // 143
 	PlayerAuthInput = 0x90, // 144

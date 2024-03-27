@@ -25,6 +25,7 @@ import { ItemStackRequestPacket } from "./item-stack-request";
 import { ItemStackResponsePacket } from "./item-stack-response";
 import { LevelChunkPacket } from "./level-chunk";
 import { LevelEventPacket } from "./level-event";
+import { LevelSoundEventPacket } from "./level-sound-event";
 import { LoginPacket } from "./login";
 import { MobEquipmentPacket } from "./mob-equipment";
 import { ModalFormRequestPacket } from "./modal-form-request";
@@ -106,6 +107,7 @@ const Packets = {
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
+	[Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123
 	[Packet.NetworkSettings]: NetworkSettingsPacket, // 143
 	[Packet.PlayerAuthInput]: PlayerAuthInputPacket, // 144
 	[Packet.CreativeContent]: CreativeContentPacket, // 145

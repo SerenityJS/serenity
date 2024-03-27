@@ -45,6 +45,7 @@ export * from "./modal-form-response";
 export * from "./set-local-player-as-initialized";
 export * from "./network-chunk-publisher-update";
 export * from "./biome-definition-list";
+export * from "./level-sound-event";
 export * from "./network-settings";
 export * from "./player-auth-input";
 export * from "./creative-content";
