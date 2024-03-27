@@ -3,6 +3,7 @@
 import { Packet } from "../../enums";
 
 import { AddEntityPacket } from "./add-entity";
+import { AddItemActorPacket } from "./add-item-actor";
 import { AddPlayerPacket } from "./add-player";
 import { AnimatePacket } from "./animate";
 import { AvailableCommandsPacket } from "./available-commands";
@@ -73,6 +74,7 @@ const Packets = {
 	[Packet.AddPlayer]: AddPlayerPacket, // 12
 	[Packet.AddEntity]: AddEntityPacket, // 13
 	[Packet.RemoveEntity]: RemoveEntityPacket, // 14
+	[Packet.AddItemActor]: AddItemActorPacket, // 15
 	[Packet.MoveEntity]: MoveEntityPacket, // 18
 	[Packet.MovePlayer]: MovePlayerPacket, // 19
 	[Packet.UpdateBlock]: UpdateBlockPacket, // 21

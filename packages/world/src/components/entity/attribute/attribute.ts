@@ -70,7 +70,7 @@ abstract class EntityAttributeComponent extends EntityComponent {
 				modifiers: []
 			};
 		});
-		packet.tick = 0n; // TODO: implement ticking
+		packet.tick = this.entity.dimension.world.currentTick;
 
 		// Broadcast the packet to the dimension
 		this.entity.dimension.broadcast(packet);

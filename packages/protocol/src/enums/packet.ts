@@ -12,8 +12,9 @@ enum Packet {
 	Text = 0x09, // 9
 	StartGame = 0x0b, // 11
 	AddPlayer = 0x0c, // 12
-	AddEntity = 0x0d, // 13
-	RemoveEntity = 0x0e, // 14
+	AddEntity = 0x0d, // 13 // TODO: Rename this to AddActor
+	RemoveEntity = 0x0e, // 14 // TODO: Rename this to RemoveActor
+	AddItemActor = 0x0f, // 15
 	MoveEntity = 0x12, // 18
 	MovePlayer = 0x13, // 19
 	UpdateBlock = 0x15, // 21

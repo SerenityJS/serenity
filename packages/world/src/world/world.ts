@@ -52,6 +52,11 @@ class World {
 	public readonly logger: Logger;
 
 	/**
+	 * The current tick of the world.
+	 */
+	public currentTick = 0n;
+
+	/**
 	 * Creates a new world.
 	 *
 	 * @param identifier The identifier of the world.
@@ -69,6 +74,12 @@ class World {
 	 * Ticks the world instance.
 	 */
 	public tick(): void {
+		// Check if there are no players in the world
+		if (this.getPlayers().length === 0) return;
+
+		// Add one to the current tick
+		this.currentTick++;
+
 		// Tick all the dimensions
 		for (const dimension of this.dimensions.values()) dimension.tick();
 	}

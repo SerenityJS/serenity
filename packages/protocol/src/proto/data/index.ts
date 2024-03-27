@@ -15,6 +15,7 @@ export * from "./start-game";
 export * from "./add-player";
 export * from "./add-entity";
 export * from "./remove-entity";
+export * from "./add-item-actor";
 export * from "./move-entity";
 export * from "./move-player";
 export * from "./update-block";

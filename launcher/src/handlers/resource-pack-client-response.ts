@@ -355,7 +355,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.movementAuthority = 0;
 				packet.rewindHistorySize = 0;
 				packet.serverAuthoritativeBlockBreaking = true;
-				packet.currentTick = 0n;
+				packet.currentTick = player.dimension.world.currentTick;
 				packet.enchantmentSeed = 0;
 				packet.blockProperties = blocks;
 				packet.items = [...ItemType.types.values()].map((item) => {

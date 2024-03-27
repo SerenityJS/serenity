@@ -1,3 +1,5 @@
+import { AddItemActorPacket } from "@serenityjs/protocol/src/proto/data";
+
 import { NetworkPacketEvent } from "./packet-event";
 
 import type {
@@ -79,6 +81,7 @@ interface NetworkEvents {
 	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayerPacket>];
 	[Packet.AddEntity]: [NetworkPacketEvent<AddEntityPacket>];
 	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntityPacket>];
+	[Packet.AddItemActor]: [NetworkPacketEvent<AddItemActorPacket>];
 	[Packet.MoveEntity]: [NetworkPacketEvent<MoveEntityPacket>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayerPacket>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlockPacket>];

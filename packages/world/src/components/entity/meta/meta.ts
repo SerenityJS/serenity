@@ -63,7 +63,7 @@ abstract class EntityMetadataComponent extends EntityComponent {
 			ints: [],
 			floats: []
 		};
-		packet.tick = 0n; // TODO
+		packet.tick = this.entity.dimension.world.currentTick;
 
 		// Broadcast the packet to the dimension.
 		this.entity.dimension.broadcast(packet);
