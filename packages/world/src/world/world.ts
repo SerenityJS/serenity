@@ -1,4 +1,9 @@
-import { DataPacket, DimensionType } from "@serenityjs/protocol";
+import {
+	DataPacket,
+	DimensionType,
+	TextPacket,
+	TextPacketType
+} from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { WorldProvider } from "../provider";
@@ -128,18 +133,55 @@ class World {
 		return dimension;
 	}
 
+	/**
+	 * Broadcasts packets to all the players in the world.
+	 *
+	 * @param packets The packets to broadcast.
+	 */
 	public broadcast(...packets: Array<DataPacket>): void {
 		for (const player of this.getPlayers()) player.session.send(...packets);
 	}
 
+	/**
+	 * Broadcasts packets to all the players in the world immediately.
+	 *
+	 * @param packets The packets to broadcast.
+	 */
 	public broadcastImmediate(...packets: Array<DataPacket>): void {
 		for (const player of this.getPlayers())
 			player.session.sendImmediate(...packets);
 	}
 
+	/**
+	 * Broadcasts packets to all the players in the world except one.
+	 *
+	 * @param player The player to exclude.
+	 * @param packets The packets to broadcast.
+	 */
 	public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
 		for (const x of this.getPlayers())
 			if (x !== player) x.session.send(...packets);
+	}
+
+	/**
+	 * Sends a message to all the players in the world.
+	 * @param message The message to send.
+	 */
+	public sendMessage(message: string): void {
+		// Create a new TextPacket
+		const packet = new TextPacket();
+
+		// Set the packet properties
+		packet.type = TextPacketType.Raw;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = message;
+		packet.parameters = null;
+		packet.xuid = "";
+		packet.platformChatId = "";
+
+		// Broadcast the packet
+		this.broadcast(packet);
 	}
 }
 
