@@ -1,15 +1,25 @@
 import { AbilityLayerFlag, AbilitySet } from "@serenityjs/protocol";
 
+import { Player } from "../../../player";
+
 import { PlayerAbilityComponent } from "./ability";
 
 class PlayerAttackMobsComponent extends PlayerAbilityComponent {
-	public readonly identifier = AbilitySet.AttackMobs;
-
 	public readonly flag = AbilityLayerFlag.AttackMobs;
 
 	public readonly defaultValue = true;
 
 	public currentValue = this.defaultValue;
+
+	/**
+	 * Creates a new player attack mobs component.
+	 *
+	 * @param player The player the component is binded to.
+	 * @returns A new player attack mobs component.
+	 */
+	public constructor(player: Player) {
+		super(player, AbilitySet.AttackMobs);
+	}
 }
 
 export { PlayerAttackMobsComponent };

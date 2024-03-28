@@ -6,8 +6,6 @@ import { Player } from "../../player";
 import { PlayerComponent } from "./player-component";
 
 class PlayerCursorComponent extends PlayerComponent {
-	public readonly identifier = "minecraft:cursor";
-
 	public readonly container: EntityContainer;
 
 	public readonly containerId: ContainerId;
@@ -15,7 +13,7 @@ class PlayerCursorComponent extends PlayerComponent {
 	public readonly inventorySize: number;
 
 	public constructor(player: Player) {
-		super(player);
+		super(player, "minecraft:cursor");
 		this.containerId = ContainerId.Ui;
 		this.inventorySize = 1;
 		this.container = new EntityContainer(

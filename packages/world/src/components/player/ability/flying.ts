@@ -1,15 +1,25 @@
 import { AbilityLayerFlag, AbilitySet } from "@serenityjs/protocol";
 
+import { Player } from "../../../player";
+
 import { PlayerAbilityComponent } from "./ability";
 
 class PlayerFlyingComponent extends PlayerAbilityComponent {
-	public readonly identifier = AbilitySet.Flying;
-
 	public readonly flag = AbilityLayerFlag.Flying;
 
 	public readonly defaultValue = false;
 
 	public currentValue = this.defaultValue;
+
+	/**
+	 * Creates a new player flying component.
+	 *
+	 * @param player The player the component is binded to.
+	 * @returns A new player flying component.
+	 */
+	public constructor(player: Player) {
+		super(player, AbilitySet.Flying);
+	}
 }
 
 export { PlayerFlyingComponent };

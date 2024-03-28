@@ -9,11 +9,6 @@ import { EntityComponent } from "../entity-component";
 
 abstract class EntityMetadataComponent extends EntityComponent {
 	/**
-	 * The identifier of the component.
-	 */
-	public abstract readonly identifier: string;
-
-	/**
 	 * The flag of the metadata component.
 	 */
 	public abstract readonly flag: boolean;

@@ -1,24 +1,12 @@
 import {
-	Entity,
 	EntityIdentifier,
 	InternalProvider,
-	ItemIdentifier,
-	ItemStack,
-	ItemType,
-	Superflat
+	Superflat,
+	EntityNametagComponent,
+	EntityAlwaysShowNametagComponent
 } from "@serenityjs/world";
-import {
-	AddItemActorPacket,
-	DimensionType,
-	MetadataFlags,
-	MetadataKey,
-	MoveActorAbsolutePacket,
-	MoveEntityPacket,
-	Packet,
-	Rotation,
-	SetActorMotionPacket,
-	Vector3f
-} from "@serenityjs/protocol";
+import { DimensionType, Packet } from "@serenityjs/protocol";
+import { NetworkBound } from "@serenityjs/network";
 
 import { Serenity } from "./serenity";
 
@@ -46,30 +34,27 @@ world.createDimension(
 serenity.start();
 
 serenity.network.before(Packet.Text, (data) => {
+	if (data.bound === NetworkBound.Client) return true;
+
 	const player = serenity.getPlayer(data.session);
 	if (!player) return false;
 
 	if (data.packet.message === "cancel") return false;
 
 	if (data.packet.message === "test") {
-		const entity = new Entity(EntityIdentifier.Npc, player.dimension);
+		// Create a new entity
+		const entity = player.dimension.spawnEntity(
+			EntityIdentifier.Npc,
+			player.position
+		);
 
-		entity.position.x = player.position.x;
-		entity.position.y = player.position.y;
-		entity.position.z = player.position.z;
+		// Register the entity components
+		const alwaysShow = new EntityAlwaysShowNametagComponent(entity);
+		const nametag = new EntityNametagComponent(entity);
 
-		entity.spawn();
-
-		const packet = new MoveActorAbsolutePacket();
-
-		entity.position.x -= 4;
-
-		packet.runtimeId = entity.runtime;
-		packet.flags = 0;
-		packet.position = entity.position;
-		packet.rotation = new Rotation(0, 0, 0);
-
-		player.dimension.broadcast(packet);
+		// Set the component values
+		alwaysShow.setCurrentValue(true);
+		nametag.setCurrentValue("Hello, World!");
 	}
 
 	return true;

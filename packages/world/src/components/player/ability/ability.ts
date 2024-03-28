@@ -6,12 +6,13 @@ import {
 } from "@serenityjs/protocol";
 
 import { PlayerComponent } from "../player-component";
+import { Player } from "../../../player";
 
 abstract class PlayerAbilityComponent extends PlayerComponent {
 	/**
 	 * The identifier of the ability.
 	 */
-	public abstract readonly identifier: AbilitySet;
+	public readonly identifier: AbilitySet;
 
 	/**
 	 * The flag of the ability. (For protocol purposes)
@@ -27,6 +28,11 @@ abstract class PlayerAbilityComponent extends PlayerComponent {
 	 * The current value of the ability.
 	 */
 	public abstract currentValue: boolean;
+
+	public constructor(player: Player, identifier: AbilitySet) {
+		super(player, identifier);
+		this.identifier = identifier;
+	}
 
 	/**
 	 * Sets the current value of the ability.

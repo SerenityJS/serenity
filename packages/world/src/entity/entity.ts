@@ -29,7 +29,7 @@ class Entity {
 	/**
 	 * The components of the entity.
 	 */
-	public static components: Array<typeof EntityComponent> = [];
+	public static readonly components: Array<typeof EntityComponent> = [];
 
 	public readonly identifier: EntityIdentifier;
 	public readonly runtime: bigint;
@@ -61,6 +61,7 @@ class Entity {
 		// Register all the components
 		for (const component of new.target.components) {
 			// create a new instance of the component
+			// @ts-ignore fix this
 			const instance = new component(this);
 
 			// set the component to the entity

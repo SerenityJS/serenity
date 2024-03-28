@@ -1,13 +1,10 @@
 import { Attribute } from "@serenityjs/protocol";
 
+import { Entity } from "../../../entity";
+
 import { EntityAttributeComponent } from "./attribute";
 
 class EntityMovementComponent extends EntityAttributeComponent {
-	/**
-	 * The identifier of the component
-	 */
-	public readonly identifier = Attribute.Movement;
-
 	/**
 	 * The minimum health allowed for the entity.
 	 */
@@ -27,6 +24,16 @@ class EntityMovementComponent extends EntityAttributeComponent {
 	 * The current health of the entity.
 	 */
 	public currentValue = this.defaultValue;
+
+	/**
+	 * Creates a new entity movement component.
+	 *
+	 * @param entity The entity the component is binded to.
+	 * @returns A new entity movement component.
+	 */
+	public constructor(entity: Entity) {
+		super(entity, Attribute.Movement);
+	}
 }
 
 export { EntityMovementComponent };

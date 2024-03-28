@@ -11,6 +11,7 @@ import { Player } from "../player";
 import { TerrainGenerator } from "../generator";
 import { Chunk } from "../chunk";
 import { Block } from "../block";
+import { EntityIdentifier } from "../enums";
 
 import { World } from "./world";
 
@@ -232,6 +233,29 @@ class Dimension {
 
 		// Broadcast the packet
 		this.broadcast(packet);
+	}
+
+	/**
+	 * Spawns an entity in the dimension.
+	 *
+	 * @param identifier The identifier of the entity.
+	 * @param position The position of the entity.
+	 * @returns The entity that was spawned.
+	 */
+	public spawnEntity(identifier: EntityIdentifier, position: Vector3f): Entity {
+		// Create a new Entity instance
+		const entity = new Entity(identifier, this);
+
+		// Set the entity position
+		entity.position.x = position.x;
+		entity.position.y = position.y;
+		entity.position.z = position.z;
+
+		// Spawn the entity
+		entity.spawn();
+
+		// Return the entity
+		return entity;
 	}
 }
 

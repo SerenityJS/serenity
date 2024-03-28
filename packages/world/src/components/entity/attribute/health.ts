@@ -1,13 +1,10 @@
 import { Attribute } from "@serenityjs/protocol";
 
+import { Entity } from "../../../entity";
+
 import { EntityAttributeComponent } from "./attribute";
 
 class EntityHealthComponent extends EntityAttributeComponent {
-	/**
-	 * The identifier of the component
-	 */
-	public readonly identifier = Attribute.Health;
-
 	/**
 	 * The minimum health allowed for the entity.
 	 */
@@ -27,6 +24,16 @@ class EntityHealthComponent extends EntityAttributeComponent {
 	 * The current health of the entity.
 	 */
 	public currentValue = this.defaultValue;
+
+	/**
+	 * Creates a new entity health component.
+	 *
+	 * @param entity The entity the component is binded to.
+	 * @returns A new entity health component.
+	 */
+	public constructor(entity: Entity) {
+		super(entity, Attribute.Health);
+	}
 }
 
 export { EntityHealthComponent };

@@ -8,7 +8,7 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	/**
 	 * The identifier of the component.
 	 */
-	public abstract readonly identifier: Attribute;
+	public readonly identifier: Attribute;
 
 	/**
 	 * The minimum value allowed for the attribute.
@@ -31,15 +31,15 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	public abstract currentValue: number;
 
 	/**
-	 * The constructor of the entity attribute component.
+	 * Creates a new entity attribute component.
 	 *
-	 * @param entity The entity to construct the component for.
+	 * @param entity The entity the component is binded to.
+	 * @param identifier The identifier of the component.
+	 * @returns A new entity attribute component.
 	 */
-	public constructor(entity: Entity) {
-		super(entity);
-
-		// Set the default value
-		this.resetToDefaultValue();
+	public constructor(entity: Entity, identifier: Attribute) {
+		super(entity, identifier);
+		this.identifier = identifier;
 	}
 
 	/**

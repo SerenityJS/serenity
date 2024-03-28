@@ -20,6 +20,7 @@ import { PlayerAbilityComponents, PlayerComponents } from "../types/components";
 import {
 	EntityAlwaysShowNametagComponent,
 	EntityBreathingComponent,
+	EntityComponent,
 	EntityHasGravityComponent,
 	EntityInvetoryComponent,
 	EntityMovementComponent,
@@ -52,6 +53,11 @@ import { Chunk } from "../chunk";
 import { ItemStack } from "../item";
 
 class Player extends Entity {
+	/**
+	 * The components of the player.
+	 */
+	public static readonly components: Array<typeof EntityComponent> = [];
+
 	/**
 	 * The player's network session.
 	 */
@@ -303,6 +309,24 @@ class Player extends Entity {
 
 		// Send the packet.
 		this.session.send(packet);
+	}
+
+	/**
+	 * Registers a component to the entity.
+	 * @param component The component to register.
+	 */
+	public static registerComponent(component: typeof EntityComponent): void {
+		this.components.push(component);
+	}
+
+	/**
+	 * Unregisters a component from the entity.
+	 * @param component The component to unregister.
+	 */
+	public static unregisterComponent(component: typeof EntityComponent): void {
+		const index = this.components.indexOf(component);
+		if (index === -1) return;
+		this.components.splice(index, 1);
 	}
 }
 
