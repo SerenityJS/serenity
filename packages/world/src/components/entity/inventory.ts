@@ -18,7 +18,7 @@ class EntityInvetoryComponent extends EntityComponent {
 	public selectedSlot: number = 0;
 
 	public constructor(entity: Entity) {
-		super(entity);
+		super(entity, "minecraft:inventory");
 		this.containerId = ContainerId.Inventory;
 		this.inventorySize = 36;
 		this.container = new EntityContainer(

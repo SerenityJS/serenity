@@ -1,10 +1,13 @@
 import {
 	EntityAlwaysShowNametagComponent,
+	EntityBoundingHeightComponent,
+	EntityBoundingWidthComponent,
 	EntityBreathingComponent,
 	EntityHasGravityComponent,
 	EntityHealthComponent,
 	EntityInvetoryComponent,
-	EntityNametagComponent
+	EntityNametagComponent,
+	EntityScaleComponent
 } from "../../components";
 
 /**
