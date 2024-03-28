@@ -31,7 +31,7 @@ import type {
 	MobEquipmentPacket,
 	ModalFormRequestPacket,
 	ModalFormResponsePacket,
-	MoveEntityPacket,
+	MoveActorAbsolutePacket,
 	MovePlayerPacket,
 	NetworkChunkPublisherUpdatePacket,
 	NetworkSettingsPacket,
@@ -50,6 +50,7 @@ import type {
 	ResourcePacksInfoPacket,
 	RespawnPacket,
 	ScriptMessagePacket,
+	SetActorMotionPacket,
 	SetCommandsEnabledPacket,
 	SetEntityDataPacket,
 	SetLocalPlayerAsInitializedPacket,
@@ -82,7 +83,7 @@ interface NetworkEvents {
 	[Packet.AddEntity]: [NetworkPacketEvent<AddEntityPacket>];
 	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntityPacket>];
 	[Packet.AddItemActor]: [NetworkPacketEvent<AddItemActorPacket>];
-	[Packet.MoveEntity]: [NetworkPacketEvent<MoveEntityPacket>];
+	[Packet.MoveActorAbsolute]: [NetworkPacketEvent<MoveActorAbsolutePacket>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayerPacket>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlockPacket>];
 	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEventPacket>];
@@ -95,6 +96,7 @@ interface NetworkEvents {
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
 	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityDataPacket>];
+	[Packet.SetActorMotion]: [NetworkPacketEvent<SetActorMotionPacket>];
 	[Packet.Animate]: [NetworkPacketEvent<AnimatePacket>];
 	[Packet.Respawn]: [NetworkPacketEvent<RespawnPacket>];
 	[Packet.ContainerOpen]: [NetworkPacketEvent<ContainerOpenPacket>];

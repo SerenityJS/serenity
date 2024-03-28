@@ -1,4 +1,6 @@
 import {
+	Entity,
+	EntityIdentifier,
 	InternalProvider,
 	ItemIdentifier,
 	ItemStack,
@@ -10,7 +12,11 @@ import {
 	DimensionType,
 	MetadataFlags,
 	MetadataKey,
+	MoveActorAbsolutePacket,
+	MoveEntityPacket,
 	Packet,
+	Rotation,
+	SetActorMotionPacket,
 	Vector3f
 } from "@serenityjs/protocol";
 
@@ -45,25 +51,23 @@ serenity.network.before(Packet.Text, (data) => {
 
 	if (data.packet.message === "cancel") return false;
 
-	if (data.packet.message === "item") {
-		const item = ItemType.resolve(ItemIdentifier.Diamond).create(1, 0);
+	if (data.packet.message === "test") {
+		const entity = new Entity(EntityIdentifier.Npc, player.dimension);
 
-		const packet = new AddItemActorPacket();
+		entity.position.x = player.position.x;
+		entity.position.y = player.position.y;
+		entity.position.z = player.position.z;
 
-		packet.runtimeId = 10n;
-		packet.uniqueId = 10n;
-		packet.item = ItemStack.toNetworkStack(item);
-		packet.position = player.position;
-		packet.velocity = new Vector3f(1, 20, 0);
-		packet.metadata = [
-			{
-				flag: MetadataFlags.AffectedByGravity,
-				key: MetadataKey.Flags,
-				type: 0,
-				value: true
-			}
-		];
-		packet.fromFishing = false;
+		entity.spawn();
+
+		const packet = new MoveActorAbsolutePacket();
+
+		entity.position.x -= 4;
+
+		packet.runtimeId = entity.runtime;
+		packet.flags = 0;
+		packet.position = entity.position;
+		packet.rotation = new Rotation(0, 0, 0);
 
 		player.dimension.broadcast(packet);
 	}

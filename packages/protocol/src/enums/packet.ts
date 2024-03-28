@@ -15,7 +15,7 @@ enum Packet {
 	AddEntity = 0x0d, // 13 // TODO: Rename this to AddActor
 	RemoveEntity = 0x0e, // 14 // TODO: Rename this to RemoveActor
 	AddItemActor = 0x0f, // 15
-	MoveEntity = 0x12, // 18
+	MoveActorAbsolute = 0x12, // 18
 	MovePlayer = 0x13, // 19
 	UpdateBlock = 0x15, // 21
 	LevelEvent = 0x19, // 25
@@ -27,6 +27,7 @@ enum Packet {
 	BlockPickRequest = 0x22, // 34
 	PlayerAction = 0x24, // 36
 	SetEntityData = 0x27, // 39
+	SetActorMotion = 0x28, // 40
 	// SetSpawnPosition = 0x2b, // 43
 	Animate = 0x2c, // 44
 	Respawn = 0x2d, // 45

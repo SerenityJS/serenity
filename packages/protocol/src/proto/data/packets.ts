@@ -31,7 +31,7 @@ import { LoginPacket } from "./login";
 import { MobEquipmentPacket } from "./mob-equipment";
 import { ModalFormRequestPacket } from "./modal-form-request";
 import { ModalFormResponsePacket } from "./modal-form-response";
-import { MoveEntityPacket } from "./move-entity";
+import { MoveActorAbsolutePacket } from "./move-actor-absolute";
 import { MovePlayerPacket } from "./move-player";
 import { NetworkChunkPublisherUpdatePacket } from "./network-chunk-publisher-update";
 import { NetworkSettingsPacket } from "./network-settings";
@@ -49,6 +49,7 @@ import { ResourcePackStackPacket } from "./resource-pack-stack";
 import { ResourcePacksInfoPacket } from "./resource-packs-info";
 import { RespawnPacket } from "./respawn";
 import { ScriptMessagePacket } from "./script-message";
+import { SetActorMotionPacket } from "./set-actor-motion";
 import { SetCommandsEnabledPacket } from "./set-commands-enabled";
 import { SetEntityDataPacket } from "./set-entity-data";
 import { SetLocalPlayerAsInitializedPacket } from "./set-local-player-as-initialized";
@@ -75,7 +76,7 @@ const Packets = {
 	[Packet.AddEntity]: AddEntityPacket, // 13
 	[Packet.RemoveEntity]: RemoveEntityPacket, // 14
 	[Packet.AddItemActor]: AddItemActorPacket, // 15
-	[Packet.MoveEntity]: MoveEntityPacket, // 18
+	[Packet.MoveActorAbsolute]: MoveActorAbsolutePacket, // 18
 	[Packet.MovePlayer]: MovePlayerPacket, // 19
 	[Packet.UpdateBlock]: UpdateBlockPacket, // 21
 	[Packet.LevelEvent]: LevelEventPacket, // 25
@@ -86,6 +87,7 @@ const Packets = {
 	[Packet.BlockPickRequest]: BlockPickRequestPacket, // 34
 	[Packet.PlayerAction]: PlayerActionPacket, // 36
 	[Packet.SetEntityData]: SetEntityDataPacket, // 39
+	[Packet.SetActorMotion]: SetActorMotionPacket, // 40
 	[Packet.Animate]: AnimatePacket, // 44
 	[Packet.Respawn]: RespawnPacket, // 45
 	[Packet.ContainerOpen]: ContainerOpenPacket, // 46

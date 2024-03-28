@@ -71,9 +71,7 @@ class Entity {
 	/**
 	 * Ticks the entity instance.
 	 */
-	public tick(): void {
-		console.log("Entity ticked");
-	}
+	public tick(): void {}
 
 	/**
 	 * Checks if the entity is a player.
