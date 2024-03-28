@@ -5,6 +5,7 @@ import { TransactionType } from "../../enums";
 import { TransactionItemRelease } from "./transaction-item-release";
 import { TransactionUseItem } from "./transaction-use-item";
 import { TransactionUseItemOnEntity } from "./transaction-use-item-on-entity";
+import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 
 import type {
 	ItemReleaseAction,
@@ -12,7 +13,6 @@ import type {
 	UseItemAction
 } from "../../enums";
 import type { BlockCoordinates } from "./block-coordinates";
-import type { Item } from "./item";
 import type { BinaryStream, Endianness } from "@serenityjs/binaryutils";
 import type { Vector3f } from "./vector3f";
 
@@ -29,7 +29,7 @@ class TransactionData extends DataType {
 	public entityRuntimeId: bigint | null;
 	public face: number | null;
 	public headPosition: Vector3f | null;
-	public heldItem: Item | null;
+	public heldItem: NetworkItemStackDescriptor | null;
 	public hotbarSlot: number | null;
 	public playerPosition: Vector3f | null;
 
@@ -41,7 +41,7 @@ class TransactionData extends DataType {
 		entityRuntimeId: bigint | null,
 		face: number | null,
 		headPosition: Vector3f | null,
-		heldItem: Item | null,
+		heldItem: NetworkItemStackDescriptor | null,
 		hotbarSlot: number | null,
 		playerPosition: Vector3f | null
 	) {
@@ -117,11 +117,6 @@ class TransactionData extends DataType {
 
 		return null;
 	}
-
-	public static override write(
-		stream: BinaryStream,
-		value: TransactionData
-	): void {}
 }
 
 export { TransactionData };

@@ -1,7 +1,7 @@
 import { DataType } from "@serenityjs/raknet";
 
-import { Item } from "./item";
 import { Vector3f } from "./vector3f";
+import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 
 import type { ItemReleaseAction } from "../../enums";
 import type { BinaryStream } from "@serenityjs/binaryutils";
@@ -9,13 +9,13 @@ import type { BinaryStream } from "@serenityjs/binaryutils";
 class TransactionItemRelease extends DataType {
 	public action: ItemReleaseAction;
 	public headPosition: Vector3f;
-	public heldItem: Item;
+	public heldItem: NetworkItemStackDescriptor;
 	public hotbarSlot: number;
 
 	public constructor(
 		action: ItemReleaseAction,
 		headPosition: Vector3f,
-		heldItem: Item,
+		heldItem: NetworkItemStackDescriptor,
 		hotbarSlot: number
 	) {
 		super();
@@ -33,7 +33,7 @@ class TransactionItemRelease extends DataType {
 		const hotbarSlot = stream.readZigZag();
 
 		// Read the Item.
-		const heldItem = Item.read(stream);
+		const heldItem = NetworkItemStackDescriptor.read(stream);
 
 		// Read the player head position.
 		const headPosition = Vector3f.read(stream);
@@ -58,7 +58,7 @@ class TransactionItemRelease extends DataType {
 		stream.writeZigZag(value.hotbarSlot);
 
 		// Write the Item.
-		Item.write(stream, value.heldItem);
+		NetworkItemStackDescriptor.write(stream, value.heldItem);
 
 		// Write the player head position.
 		Vector3f.write(stream, value.headPosition);

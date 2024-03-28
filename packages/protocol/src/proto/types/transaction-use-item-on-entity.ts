@@ -1,7 +1,7 @@
 import { DataType } from "@serenityjs/raknet";
 
-import { Item } from "./item";
 import { Vector3f } from "./vector3f";
+import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 
 import type { UseItemOnEntityAction } from "../../enums";
 import type { BinaryStream } from "@serenityjs/binaryutils";
@@ -25,7 +25,7 @@ class TransactionUseItemOnEntity extends DataType {
 	/**
 	 * The held item.
 	 */
-	public heldItem: Item;
+	public heldItem: NetworkItemStackDescriptor;
 
 	/**
 	 * The hotbar slot.
@@ -44,7 +44,7 @@ class TransactionUseItemOnEntity extends DataType {
 		action: UseItemOnEntityAction,
 		clickPosition: Vector3f,
 		entityRuntimeId: bigint,
-		heldItem: Item,
+		heldItem: NetworkItemStackDescriptor,
 		hotbarSlot: number,
 		playerPosition: Vector3f
 	) {
@@ -70,7 +70,7 @@ class TransactionUseItemOnEntity extends DataType {
 		const hotbarSlot = stream.readZigZag();
 
 		// Read the Item.
-		const heldItem = Item.read(stream);
+		const heldItem = NetworkItemStackDescriptor.read(stream);
 
 		// Read the player position.
 		const playerPosition = Vector3f.read(stream);
@@ -103,7 +103,7 @@ class TransactionUseItemOnEntity extends DataType {
 		stream.writeZigZag(value.hotbarSlot);
 
 		// Write the Item.
-		Item.write(stream, value.heldItem);
+		NetworkItemStackDescriptor.write(stream, value.heldItem);
 
 		// Write the player position.
 		Vector3f.write(stream, value.playerPosition);

@@ -24,7 +24,6 @@ export * from "./metadata-dictionary";
 export * from "./entity-properties";
 export * from "./transaction-legacy";
 export * from "./transaction-actions";
-export * from "./item";
 export * from "./transaction-use-item";
 export * from "./transaction-use-item-on-entity";
 export * from "./transaction-data";

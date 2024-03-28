@@ -2,7 +2,7 @@ import { DataType } from "@serenityjs/raknet";
 
 import { TransactionSourceType } from "../../enums";
 
-import { Item } from "./item";
+import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 
 import type { ContainerId } from "../../enums";
 import type { BinaryStream } from "@serenityjs/binaryutils";
@@ -11,8 +11,8 @@ class TransactionActions extends DataType {
 	public action: number | null;
 	public flags: number | null;
 	public inventoryId: ContainerId | null;
-	public newItem: Item;
-	public oldItem: Item;
+	public newItem: NetworkItemStackDescriptor;
+	public oldItem: NetworkItemStackDescriptor;
 	public slot: number;
 	public sourceType: TransactionSourceType;
 
@@ -20,8 +20,8 @@ class TransactionActions extends DataType {
 		action: number | null,
 		flags: number | null,
 		inventoryId: ContainerId | null,
-		newItem: Item,
-		oldItem: Item,
+		newItem: NetworkItemStackDescriptor,
+		oldItem: NetworkItemStackDescriptor,
 		slot: number,
 		sourceType: TransactionSourceType
 	) {
@@ -85,8 +85,8 @@ class TransactionActions extends DataType {
 			const slot = stream.readVarInt();
 
 			// Read the old and new item.
-			const oldItem = Item.read(stream);
-			const newItem = Item.read(stream);
+			const oldItem = NetworkItemStackDescriptor.read(stream);
+			const newItem = NetworkItemStackDescriptor.read(stream);
 
 			// Push the action to the array.
 			transactions.push(
@@ -141,8 +141,8 @@ class TransactionActions extends DataType {
 		stream.writeVarInt(value.slot);
 
 		// Write the old and new item.
-		Item.write(stream, value.oldItem);
-		Item.write(stream, value.newItem);
+		NetworkItemStackDescriptor.write(stream, value.oldItem);
+		NetworkItemStackDescriptor.write(stream, value.newItem);
 	}
 }
 
