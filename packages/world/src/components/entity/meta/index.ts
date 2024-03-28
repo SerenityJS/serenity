@@ -8,3 +8,4 @@ export * from "./nametag";
 export * from "./always-show-nametag";
 export * from "./scale";
 export * from "./boundingbox_height";
+export * from "./boundingbox_width";
