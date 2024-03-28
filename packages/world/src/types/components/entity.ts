@@ -22,7 +22,7 @@ interface EntityMetadataComponents {
 	"minecraft:breathing": EntityBreathingComponent;
 	"minecraft:nametag": EntityNametagComponent;
 	"minecraft:always_show_nametag": EntityAlwaysShowNametagComponent;
-	"minecraft:boundingbox_width": EntityBoundingHeightComponent;
+	"minecraft:boundingbox_width": EntityBoundingWidthComponent;
 	"minecraft:boundingbox_height": EntityBoundingHeightComponent;
 	"minecraft:scale": EntityScaleComponent;
 }
