@@ -19,7 +19,7 @@ class EntityScaleComponent extends EntityMetadataComponent {
 	 * Set a custom scale for your entity (Width and Height)
 	 *
 	 * @param entity The entity the component is binded to.
-	 * @returns A new entity always show nametag component.
+	 * @returns A new entity scale component
 	 */
 	public constructor(entity: Entity) {
 		super(entity, "minecraft:scale");
