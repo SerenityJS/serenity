@@ -17,7 +17,6 @@ export * from "./ability-layers";
 export * from "./text-source";
 export * from "./text-parameters";
 export * from "./interact-position";
-export * from "./item-legacy";
 export * from "./player-attributes";
 export * from "./chunk-coords";
 export * from "./metadata-dictionary";
