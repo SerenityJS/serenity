@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/binaryutils-win32-x64-msvc",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "win32"

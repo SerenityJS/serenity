@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/binaryutils",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": "https://github.com/SerenityJS/serenity",
