@@ -44,8 +44,8 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 	 */
 	public static read<T>(
 		stream: BinaryStream,
-		type = true,
-		varint = false
+		varint = false,
+		type = true
 	): ListTag<T> {
 		// Check if the type should be read.
 		if (type) {
@@ -146,7 +146,7 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 						}
 
 						// Read the tag.
-						const read = reader.read(stream, false, varint);
+						const read = reader.read(stream, varint, false);
 
 						// Add the tag to the value.
 						value[read.name] = read as NBTTag<T>;

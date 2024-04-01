@@ -7,7 +7,7 @@ import { NBTTag } from "./tag";
 /**
  * A tag that contains a float value.
  */
-class FloatTag extends NBTTag<number> {
+class FloatTag<T extends number = number> extends NBTTag<T> {
 	public static readonly type = Tag.Float;
 
 	public valueOf(snbt?: boolean): number | string {
@@ -17,11 +17,11 @@ class FloatTag extends NBTTag<number> {
 	/**
 	 * Reads a float tag from the stream.
 	 */
-	public static read(
+	public static read<T extends number = number>(
 		stream: BinaryStream,
-		type = true,
-		varint = false
-	): FloatTag {
+		varint = false,
+		type = true
+	): FloatTag<T> {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -39,15 +39,15 @@ class FloatTag extends NBTTag<number> {
 		const value = stream.readFloat32(Endianness.Little);
 
 		// Return the tag.
-		return new FloatTag(name, value);
+		return new FloatTag(name, value as T);
 	}
 
 	/**
 	 * Writes a float tag to the stream.
 	 */
-	public static write(
+	public static write<T extends number = number>(
 		stream: BinaryStream,
-		tag: FloatTag,
+		tag: FloatTag<T>,
 		varint = false
 	): void {
 		// Write the type.

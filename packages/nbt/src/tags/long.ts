@@ -7,7 +7,7 @@ import { NBTTag } from "./tag";
 /**
  * A tag that contains a long value.
  */
-class LongTag extends NBTTag<bigint> {
+class LongTag<T extends bigint = bigint> extends NBTTag<T> {
 	public static readonly type = Tag.Long;
 
 	public valueOf(snbt?: boolean): bigint | string {
@@ -17,11 +17,11 @@ class LongTag extends NBTTag<bigint> {
 	/**
 	 * Reads a long tag from the stream.
 	 */
-	public static read(
+	public static read<T extends bigint = bigint>(
 		stream: BinaryStream,
-		type = true,
-		varint = false
-	): LongTag {
+		varint = false,
+		type = true
+	): LongTag<T> {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -41,15 +41,15 @@ class LongTag extends NBTTag<bigint> {
 			: stream.readLong(Endianness.Little);
 
 		// Return the tag.
-		return new LongTag(name, value);
+		return new LongTag(name, value as T);
 	}
 
 	/**
 	 * Writes a long tag to the stream.
 	 */
-	public static write(
+	public static write<T extends bigint = bigint>(
 		stream: BinaryStream,
-		tag: LongTag,
+		tag: LongTag<T>,
 		varint = false
 	): void {
 		// Write the type.

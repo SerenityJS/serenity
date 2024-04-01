@@ -12,9 +12,9 @@ import { BlockPermutation } from "./permutation";
 import { CustomBlockType } from "./custom";
 
 type BlockNbt = CompoundTag<{
-	name: StringTag;
+	name: StringTag<string>;
 	states: BlockStateNBT;
-	version: IntTag;
+	version: IntTag<number>;
 }>;
 
 /**
@@ -32,7 +32,7 @@ class BlockRegistry {
 		do {
 			// Each block state is stored as a compound tag.
 			// So we can just read the next compound tag from the stream.
-			const nbt = CompoundTag.read<BlockNbt>(stream, true, true);
+			const nbt = CompoundTag.read<BlockNbt>(stream, true);
 
 			// Get the block name from the NBT data.
 			const name = nbt.getTag("name")?.valueOf() as BlockIdentifier;

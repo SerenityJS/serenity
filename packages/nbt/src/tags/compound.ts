@@ -100,8 +100,8 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 */
 	public static read<T = Record<string, NBTTag<unknown>>>(
 		stream: BinaryStream,
-		type = true,
-		varint = false
+		varint = false,
+		type = true
 	): CompoundTag<T> {
 		// Check if the type should be read.
 		if (type) {
@@ -136,7 +136,7 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 			}
 
 			// Read the tag.
-			const read = reader.read(stream, false, varint);
+			const read = reader.read(stream, varint, false);
 
 			// Add the tag to the value.
 			value[read.name] = read as NBTTag<T>;

@@ -8,6 +8,6 @@ type BlockState<T = string | number> = Record<string, T>;
 /**
  * A block state as a NBT value.
  */
-type BlockStateNBT = CompoundTag<StringTag | ByteTag>;
+type BlockStateNBT = CompoundTag<StringTag<string> | ByteTag<number>>;
 
 export { BlockStateNBT, BlockState };

@@ -1,9 +1,8 @@
-import { DataType } from "@serenityjs/raknet";
 import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
 
 import { Tag } from "../named-binary-tag";
 
-abstract class NBTTag<T = unknown> extends DataType {
+abstract class NBTTag<T = unknown> {
 	/**
 	 * The type of the tag.
 	 */
@@ -27,7 +26,6 @@ abstract class NBTTag<T = unknown> extends DataType {
 	 * @returns A new NBTTag.
 	 */
 	public constructor(name: string, value: T) {
-		super();
 		this.name = name;
 		this.value = value;
 	}
@@ -50,8 +48,8 @@ abstract class NBTTag<T = unknown> extends DataType {
 	 */
 	public static read(
 		_stream: BinaryStream,
-		_type: unknown,
-		_varint: unknown
+		_varint: unknown,
+		_type: unknown
 	): typeof this.prototype {
 		throw new Error("NBTTag.read() is not implemented.");
 	}

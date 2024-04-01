@@ -7,17 +7,17 @@ import { NBTTag } from "./tag";
 /**
  * A tag that contains a string value.
  */
-class StringTag extends NBTTag<string> {
+class StringTag<T extends string = string> extends NBTTag<T> {
 	public static readonly type = Tag.String;
 
 	/**
 	 * Reads a string tag from the stream.
 	 */
-	public static read(
+	public static read<T extends string = string>(
 		stream: BinaryStream,
-		type = true,
-		varint = false
-	): StringTag {
+		varint = false,
+		type = true
+	): StringTag<T> {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -35,15 +35,15 @@ class StringTag extends NBTTag<string> {
 		const value = this.readString(stream, varint);
 
 		// Return the tag.
-		return new StringTag(name, value);
+		return new StringTag<T>(name, value as T);
 	}
 
 	/**
 	 * Writes a string tag to the stream.
 	 */
-	public static write(
+	public static write<T extends string = string>(
 		stream: BinaryStream,
-		tag: StringTag,
+		tag: StringTag<T>,
 		varint = false
 	): void {
 		// Write the type.

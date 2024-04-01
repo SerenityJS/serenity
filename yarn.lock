@@ -1420,7 +1420,6 @@ __metadata:
     "@serenityjs/binaryutils": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
-    "@serenityjs/raknet": "npm:*"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"

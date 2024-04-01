@@ -27,7 +27,7 @@ class BlockProperties extends DataType {
 			const name = stream.readVarString();
 
 			// Read the nbt for the property.
-			const nbt = CompoundTag.read(stream, true, true);
+			const nbt = CompoundTag.read(stream, true);
 
 			// Push the rule to the array.
 			properties.push(new BlockProperties(name, nbt));

@@ -1,31 +1,32 @@
-import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binaryutils";
 
 import { Tag } from "../named-binary-tag";
 
 import { NBTTag } from "./tag";
 
 /**
- * A tag that contains a short value.
+ * @remarks This is a custom tag that performs the same function as the ByteTag class.
+ * A tag that contains a boolean value.
  */
-class ShortTag<T extends number = number> extends NBTTag<T> {
-	public static readonly type = Tag.Short;
+class BoolTag extends NBTTag<boolean> {
+	public static readonly type = Tag.Byte;
 
 	public valueOf(snbt?: boolean): number | string {
-		return snbt ? this.value + "s" : this.value;
+		return snbt ? (this.value ? 1 : 0 + "b") : this.value ? 1 : 0;
 	}
 
 	/**
-	 * Reads a short tag from the stream.
+	 * Reads a boolean tag from the stream.
 	 */
-	public static read<T extends number = number>(
+	public static read(
 		stream: BinaryStream,
 		varint = false,
 		type = true
-	): ShortTag<T> {
+	): BoolTag {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
-			// And check if the type is a short.
+			// And check if the type is a byte.
 			const type = stream.readByte();
 			if (type !== this.type) {
 				throw new Error(`Expected tag type to be ${this.type} but got ${type}`);
@@ -36,18 +37,18 @@ class ShortTag<T extends number = number> extends NBTTag<T> {
 		const name = this.readString(stream, varint);
 
 		// Read the value.
-		const value = stream.readShort(Endianness.Little);
+		const value = stream.readByte();
 
 		// Return the tag.
-		return new ShortTag(name, value as T);
+		return new BoolTag(name, value === 1);
 	}
 
 	/**
-	 * Writes a short tag to the stream.
+	 * Writes a boolean tag to the stream.
 	 */
-	public static write<T extends number = number>(
+	public static write(
 		stream: BinaryStream,
-		tag: ShortTag<T>,
+		tag: BoolTag,
 		varint = false
 	): void {
 		// Write the type.
@@ -57,8 +58,8 @@ class ShortTag<T extends number = number> extends NBTTag<T> {
 		this.writeString(tag.name, stream, varint);
 
 		// Write the value.
-		stream.writeShort(tag.value, Endianness.Little);
+		stream.writeByte(tag.value ? 1 : 0);
 	}
 }
 
-export { ShortTag };
+export { BoolTag };

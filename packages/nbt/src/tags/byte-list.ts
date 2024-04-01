@@ -15,8 +15,8 @@ class ByteListTag extends NBTTag<Array<number>> {
 	 */
 	public static read(
 		stream: BinaryStream,
-		type = true,
-		varint = false
+		varint = false,
+		type = true
 	): ByteListTag {
 		// Check if the type should be read.
 		if (type) {
