@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/binaryutils",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": "https://github.com/SerenityJS/serenity",
@@ -33,5 +33,10 @@
     "test": "jest",
     "universal": "napi universal",
     "version": "napi version"
+  },
+  "optionalDependencies": {
+    "@serenityjs/binaryutils-win32-x64-msvc": "2.2.1",
+    "@serenityjs/binaryutils-darwin-x64": "2.2.1",
+    "@serenityjs/binaryutils-linux-x64-gnu": "2.2.1"
   }
 }
