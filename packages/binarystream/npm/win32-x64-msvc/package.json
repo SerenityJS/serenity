@@ -1,6 +1,6 @@
 {
-  "name": "@serenityjs/binaryutils-win32-x64-msvc",
-  "version": "2.3.0",
+  "name": "@serenityjs/binarystream-win32-x64-msvc",
+  "version": "0.0.0",
   "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "win32"
@@ -8,9 +8,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "@serenityjs/binaryutils.win32-x64-msvc.node",
+  "main": "@serenityjs/binarystream.win32-x64-msvc.node",
   "files": [
-    "@serenityjs/binaryutils.win32-x64-msvc.node"
+    "@serenityjs/binarystream.win32-x64-msvc.node"
   ],
   "license": "MIT",
   "engines": {

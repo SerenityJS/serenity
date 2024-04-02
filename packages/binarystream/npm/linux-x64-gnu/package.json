@@ -1,6 +1,6 @@
 {
-  "name": "@serenityjs/binaryutils-linux-x64-gnu",
-  "version": "2.3.0",
+  "name": "@serenityjs/binarystream-linux-x64-gnu",
+  "version": "0.0.0",
   "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "linux"
@@ -8,9 +8,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "@serenityjs/binaryutils.linux-x64-gnu.node",
+  "main": "@serenityjs/binarystream.linux-x64-gnu.node",
   "files": [
-    "@serenityjs/binaryutils.linux-x64-gnu.node"
+    "@serenityjs/binarystream.linux-x64-gnu.node"
   ],
   "license": "MIT",
   "engines": {

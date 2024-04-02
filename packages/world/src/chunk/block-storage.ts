@@ -1,4 +1,4 @@
-import { Endianness, BinaryStream } from "@serenityjs/binaryutils";
+import { Endianness, BinaryStream } from "@serenityjs/binarystream";
 
 import { BlockPermutation } from "../block";
 import { BlockIdentifier } from "../enums";

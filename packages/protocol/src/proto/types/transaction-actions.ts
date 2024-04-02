@@ -5,7 +5,7 @@ import { TransactionSourceType } from "../../enums";
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 
 import type { ContainerId } from "../../enums";
-import type { BinaryStream } from "@serenityjs/binaryutils";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class TransactionActions extends DataType {
 	public action: number | null;

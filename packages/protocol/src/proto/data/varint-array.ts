@@ -1,4 +1,4 @@
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
 function VarintArray<T extends typeof DataType>(type: T): T {

@@ -3,7 +3,7 @@ import { DataType } from "@serenityjs/raknet";
 import { CommandOriginData } from "./command-origin-data";
 import { CommandOutputMessage } from "./command-output-message";
 
-import type { BinaryStream } from "@serenityjs/binaryutils";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 enum CommandOutputType {
 	TYPE_LAST,

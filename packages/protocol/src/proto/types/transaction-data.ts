@@ -13,7 +13,7 @@ import type {
 	UseItemAction
 } from "../../enums";
 import type { BlockCoordinates } from "./block-coordinates";
-import type { BinaryStream, Endianness } from "@serenityjs/binaryutils";
+import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import type { Vector3f } from "./vector3f";
 
 class TransactionData extends DataType {

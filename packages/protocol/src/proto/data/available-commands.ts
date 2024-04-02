@@ -1,4 +1,4 @@
-import { Endianness } from "@serenityjs/binaryutils";
+import { Endianness } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";

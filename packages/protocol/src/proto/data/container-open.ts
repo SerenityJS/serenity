@@ -1,4 +1,4 @@
-import { Int8, ZigZong } from "@serenityjs/binaryutils";
+import { Int8, ZigZong } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet, ContainerId, ContainerType } from "../../enums";

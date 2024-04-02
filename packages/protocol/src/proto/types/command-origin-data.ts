@@ -1,4 +1,4 @@
-import { type BinaryStream } from "@serenityjs/binaryutils";
+import { type BinaryStream } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
 enum CommandOriginDataTypes {

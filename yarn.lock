@@ -1299,9 +1299,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/binaryutils@npm:*, @serenityjs/binaryutils@workspace:packages/binaryutils":
+"@serenityjs/binarystream@npm:*, @serenityjs/binarystream@workspace:packages/binarystream":
   version: 0.0.0-use.local
-  resolution: "@serenityjs/binaryutils@workspace:packages/binaryutils"
+  resolution: "@serenityjs/binarystream@workspace:packages/binarystream"
   dependencies:
     "@napi-rs/cli": "npm:^2.18.0"
     "@serenityjs/eslint-config": "npm:*"
@@ -1432,7 +1432,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
-    "@serenityjs/binaryutils": "npm:*"
+    "@serenityjs/binarystream": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/typescript-config": "npm:*"
@@ -1482,7 +1482,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/protocol@workspace:packages/protocol"
   dependencies:
-    "@serenityjs/binaryutils": "npm:*"
+    "@serenityjs/binarystream": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/nbt": "npm:*"
@@ -1500,7 +1500,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/raknet@workspace:packages/raknet"
   dependencies:
-    "@serenityjs/binaryutils": "npm:*"
+    "@serenityjs/binarystream": "npm:*"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
@@ -1525,7 +1525,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/world@workspace:packages/world"
   dependencies:
-    "@serenityjs/binaryutils": "npm:*"
+    "@serenityjs/binarystream": "npm:*"
     "@serenityjs/data": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
@@ -6564,7 +6564,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "launcher@workspace:launcher"
   dependencies:
-    "@serenityjs/binaryutils": "npm:*"
+    "@serenityjs/binarystream": "npm:*"
     "@serenityjs/chokidar": "npm:*"
     "@serenityjs/command": "npm:*"
     "@serenityjs/data": "npm:*"

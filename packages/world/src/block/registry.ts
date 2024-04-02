@@ -1,5 +1,5 @@
 import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 import { CANONICAL_BLOCK_STATES } from "@serenityjs/data";
 
 import { BlockStateNBT, BlockState } from "../types";

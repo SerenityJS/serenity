@@ -1,6 +1,6 @@
 import { DataType } from "@serenityjs/raknet";
 
-import type { BinaryStream } from "@serenityjs/binaryutils";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class VariableStringArray extends DataType {
 	public static override read(stream: BinaryStream): Array<string> {

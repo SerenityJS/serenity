@@ -1,4 +1,4 @@
-import { ZigZag } from "@serenityjs/binaryutils";
+import { ZigZag } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { LevelEvent, Packet } from "../../enums";

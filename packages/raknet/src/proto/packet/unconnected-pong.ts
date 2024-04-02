@@ -1,4 +1,4 @@
-import { Long, String16 } from "@serenityjs/binaryutils";
+import { Long, String16 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";

@@ -2,7 +2,7 @@ import { DataType } from "@serenityjs/raknet";
 
 import { TextPacketType } from "../../enums";
 
-import type { BinaryStream, Endianness } from "@serenityjs/binaryutils";
+import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 class TextParameters extends DataType {
 	public static override read(

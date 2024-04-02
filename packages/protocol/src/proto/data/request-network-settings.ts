@@ -1,4 +1,4 @@
-import { Int32 } from "@serenityjs/binaryutils";
+import { Int32 } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";

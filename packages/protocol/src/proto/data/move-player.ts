@@ -4,7 +4,7 @@ import {
 	Uint8,
 	Bool,
 	VarLong
-} from "@serenityjs/binaryutils";
+} from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { MoveMode, Packet } from "../../enums";

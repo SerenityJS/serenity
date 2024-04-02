@@ -1,4 +1,4 @@
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 import { CREATIVE_CONTENT } from "@serenityjs/data";
 import {
 	CreativeItems,

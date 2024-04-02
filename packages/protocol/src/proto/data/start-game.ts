@@ -13,7 +13,7 @@ import {
 	ZigZag,
 	ZigZong,
 	Uuid
-} from "@serenityjs/binaryutils";
+} from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Difficulty, Gamemode, Packet, PermissionLevel } from "../../enums";

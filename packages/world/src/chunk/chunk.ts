@@ -1,5 +1,5 @@
 import { ChunkCoords } from "@serenityjs/protocol";
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { BlockPermutation } from "../block";
 

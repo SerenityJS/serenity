@@ -1,11 +1,11 @@
 {
-  "name": "@serenityjs/binaryutils",
-  "version": "2.3.0",
+  "name": "@serenityjs/binarystream",
+  "version": "0.0.0",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": "https://github.com/SerenityJS/serenity",
   "napi": {
-    "name": "binaryutils",
+    "name": "binarystream",
     "triples": {}
   },
   "license": "MIT",

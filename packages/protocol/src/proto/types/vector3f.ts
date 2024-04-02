@@ -1,7 +1,7 @@
-import { Endianness } from "@serenityjs/binaryutils";
+import { Endianness } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
-import type { BinaryStream } from "@serenityjs/binaryutils";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * A 3D vector with floating point precision.

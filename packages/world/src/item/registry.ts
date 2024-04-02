@@ -1,4 +1,4 @@
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 import { ITEMDATA } from "@serenityjs/data";
 import { ItemData } from "@serenityjs/protocol";
 

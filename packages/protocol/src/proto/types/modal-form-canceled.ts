@@ -1,6 +1,6 @@
 import { DataType } from "@serenityjs/raknet";
 
-import type { BinaryStream, Endianness } from "@serenityjs/binaryutils";
+import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import type { ModalFormCanceledReason } from "../../enums";
 
 class ModalFormCanceled extends DataType {

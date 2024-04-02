@@ -1,7 +1,7 @@
 import { DataType } from "@serenityjs/raknet";
 import { CompoundTag } from "@serenityjs/nbt";
 
-import type { BinaryStream } from "@serenityjs/binaryutils";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class BlockProperties extends DataType {
 	public name: string;

@@ -1,4 +1,4 @@
-import { VarInt, Bool, Endianness } from "@serenityjs/binaryutils";
+import { VarInt, Bool, Endianness } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";

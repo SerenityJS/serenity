@@ -4,7 +4,7 @@ import {
 	Float32,
 	Short,
 	Uint8
-} from "@serenityjs/binaryutils";
+} from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { CompressionMethod, Packet } from "../../enums";

@@ -1,4 +1,4 @@
-import { BinaryStream, Uint8 } from "@serenityjs/binaryutils";
+import { BinaryStream, Uint8 } from "@serenityjs/binarystream";
 
 import { ValidTypes } from "../../types";
 

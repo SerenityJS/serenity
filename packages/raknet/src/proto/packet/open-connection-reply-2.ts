@@ -1,4 +1,4 @@
-import { Long, Bool, Short } from "@serenityjs/binaryutils";
+import { Long, Bool, Short } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";

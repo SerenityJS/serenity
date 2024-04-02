@@ -28,7 +28,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@serenityjs/binaryutils": "*",
+    "@serenityjs/binarystream": "*",
     "@serenityjs/emitter": "*",
     "@serenityjs/logger": "*",
     "reflect-metadata": "^0.2.1"

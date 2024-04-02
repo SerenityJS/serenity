@@ -1,4 +1,4 @@
-import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
+import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { Proto } from "../../decorators";
 import { Packet } from "../../enums";

@@ -4,7 +4,7 @@ import { InteractActions } from "../../enums";
 
 import { Vector3f } from "./vector3f";
 
-import type { BinaryStream, Endianness } from "@serenityjs/binaryutils";
+import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 class InteractPosition extends DataType {
 	public static read(

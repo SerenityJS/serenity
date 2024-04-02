@@ -25,7 +25,7 @@ import type {
 	String32,
 	VarString,
 	Uuid
-} from "@serenityjs/binaryutils";
+} from "@serenityjs/binarystream";
 import type { DataType } from "../../proto";
 
 type ValidTypes =

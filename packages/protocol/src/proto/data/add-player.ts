@@ -8,7 +8,7 @@ import {
 	Int64,
 	Uint8,
 	Int32
-} from "@serenityjs/binaryutils";
+} from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {

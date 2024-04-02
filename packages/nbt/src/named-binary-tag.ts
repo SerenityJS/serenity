@@ -3,7 +3,7 @@ import {
 	Endianness,
 	Uint16,
 	VarInt
-} from "@serenityjs/binaryutils";
+} from "@serenityjs/binarystream";
 
 import {
 	ByteTag,

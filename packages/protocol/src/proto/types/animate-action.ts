@@ -1,9 +1,9 @@
-import { Endianness } from "@serenityjs/binaryutils";
+import { Endianness } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
 import { AnimateId } from "../../enums";
 
-import type { BinaryStream } from "@serenityjs/binaryutils";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class AnimateAction extends DataType {
 	public static override read(

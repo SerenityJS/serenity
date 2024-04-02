@@ -4,7 +4,7 @@ import { Vector3f } from "./vector3f";
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 
 import type { ItemReleaseAction } from "../../enums";
-import type { BinaryStream } from "@serenityjs/binaryutils";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class TransactionItemRelease extends DataType {
 	public action: ItemReleaseAction;

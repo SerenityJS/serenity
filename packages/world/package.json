@@ -29,7 +29,7 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
-		"@serenityjs/binaryutils": "*",
+		"@serenityjs/binarystream": "*",
 		"@serenityjs/data": "*",
 		"@serenityjs/logger": "*",
 		"@serenityjs/nbt": "*",

@@ -1,5 +1,5 @@
 import { DataType } from "@serenityjs/raknet";
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
 

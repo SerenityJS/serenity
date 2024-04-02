@@ -1,4 +1,4 @@
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 class Framer {
 	public static unframe(buffer: Buffer): Array<Buffer> {

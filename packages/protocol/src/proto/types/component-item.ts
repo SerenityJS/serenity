@@ -1,4 +1,4 @@
-import { BinaryStream } from "@serenityjs/binaryutils";
+import { BinaryStream } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 import { DataType } from "@serenityjs/raknet";
 

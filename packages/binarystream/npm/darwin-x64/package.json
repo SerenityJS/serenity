@@ -1,6 +1,6 @@
 {
-  "name": "@serenityjs/binaryutils-darwin-x64",
-  "version": "2.3.0",
+  "name": "@serenityjs/binarystream-darwin-x64",
+  "version": "0.0.0",
   "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "darwin"
@@ -8,9 +8,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "@serenityjs/binaryutils.darwin-x64.node",
+  "main": "@serenityjs/binarystream.darwin-x64.node",
   "files": [
-    "@serenityjs/binaryutils.darwin-x64.node"
+    "@serenityjs/binarystream.darwin-x64.node"
   ],
   "license": "MIT",
   "engines": {

@@ -1,5 +1,5 @@
 import { DataType } from "@serenityjs/raknet";
-import { BinaryStream, Endianness } from "@serenityjs/binaryutils";
+import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { ItemInstanceUserData } from "./item-instance-user-data";
 

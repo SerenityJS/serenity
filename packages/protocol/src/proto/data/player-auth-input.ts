@@ -1,4 +1,4 @@
-import { Float32, Endianness, VarLong, VarInt } from "@serenityjs/binaryutils";
+import { Float32, Endianness, VarLong, VarInt } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";

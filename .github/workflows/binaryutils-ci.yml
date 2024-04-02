@@ -1,8 +1,8 @@
-name: Binaryutils CI Build Bindings
+name: binarystream CI Build Bindings
 env:
   DEBUG: napi:*
-  APP_NAME: 'binaryutils'
-  APP_DIRECTORY: 'packages/binaryutils'
+  APP_NAME: 'binarystream'
+  APP_DIRECTORY: 'packages/binarystream'
   MACOSX_DEPLOYMENT_TARGET: '10.13'
 permissions:
   contents: write
@@ -15,7 +15,7 @@ permissions:
       - '**'
     paths:
       # This will only run if the relevant package was affected in the push.
-      - 'packages/binaryutils/**'
+      - 'packages/binarystream/**'
   pull_request: null
   workflow_dispatch:
     inputs:
