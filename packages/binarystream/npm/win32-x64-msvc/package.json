@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/binarystream-win32-x64-msvc",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "win32"
