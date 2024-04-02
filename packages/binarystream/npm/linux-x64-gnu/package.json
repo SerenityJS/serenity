@@ -8,9 +8,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "@serenityjs/binarystream.linux-x64-gnu.node",
+  "main": "binarystream.linux-x64-gnu.node",
   "files": [
-    "@serenityjs/binarystream.linux-x64-gnu.node"
+    "binarystream.linux-x64-gnu.node"
   ],
   "license": "MIT",
   "engines": {
