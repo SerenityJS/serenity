@@ -8,9 +8,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "@serenityjs/netbeans.linux-x64-gnu.node",
+  "main": "netbeans.linux-x64-gnu.node",
   "files": [
-    "@serenityjs/netbeans.linux-x64-gnu.node"
+    "netbeans.linux-x64-gnu.node"
   ],
   "license": "MIT",
   "engines": {

@@ -8,9 +8,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "@serenityjs/netbeans.darwin-x64.node",
+  "main": "netbeans.darwin-x64.node",
   "files": [
-    "@serenityjs/netbeans.darwin-x64.node"
+    "netbeans.darwin-x64.node"
   ],
   "license": "MIT",
   "engines": {

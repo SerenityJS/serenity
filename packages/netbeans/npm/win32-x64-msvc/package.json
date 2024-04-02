@@ -8,9 +8,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "@serenityjs/netbeans.win32-x64-msvc.node",
+  "main": "netbeans.win32-x64-msvc.node",
   "files": [
-    "@serenityjs/netbeans.win32-x64-msvc.node"
+    "netbeans.win32-x64-msvc.node"
   ],
   "license": "MIT",
   "engines": {
