@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/binaryutils-linux-x64-gnu",
-  "version": "2.2.1",
+  "version": "2.2.0",
   "repository": "https://github.com/SerenityJS/serenity",
   "os": [
     "linux"
