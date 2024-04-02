@@ -107,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.APP_NAME }}.*.node
+          path: ${{ env.APP_DIRECTORY }}/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -194,7 +194,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ${{ env.APP_DIRECTORY }}/artifacts
+          path: ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/artifacts
       - name: Move artifacts
         run: yarn artifacts
         working-directory: ${{ env.APP_DIRECTORY }}
