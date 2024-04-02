@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/binarystream",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": "https://github.com/SerenityJS/serenity",
