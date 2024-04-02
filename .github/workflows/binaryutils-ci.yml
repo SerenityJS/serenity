@@ -194,7 +194,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ${{ github.workspace }}/${{ env.APP_DIRECTORY }}/artifacts
+          path: ${{ env.APP_DIRECTORY }}/artifacts
       - name: Move artifacts
         run: yarn artifacts
         working-directory: ${{ env.APP_DIRECTORY }}
@@ -224,7 +224,6 @@ jobs:
           else
             echo "Not a release, skipping publish"
           fi
-        working-directory: ${{ env.APP_DIRECTORY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
