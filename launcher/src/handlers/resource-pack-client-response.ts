@@ -14,13 +14,15 @@ import {
 	PlayStatusPacket,
 	PlayStatus,
 	DisconnectReason,
-	BlockProperties
+	type BlockProperties
 } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
-import { CustomBlockType, ItemType, World } from "@serenityjs/world";
+import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
+import { CustomBlockType } from "@serenityjs/block";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 /**
  * Handles the resource pack client response packet.
@@ -76,16 +78,16 @@ class ResourcePackClientResponse extends SerenityHandler {
 			}
 
 			case ResourcePackResponse.Completed: {
-				const blocks: Array<BlockProperties> = World.blocks
-					.getCustomBlocks()
-					.map((block) => {
-						const nbt = CustomBlockType.getBlockProperty(block);
+				const blocks: Array<BlockProperties> = CustomBlockType.getAll().map(
+					(type) => {
+						const item = ItemType.resolve(type) as CustomItemType;
 
 						return {
-							name: block.identifier,
-							nbt: nbt
+							name: item.identifier,
+							nbt: CustomItemType.getBlockProperty(item)
 						};
-					});
+					}
+				);
 
 				const packet = new StartGamePacket();
 				packet.entityId = player.unique;
@@ -383,7 +385,15 @@ class ResourcePackClientResponse extends SerenityHandler {
 				biomes.biomes = BIOME_DEFINITION_LIST;
 
 				const content = new CreativeContentPacket();
-				content.items = World.creative.getNetworkInstance();
+				content.items = [...CreativeItem.items.values()].map((item) => {
+					return {
+						network: item.type.network,
+						metadata: item.metadata,
+						stackSize: 1,
+						blockRuntimeId:
+							item.type.block?.permutations[item.metadata]?.network ?? 0
+					};
+				});
 
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;

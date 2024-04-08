@@ -5,6 +5,6 @@
     "outDir": "./dist",
     "types": ["jest", "node"]
   },
-  "include": ["."],
+  "include": [".", "../item/src/enums/item-category.ts"],
   "exclude": ["node_modules", "dist"],
 }

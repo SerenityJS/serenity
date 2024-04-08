@@ -6,9 +6,10 @@ import {
 	ContainerId,
 	ContainerType
 } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 class Interact extends SerenityHandler {
 	public static packet = InteractPacket.id;

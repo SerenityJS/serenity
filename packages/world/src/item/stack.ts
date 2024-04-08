@@ -1,15 +1,14 @@
-import {
+import { ItemType } from "@serenityjs/item";
+
+import type {
 	NetworkItemInstanceDescriptor,
 	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
+import type { Items } from "@serenityjs/item";
+import type { Container } from "../container";
 
-import { ItemIdentifier } from "../enums";
-import { Container } from "../container";
-
-import { ItemType } from "./type";
-
-class ItemStack {
-	public readonly type: ItemType;
+class ItemStack<T extends keyof Items = keyof Items> {
+	public readonly type: ItemType<T>;
 
 	public readonly metadata: number;
 
@@ -17,12 +16,8 @@ class ItemStack {
 
 	public container: Container | null = null;
 
-	public constructor(
-		identifier: ItemIdentifier,
-		amount: number,
-		metadata: number
-	) {
-		this.type = ItemType.resolve(identifier);
+	public constructor(identifier: T, amount: number, metadata: number) {
+		this.type = ItemType.get(identifier) as ItemType<T>;
 		this._amount = amount;
 		this.metadata = metadata;
 	}
@@ -62,7 +57,7 @@ class ItemStack {
 			network: item.type.network,
 			stackSize: item.amount,
 			metadata: item.metadata,
-			blockRuntimeId: permutation?.hash ?? 0,
+			blockRuntimeId: permutation?.network ?? 0,
 			extras: null // TODO: Implement extras
 		};
 	}
@@ -82,6 +77,21 @@ class ItemStack {
 			...instance,
 			stackNetId: null // TODO: Implement stackNetId, this is so that the server can track the item stack.
 		};
+	}
+
+	/**
+	 * Creates a new item stack from a provided item type.
+	 * @param type The type of the item.
+	 * @param amount The amount of the item.
+	 * @param metadata The metadata of the item.
+	 * @returns The item stack.
+	 */
+	public static create<T extends keyof Items>(
+		type: ItemType<T>,
+		amount: number,
+		metadata: number
+	): ItemStack<T> {
+		return new ItemStack(type.identifier, amount, metadata);
 	}
 }
 

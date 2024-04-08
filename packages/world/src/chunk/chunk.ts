@@ -1,7 +1,6 @@
 import { ChunkCoords } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
-
-import { BlockPermutation } from "../block";
+import { BlockPermutation } from "@serenityjs/block";
 
 import { SubChunk } from "./sub-chunk";
 
@@ -41,9 +40,9 @@ export class Chunk {
 		const state = subchunk.getState(x & 0xf, yl & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
 
 		// Return the permutation.
-		return this.hashes
-			? BlockPermutation.resolveByHash(state)
-			: BlockPermutation.resolveByRuntime(state);
+		return [...BlockPermutation.permutations.values()].find(
+			(x) => x.network === state
+		) as BlockPermutation;
 	}
 
 	public setPermutation(
@@ -57,7 +56,7 @@ export class Chunk {
 		const subchunk = this.getSubChunk(yl >> 4);
 
 		// Get the block state.
-		const state = this.hashes ? permutation.hash : permutation.runtime;
+		const state = permutation.network;
 
 		// Set the block.
 		subchunk.setState(x & 0xf, yl & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
@@ -87,7 +86,7 @@ export class Chunk {
 		}
 
 		// Return the sub chunk.
-		return this.subchunks[index]!;
+		return this.subchunks[index] as SubChunk;
 	}
 
 	public getSubChunkSendCount(): number {
@@ -95,7 +94,7 @@ export class Chunk {
 		let count = 0;
 		for (let index = Chunk.MAX_SUB_CHUNKS - 1; index >= 0; index--) {
 			// Check if the sub chunk is empty.
-			if (this.subchunks[index]!.isEmpty()) {
+			if ((this.subchunks[index] as SubChunk).isEmpty()) {
 				count++;
 			} else break;
 		}
@@ -109,7 +108,7 @@ export class Chunk {
 
 		// Serialize each sub chunk.
 		for (let index = 0; index < chunk.getSubChunkSendCount(); ++index) {
-			SubChunk.serialize(chunk.subchunks[index]!, stream);
+			SubChunk.serialize(chunk.subchunks[index] as SubChunk, stream);
 		}
 
 		// Biomes?

@@ -1314,6 +1314,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/block@npm:*, @serenityjs/block@workspace:^, @serenityjs/block@workspace:packages/block":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/block@workspace:packages/block"
+  dependencies:
+    "@serenityjs/binarystream": "npm:*"
+    "@serenityjs/data": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/nbt": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    jest: "npm:^29.7.0"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@serenityjs/chokidar@npm:*, @serenityjs/chokidar@workspace:packages/chokidar":
   version: 0.0.0-use.local
   resolution: "@serenityjs/chokidar@workspace:packages/chokidar"
@@ -1401,6 +1419,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/item@npm:*, @serenityjs/item@workspace:^, @serenityjs/item@workspace:packages/item":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/item@workspace:packages/item"
+  dependencies:
+    "@serenityjs/binarystream": "npm:*"
+    "@serenityjs/block": "npm:*"
+    "@serenityjs/data": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/nbt": "workspace:^"
+    "@serenityjs/protocol": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    jest: "npm:^29.7.0"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@serenityjs/jest-presets@npm:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
   version: 0.0.0-use.local
   resolution: "@serenityjs/jest-presets@workspace:packages/jest-presets"
@@ -1428,7 +1466,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:packages/nbt":
+"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:^, @serenityjs/nbt@workspace:packages/nbt":
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
@@ -1526,8 +1564,10 @@ __metadata:
   resolution: "@serenityjs/world@workspace:packages/world"
   dependencies:
     "@serenityjs/binarystream": "npm:*"
+    "@serenityjs/block": "npm:*"
     "@serenityjs/data": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/item": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"
@@ -6565,11 +6605,13 @@ __metadata:
   resolution: "launcher@workspace:launcher"
   dependencies:
     "@serenityjs/binarystream": "npm:*"
+    "@serenityjs/block": "workspace:^"
     "@serenityjs/chokidar": "npm:*"
     "@serenityjs/command": "npm:*"
     "@serenityjs/data": "npm:*"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/item": "workspace:^"
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"

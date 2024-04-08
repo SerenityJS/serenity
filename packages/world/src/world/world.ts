@@ -1,36 +1,19 @@
 import {
-	DataPacket,
-	DimensionType,
+	type DataPacket,
+	type DimensionType,
 	TextPacket,
 	TextPacketType
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
-import { WorldProvider } from "../provider";
-import { BlockRegistry } from "../block";
-import { Player } from "../player";
-import { TerrainGenerator } from "../generator";
-import { Entity } from "../entity";
-import { CreativeContentRegistry, ItemRegistry } from "../item";
-
 import { Dimension } from "./dimension";
 
+import type { TerrainGenerator } from "../generator";
+import type { Entity } from "../entity";
+import type { WorldProvider } from "../provider";
+import type { Player } from "../player";
+
 class World {
-	/**
-	 * The items registry for all the items in all the worlds.
-	 */
-	public static readonly items = new ItemRegistry();
-
-	/**
-	 * The blocks registry for all the blocks in all the worlds.
-	 */
-	public static readonly blocks = new BlockRegistry();
-
-	/**
-	 * The creative content registry for all the creative content in all the worlds.
-	 */
-	public static readonly creative = new CreativeContentRegistry();
-
 	/**
 	 * The identifier of the world.
 	 */
@@ -109,7 +92,9 @@ class World {
 	 * @returns The dimension that was found.
 	 */
 	public getDimension(identifier?: string): Dimension {
-		return this.dimensions.get(identifier ?? "minecraft:overworld")!;
+		return this.dimensions.get(
+			identifier ?? "minecraft:overworld"
+		) as Dimension;
 	}
 
 	/**
@@ -131,7 +116,7 @@ class World {
 				`Failed to create dimension "${identifier}," it already exists.`
 			);
 
-			return this.dimensions.get(identifier)!;
+			return this.dimensions.get(identifier) as Dimension;
 		}
 
 		// Create the dimension

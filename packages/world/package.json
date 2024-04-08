@@ -30,7 +30,9 @@
 	},
 	"dependencies": {
 		"@serenityjs/binarystream": "*",
+		"@serenityjs/block": "*",
 		"@serenityjs/data": "*",
+		"@serenityjs/item": "*",
 		"@serenityjs/logger": "*",
 		"@serenityjs/nbt": "*",
 		"@serenityjs/network": "*",

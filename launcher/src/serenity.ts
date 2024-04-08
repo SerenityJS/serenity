@@ -1,7 +1,7 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { RaknetServer } from "@serenityjs/raknet";
-import { Network, NetworkSession } from "@serenityjs/network";
-import { Player, World, WorldProvider } from "@serenityjs/world";
+import { Network, type NetworkSession } from "@serenityjs/network";
+import { type Player, World, type WorldProvider } from "@serenityjs/world";
 import { MINECRAFT_TICK_SPEED } from "@serenityjs/protocol";
 import { Commands } from "@serenityjs/command";
 
@@ -151,7 +151,7 @@ class Serenity {
 	}
 
 	public getWorld(name?: string): World {
-		return this.worlds.get(name ?? "default")!;
+		return this.worlds.get(name ?? "default") as World;
 	}
 
 	public createWorld(name: string, provider: WorldProvider): World {
@@ -159,7 +159,7 @@ class Serenity {
 		if (this.worlds.has(name)) {
 			this.logger.error(`Failed to create world "${name}," it already exists.`);
 
-			return this.worlds.get(name)!;
+			return this.worlds.get(name) as World;
 		}
 
 		// Create the world

@@ -4,6 +4,55 @@ import { resolve } from "node:path";
 // Path to data directory.
 const data = resolve(__dirname, "../data");
 
+interface BlockStates {
+	identifier: string;
+	values: Array<string | number | boolean>;
+}
+
+interface BlockTypes {
+	identifier: string;
+	loggable: boolean;
+	states: Array<string>;
+}
+
+interface BlockPermutations {
+	identifier: string;
+	hash: number;
+	state: Record<string, string | number | boolean>;
+}
+
+interface ItemTypes {
+	identifier: string;
+}
+
+/**
+ * Block states for all blocks in the game.
+ */
+const BLOCK_STATES: Array<BlockStates> = JSON.parse(
+	readFileSync(resolve(data, "block_states.json"), "utf8")
+);
+
+/**
+ * Block types for all blocks in the game.
+ */
+const BLOCK_TYPES: Array<BlockTypes> = JSON.parse(
+	readFileSync(resolve(data, "block_types.json"), "utf8")
+);
+
+/**
+ * Block permutations for all blocks in the game.
+ */
+const BLOCK_PERMUTATIONS: Array<BlockPermutations> = JSON.parse(
+	readFileSync(resolve(data, "block_permutations.json"), "utf8")
+);
+
+/**
+ * Item types for all items in the game.
+ */
+const ITEM_TYPES: Array<ItemTypes> = JSON.parse(
+	readFileSync(resolve(data, "item_types.json"), "utf8")
+);
+
 /**
  * Raw NBT data for the canonical block states.
  */
@@ -29,6 +78,10 @@ const CREATIVE_CONTENT = readFileSync(resolve(data, "creative_content.bin"));
 const ITEMDATA = readFileSync(resolve(data, "itemdata.bin"));
 
 export {
+	BLOCK_STATES,
+	BLOCK_TYPES,
+	BLOCK_PERMUTATIONS,
+	ITEM_TYPES,
 	CANONICAL_BLOCK_STATES,
 	BIOME_DEFINITION_LIST,
 	CREATIVE_CONTENT,
