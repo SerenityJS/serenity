@@ -1,6 +1,6 @@
-import type { AddItemActorPacket } from "@serenityjs/protocol/src/proto/data";
 import type { NetworkPacketEvent } from "./packet-event";
 import type {
+	AddItemActorPacket,
 	AddEntityPacket,
 	AddPlayerPacket,
 	AnimatePacket,
