@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/world",
-	"version": "0.0.0",
+	"version": "0.1.0-beta.0",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
@@ -28,14 +28,14 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
-		"@serenityjs/binarystream": "*",
-		"@serenityjs/block": "*",
-		"@serenityjs/data": "*",
-		"@serenityjs/item": "*",
-		"@serenityjs/logger": "*",
-		"@serenityjs/nbt": "*",
-		"@serenityjs/network": "*",
-		"@serenityjs/protocol": "*",
+		"@serenityjs/binarystream": "0.1.0-beta.0",
+		"@serenityjs/block": "0.1.0-beta.0",
+		"@serenityjs/data": "0.1.0-beta.0",
+		"@serenityjs/item": "0.1.0-beta.0",
+		"@serenityjs/logger": "0.1.0-beta.0",
+		"@serenityjs/nbt": "0.1.0-beta.0",
+		"@serenityjs/network": "0.1.0-beta.0",
+		"@serenityjs/protocol": "0.1.0-beta.0",
 		"simplex-noise": "^4.0.1"
 	}
 }
