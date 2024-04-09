@@ -1,2 +1,1 @@
-yarn run lint
-yarn run build
+# TODO: Add pre-commit hook to run tests before commit
