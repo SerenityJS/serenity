@@ -1,1 +1,3 @@
 # TODO: Add pre-commit hook to run tests before commit
+
+yarn run build
