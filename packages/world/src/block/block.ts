@@ -1,14 +1,12 @@
 import {
-	BlockCoordinates,
+	type BlockCoordinates,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
 	UpdateBlockPacket
 } from "@serenityjs/protocol";
+import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
-import { Dimension, World } from "../world";
-import { BlockIdentifier } from "../enums";
-
-import { BlockPermutation } from "./permutation";
+import type { Dimension } from "../world";
 
 class Block {
 	/**
@@ -75,9 +73,7 @@ class Block {
 		const packet = new UpdateBlockPacket();
 
 		// Set the packet properties.
-		packet.blockRuntimeId = this.dimension.world.provider.hashes
-			? permutation.hash
-			: permutation.runtime;
+		packet.blockRuntimeId = permutation.network;
 
 		packet.position = this.location;
 		packet.flags = UpdateBlockFlagsType.Network;
@@ -170,7 +166,7 @@ class Block {
 	 */
 	public destroy(): void {
 		// Get the air permutation.
-		const air = World.blocks.resolvePermutation(BlockIdentifier.Air);
+		const air = BlockPermutation.resolve(BlockIdentifier.Air);
 
 		// Set the block permutation to air.
 		this.setPermutation(air);

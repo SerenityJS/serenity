@@ -12,10 +12,11 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
-import { Player } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
+import type { Player } from "@serenityjs/world";
 
 class PlayerAction extends SerenityHandler {
 	public static readonly packet = PlayerActionPacket.id;
@@ -170,7 +171,7 @@ class PlayerAction extends SerenityHandler {
 		if (player.gamemode !== Gamemode.Creative) {
 			// Create a new UpdateBlock packet.
 			const update = new UpdateBlockPacket();
-			update.blockRuntimeId = block.permutation.hash;
+			update.blockRuntimeId = block.permutation.network;
 			update.position = { x, y, z };
 			update.flags = UpdateBlockFlagsType.Network;
 			update.layer = UpdateBlockLayerType.Normal;
@@ -185,7 +186,7 @@ class PlayerAction extends SerenityHandler {
 		// Set the event to destroy the block.
 		event.event = LevelEvent.ParticlesDestroyBlock;
 		event.position = new Vector3f(x, y, z);
-		event.data = block.permutation.hash;
+		event.data = block.permutation.network;
 
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
@@ -213,7 +214,7 @@ class PlayerAction extends SerenityHandler {
 		const event = new LevelEventPacket();
 		event.event = LevelEvent.ParticlesDestroyBlock;
 		event.position = new Vector3f(x, y, z);
-		event.data = block.permutation.hash;
+		event.data = block.permutation.network;
 
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
@@ -294,7 +295,7 @@ class PlayerAction extends SerenityHandler {
 		sound.event = LevelSoundEvent.Place;
 		sound.position = new Vector3f(x, y, z);
 
-		sound.data = permutation.hash;
+		sound.data = permutation.network;
 
 		sound.actorIdentifier = "";
 

@@ -1,0 +1,26 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "docs": "1.0.0",
+    "launcher": "1.0.0",
+    "@serenityjs/binarystream": "1.0.10",
+    "@serenityjs/block": "1.0.0",
+    "@serenityjs/chokidar": "1.0.0",
+    "@serenityjs/command": "1.0.0",
+    "@serenityjs/data": "1.0.0",
+    "@serenityjs/emitter": "1.0.0",
+    "@serenityjs/eslint-config": "1.0.0",
+    "@serenityjs/item": "1.0.0",
+    "@serenityjs/jest-presets": "1.0.0",
+    "@serenityjs/logger": "1.0.0",
+    "@serenityjs/nbt": "1.0.10",
+    "@serenityjs/netbeans": "1.0.0",
+    "@serenityjs/network": "1.0.0",
+    "@serenityjs/protocol": "1.0.0",
+    "@serenityjs/raknet": "1.0.0",
+    "@serenityjs/typescript-config": "1.0.0",
+    "@serenityjs/world": "1.0.0"
+  },
+  "changesets": []
+}

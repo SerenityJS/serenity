@@ -59,6 +59,14 @@
     {
       "name": "📦 Command",
       "path": "../packages/command"
+    },
+    {
+      "name": "📦 Block",
+      "path": "../packages/block"
+    },
+    {
+      "name": "📦 Item",
+      "path": "../packages/item"
     }
   ],
   "settings": {

@@ -1,7 +1,5 @@
 import { createNoise2D, type NoiseFunction2D } from "simplex-noise";
-
-import { BlockPermutation } from "../block";
-import { BlockIdentifier } from "../enums";
+import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
 import { TerrainGenerator } from "./generator";
 

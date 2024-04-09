@@ -1,5 +1,4 @@
-import { BlockPermutation } from "../block";
-import { BlockIdentifier } from "../enums";
+import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
 import { TerrainGenerator } from "./generator";
 

@@ -1,17 +1,20 @@
 import {
 	ContainerName,
 	DisconnectReason,
-	ItemStackAction,
+	type ItemStackAction,
 	ItemStackActionType,
 	ItemStackRequestPacket,
-	ItemStackRequests,
+	type ItemStackRequests,
 	ItemStackResponsePacket,
-	ItemStackStatus
+	ItemStackStatus,
+	type NetworkItemInstanceDescriptor
 } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
-import { ItemStack, ItemType, Player } from "@serenityjs/world";
+import { ItemStack, type Player } from "@serenityjs/world";
+import { ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 class ItemStackRequest extends SerenityHandler {
 	public static readonly packet = ItemStackRequestPacket.id;
@@ -71,8 +74,10 @@ class ItemStackRequest extends SerenityHandler {
 		request: ItemStackRequests
 	): void {
 		// Get the source and destination.
-		const source = action.source!;
-		const destination = action.destination!;
+		const source = action.source;
+		const destination = action.destination;
+
+		if (!source || !destination) return;
 
 		switch (destination.type) {
 			default: {
@@ -112,12 +117,14 @@ class ItemStackRequest extends SerenityHandler {
 					const cursor = player.getComponent("minecraft:cursor");
 
 					// Resolve the item type by the runtime ID.
-					const itemType = ItemType.resolveByNetwork(descriptor?.network ?? 0);
+					const itemType = [...ItemType.types.values()].find(
+						(type) => type.network === descriptor?.network
+					) as ItemType;
 
 					// Create a new item for the cursor.
 					const cursorItem = new ItemStack(
 						itemType.identifier,
-						action.count!,
+						action.count ?? 0,
 						0
 					);
 
@@ -155,10 +162,10 @@ class ItemStackRequest extends SerenityHandler {
 				// If the cursor item exists, then we will add the item to the cursor.
 				if (cursorItem) {
 					// Add the amount to the cursor item.
-					cursorItem.amount += action.count!;
+					cursorItem.amount += action.count ?? 0;
 
 					// Remove the amount from the item.
-					item.amount -= action.count!;
+					item.amount -= action.count ?? 0;
 
 					// Check if the item amount is 0.
 					if (item.amount === 0) {
@@ -169,7 +176,7 @@ class ItemStackRequest extends SerenityHandler {
 					// Construct a new item for the cursor.
 					const cursorItem = new ItemStack(
 						item.type.identifier,
-						action.count!,
+						action.count ?? 0,
 						0
 					);
 
@@ -177,7 +184,7 @@ class ItemStackRequest extends SerenityHandler {
 					cursor.container.setItem(0, cursorItem);
 
 					// Remove the amount from the item.
-					item.amount -= action.count!;
+					item.amount -= action.count ?? 0;
 
 					// Check if the item amount is 0.
 					if (item.amount === 0) {
@@ -195,8 +202,10 @@ class ItemStackRequest extends SerenityHandler {
 		request: ItemStackRequests
 	): void {
 		// Get the source and destination.
-		const source = action.source!;
-		const destination = action.destination!;
+		const source = action.source;
+		const destination = action.destination;
+
+		if (!source || !destination) return;
 
 		switch (source.type) {
 			default: {
@@ -236,10 +245,10 @@ class ItemStackRequest extends SerenityHandler {
 				// If the item already exists in the destination, then we will add the item to the destination.
 				if (destinationItem) {
 					// Add the amount to the destination item.
-					destinationItem.amount += action.count!;
+					destinationItem.amount += action.count ?? 0;
 
 					// Remove the amount from the cursor item.
-					item.amount -= action.count!;
+					item.amount -= action.count ?? 0;
 
 					// Check if the cursor item amount is 0.
 					if (item.amount === 0) {
@@ -248,13 +257,17 @@ class ItemStackRequest extends SerenityHandler {
 					}
 				} else {
 					// Construct a new item for the destination.
-					const newItem = new ItemStack(item.type.identifier, action.count!, 0);
+					const newItem = new ItemStack(
+						item.type.identifier,
+						action.count ?? 0,
+						0
+					);
 
 					// Set the item to the destination.
 					inventory.container.setItem(destination.slot, newItem);
 
 					// Remove the amount from the cursor item.
-					item.amount -= action.count!;
+					item.amount -= action.count ?? 0;
 
 					// Check if the cursor item amount is 0.
 					if (item.amount === 0) {
@@ -273,7 +286,7 @@ class ItemStackRequest extends SerenityHandler {
 				const inventory = player.getComponent("minecraft:inventory");
 
 				// Get the item from the source.
-				const item = inventory.container.getItem(source.slot)!;
+				const item = inventory.container.getItem(source.slot) as ItemStack;
 
 				// Check if the destination is the cursor.
 				if (destination.type === ContainerName.Cursor) {
@@ -286,10 +299,10 @@ class ItemStackRequest extends SerenityHandler {
 					// If the cursor item exists, then we will add the item to the cursor.
 					if (cursorItem) {
 						// Add the amount to the cursor item.
-						cursorItem.amount += action.count!;
+						cursorItem.amount += action.count ?? 0;
 
 						// Remove the amount from the item.
-						item.amount -= action.count!;
+						item.amount -= action.count ?? 0;
 
 						// Check if the item amount is 0.
 						if (item.amount === 0) {
@@ -300,7 +313,7 @@ class ItemStackRequest extends SerenityHandler {
 						// Construct a new item for the cursor.
 						const cursorItem = new ItemStack(
 							item.type.identifier,
-							action.count!,
+							action.count ?? 0,
 							0
 						);
 
@@ -308,7 +321,7 @@ class ItemStackRequest extends SerenityHandler {
 						cursor.container.setItem(0, cursorItem);
 
 						// Remove the amount from the item.
-						item.amount -= action.count!;
+						item.amount -= action.count ?? 0;
 
 						// Check if the item amount is 0.
 						if (item.amount === 0) {
@@ -323,10 +336,10 @@ class ItemStackRequest extends SerenityHandler {
 					// If the item already exists in the destination, then we will add the item to the destination.
 					if (destinationItem) {
 						// Add the amount to the destination item.
-						destinationItem.amount += action.count!;
+						destinationItem.amount += action.count ?? 0;
 
 						// Remove the amount from the source item.
-						item.amount -= action.count!;
+						item.amount -= action.count ?? 0;
 
 						// Check if the source item amount is 0.
 						if (item.amount === 0) {
@@ -337,7 +350,7 @@ class ItemStackRequest extends SerenityHandler {
 						// Construct a new item for the destination.
 						const newItem = new ItemStack(
 							item.type.identifier,
-							action.count!,
+							action.count ?? 0,
 							0
 						);
 
@@ -345,7 +358,7 @@ class ItemStackRequest extends SerenityHandler {
 						inventory.container.setItem(destination.slot, newItem);
 
 						// Remove the amount from the source item.
-						item.amount -= action.count!;
+						item.amount -= action.count ?? 0;
 
 						// Check if the source item amount is 0.
 						if (item.amount === 0) {
@@ -385,13 +398,19 @@ class ItemStackRequest extends SerenityHandler {
 				}
 
 				// Get the descriptor
-				const descriptor = items[0]!;
+				const descriptor = items[0] as NetworkItemInstanceDescriptor;
 
 				// Get the item type by the network.
-				const itemType = ItemType.resolveByNetwork(descriptor.network);
+				const itemType = [...ItemType.types.values()].find(
+					(type) => type.network === descriptor.network
+				) as ItemType;
 
 				// Create a new item for the destination.
-				const newItem = new ItemStack(itemType.identifier, action.count!, 0);
+				const newItem = new ItemStack(
+					itemType.identifier,
+					action.count ?? 0,
+					0
+				);
 
 				// Set the item to the destination.
 				inventory.container.setItem(destination.slot, newItem);
@@ -406,7 +425,9 @@ class ItemStackRequest extends SerenityHandler {
 		action: ItemStackAction
 	): void {
 		// Get the source.
-		const source = action.source!;
+		const source = action.source;
+
+		if (!source) return;
 
 		// Check if the source is the cursor.
 		if (source.type === ContainerName.Cursor) {

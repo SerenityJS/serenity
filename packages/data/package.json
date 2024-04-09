@@ -6,7 +6,8 @@
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
 	"files": [
-		"dist/**"
+		"dist/**",
+		"data/**"
 	],
 	"scripts": {
 		"build": "tsup",

@@ -1,7 +1,5 @@
-import { Endianness, BinaryStream } from "@serenityjs/binarystream";
-
-import { BlockPermutation } from "../block";
-import { BlockIdentifier } from "../enums";
+import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
+import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
 // TODO: Add logged blocks, light blocks, and biomes.
 
@@ -65,7 +63,7 @@ class BlockStorage {
 
 		// Find the air value.
 		const permutation = BlockPermutation.resolve(BlockIdentifier.Air);
-		this.air = this.hashes ? permutation.hash : permutation.runtime;
+		this.air = permutation.network;
 
 		// Assign the palette.
 		// When we create chunks, we will provide the palette with the current air value.
@@ -185,8 +183,8 @@ class BlockStorage {
 			for (let block = 0; block < blocksPerWord; block++) {
 				// Calculate the block index.
 				word |=
-					(storage.blocks[w * blocksPerWord + block]! &
-						((1 << bitsPerBlock) - 1)) <<
+					(storage.blocks[w * blocksPerWord + block] ??
+						0 & ((1 << bitsPerBlock) - 1)) <<
 					(bitsPerBlock * block);
 			}
 

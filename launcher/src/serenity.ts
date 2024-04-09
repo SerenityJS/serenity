@@ -163,7 +163,7 @@ class Serenity {
 	}
 
 	public getWorld(name?: string): World {
-		return this.worlds.get(name ?? "default")!;
+		return this.worlds.get(name ?? "default") as World;
 	}
 
 	public createWorld(name: string, provider: WorldProvider): World {
@@ -171,7 +171,7 @@ class Serenity {
 		if (this.worlds.has(name)) {
 			this.logger.error(`Failed to create world "${name}," it already exists.`);
 
-			return this.worlds.get(name)!;
+			return this.worlds.get(name) as World;
 		}
 
 		// Create the world
