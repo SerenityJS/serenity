@@ -2,7 +2,7 @@
   "files.exclude": {
     "node_modules/": true
   },
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "eslint.format.enable": true,
   "editor.insertSpaces": true,

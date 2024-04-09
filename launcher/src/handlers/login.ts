@@ -55,7 +55,7 @@ class Login extends SerenityHandler {
 		// And if so, disconnect the player the player currently connected.
 		if (this.serenity.players.has(xuid)) {
 			// Get the player to disconnect.
-			const player = this.serenity.players.get(xuid)!;
+			const player = this.serenity.players.get(xuid) as Player;
 
 			// Disconnect the player.
 			player.session.disconnect(

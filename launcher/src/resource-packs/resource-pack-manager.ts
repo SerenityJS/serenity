@@ -192,7 +192,7 @@ class ResourcePackManager {
 	/** Get a pack by its ID (with or without version suffix) */
 	public getPack(uuid: string): ResourcePack | undefined {
 		const isVersionUuid = uuid.includes("_");
-		uuid = isVersionUuid ? uuid.split("_")[0]! : uuid;
+		uuid = isVersionUuid ? (uuid.split("_")[0] as string) : uuid;
 
 		return this.resourcePacks.get(uuid);
 	}
