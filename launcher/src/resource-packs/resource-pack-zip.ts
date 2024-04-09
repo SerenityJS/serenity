@@ -268,6 +268,19 @@ class ResourcePackZip {
 		// Read all the files in the root directory.
 		const files = this.readDirectory(this.packPath, "", true);
 
+		// Add a contents.json file - not required for unencrypted packs as far as I can tell
+		//const contentsJson = {
+		//	contents: [...files.keys()].map((f) => ({ path: f }))
+		//};
+		//const contentsBuffer = Buffer.from(JSON.stringify(contentsJson), "utf8");
+		//const compressedContents = deflateRawSync(contentsBuffer);
+		//files.set("contents.json", {
+		//	stats: files.get("manifest.json")!.stats,
+		//	compressionMethod: 8,
+		//	crc32: this.calculateCrc32(contentsBuffer),
+		//	data: compressedContents
+		//});
+
 		// Store the central directory headers to write later.
 		const centralDirectoryFileHeaders: Array<CentralDirectoryFileHeader> = [];
 
