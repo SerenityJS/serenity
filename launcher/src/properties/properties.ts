@@ -15,6 +15,11 @@ interface DefaultServerProperties {
 	"network-compression-algorithm": string;
 	"network-packets-per-frame": number;
 	"debug-logging": boolean;
+	"must-accept-packs": boolean;
+	"resource-packs": Array<{
+		uuid: string;
+		subpack?: string;
+	}>;
 }
 
 class ServerProperties {

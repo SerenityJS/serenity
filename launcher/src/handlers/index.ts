@@ -9,6 +9,7 @@ import { MobEquipment } from "./mob-equipment";
 import { MovePlayer } from "./move-player";
 import { PlayerAction } from "./player-action";
 import { RequestNetworkSettings } from "./request-network-settings";
+import { ResourcePackChunkRequest } from "./resource-pack-chunk-request";
 import { ResourcePackClientResponse } from "./resource-pack-client-response";
 import { SetLocalPlayerAsIntialized } from "./set-local-player-as-initialized";
 import { Text } from "./text";
@@ -18,6 +19,7 @@ const HANDLERS = [
 	Login,
 	Disconnect,
 	ResourcePackClientResponse,
+	ResourcePackChunkRequest,
 	MovePlayer,
 	Interact,
 	ContainerClose,
@@ -47,3 +49,4 @@ export * from "./player-action";
 export * from "./animate";
 export * from "./command-request";
 export * from "./text";
+export * from "./resource-pack-chunk-request";

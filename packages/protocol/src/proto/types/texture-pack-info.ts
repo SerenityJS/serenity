@@ -8,7 +8,7 @@ class TexturePackInfo extends DataType {
 	public contentKey: string;
 	public hasScripts: boolean;
 	public rtxEnabled: boolean;
-	public size: number;
+	public size: bigint;
 	public subpackName: string;
 	public uuid: string;
 	public version: string;
@@ -18,7 +18,7 @@ class TexturePackInfo extends DataType {
 		contentKey: string,
 		hasScripts: boolean,
 		rtxEnabled: boolean,
-		size: number,
+		size: bigint,
 		subpackName: string,
 		uuid: string,
 		version: string
@@ -47,7 +47,7 @@ class TexturePackInfo extends DataType {
 			// Read all the fields for the pack.
 			const uuid = stream.readVarString();
 			const version = stream.readVarString();
-			const size = stream.readUint32(Endianness.Little);
+			const size = stream.readUint64(Endianness.Little);
 			const contentKey = stream.readVarString();
 			const subpackName = stream.readVarString();
 			const contentIdentity = stream.readVarString();
@@ -85,7 +85,7 @@ class TexturePackInfo extends DataType {
 			// Write the fields for the pack.
 			stream.writeVarString(pack.uuid);
 			stream.writeVarString(pack.version);
-			stream.writeUint32(pack.size, Endianness.Little);
+			stream.writeUint64(pack.size, Endianness.Little);
 			stream.writeVarString(pack.contentKey);
 			stream.writeVarString(pack.subpackName);
 			stream.writeVarString(pack.contentIdentity);

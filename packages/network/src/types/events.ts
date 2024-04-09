@@ -1,7 +1,5 @@
-import { AddItemActorPacket } from "@serenityjs/protocol/src/proto/data";
-
-import { NetworkPacketEvent } from "./packet-event";
-
+import type { AddItemActorPacket } from "@serenityjs/protocol/src/proto/data";
+import type { NetworkPacketEvent } from "./packet-event";
 import type {
 	AddEntityPacket,
 	AddPlayerPacket,
@@ -45,7 +43,10 @@ import type {
 	RemoveEntityPacket,
 	RequestChunkRadiusPacket,
 	RequestNetworkSettingsPacket,
+	ResourcePackChunkDataPacket,
+	ResourcePackChunkRequestPacket,
 	ResourcePackClientResponsePacket,
+	ResourcePackDataInfoPacket,
 	ResourcePackStackPacket,
 	ResourcePacksInfoPacket,
 	RespawnPacket,
@@ -114,6 +115,15 @@ interface NetworkEvents {
 	[Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommandsPacket>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequestPacket>];
 	[Packet.CommandOutput]: [NetworkPacketEvent<CommandOutputPacket>];
+	[Packet.ResourcePackDataInfo]: [
+		NetworkPacketEvent<ResourcePackDataInfoPacket>
+	];
+	[Packet.ResourcePackChunkData]: [
+		NetworkPacketEvent<ResourcePackChunkDataPacket>
+	];
+	[Packet.ResourcePackChunkRequest]: [
+		NetworkPacketEvent<ResourcePackChunkRequestPacket>
+	];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];

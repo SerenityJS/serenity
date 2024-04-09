@@ -1,21 +1,23 @@
 import {
 	DisconnectReason,
 	LoginPacket,
-	LoginTokens,
+	type LoginTokens,
 	PlayStatus,
 	PlayStatusPacket,
-	ResourcePacksInfoPacket
+	ResourcePacksInfoPacket,
+	TexturePackInfo
 } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 import { createDecoder } from "fast-jwt";
 import {
-	ClientData,
-	IdentityData,
-	LoginTokenData,
+	type ClientData,
+	type IdentityData,
+	type LoginTokenData,
 	Player
 } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 /**
  * Handles the login packet.
@@ -96,17 +98,32 @@ class Login extends SerenityHandler {
 		const login = new PlayStatusPacket();
 		login.status = PlayStatus.LoginSuccess;
 
-		// TODO: Implement to ability to use resource packs.
-		// We will now send an empty resource pack info packet.
-		// This will tell the client that there are no resource packs to download for now.
 		const packs = new ResourcePacksInfoPacket();
-		packs.mustAccept = false;
+		packs.mustAccept = this.serenity.resourcePacks.mustAcceptResourcePacks;
+
 		packs.hasAddons = false;
 		packs.hasScripts = false;
-		packs.forceServerPacks = false;
 		packs.behaviorPacks = [];
+
+		packs.forceServerPacks = false; // What this does is unknown.
+
 		packs.texturePacks = [];
-		packs.links = [];
+		for (const pack of this.serenity.resourcePacks.getPacks()) {
+			const packInfo = new TexturePackInfo(
+				pack.uuid,
+				pack.contentKey,
+				pack.hasScripts,
+				pack.isRtx,
+				pack.originalSize,
+				pack.selectedSubpack,
+				pack.uuid,
+				pack.version
+			);
+
+			packs.texturePacks.push(packInfo);
+		}
+
+		packs.links = []; // TODO: CDN links (can these be provided alongside?)
 
 		// Send the player the login status packet and the resource pack info packet.
 		session.send(login, packs);

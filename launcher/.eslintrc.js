@@ -4,5 +4,8 @@ module.exports = {
 	extends: ["@serenityjs/eslint-config/index.js"],
 	parserOptions: {
 		project: true
+	},
+	rules: {
+		"@typescript-eslint/no-non-null-assertion": "off"
 	}
 };

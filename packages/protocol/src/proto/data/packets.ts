@@ -45,6 +45,9 @@ import { RemoveEntityPacket } from "./remove-entity";
 import { RequestChunkRadiusPacket } from "./request-chunk-radius";
 import { RequestNetworkSettingsPacket } from "./request-network-settings";
 import { ResourcePackClientResponsePacket } from "./resource-pack-client-response";
+import { ResourcePackDataInfoPacket } from "./resource-pack-data-info";
+import { ResourcePackChunkDataPacket } from "./resource-pack-chunk-data";
+import { ResourcePackChunkRequestPacket } from "./resource-pack-chunk-request";
 import { ResourcePackStackPacket } from "./resource-pack-stack";
 import { ResourcePacksInfoPacket } from "./resource-packs-info";
 import { RespawnPacket } from "./respawn";
@@ -105,6 +108,9 @@ const Packets = {
 	[Packet.AvailableCommands]: AvailableCommandsPacket, // 76
 	[Packet.CommandRequest]: CommandRequestPacket, // 77
 	[Packet.CommandOutput]: CommandOutputPacket, // 79
+	[Packet.ResourcePackDataInfo]: ResourcePackDataInfoPacket, // 82
+	[Packet.ResourcePackChunkData]: ResourcePackChunkDataPacket, // 83
+	[Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
 	[Packet.SetTitle]: SetTitlePacket, // 88
 	[Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
 	[Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
