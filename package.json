@@ -9,9 +9,11 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "new": "turbo gen",
-    "prepare": "husky"
+    "prepare": "husky",
+    "commitlint": "commitlint --edit"
   },
   "devDependencies": {
+    "@commitlint/config-angular": "^19.1.0",
     "@serenityjs/eslint-config": "*",
     "@serenityjs/typescript-config": "*",
     "@turbo/gen": "^1.12.5",
@@ -31,5 +33,8 @@
     "docs",
     "launcher",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@commitlint/cli": "^19.2.1"
+  }
 }
