@@ -8,7 +8,8 @@
     "build:pkgs": "turbo build --filter='./packages/*'",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "new": "turbo gen"
+    "new": "turbo gen",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@serenityjs/eslint-config": "*",
@@ -17,7 +18,9 @@
     "@types/cross-spawn": "^6.0.6",
     "@yarnpkg/core": "^4.0.3",
     "cross-spawn": "^7.0.3",
+    "husky": "^9.0.11",
     "json5": "^2.2.3",
+    "pinst": "^3.0.0",
     "turbo": "latest"
   },
   "engines": {

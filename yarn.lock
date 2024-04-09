@@ -1428,7 +1428,7 @@ __metadata:
     "@serenityjs/data": "npm:*"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
-    "@serenityjs/nbt": "workspace:^"
+    "@serenityjs/nbt": "npm:*"
     "@serenityjs/protocol": "npm:*"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
@@ -1466,7 +1466,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:^, @serenityjs/nbt@workspace:packages/nbt":
+"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:packages/nbt":
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
@@ -5319,6 +5319,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"husky@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "husky@npm:9.0.11"
+  bin:
+    husky: bin.mjs
+  checksum: 10c0/2c787dcf74a837fc9a4fea7da907509d4bd9a289f4ea10ecc9d86279e4d4542b0f5f6443a619bccae19e265f2677172cc2b86aae5c932a35a330cc227d914605
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:0.6.3, iconv-lite@npm:^0.6.2":
   version: 0.6.3
   resolution: "iconv-lite@npm:0.6.3"
@@ -7757,6 +7766,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pinst@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "pinst@npm:3.0.0"
+  bin:
+    pinst: bin.js
+  checksum: 10c0/abb1ed62ea2acb2207a7a860715bdb26ecbde74ede8fad5f6200194f3e22db25e2b7a49af05e5cc7fc05384709c651e0000323f0077d7239060c4b68c8acd428
+  languageName: node
+  linkType: hard
+
 "pirates@npm:^4.0.1, pirates@npm:^4.0.4":
   version: 4.0.6
   resolution: "pirates@npm:4.0.6"
@@ -8572,7 +8590,9 @@ __metadata:
     "@types/cross-spawn": "npm:^6.0.6"
     "@yarnpkg/core": "npm:^4.0.3"
     cross-spawn: "npm:^7.0.3"
+    husky: "npm:^9.0.11"
     json5: "npm:^2.2.3"
+    pinst: "npm:^3.0.0"
     turbo: "npm:latest"
   languageName: unknown
   linkType: soft
