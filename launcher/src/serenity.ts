@@ -7,6 +7,7 @@ import { Commands } from "@serenityjs/command";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
 import { ServerProperties } from "./properties";
+import { ResourcePackManager } from "./resource-packs/resource-pack-manager";
 
 class Serenity {
 	/**
@@ -38,6 +39,11 @@ class Serenity {
 	 * The worlds map
 	 */
 	public readonly worlds: Map<string, World>;
+
+	/**
+	 * The resource pack manager instance
+	 */
+	public readonly resourcePacks: ResourcePackManager;
 
 	/**
 	 * The commands instance
@@ -90,6 +96,12 @@ class Serenity {
 		this.players = new Map();
 		this.worlds = new Map();
 		this.commands = new Commands();
+
+		this.resourcePacks = new ResourcePackManager(
+			"./resource_packs",
+			this.properties.values["resource-packs"],
+			this.properties.values["must-accept-packs"]
+		);
 
 		// Set the Serenity instance for all handlers
 		SerenityHandler.serenity = this;

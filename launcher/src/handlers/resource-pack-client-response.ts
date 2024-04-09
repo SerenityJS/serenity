@@ -11,14 +11,18 @@ import {
 	Vector3f,
 	CreativeContentPacket,
 	BiomeDefinitionListPacket,
+	ResourcePackDataInfoPacket,
 	PlayStatusPacket,
 	PlayStatus,
 	DisconnectReason,
-	type BlockProperties
+	type BlockProperties,
+	ResourceIdVersions
 } from "@serenityjs/protocol";
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
 import { CustomBlockType } from "@serenityjs/block";
+
+import { ResourcePack } from "../resource-packs/resource-pack-manager";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -52,26 +56,65 @@ class ResourcePackClientResponse extends SerenityHandler {
 			}
 
 			case ResourcePackResponse.Refused: {
-				return this.network.logger.error(
-					`ResourcePackResponse.Refused is not implemented!`
+				session.disconnect("Refused resource packs.", DisconnectReason.Kicked);
+
+				return this.serenity.logger.info(
+					`Disconnected ${player.username} for refusing required resource packs.`
 				);
 			}
 
 			case ResourcePackResponse.SendPacks: {
-				return this.network.logger.error(
-					`ResourcePackResponse.SendPacks is not implemented!`
+				this.serenity.resourcePacks.logger.info(
+					`Sending ${player.username} ${packet.packs.length} resource packs...`
 				);
+
+				// Loop over all packs and send a data info packet
+				for (const packId of packet.packs) {
+					const pack = this.serenity.resourcePacks.getPack(packId);
+
+					// In theory this should never happen
+					if (!pack) {
+						this.serenity.resourcePacks.logger.error(
+							`Received request for unknown pack ${packId}.`
+						);
+						continue;
+					}
+
+					const dataInfoPacket = new ResourcePackDataInfoPacket();
+
+					dataInfoPacket.packId = packId;
+					dataInfoPacket.maxChunkSize = ResourcePack.MAX_CHUNK_SIZE;
+					dataInfoPacket.chunkCount = pack.getChunkCount();
+					dataInfoPacket.fileSize = pack.compressedSize;
+					dataInfoPacket.fileHash = pack.getHash();
+					dataInfoPacket.isPremium = false;
+					dataInfoPacket.packType = pack.packType;
+
+					session.send(dataInfoPacket);
+				}
+
+				return;
 			}
 
 			case ResourcePackResponse.HaveAllPacks: {
 				// Create a new ResourcePackStackPacket
 				const stack = new ResourcePackStackPacket();
-				stack.mustAccept = false;
+				stack.mustAccept = this.serenity.resourcePacks.mustAcceptResourcePacks;
 				stack.behaviorPacks = [];
-				stack.texturePacks = [];
 				stack.gameVersion = MINECRAFT_VERSION;
 				stack.experiments = [];
 				stack.experimentsPreviouslyToggled = false;
+
+				stack.texturePacks = [];
+				for (const pack of this.serenity.resourcePacks.getPacks()) {
+					const packInfo = new ResourceIdVersions(
+						pack.name,
+						pack.uuid,
+						pack.version
+					);
+
+					stack.texturePacks.push(packInfo);
+				}
 
 				// Send the packet
 				return session.send(stack);

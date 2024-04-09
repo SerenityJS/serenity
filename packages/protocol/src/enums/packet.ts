@@ -47,6 +47,9 @@ enum Packet {
 	AvailableCommands = 0x4c,
 	CommandRequest = 0x4d, // 77
 	CommandOutput = 0x4f, // 79
+	ResourcePackDataInfo = 0x52, // 82
+	ResourcePackChunkData = 0x53, // 83
+	ResourcePackChunkRequest = 0x54, // 84
 	SetTitle = 0x58, // 88
 	ModalFormRequest = 0x64, // 100
 	ModalFormResponse = 0x65, // 101

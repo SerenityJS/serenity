@@ -1,4 +1,4 @@
-const DEFAULT_SERVER_PROPERTIES = `# Server Properties
+const DEFAULT_SERVER_PROPERTIES = /* yaml */ `# Server Properties
 
 server-name: "SerenityJS Server"
 # The name of the server seen in the server list.
@@ -18,12 +18,21 @@ network-comression-threshold: 256
 network-compression-algorithm: "zlib"
 # The algorithm used for network compression. (zlib, snappy)
 
-network-packets-per-frame: 32
+network-packets-per-frame: 64
 # The max amount of packets allowed to be sent per frame.
 # A client exceeding this limit will be disconnected.
 
 debug-logging: false
 # Whether or not debug messages should be shown.
+
+must-accept-packs: false
+# Whether or not the client must accept resource packs.
+
+# resource-packs:
+#   - uuid: "00000000-0000-0000-0000-000000000000"
+#   - uuid: "00000000-0000-0000-0000-000000000001"
+#     subpack: "example"
+# Example list of resource packs to enable.
 `;
 
 export { DEFAULT_SERVER_PROPERTIES };

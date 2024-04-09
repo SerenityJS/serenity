@@ -2,6 +2,7 @@
 
 # Serentity files
 server.properties
+resource_packs/
 
 # Dependencies
 .yarn/*

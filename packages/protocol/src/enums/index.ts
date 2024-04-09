@@ -44,3 +44,4 @@ export * from "./ability-set";
 export * from "./animate-id";
 export * from "./level-event";
 export * from "./level-sound-event";
+export * from "./pack-type";
