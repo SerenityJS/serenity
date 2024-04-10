@@ -21,5 +21,8 @@
     "@serenityjs/typescript-config": "0.0.0",
     "@serenityjs/world": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "dull-rice-travel",
+    "rotten-eyes-explode"
+  ]
 }
