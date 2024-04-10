@@ -1950,21 +1950,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/netbeans@workspace:packages/netbeans":
-  version: 0.0.0-use.local
-  resolution: "@serenityjs/netbeans@workspace:packages/netbeans"
-  dependencies:
-    "@napi-rs/cli": "npm:^2.18.0"
-    "@serenityjs/eslint-config": "npm:*"
-    "@serenityjs/jest-presets": "npm:*"
-    "@serenityjs/typescript-config": "npm:*"
-    "@types/jest": "npm:^29.5.12"
-    "@types/node": "npm:^20.11.24"
-    jest: "npm:^29.7.0"
-    typescript: "npm:^5.4.2"
-  languageName: unknown
-  linkType: soft
-
 "@serenityjs/network@npm:*, @serenityjs/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@serenityjs/network@workspace:packages/network"
