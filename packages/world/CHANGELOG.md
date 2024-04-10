@@ -1,5 +1,20 @@
 # @serenityjs/world
 
+## 0.1.0-beta.4
+
+### Patch Changes
+
+- Release test
+- Updated dependencies
+  - @serenityjs/binarystream@1.1.0-beta.1
+  - @serenityjs/block@0.1.0-beta.4
+  - @serenityjs/data@0.1.0-beta.4
+  - @serenityjs/item@0.1.0-beta.4
+  - @serenityjs/logger@0.1.0-beta.4
+  - @serenityjs/nbt@0.1.0-beta.4
+  - @serenityjs/network@0.1.0-beta.4
+  - @serenityjs/protocol@0.1.0-beta.4
+
 ## 0.1.0-beta.3
 
 ### Minor Changes
