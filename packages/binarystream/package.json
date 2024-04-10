@@ -33,5 +33,10 @@
     "test": "jest",
     "universal": "napi universal",
     "version": "napi version"
+  },
+  "optionalDependencies": {
+    "@serenityjs/binarystream-darwin-x64": "1.1.0-beta.0",
+    "@serenityjs/binarystream-linux-x64-gnu": "1.1.0-beta.0",
+    "@serenityjs/binarystream-win32-x64-msvc": "1.1.0-beta.0"
   }
 }
