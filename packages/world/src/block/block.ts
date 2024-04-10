@@ -5,6 +5,9 @@ import {
 	UpdateBlockPacket
 } from "@serenityjs/protocol";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
+import { ItemType } from "@serenityjs/item";
+
+import { ItemStack } from "../item";
 
 import type { Dimension } from "../world";
 
@@ -54,6 +57,10 @@ class Block {
 		this.location = location;
 	}
 
+	/**
+	 * Sets the permutation of the block.
+	 * @param permutation The permutation to set.
+	 */
 	public setPermutation(permutation: BlockPermutation): void {
 		// Get the chunk the block is in.
 		const chunk = this.dimension.getChunk(
@@ -81,6 +88,21 @@ class Block {
 
 		// Send the packet to the dimension.
 		this.dimension.broadcast(packet);
+	}
+
+	/**
+	 * Gets the item stack of the block.
+	 * @param amount The amount of items in the stack.
+	 */
+	public getItemStack(amount?: number): ItemStack {
+		// Get the item type of the block.
+		const type = ItemType.resolve(this.permutation.type) as ItemType;
+
+		// Get the permutation index of the block type.
+		const index = this.permutation.type.permutations.indexOf(this.permutation);
+
+		// Create a new ItemStack.
+		return ItemStack.create(type, amount ?? 1, index);
 	}
 
 	/**

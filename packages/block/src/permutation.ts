@@ -16,6 +16,11 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 	public readonly network: number;
 
 	/**
+	 * The index value of the block permutation in the block type.
+	 */
+	public readonly index: number;
+
+	/**
 	 * The state of the block permutation.
 	 */
 	public readonly state: BlockState[T];
@@ -39,6 +44,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 		this.network = network;
 		this.state = state;
 		this.type = type;
+		this.index = type.permutations.length;
 	}
 
 	/**

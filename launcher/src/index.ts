@@ -14,7 +14,12 @@ import {
 	ItemCategory,
 	ItemGroup
 } from "@serenityjs/item";
-import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
+import {
+	BlockIdentifier,
+	BlockPermutation,
+	BlockType,
+	CustomBlockType
+} from "@serenityjs/block";
 
 import { Serenity } from "./serenity";
 
