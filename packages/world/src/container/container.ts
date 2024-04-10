@@ -1,6 +1,5 @@
-import { ContainerId } from "@serenityjs/protocol";
-
-import { ItemStack } from "../item";
+import type { ContainerId } from "@serenityjs/protocol";
+import type { ItemStack } from "../item";
 
 /**
  * Represents a container.

@@ -1,5 +1,6 @@
-import { Entity } from "../../entity";
 import { Component } from "../component";
+
+import type { Entity } from "../../entity";
 
 class EntityComponent extends Component {
 	/**

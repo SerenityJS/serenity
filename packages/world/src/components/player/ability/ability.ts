@@ -1,12 +1,13 @@
 import {
-	AbilityLayerFlag,
+	type AbilityLayerFlag,
 	AbilityLayerType,
-	AbilitySet,
+	type AbilitySet,
 	UpdateAbilitiesPacket
 } from "@serenityjs/protocol";
 
 import { PlayerComponent } from "../player-component";
-import { Player } from "../../../player";
+
+import type { Player } from "../../../player";
 
 abstract class PlayerAbilityComponent extends PlayerComponent {
 	/**

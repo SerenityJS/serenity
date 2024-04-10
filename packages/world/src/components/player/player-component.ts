@@ -1,5 +1,6 @@
-import { Player } from "../../player";
 import { EntityComponent } from "../entity";
+
+import type { Player } from "../../player";
 
 abstract class PlayerComponent extends EntityComponent {
 	/**

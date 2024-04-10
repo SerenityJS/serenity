@@ -1,8 +1,8 @@
 import { AbilityLayerFlag, AbilitySet } from "@serenityjs/protocol";
 
-import { Player } from "../../../player";
-
 import { PlayerAbilityComponent } from "./ability";
+
+import type { Player } from "../../../player";
 
 class PlayerAttackPlayersComponent extends PlayerAbilityComponent {
 	public readonly flag = AbilityLayerFlag.AttackPlayers;

@@ -1,25 +1,12 @@
 import {
-	EntityIdentifier,
 	InternalProvider,
 	Superflat,
-	EntityNametagComponent,
-	EntityAlwaysShowNametagComponent,
-	ItemStack
+	ItemNametagComponent
 } from "@serenityjs/world";
 import { DimensionType, Packet } from "@serenityjs/protocol";
 import { NetworkBound } from "@serenityjs/network";
-import {
-	ItemIdentifier,
-	CustomItemType,
-	ItemCategory,
-	ItemGroup
-} from "@serenityjs/item";
-import {
-	BlockIdentifier,
-	BlockPermutation,
-	BlockType,
-	CustomBlockType
-} from "@serenityjs/block";
+import { CustomItemType, ItemCategory, ItemGroup } from "@serenityjs/item";
+import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
 
 import { Serenity } from "./serenity";
 
@@ -52,39 +39,22 @@ serenity.network.before(Packet.Text, (data) => {
 	const player = serenity.getPlayer(data.session);
 	if (!player) return false;
 
-	if (data.packet.message === "cancel") return false;
-
-	if (data.packet.message === "test") {
-		// Create a new entity
-		const entity = player.dimension.spawnEntity(
-			EntityIdentifier.Npc,
-			player.position
-		);
-
-		// Register the entity components
-		const alwaysShow = new EntityAlwaysShowNametagComponent(entity);
-		const nametag = new EntityNametagComponent(entity);
-
-		// Set the component values
-		alwaysShow.setCurrentValue(true);
-		nametag.setCurrentValue("Hello, World!");
-	}
-
-	if (data.packet.message === "item") {
+	if (data.packet.message.startsWith("rename")) {
 		const inventory = player.getComponent("minecraft:inventory");
 
-		const item = new ItemStack(ItemIdentifier.CobblestoneWall, 1, 0);
+		const item = inventory.getHeldItem();
 
-		const perm = item.type.block.getPermutation({
-			wall_block_type: "stone_brick",
-			wall_connection_type_north: "tall"
-		});
+		if (!item) return false;
 
-		player.dimension
-			.getBlock(player.position.x, player.position.y, player.position.z)
-			.setPermutation(perm);
+		const component = item.components.has("minecraft:nametag")
+			? item.getComponent("minecraft:nametag")
+			: item.setComponent(new ItemNametagComponent(item));
 
-		inventory.container.addItem(item);
+		component.setCurrentValue(data.packet.message.slice(7));
+
+		console.log(item.components);
+
+		return false;
 	}
 
 	return true;
@@ -103,7 +73,11 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 
 	const inventory = player.getComponent("minecraft:inventory");
 
+	const nametag = new ItemNametagComponent(item);
+
 	inventory.container.addItem(item);
+
+	nametag.setCurrentValue("Hello, World!");
 });
 
 // How to create a custom block with a custom item on SerenityJS.

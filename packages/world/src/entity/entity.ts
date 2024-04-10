@@ -1,21 +1,22 @@
 import {
 	AddEntityPacket,
-	MetadataFlags,
+	type MetadataFlags,
 	MetadataKey,
 	RemoveEntityPacket,
 	Rotation,
 	Vector3f
 } from "@serenityjs/protocol";
 
-import { Player } from "../player";
-import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
 import {
 	EntityAttributeComponent,
-	EntityComponent,
+	type EntityComponent,
 	EntityMetadataComponent
 } from "../components";
-import {
+
+import type { Player } from "../player";
+import type { Dimension } from "../world";
+import type {
 	EntityAttributeComponents,
 	EntityComponents
 } from "../types/components";
@@ -61,7 +62,7 @@ class Entity {
 		// Register all the components
 		for (const component of new.target.components) {
 			// create a new instance of the component
-			// @ts-ignore fix this
+			// @ts-expect-error fix this
 			const instance = new component(this);
 
 			// set the component to the entity

@@ -1,9 +1,10 @@
 import { ContainerId } from "@serenityjs/protocol";
 
 import { EntityContainer } from "../../container";
-import { Player } from "../../player";
 
 import { PlayerComponent } from "./player-component";
+
+import type { Player } from "../../player";
 
 class PlayerCursorComponent extends PlayerComponent {
 	public readonly container: EntityContainer;

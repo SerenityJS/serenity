@@ -1,8 +1,8 @@
 import { MetadataKey, MetadataType } from "@serenityjs/protocol";
 
-import { Entity } from "../../../entity";
-
 import { EntityMetadataComponent } from "./meta";
+
+import type { Entity } from "../../../entity";
 
 class EntityNametagComponent extends EntityMetadataComponent {
 	public readonly flag = false;

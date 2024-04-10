@@ -1,7 +1,7 @@
 import {
-	MetadataFlags,
+	type MetadataFlags,
 	MetadataKey,
-	MetadataType,
+	type MetadataType,
 	SetEntityDataPacket
 } from "@serenityjs/protocol";
 

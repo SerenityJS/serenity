@@ -1,13 +1,14 @@
 import {
-	ContainerId,
+	type ContainerId,
 	InventorySlotPacket,
 	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 
-import { Entity } from "../entity";
 import { ItemStack } from "../item";
 
 import { Container } from "./container";
+
+import type { Entity } from "../entity";
 
 /**
  * Represents a container that is owned by an entity.
@@ -96,7 +97,7 @@ class EntityContainer extends Container {
 			this.setItem(emptySlot, item);
 		} else {
 			// Get the existing item.
-			const existingItem = this.storage[slot]!;
+			const existingItem = this.storage[slot] as ItemStack;
 
 			// Calculate the amount of items to add.
 			const amount = Math.min(64 - existingItem.amount, item.amount);
