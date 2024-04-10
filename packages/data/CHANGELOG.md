@@ -1,5 +1,11 @@
 # @serenityjs/data
 
+## 0.1.0-beta.3
+
+### Minor Changes
+
+- Test rust release
+
 ## 0.1.0-beta.2
 
 ### Minor Changes

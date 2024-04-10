@@ -1,5 +1,18 @@
 # @serenityjs/raknet
 
+## 0.1.0-beta.3
+
+### Minor Changes
+
+- Test rust release
+
+### Patch Changes
+
+- Updated dependencies
+  - @serenityjs/binarystream@1.1.0-beta.0
+  - @serenityjs/emitter@0.1.0-beta.3
+  - @serenityjs/logger@0.1.0-beta.3
+
 ## 0.1.0-beta.2
 
 ### Minor Changes

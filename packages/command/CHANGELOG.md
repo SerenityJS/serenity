@@ -1,5 +1,17 @@
 # @serenityjs/command
 
+## 0.1.0-beta.3
+
+### Minor Changes
+
+- Test rust release
+
+### Patch Changes
+
+- Updated dependencies
+  - @serenityjs/logger@0.1.0-beta.3
+  - @serenityjs/world@0.1.0-beta.3
+
 ## 0.1.0-beta.2
 
 ### Minor Changes

@@ -1,5 +1,20 @@
 # @serenityjs/item
 
+## 0.1.0-beta.3
+
+### Minor Changes
+
+- Test rust release
+
+### Patch Changes
+
+- Updated dependencies
+  - @serenityjs/binarystream@1.1.0-beta.0
+  - @serenityjs/block@0.1.0-beta.3
+  - @serenityjs/data@0.1.0-beta.3
+  - @serenityjs/nbt@0.1.0-beta.3
+  - @serenityjs/protocol@0.1.0-beta.3
+
 ## 0.1.0-beta.2
 
 ### Minor Changes

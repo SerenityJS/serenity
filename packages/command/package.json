@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/command",
-	"version": "0.1.0-beta.2",
+	"version": "0.1.0-beta.3",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
@@ -28,7 +28,7 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
-		"@serenityjs/logger": "0.1.0-beta.2",
-		"@serenityjs/world": "0.1.0-beta.2"
+		"@serenityjs/logger": "0.1.0-beta.3",
+		"@serenityjs/world": "0.1.0-beta.3"
 	}
 }
