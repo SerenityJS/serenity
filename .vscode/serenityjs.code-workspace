@@ -33,10 +33,6 @@
       "path": "../packages/protocol"
     },
     {
-      "name": "🦀 Netbeans",
-      "path": "../packages/netbeans"
-    },
-    {
       "name": "📦 Nbt",
       "path": "../packages/nbt"
     },

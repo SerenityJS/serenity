@@ -7,5 +7,13 @@
   "access": "public",
   "baseBranch": "develop",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [
+    "docs",
+    "launcher",
+    "packages/binarystream",
+    "packages/chokidar",
+    "packages/eslint-config",
+    "packages/jest-presets",
+    "packages/typescript-config"
+  ]
 }
