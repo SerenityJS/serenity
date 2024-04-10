@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/block",
-	"version": "0.0.1-beta.0",
+	"version": "0.1.0-beta.2",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"@serenityjs/binarystream": "*",
-		"@serenityjs/data": "0.0.1-beta.0",
-		"@serenityjs/nbt": "0.0.11-beta.0"
+		"@serenityjs/data": "0.1.0-beta.2",
+		"@serenityjs/nbt": "0.1.0-beta.2"
 	}
 }

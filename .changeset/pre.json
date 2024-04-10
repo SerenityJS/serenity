@@ -22,7 +22,9 @@
     "@serenityjs/world": "0.0.0"
   },
   "changesets": [
+    "chatty-avocados-clap",
     "dull-rice-travel",
-    "rotten-eyes-explode"
+    "rotten-eyes-explode",
+    "silver-bikes-clap"
   ]
 }

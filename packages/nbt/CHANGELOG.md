@@ -1,5 +1,17 @@
 # @serenityjs/nbt
 
+## 0.1.0-beta.2
+
+### Minor Changes
+
+- Test release
+
+## 0.1.0-beta.1
+
+### Minor Changes
+
+- Test release
+
 ## 0.0.11-beta.0
 
 ### Patch Changes

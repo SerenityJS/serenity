@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/network",
-	"version": "0.0.1-beta.0",
+	"version": "0.1.0-beta.2",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
@@ -28,9 +28,9 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
-		"@serenityjs/emitter": "0.0.1-beta.0",
-		"@serenityjs/logger": "0.0.1-beta.0",
-		"@serenityjs/protocol": "0.0.1-beta.0",
-		"@serenityjs/raknet": "0.0.1-beta.0"
+		"@serenityjs/emitter": "0.1.0-beta.2",
+		"@serenityjs/logger": "0.1.0-beta.2",
+		"@serenityjs/protocol": "0.1.0-beta.2",
+		"@serenityjs/raknet": "0.1.0-beta.2"
 	}
 }
