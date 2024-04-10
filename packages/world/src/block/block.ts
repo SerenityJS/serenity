@@ -98,11 +98,8 @@ class Block {
 		// Get the item type of the block.
 		const type = ItemType.resolve(this.permutation.type) as ItemType;
 
-		// Get the permutation index of the block type.
-		const index = this.permutation.type.permutations.indexOf(this.permutation);
-
 		// Create a new ItemStack.
-		return ItemStack.create(type, amount ?? 1, index);
+		return ItemStack.create(type, amount ?? 1, this.permutation.index);
 	}
 
 	/**

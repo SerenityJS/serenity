@@ -90,6 +90,22 @@ serenity.network.before(Packet.Text, (data) => {
 	return true;
 });
 
+serenity.network.on(Packet.BlockPickRequest, (data) => {
+	const player = serenity.getPlayer(data.session);
+	if (!player) return;
+
+	const block = player.dimension.getBlock(
+		data.packet.x,
+		data.packet.y,
+		data.packet.z
+	);
+	const item = block.getItemStack();
+
+	const inventory = player.getComponent("minecraft:inventory");
+
+	inventory.container.addItem(item);
+});
+
 // How to create a custom block with a custom item on SerenityJS.
 // This will also allow to assign the block item to a specific creative tab/category.
 // The custom block will be registered with the block registry.
