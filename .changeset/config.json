@@ -9,11 +9,6 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "docs",
-    "launcher",
-    "packages/binarystream",
-    "packages/chokidar",
-    "packages/eslint-config",
-    "packages/jest-presets",
-    "packages/typescript-config"
+    "launcher"
   ]
 }
