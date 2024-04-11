@@ -80,7 +80,7 @@ class Block {
 		const packet = new UpdateBlockPacket();
 
 		// Set the packet properties.
-		packet.blockRuntimeId = permutation.network;
+		packet.networkBlockId = permutation.network;
 
 		packet.position = this.location;
 		packet.flags = UpdateBlockFlagsType.Network;

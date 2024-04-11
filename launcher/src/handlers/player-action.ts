@@ -171,7 +171,7 @@ class PlayerAction extends SerenityHandler {
 		if (player.gamemode !== Gamemode.Creative) {
 			// Create a new UpdateBlock packet.
 			const update = new UpdateBlockPacket();
-			update.blockRuntimeId = block.permutation.network;
+			update.networkBlockId = block.permutation.network;
 			update.position = { x, y, z };
 			update.flags = UpdateBlockFlagsType.Network;
 			update.layer = UpdateBlockLayerType.Normal;

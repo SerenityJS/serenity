@@ -44,7 +44,7 @@ class NetworkItemInstanceDescriptor extends DataType {
 		// Read the remaining fields of the item.
 		const stackSize = stream.readUint16(Endianness.Little);
 		const metadata = stream.readVarInt();
-		const blockRuntimeId = stream.readZigZag();
+		const networkBlockId = stream.readZigZag();
 
 		// Check if the item has extra data.
 		const length = stream.readVarInt();
@@ -58,7 +58,7 @@ class NetworkItemInstanceDescriptor extends DataType {
 			network,
 			stackSize,
 			metadata,
-			blockRuntimeId,
+			networkBlockId,
 			extras
 		);
 	}

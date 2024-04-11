@@ -79,7 +79,7 @@ class NetworkItemStackDescriptor extends DataType {
 		const stackNetId = stream.readBool() ? stream.readVarInt() : null;
 
 		// Read the block runtime id.
-		const blockRuntimeId = stream.readZigZag();
+		const networkBlockId = stream.readZigZag();
 
 		// Check if the item has extra data.
 		const length = stream.readVarInt();
@@ -97,7 +97,7 @@ class NetworkItemStackDescriptor extends DataType {
 			stackSize,
 			metadata,
 			stackNetId,
-			blockRuntimeId,
+			networkBlockId,
 			extras
 		);
 	}

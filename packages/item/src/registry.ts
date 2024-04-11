@@ -46,7 +46,7 @@ for (const [index, item] of creative.entries()) {
 
 	// Create a new item instance descriptor.
 	item.metadata = metadata;
-	item.blockRuntimeId = type.block?.permutations[metadata]?.network ?? 0;
+	item.networkBlockId = type.block?.permutations[metadata]?.network ?? 0;
 
 	// Set the item in the registry.
 	CreativeItem.items.set(index, new CreativeItem(type, metadata));

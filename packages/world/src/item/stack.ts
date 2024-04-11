@@ -129,7 +129,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 			network: item.type.network,
 			stackSize: item.amount,
 			metadata: item.metadata,
-			blockRuntimeId: permutation?.network ?? 0,
+			networkBlockId: permutation?.network ?? 0,
 			extras: {
 				nbt,
 				canDestroy: [],

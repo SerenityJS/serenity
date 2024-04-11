@@ -1,26 +1,23 @@
-import { NetworkSession } from "@serenityjs/network";
 import {
 	AbilityLayerType,
 	AddPlayerPacket,
-	BlockCoordinates,
+	type BlockCoordinates,
 	Gamemode,
 	LevelChunkPacket,
-	MetadataFlags,
+	type MetadataFlags,
 	MetadataKey,
 	NetworkChunkPublisherUpdatePacket,
+	NetworkItemStackDescriptor,
 	TextPacket,
 	TextPacketType
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
-import { LoginTokenData } from "../types/login-data";
-import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
-import { PlayerAbilityComponents, PlayerComponents } from "../types/components";
 import {
 	EntityAlwaysShowNametagComponent,
 	EntityBreathingComponent,
-	EntityComponent,
+	type EntityComponent,
 	EntityHasGravityComponent,
 	EntityInvetoryComponent,
 	EntityMovementComponent,
@@ -29,7 +26,7 @@ import {
 	PlayerAttackMobsComponent,
 	PlayerAttackPlayersComponent,
 	PlayerBuildComponent,
-	PlayerComponent,
+	type PlayerComponent,
 	PlayerCountComponent,
 	PlayerCursorComponent,
 	PlayerDoorsAndSwitchesComponent,
@@ -51,6 +48,14 @@ import {
 } from "../components";
 import { Chunk } from "../chunk";
 import { ItemStack } from "../item";
+
+import type {
+	PlayerAbilityComponents,
+	PlayerComponents
+} from "../types/components";
+import type { Dimension } from "../world";
+import type { LoginTokenData } from "../types/login-data";
+import type { NetworkSession } from "@serenityjs/network";
 
 class Player extends Entity {
 	/**
@@ -173,7 +178,9 @@ class Player extends Entity {
 		packet.yaw = this.rotation.yaw;
 		packet.headYaw = this.rotation.headYaw;
 		packet.heldItem =
-			heldItem === null ? { network: 0 } : ItemStack.toNetworkStack(heldItem);
+			heldItem === null
+				? new NetworkItemStackDescriptor(0)
+				: ItemStack.toNetworkStack(heldItem);
 		packet.gamemode = 0;
 		packet.metadata = this.getMetadatas().map((entry) => {
 			return {
