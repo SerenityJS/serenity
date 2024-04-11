@@ -1,10 +1,10 @@
 enum BlockFace {
-	BOTTOM,
-	TOP,
-	NORTH,
-	SOUTH,
-	WEST,
-	EAST
+	Bottom,
+	Top,
+	North,
+	South,
+	West,
+	East
 }
 
 export { BlockFace };

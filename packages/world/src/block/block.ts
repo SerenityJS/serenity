@@ -1,5 +1,6 @@
 import {
 	type BlockCoordinates,
+	BlockFace,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
 	UpdateBlockPacket
@@ -178,6 +179,34 @@ class Block {
 			this.location.y,
 			this.location.z
 		);
+	}
+
+	/**
+	 * Gets the corresponding block next to a given block face of the block.
+	 *
+	 * @param face The face of the block.
+	 */
+	public face(face: BlockFace): Block {
+		switch (face) {
+			case BlockFace.Top: {
+				return this.above();
+			}
+			case BlockFace.Bottom: {
+				return this.below();
+			}
+			case BlockFace.North: {
+				return this.north();
+			}
+			case BlockFace.South: {
+				return this.south();
+			}
+			case BlockFace.East: {
+				return this.east();
+			}
+			case BlockFace.West: {
+				return this.west();
+			}
+		}
 	}
 
 	/**
