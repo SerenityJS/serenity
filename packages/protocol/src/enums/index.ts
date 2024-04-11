@@ -46,3 +46,4 @@ export * from "./inventory-source-type";
 export * from "./item-use-inventory-transaction-type";
 export * from "./item-use-on-entity-inventory-transaction-type";
 export * from "./item-release-inventory-transaction-type";
+export * from "./block-face";

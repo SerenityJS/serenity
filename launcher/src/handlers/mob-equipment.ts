@@ -1,7 +1,7 @@
 import {
 	DisconnectReason,
 	MobEquipmentPacket,
-	type NetworkItemStackDescriptor
+	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 import { ItemStack } from "@serenityjs/world";
 
@@ -61,7 +61,7 @@ class MobEquipment extends SerenityHandler {
 		mobEquipment.runtimeEntityId = player.runtime;
 		mobEquipment.item =
 			item === null
-				? ({ network: 0 } as NetworkItemStackDescriptor)
+				? new NetworkItemStackDescriptor(0)
 				: ItemStack.toNetworkStack(item);
 		mobEquipment.slot = packet.slot;
 		mobEquipment.selectedSlot = packet.selectedSlot;

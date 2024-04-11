@@ -275,38 +275,27 @@ class PlayerAction extends SerenityHandler {
 		packet: PlayerActionPacket,
 		player: Player
 	): void {
-		// Get the inventory component from the player.
-		const inventory = player.getComponent("minecraft:inventory");
-
-		// Get the held item from the inventory.
-		const item = inventory.container.getItem(inventory.selectedSlot);
-
-		// Check if the it is has a block permutation.
-		// If so, we will place the block.
-		// If not, we will return for now.
-		const permutation = item?.type.block?.getPermutation();
-		if (!permutation) return;
-
-		// Get the block position from the packet.
-		const { x, y, z } = packet.blockPosition;
-
-		const sound = new LevelSoundEventPacket();
-
-		sound.event = LevelSoundEvent.Place;
-		sound.position = new Vector3f(x, y, z);
-
-		sound.data = permutation.network;
-
-		sound.actorIdentifier = "";
-
-		sound.isBabyMob = false;
-
-		sound.isGlobal = true;
-
-		player.dimension.broadcastImmediate(sound);
-
-		// Set the block permutation to the dimension.
-		player.dimension.getBlock(x, y, z).setPermutation(permutation);
+		// // Get the inventory component from the player.
+		// const inventory = player.getComponent("minecraft:inventory");
+		// // Get the held item from the inventory.
+		// const item = inventory.container.getItem(inventory.selectedSlot);
+		// // Check if the it is has a block permutation.
+		// // If so, we will place the block.
+		// // If not, we will return for now.
+		// const permutation = item?.type.block?.getPermutation();
+		// if (!permutation) return;
+		// // Get the block position from the packet.
+		// const { x, y, z } = packet.blockPosition;
+		// const sound = new LevelSoundEventPacket();
+		// sound.event = LevelSoundEvent.Place;
+		// sound.position = new Vector3f(x, y, z);
+		// sound.data = permutation.network;
+		// sound.actorIdentifier = "";
+		// sound.isBabyMob = false;
+		// sound.isGlobal = true;
+		// player.dimension.broadcastImmediate(sound);
+		// // Set the block permutation to the dimension.
+		// player.dimension.getBlock(x, y, z).setPermutation(permutation);
 	}
 }
 

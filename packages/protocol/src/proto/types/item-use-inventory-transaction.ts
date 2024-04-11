@@ -5,7 +5,7 @@ import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 import { Vector3f } from "./vector3f";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { ItemUseInventoryTransactionType } from "../../enums";
+import type { BlockFace, ItemUseInventoryTransactionType } from "../../enums";
 
 /**
  * Represents an item use inventory transaction.
@@ -24,7 +24,7 @@ class ItemUseInventoryTransaction extends DataType {
 	/**
 	 * The block face of the item use inventory transaction.
 	 */
-	public readonly face: number;
+	public readonly face: BlockFace;
 
 	/**
 	 * The slot of the item use inventory transaction.
@@ -66,7 +66,7 @@ class ItemUseInventoryTransaction extends DataType {
 	public constructor(
 		type: ItemUseInventoryTransactionType,
 		blockPosition: BlockCoordinates,
-		face: number,
+		face: BlockFace,
 		slot: number,
 		item: NetworkItemStackDescriptor,
 		fromPosition: Vector3f,
