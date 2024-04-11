@@ -1,4 +1,3 @@
-import { NetworkSession } from "@serenityjs/network";
 import {
 	RequestNetworkSettingsPacket,
 	PROTOCOL_VERSION,
@@ -7,6 +6,8 @@ import {
 } from "@serenityjs/protocol";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 /**
  * Handles the request network settings packet.

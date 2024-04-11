@@ -1,12 +1,25 @@
 import {
 	InternalProvider,
 	Superflat,
-	ItemNametagComponent
+	ItemNametagComponent,
+	EntityIdentifier
 } from "@serenityjs/world";
 import { DimensionType, Packet } from "@serenityjs/protocol";
 import { NetworkBound } from "@serenityjs/network";
-import { CustomItemType, ItemCategory, ItemGroup } from "@serenityjs/item";
-import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
+import {
+	CreativeItem,
+	CustomItemType,
+	ItemCategory,
+	ItemGroup,
+	ItemIdentifier,
+	ItemType
+} from "@serenityjs/item";
+import {
+	BlockIdentifier,
+	BlockPermutation,
+	BlockType,
+	CustomBlockType
+} from "@serenityjs/block";
 
 import { Serenity } from "./serenity";
 
@@ -55,6 +68,8 @@ serenity.network.before(Packet.Text, (data) => {
 		console.log(item.components);
 
 		return false;
+	} else if (data.packet.message.startsWith("entity")) {
+		player.dimension.spawnEntity(EntityIdentifier.Pig, player.position);
 	}
 
 	return true;

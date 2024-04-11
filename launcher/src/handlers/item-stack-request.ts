@@ -125,7 +125,7 @@ class ItemStackRequest extends SerenityHandler {
 					const cursorItem = new ItemStack(
 						itemType.identifier,
 						action.count ?? 0,
-						0
+						descriptor?.metadata ?? 0
 					);
 
 					// Set the item to the cursor.
@@ -177,7 +177,7 @@ class ItemStackRequest extends SerenityHandler {
 					const cursorItem = new ItemStack(
 						item.type.identifier,
 						action.count ?? 0,
-						0
+						item.metadata
 					);
 
 					// Set the item to the cursor.
@@ -351,7 +351,7 @@ class ItemStackRequest extends SerenityHandler {
 						const newItem = new ItemStack(
 							item.type.identifier,
 							action.count ?? 0,
-							0
+							item.metadata
 						);
 
 						// Set the item to the destination.
@@ -409,7 +409,7 @@ class ItemStackRequest extends SerenityHandler {
 				const newItem = new ItemStack(
 					itemType.identifier,
 					action.count ?? 0,
-					0
+					descriptor?.metadata ?? 0
 				);
 
 				// Set the item to the destination.

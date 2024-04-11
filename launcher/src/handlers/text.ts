@@ -1,7 +1,8 @@
 import { DisconnectReason, TextPacket } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 class Text extends SerenityHandler {
 	public static packet = TextPacket.id;

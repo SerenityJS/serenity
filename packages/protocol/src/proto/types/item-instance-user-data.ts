@@ -1,8 +1,8 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 import { DataType } from "@serenityjs/raknet";
 
-import { ItemStackNbt } from "../../types";
+import type { ItemStackNbt } from "../../types";
 
 class ItemInstanceUserData extends DataType {
 	public nbt: CompoundTag<ItemStackNbt> | null;
@@ -48,7 +48,7 @@ class ItemInstanceUserData extends DataType {
 			switch (version) {
 				case 0x01: {
 					// Read the compound tag.
-					nbt = CompoundTag.read(stream, true, false);
+					nbt = CompoundTag.read(stream);
 					break;
 				}
 				default: {

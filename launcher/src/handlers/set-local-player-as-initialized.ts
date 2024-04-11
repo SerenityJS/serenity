@@ -6,13 +6,14 @@ import {
 	SetLocalPlayerAsInitializedPacket,
 	CommandParameterType
 } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 import {
 	EntityAlwaysShowNametagComponent,
 	EntityNametagComponent
 } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 class SetLocalPlayerAsIntialized extends SerenityHandler {
 	public static readonly packet = SetLocalPlayerAsInitializedPacket.id;

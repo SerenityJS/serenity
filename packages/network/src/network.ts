@@ -4,7 +4,7 @@ import Emitter from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
 	CompressionMethod,
-	DataPacket,
+	type DataPacket,
 	DisconnectPacket,
 	DisconnectReason,
 	Framer,
@@ -13,18 +13,19 @@ import {
 	getPacketId
 } from "@serenityjs/protocol";
 import {
-	Connection,
+	type Connection,
 	Frame,
 	Priority,
-	RaknetServer,
+	type RaknetServer,
 	Reliability
 } from "@serenityjs/raknet";
 
-import { NetworkEvents, NetworkPacketEvent } from "./types";
 import { NetworkSession } from "./session";
 import { NetworkHandler } from "./handlers";
 import { GAME_BYTE } from "./constants";
 import { NetworkBound } from "./enums";
+
+import type { NetworkEvents, NetworkPacketEvent } from "./types";
 
 /**
  * The network class.
@@ -203,7 +204,9 @@ class Network extends Emitter<NetworkEvents> {
 
 				// Some packets have a byte that represents the compression algorithm.
 				// Read the compression algorithm from the buffer.
-				const algorithm: CompressionMethod = CompressionMethod[decrypted[0]!]
+				const algorithm: CompressionMethod = CompressionMethod[
+					decrypted[0] as number
+				]
 					? decrypted.readUint8()
 					: CompressionMethod.NotPresent;
 
@@ -287,7 +290,7 @@ class Network extends Emitter<NetworkEvents> {
 						// Emit the packet event will return a promise with a boolean value.
 						// If the value is false, the packet was cancelled from being handled.
 						// If the value is true, the packet was either modified or not listened to.
-						// @ts-ignore
+						// @ts-expect-error
 						const value = this.emit(packet.id, event as unknown);
 
 						// Check if the packet was cancelled.
@@ -318,10 +321,11 @@ class Network extends Emitter<NetworkEvents> {
 								}:${session.identifier.port}"!`
 							);
 						}
-					} catch {
+					} catch (reason) {
 						// If an error occurs, log the error and continue to the next packet.
 						this.logger.error(
-							`Failed to execute handler for ${Packet[id]} packet from "${session.identifier.address}:${session.identifier.port}"!`
+							`Failed to execute handler for ${Packet[id]} (0x${id.toString(16)}) packet from "${session.identifier.address}:${session.identifier.port}"!`,
+							reason
 						);
 					}
 				}
@@ -365,7 +369,7 @@ class Network extends Emitter<NetworkEvents> {
 				// Emit the packet event will return a promise with a boolean value.
 				// If the value is false, the packet was cancelled from sending.
 				// If the value is true, the packet was either modified or not listened to.
-				// @ts-ignore
+				// @ts-expect-error
 				const value = this.emit(packet.getId(), event as unknown);
 
 				// Check if the packet was cancelled.

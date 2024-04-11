@@ -1,6 +1,6 @@
 import { NetworkHandler } from "@serenityjs/network";
 
-import { Serenity } from "../serenity";
+import type { Serenity } from "../serenity";
 
 /**
  * Represents a Serenity handler.

@@ -1,8 +1,9 @@
 import { DisconnectReason, MovePlayerPacket } from "@serenityjs/protocol";
-import { Chunk } from "@serenityjs/world";
-import { NetworkSession } from "@serenityjs/network";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { Chunk } from "@serenityjs/world";
+import type { NetworkSession } from "@serenityjs/network";
 
 class MovePlayer extends SerenityHandler {
 	public static packet = MovePlayerPacket.id;

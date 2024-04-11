@@ -1,6 +1,6 @@
 import {
-	DataPacket,
-	DimensionType,
+	type DataPacket,
+	type DimensionType,
 	TextPacket,
 	TextPacketType,
 	Vector3f
@@ -8,12 +8,12 @@ import {
 
 import { Entity } from "../entity";
 import { Player } from "../player";
-import { TerrainGenerator } from "../generator";
 import { Chunk } from "../chunk";
 import { Block } from "../block";
-import { EntityIdentifier } from "../enums";
 
-import { World } from "./world";
+import type { TerrainGenerator } from "../generator";
+import type { EntityIdentifier } from "../enums";
+import type { World } from "./world";
 
 class Dimension {
 	/**
@@ -95,7 +95,7 @@ class Dimension {
 	 */
 	public getEntities(): Array<Entity> {
 		return [...this.entities.values()].filter(
-			(entity) => entity! instanceof Player
+			(entity) => !(entity instanceof Player)
 		) as Array<Player>;
 	}
 

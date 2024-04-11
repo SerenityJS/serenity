@@ -3,6 +3,7 @@ import { CommandRequest } from "./command-request";
 import { ContainerClose } from "./container-close";
 import { Disconnect } from "./disconnect";
 import { Interact } from "./interact";
+import { InventoryTransaction } from "./inventory-transaction";
 import { ItemStackRequest } from "./item-stack-request";
 import { Login } from "./login";
 import { MobEquipment } from "./mob-equipment";
@@ -29,7 +30,8 @@ const HANDLERS = [
 	PlayerAction,
 	Animate,
 	CommandRequest,
-	Text
+	Text,
+	InventoryTransaction
 ];
 
 export { HANDLERS };
@@ -50,3 +52,4 @@ export * from "./animate";
 export * from "./command-request";
 export * from "./text";
 export * from "./resource-pack-chunk-request";
+export * from "./inventory-transaction";

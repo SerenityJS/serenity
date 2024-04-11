@@ -1892,7 +1892,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/emitter@npm:0.1.0-beta.4, @serenityjs/emitter@workspace:packages/emitter":
+"@serenityjs/emitter@npm:0.1.0-beta.4, @serenityjs/emitter@workspace:^, @serenityjs/emitter@workspace:packages/emitter":
   version: 0.0.0-use.local
   resolution: "@serenityjs/emitter@workspace:packages/emitter"
   dependencies:
@@ -2050,6 +2050,7 @@ __metadata:
     "@serenityjs/binarystream": "npm:1.1.0-beta.1"
     "@serenityjs/block": "npm:0.1.0-beta.4"
     "@serenityjs/data": "npm:0.1.0-beta.4"
+    "@serenityjs/emitter": "workspace:^"
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/item": "npm:0.1.0-beta.4"
     "@serenityjs/jest-presets": "npm:*"

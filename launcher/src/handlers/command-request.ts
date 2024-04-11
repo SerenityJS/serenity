@@ -1,7 +1,8 @@
 import { CommandRequestPacket } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 class CommandRequest extends SerenityHandler {
 	public static packet = CommandRequestPacket.id;

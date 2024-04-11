@@ -1,14 +1,17 @@
-import { ContainerClosePacket, DisconnectReason } from "@serenityjs/protocol";
+import {
+	DisconnectReason,
+	InventoryTransactionPacket
+} from "@serenityjs/protocol";
 
 import { SerenityHandler } from "./serenity-handler";
 
 import type { NetworkSession } from "@serenityjs/network";
 
-class ContainerClose extends SerenityHandler {
-	public static packet = ContainerClosePacket.id;
+class InventoryTransaction extends SerenityHandler {
+	public static packet = InventoryTransactionPacket.id;
 
 	public static handle(
-		packet: ContainerClosePacket,
+		packet: InventoryTransactionPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session
@@ -20,9 +23,8 @@ class ContainerClose extends SerenityHandler {
 				DisconnectReason.InvalidPlayer
 			);
 
-		// Send the packet back to the client
-		session.send(packet);
+		console.log(packet.transaction);
 	}
 }
 
-export { ContainerClose };
+export { InventoryTransaction };

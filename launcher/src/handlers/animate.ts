@@ -1,7 +1,8 @@
 import { AnimatePacket, DisconnectReason } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 class Animate extends SerenityHandler {
 	public static readonly packet = AnimatePacket.id;

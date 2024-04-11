@@ -1,8 +1,9 @@
 import { DisconnectReason, MobEquipmentPacket } from "@serenityjs/protocol";
-import { NetworkSession } from "@serenityjs/network";
 import { ItemStack } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
+
+import type { NetworkSession } from "@serenityjs/network";
 
 class MobEquipment extends SerenityHandler {
 	public static readonly packet = MobEquipmentPacket.id;
