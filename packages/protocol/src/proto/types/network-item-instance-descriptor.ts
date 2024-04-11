@@ -5,10 +5,10 @@ import { ItemInstanceUserData } from "./item-instance-user-data";
 
 class NetworkItemInstanceDescriptor extends DataType {
 	public network: number;
-	public stackSize?: number;
-	public metadata?: number;
-	public blockRuntimeId?: number;
-	public extras?: ItemInstanceUserData | null;
+	public stackSize: number | null;
+	public metadata: number | null;
+	public networkBlockId: number | null;
+	public extras: ItemInstanceUserData | null;
 
 	/**
 	 * Creates an instance of NetworkItemInstanceDescriptor.
@@ -20,17 +20,17 @@ class NetworkItemInstanceDescriptor extends DataType {
 	 */
 	public constructor(
 		network: number,
-		stackSize?: number,
-		metadata?: number,
-		blockRuntimeId?: number,
+		stackSize?: number | null,
+		metadata?: number | null,
+		networkBlockId?: number | null,
 		extras?: ItemInstanceUserData | null
 	) {
 		super();
 		this.network = network;
-		this.stackSize = stackSize;
-		this.metadata = metadata;
-		this.blockRuntimeId = blockRuntimeId;
-		this.extras = extras;
+		this.stackSize = stackSize ?? null;
+		this.metadata = metadata ?? null;
+		this.networkBlockId = networkBlockId ?? null;
+		this.extras = extras ?? null;
 	}
 
 	public static read(stream: BinaryStream): NetworkItemInstanceDescriptor {
@@ -77,7 +77,7 @@ class NetworkItemInstanceDescriptor extends DataType {
 		// Write the remaining fields of the item.
 		stream.writeUint16(value.stackSize ?? 0, Endianness.Little);
 		stream.writeVarInt(value.metadata ?? 0);
-		stream.writeZigZag(value.blockRuntimeId ?? 0);
+		stream.writeZigZag(value.networkBlockId ?? 0);
 
 		// Check if the item has extra data.
 		// If it does, we need to first create a new stream,
