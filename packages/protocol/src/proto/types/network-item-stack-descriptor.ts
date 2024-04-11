@@ -3,38 +3,64 @@ import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { ItemInstanceUserData } from "./item-instance-user-data";
 
+/**
+ * Represents a network item stack descriptor.
+ */
 class NetworkItemStackDescriptor extends DataType {
-	public network: number;
-	public stackSize?: number;
-	public metadata?: number;
-	public stackNetId?: number | null;
-	public blockRuntimeId?: number;
-	public extras?: ItemInstanceUserData | null;
+	/**
+	 * The network id of the item.
+	 */
+	public readonly network: number;
+
+	/**
+	 * The size of the stack.
+	 */
+	public readonly stackSize: number | null;
+
+	/**
+	 * The metadata of the item.
+	 */
+	public readonly metadata: number | null;
+
+	/**
+	 * The stack net id of the item.
+	 */
+	public readonly stackNetId: number | null;
+
+	/**
+	 * The network block id of the item.
+	 */
+	public readonly networkBlockId: number | null;
+
+	/**
+	 * The extra data of the item.
+	 */
+	public readonly extras: ItemInstanceUserData | null;
 
 	/**
 	 * Creates an instance of NetworkItemStackDescriptor.
 	 * @param id The network id of the item.
 	 * @param stackSize The size of the stack.
 	 * @param metadata The metadata of the item.
-	 * @param includeStackNetId Whether to include the stack net id.
-	 * @param auxValue The aux value of the item.
-	 * @param userData The user data of the item.
+	 * @param stackNetId The stack net id of the item.
+	 * @param networkBlockid The network block id of the item.
+	 * @param extras The extra data of the item.
 	 */
 	public constructor(
 		network: number,
-		stackSize?: number,
-		metadata?: number,
+		stackSize?: number | null,
+		metadata?: number | null,
 		stackNetId?: number | null,
-		blockRuntimeId?: number,
+		networkBlockid?: number | null,
 		extras?: ItemInstanceUserData | null
 	) {
 		super();
 		this.network = network;
-		this.stackSize = stackSize;
-		this.metadata = metadata;
-		this.stackNetId = stackNetId;
-		this.blockRuntimeId = blockRuntimeId;
-		this.extras = extras;
+		this.stackSize = stackSize ?? null;
+		this.metadata = metadata ?? null;
+		this.stackNetId = stackNetId ?? null;
+		this.networkBlockId = networkBlockid ?? null;
+		this.extras = extras ?? null;
 	}
 
 	public static read(stream: BinaryStream): NetworkItemStackDescriptor {
@@ -103,7 +129,7 @@ class NetworkItemStackDescriptor extends DataType {
 		}
 
 		// Write the block runtime id.
-		stream.writeZigZag(value.blockRuntimeId ?? 0);
+		stream.writeZigZag(value.networkBlockId ?? 0);
 
 		// Check if the item has extra data.
 		// If it does, we need to first create a new stream,
