@@ -10,6 +10,7 @@ import { ItemType } from "@serenityjs/item";
 
 import { ItemStack } from "../item";
 
+import type { CardinalDirection } from "../enums";
 import type { Dimension } from "../world";
 
 class Block {
@@ -29,14 +30,14 @@ class Block {
 	public readonly isLiquid: boolean;
 
 	/**
-	 * The permutation of the block.
-	 */
-	public readonly permutation: BlockPermutation;
-
-	/**
 	 * The location of the block.
 	 */
 	public readonly location: BlockCoordinates;
+
+	/**
+	 * The permutation of the block.
+	 */
+	public permutation: BlockPermutation;
 
 	/**
 	 * Creates a new block.
@@ -76,6 +77,9 @@ class Block {
 			this.location.z,
 			permutation
 		);
+
+		// Set the block permutation.
+		this.permutation = permutation;
 
 		// Create a new UpdateBlockPacket.
 		const packet = new UpdateBlockPacket();
@@ -206,6 +210,32 @@ class Block {
 			case BlockFace.West: {
 				return this.west();
 			}
+		}
+	}
+
+	/**
+	 * Sets the direction of the block.
+	 * @param direction The direction to set.
+	 * @param upsideDown If the block is upside down.
+	 */
+	// TODO: Add support for minecraft:cardinal_direction states. (chest, furnace, etc.)
+	public setDirection(
+		direction: CardinalDirection,
+		upsideDown?: boolean
+	): void {
+		// Get the state keys
+		const keys = Object.keys(this.permutation.state);
+
+		// Check if the block has a weirdo direction state.
+		if (keys.includes("weirdo_direction") && keys.includes("upside_down_bit")) {
+			// Get the new permutation with the direction state.
+			const permutation = this.permutation.type.getPermutation({
+				upside_down_bit: upsideDown ?? false,
+				weirdo_direction: direction
+			});
+
+			// set the permutation
+			this.setPermutation(permutation);
 		}
 	}
 

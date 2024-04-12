@@ -94,7 +94,6 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 		data.packet.z
 	);
 
-	console.log(block.north().permutation.type.identifier);
 	// const item = block.getItemStack();
 
 	// const inventory = player.getComponent("minecraft:inventory");

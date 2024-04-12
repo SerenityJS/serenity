@@ -1,8 +1,8 @@
 enum CardinalDirection {
-	North = "north",
-	East = "east",
-	South = "south",
-	West = "west"
+	North = 3,
+	East = 0,
+	South = 2,
+	West = 1
 }
 
 export { CardinalDirection };

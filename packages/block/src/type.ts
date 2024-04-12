@@ -50,10 +50,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 		// Iterate over the permutations.
 		for (const permutation of this.permutations) {
 			// Check if the permutation matches the state.
-			if (
-				!state ||
-				permutation.matches(this.identifier as BlockIdentifier, state as never)
-			) {
+			if (!state || permutation.matches(state as BlockState[T])) {
 				return permutation as BlockPermutation<T>;
 			}
 		}

@@ -52,12 +52,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 	 * @param identifier The block identifier to match.
 	 * @param state The block state to match.
 	 */
-	public matches(identifier: T, state: BlockState[T]): boolean {
-		// Check if the block type matches.
-		if (this.type.identifier !== identifier) {
-			return false;
-		}
-
+	public matches(state: BlockState[T]): boolean {
 		// Check if the block state matches.
 		for (const key in state) {
 			if (this.state[key] !== state[key]) {
