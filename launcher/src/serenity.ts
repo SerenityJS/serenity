@@ -91,6 +91,9 @@ class Serenity extends Emitter<EventSignals> {
 		// Set the max connections
 		this.raknet.maxConnections = this.properties.values["max-players"];
 
+		// Set the message of the day
+		this.raknet.message = this.properties.values["server-name"];
+
 		// Create the network instance using the raknet instance
 		this.network = new Network(
 			this.raknet,
