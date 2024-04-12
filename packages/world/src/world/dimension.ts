@@ -11,8 +11,8 @@ import { Player } from "../player";
 import { Chunk } from "../chunk";
 import { Block } from "../block";
 
+import type { EntityIdentifier } from "@serenityjs/entity";
 import type { TerrainGenerator } from "../generator";
-import type { EntityIdentifier } from "../enums";
 import type { World } from "./world";
 
 class Dimension {

@@ -11,9 +11,9 @@ import {
 	TextPacket,
 	TextPacketType
 } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
-import { EntityIdentifier } from "../enums";
 import {
 	EntityAlwaysShowNametagComponent,
 	EntityBreathingComponent,

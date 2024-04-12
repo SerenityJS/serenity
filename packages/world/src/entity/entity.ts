@@ -6,8 +6,9 @@ import {
 	Rotation,
 	Vector3f
 } from "@serenityjs/protocol";
+import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 
-import { CardinalDirection, EntityIdentifier } from "../enums";
+import { CardinalDirection } from "../enums";
 import {
 	EntityAttributeComponent,
 	type EntityComponent,
@@ -33,9 +34,9 @@ class Entity {
 	public static readonly components: Array<typeof EntityComponent> = [];
 
 	/**
-	 * The identifier of the entity.
+	 * The type of entity.
 	 */
-	public readonly identifier: EntityIdentifier;
+	public readonly type: EntityType;
 
 	/**
 	 * The runtime id of the entity.
@@ -78,7 +79,7 @@ class Entity {
 		uniqueId?: bigint
 	) {
 		// Readonly properties
-		this.identifier = identifier;
+		this.type = EntityType.get(identifier) as EntityType;
 		this.runtime = Entity.runtime++;
 		this.unique =
 			uniqueId ?? (BigInt(Date.now()) << 32n) | (this.runtime << 4n);
@@ -111,7 +112,7 @@ class Entity {
 	 * @returns Whether or not the entity is a player.
 	 */
 	public isPlayer(): this is Player {
-		return this.identifier === EntityIdentifier.Player;
+		return this.type.identifier === EntityIdentifier.Player;
 	}
 
 	/**
@@ -125,7 +126,7 @@ class Entity {
 		// Set the packet properties
 		packet.uniqueEntityId = this.unique;
 		packet.runtimeId = this.runtime;
-		packet.identifier = this.identifier;
+		packet.identifier = this.type.identifier;
 		packet.position = this.position;
 		packet.velocity = this.velocity;
 		packet.pitch = this.rotation.pitch;
