@@ -10,6 +10,7 @@ interface DefaultServerProperties {
 	"server-name": string;
 	"server-address": string;
 	"server-port": number;
+	"server-tps": number;
 	"max-players": number;
 	"network-comression-threshold": number;
 	"network-compression-algorithm": string;

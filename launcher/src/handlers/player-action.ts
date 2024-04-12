@@ -4,8 +4,6 @@ import {
 	Gamemode,
 	LevelEvent,
 	LevelEventPacket,
-	LevelSoundEvent,
-	LevelSoundEventPacket,
 	PlayerActionPacket,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
@@ -272,8 +270,8 @@ class PlayerAction extends SerenityHandler {
 	): void {}
 
 	private static handleStopItemUseOn(
-		packet: PlayerActionPacket,
-		player: Player
+		_packet: PlayerActionPacket,
+		_player: Player
 	): void {
 		// // Get the inventory component from the player.
 		// const inventory = player.getComponent("minecraft:inventory");

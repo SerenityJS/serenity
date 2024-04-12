@@ -9,6 +9,9 @@ server-address: "0.0.0.0"
 server-port: 19132
 # The port that the server will bind to.
 
+server-tps: 20
+# The amount of ticks per second the server will run at.
+
 max-players: 20
 # The maximum amount of players that can join the server.
 

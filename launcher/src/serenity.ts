@@ -2,7 +2,6 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import { RaknetServer } from "@serenityjs/raknet";
 import { Network, type NetworkSession } from "@serenityjs/network";
 import { type Player, World, type WorldProvider } from "@serenityjs/world";
-import { MINECRAFT_TICK_SPEED } from "@serenityjs/protocol";
 import { Commands } from "@serenityjs/command";
 import Emitter from "@serenityjs/emitter";
 
@@ -139,30 +138,36 @@ class Serenity extends Emitter<EventSignals> {
 		// Start the raknet instance.
 		this.raknet.start();
 
+		// Get the server tps from the properties
+		const tps = this.properties.values["server-tps"] ?? 20;
+
 		// Create a ticking loop with default 50ms interval
 		// Handle delta time and tick the world
 		const tick = () =>
-			setTimeout(() => {
-				// Assign the current time to the now variable
-				const now = Date.now();
+			setTimeout(
+				() => {
+					// Assign the current time to the now variable
+					const now = Date.now();
 
-				// Push the current time to the ticks array
-				this.ticks.push(now);
+					// Push the current time to the ticks array
+					this.ticks.push(now);
 
-				// Calculate the ticking threshold
-				// Filter the ticks array to remove all ticks older than 1000ms
-				const threshold = now - 1000;
-				this.ticks = this.ticks.filter((tick) => tick > threshold);
+					// Calculate the ticking threshold
+					// Filter the ticks array to remove all ticks older than 1000ms
+					const threshold = now - 1000;
+					this.ticks = this.ticks.filter((tick) => tick > threshold);
 
-				// Calculate the TPS
-				this.tps = this.ticks.length;
+					// Calculate the TPS
+					this.tps = this.ticks.length;
 
-				// Tick all the worlds
-				for (const world of this.worlds.values()) world.tick();
+					// Tick all the worlds
+					for (const world of this.worlds.values()) world.tick();
 
-				// Tick the server
-				tick();
-			}, MINECRAFT_TICK_SPEED - 3.25);
+					// Tick the server
+					tick();
+				},
+				1000 / tps - 3.25
+			);
 
 		// Start the ticking loop
 		this.interval = tick().unref();
