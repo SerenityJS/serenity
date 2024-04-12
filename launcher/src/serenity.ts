@@ -8,6 +8,7 @@ import { Commands } from "@serenityjs/command";
 import { SerenityHandler, HANDLERS } from "./handlers";
 import { ServerProperties } from "./properties";
 import { ResourcePackManager } from "./resource-packs/resource-pack-manager";
+import { EventSignal } from "./events";
 
 class Serenity {
 	/**
@@ -49,6 +50,11 @@ class Serenity {
 	 * The commands instance
 	 */
 	public readonly commands: Commands;
+
+	/**
+	 * A collective registry of all events.
+	 */
+	public readonly events: Map<string, EventSignal>;
 
 	/**
 	 * The server tick interval
@@ -96,6 +102,7 @@ class Serenity {
 		this.players = new Map();
 		this.worlds = new Map();
 		this.commands = new Commands();
+		this.events = new Map();
 
 		this.resourcePacks = new ResourcePackManager(
 			"./resource_packs",
@@ -103,8 +110,9 @@ class Serenity {
 			this.properties.values["must-accept-packs"]
 		);
 
-		// Set the Serenity instance for all handlers
+		// Set the Serenity instance for all handlers and event signals
 		SerenityHandler.serenity = this;
+		EventSignal.serenity = this;
 
 		// Log the startup message
 		this.logger.info("Serenity is now starting up...");
