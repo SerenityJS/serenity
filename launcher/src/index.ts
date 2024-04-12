@@ -1,147 +1,139 @@
-// import {
-// 	InternalProvider,
-// 	Superflat,
-// 	ItemNametagComponent,
-// 	EntityIdentifier,
-// 	ItemStack
-// } from "@serenityjs/world";
-// import { DimensionType, Packet } from "@serenityjs/protocol";
-// import { NetworkBound } from "@serenityjs/network";
-// import {
-// 	CreativeItem,
-// 	CustomItemType,
-// 	ItemCategory,
-// 	ItemGroup,
-// 	ItemIdentifier,
-// 	ItemType
-// } from "@serenityjs/item";
-// import {
-// 	BlockIdentifier,
-// 	BlockPermutation,
-// 	BlockType,
-// 	CustomBlockType
-// } from "@serenityjs/block";
+import {
+	InternalProvider,
+	Superflat,
+	ItemNametagComponent,
+	ItemStack
+} from "@serenityjs/world";
+import { DimensionType, Packet } from "@serenityjs/protocol";
+import { NetworkBound } from "@serenityjs/network";
+import {
+	CustomItemType,
+	ItemCategory,
+	ItemGroup,
+	ItemIdentifier
+} from "@serenityjs/item";
+import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
+import { EntityIdentifier } from "@serenityjs/entity";
 
-// import { Serenity } from "./serenity";
+import { Serenity } from "./serenity";
 
-// const serenity = new Serenity();
+const serenity = new Serenity();
 
-// // Provider "Provides" the chunks and other data to the world.
-// // Providers are used to read and write the world data.
-// // They can be custom built for specific applications.
-// // Custom providers can be built by extending the abstract "WorldProvider" class.
-// // The "InternalProvider" is a basic provider that stores chunks in memory.
-// const provider = new InternalProvider(true); // Boolean indicates hash block values, false indicates runtime block values.
+// Provider "Provides" the chunks and other data to the world.
+// Providers are used to read and write the world data.
+// They can be custom built for specific applications.
+// Custom providers can be built by extending the abstract "WorldProvider" class.
+// The "InternalProvider" is a basic provider that stores chunks in memory.
+const provider = new InternalProvider(true); // Boolean indicates hash block values, false indicates runtime block values.
 
-// // Register the world with the serenity instance.
-// // The provider is what the world will use to read/write chunks and other data.
-// const world = serenity.createWorld("default", provider);
+// Register the world with the serenity instance.
+// The provider is what the world will use to read/write chunks and other data.
+const world = serenity.createWorld("default", provider);
 
-// // Now we need to register a dimension for the world.
-// // The dimension is the actual area that players will play in.
-// world.createDimension(
-// 	"minecraft:overworld",
-// 	DimensionType.Overworld,
-// 	new Superflat()
-// );
+// Now we need to register a dimension for the world.
+// The dimension is the actual area that players will play in.
+world.createDimension(
+	"minecraft:overworld",
+	DimensionType.Overworld,
+	new Superflat()
+);
 
-// serenity.start();
+serenity.start();
 
-// serenity.network.before(Packet.Text, (data) => {
-// 	if (data.bound === NetworkBound.Client) return true;
+serenity.network.before(Packet.Text, (data) => {
+	if (data.bound === NetworkBound.Client) return true;
 
-// 	const player = serenity.getPlayer(data.session);
-// 	if (!player) return false;
+	const player = serenity.getPlayer(data.session);
+	if (!player) return false;
 
-// 	if (data.packet.message.startsWith("rename")) {
-// 		const inventory = player.getComponent("minecraft:inventory");
+	if (data.packet.message.startsWith("rename")) {
+		const inventory = player.getComponent("minecraft:inventory");
 
-// 		const item = inventory.getHeldItem();
+		const item = inventory.getHeldItem();
 
-// 		if (!item) return false;
+		if (!item) return false;
 
-// 		const component = item.components.has("minecraft:nametag")
-// 			? item.getComponent("minecraft:nametag")
-// 			: item.setComponent(new ItemNametagComponent(item));
+		const component = item.components.has("minecraft:nametag")
+			? item.getComponent("minecraft:nametag")
+			: item.setComponent(new ItemNametagComponent(item));
 
-// 		component.setCurrentValue(data.packet.message.slice(7));
+		component.setCurrentValue(data.packet.message.slice(7));
 
-// 		console.log(item.components);
+		console.log(item.components);
 
-// 		return false;
-// 	} else if (data.packet.message.startsWith("entity")) {
-// 		player.dimension.spawnEntity(EntityIdentifier.Pig, player.position);
-// 	} else if (data.packet.message.startsWith("item")) {
-// 		const meta = data.packet.message.slice(5);
+		return false;
+	} else if (data.packet.message.startsWith("entity")) {
+		const entity = player.dimension.spawnEntity(
+			EntityIdentifier.FireworksRocket,
+			player.position
+		);
 
-// 		const item = new ItemStack(ItemIdentifier.CobbledDeepslateStairs, 1, +meta);
+		console.log(entity);
+	} else if (data.packet.message.startsWith("item")) {
+		const meta = data.packet.message.slice(5);
 
-// 		const inventory = player.getComponent("minecraft:inventory");
+		const item = new ItemStack(ItemIdentifier.CobbledDeepslateStairs, 1, +meta);
 
-// 		inventory.container.addItem(item);
-// 	}
+		const inventory = player.getComponent("minecraft:inventory");
 
-// 	return true;
-// });
+		inventory.container.addItem(item);
+	}
 
-// serenity.network.on(Packet.InventoryTransaction, (data) => {
-// 	const player = serenity.getPlayer(data.session);
-// 	if (!player) return;
+	return true;
+});
 
-// 	const entity = player.dimension.spawnEntity(
-// 		EntityIdentifier.Pig,
-// 		player.position
-// 	);
+serenity.network.on(Packet.InventoryTransaction, (data) => {
+	const player = serenity.getPlayer(data.session);
+	if (!player) return;
 
-// 	console.log(entity.runtime, entity.unique);
+	const entity = player.dimension.spawnEntity(
+		EntityIdentifier.Pig,
+		player.position
+	);
 
-// 	// const item = block.getItemStack();
+	console.log(entity.runtime, entity.unique);
 
-// 	// const inventory = player.getComponent("minecraft:inventory");
+	// const item = block.getItemStack();
 
-// 	// const nametag = new ItemNametagComponent(item);
+	// const inventory = player.getComponent("minecraft:inventory");
 
-// 	// inventory.container.addItem(item);
+	// const nametag = new ItemNametagComponent(item);
 
-// 	// nametag.setCurrentValue("Hello, World!");
-// });
+	// inventory.container.addItem(item);
 
-// // How to create a custom block with a custom item on SerenityJS.
-// // This will also allow to assign the block item to a specific creative tab/category.
-// // The custom block will be registered with the block registry.
+	// nametag.setCurrentValue("Hello, World!");
+});
 
-// // First we need to create a new custom block type.
-// const customBlockType = new CustomBlockType("serenity:ruby_ore", false);
+// How to create a custom block with a custom item on SerenityJS.
+// This will also allow to assign the block item to a specific creative tab/category.
+// The custom block will be registered with the block registry.
 
-// // Next we need to create a new block permutation for the custom block,
-// // this will allow us to define the block state. At the moment, custom states are not supported for custom blocks.
-// // This will be added in the future.
-// const customBlockPermutation = BlockPermutation.create(customBlockType, {}); // Blank state record.
+// First we need to create a new custom block type.
+const customBlockType = new CustomBlockType("serenity:ruby_ore", false);
 
-// // We now need to register the block permutation with to the custom block type.
-// customBlockType.register(customBlockPermutation);
+// Next we need to create a new block permutation for the custom block,
+// this will allow us to define the block state. At the moment, custom states are not supported for custom blocks.
+// This will be added in the future.
+const customBlockPermutation = BlockPermutation.create(customBlockType, {}); // Blank state record.
 
-// // Now we need to create a custom item type for the custom block.
-// // This will allow us to define the item properties and creative tab/category.
-// // NOTE: Custom items do not need to have a block associated with them.
-// // If no category/group is provided, the item will not be added to the creative inventory.
-// new CustomItemType(
-// 	"serenity:ruby_ore", // The identifier of the custom item.
-// 	customBlockType, // The block of the custom item.
-// 	ItemCategory.Nature, // The category of the custom item.
-// 	ItemGroup.Ore // The group of the custom item.
-// );
+// We now need to register the block permutation with to the custom block type.
+customBlockType.register(customBlockPermutation);
 
-// const rubyBlock = new CustomBlockType("serenity:ruby_block", false);
+// Now we need to create a custom item type for the custom block.
+// This will allow us to define the item properties and creative tab/category.
+// NOTE: Custom items do not need to have a block associated with them.
+// If no category/group is provided, the item will not be added to the creative inventory.
+new CustomItemType(
+	"serenity:ruby_ore", // The identifier of the custom item.
+	customBlockType, // The block of the custom item.
+	ItemCategory.Nature, // The category of the custom item.
+	ItemGroup.Ore // The group of the custom item.
+);
 
-// const rubyBlockPermutation = BlockPermutation.create(rubyBlock, {});
+const rubyBlock = new CustomBlockType("serenity:ruby_block", false);
 
-// rubyBlock.register(rubyBlockPermutation);
+const rubyBlockPermutation = BlockPermutation.create(rubyBlock, {});
 
-// new CustomItemType("serenity:ruby_block", rubyBlock, ItemCategory.Nature);
+rubyBlock.register(rubyBlockPermutation);
 
-// serenity.on("PlayerJoined", () => {});
-
-// const chest = BlockType.get(BlockIdentifier.Chest);
-
-// console.log(chest);
+new CustomItemType("serenity:ruby_block", rubyBlock, ItemCategory.Nature);
