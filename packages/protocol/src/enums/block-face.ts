@@ -1,8 +1,8 @@
 enum BlockFace {
 	Bottom,
 	Top,
-	South,
 	North,
+	South,
 	West,
 	East
 }

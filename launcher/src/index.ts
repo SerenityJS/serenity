@@ -93,15 +93,17 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 		data.packet.y,
 		data.packet.z
 	);
-	const item = block.getItemStack();
 
-	const inventory = player.getComponent("minecraft:inventory");
+	console.log(block.north().permutation.type.identifier);
+	// const item = block.getItemStack();
 
-	const nametag = new ItemNametagComponent(item);
+	// const inventory = player.getComponent("minecraft:inventory");
 
-	inventory.container.addItem(item);
+	// const nametag = new ItemNametagComponent(item);
 
-	nametag.setCurrentValue("Hello, World!");
+	// inventory.container.addItem(item);
+
+	// nametag.setCurrentValue("Hello, World!");
 });
 
 // How to create a custom block with a custom item on SerenityJS.

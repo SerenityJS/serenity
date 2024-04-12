@@ -138,7 +138,7 @@ class Block {
 		return this.dimension.getBlock(
 			this.location.x,
 			this.location.y,
-			this.location.z + (steps ?? 1)
+			this.location.z - (steps ?? 1)
 		);
 	}
 
@@ -151,7 +151,7 @@ class Block {
 		return this.dimension.getBlock(
 			this.location.x,
 			this.location.y,
-			this.location.z - (steps ?? 1)
+			this.location.z + (steps ?? 1)
 		);
 	}
 

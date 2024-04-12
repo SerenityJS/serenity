@@ -7,7 +7,7 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 
-import { EntityIdentifier } from "../enums";
+import { CardinalDirection, EntityIdentifier } from "../enums";
 import {
 	EntityAttributeComponent,
 	type EntityComponent,
@@ -222,6 +222,22 @@ class Entity {
 			(component): component is EntityMetadataComponent =>
 				component instanceof EntityMetadataComponent
 		);
+	}
+
+	public getCardinalDirection(): CardinalDirection {
+		// Calculate the cardinal direction of the entity
+		// Entity yaw is -180 to 180
+
+		// Calculate the rotation of the entity
+		const rotation = (Math.floor(this.rotation.yaw) + 360) % 360;
+
+		// Calculate the cardinal direction
+		if (rotation >= 315 || rotation < 45) return CardinalDirection.South;
+		if (rotation >= 45 && rotation < 135) return CardinalDirection.West;
+		if (rotation >= 135 && rotation < 225) return CardinalDirection.North;
+		if (rotation >= 225 && rotation < 315) return CardinalDirection.East;
+
+		return CardinalDirection.South;
 	}
 
 	/**
