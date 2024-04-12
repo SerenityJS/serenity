@@ -28,7 +28,7 @@ debug-logging: false
 must-accept-packs: false
 # Whether or not the client must accept resource packs.
 
-# resource-packs:
+resource-packs: []
 #   - uuid: "00000000-0000-0000-0000-000000000000"
 #   - uuid: "00000000-0000-0000-0000-000000000001"
 #     subpack: "example"
