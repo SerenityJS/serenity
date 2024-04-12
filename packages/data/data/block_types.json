@@ -2,6 +2,7 @@
   {
     "identifier": "minecraft:trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -10,16 +11,19 @@
   {
     "identifier": "minecraft:light_blue_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gravel",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:detector_rail",
     "loggable": true,
+    "components": [],
     "states": [
       "rail_data_bit",
       "rail_direction"
@@ -28,16 +32,19 @@
   {
     "identifier": "minecraft:cyan_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_pink_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_gray_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -46,16 +53,19 @@
   {
     "identifier": "minecraft:blue_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:nether_gold_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_basalt",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -63,6 +73,7 @@
   {
     "identifier": "minecraft:blue_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -71,11 +82,13 @@
   {
     "identifier": "minecraft:tuff_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:coral_fan_dead",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "coral_fan_direction"
@@ -84,6 +97,7 @@
   {
     "identifier": "minecraft:dark_oak_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -91,6 +105,7 @@
   {
     "identifier": "minecraft:tuff_brick_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -102,11 +117,15 @@
   {
     "identifier": "minecraft:acacia_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -114,21 +133,27 @@
   {
     "identifier": "minecraft:melon_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gold_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -136,6 +161,7 @@
   {
     "identifier": "minecraft:waxed_cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -144,21 +170,25 @@
   {
     "identifier": "minecraft:element_93",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_98",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_nether_brick",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oxidized_cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -167,6 +197,7 @@
   {
     "identifier": "minecraft:warped_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -176,6 +207,7 @@
   {
     "identifier": "minecraft:polished_granite_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -184,6 +216,7 @@
   {
     "identifier": "minecraft:red_mushroom_block",
     "loggable": false,
+    "components": [],
     "states": [
       "huge_mushroom_bits"
     ]
@@ -191,16 +224,19 @@
   {
     "identifier": "minecraft:blue_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deepslate_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_block",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -208,16 +244,19 @@
   {
     "identifier": "minecraft:white_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:wooden_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -227,16 +266,19 @@
   {
     "identifier": "minecraft:piston_arm_collision",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:end_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:sculk_shrieker",
     "loggable": true,
+    "components": [],
     "states": [
       "active",
       "can_summon"
@@ -245,6 +287,7 @@
   {
     "identifier": "minecraft:bamboo_mosaic_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -253,6 +296,7 @@
   {
     "identifier": "minecraft:vine",
     "loggable": true,
+    "components": [],
     "states": [
       "vine_direction_bits"
     ]
@@ -260,11 +304,13 @@
   {
     "identifier": "minecraft:waxed_oxidized_chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:granite",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_type"
     ]
@@ -272,11 +318,13 @@
   {
     "identifier": "minecraft:lime_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_tuff_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -284,11 +332,13 @@
   {
     "identifier": "minecraft:brown_mushroom",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -297,21 +347,25 @@
   {
     "identifier": "minecraft:element_20",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:blue_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_0",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -321,6 +375,7 @@
   {
     "identifier": "minecraft:blackstone_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -328,6 +383,9 @@
   {
     "identifier": "minecraft:spruce_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -335,11 +393,13 @@
   {
     "identifier": "minecraft:element_118",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -348,6 +408,7 @@
   {
     "identifier": "minecraft:deepslate_tile_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -355,11 +416,13 @@
   {
     "identifier": "minecraft:powder_snow",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:magenta_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -368,6 +431,7 @@
   {
     "identifier": "minecraft:deepslate_tile_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -375,26 +439,31 @@
   {
     "identifier": "minecraft:calcite",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gray_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cyan_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cyan_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dark_oak_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -402,11 +471,13 @@
   {
     "identifier": "minecraft:deepslate_copper_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stone_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -415,6 +486,7 @@
   {
     "identifier": "minecraft:spruce_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -422,36 +494,43 @@
   {
     "identifier": "minecraft:diamond_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_oxidized_cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gray_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:green_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_purple_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_73",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -460,6 +539,7 @@
   {
     "identifier": "minecraft:nether_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -468,21 +548,27 @@
   {
     "identifier": "minecraft:hard_blue_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:yellow_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:granite_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -491,21 +577,25 @@
   {
     "identifier": "minecraft:gray_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:green_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oxidized_copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -514,6 +604,7 @@
   {
     "identifier": "minecraft:cobbled_deepslate_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -522,11 +613,13 @@
   {
     "identifier": "minecraft:waxed_exposed_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_acacia_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -534,11 +627,13 @@
   {
     "identifier": "minecraft:element_16",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -546,6 +641,7 @@
   {
     "identifier": "minecraft:powered_repeater",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction",
       "repeater_delay"
@@ -554,6 +650,7 @@
   {
     "identifier": "minecraft:spruce_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -562,26 +659,31 @@
   {
     "identifier": "minecraft:loom",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_green_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_104",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:yellow_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -591,11 +693,15 @@
   {
     "identifier": "minecraft:darkoak_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:diorite",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_type"
     ]
@@ -603,6 +709,7 @@
   {
     "identifier": "minecraft:oxidized_double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -610,11 +717,13 @@
   {
     "identifier": "minecraft:dripstone_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gray_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -622,11 +731,13 @@
   {
     "identifier": "minecraft:info_update2",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -635,21 +746,25 @@
   {
     "identifier": "minecraft:blue_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hanging_roots",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_light_blue_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -657,6 +772,7 @@
   {
     "identifier": "minecraft:cherry_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -664,11 +780,15 @@
   {
     "identifier": "minecraft:hard_brown_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -678,11 +798,13 @@
   {
     "identifier": "minecraft:yellow_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:black_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -690,11 +812,15 @@
   {
     "identifier": "minecraft:crimson_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -703,11 +829,13 @@
   {
     "identifier": "minecraft:oak_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:grindstone",
     "loggable": true,
+    "components": [],
     "states": [
       "attachment"
     ]
@@ -715,11 +843,13 @@
   {
     "identifier": "minecraft:gray_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dark_oak_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -729,6 +859,7 @@
   {
     "identifier": "minecraft:wheat",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -736,16 +867,19 @@
   {
     "identifier": "minecraft:element_46",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:yellow_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dark_oak_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -753,11 +887,13 @@
   {
     "identifier": "minecraft:honeycomb_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:sapling",
     "loggable": false,
+    "components": [],
     "states": [
       "age_bit",
       "sapling_type"
@@ -766,16 +902,19 @@
   {
     "identifier": "minecraft:hard_light_gray_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:end_gateway",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -784,11 +923,15 @@
   {
     "identifier": "minecraft:beacon",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_brick_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -800,6 +943,7 @@
   {
     "identifier": "minecraft:snow_layer",
     "loggable": false,
+    "components": [],
     "states": [
       "covered_bit",
       "height"
@@ -808,16 +952,19 @@
   {
     "identifier": "minecraft:hard_pink_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:white_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:black_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -826,6 +973,7 @@
   {
     "identifier": "minecraft:cactus",
     "loggable": true,
+    "components": [],
     "states": [
       "age"
     ]
@@ -833,6 +981,7 @@
   {
     "identifier": "minecraft:glow_frame",
     "loggable": true,
+    "components": [],
     "states": [
       "item_frame_map_bit",
       "item_frame_photo_bit"
@@ -841,6 +990,7 @@
   {
     "identifier": "minecraft:mud_brick_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -848,6 +998,7 @@
   {
     "identifier": "minecraft:bamboo_mosaic_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -855,11 +1006,13 @@
   {
     "identifier": "minecraft:bamboo_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:prismarine_bricks_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -868,6 +1021,7 @@
   {
     "identifier": "minecraft:crimson_hyphae",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -875,16 +1029,19 @@
   {
     "identifier": "minecraft:black_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_dark_oak_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -892,16 +1049,19 @@
   {
     "identifier": "minecraft:hard_orange_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oxidized_copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -909,6 +1069,7 @@
   {
     "identifier": "minecraft:bamboo_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -916,16 +1077,19 @@
   {
     "identifier": "minecraft:lit_redstone_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:orange_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:nether_wart",
     "loggable": false,
+    "components": [],
     "states": [
       "age"
     ]
@@ -933,6 +1097,7 @@
   {
     "identifier": "minecraft:stripped_mangrove_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -940,21 +1105,25 @@
   {
     "identifier": "minecraft:mossy_cobblestone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_113",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:blue_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cake",
     "loggable": true,
+    "components": [],
     "states": [
       "bite_counter"
     ]
@@ -962,31 +1131,41 @@
   {
     "identifier": "minecraft:lime_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:hard_black_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:undyed_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:quartz_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:info_update",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:seagrass",
     "loggable": true,
+    "components": [],
     "states": [
       "sea_grass_type"
     ]
@@ -994,6 +1173,7 @@
   {
     "identifier": "minecraft:cherry_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1002,6 +1182,9 @@
   {
     "identifier": "minecraft:barrel",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "open_bit"
     ]
@@ -1009,6 +1192,7 @@
   {
     "identifier": "minecraft:big_dripleaf",
     "loggable": true,
+    "components": [],
     "states": [
       "big_dripleaf_head",
       "big_dripleaf_tilt",
@@ -1018,6 +1202,7 @@
   {
     "identifier": "minecraft:waxed_exposed_cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1025,6 +1210,7 @@
   {
     "identifier": "minecraft:dead_horn_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -1033,16 +1219,19 @@
   {
     "identifier": "minecraft:redstone_lamp",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_68",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_oak_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1050,6 +1239,7 @@
   {
     "identifier": "minecraft:deepslate",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1057,6 +1247,7 @@
   {
     "identifier": "minecraft:dark_oak_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1064,6 +1255,7 @@
   {
     "identifier": "minecraft:double_stone_block_slab3",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type_3"
@@ -1072,6 +1264,7 @@
   {
     "identifier": "minecraft:stripped_crimson_hyphae",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1079,6 +1272,9 @@
   {
     "identifier": "minecraft:dark_oak_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -1088,16 +1284,19 @@
   {
     "identifier": "minecraft:green_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:magenta_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pitcher_crop",
     "loggable": false,
+    "components": [],
     "states": [
       "growth",
       "upper_block_bit"
@@ -1106,16 +1305,21 @@
   {
     "identifier": "minecraft:brown_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pink_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -1123,11 +1327,13 @@
   {
     "identifier": "minecraft:deadbush",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:ender_chest",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -1135,11 +1341,13 @@
   {
     "identifier": "minecraft:waxed_exposed_chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tuff_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1147,6 +1355,7 @@
   {
     "identifier": "minecraft:redstone_wire",
     "loggable": false,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -1154,6 +1363,7 @@
   {
     "identifier": "minecraft:warped_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -1161,6 +1371,7 @@
   {
     "identifier": "minecraft:green_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -1168,11 +1379,13 @@
   {
     "identifier": "minecraft:diamond_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -1181,6 +1394,7 @@
   {
     "identifier": "minecraft:oak_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1189,16 +1403,19 @@
   {
     "identifier": "minecraft:hard_gray_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_weathered_cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oak_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1206,6 +1423,7 @@
   {
     "identifier": "minecraft:andesite",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_type"
     ]
@@ -1213,11 +1431,13 @@
   {
     "identifier": "minecraft:brown_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:sculk_vein",
     "loggable": true,
+    "components": [],
     "states": [
       "multi_face_direction_bits"
     ]
@@ -1225,11 +1445,13 @@
   {
     "identifier": "minecraft:pink_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1237,6 +1459,7 @@
   {
     "identifier": "minecraft:candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -1244,21 +1467,27 @@
   {
     "identifier": "minecraft:magenta_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:purple_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:packed_ice",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_granite",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_type"
     ]
@@ -1266,36 +1495,43 @@
   {
     "identifier": "minecraft:oxidized_cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:iron_bars",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_blue_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_39",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:packed_mud",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_21",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_blue_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -1303,16 +1539,19 @@
   {
     "identifier": "minecraft:element_1",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:moss_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1321,26 +1560,31 @@
   {
     "identifier": "minecraft:green_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_fungus",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_102",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:copper_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gray_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -1349,6 +1593,7 @@
   {
     "identifier": "minecraft:polished_deepslate_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1356,6 +1601,7 @@
   {
     "identifier": "minecraft:jungle_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -1364,11 +1610,15 @@
   {
     "identifier": "minecraft:spruce_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -1378,16 +1628,19 @@
   {
     "identifier": "minecraft:black_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:amethyst_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:melon_stem",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -1395,11 +1648,13 @@
   {
     "identifier": "minecraft:gold_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_oak_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1407,6 +1662,7 @@
   {
     "identifier": "minecraft:flower_pot",
     "loggable": true,
+    "components": [],
     "states": [
       "update_bit"
     ]
@@ -1414,6 +1670,7 @@
   {
     "identifier": "minecraft:chiseled_bookshelf",
     "loggable": false,
+    "components": [],
     "states": [
       "books_stored"
     ]
@@ -1421,11 +1678,13 @@
   {
     "identifier": "minecraft:jungle_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:spruce_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1433,6 +1692,7 @@
   {
     "identifier": "minecraft:polished_deepslate_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1441,21 +1701,25 @@
   {
     "identifier": "minecraft:hard_lime_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brown_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pink_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_weathered_copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -1465,6 +1729,7 @@
   {
     "identifier": "minecraft:carved_pumpkin",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -1472,21 +1737,25 @@
   {
     "identifier": "minecraft:yellow_flower",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lapis_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:weathered_chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:coral_fan",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "coral_fan_direction"
@@ -1495,6 +1764,7 @@
   {
     "identifier": "minecraft:small_amethyst_bud",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:block_face"
     ]
@@ -1502,6 +1772,7 @@
   {
     "identifier": "minecraft:activator_rail",
     "loggable": true,
+    "components": [],
     "states": [
       "rail_data_bit",
       "rail_direction"
@@ -1510,11 +1781,13 @@
   {
     "identifier": "minecraft:podzol",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mangrove_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -1522,6 +1795,7 @@
   {
     "identifier": "minecraft:iron_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -1530,6 +1804,7 @@
   {
     "identifier": "minecraft:potatoes",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -1537,6 +1812,7 @@
   {
     "identifier": "minecraft:large_amethyst_bud",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:block_face"
     ]
@@ -1544,6 +1820,7 @@
   {
     "identifier": "minecraft:muddy_mangrove_roots",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1551,11 +1828,13 @@
   {
     "identifier": "minecraft:hard_light_blue_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:trial_spawner",
     "loggable": true,
+    "components": [],
     "states": [
       "trial_spawner_state"
     ]
@@ -1563,6 +1842,7 @@
   {
     "identifier": "minecraft:stripped_jungle_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1570,21 +1850,25 @@
   {
     "identifier": "minecraft:noteblock",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tuff",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:reserved6",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:soul_torch",
     "loggable": false,
+    "components": [],
     "states": [
       "torch_facing_direction"
     ]
@@ -1592,11 +1876,13 @@
   {
     "identifier": "minecraft:quartz_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mangrove_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1604,26 +1890,33 @@
   {
     "identifier": "minecraft:raw_gold_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:white_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:mob_spawner",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:weathered_double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1631,16 +1924,19 @@
   {
     "identifier": "minecraft:deepslate_tiles",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:black_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lava",
     "loggable": false,
+    "components": [],
     "states": [
       "liquid_depth"
     ]
@@ -1648,6 +1944,7 @@
   {
     "identifier": "minecraft:acacia_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -1656,6 +1953,7 @@
   {
     "identifier": "minecraft:cyan_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -1663,6 +1961,7 @@
   {
     "identifier": "minecraft:orange_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -1671,6 +1970,7 @@
   {
     "identifier": "minecraft:colored_torch_bp",
     "loggable": false,
+    "components": [],
     "states": [
       "color_bit",
       "torch_facing_direction"
@@ -1679,6 +1979,7 @@
   {
     "identifier": "minecraft:scaffolding",
     "loggable": true,
+    "components": [],
     "states": [
       "stability",
       "stability_check"
@@ -1687,6 +1988,7 @@
   {
     "identifier": "minecraft:cyan_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -1695,6 +1997,7 @@
   {
     "identifier": "minecraft:powered_comparator",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction",
       "output_lit_bit",
@@ -1704,6 +2007,7 @@
   {
     "identifier": "minecraft:waxed_oxidized_cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1711,16 +2015,21 @@
   {
     "identifier": "minecraft:warped_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:spruce_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pink_petals",
     "loggable": true,
+    "components": [],
     "states": [
       "growth",
       "minecraft:cardinal_direction"
@@ -1729,6 +2038,7 @@
   {
     "identifier": "minecraft:soul_fire",
     "loggable": false,
+    "components": [],
     "states": [
       "age"
     ]
@@ -1736,6 +2046,7 @@
   {
     "identifier": "minecraft:mangrove_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1743,16 +2054,19 @@
   {
     "identifier": "minecraft:pink_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brown_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oxidized_copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -1761,11 +2075,13 @@
   {
     "identifier": "minecraft:light_gray_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brain_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -1774,21 +2090,25 @@
   {
     "identifier": "minecraft:white_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:obsidian",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_gray_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:blackstone_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1796,6 +2116,7 @@
   {
     "identifier": "minecraft:stripped_spruce_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -1803,6 +2124,9 @@
   {
     "identifier": "minecraft:cauldron",
     "loggable": false,
+    "components": [
+      "minecraft:waterContainer"
+    ],
     "states": [
       "cauldron_liquid",
       "fill_level"
@@ -1811,11 +2135,13 @@
   {
     "identifier": "minecraft:glowingobsidian",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deepslate_brick_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -1827,6 +2153,9 @@
   {
     "identifier": "minecraft:darkoak_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -1834,21 +2163,27 @@
   {
     "identifier": "minecraft:waxed_exposed_copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:end_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1857,11 +2192,13 @@
   {
     "identifier": "minecraft:element_85",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1869,16 +2206,19 @@
   {
     "identifier": "minecraft:orange_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_deepslate_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1886,6 +2226,7 @@
   {
     "identifier": "minecraft:heavy_weighted_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -1893,6 +2234,7 @@
   {
     "identifier": "minecraft:stone_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -1900,11 +2242,13 @@
   {
     "identifier": "minecraft:element_89",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pitcher_plant",
     "loggable": false,
+    "components": [],
     "states": [
       "upper_block_bit"
     ]
@@ -1912,11 +2256,13 @@
   {
     "identifier": "minecraft:element_101",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -1925,6 +2271,7 @@
   {
     "identifier": "minecraft:sponge",
     "loggable": false,
+    "components": [],
     "states": [
       "sponge_type"
     ]
@@ -1932,6 +2279,7 @@
   {
     "identifier": "minecraft:andesite_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1940,6 +2288,7 @@
   {
     "identifier": "minecraft:bone_block",
     "loggable": false,
+    "components": [],
     "states": [
       "deprecated",
       "pillar_axis"
@@ -1948,6 +2297,7 @@
   {
     "identifier": "minecraft:normal_stone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1956,6 +2306,9 @@
   {
     "identifier": "minecraft:warped_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -1965,6 +2318,7 @@
   {
     "identifier": "minecraft:frame",
     "loggable": true,
+    "components": [],
     "states": [
       "item_frame_map_bit",
       "item_frame_photo_bit"
@@ -1973,6 +2327,9 @@
   {
     "identifier": "minecraft:smoker",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -1980,11 +2337,15 @@
   {
     "identifier": "minecraft:hardened_clay",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -1994,6 +2355,7 @@
   {
     "identifier": "minecraft:polished_tuff_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -2005,6 +2367,7 @@
   {
     "identifier": "minecraft:unlit_redstone_torch",
     "loggable": false,
+    "components": [],
     "states": [
       "torch_facing_direction"
     ]
@@ -2012,6 +2375,7 @@
   {
     "identifier": "minecraft:stripped_jungle_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2019,26 +2383,31 @@
   {
     "identifier": "minecraft:light_gray_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pink_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_magenta_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brown_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:fire_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -2047,6 +2416,7 @@
   {
     "identifier": "minecraft:stone",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_type"
     ]
@@ -2054,6 +2424,7 @@
   {
     "identifier": "minecraft:birch_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2061,31 +2432,37 @@
   {
     "identifier": "minecraft:element_99",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cobbled_deepslate",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:orange_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:orange_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_brick_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2093,6 +2470,7 @@
   {
     "identifier": "minecraft:kelp",
     "loggable": true,
+    "components": [],
     "states": [
       "kelp_age"
     ]
@@ -2100,6 +2478,7 @@
   {
     "identifier": "minecraft:crimson_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2107,6 +2486,7 @@
   {
     "identifier": "minecraft:underwater_torch",
     "loggable": true,
+    "components": [],
     "states": [
       "torch_facing_direction"
     ]
@@ -2114,6 +2494,7 @@
   {
     "identifier": "minecraft:respawn_anchor",
     "loggable": false,
+    "components": [],
     "states": [
       "respawn_anchor_charge"
     ]
@@ -2121,11 +2502,13 @@
   {
     "identifier": "minecraft:light_gray_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dark_oak_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -2134,11 +2517,13 @@
   {
     "identifier": "minecraft:purple_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:green_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -2147,6 +2532,7 @@
   {
     "identifier": "minecraft:birch_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2154,11 +2540,13 @@
   {
     "identifier": "minecraft:element_43",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hay_block",
     "loggable": false,
+    "components": [],
     "states": [
       "deprecated",
       "pillar_axis"
@@ -2167,16 +2555,21 @@
   {
     "identifier": "minecraft:red_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:purple_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:polished_tuff_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2184,6 +2577,7 @@
   {
     "identifier": "minecraft:jungle_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2191,6 +2585,7 @@
   {
     "identifier": "minecraft:suspicious_gravel",
     "loggable": false,
+    "components": [],
     "states": [
       "brushed_progress",
       "hanging"
@@ -2199,6 +2594,7 @@
   {
     "identifier": "minecraft:oxidized_copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -2208,16 +2604,19 @@
   {
     "identifier": "minecraft:waxed_weathered_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:invisible_bedrock",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oak_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "old_leaf_type",
       "persistent_bit",
@@ -2227,11 +2626,13 @@
   {
     "identifier": "minecraft:flowering_azalea",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deepslate_brick_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2239,6 +2640,7 @@
   {
     "identifier": "minecraft:bamboo_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -2247,6 +2649,7 @@
   {
     "identifier": "minecraft:torch",
     "loggable": false,
+    "components": [],
     "states": [
       "torch_facing_direction"
     ]
@@ -2254,6 +2657,7 @@
   {
     "identifier": "minecraft:glow_lichen",
     "loggable": true,
+    "components": [],
     "states": [
       "multi_face_direction_bits"
     ]
@@ -2261,6 +2665,7 @@
   {
     "identifier": "minecraft:copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -2269,6 +2674,7 @@
   {
     "identifier": "minecraft:red_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -2277,6 +2683,7 @@
   {
     "identifier": "minecraft:mud_brick_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -2288,11 +2695,13 @@
   {
     "identifier": "minecraft:honey_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -2301,11 +2710,13 @@
   {
     "identifier": "minecraft:brown_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lit_pumpkin",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -2313,41 +2724,51 @@
   {
     "identifier": "minecraft:pink_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:yellow_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:smooth_basalt",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stonecutter",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:piston",
     "loggable": true,
+    "components": [
+      "minecraft:piston"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tallgrass",
     "loggable": false,
+    "components": [],
     "states": [
       "tall_grass_type"
     ]
@@ -2355,6 +2776,7 @@
   {
     "identifier": "minecraft:dead_brain_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -2363,36 +2785,43 @@
   {
     "identifier": "minecraft:cherry_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mangrove_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_light_gray_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:weathered_copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_77",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:water",
     "loggable": false,
+    "components": [],
     "states": [
       "liquid_depth"
     ]
@@ -2400,6 +2829,7 @@
   {
     "identifier": "minecraft:weathered_copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -2408,16 +2838,19 @@
   {
     "identifier": "minecraft:magenta_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_weathered_copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_weathered_copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -2426,6 +2859,7 @@
   {
     "identifier": "minecraft:verdant_froglight",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2433,16 +2867,21 @@
   {
     "identifier": "minecraft:magenta_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:mangrove_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2450,6 +2889,7 @@
   {
     "identifier": "minecraft:infested_deepslate",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2457,26 +2897,31 @@
   {
     "identifier": "minecraft:orange_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:client_request_placeholder_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_brown_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:torchflower",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -2486,16 +2931,19 @@
   {
     "identifier": "minecraft:spore_blossom",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waterlily",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_dark_oak_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2503,11 +2951,13 @@
   {
     "identifier": "minecraft:emerald_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:suspicious_sand",
     "loggable": false,
+    "components": [],
     "states": [
       "brushed_progress",
       "hanging"
@@ -2516,11 +2966,13 @@
   {
     "identifier": "minecraft:ancient_debris",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "old_leaf_type",
       "persistent_bit",
@@ -2530,16 +2982,19 @@
   {
     "identifier": "minecraft:dark_oak_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:conduit",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:anvil",
     "loggable": true,
+    "components": [],
     "states": [
       "damage",
       "minecraft:cardinal_direction"
@@ -2548,6 +3003,7 @@
   {
     "identifier": "minecraft:polished_andesite",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_type"
     ]
@@ -2555,16 +3011,19 @@
   {
     "identifier": "minecraft:purple_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lightning_rod",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "new_leaf_type",
       "persistent_bit",
@@ -2574,26 +3033,31 @@
   {
     "identifier": "minecraft:barrier",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:nether_brick_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:black_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:magenta_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cobblestone_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_block_type",
       "wall_connection_type_east",
@@ -2606,11 +3070,13 @@
   {
     "identifier": "minecraft:light_blue_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deepslate_brick_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2618,11 +3084,13 @@
   {
     "identifier": "minecraft:element_91",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:spruce_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2630,6 +3098,7 @@
   {
     "identifier": "minecraft:red_sandstone",
     "loggable": false,
+    "components": [],
     "states": [
       "sand_stone_type"
     ]
@@ -2637,6 +3106,7 @@
   {
     "identifier": "minecraft:dark_oak_log",
     "loggable": false,
+    "components": [],
     "states": [
       "new_log_type",
       "pillar_axis"
@@ -2645,16 +3115,21 @@
   {
     "identifier": "minecraft:oak_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:redstone_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -2664,11 +3139,13 @@
   {
     "identifier": "minecraft:element_41",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:ochre_froglight",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2676,6 +3153,7 @@
   {
     "identifier": "minecraft:polished_blackstone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -2684,6 +3162,7 @@
   {
     "identifier": "minecraft:tuff_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -2695,6 +3174,7 @@
   {
     "identifier": "minecraft:mangrove_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -2702,6 +3182,7 @@
   {
     "identifier": "minecraft:observer",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:facing_direction",
       "powered_bit"
@@ -2710,21 +3191,25 @@
   {
     "identifier": "minecraft:pink_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:yellow_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brown_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brown_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -2732,6 +3217,7 @@
   {
     "identifier": "minecraft:pink_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -2739,6 +3225,7 @@
   {
     "identifier": "minecraft:quartz_block",
     "loggable": false,
+    "components": [],
     "states": [
       "chisel_type",
       "pillar_axis"
@@ -2747,6 +3234,7 @@
   {
     "identifier": "minecraft:redstone_torch",
     "loggable": false,
+    "components": [],
     "states": [
       "torch_facing_direction"
     ]
@@ -2754,6 +3242,7 @@
   {
     "identifier": "minecraft:birch_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "old_leaf_type",
       "persistent_bit",
@@ -2763,21 +3252,25 @@
   {
     "identifier": "minecraft:silver_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cyan_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oxidized_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -2785,11 +3278,13 @@
   {
     "identifier": "minecraft:element_19",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:sandstone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -2798,11 +3293,13 @@
   {
     "identifier": "minecraft:element_49",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_bamboo_block",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2810,6 +3307,7 @@
   {
     "identifier": "minecraft:birch_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -2818,6 +3316,7 @@
   {
     "identifier": "minecraft:sculk_catalyst",
     "loggable": false,
+    "components": [],
     "states": [
       "bloom"
     ]
@@ -2825,26 +3324,31 @@
   {
     "identifier": "minecraft:element_115",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cobblestone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:white_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:horn_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -2853,11 +3357,13 @@
   {
     "identifier": "minecraft:yellow_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:daylight_detector_inverted",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -2865,6 +3371,7 @@
   {
     "identifier": "minecraft:red_flower",
     "loggable": false,
+    "components": [],
     "states": [
       "flower_type"
     ]
@@ -2872,11 +3379,13 @@
   {
     "identifier": "minecraft:jungle_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oak_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2884,6 +3393,7 @@
   {
     "identifier": "minecraft:stripped_warped_stem",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -2891,6 +3401,7 @@
   {
     "identifier": "minecraft:daylight_detector",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -2898,6 +3409,7 @@
   {
     "identifier": "minecraft:repeating_command_block",
     "loggable": false,
+    "components": [],
     "states": [
       "conditional_bit"
     ]
@@ -2905,6 +3417,7 @@
   {
     "identifier": "minecraft:smooth_sandstone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -2913,6 +3426,7 @@
   {
     "identifier": "minecraft:jungle_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -2920,11 +3434,13 @@
   {
     "identifier": "minecraft:hard_white_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2932,11 +3448,13 @@
   {
     "identifier": "minecraft:crimson_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -2944,6 +3462,7 @@
   {
     "identifier": "minecraft:sandstone",
     "loggable": false,
+    "components": [],
     "states": [
       "sand_stone_type"
     ]
@@ -2951,6 +3470,7 @@
   {
     "identifier": "minecraft:blackstone_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -2962,6 +3482,7 @@
   {
     "identifier": "minecraft:light_weighted_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -2969,21 +3490,25 @@
   {
     "identifier": "minecraft:polished_blackstone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mycelium",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_72",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo",
     "loggable": false,
+    "components": [],
     "states": [
       "age_bit",
       "bamboo_leaf_size",
@@ -2993,36 +3518,43 @@
   {
     "identifier": "minecraft:iron_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_weathered_chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_17",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gray_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_51",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:sticky_piston_arm_collision",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3031,11 +3563,13 @@
   {
     "identifier": "minecraft:element_52",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3043,11 +3577,13 @@
   {
     "identifier": "minecraft:waxed_oxidized_copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stonebrick",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_brick_type"
     ]
@@ -3055,11 +3591,13 @@
   {
     "identifier": "minecraft:oxidized_chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bedrock",
     "loggable": false,
+    "components": [],
     "states": [
       "infiniburn_bit"
     ]
@@ -3067,11 +3605,13 @@
   {
     "identifier": "minecraft:smithing_table",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tuff_brick_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3079,11 +3619,13 @@
   {
     "identifier": "minecraft:warped_roots",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:small_dripleaf_block",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction",
       "upper_block_bit"
@@ -3092,21 +3634,25 @@
   {
     "identifier": "minecraft:green_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:green_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:purple_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -3114,16 +3660,19 @@
   {
     "identifier": "minecraft:netherite_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:redstone_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -3135,16 +3684,21 @@
   {
     "identifier": "minecraft:waxed_exposed_cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gilded_blackstone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -3154,11 +3708,13 @@
   {
     "identifier": "minecraft:blue_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -3166,6 +3722,7 @@
   {
     "identifier": "minecraft:birch_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3173,11 +3730,13 @@
   {
     "identifier": "minecraft:end_stone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:double_plant",
     "loggable": false,
+    "components": [],
     "states": [
       "double_plant_type",
       "upper_block_bit"
@@ -3186,6 +3745,7 @@
   {
     "identifier": "minecraft:crimson_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -3195,6 +3755,7 @@
   {
     "identifier": "minecraft:jungle_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3202,16 +3763,19 @@
   {
     "identifier": "minecraft:waxed_oxidized_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:glowstone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stone_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -3219,6 +3783,7 @@
   {
     "identifier": "minecraft:quartz_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3227,6 +3792,7 @@
   {
     "identifier": "minecraft:waxed_exposed_cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3235,11 +3801,13 @@
   {
     "identifier": "minecraft:hard_lime_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mud_brick_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3247,11 +3815,13 @@
   {
     "identifier": "minecraft:cracked_deepslate_tiles",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:farmland",
     "loggable": false,
+    "components": [],
     "states": [
       "moisturized_amount"
     ]
@@ -3259,6 +3829,7 @@
   {
     "identifier": "minecraft:rail",
     "loggable": true,
+    "components": [],
     "states": [
       "rail_direction"
     ]
@@ -3266,6 +3837,7 @@
   {
     "identifier": "minecraft:soul_lantern",
     "loggable": true,
+    "components": [],
     "states": [
       "hanging"
     ]
@@ -3273,6 +3845,7 @@
   {
     "identifier": "minecraft:carrots",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -3280,6 +3853,7 @@
   {
     "identifier": "minecraft:acacia_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -3288,6 +3862,7 @@
   {
     "identifier": "minecraft:mossy_cobblestone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3296,11 +3871,13 @@
   {
     "identifier": "minecraft:element_67",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:coral_fan_hang2",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_direction",
       "coral_hang_type_bit",
@@ -3310,11 +3887,13 @@
   {
     "identifier": "minecraft:element_66",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_deepslate_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -3326,6 +3905,7 @@
   {
     "identifier": "minecraft:coral_fan_hang3",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_direction",
       "coral_hang_type_bit",
@@ -3335,11 +3915,13 @@
   {
     "identifier": "minecraft:hard_magenta_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:monster_egg",
     "loggable": false,
+    "components": [],
     "states": [
       "monster_egg_stone_type"
     ]
@@ -3347,6 +3929,7 @@
   {
     "identifier": "minecraft:mangrove_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -3354,16 +3937,19 @@
   {
     "identifier": "minecraft:crafting_table",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dark_oak_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -3372,6 +3958,7 @@
   {
     "identifier": "minecraft:tube_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -3380,6 +3967,7 @@
   {
     "identifier": "minecraft:bamboo_mosaic_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3387,11 +3975,13 @@
   {
     "identifier": "minecraft:element_58",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -3399,11 +3989,13 @@
   {
     "identifier": "minecraft:crimson_nylium",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3411,6 +4003,7 @@
   {
     "identifier": "minecraft:structure_void",
     "loggable": false,
+    "components": [],
     "states": [
       "structure_void_type"
     ]
@@ -3418,11 +4011,13 @@
   {
     "identifier": "minecraft:purple_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -3431,11 +4026,13 @@
   {
     "identifier": "minecraft:white_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -3444,6 +4041,7 @@
   {
     "identifier": "minecraft:bubble_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -3452,11 +4050,13 @@
   {
     "identifier": "minecraft:coal_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_brick_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3464,16 +4064,19 @@
   {
     "identifier": "minecraft:hard_yellow_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:snow",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:calibrated_sculk_sensor",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction",
       "sculk_sensor_phase"
@@ -3482,11 +4085,13 @@
   {
     "identifier": "minecraft:yellow_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oak_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3494,6 +4099,7 @@
   {
     "identifier": "minecraft:sand",
     "loggable": false,
+    "components": [],
     "states": [
       "sand_type"
     ]
@@ -3501,6 +4107,9 @@
   {
     "identifier": "minecraft:mangrove_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -3508,21 +4117,25 @@
   {
     "identifier": "minecraft:slime",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_117",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stone_block_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type"
@@ -3531,11 +4144,13 @@
   {
     "identifier": "minecraft:chiseled_polished_blackstone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3543,6 +4158,7 @@
   {
     "identifier": "minecraft:azalea_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "persistent_bit",
       "update_bit"
@@ -3551,26 +4167,31 @@
   {
     "identifier": "minecraft:green_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brown_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cracked_deepslate_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pink_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dead_tube_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -3579,21 +4200,27 @@
   {
     "identifier": "minecraft:orange_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:light_blue_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:nether_wart_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -3603,6 +4230,7 @@
   {
     "identifier": "minecraft:golden_rail",
     "loggable": true,
+    "components": [],
     "states": [
       "rail_data_bit",
       "rail_direction"
@@ -3611,6 +4239,9 @@
   {
     "identifier": "minecraft:lit_furnace",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -3618,6 +4249,7 @@
   {
     "identifier": "minecraft:cherry_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -3627,6 +4259,7 @@
   {
     "identifier": "minecraft:weathered_cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3635,6 +4268,7 @@
   {
     "identifier": "minecraft:spruce_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -3642,11 +4276,13 @@
   {
     "identifier": "minecraft:wall_banner",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_log",
     "loggable": false,
+    "components": [],
     "states": [
       "new_log_type",
       "pillar_axis"
@@ -3655,6 +4291,7 @@
   {
     "identifier": "minecraft:flowing_lava",
     "loggable": false,
+    "components": [],
     "states": [
       "liquid_depth"
     ]
@@ -3662,16 +4299,19 @@
   {
     "identifier": "minecraft:white_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_84",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -3680,16 +4320,21 @@
   {
     "identifier": "minecraft:blue_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:element_79",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -3698,6 +4343,7 @@
   {
     "identifier": "minecraft:basalt",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -3705,6 +4351,7 @@
   {
     "identifier": "minecraft:waxed_weathered_copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -3713,11 +4360,13 @@
   {
     "identifier": "minecraft:hard_cyan_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_diorite",
     "loggable": false,
+    "components": [],
     "states": [
       "stone_type"
     ]
@@ -3725,21 +4374,25 @@
   {
     "identifier": "minecraft:element_13",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cyan_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_blue_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3747,26 +4400,31 @@
   {
     "identifier": "minecraft:element_44",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lit_redstone_lamp",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_blue_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lapis_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oxidized_cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3774,6 +4432,7 @@
   {
     "identifier": "minecraft:beehive",
     "loggable": false,
+    "components": [],
     "states": [
       "honey_level"
     ]
@@ -3781,11 +4440,13 @@
   {
     "identifier": "minecraft:hard_purple_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:yellow_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -3793,11 +4454,15 @@
   {
     "identifier": "minecraft:sticky_piston",
     "loggable": true,
+    "components": [
+      "minecraft:piston"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:medium_amethyst_bud",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:block_face"
     ]
@@ -3805,16 +4470,23 @@
   {
     "identifier": "minecraft:brown_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:pink_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:light_blue_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -3823,6 +4495,7 @@
   {
     "identifier": "minecraft:deepslate_tile_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3831,6 +4504,7 @@
   {
     "identifier": "minecraft:sculk_sensor",
     "loggable": true,
+    "components": [],
     "states": [
       "powered_bit",
       "sculk_sensor_phase"
@@ -3839,11 +4513,13 @@
   {
     "identifier": "minecraft:element_26",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -3852,11 +4528,13 @@
   {
     "identifier": "minecraft:element_6",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:diorite_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3865,11 +4543,13 @@
   {
     "identifier": "minecraft:element_97",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:spruce_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "old_leaf_type",
       "persistent_bit",
@@ -3879,26 +4559,33 @@
   {
     "identifier": "minecraft:red_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:frog_spawn",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_111",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_cherry_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -3906,11 +4593,13 @@
   {
     "identifier": "minecraft:dirt_with_roots",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -3919,6 +4608,7 @@
   {
     "identifier": "minecraft:copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -3928,6 +4618,7 @@
   {
     "identifier": "minecraft:crimson_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -3935,11 +4626,13 @@
   {
     "identifier": "minecraft:magenta_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:prismarine_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3948,6 +4641,7 @@
   {
     "identifier": "minecraft:iron_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -3957,6 +4651,7 @@
   {
     "identifier": "minecraft:mangrove_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -3965,6 +4660,7 @@
   {
     "identifier": "minecraft:chorus_flower",
     "loggable": false,
+    "components": [],
     "states": [
       "age"
     ]
@@ -3972,6 +4668,7 @@
   {
     "identifier": "minecraft:torchflower_crop",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -3979,6 +4676,7 @@
   {
     "identifier": "minecraft:lime_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -3986,6 +4684,7 @@
   {
     "identifier": "minecraft:coral_fan_hang",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_direction",
       "coral_hang_type_bit",
@@ -3995,6 +4694,7 @@
   {
     "identifier": "minecraft:mangrove_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "persistent_bit",
       "update_bit"
@@ -4003,6 +4703,7 @@
   {
     "identifier": "minecraft:stripped_birch_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -4010,6 +4711,7 @@
   {
     "identifier": "minecraft:polished_blackstone_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -4017,11 +4719,13 @@
   {
     "identifier": "minecraft:cracked_nether_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:pumpkin",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -4029,16 +4733,19 @@
   {
     "identifier": "minecraft:smooth_stone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_weathered_cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4046,26 +4753,31 @@
   {
     "identifier": "minecraft:red_mushroom",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_yellow_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:magenta_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:black_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4074,6 +4786,7 @@
   {
     "identifier": "minecraft:mangrove_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4082,16 +4795,19 @@
   {
     "identifier": "minecraft:unknown",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_blue_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mangrove_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -4100,16 +4816,21 @@
   {
     "identifier": "minecraft:allow",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gray_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -4119,16 +4840,19 @@
   {
     "identifier": "minecraft:wither_rose",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:copper_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -4137,6 +4861,7 @@
   {
     "identifier": "minecraft:birch_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4144,6 +4869,7 @@
   {
     "identifier": "minecraft:waxed_weathered_double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4151,11 +4877,13 @@
   {
     "identifier": "minecraft:cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:frosted_ice",
     "loggable": false,
+    "components": [],
     "states": [
       "age"
     ]
@@ -4163,6 +4891,7 @@
   {
     "identifier": "minecraft:spruce_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -4172,6 +4901,7 @@
   {
     "identifier": "minecraft:warped_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -4180,11 +4910,13 @@
   {
     "identifier": "minecraft:orange_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:flowing_water",
     "loggable": false,
+    "components": [],
     "states": [
       "liquid_depth"
     ]
@@ -4192,11 +4924,13 @@
   {
     "identifier": "minecraft:brick_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:portal",
     "loggable": false,
+    "components": [],
     "states": [
       "portal_axis"
     ]
@@ -4204,11 +4938,13 @@
   {
     "identifier": "minecraft:hard_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cave_vines",
     "loggable": false,
+    "components": [],
     "states": [
       "growing_plant_age"
     ]
@@ -4216,21 +4952,27 @@
   {
     "identifier": "minecraft:magenta_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_blue_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_62",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:oak_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -4240,6 +4982,7 @@
   {
     "identifier": "minecraft:oak_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -4247,6 +4990,7 @@
   {
     "identifier": "minecraft:waxed_exposed_double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4254,6 +4998,7 @@
   {
     "identifier": "minecraft:waxed_oxidized_copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -4262,11 +5007,16 @@
   {
     "identifier": "minecraft:jukebox",
     "loggable": false,
+    "components": [
+      "minecraft:inventory",
+      "minecraft:recordPlayer"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_cherry_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -4274,6 +5024,7 @@
   {
     "identifier": "minecraft:jigsaw",
     "loggable": true,
+    "components": [],
     "states": [
       "rotation"
     ]
@@ -4281,6 +5032,7 @@
   {
     "identifier": "minecraft:acacia_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -4288,6 +5040,7 @@
   {
     "identifier": "minecraft:border_block",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -4299,11 +5052,13 @@
   {
     "identifier": "minecraft:shroomlight",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:yellow_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -4312,6 +5067,7 @@
   {
     "identifier": "minecraft:deepslate_tile_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -4323,16 +5079,19 @@
   {
     "identifier": "minecraft:glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:chiseled_deepslate",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4340,6 +5099,7 @@
   {
     "identifier": "minecraft:coral_block",
     "loggable": false,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -4348,6 +5108,7 @@
   {
     "identifier": "minecraft:mud_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4356,6 +5117,7 @@
   {
     "identifier": "minecraft:dark_oak_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -4364,16 +5126,21 @@
   {
     "identifier": "minecraft:mangrove_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:raw_copper_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:beetroot",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -4381,11 +5148,13 @@
   {
     "identifier": "minecraft:skull",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_gray_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -4393,11 +5162,13 @@
   {
     "identifier": "minecraft:deepslate_diamond_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:white_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -4406,16 +5177,19 @@
   {
     "identifier": "minecraft:element_95",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:sea_pickle",
     "loggable": true,
+    "components": [],
     "states": [
       "cluster_count",
       "dead_bit"
@@ -4424,16 +5198,21 @@
   {
     "identifier": "minecraft:cyan_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:gray_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:red_sandstone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4442,6 +5221,7 @@
   {
     "identifier": "minecraft:jungle_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -4450,16 +5230,19 @@
   {
     "identifier": "minecraft:exposed_copper_grate",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:coal_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:composter",
     "loggable": true,
+    "components": [],
     "states": [
       "composter_fill_level"
     ]
@@ -4467,16 +5250,19 @@
   {
     "identifier": "minecraft:blue_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:clay",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:weeping_vines",
     "loggable": false,
+    "components": [],
     "states": [
       "weeping_vines_age"
     ]
@@ -4484,11 +5270,13 @@
   {
     "identifier": "minecraft:chorus_plant",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:unpowered_repeater",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction",
       "repeater_delay"
@@ -4497,6 +5285,7 @@
   {
     "identifier": "minecraft:smooth_red_sandstone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4505,21 +5294,25 @@
   {
     "identifier": "minecraft:element_100",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_103",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_105",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -4527,61 +5320,75 @@
   {
     "identifier": "minecraft:element_106",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_107",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_gray_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_108",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_109",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_gray_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:element_112",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_110",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_116",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_114",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:white_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_warped_hyphae",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -4589,6 +5396,7 @@
   {
     "identifier": "minecraft:pumpkin_stem",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -4596,6 +5404,7 @@
   {
     "identifier": "minecraft:lever",
     "loggable": true,
+    "components": [],
     "states": [
       "lever_direction",
       "open_bit"
@@ -4604,16 +5413,21 @@
   {
     "identifier": "minecraft:element_50",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:moving_block",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:trapped_chest",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -4621,6 +5435,9 @@
   {
     "identifier": "minecraft:standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -4628,6 +5445,7 @@
   {
     "identifier": "minecraft:stone_block_slab4",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type_4"
@@ -4636,16 +5454,19 @@
   {
     "identifier": "minecraft:purple_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:twisting_vines",
     "loggable": false,
+    "components": [],
     "states": [
       "twisting_vines_age"
     ]
@@ -4653,6 +5474,7 @@
   {
     "identifier": "minecraft:command_block",
     "loggable": false,
+    "components": [],
     "states": [
       "conditional_bit"
     ]
@@ -4660,6 +5482,7 @@
   {
     "identifier": "minecraft:acacia_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4667,6 +5490,7 @@
   {
     "identifier": "minecraft:dirt",
     "loggable": false,
+    "components": [],
     "states": [
       "dirt_type"
     ]
@@ -4674,6 +5498,7 @@
   {
     "identifier": "minecraft:reeds",
     "loggable": false,
+    "components": [],
     "states": [
       "age"
     ]
@@ -4681,16 +5506,19 @@
   {
     "identifier": "minecraft:magma",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deny",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bee_nest",
     "loggable": false,
+    "components": [],
     "states": [
       "honey_level"
     ]
@@ -4698,6 +5526,7 @@
   {
     "identifier": "minecraft:bubble_column",
     "loggable": true,
+    "components": [],
     "states": [
       "drag_down"
     ]
@@ -4705,6 +5534,7 @@
   {
     "identifier": "minecraft:campfire",
     "loggable": true,
+    "components": [],
     "states": [
       "extinguished",
       "minecraft:cardinal_direction"
@@ -4713,6 +5543,7 @@
   {
     "identifier": "minecraft:stone_block_slab2",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type_2"
@@ -4721,6 +5552,7 @@
   {
     "identifier": "minecraft:stone_block_slab3",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type_3"
@@ -4729,6 +5561,7 @@
   {
     "identifier": "minecraft:dark_oak_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -4736,26 +5569,31 @@
   {
     "identifier": "minecraft:element_28",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:soul_soil",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_8",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:soul_sand",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cobbled_deepslate_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4763,11 +5601,15 @@
   {
     "identifier": "minecraft:element_86",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:spruce_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -4777,21 +5619,25 @@
   {
     "identifier": "minecraft:reinforced_deepslate",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:end_rod",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:fletching_table",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "persistent_bit",
       "update_bit"
@@ -4800,11 +5646,13 @@
   {
     "identifier": "minecraft:black_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_oxidized_cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4813,6 +5661,7 @@
   {
     "identifier": "minecraft:stripped_acacia_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -4820,6 +5669,7 @@
   {
     "identifier": "minecraft:sniffer_egg",
     "loggable": false,
+    "components": [],
     "states": [
       "cracked_state"
     ]
@@ -4827,11 +5677,13 @@
   {
     "identifier": "minecraft:warped_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cave_vines_body_with_berries",
     "loggable": false,
+    "components": [],
     "states": [
       "growing_plant_age"
     ]
@@ -4839,6 +5691,9 @@
   {
     "identifier": "minecraft:cherry_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -4846,6 +5701,9 @@
   {
     "identifier": "minecraft:mangrove_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -4855,11 +5713,13 @@
   {
     "identifier": "minecraft:element_32",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -4868,6 +5728,7 @@
   {
     "identifier": "minecraft:pink_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -4876,6 +5737,7 @@
   {
     "identifier": "minecraft:brown_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -4884,11 +5746,13 @@
   {
     "identifier": "minecraft:element_87",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mossy_stone_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4897,6 +5761,7 @@
   {
     "identifier": "minecraft:crimson_stem",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -4904,6 +5769,7 @@
   {
     "identifier": "minecraft:colored_torch_rg",
     "loggable": false,
+    "components": [],
     "states": [
       "color_bit",
       "torch_facing_direction"
@@ -4912,6 +5778,7 @@
   {
     "identifier": "minecraft:tuff_brick_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4919,6 +5786,7 @@
   {
     "identifier": "minecraft:vault",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction",
       "vault_state"
@@ -4927,6 +5795,7 @@
   {
     "identifier": "minecraft:azalea_leaves_flowered",
     "loggable": true,
+    "components": [],
     "states": [
       "persistent_bit",
       "update_bit"
@@ -4935,11 +5804,13 @@
   {
     "identifier": "minecraft:element_18",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4947,6 +5818,7 @@
   {
     "identifier": "minecraft:bamboo_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -4954,6 +5826,7 @@
   {
     "identifier": "minecraft:warped_hyphae",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -4961,11 +5834,13 @@
   {
     "identifier": "minecraft:warped_wart_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tuff_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4974,16 +5849,19 @@
   {
     "identifier": "minecraft:yellow_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:black_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_oxidized_copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -4993,11 +5871,13 @@
   {
     "identifier": "minecraft:grass_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tripwire_hook",
     "loggable": true,
+    "components": [],
     "states": [
       "attached_bit",
       "powered_bit"
@@ -5006,11 +5886,13 @@
   {
     "identifier": "minecraft:hard_black_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_birch_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5018,6 +5900,7 @@
   {
     "identifier": "minecraft:structure_block",
     "loggable": false,
+    "components": [],
     "states": [
       "structure_block_type"
     ]
@@ -5025,16 +5908,19 @@
   {
     "identifier": "minecraft:tinted_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:blue_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -5042,6 +5928,7 @@
   {
     "identifier": "minecraft:sweet_berry_bush",
     "loggable": false,
+    "components": [],
     "states": [
       "growth"
     ]
@@ -5049,11 +5936,13 @@
   {
     "identifier": "minecraft:element_56",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_blackstone_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5061,16 +5950,23 @@
   {
     "identifier": "minecraft:black_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:blue_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -5078,16 +5974,19 @@
   {
     "identifier": "minecraft:web",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5095,6 +5994,7 @@
   {
     "identifier": "minecraft:weathered_cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5102,6 +6002,7 @@
   {
     "identifier": "minecraft:cocoa",
     "loggable": true,
+    "components": [],
     "states": [
       "age"
     ]
@@ -5109,6 +6010,7 @@
   {
     "identifier": "minecraft:dark_oak_leaves",
     "loggable": true,
+    "components": [],
     "states": [
       "new_leaf_type",
       "persistent_bit",
@@ -5118,11 +6020,13 @@
   {
     "identifier": "minecraft:orange_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:fire",
     "loggable": false,
+    "components": [],
     "states": [
       "age"
     ]
@@ -5130,6 +6034,7 @@
   {
     "identifier": "minecraft:end_portal_frame",
     "loggable": true,
+    "components": [],
     "states": [
       "end_portal_eye_bit",
       "minecraft:cardinal_direction"
@@ -5138,6 +6043,7 @@
   {
     "identifier": "minecraft:prismarine",
     "loggable": false,
+    "components": [],
     "states": [
       "prismarine_block_type"
     ]
@@ -5145,6 +6051,7 @@
   {
     "identifier": "minecraft:magenta_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -5152,36 +6059,43 @@
   {
     "identifier": "minecraft:deepslate_gold_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_orange_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:moss_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:exposed_cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bookshelf",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_weathered_cut_copper_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5190,11 +6104,13 @@
   {
     "identifier": "minecraft:mangrove_roots",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5203,6 +6119,7 @@
   {
     "identifier": "minecraft:polished_andesite_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5211,6 +6128,7 @@
   {
     "identifier": "minecraft:cherry_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5218,6 +6136,7 @@
   {
     "identifier": "minecraft:polished_blackstone_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -5225,6 +6144,9 @@
   {
     "identifier": "minecraft:acacia_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -5232,11 +6154,13 @@
   {
     "identifier": "minecraft:sculk",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tuff_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5245,6 +6169,7 @@
   {
     "identifier": "minecraft:chemistry_table",
     "loggable": false,
+    "components": [],
     "states": [
       "chemistry_table_type"
     ]
@@ -5252,6 +6177,7 @@
   {
     "identifier": "minecraft:dead_fire_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -5260,6 +6186,7 @@
   {
     "identifier": "minecraft:stripped_spruce_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5267,6 +6194,7 @@
   {
     "identifier": "minecraft:waxed_oxidized_copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -5275,6 +6203,7 @@
   {
     "identifier": "minecraft:deepslate_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5283,16 +6212,19 @@
   {
     "identifier": "minecraft:warped_nylium",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deepslate_emerald_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:stripped_crimson_stem",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5300,11 +6232,15 @@
   {
     "identifier": "minecraft:cyan_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:unpowered_comparator",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction",
       "output_lit_bit",
@@ -5314,11 +6250,13 @@
   {
     "identifier": "minecraft:element_37",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -5327,11 +6265,13 @@
   {
     "identifier": "minecraft:target",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:wooden_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -5339,6 +6279,7 @@
   {
     "identifier": "minecraft:mangrove_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -5348,6 +6289,7 @@
   {
     "identifier": "minecraft:weathered_copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -5357,6 +6299,7 @@
   {
     "identifier": "minecraft:pearlescent_froglight",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5364,6 +6307,7 @@
   {
     "identifier": "minecraft:double_stone_block_slab2",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type_2"
@@ -5372,6 +6316,7 @@
   {
     "identifier": "minecraft:double_stone_block_slab4",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type_4"
@@ -5380,26 +6325,31 @@
   {
     "identifier": "minecraft:nether_sprouts",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_64",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cyan_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_92",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5407,6 +6357,9 @@
   {
     "identifier": "minecraft:furnace",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -5414,11 +6367,13 @@
   {
     "identifier": "minecraft:netherrack",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_stem",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5426,16 +6381,21 @@
   {
     "identifier": "minecraft:green_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:hard_green_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5444,6 +6404,7 @@
   {
     "identifier": "minecraft:spruce_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -5452,16 +6413,19 @@
   {
     "identifier": "minecraft:purple_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_69",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:chain_command_block",
     "loggable": false,
+    "components": [],
     "states": [
       "conditional_bit"
     ]
@@ -5469,6 +6433,7 @@
   {
     "identifier": "minecraft:double_stone_block_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half",
       "stone_slab_type"
@@ -5477,11 +6442,13 @@
   {
     "identifier": "minecraft:exposed_chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:spruce_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -5490,11 +6457,13 @@
   {
     "identifier": "minecraft:crimson_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:red_nether_brick_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5503,21 +6472,25 @@
   {
     "identifier": "minecraft:green_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deepslate_redstone_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:mangrove_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_trapdoor",
     "loggable": true,
+    "components": [],
     "states": [
       "open_bit",
       "upside_down_bit"
@@ -5526,21 +6499,25 @@
   {
     "identifier": "minecraft:mud",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:ice",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:air",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bed",
     "loggable": true,
+    "components": [],
     "states": [
       "head_piece_bit",
       "occupied_bit"
@@ -5549,16 +6526,19 @@
   {
     "identifier": "minecraft:light_blue_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:black_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tnt",
     "loggable": false,
+    "components": [],
     "states": [
       "allow_underwater_bit",
       "explode_bit"
@@ -5567,6 +6547,7 @@
   {
     "identifier": "minecraft:polished_diorite_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5575,46 +6556,55 @@
   {
     "identifier": "minecraft:orange_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:netherreactor",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_83",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crying_obsidian",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:decorated_pot",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:enchanting_table",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:azalea",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bell",
     "loggable": true,
+    "components": [],
     "states": [
       "attachment"
     ]
@@ -5622,21 +6612,29 @@
   {
     "identifier": "minecraft:mud_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5644,21 +6642,29 @@
   {
     "identifier": "minecraft:gray_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hopper",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:hard_red_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lectern",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction",
       "powered_bit"
@@ -5667,6 +6673,7 @@
   {
     "identifier": "minecraft:acacia_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -5674,6 +6681,7 @@
   {
     "identifier": "minecraft:standing_banner",
     "loggable": true,
+    "components": [],
     "states": [
       "ground_sign_direction"
     ]
@@ -5681,11 +6689,15 @@
   {
     "identifier": "minecraft:light_blue_shulker_box",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_oxidized_double_cut_copper_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5693,11 +6705,13 @@
   {
     "identifier": "minecraft:sea_lantern",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5706,6 +6720,7 @@
   {
     "identifier": "minecraft:mangrove_propagule",
     "loggable": true,
+    "components": [],
     "states": [
       "hanging",
       "propagule_stage"
@@ -5714,11 +6729,13 @@
   {
     "identifier": "minecraft:budding_amethyst",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5727,6 +6744,7 @@
   {
     "identifier": "minecraft:spruce_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5734,6 +6752,7 @@
   {
     "identifier": "minecraft:blackstone_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5742,16 +6761,19 @@
   {
     "identifier": "minecraft:blue_ice",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_red_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:purple_candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -5760,6 +6782,7 @@
   {
     "identifier": "minecraft:lantern",
     "loggable": true,
+    "components": [],
     "states": [
       "hanging"
     ]
@@ -5767,6 +6790,9 @@
   {
     "identifier": "minecraft:lit_blast_furnace",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -5774,16 +6800,19 @@
   {
     "identifier": "minecraft:element_11",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dark_oak_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -5793,6 +6822,9 @@
   {
     "identifier": "minecraft:chest",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -5800,6 +6832,7 @@
   {
     "identifier": "minecraft:chain",
     "loggable": true,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5807,11 +6840,15 @@
   {
     "identifier": "minecraft:deepslate_lapis_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_hanging_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "attached_bit",
       "ground_sign_direction",
@@ -5821,21 +6858,27 @@
   {
     "identifier": "minecraft:deepslate_coal_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:weathered_cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cracked_polished_blackstone_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -5843,6 +6886,7 @@
   {
     "identifier": "minecraft:stripped_mangrove_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5850,16 +6894,19 @@
   {
     "identifier": "minecraft:polished_tuff",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:magenta_stained_glass",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:weathered_copper_bulb",
     "loggable": false,
+    "components": [],
     "states": [
       "lit",
       "powered_bit"
@@ -5868,21 +6915,25 @@
   {
     "identifier": "minecraft:hard_white_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:hard_cyan_stained_glass_pane",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:chiseled_nether_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:warped_button",
     "loggable": true,
+    "components": [],
     "states": [
       "button_pressed_bit"
     ]
@@ -5890,16 +6941,19 @@
   {
     "identifier": "minecraft:red_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_gray_concrete_powder",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dead_bubble_coral",
     "loggable": true,
+    "components": [],
     "states": [
       "coral_color",
       "dead_bit"
@@ -5908,6 +6962,7 @@
   {
     "identifier": "minecraft:cherry_sapling",
     "loggable": false,
+    "components": [],
     "states": [
       "age_bit"
     ]
@@ -5915,6 +6970,7 @@
   {
     "identifier": "minecraft:cherry_log",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -5922,11 +6978,13 @@
   {
     "identifier": "minecraft:cyan_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_tuff_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5935,91 +6993,109 @@
   {
     "identifier": "minecraft:dragon_egg",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:nether_brick",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:deepslate_iron_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_23",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_3",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_22",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_2",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_25",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_5",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_24",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_4",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_27",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_7",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_29",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_9",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:camera",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_cut_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cobbled_deepslate_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -6027,11 +7103,15 @@
   {
     "identifier": "minecraft:element_47",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_standing_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": [
       "ground_sign_direction"
     ]
@@ -6039,11 +7119,13 @@
   {
     "identifier": "minecraft:emerald_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:brown_mushroom_block",
     "loggable": false,
+    "components": [],
     "states": [
       "huge_mushroom_bits"
     ]
@@ -6051,11 +7133,15 @@
   {
     "identifier": "minecraft:element_61",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dropper",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "triggered_bit"
     ]
@@ -6063,6 +7149,7 @@
   {
     "identifier": "minecraft:candle",
     "loggable": true,
+    "components": [],
     "states": [
       "candles",
       "lit"
@@ -6071,6 +7158,7 @@
   {
     "identifier": "minecraft:cobbled_deepslate_wall",
     "loggable": true,
+    "components": [],
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -6082,6 +7170,7 @@
   {
     "identifier": "minecraft:pointed_dripstone",
     "loggable": true,
+    "components": [],
     "states": [
       "dripstone_thickness",
       "hanging"
@@ -6090,11 +7179,13 @@
   {
     "identifier": "minecraft:red_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dark_prismarine_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -6103,16 +7194,19 @@
   {
     "identifier": "minecraft:chiseled_tuff_bricks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:chemical_heat",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:trip_wire",
     "loggable": true,
+    "components": [],
     "states": [
       "attached_bit",
       "disarmed_bit",
@@ -6123,6 +7217,7 @@
   {
     "identifier": "minecraft:cave_vines_head_with_berries",
     "loggable": false,
+    "components": [],
     "states": [
       "growing_plant_age"
     ]
@@ -6130,6 +7225,9 @@
   {
     "identifier": "minecraft:brewing_stand",
     "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "brewing_stand_slot_a_bit",
       "brewing_stand_slot_b_bit",
@@ -6139,6 +7237,7 @@
   {
     "identifier": "minecraft:bamboo_sapling",
     "loggable": false,
+    "components": [],
     "states": [
       "age_bit",
       "sapling_type"
@@ -6147,6 +7246,9 @@
   {
     "identifier": "minecraft:blast_furnace",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -6154,16 +7256,21 @@
   {
     "identifier": "minecraft:raw_iron_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_roots",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:dispenser",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "triggered_bit"
     ]
@@ -6171,6 +7278,7 @@
   {
     "identifier": "minecraft:acacia_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -6178,6 +7286,7 @@
   {
     "identifier": "minecraft:stonecutter_block",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -6185,6 +7294,7 @@
   {
     "identifier": "minecraft:white_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -6192,11 +7302,13 @@
   {
     "identifier": "minecraft:end_portal",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:jungle_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -6204,6 +7316,7 @@
   {
     "identifier": "minecraft:spruce_wood",
     "loggable": false,
+    "components": [],
     "states": [
       "pillar_axis"
     ]
@@ -6211,196 +7324,237 @@
   {
     "identifier": "minecraft:blackstone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lit_deepslate_redstone_ore",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_10",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_12",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_14",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_15",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_36",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_34",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_35",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_33",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_30",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_31",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_38",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_59",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_54",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_55",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_57",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_53",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_48",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_45",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_42",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_40",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_70",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_71",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_76",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_74",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_75",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_78",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_65",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_60",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_63",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_90",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_94",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_96",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_88",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_82",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_81",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:element_80",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lit_smoker",
     "loggable": false,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -6408,6 +7562,7 @@
   {
     "identifier": "minecraft:smooth_quartz_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -6416,11 +7571,13 @@
   {
     "identifier": "minecraft:light_gray_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:purpur_block",
     "loggable": false,
+    "components": [],
     "states": [
       "chisel_type",
       "pillar_axis"
@@ -6429,26 +7586,33 @@
   {
     "identifier": "minecraft:cherry_wall_sign",
     "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
     "states": []
   },
   {
     "identifier": "minecraft:purple_carpet",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:crimson_fungus",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:polished_deepslate",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:tuff_double_slab",
     "loggable": false,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -6456,6 +7620,7 @@
   {
     "identifier": "minecraft:purpur_stairs",
     "loggable": true,
+    "components": [],
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -6464,6 +7629,7 @@
   {
     "identifier": "minecraft:waxed_copper_door",
     "loggable": true,
+    "components": [],
     "states": [
       "door_hinge_bit",
       "open_bit",
@@ -6473,6 +7639,7 @@
   {
     "identifier": "minecraft:crafter",
     "loggable": false,
+    "components": [],
     "states": [
       "crafting",
       "orientation",
@@ -6482,11 +7649,13 @@
   {
     "identifier": "minecraft:spruce_planks",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:amethyst_cluster",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:block_face"
     ]
@@ -6494,11 +7663,13 @@
   {
     "identifier": "minecraft:waxed_chiseled_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:waxed_cut_copper_slab",
     "loggable": true,
+    "components": [],
     "states": [
       "minecraft:vertical_half"
     ]
@@ -6506,11 +7677,13 @@
   {
     "identifier": "minecraft:dried_kelp_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:light_block",
     "loggable": true,
+    "components": [],
     "states": [
       "block_light_level"
     ]
@@ -6518,16 +7691,19 @@
   {
     "identifier": "minecraft:chiseled_tuff",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:birch_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:turtle_egg",
     "loggable": true,
+    "components": [],
     "states": [
       "cracked_state",
       "turtle_egg_count"
@@ -6536,11 +7712,13 @@
   {
     "identifier": "minecraft:light_gray_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:soul_campfire",
     "loggable": true,
+    "components": [],
     "states": [
       "extinguished",
       "minecraft:cardinal_direction"
@@ -6549,6 +7727,7 @@
   {
     "identifier": "minecraft:wooden_pressure_plate",
     "loggable": true,
+    "components": [],
     "states": [
       "redstone_signal"
     ]
@@ -6556,21 +7735,25 @@
   {
     "identifier": "minecraft:white_concrete",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:acacia_fence",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:grass_path",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:orange_candle_cake",
     "loggable": true,
+    "components": [],
     "states": [
       "lit"
     ]
@@ -6578,16 +7761,19 @@
   {
     "identifier": "minecraft:weathered_copper",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lime_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cherry_fence_gate",
     "loggable": true,
+    "components": [],
     "states": [
       "in_wall_bit",
       "open_bit"
@@ -6596,36 +7782,43 @@
   {
     "identifier": "minecraft:gray_glazed_terracotta",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:lodestone",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:bamboo_mosaic",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:purple_wool",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:iron_block",
     "loggable": false,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:ladder",
     "loggable": true,
+    "components": [],
     "states": []
   },
   {
     "identifier": "minecraft:cartography_table",
     "loggable": false,
+    "components": [],
     "states": []
   }
 ]

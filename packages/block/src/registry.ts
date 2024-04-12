@@ -15,7 +15,8 @@ for (const type of BLOCK_TYPES) {
 	// Register the block type.
 	const instance = new BlockType(
 		type.identifier as BlockIdentifier,
-		type.loggable
+		type.loggable,
+		type.components
 	);
 
 	// Set the block type in the registry.

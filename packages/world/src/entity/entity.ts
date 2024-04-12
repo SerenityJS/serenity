@@ -32,14 +32,44 @@ class Entity {
 	 */
 	public static readonly components: Array<typeof EntityComponent> = [];
 
+	/**
+	 * The identifier of the entity.
+	 */
 	public readonly identifier: EntityIdentifier;
+
+	/**
+	 * The runtime id of the entity.
+	 */
 	public readonly runtime: bigint;
+
+	/**
+	 * The unique id of the entity.
+	 */
 	public readonly unique: bigint;
+
+	/**
+	 * The position of the entity.
+	 */
 	public readonly position: Vector3f;
+
+	/**
+	 * The velocity of the entity.
+	 */
 	public readonly velocity: Vector3f;
+
+	/**
+	 * The rotation of the entity.
+	 */
 	public readonly rotation: Rotation;
+
+	/**
+	 * The components of the entity.
+	 */
 	public readonly components: Map<string, EntityComponent>;
 
+	/**
+	 * The dimension of the entity.
+	 */
 	public dimension: Dimension;
 
 	public constructor(
@@ -50,7 +80,8 @@ class Entity {
 		// Readonly properties
 		this.identifier = identifier;
 		this.runtime = Entity.runtime++;
-		this.unique = uniqueId ?? this.runtime; // Make sure to change this later
+		this.unique =
+			uniqueId ?? (BigInt(Date.now()) << 32n) | (this.runtime << 4n);
 		this.position = new Vector3f(0, 0, 0);
 		this.velocity = new Vector3f(0, 0, 0);
 		this.rotation = new Rotation(0, 0, 0);
@@ -224,6 +255,10 @@ class Entity {
 		);
 	}
 
+	/**
+	 * Gets the cardinal direction of the entity.
+	 * @returns The cardinal direction of the entity.
+	 */
 	public getCardinalDirection(): CardinalDirection {
 		// Calculate the cardinal direction of the entity
 		// Entity yaw is -180 to 180

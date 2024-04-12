@@ -60,15 +60,14 @@ class InventoryTransaction extends SerenityHandler {
 				.face(packet.face);
 
 			// Set the permutation of the block
-			block.setPermutation(
-				item.type.block.permutations[item.metadata] as BlockPermutation
-			);
-
-			// Set the direction of the block
-			block.setDirection(
-				player.getCardinalDirection(),
-				packet.face !== BlockFace.Top
-			);
+			block
+				.setPermutation(
+					item.type.block.permutations[item.metadata] as BlockPermutation
+				)
+				.setDirection(
+					player.getCardinalDirection(),
+					packet.face !== BlockFace.Top
+				);
 		}
 	}
 }

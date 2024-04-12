@@ -37,7 +37,7 @@ class Block {
 	/**
 	 * The permutation of the block.
 	 */
-	public permutation: BlockPermutation;
+	public readonly permutation: BlockPermutation;
 
 	/**
 	 * Creates a new block.
@@ -63,7 +63,7 @@ class Block {
 	 * Sets the permutation of the block.
 	 * @param permutation The permutation to set.
 	 */
-	public setPermutation(permutation: BlockPermutation): void {
+	public setPermutation(permutation: BlockPermutation): Block {
 		// Get the chunk the block is in.
 		const chunk = this.dimension.getChunk(
 			this.location.x >> 4,
@@ -78,9 +78,6 @@ class Block {
 			permutation
 		);
 
-		// Set the block permutation.
-		this.permutation = permutation;
-
 		// Create a new UpdateBlockPacket.
 		const packet = new UpdateBlockPacket();
 
@@ -93,6 +90,13 @@ class Block {
 
 		// Send the packet to the dimension.
 		this.dimension.broadcast(packet);
+
+		// Return the block new block.
+		return this.dimension.getBlock(
+			this.location.x,
+			this.location.y,
+			this.location.z
+		);
 	}
 
 	/**

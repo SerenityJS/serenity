@@ -12,6 +12,7 @@ interface BlockStates {
 interface BlockTypes {
 	identifier: string;
 	loggable: boolean;
+	components: Array<string>;
 	states: Array<string>;
 }
 
@@ -23,6 +24,11 @@ interface BlockPermutations {
 
 interface ItemTypes {
 	identifier: string;
+}
+
+interface EntityTypes {
+	identifier: string;
+	components: Array<string>;
 }
 
 /**
@@ -54,6 +60,13 @@ const ITEM_TYPES: Array<ItemTypes> = JSON.parse(
 );
 
 /**
+ * Entity types for all entities in the game.
+ */
+const ENTITY_TYPES: Array<EntityTypes> = JSON.parse(
+	readFileSync(resolve(data, "entity_types.json"), "utf8")
+);
+
+/**
  * Raw NBT data for the canonical block states.
  */
 const CANONICAL_BLOCK_STATES = readFileSync(
@@ -82,6 +95,7 @@ export {
 	BLOCK_TYPES,
 	BLOCK_PERMUTATIONS,
 	ITEM_TYPES,
+	ENTITY_TYPES,
 	CANONICAL_BLOCK_STATES,
 	BIOME_DEFINITION_LIST,
 	CREATIVE_CONTENT,

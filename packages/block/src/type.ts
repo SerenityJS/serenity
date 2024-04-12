@@ -22,7 +22,12 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	public readonly loggable: boolean;
 
 	/**
-	 * The permutations of the block type.
+	 * The default components of the block type.
+	 */
+	public readonly components: Array<string>;
+
+	/**
+	 * The default permutations of the block type.
 	 */
 	public readonly permutations: Array<BlockPermutation>;
 
@@ -30,15 +35,18 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	 * Create a new block type.
 	 * @param identifier The identifier of the block type.
 	 * @param loggable Whether the block type is loggable.
-	 * @param permutations The permutations of the block type.
+	 * @param components The default components of the block type.
+	 * @param permutations The default permutations of the block type.
 	 */
 	public constructor(
 		identifier: T,
 		loggable: boolean,
+		components?: Array<string>,
 		permutations?: Array<BlockPermutation>
 	) {
 		this.identifier = identifier;
 		this.loggable = loggable;
+		this.components = components ?? [];
 		this.permutations = permutations ?? [];
 	}
 

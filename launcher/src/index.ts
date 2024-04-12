@@ -21,6 +21,7 @@ import {
 	BlockType,
 	CustomBlockType
 } from "@serenityjs/block";
+import { set } from "yaml/dist/schema/yaml-1.1/set";
 
 import { Serenity } from "./serenity";
 
@@ -84,15 +85,16 @@ serenity.network.before(Packet.Text, (data) => {
 	return true;
 });
 
-serenity.network.on(Packet.BlockPickRequest, (data) => {
+serenity.network.on(Packet.InventoryTransaction, (data) => {
 	const player = serenity.getPlayer(data.session);
 	if (!player) return;
 
-	const block = player.dimension.getBlock(
-		data.packet.x,
-		data.packet.y,
-		data.packet.z
+	const entity = player.dimension.spawnEntity(
+		EntityIdentifier.Pig,
+		player.position
 	);
+
+	console.log(entity.runtime, entity.unique);
 
 	// const item = block.getItemStack();
 
@@ -140,3 +142,7 @@ rubyBlock.register(rubyBlockPermutation);
 new CustomItemType("serenity:ruby_block", rubyBlock, ItemCategory.Nature);
 
 serenity.on("PlayerJoined", () => {});
+
+const chest = BlockType.get(BlockIdentifier.Chest);
+
+console.log(chest);
