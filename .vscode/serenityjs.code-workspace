@@ -63,6 +63,10 @@
     {
       "name": "📦 Item",
       "path": "../packages/item"
+    },
+    {
+      "name": "📦 Entity",
+      "path": "../packages/entity"
     }
   ],
   "settings": {
