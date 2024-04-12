@@ -138,3 +138,5 @@ const rubyBlockPermutation = BlockPermutation.create(rubyBlock, {});
 rubyBlock.register(rubyBlockPermutation);
 
 new CustomItemType("serenity:ruby_block", rubyBlock, ItemCategory.Nature);
+
+serenity.on("PlayerJoined", () => {});

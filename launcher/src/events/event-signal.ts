@@ -1,4 +1,4 @@
-import type { Packet } from "@serenityjs/raknet";
+import type { Packet } from "@serenityjs/protocol";
 import type { Serenity } from "../serenity";
 
 /**

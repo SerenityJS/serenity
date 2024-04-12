@@ -4,13 +4,14 @@ import { Network, type NetworkSession } from "@serenityjs/network";
 import { type Player, World, type WorldProvider } from "@serenityjs/world";
 import { MINECRAFT_TICK_SPEED } from "@serenityjs/protocol";
 import { Commands } from "@serenityjs/command";
+import Emitter from "@serenityjs/emitter";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
 import { ServerProperties } from "./properties";
 import { ResourcePackManager } from "./resource-packs/resource-pack-manager";
-import { EventSignal } from "./events";
+import { EVENT_SIGNALS, type EventSignal, type EventSignals } from "./events";
 
-class Serenity {
+class Serenity extends Emitter<EventSignals> {
 	/**
 	 * The server logger instance
 	 */
@@ -72,6 +73,8 @@ class Serenity {
 	public tps: number = 20; // TODO: Add option to set in server.properties
 
 	public constructor() {
+		super();
+
 		// Assign instances
 		this.logger = new Logger("Serenity", LoggerColors.Magenta);
 		this.properties = new ServerProperties();
@@ -112,7 +115,18 @@ class Serenity {
 
 		// Set the Serenity instance for all handlers and event signals
 		SerenityHandler.serenity = this;
-		EventSignal.serenity = this;
+
+		// Load all the event signals
+		for (const signal of EVENT_SIGNALS) {
+			// Set the Serenity instance for the event signal
+			signal.serenity = this;
+
+			// Bind the signal logic to the network event
+			this.network.on(signal.hook, signal.logic.bind(signal));
+
+			// Set the signal in the events map
+			this.events.set(signal.name, signal);
+		}
 
 		// Log the startup message
 		this.logger.info("Serenity is now starting up...");
