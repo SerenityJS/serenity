@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "repository": "https://github.com/SerenityJS/serenity",
   "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",

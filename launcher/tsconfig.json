@@ -3,8 +3,8 @@
   "compilerOptions": {
     "lib": ["es2022"],
     "module": "CommonJS",
-    "outDir": "./dist"
+    "outDir": "./dist",
   },
-  "exclude": ["node_modules"],
-  "include": [".", "../packages/world/src/types/login-data.ts"]
+  "include": ["."],
+  "exclude": ["node_modules", "dist"],
 }

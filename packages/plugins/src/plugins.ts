@@ -108,9 +108,10 @@ class Plugins<T> {
 			if (!needModules) {
 				try {
 					execSync("npm install", { cwd: resolve(file.path, file.name) });
-				} catch {
+				} catch (reason) {
 					this.logger.error(
-						`Failed to install node_modules for plugin "${file.name}".`
+						`Failed to install node_modules for plugin "${file.name}".`,
+						reason
 					);
 					continue;
 				}
@@ -156,9 +157,9 @@ class Plugins<T> {
 
 					// Log the success of the compilation
 					this.logger.success(`Compiled plugin "${file.name}".`);
-				} catch {
+				} catch (reason) {
 					// Log the failure of the compilation
-					this.logger.error(`Failed to compile plugin "${file.name}".`);
+					this.logger.error(`Failed to compile plugin "${file.name}".`, reason);
 
 					// Skip the plugin
 					continue;
@@ -182,8 +183,8 @@ class Plugins<T> {
 
 				// Add the plugin to the plugins map
 				this.plugins.set(file.name, { instance, package: pack, plugin });
-			} catch {
-				this.logger.error(`Failed to import plugin "${file.name}".`);
+			} catch (reason) {
+				this.logger.error(`Failed to import plugin "${file.name}".`, reason);
 				continue;
 			}
 		}
