@@ -20,10 +20,12 @@
     "@serenityjs/raknet": "0.0.0",
     "@serenityjs/typescript-config": "0.0.0",
     "@serenityjs/world": "0.0.0",
-    "@serenityjs/entity": "0.1.0-beta.4"
+    "@serenityjs/entity": "0.1.0-beta.4",
+    "@serenityjs/plugins": "0.1.0-beta.6"
   },
   "changesets": [
     "chatty-avocados-clap",
+    "clean-moose-refuse",
     "clean-panthers-relax",
     "dull-rice-travel",
     "gold-hairs-joke",

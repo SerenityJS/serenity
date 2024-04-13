@@ -1,5 +1,11 @@
 # @serenityjs/data
 
+## 0.1.0-beta.7
+
+### Patch Changes
+
+- Added plugins
+
 ## 0.1.0-beta.6
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @serenityjs/network
 
+## 0.1.0-beta.7
+
+### Patch Changes
+
+- Added plugins
+- Updated dependencies
+  - @serenityjs/emitter@0.1.0-beta.7
+  - @serenityjs/logger@0.1.0-beta.7
+  - @serenityjs/protocol@0.1.0-beta.7
+  - @serenityjs/raknet@0.1.0-beta.7
+
 ## 0.1.0-beta.6
 
 ### Minor Changes

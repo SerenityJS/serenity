@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/world",
-	"version": "0.1.0-beta.6",
+	"version": "0.1.0-beta.7",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
@@ -18,9 +18,9 @@
 		"preset": "@serenityjs/jest-presets/jest/node"
 	},
 	"devDependencies": {
-		"@serenityjs/eslint-config": "0.1.0-beta.6",
-		"@serenityjs/jest-presets": "0.1.0-beta.6",
-		"@serenityjs/typescript-config": "0.1.0-beta.6",
+		"@serenityjs/eslint-config": "0.1.0-beta.7",
+		"@serenityjs/jest-presets": "0.1.0-beta.7",
+		"@serenityjs/typescript-config": "0.1.0-beta.7",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^20.11.24",
 		"jest": "^29.7.0",
@@ -29,15 +29,15 @@
 	},
 	"dependencies": {
 		"@serenityjs/binarystream": "^2.5.2",
-		"@serenityjs/block": "0.1.0-beta.6",
-		"@serenityjs/data": "0.1.0-beta.6",
-		"@serenityjs/emitter": "0.1.0-beta.6",
+		"@serenityjs/block": "0.1.0-beta.7",
+		"@serenityjs/data": "0.1.0-beta.7",
+		"@serenityjs/emitter": "0.1.0-beta.7",
 		"@serenityjs/entity": "workspace:^",
-		"@serenityjs/item": "0.1.0-beta.6",
-		"@serenityjs/logger": "0.1.0-beta.6",
-		"@serenityjs/nbt": "0.1.0-beta.6",
-		"@serenityjs/network": "0.1.0-beta.6",
-		"@serenityjs/protocol": "0.1.0-beta.6",
+		"@serenityjs/item": "0.1.0-beta.7",
+		"@serenityjs/logger": "0.1.0-beta.7",
+		"@serenityjs/nbt": "0.1.0-beta.7",
+		"@serenityjs/network": "0.1.0-beta.7",
+		"@serenityjs/protocol": "0.1.0-beta.7",
 		"simplex-noise": "^4.0.1"
 	}
 }
