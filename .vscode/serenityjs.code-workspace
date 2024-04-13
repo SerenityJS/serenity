@@ -63,6 +63,10 @@
     {
       "name": "📦 Entity",
       "path": "../packages/entity"
+    },
+    {
+      "name": "📦 Plugins",
+      "path": "../packages/plugins"
     }
   ],
   "settings": {
