@@ -1940,6 +1940,40 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/launcher@workspace:launcher":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/launcher@workspace:launcher"
+  dependencies:
+    "@serenityjs/binarystream": "npm:^2.5.2"
+    "@serenityjs/block": "npm:0.1.0-beta.8"
+    "@serenityjs/chokidar": "npm:0.1.0-beta.8"
+    "@serenityjs/command": "npm:0.1.0-beta.8"
+    "@serenityjs/data": "npm:0.1.0-beta.8"
+    "@serenityjs/emitter": "npm:0.1.0-beta.8"
+    "@serenityjs/entity": "npm:0.1.0-beta.8"
+    "@serenityjs/eslint-config": "npm:0.1.0-beta.8"
+    "@serenityjs/item": "npm:0.1.0-beta.8"
+    "@serenityjs/jest-presets": "npm:0.1.0-beta.8"
+    "@serenityjs/logger": "npm:0.1.0-beta.8"
+    "@serenityjs/nbt": "npm:0.1.0-beta.8"
+    "@serenityjs/network": "npm:0.1.0-beta.8"
+    "@serenityjs/plugins": "npm:0.1.0-beta.8"
+    "@serenityjs/protocol": "npm:0.1.0-beta.8"
+    "@serenityjs/raknet": "npm:0.1.0-beta.8"
+    "@serenityjs/typescript-config": "npm:0.1.0-beta.8"
+    "@serenityjs/world": "npm:0.1.0-beta.8"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    fast-jwt: "npm:^4.0.0"
+    jest: "npm:^29.7.0"
+    moment: "npm:^2.30.1"
+    simplex-noise: "npm:^4.0.1"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
+    yaml: "npm:^2.4.1"
+  languageName: unknown
+  linkType: soft
+
 "@serenityjs/logger@npm:0.1.0-beta.8, @serenityjs/logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@serenityjs/logger@workspace:packages/logger"
@@ -7590,40 +7624,6 @@ __metadata:
   checksum: 10c0/9ab911213c4bd8bd583c850201c17794e52cb0660d1ab6e32558aadc8324abebf6844e46f92b80a5d600d0fbba7eface2c207bfaf270a1c7fd539e4c3a880bff
   languageName: node
   linkType: hard
-
-"launcher@workspace:launcher":
-  version: 0.0.0-use.local
-  resolution: "launcher@workspace:launcher"
-  dependencies:
-    "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/block": "npm:0.1.0-beta.8"
-    "@serenityjs/chokidar": "npm:0.1.0-beta.8"
-    "@serenityjs/command": "npm:0.1.0-beta.8"
-    "@serenityjs/data": "npm:0.1.0-beta.8"
-    "@serenityjs/emitter": "npm:0.1.0-beta.8"
-    "@serenityjs/entity": "npm:0.1.0-beta.8"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.8"
-    "@serenityjs/item": "npm:0.1.0-beta.8"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.8"
-    "@serenityjs/logger": "npm:0.1.0-beta.8"
-    "@serenityjs/nbt": "npm:0.1.0-beta.8"
-    "@serenityjs/network": "npm:0.1.0-beta.8"
-    "@serenityjs/plugins": "npm:0.1.0-beta.8"
-    "@serenityjs/protocol": "npm:0.1.0-beta.8"
-    "@serenityjs/raknet": "npm:0.1.0-beta.8"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.8"
-    "@serenityjs/world": "npm:0.1.0-beta.8"
-    "@types/jest": "npm:^29.5.12"
-    "@types/node": "npm:^20.11.24"
-    fast-jwt: "npm:^4.0.0"
-    jest: "npm:^29.7.0"
-    moment: "npm:^2.30.1"
-    simplex-noise: "npm:^4.0.1"
-    tsup: "npm:^8.0.2"
-    typescript: "npm:^5.4.2"
-    yaml: "npm:^2.4.1"
-  languageName: unknown
-  linkType: soft
 
 "leven@npm:^3.1.0":
   version: 3.1.0

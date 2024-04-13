@@ -3,12 +3,34 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [],
+  "linked": [
+    [
+      "@serenityjs/luancher",
+      "@serenityjs/raknet",
+      "@serenityjs/protocol",
+      "@serenityjs/network",
+      "@serenityjs/world",
+      "@serenityjs/block",
+      "@serenityjs/item",
+      "@serenityjs/entity",
+      "@serenityjs/data",
+      "@serenityjs/command",
+      "@serenityjs/nbt",
+      "@serenityjs/plugins",
+      "@serenityjs/emitter",
+      "@serenityjs/logger"
+    ],
+    [
+      "@serenityjs/chokidar",
+      "@serenityjs/eslint-config",
+      "@serenityjs/jest-presets",
+      "@serenityjs/typescript-config"
+    ]
+  ],
   "access": "public",
   "baseBranch": "develop",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "docs",
-    "launcher"
+    "docs"
   ]
 }
