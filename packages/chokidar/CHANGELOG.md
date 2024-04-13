@@ -1,5 +1,11 @@
 # @serenityjs/chokidar
 
+## 0.1.0-beta.8
+
+### Patch Changes
+
+- Version release
+
 ## 0.1.0-beta.7
 
 ### Patch Changes
