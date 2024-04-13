@@ -1,5 +1,14 @@
 # @serenityjs/raknet
 
+## 0.1.0-beta.9
+
+### Patch Changes
+
+- Release v0.1.0 Beta 9
+- Updated dependencies
+  - @serenityjs/emitter@0.1.0-beta.9
+  - @serenityjs/logger@0.1.0-beta.9
+
 ## 0.1.0-beta.8
 
 ### Patch Changes

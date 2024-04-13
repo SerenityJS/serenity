@@ -21,12 +21,14 @@
     "@serenityjs/typescript-config": "0.0.0",
     "@serenityjs/world": "0.0.0",
     "@serenityjs/entity": "0.1.0-beta.4",
-    "@serenityjs/plugins": "0.1.0-beta.6"
+    "@serenityjs/plugins": "0.1.0-beta.6",
+    "@serenityjs/launcher": "0.1.0-beta.8"
   },
   "changesets": [
     "chatty-avocados-clap",
     "clean-moose-refuse",
     "clean-panthers-relax",
+    "cold-files-perform",
     "dull-penguins-brush",
     "dull-rice-travel",
     "gold-hairs-joke",

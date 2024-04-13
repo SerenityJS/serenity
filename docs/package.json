@@ -15,8 +15,8 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@serenityjs/eslint-config": "0.1.0-beta.8",
-    "@serenityjs/typescript-config": "0.1.0-beta.8",
+    "@serenityjs/eslint-config": "0.1.0-beta.9",
+    "@serenityjs/typescript-config": "0.1.0-beta.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
