@@ -1898,7 +1898,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/eslint-config@npm:0.1.0-beta.7, @serenityjs/eslint-config@npm:^0.1.0-beta.6, @serenityjs/eslint-config@workspace:packages/eslint-config":
+"@serenityjs/eslint-config@npm:0.1.0-beta.7, @serenityjs/eslint-config@npm:^0.1.0-beta.7, @serenityjs/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/eslint-config@workspace:packages/eslint-config"
   dependencies:
@@ -2044,7 +2044,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/typescript-config@npm:0.1.0-beta.7, @serenityjs/typescript-config@npm:^0.1.0-beta.6, @serenityjs/typescript-config@workspace:packages/typescript-config":
+"@serenityjs/typescript-config@npm:0.1.0-beta.7, @serenityjs/typescript-config@npm:^0.1.0-beta.7, @serenityjs/typescript-config@workspace:packages/typescript-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/typescript-config@workspace:packages/typescript-config"
   languageName: unknown
@@ -9874,8 +9874,8 @@ __metadata:
     "@changesets/cli": "npm:^2.27.1"
     "@commitlint/cli": "npm:^19.2.1"
     "@commitlint/config-angular": "npm:^19.1.0"
-    "@serenityjs/eslint-config": "npm:^0.1.0-beta.6"
-    "@serenityjs/typescript-config": "npm:^0.1.0-beta.6"
+    "@serenityjs/eslint-config": "npm:^0.1.0-beta.7"
+    "@serenityjs/typescript-config": "npm:^0.1.0-beta.7"
     "@turbo/gen": "npm:^1.12.5"
     "@types/cross-spawn": "npm:^6.0.6"
     "@yarnpkg/core": "npm:^4.0.3"
