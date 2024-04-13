@@ -28,7 +28,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@serenityjs/binarystream": "1.1.0-beta.1",
+    "@serenityjs/binarystream": "^2.5.2",
     "@serenityjs/nbt": "0.1.0-beta.4",
     "@serenityjs/raknet": "0.1.0-beta.4"
   }

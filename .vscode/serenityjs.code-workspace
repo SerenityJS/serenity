@@ -21,10 +21,6 @@
       "path": "../packages/raknet"
     },
     {
-      "name": "🦀 Binarystream",
-      "path": "../packages/binarystream"
-    },
-    {
       "name": "📦 Emitter",
       "path": "../packages/emitter"
     },
