@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/network",
-	"version": "0.1.0-beta.4",
+	"version": "0.1.0-beta.5",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
@@ -18,9 +18,9 @@
 		"preset": "@serenityjs/jest-presets/jest/node"
 	},
 	"devDependencies": {
-		"@serenityjs/eslint-config": "0.1.0-beta.4",
-		"@serenityjs/jest-presets": "0.1.0-beta.4",
-		"@serenityjs/typescript-config": "0.1.0-beta.4",
+		"@serenityjs/eslint-config": "0.1.0-beta.5",
+		"@serenityjs/jest-presets": "0.1.0-beta.5",
+		"@serenityjs/typescript-config": "0.1.0-beta.5",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^20.11.24",
 		"jest": "^29.7.0",
@@ -28,9 +28,9 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
-		"@serenityjs/emitter": "0.1.0-beta.4",
-		"@serenityjs/logger": "0.1.0-beta.4",
-		"@serenityjs/protocol": "0.1.0-beta.4",
-		"@serenityjs/raknet": "0.1.0-beta.4"
+		"@serenityjs/emitter": "0.1.0-beta.5",
+		"@serenityjs/logger": "0.1.0-beta.5",
+		"@serenityjs/protocol": "0.1.0-beta.5",
+		"@serenityjs/raknet": "0.1.0-beta.5"
 	}
 }

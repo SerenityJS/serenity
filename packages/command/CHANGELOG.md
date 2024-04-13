@@ -1,5 +1,17 @@
 # @serenityjs/command
 
+## 0.1.0-beta.5
+
+### Minor Changes
+
+- Test release of all packages
+
+### Patch Changes
+
+- Updated dependencies
+  - @serenityjs/logger@0.1.0-beta.5
+  - @serenityjs/world@0.1.0-beta.5
+
 ## 0.1.0-beta.4
 
 ### Patch Changes

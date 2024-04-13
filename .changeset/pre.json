@@ -19,12 +19,14 @@
     "@serenityjs/protocol": "0.0.0",
     "@serenityjs/raknet": "0.0.0",
     "@serenityjs/typescript-config": "0.0.0",
-    "@serenityjs/world": "0.0.0"
+    "@serenityjs/world": "0.0.0",
+    "@serenityjs/entity": "0.1.0-beta.4"
   },
   "changesets": [
     "chatty-avocados-clap",
     "clean-panthers-relax",
     "dull-rice-travel",
+    "gold-hairs-joke",
     "rare-countries-guess",
     "rotten-eyes-explode",
     "silver-bikes-clap"

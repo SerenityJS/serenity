@@ -1,5 +1,24 @@
 # @serenityjs/world
 
+## 0.1.0-beta.5
+
+### Minor Changes
+
+- Test release of all packages
+
+### Patch Changes
+
+- Updated dependencies
+  - @serenityjs/block@0.1.0-beta.5
+  - @serenityjs/data@0.1.0-beta.5
+  - @serenityjs/emitter@0.1.0-beta.5
+  - @serenityjs/entity@0.1.0-beta.5
+  - @serenityjs/item@0.1.0-beta.5
+  - @serenityjs/logger@0.1.0-beta.5
+  - @serenityjs/nbt@0.1.0-beta.5
+  - @serenityjs/network@0.1.0-beta.5
+  - @serenityjs/protocol@0.1.0-beta.5
+
 ## 0.1.0-beta.4
 
 ### Patch Changes
