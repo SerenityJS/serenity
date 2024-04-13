@@ -1794,10 +1794,10 @@ __metadata:
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
     "@serenityjs/data": "npm:0.1.0-beta.4"
-    "@serenityjs/eslint-config": "npm:*"
-    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/eslint-config": "npm:0.1.0-beta.4"
+    "@serenityjs/jest-presets": "npm:0.1.0-beta.4"
     "@serenityjs/nbt": "npm:0.1.0-beta.4"
-    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/typescript-config": "npm:0.1.0-beta.4"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1806,31 +1806,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/chokidar@npm:*":
-  version: 1.0.0
-  resolution: "@serenityjs/chokidar@npm:1.0.0"
-  dependencies:
-    chokidar: "npm:^3.6.0"
-    colorette: "npm:^2.0.20"
-    cross-spawn: "npm:^7.0.3"
-    lodash.debounce: "npm:^4.0.8"
-    lodash.throttle: "npm:^4.1.1"
-    terminate: "npm:^2.6.1"
-    yargs: "npm:^17.7.2"
-  bin:
-    chokidar: dist/index.js
-    chokidar-cli: dist/index.js
-  checksum: 10c0/a924c8c8d1355861693b9a7e07c4fc1b800a6bef61fc969910d714878996a4b0e5da21fe49eaf4595b18a3d1412b65279b4c059c85146187942a5084fa572f60
-  languageName: node
-  linkType: hard
-
-"@serenityjs/chokidar@workspace:packages/chokidar":
+"@serenityjs/chokidar@npm:0.1.0-beta.4, @serenityjs/chokidar@workspace:packages/chokidar":
   version: 0.0.0-use.local
   resolution: "@serenityjs/chokidar@workspace:packages/chokidar"
   dependencies:
-    "@serenityjs/eslint-config": "npm:*"
-    "@serenityjs/jest-presets": "npm:*"
-    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/eslint-config": "npm:0.1.0-beta.4"
+    "@serenityjs/jest-presets": "npm:0.1.0-beta.4"
+    "@serenityjs/typescript-config": "npm:0.1.0-beta.4"
     "@types/cross-spawn": "npm:^6.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/lodash.debounce": "npm:^4"
@@ -1905,9 +1887,9 @@ __metadata:
   resolution: "@serenityjs/entity@workspace:packages/entity"
   dependencies:
     "@serenityjs/data": "npm:0.1.0-beta.4"
-    "@serenityjs/eslint-config": "npm:*"
-    "@serenityjs/jest-presets": "npm:*"
-    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/eslint-config": "npm:0.1.0-beta.4"
+    "@serenityjs/jest-presets": "npm:0.1.0-beta.4"
+    "@serenityjs/typescript-config": "npm:0.1.0-beta.4"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1941,11 +1923,11 @@ __metadata:
     "@serenityjs/binarystream": "npm:^2.5.2"
     "@serenityjs/block": "npm:0.1.0-beta.4"
     "@serenityjs/data": "npm:0.1.0-beta.4"
-    "@serenityjs/eslint-config": "npm:*"
-    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/eslint-config": "npm:0.1.0-beta.4"
+    "@serenityjs/jest-presets": "npm:0.1.0-beta.4"
     "@serenityjs/nbt": "npm:0.1.0-beta.4"
     "@serenityjs/protocol": "npm:0.1.0-beta.4"
-    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/typescript-config": "npm:0.1.0-beta.4"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1953,16 +1935,6 @@ __metadata:
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
-
-"@serenityjs/jest-presets@npm:*":
-  version: 0.0.0
-  resolution: "@serenityjs/jest-presets@npm:0.0.0"
-  dependencies:
-    jest: "npm:^29.7.0"
-    ts-jest: "npm:^29.1.2"
-  checksum: 10c0/6b1a74cf14adcd48dffd6c98f75d18dab154acccf825094af4480f682ea2cb1b42ec3fd138a6ced4ca626a1787c5a66bfd4e331f9fa2877cd748543da085a6f6
-  languageName: node
-  linkType: hard
 
 "@serenityjs/jest-presets@npm:0.1.0-beta.4, @serenityjs/jest-presets@workspace:packages/jest-presets":
   version: 0.0.0-use.local
@@ -7623,20 +7595,20 @@ __metadata:
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
     "@serenityjs/block": "npm:0.1.0-beta.4"
-    "@serenityjs/chokidar": "npm:*"
+    "@serenityjs/chokidar": "npm:0.1.0-beta.4"
     "@serenityjs/command": "npm:0.1.0-beta.4"
     "@serenityjs/data": "npm:0.1.0-beta.4"
     "@serenityjs/emitter": "npm:0.1.0-beta.4"
     "@serenityjs/entity": "workspace:^"
-    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/eslint-config": "npm:0.1.0-beta.4"
     "@serenityjs/item": "npm:0.1.0-beta.4"
-    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/jest-presets": "npm:0.1.0-beta.4"
     "@serenityjs/logger": "npm:0.1.0-beta.4"
     "@serenityjs/nbt": "npm:0.1.0-beta.4"
     "@serenityjs/network": "npm:0.1.0-beta.4"
     "@serenityjs/protocol": "npm:0.1.0-beta.4"
     "@serenityjs/raknet": "npm:0.1.0-beta.4"
-    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/typescript-config": "npm:0.1.0-beta.4"
     "@serenityjs/world": "npm:0.1.0-beta.4"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
