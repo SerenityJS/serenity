@@ -1,21 +1,9 @@
 export * from "./serenity";
 
-import {
-	InternalProvider,
-	Superflat,
-	ItemNametagComponent,
-	ItemStack
-} from "@serenityjs/world";
-import { DimensionType, Packet } from "@serenityjs/protocol";
-import { NetworkBound } from "@serenityjs/network";
-import {
-	CustomItemType,
-	ItemCategory,
-	ItemGroup,
-	ItemIdentifier
-} from "@serenityjs/item";
+import { InternalProvider, Superflat } from "@serenityjs/world";
+import { DimensionType } from "@serenityjs/protocol";
+import { CustomItemType, ItemCategory, ItemGroup } from "@serenityjs/item";
 import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
-import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Serenity } from "./serenity";
 
@@ -41,70 +29,6 @@ world.createDimension(
 );
 
 serenity.start();
-
-serenity.network.before(Packet.Text, (data) => {
-	if (data.bound === NetworkBound.Client) return true;
-
-	const player = serenity.getPlayer(data.session);
-	if (!player) return false;
-
-	if (data.packet.message.startsWith("rename")) {
-		const inventory = player.getComponent("minecraft:inventory");
-
-		const item = inventory.getHeldItem();
-
-		if (!item) return false;
-
-		const component = item.components.has("minecraft:nametag")
-			? item.getComponent("minecraft:nametag")
-			: item.setComponent(new ItemNametagComponent(item));
-
-		component.setCurrentValue(data.packet.message.slice(7));
-
-		console.log(item.components);
-
-		return false;
-	} else if (data.packet.message.startsWith("entity")) {
-		const entity = player.dimension.spawnEntity(
-			EntityIdentifier.FireworksRocket,
-			player.position
-		);
-
-		console.log(entity);
-	} else if (data.packet.message.startsWith("item")) {
-		const meta = data.packet.message.slice(5);
-
-		const item = new ItemStack(ItemIdentifier.CobbledDeepslateStairs, 1, +meta);
-
-		const inventory = player.getComponent("minecraft:inventory");
-
-		inventory.container.addItem(item);
-	}
-
-	return true;
-});
-
-serenity.network.on(Packet.InventoryTransaction, (data) => {
-	const player = serenity.getPlayer(data.session);
-	if (!player) return;
-
-	const entity = player.dimension.spawnEntity(
-		EntityIdentifier.Pig,
-		player.position
-	);
-
-	console.log(entity.runtime, entity.unique);
-
-	// const item = block.getItemStack();
-
-	// const inventory = player.getComponent("minecraft:inventory");
-
-	// const nametag = new ItemNametagComponent(item);
-
-	// inventory.container.addItem(item);
-
-	// nametag.setCurrentValue("Hello, World!");
-});
 
 // How to create a custom block with a custom item on SerenityJS.
 // This will also allow to assign the block item to a specific creative tab/category.
