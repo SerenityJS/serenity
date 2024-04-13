@@ -1,5 +1,19 @@
 # @serenityjs/item
 
+## 0.1.0-beta.6
+
+### Minor Changes
+
+- Verison bump
+
+### Patch Changes
+
+- Updated dependencies
+  - @serenityjs/block@0.1.0-beta.6
+  - @serenityjs/data@0.1.0-beta.6
+  - @serenityjs/nbt@0.1.0-beta.6
+  - @serenityjs/protocol@0.1.0-beta.6
+
 ## 0.1.0-beta.5
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @serenityjs/command
 
+## 0.1.0-beta.6
+
+### Minor Changes
+
+- Verison bump
+
+### Patch Changes
+
+- Updated dependencies
+  - @serenityjs/logger@0.1.0-beta.6
+  - @serenityjs/world@0.1.0-beta.6
+
 ## 0.1.0-beta.5
 
 ### Minor Changes
