@@ -25,6 +25,13 @@ network-packets-per-frame: 64
 # The max amount of packets allowed to be sent per frame.
 # A client exceeding this limit will be disconnected.
 
+plugins-enabled: true
+# Whether or not plugins should be enabled.
+# Plugins add additional functionality to the server.
+
+plugins-path: "plugins"
+# The path to the plugins folder.
+
 debug-logging: false
 # Whether or not debug messages should be shown.
 

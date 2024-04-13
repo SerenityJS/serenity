@@ -15,6 +15,8 @@ interface DefaultServerProperties {
 	"network-comression-threshold": number;
 	"network-compression-algorithm": string;
 	"network-packets-per-frame": number;
+	"plugins-enabled": boolean;
+	"plugins-path": string;
 	"debug-logging": boolean;
 	"must-accept-packs": boolean;
 	"resource-packs": Array<{

@@ -4,6 +4,7 @@ import { Network, type NetworkSession } from "@serenityjs/network";
 import { type Player, World, type WorldProvider } from "@serenityjs/world";
 import { Commands } from "@serenityjs/command";
 import Emitter from "@serenityjs/emitter";
+import { Plugins } from "@serenityjs/plugins";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
 import { ServerProperties } from "./properties";
@@ -55,6 +56,8 @@ class Serenity extends Emitter<EventSignals> {
 	 * A collective registry of all events.
 	 */
 	public readonly events: Map<string, EventSignal>;
+
+	public readonly plugins: Plugins<Serenity>;
 
 	/**
 	 * The server tick interval
@@ -129,6 +132,13 @@ class Serenity extends Emitter<EventSignals> {
 			// Set the signal in the events map
 			this.events.set(signal.name, signal);
 		}
+
+		// Create the plugins instance
+		this.plugins = new Plugins(
+			this,
+			this.properties.values["plugins-path"],
+			this.properties.values["plugins-enabled"]
+		);
 
 		// Log the startup message
 		this.logger.info("Serenity is now starting up...");
