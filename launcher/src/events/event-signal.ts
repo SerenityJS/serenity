@@ -1,3 +1,4 @@
+import type { EventPriority } from "./priority";
 import type { Packet } from "@serenityjs/protocol";
 import type { Serenity } from "../serenity";
 
@@ -13,7 +14,12 @@ class EventSignal {
 	/**
 	 * The packet of the event signal.
 	 */
-	public static readonly hook: Packet;
+	public static readonly hook?: Packet;
+
+	/**
+	 * The priority of the event signal.
+	 */
+	public static readonly priority?: EventPriority;
 
 	/**
 	 * The logic of the event signal.

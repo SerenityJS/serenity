@@ -1,4 +1,7 @@
 export * from "./serenity";
+export * from "./handlers";
+export * from "./properties";
+export * from "./events";
 
 import { InternalProvider, Superflat } from "@serenityjs/world";
 import { DimensionType } from "@serenityjs/protocol";

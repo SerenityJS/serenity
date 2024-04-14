@@ -434,7 +434,8 @@ class ResourcePackClientResponse extends SerenityHandler {
 						metadata: item.metadata,
 						stackSize: 1,
 						networkBlockId:
-							item.type.block?.permutations[item.metadata]?.network ?? 0
+							item.type.block?.permutations[item.metadata]?.network ?? 0,
+						extras: null
 					};
 				});
 

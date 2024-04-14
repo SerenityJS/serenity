@@ -1,18 +1,16 @@
 import {
 	DisconnectReason,
 	Packet,
-	PlayStatus,
-	type PlayStatusPacket
+	type SetLocalPlayerAsInitializedPacket
 } from "@serenityjs/protocol";
 import { NetworkBound, type NetworkPacketEvent } from "@serenityjs/network";
 
 import { EventSignal } from "./event-signal";
-import { EventPriority } from "./priority";
 
 import type { Serenity } from "../serenity";
 import type { Player } from "@serenityjs/world";
 
-class PlayerJoinedSignal extends EventSignal {
+class PlayerSpawnedSignal extends EventSignal {
 	/**
 	 * The serenity instance.
 	 */
@@ -21,35 +19,30 @@ class PlayerJoinedSignal extends EventSignal {
 	/**
 	 * The packet of the event signal.
 	 */
-	public static readonly hook = Packet.PlayStatus;
-
-	public static readonly priority = EventPriority.Before;
+	public static readonly hook = Packet.SetLocalPlayerAsInitialized;
 
 	/**
-	 * The player that joined the game.
+	 * The player that spawned in the world.
 	 */
 	public readonly player: Player;
 
 	/**
-	 * Constructs a new player joined signal instance.
-	 * @param player The player that joined the game.
+	 * Constructs a new player spawned signal instance.
+	 * @param player The player that spawned in the world.
 	 */
 	public constructor(player: Player) {
 		super();
 		this.player = player;
 	}
 
-	public static logic(data: NetworkPacketEvent<PlayStatusPacket>): boolean {
+	public static logic(
+		data: NetworkPacketEvent<SetLocalPlayerAsInitializedPacket>
+	): boolean {
 		// Separate the data into variables.
-		const { session, bound, packet } = data;
+		const { session, bound } = data;
 
-		// Check if the player's status is login success.
 		// Also check if the packet is outgoing. Meaning the packet is being sent to the client.
-		if (
-			packet.status !== PlayStatus.LoginSuccess ||
-			bound !== NetworkBound.Client
-		)
-			return true;
+		if (bound !== NetworkBound.Server) return true;
 
 		// Get the player from the session.
 		// If there is no player, then disconnect the session.
@@ -63,10 +56,10 @@ class PlayerJoinedSignal extends EventSignal {
 			return false;
 		}
 
-		// Emit the PlayerJoined event.
+		// Emit the PlayerSpawned event.
 		const value = this.serenity.emit(
-			"PlayerJoined",
-			new PlayerJoinedSignal(player)
+			"PlayerSpawned",
+			new PlayerSpawnedSignal(player)
 		);
 
 		// Check if the event was cancelled.
@@ -79,14 +72,9 @@ class PlayerJoinedSignal extends EventSignal {
 			return false;
 		}
 
-		// Log the player's join message.
-		player.dimension.world.logger.info(
-			`${player.username} has joined the game.`
-		);
-
 		// Return true to continue the event.
 		return true;
 	}
 }
 
-export { PlayerJoinedSignal };
+export { PlayerSpawnedSignal };

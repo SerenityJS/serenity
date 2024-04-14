@@ -9,7 +9,12 @@ import { Plugins } from "@serenityjs/plugins";
 import { SerenityHandler, HANDLERS } from "./handlers";
 import { ServerProperties } from "./properties";
 import { ResourcePackManager } from "./resource-packs/resource-pack-manager";
-import { EVENT_SIGNALS, type EventSignal, type EventSignals } from "./events";
+import {
+	EVENT_SIGNALS,
+	EventPriority,
+	type EventSignal,
+	type EventSignals
+} from "./events";
 
 class Serenity extends Emitter<EventSignals> {
 	/**
@@ -123,11 +128,42 @@ class Serenity extends Emitter<EventSignals> {
 
 		// Load all the event signals
 		for (const signal of EVENT_SIGNALS) {
+			// Apply the event signal priority
+			// This will corrispond to the incoming packet priority
+			switch (signal.priority as EventPriority) {
+				default: {
+					// If no priority is set, check if the signal has a hook
+					// If so we will set the priority to "During"
+					if (signal.hook) {
+						this.network.on(signal.hook, signal.logic.bind(signal) as never);
+					}
+					break;
+				}
+
+				case EventPriority.Before: {
+					// If the priority is set to "Before"
+					// We will bind the signal logic to the network event before it is handled
+					this.network.before(signal.hook, signal.logic.bind(signal) as never);
+					break;
+				}
+
+				case EventPriority.After: {
+					// If the priority is set to "After"
+					// We will bind the signal logic to the network event after it is handled
+					this.network.after(signal.hook, signal.logic.bind(signal) as never);
+					break;
+				}
+
+				case EventPriority.During: {
+					// If the priority is set to "During"
+					// We will bind the signal logic to the network event
+					this.network.on(signal.hook, signal.logic.bind(signal) as never);
+					break;
+				}
+			}
+
 			// Set the Serenity instance for the event signal
 			signal.serenity = this;
-
-			// Bind the signal logic to the network event
-			this.network.on(signal.hook, signal.logic.bind(signal));
 
 			// Set the signal in the events map
 			this.events.set(signal.name, signal);
