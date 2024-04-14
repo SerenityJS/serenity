@@ -66,11 +66,3 @@ const rubyBlockPermutation = BlockPermutation.create(rubyBlock, {});
 rubyBlock.register(rubyBlockPermutation);
 
 new CustomItemType("serenity:ruby_block", rubyBlock, ItemCategory.Nature);
-
-serenity.before("PlayerChat", (event) => {
-	if (event.message === "cancel") return false;
-
-	event.message = "Hello, " + event.player.username + "!";
-
-	return true;
-});
