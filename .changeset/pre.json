@@ -25,6 +25,7 @@
     "@serenityjs/launcher": "0.1.0-beta.8"
   },
   "changesets": [
+    "brave-pots-unite",
     "chatty-avocados-clap",
     "clean-moose-refuse",
     "clean-panthers-relax",

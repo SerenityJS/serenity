@@ -1,5 +1,25 @@
 # @serenityjs/launcher
 
+## 0.1.0-beta.10
+
+### Patch Changes
+
+- Added PlayerSpawned, PlayerJoined, and PlayerChat events
+- Updated dependencies
+  - @serenityjs/block@0.1.0-beta.10
+  - @serenityjs/command@0.1.0-beta.10
+  - @serenityjs/data@0.1.0-beta.10
+  - @serenityjs/emitter@0.1.0-beta.10
+  - @serenityjs/entity@0.1.0-beta.10
+  - @serenityjs/item@0.1.0-beta.10
+  - @serenityjs/logger@0.1.0-beta.10
+  - @serenityjs/nbt@0.1.0-beta.10
+  - @serenityjs/network@0.1.0-beta.10
+  - @serenityjs/plugins@0.1.0-beta.10
+  - @serenityjs/protocol@0.1.0-beta.10
+  - @serenityjs/raknet@0.1.0-beta.10
+  - @serenityjs/world@0.1.0-beta.10
+
 ## 0.1.0-beta.9
 
 ### Patch Changes
