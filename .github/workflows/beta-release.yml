@@ -1,9 +1,17 @@
-name: Beta Release
+name: Release
 
 on:
-  push:
-    branches:
-      - develop
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release Type'
+        required: true
+        default: 'None'
+        type: choice
+        options:
+          - 'None'
+          - 'Beta'
+          - 'Latest'
 
 jobs:
   release:
@@ -24,3 +32,15 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Publish
+        if: ${{ github.event.inputs.release == 'Beta' }}
+        run: echo "Publishing Beta Release..."
+
+      - name: Publish
+        if : ${{ github.event.inputs.release == 'Latest' }}
+        run: echo "Publishing Latest Release..."
+
+      - name: Publish
+        if: ${{ github.event.inputs.release == 'None' }}
+        run: echo "No Release to Publish..."
