@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/network",
-	"version": "0.0.0",
+	"version": "0.0.1-beta-20240415201734",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",

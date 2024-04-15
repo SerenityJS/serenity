@@ -1,5 +1,21 @@
 # @serenityjs/world
 
+## 0.0.1-beta-20240415201734
+
+### Patch Changes
+
+- Test beta release
+- Updated dependencies
+  - @serenityjs/block@0.0.1-beta-20240415201734
+  - @serenityjs/data@0.0.1-beta-20240415201734
+  - @serenityjs/emitter@0.0.1-beta-20240415201734
+  - @serenityjs/entity@0.0.1-beta-20240415201734
+  - @serenityjs/item@0.0.1-beta-20240415201734
+  - @serenityjs/logger@0.0.1-beta-20240415201734
+  - @serenityjs/nbt@0.0.1-beta-20240415201734
+  - @serenityjs/network@0.0.1-beta-20240415201734
+  - @serenityjs/protocol@0.0.1-beta-20240415201734
+
 ## 0.1.0-beta.10
 
 ### Patch Changes
