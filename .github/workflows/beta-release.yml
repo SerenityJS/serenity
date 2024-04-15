@@ -43,5 +43,5 @@ jobs:
         uses: changesets/action@v1
 
       - name: Publish Beta Release
-        if: steps.changesets.outputs.published != 'true' || github.event.inputs.release == 'Beta'
+        if: steps.changesets.outputs.hasChangesets == 'true' || github.event.inputs.release == 'Beta'
         run: echo "Publishing Beta Release..."
