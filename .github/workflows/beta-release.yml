@@ -1,6 +1,10 @@
 name: Release
 
 on:
+  push:
+    branches:
+      - develop
+
   workflow_dispatch:
     inputs:
       release:
@@ -15,7 +19,7 @@ on:
 
 jobs:
   release:
-    name: Beta Release
+    name: Publish Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -33,14 +37,10 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Publish
-        if: ${{ github.event.inputs.release == 'Beta' }}
+      - name: Publish Latest Release
+        id: changesets
+        uses: changesets/action@v1
+
+      - name: Publish Beta Release
+        if: steps.changesets.outputs.published != 'true' || github.event.inputs.release == 'Beta'
         run: echo "Publishing Beta Release..."
-
-      - name: Publish
-        if : ${{ github.event.inputs.release == 'Latest' }}
-        run: echo "Publishing Latest Release..."
-
-      - name: Publish
-        if: ${{ github.event.inputs.release == 'None' }}
-        run: echo "No Release to Publish..."
