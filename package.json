@@ -11,7 +11,6 @@
     "lint": "turbo lint",
     "new": "turbo gen",
     "commitlint": "commitlint --edit",
-    "changeset": "yarn changeset",
     "version": "yarn changeset version",
     "version:beta": "yarn changeset version snapshot beta",
     "publish": "yarn changeset publish",
