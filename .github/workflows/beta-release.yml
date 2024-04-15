@@ -1,10 +1,6 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - develop
-
   workflow_dispatch:
     inputs:
       release:
@@ -38,14 +34,13 @@ jobs:
         run: yarn build
 
       - name: Publish Latest Release
-        if: github.event.inputs.release == 'Latest'
+        if: github.event.inputs.release == 'Beta'
         id: changesets
         uses: changesets/action@v1
-
-      - name: Publish Beta Release
-        if: steps.changesets.outputs.hasChangesets == 'true' || github.event.inputs.release == 'Beta'
-        run: echo "Publishing Beta Release..."
+        with:
+          createGithubReleases: false
+          version: yarn version:beta
+          publish: yarn publish:beta
 
       - name: No Release
-        if: steps.changesets.outputs.hasChangesets == 'false'
         run: echo "No Release Selected..."
