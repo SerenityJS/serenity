@@ -1,9 +1,8 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@latest/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [],
-  "linked": [
+  "fixed": [
     [
       "@serenityjs/launcher",
       "@serenityjs/raknet",
@@ -27,9 +26,13 @@
       "@serenityjs/typescript-config"
     ]
   ],
+  "linked": [],
   "access": "public",
   "baseBranch": "develop",
   "updateInternalDependencies": "patch",
+  "snapshot": {
+    "useCalculatedVersion": true
+  },
   "ignore": [
     "docs"
   ]
