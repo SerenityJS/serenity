@@ -47,5 +47,5 @@ jobs:
         run: echo "Publishing Beta Release..."
 
       - name: No Release
-        if: github.event.inputs.release == 'None' || steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.hasChangesets == 'false'
         run: echo "No Release Selected..."
