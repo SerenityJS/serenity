@@ -41,6 +41,9 @@ jobs:
           createGithubReleases: false
           version: yarn version:beta
           publish: yarn publish:beta
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: No Release
         run: echo "No Release Selected..."
