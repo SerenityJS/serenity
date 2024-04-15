@@ -38,6 +38,7 @@ jobs:
         run: yarn build
 
       - name: Publish Latest Release
+        if: github.event.inputs.release == 'Latest'
         id: changesets
         uses: changesets/action@v1
 
