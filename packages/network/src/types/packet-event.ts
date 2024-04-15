@@ -1,12 +1,8 @@
-import { DataPacket } from "@serenityjs/protocol";
+import type { DataPacket } from "@serenityjs/protocol";
+import type { NetworkBound } from "../enums";
+import type { NetworkSession } from "../session";
 
-import { NetworkBound } from "../enums";
-import { NetworkSession } from "../session";
-
-/**
- * Represents a network packet event.
- */
-interface NetworkPacketEvent<T extends DataPacket> {
+interface SessionPacketEvent<T extends DataPacket> {
 	/**
 	 * The flow direction of the packet.
 	 */
@@ -16,11 +12,17 @@ interface NetworkPacketEvent<T extends DataPacket> {
 	 * The data packet instance.
 	 */
 	packet: T;
+}
 
+/**
+ * Represents a network packet event.
+ */
+interface NetworkPacketEvent<T extends DataPacket>
+	extends SessionPacketEvent<T> {
 	/**
 	 * The network session instance.
 	 */
 	session: NetworkSession;
 }
 
-export { NetworkPacketEvent };
+export { SessionPacketEvent, NetworkPacketEvent };

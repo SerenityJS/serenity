@@ -4,7 +4,7 @@ export * from "./properties";
 export * from "./events";
 
 import { InternalProvider, Superflat } from "@serenityjs/world";
-import { DimensionType } from "@serenityjs/protocol";
+import { DimensionType, Packet } from "@serenityjs/protocol";
 import { CustomItemType, ItemCategory, ItemGroup } from "@serenityjs/item";
 import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
 

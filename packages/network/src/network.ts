@@ -290,11 +290,11 @@ class Network extends Emitter<NetworkEvents> {
 						// Emit the packet event will return a promise with a boolean value.
 						// If the value is false, the packet was cancelled from being handled.
 						// If the value is true, the packet was either modified or not listened to.
-						// @ts-expect-error
-						const value = this.emit(packet.id, event as unknown);
+						const net = this.emit(packet.id, event as never);
+						const ses = session.emit(packet.id, event as never);
 
 						// Check if the packet was cancelled.
-						if (!value) continue;
+						if (!net || !ses) continue;
 
 						// Attempt to find handlers registered for the packet.
 						const handlers = this.handlers.filter(
@@ -369,12 +369,12 @@ class Network extends Emitter<NetworkEvents> {
 				// Emit the packet event will return a promise with a boolean value.
 				// If the value is false, the packet was cancelled from sending.
 				// If the value is true, the packet was either modified or not listened to.
-				// @ts-expect-error
-				const value = this.emit(packet.getId(), event as unknown);
+				const net = this.emit(packet.getId() as Packet, event as never);
+				const ses = session.emit(packet.getId() as Packet, event as never);
 
 				// Check if the packet was cancelled.
 				// If so, we will ignore the packet and continue to the next one.
-				if (!value) continue;
+				if (!net || !ses) continue;
 
 				// Will will then serialize the packet.
 				// And push the serialized packet into the payloads array.

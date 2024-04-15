@@ -1,16 +1,22 @@
-import { Connection, NetworkIdentifier, Priority } from "@serenityjs/raknet";
 import {
-	DisconnectReason,
+	type Connection,
+	type NetworkIdentifier,
+	Priority
+} from "@serenityjs/raknet";
+import {
+	type DisconnectReason,
 	DisconnectPacket,
-	DataPacket
+	type DataPacket
 } from "@serenityjs/protocol";
+import Emitter from "@serenityjs/emitter";
 
-import { Network } from "./network";
+import type { NetworkEvents } from "./types";
+import type { Network } from "./network";
 
 /**
  * Represents a network session.
  */
-class NetworkSession {
+class NetworkSession extends Emitter<NetworkEvents> {
 	/**
 	 * The network instance.
 	 */
@@ -49,6 +55,7 @@ class NetworkSession {
 	 * @returns A new network session.
 	 */
 	public constructor(network: Network, connection: Connection) {
+		super();
 		this.network = network;
 		this.connection = connection;
 		this.guid = connection.guid;

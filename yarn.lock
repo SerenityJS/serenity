@@ -712,11 +712,11 @@ __metadata:
   linkType: hard
 
 "@commitlint/cli@npm:^19.2.1":
-  version: 19.2.1
-  resolution: "@commitlint/cli@npm:19.2.1"
+  version: 19.2.2
+  resolution: "@commitlint/cli@npm:19.2.2"
   dependencies:
     "@commitlint/format": "npm:^19.0.3"
-    "@commitlint/lint": "npm:^19.1.0"
+    "@commitlint/lint": "npm:^19.2.2"
     "@commitlint/load": "npm:^19.2.0"
     "@commitlint/read": "npm:^19.2.1"
     "@commitlint/types": "npm:^19.0.3"
@@ -724,7 +724,7 @@ __metadata:
     yargs: "npm:^17.0.0"
   bin:
     commitlint: cli.js
-  checksum: 10c0/14057446e60c403793af2a92c019440f83cdaf77bec6d48ad0102270a5b32fbd60b9929fbd4be6b6f7dadc7981ebe95ba54798d2f3d993429f364b3e9b46c9d1
+  checksum: 10c0/25f4acaaafd089ceee0d5e1fe670eec85999b5dbcf20eb93cd053d9e42de0bec69d18f4f6c9d68be448fcf8889ef3eca91302d828f8b601fddf00180d7ae6396
   languageName: node
   linkType: hard
 
@@ -736,11 +736,11 @@ __metadata:
   linkType: hard
 
 "@commitlint/config-angular@npm:^19.1.0":
-  version: 19.1.0
-  resolution: "@commitlint/config-angular@npm:19.1.0"
+  version: 19.2.2
+  resolution: "@commitlint/config-angular@npm:19.2.2"
   dependencies:
     "@commitlint/config-angular-type-enum": "npm:^19.1.0"
-  checksum: 10c0/8af69fc32410eccb4d24d6d44b0d7a3689c0c66eab1d692825fc4c1a89bff157f9de1eeeac8e8fa85af685adc78006a4925f46435a95030997bef565d7489682
+  checksum: 10c0/ae299d74e370d579fddfaf80524add304f43848cad3c70933ba1ab736602bce127da30d68d7ee4041993783a246ce184d655c94739b4a3e2a9a76cb634b32fe8
   languageName: node
   linkType: hard
 
@@ -785,25 +785,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/is-ignored@npm:^19.0.3":
-  version: 19.0.3
-  resolution: "@commitlint/is-ignored@npm:19.0.3"
+"@commitlint/is-ignored@npm:^19.2.2":
+  version: 19.2.2
+  resolution: "@commitlint/is-ignored@npm:19.2.2"
   dependencies:
     "@commitlint/types": "npm:^19.0.3"
     semver: "npm:^7.6.0"
-  checksum: 10c0/aa9d8d0db4625a0b631c8a811844ea90594764e5f7a1131d99a69dde743ef66ad0157d5f5df224bad645b5978c2c1e25ce0e22d9ade8c8e46a3577063d5bbe90
+  checksum: 10c0/8e416edbf24ec386f6211d4879c002cf82fdebfd1f69556ae2ad62f6ae9b705aa20ea3108529fd44e7d246526c6133851905ee826a83efc81b2f11443a7d03c3
   languageName: node
   linkType: hard
 
-"@commitlint/lint@npm:^19.1.0":
-  version: 19.1.0
-  resolution: "@commitlint/lint@npm:19.1.0"
+"@commitlint/lint@npm:^19.2.2":
+  version: 19.2.2
+  resolution: "@commitlint/lint@npm:19.2.2"
   dependencies:
-    "@commitlint/is-ignored": "npm:^19.0.3"
+    "@commitlint/is-ignored": "npm:^19.2.2"
     "@commitlint/parse": "npm:^19.0.3"
     "@commitlint/rules": "npm:^19.0.3"
     "@commitlint/types": "npm:^19.0.3"
-  checksum: 10c0/7624eaafe0769e5dd7053f8558753ed33f7fd4351358510566c4b215d8c2e61c290666324dcc5dfcdc6545fb215040fe181ed4b870b062b06020793fcaa90089
+  checksum: 10c0/e7b3ca6027fecc1a3eda0ee8c21ecef0071ddddc7711a922cc6eb53a590c7e4f00d550b01134a5ebaaae603a0afbeaf65809b12f8099e08cace9d594cb69ff4b
   languageName: node
   linkType: hard
 
@@ -1637,107 +1637,114 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/rollup-android-arm-eabi@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-android-arm-eabi@npm:4.14.2"
+"@rollup/rollup-android-arm-eabi@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-android-arm-eabi@npm:4.14.3"
   conditions: os=android & cpu=arm
   languageName: node
   linkType: hard
 
-"@rollup/rollup-android-arm64@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-android-arm64@npm:4.14.2"
+"@rollup/rollup-android-arm64@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-android-arm64@npm:4.14.3"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-darwin-arm64@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-darwin-arm64@npm:4.14.2"
+"@rollup/rollup-darwin-arm64@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-darwin-arm64@npm:4.14.3"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-darwin-x64@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-darwin-x64@npm:4.14.2"
+"@rollup/rollup-darwin-x64@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-darwin-x64@npm:4.14.3"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-arm-gnueabihf@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-arm-gnueabihf@npm:4.14.2"
+"@rollup/rollup-linux-arm-gnueabihf@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-arm-gnueabihf@npm:4.14.3"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-arm64-gnu@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-arm64-gnu@npm:4.14.2"
+"@rollup/rollup-linux-arm-musleabihf@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-arm-musleabihf@npm:4.14.3"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@rollup/rollup-linux-arm64-gnu@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-arm64-gnu@npm:4.14.3"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-arm64-musl@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-arm64-musl@npm:4.14.2"
+"@rollup/rollup-linux-arm64-musl@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-arm64-musl@npm:4.14.3"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-powerpc64le-gnu@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-powerpc64le-gnu@npm:4.14.2"
+"@rollup/rollup-linux-powerpc64le-gnu@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-powerpc64le-gnu@npm:4.14.3"
   conditions: os=linux & cpu=ppc64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-riscv64-gnu@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-riscv64-gnu@npm:4.14.2"
+"@rollup/rollup-linux-riscv64-gnu@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-riscv64-gnu@npm:4.14.3"
   conditions: os=linux & cpu=riscv64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-s390x-gnu@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-s390x-gnu@npm:4.14.2"
+"@rollup/rollup-linux-s390x-gnu@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-s390x-gnu@npm:4.14.3"
   conditions: os=linux & cpu=s390x & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-x64-gnu@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.14.2"
+"@rollup/rollup-linux-x64-gnu@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.14.3"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-x64-musl@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-linux-x64-musl@npm:4.14.2"
+"@rollup/rollup-linux-x64-musl@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-linux-x64-musl@npm:4.14.3"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@rollup/rollup-win32-arm64-msvc@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-win32-arm64-msvc@npm:4.14.2"
+"@rollup/rollup-win32-arm64-msvc@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-win32-arm64-msvc@npm:4.14.3"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-win32-ia32-msvc@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-win32-ia32-msvc@npm:4.14.2"
+"@rollup/rollup-win32-ia32-msvc@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-win32-ia32-msvc@npm:4.14.3"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@rollup/rollup-win32-x64-msvc@npm:4.14.2":
-  version: 4.14.2
-  resolution: "@rollup/rollup-win32-x64-msvc@npm:4.14.2"
+"@rollup/rollup-win32-x64-msvc@npm:4.14.3":
+  version: 4.14.3
+  resolution: "@rollup/rollup-win32-x64-msvc@npm:4.14.3"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1788,16 +1795,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/block@npm:0.1.0-beta.10, @serenityjs/block@workspace:packages/block":
+"@serenityjs/block@npm:*, @serenityjs/block@workspace:packages/block":
   version: 0.0.0-use.local
   resolution: "@serenityjs/block@workspace:packages/block"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/data": "npm:0.1.0-beta.10"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/nbt": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/data": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/nbt": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1806,13 +1813,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/chokidar@npm:0.1.0-beta.10, @serenityjs/chokidar@workspace:packages/chokidar":
+"@serenityjs/chokidar@npm:*, @serenityjs/chokidar@workspace:packages/chokidar":
   version: 0.0.0-use.local
   resolution: "@serenityjs/chokidar@workspace:packages/chokidar"
   dependencies:
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/cross-spawn": "npm:^6.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/lodash.debounce": "npm:^4"
@@ -1835,15 +1842,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/command@npm:0.1.0-beta.10, @serenityjs/command@workspace:packages/command":
+"@serenityjs/command@npm:*, @serenityjs/command@workspace:packages/command":
   version: 0.0.0-use.local
   resolution: "@serenityjs/command@workspace:packages/command"
   dependencies:
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/logger": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
-    "@serenityjs/world": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/world": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1852,13 +1859,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/data@npm:0.1.0-beta.10, @serenityjs/data@workspace:packages/data":
+"@serenityjs/data@npm:*, @serenityjs/data@workspace:packages/data":
   version: 0.0.0-use.local
   resolution: "@serenityjs/data@workspace:packages/data"
   dependencies:
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1867,13 +1874,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/emitter@npm:0.1.0-beta.10, @serenityjs/emitter@workspace:packages/emitter":
+"@serenityjs/emitter@npm:*, @serenityjs/emitter@workspace:packages/emitter":
   version: 0.0.0-use.local
   resolution: "@serenityjs/emitter@workspace:packages/emitter"
   dependencies:
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1882,14 +1889,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/entity@npm:0.1.0-beta.10, @serenityjs/entity@workspace:packages/entity":
+"@serenityjs/entity@npm:*, @serenityjs/entity@workspace:packages/entity":
   version: 0.0.0-use.local
   resolution: "@serenityjs/entity@workspace:packages/entity"
   dependencies:
-    "@serenityjs/data": "npm:0.1.0-beta.10"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/data": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1898,7 +1905,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/eslint-config@npm:0.1.0-beta.10, @serenityjs/eslint-config@npm:^0.1.0-beta.7, @serenityjs/eslint-config@workspace:packages/eslint-config":
+"@serenityjs/eslint-config@npm:*, @serenityjs/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/eslint-config@workspace:packages/eslint-config"
   dependencies:
@@ -1909,18 +1916,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/item@npm:0.1.0-beta.10, @serenityjs/item@workspace:packages/item":
+"@serenityjs/item@npm:*, @serenityjs/item@workspace:packages/item":
   version: 0.0.0-use.local
   resolution: "@serenityjs/item@workspace:packages/item"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/block": "npm:0.1.0-beta.10"
-    "@serenityjs/data": "npm:0.1.0-beta.10"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/nbt": "npm:0.1.0-beta.10"
-    "@serenityjs/protocol": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/block": "npm:*"
+    "@serenityjs/data": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/nbt": "npm:*"
+    "@serenityjs/protocol": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -1929,7 +1936,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/jest-presets@npm:0.1.0-beta.10, @serenityjs/jest-presets@workspace:packages/jest-presets":
+"@serenityjs/jest-presets@npm:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
   version: 0.0.0-use.local
   resolution: "@serenityjs/jest-presets@workspace:packages/jest-presets"
   dependencies:
@@ -1945,23 +1952,23 @@ __metadata:
   resolution: "@serenityjs/launcher@workspace:launcher"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/block": "npm:0.1.0-beta.10"
-    "@serenityjs/chokidar": "npm:0.1.0-beta.10"
-    "@serenityjs/command": "npm:0.1.0-beta.10"
-    "@serenityjs/data": "npm:0.1.0-beta.10"
-    "@serenityjs/emitter": "npm:0.1.0-beta.10"
-    "@serenityjs/entity": "npm:0.1.0-beta.10"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/item": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/logger": "npm:0.1.0-beta.10"
-    "@serenityjs/nbt": "npm:0.1.0-beta.10"
-    "@serenityjs/network": "npm:0.1.0-beta.10"
-    "@serenityjs/plugins": "npm:0.1.0-beta.10"
-    "@serenityjs/protocol": "npm:0.1.0-beta.10"
-    "@serenityjs/raknet": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
-    "@serenityjs/world": "npm:0.1.0-beta.10"
+    "@serenityjs/block": "npm:*"
+    "@serenityjs/chokidar": "npm:*"
+    "@serenityjs/command": "npm:*"
+    "@serenityjs/data": "npm:*"
+    "@serenityjs/emitter": "npm:*"
+    "@serenityjs/entity": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/item": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/nbt": "npm:*"
+    "@serenityjs/network": "npm:*"
+    "@serenityjs/plugins": "npm:*"
+    "@serenityjs/protocol": "npm:*"
+    "@serenityjs/raknet": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@serenityjs/world": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     fast-jwt: "npm:^4.0.0"
@@ -1974,13 +1981,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/logger@npm:0.1.0-beta.10, @serenityjs/logger@workspace:packages/logger":
+"@serenityjs/logger@npm:*, @serenityjs/logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@serenityjs/logger@workspace:packages/logger"
   dependencies:
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     colorette: "npm:^2.0.20"
@@ -1990,14 +1997,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/nbt@npm:0.1.0-beta.10, @serenityjs/nbt@workspace:packages/nbt":
+"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:packages/nbt":
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2006,17 +2013,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/network@npm:0.1.0-beta.10, @serenityjs/network@workspace:packages/network":
+"@serenityjs/network@npm:*, @serenityjs/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@serenityjs/network@workspace:packages/network"
   dependencies:
-    "@serenityjs/emitter": "npm:0.1.0-beta.10"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/logger": "npm:0.1.0-beta.10"
-    "@serenityjs/protocol": "npm:0.1.0-beta.10"
-    "@serenityjs/raknet": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/emitter": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/protocol": "npm:*"
+    "@serenityjs/raknet": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2025,14 +2032,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/plugins@npm:0.1.0-beta.10, @serenityjs/plugins@workspace:packages/plugins":
+"@serenityjs/plugins@npm:*, @serenityjs/plugins@workspace:packages/plugins":
   version: 0.0.0-use.local
   resolution: "@serenityjs/plugins@workspace:packages/plugins"
   dependencies:
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/logger": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2041,16 +2048,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/protocol@npm:0.1.0-beta.10, @serenityjs/protocol@workspace:packages/protocol":
+"@serenityjs/protocol@npm:*, @serenityjs/protocol@workspace:packages/protocol":
   version: 0.0.0-use.local
   resolution: "@serenityjs/protocol@workspace:packages/protocol"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/nbt": "npm:0.1.0-beta.10"
-    "@serenityjs/raknet": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/nbt": "npm:*"
+    "@serenityjs/raknet": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2059,16 +2066,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/raknet@npm:0.1.0-beta.10, @serenityjs/raknet@workspace:packages/raknet":
+"@serenityjs/raknet@npm:*, @serenityjs/raknet@workspace:packages/raknet":
   version: 0.0.0-use.local
   resolution: "@serenityjs/raknet@workspace:packages/raknet"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/emitter": "npm:0.1.0-beta.10"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/logger": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/emitter": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2078,29 +2085,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/typescript-config@npm:0.1.0-beta.10, @serenityjs/typescript-config@npm:^0.1.0-beta.7, @serenityjs/typescript-config@workspace:packages/typescript-config":
+"@serenityjs/typescript-config@npm:*, @serenityjs/typescript-config@workspace:packages/typescript-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/typescript-config@workspace:packages/typescript-config"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/world@npm:0.1.0-beta.10, @serenityjs/world@workspace:packages/world":
+"@serenityjs/world@npm:*, @serenityjs/world@workspace:packages/world":
   version: 0.0.0-use.local
   resolution: "@serenityjs/world@workspace:packages/world"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/block": "npm:0.1.0-beta.10"
-    "@serenityjs/data": "npm:0.1.0-beta.10"
-    "@serenityjs/emitter": "npm:0.1.0-beta.10"
-    "@serenityjs/entity": "npm:0.1.0-beta.10"
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/item": "npm:0.1.0-beta.10"
-    "@serenityjs/jest-presets": "npm:0.1.0-beta.10"
-    "@serenityjs/logger": "npm:0.1.0-beta.10"
-    "@serenityjs/nbt": "npm:0.1.0-beta.10"
-    "@serenityjs/network": "npm:0.1.0-beta.10"
-    "@serenityjs/protocol": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/block": "npm:*"
+    "@serenityjs/data": "npm:*"
+    "@serenityjs/emitter": "npm:*"
+    "@serenityjs/entity": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/item": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/nbt": "npm:*"
+    "@serenityjs/network": "npm:*"
+    "@serenityjs/protocol": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2593,14 +2600,14 @@ __metadata:
   linkType: hard
 
 "@typescript-eslint/eslint-plugin@npm:^7.2.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/eslint-plugin@npm:7.6.0"
+  version: 7.7.0
+  resolution: "@typescript-eslint/eslint-plugin@npm:7.7.0"
   dependencies:
     "@eslint-community/regexpp": "npm:^4.10.0"
-    "@typescript-eslint/scope-manager": "npm:7.6.0"
-    "@typescript-eslint/type-utils": "npm:7.6.0"
-    "@typescript-eslint/utils": "npm:7.6.0"
-    "@typescript-eslint/visitor-keys": "npm:7.6.0"
+    "@typescript-eslint/scope-manager": "npm:7.7.0"
+    "@typescript-eslint/type-utils": "npm:7.7.0"
+    "@typescript-eslint/utils": "npm:7.7.0"
+    "@typescript-eslint/visitor-keys": "npm:7.7.0"
     debug: "npm:^4.3.4"
     graphemer: "npm:^1.4.0"
     ignore: "npm:^5.3.1"
@@ -2613,7 +2620,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/c3ca611c6658dfc05e6457e87c66cdc6f038cf9bbb345f3168d171491bc1439f815a49529a1511940141a387873e10dfc7ab68fd172cf54c34f8a3aa8c558e13
+  checksum: 10c0/d1f4c40523d284bce4b8272750c68aae5c0289ddb1c9267dd3477e0bfb8c8855bfb0c6e86dfec9911ca8302ef729d5f4e47d686a566f363b0f89bf7dc7670b5c
   languageName: node
   linkType: hard
 
@@ -2636,20 +2643,20 @@ __metadata:
   linkType: hard
 
 "@typescript-eslint/parser@npm:^7.2.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/parser@npm:7.6.0"
+  version: 7.7.0
+  resolution: "@typescript-eslint/parser@npm:7.7.0"
   dependencies:
-    "@typescript-eslint/scope-manager": "npm:7.6.0"
-    "@typescript-eslint/types": "npm:7.6.0"
-    "@typescript-eslint/typescript-estree": "npm:7.6.0"
-    "@typescript-eslint/visitor-keys": "npm:7.6.0"
+    "@typescript-eslint/scope-manager": "npm:7.7.0"
+    "@typescript-eslint/types": "npm:7.7.0"
+    "@typescript-eslint/typescript-estree": "npm:7.7.0"
+    "@typescript-eslint/visitor-keys": "npm:7.7.0"
     debug: "npm:^4.3.4"
   peerDependencies:
     eslint: ^8.56.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/69450c15180f7ee5a9d9c2e8ed7aa781a3b63635c099de1f102167c247d71c55b152934187e854baa5c9ea3dcbc0c9f5983379139e6cfa1ccbb900b9f23dab37
+  checksum: 10c0/d756c2292737499a93913647af7493aded5dc720a5f4ab6f8e96d6cc81f19cf6a1769a1df0f516f8facd276d34f8464f1711e57b0216082e32eb6b75da81b12e
   languageName: node
   linkType: hard
 
@@ -2663,22 +2670,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/scope-manager@npm:7.6.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/scope-manager@npm:7.6.0"
+"@typescript-eslint/scope-manager@npm:7.7.0":
+  version: 7.7.0
+  resolution: "@typescript-eslint/scope-manager@npm:7.7.0"
   dependencies:
-    "@typescript-eslint/types": "npm:7.6.0"
-    "@typescript-eslint/visitor-keys": "npm:7.6.0"
-  checksum: 10c0/1c1e75fd4fa2dabcab0457ca2ec872752c112fec27bf11edb5bf13c547ad5f3ca5a3b424e19c6916dfc8bd348cde258db8abfd12c9ed93b4bc4df9ef9e3db9f5
+    "@typescript-eslint/types": "npm:7.7.0"
+    "@typescript-eslint/visitor-keys": "npm:7.7.0"
+  checksum: 10c0/014a3631c12bfbd5e33146a48e4b9eb5cc1c5c95bb458de33f8847eed33c04d7b9e66283971e48297673c4b92c3239d67e6dc3717efbe5836e0269a538c13d2e
   languageName: node
   linkType: hard
 
-"@typescript-eslint/type-utils@npm:7.6.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/type-utils@npm:7.6.0"
+"@typescript-eslint/type-utils@npm:7.7.0":
+  version: 7.7.0
+  resolution: "@typescript-eslint/type-utils@npm:7.7.0"
   dependencies:
-    "@typescript-eslint/typescript-estree": "npm:7.6.0"
-    "@typescript-eslint/utils": "npm:7.6.0"
+    "@typescript-eslint/typescript-estree": "npm:7.7.0"
+    "@typescript-eslint/utils": "npm:7.7.0"
     debug: "npm:^4.3.4"
     ts-api-utils: "npm:^1.3.0"
   peerDependencies:
@@ -2686,7 +2693,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/d5fa5856e24b593e8ae93f27049e7ea49c0725f9fe44e6252a8fc8228859e2db254a3c399bedaf1fdac76fae94aa9bae10a9d466032c7bdb5bdeb1da2e4e3a53
+  checksum: 10c0/064c28d4087a97fd175e07e02c0a9cf4526f61cc6a17b4199fba626932979210037643a30f868bda8174fad567a8ac6aed34120631d1ecfd502e0ea1e830f9e9
   languageName: node
   linkType: hard
 
@@ -2697,10 +2704,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/types@npm:7.6.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/types@npm:7.6.0"
-  checksum: 10c0/7ca2a307557d4d8fc9c7d43e4dc8c4841e6c5380b59dcc8b644b3d7b6a702968ff5a70b74cb7e3d3af3f3cef87e9775573b8272b1b2963d80441992ac4e7e951
+"@typescript-eslint/types@npm:7.7.0":
+  version: 7.7.0
+  resolution: "@typescript-eslint/types@npm:7.7.0"
+  checksum: 10c0/eb50793650c9a911c73586150807912e7b7a0ae12eeb26c7a322ac8ebb8edef15960cc9a4b7049dbb89b82500079963145f67d15583f5de270fe8290974db533
   languageName: node
   linkType: hard
 
@@ -2723,12 +2730,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:7.6.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/typescript-estree@npm:7.6.0"
+"@typescript-eslint/typescript-estree@npm:7.7.0":
+  version: 7.7.0
+  resolution: "@typescript-eslint/typescript-estree@npm:7.7.0"
   dependencies:
-    "@typescript-eslint/types": "npm:7.6.0"
-    "@typescript-eslint/visitor-keys": "npm:7.6.0"
+    "@typescript-eslint/types": "npm:7.7.0"
+    "@typescript-eslint/visitor-keys": "npm:7.7.0"
     debug: "npm:^4.3.4"
     globby: "npm:^11.1.0"
     is-glob: "npm:^4.0.3"
@@ -2738,24 +2745,24 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/ab54ce7a61928640bf036cc1d80394de92581d90666786603b566b9a44833603e017d7e739a37aee82a007c6d1dbdc6328d7e42d1732925cc53c111e7e38961e
+  checksum: 10c0/19da9bf0948c9800fde19c5a408a80a3a4cf357ff67d47b516df5d2a05701a4fdd2b9ab5b692866bd84bfc17cea9132d1575a1423e01763a4c2918b5d77d0b34
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:7.6.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/utils@npm:7.6.0"
+"@typescript-eslint/utils@npm:7.7.0":
+  version: 7.7.0
+  resolution: "@typescript-eslint/utils@npm:7.7.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.0"
     "@types/json-schema": "npm:^7.0.15"
     "@types/semver": "npm:^7.5.8"
-    "@typescript-eslint/scope-manager": "npm:7.6.0"
-    "@typescript-eslint/types": "npm:7.6.0"
-    "@typescript-eslint/typescript-estree": "npm:7.6.0"
+    "@typescript-eslint/scope-manager": "npm:7.7.0"
+    "@typescript-eslint/types": "npm:7.7.0"
+    "@typescript-eslint/typescript-estree": "npm:7.7.0"
     semver: "npm:^7.6.0"
   peerDependencies:
     eslint: ^8.56.0
-  checksum: 10c0/1552004d9c451347f11398648ec7b22381d5b335f10e8d2dfdfbcb024ef93c9a23ec5731ee271495b4b546ab5db0a817bd13c4c4db8be825ed90b80a89dfd0f7
+  checksum: 10c0/c5f18ce198b420bdc201fd4278b4fa97bfe86178db565f3c4e1991bb452c9ea0b657e7980572555e2ec2fe218d07c42c794d217b9369903019cf784eea7e2164
   languageName: node
   linkType: hard
 
@@ -2769,13 +2776,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/visitor-keys@npm:7.6.0":
-  version: 7.6.0
-  resolution: "@typescript-eslint/visitor-keys@npm:7.6.0"
+"@typescript-eslint/visitor-keys@npm:7.7.0":
+  version: 7.7.0
+  resolution: "@typescript-eslint/visitor-keys@npm:7.7.0"
   dependencies:
-    "@typescript-eslint/types": "npm:7.6.0"
+    "@typescript-eslint/types": "npm:7.7.0"
     eslint-visitor-keys: "npm:^3.4.3"
-  checksum: 10c0/b5ca6a9258889ef103165884e99b51124b2a3dad250cf7cee2fb13525f76922256a6146a8dcef74cad6548a52409ff89259809c7fa7c8be07059bb7454e7fa8f
+  checksum: 10c0/0f3b9720a962c04462a75d4872714c07320c8f672841881ada797ae960f9f6bd0e5f7494178917034f42635ef76f0f09fa3c8d4bd84f31ec58ee968fe75bada7
   languageName: node
   linkType: hard
 
@@ -3682,9 +3689,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001587, caniuse-lite@npm:^1.0.30001599":
-  version: 1.0.30001609
-  resolution: "caniuse-lite@npm:1.0.30001609"
-  checksum: 10c0/a7631f6c9a741c7cb16100e115572f70e3d28622af9749891b7285d392113fcb8683ba2ded29e2e9d8e9fa215139d06d2bf15151b0b83df3bbfbbf2b495b74e5
+  version: 1.0.30001610
+  resolution: "caniuse-lite@npm:1.0.30001610"
+  checksum: 10c0/015956a0bf2e3e233da3dc00c5632bbb4d416bcd6ced2f839e33e45b197a856234f97cb046e7427b83d7e3a3d6df314dfab1c86eb9d970970e00ad85a50b4933
   languageName: node
   linkType: hard
 
@@ -4498,8 +4505,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:docs"
   dependencies:
-    "@serenityjs/eslint-config": "npm:0.1.0-beta.10"
-    "@serenityjs/typescript-config": "npm:0.1.0-beta.10"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
@@ -9680,24 +9687,25 @@ __metadata:
   linkType: hard
 
 "rollup@npm:^4.0.2":
-  version: 4.14.2
-  resolution: "rollup@npm:4.14.2"
+  version: 4.14.3
+  resolution: "rollup@npm:4.14.3"
   dependencies:
-    "@rollup/rollup-android-arm-eabi": "npm:4.14.2"
-    "@rollup/rollup-android-arm64": "npm:4.14.2"
-    "@rollup/rollup-darwin-arm64": "npm:4.14.2"
-    "@rollup/rollup-darwin-x64": "npm:4.14.2"
-    "@rollup/rollup-linux-arm-gnueabihf": "npm:4.14.2"
-    "@rollup/rollup-linux-arm64-gnu": "npm:4.14.2"
-    "@rollup/rollup-linux-arm64-musl": "npm:4.14.2"
-    "@rollup/rollup-linux-powerpc64le-gnu": "npm:4.14.2"
-    "@rollup/rollup-linux-riscv64-gnu": "npm:4.14.2"
-    "@rollup/rollup-linux-s390x-gnu": "npm:4.14.2"
-    "@rollup/rollup-linux-x64-gnu": "npm:4.14.2"
-    "@rollup/rollup-linux-x64-musl": "npm:4.14.2"
-    "@rollup/rollup-win32-arm64-msvc": "npm:4.14.2"
-    "@rollup/rollup-win32-ia32-msvc": "npm:4.14.2"
-    "@rollup/rollup-win32-x64-msvc": "npm:4.14.2"
+    "@rollup/rollup-android-arm-eabi": "npm:4.14.3"
+    "@rollup/rollup-android-arm64": "npm:4.14.3"
+    "@rollup/rollup-darwin-arm64": "npm:4.14.3"
+    "@rollup/rollup-darwin-x64": "npm:4.14.3"
+    "@rollup/rollup-linux-arm-gnueabihf": "npm:4.14.3"
+    "@rollup/rollup-linux-arm-musleabihf": "npm:4.14.3"
+    "@rollup/rollup-linux-arm64-gnu": "npm:4.14.3"
+    "@rollup/rollup-linux-arm64-musl": "npm:4.14.3"
+    "@rollup/rollup-linux-powerpc64le-gnu": "npm:4.14.3"
+    "@rollup/rollup-linux-riscv64-gnu": "npm:4.14.3"
+    "@rollup/rollup-linux-s390x-gnu": "npm:4.14.3"
+    "@rollup/rollup-linux-x64-gnu": "npm:4.14.3"
+    "@rollup/rollup-linux-x64-musl": "npm:4.14.3"
+    "@rollup/rollup-win32-arm64-msvc": "npm:4.14.3"
+    "@rollup/rollup-win32-ia32-msvc": "npm:4.14.3"
+    "@rollup/rollup-win32-x64-msvc": "npm:4.14.3"
     "@types/estree": "npm:1.0.5"
     fsevents: "npm:~2.3.2"
   dependenciesMeta:
@@ -9710,6 +9718,8 @@ __metadata:
     "@rollup/rollup-darwin-x64":
       optional: true
     "@rollup/rollup-linux-arm-gnueabihf":
+      optional: true
+    "@rollup/rollup-linux-arm-musleabihf":
       optional: true
     "@rollup/rollup-linux-arm64-gnu":
       optional: true
@@ -9735,7 +9745,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 10c0/3826aaa847a16e8ac0459e20e3ec624295110c0aac2c7b4f970f75ca804d7437bbd002a37079410f71137691aab64649e65361018647b0412911358a17b97902
+  checksum: 10c0/f169a686189733eab4362a7951464408a4d900179818cd5e0d1fb7d89ceab6a18556806b0f8d439236626756faf4b2a1a2765add3838924493feff8d1d5a9830
   languageName: node
   linkType: hard
 
@@ -9874,8 +9884,8 @@ __metadata:
     "@changesets/cli": "npm:^2.27.1"
     "@commitlint/cli": "npm:^19.2.1"
     "@commitlint/config-angular": "npm:^19.1.0"
-    "@serenityjs/eslint-config": "npm:^0.1.0-beta.7"
-    "@serenityjs/typescript-config": "npm:^0.1.0-beta.7"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@turbo/gen": "npm:^1.12.5"
     "@types/cross-spawn": "npm:^6.0.6"
     "@yarnpkg/core": "npm:^4.0.3"

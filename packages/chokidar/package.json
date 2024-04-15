@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/chokidar",
-  "version": "0.1.0-beta.10",
+  "version": "0.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/SerenityJS/serenity",
@@ -22,9 +22,9 @@
     "preset": "@serenityjs/jest-presets/jest/node"
   },
   "devDependencies": {
-    "@serenityjs/eslint-config": "0.1.0-beta.10",
-    "@serenityjs/jest-presets": "0.1.0-beta.10",
-    "@serenityjs/typescript-config": "0.1.0-beta.10",
+    "@serenityjs/eslint-config": "*",
+    "@serenityjs/jest-presets": "*",
+    "@serenityjs/typescript-config": "*",
     "@types/cross-spawn": "^6.0.6",
     "@types/jest": "^29.5.12",
     "@types/lodash.debounce": "^4",
