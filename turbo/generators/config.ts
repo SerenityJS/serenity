@@ -2,8 +2,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import * as JSON5 from "json5";
-import { PlopTypes } from "@turbo/gen";
 import { sync } from "cross-spawn";
+
+import type { PlopTypes } from "@turbo/gen";
 
 const WorkspaceConfigName = "serenityjs.code-workspace";
 const WorkflowsLocation = ".github/workflows";
@@ -32,7 +33,7 @@ function getPackageJson(): object {
 	return JSON.parse(readFileSync(packageJsonPath, "utf8"));
 }
 function getCurrentRepoVersion(): string {
-	// @ts-ignore idc
+	// @ts-expect-error idc
 	return getPackageJson().version ?? "0.0.0";
 }
 

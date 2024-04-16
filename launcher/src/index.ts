@@ -4,7 +4,7 @@ export * from "./properties";
 export * from "./events";
 
 import { InternalProvider, Superflat } from "@serenityjs/world";
-import { DimensionType, Packet } from "@serenityjs/protocol";
+import { DimensionType } from "@serenityjs/protocol";
 import { CustomItemType, ItemCategory, ItemGroup } from "@serenityjs/item";
 import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
 
@@ -55,7 +55,7 @@ customBlockType.register(customBlockPermutation);
 new CustomItemType(
 	"serenity:ruby_ore", // The identifier of the custom item.
 	customBlockType, // The block of the custom item.
-	ItemCategory.Nature, // The category of the custom item.
+	ItemCategory.Construction, // The category of the custom item.
 	ItemGroup.Ore // The group of the custom item.
 );
 

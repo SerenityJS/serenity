@@ -30,7 +30,7 @@ export * from "./complex-inventory-transaction";
 export * from "./transaction-source-type";
 export * from "./device-o-s";
 export * from "./respawn-state";
-export * from "./form-type";
+export * from "./modal-form-type";
 export * from "./update-block-layer-type";
 export * from "./update-block-flags-type";
 export * from "./dimension-type";
