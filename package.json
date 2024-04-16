@@ -12,11 +12,16 @@
     "new": "turbo gen",
     "commitlint": "commitlint --edit",
     "version": "yarn changeset version",
-    "version:beta": "yarn changeset version snapshot beta",
-    "publish": "yarn changeset publish",
-    "publish:beta": "yarn changeset publish --no-git-tag --tag beta"
+    "postversion": "yarn install",
+    "version:unstable": "yarn changeset version snapshot unstable",
+    "release": "yarn changeset publish",
+    "release:unstable": "yarn changeset publish --no-git-tag --tag unstable",
+    "changeset": "changeset"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "0.5.0",
+    "@changesets/cli": "2.27.1",
+    "@changesets/types": "6.0.0",
     "@commitlint/cli": "^19.2.1",
     "@commitlint/config-angular": "^19.1.0",
     "@serenityjs/eslint-config": "workspace:*",
