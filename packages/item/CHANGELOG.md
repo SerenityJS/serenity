@@ -1,5 +1,16 @@
 # @serenityjs/item
 
+## 0.0.1-beta-20240416023801
+
+### Patch Changes
+
+- Added Server Ui Package
+- Updated dependencies
+  - @serenityjs/block@0.0.1-beta-20240416023801
+  - @serenityjs/data@0.0.1-beta-20240416023801
+  - @serenityjs/nbt@0.0.1-beta-20240416023801
+  - @serenityjs/protocol@0.0.1-beta-20240416023801
+
 ## 0.0.1-beta-20240415201734
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @serenityjs/network
 
+## 0.0.1-beta-20240416023801
+
+### Patch Changes
+
+- Added Server Ui Package
+- Updated dependencies
+  - @serenityjs/emitter@0.0.1-beta-20240416023801
+  - @serenityjs/logger@0.0.1-beta-20240416023801
+  - @serenityjs/protocol@0.0.1-beta-20240416023801
+  - @serenityjs/raknet@0.0.1-beta-20240416023801
+
 ## 0.0.1-beta-20240415201734
 
 ### Patch Changes

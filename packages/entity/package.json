@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/entity",
-	"version": "0.0.1-beta-20240415201734",
+	"version": "0.0.1-beta-20240416023801",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",

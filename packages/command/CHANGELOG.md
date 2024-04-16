@@ -1,5 +1,14 @@
 # @serenityjs/command
 
+## 0.0.1-beta-20240416023801
+
+### Patch Changes
+
+- Added Server Ui Package
+- Updated dependencies
+  - @serenityjs/logger@0.0.1-beta-20240416023801
+  - @serenityjs/world@0.0.1-beta-20240416023801
+
 ## 0.0.1-beta-20240415201734
 
 ### Patch Changes

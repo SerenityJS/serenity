@@ -1,5 +1,11 @@
 # @serenityjs/nbt
 
+## 0.0.1-beta-20240416023801
+
+### Patch Changes
+
+- Added Server Ui Package
+
 ## 0.0.1-beta-20240415201734
 
 ### Patch Changes
