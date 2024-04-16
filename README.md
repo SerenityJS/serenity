@@ -16,7 +16,7 @@
     <a href="https://discord.gg/jUcC3q59zg">
       <img alt="discord" src="https://img.shields.io/discord/854092607239356457?style=for-the-badge&color=%237289DA&label=Discord&logo=discord&logoColor=white">
     <a/>
-    <a href="https://github.com/SerenityJS/serenity/blob/main/LICENSE">
+    <a href="https://github.com/SerenityJS/serenity/blob/develop/LICENSE">
       <img alt="License" src="https://img.shields.io/github/license/SerenityJS/serenity?style=for-the-badge&label=Liscense&color=hotpink">
     <a/>
     <a href="https://www.npmjs.com/package/@serenityjs/launcher">
