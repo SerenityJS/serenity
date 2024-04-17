@@ -4,6 +4,9 @@ import { BlockPermutation } from "@serenityjs/block";
 
 import { SubChunk } from "./sub-chunk";
 
+/**
+ * Represents a chunk within a dimension.
+ */
 export class Chunk {
 	public static readonly MAX_SUB_CHUNKS = 20;
 
