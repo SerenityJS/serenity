@@ -62,7 +62,8 @@ class InventoryTransaction extends SerenityHandler {
 			// Set the permutation of the block
 			block
 				.setPermutation(
-					item.type.block.permutations[item.metadata] as BlockPermutation
+					item.type.block.permutations[item.metadata] as BlockPermutation,
+					player
 				)
 				.setDirection(
 					player.getCardinalDirection(),

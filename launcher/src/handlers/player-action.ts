@@ -190,7 +190,9 @@ class PlayerAction extends SerenityHandler {
 		player.dimension.broadcast(event);
 
 		// Destroy the block.
-		block.destroy();
+		block.destroy(player);
+
+		//
 	}
 
 	private static handlePredictBreak(

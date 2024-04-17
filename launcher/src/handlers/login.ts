@@ -88,10 +88,6 @@ class Login extends SerenityHandler {
 		const player = new Player(session, data, dimension);
 		this.serenity.players.set(xuid, player);
 
-		// Spawn the player in the dimension
-		// This will also add the player to the dimension players map
-		player.spawn();
-
 		// TODO: Enable encryption, the public key is given in the tokens
 		// This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet
 		// But for now, we will just send the player the login status, this will skip the encryption

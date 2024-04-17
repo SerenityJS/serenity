@@ -31,6 +31,9 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 				DisconnectReason.InvalidPlayer
 			);
 
+		// Spawn the player in the dimension
+		player.spawn();
+
 		// Set the player ability values
 		for (const ability of player.getAbilities()) {
 			// Reset the ability to the default value

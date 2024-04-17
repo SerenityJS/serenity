@@ -5,8 +5,6 @@ export * from "./events";
 
 import { InternalProvider, Superflat } from "@serenityjs/world";
 import { DimensionType } from "@serenityjs/protocol";
-import { CustomItemType, ItemCategory, ItemGroup } from "@serenityjs/item";
-import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
 
 import { Serenity } from "./serenity";
 
@@ -32,37 +30,3 @@ world.createDimension(
 );
 
 serenity.start();
-
-// How to create a custom block with a custom item on SerenityJS.
-// This will also allow to assign the block item to a specific creative tab/category.
-// The custom block will be registered with the block registry.
-
-// First we need to create a new custom block type.
-const customBlockType = new CustomBlockType("serenity:ruby_ore", false);
-
-// Next we need to create a new block permutation for the custom block,
-// this will allow us to define the block state. At the moment, custom states are not supported for custom blocks.
-// This will be added in the future.
-const customBlockPermutation = BlockPermutation.create(customBlockType, {}); // Blank state record.
-
-// We now need to register the block permutation with to the custom block type.
-customBlockType.register(customBlockPermutation);
-
-// Now we need to create a custom item type for the custom block.
-// This will allow us to define the item properties and creative tab/category.
-// NOTE: Custom items do not need to have a block associated with them.
-// If no category/group is provided, the item will not be added to the creative inventory.
-new CustomItemType(
-	"serenity:ruby_ore", // The identifier of the custom item.
-	customBlockType, // The block of the custom item.
-	ItemCategory.Construction, // The category of the custom item.
-	ItemGroup.Ore // The group of the custom item.
-);
-
-const rubyBlock = new CustomBlockType("serenity:ruby_block", false);
-
-const rubyBlockPermutation = BlockPermutation.create(rubyBlock, {});
-
-rubyBlock.register(rubyBlockPermutation);
-
-new CustomItemType("serenity:ruby_block", rubyBlock, ItemCategory.Nature);

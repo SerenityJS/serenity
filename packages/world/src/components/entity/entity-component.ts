@@ -22,6 +22,16 @@ class EntityComponent extends Component {
 		// Register the component to the entity.
 		this.entity.components.set(this.identifier, this);
 	}
+
+	/**
+	 * Called when the entity is spawned into the dimension.
+	 */
+	public onSpawn?(): void;
+
+	/**
+	 * Called when the entity is despawned from the dimension.
+	 */
+	public onDespawn?(): void;
 }
 
 export { EntityComponent };

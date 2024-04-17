@@ -16,6 +16,11 @@ class Component {
 	public constructor(identifier: string) {
 		this.identifier = identifier;
 	}
+
+	/**
+	 * Called when the component is ticked.
+	 */
+	public onTick?(): void;
 }
 
 export { Component };

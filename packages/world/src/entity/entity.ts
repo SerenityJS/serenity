@@ -103,11 +103,6 @@ class Entity {
 	}
 
 	/**
-	 * Ticks the entity instance.
-	 */
-	public tick(): void {}
-
-	/**
 	 * Checks if the entity is a player.
 	 * @returns Whether or not the entity is a player.
 	 */
@@ -153,6 +148,9 @@ class Entity {
 
 		// Add the entity to the dimension
 		this.dimension.entities.set(this.unique, this);
+
+		// Trigger the onSpawn method of all applicable components
+		for (const component of this.getComponents()) component.onSpawn?.();
 	}
 
 	/**
@@ -171,6 +169,9 @@ class Entity {
 
 		// Remove the entity from the dimension, only if the player is not null
 		if (!player) this.dimension.entities.delete(this.unique);
+
+		// Trigger the onDespawn method of all applicable components
+		for (const component of this.getComponents()) component.onDespawn?.();
 	}
 
 	/**

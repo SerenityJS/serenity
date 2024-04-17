@@ -73,7 +73,7 @@ export class SubChunk {
 		}
 
 		// Return the storage.
-		return this.layers[index]!;
+		return this.layers[index] as BlockStorage;
 	}
 
 	/**

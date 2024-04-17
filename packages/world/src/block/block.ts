@@ -10,6 +10,8 @@ import { ItemType } from "@serenityjs/item";
 
 import { ItemStack } from "../item";
 
+import type { Player } from "../player";
+import type { BlockComponent } from "../components";
 import type { CardinalDirection } from "../enums";
 import type { Dimension } from "../world";
 
@@ -35,9 +37,14 @@ class Block {
 	public readonly location: BlockCoordinates;
 
 	/**
+	 * The components of the block.
+	 */
+	public readonly components: Map<string, BlockComponent>;
+
+	/**
 	 * The permutation of the block.
 	 */
-	public readonly permutation: BlockPermutation;
+	public permutation: BlockPermutation;
 
 	/**
 	 * Creates a new block.
@@ -57,13 +64,41 @@ class Block {
 			permutation.type.identifier === "minecraft:lava";
 		this.permutation = permutation;
 		this.location = location;
+		this.components = new Map();
+	}
+
+	// TODO: setup component methods
+
+	public getComponents(): Array<BlockComponent> {
+		return [...this.components.values()];
+	}
+
+	public setComponent(component: BlockComponent): void {
+		// Set the component to the block.
+		this.components.set(component.identifier, component);
+
+		// Check if the dimension already has the block.
+		// If not, we will add it to the cache.
+		if (!this.dimension.blocks.has(Block.getHash(this.location)))
+			this.dimension.blocks.set(Block.getHash(this.location), this);
+	}
+
+	public clearComponents(): void {
+		this.components.clear();
 	}
 
 	/**
 	 * Sets the permutation of the block.
 	 * @param permutation The permutation to set.
+	 * @param playerInitiated If the change was initiated by a player.
 	 */
-	public setPermutation(permutation: BlockPermutation): Block {
+	public setPermutation(
+		permutation: BlockPermutation,
+		playerInitiated?: Player
+	): Block {
+		// Set the permutation of the block.
+		this.permutation = permutation;
+
 		// Get the chunk the block is in.
 		const chunk = this.dimension.getChunk(
 			this.location.x >> 4,
@@ -91,12 +126,14 @@ class Block {
 		// Send the packet to the dimension.
 		this.dimension.broadcast(packet);
 
-		// Return the block new block.
-		return this.dimension.getBlock(
-			this.location.x,
-			this.location.y,
-			this.location.z
-		);
+		// Call the onPlace method of the components.
+		for (const component of this.components.values()) {
+			// Call the onBlockPlacedByPlayer method.
+			component.onPlace?.(playerInitiated);
+		}
+
+		// Return the block.
+		return this;
 	}
 
 	/**
@@ -246,12 +283,33 @@ class Block {
 	/**
 	 * Destroys the block.
 	 */
-	public destroy(): void {
+	public destroy(playerInitiated?: Player): void {
 		// Get the air permutation.
 		const air = BlockPermutation.resolve(BlockIdentifier.Air);
 
 		// Set the block permutation to air.
 		this.setPermutation(air);
+
+		// Since the block is becoming air, we can remove the block from the dimension cache to save memory.
+		this.dimension.blocks.delete(Block.getHash(this.location));
+
+		// Call the onBreak method of the components.
+		for (const component of this.components.values()) {
+			// Call the onBlockBrokenByPlayer method.
+			component.onBreak?.(playerInitiated);
+		}
+	}
+
+	/**
+	 * Gets the hash of the block.
+	 * @param coordinates The coordinates of the block.
+	 */
+	public static getHash(coordinates: BlockCoordinates): bigint {
+		return (
+			((BigInt(coordinates.x) & 0xff_ff_ff_ffn) << 32n) |
+			(BigInt(coordinates.z) & 0xff_ff_ff_ffn) |
+			BigInt(coordinates.y)
+		);
 	}
 }
 

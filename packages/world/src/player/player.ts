@@ -165,6 +165,7 @@ class Player extends Entity {
 		// Get the players inventory
 		const inventory = this.getComponent("minecraft:inventory");
 
+		// Get the players held item
 		const heldItem = inventory.getHeldItem();
 
 		// Set the packet properties
@@ -219,6 +220,9 @@ class Player extends Entity {
 
 		// Add the player to the dimension
 		this.dimension.entities.set(this.unique, this);
+
+		// Trigger the onSpawn method of all applicable components
+		for (const component of this.getComponents()) component.onSpawn?.();
 	}
 
 	/**

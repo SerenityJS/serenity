@@ -42,6 +42,11 @@ class Dimension {
 	public readonly entities: Map<bigint, Entity>;
 
 	/**
+	 * The blocks that contain components in the dimension.
+	 */
+	public readonly blocks: Map<bigint, Block>;
+
+	/**
 	 * The spawn position of the dimension.
 	 */
 	public spawn = new Vector3f(0, 0, 0);
@@ -71,14 +76,32 @@ class Dimension {
 		this.generator = generator;
 		this.world = world;
 		this.entities = new Map();
+		this.blocks = new Map();
 	}
 
 	/**
 	 * Ticks the dimension instance.
 	 */
 	public tick(): void {
-		// Tick all the entities in the dimension (e.g. players, mobs, etc.)
-		for (const entity of this.entities.values()) entity.tick();
+		// TODO: Remove tick from the player
+		// Tick all the players in the dimension
+		for (const player of this.getPlayers()) player.tick();
+
+		// Tick all the tickable block components
+		for (const block of this.blocks.values()) {
+			for (const component of block.components.values()) {
+				// Tick the component
+				component.onTick?.();
+			}
+		}
+
+		// Tick all the tickable entity components
+		for (const entity of this.entities.values()) {
+			for (const component of entity.components.values()) {
+				// Tick the component
+				component.onTick?.();
+			}
+		}
 	}
 
 	/**
@@ -201,17 +224,27 @@ class Dimension {
 	 * @returns The block.
 	 */
 	public getBlock(x: number, y: number, z: number): Block {
-		// Get the chunk
-		const chunk = this.getChunk(x >> 4, z >> 4);
+		// Check if the block is in the blocks
+		if (this.blocks.has(Block.getHash({ x, y, z }))) {
+			// Get the block from the blocks
+			return this.blocks.get(Block.getHash({ x, y, z })) as Block;
+		} else {
+			// Get the chunk
+			const chunk = this.getChunk(x >> 4, z >> 4);
 
-		// Get the block permutation
-		const permutation = chunk.getPermutation(x, y, z);
+			// Get the block permutation
+			const permutation = chunk.getPermutation(x, y, z);
 
-		// Convert the permutation to a block.
-		const block = new Block(this, permutation, { x, y, z });
+			// Convert the permutation to a block.
+			const block = new Block(this, permutation, { x, y, z });
 
-		// Return the block
-		return block;
+			// If the block has components add it to the blocks
+			if (block.components.size > 0)
+				this.blocks.set(Block.getHash({ x, y, z }), block);
+
+			// Return the block
+			return block;
+		}
 	}
 
 	/**
