@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/launcher",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "repository": "https://github.com/SerenityJS/serenity",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
