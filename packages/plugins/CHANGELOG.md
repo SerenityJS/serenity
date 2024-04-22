@@ -1,5 +1,13 @@
 # @serenityjs/plugins
 
+## 0.1.1
+
+### Patch Changes
+
+- 90151cc: test
+- Updated dependencies [90151cc]
+  - @serenityjs/logger@0.1.1
+
 ## 0.1.1-beta-20240422191309
 
 ### Patch Changes
