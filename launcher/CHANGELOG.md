@@ -1,5 +1,29 @@
 # @serenityjs/launcher
 
+## 0.2.0
+
+### Minor Changes
+
+- ce64b7e: Initilize next release
+
+### Patch Changes
+
+- Updated dependencies [ce64b7e]
+  - @serenityjs/block@0.2.0
+  - @serenityjs/command@0.2.0
+  - @serenityjs/data@0.2.0
+  - @serenityjs/emitter@0.2.0
+  - @serenityjs/entity@0.2.0
+  - @serenityjs/item@0.2.0
+  - @serenityjs/logger@0.2.0
+  - @serenityjs/nbt@0.2.0
+  - @serenityjs/network@0.2.0
+  - @serenityjs/plugins@0.2.0
+  - @serenityjs/protocol@0.2.0
+  - @serenityjs/raknet@0.2.0
+  - @serenityjs/server-ui@0.2.0
+  - @serenityjs/world@0.2.0
+
 ## 0.1.4
 
 ### Patch Changes
