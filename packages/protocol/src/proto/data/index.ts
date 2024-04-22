@@ -11,6 +11,7 @@ export * from "./resource-packs-info";
 export * from "./resource-pack-stack";
 export * from "./resource-pack-client-response";
 export * from "./text";
+export * from "./set-time";
 export * from "./start-game";
 export * from "./add-player";
 export * from "./add-entity";

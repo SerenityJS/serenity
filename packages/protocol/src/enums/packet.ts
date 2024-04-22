@@ -10,6 +10,7 @@ enum Packet {
 	ResourcePackStack = 0x07, // 7
 	ResourcePackClientResponse = 0x08, // 8
 	Text = 0x09, // 9
+	SetTime = 0x0a, // 10
 	StartGame = 0x0b, // 11
 	AddPlayer = 0x0c, // 12
 	AddEntity = 0x0d, // 13 // TODO: Rename this to AddActor

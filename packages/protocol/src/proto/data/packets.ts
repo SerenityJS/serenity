@@ -65,6 +65,7 @@ import { UpdateAbilitiesPacket } from "./update-abilities";
 import { UpdateAdventureSettingsPacket } from "./update-adventure-settings";
 import { UpdateAttributesPacket } from "./update-attributes";
 import { UpdateBlockPacket } from "./update-block";
+import { SetTimePacket } from "./set-time";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -74,6 +75,7 @@ const Packets = {
 	[Packet.ResourcePackStack]: ResourcePackStackPacket, // 7
 	[Packet.ResourcePackClientResponse]: ResourcePackClientResponsePacket, // 8
 	[Packet.Text]: TextPacket, // 9
+	[Packet.SetTime]: SetTimePacket, // 10
 	[Packet.StartGame]: StartGamePacket, // 11
 	[Packet.AddPlayer]: AddPlayerPacket, // 12
 	[Packet.AddEntity]: AddEntityPacket, // 13

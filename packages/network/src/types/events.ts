@@ -63,7 +63,8 @@ import type {
 	UpdateAbilitiesPacket,
 	UpdateAdventureSettingsPacket,
 	UpdateAttributesPacket,
-	UpdateBlockPacket
+	UpdateBlockPacket,
+	SetTimePacket
 } from "@serenityjs/protocol";
 
 /**
@@ -79,6 +80,7 @@ interface NetworkEvents {
 		NetworkPacketEvent<ResourcePackClientResponsePacket>
 	];
 	[Packet.Text]: [NetworkPacketEvent<TextPacket>];
+	[Packet.SetTime]: [NetworkPacketEvent<SetTimePacket>];
 	[Packet.StartGame]: [NetworkPacketEvent<StartGamePacket>];
 	[Packet.AddPlayer]: [NetworkPacketEvent<AddPlayerPacket>];
 	[Packet.AddEntity]: [NetworkPacketEvent<AddEntityPacket>];
