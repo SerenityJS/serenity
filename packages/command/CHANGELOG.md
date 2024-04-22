@@ -1,5 +1,14 @@
 # @serenityjs/command
 
+## 0.1.4
+
+### Patch Changes
+
+- 64e446d: test
+- Updated dependencies [64e446d]
+  - @serenityjs/logger@0.1.4
+  - @serenityjs/network@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
