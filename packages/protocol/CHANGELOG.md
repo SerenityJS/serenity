@@ -1,5 +1,14 @@
 # @serenityjs/protocol
 
+## 0.1.1-beta-20240422191309
+
+### Patch Changes
+
+- Beta release
+- Updated dependencies
+  - @serenityjs/nbt@0.1.1-beta-20240422191309
+  - @serenityjs/raknet@0.1.1-beta-20240422191309
+
 ## 0.1.0
 
 ### Patch Changes

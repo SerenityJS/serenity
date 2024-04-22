@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/jest-presets",
-  "version": "0.1.0",
+  "version": "0.1.1-beta-20240422191309",
   "repository": "https://github.com/SerenityJS/serenity",
   "license": "MIT",
   "dependencies": {
