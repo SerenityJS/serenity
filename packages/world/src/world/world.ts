@@ -1,6 +1,7 @@
 import {
 	type DataPacket,
 	type DimensionType,
+	SetTimePacket,
 	TextPacket,
 	TextPacketType
 } from "@serenityjs/protocol";
@@ -46,6 +47,11 @@ class World {
 	public currentTick = 0n;
 
 	/**
+	 * The current time of the world.
+	 */
+	public dayTime = 0;
+
+	/**
 	 * Creates a new world.
 	 *
 	 * @param identifier The identifier of the world.
@@ -69,6 +75,10 @@ class World {
 
 		// Add one to the current tick
 		this.currentTick++;
+
+		// Increment the day time
+		// Day time is 24000 ticks long
+		this.dayTime = (this.dayTime + 1) % 24_000;
 
 		// Tick all the dimensions
 		for (const dimension of this.dimensions.values()) dimension.tick();
@@ -182,6 +192,32 @@ class World {
 		packet.parameters = null;
 		packet.xuid = "";
 		packet.platformChatId = "";
+
+		// Broadcast the packet
+		this.broadcast(packet);
+	}
+
+	/**
+	 * Gets the time of the world.
+	 *
+	 * @returns The time of the world.
+	 */
+	public getTime(): number {
+		return this.dayTime;
+	}
+
+	/**
+	 * Sets the time of the world.
+	 *
+	 * @param time The time to set.
+	 */
+	public setTime(time: number): void {
+		// Make sure the time is within the bounds
+		this.dayTime = time % 24_000;
+
+		// Broadcast the time change
+		const packet = new SetTimePacket();
+		packet.time = this.dayTime;
 
 		// Broadcast the packet
 		this.broadcast(packet);

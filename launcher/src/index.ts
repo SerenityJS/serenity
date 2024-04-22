@@ -10,7 +10,7 @@ import {
 	TargetEnum
 } from "@serenityjs/world";
 import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
-import { StringEnum } from "@serenityjs/command";
+import { IntegerEnum, StringEnum } from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Serenity } from "./serenity";

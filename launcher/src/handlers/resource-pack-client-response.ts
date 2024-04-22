@@ -155,7 +155,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.editorWorldType = 0;
 				packet.createdInEdior = false;
 				packet.exportedFromEdior = false;
-				packet.dayCycleStopTime = 0;
+				packet.dayCycleStopTime = player.dimension.world.dayTime;
 				packet.eduOffer = 0;
 				packet.eduFeatures = false;
 				packet.eduProductUuid = "";
