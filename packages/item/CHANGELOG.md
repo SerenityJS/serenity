@@ -1,5 +1,16 @@
 # @serenityjs/item
 
+## 0.1.4
+
+### Patch Changes
+
+- 64e446d: test
+- Updated dependencies [64e446d]
+  - @serenityjs/block@0.1.4
+  - @serenityjs/data@0.1.4
+  - @serenityjs/nbt@0.1.4
+  - @serenityjs/protocol@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
