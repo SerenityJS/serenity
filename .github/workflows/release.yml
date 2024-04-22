@@ -8,8 +8,6 @@ on:
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
 
-permissions: write-all
-
 env:
     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -51,11 +49,15 @@ jobs:
                       Congratulations on the new release! 🎉
                       This is an automated commit triggered by the `release` workflow.
                   title: "chore(release): release packages"
-              
-            - name: Create Beta Release
+
+            - name: Create Unstable Release
               if: steps.changesets.outputs.published != 'true'
-              uses: changesets/action@v1
-              with:
-                createGithubReleases: false
-                version: yarn run version:beta
-                publish: yarn run release:beta
+              run: |
+                  git checkout develop
+                  echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+                  yarn run version:unstable
+                  yarn run release:unstable
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
