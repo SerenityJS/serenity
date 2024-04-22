@@ -39,7 +39,7 @@ jobs:
               id: changesets
               uses: changesets/action@v1
               with:
-                  createGithubReleases: true
+                  createGithubReleases: false
                   version: yarn run version
                   publish: yarn run release
                   setupGitUser: true
