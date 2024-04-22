@@ -50,13 +50,13 @@ jobs:
                       This is an automated commit triggered by the `release` workflow.
                   title: "chore(release): release packages"
 
-            - name: Create Unstable Release
+            - name: Create Beta Release
               if: steps.changesets.outputs.published != 'true'
               run: |
                   git checkout develop
                   echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-                  yarn run version:unstable
-                  yarn run release:unstable
+                  yarn run version:beta
+                  yarn run release:beta
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
