@@ -1,5 +1,14 @@
 # @serenityjs/server-ui
 
+## 0.1.0
+
+### Patch Changes
+
+- 1daf888: Release test
+- Updated dependencies [1daf888]
+  - @serenityjs/protocol@0.1.0
+  - @serenityjs/world@0.1.0
+
 ## 0.1.0-beta-20240422171939
 
 ### Minor Changes
