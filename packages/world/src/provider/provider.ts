@@ -1,5 +1,5 @@
-import { Chunk } from "../chunk";
-import { Dimension } from "../world";
+import type { Chunk } from "../chunk";
+import type { Dimension } from "../world";
 
 class WorldProvider {
 	/**

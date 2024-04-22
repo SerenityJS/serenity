@@ -27,7 +27,7 @@ class InternalProvider extends WorldProvider {
 		}
 
 		// Get the dimension chunks.
-		const chunks = this.chunks.get(dimension.identifier)!;
+		const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
 
 		// Check if the chunks contain the chunk hash.
 		if (!chunks.has(Chunk.getHash(cx, cz))) {
@@ -38,7 +38,7 @@ class InternalProvider extends WorldProvider {
 		}
 
 		// Return the chunk.
-		return chunks.get(Chunk.getHash(cx, cz))!;
+		return chunks.get(Chunk.getHash(cx, cz)) as Chunk;
 	}
 
 	public override writeChunk(chunk: Chunk, dimension: Dimension): void {
@@ -48,7 +48,7 @@ class InternalProvider extends WorldProvider {
 		}
 
 		// Get the dimension chunks.
-		const chunks = this.chunks.get(dimension.identifier)!;
+		const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
 
 		// Set the chunk.
 		chunks.set(Chunk.getHash(chunk.x, chunk.z), chunk);

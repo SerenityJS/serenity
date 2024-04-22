@@ -123,7 +123,8 @@ class ResourcePackManager {
 		}
 
 		// No need to continue if there are no resource packs selected
-		if (this.selectedResourcePacks.length === 0) return;
+		if (!this.selectedResourcePacks || this.selectedResourcePacks.length === 0)
+			return;
 
 		// First get the UUIDs of all installed resource packs
 		const installedFolders = readdirSync(this.resourcePacksFolderPath);
