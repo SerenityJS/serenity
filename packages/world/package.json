@@ -30,6 +30,7 @@
 	"dependencies": {
 		"@serenityjs/binarystream": "^2.5.2",
 		"@serenityjs/block": "workspace:*",
+		"@serenityjs/command": "workspace:*",
 		"@serenityjs/data": "workspace:*",
 		"@serenityjs/emitter": "workspace:*",
 		"@serenityjs/entity": "workspace:*",

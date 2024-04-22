@@ -8,8 +8,8 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.CommandRequest)
 class CommandRequestPacket extends DataPacket {
-	@Serialize(VarString) public rawCommand!: string;
-	@Serialize(CommandOriginData) public originData!: CommandOriginData;
+	@Serialize(VarString) public command!: string;
+	@Serialize(CommandOriginData) public origin!: CommandOriginData;
 	@Serialize(Bool) public isInternal!: boolean;
 	@Serialize(VarInt) public version!: number;
 }

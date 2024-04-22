@@ -2,7 +2,6 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import { RaknetServer } from "@serenityjs/raknet";
 import { Network, type NetworkSession } from "@serenityjs/network";
 import { type Player, World, type WorldProvider } from "@serenityjs/world";
-import { Commands } from "@serenityjs/command";
 import Emitter from "@serenityjs/emitter";
 import { Plugins } from "@serenityjs/plugins";
 
@@ -51,11 +50,6 @@ class Serenity extends Emitter<EventSignals> {
 	 * The resource pack manager instance
 	 */
 	public readonly resourcePacks: ResourcePackManager;
-
-	/**
-	 * The commands instance
-	 */
-	public readonly commands: Commands;
 
 	/**
 	 * A collective registry of all events.
@@ -114,7 +108,6 @@ class Serenity extends Emitter<EventSignals> {
 
 		this.players = new Map();
 		this.worlds = new Map();
-		this.commands = new Commands();
 		this.events = new Map();
 
 		this.resourcePacks = new ResourcePackManager(

@@ -1,6 +1,5 @@
 import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
 
 class EnumConstraints extends DataType {
 	public valueIndex: number;
@@ -29,8 +28,8 @@ class EnumConstraints extends DataType {
 		// Reading the string from the stream.
 		for (let index = 0; index < amount; index++) {
 			// Read the fields and push it to the array.
-			const valueIndex = stream.readInt32();
-			const enumIndex = stream.readInt32();
+			const valueIndex = stream.readUint32(Endianness.Little);
+			const enumIndex = stream.readUint32(Endianness.Little);
 
 			// Prepare an array to store the values.
 			const constaints: Array<number> = [];
@@ -55,15 +54,23 @@ class EnumConstraints extends DataType {
 		stream: BinaryStream,
 		value: Array<EnumConstraints>
 	): void {
-		// Write the number of enums given in the array.
+		// Write the number of EnumConstraints
 		stream.writeVarInt(value.length);
 
-		// Write all the enums to the stream.
-		for (const { valueIndex, enumIndex, constaints } of value) {
-			stream.writeInt32(valueIndex);
-			stream.writeInt32(enumIndex);
-			stream.writeVarInt(constaints.length);
-			for (const constraint of constaints) stream.writeUint8(constraint);
+		// We then loop through the EnumConstraints
+		// Writing the string to the stream.
+		for (const enumConstraints of value) {
+			stream.writeUint32(enumConstraints.valueIndex, Endianness.Little);
+			stream.writeUint32(enumConstraints.enumIndex, Endianness.Little);
+
+			// Write the number of constaints
+			stream.writeVarInt(enumConstraints.constaints.length);
+
+			// We then loop through the constaints
+			// Writing the string to the stream.
+			for (const constaint of enumConstraints.constaints) {
+				stream.writeUint8(constaint);
+			}
 		}
 	}
 }

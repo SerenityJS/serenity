@@ -9,21 +9,50 @@ interface CommandsOverload {
 }
 
 interface OverloadParameter {
-	enumType: number;
+	symbol: number;
 	name: string;
 	optional: boolean;
 	options: number;
-	valueType: number;
 }
 
+/**
+ * Represents the commands of a available command packet.
+ */
 class Commands extends DataType {
-	public name: string;
-	public description: string;
-	public flags: number;
-	public permissionLevel: number;
-	public alias: number;
-	public subcommands: Array<number>;
-	public overloads: Array<CommandsOverload>;
+	/**
+	 * The name of the command.
+	 */
+	public readonly name: string;
+
+	/**
+	 * The description of the command.
+	 */
+	public readonly description: string;
+
+	/**
+	 * The flags of the command. Setting this value to 1 will make the command blue.
+	 */
+	public readonly flags: number;
+
+	/**
+	 * The permission level of the command.
+	 */
+	public readonly permissionLevel: number;
+
+	/**
+	 * The alias of the command.
+	 */
+	public readonly alias: number;
+
+	/**
+	 * The subcommands of the command.
+	 */
+	public readonly subcommands: Array<number>;
+
+	/**
+	 * The overloads of the command.
+	 */
+	public readonly overloads: Array<CommandsOverload>;
 
 	public constructor(
 		name: string,
@@ -92,12 +121,11 @@ class Commands extends DataType {
 				for (let k = 0; k < parametersAmount; k++) {
 					// Read the parameter and push it to the array.
 					const name = stream.readVarString();
-					const valueType = stream.readUint16(Endianness.Little);
-					const enumType = stream.readUint16(Endianness.Little);
+					const symbol = stream.readUint32(Endianness.Little);
 					const optional = stream.readBool();
 					const options = stream.readUint8();
 
-					parameters.push({ enumType, name, optional, options, valueType });
+					parameters.push({ symbol, name, optional, options });
 				}
 
 				overloads.push({ chaining, parameters });
@@ -143,35 +171,19 @@ class Commands extends DataType {
 			stream.writeUint8(permissionLevel);
 			stream.writeInt32(alias, Endianness.Little);
 
-			// Write the number of subcommands given in the array.
 			stream.writeVarInt(subcommands.length);
-
-			// Write all the subcommands to the stream.
 			for (const subcommand of subcommands) {
 				stream.writeUint16(subcommand, Endianness.Little);
 			}
 
-			// Write the number of overloads given in the array.
 			stream.writeVarInt(overloads.length);
-
-			// Write all the overloads to the stream.
 			for (const { chaining, parameters } of overloads) {
 				stream.writeBool(chaining);
 
-				// Write the number of parameters given in the array.
 				stream.writeVarInt(parameters.length);
-
-				// Write all the parameters to the stream.
-				for (const {
-					enumType,
-					name,
-					optional,
-					options,
-					valueType
-				} of parameters) {
+				for (const { name, symbol, optional, options } of parameters) {
 					stream.writeVarString(name);
-					stream.writeUint16(valueType, Endianness.Little);
-					stream.writeUint16(enumType, Endianness.Little);
+					stream.writeUint32(symbol, Endianness.Little);
 					stream.writeBool(optional);
 					stream.writeUint8(options);
 				}

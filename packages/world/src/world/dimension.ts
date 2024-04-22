@@ -5,6 +5,7 @@ import {
 	TextPacketType,
 	Vector3f
 } from "@serenityjs/protocol";
+import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { Entity } from "../entity";
 import { Player } from "../player";
@@ -105,6 +106,33 @@ class Dimension {
 	}
 
 	/**
+	 * Executes a command in the dimension.
+	 *
+	 * @param command The command to execute.
+	 * @returns The result of the command.
+	 */
+	public executeCommand(command: string): CommandResult | undefined {
+		// Check if the command doesnt start with /
+		// If so, add it
+		if (!command.startsWith("/")) command = `/${command}`;
+
+		// Create a new command execute state
+		const state = new CommandExecutionState(this.world.commands, command, this);
+
+		// Try and execute the command
+		try {
+			// Return the result of the command
+			return state.execute();
+		} catch (reason) {
+			// Log the error to the console
+			this.world.logger.error(
+				`Failed to execute command '${command}' for dimension '${this.identifier}':`,
+				reason
+			);
+		}
+	}
+
+	/**
 	 * Gets all the players in the dimension.
 	 */
 	public getPlayers(): Array<Player> {
@@ -117,9 +145,7 @@ class Dimension {
 	 * Gets all the entities in the dimension.
 	 */
 	public getEntities(): Array<Entity> {
-		return [...this.entities.values()].filter(
-			(entity) => !(entity instanceof Player)
-		) as Array<Player>;
+		return [...this.entities.values()];
 	}
 
 	/**

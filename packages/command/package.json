@@ -29,6 +29,6 @@
 	},
 	"dependencies": {
 		"@serenityjs/logger": "workspace:*",
-		"@serenityjs/world": "workspace:*"
+		"@serenityjs/network": "workspace:*"
 	}
 }

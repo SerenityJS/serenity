@@ -3,21 +3,25 @@ import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
 import {
+	ChainedSubcommandValues,
 	Commands,
 	DynamicEnums,
 	EnumConstraints,
 	Enums,
-	Subcommands,
-	VarStringArray as VariableStringArray
+	EnumValues,
+	PostFixes,
+	Subcommands
 } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.AvailableCommands)
 class AvailableCommandsPacket extends DataPacket {
-	@Serialize(VariableStringArray) public enumValues!: Array<string>;
-	@Serialize(VariableStringArray) public subcommandValues!: Array<string>;
-	@Serialize(VariableStringArray) public suffixes!: Array<string>;
+	@Serialize(EnumValues) public enumValues!: Array<string>;
+	@Serialize(ChainedSubcommandValues)
+	public chainedSubcommandValues!: Array<string>;
+
+	@Serialize(PostFixes) public postFixes!: Array<string>;
 	@Serialize(Enums, Endianness.Little, "enumValues")
 	public enums!: Array<Enums>;
 

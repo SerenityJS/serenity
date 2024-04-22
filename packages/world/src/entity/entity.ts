@@ -7,6 +7,7 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
+import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { CardinalDirection } from "../enums";
 import {
@@ -108,6 +109,44 @@ class Entity {
 	 */
 	public isPlayer(): this is Player {
 		return this.type.identifier === EntityIdentifier.Player;
+	}
+
+	/**
+	 * Executes a command on the entity.
+	 * @param command The command to execute.
+	 * @returns The result of the command.
+	 */
+	public executeCommand(command: string): CommandResult | undefined {
+		// Check if the command doesnt start with /
+		// If so, add it
+		if (!command.startsWith("/")) command = `/${command}`;
+
+		// Create a new command execute state
+		const state = new CommandExecutionState(
+			this.dimension.world.commands,
+			command,
+			this
+		);
+
+		// Try and execute the command
+		try {
+			// Return the result of the command
+			return state.execute();
+		} catch (reason) {
+			// Check if the entity is a player
+			if (this.isPlayer()) {
+				this.dimension.world.logger.error(
+					`Failed to execute command '${command}' for player '${this.username}':`,
+					reason
+				);
+			} else {
+				// Log the error to the console
+				this.dimension.world.logger.error(
+					`Failed to execute command '${command}' for ${this.type.identifier} entity '${this.unique}':`,
+					reason
+				);
+			}
+		}
 	}
 
 	/**

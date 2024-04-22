@@ -1870,8 +1870,8 @@ __metadata:
     "@serenityjs/eslint-config": "workspace:*"
     "@serenityjs/jest-presets": "workspace:*"
     "@serenityjs/logger": "workspace:*"
+    "@serenityjs/network": "workspace:*"
     "@serenityjs/typescript-config": "workspace:*"
-    "@serenityjs/world": "workspace:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2136,6 +2136,7 @@ __metadata:
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
     "@serenityjs/block": "workspace:*"
+    "@serenityjs/command": "workspace:*"
     "@serenityjs/data": "workspace:*"
     "@serenityjs/emitter": "workspace:*"
     "@serenityjs/entity": "workspace:*"

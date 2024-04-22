@@ -5,6 +5,7 @@ import {
 	TextPacketType
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
+import { Commands } from "@serenityjs/command";
 
 import { Dimension } from "./dimension";
 
@@ -30,6 +31,11 @@ class World {
 	public readonly dimensions: Map<string, Dimension>;
 
 	/**
+	 * The commands for the world.
+	 */
+	public readonly commands: Commands<Entity | Dimension>;
+
+	/**
 	 * The logger for the world.
 	 */
 	public readonly logger: Logger;
@@ -50,6 +56,7 @@ class World {
 		this.identifier = identifier;
 		this.provider = provider;
 		this.dimensions = new Map();
+		this.commands = new Commands();
 		this.logger = new Logger(identifier, LoggerColors.GreenBright);
 	}
 

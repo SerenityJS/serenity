@@ -3,8 +3,15 @@ export * from "./handlers";
 export * from "./properties";
 export * from "./events";
 
-import { InternalProvider, Superflat } from "@serenityjs/world";
-import { DimensionType } from "@serenityjs/protocol";
+import {
+	EntityNametagComponent,
+	InternalProvider,
+	Superflat,
+	TargetEnum
+} from "@serenityjs/world";
+import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
+import { StringEnum } from "@serenityjs/command";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Serenity } from "./serenity";
 
@@ -30,3 +37,70 @@ world.createDimension(
 );
 
 serenity.start();
+
+world.commands.register("about", "Get information about the server.", () => {
+	return {
+		message:
+			"This server is running SerenityJS. (MCBE: 1.20.73) (Protocol: 662)"
+	};
+});
+
+world.commands.register(
+	"tps",
+	"Get the current server ticks per second.",
+	() => {
+		return {
+			message: `Current TPS: ${serenity.tps}`
+		};
+	},
+	{},
+	{
+		special: true
+	}
+);
+
+world.commands.register(
+	"rename",
+	"Rename an entity.",
+	(_, { target, name }) => {
+		// Loop through the target entities.
+		for (const entity of target.result) {
+			// Check if the entity has a nametag component.
+			if (entity.components.has("minecraft:nametag")) {
+				// Get the nametag component.
+				const nametag = entity.getComponent("minecraft:nametag");
+
+				// Set the nametag to the new name.
+				nametag.setCurrentValue(name.result);
+			} else {
+				// Create a new nametag component.
+				const nametag = new EntityNametagComponent(entity);
+
+				// Set the nametag to the new name.
+				nametag.setCurrentValue(name.result);
+			}
+		}
+
+		return {
+			message: `Renamed ${target.result.length} entities to ${name.result}.`
+		};
+	},
+	{
+		target: TargetEnum,
+		name: StringEnum
+	}
+);
+
+serenity.network.on(Packet.BlockPickRequest, (data) => {
+	const player = serenity.getPlayer(data.session);
+	if (!player) return;
+
+	const { x, y, z } = data.packet;
+
+	const entity = player.dimension.spawnEntity(
+		EntityIdentifier.Npc,
+		new Vector3f(x, y, z)
+	);
+
+	entity.executeCommand('rename @s "Hello, World!"');
+});

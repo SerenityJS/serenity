@@ -1,4 +1,5 @@
 import { CommandRequestPacket } from "@serenityjs/protocol";
+import { CommandExecutionState } from "@serenityjs/command";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -16,10 +17,31 @@ class CommandRequest extends SerenityHandler {
 		const player = this.serenity.getPlayer(session);
 		if (!player) return;
 
-		const rawCommand = packet.rawCommand.slice(1);
+		// Get the command from the packet
+		const state = new CommandExecutionState(
+			player.dimension.world.commands,
+			packet.command,
+			player
+		);
 
-		// Execute command
-		void this.serenity.commands.dispatchCommand(player, rawCommand);
+		// TODO: Implement permission checks
+		// The state will return the command entry, which contains the permission level
+
+		// Try to execute the command
+		try {
+			// Execute the command
+			const result = state.execute();
+			if (!result) return;
+
+			// Send the result message to the player, if any.
+			if (result.message) player.sendMessage(`§7${result.message}§r`);
+		} catch (reason) {
+			if (reason instanceof TypeError) {
+				player.sendMessage(`§cType Error: ${(reason as Error).message}§r`);
+			} else {
+				player.sendMessage(`§cSyntax Error: ${(reason as Error).message}§r`);
+			}
+		}
 	}
 }
 

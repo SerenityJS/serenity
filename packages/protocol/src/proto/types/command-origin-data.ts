@@ -1,5 +1,6 @@
-import { type BinaryStream } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 enum CommandOriginDataTypes {
 	ORIGIN_PLAYER,

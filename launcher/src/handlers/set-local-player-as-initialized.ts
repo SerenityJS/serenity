@@ -1,10 +1,8 @@
 import {
 	AvailableCommandsPacket,
-	Commands,
 	DisconnectReason,
 	PermissionLevel,
-	SetLocalPlayerAsInitializedPacket,
-	CommandParameterType
+	SetLocalPlayerAsInitializedPacket
 } from "@serenityjs/protocol";
 import {
 	EntityAlwaysShowNametagComponent,
@@ -78,80 +76,102 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 
 		const commands = new AvailableCommandsPacket();
 
-		const avaliableCommands = [];
-		for (const [name, command] of this.serenity.commands
-			.getCommands()
-			.entries()) {
-			const commandName = name.includes(":") ? name.split(":")[1] : name;
-
-			avaliableCommands.push(
-				new Commands(
-					commandName as string,
-					command.description,
-					0,
-					PermissionLevel.Member,
-					CommandParameterType.Command,
-					[],
-					[
-						{
-							chaining: false,
-							parameters: [
-								{
-									enumType: 0x10,
-									name: "args",
-									optional: true,
-									options: 0,
-									valueType: CommandParameterType.RawText
-								}
-							]
-						}
-					]
-				)
-			);
-		}
-
 		commands.commands = [
-			{
-				name: "test",
-				description: "Test command",
-				permissionLevel: PermissionLevel.Member,
+			...player.dimension.world.commands.entries.values()
+		].map((command) => {
+			return {
+				name: command.name,
+				description: command.description,
+				permissionLevel: command.permission ?? PermissionLevel.Member,
 				subcommands: [],
-				flags: 87,
+				flags: command.special ? 1 : 0,
+				alias: -1,
 				overloads: [
 					{
 						chaining: false,
-						parameters: [
-							{
-								enumType: 0x10,
-								name: "param",
-								optional: false,
-								options: 0,
-								valueType: CommandParameterType.RawText
-							},
-							{
-								enumType: 0x10,
-								name: "param2",
-								optional: false,
-								options: 0,
-								valueType: CommandParameterType.Target
-							}
-						]
-					}
-				],
-				alias: 0
-			},
-			...avaliableCommands
-		];
+						parameters: Object.entries(command.parameters).map(
+							([name, value]) => {
+								// Get the parameter constuctor by checking if the value is an array.
+								const { symbol } = Array.isArray(value) ? value[0] : value;
 
-		commands.subcommandValues = [];
+								// Check if the parameter is optional.
+								const optional = Array.isArray(value) ? value[1] : false;
+
+								return {
+									symbol,
+									name,
+									optional,
+									options: 0
+								};
+							}
+						)
+					}
+				]
+				// overloads: [
+				// 	{
+				// 		chaining: false,
+				// 		parameters: [
+				// 			{
+				// 				valueType: 4,
+				// 				enumType: 0x10,
+				// 				name: "param",
+				// 				optional: false,
+				// 				options: 0
+				// 			},
+				// 			{
+				// 				valueType: 4,
+				// 				enumType: 0x10,
+				// 				name: "param2",
+				// 				optional: false,
+				// 				options: 0
+				// 			}
+				// 		]
+				// 	}
+				// ]
+			};
+		});
+
+		commands.chainedSubcommandValues = [];
 		commands.subcommands = [];
 		commands.dynamicEnums = [];
 		commands.enumConstraints = [];
 		commands.enumValues = [];
 		commands.enums = [];
-		commands.suffixes = [];
+		commands.postFixes = [];
+		// 	{
+		// 		name: "test",
+		// 		description: "Test command",
+		// 		permissionLevel: PermissionLevel.Member,
+		// 		subcommands: [],
+		// 		flags: 0,
+		// 		alias: -1,
+		// 		overloads: [
+		// 			{
+		// 				chaining: false,
+		// 				parameters: [
+		// 					{
+		// 						valueType: 44,
+		// 						enumType: 16,
+		// 						name: "name",
+		// 						optional: false,
+		// 						options: 0
+		// 					}
+		// 				]
+		// 			}
+		// 		]
+		// 	}
+		// 	// ...avaliableCommands
+		// ];
 
-		session.send(commands);
+		// commands.chainedSubcommandValues = [];
+		// commands.subcommands = [];
+		// commands.dynamicEnums = [];
+		// commands.enumConstraints = [];
+		// commands.enumValues = [];
+		// commands.enums = [];
+		// commands.postFixes = [];
+
+		session.sendImmediate(commands);
 	}
 }
 
