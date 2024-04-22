@@ -1,5 +1,11 @@
 # @serenityjs/jest-presets
 
+## 0.1.2
+
+### Patch Changes
+
+- Test release
+
 ## 0.1.2-beta-20240422200120
 
 ### Patch Changes

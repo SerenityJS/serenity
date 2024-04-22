@@ -1,5 +1,14 @@
 # @serenityjs/block
 
+## 0.1.2
+
+### Patch Changes
+
+- Test release
+- Updated dependencies
+  - @serenityjs/data@0.1.2
+  - @serenityjs/nbt@0.1.2
+
 ## 0.1.2-beta-20240422200120
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @serenityjs/network
 
+## 0.1.2
+
+### Patch Changes
+
+- Test release
+- Updated dependencies
+  - @serenityjs/emitter@0.1.2
+  - @serenityjs/logger@0.1.2
+  - @serenityjs/protocol@0.1.2
+  - @serenityjs/raknet@0.1.2
+
 ## 0.1.2-beta-20240422200120
 
 ### Patch Changes
