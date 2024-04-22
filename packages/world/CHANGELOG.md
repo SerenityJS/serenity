@@ -1,5 +1,22 @@
 # @serenityjs/world
 
+## 0.1.0
+
+### Patch Changes
+
+- 1daf888: Release test
+- Updated dependencies [1daf888]
+  - @serenityjs/block@0.1.0
+  - @serenityjs/command@0.1.0
+  - @serenityjs/data@0.1.0
+  - @serenityjs/emitter@0.1.0
+  - @serenityjs/entity@0.1.0
+  - @serenityjs/item@0.1.0
+  - @serenityjs/logger@0.1.0
+  - @serenityjs/nbt@0.1.0
+  - @serenityjs/network@0.1.0
+  - @serenityjs/protocol@0.1.0
+
 ## 0.1.0-beta-20240422171939
 
 ### Minor Changes
