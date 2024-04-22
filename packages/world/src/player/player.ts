@@ -226,14 +226,24 @@ class Player extends Entity {
 	}
 
 	/**
+	 * Despawns the player from the world.
+	 * @param player The player to despawn the player from.
+	 */
+	public hasComponent<T extends keyof PlayerComponents>(
+		identifier: T
+	): boolean {
+		return this.components.has(identifier) as boolean;
+	}
+
+	/**
 	 * Gets a component from the player.
 	 * @param component The component to get.
 	 * @returns The component that was found.
 	 */
 	public getComponent<T extends keyof PlayerComponents>(
-		component: T
+		identifier: T
 	): PlayerComponents[T] {
-		return this.components.get(component) as PlayerComponents[T];
+		return this.components.get(identifier) as PlayerComponents[T];
 	}
 
 	/**
@@ -258,8 +268,10 @@ class Player extends Entity {
 	 * Removes a component from the player.
 	 * @param component The component to remove.
 	 */
-	public removeComponent<T extends keyof PlayerComponents>(component: T): void {
-		this.components.delete(component);
+	public removeComponent<T extends keyof PlayerComponents>(
+		identifier: T
+	): void {
+		this.components.delete(identifier);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-import {
+import type {
 	PlayerAttackMobsComponent,
 	PlayerAttackPlayersComponent,
 	PlayerBuildComponent,
@@ -21,8 +21,7 @@ import {
 	PlayerWalkSpeedComponent,
 	PlayerWorldBuilderComponent
 } from "../../components";
-
-import { EntityComponents } from "./entity";
+import type { EntityComponents } from "./entity";
 
 interface PlayerAbilityComponents {
 	"minecraft:ability.attack_mobs": PlayerAttackMobsComponent;
