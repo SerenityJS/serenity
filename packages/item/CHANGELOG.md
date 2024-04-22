@@ -1,5 +1,16 @@
 # @serenityjs/item
 
+## 0.1.3
+
+### Patch Changes
+
+- test
+- Updated dependencies
+  - @serenityjs/block@0.1.3
+  - @serenityjs/data@0.1.3
+  - @serenityjs/nbt@0.1.3
+  - @serenityjs/protocol@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @serenityjs/raknet
 
+## 0.1.3
+
+### Patch Changes
+
+- test
+- Updated dependencies
+  - @serenityjs/emitter@0.1.3
+  - @serenityjs/logger@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes
