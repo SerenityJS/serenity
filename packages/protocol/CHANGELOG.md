@@ -1,5 +1,17 @@
 # @serenityjs/protocol
 
+## 0.2.0
+
+### Minor Changes
+
+- ce64b7e: Initilize next release
+
+### Patch Changes
+
+- Updated dependencies [ce64b7e]
+  - @serenityjs/nbt@0.2.0
+  - @serenityjs/raknet@0.2.0
+
 ## 0.1.4
 
 ### Patch Changes
