@@ -214,6 +214,17 @@ class Entity {
 	}
 
 	/**
+	 * Checks if the entity has a component.
+	 * @param identifier The identifier of the component.
+	 * @returns Whether or not the entity has the component.
+	 */
+	public hasComponent<T extends keyof EntityComponents>(
+		identifier: T
+	): boolean {
+		return this.components.has(identifier);
+	}
+
+	/**
 	 * Gets a component from the entity.
 	 * @param identifier The identifier of the component.
 	 * @returns The component that was found.
