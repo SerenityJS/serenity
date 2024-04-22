@@ -41,7 +41,7 @@ jobs:
               id: changesets
               uses: changesets/action@v1
               with:
-                  createGithubReleases: false
+                  createGithubReleases: true
                   version: yarn run version
                   publish: yarn run release
                   setupGitUser: true
@@ -51,14 +51,11 @@ jobs:
                       Congratulations on the new release! 🎉
                       This is an automated commit triggered by the `release` workflow.
                   title: "chore(release): release packages"
-
+              
             - name: Create Beta Release
               if: steps.changesets.outputs.published != 'true'
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  git checkout develop
-                  yarn run version:beta
-                  yarn run release:beta
+              uses: changesets/action@v1
+              with:
+                createGithubReleases: false
+                version: yarn run version:beta
+                publish: yarn run release:beta
