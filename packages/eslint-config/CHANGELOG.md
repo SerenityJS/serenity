@@ -1,5 +1,11 @@
 # @serenityjs/eslint-config
 
+## 0.1.1
+
+### Patch Changes
+
+- 90151cc: test
+
 ## 0.1.1-beta-20240422191309
 
 ### Patch Changes

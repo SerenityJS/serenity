@@ -1,6 +1,6 @@
 {
 	"name": "@serenityjs/plugins",
-	"version": "0.1.1-beta-20240422191309",
+	"version": "0.1.1",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"repository": "https://github.com/SerenityJS/serenity",
