@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/eslint-config",
-  "version": "0.0.1-beta-20240416023801",
+  "version": "0.1.0-beta-20240422171939",
   "repository": "https://github.com/SerenityJS/serenity",
   "files": [
     "index.js",
