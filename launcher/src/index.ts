@@ -101,8 +101,12 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 
 	const entity = player.dimension.spawnEntity(
 		EntityIdentifier.Npc,
-		new Vector3f(x, y, z)
+		new Vector3f(x, y + 2, z)
 	);
+
+	entity.velocity.x = Math.random() * 4 - 2;
+	entity.velocity.y = Math.random() * 4 - 2;
+	entity.velocity.z = Math.random() * 4 - 2;
 
 	new EntityPhysicsComponent(entity);
 
@@ -116,6 +120,11 @@ world.commands.register("test", "test", (origin) => {
 		EntityIdentifier.Npc,
 		origin.position
 	);
+
+	// Give the entity some random x & z velocity
+	entity.velocity.x = Math.random() * 4 - 2;
+	entity.velocity.y = Math.random() * 4 - 2;
+	entity.velocity.z = Math.random() * 4 - 2;
 
 	new EntityPhysicsComponent(entity);
 

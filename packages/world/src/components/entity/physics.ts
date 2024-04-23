@@ -24,6 +24,7 @@ class EntityPhysicsComponent extends EntityComponent {
 		// Check how many blocks is between the entity and the nearest ground block
 		const { x, y, z } = this.entity.position;
 
+		// Calculate the distance between the entity and the nearest ground block
 		const distance =
 			y -
 			1 -
@@ -33,18 +34,30 @@ class EntityPhysicsComponent extends EntityComponent {
 				Math.round(y)
 			);
 
-		// If the entity is on the ground, set the velocity to 0
-		if (distance <= 0) {
-			this.entity.velocity.y = 0;
-			return;
-		}
-
-		// Calculate the time it takes for the entity to fall to the ground
-		const time = Math.sqrt((2 * distance) / EntityPhysicsComponent.gravity);
-
-		// Update the velocity of the entity is the entity is falling
+		// Check if the entity is falling
+		// And check if the entity is in a block, if so add a small velocity to make the entity move up
 		if (distance > 0) {
-			this.entity.velocity.y = -EntityPhysicsComponent.gravity * time;
+			// Calculate the time it takes for the entity to fall to the ground
+			const time = Math.sqrt((2 * distance) / EntityPhysicsComponent.gravity);
+
+			// Update the velocity of the entity is the entity is falling
+			// While including any previous velocity
+			this.entity.velocity.y =
+				-EntityPhysicsComponent.gravity * time + this.entity.velocity.y;
+		} else if (distance < 0) {
+			// Set the position to a whole number to avoid bouncing
+			this.entity.position.y = this.entity.position.y + Math.abs(distance);
+
+			// Reset the y velocity
+			this.entity.velocity.y = 0;
+		} else {
+			// Reset total velocity
+			this.entity.velocity.y = 0;
+			this.entity.velocity.x = 0;
+			this.entity.velocity.z = 0;
+
+			// Return do to the entity being on the ground
+			return;
 		}
 
 		// Update the entity position
