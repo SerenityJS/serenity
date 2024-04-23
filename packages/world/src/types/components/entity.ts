@@ -1,4 +1,4 @@
-import {
+import type {
 	EntityAlwaysShowNametagComponent,
 	EntityBoundingHeightComponent,
 	EntityBoundingWidthComponent,
@@ -6,6 +6,7 @@ import {
 	EntityHasGravityComponent,
 	EntityHealthComponent,
 	EntityInvetoryComponent,
+	EntityItemComponent,
 	EntityNametagComponent,
 	EntityScaleComponent
 } from "../../components";
@@ -28,6 +29,7 @@ interface EntityMetadataComponents {
 	"minecraft:boundingbox_width": EntityBoundingWidthComponent;
 	"minecraft:boundingbox_height": EntityBoundingHeightComponent;
 	"minecraft:scale": EntityScaleComponent;
+	"minecraft:item": EntityItemComponent;
 }
 
 /**

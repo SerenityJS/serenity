@@ -1,10 +1,11 @@
 import { ContainerId } from "@serenityjs/protocol";
 
 import { EntityContainer } from "../../container";
-import { Entity } from "../../entity";
-import { ItemStack } from "../../item";
 
 import { EntityComponent } from "./entity-component";
+
+import type { Entity } from "../../entity";
+import type { ItemStack } from "../../item";
 
 class EntityInvetoryComponent extends EntityComponent {
 	public readonly identifier = "minecraft:inventory";
