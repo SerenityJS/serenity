@@ -7,7 +7,7 @@ import { EntityComponent } from "./entity-component";
 import type { Entity } from "../../entity";
 import type { ItemStack } from "../../item";
 
-class EntityInvetoryComponent extends EntityComponent {
+class EntityInventoryComponent extends EntityComponent {
 	public readonly identifier = "minecraft:inventory";
 
 	public readonly container: EntityContainer;
@@ -34,4 +34,4 @@ class EntityInvetoryComponent extends EntityComponent {
 	}
 }
 
-export { EntityInvetoryComponent };
+export { EntityInventoryComponent };
