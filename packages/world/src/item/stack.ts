@@ -21,7 +21,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 */
 	public readonly metadata: number;
 
-	public readonly components: Map<string, ItemComponent>;
+	public readonly components: Map<string, ItemComponent<T>>;
 
 	protected _amount: number;
 
@@ -57,17 +57,17 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * @param identifier The identifier of the component.
 	 * @returns The component that was found.
 	 */
-	public getComponent<T extends keyof ItemComponents>(
-		identifier: T
-	): ItemComponents[T] {
-		return this.components.get(identifier) as ItemComponents[T];
+	public getComponent<K extends keyof ItemComponents<T>>(
+		identifier: K
+	): ItemComponents<T>[K] {
+		return this.components.get(identifier) as ItemComponents<T>[K];
 	}
 
 	/**
 	 * Gets all the components of the item.
 	 * @returns All the components of the item.
 	 */
-	public getComponents(): Array<ItemComponent> {
+	public getComponents(): Array<ItemComponent<T>> {
 		return [...this.components.values()];
 	}
 
@@ -75,9 +75,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * Sets a component to the item.
 	 * @param component The component to set.
 	 */
-	public setComponent<T extends keyof ItemComponents>(
-		component: ItemComponents[T]
-	): ItemComponents[T] {
+	public setComponent<K extends keyof ItemComponents<T>>(
+		component: ItemComponents<T>[K]
+	): ItemComponents<T>[K] {
 		this.components.set(component.identifier, component);
 
 		return component;
@@ -87,7 +87,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * Removes a component from the item.
 	 * @param identifier The identifier of the component.
 	 */
-	public removeComponent<T extends keyof ItemComponents>(identifier: T): void {
+	public removeComponent<K extends keyof ItemComponents<T>>(
+		identifier: K
+	): void {
 		this.components.delete(identifier);
 	}
 
