@@ -6,12 +6,15 @@ export * from "./events";
 import {
 	EntityNametagComponent,
 	InternalProvider,
+	ItemStack,
+	Player,
 	Superflat,
 	TargetEnum
 } from "@serenityjs/world";
 import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
 import { StringEnum } from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
+import { ItemIdentifier } from "@serenityjs/item";
 
 import { Serenity } from "./serenity";
 
@@ -103,4 +106,16 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 	);
 
 	entity.executeCommand('rename @s "Hello, World!"');
+});
+
+world.commands.register("test", "test", (origin) => {
+	if (!(origin instanceof Player)) return;
+
+	const item = new ItemStack(ItemIdentifier.Diamond, 32, 0);
+
+	const entity = origin.dimension.spawnItem(item, origin.position);
+
+	console.log(entity);
+
+	return {};
 });

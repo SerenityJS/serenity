@@ -6,13 +6,16 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
 import { Player } from "../player";
 import { Chunk } from "../chunk";
 import { Block } from "../block";
+import { EntityItemComponent } from "../components";
 
-import type { EntityIdentifier } from "@serenityjs/entity";
+import type { Items } from "@serenityjs/item";
+import type { ItemStack } from "../item";
 import type { TerrainGenerator } from "../generator";
 import type { World } from "./world";
 
@@ -314,6 +317,35 @@ class Dimension {
 		entity.spawn();
 
 		// Return the entity
+		return entity;
+	}
+
+	/**
+	 * Spawns an item in the dimension.
+	 *
+	 * @param itemStack The item stack of the item.
+	 * @param position The position of the item.
+	 * @returns The entity that was spawned.
+	 */
+	public spawnItem<T extends keyof Items>(
+		itemStack: ItemStack<T>,
+		position: Vector3f
+	): Entity {
+		// Create a new Entity instance
+		const entity = new Entity(EntityIdentifier.Item, this);
+
+		// Set the entity position
+		entity.position.x = position.x;
+		entity.position.y = position.y;
+		entity.position.z = position.z;
+
+		// Create a new item component, this will register the item to the entity
+		new EntityItemComponent(entity, itemStack);
+
+		// Spawn the item entity
+		entity.spawn();
+
+		// Return the item entity
 		return entity;
 	}
 }

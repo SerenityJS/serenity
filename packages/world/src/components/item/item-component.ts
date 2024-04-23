@@ -1,12 +1,13 @@
 import { Component } from "../component";
 
+import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
-class ItemComponent extends Component {
+class ItemComponent<T extends keyof Items> extends Component {
 	/**
 	 * The item the component is binded to.
 	 */
-	protected readonly item: ItemStack;
+	protected readonly item: ItemStack<T>;
 
 	/**
 	 * Creates a new item component.
@@ -15,7 +16,7 @@ class ItemComponent extends Component {
 	 * @param identifier The identifier of the component.
 	 * @returns A new item component.
 	 */
-	public constructor(item: ItemStack, identifier: string) {
+	public constructor(item: ItemStack<T>, identifier: string) {
 		super(identifier);
 		this.item = item;
 

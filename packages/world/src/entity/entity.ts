@@ -1,5 +1,6 @@
 import {
 	AddEntityPacket,
+	AddItemActorPacket,
 	type MetadataFlags,
 	MetadataKey,
 	RemoveEntityPacket,
@@ -15,6 +16,7 @@ import {
 	type EntityComponent,
 	EntityMetadataComponent
 } from "../components";
+import { ItemStack } from "../item";
 
 import type { Player } from "../player";
 import type { Dimension } from "../world";
@@ -112,6 +114,14 @@ class Entity {
 	}
 
 	/**
+	 * Checks if the entity is an item.
+	 * @returns Whether or not the entity is an item.
+	 */
+	public isItem(): boolean {
+		return this.type.identifier === EntityIdentifier.Item;
+	}
+
+	/**
 	 * Executes a command on the entity.
 	 * @param command The command to execute.
 	 * @returns The result of the command.
@@ -154,36 +164,64 @@ class Entity {
 	 * @param player The player to spawn the entity to.
 	 */
 	public spawn(player?: Player): void {
-		// Create a new AddEntityPacket
-		const packet = new AddEntityPacket();
+		// Check if the entity is an item
+		if (this.isItem()) {
+			// Get the item component
+			const itemComponent = this.getComponent("minecraft:item");
 
-		// Set the packet properties
-		packet.uniqueEntityId = this.unique;
-		packet.runtimeId = this.runtime;
-		packet.identifier = this.type.identifier;
-		packet.position = this.position;
-		packet.velocity = this.velocity;
-		packet.pitch = this.rotation.pitch;
-		packet.yaw = this.rotation.yaw;
-		packet.headYaw = this.rotation.headYaw;
-		packet.bodyYaw = this.rotation.yaw;
-		packet.attributes = [];
-		packet.metadata = this.getMetadatas().map((entry) => {
-			return {
-				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
-				type: entry.type,
-				value: entry.currentValue,
-				flag: entry.flag ? (entry.key as MetadataFlags) : undefined
+			// Create a new AddItemActorPacket
+			const packet = new AddItemActorPacket();
+
+			// Set the packet properties
+			packet.uniqueId = this.unique;
+			packet.runtimeId = this.runtime;
+			packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
+			packet.position = this.position;
+			packet.velocity = this.velocity;
+			packet.metadata = this.getMetadatas().map((entry) => {
+				return {
+					key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+					type: entry.type,
+					value: entry.currentValue,
+					flag: entry.flag ? (entry.key as MetadataFlags) : undefined
+				};
+			});
+			packet.fromFishing = false;
+
+			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
+			player ? player.session.send(packet) : this.dimension.broadcast(packet);
+		} else {
+			// Create a new AddEntityPacket
+			const packet = new AddEntityPacket();
+
+			// Set the packet properties
+			packet.uniqueEntityId = this.unique;
+			packet.runtimeId = this.runtime;
+			packet.identifier = this.type.identifier;
+			packet.position = this.position;
+			packet.velocity = this.velocity;
+			packet.pitch = this.rotation.pitch;
+			packet.yaw = this.rotation.yaw;
+			packet.headYaw = this.rotation.headYaw;
+			packet.bodyYaw = this.rotation.yaw;
+			packet.attributes = [];
+			packet.metadata = this.getMetadatas().map((entry) => {
+				return {
+					key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
+					type: entry.type,
+					value: entry.currentValue,
+					flag: entry.flag ? (entry.key as MetadataFlags) : undefined
+				};
+			});
+			packet.properties = {
+				ints: [],
+				floats: []
 			};
-		});
-		packet.properties = {
-			ints: [],
-			floats: []
-		};
-		packet.links = [];
+			packet.links = [];
 
-		// Send the packet to the player if it exists, otherwise broadcast it to the dimension
-		player ? player.session.send(packet) : this.dimension.broadcast(packet);
+			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
+			player ? player.session.send(packet) : this.dimension.broadcast(packet);
+		}
 
 		// Add the entity to the dimension
 		this.dimension.entities.set(this.unique, this);
