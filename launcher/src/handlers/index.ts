@@ -14,6 +14,7 @@ import { ResourcePackChunkRequest } from "./resource-pack-chunk-request";
 import { ResourcePackClientResponse } from "./resource-pack-client-response";
 import { SetLocalPlayerAsIntialized } from "./set-local-player-as-initialized";
 import { Text } from "./text";
+import { BlockPick } from "./block-pick-request";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -31,7 +32,8 @@ const HANDLERS = [
 	Animate,
 	CommandRequest,
 	Text,
-	InventoryTransaction
+	InventoryTransaction,
+	BlockPick
 ];
 
 export { HANDLERS };
@@ -53,3 +55,4 @@ export * from "./command-request";
 export * from "./text";
 export * from "./resource-pack-chunk-request";
 export * from "./inventory-transaction";
+export * from "./block-pick-request";
