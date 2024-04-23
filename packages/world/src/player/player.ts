@@ -19,7 +19,7 @@ import {
 	EntityBreathingComponent,
 	type EntityComponent,
 	EntityHasGravityComponent,
-	EntityInvetoryComponent,
+	EntityInventoryComponent,
 	EntityMovementComponent,
 	EntityNametagComponent,
 	PlayerAbilityComponent,
@@ -357,7 +357,7 @@ export { Player };
 
 // Register the player components
 Player.registerComponent(PlayerCursorComponent);
-Player.registerComponent(EntityInvetoryComponent);
+Player.registerComponent(EntityInventoryComponent);
 Player.registerComponent(EntityMovementComponent);
 Player.registerComponent(EntityHasGravityComponent);
 Player.registerComponent(EntityBreathingComponent);
