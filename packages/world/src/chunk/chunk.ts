@@ -1,6 +1,6 @@
 import { ChunkCoords } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
-import { BlockPermutation } from "@serenityjs/block";
+import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
 
 import { SubChunk } from "./sub-chunk";
 
@@ -46,6 +46,22 @@ export class Chunk {
 		return [...BlockPermutation.permutations.values()].find(
 			(x) => x.network === state
 		) as BlockPermutation;
+	}
+
+	/**
+	 * Get the Y coordinate of the top block at the given X and Z coordinates that is not air.
+	 * @param x The X coordinate.
+	 * @param z The Z coordinate.
+	 * @param y The Y coordinate. (Optional)
+	 */
+	public getTopLevel(x: number, z: number, yl = 255): number {
+		// Get the Y level.
+		for (let y = yl; y >= 0; y--) {
+			const permutation = this.getPermutation(x, y, z);
+			if (permutation.type.identifier !== BlockIdentifier.Air) return y;
+		}
+
+		return -1;
 	}
 
 	public setPermutation(

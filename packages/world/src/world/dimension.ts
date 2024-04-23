@@ -6,13 +6,16 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
 import { Player } from "../player";
 import { Chunk } from "../chunk";
 import { Block } from "../block";
+import { EntityItemComponent } from "../components";
 
-import type { EntityIdentifier } from "@serenityjs/entity";
+import type { Items } from "@serenityjs/item";
+import type { ItemStack } from "../item";
 import type { TerrainGenerator } from "../generator";
 import type { World } from "./world";
 
@@ -274,6 +277,16 @@ class Dimension {
 	}
 
 	/**
+	 * Gets the Y level of the top most block that is not air.
+	 * @param x The X coordinate of the block.
+	 * @param z The Z coordinate of the block.
+	 * @param y The Y coordinate of the block.
+	 */
+	public getTopLevel(x: number, z: number, y?: number): number {
+		return this.getChunk(x >> 4, z >> 4).getTopLevel(x, z, y);
+	}
+
+	/**
 	 * Sends a message to all the players in the dimension.
 	 * @param message The message to send.
 	 */
@@ -314,6 +327,35 @@ class Dimension {
 		entity.spawn();
 
 		// Return the entity
+		return entity;
+	}
+
+	/**
+	 * Spawns an item in the dimension.
+	 *
+	 * @param itemStack The item stack of the item.
+	 * @param position The position of the item.
+	 * @returns The entity that was spawned.
+	 */
+	public spawnItem<T extends keyof Items>(
+		itemStack: ItemStack<T>,
+		position: Vector3f
+	): Entity {
+		// Create a new Entity instance
+		const entity = new Entity(EntityIdentifier.Item, this);
+
+		// Set the entity position
+		entity.position.x = position.x;
+		entity.position.y = position.y;
+		entity.position.z = position.z;
+
+		// Create a new item component, this will register the item to the entity
+		new EntityItemComponent(entity, itemStack);
+
+		// Spawn the item entity
+		entity.spawn();
+
+		// Return the item entity
 		return entity;
 	}
 }

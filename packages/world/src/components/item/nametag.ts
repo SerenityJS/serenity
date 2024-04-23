@@ -1,8 +1,9 @@
 import { ItemComponent } from "./item-component";
 
+import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
-class ItemNametagComponent extends ItemComponent {
+class ItemNametagComponent<T extends keyof Items> extends ItemComponent<T> {
 	public defaultValue = "";
 
 	public currentValue = this.defaultValue;
@@ -13,7 +14,7 @@ class ItemNametagComponent extends ItemComponent {
 	 * @param item The item the component is binded to.
 	 * @returns A new item nametag component.
 	 */
-	public constructor(item: ItemStack) {
+	public constructor(item: ItemStack<T>) {
 		super(item, "minecraft:nametag");
 	}
 

@@ -5,12 +5,14 @@ export * from "./events";
 
 import {
 	EntityNametagComponent,
+	EntityPhysicsComponent,
 	InternalProvider,
+	Player,
 	Superflat,
 	TargetEnum
 } from "@serenityjs/world";
 import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
-import { IntegerEnum, StringEnum } from "@serenityjs/command";
+import { StringEnum } from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Serenity } from "./serenity";
@@ -102,5 +104,20 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 		new Vector3f(x, y, z)
 	);
 
+	new EntityPhysicsComponent(entity);
+
 	entity.executeCommand('rename @s "Hello, World!"');
+});
+
+world.commands.register("test", "test", (origin) => {
+	if (!(origin instanceof Player)) return;
+
+	const entity = origin.dimension.spawnEntity(
+		EntityIdentifier.Npc,
+		origin.position
+	);
+
+	new EntityPhysicsComponent(entity);
+
+	return {};
 });
