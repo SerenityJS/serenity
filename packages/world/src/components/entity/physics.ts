@@ -5,7 +5,7 @@ import { EntityComponent } from "./entity-component";
 import type { Entity } from "../../entity";
 
 class EntityPhysicsComponent extends EntityComponent {
-	public static readonly gravity = 0.45 / 20;
+	public static readonly gravity = 1.62 / 20;
 
 	public readonly identifier = "minecraft:physics";
 
@@ -22,9 +22,16 @@ class EntityPhysicsComponent extends EntityComponent {
 
 	public onTick(): void {
 		// Check how many blocks is between the entity and the nearest ground block
-		const { x, y, z } = this.entity.position.floor();
+		const { x, y, z } = this.entity.position;
+
 		const distance =
-			this.entity.position.y - this.entity.dimension.getTopLevel(x, z, y);
+			y -
+			1 -
+			this.entity.dimension.getTopLevel(
+				Math.round(x),
+				Math.round(z),
+				Math.round(y)
+			);
 
 		// If the entity is on the ground, set the velocity to 0
 		if (distance <= 0) {

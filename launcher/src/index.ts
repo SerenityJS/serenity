@@ -7,7 +7,6 @@ import {
 	EntityNametagComponent,
 	EntityPhysicsComponent,
 	InternalProvider,
-	ItemStack,
 	Player,
 	Superflat,
 	TargetEnum
@@ -15,7 +14,6 @@ import {
 import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
 import { StringEnum } from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
-import { ItemIdentifier } from "@serenityjs/item";
 
 import { Serenity } from "./serenity";
 
