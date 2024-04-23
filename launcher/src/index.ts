@@ -5,6 +5,7 @@ export * from "./events";
 
 import {
 	EntityNametagComponent,
+	EntityPhysicsComponent,
 	InternalProvider,
 	ItemStack,
 	Player,
@@ -105,17 +106,20 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 		new Vector3f(x, y, z)
 	);
 
+	new EntityPhysicsComponent(entity);
+
 	entity.executeCommand('rename @s "Hello, World!"');
 });
 
 world.commands.register("test", "test", (origin) => {
 	if (!(origin instanceof Player)) return;
 
-	const item = new ItemStack(ItemIdentifier.Diamond, 32, 0);
+	const entity = origin.dimension.spawnEntity(
+		EntityIdentifier.Npc,
+		origin.position
+	);
 
-	const entity = origin.dimension.spawnItem(item, origin.position);
-
-	console.log(entity);
+	new EntityPhysicsComponent(entity);
 
 	return {};
 });

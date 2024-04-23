@@ -277,6 +277,16 @@ class Dimension {
 	}
 
 	/**
+	 * Gets the Y level of the top most block that is not air.
+	 * @param x The X coordinate of the block.
+	 * @param z The Z coordinate of the block.
+	 * @param y The Y coordinate of the block.
+	 */
+	public getTopLevel(x: number, z: number, y?: number): number {
+		return this.getChunk(x >> 4, z >> 4).getTopLevel(x, z, y);
+	}
+
+	/**
 	 * Sends a message to all the players in the dimension.
 	 * @param message The message to send.
 	 */
