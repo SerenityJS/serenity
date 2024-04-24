@@ -42,6 +42,7 @@ class StartGamePacket extends DataPacket {
 	@Serialize(ZigZag) public dimension!: number;
 	@Serialize(ZigZag) public generator!: number;
 	@Serialize(ZigZag) public worldGamemode!: Gamemode;
+	@Serialize(Bool) public hardcore!: boolean;
 	@Serialize(ZigZag) public difficulty!: Difficulty;
 	@Serialize(BlockCoordinates) public spawnPosition!: BlockCoordinates;
 	@Serialize(Bool) public achievementsDisabled!: boolean;

@@ -11,7 +11,13 @@ import {
 	Superflat,
 	TargetEnum
 } from "@serenityjs/world";
-import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
+import {
+	DimensionType,
+	MINECRAFT_VERSION,
+	Packet,
+	PROTOCOL_VERSION,
+	Vector3f
+} from "@serenityjs/protocol";
 import { StringEnum } from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
 
@@ -42,8 +48,7 @@ serenity.start();
 
 world.commands.register("about", "Get information about the server.", () => {
 	return {
-		message:
-			"This server is running SerenityJS. (MCBE: 1.20.73) (Protocol: 662)"
+		message: `This server is running SerenityJS. (MCBE: ${MINECRAFT_VERSION}) (Protocol: ${PROTOCOL_VERSION})`
 	};
 });
 

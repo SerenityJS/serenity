@@ -18,6 +18,7 @@ class ResourcePackStackPacket extends DataPacket {
 	@Serialize(VarString) public gameVersion!: string;
 	@Serialize(Experiments) public experiments!: Array<Experiments>;
 	@Serialize(Bool) public experimentsPreviouslyToggled!: boolean;
+	@Serialize(Bool) public hasEditorPacks!: boolean;
 }
 
 export { ResourcePackStackPacket };

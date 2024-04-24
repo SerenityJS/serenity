@@ -104,6 +104,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				stack.gameVersion = MINECRAFT_VERSION;
 				stack.experiments = [];
 				stack.experimentsPreviouslyToggled = false;
+				stack.hasEditorPacks = false;
 
 				stack.texturePacks = [];
 				for (const pack of this.serenity.resourcePacks.getPacks()) {
@@ -145,6 +146,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.dimension = DimensionType.Overworld;
 				packet.generator = 1;
 				packet.worldGamemode = Gamemode.Creative;
+				packet.hardcore = false;
 				packet.difficulty = Difficulty.Easy;
 				packet.spawnPosition = {
 					x: 0,
