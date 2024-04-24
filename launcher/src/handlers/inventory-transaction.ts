@@ -3,6 +3,9 @@ import {
 	DisconnectReason,
 	InventoryTransactionPacket,
 	ItemUseInventoryTransactionType,
+	LevelSoundEvent,
+	LevelSoundEventPacket,
+	Vector3f,
 	type ItemUseInventoryTransaction
 } from "@serenityjs/protocol";
 
@@ -50,14 +53,10 @@ class InventoryTransaction extends SerenityHandler {
 			if (!item) return;
 			if (!item.type.block) return;
 
+			const { x, y, z } = packet.blockPosition;
+
 			// Get the block from the face
-			const block = player.dimension
-				.getBlock(
-					packet.blockPosition.x,
-					packet.blockPosition.y,
-					packet.blockPosition.z
-				)
-				.face(packet.face);
+			const block = player.dimension.getBlock(x, y, z).face(packet.face);
 
 			// Set the permutation of the block
 			block
@@ -69,6 +68,20 @@ class InventoryTransaction extends SerenityHandler {
 					player.getCardinalDirection(),
 					packet.face !== BlockFace.Top
 				);
+
+			// Create the sound packet
+			const sound = new LevelSoundEventPacket();
+
+			// Assign the sound data
+			sound.event = LevelSoundEvent.Place;
+			sound.position = new Vector3f(x, y, z);
+			sound.data = block.permutation.network;
+			sound.actorIdentifier = "";
+			sound.isBabyMob = false;
+			sound.isGlobal = true;
+
+			// Broadcast the sound packet
+			block.dimension.broadcast(sound);
 		}
 	}
 }
