@@ -30,7 +30,7 @@ const serenity = new Serenity();
 // They can be custom built for specific applications.
 // Custom providers can be built by extending the abstract "WorldProvider" class.
 // The "InternalProvider" is a basic provider that stores chunks in memory.
-const provider = new InternalProvider(true); // Boolean indicates hash block values, false indicates runtime block values.
+const provider = new InternalProvider();
 
 // Register the world with the serenity instance.
 // The provider is what the world will use to read/write chunks and other data.

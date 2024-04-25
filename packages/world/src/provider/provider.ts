@@ -5,16 +5,7 @@ class WorldProvider {
 	/**
 	 * The identifier for the provider.
 	 */
-	public static identifier: string;
-
-	/**
-	 * Whether or not the provider supports hashes.
-	 */
-	public readonly hashes: boolean;
-
-	public constructor(hashes?: boolean) {
-		this.hashes = hashes ?? true;
-	}
+	public static readonly identifier: string;
 
 	/**
 	 * Reads a chunk from the world.

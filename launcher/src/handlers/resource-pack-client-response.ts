@@ -422,8 +422,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.blockPaletteChecksum = 0n;
 				packet.worldTemplateId = "00000000000000000000000000000000";
 				packet.clientSideGeneration = false;
-				packet.blockNetworkIdsAreHashes =
-					player.dimension.world.provider.hashes;
+				packet.blockNetworkIdsAreHashes = true;
 				packet.serverControlledSounds = true;
 
 				const biomes = new BiomeDefinitionListPacket();
