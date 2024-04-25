@@ -13,25 +13,14 @@ export class Chunk {
 	public readonly x: number;
 	public readonly z: number;
 
-	public readonly hashes: boolean;
-
 	public readonly subchunks: Array<SubChunk>;
 
-	public constructor(
-		x: number,
-		z: number,
-		hashes: boolean,
-		subchunks?: Array<SubChunk>
-	) {
+	public constructor(x: number, z: number, subchunks?: Array<SubChunk>) {
 		this.x = x;
 		this.z = z;
-		this.hashes = hashes;
 		this.subchunks =
 			subchunks ??
-			Array.from(
-				{ length: Chunk.MAX_SUB_CHUNKS },
-				() => new SubChunk(this.hashes)
-			);
+			Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
 	}
 
 	public getPermutation(x: number, y: number, z: number): BlockPermutation {
@@ -99,7 +88,7 @@ export class Chunk {
 			// Create a new sub chunk.
 			for (let index_ = 0; index_ <= index; index_++) {
 				if (!this.subchunks[index_]) {
-					this.subchunks[index_] = new SubChunk(this.hashes);
+					this.subchunks[index_] = new SubChunk();
 				}
 			}
 		}
@@ -143,28 +132,23 @@ export class Chunk {
 		return stream.getBuffer();
 	}
 
-	public static deserialize(
-		x: number,
-		z: number,
-		hashes: boolean,
-		buffer: Buffer
-	): Chunk {
+	public static deserialize(x: number, z: number, buffer: Buffer): Chunk {
 		// Create a new stream.
 		const stream = new BinaryStream(buffer);
 
 		// Deserialize each sub chunk.
 		const subchunks: Array<SubChunk> = Array.from(
 			{ length: Chunk.MAX_SUB_CHUNKS },
-			() => new SubChunk(hashes)
+			() => new SubChunk()
 		);
 
 		// Loop through each sub chunk.
 		for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; ++index) {
 			if (stream.binary[stream.offset] !== 8) break;
-			subchunks[index] = SubChunk.deserialize(hashes, stream);
+			subchunks[index] = SubChunk.deserialize(stream);
 		}
 
 		// Return the chunk.
-		return new Chunk(x, z, hashes, subchunks);
+		return new Chunk(x, z, subchunks);
 	}
 }

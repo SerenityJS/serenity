@@ -28,11 +28,6 @@ class BlockStorage {
 	public static readonly MAX_SIZE = 16 * 16 * 16;
 
 	/**
-	 * Whether or not the block storage uses hashes.
-	 */
-	public readonly hashes: boolean;
-
-	/**
 	 * The palette of the storage.
 	 */
 	public readonly palette: Array<number>;
@@ -53,14 +48,7 @@ class BlockStorage {
 	 * @param blocks The optional blocks.
 	 * @param palette The optional palette.
 	 */
-	public constructor(
-		hashes: boolean,
-		palette?: Array<number>,
-		blocks?: Array<number>
-	) {
-		// Assign the hashes value.
-		this.hashes = hashes;
-
+	public constructor(palette?: Array<number>, blocks?: Array<number>) {
 		// Find the air value.
 		const permutation = BlockPermutation.resolve(BlockIdentifier.Air);
 		this.air = permutation.network;
@@ -208,10 +196,7 @@ class BlockStorage {
 	 * @param stream The binary stream to read from.
 	 * @returns The block storage.
 	 */
-	public static deserialize(
-		hashes: boolean,
-		stream: BinaryStream
-	): BlockStorage {
+	public static deserialize(stream: BinaryStream): BlockStorage {
 		// Read the bits per block.
 		const bitsPerBlock = stream.readByte() >> 1;
 
@@ -246,7 +231,7 @@ class BlockStorage {
 		}
 
 		// Return the block storage.
-		return new BlockStorage(hashes, blocks, palette);
+		return new BlockStorage(blocks, palette);
 	}
 }
 

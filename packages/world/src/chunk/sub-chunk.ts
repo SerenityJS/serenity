@@ -7,11 +7,6 @@ import type { BinaryStream } from "@serenityjs/binarystream";
  */
 export class SubChunk {
 	/**
-	 * Whether or not the sub chunk uses hashes.
-	 */
-	public readonly hashes: boolean;
-
-	/**
 	 * The version of the sub chunk.
 	 */
 	public readonly version: number;
@@ -27,12 +22,7 @@ export class SubChunk {
 	 * @param version The version of the sub chunk.
 	 * @param layers The layers of the sub chunk.
 	 */
-	public constructor(
-		hashes: boolean,
-		version?: number,
-		layers?: Array<BlockStorage>
-	) {
-		this.hashes = hashes;
+	public constructor(version?: number, layers?: Array<BlockStorage>) {
 		this.version = version ?? 8;
 		this.layers = layers ?? [];
 	}
@@ -67,8 +57,7 @@ export class SubChunk {
 		if (!this.layers[index]) {
 			// Create a new storage.
 			for (let index_ = 0; index_ <= index; index_++) {
-				if (!this.layers[index_])
-					this.layers[index_] = new BlockStorage(this.hashes);
+				if (!this.layers[index_]) this.layers[index_] = new BlockStorage();
 			}
 		}
 
@@ -140,7 +129,7 @@ export class SubChunk {
 	 *
 	 * @param stream The binary stream to read from.
 	 */
-	public static deserialize(hashes: boolean, stream: BinaryStream): SubChunk {
+	public static deserialize(stream: BinaryStream): SubChunk {
 		// Read the version.
 		const version = stream.readUint8();
 
@@ -150,10 +139,10 @@ export class SubChunk {
 		// Loop through each storage and deserialize it.
 		const layers: Array<BlockStorage> = [];
 		for (let index = 0; index < count; index++) {
-			layers.push(BlockStorage.deserialize(hashes, stream));
+			layers.push(BlockStorage.deserialize(stream));
 		}
 
 		// Return the sub chunk.
-		return new SubChunk(hashes, version, layers);
+		return new SubChunk(version, layers);
 	}
 }
