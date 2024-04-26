@@ -1,10 +1,12 @@
 import { MetadataFlags, MetadataType } from "@serenityjs/protocol";
 
-import { Entity } from "../../../entity";
-
 import { EntityMetadataComponent } from "./meta";
 
+import type { Entity } from "../../../entity";
+
 class EntityHasGravityComponent extends EntityMetadataComponent {
+	public static readonly identifier = "minecraft:has_gravity";
+
 	public readonly flag = true;
 
 	public readonly key = MetadataFlags.AffectedByGravity;
@@ -22,7 +24,7 @@ class EntityHasGravityComponent extends EntityMetadataComponent {
 	 * @returns A new entity has gravity component.
 	 */
 	public constructor(entity: Entity) {
-		super(entity, "minecraft:has_gravity");
+		super(entity, EntityHasGravityComponent.identifier);
 	}
 }
 

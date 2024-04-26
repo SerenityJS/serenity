@@ -8,6 +8,11 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	/**
 	 * The identifier of the component.
 	 */
+	public static readonly identifier: Attribute;
+
+	/**
+	 * The identifier of the component.
+	 */
 	public readonly identifier: Attribute;
 
 	/**

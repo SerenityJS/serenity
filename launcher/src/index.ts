@@ -19,7 +19,7 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 import { StringEnum } from "@serenityjs/command";
-import { EntityIdentifier } from "@serenityjs/entity";
+import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 
 import { Serenity } from "./serenity";
 
@@ -98,24 +98,30 @@ world.commands.register(
 	}
 );
 
+// Registering components to the entity type
+// These components will be automatically added to entity when spawned
+
+// First we need to create or get the entity type
+const entityType = EntityType.get(EntityIdentifier.Npc);
+
+// Register the components to the entity type
+entityType?.register(EntityNametagComponent);
+
+// Now once the entity is spawned, it will automatically have the components
 serenity.network.on(Packet.BlockPickRequest, (data) => {
 	const player = serenity.getPlayer(data.session);
 	if (!player) return;
 
+	// Spawn the entity
 	const { x, y, z } = data.packet;
-
 	const entity = player.dimension.spawnEntity(
 		EntityIdentifier.Npc,
 		new Vector3f(x, y + 2, z)
 	);
 
-	entity.velocity.x = Math.random() * 4 - 2;
-	entity.velocity.y = Math.random() * 4 - 2;
-	entity.velocity.z = Math.random() * 4 - 2;
-
-	new EntityPhysicsComponent(entity);
-
-	entity.executeCommand('rename @s "Hello, World!"');
+	// Get the component and set the value
+	const component = entity.getComponent("minecraft:nametag");
+	component.setCurrentValue("Hello, World!");
 });
 
 world.commands.register("test", "test", (origin) => {

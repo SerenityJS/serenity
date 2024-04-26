@@ -7,7 +7,7 @@ import type { Entity } from "../../entity";
 class EntityPhysicsComponent extends EntityComponent {
 	public static readonly gravity = 1.62 / 20;
 
-	public readonly identifier = "minecraft:physics";
+	public static readonly identifier = "minecraft:physics";
 
 	/**
 	 * Creates a new entity inventory component.
@@ -17,7 +17,7 @@ class EntityPhysicsComponent extends EntityComponent {
 	 * @returns A new entity inventory component.
 	 */
 	public constructor(entity: Entity) {
-		super(entity, "minecraft:physics");
+		super(entity, EntityPhysicsComponent.identifier);
 	}
 
 	public onTick(): void {

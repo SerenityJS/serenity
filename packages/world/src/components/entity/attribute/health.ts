@@ -1,10 +1,15 @@
 import { Attribute } from "@serenityjs/protocol";
 
-import { Entity } from "../../../entity";
-
 import { EntityAttributeComponent } from "./attribute";
 
+import type { Entity } from "../../../entity";
+
 class EntityHealthComponent extends EntityAttributeComponent {
+	/**
+	 * The identifier of the component.
+	 */
+	public static readonly identifier = Attribute.Health;
+
 	/**
 	 * The minimum health allowed for the entity.
 	 */
@@ -32,7 +37,7 @@ class EntityHealthComponent extends EntityAttributeComponent {
 	 * @returns A new entity health component.
 	 */
 	public constructor(entity: Entity) {
-		super(entity, Attribute.Health);
+		super(entity, EntityHealthComponent.identifier);
 	}
 }
 

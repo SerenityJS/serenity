@@ -1,10 +1,12 @@
 import { MetadataFlags, MetadataType } from "@serenityjs/protocol";
 
-import { Entity } from "../../../entity";
-
 import { EntityMetadataComponent } from "./meta";
 
+import type { Entity } from "../../../entity";
+
 class EntityBreathingComponent extends EntityMetadataComponent {
+	public static readonly identifier = "minecraft:breathing";
+
 	public readonly flag = true;
 
 	public readonly key = MetadataFlags.Breathing;
@@ -22,7 +24,7 @@ class EntityBreathingComponent extends EntityMetadataComponent {
 	 * @returns A new entity breathing component.
 	 */
 	public constructor(entity: Entity) {
-		super(entity, "minecraft:breathing");
+		super(entity, EntityBreathingComponent.identifier);
 	}
 }
 

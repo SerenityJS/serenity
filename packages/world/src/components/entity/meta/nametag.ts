@@ -5,6 +5,8 @@ import { EntityMetadataComponent } from "./meta";
 import type { Entity } from "../../../entity";
 
 class EntityNametagComponent extends EntityMetadataComponent {
+	public static readonly identifier = "minecraft:nametag";
+
 	public readonly flag = false;
 
 	public readonly key = MetadataKey.Nametag;
@@ -22,7 +24,7 @@ class EntityNametagComponent extends EntityMetadataComponent {
 	 * @returns A new entity nametag component.
 	 */
 	public constructor(entity: Entity) {
-		super(entity, "minecraft:nametag");
+		super(entity, EntityNametagComponent.identifier);
 	}
 }
 

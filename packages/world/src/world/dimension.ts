@@ -12,7 +12,7 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { Chunk } from "../chunk";
 import { Block } from "../block";
-import { EntityItemComponent } from "../components";
+import { EntityComponent, EntityItemComponent } from "../components";
 
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../item";
@@ -317,6 +317,18 @@ class Dimension {
 	public spawnEntity(identifier: EntityIdentifier, position: Vector3f): Entity {
 		// Create a new Entity instance
 		const entity = new Entity(identifier, this);
+
+		// Register all valid components to the entity
+		for (const identifier of entity.type.components) {
+			// Get the component from the entity component registry
+			const component = EntityComponent.get(identifier);
+
+			// Check if the component is valid
+			if (component) {
+				// Create a new instance of the component
+				new component(entity, identifier);
+			}
+		}
 
 		// Set the entity position
 		entity.position.x = position.x;

@@ -3,6 +3,11 @@
  */
 class Component {
 	/**
+	 * The identifier for the component.
+	 */
+	public static readonly identifier: string;
+
+	/**
 	 * The identifier of the component.
 	 */
 	public readonly identifier: string;

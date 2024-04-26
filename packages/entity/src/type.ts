@@ -1,5 +1,7 @@
 import type { EntityIdentifier } from "./enums";
 
+type ComponentRecord<T> = T & { identifier: string };
+
 class EntityType {
 	/**
 	 * A collective registry of all entity types.
@@ -24,6 +26,36 @@ class EntityType {
 	public constructor(identifier: EntityIdentifier, components?: Array<string>) {
 		this.identifier = identifier;
 		this.components = components ?? [];
+	}
+
+	/**
+	 * Register a component to the entity type.
+	 * @param component The component to register.
+	 */
+	public register<T>(component: ComponentRecord<T>): void {
+		// Check if the component is already registered
+		if (this.components.includes(component.identifier)) {
+			throw new Error(
+				`Component ${component.identifier} is already registered to entity type ${this.identifier}`
+			);
+		} else {
+			this.components.push(component.identifier);
+		}
+	}
+
+	/**
+	 * Unregister a component from the entity type.
+	 * @param component The component to unregister.
+	 */
+	public unregister<T>(component: ComponentRecord<T>): void {
+		// Check if the component is registered
+		if (this.components.includes(component.identifier)) {
+			this.components.splice(this.components.indexOf(component.identifier), 1);
+		} else {
+			throw new Error(
+				`Component ${component.identifier} is not registered to entity type ${this.identifier}`
+			);
+		}
 	}
 
 	/**

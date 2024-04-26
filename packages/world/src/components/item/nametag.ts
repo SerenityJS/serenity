@@ -4,6 +4,8 @@ import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
 class ItemNametagComponent<T extends keyof Items> extends ItemComponent<T> {
+	public static readonly identifier = "minecraft:nametag";
+
 	public defaultValue = "";
 
 	public currentValue = this.defaultValue;
@@ -15,7 +17,7 @@ class ItemNametagComponent<T extends keyof Items> extends ItemComponent<T> {
 	 * @returns A new item nametag component.
 	 */
 	public constructor(item: ItemStack<T>) {
-		super(item, "minecraft:nametag");
+		super(item, ItemNametagComponent.identifier);
 	}
 
 	public setCurrentValue(value: string): void {

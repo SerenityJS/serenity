@@ -4,6 +4,11 @@ import type { Entity } from "../../entity";
 
 class EntityComponent extends Component {
 	/**
+	 * A collective registry of all entity components.
+	 */
+	public static readonly components = new Map<string, typeof EntityComponent>();
+
+	/**
 	 * The entity the component is binded to.
 	 */
 	protected readonly entity: Entity;
@@ -32,6 +37,16 @@ class EntityComponent extends Component {
 	 * Called when the entity is despawned from the dimension.
 	 */
 	public onDespawn?(): void;
+
+	public static get(identifier: string): typeof EntityComponent | null {
+		return EntityComponent.components.get(identifier) as
+			| typeof EntityComponent
+			| null;
+	}
+
+	public static getAll(): Array<typeof EntityComponent> {
+		return [...EntityComponent.components.values()];
+	}
 }
 
 export { EntityComponent };

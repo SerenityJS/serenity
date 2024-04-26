@@ -6,7 +6,7 @@ import type { Entity } from "../../entity";
 import type { ItemStack } from "../../item";
 
 class EntityItemComponent extends EntityComponent {
-	public readonly identifier = "minecraft:item";
+	public static readonly identifier = "minecraft:item";
 
 	/**
 	 * The item stack of the component.
@@ -21,7 +21,7 @@ class EntityItemComponent extends EntityComponent {
 	 * @returns A new entity inventory component.
 	 */
 	public constructor(entity: Entity, itemStack: ItemStack) {
-		super(entity, "minecraft:item");
+		super(entity, EntityItemComponent.identifier);
 
 		// Check if the entity type is an item
 		// If not we throw an error

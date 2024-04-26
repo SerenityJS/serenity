@@ -8,7 +8,7 @@ import type { Entity } from "../../entity";
 import type { ItemStack } from "../../item";
 
 class EntityInventoryComponent extends EntityComponent {
-	public readonly identifier = "minecraft:inventory";
+	public static readonly identifier = "minecraft:inventory";
 
 	public readonly container: EntityContainer;
 
@@ -19,7 +19,7 @@ class EntityInventoryComponent extends EntityComponent {
 	public selectedSlot: number = 0;
 
 	public constructor(entity: Entity) {
-		super(entity, "minecraft:inventory");
+		super(entity, EntityInventoryComponent.identifier);
 		this.containerId = ContainerId.Inventory;
 		this.inventorySize = 36;
 		this.container = new EntityContainer(
