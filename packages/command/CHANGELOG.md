@@ -1,5 +1,14 @@
 # @serenityjs/command
 
+## 0.2.1
+
+### Patch Changes
+
+- d719ac0: Release v0.2.1
+- Updated dependencies [d719ac0]
+  - @serenityjs/logger@0.2.1
+  - @serenityjs/network@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
