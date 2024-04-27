@@ -5,6 +5,7 @@ import {
 	MetadataKey,
 	RemoveEntityPacket,
 	Rotation,
+	SetActorMotionPacket,
 	Vector3f
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
@@ -363,6 +364,41 @@ class Entity {
 		if (rotation >= 225 && rotation < 315) return CardinalDirection.East;
 
 		return CardinalDirection.South;
+	}
+
+	/**
+	 * Sets the position of the entity.
+	 * @param vector The position to set.
+	 */
+	public setMotion(vector?: Vector3f): void {
+		// Update the velocity of the entity
+		this.velocity.x = vector?.x ?? this.velocity.x;
+		this.velocity.y = vector?.y ?? this.velocity.y;
+		this.velocity.z = vector?.z ?? this.velocity.z;
+
+		// Create a new SetActorMotionPacket
+		const packet = new SetActorMotionPacket();
+
+		// Set the properties of the packet
+		packet.runtimeId = this.runtime;
+		packet.motion = this.velocity;
+
+		// Broadcast the packet to the dimension
+		this.dimension.broadcast(packet);
+	}
+
+	/**
+	 * Adds motion to the entity.
+	 * @param vector The motion to add.
+	 */
+	public addMotion(vector: Vector3f): void {
+		// Update the velocity of the entity
+		this.velocity.x += vector.x;
+		this.velocity.y += vector.y;
+		this.velocity.z += vector.z;
+
+		// Set the motion of the entity
+		this.setMotion();
 	}
 
 	/**
