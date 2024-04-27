@@ -1,5 +1,16 @@
 # @serenityjs/item
 
+## 0.2.1
+
+### Patch Changes
+
+- d719ac0: Release v0.2.1
+- Updated dependencies [d719ac0]
+  - @serenityjs/block@0.2.1
+  - @serenityjs/data@0.2.1
+  - @serenityjs/nbt@0.2.1
+  - @serenityjs/protocol@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
