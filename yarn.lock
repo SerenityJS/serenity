@@ -1895,7 +1895,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/emitter@workspace:*, @serenityjs/emitter@workspace:packages/emitter":
+"@serenityjs/emitter@npm:*, @serenityjs/emitter@workspace:*, @serenityjs/emitter@workspace:packages/emitter":
   version: 0.0.0-use.local
   resolution: "@serenityjs/emitter@workspace:packages/emitter"
   dependencies:
@@ -1926,7 +1926,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/eslint-config@workspace:*, @serenityjs/eslint-config@workspace:packages/eslint-config":
+"@serenityjs/eslint-config@npm:*, @serenityjs/eslint-config@workspace:*, @serenityjs/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/eslint-config@workspace:packages/eslint-config"
   dependencies:
@@ -1957,7 +1957,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/jest-presets@workspace:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
+"@serenityjs/jest-presets@npm:*, @serenityjs/jest-presets@workspace:*, @serenityjs/jest-presets@workspace:packages/jest-presets":
   version: 0.0.0-use.local
   resolution: "@serenityjs/jest-presets@workspace:packages/jest-presets"
   dependencies:
@@ -2003,7 +2003,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/logger@workspace:*, @serenityjs/logger@workspace:packages/logger":
+"@serenityjs/logger@npm:*, @serenityjs/logger@workspace:*, @serenityjs/logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@serenityjs/logger@workspace:packages/logger"
   dependencies:
@@ -2093,11 +2093,11 @@ __metadata:
   resolution: "@serenityjs/raknet@workspace:packages/raknet"
   dependencies:
     "@serenityjs/binarystream": "npm:^2.5.2"
-    "@serenityjs/emitter": "workspace:*"
-    "@serenityjs/eslint-config": "workspace:*"
-    "@serenityjs/jest-presets": "workspace:*"
-    "@serenityjs/logger": "workspace:*"
-    "@serenityjs/typescript-config": "workspace:*"
+    "@serenityjs/emitter": "npm:*"
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
     jest: "npm:^29.7.0"
@@ -2124,7 +2124,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/typescript-config@workspace:*, @serenityjs/typescript-config@workspace:packages/typescript-config":
+"@serenityjs/typescript-config@npm:*, @serenityjs/typescript-config@workspace:*, @serenityjs/typescript-config@workspace:packages/typescript-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/typescript-config@workspace:packages/typescript-config"
   languageName: unknown
