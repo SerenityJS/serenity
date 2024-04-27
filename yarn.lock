@@ -1988,7 +1988,7 @@ __metadata:
     "@serenityjs/plugins": "workspace:*"
     "@serenityjs/protocol": "workspace:*"
     "@serenityjs/raknet": "workspace:*"
-    "@serenityjs/server-ui": "workspace:^"
+    "@serenityjs/server-ui": "workspace:*"
     "@serenityjs/typescript-config": "workspace:*"
     "@serenityjs/world": "workspace:*"
     "@types/jest": "npm:^29.5.12"
@@ -2107,7 +2107,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/server-ui@workspace:^, @serenityjs/server-ui@workspace:packages/server-ui":
+"@serenityjs/server-ui@workspace:*, @serenityjs/server-ui@workspace:packages/server-ui":
   version: 0.0.0-use.local
   resolution: "@serenityjs/server-ui@workspace:packages/server-ui"
   dependencies:
