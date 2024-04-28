@@ -105,7 +105,7 @@ world.commands.register(
 const entityType = EntityType.get(EntityIdentifier.Npc);
 
 // Register the components to the entity type
-entityType?.register(EntityNametagComponent);
+entityType?.register(EntityPhysicsComponent);
 
 // Now once the entity is spawned, it will automatically have the components
 serenity.network.on(Packet.BlockPickRequest, (data) => {
@@ -114,14 +114,7 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 
 	// Spawn the entity
 	const { x, y, z } = data.packet;
-	const entity = player.dimension.spawnEntity(
-		EntityIdentifier.Npc,
-		new Vector3f(x, y + 2, z)
-	);
-
-	// Get the component and set the value
-	const component = entity.getComponent("minecraft:nametag");
-	component.setCurrentValue("Hello, World!");
+	player.dimension.spawnEntity(EntityIdentifier.Npc, new Vector3f(x, y + 2, z));
 });
 
 world.commands.register("test", "test", (origin) => {
@@ -132,12 +125,9 @@ world.commands.register("test", "test", (origin) => {
 		origin.position
 	);
 
-	// Give the entity some random x & z velocity
-	entity.velocity.x = Math.random() * 4 - 2;
-	entity.velocity.y = Math.random() * 4 - 2;
-	entity.velocity.z = Math.random() * 4 - 2;
+	const velocity = new Vector3f(0, 1.25, 0.75);
 
-	new EntityPhysicsComponent(entity);
+	entity.setMotion(velocity);
 
 	return {};
 });

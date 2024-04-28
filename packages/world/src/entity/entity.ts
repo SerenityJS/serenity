@@ -382,6 +382,7 @@ class Entity {
 		// Set the properties of the packet
 		packet.runtimeId = this.runtime;
 		packet.motion = this.velocity;
+		packet.tick = this.dimension.world.currentTick;
 
 		// Broadcast the packet to the dimension
 		this.dimension.broadcast(packet);
@@ -396,6 +397,18 @@ class Entity {
 		this.velocity.x += vector.x;
 		this.velocity.y += vector.y;
 		this.velocity.z += vector.z;
+
+		// Set the motion of the entity
+		this.setMotion();
+	}
+
+	/**
+	 * Clears the motion of the entity.
+	 */
+	public clearMotion(): void {
+		this.velocity.x = 0;
+		this.velocity.y = 0;
+		this.velocity.z = 0;
 
 		// Set the motion of the entity
 		this.setMotion();

@@ -1,11 +1,11 @@
-import { MoveActorAbsolutePacket } from "@serenityjs/protocol";
+import { MoveActorAbsolutePacket, Vector3f } from "@serenityjs/protocol";
 
 import { EntityComponent } from "./entity-component";
 
 import type { Entity } from "../../entity";
 
 class EntityPhysicsComponent extends EntityComponent {
-	public static readonly gravity = 1.62 / 20;
+	public static readonly gravity = 0.001_25;
 
 	public static readonly identifier = "minecraft:physics";
 
@@ -26,13 +26,7 @@ class EntityPhysicsComponent extends EntityComponent {
 
 		// Calculate the distance between the entity and the nearest ground block
 		const distance =
-			y -
-			1 -
-			this.entity.dimension.getTopLevel(
-				Math.round(x),
-				Math.round(z),
-				Math.round(y)
-			);
+			y - 1 - this.entity.dimension.getTopLevel(x, z, Math.round(y));
 
 		// Check if the entity is falling
 		// And check if the entity is in a block, if so add a small velocity to make the entity move up
@@ -42,19 +36,31 @@ class EntityPhysicsComponent extends EntityComponent {
 
 			// Update the velocity of the entity is the entity is falling
 			// While including any previous velocity
-			this.entity.velocity.y =
-				-EntityPhysicsComponent.gravity * time + this.entity.velocity.y;
+			const velocity = new Vector3f(
+				this.entity.velocity.x,
+				-EntityPhysicsComponent.gravity * time + this.entity.velocity.y,
+				this.entity.velocity.z
+			);
+
+			this.entity.setMotion(velocity);
 		} else if (distance < 0) {
+			// Check if the entity is in a block
+			// If so, move the entity up
+			const velocity = new Vector3f(
+				this.entity.velocity.x,
+				0,
+				this.entity.velocity.z
+			);
+
 			// Set the position to a whole number to avoid bouncing
 			this.entity.position.y = this.entity.position.y + Math.abs(distance);
 
 			// Reset the y velocity
-			this.entity.velocity.y = 0;
+			this.entity.setMotion(velocity);
 		} else {
 			// Reset total velocity
-			this.entity.velocity.y = 0;
-			this.entity.velocity.x = 0;
-			this.entity.velocity.z = 0;
+			const velocity = new Vector3f(0, 0, 0);
+			this.entity.setMotion(velocity);
 
 			// Return do to the entity being on the ground
 			return;
