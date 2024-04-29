@@ -1,7 +1,7 @@
 import { BasePacket } from "@serenityjs/raknet";
 import { VarInt } from "@serenityjs/binarystream";
 
-import { Packet } from "../../enums";
+import type { Packet } from "../../enums";
 
 /**
  * Represents a Minecraft Bedrock Edition data packet

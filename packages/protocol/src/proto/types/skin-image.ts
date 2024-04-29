@@ -38,17 +38,22 @@ class SkinImage extends DataType {
 		// Read the width, height and data of the image.
 		const width = stream.readUint32(Endianness.Little);
 		const height = stream.readUint32(Endianness.Little);
-		const data = stream.readVarString();
+		const length = stream.readVarInt();
+		const data = stream.readBuffer(length).toString("base64");
 
 		// Return the new skin image.
 		return new SkinImage(width, height, data);
 	}
 
-	public write(stream: BinaryStream, image: SkinImage): void {
+	public static write(stream: BinaryStream, image: SkinImage): void {
 		// Write the width, height and data of the image.
 		stream.writeUint32(image.width, Endianness.Little);
 		stream.writeUint32(image.height, Endianness.Little);
-		stream.writeVarString(image.data);
+
+		const buffer = Buffer.from(image.data, "base64");
+
+		stream.writeVarInt(buffer.length);
+		stream.writeBuffer(buffer);
 	}
 }
 

@@ -8,7 +8,7 @@ export * from "./difficulty";
 export * from "./game-rule-type";
 export * from "./permission-level";
 export * from "./move-mode";
-export * from "./record-action";
+export * from "./player-list-action";
 export * from "./violation-type";
 export * from "./violation-severity";
 export * from "./command-permission-level";

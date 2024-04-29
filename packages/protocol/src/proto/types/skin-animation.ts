@@ -59,7 +59,7 @@ class SkinAnimation extends DataType {
 		return new SkinAnimation(image, type, frames, expression);
 	}
 
-	public write(stream: BinaryStream, animation: SkinAnimation): void {
+	public static write(stream: BinaryStream, animation: SkinAnimation): void {
 		// Write the image, type, frames and expression of the animation.
 		SkinImage.write(stream, animation.image);
 		stream.writeUint32(animation.type, Endianness.Little);
