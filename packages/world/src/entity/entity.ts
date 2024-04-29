@@ -19,6 +19,7 @@ import {
 } from "../components";
 import { ItemStack } from "../item";
 
+import type { Chunk } from "../chunk";
 import type { Player } from "../player";
 import type { Dimension } from "../world";
 import type {
@@ -120,6 +121,19 @@ class Entity {
 	 */
 	public isItem(): boolean {
 		return this.type.identifier === EntityIdentifier.Item;
+	}
+
+	/**
+	 * Gets the current chunk the entity is in.
+	 * @returns The chunk the entity is in.
+	 */
+	public getChunk(): Chunk {
+		// Calculate the chunk position of the entity
+		const cx = Math.round(this.position.x >> 4);
+		const cz = Math.round(this.position.z >> 4);
+
+		// Return the chunk the entity is in
+		return this.dimension.getChunk(cx, cz);
 	}
 
 	/**

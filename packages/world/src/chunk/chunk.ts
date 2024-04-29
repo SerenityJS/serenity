@@ -8,13 +8,38 @@ import { SubChunk } from "./sub-chunk";
  * Represents a chunk within a dimension.
  */
 export class Chunk {
+	/**
+	 * The maximum amount of sub chunks.
+	 */
 	public static readonly MAX_SUB_CHUNKS = 20;
 
+	/**
+	 * The X coordinate of the chunk.
+	 */
 	public readonly x: number;
+
+	/**
+	 * The Z coordinate of the chunk.
+	 */
 	public readonly z: number;
 
+	/**
+	 * The sub chunks of the chunk.
+	 */
 	public readonly subchunks: Array<SubChunk>;
 
+	/**
+	 * Whether the chunk is loaded.
+	 */
+	public loaded = false;
+
+	/**
+	 * Creates a new chunk.
+	 *
+	 * @param x The X coordinate of the chunk.
+	 * @param z The Z coordinate of the chunk.
+	 * @param subchunks The sub chunks of the chunk.
+	 */
 	public constructor(x: number, z: number, subchunks?: Array<SubChunk>) {
 		this.x = x;
 		this.z = z;
@@ -23,6 +48,12 @@ export class Chunk {
 			Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
 	}
 
+	/**
+	 * Get the permutation at the given X, Y and Z coordinates.
+	 * @param x The X coordinate.
+	 * @param y The Y coordinate.
+	 * @param z The Z coordinate.
+	 */
 	public getPermutation(x: number, y: number, z: number): BlockPermutation {
 		const yl = y + 64;
 		// Get the sub chunk.
@@ -53,6 +84,13 @@ export class Chunk {
 		return -1;
 	}
 
+	/**
+	 * Set the permutation at the given X, Y and Z coordinates.
+	 * @param x The X coordinate.
+	 * @param y The Y coordinate.
+	 * @param z The Z coordinate.
+	 * @param permutation The permutation.
+	 */
 	public setPermutation(
 		x: number,
 		y: number,
@@ -70,18 +108,36 @@ export class Chunk {
 		subchunk.setState(x & 0xf, yl & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
+	// TODO: Move to ChunkCoords type
+	/**
+	 * Get the hash of the given X and Z coordinates.
+	 * @param x The X coordinate.
+	 * @param z The Z coordinate.
+	 */
 	public static getHash(x: number, z: number): bigint {
 		return ((BigInt(x) & 0xff_ff_ff_ffn) << 32n) | (BigInt(z) & 0xff_ff_ff_ffn);
 	}
 
+	// TODO: Move to ChunkCoords type
+	/**
+	 * Get the chunk coordinates from the given hash.
+	 * @param hash The hash.
+	 */
 	public static fromHash(hash: bigint): ChunkCoords {
 		return new ChunkCoords(Number(hash >> 32n), Number(hash & 0xff_ff_ff_ffn));
 	}
 
+	/**
+	 * Serialize the chunk.
+	 */
 	public getHash(): bigint {
 		return Chunk.getHash(this.x, this.z);
 	}
 
+	/**
+	 * Get the sub chunk at the given index.
+	 * @param index The index.
+	 */
 	public getSubChunk(index: number): SubChunk {
 		// Check if the sub chunk exists.
 		if (!this.subchunks[index]) {
