@@ -55,3 +55,4 @@ export * from "./item-release-inventory-transaction";
 export * from "./enum-values";
 export * from "./chained-subcommand-values";
 export * from "./post-fixes";
+export * from "./skin-image";
