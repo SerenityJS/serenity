@@ -21,7 +21,7 @@ import { ItemStack } from "../item";
 
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
-import type { Dimension } from "../world";
+import type { Dimension, World } from "../world";
 import type {
 	EntityAttributeComponents,
 	EntityComponents
@@ -134,6 +134,14 @@ class Entity {
 
 		// Return the chunk the entity is in
 		return this.dimension.getChunk(cx, cz);
+	}
+
+	/**
+	 * Gets the world the entity is in.
+	 * @returns The world the entity is in.
+	 */
+	public getWorld(): World {
+		return this.dimension.world;
 	}
 
 	/**
