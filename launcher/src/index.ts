@@ -7,6 +7,7 @@ import {
 	EntityNametagComponent,
 	EntityPhysicsComponent,
 	InternalProvider,
+	ItemStack,
 	Player,
 	Superflat,
 	TargetEnum
@@ -20,6 +21,7 @@ import {
 } from "@serenityjs/protocol";
 import { StringEnum } from "@serenityjs/command";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
+import { ItemIdentifier } from "@serenityjs/item";
 
 import { Serenity } from "./serenity";
 
@@ -120,13 +122,32 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 world.commands.register("test", "test", (origin) => {
 	if (!(origin instanceof Player)) return;
 
-	const entity = origin.dimension.spawnEntity(
-		EntityIdentifier.Npc,
-		origin.position
+	// We want to implement when a player drops an item, it will spawn an entity
+	// With some physics components to make it fall to the ground, according to the position of the player
+	const itemStack = new ItemStack(ItemIdentifier.Diamond, 1, 0);
+
+	// Get the player's position and rotation
+	const { x, y, z } = origin.position;
+	const { headYaw, pitch } = origin.rotation;
+
+	// Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
+	const headYawRad = (headYaw * Math.PI) / 180;
+	const pitchRad = (pitch * Math.PI) / 180;
+
+	// Calculate the velocity of the entity based on the player's rotation
+	const velocity = new Vector3f(
+		-Math.sin(headYawRad) * Math.cos(pitchRad),
+		-Math.sin(pitchRad),
+		Math.cos(headYawRad) * Math.cos(pitchRad)
 	);
 
-	const velocity = new Vector3f(0, 1.25, 0.75);
+	// Spawn the entity
+	const entity = origin.dimension.spawnItem(itemStack, new Vector3f(x, y, z));
 
+	// Add the physics component to the entity
+	new EntityPhysicsComponent(entity);
+
+	// Set the velocity of the entity
 	entity.setMotion(velocity);
 
 	return {};

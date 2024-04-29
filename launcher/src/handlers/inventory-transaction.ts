@@ -1,6 +1,8 @@
 import {
 	BlockFace,
+	ComplexInventoryTransaction,
 	DisconnectReason,
+	type InventoryAction,
 	InventoryTransactionPacket,
 	ItemUseInventoryTransactionType,
 	LevelSoundEvent,
@@ -8,11 +10,15 @@ import {
 	Vector3f,
 	type ItemUseInventoryTransaction
 } from "@serenityjs/protocol";
+import {
+	EntityPhysicsComponent,
+	ItemStack,
+	type Player
+} from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
 import type { BlockPermutation } from "@serenityjs/block";
-import type { Player } from "@serenityjs/world";
 import type { NetworkSession } from "@serenityjs/network";
 
 class InventoryTransaction extends SerenityHandler {
@@ -34,9 +40,66 @@ class InventoryTransaction extends SerenityHandler {
 		// Check if the packet has a transaction
 		if (!packet.transaction) return;
 
+		const type = packet.transaction.type;
+
+		if (type === ComplexInventoryTransaction.NormalTransaction) {
+			this.handleNormalTransaction(packet.transaction.actions, player);
+		}
+
 		if (packet.transaction.itemUse) {
 			return this.handleItemUse(packet.transaction.itemUse, player);
 		}
+	}
+
+	public static handleNormalTransaction(
+		actions: Array<InventoryAction>,
+		player: Player
+	): void {
+		// TODO: CLEANUP
+		// NOTE: This implmentation is incomplete and will be updated in the future.
+		// This only handles item dropping for now.
+		const action = actions[0] as InventoryAction;
+		const amount = action.newItem.stackSize ?? 1;
+
+		// Get the inventory of the player
+		const inventory = player.getComponent("minecraft:inventory");
+
+		// Get the item from the slot
+		const item = inventory.container.getItem(action.slot);
+
+		// Check if the item is valid
+		if (!item) return;
+
+		// Remove the amount from the item
+		item.amount -= amount;
+
+		// Clone the itemStack, so we can drop the item
+		const itemStack = ItemStack.create(item.type, amount, item.metadata);
+
+		// Get the player's position and rotation
+		const { x, y, z } = player.position;
+		const { headYaw, pitch } = player.rotation;
+
+		// Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
+		const headYawRad = (headYaw * Math.PI) / 180;
+		const pitchRad = (pitch * Math.PI) / 180;
+
+		// Calculate the velocity of the entity based on the player's rotation
+		const velocity = new Vector3f(
+			-Math.sin(headYawRad) * Math.cos(pitchRad),
+			-Math.sin(pitchRad),
+			Math.cos(headYawRad) * Math.cos(pitchRad)
+		);
+
+		// Spawn the entity
+		const entity = player.dimension.spawnItem(itemStack, new Vector3f(x, y, z));
+
+		// Add the physics component to the entity
+		// TODO: Globalize the physics component
+		new EntityPhysicsComponent(entity);
+
+		// Set the velocity of the entity
+		entity.setMotion(velocity);
 	}
 
 	public static handleItemUse(

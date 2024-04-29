@@ -42,12 +42,16 @@ class Vector3f extends DataType {
 	 *
 	 * @returns The 3D vector with the coordinates floored.
 	 */
-	public floor(): this {
-		this.x = Math.floor(this.x);
-		this.y = Math.floor(this.y);
-		this.z = Math.floor(this.z);
+	public floor(): Vector3f {
+		const x = Math.floor(this.x);
+		const y = Math.floor(this.y);
+		const z = Math.floor(this.z);
 
-		return this;
+		return new Vector3f(x, y, z);
+	}
+
+	public subtract(other: Vector3f): Vector3f {
+		return new Vector3f(this.x - other.x, this.y - other.y, this.z - other.z);
 	}
 
 	/**
