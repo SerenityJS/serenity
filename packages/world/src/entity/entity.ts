@@ -137,6 +137,38 @@ class Entity {
 	}
 
 	/**
+	 * Gets the chunks around the entity.
+	 * @param distance The distance to get the chunks.
+	 * @returns The chunks around the entity.
+	 */
+	public getChunks(distance?: number): Array<Chunk> {
+		// Calculate the chunk position of the entity
+		const cx = this.position.x >> 4;
+		const cz = this.position.z >> 4;
+
+		// Calculate the distance or use the simulation distance of the dimension
+		const dx = (distance ?? this.dimension.simulationDistance) >> 4;
+		const dz = (distance ?? this.dimension.simulationDistance) >> 4;
+
+		// Prepare an array to store the chunks that need to be sent to the player.
+		const chunks: Array<Chunk> = [];
+
+		// Get the chunks to render.
+		for (let x = -dx + cx; x <= dx + cx; x++) {
+			for (let z = -dz + cz; z <= dz + cz; z++) {
+				// Get the chunk
+				const chunk = this.dimension.getChunk(x, z);
+
+				// Add the chunk to the array.
+				chunks.push(chunk);
+			}
+		}
+
+		// Return the chunks
+		return chunks;
+	}
+
+	/**
 	 * Gets the world the entity is in.
 	 * @returns The world the entity is in.
 	 */

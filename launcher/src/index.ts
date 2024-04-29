@@ -152,3 +152,13 @@ world.commands.register("test", "test", (origin) => {
 
 	return {};
 });
+
+world.commands.register("load", "loads a chunk", (origin) => {
+	if (!(origin instanceof Player)) return;
+
+	origin.getChunk().loaded = true;
+
+	return {
+		message: `Loaded chunk at ${origin.getChunk().x}, ${origin.getChunk().z}`
+	};
+});

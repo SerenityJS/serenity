@@ -2,7 +2,6 @@ import { DisconnectReason, MovePlayerPacket } from "@serenityjs/protocol";
 
 import { SerenityHandler } from "./serenity-handler";
 
-import type { Chunk } from "@serenityjs/world";
 import type { NetworkSession } from "@serenityjs/network";
 
 class MovePlayer extends SerenityHandler {
@@ -34,27 +33,10 @@ class MovePlayer extends SerenityHandler {
 		// Send the move player packet to all the players in the dimension.
 		player.dimension.broadcastExcept(player, packet);
 
-		// Calculate the new chunk view for the player.
-		const px = player.position.x >> 4;
-		const pz = player.position.z >> 4;
-		const viewx = player.dimension.viewDistance >> 4;
-		const viewz = player.dimension.viewDistance >> 4;
-
-		// Prepare an array to store the chunks that need to be sent to the player.
-		const chunks: Array<Chunk> = [];
-
-		// Get the chunks to render.
-		for (let x = -viewx + px; x <= viewx + px; x++) {
-			for (let z = -viewz + pz; z <= viewz + pz; z++) {
-				const chunk = player.dimension.getChunk(x, z);
-
-				// Check if the chunk is already being rendered.
-				if (player.chunks.has(chunk.getHash())) continue;
-
-				// Add the chunk to the array.
-				chunks.push(chunk);
-			}
-		}
+		// Get the chunks in the player's view distance.
+		const chunks = player
+			.getChunks(player.dimension.viewDistance)
+			.filter((chunk) => !player.chunks.has(chunk.getHash()));
 
 		// Send the chunks to the player.
 		player.sendChunk(...chunks);

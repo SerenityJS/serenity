@@ -61,6 +61,11 @@ class Dimension {
 	public viewDistance: number = 128;
 
 	/**
+	 * The simulation distance of the dimension.
+	 */
+	public simulationDistance: number = 16;
+
+	/**
 	 * Creates a new dimension.
 	 *
 	 * @param identifier The identifier of the dimension.
@@ -91,6 +96,13 @@ class Dimension {
 		// Tick all the players in the dimension
 		for (const player of this.getPlayers()) player.tick();
 
+		// Get all the simulation chunks
+		const chunks = new Set(
+			this.getPlayers()
+				.flatMap((x) => x.getChunks(this.simulationDistance))
+				.map((x) => x.getHash())
+		);
+
 		// Tick all the tickable block components
 		for (const block of this.blocks.values()) {
 			for (const component of block.components.values()) {
@@ -101,6 +113,11 @@ class Dimension {
 
 		// Tick all the tickable entity components
 		for (const entity of this.entities.values()) {
+			// Check if the chunk is loaded
+			const chunk = entity.getChunk();
+			if (!chunks.has(chunk.getHash())) continue;
+
+			// Tick all the tickable entity components
 			for (const component of entity.components.values()) {
 				// Tick the component
 				component.onTick?.();
