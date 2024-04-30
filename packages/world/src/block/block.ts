@@ -10,6 +10,7 @@ import { ItemType } from "@serenityjs/item";
 
 import { ItemStack } from "../item";
 
+import type { Chunk } from "../chunk";
 import type { Player } from "../player";
 import type { BlockComponent } from "../components";
 import type { CardinalDirection } from "../enums";
@@ -65,6 +66,19 @@ class Block {
 		this.permutation = permutation;
 		this.location = location;
 		this.components = new Map();
+	}
+
+	/**
+	 * Gets the chunk the block is in.
+	 * @returns The chunk the block is in.
+	 */
+	public getChunk(): Chunk {
+		// Calculate the chunk coordinates.
+		const cx = this.location.x >> 4;
+		const cz = this.location.z >> 4;
+
+		// Get the chunk from the dimension.
+		return this.dimension.getChunk(cx, cz);
 	}
 
 	// TODO: setup component methods

@@ -63,7 +63,7 @@ class Dimension {
 	/**
 	 * The simulation distance of the dimension.
 	 */
-	public simulationDistance: number = 16;
+	public simulationDistance: number = 48;
 
 	/**
 	 * Creates a new dimension.
@@ -105,6 +105,11 @@ class Dimension {
 
 		// Tick all the tickable block components
 		for (const block of this.blocks.values()) {
+			// Check if the chunk is loaded
+			const chunk = block.getChunk();
+			if (!chunks.has(chunk.getHash())) continue;
+
+			// Tick all the tickable block components
 			for (const component of block.components.values()) {
 				// Tick the component
 				component.onTick?.();

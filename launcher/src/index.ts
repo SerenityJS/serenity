@@ -7,8 +7,6 @@ import {
 	EntityNametagComponent,
 	EntityPhysicsComponent,
 	InternalProvider,
-	ItemStack,
-	Player,
 	Superflat,
 	TargetEnum
 } from "@serenityjs/world";
@@ -21,7 +19,6 @@ import {
 } from "@serenityjs/protocol";
 import { StringEnum } from "@serenityjs/command";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
-import { ItemIdentifier } from "@serenityjs/item";
 
 import { Serenity } from "./serenity";
 
@@ -117,48 +114,4 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 	// Spawn the entity
 	const { x, y, z } = data.packet;
 	player.dimension.spawnEntity(EntityIdentifier.Npc, new Vector3f(x, y + 2, z));
-});
-
-world.commands.register("test", "test", (origin) => {
-	if (!(origin instanceof Player)) return;
-
-	// We want to implement when a player drops an item, it will spawn an entity
-	// With some physics components to make it fall to the ground, according to the position of the player
-	const itemStack = new ItemStack(ItemIdentifier.Diamond, 1, 0);
-
-	// Get the player's position and rotation
-	const { x, y, z } = origin.position;
-	const { headYaw, pitch } = origin.rotation;
-
-	// Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
-	const headYawRad = (headYaw * Math.PI) / 180;
-	const pitchRad = (pitch * Math.PI) / 180;
-
-	// Calculate the velocity of the entity based on the player's rotation
-	const velocity = new Vector3f(
-		-Math.sin(headYawRad) * Math.cos(pitchRad),
-		-Math.sin(pitchRad),
-		Math.cos(headYawRad) * Math.cos(pitchRad)
-	);
-
-	// Spawn the entity
-	const entity = origin.dimension.spawnItem(itemStack, new Vector3f(x, y, z));
-
-	// Add the physics component to the entity
-	new EntityPhysicsComponent(entity);
-
-	// Set the velocity of the entity
-	entity.setMotion(velocity);
-
-	return {};
-});
-
-world.commands.register("load", "loads a chunk", (origin) => {
-	if (!(origin instanceof Player)) return;
-
-	origin.getChunk().loaded = true;
-
-	return {
-		message: `Loaded chunk at ${origin.getChunk().x}, ${origin.getChunk().z}`
-	};
 });
