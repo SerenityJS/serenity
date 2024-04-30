@@ -1,20 +1,42 @@
+import { basename } from "node:path";
+
+import { DimensionType } from "@serenityjs/protocol";
+
 import { Chunk } from "../chunk";
+import { type Dimension, World } from "../world";
+import { Superflat } from "../generator";
 
 import { WorldProvider } from "./provider";
-
-import type { Dimension } from "../world";
 
 /**
  * The internal provider is a basic provider that stores chunks in memory.
  * This provider does not save or load chunks from disk, it is used for testing and development.
  */
 class InternalProvider extends WorldProvider {
-	public static identifier = "internal";
+	public static readonly identifier = "internal";
 
 	/**
 	 * The chunks stored in the provider.
 	 */
 	public readonly chunks: Map<string, Map<bigint, Chunk>> = new Map();
+
+	public static intialize(path: string): World {
+		// Make the world name the directory name.
+		const name = basename(path);
+
+		// Create the world.
+		const world = new World(name, new this());
+
+		// Create the overworld dimension.
+		world.createDimension(
+			"minecraft:overworld",
+			DimensionType.Overworld,
+			new Superflat()
+		);
+
+		// Return the world.
+		return world;
+	}
 
 	public override readChunk(
 		cx: number,

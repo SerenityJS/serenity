@@ -1,7 +1,6 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { RaknetServer } from "@serenityjs/raknet";
 import { Network, type NetworkSession } from "@serenityjs/network";
-import { type Player, World, type WorldProvider } from "@serenityjs/world";
 import Emitter from "@serenityjs/emitter";
 import { Plugins } from "@serenityjs/plugins";
 
@@ -14,6 +13,9 @@ import {
 	type EventSignal,
 	type EventSignals
 } from "./events";
+import { Worlds } from "./worlds";
+
+import type { Player, World } from "@serenityjs/world";
 
 class Serenity extends Emitter<EventSignals> {
 	/**
@@ -42,9 +44,9 @@ class Serenity extends Emitter<EventSignals> {
 	public readonly players: Map<string, Player>;
 
 	/**
-	 * The worlds map
+	 * The worlds manager.
 	 */
-	public readonly worlds: Map<string, World>;
+	public readonly worlds: Worlds;
 
 	/**
 	 * The resource pack manager instance
@@ -107,7 +109,6 @@ class Serenity extends Emitter<EventSignals> {
 		);
 
 		this.players = new Map();
-		this.worlds = new Map();
 		this.events = new Map();
 
 		this.resourcePacks = new ResourcePackManager(
@@ -171,6 +172,9 @@ class Serenity extends Emitter<EventSignals> {
 
 		// Log the startup message
 		this.logger.info("Serenity is now starting up...");
+
+		// Register the worlds manager
+		this.worlds = new Worlds(this);
 	}
 
 	public start(): void {
@@ -200,7 +204,7 @@ class Serenity extends Emitter<EventSignals> {
 					this.tps = this.ticks.length;
 
 					// Tick all the worlds
-					for (const world of this.worlds.values()) world.tick();
+					for (const world of this.worlds.getAll()) world.tick();
 
 					// Tick the server
 					tick();
@@ -235,23 +239,23 @@ class Serenity extends Emitter<EventSignals> {
 		return this.worlds.get(name ?? "default") as World;
 	}
 
-	public createWorld(name: string, provider: WorldProvider): World {
-		// Check if the world already exists
-		if (this.worlds.has(name)) {
-			this.logger.error(`Failed to create world "${name}," it already exists.`);
+	// public createWorld(name: string, provider: WorldProvider): World {
+	// 	// Check if the world already exists
+	// 	if (this.worlds.has(name)) {
+	// 		this.logger.error(`Failed to create world "${name}," it already exists.`);
 
-			return this.worlds.get(name) as World;
-		}
+	// 		return this.worlds.get(name) as World;
+	// 	}
 
-		// Create the world
-		const world = new World(name, provider);
+	// 	// Create the world
+	// 	const world = new World(name, provider);
 
-		// Set the world
-		this.worlds.set(name, world);
+	// 	// Set the world
+	// 	this.worlds.set(name, world);
 
-		// Return the world
-		return world;
-	}
+	// 	// Return the world
+	// 	return world;
+	// }
 }
 
 export { Serenity };

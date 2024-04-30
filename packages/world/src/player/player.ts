@@ -88,6 +88,7 @@ class Player extends Entity {
 	 */
 	public readonly chunks: Map<bigint, boolean>;
 
+	// TODO: Organize these properties.
 	public mining: BlockCoordinates | null = null;
 	public gamemode: Gamemode = Gamemode.Creative;
 

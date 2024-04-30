@@ -32,6 +32,15 @@ plugins-enabled: true
 plugins-path: "plugins"
 # The path to the plugins folder.
 
+worlds-default: "default"
+# The default world to load when the server starts.
+
+worlds-default-provider: "internal"
+# The default provider to use when creating new worlds.
+
+worlds-path: "worlds"
+# The path to the worlds folder.
+
 debug-logging: false
 # Whether or not debug messages should be shown.
 

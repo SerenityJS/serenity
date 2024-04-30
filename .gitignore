@@ -4,6 +4,7 @@
 launcher/server.properties
 launcher/resource_packs/
 launcher/plugins/
+launcher/worlds/
 
 # Dependencies
 .yarn/*

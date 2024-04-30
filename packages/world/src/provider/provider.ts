@@ -1,5 +1,5 @@
 import type { Chunk } from "../chunk";
-import type { Dimension } from "../world";
+import type { Dimension, World } from "../world";
 
 class WorldProvider {
 	/**
@@ -8,11 +8,20 @@ class WorldProvider {
 	public static readonly identifier: string;
 
 	/**
+	 * Initializes the world provider.
+	 *
+	 * @param path The path to initialize the world provider with.
+	 */
+	public static intialize(_path: string): World {
+		throw new Error("WorldProvider.intialize is not implemented");
+	}
+
+	/**
 	 * Reads a chunk from the world.
 	 *
-	 * @param cx - The chunk x coordinate.
-	 * @param cz - The chunk z coordinate.
-	 * @param dimension - The dimension to read the chunk from.
+	 * @param cx The chunk x coordinate.
+	 * @param cz The chunk z coordinate.
+	 * @param dimension The dimension to read the chunk from.
 	 * @returns The chunk read from the world.
 	 */
 	public readChunk(_cx: number, _cz: number, _dimension: Dimension): Chunk {
@@ -22,8 +31,8 @@ class WorldProvider {
 	/**
 	 * Writes a chunk to the world.
 	 *
-	 * @param chunk - The chunk to write to the world.
-	 * @param dimension - The dimension to write the chunk to.
+	 * @param chunk The chunk to write to the world.
+	 * @param dimension The dimension to write the chunk to.
 	 */
 	public writeChunk(_chunk: Chunk, _dimension: Dimension): void {
 		throw new Error("WorldProvider.writeChunk is not implemented");

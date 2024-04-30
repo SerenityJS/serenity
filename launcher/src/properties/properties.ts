@@ -17,6 +17,9 @@ interface DefaultServerProperties {
 	"network-packets-per-frame": number;
 	"plugins-enabled": boolean;
 	"plugins-path": string;
+	"worlds-default": string;
+	"worlds-default-provider": string;
+	"worlds-path": string;
 	"debug-logging": boolean;
 	"must-accept-packs": boolean;
 	"resource-packs": Array<{

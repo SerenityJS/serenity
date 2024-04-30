@@ -66,7 +66,7 @@ class Login extends SerenityHandler {
 
 		// Get the default world, and check if it is undefined.
 		// If so, then disconnect the player.
-		const world = this.serenity.getWorld();
+		const world = this.serenity.worlds.get();
 		if (!world)
 			return session.disconnect(
 				"There are no worlds registered within the server process.",
