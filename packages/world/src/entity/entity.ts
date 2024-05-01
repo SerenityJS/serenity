@@ -1,9 +1,9 @@
 import {
 	AddEntityPacket,
 	AddItemActorPacket,
-	ChangeDimensionPacket,
 	type MetadataFlags,
 	MetadataKey,
+	MoveActorAbsolutePacket,
 	RemoveEntityPacket,
 	Rotation,
 	SetActorMotionPacket,
@@ -470,38 +470,39 @@ class Entity {
 	}
 
 	/**
-	 * Changes the dimension of the entity.
-	 * @param dimension The dimension to add the entity to.
-	 * @param position  The position to spawn the entity at.
+	 * Teleports the entity to a position.
+	 * @param position The position to teleport to.
+	 * @param dimension The dimension to teleport to.
 	 */
-	public changeDimension(dimension: Dimension, position?: Vector3f): void {
-		// Despawn the entity from the current dimension
-		this.despawn();
+	public teleport(position: Vector3f, dimension?: Dimension): void {
+		// Set the position of the entity
+		this.position.x = position.x;
+		this.position.y = position.y;
+		this.position.z = position.z;
 
-		// Change the dimension of the entity
-		this.dimension = dimension;
+		// Check if a dimension was provided
+		if (dimension) {
+			// Despawn the entity from the current dimension
+			this.despawn();
 
-		// Check if the entity is a player
-		if (this.isPlayer()) {
-			// Create a new ChangeDimensionPacket
-			const packet = new ChangeDimensionPacket();
-			packet.dimension = dimension.type;
-			packet.position = position ?? this.position;
-			packet.respawn = true;
+			// Set the dimension of the entity
+			this.dimension = dimension;
 
-			// Send the packet to the player
-			this.session.send(packet);
+			// Spawn the entity in the new dimension
+			this.spawn();
+		} else {
+			// Create a new MoveActorAbsolutePacket
+			const packet = new MoveActorAbsolutePacket();
 
-			// Clear the existing chunks
-			this.chunks.clear();
+			// Set the properties of the packet
+			packet.runtimeId = this.runtime;
+			packet.flags = 1;
+			packet.position = position;
+			packet.rotation = this.rotation;
 
-			// Fetch the spawn chunks of the new dimension
-			const chunks = dimension.getSpawnChunks();
-			this.sendChunk(...chunks);
+			// Broadcast the packet to the dimension
+			this.dimension.broadcast(packet);
 		}
-
-		// Spawn the entity in the new dimension
-		this.spawn();
 	}
 
 	/**

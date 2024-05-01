@@ -12,6 +12,8 @@ import { Vector3f, TeleportCause } from "../types";
 
 import { DataPacket } from "./data-packet";
 
+// TODO: Clean up this file and attached types
+
 @Proto(Packet.MovePlayer)
 class MovePlayerPacket extends DataPacket {
 	@Serialize(VarLong) public runtimeId!: bigint;
@@ -22,7 +24,7 @@ class MovePlayerPacket extends DataPacket {
 	@Serialize(Uint8) public mode!: MoveMode;
 	@Serialize(Bool) public onGround!: boolean;
 	@Serialize(VarLong) public riddenRuntimeId!: bigint;
-	@Serialize(TeleportCause, Endianness.Little)
+	@Serialize(TeleportCause, Endianness.Little, "mode")
 	public cause!: TeleportCause | null;
 
 	@Serialize(VarLong) public tick!: bigint;

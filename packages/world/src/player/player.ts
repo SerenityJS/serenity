@@ -2,14 +2,19 @@ import {
 	AbilityLayerType,
 	AddPlayerPacket,
 	type BlockCoordinates,
+	ChangeDimensionPacket,
 	Gamemode,
 	LevelChunkPacket,
 	type MetadataFlags,
 	MetadataKey,
+	MoveMode,
+	MovePlayerPacket,
 	NetworkChunkPublisherUpdatePacket,
 	NetworkItemStackDescriptor,
+	TeleportCause,
 	TextPacket,
-	TextPacketType
+	TextPacketType,
+	type Vector3f
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
@@ -333,6 +338,64 @@ class Player extends Entity {
 
 		// Send the packet.
 		this.session.send(packet);
+	}
+
+	/**
+	 * Teleports the player to a specific position.
+	 * @param position The position to teleport the player to.
+	 * @param dimension The dimension to teleport the player to.
+	 */
+	public teleport(position: Vector3f, dimension?: Dimension): void {
+		// Set the player's position
+		this.position.x = position.x;
+		this.position.y = position.y;
+		this.position.z = position.z;
+
+		// Check if the dimension is provided
+		if (dimension) {
+			// Despawn the player from the current dimension
+			this.despawn();
+
+			// Set the new dimension
+			this.dimension = dimension;
+
+			// Clear the existing chunks
+			this.chunks.clear();
+
+			// Create a new ChangeDimensionPacket
+			const packet = new ChangeDimensionPacket();
+			packet.dimension = dimension.type;
+			packet.position = position;
+			packet.respawn = false;
+
+			// Send the packet to the player
+			this.session.send(packet);
+
+			// Fetch the spawn chunks of the new dimension
+			const chunks = dimension.getSpawnChunks();
+			this.sendChunk(...chunks);
+
+			// Spawn the player in the new dimension
+			this.spawn();
+		} else {
+			// Create a new MovePlayerPacket
+			const packet = new MovePlayerPacket();
+
+			// Set the packet properties
+			packet.runtimeId = this.runtime;
+			packet.position = position;
+			packet.pitch = this.rotation.pitch;
+			packet.yaw = this.rotation.yaw;
+			packet.headYaw = this.rotation.headYaw;
+			packet.mode = MoveMode.Teleport;
+			packet.onGround = false; // TODO: Added ground check
+			packet.riddenRuntimeId = 0n;
+			packet.cause = new TeleportCause(4, 0);
+			packet.tick = this.dimension.world.currentTick;
+
+			// Send the packet to the player
+			this.session.send(packet);
+		}
 	}
 
 	/**

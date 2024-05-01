@@ -41,25 +41,36 @@ world.createDimension(
 	new Superflat()
 );
 
-world.commands.register(
-	"dimension",
-	"Changes dimension",
-	(origin, { dim }) => {
-		if (origin instanceof Player) {
-			const dimension = world.getDimension(dim.result);
+for (const world of serenity.worlds.getAll()) {
+	world.commands.register(
+		"dimension",
+		"Changes dimension",
+		(origin, parameters) => {
+			if (origin instanceof Player) {
+				const world = serenity.worlds.get(parameters.world.result);
 
-			if (!dimension) {
-				return {
-					message: "Dimension not found."
-				};
+				if (!world) {
+					return {
+						message: "World not found."
+					};
+				}
+
+				const dimension = world.getDimension(parameters.dim.result);
+
+				if (!dimension) {
+					return {
+						message: "Dimension not found."
+					};
+				}
+
+				origin.teleport(origin.position, dimension);
 			}
 
-			origin.changeDimension(dimension);
+			return {};
+		},
+		{
+			world: StringEnum,
+			dim: StringEnum
 		}
-
-		return {};
-	},
-	{
-		dim: StringEnum
-	}
-);
+	);
+}
