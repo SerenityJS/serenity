@@ -1,4 +1,4 @@
-import { ChunkCoords } from "@serenityjs/protocol";
+import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
 import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
 
@@ -12,6 +12,11 @@ export class Chunk {
 	 * The maximum amount of sub chunks.
 	 */
 	public static readonly MAX_SUB_CHUNKS = 20;
+
+	/**
+	 * The dimension type of the chunk.
+	 */
+	public readonly type: DimensionType;
 
 	/**
 	 * The X coordinate of the chunk.
@@ -29,18 +34,20 @@ export class Chunk {
 	public readonly subchunks: Array<SubChunk>;
 
 	/**
-	 * Whether the chunk is loaded.
-	 */
-	public loaded = false;
-
-	/**
 	 * Creates a new chunk.
 	 *
+	 * @param type The dimension type of the chunk.
 	 * @param x The X coordinate of the chunk.
 	 * @param z The Z coordinate of the chunk.
 	 * @param subchunks The sub chunks of the chunk.
 	 */
-	public constructor(x: number, z: number, subchunks?: Array<SubChunk>) {
+	public constructor(
+		type: DimensionType,
+		x: number,
+		z: number,
+		subchunks?: Array<SubChunk>
+	) {
+		this.type = type;
 		this.x = x;
 		this.z = z;
 		this.subchunks =
@@ -55,12 +62,14 @@ export class Chunk {
 	 * @param z The Z coordinate.
 	 */
 	public getPermutation(x: number, y: number, z: number): BlockPermutation {
-		const yl = y + 64;
+		// Correct the Y level for the overworld.
+		const yf = this.type === DimensionType.Overworld ? y + 64 : y;
+
 		// Get the sub chunk.
-		const subchunk = this.getSubChunk(yl >> 4);
+		const subchunk = this.getSubChunk(yf >> 4);
 
 		// Get the block state.
-		const state = subchunk.getState(x & 0xf, yl & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
+		const state = subchunk.getState(x & 0xf, yf & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
 
 		// Return the permutation.
 		return [...BlockPermutation.permutations.values()].find(
@@ -97,15 +106,17 @@ export class Chunk {
 		z: number,
 		permutation: BlockPermutation
 	): void {
-		const yl = y + 64;
+		// Correct the Y level for the overworld.
+		const yf = this.type === DimensionType.Overworld ? y + 64 : y;
+
 		// Get the sub chunk.
-		const subchunk = this.getSubChunk(yl >> 4);
+		const subchunk = this.getSubChunk(yf >> 4);
 
 		// Get the block state.
 		const state = permutation.network;
 
 		// Set the block.
-		subchunk.setState(x & 0xf, yl & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
+		subchunk.setState(x & 0xf, yf & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
 	}
 
 	// TODO: Move to ChunkCoords type
@@ -188,7 +199,12 @@ export class Chunk {
 		return stream.getBuffer();
 	}
 
-	public static deserialize(x: number, z: number, buffer: Buffer): Chunk {
+	public static deserialize(
+		type: DimensionType,
+		x: number,
+		z: number,
+		buffer: Buffer
+	): Chunk {
 		// Create a new stream.
 		const stream = new BinaryStream(buffer);
 
@@ -205,6 +221,6 @@ export class Chunk {
 		}
 
 		// Return the chunk.
-		return new Chunk(x, z, subchunks);
+		return new Chunk(type, x, z, subchunks);
 	}
 }

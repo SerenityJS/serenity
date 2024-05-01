@@ -1,6 +1,7 @@
 import {
 	AddEntityPacket,
 	AddItemActorPacket,
+	ChangeDimensionPacket,
 	type MetadataFlags,
 	MetadataKey,
 	RemoveEntityPacket,
@@ -296,11 +297,11 @@ class Entity {
 		// Set the packet properties
 		packet.uniqueEntityId = this.unique;
 
-		// Send the packet to the player if it exists, otherwise broadcast it to the dimension
-		player ? player.session.send(packet) : this.dimension.broadcast(packet);
-
 		// Remove the entity from the dimension, only if the player is not null
 		if (!player) this.dimension.entities.delete(this.unique);
+
+		// Send the packet to the player if it exists, otherwise broadcast it to the dimension
+		player ? player.session.send(packet) : this.dimension.broadcast(packet);
 
 		// Trigger the onDespawn method of all applicable components
 		for (const component of this.getComponents()) component.onDespawn?.();
@@ -466,6 +467,41 @@ class Entity {
 
 		// Set the motion of the entity
 		this.setMotion();
+	}
+
+	/**
+	 * Changes the dimension of the entity.
+	 * @param dimension The dimension to add the entity to.
+	 * @param position  The position to spawn the entity at.
+	 */
+	public changeDimension(dimension: Dimension, position?: Vector3f): void {
+		// Despawn the entity from the current dimension
+		this.despawn();
+
+		// Change the dimension of the entity
+		this.dimension = dimension;
+
+		// Check if the entity is a player
+		if (this.isPlayer()) {
+			// Create a new ChangeDimensionPacket
+			const packet = new ChangeDimensionPacket();
+			packet.dimension = dimension.type;
+			packet.position = position ?? this.position;
+			packet.respawn = true;
+
+			// Send the packet to the player
+			this.session.send(packet);
+
+			// Clear the existing chunks
+			this.chunks.clear();
+
+			// Fetch the spawn chunks of the new dimension
+			const chunks = dimension.getSpawnChunks();
+			this.sendChunk(...chunks);
+		}
+
+		// Spawn the entity in the new dimension
+		this.spawn();
 	}
 
 	/**

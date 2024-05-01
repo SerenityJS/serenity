@@ -3,9 +3,10 @@ export * from "./handlers";
 export * from "./properties";
 export * from "./events";
 
-import { EntityPhysicsComponent } from "@serenityjs/world";
-import { Packet, Vector3f } from "@serenityjs/protocol";
+import { EntityPhysicsComponent, Player, Superflat } from "@serenityjs/world";
+import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
+import { StringEnum } from "@serenityjs/command";
 
 import { Serenity } from "./serenity";
 
@@ -31,3 +32,34 @@ serenity.network.on(Packet.BlockPickRequest, (data) => {
 	const { x, y, z } = data.packet;
 	player.dimension.spawnEntity(EntityIdentifier.Npc, new Vector3f(x, y + 2, z));
 });
+
+const world = serenity.worlds.get();
+
+world.createDimension(
+	"minecraft:nether",
+	DimensionType.Nether,
+	new Superflat()
+);
+
+world.commands.register(
+	"dimension",
+	"Changes dimension",
+	(origin, { dim }) => {
+		if (origin instanceof Player) {
+			const dimension = world.getDimension(dim.result);
+
+			if (!dimension) {
+				return {
+					message: "Dimension not found."
+				};
+			}
+
+			origin.changeDimension(dimension);
+		}
+
+		return {};
+	},
+	{
+		dim: StringEnum
+	}
+);

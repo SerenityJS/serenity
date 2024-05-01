@@ -55,7 +55,7 @@ class InternalProvider extends WorldProvider {
 		if (!chunks.has(Chunk.getHash(cx, cz))) {
 			chunks.set(
 				Chunk.getHash(cx, cz),
-				dimension.generator.apply(new Chunk(cx, cz))
+				dimension.generator.apply(new Chunk(dimension.type, cx, cz))
 			);
 		}
 
