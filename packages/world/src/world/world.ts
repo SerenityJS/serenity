@@ -110,7 +110,7 @@ class World {
 	 */
 	public getDimension(identifier?: string): Dimension {
 		return this.dimensions.get(
-			identifier ?? "minecraft:overworld"
+			identifier ?? "overworld"
 		) as Dimension;
 	}
 

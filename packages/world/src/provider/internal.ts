@@ -29,7 +29,7 @@ class InternalProvider extends WorldProvider {
 
 		// Create the overworld dimension.
 		world.createDimension(
-			"minecraft:overworld",
+			"overworld",
 			DimensionType.Overworld,
 			new Superflat()
 		);

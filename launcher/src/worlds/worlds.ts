@@ -9,11 +9,14 @@ import { resolve } from "node:path";
 
 import {
 	InternalProvider,
+	Superflat,
+	TerrainGenerator,
 	type World,
 	type WorldProvider
 } from "@serenityjs/world";
 
 import type { Serenity } from "../serenity";
+import { FileSystemProvider } from "../providers";
 
 // TODO: This is just a thought, bu maybe for ".provider" files, we could use YAML instead of plain text.
 // This way, we could have more structured data and it would be easier to read and write.
@@ -36,6 +39,11 @@ class Worlds {
 	public readonly providers: Map<string, typeof WorldProvider>;
 
 	/**
+	 * A collective registry of all terrain generators.
+	 */
+	public readonly generators: Map<string, typeof TerrainGenerator>;
+
+	/**
 	 * A collective registry of all worlds.
 	 */
 	public readonly entries: Map<string, World>;
@@ -53,10 +61,15 @@ class Worlds {
 			serenity.properties.getValue("worlds-path")
 		);
 		this.providers = new Map();
+		this.generators = new Map();
 		this.entries = new Map();
 
 		// Register the default providers.
 		this.registerProvider(InternalProvider);
+		this.registerProvider(FileSystemProvider);
+
+		// Register the default generators.
+		this.registerGenerator(Superflat);
 
 		// Check if the worlds directory exists.
 		if (!existsSync(this.path)) {
@@ -113,7 +126,8 @@ class Worlds {
 				if (provider) {
 					// Initialize the world with the provider.
 					const world = provider.intialize(
-						resolve(this.path, directory.path, directory.name)
+						resolve(this.path, directory.path, directory.name),
+						[...this.generators.values()]
 					);
 
 					// Add the world to the worlds map.
@@ -177,6 +191,18 @@ class Worlds {
 	 */
 	public getAllProviders(): Array<typeof WorldProvider> {
 		return [...this.providers.values()];
+	}
+
+	public registerGenerator(generator: typeof TerrainGenerator): void {
+		this.generators.set(generator.identifier, generator);
+	}
+
+	public getGenerator(identifier: string): typeof TerrainGenerator {
+		return this.generators.get(identifier) as typeof TerrainGenerator;
+	}
+
+	public getAllGenerators(): Array<typeof TerrainGenerator> {
+		return [...this.generators.values()];
 	}
 }
 

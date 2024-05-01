@@ -1,0 +1,200 @@
+import { basename, join } from "node:path";
+
+import { DimensionType } from "@serenityjs/protocol";
+
+import { Chunk, TerrainGenerator } from "@serenityjs/world";
+import { type Dimension, World } from "@serenityjs/world";
+
+import { WorldProvider } from "@serenityjs/world";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { DEFAULT_WORLD_PROPERTIES, Properties } from "../properties";
+
+interface DefaultWorldProperties {
+  "world-name": string;
+}
+
+/**
+ * The filesystem provider is a basic provider that stores chunks in binary files.
+ * This provider does load and save chunks from disk, it is used for production.
+ */
+class FileSystemProvider extends WorldProvider {
+	public static readonly identifier = "filesystem";
+
+	/**
+	 * The chunks stored in the provider.
+	 */
+	public readonly chunks: Map<string, Map<bigint, Chunk>> = new Map();
+
+  /**
+   * The path to the world.
+  */
+  public readonly path: string;
+
+  /**
+   * The world properties.
+   */
+  public readonly properties: Properties<DefaultWorldProperties>;
+
+  public constructor(path: string, properties: Properties<DefaultWorldProperties>) {
+    super();
+    this.path = path;
+    this.properties = properties;
+  }
+
+	public static intialize(path: string, generators: Array<typeof TerrainGenerator>): World {
+    // Create the world properties.
+    const properties = new Properties<DefaultWorldProperties>(join(path, "world.properties"), DEFAULT_WORLD_PROPERTIES);
+
+    // Check if the "dims" directory exists.
+    if (!existsSync(join(path, "dims"))) {
+      // Create the "dims" directory.
+      mkdirSync(join(path, "dims"));
+    }
+
+    // Get the world name.
+    const name = properties.getValue("world-name")
+
+    // Create the File System Provider.
+    const provider = new FileSystemProvider(path, properties);
+
+    // Create the world.
+    const world = new World(name, provider);
+
+    // Get all the directories in the "dims" directory.
+    const directories = readdirSync(join(path, "dims"), { withFileTypes: true }).filter(
+			(dirent) => dirent.isDirectory()
+		);
+
+    // Check if the "dims" directory is empty.
+    if (directories.length === 0) {
+      // Create the "overworld" directory in the "dims" directory.
+      mkdirSync(join(path, "dims", "overworld"));
+      
+      // Create the ".generator" file in the "overworld" directory.
+      // This file is used to determine the generator for the dimension.
+      writeFileSync(join(path, "dims", "overworld", ".generator"), "superflat");
+
+      // Push the "overworld" directory to the directories array.
+      directories.push(
+        ...readdirSync(join(path, "dims"), { withFileTypes: true }).filter((dirent) =>
+					dirent.isDirectory()
+				)
+      )
+    }
+
+    // Loop through the directories in the "dims" directory.
+    for (const directory of directories) {
+      // Check if the directory contains a ".generator" file.
+      // If not, then skip the directory.
+      if (!existsSync(join(path, "dims", directory.name, ".generator"))) {
+        continue;
+      }
+
+      // Check if the directory contains a ".type" file.
+      // If not, then create the ".type" file.
+      if (!existsSync(join(path, "dims", directory.name, ".type"))) {
+        writeFileSync(join(path, "dims", directory.name, ".type"), "overworld");
+      }
+
+      // Check if the directory contains a "chunks" directory.
+      // If not, then create the "chunks" directory.
+      if (!existsSync(join(path, "dims", directory.name, "chunks"))) {
+        mkdirSync(join(path, "dims", directory.name, "chunks"));
+      }
+
+      // Read the ".generator" file.
+      const entry = readFileSync(join(path, "dims", directory.name, ".generator"), "utf-8");
+
+      // Get the generator from the generators array.
+      const generator = generators.find((x) => x.identifier === entry);
+
+      // Check if the generator is not undefined.
+      if (!generator) throw new Error(`Unknown generator: ${entry}`);
+
+      // Read the ".type" file.
+      const type = readFileSync(join(path, "dims", directory.name, ".type"), "utf-8");
+
+      // Get the name of the dimension.
+      const name = basename(directory.name);
+
+      // Create the generator instance.
+      const instance = new generator(0) // TODO: Add seed support.
+
+      // Create a new dimension for the world.
+      world.createDimension(
+        name,
+        type === "end" ? DimensionType.End : type === "nether" ? DimensionType.Nether : DimensionType.Overworld,
+        instance
+      );
+    }
+
+    // Return the world.
+    return world;
+	}
+
+	public override readChunk(
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): Chunk {
+		// Check if the chunks contain the dimension.
+		if (!this.chunks.has(dimension.identifier)) {
+			this.chunks.set(dimension.identifier, new Map());
+		}
+
+		// Get the dimension chunks.
+		const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
+
+    // Get the chunk hash.
+    const hash = Chunk.getHash(cx, cz);
+
+    // Check if the chunks exist.
+    const exists = existsSync(join(this.path, "dims", dimension.identifier, "chunks", `${cx}.${cz}.bin`));
+
+    if (chunks.has(hash)) {
+      return chunks.get(hash) as Chunk;
+    } else if (exists) {
+      // Read the chunk from the file system.
+      const buffer = readFileSync(join(this.path, "dims", dimension.identifier, "chunks", `${cx}.${cz}.bin`));
+
+      // Deserialize the chunk.
+      const chunk = Chunk.deserialize(dimension.type, cx, cz, buffer);
+
+      // Set the chunk in the chunks map.
+      chunks.set(hash, chunk);
+
+      // Deserialize the chunk.
+      return chunk;
+    } else {
+      // Create a new chunk.
+      const chunk = dimension.generator.apply(new Chunk(dimension.type, cx, cz));
+
+      // Set the chunk in the chunks map.
+      chunks.set(hash, chunk);
+
+      // Return the chunk.
+      return chunk;
+    }
+	}
+
+	public override writeChunk(chunk: Chunk, dimension: Dimension): void {
+    // Check if the chunks contain the dimension.
+    if (!this.chunks.has(dimension.identifier)) {
+      this.chunks.set(dimension.identifier, new Map());
+    }
+
+    // Get the dimension chunks.
+    const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
+
+    // Get the chunk hash.
+    const hash = Chunk.getHash(chunk.x, chunk.z);
+
+    // Set the chunk in the chunks map.
+    chunks.set(hash, chunk);
+
+    // Write the chunk to the file system.
+    writeFileSync(join(this.path, "dims", dimension.identifier, "chunks", `${chunk.x}.${chunk.z}.bin`), Chunk.serialize(chunk));
+	}
+}
+
+export { FileSystemProvider };

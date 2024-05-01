@@ -5,6 +5,11 @@ import { TerrainGenerator } from "./generator";
 import type { Chunk } from "../chunk";
 
 class Superflat extends TerrainGenerator {
+	/**
+	 * The identifier for the generator.
+	 */
+	public static readonly identifier = "superflat";
+
 	public constructor() {
 		super(0);
 	}

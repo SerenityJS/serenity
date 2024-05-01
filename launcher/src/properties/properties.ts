@@ -1,64 +1,45 @@
 import { resolve } from "node:path";
-import { readdirSync, writeFileSync, readFileSync, rmSync } from "node:fs";
+import { readdirSync, writeFileSync, readFileSync, rmSync, existsSync } from "node:fs";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { parse } from "yaml";
 
-import { DEFAULT_SERVER_PROPERTIES } from "./default";
-
-interface DefaultServerProperties {
-	"server-name": string;
-	"server-address": string;
-	"server-port": number;
-	"server-tps": number;
-	"max-players": number;
-	"network-comression-threshold": number;
-	"network-compression-algorithm": string;
-	"network-packets-per-frame": number;
-	"plugins-enabled": boolean;
-	"plugins-path": string;
-	"worlds-default": string;
-	"worlds-default-provider": string;
-	"worlds-path": string;
-	"debug-logging": boolean;
-	"must-accept-packs": boolean;
-	"resource-packs": Array<{
-		uuid: string;
-		subpack?: string;
-	}>;
-}
-
-class ServerProperties {
-	public static readonly path = resolve(process.cwd(), "server.properties");
-
+class Properties<T> {
 	public static readonly logger = new Logger(
 		"Properties",
 		LoggerColors.YellowBright
 	);
 
+	public readonly path: string;
+
+	public readonly template: string;
+
 	protected raw = "";
 
-	public values: DefaultServerProperties;
+	public values: T;
 
-	public constructor() {
+	public constructor(path: string, template: string) {
+		this.path = resolve(process.cwd(), path);
+		this.template = template;
+
 		// Read the server.properties file.
 		this.values = this.read();
 
 		// Check if the server.properties file is missing any of the default properties.
 		if (this.values === null) {
-			rmSync(ServerProperties.path);
+			rmSync(this.path);
 			this.values = this.read();
 		}
 
 		// Check if the server.properties file is missing any of the default properties.
 		const defaultProperties = parse(
-			DEFAULT_SERVER_PROPERTIES
-		) as DefaultServerProperties;
+			this.template
+		) as T;
 
 		for (const key in defaultProperties) {
-			if (!Object.keys(this.values).includes(key)) {
+			if (!Object.keys(this.values as Record<string, unknown>).includes(key)) {
 				// Get the comment for the property.
-				const fetch = DEFAULT_SERVER_PROPERTIES.split(`\n${key}:`)[1];
+				const fetch = this.template.split(`\n${key}:`)[1];
 				const comment = fetch
 					? fetch.split("\n")[1]?.startsWith("#")
 						? fetch.split("\n")[1]
@@ -68,7 +49,7 @@ class ServerProperties {
 				// Add the missing property to the server.properties file.
 				this.addValue(
 					key,
-					defaultProperties[key as keyof DefaultServerProperties],
+					defaultProperties[key as keyof T],
 					comment
 				);
 			}
@@ -79,26 +60,26 @@ class ServerProperties {
 	 * Read the server.properties file.
 	 * @returns The server.properties file.
 	 */
-	protected read(): DefaultServerProperties {
+	protected read(): T {
 		// Check if the server.properties file exists.
-		if (!readdirSync(process.cwd()).includes("server.properties")) {
+		if (!existsSync(this.path)) {
 			// Create the server.properties file.
-			writeFileSync(ServerProperties.path, DEFAULT_SERVER_PROPERTIES);
+			writeFileSync(this.path, this.template);
 
 			// Log that the server.properties file was created.
-			ServerProperties.logger.success(
-				`Created server.properties file at "${ServerProperties.path}"`
+			Properties.logger.success(
+				`Created properties file at "${this.path}"`
 			);
 		}
 
 		// Read the server.properties file.
-		const properties = readFileSync(ServerProperties.path, "utf8");
+		const properties = readFileSync(this.path, "utf8");
 
 		// Assign the raw property.
 		this.raw = properties;
 
 		// Parse the server.properties file, and assign it to the values property.
-		return parse(properties) as DefaultServerProperties;
+		return parse(properties) as T;
 	}
 
 	/**
@@ -106,7 +87,7 @@ class ServerProperties {
 	 */
 	protected write(): void {
 		// Write the server.properties file.
-		writeFileSync(ServerProperties.path, this.raw);
+		writeFileSync(this.path, this.raw);
 
 		// Update the values property.
 		this.values = this.read();
@@ -117,9 +98,9 @@ class ServerProperties {
 	 * @param key The key to get the value of.
 	 * @returns The value of the key.
 	 */
-	public getValue<K extends keyof DefaultServerProperties>(
+	public getValue<K extends keyof T>(
 		key: K
-	): DefaultServerProperties[K] {
+	): T[K] {
 		return this.values[key];
 	}
 
@@ -128,14 +109,14 @@ class ServerProperties {
 	 * @param key The key to set the value of.
 	 * @param value The value to set.
 	 */
-	public setValue<K extends keyof DefaultServerProperties>(
+	public setValue<K extends keyof T>(
 		key: K,
-		value: DefaultServerProperties[K]
+		value: T[K]
 	): void {
 		// Check if the key exists.
 		// If not, we will add the key to the server.properties file.
-		if (!Object.keys(this.values).includes(key)) {
-			return this.addValue(key, value);
+		if (!Object.keys(this.values as Record<string, unknown>).includes(key as string)) {
+			return this.addValue(key as string, value);
 		}
 
 		// Update the value of the key.
@@ -143,8 +124,8 @@ class ServerProperties {
 
 		// Update the raw property.
 		this.raw = this.raw.replaceAll(
-			new RegExp(`^${key}:.*$`, "gm"),
-			`${key}: ${value}`
+			new RegExp(`^${key as string}:.*$`, "gm"),
+			`${key as string}: ${value}`
 		);
 
 		// Re-write the server.properties file.
@@ -159,15 +140,15 @@ class ServerProperties {
 	public addValue(key: string, value: unknown, message?: string): void {
 		// Check if that key already exists.
 		// If so, we will call the setValue method.
-		if (Object.keys(this.values).includes(key)) {
+		if (Object.keys(this.values as Record<string, unknown>).includes(key)) {
 			return this.setValue(
-				key as keyof DefaultServerProperties,
+				key as keyof T,
 				value as never
 			);
 		}
 
 		// Add the value to the values property.
-		this.values[key as keyof DefaultServerProperties] = value as never;
+		this.values[key as keyof T] = value as never;
 
 		// Add the value to the raw property.
 		this.raw += `\n${key}: ${value}\n`;
@@ -179,4 +160,4 @@ class ServerProperties {
 	}
 }
 
-export { ServerProperties };
+export { Properties };

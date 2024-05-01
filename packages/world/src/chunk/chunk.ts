@@ -220,6 +220,15 @@ export class Chunk {
 			subchunks[index] = SubChunk.deserialize(stream);
 		}
 
+		// Biomes?
+		for (let index = 0; index < 24; index++) {
+			stream.readByte();
+			stream.readVarInt();
+		}
+
+		// Border blocks?
+		stream.readByte();
+
 		// Return the chunk.
 		return new Chunk(type, x, z, subchunks);
 	}

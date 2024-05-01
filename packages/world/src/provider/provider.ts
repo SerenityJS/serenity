@@ -8,11 +8,18 @@ class WorldProvider {
 	public static readonly identifier: string;
 
 	/**
+	 * The constructor for the world provider.
+	 *
+	 * @param parameters The parameters for the world provider.
+	 */
+	public constructor(..._parameters: Array<unknown>) {}
+
+	/**
 	 * Initializes the world provider.
 	 *
 	 * @param path The path to initialize the world provider with.
 	 */
-	public static intialize(_path: string): World {
+	public static intialize(..._parameters: Array<unknown>): World {
 		throw new Error("WorldProvider.intialize is not implemented");
 	}
 

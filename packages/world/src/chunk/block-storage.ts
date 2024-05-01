@@ -205,29 +205,37 @@ class BlockStorage {
 		const wordsPerBlock = Math.ceil(4096 / blocksPerWord);
 
 		// Read the blocks.
-		const blocks: Array<number> = [];
+		const palette: Array<number> = [];
 		for (let w = 0; w < wordsPerBlock; w++) {
+			// Read the word from the stream.
 			const word = stream.readInt32(Endianness.Little);
+
+			// Iterate over the blocks.
 			for (let block = 0; block < blocksPerWord; block++) {
-				blocks.push(
-					(word >> (bitsPerBlock * block)) & ((1 << bitsPerBlock) - 1)
-				);
+				// Calculate the block index.
+				const index = w * blocksPerWord + block;
+
+				// Calculate the state.
+				const state = (word >> (bitsPerBlock * block)) & ((1 << bitsPerBlock) - 1);
+
+				// Add the state to the palette.
+				palette[index] = state;
 			}
 		}
 
 		// Prepare the palette.
-		const palette: Array<number> = [];
+		const blocks: Array<number> = [];
 
 		// Read the palette length.
-		const paletteLength = stream.readZigZag();
+		const blocksLength = stream.readZigZag();
 
 		// Iterate over the palette.
-		for (let index = 0; index < paletteLength; index++) {
+		for (let index = 0; index < blocksLength; index++) {
 			// Read the state from the stream.
 			const state = stream.readZigZag();
 
 			// Add the state to the palette.
-			palette.push(state);
+			blocks.push(state);
 		}
 
 		// Return the block storage.

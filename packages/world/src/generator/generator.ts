@@ -5,7 +5,12 @@ import type { Chunk } from "../chunk";
  *
  * @abstract
  */
-export abstract class TerrainGenerator {
+export class TerrainGenerator {
+	/**
+	 * The identifier for the generator.
+	 */
+	public static readonly identifier: string;
+
 	/**
 	 * The seed of the generator.
 	 */
@@ -26,5 +31,7 @@ export abstract class TerrainGenerator {
 	 * @param x The x coordinate of the chunk.
 	 * @param z The z coordinate of the chunk.
 	 */
-	public abstract apply(chunk: Chunk): Chunk;
+	public apply(_chunk: Chunk): Chunk {
+		throw new Error("Not implemented.");
+	}
 }

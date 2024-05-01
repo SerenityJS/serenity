@@ -73,4 +73,10 @@ for (const world of serenity.worlds.getAll()) {
 			dim: StringEnum
 		}
 	);
+
+	world.commands.register("tps", "Gets the server TPS", () => {
+		return {
+			message: `Server TPS: ${serenity.tps}`
+		}
+	})
 }

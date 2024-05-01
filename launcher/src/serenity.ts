@@ -5,7 +5,7 @@ import Emitter from "@serenityjs/emitter";
 import { Plugins } from "@serenityjs/plugins";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
-import { ServerProperties } from "./properties";
+import { Properties } from "./properties";
 import { ResourcePackManager } from "./resource-packs/resource-pack-manager";
 import {
 	EVENT_SIGNALS,
@@ -16,6 +16,8 @@ import {
 import { Worlds } from "./worlds";
 
 import type { Player, World } from "@serenityjs/world";
+import { DefaultServerProperties } from "./types";
+import { DEFAULT_SERVER_PROPERTIES } from "./properties/default";
 
 class Serenity extends Emitter<EventSignals> {
 	/**
@@ -26,7 +28,7 @@ class Serenity extends Emitter<EventSignals> {
 	/**
 	 * The server properties instance
 	 */
-	public readonly properties: ServerProperties;
+	public readonly properties: Properties<DefaultServerProperties>;
 
 	/**
 	 * The raknet server instance
@@ -80,7 +82,7 @@ class Serenity extends Emitter<EventSignals> {
 
 		// Assign instances
 		this.logger = new Logger("Serenity", LoggerColors.Magenta);
-		this.properties = new ServerProperties();
+		this.properties = new Properties("./server.properties", DEFAULT_SERVER_PROPERTIES);
 
 		// Set the debug logging
 		Logger.DEBUG = this.properties.values["debug-logging"];
@@ -209,7 +211,7 @@ class Serenity extends Emitter<EventSignals> {
 					// Tick the server
 					tick();
 				},
-				1000 / tps - 3.25
+				1000 / tps - 10
 			);
 
 		// Start the ticking loop
