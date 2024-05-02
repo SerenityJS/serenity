@@ -70,7 +70,6 @@ import type {
 	SetScoreboardIdentityPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
-import { ScoreboardIdentity } from "@serenityjs/protocol";
 
 /**
  * All available network events.
