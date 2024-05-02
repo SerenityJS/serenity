@@ -72,3 +72,4 @@ export * from "./resource-pack-chunk-request";
 export * from "./set-display-objective";
 export * from "./set-score";
 export * from "./remove-objective";
+export * from "./set-scoreboard-identity";
