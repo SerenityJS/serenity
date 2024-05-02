@@ -17,7 +17,7 @@ class ScoreEntry extends DataType {
 	public objectiveName: string;
 	public score: number;
 	public type: ScoreEntryType;
-	public entityUniqueId!: bigint | number | null;
+	public entityUniqueId!: bigint | null;
 	public customName!: string | undefined | null;
 
 	public action!: ScoreActionType | number | undefined;
@@ -27,7 +27,7 @@ class ScoreEntry extends DataType {
 		objectiveName: string,
 		score: number,
 		type: ScoreEntryType,
-		entityUniqueId: bigint,
+		entityUniqueId: bigint | null,
 		customName: string | null,
 		action?: ScoreActionType | number | undefined
 	) {
