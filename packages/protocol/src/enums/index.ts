@@ -47,3 +47,6 @@ export * from "./item-use-inventory-transaction-type";
 export * from "./item-use-on-entity-inventory-transaction-type";
 export * from "./item-release-inventory-transaction-type";
 export * from "./block-face";
+export * from "./objective-sort-order";
+export * from "./display-slot-type";
+export * from "./scoreboard-identity-action";

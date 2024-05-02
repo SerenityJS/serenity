@@ -1,5 +1,7 @@
-import type { NetworkPacketEvent } from "./packet-event";
 import type {
+	RemoveObjectivePacket,
+	SetDisplayObjectivePacket,
+	SetScorePacket,
 	AddItemActorPacket,
 	AddEntityPacket,
 	AddPlayerPacket,
@@ -64,8 +66,10 @@ import type {
 	UpdateAdventureSettingsPacket,
 	UpdateAttributesPacket,
 	UpdateBlockPacket,
-	SetTimePacket
+	SetTimePacket,
+	SetScoreboardIdentityPacket
 } from "@serenityjs/protocol";
+import type { NetworkPacketEvent } from "./packet-event";
 
 /**
  * All available network events.
@@ -129,6 +133,12 @@ interface NetworkEvents {
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
+	[Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];
+	[Packet.SetDisplayObjective]: [NetworkPacketEvent<SetDisplayObjectivePacket>];
+	[Packet.SetScore]: [NetworkPacketEvent<SetScorePacket>];
+	[Packet.SetScoreboardIdentity]: [
+		NetworkPacketEvent<SetScoreboardIdentityPacket>
+	];
 	[Packet.SetLocalPlayerAsInitialized]: [
 		NetworkPacketEvent<SetLocalPlayerAsInitializedPacket>
 	];

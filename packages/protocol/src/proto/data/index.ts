@@ -69,3 +69,7 @@ export * from "./varint-array";
 export * from "./resource-pack-data-info";
 export * from "./resource-pack-chunk-data";
 export * from "./resource-pack-chunk-request";
+export * from "./set-display-objective";
+export * from "./set-score";
+export * from "./remove-objective";
+export * from "./set-scoreboard-identity";
