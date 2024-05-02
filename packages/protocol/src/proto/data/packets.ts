@@ -122,7 +122,6 @@ const Packets = {
 	[Packet.RemoveObjective]: RemoveObjectivePacket, // 106
 	[Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
 	[Packet.SetScore]: SetScorePacket, // 108
-	// SetScoreboardIdentity = 0x70, // 112
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
