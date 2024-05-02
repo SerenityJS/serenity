@@ -57,7 +57,7 @@ enum Packet {
 	RemoveObjective = 0x6a, // 106
 	SetDisplayObjective = 0x6b, // 107
 	SetScore = 0x6c, // 108
-	// SetScoreboardIdentity = 0x70, // 112
+	SetScoreboardIdentity = 0x70, // 112
 	SetLocalPlayerAsInitialized = 0x71, // 113
 	NetworkChunkPublisherUpdate = 0x79, // 121
 	BiomeDefinitionList = 0x7a, // 122

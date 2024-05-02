@@ -69,6 +69,7 @@ import { SetTimePacket } from "./set-time";
 import { RemoveObjectivePacket } from "./remove-objective";
 import { SetDisplayObjectivePacket } from "./set-display-objective";
 import { SetScorePacket } from "./set-score";
+import { SetScoreboardIdentityPacket } from "./set-scoreboard-identity";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -122,6 +123,7 @@ const Packets = {
 	[Packet.RemoveObjective]: RemoveObjectivePacket, // 106
 	[Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
 	[Packet.SetScore]: SetScorePacket, // 108
+	[Packet.SetScoreboardIdentity]: SetScoreboardIdentityPacket, // 112
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
