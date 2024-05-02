@@ -66,6 +66,9 @@ import { UpdateAdventureSettingsPacket } from "./update-adventure-settings";
 import { UpdateAttributesPacket } from "./update-attributes";
 import { UpdateBlockPacket } from "./update-block";
 import { SetTimePacket } from "./set-time";
+import { RemoveObjectivePacket } from "./remove-objective";
+import { SetDisplayObjectivePacket } from "./set-display-objective";
+import { SetScorePacket } from "./set-score";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -116,6 +119,10 @@ const Packets = {
 	[Packet.SetTitle]: SetTitlePacket, // 88
 	[Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
 	[Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
+	[Packet.RemoveObjective]: RemoveObjectivePacket, // 106
+	[Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
+	[Packet.SetScore]: SetScorePacket, // 108
+	// SetScoreboardIdentity = 0x70, // 112
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
