@@ -49,3 +49,4 @@ export * from "./item-release-inventory-transaction-type";
 export * from "./block-face";
 export * from "./objective-sort-order";
 export * from "./display-slot-type";
+export * from "./scoreboard-identity-action";
