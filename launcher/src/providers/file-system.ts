@@ -132,7 +132,22 @@ class FileSystemProvider extends WorldProvider {
     return world;
 	}
 
-	public override readChunk(
+  public save(): void {
+    for (const [identifier, dimension] of this.chunks) {
+      // Get all the dirty chunks.
+      const chunks = [...dimension.values()].filter((chunk) => chunk.dirty);
+
+      // Loop through the dirty chunks.
+      for (const chunk of chunks) {
+        this.writeChunk(chunk, identifier);
+
+        // Set the dirty flag to false.
+        chunk.dirty = false;
+      }
+    }
+  }
+
+	public readChunk(
 		cx: number,
 		cz: number,
 		dimension: Dimension
@@ -177,14 +192,17 @@ class FileSystemProvider extends WorldProvider {
     }
 	}
 
-	public override writeChunk(chunk: Chunk, dimension: Dimension): void {
+	public writeChunk(chunk: Chunk, dimension: Dimension | string): void {
+    // Get the dimension identifier.
+    const identifier = typeof dimension === "string" ? dimension : dimension.identifier;
+
     // Check if the chunks contain the dimension.
-    if (!this.chunks.has(dimension.identifier)) {
-      this.chunks.set(dimension.identifier, new Map());
+    if (!this.chunks.has(identifier)) {
+      this.chunks.set(identifier, new Map());
     }
 
     // Get the dimension chunks.
-    const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
+    const chunks = this.chunks.get(identifier) as Map<bigint, Chunk>;
 
     // Get the chunk hash.
     const hash = Chunk.getHash(chunk.x, chunk.z);
@@ -193,7 +211,7 @@ class FileSystemProvider extends WorldProvider {
     chunks.set(hash, chunk);
 
     // Write the chunk to the file system.
-    writeFileSync(join(this.path, "dims", dimension.identifier, "chunks", `${chunk.x}.${chunk.z}.bin`), Chunk.serialize(chunk));
+    writeFileSync(join(this.path, "dims", identifier, "chunks", `${chunk.x}.${chunk.z}.bin`), Chunk.serialize(chunk));
 	}
 }
 

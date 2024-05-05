@@ -34,6 +34,11 @@ export class Chunk {
 	public readonly subchunks: Array<SubChunk>;
 
 	/**
+	 * If the chunk has been modified, and has not been saved.
+	 */
+	public dirty = false;
+
+	/**
 	 * Creates a new chunk.
 	 *
 	 * @param type The dimension type of the chunk.
@@ -104,7 +109,8 @@ export class Chunk {
 		x: number,
 		y: number,
 		z: number,
-		permutation: BlockPermutation
+		permutation: BlockPermutation,
+		dirty = true,
 	): void {
 		// Correct the Y level for the overworld.
 		const yf = this.type === DimensionType.Overworld ? y + 64 : y;
@@ -117,6 +123,9 @@ export class Chunk {
 
 		// Set the block.
 		subchunk.setState(x & 0xf, yf & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
+
+		// Set the chunk as dirty.
+		dirty === true ? this.dirty = true : null;
 	}
 
 	// TODO: Move to ChunkCoords type

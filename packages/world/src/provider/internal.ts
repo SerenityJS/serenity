@@ -38,7 +38,15 @@ class InternalProvider extends WorldProvider {
 		return world;
 	}
 
-	public override readChunk(
+	public save(): void {
+		for (const [_, dimension] of this.chunks) {
+			for (const [_, chunk] of dimension) {
+				chunk.dirty = false;
+			}
+		}
+	}
+
+	public readChunk(
 		cx: number,
 		cz: number,
 		dimension: Dimension
@@ -63,7 +71,7 @@ class InternalProvider extends WorldProvider {
 		return chunks.get(Chunk.getHash(cx, cz)) as Chunk;
 	}
 
-	public override writeChunk(chunk: Chunk, dimension: Dimension): void {
+	public writeChunk(chunk: Chunk, dimension: Dimension): void {
 		// Check if the chunks contain the dimension.
 		if (!this.chunks.has(dimension.identifier)) {
 			this.chunks.set(dimension.identifier, new Map());

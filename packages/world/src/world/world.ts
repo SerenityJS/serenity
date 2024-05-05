@@ -81,7 +81,25 @@ class World {
 		this.dayTime = (this.dayTime + 1) % 24_000;
 
 		// Tick all the dimensions
-		for (const dimension of this.dimensions.values()) dimension.tick();
+		for (const dimension of this.dimensions.values()) try {
+			dimension.tick();
+		} catch (reason) {
+			this.logger.error(
+				`Failed to tick dimension "${dimension.identifier}," reason: ${reason}`
+			);
+		}
+
+		// Check if the world has been running for 10 minutes
+		if (this.currentTick % 12000n === 0n) {
+			// Signal the provider to save the world
+			try {
+				this.provider.save();
+			} catch (reason) {
+				this.logger.error(
+					`Failed to save world, reason: ${reason}`
+				);
+			}
+		}
 	}
 
 	/**

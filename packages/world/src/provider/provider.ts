@@ -24,6 +24,13 @@ class WorldProvider {
 	}
 
 	/**
+	 * Trigger to save any data that needs to be saved.
+	 */
+	public save(): void {
+		throw new Error("WorldProvider.save is not implemented");
+	}
+
+	/**
 	 * Reads a chunk from the world.
 	 *
 	 * @param cx The chunk x coordinate.

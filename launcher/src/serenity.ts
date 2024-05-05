@@ -184,7 +184,7 @@ class Serenity extends Emitter<EventSignals> {
 		this.raknet.start();
 
 		// Get the server tps from the properties
-		const tps = this.properties.values["server-tps"] ?? 20;
+		const tps = this.properties.getValue("server-tps") ?? 20;
 
 		// Create a ticking loop with default 50ms interval
 		// Handle delta time and tick the world

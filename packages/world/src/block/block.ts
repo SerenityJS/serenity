@@ -146,11 +146,6 @@ class Block {
 			component.onPlace?.(playerInitiated);
 		}
 
-		//
-		// TODO: VERY VERY BAD!!!, we need to implement a save cycle for the chunks.
-		//
-		this.dimension.world.provider.writeChunk(chunk, this.dimension);
-
 		// Return the block.
 		return this;
 	}
