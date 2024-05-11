@@ -2,7 +2,7 @@ import { Long, Short } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
-import { Address, SystemAddress } from "../data";
+import { Address, SystemAddress } from "../types";
 
 import { BasePacket } from "./base";
 

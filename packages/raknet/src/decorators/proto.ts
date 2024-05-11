@@ -1,5 +1,5 @@
-import { BasePacket } from "../proto";
-import { PacketMetadata } from "../types/packet";
+import type { BasePacket } from "../proto";
+import type { PacketMetadata } from "../types/packet";
 
 /**
  * Proto decorator for packet classes.

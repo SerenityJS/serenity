@@ -13,9 +13,9 @@ import {
 	FrameSet,
 	Nack
 } from "../proto";
-import { NetworkIdentifier } from "../types";
 
-import { RaknetServer } from "./raknet";
+import type { NetworkIdentifier } from "../types";
+import type { RaknetServer } from "./raknet";
 
 /**
  * Represents a connection in the server
@@ -154,9 +154,10 @@ class Connection {
 
 		// Construct the frame
 		const frame = new Frame();
-		frame.reliability = Reliability.Unreliable;
+		frame.reliability = Reliability.ReliableOrdered;
 		frame.orderChannel = 0;
 		frame.payload = disconnect.serialize();
+
 		// Send the frame
 		this.sendFrame(frame, Priority.Immediate);
 
@@ -176,7 +177,7 @@ class Connection {
 	public incoming(buffer: Buffer): void {
 		// Reads the header of the packet (u8)
 		// And masks it with 0xf0 to get the header
-		const header = buffer[0]! & 0xf0;
+		const header = (buffer[0] as number) & 0xf0;
 
 		// Switches the header of the packet
 		// If there is no case for the header, it will log the packet id as unknown
@@ -228,7 +229,7 @@ class Connection {
 	 */
 	public incomingBatch(buffer: Buffer): void {
 		// Reads the header of the packet (u8)
-		const header = buffer[0]!;
+		const header = buffer[0] as number;
 
 		// Check if the connection is still connecting
 		if (this.status === Status.Connecting) {
@@ -355,7 +356,7 @@ class Connection {
 			for (const sequence of nack.sequences) {
 				if (this.outputBackupQueue.has(sequence)) {
 					// Gets the lost frames and sends them again
-					const frames = this.outputBackupQueue.get(sequence)!;
+					const frames = this.outputBackupQueue.get(sequence) || [];
 					for (const frame of frames) {
 						this.sendFrame(frame, Priority.Immediate);
 					}
@@ -450,8 +451,8 @@ class Connection {
 		if (frame.isSequenced()) {
 			if (
 				frame.sequenceIndex <
-					this.inputHighestSequenceIndex[frame.orderChannel]! ||
-				frame.orderIndex < this.inputOrderIndex[frame.orderChannel]!
+					(this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
+				frame.orderIndex < (this.inputOrderIndex[frame.orderChannel] as number)
 			) {
 				// Log a debug message for out of order frames
 				this.server.logger.debug(
@@ -479,20 +480,35 @@ class Connection {
 
 				// Handle the packet
 				this.incomingBatch(frame.payload);
-				let index = this.inputOrderIndex[frame.orderChannel]!;
+				let index = this.inputOrderIndex[frame.orderChannel] as number;
 				const outOfOrderQueue = this.inputOrderingQueue.get(
 					frame.orderChannel
-				)!;
+				) as Map<number, Frame>;
 				for (; outOfOrderQueue.has(index); index++) {
-					this.incomingBatch(outOfOrderQueue.get(index)!.payload);
+					// Get the frame from the queue
+					const frame = outOfOrderQueue.get(index);
+
+					// Check if the frame is null
+					if (!frame) break;
+
+					// Handle the packet and delete it from the queue
+					this.incomingBatch(frame.payload);
 					outOfOrderQueue.delete(index);
 				}
 
 				// Update the queue
 				this.inputOrderingQueue.set(frame.orderChannel, outOfOrderQueue);
 				this.inputOrderIndex[frame.orderChannel] = index;
-			} else if (frame.orderIndex > this.inputOrderIndex[frame.orderChannel]!) {
-				const unordered = this.inputOrderingQueue.get(frame.orderChannel)!;
+			} else if (
+				frame.orderIndex > (this.inputOrderIndex[frame.orderChannel] as number)
+			) {
+				// Get the unordered queue
+				const unordered = this.inputOrderingQueue.get(frame.orderChannel);
+
+				// Check if the queue is null
+				if (!unordered) return;
+
+				// Add the frame to the queue
 				unordered.set(frame.orderIndex, frame);
 			}
 		} else {
@@ -508,32 +524,42 @@ class Connection {
 	private handleFragment(frame: Frame): void {
 		// Check if we already have the fragment id
 		if (this.fragmentsQueue.has(frame.fragmentId)) {
-			const value = this.fragmentsQueue.get(frame.fragmentId)!;
-			value.set(frame.fragmentIndex, frame);
+			const fragment = this.fragmentsQueue.get(frame.fragmentId);
+
+			// Check if the fragment is null
+			if (!fragment) return;
+
+			// Set the split frame to the fragment
+			fragment.set(frame.fragmentIndex, frame);
 
 			// Check if we have all the fragments
 			// Then we can rebuild the packet
-			if (value.size === frame.fragmentSize) {
+			if (fragment.size === frame.fragmentSize) {
 				const stream = new BinaryStream();
 				// Loop through the fragments and write them to the stream
-				for (let index = 0; index < value.size; index++) {
-					const splitPacket = value.get(index)!;
-					stream.writeBuffer(splitPacket.payload);
+				for (let index = 0; index < fragment.size; index++) {
+					// Get the split frame from the fragment
+					const sframe = fragment.get(index) as Frame;
+
+					// Write the payload to the stream
+					stream.writeBuffer(sframe.payload);
 				}
 
 				// Construct the new frame
 				// Assign the values from the original frame
-				const newFrame = new Frame();
-				newFrame.reliability = frame.reliability;
-				newFrame.reliableIndex = frame.reliableIndex;
-				newFrame.sequenceIndex = frame.sequenceIndex;
-				newFrame.orderIndex = frame.orderIndex;
-				newFrame.orderChannel = frame.orderChannel;
-				newFrame.payload = stream.getBuffer();
+				const nframe = new Frame();
+				nframe.reliability = frame.reliability;
+				nframe.reliableIndex = frame.reliableIndex;
+				nframe.sequenceIndex = frame.sequenceIndex;
+				nframe.orderIndex = frame.orderIndex;
+				nframe.orderChannel = frame.orderChannel;
+				nframe.payload = stream.getBuffer();
+
 				// Delete the fragment id from the queue
 				this.fragmentsQueue.delete(frame.fragmentId);
+
 				// Send the new frame to the handleFrame function
-				return this.handleFrame(newFrame);
+				return this.handleFrame(nframe);
 			}
 		} else {
 			// Add the fragment id to the queue
@@ -554,11 +580,15 @@ class Connection {
 		// Check if the packet is sequenced or ordered
 		if (frame.isSequenced()) {
 			// Set the order index and the sequence index
-			frame.orderIndex = this.outputOrderIndex[frame.orderChannel]!;
-			frame.sequenceIndex = this.outputSequenceIndex[frame.orderChannel]++;
+			frame.orderIndex = this.outputOrderIndex[frame.orderChannel] as number;
+			frame.sequenceIndex = (this.outputSequenceIndex[
+				frame.orderChannel
+			] as number)++;
 		} else if (frame.isOrderExclusive()) {
 			// Set the order index and the sequence index
-			frame.orderIndex = this.outputOrderIndex[frame.orderChannel]++;
+			frame.orderIndex = (this.outputOrderIndex[
+				frame.orderChannel
+			] as number)++;
 			this.outputSequenceIndex[frame.orderChannel] = 0;
 		}
 
@@ -568,16 +598,23 @@ class Connection {
 		// Split packet if bigger than MTU size
 		const maxSize = this.mtu - 6 - 23;
 		if (frame.payload.byteLength > maxSize) {
+			// Create a new buffer from the payload and generate a fragment id
 			const buffer = Buffer.from(frame.payload);
 			const fragmentId = this.outputFragmentIndex++ % 65_536;
+
+			// Loop through the buffer and split it into fragments based on the MTU size
 			for (let index = 0; index < buffer.byteLength; index += maxSize) {
+				// Check if the index is not 0, if so, set the reliable index
 				if (index !== 0) frame.reliableIndex = this.outputReliableIndex++;
 
+				// Create a new frame and assign the values
 				frame.payload = buffer.subarray(index, index + maxSize);
 				frame.fragmentIndex = index / maxSize;
 				frame.fragmentId = fragmentId;
 				frame.fragmentSize = Math.ceil(buffer.byteLength / maxSize);
-				this.addFrameToQueue(frame, priority | Priority.Normal);
+
+				// Add the frame to the queue
+				this.addFrameToQueue(frame, priority || Priority.Normal);
 			}
 		} else {
 			return this.addFrameToQueue(frame, priority);
@@ -616,8 +653,10 @@ class Connection {
 		if (this.outputFrameQueue.frames.length > 0) {
 			// Set the sequence of the frame set
 			this.outputFrameQueue.sequence = this.outputSequence++;
+
 			// Send the frame set
 			this.sendFrameSet(this.outputFrameQueue);
+
 			// Set the queue to a new frame set
 			this.outputFrameQueue = new FrameSet();
 			this.outputFrameQueue.frames = [];
@@ -631,6 +670,7 @@ class Connection {
 	private sendFrameSet(frameset: FrameSet): void {
 		// Send the frame set
 		this.send(frameset.serialize());
+
 		// Add the frame set to the backup queue
 		this.outputBackupQueue.set(
 			frameset.sequence,
@@ -646,11 +686,6 @@ class Connection {
 		// Create a new ConnectionRequest instance and deserialize the buffer
 		const request = new ConnectionRequest(buffer).deserialize();
 
-		// Check if the server is full
-		// if (this.server.connections.size >= this.server.maxConnections) {
-		// 	return this.disconnect();
-		// }
-
 		// Create a new ConnectionRequestAccepted instance
 		const accepted = new ConnectionRequestAccepted();
 
@@ -663,7 +698,7 @@ class Connection {
 
 		// Set the accepted packet to a new frame
 		const frame = new Frame();
-		frame.reliability = Reliability.Unreliable;
+		frame.reliability = Reliability.ReliableOrdered;
 		frame.orderChannel = 0;
 		frame.payload = accepted.serialize();
 
@@ -684,7 +719,7 @@ class Connection {
 		pong.timestamp = BigInt(Date.now());
 
 		const frame = new Frame();
-		frame.reliability = Reliability.Unreliable;
+		frame.reliability = Reliability.ReliableOrdered;
 		frame.orderChannel = 0;
 		frame.payload = pong.serialize();
 

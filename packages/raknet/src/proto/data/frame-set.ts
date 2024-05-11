@@ -2,7 +2,7 @@ import { Endianness, Uint24 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
-import { Frame } from "../data";
+import { Frame } from "../types";
 
 import { BasePacket } from "./base";
 

@@ -1,7 +1,7 @@
 import { Endianness } from "@serenityjs/binarystream";
 
-import { ValidTypes } from "../types";
-import { BasePacket } from "../proto";
+import type { ValidTypes } from "../types";
+import type { BasePacket } from "../proto";
 
 function Serialize(
 	type: ValidTypes,

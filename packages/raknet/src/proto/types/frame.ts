@@ -1,4 +1,4 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { Bitflags, Reliability } from "../../enums";
 
@@ -212,19 +212,19 @@ class Frame extends DataType {
 			// Check if the frame is reliable.
 			// If so, write the reliable index.
 			if (frame.isReliable()) {
-				stream.writeUint24(frame.reliableIndex!, Endianness.Little);
+				stream.writeUint24(frame.reliableIndex as number, Endianness.Little);
 			}
 
 			// Check if the frame is sequenced.
 			// If so, write the sequence index.
 			if (frame.isSequenced()) {
-				stream.writeUint24(frame.sequenceIndex!, Endianness.Little);
+				stream.writeUint24(frame.sequenceIndex as number, Endianness.Little);
 			}
 
 			// Check if the frame is ordered.
 			// If so, write the order index and channel.
 			if (frame.isOrdered()) {
-				stream.writeUint24(frame.orderIndex!, Endianness.Little);
+				stream.writeUint24(frame.orderIndex as number, Endianness.Little);
 				stream.writeByte(frame.orderChannel);
 			}
 

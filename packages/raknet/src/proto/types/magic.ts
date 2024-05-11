@@ -1,6 +1,6 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-
 import { DataType } from "./type";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 const MagicBuffer = Buffer.from(
 	"\u0000\u00FF\u00FF\u0000\u00FE\u00FE\u00FE\u00FE\u00FD\u00FD\u00FD\u00FD\u0012\u0034\u0056\u0078",

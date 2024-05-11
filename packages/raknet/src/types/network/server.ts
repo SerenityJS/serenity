@@ -1,4 +1,4 @@
-import { Connection } from "../../server";
+import type { Connection } from "../../server";
 
 interface RaknetEvents {
 	error: [Error];

@@ -1,6 +1,6 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-
 import { DataType } from "./type";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * Represents a maximum transmission unit data type.

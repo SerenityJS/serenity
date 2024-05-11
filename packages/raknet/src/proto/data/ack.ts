@@ -5,24 +5,24 @@ import { Packet } from "../../enums";
 
 import { BasePacket } from "./base";
 
-@Proto(Packet.Nack)
-class Nack extends BasePacket {
+@Proto(Packet.Ack)
+class Ack extends BasePacket {
 	public sequences: Array<number> = [];
 
 	// Override encode due to custom logic, maybe move into own type?
 	public override serialize(): Buffer {
-		this.writeUint8(Nack.id);
+		this.writeUint8(Ack.id);
 		const stream = new BinaryStream();
 		const count = this.sequences.length;
 		let records = 0;
 
 		if (count > 0) {
 			let cursor = 0;
-			let start = this.sequences[0]!;
-			let last = this.sequences[0]!;
+			let start = this.sequences[0] as number;
+			let last = this.sequences[0] as number;
 
 			while (cursor < count) {
-				const current = this.sequences[cursor++]!;
+				const current = this.sequences[cursor++] as number;
 				const diff = current - last;
 				if (diff === 1) {
 					last = current;
@@ -83,4 +83,4 @@ class Nack extends BasePacket {
 	}
 }
 
-export { Nack };
+export { Ack };

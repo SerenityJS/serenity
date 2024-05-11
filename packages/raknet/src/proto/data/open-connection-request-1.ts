@@ -2,7 +2,7 @@ import { Uint8 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
-import { MTU, Magic } from "../data";
+import { MTU, Magic } from "../types";
 
 import { BasePacket } from "./base";
 

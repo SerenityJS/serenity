@@ -1,9 +1,8 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-
-import { NetworkIdentifier } from "../../types";
-
 import { DataType } from "./type";
 import { Address } from "./address";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
+import type { NetworkIdentifier } from "../../types";
 
 /**
  * Represents an address data type.

@@ -2,15 +2,15 @@ import { Long, Bool, Short } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
-import { Address, Magic } from "../data";
+import { Magic } from "../types";
 
 import { BasePacket } from "./base";
 
 /**
- * Represents an open connection reply 2 packet.
+ * Represents an open connection reply 1 packet.
  */
-@Proto(Packet.OpenConnectionReply2)
-class OpenConnectionReply2 extends BasePacket {
+@Proto(Packet.OpenConnectionReply1)
+class OpenConnectionReply1 extends BasePacket {
 	/**
 	 * The magic bytes of the reply.
 	 */
@@ -22,19 +22,14 @@ class OpenConnectionReply2 extends BasePacket {
 	@Serialize(Long) public guid!: bigint;
 
 	/**
-	 * Client adrress.
+	 * If raknet is using security.
 	 */
-	@Serialize(Address) public address!: Address;
+	@Serialize(Bool) public security!: boolean;
 
 	/**
 	 * The maximum transfer unit of the reply.
 	 */
 	@Serialize(Short) public mtu!: number;
-
-	/**
-	 * If raknet is using encryption.
-	 */
-	@Serialize(Bool) public encryption!: boolean;
 }
 
-export { OpenConnectionReply2 };
+export { OpenConnectionReply1 };

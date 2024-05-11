@@ -2,7 +2,7 @@ import { Long } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
-import { Magic } from "../data";
+import { Magic } from "../types";
 
 import { BasePacket } from "./base";
 
