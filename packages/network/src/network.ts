@@ -390,7 +390,7 @@ class Network extends Emitter<NetworkEvents> {
 			// Depending on the size of the framed payload, we will check if compression is enabled for the session.
 			const deflated =
 				framed.byteLength > this.compressThreshold && session.compression
-					? Buffer.from([this.compressThreshold, ...deflateRawSync(framed)])
+					? Buffer.from([this.compressMethod, ...deflateRawSync(framed)])
 					: session.compression
 						? Buffer.from([CompressionMethod.None, ...framed])
 						: framed;

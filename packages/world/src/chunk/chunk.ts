@@ -1,4 +1,8 @@
-import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
+import {
+	ChunkCoords,
+	DimensionType,
+	type Vector3f
+} from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
 import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
 
@@ -83,22 +87,6 @@ export class Chunk {
 	}
 
 	/**
-	 * Get the Y coordinate of the top block at the given X and Z coordinates that is not air.
-	 * @param x The X coordinate.
-	 * @param z The Z coordinate.
-	 * @param y The Y coordinate. (Optional)
-	 */
-	public getTopLevel(x: number, z: number, yl = 255): number {
-		// Get the Y level.
-		for (let y = yl; y >= 0; y--) {
-			const permutation = this.getPermutation(x, y, z);
-			if (permutation.type.identifier !== BlockIdentifier.Air) return y;
-		}
-
-		return -1;
-	}
-
-	/**
 	 * Set the permutation at the given X, Y and Z coordinates.
 	 * @param x The X coordinate.
 	 * @param y The Y coordinate.
@@ -110,7 +98,7 @@ export class Chunk {
 		y: number,
 		z: number,
 		permutation: BlockPermutation,
-		dirty = true,
+		dirty = true
 	): void {
 		// Correct the Y level for the overworld.
 		const yf = this.type === DimensionType.Overworld ? y + 64 : y;
@@ -125,7 +113,39 @@ export class Chunk {
 		subchunk.setState(x & 0xf, yf & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
 
 		// Set the chunk as dirty.
-		dirty === true ? this.dirty = true : null;
+		dirty === true ? (this.dirty = true) : null;
+	}
+
+	/**
+	 * Get the topmost level in which a permutation is not air, at the given X and Z coordinates.
+	 * @param position The position to query.
+	 * @returns The topmost level in which a permutation is not air.
+	 */
+	public getTopmostLevel(position: Vector3f): number {
+		// Get the Y level.
+		for (let y = position.y; y >= 0; y--) {
+			const permutation = this.getPermutation(position.x, y, position.z);
+			if (permutation.type.identifier !== BlockIdentifier.Air) return y;
+		}
+
+		// Return 0 if no block was found.
+		return 0;
+	}
+
+	/**
+	 * Get the bottommost level in which a permutation is not air, at the given X and Z coordinates.
+	 * @param position The position to query.
+	 * @returns The bottommost level in which a permutation is not air.
+	 */
+	public getBottommostLevel(position: Vector3f): number {
+		// Get the Y level.
+		for (let y = 0; y <= position.y; y++) {
+			const permutation = this.getPermutation(position.x, y, position.z);
+			if (permutation.type.identifier !== BlockIdentifier.Air) return y;
+		}
+
+		// Return 0 if no block was found.
+		return 0;
 	}
 
 	// TODO: Move to ChunkCoords type

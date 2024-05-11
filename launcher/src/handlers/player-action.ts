@@ -10,11 +10,16 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
+import {
+	EntityPhysicsComponent,
+	ItemStack,
+	type Player
+} from "@serenityjs/world";
+import { ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
 
 import type { NetworkSession } from "@serenityjs/network";
-import type { Player } from "@serenityjs/world";
 
 class PlayerAction extends SerenityHandler {
 	public static readonly packet = PlayerActionPacket.id;
@@ -113,7 +118,7 @@ class PlayerAction extends SerenityHandler {
 		player: Player
 	): void {
 		// Return if the player is in creative mode.
-		if (Gamemode.Creative === 1) return;
+		if (player.gamemode === Gamemode.Creative) return;
 
 		// Get the block position from the packet.
 		const { x, y, z } = packet.blockPosition;
@@ -209,6 +214,14 @@ class PlayerAction extends SerenityHandler {
 		// Get the block from the dimension.
 		const block = player.dimension.getBlock(x, y, z);
 
+		// Create a new ItemStack.
+		const itemType = ItemType.resolve(block.permutation.type) as ItemType;
+		const itemStack = ItemStack.create(itemType, 1, block.permutation.index);
+		const itemEntity = player.dimension.spawnItem(
+			itemStack,
+			new Vector3f(x + 0.5, y + 0.5, z + 0.5)
+		);
+
 		// Emit the block break particles to the dimension.
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
@@ -220,7 +233,7 @@ class PlayerAction extends SerenityHandler {
 		player.dimension.broadcast(event);
 
 		// Destroy the block.
-		block.destroy();
+		block.destroy(player);
 	}
 
 	private static handleContinueBreak(
@@ -249,7 +262,7 @@ class PlayerAction extends SerenityHandler {
 		// Set the mining position to the player.
 		player.mining = packet.blockPosition;
 
-		// Calculate the break time.
+		// TODO: Calculate the break time based on hardness
 		const breakTime = Math.ceil(2 * 20);
 
 		// Create a new LevelEvent packet.

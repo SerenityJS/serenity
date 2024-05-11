@@ -237,6 +237,10 @@ class Serenity extends Emitter<EventSignals> {
 		);
 	}
 
+	public getPlayers(): Array<Player> {
+		return [...this.players.values()];
+	}
+
 	public getWorld(name?: string): World {
 		return this.worlds.get(name ?? "default") as World;
 	}

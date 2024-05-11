@@ -8,6 +8,7 @@
   ],
   "devDependencies": {
     "@ariesclark/eslint-config": "^1.6.10",
+    "@eslint/eslintrc": "^3.0.2",
     "eslint": "^8.57.0",
     "eslint-config-turbo": "^1.12.5",
     "typescript": "^5.4.2"

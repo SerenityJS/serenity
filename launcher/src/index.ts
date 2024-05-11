@@ -3,15 +3,12 @@ export * from "./handlers";
 export * from "./properties";
 export * from "./events";
 
-import { EntityPhysicsComponent, ItemStack, Player, Superflat } from "@serenityjs/world";
+import { EntityPhysicsComponent, Player, Superflat } from "@serenityjs/world";
 import { DimensionType, Packet, Vector3f } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { StringEnum } from "@serenityjs/command";
 
 import { Serenity } from "./serenity";
-import { ActionForm } from "@serenityjs/server-ui";
-import { BlockPermutation, CustomBlockType } from "@serenityjs/block";
-import { CreativeItem, CustomItemType, ItemCategory, ItemGroup, ItemIdentifier } from "@serenityjs/item";
 
 const serenity = new Serenity();
 
@@ -80,6 +77,6 @@ for (const world of serenity.worlds.getAll()) {
 	world.commands.register("tps", "Gets the server TPS", () => {
 		return {
 			message: `Server TPS: ${serenity.tps}`
-		}
-	})
+		};
+	});
 }

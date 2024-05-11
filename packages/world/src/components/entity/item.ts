@@ -36,9 +36,9 @@ class EntityItemComponent extends EntityComponent {
 	public onTick(): void {
 		// TODO: Add lifespan to the item
 
-		// Check if the tick is a multiple of 25
+		// Check if the tick is a multiple of 15
 		const current = this.entity.dimension.world.currentTick;
-		if (current % 25n !== 0n) return;
+		if (current % 15n !== 0n) return;
 
 		// Check if there is a player nearby within a 1 block radius
 		const players = this.entity.dimension.getPlayers();

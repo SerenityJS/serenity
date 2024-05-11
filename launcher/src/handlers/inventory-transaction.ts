@@ -8,7 +8,8 @@ import {
 	LevelSoundEvent,
 	LevelSoundEventPacket,
 	Vector3f,
-	type ItemUseInventoryTransaction
+	type ItemUseInventoryTransaction,
+	Gamemode
 } from "@serenityjs/protocol";
 import {
 	EntityPhysicsComponent,
@@ -115,6 +116,12 @@ class InventoryTransaction extends SerenityHandler {
 			// Check if the item is valid and is a block
 			if (!item) return;
 			if (!item.type.block) return;
+
+			// Check if the player is in survival mode
+			if (player.gamemode === Gamemode.Survival) {
+				// Decrease the amount of the item
+				item.amount--;
+			}
 
 			const { x, y, z } = packet.blockPosition;
 

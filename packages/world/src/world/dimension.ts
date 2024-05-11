@@ -12,7 +12,11 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { Chunk } from "../chunk";
 import { Block } from "../block";
-import { EntityComponent, EntityItemComponent } from "../components";
+import {
+	EntityComponent,
+	EntityItemComponent,
+	EntityPhysicsComponent
+} from "../components";
 
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../item";
@@ -299,13 +303,35 @@ class Dimension {
 	}
 
 	/**
-	 * Gets the Y level of the top most block that is not air.
-	 * @param x The X coordinate of the block.
-	 * @param z The Z coordinate of the block.
-	 * @param y The Y coordinate of the block.
+	 * Gets the topmost block in which the permutation is not air, at the given X and Z coordinates.
+	 * @param position The position to query.
+	 * @returns The topmost block in which the permutation is not air.
 	 */
-	public getTopLevel(x: number, z: number, y?: number): number {
-		return this.getChunk(x >> 4, z >> 4).getTopLevel(x, z, y);
+	public getTopmostBlock(position: Vector3f): Block {
+		// Get the current chunk
+		const chunk = this.getChunk(position.x >> 4, position.z >> 4);
+
+		// Get the topmost level that is not air
+		const topLevel = chunk.getTopmostLevel(position);
+
+		// Return the block
+		return this.getBlock(position.x, topLevel, position.z);
+	}
+
+	/**
+	 * Gets the bottommost block in which the permutation is not air, at the given X and Z coordinates.
+	 * @param position The position to query.
+	 * @returns The bottommost block in which the permutation is not air.
+	 */
+	public getBottommostBlock(position: Vector3f): Block {
+		// Get the current chunk
+		const chunk = this.getChunk(position.x >> 4, position.z >> 4);
+
+		// Get the bottommost level that is not air
+		const bottomLevel = chunk.getBottommostLevel(position);
+
+		// Return the block
+		return this.getBlock(position.x, bottomLevel, position.z);
 	}
 
 	/**
@@ -384,7 +410,9 @@ class Dimension {
 		entity.position.z = position.z;
 
 		// Create a new item component, this will register the item to the entity
+		// As well as a new physics component
 		new EntityItemComponent(entity, itemStack);
+		new EntityPhysicsComponent(entity);
 
 		// Spawn the item entity
 		entity.spawn();
