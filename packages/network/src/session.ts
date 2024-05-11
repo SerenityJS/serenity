@@ -1,7 +1,8 @@
 import {
 	type Connection,
 	type NetworkIdentifier,
-	Priority
+	Priority,
+	Reliability
 } from "@serenityjs/raknet";
 import {
 	type DisconnectReason,
@@ -46,6 +47,16 @@ class NetworkSession extends Emitter<NetworkEvents> {
 	 * Whether the session is using compression.
 	 */
 	public compression: boolean = false;
+
+	/**
+	 * The packet reliability of the session.
+	 */
+	public reliablity: Reliability = Reliability.ReliableOrdered;
+
+	/**
+	 * The packet ordering channel of the session.
+	 */
+	public channel: number = 0;
 
 	/**
 	 * Creates a new network session.

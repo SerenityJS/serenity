@@ -16,8 +16,7 @@ import {
 	type Connection,
 	Frame,
 	Priority,
-	type RaknetServer,
-	Reliability
+	type RaknetServer
 } from "@serenityjs/raknet";
 
 import { NetworkSession } from "./session";
@@ -409,8 +408,8 @@ class Network extends Emitter<NetworkEvents> {
 			// The frame contains the reliability and priority of the packet.
 			// As well as the payload itself.
 			const frame = new Frame();
-			frame.reliability = Reliability.ReliableOrdered;
-			frame.orderChannel = 0;
+			frame.reliability = session.reliablity;
+			frame.orderChannel = session.channel;
 			frame.payload = payload;
 
 			// And send the frame to the session.
