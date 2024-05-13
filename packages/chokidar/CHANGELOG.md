@@ -1,5 +1,11 @@
 # @serenityjs/chokidar
 
+## 0.2.2
+
+### Patch Changes
+
+- dc5908e: Initialize Beta Release
+
 ## 0.2.1
 
 ### Patch Changes

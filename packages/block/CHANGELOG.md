@@ -1,5 +1,14 @@
 # @serenityjs/block
 
+## 0.2.2
+
+### Patch Changes
+
+- dc5908e: Initialize Beta Release
+- Updated dependencies [dc5908e]
+  - @serenityjs/data@0.2.2
+  - @serenityjs/nbt@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes

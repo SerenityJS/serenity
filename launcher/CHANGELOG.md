@@ -1,5 +1,26 @@
 # @serenityjs/launcher
 
+## 0.2.2
+
+### Patch Changes
+
+- dc5908e: Initialize Beta Release
+- Updated dependencies [dc5908e]
+  - @serenityjs/block@0.2.2
+  - @serenityjs/command@0.2.2
+  - @serenityjs/data@0.2.2
+  - @serenityjs/emitter@0.2.2
+  - @serenityjs/entity@0.2.2
+  - @serenityjs/item@0.2.2
+  - @serenityjs/logger@0.2.2
+  - @serenityjs/nbt@0.2.2
+  - @serenityjs/network@0.2.2
+  - @serenityjs/plugins@0.2.2
+  - @serenityjs/protocol@0.2.2
+  - @serenityjs/raknet@0.2.2
+  - @serenityjs/server-ui@0.2.2
+  - @serenityjs/world@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
