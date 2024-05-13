@@ -70,6 +70,7 @@ import { RemoveObjectivePacket } from "./remove-objective";
 import { SetDisplayObjectivePacket } from "./set-display-objective";
 import { SetScorePacket } from "./set-score";
 import { SetScoreboardIdentityPacket } from "./set-scoreboard-identity";
+import { TransferPacket } from "./transfer";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -117,6 +118,7 @@ const Packets = {
 	[Packet.ResourcePackDataInfo]: ResourcePackDataInfoPacket, // 82
 	[Packet.ResourcePackChunkData]: ResourcePackChunkDataPacket, // 83
 	[Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
+	[Packet.Transfer]: TransferPacket, // 85
 	[Packet.SetTitle]: SetTitlePacket, // 88
 	[Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
 	[Packet.ModalFormResponse]: ModalFormResponsePacket, // 101

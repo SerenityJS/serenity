@@ -67,7 +67,8 @@ import type {
 	UpdateAttributesPacket,
 	UpdateBlockPacket,
 	SetTimePacket,
-	SetScoreboardIdentityPacket
+	SetScoreboardIdentityPacket,
+	TransferPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -130,6 +131,7 @@ interface NetworkEvents {
 	[Packet.ResourcePackChunkRequest]: [
 		NetworkPacketEvent<ResourcePackChunkRequestPacket>
 	];
+	[Packet.Transfer]: [NetworkPacketEvent<TransferPacket>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];

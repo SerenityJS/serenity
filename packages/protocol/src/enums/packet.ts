@@ -51,6 +51,7 @@ enum Packet {
 	ResourcePackDataInfo = 0x52, // 82
 	ResourcePackChunkData = 0x53, // 83
 	ResourcePackChunkRequest = 0x54, // 84
+	Transfer = 0x55, // 85
 	SetTitle = 0x58, // 88
 	ModalFormRequest = 0x64, // 100
 	ModalFormResponse = 0x65, // 101
