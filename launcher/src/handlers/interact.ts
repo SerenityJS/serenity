@@ -29,10 +29,10 @@ class Interact extends SerenityHandler {
 			const container = new ContainerOpenPacket();
 
 			// Assign the packet data.
-			container.containerId = ContainerId.Inventory;
-			container.containerType = ContainerType.Inventory;
-			container.position = player.position;
-			container.targetRuntimeEntityId = player.runtime;
+			container.identifier = ContainerId.Inventory;
+			container.type = ContainerType.Inventory;
+			container.position = player.position.floor();
+			container.uniqueId = player.unique;
 
 			// Send the packet.
 			session.send(container);

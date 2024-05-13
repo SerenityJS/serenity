@@ -22,11 +22,14 @@ class EntityPhysicsComponent extends EntityComponent {
 
 	public onTick(): void {
 		// Check how many blocks is between the entity and the nearest ground block
-		const { x, y, z } = this.entity.position;
+		const { y } = this.entity.position;
 
 		// Calculate the distance between the entity and the nearest ground block
 		const distance =
-			y - 1 - this.entity.dimension.getTopmostBlock(this.entity.position.floor()).location.y;
+			y -
+			1 -
+			this.entity.dimension.getTopmostBlock(this.entity.position.floor())
+				.location.y;
 
 		// Check if the entity is falling
 		// And check if the entity is in a block, if so add a small velocity to make the entity move up

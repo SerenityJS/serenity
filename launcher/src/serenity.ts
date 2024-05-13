@@ -14,10 +14,10 @@ import {
 	type EventSignals
 } from "./events";
 import { Worlds } from "./worlds";
-
-import type { Player, World } from "@serenityjs/world";
-import { DefaultServerProperties } from "./types";
 import { DEFAULT_SERVER_PROPERTIES } from "./properties/default";
+
+import type { DefaultServerProperties } from "./types";
+import type { Player, World } from "@serenityjs/world";
 
 class Serenity extends Emitter<EventSignals> {
 	/**
@@ -82,7 +82,10 @@ class Serenity extends Emitter<EventSignals> {
 
 		// Assign instances
 		this.logger = new Logger("Serenity", LoggerColors.Magenta);
-		this.properties = new Properties("./server.properties", DEFAULT_SERVER_PROPERTIES);
+		this.properties = new Properties(
+			"./server.properties",
+			DEFAULT_SERVER_PROPERTIES
+		);
 
 		// Set the debug logging
 		Logger.DEBUG = this.properties.values["debug-logging"];
