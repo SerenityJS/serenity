@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { readdirSync, writeFileSync, readFileSync, rmSync, existsSync } from "node:fs";
+import { writeFileSync, readFileSync, rmSync, existsSync } from "node:fs";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { parse } from "yaml";
@@ -32,9 +32,7 @@ class Properties<T> {
 		}
 
 		// Check if the server.properties file is missing any of the default properties.
-		const defaultProperties = parse(
-			this.template
-		) as T;
+		const defaultProperties = parse(this.template) as T;
 
 		for (const key in defaultProperties) {
 			if (!Object.keys(this.values as Record<string, unknown>).includes(key)) {
@@ -47,11 +45,7 @@ class Properties<T> {
 					: "";
 
 				// Add the missing property to the server.properties file.
-				this.addValue(
-					key,
-					defaultProperties[key as keyof T],
-					comment
-				);
+				this.addValue(key, defaultProperties[key as keyof T], comment);
 			}
 		}
 	}
@@ -67,9 +61,7 @@ class Properties<T> {
 			writeFileSync(this.path, this.template);
 
 			// Log that the server.properties file was created.
-			Properties.logger.success(
-				`Created properties file at "${this.path}"`
-			);
+			Properties.logger.success(`Created properties file at "${this.path}"`);
 		}
 
 		// Read the server.properties file.
@@ -98,9 +90,7 @@ class Properties<T> {
 	 * @param key The key to get the value of.
 	 * @returns The value of the key.
 	 */
-	public getValue<K extends keyof T>(
-		key: K
-	): T[K] {
+	public getValue<K extends keyof T>(key: K): T[K] {
 		return this.values[key];
 	}
 
@@ -109,13 +99,14 @@ class Properties<T> {
 	 * @param key The key to set the value of.
 	 * @param value The value to set.
 	 */
-	public setValue<K extends keyof T>(
-		key: K,
-		value: T[K]
-	): void {
+	public setValue<K extends keyof T>(key: K, value: T[K]): void {
 		// Check if the key exists.
 		// If not, we will add the key to the server.properties file.
-		if (!Object.keys(this.values as Record<string, unknown>).includes(key as string)) {
+		if (
+			!Object.keys(this.values as Record<string, unknown>).includes(
+				key as string
+			)
+		) {
 			return this.addValue(key as string, value);
 		}
 
@@ -141,10 +132,7 @@ class Properties<T> {
 		// Check if that key already exists.
 		// If so, we will call the setValue method.
 		if (Object.keys(this.values as Record<string, unknown>).includes(key)) {
-			return this.setValue(
-				key as keyof T,
-				value as never
-			);
+			return this.setValue(key as keyof T, value as never);
 		}
 
 		// Add the value to the values property.

@@ -1,10 +1,7 @@
 export * from "./serenity";
 export * from "./handlers";
 export * from "./properties";
+export * from "./providers";
+export * from "./types";
+export * from "./worlds";
 export * from "./events";
-
-import { Serenity } from "./serenity";
-
-const serenity = new Serenity();
-
-serenity.start();
