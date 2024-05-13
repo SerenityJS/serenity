@@ -14,6 +14,7 @@ import {
 	TeleportCause,
 	TextPacket,
 	TextPacketType,
+	TransferPacket,
 	type Vector3f
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
@@ -396,6 +397,23 @@ class Player extends Entity {
 			// Send the packet to the player
 			this.session.send(packet);
 		}
+	}
+
+	/**
+	 * Transfers the player to a different server.
+	 * @param address The address to transfer the player to.
+	 * @param port The port to transfer the player to.
+	 */
+	public transfer(address: string, port: number): void {
+		// Create a new TransferPacket
+		const packet = new TransferPacket();
+
+		// Set the packet properties
+		packet.address = address;
+		packet.port = port;
+
+		// Send the packet to the player
+		this.session.send(packet);
 	}
 
 	/**
