@@ -41,8 +41,26 @@ Serenity has started development on a plugin system. This system allows modifica
 
 ### Installing Serenity
 
-Clone or download a local copy of the Serenity repository to a perferred area on your machine. You can then open the Serenity folder in your perferred integrated development environment. You will now need to run a few terminal commands before starting.
+Serenity provides a simple launcher executable that currently supports Windows and Linux based machines. You can download the executable for your specific machine at our official [repository](https://github.com/SerenityJS/executable/releases/tag/1.0.0). Once you have downloaded the executable you are now ready to get started!
 
+#### Setup
+- First, copy the executable into a blank or new directory. This is were all the necessary files will be generated.
+
+- Next open the server executable, you will then be notified as the server is being setup.
+
+- Finally you are now ready to use your server! The server should be running on the default port of `19132`. Check out the `server.properties` file to make any changes to the server.
+
+#### Version Switching
+The Serenity launcher executable allows developers to switch from `beta` and `latest` releases. To switch to the beta release, create a new empty file in the executable directory called `.beta`, and simply restart the executable. You will then be notified that the launcher is switching to the beta packages. To revert back to the latest stable release, repeat the same process, but make the file name `.latest`, and the launcher will switch back to the latest packages release.
+
+#### Common Issues
+  - If the server is running, and you cannot see/join the server on your Minecraft server list, you need exempt the Minecraft client from the UWP loopback restrictions. Execute the bash command in a new terminal, while running as administrator. This applies for Windows machines only. `CheckNetIsolation.exe LoopbackExempt -a -p=S-1-15-2-1958404141-86561845-1752920682-3514627264-368642714-62675701-733520436` You should be notified with a simple `Ok.`
+
+### Installing Serenity Locally
+
+Installing Serenity locally allows developers to created changes to the core for the application. Clone or download a local copy of the Serenity repository to a perferred area on your machine. You can then open the Serenity folder in your perferred integrated development environment. You will now need to run a few terminal commands before starting. Also, local installs can also be used in the Serenity launcher executable. Simply use install the local package to the directory of the server executable.
+
+#### Setup
 - First you will need to initialize the folder using Yarn. Copy and run the command `yarn install`, follow any steps that may appear on screen.
 
 - Next you are now ready to build the project, since the project is coded in TypeScript, it will first need to be compiled to JavaScript before running. To do this, run the command `yarn build`, this command will then compile the project into JavaScript.
