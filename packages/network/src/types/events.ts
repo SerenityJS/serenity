@@ -59,6 +59,7 @@ import type {
 	SetLocalPlayerAsInitializedPacket,
 	SetPlayerGameTypePacket,
 	SetTitlePacket,
+	SetHudPacket,
 	StartGamePacket,
 	TextPacket,
 	ToastRequestPacket,
@@ -141,6 +142,7 @@ interface NetworkEvents {
 	[Packet.SetScoreboardIdentity]: [
 		NetworkPacketEvent<SetScoreboardIdentityPacket>
 	];
+	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
 	[Packet.SetLocalPlayerAsInitialized]: [
 		NetworkPacketEvent<SetLocalPlayerAsInitializedPacket>
 	];

@@ -62,3 +62,4 @@ export * from "./skin-persona-tint-piece";
 export * from "./serialized-skin";
 export * from "./score-entry";
 export * from "./scoreboard-identity";
+export * from "./hud-element";
