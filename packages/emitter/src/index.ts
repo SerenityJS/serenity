@@ -49,9 +49,11 @@ export class Emitter<T> {
 			listener(...(arguments_ as ForceArray<T[never]>));
 		}
 
-		for (const hook of afterHooks) {
-			hook(...(arguments_ as ForceArray<T[never]>));
-		}
+		process.nextTick(() => {
+			for (const hook of afterHooks) {
+				hook(...(arguments_ as ForceArray<T[never]>));
+			}
+		});
 
 		return true;
 	}

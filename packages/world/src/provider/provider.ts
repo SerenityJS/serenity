@@ -12,7 +12,9 @@ class WorldProvider {
 	 *
 	 * @param parameters The parameters for the world provider.
 	 */
-	public constructor(..._parameters: Array<unknown>) {}
+	public constructor(..._parameters: Array<unknown>) {
+		return;
+	}
 
 	/**
 	 * Initializes the world provider.

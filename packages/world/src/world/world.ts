@@ -81,23 +81,22 @@ class World {
 		this.dayTime = (this.dayTime + 1) % 24_000;
 
 		// Tick all the dimensions
-		for (const dimension of this.dimensions.values()) try {
-			dimension.tick();
-		} catch (reason) {
-			this.logger.error(
-				`Failed to tick dimension "${dimension.identifier}," reason: ${reason}`
-			);
-		}
+		for (const dimension of this.dimensions.values())
+			try {
+				dimension.tick();
+			} catch (reason) {
+				this.logger.error(
+					`Failed to tick dimension "${dimension.identifier}," reason: ${reason}`
+				);
+			}
 
 		// Check if the world has been running for 10 minutes
-		if (this.currentTick % 12000n === 0n) {
+		if (this.currentTick % 12_000n === 0n) {
 			// Signal the provider to save the world
 			try {
 				this.provider.save();
 			} catch (reason) {
-				this.logger.error(
-					`Failed to save world, reason: ${reason}`
-				);
+				this.logger.error(`Failed to save world, reason: ${reason}`);
 			}
 		}
 	}
@@ -127,9 +126,7 @@ class World {
 	 * @returns The dimension that was found.
 	 */
 	public getDimension(identifier?: string): Dimension {
-		return this.dimensions.get(
-			identifier ?? "overworld"
-		) as Dimension;
+		return this.dimensions.get(identifier ?? "overworld") as Dimension;
 	}
 
 	/**

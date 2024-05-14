@@ -10,13 +10,14 @@ import { resolve } from "node:path";
 import {
 	InternalProvider,
 	Superflat,
-	TerrainGenerator,
+	type TerrainGenerator,
 	type World,
 	type WorldProvider
 } from "@serenityjs/world";
 
-import type { Serenity } from "../serenity";
 import { FileSystemProvider } from "../providers";
+
+import type { Serenity } from "../serenity";
 
 // TODO: This is just a thought, bu maybe for ".provider" files, we could use YAML instead of plain text.
 // This way, we could have more structured data and it would be easier to read and write.

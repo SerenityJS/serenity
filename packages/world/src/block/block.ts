@@ -132,7 +132,6 @@ class Block {
 
 		// Set the packet properties.
 		packet.networkBlockId = permutation.network;
-
 		packet.position = this.location;
 		packet.flags = UpdateBlockFlagsType.Network;
 		packet.layer = UpdateBlockLayerType.Normal;

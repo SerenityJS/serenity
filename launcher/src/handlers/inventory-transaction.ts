@@ -109,6 +109,21 @@ class InventoryTransaction extends SerenityHandler {
 	): void {
 		// Check if the type is to place a block
 		if (packet.type === ItemUseInventoryTransactionType.Place) {
+			// Get the block from the face
+			const { x, y, z } = packet.blockPosition;
+
+			// Get the block interacted with, and the block that will be updated
+			const interactedBlock = player.dimension.getBlock(x, y, z);
+			const updatingBlock = interactedBlock.face(packet.face);
+
+			// Fire the onInteract method of the block components
+			for (const component of interactedBlock.components.values()) {
+				console.log(component.identifier);
+
+				// Call the onInteract method.
+				component.onInteract?.(player);
+			}
+
 			// Get the item thats being placed
 			const inventory = player.getComponent("minecraft:inventory");
 			const item = inventory.container.getItem(packet.slot);
@@ -123,13 +138,8 @@ class InventoryTransaction extends SerenityHandler {
 				item.amount--;
 			}
 
-			const { x, y, z } = packet.blockPosition;
-
-			// Get the block from the face
-			const block = player.dimension.getBlock(x, y, z).face(packet.face);
-
 			// Set the permutation of the block
-			block
+			updatingBlock
 				.setPermutation(
 					item.type.block.permutations[item.metadata] as BlockPermutation,
 					player
@@ -145,13 +155,13 @@ class InventoryTransaction extends SerenityHandler {
 			// Assign the sound data
 			sound.event = LevelSoundEvent.Place;
 			sound.position = new Vector3f(x, y, z);
-			sound.data = block.permutation.network;
+			sound.data = updatingBlock.permutation.network;
 			sound.actorIdentifier = "";
 			sound.isBabyMob = false;
 			sound.isGlobal = true;
 
 			// Broadcast the sound packet
-			block.dimension.broadcast(sound);
+			updatingBlock.dimension.broadcast(sound);
 		}
 	}
 }

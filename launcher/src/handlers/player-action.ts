@@ -10,11 +10,7 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
-import {
-	EntityPhysicsComponent,
-	ItemStack,
-	type Player
-} from "@serenityjs/world";
+import { ItemStack, type Player } from "@serenityjs/world";
 import { ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -217,7 +213,7 @@ class PlayerAction extends SerenityHandler {
 		// Create a new ItemStack.
 		const itemType = ItemType.resolve(block.permutation.type) as ItemType;
 		const itemStack = ItemStack.create(itemType, 1, block.permutation.index);
-		const itemEntity = player.dimension.spawnItem(
+		const _itemEntity = player.dimension.spawnItem(
 			itemStack,
 			new Vector3f(x + 0.5, y + 0.5, z + 0.5)
 		);
