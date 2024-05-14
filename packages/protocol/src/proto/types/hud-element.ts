@@ -1,7 +1,7 @@
 import { DataType } from "@serenityjs/raknet";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { HUDElementId } from "../../enums/hud-element-id";
+import type { HUDElementId } from "../../enums";
 
 class HUDElement extends DataType {
 	public hudElementId: HUDElementId;
