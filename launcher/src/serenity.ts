@@ -60,6 +60,9 @@ class Serenity extends Emitter<EventSignals> {
 	 */
 	public readonly events: Map<string, EventSignal>;
 
+	/**
+	 * The plugins manager instance
+	 */
 	public readonly plugins: Plugins<Serenity>;
 
 	/**

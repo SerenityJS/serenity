@@ -76,6 +76,13 @@ class PlayerChatSignal extends EventSignal {
 		// Assign the new value of the message.
 		packet.message = signal.message;
 
+		// Check if event wasn't cancelled.
+		if (value === true) {
+			player.dimension.world.logger.info(
+				`${player.username}: ${packet.message}`
+			);
+		}
+
 		// Return the value of the event.
 		return value;
 	}

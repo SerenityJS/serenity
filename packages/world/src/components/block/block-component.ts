@@ -37,6 +37,12 @@ class BlockComponent extends Component {
 	 * @param player The player that broke the block.
 	 */
 	public onBreak?(player?: Player): void;
+
+	/**
+	 * Called when the block is interacted with in the dimension.
+	 * @param player The player that interacted with the block.
+	 */
+	public onInteract?(player: Player): void;
 }
 
 export { BlockComponent };
