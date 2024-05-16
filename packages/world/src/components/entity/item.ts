@@ -1,4 +1,5 @@
 import { EntityIdentifier } from "@serenityjs/entity";
+import { TakeItemActorPacket } from "@serenityjs/protocol";
 
 import { EntityComponent } from "./entity-component";
 
@@ -55,7 +56,13 @@ class EntityItemComponent extends EntityComponent {
 				Math.abs(distance.y - 1) <= 1 &&
 				Math.abs(distance.z) <= 1
 			) {
-				// TODO: Implement ItemActorTakePacket, this will have an animation of the item being picked up.
+				// Create a new TakeItemActor packet
+				const packet = new TakeItemActorPacket();
+				packet.itemUniqueId = this.entity.unique;
+				packet.targetUniqueId = player.unique;
+
+				// Send the packet to the player
+				player.session.send(packet);
 
 				// Despawn the item
 				this.entity.despawn();

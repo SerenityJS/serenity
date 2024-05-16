@@ -11,11 +11,7 @@ import {
 	type ItemUseInventoryTransaction,
 	Gamemode
 } from "@serenityjs/protocol";
-import {
-	EntityPhysicsComponent,
-	ItemStack,
-	type Player
-} from "@serenityjs/world";
+import { ItemStack, type Player } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -97,10 +93,6 @@ class InventoryTransaction extends SerenityHandler {
 			itemStack,
 			new Vector3f(x, y - 0.25, z)
 		);
-
-		// Add the physics component to the entity
-		// TODO: Globalize the physics component
-		new EntityPhysicsComponent(entity);
 
 		// Set the velocity of the entity
 		entity.setMotion(velocity);
