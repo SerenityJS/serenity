@@ -1,4 +1,4 @@
-import { ContainerId } from "@serenityjs/protocol";
+import { ContainerId, ContainerType } from "@serenityjs/protocol";
 
 import { EntityContainer } from "../../container";
 
@@ -12,18 +12,19 @@ class EntityInventoryComponent extends EntityComponent {
 
 	public readonly container: EntityContainer;
 
-	public readonly containerId: ContainerId;
+	public readonly containerType: ContainerType = ContainerType.Inventory;
 
-	public readonly inventorySize: number;
+	public readonly containerId: ContainerId = ContainerId.Inventory;
+
+	public readonly inventorySize: number = 36;
 
 	public selectedSlot: number = 0;
 
 	public constructor(entity: Entity) {
 		super(entity, EntityInventoryComponent.identifier);
-		this.containerId = ContainerId.Inventory;
-		this.inventorySize = 36;
 		this.container = new EntityContainer(
 			entity,
+			this.containerType,
 			this.containerId,
 			this.inventorySize
 		);

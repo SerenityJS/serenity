@@ -1,10 +1,7 @@
 import {
-	ContainerOpenPacket,
 	DisconnectReason,
 	InteractActions,
-	InteractPacket,
-	ContainerId,
-	ContainerType
+	InteractPacket
 } from "@serenityjs/protocol";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -25,17 +22,11 @@ class Interact extends SerenityHandler {
 			);
 
 		if (packet.action === InteractActions.OpenInventory) {
-			// Create a new ContainerOpen packet.
-			const container = new ContainerOpenPacket();
+			// Get the player's inventory component
+			const inventory = player.getComponent("minecraft:inventory");
 
-			// Assign the packet data.
-			container.identifier = ContainerId.Inventory;
-			container.type = ContainerType.Inventory;
-			container.position = player.position.floor();
-			container.uniqueId = player.unique;
-
-			// Send the packet.
-			session.send(container);
+			// Show the container to the player
+			inventory.container.show(player);
 		}
 	}
 }

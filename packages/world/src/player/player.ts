@@ -55,6 +55,7 @@ import {
 import { Chunk } from "../chunk";
 import { ItemStack } from "../item";
 
+import type { Container } from "../container";
 import type {
 	PlayerAbilityComponents,
 	PlayerComponents
@@ -97,6 +98,11 @@ class Player extends Entity {
 	// TODO: Organize these properties.
 	public mining: BlockCoordinates | null = null;
 	public gamemode: Gamemode = Gamemode.Creative;
+
+	/**
+	 * The currently opened container visible to the player.
+	 */
+	public openedContainer: Container | null = null;
 
 	public constructor(
 		session: NetworkSession,

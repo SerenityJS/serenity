@@ -9,4 +9,5 @@ export * from "./generator";
 export * from "./provider";
 export * from "./commands";
 export * from "./components";
+export * from "./container";
 export * from "./item";

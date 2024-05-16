@@ -1,10 +1,16 @@
-import type { ContainerId } from "@serenityjs/protocol";
+import type { ContainerId, ContainerType } from "@serenityjs/protocol";
+import type { Player } from "../player";
 import type { ItemStack } from "../item";
 
 /**
  * Represents a container.
  */
 abstract class Container {
+	/**
+	 * The type of the container.
+	 */
+	public readonly type: ContainerType;
+
 	/**
 	 * The identifier of the container.
 	 */
@@ -27,10 +33,15 @@ abstract class Container {
 
 	/**
 	 * Creates a new container.
-	 * @param identifier The identifier of the container.
+	 * @param identifier The type of the container.
 	 * @param size The size of the container.
 	 */
-	public constructor(identifier: ContainerId, size: number) {
+	public constructor(
+		type: ContainerType,
+		identifier: ContainerId,
+		size: number
+	) {
+		this.type = type;
 		this.identifier = identifier;
 		this.size = size;
 		this.storage = Array.from({ length: size }, () => null);
@@ -72,6 +83,8 @@ abstract class Container {
 	 */
 	public abstract removeItem(slot: number, amount: number): void;
 
+	public abstract takeItem(slot: number, amount: number): ItemStack | null;
+
 	/**
 	 * Swaps items in the container.
 	 * @param slot The slot to swap the item from.
@@ -89,6 +102,12 @@ abstract class Container {
 	 * @param slot The slot to clear.
 	 */
 	public abstract clearSlot(slot: number): void;
+
+	/**
+	 * Shows the container to a player.
+	 * @param player The player to show the container to.
+	 */
+	public abstract show(player: Player): void;
 }
 
 export { Container };

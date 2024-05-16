@@ -1,4 +1,4 @@
-import { ItemType } from "@serenityjs/item";
+import { ItemType, type Items } from "@serenityjs/item";
 import { CompoundTag, StringTag } from "@serenityjs/nbt";
 
 import type { ItemComponents } from "../types";
@@ -7,7 +7,6 @@ import type {
 	NetworkItemInstanceDescriptor,
 	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
-import type { Items } from "@serenityjs/item";
 import type { Container } from "../container";
 
 class ItemStack<T extends keyof Items = keyof Items> {
@@ -138,6 +137,28 @@ class ItemStack<T extends keyof Items = keyof Items> {
 				canPlaceOn: []
 			}
 		};
+	}
+
+	public static fromNetworkInstance(
+		descriptor: NetworkItemInstanceDescriptor
+	): ItemStack | null {
+		// Get the item type from the network.
+		const type = ItemType.getByNetwork(descriptor.network);
+
+		// Check if the item type was found.
+		if (!type) return null;
+
+		// Create the item stack.
+		const item = new ItemStack(
+			type.identifier,
+			descriptor.stackSize ?? 1,
+			descriptor.metadata ?? 1
+		);
+
+		// TODO: Implement the rest of the item stack.
+
+		// Return the item stack.
+		return item;
 	}
 
 	/**

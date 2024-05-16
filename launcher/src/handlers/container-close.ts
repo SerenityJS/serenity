@@ -1,4 +1,5 @@
 import { ContainerClosePacket, DisconnectReason } from "@serenityjs/protocol";
+import { BlockContainer } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -19,6 +20,14 @@ class ContainerClose extends SerenityHandler {
 				"Failed to connect due to an invalid player. Please try again.",
 				DisconnectReason.InvalidPlayer
 			);
+
+		// Clear the players openContainer property
+		if (player.openedContainer instanceof BlockContainer) {
+			player.openedContainer.occupants.delete(player);
+		}
+
+		// Clear the players openedContainer property
+		player.openedContainer = null;
 
 		// Send the packet back to the client
 		session.send(packet);

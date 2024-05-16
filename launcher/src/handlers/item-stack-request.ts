@@ -4,13 +4,10 @@ import {
 	type ItemStackAction,
 	ItemStackActionType,
 	ItemStackRequestPacket,
-	type ItemStackRequests,
-	ItemStackResponsePacket,
-	ItemStackStatus,
-	type NetworkItemInstanceDescriptor
+	type NetworkItemInstanceDescriptor,
+	type StackRequestSlotInfo
 } from "@serenityjs/protocol";
 import { ItemStack, type Player } from "@serenityjs/world";
-import { ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -36,7 +33,6 @@ class ItemStackRequest extends SerenityHandler {
 		for (const request of packet.requests) {
 			// Loop through the actions.
 			for (const action of request.actions) {
-				// Switch the action type.
 				switch (action.type) {
 					default: {
 						this.serenity.network.logger.debug(
@@ -46,21 +42,30 @@ class ItemStackRequest extends SerenityHandler {
 						break;
 					}
 
-					case ItemStackActionType.CraftCreative:
-					case ItemStackActionType.ResultsDeprecated: {
+					case ItemStackActionType.Take: {
+						this.handleTakeAction(player, action);
 						break;
 					}
 
-					case ItemStackActionType.Take: {
-						this.handleTakeAction(player, action, request);
-						break;
-					}
 					case ItemStackActionType.Place: {
-						this.handlePlaceAction(player, action, request);
+						this.handlePlaceAction(player, action);
 						break;
 					}
+
 					case ItemStackActionType.Destroy: {
 						this.handleDestroyAction(player, action);
+						break;
+					}
+
+					case ItemStackActionType.CraftCreative: {
+						const resultsAction = request.actions[1] as ItemStackAction;
+						const descriptor = (
+							resultsAction.resultItems as Array<NetworkItemInstanceDescriptor>
+						)[0] as NetworkItemInstanceDescriptor;
+
+						const action = request.actions[2] as ItemStackAction;
+
+						this.handleCreativceSelectAction(player, action, descriptor);
 						break;
 					}
 				}
@@ -70,8 +75,7 @@ class ItemStackRequest extends SerenityHandler {
 
 	protected static handleTakeAction(
 		player: Player,
-		action: ItemStackAction,
-		request: ItemStackRequests
+		action: ItemStackAction
 	): void {
 		// Get the source and destination.
 		const source = action.source;
@@ -79,344 +83,95 @@ class ItemStackRequest extends SerenityHandler {
 
 		if (!source || !destination) return;
 
-		switch (destination.type) {
-			default: {
-				this.serenity.network.logger.debug(
-					"ItemStackTakeAction$destination not implemented:",
-					ContainerName[destination.type]
-				);
-				break;
-			}
+		const sourceContainer =
+			source.type === ContainerName.Cursor
+				? player.getComponent("minecraft:cursor").container
+				: source.type === ContainerName.Inventory ||
+					  source.type === ContainerName.Hotbar ||
+					  source.type === ContainerName.HotbarAndInventory
+					? player.getComponent("minecraft:inventory").container
+					: player.openedContainer;
 
-			case ContainerName.Cursor: {
-				if (source.type === ContainerName.CreativeOutput) {
-					// Get the items from the request.
-					const items = request.actions[1]?.resultItems ?? [];
+		const destinationContainer =
+			destination.type === ContainerName.Cursor
+				? player.getComponent("minecraft:cursor").container
+				: destination.type === ContainerName.Inventory ||
+					  destination.type === ContainerName.Hotbar ||
+					  destination.type === ContainerName.HotbarAndInventory
+					? player.getComponent("minecraft:inventory").container
+					: player.openedContainer;
 
-					// Check if the items are empty or greater than 1
-					if (items.length === 0 || items.length > 1) {
-						// Create a new ItemStackResponsePacket
-						const response = new ItemStackResponsePacket();
+		if (!sourceContainer || !destinationContainer) return;
 
-						// Set the response status to error.
-						response.responses = [
-							{
-								status: ItemStackStatus.Error,
-								id: request.id
-							}
-						];
+		const sourceItem = sourceContainer.getItem(source.slot);
+		const destinationItem = destinationContainer.getItem(destination.slot);
 
-						// Send the response to the player.
-						return player.session.send(response);
-					}
+		if (!sourceItem) return;
 
-					// Get the descriptor
-					const descriptor = items[0];
+		if (destinationItem) {
+			destinationItem.amount += action.count ?? 0;
+			sourceItem.amount -= action.count ?? 0;
 
-					// Get the cursor component.
-					const cursor = player.getComponent("minecraft:cursor");
+			if (sourceItem.amount === 0) sourceContainer.clearSlot(source.slot);
+		} else {
+			const item = sourceContainer.takeItem(source.slot, action.count ?? 1);
 
-					// Resolve the item type by the runtime ID.
-					const itemType = [...ItemType.types.values()].find(
-						(type) => type.network === descriptor?.network
-					) as ItemType;
+			if (!item) return;
 
-					// Create a new item for the cursor.
-					const cursorItem = new ItemStack(
-						itemType.identifier,
-						action.count ?? 0,
-						descriptor?.metadata ?? 0
-					);
+			destinationContainer.setItem(destination.slot, item);
 
-					// Set the item to the cursor.
-					cursor.container.setItem(0, cursorItem);
-
-					break;
-				}
-
-				// Get the inventory component
-				const inventory = player.getComponent("minecraft:inventory");
-
-				// Get the item from the source.
-				const item = inventory.container.getItem(source.slot);
-
-				// If the item is null, then return an error.
-				if (item === null) {
-					const response = new ItemStackResponsePacket();
-					response.responses = [
-						{
-							status: ItemStackStatus.Error,
-							id: request.id
-						}
-					];
-
-					return player.session.send(response);
-				}
-
-				// Get the cursor component.
-				const cursor = player.getComponent("minecraft:cursor");
-
-				// Get the item from the cursor.
-				const cursorItem = cursor.container.getItem(0);
-
-				// If the cursor item exists, then we will add the item to the cursor.
-				if (cursorItem) {
-					// Add the amount to the cursor item.
-					cursorItem.amount += action.count ?? 0;
-
-					// Remove the amount from the item.
-					item.amount -= action.count ?? 0;
-
-					// Check if the item amount is 0.
-					if (item.amount === 0) {
-						// Clear the item from the source.
-						inventory.container.clearSlot(source.slot);
-					}
-				} else {
-					// Construct a new item for the cursor.
-					const cursorItem = new ItemStack(
-						item.type.identifier,
-						action.count ?? 0,
-						item.metadata
-					);
-
-					// Set the item to the cursor.
-					cursor.container.setItem(0, cursorItem);
-
-					// Remove the amount from the item.
-					item.amount -= action.count ?? 0;
-
-					// Check if the item amount is 0.
-					if (item.amount === 0) {
-						// Clear the item from the source.
-						inventory.container.clearSlot(source.slot);
-					}
-				}
-			}
+			if (sourceItem.amount === 0) sourceContainer.clearSlot(source.slot);
 		}
 	}
 
 	protected static handlePlaceAction(
 		player: Player,
-		action: ItemStackAction,
-		request: ItemStackRequests
+		action: ItemStackAction
 	): void {
 		// Get the source and destination.
-		const source = action.source;
-		const destination = action.destination;
+		const source = action.source as StackRequestSlotInfo;
+		const destination = action.destination as StackRequestSlotInfo;
 
 		if (!source || !destination) return;
 
-		switch (source.type) {
-			default: {
-				this.serenity.network.logger.debug(
-					"ItemStackPlaceAction$source not implemented:",
-					ContainerName[source.type]
-				);
-				break;
-			}
+		const sourceContainer =
+			source.type === ContainerName.Cursor
+				? player.getComponent("minecraft:cursor").container
+				: source.type === ContainerName.Inventory ||
+					  source.type === ContainerName.Hotbar ||
+					  source.type === ContainerName.HotbarAndInventory
+					? player.getComponent("minecraft:inventory").container
+					: player.openedContainer;
 
-			case ContainerName.Cursor: {
-				// Get the cursor component.
-				const cursor = player.getComponent("minecraft:cursor");
+		const destinationContainer =
+			destination.type === ContainerName.Cursor
+				? player.getComponent("minecraft:cursor").container
+				: destination.type === ContainerName.Inventory ||
+					  destination.type === ContainerName.Hotbar ||
+					  destination.type === ContainerName.HotbarAndInventory
+					? player.getComponent("minecraft:inventory").container
+					: player.openedContainer;
 
-				// Get the item from the cursor.
-				const item = cursor.container.getItem(0);
+		if (!sourceContainer || !destinationContainer) return;
 
-				// If the item is null, then return an error.
-				if (item === null) {
-					const response = new ItemStackResponsePacket();
-					response.responses = [
-						{
-							status: ItemStackStatus.Error,
-							id: request.id
-						}
-					];
+		const sourceItem = sourceContainer.getItem(source.slot);
+		const destinationItem = destinationContainer.getItem(destination.slot);
 
-					return player.session.send(response);
-				}
+		if (!sourceItem) return;
 
-				// Get the inventory component
-				const inventory = player.getComponent("minecraft:inventory");
+		if (destinationItem) {
+			destinationItem.amount += action.count ?? 0;
+			sourceItem.amount -= action.count ?? 0;
 
-				// Get the item from the destination.
-				const destinationItem = inventory.container.getItem(destination.slot);
+			if (sourceItem.amount === 0) sourceContainer.clearSlot(source.slot);
+		} else {
+			const item = sourceContainer.takeItem(source.slot, action.count ?? 1);
 
-				// If the item already exists in the destination, then we will add the item to the destination.
-				if (destinationItem) {
-					// Add the amount to the destination item.
-					destinationItem.amount += action.count ?? 0;
+			if (!item) return;
 
-					// Remove the amount from the cursor item.
-					item.amount -= action.count ?? 0;
+			destinationContainer.setItem(destination.slot, item);
 
-					// Check if the cursor item amount is 0.
-					if (item.amount === 0) {
-						// Clear the cursor item.
-						cursor.container.clearSlot(0);
-					}
-				} else {
-					// Construct a new item for the destination.
-					const newItem = new ItemStack(
-						item.type.identifier,
-						action.count ?? 0,
-						0
-					);
-
-					// Set the item to the destination.
-					inventory.container.setItem(destination.slot, newItem);
-
-					// Remove the amount from the cursor item.
-					item.amount -= action.count ?? 0;
-
-					// Check if the cursor item amount is 0.
-					if (item.amount === 0) {
-						// Clear the cursor item.
-						cursor.container.clearSlot(0);
-					}
-				}
-
-				break;
-			}
-
-			case ContainerName.HotbarAndInventory:
-			case ContainerName.Inventory:
-			case ContainerName.Hotbar: {
-				// Get the inventory component
-				const inventory = player.getComponent("minecraft:inventory");
-
-				// Get the item from the source.
-				const item = inventory.container.getItem(source.slot) as ItemStack;
-
-				// Check if the destination is the cursor.
-				if (destination.type === ContainerName.Cursor) {
-					// Get the cursor component.
-					const cursor = player.getComponent("minecraft:cursor");
-
-					// Get the cursor item.
-					const cursorItem = cursor.container.getItem(0);
-
-					// If the cursor item exists, then we will add the item to the cursor.
-					if (cursorItem) {
-						// Add the amount to the cursor item.
-						cursorItem.amount += action.count ?? 0;
-
-						// Remove the amount from the item.
-						item.amount -= action.count ?? 0;
-
-						// Check if the item amount is 0.
-						if (item.amount === 0) {
-							// Clear the item from the source.
-							inventory.container.clearSlot(source.slot);
-						}
-					} else {
-						// Construct a new item for the cursor.
-						const cursorItem = new ItemStack(
-							item.type.identifier,
-							action.count ?? 0,
-							0
-						);
-
-						// Set the item to the cursor.
-						cursor.container.setItem(0, cursorItem);
-
-						// Remove the amount from the item.
-						item.amount -= action.count ?? 0;
-
-						// Check if the item amount is 0.
-						if (item.amount === 0) {
-							// Clear the item from the source.
-							inventory.container.clearSlot(source.slot);
-						}
-					}
-				} else {
-					// Get the destination item.
-					const destinationItem = inventory.container.getItem(destination.slot);
-
-					// If the item already exists in the destination, then we will add the item to the destination.
-					if (destinationItem) {
-						// Add the amount to the destination item.
-						destinationItem.amount += action.count ?? 0;
-
-						// Remove the amount from the source item.
-						item.amount -= action.count ?? 0;
-
-						// Check if the source item amount is 0.
-						if (item.amount === 0) {
-							// Clear the source item.
-							inventory.container.clearSlot(source.slot);
-						}
-					} else {
-						// Construct a new item for the destination.
-						const newItem = new ItemStack(
-							item.type.identifier,
-							action.count ?? 0,
-							item.metadata
-						);
-
-						// Set the item to the destination.
-						inventory.container.setItem(destination.slot, newItem);
-
-						// Remove the amount from the source item.
-						item.amount -= action.count ?? 0;
-
-						// Check if the source item amount is 0.
-						if (item.amount === 0) {
-							// Clear the source item.
-							inventory.container.clearSlot(source.slot);
-						}
-					}
-				}
-
-				// Send the response.
-
-				break;
-			}
-
-			case ContainerName.CreativeOutput: {
-				// Get the inventory component
-				const inventory = player.getComponent("minecraft:inventory");
-
-				// Get the items from the request.
-				const items = request.actions[1]?.resultItems ?? [];
-
-				// Check if the items are empty or greater than 1
-				if (items.length === 0 || items.length > 1) {
-					// Create a new ItemStackResponsePacket
-					const response = new ItemStackResponsePacket();
-
-					// Set the response status to error.
-					response.responses = [
-						{
-							status: ItemStackStatus.Error,
-							id: request.id
-						}
-					];
-
-					// Send the response to the player.
-					return player.session.send(response);
-				}
-
-				// Get the descriptor
-				const descriptor = items[0] as NetworkItemInstanceDescriptor;
-
-				// Get the item type by the network.
-				const itemType = [...ItemType.types.values()].find(
-					(type) => type.network === descriptor.network
-				) as ItemType;
-
-				// Create a new item for the destination.
-				const newItem = new ItemStack(
-					itemType.identifier,
-					action.count ?? 0,
-					descriptor?.metadata ?? 0
-				);
-
-				// Set the item to the destination.
-				inventory.container.setItem(destination.slot, newItem);
-
-				break;
-			}
+			if (sourceItem.amount === 0) sourceContainer.clearSlot(source.slot);
 		}
 	}
 
@@ -442,6 +197,52 @@ class ItemStackRequest extends SerenityHandler {
 
 			// Clear the source.
 			inventory.container.clearSlot(source.slot);
+		}
+	}
+
+	protected static handleCreativceSelectAction(
+		player: Player,
+		action: ItemStackAction,
+		descriptor: NetworkItemInstanceDescriptor
+	): void {
+		// Get the destination.
+		const destination = action.destination;
+
+		// Check if the destination exists.
+		if (!destination) return;
+
+		// Get the destination container.
+		const destinationContainer =
+			destination.type === ContainerName.Cursor
+				? player.getComponent("minecraft:cursor").container
+				: destination.type === ContainerName.Inventory ||
+					  destination.type === ContainerName.Hotbar ||
+					  destination.type === ContainerName.HotbarAndInventory
+					? player.getComponent("minecraft:inventory").container
+					: player.openedContainer;
+
+		// Check if the destination container exists.
+		if (!destinationContainer) return;
+
+		// Get the destination item.
+		const destinationItem = destinationContainer.getItem(destination.slot);
+
+		// Check if the destination item exists.
+		if (destinationItem) {
+			// Add the count to the destination item.
+			destinationItem.amount += action.count ?? 0;
+		} else {
+			// Create the item stack from the descriptor.
+			const item = ItemStack.fromNetworkInstance(descriptor);
+
+			// Check if the item exists.
+			if (!item) return;
+
+			// Set the amount of the item.
+			item.amount = action.count ?? 1;
+
+			// Set the item in the destination container.
+			destinationContainer.setItem(destination.slot, item);
 		}
 	}
 }

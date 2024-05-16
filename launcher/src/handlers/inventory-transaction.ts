@@ -118,8 +118,6 @@ class InventoryTransaction extends SerenityHandler {
 
 			// Fire the onInteract method of the block components
 			for (const component of interactedBlock.components.values()) {
-				console.log(component.identifier);
-
 				// Call the onInteract method.
 				component.onInteract?.(player);
 			}

@@ -1,9 +1,10 @@
 import {
-	type ContainerId,
 	ContainerOpenPacket,
-	type ContainerType,
+	InventoryContentPacket,
 	InventorySlotPacket,
-	NetworkItemStackDescriptor
+	NetworkItemStackDescriptor,
+	type ContainerId,
+	type ContainerType
 } from "@serenityjs/protocol";
 
 import { ItemStack } from "../item";
@@ -12,30 +13,35 @@ import { Container } from "./container";
 
 import type { Items } from "@serenityjs/item";
 import type { Player } from "../player";
-import type { Entity } from "../entity";
+import type { Block } from "../block";
 
 /**
- * Represents a container that is owned by an entity.
+ * Represents a container that is owned by an block.
  */
-class EntityContainer extends Container {
+class BlockContainer extends Container {
 	/**
-	 * The entity that owns the container.
+	 * The block that owns the container.
 	 */
-	protected readonly entity: Entity;
+	protected readonly block: Block;
 
 	/**
-	 * Creates a new entity container.
-	 * @param entity The entity that owns the container.
+	 * The players that are currently in the container.
+	 */
+	public readonly occupants = new Set<Player>();
+
+	/**
+	 * Creates a new block container.
+	 * @param block The block that owns the container.
 	 * @param size The size of the container.
 	 */
 	public constructor(
-		entity: Entity,
+		block: Block,
 		type: ContainerType,
 		identifier: ContainerId,
 		size: number
 	) {
 		super(type, identifier, size);
-		this.entity = entity;
+		this.block = block;
 	}
 
 	/**
@@ -66,8 +72,8 @@ class EntityContainer extends Container {
 		// Set the items container instance.
 		item.container = this;
 
-		// Check if the entity is a player, if so, return.
-		if (!this.entity.isPlayer()) return;
+		// Check if the container has an occupant.
+		if (this.occupants.size === 0) return;
 
 		// Create a new InventorySlotPacket.
 		const packet = new InventorySlotPacket();
@@ -77,8 +83,9 @@ class EntityContainer extends Container {
 		packet.slot = slot;
 		packet.item = ItemStack.toNetworkStack(item);
 
-		// Send the packet to the player.
-		this.entity.session.send(packet);
+		// Send the packet to the occupants.
+		// TODO: Figure out why the items aren't updating for other players in the container.
+		for (const player of this.occupants) player.session.send(packet);
 	}
 
 	/**
@@ -212,7 +219,7 @@ class EntityContainer extends Container {
 		this.calculateEmptySlotCount();
 
 		// Check if the entity is a player, if so, return.
-		if (!this.entity.isPlayer()) return;
+		if (this.occupants.size === 0) return;
 
 		// Create a new InventorySlotPacket.
 		const packet = new InventorySlotPacket();
@@ -222,22 +229,38 @@ class EntityContainer extends Container {
 		packet.slot = slot;
 		packet.item = new NetworkItemStackDescriptor(0);
 
-		// Send the packet to the player.
-		this.entity.session.send(packet);
+		// Send the packet to the occupants.
+		for (const player of this.occupants) player.session.send(packet);
 	}
 
+	/**
+	 * Shows the container to a player.
+	 * @param player The player to show the container to.
+	 */
 	public show(player: Player): void {
-		const packet = new ContainerOpenPacket();
+		// Create a new ContainerOpenPacket.
+		const open = new ContainerOpenPacket();
+		open.identifier = this.identifier;
+		open.type = this.type;
+		open.position = this.block.location;
+		open.uniqueId = -1n; // This is needed for the client to open a block container.
 
-		packet.identifier = this.identifier;
-		packet.type = this.type;
-		packet.position = this.entity.position;
-		packet.uniqueId = this.entity.unique;
+		// Create a new InventoryContentPacket.
+		const content = new InventoryContentPacket();
+		content.containerId = this.identifier;
+		content.items = this.storage.map((item) => {
+			if (item === null) return new NetworkItemStackDescriptor(0);
 
+			return ItemStack.toNetworkStack(item);
+		});
+
+		// Add the player to the occupants and set the opened container.
+		this.occupants.add(player);
 		player.openedContainer = this;
 
-		player.session.send(packet);
+		// Send the packets to the player.
+		player.session.send(open, content);
 	}
 }
 
-export { EntityContainer };
+export { BlockContainer };

@@ -44,6 +44,17 @@ class ItemType<T extends keyof Items = keyof Items> {
 	}
 
 	/**
+	 * Get the item type from the network.
+	 * @param network The network to get the item type from.
+	 */
+	public static getByNetwork(network: number): ItemType | null {
+		return (
+			[...ItemType.types.values()].find((item) => item.network === network) ??
+			null
+		);
+	}
+
+	/**
 	 * Get all item types from the registry.
 	 */
 	public static getAll(): Array<ItemType> {
