@@ -71,6 +71,7 @@ import { SetDisplayObjectivePacket } from "./set-display-objective";
 import { SetScorePacket } from "./set-score";
 import { SetScoreboardIdentityPacket } from "./set-scoreboard-identity";
 import { TransferPacket } from "./transfer";
+import { SetHudPacket } from "./set-hud";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -141,7 +142,8 @@ const Packets = {
 	[Packet.ToastRequest]: ToastRequestPacket, // 186
 	[Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
-	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket // 193
+	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
+	[Packet.SetHud]: SetHudPacket // 308
 };
 
 export { Packets };
