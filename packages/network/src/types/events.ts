@@ -69,7 +69,8 @@ import type {
 	UpdateBlockPacket,
 	SetTimePacket,
 	SetScoreboardIdentityPacket,
-	TransferPacket
+	TransferPacket,
+	TakeItemActorPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -92,6 +93,7 @@ interface NetworkEvents {
 	[Packet.AddEntity]: [NetworkPacketEvent<AddEntityPacket>];
 	[Packet.RemoveEntity]: [NetworkPacketEvent<RemoveEntityPacket>];
 	[Packet.AddItemActor]: [NetworkPacketEvent<AddItemActorPacket>];
+	[Packet.TakeItemActor]: [NetworkPacketEvent<TakeItemActorPacket>];
 	[Packet.MoveActorAbsolute]: [NetworkPacketEvent<MoveActorAbsolutePacket>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayerPacket>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlockPacket>];

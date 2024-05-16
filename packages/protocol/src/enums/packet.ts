@@ -16,6 +16,7 @@ enum Packet {
 	AddEntity = 0x0d, // 13 // TODO: Rename this to AddActor
 	RemoveEntity = 0x0e, // 14 // TODO: Rename this to RemoveActor
 	AddItemActor = 0x0f, // 15
+	TakeItemActor = 0x11, // 17
 	MoveActorAbsolute = 0x12, // 18
 	MovePlayer = 0x13, // 19
 	UpdateBlock = 0x15, // 21

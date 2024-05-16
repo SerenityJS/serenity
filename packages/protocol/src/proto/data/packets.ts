@@ -72,6 +72,7 @@ import { SetScorePacket } from "./set-score";
 import { SetScoreboardIdentityPacket } from "./set-scoreboard-identity";
 import { TransferPacket } from "./transfer";
 import { SetHudPacket } from "./set-hud";
+import { TakeItemActorPacket } from "./take-item-actor";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -87,6 +88,7 @@ const Packets = {
 	[Packet.AddEntity]: AddEntityPacket, // 13
 	[Packet.RemoveEntity]: RemoveEntityPacket, // 14
 	[Packet.AddItemActor]: AddItemActorPacket, // 15
+	[Packet.TakeItemActor]: TakeItemActorPacket, // 17
 	[Packet.MoveActorAbsolute]: MoveActorAbsolutePacket, // 18
 	[Packet.MovePlayer]: MovePlayerPacket, // 19
 	[Packet.UpdateBlock]: UpdateBlockPacket, // 21
