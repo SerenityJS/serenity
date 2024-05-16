@@ -87,13 +87,16 @@ class InventoryTransaction extends SerenityHandler {
 
 		// Calculate the velocity of the entity based on the player's rotation
 		const velocity = new Vector3f(
-			-Math.sin(headYawRad) * Math.cos(pitchRad),
-			-Math.sin(pitchRad),
-			Math.cos(headYawRad) * Math.cos(pitchRad)
+			(-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3,
+			-Math.sin(pitchRad) / 2,
+			(Math.cos(headYawRad) * Math.cos(pitchRad)) / 3
 		);
 
 		// Spawn the entity
-		const entity = player.dimension.spawnItem(itemStack, new Vector3f(x, y, z));
+		const entity = player.dimension.spawnItem(
+			itemStack,
+			new Vector3f(x, y - 0.25, z)
+		);
 
 		// Add the physics component to the entity
 		// TODO: Globalize the physics component
