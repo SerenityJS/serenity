@@ -28,7 +28,7 @@ class EntityPhysicsComponent extends EntityComponent {
 		const distance =
 			y -
 			1 -
-			this.entity.dimension.getTopmostBlock(this.entity.position.floor())
+			this.entity.dimension.getTopmostBlock(this.entity.position.floor()) // Round <---
 				.location.y;
 
 		// Check if the entity is falling
@@ -45,6 +45,7 @@ class EntityPhysicsComponent extends EntityComponent {
 				this.entity.velocity.z
 			);
 
+			// Set the motion of the entity
 			this.entity.setMotion(velocity);
 		} else if (distance < 0) {
 			// Check if the entity is in a block
