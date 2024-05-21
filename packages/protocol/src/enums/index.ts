@@ -52,3 +52,4 @@ export * from "./display-slot-type";
 export * from "./scoreboard-identity-action";
 export * from "./hud-element-id";
 export * from "./hud-visibility";
+export * from "./player-auth-input-data";

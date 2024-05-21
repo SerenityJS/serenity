@@ -1,21 +1,17 @@
 import {
-	BlockFace,
 	ComplexInventoryTransaction,
 	DisconnectReason,
 	type InventoryAction,
 	InventoryTransactionPacket,
 	ItemUseInventoryTransactionType,
-	LevelSoundEvent,
-	LevelSoundEventPacket,
 	Vector3f,
 	type ItemUseInventoryTransaction,
 	Gamemode
 } from "@serenityjs/protocol";
-import { ItemStack, type Player } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
-import type { BlockPermutation } from "@serenityjs/block";
+import type { Player } from "@serenityjs/world";
 import type { NetworkSession } from "@serenityjs/network";
 
 class InventoryTransaction extends SerenityHandler {
@@ -35,16 +31,25 @@ class InventoryTransaction extends SerenityHandler {
 			);
 
 		// Check if the packet has a transaction
-		if (!packet.transaction) return;
+		if (!packet.transaction) throw new Error("Transaction is missing.");
 
-		const type = packet.transaction.type;
+		switch (packet.transaction.type) {
+			case ComplexInventoryTransaction.NormalTransaction: {
+				this.handleNormalTransaction(packet.transaction.actions, player);
+				break;
+			}
 
-		if (type === ComplexInventoryTransaction.NormalTransaction) {
-			this.handleNormalTransaction(packet.transaction.actions, player);
-		}
+			case ComplexInventoryTransaction.ItemUseTransaction: {
+				// Get the itemUse object from the transaction
+				const itemUse = packet.transaction.itemUse;
 
-		if (packet.transaction.itemUse) {
-			return this.handleItemUse(packet.transaction.itemUse, player);
+				// Check if the itemUse object is valid, if not throw an error that the itemUse object is missing.
+				if (!itemUse) throw new Error("ItemUse object is missing.");
+
+				// Handle the itemUse transaction
+				this.handleItemUseTransaction(itemUse, player);
+				break;
+			}
 		}
 	}
 
@@ -62,16 +67,10 @@ class InventoryTransaction extends SerenityHandler {
 		const inventory = player.getComponent("minecraft:inventory");
 
 		// Get the item from the slot
-		const item = inventory.container.getItem(action.slot);
+		const item = inventory.container.takeItem(action.slot, amount);
 
 		// Check if the item is valid
 		if (!item) return;
-
-		// Remove the amount from the item
-		item.amount -= amount;
-
-		// Clone the itemStack, so we can drop the item
-		const itemStack = ItemStack.create(item.type, amount, item.metadata);
 
 		// Get the player's position and rotation
 		const { x, y, z } = player.position;
@@ -90,7 +89,7 @@ class InventoryTransaction extends SerenityHandler {
 
 		// Spawn the entity
 		const entity = player.dimension.spawnItem(
-			itemStack,
+			item,
 			new Vector3f(x, y - 0.25, z)
 		);
 
@@ -98,63 +97,69 @@ class InventoryTransaction extends SerenityHandler {
 		entity.setMotion(velocity);
 	}
 
-	public static handleItemUse(
-		packet: ItemUseInventoryTransaction,
+	public static handleItemUseTransaction(
+		transaction: ItemUseInventoryTransaction,
 		player: Player
 	): void {
-		// Check if the type is to place a block
-		if (packet.type === ItemUseInventoryTransactionType.Place) {
-			// Get the block from the face
-			const { x, y, z } = packet.blockPosition;
+		// Switch based on the type of the item use transaction
+		switch (transaction.type) {
+			case ItemUseInventoryTransactionType.Place: {
+				// Get the interacted block and check if it is air
+				const { x, y, z } = transaction.blockPosition;
+				const interactedBlock = player.dimension.getBlock(x, y, z);
+				if (interactedBlock.isAir()) break;
 
-			// Get the block interacted with, and the block that will be updated
-			const interactedBlock = player.dimension.getBlock(x, y, z);
-			const updatingBlock = interactedBlock.face(packet.face);
+				// Trigger the onInteract method of the block components
+				for (const component of interactedBlock.components.values()) {
+					// Trigger the onInteract method of the block component
+					component.onInteract?.(player);
+				}
 
-			// Fire the onInteract method of the block components
-			for (const component of interactedBlock.components.values()) {
-				// Call the onInteract method.
-				component.onInteract?.(player);
+				// Check if the interaction opened a container, if so stop the block placement
+				if (player.openedContainer) break;
+
+				// Check if the player is in adventure mode, if so stop the block placement
+				if (player.gamemode === Gamemode.Adventure) break;
+
+				// Check if the player is using an item
+				const usingItem = player.usingItem;
+				if (!usingItem) break;
+
+				// Check if the item network ids match
+				if (usingItem.type.network !== transaction.item.network)
+					throw new Error("Item network ids do not match.");
+
+				// Trigger the onUse method of the item components
+				for (const component of usingItem.components.values()) {
+					component.onUse?.(player);
+				}
+
+				// Check if a block type is present within the item
+				const blockType = usingItem.type.block;
+				if (!blockType) break;
+
+				// Get the resulting block from the interacted block
+				// ANd check if the block is also air
+				const resultingBlock = interactedBlock.face(transaction.face);
+				if (!resultingBlock.isAir()) break;
+
+				// Get the blockPermutation from the blockType
+				const blockPermutation =
+					blockType.permutations[usingItem.metadata] ??
+					blockType.getPermutation();
+
+				// Set the block with the blockType permutation based off the items metadata
+				resultingBlock.setPermutation(blockPermutation, player);
+
+				// Trigger the onPlace method of the block components
+				for (const component of resultingBlock.components.values()) {
+					component.onPlace?.(player);
+				}
+
+				// Check if the player is in survival mode, if so decrement the item
+				if (player.gamemode === Gamemode.Survival) usingItem.decrement();
+				break;
 			}
-
-			// Get the item thats being placed
-			const inventory = player.getComponent("minecraft:inventory");
-			const item = inventory.container.getItem(packet.slot);
-
-			// Check if the item is valid and is a block
-			if (!item) return;
-			if (!item.type.block) return;
-
-			// Check if the player is in survival mode
-			if (player.gamemode === Gamemode.Survival) {
-				// Decrease the amount of the item
-				item.amount--;
-			}
-
-			// Set the permutation of the block
-			updatingBlock
-				.setPermutation(
-					item.type.block.permutations[item.metadata] as BlockPermutation,
-					player
-				)
-				.setDirection(
-					player.getCardinalDirection(),
-					packet.face !== BlockFace.Top
-				);
-
-			// Create the sound packet
-			const sound = new LevelSoundEventPacket();
-
-			// Assign the sound data
-			sound.event = LevelSoundEvent.Place;
-			sound.position = new Vector3f(x, y, z);
-			sound.data = updatingBlock.permutation.network;
-			sound.actorIdentifier = "";
-			sound.isBabyMob = false;
-			sound.isGlobal = true;
-
-			// Broadcast the sound packet
-			updatingBlock.dimension.broadcast(sound);
 		}
 	}
 }

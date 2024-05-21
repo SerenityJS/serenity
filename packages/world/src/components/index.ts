@@ -18,3 +18,15 @@ for (const key in EntityComponents) {
 		value as typeof EntityComponent
 	);
 }
+
+//
+// Register all valid item components.
+//
+import { ItemComponent } from "./item";
+import * as ItemComponents from "./item";
+for (const key in ItemComponents) {
+	const value = ItemComponents[key as keyof typeof ItemComponents];
+
+	// Register the component to the collective registry.
+	ItemComponent.components.set(value.identifier, value as typeof ItemComponent);
+}

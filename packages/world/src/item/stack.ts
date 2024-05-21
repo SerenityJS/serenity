@@ -20,15 +20,27 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 */
 	public readonly metadata: number;
 
+	/**
+	 * The components of the item stack.
+	 */
 	public readonly components: Map<string, ItemComponent<T>>;
+
+	/**
+	 * The container of the item stack.
+	 */
+	public container: Container | null = null;
 
 	protected _amount: number;
 
-	public container: Container | null = null;
-
-	public constructor(identifier: T, amount: number, metadata: number) {
+	/**
+	 * Creates a new item stack.
+	 * @param identifier The identifier of the item.
+	 * @param amount The amount of the item.
+	 * @param metadata The metadata of the item.
+	 */
+	public constructor(identifier: T, amount: number, metadata?: number) {
 		this.type = ItemType.get(identifier) as ItemType<T>;
-		this.metadata = metadata;
+		this.metadata = metadata ?? 0;
 		this.components = new Map();
 		this._amount = amount;
 	}
@@ -49,6 +61,22 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
 		// Set the item in the container.
 		this.container.setItem(slot, this);
+	}
+
+	/**
+	 * Decrements the amount of the item stack.
+	 * @param amount The amount to decrement.
+	 */
+	public decrement(amount?: number): void {
+		this.amount -= amount ?? 1;
+	}
+
+	/**
+	 * Increments the amount of the item stack.
+	 * @param amount The amount to increment.
+	 */
+	public increment(amount?: number): void {
+		this.amount += amount ?? 1;
 	}
 
 	/**
@@ -139,6 +167,11 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		};
 	}
 
+	/**
+	 * Converts a network item instance descriptor to an item stack.
+	 * @param descriptor The network item instance descriptor.
+	 * @returns The item stack.
+	 */
 	public static fromNetworkInstance(
 		descriptor: NetworkItemInstanceDescriptor
 	): ItemStack | null {
@@ -188,7 +221,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	public static create<T extends keyof Items>(
 		type: ItemType<T>,
 		amount: number,
-		metadata: number
+		metadata?: number
 	): ItemStack<T> {
 		return new ItemStack(type.identifier, amount, metadata);
 	}

@@ -21,12 +21,17 @@ class Interact extends SerenityHandler {
 				DisconnectReason.InvalidPlayer
 			);
 
+		// Check if the player is not in the world
 		if (packet.action === InteractActions.OpenInventory) {
 			// Get the player's inventory component
 			const inventory = player.getComponent("minecraft:inventory");
 
 			// Show the container to the player
 			inventory.container.show(player);
+		} else {
+			this.serenity.logger.debug(
+				`Unhandled interact action: ${InteractActions[packet.action]}`
+			);
 		}
 	}
 }

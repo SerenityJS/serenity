@@ -1,5 +1,6 @@
 import {
 	type BlockFace,
+	ComplexInventoryTransaction,
 	DisconnectReason,
 	type InventoryTransactionPacket,
 	ItemUseInventoryTransactionType,
@@ -93,14 +94,19 @@ class PlayerPlaceBlockSignal extends EventSignal {
 
 		// Check if there is no transaction or item use.
 		if (!packet.transaction) return true;
-		if (!packet.transaction.itemUse) return true;
-		if (
-			packet.transaction.itemUse.type !== ItemUseInventoryTransactionType.Place
-		)
+		const transaction = packet.transaction;
+
+		// Check if the transaction is not an item use transaction.
+		if (transaction.type !== ComplexInventoryTransaction.ItemUseTransaction)
 			return true;
 
+		// Get the itemUse object from the transaction.
+		if (!transaction.itemUse) throw new Error("ItemUse object is missing.");
+		const itemUse = transaction.itemUse;
+		if (itemUse.type !== ItemUseInventoryTransactionType.Place) return true;
+
 		// Separate the data into variables.
-		const { face, clickPosition, blockPosition } = packet.transaction.itemUse;
+		const { face, clickPosition, blockPosition } = itemUse;
 
 		// Get the block from the player's dimension.
 		const block = player.dimension
@@ -108,7 +114,7 @@ class PlayerPlaceBlockSignal extends EventSignal {
 			.face(face);
 
 		// Check if the block is air, if so, then return.
-		if (block.isAir) return true;
+		if (block.isAir()) return true;
 
 		// Emit the signal.
 		const value = this.serenity.emit(

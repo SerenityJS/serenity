@@ -11,6 +11,7 @@ import {
 	MovePlayerPacket,
 	NetworkChunkPublisherUpdatePacket,
 	NetworkItemStackDescriptor,
+	SetPlayerGameTypePacket,
 	TeleportCause,
 	TextPacket,
 	TextPacketType,
@@ -97,12 +98,38 @@ class Player extends Entity {
 
 	// TODO: Organize these properties.
 	public mining: BlockCoordinates | null = null;
-	public gamemode: Gamemode = Gamemode.Creative;
 
 	/**
 	 * The currently opened container visible to the player.
 	 */
 	public openedContainer: Container | null = null;
+
+	/**
+	 * The ItemStack the player is currently using.
+	 */
+	public usingItem: ItemStack | null = null;
+
+	/**
+	 * If the player is sneaking.
+	 */
+	public isSneaking = false;
+
+	/**
+	 * If the player is sprinting.
+	 */
+	public isSprinting = false;
+
+	/**
+	 * If the player is flying.
+	 */
+	public isFlying = false;
+
+	// Protected properties
+
+	/**
+	 * The player's gamemode.
+	 */
+	protected _gamemode = Gamemode.Creative;
 
 	public constructor(
 		session: NetworkSession,
@@ -115,6 +142,24 @@ class Player extends Entity {
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
 		this.chunks = new Map();
+	}
+
+	/**
+	 * The player's gamemode.
+	 */
+	public get gamemode(): Gamemode {
+		return this._gamemode;
+	}
+
+	public set gamemode(value: Gamemode) {
+		this._gamemode = value;
+
+		// Create a new SetPlayerGameTypePacket
+		const packet = new SetPlayerGameTypePacket();
+		packet.gamemode = value;
+
+		// Send the packet to the player
+		this.session.send(packet);
 	}
 
 	/**

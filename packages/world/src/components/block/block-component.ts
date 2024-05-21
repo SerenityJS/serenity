@@ -25,6 +25,31 @@ class BlockComponent extends Component {
 	}
 
 	/**
+	 * Clones the block component.
+	 * @param block The block to clone the component to.
+	 * @returns A new block component.
+	 */
+	public clone(block: Block): this {
+		// Create a new instance of the component.
+		const component = new (this.constructor as new (
+			block: Block,
+			identifier: string
+		) => BlockComponent)(block, this.identifier) as this;
+
+		// Copy the key-value pairs.
+		for (const [key, value] of Object.entries(this)) {
+			// Skip the block.
+			if (key === "block") continue;
+
+			// @ts-expect-error
+			component[key] = value;
+		}
+
+		// Return the component.
+		return component;
+	}
+
+	/**
 	 * Called when the block is placed in the dimension.
 	 * @note The `player` parameter is optional as the block can be placed by the server.
 	 * @param player The player that placed the block.

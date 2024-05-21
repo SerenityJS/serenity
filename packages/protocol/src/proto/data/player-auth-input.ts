@@ -15,6 +15,10 @@ class PlayerAuthInputPacket extends DataPacket {
 	@Serialize(Float32, Endianness.Little) public headYaw!: number;
 	@Serialize(VarLong) public inputData!: bigint;
 	@Serialize(VarInt) public inputMode!: number;
+	@Serialize(VarInt) public playMode!: number;
+	@Serialize(VarInt) public newInteractionModel!: number;
+	@Serialize(VarLong) public currentTick!: bigint;
+	@Serialize(Vector3f) public positionDelta!: Vector3f;
 }
 
 export { PlayerAuthInputPacket };

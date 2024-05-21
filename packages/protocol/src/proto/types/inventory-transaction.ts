@@ -79,12 +79,6 @@ class InventoryTransaction extends DataType {
 			actions.push(action);
 		}
 
-		// Check if the amount of actions is greater than 0
-		if (actions.length > 0) {
-			// Return the new instance of InventoryTransaction
-			return new InventoryTransaction(type, actions);
-		}
-
 		// Switch based on the type of the inventory transaction
 		switch (type) {
 			// Check if the type is not implemented

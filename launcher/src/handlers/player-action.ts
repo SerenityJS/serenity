@@ -52,6 +52,26 @@ class PlayerAction extends SerenityHandler {
 				break;
 			}
 
+			case ActionIds.StartSprint: {
+				player.isSprinting = true;
+				break;
+			}
+
+			case ActionIds.StopSprint: {
+				player.isSprinting = false;
+				break;
+			}
+
+			case ActionIds.StartSneak: {
+				player.isSneaking = true;
+				break;
+			}
+
+			case ActionIds.StopSneak: {
+				player.isSneaking = false;
+				break;
+			}
+
 			// Check if a creative player destroys a block.
 			// If so, we will handle the block destruction.
 			case ActionIds.CreativePlayerDestroyBlock: {
@@ -95,6 +115,7 @@ class PlayerAction extends SerenityHandler {
 				}
 
 				// Set the player's flying ability to true
+				player.isFlying = true;
 				flying.setCurrentValue(true);
 				break;
 			}
@@ -104,6 +125,7 @@ class PlayerAction extends SerenityHandler {
 				const flying = player.getComponent("minecraft:ability.flying");
 
 				// Set the player's flying ability to false
+				player.isFlying = false;
 				flying.setCurrentValue(false);
 			}
 		}
@@ -192,8 +214,6 @@ class PlayerAction extends SerenityHandler {
 
 		// Destroy the block.
 		block.destroy(player);
-
-		//
 	}
 
 	private static handlePredictBreak(
@@ -210,13 +230,31 @@ class PlayerAction extends SerenityHandler {
 		// Get the block from the dimension.
 		const block = player.dimension.getBlock(x, y, z);
 
+		// If the player is in adventure mode, we will set the block permutation.
+		// The player should not be able to break the block.
+		if (player.gamemode === Gamemode.Adventure) {
+			// Set the block permutation.
+			block.setPermutation(block.permutation);
+
+			// Return.
+			return;
+		}
+
 		// Create a new ItemStack.
 		const itemType = ItemType.resolve(block.permutation.type) as ItemType;
 		const itemStack = ItemStack.create(itemType, 1, block.permutation.index);
-		const _itemEntity = player.dimension.spawnItem(
+		const itemEntity = player.dimension.spawnItem(
 			itemStack,
 			new Vector3f(x + 0.5, y + 0.5, z + 0.5)
 		);
+
+		// Add random x & z velocity to the item entity.
+		const velocity = new Vector3f(
+			Math.random() * 0.1 - 0.05,
+			itemEntity.velocity.y,
+			Math.random() * 0.1 - 0.05
+		);
+		itemEntity.addMotion(velocity);
 
 		// Emit the block break particles to the dimension.
 		// Create a new LevelEvent packet.
@@ -276,35 +314,37 @@ class PlayerAction extends SerenityHandler {
 	}
 
 	private static handleStartItemUseOn(
-		_packet: PlayerActionPacket,
-		_player: Player
-	): void {}
+		packet: PlayerActionPacket,
+		player: Player
+	): void {
+		// Get the players inventory component
+		const inventory = player.getComponent("minecraft:inventory");
+
+		// Get the item from the inventory, and set the usingItem property of the player.
+		const item = inventory.container.getItem(inventory.selectedSlot);
+		player.usingItem = item;
+
+		// Trigger the onStartUse method of the item components.
+		if (!item) return;
+		for (const component of item.components.values()) {
+			// Trigger the onStartUse method of the item component.
+			component.onStartUse?.(player);
+		}
+	}
 
 	private static handleStopItemUseOn(
-		_packet: PlayerActionPacket,
-		_player: Player
+		packet: PlayerActionPacket,
+		player: Player
 	): void {
-		// // Get the inventory component from the player.
-		// const inventory = player.getComponent("minecraft:inventory");
-		// // Get the held item from the inventory.
-		// const item = inventory.container.getItem(inventory.selectedSlot);
-		// // Check if the it is has a block permutation.
-		// // If so, we will place the block.
-		// // If not, we will return for now.
-		// const permutation = item?.type.block?.getPermutation();
-		// if (!permutation) return;
-		// // Get the block position from the packet.
-		// const { x, y, z } = packet.blockPosition;
-		// const sound = new LevelSoundEventPacket();
-		// sound.event = LevelSoundEvent.Place;
-		// sound.position = new Vector3f(x, y, z);
-		// sound.data = permutation.network;
-		// sound.actorIdentifier = "";
-		// sound.isBabyMob = false;
-		// sound.isGlobal = true;
-		// player.dimension.broadcastImmediate(sound);
-		// // Set the block permutation to the dimension.
-		// player.dimension.getBlock(x, y, z).setPermutation(permutation);
+		// Trigger the onStopUse method of the item components.
+		if (!player.usingItem) return;
+		for (const component of player.usingItem.components.values()) {
+			// Trigger the onStopUse method of the item component.
+			component.onStopUse?.(player);
+		}
+
+		// Update the player's usingItem property.
+		player.usingItem = null;
 	}
 }
 

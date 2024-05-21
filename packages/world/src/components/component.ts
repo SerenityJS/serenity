@@ -23,6 +23,14 @@ class Component {
 	}
 
 	/**
+	 * Clones the component.
+	 * @returns A new component.
+	 */
+	public clone(..._arguments_: Array<unknown>): Component {
+		throw new Error("Method not implemented.");
+	}
+
+	/**
 	 * Called when the component is ticked.
 	 */
 	public onTick?(): void;

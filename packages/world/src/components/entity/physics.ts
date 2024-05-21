@@ -24,12 +24,12 @@ class EntityPhysicsComponent extends EntityComponent {
 		// Check how many blocks is between the entity and the nearest ground block
 		const { y } = this.entity.position;
 
+		// Round the position of the entity to the nearest whole number
+		const position = this.entity.position.floor();
+
 		// Calculate the distance between the entity and the nearest ground block
 		const distance =
-			y -
-			1 -
-			this.entity.dimension.getTopmostBlock(this.entity.position.floor()) // Round <---
-				.location.y;
+			y - 1 - this.entity.dimension.getTopmostBlock(position).location.y;
 
 		// Check if the entity is falling
 		// And check if the entity is in a block, if so add a small velocity to make the entity move up
@@ -37,8 +37,7 @@ class EntityPhysicsComponent extends EntityComponent {
 			// Calculate the time it takes for the entity to fall to the ground
 			const time = Math.sqrt((2 * distance) / EntityPhysicsComponent.gravity);
 
-			// Update the velocity of the entity is the entity is falling
-			// While including any previous velocity
+			// Calculate the velocity of the entity
 			const velocity = new Vector3f(
 				this.entity.velocity.x,
 				-EntityPhysicsComponent.gravity * time + this.entity.velocity.y,

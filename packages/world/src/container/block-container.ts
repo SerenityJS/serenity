@@ -119,10 +119,10 @@ class BlockContainer extends Container {
 			const amount = Math.min(64 - existingItem.amount, item.amount);
 
 			// Add the amount to the existing item.
-			existingItem.amount += amount;
+			existingItem.increment(amount);
 
 			// Subtract the amount from the item.
-			item.amount -= amount;
+			item.decrement(amount);
 
 			// Check if there is ramaining amount.
 			if (item.amount > 0) {
@@ -146,7 +146,7 @@ class BlockContainer extends Container {
 		const removed = Math.min(amount, item.amount);
 
 		// Subtract the amount from the item.
-		item.amount -= removed;
+		item.decrement(removed);
 
 		// Check if the item amount is 0.
 		if (item.amount === 0) {
@@ -177,8 +177,16 @@ class BlockContainer extends Container {
 		// Calculate the amount of empty slots in the container.
 		this.calculateEmptySlotCount();
 
-		// Return the removed item.
-		return ItemStack.create(item.type, removed, item.metadata);
+		// Create a new item with the removed amount.
+		const newItem = ItemStack.create(item.type, removed, item.metadata);
+
+		// Clone the components of the item.
+		for (const component of item.components.values()) {
+			component.clone(newItem);
+		}
+
+		// Return the new item.
+		return newItem;
 	}
 
 	/**

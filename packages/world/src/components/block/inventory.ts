@@ -28,17 +28,24 @@ class BlockInventoryComponent extends BlockComponent {
 	}
 
 	public onInteract(player: Player): void {
+		// Check if the player is sneaking
+		if (player.isSneaking) return;
+
+		// Show the container to the player
 		this.container.show(player);
 	}
 
 	public onBreak(player?: Player): void {
+		// Check if a player is provided
 		if (!player) return;
 
+		// Loop through the items in the container
 		for (const item of this.container.storage) {
+			// Check if the item is valid
 			if (!item) continue;
 
+			// Spawn the item in the world
 			const { x, y, z } = this.block.location;
-
 			const entity = player.dimension.spawnItem(
 				item,
 				new Vector3f(x + 0.5, y + 0.5, z + 0.5)

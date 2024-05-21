@@ -44,14 +44,6 @@ class MobEquipment extends SerenityHandler {
 			return this.serenity.logger.warn(
 				`Player ${player.username} has been disconnected due to inventory out of sync, mismatch item runtimeid.`
 			);
-		} else if (item && item.amount !== packet.item.stackSize) {
-			session.disconnect(
-				"Inventory out of sync, mismatch item count.",
-				DisconnectReason.BadPacket
-			);
-			return this.serenity.logger.warn(
-				`Player ${player.username} has been disconnected due to inventory out of sync, mismatch item count.`
-			);
 		}
 
 		// Create a new MobEquipmentPacket

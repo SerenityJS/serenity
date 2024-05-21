@@ -29,6 +29,31 @@ class EntityComponent extends Component {
 	}
 
 	/**
+	 * Clones the entity component.
+	 * @param entity The entity to clone the component to.
+	 * @returns A new entity component.
+	 */
+	public clone(entity: Entity): this {
+		// Create a new instance of the component.
+		const component = new (this.constructor as new (
+			entity: Entity,
+			identifier: string
+		) => EntityComponent)(entity, this.identifier) as this;
+
+		// Copy the key-value pairs.
+		for (const [key, value] of Object.entries(this)) {
+			// Skip the entity.
+			if (key === "entity") continue;
+
+			// @ts-expect-error
+			component[key] = value;
+		}
+
+		// Return the component.
+		return component;
+	}
+
+	/**
 	 * Called when the entity is spawned into the dimension.
 	 */
 	public onSpawn?(): void;

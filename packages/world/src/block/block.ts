@@ -23,16 +23,6 @@ class Block {
 	public readonly dimension: Dimension;
 
 	/**
-	 * If the block is air.
-	 */
-	public readonly isAir: boolean;
-
-	/**
-	 * If the block is liquid.
-	 */
-	public readonly isLiquid: boolean;
-
-	/**
 	 * The location of the block.
 	 */
 	public readonly location: BlockCoordinates;
@@ -59,13 +49,26 @@ class Block {
 		location: BlockCoordinates
 	) {
 		this.dimension = dimension;
-		this.isAir = permutation.type.identifier === "minecraft:air";
-		this.isLiquid =
-			permutation.type.identifier === "minecraft:water" ||
-			permutation.type.identifier === "minecraft:lava";
 		this.permutation = permutation;
 		this.location = location;
 		this.components = new Map();
+	}
+
+	/**
+	 * If the block is air.
+	 */
+	public isAir(): boolean {
+		return this.permutation.type.identifier === "minecraft:air";
+	}
+
+	/**
+	 * If the block is liquid.
+	 */
+	public isLiquid(): boolean {
+		return (
+			this.permutation.type.identifier === "minecraft:water" ||
+			this.permutation.type.identifier === "minecraft:lava"
+		);
 	}
 
 	/**

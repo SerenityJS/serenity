@@ -112,10 +112,10 @@ class EntityContainer extends Container {
 			const amount = Math.min(64 - existingItem.amount, item.amount);
 
 			// Add the amount to the existing item.
-			existingItem.amount += amount;
+			existingItem.increment(amount);
 
 			// Subtract the amount from the item.
-			item.amount -= amount;
+			item.decrement(amount);
 
 			// Check if there is ramaining amount.
 			if (item.amount > 0) {
@@ -139,7 +139,7 @@ class EntityContainer extends Container {
 		const removed = Math.min(amount, item.amount);
 
 		// Subtract the amount from the item.
-		item.amount -= removed;
+		item.decrement(removed);
 
 		// Check if the item amount is 0.
 		if (item.amount === 0) {
@@ -153,6 +153,11 @@ class EntityContainer extends Container {
 		return item;
 	}
 
+	/**
+	 * Takes an item from the container.
+	 * @param slot The slot to take the item from.
+	 * @param amount The amount of the item to take.
+	 */
 	public takeItem(slot: number, amount: number): ItemStack<keyof Items> | null {
 		// Get the item in the slot.
 		const item = this.getItem(slot);
@@ -160,7 +165,7 @@ class EntityContainer extends Container {
 
 		// Calculate the amount of items to remove.
 		const removed = Math.min(amount, item.amount);
-		item.amount -= removed;
+		item.decrement(removed);
 
 		// Check if the item amount is 0.
 		if (item.amount === 0) {
@@ -170,8 +175,16 @@ class EntityContainer extends Container {
 		// Calculate the amount of empty slots in the container.
 		this.calculateEmptySlotCount();
 
-		// Return the removed item.
-		return ItemStack.create(item.type, removed, item.metadata);
+		// Create a new item with the removed amount.
+		const newItem = ItemStack.create(item.type, removed, item.metadata);
+
+		// Clone the components of the item.
+		for (const component of item.components.values()) {
+			component.clone(newItem);
+		}
+
+		// Return the new item.
+		return newItem;
 	}
 
 	/**

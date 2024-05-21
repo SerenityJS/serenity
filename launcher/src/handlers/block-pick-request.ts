@@ -31,9 +31,9 @@ export class BlockPick extends SerenityHandler {
 			const block = player.dimension.getBlock(x, y, z);
 
 			// Check if the block is not air
-			if (!block.isAir) {
+			if (!block.isAir()) {
 				// Turn block into item stack
-				const item = block.getItemStack(64);
+				const item = block.getItemStack(1);
 
 				// Set item on selected slot
 				inventory.container.setItem(selectedSlot, item);
