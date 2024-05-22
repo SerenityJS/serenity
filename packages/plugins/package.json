@@ -28,6 +28,7 @@
 		"typescript": "^5.4.2"
 	},
 	"dependencies": {
+		"@serenityjs/emitter": "*",
 		"@serenityjs/logger": "*"
 	}
 }
