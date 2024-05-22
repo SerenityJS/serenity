@@ -280,6 +280,13 @@ class Network extends Emitter<NetworkEvents> {
 						// And deserialize the packet.
 						const instance = new packet(frame).deserialize();
 
+						// Check if the packet has remaining data.
+						if (instance.offset < instance.binary.length) {
+							this.logger.warn(
+								`Packet ${Packet[id]} (0x${id.toString(16)}) from "${session.identifier.address}:${session.identifier.port}" has remaining data that was not read!`
+							);
+						}
+
 						// Build the event with the packet instance and session.
 						const event = {
 							packet: instance,
