@@ -8,6 +8,9 @@ import {
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Commands } from "@serenityjs/command";
 
+import { COMMON_COMMANDS } from "../commands";
+import { ADMIN_COMMANDS } from "../commands/admin";
+
 import { Dimension } from "./dimension";
 
 import type { TerrainGenerator } from "../generator";
@@ -64,6 +67,10 @@ class World {
 		this.dimensions = new Map();
 		this.commands = new Commands();
 		this.logger = new Logger(identifier, LoggerColors.GreenBright);
+
+		// Register the default comman and admin commands
+		for (const register of [...COMMON_COMMANDS, ...ADMIN_COMMANDS])
+			register(this);
 	}
 
 	/**
