@@ -94,6 +94,14 @@ class Commands<O> {
 		// Return the command entry.
 		return entry;
 	}
+
+	/**
+	 * Unregister a command.
+	 * @param name The name of the command to unregister.
+	 */
+	public unregister(name: string): void {
+		this.entries.delete(name);
+	}
 }
 
 export { Commands, CommandEntry, CommandParameters };
