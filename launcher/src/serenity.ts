@@ -15,6 +15,7 @@ import {
 } from "./events";
 import { Worlds } from "./worlds";
 import { DEFAULT_SERVER_PROPERTIES } from "./properties/default";
+import { Permissions } from "./permissions";
 
 import type { DefaultServerProperties } from "./types";
 import type { Player, World } from "@serenityjs/world";
@@ -29,6 +30,11 @@ class Serenity extends Emitter<EventSignals> {
 	 * The server properties instance
 	 */
 	public readonly properties: Properties<DefaultServerProperties>;
+
+	/**
+	 * The server permissions instance for managing player permissions
+	 */
+	public readonly permissions: Permissions;
 
 	/**
 	 * The raknet server instance
@@ -89,6 +95,9 @@ class Serenity extends Emitter<EventSignals> {
 			"./server.properties",
 			DEFAULT_SERVER_PROPERTIES
 		);
+
+		// Set the permissions instance
+		this.permissions = new Permissions();
 
 		// Set the debug logging
 		Logger.DEBUG = this.properties.values["debug-logging"];

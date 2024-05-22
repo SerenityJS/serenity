@@ -79,11 +79,6 @@ class PlayerJoinedSignal extends EventSignal {
 			return false;
 		}
 
-		// Log the player's join message.
-		player.dimension.world.logger.info(
-			`${player.username} has joined the game.`
-		);
-
 		// Return true to continue the event.
 		return true;
 	}

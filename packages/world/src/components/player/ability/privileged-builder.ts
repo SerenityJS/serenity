@@ -7,7 +7,7 @@ import type { Player } from "../../../player";
 class PlayerPrivilegedBuilderComponent extends PlayerAbilityComponent {
 	public readonly flag = AbilityLayerFlag.PrivilegedBuilder;
 
-	public readonly defaultValue = true;
+	public readonly defaultValue = false;
 
 	public currentValue = this.defaultValue;
 

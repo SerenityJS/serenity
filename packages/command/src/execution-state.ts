@@ -35,8 +35,6 @@ class CommandExecutionState<O> {
 			);
 		}
 
-		// TODO: Add permission checking.
-
 		// Build the command parameters.
 		const parameters = this.buildParameters();
 

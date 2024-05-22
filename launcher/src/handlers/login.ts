@@ -38,8 +38,9 @@ class Login extends SerenityHandler {
 		// Along with the players XUID, display name, and uuid.
 		const data = this.decode(packet.tokens);
 
-		// Get the clients xuid
+		// Get the clients xuid and username.
 		const xuid = data.identityData.XUID;
+		const username = data.identityData.displayName;
 
 		// Get the clients operating system
 		const os = data.clientData.DeviceOS as DeviceOS;
@@ -100,10 +101,13 @@ class Login extends SerenityHandler {
 				DisconnectReason.WorldCorruption
 			);
 
+		// Get the permission level of the player.
+		const permission = this.serenity.permissions.get(xuid, username);
+
 		// Create a new player instance.
 		// Since we have gotten the players login data, we can create a new player instance.
 		// We will also add the player to the players map.
-		const player = new Player(session, data, dimension);
+		const player = new Player(session, data, dimension, permission);
 		this.serenity.players.set(xuid, player);
 
 		// TODO: Enable encryption, the public key is given in the tokens

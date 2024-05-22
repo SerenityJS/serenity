@@ -1,5 +1,6 @@
 import { type BlockIdentifier, BlockType } from "@serenityjs/block";
 
+import type { ItemData } from "@serenityjs/protocol";
 import type { Items } from "./types";
 
 class ItemType<T extends keyof Items = keyof Items> {
@@ -69,6 +70,18 @@ class ItemType<T extends keyof Items = keyof Items> {
 		return (
 			[...ItemType.types.values()].find((item) => item.block === type) ?? null
 		);
+	}
+
+	/**
+	 * Convert the item type to item data, this is used for the protocol.
+	 * @param type The item type to convert.
+	 */
+	public static toItemData(type: ItemType): ItemData {
+		return {
+			name: type.identifier,
+			networkId: type.network,
+			componentBased: false
+		};
 	}
 }
 

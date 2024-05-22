@@ -4,11 +4,7 @@ import {
 	ResourcePackStackPacket,
 	MINECRAFT_VERSION,
 	StartGamePacket,
-	PermissionLevel,
-	Gamemode,
 	Difficulty,
-	DimensionType,
-	Vector3f,
 	CreativeContentPacket,
 	BiomeDefinitionListPacket,
 	ResourcePackDataInfoPacket,
@@ -16,7 +12,8 @@ import {
 	PlayStatus,
 	DisconnectReason,
 	type BlockProperties,
-	ResourceIdVersions
+	ResourceIdVersions,
+	Vector3f
 } from "@serenityjs/protocol";
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
@@ -138,21 +135,17 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.runtimeEntityId = player.runtime;
 				packet.playerGamemode = player.gamemode;
 				packet.playerPosition = new Vector3f(0, 6, 0);
-				packet.pitch = 0;
-				packet.yaw = 0;
-				packet.seed = BigInt(0);
+				packet.pitch = player.rotation.pitch;
+				packet.yaw = player.rotation.yaw;
+				packet.seed = BigInt(player.dimension.generator.seed);
 				packet.biomeType = 0;
 				packet.biomeName = "plains";
-				packet.dimension = DimensionType.Overworld;
+				packet.dimension = player.dimension.type;
 				packet.generator = 1;
-				packet.worldGamemode = Gamemode.Creative;
+				packet.worldGamemode = player.gamemode;
 				packet.hardcore = false;
 				packet.difficulty = Difficulty.Easy;
-				packet.spawnPosition = {
-					x: 0,
-					y: 0,
-					z: 0
-				};
+				packet.spawnPosition = player.dimension.spawn;
 				packet.achievementsDisabled = true;
 				packet.editorWorldType = 0;
 				packet.createdInEdior = false;
@@ -374,7 +367,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.experimentsPreviouslyToggled = false;
 				packet.bonusChest = false;
 				packet.mapEnabled = false;
-				packet.permissionLevel = PermissionLevel.Member;
+				packet.permissionLevel = player.permission;
 				packet.serverChunkTickRange = 0;
 				packet.hasLockedBehaviorPack = false;
 				packet.hasLockedResourcePack = false;
@@ -405,13 +398,11 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.currentTick = player.dimension.world.currentTick;
 				packet.enchantmentSeed = 0;
 				packet.blockProperties = blocks;
-				packet.items = [...ItemType.types.values()].map((item) => {
-					return {
-						name: item.identifier,
-						networkId: item.network,
-						componentBased: false
-					};
-				});
+
+				// Map the custom items to the packet
+				packet.items = ItemType.getAll().map((item) =>
+					ItemType.toItemData(item)
+				);
 
 				packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
 				packet.serverAuthoritativeInventory = true;

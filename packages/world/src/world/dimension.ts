@@ -1,9 +1,10 @@
 import {
+	BlockCoordinates,
 	type DataPacket,
 	type DimensionType,
 	TextPacket,
 	TextPacketType,
-	Vector3f
+	type Vector3f
 } from "@serenityjs/protocol";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
@@ -57,7 +58,7 @@ class Dimension {
 	/**
 	 * The spawn position of the dimension.
 	 */
-	public spawn = new Vector3f(0, 0, 0);
+	public spawn = new BlockCoordinates(0, 6, 0);
 
 	/**
 	 * The view distance of the dimension.

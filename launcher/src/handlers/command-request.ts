@@ -24,14 +24,28 @@ class CommandRequest extends SerenityHandler {
 			player
 		);
 
-		// TODO: Implement permission checks
-		// The state will return the command entry, which contains the permission level
+		// Check if the player has the required permission level
+		if (
+			state.command?.permission && // Check if the player has the required permission level
+			player.permission < state.command.permission
+		) {
+			// Send a message to the player
+			player.sendMessage(`§cYou do not have permission to use this command.§r`);
+
+			// Return
+			return;
+		}
 
 		// Try to execute the command
 		try {
 			// Execute the command
 			const result = state.execute();
 			if (!result) return;
+
+			// Log the command to the console
+			player.dimension.world.logger.info(
+				`[${player.username}] Command: ${packet.command}`
+			);
 
 			// Send the result message to the player, if any.
 			if (result.message) player.sendMessage(`§7${result.message}§r`);

@@ -17,7 +17,7 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 	public static readonly packet = SetLocalPlayerAsInitializedPacket.id;
 
 	public static handle(
-		packet: SetLocalPlayerAsInitializedPacket,
+		_packet: SetLocalPlayerAsInitializedPacket,
 		session: NetworkSession
 	): void {
 		// Get the player from the session
@@ -74,11 +74,22 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		const chunks = player.dimension.getSpawnChunks();
 		player.sendChunk(...chunks);
 
-		const commands = new AvailableCommandsPacket();
+		// Create a new available commands packet
+		const packet = new AvailableCommandsPacket();
 
-		commands.commands = [
-			...player.dimension.world.commands.entries.values()
-		].map((command) => {
+		// Get all the commands that the player can use according to their permission level.
+		const commands = player.dimension.world.commands
+			.getAll()
+			.filter((command) => {
+				return (
+					!command.permission ||
+					command.permission === PermissionLevel.Member ||
+					command.permission === player.permission
+				);
+			});
+
+		// Map the commands to the packet property
+		packet.commands = commands.map((command) => {
 			return {
 				name: command.name,
 				description: command.description,
@@ -107,71 +118,28 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 						)
 					}
 				]
-				// overloads: [
-				// 	{
-				// 		chaining: false,
-				// 		parameters: [
-				// 			{
-				// 				valueType: 4,
-				// 				enumType: 0x10,
-				// 				name: "param",
-				// 				optional: false,
-				// 				options: 0
-				// 			},
-				// 			{
-				// 				valueType: 4,
-				// 				enumType: 0x10,
-				// 				name: "param2",
-				// 				optional: false,
-				// 				options: 0
-				// 			}
-				// 		]
-				// 	}
-				// ]
 			};
 		});
 
-		commands.chainedSubcommandValues = [];
-		commands.subcommands = [];
-		commands.dynamicEnums = [];
-		commands.enumConstraints = [];
-		commands.enumValues = [];
-		commands.enums = [];
-		commands.postFixes = [];
-		// 	{
-		// 		name: "test",
-		// 		description: "Test command",
-		// 		permissionLevel: PermissionLevel.Member,
-		// 		subcommands: [],
-		// 		flags: 0,
-		// 		alias: -1,
-		// 		overloads: [
-		// 			{
-		// 				chaining: false,
-		// 				parameters: [
-		// 					{
-		// 						valueType: 44,
-		// 						enumType: 16,
-		// 						name: "name",
-		// 						optional: false,
-		// 						options: 0
-		// 					}
-		// 				]
-		// 			}
-		// 		]
-		// 	}
-		// 	// ...avaliableCommands
-		// ];
+		// Assign the remaining properties to the packet
+		packet.chainedSubcommandValues = [];
+		packet.subcommands = [];
+		packet.dynamicEnums = [];
+		packet.enumConstraints = [];
+		packet.enumValues = [];
+		packet.enums = [];
+		packet.postFixes = [];
 
-		// commands.chainedSubcommandValues = [];
-		// commands.subcommands = [];
-		// commands.dynamicEnums = [];
-		// commands.enumConstraints = [];
-		// commands.enumValues = [];
-		// commands.enums = [];
-		// commands.postFixes = [];
+		// Send the packet to the player
+		session.sendImmediate(packet);
 
-		session.sendImmediate(commands);
+		// Send the player joined message
+		player.dimension.sendMessage(`§e${player.username} joined the game.§r`);
+
+		// Log the player joined message
+		player.dimension.world.logger.info(
+			`[${player.username}] Event: Player has joined the game.`
+		);
 	}
 }
 

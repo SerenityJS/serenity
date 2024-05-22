@@ -1,13 +1,13 @@
 import type { CommandResult } from "./types";
 import type { Enum } from "./enums";
-import type { CommandPermissionLevel } from "@serenityjs/protocol";
+import type { PermissionLevel } from "@serenityjs/protocol";
 
 interface CommandParameters {
 	[key: string]: typeof Enum | [typeof Enum, boolean];
 }
 
 interface CommandOptions {
-	permission?: CommandPermissionLevel;
+	permission?: PermissionLevel;
 	special?: boolean;
 }
 

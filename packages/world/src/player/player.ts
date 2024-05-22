@@ -11,6 +11,7 @@ import {
 	MovePlayerPacket,
 	NetworkChunkPublisherUpdatePacket,
 	NetworkItemStackDescriptor,
+	type PermissionLevel,
 	SetPlayerGameTypePacket,
 	TeleportCause,
 	TextPacket,
@@ -96,6 +97,8 @@ class Player extends Entity {
 	 */
 	public readonly chunks: Map<bigint, boolean>;
 
+	public readonly permission: PermissionLevel;
+
 	// TODO: Organize these properties.
 	public mining: BlockCoordinates | null = null;
 
@@ -134,13 +137,15 @@ class Player extends Entity {
 	public constructor(
 		session: NetworkSession,
 		tokens: LoginTokenData,
-		dimension: Dimension
+		dimension: Dimension,
+		permission: PermissionLevel
 	) {
 		super(EntityIdentifier.Player, dimension, session.guid);
 		this.session = session;
 		this.username = tokens.identityData.displayName;
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
+		this.permission = permission;
 		this.chunks = new Map();
 	}
 
