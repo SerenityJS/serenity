@@ -102,6 +102,23 @@ class Commands<O> {
 	public unregister(name: string): void {
 		this.entries.delete(name);
 	}
+
+	/**
+	 * Get a command entry.
+	 * @param name The name of the command to get.
+	 * @returns The command entry.
+	 */
+	public get(name: string): CommandEntry<O> | undefined {
+		return this.entries.get(name);
+	}
+
+	/**
+	 * Get all command entries.
+	 * @returns All command entries.
+	 */
+	public getAll(): Array<CommandEntry<O>> {
+		return [...this.entries.values()];
+	}
 }
 
 export { Commands, CommandEntry, CommandParameters };
