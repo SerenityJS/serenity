@@ -1,9 +1,11 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Tag } from "../named-binary-tag";
 
 import { NBTTag } from "./tag";
 import { NBT_TAGS } from "./tags";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * A tag that contains a compound list value.
@@ -152,13 +154,17 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	public static write<T = unknown>(
 		stream: BinaryStream,
 		tag: CompoundTag<T>,
-		varint = false
+		varint = false,
+		type = true
 	): void {
-		// Write the type.
-		stream.writeByte(this.type);
+		// Check if the type should be written.
+		if (type === true) {
+			// Write the type.
+			stream.writeByte(this.type);
 
-		// Write the name.
-		this.writeString(tag.name, stream, varint);
+			// Write the name.
+			this.writeString(tag.name, stream, varint);
+		}
 
 		// Write the tags.
 		for (const key in tag.value) {

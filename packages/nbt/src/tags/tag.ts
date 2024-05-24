@@ -1,6 +1,6 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 
-import { Tag } from "../named-binary-tag";
+import type { Tag } from "../named-binary-tag";
 
 abstract class NBTTag<T = unknown> {
 	/**
@@ -62,7 +62,8 @@ abstract class NBTTag<T = unknown> {
 	public static write(
 		_stream: BinaryStream,
 		_tag: NBTTag<unknown>,
-		_varint: unknown
+		_varint: unknown,
+		_type?: unknown
 	): void {
 		throw new Error("NBTTag.write() is not implemented.");
 	}

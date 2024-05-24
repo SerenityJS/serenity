@@ -1,8 +1,8 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-
 import { Tag } from "../named-binary-tag";
 
 import { NBTTag } from "./tag";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * A tag that contains a byte value.

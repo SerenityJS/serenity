@@ -1,4 +1,5 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { Tag } from "../named-binary-tag";
 
@@ -37,6 +38,20 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 
 			return values;
 		}
+	}
+
+	/**
+	 * Pushes a value to the list.
+	 */
+	public push(value: T): void {
+		this.value.push(value);
+	}
+
+	/**
+	 * Removes a value from the list.
+	 */
+	public remove(index: number): void {
+		this.value.splice(index, 1);
 	}
 
 	/**
@@ -251,7 +266,7 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 						}
 
 						// Write the tag.
-						writter.write(stream, type, varint);
+						writter.write(stream, type, varint, false);
 					}
 					break;
 				}

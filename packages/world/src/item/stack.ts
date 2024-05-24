@@ -1,5 +1,11 @@
 import { ItemType, type Items } from "@serenityjs/item";
-import { CompoundTag, StringTag } from "@serenityjs/nbt";
+import {
+	CompoundTag,
+	ListTag,
+	ShortTag,
+	StringTag,
+	Tag
+} from "@serenityjs/nbt";
 
 import type { ItemComponents } from "../types";
 import type { ItemComponent } from "../components";
@@ -53,6 +59,20 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Set the amount of the item.
 		this._amount = value;
 
+		// Check if the item is in a container.
+		if (!this.container) return;
+
+		// Get the slot of the item in the container.
+		const slot = this.container.storage.indexOf(this);
+
+		// Set the item in the container.
+		this.container.setItem(slot, this);
+	}
+
+	/**
+	 * Updates the item stack in the container.
+	 */
+	public update(): void {
 		// Check if the item is in a container.
 		if (!this.container) return;
 
@@ -135,11 +155,11 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Create the NBT tag.
 		const nbt = new CompoundTag("", {});
 
-		// Create the display tag.
-		const display = new CompoundTag("display", {});
-
 		// Check if the item has a display name.
 		if (item.components.has("minecraft:nametag")) {
+			// Create the display tag.
+			const display = new CompoundTag("display", {});
+
 			// Get the nametag component.
 			const nametag = item.getComponent("minecraft:nametag");
 
@@ -148,10 +168,33 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
 			// Set the display name.
 			display.addTag(name);
+
+			// Set the display tag.
+			nbt.addTag(display);
 		}
 
-		// Set the display tag.
-		nbt.addTag(display);
+		// CHeck if the item has enchantments.
+		if (item.components.has("minecraft:enchantable")) {
+			// Create the enchantable list tag.
+			const enchantments = new ListTag<CompoundTag>("ench", [], Tag.Compound);
+
+			// Get the enchantable component.
+			const enchantable = item.getComponent("minecraft:enchantable");
+
+			// Iterate over the enchantments.
+			for (const [enchantment, level] of enchantable.enchantments) {
+				// Create the enchantment tag.
+				const enchantmentTag = new CompoundTag("", {});
+				enchantmentTag.addTag(new ShortTag("id", enchantment));
+				enchantmentTag.addTag(new ShortTag("lvl", level));
+
+				// Push the enchantment tag.
+				enchantments.push(enchantmentTag);
+			}
+
+			// Set the enchantments tag.
+			nbt.addTag(enchantments);
+		}
 
 		// Return the item instance descriptor.
 		return {
