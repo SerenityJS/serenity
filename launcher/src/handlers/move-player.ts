@@ -34,9 +34,7 @@ class MovePlayer extends SerenityHandler {
 		player.dimension.broadcastExcept(player, packet);
 
 		// Get the chunks in the player's view distance.
-		const chunks = player
-			.getChunks(player.dimension.viewDistance)
-			.filter((chunk) => !player.chunks.has(chunk.getHash()));
+		const chunks = player.getNextChunks(player.dimension.viewDistance);
 
 		// Send the chunks to the player.
 		player.sendChunk(...chunks);
