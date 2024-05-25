@@ -38,9 +38,9 @@ class Overworld extends TerrainGenerator {
 		this.tulip_pink = BlockPermutation.resolve(BlockIdentifier.YellowFlower, {
 			flower_type: "tulip_pink"
 		});
-		this.poppy = BlockPermutation.resolve(BlockIdentifier.RedFlower);
+		this.poppy = BlockPermutation.resolve(BlockIdentifier.YellowFlower);
 		this.dandelion = BlockPermutation.resolve(BlockIdentifier.YellowFlower);
-		this.cornflower = BlockPermutation.resolve(BlockIdentifier.RedFlower, {
+		this.cornflower = BlockPermutation.resolve(BlockIdentifier.YellowFlower, {
 			flower_type: "cornflower"
 		});
 		this.oak_log = BlockPermutation.resolve(BlockIdentifier.OakLog);

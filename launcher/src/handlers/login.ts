@@ -45,6 +45,10 @@ class Login extends SerenityHandler {
 		// Get the clients operating system
 		const os = data.clientData.DeviceOS as DeviceOS;
 
+		// TODO: This is a temporary solution to the reliability and channel issue.
+		session.reliablity = Reliability.UnreliableSequenced;
+		session.channel = 10;
+
 		// Apply the correct raknet cofniguration based on the clients operating system.
 		switch (os) {
 			case DeviceOS.Android:

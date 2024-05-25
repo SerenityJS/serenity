@@ -5,6 +5,9 @@ export interface TrapdoorBlock {
 	open_bit?: boolean;
 	upside_down_bit?: boolean;
 }
+export interface PinkTulipBlock {
+	flower_type?: import("./states").FlowerType;
+}
 export interface DetectorRailBlock {
 	rail_data_bit?: boolean;
 	rail_direction?: number;
@@ -20,10 +23,6 @@ export interface BlueCandleBlock {
 	candles?: number;
 	lit?: boolean;
 }
-export interface CoralFanDeadBlock {
-	coral_color?: import("./states").CoralColor;
-	coral_fan_direction?: number;
-}
 export interface DarkOakWoodBlock {
 	pillar_axis?: import("./states").PillarAxis;
 }
@@ -34,15 +33,25 @@ export interface TuffBrickWallBlock {
 	wall_connection_type_west?: import("./states").WallConnectionTypeWest;
 	wall_post_bit?: boolean;
 }
+export interface DeadBrainCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
+}
+export interface AcaciaStandingSignBlock {
+	ground_sign_direction?: number;
+}
 export interface BambooPressurePlateBlock {
 	redstone_signal?: number;
 }
-export interface BirchStandingSignBlock {
-	ground_sign_direction?: number;
+export interface CornflowerBlock {
+	flower_type?: import("./states").FlowerType;
 }
 export interface WaxedCutCopperStairsBlock {
 	upside_down_bit?: boolean;
 	weirdo_direction?: number;
+}
+export interface BirchStandingSignBlock {
+	ground_sign_direction?: number;
 }
 export interface OxidizedCutCopperStairsBlock {
 	upside_down_bit?: boolean;
@@ -79,8 +88,8 @@ export interface BambooMosaicStairsBlock {
 export interface VineBlock {
 	vine_direction_bits?: number;
 }
-export interface GraniteBlock {
-	stone_type?: import("./states").StoneType;
+export interface WhiteTulipBlock {
+	flower_type?: import("./states").FlowerType;
 }
 export interface PolishedTuffSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
@@ -150,6 +159,10 @@ export interface StrippedAcaciaWoodBlock {
 export interface JungleButtonBlock {
 	button_pressed_bit?: boolean;
 }
+export interface DeadBubbleCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
+}
 export interface PoweredRepeaterBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
 	repeater_delay?: number;
@@ -162,9 +175,6 @@ export interface JungleDoorBlock {
 	door_hinge_bit?: boolean;
 	open_bit?: boolean;
 	upper_block_bit?: boolean;
-}
-export interface DioriteBlock {
-	stone_type?: import("./states").StoneType;
 }
 export interface OxidizedDoubleCutCopperSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
@@ -194,9 +204,6 @@ export interface PolishedBlackstoneBrickStairsBlock {
 	upside_down_bit?: boolean;
 	weirdo_direction?: number;
 }
-export interface GrindstoneBlock {
-	attachment?: import("./states").Attachment;
-}
 export interface DarkOakDoorBlock {
 	door_hinge_bit?: boolean;
 	open_bit?: boolean;
@@ -205,12 +212,14 @@ export interface DarkOakDoorBlock {
 export interface WheatBlock {
 	growth?: number;
 }
+export interface GrindstoneBlock {
+	attachment?: import("./states").Attachment;
+}
 export interface DarkOakSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
-export interface SaplingBlock {
-	age_bit?: boolean;
-	sapling_type?: import("./states").SaplingType;
+export interface AzureBluetBlock {
+	flower_type?: import("./states").FlowerType;
 }
 export interface StoneStairsBlock {
 	upside_down_bit?: boolean;
@@ -257,6 +266,10 @@ export interface StrippedDarkOakLogBlock {
 export interface JungleLogBlock {
 	pillar_axis?: import("./states").PillarAxis;
 }
+export interface BubbleCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
+}
 export interface BambooSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
@@ -266,11 +279,18 @@ export interface NetherWartBlock {
 export interface StrippedMangroveWoodBlock {
 	pillar_axis?: import("./states").PillarAxis;
 }
-export interface CakeBlock {
-	bite_counter?: number;
+export interface LilyOfTheValleyBlock {
+	flower_type?: import("./states").FlowerType;
+}
+export interface BlueOrchidBlock {
+	flower_type?: import("./states").FlowerType;
 }
 export interface SeagrassBlock {
 	sea_grass_type?: import("./states").SeaGrassType;
+}
+export interface TubeCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
 }
 export interface CherryStairsBlock {
 	upside_down_bit?: boolean;
@@ -290,6 +310,9 @@ export interface WaxedExposedCutCopperSlabBlock {
 export interface DeadHornCoralBlock {
 	coral_color?: import("./states").CoralColor;
 	dead_bit?: boolean;
+}
+export interface CakeBlock {
+	bite_counter?: number;
 }
 export interface StrippedOakWoodBlock {
 	pillar_axis?: import("./states").PillarAxis;
@@ -345,9 +368,6 @@ export interface OakStairsBlock {
 export interface OakLogBlock {
 	pillar_axis?: import("./states").PillarAxis;
 }
-export interface AndesiteBlock {
-	stone_type?: import("./states").StoneType;
-}
 export interface SculkVeinBlock {
 	multi_face_direction_bits?: number;
 }
@@ -357,11 +377,11 @@ export interface ExposedDoubleCutCopperSlabBlock {
 export interface CandleCakeBlock {
 	lit?: boolean;
 }
-export interface PolishedGraniteBlock {
-	stone_type?: import("./states").StoneType;
-}
 export interface LightBlueCandleCakeBlock {
 	lit?: boolean;
+}
+export interface PoppyBlock {
+	flower_type?: import("./states").FlowerType;
 }
 export interface CrimsonStairsBlock {
 	upside_down_bit?: boolean;
@@ -410,10 +430,6 @@ export interface WaxedWeatheredCopperDoorBlock {
 export interface CarvedPumpkinBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
 }
-export interface CoralFanBlock {
-	coral_color?: import("./states").CoralColor;
-	coral_fan_direction?: number;
-}
 export interface SmallAmethystBudBlock {
 	"minecraft:block_face"?: import("./states").MinecraftblockFace;
 }
@@ -448,6 +464,9 @@ export interface SoulTorchBlock {
 }
 export interface MangroveLogBlock {
 	pillar_axis?: import("./states").PillarAxis;
+}
+export interface AlliumBlock {
+	flower_type?: import("./states").FlowerType;
 }
 export interface WeatheredDoubleCutCopperSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
@@ -485,6 +504,10 @@ export interface PoweredComparatorBlock {
 }
 export interface WaxedOxidizedCutCopperSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
+}
+export interface DarkOakSaplingBlock {
+	age_bit?: boolean;
+	sapling_type?: import("./states").SaplingType;
 }
 export interface PinkPetalsBlock {
 	growth?: number;
@@ -592,12 +615,17 @@ export interface UnlitRedstoneTorchBlock {
 export interface StrippedJungleLogBlock {
 	pillar_axis?: import("./states").PillarAxis;
 }
+export interface UnpoweredRepeaterBlock {
+	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
+	repeater_delay?: number;
+}
+export interface OakSaplingBlock {
+	age_bit?: boolean;
+	sapling_type?: import("./states").SaplingType;
+}
 export interface FireCoralBlock {
 	coral_color?: import("./states").CoralColor;
 	dead_bit?: boolean;
-}
-export interface StoneBlock {
-	stone_type?: import("./states").StoneType;
 }
 export interface BirchLogBlock {
 	pillar_axis?: import("./states").PillarAxis;
@@ -605,11 +633,11 @@ export interface BirchLogBlock {
 export interface PolishedBlackstoneBrickDoubleSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
-export interface KelpBlock {
-	kelp_age?: number;
-}
 export interface CrimsonDoubleSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
+}
+export interface KelpBlock {
+	kelp_age?: number;
 }
 export interface UnderwaterTorchBlock {
 	torch_facing_direction?: import("./states").TorchFacingDirection;
@@ -635,25 +663,29 @@ export interface HayBlockBlock {
 export interface PolishedTuffDoubleSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
-export interface JungleWoodBlock {
-	pillar_axis?: import("./states").PillarAxis;
-}
 export interface SuspiciousGravelBlock {
 	brushed_progress?: number;
 	hanging?: boolean;
+}
+export interface JungleWoodBlock {
+	pillar_axis?: import("./states").PillarAxis;
 }
 export interface OxidizedCopperDoorBlock {
 	door_hinge_bit?: boolean;
 	open_bit?: boolean;
 	upper_block_bit?: boolean;
 }
+export interface DeepslateBrickSlabBlock {
+	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
+}
 export interface OakLeavesBlock {
 	old_leaf_type?: import("./states").OldLeafType;
 	persistent_bit?: boolean;
 	update_bit?: boolean;
 }
-export interface DeepslateBrickSlabBlock {
-	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
+export interface BrainCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
 }
 export interface BambooStairsBlock {
 	upside_down_bit?: boolean;
@@ -714,10 +746,9 @@ export interface MangroveSlabBlock {
 export interface InfestedDeepslateBlock {
 	pillar_axis?: import("./states").PillarAxis;
 }
-export interface WaxedExposedCopperDoorBlock {
-	door_hinge_bit?: boolean;
-	open_bit?: boolean;
-	upper_block_bit?: boolean;
+export interface BirchSaplingBlock {
+	age_bit?: boolean;
+	sapling_type?: import("./states").SaplingType;
 }
 export interface StrippedDarkOakWoodBlock {
 	pillar_axis?: import("./states").PillarAxis;
@@ -734,9 +765,6 @@ export interface JungleLeavesBlock {
 export interface AnvilBlock {
 	damage?: import("./states").Damage;
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
-}
-export interface PolishedAndesiteBlock {
-	stone_type?: import("./states").StoneType;
 }
 export interface AcaciaLeavesBlock {
 	new_leaf_type?: import("./states").NewLeafType;
@@ -829,12 +857,6 @@ export interface HornCoralBlock {
 	coral_color?: import("./states").CoralColor;
 	dead_bit?: boolean;
 }
-export interface DaylightDetectorInvertedBlock {
-	redstone_signal?: number;
-}
-export interface RedFlowerBlock {
-	flower_type?: import("./states").FlowerType;
-}
 export interface OakDoubleSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
@@ -843,9 +865,6 @@ export interface StrippedWarpedStemBlock {
 }
 export interface DaylightDetectorBlock {
 	redstone_signal?: number;
-}
-export interface RepeatingCommandBlockBlock {
-	conditional_bit?: boolean;
 }
 export interface SmoothSandstoneStairsBlock {
 	upside_down_bit?: boolean;
@@ -1023,6 +1042,10 @@ export interface BubbleCoralBlock {
 export interface PolishedBlackstoneBrickSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
+export interface SpruceSaplingBlock {
+	age_bit?: boolean;
+	sapling_type?: import("./states").SaplingType;
+}
 export interface CalibratedSculkSensorBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
 	sculk_sensor_phase?: number;
@@ -1097,12 +1120,6 @@ export interface WaxedWeatheredCopperTrapdoorBlock {
 	open_bit?: boolean;
 	upside_down_bit?: boolean;
 }
-export interface PolishedDioriteBlock {
-	stone_type?: import("./states").StoneType;
-}
-export interface WaxedDoubleCutCopperSlabBlock {
-	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
-}
 export interface OxidizedCutCopperSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
@@ -1168,6 +1185,9 @@ export interface MangroveTrapdoorBlock {
 	open_bit?: boolean;
 	upside_down_bit?: boolean;
 }
+export interface DaylightDetectorInvertedBlock {
+	redstone_signal?: number;
+}
 export interface ChorusFlowerBlock {
 	age?: number;
 }
@@ -1186,11 +1206,11 @@ export interface MangroveLeavesBlock {
 	persistent_bit?: boolean;
 	update_bit?: boolean;
 }
-export interface StrippedBirchWoodBlock {
-	pillar_axis?: import("./states").PillarAxis;
-}
 export interface PolishedBlackstoneButtonBlock {
 	button_pressed_bit?: boolean;
+}
+export interface StrippedBirchWoodBlock {
+	pillar_axis?: import("./states").PillarAxis;
 }
 export interface PumpkinBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
@@ -1328,12 +1348,16 @@ export interface JungleFenceGateBlock {
 export interface ComposterBlock {
 	composter_fill_level?: number;
 }
+export interface WaxedDoubleCutCopperSlabBlock {
+	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
+}
+export interface WaxedExposedCopperDoorBlock {
+	door_hinge_bit?: boolean;
+	open_bit?: boolean;
+	upper_block_bit?: boolean;
+}
 export interface WeepingVinesBlock {
 	weeping_vines_age?: number;
-}
-export interface UnpoweredRepeaterBlock {
-	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
-	repeater_delay?: number;
 }
 export interface SmoothRedSandstoneStairsBlock {
 	upside_down_bit?: boolean;
@@ -1364,9 +1388,6 @@ export interface StoneBlockSlab4Block {
 }
 export interface TwistingVinesBlock {
 	twisting_vines_age?: number;
-}
-export interface CommandBlockBlock {
-	conditional_bit?: boolean;
 }
 export interface AcaciaDoubleSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
@@ -1468,11 +1489,14 @@ export interface AzaleaLeavesFloweredBlock {
 export interface CrimsonSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 }
-export interface BambooButtonBlock {
-	button_pressed_bit?: boolean;
-}
 export interface WarpedHyphaeBlock {
 	pillar_axis?: import("./states").PillarAxis;
+}
+export interface OxeyeDaisyBlock {
+	flower_type?: import("./states").FlowerType;
+}
+export interface BambooButtonBlock {
+	button_pressed_bit?: boolean;
 }
 export interface TuffStairsBlock {
 	upside_down_bit?: boolean;
@@ -1501,6 +1525,10 @@ export interface SweetBerryBushBlock {
 }
 export interface PolishedBlackstoneSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
+}
+export interface JungleSaplingBlock {
+	age_bit?: boolean;
+	sapling_type?: import("./states").SaplingType;
 }
 export interface JungleStandingSignBlock {
 	ground_sign_direction?: number;
@@ -1550,9 +1578,6 @@ export interface CherrySlabBlock {
 export interface PolishedBlackstonePressurePlateBlock {
 	redstone_signal?: number;
 }
-export interface AcaciaStandingSignBlock {
-	ground_sign_direction?: number;
-}
 export interface TuffBrickStairsBlock {
 	upside_down_bit?: boolean;
 	weirdo_direction?: number;
@@ -1577,6 +1602,10 @@ export interface DeepslateBrickStairsBlock {
 }
 export interface StrippedCrimsonStemBlock {
 	pillar_axis?: import("./states").PillarAxis;
+}
+export interface AcaciaSaplingBlock {
+	age_bit?: boolean;
+	sapling_type?: import("./states").SaplingType;
 }
 export interface UnpoweredComparatorBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
@@ -1611,25 +1640,33 @@ export interface DoubleStoneBlockSlab4Block {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
 	stone_slab_type_4?: import("./states").StoneSlabType4;
 }
-export interface WarpedSlabBlock {
-	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
-}
 export interface FurnaceBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
 }
+export interface WarpedSlabBlock {
+	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
+}
 export interface WarpedStemBlock {
 	pillar_axis?: import("./states").PillarAxis;
+}
+export interface ChainBlock {
+	pillar_axis?: import("./states").PillarAxis;
+}
+export interface HornCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
 }
 export interface BrickStairsBlock {
 	upside_down_bit?: boolean;
 	weirdo_direction?: number;
 }
+export interface FireCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
+}
 export interface SpruceTrapdoorBlock {
 	open_bit?: boolean;
 	upside_down_bit?: boolean;
-}
-export interface ChainCommandBlockBlock {
-	conditional_bit?: boolean;
 }
 export interface DoubleStoneBlockSlabBlock {
 	"minecraft:vertical_half"?: import("./states").MinecraftverticalHalf;
@@ -1655,9 +1692,20 @@ export interface TntBlock {
 	allow_underwater_bit?: boolean;
 	explode_bit?: boolean;
 }
+export interface DeadTubeCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
+}
 export interface PolishedDioriteStairsBlock {
 	upside_down_bit?: boolean;
 	weirdo_direction?: number;
+}
+export interface DeadFireCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
+}
+export interface OrangeTulipBlock {
+	flower_type?: import("./states").FlowerType;
 }
 export interface BellBlock {
 	attachment?: import("./states").Attachment;
@@ -1701,6 +1749,10 @@ export interface PurpleCandleBlock {
 	candles?: number;
 	lit?: boolean;
 }
+export interface DeadHornCoralFanBlock {
+	coral_color?: import("./states").CoralColor;
+	coral_fan_direction?: number;
+}
 export interface LanternBlock {
 	hanging?: boolean;
 }
@@ -1714,9 +1766,6 @@ export interface BirchDoorBlock {
 }
 export interface ChestBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;
-}
-export interface ChainBlock {
-	pillar_axis?: import("./states").PillarAxis;
 }
 export interface CrimsonHangingSignBlock {
 	attached_bit?: boolean;
@@ -1781,6 +1830,9 @@ export interface DarkPrismarineStairsBlock {
 	upside_down_bit?: boolean;
 	weirdo_direction?: number;
 }
+export interface RedTulipBlock {
+	flower_type?: import("./states").FlowerType;
+}
 export interface TripWireBlock {
 	attached_bit?: boolean;
 	disarmed_bit?: boolean;
@@ -1797,7 +1849,6 @@ export interface BrewingStandBlock {
 }
 export interface BambooSaplingBlock {
 	age_bit?: boolean;
-	sapling_type?: import("./states").SaplingType;
 }
 export interface BlastFurnaceBlock {
 	"minecraft:cardinal_direction"?: import("./states").MinecraftcardinalDirection;

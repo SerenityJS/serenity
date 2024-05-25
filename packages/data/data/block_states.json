@@ -812,18 +812,6 @@
     ]
   },
   {
-    "identifier": "stone_type",
-    "values": [
-      "stone",
-      "granite",
-      "granite_smooth",
-      "diorite",
-      "diorite_smooth",
-      "andesite",
-      "andesite_smooth"
-    ]
-  },
-  {
     "identifier": "stability_check",
     "values": [
       false,
@@ -1300,13 +1288,6 @@
   },
   {
     "identifier": "covered_bit",
-    "values": [
-      false,
-      true
-    ]
-  },
-  {
-    "identifier": "conditional_bit",
     "values": [
       false,
       true
