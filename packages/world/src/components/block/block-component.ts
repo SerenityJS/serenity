@@ -57,6 +57,18 @@ class BlockComponent extends Component {
 	public onPlace?(player?: Player): void;
 
 	/**
+	 * Called when the block is destruction process has started in the dimension.
+	 * @param player The player that started to destroy the block.
+	 */
+	public onStartBreak?(player: Player): void;
+
+	/**
+	 * Called when the block is destruction process has stopped in the dimension.
+	 * @param player The player that stopped destroying the block.
+	 */
+	public onStopBreak?(player: Player): void;
+
+	/**
 	 * Called when the block is broken in the dimension.
 	 * @note The `player` parameter is optional as the block can be broken by the server.
 	 * @param player The player that broke the block.

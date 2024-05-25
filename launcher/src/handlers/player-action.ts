@@ -156,6 +156,13 @@ class PlayerAction extends SerenityHandler {
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
 
+		// Trigger the onStartBreak method of the block components.
+		const block = player.dimension.getBlock(x, y, z);
+		for (const component of block.components.values()) {
+			// Trigger the onStartBreak method of the block component.
+			component.onStartBreak?.(player);
+		}
+
 		// Trigger the onStartUse method of the item components.
 		const inventory = player.getComponent("minecraft:inventory");
 		const usingItem = inventory.container.getItem(inventory.selectedSlot);
@@ -189,6 +196,13 @@ class PlayerAction extends SerenityHandler {
 
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
+
+		// Trigger the onStopBreak method of the block components.
+		const block = player.dimension.getBlock(x, y, z);
+		for (const component of block.components.values()) {
+			// Trigger the onStopBreak method of the block component.
+			component.onStopBreak?.(player);
+		}
 
 		// Trigger the onStopUse method of the item components.
 		const usingItem = player.usingItem;
