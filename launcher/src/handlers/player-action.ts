@@ -10,7 +10,7 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
-import { ItemStack, type Player } from "@serenityjs/world";
+import { ItemStack, ItemUseCause, type Player } from "@serenityjs/world";
 import { ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -155,6 +155,20 @@ class PlayerAction extends SerenityHandler {
 
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
+
+		// Trigger the onStartUse method of the item components.
+		const inventory = player.getComponent("minecraft:inventory");
+		const usingItem = inventory.container.getItem(inventory.selectedSlot);
+		if (!usingItem) return;
+
+		// Set the usingItem property of the player.
+		player.usingItem = usingItem;
+
+		// Trigger the onStartUse method of the item components.
+		for (const component of usingItem.components.values()) {
+			// Trigger the onStartUse method of the item component.
+			component.onStartUse?.(player, ItemUseCause.Break);
+		}
 	}
 
 	private static handleAbortBreak(
@@ -175,6 +189,19 @@ class PlayerAction extends SerenityHandler {
 
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
+
+		// Trigger the onStopUse method of the item components.
+		const usingItem = player.usingItem;
+		if (!usingItem) return;
+
+		// Set the usingItem property of the player.
+		player.usingItem = null;
+
+		// Trigger the onStartUse method of the item components.
+		for (const component of usingItem.components.values()) {
+			// Trigger the onStartUse method of the item component.
+			component.onStopUse?.(player, ItemUseCause.Break);
+		}
 	}
 
 	private static handleCreativePlayerDestroyBlock(
@@ -268,6 +295,14 @@ class PlayerAction extends SerenityHandler {
 
 		// Destroy the block.
 		block.destroy(player);
+
+		// Trigger the onUse method of the item components.
+		const usingItem = player.usingItem;
+		if (!usingItem) return;
+		for (const component of usingItem.components.values()) {
+			// Trigger the onUse method of the item component.
+			component.onUse?.(player, ItemUseCause.Break);
+		}
 	}
 
 	private static handleContinueBreak(
@@ -328,7 +363,7 @@ class PlayerAction extends SerenityHandler {
 		if (!item) return;
 		for (const component of item.components.values()) {
 			// Trigger the onStartUse method of the item component.
-			component.onStartUse?.(player);
+			component.onStartUse?.(player, ItemUseCause.Place);
 		}
 	}
 
@@ -340,7 +375,7 @@ class PlayerAction extends SerenityHandler {
 		if (!player.usingItem) return;
 		for (const component of player.usingItem.components.values()) {
 			// Trigger the onStopUse method of the item component.
-			component.onStopUse?.(player);
+			component.onStopUse?.(player, ItemUseCause.Place);
 		}
 
 		// Update the player's usingItem property.

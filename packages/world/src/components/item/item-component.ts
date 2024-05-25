@@ -1,5 +1,6 @@
 import { Component } from "../component";
 
+import type { ItemUseCause } from "../../enums";
 import type { Player } from "../../player";
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
@@ -58,20 +59,23 @@ class ItemComponent<T extends keyof Items> extends Component {
 	/**
 	 * Called when the item has started to be used.
 	 * @param player The player that started to use the item.
+	 * @param cause The cause of the item use. (e.g. right-click, left-click)
 	 */
-	public onStartUse?(player?: Player): void;
+	public onStartUse?(player: Player, cause: ItemUseCause): void;
 
 	/**
 	 * Called when the item has stopped being used.
 	 * @param player The player that stopped using the item.
+	 * @param cause The cause of the item use. (e.g. right-click, left-click)
 	 */
-	public onStopUse?(player?: Player): void;
+	public onStopUse?(player: Player, cause: ItemUseCause): void;
 
 	/**
 	 * Called when the item has been used.
 	 * @param player The player that used the item.
+	 * @param cause The cause of the item use. (e.g. right-click, left-click)
 	 */
-	public onUse?(player?: Player): void;
+	public onUse?(player: Player, cause: ItemUseCause): void;
 }
 
 export { ItemComponent };
