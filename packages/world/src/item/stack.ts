@@ -155,11 +155,11 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Create the NBT tag.
 		const nbt = new CompoundTag("", {});
 
+		// Create the display tag.
+		const display = new CompoundTag("display", {});
+
 		// Check if the item has a display name.
 		if (item.components.has("minecraft:nametag")) {
-			// Create the display tag.
-			const display = new CompoundTag("display", {});
-
 			// Get the nametag component.
 			const nametag = item.getComponent("minecraft:nametag");
 
@@ -168,10 +168,35 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
 			// Set the display name.
 			display.addTag(name);
-
-			// Set the display tag.
-			nbt.addTag(display);
 		}
+
+		// Check if the item has lore.
+		if (item.components.has("minecraft:lore")) {
+			// Get the lore component.
+			const lore = item.getComponent("minecraft:lore");
+
+			// Create the lore list tag.
+			const loreTag = new ListTag<StringTag>("Lore", [], Tag.String);
+
+			// Iterate over the lore values.
+			for (const value of lore.values) {
+				// Create the lore tag.
+				const loreValue = new StringTag("", value);
+
+				// Push the lore tag.
+				loreTag.push(loreValue);
+			}
+
+			// Set the lore tag.
+			display.addTag(loreTag);
+		}
+
+		// Add the display tag.
+		if (
+			item.components.has("minecraft:nametag") ||
+			item.components.has("minecraft:lore")
+		)
+			nbt.addTag(display);
 
 		// CHeck if the item has enchantments.
 		if (item.components.has("minecraft:enchantable")) {

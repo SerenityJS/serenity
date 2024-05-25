@@ -43,8 +43,8 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 	/**
 	 * Pushes a value to the list.
 	 */
-	public push(value: T): void {
-		this.value.push(value);
+	public push(...value: Array<T>): void {
+		this.value.push(...value);
 	}
 
 	/**
@@ -268,6 +268,9 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 						// Write the tag.
 						writter.write(stream, type, varint, false);
 					}
+
+					// Write the end tag.
+					stream.writeByte(Tag.End);
 					break;
 				}
 			}

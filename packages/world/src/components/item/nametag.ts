@@ -24,14 +24,8 @@ class ItemNametagComponent<T extends keyof Items> extends ItemComponent<T> {
 		// Set the current value.
 		this.currentValue = value;
 
-		// Check if the item is in a container.
-		if (!this.item.container) return;
-
-		// Get the slot of the item in the container.
-		const slot = this.item.container.storage.indexOf(this.item);
-
-		// Set the item in the container.
-		this.item.container.setItem(slot, this.item);
+		// Update the item in the container.
+		this.item.update();
 	}
 
 	public resetToDefault(): void {

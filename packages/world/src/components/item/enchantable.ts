@@ -13,10 +13,10 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 	public readonly enchantments: Map<Enchantment, number> = new Map();
 
 	/**
-	 * Creates a new item nametag component.
+	 * Creates a new item enchantable component.
 	 *
 	 * @param item The item the component is binded to.
-	 * @returns A new item nametag component.
+	 * @returns A new item enchantable component.
 	 */
 	public constructor(item: ItemStack<T>) {
 		super(item, ItemEnchantableComponent.identifier);
