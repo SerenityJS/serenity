@@ -8,10 +8,10 @@ import {
 	type ItemUseInventoryTransaction,
 	Gamemode
 } from "@serenityjs/protocol";
+import { ItemUseCause, type Player } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
-import type { Player } from "@serenityjs/world";
 import type { NetworkSession } from "@serenityjs/network";
 
 class InventoryTransaction extends SerenityHandler {
@@ -131,7 +131,7 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Trigger the onUse method of the item components
 				for (const component of usingItem.components.values()) {
-					component.onUse?.(player);
+					component.onUse?.(player, ItemUseCause.Place);
 				}
 
 				// Check if a block type is present within the item
