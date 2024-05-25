@@ -1,8 +1,9 @@
 import { EntityIdentifier } from "@serenityjs/entity";
-import { TakeItemActorPacket } from "@serenityjs/protocol";
+import { TakeItemActorPacket, Vector3f } from "@serenityjs/protocol";
 
 import { EntityComponent } from "./entity-component";
 
+import type { Player } from "../../player";
 import type { Entity } from "../../entity";
 import type { ItemStack } from "../../item";
 
@@ -13,6 +14,26 @@ class EntityItemComponent extends EntityComponent {
 	 * The item stack of the component.
 	 */
 	public readonly itemStack: ItemStack;
+
+	/**
+	 * The birth tick of the item.
+	 */
+	public readonly birthTick: bigint;
+
+	/**
+	 * The lifespan of the item in ticks.
+	 */
+	public lifeSpan: number = 6000;
+
+	/**
+	 * The pickup tick of the item.
+	 */
+	protected pickupTick: bigint | null = null;
+
+	/**
+	 * The target player of the item.
+	 */
+	protected target: Player | null = null;
 
 	/**
 	 * Creates a new entity inventory component.
@@ -32,14 +53,76 @@ class EntityItemComponent extends EntityComponent {
 
 		// Set the item stack of the component
 		this.itemStack = itemStack;
+
+		// Set the birth tick of the item
+		this.birthTick = entity.dimension.world.currentTick;
+	}
+
+	/**
+	 * Gets the lifespan of the item.
+	 * @returns The lifespan of the item.
+	 */
+	public getLifeSpan(): number {
+		return this.lifeSpan;
+	}
+
+	/**
+	 * Sets the lifespan of the item.
+	 * @param value The lifespan of the item.
+	 */
+	public setLifeSpan(value: number): void {
+		this.lifeSpan = value;
+	}
+
+	/**
+	 * Picks up the item by a player.
+	 * @param player The player that picked up the item.
+	 */
+	public pickup(player: Player): void {
+		// Teleport the item to the player
+		this.entity.teleport(player.position);
+
+		// Set the player as the target
+		this.target = player;
+
+		// Set the pickup tick
+		this.pickupTick = this.entity.dimension.world.currentTick;
 	}
 
 	public onTick(): void {
-		// TODO: Add lifespan to the item
-
-		// Check if the tick is a multiple of 15
+		// Get the current tick
 		const current = this.entity.dimension.world.currentTick;
-		if (current % 15n !== 0n) return;
+
+		// Check if there is a target player
+		if (
+			this.target && // Check if the pickup tick is not null
+			this.pickupTick && // Check if the current tick is greater than the pickup tick
+			current - this.pickupTick >= 5n
+		) {
+			// Create a new take item actor packet
+			const take = new TakeItemActorPacket();
+			take.itemUniqueId = this.entity.unique;
+			take.targetUniqueId = this.target.unique;
+
+			// Broadcast the packet to the dimension
+			this.target.dimension.broadcast(take);
+
+			// Get the players inventory component
+			const inventory = this.target.getComponent("minecraft:inventory");
+
+			// Add the item to the players inventory
+			inventory.container.addItem(this.itemStack);
+
+			// Remove the item from the dimension
+			this.entity.despawn();
+		} else if (this.target) return;
+
+		// Check if the item has been alive for 15 ticks
+		// This is to prevent the item from being picked up immediately
+		if (current - this.birthTick <= 15n) return;
+
+		// Check if the current tick is a multiple of 5
+		if (current % 5n !== 0n) return;
 
 		// Check if there is a player nearby within a 1 block radius
 		const players = this.entity.dimension.getPlayers();
@@ -56,27 +139,16 @@ class EntityItemComponent extends EntityComponent {
 				Math.abs(distance.y - 1) <= 1 &&
 				Math.abs(distance.z) <= 1
 			) {
-				// Create a new TakeItemActor packet
-				const packet = new TakeItemActorPacket();
-				packet.itemUniqueId = this.entity.unique;
-				packet.targetUniqueId = player.unique;
+				// Teleport the item to the player
+				this.entity.teleport(
+					new Vector3f(playerPos.x, playerPos.y - 0.5, playerPos.z)
+				);
 
-				// Send the packet to the player
-				player.session.send(packet);
+				// Set the player as the target
+				this.target = player;
 
-				// Despawn the item
-				this.entity.despawn();
-
-				// Add the item to the player's inventory
-				const inventory = player.getComponent("minecraft:inventory");
-
-				// Check if the player has an inventory
-				if (!inventory) {
-					throw new Error("Player must have an inventory");
-				}
-
-				// Add the item to the inventory container.
-				inventory.container.addItem(this.itemStack);
+				// Set the pickup tick
+				this.pickupTick = current;
 			}
 		}
 	}

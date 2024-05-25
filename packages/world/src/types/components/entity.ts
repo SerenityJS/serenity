@@ -8,6 +8,7 @@ import type {
 	EntityInventoryComponent,
 	EntityItemComponent,
 	EntityNametagComponent,
+	EntityPhysicsComponent,
 	EntityScaleComponent
 } from "../../components";
 
@@ -30,6 +31,7 @@ interface EntityMetadataComponents {
 	"minecraft:boundingbox_height": EntityBoundingHeightComponent;
 	"minecraft:scale": EntityScaleComponent;
 	"minecraft:item": EntityItemComponent;
+	"minecraft:physics": EntityPhysicsComponent;
 }
 
 /**

@@ -1,4 +1,4 @@
-import { MoveActorAbsolutePacket, Vector3f } from "@serenityjs/protocol";
+import { Vector3f } from "@serenityjs/protocol";
 
 import { EntityComponent } from "./entity-component";
 
@@ -74,17 +74,8 @@ class EntityPhysicsComponent extends EntityComponent {
 		this.entity.position.y = this.entity.position.y + this.entity.velocity.y;
 		this.entity.position.z = this.entity.position.z + this.entity.velocity.z;
 
-		// Create a new MoveActorAbsolutePacket
-		const packet = new MoveActorAbsolutePacket();
-
-		// Set the properties of the packet
-		packet.runtimeId = this.entity.runtime;
-		packet.flags = 1;
-		packet.position = this.entity.position;
-		packet.rotation = this.entity.rotation;
-
-		// Broadcast the packet
-		this.entity.dimension.broadcast(packet);
+		// Move the entity to the new position
+		this.entity.teleport(this.entity.position);
 	}
 }
 

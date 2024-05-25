@@ -67,7 +67,7 @@ class InventoryTransaction extends SerenityHandler {
 		const inventory = player.getComponent("minecraft:inventory");
 
 		// Get the item from the slot
-		const item = inventory.container.takeItem(action.slot, amount);
+		const item = inventory.container.takeItem(inventory.selectedSlot, amount);
 
 		// Check if the item is valid
 		if (!item) return;

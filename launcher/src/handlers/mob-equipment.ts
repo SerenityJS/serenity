@@ -41,7 +41,7 @@ class MobEquipment extends SerenityHandler {
 				"Inventory out of sync, mismatch item runtimeid.",
 				DisconnectReason.BadPacket
 			);
-			return this.serenity.logger.warn(
+			this.serenity.logger.warn(
 				`Player ${player.username} has been disconnected due to inventory out of sync, mismatch item runtimeid.`
 			);
 		}
