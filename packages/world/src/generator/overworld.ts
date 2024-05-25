@@ -19,8 +19,8 @@ class Overworld extends TerrainGenerator {
 	public readonly poppy: BlockPermutation;
 	public readonly dandelion: BlockPermutation;
 	public readonly cornflower: BlockPermutation;
-	public readonly cherry_log: BlockPermutation;
-	public readonly cherry_leaves: BlockPermutation;
+	public readonly oak_log: BlockPermutation;
+	public readonly oak_leaves: BlockPermutation;
 
 	public constructor() {
 		super(0);
@@ -31,7 +31,7 @@ class Overworld extends TerrainGenerator {
 		this.treeNoise = createNoise2D(() => this.seed * 0.925);
 
 		this.bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
-		this.stone = BlockPermutation.resolve(BlockIdentifier.Stone);
+		this.stone = BlockPermutation.resolve(BlockIdentifier.Cobblestone);
 		this.dirt = BlockPermutation.resolve(BlockIdentifier.Dirt);
 		this.grass = BlockPermutation.resolve(BlockIdentifier.GrassBlock);
 		this.water = BlockPermutation.resolve(BlockIdentifier.Water);
@@ -43,8 +43,8 @@ class Overworld extends TerrainGenerator {
 		this.cornflower = BlockPermutation.resolve(BlockIdentifier.RedFlower, {
 			flower_type: "cornflower"
 		});
-		this.cherry_log = BlockPermutation.resolve(BlockIdentifier.CherryLog);
-		this.cherry_leaves = BlockPermutation.resolve(BlockIdentifier.CherryLeaves);
+		this.oak_log = BlockPermutation.resolve(BlockIdentifier.OakLog);
+		this.oak_leaves = BlockPermutation.resolve(BlockIdentifier.OakLeaves);
 	}
 
 	/**
@@ -128,87 +128,87 @@ class Overworld extends TerrainGenerator {
 					const random = Math.floor(Math.random() * 10);
 
 					if (treeMap === 41 && random === 5) {
-						chunk.setPermutation(x, height + 1, z, this.cherry_log);
-						chunk.setPermutation(x, height + 2, z, this.cherry_log);
-						chunk.setPermutation(x, height + 3, z, this.cherry_log);
-						chunk.setPermutation(x, height + 4, z, this.cherry_log);
+						chunk.setPermutation(x, height + 1, z, this.oak_log);
+						chunk.setPermutation(x, height + 2, z, this.oak_log);
+						chunk.setPermutation(x, height + 3, z, this.oak_log);
+						chunk.setPermutation(x, height + 4, z, this.oak_log);
 
 						// Layer 1
-						chunk.setPermutation(x, height + 4, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x, height + 4, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 4, z, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 4, z, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 4, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 4, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 4, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 4, z - 1, this.cherry_leaves);
+						chunk.setPermutation(x, height + 4, z + 1, this.oak_leaves);
+						chunk.setPermutation(x, height + 4, z - 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 4, z, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 4, z, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 4, z + 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 4, z + 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 4, z - 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 4, z - 1, this.oak_leaves);
 
 						// Layer 2
-						chunk.setPermutation(x, height + 4, z + 2, this.cherry_leaves);
-						chunk.setPermutation(x, height + 4, z - 2, this.cherry_leaves);
-						chunk.setPermutation(x + 2, height + 4, z, this.cherry_leaves);
-						chunk.setPermutation(x - 2, height + 4, z, this.cherry_leaves);
+						chunk.setPermutation(x, height + 4, z + 2, this.oak_leaves);
+						chunk.setPermutation(x, height + 4, z - 2, this.oak_leaves);
+						chunk.setPermutation(x + 2, height + 4, z, this.oak_leaves);
+						chunk.setPermutation(x - 2, height + 4, z, this.oak_leaves);
 
-						chunk.setPermutation(x + 2, height + 4, z + 2, this.cherry_leaves);
-						chunk.setPermutation(x + 2, height + 4, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 4, z + 2, this.cherry_leaves);
+						chunk.setPermutation(x + 2, height + 4, z + 2, this.oak_leaves);
+						chunk.setPermutation(x + 2, height + 4, z + 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 4, z + 2, this.oak_leaves);
 
-						chunk.setPermutation(x - 2, height + 4, z + 2, this.cherry_leaves);
-						chunk.setPermutation(x - 2, height + 4, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 4, z + 2, this.cherry_leaves);
+						chunk.setPermutation(x - 2, height + 4, z + 2, this.oak_leaves);
+						chunk.setPermutation(x - 2, height + 4, z + 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 4, z + 2, this.oak_leaves);
 
-						chunk.setPermutation(x + 2, height + 4, z - 2, this.cherry_leaves);
-						chunk.setPermutation(x + 2, height + 4, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 4, z - 2, this.cherry_leaves);
+						chunk.setPermutation(x + 2, height + 4, z - 2, this.oak_leaves);
+						chunk.setPermutation(x + 2, height + 4, z - 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 4, z - 2, this.oak_leaves);
 
-						chunk.setPermutation(x - 2, height + 4, z - 2, this.cherry_leaves);
-						chunk.setPermutation(x - 2, height + 4, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 4, z - 2, this.cherry_leaves);
+						chunk.setPermutation(x - 2, height + 4, z - 2, this.oak_leaves);
+						chunk.setPermutation(x - 2, height + 4, z - 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 4, z - 2, this.oak_leaves);
 
 						// Layer 1
-						chunk.setPermutation(x, height + 5, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x, height + 5, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 5, z, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 5, z, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 5, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 5, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 5, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 5, z - 1, this.cherry_leaves);
+						chunk.setPermutation(x, height + 5, z + 1, this.oak_leaves);
+						chunk.setPermutation(x, height + 5, z - 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 5, z, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 5, z, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 5, z + 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 5, z + 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 5, z - 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 5, z - 1, this.oak_leaves);
 
 						// Layer 2
-						chunk.setPermutation(x, height + 5, z + 2, this.cherry_leaves);
-						chunk.setPermutation(x, height + 5, z - 2, this.cherry_leaves);
-						chunk.setPermutation(x + 2, height + 5, z, this.cherry_leaves);
-						chunk.setPermutation(x - 2, height + 5, z, this.cherry_leaves);
+						chunk.setPermutation(x, height + 5, z + 2, this.oak_leaves);
+						chunk.setPermutation(x, height + 5, z - 2, this.oak_leaves);
+						chunk.setPermutation(x + 2, height + 5, z, this.oak_leaves);
+						chunk.setPermutation(x - 2, height + 5, z, this.oak_leaves);
 
-						chunk.setPermutation(x + 2, height + 5, z + 2, this.cherry_leaves);
-						chunk.setPermutation(x + 2, height + 5, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 5, z + 2, this.cherry_leaves);
+						chunk.setPermutation(x + 2, height + 5, z + 2, this.oak_leaves);
+						chunk.setPermutation(x + 2, height + 5, z + 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 5, z + 2, this.oak_leaves);
 
-						chunk.setPermutation(x - 2, height + 5, z + 2, this.cherry_leaves);
-						chunk.setPermutation(x - 2, height + 5, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 5, z + 2, this.cherry_leaves);
+						chunk.setPermutation(x - 2, height + 5, z + 2, this.oak_leaves);
+						chunk.setPermutation(x - 2, height + 5, z + 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 5, z + 2, this.oak_leaves);
 
-						chunk.setPermutation(x + 2, height + 5, z - 2, this.cherry_leaves);
-						chunk.setPermutation(x + 2, height + 5, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 5, z - 2, this.cherry_leaves);
+						chunk.setPermutation(x + 2, height + 5, z - 2, this.oak_leaves);
+						chunk.setPermutation(x + 2, height + 5, z - 1, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 5, z - 2, this.oak_leaves);
 
-						chunk.setPermutation(x - 2, height + 5, z - 2, this.cherry_leaves);
-						chunk.setPermutation(x - 2, height + 5, z - 1, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 5, z - 2, this.cherry_leaves);
+						chunk.setPermutation(x - 2, height + 5, z - 2, this.oak_leaves);
+						chunk.setPermutation(x - 2, height + 5, z - 1, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 5, z - 2, this.oak_leaves);
 
 						// Layer 3
-						chunk.setPermutation(x, height + 6, z, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 6, z, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 6, z, this.cherry_leaves);
-						chunk.setPermutation(x, height + 6, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x, height + 6, z - 1, this.cherry_leaves);
+						chunk.setPermutation(x, height + 6, z, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 6, z, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 6, z, this.oak_leaves);
+						chunk.setPermutation(x, height + 6, z + 1, this.oak_leaves);
+						chunk.setPermutation(x, height + 6, z - 1, this.oak_leaves);
 
-						chunk.setPermutation(x, height + 7, z, this.cherry_leaves);
-						chunk.setPermutation(x + 1, height + 7, z, this.cherry_leaves);
-						chunk.setPermutation(x - 1, height + 7, z, this.cherry_leaves);
-						chunk.setPermutation(x, height + 7, z + 1, this.cherry_leaves);
-						chunk.setPermutation(x, height + 7, z - 1, this.cherry_leaves);
+						chunk.setPermutation(x, height + 7, z, this.oak_leaves);
+						chunk.setPermutation(x + 1, height + 7, z, this.oak_leaves);
+						chunk.setPermutation(x - 1, height + 7, z, this.oak_leaves);
+						chunk.setPermutation(x, height + 7, z + 1, this.oak_leaves);
+						chunk.setPermutation(x, height + 7, z - 1, this.oak_leaves);
 					}
 				}
 

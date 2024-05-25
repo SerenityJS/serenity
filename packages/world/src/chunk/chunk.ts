@@ -81,9 +81,7 @@ export class Chunk {
 		const state = subchunk.getState(x & 0xf, yf & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
 
 		// Return the permutation.
-		return [...BlockPermutation.permutations.values()].find(
-			(x) => x.network === state
-		) as BlockPermutation;
+		return BlockPermutation.permutations.get(state) as BlockPermutation;
 	}
 
 	/**
@@ -193,6 +191,9 @@ export class Chunk {
 		return this.subchunks[index] as SubChunk;
 	}
 
+	/**
+	 * Get the amount of sub chunks that need to be sent.
+	 */
 	public getSubChunkSendCount(): number {
 		// Loop through each sub chunk.
 		let count = 0;

@@ -216,7 +216,8 @@ class BlockStorage {
 				const index = w * blocksPerWord + block;
 
 				// Calculate the state.
-				const state = (word >> (bitsPerBlock * block)) & ((1 << bitsPerBlock) - 1);
+				const state =
+					(word >> (bitsPerBlock * block)) & ((1 << bitsPerBlock) - 1);
 
 				// Add the state to the palette.
 				palette[index] = state;

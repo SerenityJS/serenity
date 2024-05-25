@@ -46,11 +46,7 @@ class InternalProvider extends WorldProvider {
 		}
 	}
 
-	public readChunk(
-		cx: number,
-		cz: number,
-		dimension: Dimension
-	): Chunk {
+	public readChunk(cx: number, cz: number, dimension: Dimension): Chunk {
 		// Check if the chunks contain the dimension.
 		if (!this.chunks.has(dimension.identifier)) {
 			this.chunks.set(dimension.identifier, new Map());

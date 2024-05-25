@@ -7,8 +7,8 @@ import {
 	Tag
 } from "@serenityjs/nbt";
 
-import type { ItemComponents } from "../types";
 import type { ItemComponent } from "../components";
+import type { ItemComponents } from "../types";
 import type {
 	NetworkItemInstanceDescriptor,
 	NetworkItemStackDescriptor
@@ -59,14 +59,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Set the amount of the item.
 		this._amount = value;
 
-		// Check if the item is in a container.
-		if (!this.container) return;
-
-		// Get the slot of the item in the container.
-		const slot = this.container.storage.indexOf(this);
-
-		// Set the item in the container.
-		this.container.setItem(slot, this);
+		// Update the item in the container.
+		this.update();
 	}
 
 	/**
@@ -255,8 +249,6 @@ class ItemStack<T extends keyof Items = keyof Items> {
 			descriptor.stackSize ?? 1,
 			descriptor.metadata ?? 1
 		);
-
-		// TODO: Implement the rest of the item stack.
 
 		// Return the item stack.
 		return item;
