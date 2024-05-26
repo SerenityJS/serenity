@@ -6,6 +6,11 @@ import { TerrainGenerator } from "./generator";
 import type { Chunk } from "../chunk";
 
 class Overworld extends TerrainGenerator {
+	/**
+	 * The identifier for the generator.
+	 */
+	public static readonly identifier = "overworld";
+
 	public readonly worldNoise: NoiseFunction2D;
 	public readonly foilageNoise: NoiseFunction2D;
 	public readonly treeNoise: NoiseFunction2D;
