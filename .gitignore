@@ -2,6 +2,7 @@
 
 # Serentity files
 launcher/server.properties
+launcher/permissions.json
 launcher/resource_packs/
 launcher/plugins/
 launcher/worlds/

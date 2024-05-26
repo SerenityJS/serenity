@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
+    "dev": "tsup --watch --onSuccess \"node develop.js\"",
     "watch": "tsup --watch",
     "build": "tsup",
     "clean": "rm -rf dist",
