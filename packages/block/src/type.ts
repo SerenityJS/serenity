@@ -21,6 +21,14 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	 */
 	public readonly loggable: boolean;
 
+	public readonly hardness: number;
+
+	public readonly resistance: number;
+
+	public readonly material: string;
+
+	public readonly requiresTool: boolean;
+
 	/**
 	 * The default components of the block type.
 	 */
@@ -35,17 +43,29 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	 * Create a new block type.
 	 * @param identifier The identifier of the block type.
 	 * @param loggable Whether the block type is loggable.
+	 * @param hardness The hardness of the block type.
+	 * @param resistance The resistance of the block type.
+	 * @param material The material of the block type.
+	 * @param requiresTool Whether the block type requires a tool.
 	 * @param components The default components of the block type.
 	 * @param permutations The default permutations of the block type.
 	 */
 	public constructor(
 		identifier: T,
 		loggable: boolean,
+		hardness: number,
+		resistance: number,
+		material: string,
+		requiresTool: boolean,
 		components?: Array<string>,
 		permutations?: Array<BlockPermutation>
 	) {
 		this.identifier = identifier;
 		this.loggable = loggable;
+		this.hardness = hardness;
+		this.resistance = resistance;
+		this.material = material;
+		this.requiresTool = requiresTool;
 		this.components = components ?? [];
 		this.permutations = permutations ?? [];
 	}

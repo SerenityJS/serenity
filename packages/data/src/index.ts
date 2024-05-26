@@ -14,6 +14,10 @@ interface BlockTypes {
 	loggable: boolean;
 	components: Array<string>;
 	states: Array<string>;
+	hardness: number;
+	resistance: number;
+	material: string;
+	requiresTool: boolean;
 }
 
 interface BlockPermutations {

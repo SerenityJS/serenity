@@ -9,7 +9,7 @@ class CustomBlockType extends BlockType {
 	 * @param loggable Whether the block type is loggable.
 	 */
 	public constructor(identifier: string, loggable: boolean) {
-		super(identifier as keyof BlockState, loggable);
+		super(identifier as keyof BlockState, loggable, 0, 0, "default", false);
 
 		// Register the block type.
 		BlockType.types.set(identifier, this);
