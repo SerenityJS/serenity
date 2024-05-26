@@ -1,8 +1,17 @@
 import { Component } from "../component";
 
+import type { EntityType } from "@serenityjs/entity";
 import type { Entity } from "../../entity";
 
 class EntityComponent extends Component {
+	/**
+	 * A collective registry of all entity components registered to an entity type.
+	 */
+	public static readonly registry = new Map<
+		EntityType,
+		Array<typeof EntityComponent>
+	>();
+
 	/**
 	 * A collective registry of all entity components.
 	 */
@@ -51,6 +60,21 @@ class EntityComponent extends Component {
 
 		// Return the component.
 		return component;
+	}
+
+	/**
+	 * Registers the entity component to the entity type.
+	 * @param type The entity type to register the component to.
+	 */
+	public static register(type: EntityType): void {
+		// Get the components of the entity type.
+		const components = EntityComponent.registry.get(type) ?? [];
+
+		// Push the component to the registry.
+		components.push(this);
+
+		// Set the components to the entity type.
+		EntityComponent.registry.set(type, components);
 	}
 
 	/**

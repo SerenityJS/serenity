@@ -19,13 +19,12 @@ import {
 	TransferPacket,
 	type Vector3f
 } from "@serenityjs/protocol";
-import { EntityIdentifier } from "@serenityjs/entity";
+import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
 import {
 	EntityAlwaysShowNametagComponent,
 	EntityBreathingComponent,
-	type EntityComponent,
 	EntityHasGravityComponent,
 	EntityInventoryComponent,
 	EntityMovementComponent,
@@ -67,11 +66,6 @@ import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
 
 class Player extends Entity {
-	/**
-	 * The components of the player.
-	 */
-	public static readonly components: Array<typeof EntityComponent> = [];
-
 	/**
 	 * The player's network session.
 	 */
@@ -506,53 +500,37 @@ class Player extends Entity {
 		// Send the packet to the player
 		this.session.send(packet);
 	}
-
-	/**
-	 * Registers a component to the entity.
-	 * @param component The component to register.
-	 */
-	public static registerComponent(component: typeof EntityComponent): void {
-		this.components.push(component);
-	}
-
-	/**
-	 * Unregisters a component from the entity.
-	 * @param component The component to unregister.
-	 */
-	public static unregisterComponent(component: typeof EntityComponent): void {
-		const index = this.components.indexOf(component);
-		if (index === -1) return;
-		this.components.splice(index, 1);
-	}
 }
 
 export { Player };
 
 // Register the player components
-Player.registerComponent(PlayerCursorComponent);
-Player.registerComponent(EntityInventoryComponent);
-Player.registerComponent(EntityMovementComponent);
-Player.registerComponent(EntityHasGravityComponent);
-Player.registerComponent(EntityBreathingComponent);
-Player.registerComponent(EntityNametagComponent);
-Player.registerComponent(EntityAlwaysShowNametagComponent);
-Player.registerComponent(PlayerBuildComponent);
-Player.registerComponent(PlayerMineComponent);
-Player.registerComponent(PlayerDoorsAndSwitchesComponent);
-Player.registerComponent(PlayerOpenContainersComponent);
-Player.registerComponent(PlayerAttackPlayersComponent);
-Player.registerComponent(PlayerAttackMobsComponent);
-Player.registerComponent(PlayerOperatorCommandsComponent);
-Player.registerComponent(PlayerTeleportComponent);
-Player.registerComponent(PlayerInvulnerableComponent);
-Player.registerComponent(PlayerFlyingComponent);
-Player.registerComponent(PlayerMayFlyComponent);
-Player.registerComponent(PlayerInstantBuildComponent);
-Player.registerComponent(PlayerLightningComponent);
-Player.registerComponent(PlayerFlySpeedComponent);
-Player.registerComponent(PlayerWalkSpeedComponent);
-Player.registerComponent(PlayerMutedComponent);
-Player.registerComponent(PlayerWorldBuilderComponent);
-Player.registerComponent(PlayerNoClipComponent);
-Player.registerComponent(PlayerPrivilegedBuilderComponent);
-Player.registerComponent(PlayerCountComponent);
+// TODO: Move this to a separate file.
+const type = EntityType.get(EntityIdentifier.Player) as EntityType;
+PlayerCursorComponent.register(type);
+EntityInventoryComponent.register(type);
+EntityMovementComponent.register(type);
+EntityHasGravityComponent.register(type);
+EntityBreathingComponent.register(type);
+EntityNametagComponent.register(type);
+EntityAlwaysShowNametagComponent.register(type);
+PlayerBuildComponent.register(type);
+PlayerMineComponent.register(type);
+PlayerDoorsAndSwitchesComponent.register(type);
+PlayerOpenContainersComponent.register(type);
+PlayerAttackPlayersComponent.register(type);
+PlayerAttackMobsComponent.register(type);
+PlayerOperatorCommandsComponent.register(type);
+PlayerTeleportComponent.register(type);
+PlayerInvulnerableComponent.register(type);
+PlayerFlyingComponent.register(type);
+PlayerMayFlyComponent.register(type);
+PlayerInstantBuildComponent.register(type);
+PlayerLightningComponent.register(type);
+PlayerFlySpeedComponent.register(type);
+PlayerWalkSpeedComponent.register(type);
+PlayerMutedComponent.register(type);
+PlayerWorldBuilderComponent.register(type);
+PlayerNoClipComponent.register(type);
+PlayerPrivilegedBuilderComponent.register(type);
+PlayerCountComponent.register(type);

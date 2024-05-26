@@ -15,7 +15,7 @@ import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 import { CardinalDirection } from "../enums";
 import {
 	EntityAttributeComponent,
-	type EntityComponent,
+	EntityComponent,
 	EntityMetadataComponent
 } from "../components";
 import { ItemStack } from "../item";
@@ -33,11 +33,6 @@ class Entity {
 	 * The running total of the entity runtime id.
 	 */
 	public static runtime = 1n;
-
-	/**
-	 * The components of the entity.
-	 */
-	public static readonly components: Array<typeof EntityComponent> = [];
 
 	/**
 	 * The type of entity.
@@ -97,15 +92,9 @@ class Entity {
 		// Mutable properties
 		this.dimension = dimension;
 
-		// Register all the components
-		for (const component of new.target.components) {
-			// create a new instance of the component
-			// @ts-expect-error fix this
-			const instance = new component(this);
-
-			// set the component to the entity
-			this.components.set(instance.identifier, instance);
-		}
+		// Register the type components to the entity.
+		for (const component of EntityComponent.registry.get(this.type) ?? [])
+			new component(this, component.identifier);
 	}
 
 	/**
@@ -503,24 +492,6 @@ class Entity {
 			// Broadcast the packet to the dimension
 			this.dimension.broadcast(packet);
 		}
-	}
-
-	/**
-	 * Registers a component to the entity.
-	 * @param component The component to register.
-	 */
-	public static registerComponent(component: typeof EntityComponent): void {
-		this.components.push(component);
-	}
-
-	/**
-	 * Unregisters a component from the entity.
-	 * @param component The component to unregister.
-	 */
-	public static unregisterComponent(component: typeof EntityComponent): void {
-		const index = this.components.indexOf(component);
-		if (index === -1) return;
-		this.components.splice(index, 1);
 	}
 }
 
