@@ -9,7 +9,9 @@ import { resolve } from "node:path";
 
 import {
 	InternalProvider,
+	Overworld,
 	Superflat,
+	Void,
 	type TerrainGenerator,
 	type World,
 	type WorldProvider
@@ -71,6 +73,8 @@ class Worlds {
 
 		// Register the default generators.
 		this.registerGenerator(Superflat);
+		this.registerGenerator(Overworld);
+		this.registerGenerator(Void);
 
 		// Check if the worlds directory exists.
 		if (!existsSync(this.path)) {
