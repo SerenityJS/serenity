@@ -34,6 +34,21 @@ class BlockComponent extends Component {
 	}
 
 	/**
+	 * Registers the block component to the block type.
+	 * @param type The block type to register the component to.
+	 */
+	public static register(type: BlockType): void {
+		// Get the components of the block type.
+		const components = BlockComponent.registry.get(type) ?? [];
+
+		// Push the component to the registry.
+		components.push(this);
+
+		// Set the components to the block type.
+		BlockComponent.registry.set(type, components);
+	}
+
+	/**
 	 * Clones the block component.
 	 * @param block The block to clone the component to.
 	 * @returns A new block component.
@@ -89,19 +104,6 @@ class BlockComponent extends Component {
 	 * @param player The player that interacted with the block.
 	 */
 	public onInteract?(player: Player): void;
-
-	/**
-	 * Registers the block component to the block type.
-	 * @param type The block type to register the component to.
-	 */
-	public static register(type: BlockType): void {
-		// Register the component to the block type.
-		if (!BlockComponent.registry.has(type))
-			BlockComponent.registry.set(type, []);
-
-		// Push the component to the registry.
-		BlockComponent.registry.get(type)?.push(this);
-	}
 }
 
 export { BlockComponent };

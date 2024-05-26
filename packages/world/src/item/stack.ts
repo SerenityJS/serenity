@@ -7,7 +7,8 @@ import {
 	Tag
 } from "@serenityjs/nbt";
 
-import type { ItemComponent } from "../components";
+import { ItemComponent } from "../components";
+
 import type { ItemComponents } from "../types";
 import type {
 	NetworkItemInstanceDescriptor,
@@ -49,6 +50,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		this.metadata = metadata ?? 0;
 		this.components = new Map();
 		this._amount = amount;
+
+		// Register the type components to the item.
+		for (const component of ItemComponent.registry.get(this.type) ?? [])
+			new component(this, component.identifier);
 	}
 
 	public get amount(): number {
