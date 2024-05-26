@@ -1,0 +1,26 @@
+name: Generate Documentations
+on:
+    push:
+    pull_request:
+
+jobs:
+    build-and-publish-docs:
+        name: Publish Documentation
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install Dependencies
+              run: yarn install
+
+            - run: pnpm run build
+
+            - run: pnpm run build:docs
+            
+            - uses: peaceiris/actions-gh-pages@v4
+              if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
+                  enable_jekyll: false
+                  cname: 'docs.serenityjs.net'
+                  commit_message: ${{ github.event.head_commit.message }}

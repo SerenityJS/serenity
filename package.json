@@ -7,6 +7,7 @@
     "watch": "turbo watch",
     "build": "turbo build",
     "build:pkgs": "turbo build --filter='./packages/*'",
+    "build:docs": "typedoc",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "new": "turbo gen",
@@ -35,6 +36,7 @@
     "json5": "^2.2.3",
     "pinst": "^3.0.0",
     "turbo": "latest",
+    "typedoc": "^0.25.13",
     "typedoc-material-theme": "^1.0.2",
     "typedoc-plugin-extras": "^3.0.0",
     "typedoc-plugin-missing-exports": "^2.2.0",
@@ -50,7 +52,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.27.1",
-    "typedoc": "^0.25.13"
+    "@changesets/cli": "^2.27.1"
   }
 }
