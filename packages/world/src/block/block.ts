@@ -9,10 +9,10 @@ import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 import { ItemType } from "@serenityjs/item";
 
 import { ItemStack } from "../item";
+import { BlockComponent } from "../components";
 
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
-import type { BlockComponent } from "../components";
 import type { CardinalDirection } from "../enums";
 import type { Dimension } from "../world";
 
@@ -113,6 +113,9 @@ class Block {
 		permutation: BlockPermutation,
 		playerInitiated?: Player
 	): Block {
+		// Clear the previous components.
+		this.components.clear();
+
 		// Set the permutation of the block.
 		this.permutation = permutation;
 
@@ -141,6 +144,10 @@ class Block {
 
 		// Send the packet to the dimension.
 		this.dimension.broadcast(packet);
+
+		// Register the components to the block.
+		for (const component of BlockComponent.registry.get(permutation.type) ?? [])
+			new component(this, component.identifier);
 
 		// Call the onPlace method of the components.
 		for (const component of this.components.values()) {

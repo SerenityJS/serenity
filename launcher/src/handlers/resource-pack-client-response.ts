@@ -18,6 +18,8 @@ import {
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
 import { CustomBlockType } from "@serenityjs/block";
+import { BlockComponent, BlockNBTComponent } from "@serenityjs/world";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ResourcePack } from "../resource-packs/resource-pack-manager";
 
@@ -119,13 +121,33 @@ class ResourcePackClientResponse extends SerenityHandler {
 			}
 
 			case ResourcePackResponse.Completed: {
+				// TODO: Rewrite this
 				const blocks: Array<BlockProperties> = CustomBlockType.getAll().map(
 					(type) => {
 						const item = ItemType.resolve(type) as CustomItemType;
 
+						const nbt = CustomItemType.getBlockProperty(item);
+
+						const components = new CompoundTag("components", {});
+
+						for (const component of BlockComponent.registry.get(type) ?? []) {
+							// Check if the component is an NBT component
+							if (!(component.prototype instanceof BlockNBTComponent)) continue;
+
+							// Serialize the component
+							const serialized = (
+								component as typeof BlockNBTComponent
+							).serialize() as CompoundTag;
+
+							// Add the component to the components
+							components.addTag(serialized);
+						}
+
+						nbt.addTag(components);
+
 						return {
 							name: item.identifier,
-							nbt: CustomItemType.getBlockProperty(item)
+							nbt
 						};
 					}
 				);

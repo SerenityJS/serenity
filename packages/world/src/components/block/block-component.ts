@@ -1,9 +1,18 @@
 import { Component } from "../component";
 
+import type { BlockType } from "@serenityjs/block";
 import type { Player } from "../../player";
 import type { Block } from "../../block";
 
 class BlockComponent extends Component {
+	/**
+	 * A collective registry of all block components registered to a block type.
+	 */
+	public static readonly registry = new Map<
+		BlockType,
+		Array<typeof BlockComponent>
+	>();
+
 	/**
 	 * The block the component is binded to.
 	 */
@@ -80,6 +89,19 @@ class BlockComponent extends Component {
 	 * @param player The player that interacted with the block.
 	 */
 	public onInteract?(player: Player): void;
+
+	/**
+	 * Registers the block component to the block type.
+	 * @param type The block type to register the component to.
+	 */
+	public static register(type: BlockType): void {
+		// Register the component to the block type.
+		if (!BlockComponent.registry.has(type))
+			BlockComponent.registry.set(type, []);
+
+		// Push the component to the registry.
+		BlockComponent.registry.get(type)?.push(this);
+	}
 }
 
 export { BlockComponent };

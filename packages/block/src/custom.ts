@@ -4,6 +4,11 @@ import { BlockState } from "./types";
 
 class CustomBlockType extends BlockType {
 	/**
+	 * Whether the block type is custom.
+	 */
+	public readonly custom = true;
+
+	/**
 	 * Create a new custom block type.
 	 * @param identifier The identifier of the block type.
 	 * @param loggable Whether the block type is loggable.

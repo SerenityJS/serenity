@@ -17,16 +17,33 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	public readonly identifier: T;
 
 	/**
+	 * Whether the block type is custom.
+	 */
+	public readonly custom: boolean;
+
+	/**
 	 * Whether the block type is loggable.
 	 */
 	public readonly loggable: boolean;
 
+	/**
+	 * The hardness of the block type.
+	 */
 	public readonly hardness: number;
 
+	/**
+	 * The resistance of the block type.
+	 */
 	public readonly resistance: number;
 
+	/**
+	 * The material of the block type.
+	 */
 	public readonly material: string;
 
+	/**
+	 * Whether the block type requires a tool.
+	 */
 	public readonly requiresTool: boolean;
 
 	/**
@@ -61,6 +78,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 		permutations?: Array<BlockPermutation>
 	) {
 		this.identifier = identifier;
+		this.custom = false;
 		this.loggable = loggable;
 		this.hardness = hardness;
 		this.resistance = resistance;
