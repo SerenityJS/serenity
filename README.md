@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/SerenityJS/serenity">
-    <img src="./public/serenityjs-banner.png" alt="Logo">
+    <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/serenityjs-banner.png" alt="Logo">
   </a>
   <p align="center">
     <strong><font size = 5.5>Minecraft Bedrock Edition Server Software</font></strong>

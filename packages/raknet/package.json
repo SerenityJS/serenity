@@ -31,6 +31,7 @@
     "@serenityjs/binarystream": "^2.5.2",
     "@serenityjs/emitter": "*",
     "@serenityjs/logger": "*",
-    "reflect-metadata": "^0.2.1"
+    "reflect-metadata": "^0.2.1",
+    "typedoc": "^0.25.13"
   }
 }
