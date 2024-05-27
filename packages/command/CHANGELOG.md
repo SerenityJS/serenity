@@ -1,5 +1,14 @@
 # @serenityjs/command
 
+## 0.2.3
+
+### Patch Changes
+
+- e9f074f: Initialize next release
+- Updated dependencies [e9f074f]
+  - @serenityjs/logger@0.2.3
+  - @serenityjs/network@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

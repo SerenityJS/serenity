@@ -1,5 +1,13 @@
 # @serenityjs/entity
 
+## 0.2.3
+
+### Patch Changes
+
+- e9f074f: Initialize next release
+- Updated dependencies [e9f074f]
+  - @serenityjs/data@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
