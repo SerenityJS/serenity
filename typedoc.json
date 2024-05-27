@@ -2,7 +2,10 @@
   "$schema": "https://typedoc.org/schema.json",
   "name": "SerenityJS",
   "customTitle": "SerenityJS",
-  "entryPoints": ["packages/*"],
+  "entryPoints": [
+    "packages/*",
+    "launcher"
+  ],
   "entryPointStrategy": "packages",
   "excludeExternals": true,
   "excludeInternal": true,
