@@ -2,6 +2,25 @@ import { BlockType } from "./type";
 import { BlockPermutation } from "./permutation";
 import { BlockState } from "./types";
 
+/**
+ * CustomBlockType allows developers to create and register custom blocks to SerenityJS. Custom blocks can also be registered with permutations, which allows developers to create multiple variations of a block.
+ * 
+ * **Example Usage**
+ * ```typescript
+	import { CustomBlockType, BlockPermutation } from "@serenityjs/block"
+
+	// Creates a custom block type with the identifier "serenity:ruby_block"
+	// Second parameter is indicates if the block can be waterlogged
+	const rubyBlockType = new CustomBlockType("serenity:ruby_block", false)
+
+	// Create a permutation for the block type
+	// Blank object indicates that the block has no additional permutations
+	const rubyBlockPermutation = BlockPermutation.create(rubyBlockType, {})
+
+	// The permutation now must be registered with the block type
+	rubyBlockType.register(rubyBlockPermutation)
+ * ```
+ */
 class CustomBlockType extends BlockType {
 	/**
 	 * Whether the block type is custom.

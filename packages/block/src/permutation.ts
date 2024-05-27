@@ -4,6 +4,24 @@ import { hash } from "./hash";
 
 import type { BlockIdentifier } from "./enums";
 
+/**
+ * BlockPermutation represents a current state of a block, for example dirt has a single state "dirt_type". This state can be changed to "coarse" or "normal" to represent a different state of dirt. This means dirt has a total of 2 permutations, one for "coarse" and one for "normal".
+ * 
+ * **Example Usage**
+ * ```typescript
+	import { BlockPermutation, BlockIdentifier } from "@serenityjs/block"
+
+	// Get the block permutation for coarse dirt
+	const coarseDirtPermutation = BlockPermutation.resolve(BlockIdentifier.Dirt, { dirt_type: "coarse" })
+
+	// Get the block type for coarse dirt permutation
+	// Which is expected to be "minecraft:dirt"
+	const blockType = coarseDirtPermutation.type // Equivalent to BlockType.get(BlockIdentifier.Dirt)
+
+	// Get the block state for coarse dirt permutation
+	coarseDirtPermutation.state // Expected to be { dirt_type: "coarse" }
+ * ```
+ */
 class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 	/**
 	 * A collective registry of all block permutations.

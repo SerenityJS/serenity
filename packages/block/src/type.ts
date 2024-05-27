@@ -5,6 +5,20 @@ import { BlockState } from "./types";
 
 import type { BlockPermutation } from "./permutation";
 
+/**
+ * BlockType represents a block type in the game, which hold all possible permutations the block can have.
+ * 
+ * **Example Usage**
+ * ```typescript
+	import { BlockType, BlockIdentifier } from "@serenityjs/block"
+
+	// Get the block type for dirt
+	const dirtType = BlockType.get(BlockIdentifier.Dirt)
+
+	// Get the identifier of the type
+	dirtType.identifier // Expected to be "minecraft:dirt"
+ * ```
+ */
 class BlockType<T extends keyof BlockState = keyof BlockState> {
 	/**
 	 * A collective registry of all block types.
