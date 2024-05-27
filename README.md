@@ -7,7 +7,7 @@
     <strong><font size = 5.5>Minecraft Bedrock Edition Server Software</font></strong>
     <br/>
     <br/>
-    <a href="https://github.com/SerenityJS/serenity"><strong>Explore Now »</strong></a>
+    <a href="serenityjs.net"><strong>Explore Now »</strong></a>
     <br/>
     <br/>
     <a href="https://github.com/SerenityJS/serenity/issues">Report Bug</a>
