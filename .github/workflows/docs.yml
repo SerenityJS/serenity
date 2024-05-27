@@ -48,6 +48,6 @@ jobs:
           # Upload entire repository
           path: './dist'
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@v4
