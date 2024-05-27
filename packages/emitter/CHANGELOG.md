@@ -1,5 +1,11 @@
 # @serenityjs/emitter
 
+## 0.2.3
+
+### Patch Changes
+
+- e9f074f: Initialize next release
+
 ## 0.2.2
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @serenityjs/server-ui
 
+## 0.2.3
+
+### Patch Changes
+
+- e9f074f: Initialize next release
+- Updated dependencies [e9f074f]
+  - @serenityjs/protocol@0.2.3
+  - @serenityjs/world@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
