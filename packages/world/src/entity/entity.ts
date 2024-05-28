@@ -33,7 +33,7 @@ import type {
  *
  * **Example Usage**
  * ```typescript
- 	import { EntityIdentifier } from "@serenityjs/entity";
+	import { EntityIdentifier } from "@serenityjs/entity";
 	import { Vector3f } from "@serenityjs/protocol";
 	import { Dimension } from "@serenityjs/world";
 
