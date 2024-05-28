@@ -103,26 +103,31 @@ class Player extends Entity {
 	public mining: BlockCoordinates | null = null;
 
 	/**
+	 * @readonly
 	 * The currently opened container visible to the player.
 	 */
 	public openedContainer: Container | null = null;
 
 	/**
+	 * @readonly
 	 * The ItemStack the player is currently using.
 	 */
 	public usingItem: ItemStack | null = null;
 
 	/**
+	 * @readonly
 	 * If the player is sneaking.
 	 */
 	public isSneaking = false;
 
 	/**
+	 * @readonly
 	 * If the player is sprinting.
 	 */
 	public isSprinting = false;
 
 	/**
+	 * @readonly
 	 * If the player is flying.
 	 */
 	public isFlying = false;
@@ -130,6 +135,7 @@ class Player extends Entity {
 	// Protected properties
 
 	/**
+	 * @deprecated This property is deprecated and will be removed in the future.
 	 * The player's gamemode.
 	 */
 	protected _gamemode = Gamemode.Creative;
