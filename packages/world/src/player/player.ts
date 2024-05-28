@@ -65,6 +65,9 @@ import type { Dimension } from "../world";
 import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
 
+/**
+ * Represents a player in a Dimension instance that is connected to the server, and can interact with the world. Creating a new Player instance should be handled by the server instead of Plugins. This class is responsible for handling player-specific logic, such as sending packets, handling player movement, and managing player data. Player instances requires a NetworkSession instance to communicate with the player, and data from the player's login tokens.
+ */
 class Player extends Entity {
 	/**
 	 * The player's network session.
@@ -91,6 +94,9 @@ class Player extends Entity {
 	 */
 	public readonly chunks: Map<bigint, boolean>;
 
+	/**
+	 * The player's permission level.
+	 */
 	public readonly permission: PermissionLevel;
 
 	// TODO: Organize these properties.

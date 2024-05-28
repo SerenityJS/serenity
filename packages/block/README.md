@@ -1,7 +1,5 @@
-## About
+## Introduction
 This package contains the Minecraft Bedrock Edition BlockTypes, BlockPermutations, and BlockIdentifiers. The classes are developed in a way to resemble the official Bedrock Edition Scripting API. This choice was to bring familiarity to the SerenityJS ecosystem for developers making the switch from the official Bedrock Dedicated Server.
-
-## Usage
 
 ### BlockType
 BlockType represents a block type in the game, which hold all possible permutations the block can have.

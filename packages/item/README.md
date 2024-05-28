@@ -1,7 +1,5 @@
-## About
+## Introduction
 This package contains the Minecraft Bedrock Edition ItemTypes, CustomItemTypes, CreativeItems, and ItemIdentifiers. The classes are developed in a way to resemble the official Bedrock Edition Scripting API. This choice was to bring familiarity to the SerenityJS ecosystem for developers making the switch from the official Bedrock Dedicated Server.
-
-## Usage
 
 ### ItemType
 ItemType represents a item type in the game, which holds a possible block type. If the item identifier, for example, is "minecraft:diamond", the type is expected to not hold a block type property.

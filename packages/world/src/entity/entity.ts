@@ -28,6 +28,28 @@ import type {
 	EntityComponents
 } from "../types/components";
 
+/**
+ * Represents an entity in a Dimension instance that can be interacted with. Entities can be spawned from either creating a new Entity instance, or using the ".spawnEntity" method of a Dimension instance.
+ *
+ * **Example Usage**
+ * ```typescript
+ 	import { EntityIdentifier } from "@serenityjs/entity";
+	import { Vector3f } from "@serenityjs/protocol";
+	import { Dimension } from "@serenityjs/world";
+
+	// Declare the Dimension instance, this can be retrieved from the current World instance.
+	const dimension: Dimension;
+
+	// This is an example of creating a new entity instance
+	const entity = new Entity(EntityIdentifier.Cow, dimension);
+
+	// This is an example of spawning an entity using the ".spawnEntity" method of a Dimension instance
+	const entity = dimension.spawnEntity(EntityIdentifier.Cow, new Vector3f(0, 0, 0));
+
+	// Spawn the entity in the dimension
+	entity.spawn();
+ * ```
+ */
 class Entity {
 	/**
 	 * The running total of the entity runtime id.
