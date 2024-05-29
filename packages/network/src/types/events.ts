@@ -70,7 +70,8 @@ import type {
 	SetTimePacket,
 	SetScoreboardIdentityPacket,
 	TransferPacket,
-	TakeItemActorPacket
+	TakeItemActorPacket,
+	NetworkStackLatencyPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -145,6 +146,7 @@ interface NetworkEvents {
 		NetworkPacketEvent<SetScoreboardIdentityPacket>
 	];
 	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
+	[Packet.NetworkStackLatency]: [NetworkPacketEvent<NetworkStackLatencyPacket>];
 	[Packet.SetLocalPlayerAsInitialized]: [
 		NetworkPacketEvent<SetLocalPlayerAsInitializedPacket>
 	];
