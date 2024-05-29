@@ -73,6 +73,7 @@ import { SetScoreboardIdentityPacket } from "./set-scoreboard-identity";
 import { TransferPacket } from "./transfer";
 import { SetHudPacket } from "./set-hud";
 import { TakeItemActorPacket } from "./take-item-actor";
+import { NetworkStackLatencyPacket } from "./network-stack-latency";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -130,6 +131,7 @@ const Packets = {
 	[Packet.SetScore]: SetScorePacket, // 108
 	[Packet.SetScoreboardIdentity]: SetScoreboardIdentityPacket, // 112
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
+	[Packet.NetworkStackLatency]: NetworkStackLatencyPacket, // 115
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
 	[Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123

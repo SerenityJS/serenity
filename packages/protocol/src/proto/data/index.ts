@@ -46,6 +46,7 @@ export * from "./chunk-radius-update";
 export * from "./set-title";
 export * from "./modal-form-request";
 export * from "./modal-form-response";
+export * from "./network-stack-latency";
 export * from "./set-local-player-as-initialized";
 export * from "./network-chunk-publisher-update";
 export * from "./biome-definition-list";

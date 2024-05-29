@@ -61,6 +61,7 @@ enum Packet {
 	SetScore = 0x6c, // 108
 	SetScoreboardIdentity = 0x70, // 112
 	SetLocalPlayerAsInitialized = 0x71, // 113
+	NetworkStackLatency = 0x73, // 115
 	NetworkChunkPublisherUpdate = 0x79, // 121
 	BiomeDefinitionList = 0x7a, // 122
 	LevelSoundEvent = 0x7b, // 123
