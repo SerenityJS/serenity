@@ -71,7 +71,8 @@ import type {
 	SetScoreboardIdentityPacket,
 	TransferPacket,
 	TakeItemActorPacket,
-	NetworkStackLatencyPacket
+	NetworkStackLatencyPacket,
+	BossEventPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -123,6 +124,7 @@ interface NetworkEvents {
 	[Packet.PlayerList]: [NetworkPacketEvent<PlayerListPacket>];
 	[Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadiusPacket>];
 	[Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdatePacket>];
+	[Packet.BossEvent]: [NetworkPacketEvent<BossEventPacket>];
 	[Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommandsPacket>];
 	[Packet.CommandRequest]: [NetworkPacketEvent<CommandRequestPacket>];
 	[Packet.CommandOutput]: [NetworkPacketEvent<CommandOutputPacket>];
