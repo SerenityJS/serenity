@@ -54,3 +54,5 @@ export * from "./hud-element-id";
 export * from "./hud-visibility";
 export * from "./player-auth-input-data";
 export * from "./enchantment";
+export * from "./boss-event-update-type";
+export * from "./boss-event-color";

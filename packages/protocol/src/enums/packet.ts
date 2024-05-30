@@ -46,7 +46,8 @@ enum Packet {
 	PlayerList = 0x3f, // 63
 	RequestChunkRadius = 0x45, // 69
 	ChunkRadiusUpdate = 0x46, // 70
-	AvailableCommands = 0x4c,
+	BossEvent = 0x4a, // 74
+	AvailableCommands = 0x4c, // 76
 	CommandRequest = 0x4d, // 77
 	CommandOutput = 0x4f, // 79
 	ResourcePackDataInfo = 0x52, // 82

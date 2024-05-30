@@ -74,6 +74,7 @@ import { TransferPacket } from "./transfer";
 import { SetHudPacket } from "./set-hud";
 import { TakeItemActorPacket } from "./take-item-actor";
 import { NetworkStackLatencyPacket } from "./network-stack-latency";
+import { BossEventPacket } from "./boss-event";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -116,6 +117,7 @@ const Packets = {
 	[Packet.PlayerList]: PlayerListPacket, // 63
 	[Packet.RequestChunkRadius]: RequestChunkRadiusPacket, // 69
 	[Packet.ChunkRadiusUpdate]: ChunkRadiusUpdatePacket, // 70
+	[Packet.BossEvent]: BossEventPacket, // 74
 	[Packet.AvailableCommands]: AvailableCommandsPacket, // 76
 	[Packet.CommandRequest]: CommandRequestPacket, // 77
 	[Packet.CommandOutput]: CommandOutputPacket, // 79

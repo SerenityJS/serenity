@@ -43,6 +43,7 @@ export * from "./set-player-game-type";
 export * from "./player-list";
 export * from "./request-chunk-radius";
 export * from "./chunk-radius-update";
+export * from "./boss-event";
 export * from "./set-title";
 export * from "./modal-form-request";
 export * from "./modal-form-response";

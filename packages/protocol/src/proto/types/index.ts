@@ -63,3 +63,5 @@ export * from "./serialized-skin";
 export * from "./score-entry";
 export * from "./scoreboard-identity";
 export * from "./hud-element";
+export * from "./boss-event-add";
+export * from "./boss-event-update";
