@@ -1,7 +1,7 @@
 import { DataType } from "@serenityjs/raknet";
 import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
 
-import { BossEventUpdateType } from "../../enums";
+import { type BossEventColor, BossEventUpdateType } from "../../enums";
 
 class BossEventUpdate extends DataType {
 	public readonly playerUniqueId?: bigint | null;
@@ -12,7 +12,7 @@ class BossEventUpdate extends DataType {
 
 	public readonly darkenScreen?: number | null;
 
-	public readonly color?: number | null;
+	public readonly color?: BossEventColor | null;
 
 	public readonly overlay?: number | null;
 
@@ -21,7 +21,7 @@ class BossEventUpdate extends DataType {
 		percent?: number | null,
 		title?: string | null,
 		darkenScreen?: number | null,
-		color?: number | null,
+		color?: BossEventColor | null,
 		overlay?: number | null
 	) {
 		super();

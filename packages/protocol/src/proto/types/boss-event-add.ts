@@ -6,21 +6,21 @@ import { type BossEventColor, BossEventUpdateType } from "../../enums";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 class BossEventAdd extends DataType {
-	public readonly name: string;
+	public readonly title: string;
 	public readonly percent: number;
 	public readonly darkenScreen: number;
 	public readonly color: BossEventColor;
 	public readonly overlay: number;
 
 	public constructor(
-		name: string,
+		title: string,
 		percent: number,
 		darkenScreen: number,
 		color: BossEventColor,
 		overlay: number
 	) {
 		super();
-		this.name = name;
+		this.title = title;
 		this.percent = percent;
 		this.darkenScreen = darkenScreen;
 		this.color = color;
@@ -57,7 +57,7 @@ class BossEventAdd extends DataType {
 		// Check if the type is an add event.
 		if (type === BossEventUpdateType.Add) {
 			// Write the fields for the add event.
-			stream.writeVarString(value.name);
+			stream.writeVarString(value.title);
 			stream.writeFloat32(value.percent, Endianness.Little);
 			stream.writeInt16(value.darkenScreen, Endianness.Little);
 			stream.writeVarInt(value.color);
