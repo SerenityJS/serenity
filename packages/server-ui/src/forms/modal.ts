@@ -3,8 +3,39 @@ import { ModalFormType } from "@serenityjs/protocol";
 import { Form } from "./form";
 
 /**
- * Represents a server sided ui modal form that can be shown to a player.
- * This form is used to display a modal to the player with multiple inputs.
+ * These forms are the must advanced type of form. These allow developers to add elements to request input from the player, rather than using buttons. The elements used in ModalForms are: dropdown, input, label, slider, stepSlider, and toggle.
+ *
+ * **Example Usage**
+	```ts
+	import { ModalForm } from "@serenityjs/server-ui"
+	
+	// Create a new ModalForm instance and set the title and add elements
+	const form = new ModalForm()
+	form.title = "ModalForm Example"
+	
+	// A dropdown allows the player to select from a list of options
+	form.dropdown("Dropdown Element", ["Option 1", "Option 2", "Option 3"], 1)
+	
+	// An input allows the player to enter text
+	form.input("Input Element", "Input Placeholder", "Input Text")
+	
+	// A slider allows the player to select a value within a range
+	form.slider("Slider Element", 0, 100, 10)
+	
+	// A step slider allows the player to select a value from a list of options
+	form.stepSlider("Step Slider Element", ["Step 1", "Step 2", "Step 3"], 1)
+	
+	// A toggle allows the player to enable or disable an option
+	form.toggle("Toggle Element", true)
+	
+	// A label displays text to the player
+	form.label("Label Element", "Label Text")
+	
+	// Show the form to the player
+	form.show(player)
+	  .then((response) => {})
+	  .catch((rejected) => {})
+	```
  */
 class ModalForm<T = unknown> extends Form<Array<T>> {
 	public readonly type = ModalFormType.Modal;

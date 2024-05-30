@@ -3,8 +3,24 @@ import { ModalFormType } from "@serenityjs/protocol";
 import { Form } from "./form";
 
 /**
- * Represents a server sided ui message form that can be shown to a player.
- * This form is used to display a message to the player with two buttons.
+ * These forms add a simple popup with a brief context with only 2 selection button, these are usally used for a Yes or No question.
+ *
+ * **Example Usage**
+	```ts
+	import { MessageForm } from "@serenityjs/server-ui"
+
+	// Create a new MessageForm instance and set the title, content, and button text
+	const form = new MessageForm()
+	form.title = "MessageForm Example"
+	form.content = "This is a test message form. This is the description of the message form."
+	form.button1 = "Button 1"
+	form.button2 = "Button 2"
+
+	// Show the form to the player
+	form.show(player)
+  	.then((response) => {})
+  	.catch((rejected) => {})
+	```
  */
 class MessageForm extends Form<boolean> {
 	public readonly type = ModalFormType.Message;
