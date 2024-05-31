@@ -12,6 +12,7 @@ import { PlayerJoinedSignal } from "./player-joined";
 import { PlayerSpawnedSignal } from "./player-spawned";
 import { PlayerChatSignal } from "./player-chat";
 import { PlayerPlaceBlockSignal } from "./player-place-block";
+import { PlayerBreakBlockSignal } from "./player-break-block";
 
 /**
  * Contains all the event signals.
@@ -20,7 +21,8 @@ const EVENT_SIGNALS = [
 	PlayerJoinedSignal,
 	PlayerSpawnedSignal,
 	PlayerChatSignal,
-	PlayerPlaceBlockSignal
+	PlayerPlaceBlockSignal,
+	PlayerBreakBlockSignal
 ];
 
 // Exports

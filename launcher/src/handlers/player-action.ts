@@ -75,8 +75,9 @@ class PlayerAction extends SerenityHandler {
 			// Check if a creative player destroys a block.
 			// If so, we will handle the block destruction.
 			case ActionIds.CreativePlayerDestroyBlock: {
-				this.handleCreativePlayerDestroyBlock(packet, player);
 				break;
+				// this.handleCreativePlayerDestroyBlock(packet, player);
+				// break;
 			}
 
 			case ActionIds.PredictBreak: {
