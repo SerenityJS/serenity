@@ -1,3 +1,3 @@
-const { Serenity } = require("./dist/index");
+const { Serenity } = require(".");
 
 new Serenity().start();

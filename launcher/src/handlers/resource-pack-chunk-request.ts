@@ -1,6 +1,7 @@
 import {
+	Packet,
 	ResourcePackChunkDataPacket,
-	ResourcePackChunkRequestPacket
+	type ResourcePackChunkRequestPacket
 } from "@serenityjs/protocol";
 
 import { ResourcePack } from "../resource-packs/resource-pack-manager";
@@ -10,7 +11,7 @@ import { SerenityHandler } from "./serenity-handler";
 import type { NetworkSession } from "@serenityjs/network";
 
 class ResourcePackChunkRequest extends SerenityHandler {
-	public static packet = ResourcePackChunkRequestPacket.id;
+	public static packet = Packet.ResourcePackChunkRequest;
 
 	public static handle(
 		packet: ResourcePackChunkRequestPacket,
