@@ -11,6 +11,7 @@ import {
 	MovePlayerPacket,
 	NetworkChunkPublisherUpdatePacket,
 	NetworkItemStackDescriptor,
+	NetworkStackLatencyPacket,
 	type PermissionLevel,
 	SetPlayerGameTypePacket,
 	TeleportCause,
@@ -98,6 +99,11 @@ class Player extends Entity {
 	 * The player's permission level.
 	 */
 	public readonly permission: PermissionLevel;
+
+	/**
+	 * The player's current network latency.
+	 */
+	public ping = 0;
 
 	// TODO: Organize these properties.
 	public mining: BlockCoordinates | null = null;
@@ -206,21 +212,41 @@ class Player extends Entity {
 				// Send the packet to the player
 				this.session.send(packet);
 			}
+
+			// Create a new NetworkChunkPublisherUpdatePacket
+			const update = new NetworkChunkPublisherUpdatePacket();
+
+			// Set the packet properties
+			update.radius = this.dimension.viewDistance;
+			update.coordinate = this.position.floor();
+			update.savedChunks = coords;
+
+			// Send the update to the player.
+			this.session.send(update);
+
+			// Set the chunks to rendered.
+			for (const [hash] of hashes) this.chunks.set(hash, true);
 		}
 
-		// Create a new NetworkChunkPublisherUpdatePacket
-		const update = new NetworkChunkPublisherUpdatePacket();
+		// Check if the current tick is divisible by 35
+		if (this.dimension.world.currentTick % 35n === 0n) {
+			// Calculate the ping of the player.
+			const packet = new NetworkStackLatencyPacket();
+			packet.timestamp = BigInt(Date.now());
+			packet.fromServer = true;
 
-		// Set the packet properties
-		update.radius = this.dimension.viewDistance;
-		update.coordinate = this.position.floor();
-		update.savedChunks = coords;
+			// Send the packet to the player.
+			this.session.sendImmediate(packet);
 
-		// Send the update to the player.
-		this.session.send(update);
+			// Wait for the player to respond.
+			this.session.once(packet.getId(), () => {
+				// Calculate the ping of the player.
+				const stamp = Number(BigInt(Date.now()) - packet.timestamp);
 
-		// Set the chunks to rendered.
-		for (const [hash] of hashes) this.chunks.set(hash, true);
+				// Subtract 30ms from the ping to get the actual ping.
+				this.ping = stamp - 30;
+			});
+		}
 	}
 
 	/**
