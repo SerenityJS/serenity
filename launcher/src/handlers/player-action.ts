@@ -262,10 +262,6 @@ class PlayerAction extends SerenityHandler {
 		packet: PlayerActionPacket,
 		player: Player
 	): void {
-		// Check if the player is in creative mode.
-		// If so, we will return.
-		if (player.gamemode === Gamemode.Creative) return;
-
 		// Get the block position from the packet.
 		const { x, y, z } = packet.blockPosition;
 
@@ -274,7 +270,9 @@ class PlayerAction extends SerenityHandler {
 
 		// If the player is in adventure mode, we will set the block permutation.
 		// The player should not be able to break the block.
-		if (player.gamemode === Gamemode.Adventure) {
+		// And also check if the player has the ability to break the block.
+		const canMine = player.getComponent("minecraft:ability.mine").currentValue;
+		if (player.gamemode === Gamemode.Adventure || !canMine) {
 			// Set the block permutation.
 			block.setPermutation(block.permutation);
 
@@ -282,9 +280,29 @@ class PlayerAction extends SerenityHandler {
 			return;
 		}
 
+		// Emit the block break particles to the dimension.
+		// Create a new LevelEvent packet.
+		const event = new LevelEventPacket();
+		event.event = LevelEvent.ParticlesDestroyBlock;
+		event.position = new Vector3f(x, y, z);
+		event.data = block.permutation.network;
+
+		// Broadcast the event to the dimension.
+		player.dimension.broadcast(event);
+
+		// Get the permtuation of the block.
+		const permutation = block.permutation;
+
+		// Destroy the block.
+		block.destroy(player);
+
+		// Check if the player is in creative mode.
+		// If so, we will return.
+		if (player.gamemode === Gamemode.Creative) return;
+
 		// Create a new ItemStack.
-		const itemType = ItemType.resolve(block.permutation.type) as ItemType;
-		const itemStack = ItemStack.create(itemType, 1, block.permutation.index);
+		const itemType = ItemType.resolve(permutation.type) as ItemType;
+		const itemStack = ItemStack.create(itemType, 1, permutation.index);
 		const itemEntity = player.dimension.spawnItem(
 			itemStack,
 			new Vector3f(x + 0.5, y + 0.5, z + 0.5)
@@ -297,19 +315,6 @@ class PlayerAction extends SerenityHandler {
 			Math.random() * 0.1 - 0.05
 		);
 		itemEntity.addMotion(velocity);
-
-		// Emit the block break particles to the dimension.
-		// Create a new LevelEvent packet.
-		const event = new LevelEventPacket();
-		event.event = LevelEvent.ParticlesDestroyBlock;
-		event.position = new Vector3f(x, y, z);
-		event.data = block.permutation.network;
-
-		// Broadcast the event to the dimension.
-		player.dimension.broadcast(event);
-
-		// Destroy the block.
-		block.destroy(player);
 
 		// Trigger the onUse method of the item components.
 		const usingItem = player.usingItem;

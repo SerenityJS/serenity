@@ -9,6 +9,7 @@ import {
 	Gamemode
 } from "@serenityjs/protocol";
 import { ItemUseCause, type Player } from "@serenityjs/world";
+import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -118,9 +119,6 @@ class InventoryTransaction extends SerenityHandler {
 				// Check if the interaction opened a container, if so stop the block placement
 				if (player.openedContainer) break;
 
-				// Check if the player is in adventure mode, if so stop the block placement
-				if (player.gamemode === Gamemode.Adventure) break;
-
 				// Check if the player is using an item
 				const usingItem = player.usingItem;
 				if (!usingItem) break;
@@ -142,6 +140,22 @@ class InventoryTransaction extends SerenityHandler {
 				// ANd check if the block is also air
 				const resultingBlock = interactedBlock.face(transaction.face);
 				if (!resultingBlock.isAir()) break;
+
+				// Check if the player is in adventure mode, if so stop the block placement
+				// And check if the player is able to place blocks
+				const canBuild = player.getComponent(
+					"minecraft:ability.build"
+				).currentValue;
+
+				// Check if the player is in adventure mode, if so stop the block placement
+				if (player.gamemode === Gamemode.Adventure || !canBuild) {
+					// Get the Air Permutation
+					const air = BlockPermutation.resolve(BlockIdentifier.Air);
+
+					// Set the resulting block to air
+					resultingBlock.setPermutation(air);
+					break;
+				}
 
 				// Get the blockPermutation from the blockType
 				const blockPermutation =
