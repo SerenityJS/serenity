@@ -59,6 +59,7 @@ export * from "./item-stack-request";
 export * from "./item-stack-response";
 export * from "./packet-violation-warning";
 export * from "./item-component";
+export * from "./npc-dialogue";
 export * from "./script-message";
 export * from "./toast-request";
 export * from "./update-abilities";

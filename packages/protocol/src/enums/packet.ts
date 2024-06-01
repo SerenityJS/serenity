@@ -75,6 +75,7 @@ enum Packet {
 	ItemStackResponse = 0x94, // 148
 	PacketViolationWarning = 0x9c, // 156
 	ItemComponent = 0xa2, // 162
+	NpcDialogue = 0xa9, // 169
 	ScriptMessage = 0xb1, // 177
 	ToastRequest = 0xba, // 186
 	UpdateAbilities = 0xbb, // 187

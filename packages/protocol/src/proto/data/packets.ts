@@ -75,6 +75,7 @@ import { SetHudPacket } from "./set-hud";
 import { TakeItemActorPacket } from "./take-item-actor";
 import { NetworkStackLatencyPacket } from "./network-stack-latency";
 import { BossEventPacket } from "./boss-event";
+import { NpcDialoguePacket } from "./npc-dialogue";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -144,6 +145,7 @@ const Packets = {
 	[Packet.ItemStackResponse]: ItemStackResponsePacket, // 148
 	[Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
 	[Packet.ItemComponent]: ItemComponentPacket, // 162
+	[Packet.NpcDialogue]: NpcDialoguePacket, // 169
 	[Packet.ScriptMessage]: ScriptMessagePacket, // 177
 	[Packet.ToastRequest]: ToastRequestPacket, // 186
 	[Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
