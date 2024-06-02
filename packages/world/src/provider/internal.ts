@@ -1,6 +1,6 @@
 import { basename } from "node:path";
 
-import { DimensionType } from "@serenityjs/protocol";
+import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
 
 import { Chunk } from "../chunk";
 import { type Dimension, World } from "../world";
@@ -56,15 +56,15 @@ class InternalProvider extends WorldProvider {
 		const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
 
 		// Check if the chunks contain the chunk hash.
-		if (!chunks.has(Chunk.getHash(cx, cz))) {
+		if (!chunks.has(ChunkCoords.hash({ x: cx, z: cz }))) {
 			chunks.set(
-				Chunk.getHash(cx, cz),
+				ChunkCoords.hash({ x: cx, z: cz }),
 				dimension.generator.apply(new Chunk(dimension.type, cx, cz))
 			);
 		}
 
 		// Return the chunk.
-		return chunks.get(Chunk.getHash(cx, cz)) as Chunk;
+		return chunks.get(ChunkCoords.hash({ x: cx, z: cz })) as Chunk;
 	}
 
 	public writeChunk(chunk: Chunk, dimension: Dimension): void {
@@ -77,7 +77,7 @@ class InternalProvider extends WorldProvider {
 		const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
 
 		// Set the chunk.
-		chunks.set(Chunk.getHash(chunk.x, chunk.z), chunk);
+		chunks.set(ChunkCoords.hash({ x: chunk.x, z: chunk.z }), chunk);
 	}
 }
 

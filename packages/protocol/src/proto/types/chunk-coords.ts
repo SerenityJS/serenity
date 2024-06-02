@@ -49,6 +49,39 @@ class ChunkCoords extends DataType {
 			stream.writeZigZag(chunk.z);
 		}
 	}
+
+	/**
+	 * Convert the chunk coordinates to a hash.
+	 * @param coords The chunk coordinates.
+	 * @returns The hash of the chunk coordinates.
+	 */
+	public static hash(coords: ChunkCoords): bigint {
+		const x = BigInt(coords.x);
+		const z = BigInt(coords.z);
+
+		const hash = (x << 32n) | (z & 0xff_ff_ff_ffn);
+
+		return hash;
+	}
+
+	/**
+	 * Convert the hash to chunk coordinates.
+	 * @param hash The hash.
+	 * @returns The chunk coordinates.
+	 */
+	public static unhash(hash: bigint): ChunkCoords {
+		// Extract the x coordinate by shifting right by 32 bits
+		const x = Number(hash >> 32n);
+
+		// Extract the z coordinate by masking with 0xFFFFFFFF
+		const bigZ = hash & 0xff_ff_ff_ffn;
+
+		// Convert BigInt coordinates back to regular numbers
+		const z = Number(bigZ >= 0x80_00_00_00n ? bigZ - 0x1_00_00_00_00n : bigZ);
+
+		// Return the ChunkCoords object
+		return new ChunkCoords(x, z);
+	}
 }
 
 export { ChunkCoords };

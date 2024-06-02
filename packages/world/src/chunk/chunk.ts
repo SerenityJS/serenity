@@ -65,6 +65,11 @@ export class Chunk {
 	public readonly z: number;
 
 	/**
+	 * The hash key of the chunk.
+	 */
+	public readonly hash: bigint;
+
+	/**
 	 * The sub chunks of the chunk.
 	 */
 	public readonly subchunks: Array<SubChunk>;
@@ -91,6 +96,7 @@ export class Chunk {
 		this.type = type;
 		this.x = x;
 		this.z = z;
+		this.hash = ChunkCoords.hash({ x, z });
 		this.subchunks =
 			subchunks ??
 			Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
@@ -176,32 +182,6 @@ export class Chunk {
 
 		// Return 0 if no block was found.
 		return 0;
-	}
-
-	// TODO: Move to ChunkCoords type
-	/**
-	 * Get the hash of the given X and Z coordinates.
-	 * @param x The X coordinate.
-	 * @param z The Z coordinate.
-	 */
-	public static getHash(x: number, z: number): bigint {
-		return ((BigInt(x) & 0xff_ff_ff_ffn) << 32n) | (BigInt(z) & 0xff_ff_ff_ffn);
-	}
-
-	// TODO: Move to ChunkCoords type
-	/**
-	 * Get the chunk coordinates from the given hash.
-	 * @param hash The hash.
-	 */
-	public static fromHash(hash: bigint): ChunkCoords {
-		return new ChunkCoords(Number(hash >> 32n), Number(hash & 0xff_ff_ff_ffn));
-	}
-
-	/**
-	 * Serialize the chunk.
-	 */
-	public getHash(): bigint {
-		return Chunk.getHash(this.x, this.z);
 	}
 
 	/**

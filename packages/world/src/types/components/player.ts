@@ -2,6 +2,7 @@ import type {
 	PlayerAttackMobsComponent,
 	PlayerAttackPlayersComponent,
 	PlayerBuildComponent,
+	PlayerChunkRenderingComponent,
 	PlayerCountComponent,
 	PlayerCursorComponent,
 	PlayerDoorsAndSwitchesComponent,
@@ -48,6 +49,7 @@ interface PlayerAbilityComponents {
 
 interface PlayerComponents extends EntityComponents, PlayerAbilityComponents {
 	"minecraft:cursor": PlayerCursorComponent;
+	"minecraft:chunk_rendering": PlayerChunkRenderingComponent;
 }
 
 export { PlayerComponents, PlayerAbilityComponents };

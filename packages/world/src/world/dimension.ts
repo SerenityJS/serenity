@@ -1,5 +1,6 @@
 import {
 	BlockCoordinates,
+	ChunkCoords,
 	type DataPacket,
 	type DimensionType,
 	TextPacket,
@@ -11,7 +12,6 @@ import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
 import { Player } from "../player";
-import { Chunk } from "../chunk";
 import { Block } from "../block";
 import {
 	EntityComponent,
@@ -19,6 +19,7 @@ import {
 	EntityPhysicsComponent
 } from "../components";
 
+import type { Chunk } from "../chunk";
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../item";
 import type { TerrainGenerator } from "../generator";
@@ -104,16 +105,15 @@ class Dimension {
 		// Get all the simulation chunks
 		const chunks = new Set(
 			this.getPlayers()
-				.flatMap((x) => x.getChunks(this.simulationDistance))
-				.map((x) => x.getHash())
+				.flatMap((player) => player.getChunks(this.simulationDistance))
+				.map((chunk) => chunk.hash)
 		);
 
 		// Tick all the tickable block components
 		for (const block of this.blocks.values()) {
 			// Check if the chunk is loaded
 			const chunk = block.getChunk();
-			if (!chunks.has(chunk.getHash())) continue;
-
+			if (!chunks.has(chunk.hash)) continue;
 			// Tick all the tickable block components
 			for (const component of block.components.values()) {
 				// Tick the component
@@ -125,7 +125,7 @@ class Dimension {
 		for (const entity of this.entities.values()) {
 			// Check if the chunk is loaded
 			const chunk = entity.getChunk();
-			if (!chunks.has(chunk.getHash())) continue;
+			if (!chunks.has(chunk.hash)) continue;
 
 			// Tick all the tickable entity components
 			for (const component of entity.components.values()) {
@@ -227,7 +227,7 @@ class Dimension {
 	 */
 	public getChunkFromHash(hash: bigint): Chunk {
 		// Calculate the chunk coordinates
-		const coords = Chunk.fromHash(hash);
+		const coords = ChunkCoords.unhash(hash);
 
 		// Get the chunk
 		return this.getChunk(coords.x, coords.z);

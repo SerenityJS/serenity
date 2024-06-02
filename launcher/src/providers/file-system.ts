@@ -7,7 +7,7 @@ import {
 	writeFileSync
 } from "node:fs";
 
-import { DimensionType } from "@serenityjs/protocol";
+import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
 import {
 	Chunk,
 	type TerrainGenerator,
@@ -192,7 +192,7 @@ class FileSystemProvider extends WorldProvider {
 		const chunks = this.chunks.get(dimension.identifier) as Map<bigint, Chunk>;
 
 		// Get the chunk hash.
-		const hash = Chunk.getHash(cx, cz);
+		const hash = ChunkCoords.hash({ x: cx, z: cz });
 
 		// Check if the chunks exist.
 		const exists = existsSync(
@@ -249,7 +249,7 @@ class FileSystemProvider extends WorldProvider {
 		const chunks = this.chunks.get(identifier) as Map<bigint, Chunk>;
 
 		// Get the chunk hash.
-		const hash = Chunk.getHash(chunk.x, chunk.z);
+		const hash = ChunkCoords.hash({ x: chunk.x, z: chunk.z });
 
 		// Set the chunk in the chunks map.
 		chunks.set(hash, chunk);

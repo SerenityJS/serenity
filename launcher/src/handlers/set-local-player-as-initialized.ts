@@ -71,8 +71,8 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		}
 
 		// Send the player the spawn chunks
-		const chunks = player.dimension.getSpawnChunks();
-		player.sendChunk(...chunks);
+		// const chunks = player.dimension.getSpawnChunks();
+		// player.sendChunk(...chunks);
 
 		// Create a new available commands packet
 		const packet = new AvailableCommandsPacket();

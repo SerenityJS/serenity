@@ -32,12 +32,6 @@ class MovePlayer extends SerenityHandler {
 
 		// Send the move player packet to all the players in the dimension.
 		player.dimension.broadcastExcept(player, packet);
-
-		// Get the chunks in the player's view distance.
-		const chunks = player.getNextChunks(player.dimension.viewDistance);
-
-		// Send the chunks to the player.
-		player.sendChunk(...chunks);
 	}
 }
 

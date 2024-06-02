@@ -4,12 +4,10 @@ import {
 	type BlockCoordinates,
 	ChangeDimensionPacket,
 	Gamemode,
-	LevelChunkPacket,
 	type MetadataFlags,
 	MetadataKey,
 	MoveMode,
 	MovePlayerPacket,
-	NetworkChunkPublisherUpdatePacket,
 	NetworkItemStackDescriptor,
 	NetworkStackLatencyPacket,
 	type PermissionLevel,
@@ -34,6 +32,7 @@ import {
 	PlayerAttackMobsComponent,
 	PlayerAttackPlayersComponent,
 	PlayerBuildComponent,
+	PlayerChunkRenderingComponent,
 	type PlayerComponent,
 	PlayerCountComponent,
 	PlayerCursorComponent,
@@ -54,7 +53,6 @@ import {
 	PlayerWalkSpeedComponent,
 	PlayerWorldBuilderComponent
 } from "../components";
-import { Chunk } from "../chunk";
 import { ItemStack } from "../item";
 
 import type { Container } from "../container";
@@ -183,51 +181,7 @@ class Player extends Entity {
 	 * Ticks the player instance.
 	 */
 	public tick(): void {
-		// Get the hashes that aren't rendered
-		const hashes = [...this.chunks.entries()].filter(
-			([, rendered]) => !rendered
-		);
-
-		// Get the chunks from the hashes
-		const coords = hashes.map(([hash]) => Chunk.fromHash(hash));
-
-		// Check if there are any chunks to render
-		if (hashes.length > 0) {
-			// Iterate over the hashes
-			for (const [hash] of hashes) {
-				// Get the chunk from the hash
-				const chunk = this.dimension.getChunkFromHash(hash);
-
-				// Create a new LevelChunkPacket
-				const packet = new LevelChunkPacket();
-
-				// Set the packet properties
-				packet.x = chunk.x;
-				packet.z = chunk.z;
-				packet.dimension = this.dimension.type;
-				packet.subChunkCount = chunk.getSubChunkSendCount();
-				packet.cacheEnabled = false;
-				packet.data = Chunk.serialize(chunk);
-
-				// Send the packet to the player
-				this.session.send(packet);
-			}
-
-			// Create a new NetworkChunkPublisherUpdatePacket
-			const update = new NetworkChunkPublisherUpdatePacket();
-
-			// Set the packet properties
-			update.radius = this.dimension.viewDistance;
-			update.coordinate = this.position.floor();
-			update.savedChunks = coords;
-
-			// Send the update to the player.
-			this.session.send(update);
-
-			// Set the chunks to rendered.
-			for (const [hash] of hashes) this.chunks.set(hash, true);
-		}
-
+		// TODO: Move this elsewhere.
 		// Check if the current tick is divisible by 35
 		if (this.dimension.world.currentTick % 35n === 0n) {
 			// Calculate the ping of the player.
@@ -392,57 +346,6 @@ class Player extends Entity {
 	}
 
 	/**
-	 * Gets the next chunks to send to the player.
-	 * @param distance The distance to get the chunks from.
-	 * @returns The chunks to send to the player.
-	 */
-	public getNextChunks(distance?: number): Array<Chunk> {
-		// Calculate the chunk position of the entity
-		const cx = this.position.x >> 4;
-		const cz = this.position.z >> 4;
-
-		// Calculate the distance or use the simulation distance of the dimension
-		const dx = (distance ?? this.dimension.simulationDistance) >> 4;
-		const dz = (distance ?? this.dimension.simulationDistance) >> 4;
-
-		// Prepare an array to store the chunks that need to be sent to the player.
-		const chunks: Array<Chunk> = [];
-
-		// Get the chunks to render.
-		for (let x = -dx + cx; x <= dx + cx; x++) {
-			for (let z = -dz + cz; z <= dz + cz; z++) {
-				// Check if the chunk is already rendered
-				if (this.chunks.has(Chunk.getHash(x, z))) continue;
-
-				// Get the chunk
-				const chunk = this.dimension.getChunk(x, z);
-
-				// Add the chunk to the array.
-				chunks.push(chunk);
-			}
-		}
-
-		// Return the chunks
-		return chunks;
-	}
-
-	/**
-	 * Sends a chunk to the player.
-	 * @param chunks The chunks to send to the player.
-	 */
-	public sendChunk(...chunks: Array<Chunk>): void {
-		// Iterate over the chunks
-		for (const chunk of chunks) {
-			// Check if the chunk is already rendered
-			if (this.chunks.has(chunk.getHash())) continue;
-
-			// Add the chunk to the rendered chunks
-			// Set the chunk to false to indicate that it has been rendered
-			this.chunks.set(chunk.getHash(), false);
-		}
-	}
-
-	/**
 	 * Sends a message to the player.
 	 *
 	 * @param message The message to send.
@@ -495,9 +398,10 @@ class Player extends Entity {
 			// Send the packet to the player
 			this.session.send(packet);
 
-			// Fetch the spawn chunks of the new dimension
-			const chunks = dimension.getSpawnChunks();
-			this.sendChunk(...chunks);
+			// TODO: This might need to be fixed??
+			// // Fetch the spawn chunks of the new dimension
+			// const chunks = dimension.getSpawnChunks();
+			// this.sendChunk(...chunks);
 
 			// Spawn the player in the new dimension
 			this.spawn();
@@ -572,3 +476,4 @@ PlayerWorldBuilderComponent.register(type);
 PlayerNoClipComponent.register(type);
 PlayerPrivilegedBuilderComponent.register(type);
 PlayerCountComponent.register(type);
+PlayerChunkRenderingComponent.register(type);
