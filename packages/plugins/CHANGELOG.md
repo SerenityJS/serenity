@@ -1,5 +1,14 @@
 # @serenityjs/plugins
 
+## 0.2.4
+
+### Patch Changes
+
+- a2609fa: Init beta release
+- Updated dependencies [a2609fa]
+  - @serenityjs/emitter@0.2.4
+  - @serenityjs/logger@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes
