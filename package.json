@@ -40,7 +40,8 @@
     "typedoc-material-theme": "^1.0.2",
     "typedoc-plugin-extras": "^3.0.0",
     "typedoc-plugin-missing-exports": "^2.2.0",
-    "typedoc-plugin-rename-defaults": "^0.7.0"
+    "typedoc-plugin-rename-defaults": "^0.7.0",
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=18"
