@@ -1,5 +1,11 @@
 # @serenityjs/eslint-config
 
+## 0.2.4
+
+### Patch Changes
+
+- a2609fa: Init beta release
+
 ## 0.2.3
 
 ### Patch Changes

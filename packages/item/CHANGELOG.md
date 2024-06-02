@@ -1,5 +1,16 @@
 # @serenityjs/item
 
+## 0.2.4
+
+### Patch Changes
+
+- a2609fa: Init beta release
+- Updated dependencies [a2609fa]
+  - @serenityjs/block@0.2.4
+  - @serenityjs/data@0.2.4
+  - @serenityjs/nbt@0.2.4
+  - @serenityjs/protocol@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes
