@@ -1,5 +1,3 @@
-const { Serenity } = require(".");
-
-const serenity = new Serenity();
+const { serenity } = require(".");
 
 serenity.start();
