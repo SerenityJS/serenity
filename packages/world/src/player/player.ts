@@ -3,6 +3,7 @@ import {
 	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
+	DimensionType,
 	Gamemode,
 	type MetadataFlags,
 	MetadataKey,
@@ -55,12 +56,12 @@ import {
 } from "../components";
 import { ItemStack } from "../item";
 
+import type { Dimension } from "../world";
 import type { Container } from "../container";
 import type {
 	PlayerAbilityComponents,
 	PlayerComponents
 } from "../types/components";
-import type { Dimension } from "../world";
 import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
 
@@ -87,11 +88,6 @@ class Player extends Entity {
 	 * The player's Universally Unique Identifier.
 	 */
 	public readonly uuid: string;
-
-	/**
-	 * The player's rendered chunks.
-	 */
-	public readonly chunks: Map<bigint, boolean>;
 
 	/**
 	 * The player's permission level.
@@ -156,7 +152,6 @@ class Player extends Entity {
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
 		this.permission = permission;
-		this.chunks = new Map();
 	}
 
 	/**
@@ -386,8 +381,32 @@ class Player extends Entity {
 			// Set the new dimension
 			this.dimension = dimension;
 
-			// Clear the existing chunks
-			this.chunks.clear();
+			// Check if the player has the chunk rendering component
+			if (this.hasComponent("minecraft:chunk_rendering")) {
+				const component = this.getComponent("minecraft:chunk_rendering");
+
+				// Clear the chunks
+				component.chunks.clear();
+			}
+
+			// TODO: Maybe find a solution to this?
+			// Must fake the dimension change for the client to render the world correctly
+			if (this.dimension.identifier === dimension.identifier) {
+				const fake = new ChangeDimensionPacket();
+				fake.dimension =
+					dimension.type === DimensionType.Overworld
+						? 1
+						: dimension.type === DimensionType.Nether
+							? 2
+							: dimension.type === DimensionType.End
+								? 0
+								: 0;
+				fake.position = position;
+				fake.respawn = false;
+
+				// Send the packet to the playerc
+				this.session.sendImmediate(fake);
+			}
 
 			// Create a new ChangeDimensionPacket
 			const packet = new ChangeDimensionPacket();
@@ -397,11 +416,6 @@ class Player extends Entity {
 
 			// Send the packet to the player
 			this.session.send(packet);
-
-			// TODO: This might need to be fixed??
-			// // Fetch the spawn chunks of the new dimension
-			// const chunks = dimension.getSpawnChunks();
-			// this.sendChunk(...chunks);
 
 			// Spawn the player in the new dimension
 			this.spawn();
