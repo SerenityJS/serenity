@@ -151,6 +151,12 @@ class EntityItemComponent extends EntityComponent {
 				this.pickupTick = current;
 			}
 		}
+
+		// Check if the item has been alive for the lifespan
+		if (current - this.birthTick >= BigInt(this.lifeSpan)) {
+			// Remove the item from the dimension
+			this.entity.despawn();
+		}
 	}
 }
 

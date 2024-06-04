@@ -96,6 +96,11 @@ class Entity {
 	 */
 	public dimension: Dimension;
 
+	/**
+	 * Whether or not the entity is on the ground.
+	 */
+	public onGround = false;
+
 	public constructor(
 		identifier: EntityIdentifier,
 		dimension: Dimension,
@@ -441,6 +446,9 @@ class Entity {
 		this.velocity.x = vector?.x ?? this.velocity.x;
 		this.velocity.y = vector?.y ?? this.velocity.y;
 		this.velocity.z = vector?.z ?? this.velocity.z;
+
+		// Set the onGround property of the entity
+		this.onGround = false;
 
 		// Create a new SetActorMotionPacket
 		const packet = new SetActorMotionPacket();

@@ -155,6 +155,16 @@ class Block {
 			component.onPlace?.(playerInitiated);
 		}
 
+		// Check if there is an entity on the block.
+		for (const entity of this.dimension.entities.values()) {
+			// Get the entities position.
+			const position = entity.position.floor();
+
+			// Check if the entity is on the same x and z coordinates.
+			if (position.x === this.location.x && position.z === this.location.z)
+				entity.onGround = false;
+		}
+
 		// Return the block.
 		return this;
 	}

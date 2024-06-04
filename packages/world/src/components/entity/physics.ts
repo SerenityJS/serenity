@@ -21,6 +21,9 @@ class EntityPhysicsComponent extends EntityComponent {
 	}
 
 	public onTick(): void {
+		// Check if the entity is on the ground
+		if (this.entity.onGround) return;
+
 		// Check how many blocks is between the entity and the nearest ground block
 		const { y } = this.entity.position;
 
@@ -64,6 +67,8 @@ class EntityPhysicsComponent extends EntityComponent {
 			// Reset total velocity
 			const velocity = new Vector3f(0, 0, 0);
 			this.entity.setMotion(velocity);
+
+			this.entity.onGround = true;
 
 			// Return do to the entity being on the ground
 			return;

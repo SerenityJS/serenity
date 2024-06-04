@@ -69,7 +69,7 @@ class Serenity extends Emitter<EventSignals> {
 	/**
 	 * The plugins manager instance
 	 */
-	public readonly plugins: Plugins<Serenity>;
+	public readonly plugins: Plugins;
 
 	/**
 	 * The server tick interval
@@ -84,7 +84,7 @@ class Serenity extends Emitter<EventSignals> {
 	/**
 	 * The server ticks per second
 	 */
-	public tps: number = 20; // TODO: Add option to set in server.properties
+	public tps: number = 20;
 
 	public constructor() {
 		super();
@@ -180,18 +180,17 @@ class Serenity extends Emitter<EventSignals> {
 			this.events.set(signal.name, signal);
 		}
 
+		// Register the worlds manager
+		this.worlds = new Worlds(this);
+
 		// Create the plugins instance
 		this.plugins = new Plugins(
-			this,
 			this.properties.values["plugins-path"],
 			this.properties.values["plugins-enabled"]
 		);
 
 		// Log the startup message
 		this.logger.info("Serenity is now starting up...");
-
-		// Register the worlds manager
-		this.worlds = new Worlds(this);
 	}
 
 	public start(): void {
@@ -236,9 +235,36 @@ class Serenity extends Emitter<EventSignals> {
 		this.logger.info(
 			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
 		);
+
+		// Check if the plugins are already ready
+		if (this.plugins.ready) {
+			// Call the onStartup hook for all plugins
+			for (const plugin of this.plugins.entries.values()) {
+				// Start the plugin
+				plugin.module.onStartup?.(this, plugin);
+			}
+
+			// No need to wait for the plugins to be ready
+			return;
+		}
+
+		// Wait for the plugins to be ready
+		this.plugins.once("ready", () => {
+			// Call the onStartup hook for all plugins
+			for (const plugin of this.plugins.entries.values()) {
+				// Start the plugin
+				plugin.module.onStartup?.(this, plugin);
+			}
+		});
 	}
 
 	public stop(): void {
+		// Call the onShutdown hook for all plugins
+		for (const plugin of this.plugins.entries.values()) {
+			// Stop the plugin
+			plugin.module.onShutdown?.();
+		}
+
 		// Clear the ticking interval
 		if (this.interval) clearInterval(this.interval);
 
