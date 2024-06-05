@@ -18,7 +18,7 @@ import { DEFAULT_SERVER_PROPERTIES } from "./properties/default";
 import { Permissions } from "./permissions";
 
 import type { DefaultServerProperties } from "./types";
-import type { Player, World } from "@serenityjs/world";
+import type { Player } from "@serenityjs/world";
 
 class Serenity extends Emitter<EventSignals> {
 	/**
@@ -193,7 +193,11 @@ class Serenity extends Emitter<EventSignals> {
 		this.logger.info("Serenity is now starting up...");
 	}
 
-	public start(): void {
+	public async start(): Promise<void> {
+		// Initialize the worlds
+		await this.worlds.initialize();
+		await this.plugins.initialize(this);
+
 		// Start the raknet instance.
 		this.raknet.start();
 
@@ -231,45 +235,30 @@ class Serenity extends Emitter<EventSignals> {
 		// Start the ticking loop
 		this.interval = tick().unref();
 
-		// Log the startup message
+		// Start the worlds
+		await this.worlds.start();
+		await this.plugins.start(this);
+
 		this.logger.info(
 			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
 		);
-
-		// Check if the plugins are already ready
-		if (this.plugins.ready) {
-			// Call the onStartup hook for all plugins
-			for (const plugin of this.plugins.entries.values()) {
-				// Start the plugin
-				plugin.module.onStartup?.(this, plugin);
-			}
-
-			// No need to wait for the plugins to be ready
-			return;
-		}
-
-		// Wait for the plugins to be ready
-		this.plugins.once("ready", () => {
-			// Call the onStartup hook for all plugins
-			for (const plugin of this.plugins.entries.values()) {
-				// Start the plugin
-				plugin.module.onStartup?.(this, plugin);
-			}
-		});
 	}
 
-	public stop(): void {
-		// Call the onShutdown hook for all plugins
-		for (const plugin of this.plugins.entries.values()) {
-			// Stop the plugin
-			plugin.module.onShutdown?.();
-		}
+	/**
+	 * Stops the server and all the plugins.
+	 */
+	public async stop(): Promise<void> {
+		// Stop all the plugins & worlds
+		await this.plugins.stop(this);
+		await this.worlds.stop();
 
 		// Clear the ticking interval
 		if (this.interval) clearInterval(this.interval);
 
 		// Stop the raknet instance
-		this.raknet.stop();
+		process.nextTick(() => {
+			this.raknet.stop();
+		});
 	}
 
 	public getPlayer(session: NetworkSession): Player | undefined {
@@ -281,28 +270,6 @@ class Serenity extends Emitter<EventSignals> {
 	public getPlayers(): Array<Player> {
 		return [...this.players.values()];
 	}
-
-	public getWorld(name?: string): World {
-		return this.worlds.get(name ?? "default") as World;
-	}
-
-	// public createWorld(name: string, provider: WorldProvider): World {
-	// 	// Check if the world already exists
-	// 	if (this.worlds.has(name)) {
-	// 		this.logger.error(`Failed to create world "${name}," it already exists.`);
-
-	// 		return this.worlds.get(name) as World;
-	// 	}
-
-	// 	// Create the world
-	// 	const world = new World(name, provider);
-
-	// 	// Set the world
-	// 	this.worlds.set(name, world);
-
-	// 	// Return the world
-	// 	return world;
-	// }
 }
 
 export { Serenity };

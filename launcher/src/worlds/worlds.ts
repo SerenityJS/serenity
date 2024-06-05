@@ -16,6 +16,8 @@ import {
 	type World,
 	type WorldProvider
 } from "@serenityjs/world";
+import { Logger, LoggerColors } from "@serenityjs/logger";
+import { DisconnectPacket, DisconnectReason } from "@serenityjs/protocol";
 
 import { FileSystemProvider } from "../providers";
 
@@ -32,6 +34,11 @@ class Worlds {
 	private readonly serenity: Serenity;
 
 	/**
+	 * The logger instance for the worlds manager.
+	 */
+	public readonly logger = new Logger("Worlds", LoggerColors.BlueBright);
+
+	/**
 	 * The path to the worlds directory.
 	 */
 	public readonly path: string;
@@ -39,17 +46,17 @@ class Worlds {
 	/**
 	 * A collective registry of all world providers.
 	 */
-	public readonly providers: Map<string, typeof WorldProvider>;
+	public readonly providers = new Map<string, typeof WorldProvider>();
 
 	/**
 	 * A collective registry of all terrain generators.
 	 */
-	public readonly generators: Map<string, typeof TerrainGenerator>;
+	public readonly generators = new Map<string, typeof TerrainGenerator>();
 
 	/**
 	 * A collective registry of all worlds.
 	 */
-	public readonly entries: Map<string, World>;
+	public readonly entries = new Map<string, World>();
 
 	/**
 	 * Creates a new worlds manager.
@@ -63,9 +70,6 @@ class Worlds {
 			process.cwd(),
 			serenity.properties.getValue("worlds-path")
 		);
-		this.providers = new Map();
-		this.generators = new Map();
-		this.entries = new Map();
 
 		// Register the default providers.
 		this.registerProvider(InternalProvider);
@@ -75,11 +79,19 @@ class Worlds {
 		this.registerGenerator(Superflat);
 		this.registerGenerator(Overworld);
 		this.registerGenerator(Void);
+	}
 
+	/**
+	 * Initialize the worlds manager.
+	 */
+	public async initialize(): Promise<void> {
 		// Check if the worlds directory exists.
 		if (!existsSync(this.path)) {
+			// Log the creation of the worlds directory.
+			this.logger.info(`Creating the worlds directory at "${this.path}"...`);
+
 			// Create the worlds directory.
-			mkdirSync(this.path);
+			await mkdirSync(this.path);
 		}
 
 		// Get all the directories in the worlds directory.
@@ -91,13 +103,53 @@ class Worlds {
 		// If the worlds directory is empty, then create the default world.
 		if (directories.length === 0) {
 			// Get the default world name.
-			const defaultName = serenity.properties.getValue("worlds-default");
+			const defaultName = this.serenity.properties.getValue("worlds-default");
+
+			// Create a "default" directory in the worlds directory.
+			await mkdirSync(resolve(this.path, defaultName));
+
+			// Create a ".provider" file in the "default" directory.
+			const provider = this.serenity.properties.getValue(
+				"worlds-default-provider"
+			);
+
+			// Write the provider to the ".provider" file.
+			await writeFileSync(
+				resolve(this.path, defaultName, ".provider"),
+				provider
+			);
+
+			// Add the directory to the directories array.
+			directories.push(
+				...(await readdirSync(this.path, { withFileTypes: true }).filter(
+					(dirent) => dirent.isDirectory()
+				))
+			);
+		}
+	}
+
+	/**
+	 * Start all the worlds.
+	 */
+	public async start(): Promise<void> {
+		// Get all the directories in the worlds directory.
+		// Exclude any files in the worlds directory.
+		const directories = readdirSync(this.path, { withFileTypes: true }).filter(
+			(dirent) => dirent.isDirectory()
+		);
+
+		// If the worlds directory is empty, then create the default world.
+		if (directories.length === 0) {
+			// Get the default world name.
+			const defaultName = this.serenity.properties.getValue("worlds-default");
 
 			// Create a "default" directory in the worlds directory.
 			mkdirSync(resolve(this.path, defaultName));
 
 			// Create a ".provider" file in the "default" directory.
-			const provider = serenity.properties.getValue("worlds-default-provider");
+			const provider = this.serenity.properties.getValue(
+				"worlds-default-provider"
+			);
 
 			// Write the provider to the ".provider" file.
 			writeFileSync(resolve(this.path, defaultName, ".provider"), provider);
@@ -112,17 +164,17 @@ class Worlds {
 
 		// Loop through the directories in the worlds directory.
 		// And check if the directory container a .provider file.
-		for (const directory of directories) {
+		for await (const directory of directories) {
 			if (
 				existsSync(
 					resolve(this.path, directory.path, directory.name, ".provider")
 				)
 			) {
+				// Get the path of the world
+				const path = resolve(this.path, directory.path, directory.name);
+
 				// Read the .provider file.
-				const entry = readFileSync(
-					resolve(this.path, directory.path, directory.name, ".provider"),
-					"utf8"
-				);
+				const entry = readFileSync(resolve(path, ".provider"), "utf8");
 
 				// Get the provider class instance.
 				const provider = this.getProvider(entry);
@@ -139,16 +191,53 @@ class Worlds {
 					this.entries.set(world.identifier, world);
 				} else {
 					// Log an error message.
-					serenity.logger.error(
-						`Failed to initialize a world with the given provider "${entry}." Make sure the provider is valid or registered.`
+					this.logger.error(
+						`Failed to initialize world "${path}" with the provider "${entry}"`
 					);
 
-					// Log the world path.
-					serenity.logger.error(
-						`World Path: ${resolve(this.path, directory.path, directory.name)}`
-					);
+					// Log a warning message.
+					this.logger.error("Make sure the provider is valid or registered.");
 				}
 			}
+		}
+
+		// Log the success message.
+		const worlds = [...this.entries.values()].map(
+			(world) => `${world.identifier}<${world.provider}>` // TODO: Fix this
+		);
+
+		const s = worlds.length > 1 ? "s" : "";
+
+		this.logger.success(
+			`Successfully started a total of ${worlds.length} world${s}! ${worlds.join(", ")}`
+		);
+	}
+
+	/**
+	 * Stops all the worlds, saves them.
+	 */
+	public async stop(): Promise<void> {
+		// Get the server shutdown message from the properties.
+		const message = this.serenity.properties.getValue(
+			"server-shutdown-message"
+		);
+
+		// Save all the worlds.
+		for await (const world of this.entries.values()) {
+			// Save the world.
+			await world.provider.save();
+
+			// Delete the world from the worlds map.
+			this.entries.delete(world.identifier);
+
+			// Create a new DisconnectPacket.
+			const packet = new DisconnectPacket();
+			packet.message = message;
+			packet.hideDisconnectScreen = false;
+			packet.reason = DisconnectReason.Shutdown;
+
+			// Send the packet to all players.
+			world.broadcastImmediate(packet);
 		}
 	}
 
@@ -171,6 +260,14 @@ class Worlds {
 	 */
 	public getAll(): Array<World> {
 		return [...this.entries.values()];
+	}
+
+	/**
+	 * Register a world to the manager.
+	 * @param world The world to register.
+	 */
+	public register(world: World): void {
+		this.entries.set(world.identifier, world);
 	}
 
 	/**

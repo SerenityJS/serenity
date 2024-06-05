@@ -3,6 +3,7 @@ interface DefaultServerProperties {
 	"server-address": string;
 	"server-port": number;
 	"server-tps": number;
+	"server-shutdown-message": string;
 	"max-players": number;
 	"network-comression-threshold": number;
 	"network-compression-algorithm": string;
