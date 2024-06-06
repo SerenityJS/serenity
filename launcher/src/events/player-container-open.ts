@@ -69,8 +69,6 @@ class PlayerContainerOpenSignal extends EventSignal {
 		// If the player is not found, return false.
 		if (!player) return false;
 
-		console.log(packet.type, packet.uniqueId, packet.position);
-
 		// Check if the container is a entity or block container.
 		if (packet.type === ContainerType.Container && packet.uniqueId === -1n) {
 			// Get the position of the block.
@@ -81,8 +79,6 @@ class PlayerContainerOpenSignal extends EventSignal {
 
 			// Get the container of the block.
 			const { container } = block.getComponent("minecraft:inventory");
-
-			console.log(container);
 
 			// Create a new signal.
 			const signal = new this(player, container, container.type);
