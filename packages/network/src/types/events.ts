@@ -73,7 +73,9 @@ import type {
 	TakeItemActorPacket,
 	NetworkStackLatencyPacket,
 	BossEventPacket,
-	NpcDialoguePacket
+	NpcDialoguePacket,
+	ActorEventPacket,
+	AnimateEntityPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -101,6 +103,7 @@ interface NetworkEvents {
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayerPacket>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlockPacket>];
 	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEventPacket>];
+	[Packet.ActorEvent]: [NetworkPacketEvent<ActorEventPacket>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributesPacket>];
 	[Packet.InventoryTransaction]: [
 		NetworkPacketEvent<InventoryTransactionPacket>
@@ -166,6 +169,7 @@ interface NetworkEvents {
 	[Packet.PacketViolationWarning]: [
 		NetworkPacketEvent<PacketViolationWarningPacket>
 	];
+	[Packet.AnimateEntity]: [NetworkPacketEvent<AnimateEntityPacket>];
 	[Packet.ItemComponent]: [NetworkPacketEvent<ItemComponentPacket>];
 	[Packet.NpcDialogue]: [NetworkPacketEvent<NpcDialoguePacket>];
 	[Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessagePacket>];

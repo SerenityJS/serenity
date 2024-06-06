@@ -79,3 +79,5 @@ export * from "./set-score";
 export * from "./remove-objective";
 export * from "./set-scoreboard-identity";
 export * from "./set-hud";
+export * from "./actor-event";
+export * from "./animate-entity";

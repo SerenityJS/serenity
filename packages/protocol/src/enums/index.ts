@@ -57,3 +57,4 @@ export * from "./enchantment";
 export * from "./boss-event-update-type";
 export * from "./boss-event-color";
 export * from "./npc-dialogue-action";
+export * from "./actor-event-id";
