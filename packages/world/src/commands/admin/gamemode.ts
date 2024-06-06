@@ -1,7 +1,6 @@
 import { Gamemode, PermissionLevel } from "@serenityjs/protocol";
-import { StringEnum } from "@serenityjs/command";
 
-import { TargetEnum } from "../enums";
+import { GamemodeEnum, TargetEnum } from "../enums";
 import { Player } from "../../player";
 
 import type { World } from "../../world";
@@ -150,7 +149,7 @@ const register = (world: World) => {
 			}
 		},
 		{
-			mode: StringEnum,
+			mode: GamemodeEnum,
 			target: [TargetEnum, true]
 		},
 		{
