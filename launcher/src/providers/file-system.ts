@@ -56,7 +56,7 @@ class FileSystemProvider extends WorldProvider {
 		this.properties = properties;
 	}
 
-	public static intialize(
+	public static initialize(
 		path: string,
 		generators: Array<typeof TerrainGenerator>
 	): World {

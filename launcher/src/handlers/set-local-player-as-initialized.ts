@@ -8,6 +8,7 @@ import {
 	EntityAlwaysShowNametagComponent,
 	EntityNametagComponent
 } from "@serenityjs/world";
+import { type CustomEnum, SoftEnum } from "@serenityjs/command";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -88,6 +89,8 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 				);
 			});
 
+		packet.dynamicEnums = [];
+
 		// Map the commands to the packet property
 		packet.commands = commands.map((command) => {
 			return {
@@ -103,7 +106,21 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 						parameters: Object.entries(command.parameters).map(
 							([name, value]) => {
 								// Get the parameter constuctor by checking if the value is an array.
-								const { symbol } = Array.isArray(value) ? value[0] : value;
+								const enm = Array.isArray(value) ? value[0] : value;
+
+								// TODO: Clean this up
+								// Get the name of the parameter.
+								const symbol =
+									enm.type === SoftEnum.type
+										? (enm as typeof CustomEnum).options.length > 0
+											? (0x4_10 << 16) |
+												(packet.dynamicEnums.push({
+													name: enm.name,
+													values: (enm as typeof CustomEnum).options
+												}) -
+													1)
+											: enm.symbol
+										: enm.symbol;
 
 								// Check if the parameter is optional.
 								const optional = Array.isArray(value) ? value[1] : false;
@@ -124,7 +141,6 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		// Assign the remaining properties to the packet
 		packet.chainedSubcommandValues = [];
 		packet.subcommands = [];
-		packet.dynamicEnums = [];
 		packet.enumConstraints = [];
 		packet.enumValues = [];
 		packet.enums = [];

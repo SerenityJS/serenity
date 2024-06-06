@@ -1,12 +1,12 @@
-import { ValidEnum } from "./valid";
+import { SoftEnum } from "./soft";
 
 import type { CommandExecutionState } from "../../execution-state";
 
-class StringEnum extends ValidEnum {
+class CustomEnum extends SoftEnum {
 	/**
 	 * The type of the enum.
 	 */
-	public static readonly name = "string";
+	public static readonly name: string;
 
 	/**
 	 * The symbol of the enum.
@@ -30,7 +30,7 @@ class StringEnum extends ValidEnum {
 
 	public static extract<O>(
 		state: CommandExecutionState<O>
-	): StringEnum | undefined {
+	): CustomEnum | undefined {
 		// Read next argument in slice array.
 		const text = state.readNext();
 
@@ -64,7 +64,7 @@ class StringEnum extends ValidEnum {
 				// If last element in final string scope does end with
 				// a quatation then its a closed scope so return.
 				if (final.at(-1)?.endsWith('"'))
-					return new StringEnum(final.join(" ").slice(1).slice(0, -1));
+					return new CustomEnum(final.join(" ").slice(1).slice(0, -1));
 				// Otherwise its an unclosed string scope so we need
 				// to throw an error to the executor.
 				throw new Error("Unclosed string scope.");
@@ -72,14 +72,14 @@ class StringEnum extends ValidEnum {
 				// Not string scope, just return text argument
 			} else if (this.options.length > 0) {
 				// Check if the text is in the options array.
-				if (this.options.includes(text)) return new StringEnum(text);
+				if (this.options.includes(text)) return new CustomEnum(text);
 				else {
 					// Throw error if text is not in the options array.
 					throw new TypeError(
 						`Expected argument to be one of: ${this.options.join(", ")}`
 					);
 				}
-			} else return new StringEnum(text);
+			} else return new CustomEnum(text);
 
 			// If argument is invalid/undefined throw expected argument syntax error.
 		} else {
@@ -90,4 +90,4 @@ class StringEnum extends ValidEnum {
 	}
 }
 
-export { StringEnum };
+export { CustomEnum };
