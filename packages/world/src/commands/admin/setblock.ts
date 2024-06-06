@@ -1,10 +1,6 @@
 import { PermissionLevel } from "@serenityjs/protocol";
 import { BlockPositionEnum, JsonEnum } from "@serenityjs/command";
-import {
-	BlockPermutation,
-	BlockType,
-	type BlockIdentifier
-} from "@serenityjs/block";
+import { BlockPermutation, type BlockIdentifier } from "@serenityjs/block";
 
 import { BlockEnum } from "../enums";
 import { Entity } from "../../entity";
@@ -56,10 +52,13 @@ const register = (world: World) => {
 
 				// Get the block at the specified location
 				const block = origin.getBlock(nx, ny, nz);
-				const type = BlockType.get(identifier) as BlockType;
+				const permutation = BlockPermutation.resolve(
+					identifier as BlockIdentifier,
+					state as unknown as Record<string, string>
+				);
 
 				// Set the block at the specified location
-				block.setPermutation(type?.getPermutation());
+				block.setPermutation(permutation);
 
 				// Send the success message
 				return {
