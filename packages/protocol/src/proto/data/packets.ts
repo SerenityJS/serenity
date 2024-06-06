@@ -76,6 +76,10 @@ import { TakeItemActorPacket } from "./take-item-actor";
 import { NetworkStackLatencyPacket } from "./network-stack-latency";
 import { BossEventPacket } from "./boss-event";
 import { NpcDialoguePacket } from "./npc-dialogue";
+import { ActorEventPacket } from "./actor-event";
+import { AnimateEntityPacket } from "./animate-entity";
+import { EmoteListPacket } from "./emote-list";
+import { EmotePacket } from "./emote";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -96,6 +100,7 @@ const Packets = {
 	[Packet.MovePlayer]: MovePlayerPacket, // 19
 	[Packet.UpdateBlock]: UpdateBlockPacket, // 21
 	[Packet.LevelEvent]: LevelEventPacket, // 25
+	[Packet.ActorEvent]: ActorEventPacket, // 27
 	[Packet.UpdateAttributes]: UpdateAttributesPacket, // 29
 	[Packet.InventoryTransaction]: InventoryTransactionPacket, // 30
 	[Packet.MobEquipment]: MobEquipmentPacket, // 31
@@ -138,12 +143,15 @@ const Packets = {
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
 	[Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123
+	[Packet.Emote]: EmotePacket, // 138
 	[Packet.NetworkSettings]: NetworkSettingsPacket, // 143
 	[Packet.PlayerAuthInput]: PlayerAuthInputPacket, // 144
 	[Packet.CreativeContent]: CreativeContentPacket, // 145
 	[Packet.ItemStackRequest]: ItemStackRequestPacket, // 147
 	[Packet.ItemStackResponse]: ItemStackResponsePacket, // 148
+	[Packet.EmoteList]: EmoteListPacket, // 152
 	[Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
+	[Packet.AnimateEntity]: AnimateEntityPacket, // 158
 	[Packet.ItemComponent]: ItemComponentPacket, // 162
 	[Packet.NpcDialogue]: NpcDialoguePacket, // 169
 	[Packet.ScriptMessage]: ScriptMessagePacket, // 177

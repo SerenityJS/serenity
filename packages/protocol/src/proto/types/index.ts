@@ -65,3 +65,5 @@ export * from "./scoreboard-identity";
 export * from "./hud-element";
 export * from "./boss-event-add";
 export * from "./boss-event-update";
+export * from "./animate-entity";
+export * from "./emotes";
