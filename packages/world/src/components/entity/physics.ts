@@ -32,7 +32,7 @@ class EntityPhysicsComponent extends EntityComponent {
 
 		// Calculate the distance between the entity and the nearest ground block
 		const distance =
-			y - 1 - this.entity.dimension.getTopmostBlock(position).location.y;
+			y - 1 - this.entity.dimension.getTopmostBlock(position).position.y;
 
 		// Check if the entity is falling
 		// And check if the entity is in a block, if so add a small velocity to make the entity move up

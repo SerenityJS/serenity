@@ -45,7 +45,7 @@ class BlockInventoryComponent extends BlockComponent {
 			if (!item) continue;
 
 			// Spawn the item in the world
-			const { x, y, z } = this.block.location;
+			const { x, y, z } = this.block.position;
 			const entity = player.dimension.spawnItem(
 				item,
 				new Vector3f(x + 0.5, y + 0.5, z + 0.5)

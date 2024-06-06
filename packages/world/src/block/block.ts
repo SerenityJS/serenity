@@ -1,9 +1,12 @@
 import {
 	type BlockCoordinates,
 	BlockFace,
+	LevelSoundEvent,
+	LevelSoundEventPacket,
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
-	UpdateBlockPacket
+	UpdateBlockPacket,
+	Vector3f
 } from "@serenityjs/protocol";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 import { ItemType } from "@serenityjs/item";
@@ -24,9 +27,9 @@ class Block {
 	public readonly dimension: Dimension;
 
 	/**
-	 * The location of the block.
+	 * The position of the block.
 	 */
-	public readonly location: BlockCoordinates;
+	public readonly position: BlockCoordinates;
 
 	/**
 	 * The components of the block.
@@ -42,16 +45,16 @@ class Block {
 	 * Creates a new block.
 	 * @param dimension The dimension the block is in.
 	 * @param permutation The permutation of the block.
-	 * @param location The location of the block.
+	 * @param position The position of the block.
 	 */
 	public constructor(
 		dimension: Dimension,
 		permutation: BlockPermutation,
-		location: BlockCoordinates
+		position: BlockCoordinates
 	) {
 		this.dimension = dimension;
 		this.permutation = permutation;
-		this.location = location;
+		this.position = position;
 		this.components = new Map();
 	}
 
@@ -78,8 +81,8 @@ class Block {
 	 */
 	public getChunk(): Chunk {
 		// Calculate the chunk coordinates.
-		const cx = this.location.x >> 4;
-		const cz = this.location.z >> 4;
+		const cx = this.position.x >> 4;
+		const cz = this.position.z >> 4;
 
 		// Get the chunk from the dimension.
 		return this.dimension.getChunk(cx, cz);
@@ -125,8 +128,8 @@ class Block {
 
 		// Check if the dimension already has the block.
 		// If not, we will add it to the cache.
-		if (!this.dimension.blocks.has(Block.getHash(this.location)))
-			this.dimension.blocks.set(Block.getHash(this.location), this);
+		if (!this.dimension.blocks.has(Block.getHash(this.position)))
+			this.dimension.blocks.set(Block.getHash(this.position), this);
 	}
 
 	/**
@@ -159,31 +162,44 @@ class Block {
 		// Set the permutation of the block.
 		this.permutation = permutation;
 
+		// Get the x, y, and z coordinates of the block.
+		const { x, y, z } = this.position;
+
 		// Get the chunk the block is in.
-		const chunk = this.dimension.getChunk(
-			this.location.x >> 4,
-			this.location.z >> 4
-		);
+		const chunk = this.dimension.getChunk(x >> 4, z >> 4);
 
 		// Set the permutation of the block.
-		chunk.setPermutation(
-			this.location.x,
-			this.location.y,
-			this.location.z,
-			permutation
-		);
+		chunk.setPermutation(x, y, z, permutation);
+
+		// Check if the change was initiated by a player.
+		// If so, we will play the block place sound.
+		if (playerInitiated) {
+			// Create a new LevelSoundEventPacket.
+			const sound = new LevelSoundEventPacket();
+
+			// Set the packet properties.
+			sound.event = LevelSoundEvent.Place;
+			sound.position = new Vector3f(x, y, z);
+			sound.data = permutation.network;
+			sound.actorIdentifier = "";
+			sound.isBabyMob = false;
+			sound.isGlobal = false;
+
+			// Send the packet to the dimension.
+			this.dimension.broadcast(sound);
+		}
 
 		// Create a new UpdateBlockPacket.
-		const packet = new UpdateBlockPacket();
+		const update = new UpdateBlockPacket();
 
 		// Set the packet properties.
-		packet.networkBlockId = permutation.network;
-		packet.position = this.location;
-		packet.flags = UpdateBlockFlagsType.Network;
-		packet.layer = UpdateBlockLayerType.Normal;
+		update.networkBlockId = permutation.network;
+		update.position = this.position;
+		update.flags = UpdateBlockFlagsType.Network;
+		update.layer = UpdateBlockLayerType.Normal;
 
 		// Send the packet to the dimension.
-		this.dimension.broadcast(packet);
+		this.dimension.broadcast(update);
 
 		// Register the components to the block.
 		for (const component of BlockComponent.registry.get(permutation.type) ?? [])
@@ -201,8 +217,7 @@ class Block {
 			const position = entity.position.floor();
 
 			// Check if the entity is on the same x and z coordinates.
-			if (position.x === this.location.x && position.z === this.location.z)
-				entity.onGround = false;
+			if (position.x === x && position.z === z) entity.onGround = false;
 		}
 
 		// Return the block.
@@ -228,9 +243,9 @@ class Block {
 	 */
 	public above(steps?: number): Block {
 		return this.dimension.getBlock(
-			this.location.x,
-			this.location.y + (steps ?? 1),
-			this.location.z
+			this.position.x,
+			this.position.y + (steps ?? 1),
+			this.position.z
 		);
 	}
 
@@ -241,9 +256,9 @@ class Block {
 	 */
 	public below(steps?: number): Block {
 		return this.dimension.getBlock(
-			this.location.x,
-			this.location.y - (steps ?? 1),
-			this.location.z
+			this.position.x,
+			this.position.y - (steps ?? 1),
+			this.position.z
 		);
 	}
 
@@ -254,9 +269,9 @@ class Block {
 	 */
 	public north(steps?: number): Block {
 		return this.dimension.getBlock(
-			this.location.x,
-			this.location.y,
-			this.location.z - (steps ?? 1)
+			this.position.x,
+			this.position.y,
+			this.position.z - (steps ?? 1)
 		);
 	}
 
@@ -267,9 +282,9 @@ class Block {
 	 */
 	public south(steps?: number): Block {
 		return this.dimension.getBlock(
-			this.location.x,
-			this.location.y,
-			this.location.z + (steps ?? 1)
+			this.position.x,
+			this.position.y,
+			this.position.z + (steps ?? 1)
 		);
 	}
 
@@ -280,9 +295,9 @@ class Block {
 	 */
 	public east(steps?: number): Block {
 		return this.dimension.getBlock(
-			this.location.x + (steps ?? 1),
-			this.location.y,
-			this.location.z
+			this.position.x + (steps ?? 1),
+			this.position.y,
+			this.position.z
 		);
 	}
 
@@ -293,9 +308,9 @@ class Block {
 	 */
 	public west(steps?: number): Block {
 		return this.dimension.getBlock(
-			this.location.x - (steps ?? 1),
-			this.location.y,
-			this.location.z
+			this.position.x - (steps ?? 1),
+			this.position.y,
+			this.position.z
 		);
 	}
 
@@ -364,7 +379,7 @@ class Block {
 		this.setPermutation(air);
 
 		// Since the block is becoming air, we can remove the block from the dimension cache to save memory.
-		this.dimension.blocks.delete(Block.getHash(this.location));
+		this.dimension.blocks.delete(Block.getHash(this.position));
 
 		// Call the onBreak method of the components.
 		for (const component of this.components.values()) {

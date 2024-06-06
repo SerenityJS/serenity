@@ -250,7 +250,7 @@ class BlockContainer extends Container {
 		const open = new ContainerOpenPacket();
 		open.identifier = this.identifier;
 		open.type = this.type;
-		open.position = this.block.location;
+		open.position = this.block.position;
 		open.uniqueId = -1n; // This is needed for the client to open a block container.
 
 		// Create a new InventoryContentPacket.
