@@ -21,8 +21,8 @@ class WorldProvider {
 	 *
 	 * @param path The path to initialize the world provider with.
 	 */
-	public static intialize(..._parameters: Array<unknown>): World {
-		throw new Error("WorldProvider.intialize is not implemented");
+	public static initialize(..._parameters: Array<unknown>): World {
+		throw new Error("WorldProvider.initialize is not implemented");
 	}
 
 	/**

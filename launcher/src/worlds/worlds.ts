@@ -182,7 +182,7 @@ class Worlds {
 				// Check if the provider is not undefined.
 				if (provider) {
 					// Initialize the world with the provider.
-					const world = provider.intialize(
+					const world = provider.initialize(
 						resolve(this.path, directory.path, directory.name),
 						[...this.generators.values()]
 					);

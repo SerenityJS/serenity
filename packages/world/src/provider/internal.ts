@@ -20,7 +20,7 @@ class InternalProvider extends WorldProvider {
 	 */
 	public readonly chunks: Map<string, Map<bigint, Chunk>> = new Map();
 
-	public static intialize(path: string): World {
+	public static initialize(path: string): World {
 		// Make the world name the directory name.
 		const name = basename(path);
 
