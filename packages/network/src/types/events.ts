@@ -75,7 +75,9 @@ import type {
 	BossEventPacket,
 	NpcDialoguePacket,
 	ActorEventPacket,
-	AnimateEntityPacket
+	AnimateEntityPacket,
+	EmoteListPacket,
+	EmotePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -151,7 +153,6 @@ interface NetworkEvents {
 	[Packet.SetScoreboardIdentity]: [
 		NetworkPacketEvent<SetScoreboardIdentityPacket>
 	];
-	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
 	[Packet.NetworkStackLatency]: [NetworkPacketEvent<NetworkStackLatencyPacket>];
 	[Packet.SetLocalPlayerAsInitialized]: [
 		NetworkPacketEvent<SetLocalPlayerAsInitializedPacket>
@@ -161,11 +162,13 @@ interface NetworkEvents {
 	];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionListPacket>];
 	[Packet.LevelSoundEvent]: [NetworkPacketEvent<LevelSoundEventPacket>];
+	[Packet.Emote]: [NetworkPacketEvent<EmotePacket>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettingsPacket>];
 	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInputPacket>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContentPacket>];
 	[Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequestPacket>];
 	[Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponsePacket>];
+	[Packet.EmoteList]: [NetworkPacketEvent<EmoteListPacket>];
 	[Packet.PacketViolationWarning]: [
 		NetworkPacketEvent<PacketViolationWarningPacket>
 	];
@@ -181,6 +184,7 @@ interface NetworkEvents {
 	[Packet.RequestNetworkSettings]: [
 		NetworkPacketEvent<RequestNetworkSettingsPacket>
 	];
+	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
 }
 
 export { NetworkEvents };

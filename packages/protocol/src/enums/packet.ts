@@ -68,12 +68,14 @@ enum Packet {
 	BiomeDefinitionList = 0x7a, // 122
 	LevelSoundEvent = 0x7b, // 123
 	// ClientCacheStatus = 0x81, // 129
+	Emote = 0x8a, // 138
 	NetworkSettings = 0x8f, // 143
 	PlayerAuthInput = 0x90, // 144
 	// PlayerAuthInput = 0x90, // 144
 	CreativeContent = 0x91, // 145
 	ItemStackRequest = 0x93, // 147
 	ItemStackResponse = 0x94, // 148
+	EmoteList = 0x98, // 152
 	PacketViolationWarning = 0x9c, // 156
 	AnimateEntity = 0x9e, // 158
 	ItemComponent = 0xa2, // 162

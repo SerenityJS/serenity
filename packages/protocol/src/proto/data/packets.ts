@@ -78,6 +78,8 @@ import { BossEventPacket } from "./boss-event";
 import { NpcDialoguePacket } from "./npc-dialogue";
 import { ActorEventPacket } from "./actor-event";
 import { AnimateEntityPacket } from "./animate-entity";
+import { EmoteListPacket } from "./emote-list";
+import { EmotePacket } from "./emote";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -141,11 +143,13 @@ const Packets = {
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
 	[Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123
+	[Packet.Emote]: EmotePacket, // 138
 	[Packet.NetworkSettings]: NetworkSettingsPacket, // 143
 	[Packet.PlayerAuthInput]: PlayerAuthInputPacket, // 144
 	[Packet.CreativeContent]: CreativeContentPacket, // 145
 	[Packet.ItemStackRequest]: ItemStackRequestPacket, // 147
 	[Packet.ItemStackResponse]: ItemStackResponsePacket, // 148
+	[Packet.EmoteList]: EmoteListPacket, // 152
 	[Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
 	[Packet.AnimateEntity]: AnimateEntityPacket, // 158
 	[Packet.ItemComponent]: ItemComponentPacket, // 162
