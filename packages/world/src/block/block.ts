@@ -11,6 +11,7 @@ import { ItemType } from "@serenityjs/item";
 import { ItemStack } from "../item";
 import { BlockComponent } from "../components";
 
+import type { BlockComponents } from "../types";
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
 import type { CardinalDirection } from "../enums";
@@ -84,13 +85,41 @@ class Block {
 		return this.dimension.getChunk(cx, cz);
 	}
 
-	// TODO: setup component methods
+	/**
+	 * Checks if the block has a component.
+	 * @param identifier The identifier of the component.
+	 * @returns Whether or not the block has the component.
+	 */
+	public hasComponent<T extends keyof BlockComponents>(identifier: T): boolean {
+		return this.components.has(identifier);
+	}
 
+	/**
+	 * Gets the component of the block.
+	 * @param identifier The identifier of the component.
+	 * @returns The component that was found.
+	 */
+	public getComponent<T extends keyof BlockComponents>(
+		identifier: T
+	): BlockComponents[T] {
+		return this.components.get(identifier) as BlockComponents[T];
+	}
+
+	/**
+	 * Gets all the components of the block.
+	 * @returns All the components of the block.
+	 */
 	public getComponents(): Array<BlockComponent> {
 		return [...this.components.values()];
 	}
 
-	public setComponent(component: BlockComponent): void {
+	/**
+	 * Sets the component of the block.
+	 * @param component The component to set.
+	 */
+	public setComponent<T extends keyof BlockComponents>(
+		component: BlockComponents[T]
+	): void {
 		// Set the component to the block.
 		this.components.set(component.identifier, component);
 
@@ -100,6 +129,17 @@ class Block {
 			this.dimension.blocks.set(Block.getHash(this.location), this);
 	}
 
+	/**
+	 * Removes the component from the block.
+	 * @param identifier The identifier of the component.
+	 */
+	public removeComponent<T extends keyof BlockComponents>(identifier: T): void {
+		this.components.delete(identifier);
+	}
+
+	/**
+	 * Clears all the components of the block.
+	 */
 	public clearComponents(): void {
 		this.components.clear();
 	}

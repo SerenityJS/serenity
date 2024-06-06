@@ -22,7 +22,7 @@ class BlockContainer extends Container {
 	/**
 	 * The block that owns the container.
 	 */
-	protected readonly block: Block;
+	public readonly block: Block;
 
 	/**
 	 * The players that are currently in the container.

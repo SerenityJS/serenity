@@ -172,6 +172,15 @@ class Dimension {
 	}
 
 	/**
+	 * Gets an entity from the dimension.
+	 * @param uniqueId The unique identifier of the entity.
+	 * @returns The entity that was found.
+	 */
+	public getEntity(uniqueId: bigint): Entity | undefined {
+		return this.entities.get(uniqueId);
+	}
+
+	/**
 	 * Gets all the entities in the dimension.
 	 */
 	public getEntities(): Array<Entity> {

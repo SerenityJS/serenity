@@ -21,7 +21,7 @@ class EntityContainer extends Container {
 	/**
 	 * The entity that owns the container.
 	 */
-	protected readonly entity: Entity;
+	public readonly entity: Entity;
 
 	/**
 	 * Creates a new entity container.
