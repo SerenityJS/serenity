@@ -112,6 +112,11 @@ class PlayerAction extends SerenityHandler {
 				if (!mayfly.currentValue) {
 					// Set the player's flying ability to false
 					flying.setCurrentValue(false);
+
+					// Log a warning
+					this.serenity.logger.warn(
+						`${player.username} tried to fly without mayfly ability, possible exploit.`
+					);
 					break;
 				}
 

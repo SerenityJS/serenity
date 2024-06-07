@@ -12,6 +12,7 @@ import {
 	NetworkItemStackDescriptor,
 	NetworkStackLatencyPacket,
 	type PermissionLevel,
+	type SerializedSkin,
 	SetPlayerGameTypePacket,
 	TeleportCause,
 	TextPacket,
@@ -94,6 +95,8 @@ class Player extends Entity {
 	 */
 	public readonly permission: PermissionLevel;
 
+	public readonly skin: SerializedSkin;
+
 	/**
 	 * The player's current network latency.
 	 */
@@ -144,7 +147,8 @@ class Player extends Entity {
 		session: NetworkSession,
 		tokens: LoginTokenData,
 		dimension: Dimension,
-		permission: PermissionLevel
+		permission: PermissionLevel,
+		skin: SerializedSkin
 	) {
 		super(EntityIdentifier.Player, dimension, session.guid);
 		this.session = session;
@@ -152,6 +156,7 @@ class Player extends Entity {
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
 		this.permission = permission;
+		this.skin = skin;
 	}
 
 	/**

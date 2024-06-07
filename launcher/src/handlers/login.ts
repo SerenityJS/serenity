@@ -6,6 +6,8 @@ import {
 	PlayStatus,
 	PlayStatusPacket,
 	ResourcePacksInfoPacket,
+	SerializedSkin,
+	SkinImage,
 	TexturePackInfo
 } from "@serenityjs/protocol";
 import { createDecoder } from "fast-jwt";
@@ -108,10 +110,59 @@ class Login extends SerenityHandler {
 		// Get the permission level of the player.
 		const permission = this.serenity.permissions.get(xuid, username);
 
+		const {
+			SkinId,
+			PlayFabId,
+			SkinResourcePatch,
+			SkinImageWidth,
+			SkinImageHeight,
+			SkinData,
+			CapeImageWidth,
+			CapeImageHeight,
+			CapeData,
+			SkinGeometryData,
+			SkinGeometryDataEngineVersion,
+			SkinAnimationData,
+			CapeId,
+			ArmSize,
+			SkinColor,
+			PremiumSkin,
+			PersonaSkin,
+			CapeOnClassicSkin,
+			TrustedSkin,
+			OverrideSkin
+		} = data.clientData;
+
+		const skinImage = new SkinImage(SkinImageWidth, SkinImageHeight, SkinData);
+		const capeImage = new SkinImage(CapeImageWidth, CapeImageHeight, CapeData);
+
+		const skin = new SerializedSkin(
+			SkinId,
+			PlayFabId,
+			SkinResourcePatch,
+			skinImage,
+			[],
+			capeImage,
+			SkinGeometryData,
+			SkinGeometryDataEngineVersion,
+			SkinAnimationData,
+			CapeId,
+			SkinId,
+			ArmSize,
+			SkinColor,
+			[],
+			[],
+			PremiumSkin,
+			PersonaSkin,
+			CapeOnClassicSkin,
+			TrustedSkin,
+			OverrideSkin
+		);
+
 		// Create a new player instance.
 		// Since we have gotten the players login data, we can create a new player instance.
 		// We will also add the player to the players map.
-		const player = new Player(session, data, dimension, permission);
+		const player = new Player(session, data, dimension, permission, skin);
 		this.serenity.players.set(xuid, player);
 
 		// TODO: Enable encryption, the public key is given in the tokens

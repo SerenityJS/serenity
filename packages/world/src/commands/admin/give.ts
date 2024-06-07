@@ -1,4 +1,5 @@
 import { IntegerEnum } from "@serenityjs/command";
+import { PermissionLevel } from "@serenityjs/protocol";
 
 import { ItemEnum, TargetEnum } from "../enums";
 import { ItemStack } from "../../item";
@@ -42,6 +43,9 @@ const register = (world: World) => {
 			item: ItemEnum,
 			amount: [IntegerEnum, true],
 			metadata: [IntegerEnum, true]
+		},
+		{
+			permission: PermissionLevel.Operator
 		}
 	);
 };
