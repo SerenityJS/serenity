@@ -47,6 +47,7 @@ export * from "./request-chunk-radius";
 export * from "./chunk-radius-update";
 export * from "./boss-event";
 export * from "./set-title";
+export * from "./player-skin";
 export * from "./modal-form-request";
 export * from "./modal-form-response";
 export * from "./remove-objective";

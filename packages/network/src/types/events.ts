@@ -77,7 +77,8 @@ import type {
 	ActorEventPacket,
 	AnimateEntityPacket,
 	EmoteListPacket,
-	EmotePacket
+	EmotePacket,
+	PlayerSkinPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -145,6 +146,7 @@ interface NetworkEvents {
 	];
 	[Packet.Transfer]: [NetworkPacketEvent<TransferPacket>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
+	[Packet.PlayerSkin]: [NetworkPacketEvent<PlayerSkinPacket>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
 	[Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];

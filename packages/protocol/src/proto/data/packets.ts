@@ -80,6 +80,7 @@ import { ActorEventPacket } from "./actor-event";
 import { AnimateEntityPacket } from "./animate-entity";
 import { EmoteListPacket } from "./emote-list";
 import { EmotePacket } from "./emote";
+import { PlayerSkinPacket } from "./player-skin";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -132,6 +133,7 @@ const Packets = {
 	[Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
 	[Packet.Transfer]: TransferPacket, // 85
 	[Packet.SetTitle]: SetTitlePacket, // 88
+	[Packet.PlayerSkin]: PlayerSkinPacket, // 93
 	[Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
 	[Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
 	[Packet.RemoveObjective]: RemoveObjectivePacket, // 106
