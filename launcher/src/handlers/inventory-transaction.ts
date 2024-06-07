@@ -6,7 +6,8 @@ import {
 	ItemUseInventoryTransactionType,
 	Vector3f,
 	type ItemUseInventoryTransaction,
-	Gamemode
+	Gamemode,
+	type ItemUseOnEntityInventoryTransaction
 } from "@serenityjs/protocol";
 import { ItemUseCause, type Player } from "@serenityjs/world";
 import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
@@ -49,6 +50,18 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Handle the itemUse transaction
 				this.handleItemUseTransaction(itemUse, player);
+				break;
+			}
+
+			case ComplexInventoryTransaction.ItemUseOnEntityTransaction: {
+				// Get the itemUse object from the transaction
+				const itemUse = packet.transaction.itemUseOnEntity;
+
+				// Check if the itemUse object is valid, if not throw an error that the itemUse object is missing.
+				if (!itemUse) throw new Error("ItemUseOnEntity object is missing.");
+
+				// Handle the itemUse transaction
+				this.handleItemUseOnEntityTransaction(itemUse, player);
 				break;
 			}
 		}
@@ -174,6 +187,31 @@ class InventoryTransaction extends SerenityHandler {
 				if (player.gamemode === Gamemode.Survival) usingItem.decrement();
 				break;
 			}
+
+			case ItemUseInventoryTransactionType.Destroy: {
+				this.serenity.logger.debug(
+					"ItemUseInventoryTransactionType.Destroy is not implemented yet.",
+					transaction
+				);
+			}
+		}
+	}
+
+	public static handleItemUseOnEntityTransaction(
+		transaction: ItemUseOnEntityInventoryTransaction,
+		player: Player
+	): void {
+		// Get the entity from the dimension
+		const entity = player.dimension.getEntityByRuntime(
+			transaction.actorRuntimeId
+		);
+
+		// Check if the entity is valid
+		if (!entity) return;
+
+		// Trigger the onInteract method of the entity components
+		for (const component of entity.components.values()) {
+			component.onInteract?.(player, transaction.type);
 		}
 	}
 }

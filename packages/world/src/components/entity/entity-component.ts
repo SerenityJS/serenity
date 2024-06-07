@@ -1,5 +1,7 @@
 import { Component } from "../component";
 
+import type { Player } from "../../player";
+import type { ItemUseOnEntityInventoryTransactionType } from "@serenityjs/protocol";
 import type { EntityType } from "@serenityjs/entity";
 import type { Entity } from "../../entity";
 
@@ -86,6 +88,16 @@ class EntityComponent extends Component {
 	 * Called when the entity is despawned from the dimension.
 	 */
 	public onDespawn?(): void;
+
+	/**
+	 * Called when the entity is interacted by a player.
+	 * @param player The player interacting with the entity.
+	 * @param type The type of the item use on entity inventory transaction.
+	 */
+	public onInteract?(
+		player: Player,
+		type: ItemUseOnEntityInventoryTransactionType
+	): void;
 
 	public static get(identifier: string): typeof EntityComponent | null {
 		return EntityComponent.components.get(identifier) as

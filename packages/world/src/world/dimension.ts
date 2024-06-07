@@ -181,6 +181,16 @@ class Dimension {
 	}
 
 	/**
+	 * Gets an entity from the dimension using the runtime identifier.
+	 * @param runtime The runtime identifier of the entity.
+	 * @returns The entity that was found.
+	 */
+	public getEntityByRuntime(runtime: bigint): Entity | undefined {
+		for (const entity of this.entities.values())
+			if (entity.runtime === runtime) return entity;
+	}
+
+	/**
 	 * Gets all the entities in the dimension.
 	 */
 	public getEntities(): Array<Entity> {
