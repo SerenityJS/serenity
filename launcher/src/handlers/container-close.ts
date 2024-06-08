@@ -29,6 +29,12 @@ class ContainerClose extends SerenityHandler {
 		// Clear the players openedContainer property
 		player.openedContainer = null;
 
+		// Get the cursor component from the player
+		const { container } = player.getComponent("minecraft:cursor");
+
+		// Clear the cursor slot
+		container.clearSlot(0);
+
 		// Send the packet back to the client
 		session.send(packet);
 	}

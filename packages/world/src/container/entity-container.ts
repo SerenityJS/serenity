@@ -146,9 +146,6 @@ class EntityContainer extends Container {
 			this.storage[slot] = null;
 		}
 
-		// Calculate the amount of empty slots in the container.
-		this.calculateEmptySlotCount();
-
 		// Return the removed item.
 		return item;
 	}
@@ -171,9 +168,6 @@ class EntityContainer extends Container {
 		if (item.amount === 0) {
 			this.storage[slot] = null;
 		}
-
-		// Calculate the amount of empty slots in the container.
-		this.calculateEmptySlotCount();
 
 		// Create a new item with the removed amount.
 		const newItem = ItemStack.create(item.type, removed, item.metadata);
@@ -209,6 +203,7 @@ class EntityContainer extends Container {
 		this.clearSlot(slot);
 		targetContainer.clearSlot(otherSlot);
 
+		// Set the items in the slots
 		if (item) targetContainer.setItem(otherSlot, item);
 		if (otherItem) this.setItem(slot, otherItem);
 	}

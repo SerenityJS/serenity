@@ -9,11 +9,11 @@ import {
 
 import { ItemComponent } from "../components";
 
-import type { ItemComponents } from "../types";
 import type {
 	NetworkItemInstanceDescriptor,
 	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
+import type { ItemComponents } from "../types";
 import type { Container } from "../container";
 
 class ItemStack<T extends keyof Items = keyof Items> {
@@ -37,7 +37,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 */
 	public container: Container | null = null;
 
-	protected _amount: number;
+	/**
+	 * The amount of the item stack.
+	 */
+	public amount: number;
 
 	/**
 	 * Creates a new item stack.
@@ -49,20 +52,16 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		this.type = ItemType.get(identifier) as ItemType<T>;
 		this.metadata = metadata ?? 0;
 		this.components = new Map();
-		this._amount = amount;
+		this.amount = amount;
 
 		// Register the type components to the item.
 		for (const component of ItemComponent.registry.get(this.type) ?? [])
 			new component(this, component.identifier);
 	}
 
-	public get amount(): number {
-		return this._amount;
-	}
-
-	public set amount(value: number) {
-		// Set the amount of the item.
-		this._amount = value;
+	public setAmount(amount: number): void {
+		// Update the amount of the item stack.
+		this.amount = amount;
 
 		// Update the item in the container.
 		this.update();
@@ -78,8 +77,14 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Get the slot of the item in the container.
 		const slot = this.container.storage.indexOf(this);
 
+		// Check if the item is 0 or less.
+		if (this.amount <= 0) {
+			// Remove the item from the container.
+			this.container.clearSlot(slot);
+		}
+
 		// Set the item in the container.
-		this.container.setItem(slot, this);
+		else this.container.setItem(slot, this);
 	}
 
 	/**
@@ -87,7 +92,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * @param amount The amount to decrement.
 	 */
 	public decrement(amount?: number): void {
-		this.amount -= amount ?? 1;
+		this.setAmount(this.amount - (amount ?? 1));
 	}
 
 	/**
@@ -95,7 +100,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * @param amount The amount to increment.
 	 */
 	public increment(amount?: number): void {
-		this.amount += amount ?? 1;
+		this.setAmount(this.amount + (amount ?? 1));
 	}
 
 	/**
