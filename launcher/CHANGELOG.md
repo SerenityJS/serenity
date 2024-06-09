@@ -1,5 +1,26 @@
 # @serenityjs/launcher
 
+## 0.3.1
+
+### Patch Changes
+
+- 92ed7dd: Init beta
+- Updated dependencies [92ed7dd]
+  - @serenityjs/block@0.3.1
+  - @serenityjs/command@0.3.1
+  - @serenityjs/data@0.3.1
+  - @serenityjs/emitter@0.3.1
+  - @serenityjs/entity@0.3.1
+  - @serenityjs/item@0.3.1
+  - @serenityjs/logger@0.3.1
+  - @serenityjs/nbt@0.3.1
+  - @serenityjs/network@0.3.1
+  - @serenityjs/plugins@0.3.1
+  - @serenityjs/protocol@0.3.1
+  - @serenityjs/raknet@0.3.1
+  - @serenityjs/server-ui@0.3.1
+  - @serenityjs/world@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes
