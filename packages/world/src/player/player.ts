@@ -3,7 +3,6 @@ import {
 	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
-	DimensionType,
 	Gamemode,
 	type MetadataFlags,
 	MetadataKey,
@@ -383,44 +382,30 @@ class Player extends Entity {
 			// Despawn the player from the current dimension
 			this.despawn();
 
+			// Check if the dimension types are different
+			// This allows for a faster dimension change if the types are the same
+			if (this.dimension.type !== dimension.type) {
+				// Create a new ChangeDimensionPacket
+				const packet = new ChangeDimensionPacket();
+				packet.dimension = dimension.type;
+				packet.position = position;
+				packet.respawn = true;
+
+				// Send the packet to the player
+				this.session.send(packet);
+			}
+
 			// Set the new dimension
 			this.dimension = dimension;
 
 			// Check if the player has the chunk rendering component
 			if (this.hasComponent("minecraft:chunk_rendering")) {
+				// Get the chunk rendering component
 				const component = this.getComponent("minecraft:chunk_rendering");
 
 				// Clear the chunks
 				component.chunks.clear();
 			}
-
-			// TODO: Maybe find a solution to this?
-			// Must fake the dimension change for the client to render the world correctly
-			if (this.dimension.identifier === dimension.identifier) {
-				const fake = new ChangeDimensionPacket();
-				fake.dimension =
-					dimension.type === DimensionType.Overworld
-						? 1
-						: dimension.type === DimensionType.Nether
-							? 2
-							: dimension.type === DimensionType.End
-								? 0
-								: 0;
-				fake.position = position;
-				fake.respawn = false;
-
-				// Send the packet to the playerc
-				this.session.sendImmediate(fake);
-			}
-
-			// Create a new ChangeDimensionPacket
-			const packet = new ChangeDimensionPacket();
-			packet.dimension = dimension.type;
-			packet.position = position;
-			packet.respawn = false;
-
-			// Send the packet to the player
-			this.session.send(packet);
 
 			// Spawn the player in the new dimension
 			this.spawn();

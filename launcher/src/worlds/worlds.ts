@@ -118,13 +118,6 @@ class Worlds {
 				resolve(this.path, defaultName, ".provider"),
 				provider
 			);
-
-			// Add the directory to the directories array.
-			directories.push(
-				...(await readdirSync(this.path, { withFileTypes: true }).filter(
-					(dirent) => dirent.isDirectory()
-				))
-			);
 		}
 	}
 
@@ -137,30 +130,6 @@ class Worlds {
 		const directories = readdirSync(this.path, { withFileTypes: true }).filter(
 			(dirent) => dirent.isDirectory()
 		);
-
-		// If the worlds directory is empty, then create the default world.
-		if (directories.length === 0) {
-			// Get the default world name.
-			const defaultName = this.serenity.properties.getValue("worlds-default");
-
-			// Create a "default" directory in the worlds directory.
-			mkdirSync(resolve(this.path, defaultName));
-
-			// Create a ".provider" file in the "default" directory.
-			const provider = this.serenity.properties.getValue(
-				"worlds-default-provider"
-			);
-
-			// Write the provider to the ".provider" file.
-			writeFileSync(resolve(this.path, defaultName, ".provider"), provider);
-
-			// Add the directory to the directories array.
-			directories.push(
-				...readdirSync(this.path, { withFileTypes: true }).filter((dirent) =>
-					dirent.isDirectory()
-				)
-			);
-		}
 
 		// Loop through the directories in the worlds directory.
 		// And check if the directory container a .provider file.
