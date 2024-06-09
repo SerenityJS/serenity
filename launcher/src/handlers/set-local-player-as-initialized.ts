@@ -30,6 +30,10 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 				DisconnectReason.InvalidPlayer
 			);
 
+		// Delete the player from the connecting map
+		if (this.serenity.connecting.has(session))
+			this.serenity.connecting.delete(session);
+
 		// Spawn the player in the dimension
 		player.spawn();
 

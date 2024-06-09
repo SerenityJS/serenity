@@ -17,6 +17,7 @@ import { Worlds } from "./worlds";
 import { DEFAULT_SERVER_PROPERTIES } from "./properties/default";
 import { Permissions } from "./permissions";
 
+import type { DataPacket } from "@serenityjs/protocol";
 import type { DefaultServerProperties } from "./types";
 import type { Player } from "@serenityjs/world";
 
@@ -71,6 +72,9 @@ class Serenity extends Emitter<EventSignals> {
 	 */
 	public readonly plugins: Plugins;
 
+	public readonly connecting: Map<NetworkSession, Array<DataPacket>> =
+		new Map();
+
 	/**
 	 * The server tick interval
 	 */
@@ -80,6 +84,8 @@ class Serenity extends Emitter<EventSignals> {
 	 * The server ticks
 	 */
 	public ticks: Array<number> = [];
+
+	public tick = 0;
 
 	/**
 	 * The server ticks per second
@@ -225,6 +231,16 @@ class Serenity extends Emitter<EventSignals> {
 
 					// Tick all the worlds
 					for (const world of this.worlds.getAll()) world.tick();
+
+					// Increment the tick
+					this.tick++;
+
+					// TODO: ??? Maybe find a better solution?
+					if (this.tick % 100 === 0 && this.connecting.size > 0) {
+						for (const [session, packets] of this.connecting) {
+							session.sendImmediate(...packets);
+						}
+					}
 
 					// Tick the server
 					tick();

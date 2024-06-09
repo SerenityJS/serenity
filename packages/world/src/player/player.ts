@@ -244,7 +244,7 @@ class Player extends Entity {
 			floats: []
 		};
 		packet.uniqueEntityId = this.unique;
-		packet.premissionLevel = 0;
+		packet.premissionLevel = this.permission;
 		packet.commandPermission = 0;
 		packet.abilities = [
 			{

@@ -457,6 +457,14 @@ class ResourcePackClientResponse extends SerenityHandler {
 				status.status = PlayStatus.PlayerSpawn;
 
 				session.sendImmediate(packet, biomes, content, status);
+
+				// Add the player to the connecting map
+				this.serenity.connecting.set(player.session, [
+					packet,
+					biomes,
+					content,
+					status
+				]);
 			}
 		}
 	}
