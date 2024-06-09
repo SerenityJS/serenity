@@ -1,5 +1,14 @@
 # @serenityjs/command
 
+## 0.3.2
+
+### Patch Changes
+
+- fa66e44: 0.3.2
+- Updated dependencies [fa66e44]
+  - @serenityjs/logger@0.3.2
+  - @serenityjs/network@0.3.2
+
 ## 0.3.1
 
 ### Patch Changes
