@@ -269,6 +269,15 @@ class Player extends Entity {
 		// Add the player to the dimension
 		this.dimension.entities.set(this.unique, this);
 
+		// Spawn all entities in the dimension for the player
+		for (const entity of this.dimension.entities.values()) {
+			// Check if the entity is the player
+			if (entity === this) continue;
+
+			// Spawn the entity for the player
+			entity.spawn(this);
+		}
+
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
 	}
@@ -384,7 +393,13 @@ class Player extends Entity {
 
 			// Check if the dimension types are different
 			// This allows for a faster dimension change if the types are the same
-			if (this.dimension.type !== dimension.type) {
+			if (this.dimension.type === dimension.type) {
+				// Despawn all entities in the dimension for the player
+				for (const entity of this.dimension.entities.values()) {
+					// Despawn the entity for the player
+					entity.despawn(this);
+				}
+			} else {
 				// Create a new ChangeDimensionPacket
 				const packet = new ChangeDimensionPacket();
 				packet.dimension = dimension.type;

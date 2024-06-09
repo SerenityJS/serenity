@@ -61,16 +61,6 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 			metadata.resetToDefaultValue();
 		}
 
-		// Spawn the current entities that are in the dimension
-		for (const [, entity] of player.dimension.entities) {
-			// Check if the entity is the player,
-			// if so then skip the entity.
-			if (entity === player) continue;
-
-			// Spawn the entity for the player
-			entity.spawn(player);
-		}
-
 		// Send the player the spawn chunks
 		// const chunks = player.dimension.getSpawnChunks();
 		// player.sendChunk(...chunks);
