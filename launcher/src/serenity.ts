@@ -277,6 +277,11 @@ class Serenity extends Emitter<EventSignals> {
 		});
 	}
 
+	/**
+	 * Gets a player by their network session.
+	 * @param session The network session
+	 * @returns The player or undefined if not found
+	 */
 	public getPlayer(session: NetworkSession): Player | undefined {
 		return [...this.players.values()].find(
 			(player) => player.session === session
