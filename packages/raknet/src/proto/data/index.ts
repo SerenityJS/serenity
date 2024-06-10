@@ -13,3 +13,4 @@ export * from "./ack";
 export * from "./nack";
 export * from "./disconnect";
 export * from "./connection-request-accepted";
+export * from "./new-incoming-connection";
