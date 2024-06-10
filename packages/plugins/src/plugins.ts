@@ -264,9 +264,9 @@ class Plugins extends Emitter<PluginEvents> {
 		);
 		const s = plugins.length > 1 ? "s" : "";
 		this.logger.success(
-			`Successfully initialized a total of ${plugins.length} plugin${s}! ${plugins.join(
-				", "
-			)}`
+			`Successfully initialized a total of ${plugins.length} plugin${s}! §c${plugins.join(
+				"§r, §c"
+			)}§r`
 		);
 	}
 
