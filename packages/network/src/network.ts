@@ -16,7 +16,7 @@ import {
 	type Connection,
 	Frame,
 	Priority,
-	type RaknetServer
+	type Server
 } from "@serenityjs/raknet";
 
 import { NetworkSession } from "./session";
@@ -34,7 +34,7 @@ class Network extends Emitter<NetworkEvents> {
 	/**
 	 * The Raknet server instance.
 	 */
-	protected readonly raknet: RaknetServer;
+	protected readonly raknet: Server;
 
 	/**
 	 * The logger instance.
@@ -75,7 +75,7 @@ class Network extends Emitter<NetworkEvents> {
 	 * @param packetsPerFrame The amount of packets that can be sent per frame.
 	 */
 	public constructor(
-		raknet: RaknetServer,
+		raknet: Server,
 		compressThreshold?: number,
 		compressMethod?: CompressionMethod,
 		packetsPerFrame?: number,

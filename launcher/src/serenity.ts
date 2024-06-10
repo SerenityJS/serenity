@@ -1,5 +1,5 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { RaknetServer } from "@serenityjs/raknet";
+import { Server } from "@serenityjs/raknet";
 import { Network, type NetworkSession } from "@serenityjs/network";
 import Emitter from "@serenityjs/emitter";
 import { Plugins } from "@serenityjs/plugins";
@@ -40,7 +40,7 @@ class Serenity extends Emitter<EventSignals> {
 	/**
 	 * The raknet server instance
 	 */
-	public readonly raknet: RaknetServer;
+	public readonly raknet: Server;
 
 	/**
 	 * The network instance
@@ -109,7 +109,7 @@ class Serenity extends Emitter<EventSignals> {
 		Logger.DEBUG = this.properties.values["debug-logging"];
 
 		// Create the raknet using the server address and port
-		this.raknet = new RaknetServer(
+		this.raknet = new Server(
 			this.properties.values["server-address"],
 			this.properties.values["server-port"]
 		);

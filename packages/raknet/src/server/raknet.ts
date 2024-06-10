@@ -1,19 +1,20 @@
-import { RemoteInfo, Socket, createSocket } from "node:dgram";
+import { type RemoteInfo, type Socket, createSocket } from "node:dgram";
 
 import { Emitter } from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
-import { NetworkIdentifier, RaknetEvents } from "../types";
 import { RaknetTickLength } from "../constants";
 import { Bitflags } from "../enums";
 
 import { Offline } from "./offline";
-import { Connection } from "./connection";
+
+import type { NetworkIdentifier, RaknetEvents } from "../types";
+import type { Connection } from "./connection";
 
 /**
  * The raknet server
  */
-class RaknetServer extends Emitter<RaknetEvents> {
+class Server extends Emitter<RaknetEvents> {
 	/**
 	 * The server tick interval
 	 */
@@ -173,11 +174,11 @@ class RaknetServer extends Emitter<RaknetEvents> {
 			const connection = this.connections.get(key);
 
 			// Check if the connection is valid & the buffer is valid
-			if (connection && (buffer[0]! & Bitflags.Valid) !== 0)
+			if (connection && ((buffer[0] as number) & Bitflags.Valid) !== 0)
 				return connection.incoming(buffer);
 
 			// Check if we got a valid packet, without a valid connection
-			if ((buffer[0]! & Bitflags.Valid) !== 0) {
+			if (((buffer[0] as number) & Bitflags.Valid) !== 0) {
 				// Log a debug message for the invalid packet
 				this.logger.debug(
 					`Received a valid packet without a valid connection from ${key}`
@@ -206,4 +207,4 @@ class RaknetServer extends Emitter<RaknetEvents> {
 	}
 }
 
-export { RaknetServer };
+export { Server };

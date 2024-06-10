@@ -15,7 +15,7 @@ import {
 } from "../proto";
 
 import type { NetworkIdentifier } from "../types";
-import type { RaknetServer } from "./raknet";
+import type { Server } from "./raknet";
 
 /**
  * Represents a connection in the server
@@ -24,7 +24,7 @@ class Connection {
 	/**
 	 * The server instance
 	 */
-	protected readonly server: RaknetServer;
+	protected readonly server: Server;
 
 	/**
 	 * The status of the connection
@@ -74,7 +74,7 @@ class Connection {
 	 * @param mtu The maximum transmission unit
 	 */
 	public constructor(
-		server: RaknetServer,
+		server: Server,
 		identifier: NetworkIdentifier,
 		guid: bigint,
 		mtu: number

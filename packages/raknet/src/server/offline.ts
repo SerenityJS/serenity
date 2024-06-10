@@ -9,10 +9,11 @@ import {
 	UnconnectedPing,
 	UnconnectedPong
 } from "../proto";
-import { NetworkIdentifier } from "../types";
 
 import { Connection } from "./connection";
-import { RaknetServer } from "./raknet";
+
+import type { NetworkIdentifier } from "../types";
+import type { Server } from "./raknet";
 
 /**
  * Handles all ofline raknet server operations
@@ -21,7 +22,7 @@ class Offline {
 	/**
 	 * The server instance
 	 */
-	public static server: RaknetServer;
+	public static server: Server;
 
 	/**
 	 * Handles all incoming offline packets
@@ -30,7 +31,7 @@ class Offline {
 	 */
 	public static incoming(buffer: Buffer, identifier: NetworkIdentifier): void {
 		// Read the packet header
-		const header = buffer[0]!;
+		const header = buffer[0] as number;
 
 		// Switch based on the packet header
 		switch (header) {
