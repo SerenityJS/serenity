@@ -1,11 +1,17 @@
-import type { Chunk } from "../chunk";
 import type { Dimension, World } from "../world";
+import type { Chunk } from "../chunk";
 
 class WorldProvider {
 	/**
 	 * The identifier for the provider.
 	 */
 	public static readonly identifier: string;
+
+	/**
+	 * The identifier for the provider.
+	 */
+	public readonly identifier = (this.constructor as typeof WorldProvider)
+		.identifier;
 
 	/**
 	 * The constructor for the world provider.

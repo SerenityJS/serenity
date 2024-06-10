@@ -172,7 +172,7 @@ class Worlds {
 
 		// Log the success message.
 		const worlds = [...this.entries.values()].map(
-			(world) => `${world.identifier}<${world.provider}>` // TODO: Fix this
+			(world) => `${world.identifier}<${world.provider.identifier}>`
 		);
 
 		const s = worlds.length > 1 ? "s" : "";
