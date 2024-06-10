@@ -258,6 +258,41 @@ class Serenity extends Emitter<EventSignals> {
 		this.logger.info(
 			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
 		);
+
+		// Add a > to the console input
+		process.stdout.write("> ");
+
+		// Listen for console input
+		process.stdin.on("data", (data) => {
+			// Convert the data to a string and trim it
+			const input = data.toString().trim();
+
+			try {
+				// Get the default world
+				const world = this.worlds.get();
+
+				// Get the default dimension
+				const dimension = world.getDimension();
+
+				// Execute the command
+				const command = dimension.executeCommand(input);
+
+				// Check if the command is undefined
+				if (!command) return;
+
+				// Log the command to the console
+				this.logger.info(`§a${command.message}§r`);
+			} catch (reason) {
+				if (reason instanceof TypeError) {
+					this.logger.error(`§cType Error: ${(reason as Error).message}§r`);
+				} else {
+					this.logger.error(`§c${(reason as Error).message}§r`);
+				}
+			}
+
+			// Add a > to the console input
+			process.stdout.write("> ");
+		});
 	}
 
 	/**

@@ -149,17 +149,8 @@ class Dimension {
 		// Create a new command execute state
 		const state = new CommandExecutionState(this.world.commands, command, this);
 
-		// Try and execute the command
-		try {
-			// Return the result of the command
-			return state.execute();
-		} catch (reason) {
-			// Log the error to the console
-			this.world.logger.error(
-				`Failed to execute command '${command}' for dimension '${this.identifier}':`,
-				reason
-			);
-		}
+		// Execute the commmand state
+		return state.execute();
 	}
 
 	/**
