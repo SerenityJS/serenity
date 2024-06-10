@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"@serenityjs/logger": "*",
-		"@serenityjs/network": "*"
+		"@serenityjs/network": "*",
+		"@serenityjs/protocol": "*"
 	}
 }

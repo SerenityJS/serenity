@@ -1897,6 +1897,7 @@ __metadata:
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/network": "npm:*"
+    "@serenityjs/protocol": "workspace:^"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
@@ -2098,7 +2099,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/protocol@npm:*, @serenityjs/protocol@workspace:packages/protocol":
+"@serenityjs/protocol@npm:*, @serenityjs/protocol@workspace:^, @serenityjs/protocol@workspace:packages/protocol":
   version: 0.0.0-use.local
   resolution: "@serenityjs/protocol@workspace:packages/protocol"
   dependencies:

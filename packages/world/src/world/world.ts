@@ -55,11 +55,10 @@ class World {
 	public dayTime = 0;
 
 	/**
-	 * Creates a new world.
-	 *
+	 * Creates a new world instance.
 	 * @param identifier The identifier of the world.
 	 * @param provider The data provider for the world.
-	 * @returns A new world.
+	 * @returns A new world instance with the specified identifier and provider.
 	 */
 	public constructor(identifier: string, provider: WorldProvider) {
 		this.identifier = identifier;

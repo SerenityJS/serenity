@@ -1,6 +1,8 @@
+import { AvailableCommandsPacket, PermissionLevel } from "@serenityjs/protocol";
+
+import { type CustomEnum, SoftEnum, type Enum } from "./enums";
+
 import type { CommandResult } from "./types";
-import type { Enum } from "./enums";
-import type { PermissionLevel } from "@serenityjs/protocol";
 
 interface CommandParameters {
 	[key: string]: typeof Enum | [typeof Enum, boolean];
@@ -118,6 +120,76 @@ class Commands<O> {
 	 */
 	public getAll(): Array<CommandEntry<O>> {
 		return [...this.entries.values()];
+	}
+
+	/**
+	 * Serializse the commands to an available commands packet.
+	 * @returns The available commands packet.
+	 */
+	public serialize(): AvailableCommandsPacket {
+		// Create a new available commands packet
+		const packet = new AvailableCommandsPacket();
+
+		// Holds all custom enums that are used in the commands
+		packet.dynamicEnums = [];
+
+		// Map the commands to the packet property
+		packet.commands = this.getAll().map((command) => {
+			return {
+				name: command.name,
+				description: command.description,
+				permissionLevel: command.permission ?? PermissionLevel.Member,
+				subcommands: [],
+				flags: command.special ? 1 : 0,
+				alias: -1,
+				overloads: [
+					{
+						chaining: false,
+						parameters: Object.entries(command.parameters).map(
+							([name, value]) => {
+								// Get the parameter constuctor by checking if the value is an array.
+								const enm = Array.isArray(value) ? value[0] : value;
+
+								// TODO: Clean this up
+								// Get the name of the parameter.
+								const symbol =
+									enm.type === SoftEnum.type
+										? (enm as typeof CustomEnum).options.length > 0
+											? (0x4_10 << 16) |
+												(packet.dynamicEnums.push({
+													name: enm.name,
+													values: (enm as typeof CustomEnum).options
+												}) -
+													1)
+											: enm.symbol
+										: enm.symbol;
+
+								// Check if the parameter is optional.
+								const optional = Array.isArray(value) ? value[1] : false;
+
+								return {
+									symbol,
+									name,
+									optional,
+									options: 0
+								};
+							}
+						)
+					}
+				]
+			};
+		});
+
+		// Assign the remaining properties to the packet
+		packet.chainedSubcommandValues = [];
+		packet.subcommands = [];
+		packet.enumConstraints = [];
+		packet.enumValues = [];
+		packet.enums = [];
+		packet.postFixes = [];
+
+		// Return the packet
+		return packet;
 	}
 }
 

@@ -280,6 +280,20 @@ class Player extends Entity {
 
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
+
+		// Get the commands of the world
+		const available = this.dimension.world.commands.serialize();
+
+		// Filter out the commands that are not applicable to the player
+		const filtered = available.commands.filter(
+			(command) => command.permissionLevel <= this.permission
+		);
+
+		// Update the commands of the player
+		available.commands = filtered;
+
+		// Send the commands to the player
+		this.session.sendImmediate(available);
 	}
 
 	/**
