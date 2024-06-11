@@ -79,7 +79,7 @@ class PlayerChatSignal extends EventSignal {
 		// Check if event wasn't cancelled.
 		if (value === true) {
 			player.dimension.world.logger.info(
-				`[${player.username}] Message: ${packet.message}`
+				`§8[§9${player.username}§8] Message:§r ${packet.message}`
 			);
 		}
 

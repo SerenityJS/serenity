@@ -44,7 +44,7 @@ class CommandRequest extends SerenityHandler {
 
 			// Log the command to the console
 			player.dimension.world.logger.info(
-				`[${player.username}] Command: ${packet.command}`
+				`§8[§9${player.username}§8] Command:§r ${packet.command}`
 			);
 
 			// Send the result message to the player, if any.

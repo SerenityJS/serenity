@@ -15,6 +15,7 @@ import { DisconnectPacket, DisconnectReason } from "@serenityjs/protocol";
 
 import { FileSystemProvider } from "../providers";
 import { exists } from "../utils/exists";
+import { ADMIN_COMMANDS } from "../commands";
 
 import type { Serenity } from "../serenity";
 
@@ -148,6 +149,11 @@ class Worlds {
 						resolve(this.path, directory.path, directory.name),
 						[...this.generators.values()]
 					);
+
+					// Register the admin commands.
+					for (const command of ADMIN_COMMANDS) {
+						command(world, this.serenity);
+					}
 
 					// Add the world to the worlds map.
 					this.entries.set(world.identifier, world);
