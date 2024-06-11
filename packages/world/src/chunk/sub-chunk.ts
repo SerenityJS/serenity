@@ -23,7 +23,7 @@ export class SubChunk {
 	 * @param layers The layers of the sub chunk.
 	 */
 	public constructor(version?: number, layers?: Array<BlockStorage>) {
-		this.version = version ?? 8;
+		this.version = version ?? 9;
 		this.layers = layers ?? [];
 	}
 
@@ -110,17 +110,30 @@ export class SubChunk {
 	 *
 	 * @param stream The binary stream to write to.
 	 */
-	public static serialize(subchunk: SubChunk, stream: BinaryStream): void {
+	public static serialize(
+		subchunk: SubChunk,
+		stream: BinaryStream,
+		y: number
+	): void {
 		// Write the version.
-		stream.writeUint8(subchunk.version);
+		stream.writeByte(subchunk.version);
 
 		// Write the storage count.
-		stream.writeUint8(subchunk.layers.length);
+		//TEMPORARY +1 FOR WATERLOG LAYER
+		stream.writeByte(subchunk.layers.length + 1);
+
+		stream.writeByte(y);
 
 		// Loop through each storage and serialize it.
 		for (const storage of subchunk.layers) {
 			// Serialize the storage.
 			BlockStorage.serialize(storage, stream);
+
+			//TEMP WATERLOG BLOCKS
+			stream.writeByte(3);
+			stream.writeBuffer(Buffer.from(new ArrayBuffer(512)));
+			stream.writeVarInt(2);
+			stream.writeVarInt(1_209_499_071); // Air id
 		}
 	}
 

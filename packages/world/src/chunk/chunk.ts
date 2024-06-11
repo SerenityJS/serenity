@@ -47,7 +47,7 @@ export class Chunk {
 	/**
 	 * The maximum amount of sub chunks.
 	 */
-	public static readonly MAX_SUB_CHUNKS = 20;
+	public static readonly MAX_SUB_CHUNKS = 24;
 
 	/**
 	 * The dimension type of the chunk.
@@ -224,14 +224,16 @@ export class Chunk {
 		const stream = new BinaryStream();
 
 		// Serialize each sub chunk.
-		for (let index = 0; index < chunk.getSubChunkSendCount(); ++index) {
-			SubChunk.serialize(chunk.subchunks[index] as SubChunk, stream);
+		for (let index = 0; index < 24; ++index) {
+			SubChunk.serialize(chunk.subchunks[index] as SubChunk, stream, index - 4);
 		}
 
 		// Biomes?
 		for (let index = 0; index < 24; index++) {
-			stream.writeByte(0);
-			stream.writeVarInt(1 << 1);
+			stream.writeByte(3);
+			stream.writeBuffer(Buffer.from(new ArrayBuffer(512)));
+			stream.writeVarInt(2);
+			stream.writeVarInt(0);
 		}
 
 		// Border blocks?
