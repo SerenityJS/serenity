@@ -1,5 +1,11 @@
 # @serenityjs/typescript-config
 
+## 0.3.3
+
+### Patch Changes
+
+- 592a131: 0.3.3-beta
+
 ## 0.3.2
 
 ### Patch Changes
