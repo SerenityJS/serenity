@@ -17,6 +17,9 @@ const register = (world: World, serenity: Serenity) => {
 
 			// Loop through all the targets
 			for (const player of players) {
+				// Sanity check
+				if (!(player instanceof Player)) continue;
+
 				// Check if the player is already an operator
 				if (player.permission === PermissionLevel.Operator) continue;
 
