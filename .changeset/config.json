@@ -32,8 +32,5 @@
   "updateInternalDependencies": "patch",
   "snapshot": {
     "useCalculatedVersion": true
-  },
-  "ignore": [
-    "docs"
-  ]
+  }
 }
