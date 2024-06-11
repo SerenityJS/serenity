@@ -1,5 +1,14 @@
 # @serenityjs/server-ui
 
+## 0.3.3
+
+### Patch Changes
+
+- 592a131: 0.3.3-beta
+- Updated dependencies [592a131]
+  - @serenityjs/protocol@0.3.3
+  - @serenityjs/world@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

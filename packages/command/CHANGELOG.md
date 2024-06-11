@@ -1,5 +1,15 @@
 # @serenityjs/command
 
+## 0.3.3
+
+### Patch Changes
+
+- 592a131: 0.3.3-beta
+- Updated dependencies [592a131]
+  - @serenityjs/logger@0.3.3
+  - @serenityjs/network@0.3.3
+  - @serenityjs/protocol@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

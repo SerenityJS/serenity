@@ -1,5 +1,22 @@
 # @serenityjs/world
 
+## 0.3.3
+
+### Patch Changes
+
+- 592a131: 0.3.3-beta
+- Updated dependencies [592a131]
+  - @serenityjs/block@0.3.3
+  - @serenityjs/command@0.3.3
+  - @serenityjs/data@0.3.3
+  - @serenityjs/emitter@0.3.3
+  - @serenityjs/entity@0.3.3
+  - @serenityjs/item@0.3.3
+  - @serenityjs/logger@0.3.3
+  - @serenityjs/nbt@0.3.3
+  - @serenityjs/network@0.3.3
+  - @serenityjs/protocol@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes
