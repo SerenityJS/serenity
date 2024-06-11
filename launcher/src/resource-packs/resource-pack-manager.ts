@@ -1,15 +1,11 @@
-import {
-	existsSync,
-	mkdirSync,
-	readFileSync,
-	readdirSync,
-	statSync
-} from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { PackType } from "@serenityjs/protocol";
+
+import { exists } from "../utils/exists";
 
 import { ResourcePackZip } from "./resource-pack-zip";
 
@@ -108,7 +104,7 @@ class ResourcePackManager {
 	) {
 		this.resourcePacks = new Map();
 
-		if (!existsSync(this.resourcePacksFolderPath)) {
+		if (!exists(this.resourcePacksFolderPath)) {
 			mkdirSync(this.resourcePacksFolderPath);
 
 			this.logger.success(
@@ -137,7 +133,7 @@ class ResourcePackManager {
 			const folderPath = join(this.resourcePacksFolderPath, folder);
 			const manifestPath = join(folderPath, "manifest.json");
 
-			if (!existsSync(manifestPath)) {
+			if (!exists(manifestPath)) {
 				this.logger.error(
 					`Pack at ${folderPath} does not contain a manifest. Skipping...`
 				);

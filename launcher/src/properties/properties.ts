@@ -1,8 +1,10 @@
 import { resolve } from "node:path";
-import { writeFileSync, readFileSync, rmSync, existsSync } from "node:fs";
+import { writeFileSync, readFileSync, rmSync } from "node:fs";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { parse } from "yaml";
+
+import { exists } from "../utils/exists";
 
 class Properties<T> {
 	public static readonly logger = new Logger(
@@ -56,7 +58,7 @@ class Properties<T> {
 	 */
 	protected read(): T {
 		// Check if the server.properties file exists.
-		if (!existsSync(this.path)) {
+		if (!exists(this.path)) {
 			// Create the server.properties file.
 			writeFileSync(this.path, this.template);
 

@@ -1,11 +1,5 @@
 import { execSync } from "node:child_process";
-import {
-	existsSync,
-	mkdirSync,
-	readFileSync,
-	readdirSync,
-	writeFileSync
-} from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import process from "node:process";
 
@@ -13,6 +7,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import Emitter from "@serenityjs/emitter";
 
 import { PLUGIN_TEMPLATE, TSCONFIG_TEMPLATE } from "./templates";
+import { exists } from "./utils/exists";
 
 export interface Plugin {
 	logger: Logger;
@@ -84,7 +79,7 @@ class Plugins extends Emitter<PluginEvents> {
 		}
 
 		// Check if the plugins directory exists
-		if (!existsSync(this.path)) {
+		if (!exists(this.path)) {
 			// Create the plugins directory
 			try {
 				await mkdirSync(this.path);
@@ -104,7 +99,7 @@ class Plugins extends Emitter<PluginEvents> {
 			const path = resolve(this.path, directory.name);
 
 			// Check if the plugin.json file exists
-			if (!existsSync(resolve(path, "plugin.json"))) {
+			if (!exists(resolve(path, "plugin.json"))) {
 				// Create the plugin.json file
 				try {
 					// Generate the plugin.json file from the template
@@ -127,7 +122,7 @@ class Plugins extends Emitter<PluginEvents> {
 			// Check if the plugin is using nodejs
 			if (config.node === true) {
 				// Check if the plugin contains a package.json file
-				if (!existsSync(resolve(path, "package.json"))) {
+				if (!exists(resolve(path, "package.json"))) {
 					// Create the package.json file
 					try {
 						// Execute the npm init command
@@ -142,7 +137,7 @@ class Plugins extends Emitter<PluginEvents> {
 				}
 
 				// Check if the plugin contains a package-lock.json file
-				if (!existsSync(resolve(path, "package-lock.json"))) {
+				if (!exists(resolve(path, "package-lock.json"))) {
 					// Install the dependencies
 					try {
 						this.logger.info(
@@ -164,7 +159,7 @@ class Plugins extends Emitter<PluginEvents> {
 			// Check if the plugin is using typescript
 			if (config.typescript === true) {
 				// Check if the plugin contains a tsconfig.json file
-				if (!existsSync(resolve(path, "tsconfig.json"))) {
+				if (!exists(resolve(path, "tsconfig.json"))) {
 					// Create the tsconfig.json file
 					try {
 						// Write the tsconfig.json file to the directory
@@ -187,10 +182,7 @@ class Plugins extends Emitter<PluginEvents> {
 				}
 
 				// Check if the dist directory exists or if the plugin is in development mode
-				if (
-					!existsSync(resolve(path, "dist")) ||
-					config.mode === "development"
-				) {
+				if (!exists(resolve(path, "dist")) || config.mode === "development") {
 					// Build the typescript files
 					try {
 						this.logger.info(

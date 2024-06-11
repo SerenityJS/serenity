@@ -1,7 +1,9 @@
 import { resolve } from "node:path";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 
 import { PermissionLevel } from "@serenityjs/protocol";
+
+import { exists } from "../utils/exists";
 
 import type { Player } from "@serenityjs/world";
 
@@ -23,7 +25,7 @@ class Permissions {
 		this.entries = [];
 
 		// Check if the permissions.json file exists.
-		if (existsSync(this.path)) {
+		if (exists(this.path)) {
 			// Read the permissions from the permissions.json file.
 			this.entries = JSON.parse(readFileSync(this.path, "utf8"));
 		} else {

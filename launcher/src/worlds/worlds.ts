@@ -1,10 +1,4 @@
-import {
-	existsSync,
-	mkdirSync,
-	readdirSync,
-	readFileSync,
-	writeFileSync
-} from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import {
@@ -20,6 +14,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import { DisconnectPacket, DisconnectReason } from "@serenityjs/protocol";
 
 import { FileSystemProvider } from "../providers";
+import { exists } from "../utils/exists";
 
 import type { Serenity } from "../serenity";
 
@@ -86,7 +81,7 @@ class Worlds {
 	 */
 	public async initialize(): Promise<void> {
 		// Check if the worlds directory exists.
-		if (!existsSync(this.path)) {
+		if (!exists(this.path)) {
 			// Log the creation of the worlds directory.
 			this.logger.info(`Creating the worlds directory at "${this.path}"...`);
 
@@ -135,9 +130,7 @@ class Worlds {
 		// And check if the directory container a .provider file.
 		for await (const directory of directories) {
 			if (
-				existsSync(
-					resolve(this.path, directory.path, directory.name, ".provider")
-				)
+				exists(resolve(this.path, directory.path, directory.name, ".provider"))
 			) {
 				// Get the path of the world
 				const path = resolve(this.path, directory.path, directory.name);

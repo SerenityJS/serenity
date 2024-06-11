@@ -1,11 +1,5 @@
 import { basename, join } from "node:path";
-import {
-	existsSync,
-	mkdirSync,
-	readdirSync,
-	readFileSync,
-	writeFileSync
-} from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 
 import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
 import {
@@ -17,6 +11,7 @@ import {
 } from "@serenityjs/world";
 
 import { DEFAULT_WORLD_PROPERTIES, Properties } from "../properties";
+import { exists } from "../utils/exists";
 
 interface DefaultWorldProperties {
 	"world-name": string;
@@ -67,7 +62,7 @@ class FileSystemProvider extends WorldProvider {
 		);
 
 		// Check if the "dims" directory exists.
-		if (!existsSync(join(path, "dims"))) {
+		if (!exists(join(path, "dims"))) {
 			// Create the "dims" directory.
 			mkdirSync(join(path, "dims"));
 		}
@@ -107,19 +102,19 @@ class FileSystemProvider extends WorldProvider {
 		for (const directory of directories) {
 			// Check if the directory contains a ".generator" file.
 			// If not, then skip the directory.
-			if (!existsSync(join(path, "dims", directory.name, ".generator"))) {
+			if (!exists(join(path, "dims", directory.name, ".generator"))) {
 				continue;
 			}
 
 			// Check if the directory contains a ".type" file.
 			// If not, then create the ".type" file.
-			if (!existsSync(join(path, "dims", directory.name, ".type"))) {
+			if (!exists(join(path, "dims", directory.name, ".type"))) {
 				writeFileSync(join(path, "dims", directory.name, ".type"), "overworld");
 			}
 
 			// Check if the directory contains a "chunks" directory.
 			// If not, then create the "chunks" directory.
-			if (!existsSync(join(path, "dims", directory.name, "chunks"))) {
+			if (!exists(join(path, "dims", directory.name, "chunks"))) {
 				mkdirSync(join(path, "dims", directory.name, "chunks"));
 			}
 
@@ -195,13 +190,13 @@ class FileSystemProvider extends WorldProvider {
 		const hash = ChunkCoords.hash({ x: cx, z: cz });
 
 		// Check if the chunks exist.
-		const exists = existsSync(
+		const exist = exists(
 			join(this.path, "dims", dimension.identifier, "chunks", `${cx}.${cz}.bin`)
 		);
 
 		if (chunks.has(hash)) {
 			return chunks.get(hash) as Chunk;
-		} else if (exists) {
+		} else if (exist) {
 			// Read the chunk from the file system.
 			const buffer = readFileSync(
 				join(

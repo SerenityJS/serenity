@@ -10,7 +10,7 @@
     "@ariesclark/eslint-config": "^1.6.10",
     "@eslint/eslintrc": "^3.0.2",
     "eslint": "^8.57.0",
-    "eslint-config-turbo": "^1.12.5",
+    "eslint-config-turbo": "^2.0.3",
     "typescript": "^5.4.2"
   }
 }
