@@ -54,7 +54,7 @@ class Dimension {
 	/**
 	 * The blocks that contain components in the dimension.
 	 */
-	public readonly blocks: Map<bigint, Block>;
+	public readonly blocks: Map<BlockCoordinates, Block>;
 
 	/**
 	 * The spawn position of the dimension.
@@ -290,10 +290,18 @@ class Dimension {
 	 * @returns The block.
 	 */
 	public getBlock(x: number, y: number, z: number): Block {
+		// Create a new position vector
+		const position = new BlockCoordinates(x, y, z);
+
 		// Check if the block is in the blocks
-		if (this.blocks.has(Block.getHash({ x, y, z }))) {
+		const block = [...this.blocks.entries()].find(
+			([pos]) => pos.x === x && pos.y === y && pos.z === z
+		);
+
+		// Check if the block is in the blocks
+		if (block) {
 			// Get the block from the blocks
-			return this.blocks.get(Block.getHash({ x, y, z })) as Block;
+			return block[1] as Block;
 		} else {
 			// Get the chunk
 			const chunk = this.getChunk(x >> 4, z >> 4);
@@ -305,8 +313,7 @@ class Dimension {
 			const block = new Block(this, permutation, { x, y, z });
 
 			// If the block has components add it to the blocks
-			if (block.components.size > 0)
-				this.blocks.set(Block.getHash({ x, y, z }), block);
+			if (block.components.size > 0) this.blocks.set(position, block);
 
 			// Return the block
 			return block;

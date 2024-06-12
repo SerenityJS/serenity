@@ -128,8 +128,8 @@ class Block {
 
 		// Check if the dimension already has the block.
 		// If not, we will add it to the cache.
-		if (!this.dimension.blocks.has(Block.getHash(this.position)))
-			this.dimension.blocks.set(Block.getHash(this.position), this);
+		if (!this.dimension.blocks.has(this.position))
+			this.dimension.blocks.set(this.position, this);
 	}
 
 	/**
@@ -202,7 +202,9 @@ class Block {
 		this.dimension.broadcast(update);
 
 		// Register the components to the block.
-		for (const component of BlockComponent.registry.get(permutation.type) ?? [])
+		for (const component of BlockComponent.registry.get(
+			permutation.type.identifier
+		) ?? [])
 			new component(this, component.identifier);
 
 		// Call the onPlace method of the components.
@@ -210,6 +212,9 @@ class Block {
 			// Call the onBlockPlacedByPlayer method.
 			component.onPlace?.(playerInitiated);
 		}
+
+		// Update the block and the surrounding blocks.
+		this.update(true);
 
 		// Check if there is an entity on the block.
 		for (const entity of this.dimension.entities.values()) {
@@ -379,12 +384,34 @@ class Block {
 		this.setPermutation(air);
 
 		// Since the block is becoming air, we can remove the block from the dimension cache to save memory.
-		this.dimension.blocks.delete(Block.getHash(this.position));
+		this.dimension.blocks.delete(this.position);
 
 		// Call the onBreak method of the components.
 		for (const component of this.components.values()) {
 			// Call the onBlockBrokenByPlayer method.
 			component.onBreak?.(playerInitiated);
+		}
+	}
+
+	/**
+	 * Updates the block and the surrounding blocks.
+	 * @param surrounding If the surrounding blocks should be updated.
+	 */
+	public update(surrounding = false): void {
+		// Call the onUpdate method of the components.
+		for (const component of this.components.values()) {
+			// Call the onUpdate method.
+			component.onUpdate?.();
+		}
+
+		// Check if the surrounding blocks should be updated.
+		if (surrounding) {
+			this.above().update();
+			this.below().update();
+			this.north().update();
+			this.south().update();
+			this.east().update();
+			this.west().update();
 		}
 	}
 
