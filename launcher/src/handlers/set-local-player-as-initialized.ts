@@ -67,7 +67,7 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 
 		// Log the player joined message
 		player.dimension.world.logger.info(
-			`[${player.username}] Event: Player has joined the game.`
+			`§8[§9${player.username}§8] Event:§r Player has joined the game.`
 		);
 	}
 }

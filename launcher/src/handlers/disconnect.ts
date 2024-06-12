@@ -27,7 +27,7 @@ class Disconnect extends SerenityHandler {
 
 		// Log the player left message
 		player.dimension.world.logger.info(
-			`[${player.username}] Event: Player has left the game.`
+			`§8[§9${player.username}§8] Event:§r Player has left the game.`
 		);
 	}
 }

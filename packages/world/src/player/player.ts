@@ -92,7 +92,7 @@ class Player extends Entity {
 	/**
 	 * The player's permission level.
 	 */
-	public readonly permission: PermissionLevel;
+	public permission: PermissionLevel;
 
 	public readonly skin: SerializedSkin;
 
@@ -200,6 +200,27 @@ class Player extends Entity {
 				this.ping = stamp - 30;
 			});
 		}
+	}
+
+	/**
+	 * Syncs the player instance.
+	 */
+	public sync(): void {
+		// Send the commands that are applicable to the player
+		const available = this.dimension.world.commands.serialize();
+
+		// Filter out the commands that are not applicable to the player
+		const filtered = available.commands.filter(
+			(command) => command.permissionLevel <= this.permission
+		);
+
+		// Update the commands of the player
+		available.commands = filtered;
+
+		// Send the commands to the player
+		this.session.sendImmediate(available);
+
+		// TODO: Send the player the world settings.
 	}
 
 	/**
