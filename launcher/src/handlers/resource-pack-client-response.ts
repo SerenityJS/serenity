@@ -130,7 +130,9 @@ class ResourcePackClientResponse extends SerenityHandler {
 
 						const components = new CompoundTag("components", {});
 
-						for (const component of BlockComponent.registry.get(type) ?? []) {
+						for (const component of BlockComponent.registry.get(
+							type.identifier
+						) ?? []) {
 							// Check if the component is an NBT component
 							if (!(component.prototype instanceof BlockNBTComponent)) continue;
 
