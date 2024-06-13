@@ -213,6 +213,7 @@ class World {
 		packet.parameters = null;
 		packet.xuid = "";
 		packet.platformChatId = "";
+		packet.filtered = message;
 
 		// Broadcast the packet
 		this.broadcast(packet);

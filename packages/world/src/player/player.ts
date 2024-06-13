@@ -438,6 +438,7 @@ class Player extends Entity {
 		packet.parameters = null;
 		packet.xuid = "";
 		packet.platformChatId = "";
+		packet.filtered = message;
 
 		// Send the packet.
 		this.session.send(packet);

@@ -28,6 +28,7 @@ class Text extends SerenityHandler {
 		text.parameters = packet.parameters;
 		text.xuid = packet.xuid;
 		text.platformChatId = packet.platformChatId;
+		text.filtered = packet.filtered;
 
 		// Send the packet.
 		player.dimension.world.broadcast(text);

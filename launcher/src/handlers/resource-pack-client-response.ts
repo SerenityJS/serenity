@@ -412,6 +412,9 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.experimentalGameplayOverride = false;
 				packet.chatRestrictionLevel = 0;
 				packet.disablePlayerInteractions = false;
+				packet.serverIdentfier = "SerenityJS";
+				packet.worldIdentifier = player.dimension.world.identifier;
+				packet.scenarioIdentifier = "SerenityJS";
 				packet.levelId = "SerenityJS";
 				packet.worldName = player.dimension.world.identifier;
 				packet.premiumWorldTemplateId = "00000000-0000-0000-0000-000000000000";
