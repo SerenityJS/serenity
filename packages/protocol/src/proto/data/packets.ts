@@ -81,6 +81,7 @@ import { AnimateEntityPacket } from "./animate-entity";
 import { EmoteListPacket } from "./emote-list";
 import { EmotePacket } from "./emote";
 import { PlayerSkinPacket } from "./player-skin";
+import { BlockActorDataPacket } from "./block-actor-data";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -117,6 +118,7 @@ const Packets = {
 	[Packet.PlayerHotbar]: PlayerHotbarPacket, // 48
 	[Packet.InventoryContent]: InventoryContentPacket, // 49
 	[Packet.InventorySlot]: InventorySlotPacket, // 50
+	[Packet.BlockActorData]: BlockActorDataPacket, // 56
 	[Packet.LevelChunk]: LevelChunkPacket, // 58
 	[Packet.SetCommandsEnabled]: SetCommandsEnabledPacket, // 59
 	[Packet.ChangeDimension]: ChangeDimensionPacket, // 61
