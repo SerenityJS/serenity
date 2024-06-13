@@ -1,6 +1,6 @@
+import type { ItemStack } from "../item";
 import type { ContainerId, ContainerType } from "@serenityjs/protocol";
 import type { Player } from "../player";
-import type { ItemStack } from "../item";
 
 /**
  * Represents a container.
@@ -83,6 +83,12 @@ abstract class Container {
 	 */
 	public abstract removeItem(slot: number, amount: number): void;
 
+	/**
+	 * Takes an item from the container.
+	 * @param slot The slot to take the item from.
+	 * @param amount The amount of the item to take.
+	 * @returns The taken item.
+	 */
 	public abstract takeItem(slot: number, amount: number): ItemStack | null;
 
 	/**

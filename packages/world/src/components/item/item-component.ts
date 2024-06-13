@@ -2,7 +2,7 @@ import { Component } from "../component";
 
 import type { ItemUseCause } from "../../enums";
 import type { Player } from "../../player";
-import type { Items, ItemType } from "@serenityjs/item";
+import type { ItemIdentifier, Items, ItemType } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
 class ItemComponent<T extends keyof Items> extends Component {
@@ -10,7 +10,7 @@ class ItemComponent<T extends keyof Items> extends Component {
 	 * A collective registry of all item components registered to an item.
 	 */
 	public static readonly registry = new Map<
-		ItemType,
+		ItemIdentifier,
 		Array<typeof ItemComponent>
 	>();
 
@@ -45,13 +45,13 @@ class ItemComponent<T extends keyof Items> extends Component {
 	 */
 	public static register<T extends keyof Items>(type: ItemType<T>): void {
 		// Get the components of the item type.
-		const components = this.registry.get(type) ?? [];
+		const components = this.registry.get(type.identifier) ?? [];
 
 		// Push the component to the components.
 		components.push(this);
 
 		// Register the components to the item type.
-		this.registry.set(type, components);
+		this.registry.set(type.identifier, components);
 	}
 
 	/**

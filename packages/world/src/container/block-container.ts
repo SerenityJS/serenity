@@ -185,6 +185,11 @@ class BlockContainer extends Container {
 			component.clone(newItem);
 		}
 
+		// Clone the NBT tags of the item.
+		for (const tag of item.nbt.getTags()) {
+			newItem.nbt.addTag(tag);
+		}
+
 		// Return the new item.
 		return newItem;
 	}

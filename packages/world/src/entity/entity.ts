@@ -120,7 +120,7 @@ class Entity {
 		this.dimension = dimension;
 
 		// Register the type components to the entity.
-		for (const component of EntityComponent.registry.get(this.type) ?? [])
+		for (const component of EntityComponent.registry.get(identifier) ?? [])
 			new component(this, component.identifier);
 	}
 

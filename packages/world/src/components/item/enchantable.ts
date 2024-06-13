@@ -1,3 +1,5 @@
+import { CompoundTag, ListTag, ShortTag, Tag } from "@serenityjs/nbt";
+
 import { ItemComponent } from "./item-component";
 
 import type { Enchantment } from "@serenityjs/protocol";
@@ -57,6 +59,32 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 		// Set the enchantment on the item.
 		this.enchantments.set(enchantment, level);
 
+		// Check if the item has no enchantments.
+		if (!this.item.nbt.hasTag("ench")) this.item.nbt.removeTag("ench");
+
+		// Create a new list tag for the enchantments.
+		const enchTag = new ListTag<CompoundTag>("ench", [], Tag.Compound);
+
+		// Iterate over the enchantments.
+		for (const [enchantment, level] of this.enchantments) {
+			// Create the enchantment tag.
+			const ench = new CompoundTag("", {});
+
+			// Create the id and level tags.
+			const id = new ShortTag("id", enchantment);
+			const lvl = new ShortTag("lvl", level);
+
+			// Add the id and level tags to the enchantment tag.
+			ench.addTag(id);
+			ench.addTag(lvl);
+
+			// Push the enchantment tag to the list tag.
+			enchTag.value.push(ench);
+		}
+
+		// Add the enchantment list tag to the item.
+		this.item.nbt.addTag(enchTag);
+
 		// Update the item in the container.
 		this.item.update();
 	}
@@ -68,6 +96,32 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 	public removeEnchantment(enchantment: Enchantment): void {
 		// Remove the enchantment from the item.
 		this.enchantments.delete(enchantment);
+
+		// Check if the item has no enchantments.
+		if (!this.item.nbt.hasTag("ench")) this.item.nbt.removeTag("ench");
+
+		// Create a new list tag for the enchantments.
+		const enchTag = new ListTag<CompoundTag>("ench", [], Tag.Compound);
+
+		// Iterate over the enchantments.
+		for (const [enchantment, level] of this.enchantments) {
+			// Create the enchantment tag.
+			const ench = new CompoundTag("", {});
+
+			// Create the id and level tags.
+			const id = new ShortTag("id", enchantment);
+			const lvl = new ShortTag("lvl", level);
+
+			// Add the id and level tags to the enchantment tag.
+			ench.addTag(id);
+			ench.addTag(lvl);
+
+			// Push the enchantment tag to the list tag.
+			enchTag.value.push(ench);
+		}
+
+		// Add the enchantment list tag to the item.
+		this.item.nbt.addTag(enchTag);
 
 		// Update the item in the container.
 		this.item.update();

@@ -1,11 +1,5 @@
 import { ItemType, type Items } from "@serenityjs/item";
-import {
-	CompoundTag,
-	ListTag,
-	ShortTag,
-	StringTag,
-	Tag
-} from "@serenityjs/nbt";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemComponent } from "../components";
 
@@ -30,7 +24,12 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	/**
 	 * The components of the item stack.
 	 */
-	public readonly components: Map<string, ItemComponent<T>>;
+	public readonly components = new Map<string, ItemComponent<T>>();
+
+	/**
+	 * The NBT data of the item stack.
+	 */
+	public readonly nbt = new CompoundTag("", {});
 
 	/**
 	 * The container of the item stack.
@@ -51,14 +50,17 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	public constructor(identifier: T, amount: number, metadata?: number) {
 		this.type = ItemType.get(identifier) as ItemType<T>;
 		this.metadata = metadata ?? 0;
-		this.components = new Map();
 		this.amount = amount;
 
 		// Register the type components to the item.
-		for (const component of ItemComponent.registry.get(this.type) ?? [])
+		for (const component of ItemComponent.registry.get(identifier) ?? [])
 			new component(this, component.identifier);
 	}
 
+	/**
+	 * Set the amount of the item stack.
+	 * @param amount The amount to set.
+	 */
 	public setAmount(amount: number): void {
 		// Update the amount of the item stack.
 		this.amount = amount;
@@ -156,75 +158,6 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Get the permtuation of the block.
 		const permutation = item.type.block?.permutations[item.metadata];
 
-		// Create the NBT tag.
-		const nbt = new CompoundTag("", {});
-
-		// Create the display tag.
-		const display = new CompoundTag("display", {});
-
-		// Check if the item has a display name.
-		if (item.components.has("minecraft:nametag")) {
-			// Get the nametag component.
-			const nametag = item.getComponent("minecraft:nametag");
-
-			// Create the name tag.
-			const name = new StringTag("Name", nametag.currentValue);
-
-			// Set the display name.
-			display.addTag(name);
-		}
-
-		// Check if the item has lore.
-		if (item.components.has("minecraft:lore")) {
-			// Get the lore component.
-			const lore = item.getComponent("minecraft:lore");
-
-			// Create the lore list tag.
-			const loreTag = new ListTag<StringTag>("Lore", [], Tag.String);
-
-			// Iterate over the lore values.
-			for (const value of lore.values) {
-				// Create the lore tag.
-				const loreValue = new StringTag("", value);
-
-				// Push the lore tag.
-				loreTag.push(loreValue);
-			}
-
-			// Set the lore tag.
-			display.addTag(loreTag);
-		}
-
-		// Add the display tag.
-		if (
-			item.components.has("minecraft:nametag") ||
-			item.components.has("minecraft:lore")
-		)
-			nbt.addTag(display);
-
-		// CHeck if the item has enchantments.
-		if (item.components.has("minecraft:enchantable")) {
-			// Create the enchantable list tag.
-			const enchantments = new ListTag<CompoundTag>("ench", [], Tag.Compound);
-
-			// Get the enchantable component.
-			const enchantable = item.getComponent("minecraft:enchantable");
-
-			// Iterate over the enchantments.
-			for (const [enchantment, level] of enchantable.enchantments) {
-				// Create the enchantment tag.
-				const enchantmentTag = new CompoundTag("", {});
-				enchantmentTag.addTag(new ShortTag("id", enchantment));
-				enchantmentTag.addTag(new ShortTag("lvl", level));
-
-				// Push the enchantment tag.
-				enchantments.push(enchantmentTag);
-			}
-
-			// Set the enchantments tag.
-			nbt.addTag(enchantments);
-		}
-
 		// Return the item instance descriptor.
 		return {
 			network: item.type.network,
@@ -232,7 +165,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 			metadata: item.metadata,
 			networkBlockId: permutation?.network ?? 0,
 			extras: {
-				nbt,
+				nbt: item.nbt,
 				canDestroy: [],
 				canPlaceOn: []
 			}
