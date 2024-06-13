@@ -88,7 +88,8 @@ enum Packet {
 	UpdateAdventureSettings = 0xbc, // 188
 	// UpdateAdventureSettings = 0xbc, // 188
 	RequestNetworkSettings = 0xc1, // 193
-	SetHud = 0x1_34 // 308
+	SetHud = 0x1_34, // 308
+	AwardAchievement = 0x1_35 // 309
 }
 
 export { Packet };

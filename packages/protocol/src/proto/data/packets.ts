@@ -82,6 +82,7 @@ import { EmoteListPacket } from "./emote-list";
 import { EmotePacket } from "./emote";
 import { PlayerSkinPacket } from "./player-skin";
 import { BlockActorDataPacket } from "./block-actor-data";
+import { AwardAchievementPacket } from "./award-achievement";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -163,7 +164,8 @@ const Packets = {
 	[Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
 	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
-	[Packet.SetHud]: SetHudPacket // 308
+	[Packet.SetHud]: SetHudPacket, // 308
+	[Packet.AwardAchievement]: AwardAchievementPacket // 309
 };
 
 export { Packets };

@@ -79,7 +79,8 @@ import type {
 	EmoteListPacket,
 	EmotePacket,
 	PlayerSkinPacket,
-	BlockActorDataPacket
+	BlockActorDataPacket,
+	AwardAchievementPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -189,6 +190,7 @@ interface NetworkEvents {
 		NetworkPacketEvent<RequestNetworkSettingsPacket>
 	];
 	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
+	[Packet.AwardAchievement]: [NetworkPacketEvent<AwardAchievementPacket>];
 }
 
 export { NetworkEvents };

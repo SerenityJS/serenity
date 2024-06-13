@@ -85,3 +85,4 @@ export * from "./resource-pack-chunk-data";
 export * from "./resource-pack-chunk-request";
 export * from "./transfer";
 export * from "./set-hud";
+export * from "./award-achievement";
