@@ -74,22 +74,22 @@ class Entity {
 	/**
 	 * The position of the entity.
 	 */
-	public readonly position: Vector3f;
+	public readonly position = new Vector3f(0, 0, 0);
 
 	/**
 	 * The velocity of the entity.
 	 */
-	public readonly velocity: Vector3f;
+	public readonly velocity = new Vector3f(0, 0, 0);
 
 	/**
 	 * The rotation of the entity.
 	 */
-	public readonly rotation: Rotation;
+	public readonly rotation = new Rotation(0, 0, 0);
 
 	/**
 	 * The components of the entity.
 	 */
-	public readonly components: Map<string, EntityComponent>;
+	public readonly components = new Map<string, EntityComponent>();
 
 	/**
 	 * The dimension of the entity.
@@ -111,10 +111,6 @@ class Entity {
 		this.runtime = Entity.runtime++;
 		this.unique =
 			uniqueId ?? (BigInt(Date.now()) << 32n) | (this.runtime << 4n);
-		this.position = new Vector3f(0, 0, 0);
-		this.velocity = new Vector3f(0, 0, 0);
-		this.rotation = new Rotation(0, 0, 0);
-		this.components = new Map();
 
 		// Mutable properties
 		this.dimension = dimension;

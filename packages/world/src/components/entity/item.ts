@@ -1,5 +1,10 @@
 import { EntityIdentifier } from "@serenityjs/entity";
-import { TakeItemActorPacket, Vector3f } from "@serenityjs/protocol";
+import {
+	LevelSoundEvent,
+	LevelSoundEventPacket,
+	TakeItemActorPacket,
+	Vector3f
+} from "@serenityjs/protocol";
 
 import { EntityComponent } from "./entity-component";
 
@@ -104,8 +109,17 @@ class EntityItemComponent extends EntityComponent {
 			take.itemUniqueId = this.entity.unique;
 			take.targetUniqueId = this.target.unique;
 
-			// Broadcast the packet to the dimension
-			this.target.dimension.broadcast(take);
+			// Create a new level sound event packet
+			const sound = new LevelSoundEventPacket();
+			sound.event = LevelSoundEvent.Pop;
+			sound.position = this.target.position;
+			sound.actorIdentifier = this.entity.type.identifier;
+			sound.data = -1;
+			sound.isBabyMob = false;
+			sound.isGlobal = false;
+
+			// Send the packets to the player
+			this.target.session.send(sound, take);
 
 			// Get the players inventory component
 			const inventory = this.target.getComponent("minecraft:inventory");

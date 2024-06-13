@@ -1,4 +1,5 @@
 import { IntTag } from "@serenityjs/nbt";
+import { LevelSoundEvent, LevelSoundEventPacket } from "@serenityjs/protocol";
 
 import { ItemUseCause } from "../../enums";
 
@@ -11,7 +12,7 @@ import type { ItemStack } from "../../item";
 class ItemDurabilityComponent<T extends keyof Items> extends ItemComponent<T> {
 	public static readonly identifier = "minecraft:durability";
 
-	public readonly maxDurability: number = 100;
+	public readonly maxDurability: number = 1561;
 
 	public durability: number = 0;
 
@@ -49,15 +50,26 @@ class ItemDurabilityComponent<T extends keyof Items> extends ItemComponent<T> {
 
 	/**
 	 * Applies the durability to the item when used.
+	 * @param player The player that used the item.
 	 * @param cause The cause of the item use.
 	 */
-	public onUse(_: Player, cause: ItemUseCause): void {
+	public onUse(player: Player, cause: ItemUseCause): void {
 		// Check if the durability is at the max.
 		if (this.durability >= this.maxDurability) {
 			// Set the amount of the item stack.
 			this.item.setAmount(this.item.amount - 1);
 
-			// TODO: Sound effect and particle effect.
+			// Create a new level event packet.
+			const sound = new LevelSoundEventPacket();
+			sound.event = LevelSoundEvent.Break;
+			sound.position = player.position;
+			sound.actorIdentifier = this.item.type.identifier;
+			sound.data = -1;
+			sound.isBabyMob = false;
+			sound.isGlobal = false;
+
+			// Broadcast the sound to the player's dimension.
+			player.dimension.broadcast(sound);
 
 			return;
 		}

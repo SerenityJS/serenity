@@ -34,7 +34,7 @@ class Block {
 	/**
 	 * The components of the block.
 	 */
-	public readonly components: Map<string, BlockComponent>;
+	public readonly components = new Map<string, BlockComponent>();
 
 	/**
 	 * The permutation of the block.
@@ -55,14 +55,13 @@ class Block {
 		this.dimension = dimension;
 		this.permutation = permutation;
 		this.position = position;
-		this.components = new Map();
 	}
 
 	/**
 	 * If the block is air.
 	 */
 	public isAir(): boolean {
-		return this.permutation.type.identifier === "minecraft:air";
+		return this.permutation.type.identifier === BlockIdentifier.Air;
 	}
 
 	/**
@@ -70,8 +69,8 @@ class Block {
 	 */
 	public isLiquid(): boolean {
 		return (
-			this.permutation.type.identifier === "minecraft:water" ||
-			this.permutation.type.identifier === "minecraft:lava"
+			this.permutation.type.identifier === BlockIdentifier.Water ||
+			this.permutation.type.identifier === BlockIdentifier.Lava
 		);
 	}
 
