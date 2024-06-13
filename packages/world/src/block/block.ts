@@ -1,4 +1,5 @@
 import {
+	BlockActorDataPacket,
 	type BlockCoordinates,
 	BlockFace,
 	LevelSoundEvent,
@@ -10,6 +11,7 @@ import {
 } from "@serenityjs/protocol";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 import { ItemType } from "@serenityjs/item";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../item";
 import { BlockComponent } from "../components";
@@ -35,6 +37,11 @@ class Block {
 	 * The components of the block.
 	 */
 	public readonly components = new Map<string, BlockComponent>();
+
+	/**
+	 * The NBT data of the block.
+	 */
+	public readonly nbt = new CompoundTag("", {});
 
 	/**
 	 * The permutation of the block.
@@ -376,6 +383,12 @@ class Block {
 	 * Destroys the block.
 	 */
 	public destroy(playerInitiated?: Player): void {
+		// Call the onBreak method of the components.
+		for (const component of this.components.values()) {
+			// Call the onBlockBrokenByPlayer method.
+			component.onBreak?.(playerInitiated);
+		}
+
 		// Get the air permutation.
 		const air = BlockPermutation.resolve(BlockIdentifier.Air);
 
@@ -384,12 +397,6 @@ class Block {
 
 		// Since the block is becoming air, we can remove the block from the dimension cache to save memory.
 		this.dimension.blocks.delete(this.position);
-
-		// Call the onBreak method of the components.
-		for (const component of this.components.values()) {
-			// Call the onBlockBrokenByPlayer method.
-			component.onBreak?.(playerInitiated);
-		}
 	}
 
 	/**
@@ -402,6 +409,14 @@ class Block {
 			// Call the onUpdate method.
 			component.onUpdate?.();
 		}
+
+		// Create a new BlockActorDataPacket.
+		const update = new BlockActorDataPacket();
+		update.position = this.position;
+		update.nbt = this.nbt;
+
+		// Send the packet to the dimension.
+		this.dimension.broadcast(update);
 
 		// Check if the surrounding blocks should be updated.
 		if (surrounding) {

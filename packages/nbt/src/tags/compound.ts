@@ -62,12 +62,36 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	}
 
 	/**
+	 * Sets a tag in the compound tag.
+	 *
+	 * @param name The name of the tag to set.
+	 * @param tag The tag to set.
+	 */
+	public setTag(name: string, tag: NBTTag<T>): this {
+		(this.value as Record<string, NBTTag<T>>)[name] = tag;
+
+		return this;
+	}
+
+	/**
 	 * Returns all the tags in the compound tag.
 	 *
 	 * @returns All the tags in the compound tag.
 	 */
 	public getTags(): Array<NBTTag<T>> {
 		return Object.values(this.value as Record<string, NBTTag<T>>);
+	}
+
+	/**
+	 * Returns all the names of the tags in the compound tag.
+	 * @returns All the names of the tags in the compound tag.
+	 */
+	public clear(): this {
+		for (const key in this.value) {
+			delete this.value[key];
+		}
+
+		return this;
 	}
 
 	public valueOf<K = unknown>(snbt?: boolean): K | string {

@@ -29,10 +29,10 @@ class BlockInventoryComponent extends BlockComponent {
 
 	public onInteract(player: Player): void {
 		// Check if the player is sneaking
-		if (player.isSneaking) return;
-
-		// Show the container to the player
-		this.container.show(player);
+		if (!player.isSneaking) {
+			// Show the container to the player
+			this.container.show(player);
+		}
 	}
 
 	public onBreak(player?: Player): void {

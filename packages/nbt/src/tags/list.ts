@@ -248,7 +248,7 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 				}
 
 				case Tag.Compound: {
-					const compound = value as CompoundTag;
+					const compound = value as CompoundTag<Record<string, NBTTag>>;
 
 					// Write the tags.
 					for (const key in compound.value) {
