@@ -1,5 +1,14 @@
 # @serenityjs/block
 
+## 0.3.4
+
+### Patch Changes
+
+- 1901a90: 0.3.4-beta
+- Updated dependencies [1901a90]
+  - @serenityjs/data@0.3.4
+  - @serenityjs/nbt@0.3.4
+
 ## 0.3.3
 
 ### Patch Changes
