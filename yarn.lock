@@ -1986,7 +1986,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:packages/nbt":
+"@serenityjs/nbt@npm:*, @serenityjs/nbt@workspace:^, @serenityjs/nbt@workspace:packages/nbt":
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
@@ -2065,6 +2065,7 @@ __metadata:
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/logger": "npm:*"
+    "@serenityjs/nbt": "workspace:^"
     "@serenityjs/typescript-config": "npm:*"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"

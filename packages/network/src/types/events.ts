@@ -78,7 +78,8 @@ import type {
 	AnimateEntityPacket,
 	EmoteListPacket,
 	EmotePacket,
-	PlayerSkinPacket
+	PlayerSkinPacket,
+	BlockActorDataPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -124,6 +125,7 @@ interface NetworkEvents {
 	[Packet.PlayerHotbar]: [NetworkPacketEvent<PlayerHotbarPacket>];
 	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContentPacket>];
 	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlotPacket>];
+	[Packet.BlockActorData]: [NetworkPacketEvent<BlockActorDataPacket>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunkPacket>];
 	[Packet.SetCommandsEnabled]: [NetworkPacketEvent<SetCommandsEnabledPacket>];
 	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimensionPacket>];

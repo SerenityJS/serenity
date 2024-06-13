@@ -1,4 +1,7 @@
-import type { BasePacket } from "../proto";
+import { CompoundTag } from "@serenityjs/nbt";
+
+import type { Endianness } from "@serenityjs/binarystream";
+import type { BasePacket, DataType } from "../proto";
 import type { PacketMetadata } from "../types/packet";
 
 /**
@@ -40,14 +43,44 @@ function Proto(id: number) {
 				for (const { name, type, endian, parameter } of metadata) {
 					// Check if there is a parameter for type testing.
 					if (parameter) {
+						// Check if the type is a compound tag.
+						if (type.prototype === CompoundTag.prototype)
+							throw new Error(
+								"Parameters are not supported for CompoundTag serialization."
+							);
+
 						// Pull the value from the class using the parameter.
 						const value = this[parameter as keyof BasePacket];
 
+						// Convert the type to DataType.
+						const dtype = type as typeof DataType;
+
+						// Pull the data from the class.
+						const data = (this as never)[name];
+
 						// Write the property to the binary stream using the type.
-						type.write(this, (this as never)[name], endian, value);
+						dtype.write(this, data, endian as Endianness, value);
 					} else {
-						// Write the property to the binary stream using the type.
-						type.write(this, (this as never)[name], endian);
+						// Check if the type is a compound tag.
+						if (type.prototype === CompoundTag.prototype) {
+							// Convert the type to CompoundTag.
+							const ctype = type as typeof CompoundTag;
+
+							// Pull the tag from the class.
+							const tag = (this as never)[name] as CompoundTag;
+
+							// Write the property to the binary stream using the type.
+							ctype.write(this, tag, endian as boolean);
+						} else {
+							// Convert the type to DataType.
+							const dtype = type as typeof DataType;
+
+							// Pull the data from the class.
+							const data = (this as never)[name];
+
+							// Write the property to the binary stream using the type.
+							dtype.write(this, data, endian as Endianness);
+						}
 					}
 				}
 
@@ -74,21 +107,45 @@ function Proto(id: number) {
 				for (const { name, type, endian, parameter } of metadata) {
 					// Check if there is a parameter for type testing.
 					if (parameter) {
+						// Check if the type is a compound tag.
+						if (type.prototype === CompoundTag.prototype)
+							throw new Error(
+								"Parameters are not supported for CompoundTag deserialization."
+							);
+
 						// Read the property from the binary stream using the parameter.
 						const value = this[parameter as keyof BasePacket];
 
+						// Convert the type to DataType.
+						const dtype = type as typeof DataType;
+
 						// Set the property using the parameter and the type.
-						(this[name as keyof BasePacket] as unknown) = type.read(
+						(this[name as keyof BasePacket] as unknown) = dtype.read(
 							this,
-							endian,
+							endian as Endianness,
 							value
 						);
 					} else {
-						// Set the property using the type.
-						(this[name as keyof BasePacket] as unknown) = type.read(
-							this,
-							endian
-						);
+						// Check if the type is a compound tag.
+						if (type.prototype === CompoundTag.prototype) {
+							// Convert the type to CompoundTag.
+							const ctype = type as typeof CompoundTag;
+
+							// Set the property using the type.
+							(this[name as keyof BasePacket] as unknown) = ctype.read(
+								this,
+								endian as never
+							);
+						} else {
+							// Convert the type to DataType.
+							const dtype = type as typeof DataType;
+
+							// Set the property using the type.
+							(this[name as keyof BasePacket] as unknown) = dtype.read(
+								this,
+								endian as Endianness
+							);
+						}
 					}
 				}
 

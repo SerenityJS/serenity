@@ -5,7 +5,7 @@ import type { BasePacket } from "../proto";
 
 function Serialize(
 	type: ValidTypes,
-	endian = Endianness.Big,
+	endian: Endianness | boolean = Endianness.Big,
 	parameter?: string
 ) {
 	// Check if the wasnt a type provided.
