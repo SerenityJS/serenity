@@ -1,5 +1,12 @@
 [
   {
+    "identifier": "ominous",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
     "identifier": "vault_state",
     "values": [
       "inactive",
@@ -545,6 +552,13 @@
     ]
   },
   {
+    "identifier": "stripped_bit",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
     "identifier": "hanging",
     "values": [
       false,
@@ -1011,6 +1025,20 @@
     ]
   },
   {
+    "identifier": "top_slot_bit",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
+    "identifier": "toggle_bit",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
     "identifier": "suspended_bit",
     "values": [
       false,
@@ -1243,6 +1271,17 @@
     ]
   },
   {
+    "identifier": "facing_direction",
+    "values": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
     "identifier": "explode_bit",
     "values": [
       false,
@@ -1254,6 +1293,15 @@
     "values": [
       false,
       true
+    ]
+  },
+  {
+    "identifier": "direction",
+    "values": [
+      0,
+      1,
+      2,
+      3
     ]
   },
   {
@@ -1288,6 +1336,13 @@
   },
   {
     "identifier": "covered_bit",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
+    "identifier": "conditional_bit",
     "values": [
       false,
       true

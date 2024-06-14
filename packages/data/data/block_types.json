@@ -4,6 +4,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -140,7 +141,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -206,7 +208,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -341,6 +345,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -408,7 +413,7 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:white_wool",
+    "identifier": "minecraft:waxed_copper",
     "loggable": false,
     "components": [],
     "states": [],
@@ -418,7 +423,7 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:waxed_copper",
+    "identifier": "minecraft:white_wool",
     "loggable": false,
     "components": [],
     "states": [],
@@ -432,6 +437,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -445,7 +451,9 @@
     "identifier": "minecraft:piston_arm_collision",
     "loggable": true,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -535,7 +543,9 @@
     "identifier": "minecraft:lime_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -611,6 +621,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -625,7 +636,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -661,6 +673,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -674,7 +687,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -709,7 +723,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -761,7 +776,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -834,6 +850,20 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:cobblestone_slab",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:green_terracotta",
     "loggable": false,
     "components": [],
@@ -868,6 +898,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -1005,7 +1036,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1027,7 +1059,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1052,6 +1085,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction",
       "repeater_delay"
     ],
@@ -1077,7 +1111,9 @@
     "identifier": "minecraft:loom",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -1118,6 +1154,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -1133,7 +1170,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -1154,7 +1193,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1198,6 +1238,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -1227,22 +1268,22 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:hard_light_blue_stained_glass_pane",
-    "loggable": true,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:red_candle_cake",
     "loggable": true,
     "components": [],
     "states": [
       "lit"
     ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:hard_light_blue_stained_glass_pane",
+    "loggable": true,
+    "components": [],
+    "states": [],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -1278,6 +1319,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -1314,7 +1356,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -1348,6 +1392,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -1384,7 +1429,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "attachment"
+      "attachment",
+      "direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1416,7 +1462,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1559,6 +1606,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "item_frame_map_bit",
       "item_frame_photo_bit"
     ],
@@ -1572,7 +1620,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1584,7 +1633,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1708,7 +1758,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1726,16 +1777,6 @@
     "requiresTool": true
   },
   {
-    "identifier": "minecraft:orange_stained_glass_pane",
-    "loggable": true,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:nether_wart",
     "loggable": false,
     "components": [],
@@ -1745,6 +1786,16 @@
     "hardness": 0,
     "resistance": 0,
     "material": "plant",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:orange_stained_glass_pane",
+    "loggable": true,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
     "requiresTool": false
   },
   {
@@ -1892,6 +1943,7 @@
       "minecraft:inventory"
     ],
     "states": [
+      "facing_direction",
       "open_bit"
     ],
     "hardness": 0,
@@ -1906,7 +1958,35 @@
     "states": [
       "big_dripleaf_head",
       "big_dripleaf_tilt",
+      "direction",
       "minecraft:cardinal_direction"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:quartz_slab",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:fire_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -1918,7 +1998,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -2005,7 +2086,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -2029,7 +2111,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -2042,7 +2125,8 @@
     "components": [],
     "states": [
       "minecraft:vertical_half",
-      "stone_slab_type_3"
+      "stone_slab_type_3",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -2069,6 +2153,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -2159,6 +2244,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "minecraft:cardinal_direction"
     ],
     "hardness": 22.5,
@@ -2339,7 +2425,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -2425,6 +2512,18 @@
     "loggable": false,
     "components": [],
     "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:fern",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "tall_grass_type"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -2575,33 +2674,9 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:jungle_trapdoor",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "open_bit",
-      "upside_down_bit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:spruce_wall_sign",
-    "loggable": true,
-    "components": [
-      "minecraft:sign"
-    ],
-    "states": [],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -2612,6 +2687,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -2646,6 +2722,7 @@
     "loggable": false,
     "components": [],
     "states": [
+      "facing_direction",
       "growth"
     ],
     "hardness": 0,
@@ -2692,7 +2769,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "books_stored"
+      "books_stored",
+      "direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -2759,6 +2837,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -2773,6 +2852,7 @@
     "loggable": false,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction"
     ],
     "hardness": 0,
@@ -2788,6 +2868,18 @@
     "hardness": 0,
     "resistance": 0,
     "material": "plant",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:short_grass",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "tall_grass_type"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
     "requiresTool": false
   },
   {
@@ -2815,6 +2907,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "minecraft:block_face"
     ],
     "hardness": 0,
@@ -2850,7 +2943,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -2862,6 +2956,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -2887,6 +2982,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "minecraft:block_face"
     ],
     "hardness": 0,
@@ -2921,6 +3017,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "ominous",
       "trial_spawner_state"
     ],
     "hardness": 0,
@@ -2933,7 +3030,21 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:dead_tube_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3005,6 +3116,32 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:sandstone_slab",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:white_shulker_box",
+    "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
+    "states": [],
+    "hardness": 2,
+    "resistance": 2,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:raw_gold_block",
     "loggable": false,
     "components": [],
@@ -3037,18 +3174,6 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:white_shulker_box",
-    "loggable": true,
-    "components": [
-      "minecraft:inventory"
-    ],
-    "states": [],
-    "hardness": 2,
-    "resistance": 2,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:mob_spawner",
     "loggable": true,
     "components": [],
@@ -3073,7 +3198,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3117,6 +3243,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -3177,23 +3304,11 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:cyan_candle",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "candles",
-      "lit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:powered_comparator",
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction",
       "output_lit_bit",
       "output_subtract_bit"
@@ -3208,7 +3323,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3221,7 +3337,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -3275,6 +3393,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "growth",
       "minecraft:cardinal_direction"
     ],
@@ -3296,22 +3415,23 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:mangrove_double_slab",
-    "loggable": false,
+    "identifier": "minecraft:pink_carpet",
+    "loggable": true,
     "components": [],
-    "states": [
-      "minecraft:vertical_half"
-    ],
+    "states": [],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:pink_carpet",
-    "loggable": true,
+    "identifier": "minecraft:mangrove_double_slab",
+    "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "minecraft:vertical_half",
+      "top_slot_bit"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -3332,6 +3452,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -3384,6 +3505,33 @@
     "requiresTool": true
   },
   {
+    "identifier": "minecraft:chest",
+    "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
+    "states": [
+      "minecraft:cardinal_direction"
+    ],
+    "hardness": 2.5,
+    "resistance": 2.5,
+    "material": "wood",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:dead_bubble_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:light_gray_stained_glass_pane",
     "loggable": true,
     "components": [],
@@ -3398,7 +3546,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3410,7 +3559,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3483,6 +3633,19 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:tube_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:acacia_planks",
     "loggable": false,
     "components": [],
@@ -3498,7 +3661,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -3532,7 +3697,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3564,7 +3730,22 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:nether_brick_slab",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3588,7 +3769,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0.5,
     "resistance": 0.5,
@@ -3699,6 +3881,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -3712,6 +3895,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "item_frame_map_bit",
       "item_frame_photo_bit"
     ],
@@ -3752,6 +3936,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -3815,6 +4000,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction",
       "repeater_delay"
     ],
@@ -3956,7 +4142,21 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:bubble_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -3968,7 +4168,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4062,7 +4263,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4154,7 +4356,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4166,6 +4369,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -4190,7 +4394,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4286,6 +4491,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -4338,6 +4544,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -4361,6 +4568,7 @@
     "loggable": false,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction"
     ],
     "hardness": 1,
@@ -4382,7 +4590,9 @@
     "identifier": "minecraft:yellow_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -4414,43 +4624,10 @@
     "components": [
       "minecraft:piston"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0.5,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:waxed_copper_grate",
-    "loggable": true,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:tallgrass",
-    "loggable": false,
-    "components": [],
-    "states": [
-      "tall_grass_type"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "plant",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:dead_brain_coral",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "coral_color",
-      "dead_bit"
-    ],
-    "hardness": 0,
     "resistance": 0,
     "material": "default",
     "requiresTool": false
@@ -4532,8 +4709,47 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:spruce_button",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "button_pressed_bit",
+      "facing_direction"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:wall_banner",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "facing_direction"
+    ],
+    "hardness": 1,
+    "resistance": 1,
+    "material": "wood",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:dead_fire_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4589,7 +4805,9 @@
     "identifier": "minecraft:magenta_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -4601,7 +4819,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1,
     "resistance": 1,
     "material": "wood",
@@ -4612,7 +4832,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4635,7 +4856,9 @@
     "identifier": "minecraft:orange_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -4709,7 +4932,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4789,6 +5013,7 @@
     "components": [],
     "states": [
       "damage",
+      "direction",
       "minecraft:cardinal_direction"
     ],
     "hardness": 5,
@@ -4820,7 +5045,9 @@
     "identifier": "minecraft:lightning_rod",
     "loggable": true,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -4912,7 +5139,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4934,7 +5162,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -4994,6 +5223,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -5082,7 +5312,9 @@
     "identifier": "minecraft:pink_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -5102,7 +5334,9 @@
     "identifier": "minecraft:brown_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -5175,7 +5409,9 @@
     "identifier": "minecraft:silver_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -5263,6 +5499,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -5304,16 +5541,6 @@
     "requiresTool": true
   },
   {
-    "identifier": "minecraft:cherry_planks",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:white_concrete_powder",
     "loggable": false,
     "components": [],
@@ -5351,7 +5578,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -5380,16 +5608,6 @@
     "hardness": 0.2,
     "resistance": 0,
     "material": "wood",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:repeating_command_block",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 3600000,
-    "material": "default",
     "requiresTool": false
   },
   {
@@ -5432,29 +5650,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:crimson_planks",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:birch_button",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "button_pressed_bit"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -5472,6 +5669,29 @@
     "resistance": 0.8,
     "material": "rock",
     "requiresTool": true
+  },
+  {
+    "identifier": "minecraft:birch_button",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "button_pressed_bit",
+      "facing_direction"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:crimson_planks",
+    "loggable": false,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
   },
   {
     "identifier": "minecraft:blackstone_wall",
@@ -5599,7 +5819,9 @@
     "identifier": "minecraft:sticky_piston_arm_collision",
     "loggable": true,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -5633,7 +5855,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -5707,6 +5930,19 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:rose_bush",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "double_plant_type",
+      "upper_block_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:warped_roots",
     "loggable": false,
     "components": [],
@@ -5721,6 +5957,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction",
       "upper_block_bit"
     ],
@@ -5825,6 +6062,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -5848,7 +6086,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -5860,24 +6099,12 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:double_plant",
-    "loggable": false,
-    "components": [],
-    "states": [
-      "double_plant_type",
-      "upper_block_bit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "plant",
     "requiresTool": false
   },
   {
@@ -5895,6 +6122,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -5909,7 +6137,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -5989,7 +6218,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6059,6 +6289,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -6171,7 +6402,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6192,7 +6424,9 @@
     "identifier": "minecraft:red_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -6203,6 +6437,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -6212,24 +6447,12 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:tube_coral",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "coral_color",
-      "dead_bit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:bamboo_mosaic_double_slab",
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6251,7 +6474,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6273,7 +6497,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6307,6 +6532,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -6366,7 +6592,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6424,7 +6651,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6478,22 +6706,12 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:polished_blackstone_bricks",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:stone_block_slab",
+    "identifier": "minecraft:azalea_leaves",
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half",
-      "stone_slab_type"
+      "persistent_bit",
+      "update_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6515,7 +6733,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6523,12 +6742,13 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:azalea_leaves",
+    "identifier": "minecraft:smooth_stone_slab",
     "loggable": true,
     "components": [],
     "states": [
-      "persistent_bit",
-      "update_bit"
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6593,6 +6813,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -6628,7 +6849,9 @@
     "identifier": "minecraft:light_blue_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -6666,6 +6889,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -6686,28 +6910,6 @@
     "hardness": 0,
     "resistance": 0,
     "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:spruce_button",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "button_pressed_bit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:wall_banner",
-    "loggable": true,
-    "components": [],
-    "states": [],
-    "hardness": 1,
-    "resistance": 1,
-    "material": "wood",
     "requiresTool": false
   },
   {
@@ -6760,6 +6962,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -6781,29 +6984,6 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:element_79",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:warped_fence_gate",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "in_wall_bit",
-      "open_bit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:basalt",
     "loggable": false,
     "components": [],
@@ -6820,6 +7000,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -6862,7 +7043,9 @@
     "identifier": "minecraft:cyan_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -6913,7 +7096,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -6925,6 +7109,7 @@
     "loggable": false,
     "components": [],
     "states": [
+      "direction",
       "honey_level"
     ],
     "hardness": 0,
@@ -6960,7 +7145,9 @@
     "components": [
       "minecraft:piston"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0.5,
     "resistance": 0,
     "material": "default",
@@ -6971,6 +7158,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "minecraft:block_face"
     ],
     "hardness": 0,
@@ -7154,6 +7342,16 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:dirt_with_roots",
+    "loggable": false,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:stripped_cherry_log",
     "loggable": false,
     "components": [],
@@ -7166,20 +7364,11 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:dirt_with_roots",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:bamboo_trapdoor",
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -7193,6 +7382,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -7207,7 +7397,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7242,6 +7433,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -7256,6 +7448,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -7354,7 +7547,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7366,7 +7560,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7388,6 +7583,7 @@
     "loggable": false,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction"
     ],
     "hardness": 1,
@@ -7420,7 +7616,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7508,8 +7705,34 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:bubble_column",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "drag_down"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:sunflower",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "double_plant_type",
+      "upper_block_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7544,6 +7767,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -7577,6 +7801,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -7590,7 +7815,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7602,8 +7828,19 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_bricks",
+    "loggable": false,
+    "components": [],
+    "states": [],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -7636,6 +7873,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -7650,6 +7888,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -7689,18 +7928,6 @@
     "resistance": 6,
     "material": "rock",
     "requiresTool": true
-  },
-  {
-    "identifier": "minecraft:portal",
-    "loggable": false,
-    "components": [],
-    "states": [
-      "portal_axis"
-    ],
-    "hardness": 0,
-    "resistance": -1,
-    "material": "default",
-    "requiresTool": false
   },
   {
     "identifier": "minecraft:hard_glass",
@@ -7762,6 +7989,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -7775,7 +8003,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7787,7 +8016,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7799,6 +8029,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -7837,6 +8068,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "rotation"
     ],
     "hardness": 0,
@@ -7936,33 +8168,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:coral_block",
-    "loggable": false,
-    "components": [],
-    "states": [
-      "coral_color",
-      "dead_bit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:mud_brick_stairs",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "upside_down_bit",
-      "weirdo_direction"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -7974,6 +8181,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -7988,7 +8196,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -8017,10 +8227,35 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:cyan_wool",
+    "loggable": false,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:horn_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:skull",
     "loggable": true,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1,
     "resistance": 1,
     "material": "default",
@@ -8085,16 +8320,6 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:cyan_wool",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:gray_shulker_box",
     "loggable": true,
     "components": [
@@ -8124,6 +8349,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -8143,6 +8369,57 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:waxed_copper_grate",
+    "loggable": true,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:dead_brain_coral",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:jungle_trapdoor",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "direction",
+      "open_bit",
+      "upside_down_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:spruce_wall_sign",
+    "loggable": true,
+    "components": [
+      "minecraft:sign"
+    ],
+    "states": [
+      "facing_direction"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:coal_block",
     "loggable": false,
     "components": [],
@@ -8151,6 +8428,30 @@
     "resistance": 6,
     "material": "rock",
     "requiresTool": true
+  },
+  {
+    "identifier": "minecraft:element_79",
+    "loggable": false,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:warped_fence_gate",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "direction",
+      "in_wall_bit",
+      "open_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
   },
   {
     "identifier": "minecraft:composter",
@@ -8169,7 +8470,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -8191,6 +8493,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -8204,7 +8507,9 @@
     "identifier": "minecraft:blue_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -8249,6 +8554,19 @@
     "states": [],
     "hardness": 0.4,
     "resistance": 0.4,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:mud_brick_stairs",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "hardness": 0,
+    "resistance": 0,
     "material": "default",
     "requiresTool": false
   },
@@ -8413,7 +8731,9 @@
     "identifier": "minecraft:white_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -8436,6 +8756,7 @@
     "loggable": false,
     "components": [],
     "states": [
+      "facing_direction",
       "growth"
     ],
     "hardness": 0,
@@ -8483,11 +8804,35 @@
       "minecraft:inventory"
     ],
     "states": [
+      "facing_direction",
       "minecraft:cardinal_direction"
     ],
     "hardness": 2.5,
     "resistance": 2.5,
     "material": "wood",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:light_gray_concrete_powder",
+    "loggable": false,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:brain_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
     "requiresTool": false
   },
   {
@@ -8510,7 +8855,8 @@
     "components": [],
     "states": [
       "minecraft:vertical_half",
-      "stone_slab_type_4"
+      "stone_slab_type_4",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -8541,7 +8887,10 @@
     "identifier": "minecraft:command_block",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "conditional_bit",
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 3600000,
     "material": "default",
@@ -8564,7 +8913,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -8620,19 +8970,8 @@
     "loggable": false,
     "components": [],
     "states": [
+      "direction",
       "honey_level"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:bubble_column",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "drag_down"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -8644,6 +8983,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "extinguished",
       "minecraft:cardinal_direction"
     ],
@@ -8658,7 +8998,8 @@
     "components": [],
     "states": [
       "minecraft:vertical_half",
-      "stone_slab_type_2"
+      "stone_slab_type_2",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -8671,7 +9012,8 @@
     "components": [],
     "states": [
       "minecraft:vertical_half",
-      "stone_slab_type_3"
+      "stone_slab_type_3",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -8735,7 +9077,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -8760,6 +9103,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -8782,7 +9126,9 @@
     "identifier": "minecraft:end_rod",
     "loggable": true,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -8815,7 +9161,9 @@
     "identifier": "minecraft:black_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -8902,6 +9250,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -8925,6 +9274,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -9025,6 +9375,7 @@
     "components": [],
     "states": [
       "minecraft:cardinal_direction",
+      "ominous",
       "vault_state"
     ],
     "hardness": 0,
@@ -9060,7 +9411,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9096,7 +9448,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9151,6 +9504,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -9176,6 +9530,7 @@
     "components": [],
     "states": [
       "attached_bit",
+      "direction",
       "powered_bit"
     ],
     "hardness": 0,
@@ -9250,6 +9605,19 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:large_fern",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "double_plant_type",
+      "upper_block_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:sweet_berry_bush",
     "loggable": false,
     "components": [],
@@ -9276,7 +9644,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9357,7 +9726,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9369,7 +9739,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9381,7 +9752,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "age"
+      "age",
+      "direction"
     ],
     "hardness": 0.2,
     "resistance": 3,
@@ -9429,6 +9801,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "end_portal_eye_bit",
       "minecraft:cardinal_direction"
     ],
@@ -9575,7 +9948,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9622,7 +9996,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "chemistry_table_type"
+      "chemistry_table_type",
+      "direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9636,6 +10011,20 @@
     "states": [
       "coral_color",
       "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:stone_brick_slab",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9742,6 +10131,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "minecraft:cardinal_direction",
       "output_lit_bit",
       "output_subtract_bit"
@@ -9789,7 +10179,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0.5,
     "resistance": 0.5,
@@ -9801,6 +10192,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -9815,6 +10207,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
@@ -9842,7 +10235,8 @@
     "components": [],
     "states": [
       "minecraft:vertical_half",
-      "stone_slab_type_2"
+      "stone_slab_type_2",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9855,7 +10249,21 @@
     "components": [],
     "states": [
       "minecraft:vertical_half",
-      "stone_slab_type_4"
+      "stone_slab_type_4",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:tall_grass",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "double_plant_type",
+      "upper_block_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -9903,6 +10311,42 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:dead_horn_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:element_12",
+    "loggable": false,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:dead_horn_coral_fan",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "coral_color",
+      "coral_fan_direction"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:furnace",
     "loggable": false,
     "components": [
@@ -9921,7 +10365,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10001,6 +10446,16 @@
     "requiresTool": true
   },
   {
+    "identifier": "minecraft:purple_carpet",
+    "loggable": true,
+    "components": [],
+    "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:fire_coral_fan",
     "loggable": true,
     "components": [],
@@ -10014,20 +10469,11 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:purple_carpet",
-    "loggable": true,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
     "identifier": "minecraft:spruce_trapdoor",
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -10040,7 +10486,9 @@
     "identifier": "minecraft:purple_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -10060,7 +10508,10 @@
     "identifier": "minecraft:chain_command_block",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "conditional_bit",
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 3600000,
     "material": "default",
@@ -10072,7 +10523,8 @@
     "components": [],
     "states": [
       "minecraft:vertical_half",
-      "stone_slab_type"
+      "stone_slab_type",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10094,6 +10546,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -10119,7 +10572,9 @@
     "identifier": "minecraft:green_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -10130,6 +10585,19 @@
     "loggable": false,
     "components": [],
     "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:dead_brain_coral_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -10150,6 +10618,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "open_bit",
       "upside_down_bit"
     ],
@@ -10203,6 +10672,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "head_piece_bit",
       "occupied_bit"
     ],
@@ -10337,7 +10807,9 @@
     "identifier": "minecraft:decorated_pot",
     "loggable": true,
     "components": [],
-    "states": [],
+    "states": [
+      "direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -10380,7 +10852,9 @@
     "loggable": true,
     "components": [],
     "states": [
-      "attachment"
+      "attachment",
+      "direction",
+      "toggle_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10403,7 +10877,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -10415,7 +10891,9 @@
     "components": [
       "minecraft:sign"
     ],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -10426,7 +10904,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10449,7 +10928,10 @@
     "components": [
       "minecraft:inventory"
     ],
-    "states": [],
+    "states": [
+      "facing_direction",
+      "toggle_bit"
+    ],
     "hardness": 3,
     "resistance": 4.8,
     "material": "rock",
@@ -10472,6 +10954,7 @@
       "minecraft:inventory"
     ],
     "states": [
+      "direction",
       "minecraft:cardinal_direction",
       "powered_bit"
     ],
@@ -10485,7 +10968,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10505,14 +10989,12 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:light_blue_shulker_box",
-    "loggable": true,
-    "components": [
-      "minecraft:inventory"
-    ],
+    "identifier": "minecraft:sea_lantern",
+    "loggable": false,
+    "components": [],
     "states": [],
-    "hardness": 2,
-    "resistance": 2,
+    "hardness": 0.3,
+    "resistance": 0.3,
     "material": "default",
     "requiresTool": false
   },
@@ -10521,7 +11003,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10529,12 +11012,14 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:sea_lantern",
-    "loggable": false,
-    "components": [],
+    "identifier": "minecraft:light_blue_shulker_box",
+    "loggable": true,
+    "components": [
+      "minecraft:inventory"
+    ],
     "states": [],
-    "hardness": 0.3,
-    "resistance": 0.3,
+    "hardness": 2,
+    "resistance": 2,
     "material": "default",
     "requiresTool": false
   },
@@ -10582,7 +11067,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10629,29 +11115,6 @@
     "states": [
       "candles",
       "lit"
-    ],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:element_12",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:dead_horn_coral_fan",
-    "loggable": true,
-    "components": [],
-    "states": [
-      "coral_color",
-      "coral_fan_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10709,26 +11172,13 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
       "upper_block_bit"
     ],
     "hardness": 3,
     "resistance": 3,
-    "material": "wood",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:chest",
-    "loggable": true,
-    "components": [
-      "minecraft:inventory"
-    ],
-    "states": [
-      "minecraft:cardinal_direction"
-    ],
-    "hardness": 2.5,
-    "resistance": 2.5,
     "material": "wood",
     "requiresTool": false
   },
@@ -10750,6 +11200,7 @@
     ],
     "states": [
       "attached_bit",
+      "facing_direction",
       "ground_sign_direction",
       "hanging"
     ],
@@ -10872,7 +11323,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "button_pressed_bit"
+      "button_pressed_bit",
+      "facing_direction"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -10881,16 +11333,6 @@
   },
   {
     "identifier": "minecraft:red_concrete_powder",
-    "loggable": false,
-    "components": [],
-    "states": [],
-    "hardness": 0,
-    "resistance": 0,
-    "material": "default",
-    "requiresTool": false
-  },
-  {
-    "identifier": "minecraft:light_gray_concrete_powder",
     "loggable": false,
     "components": [],
     "states": [],
@@ -11134,7 +11576,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -11146,6 +11589,19 @@
     "loggable": false,
     "components": [],
     "states": [],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:lilac",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "double_plant_type",
+      "upper_block_bit"
+    ],
     "hardness": 0,
     "resistance": 0,
     "material": "default",
@@ -11188,6 +11644,20 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:petrified_oak_slab",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:element_61",
     "loggable": false,
     "components": [],
@@ -11204,6 +11674,7 @@
       "minecraft:inventory"
     ],
     "states": [
+      "facing_direction",
       "triggered_bit"
     ],
     "hardness": 3.5,
@@ -11336,6 +11807,20 @@
     "requiresTool": false
   },
   {
+    "identifier": "minecraft:brick_slab",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "minecraft:vertical_half",
+      "stone_slab_type",
+      "top_slot_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:brewing_stand",
     "loggable": true,
     "components": [
@@ -11394,6 +11879,7 @@
       "minecraft:inventory"
     ],
     "states": [
+      "facing_direction",
       "triggered_bit"
     ],
     "hardness": 3.5,
@@ -11416,7 +11902,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -11428,6 +11915,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "minecraft:cardinal_direction"
     ],
     "hardness": 0,
@@ -11462,7 +11950,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -11474,7 +11963,8 @@
     "loggable": false,
     "components": [],
     "states": [
-      "pillar_axis"
+      "pillar_axis",
+      "stripped_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -11907,6 +12397,44 @@
     "components": [
       "minecraft:sign"
     ],
+    "states": [
+      "facing_direction"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:cyan_candle",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "candles",
+      "lit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:repeating_command_block",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "conditional_bit",
+      "facing_direction"
+    ],
+    "hardness": 0,
+    "resistance": 3600000,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:crimson_fungus",
+    "loggable": false,
+    "components": [],
     "states": [],
     "hardness": 0,
     "resistance": 0,
@@ -11914,7 +12442,7 @@
     "requiresTool": false
   },
   {
-    "identifier": "minecraft:crimson_fungus",
+    "identifier": "minecraft:cherry_planks",
     "loggable": false,
     "components": [],
     "states": [],
@@ -11959,12 +12487,51 @@
     "requiresTool": true
   },
   {
+    "identifier": "minecraft:tube_coral",
+    "loggable": true,
+    "components": [],
+    "states": [
+      "coral_color",
+      "dead_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
     "identifier": "minecraft:waxed_copper_door",
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "door_hinge_bit",
       "open_bit",
+      "upper_block_bit"
+    ],
+    "hardness": 0,
+    "resistance": 0,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:portal",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "portal_axis"
+    ],
+    "hardness": 0,
+    "resistance": -1,
+    "material": "default",
+    "requiresTool": false
+  },
+  {
+    "identifier": "minecraft:peony",
+    "loggable": false,
+    "components": [],
+    "states": [
+      "double_plant_type",
       "upper_block_bit"
     ],
     "hardness": 0,
@@ -12001,6 +12568,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "facing_direction",
       "minecraft:block_face"
     ],
     "hardness": 0,
@@ -12023,7 +12591,8 @@
     "loggable": true,
     "components": [],
     "states": [
-      "minecraft:vertical_half"
+      "minecraft:vertical_half",
+      "top_slot_bit"
     ],
     "hardness": 0,
     "resistance": 0,
@@ -12150,6 +12719,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "extinguished",
       "minecraft:cardinal_direction"
     ],
@@ -12237,6 +12807,7 @@
     "loggable": true,
     "components": [],
     "states": [
+      "direction",
       "in_wall_bit",
       "open_bit"
     ],
@@ -12249,7 +12820,9 @@
     "identifier": "minecraft:gray_glazed_terracotta",
     "loggable": false,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 1.4,
     "resistance": 0,
     "material": "rock",
@@ -12299,7 +12872,9 @@
     "identifier": "minecraft:ladder",
     "loggable": true,
     "components": [],
-    "states": [],
+    "states": [
+      "facing_direction"
+    ],
     "hardness": 0.4,
     "resistance": 0.4,
     "material": "default",
