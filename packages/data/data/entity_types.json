@@ -1652,5 +1652,13 @@
   {
     "identifier": "minecraft:area_effect_cloud",
     "components": []
+  },
+  {
+    "identifier": "minecraft:item",
+    "components": [
+      "minecraft:item_stack",
+      "minecraft:type_family",
+      "minecraft:is_stackable"
+    ]
   }
 ]
