@@ -1,5 +1,15 @@
 # @serenityjs/raknet
 
+## 0.3.5
+
+### Patch Changes
+
+- f98fc2f: 0.3.5-beta
+- Updated dependencies [f98fc2f]
+  - @serenityjs/emitter@0.3.5
+  - @serenityjs/logger@0.3.5
+  - @serenityjs/nbt@0.3.5
+
 ## 0.3.4
 
 ### Patch Changes

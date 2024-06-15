@@ -1,5 +1,12 @@
 # @serenityjs/launcher
 
+## 0.3.5
+
+### Patch Changes
+
+- f98fc2f: 0.3.5-beta
+  - @serenityjs/serenity@0.3.5
+
 ## 0.3.4
 
 ### Patch Changes
