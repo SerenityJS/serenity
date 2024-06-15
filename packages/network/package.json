@@ -31,6 +31,7 @@
 		"@serenityjs/emitter": "*",
 		"@serenityjs/logger": "*",
 		"@serenityjs/protocol": "*",
-		"@serenityjs/raknet": "*"
+		"@serenityjs/raknet": "*",
+		"fast-jwt": "^4.0.1"
 	}
 }

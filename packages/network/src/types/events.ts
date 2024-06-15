@@ -80,7 +80,8 @@ import type {
 	EmotePacket,
 	PlayerSkinPacket,
 	BlockActorDataPacket,
-	AwardAchievementPacket
+	AwardAchievementPacket,
+	ServerToClientHandshakePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -90,6 +91,9 @@ import type { NetworkPacketEvent } from "./packet-event";
 interface NetworkEvents {
 	[Packet.Login]: [NetworkPacketEvent<LoginPacket>];
 	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatusPacket>];
+	[Packet.ServerToClientHandshake]: [
+		NetworkPacketEvent<ServerToClientHandshakePacket>
+	];
 	[Packet.Disconnect]: [NetworkPacketEvent<DisconnectPacket>];
 	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfoPacket>];
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStackPacket>];

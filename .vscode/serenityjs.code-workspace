@@ -5,8 +5,12 @@
       "path": "../"
     },
     {
-      "name": "📀 Launcher",
+      "name": "📀 Launcher (DEPRECATED)",
       "path": "../launcher"
+    },
+    {
+      "name": "📀 Serenity",
+      "path": "../packages/serenity"
     },
     {
       "name": "📦 Packages",

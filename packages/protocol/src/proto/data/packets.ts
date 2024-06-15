@@ -83,10 +83,12 @@ import { EmotePacket } from "./emote";
 import { PlayerSkinPacket } from "./player-skin";
 import { BlockActorDataPacket } from "./block-actor-data";
 import { AwardAchievementPacket } from "./award-achievement";
+import { ServerToClientHandshakePacket } from "./server-to-client-handshake";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
 	[Packet.PlayStatus]: PlayStatusPacket, // 2
+	[Packet.ServerToClientHandshake]: ServerToClientHandshakePacket, // 3
 	[Packet.Disconnect]: DisconnectPacket, // 5
 	[Packet.ResourcePacksInfo]: ResourcePacksInfoPacket, // 6
 	[Packet.ResourcePackStack]: ResourcePackStackPacket, // 7

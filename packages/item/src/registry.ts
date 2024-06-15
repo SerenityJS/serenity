@@ -41,12 +41,12 @@ for (const [index, item] of creative.entries()) {
 
 	// Do to some reason, some items have an incorrect metadata value,
 	// So we will generate our own.
-	const metadata =
-		index - creative.findIndex((index_) => index_.network === item.network);
+	const metadata = item.metadata ?? 0;
+	// index - creative.findIndex((index_) => index_.network === item.network);
 
 	// Create a new item instance descriptor.
 	item.metadata = metadata;
-	item.networkBlockId = type.block?.permutations[metadata]?.network ?? 0;
+	// item.networkBlockId = type.block?.permutations[metadata]?.network ?? 0;
 
 	// Set the item in the registry.
 	CreativeItem.items.set(index, new CreativeItem(type, metadata));

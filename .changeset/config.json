@@ -5,6 +5,7 @@
   "fixed": [
     [
       "@serenityjs/launcher",
+      "@serenityjs/serenity",
       "@serenityjs/raknet",
       "@serenityjs/protocol",
       "@serenityjs/network",
