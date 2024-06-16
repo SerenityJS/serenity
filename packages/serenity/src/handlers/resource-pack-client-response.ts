@@ -13,15 +13,13 @@ import {
 	DisconnectReason,
 	type BlockProperties,
 	ResourceIdVersions,
-	Vector3f,
-	CreativeItems
+	Vector3f
 } from "@serenityjs/protocol";
-import { BIOME_DEFINITION_LIST, CREATIVE_CONTENT } from "@serenityjs/data";
-import { CustomItemType, ItemType } from "@serenityjs/item";
+import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
+import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
 import { CustomBlockType } from "@serenityjs/block";
 import { BlockComponent, BlockNBTComponent } from "@serenityjs/world";
 import { CompoundTag } from "@serenityjs/nbt";
-import { BinaryStream } from "@serenityjs/binarystream";
 
 import { ResourcePack } from "../resource-packs/resource-pack-manager";
 
@@ -449,17 +447,21 @@ class ResourcePackClientResponse extends SerenityHandler {
 				biomes.biomes = BIOME_DEFINITION_LIST;
 
 				const content = new CreativeContentPacket();
-				content.items = CreativeItems.read(new BinaryStream(CREATIVE_CONTENT));
-				// content.items = [...CreativeItem.items.values()].map((item) => {
-				// 	return {
-				// 		network: item.type.network,
-				// 		metadata: item.metadata,
-				// 		stackSize: 1,
-				// 		networkBlockId:
-				// 			item.type.block?.permutations[item.metadata]?.network ?? 0,
-				// 		extras: null
-				// 	};
-				// });
+				// content.items = CreativeItems.read(new BinaryStream(CREATIVE_CONTENT));
+				content.items = [...CreativeItem.items.values()].map((item) => {
+					return {
+						network: item.type.network,
+						metadata: item.metadata,
+						stackSize: 1,
+						networkBlockId:
+							item.type.block?.permutations[item.metadata]?.network ?? 0,
+						extras: {
+							canDestroy: [],
+							canPlaceOn: [],
+							nbt: item.nbt
+						}
+					};
+				});
 
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;

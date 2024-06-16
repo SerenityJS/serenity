@@ -163,7 +163,7 @@ class Block {
 		playerInitiated?: Player
 	): Block {
 		// Clear the previous components.
-		this.components.clear();
+		if (this.permutation.type !== permutation.type) this.clearComponents();
 
 		// Set the permutation of the block.
 		this.permutation = permutation;
@@ -176,24 +176,6 @@ class Block {
 
 		// Set the permutation of the block.
 		chunk.setPermutation(x, y, z, permutation);
-
-		// Check if the change was initiated by a player.
-		// If so, we will play the block place sound.
-		if (playerInitiated) {
-			// Create a new LevelSoundEventPacket.
-			const sound = new LevelSoundEventPacket();
-
-			// Set the packet properties.
-			sound.event = LevelSoundEvent.Place;
-			sound.position = new Vector3f(x, y, z);
-			sound.data = permutation.network;
-			sound.actorIdentifier = "";
-			sound.isBabyMob = false;
-			sound.isGlobal = false;
-
-			// Send the packet to the dimension.
-			this.dimension.broadcast(sound);
-		}
 
 		// Create a new UpdateBlockPacket.
 		const update = new UpdateBlockPacket();
@@ -213,10 +195,28 @@ class Block {
 		) ?? [])
 			new component(this, component.identifier);
 
-		// Call the onPlace method of the components.
-		for (const component of this.components.values()) {
-			// Call the onBlockPlacedByPlayer method.
-			component.onPlace?.(playerInitiated);
+		// Check if the change was initiated by a player.
+		// If so, we will play the block place sound.
+		if (playerInitiated) {
+			// Call the onPlace method of the components.
+			for (const component of this.components.values()) {
+				// Call the onBlockPlacedByPlayer method.
+				component.onPlace?.(playerInitiated);
+			}
+
+			// Create a new LevelSoundEventPacket.
+			const sound = new LevelSoundEventPacket();
+
+			// Set the packet properties.
+			sound.event = LevelSoundEvent.Place;
+			sound.position = new Vector3f(x, y, z);
+			sound.data = permutation.network;
+			sound.actorIdentifier = String();
+			sound.isBabyMob = false;
+			sound.isGlobal = false;
+
+			// Send the packet to the dimension.
+			this.dimension.broadcast(sound);
 		}
 
 		// Update the block and the surrounding blocks.
@@ -403,7 +403,7 @@ class Block {
 	 * Updates the block and the surrounding blocks.
 	 * @param surrounding If the surrounding blocks should be updated.
 	 */
-	public update(surrounding = false): void {
+	public update(surrounding = false, source?: Block): void {
 		// Call the onUpdate method of the components.
 		for (const component of this.components.values()) {
 			// Call the onUpdate method.
@@ -420,12 +420,12 @@ class Block {
 
 		// Check if the surrounding blocks should be updated.
 		if (surrounding) {
-			this.above().update();
-			this.below().update();
-			this.north().update();
-			this.south().update();
-			this.east().update();
-			this.west().update();
+			this.above().update(false, source);
+			this.below().update(false, source);
+			this.north().update(false, source);
+			this.south().update(false, source);
+			this.east().update(false, source);
+			this.west().update(false, source);
 		}
 	}
 

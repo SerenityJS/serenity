@@ -77,14 +77,13 @@ class BlockComponent extends Component {
 	 * Called when the block is updated in the dimension.
 	 * This includes when the block is placed, broken, or interacted with.
 	 */
-	public onUpdate?(): void;
+	public onUpdate?(source?: Block): void;
 
 	/**
 	 * Called when the block is placed in the dimension.
-	 * @note The `player` parameter is optional as the block can be placed by the server.
 	 * @param player The player that placed the block.
 	 */
-	public onPlace?(player?: Player): void;
+	public onPlace?(player: Player): void;
 
 	/**
 	 * Called when the block is destruction process has started in the dimension.
