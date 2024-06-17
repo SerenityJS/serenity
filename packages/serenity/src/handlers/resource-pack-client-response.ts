@@ -176,7 +176,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.exportedFromEdior = false;
 				packet.dayCycleStopTime = player.dimension.world.dayTime;
 				packet.eduOffer = 0;
-				packet.eduFeatures = false;
+				packet.eduFeatures = true;
 				packet.eduProductUuid = "";
 				packet.rainLevel = 0;
 				packet.lightningLevel = 0;
@@ -403,7 +403,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.personaDisabled = false;
 				packet.customSkinsDisabled = false;
 				packet.emoteChatMuted = false;
-				packet.gameVersion = "*";
+				packet.gameVersion = MINECRAFT_VERSION;
 				packet.limitedWorldWidth = 16;
 				packet.limitedWorldLength = 16;
 				packet.isNewNether = false;
