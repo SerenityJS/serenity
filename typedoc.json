@@ -4,7 +4,6 @@
   "customTitle": "SerenityJS",
   "entryPoints": [
     "packages/*",
-    "launcher"
   ],
   "entryPointStrategy": "packages",
   "excludeExternals": true,

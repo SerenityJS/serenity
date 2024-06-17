@@ -65,6 +65,8 @@ import type {
 import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
 
+// TODO: Possibly expose a collection of entity metadata?
+
 /**
  * Represents a player in a Dimension instance that is connected to the server, and can interact with the world. Creating a new Player instance should be handled by the server instead of Plugins. This class is responsible for handling player-specific logic, such as sending packets, handling player movement, and managing player data. Player instances requires a NetworkSession instance to communicate with the player, and data from the player's login tokens.
  */
@@ -241,7 +243,7 @@ class Player extends Entity {
 		packet.uuid = this.uuid;
 		packet.username = this.username;
 		packet.runtimeId = this.runtime;
-		packet.platformChatId = ""; // TODO: Not sure what this is.
+		packet.platformChatId = String(); // TODO: Not sure what this is.
 		packet.position = this.position;
 		packet.velocity = this.velocity;
 		packet.pitch = this.rotation.pitch;
@@ -287,8 +289,39 @@ class Player extends Entity {
 		// Send the packet to the player
 		player ? player.session.send(packet) : this.dimension.broadcast(packet);
 
+		// If a player was provided, then return
+		if (player) return;
+
 		// Add the player to the dimension
 		this.dimension.entities.set(this.unique, this);
+
+		// Set the player ability values
+		for (const ability of this.getAbilities()) {
+			// Reset the ability to the default value
+			ability.resetToDefaultValue();
+		}
+
+		// Set the player attribute values
+		for (const attribute of this.getAttributes()) {
+			// Reset the attribute to the default value
+			attribute.resetToDefaultValue();
+		}
+
+		// Set the player metadata values
+		for (const metadata of this.getMetadatas()) {
+			// Check if the component is nametag
+			// And check for always show nametag
+			if (metadata instanceof EntityNametagComponent) {
+				// Set the default value to the player's username
+				metadata.defaultValue = this.username;
+			} else if (metadata instanceof EntityAlwaysShowNametagComponent) {
+				// Set the default value to true
+				metadata.defaultValue = true;
+			}
+
+			// Reset the metadata to the default value
+			metadata.resetToDefaultValue();
+		}
 
 		// Spawn all entities in the dimension for the player
 		for (const entity of this.dimension.entities.values()) {
@@ -405,6 +438,7 @@ class Player extends Entity {
 		packet.parameters = null;
 		packet.xuid = "";
 		packet.platformChatId = "";
+		packet.filtered = message;
 
 		// Send the packet.
 		this.session.send(packet);

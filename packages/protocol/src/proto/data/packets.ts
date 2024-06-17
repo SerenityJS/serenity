@@ -81,10 +81,14 @@ import { AnimateEntityPacket } from "./animate-entity";
 import { EmoteListPacket } from "./emote-list";
 import { EmotePacket } from "./emote";
 import { PlayerSkinPacket } from "./player-skin";
+import { BlockActorDataPacket } from "./block-actor-data";
+import { AwardAchievementPacket } from "./award-achievement";
+import { ServerToClientHandshakePacket } from "./server-to-client-handshake";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
 	[Packet.PlayStatus]: PlayStatusPacket, // 2
+	[Packet.ServerToClientHandshake]: ServerToClientHandshakePacket, // 3
 	[Packet.Disconnect]: DisconnectPacket, // 5
 	[Packet.ResourcePacksInfo]: ResourcePacksInfoPacket, // 6
 	[Packet.ResourcePackStack]: ResourcePackStackPacket, // 7
@@ -117,6 +121,7 @@ const Packets = {
 	[Packet.PlayerHotbar]: PlayerHotbarPacket, // 48
 	[Packet.InventoryContent]: InventoryContentPacket, // 49
 	[Packet.InventorySlot]: InventorySlotPacket, // 50
+	[Packet.BlockActorData]: BlockActorDataPacket, // 56
 	[Packet.LevelChunk]: LevelChunkPacket, // 58
 	[Packet.SetCommandsEnabled]: SetCommandsEnabledPacket, // 59
 	[Packet.ChangeDimension]: ChangeDimensionPacket, // 61
@@ -161,7 +166,8 @@ const Packets = {
 	[Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
 	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
-	[Packet.SetHud]: SetHudPacket // 308
+	[Packet.SetHud]: SetHudPacket, // 308
+	[Packet.AwardAchievement]: AwardAchievementPacket // 309
 };
 
 export { Packets };

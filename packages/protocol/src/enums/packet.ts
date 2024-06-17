@@ -3,7 +3,7 @@
 enum Packet {
 	Login = 0x01, // 1
 	PlayStatus = 0x02, // 2
-	// ServerToClientHandshake = 0x03, // 3
+	ServerToClientHandshake = 0x03, // 3
 	// ClientToServerHandshake = 0x04, // 4
 	Disconnect = 0x05, // 5
 	ResourcePacksInfo = 0x06, // 6
@@ -39,6 +39,7 @@ enum Packet {
 	PlayerHotbar = 0x30, // 48
 	InventoryContent = 0x31, // 49
 	InventorySlot = 0x32, // 50
+	BlockActorData = 0x38, // 56
 	LevelChunk = 0x3a, // 58
 	SetCommandsEnabled = 0x3b, // 59
 	// SetDifficulty = 0x3c, // 60
@@ -87,7 +88,8 @@ enum Packet {
 	UpdateAdventureSettings = 0xbc, // 188
 	// UpdateAdventureSettings = 0xbc, // 188
 	RequestNetworkSettings = 0xc1, // 193
-	SetHud = 0x1_34 // 308
+	SetHud = 0x1_34, // 308
+	AwardAchievement = 0x1_35 // 309
 }
 
 export { Packet };

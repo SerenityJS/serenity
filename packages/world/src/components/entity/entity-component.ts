@@ -2,7 +2,7 @@ import { Component } from "../component";
 
 import type { Player } from "../../player";
 import type { ItemUseOnEntityInventoryTransactionType } from "@serenityjs/protocol";
-import type { EntityType } from "@serenityjs/entity";
+import type { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import type { Entity } from "../../entity";
 
 class EntityComponent extends Component {
@@ -10,7 +10,7 @@ class EntityComponent extends Component {
 	 * A collective registry of all entity components registered to an entity type.
 	 */
 	public static readonly registry = new Map<
-		EntityType,
+		EntityIdentifier,
 		Array<typeof EntityComponent>
 	>();
 
@@ -70,13 +70,13 @@ class EntityComponent extends Component {
 	 */
 	public static register(type: EntityType): void {
 		// Get the components of the entity type.
-		const components = EntityComponent.registry.get(type) ?? [];
+		const components = EntityComponent.registry.get(type.identifier) ?? [];
 
 		// Push the component to the registry.
 		components.push(this);
 
 		// Set the components to the entity type.
-		EntityComponent.registry.set(type, components);
+		EntityComponent.registry.set(type.identifier, components);
 	}
 
 	/**

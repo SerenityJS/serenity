@@ -1,5 +1,4 @@
 ---
-"@serenityjs/launcher": patch
 "@serenityjs/block": patch
 "@serenityjs/chokidar": patch
 "@serenityjs/command": patch
@@ -15,9 +14,10 @@
 "@serenityjs/plugins": patch
 "@serenityjs/protocol": patch
 "@serenityjs/raknet": patch
+"@serenityjs/serenity": patch
 "@serenityjs/server-ui": patch
 "@serenityjs/typescript-config": patch
 "@serenityjs/world": patch
 ---
 
-0.3.4-beta
+init v0.3.6-beta

@@ -1,3 +1,5 @@
+import { CompoundTag } from "@serenityjs/nbt";
+
 import type { ItemType } from "./type";
 
 class CreativeItem {
@@ -17,13 +19,19 @@ class CreativeItem {
 	public readonly metadata: number;
 
 	/**
+	 * The NBT of the creative item.
+	 */
+	public readonly nbt: CompoundTag;
+
+	/**
 	 * Create a new creative item.
 	 * @param type The type of the creative item.
 	 * @param metadata The metadata of the creative item.
 	 */
-	public constructor(type: ItemType, metadata: number) {
+	public constructor(type: ItemType, metadata: number, nbt?: CompoundTag) {
 		this.type = type;
 		this.metadata = metadata;
+		this.nbt = nbt ?? new CompoundTag("", {});
 	}
 
 	/**

@@ -38,7 +38,7 @@ class IntegerEnum extends ValidEnum {
 			const number = Number.parseFloat(text);
 
 			// If not NaN return the integer.
-			if (number) return new IntegerEnum(number);
+			if (!Number.isNaN(number)) return new IntegerEnum(number);
 			// Otherwise throw syntax error with tip.
 			throw new TypeError(`Expected integer or floating point!`);
 

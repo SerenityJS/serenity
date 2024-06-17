@@ -1,6 +1,6 @@
 import { Component } from "../component";
 
-import type { BlockType } from "@serenityjs/block";
+import type { BlockIdentifier, BlockType } from "@serenityjs/block";
 import type { Player } from "../../player";
 import type { Block } from "../../block";
 
@@ -9,7 +9,7 @@ class BlockComponent extends Component {
 	 * A collective registry of all block components registered to a block type.
 	 */
 	public static readonly registry = new Map<
-		BlockType,
+		BlockIdentifier,
 		Array<typeof BlockComponent>
 	>();
 
@@ -39,13 +39,13 @@ class BlockComponent extends Component {
 	 */
 	public static register(type: BlockType): void {
 		// Get the components of the block type.
-		const components = BlockComponent.registry.get(type) ?? [];
+		const components = BlockComponent.registry.get(type.identifier) ?? [];
 
 		// Push the component to the registry.
 		components.push(this);
 
 		// Set the components to the block type.
-		BlockComponent.registry.set(type, components);
+		BlockComponent.registry.set(type.identifier, components);
 	}
 
 	/**
@@ -74,11 +74,16 @@ class BlockComponent extends Component {
 	}
 
 	/**
+	 * Called when the block is updated in the dimension.
+	 * This includes when the block is placed, broken, or interacted with.
+	 */
+	public onUpdate?(source?: Block): void;
+
+	/**
 	 * Called when the block is placed in the dimension.
-	 * @note The `player` parameter is optional as the block can be placed by the server.
 	 * @param player The player that placed the block.
 	 */
-	public onPlace?(player?: Player): void;
+	public onPlace?(player: Player): void;
 
 	/**
 	 * Called when the block is destruction process has started in the dimension.

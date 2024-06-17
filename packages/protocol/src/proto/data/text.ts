@@ -20,6 +20,7 @@ class TextPacket extends DataPacket {
 
 	@Serialize(VarString) public xuid!: string;
 	@Serialize(VarString) public platformChatId!: string;
+	@Serialize(VarString) public filtered!: string;
 }
 
 export { TextPacket };

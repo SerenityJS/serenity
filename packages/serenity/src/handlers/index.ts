@@ -15,6 +15,7 @@ import { ResourcePackClientResponse } from "./resource-pack-client-response";
 import { SetLocalPlayerAsIntialized } from "./set-local-player-as-initialized";
 import { Text } from "./text";
 import { BlockPick } from "./block-pick-request";
+import { NetworkStackLatency } from "./network-stack-latency";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -33,7 +34,8 @@ const HANDLERS = [
 	CommandRequest,
 	Text,
 	InventoryTransaction,
-	BlockPick
+	BlockPick,
+	NetworkStackLatency
 ];
 
 export { HANDLERS };
@@ -56,3 +58,4 @@ export * from "./command-request";
 export * from "./text";
 export * from "./inventory-transaction";
 export * from "./block-pick-request";
+export * from "./network-stack-latency";

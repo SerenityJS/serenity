@@ -130,7 +130,9 @@ class ResourcePackClientResponse extends SerenityHandler {
 
 						const components = new CompoundTag("components", {});
 
-						for (const component of BlockComponent.registry.get(type) ?? []) {
+						for (const component of BlockComponent.registry.get(
+							type.identifier
+						) ?? []) {
 							// Check if the component is an NBT component
 							if (!(component.prototype instanceof BlockNBTComponent)) continue;
 
@@ -174,7 +176,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.exportedFromEdior = false;
 				packet.dayCycleStopTime = player.dimension.world.dayTime;
 				packet.eduOffer = 0;
-				packet.eduFeatures = false;
+				packet.eduFeatures = true;
 				packet.eduProductUuid = "";
 				packet.rainLevel = 0;
 				packet.lightningLevel = 0;
@@ -401,7 +403,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.personaDisabled = false;
 				packet.customSkinsDisabled = false;
 				packet.emoteChatMuted = false;
-				packet.gameVersion = "*";
+				packet.gameVersion = MINECRAFT_VERSION;
 				packet.limitedWorldWidth = 16;
 				packet.limitedWorldLength = 16;
 				packet.isNewNether = false;
@@ -410,6 +412,9 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.experimentalGameplayOverride = false;
 				packet.chatRestrictionLevel = 0;
 				packet.disablePlayerInteractions = false;
+				packet.serverIdentfier = "SerenityJS";
+				packet.worldIdentifier = player.dimension.world.identifier;
+				packet.scenarioIdentifier = "SerenityJS";
 				packet.levelId = "SerenityJS";
 				packet.worldName = player.dimension.world.identifier;
 				packet.premiumWorldTemplateId = "00000000-0000-0000-0000-000000000000";
@@ -442,6 +447,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				biomes.biomes = BIOME_DEFINITION_LIST;
 
 				const content = new CreativeContentPacket();
+				// content.items = CreativeItems.read(new BinaryStream(CREATIVE_CONTENT));
 				content.items = [...CreativeItem.items.values()].map((item) => {
 					return {
 						network: item.type.network,
@@ -449,7 +455,11 @@ class ResourcePackClientResponse extends SerenityHandler {
 						stackSize: 1,
 						networkBlockId:
 							item.type.block?.permutations[item.metadata]?.network ?? 0,
-						extras: null
+						extras: {
+							canDestroy: [],
+							canPlaceOn: [],
+							nbt: item.nbt
+						}
 					};
 				});
 

@@ -78,7 +78,10 @@ import type {
 	AnimateEntityPacket,
 	EmoteListPacket,
 	EmotePacket,
-	PlayerSkinPacket
+	PlayerSkinPacket,
+	BlockActorDataPacket,
+	AwardAchievementPacket,
+	ServerToClientHandshakePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -88,6 +91,9 @@ import type { NetworkPacketEvent } from "./packet-event";
 interface NetworkEvents {
 	[Packet.Login]: [NetworkPacketEvent<LoginPacket>];
 	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatusPacket>];
+	[Packet.ServerToClientHandshake]: [
+		NetworkPacketEvent<ServerToClientHandshakePacket>
+	];
 	[Packet.Disconnect]: [NetworkPacketEvent<DisconnectPacket>];
 	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfoPacket>];
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStackPacket>];
@@ -124,6 +130,7 @@ interface NetworkEvents {
 	[Packet.PlayerHotbar]: [NetworkPacketEvent<PlayerHotbarPacket>];
 	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContentPacket>];
 	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlotPacket>];
+	[Packet.BlockActorData]: [NetworkPacketEvent<BlockActorDataPacket>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunkPacket>];
 	[Packet.SetCommandsEnabled]: [NetworkPacketEvent<SetCommandsEnabledPacket>];
 	[Packet.ChangeDimension]: [NetworkPacketEvent<ChangeDimensionPacket>];
@@ -187,6 +194,7 @@ interface NetworkEvents {
 		NetworkPacketEvent<RequestNetworkSettingsPacket>
 	];
 	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
+	[Packet.AwardAchievement]: [NetworkPacketEvent<AwardAchievementPacket>];
 }
 
 export { NetworkEvents };

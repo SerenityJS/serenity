@@ -178,11 +178,6 @@ class InventoryTransaction extends SerenityHandler {
 				// Set the block with the blockType permutation based off the items metadata
 				resultingBlock.setPermutation(blockPermutation, player);
 
-				// Trigger the onPlace method of the block components
-				for (const component of resultingBlock.components.values()) {
-					component.onPlace?.(player);
-				}
-
 				// Check if the player is in survival mode, if so decrement the item
 				if (player.gamemode === Gamemode.Survival) usingItem.decrement();
 				break;

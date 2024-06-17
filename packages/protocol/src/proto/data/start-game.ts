@@ -88,6 +88,9 @@ class StartGamePacket extends DataPacket {
 	@Serialize(Bool) public experimentalGameplayOverride!: boolean;
 	@Serialize(Uint8) public chatRestrictionLevel!: number;
 	@Serialize(Bool) public disablePlayerInteractions!: boolean;
+	@Serialize(VarString) public serverIdentfier!: string;
+	@Serialize(VarString) public worldIdentifier!: string;
+	@Serialize(VarString) public scenarioIdentifier!: string;
 	@Serialize(VarString) public levelId!: string;
 	@Serialize(VarString) public worldName!: string;
 	@Serialize(VarString) public premiumWorldTemplateId!: string;

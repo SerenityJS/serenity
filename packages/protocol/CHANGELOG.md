@@ -1,5 +1,23 @@
 # @serenityjs/protocol
 
+## 0.3.5
+
+### Patch Changes
+
+- f98fc2f: 0.3.5-beta
+- Updated dependencies [f98fc2f]
+  - @serenityjs/nbt@0.3.5
+  - @serenityjs/raknet@0.3.5
+
+## 0.3.4
+
+### Patch Changes
+
+- 1901a90: 0.3.4-beta
+- Updated dependencies [1901a90]
+  - @serenityjs/nbt@0.3.4
+  - @serenityjs/raknet@0.3.4
+
 ## 0.3.3
 
 ### Patch Changes

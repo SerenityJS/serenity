@@ -94,18 +94,9 @@ class EntityContainer extends Container {
 			return slot.type === item.type && slot.amount < 64;
 		});
 
-		// Check if there was not existing slot available.
-		if (slot === -1) {
-			// Find the next empty slot.
-			const emptySlot = this.storage.indexOf(null);
-
-			// Check if there is an empty slot.
-			if (emptySlot === -1) return;
-
-			// Set the item in the empty slot.
-			this.setItem(emptySlot, item);
-		} else {
-			// Get the existing item.
+		// Check if exists an available slot
+		if (slot > -1) {
+			// Get the item if slot available
 			const existingItem = this.storage[slot] as ItemStack;
 
 			// Calculate the amount of items to add.
@@ -116,12 +107,25 @@ class EntityContainer extends Container {
 
 			// Subtract the amount from the item.
 			item.decrement(amount);
+		} else {
+			// Find the next empty slot.
+			const emptySlot = this.storage.indexOf(null);
 
-			// Check if there is ramaining amount.
-			if (item.amount > 0) {
-				// Add the remaining amount to the container.
-				this.addItem(item);
+			// Check if there is an empty slot.
+			if (emptySlot === -1) return;
+			if (item.amount > 64) {
+				// Create a full stack item for the empty slot
+				const newItem = new ItemStack(item.type.identifier, 64, item.metadata);
+
+				// Add the new Item and decrease it
+				this.setItem(emptySlot, newItem);
+				item.decrement(64);
+
+				// Because it is greater than 64 call the function to add the remaining items
+				return this.addItem(item);
 			}
+			// Set the item in the empty slot.
+			this.setItem(emptySlot, item);
 		}
 	}
 
@@ -175,6 +179,11 @@ class EntityContainer extends Container {
 		// Clone the components of the item.
 		for (const component of item.components.values()) {
 			component.clone(newItem);
+		}
+
+		// Clone the NBT tags of the item.
+		for (const tag of item.nbt.getTags()) {
+			newItem.nbt.addTag(tag);
 		}
 
 		// Return the new item.

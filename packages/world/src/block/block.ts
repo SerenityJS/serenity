@@ -1,4 +1,5 @@
 import {
+	BlockActorDataPacket,
 	type BlockCoordinates,
 	BlockFace,
 	LevelSoundEvent,
@@ -10,6 +11,7 @@ import {
 } from "@serenityjs/protocol";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 import { ItemType } from "@serenityjs/item";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../item";
 import { BlockComponent } from "../components";
@@ -34,7 +36,12 @@ class Block {
 	/**
 	 * The components of the block.
 	 */
-	public readonly components: Map<string, BlockComponent>;
+	public readonly components = new Map<string, BlockComponent>();
+
+	/**
+	 * The NBT data of the block.
+	 */
+	public readonly nbt = new CompoundTag("", {});
 
 	/**
 	 * The permutation of the block.
@@ -55,14 +62,13 @@ class Block {
 		this.dimension = dimension;
 		this.permutation = permutation;
 		this.position = position;
-		this.components = new Map();
 	}
 
 	/**
 	 * If the block is air.
 	 */
 	public isAir(): boolean {
-		return this.permutation.type.identifier === "minecraft:air";
+		return this.permutation.type.identifier === BlockIdentifier.Air;
 	}
 
 	/**
@@ -70,8 +76,8 @@ class Block {
 	 */
 	public isLiquid(): boolean {
 		return (
-			this.permutation.type.identifier === "minecraft:water" ||
-			this.permutation.type.identifier === "minecraft:lava"
+			this.permutation.type.identifier === BlockIdentifier.Water ||
+			this.permutation.type.identifier === BlockIdentifier.Lava
 		);
 	}
 
@@ -128,8 +134,8 @@ class Block {
 
 		// Check if the dimension already has the block.
 		// If not, we will add it to the cache.
-		if (!this.dimension.blocks.has(Block.getHash(this.position)))
-			this.dimension.blocks.set(Block.getHash(this.position), this);
+		if (!this.dimension.blocks.has(this.position))
+			this.dimension.blocks.set(this.position, this);
 	}
 
 	/**
@@ -157,7 +163,7 @@ class Block {
 		playerInitiated?: Player
 	): Block {
 		// Clear the previous components.
-		this.components.clear();
+		if (this.permutation.type !== permutation.type) this.clearComponents();
 
 		// Set the permutation of the block.
 		this.permutation = permutation;
@@ -170,24 +176,6 @@ class Block {
 
 		// Set the permutation of the block.
 		chunk.setPermutation(x, y, z, permutation);
-
-		// Check if the change was initiated by a player.
-		// If so, we will play the block place sound.
-		if (playerInitiated) {
-			// Create a new LevelSoundEventPacket.
-			const sound = new LevelSoundEventPacket();
-
-			// Set the packet properties.
-			sound.event = LevelSoundEvent.Place;
-			sound.position = new Vector3f(x, y, z);
-			sound.data = permutation.network;
-			sound.actorIdentifier = "";
-			sound.isBabyMob = false;
-			sound.isGlobal = false;
-
-			// Send the packet to the dimension.
-			this.dimension.broadcast(sound);
-		}
 
 		// Create a new UpdateBlockPacket.
 		const update = new UpdateBlockPacket();
@@ -202,14 +190,37 @@ class Block {
 		this.dimension.broadcast(update);
 
 		// Register the components to the block.
-		for (const component of BlockComponent.registry.get(permutation.type) ?? [])
+		for (const component of BlockComponent.registry.get(
+			permutation.type.identifier
+		) ?? [])
 			new component(this, component.identifier);
 
-		// Call the onPlace method of the components.
-		for (const component of this.components.values()) {
-			// Call the onBlockPlacedByPlayer method.
-			component.onPlace?.(playerInitiated);
+		// Check if the change was initiated by a player.
+		// If so, we will play the block place sound.
+		if (playerInitiated) {
+			// Call the onPlace method of the components.
+			for (const component of this.components.values()) {
+				// Call the onBlockPlacedByPlayer method.
+				component.onPlace?.(playerInitiated);
+			}
+
+			// Create a new LevelSoundEventPacket.
+			const sound = new LevelSoundEventPacket();
+
+			// Set the packet properties.
+			sound.event = LevelSoundEvent.Place;
+			sound.position = new Vector3f(x, y, z);
+			sound.data = permutation.network;
+			sound.actorIdentifier = String();
+			sound.isBabyMob = false;
+			sound.isGlobal = false;
+
+			// Send the packet to the dimension.
+			this.dimension.broadcast(sound);
 		}
+
+		// Update the block and the surrounding blocks.
+		this.update(true);
 
 		// Check if there is an entity on the block.
 		for (const entity of this.dimension.entities.values()) {
@@ -372,6 +383,12 @@ class Block {
 	 * Destroys the block.
 	 */
 	public destroy(playerInitiated?: Player): void {
+		// Call the onBreak method of the components.
+		for (const component of this.components.values()) {
+			// Call the onBlockBrokenByPlayer method.
+			component.onBreak?.(playerInitiated);
+		}
+
 		// Get the air permutation.
 		const air = BlockPermutation.resolve(BlockIdentifier.Air);
 
@@ -379,12 +396,36 @@ class Block {
 		this.setPermutation(air);
 
 		// Since the block is becoming air, we can remove the block from the dimension cache to save memory.
-		this.dimension.blocks.delete(Block.getHash(this.position));
+		this.dimension.blocks.delete(this.position);
+	}
 
-		// Call the onBreak method of the components.
+	/**
+	 * Updates the block and the surrounding blocks.
+	 * @param surrounding If the surrounding blocks should be updated.
+	 */
+	public update(surrounding = false, source?: Block): void {
+		// Call the onUpdate method of the components.
 		for (const component of this.components.values()) {
-			// Call the onBlockBrokenByPlayer method.
-			component.onBreak?.(playerInitiated);
+			// Call the onUpdate method.
+			component.onUpdate?.();
+		}
+
+		// Create a new BlockActorDataPacket.
+		const update = new BlockActorDataPacket();
+		update.position = this.position;
+		update.nbt = this.nbt;
+
+		// Send the packet to the dimension.
+		this.dimension.broadcast(update);
+
+		// Check if the surrounding blocks should be updated.
+		if (surrounding) {
+			this.above().update(false, source);
+			this.below().update(false, source);
+			this.north().update(false, source);
+			this.south().update(false, source);
+			this.east().update(false, source);
+			this.west().update(false, source);
 		}
 	}
 

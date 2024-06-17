@@ -1,3 +1,4 @@
+import type { CompoundTag } from "@serenityjs/nbt";
 import type {
 	Byte,
 	Bool,
@@ -55,6 +56,7 @@ type ValidTypes =
 	| typeof VarLong
 	| typeof VarString
 	| typeof ZigZag
-	| typeof ZigZong;
+	| typeof ZigZong
+	| typeof CompoundTag;
 
 export type { ValidTypes };
