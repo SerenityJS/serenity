@@ -1,9 +1,3 @@
-import {
-	type NoiseFunction3D,
-	createNoise2D,
-	createNoise3D,
-	type NoiseFunction2D
-} from "simplex-noise";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
 import { TerrainGenerator } from "./generator";
@@ -17,24 +11,59 @@ class Overworld extends TerrainGenerator {
 	 */
 	public static readonly identifier = "overworld";
 
-	public readonly solNoise: Simplex;
-	public readonly cavNoise: Simplex;
+	public readonly solNoise: Simplex; // Solid Noise
+	public readonly cavNoise: Simplex; // Cave Noise
+
+	public readonly tempNoise: Simplex; //Temperature Noise
+	public readonly humNoise: Simplex; // Humidity Noise
+	public readonly weiNoise: Simplex; // Weirdness Noise
+
 	public readonly conNoise: Simplex;
 	public readonly conPoints: Array<Array<number>> = [
-		[-1, 50],
-		[-0.9, 55],
-		[0.2, 63],
-		[0.5, 70],
-		[0.9, 100],
-		[1, 103]
+		[-1, 75],
+		[-0.8, 40],
+		[-0.455, 40],
+		[-0.42, 52],
+		[-0.19, 52],
+		[-0.17, 65],
+		[-0.11, 67],
+		[0.03, 68],
+		[0.3, 70],
+		[1, 75]
 	];
 
-	public readonly weiNoise: Simplex;
 	public readonly eroNoise: Simplex;
+	public readonly eroPoints: Array<Array<number>> = [
+		[-1, 0],
+		[-0.875, 0],
+		[-0.5, 0],
+		[-0.4375, 0],
+		[-0.125, 0],
+		[0.25, 0],
+		[0.5, 0],
+		[0.5625, 0],
+		[0.6875, 0],
+		[0.718_75, 0],
+		[0.875, 0],
+		[1, 0]
+	];
+
+	public readonly pavNoise: Simplex;
+	public readonly pavPoints: Array<Array<number>> = [
+		[-1, 0],
+		[-0.5, 0],
+		[-0.375, 0],
+		[0, 0],
+		[0.375, 0],
+		[0.625, 0],
+		[1, 0]
+	];
 
 	public readonly bedrock: BlockPermutation;
 	public readonly stone: BlockPermutation;
 	public readonly dirt: BlockPermutation;
+	public readonly sand: BlockPermutation;
+	public readonly gravel: BlockPermutation;
 	public readonly grass: BlockPermutation;
 	public readonly water: BlockPermutation;
 	public readonly lava: BlockPermutation;
@@ -52,6 +81,10 @@ class Overworld extends TerrainGenerator {
 		super(69);
 
 		Simplex.currentSeed = this.seed;
+
+		//distrib:
+		//scale: size closer to one smaller
+		//amplitude:
 
 		this.solNoise = new Simplex({
 			distrib: 1,
@@ -71,16 +104,16 @@ class Overworld extends TerrainGenerator {
 
 		this.conNoise = new Simplex({
 			distrib: 1,
-			scale: 0.008,
-			octaves: 4,
-			amplitude: 0.8,
+			scale: 0.0015,
+			octaves: 6,
+			amplitude: 1,
 			seed: this.seed
 		});
 
 		this.weiNoise = new Simplex({
-			distrib: 2,
-			scale: 0.005,
-			octaves: 3,
+			distrib: 1,
+			scale: 0.04,
+			octaves: 2,
 			amplitude: 0.8,
 			seed: this.seed
 		});
@@ -112,6 +145,8 @@ class Overworld extends TerrainGenerator {
 		this.bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
 		this.stone = BlockPermutation.resolve(BlockIdentifier.Stone);
 		this.dirt = BlockPermutation.resolve(BlockIdentifier.Dirt);
+		this.sand = BlockPermutation.resolve(BlockIdentifier.Sand);
+		this.gravel = BlockPermutation.resolve(BlockIdentifier.Gravel);
 		this.grass = BlockPermutation.resolve(BlockIdentifier.GrassBlock);
 		this.water = BlockPermutation.resolve(BlockIdentifier.Water);
 		this.lava = BlockPermutation.resolve(BlockIdentifier.Lava);
@@ -193,22 +228,51 @@ class Overworld extends TerrainGenerator {
 	public apply(chunk: Chunk): Chunk {
 		// Generate the chunk.
 
+		/*[-1, 40],
+		[-0.5, 42],
+		[-0.25, 63],
+		[0.25, 70],
+		[0.7, 90],
+		[0.9, 110],
+		[1, 120]*/
+		//53 gravel
 		// MOUNTAINS/WATER
-		// for (let x = 0; x < 16; x++) {
-		// 	for (let z = 0; z < 16; z++) {
-		// 		const c = this.conNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
-		// 		const h = this.spline(c, this.conPoints);
-		// 		for (let index = 0; index < h; index++) {
-		// 			chunk.setPermutation(x, index, z, this.stone);
-		// 		}
-		//    // lava 55 so 56
-		// 		if (h < 63) {
-		// 			for (let index = h + 1; index < 63; index++) {
-		// 				chunk.setPermutation(x, index, z, this.water);
-		// 			}
-		// 		}
-		// 	}
-		// }
+		for (let x = 0; x < 16; x++) {
+			for (let z = 0; z < 16; z++) {
+				const c = this.conNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
+				const h = this.spline(c, this.conPoints);
+				for (let index = -64; index < h; index++) {
+					chunk.setPermutation(x, index, z, this.stone);
+					if (index >= h - 3) {
+						if (h >= 64.545 || c > -0.225) {
+							chunk.setPermutation(x, index, z, this.dirt);
+							if (index >= h - 1) chunk.setPermutation(x, index, z, this.grass);
+						} else {
+							if (h >= 55.55) {
+								chunk.setPermutation(x, index, z, this.sand);
+							} else {
+								chunk.setPermutation(x, index, z, this.gravel);
+							}
+						}
+					}
+					// if (index >= 64 && index >= h - 4) {
+					// 	chunk.setPermutation(x, index, z, this.dirt);
+					// 	if (index >= h - 1) chunk.setPermutation(x, index, z, this.grass);
+					// } else if (index >= h - 4) {
+					// 	if (index >= 55 && index >= h - 4)
+					// 		chunk.setPermutation(x, index, z, this.sand);
+					// 	else if (index >= h - 4)
+					// 		chunk.setPermutation(x, index, z, this.gravel);
+					// }
+				}
+				// lava 55 so 56
+				if (h < 63) {
+					for (let index = h + 1; index < 63; index++) {
+						chunk.setPermutation(x, index, z, this.water);
+					}
+				}
+			}
+		}
 
 		//Generate the terrain.
 		// for (let x = 0; x < 16; x++) {
@@ -227,6 +291,7 @@ class Overworld extends TerrainGenerator {
 		// 	}
 		// }
 
+		// DEBUG
 		// for (let x = 0; x < 16; x++) {
 		// 	for (let z = 0; z < 16; z++) {
 		// 		for (let y = -64; y < 320; y++) {
@@ -239,18 +304,19 @@ class Overworld extends TerrainGenerator {
 		// 	}
 		// }
 
-		// Generate the caves.
+		// //let c = this.cavNoise.noise(chunk.x * 16 + x, y, chunk.z * 16 + z);
+
+		// s -= y / 80;
+		// //c += 0.0001 * y * y;
+		// if (s > 0) {
+		// 	chunk.setPermutation(x, y, z, this.stone);
+		// }
+		// //if (c >= -0.1 && c <= 0.1) chunk.setPermutation(x, y, z, this.air);
+
+		// Lava & Bedrock.
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
-				for (let y = -64; y < 10; y++) {
-					let s = this.solNoise.noise(chunk.x * 16 + x, y, chunk.z * 16 + z);
-					const c = this.cavNoise.noise(chunk.x * 16 + x, y, chunk.z * 16 + z);
-
-					s += 0.0001 * y * y;
-					if (s >= -0.4) {
-						chunk.setPermutation(x, y, z, this.stone);
-					}
-					if (c >= -0.1 && c <= 0.1) chunk.setPermutation(x, y, z, this.air);
+				for (let y = -64; y < 320; y++) {
 					if (chunk.getPermutation(x, y, z) == this.air && y < -54)
 						chunk.setPermutation(x, y, z, this.lava);
 					switch (y) {
