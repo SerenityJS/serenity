@@ -8,6 +8,7 @@ export * from "./player-chat";
 export * from "./player-place-block";
 export * from "./player-break-block";
 export * from "./player-container-open";
+export * from "./player-dropped-item";
 
 // Concrete entity signals
 export * from "./entity-spawned";
@@ -19,6 +20,7 @@ import { PlayerChatSignal } from "./player-chat";
 import { PlayerPlaceBlockSignal } from "./player-place-block";
 import { PlayerBreakBlockSignal } from "./player-break-block";
 import { PlayerContainerOpenSignal } from "./player-container-open";
+import { PlayerDroppedItemSignal } from "./player-dropped-item";
 import { EntitySpawnedSignal } from "./entity-spawned";
 
 /**
@@ -31,6 +33,7 @@ const EVENT_SIGNALS = [
 	PlayerPlaceBlockSignal,
 	PlayerBreakBlockSignal,
 	PlayerContainerOpenSignal,
+	PlayerDroppedItemSignal,
 	EntitySpawnedSignal
 ];
 
