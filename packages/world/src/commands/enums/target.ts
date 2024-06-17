@@ -46,20 +46,100 @@ class TargetEnum extends ValidEnum {
 		// Check if the target starts with @.
 		// This means we are querying for a target.
 		if (target.startsWith("@")) {
-			// TODO: implement target queries... [name=foo,tag=bar]
 			// Get the query symbol. (e.g. a, e, p, r, s)
 			const symbol = target.slice(1)[0];
+			const query = target.slice(2);
+
+			// Check if the query is valid.
+			if (query.length > 0 && (!query.startsWith("[") || !query.endsWith("]")))
+				throw new Error("Invalid query."); // TODO: more specific error
+
+			// Parse the query.
+			const queries =
+				query.length > 0
+					? query
+							.slice(1, -1)
+							.split(",")
+							.flatMap((data) => {
+								const [key, value] = data.split("=");
+								return { key, value };
+							})
+					: [];
 
 			// Check if the symbol is a valid query.
 			switch (symbol) {
 				// Get all players.
 				case "a": {
-					return new TargetEnum(origin.getPlayers());
+					const players = origin.getPlayers().filter((player) => {
+						// Check if there are any queries.
+						if (queries.length === 0) return true;
+
+						// Check if the player matches the query.
+						for (const { key, value } of queries) {
+							switch (key) {
+								// Check if the player name matches the query.
+								case "name": {
+									if (player.username !== value) return false;
+									break;
+								}
+
+								default: {
+									throw new TypeError(`Invalid query key "${key}"`);
+								}
+							}
+						}
+
+						return true;
+					});
+
+					return new TargetEnum(players);
 				}
 
 				// Get all entities.
 				case "e": {
-					return new TargetEnum(origin.getEntities());
+					// Filter entities by query.
+					const entities = origin.getEntities().filter((entity) => {
+						// Check if there are any queries.
+						if (queries.length === 0) return true;
+
+						// Check if the entity matches the query.
+						for (const { key, value } of queries) {
+							switch (key) {
+								// Check if the entity name matches the query.
+								case "name": {
+									if (entity.hasComponent("minecraft:nametag")) {
+										// Get the nametag component.
+										const nametag = entity.getComponent("minecraft:nametag");
+
+										// Check if the nametag matches the query.
+										if (nametag.currentValue !== value) return false;
+									} else {
+										return false;
+									}
+									break;
+								}
+
+								// Check if the entity type matches the query.
+								case "type": {
+									// Parse the entity type.
+									const type = value?.includes(":")
+										? value
+										: `minecraft:${value}`;
+
+									if (entity.type.identifier !== type) return false;
+									break;
+								}
+
+								default: {
+									throw new TypeError(`Invalid query key "${key}"`);
+								}
+							}
+						}
+
+						return true;
+					});
+
+					return new TargetEnum(entities);
 				}
 
 				// Get the nearest player.
@@ -75,10 +155,35 @@ class TargetEnum extends ValidEnum {
 
 				// Get a random player.
 				case "r": {
-					const players = origin.getPlayers();
+					// Get all players that match the query.
+					const players = origin.getPlayers().filter((player) => {
+						// Check if there are any queries.
+						if (queries.length === 0) return true;
+
+						// Check if the player matches the query.
+						for (const { key, value } of queries) {
+							switch (key) {
+								// Check if the player name matches the query.
+								case "name": {
+									if (player.username !== value) return false;
+									break;
+								}
+
+								default: {
+									throw new TypeError(`Invalid query key "${key}"`);
+								}
+							}
+						}
+
+						return true;
+					});
+
+					// Get a random player from the list.
 					const player = players[
 						Math.floor(Math.random() * players.length)
 					] as Player;
+
+					// Return the random player.
 					return new TargetEnum([player]);
 				}
 
