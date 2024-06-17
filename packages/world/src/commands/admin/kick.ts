@@ -1,4 +1,4 @@
-import { DisconnectPacket, DisconnectReason, PermissionLevel } from "@serenityjs/protocol";
+import { DisconnectReason, PermissionLevel } from "@serenityjs/protocol";
 import type { World } from "../../world";
 import { TargetEnum } from "../enums";
 import { Player } from "../../player";
@@ -13,15 +13,11 @@ const register = (world: World) => {
       const kickReason = parameters.reason?.result ?? "Kicked by an operator.";
 
       if (targets.length < 1) return { message: "No targets matched selector" };
-      const packet = new DisconnectPacket();
-      packet.hideDisconnectScreen = false;
-      packet.message = kickReason;
-      packet.reason = DisconnectReason.Kicked;
 
       for (const target of targets) {
         if (!(target instanceof Player)) continue;
         if (origin instanceof Player && origin.xuid == target.xuid) continue;
-        target.session.send(packet);
+        target.session.disconnect(kickReason, DisconnectReason.Kicked, false);
       }
       return {
         message: `Kicked ${targets.map((target) => (target as Player).username).join(", ")} from the game`,

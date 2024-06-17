@@ -12,7 +12,7 @@ const register = (world: World) => {
       const targets = parameters.player?.result ?? [origin];
       const itemName = parameters.itemName?.result;
       const itemMetadata = parameters.data?.result ?? 0;
-      const itemAmount = parameters.maxCount?.result ?? Infinity;
+      let itemAmount = parameters.maxCount?.result ?? Infinity;
       let itemCount = 0;
 
       if (targets.length < 1) return { message: "No targets matched selector" };
@@ -21,7 +21,11 @@ const register = (world: World) => {
         const { container } = player.getComponent("minecraft:inventory");
 
         if (!itemName) {
-          container.storage.map((_, idx) => container.clearSlot(idx));
+          container.storage.map((item, idx) => {
+            if (!item) return;
+            itemCount += item?.amount;
+            container.clearSlot(idx);
+          });
           continue;
         }
         const itemSlots = container.storage
@@ -36,8 +40,9 @@ const register = (world: World) => {
           const remaining = amount - itemAmount;
           item!.setAmount(Math.max(remaining, 0));
 
-          itemCount += Number.isFinite(itemAmount) ? itemAmount : amount;
-          if (itemCount >= itemAmount) break;
+          itemCount += remaining < 0 ? amount : itemAmount;
+          itemAmount -= amount;
+          if (itemAmount < 0) break;
         }
       }
       return {
