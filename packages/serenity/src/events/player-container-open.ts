@@ -37,6 +37,9 @@ class PlayerContainerOpenSignal extends EventSignal {
 	 */
 	public readonly container: Container;
 
+	/**
+	 * The type of the container. (Block, Entity, etc.)
+	 */
 	public readonly type: ContainerType;
 
 	/**

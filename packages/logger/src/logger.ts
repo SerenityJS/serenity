@@ -50,7 +50,7 @@ class Logger {
 			"["
 		)}${this.color(`${this.name}`)}${this.colorette.gray("]")}`;
 
-		console.info(format, ...colorized);
+		console.log(format, ...colorized);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Logger {
 			"["
 		)}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyan("Info")}${this.colorette.gray("]")}`;
 
-		console.info(format, ...colorized);
+		console.log(format, ...colorized);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Logger {
 			"["
 		)}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.yellow("Warning")}${this.colorette.gray("]")}`;
 
-		console.info(format, ...colorized);
+		console.log(format, ...colorized);
 	}
 
 	/**
@@ -87,12 +87,11 @@ class Logger {
 	 * @param arguments_ - The arguments to log.
 	 */
 	public error(...arguments_: Array<unknown>): void {
-		const colorized = this.colorize(...arguments_);
 		const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
 			"["
 		)}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.red("Error")}${this.colorette.gray("]")}`;
 
-		console.info(format, ...colorized);
+		console.log(format, ...arguments_);
 	}
 
 	/**
@@ -108,7 +107,7 @@ class Logger {
 			"]"
 		)}`;
 
-		console.info(format, ...colorized);
+		console.log(format, ...colorized);
 	}
 
 	/**
@@ -125,7 +124,7 @@ class Logger {
 			"["
 		)}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.redBright("DEBUG")}${this.colorette.gray("]")}`;
 
-		console.info(format, ...colorized);
+		console.log(format, ...colorized);
 	}
 
 	/**
@@ -141,7 +140,7 @@ class Logger {
 			"]"
 		)}`;
 
-		console.info(format, colorized[0], ">", colorized[1]);
+		console.log(format, colorized[0], ">", colorized[1]);
 	}
 
 	public colorize(...arguments_: Array<unknown>): Array<unknown> {
