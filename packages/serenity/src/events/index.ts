@@ -18,6 +18,7 @@ import { PlayerJoinedSignal } from "./player-joined";
 import { PlayerSpawnedSignal } from "./player-spawned";
 import { PlayerChatSignal } from "./player-chat";
 import { PlayerPlaceBlockSignal } from "./player-place-block";
+import { PlayerStartedBreakingBlockSignal } from "./player-started-breaking-block";
 import { PlayerBreakBlockSignal } from "./player-break-block";
 import { PlayerContainerOpenSignal } from "./player-container-open";
 import { PlayerDroppedItemSignal } from "./player-dropped-item";
@@ -31,6 +32,7 @@ const EVENT_SIGNALS = [
 	PlayerSpawnedSignal,
 	PlayerChatSignal,
 	PlayerPlaceBlockSignal,
+	PlayerStartedBreakingBlockSignal,
 	PlayerBreakBlockSignal,
 	PlayerContainerOpenSignal,
 	PlayerDroppedItemSignal,

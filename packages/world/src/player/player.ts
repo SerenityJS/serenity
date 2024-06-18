@@ -103,8 +103,10 @@ class Player extends Entity {
 	 */
 	public ping = 0;
 
-	// TODO: Organize these properties.
-	public mining: BlockCoordinates | null = null;
+	/**
+	 * The target block the player is currently mining.
+	 */
+	public target: BlockCoordinates | null = null;
 
 	/**
 	 * @readonly

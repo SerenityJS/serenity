@@ -1,3 +1,4 @@
+import type { PlayerStartedBreakingBlockSignal } from "./player-started-breaking-block";
 import type { PlayerDroppedItemSignal } from "./player-dropped-item";
 import type { EntitySpawnedSignal } from "./entity-spawned";
 import type { PlayerContainerOpenSignal } from "./player-container-open";
@@ -12,6 +13,7 @@ interface EventSignals {
 	PlayerSpawned: [PlayerSpawnedSignal];
 	PlayerChat: [PlayerChatSignal];
 	PlayerPlaceBlock: [PlayerPlaceBlockSignal];
+	PlayerStartedBreakingBlock: [PlayerStartedBreakingBlockSignal];
 	PlayerBreakBlock: [PlayerBreakBlockSignal];
 	PlayerContainerOpen: [PlayerContainerOpenSignal];
 	PlayerDroppedItem: [PlayerDroppedItemSignal];
