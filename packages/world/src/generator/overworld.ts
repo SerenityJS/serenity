@@ -11,14 +11,14 @@ class Overworld extends TerrainGenerator {
 	 */
 	public static readonly identifier = "overworld";
 
-	public readonly solNoise: Simplex; // Solid Noise
-	public readonly cavNoise: Simplex; // Cave Noise
+	public readonly solNoise: Simplex; //  Solid Noise
+	public readonly cavNoise: Simplex; //  Cave Noise
 
-	public readonly tempNoise: Simplex; //Temperature Noise
-	public readonly humNoise: Simplex; // Humidity Noise
-	public readonly weiNoise: Simplex; // Weirdness Noise
+	public readonly tempNoise: Simplex; // Temperature Noise
+	public readonly humNoise: Simplex; //  Humidity Noise
+	public readonly weiNoise: Simplex; //  Weirdness Noise
 
-	public readonly conNoise: Simplex;
+	public readonly conNoise: Simplex; //  Continentalness Noise
 	public readonly conPoints: Array<Array<number>> = [
 		[-1, 75],
 		[-0.8, 40],
@@ -26,37 +26,37 @@ class Overworld extends TerrainGenerator {
 		[-0.42, 52],
 		[-0.19, 52],
 		[-0.17, 65],
-		[-0.11, 67],
+		[-0.11, 66],
 		[0.03, 68],
 		[0.3, 70],
 		[1, 75]
 	];
 
-	public readonly eroNoise: Simplex;
+	public readonly eroNoise: Simplex; //  Erosion Noise
 	public readonly eroPoints: Array<Array<number>> = [
-		[-1, 0],
-		[-0.875, 0],
-		[-0.5, 0],
-		[-0.4375, 0],
-		[-0.125, 0],
-		[0.25, 0],
-		[0.5, 0],
-		[0.5625, 0],
-		[0.6875, 0],
-		[0.718_75, 0],
-		[0.875, 0],
-		[1, 0]
+		[-1, 150],
+		[-0.875, 85],
+		[-0.5, 65],
+		[-0.4375, 70],
+		[-0.125, 42],
+		[0.25, 45],
+		[0.5, 45],
+		[0.5625, 52],
+		[0.6875, 52],
+		[0.718_75, 45],
+		[0.875, 40],
+		[1, 40]
 	];
 
-	public readonly pavNoise: Simplex;
+	public readonly pavNoise: Simplex; //  Peaks & Valleys Noise
 	public readonly pavPoints: Array<Array<number>> = [
-		[-1, 0],
-		[-0.5, 0],
-		[-0.375, 0],
-		[0, 0],
-		[0.375, 0],
-		[0.625, 0],
-		[1, 0]
+		[-1, 45],
+		[-0.5, 55],
+		[-0.375, 65],
+		[0, 70],
+		[0.375, 100],
+		[0.625, 115],
+		[1, 110]
 	];
 
 	public readonly bedrock: BlockPermutation;
@@ -102,11 +102,19 @@ class Overworld extends TerrainGenerator {
 			seed: this.seed
 		});
 
-		this.conNoise = new Simplex({
+		this.tempNoise = new Simplex({
 			distrib: 1,
-			scale: 0.0015,
-			octaves: 6,
-			amplitude: 1,
+			scale: 0.04,
+			octaves: 2,
+			amplitude: 0.8,
+			seed: this.seed
+		});
+
+		this.humNoise = new Simplex({
+			distrib: 1,
+			scale: 0.04,
+			octaves: 2,
+			amplitude: 0.8,
 			seed: this.seed
 		});
 
@@ -118,29 +126,29 @@ class Overworld extends TerrainGenerator {
 			seed: this.seed
 		});
 
-		this.eroNoise = new Simplex({
-			distrib: 2,
+		this.conNoise = new Simplex({
+			distrib: 1,
 			scale: 0.005,
+			octaves: 6,
+			amplitude: 0.7,
+			seed: this.seed
+		});
+
+		this.eroNoise = new Simplex({
+			distrib: 1,
+			scale: 0.0015,
+			octaves: 6,
+			amplitude: 1,
+			seed: this.seed
+		});
+
+		this.pavNoise = new Simplex({
+			distrib: 1,
+			scale: 0.003,
 			octaves: 2,
 			amplitude: 0.8,
 			seed: this.seed
 		});
-
-		// Create the noise functions.
-		// this.solidNoise = createNoise3D(() => this.seed);
-		// this.solidNoise2 = createNoise3D(() => this.seed * 0.02);
-		// this.solidNoise3 = createNoise3D(() => this.seed * 0.06);
-
-		// this.conNoise = createNoise2D(() => this.seed);
-		// this.conNoise2 = createNoise2D(() => this.seed * 0.02);
-		// this.conNoise3 = createNoise2D(() => this.seed * 0.06);
-
-		// this.weiNoise = createNoise2D(() => this.seed);
-		// this.weiNoise2 = createNoise2D(() => this.seed * 0.02);
-		// this.weiNoise3 = createNoise2D(() => this.seed * 0.06);
-
-		// this.eroNoise = createNoise2D(() => this.seed);
-		// this.eroNoise2 = createNoise2D(() => this.seed * 0.02);
 
 		this.bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
 		this.stone = BlockPermutation.resolve(BlockIdentifier.Stone);
@@ -165,40 +173,6 @@ class Overworld extends TerrainGenerator {
 		this.glass = BlockPermutation.resolve(BlockIdentifier.Glass);
 	}
 
-	/**
-	 * Adds Octaves together since the library doesn't have octaves
-	 *
-	 */
-	// private getSolidNoise(x: number, y: number, z: number): number {
-	// 	return (
-	// 		this.solidNoise(x * 0.003, y * 0.003, z * 0.003) +
-	// 		this.solidNoise2(x * 0.06, y * 0.06, z * 0.06) +
-	// 		this.solidNoise3(x * 0.02, y * 0.02, z * 0.02)
-	// 	);
-	// }
-
-	// private getConNoise(x: number, z: number): number {
-	// 	return (
-	// 		this.conNoise(x * 0.0009, z * 0.0009) +
-	// 		this.conNoise2(x * 0.0036, z * 0.0036) +
-	// 		this.conNoise3(x * 0.0144, z * 0.0144)
-	// 	);
-	// }
-
-	// private getEroNoise(x: number, z: number): number {
-	// 	return (
-	// 		this.eroNoise(x * 0.003, z * 0.003) + this.eroNoise2(x * 0.06, z * 0.06)
-	// 	);
-	// }
-
-	// private getWeiNoise(x: number, z: number): number {
-	// 	return (
-	// 		this.weiNoise(x * 0.003, z * 0.003) +
-	// 		this.weiNoise2(x * 0.06, z * 0.06) +
-	// 		this.weiNoise3(x * 0.02, z * 0.02)
-	// 	);
-	// }
-
 	private linearInturp(
 		x: number,
 		xm: number,
@@ -209,7 +183,7 @@ class Overworld extends TerrainGenerator {
 		return ym + ((x - xm) * (yM - ym)) / (xM - xm);
 	}
 
-	private spline(value: number, points: Array<Array<number>>): number {
+	public spline(value: number, points: Array<Array<number>>): number {
 		for (let index = 0; index < points.length - 1; index++) {
 			const [x1, y1] = points[index] ?? [0, 0];
 			const [x2, y2] = points[index + 1] ?? [0, 0];
@@ -239,8 +213,13 @@ class Overworld extends TerrainGenerator {
 		// MOUNTAINS/WATER
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
-				const c = this.conNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
-				const h = this.spline(c, this.conPoints);
+				let c = this.conNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
+				let e = this.eroNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
+				let p = this.pavNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
+				c = this.spline(c, this.conPoints);
+				e = this.spline(e, this.eroPoints);
+				p = this.spline(p, this.pavPoints);
+				const h = (c + e) / 2;
 				for (let index = -64; index < h; index++) {
 					chunk.setPermutation(x, index, z, this.stone);
 					if (index >= h - 3) {
