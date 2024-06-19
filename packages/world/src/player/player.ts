@@ -11,6 +11,10 @@ import {
 	NetworkItemStackDescriptor,
 	NetworkStackLatencyPacket,
 	type PermissionLevel,
+	PlayStatus,
+	PlayStatusPacket,
+	RespawnPacket,
+	RespawnState,
 	type SerializedSkin,
 	SetPlayerGameTypePacket,
 	TeleportCause,
@@ -351,6 +355,35 @@ class Player extends Entity {
 
 		// Send the commands to the player
 		this.session.sendImmediate(available);
+	}
+
+	/**
+	 * Despawns the player from the world.
+	 * @param player The player to despawn the player from.
+	 */
+	public respawn(): void {
+		// Create a new RespawnPacket
+		const respawn = new RespawnPacket();
+
+		// Set the packet properties
+		respawn.position = this.position; // TODO: Set the respawn position
+		respawn.runtimeEntityId = this.runtime;
+		respawn.state = RespawnState.ClientReadyToSpawn;
+
+		// Create a new PlayStatusPacket
+		const ready = new PlayStatusPacket();
+
+		// Set the packet properties
+		ready.status = PlayStatus.PlayerSpawn;
+
+		// Send the packets to the player
+		this.session.send(respawn, ready);
+
+		// Check if the player is already in the dimension
+		if (this.dimension.entities.has(this.unique)) return;
+
+		// Add the player to the dimension
+		this.spawn();
 	}
 
 	/**

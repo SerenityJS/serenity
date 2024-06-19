@@ -56,7 +56,7 @@ class Entity {
 	/**
 	 * The running total of the entity runtime id.
 	 */
-	public static runtime = 1n;
+	public static runtime = 2n; // For some reason, the runtime id needs to start at 2???
 
 	/**
 	 * The type of entity.
@@ -342,7 +342,7 @@ class Entity {
 		// Set the properties of the packet
 		packet.eventId = ActorEventIds.DEATH_ANIMATION;
 		packet.actorRuntimeId = this.runtime;
-		packet.eventData = -1;
+		packet.eventData = 0;
 
 		// Broadcast the packet to the dimension
 		this.dimension.broadcast(packet);
