@@ -1,4 +1,6 @@
 import {
+	ActorEventIds,
+	ActorEventPacket,
 	AddEntityPacket,
 	AddItemActorPacket,
 	type MetadataFlags,
@@ -314,6 +316,39 @@ class Entity {
 
 		// Send the packet to the player if it exists, otherwise broadcast it to the dimension
 		player ? player.session.send(packet) : this.dimension.broadcast(packet);
+
+		// Trigger the onDespawn method of all applicable components
+		for (const component of this.getComponents()) component.onDespawn?.();
+	}
+
+	/**
+	 * Kills the entity, triggering the death animation.
+	 */
+	public kill(): void {
+		// TODO: Implement item drops and experience drops
+
+		// Check if the entity has a health component
+		if (this.hasComponent("minecraft:health")) {
+			// Get the health component
+			const health = this.getAttribute("minecraft:health");
+
+			// Set the health to the minimum value
+			health.resetToMinValue();
+		}
+
+		// Create a new ActorEventPacket
+		const packet = new ActorEventPacket();
+
+		// Set the properties of the packet
+		packet.eventId = ActorEventIds.DEATH_ANIMATION;
+		packet.actorRuntimeId = this.runtime;
+		packet.eventData = -1;
+
+		// Broadcast the packet to the dimension
+		this.dimension.broadcast(packet);
+
+		// Delete the entity from the dimension
+		this.dimension.entities.delete(this.unique);
 
 		// Trigger the onDespawn method of all applicable components
 		for (const component of this.getComponents()) component.onDespawn?.();

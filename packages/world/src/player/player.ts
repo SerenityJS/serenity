@@ -26,6 +26,7 @@ import {
 	EntityAlwaysShowNametagComponent,
 	EntityBreathingComponent,
 	EntityHasGravityComponent,
+	EntityHealthComponent,
 	EntityInventoryComponent,
 	EntityMovementComponent,
 	EntityNametagComponent,
@@ -546,6 +547,7 @@ EntityHasGravityComponent.register(type);
 EntityBreathingComponent.register(type);
 EntityNametagComponent.register(type);
 EntityAlwaysShowNametagComponent.register(type);
+EntityHealthComponent.register(type);
 PlayerBuildComponent.register(type);
 PlayerMineComponent.register(type);
 PlayerDoorsAndSwitchesComponent.register(type);
