@@ -7,3 +7,4 @@ export * from "./meta";
 export * from "./inventory";
 export * from "./item";
 export * from "./physics";
+export * from "./armor";
