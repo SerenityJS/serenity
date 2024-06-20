@@ -63,7 +63,6 @@ class ItemStackRequest extends SerenityHandler {
   protected static handleTakeAction(player: Player, action: ItemStackAction): void {
     // Check if the source exists.
     if (!action.source?.type) throw new Error("Invalid source type.");
-    console.log(` Source: ${ContainerName[action.source?.type ?? 0]} Destination: ${ContainerName[action.destination?.type ?? 0]}`);
     switch (action.source?.type) {
       default: {
         this.serenity.network.logger.warn("ItemStackAction.take not implemented:", ContainerName[action.source.type]);
@@ -202,7 +201,6 @@ class ItemStackRequest extends SerenityHandler {
   protected static handlePlaceAction(player: Player, action: ItemStackAction): void {
     // Check if the source exists.
     if (!action.source?.type) throw new Error("Invalid source type.");
-    console.log(` Source: ${ContainerName[action.source?.type ?? 0]} Destination: ${ContainerName[action.destination?.type ?? 0]}`);
     switch (action.source?.type) {
       default: {
         this.serenity.network.logger.warn("ItemStackAction.place not implemented:", ContainerName[action.source.type]);
@@ -324,45 +322,6 @@ class ItemStackRequest extends SerenityHandler {
       }
     } else throw new Error("Invalid count possible.");
   }
-
-  /* protected static placeFromArmor(player: Player, action: ItemStackAction): void {
-    const count = action.count;
-
-    if (!count) throw new Error("Invalid count.");
-    const sourceSlot = action.source?.slot;
-    const destinationSlot = action.destination?.slot;
-
-    if (sourceSlot === undefined || destinationSlot === undefined) throw new Error("Invalid source or destination slot.");
-    console.warn(sourceSlot, destinationSlot, ContainerName[action.source!.slot], ContainerName[action.destination!.slot]);
-
-    // Get the source and destination containers.
-    const { container: source } = player.getComponent("minecraft:armor");
-    const destination =
-      action.destination?.type === ContainerName.Cursor ? player.getComponent("minecraft:cursor").container : player.openedContainer;
-
-    // Check if the source and destination containers exist.
-    if (!source || !destination) throw new Error("Invalid source or destination.");
-    // Get the source item and check if exists
-    const sourceItem = source.getItem(action.source?.slot ?? 0);
-
-    if (!sourceItem) throw new Error("Invalid source item.");
-
-    // WHY MOJANG??????????
-    if (action.destination?.type === ContainerName.Container) {
-      process.nextTick(() => {
-        const { container } = player.getComponent("minecraft:cursor");
-
-        container.clearSlot(0);
-      });
-    }
-
-    if (count <= sourceItem.amount) {
-      const item = source.takeItem(sourceSlot, count);
-
-      if (!item) throw new Error("Invalid item.");
-      destination.setItem(destinationSlot, item);
-    } else throw new Error("Invalid count possible.");
-  } */
 
   protected static placeFromCursor(player: Player, action: ItemStackAction): void {
     // Get the item count from the action.

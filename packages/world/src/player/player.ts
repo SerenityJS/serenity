@@ -29,6 +29,8 @@ import {
   EntityInventoryComponent,
   EntityMovementComponent,
   EntityNametagComponent,
+  EntityHealthComponent,
+  EntityArmorComponent,
   PlayerAbilityComponent,
   PlayerAttackMobsComponent,
   PlayerAttackPlayersComponent,
@@ -101,7 +103,7 @@ class Player extends Entity {
   public ping = 0;
 
   // TODO: Organize these properties.
-  public mining: BlockCoordinates | null = null;
+  public target: BlockCoordinates | null = null;
 
   /**
    * @readonly
@@ -514,6 +516,7 @@ class Player extends Entity {
 export { Player };
 
 // Register the player components
+
 // TODO: Move this to a separate file.
 const type = EntityType.get(EntityIdentifier.Player) as EntityType;
 PlayerCursorComponent.register(type);
