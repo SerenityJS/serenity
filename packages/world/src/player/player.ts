@@ -11,6 +11,10 @@ import {
   NetworkItemStackDescriptor,
   NetworkStackLatencyPacket,
   type PermissionLevel,
+  PlayStatus,
+  PlayStatusPacket,
+  RespawnPacket,
+  RespawnState,
   type SerializedSkin,
   SetPlayerGameTypePacket,
   TeleportCause,
@@ -26,10 +30,10 @@ import {
   EntityAlwaysShowNametagComponent,
   EntityBreathingComponent,
   EntityHasGravityComponent,
+  EntityHealthComponent,
   EntityInventoryComponent,
   EntityMovementComponent,
   EntityNametagComponent,
-  EntityHealthComponent,
   EntityArmorComponent,
   PlayerAbilityComponent,
   PlayerAttackMobsComponent,
@@ -102,7 +106,9 @@ class Player extends Entity {
    */
   public ping = 0;
 
-  // TODO: Organize these properties.
+  /**
+   * The target block the player is currently mining.
+   */
   public target: BlockCoordinates | null = null;
 
   /**
@@ -346,6 +352,35 @@ class Player extends Entity {
    * Despawns the player from the world.
    * @param player The player to despawn the player from.
    */
+  public respawn(): void {
+    // Create a new RespawnPacket
+    const respawn = new RespawnPacket();
+
+    // Set the packet properties
+    respawn.position = this.position; // TODO: Set the respawn position
+    respawn.runtimeEntityId = this.runtime;
+    respawn.state = RespawnState.ClientReadyToSpawn;
+
+    // Create a new PlayStatusPacket
+    const ready = new PlayStatusPacket();
+
+    // Set the packet properties
+    ready.status = PlayStatus.PlayerSpawn;
+
+    // Send the packets to the player
+    this.session.send(respawn, ready);
+
+    // Check if the player is already in the dimension
+    if (this.dimension.entities.has(this.unique)) return;
+
+    // Add the player to the dimension
+    this.spawn();
+  }
+
+  /**
+   * Despawns the player from the world.
+   * @param player The player to despawn the player from.
+   */
   public hasComponent<T extends keyof PlayerComponents>(identifier: T): boolean {
     return this.components.has(identifier) as boolean;
   }
@@ -516,18 +551,17 @@ class Player extends Entity {
 export { Player };
 
 // Register the player components
-
 // TODO: Move this to a separate file.
 const type = EntityType.get(EntityIdentifier.Player) as EntityType;
 PlayerCursorComponent.register(type);
 EntityInventoryComponent.register(type);
-EntityArmorComponent.register(type);
 EntityMovementComponent.register(type);
 EntityHasGravityComponent.register(type);
 EntityBreathingComponent.register(type);
 EntityNametagComponent.register(type);
 EntityAlwaysShowNametagComponent.register(type);
 EntityHealthComponent.register(type);
+EntityArmorComponent.register(type);
 PlayerBuildComponent.register(type);
 PlayerMineComponent.register(type);
 PlayerDoorsAndSwitchesComponent.register(type);
