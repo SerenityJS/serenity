@@ -59,3 +59,4 @@ export * from "./boss-event-color";
 export * from "./npc-dialogue-action";
 export * from "./actor-event-id";
 export * from "./emote-flag";
+export * from "./equipment-slot";

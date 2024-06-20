@@ -6,3 +6,4 @@ export * from "./nametag";
 export * from "./enchantable";
 export * from "./lore";
 export * from "./durability";
+export * from "./armor";
