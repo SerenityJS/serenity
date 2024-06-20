@@ -148,7 +148,7 @@ class PlayerAction extends SerenityHandler {
 		const { x, y, z } = packet.blockPosition;
 
 		// Set the mining position to the player.
-		player.mining = { x, y, z };
+		player.target = { x, y, z };
 
 		// Calculate the break time.
 		const breakTime = Math.ceil(2 * 20);
@@ -190,9 +190,9 @@ class PlayerAction extends SerenityHandler {
 	): void {
 		// Get the block position from the packet.
 		const { x, y, z } =
-			packet.blockPosition === player.mining
+			packet.blockPosition === player.target
 				? packet.blockPosition
-				: player.mining ?? { x: 0, y: 0, z: 0 };
+				: player.target ?? { x: 0, y: 0, z: 0 };
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
@@ -336,16 +336,16 @@ class PlayerAction extends SerenityHandler {
 	): void {
 		// Check if the player was already mining.
 		// If so, stop the mining.
-		if (player.mining) {
+		if (player.target) {
 			// Create a new LevelEvent packet.
 			const event = new LevelEventPacket();
 
 			// Set the event to stop the block break.
 			event.event = LevelEvent.StopBlockCracking;
 			event.position = new Vector3f(
-				player.mining.x,
-				player.mining.y,
-				player.mining.z
+				player.target.x,
+				player.target.y,
+				player.target.z
 			);
 			event.data = 0;
 
@@ -354,7 +354,7 @@ class PlayerAction extends SerenityHandler {
 		}
 
 		// Set the mining position to the player.
-		player.mining = packet.blockPosition;
+		player.target = packet.blockPosition;
 
 		// TODO: Calculate the break time based on hardness
 		const breakTime = Math.ceil(2 * 20);

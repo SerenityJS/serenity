@@ -34,18 +34,6 @@ class MobEquipment extends SerenityHandler {
 		// Set the players selected slot for the inventory
 		inventory.selectedSlot = packet.selectedSlot;
 
-		// Check if the items are not the same.
-		// If so, disconnect the player.
-		if (item && item.type.network !== packet.item.network) {
-			session.disconnect(
-				"Inventory out of sync, mismatch item runtimeid.",
-				DisconnectReason.BadPacket
-			);
-			this.serenity.logger.warn(
-				`Player ${player.username} has been disconnected due to inventory out of sync, mismatch item runtimeid.`
-			);
-		}
-
 		// Create a new MobEquipmentPacket
 		const mobEquipment = new MobEquipmentPacket();
 
