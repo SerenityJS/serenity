@@ -67,3 +67,4 @@ export * from "./boss-event-add";
 export * from "./boss-event-update";
 export * from "./animate-entity";
 export * from "./emotes";
+export * from "./death-parameters";

@@ -76,6 +76,7 @@ export * from "./script-message";
 export * from "./toast-request";
 export * from "./update-abilities";
 export * from "./update-adventure-settings";
+export * from "./death-info";
 export * from "./request-network-settings";
 export * from "./available-commands";
 export * from "./command-request";

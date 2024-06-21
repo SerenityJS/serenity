@@ -84,6 +84,7 @@ import { PlayerSkinPacket } from "./player-skin";
 import { BlockActorDataPacket } from "./block-actor-data";
 import { AwardAchievementPacket } from "./award-achievement";
 import { ServerToClientHandshakePacket } from "./server-to-client-handshake";
+import { DeathInfoPacket } from "./death-info";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -165,6 +166,7 @@ const Packets = {
 	[Packet.ToastRequest]: ToastRequestPacket, // 186
 	[Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
+	[Packet.DeathInfo]: DeathInfoPacket, // 189
 	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
 	[Packet.SetHud]: SetHudPacket, // 308
 	[Packet.AwardAchievement]: AwardAchievementPacket // 309
