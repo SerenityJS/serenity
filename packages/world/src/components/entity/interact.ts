@@ -31,7 +31,7 @@ class EntityInteractComponent extends EntityComponent {
 					const packet = new ActorEventPacket();
 					packet.actorRuntimeId = runtime;
 					packet.eventId = ActorEventIds.HURT_ANIMATION;
-					packet.eventData = 0;
+					packet.eventData = 1;
 
 					this.entity.dimension.broadcast(packet);
 				} else {
