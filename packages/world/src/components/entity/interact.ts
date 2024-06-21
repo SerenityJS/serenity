@@ -26,7 +26,7 @@ class EntityInteractComponent extends EntityComponent {
 		switch (transaction) {
 			case ItemUseOnEntityInventoryTransactionType.Attack: {
 				if (health.currentValue > 0) {
-					health.setCurrentValue(health.currentValue - 0.5);
+					health.decreaseValue(0.5);
 
 					const packet = new ActorEventPacket();
 					packet.actorRuntimeId = runtime;

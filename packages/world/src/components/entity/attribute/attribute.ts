@@ -104,7 +104,9 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	}
 
 	/**
-	 * Resets the current value of the attribute to the minimum value.
+	 * Resets the current value of the attribute.
+	 *
+	 * @param value The value to decrease.
 	 */
 	public resetToMinValue(): void {
 		// Set the value
@@ -112,6 +114,20 @@ abstract class EntityAttributeComponent extends EntityComponent {
 
 		// Set the current value to the minimum value
 		this.setCurrentValue(this.effectiveMin);
+	}
+
+	/**
+	 * Decrease the current value of the attribute to the minimum value.
+	 */
+	public decreaseValue(value: number): void {
+		// Check if the value is within the min and max range
+		if (value > this.currentValue) value = this.currentValue;
+
+		// Descrease the current value
+		this.currentValue -= value;
+
+		// Set the current value
+		this.setCurrentValue(this.currentValue);
 	}
 }
 
