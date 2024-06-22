@@ -11,7 +11,7 @@ import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
-import { Player } from "../player";
+import { Player, PlayerStatus } from "../player";
 import { Block } from "../block";
 import {
 	EntityComponent,
@@ -126,6 +126,9 @@ class Dimension {
 			// Check if the chunk is loaded
 			const chunk = entity.getChunk();
 			if (!chunks.has(chunk.hash)) continue;
+
+			// Check if the entity is a player and is not spawned
+			if (entity.isPlayer() && entity.status !== PlayerStatus.Spawned) continue;
 
 			// Tick all the tickable entity components
 			for (const component of entity.components.values()) {

@@ -6,12 +6,12 @@ import { AbilityLayerFlag } from "../../enums";
 import type { AbilityLayerType } from "../../enums";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
-interface AbilityFlag {
+export interface AbilityFlag {
 	flag: AbilityLayerFlag;
 	value: boolean;
 }
 
-interface EncodedAbilityFlags {
+export interface EncodedAbilityFlags {
 	flagsHash: number;
 	valuesHash: number;
 }

@@ -22,7 +22,7 @@ export * from "./container-id";
 export * from "./container-name";
 export * from "./container-type";
 export * from "./action-ids";
-export * from "./attribute";
+export * from "./attribute-name";
 export * from "./metadata-keys";
 export * from "./metadata-type";
 export * from "./metadata-flags";

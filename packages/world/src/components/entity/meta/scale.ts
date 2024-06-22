@@ -7,15 +7,11 @@ import type { Entity } from "../../../entity";
 class EntityScaleComponent extends EntityMetadataComponent {
 	public static readonly identifier = "minecraft:scale";
 
-	public readonly flag = false;
-
 	public readonly key = MetadataKey.Scale;
 
 	public readonly type = MetadataType.Float;
 
 	public defaultValue = 1;
-
-	public currentValue = this.defaultValue;
 
 	/**
 	 * Set a custom scale for your entity (Width and Height)
@@ -25,6 +21,9 @@ class EntityScaleComponent extends EntityMetadataComponent {
 	 */
 	public constructor(entity: Entity) {
 		super(entity, EntityScaleComponent.identifier);
+
+		// Set the entity to have a custom scale
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

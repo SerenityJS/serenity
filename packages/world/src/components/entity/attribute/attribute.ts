@@ -1,19 +1,18 @@
-import { UpdateAttributesPacket, type Attribute } from "@serenityjs/protocol";
-
 import { EntityComponent } from "../entity-component";
 
+import type { AttributeName } from "@serenityjs/protocol";
 import type { Entity } from "../../../entity";
 
 abstract class EntityAttributeComponent extends EntityComponent {
 	/**
 	 * The identifier of the component.
 	 */
-	public static readonly identifier: Attribute;
+	public static readonly identifier: AttributeName;
 
 	/**
 	 * The identifier of the component.
 	 */
-	public readonly identifier: Attribute;
+	public readonly identifier: AttributeName;
 
 	/**
 	 * The minimum value allowed for the attribute.
@@ -31,20 +30,33 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	public abstract readonly defaultValue: number;
 
 	/**
-	 * The current value of the attribute.
-	 */
-	public abstract currentValue: number;
-
-	/**
 	 * Creates a new entity attribute component.
 	 *
 	 * @param entity The entity the component is binded to.
 	 * @param identifier The identifier of the component.
 	 * @returns A new entity attribute component.
 	 */
-	public constructor(entity: Entity, identifier: Attribute) {
+	public constructor(entity: Entity, identifier: AttributeName) {
 		super(entity, identifier);
 		this.identifier = identifier;
+	}
+
+	/**
+	 * Gets the current value of the attribute.
+	 * @returns The current value of the attribute.
+	 */
+	public getCurrentValue(): number {
+		// Check if the entity has the attribute
+		const attribute = this.entity.getAttribute(this.identifier);
+
+		// Check if the attribute exists
+		if (!attribute)
+			throw new Error(
+				`The entity "${this.identifier}" attribute was not found.`
+			);
+
+		// Return the value of the attribute
+		return attribute.current;
 	}
 
 	/**
@@ -52,42 +64,30 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	 *
 	 * @param value The value to set.
 	 */
-	public setCurrentValue(value: number): void {
+	public setCurrentValue(value: number, sync = true): void {
 		// Check if the value is within the min and max range
 		if (value < this.effectiveMin) value = this.defaultValue;
 		if (value > this.effectiveMax) value = this.defaultValue;
 
-		// Set the value
-		this.currentValue = value;
-
-		// Create a new UpdateAttributesPacket
-		const packet = new UpdateAttributesPacket();
-
-		// Set the packet properties
-		packet.runtimeEntityId = this.entity.runtime;
-		packet.attributes = this.entity.getAttributes().map((component) => {
-			return {
-				name: component.identifier,
-				min: component.effectiveMin,
-				max: component.effectiveMax,
-				current: component.currentValue,
-				default: component.defaultValue,
-				modifiers: []
-			};
-		});
-		packet.tick = this.entity.dimension.world.currentTick;
-
-		// Broadcast the packet to the dimension
-		this.entity.dimension.broadcast(packet);
+		// Check if the entity has the attribute
+		if (this.entity.hasAttribute(this.identifier)) {
+			this.entity.setAttribute(this.identifier, value, sync);
+		} else {
+			this.entity.createAttribute(
+				this.identifier,
+				value,
+				this.defaultValue,
+				this.effectiveMax,
+				this.effectiveMin,
+				sync
+			);
+		}
 	}
 
 	/**
 	 * Resets the current value of the attribute to the default value.
 	 */
 	public resetToDefaultValue(): void {
-		// Set the value
-		this.currentValue = this.defaultValue;
-
 		// Set the current value to the default value
 		this.setCurrentValue(this.defaultValue);
 	}
@@ -96,9 +96,6 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	 * Resets the current value of the attribute to the maximum value.
 	 */
 	public resetToMaxValue(): void {
-		// Set the value
-		this.currentValue = this.effectiveMax;
-
 		// Set the current value to the maximum value
 		this.setCurrentValue(this.effectiveMax);
 	}
@@ -109,9 +106,6 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	 * @param value The value to decrease.
 	 */
 	public resetToMinValue(): void {
-		// Set the value
-		this.currentValue = this.effectiveMin;
-
 		// Set the current value to the minimum value
 		this.setCurrentValue(this.effectiveMin);
 	}

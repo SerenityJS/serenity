@@ -7,16 +7,11 @@ import type { Entity } from "../../../entity";
 class EntityBoundingWidthComponent extends EntityMetadataComponent {
 	public static readonly identifier = "minecraft:boundingbox_width";
 
-	public readonly flag = false;
-
 	public readonly key = MetadataKey.BoundingBoxWidth;
 
 	public readonly type = MetadataType.Float;
 
 	public defaultValue = 0.6;
-
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new entity boundingbox width component.
 	 *
@@ -25,6 +20,9 @@ class EntityBoundingWidthComponent extends EntityMetadataComponent {
 	 */
 	public constructor(entity: Entity) {
 		super(entity, EntityBoundingWidthComponent.identifier);
+
+		// Set the entity to have a custom boundingbox width
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

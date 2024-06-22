@@ -5,3 +5,4 @@ export * from "./player-component";
 export * from "./ability";
 export * from "./cursor";
 export * from "./chunk-rendering";
+export * from "./entity-rendering";

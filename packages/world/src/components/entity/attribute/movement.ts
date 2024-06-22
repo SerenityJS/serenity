@@ -1,4 +1,4 @@
-import { Attribute } from "@serenityjs/protocol";
+import { AttributeName } from "@serenityjs/protocol";
 
 import { EntityAttributeComponent } from "./attribute";
 
@@ -8,7 +8,7 @@ class EntityMovementComponent extends EntityAttributeComponent {
 	/**
 	 * The identifier of the component.
 	 */
-	public static readonly identifier = Attribute.Movement;
+	public static readonly identifier = AttributeName.Movement;
 
 	/**
 	 * The minimum health allowed for the entity.
@@ -26,11 +26,6 @@ class EntityMovementComponent extends EntityAttributeComponent {
 	public readonly defaultValue = 0.1;
 
 	/**
-	 * The current health of the entity.
-	 */
-	public currentValue = this.defaultValue;
-
-	/**
 	 * Creates a new entity movement component.
 	 *
 	 * @param entity The entity the component is binded to.
@@ -38,6 +33,9 @@ class EntityMovementComponent extends EntityAttributeComponent {
 	 */
 	public constructor(entity: Entity) {
 		super(entity, EntityMovementComponent.identifier);
+
+		// Set the default movement for the entity
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

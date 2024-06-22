@@ -137,8 +137,7 @@ class InventoryTransaction extends SerenityHandler {
 				if (!usingItem) break;
 
 				// Check if the item network ids match
-				if (usingItem.type.network !== transaction.item.network)
-					throw new Error("Item network ids do not match.");
+				if (usingItem.type.network !== transaction.item.network) return;
 
 				// Trigger the onUse method of the item components
 				for (const component of usingItem.components.values()) {
@@ -156,9 +155,9 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Check if the player is in adventure mode, if so stop the block placement
 				// And check if the player is able to place blocks
-				const canBuild = player.getComponent(
-					"minecraft:ability.build"
-				).currentValue;
+				const canBuild = player
+					.getComponent("minecraft:ability.build")
+					.getCurrentValue();
 
 				// Check if the player is in adventure mode, if so stop the block placement
 				if (player.gamemode === Gamemode.Adventure || !canBuild) {

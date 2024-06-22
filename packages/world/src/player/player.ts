@@ -1,15 +1,14 @@
 import {
+	type AbilityFlag,
+	type AbilityLayerFlag,
 	AbilityLayerType,
 	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
 	Gamemode,
-	type MetadataFlags,
-	MetadataKey,
 	MoveMode,
 	MovePlayerPacket,
 	NetworkItemStackDescriptor,
-	NetworkStackLatencyPacket,
 	type PermissionLevel,
 	PlayStatus,
 	PlayStatusPacket,
@@ -21,6 +20,7 @@ import {
 	TextPacket,
 	TextPacketType,
 	TransferPacket,
+	UpdateAbilitiesPacket,
 	type Vector3f
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
@@ -59,16 +59,17 @@ import {
 	PlayerPrivilegedBuilderComponent,
 	PlayerTeleportComponent,
 	PlayerWalkSpeedComponent,
-	PlayerWorldBuilderComponent
+	PlayerWorldBuilderComponent,
+	EntityComponent,
+	PlayerEntityRenderingComponent
 } from "../components";
 import { ItemStack } from "../item";
 
+import { PlayerStatus } from "./status";
+
 import type { Dimension } from "../world";
 import type { Container } from "../container";
-import type {
-	PlayerAbilityComponents,
-	PlayerComponents
-} from "../types/components";
+import type { PlayerComponents } from "../types/components";
 import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
 
@@ -97,6 +98,16 @@ class Player extends Entity {
 	 * The player's Universally Unique Identifier.
 	 */
 	public readonly uuid: string;
+
+	/**
+	 * The player's abilities.
+	 */
+	public readonly abilities = new Set<AbilityFlag>();
+
+	/**
+	 * The current status of the player's connection.
+	 */
+	public status: PlayerStatus = PlayerStatus.Connecting;
 
 	/**
 	 * The player's permission level.
@@ -167,6 +178,12 @@ class Player extends Entity {
 		this.uuid = tokens.identityData.identity;
 		this.permission = permission;
 		this.skin = skin;
+
+		// Register the type components to the entity.
+		for (const component of EntityComponent.registry.get(
+			this.type.identifier
+		) ?? [])
+			new component(this, component.identifier);
 	}
 
 	/**
@@ -193,37 +210,38 @@ class Player extends Entity {
 	public tick(): void {
 		// TODO: Move this elsewhere.
 		// Check if the current tick is divisible by 35
-		if (this.dimension.world.currentTick % 35n === 0n) {
-			// Calculate the ping of the player.
-			const packet = new NetworkStackLatencyPacket();
-			packet.timestamp = BigInt(Date.now());
-			packet.fromServer = true;
-
-			// Send the packet to the player.
-			this.session.sendImmediate(packet);
-
-			// Wait for the player to respond.
-			this.session.once(packet.getId(), () => {
-				// Calculate the ping of the player.
-				const stamp = Number(BigInt(Date.now()) - packet.timestamp);
-
-				// Subtract 30ms from the ping to get the actual ping.
-				this.ping = stamp - 30;
-			});
-		}
+		// if (this.dimension.world.currentTick % 35n === 0n) {
+		// 	// Calculate the ping of the player.
+		// 	const packet = new NetworkStackLatencyPacket();
+		// 	packet.timestamp = BigInt(Date.now());
+		// 	packet.fromServer = true;
+		// 	// Send the packet to the player.
+		// 	this.session.sendImmediate(packet);
+		// 	// Wait for the player to respond.
+		// 	this.session.once(packet.getId(), () => {
+		// 		// Calculate the ping of the player.
+		// 		const stamp = Number(BigInt(Date.now()) - packet.timestamp);
+		// 		// Subtract 30ms from the ping to get the actual ping.
+		// 		this.ping = stamp - 30;
+		// 	});
+		// }
 	}
 
 	/**
 	 * Syncs the player instance.
 	 */
 	public sync(): void {
-		// Send the commands that are applicable to the player
+		// Sync the entity based properties
+		super.sync();
+
+		// Sync the player's abilities
+		this.syncAbilities();
+
+		// Get the commands that are available to the player
 		const available = this.dimension.world.commands.serialize();
 
 		// Filter out the commands that are not applicable to the player
-		const filtered = available.commands.filter(
-			(command) => command.permissionLevel <= this.permission
-		);
+		const filtered = available.commands;
 
 		// Update the commands of the player
 		available.commands = filtered;
@@ -262,31 +280,19 @@ class Player extends Entity {
 			heldItem === null
 				? new NetworkItemStackDescriptor(0)
 				: ItemStack.toNetworkStack(heldItem);
-		packet.gamemode = 0;
-		packet.metadata = this.getMetadatas().map((entry) => {
-			return {
-				key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
-				type: entry.type,
-				value: entry.currentValue,
-				flag: entry.flag ? (entry.key as MetadataFlags) : undefined
-			};
-		});
+		packet.gamemode = this.gamemode;
+		packet.metadata = [...this.metadata.values()];
 		packet.properties = {
 			ints: [],
 			floats: []
 		};
 		packet.uniqueEntityId = this.unique;
-		packet.premissionLevel = this.permission;
-		packet.commandPermission = 0;
+		packet.premissionLevel = 2;
+		packet.commandPermission = 2;
 		packet.abilities = [
 			{
 				type: AbilityLayerType.Base,
-				flags: this.getAbilities().map((component) => {
-					return {
-						flag: component.flag,
-						value: component.currentValue
-					};
-				}),
+				flags: [...this.abilities.values()],
 				flySpeed: 0.05,
 				walkSpeed: 0.1
 			}
@@ -304,59 +310,20 @@ class Player extends Entity {
 		// Add the player to the dimension
 		this.dimension.entities.set(this.unique, this);
 
-		// Set the player ability values
-		for (const ability of this.getAbilities()) {
-			// Reset the ability to the default value
-			ability.resetToDefaultValue();
-		}
-
-		// Set the player attribute values
-		for (const attribute of this.getAttributes()) {
-			// Reset the attribute to the default value
-			attribute.resetToDefaultValue();
-		}
-
-		// Set the player metadata values
-		for (const metadata of this.getMetadatas()) {
-			// Check if the component is nametag
-			// And check for always show nametag
-			if (metadata instanceof EntityNametagComponent) {
-				// Set the default value to the player's username
-				metadata.defaultValue = this.username;
-			} else if (metadata instanceof EntityAlwaysShowNametagComponent) {
-				// Set the default value to true
-				metadata.defaultValue = true;
-			}
-
-			// Reset the metadata to the default value
-			metadata.resetToDefaultValue();
-		}
-
 		// Spawn all entities in the dimension for the player
-		for (const entity of this.dimension.entities.values()) {
-			// Check if the entity is the player
-			if (entity === this) continue;
+		// for (const entity of this.dimension.entities.values()) {
+		// 	// Check if the entity is the player
+		// 	if (entity === this) continue;
 
-			// Spawn the entity for the player
-			entity.spawn(this);
-		}
+		// 	// Spawn the entity for the player
+		// 	entity.spawn(this);
+		// }
 
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
 
-		// Get the commands of the world
-		const available = this.dimension.world.commands.serialize();
-
-		// Filter out the commands that are not applicable to the player
-		const filtered = available.commands.filter(
-			(command) => command.permissionLevel <= this.permission
-		);
-
-		// Update the commands of the player
-		available.commands = filtered;
-
-		// Send the commands to the player
-		this.session.sendImmediate(available);
+		// Sync the player instance
+		this.sync();
 	}
 
 	/**
@@ -438,25 +405,132 @@ class Player extends Entity {
 	}
 
 	/**
-	 * Gets an ability from the player.
-	 * @param ability The ability to get.
-	 * @returns The ability that was found.
+	 * Syncs the player's abilities to the dimension.
 	 */
-	public getAbility<T extends keyof PlayerAbilityComponents>(
-		ability: T
-	): PlayerAbilityComponents[T] {
-		return this.components.get(ability) as PlayerAbilityComponents[T];
+	public syncAbilities(): void {
+		// Create a new UpdateAbilitiesPacket
+		const packet = new UpdateAbilitiesPacket();
+		packet.permissionLevel = this.permission;
+		packet.commandPersmissionLevel = 2;
+		packet.entityUniqueId = this.unique;
+		packet.abilities = [
+			{
+				type: AbilityLayerType.Base,
+				flags: [...this.abilities.values()],
+				walkSpeed: 0.1,
+				flySpeed: 0.05
+			}
+		];
+
+		// Send the packet to the player
+		this.dimension.broadcast(packet);
 	}
 
 	/**
-	 * Gets the abilities of the player.
-	 * @returns The abilities of the player.
+	 * Checks if the player has a specific ability.
+	 * @param ability The ability to check.
+	 * @returns Whether the player has the ability.
 	 */
-	public getAbilities(): Array<PlayerAbilityComponent> {
-		return [...this.components.values()].filter(
-			(component): component is PlayerAbilityComponent =>
-				component instanceof PlayerAbilityComponent
-		);
+	public hasAbility(ability: AbilityLayerFlag): boolean {
+		return [...this.abilities.values()].some((flag) => flag.flag === ability);
+	}
+
+	/**
+	 * Gets a specific ability from the player.
+	 * @param ability The ability to get.
+	 * @returns The ability that was found.
+	 */
+	public getAbility(ability: AbilityLayerFlag): AbilityFlag | undefined {
+		return [...this.abilities.values()].find((flag) => flag.flag === ability);
+	}
+
+	/**
+	 * Gets all the abilities from the player.
+	 * @returns The abilities that were found.
+	 */
+	public getAllAbilities(): Array<AbilityFlag> {
+		return [...this.abilities.values()];
+	}
+
+	/**
+	 * Adds an ability to the player.
+	 * @param ability The ability to add.
+	 * @param sync Whether to synchronize the ability to the dimension.
+	 */
+	public addAbility(ability: AbilityFlag, sync = true): void {
+		this.abilities.add(ability);
+
+		// Check if the ability should be synchronized
+		if (sync) this.syncAbilities();
+	}
+
+	/**
+	 * Sets a specific ability to the player.
+	 * @param ability The ability to set.
+	 * @param value The value to set the ability to.
+	 * @param sync Whether to synchronize the ability to the dimension.
+	 */
+	public setAbility(
+		ability: AbilityLayerFlag,
+		value: boolean,
+		sync = true
+	): void {
+		// Get the ability
+		const flag = this.getAbility(ability);
+
+		// Check if the ability was found
+		if (!flag) return;
+
+		// Set the value of the ability
+		flag.value = value;
+
+		// Check if the ability should be synchronized
+		if (sync) this.syncAbilities();
+	}
+
+	/**
+	 * Creates a new ability for the player.
+	 * @param ability The ability to create.
+	 * @param value The value to set the ability to.
+	 * @param sync Whether to synchronize the ability to the dimension.
+	 */
+	public createAbility(
+		ability: AbilityLayerFlag,
+		value: boolean,
+		sync = true
+	): void {
+		// TODO: rewrite the ability proto and types
+
+		// Create a new ability flag
+		const flag: AbilityFlag = {
+			flag: ability,
+			value
+		};
+
+		// Add the ability to the player
+		this.addAbility(flag);
+
+		// Check if the ability should be synchronized
+		if (sync) this.syncAbilities();
+	}
+
+	/**
+	 * Removes an ability from the player.
+	 * @param ability The ability to remove.
+	 * @param sync Whether to synchronize the ability to the dimension.
+	 */
+	public removeAbility(ability: AbilityLayerFlag, sync = true): void {
+		// Get the ability
+		const flag = this.getAbility(ability);
+
+		// Check if the ability was found
+		if (!flag) return;
+
+		// Remove the ability
+		this.abilities.delete(flag);
+
+		// Check if the ability should be synchronized
+		if (sync) this.syncAbilities();
 	}
 
 	/**
@@ -606,3 +680,4 @@ PlayerNoClipComponent.register(type);
 PlayerPrivilegedBuilderComponent.register(type);
 PlayerCountComponent.register(type);
 PlayerChunkRenderingComponent.register(type);
+PlayerEntityRenderingComponent.register(type);
