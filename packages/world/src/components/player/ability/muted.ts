@@ -9,8 +9,6 @@ class PlayerMutedComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = false;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player muted component.
 	 *
@@ -19,6 +17,9 @@ class PlayerMutedComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.Muted);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

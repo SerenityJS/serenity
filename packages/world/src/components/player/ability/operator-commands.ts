@@ -9,8 +9,6 @@ class PlayerOperatorCommandsComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = false;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player operator commands component.
 	 *
@@ -19,6 +17,9 @@ class PlayerOperatorCommandsComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.OperatorCommands);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

@@ -9,8 +9,6 @@ class PlayerDoorsAndSwitchesComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = true;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player doors and switches component.
 	 *
@@ -19,6 +17,9 @@ class PlayerDoorsAndSwitchesComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.DoorsAndSwitches);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

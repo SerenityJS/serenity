@@ -9,8 +9,6 @@ class PlayerWorldBuilderComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = true;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player world builder component.
 	 *
@@ -19,6 +17,9 @@ class PlayerWorldBuilderComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.WorldBuilder);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

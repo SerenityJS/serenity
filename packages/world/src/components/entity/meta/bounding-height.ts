@@ -7,15 +7,11 @@ import type { Entity } from "../../../entity";
 class EntityBoundingHeightComponent extends EntityMetadataComponent {
 	public static readonly identifier = "minecraft:boundingbox_height";
 
-	public readonly flag = false;
-
 	public readonly key = MetadataKey.BoundingBoxHeight;
 
 	public readonly type = MetadataType.Float;
 
 	public defaultValue = 1.7; // 1.7 Is the most common.
-
-	public currentValue = this.defaultValue;
 
 	/**
 	 * Creates a new entity boundingbox height component.
@@ -25,6 +21,9 @@ class EntityBoundingHeightComponent extends EntityMetadataComponent {
 	 */
 	public constructor(entity: Entity) {
 		super(entity, EntityBoundingHeightComponent.identifier);
+
+		// Set the entity to have a custom boundingbox height
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

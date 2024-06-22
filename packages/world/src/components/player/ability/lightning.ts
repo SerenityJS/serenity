@@ -9,8 +9,6 @@ class PlayerLightningComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = false;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player lightning component.
 	 *
@@ -19,6 +17,9 @@ class PlayerLightningComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.Lightning);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

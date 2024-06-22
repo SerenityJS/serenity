@@ -9,8 +9,6 @@ class PlayerFlySpeedComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = true;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player fly speed component.
 	 *
@@ -19,6 +17,9 @@ class PlayerFlySpeedComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.FlySpeed);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

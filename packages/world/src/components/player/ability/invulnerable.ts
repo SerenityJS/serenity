@@ -9,8 +9,6 @@ class PlayerInvulnerableComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = false;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player invulnerable component.
 	 *
@@ -19,6 +17,9 @@ class PlayerInvulnerableComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.Invulnerable);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

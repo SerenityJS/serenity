@@ -109,7 +109,7 @@ class PlayerAction extends SerenityHandler {
 
 				// This stops horion flying exploit
 				// Check if the player has the mayfly ability
-				if (!mayfly.currentValue) {
+				if (!mayfly.getCurrentValue()) {
 					// Set the player's flying ability to false
 					flying.setCurrentValue(false);
 
@@ -276,7 +276,9 @@ class PlayerAction extends SerenityHandler {
 		// If the player is in adventure mode, we will set the block permutation.
 		// The player should not be able to break the block.
 		// And also check if the player has the ability to break the block.
-		const canMine = player.getComponent("minecraft:ability.mine").currentValue;
+		const canMine = player
+			.getComponent("minecraft:ability.mine")
+			.getCurrentValue();
 		if (player.gamemode === Gamemode.Adventure || !canMine) {
 			// Set the block permutation.
 			block.setPermutation(block.permutation);

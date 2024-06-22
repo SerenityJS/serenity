@@ -18,7 +18,11 @@ import {
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
 import { CustomBlockType } from "@serenityjs/block";
-import { BlockComponent, BlockNBTComponent } from "@serenityjs/world";
+import {
+	BlockComponent,
+	BlockNBTComponent,
+	PlayerStatus
+} from "@serenityjs/world";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { ResourcePack } from "../resource-packs/resource-pack-manager";
@@ -121,6 +125,9 @@ class ResourcePackClientResponse extends SerenityHandler {
 			}
 
 			case ResourcePackResponse.Completed: {
+				// Set the player as connected
+				player.status = PlayerStatus.Connected;
+
 				// TODO: Rewrite this
 				const blocks: Array<BlockProperties> = CustomBlockType.getAll().map(
 					(type) => {
@@ -466,7 +473,11 @@ class ResourcePackClientResponse extends SerenityHandler {
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;
 
-				session.sendImmediate(packet, biomes, content, status);
+				// Send the spawn sequence
+				session.send(packet, biomes, content, status);
+
+				// Spawn the player in the dimension
+				player.spawn();
 
 				// Add the player to the connecting map
 				this.serenity.connecting.set(player.session, [
