@@ -36,7 +36,6 @@ import {
 	EntityNametagComponent,
 	EntityArmorComponent,
 	EntityInteractComponent,
-	PlayerAbilityComponent,
 	PlayerAttackMobsComponent,
 	PlayerAttackPlayersComponent,
 	PlayerBuildComponent,

@@ -20,12 +20,12 @@ class EntityInteractComponent extends EntityComponent {
 		player: Player,
 		transaction: ItemUseOnEntityInventoryTransactionType
 	): void {
-		const health = this.entity.getAttribute("minecraft:health");
+		const health = this.entity.getComponent("minecraft:health");
 		const runtime = this.entity.runtime;
 
 		switch (transaction) {
 			case ItemUseOnEntityInventoryTransactionType.Attack: {
-				if (health.currentValue > 0) {
+				if (health.getCurrentValue() > 0) {
 					health.decreaseValue(0.5);
 
 					const packet = new ActorEventPacket();

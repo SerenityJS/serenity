@@ -115,13 +115,13 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	 */
 	public decreaseValue(value: number): void {
 		// Check if the value is within the min and max range
-		if (value > this.currentValue) value = this.currentValue;
+		if (value > this.getCurrentValue()) value = this.getCurrentValue();
 
 		// Descrease the current value
-		this.currentValue -= value;
+		this.setCurrentValue(this.getCurrentValue() - value);
 
 		// Set the current value
-		this.setCurrentValue(this.currentValue);
+		this.setCurrentValue(this.getCurrentValue());
 	}
 }
 
