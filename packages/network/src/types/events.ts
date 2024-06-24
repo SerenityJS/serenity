@@ -1,4 +1,5 @@
 import type {
+	DeathInfoPacket,
 	RemoveObjectivePacket,
 	SetDisplayObjectivePacket,
 	SetScorePacket,
@@ -190,6 +191,7 @@ interface NetworkEvents {
 	[Packet.UpdateAdventureSettings]: [
 		NetworkPacketEvent<UpdateAdventureSettingsPacket>
 	];
+	[Packet.DeathInfo]: [NetworkPacketEvent<DeathInfoPacket>];
 	[Packet.RequestNetworkSettings]: [
 		NetworkPacketEvent<RequestNetworkSettingsPacket>
 	];
