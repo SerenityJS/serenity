@@ -25,7 +25,7 @@ class Overworld extends TerrainGenerator {
 		[-0.455, 40],
 		[-0.42, 52],
 		[-0.19, 52],
-		[-0.17, 65],
+		//[-0.17, 65],
 		[-0.11, 66],
 		[0.03, 68],
 		[0.3, 70],
@@ -128,7 +128,7 @@ class Overworld extends TerrainGenerator {
 
 		this.conNoise = new Simplex({
 			distrib: 1,
-			scale: 0.005,
+			scale: 0.001,
 			octaves: 6,
 			amplitude: 0.7,
 			seed: this.seed
@@ -136,7 +136,7 @@ class Overworld extends TerrainGenerator {
 
 		this.eroNoise = new Simplex({
 			distrib: 1,
-			scale: 0.0015,
+			scale: 0.0005,
 			octaves: 6,
 			amplitude: 1,
 			seed: this.seed
@@ -144,8 +144,8 @@ class Overworld extends TerrainGenerator {
 
 		this.pavNoise = new Simplex({
 			distrib: 1,
-			scale: 0.003,
-			octaves: 2,
+			scale: 0.008,
+			octaves: 4,
 			amplitude: 0.8,
 			seed: this.seed
 		});
@@ -183,6 +183,11 @@ class Overworld extends TerrainGenerator {
 		return ym + ((x - xm) * (yM - ym)) / (xM - xm);
 	}
 
+	/*
+	 * TODO: ? Use a more rounder spline,
+	 * right now it's just a straight line to each point,
+	 * no curve/smoothness at the moment.
+	 */
 	public spline(value: number, points: Array<Array<number>>): number {
 		for (let index = 0; index < points.length - 1; index++) {
 			const [x1, y1] = points[index] ?? [0, 0];
@@ -213,13 +218,13 @@ class Overworld extends TerrainGenerator {
 		// MOUNTAINS/WATER
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
-				let c = this.conNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
-				let e = this.eroNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
-				let p = this.pavNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
-				c = this.spline(c, this.conPoints);
-				e = this.spline(e, this.eroPoints);
-				p = this.spline(p, this.pavPoints);
-				const h = (c + e) / 2;
+				const c = this.conNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
+				const e = this.eroNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
+				const p = this.pavNoise.noise(chunk.x * 16 + x, chunk.z * 16 + z);
+				const c2 = this.spline(c, this.conPoints);
+				const e2 = this.spline(e, this.eroPoints);
+				const p2 = this.spline(p, this.pavPoints);
+				const h = (c2 * 2 + e2 + p2 * 2) / 5;
 				for (let index = -64; index < h; index++) {
 					chunk.setPermutation(x, index, z, this.stone);
 					if (index >= h - 3) {
@@ -263,10 +268,10 @@ class Overworld extends TerrainGenerator {
 		// 			// 	console.log(s);
 		// 			// 	console.log(x, y, z, chunk.x * 16 + x, chunk.z * 16 + z);
 		// 			// }
-		// 			//if (s <= 0.2) chunk.setPermutation(x, y, z, this.air);
-		// 			if (s > 0.3) chunk.setPermutation(x, y, z, this.sponge);
+		// 			if (s <= -0.522 && chunk.getPermutation(x, y, z) != this.bedrock)
+		// 				chunk.setPermutation(x, y, z, this.air);
+		// 			//if (s > 0.3) chunk.setPermutation(x, y, z, this.sponge);
 		// 		}
-		// 		chunk.setPermutation(x, 0, z, this.bedrock);
 		// 	}
 		// }
 
