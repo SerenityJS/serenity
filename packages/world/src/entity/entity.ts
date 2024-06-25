@@ -5,6 +5,7 @@ import {
 	AddItemActorPacket,
 	Attribute,
 	type AttributeName,
+	ChunkCoords,
 	MetadataDictionary,
 	type MetadataFlags,
 	MetadataKey,
@@ -178,11 +179,11 @@ class Entity {
 	}
 
 	/**
-	 * Gets the chunks around the entity.
+	 * Gets the chunk hashes around the entity.
 	 * @param distance The distance to get the chunks.
-	 * @returns The chunks around the entity.
+	 * @returns The chunk hashes around the entity.
 	 */
-	public getChunks(distance?: number): Array<Chunk> {
+	public getChunks(distance?: number): Array<bigint> {
 		// Calculate the chunk position of the entity
 		const cx = this.position.x >> 4;
 		const cz = this.position.z >> 4;
@@ -191,22 +192,22 @@ class Entity {
 		const dx = (distance ?? this.dimension.simulationDistance) >> 4;
 		const dz = (distance ?? this.dimension.simulationDistance) >> 4;
 
-		// Prepare an array to store the chunks that need to be sent to the player.
-		const chunks: Array<Chunk> = [];
+		// Prepare an array to store the chunk hashes
+		const hashes: Array<bigint> = [];
 
-		// Get the chunks to render.
+		// Get the chunk hashes to render.
 		for (let x = -dx + cx; x <= dx + cx; x++) {
 			for (let z = -dz + cz; z <= dz + cz; z++) {
 				// Get the chunk
-				const chunk = this.dimension.getChunk(x, z);
+				const hash = ChunkCoords.hash({ x, z });
 
-				// Add the chunk to the array.
-				chunks.push(chunk);
+				// Add the hash to the array.
+				hashes.push(hash);
 			}
 		}
 
-		// Return the chunks
-		return chunks;
+		// Return the hashes
+		return hashes;
 	}
 
 	/**

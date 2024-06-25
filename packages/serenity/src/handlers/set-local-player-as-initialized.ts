@@ -31,6 +31,9 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		// Spawn the player in the dimension
 		player.status = PlayerStatus.Spawned;
 
+		// Sync the player
+		player.sync();
+
 		// Send the player joined message
 		player.dimension.sendMessage(`§e${player.username} joined the game.§r`);
 

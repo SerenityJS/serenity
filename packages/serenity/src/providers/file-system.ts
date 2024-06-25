@@ -183,12 +183,10 @@ class FileSystemProvider extends WorldProvider {
 				for (let z = -viewDistance; z <= viewDistance; z++) {
 					const chunk = provider.readChunk(sx + x, sz + z, dimension);
 
-					chunk.dirty = true;
+					// Set the dirty flag to false.
+					chunk.dirty = false;
 				}
 			}
-
-			// Save the chunks to the file system.
-			provider.save();
 
 			// Log the success message.
 			this.logger.success(
@@ -256,9 +254,7 @@ class FileSystemProvider extends WorldProvider {
 			return chunk;
 		} else {
 			// Create a new chunk.
-			const chunk = dimension.generator.apply(
-				new Chunk(dimension.type, cx, cz)
-			);
+			const chunk = dimension.generator.apply(cx, cz, dimension.type);
 
 			// Set the chunk in the chunks map.
 			chunks.set(hash, chunk);

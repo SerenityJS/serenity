@@ -104,16 +104,20 @@ class Dimension {
 
 		// Get all the simulation chunks
 		const chunks = new Set(
-			this.getPlayers()
-				.flatMap((player) => player.getChunks(this.simulationDistance))
-				.map((chunk) => chunk.hash)
+			this.getPlayers().flatMap((player) =>
+				player.getChunks(this.simulationDistance)
+			)
 		);
 
 		// Tick all the tickable block components
 		for (const block of this.blocks.values()) {
+			// Convert the block position to a chunk coordinate
+			const x = block.position.x >> 4;
+			const z = block.position.z >> 4;
+
 			// Check if the chunk is loaded
-			const chunk = block.getChunk();
-			if (!chunks.has(chunk.hash)) continue;
+			const hash = ChunkCoords.hash({ x, z });
+			if (!chunks.has(hash)) continue;
 			// Tick all the tickable block components
 			for (const component of block.components.values()) {
 				// Tick the component
@@ -123,9 +127,16 @@ class Dimension {
 
 		// Tick all the tickable entity components
 		for (const entity of this.entities.values()) {
+			// Floor the entity position
+			const position = entity.position.floor();
+
+			// Convert the entity position to a chunk coordinate
+			const x = position.x >> 4;
+			const z = position.z >> 4;
+
 			// Check if the chunk is loaded
-			const chunk = entity.getChunk();
-			if (!chunks.has(chunk.hash)) continue;
+			const hash = ChunkCoords.hash({ x, z });
+			if (!chunks.has(hash)) continue;
 
 			// Check if the entity is a player and is not spawned
 			if (entity.isPlayer() && entity.status !== PlayerStatus.Spawned) continue;

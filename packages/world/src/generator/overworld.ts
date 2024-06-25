@@ -1,9 +1,11 @@
 import { createNoise2D, type NoiseFunction2D } from "simplex-noise";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
+import { Chunk } from "../chunk";
+
 import { TerrainGenerator } from "./generator";
 
-import type { Chunk } from "../chunk";
+import type { DimensionType } from "@serenityjs/protocol";
 
 class Overworld extends TerrainGenerator {
 	/**
@@ -52,12 +54,9 @@ class Overworld extends TerrainGenerator {
 		this.oak_leaves = BlockPermutation.resolve(BlockIdentifier.OakLeaves);
 	}
 
-	/**
-	 * Generates a chunk.
-	 *
-	 */
-	public apply(chunk: Chunk): Chunk {
+	public apply(cx: number, cz: number, type: DimensionType): Chunk {
 		// Generate the chunk.
+		const chunk = new Chunk(cx, cz, type);
 
 		// Generate the terrain.
 		for (let x = 0; x < 16; x++) {
