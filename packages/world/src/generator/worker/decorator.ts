@@ -18,7 +18,6 @@ interface WorkerData {
 function Worker(generator: typeof TerrainGenerator) {
 	return function (worker: typeof TerrainWorker) {
 		// Bind the generator and worker together
-		worker.generator = generator;
 		generator.worker = worker;
 
 		// Declare the initialize method for the worker
@@ -34,12 +33,12 @@ function Worker(generator: typeof TerrainGenerator) {
 		// Check if we are in the worker thread
 		if (!isMainThread) {
 			// Set the seed of the worker
-			worker.prototype.seed = workerData;
+			const instance = new worker(workerData, generator);
 
 			// Bind the message event to the worker
 			parentPort?.on("message", (data: WorkerData) => {
 				// Call the apply method of the worker to generate the chunk
-				const chunk = worker.prototype.apply(data.cx, data.cz, data.type);
+				const chunk = instance.apply(data.cx, data.cz, data.type);
 
 				// Send the generated chunk back to the main thread
 				parentPort?.postMessage(chunk);
