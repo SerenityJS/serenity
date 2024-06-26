@@ -5,11 +5,6 @@ import type { Chunk } from "../../chunk";
 
 class TerrainWorker {
 	/**
-	 * The generator the worker is bound to.
-	 */
-	public static generator: typeof TerrainGenerator;
-
-	/**
 	 * The path of the worker file.
 	 */
 	public static readonly path = __filename;
@@ -17,7 +12,20 @@ class TerrainWorker {
 	/**
 	 * The seed of the generator.
 	 */
-	public seed = 0;
+	public readonly seed: number;
+
+	/**
+	 * The generator for the worker.
+	 */
+	public readonly generator: typeof TerrainGenerator;
+
+	/**
+	 * Creates a new worker instance.
+	 */
+	public constructor(seed: number, generator: typeof TerrainGenerator) {
+		this.seed = seed;
+		this.generator = generator;
+	}
 
 	/**
 	 * Generates a chunk at the specified coordinates.
