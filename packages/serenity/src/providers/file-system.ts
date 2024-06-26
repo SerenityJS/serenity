@@ -210,6 +210,9 @@ class FileSystemProvider extends WorldProvider {
 				// Set the dirty flag to false.
 				chunk.dirty = false;
 			}
+
+			// Delete the chunks from the map.
+			this.chunks.delete(identifier);
 		}
 	}
 
