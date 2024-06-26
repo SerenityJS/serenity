@@ -1,12 +1,6 @@
-import {
-	type AbilityLayerFlag,
-	AbilityLayerType,
-	type AbilitySet,
-	UpdateAbilitiesPacket
-} from "@serenityjs/protocol";
-
 import { PlayerComponent } from "../player-component";
 
+import type { AbilityLayerFlag, AbilitySet } from "@serenityjs/protocol";
 import type { Player } from "../../../player";
 
 abstract class PlayerAbilityComponent extends PlayerComponent {
@@ -25,47 +19,40 @@ abstract class PlayerAbilityComponent extends PlayerComponent {
 	 */
 	public abstract readonly defaultValue: boolean;
 
-	/**
-	 * The current value of the ability.
-	 */
-	public abstract currentValue: boolean;
-
 	public constructor(player: Player, identifier: AbilitySet) {
 		super(player, identifier);
 		this.identifier = identifier;
 	}
 
 	/**
+	 * Gets the current value of the ability.
+	 * @returns The current value of the ability.
+	 */
+	public getCurrentValue(): boolean {
+		// Get the ability
+		const ability = this.player.getAbility(this.flag);
+
+		// Check if the ability exists
+		if (!ability)
+			throw new Error(`The player "${this.flag}" ability was not found.`);
+
+		// Return the value of the ability
+		return ability.value;
+	}
+
+	/**
 	 * Sets the current value of the ability.
 	 * @param value The value to set.
 	 */
-	public setCurrentValue(value: boolean): void {
-		// Set the current value
-		this.currentValue = value;
-
-		// Create a new UpdateAbilitiesPacket
-		const packet = new UpdateAbilitiesPacket();
-
-		// Set the packet properties
-		packet.entityUniqueId = this.player.unique;
-		packet.permissionLevel = 2; // TODO
-		packet.commandPersmissionLevel = 2; // TODO
-		packet.abilities = [
-			{
-				type: AbilityLayerType.Base,
-				flags: this.player.getAbilities().map((component) => {
-					return {
-						flag: component.flag,
-						value: component.currentValue
-					};
-				}),
-				flySpeed: 0.05,
-				walkSpeed: 0.1
-			}
-		];
-
-		// Broadcast the packet to the world.
-		this.player.dimension.world.broadcast(packet);
+	public setCurrentValue(value: boolean, sync = true): void {
+		// Check if the player has the ability
+		if (this.player.hasAbility(this.flag)) {
+			// Update the ability
+			this.player.setAbility(this.flag, value, sync);
+		} else {
+			// Add the ability
+			this.player.createAbility(this.flag, value, sync);
+		}
 	}
 
 	/**

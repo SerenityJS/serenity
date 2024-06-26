@@ -9,8 +9,6 @@ class PlayerMineComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = true;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player mine component.
 	 *
@@ -19,6 +17,9 @@ class PlayerMineComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.Mine);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

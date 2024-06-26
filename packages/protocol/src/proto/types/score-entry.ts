@@ -37,7 +37,7 @@ class ScoreEntry extends DataType {
 		this.score = score;
 		this.type = type;
 		this.entityUniqueId =
-			type === ScoreEntryType.PLAYER || ScoreEntryType.ENTITY
+			type === (ScoreEntryType.PLAYER ?? ScoreEntryType.ENTITY)
 				? entityUniqueId
 				: 0n;
 		this.customName = type == ScoreEntryType.FAKE_PLAYER ? customName : null;

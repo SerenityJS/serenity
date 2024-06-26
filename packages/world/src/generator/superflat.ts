@@ -1,8 +1,10 @@
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
+import { Chunk } from "../chunk";
+
 import { TerrainGenerator } from "./generator";
 
-import type { Chunk } from "../chunk";
+import type { DimensionType } from "@serenityjs/protocol";
 
 class Superflat extends TerrainGenerator {
 	/**
@@ -14,11 +16,9 @@ class Superflat extends TerrainGenerator {
 		super(0);
 	}
 
-	/**
-	 * Generates a chunk.
-	 *
-	 */
-	public apply(chunk: Chunk): Chunk {
+	public apply(cx: number, cz: number, type: DimensionType): Chunk {
+		const chunk = new Chunk(cx, cz, type);
+
 		const bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
 		const dirt = BlockPermutation.resolve(BlockIdentifier.Dirt);
 		const grass = BlockPermutation.resolve(BlockIdentifier.GrassBlock);

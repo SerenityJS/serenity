@@ -2,11 +2,12 @@ import { basename } from "node:path";
 
 import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
 
-import { Chunk } from "../chunk";
 import { type Dimension, World } from "../world";
 import { Overworld, Superflat } from "../generator";
 
 import { WorldProvider } from "./provider";
+
+import type { Chunk } from "../chunk";
 
 /**
  * The internal provider is a basic provider that stores chunks in memory.
@@ -59,7 +60,7 @@ class InternalProvider extends WorldProvider {
 		if (!chunks.has(ChunkCoords.hash({ x: cx, z: cz }))) {
 			chunks.set(
 				ChunkCoords.hash({ x: cx, z: cz }),
-				dimension.generator.apply(new Chunk(dimension.type, cx, cz))
+				dimension.generator.apply(cx, cz, dimension.type)
 			);
 		}
 

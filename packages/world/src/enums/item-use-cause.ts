@@ -1,6 +1,7 @@
 enum ItemUseCause {
-	Break,
-	Place
+  Break,
+  Place,
+  Use,
 }
 
 export { ItemUseCause };

@@ -1,33 +1,60 @@
 import { Endianness } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
+import { AttributeModifier } from "./attribute-modifier";
+
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { Attribute } from "../../enums";
+import type { AttributeName } from "../../enums";
 
-interface AttributeModifier {
-	amount: number;
-	id: string;
-	name: string;
-	operand: number;
-	operation: number;
-	serializable: boolean;
-}
-
-class PlayerAttributes extends DataType {
+class Attribute extends DataType {
+	/**
+	 * The current value of the attribute.
+	 */
 	public current: number;
-	public default: number;
-	public max: number;
-	public min: number;
-	public modifiers: Array<AttributeModifier>;
-	public name: Attribute;
 
+	/**
+	 * The default value of the attribute.
+	 */
+	public default: number;
+
+	/**
+	 * The maximum value of the attribute.
+	 */
+	public max: number;
+
+	/**
+	 * The minimum value of the attribute.
+	 */
+	public min: number;
+
+	/**
+	 * The modifiers of the attribute.
+	 */
+	public modifiers: Array<AttributeModifier>;
+
+	/**
+	 * The name of the attribute.
+	 */
+	public name: AttributeName;
+
+	/**
+	 * Creates a new attribute.
+	 *
+	 * @param current The current value of the attribute.
+	 * @param default_ The default value of the attribute.
+	 * @param max The maximum value of the attribute.
+	 * @param min The minimum value of the attribute.
+	 * @param modifiers The modifiers of the attribute.
+	 * @param name The name of the attribute.
+	 * @returns A new attribute.
+	 */
 	public constructor(
 		current: number,
 		default_: number,
 		max: number,
 		min: number,
 		modifiers: Array<AttributeModifier>,
-		name: Attribute
+		name: AttributeName
 	) {
 		super();
 		this.current = current;
@@ -38,9 +65,9 @@ class PlayerAttributes extends DataType {
 		this.name = name;
 	}
 
-	public static override read(stream: BinaryStream): Array<PlayerAttributes> {
+	public static override read(stream: BinaryStream): Array<Attribute> {
 		// Prepare an array to store the attributes.
-		const attributes: Array<PlayerAttributes> = [];
+		const attributes: Array<Attribute> = [];
 
 		// Read the number of attributes.
 		const amount = stream.readVarInt();
@@ -53,7 +80,7 @@ class PlayerAttributes extends DataType {
 			const max = stream.readFloat32(Endianness.Little);
 			const current = stream.readFloat32(Endianness.Little);
 			const default_ = stream.readFloat32(Endianness.Little);
-			const name = stream.readVarString() as Attribute;
+			const name = stream.readVarString() as AttributeName;
 
 			// Prepare an array to store the modifiers.
 			const modifiers: Array<AttributeModifier> = [];
@@ -64,28 +91,12 @@ class PlayerAttributes extends DataType {
 			// We then loop through the amount of modifiers.
 			// Reading the individual fields in the stream.
 			for (let index = 0; index < modifierAmount; index++) {
-				// Read all the fields for the modifier.
-				const id = stream.readVarString();
-				const name = stream.readVarString();
-				const amount = stream.readInt32(Endianness.Little);
-				const operation = stream.readInt32(Endianness.Little);
-				const operand = stream.readFloat32(Endianness.Little);
-				const serializable = stream.readBool();
-
-				// Push the modifier to the array.
-				modifiers.push({
-					amount,
-					id,
-					name,
-					operand,
-					operation,
-					serializable
-				});
+				modifiers.push(AttributeModifier.read(stream));
 			}
 
 			// Push the attribute to the array.
 			attributes.push(
-				new PlayerAttributes(current, default_, max, min, modifiers, name)
+				new Attribute(current, default_, max, min, modifiers, name)
 			);
 		}
 
@@ -95,7 +106,7 @@ class PlayerAttributes extends DataType {
 
 	public static override write(
 		stream: BinaryStream,
-		value: Array<PlayerAttributes>
+		value: Array<Attribute>
 	): void {
 		// Write the amount of attributes.
 		stream.writeVarInt(value.length);
@@ -114,16 +125,10 @@ class PlayerAttributes extends DataType {
 
 			// Loop through the modifiers.
 			for (const modifier of attribute.modifiers) {
-				// Write the individual fields.
-				stream.writeVarString(modifier.id);
-				stream.writeVarString(modifier.name);
-				stream.writeInt32(modifier.amount, Endianness.Little);
-				stream.writeInt32(modifier.operation, Endianness.Little);
-				stream.writeFloat32(modifier.operand, Endianness.Little);
-				stream.writeBool(modifier.serializable);
+				AttributeModifier.write(stream, modifier);
 			}
 		}
 	}
 }
 
-export { PlayerAttributes };
+export { Attribute };

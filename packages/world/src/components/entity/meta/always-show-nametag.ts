@@ -7,15 +7,11 @@ import type { Entity } from "../../../entity";
 class EntityAlwaysShowNametagComponent extends EntityMetadataComponent {
 	public static readonly identifier = "minecraft:always_show_nametag";
 
-	public readonly flag = false;
-
 	public readonly key = MetadataKey.AlwaysShowNametag;
 
 	public readonly type = MetadataType.Byte;
 
-	public defaultValue = false;
-
-	public currentValue = this.defaultValue;
+	public defaultValue = true;
 
 	/**
 	 * Creates a new entity always show nametag component.
@@ -25,6 +21,9 @@ class EntityAlwaysShowNametagComponent extends EntityMetadataComponent {
 	 */
 	public constructor(entity: Entity) {
 		super(entity, EntityAlwaysShowNametagComponent.identifier);
+
+		// Set the entity to always show nametag
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

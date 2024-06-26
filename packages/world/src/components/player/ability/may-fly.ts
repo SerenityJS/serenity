@@ -9,8 +9,6 @@ class PlayerMayFlyComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = true;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player may fly component.
 	 *
@@ -19,6 +17,9 @@ class PlayerMayFlyComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.MayFly);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

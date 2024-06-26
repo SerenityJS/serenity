@@ -9,8 +9,6 @@ class PlayerAttackPlayersComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = true;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player attack players component.
 	 *
@@ -19,6 +17,9 @@ class PlayerAttackPlayersComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.AttackPlayers);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

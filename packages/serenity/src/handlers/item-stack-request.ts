@@ -64,7 +64,7 @@ class ItemStackRequest extends SerenityHandler {
 
 						const action = request.actions[2] as ItemStackAction;
 
-						this.handleCreativceSelectAction(player, action, descriptor);
+						this.handleCreativeSelectAction(player, action, descriptor);
 						break;
 					}
 				}
@@ -78,13 +78,17 @@ class ItemStackRequest extends SerenityHandler {
 	): void {
 		// Check if the source exists.
 		if (!action.source?.type) throw new Error("Invalid source type.");
-
 		switch (action.source?.type) {
 			default: {
 				this.serenity.network.logger.warn(
 					"ItemStackAction.take not implemented:",
 					ContainerName[action.source.type]
 				);
+				break;
+			}
+
+			case ContainerName.Armor: {
+				this.takeFromArmor(player, action);
 				break;
 			}
 
@@ -100,6 +104,41 @@ class ItemStackRequest extends SerenityHandler {
 				break;
 			}
 		}
+	}
+
+	protected static takeFromArmor(
+		player: Player,
+		action: ItemStackAction
+	): void {
+		const count = action.count;
+
+		if (!count) throw new Error("Invalid count.");
+		const sourceSlot = action.source?.slot;
+		const destinationSlot = action.destination?.slot;
+
+		if (sourceSlot === undefined || destinationSlot === undefined)
+			throw new Error("Invalid source or destination slot.");
+
+		// Get the armor container && destination containers
+		const { container: source } = player.getComponent("minecraft:armor");
+		const destination =
+			action.destination?.type === ContainerName.Cursor
+				? player.getComponent("minecraft:cursor").container
+				: player.openedContainer;
+
+		// Check if the source and destination containers exist.
+		if (!source || !destination)
+			throw new Error("Invalid source or destination.");
+		// Get the source items.
+		const sourceItem = source.getItem(action.source?.slot ?? 0);
+
+		// Check if the source item exists.
+		if (!sourceItem) throw new Error("Invalid source item.");
+		if (count != sourceItem.amount) throw new Error("Invalid count possible.");
+		const item = source.takeItem(sourceSlot, count);
+
+		if (!item) throw new Error("Invalid item.");
+		destination.setItem(destinationSlot, item);
 	}
 
 	protected static takeFromContainer(
@@ -168,7 +207,9 @@ class ItemStackRequest extends SerenityHandler {
 		// Get the source and destination containers.
 		const { container: source } = player.getComponent("minecraft:inventory");
 		const destination =
-			action.destination?.type === ContainerName.Cursor
+			/* action.destination?.type === ContainerName.Armor
+        ? player.getComponent("minecraft:armor").container
+        : */ action.destination?.type === ContainerName.Cursor
 				? player.getComponent("minecraft:cursor").container
 				: player.openedContainer;
 
@@ -202,7 +243,6 @@ class ItemStackRequest extends SerenityHandler {
 	): void {
 		// Check if the source exists.
 		if (!action.source?.type) throw new Error("Invalid source type.");
-
 		switch (action.source?.type) {
 			default: {
 				this.serenity.network.logger.warn(
@@ -217,6 +257,7 @@ class ItemStackRequest extends SerenityHandler {
 				break;
 			}
 
+			case ContainerName.Armor:
 			case ContainerName.Inventory:
 			case ContainerName.Hotbar:
 			case ContainerName.HotbarAndInventory: {
@@ -248,13 +289,15 @@ class ItemStackRequest extends SerenityHandler {
 		// Get the source and destination containers.
 		const source = player.openedContainer;
 		const destination =
-			action.destination?.type === ContainerName.Cursor
-				? player.getComponent("minecraft:cursor").container
-				: ContainerName.Inventory ||
-					  ContainerName.Hotbar ||
-					  ContainerName.HotbarAndInventory
-					? player.getComponent("minecraft:inventory").container
-					: player.openedContainer;
+			action.destination?.type === ContainerName.Armor
+				? player.getComponent("minecraft:armor").container
+				: action.destination?.type === ContainerName.Cursor
+					? player.getComponent("minecraft:cursor").container
+					: ContainerName.Inventory ||
+						  ContainerName.Hotbar ||
+						  ContainerName.HotbarAndInventory
+						? player.getComponent("minecraft:inventory").container
+						: player.openedContainer;
 
 		// Check if the source and destination containers exist.
 		if (source === null || destination === null)
@@ -295,11 +338,16 @@ class ItemStackRequest extends SerenityHandler {
 			throw new Error("Invalid source or destination slot.");
 
 		// Get the source and destination containers.
-		const { container: source } = player.getComponent("minecraft:inventory");
+		const { container: source } =
+			action.source?.type == ContainerName.Armor
+				? player.getComponent("minecraft:armor")
+				: player.getComponent("minecraft:inventory");
 		const destination =
-			action.destination?.type === ContainerName.Cursor
-				? player.getComponent("minecraft:cursor").container
-				: player.openedContainer;
+			action.destination?.type == ContainerName.Armor
+				? player.getComponent("minecraft:armor").container
+				: action.destination?.type === ContainerName.Cursor
+					? player.getComponent("minecraft:cursor").container
+					: player.openedContainer;
 
 		// Check if the source and destination containers exist.
 		if (source === null || destination === null)
@@ -355,11 +403,13 @@ class ItemStackRequest extends SerenityHandler {
 		// Get the source and destination containers.
 		const { container: source } = player.getComponent("minecraft:cursor");
 		const destination =
-			action.destination?.type === ContainerName.Hotbar ||
-			action.destination?.type === ContainerName.Inventory ||
-			action.destination?.type === ContainerName.HotbarAndInventory
-				? player.getComponent("minecraft:inventory").container
-				: player.openedContainer;
+			action.destination?.type === ContainerName.Armor
+				? player.getComponent("minecraft:armor").container
+				: action.destination?.type === ContainerName.Hotbar ||
+					  action.destination?.type === ContainerName.Inventory ||
+					  action.destination?.type === ContainerName.HotbarAndInventory
+					? player.getComponent("minecraft:inventory").container
+					: player.openedContainer;
 
 		// Check if the source and destination containers exist.
 		if (source === null || destination === null)
@@ -414,7 +464,7 @@ class ItemStackRequest extends SerenityHandler {
 		}
 	}
 
-	protected static handleCreativceSelectAction(
+	protected static handleCreativeSelectAction(
 		player: Player,
 		action: ItemStackAction,
 		descriptor: NetworkItemInstanceDescriptor
@@ -427,13 +477,15 @@ class ItemStackRequest extends SerenityHandler {
 
 		// Get the destination container.
 		const destinationContainer =
-			destination.type === ContainerName.Cursor
-				? player.getComponent("minecraft:cursor").container
-				: destination.type === ContainerName.Inventory ||
-					  destination.type === ContainerName.Hotbar ||
-					  destination.type === ContainerName.HotbarAndInventory
-					? player.getComponent("minecraft:inventory").container
-					: player.openedContainer;
+			destination?.type === ContainerName.Armor
+				? player.getComponent("minecraft:armor").container
+				: destination.type === ContainerName.Cursor
+					? player.getComponent("minecraft:cursor").container
+					: destination.type === ContainerName.Inventory ||
+						  destination.type === ContainerName.Hotbar ||
+						  destination.type === ContainerName.HotbarAndInventory
+						? player.getComponent("minecraft:inventory").container
+						: player.openedContainer;
 
 		// Check if the destination container exists.
 		if (!destinationContainer) return;

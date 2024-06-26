@@ -1,9 +1,11 @@
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
 
+import { Chunk } from "../chunk";
+
 import { TerrainGenerator } from "./generator";
 import { Simplex } from "./simplex";
 
-import type { Chunk } from "../chunk";
+import type { DimensionType } from "@serenityjs/protocol";
 
 class Overworld extends TerrainGenerator {
 	/**
@@ -200,12 +202,9 @@ class Overworld extends TerrainGenerator {
 		return 0;
 	}
 
-	/**
-	 * Generates a chunk.
-	 *
-	 */
-	public apply(chunk: Chunk): Chunk {
+	public apply(cx: number, cz: number, type: DimensionType): Chunk {
 		// Generate the chunk.
+		const chunk = new Chunk(cx, cz, type);
 
 		/*[-1, 40],
 		[-0.5, 42],

@@ -9,8 +9,6 @@ class PlayerBuildComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = true;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player build component.
 	 *
@@ -19,6 +17,9 @@ class PlayerBuildComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.Build);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

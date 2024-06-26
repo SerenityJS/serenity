@@ -24,7 +24,7 @@ class BlockInventoryComponent extends BlockComponent {
 		super(block, BlockInventoryComponent.identifier);
 		this.container =
 			container ??
-			new BlockContainer(block, ContainerType.Inventory, ContainerId.Ui, 27);
+			new BlockContainer(block, ContainerType.Container, ContainerId.Ui, 27);
 	}
 
 	public onInteract(player: Player): void {

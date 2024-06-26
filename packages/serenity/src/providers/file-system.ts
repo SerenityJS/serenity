@@ -9,6 +9,7 @@ import {
 	type Dimension,
 	World
 } from "@serenityjs/world";
+import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { DEFAULT_WORLD_PROPERTIES, Properties } from "../properties";
 import { exists } from "../utils/exists";
@@ -26,6 +27,8 @@ interface DefaultWorldProperties {
  */
 class FileSystemProvider extends WorldProvider {
 	public static readonly identifier = "filesystem";
+
+	public static readonly logger = new Logger("FileSystem", LoggerColors.Blue);
 
 	/**
 	 * The chunks stored in the provider.
@@ -158,6 +161,39 @@ class FileSystemProvider extends WorldProvider {
 			dimension.simulationDistance = properties.getValue("simulation-distance");
 		}
 
+		// Pregenerate the spawn chunks for each dimension.
+		for (const dimension of world.dimensions.values()) {
+			// Get the spawn position of the dimension.
+			const sx = dimension.spawn.x >> 4;
+			const sz = dimension.spawn.z >> 4;
+
+			// Get the view distance of the dimension.
+			const viewDistance = dimension.viewDistance >> 4;
+
+			// Calculate the amount of chunks to pregenerate.
+			const amount = (viewDistance * 2 + 1) ** 2;
+
+			// Log the amount of chunks to pregenerate.
+			this.logger.info(
+				`Preparing §c${amount}§r chunks for world §a${world.identifier}§r in dimension §a${dimension.identifier}§r.`
+			);
+
+			// Iterate over the chunks to pregenerate.
+			for (let x = -viewDistance; x <= viewDistance; x++) {
+				for (let z = -viewDistance; z <= viewDistance; z++) {
+					const chunk = provider.readChunk(sx + x, sz + z, dimension);
+
+					// Set the dirty flag to false.
+					chunk.dirty = false;
+				}
+			}
+
+			// Log the success message.
+			this.logger.success(
+				`Successfully pregenerated §c${amount}§r chunks for world §a${world.identifier}§r in dimension §a${dimension.identifier}§r.`
+			);
+		}
+
 		// Return the world.
 		return world;
 	}
@@ -218,9 +254,7 @@ class FileSystemProvider extends WorldProvider {
 			return chunk;
 		} else {
 			// Create a new chunk.
-			const chunk = dimension.generator.apply(
-				new Chunk(dimension.type, cx, cz)
-			);
+			const chunk = dimension.generator.apply(cx, cz, dimension.type);
 
 			// Set the chunk in the chunks map.
 			chunks.set(hash, chunk);

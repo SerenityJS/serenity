@@ -9,8 +9,6 @@ class PlayerPrivilegedBuilderComponent extends PlayerAbilityComponent {
 
 	public readonly defaultValue = false;
 
-	public currentValue = this.defaultValue;
-
 	/**
 	 * Creates a new player privileged builder component.
 	 *
@@ -19,6 +17,9 @@ class PlayerPrivilegedBuilderComponent extends PlayerAbilityComponent {
 	 */
 	public constructor(player: Player) {
 		super(player, AbilitySet.PrivilegedBuilder);
+
+		// Set the player ability
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

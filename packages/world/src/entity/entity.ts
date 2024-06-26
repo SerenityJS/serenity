@@ -1,32 +1,34 @@
 import {
+	ActorEventIds,
+	ActorEventPacket,
 	AddEntityPacket,
 	AddItemActorPacket,
+	Attribute,
+	type AttributeName,
+	ChunkCoords,
+	MetadataDictionary,
 	type MetadataFlags,
 	MetadataKey,
+	MetadataType,
 	MoveActorAbsolutePacket,
 	RemoveEntityPacket,
 	Rotation,
 	SetActorMotionPacket,
+	SetEntityDataPacket,
+	UpdateAttributesPacket,
 	Vector3f
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { CardinalDirection } from "../enums";
-import {
-	EntityAttributeComponent,
-	EntityComponent,
-	EntityMetadataComponent
-} from "../components";
+import { EntityComponent } from "../components";
 import { ItemStack } from "../item";
 
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
 import type { Dimension, World } from "../world";
-import type {
-	EntityAttributeComponents,
-	EntityComponents
-} from "../types/components";
+import type { EntityComponents } from "../types/components";
 
 /**
  * Represents an entity in a Dimension instance that can be interacted with. Entities can be spawned from either creating a new Entity instance, or using the ".spawnEntity" method of a Dimension instance.
@@ -54,7 +56,7 @@ class Entity {
 	/**
 	 * The running total of the entity runtime id.
 	 */
-	public static runtime = 1n;
+	public static runtime = 2n; // For some reason, the runtime id needs to start at 2???
 
 	/**
 	 * The type of entity.
@@ -92,6 +94,16 @@ class Entity {
 	public readonly components = new Map<string, EntityComponent>();
 
 	/**
+	 * The metadata of the entity.
+	 */
+	public readonly metadata = new Set<MetadataDictionary>();
+
+	/**
+	 * The attributes of the entity.
+	 */
+	public readonly attributes = new Set<Attribute>();
+
+	/**
 	 * The dimension of the entity.
 	 */
 	public dimension: Dimension;
@@ -115,9 +127,26 @@ class Entity {
 		// Mutable properties
 		this.dimension = dimension;
 
+		// Check if the entity is a player
+		if (this.type.identifier === EntityIdentifier.Player) return;
+
 		// Register the type components to the entity.
 		for (const component of EntityComponent.registry.get(identifier) ?? [])
 			new component(this, component.identifier);
+	}
+
+	/**
+	 * Syncs the entity and its properties to the dimension.
+	 */
+	public sync(): void {
+		// Syncs the entity data
+		this.syncData();
+
+		// Syncs the entity flags
+		this.syncFlags();
+
+		// Syncs the entity attributes
+		this.syncAttributes();
 	}
 
 	/**
@@ -150,11 +179,11 @@ class Entity {
 	}
 
 	/**
-	 * Gets the chunks around the entity.
+	 * Gets the chunk hashes around the entity.
 	 * @param distance The distance to get the chunks.
-	 * @returns The chunks around the entity.
+	 * @returns The chunk hashes around the entity.
 	 */
-	public getChunks(distance?: number): Array<Chunk> {
+	public getChunks(distance?: number): Array<bigint> {
 		// Calculate the chunk position of the entity
 		const cx = this.position.x >> 4;
 		const cz = this.position.z >> 4;
@@ -163,22 +192,22 @@ class Entity {
 		const dx = (distance ?? this.dimension.simulationDistance) >> 4;
 		const dz = (distance ?? this.dimension.simulationDistance) >> 4;
 
-		// Prepare an array to store the chunks that need to be sent to the player.
-		const chunks: Array<Chunk> = [];
+		// Prepare an array to store the chunk hashes
+		const hashes: Array<bigint> = [];
 
-		// Get the chunks to render.
+		// Get the chunk hashes to render.
 		for (let x = -dx + cx; x <= dx + cx; x++) {
 			for (let z = -dz + cz; z <= dz + cz; z++) {
 				// Get the chunk
-				const chunk = this.dimension.getChunk(x, z);
+				const hash = ChunkCoords.hash({ x, z });
 
-				// Add the chunk to the array.
-				chunks.push(chunk);
+				// Add the hash to the array.
+				hashes.push(hash);
 			}
 		}
 
-		// Return the chunks
-		return chunks;
+		// Return the hashes
+		return hashes;
 	}
 
 	/**
@@ -246,14 +275,7 @@ class Entity {
 			packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
 			packet.position = this.position;
 			packet.velocity = this.velocity;
-			packet.metadata = this.getMetadatas().map((entry) => {
-				return {
-					key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
-					type: entry.type,
-					value: entry.currentValue,
-					flag: entry.flag ? (entry.key as MetadataFlags) : undefined
-				};
-			});
+			packet.metadata = [...this.metadata.values()];
 			packet.fromFishing = false;
 
 			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
@@ -273,14 +295,7 @@ class Entity {
 			packet.headYaw = this.rotation.headYaw;
 			packet.bodyYaw = this.rotation.yaw;
 			packet.attributes = [];
-			packet.metadata = this.getMetadatas().map((entry) => {
-				return {
-					key: entry.flag ? MetadataKey.Flags : (entry.key as MetadataKey),
-					type: entry.type,
-					value: entry.currentValue,
-					flag: entry.flag ? (entry.key as MetadataFlags) : undefined
-				};
-			});
+			packet.metadata = [...this.metadata.values()];
 			packet.properties = {
 				ints: [],
 				floats: []
@@ -314,6 +329,39 @@ class Entity {
 
 		// Send the packet to the player if it exists, otherwise broadcast it to the dimension
 		player ? player.session.send(packet) : this.dimension.broadcast(packet);
+
+		// Trigger the onDespawn method of all applicable components
+		for (const component of this.getComponents()) component.onDespawn?.();
+	}
+
+	/**
+	 * Kills the entity, triggering the death animation.
+	 */
+	public kill(): void {
+		// TODO: Implement item drops and experience drops
+
+		// Check if the entity has a health component
+		if (this.hasComponent("minecraft:health")) {
+			// Get the health component
+			const health = this.getComponent("minecraft:health");
+
+			// Set the health to the minimum value
+			health.resetToMinValue();
+		}
+
+		// Create a new ActorEventPacket
+		const packet = new ActorEventPacket();
+
+		// Set the properties of the packet
+		packet.eventId = ActorEventIds.DEATH_ANIMATION;
+		packet.actorRuntimeId = this.runtime;
+		packet.eventData = 0;
+
+		// Broadcast the packet to the dimension
+		this.dimension.broadcast(packet);
+
+		// Delete the entity from the dimension
+		this.dimension.entities.delete(this.unique);
 
 		// Trigger the onDespawn method of all applicable components
 		for (const component of this.getComponents()) component.onDespawn?.();
@@ -370,47 +418,344 @@ class Entity {
 	}
 
 	/**
-	 * Gets an attribute component from the entity.
-	 * @param attribute The attribute to get.
-	 * @returns The attribute component that was found.
+	 * Syncs the metadata of the entity.
 	 */
-	public getAttribute<T extends keyof EntityAttributeComponents>(
-		attribute: T
-	): EntityAttributeComponents[T] {
-		return this.components.get(attribute) as EntityAttributeComponents[T];
+	public syncData(): void {
+		// Create a new SetEntityDataPacket
+		const packet = new SetEntityDataPacket();
+		packet.runtimeEntityId = this.runtime;
+		packet.tick = this.dimension.world.currentTick;
+		packet.metadata = [...this.metadata.values()];
+		packet.properties = {
+			ints: [],
+			floats: []
+		};
+
+		// Send the packet to the dimension
+		this.dimension.broadcast(packet);
 	}
 
 	/**
-	 * Gets all the attribute components of the entity.
-	 * @returns All the attribute components of the entity.
+	 * Wheather or not the entity contains the metadata key.
+	 * @param key The metadata key to check.
+	 * @returns Whether or not the entity contains the metadata key.
 	 */
-	public getAttributes(): Array<EntityAttributeComponent> {
-		return [...this.components.values()].filter(
-			(component): component is EntityAttributeComponent =>
-				component instanceof EntityAttributeComponent
+	public hasData(key: MetadataKey): boolean {
+		return [...this.metadata.values()].some((data) => data.key === key);
+	}
+
+	/**
+	 * Gets the metadata of the entity.
+	 * @param key The metadata key to get.
+	 * @returns The metadata of the entity.
+	 */
+	public getData(key: MetadataKey): MetadataDictionary | undefined {
+		return [...this.metadata.values()].find((data) => data.key === key);
+	}
+
+	/**
+	 * Gets all the metadata of the entity.
+	 * @returns All the metadata of the entity.
+	 */
+	public getAllData(): Array<MetadataDictionary> {
+		return [...this.metadata.values()].filter((data) => !data.flag);
+	}
+
+	/**
+	 * Adds metadata to the entity.
+	 * @param data The metadata to add.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public addData(data: MetadataDictionary, sync = true): void {
+		this.metadata.add(data);
+
+		if (sync) this.syncData();
+	}
+
+	/**
+	 * Sets the metadata of the entity.
+	 * @param key The metadata key to set.
+	 * @param value The value to set.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public setData(
+		key: MetadataKey,
+		value: bigint | boolean | number | string,
+		sync = true
+	): void {
+		const data = this.getData(key);
+
+		if (!data) throw new Error(`The entity does not have the ${key} data.`);
+
+		data.value = value;
+
+		if (sync) this.syncData();
+	}
+
+	/**
+	 * Creates metadata for the entity.
+	 * @param key The metadata key to create.
+	 * @param value The value to create.
+	 * @param type The type of the metadata.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public createData(
+		key: MetadataKey,
+		value: bigint | boolean | number | string,
+		type: MetadataType,
+		sync = true
+	): void {
+		// Create a new MetadataDictionary
+		const data = new MetadataDictionary(key, type, value);
+
+		// Add the data to the entity
+		this.addData(data, sync);
+	}
+
+	/**
+	 * Removes metadata from the entity.
+	 * @param key The metadata key to remove.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public removeData(key: MetadataKey, sync = true): void {
+		// Check if the entity has the metadata key
+		const data = this.getData(key);
+
+		// Check if the data is not found
+		if (!data) return;
+
+		// Remove the data from the entity
+		this.metadata.delete(data);
+
+		// Synchronize the metadata
+		if (sync) this.syncData();
+	}
+
+	/**
+	 * Syncs the metadata flags of the entity.
+	 */
+	public syncFlags(): void {
+		// Create a new SetEntityDataPacket
+		const packet = new SetEntityDataPacket();
+		packet.runtimeEntityId = this.runtime;
+		packet.tick = this.dimension.world.currentTick;
+		packet.metadata = [...this.metadata.values()];
+		packet.properties = {
+			ints: [],
+			floats: []
+		};
+
+		// Send the packet to the dimension
+		this.dimension.broadcast(packet);
+	}
+
+	/**
+	 * Wheather or not the entity contains the metadata flag.
+	 * @param flag The metadata flag to check.
+	 * @returns Whether or not the entity contains the metadata flag.
+	 */
+	public hasFlag(flag: MetadataFlags): boolean {
+		return [...this.metadata.values()].some((data) => data.flag === flag);
+	}
+
+	/**
+	 * Gets the metadata flag of the entity.
+	 * @param flag The metadata flag to get.
+	 * @returns The metadata flag of the entity.
+	 */
+	public getFlag(flag: MetadataFlags): MetadataDictionary | undefined {
+		return [...this.metadata.values()].find((data) => data.flag === flag);
+	}
+
+	/**
+	 * Gets all the metadata flags of the entity.
+	 * @returns All the metadata flags of the entity.
+	 */
+	public getAllFlags(): Array<MetadataDictionary> {
+		return [...this.metadata.values()].filter((data) => data.flag);
+	}
+
+	/**
+	 * Adds a metadata flag to the entity.
+	 * @param data The metadata flag to add.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public addFlag(data: MetadataDictionary, sync = true): void {
+		this.metadata.add(data);
+
+		if (sync) this.syncFlags();
+	}
+
+	/**
+	 * Sets the metadata flag of the entity.
+	 * @param flag The metadata flag to set.
+	 * @param value The value to set.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public setFlag(flag: MetadataFlags, value: boolean, sync = true): void {
+		const data = this.getFlag(flag);
+
+		if (!data) throw new Error(`The entity does not have the ${flag} flag.`);
+
+		data.value = value;
+
+		if (sync) this.syncFlags();
+	}
+
+	/**
+	 * Creates a metadata flag for the entity.
+	 * @param flag The metadata flag to create.
+	 * @param value The value to create.
+	 * @param type The type of the metadata.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public createFlag(flag: MetadataFlags, value: boolean, sync = true): void {
+		// Create a new MetadataDictionary
+		const data = new MetadataDictionary(
+			MetadataKey.Flags,
+			MetadataType.Long,
+			value,
+			flag
+		);
+
+		// Add the data to the entity
+		this.addFlag(data, sync);
+	}
+
+	/**
+	 * Removes a metadata flag from the entity.
+	 * @param flag The metadata flag to remove.
+	 * @param sync Whether to synchronize the metadata.
+	 */
+	public removeFlag(flag: MetadataFlags, sync = true): void {
+		// Check if the entity has the metadata flag
+		const data = this.getFlag(flag);
+
+		// Check if the data is not found
+		if (!data) return;
+
+		// Remove the data from the entity
+		this.metadata.delete(data);
+
+		// Synchronize the metadata
+		if (sync) this.syncFlags();
+	}
+
+	/**
+	 * Syncs the attributes of the entity.
+	 */
+	public syncAttributes(): void {
+		// Create a new UpdateAttributesPacket
+		const packet = new UpdateAttributesPacket();
+		packet.runtimeActorId = this.runtime;
+		packet.tick = this.dimension.world.currentTick;
+		packet.attributes = [...this.attributes];
+
+		// Broadcast the packet to the dimension
+		this.dimension.broadcast(packet);
+	}
+
+	/**
+	 * Checks if the entity has an attribute.
+	 * @param name The name of the attribute.
+	 * @returns Whether or not the entity has the attribute.
+	 */
+	public hasAttribute(name: AttributeName): boolean {
+		return [...this.attributes.values()].some(
+			(attribute) => attribute.name === name
 		);
 	}
 
 	/**
-	 * Gets a metadata component from the entity.
-	 * @param metadata The metadata to get.
-	 * @returns The metadata component that was found.
+	 * Gets an attribute from the entity.
+	 * @param name The name of the attribute.
+	 * @returns The attribute that was found.
 	 */
-	public getMetadata<T extends keyof EntityMetadataComponent>(
-		metadata: T
-	): EntityMetadataComponent {
-		return this.components.get(metadata) as EntityMetadataComponent;
+	public getAttribute(name: AttributeName): Attribute | undefined {
+		return [...this.attributes.values()].find(
+			(attribute) => attribute.name === name
+		);
 	}
 
 	/**
-	 * Gets all the metadata components of the entity.
-	 * @returns All the metadata components of the entity.
+	 * Gets all the attributes of the entity.
+	 * @returns All the attributes of the entity.
 	 */
-	public getMetadatas(): Array<EntityMetadataComponent> {
-		return [...this.components.values()].filter(
-			(component): component is EntityMetadataComponent =>
-				component instanceof EntityMetadataComponent
+	public getAttributes(): Array<Attribute> {
+		return [...this.attributes];
+	}
+
+	/**
+	 * Adds an attribute to the entity.
+	 * @param attribute The attribute to add.
+	 * @param sync Whether to synchronize the attributes.
+	 */
+	public addAttribute(attribute: Attribute, sync = true): void {
+		this.attributes.add(attribute);
+
+		if (sync) this.syncAttributes();
+	}
+
+	/**
+	 * Sets the attribute of the entity.
+	 * @param name The name of the attribute.
+	 * @param value The value to set.
+	 * @param sync Whether to synchronize the attributes.
+	 */
+	public setAttribute(name: AttributeName, value: number, sync = true): void {
+		const attribute = this.getAttribute(name);
+
+		if (!attribute) return;
+
+		attribute.current = value;
+
+		if (sync) this.syncAttributes();
+	}
+
+	/**
+	 * Creates an attribute for the entity.
+	 * @param name The name of the attribute.
+	 * @param value The value to create.
+	 * @param defaultValue The default value of the attribute.
+	 * @param maxValue The maximum value of the attribute.
+	 * @param minValue The minimum value of the attribute.
+	 * @param sync Whether to synchronize the attributes.
+	 * @returns The attribute that was created.
+	 */
+	public createAttribute(
+		name: AttributeName,
+		value: number,
+		defaultValue: number,
+		maxValue: number,
+		minValue: number,
+		sync = true
+	): Attribute {
+		const attribute = new Attribute(
+			value,
+			defaultValue,
+			maxValue,
+			minValue,
+			[],
+			name
 		);
+
+		this.addAttribute(attribute, sync);
+
+		return attribute;
+	}
+
+	/**
+	 * Removes an attribute from the entity.
+	 * @param name The name of the attribute.
+	 */
+	public removeAttribute(name: AttributeName, sync = true): void {
+		const attribute = this.getAttribute(name);
+
+		if (!attribute) return;
+
+		this.attributes.delete(attribute);
+
+		if (sync) this.syncAttributes();
 	}
 
 	/**

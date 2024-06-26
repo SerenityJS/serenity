@@ -112,6 +112,7 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 	public onTick(): void {
 		// Get the next chunks to send to the player
 		const hashes = [...this.chunks.keys(), ...this.next()].filter(
+			// Filter out the chunks that are already rendered
 			(hash) => !this.chunks.has(hash) || !this.chunks.has(hash)
 		);
 
@@ -122,8 +123,20 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 		if (coords.length > 0) {
 			// Send the chunks to the player
 			for (const hash of hashes) {
+				// Another sanity check to make sure the chunk is not already rendered
+				if (this.chunks.has(hash)) continue;
+
 				// Get the chunk from the dimension
 				const chunk = this.player.dimension.getChunkFromHash(hash);
+
+				// Check if the chunk is ready
+				if (!chunk.ready) {
+					// Remove the coordinates from the list
+					coords.splice(coords.indexOf({ x: chunk.x, z: chunk.z }), 1);
+
+					// Continue to the next chunk
+					continue;
+				}
 
 				// Create a new level chunk packet
 				const packet = new LevelChunkPacket();
@@ -131,13 +144,13 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 				// Assign the chunk data to the packet
 				packet.x = chunk.x;
 				packet.z = chunk.z;
-				packet.dimension = this.player.dimension.type;
+				packet.dimension = chunk.type;
 				packet.subChunkCount = chunk.getSubChunkSendCount();
 				packet.cacheEnabled = false;
 				packet.data = Chunk.serialize(chunk);
 
 				// Return the packet
-				this.player.session.sendImmediate(packet);
+				this.player.session.send(packet);
 
 				// Set the chunk to rendered
 				this.chunks.add(hash);
@@ -147,7 +160,7 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 			const update = new NetworkChunkPublisherUpdatePacket();
 
 			// Set the packet properties
-			update.radius = this.player.dimension.viewDistance;
+			update.radius = this.player.dimension.viewDistance << 4;
 			update.coordinate = this.player.position.floor();
 			update.savedChunks = coords;
 

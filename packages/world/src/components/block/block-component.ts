@@ -30,7 +30,8 @@ class BlockComponent extends Component {
 		this.block = block;
 
 		// Register the component to the block.
-		this.block.setComponent(this as BlockComponent);
+		// @ts-ignore WHYYY
+		this.block.setComponent(this);
 	}
 
 	/**

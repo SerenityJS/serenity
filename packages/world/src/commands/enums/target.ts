@@ -112,7 +112,7 @@ class TargetEnum extends ValidEnum {
 										const nametag = entity.getComponent("minecraft:nametag");
 
 										// Check if the nametag matches the query.
-										if (nametag.currentValue !== value) return false;
+										if (nametag.getCurrentValue() !== value) return false;
 									} else {
 										return false;
 									}
