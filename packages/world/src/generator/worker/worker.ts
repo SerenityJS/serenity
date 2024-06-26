@@ -1,4 +1,5 @@
-import type { Worker } from "node:worker_threads";
+import { isMainThread, type Worker } from "node:worker_threads";
+
 import type { TerrainGenerator } from "../generator";
 import type { DimensionType } from "@serenityjs/protocol";
 import type { Chunk } from "../../chunk";
@@ -23,6 +24,10 @@ class TerrainWorker {
 	 * Creates a new worker instance.
 	 */
 	public constructor(seed: number, generator: typeof TerrainGenerator) {
+		// Check if we are in the main thread
+		if (isMainThread)
+			throw new Error("Worker can only be initialized in a worker thread");
+
 		this.seed = seed;
 		this.generator = generator;
 	}
