@@ -92,7 +92,8 @@ class World {
 				dimension.tick();
 			} catch (reason) {
 				this.logger.error(
-					`Failed to tick dimension "${dimension.identifier}," reason: ${reason}`
+					`Failed to tick dimension "${dimension.identifier}"`,
+					reason
 				);
 			}
 

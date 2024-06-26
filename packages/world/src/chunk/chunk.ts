@@ -80,6 +80,11 @@ export class Chunk {
 	public dirty = false;
 
 	/**
+	 * If the chunk is ready to be sent to the client.
+	 */
+	public ready = true;
+
+	/**
 	 * Creates a new chunk.
 	 *
 	 * @param type The dimension type of the chunk.
@@ -88,14 +93,14 @@ export class Chunk {
 	 * @param subchunks The sub chunks of the chunk.
 	 */
 	public constructor(
-		type: DimensionType,
 		x: number,
 		z: number,
+		type: DimensionType,
 		subchunks?: Array<SubChunk>
 	) {
-		this.type = type;
 		this.x = x;
 		this.z = z;
+		this.type = type;
 		this.hash = ChunkCoords.hash({ x, z });
 		this.subchunks =
 			subchunks ??
@@ -272,6 +277,6 @@ export class Chunk {
 		stream.readByte();
 
 		// Return the chunk.
-		return new Chunk(type, x, z, subchunks);
+		return new Chunk(x, z, type, subchunks);
 	}
 }

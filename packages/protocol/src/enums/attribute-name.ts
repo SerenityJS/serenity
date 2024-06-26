@@ -1,4 +1,4 @@
-enum Attribute {
+enum AttributeName {
 	Absorption = "minecraft:absorption",
 	AttackDamage = "minecraft:attack_damage",
 	FallDamage = "minecraft:fall_damage",
@@ -18,4 +18,4 @@ enum Attribute {
 	ZombieSpawnReinforcements = "minecraft:zombie.spawn_reinforcements"
 }
 
-export { Attribute };
+export { AttributeName };

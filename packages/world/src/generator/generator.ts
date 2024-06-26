@@ -1,3 +1,4 @@
+import type { DimensionType } from "@serenityjs/protocol";
 import type { Chunk } from "../chunk";
 
 /**
@@ -10,6 +11,12 @@ export class TerrainGenerator {
 	 * The identifier for the generator.
 	 */
 	public static readonly identifier: string;
+
+	/**
+	 * The identifier for the provider.
+	 */
+	public readonly identifier = (this.constructor as typeof TerrainGenerator)
+		.identifier;
 
 	/**
 	 * The seed of the generator.
@@ -26,12 +33,12 @@ export class TerrainGenerator {
 	}
 
 	/**
-	 * Generates a chunk.
-	 *
-	 * @param x The x coordinate of the chunk.
-	 * @param z The z coordinate of the chunk.
+	 * Generates a chunk at the specified coordinates.
+	 * @param _cx The chunk x coordinate.
+	 * @param _cz The chunk z coordinate.
+	 * @param _type The dimension type.
 	 */
-	public apply(_chunk: Chunk): Chunk {
+	public apply(_cx: number, _cz: number, _type: DimensionType): Chunk {
 		throw new Error("Not implemented.");
 	}
 }

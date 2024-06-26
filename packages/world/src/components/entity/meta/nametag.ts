@@ -7,15 +7,11 @@ import type { Entity } from "../../../entity";
 class EntityNametagComponent extends EntityMetadataComponent {
 	public static readonly identifier = "minecraft:nametag";
 
-	public readonly flag = false;
-
 	public readonly key = MetadataKey.Nametag;
 
 	public readonly type = MetadataType.String;
 
-	public defaultValue = "";
-
-	public currentValue = this.defaultValue;
+	public defaultValue = this.entity.type.identifier as string;
 
 	/**
 	 * Creates a new entity nametag component.
@@ -25,6 +21,12 @@ class EntityNametagComponent extends EntityMetadataComponent {
 	 */
 	public constructor(entity: Entity) {
 		super(entity, EntityNametagComponent.identifier);
+
+		// Check if the entity is a player
+		if (entity.isPlayer()) this.defaultValue = entity.username;
+
+		// Set the entity to have a nametag
+		this.setCurrentValue(this.defaultValue, false);
 	}
 }
 

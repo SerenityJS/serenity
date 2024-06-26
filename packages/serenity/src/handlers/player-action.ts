@@ -109,7 +109,7 @@ class PlayerAction extends SerenityHandler {
 
 				// This stops horion flying exploit
 				// Check if the player has the mayfly ability
-				if (!mayfly.currentValue) {
+				if (!mayfly.getCurrentValue()) {
 					// Set the player's flying ability to false
 					flying.setCurrentValue(false);
 
@@ -148,7 +148,7 @@ class PlayerAction extends SerenityHandler {
 		const { x, y, z } = packet.blockPosition;
 
 		// Set the mining position to the player.
-		player.mining = { x, y, z };
+		player.target = { x, y, z };
 
 		// Calculate the break time.
 		const breakTime = Math.ceil(2 * 20);
@@ -190,9 +190,9 @@ class PlayerAction extends SerenityHandler {
 	): void {
 		// Get the block position from the packet.
 		const { x, y, z } =
-			packet.blockPosition === player.mining
+			packet.blockPosition === player.target
 				? packet.blockPosition
-				: player.mining ?? { x: 0, y: 0, z: 0 };
+				: player.target ?? { x: 0, y: 0, z: 0 };
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
@@ -276,7 +276,9 @@ class PlayerAction extends SerenityHandler {
 		// If the player is in adventure mode, we will set the block permutation.
 		// The player should not be able to break the block.
 		// And also check if the player has the ability to break the block.
-		const canMine = player.getComponent("minecraft:ability.mine").currentValue;
+		const canMine = player
+			.getComponent("minecraft:ability.mine")
+			.getCurrentValue();
 		if (player.gamemode === Gamemode.Adventure || !canMine) {
 			// Set the block permutation.
 			block.setPermutation(block.permutation);
@@ -336,16 +338,16 @@ class PlayerAction extends SerenityHandler {
 	): void {
 		// Check if the player was already mining.
 		// If so, stop the mining.
-		if (player.mining) {
+		if (player.target) {
 			// Create a new LevelEvent packet.
 			const event = new LevelEventPacket();
 
 			// Set the event to stop the block break.
 			event.event = LevelEvent.StopBlockCracking;
 			event.position = new Vector3f(
-				player.mining.x,
-				player.mining.y,
-				player.mining.z
+				player.target.x,
+				player.target.y,
+				player.target.z
 			);
 			event.data = 0;
 
@@ -354,7 +356,7 @@ class PlayerAction extends SerenityHandler {
 		}
 
 		// Set the mining position to the player.
-		player.mining = packet.blockPosition;
+		player.target = packet.blockPosition;
 
 		// TODO: Calculate the break time based on hardness
 		const breakTime = Math.ceil(2 * 20);

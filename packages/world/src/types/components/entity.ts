@@ -1,5 +1,6 @@
 import type {
 	EntityAlwaysShowNametagComponent,
+	EntityArmorComponent,
 	EntityBoundingHeightComponent,
 	EntityBoundingWidthComponent,
 	EntityBreathingComponent,
@@ -41,6 +42,7 @@ interface EntityComponents
 	extends EntityAttributeComponents,
 		EntityMetadataComponents {
 	"minecraft:inventory": EntityInventoryComponent;
+	"minecraft:armor": EntityArmorComponent;
 }
 
 export {
