@@ -60,7 +60,8 @@ import {
 	PlayerWalkSpeedComponent,
 	PlayerWorldBuilderComponent,
 	EntityComponent,
-	PlayerEntityRenderingComponent
+	PlayerEntityRenderingComponent,
+	EntitySkinIDComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -658,6 +659,7 @@ EntityAlwaysShowNametagComponent.register(type);
 EntityHealthComponent.register(type);
 EntityArmorComponent.register(type);
 EntityInteractComponent.register(type);
+EntitySkinIDComponent.register(type);
 PlayerBuildComponent.register(type);
 PlayerMineComponent.register(type);
 PlayerDoorsAndSwitchesComponent.register(type);
