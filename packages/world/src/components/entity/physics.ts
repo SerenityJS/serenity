@@ -1,13 +1,14 @@
-import { Vector3f } from "@serenityjs/protocol";
-
 import { EntityComponent } from "./entity-component";
 
 import type { Entity } from "../../entity";
 
 class EntityPhysicsComponent extends EntityComponent {
-	public static readonly gravity = 0.001_25;
-
 	public static readonly identifier = "minecraft:physics";
+
+	/**
+	 * The gravity of the entity.
+	 */
+	public gravity = 0.04;
 
 	/**
 	 * Creates a new entity inventory component.
@@ -30,57 +31,61 @@ class EntityPhysicsComponent extends EntityComponent {
 		// Round the position of the entity to the nearest whole number
 		const position = this.entity.position.floor();
 
+		// We want gravity to be a constant force, which means we dont want the entity to fall faster the further it is from the ground.
 		// Calculate the distance between the entity and the nearest ground block
 		const distance =
 			y - 1 - this.entity.dimension.getTopmostBlock(position).position.y;
 
-		// Check if the entity is falling
-		// And check if the entity is in a block, if so add a small velocity to make the entity move up
+		// Check if the distance is greater than 0, if so, apply gravity
+		// If the distance is less than 0, the entity is below the ground, so we should teleport the entity to the ground
+		// If the distance is equal to 0, the entity is on the ground, so we should stop applying gravity
 		if (distance > 0) {
-			// Calculate the time it takes for the entity to fall to the ground
-			const time = Math.sqrt((2 * distance) / EntityPhysicsComponent.gravity);
+			// Apply gravity to the entity
+			this.entity.velocity.y -= this.gravity;
 
-			// Calculate the velocity of the entity
-			const velocity = new Vector3f(
-				this.entity.velocity.x,
-				-EntityPhysicsComponent.gravity * time + this.entity.velocity.y,
-				this.entity.velocity.z
-			);
+			// Reduce the entity's x and z velocity
+			this.entity.velocity.x *= 0.98;
+			this.entity.velocity.z *= 0.98;
 
 			// Set the motion of the entity
-			this.entity.setMotion(velocity);
+			this.entity.setMotion(this.entity.velocity);
 		} else if (distance < 0) {
-			// Check if the entity is in a block
-			// If so, move the entity up
-			const velocity = new Vector3f(
-				this.entity.velocity.x,
-				0,
-				this.entity.velocity.z
-			);
+			// Add velocity to the entity to move it to the ground
+			this.entity.velocity.y = -distance;
 
-			// Set the position to a whole number to avoid bouncing
-			this.entity.position.y = this.entity.position.y + Math.abs(distance);
-
-			// Reset the y velocity
-			this.entity.setMotion(velocity);
+			// Set the motion of the entity
+			this.entity.setMotion(this.entity.velocity);
 		} else {
-			// Reset total velocity
-			const velocity = new Vector3f(0, 0, 0);
-			this.entity.setMotion(velocity);
+			// Stop applying gravity to the entity
+			this.entity.velocity.y = 0;
 
-			this.entity.onGround = true;
-
-			// Return do to the entity being on the ground
-			return;
+			// Reduce the entity's x and z velocity
+			this.entity.velocity.x *= 0.25;
+			this.entity.velocity.z *= 0.25;
 		}
 
-		// Update the entity position
-		this.entity.position.x = this.entity.position.x + this.entity.velocity.x;
-		this.entity.position.y = this.entity.position.y + this.entity.velocity.y;
-		this.entity.position.z = this.entity.position.z + this.entity.velocity.z;
+		// Update the position of the entity based on the velocity
+		// this.entity.position.x += this.entity.velocity.x;
+		// this.entity.position.y += this.entity.velocity.y;
+		// this.entity.position.z += this.entity.velocity.z;
 
 		// Move the entity to the new position
 		this.entity.teleport(this.entity.position);
+
+		// Check if the entity's velocity is approching 0
+		if (
+			Math.abs(this.entity.velocity.x) < 0.000_000_5 &&
+			Math.abs(this.entity.velocity.y) < 0.000_000_5 &&
+			Math.abs(this.entity.velocity.z) < 0.000_000_5
+		) {
+			// Set the entity's velocity to 0
+			this.entity.velocity.x = 0;
+			this.entity.velocity.y = 0;
+			this.entity.velocity.z = 0;
+
+			// Set the entity as on the ground
+			this.entity.onGround = true;
+		}
 	}
 }
 

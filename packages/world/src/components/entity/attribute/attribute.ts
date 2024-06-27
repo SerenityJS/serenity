@@ -112,6 +112,7 @@ abstract class EntityAttributeComponent extends EntityComponent {
 
 	/**
 	 * Decrease the current value of the attribute to the minimum value.
+	 * @param value The value to decrease.
 	 */
 	public decreaseValue(value: number): void {
 		// Check if the value is within the min and max range
@@ -119,6 +120,22 @@ abstract class EntityAttributeComponent extends EntityComponent {
 
 		// Descrease the current value
 		this.setCurrentValue(this.getCurrentValue() - value);
+
+		// Set the current value
+		this.setCurrentValue(this.getCurrentValue());
+	}
+
+	/**
+	 * Increase the current value of the attribute to the maximum value.
+	 * @param value The value to increase.
+	 */
+	public increaseValue(value: number): void {
+		// Check if the value is within the min and max range
+		if (value > this.effectiveMax - this.getCurrentValue())
+			value = this.effectiveMax - this.getCurrentValue();
+
+		// Increase the current value
+		this.setCurrentValue(this.getCurrentValue() + value);
 
 		// Set the current value
 		this.setCurrentValue(this.getCurrentValue());

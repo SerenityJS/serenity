@@ -788,6 +788,10 @@ class Entity {
 		this.velocity.y = vector?.y ?? this.velocity.y;
 		this.velocity.z = vector?.z ?? this.velocity.z;
 
+		this.position.x += this.velocity.x;
+		this.position.y += this.velocity.y;
+		this.position.z += this.velocity.z;
+
 		// Set the onGround property of the entity
 		this.onGround = false;
 

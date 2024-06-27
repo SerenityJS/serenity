@@ -8,4 +8,3 @@ export * from "./inventory";
 export * from "./item";
 export * from "./physics";
 export * from "./armor";
-export * from "./interact";
