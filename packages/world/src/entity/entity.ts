@@ -340,6 +340,24 @@ class Entity {
 	public kill(): void {
 		// TODO: Implement item drops and experience drops
 
+		// TODO: Check for keep inventory gamerule
+		if (this.hasComponent("minecraft:inventory")) {
+			// Get the inventory component
+			const { container } = this.getComponent("minecraft:inventory");
+
+			// Drop the items from the inventory
+			for (const [slot, item] of container.storage.entries()) {
+				// Check if the item is not valid
+				if (!item) continue;
+
+				// Spawn the item in the dimension
+				this.dimension.spawnItem(item, this.position);
+
+				// Remove the item from the container
+				container.clearSlot(slot);
+			}
+		}
+
 		// Check if the entity has a health component
 		if (this.hasComponent("minecraft:health")) {
 			// Get the health component
@@ -360,8 +378,8 @@ class Entity {
 		// Broadcast the packet to the dimension
 		this.dimension.broadcast(packet);
 
-		// Delete the entity from the dimension
-		this.dimension.entities.delete(this.unique);
+		// Delete the entity from the dimension if it is not a player
+		if (!this.isPlayer()) this.dimension.entities.delete(this.unique);
 
 		// Trigger the onDespawn method of all applicable components
 		for (const component of this.getComponents()) component.onDespawn?.();

@@ -300,23 +300,22 @@ class Player extends Entity {
 		packet.deviceId = "";
 		packet.deviceOS = 0;
 
-		// Send the packet to the player
-		player ? player.session.send(packet) : this.dimension.broadcast(packet);
+		// Check if the dimension has the player already
+		if (this.dimension.entities.has(this.unique)) {
+			// Send the packet to the player
+			player
+				? player.session.send(packet)
+				: this.dimension.broadcastExcept(this, packet);
+		} else {
+			// Send the packet to the player
+			player ? player.session.send(packet) : this.dimension.broadcast(packet);
+		}
 
 		// If a player was provided, then return
 		if (player) return;
 
 		// Add the player to the dimension
 		this.dimension.entities.set(this.unique, this);
-
-		// Spawn all entities in the dimension for the player
-		// for (const entity of this.dimension.entities.values()) {
-		// 	// Check if the entity is the player
-		// 	if (entity === this) continue;
-
-		// 	// Spawn the entity for the player
-		// 	entity.spawn(this);
-		// }
 
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
@@ -347,8 +346,8 @@ class Player extends Entity {
 		// Send the packets to the player
 		this.session.send(respawn, ready);
 
-		// Check if the player is already in the dimension
-		if (this.dimension.entities.has(this.unique)) return;
+		// Reset the players health & chunks
+		this.getComponent("minecraft:health").resetToDefaultValue();
 
 		// Add the player to the dimension
 		this.spawn();

@@ -56,11 +56,11 @@ class Console {
 		} catch (reason) {
 			// Check if the reason is a type error
 			if (reason instanceof TypeError) {
-				this.serenity.logger.error(
+				this.serenity.logger.warn(
 					`§cType Error: ${(reason as Error).message}§r`
 				);
 			} else {
-				this.serenity.logger.error(`§c${(reason as Error).message}§r`);
+				this.serenity.logger.warn(`§c${(reason as Error).message}§r`);
 			}
 		}
 	}

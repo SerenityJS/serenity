@@ -12,7 +12,7 @@ server-port: 19132
 server-tps: 20
 # The amount of ticks per second the server will run at.
 
-server-shutdown-message: "Server shutting down..."
+server-shutdown-message: "Server Closed."
 # The message to show when the server is shutting down.
 
 max-players: 20
