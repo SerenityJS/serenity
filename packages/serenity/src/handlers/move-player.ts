@@ -30,6 +30,14 @@ class MovePlayer extends SerenityHandler {
 		player.rotation.yaw = packet.yaw;
 		player.rotation.headYaw = packet.headYaw;
 
+		// Clear the player's motion
+		if (packet.onGround && !player.onGround) {
+			player.clearMotion();
+		}
+
+		// Set the player's on ground status
+		player.onGround = packet.onGround;
+
 		// Send the move player packet to all the players in the dimension.
 		player.dimension.broadcastExcept(player, packet);
 	}

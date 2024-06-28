@@ -863,6 +863,20 @@ class Entity {
 	}
 
 	/**
+	 * Applies an impulse to the entity.
+	 * @param vector The impulse to apply.
+	 */
+	public applyImpulse(vector: Vector3f): void {
+		// Update the velocity of the entity
+		this.velocity.x += vector.x;
+		this.velocity.y += vector.y;
+		this.velocity.z += vector.z;
+
+		// Set the motion of the entity
+		this.setMotion();
+	}
+
+	/**
 	 * Teleports the entity to a position.
 	 * @param position The position to teleport to.
 	 * @param dimension The dimension to teleport to.
