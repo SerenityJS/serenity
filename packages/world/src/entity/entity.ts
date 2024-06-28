@@ -113,6 +113,11 @@ class Entity {
 	 */
 	public onGround = false;
 
+	/**
+	 * Whether or not the entity is alive.
+	 */
+	public isAlive = true;
+
 	public constructor(
 		identifier: EntityIdentifier,
 		dimension: Dimension,
@@ -318,6 +323,9 @@ class Entity {
 	 * @param player The player to despawn the entity from.
 	 */
 	public despawn(player?: Player): void {
+		// Set the alive property of the entity to false
+		this.isAlive = false;
+
 		// Create a new RemoveEntityPacket
 		const packet = new RemoveEntityPacket();
 
@@ -338,6 +346,9 @@ class Entity {
 	 * Kills the entity, triggering the death animation.
 	 */
 	public kill(): void {
+		// Set the alive property of the entity to false
+		this.isAlive = false;
+
 		// TODO: Implement item drops and experience drops
 
 		// TODO: Check for keep inventory gamerule

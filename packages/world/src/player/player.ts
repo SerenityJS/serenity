@@ -21,7 +21,7 @@ import {
 	TextPacketType,
 	TransferPacket,
 	UpdateAbilitiesPacket,
-	type Vector3f
+	Vector3f
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 
@@ -332,8 +332,12 @@ class Player extends Entity {
 		// Create a new RespawnPacket
 		const respawn = new RespawnPacket();
 
+		// Get the spawn position of the dimension
+		// TODO: Add a spawn position to player instance
+		const { x, y, z } = this.dimension.spawn;
+
 		// Set the packet properties
-		respawn.position = this.position; // TODO: Set the respawn position
+		respawn.position = this.position;
 		respawn.runtimeEntityId = this.runtime;
 		respawn.state = RespawnState.ClientReadyToSpawn;
 
@@ -351,6 +355,12 @@ class Player extends Entity {
 
 		// Add the player to the dimension
 		this.spawn();
+
+		// Teleport the player to the spawn position
+		this.teleport(new Vector3f(x, y, z));
+
+		// Set the player as alive
+		this.isAlive = true;
 	}
 
 	/**
