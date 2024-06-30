@@ -4,7 +4,7 @@
   "repository": "https://github.com/SerenityJS/serenity",
   "files": [
     "index.js",
-    "next.js"
+    "rust.js"
   ],
   "devDependencies": {
     "@ariesclark/eslint-config": "^1.6.10",
