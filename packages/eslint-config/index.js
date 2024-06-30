@@ -31,5 +31,6 @@ module.exports = {
   ],
   rules: {
     "@typescript-eslint/no-extraneous-class": "off",
+    "@typescript-eslint/no-non-null-assertion": "warn"
   }
 };
