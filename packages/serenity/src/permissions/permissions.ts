@@ -77,9 +77,10 @@ class Permissions {
 	): void {
 		// Get the xuid, name, and permission level of the player.
 		const xuid = typeof player === "string" ? player : player.xuid;
-		const username =
-			(typeof player === "string" ? name : player.username) ||
-			"SerenityJS Player";
+		const username = typeof player === "string" ? name : player.username;
+		if (!username) {
+			throw new Error("Username is undefined.");
+		}
 		const permission = this.numericToSymbolic(permissions);
 
 		// Get the index of the player in the entries array. If the player is not found, the index will be -1.
