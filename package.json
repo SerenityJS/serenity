@@ -9,6 +9,7 @@
     "build:pkgs": "turbo build --filter='./packages/*'",
     "build:docs": "typedoc",
     "dev": "turbo dev",
+    "test": "turbo test",
     "lint": "turbo lint",
     "new": "turbo gen",
     "commitlint": "commitlint --edit",
