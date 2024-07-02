@@ -97,8 +97,6 @@
       "exodiusstudios.comment-anchors",
       "christian-kohler.npm-intellisense",
       "christian-kohler.path-intellisense",
-      "prisma.prisma",
-      "bradlc.vscode-tailwindcss",
       "1yib.rust-bundle"
     ]
   }

@@ -1,0 +1,8 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "local>NordcomInc/renovate-config",
+        ":semanticCommitTypeAll(chore)",
+        ":automergeMajor"
+    ]
+}

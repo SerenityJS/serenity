@@ -1,0 +1,17 @@
+name: Test
+on:
+    push:
+    pull_request:
+
+jobs:
+    lint:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install
+              uses: ./.github/common/install
+
+            - name: Test
+              run: yarn test

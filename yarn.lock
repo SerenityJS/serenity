@@ -9780,6 +9780,7 @@ __metadata:
     "@yarnpkg/core": "npm:^4.0.3"
     cross-spawn: "npm:^7.0.3"
     debug: "npm:^4.3.5"
+    eslint: "npm:^8.57.0"
     husky: "npm:^9.0.11"
     json5: "npm:^2.2.3"
     pinst: "npm:^3.0.0"
