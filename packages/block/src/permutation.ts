@@ -1,3 +1,5 @@
+import { ByteTag, CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
+
 import { BlockType } from "./type";
 import { BlockState } from "./types";
 import { hash } from "./hash";
@@ -142,6 +144,52 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 
 		// Return the block permutation.
 		return permutation;
+	}
+
+	public static toNbt(permutation: BlockPermutation): CompoundTag<unknown> {
+		const nbt = new CompoundTag("", {});
+
+		const name = new StringTag("name", permutation.type.identifier);
+
+		const states = new CompoundTag("states", {});
+
+		const keys = Object.keys(permutation.state);
+		const values = Object.values(permutation.state);
+
+		for (const [index, key] of keys.entries()) {
+			const value = values[index];
+
+			switch (typeof value) {
+				case "number": {
+					states.addTag(new IntTag(key, value));
+					break;
+				}
+
+				case "string": {
+					states.addTag(new StringTag(key, value));
+					break;
+				}
+
+				case "boolean": {
+					states.addTag(new ByteTag(key, value ? 1 : 0));
+					break;
+				}
+			}
+		}
+
+		nbt.addTag(name);
+		nbt.addTag(states);
+
+		return nbt;
+	}
+
+	public static fromNbt(nbt: CompoundTag<unknown>): BlockPermutation {
+		const name = nbt.getTag("name") as StringTag;
+		const states = nbt.getTag("states") as CompoundTag<unknown>;
+
+		const state = states.valueOf() as Record<string, string | number | boolean>;
+
+		return BlockPermutation.resolve(name.value as BlockIdentifier, state);
 	}
 }
 

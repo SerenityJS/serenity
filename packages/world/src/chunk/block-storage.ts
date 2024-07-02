@@ -1,5 +1,6 @@
 import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
+import { CompoundTag } from "@serenityjs/nbt";
 
 // TODO: Add logged blocks, light blocks, and biomes.
 
@@ -125,7 +126,11 @@ class BlockStorage {
 	 *
 	 * @param stream The binary stream to write to.
 	 */
-	public static serialize(storage: BlockStorage, stream: BinaryStream): void {
+	public static serialize(
+		storage: BlockStorage,
+		stream: BinaryStream,
+		nbt = false
+	): void {
 		// Calculate the bits per block.
 		// Which is the log2 of the palette length.
 		let bitsPerBlock = Math.ceil(Math.log2(storage.palette.length));
@@ -180,13 +185,31 @@ class BlockStorage {
 			stream.writeInt32(word, Endianness.Little);
 		}
 
-		// Write the palette length.
-		stream.writeZigZag(storage.palette.length);
+		// Write the palette length based on if the palette is stored in NBT.
+		// If the palette is stored in NBT, we write it as an integer.
+		if (nbt) stream.writeInt32(storage.palette.length, Endianness.Little);
+		else stream.writeZigZag(storage.palette.length);
 
 		// Iterate over the palette.
 		for (const state of storage.palette) {
-			// Write the state to the stream.
-			stream.writeZigZag(state);
+			// Check if the palette is stored in NBT.
+			if (nbt) {
+				// Get the block permutation.
+				const permutation = BlockPermutation.permutations.get(state);
+
+				// Check if the permutation exists.
+				if (!permutation)
+					throw new Error(`Unknown permutation state: ${state}`);
+
+				// Serialize the permutation state to NBT.
+				const nbt = BlockPermutation.toNbt(permutation);
+
+				// Write the NBT to the stream.
+				CompoundTag.write(stream, nbt);
+			} else {
+				// Write the state.
+				stream.writeZigZag(state);
+			}
 		}
 	}
 
@@ -196,51 +219,81 @@ class BlockStorage {
 	 * @param stream The binary stream to read from.
 	 * @returns The block storage.
 	 */
-	public static deserialize(stream: BinaryStream): BlockStorage {
-		// Read the bits per block.
-		const bitsPerBlock = stream.readByte() >> 1;
+	public static deserialize(stream: BinaryStream, nbt = false): BlockStorage {
+		// Read the palette and flag.
+		const paletteAndFlag = stream.readByte();
 
-		// Calculate the blocks per word & words per block.
+		// Check if the palette is using runtime IDs.
+		const _isRuntime = (paletteAndFlag & 1) !== 0;
+
+		// if (isRuntime) throw new Error("Runtime palette is not supported yet.");
+		const bitsPerBlock = paletteAndFlag >> 1;
 		const blocksPerWord = Math.floor(32 / bitsPerBlock);
-		const wordsPerBlock = Math.ceil(4096 / blocksPerWord);
+		const wordsPerChunk = Math.ceil(4096 / blocksPerWord);
 
-		// Read the blocks.
-		const palette: Array<number> = [];
-		for (let w = 0; w < wordsPerBlock; w++) {
-			// Read the word from the stream.
-			const word = stream.readInt32(Endianness.Little);
+		const words = Array.from<number>({ length: wordsPerChunk });
+		for (let index = 0; index < wordsPerChunk; index++) {
+			words[index] = stream.readInt32(Endianness.Little);
+		}
 
-			// Iterate over the blocks.
-			for (let block = 0; block < blocksPerWord; block++) {
-				// Calculate the block index.
-				const index = w * blocksPerWord + block;
+		// Read the palette size based on if the palette is stored in NBT.
+		// If the palette is stored in NBT, we read it as an integer.
+		const paletteSize = nbt
+			? stream.readInt32(Endianness.Little)
+			: stream.readZigZag();
 
-				// Calculate the state.
-				const state =
-					(word >> (bitsPerBlock * block)) & ((1 << bitsPerBlock) - 1);
+		// Create the palette based on the palette size.
+		// Iterate over the palette size reading the states.
+		const palette = Array.from<number>({ length: paletteSize });
+		for (let index = 0; index < paletteSize; index++) {
+			// Check if the palette is stored in NBT.
+			if (nbt) {
+				// Read the permutation state nbt.
+				const nbt = CompoundTag.read(stream);
+
+				// Get the block permutation from the state nbt.
+				const permutation = BlockPermutation.fromNbt(nbt);
+
+				// Check if the permutation exists
+				if (!permutation) throw new Error(`Unknown permutation state: ${nbt}`);
 
 				// Add the state to the palette.
-				palette[index] = state;
+				palette[index] = permutation.network;
+			} else {
+				// Read the state.
+				palette[index] = stream.readZigZag();
 			}
 		}
 
-		// Prepare the palette.
-		const blocks: Array<number> = [];
+		// Create the blocks array.
+		const blocks = Array.from<number>({ length: 4096 });
+		let position = 0;
 
-		// Read the palette length.
-		const blocksLength = stream.readZigZag();
+		// Iterate over the words and convert them to blocks.
+		for (let index = 0; index < wordsPerChunk; index++) {
+			// Get the word from the words array.
+			const word = words[index] as number;
 
-		// Iterate over the palette.
-		for (let index = 0; index < blocksLength; index++) {
-			// Read the state from the stream.
-			const state = stream.readZigZag();
+			// Iterate over the blocks in the word.
+			for (let offset = 0; offset < blocksPerWord; offset++) {
+				// Get the state from the word.
+				const state =
+					(word >> ((position % blocksPerWord) * bitsPerBlock)) &
+					((1 << bitsPerBlock) - 1);
 
-			// Add the state to the palette.
-			blocks.push(state);
+				// Calculate the x, y, and z coordinates based on the position.
+				const x = (position >> 8) & 0xf;
+				const y = position & 0xf;
+				const z = (position >> 4) & 0xf;
+
+				// Add the state to the blocks array.
+				blocks[BlockStorage.getIndex(x, y, z)] = state;
+				position++;
+			}
 		}
 
 		// Return the block storage.
-		return new BlockStorage(blocks, palette);
+		return new BlockStorage(palette, blocks);
 	}
 }
 

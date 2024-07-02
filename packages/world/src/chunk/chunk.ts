@@ -102,9 +102,7 @@ export class Chunk {
 		this.z = z;
 		this.type = type;
 		this.hash = ChunkCoords.hash({ x, z });
-		this.subchunks =
-			subchunks ??
-			Array.from({ length: Chunk.MAX_SUB_CHUNKS }, () => new SubChunk());
+		this.subchunks = subchunks ?? Array.from({ length: Chunk.MAX_SUB_CHUNKS });
 	}
 
 	/**
@@ -194,13 +192,23 @@ export class Chunk {
 	 * @param index The index.
 	 */
 	public getSubChunk(index: number): SubChunk {
+		// Check if the index is valid.
+		if (index < 0 || index > Chunk.MAX_SUB_CHUNKS)
+			throw new Error("Invalid sub chunk index.");
+
 		// Check if the sub chunk exists.
 		if (!this.subchunks[index]) {
 			// Create a new sub chunk.
-			for (let index_ = 0; index_ <= index; index_++) {
-				if (!this.subchunks[index_]) {
-					this.subchunks[index_] = new SubChunk();
-				}
+			for (let ndex = 0; ndex <= index; ndex++) {
+				// Check if the sub chunk exists.
+				if (this.subchunks[ndex]) continue;
+
+				// Create a new sub chunk.
+				const subchunk = new SubChunk();
+				subchunk.index = ndex;
+
+				// Set the sub chunk.
+				this.subchunks[ndex] = subchunk;
 			}
 		}
 
@@ -215,22 +223,36 @@ export class Chunk {
 		// Loop through each sub chunk.
 		let count = 0;
 		for (let index = Chunk.MAX_SUB_CHUNKS - 1; index >= 0; index--) {
-			// Check if the sub chunk is empty.
-			if ((this.subchunks[index] as SubChunk).isEmpty()) {
-				count++;
-			} else break;
+			// Get the sub chunk.
+			const subchunk = this.subchunks[index];
+
+			// Check if the sub chunk exists.
+			if (!subchunk || subchunk.isEmpty()) count++;
+			// Break if the sub chunk is not empty, as all sub chunks after this will not be empty.
+			else break;
 		}
 
+		// Return the count.
 		return Chunk.MAX_SUB_CHUNKS - count;
 	}
 
-	public static serialize(chunk: Chunk): Buffer {
+	public static serialize(chunk: Chunk, nbt = false): Buffer {
 		// Create a new stream.
 		const stream = new BinaryStream();
 
 		// Serialize each sub chunk.
-		for (let index = 0; index < chunk.getSubChunkSendCount(); ++index) {
-			SubChunk.serialize(chunk.subchunks[index] as SubChunk, stream);
+		for (let index = 0; index < chunk.getSubChunkSendCount(); index++) {
+			// Get the sub chunk.
+			const subchunk = chunk.subchunks[index];
+
+			// Check if the sub chunk exists.
+			if (subchunk) {
+				// Serialize the sub chunk.
+				SubChunk.serialize(subchunk, stream, nbt);
+			} else {
+				// Serialize an empty sub chunk.
+				SubChunk.serialize(new SubChunk(), stream, nbt);
+			}
 		}
 
 		// Biomes?
@@ -250,7 +272,8 @@ export class Chunk {
 		type: DimensionType,
 		x: number,
 		z: number,
-		buffer: Buffer
+		buffer: Buffer,
+		nbt = false
 	): Chunk {
 		// Create a new stream.
 		const stream = new BinaryStream(buffer);
@@ -264,7 +287,7 @@ export class Chunk {
 		// Loop through each sub chunk.
 		for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; ++index) {
 			if (stream.binary[stream.offset] !== 8) break;
-			subchunks[index] = SubChunk.deserialize(stream);
+			subchunks[index] = SubChunk.deserialize(stream, nbt);
 		}
 
 		// Biomes?
