@@ -236,6 +236,23 @@ export class Chunk {
 		return Chunk.MAX_SUB_CHUNKS - count;
 	}
 
+	/**
+	 * Check if the chunk is empty.
+	 */
+	public isEmpty(): boolean {
+		// Loop through each sub chunk.
+		for (const subchunk of this.subchunks) {
+			// Check if the sub chunk is empty.
+			if (!subchunk || !subchunk.isEmpty()) {
+				// The chunk is not empty.
+				return false;
+			}
+		}
+
+		// The chunk is empty.
+		return true;
+	}
+
 	public static serialize(chunk: Chunk, nbt = false): Buffer {
 		// Create a new stream.
 		const stream = new BinaryStream();

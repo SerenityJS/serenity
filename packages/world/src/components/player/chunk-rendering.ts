@@ -150,7 +150,7 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 				packet.data = Chunk.serialize(chunk);
 
 				// Return the packet
-				this.player.session.send(packet);
+				this.player.session.sendImmediate(packet);
 
 				// Set the chunk to rendered
 				this.chunks.add(hash);

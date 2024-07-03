@@ -104,7 +104,20 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 		// Check if the state is not provided.
 		const permutation = type.permutations.find((permutation) => {
 			for (const key in state) {
-				if ((permutation.state as never)[key] !== state[key]) {
+				// Get the value of the block state.
+				const value = (permutation.state as never)[key];
+
+				// Check if the value is a boolean
+				const bool = value === true || value === false ? true : false;
+
+				// Convert the state to a boolean if it is a boolean.
+				const query =
+					bool && (state[key] === 0 || state[key] === 1)
+						? state[key] === 1
+						: state[key];
+
+				// Check if the block state matches
+				if (value !== query) {
 					return false;
 				}
 			}

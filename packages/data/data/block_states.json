@@ -778,15 +778,6 @@
     ]
   },
   {
-    "identifier": "old_leaf_type",
-    "values": [
-      "oak",
-      "spruce",
-      "birch",
-      "jungle"
-    ]
-  },
-  {
     "identifier": "deprecated",
     "values": [
       0,

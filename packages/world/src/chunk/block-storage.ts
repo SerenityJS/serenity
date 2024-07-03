@@ -207,7 +207,7 @@ class BlockStorage {
 				// Write the NBT to the stream.
 				CompoundTag.write(stream, nbt);
 			} else {
-				// Write the state.
+				// Write the state to the stream
 				stream.writeZigZag(state);
 			}
 		}
@@ -255,12 +255,16 @@ class BlockStorage {
 				const permutation = BlockPermutation.fromNbt(nbt);
 
 				// Check if the permutation exists
-				if (!permutation) throw new Error(`Unknown permutation state: ${nbt}`);
+				if (!permutation)
+					throw new Error(`Unknown permutation state: ${nbt.valueOf(true)}`);
+
+				// Check if the permutation state already exists in the
+				if (palette.includes(permutation.network))
+					throw new Error(`Duplicate permutation state: ${nbt.valueOf(true)}`);
 
 				// Add the state to the palette.
 				palette[index] = permutation.network;
 			} else {
-				// Read the state.
 				palette[index] = stream.readZigZag();
 			}
 		}

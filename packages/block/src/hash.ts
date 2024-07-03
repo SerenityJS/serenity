@@ -53,10 +53,15 @@ function hash(
 	// Loop through each element in the buffer.
 	for (const element of stream.getBuffer()) {
 		// Set the hash to the XOR of the hash and the element.
-		hash ^= element;
+		hash ^= element & 0xff;
+
 		// Apply the hash algorithm.
 		hash +=
 			(hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+
+		// Convert the hash to a signed 32-bit integer.
+		// eslint-disable-next-line unicorn/prefer-math-trunc
+		hash = hash | 0;
 	}
 
 	// Return the hash.

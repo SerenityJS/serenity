@@ -1101,5 +1101,5 @@ export enum BlockIdentifier {
 	PurpleWool = "minecraft:purple_wool",
 	IronBlock = "minecraft:iron_block",
 	Ladder = "minecraft:ladder",
-	CartographyTable = "minecraft:cartography_table"
+	CartographyTable = "minecraft:cartography_table",
 }

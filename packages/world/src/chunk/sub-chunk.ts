@@ -1,6 +1,6 @@
-import { BlockStorage } from "./block-storage";
+import { BinaryStream } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BlockStorage } from "./block-storage";
 
 /**
  * Represents a sub chunk.
@@ -169,5 +169,13 @@ export class SubChunk {
 
 		// Return the sub chunk.
 		return subchunk;
+	}
+
+	public static from(buffer: Buffer, nbt = false): SubChunk {
+		// Create a new stream.
+		const stream = new BinaryStream(buffer);
+
+		// Deserialize the sub chunk.
+		return SubChunk.deserialize(stream, nbt);
 	}
 }
