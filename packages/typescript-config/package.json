@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/typescript-config",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "repository": "https://github.com/SerenityJS/serenity",
   "publishConfig": {
     "access": "public"

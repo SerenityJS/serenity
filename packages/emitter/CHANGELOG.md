@@ -1,5 +1,11 @@
 # @serenityjs/emitter
 
+## 0.3.6
+
+### Patch Changes
+
+- 96869d9: init v0.3.6-beta
+
 ## 0.3.5
 
 ### Patch Changes
