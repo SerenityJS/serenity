@@ -38,7 +38,7 @@ plugins-path: "plugins"
 worlds-default: "default"
 # The default world to load when the server starts.
 
-worlds-default-provider: "internal"
+worlds-default-provider: "leveldb"
 # The default provider to use when creating new worlds.
 
 worlds-path: "worlds"

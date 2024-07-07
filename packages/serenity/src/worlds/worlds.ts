@@ -13,7 +13,7 @@ import {
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { DisconnectPacket, DisconnectReason } from "@serenityjs/protocol";
 
-import { FileSystemProvider } from "../providers";
+import { FileSystemProvider, LevelDBProvider } from "../providers";
 import { exists } from "../utils/exists";
 import { ADMIN_COMMANDS } from "../commands";
 
@@ -70,6 +70,7 @@ class Worlds {
 		// Register the default providers.
 		this.registerProvider(InternalProvider);
 		this.registerProvider(FileSystemProvider);
+		this.registerProvider(LevelDBProvider);
 
 		// Register the default generators.
 		this.registerGenerator(Superflat);

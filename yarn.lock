@@ -1963,6 +1963,45 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/leveldb-darwin-x64@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@serenityjs/leveldb-darwin-x64@npm:1.0.0"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@serenityjs/leveldb-linux-x64-gnu@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@serenityjs/leveldb-linux-x64-gnu@npm:1.0.0"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@serenityjs/leveldb-win32-x64-msvc@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@serenityjs/leveldb-win32-x64-msvc@npm:1.0.0"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@serenityjs/leveldb@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@serenityjs/leveldb@npm:1.0.0"
+  dependencies:
+    "@serenityjs/leveldb-darwin-x64": "npm:1.0.0"
+    "@serenityjs/leveldb-linux-x64-gnu": "npm:1.0.0"
+    "@serenityjs/leveldb-win32-x64-msvc": "npm:1.0.0"
+  dependenciesMeta:
+    "@serenityjs/leveldb-darwin-x64":
+      optional: true
+    "@serenityjs/leveldb-linux-x64-gnu":
+      optional: true
+    "@serenityjs/leveldb-win32-x64-msvc":
+      optional: true
+  checksum: 10c0/bf6afa369f0769e7e3c3495eb7834d5a916908f80a902490cc122824cc66505d9948b1b8af062e4c5590bbc7bf499383bbe6c529d70b7254adc4f027e67161e6
+  languageName: node
+  linkType: hard
+
 "@serenityjs/logger@npm:*, @serenityjs/logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@serenityjs/logger@workspace:packages/logger"
@@ -2085,6 +2124,7 @@ __metadata:
     "@serenityjs/eslint-config": "npm:*"
     "@serenityjs/item": "npm:*"
     "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/leveldb": "npm:^1.0.0"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"
     "@serenityjs/network": "npm:*"

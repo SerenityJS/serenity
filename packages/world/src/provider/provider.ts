@@ -56,7 +56,7 @@ class WorldProvider {
 	 * @param chunk The chunk to write to the world.
 	 * @param dimension The dimension to write the chunk to.
 	 */
-	public writeChunk(_chunk: Chunk, _dimension: Dimension): void {
+	public writeChunk(_chunk: Chunk, _dimension: Dimension | string): void {
 		throw new Error("WorldProvider.writeChunk is not implemented");
 	}
 }
