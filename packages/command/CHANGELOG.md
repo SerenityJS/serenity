@@ -1,5 +1,15 @@
 # @serenityjs/command
 
+## 0.3.6
+
+### Patch Changes
+
+- 96869d9: init v0.3.6-beta
+- Updated dependencies [96869d9]
+  - @serenityjs/logger@0.3.6
+  - @serenityjs/network@0.3.6
+  - @serenityjs/protocol@0.3.6
+
 ## 0.3.5
 
 ### Patch Changes
