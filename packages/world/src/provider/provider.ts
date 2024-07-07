@@ -34,7 +34,7 @@ class WorldProvider {
 	/**
 	 * Trigger to save any data that needs to be saved.
 	 */
-	public save(): void {
+	public save(_shutdown = false): void {
 		throw new Error("WorldProvider.save is not implemented");
 	}
 

@@ -101,7 +101,7 @@ class World {
 		if (this.currentTick % 12_000n === 0n) {
 			// Signal the provider to save the world
 			try {
-				this.provider.save();
+				this.provider.save(false);
 			} catch (reason) {
 				this.logger.error(`Failed to save world, reason: ${reason}`);
 			}

@@ -193,7 +193,7 @@ class Worlds {
 		// Save all the worlds.
 		for await (const world of this.entries.values()) {
 			// Save the world.
-			await world.provider.save();
+			await world.provider.save(true);
 
 			// Delete the world from the worlds map.
 			this.entries.delete(world.identifier);
