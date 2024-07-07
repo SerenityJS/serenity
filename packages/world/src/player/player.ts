@@ -204,29 +204,6 @@ class Player extends Entity {
 	}
 
 	/**
-	 * Ticks the player instance.
-	 */
-	public tick(): void {
-		// TODO: Move this elsewhere.
-		// Check if the current tick is divisible by 35
-		// if (this.dimension.world.currentTick % 35n === 0n) {
-		// 	// Calculate the ping of the player.
-		// 	const packet = new NetworkStackLatencyPacket();
-		// 	packet.timestamp = BigInt(Date.now());
-		// 	packet.fromServer = true;
-		// 	// Send the packet to the player.
-		// 	this.session.sendImmediate(packet);
-		// 	// Wait for the player to respond.
-		// 	this.session.once(packet.getId(), () => {
-		// 		// Calculate the ping of the player.
-		// 		const stamp = Number(BigInt(Date.now()) - packet.timestamp);
-		// 		// Subtract 30ms from the ping to get the actual ping.
-		// 		this.ping = stamp - 30;
-		// 	});
-		// }
-	}
-
-	/**
 	 * Syncs the player instance.
 	 */
 	public sync(): void {
@@ -240,7 +217,9 @@ class Player extends Entity {
 		const available = this.dimension.world.commands.serialize();
 
 		// Filter out the commands that are not applicable to the player
-		const filtered = available.commands;
+		const filtered = available.commands.filter(
+			(command) => command.permissionLevel <= this.permission
+		);
 
 		// Update the commands of the player
 		available.commands = filtered;
@@ -286,8 +265,8 @@ class Player extends Entity {
 			floats: []
 		};
 		packet.uniqueEntityId = this.unique;
-		packet.premissionLevel = 2;
-		packet.commandPermission = 2;
+		packet.premissionLevel = this.permission;
+		packet.commandPermission = this.permission === 2 ? 1 : 0;
 		packet.abilities = [
 			{
 				type: AbilityLayerType.Base,
@@ -419,7 +398,7 @@ class Player extends Entity {
 		// Create a new UpdateAbilitiesPacket
 		const packet = new UpdateAbilitiesPacket();
 		packet.permissionLevel = this.permission;
-		packet.commandPersmissionLevel = 2;
+		packet.commandPersmissionLevel = this.permission === 2 ? 1 : 0;
 		packet.entityUniqueId = this.unique;
 		packet.abilities = [
 			{

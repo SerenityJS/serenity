@@ -1,5 +1,5 @@
 import { Player, TargetEnum, type World } from "@serenityjs/world";
-import { PermissionLevel } from "@serenityjs/protocol";
+import { CommandPermissionLevel, PermissionLevel } from "@serenityjs/protocol";
 
 import type { Serenity } from "../../serenity";
 
@@ -46,7 +46,7 @@ const register = (world: World, serenity: Serenity) => {
 			target: TargetEnum
 		},
 		{
-			permission: PermissionLevel.Operator
+			permission: CommandPermissionLevel.Operator
 		}
 	);
 };

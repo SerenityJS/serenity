@@ -1,4 +1,4 @@
-import { PermissionLevel } from "@serenityjs/protocol";
+import { CommandPermissionLevel } from "@serenityjs/protocol";
 import { IntegerEnum } from "@serenityjs/command";
 
 import { ItemEnum, TargetEnum } from "../enums";
@@ -64,7 +64,7 @@ const register = (world: World) => {
 			maxCount: [IntegerEnum, true]
 		},
 		{
-			permission: PermissionLevel.Operator
+			permission: CommandPermissionLevel.Operator
 		}
 	);
 };

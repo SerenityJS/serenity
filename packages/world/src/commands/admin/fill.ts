@@ -1,4 +1,4 @@
-import { PermissionLevel } from "@serenityjs/protocol";
+import { CommandPermissionLevel } from "@serenityjs/protocol";
 import { BlockPositionEnum, JsonEnum } from "@serenityjs/command";
 import { BlockPermutation, type BlockIdentifier } from "@serenityjs/block";
 
@@ -120,7 +120,7 @@ const register = (world: World) => {
 			state: [JsonEnum, true]
 		},
 		{
-			permission: PermissionLevel.Operator
+			permission: CommandPermissionLevel.Operator
 		}
 	);
 };

@@ -399,7 +399,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.bonusChest = false;
 				packet.mapEnabled = false;
 				packet.permissionLevel = player.permission;
-				packet.serverChunkTickRange = 0;
+				packet.serverChunkTickRange = player.dimension.simulationDistance >> 4;
 				packet.hasLockedBehaviorPack = false;
 				packet.hasLockedResourcePack = false;
 				packet.isFromLockedWorldTemplate = false;

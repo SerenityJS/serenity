@@ -1,4 +1,4 @@
-import { Gamemode, PermissionLevel } from "@serenityjs/protocol";
+import { Gamemode, CommandPermissionLevel } from "@serenityjs/protocol";
 
 import { GamemodeEnum, TargetEnum } from "../enums";
 import { Player } from "../../player";
@@ -153,7 +153,7 @@ const register = (world: World) => {
 			target: [TargetEnum, true]
 		},
 		{
-			permission: PermissionLevel.Operator
+			permission: CommandPermissionLevel.Operator
 		}
 	);
 };

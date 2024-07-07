@@ -98,10 +98,6 @@ class Dimension {
 	 * Ticks the dimension instance.
 	 */
 	public tick(): void {
-		// TODO: Remove tick from the player
-		// Tick all the players in the dimension
-		for (const player of this.getPlayers()) player.tick();
-
 		// Get all the simulation chunks
 		const chunks = new Set(
 			this.getPlayers().flatMap((player) =>

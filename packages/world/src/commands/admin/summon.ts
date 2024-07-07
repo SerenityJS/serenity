@@ -1,4 +1,4 @@
-import { PermissionLevel, Vector3f } from "@serenityjs/protocol";
+import { CommandPermissionLevel, Vector3f } from "@serenityjs/protocol";
 import { BlockPositionEnum } from "@serenityjs/command";
 
 import { EntityEnum } from "../enums";
@@ -53,7 +53,7 @@ const register = (world: World) => {
 			position: BlockPositionEnum
 		},
 		{
-			permission: PermissionLevel.Operator
+			permission: CommandPermissionLevel.Operator
 		}
 	);
 };

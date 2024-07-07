@@ -1,5 +1,5 @@
 import { Player, type World } from "@serenityjs/world";
-import { PermissionLevel } from "@serenityjs/protocol";
+import { CommandPermissionLevel } from "@serenityjs/protocol";
 
 import type { Serenity } from "../../serenity";
 
@@ -36,7 +36,7 @@ const register = (world: World, serenity: Serenity) => {
 		},
 		{},
 		{
-			permission: PermissionLevel.Operator
+			permission: CommandPermissionLevel.Internal
 		}
 	);
 };

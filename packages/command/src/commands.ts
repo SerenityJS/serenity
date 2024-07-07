@@ -1,4 +1,7 @@
-import { AvailableCommandsPacket, PermissionLevel } from "@serenityjs/protocol";
+import {
+	AvailableCommandsPacket,
+	CommandPermissionLevel
+} from "@serenityjs/protocol";
 
 import { type CustomEnum, SoftEnum, type Enum } from "./enums";
 
@@ -9,7 +12,7 @@ interface CommandParameters {
 }
 
 interface CommandOptions {
-	permission?: PermissionLevel;
+	permission?: CommandPermissionLevel;
 	special?: boolean;
 }
 
@@ -138,7 +141,7 @@ class Commands<O> {
 			return {
 				name: command.name,
 				description: command.description,
-				permissionLevel: command.permission ?? PermissionLevel.Member,
+				permissionLevel: command.permission ?? CommandPermissionLevel.Normal,
 				subcommands: [],
 				flags: command.special ? 1 : 0,
 				alias: -1,

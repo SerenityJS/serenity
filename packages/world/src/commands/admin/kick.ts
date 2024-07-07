@@ -1,4 +1,4 @@
-import { DisconnectReason, PermissionLevel } from "@serenityjs/protocol";
+import { DisconnectReason, CommandPermissionLevel } from "@serenityjs/protocol";
 import { StringEnum } from "@serenityjs/command";
 
 import { TargetEnum } from "../enums";
@@ -31,7 +31,7 @@ const register = (world: World) => {
 			reason: [StringEnum, true]
 		},
 		{
-			permission: PermissionLevel.Operator
+			permission: CommandPermissionLevel.Operator
 		}
 	);
 };

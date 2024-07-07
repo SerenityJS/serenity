@@ -1,4 +1,8 @@
-import { CommandRequestPacket } from "@serenityjs/protocol";
+import {
+	CommandPermissionLevel,
+	CommandRequestPacket,
+	PermissionLevel
+} from "@serenityjs/protocol";
 import { CommandExecutionState } from "@serenityjs/command";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -24,10 +28,16 @@ class CommandRequest extends SerenityHandler {
 			player
 		);
 
+		// Convert the player permission level to a command permission level
+		const permission =
+			player.permission === PermissionLevel.Operator
+				? CommandPermissionLevel.Operator
+				: CommandPermissionLevel.Normal;
+
 		// Check if the player has the required permission level
 		if (
 			state.command?.permission && // Check if the player has the required permission level
-			player.permission < state.command.permission
+			permission < state.command.permission
 		) {
 			// Send a message to the player
 			player.sendMessage(`§cYou do not have permission to use this command.§r`);
