@@ -7,7 +7,7 @@ import type { Player } from "../../../player";
 class PlayerOperatorCommandsComponent extends PlayerAbilityComponent {
 	public readonly flag = AbilityLayerFlag.OperatorCommands;
 
-	public readonly defaultValue = false;
+	public readonly defaultValue = this.player.permission >= 2;
 
 	/**
 	 * Creates a new player operator commands component.

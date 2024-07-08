@@ -7,7 +7,7 @@ import type { Player } from "../../../player";
 class PlayerTeleportComponent extends PlayerAbilityComponent {
 	public readonly flag = AbilityLayerFlag.Teleport;
 
-	public readonly defaultValue = false;
+	public readonly defaultValue = this.player.permission >= 2;
 
 	/**
 	 * Creates a new player teleport component.
