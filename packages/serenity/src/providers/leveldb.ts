@@ -20,6 +20,8 @@ interface LevelDBDimension {
 	identifier: string;
 	type: string;
 	generator: string;
+	viewDistance?: number;
+	simulationDistance?: number;
 }
 
 class LevelDBProvider extends WorldProvider {
@@ -331,7 +333,19 @@ class LevelDBProvider extends WorldProvider {
 						: DimensionType.End;
 
 			// TODO: Get the seed from the level.dat file.
-			world.createDimension(dimension.identifier, type, new generator(0));
+			const instance = world.createDimension(
+				dimension.identifier,
+				type,
+				new generator(0)
+			);
+
+			// Set the view distance for the dimension.
+			if (dimension.viewDistance)
+				instance.viewDistance = dimension.viewDistance;
+
+			// Set the simulation distance for the dimension.
+			if (dimension.simulationDistance)
+				instance.simulationDistance = dimension.simulationDistance;
 
 			// Debug log the dimension creation.
 			this.logger.debug(

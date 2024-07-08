@@ -9,7 +9,11 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
-import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
+import {
+	BlockPermutation,
+	BlockIdentifier,
+	type BlockType
+} from "@serenityjs/block";
 import { ItemType } from "@serenityjs/item";
 import { CompoundTag } from "@serenityjs/nbt";
 
@@ -230,6 +234,22 @@ class Block {
 			// Check if the entity is on the same x and z coordinates.
 			if (position.x === x && position.z === z) entity.onGround = false;
 		}
+
+		// Return the block.
+		return this;
+	}
+
+	/**
+	 * Sets the type of the block.
+	 * @param type The type of the block.
+	 * @param playerInitiated If the change was initiated by a player.
+	 */
+	public setType(type: BlockType, playerInitiated?: Player): Block {
+		// Get the permutation of the block.
+		const permutation = type.getPermutation();
+
+		// Set the permutation of the block.
+		this.setPermutation(permutation, playerInitiated);
 
 		// Return the block.
 		return this;
