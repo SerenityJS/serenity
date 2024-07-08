@@ -72,8 +72,6 @@ import type { PlayerComponents } from "../types/components";
 import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
 
-// TODO: Possibly expose a collection of entity metadata?
-
 /**
  * Represents a player in a Dimension instance that is connected to the server, and can interact with the world. Creating a new Player instance should be handled by the server instead of Plugins. This class is responsible for handling player-specific logic, such as sending packets, handling player movement, and managing player data. Player instances requires a NetworkSession instance to communicate with the player, and data from the player's login tokens.
  */

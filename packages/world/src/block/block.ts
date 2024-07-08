@@ -471,6 +471,7 @@ class Block {
 
 	/**
 	 * Destroys the block.
+	 * @param playerInitiated If the block was destroyed by a player.
 	 */
 	public destroy(playerInitiated?: Player): void {
 		// Call the onBreak method of the components.
