@@ -16,11 +16,11 @@ for (const type of BLOCK_TYPES) {
 	const instance = new BlockType(
 		type.identifier as BlockIdentifier,
 		type.loggable,
-		type.hardness,
-		type.resistance,
-		type.material,
-		type.requiresTool,
-		type.components
+		type.air,
+		type.liquid,
+		type.solid,
+		type.components,
+		type.tags
 	);
 
 	// Set the block type in the registry.

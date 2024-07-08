@@ -41,65 +41,65 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	public readonly loggable: boolean;
 
 	/**
-	 * The hardness of the block type.
+	 * Whether the block type is air.
 	 */
-	public readonly hardness: number;
+	public readonly air: boolean;
 
 	/**
-	 * The resistance of the block type.
+	 * Whether the block type is liquid.
 	 */
-	public readonly resistance: number;
+	public readonly liquid: boolean;
 
 	/**
-	 * The material of the block type.
+	 * Whether the block type is solid.
 	 */
-	public readonly material: string;
-
-	/**
-	 * Whether the block type requires a tool.
-	 */
-	public readonly requiresTool: boolean;
+	public readonly solid: boolean;
 
 	/**
 	 * The default components of the block type.
 	 */
-	public readonly components: Array<string>;
+	public readonly components: Array<string> = [];
+
+	/**
+	 * The default tags of the block type.
+	 */
+	public readonly tags: Array<string> = [];
 
 	/**
 	 * The default permutations of the block type.
 	 */
-	public readonly permutations: Array<BlockPermutation>;
+	public readonly permutations: Array<BlockPermutation> = [];
 
 	/**
 	 * Create a new block type.
 	 * @param identifier The identifier of the block type.
 	 * @param loggable Whether the block type is loggable.
-	 * @param hardness The hardness of the block type.
-	 * @param resistance The resistance of the block type.
-	 * @param material The material of the block type.
-	 * @param requiresTool Whether the block type requires a tool.
+	 * @param air Whether the block type is air.
+	 * @param liquid Whether the block type is liquid.
+	 * @param solid Whether the block type is solid.
 	 * @param components The default components of the block type.
+	 * @param tags The default tags of the block type.
 	 * @param permutations The default permutations of the block type.
 	 */
 	public constructor(
 		identifier: T,
 		loggable: boolean,
-		hardness: number,
-		resistance: number,
-		material: string,
-		requiresTool: boolean,
+		air: boolean,
+		liquid: boolean,
+		solid: boolean,
 		components?: Array<string>,
+		tags?: Array<string>,
 		permutations?: Array<BlockPermutation>
 	) {
 		this.identifier = identifier;
 		this.custom = false;
 		this.loggable = loggable;
-		this.hardness = hardness;
-		this.resistance = resistance;
-		this.material = material;
-		this.requiresTool = requiresTool;
-		this.components = components ?? [];
-		this.permutations = permutations ?? [];
+		this.air = air;
+		this.liquid = liquid;
+		this.solid = solid;
+		this.components = components ?? this.components;
+		this.tags = tags ?? this.tags;
+		this.permutations = permutations ?? this.permutations;
 	}
 
 	/**

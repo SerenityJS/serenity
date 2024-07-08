@@ -1,5 +1,5 @@
 import { BinaryStream } from "@serenityjs/binarystream";
-import { CREATIVE_CONTENT, ITEMDATA } from "@serenityjs/data";
+import { CREATIVE_CONTENT, ITEM_TYPES, ITEMDATA } from "@serenityjs/data";
 import { CreativeItems, ItemData } from "@serenityjs/protocol";
 
 import { ItemType } from "./type";
@@ -16,8 +16,16 @@ const data = ItemData.read(dataStream);
 
 // Iterate over the item data.
 for (const item of data) {
+	// Get the metadata for the item.
+	const meta = ITEM_TYPES.find((type) => type.identifier === item.name);
+
 	// Create the item type.
-	const type = new ItemType(item.name as ItemIdentifier, item.networkId);
+	const type = new ItemType(
+		item.name as ItemIdentifier,
+		item.networkId,
+		meta?.stackable,
+		meta?.maxStack
+	);
 
 	// Add the item type to the map.
 	ItemType.types.set(type.identifier, type);

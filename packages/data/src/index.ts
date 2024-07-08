@@ -14,10 +14,10 @@ interface BlockTypes {
 	loggable: boolean;
 	components: Array<string>;
 	states: Array<string>;
-	hardness: number;
-	resistance: number;
-	material: string;
-	requiresTool: boolean;
+	tags: Array<string>;
+	air: boolean;
+	liquid: boolean;
+	solid: boolean;
 }
 
 interface BlockPermutations {
@@ -28,6 +28,8 @@ interface BlockPermutations {
 
 interface ItemTypes {
 	identifier: string;
+	stackable: boolean;
+	maxStack: number;
 }
 
 interface EntityTypes {

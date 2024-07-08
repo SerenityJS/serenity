@@ -240,6 +240,14 @@ class Block {
 	}
 
 	/**
+	 * Gets the type of the block
+	 * @returns The type of the block.
+	 */
+	public getType(): BlockType {
+		return this.permutation.type;
+	}
+
+	/**
 	 * Sets the type of the block.
 	 * @param type The type of the block.
 	 * @param playerInitiated If the change was initiated by a player.

@@ -39,6 +39,8 @@ class CustomItemType extends ItemType {
 		super(
 			identifier as keyof Items,
 			CustomItemType.network++,
+			true,
+			64,
 			block as Items[keyof Items]
 		);
 

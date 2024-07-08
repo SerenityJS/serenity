@@ -124,7 +124,6 @@
   {
     "identifier": "minecraft:rabbit",
     "components": [
-      "minecraft:ageable",
       "minecraft:lava_movement",
       "minecraft:breathable",
       "minecraft:health",
@@ -136,7 +135,6 @@
       "minecraft:movement.skip",
       "minecraft:underwater_movement",
       "minecraft:can_climb",
-      "minecraft:is_baby",
       "minecraft:scale",
       "minecraft:variant"
     ]
@@ -616,6 +614,7 @@
     "identifier": "minecraft:polar_bear",
     "components": [
       "minecraft:movement.jump",
+      "minecraft:ageable",
       "minecraft:lava_movement",
       "minecraft:breathable",
       "minecraft:health",
@@ -626,7 +625,9 @@
       "minecraft:movement.basic",
       "minecraft:is_hidden_when_invisible",
       "minecraft:underwater_movement",
-      "minecraft:can_climb"
+      "minecraft:can_climb",
+      "minecraft:is_baby",
+      "minecraft:scale"
     ]
   },
   {
@@ -661,8 +662,7 @@
       "minecraft:movement.basic",
       "minecraft:is_hidden_when_invisible",
       "minecraft:underwater_movement",
-      "minecraft:is_baby",
-      "minecraft:scale"
+      "minecraft:variant"
     ]
   },
   {
@@ -873,7 +873,7 @@
     "identifier": "minecraft:llama",
     "components": [
       "minecraft:movement.jump",
-      "minecraft:ageable",
+      "minecraft:tamemount",
       "minecraft:healable",
       "minecraft:lava_movement",
       "minecraft:breathable",
@@ -885,10 +885,9 @@
       "minecraft:type_family",
       "minecraft:movement.basic",
       "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
       "minecraft:underwater_movement",
-      "minecraft:is_baby",
       "minecraft:mark_variant",
-      "minecraft:scale",
       "minecraft:variant"
     ]
   },
@@ -933,6 +932,7 @@
     "identifier": "minecraft:goat",
     "components": [
       "minecraft:movement.jump",
+      "minecraft:ageable",
       "minecraft:lava_movement",
       "minecraft:breathable",
       "minecraft:health",
@@ -943,7 +943,9 @@
       "minecraft:movement.basic",
       "minecraft:is_hidden_when_invisible",
       "minecraft:underwater_movement",
-      "minecraft:can_climb"
+      "minecraft:can_climb",
+      "minecraft:is_baby",
+      "minecraft:scale"
     ]
   },
   {
