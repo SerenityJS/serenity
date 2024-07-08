@@ -18,12 +18,7 @@ import {
 import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
 import { CustomBlockType } from "@serenityjs/block";
-import {
-	BlockComponent,
-	BlockNBTComponent,
-	PlayerStatus
-} from "@serenityjs/world";
-import { CompoundTag } from "@serenityjs/nbt";
+import { PlayerStatus } from "@serenityjs/world";
 
 import { ResourcePack } from "../resource-packs/resource-pack-manager";
 
@@ -128,35 +123,40 @@ class ResourcePackClientResponse extends SerenityHandler {
 				// Set the player as connected
 				player.status = PlayerStatus.Connected;
 
-				// TODO: Rewrite this
 				const blocks: Array<BlockProperties> = CustomBlockType.getAll().map(
 					(type) => {
+						// Get the item type from the block type
 						const item = ItemType.resolve(type) as CustomItemType;
 
-						const nbt = CustomItemType.getBlockProperty(item);
+						// Get the block nbt and item nbt
+						const blockNbt = type.nbt;
+						const itemNbt = CustomItemType.getBlockProperty(item);
 
-						const components = new CompoundTag("components", {});
+						// Add the item block properties to the block type nbt
+						for (const tag of itemNbt.getTags()) blockNbt.addTag(tag);
 
-						for (const component of BlockComponent.registry.get(
-							type.identifier
-						) ?? []) {
-							// Check if the component is an NBT component
-							if (!(component.prototype instanceof BlockNBTComponent)) continue;
+						// const components = new CompoundTag("components", {});
 
-							// Serialize the component
-							const serialized = (
-								component as typeof BlockNBTComponent
-							).serialize() as CompoundTag;
+						// for (const component of BlockComponent.registry.get(
+						// 	type.identifier
+						// ) ?? []) {
+						// 	// Check if the component is an NBT component
+						// 	if (!(component.prototype instanceof BlockNBTComponent)) continue;
 
-							// Add the component to the components
-							components.addTag(serialized);
-						}
+						// 	// Serialize the component
+						// 	const serialized = (
+						// 		component as typeof BlockNBTComponent
+						// 	).serialize() as CompoundTag;
 
-						nbt.addTag(components);
+						// 	// Add the component to the components
+						// 	components.addTag(serialized);
+						// }
+
+						// nbt.addTag(components);
 
 						return {
 							name: item.identifier,
-							nbt
+							nbt: blockNbt
 						};
 					}
 				);

@@ -1,3 +1,5 @@
+import { CompoundTag } from "@serenityjs/nbt";
+
 import { BlockType } from "./type";
 import { BlockPermutation } from "./permutation";
 import { BlockState } from "./types";
@@ -28,12 +30,20 @@ class CustomBlockType extends BlockType {
 	public readonly custom = true;
 
 	/**
+	 * The NBT data of the custom block.
+	 */
+	public readonly nbt: CompoundTag<unknown>;
+
+	/**
 	 * Create a new custom block type.
 	 * @param identifier The identifier of the block type.
 	 * @param loggable Whether the block type is loggable.
 	 */
 	public constructor(identifier: string, loggable: boolean) {
 		super(identifier as keyof BlockState, loggable, false, false, true);
+
+		// Construct the NBT tag.
+		this.nbt = new CompoundTag("", {});
 
 		// Register the block type.
 		BlockType.types.set(identifier, this);

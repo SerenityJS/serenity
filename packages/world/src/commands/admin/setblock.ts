@@ -14,7 +14,8 @@ const register = (world: World) => {
 		"Sets a block at the specified location",
 		(origin, parameters) => {
 			// Get the result of the block, position, and mode
-			const identifier = parameters.block.result as BlockIdentifier;
+			const result = parameters.block.result;
+			const identifier = result.includes(":") ? result : `minecraft:${result}`;
 			const { x, y, z, xSteps, ySteps, zSteps } = parameters.position;
 
 			const state = parameters.state?.result
