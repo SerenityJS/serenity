@@ -14,7 +14,7 @@ import {
 	BlockIdentifier,
 	type BlockType
 } from "@serenityjs/block";
-import { ItemType } from "@serenityjs/item";
+import { ItemIdentifier, ItemType } from "@serenityjs/item";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../item";
@@ -294,6 +294,47 @@ class Block {
 
 		// Create a new ItemStack.
 		return ItemStack.create(type, amount ?? 1, this.permutation.index);
+	}
+
+	/**
+	 * Gets the tool required to break the block.
+	 * @returns The tool required to break the block.
+	 */
+	public getTool(): ItemIdentifier {
+		// Get the tags of the block.
+		const tags = this.getTags().sort((a, b) => b.localeCompare(a));
+
+		// Iterate over the tags.
+		for (const tag of tags) {
+			switch (tag) {
+				case "wooden_axe_diggable": {
+					return ItemIdentifier.WoodenAxe;
+				}
+
+				case "stone_pick_diggable": {
+					return ItemIdentifier.StonePickaxe;
+				}
+
+				case "iron_pick_diggable": {
+					return ItemIdentifier.IronPickaxe;
+				}
+
+				case "golden_pick_diggable": {
+					return ItemIdentifier.GoldenPickaxe;
+				}
+
+				case "diamond_pick_diggable": {
+					return ItemIdentifier.DiamondPickaxe;
+				}
+
+				case "netherite_pick_diggable": {
+					return ItemIdentifier.NetheritePickaxe;
+				}
+			}
+		}
+
+		// Return the default tool.
+		return ItemIdentifier.Air;
 	}
 
 	/**
