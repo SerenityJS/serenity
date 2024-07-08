@@ -69,20 +69,24 @@ class Block {
 	}
 
 	/**
-	 * If the block is air.
+	 * Whether or not the block is air.
 	 */
 	public isAir(): boolean {
-		return this.permutation.type.identifier === BlockIdentifier.Air;
+		return this.permutation.type.air;
 	}
 
 	/**
-	 * If the block is liquid.
+	 * Whether or not the block is liquid.
 	 */
 	public isLiquid(): boolean {
-		return (
-			this.permutation.type.identifier === BlockIdentifier.Water ||
-			this.permutation.type.identifier === BlockIdentifier.Lava
-		);
+		return this.permutation.type.liquid;
+	}
+
+	/**
+	 * Whether or not the block is solid.
+	 */
+	public isSolid(): boolean {
+		return this.permutation.type.solid;
 	}
 
 	/**
@@ -261,6 +265,23 @@ class Block {
 
 		// Return the block.
 		return this;
+	}
+
+	/**
+	 * Gets the tags of the block.
+	 * @returns The tags of the block.
+	 */
+	public getTags(): Array<string> {
+		return this.permutation.type.tags;
+	}
+
+	/**
+	 * Checks if the block has a tag.
+	 * @param tag The tag to check.
+	 * @returns Whether or not the block has the tag.
+	 */
+	public hasTag(tag: string): boolean {
+		return this.permutation.type.tags.includes(tag);
 	}
 
 	/**
