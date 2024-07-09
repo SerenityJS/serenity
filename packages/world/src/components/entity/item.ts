@@ -1,5 +1,7 @@
 import { EntityIdentifier } from "@serenityjs/entity";
 import {
+	ActorEventIds,
+	ActorEventPacket,
 	LevelSoundEvent,
 	LevelSoundEventPacket,
 	TakeItemActorPacket,
@@ -94,9 +96,72 @@ class EntityItemComponent extends EntityComponent {
 		this.pickupTick = this.entity.dimension.world.currentTick;
 	}
 
+	public increment(amount?: number): void {
+		this.itemStack.increment(amount);
+
+		const packet = new ActorEventPacket();
+		packet.eventId = ActorEventIds.ITEM_ENTITY_MERGE;
+		packet.eventData = this.itemStack.amount;
+		packet.actorRuntimeId = this.entity.runtime;
+
+		this.entity.dimension.broadcast(packet);
+	}
+
+	public decrement(amount?: number): void {
+		this.itemStack.decrement(amount);
+
+		const packet = new ActorEventPacket();
+		packet.eventId = ActorEventIds.ITEM_ENTITY_MERGE;
+		packet.eventData = this.itemStack.amount;
+		packet.actorRuntimeId = this.entity.runtime;
+
+		this.entity.dimension.broadcast(packet);
+	}
+
 	public onTick(): void {
 		// Get the current tick
 		const current = this.entity.dimension.world.currentTick;
+
+		// Check if the item is on the ground and the current tick is a multiple of 25
+		if (
+			this.entity.onGround &&
+			this.entity.dimension.world.currentTick % 25n === 0n
+		) {
+			// Get all the item entities in the dimension
+			const entities = this.entity.dimension
+				.getEntities()
+				.filter((x) => x.isItem());
+
+			// Check if there is a existing item stack nearby within a 0.5 block radius
+			for (const entity of entities) {
+				// Check if the entity is the same as the item
+				if (entity === this.entity) continue;
+
+				// Calculate the distance between the entities
+				const distance = entity.position.subtract(this.entity.position);
+
+				// Check if the distance is less than 0.5 blocks
+				if (
+					Math.abs(distance.x) <= 0.75 &&
+					Math.abs(distance.y) <= 0.75 &&
+					Math.abs(distance.z) <= 0.75
+				) {
+					// Get the item component of the entity
+					const component = entity.getComponent(
+						EntityItemComponent.identifier
+					) as EntityItemComponent;
+
+					// Check if the item stacks are the same
+					if (component.itemStack.equals(this.itemStack)) {
+						// Increment the item stack
+						component.increment(this.itemStack.amount);
+
+						// Remove the item from the dimension
+						this.entity.despawn();
+					}
+				}
+			}
+		}
 
 		// Check if there is a target player
 		if (

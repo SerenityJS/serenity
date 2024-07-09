@@ -118,6 +118,20 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	}
 
 	/**
+	 * Checks if the item stack is equal to another item stack.
+	 * @param item The item stack to compare.
+	 * @returns If the item stack is equal to the other item stack.
+	 */
+	public equals(item: ItemStack): boolean {
+		// TODO: Check if the item nbts are equal, and if the item components are equal.
+
+		return (
+			this.type.identifier === item.type.identifier &&
+			this.metadata === item.metadata
+		);
+	}
+
+	/**
 	 * Gets a component from the item.
 	 * @param identifier The identifier of the component.
 	 * @returns The component that was found.
