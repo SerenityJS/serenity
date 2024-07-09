@@ -32,6 +32,16 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	public readonly nbt = new CompoundTag("", {});
 
 	/**
+	 * If the item stack is stackable.
+	 */
+	public readonly stackable = true;
+
+	/**
+	 * The maximum stack size of the item stack.
+	 */
+	public readonly maxStack = 64;
+
+	/**
 	 * The container of the item stack.
 	 */
 	public container: Container | null = null;
@@ -50,6 +60,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	public constructor(identifier: T, amount: number, metadata?: number) {
 		this.type = ItemType.get(identifier) as ItemType<T>;
 		this.metadata = metadata ?? 0;
+		this.stackable = this.type.stackable;
+		this.maxStack = this.type.maxStack;
 		this.amount = amount;
 
 		// Register the type components to the item.
