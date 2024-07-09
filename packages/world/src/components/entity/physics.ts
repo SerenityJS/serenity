@@ -64,11 +64,6 @@ class EntityPhysicsComponent extends EntityComponent {
 			this.entity.velocity.z *= 0.25;
 		}
 
-		// Update the position of the entity based on the velocity
-		// this.entity.position.x += this.entity.velocity.x;
-		// this.entity.position.y += this.entity.velocity.y;
-		// this.entity.position.z += this.entity.velocity.z;
-
 		// Move the entity to the new position
 		this.entity.teleport(this.entity.position);
 

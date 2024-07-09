@@ -395,6 +395,9 @@ class Dimension {
 		// Create a new Entity instance
 		const entity = new Entity(identifier, this);
 
+		// Apply physics to the entity
+		new EntityPhysicsComponent(entity);
+
 		// Register all valid components to the entity
 		for (const identifier of entity.type.components) {
 			// Get the component from the entity component registry
