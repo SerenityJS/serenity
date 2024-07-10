@@ -82,7 +82,8 @@ import type {
 	PlayerSkinPacket,
 	BlockActorDataPacket,
 	AwardAchievementPacket,
-	ServerToClientHandshakePacket
+	ServerToClientHandshakePacket,
+	ClientboundCloseFormPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -197,6 +198,9 @@ interface NetworkEvents {
 	];
 	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
 	[Packet.AwardAchievement]: [NetworkPacketEvent<AwardAchievementPacket>];
+	[Packet.ClientboundCloseForm]: [
+		NetworkPacketEvent<ClientboundCloseFormPacket>
+	];
 }
 
 export { NetworkEvents };

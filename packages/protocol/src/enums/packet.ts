@@ -89,7 +89,8 @@ enum Packet {
 	DeathInfo = 0xbd, // 189
 	RequestNetworkSettings = 0xc1, // 193
 	SetHud = 0x1_34, // 308
-	AwardAchievement = 0x1_35 // 309
+	AwardAchievement = 0x1_35, // 309
+	ClientboundCloseForm = 0x1_36 // 310
 }
 
 export { Packet };

@@ -85,6 +85,7 @@ import { BlockActorDataPacket } from "./block-actor-data";
 import { AwardAchievementPacket } from "./award-achievement";
 import { ServerToClientHandshakePacket } from "./server-to-client-handshake";
 import { DeathInfoPacket } from "./death-info";
+import { ClientboundCloseFormPacket } from "./clientbound-close-form";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -169,7 +170,8 @@ const Packets = {
 	[Packet.DeathInfo]: DeathInfoPacket, // 189
 	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
 	[Packet.SetHud]: SetHudPacket, // 308
-	[Packet.AwardAchievement]: AwardAchievementPacket // 309
+	[Packet.AwardAchievement]: AwardAchievementPacket, // 309
+	[Packet.ClientboundCloseForm]: ClientboundCloseFormPacket // 310
 };
 
 export { Packets };

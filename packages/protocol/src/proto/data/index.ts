@@ -88,3 +88,4 @@ export * from "./resource-pack-chunk-request";
 export * from "./transfer";
 export * from "./set-hud";
 export * from "./award-achievement";
+export * from "./clientbound-close-form";

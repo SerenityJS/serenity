@@ -1,4 +1,5 @@
 import {
+	ClientboundCloseFormPacket,
 	ModalFormCanceledReason,
 	ModalFormRequestPacket,
 	Packet
@@ -87,6 +88,18 @@ class Form<T> {
 			// Add the promise to the pending map
 			Form.pending.set(this.network, { resolve, reject });
 		});
+	}
+
+	/**
+	 * Close the form for the player
+	 * @param player The player to close the form for
+	 */
+	public close(player: Player): void {
+		// Create a new ClientboundCloseFormPacket
+		const packet = new ClientboundCloseFormPacket();
+
+		// Send the packet to the player
+		player.session.send(packet);
 	}
 }
 

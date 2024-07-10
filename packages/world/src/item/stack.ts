@@ -32,6 +32,16 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	public readonly nbt = new CompoundTag("", {});
 
 	/**
+	 * If the item stack is stackable.
+	 */
+	public readonly stackable = true;
+
+	/**
+	 * The maximum stack size of the item stack.
+	 */
+	public readonly maxStack = 64;
+
+	/**
 	 * The container of the item stack.
 	 */
 	public container: Container | null = null;
@@ -50,6 +60,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	public constructor(identifier: T, amount: number, metadata?: number) {
 		this.type = ItemType.get(identifier) as ItemType<T>;
 		this.metadata = metadata ?? 0;
+		this.stackable = this.type.stackable;
+		this.maxStack = this.type.maxStack;
 		this.amount = amount;
 
 		// Register the type components to the item.
@@ -103,6 +115,20 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 */
 	public increment(amount?: number): void {
 		this.setAmount(this.amount + (amount ?? 1));
+	}
+
+	/**
+	 * Checks if the item stack is equal to another item stack.
+	 * @param item The item stack to compare.
+	 * @returns If the item stack is equal to the other item stack.
+	 */
+	public equals(item: ItemStack): boolean {
+		// TODO: Check if the item nbts are equal, and if the item components are equal.
+
+		return (
+			this.type.identifier === item.type.identifier &&
+			this.metadata === item.metadata
+		);
 	}
 
 	/**
