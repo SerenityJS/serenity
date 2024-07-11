@@ -4,9 +4,11 @@ import type {
 	EntityBoundingHeightComponent,
 	EntityBoundingWidthComponent,
 	EntityBreathingComponent,
+	EntityEffectsComponent,
 	EntityHasGravityComponent,
 	EntityHealthComponent,
 	EntityInventoryComponent,
+	EntityIsVisibleComponent,
 	EntityItemComponent,
 	EntityNametagComponent,
 	EntityPhysicsComponent,
@@ -33,6 +35,7 @@ interface EntityMetadataComponents {
 	"minecraft:scale": EntityScaleComponent;
 	"minecraft:item": EntityItemComponent;
 	"minecraft:physics": EntityPhysicsComponent;
+	"minecraft:is_visible": EntityIsVisibleComponent;
 }
 
 /**
@@ -43,6 +46,7 @@ interface EntityComponents
 		EntityMetadataComponents {
 	"minecraft:inventory": EntityInventoryComponent;
 	"minecraft:armor": EntityArmorComponent;
+	"minecraft:effects": EntityEffectsComponent;
 }
 
 export {

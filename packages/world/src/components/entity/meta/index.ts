@@ -10,3 +10,4 @@ export * from "./scale";
 export * from "./bounding-height";
 export * from "./bounding-width";
 export * from "./skin-id";
+export * from "./visible";

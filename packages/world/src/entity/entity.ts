@@ -6,6 +6,7 @@ import {
 	Attribute,
 	type AttributeName,
 	ChunkCoords,
+	type EffectType,
 	MetadataDictionary,
 	type MetadataFlags,
 	MetadataKey,
@@ -22,9 +23,15 @@ import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { CardinalDirection } from "../enums";
-import { EntityComponent } from "../components";
+import {
+	EntityComponent,
+	EntityEffectsComponent,
+	EntityHealthComponent,
+	EntityNametagComponent
+} from "../components";
 import { ItemStack } from "../item";
 
+import type { Effect } from "../effect/effect";
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
 import type { Dimension, World } from "../world";
@@ -52,6 +59,7 @@ import type { EntityComponents } from "../types/components";
 	entity.spawn();
  * ```
  */
+
 class Entity {
 	/**
 	 * The running total of the entity runtime id.
@@ -674,6 +682,17 @@ class Entity {
 	}
 
 	/**
+	 * Set's if the entity is visible to other's
+	 * @param visibility the value of the entity visibility
+	 */
+	public setVisibility(visibility: boolean): void {
+		const isVisibleComponent = this.getComponent("minecraft:is_visible");
+
+		if (isVisibleComponent.getCurrentValue() == !visibility) return;
+		isVisibleComponent.setCurrentValue(!visibility, true);
+	}
+
+	/**
 	 * Syncs the attributes of the entity.
 	 */
 	public syncAttributes(): void {
@@ -788,6 +807,120 @@ class Entity {
 		this.attributes.delete(attribute);
 
 		if (sync) this.syncAttributes();
+	}
+
+	/**
+	 * Adds effect to the player
+	 * @param effect The effect to add to the player
+	 */
+	public addEffect(effect: Effect): void {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+		effects.add(effect);
+	}
+
+	/**
+	 * Removes effect to the player
+	 * @param effectType The effect type to remove, if not provided clears all effects
+	 * @returns boolean If the effect was removed
+	 */
+	public removeEffect(effectType: EffectType): boolean {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+		return effects.remove(effectType);
+	}
+
+	/**
+	 * Querys if the player has an effect
+	 * @param effectType The effect type to query
+	 * @returns boolean If the effect was found
+	 */
+	public hasEffect(effectType: EffectType): boolean {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+
+		return effects.has(effectType);
+	}
+
+	/**
+	 * Get's all the effects that the player has
+	 * @returns EffectType[] The effect list of the player
+	 */
+	public getEffects(): Array<EffectType> {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+		return [...effects.effects.keys()];
+	}
+
+	/**
+	 * Gets the health of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:health` component, if not will result in an `error`.
+	 * @returns The health of the entity.
+	 */
+	public getHealth(): number {
+		// Check if the entity has a health component
+		if (!this.hasComponent("minecraft:health"))
+			throw new Error("The entity does not have a health component.");
+
+		// Get the health component
+		const health = this.getComponent("minecraft:health");
+
+		// Return the current health value
+		return health.getCurrentValue();
+	}
+
+	/**
+	 * Sets the health of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:health` component, if the component does not exist it will be created.
+	 * @param health The health to set.
+	 */
+	public setHealth(health: number): void {
+		// Check if the entity has a health component
+		if (!this.hasComponent("minecraft:health")) new EntityHealthComponent(this);
+
+		// Get the health component
+		const healthComponent = this.getComponent("minecraft:health");
+
+		// Set the health value
+		healthComponent.setCurrentValue(health);
+	}
+
+	/**
+	 * Geta the nametag of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if not will result in an `error`.
+	 * @returns The nametag of the entity.
+	 */
+	public getNametag(): string {
+		// Check if the entity has a nametag component
+		if (!this.hasComponent("minecraft:nametag"))
+			throw new Error("The entity does not have a nametag component.");
+
+		// Get the nametag component
+		const nametag = this.getComponent("minecraft:nametag");
+
+		// Return the current nametag value
+		return nametag.getCurrentValue();
+	}
+
+	/**
+	 * Sets the nametag of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if the component does not exist it will be created.
+	 * @param nametag The nametag to set.
+	 */
+	public setNametag(nametag: string): void {
+		// Check if the entity has a nametag component
+		if (!this.hasComponent("minecraft:nametag"))
+			new EntityNametagComponent(this);
+
+		// Get the nametag component
+		const nametagComponent = this.getComponent("minecraft:nametag");
+
+		// Set the nametag value
+		nametagComponent.setCurrentValue(nametag);
 	}
 
 	/**

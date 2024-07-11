@@ -28,6 +28,24 @@ class EntityNametagComponent extends EntityMetadataComponent {
 		// Set the entity to have a nametag
 		this.setCurrentValue(this.defaultValue, false);
 	}
+
+	/**
+	 * Gets the current value of the entity nametag component.
+	 * @returns The current value of the entity nametag component.
+	 */
+	public getCurrentValue(): string {
+		return super.getCurrentValue() as string;
+	}
+
+	/**
+	 * Sets the current value of the entity nametag component.
+	 *
+	 * @param value The new value of the entity nametag component.
+	 * @param sync Whether to synchronize the entity nametag component.
+	 */
+	public setCurrentValue(value: string, sync?: boolean): void {
+		super.setCurrentValue(value, sync);
+	}
 }
 
 export { EntityNametagComponent };
