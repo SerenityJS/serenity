@@ -6,6 +6,7 @@ import {
 	Attribute,
 	type AttributeName,
 	ChunkCoords,
+	type EffectType,
 	MetadataDictionary,
 	type MetadataFlags,
 	MetadataKey,
@@ -22,9 +23,10 @@ import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { CardinalDirection } from "../enums";
-import { EntityComponent } from "../components";
+import { EntityComponent, EntityEffectsComponent } from "../components";
 import { ItemStack } from "../item";
 
+import type { Effect } from "../effect/effect";
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
 import type { Dimension, World } from "../world";
@@ -52,6 +54,7 @@ import type { EntityComponents } from "../types/components";
 	entity.spawn();
  * ```
  */
+
 class Entity {
 	/**
 	 * The running total of the entity runtime id.
@@ -674,6 +677,17 @@ class Entity {
 	}
 
 	/**
+	 * Set's if the entity is visible to other's
+	 * @param visibility the value of the entity visibility
+	 */
+	public setVisibility(visibility: boolean): void {
+		const isVisibleComponent = this.getComponent("minecraft:is_visible");
+
+		if (isVisibleComponent.getCurrentValue() == !visibility) return;
+		isVisibleComponent.setCurrentValue(!visibility, true);
+	}
+
+	/**
 	 * Syncs the attributes of the entity.
 	 */
 	public syncAttributes(): void {
@@ -788,6 +802,53 @@ class Entity {
 		this.attributes.delete(attribute);
 
 		if (sync) this.syncAttributes();
+	}
+
+	/**
+	 * Adds effect to the player
+	 * @param effect The effect to add to the player
+	 */
+	public addEffect(effect: Effect): void {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+		effects.add(effect);
+	}
+
+	/**
+	 * Removes effect to the player
+	 * @param effectType The effect type to remove, if not provided clears all effects
+	 * @returns boolean If the effect was removed
+	 */
+	public removeEffect(effectType: EffectType): boolean {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+		return effects.remove(effectType);
+	}
+
+	/**
+	 * Querys if the player has an effect
+	 * @param effectType The effect type to query
+	 * @returns boolean If the effect was found
+	 */
+	public hasEffect(effectType: EffectType): boolean {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+
+		return effects.has(effectType);
+	}
+
+	/**
+	 * Get's all the effects that the player has
+	 * @returns EffectType[] The effect list of the player
+	 */
+	public getEffects(): Array<EffectType> {
+		const effects = this.hasComponent("minecraft:effects")
+			? this.getComponent("minecraft:effects")
+			: new EntityEffectsComponent(this);
+		return [...effects.effects.keys()];
 	}
 
 	/**

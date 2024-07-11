@@ -84,6 +84,7 @@ import type {
 	AwardAchievementPacket,
 	ServerToClientHandshakePacket,
 	ClientboundCloseFormPacket,
+	MobEffectPacket,
 	SetPlayerInventoryOptionsPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
@@ -121,6 +122,7 @@ interface NetworkEvents {
 		NetworkPacketEvent<InventoryTransactionPacket>
 	];
 	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipmentPacket>];
+	[Packet.MobEffect]: [NetworkPacketEvent<MobEffectPacket>];
 	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];

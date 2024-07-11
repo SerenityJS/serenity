@@ -90,3 +90,4 @@ export * from "./set-player-inventory-options";
 export * from "./set-hud";
 export * from "./award-achievement";
 export * from "./clientbound-close-form";
+export * from "./mob-effect";
