@@ -29,7 +29,7 @@ interface BlockPermutations {
 interface ItemTypes {
 	identifier: string;
 	stackable: boolean;
-	maxStack: number;
+	maxAmount: number;
 }
 
 interface EntityTypes {
