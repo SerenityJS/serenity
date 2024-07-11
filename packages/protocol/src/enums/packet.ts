@@ -22,6 +22,7 @@ enum Packet {
 	UpdateBlock = 0x15, // 21
 	LevelEvent = 0x19, // 25
 	ActorEvent = 0x1b, // 27
+	MobEffect = 0x1c, // 28
 	// TickSync = 0x17, // 23
 	UpdateAttributes = 0x1d, // 29
 	InventoryTransaction = 0x1e, // 30

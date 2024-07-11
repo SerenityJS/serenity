@@ -83,7 +83,8 @@ import type {
 	BlockActorDataPacket,
 	AwardAchievementPacket,
 	ServerToClientHandshakePacket,
-	ClientboundCloseFormPacket
+	ClientboundCloseFormPacket,
+	MobEffectPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -120,6 +121,7 @@ interface NetworkEvents {
 		NetworkPacketEvent<InventoryTransactionPacket>
 	];
 	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipmentPacket>];
+	[Packet.MobEffect]: [NetworkPacketEvent<MobEffectPacket>]
 	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
@@ -202,5 +204,6 @@ interface NetworkEvents {
 		NetworkPacketEvent<ClientboundCloseFormPacket>
 	];
 }
+
 
 export { NetworkEvents };
