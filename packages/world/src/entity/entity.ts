@@ -26,7 +26,8 @@ import { CardinalDirection } from "../enums";
 import {
 	EntityComponent,
 	EntityEffectsComponent,
-	EntityHealthComponent
+	EntityHealthComponent,
+	EntityNametagComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -886,6 +887,40 @@ class Entity {
 
 		// Set the health value
 		healthComponent.setCurrentValue(health);
+	}
+
+	/**
+	 * Geta the nametag of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if not will result in an `error`.
+	 * @returns The nametag of the entity.
+	 */
+	public getNametag(): string {
+		// Check if the entity has a nametag component
+		if (!this.hasComponent("minecraft:nametag"))
+			throw new Error("The entity does not have a nametag component.");
+
+		// Get the nametag component
+		const nametag = this.getComponent("minecraft:nametag");
+
+		// Return the current nametag value
+		return nametag.getCurrentValue();
+	}
+
+	/**
+	 * Sets the nametag of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if the component does not exist it will be created.
+	 * @param nametag The nametag to set.
+	 */
+	public setNametag(nametag: string): void {
+		// Check if the entity has a nametag component
+		if (!this.hasComponent("minecraft:nametag"))
+			new EntityNametagComponent(this);
+
+		// Get the nametag component
+		const nametagComponent = this.getComponent("minecraft:nametag");
+
+		// Set the nametag value
+		nametagComponent.setCurrentValue(nametag);
 	}
 
 	/**
