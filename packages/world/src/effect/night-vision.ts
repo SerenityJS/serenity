@@ -4,8 +4,8 @@ import { Effect } from "./effect";
 
 import type { Entity } from "../entity";
 
-class NauseasEffect<T extends Entity> extends Effect {
-	public effectType: EffectType = EffectType.Nausea;
+class NightVisionEffect<T extends Entity> extends Effect {
+	public effectType: EffectType = EffectType.NightVision;
 
 	public onTick?(entity: T): void;
 
@@ -14,4 +14,4 @@ class NauseasEffect<T extends Entity> extends Effect {
 	public onRemove?(entity: T): void;
 }
 
-export { NauseasEffect };
+export { NightVisionEffect };

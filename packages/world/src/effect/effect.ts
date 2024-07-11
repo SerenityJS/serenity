@@ -1,35 +1,39 @@
-import { EffectType } from "@serenityjs/protocol";
-import { Entity } from "../entity";
+import type { EffectType } from "@serenityjs/protocol";
+import type { Entity } from "../entity";
 
 abstract class Effect {
-  public abstract readonly effectType: EffectType;
-  public readonly instant: boolean = false;
-  public duration: number;
-  public amplifier: number;
-  public showParticles: boolean;
-  // TODO: Effect Color & Particle
-  protected color: void = undefined;
+	public abstract readonly effectType: EffectType;
+	public readonly instant: boolean = false;
+	public duration: number;
+	public amplifier: number;
+	public showParticles: boolean;
+	// TODO: Effect Color & Particle
+	protected color: undefined = undefined;
 
-  constructor(duration: number, amplifier: number, showParticles: boolean) {
-    this.duration = this.instant ? 0 : duration;
-    this.amplifier = amplifier;
-    this.showParticles = showParticles;
-  }
+	public constructor(
+		duration: number,
+		amplifier: number,
+		showParticles: boolean
+	) {
+		this.duration = this.instant ? 0 : duration;
+		this.amplifier = amplifier;
+		this.showParticles = showParticles;
+	}
 
-  /*   static resolve(effectType: EffectType): Effect | undefined {} */
+	/*   static resolve(effectType: EffectType): Effect | undefined {} */
 
-  public get isExpired() {
-    return this.duration <= 0;
-  }
+	public get isExpired() {
+		return this.duration <= 0;
+	}
 
-  internalTick(entity: Entity): void {
-    this.duration -= 2; // 1 second = 40 ticks ???
-    this.onTick?.(entity);
-  }
+	public internalTick(entity: Entity): void {
+		this.duration -= 2; // 1 second = 40 ticks ???
+		this.onTick?.(entity);
+	}
 
-  abstract onTick?(entity: Entity): void;
-  abstract onAdd?(entity: Entity): void;
-  abstract onRemove?(entity: Entity): void;
+	public abstract onTick?(entity: Entity): void;
+	public abstract onAdd?(entity: Entity): void;
+	public abstract onRemove?(entity: Entity): void;
 }
 
 export { Effect };

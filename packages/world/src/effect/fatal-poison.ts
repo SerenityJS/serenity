@@ -8,12 +8,16 @@ import { Effect } from "./effect";
 
 import type { Entity } from "../entity";
 
-class WitherEffect<T extends Entity> extends Effect {
-	public effectType: EffectType = EffectType.Wither;
+class FatalPoisonEffect<T extends Entity> extends Effect {
+	public effectType: EffectType = EffectType.FatalPoison;
 	public instant: boolean = false;
 
+	// Equals to Poison + Wither??????
 	public onTick?(entity: T): void {
-		const ticksPerSecond = Math.max(40 / Math.pow(2, this.amplifier - 1), 10);
+		let ticksPerSecond = Math.floor(
+			Math.max(25 * Math.pow(0.5, this.amplifier - 1), 12)
+		);
+		ticksPerSecond = Math.min(ticksPerSecond, 10);
 
 		if (Number(entity.dimension.world.currentTick) % ticksPerSecond != 0)
 			return;
@@ -32,9 +36,9 @@ class WitherEffect<T extends Entity> extends Effect {
 		entityHealth.decreaseValue(1);
 	}
 
-	public onAdd?(entity: T): void;
+	public onAdd?(_entity: T): void {}
 
-	public onRemove?(entity: T): void;
+	public onRemove?(_entity: T): void {}
 }
 
-export { WitherEffect };
+export { FatalPoisonEffect };
