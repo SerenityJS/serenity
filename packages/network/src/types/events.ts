@@ -83,7 +83,8 @@ import type {
 	BlockActorDataPacket,
 	AwardAchievementPacket,
 	ServerToClientHandshakePacket,
-	ClientboundCloseFormPacket
+	ClientboundCloseFormPacket,
+	SetPlayerInventoryOptionsPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -195,6 +196,9 @@ interface NetworkEvents {
 	[Packet.DeathInfo]: [NetworkPacketEvent<DeathInfoPacket>];
 	[Packet.RequestNetworkSettings]: [
 		NetworkPacketEvent<RequestNetworkSettingsPacket>
+	];
+	[Packet.SetPlayerInventoryOptions]: [
+		NetworkPacketEvent<SetPlayerInventoryOptionsPacket>
 	];
 	[Packet.SetHud]: [NetworkPacketEvent<SetHudPacket>];
 	[Packet.AwardAchievement]: [NetworkPacketEvent<AwardAchievementPacket>];

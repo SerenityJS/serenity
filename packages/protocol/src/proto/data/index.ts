@@ -86,6 +86,7 @@ export * from "./resource-pack-data-info";
 export * from "./resource-pack-chunk-data";
 export * from "./resource-pack-chunk-request";
 export * from "./transfer";
+export * from "./set-player-inventory-options";
 export * from "./set-hud";
 export * from "./award-achievement";
 export * from "./clientbound-close-form";

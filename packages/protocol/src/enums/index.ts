@@ -60,3 +60,6 @@ export * from "./npc-dialogue-action";
 export * from "./actor-event-id";
 export * from "./emote-flag";
 export * from "./equipment-slot";
+export * from "./inventory-layout";
+export * from "./inventory-left-tab";
+export * from "./inventory-right-tab";
