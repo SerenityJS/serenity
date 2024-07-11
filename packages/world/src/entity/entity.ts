@@ -23,7 +23,11 @@ import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { CardinalDirection } from "../enums";
-import { EntityComponent, EntityEffectsComponent } from "../components";
+import {
+	EntityComponent,
+	EntityEffectsComponent,
+	EntityHealthComponent
+} from "../components";
 import { ItemStack } from "../item";
 
 import type { Effect } from "../effect/effect";
@@ -849,6 +853,39 @@ class Entity {
 			? this.getComponent("minecraft:effects")
 			: new EntityEffectsComponent(this);
 		return [...effects.effects.keys()];
+	}
+
+	/**
+	 * Gets the health of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:health` component, if not will result in an `error`.
+	 * @returns The health of the entity.
+	 */
+	public getHealth(): number {
+		// Check if the entity has a health component
+		if (!this.hasComponent("minecraft:health"))
+			throw new Error("The entity does not have a health component.");
+
+		// Get the health component
+		const health = this.getComponent("minecraft:health");
+
+		// Return the current health value
+		return health.getCurrentValue();
+	}
+
+	/**
+	 * Sets the health of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:health` component, if the component does not exist it will be created.
+	 * @param health The health to set.
+	 */
+	public setHealth(health: number): void {
+		// Check if the entity has a health component
+		if (!this.hasComponent("minecraft:health")) new EntityHealthComponent(this);
+
+		// Get the health component
+		const healthComponent = this.getComponent("minecraft:health");
+
+		// Set the health value
+		healthComponent.setCurrentValue(health);
 	}
 
 	/**
