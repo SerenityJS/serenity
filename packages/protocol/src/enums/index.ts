@@ -62,3 +62,6 @@ export * from "./emote-flag";
 export * from "./equipment-slot";
 export * from "./effect-type";
 export * from "./mob-effect-events";
+export * from "./inventory-layout";
+export * from "./inventory-left-tab";
+export * from "./inventory-right-tab";

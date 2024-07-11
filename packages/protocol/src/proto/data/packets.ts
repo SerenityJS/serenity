@@ -85,6 +85,7 @@ import { BlockActorDataPacket } from "./block-actor-data";
 import { AwardAchievementPacket } from "./award-achievement";
 import { ServerToClientHandshakePacket } from "./server-to-client-handshake";
 import { DeathInfoPacket } from "./death-info";
+import { SetPlayerInventoryOptionsPacket } from "./set-player-inventory-options";
 import { ClientboundCloseFormPacket } from "./clientbound-close-form";
 import { MobEffectPacket } from "./mob-effect";
 
@@ -171,6 +172,7 @@ const Packets = {
   [Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
   [Packet.DeathInfo]: DeathInfoPacket, // 189
   [Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
+  [Packet.SetPlayerInventoryOptions]: SetPlayerInventoryOptionsPacket, // 307
   [Packet.SetHud]: SetHudPacket, // 308
   [Packet.AwardAchievement]: AwardAchievementPacket, // 309
   [Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310
