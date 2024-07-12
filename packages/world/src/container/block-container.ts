@@ -98,37 +98,51 @@ class BlockContainer extends Container {
 		const slot = this.storage.findIndex((slot) => {
 			if (slot === null) return false;
 
-			return slot.type === item.type && slot.amount < 64;
+			return slot.type === item.type && slot.amount < item.maxAmount;
 		});
 
-		// Check if there was not existing slot available.
-		if (slot === -1) {
-			// Find the next empty slot.
-			const emptySlot = this.storage.indexOf(null);
+		// Check if the item is maxed.
+		const maxed = item.amount >= item.maxAmount;
 
-			// Check if there is an empty slot.
-			if (emptySlot === -1) return;
-
-			// Set the item in the empty slot.
-			this.setItem(emptySlot, item);
-		} else {
-			// Get the existing item.
+		// Check if exists an available slot
+		if (slot > -1 && !maxed && item.stackable) {
+			// Get the item if slot available
 			const existingItem = this.storage[slot] as ItemStack;
 
 			// Calculate the amount of items to add.
-			const amount = Math.min(64 - existingItem.amount, item.amount);
+			const amount = Math.min(
+				item.maxAmount - existingItem.amount,
+				item.amount
+			);
 
 			// Add the amount to the existing item.
 			existingItem.increment(amount);
 
 			// Subtract the amount from the item.
 			item.decrement(amount);
+		} else {
+			// Find the next empty slot.
+			const emptySlot = this.storage.indexOf(null);
 
-			// Check if there is ramaining amount.
-			if (item.amount > 0) {
-				// Add the remaining amount to the container.
-				this.addItem(item);
+			// Check if there is an empty slot.
+			if (emptySlot === -1) return;
+			if (item.amount > item.maxAmount) {
+				// Create a full stack item for the empty slot
+				const newItem = new ItemStack(
+					item.type.identifier,
+					item.maxAmount,
+					item.metadata
+				);
+
+				// Add the new Item and decrease it
+				this.setItem(emptySlot, newItem);
+				item.decrement(item.maxAmount);
+
+				// Because it is greater than 64 call the function to add the remaining items
+				return this.addItem(item);
 			}
+			// Set the item in the empty slot.
+			this.setItem(emptySlot, item);
 		}
 	}
 

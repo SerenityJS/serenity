@@ -34,12 +34,12 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	/**
 	 * If the item stack is stackable.
 	 */
-	public readonly stackable = true;
+	public readonly stackable: boolean;
 
 	/**
 	 * The maximum stack size of the item stack.
 	 */
-	public readonly maxStack = 64;
+	public readonly maxAmount: number;
 
 	/**
 	 * The container of the item stack.
@@ -61,7 +61,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		this.type = ItemType.get(identifier) as ItemType<T>;
 		this.metadata = metadata ?? 0;
 		this.stackable = this.type.stackable;
-		this.maxStack = this.type.maxStack;
+		this.maxAmount = this.type.maxAmount;
 		this.amount = amount;
 
 		// Register the type components to the item.
