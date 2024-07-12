@@ -1,23 +1,26 @@
 import { DataType } from "@serenityjs/raknet";
 
 /**
- * A 3D vector with floating point precision.
- *
+ * ARGB Color class that
+ * Ranges from 0-255
  */
 class Color extends DataType {
+	/**
+	 * The alpha value of the color
+	 */
 	public alpha: number;
 	/**
-	 * The x coordinate of the vector.
+	 * The red amount of the color
 	 */
 	public red: number;
 
 	/**
-	 * The y coordinate of the vector.
+	 * The red amount of the color
 	 */
 	public green: number;
 
 	/**
-	 * The z coordinate of the vector.
+	 * The blue amount of the color
 	 */
 	public blue: number;
 
@@ -36,6 +39,12 @@ class Color extends DataType {
 		this.blue = blue & 0xff;
 	}
 
+	/**
+	 * Creates a new color based on 2 colors
+	 * @param color1 First color to mix
+	 * @param color2 Second color to mix
+	 * @returns Color The resulting color
+	 */
 	public static mix(color1: Color, color2: Color): Color {
 		const a = Math.round((color1.alpha + color2.alpha) / 2);
 		const r = Math.round((color1.red + color2.red) / 2);
@@ -45,11 +54,21 @@ class Color extends DataType {
 		return new Color(a, r, g, b);
 	}
 
+	/**
+	 * Returns the serialized color
+	 * @returns number The serialzed color
+	 */
 	public toInt(): number {
 		return (
 			(this.alpha << 24) | (this.red << 16) | (this.green << 8) | this.blue
 		);
 	}
+
+	/**
+	 * Gets an color from the serialized color number
+	 * @param color number The serialized color to deserialize
+	 * @returns Color
+	 */
 
 	public static fromInt(color: number): Color {
 		const alpha = (color >> 24) & 0xff;
