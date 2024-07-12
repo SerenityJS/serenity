@@ -42,6 +42,8 @@ class EntityItemComponent extends EntityComponent {
 	 */
 	protected target: Player | null = null;
 
+	protected merging = false;
+
 	/**
 	 * Creates a new entity inventory component.
 	 *
@@ -125,7 +127,8 @@ class EntityItemComponent extends EntityComponent {
 		// Check if the item is on the ground and the current tick is a multiple of 25
 		if (
 			this.entity.onGround &&
-			this.entity.dimension.world.currentTick % 25n === 0n
+			this.entity.dimension.world.currentTick % 25n === 0n &&
+			this.pickupTick === null
 		) {
 			// Get all the item entities in the dimension
 			const entities = this.entity.dimension
@@ -133,7 +136,14 @@ class EntityItemComponent extends EntityComponent {
 				.filter((x) => x.isItem());
 
 			// Check if there is a existing item stack nearby within a 0.5 block radius
-			for (const entity of entities) {
+			for (const [index, entity] of entities.entries()) {
+				// Continue if the item is being merged
+				if (this.merging && index !== entities.length - 1) continue;
+				// Check if the item is being merged and the entity is the last item
+				else if (this.merging && index === entities.length - 1)
+					// Set merging to false as its done
+					this.merging = false;
+
 				// Check if the entity is the same as the item
 				if (entity === this.entity) continue;
 
@@ -147,18 +157,21 @@ class EntityItemComponent extends EntityComponent {
 					Math.abs(distance.z) <= 0.75
 				) {
 					// Get the item component of the entity
-					const component = entity.getComponent(
-						EntityItemComponent.identifier
-					) as EntityItemComponent;
+					const component = entity.getComponent(EntityItemComponent.identifier);
+					const existingItem = component.itemStack;
+
+					// Check if the existing item stack is full
+					if (existingItem.amount >= existingItem.maxAmount) continue;
 
 					// Check if the item stacks are the same
-					if (component.itemStack.equals(this.itemStack)) {
-						// Increment the item stack
-						component.increment(this.itemStack.amount);
+					if (!existingItem.equals(this.itemStack)) continue;
 
-						// Remove the item from the dimension
-						this.entity.despawn();
-					}
+					// Increment the item stack and despawn the existing item
+					this.increment(existingItem.amount);
+					component.entity.despawn();
+
+					// Set merging to true
+					this.merging = true;
 				}
 			}
 		}
