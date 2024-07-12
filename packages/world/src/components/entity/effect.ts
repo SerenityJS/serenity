@@ -37,7 +37,9 @@ class EntityEffectsComponent extends EntityComponent {
 				0n
 			) {
 				// Get all the effects
-				const effects = [...this.effects.values()];
+				const effects = [...this.effects.values()].filter(
+					(effect) => effect.showParticles
+				);
 				// Select randomly an effect
 				const randomEffect =
 					effects[Math.floor(Math.random() * effects.length)];
