@@ -13,3 +13,5 @@ export * from "./blindness";
 export * from "./darkness";
 export * from "./night-vision";
 export * from "./regeneration";
+export * from "./saturation";
+export * from "./hunger";

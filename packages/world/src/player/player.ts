@@ -60,7 +60,10 @@ import {
 	PlayerWorldBuilderComponent,
 	EntityComponent,
 	PlayerEntityRenderingComponent,
-	EntitySkinIDComponent
+	EntitySkinIDComponent,
+	PlayerHungerComponent,
+	PlayerExhaustionComponent,
+	PlayerSaturationComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -646,6 +649,9 @@ EntityArmorComponent.register(type);
 EntitySkinIDComponent.register(type);
 PlayerBuildComponent.register(type);
 PlayerMineComponent.register(type);
+PlayerSaturationComponent.register(type);
+PlayerExhaustionComponent.register(type);
+PlayerHungerComponent.register(type);
 PlayerDoorsAndSwitchesComponent.register(type);
 PlayerOpenContainersComponent.register(type);
 PlayerAttackPlayersComponent.register(type);

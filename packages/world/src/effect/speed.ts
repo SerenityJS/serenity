@@ -1,4 +1,4 @@
-import { AttributeName, EffectType } from "@serenityjs/protocol";
+import { AttributeName, Color, EffectType } from "@serenityjs/protocol";
 
 import { Effect } from "./effect";
 
@@ -6,7 +6,7 @@ import type { Entity } from "../entity";
 
 class SpeedEffect<T extends Entity> extends Effect {
 	public effectType: EffectType = EffectType.Speed;
-
+	public color: Color = new Color(255, 124, 175, 198);
 	public onTick?(entity: T): void;
 
 	public onAdd?(entity: T): void {

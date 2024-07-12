@@ -1,7 +1,10 @@
 import {
 	type EffectType,
+	LevelEvent,
+	LevelEventPacket,
 	MobEffectEvents,
-	MobEffectPacket
+	MobEffectPacket,
+	Vector3f
 } from "@serenityjs/protocol";
 
 import { EntityComponent } from "./entity-component";
@@ -27,8 +30,33 @@ class EntityEffectsComponent extends EntityComponent {
 				this.effects.delete(effectType);
 				continue;
 			}
+			// Spawn a particle every 1s
+			if (
+				this.entity.dimension.world.currentTick %
+					(this.effects.size > 1 ? 8n : 2n) ==
+				0n
+			) {
+				// Get all the effects
+				const effects = [...this.effects.values()];
+				// Select randomly an effect
+				const randomEffect =
+					effects[Math.floor(Math.random() * effects.length)];
+
+				// Show it.
+				if (randomEffect) this.showParticles(randomEffect);
+			}
 			effect.internalTick(this.entity);
 		}
+	}
+
+	private showParticles(effect: Effect): void {
+		const packet = new LevelEventPacket();
+		// Potion Effect Particle
+		packet.event = LevelEvent.ParticleLegacyEvent | 34;
+		packet.data = effect.color.toInt();
+		packet.position = this.entity.position.subtract(new Vector3f(0, 1, 0));
+
+		this.entity.dimension.broadcast(packet);
 	}
 
 	/**
