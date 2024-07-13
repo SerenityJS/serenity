@@ -1,7 +1,9 @@
 import {
 	ActorEventIds,
 	ActorEventPacket,
-	EffectType
+	Color,
+	EffectType,
+	Gamemode
 } from "@serenityjs/protocol";
 
 import { Effect } from "./effect";
@@ -11,6 +13,7 @@ import type { Entity } from "../entity";
 class FatalPoisonEffect<T extends Entity> extends Effect {
 	public effectType: EffectType = EffectType.FatalPoison;
 	public instant: boolean = false;
+	public color: Color = new Color(255, 78, 147, 49);
 
 	// Equals to Poison + Wither??????
 	public onTick?(entity: T): void {
@@ -23,6 +26,7 @@ class FatalPoisonEffect<T extends Entity> extends Effect {
 			return;
 		const entityHealth = entity.getComponent("minecraft:health");
 
+		if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
 		if (!entity.isAlive) {
 			this.duration = 0;
 			return;
