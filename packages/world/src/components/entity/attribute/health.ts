@@ -121,22 +121,7 @@ class EntityHealthComponent extends EntityAttributeComponent {
 		}
 	}
 
-	public onTick(): void {
-		if (!this.entity.isPlayer()) return;
-
-		// Check if the player is in creative mode & the health is at the maximum value
-		if (
-			this.entity.gamemode === Gamemode.Creative ||
-			this.getCurrentValue() === this.effectiveMax
-		)
-			return;
-
-		// Check if the current tick is a multiple of 80 (4 seconds)
-		if (this.entity.dimension.world.currentTick % 80n !== 0n) return;
-
-		// Increase the health of the entity
-		this.increaseValue(1);
-	}
+	public onTick(): void {}
 }
 
 export { EntityHealthComponent };

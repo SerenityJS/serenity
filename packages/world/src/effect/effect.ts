@@ -1,4 +1,5 @@
-import type { EffectType } from "@serenityjs/protocol";
+import { Color, type EffectType } from "@serenityjs/protocol";
+
 import type { Entity } from "../entity";
 
 abstract class Effect {
@@ -8,7 +9,7 @@ abstract class Effect {
 	public amplifier: number;
 	public showParticles: boolean;
 	// TODO: Effect Color & Particle
-	protected color: undefined = undefined;
+	public readonly color: Color = new Color(255, 255, 255, 255);
 
 	public constructor(
 		duration: number,
@@ -19,8 +20,6 @@ abstract class Effect {
 		this.amplifier = amplifier;
 		this.showParticles = showParticles;
 	}
-
-	/*   static resolve(effectType: EffectType): Effect | undefined {} */
 
 	public get isExpired() {
 		return this.duration <= 0;

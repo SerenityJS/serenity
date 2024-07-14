@@ -1,7 +1,8 @@
 import {
 	ActorEventIds,
 	ActorEventPacket,
-	EffectType
+	EffectType,
+	Gamemode
 } from "@serenityjs/protocol";
 
 import { Effect } from "./effect";
@@ -20,7 +21,7 @@ class InstantDamage<T extends Entity> extends Effect {
 		// TODO: Undead check for healing
 		//if (entity)
 
-		/*     if (currentValue >= entityHealth.effectiveMax) return; */
+		if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
 
 		const packet = new ActorEventPacket();
 		packet.actorRuntimeId = entity.runtime;

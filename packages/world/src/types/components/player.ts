@@ -6,8 +6,10 @@ import type {
 	PlayerCountComponent,
 	PlayerCursorComponent,
 	PlayerDoorsAndSwitchesComponent,
+	PlayerExhaustionComponent,
 	PlayerFlySpeedComponent,
 	PlayerFlyingComponent,
+	PlayerHungerComponent,
 	PlayerInstantBuildComponent,
 	PlayerInvulnerableComponent,
 	PlayerLightningComponent,
@@ -18,6 +20,7 @@ import type {
 	PlayerOpenContainersComponent,
 	PlayerOperatorCommandsComponent,
 	PlayerPrivilegedBuilderComponent,
+	PlayerSaturationComponent,
 	PlayerTeleportComponent,
 	PlayerWalkSpeedComponent,
 	PlayerWorldBuilderComponent
@@ -47,7 +50,16 @@ interface PlayerAbilityComponents {
 	"minecraft:ability.world_builder": PlayerWorldBuilderComponent;
 }
 
-interface PlayerComponents extends EntityComponents, PlayerAbilityComponents {
+interface PlayerAttributeComponents {
+	"minecraft:player.hunger": PlayerHungerComponent;
+	"minecraft:player.saturation": PlayerSaturationComponent;
+	"minecraft:player.exhaustion": PlayerExhaustionComponent;
+}
+
+interface PlayerComponents
+	extends EntityComponents,
+		PlayerAbilityComponents,
+		PlayerAttributeComponents {
 	"minecraft:cursor": PlayerCursorComponent;
 	"minecraft:chunk_rendering": PlayerChunkRenderingComponent;
 }
