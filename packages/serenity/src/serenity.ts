@@ -117,7 +117,9 @@ class Serenity extends Emitter<EventSignals> {
 		// Create the raknet using the server address and port
 		this.raknet = new Server(
 			this.properties.values["server-address"],
-			this.properties.values["server-port"]
+			this.properties.values["server-port"],
+			this.properties.values["server-mtu-max"],
+			this.properties.values["server-mtu-min"]
 		);
 
 		// Set the max connections

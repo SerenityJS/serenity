@@ -1,9 +1,4 @@
-import {
-	type Connection,
-	type NetworkIdentifier,
-	Priority,
-	Reliability
-} from "@serenityjs/raknet";
+import { type Connection, Priority, Reliability } from "@serenityjs/raknet";
 import {
 	type DisconnectReason,
 	DisconnectPacket,
@@ -11,6 +6,7 @@ import {
 } from "@serenityjs/protocol";
 import Emitter from "@serenityjs/emitter";
 
+import type { RemoteInfo } from "node:dgram";
 import type { NetworkEvents } from "./types";
 import type { Network } from "./network";
 
@@ -36,7 +32,7 @@ class NetworkSession extends Emitter<NetworkEvents> {
 	/**
 	 * The network identifier of the session.
 	 */
-	public readonly identifier: NetworkIdentifier;
+	public readonly identifier: RemoteInfo;
 
 	/**
 	 * Whether the session is using encryption.
@@ -70,7 +66,7 @@ class NetworkSession extends Emitter<NetworkEvents> {
 		this.network = network;
 		this.connection = connection;
 		this.guid = connection.guid;
-		this.identifier = connection.identifier;
+		this.identifier = connection.rinfo;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 import { DataType } from "./type";
 
+import type { RemoteInfo } from "node:dgram";
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { NetworkIdentifier } from "../../types";
 
 /**
  * Represents an address data type.
@@ -42,8 +42,12 @@ class Address extends DataType {
 	 * @param identifier The NetworkIdentifier.
 	 * @returns The NetworkIdentifier.
 	 */
-	public static fromIdentifier(identifier: NetworkIdentifier): Address {
-		return new Address(identifier.address, identifier.port, identifier.version);
+	public static fromIdentifier(identifier: RemoteInfo): Address {
+		return new Address(
+			identifier.address,
+			identifier.port,
+			identifier.family === "IPv4" ? 4 : 6
+		);
 	}
 
 	/**

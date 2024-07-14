@@ -15,6 +15,13 @@ server-tps: 20
 server-shutdown-message: "Server Closed."
 # The message to show when the server is shutting down.
 
+server-mtu-max: 1012
+# The maximum transmission unit of the server.
+# Lowering this value can help with packet loss.
+
+server-mtu-min: 400
+# The minimum transmission unit of the server.
+
 max-players: 20
 # The maximum amount of players that can join the server.
 

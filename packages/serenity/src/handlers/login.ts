@@ -1,5 +1,4 @@
 import {
-	DeviceOS,
 	DisconnectReason,
 	LoginPacket,
 	type LoginTokens,
@@ -44,25 +43,8 @@ class Login extends SerenityHandler {
 		const xuid = data.identityData.XUID;
 		const username = data.identityData.displayName;
 
-		// Get the clients operating system
-		const os = data.clientData.DeviceOS as DeviceOS;
-
 		// TODO: This is a temporary solution to the reliability and channel issue.
 		session.reliablity = Reliability.UnreliableSequenced;
-		session.channel = 10;
-
-		// Apply the correct raknet cofniguration based on the clients operating system.
-		switch (os) {
-			case DeviceOS.Android:
-			case DeviceOS.Ios: {
-				// These settings seem to work for mobile devices.
-				// Not sure what the best settings are for mobile devices, but these seem to work.
-				session.reliablity = Reliability.UnreliableSequenced;
-				session.channel = 10;
-
-				break;
-			}
-		}
 
 		// Check if the xuid is smaller than 16 characters.
 		// If so then the xuid is invalid.

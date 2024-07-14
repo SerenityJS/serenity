@@ -182,7 +182,7 @@ class Network extends Emitter<NetworkEvents> {
 			// If there is no session, log the error and return.
 			if (!session) {
 				return this.logger.debug(
-					`Received packets from an unconnected session "${conenction.identifier.address}:${conenction.identifier.port}"!`
+					`Received packets from an unconnected session "${conenction.rinfo.address}:${conenction.rinfo.port}"!`
 				);
 			}
 
@@ -339,7 +339,7 @@ class Network extends Emitter<NetworkEvents> {
 		} catch (reason) {
 			// If an error occurs, log the error and continue to the next packet.
 			this.logger.error(
-				`Failed to handle incoming packets from "${conenction.identifier.address}:${conenction.identifier.port}"!`,
+				`Failed to handle incoming packets from "${conenction.rinfo.address}:${conenction.rinfo.port}"!`,
 				reason
 			);
 		}

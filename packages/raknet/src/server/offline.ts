@@ -1,7 +1,7 @@
-import { MaxMtuSize, Protocol, udpHeaderSize } from "../constants";
 import { Packet } from "../enums";
 import {
 	Address,
+	IncompatibleProtocolVersion,
 	OpenConnectionReply1,
 	OpenConnectionReply2,
 	OpenConnectionRequest1,
@@ -9,32 +9,52 @@ import {
 	UnconnectedPing,
 	UnconnectedPong
 } from "../proto";
+import { RAKNET_PROTOCOL, UDP_HEADER_SIZE } from "../constants";
 
 import { Connection } from "./connection";
 
-import type { NetworkIdentifier } from "../types";
+import type { RemoteInfo } from "node:dgram";
 import type { Server } from "./raknet";
 
-/**
- * Handles all ofline raknet server operations
- */
 class Offline {
 	/**
-	 * The server instance
+	 * The raknet server instance
 	 */
 	public static server: Server;
 
 	/**
-	 * Handles all incoming offline packets
-	 * @param buffer The packet buffer
-	 * @param identifier The network identifier
+	 * Handles all incoming offline datagrams from remote clients
+	 * @param buffer The packet buffer from the remote client
+	 * @param rinfo The remote client information
 	 */
-	public static incoming(buffer: Buffer, identifier: NetworkIdentifier): void {
-		// Read the packet header
-		const header = buffer[0] as number;
+	public static handle(buffer: Buffer, rinfo: RemoteInfo): void {
+		// Get the first byte of the buffer, this is the packet header.
+		// The packet header contains the packet identifier.
+		const header = buffer[0];
 
-		// Switch based on the packet header
+		// Sanity check for the packet header
+		if (!header) throw new Error("Invalid offline packet header");
+
+		// Hand off the packet to the appropriate handler based on the packet header
 		switch (header) {
+			case Packet.UnconnectedPing: {
+				// This handshake displays the server information to the client (motd, ping, etc.)
+				this.unconnectedPing(buffer, rinfo);
+				break;
+			}
+
+			case Packet.OpenConnectionRequest1: {
+				// This handshake is the first step in establishing a connection with the server
+				this.openConnectionRequest1(buffer, rinfo);
+				break;
+			}
+
+			case Packet.OpenConnectionRequest2: {
+				// This handshake is the second step in establishing a connection with the server
+				this.openConnectionRequest2(buffer, rinfo);
+				break;
+			}
+
 			default: {
 				// Format the packet id to a hex string
 				const id =
@@ -42,54 +62,25 @@ class Offline {
 						? "0" + header.toString(16)
 						: header.toString(16);
 
-				// Emit an error for unknown packet headers
-				return void this.server.emit(
-					"error",
-					new Error(
-						`Unknown packet header "0x${id}" from ${identifier.address}:${identifier.port}`
-					)
+				// Log a debug message for the unknown packet header
+				this.server.logger.debug(
+					`Received an unknown offline packet identifier "0x${id}" from ${rinfo.address}:${rinfo.port}`
 				);
-			}
-
-			// Unconnected ping is the first packet sent by the client
-			case Packet.UnconnectedPing: {
-				// Handle the unconnected ping
-				this.handleUnconnectedPing(buffer, identifier);
-				break;
-			}
-
-			// Open connection request 1 is the next packet sent by the client
-			case Packet.OpenConnectionRequest1: {
-				// Handle the open connection request 1
-				this.handleOpenConnectionRequest1(buffer, identifier);
-				break;
-			}
-
-			// Open connection request 2 is the next packet sent by the client
-			case Packet.OpenConnectionRequest2: {
-				// Handle the open connection request 2
-				this.handleOpenConnectionRequest2(buffer, identifier);
-				break;
 			}
 		}
 	}
 
 	/**
-	 * Handles an unconnected ping
-	 * @param buffer The packet buffer
-	 * @param identifier The network identifier
+	 * Handles an unconnected ping packet
+	 * @param buffer The packet buffer from the remote client
+	 * @param rinfo The remote client information
 	 */
-	private static handleUnconnectedPing(
-		buffer: Buffer,
-		identifier: NetworkIdentifier
-	): void {
-		// Deserialize the ping packet
+	public static unconnectedPing(buffer: Buffer, rinfo: RemoteInfo): void {
+		// Deserialize the unconnected ping
 		const ping = new UnconnectedPing(buffer).deserialize();
 
-		// Create a new pong packet
+		// Create a new unconnected pong packet
 		const pong = new UnconnectedPong();
-
-		// Assign the packet properties
 		pong.timestamp = ping.timestamp;
 		pong.guid = this.server.guid;
 		pong.message =
@@ -108,78 +99,120 @@ class Offline {
 				this.server.port + 1
 			].join(";") + ";";
 
-		// Send the pong packet
-		return this.server.send(pong.serialize(), identifier);
+		// Send the unconnected pong packet to the remote client
+		this.server.send(pong.serialize(), rinfo);
 	}
 
 	/**
-	 * Handles an open connection request 1
-	 * @param buffer The packet buffer
-	 * @param identifier The network identifier
+	 * Handles an open connection request 1 packet
+	 * @param buffer The packet buffer from the remote client
+	 * @param rinfo The remote client information
 	 */
-	private static handleOpenConnectionRequest1(
+	public static openConnectionRequest1(
 		buffer: Buffer,
-		identifier: NetworkIdentifier
+		rinfo: RemoteInfo
 	): void {
-		// Create a new open connection request 1 packet
-		// And deserialize the buffer
+		// Deserialize the open connection request 1 packet
 		const request = new OpenConnectionRequest1(buffer).deserialize();
 
-		// Check if the protocol version is supported
-		// If not, we will send an incompatible protocol version packet
-		if (request.protocol !== Protocol) {
-			return;
+		// Check if the raknet protocol versions are mismatched
+		// The raknet protocol version varies between different versions of the game
+		// There seems to be minor differences between the versions.
+		if (request.protocol !== RAKNET_PROTOCOL) {
+			// Create a new incompatible protocol version packet
+			const incompatible = new IncompatibleProtocolVersion();
+			incompatible.protocol = RAKNET_PROTOCOL;
+			incompatible.guid = this.server.guid;
+
+			// Log a warning message for the incompatible protocol version
+			this.server.logger.warn(
+				`Refusing connection from ${rinfo.address}:${rinfo.port} due to incompatible protocol version v${request.protocol}, expected v${RAKNET_PROTOCOL}.`
+			);
+
+			// Send the incompatible protocol version packet to the remote client
+			return this.server.send(incompatible.serialize(), rinfo);
 		}
 
 		// Create a new open connection reply 1 packet
-		// And assign the packet properties
 		const reply = new OpenConnectionReply1();
 		reply.guid = this.server.guid;
-		reply.security = false;
+		reply.security = false; // We are not using security
+		reply.mtu =
+			// Check if the requested mtu + the udp header size is greater than the maximum mtu size
+			request.mtu + UDP_HEADER_SIZE > this.server.maxMtuSize
+				? this.server.maxMtuSize // Assign the maximum transfer unit size
+				: request.mtu + UDP_HEADER_SIZE; // Assign the requested transfer unit size + the udp header size
 
-		// Check the connections MTU size
-		// And adjust if it is larger than the standard Raknet MTU size
-		// MTU size is calculated by adding the size of the packet to the size of the UDP header
-		const size = request.getBuffer().byteLength + udpHeaderSize;
-		reply.mtu = size > MaxMtuSize ? MaxMtuSize : size;
-
-		// Send the reply packet
-		return this.server.send(reply.serialize(), identifier);
+		// Send the open connection reply 1 packet to the remote client
+		return this.server.send(reply.serialize(), rinfo);
 	}
 
 	/**
-	 * Handles an open connection request 2
-	 * @param buffer The packet buffer
-	 * @param identifier The network identifier
+	 * Handles an open connection request 2 packet
+	 * @param buffer The packet buffer from the remote client
+	 * @param rinfo The remote client information
 	 */
-	private static handleOpenConnectionRequest2(
+	public static openConnectionRequest2(
 		buffer: Buffer,
-		identifier: NetworkIdentifier
+		rinfo: RemoteInfo
 	): void {
-		// Create a new open connection request 2 packet
-		// And deserialize the buffer
+		// Deserialize the open connection request 2 packet
 		const request = new OpenConnectionRequest2(buffer).deserialize();
-		const key = `${identifier.address}:${identifier.port}:${identifier.version}`;
 
-		// Create a new reply packet
-		// And set the properties of the reply packet
+		// Check if the requested port matches the server port
+		// This is a unlikely scenario, but it is possible
+		if (request.address.port !== this.server.port) {
+			// Log a warning message for the mismatched port
+			return this.server.logger.warn(
+				`Refusing connection from ${rinfo.address}:${rinfo.port} due to mismatched port.`
+			);
+		}
+
+		// Check if the mtu size is between the allowed minimum and maximum mtu size.
+		// If not, we will refuse the connection.
+		if (
+			request.mtu < this.server.minMtuSize ||
+			request.mtu > this.server.maxMtuSize
+		) {
+			// Log a warning message for the invalid mtu size
+			return this.server.logger.warn(
+				`Refusing connection from ${rinfo.address}:${rinfo.port} due to invalid mtu size.`
+			);
+		}
+
+		// Check if the connection is already established
+		const connection = [...this.server.connections.values()].find(
+			(x) => x.rinfo.address === rinfo.address && x.rinfo.port === rinfo.port
+		);
+
+		// Check if the connection is already established
+		if (connection) {
+			// Log a warning message for the already established connection
+			return this.server.logger.warn(
+				`Refusing connection from ${rinfo.address}:${rinfo.port} due to already established connection.`
+			);
+		}
+
+		// Create a new open connection reply 2 packet
 		const reply = new OpenConnectionReply2();
 		reply.guid = this.server.guid;
-		reply.address = Address.fromIdentifier(identifier);
+		reply.address = Address.fromIdentifier(rinfo);
 		reply.mtu = request.mtu;
-		reply.encryption = false;
+		reply.encryption = false; // We are not using encryption
 
-		// Create a new connection, and add it to the connections map
-		const connection = new Connection(
-			this.server,
-			identifier,
-			request.client,
-			request.mtu
+		// Log a debug message for the successful connection
+		this.server.logger.debug(
+			`Establishing connection from ${rinfo.address}:${rinfo.port} with mtu size of ${request.mtu}.`
 		);
-		this.server.connections.set(key, connection);
 
-		// Send the reply packet
-		return this.server.send(reply.serialize(), identifier);
+		// Create a new connection, and add it to the connections set
+		this.server.connections.add(
+			// Build a new connection instance
+			new Connection(this.server, rinfo, request.client, request.mtu)
+		);
+
+		// Send the open connection reply 2 packet to the remote client
+		return this.server.send(reply.serialize(), rinfo);
 	}
 }
 

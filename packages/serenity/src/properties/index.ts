@@ -1,4 +1,4 @@
 export * from "./properties";
 
-export * from "./default"
-export * from "./world-default"
+export * from "./default";
+export * from "./world-default";

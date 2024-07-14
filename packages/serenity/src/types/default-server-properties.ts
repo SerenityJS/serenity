@@ -4,6 +4,8 @@ interface DefaultServerProperties {
 	"server-port": number;
 	"server-tps": number;
 	"server-shutdown-message": string;
+	"server-mtu-max": number;
+	"server-mtu-min": number;
 	"max-players": number;
 	"network-comression-threshold": number;
 	"network-compression-algorithm": string;

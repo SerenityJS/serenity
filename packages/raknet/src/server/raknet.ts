@@ -1,14 +1,14 @@
-import { type RemoteInfo, type Socket, createSocket } from "node:dgram";
+import { type RemoteInfo, createSocket } from "node:dgram";
 
 import { Emitter } from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
-import { RaknetTickLength } from "../constants";
+import { MAX_MTU_SIZE, MIN_MTU_SIZE, RAKNET_TICK_LEN } from "../constants";
 import { Bitflags } from "../enums";
 
 import { Offline } from "./offline";
 
-import type { NetworkIdentifier, RaknetEvents } from "../types";
+import type { RaknetEvents } from "../types";
 import type { Connection } from "./connection";
 
 /**
@@ -23,12 +23,12 @@ class Server extends Emitter<RaknetEvents> {
 	/**
 	 * The raknet server logger
 	 */
-	public readonly logger: Logger;
+	public readonly logger = new Logger("Raknet", LoggerColors.CyanBright);
 
 	/**
 	 * The server socket
 	 */
-	public readonly socket: Socket;
+	public readonly socket = createSocket("udp4");
 
 	/**
 	 * The server address
@@ -43,12 +43,22 @@ class Server extends Emitter<RaknetEvents> {
 	/**
 	 * The server guid
 	 */
-	public readonly guid: bigint;
+	public readonly guid = BigInt(Math.floor(Math.random() * 2 ** 64));
 
 	/**
 	 * The server connections
 	 */
-	public readonly connections: Map<string, Connection>;
+	public readonly connections = new Set<Connection>();
+
+	/**
+	 * The server max mtu size
+	 */
+	public readonly maxMtuSize: number;
+
+	/**
+	 * The server min mtu size
+	 */
+	public readonly minMtuSize: number;
 
 	/**
 	 * The server protocol
@@ -71,19 +81,31 @@ class Server extends Emitter<RaknetEvents> {
 	public maxConnections: number | null = null;
 
 	/**
+	 * Weather the server is alive
+	 */
+	public alive = true;
+
+	/**
 	 * Creates a new raknet server
 	 * @param address the server address
 	 * @param port the server port
 	 */
-	public constructor(address: string, port = 19_132) {
+	public constructor(
+		address: string,
+		port = 19_132,
+		mtuMaxSize = MAX_MTU_SIZE,
+		mtuMinSize = MIN_MTU_SIZE
+	) {
 		super();
-		this.logger = new Logger("Raknet", LoggerColors.CyanBright);
-		this.socket = createSocket("udp4");
 		this.address = address;
 		this.port = port;
-		this.guid = BigInt(Math.floor(Math.random() * 2 ** 64));
-		this.connections = new Map();
+		this.maxMtuSize = mtuMaxSize;
+		this.minMtuSize = mtuMinSize;
 
+		// Bind the incoming messages to the handle method
+		this.socket.on("message", this.handle.bind(this));
+
+		// Bind server instance to the offline handler
 		Offline.server = this;
 	}
 
@@ -91,42 +113,23 @@ class Server extends Emitter<RaknetEvents> {
 	 * Starts the server
 	 */
 	public start() {
-		try {
-			// Bind the socket to the address and port
-			this.socket.bind(this.port, this.address);
+		this.socket.bind(this.port, this.address);
 
-			// Bind the socket message event to the incoming function
-			this.socket.on("message", this.incoming.bind(this));
+		// Create a tick function
+		const tick = () =>
+			setTimeout(() => {
+				// Check if the server is alive, if not clear the interval
+				if (!this.alive && this.interval) return clearInterval(this.interval);
 
-			// Emit any socket errors that may occur
-			this.socket.on("error", (error) => this.emit("error", error));
+				// Update the connections for the server
+				for (const connection of this.connections) connection.tick();
 
-			// Create the tick function
-			const tick = () =>
-				setTimeout(() => {
-					for (const [, connection] of this.connections) {
-						// Tick the connection
-						connection.tick();
-					}
+				// Call the tick method for each connection
+				return tick();
+			}, RAKNET_TICK_LEN);
 
-					tick();
-				}, RaknetTickLength);
-
-			// Sets the interval to the tick function
-			this.interval = tick().unref();
-		} catch {
-			// Log an error for failing to bind to the address and port
-			this.logger.error(
-				`Failed to bind to the address and port, make sure the address and port are not in use.`
-			);
-
-			void this.emit(
-				"error",
-				new Error(
-					"Failed to bind to the address and port, make sure the address and port are not in use."
-				)
-			);
-		}
+		// Set the interval to the tick method
+		this.interval = tick().unref();
 	}
 
 	/**
@@ -144,66 +147,37 @@ class Server extends Emitter<RaknetEvents> {
 		}
 	}
 
-	/**
-	 * Sends a buffer to the specified network identifier
-	 * @param buffer the buffer to send
-	 * @param identifier the network identifier to send the buffer to
-	 */
-	public send(buffer: Buffer, identifier: NetworkIdentifier): void {
-		this.socket.send(buffer, identifier.port, identifier.address);
+	protected handle(buffer: Buffer, rinfo: RemoteInfo): void {
+		// Get the first byte of the buffer, this is the packet header.
+		// The packet header contains the packet identifier and the flags associated with the packet.
+		const header = buffer[0];
+
+		// Sanity check for the packet header
+		if (!header) throw new Error("Invalid packet header");
+
+		// Check if the datagram is an offline packet, if so handle it accordingly
+		const offline = (header & Bitflags.Valid) === 0;
+
+		// Attempt to find the connection in the connection set
+		const connection = [...this.connections.values()].find(
+			(x) => x.rinfo.address === rinfo.address && x.rinfo.port === rinfo.port
+		);
+
+		// Check if the remote client is not connected to the server
+		// And if the remote client is sending an offline packet
+		if (offline)
+			// Pass the buffer and remote client information to the offline handler
+			return Offline.handle(buffer, rinfo);
+
+		// Check if the remote client has an established connection with the server
+		// And if the remote client is sending a connected packet
+		if (!offline && connection)
+			// Pass the buffer to the connection handler
+			return connection.incoming(buffer);
 	}
 
-	/**
-	 * Handles incoming packets
-	 * @param buffer the packet buffer
-	 * @param rinfo the remote info
-	 */
-	private incoming(buffer: Buffer, rinfo: RemoteInfo): void {
-		try {
-			// Deconstructs the packet into its buffer, address, port, and version
-			const { address, port, family } = rinfo;
-
-			// Constructs the identifier from the address, port, and version
-			const version = family === "IPv4" ? 4 : 6;
-
-			// Creates the identifier key from the address and port
-			const identifier: NetworkIdentifier = { address, port, version };
-			const key = `${address}:${port}:${version}`;
-
-			// Get the connection from the connections map
-			const connection = this.connections.get(key);
-
-			// Check if the connection is valid & the buffer is valid
-			if (connection && ((buffer[0] as number) & Bitflags.Valid) !== 0)
-				return connection.incoming(buffer);
-
-			// Check if we got a valid packet, without a valid connection
-			if (((buffer[0] as number) & Bitflags.Valid) !== 0) {
-				// Log a debug message for the invalid packet
-				this.logger.debug(
-					`Received a valid packet without a valid connection from ${key}`
-				);
-
-				// Emit an error for the invalid packet
-				return void this.emit(
-					"error",
-					new Error(
-						"Received a valid packet without a valid connection from " + key
-					)
-				);
-			}
-
-			// Let the offline handler handle the incoming packet
-			return Offline.incoming(buffer, identifier);
-		} catch (reason: Error | unknown) {
-			// Log an error for the incoming packet
-			this.logger.error(
-				`Failed to handle incoming packet from ${rinfo.address}:${rinfo.port}, "${(reason as Error).message}"`
-			);
-
-			// Emit an error for the incoming packet
-			void this.emit("error", reason as Error);
-		}
+	public send(buffer: Buffer, rinfo: RemoteInfo): void {
+		this.socket.send(buffer, rinfo.port, rinfo.address);
 	}
 }
 

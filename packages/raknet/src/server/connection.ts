@@ -13,8 +13,9 @@ import {
 	FrameSet,
 	Nack
 } from "../proto";
+import { DGRAM_HEADER_SIZE, DGRAM_MTU_OVERHEAD } from "../constants";
 
-import type { NetworkIdentifier } from "../types";
+import type { RemoteInfo } from "node:dgram";
 import type { Server } from "./raknet";
 
 /**
@@ -34,7 +35,7 @@ class Connection {
 	/**
 	 * The network identifier of the connection
 	 */
-	public readonly identifier: NetworkIdentifier;
+	public readonly rinfo: RemoteInfo;
 
 	/**
 	 * The GUID of the connection
@@ -58,29 +59,33 @@ class Connection {
 	protected lastInputSequence = -1;
 
 	// Outputs
-	protected readonly outputBackupQueue = new Map<number, Array<Frame>>();
 	protected readonly outputOrderIndex: Array<number>;
 	protected readonly outputSequenceIndex: Array<number>;
-	protected outputFrameQueue: FrameSet;
+
+	protected outputFrames = new Set<Frame>();
+	protected outputBackup = new Map<number, Array<Frame>>();
+
 	protected outputSequence = 0;
+
+	protected outputsplitIndex = 0;
+
 	protected outputReliableIndex = 0;
-	protected outputFragmentIndex = 0;
 
 	/**
 	 * Creates a new connection
 	 * @param server The server instance
-	 * @param identifier The network identifier
+	 * @param rinfo The remote info
 	 * @param guid The GUID
 	 * @param mtu The maximum transmission unit
 	 */
 	public constructor(
 		server: Server,
-		identifier: NetworkIdentifier,
+		rinfo: RemoteInfo,
 		guid: bigint,
 		mtu: number
 	) {
 		this.server = server;
-		this.identifier = identifier;
+		this.rinfo = rinfo;
 		this.guid = guid;
 		this.mtu = mtu;
 
@@ -93,8 +98,6 @@ class Connection {
 		this.inputHighestSequenceIndex = Array.from<number>({ length: 32 }).fill(0);
 
 		// Outputs
-		this.outputFrameQueue = new FrameSet();
-		this.outputFrameQueue.frames = [];
 		this.outputOrderIndex = Array.from<number>({ length: 32 }).fill(0);
 		this.outputSequenceIndex = Array.from<number>({ length: 32 }).fill(0);
 	}
@@ -113,33 +116,33 @@ class Connection {
 		// Check if we have received any ACKs or NACKs
 		// Check if we have received any packets to send an ACK for
 		if (this.receivedFrameSequences.size > 0) {
+			// Create a new ACK instance
 			const ack = new Ack();
-			ack.sequences = [...this.receivedFrameSequences].map((x) => {
-				this.receivedFrameSequences.delete(x);
-				return x;
-			});
-			this.send(ack.serialize());
+			ack.sequences = [...this.receivedFrameSequences];
+
+			// Delete the sequences from the received frame sequences
+			for (const sequence of this.receivedFrameSequences)
+				this.receivedFrameSequences.delete(sequence);
+
+			// Send the ACK to the remote client
+			this.server.send(ack.serialize(), this.rinfo);
 		}
 
 		// Check if we have any lost packets to send a NACK for
 		if (this.lostFrameSequences.size > 0) {
-			const pk = new Nack();
-			pk.sequences = [...this.lostFrameSequences].map((x) => {
-				this.lostFrameSequences.delete(x);
-				return x;
-			});
-			this.send(pk.serialize());
+			const nack = new Nack();
+			nack.sequences = [...this.lostFrameSequences];
+
+			// Delete the sequences from the lost frame sequences
+			for (const sequence of this.lostFrameSequences)
+				this.lostFrameSequences.delete(sequence);
+
+			// Send the NACK to the remote client
+			this.server.send(nack.serialize(), this.rinfo);
 		}
 
 		// Send the output queue
-		return this.sendFrameQueue();
-	}
-
-	/**
-	 * Sends a buffer to the connection
-	 */
-	public send(buffer: Buffer): void {
-		this.server.send(buffer, this.identifier);
+		return this.sendQueue(this.outputFrames.size);
 	}
 
 	/**
@@ -163,8 +166,7 @@ class Connection {
 
 		// Emit the disconnect event, and delete the connection from the connections map
 		void this.server.emit("disconnect", this);
-		const key = `${this.identifier.address}:${this.identifier.port}:${this.identifier.version}`;
-		this.server.connections.delete(key);
+		this.server.connections.delete(this);
 
 		// Set the status to disconnected
 		this.status = Status.Disconnected;
@@ -191,27 +193,27 @@ class Connection {
 
 				// Log a debug message for unknown packet headers
 				this.server.logger.debug(
-					`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+					`Received unknown online packet 0x${id} from ${this.rinfo.address}:${this.rinfo.port}!`
 				);
 
 				// Emit an error for unknown packet headers
 				return void this.server.emit(
 					"error",
 					new Error(
-						`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+						`Received unknown online packet 0x${id} from ${this.rinfo.address}:${this.rinfo.port}!`
 					)
 				);
 			}
 
 			// Handle incoming acks
 			case Packet.Ack: {
-				this.handleIncomingAck(buffer);
+				this.ack(buffer);
 				break;
 			}
 
 			// Handle incoming nacks
 			case Packet.Nack: {
-				this.handleIncomingNack(buffer);
+				this.nack(buffer);
 				break;
 			}
 
@@ -227,7 +229,7 @@ class Connection {
 	 * Handles incoming batch packets
 	 * @param buffer The packet buffer
 	 */
-	public incomingBatch(buffer: Buffer): void {
+	protected incomingBatch(buffer: Buffer): void {
 		// Reads the header of the packet (u8)
 		const header = buffer[0] as number;
 
@@ -243,14 +245,14 @@ class Connection {
 
 					// Log a debug message for unknown packet headers
 					this.server.logger.debug(
-						`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+						`Received unknown online packet 0x${id} from ${this.rinfo.address}:${this.rinfo.port}!`
 					);
 
 					// Emit an error for unknown packet headers
 					return void this.server.emit(
 						"error",
 						new Error(
-							`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+							`Received unknown online packet 0x${id} from ${this.rinfo.address}:${this.rinfo.port}!`
 						)
 					);
 				}
@@ -258,8 +260,7 @@ class Connection {
 				// Check if the packet is a disconnect packet
 				case Packet.Disconnect: {
 					this.status = Status.Disconnecting;
-					const key = `${this.identifier.address}:${this.identifier.port}:${this.identifier.version}`;
-					this.server.connections.delete(key);
+					this.server.connections.delete(this);
 					this.status = Status.Disconnected;
 					break;
 				}
@@ -293,14 +294,14 @@ class Connection {
 
 				// Log a debug message for unknown packet headers
 				this.server.logger.debug(
-					`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+					`Received unknown online packet 0x${id} from ${this.rinfo.address}:${this.rinfo.port}!`
 				);
 
 				// Emit an error for unknown packet headers
 				return void this.server.emit(
 					"error",
 					new Error(
-						`Received unknown online packet 0x${id} from ${this.identifier.address}:${this.identifier.port}!`
+						`Received unknown online packet 0x${id} from ${this.rinfo.address}:${this.rinfo.port}!`
 					)
 				);
 			}
@@ -309,8 +310,7 @@ class Connection {
 			case Packet.Disconnect: {
 				this.status = Status.Disconnecting;
 				void this.server.emit("disconnect", this);
-				const key = `${this.identifier.address}:${this.identifier.port}:${this.identifier.version}`;
-				this.server.connections.delete(key);
+				this.server.connections.delete(this);
 				this.status = Status.Disconnected;
 				break;
 			}
@@ -331,15 +331,20 @@ class Connection {
 	 * Handles incoming acks
 	 * @param buffer The packet buffer
 	 */
-	private handleIncomingAck(buffer: Buffer): void {
-		// Create a new Ack instance and deserialize the buffer
+	protected ack(buffer: Buffer): void {
+		// Deserialize the ack packet
 		const ack = new Ack(buffer).deserialize();
 
-		// Checks if the ack has any sequences, and removes them from the output backup queue
-		if (ack.sequences.length > 0) {
-			for (const sequence of ack.sequences) {
-				this.outputBackupQueue.delete(sequence);
-			}
+		// Iterate over the sequences in the ack packet
+		for (const sequence of ack.sequences) {
+			// Check if the ack is not found
+			if (!this.outputBackup.has(sequence))
+				this.server.logger.debug(
+					`Received ack for unknown sequence ${sequence} from ${this.rinfo.address}:${this.rinfo.port}.`
+				);
+
+			// Remove the ack from the set
+			this.outputBackup.delete(sequence);
 		}
 	}
 
@@ -347,20 +352,19 @@ class Connection {
 	 * Handles incoming nacks
 	 * @param buffer The packet buffer
 	 */
-	private handleIncomingNack(buffer: Buffer): void {
-		// Create a new Nack instance and deserialize the buffer
+	protected nack(buffer: Buffer): void {
+		// Deserialize the nack packet
 		const nack = new Nack(buffer).deserialize();
 
-		// Checks if the nack has any sequences, and resends them from the output backup queue
-		if (nack.sequences.length > 0) {
-			for (const sequence of nack.sequences) {
-				if (this.outputBackupQueue.has(sequence)) {
-					// Gets the lost frames and sends them again
-					const frames = this.outputBackupQueue.get(sequence) || [];
-					for (const frame of frames) {
-						this.sendFrame(frame, Priority.Immediate);
-					}
-				}
+		// Iterate over the sequences in the nack packet
+		for (const sequence of nack.sequences) {
+			// Get the frames from the output backup
+			const frames = this.outputBackup.get(sequence) ?? [];
+
+			// Iterate over the frames
+			for (const frame of frames) {
+				// Send the frame to the connection
+				this.sendFrame(frame, Priority.Immediate);
 			}
 		}
 	}
@@ -369,7 +373,7 @@ class Connection {
 	 * Handles incoming framesets
 	 * @param buffer The packet buffer
 	 */
-	private handleIncomingFrameSet(buffer: Buffer): void {
+	protected handleIncomingFrameSet(buffer: Buffer): void {
 		// Create a new FrameSet instance and deserialize the buffer
 		const frameset = new FrameSet(buffer).deserialize();
 
@@ -377,13 +381,13 @@ class Connection {
 		if (this.receivedFrameSequences.has(frameset.sequence)) {
 			// Log a debug message for duplicate framesets
 			this.server.logger.debug(
-				`Received duplicate frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+				`Received duplicate frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
 			);
 
 			return void this.server.emit(
 				"error",
 				new Error(
-					`Recieved duplicate frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+					`Recieved duplicate frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
 				)
 			);
 		}
@@ -398,13 +402,13 @@ class Connection {
 		) {
 			// Log a debug message for out of order framesets
 			this.server.logger.debug(
-				`Received out of order frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+				`Received out of order frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
 			);
 
 			return void this.server.emit(
 				"error",
 				new Error(
-					`Recieved out of order frameset ${frameset.sequence} from ${this.identifier.address}:${this.identifier.port}!`
+					`Recieved out of order frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
 				)
 			);
 		}
@@ -443,9 +447,9 @@ class Connection {
 	 * Handles incoming frames
 	 * @param frame The frame
 	 */
-	private handleFrame(frame: Frame): void {
+	protected handleFrame(frame: Frame): void {
 		// Checks if the packet is fragmented
-		if (frame.isFragmented()) return this.handleFragment(frame);
+		if (frame.isSplit()) return this.handleFragment(frame);
 
 		// Checks if the packet is sequenced
 		if (frame.isSequenced()) {
@@ -456,13 +460,13 @@ class Connection {
 			) {
 				// Log a debug message for out of order frames
 				this.server.logger.debug(
-					`Recieved out of order frame ${frame.sequenceIndex} from ${this.identifier.address}:${this.identifier.port}!`
+					`Recieved out of order frame ${frame.sequenceIndex} from ${this.rinfo.address}:${this.rinfo.port}!`
 				);
 
 				return void this.server.emit(
 					"error",
 					new Error(
-						`Recieved out of order frame ${frame.sequenceIndex} from ${this.identifier.address}:${this.identifier.port}!`
+						`Recieved out of order frame ${frame.sequenceIndex} from ${this.rinfo.address}:${this.rinfo.port}!`
 					)
 				);
 			}
@@ -521,20 +525,20 @@ class Connection {
 	 * Handles fragmented frames
 	 * @param frame The frame
 	 */
-	private handleFragment(frame: Frame): void {
+	protected handleFragment(frame: Frame): void {
 		// Check if we already have the fragment id
-		if (this.fragmentsQueue.has(frame.fragmentId)) {
-			const fragment = this.fragmentsQueue.get(frame.fragmentId);
+		if (this.fragmentsQueue.has(frame.splitId)) {
+			const fragment = this.fragmentsQueue.get(frame.splitId);
 
 			// Check if the fragment is null
 			if (!fragment) return;
 
 			// Set the split frame to the fragment
-			fragment.set(frame.fragmentIndex, frame);
+			fragment.set(frame.splitIndex, frame);
 
 			// Check if we have all the fragments
 			// Then we can rebuild the packet
-			if (fragment.size === frame.fragmentSize) {
+			if (fragment.size === frame.splitSize) {
 				const stream = new BinaryStream();
 				// Loop through the fragments and write them to the stream
 				for (let index = 0; index < fragment.size; index++) {
@@ -556,7 +560,7 @@ class Connection {
 				nframe.payload = stream.getBuffer();
 
 				// Delete the fragment id from the queue
-				this.fragmentsQueue.delete(frame.fragmentId);
+				this.fragmentsQueue.delete(frame.splitId);
 
 				// Send the new frame to the handleFrame function
 				return this.handleFrame(nframe);
@@ -564,8 +568,8 @@ class Connection {
 		} else {
 			// Add the fragment id to the queue
 			this.fragmentsQueue.set(
-				frame.fragmentId,
-				new Map([[frame.fragmentIndex, frame]])
+				frame.splitId,
+				new Map([[frame.splitIndex, frame]])
 			);
 		}
 	}
@@ -584,7 +588,7 @@ class Connection {
 			frame.sequenceIndex = (this.outputSequenceIndex[
 				frame.orderChannel
 			] as number)++;
-		} else if (frame.isOrderExclusive()) {
+		} else if (frame.isOrdered()) {
 			// Set the order index and the sequence index
 			frame.orderIndex = (this.outputOrderIndex[
 				frame.orderChannel
@@ -592,32 +596,39 @@ class Connection {
 			this.outputSequenceIndex[frame.orderChannel] = 0;
 		}
 
-		// Set the reliable index
-		frame.reliableIndex = this.outputReliableIndex++;
-
 		// Split packet if bigger than MTU size
-		const maxSize = this.mtu - 6 - 23;
+		const maxSize = this.mtu - 36;
+		const splitSize = Math.ceil(frame.payload.byteLength / maxSize);
+
 		if (frame.payload.byteLength > maxSize) {
 			// Create a new buffer from the payload and generate a fragment id
-			const buffer = Buffer.from(frame.payload);
-			const fragmentId = this.outputFragmentIndex++ % 65_536;
+			// const buffer = Buffer.from(frame.payload);
+			const splitId = this.outputsplitIndex++ % 65_536;
 
 			// Loop through the buffer and split it into fragments based on the MTU size
-			for (let index = 0; index < buffer.byteLength; index += maxSize) {
-				// Check if the index is not 0, if so, set the reliable index
-				if (index !== 0) frame.reliableIndex = this.outputReliableIndex++;
+			for (let index = 0; index < frame.payload.byteLength; index += maxSize) {
+				const nframe = new Frame();
+
+				if (frame.isReliable())
+					nframe.reliableIndex = this.outputReliableIndex++;
 
 				// Create a new frame and assign the values
-				frame.payload = buffer.subarray(index, index + maxSize);
-				frame.fragmentIndex = index / maxSize;
-				frame.fragmentId = fragmentId;
-				frame.fragmentSize = Math.ceil(buffer.byteLength / maxSize);
+				nframe.sequenceIndex = frame.sequenceIndex;
+				nframe.orderIndex = frame.orderIndex;
+				nframe.orderChannel = frame.orderChannel;
+				nframe.reliability = frame.reliability;
+				nframe.payload = frame.payload.subarray(index, index + maxSize);
+				nframe.splitIndex = index / maxSize;
+				nframe.splitId = splitId;
+				nframe.splitSize = splitSize;
 
 				// Add the frame to the queue
-				this.addFrameToQueue(frame, priority || Priority.Normal);
+				this.queueFrame(nframe, priority);
 			}
 		} else {
-			return this.addFrameToQueue(frame, priority);
+			if (frame.isReliable()) frame.reliableIndex = this.outputReliableIndex++;
+
+			return this.queueFrame(frame, priority);
 		}
 	}
 
@@ -626,56 +637,46 @@ class Connection {
 	 * @param frame The frame
 	 * @param priority The priority
 	 */
-	private addFrameToQueue(frame: Frame, priority: Priority): void {
-		let length = 4;
+	private queueFrame(frame: Frame, priority: Priority): void {
+		let length = DGRAM_HEADER_SIZE;
+
 		// Add the length of the frame to the length
-		for (const queuedFrame of this.outputFrameQueue.frames) {
-			length += queuedFrame.getByteLength();
-		}
+		for (const frame of this.outputFrames) length += frame.getByteLength();
 
 		// Check if the frame is bigger than the MTU, if so, send the queue
-		if (length + frame.getByteLength() > this.mtu - 36) {
-			this.sendFrameQueue();
-		}
+		if (length + frame.getByteLength() > this.mtu - DGRAM_MTU_OVERHEAD)
+			// Send the queue as upcoming frames will be too big
+			this.sendQueue(this.outputFrames.size);
 
 		// Add the frame to the queue
-		this.outputFrameQueue.frames.push(frame);
+		this.outputFrames.add(frame);
 
 		// If the priority is immediate, send the queue
-		if (priority === Priority.Immediate) return this.sendFrameQueue();
+		if (priority === Priority.Immediate) return this.sendQueue(1);
 	}
 
 	/**
 	 * Sends the output frame queue
 	 */
-	public sendFrameQueue(): void {
+	public sendQueue(amount: number): void {
 		// Check if the queue is empty
-		if (this.outputFrameQueue.frames.length > 0) {
-			// Set the sequence of the frame set
-			this.outputFrameQueue.sequence = this.outputSequence++;
+		if (this.outputFrames.size === 0) return;
 
-			// Send the frame set
-			this.sendFrameSet(this.outputFrameQueue);
+		// Create a new frame set
+		const frameset = new FrameSet();
 
-			// Set the queue to a new frame set
-			this.outputFrameQueue = new FrameSet();
-			this.outputFrameQueue.frames = [];
-		}
-	}
+		// Assign the frame set properties
+		frameset.sequence = this.outputSequence++;
+		frameset.frames = [...this.outputFrames].slice(0, amount);
 
-	/**
-	 * Sends a frame set to the connection
-	 * @param frameset The frame set
-	 */
-	private sendFrameSet(frameset: FrameSet): void {
-		// Send the frame set
-		this.send(frameset.serialize());
+		// Add the frame set to the backup map
+		this.outputBackup.set(frameset.sequence, frameset.frames);
 
-		// Add the frame set to the backup queue
-		this.outputBackupQueue.set(
-			frameset.sequence,
-			frameset.frames.filter((frame) => frame.isReliable())
-		);
+		// Remove the frames from the queue
+		for (const frame of frameset.frames) this.outputFrames.delete(frame);
+
+		// Send the frame set to the remote client
+		return this.server.send(frameset.serialize(), this.rinfo);
 	}
 
 	/**
@@ -690,7 +691,7 @@ class Connection {
 		const accepted = new ConnectionRequestAccepted();
 
 		// Set the properties of the accepted packet
-		accepted.address = Address.fromIdentifier(this.identifier);
+		accepted.address = Address.fromIdentifier(this.rinfo);
 		accepted.systemIndex = 0;
 		accepted.systemAddress = [];
 		accepted.requestTimestamp = request.timestamp;

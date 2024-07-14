@@ -12,5 +12,6 @@ export * from "./frame-set";
 export * from "./ack";
 export * from "./nack";
 export * from "./disconnect";
+export * from "./incompatible-protocol";
 export * from "./connection-request-accepted";
 export * from "./new-incoming-connection";
