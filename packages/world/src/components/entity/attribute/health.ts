@@ -1,4 +1,5 @@
 import {
+	ActorDamageCause,
 	ActorEventIds,
 	ActorEventPacket,
 	AttributeName,
@@ -46,46 +47,13 @@ class EntityHealthComponent extends EntityAttributeComponent {
 		this.setCurrentValue(this.defaultValue, false);
 	}
 
-	/**
-	 * Damages the entity with an attacker.
-	 * @param attacker The entity that is attacking the entity.
-	 * @returns The current health of the entity.
-	 */
-	public damage(attacker: Entity): number {
-		// TODO: Handle the damage based on the attacker
-		// item used, potion effect, arrow, tnt explosion, etc.
-
-		// Declare the base damage
-		let damage = 0.5;
-
-		// TODO: This is a temporary implementation, we should replace this with a proper damage calculation.
-		const item = attacker.getComponent("minecraft:inventory").getHeldItem();
-		const sword = item ? item.type.identifier.includes("sword") : false;
-
-		if (sword) damage += 1.25;
-
-		// Create a new actor event packet
-		const packet = new ActorEventPacket();
-
-		// Assign the values to the packet
-		packet.actorRuntimeId = this.entity.runtime;
-		packet.eventId = ActorEventIds.HURT_ANIMATION;
-		packet.eventData = -1;
-
-		// Broadcast the packet to the dimension
-		this.entity.dimension.broadcast(packet);
-
-		// Decrease the health of the entity
-		this.decreaseValue(damage);
-
-		// Return the current health of the entity
-		return this.getCurrentValue();
-	}
-
 	public onInteract(
 		player: Player,
 		type: ItemUseOnEntityInventoryTransactionType
 	): void {
+		/**
+		 * TODO: Calculate the damage based on the player, projectile , etc.
+		 */
 		// Check if the player is attacking the entity
 		if (type !== ItemUseOnEntityInventoryTransactionType.Attack) return;
 
@@ -111,14 +79,7 @@ class EntityHealthComponent extends EntityAttributeComponent {
 		// Set the velocity of the entity
 		this.entity.setMotion(new Vector3f(x, y, z));
 
-		// Damage the entity
-		const health = this.damage(player);
-
-		// Check if the entity is dead
-		if (health <= 0) {
-			// Kill the entity
-			this.entity.kill();
-		}
+		this.entity.applyDamage(2, ActorDamageCause.EntityAttack);
 	}
 
 	public onTick(): void {}

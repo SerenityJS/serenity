@@ -1,4 +1,5 @@
 import {
+	ActorDamageCause,
 	ActorEventIds,
 	ActorEventPacket,
 	AttributeName,
@@ -35,7 +36,13 @@ class PlayerHungerComponent extends EntityAttributeComponent {
 	}
 
 	public onTick(): void {
-		if (!this.entity.isPlayer() || !this.entity.isAlive) return;
+		if (!this.entity.isPlayer()) return;
+		if (!this.entity.isAlive) {
+			this.saturationComponent.resetToMaxValue();
+			this.exhaustionComponent.resetToMinValue();
+			this.resetToMaxValue();
+			return;
+		}
 		if (this.entity.gamemode == Gamemode.Creative) return;
 		const entityCurrentHealth = this.entity.getHealth();
 		const entityHealthComponent = this.entity.getComponent("minecraft:health");
@@ -58,7 +65,7 @@ class PlayerHungerComponent extends EntityAttributeComponent {
 				const packet = new ActorEventPacket();
 				packet.actorRuntimeId = this.entity.runtime;
 				packet.eventId = ActorEventIds.HURT_ANIMATION;
-				packet.eventData = -1;
+				packet.eventData = ActorDamageCause.Starve;
 
 				this.entity.dimension.broadcast(packet);
 				entityHealthComponent.decreaseValue(1);

@@ -15,3 +15,5 @@ export * from "./night-vision";
 export * from "./regeneration";
 export * from "./saturation";
 export * from "./hunger";
+export * from "./conduit-power";
+export * from "./water-breathing";

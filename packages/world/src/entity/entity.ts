@@ -16,7 +16,8 @@ import {
 	Vector3f,
 	PropertySyncData,
 	type DataItem,
-	type ActorFlag
+	type ActorFlag,
+	type ActorDamageCause
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
@@ -229,6 +230,29 @@ class Entity {
 	}
 
 	/**
+	 * Applies a certain ammount of damage to the entity
+	 * @param damage The damage amount to be applied
+	 * @param damageCause The cause of the damage
+	 */
+	public applyDamage(damage: number, damageCause: ActorDamageCause = -1): void {
+		if (!this.isAlive) return;
+		const entityHealthComponent = this.getComponent("minecraft:health");
+		const packet = new ActorEventPacket();
+
+		// Assign the values to the packet
+		packet.actorRuntimeId = this.runtime;
+		packet.eventId = ActorEventIds.HURT_ANIMATION;
+		packet.eventData = damageCause;
+
+		// Broadcast the packet to the dimension
+		this.dimension.broadcast(packet);
+
+		if (entityHealthComponent.getCurrentValue() - damage <= 0)
+			return this.kill();
+		entityHealthComponent.decreaseValue(damage);
+	}
+
+	/**
 	 * Gets the world the entity is in.
 	 * @returns The world the entity is in.
 	 */
@@ -376,6 +400,17 @@ class Entity {
 
 				// Remove the item from the container
 				container.clearSlot(slot);
+			}
+		}
+
+		// Check if the entity has the effects component
+		if (this.hasComponent("minecraft:effects")) {
+			// Get the component
+			const effects = this.getComponent("minecraft:effects");
+
+			// Remove every effect of the player
+			for (const effectType of effects.effects.keys()) {
+				effects.remove(effectType);
 			}
 		}
 
