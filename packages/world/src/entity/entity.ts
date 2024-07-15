@@ -470,9 +470,6 @@ class Entity {
 		// Iterate over the flags set on the entity
 		for (const [flag, enabled] of this.flags) packet.setFlag(flag, enabled);
 
-		// Clear the flags cause they only need to be sent once
-		this.flags.clear();
-
 		// Send the packet to the dimension
 		this.dimension.broadcast(packet);
 	}
@@ -685,6 +682,23 @@ class Entity {
 	}
 
 	/**
+	 * Applies damage to the entity.
+	 * @note This method is dependant on the entity having a `minecraft:health` component, if not will result in an `error`.
+	 * @param damage The amount of damage to apply to the entity.
+	 */
+	public applyDamage(damage: number): void {
+		// Check if the entity has a health component
+		if (!this.hasComponent("minecraft:health"))
+			throw new Error("The entity does not have a health component.");
+
+		// Get the health component
+		const health = this.getComponent("minecraft:health");
+
+		// Apply the damage to the entity
+		health.applyDamage(damage);
+	}
+
+	/**
 	 * Geta the nametag of the entity.
 	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if not will result in an `error`.
 	 * @returns The nametag of the entity.
@@ -722,18 +736,23 @@ class Entity {
 	 * Sets the entity on fire.
 	 * @note This method is dependant on the entity having a `minecraft:on_fire` component, if the component does not exist it will be created.
 	 */
-	// TODO: add seconds parameter
-	public setOnFire(): void {
+	public setOnFire(ticks?: number): void {
 		// Check if the entity has an on fire component
 		if (this.hasComponent("minecraft:on_fire")) {
 			// Get the on fire component
 			const component = this.getComponent("minecraft:on_fire");
+
+			// Set the remaining ticks
+			component.onFireRemainingTicks = ticks ?? 300;
 
 			// Set the entity on fire
 			component.setCurrentValue(true);
 		} else {
 			// Create a new on fire component
 			const component = new EntityOnFireComponent(this);
+
+			// Set the remaining ticks
+			component.onFireRemainingTicks = ticks ?? 300;
 
 			// Set the entity on fire
 			component.setCurrentValue(true);

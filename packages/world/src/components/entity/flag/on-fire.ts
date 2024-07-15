@@ -11,6 +11,8 @@ class EntityOnFireComponent extends EntityFlagComponent {
 
 	public defaultValue = false;
 
+	public onFireRemainingTicks = 300;
+
 	/**
 	 * Creates a new entity breathing component.
 	 *
@@ -22,6 +24,37 @@ class EntityOnFireComponent extends EntityFlagComponent {
 
 		// Set the entity to have breathing
 		this.setCurrentValue(this.defaultValue, false);
+	}
+
+	/**
+	 * Extinquishes the fire on the entity.
+	 */
+	public extinguish(): void {
+		// Set the remaining ticks to 0
+		this.onFireRemainingTicks = 0;
+	}
+
+	public onTick(): void {
+		// Check if the value is true
+		if (this.getCurrentValue()) {
+			// Decrease the remaining ticks
+			this.onFireRemainingTicks--;
+
+			// Check if the remaining ticks is less than or equal to
+			if (this.onFireRemainingTicks <= 0) {
+				// Set the value to false
+				this.setCurrentValue(false);
+
+				// Remove the component from the entity
+				this.entity.removeComponent(EntityOnFireComponent.identifier);
+			} else if (
+				this.entity.dimension.world.currentTick % 20n === 0n &&
+				this.entity.hasComponent("minecraft:health")
+			) {
+				// Apply damage to the entity
+				this.entity.applyDamage(1);
+			}
+		}
 	}
 }
 
