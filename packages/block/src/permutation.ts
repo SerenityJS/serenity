@@ -3,8 +3,7 @@ import { ByteTag, CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
 import { BlockType } from "./type";
 import { BlockState } from "./types";
 import { hash } from "./hash";
-
-import type { BlockIdentifier } from "./enums";
+import { BlockIdentifier } from "./enums";
 
 /**
  * BlockPermutation represents a current state of a block, for example dirt has a single state "dirt_type". This state can be changed to "coarse" or "normal" to represent a different state of dirt. This means dirt has a total of 2 permutations, one for "coarse" and one for "normal".
@@ -97,9 +96,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 		const type = BlockType.types.get(identifier as BlockIdentifier);
 
 		// Check if the block type exists.
-		if (!type) {
-			throw new Error(`Block type ${identifier} does not exist`);
-		}
+		if (!type) return this.resolve(BlockIdentifier.Air) as BlockPermutation<T>;
 
 		// Check if the state is not provided.
 		const permutation = type.permutations.find((permutation) => {
