@@ -9,11 +9,11 @@ import { Serialize, Proto } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
 import {
-	EntityProperties,
-	MetadataDictionary,
+	DataItem,
 	Vector3f,
 	EntityAttributes,
-	Links
+	Links,
+	PropertySyncData
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -30,8 +30,8 @@ class AddEntityPacket extends DataPacket {
 	@Serialize(Float32, Endianness.Little) public headYaw!: number;
 	@Serialize(Float32, Endianness.Little) public bodyYaw!: number;
 	@Serialize(EntityAttributes) public attributes!: Array<EntityAttributes>;
-	@Serialize(MetadataDictionary) public metadata!: Array<MetadataDictionary>;
-	@Serialize(EntityProperties) public properties!: EntityProperties;
+	@Serialize(DataItem) public data!: Array<DataItem>;
+	@Serialize(PropertySyncData) public properties!: PropertySyncData;
 	@Serialize(Links) public links!: Array<Links>;
 }
 

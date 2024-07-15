@@ -1,17 +1,17 @@
-import { MetadataKey, MetadataType } from "@serenityjs/protocol";
+import { ActorDataId, ActorDataType } from "@serenityjs/protocol";
 
-import { EntityMetadataComponent } from "./meta";
+import { EntityDataComponent } from "./data";
 
 import type { Entity } from "../../../entity";
 
-class EntityAlwaysShowNametagComponent extends EntityMetadataComponent {
+class EntityAlwaysShowNametagComponent extends EntityDataComponent {
 	public static readonly identifier = "minecraft:always_show_nametag";
 
-	public readonly key = MetadataKey.AlwaysShowNametag;
+	public readonly key = ActorDataId.NametagAlwaysShow;
 
-	public readonly type = MetadataType.Byte;
+	public readonly type = ActorDataType.Byte;
 
-	public defaultValue = true;
+	public defaultValue = 1;
 
 	/**
 	 * Creates a new entity always show nametag component.

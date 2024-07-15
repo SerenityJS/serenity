@@ -1,15 +1,15 @@
-import { MetadataKey, MetadataType } from "@serenityjs/protocol";
+import { ActorDataId, ActorDataType } from "@serenityjs/protocol";
 
-import { EntityMetadataComponent } from "./meta";
+import { EntityDataComponent } from "./data";
 
 import type { Entity } from "../../../entity";
 
-class EntityNametagComponent extends EntityMetadataComponent {
+class EntityNametagComponent extends EntityDataComponent {
 	public static readonly identifier = "minecraft:nametag";
 
-	public readonly key = MetadataKey.Nametag;
+	public readonly key = ActorDataId.Name;
 
-	public readonly type = MetadataType.String;
+	public readonly type = ActorDataType.String;
 
 	public defaultValue = this.entity.type.identifier as string;
 

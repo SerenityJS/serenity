@@ -1,15 +1,15 @@
-import { MetadataKey, MetadataType } from "@serenityjs/protocol";
+import { ActorDataId, ActorDataType } from "@serenityjs/protocol";
 
-import { EntityMetadataComponent } from "./meta";
+import { EntityDataComponent } from "./data";
 
 import type { Entity } from "../../../entity";
 
-class EntityBoundingWidthComponent extends EntityMetadataComponent {
+class EntityBoundingWidthComponent extends EntityDataComponent {
 	public static readonly identifier = "minecraft:boundingbox_width";
 
-	public readonly key = MetadataKey.BoundingBoxWidth;
+	public readonly key = ActorDataId.Reserved054;
 
-	public readonly type = MetadataType.Float;
+	public readonly type = ActorDataType.Float;
 
 	public defaultValue = 0.6;
 	/**

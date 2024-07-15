@@ -1,17 +1,13 @@
-import { MetadataFlags, MetadataKey, MetadataType } from "@serenityjs/protocol";
+import { ActorFlag } from "@serenityjs/protocol";
 
-import { EntityMetadataComponent } from "./meta";
+import { EntityFlagComponent } from "./flag";
 
 import type { Entity } from "../../../entity";
 
-class EntityBreathingComponent extends EntityMetadataComponent {
+class EntityBreathingComponent extends EntityFlagComponent {
 	public static readonly identifier = "minecraft:breathing";
 
-	public readonly key = MetadataKey.Flags;
-
-	public readonly flag = MetadataFlags.Breathing;
-
-	public readonly type = MetadataType.Long;
+	public readonly flag = ActorFlag.Breathing;
 
 	public defaultValue = true;
 

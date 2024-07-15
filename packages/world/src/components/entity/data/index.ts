@@ -1,13 +1,14 @@
 // Abstract components
-export * from "./meta";
+export * from "./data";
 
 // Concrete components
-export * from "./has-gravity";
-export * from "./breathing";
+// export * from "./has-gravity";
+// export * from "./breathing";
 export * from "./nametag";
 export * from "./always-show-nametag";
 export * from "./scale";
 export * from "./bounding-height";
 export * from "./bounding-width";
 export * from "./skin-id";
-export * from "./visible";
+// export * from "./visible";
+// export * from "./on-fire";

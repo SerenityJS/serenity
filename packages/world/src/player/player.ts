@@ -12,6 +12,7 @@ import {
 	type PermissionLevel,
 	PlayStatus,
 	PlayStatusPacket,
+	PropertySyncData,
 	RespawnPacket,
 	RespawnState,
 	type SerializedSkin,
@@ -28,8 +29,6 @@ import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { Entity } from "../entity";
 import {
 	EntityAlwaysShowNametagComponent,
-	EntityBreathingComponent,
-	EntityHasGravityComponent,
 	EntityHealthComponent,
 	EntityInventoryComponent,
 	EntityMovementComponent,
@@ -63,7 +62,9 @@ import {
 	EntitySkinIDComponent,
 	PlayerHungerComponent,
 	PlayerExhaustionComponent,
-	PlayerSaturationComponent
+	PlayerSaturationComponent,
+	EntityHasGravityComponent,
+	EntityBreathingComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -260,11 +261,8 @@ class Player extends Entity {
 				? new NetworkItemStackDescriptor(0)
 				: ItemStack.toNetworkStack(heldItem);
 		packet.gamemode = this.gamemode;
-		packet.metadata = [...this.metadata.values()];
-		packet.properties = {
-			ints: [],
-			floats: []
-		};
+		packet.data = [...this.metadata];
+		packet.properties = new PropertySyncData([], []);
 		packet.uniqueEntityId = this.unique;
 		packet.premissionLevel = this.permission;
 		packet.commandPermission = this.permission === 2 ? 1 : 0;

@@ -56,7 +56,7 @@ import type {
 	ScriptMessagePacket,
 	SetActorMotionPacket,
 	SetCommandsEnabledPacket,
-	SetEntityDataPacket,
+	SetActorDataPacket,
 	SetLocalPlayerAsInitializedPacket,
 	SetPlayerGameTypePacket,
 	SetTitlePacket,
@@ -126,7 +126,7 @@ interface NetworkEvents {
 	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
-	[Packet.SetEntityData]: [NetworkPacketEvent<SetEntityDataPacket>];
+	[Packet.SetActorData]: [NetworkPacketEvent<SetActorDataPacket>];
 	[Packet.SetActorMotion]: [NetworkPacketEvent<SetActorMotionPacket>];
 	[Packet.Animate]: [NetworkPacketEvent<AnimatePacket>];
 	[Packet.Respawn]: [NetworkPacketEvent<RespawnPacket>];

@@ -3,27 +3,36 @@ import { DataType } from "@serenityjs/raknet";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
 
-interface EntityPropertyData {
+interface Data {
 	index: number;
 	value: number;
 }
 
-class EntityProperties extends DataType {
-	public floats: Array<EntityPropertyData>;
-	public ints: Array<EntityPropertyData>;
+class PropertySyncData extends DataType {
+	/**
+	 * The floats of the property sync data.
+	 */
+	public readonly floats: Array<Data>;
 
-	public constructor(
-		floats: Array<EntityPropertyData>,
-		ints: Array<EntityPropertyData>
-	) {
+	/**
+	 * The ints of the property sync data.
+	 */
+	public readonly ints: Array<Data>;
+
+	/**
+	 * Creates a new property sync data.
+	 * @param floats The floats of the property sync data.
+	 * @param ints The ints of the property sync data.
+	 */
+	public constructor(floats: Array<Data>, ints: Array<Data>) {
 		super();
 		this.floats = floats;
 		this.ints = ints;
 	}
 
-	public static override read(stream: BinaryStream): EntityProperties {
+	public static override read(stream: BinaryStream): PropertySyncData {
 		// Prepare an array to store the ints.
-		const ints: Array<EntityPropertyData> = [];
+		const ints: Array<Data> = [];
 
 		// Read the number of ints
 		const iamount = stream.readVarInt();
@@ -43,7 +52,7 @@ class EntityProperties extends DataType {
 		}
 
 		// Prepare an array to store the floats.
-		const floats: Array<EntityPropertyData> = [];
+		const floats: Array<Data> = [];
 
 		// Read the number of floats
 		const famount = stream.readVarInt();
@@ -63,12 +72,12 @@ class EntityProperties extends DataType {
 		}
 
 		// Return the properties.
-		return new EntityProperties(floats, ints);
+		return new PropertySyncData(floats, ints);
 	}
 
 	public static override write(
 		stream: BinaryStream,
-		value: EntityProperties
+		value: PropertySyncData
 	): void {
 		// Write the number of ints given in the array.
 		stream.writeVarInt(value.ints.length);
@@ -92,4 +101,4 @@ class EntityProperties extends DataType {
 	}
 }
 
-export { EntityProperties };
+export { PropertySyncData };

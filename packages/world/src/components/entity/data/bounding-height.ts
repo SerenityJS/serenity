@@ -1,15 +1,15 @@
-import { MetadataKey, MetadataType } from "@serenityjs/protocol";
+import { ActorDataId, ActorDataType } from "@serenityjs/protocol";
 
-import { EntityMetadataComponent } from "./meta";
+import { EntityDataComponent } from "./data";
 
 import type { Entity } from "../../../entity";
 
-class EntityBoundingHeightComponent extends EntityMetadataComponent {
+class EntityBoundingHeightComponent extends EntityDataComponent {
 	public static readonly identifier = "minecraft:boundingbox_height";
 
-	public readonly key = MetadataKey.BoundingBoxHeight;
+	public readonly key = ActorDataId.Reserved053;
 
-	public readonly type = MetadataType.Float;
+	public readonly type = ActorDataType.Float;
 
 	public defaultValue = 1.7; // 1.7 Is the most common.
 

@@ -7,17 +7,16 @@ import {
 	type AttributeName,
 	ChunkCoords,
 	type EffectType,
-	MetadataDictionary,
-	type MetadataFlags,
-	MetadataKey,
-	MetadataType,
 	MoveActorAbsolutePacket,
 	RemoveEntityPacket,
 	Rotation,
 	SetActorMotionPacket,
-	SetEntityDataPacket,
+	SetActorDataPacket,
 	UpdateAttributesPacket,
-	Vector3f
+	Vector3f,
+	PropertySyncData,
+	type DataItem,
+	type ActorFlag
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
@@ -104,7 +103,12 @@ class Entity {
 	/**
 	 * The metadata of the entity.
 	 */
-	public readonly metadata = new Set<MetadataDictionary>();
+	public readonly metadata = new Set<DataItem>();
+
+	/**
+	 * The flags of the entity.
+	 */
+	public readonly flags = new Map<ActorFlag, boolean>();
 
 	/**
 	 * The attributes of the entity.
@@ -157,9 +161,6 @@ class Entity {
 	public sync(): void {
 		// Syncs the entity data
 		this.syncData();
-
-		// Syncs the entity flags
-		this.syncFlags();
 
 		// Syncs the entity attributes
 		this.syncAttributes();
@@ -291,7 +292,7 @@ class Entity {
 			packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
 			packet.position = this.position;
 			packet.velocity = this.velocity;
-			packet.metadata = [...this.metadata.values()];
+			packet.data = [];
 			packet.fromFishing = false;
 
 			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
@@ -311,11 +312,8 @@ class Entity {
 			packet.headYaw = this.rotation.headYaw;
 			packet.bodyYaw = this.rotation.yaw;
 			packet.attributes = [];
-			packet.metadata = [...this.metadata.values()];
-			packet.properties = {
-				ints: [],
-				floats: []
-			};
+			packet.data = [...this.metadata];
+			packet.properties = new PropertySyncData([], []);
 			packet.links = [];
 
 			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
@@ -461,224 +459,21 @@ class Entity {
 	 * Syncs the metadata of the entity.
 	 */
 	public syncData(): void {
-		// Create a new SetEntityDataPacket
-		const packet = new SetEntityDataPacket();
+		// Create a new SetActorDataPacket
+		const packet = new SetActorDataPacket();
 		packet.runtimeEntityId = this.runtime;
 		packet.tick = this.dimension.world.currentTick;
-		packet.metadata = [...this.metadata.values()];
-		packet.properties = {
-			ints: [],
-			floats: []
-		};
+		packet.data = [...this.metadata];
+		packet.properties = new PropertySyncData([], []);
+
+		// Iterate over the flags set on the entity
+		for (const [flag, enabled] of this.flags) packet.setFlag(flag, enabled);
+
+		// Clear the flags cause they only need to be sent once
+		this.flags.clear();
 
 		// Send the packet to the dimension
 		this.dimension.broadcast(packet);
-	}
-
-	/**
-	 * Wheather or not the entity contains the metadata key.
-	 * @param key The metadata key to check.
-	 * @returns Whether or not the entity contains the metadata key.
-	 */
-	public hasData(key: MetadataKey): boolean {
-		return [...this.metadata.values()].some((data) => data.key === key);
-	}
-
-	/**
-	 * Gets the metadata of the entity.
-	 * @param key The metadata key to get.
-	 * @returns The metadata of the entity.
-	 */
-	public getData(key: MetadataKey): MetadataDictionary | undefined {
-		return [...this.metadata.values()].find((data) => data.key === key);
-	}
-
-	/**
-	 * Gets all the metadata of the entity.
-	 * @returns All the metadata of the entity.
-	 */
-	public getAllData(): Array<MetadataDictionary> {
-		return [...this.metadata.values()].filter((data) => !data.flag);
-	}
-
-	/**
-	 * Adds metadata to the entity.
-	 * @param data The metadata to add.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public addData(data: MetadataDictionary, sync = true): void {
-		this.metadata.add(data);
-
-		if (sync) this.syncData();
-	}
-
-	/**
-	 * Sets the metadata of the entity.
-	 * @param key The metadata key to set.
-	 * @param value The value to set.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public setData(
-		key: MetadataKey,
-		value: bigint | boolean | number | string,
-		sync = true
-	): void {
-		const data = this.getData(key);
-
-		if (!data) throw new Error(`The entity does not have the ${key} data.`);
-
-		data.value = value;
-
-		if (sync) this.syncData();
-	}
-
-	/**
-	 * Creates metadata for the entity.
-	 * @param key The metadata key to create.
-	 * @param value The value to create.
-	 * @param type The type of the metadata.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public createData(
-		key: MetadataKey,
-		value: bigint | boolean | number | string,
-		type: MetadataType,
-		sync = true
-	): void {
-		// Create a new MetadataDictionary
-		const data = new MetadataDictionary(key, type, value);
-
-		// Add the data to the entity
-		this.addData(data, sync);
-	}
-
-	/**
-	 * Removes metadata from the entity.
-	 * @param key The metadata key to remove.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public removeData(key: MetadataKey, sync = true): void {
-		// Check if the entity has the metadata key
-		const data = this.getData(key);
-
-		// Check if the data is not found
-		if (!data) return;
-
-		// Remove the data from the entity
-		this.metadata.delete(data);
-
-		// Synchronize the metadata
-		if (sync) this.syncData();
-	}
-
-	/**
-	 * Syncs the metadata flags of the entity.
-	 */
-	public syncFlags(): void {
-		// Create a new SetEntityDataPacket
-		const packet = new SetEntityDataPacket();
-		packet.runtimeEntityId = this.runtime;
-		packet.tick = this.dimension.world.currentTick;
-		packet.metadata = [...this.metadata.values()];
-		packet.properties = {
-			ints: [],
-			floats: []
-		};
-
-		// Send the packet to the dimension
-		this.dimension.broadcast(packet);
-	}
-
-	/**
-	 * Wheather or not the entity contains the metadata flag.
-	 * @param flag The metadata flag to check.
-	 * @returns Whether or not the entity contains the metadata flag.
-	 */
-	public hasFlag(flag: MetadataFlags): boolean {
-		return [...this.metadata.values()].some((data) => data.flag === flag);
-	}
-
-	/**
-	 * Gets the metadata flag of the entity.
-	 * @param flag The metadata flag to get.
-	 * @returns The metadata flag of the entity.
-	 */
-	public getFlag(flag: MetadataFlags): MetadataDictionary | undefined {
-		return [...this.metadata.values()].find((data) => data.flag === flag);
-	}
-
-	/**
-	 * Gets all the metadata flags of the entity.
-	 * @returns All the metadata flags of the entity.
-	 */
-	public getAllFlags(): Array<MetadataDictionary> {
-		return [...this.metadata.values()].filter((data) => data.flag);
-	}
-
-	/**
-	 * Adds a metadata flag to the entity.
-	 * @param data The metadata flag to add.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public addFlag(data: MetadataDictionary, sync = true): void {
-		this.metadata.add(data);
-
-		if (sync) this.syncFlags();
-	}
-
-	/**
-	 * Sets the metadata flag of the entity.
-	 * @param flag The metadata flag to set.
-	 * @param value The value to set.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public setFlag(flag: MetadataFlags, value: boolean, sync = true): void {
-		const data = this.getFlag(flag);
-
-		if (!data) throw new Error(`The entity does not have the ${flag} flag.`);
-
-		data.value = value;
-
-		if (sync) this.syncFlags();
-	}
-
-	/**
-	 * Creates a metadata flag for the entity.
-	 * @param flag The metadata flag to create.
-	 * @param value The value to create.
-	 * @param type The type of the metadata.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public createFlag(flag: MetadataFlags, value: boolean, sync = true): void {
-		// Create a new MetadataDictionary
-		const data = new MetadataDictionary(
-			MetadataKey.Flags,
-			MetadataType.Long,
-			value,
-			flag
-		);
-
-		// Add the data to the entity
-		this.addFlag(data, sync);
-	}
-
-	/**
-	 * Removes a metadata flag from the entity.
-	 * @param flag The metadata flag to remove.
-	 * @param sync Whether to synchronize the metadata.
-	 */
-	public removeFlag(flag: MetadataFlags, sync = true): void {
-		// Check if the entity has the metadata flag
-		const data = this.getFlag(flag);
-
-		// Check if the data is not found
-		if (!data) return;
-
-		// Remove the data from the entity
-		this.metadata.delete(data);
-
-		// Synchronize the metadata
-		if (sync) this.syncFlags();
 	}
 
 	/**
@@ -687,7 +482,6 @@ class Entity {
 	 */
 	public setVisibility(visibility: boolean): void {
 		const isVisibleComponent = this.getComponent("minecraft:is_visible");
-
 		if (isVisibleComponent.getCurrentValue() == !visibility) return;
 		isVisibleComponent.setCurrentValue(!visibility, true);
 	}

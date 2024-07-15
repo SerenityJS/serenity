@@ -1,14 +1,14 @@
-import { MetadataFlags, MetadataKey, MetadataType } from "@serenityjs/protocol";
+import { ActorFlag } from "@serenityjs/protocol";
 
-import { EntityMetadataComponent } from "./meta";
+import { EntityFlagComponent } from "./flag";
 
 import type { Entity } from "../../../entity";
 
-class EntityIsVisibleComponent extends EntityMetadataComponent {
+class EntityIsVisibleComponent extends EntityFlagComponent {
 	public static readonly identifier = "minecraft:is_visible";
-	public readonly key = MetadataKey.Flags;
-	public readonly type = MetadataType.Byte;
-	public flag?: MetadataFlags = MetadataFlags.Invisible;
+
+	public readonly flag = ActorFlag.Invisible;
+
 	public defaultValue = false;
 
 	/**

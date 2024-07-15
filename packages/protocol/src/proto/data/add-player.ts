@@ -19,8 +19,8 @@ import {
 	PermissionLevel
 } from "../../enums";
 import {
-	EntityProperties,
-	MetadataDictionary,
+	PropertySyncData,
+	DataItem,
 	Vector3f,
 	AbilityLayers,
 	Links,
@@ -44,8 +44,8 @@ class AddPlayerPacket extends DataPacket {
 	public heldItem!: NetworkItemStackDescriptor;
 
 	@Serialize(ZigZag) public gamemode!: Gamemode;
-	@Serialize(MetadataDictionary) public metadata!: Array<MetadataDictionary>;
-	@Serialize(EntityProperties) public properties!: EntityProperties;
+	@Serialize(DataItem) public data!: Array<DataItem>;
+	@Serialize(PropertySyncData) public properties!: PropertySyncData;
 	@Serialize(Int64, Endianness.Little) public uniqueEntityId!: bigint;
 	@Serialize(Uint8) public premissionLevel!: PermissionLevel;
 	@Serialize(Uint8) public commandPermission!: CommandPermissionLevel;

@@ -30,7 +30,7 @@ enum Packet {
 	Interact = 0x21, // 33
 	BlockPickRequest = 0x22, // 34
 	PlayerAction = 0x24, // 36
-	SetEntityData = 0x27, // 39
+	SetActorData = 0x27, // 39
 	SetActorMotion = 0x28, // 40
 	// SetSpawnPosition = 0x2b, // 43
 	Animate = 0x2c, // 44

@@ -1,15 +1,15 @@
-import { MetadataKey, MetadataType } from "@serenityjs/protocol";
+import { ActorDataId, ActorDataType } from "@serenityjs/protocol";
 
-import { EntityMetadataComponent } from "./meta";
+import { EntityDataComponent } from "./data";
 
 import type { Entity } from "../../../entity";
 
-class EntitySkinIDComponent extends EntityMetadataComponent {
-	public static readonly identifier = "minecraft:scale";
+class EntitySkinIDComponent extends EntityDataComponent {
+	public static readonly identifier = "minecraft:skin_id";
 
-	public readonly key = MetadataKey.SkinID;
+	public readonly key = ActorDataId.SkinId;
 
-	public readonly type = MetadataType.String;
+	public readonly type = ActorDataType.String;
 
 	public defaultValue = String();
 
