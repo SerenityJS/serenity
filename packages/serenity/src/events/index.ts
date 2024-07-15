@@ -9,6 +9,7 @@ export * from "./player-place-block";
 export * from "./player-break-block";
 export * from "./player-container-open";
 export * from "./player-dropped-item";
+export * from "./command-executed";
 
 // Concrete entity signals
 export * from "./entity-spawned";
@@ -23,6 +24,7 @@ import { PlayerBreakBlockSignal } from "./player-break-block";
 import { PlayerContainerOpenSignal } from "./player-container-open";
 import { PlayerDroppedItemSignal } from "./player-dropped-item";
 import { EntitySpawnedSignal } from "./entity-spawned";
+import { CommandExecutedSignal } from "./command-executed";
 
 /**
  * Contains all the event signals.
@@ -36,7 +38,8 @@ const EVENT_SIGNALS = [
 	PlayerBreakBlockSignal,
 	PlayerContainerOpenSignal,
 	PlayerDroppedItemSignal,
-	EntitySpawnedSignal
+	EntitySpawnedSignal,
+	CommandExecutedSignal
 ];
 
 // Exports

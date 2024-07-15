@@ -1,3 +1,4 @@
+import type { CommandExecutedSignal } from "./command-executed";
 import type { PlayerStartedBreakingBlockSignal } from "./player-started-breaking-block";
 import type { PlayerDroppedItemSignal } from "./player-dropped-item";
 import type { EntitySpawnedSignal } from "./entity-spawned";
@@ -18,6 +19,7 @@ interface EventSignals {
 	PlayerContainerOpen: [PlayerContainerOpenSignal];
 	PlayerDroppedItem: [PlayerDroppedItemSignal];
 	EntitySpawned: [EntitySpawnedSignal];
+	CommandExecuted: [CommandExecutedSignal];
 }
 
 export { EventSignals };
