@@ -26,7 +26,8 @@ import {
 	EntityComponent,
 	EntityEffectsComponent,
 	EntityHealthComponent,
-	EntityNametagComponent
+	EntityNametagComponent,
+	EntityOnFireComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -715,6 +716,48 @@ class Entity {
 
 		// Set the nametag value
 		nametagComponent.setCurrentValue(nametag);
+	}
+
+	/**
+	 * Sets the entity on fire.
+	 * @note This method is dependant on the entity having a `minecraft:on_fire` component, if the component does not exist it will be created.
+	 */
+	// TODO: add seconds parameter
+	public setOnFire(): void {
+		// Check if the entity has an on fire component
+		if (this.hasComponent("minecraft:on_fire")) {
+			// Get the on fire component
+			const component = this.getComponent("minecraft:on_fire");
+
+			// Set the entity on fire
+			component.setCurrentValue(true);
+		} else {
+			// Create a new on fire component
+			const component = new EntityOnFireComponent(this);
+
+			// Set the entity on fire
+			component.setCurrentValue(true);
+		}
+	}
+
+	/**
+	 * Extinguishes the entity from fire.
+	 * @note This method is dependant on the entity having a `minecraft:on_fire` component, if the component does not exist it will result in an `error`.
+	 */
+	public extinguishFire(): void {
+		// Check if the entity has an on fire
+		if (!this.hasComponent("minecraft:on_fire"))
+			throw new Error("The entity does not have an on fire component.");
+
+		// Get the on fire component
+		const component = this.getComponent("minecraft:on_fire");
+
+		// Set the entity on fire
+		component.setCurrentValue(false);
+
+		// Remove the component as the entity is no longer on fire
+		// This will reduce unnecessary ticking
+		this.removeComponent("minecraft:on_fire");
 	}
 
 	/**

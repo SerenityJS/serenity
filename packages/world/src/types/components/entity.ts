@@ -11,6 +11,7 @@ import type {
 	EntityIsVisibleComponent,
 	EntityItemComponent,
 	EntityNametagComponent,
+	EntityOnFireComponent,
 	EntityPhysicsComponent,
 	EntityScaleComponent
 } from "../../components";
@@ -36,6 +37,7 @@ interface EntityMetadataComponents {
 	"minecraft:item": EntityItemComponent;
 	"minecraft:physics": EntityPhysicsComponent;
 	"minecraft:is_visible": EntityIsVisibleComponent;
+	"minecraft:on_fire": EntityOnFireComponent;
 }
 
 /**

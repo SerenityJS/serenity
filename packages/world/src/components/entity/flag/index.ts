@@ -5,3 +5,4 @@ export * from "./flag";
 export * from "./has-gravity";
 export * from "./breathing";
 export * from "./is-visible";
+export * from "./on-fire";
