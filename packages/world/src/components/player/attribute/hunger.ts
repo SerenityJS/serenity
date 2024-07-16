@@ -1,4 +1,5 @@
 import {
+	ActorDamageCause,
 	ActorEventIds,
 	ActorEventPacket,
 	AttributeName,
@@ -53,15 +54,8 @@ class PlayerHungerComponent extends EntityAttributeComponent {
 				entityHealthComponent.increaseValue(1);
 				this.exhaust(6);
 			} else if (this.food <= 0) {
-				// Create depending on difficulty
-				// ! Temporal Implementation until damage is fully implemented
-				const packet = new ActorEventPacket();
-				packet.actorRuntimeId = this.entity.runtime;
-				packet.eventId = ActorEventIds.HURT_ANIMATION;
-				packet.eventData = -1;
-
-				this.entity.dimension.broadcast(packet);
-				entityHealthComponent.decreaseValue(1);
+				// add starve depending on difficulty
+				entityHealthComponent.applyDamage(1, ActorDamageCause.Starve);
 			}
 		}
 		if (this.food <= 6) {

@@ -1,4 +1,5 @@
 import type {
+	PlayerExperienceLevelComponent,
 	PlayerAttackMobsComponent,
 	PlayerAttackPlayersComponent,
 	PlayerBuildComponent,
@@ -7,6 +8,7 @@ import type {
 	PlayerCursorComponent,
 	PlayerDoorsAndSwitchesComponent,
 	PlayerExhaustionComponent,
+	PlayerExperienceComponent,
 	PlayerFlySpeedComponent,
 	PlayerFlyingComponent,
 	PlayerHungerComponent,
@@ -49,11 +51,12 @@ interface PlayerAbilityComponents {
 	"minecraft:ability.walk_speed": PlayerWalkSpeedComponent;
 	"minecraft:ability.world_builder": PlayerWorldBuilderComponent;
 }
-
 interface PlayerAttributeComponents {
 	"minecraft:player.hunger": PlayerHungerComponent;
 	"minecraft:player.saturation": PlayerSaturationComponent;
 	"minecraft:player.exhaustion": PlayerExhaustionComponent;
+	"minecraft:player.level": PlayerExperienceLevelComponent;
+	"minecraft:player.experience": PlayerExperienceComponent;
 }
 
 interface PlayerComponents

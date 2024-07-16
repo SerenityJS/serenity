@@ -1,4 +1,5 @@
 import {
+	ActorDamageCause,
 	ActorEventIds,
 	ActorEventPacket,
 	AttributeName,
@@ -50,7 +51,7 @@ class EntityHealthComponent extends EntityAttributeComponent {
 	 * Applies damage to the entity.
 	 * @param damage The amount of damage to apply to the entity.
 	 */
-	public applyDamage(damage: number): void {
+	public applyDamage(damage: number, cause?: ActorDamageCause): void {
 		// Decrease the health of the entity
 		this.decreaseValue(damage);
 
@@ -60,7 +61,7 @@ class EntityHealthComponent extends EntityAttributeComponent {
 		// Assign the values to the packet
 		packet.actorRuntimeId = this.entity.runtime;
 		packet.eventId = ActorEventIds.HURT_ANIMATION;
-		packet.eventData = -1;
+		packet.eventData = cause ?? ActorDamageCause.None;
 		this.entity.dimension.broadcast(packet);
 
 		// Check if the entity is dead
@@ -108,6 +109,9 @@ class EntityHealthComponent extends EntityAttributeComponent {
 		player: Player,
 		type: ItemUseOnEntityInventoryTransactionType
 	): void {
+		/**
+		 * TODO: Calculate the damage based on the player, projectile , etc.
+		 */
 		// Check if the player is attacking the entity
 		if (type !== ItemUseOnEntityInventoryTransactionType.Attack) return;
 

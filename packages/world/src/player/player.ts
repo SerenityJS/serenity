@@ -64,7 +64,9 @@ import {
 	PlayerExhaustionComponent,
 	PlayerSaturationComponent,
 	EntityHasGravityComponent,
-	EntityBreathingComponent
+	EntityBreathingComponent,
+	PlayerExperienceLevelComponent,
+	PlayerExperienceComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -209,6 +211,22 @@ class Player extends Entity {
 	}
 
 	/**
+	 * The player experience level
+	 */
+	public get level(): number {
+		if (!this.hasComponent("minecraft:player.level")) return 0;
+		const experienceComponent = this.getComponent("minecraft:player.level");
+
+		return experienceComponent.level;
+	}
+
+	public set level(experienceLevel: number) {
+		if (!this.hasComponent("minecraft:player.level")) return;
+		const experienceComponent = this.getComponent("minecraft:player.level");
+		experienceComponent.level = experienceLevel;
+	}
+
+	/**
 	 * Syncs the player instance.
 	 */
 	public sync(): void {
@@ -342,6 +360,21 @@ class Player extends Entity {
 
 		// Set the player as alive
 		this.isAlive = true;
+	}
+
+	public kill(): void {
+		this.addExperience(-this.getTotalExperience());
+		if (this.hasComponent("minecraft:player.hunger")) {
+			const hunger = this.getComponent("minecraft:player.hunger");
+			const exhaustion = this.getComponent("minecraft:player.exhaustion");
+			const saturation = this.getComponent("minecraft:player.saturation");
+
+			hunger.resetToDefaultValue();
+			exhaustion.resetToDefaultValue();
+			saturation.resetToDefaultValue();
+		}
+
+		super.kill();
 	}
 
 	/**
@@ -631,6 +664,67 @@ class Player extends Entity {
 		// Send the packet to the player
 		this.session.send(packet);
 	}
+
+	/**
+	 * Gets the total amount of experience the player has
+	 * @returns The amount of experience
+	 */
+
+	public getTotalExperience(): number {
+		if (!this.hasComponent("minecraft:player.experience")) return 0;
+		const experienceComponent = this.getComponent(
+			"minecraft:player.experience"
+		);
+		const experienceLevelComponent = this.getComponent(
+			"minecraft:player.level"
+		);
+
+		return (
+			experienceComponent.experience + experienceLevelComponent.toExperience()
+		);
+	}
+
+	/**
+	 * Gives the needed experience to the next level
+	 * @param level The level to get the needed experience
+	 * @returns The needed experience
+	 */
+	public getNextLevelXp(level: number = this.level): number {
+		let neededExperience: number = 0;
+
+		switch (true) {
+			case level <= 15: {
+				neededExperience = 2 * level + 7;
+				break;
+			}
+			case level > 15 && level <= 30: {
+				neededExperience = 5 * level - 38;
+				break;
+			}
+			case level > 30: {
+				neededExperience = 9 * level - 158;
+				break;
+			}
+		}
+		return neededExperience;
+	}
+
+	/**
+	 * Adds or removes experience of the player
+	 * @param experienceAmount The experience amount to be added / removed, negative values removes experience
+	 */
+	public addExperience(experienceAmount: number): void {
+		if (!this.hasComponent("minecraft:player.experience")) return;
+		const experienceComponent = this.getComponent(
+			"minecraft:player.experience"
+		);
+
+		if (experienceAmount > 0) {
+			experienceComponent.addExperience(experienceAmount);
+			return;
+		}
+		experienceComponent.removeExperience(Math.abs(experienceAmount));
+	}
 }
 
 export { Player };
@@ -673,3 +767,5 @@ PlayerPrivilegedBuilderComponent.register(type);
 PlayerCountComponent.register(type);
 PlayerChunkRenderingComponent.register(type);
 PlayerEntityRenderingComponent.register(type);
+PlayerExperienceLevelComponent.register(type);
+PlayerExperienceComponent.register(type);

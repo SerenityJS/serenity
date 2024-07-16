@@ -3,7 +3,7 @@ export * from "./slowness";
 export * from "./levitation";
 export * from "./instant-health";
 export * from "./instant-damage";
-/* export * from "./strength"; */
+
 export * from "./invisibility";
 export * from "./poison";
 export * from "./wither";

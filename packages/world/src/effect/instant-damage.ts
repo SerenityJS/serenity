@@ -1,9 +1,4 @@
-import {
-	ActorEventIds,
-	ActorEventPacket,
-	EffectType,
-	Gamemode
-} from "@serenityjs/protocol";
+import { ActorDamageCause, EffectType, Gamemode } from "@serenityjs/protocol";
 
 import { Effect } from "./effect";
 
@@ -16,20 +11,12 @@ class InstantDamage<T extends Entity> extends Effect {
 	public onTick?(_entity: T): void {}
 
 	public onAdd?(entity: T): void {
-		const entityHealth = entity.getComponent("minecraft:health");
-
 		// TODO: Undead check for healing
 		//if (entity)
 
 		if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
 
-		const packet = new ActorEventPacket();
-		packet.actorRuntimeId = entity.runtime;
-		packet.eventId = ActorEventIds.HURT_ANIMATION;
-		packet.eventData = -1;
-
-		entity.dimension.broadcast(packet);
-		entityHealth.decreaseValue(3 * 2 ** this.amplifier);
+		entity.applyDamage(3 * 2 ** this.amplifier, ActorDamageCause.Magic);
 	}
 
 	public onRemove?(_entity: T): void {}

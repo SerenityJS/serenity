@@ -1,6 +1,5 @@
 import {
-	ActorEventIds,
-	ActorEventPacket,
+	ActorDamageCause,
 	Color,
 	EffectType,
 	Gamemode
@@ -24,20 +23,9 @@ class FatalPoisonEffect<T extends Entity> extends Effect {
 
 		if (Number(entity.dimension.world.currentTick) % ticksPerSecond != 0)
 			return;
-		const entityHealth = entity.getComponent("minecraft:health");
 
 		if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
-		if (!entity.isAlive) {
-			this.duration = 0;
-			return;
-		}
-		const packet = new ActorEventPacket();
-		packet.actorRuntimeId = entity.runtime;
-		packet.eventId = ActorEventIds.HURT_ANIMATION;
-		packet.eventData = -1;
-
-		entity.dimension.broadcast(packet);
-		entityHealth.decreaseValue(1);
+		entity.applyDamage(1, ActorDamageCause.Magic);
 	}
 
 	public onAdd?(_entity: T): void {}

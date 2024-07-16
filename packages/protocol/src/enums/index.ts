@@ -65,3 +65,4 @@ export * from "./inventory-right-tab";
 export * from "./actor-data-id";
 export * from "./actor-flag";
 export * from "./actor-data-type";
+export * from "./actor-damage-cause";
