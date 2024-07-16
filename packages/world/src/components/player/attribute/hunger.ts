@@ -36,13 +36,7 @@ class PlayerHungerComponent extends EntityAttributeComponent {
 	}
 
 	public onTick(): void {
-		if (!this.entity.isPlayer()) return;
-		if (!this.entity.isAlive) {
-			this.saturationComponent.resetToMaxValue();
-			this.exhaustionComponent.resetToMinValue();
-			this.resetToMaxValue();
-			return;
-		}
+		if (!this.entity.isPlayer() || !this.entity.isAlive) return;
 		if (this.entity.gamemode == Gamemode.Creative) return;
 		const entityCurrentHealth = this.entity.getHealth();
 		const entityHealthComponent = this.entity.getComponent("minecraft:health");
@@ -60,15 +54,8 @@ class PlayerHungerComponent extends EntityAttributeComponent {
 				entityHealthComponent.increaseValue(1);
 				this.exhaust(6);
 			} else if (this.food <= 0) {
-				// Create depending on difficulty
-				// ! Temporal Implementation until damage is fully implemented
-				const packet = new ActorEventPacket();
-				packet.actorRuntimeId = this.entity.runtime;
-				packet.eventId = ActorEventIds.HURT_ANIMATION;
-				packet.eventData = ActorDamageCause.Starve;
-
-				this.entity.dimension.broadcast(packet);
-				entityHealthComponent.decreaseValue(1);
+				// add starve depending on difficulty
+				entityHealthComponent.applyDamage(1, ActorDamageCause.Starve);
 			}
 		}
 		if (this.food <= 6) {
