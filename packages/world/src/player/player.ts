@@ -362,6 +362,21 @@ class Player extends Entity {
 		this.isAlive = true;
 	}
 
+	public kill(): void {
+		this.addExperience(-this.getTotalExperience());
+		if (this.hasComponent("minecraft:player.hunger")) {
+			const hunger = this.getComponent("minecraft:player.hunger");
+			const exhaustion = this.getComponent("minecraft:player.exhaustion");
+			const saturation = this.getComponent("minecraft:player.saturation");
+
+			hunger.resetToDefaultValue();
+			exhaustion.resetToDefaultValue();
+			saturation.resetToDefaultValue();
+		}
+
+		super.kill();
+	}
+
 	/**
 	 * Despawns the player from the world.
 	 * @param player The player to despawn the player from.
