@@ -1,5 +1,17 @@
 # @serenityjs/plugins
 
+## 0.4.0
+
+### Minor Changes
+
+- 149ee75: init v0.4.0-beta
+
+### Patch Changes
+
+- Updated dependencies [149ee75]
+  - @serenityjs/emitter@0.4.0
+  - @serenityjs/logger@0.4.0
+
 ## 0.3.6
 
 ### Patch Changes

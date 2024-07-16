@@ -1,5 +1,25 @@
 # @serenityjs/world
 
+## 0.4.0
+
+### Minor Changes
+
+- 149ee75: init v0.4.0-beta
+
+### Patch Changes
+
+- Updated dependencies [149ee75]
+  - @serenityjs/block@0.4.0
+  - @serenityjs/command@0.4.0
+  - @serenityjs/data@0.4.0
+  - @serenityjs/emitter@0.4.0
+  - @serenityjs/entity@0.4.0
+  - @serenityjs/item@0.4.0
+  - @serenityjs/logger@0.4.0
+  - @serenityjs/nbt@0.4.0
+  - @serenityjs/network@0.4.0
+  - @serenityjs/protocol@0.4.0
+
 ## 0.3.6
 
 ### Patch Changes
