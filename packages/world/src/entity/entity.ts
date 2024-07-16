@@ -230,29 +230,6 @@ class Entity {
 	}
 
 	/**
-	 * Applies a certain ammount of damage to the entity
-	 * @param damage The damage amount to be applied
-	 * @param damageCause The cause of the damage
-	 */
-	public applyDamage(damage: number, damageCause: ActorDamageCause = -1): void {
-		if (!this.isAlive) return;
-		const entityHealthComponent = this.getComponent("minecraft:health");
-		const packet = new ActorEventPacket();
-
-		// Assign the values to the packet
-		packet.actorRuntimeId = this.runtime;
-		packet.eventId = ActorEventIds.HURT_ANIMATION;
-		packet.eventData = damageCause;
-
-		// Broadcast the packet to the dimension
-		this.dimension.broadcast(packet);
-
-		if (entityHealthComponent.getCurrentValue() - damage <= 0)
-			return this.kill();
-		entityHealthComponent.decreaseValue(damage);
-	}
-
-	/**
 	 * Gets the world the entity is in.
 	 * @returns The world the entity is in.
 	 */
@@ -400,21 +377,6 @@ class Entity {
 
 				// Remove the item from the container
 				container.clearSlot(slot);
-			}
-		}
-
-		// ? Reset the hunger attributes and the player experience
-		// * This looks awful
-		if (this.isPlayer()) {
-			this.addExperience(-this.getTotalExperience());
-			if (this.hasComponent("minecraft:player.hunger")) {
-				const hunger = this.getComponent("minecraft:player.hunger");
-				const exhaustion = this.getComponent("minecraft:player.exhaustion");
-				const saturation = this.getComponent("minecraft:player.saturation");
-
-				hunger.resetToDefaultValue();
-				exhaustion.resetToDefaultValue();
-				saturation.resetToDefaultValue();
 			}
 		}
 
@@ -736,7 +698,7 @@ class Entity {
 	 * @note This method is dependant on the entity having a `minecraft:health` component, if not will result in an `error`.
 	 * @param damage The amount of damage to apply to the entity.
 	 */
-	public applyDamage(damage: number): void {
+	public applyDamage(damage: number, damageCause?: ActorDamageCause): void {
 		// Check if the entity has a health component
 		if (!this.hasComponent("minecraft:health"))
 			throw new Error("The entity does not have a health component.");
@@ -745,7 +707,7 @@ class Entity {
 		const health = this.getComponent("minecraft:health");
 
 		// Apply the damage to the entity
-		health.applyDamage(damage);
+		health.applyDamage(damage, damageCause);
 	}
 
 	/**
