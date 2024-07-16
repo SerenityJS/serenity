@@ -258,10 +258,6 @@ class BlockStorage {
 				if (!permutation)
 					throw new Error(`Unknown permutation state: ${nbt.valueOf(true)}`);
 
-				// Check if the permutation state already exists in the
-				if (palette.includes(permutation.network))
-					throw new Error(`Duplicate permutation state: ${nbt.valueOf(true)}`);
-
 				// Add the state to the palette.
 				palette[index] = permutation.network;
 			} else {

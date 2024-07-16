@@ -27,7 +27,7 @@ const register = (world: World) => {
 					// Update the player's gamemode to survival
 					case "s":
 					case "survival": {
-						origin.gamemode = Gamemode.Survival;
+						origin.setGamemode(Gamemode.Survival);
 
 						// Return the success message
 						return {
@@ -38,7 +38,7 @@ const register = (world: World) => {
 					// Update the player's gamemode to creative
 					case "c":
 					case "creative": {
-						origin.gamemode = Gamemode.Creative;
+						origin.setGamemode(Gamemode.Creative);
 
 						// Return the success message
 						return {
@@ -49,7 +49,7 @@ const register = (world: World) => {
 					// Update the player's gamemode to adventure
 					case "a":
 					case "adventure": {
-						origin.gamemode = Gamemode.Adventure;
+						origin.setGamemode(Gamemode.Adventure);
 
 						// Return the success message
 						return {
@@ -60,7 +60,7 @@ const register = (world: World) => {
 					// Update the player's gamemode to spectator
 					case "sp":
 					case "spectator": {
-						origin.gamemode = Gamemode.Spectator;
+						origin.setGamemode(Gamemode.Spectator);
 
 						// Return the success message
 						return {
@@ -84,7 +84,7 @@ const register = (world: World) => {
 							if (!(entity instanceof Player)) continue;
 
 							// Update the player's gamemode to survival
-							entity.gamemode = Gamemode.Survival;
+							entity.setGamemode(Gamemode.Survival);
 						}
 
 						return {
@@ -102,7 +102,7 @@ const register = (world: World) => {
 							if (!(entity instanceof Player)) continue;
 
 							// Update the player's gamemode to creative
-							entity.gamemode = Gamemode.Creative;
+							entity.setGamemode(Gamemode.Creative);
 						}
 
 						return {
@@ -120,7 +120,7 @@ const register = (world: World) => {
 							if (!(entity instanceof Player)) continue;
 
 							// Update the player's gamemode to adventure
-							entity.gamemode = Gamemode.Adventure;
+							entity.setGamemode(Gamemode.Adventure);
 						}
 
 						return {
@@ -138,7 +138,7 @@ const register = (world: World) => {
 							if (!(entity instanceof Player)) continue;
 
 							// Update the player's gamemode to spectator
-							entity.gamemode = Gamemode.Spectator;
+							entity.setGamemode(Gamemode.Spectator);
 						}
 
 						return {

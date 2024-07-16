@@ -120,6 +120,11 @@ class Player extends Entity {
 	public readonly skin: SerializedSkin;
 
 	/**
+	 * The gamemode of the player.
+	 */
+	public gamemode = Gamemode.Survival;
+
+	/**
 	 * The player's current network latency.
 	 */
 	public ping = 0;
@@ -159,14 +164,6 @@ class Player extends Entity {
 	 */
 	public isFlying = false;
 
-	// Protected properties
-
-	/**
-	 * @deprecated This property is deprecated and will be removed in the future.
-	 * The player's gamemode.
-	 */
-	protected _gamemode = Gamemode.Creative;
-
 	public constructor(
 		session: NetworkSession,
 		tokens: LoginTokenData,
@@ -190,18 +187,24 @@ class Player extends Entity {
 	}
 
 	/**
-	 * The player's gamemode.
+	 * Gets the player's gamemode.
+	 * @returns The gamemode of the player.
 	 */
-	public get gamemode(): Gamemode {
-		return this._gamemode;
+	public getGamemode(): Gamemode {
+		return this.gamemode;
 	}
 
-	public set gamemode(value: Gamemode) {
-		this._gamemode = value;
+	/**
+	 * Sets the gamemode of the player.
+	 * @param gamemode The gamemode to set.
+	 */
+	public setGamemode(gamemode: Gamemode): void {
+		// Set the gamemode of the player
+		this.gamemode = gamemode;
 
 		// Create a new SetPlayerGameTypePacket
 		const packet = new SetPlayerGameTypePacket();
-		packet.gamemode = value;
+		packet.gamemode = gamemode;
 
 		// Send the packet to the player
 		this.session.send(packet);

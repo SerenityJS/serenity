@@ -63,7 +63,7 @@ class CustomBlockType extends BlockType {
 	 */
 	public static get<T extends keyof BlockState = keyof BlockState>(
 		identifier: string
-	): BlockType<T> | null {
+	): BlockType<T> {
 		return BlockType.types.get(identifier) as BlockType<T>;
 	}
 

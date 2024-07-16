@@ -122,16 +122,12 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	/**
 	 * Get the block type from the registry.
 	 */
-	public static get<T extends keyof BlockState>(
-		identifier: T
-	): BlockType<T> | null {
+	public static get<T extends keyof BlockState>(identifier: T): BlockType<T> {
 		// Get the block type from the registry.
 		const type = BlockType.types.get(identifier as BlockIdentifier);
 
 		// Check if the block type exists.
-		if (!type) {
-			return null;
-		}
+		if (!type) return this.get(BlockIdentifier.Air) as BlockType<T>;
 
 		// Return the block type.
 		return type as BlockType<T>;

@@ -28,7 +28,7 @@ export class SubChunk {
 	 * @param layers The layers of the sub chunk.
 	 */
 	public constructor(version?: number, layers?: Array<BlockStorage>) {
-		this.version = version ?? 8;
+		this.version = version ?? 9;
 		this.layers = layers ?? [];
 	}
 
@@ -155,7 +155,11 @@ export class SubChunk {
 		// Read the storage count.
 		const count = stream.readUint8();
 
-		if (version === 9) stream.readInt8();
+		// Read the index if the version is 9.
+		let index = null;
+		if (version === 9) {
+			index = stream.readInt8();
+		}
 
 		// Loop through each storage and deserialize it.
 		const layers: Array<BlockStorage> = [];
@@ -164,8 +168,8 @@ export class SubChunk {
 		}
 
 		// Create a new sub chunk.
-		const subchunk = new SubChunk(8, layers);
-		// subchunk.index = index;
+		const subchunk = new SubChunk(version, layers);
+		subchunk.index = index;
 
 		// Return the sub chunk.
 		return subchunk;
