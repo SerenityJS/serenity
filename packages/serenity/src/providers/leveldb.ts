@@ -142,10 +142,14 @@ class LevelDBProvider extends WorldProvider {
 			const data = this.db.get(key);
 
 			const sub = SubChunk.from(data, true);
+			sub.index = cy;
 
 			return sub;
 		} catch {
-			return new SubChunk();
+			const subchunk = new SubChunk();
+			subchunk.index = cy;
+
+			return subchunk;
 		}
 	}
 
@@ -192,6 +196,9 @@ class LevelDBProvider extends WorldProvider {
 	): void {
 		// Create a key for the subchunk.
 		const key = LevelDBProvider.buildSubchunkKey(cx, cy, cz, index);
+
+		// Set the subchunk index.
+		subchunk.index = cy;
 
 		// Serialize the subchunk to a buffer
 		const stream = new BinaryStream();

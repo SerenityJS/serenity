@@ -205,7 +205,7 @@ export class Chunk {
 
 				// Create a new sub chunk.
 				const subchunk = new SubChunk();
-				subchunk.index = ndex;
+				subchunk.index = ndex - 4;
 
 				// Set the sub chunk.
 				this.subchunks[ndex] = subchunk;
@@ -267,8 +267,12 @@ export class Chunk {
 				// Serialize the sub chunk.
 				SubChunk.serialize(subchunk, stream, nbt);
 			} else {
+				// Create an empty sub chunk.
+				const subchunk = new SubChunk();
+				subchunk.index = index;
+
 				// Serialize an empty sub chunk.
-				SubChunk.serialize(new SubChunk(), stream, nbt);
+				SubChunk.serialize(subchunk, stream, nbt);
 			}
 		}
 
@@ -303,7 +307,9 @@ export class Chunk {
 
 		// Loop through each sub chunk.
 		for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; ++index) {
-			if (stream.binary[stream.offset] !== 8) break;
+			const header = stream.binary[stream.offset];
+
+			if (header !== 8 && header !== 9) break;
 			subchunks[index] = SubChunk.deserialize(stream, nbt);
 		}
 
