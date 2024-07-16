@@ -403,6 +403,21 @@ class Entity {
 			}
 		}
 
+		// ? Reset the hunger attributes and the player experience
+		// * This looks awful
+		if (this.isPlayer()) {
+			this.addExperience(-this.getTotalExperience());
+			if (this.hasComponent("minecraft:player.hunger")) {
+				const hunger = this.getComponent("minecraft:player.hunger");
+				const exhaustion = this.getComponent("minecraft:player.exhaustion");
+				const saturation = this.getComponent("minecraft:player.saturation");
+
+				hunger.resetToDefaultValue();
+				exhaustion.resetToDefaultValue();
+				saturation.resetToDefaultValue();
+			}
+		}
+
 		// Check if the entity has the effects component
 		if (this.hasComponent("minecraft:effects")) {
 			// Get the component
