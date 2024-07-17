@@ -25,7 +25,7 @@ class LoginTokens extends DataType {
 	}
 
 	public static override write(stream: BinaryStream, value: LoginTokens): void {
-		stream.writeVarInt(value.identity.length + value.client.length); // Probably wrong
+		stream.writeVarInt(value.identity.length + value.client.length + 8); // Should be rigt?
 		stream.writeString32(value.identity, Endianness.Little);
 		stream.writeString32(value.client, Endianness.Little);
 	}
