@@ -7,7 +7,8 @@ import {
 	Vector3f,
 	type ItemUseInventoryTransaction,
 	Gamemode,
-	type ItemUseOnEntityInventoryTransaction
+	type ItemUseOnEntityInventoryTransaction,
+	type ItemReleaseInventoryTransaction
 } from "@serenityjs/protocol";
 import { ItemUseCause, type Player } from "@serenityjs/world";
 import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
@@ -62,6 +63,18 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Handle the itemUse transaction
 				this.handleItemUseOnEntityTransaction(itemUse, player);
+				break;
+			}
+
+			case ComplexInventoryTransaction.ItemReleaseTransaction: {
+				// Get the itemRelease object from the transaction
+				const itemRelease = packet.transaction.itemRelease;
+
+				// Check if the itemRelease object is valid, if not throw an error that the itemRelease object is missing.
+				if (!itemRelease) throw new Error("ItemRelease object is missing.");
+
+				// Handle the itemRelease transaction
+				this.handleItemReleaseTransaction(itemRelease, player);
 				break;
 			}
 		}
@@ -193,6 +206,11 @@ class InventoryTransaction extends SerenityHandler {
 					// Set the player's using item
 					player.usingItem = usingItem;
 
+					// Trigger the onStartUse method of the item components
+					for (const component of usingItem.components.values()) {
+						component.onStartUse?.(player, ItemUseCause.Use);
+					}
+
 					// Break the switch statement
 					break;
 				}
@@ -233,6 +251,25 @@ class InventoryTransaction extends SerenityHandler {
 		for (const component of entity.components.values()) {
 			component.onInteract?.(player, transaction.type);
 		}
+	}
+
+	public static handleItemReleaseTransaction(
+		transaction: ItemReleaseInventoryTransaction,
+		player: Player
+	): void {
+		// Get the using item of the player
+		const usingItem = player.usingItem;
+
+		// Check if the using item is valid
+		if (!usingItem) return;
+
+		// Trigger the onRelease method of the item components
+		for (const component of usingItem.components.values()) {
+			component.onStopUse?.(player, ItemUseCause.Use);
+		}
+
+		// Set the player's using item to null
+		player.usingItem = null;
 	}
 }
 
