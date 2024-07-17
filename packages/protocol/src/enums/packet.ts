@@ -72,6 +72,7 @@ enum Packet {
 	LevelSoundEvent = 0x7b, // 123
 	// ClientCacheStatus = 0x81, // 129
 	Emote = 0x8a, // 138
+	CompletedUsingItem = 0x8e, // 142
 	NetworkSettings = 0x8f, // 143
 	PlayerAuthInput = 0x90, // 144
 	// PlayerAuthInput = 0x90, // 144
