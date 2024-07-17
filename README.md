@@ -19,7 +19,7 @@
     <a href="https://github.com/SerenityJS/serenity/blob/develop/LICENSE">
       <img alt="License" src="https://img.shields.io/github/license/SerenityJS/serenity?style=for-the-badge&label=Liscense&color=hotpink">
     <a/>
-    <a href="https://www.npmjs.com/package/@serenityjs/launcher">
+    <a href="https://www.npmjs.com/package/@serenityjs/serenity">
       <img alt="License" src="https://img.shields.io/npm/v/@serenityjs/launcher?style=for-the-badge&label=NPM&logo=npm&logoColor=white">
     <a/>
   </p>
