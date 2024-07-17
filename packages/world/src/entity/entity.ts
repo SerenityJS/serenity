@@ -28,7 +28,8 @@ import {
 	EntityEffectsComponent,
 	EntityHealthComponent,
 	EntityNametagComponent,
-	EntityOnFireComponent
+	EntityOnFireComponent,
+	EntityVariantComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -789,6 +790,40 @@ class Entity {
 		// Remove the component as the entity is no longer on fire
 		// This will reduce unnecessary ticking
 		this.removeComponent("minecraft:on_fire");
+	}
+
+	/**
+	 * Gets the variant of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:variant` component, if not will result in an `error`.
+	 * @returns The variant of the entity.
+	 */
+	public getVariant(): number {
+		// Check if the entity has a variant component
+		if (!this.hasComponent("minecraft:variant"))
+			throw new Error("The entity does not have a variant component.");
+
+		// Get the variant component
+		const variant = this.getComponent("minecraft:variant");
+
+		// Return the current variant value
+		return variant.getCurrentValue();
+	}
+
+	/**
+	 * Sets the variant of the entity.
+	 * @note This method is dependant on the entity having a `minecraft:variant` component, if the component does not exist it will be created.
+	 * @param variant The variant to set.
+	 */
+	public setVariant(variant: number): void {
+		// Check if the entity has a variant component
+		if (!this.hasComponent("minecraft:variant"))
+			new EntityVariantComponent(this);
+
+		// Get the variant component
+		const variantComponent = this.getComponent("minecraft:variant");
+
+		// Set the variant value
+		variantComponent.setCurrentValue(variant);
 	}
 
 	/**
