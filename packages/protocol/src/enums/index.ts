@@ -66,3 +66,4 @@ export * from "./actor-data-id";
 export * from "./actor-flag";
 export * from "./actor-data-type";
 export * from "./actor-damage-cause";
+export * from "./item-use-method";

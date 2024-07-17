@@ -88,6 +88,7 @@ import { DeathInfoPacket } from "./death-info";
 import { SetPlayerInventoryOptionsPacket } from "./set-player-inventory-options";
 import { ClientboundCloseFormPacket } from "./clientbound-close-form";
 import { MobEffectPacket } from "./mob-effect";
+import { CompletedUsingItemPacket } from "./completed-using-item";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -156,6 +157,7 @@ const Packets = {
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
 	[Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123
 	[Packet.Emote]: EmotePacket, // 138
+	[Packet.CompletedUsingItem]: CompletedUsingItemPacket, // 142
 	[Packet.NetworkSettings]: NetworkSettingsPacket, // 143
 	[Packet.PlayerAuthInput]: PlayerAuthInputPacket, // 144
 	[Packet.CreativeContent]: CreativeContentPacket, // 145
