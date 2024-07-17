@@ -97,8 +97,9 @@ class ItemComponent<T extends keyof Items> extends Component {
 	 * Called when the item has been used.
 	 * @param player The player that used the item.
 	 * @param cause The cause of the item use. (e.g. right-click, left-click)
+	 * @returns If the item was successfully used, this will cause the event to be done using the item.
 	 */
-	public onUse?(player: Player, cause: ItemUseCause): void;
+	public onUse?(player: Player, cause: ItemUseCause): boolean;
 }
 
 export { ItemComponent };

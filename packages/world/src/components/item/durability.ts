@@ -53,7 +53,7 @@ class ItemDurabilityComponent<T extends keyof Items> extends ItemComponent<T> {
 	 * @param player The player that used the item.
 	 * @param cause The cause of the item use.
 	 */
-	public onUse(player: Player, cause: ItemUseCause): void {
+	public onUse(player: Player, cause: ItemUseCause): boolean {
 		// Check if the durability is at the max.
 		if (this.durability >= this.maxDurability) {
 			// Set the amount of the item stack.
@@ -71,7 +71,7 @@ class ItemDurabilityComponent<T extends keyof Items> extends ItemComponent<T> {
 			// Broadcast the sound to the player's dimension.
 			player.dimension.broadcast(sound);
 
-			return;
+			return true;
 		}
 
 		// Check if the item was used to break a block.
@@ -79,6 +79,8 @@ class ItemDurabilityComponent<T extends keyof Items> extends ItemComponent<T> {
 			// Apply the durability to the item.
 			this.setCurrentValue(this.durability + 1);
 		}
+
+		return false;
 	}
 }
 
