@@ -377,6 +377,12 @@ class Player extends Entity {
 		super.kill();
 	}
 
+	public isHungry(): boolean {
+		if (!this.hasComponent("minecraft:player.hunger")) return false;
+		const hungerComponent = this.getComponent("minecraft:player.hunger");
+		return hungerComponent.isHungry;
+	}
+
 	/**
 	 * Despawns the player from the world.
 	 * @param player The player to despawn the player from.
