@@ -114,6 +114,8 @@ class EntityHealthComponent extends EntityAttributeComponent {
 		 */
 		// Check if the player is attacking the entity
 		if (type !== ItemUseOnEntityInventoryTransactionType.Attack) return;
+		// Exhaust the player after attacking
+		player.exhaust(0.1);
 
 		// Check if the entity is a player and the player is in creative mode
 		if (this.entity.isPlayer() && this.entity.gamemode === Gamemode.Creative)
