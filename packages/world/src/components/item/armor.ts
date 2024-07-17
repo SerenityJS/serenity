@@ -28,8 +28,8 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 	 * @param player The player that used the item.
 	 * @param cause The cause of the item use.
 	 */
-	public onUse(player: Player): void {
-		if (!player.usingItem) return;
+	public onUse(player: Player): boolean {
+		if (!player.usingItem) return false;
 		// Get both the armor inventory and inventory
 		const playerArmorComponent = player.getComponent("minecraft:armor");
 		const playerInventoryComponent = player.getComponent("minecraft:inventory");
@@ -37,7 +37,7 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 		const itemEquipmentSlot = this.resolveEquipmentSlot(player.usingItem);
 
 		// Return if cant resolve the item equipment slot
-		if (itemEquipmentSlot == undefined) return;
+		if (itemEquipmentSlot == undefined) return false;
 		const sound = new LevelSoundEventPacket();
 		sound.event = LevelSoundEvent.EquipGeneric;
 		sound.position = player.position;
@@ -57,13 +57,15 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 				playerInventoryComponent.selectedSlot,
 				equipedItem as ItemStack
 			);
-			return;
+			return true;
 		}
 		// Clear the selected slot, and set the used item into the players armor inventory
 		playerInventoryComponent.container.clearSlot(
 			playerInventoryComponent.selectedSlot
 		);
 		playerArmorComponent.setEquipment(itemEquipmentSlot, player.usingItem);
+
+		return true;
 	}
 
 	// TODO: Clean up function

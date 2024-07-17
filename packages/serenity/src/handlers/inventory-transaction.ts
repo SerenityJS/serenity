@@ -146,7 +146,7 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Check if a block type is present within the item
 				const blockType = usingItem.type.block;
-				if (!blockType) break;
+				if (!blockType || blockType.identifier === BlockIdentifier.Air) break;
 
 				// Get the resulting block from the interacted block
 				// ANd check if the block is also air
@@ -189,11 +189,20 @@ class InventoryTransaction extends SerenityHandler {
 				);
 
 				if (!usingItem) break;
-				player.usingItem = usingItem;
+				if (!player.usingItem) {
+					// Set the player's using item
+					player.usingItem = usingItem;
+
+					// Break the switch statement
+					break;
+				}
 
 				for (const component of usingItem.components.values()) {
 					// Trigger the onUse method of the item component.
-					component.onUse?.(player, ItemUseCause.Use);
+					const used = component.onUse?.(player, ItemUseCause.Use);
+
+					// Check if the item was successfully used
+					if (used) player.usingItem = null;
 				}
 
 				break;
