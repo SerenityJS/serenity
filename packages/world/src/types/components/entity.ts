@@ -1,4 +1,5 @@
 import type {
+	PlayerAbsorptionComponent,
 	EntityAlwaysShowNametagComponent,
 	EntityArmorComponent,
 	EntityBoundingHeightComponent,
@@ -22,8 +23,8 @@ import type {
  */
 interface EntityAttributeComponents {
 	"minecraft:health": EntityHealthComponent;
+	"minecraft:absorption": PlayerAbsorptionComponent;
 }
-
 /**
  * The metadata components of an entity.
  */
