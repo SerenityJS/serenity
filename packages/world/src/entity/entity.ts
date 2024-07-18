@@ -17,13 +17,15 @@ import {
 	PropertySyncData,
 	type DataItem,
 	type ActorFlag,
-	type ActorDamageCause
+	type ActorDamageCause,
+	ActorDataId
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { CardinalDirection } from "../enums";
 import {
+	EntityAlwaysShowNametagComponent,
 	EntityComponent,
 	EntityEffectsComponent,
 	EntityHealthComponent,
@@ -66,7 +68,7 @@ class Entity {
 	/**
 	 * The running total of the entity runtime id.
 	 */
-	public static runtime = 2n; // For some reason, the runtime id needs to start at 2???
+	public static runtime = 1n;
 
 	/**
 	 * The type of entity.
@@ -183,6 +185,18 @@ class Entity {
 	 */
 	public isItem(): boolean {
 		return this.type.identifier === EntityIdentifier.Item;
+	}
+
+	/**
+	 * Checks if the entity is an NPC.
+	 * @returns Whether or not the entity is an NPC.
+	 */
+	public isNpc(): boolean {
+		// Get the values of the metadata
+		const values = [...this.metadata.values()];
+
+		// Check if the entity has the Has
+		return values.some((value) => value.identifier === ActorDataId.HasNpc);
 	}
 
 	/**
@@ -733,10 +747,26 @@ class Entity {
 	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if the component does not exist it will be created.
 	 * @param nametag The nametag to set.
 	 */
-	public setNametag(nametag: string): void {
+	public setNametag(nametag: string, alwaysVisible = false): void {
 		// Check if the entity has a nametag component
 		if (!this.hasComponent("minecraft:nametag"))
 			new EntityNametagComponent(this);
+
+		// Check if the entity should always show the nametag
+		if (alwaysVisible && !this.hasComponent("minecraft:always_show_nametag"))
+			new EntityAlwaysShowNametagComponent(this);
+
+		// Check if the entity should not always show the nametag
+		if (!alwaysVisible && this.hasComponent("minecraft:always_show_nametag")) {
+			// Get the always show nametag component
+			const component = this.getComponent("minecraft:always_show_nametag");
+
+			// Set the current value to false
+			component.setCurrentValue(0);
+
+			// Remove the component
+			this.removeComponent("minecraft:always_show_nametag");
+		}
 
 		// Get the nametag component
 		const nametagComponent = this.getComponent("minecraft:nametag");

@@ -17,6 +17,7 @@ import { Text } from "./text";
 import { BlockPick } from "./block-pick-request";
 import { NetworkStackLatency } from "./network-stack-latency";
 import { Respawn } from "./respawn";
+import { NpcRequest } from "./npc-request";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -37,7 +38,8 @@ const HANDLERS = [
 	InventoryTransaction,
 	BlockPick,
 	NetworkStackLatency,
-	Respawn
+	Respawn,
+	NpcRequest
 ];
 
 export { HANDLERS };
@@ -62,3 +64,4 @@ export * from "./inventory-transaction";
 export * from "./block-pick-request";
 export * from "./network-stack-latency";
 export * from "./respawn";
+export * from "./npc-request";

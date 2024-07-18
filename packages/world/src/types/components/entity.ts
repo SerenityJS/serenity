@@ -12,6 +12,7 @@ import type {
 	EntityIsVisibleComponent,
 	EntityItemComponent,
 	EntityNametagComponent,
+	EntityNpcComponent,
 	EntityOnFireComponent,
 	EntityPhysicsComponent,
 	EntityScaleComponent,
@@ -52,6 +53,7 @@ interface EntityComponents
 	"minecraft:inventory": EntityInventoryComponent;
 	"minecraft:armor": EntityArmorComponent;
 	"minecraft:effects": EntityEffectsComponent;
+	"minecraft:npc": EntityNpcComponent;
 }
 
 export {

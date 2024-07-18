@@ -89,6 +89,7 @@ import { SetPlayerInventoryOptionsPacket } from "./set-player-inventory-options"
 import { ClientboundCloseFormPacket } from "./clientbound-close-form";
 import { MobEffectPacket } from "./mob-effect";
 import { CompletedUsingItemPacket } from "./completed-using-item";
+import { NpcRequestPacket } from "./npc-request";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -145,6 +146,7 @@ const Packets = {
 	[Packet.Transfer]: TransferPacket, // 85
 	[Packet.SetTitle]: SetTitlePacket, // 88
 	[Packet.PlayerSkin]: PlayerSkinPacket, // 93
+	[Packet.NpcRequest]: NpcRequestPacket, // 98
 	[Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
 	[Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
 	[Packet.RemoveObjective]: RemoveObjectivePacket, // 106

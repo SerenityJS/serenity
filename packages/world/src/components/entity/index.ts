@@ -10,3 +10,4 @@ export * from "./item";
 export * from "./physics";
 export * from "./armor";
 export * from "./effect";
+export * from "./npc";

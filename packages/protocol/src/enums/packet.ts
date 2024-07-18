@@ -59,6 +59,7 @@ enum Packet {
 	Transfer = 0x55, // 85
 	SetTitle = 0x58, // 88
 	PlayerSkin = 0x5d, // 93
+	NpcRequest = 0x62, // 98
 	ModalFormRequest = 0x64, // 100
 	ModalFormResponse = 0x65, // 101
 	RemoveObjective = 0x6a, // 106

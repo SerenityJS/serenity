@@ -1,3 +1,4 @@
+import type { DialogueResponseSignal } from "./dialogue-response";
 import type { CommandExecutedSignal } from "./command-executed";
 import type { PlayerStartedBreakingBlockSignal } from "./player-started-breaking-block";
 import type { PlayerDroppedItemSignal } from "./player-dropped-item";
@@ -20,6 +21,7 @@ interface EventSignals {
 	PlayerDroppedItem: [PlayerDroppedItemSignal];
 	EntitySpawned: [EntitySpawnedSignal];
 	CommandExecuted: [CommandExecutedSignal];
+	DialogueResponse: [DialogueResponseSignal];
 }
 
 export { EventSignals };
