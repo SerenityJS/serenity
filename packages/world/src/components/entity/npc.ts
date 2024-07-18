@@ -43,8 +43,14 @@ class EntityNpcComponent extends EntityComponent {
 			entity.syncData();
 		}
 
+		// Check if the entity has a nametag component
+		if (!entity.hasComponent("minecraft:nametag")) {
+			// Set the nametag of the entity
+			entity.setNametag("NPC", true);
+		}
+
 		// Create a default scene for the npc component
-		const scene = new DialogueScene("NPC", "Hello, world!");
+		const scene = new DialogueScene("default", "Hello, world!");
 
 		// Add the default scene to the npc component
 		this.addScene(scene);
@@ -131,7 +137,7 @@ class EntityNpcComponent extends EntityComponent {
 		packet.action = NpcDialogueAction.Open;
 		packet.dialogue = fScene.dialogue;
 		packet.scene = fScene.name;
-		packet.name = fScene.name;
+		packet.name = this.entity.getNametag();
 		packet.json = JSON.stringify(buttons);
 
 		// Send the packet to the player
@@ -151,7 +157,7 @@ class EntityNpcComponent extends EntityComponent {
 		packet.action = NpcDialogueAction.Close;
 		packet.dialogue = String();
 		packet.scene = String();
-		packet.name = String();
+		packet.name = this.entity.getNametag();
 		packet.json = String();
 
 		// Send the packet to the player

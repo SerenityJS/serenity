@@ -38,6 +38,18 @@ class NpcRequest extends SerenityHandler {
 			case NpcRequestType.ExecuteAction: {
 				return this.executeAction(packet, player);
 			}
+
+			case NpcRequestType.ExecuteOpeningCommands: {
+				return this.executeOpeningCommands(packet, player);
+			}
+
+			case NpcRequestType.SetName: {
+				return this.setName(packet, player);
+			}
+
+			case NpcRequestType.ExecuteClosingCommands: {
+				return this.ExecuteClosingCommands(packet, player);
+			}
 		}
 	}
 
@@ -70,6 +82,49 @@ class NpcRequest extends SerenityHandler {
 			// Execute the command on the player
 			player.executeCommand(command);
 		}
+	}
+
+	public static executeOpeningCommands(
+		packet: NpcRequestPacket,
+		player: Player
+	): void {
+		// Separate the packet into variables
+		const { runtimeActorId } = packet;
+
+		// Get the entity from the packet.
+		const entity = player.dimension.getEntityByRuntime(runtimeActorId);
+		if (!entity) throw new Error("Failed to find the entity.");
+
+		// Sync the entity data
+		entity.syncData();
+	}
+
+	public static setName(packet: NpcRequestPacket, player: Player): void {
+		// Get the entity from the packet
+		const entity = player.dimension.getEntityByRuntime(packet.runtimeActorId);
+		if (!entity) throw new Error("Failed to find the entity.");
+
+		// Check if the entity has the npc component
+		const npc = entity.getComponent("minecraft:npc");
+		if (!npc) throw new Error("Failed to find the npc component.");
+
+		// Set the nametag of the entity
+		entity.setNametag(packet.actions);
+	}
+
+	public static ExecuteClosingCommands(
+		packet: NpcRequestPacket,
+		player: Player
+	): void {
+		// Separate the packet into variables
+		const { runtimeActorId } = packet;
+
+		// Get the entity from the packet.
+		const entity = player.dimension.getEntityByRuntime(runtimeActorId);
+		if (!entity) throw new Error("Failed to find the entity.");
+
+		// Sync the entity data
+		entity.syncData();
 	}
 }
 

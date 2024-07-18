@@ -25,6 +25,7 @@ import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
 import { CardinalDirection } from "../enums";
 import {
+	EntityAlwaysShowNametagComponent,
 	EntityComponent,
 	EntityEffectsComponent,
 	EntityHealthComponent,
@@ -746,10 +747,26 @@ class Entity {
 	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if the component does not exist it will be created.
 	 * @param nametag The nametag to set.
 	 */
-	public setNametag(nametag: string): void {
+	public setNametag(nametag: string, alwaysVisible = false): void {
 		// Check if the entity has a nametag component
 		if (!this.hasComponent("minecraft:nametag"))
 			new EntityNametagComponent(this);
+
+		// Check if the entity should always show the nametag
+		if (alwaysVisible && !this.hasComponent("minecraft:always_show_nametag"))
+			new EntityAlwaysShowNametagComponent(this);
+
+		// Check if the entity should not always show the nametag
+		if (!alwaysVisible && this.hasComponent("minecraft:always_show_nametag")) {
+			// Get the always show nametag component
+			const component = this.getComponent("minecraft:always_show_nametag");
+
+			// Set the current value to false
+			component.setCurrentValue(0);
+
+			// Remove the component
+			this.removeComponent("minecraft:always_show_nametag");
+		}
 
 		// Get the nametag component
 		const nametagComponent = this.getComponent("minecraft:nametag");
