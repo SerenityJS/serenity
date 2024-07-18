@@ -76,13 +76,6 @@ class CommandExecutedSignal extends EventSignal {
 		// Assign the new value of the command.
 		packet.command = signal.command;
 
-		// Check if event wasn't cancelled.
-		if (value === true) {
-			player.dimension.world.logger.info(
-				`§8[§9${player.username}§8] command:§r ${packet.command}`
-			);
-		}
-
 		// Return the value of the event.
 		return value;
 	}

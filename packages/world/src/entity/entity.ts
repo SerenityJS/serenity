@@ -17,7 +17,8 @@ import {
 	PropertySyncData,
 	type DataItem,
 	type ActorFlag,
-	type ActorDamageCause
+	type ActorDamageCause,
+	ActorDataId
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
@@ -66,7 +67,7 @@ class Entity {
 	/**
 	 * The running total of the entity runtime id.
 	 */
-	public static runtime = 2n; // For some reason, the runtime id needs to start at 2???
+	public static runtime = 1n;
 
 	/**
 	 * The type of entity.
@@ -183,6 +184,18 @@ class Entity {
 	 */
 	public isItem(): boolean {
 		return this.type.identifier === EntityIdentifier.Item;
+	}
+
+	/**
+	 * Checks if the entity is an NPC.
+	 * @returns Whether or not the entity is an NPC.
+	 */
+	public isNpc(): boolean {
+		// Get the values of the metadata
+		const values = [...this.metadata.values()];
+
+		// Check if the entity has the Has
+		return values.some((value) => value.identifier === ActorDataId.HasNpc);
 	}
 
 	/**

@@ -86,7 +86,8 @@ import type {
 	ClientboundCloseFormPacket,
 	MobEffectPacket,
 	SetPlayerInventoryOptionsPacket,
-	CompletedUsingItemPacket
+	CompletedUsingItemPacket,
+	NpcRequestPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -161,6 +162,7 @@ interface NetworkEvents {
 	[Packet.Transfer]: [NetworkPacketEvent<TransferPacket>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
 	[Packet.PlayerSkin]: [NetworkPacketEvent<PlayerSkinPacket>];
+	[Packet.NpcRequest]: [NetworkPacketEvent<NpcRequestPacket>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
 	[Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];

@@ -92,3 +92,4 @@ export * from "./clientbound-close-form";
 export * from "./mob-effect";
 export * from "./set-actor-data";
 export * from "./completed-using-item";
+export * from "./npc-request";
