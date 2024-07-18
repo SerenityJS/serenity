@@ -66,7 +66,8 @@ import {
 	EntityHasGravityComponent,
 	EntityBreathingComponent,
 	PlayerExperienceLevelComponent,
-	PlayerExperienceComponent
+	PlayerExperienceComponent,
+	PlayerAbsorptionComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -791,3 +792,4 @@ PlayerChunkRenderingComponent.register(type);
 PlayerEntityRenderingComponent.register(type);
 PlayerExperienceLevelComponent.register(type);
 PlayerExperienceComponent.register(type);
+PlayerAbsorptionComponent.register(type);
