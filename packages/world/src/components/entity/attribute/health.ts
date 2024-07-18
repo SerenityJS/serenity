@@ -3,6 +3,7 @@ import {
 	ActorEventIds,
 	ActorEventPacket,
 	AttributeName,
+	EffectType,
 	Gamemode,
 	ItemUseOnEntityInventoryTransactionType,
 	Vector3f
@@ -52,12 +53,25 @@ class EntityHealthComponent extends EntityAttributeComponent {
 	 * @param damage The amount of damage to apply to the entity.
 	 */
 	public applyDamage(damage: number, cause?: ActorDamageCause): void {
-		// Decrease the health of the entity
-		this.decreaseValue(damage);
-
 		// Create a new actor event packet
 		const packet = new ActorEventPacket();
 
+		if (
+			this.entity.hasEffect(EffectType.Absorption) &&
+			this.entity.hasComponent("minecraft:absorption")
+		) {
+			// ? Get the current absorption value
+			const absorption = this.entity.getComponent("minecraft:absorption");
+			// ? Get the new damage, to decrease the health if there is more damage than absorption points
+			const remainingDamage = damage - absorption.getCurrentValue();
+
+			// ? Decrease absorption points and health if remaining
+			absorption.decreaseValue(damage);
+			this.decreaseValue(Math.max(0, remainingDamage));
+		} else {
+			// Decrease the health of the entity
+			this.decreaseValue(damage);
+		}
 		// Assign the values to the packet
 		packet.actorRuntimeId = this.entity.runtime;
 		packet.eventId = ActorEventIds.HURT_ANIMATION;
@@ -100,7 +114,6 @@ class EntityHealthComponent extends EntityAttributeComponent {
 
 		// Decrease the health of the entity
 		this.decreaseValue(damage);
-
 		// Return the current health of the entity
 		return this.getCurrentValue();
 	}
@@ -114,6 +127,8 @@ class EntityHealthComponent extends EntityAttributeComponent {
 		 */
 		// Check if the player is attacking the entity
 		if (type !== ItemUseOnEntityInventoryTransactionType.Attack) return;
+		// Exhaust the player after attacking
+		player.exhaust(0.1);
 
 		// Check if the entity is a player and the player is in creative mode
 		if (this.entity.isPlayer() && this.entity.gamemode === Gamemode.Creative)

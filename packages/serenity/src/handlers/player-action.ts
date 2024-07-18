@@ -307,6 +307,9 @@ class PlayerAction extends SerenityHandler {
 		// If so, we will return.
 		if (player.gamemode === Gamemode.Creative) return;
 
+		// Exhaust the player
+		player.exhaust(0.005);
+
 		// Create a new ItemStack.
 		const itemType = ItemType.resolve(permutation.type) as ItemType;
 		const itemStack = ItemStack.create(itemType, 1, permutation.index);
