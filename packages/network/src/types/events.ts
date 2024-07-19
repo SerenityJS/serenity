@@ -88,7 +88,8 @@ import type {
 	SetPlayerInventoryOptionsPacket,
 	CompletedUsingItemPacket,
 	NpcRequestPacket,
-	OpenSignPacket
+	OpenSignPacket,
+	ServerboundLoadingScreenPacketPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -212,6 +213,9 @@ interface NetworkEvents {
 	[Packet.AwardAchievement]: [NetworkPacketEvent<AwardAchievementPacket>];
 	[Packet.ClientboundCloseForm]: [
 		NetworkPacketEvent<ClientboundCloseFormPacket>
+	];
+	[Packet.ServerboundLoadingScreenPacket]: [
+		NetworkPacketEvent<ServerboundLoadingScreenPacketPacket>
 	];
 }
 

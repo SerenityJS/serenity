@@ -91,6 +91,7 @@ import { MobEffectPacket } from "./mob-effect";
 import { CompletedUsingItemPacket } from "./completed-using-item";
 import { NpcRequestPacket } from "./npc-request";
 import { OpenSignPacket } from "./open-sign";
+import { ServerboundLoadingScreenPacketPacket } from "./server-bound-loading-screen";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -181,7 +182,8 @@ const Packets = {
 	[Packet.SetPlayerInventoryOptions]: SetPlayerInventoryOptionsPacket, // 307
 	[Packet.SetHud]: SetHudPacket, // 308
 	[Packet.AwardAchievement]: AwardAchievementPacket, // 309
-	[Packet.ClientboundCloseForm]: ClientboundCloseFormPacket // 310
+	[Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310
+	[Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket // 312
 };
 
 export { Packets };

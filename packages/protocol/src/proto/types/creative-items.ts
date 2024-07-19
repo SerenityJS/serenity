@@ -1,7 +1,8 @@
 import { DataType } from "@serenityjs/raknet";
-import { BinaryStream } from "@serenityjs/binarystream";
 
 import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class CreativeItems extends DataType {
 	public static read(
@@ -19,7 +20,7 @@ class CreativeItems extends DataType {
 			// Read all the fields for the item.
 			// We will ignore the entryId field.
 			// This field really isnt needed, and we will handle it in the write method.
-			stream.readVarInt();
+			const _value = stream.readVarInt();
 
 			// Read the item.
 			const item = NetworkItemInstanceDescriptor.read(stream);
