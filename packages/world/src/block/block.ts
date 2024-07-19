@@ -45,7 +45,7 @@ class Block {
 	/**
 	 * The NBT data of the block.
 	 */
-	public readonly nbt = new CompoundTag("", {});
+	public nbt = new CompoundTag("", {});
 
 	/**
 	 * The permutation of the block.
@@ -505,7 +505,6 @@ class Block {
 		const update = new BlockActorDataPacket();
 		update.position = this.position;
 		update.nbt = this.nbt;
-
 		// Send the packet to the dimension.
 		this.dimension.broadcast(update);
 
