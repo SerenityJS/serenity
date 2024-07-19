@@ -10,7 +10,7 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 /**
  * A tag that contains a compound list value.
  */
-class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
+class CompoundTag<T = unknown> extends NBTTag<T> {
 	public static readonly type = Tag.Compound;
 
 	/**
@@ -20,11 +20,11 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 * @param value The value of the tag.
 	 * @returns A new compound tag.
 	 */
-	public addTag(...tags: Array<NBTTag<T>>): this {
+	public addTag<T>(...tags: Array<NBTTag<T>>): this {
 		// Iterate over the tags.
 		for (const tag of tags) {
 			// Add the tag to the value.
-			(this.value as Record<string, NBTTag<T>>)[tag.name] = tag;
+			(this.value as Record<string, NBTTag<unknown>>)[tag.name] = tag;
 		}
 
 		return this;
@@ -36,7 +36,7 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 * @param name The name of the tag to remove.
 	 */
 	public removeTag(name: string): this {
-		delete (this.value as Record<string, NBTTag<T>>)[name];
+		delete (this.value as Record<string, NBTTag<unknown>>)[name];
 
 		return this;
 	}
@@ -47,7 +47,7 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 * @param name The name of the tag to get.
 	 * @returns The tag that was found.
 	 */
-	public getTag(name: string): NBTTag<T> | undefined {
+	public getTag<T>(name: string): NBTTag<T> | undefined {
 		return (this.value as Record<string, NBTTag<T>>)[name];
 	}
 
@@ -58,7 +58,7 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 * @returns The tag that was found.
 	 */
 	public hasTag(name: string): boolean {
-		return name in (this.value as Record<string, NBTTag<T>>);
+		return name in (this.value as Record<string, NBTTag<unknown>>);
 	}
 
 	/**
@@ -67,7 +67,7 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 * @param name The name of the tag to set.
 	 * @param tag The tag to set.
 	 */
-	public setTag(name: string, tag: NBTTag<T>): this {
+	public setTag<T>(name: string, tag: NBTTag<T>): this {
 		(this.value as Record<string, NBTTag<T>>)[name] = tag;
 
 		return this;
@@ -78,7 +78,7 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	 *
 	 * @returns All the tags in the compound tag.
 	 */
-	public getTags(): Array<NBTTag<T>> {
+	public getTags<T>(): Array<NBTTag<T>> {
 		return Object.values(this.value as Record<string, NBTTag<T>>);
 	}
 
@@ -124,7 +124,7 @@ class CompoundTag<T = Record<string, NBTTag<unknown>>> extends NBTTag<T> {
 	/**
 	 * Reads a compound tag from the stream.
 	 */
-	public static read<T = Record<string, NBTTag<unknown>>>(
+	public static read<T = unknown>(
 		stream: BinaryStream,
 		varint = false,
 		type = true

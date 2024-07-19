@@ -94,7 +94,8 @@ enum Packet {
 	SetPlayerInventoryOptions = 0x1_33, // 307
 	SetHud = 0x1_34, // 308
 	AwardAchievement = 0x1_35, // 309
-	ClientboundCloseForm = 0x1_36 // 310
+	ClientboundCloseForm = 0x1_36, // 310
+	ServerboundLoadingScreenPacket = 0x1_38 // 312
 }
 
 export { Packet };

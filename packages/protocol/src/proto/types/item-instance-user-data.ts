@@ -1,13 +1,25 @@
 import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 import { DataType } from "@serenityjs/raknet";
-
-import type { ItemStackNbt } from "../../types";
-
 class ItemInstanceUserData extends DataType {
-	public nbt: CompoundTag<ItemStackNbt> | null;
+	/**
+	 * The NBT data for the item.
+	 */
+	public nbt: CompoundTag | null;
+
+	/**
+	 * Blocks the item can be placed on.
+	 */
 	public canPlaceOn: Array<string>;
+
+	/**
+	 * Blocks the item can destroy.
+	 */
 	public canDestroy: Array<string>;
+
+	/**
+	 * The ticking for the item.
+	 */
 	public ticking?: bigint | null;
 
 	/**
@@ -17,7 +29,7 @@ class ItemInstanceUserData extends DataType {
 	 * @param canDestroy Blocks the item can destroy.
 	 */
 	public constructor(
-		nbt: CompoundTag<ItemStackNbt> | null,
+		nbt: CompoundTag | null,
 		canPlaceOn: Array<string>,
 		canDestroy: Array<string>,
 		ticking?: bigint | null
@@ -39,7 +51,7 @@ class ItemInstanceUserData extends DataType {
 
 		// Check if the marker idicates nbt data.
 		// If it does, read the nbt data.
-		let nbt: CompoundTag<ItemStackNbt> | null;
+		let nbt: CompoundTag | null;
 		if (marker === 0xff_ff) {
 			// Read the nbt version.
 			const version = stream.readInt8();
@@ -95,7 +107,7 @@ class ItemInstanceUserData extends DataType {
 		}
 
 		// Check if the item is a shield.
-		const ticking = id === 358 ? stream.readInt64(Endianness.Little) : null;
+		const ticking = id === 362 ? stream.readInt64(Endianness.Little) : null;
 
 		// Return the instance.
 		return new ItemInstanceUserData(nbt, canPlaceOn, canDestroy, ticking);
@@ -143,7 +155,7 @@ class ItemInstanceUserData extends DataType {
 		}
 
 		// Check if the item is a shield.
-		if (id === 358) {
+		if (id === 362) {
 			stream.writeInt64(value.ticking ?? BigInt(0), Endianness.Little);
 		}
 	}
