@@ -66,7 +66,8 @@ import {
 	EntityHasGravityComponent,
 	EntityBreathingComponent,
 	PlayerExperienceLevelComponent,
-	PlayerExperienceComponent
+	PlayerExperienceComponent,
+	PlayerAbsorptionComponent
 } from "../components";
 import { ItemStack } from "../item";
 
@@ -375,6 +376,28 @@ class Player extends Entity {
 		}
 
 		super.kill();
+	}
+
+	/**
+	 * Querys if the player is hungry
+	 * @returns The player is hungry
+	 */
+
+	public isHungry(): boolean {
+		if (!this.hasComponent("minecraft:player.hunger")) return false;
+		const hungerComponent = this.getComponent("minecraft:player.hunger");
+		return hungerComponent.isHungry;
+	}
+
+	/**
+	 * Exhausts the player decreasing food over time
+	 * @param amount The exhaustion amount
+	 */
+	public exhaust(amount: number): void {
+		if (!this.hasComponent("minecraft:player.hunger")) return;
+		const hungerComponent = this.getComponent("minecraft:player.hunger");
+
+		hungerComponent.exhaust(amount);
 	}
 
 	/**
@@ -769,3 +792,4 @@ PlayerChunkRenderingComponent.register(type);
 PlayerEntityRenderingComponent.register(type);
 PlayerExperienceLevelComponent.register(type);
 PlayerExperienceComponent.register(type);
+PlayerAbsorptionComponent.register(type);
