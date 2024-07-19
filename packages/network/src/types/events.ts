@@ -87,7 +87,8 @@ import type {
 	MobEffectPacket,
 	SetPlayerInventoryOptionsPacket,
 	CompletedUsingItemPacket,
-	NpcRequestPacket
+	NpcRequestPacket,
+	OpenSignPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -163,6 +164,7 @@ interface NetworkEvents {
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
 	[Packet.PlayerSkin]: [NetworkPacketEvent<PlayerSkinPacket>];
 	[Packet.NpcRequest]: [NetworkPacketEvent<NpcRequestPacket>];
+	[Packet.OpenSign]: [NetworkPacketEvent<OpenSignPacket>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
 	[Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];

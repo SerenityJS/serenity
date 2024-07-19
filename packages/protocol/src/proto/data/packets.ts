@@ -90,6 +90,7 @@ import { ClientboundCloseFormPacket } from "./clientbound-close-form";
 import { MobEffectPacket } from "./mob-effect";
 import { CompletedUsingItemPacket } from "./completed-using-item";
 import { NpcRequestPacket } from "./npc-request";
+import { OpenSignPacket } from "./open-sign";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -176,6 +177,7 @@ const Packets = {
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
 	[Packet.DeathInfo]: DeathInfoPacket, // 189
 	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
+	[Packet.OpenSign]: OpenSignPacket, // 303
 	[Packet.SetPlayerInventoryOptions]: SetPlayerInventoryOptionsPacket, // 307
 	[Packet.SetHud]: SetHudPacket, // 308
 	[Packet.AwardAchievement]: AwardAchievementPacket, // 309
