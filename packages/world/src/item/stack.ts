@@ -163,6 +163,17 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	}
 
 	/**
+	 * Checks if the item has a component.
+	 * @param identifier The identifier of the component.
+	 * @returns Whether or not the item has the component.
+	 */
+	public hasComponent<K extends keyof ItemComponents<T>>(
+		identifier: K
+	): boolean {
+		return this.components.has(identifier);
+	}
+
+	/**
 	 * Removes a component from the item.
 	 * @param identifier The identifier of the component.
 	 */

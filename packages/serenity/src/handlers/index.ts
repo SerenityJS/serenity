@@ -18,6 +18,7 @@ import { BlockPick } from "./block-pick-request";
 import { NetworkStackLatency } from "./network-stack-latency";
 import { Respawn } from "./respawn";
 import { NpcRequest } from "./npc-request";
+import { BlockActorData } from "./block-actor-data";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -39,7 +40,8 @@ const HANDLERS = [
 	BlockPick,
 	NetworkStackLatency,
 	Respawn,
-	NpcRequest
+	NpcRequest,
+	BlockActorData
 ];
 
 export { HANDLERS };
@@ -65,3 +67,4 @@ export * from "./block-pick-request";
 export * from "./network-stack-latency";
 export * from "./respawn";
 export * from "./npc-request";
+export * from "./block-actor-data";

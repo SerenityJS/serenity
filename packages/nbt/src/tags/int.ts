@@ -1,4 +1,4 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { Tag } from "../named-binary-tag";
 
@@ -37,7 +37,7 @@ class IntTag<T extends number = number> extends NBTTag<T> {
 
 		// Read the value.
 		const value = varint
-			? stream.readVarInt()
+			? stream.readZigZag()
 			: stream.readInt32(Endianness.Little);
 
 		// Return the tag.
@@ -60,7 +60,7 @@ class IntTag<T extends number = number> extends NBTTag<T> {
 
 		// Write the value.
 		varint
-			? stream.writeVarInt(tag.value)
+			? stream.writeZigZag(tag.value)
 			: stream.writeInt32(tag.value, Endianness.Little);
 	}
 }
