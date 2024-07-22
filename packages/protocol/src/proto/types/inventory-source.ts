@@ -50,7 +50,6 @@ class InventorySource extends DataType {
 		// Initialize the containerId and bitFlags variables
 		let containerId: ContainerId | null = null;
 		let bitFlags: number | null = null;
-
 		// Switch the type of the inventory source
 		switch (type) {
 			// If the type is 0 (ContainerInventory) then read the containerId
@@ -62,6 +61,10 @@ class InventorySource extends DataType {
 			// If the type is 2 (GlobalInteraction) then read the bitFlags
 			case InventorySourceType.WorldInteraction: {
 				bitFlags = stream.readVarInt();
+				break;
+			}
+
+			case InventorySourceType.CreativeInventory: {
 				break;
 			}
 

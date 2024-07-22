@@ -13,3 +13,4 @@ export * from "./container";
 export * from "./item";
 export * from "./effect";
 export * from "./dialogue";
+export * from "./book";

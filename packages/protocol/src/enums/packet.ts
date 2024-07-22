@@ -59,6 +59,7 @@ enum Packet {
 	Transfer = 0x55, // 85
 	SetTitle = 0x58, // 88
 	PlayerSkin = 0x5d, // 93
+	BookEdit = 0x61, // 97
 	NpcRequest = 0x62, // 98
 	ModalFormRequest = 0x64, // 100
 	ModalFormResponse = 0x65, // 101
@@ -83,6 +84,7 @@ enum Packet {
 	EmoteList = 0x98, // 152
 	PacketViolationWarning = 0x9c, // 156
 	AnimateEntity = 0x9e, // 158
+	CameraShake = 0x9f, // 159
 	ItemComponent = 0xa2, // 162
 	NpcDialogue = 0xa9, // 169
 	ScriptMessage = 0xb1, // 177

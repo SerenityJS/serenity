@@ -85,6 +85,10 @@ class InventoryTransaction extends SerenityHandler {
 		player: Player
 	): void {
 		// TODO: CLEANUP
+
+		// ? The Drop Action has exactly 2 actions
+		if (actions.length > 2) return;
+
 		// NOTE: This implmentation is incomplete and will be updated in the future.
 		// This only handles item dropping for now.
 		const action = actions[0] as InventoryAction;
