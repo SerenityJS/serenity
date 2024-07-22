@@ -30,3 +30,18 @@ for (const key in ItemComponents) {
 	// Register the component to the collective registry.
 	ItemComponent.components.set(value.identifier, value as typeof ItemComponent);
 }
+
+//
+// Register all valid block components.
+//
+import { BlockComponent } from "./block";
+import * as BlockComponents from "./block";
+for (const key in BlockComponents) {
+	const value = BlockComponents[key as keyof typeof BlockComponents];
+
+	// Register the component to the collective registry.
+	BlockComponent.components.set(
+		value.identifier,
+		value as typeof BlockComponent
+	);
+}

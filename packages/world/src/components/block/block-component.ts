@@ -14,6 +14,11 @@ class BlockComponent extends Component {
 	>();
 
 	/**
+	 * A collective registry of all block components.
+	 */
+	public static readonly components = new Map<string, typeof BlockComponent>();
+
+	/**
 	 * The block the component is binded to.
 	 */
 	protected readonly block: Block;

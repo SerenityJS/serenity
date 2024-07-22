@@ -203,6 +203,22 @@ class Block {
 		) ?? [])
 			new component(this, component.identifier);
 
+		// Register the components that are state specific.
+		for (const key of Object.keys(permutation.state)) {
+			// Get the component from the registry
+			const component = [...BlockComponent.components.values()].find((x) => {
+				// If the identifier is undefined, we will skip it.
+				if (!x.identifier) return false;
+
+				// Check if the identifier includes the key.
+				// As some states dont include a namespace.
+				return x.identifier.includes(key);
+			});
+
+			// Check if the component exists.
+			if (component) new component(this, key);
+		}
+
 		// Check if the change was initiated by a player.
 		// If so, we will play the block place sound.
 		if (playerInitiated) {

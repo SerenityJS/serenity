@@ -1,15 +1,17 @@
 import type {
-	BlockDirectionalComponent,
 	BlockInventoryComponent,
 	BlockNametagComponent,
-	BlockSignComponent
+	BlockSignComponent,
+	BlockCardinalDirectionComponent,
+	BlockWeirdoDirectionComponent
 } from "../../components";
 
 interface BlockComponents {
 	"minecraft:inventory": BlockInventoryComponent;
 	"minecraft:nametag": BlockNametagComponent;
-	"minecraft:directional": BlockDirectionalComponent;
 	"minecraft:sign": BlockSignComponent;
+	"minecraft:cardinal_direction": BlockCardinalDirectionComponent;
+	"minecraft:weirdo_direction": BlockWeirdoDirectionComponent;
 }
 
 export { BlockComponents };
