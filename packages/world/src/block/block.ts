@@ -20,10 +20,9 @@ import { CompoundTag } from "@serenityjs/nbt";
 import { ItemStack } from "../item";
 import { BlockComponent } from "../components";
 
-import type { BlockComponents } from "../types";
+import type { BlockComponents, BlockUpdateOptions } from "../types";
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
-import type { CardinalDirection } from "../enums";
 import type { Dimension } from "../world";
 
 class Block {
@@ -164,11 +163,11 @@ class Block {
 	/**
 	 * Sets the permutation of the block.
 	 * @param permutation The permutation to set.
-	 * @param playerInitiated If the change was initiated by a player.
+	 * @param options The options of the block update.
 	 */
 	public setPermutation(
 		permutation: BlockPermutation,
-		playerInitiated?: Player
+		options?: BlockUpdateOptions
 	): Block {
 		// Clear the previous components.
 		if (this.permutation.type !== permutation.type) this.clearComponents();
@@ -221,11 +220,14 @@ class Block {
 
 		// Check if the change was initiated by a player.
 		// If so, we will play the block place sound.
-		if (playerInitiated) {
+		if (options && options.player) {
+			// Get the clicked position of the player.
+			const clickedPosition = options.clickPosition ?? new Vector3f(0, 0, 0);
+
 			// Call the onPlace method of the components.
 			for (const component of this.components.values()) {
 				// Call the onBlockPlacedByPlayer method.
-				component.onPlace?.(playerInitiated);
+				component.onPlace?.(options.player, clickedPosition);
 			}
 
 			// Create a new LevelSoundEventPacket.
@@ -272,12 +274,12 @@ class Block {
 	 * @param type The type of the block.
 	 * @param playerInitiated If the change was initiated by a player.
 	 */
-	public setType(type: BlockType, playerInitiated?: Player): Block {
+	public setType(type: BlockType, options?: BlockUpdateOptions): Block {
 		// Get the permutation of the block.
 		const permutation = type.getPermutation();
 
 		// Set the permutation of the block.
-		this.setPermutation(permutation, playerInitiated);
+		this.setPermutation(permutation, { player: options?.player });
 
 		// Return the block.
 		return this;
@@ -456,32 +458,6 @@ class Block {
 			case BlockFace.West: {
 				return this.west();
 			}
-		}
-	}
-
-	/**
-	 * Sets the direction of the block.
-	 * @param direction The direction to set.
-	 * @param upsideDown If the block is upside down.
-	 */
-	// TODO: Add support for minecraft:cardinal_direction states. (chest, furnace, etc.)
-	public setDirection(
-		direction: CardinalDirection,
-		upsideDown?: boolean
-	): void {
-		// Get the state keys
-		const keys = Object.keys(this.permutation.state);
-
-		// Check if the block has a weirdo direction state.
-		if (keys.includes("weirdo_direction") && keys.includes("upside_down_bit")) {
-			// Get the new permutation with the direction state.
-			const permutation = this.permutation.type.getPermutation({
-				upside_down_bit: upsideDown ?? false,
-				weirdo_direction: direction
-			});
-
-			// set the permutation
-			this.setPermutation(permutation);
 		}
 	}
 

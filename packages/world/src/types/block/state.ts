@@ -1,4 +1,4 @@
-import { ByteTag, CompoundTag, StringTag } from "@serenityjs/nbt";
+import type { ByteTag, CompoundTag, StringTag } from "@serenityjs/nbt";
 
 /**
  * A block state.

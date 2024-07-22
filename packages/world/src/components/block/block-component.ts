@@ -1,5 +1,6 @@
 import { Component } from "../component";
 
+import type { Vector3f } from "@serenityjs/protocol";
 import type { BlockIdentifier, BlockType } from "@serenityjs/block";
 import type { Player } from "../../player";
 import type { Block } from "../../block";
@@ -88,8 +89,9 @@ class BlockComponent extends Component {
 	/**
 	 * Called when the block is placed in the dimension.
 	 * @param player The player that placed the block.
+	 * @param clickPosition The position of the affected block which was clicked.
 	 */
-	public onPlace?(player: Player): void;
+	public onPlace?(player: Player, clickPosition: Vector3f): void;
 
 	/**
 	 * Called when the block is destruction process has started in the dimension.
