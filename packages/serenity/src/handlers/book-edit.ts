@@ -53,22 +53,8 @@ class BookEdit extends SerenityHandler {
 				break;
 			}
 			case BookEditAction.Finalize: {
-				writtableBook.write();
-				const writtenBook = new ItemStack(
-					"minecraft:written_book" as ItemIdentifier,
-					1
-				);
-				const pages = heldItem.nbt.getTag("pages");
-
-				writtenBook.nbt.addTag<unknown>(
-					new StringTag("author", packet.actions.textA),
-					new StringTag("xuid", packet.actions.xuid),
-					new IntTag("generation", 1)
-				);
-
-				if (pages) {
-					writtenBook.nbt.addTag<unknown>(pages);
-				}
+				const { textA: title, textB: author, xuid } = packet.actions;
+				const writtenBook = writtableBook.signBook(title, author, xuid);
 
 				playerInventory?.container.setItem(
 					playerInventory.selectedSlot,

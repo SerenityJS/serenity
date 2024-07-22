@@ -1,11 +1,17 @@
-import { IntTag, ListTag, StringTag, Tag } from "@serenityjs/nbt";
+import {
+	type CompoundTag,
+	IntTag,
+	ListTag,
+	StringTag,
+	Tag
+} from "@serenityjs/nbt";
 
 import { BookPage } from "../../book";
+import { ItemStack } from "../../item";
 
 import { ItemComponent } from "./item-component";
 
-import type { Items } from "@serenityjs/item";
-import type { ItemStack } from "../../item";
+import type { ItemIdentifier, Items } from "@serenityjs/item";
 
 class ItemBookComponent<T extends keyof Items> extends ItemComponent<T> {
 	public static readonly identifier = "minecraft:writtable_book";
@@ -87,7 +93,31 @@ class ItemBookComponent<T extends keyof Items> extends ItemComponent<T> {
 		this.pages.splice(pageId, 1);
 	}
 
-	// TODO: Add the signed book data
+	public signBook(title: string, author: string, xuid: string): ItemStack {
+		this.write();
+		const writtenBook = new ItemStack(
+			"minecraft:written_book" as ItemIdentifier,
+			1
+		);
+
+		const pages = this.item.nbt.getTag("pages");
+
+		writtenBook.nbt.addTag<unknown>(
+			new StringTag("author", author),
+			new StringTag("title", title),
+			new StringTag("xuid", xuid),
+			new IntTag("generation", 1)
+		);
+
+		if (pages) {
+			writtenBook.nbt.addTag<unknown>(pages);
+		}
+		return writtenBook;
+	}
+
+	/**
+	 * Writes the cached pages to the book nbt
+	 */
 	public write(): void {
 		const tag = this.item.nbt;
 
@@ -103,6 +133,30 @@ class ItemBookComponent<T extends keyof Items> extends ItemComponent<T> {
 		} else {
 			tag.removeTag("pages");
 		}
+	}
+
+	/**
+	 * Reads the pages from a already serialized nbt tag
+	 * @param compoundTag The tag with the book information
+	 */
+	public read(compoundTag: CompoundTag): void {
+		// ? Get the pages tag from the compound tag
+		const pages: ListTag<unknown> | undefined = compoundTag.getTag(
+			"pages"
+		) as ListTag<unknown>;
+		// ? Clear the book pages
+		this.pages = [];
+
+		if (!pages) return;
+		// ? Loop between all the pages
+		for (const page of pages.value) {
+			// ? Create a new instance and read the data from the page nbt
+			const bookPage = new BookPage();
+			bookPage.read(page);
+			this.pages.push(bookPage);
+		}
+		// ? Write the nbt data
+		this.write();
 	}
 }
 
