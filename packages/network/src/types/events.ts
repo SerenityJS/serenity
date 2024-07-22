@@ -89,7 +89,9 @@ import type {
 	CompletedUsingItemPacket,
 	NpcRequestPacket,
 	OpenSignPacket,
-	ServerboundLoadingScreenPacketPacket
+	ServerboundLoadingScreenPacketPacket,
+	CameraShakePacket,
+	BookEditPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -130,6 +132,7 @@ interface NetworkEvents {
 	[Packet.MobEffect]: [NetworkPacketEvent<MobEffectPacket>];
 	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
+	[Packet.BookEdit]: [NetworkPacketEvent<BookEditPacket>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
 	[Packet.SetActorData]: [NetworkPacketEvent<SetActorDataPacket>];
 	[Packet.SetActorMotion]: [NetworkPacketEvent<SetActorMotionPacket>];
@@ -166,6 +169,7 @@ interface NetworkEvents {
 	[Packet.PlayerSkin]: [NetworkPacketEvent<PlayerSkinPacket>];
 	[Packet.NpcRequest]: [NetworkPacketEvent<NpcRequestPacket>];
 	[Packet.OpenSign]: [NetworkPacketEvent<OpenSignPacket>];
+	[Packet.CameraShake]: [NetworkPacketEvent<CameraShakePacket>];
 	[Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
 	[Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
 	[Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];

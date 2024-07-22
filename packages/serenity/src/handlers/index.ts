@@ -19,6 +19,7 @@ import { NetworkStackLatency } from "./network-stack-latency";
 import { Respawn } from "./respawn";
 import { NpcRequest } from "./npc-request";
 import { BlockActorData } from "./block-actor-data";
+import { BookEdit } from "./book-edit";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -41,7 +42,8 @@ const HANDLERS = [
 	NetworkStackLatency,
 	Respawn,
 	NpcRequest,
-	BlockActorData
+	BlockActorData,
+	BookEdit
 ];
 
 export { HANDLERS };
@@ -68,3 +70,4 @@ export * from "./network-stack-latency";
 export * from "./respawn";
 export * from "./npc-request";
 export * from "./block-actor-data";
+export * from "./book-edit";

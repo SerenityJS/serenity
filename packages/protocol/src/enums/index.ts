@@ -69,3 +69,6 @@ export * from "./actor-damage-cause";
 export * from "./item-use-method";
 export * from "./npc-request-type";
 export * from "./serverbound-loading-screen-type";
+export * from "./shake-type";
+export * from "./shake-action";
+export * from "./book-edit-action";

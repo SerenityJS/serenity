@@ -1,6 +1,7 @@
 import type { Items } from "@serenityjs/item";
 import type {
 	ItemArmorComponent,
+	ItemBookComponent,
 	ItemDurabilityComponent,
 	ItemDyeComponent,
 	ItemEnchantableComponent,
@@ -17,6 +18,7 @@ interface ItemComponents<T extends keyof Items> {
 	"minecraft:armor": ItemArmorComponent<T>;
 	"minecraft:food": ItemFoodComponent<T>;
 	"minecraft:dye": ItemDyeComponent<T>;
+	"minecraft:writtable_book": ItemBookComponent<T>;
 }
 
 export { ItemComponents };

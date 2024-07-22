@@ -92,6 +92,8 @@ import { CompletedUsingItemPacket } from "./completed-using-item";
 import { NpcRequestPacket } from "./npc-request";
 import { OpenSignPacket } from "./open-sign";
 import { ServerboundLoadingScreenPacketPacket } from "./server-bound-loading-screen";
+import { CameraShakePacket } from "./camera-shake";
+import { BookEditPacket } from "./book-edit";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -148,6 +150,7 @@ const Packets = {
 	[Packet.Transfer]: TransferPacket, // 85
 	[Packet.SetTitle]: SetTitlePacket, // 88
 	[Packet.PlayerSkin]: PlayerSkinPacket, // 93
+	[Packet.BookEdit]: BookEditPacket, // 97
 	[Packet.NpcRequest]: NpcRequestPacket, // 98
 	[Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
 	[Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
@@ -170,6 +173,7 @@ const Packets = {
 	[Packet.EmoteList]: EmoteListPacket, // 152
 	[Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
 	[Packet.AnimateEntity]: AnimateEntityPacket, // 158
+	[Packet.CameraShake]: CameraShakePacket, // 159
 	[Packet.ItemComponent]: ItemComponentPacket, // 162
 	[Packet.NpcDialogue]: NpcDialoguePacket, // 169
 	[Packet.ScriptMessage]: ScriptMessagePacket, // 177

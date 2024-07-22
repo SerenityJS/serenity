@@ -98,6 +98,7 @@ class PlayerDroppedItemSignal extends EventSignal {
 		// Check if the transaction is a normal transaction.
 		if (transaction.type !== ComplexInventoryTransaction.NormalTransaction)
 			return;
+		if (transaction.actions.length > 2) return;
 
 		// Get the action from the transaction.
 		const action = transaction.actions[0] as InventoryAction;

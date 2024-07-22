@@ -70,3 +70,4 @@ export * from "./death-parameters";
 export * from "./color";
 export * from "./data-item";
 export * from "./property-sync-data";
+export * from "./book-actions";
