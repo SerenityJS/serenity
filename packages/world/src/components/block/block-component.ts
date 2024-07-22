@@ -20,6 +20,11 @@ class BlockComponent extends Component {
 	public static readonly components = new Map<string, typeof BlockComponent>();
 
 	/**
+	 * The block type identifiers to bind the component to.
+	 */
+	public static readonly types: Array<BlockIdentifier> = [];
+
+	/**
 	 * The block the component is binded to.
 	 */
 	protected readonly block: Block;

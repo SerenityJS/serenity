@@ -10,6 +10,9 @@ import { BlockNBTComponent } from "./nbt";
 import type { CraftingTableComponentNBT } from "../../types";
 import type { Block } from "../../block";
 
+/**
+ * @deprecated
+ */
 class BlockCraftingTableComponent extends BlockNBTComponent {
 	public static readonly identifier = "minecraft:crafting_table";
 
@@ -52,7 +55,7 @@ class BlockCraftingTableComponent extends BlockNBTComponent {
 		);
 
 		// Create a new inventory component for the block.
-		new BlockInventoryComponent(block, container);
+		new BlockInventoryComponent(block).container = container;
 	}
 
 	public static serialize(): CompoundTag<CraftingTableComponentNBT> {

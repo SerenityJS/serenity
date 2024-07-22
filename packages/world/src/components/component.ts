@@ -10,6 +10,11 @@ class Component {
 	public static readonly identifier: string;
 
 	/**
+	 * The types to bind the component to.
+	 */
+	public static readonly types: Array<unknown>;
+
+	/**
 	 * The identifier of the component.
 	 */
 	public readonly identifier: string;

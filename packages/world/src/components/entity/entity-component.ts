@@ -22,6 +22,11 @@ class EntityComponent extends Component {
 	public static readonly components = new Map<string, typeof EntityComponent>();
 
 	/**
+	 * The entity type identifiers to bind the component to.
+	 */
+	public static readonly types: Array<EntityIdentifier> = [];
+
+	/**
 	 * The entity the component is binded to.
 	 */
 	protected readonly entity: Entity;

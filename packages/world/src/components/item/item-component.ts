@@ -22,6 +22,11 @@ class ItemComponent<T extends keyof Items> extends Component {
 	/**
 	 * The item the component is binded to.
 	 */
+	public static readonly types: Array<ItemIdentifier> = [];
+
+	/**
+	 * The item the component is binded to.
+	 */
 	protected readonly item: ItemStack<T>;
 
 	/**
