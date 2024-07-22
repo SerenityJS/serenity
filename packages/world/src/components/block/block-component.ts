@@ -1,7 +1,8 @@
+import { type BlockIdentifier, BlockType } from "@serenityjs/block";
+
 import { Component } from "../component";
 
 import type { Vector3f } from "@serenityjs/protocol";
-import type { BlockIdentifier, BlockType } from "@serenityjs/block";
 import type { Player } from "../../player";
 import type { Block } from "../../block";
 
@@ -122,6 +123,20 @@ class BlockComponent extends Component {
 	 * @param player The player that interacted with the block.
 	 */
 	public onInteract?(player: Player): void;
+
+	public static bind(): void {
+		// Bind the component to the block types.
+		for (const identifier of this.types) {
+			// Get the block type.
+			const type = BlockType.get(identifier);
+
+			// Register the component to the block type.
+			if (type) this.register(type);
+		}
+
+		// Register the component.
+		BlockComponent.components.set(this.name, this);
+	}
 }
 
 export { BlockComponent };

@@ -43,6 +43,13 @@ class Component {
 	public onTick?(): void;
 
 	/**
+	 * Binds the component to the specified types.
+	 */
+	public static bind(): void {
+		throw new Error("Method not implemented.");
+	}
+
+	/**
 	 * Compresses the component into a compound tag.
 	 * @param component The component to compress.
 	 * @returns The compressed component.
