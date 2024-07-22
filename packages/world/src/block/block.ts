@@ -202,6 +202,15 @@ class Block {
 		) ?? [])
 			new component(this, component.identifier);
 
+		// Register the components that are type specific.
+		for (const identifier of permutation.type.components) {
+			// Get the component from the registry
+			const component = BlockComponent.components.get(identifier);
+
+			// Check if the component exists.
+			if (component) new component(this, identifier);
+		}
+
 		// Register the components that are state specific.
 		for (const key of Object.keys(permutation.state)) {
 			// Get the component from the registry
