@@ -1,12 +1,5 @@
 import { BookEditAction, BookEditPacket } from "@serenityjs/protocol";
-import { BookPage, ItemStack } from "@serenityjs/world";
-import { type ItemIdentifier, ItemType } from "@serenityjs/item";
-import {
-	type CompoundTag,
-	IntTag,
-	type ListTag,
-	StringTag
-} from "@serenityjs/nbt";
+import { BookPage } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
