@@ -14,6 +14,7 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { Block } from "../block";
 import {
+	BlockComponent,
 	EntityComponent,
 	EntityItemComponent,
 	EntityPhysicsComponent
@@ -323,6 +324,21 @@ class Dimension {
 
 			// Convert the permutation to a block.
 			const block = new Block(this, permutation, { x, y, z });
+
+			// Register the components to the block.
+			for (const component of BlockComponent.registry.get(
+				permutation.type.identifier
+			) ?? [])
+				new component(block, component.identifier);
+
+			// Register the components that are type specific.
+			for (const identifier of permutation.type.components) {
+				// Get the component from the registry
+				const component = BlockComponent.components.get(identifier);
+
+				// Check if the component exists.
+				if (component) new component(block, identifier);
+			}
 
 			// If the block has components add it to the blocks
 			if (block.components.size > 0) this.blocks.set(position, block);
