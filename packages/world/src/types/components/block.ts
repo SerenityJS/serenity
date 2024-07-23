@@ -3,7 +3,8 @@ import type {
 	BlockNametagComponent,
 	BlockSignComponent,
 	BlockCardinalDirectionComponent,
-	BlockWeirdoDirectionComponent
+	BlockWeirdoDirectionComponent,
+	BlockFluidContainerComponent
 } from "../../components";
 
 interface BlockComponents {
@@ -12,6 +13,7 @@ interface BlockComponents {
 	"minecraft:sign": BlockSignComponent;
 	"minecraft:cardinal_direction": BlockCardinalDirectionComponent;
 	"minecraft:weirdo_direction": BlockWeirdoDirectionComponent;
+	"minecraft:cauldron_liquid": BlockFluidContainerComponent;
 }
 
 export { BlockComponents };
