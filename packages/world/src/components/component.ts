@@ -10,6 +10,11 @@ class Component {
 	public static readonly identifier: string;
 
 	/**
+	 * The types to bind the component to.
+	 */
+	public static readonly types: Array<unknown>;
+
+	/**
 	 * The identifier of the component.
 	 */
 	public readonly identifier: string;
@@ -36,6 +41,13 @@ class Component {
 	 * Called when the component is ticked.
 	 */
 	public onTick?(): void;
+
+	/**
+	 * Binds the component to the specified types.
+	 */
+	public static bind(): void {
+		throw new Error("Method not implemented.");
+	}
 
 	/**
 	 * Compresses the component into a compound tag.

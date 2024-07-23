@@ -10,21 +10,24 @@ import type { Block } from "../../block";
 class BlockInventoryComponent extends BlockComponent {
 	public static readonly identifier = "minecraft:inventory";
 
-	public readonly container: BlockContainer;
+	public readonly containerType: ContainerType = ContainerType.Container;
 
-	public readonly containerType: ContainerType = ContainerType.Inventory;
+	public readonly containerId: ContainerId = ContainerId.Ui;
 
-	public readonly containerId: ContainerId = ContainerId.Inventory;
+	public readonly inventorySize: number = 27;
 
-	public readonly inventorySize: number = 36;
+	public container: BlockContainer;
 
 	public selectedSlot: number = 0;
 
-	public constructor(block: Block, container?: BlockContainer) {
+	public constructor(block: Block) {
 		super(block, BlockInventoryComponent.identifier);
-		this.container =
-			container ??
-			new BlockContainer(block, ContainerType.Container, ContainerId.Ui, 27);
+		this.container = new BlockContainer(
+			block,
+			this.containerType,
+			this.containerId,
+			this.inventorySize
+		);
 	}
 
 	public onInteract(player: Player): void {

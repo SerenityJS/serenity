@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 export * from "./component";
 export * from "./entity";
 export * from "./player";
@@ -7,41 +8,35 @@ export * from "./block";
 //
 // Register all valid entity components.
 //
-import { EntityComponent } from "./entity";
 import * as EntityComponents from "./entity";
 for (const key in EntityComponents) {
+	// Get the entity component.
 	const value = EntityComponents[key as keyof typeof EntityComponents];
 
-	// Register the component to the collective registry.
-	EntityComponent.components.set(
-		value.identifier,
-		value as typeof EntityComponent
-	);
+	// Bind the component to the registry.
+	value.bind();
 }
 
 //
 // Register all valid item components.
 //
-import { ItemComponent } from "./item";
 import * as ItemComponents from "./item";
 for (const key in ItemComponents) {
+	// Get the item component.
 	const value = ItemComponents[key as keyof typeof ItemComponents];
 
-	// Register the component to the collective registry.
-	ItemComponent.components.set(value.identifier, value as typeof ItemComponent);
+	// Iterate over the item types.
+	value.bind();
 }
 
 //
 // Register all valid block components.
 //
-import { BlockComponent } from "./block";
 import * as BlockComponents from "./block";
 for (const key in BlockComponents) {
+	// Get the block component.
 	const value = BlockComponents[key as keyof typeof BlockComponents];
 
-	// Register the component to the collective registry.
-	BlockComponent.components.set(
-		value.identifier,
-		value as typeof BlockComponent
-	);
+	// Bind the component to the registry.
+	value.bind();
 }

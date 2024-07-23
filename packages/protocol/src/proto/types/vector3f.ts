@@ -188,6 +188,15 @@ class Vector3f extends DataType {
 	}
 
 	/**
+	 * Gets the distance between this 3D vector and another 3D vector.
+	 * @param other The other 3D vector to get the distance to.
+	 * @returns The distance between the 3D vectors.
+	 */
+	public distance(other: Vector3f): number {
+		return Math.hypot(this.x - other.x, this.y - other.y, this.z - other.z);
+	}
+
+	/**
 	 * Reads a 3D vector from the stream.
 	 *
 	 * @param stream The stream to read from.

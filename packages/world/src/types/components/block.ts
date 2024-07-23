@@ -4,7 +4,8 @@ import type {
 	BlockSignComponent,
 	BlockCardinalDirectionComponent,
 	BlockWeirdoDirectionComponent,
-	BlockFluidContainerComponent
+	BlockFluidContainerComponent,
+	BlockUpsideDownBitComponent
 } from "../../components";
 
 interface BlockComponents {
@@ -14,6 +15,7 @@ interface BlockComponents {
 	"minecraft:cardinal_direction": BlockCardinalDirectionComponent;
 	"minecraft:weirdo_direction": BlockWeirdoDirectionComponent;
 	"minecraft:cauldron_liquid": BlockFluidContainerComponent;
+	"minecraft:upside_down_bit": BlockUpsideDownBitComponent;
 }
 
 export { BlockComponents };

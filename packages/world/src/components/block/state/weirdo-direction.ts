@@ -27,10 +27,17 @@ class BlockWeirdoDirectionComponent extends BlockComponent {
 		// Get the block type
 		const type = this.block.getType();
 
-		// Get the permutation of the block
-		const permutation = type.getPermutation({
+		// Get the state of the block
+		const state = this.block.permutation.state;
+
+		// Create the state of the block
+		const newState = {
+			...state,
 			weirdo_direction: direction
-		});
+		};
+
+		// Get the permutation of the block
+		const permutation = type.getPermutation(newState);
 
 		// Set the permutation of the block
 		if (permutation) this.block.setPermutation(permutation);

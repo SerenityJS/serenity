@@ -1,6 +1,8 @@
+import { type BlockIdentifier, BlockType } from "@serenityjs/block";
+
 import { Component } from "../component";
 
-import type { BlockIdentifier, BlockType } from "@serenityjs/block";
+import type { Vector3f } from "@serenityjs/protocol";
 import type { Player } from "../../player";
 import type { Block } from "../../block";
 
@@ -17,6 +19,11 @@ class BlockComponent extends Component {
 	 * A collective registry of all block components.
 	 */
 	public static readonly components = new Map<string, typeof BlockComponent>();
+
+	/**
+	 * The block type identifiers to bind the component to.
+	 */
+	public static readonly types: Array<BlockIdentifier> = [];
 
 	/**
 	 * The block the component is binded to.
@@ -88,8 +95,9 @@ class BlockComponent extends Component {
 	/**
 	 * Called when the block is placed in the dimension.
 	 * @param player The player that placed the block.
+	 * @param clickPosition The position of the affected block which was clicked.
 	 */
-	public onPlace?(player: Player): void;
+	public onPlace?(player: Player, clickPosition: Vector3f): void;
 
 	/**
 	 * Called when the block is destruction process has started in the dimension.
@@ -115,6 +123,20 @@ class BlockComponent extends Component {
 	 * @param player The player that interacted with the block.
 	 */
 	public onInteract?(player: Player): void;
+
+	public static bind(): void {
+		// Bind the component to the block types.
+		for (const identifier of this.types) {
+			// Get the block type.
+			const type = BlockType.get(identifier);
+
+			// Register the component to the block type.
+			if (type) this.register(type);
+		}
+
+		// Register the component.
+		BlockComponent.components.set(this.name, this);
+	}
 }
 
 export { BlockComponent };

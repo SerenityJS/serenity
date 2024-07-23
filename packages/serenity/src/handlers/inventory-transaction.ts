@@ -191,8 +191,14 @@ class InventoryTransaction extends SerenityHandler {
 					blockType.permutations[usingItem.metadata] ??
 					blockType.getPermutation();
 
+				// Get the click position of the packet
+				const clickPosition = transaction.clickPosition;
+
 				// Set the block with the blockType permutation based off the items metadata
-				resultingBlock.setPermutation(blockPermutation, player);
+				resultingBlock.setPermutation(blockPermutation, {
+					player,
+					clickPosition
+				});
 
 				// Check if the player is in survival mode, if so decrement the item
 				if (player.gamemode === Gamemode.Survival) usingItem.decrement();

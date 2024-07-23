@@ -1,8 +1,9 @@
+import { type ItemIdentifier, type Items, ItemType } from "@serenityjs/item";
+
 import { Component } from "../component";
 
 import type { ItemUseCause } from "../../enums";
 import type { Player } from "../../player";
-import type { ItemIdentifier, Items, ItemType } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
 class ItemComponent<T extends keyof Items> extends Component {
@@ -18,6 +19,11 @@ class ItemComponent<T extends keyof Items> extends Component {
 	 * A collective registry of all item components.
 	 */
 	public static readonly components = new Map<string, typeof ItemComponent>();
+
+	/**
+	 * The item the component is binded to.
+	 */
+	public static readonly types: Array<ItemIdentifier> = [];
 
 	/**
 	 * The item the component is binded to.
@@ -100,6 +106,20 @@ class ItemComponent<T extends keyof Items> extends Component {
 	 * @returns If the item was successfully used, this will cause the event to be done using the item.
 	 */
 	public onUse?(player: Player, cause: ItemUseCause): boolean;
+
+	public static bind(): void {
+		// Bind the component to the item types.
+		for (const identifier of this.types) {
+			// Get the item type.
+			const type = ItemType.get(identifier);
+
+			// Register the component to the item type.
+			if (type) this.register(type);
+		}
+
+		// Register the component.
+		ItemComponent.components.set(this.name, this);
+	}
 }
 
 export { ItemComponent };

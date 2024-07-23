@@ -1,10 +1,10 @@
 import { ByteTag, CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
+import { type EntityIdentifier, EntityType } from "@serenityjs/entity";
 
 import { Component } from "../component";
 
 import type { Player } from "../../player";
 import type { ItemUseOnEntityInventoryTransactionType } from "@serenityjs/protocol";
-import type { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import type { Entity } from "../../entity";
 
 class EntityComponent extends Component {
@@ -20,6 +20,11 @@ class EntityComponent extends Component {
 	 * A collective registry of all entity components.
 	 */
 	public static readonly components = new Map<string, typeof EntityComponent>();
+
+	/**
+	 * The entity type identifiers to bind the component to.
+	 */
+	public static readonly types: Array<EntityIdentifier> = [];
 
 	/**
 	 * The entity the component is binded to.
@@ -198,6 +203,20 @@ class EntityComponent extends Component {
 
 		// Return the component.
 		return component as unknown as EntityComponent;
+	}
+
+	public static bind(): void {
+		// Bind the component to the entity types.
+		for (const identifier of this.types) {
+			// Get the entity type.
+			const type = EntityType.get(identifier);
+
+			// Register the component to the entity type.
+			if (type) this.register(type);
+		}
+
+		// Register the component.
+		EntityComponent.components.set(this.name, this);
 	}
 }
 

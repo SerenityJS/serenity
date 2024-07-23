@@ -3,6 +3,7 @@ export * from "./event-signal";
 
 // Concrete player signals
 export * from "./player-joined";
+export * from "./player-leave";
 export * from "./player-spawned";
 export * from "./player-chat";
 export * from "./player-place-block";
@@ -27,12 +28,14 @@ import { PlayerDroppedItemSignal } from "./player-dropped-item";
 import { EntitySpawnedSignal } from "./entity-spawned";
 import { CommandExecutedSignal } from "./command-executed";
 import { DialogueResponseSignal } from "./dialogue-response";
+import { PlayerLeaveSignal } from "./player-leave";
 
 /**
  * Contains all the event signals.
  */
 const EVENT_SIGNALS = [
 	PlayerJoinedSignal,
+	PlayerLeaveSignal,
 	PlayerSpawnedSignal,
 	PlayerChatSignal,
 	PlayerPlaceBlockSignal,
