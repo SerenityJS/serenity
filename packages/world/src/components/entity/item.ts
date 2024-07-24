@@ -152,9 +152,9 @@ class EntityItemComponent extends EntityComponent {
 
 				// Check if the distance is less than 0.5 blocks
 				if (
-					Math.abs(distance.x) <= 0.75 &&
-					Math.abs(distance.y) <= 0.75 &&
-					Math.abs(distance.z) <= 0.75
+					Math.abs(distance.x) <= 0.9 &&
+					Math.abs(distance.y) <= 0.9 &&
+					Math.abs(distance.z) <= 0.9
 				) {
 					// Get the item component of the entity
 					const component = entity.getComponent(EntityItemComponent.identifier);
@@ -237,7 +237,7 @@ class EntityItemComponent extends EntityComponent {
 			) {
 				// Teleport the item to the player
 				this.entity.teleport(
-					new Vector3f(playerPos.x, playerPos.y - 0.5, playerPos.z)
+					new Vector3f(playerPos.x, playerPos.y - 1, playerPos.z)
 				);
 
 				// Set the player as the target

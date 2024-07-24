@@ -1,11 +1,13 @@
-import { BlockComponent } from "../block-component";
+import { BlockStateComponent } from "./state";
 
 import type { Vector3f } from "@serenityjs/protocol";
 import type { Player } from "../../../player";
 import type { Block } from "../../../block";
 
-class BlockUpsideDownBitComponent extends BlockComponent {
+class BlockUpsideDownBitComponent extends BlockStateComponent {
 	public static readonly identifier = "minecraft:upside_down_bit";
+
+	public static readonly state = "upside_down_bit";
 
 	public constructor(block: Block) {
 		super(block, BlockUpsideDownBitComponent.identifier);

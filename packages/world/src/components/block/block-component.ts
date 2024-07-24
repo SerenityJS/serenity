@@ -135,7 +135,7 @@ class BlockComponent extends Component {
 		}
 
 		// Register the component.
-		BlockComponent.components.set(this.name, this);
+		BlockComponent.components.set(this.identifier, this);
 	}
 }
 

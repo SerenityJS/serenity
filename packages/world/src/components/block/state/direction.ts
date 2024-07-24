@@ -5,31 +5,47 @@ import { BlockStateComponent } from "./state";
 import type { Player } from "../../../player";
 import type { Block } from "../../../block";
 
-class BlockCardinalDirectionComponent extends BlockStateComponent {
-	public static readonly identifier = "minecraft:cardinal_direction";
+class BlockDirectionComponent extends BlockStateComponent {
+	public static readonly identifier = "minecraft:direction";
 
-	public static readonly state = this.identifier;
+	public static readonly state = "direction";
 
 	public constructor(block: Block) {
-		super(block, BlockCardinalDirectionComponent.identifier);
+		super(block, BlockDirectionComponent.identifier);
 	}
 
 	public onPlace(player: Player): void {
 		// Get the player's cardinal direction
 		const direction = player.getCardinalDirection();
 
-		// Flip south and north, north and south; east and west, west and east
-		const cardinal =
-			direction === CardinalDirection.South
-				? CardinalDirection.North
-				: direction === CardinalDirection.North
-					? CardinalDirection.South
-					: direction === CardinalDirection.East
-						? CardinalDirection.West
-						: CardinalDirection.East;
+		// 1 = south
+		// 2 = north
+		// 3 = east
+		// 4 = west
+
+		switch (direction) {
+			case CardinalDirection.South: {
+				this.setDirection(2);
+
+				break;
+			}
+			case CardinalDirection.North: {
+				this.setDirection(0);
+
+				break;
+			}
+			case CardinalDirection.East: {
+				this.setDirection(1);
+
+				break;
+			}
+			default: {
+				this.setDirection(3);
+			}
+		}
 
 		// Set the direction of the block
-		this.setDirection(cardinal);
+		// this.setDirection(direction);
 	}
 
 	/**
@@ -42,8 +58,7 @@ class BlockCardinalDirectionComponent extends BlockStateComponent {
 
 		// Get the permutation of the block
 		const permutation = type.getPermutation({
-			[BlockCardinalDirectionComponent.state]:
-				CardinalDirection[direction].toLowerCase()
+			direction: direction
 		});
 
 		// Set the permutation of the block
@@ -51,4 +66,4 @@ class BlockCardinalDirectionComponent extends BlockStateComponent {
 	}
 }
 
-export { BlockCardinalDirectionComponent };
+export { BlockDirectionComponent };

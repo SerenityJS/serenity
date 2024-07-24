@@ -118,7 +118,7 @@ class ItemComponent<T extends keyof Items> extends Component {
 		}
 
 		// Register the component.
-		ItemComponent.components.set(this.name, this);
+		ItemComponent.components.set(this.identifier, this);
 	}
 }
 

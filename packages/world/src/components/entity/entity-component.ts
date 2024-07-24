@@ -216,7 +216,7 @@ class EntityComponent extends Component {
 		}
 
 		// Register the component.
-		EntityComponent.components.set(this.name, this);
+		EntityComponent.components.set(this.identifier, this);
 	}
 }
 

@@ -18,7 +18,7 @@ import { ItemIdentifier, ItemType } from "@serenityjs/item";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../item";
-import { BlockComponent } from "../components";
+import { BlockComponent, BlockStateComponent } from "../components";
 
 import type { BlockComponents, BlockUpdateOptions } from "../types";
 import type { Chunk } from "../chunk";
@@ -216,11 +216,15 @@ class Block {
 			// Get the component from the registry
 			const component = [...BlockComponent.components.values()].find((x) => {
 				// If the identifier is undefined, we will skip it.
-				if (!x.identifier) return false;
+				if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
+					return false;
+
+				// Initialize the component as a BlockStateComponent.
+				const component = x as typeof BlockStateComponent;
 
 				// Check if the identifier includes the key.
 				// As some states dont include a namespace.
-				return x.identifier.includes(key);
+				return component.state === key;
 			});
 
 			// Check if the component exists.

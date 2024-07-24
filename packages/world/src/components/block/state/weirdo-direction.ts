@@ -1,11 +1,13 @@
-import { BlockComponent } from "../block-component";
+import { BlockStateComponent } from "./state";
 
 import type { CardinalDirection } from "../../../enums";
 import type { Player } from "../../../player";
 import type { Block } from "../../../block";
 
-class BlockWeirdoDirectionComponent extends BlockComponent {
+class BlockWeirdoDirectionComponent extends BlockStateComponent {
 	public static readonly identifier = "minecraft:weirdo_direction";
+
+	public static readonly state = "weirdo_direction";
 
 	public constructor(block: Block) {
 		super(block, BlockWeirdoDirectionComponent.identifier);
