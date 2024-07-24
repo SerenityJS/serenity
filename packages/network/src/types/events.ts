@@ -91,7 +91,8 @@ import type {
 	OpenSignPacket,
 	ServerboundLoadingScreenPacketPacket,
 	CameraShakePacket,
-	BookEditPacket
+	BookEditPacket,
+	PlayerStartItemCooldownPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -133,6 +134,9 @@ interface NetworkEvents {
 	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
 	[Packet.BookEdit]: [NetworkPacketEvent<BookEditPacket>];
+	[Packet.PlayerStartItemCooldown]: [
+		NetworkPacketEvent<PlayerStartItemCooldownPacket>
+	];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
 	[Packet.SetActorData]: [NetworkPacketEvent<SetActorDataPacket>];
 	[Packet.SetActorMotion]: [NetworkPacketEvent<SetActorMotionPacket>];

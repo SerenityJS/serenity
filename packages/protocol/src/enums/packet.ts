@@ -87,6 +87,7 @@ enum Packet {
 	CameraShake = 0x9f, // 159
 	ItemComponent = 0xa2, // 162
 	NpcDialogue = 0xa9, // 169
+	PlayerStartItemCooldown = 0xb0, // 176
 	ScriptMessage = 0xb1, // 177
 	ToastRequest = 0xba, // 186
 	UpdateAbilities = 0xbb, // 187

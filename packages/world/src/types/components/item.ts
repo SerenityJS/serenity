@@ -1,3 +1,4 @@
+import type { ItemFluidContainerComponent } from "../../components/item/fluid-container";
 import type { Items } from "@serenityjs/item";
 import type {
 	ItemArmorComponent,
@@ -7,7 +8,8 @@ import type {
 	ItemEnchantableComponent,
 	ItemFoodComponent,
 	ItemLoreComponent,
-	ItemNametagComponent
+	ItemNametagComponent,
+	ItemThrowableComponent
 } from "../../components";
 
 interface ItemComponents<T extends keyof Items> {
@@ -19,6 +21,8 @@ interface ItemComponents<T extends keyof Items> {
 	"minecraft:food": ItemFoodComponent<T>;
 	"minecraft:dye": ItemDyeComponent<T>;
 	"minecraft:writtable_book": ItemBookComponent<T>;
+	"minecraft:throwable": ItemThrowableComponent<T>;
+	"minecraft:fluid_container": ItemFluidContainerComponent<T>;
 }
 
 export { ItemComponents };

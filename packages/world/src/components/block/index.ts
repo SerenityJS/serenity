@@ -6,3 +6,4 @@ export * from "./block-component";
 export * from "./inventory";
 export * from "./nametag";
 export * from "./sign";
+export * from "./fluid-container";
