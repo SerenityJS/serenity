@@ -8,8 +8,7 @@ import type {
 	ItemEnchantableComponent,
 	ItemFoodComponent,
 	ItemLoreComponent,
-	ItemNametagComponent,
-	ItemThrowableComponent
+	ItemNametagComponent
 } from "../../components";
 
 interface ItemComponents<T extends keyof Items> {
@@ -21,7 +20,6 @@ interface ItemComponents<T extends keyof Items> {
 	"minecraft:food": ItemFoodComponent<T>;
 	"minecraft:dye": ItemDyeComponent<T>;
 	"minecraft:writtable_book": ItemBookComponent<T>;
-	"minecraft:throwable": ItemThrowableComponent<T>;
 	"minecraft:fluid_container": ItemFluidContainerComponent<T>;
 }
 
