@@ -10,3 +10,4 @@ export * from "./armor";
 export * from "./food";
 export * from "./dye";
 export * from "./book";
+export * from "./fluid-container";
