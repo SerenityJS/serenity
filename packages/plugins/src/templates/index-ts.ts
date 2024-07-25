@@ -1,4 +1,4 @@
-const PLUGIN_TEMPLATE = /* typescript */ `import { serenity } from "@serenityjs/launcher"
+const PLUGIN_TEMPLATE = /* typescript */ `import { serenity } from "@serenityjs/serenity"
 
 // We will welcome players when they join the server!
 serenity.on("PlayerSpawned", (data) => {
