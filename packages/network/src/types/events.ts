@@ -92,7 +92,8 @@ import type {
 	ServerboundLoadingScreenPacketPacket,
 	CameraShakePacket,
 	BookEditPacket,
-	PlayerStartItemCooldownPacket
+	PlayerStartItemCooldownPacket,
+	ClientToServerHandshakePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -104,6 +105,9 @@ interface NetworkEvents {
 	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatusPacket>];
 	[Packet.ServerToClientHandshake]: [
 		NetworkPacketEvent<ServerToClientHandshakePacket>
+	];
+	[Packet.ClientToServerHandshake]: [
+		NetworkPacketEvent<ClientToServerHandshakePacket>
 	];
 	[Packet.Disconnect]: [NetworkPacketEvent<DisconnectPacket>];
 	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfoPacket>];
