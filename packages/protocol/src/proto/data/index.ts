@@ -7,6 +7,7 @@ export * from "./data-packet";
 export * from "./login";
 export * from "./play-status";
 export * from "./server-to-client-handshake";
+export * from "./client-to-server-handshake";
 export * from "./disconnect";
 export * from "./resource-packs-info";
 export * from "./resource-pack-stack";

@@ -95,11 +95,13 @@ import { ServerboundLoadingScreenPacketPacket } from "./server-bound-loading-scr
 import { CameraShakePacket } from "./camera-shake";
 import { BookEditPacket } from "./book-edit";
 import { PlayerStartItemCooldownPacket } from "./player-start-item-cooldown";
+import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
 	[Packet.PlayStatus]: PlayStatusPacket, // 2
 	[Packet.ServerToClientHandshake]: ServerToClientHandshakePacket, // 3
+	[Packet.ClientToServerHandshake]: ClientToServerHandshakePacket, // 4
 	[Packet.Disconnect]: DisconnectPacket, // 5
 	[Packet.ResourcePacksInfo]: ResourcePacksInfoPacket, // 6
 	[Packet.ResourcePackStack]: ResourcePackStackPacket, // 7
