@@ -1,4 +1,13 @@
 import {
+	createCipheriv,
+	createDecipheriv,
+	createHash,
+	createPublicKey,
+	diffieHellman,
+	randomBytes
+} from "node:crypto";
+
+import {
 	DisconnectReason,
 	LoginPacket,
 	type LoginTokens,
@@ -6,6 +15,7 @@ import {
 	PlayStatusPacket,
 	ResourcePacksInfoPacket,
 	SerializedSkin,
+	ServerToClientHandshakePacket,
 	SkinImage,
 	TexturePackInfo
 } from "@serenityjs/protocol";
@@ -17,6 +27,7 @@ import {
 	Player
 } from "@serenityjs/world";
 import { Reliability } from "@serenityjs/raknet";
+import JWT from "jsonwebtoken";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -88,6 +99,83 @@ class Login extends SerenityHandler {
 				"There are no dimensions registered within the world instance.",
 				DisconnectReason.WorldCorruption
 			);
+
+		// Set the identity public key of the session.
+		session.identityPublicKey = data.publicKey;
+
+		// Parse the client public key. Is in DER format.
+		const clientPublicKeyDer = Buffer.from(data.publicKey, "base64");
+
+		// Export the server private key to DER format.
+		const serverPublicKeyDer = this.network.encryptionKeypair.publicKey.export({
+			type: "spki",
+			format: "der"
+		});
+
+		// Create a public key instance from the client public key.
+		const clientPublicKey = createPublicKey({
+			key: clientPublicKeyDer,
+			format: "der",
+			type: "spki"
+		});
+
+		// Generate a random salt for the session.
+		const salt = randomBytes(this.network.encryptionSaltLength);
+
+		// Generate the shared secret between the client and server with diffie-hellman.
+		session.encryptionSharedSecret = diffieHellman({
+			privateKey: this.network.encryptionKeypair.privateKey,
+			publicKey: clientPublicKey
+		});
+
+		// Create the secret hash for the session.
+		const secretHash = createHash("sha256");
+		secretHash.update(salt);
+		secretHash.update(session.encryptionSharedSecret);
+
+		// Set the encryption secret bytes of the session.
+		session.encryptionSecretBytes = secretHash.digest();
+
+		// Set the session initialization vector (aes-256-gcm uses a 12 byte iv).
+		session.encryptionInitVector = session.encryptionSecretBytes.subarray(
+			0,
+			12
+		);
+
+		// Set the cipher and decipher for the session.
+		session.decipher = createDecipheriv(
+			this.serenity.network.encryptionCipherAlgorithm,
+			session.encryptionSecretBytes,
+			session.encryptionInitVector
+		);
+		session.cipher = createCipheriv(
+			this.serenity.network.encryptionCipherAlgorithm,
+			session.encryptionSecretBytes,
+			session.encryptionInitVector
+		);
+
+		// Send the server handshake packet with the salt to the client.
+		const handshake = new ServerToClientHandshakePacket();
+
+		// Create a JWT token for the handshake.
+		handshake.token = JWT.sign(
+			{
+				salt: Buffer.from(salt).toString("base64"),
+				signedToken: session.identityPublicKey
+			},
+			this.network.encryptionKeypair.privateKey,
+			{
+				algorithm: this.network.encryptionAlgorithm,
+				header: {
+					alg: this.network.encryptionAlgorithm,
+					x5u: serverPublicKeyDer.toString("base64")
+				}
+			}
+		);
+
+		// Send the handshake packet to the client immediately. and enable encryption.
+		session.sendImmediate(handshake);
+		session.encryption = true;
 
 		// Get the permission level of the player.
 		const permission = this.serenity.permissions.get(xuid, username);
@@ -191,6 +279,9 @@ class Login extends SerenityHandler {
 		// Parse the identity chain data
 		const chains: Array<string> = JSON.parse(tokens.identity).chain;
 
+		// TODO: Validate the chains correctly to prevent spoofed identity information.
+		// Mojank public signing key: MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAECRXueJeTDqNRRgJi/vlRufByu/2G0i2Ebt6YMar5QX/R0DIIyrJMcUpruK4QveTfJSTp3Shlq4Gk34cD/4GUWwkv0DVuzeuB+tXija7HBxii03NHDbPAD0AKnLr2wdAp
+
 		// Decode the chains
 		const decodedChains = chains.map((chain) => this.decoder(chain));
 
@@ -199,11 +290,11 @@ class Login extends SerenityHandler {
 			(chain) => chain.extraData !== undefined
 		)?.extraData;
 
-		// Public key for encryption
-		// TODO: Implement encryption
-		const publicKey = decodedChains.find(
-			(chain) => chain.identityPublicKey !== undefined
-		)?.identityPublicKey;
+		// The public key for encryption is the last token in the identity chain containing an identity public key.
+		const publicKey = decodedChains
+			.map((chain) => chain.identityPublicKey)
+			.filter((key) => key !== undefined)
+			.pop();
 
 		return {
 			clientData,

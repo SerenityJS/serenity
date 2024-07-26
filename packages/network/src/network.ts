@@ -24,6 +24,7 @@ import { NetworkSession } from "./session";
 import { NetworkHandler } from "./handlers";
 import { GAME_BYTE } from "./constants";
 import { NetworkBound } from "./enums";
+import { computeChecksum } from "./utils";
 
 import type { NetworkEvents, NetworkPacketEvent } from "./types";
 
@@ -226,12 +227,52 @@ class Network extends Emitter<NetworkEvents> {
 						`Received invalid packet header from "${session.identifier.address}:${session.identifier.port}"!`
 					);
 
-				// Check if the session is encrypted.
-				// NOTE: Encryption is not implemented yet. So we will just handle the packet as if it was not encrypted.
-				// TODO: Implement encryption for the session.
-				let decrypted = session.encryption
-					? buffer.subarray(1)
-					: buffer.subarray(1);
+				let decrypted = buffer.subarray(1);
+
+				// If encryption is enabled, we will need to decrypt the packet.
+				if (session.encryption) {
+					// Decrypt the packet using the session cipher created in the login handler.
+					const deciphered = session.decipher.update(decrypted);
+
+					// Check if the deciphered buffer is too small.
+					// The checksum is 8 bytes long; With frame and packet id. It should be at least 10 bytes long.
+					if (deciphered.length < 10) {
+						this.logger.error(
+							`Received invalid packet from "${session.identifier.address}:${session.identifier.port}"!`
+						);
+						return session.disconnect(
+							"Received invalid packet.",
+							DisconnectReason.BadPacket
+						);
+					}
+
+					// Remove the checksum from the deciphered buffer.
+					decrypted = deciphered.subarray(0, -8);
+
+					// Grab the checksum from the deciphered buffer.
+					const checksum = deciphered.subarray(-8);
+
+					// Compute the checksum for the decrypted buffer.
+					const computed = computeChecksum(
+						decrypted,
+						session.checksumReceiveSequence,
+						session.encryptionSecretBytes
+					);
+
+					// Increment the checksum receive sequence.
+					session.checksumReceiveSequence++;
+
+					// If the checksums do not match, log an error and disconnect the session.
+					if (!checksum.equals(computed)) {
+						this.logger.error(
+							`Received invalid checksum from "${session.identifier.address}:${session.identifier.port}"!`
+						);
+						return session.disconnect(
+							"Received invalid checksum.",
+							DisconnectReason.BadPacket
+						);
+					}
+				}
 
 				// Some packets have a byte that represents the compression algorithm.
 				// Read the compression algorithm from the buffer.
@@ -436,9 +477,23 @@ class Network extends Emitter<NetworkEvents> {
 			// We will then check if encryption is enabled for the session.
 			// If so, we will encrypt the deflated payload.
 			// If not, we will just use the deflated payload.
-			// NOTE: Encryption is not implemented yet. So we will just use the deflated payload for now.
-			// TODO: Implement encryption for the session.
-			const encrypted = session.encryption ? deflated : deflated;
+
+			// The encrypted payload is the deflated packet with a checksum appended to the end.
+			const encrypted = session.encryption
+				? session.cipher.update(
+						Buffer.concat([
+							deflated,
+							computeChecksum(
+								deflated,
+								session.checksumSendSequence,
+								session.encryptionSecretBytes
+							)
+						])
+					)
+				: deflated;
+
+			// Increment the checksum send sequence.
+			if (session.encryption) session.checksumSendSequence++;
 
 			// We will then construct the final payload with the game header and the encrypted compressed payload.
 			const payload = Buffer.concat([Buffer.from([GAME_BYTE]), encrypted]);

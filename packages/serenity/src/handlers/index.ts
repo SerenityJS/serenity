@@ -20,10 +20,12 @@ import { Respawn } from "./respawn";
 import { NpcRequest } from "./npc-request";
 import { BlockActorData } from "./block-actor-data";
 import { BookEdit } from "./book-edit";
+import { ClientToServerHandshake } from "./client-to-server-handshake";
 
 const HANDLERS = [
 	RequestNetworkSettings,
 	Login,
+	ClientToServerHandshake,
 	Disconnect,
 	ResourcePackClientResponse,
 	ResourcePackChunkRequest,
