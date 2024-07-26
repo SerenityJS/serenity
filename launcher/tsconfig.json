@@ -1,0 +1,10 @@
+{
+  "extends": "@serenityjs/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["es2022"],
+    "outDir": "./dist",
+    "types": ["jest", "node"]
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"],
+}
