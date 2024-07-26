@@ -1,4 +1,5 @@
 import { inflateRawSync, deflateRawSync } from "node:zlib";
+import { generateKeyPairSync, type KeyPairKeyObjectResult } from "node:crypto";
 
 import Emitter from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
@@ -67,6 +68,32 @@ class Network extends Emitter<NetworkEvents> {
 	public readonly handlers: Array<typeof NetworkHandler>;
 
 	/**
+	 * The encryption curve for generating server ECDH keys.
+	 */
+	public readonly encryptionCurve = "secp384r1";
+
+	/**
+	 * The encryption algorithm for generating server ECDH keys.
+	 */
+	public readonly encryptionAlgorithm = "ES384";
+
+	/**
+	 * The encryption cipher algorithm for encrypting and decrypting packets.
+	 */
+	public readonly encryptionCipherAlgorithm = "aes-256-gcm";
+
+	/**
+	 * Length of the randomly generated encryption salt.
+	 */
+	public readonly encryptionSaltLength = 16;
+
+	/**
+	 * Servers runtime keypair for encryption.
+	 * This keypair does not persist between restarts.
+	 */
+	public readonly encryptionKeypair: KeyPairKeyObjectResult;
+
+	/**
 	 * Constructs a new network instance.
 	 *
 	 * @param raknet The Raknet server instance.
@@ -90,6 +117,11 @@ class Network extends Emitter<NetworkEvents> {
 		this.compressMethod = compressMethod ?? CompressionMethod.Zlib;
 		this.packetsPerFrame = packetsPerFrame ?? 32;
 		this.handlers = handlers ?? [];
+
+		// Generates a runtime keypair for encryption.
+		this.encryptionKeypair = generateKeyPairSync("ec", {
+			namedCurve: this.encryptionCurve
+		});
 
 		// Bind the network events.
 		this.raknet.on("encapsulated", this.incoming.bind(this));

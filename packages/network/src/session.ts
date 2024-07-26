@@ -6,6 +6,7 @@ import {
 } from "@serenityjs/protocol";
 import Emitter from "@serenityjs/emitter";
 
+import type { Cipher } from "node:crypto";
 import type { RemoteInfo } from "node:dgram";
 import type { NetworkEvents } from "./types";
 import type { Network } from "./network";
@@ -53,6 +54,52 @@ class NetworkSession extends Emitter<NetworkEvents> {
 	 * The packet ordering channel of the session.
 	 */
 	public channel: number = 0;
+
+	/**
+	 * Client public key for establishing encryption derived
+	 * from the last JWT token in the identity chain.
+	 */
+	public identityPublicKey: string | null = null;
+
+	/**
+	 * Shared secret for encryption generated via ECDH with the
+	 * clients public key and the servers private key.
+	 */
+	public encryptionSharedSecret: Buffer | null = null;
+
+	/**
+	 * Secret bytes for encryption generated via SHA256 with the
+	 * salt shared in the ServerToClientHandshake packet.
+	 */
+	public encryptionSecretBytes: Buffer | null = null;
+
+	/**
+	 * Encryption initialization vector for encryption generated
+	 * via SHA256 with the salt shared in the ServerToClientHandshake packet.
+	 */
+	public encryptionInitVector: Buffer | null = null;
+
+	/**
+	 * The cipher instance for encrypting bytes.
+	 */
+	public cipher: Cipher | null = null;
+
+	/**
+	 * The decipher instance for decrypting bytes.
+	 */
+	public decipher: Cipher | null = null;
+
+	/**
+	 * Encrypted packet send sequence number.
+	 * Used by the client to validate packets the server sends.
+	 */
+	public checksumSendSequence: bigint = 0n;
+
+	/**
+	 * Encrypted packet receive sequence number.
+	 * Used by the server to validate packets from the client.
+	 */
+	public checksumReceiveSequence: bigint = 0n;
 
 	/**
 	 * Creates a new network session.
