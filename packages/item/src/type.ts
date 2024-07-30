@@ -1,6 +1,10 @@
 import { type BlockIdentifier, BlockType } from "@serenityjs/block";
 
-import type { ItemData } from "@serenityjs/protocol";
+import type {
+	ItemData,
+	NetworkItemInstanceDescriptor,
+	StackRequestSlotInfo
+} from "@serenityjs/protocol";
 import type { Items } from "./types";
 
 class ItemType<T extends keyof Items = keyof Items> {
@@ -102,6 +106,23 @@ class ItemType<T extends keyof Items = keyof Items> {
 			name: type.identifier,
 			networkId: type.network,
 			componentBased: false
+		};
+	}
+
+	public static toNetworkInstance(
+		type: ItemType,
+		stackSize: number = 1
+	): NetworkItemInstanceDescriptor {
+		return {
+			network: type.network,
+			metadata: 0,
+			networkBlockId: type.block?.getPermutation().network ?? 0,
+			stackSize,
+			extras: {
+				canDestroy: [],
+				canPlaceOn: [],
+				nbt: null
+			}
 		};
 	}
 }

@@ -1,7 +1,5 @@
 import {
 	ActorDamageCause,
-	ActorEventIds,
-	ActorEventPacket,
 	AttributeName,
 	Gamemode
 } from "@serenityjs/protocol";
