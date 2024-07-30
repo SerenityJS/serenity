@@ -5,6 +5,7 @@ import {
 	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
+	ContainerName,
 	Gamemode,
 	MoveMode,
 	MovePlayerPacket,
@@ -747,6 +748,38 @@ class Player extends Entity {
 			return;
 		}
 		experienceComponent.removeExperience(Math.abs(experienceAmount));
+	}
+
+	/**
+	 * Get a container from the player.
+	 * @param name The name of the container to get.
+	 */
+	public getContainer(name: ContainerName): Container | null {
+		// Check if the super instance will fetch the container
+		const container = super.getContainer(name);
+
+		// Check if the super instance found the container
+		if (container !== null) return container;
+
+		// Switch the container name
+		switch (name) {
+			default: {
+				// Return the opened container if it exists
+				return this.openedContainer;
+			}
+
+			case ContainerName.Cursor: {
+				// Check if the player has the cursor component
+				if (!this.hasComponent("minecraft:cursor"))
+					throw new Error("The player does not have a cursor.");
+
+				// Get the cursor component
+				const cursor = this.getComponent("minecraft:cursor");
+
+				// Return the cursor container
+				return cursor.container;
+			}
+		}
 	}
 }
 

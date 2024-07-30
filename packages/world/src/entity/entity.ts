@@ -6,6 +6,7 @@ import {
 	Attribute,
 	type AttributeName,
 	ChunkCoords,
+	ContainerName,
 	type EffectType,
 	MoveActorAbsolutePacket,
 	RemoveEntityPacket,
@@ -35,6 +36,7 @@ import {
 } from "../components";
 import { ItemStack } from "../item";
 
+import type { Container } from "../container";
 import type { Effect } from "../effect/effect";
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
@@ -978,6 +980,46 @@ class Entity {
 
 			// Broadcast the packet to the dimension
 			this.dimension.broadcast(packet);
+		}
+	}
+
+	/**
+	 * Get a container from the entity.
+	 * @param name The name of the container.
+	 */
+	public getContainer(name: ContainerName): Container | null {
+		// Switch name of the container
+		switch (name) {
+			default: {
+				// Return null if the container name is not valid
+				return null;
+			}
+
+			case ContainerName.Armor: {
+				// Check if the entity has an inventory component
+				if (!this.hasComponent("minecraft:inventory"))
+					throw new Error("The entity does not have an inventory component.");
+
+				// Get the inventory component
+				const inventory = this.getComponent("minecraft:inventory");
+
+				// Return the armor container
+				return inventory.container;
+			}
+
+			case ContainerName.Hotbar:
+			case ContainerName.Inventory:
+			case ContainerName.HotbarAndInventory: {
+				// Check if the entity has an inventory component
+				if (!this.hasComponent("minecraft:inventory"))
+					throw new Error("The entity does not have an inventory component.");
+
+				// Get the inventory component
+				const inventory = this.getComponent("minecraft:inventory");
+
+				// Return the inventory container
+				return inventory.container;
+			}
 		}
 	}
 }
