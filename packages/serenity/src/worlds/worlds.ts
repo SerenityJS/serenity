@@ -6,7 +6,6 @@ import {
 	Overworld,
 	Superflat,
 	Void,
-	OverworldTestGenerator,
 	type TerrainGenerator,
 	type World,
 	type WorldProvider
@@ -76,7 +75,6 @@ class Worlds {
 		// Register the default generators.
 		this.registerGenerator(Superflat);
 		this.registerGenerator(Overworld);
-		this.registerGenerator(OverworldTestGenerator);
 		this.registerGenerator(Void);
 	}
 
