@@ -109,6 +109,45 @@ class ItemStackRequest extends SerenityHandler {
 						break;
 					}
 
+					case ItemStackActionType.CraftRecipe: {
+						// Get the item instances action.
+						const itemInstancesAction = request.actions[1] as ItemStackAction;
+						const itemInstances = itemInstancesAction.resultItems;
+
+						// Check if the item instances exist.
+						if (!itemInstances) throw new Error("Invalid item instances.");
+
+						// Convert the item instances to item stacks.
+						const stacks = itemInstances.map((descriptor) =>
+							// TODO: stackSize
+							ItemStack.fromNetworkInstance(descriptor)
+						);
+
+						// Get the destination action, which is the last action in the request.
+						const destinationAction = request.actions.at(-1) as ItemStackAction;
+						if (!destinationAction.destination)
+							throw new Error("Invalid destination.");
+
+						// Get the destination type.
+						const destinationType = destinationAction.destination.type;
+						const destination = player.getContainer(destinationType);
+
+						// Check if the destination exists.
+						if (!destination)
+							throw new Error(
+								`Invalid destination type: ${ContainerName[destinationType]}`
+							);
+
+						// Add the item stacks to the destination.
+						for (const stack of stacks) {
+							if (!stack) continue;
+
+							// Add the item stack to the destination.
+							destination.addItem(stack);
+						}
+						break;
+					}
+
 					case ItemStackActionType.CraftCreative: {
 						const resultsAction = request.actions[1] as ItemStackAction;
 

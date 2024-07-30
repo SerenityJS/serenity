@@ -25,7 +25,8 @@ import type {
 	PlayerSaturationComponent,
 	PlayerTeleportComponent,
 	PlayerWalkSpeedComponent,
-	PlayerWorldBuilderComponent
+	PlayerWorldBuilderComponent,
+	PlayerCraftingInputComponent
 } from "../../components";
 import type { EntityComponents } from "./entity";
 
@@ -65,6 +66,7 @@ interface PlayerComponents
 		PlayerAttributeComponents {
 	"minecraft:cursor": PlayerCursorComponent;
 	"minecraft:chunk_rendering": PlayerChunkRenderingComponent;
+	"minecraft:crafting_input": PlayerCraftingInputComponent;
 }
 
 export { PlayerComponents, PlayerAbilityComponents };
