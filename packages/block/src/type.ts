@@ -2,6 +2,7 @@
 
 import { BlockIdentifier } from "./enums";
 import { BlockState } from "./types";
+import { ItemDrop } from "./drops";
 
 import type { BlockPermutation } from "./permutation";
 
@@ -64,6 +65,11 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	 * The default tags of the block type.
 	 */
 	public readonly tags: Array<string> = [];
+
+	/**
+	 * The default item drops of the block type.
+	 */
+	public readonly drops: Array<ItemDrop> = [];
 
 	/**
 	 * The default permutations of the block type.

@@ -8,3 +8,4 @@ export * from "./nametag";
 export * from "./sign";
 export * from "./fluid-container";
 export * from "./crafting";
+export * from "./furnace";

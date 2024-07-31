@@ -1,0 +1,112 @@
+[
+  {
+    "identifier": "minecraft:grass_block",
+    "drops": [
+      {
+        "identifier": "minecraft:dirt",
+        "min": 1,
+        "max": 1,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:stone",
+    "drops": [
+      {
+        "identifier": "minecraft:cobblestone",
+        "min": 1,
+        "max": 1,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:coal_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:coal",
+        "min": 1,
+        "max": 3,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:iron_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:raw_iron",
+        "min": 1,
+        "max": 1,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:raw_copper",
+        "min": 1,
+        "max": 3,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:lapis_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:lapis_lazuli",
+        "min": 4,
+        "max": 8,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:redstone_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:redstone",
+        "min": 4,
+        "max": 5,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:gold_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:raw_gold",
+        "min": 1,
+        "max": 1,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:diamond_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:diamond",
+        "min": 1,
+        "max": 1,
+        "chance": 1.0
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:emerald_ore",
+    "drops": [
+      {
+        "identifier": "minecraft:emerald",
+        "min": 1,
+        "max": 1,
+        "chance": 1.0
+      }
+    ]
+  }
+]

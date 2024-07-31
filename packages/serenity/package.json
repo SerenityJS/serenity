@@ -8,6 +8,7 @@
 		"dist/**"
 	],
 	"scripts": {
+		"dev": "node index.js",
 		"build": "tsup",
 		"watch": "tsup --watch",
 		"lint": "eslint src/",

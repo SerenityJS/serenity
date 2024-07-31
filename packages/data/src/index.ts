@@ -37,6 +37,18 @@ interface EntityTypes {
 	components: Array<string>;
 }
 
+interface BlockDrop {
+	identifier: string;
+	min: number;
+	max: number;
+	chance: number;
+}
+
+interface BlockDrops {
+	identifier: string;
+	drops: Array<BlockDrop>;
+}
+
 /**
  * Block states for all blocks in the game.
  */
@@ -56,6 +68,13 @@ const BLOCK_TYPES: Array<BlockTypes> = JSON.parse(
  */
 const BLOCK_PERMUTATIONS: Array<BlockPermutations> = JSON.parse(
 	readFileSync(resolve(data, "block_permutations.json"), "utf8")
+);
+
+/**
+ * Block drops for all blocks in the game.
+ */
+const BLOCK_DROPS: Array<BlockDrops> = JSON.parse(
+	readFileSync(resolve(data, "block_drops.json"), "utf8")
 );
 
 /**
@@ -100,6 +119,7 @@ export {
 	BLOCK_STATES,
 	BLOCK_TYPES,
 	BLOCK_PERMUTATIONS,
+	BLOCK_DROPS,
 	ITEM_TYPES,
 	ENTITY_TYPES,
 	CANONICAL_BLOCK_STATES,

@@ -55,7 +55,7 @@ class BlockCraftingTableComponent extends BlockNBTComponent {
 		);
 
 		// Create a new inventory component for the block.
-		new BlockInventoryComponent(block).container = container;
+		new BlockInventoryComponent(block);
 	}
 
 	public static serialize(): CompoundTag<CraftingTableComponentNBT> {
