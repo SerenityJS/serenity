@@ -1,4 +1,4 @@
-import { Color, EffectType } from "@serenityjs/protocol";
+import { Color, EffectType, Gamemode } from "@serenityjs/protocol";
 
 import { Effect } from "./effect";
 
@@ -14,7 +14,7 @@ class HungerEffect<T extends Entity> extends Effect {
 		const playerHungerComponent = entity.getComponent(
 			"minecraft:player.hunger"
 		);
-
+		if (entity.gamemode === Gamemode.Creative) return;
 		playerHungerComponent.exhaust(0.005 * this.amplifier);
 	}
 
