@@ -223,7 +223,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 						name: "recipesunlock",
 						editable: true,
 						type: 1,
-						value: false
+						value: true
 					},
 					{
 						name: "dolimitedcrafting",

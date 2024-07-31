@@ -40,6 +40,7 @@ enum Packet {
 	PlayerHotbar = 0x30, // 48
 	InventoryContent = 0x31, // 49
 	InventorySlot = 0x32, // 50
+	CraftingData = 0x34, // 52
 	BlockActorData = 0x38, // 56
 	LevelChunk = 0x3a, // 58
 	SetCommandsEnabled = 0x3b, // 59

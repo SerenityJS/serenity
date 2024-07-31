@@ -5,6 +5,7 @@ import {
 	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
+	ContainerName,
 	Gamemode,
 	MoveMode,
 	MovePlayerPacket,
@@ -67,14 +68,15 @@ import {
 	EntityBreathingComponent,
 	PlayerExperienceLevelComponent,
 	PlayerExperienceComponent,
-	PlayerAbsorptionComponent
+	PlayerAbsorptionComponent,
+	PlayerCraftingInputComponent
 } from "../components";
 import { ItemStack } from "../item";
 
 import { PlayerStatus } from "./status";
 
-import type { Dimension } from "../world";
 import type { Container } from "../container";
+import type { Dimension } from "../world";
 import type { PlayerComponents } from "../types/components";
 import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
@@ -748,6 +750,70 @@ class Player extends Entity {
 		}
 		experienceComponent.removeExperience(Math.abs(experienceAmount));
 	}
+
+	/**
+	 * Clears the crafting input of the player.
+	 * @note This method is dependant on the player having a `minecraft:crafting_input` component, if not will result in an `error`.
+	 * @param player The player to clear the crafting input of.
+	 */
+	public clearCraftingInput(): void {
+		// Check if the player has the crafting input component
+		if (!this.hasComponent("minecraft:crafting_input"))
+			throw new Error("The player does not have a crafting input.");
+
+		// Get the crafting input component
+		const craftingInput = this.getComponent("minecraft:crafting_input");
+
+		// Clear the crafting input
+		for (const [slot] of craftingInput.container.storage.entries()) {
+			// Clear the slot
+			craftingInput.container.clearSlot(slot);
+		}
+	}
+
+	/**
+	 * Get a container from the player.
+	 * @param name The name of the container to get.
+	 */
+	public getContainer(name: ContainerName): Container | null {
+		// Check if the super instance will fetch the container
+		const container = super.getContainer(name);
+
+		// Check if the super instance found the container
+		if (container !== null) return container;
+
+		// Switch the container name
+		switch (name) {
+			default: {
+				// Return the opened container if it exists
+				return this.openedContainer;
+			}
+
+			case ContainerName.CraftingInput: {
+				// Check if the player has the crafting input component
+				if (!this.hasComponent("minecraft:crafting_input"))
+					throw new Error("The player does not have a crafting input.");
+
+				// Get the crafting input component
+				const craftingInput = this.getComponent("minecraft:crafting_input");
+
+				// Return the crafting input container
+				return craftingInput.container;
+			}
+
+			case ContainerName.Cursor: {
+				// Check if the player has the cursor component
+				if (!this.hasComponent("minecraft:cursor"))
+					throw new Error("The player does not have a cursor.");
+
+				// Get the cursor component
+				const cursor = this.getComponent("minecraft:cursor");
+
+				// Return the cursor container
+				return cursor.container;
+			}
+		}
+	}
 }
 
 export { Player };
@@ -756,6 +822,7 @@ export { Player };
 // TODO: Move this to a separate file.
 const type = EntityType.get(EntityIdentifier.Player) as EntityType;
 PlayerCursorComponent.register(type);
+PlayerCraftingInputComponent.register(type);
 EntityInventoryComponent.register(type);
 EntityMovementComponent.register(type);
 EntityHasGravityComponent.register(type);

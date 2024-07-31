@@ -94,7 +94,8 @@ import type {
 	BookEditPacket,
 	PlayerStartItemCooldownPacket,
 	CameraInstructionsPacket,
-	CameraPresetsPacket
+	CameraPresetsPacket,
+	CraftingDataPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -149,6 +150,7 @@ interface NetworkEvents {
 	[Packet.PlayerHotbar]: [NetworkPacketEvent<PlayerHotbarPacket>];
 	[Packet.InventoryContent]: [NetworkPacketEvent<InventoryContentPacket>];
 	[Packet.InventorySlot]: [NetworkPacketEvent<InventorySlotPacket>];
+	[Packet.CraftingData]: [NetworkPacketEvent<CraftingDataPacket>];
 	[Packet.BlockActorData]: [NetworkPacketEvent<BlockActorDataPacket>];
 	[Packet.LevelChunk]: [NetworkPacketEvent<LevelChunkPacket>];
 	[Packet.SetCommandsEnabled]: [NetworkPacketEvent<SetCommandsEnabledPacket>];

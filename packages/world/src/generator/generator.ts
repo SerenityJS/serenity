@@ -105,6 +105,9 @@ export class TerrainGenerator {
 		// Update the queued chunk with the generated data.
 		// Since workers are not allowed to transfer class instances, we need to manually copy the data.
 		for (const sub of chunk.subchunks) {
+			// Continue if the subchunk is null.
+			if (!sub) continue;
+
 			// Get the subchunk from the queued chunk.
 			const subchunk = queued.getSubChunk(chunk.subchunks.indexOf(sub));
 

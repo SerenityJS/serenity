@@ -1,10 +1,10 @@
 import {
 	ContainerOpenPacket,
+	ContainerType,
 	InventoryContentPacket,
 	InventorySlotPacket,
 	NetworkItemStackDescriptor,
-	type ContainerId,
-	type ContainerType
+	type ContainerId
 } from "@serenityjs/protocol";
 
 import { ItemStack } from "../item";
@@ -270,7 +270,7 @@ class BlockContainer extends Container {
 		open.identifier = this.identifier;
 		open.type = this.type;
 		open.position = this.block.position;
-		open.uniqueId = -1n; // This is needed for the client to open a block container.
+		open.uniqueId = this.type === ContainerType.Container ? -1n : player.unique;
 
 		// Create a new InventoryContentPacket.
 		const content = new InventoryContentPacket();

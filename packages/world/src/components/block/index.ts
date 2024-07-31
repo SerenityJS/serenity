@@ -7,3 +7,4 @@ export * from "./inventory";
 export * from "./nametag";
 export * from "./sign";
 export * from "./fluid-container";
+export * from "./crafting";

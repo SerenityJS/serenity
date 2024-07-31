@@ -1,4 +1,5 @@
 import { ContainerId, ContainerType, Vector3f } from "@serenityjs/protocol";
+import { BlockIdentifier } from "@serenityjs/block";
 
 import { BlockContainer } from "../../container";
 
@@ -10,18 +11,61 @@ import type { Block } from "../../block";
 class BlockInventoryComponent extends BlockComponent {
 	public static readonly identifier = "minecraft:inventory";
 
-	public readonly containerType: ContainerType = ContainerType.Container;
+	/**
+	 * The type of container.
+	 */
+	public readonly containerType: ContainerType;
 
-	public readonly containerId: ContainerId = ContainerId.Ui;
+	/**
+	 * The identifier of the container.
+	 */
+	public readonly containerId: ContainerId;
 
-	public readonly inventorySize: number = 27;
+	/**
+	 * The size of the inventory.
+	 */
+	public readonly inventorySize: number;
 
-	public container: BlockContainer;
+	/**
+	 * The container of the inventory.
+	 */
+	public readonly container: BlockContainer;
 
-	public selectedSlot: number = 0;
-
+	/**
+	 * Creates a new inventory component for a block.
+	 * @param block The block the component is binded to.
+	 */
 	public constructor(block: Block) {
 		super(block, BlockInventoryComponent.identifier);
+
+		// Create the container for the block based on the block type
+		switch (block.getType().identifier) {
+			default: {
+				// Set the container type and id
+				this.containerType = ContainerType.Container;
+				this.containerId = ContainerId.Ui;
+				this.inventorySize = 27;
+				break;
+			}
+
+			case BlockIdentifier.CraftingTable: {
+				// Set the container type and id
+				this.containerType = ContainerType.Workbench;
+				this.containerId = ContainerId.Ui;
+				this.inventorySize = 9;
+				break;
+			}
+
+			case BlockIdentifier.Furnace: {
+				// Set the container type and id
+				this.containerType = ContainerType.Furnace;
+				this.containerId = ContainerId.Ui;
+				this.inventorySize = 3;
+				break;
+			}
+		}
+
+		// Create the container for the block
 		this.container = new BlockContainer(
 			block,
 			this.containerType,
@@ -55,7 +99,7 @@ class BlockInventoryComponent extends BlockComponent {
 			);
 
 			// Add some upwards velocity to the item.
-			entity.setMotion(new Vector3f(0, 0.25, 0));
+			entity.setMotion(new Vector3f(0, 0.1, 0));
 		}
 	}
 }

@@ -41,13 +41,66 @@ class ItemStackRequest extends SerenityHandler {
 						break;
 					}
 
+					case ItemStackActionType.Place:
 					case ItemStackActionType.Take: {
-						this.handleTakeAction(player, action);
-						break;
-					}
+						// Check if the source and destination exist.
+						if (!action.source || !action.destination) break;
 
-					case ItemStackActionType.Place: {
-						this.handlePlaceAction(player, action);
+						// Get the source type and destination type.
+						const sourceType = action.source.type;
+						const destinationType = action.destination.type;
+						const sourceSlot = action.source.slot;
+						const destinationSlot = action.destination.slot;
+						const amount = action.count ?? 1;
+
+						// Check if the source type is a creative output.
+						if (sourceType === ContainerName.CreativeOutput) break;
+
+						// Fetch the source container from the player.
+						const source = player.getContainer(sourceType);
+
+						// Check if the source container exists.
+						if (!source)
+							throw new Error(
+								`Invalid source type: ${ContainerName[sourceType]}`
+							);
+
+						// Fetch the destination container from the player.
+						const destination = player.getContainer(destinationType);
+
+						// Check if the destination container exists.
+						if (!destination)
+							throw new Error(
+								`Invalid destination type: ${ContainerName[destinationType]}`
+							);
+
+						// Get the source item.
+						const sourceItem = source.getItem(sourceSlot);
+
+						// Check if the source item exists.
+						if (!sourceItem) throw new Error("Invalid source item.");
+
+						// Get the destination item.
+						const destinationItem = destination.getItem(destinationSlot);
+
+						if (amount <= sourceItem.amount) {
+							const item = source.takeItem(sourceSlot, amount);
+
+							if (!item) throw new Error("Invalid item.");
+
+							if (destinationItem) {
+								destinationItem.increment(item.amount);
+							} else {
+								destination.setItem(destinationSlot, item);
+
+								// Clear the cursor, this appears to be a bug in the protocol.
+								const cursor = player.getComponent("minecraft:cursor");
+								if (!cursor) throw new Error("Invalid cursor.");
+								if (cursor.container.getItem(0) === null)
+									cursor.container.clearSlot(0);
+							}
+						} else throw new Error("Invalid count possible.");
+
 						break;
 					}
 
@@ -56,387 +109,66 @@ class ItemStackRequest extends SerenityHandler {
 						break;
 					}
 
+					case ItemStackActionType.CraftRecipe: {
+						// Get the item instances action.
+						const itemInstancesAction = request.actions[1] as ItemStackAction;
+						const itemInstances = itemInstancesAction.resultItems;
+
+						// Check if the item instances exist.
+						if (!itemInstances) throw new Error("Invalid item instances.");
+
+						// Convert the item instances to item stacks.
+						const stacks = itemInstances.map((descriptor) =>
+							// TODO: stackSize
+							ItemStack.fromNetworkInstance(descriptor)
+						);
+
+						// Get the destination action, which is the last action in the request.
+						const destinationAction = request.actions.at(-1) as ItemStackAction;
+						if (!destinationAction.destination)
+							throw new Error("Invalid destination.");
+
+						// Get the destination type.
+						const destinationType = destinationAction.destination.type;
+						const destination = player.getContainer(destinationType);
+
+						// Check if the destination exists.
+						if (!destination)
+							throw new Error(
+								`Invalid destination type: ${ContainerName[destinationType]}`
+							);
+
+						// Add the item stacks to the destination.
+						for (const stack of stacks) {
+							if (!stack) continue;
+
+							// Add the item stack to the destination.
+							destination.addItem(stack);
+						}
+						break;
+					}
+
 					case ItemStackActionType.CraftCreative: {
 						const resultsAction = request.actions[1] as ItemStackAction;
-						const descriptor = (
-							resultsAction.resultItems as Array<NetworkItemInstanceDescriptor>
-						)[0] as NetworkItemInstanceDescriptor;
+
+						if (!resultsAction.resultItems)
+							throw new Error("Invalid results action.");
+
+						const descriptor = resultsAction.resultItems[0];
+
+						if (!descriptor) throw new Error("Invalid descriptor.");
 
 						const action = request.actions[2] as ItemStackAction;
 
+						if (!action) throw new Error("Invalid action.");
+
 						this.handleCreativeSelectAction(player, action, descriptor);
-						break;
+
+						continue;
 					}
 				}
 			}
 		}
-	}
-
-	protected static handleTakeAction(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		// Check if the source exists.
-		if (!action.source?.type) throw new Error("Invalid source type.");
-		switch (action.source?.type) {
-			default: {
-				this.serenity.network.logger.warn(
-					"ItemStackAction.take not implemented:",
-					ContainerName[action.source.type]
-				);
-				break;
-			}
-
-			case ContainerName.Armor: {
-				this.takeFromArmor(player, action);
-				break;
-			}
-
-			case ContainerName.Container: {
-				this.takeFromContainer(player, action);
-				break;
-			}
-
-			case ContainerName.Hotbar:
-			case ContainerName.Inventory:
-			case ContainerName.HotbarAndInventory: {
-				this.takeFromInventory(player, action);
-				break;
-			}
-		}
-	}
-
-	protected static takeFromArmor(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		const count = action.count;
-
-		if (!count) throw new Error("Invalid count.");
-		const sourceSlot = action.source?.slot;
-		const destinationSlot = action.destination?.slot;
-
-		if (sourceSlot === undefined || destinationSlot === undefined)
-			throw new Error("Invalid source or destination slot.");
-
-		// Get the armor container && destination containers
-		const { container: source } = player.getComponent("minecraft:armor");
-		const destination =
-			action.destination?.type === ContainerName.Cursor
-				? player.getComponent("minecraft:cursor").container
-				: player.openedContainer;
-
-		// Check if the source and destination containers exist.
-		if (!source || !destination)
-			throw new Error("Invalid source or destination.");
-		// Get the source items.
-		const sourceItem = source.getItem(action.source?.slot ?? 0);
-
-		// Check if the source item exists.
-		if (!sourceItem) throw new Error("Invalid source item.");
-		if (count != sourceItem.amount) throw new Error("Invalid count possible.");
-		const item = source.takeItem(sourceSlot, count);
-
-		if (!item) throw new Error("Invalid item.");
-		destination.setItem(destinationSlot, item);
-	}
-
-	protected static takeFromContainer(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		const count = action.count;
-
-		if (!count) throw new Error("Invalid count.");
-
-		const sourceSlot = action.source?.slot;
-		const destinationSlot = action.destination?.slot;
-
-		if (sourceSlot === undefined || destinationSlot === undefined)
-			throw new Error("Invalid source or destination slot.");
-
-		// Get the source and destination containers.
-		const source = player.openedContainer;
-		const destination =
-			action.destination?.type === ContainerName.Cursor
-				? player.getComponent("minecraft:cursor").container
-				: ContainerName.Inventory ||
-					  ContainerName.Hotbar ||
-					  ContainerName.HotbarAndInventory
-					? player.getComponent("minecraft:inventory").container
-					: player.openedContainer;
-
-		// Check if the source and destination containers exist.
-		if (source === null || destination === null)
-			throw new Error("Invalid source or destination.");
-
-		// Get the source and destination items.
-		const sourceItem = source.getItem(action.source?.slot ?? 0);
-		const destinationItem = destination.getItem(action.destination?.slot ?? 0);
-
-		// Check if the source item exists.
-		if (!sourceItem) throw new Error("Invalid source item.");
-
-		if (count <= sourceItem.amount) {
-			const item = source.takeItem(sourceSlot, count);
-
-			if (!item) throw new Error("Invalid item.");
-
-			if (destinationItem) {
-				destinationItem.increment(item.amount);
-			} else {
-				destination.setItem(destinationSlot, item);
-			}
-		} else throw new Error("Invalid count possible.");
-	}
-
-	protected static takeFromInventory(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		const count = action.count;
-
-		if (!count) throw new Error("Invalid count.");
-
-		const sourceSlot = action.source?.slot;
-		const destinationSlot = action.destination?.slot;
-
-		if (sourceSlot === undefined || destinationSlot === undefined)
-			throw new Error("Invalid source or destination slot.");
-
-		// Get the source and destination containers.
-		const { container: source } = player.getComponent("minecraft:inventory");
-		const destination =
-			/* action.destination?.type === ContainerName.Armor
-        ? player.getComponent("minecraft:armor").container
-        : */ action.destination?.type === ContainerName.Cursor
-				? player.getComponent("minecraft:cursor").container
-				: player.openedContainer;
-
-		// Check if the source and destination containers exist.
-		if (source === null || destination === null)
-			throw new Error("Invalid source or destination.");
-
-		// Get the source and destination items.
-		const sourceItem = source.getItem(action.source?.slot ?? 0);
-		const destinationItem = destination.getItem(action.destination?.slot ?? 0);
-
-		// Check if the source item exists.
-		if (!sourceItem) throw new Error("Invalid source item.");
-
-		if (count <= sourceItem.amount) {
-			const item = source.takeItem(sourceSlot, count);
-
-			if (!item) throw new Error("Invalid item.");
-
-			if (destinationItem) {
-				destinationItem.increment(item.amount);
-			} else {
-				destination.setItem(destinationSlot, item);
-			}
-		} else throw new Error("Invalid count possible.");
-	}
-
-	protected static handlePlaceAction(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		// Check if the source exists.
-		if (!action.source?.type) throw new Error("Invalid source type.");
-		switch (action.source?.type) {
-			default: {
-				this.serenity.network.logger.warn(
-					"ItemStackAction.place not implemented:",
-					ContainerName[action.source.type]
-				);
-				break;
-			}
-
-			case ContainerName.Container: {
-				this.placeFromContainer(player, action);
-				break;
-			}
-
-			case ContainerName.Armor:
-			case ContainerName.Inventory:
-			case ContainerName.Hotbar:
-			case ContainerName.HotbarAndInventory: {
-				this.placeFromInventory(player, action);
-				break;
-			}
-
-			case ContainerName.Cursor: {
-				this.placeFromCursor(player, action);
-				break;
-			}
-		}
-	}
-
-	protected static placeFromContainer(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		const count = action.count;
-
-		if (!count) throw new Error("Invalid count.");
-
-		const sourceSlot = action.source?.slot;
-		const destinationSlot = action.destination?.slot;
-
-		if (sourceSlot === undefined || destinationSlot === undefined)
-			throw new Error("Invalid source or destination slot.");
-
-		// Get the source and destination containers.
-		const source = player.openedContainer;
-		const destination =
-			action.destination?.type === ContainerName.Armor
-				? player.getComponent("minecraft:armor").container
-				: action.destination?.type === ContainerName.Cursor
-					? player.getComponent("minecraft:cursor").container
-					: ContainerName.Inventory ||
-						  ContainerName.Hotbar ||
-						  ContainerName.HotbarAndInventory
-						? player.getComponent("minecraft:inventory").container
-						: player.openedContainer;
-
-		// Check if the source and destination containers exist.
-		if (source === null || destination === null)
-			throw new Error("Invalid source or destination.");
-
-		// Get the source and destination items.
-		const sourceItem = source.getItem(action.source?.slot ?? 0);
-		const destinationItem = destination.getItem(action.destination?.slot ?? 0);
-
-		// Check if the source item exists.
-		if (!sourceItem) throw new Error("Invalid source item.");
-
-		if (count <= sourceItem.amount) {
-			const item = source.takeItem(sourceSlot, count);
-
-			if (!item) throw new Error("Invalid item.");
-
-			if (destinationItem) {
-				destinationItem.increment(item.amount);
-			} else {
-				destination.setItem(destinationSlot, item);
-			}
-		} else throw new Error("Invalid count possible.");
-	}
-
-	protected static placeFromInventory(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		const count = action.count;
-
-		if (!count) throw new Error("Invalid count.");
-
-		const sourceSlot = action.source?.slot;
-		const destinationSlot = action.destination?.slot;
-
-		if (sourceSlot === undefined || destinationSlot === undefined)
-			throw new Error("Invalid source or destination slot.");
-
-		// Get the source and destination containers.
-		const { container: source } =
-			action.source?.type == ContainerName.Armor
-				? player.getComponent("minecraft:armor")
-				: player.getComponent("minecraft:inventory");
-		const destination =
-			action.destination?.type == ContainerName.Armor
-				? player.getComponent("minecraft:armor").container
-				: action.destination?.type === ContainerName.Cursor
-					? player.getComponent("minecraft:cursor").container
-					: player.openedContainer;
-
-		// Check if the source and destination containers exist.
-		if (source === null || destination === null)
-			throw new Error("Invalid source or destination.");
-
-		// Get the source and destination items.
-		const sourceItem = source.getItem(action.source?.slot ?? 0);
-		const destinationItem = destination.getItem(action.destination?.slot ?? 0);
-
-		// Check if the source item exists.
-		if (!sourceItem) throw new Error("Invalid source item.");
-
-		// WHY MOJANG??????????
-		if (action.destination?.type === ContainerName.Container) {
-			process.nextTick(() => {
-				const { container } = player.getComponent("minecraft:cursor");
-
-				container.clearSlot(0);
-			});
-		}
-
-		if (count <= sourceItem.amount) {
-			const item = source.takeItem(sourceSlot, count);
-
-			if (!item) throw new Error("Invalid item.");
-
-			if (destinationItem) {
-				destinationItem.increment(item.amount);
-			} else {
-				destination.setItem(destinationSlot, item);
-			}
-		} else throw new Error("Invalid count possible.");
-	}
-
-	protected static placeFromCursor(
-		player: Player,
-		action: ItemStackAction
-	): void {
-		// Get the item count from the action.
-		const count = action.count;
-
-		// Check if the count exists.
-		if (!count) throw new Error("Invalid count.");
-
-		// Get the source and destination slots.
-		const sourceSlot = action.source?.slot;
-		const destinationSlot = action.destination?.slot;
-
-		// Check if the source and destination slots exist.
-		if (sourceSlot === undefined || destinationSlot === undefined)
-			throw new Error("Invalid source or destination slot.");
-
-		// Get the source and destination containers.
-		const { container: source } = player.getComponent("minecraft:cursor");
-		const destination =
-			action.destination?.type === ContainerName.Armor
-				? player.getComponent("minecraft:armor").container
-				: action.destination?.type === ContainerName.Hotbar ||
-					  action.destination?.type === ContainerName.Inventory ||
-					  action.destination?.type === ContainerName.HotbarAndInventory
-					? player.getComponent("minecraft:inventory").container
-					: player.openedContainer;
-
-		// Check if the source and destination containers exist.
-		if (source === null || destination === null)
-			throw new Error("Invalid source or destination.");
-
-		// Get the destination item.
-		const sourceItem = source.getItem(0);
-		const destinationItem = destination.getItem(action.destination?.slot ?? 0);
-
-		// Check if the source item exists.
-		if (!sourceItem) throw new Error("Invalid source item.");
-
-		// Check if the count is less than or equal to the source item amount.
-		if (count <= sourceItem.amount) {
-			// Take the item from the source.
-			const item = source.takeItem(sourceSlot, count);
-
-			// Check if the item exists.
-			if (!item) throw new Error("Invalid item.");
-
-			// Check if the destination item exists.
-			if (destinationItem) {
-				destinationItem.increment(item.amount);
-			} else {
-				destination.setItem(destinationSlot, item);
-			}
-		} else throw new Error("Invalid count possible.");
 	}
 
 	protected static handleDestroyAction(
@@ -476,16 +208,7 @@ class ItemStackRequest extends SerenityHandler {
 		if (!destination) return;
 
 		// Get the destination container.
-		const destinationContainer =
-			destination?.type === ContainerName.Armor
-				? player.getComponent("minecraft:armor").container
-				: destination.type === ContainerName.Cursor
-					? player.getComponent("minecraft:cursor").container
-					: destination.type === ContainerName.Inventory ||
-						  destination.type === ContainerName.Hotbar ||
-						  destination.type === ContainerName.HotbarAndInventory
-						? player.getComponent("minecraft:inventory").container
-						: player.openedContainer;
+		const destinationContainer = player.getContainer(destination.type);
 
 		// Check if the destination container exists.
 		if (!destinationContainer) return;

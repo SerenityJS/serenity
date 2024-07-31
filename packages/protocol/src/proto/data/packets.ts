@@ -97,6 +97,7 @@ import { BookEditPacket } from "./book-edit";
 import { PlayerStartItemCooldownPacket } from "./player-start-item-cooldown";
 import { CameraPresetsPacket } from "./camera-presets";
 import { CameraInstructionsPacket } from "./camera-instructions";
+import { CraftingDataPacket } from "./crafting-data";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -135,6 +136,7 @@ const Packets = {
 	[Packet.PlayerHotbar]: PlayerHotbarPacket, // 48
 	[Packet.InventoryContent]: InventoryContentPacket, // 49
 	[Packet.InventorySlot]: InventorySlotPacket, // 50
+	[Packet.CraftingData]: CraftingDataPacket, // 52
 	[Packet.BlockActorData]: BlockActorDataPacket, // 56
 	[Packet.LevelChunk]: LevelChunkPacket, // 58
 	[Packet.SetCommandsEnabled]: SetCommandsEnabledPacket, // 59
