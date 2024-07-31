@@ -72,3 +72,5 @@ export * from "./serverbound-loading-screen-type";
 export * from "./shake-type";
 export * from "./shake-action";
 export * from "./book-edit-action";
+export * from "./camera-audio-listeners";
+export * from "./easing-type";
