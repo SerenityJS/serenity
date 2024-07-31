@@ -11,7 +11,7 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 import { ItemStack, ItemUseCause, type Player } from "@serenityjs/world";
-import { ItemType } from "@serenityjs/item";
+import { type ItemIdentifier, ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -192,7 +192,7 @@ class PlayerAction extends SerenityHandler {
 		const { x, y, z } =
 			packet.blockPosition === player.target
 				? packet.blockPosition
-				: player.target ?? { x: 0, y: 0, z: 0 };
+				: (player.target ?? { x: 0, y: 0, z: 0 });
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
@@ -310,21 +310,27 @@ class PlayerAction extends SerenityHandler {
 		// Exhaust the player
 		player.exhaust(0.005);
 
-		// Create a new ItemStack.
-		const itemType = ItemType.resolve(permutation.type) as ItemType;
-		const itemStack = ItemStack.create(itemType, 1, permutation.index);
-		const itemEntity = player.dimension.spawnItem(
-			itemStack,
-			new Vector3f(x + 0.5, y + 0.5, z + 0.5)
-		);
+		// Iterate over the block drops.
+		for (const drop of permutation.type.drops) {
+			// Roll the drop amount.
+			const amount = drop.roll();
 
-		// Add random x & z velocity to the item entity.
-		const velocity = new Vector3f(
-			Math.random() * 0.1 - 0.05,
-			itemEntity.velocity.y,
-			Math.random() * 0.1 - 0.05
-		);
-		itemEntity.addMotion(velocity);
+			// Create a new ItemStack.
+			const itemType = ItemType.get(drop.type as ItemIdentifier) as ItemType;
+			const itemStack = ItemStack.create(itemType, amount);
+			const itemEntity = player.dimension.spawnItem(
+				itemStack,
+				new Vector3f(x + 0.5, y + 0.5, z + 0.5)
+			);
+
+			// Add random x & z velocity to the item entity.
+			const velocity = new Vector3f(
+				Math.random() * 0.1 - 0.05,
+				itemEntity.velocity.y,
+				Math.random() * 0.1 - 0.05
+			);
+			itemEntity.addMotion(velocity);
+		}
 
 		// Trigger the onUse method of the item components.
 		const usingItem = player.usingItem;

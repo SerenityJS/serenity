@@ -2,8 +2,7 @@ import { type BlockIdentifier, BlockType } from "@serenityjs/block";
 
 import type {
 	ItemData,
-	NetworkItemInstanceDescriptor,
-	StackRequestSlotInfo
+	NetworkItemInstanceDescriptor
 } from "@serenityjs/protocol";
 import type { Items } from "./types";
 
