@@ -95,6 +95,8 @@ import { ServerboundLoadingScreenPacketPacket } from "./server-bound-loading-scr
 import { CameraShakePacket } from "./camera-shake";
 import { BookEditPacket } from "./book-edit";
 import { PlayerStartItemCooldownPacket } from "./player-start-item-cooldown";
+import { CameraPresetsPacket } from "./camera-presets";
+import { CameraInstructionsPacket } from "./camera-instructions";
 import { CraftingDataPacket } from "./crafting-data";
 
 const Packets = {
@@ -186,6 +188,8 @@ const Packets = {
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
 	[Packet.DeathInfo]: DeathInfoPacket, // 189
 	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
+	[Packet.CameraPresetsPacket]: CameraPresetsPacket, // 198
+	[Packet.CameraInstructions]: CameraInstructionsPacket, // 300
 	[Packet.OpenSign]: OpenSignPacket, // 303
 	[Packet.SetPlayerInventoryOptions]: SetPlayerInventoryOptionsPacket, // 307
 	[Packet.SetHud]: SetHudPacket, // 308
