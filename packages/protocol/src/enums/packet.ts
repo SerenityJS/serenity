@@ -70,6 +70,7 @@ enum Packet {
 	SetScoreboardIdentity = 0x70, // 112
 	SetLocalPlayerAsInitialized = 0x71, // 113
 	NetworkStackLatency = 0x73, // 115
+	SpawnParticleEffect = 0x76, // 118
 	NetworkChunkPublisherUpdate = 0x79, // 121
 	BiomeDefinitionList = 0x7a, // 122
 	LevelSoundEvent = 0x7b, // 123
