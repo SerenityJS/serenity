@@ -96,6 +96,7 @@ import type {
 	CameraInstructionsPacket,
 	CameraPresetsPacket,
 	CraftingDataPacket,
+	SpawnParticleEffectPacket,
 	ContainerSetDataPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
@@ -176,6 +177,7 @@ interface NetworkEvents {
 	[Packet.ResourcePackChunkRequest]: [
 		NetworkPacketEvent<ResourcePackChunkRequestPacket>
 	];
+	[Packet.SpawnParticleEffect]: [NetworkPacketEvent<SpawnParticleEffectPacket>];
 	[Packet.Transfer]: [NetworkPacketEvent<TransferPacket>];
 	[Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
 	[Packet.PlayerSkin]: [NetworkPacketEvent<PlayerSkinPacket>];
