@@ -4,7 +4,6 @@ import {
 	type FurnaceBlock,
 	type LitFurnaceBlock
 } from "@serenityjs/block";
-import { ShortTag } from "@serenityjs/nbt";
 import {
 	ContainerDataType,
 	ContainerSetDataPacket
@@ -75,8 +74,22 @@ class BlockFurnaceComponent extends BlockComponent {
 			console.log("done");
 		}
 
-		const fuel = inventory.container.getItem(0);
-		const ingredient = inventory.container.getItem(1);
+		if (this.burnDuration <= 0 && this.burnTime <= 0) {
+			// Get the fuel and ingredient items
+			const fuel = inventory.container.getItem(0);
+			const ingredient = inventory.container.getItem(1);
+
+			if (fuel && ingredient) {
+				this.burnDuration = 1600;
+				this.burnTime = 1600;
+
+				// Decrement the fuel item count
+				fuel.decrement();
+			} else {
+				if (this.block.getType().identifier === BlockIdentifier.LitFurnace)
+					this.transform(false);
+			}
+		}
 
 		const viewers = inventory.container.occupants;
 		if (viewers.size === 0) return;
