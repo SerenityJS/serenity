@@ -38,6 +38,7 @@ export * from "./container-close";
 export * from "./player-hotbar";
 export * from "./inventory-content";
 export * from "./inventory-slot";
+export * from "./container-set-data";
 export * from "./crafting-data";
 export * from "./block-actor-data";
 export * from "./level-chunk";

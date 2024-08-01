@@ -4,6 +4,7 @@ import type { Player } from "../../player";
 interface BlockUpdateOptions {
 	readonly player?: Player;
 	readonly clickPosition?: Vector3f;
+	readonly clearComponents?: boolean;
 }
 
 export { BlockUpdateOptions };

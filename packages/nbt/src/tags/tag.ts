@@ -16,7 +16,7 @@ abstract class NBTTag<T = unknown> {
 	/**
 	 * The value of the tag.
 	 */
-	public readonly value: T;
+	public value: T;
 
 	/**
 	 * Creates a new NBTTag.
@@ -27,6 +27,14 @@ abstract class NBTTag<T = unknown> {
 	 */
 	public constructor(name: string, value: T) {
 		this.name = name;
+		this.value = value;
+	}
+
+	/**
+	 * Sets the value of the tag.
+	 * @param value The value to set.
+	 */
+	public setValue(value: T): void {
 		this.value = value;
 	}
 
