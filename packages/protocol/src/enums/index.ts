@@ -77,3 +77,4 @@ export * from "./easing-type";
 export * from "./crafting-data-entry-type";
 export * from "./internal-type";
 export * from "./unlocking-context";
+export * from "./container-data-type";

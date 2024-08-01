@@ -169,8 +169,13 @@ class Block {
 		permutation: BlockPermutation,
 		options?: BlockUpdateOptions
 	): Block {
+		// Query with the clearComponents option.
+		const clear =
+			options?.clearComponents === undefined ? true : options.clearComponents;
+
 		// Clear the previous components.
-		if (this.permutation.type !== permutation.type) this.clearComponents();
+		if (this.permutation.type !== permutation.type && clear)
+			this.clearComponents();
 
 		// Set the permutation of the block.
 		this.permutation = permutation;
@@ -196,39 +201,42 @@ class Block {
 		// Send the packet to the dimension.
 		this.dimension.broadcast(update);
 
-		// Register the components to the block.
-		for (const component of BlockComponent.registry.get(
-			permutation.type.identifier
-		) ?? [])
-			new component(this, component.identifier);
+		// If the components should be cleared, we will register the new components.
+		if (clear) {
+			// Register the components to the block.
+			for (const component of BlockComponent.registry.get(
+				permutation.type.identifier
+			) ?? [])
+				new component(this, component.identifier);
 
-		// Register the components that are type specific.
-		for (const identifier of permutation.type.components) {
-			// Get the component from the registry
-			const component = BlockComponent.components.get(identifier);
+			// Register the components that are type specific.
+			for (const identifier of permutation.type.components) {
+				// Get the component from the registry
+				const component = BlockComponent.components.get(identifier);
 
-			// Check if the component exists.
-			if (component) new component(this, identifier);
-		}
+				// Check if the component exists.
+				if (component) new component(this, identifier);
+			}
 
-		// Register the components that are state specific.
-		for (const key of Object.keys(permutation.state)) {
-			// Get the component from the registry
-			const component = [...BlockComponent.components.values()].find((x) => {
-				// If the identifier is undefined, we will skip it.
-				if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
-					return false;
+			// Register the components that are state specific.
+			for (const key of Object.keys(permutation.state)) {
+				// Get the component from the registry
+				const component = [...BlockComponent.components.values()].find((x) => {
+					// If the identifier is undefined, we will skip it.
+					if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
+						return false;
 
-				// Initialize the component as a BlockStateComponent.
-				const component = x as typeof BlockStateComponent;
+					// Initialize the component as a BlockStateComponent.
+					const component = x as typeof BlockStateComponent;
 
-				// Check if the identifier includes the key.
-				// As some states dont include a namespace.
-				return component.state === key;
-			});
+					// Check if the identifier includes the key.
+					// As some states dont include a namespace.
+					return component.state === key;
+				});
 
-			// Check if the component exists.
-			if (component) new component(this, key);
+				// Check if the component exists.
+				if (component) new component(this, key);
+			}
 		}
 
 		// Check if the change was initiated by a player.

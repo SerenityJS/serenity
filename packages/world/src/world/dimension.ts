@@ -19,6 +19,7 @@ import {
 	EntityItemComponent,
 	EntityPhysicsComponent
 } from "../components";
+import { EntitySpawnedSignal } from "../events";
 
 import type { Chunk } from "../chunk";
 import type { Items } from "@serenityjs/item";
@@ -433,8 +434,12 @@ class Dimension {
 		entity.position.y = position.y;
 		entity.position.z = position.z;
 
-		// Spawn the entity
-		entity.spawn();
+		// Create a new entity spawned signal
+		const signal = new EntitySpawnedSignal(entity, this);
+		const value = this.world.emit(signal.identifier, signal);
+
+		// Spawn the entity if the signal was not cancelled
+		if (value) entity.spawn();
 
 		// Return the entity
 		return entity;
