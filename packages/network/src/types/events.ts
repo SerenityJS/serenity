@@ -93,6 +93,8 @@ import type {
 	CameraShakePacket,
 	BookEditPacket,
 	PlayerStartItemCooldownPacket,
+	CameraInstructionsPacket,
+	CameraPresetsPacket,
 	CraftingDataPacket,
 	ContainerSetDataPacket
 } from "@serenityjs/protocol";
@@ -166,9 +168,11 @@ interface NetworkEvents {
 	[Packet.ResourcePackDataInfo]: [
 		NetworkPacketEvent<ResourcePackDataInfoPacket>
 	];
+	[Packet.CameraInstructions]: [NetworkPacketEvent<CameraInstructionsPacket>];
 	[Packet.ResourcePackChunkData]: [
 		NetworkPacketEvent<ResourcePackChunkDataPacket>
 	];
+	[Packet.CameraPresetsPacket]: [NetworkPacketEvent<CameraPresetsPacket>];
 	[Packet.ResourcePackChunkRequest]: [
 		NetworkPacketEvent<ResourcePackChunkRequestPacket>
 	];

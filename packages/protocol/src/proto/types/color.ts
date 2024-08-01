@@ -1,5 +1,7 @@
 import { DataType } from "@serenityjs/raknet";
 
+import type { BinaryStream } from "@serenityjs/binarystream";
+
 /**
  * ARGB Color class that
  * Ranges from 0-255
@@ -76,6 +78,10 @@ class Color extends DataType {
 		const green = (color >> 8) & 0xff;
 		const blue = color & 0xff;
 		return new Color(alpha, red, green, blue);
+	}
+
+	public static override write(stream: BinaryStream, value: Color): void {
+		stream.writeUint32(value.toInt());
 	}
 }
 
