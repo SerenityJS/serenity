@@ -3,13 +3,13 @@ import {
 	ActorDataType,
 	DataItem,
 	Gamemode,
-	ItemUseOnEntityInventoryTransactionType,
 	NpcDialogueAction,
 	NpcDialoguePacket
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { DialogueScene } from "../../dialogue";
+import { EntityInteractType } from "../../enums";
 
 import { EntityComponent } from "./entity-component";
 
@@ -164,13 +164,9 @@ class EntityNpcComponent extends EntityComponent {
 		player.session.send(packet);
 	}
 
-	public onInteract(
-		player: Player,
-		type: ItemUseOnEntityInventoryTransactionType
-	): void {
+	public onInteract(player: Player, type: EntityInteractType): void {
 		// Check if the player is interacting with the npc
-		if (type === ItemUseOnEntityInventoryTransactionType.Interact)
-			return this.show(player);
+		if (type === EntityInteractType.Interact) return this.show(player);
 
 		// Check if the entity is an npc, if not return
 		if (this.entity.type.identifier !== EntityIdentifier.Npc) return;

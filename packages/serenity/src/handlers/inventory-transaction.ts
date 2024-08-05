@@ -10,7 +10,11 @@ import {
 	type ItemUseOnEntityInventoryTransaction,
 	type ItemReleaseInventoryTransaction
 } from "@serenityjs/protocol";
-import { ItemUseCause, type Player } from "@serenityjs/world";
+import {
+	EntityInteractType,
+	ItemUseCause,
+	type Player
+} from "@serenityjs/world";
 import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -261,10 +265,14 @@ class InventoryTransaction extends SerenityHandler {
 		// Check if the entity is valid
 		if (!entity) return;
 
+		// Get the type of the transaction
+		const type =
+			transaction.type === 0
+				? EntityInteractType.Interact
+				: EntityInteractType.Attack;
+
 		// Trigger the onInteract method of the entity components
-		for (const component of entity.components.values()) {
-			component.onInteract?.(player, transaction.type);
-		}
+		entity.interact(player, type);
 	}
 
 	public static handleItemReleaseTransaction(

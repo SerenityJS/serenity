@@ -24,7 +24,7 @@ import {
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
 
-import { CardinalDirection } from "../enums";
+import { CardinalDirection, type EntityInteractType } from "../enums";
 import {
 	EntityAlwaysShowNametagComponent,
 	EntityComponent,
@@ -35,7 +35,11 @@ import {
 	EntityVariantComponent
 } from "../components";
 import { ItemStack } from "../item";
-import { EntityDespawnedSignal, EntitySpawnedSignal } from "../events";
+import {
+	EntityDespawnedSignal,
+	EntitySpawnedSignal,
+	PlayerInteractWithEntitySignal
+} from "../events";
 
 import type { Container } from "../container";
 import type { Effect } from "../effect/effect";
@@ -1035,6 +1039,38 @@ class Entity {
 				// Return the inventory container
 				return inventory.container;
 			}
+		}
+	}
+
+	/**
+	 * Causes a player to interact with the entity.
+	 * @param player The player to interact with the entity.
+	 * @param type The type of interaction.
+	 */
+	public interact(player: Player, type: EntityInteractType): void {
+		// Get the inventory of the player
+		const inventory = player.getComponent("minecraft:inventory");
+
+		// Get the item stack in the player's hand
+		const itemStack = inventory.getHeldItem();
+
+		// Create a new PlayerInteractWithEntitySignal
+		const signal = new PlayerInteractWithEntitySignal(
+			player,
+			this,
+			itemStack,
+			type
+		);
+
+		// Emit the signal
+		const value = this.dimension.world.emit(signal.identifier, signal);
+
+		// Check if the signal was cancelled
+		if (!value) return;
+
+		// Trigger the onInteract method of the entity components
+		for (const component of this.getComponents()) {
+			component.onInteract?.(player, type);
 		}
 	}
 }

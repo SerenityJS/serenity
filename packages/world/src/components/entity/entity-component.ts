@@ -3,8 +3,8 @@ import { type EntityIdentifier, EntityType } from "@serenityjs/entity";
 
 import { Component } from "../component";
 
+import type { EntityInteractType } from "../../enums";
 import type { Player } from "../../player";
-import type { ItemUseOnEntityInventoryTransactionType } from "@serenityjs/protocol";
 import type { Entity } from "../../entity";
 
 class EntityComponent extends Component {
@@ -101,10 +101,7 @@ class EntityComponent extends Component {
 	 * @param player The player interacting with the entity.
 	 * @param type The type of the item use on entity inventory transaction.
 	 */
-	public onInteract?(
-		player: Player,
-		type: ItemUseOnEntityInventoryTransactionType
-	): void;
+	public onInteract?(player: Player, type: EntityInteractType): void;
 
 	/**
 	 * Get a component by its identifier from the registry.
