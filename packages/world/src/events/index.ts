@@ -5,5 +5,6 @@ export * from "./block-update";
 export * from "./player-place-block";
 export * from "./player-break-block";
 export * from "./player-interact-with-entity";
+export * from "./player-interact-with-block";
 export * from "./chunk-read";
 export * from "./chunk-write";

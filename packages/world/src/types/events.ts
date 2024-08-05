@@ -6,6 +6,7 @@ import type {
 	EntityDespawnedSignal,
 	EntitySpawnedSignal,
 	PlayerBreakBlockSignal,
+	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
 	PlayerPlaceBlockSignal
 } from "../events";
@@ -16,6 +17,7 @@ interface WorldEvents {
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
+	[WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
 	[WorldEvent.ChunkRead]: [ChunkReadSignal];
 	[WorldEvent.ChunkWrite]: [ChunkWriteSignal];

@@ -1046,8 +1046,9 @@ class Entity {
 	 * Causes a player to interact with the entity.
 	 * @param player The player to interact with the entity.
 	 * @param type The type of interaction.
+	 * @returns Whether or not the interaction was successful.
 	 */
-	public interact(player: Player, type: EntityInteractType): void {
+	public interact(player: Player, type: EntityInteractType): boolean {
 		// Get the inventory of the player
 		const inventory = player.getComponent("minecraft:inventory");
 
@@ -1066,12 +1067,17 @@ class Entity {
 		const value = this.dimension.world.emit(signal.identifier, signal);
 
 		// Check if the signal was cancelled
-		if (!value) return;
+		if (!value)
+			// Return false as the interaction was cancelled
+			return false;
 
 		// Trigger the onInteract method of the entity components
 		for (const component of this.getComponents()) {
 			component.onInteract?.(player, type);
 		}
+
+		// Return true as the interaction was successful
+		return true;
 	}
 }
 

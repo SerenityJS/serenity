@@ -145,13 +145,14 @@ class InventoryTransaction extends SerenityHandler {
 				if (interactedBlock.isAir()) break;
 
 				// Trigger the onInteract method of the block components
-				for (const component of interactedBlock.components.values()) {
-					// Trigger the onInteract method of the block component
-					component.onInteract?.(player);
-				}
+				const interacted = interactedBlock.interact(
+					player,
+					transaction.face,
+					transaction.clickPosition
+				);
 
 				// Check if the interaction opened a container, if so stop the block placement
-				if (player.openedContainer) break;
+				if (!interacted || player.openedContainer) break;
 
 				// Check if the player is using an item
 				const usingItem = player.usingItem;

@@ -22,6 +22,7 @@ import { BlockComponent, BlockStateComponent } from "../components";
 import {
 	BlockUpdateSignal,
 	PlayerBreakBlockSignal,
+	PlayerInteractWithBlockSignal,
 	PlayerPlaceBlockSignal
 } from "../events";
 
@@ -601,6 +602,47 @@ class Block {
 			this.east().update(false, source);
 			this.west().update(false, source);
 		}
+	}
+
+	/**
+	 * Causes a player to interact with the block.
+	 * @param player The player interacting with the block.
+	 * @param face The face of the block the player is interacting with.
+	 * @param faceLocation The location of the face the player is interacting with.
+	 * @returns Whether or not the player was able to interact with the block.
+	 */
+	public interact(
+		player: Player,
+		face: BlockFace,
+		faceLocation: Vector3f
+	): boolean {
+		// Get the held item of the player.
+		const inventory = player.getComponent("minecraft:inventory");
+		const itemStack = inventory.getHeldItem();
+
+		// Create a new PlayerInteractWithBlockSignal.
+		const signal = new PlayerInteractWithBlockSignal(
+			player,
+			this,
+			face,
+			faceLocation,
+			itemStack
+		);
+
+		// Emit the signal to the dimension.
+		const value = this.dimension.world.emit(signal.identifier, signal);
+		if (!value)
+			// Return false as the signal was cancelled.
+			return false;
+
+		// Call the onInteract method of the components.
+		for (const component of this.components.values()) {
+			// Call the onInteract method.
+			component.onInteract?.(player);
+		}
+
+		// Return true as the player was able to interact with the block.
+		return true;
 	}
 
 	/**
