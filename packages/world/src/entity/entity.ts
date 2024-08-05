@@ -35,6 +35,7 @@ import {
 	EntityVariantComponent
 } from "../components";
 import { ItemStack } from "../item";
+import { EntityDespawnedSignal, EntitySpawnedSignal } from "../events";
 
 import type { Container } from "../container";
 import type { Effect } from "../effect/effect";
@@ -297,6 +298,13 @@ class Entity {
 	 * @param player The player to spawn the entity to.
 	 */
 	public spawn(player?: Player): void {
+		// Create a new EntitySpawnedSignal
+		const signal = new EntitySpawnedSignal(this, this.dimension, player);
+		const value = this.dimension.world.emit(signal.identifier, signal);
+
+		// Check if the signal was cancelled
+		if (!value) return;
+
 		// Check if the entity is an item
 		if (this.isItem()) {
 			// Get the item component
@@ -351,6 +359,13 @@ class Entity {
 	 * @param player The player to despawn the entity from.
 	 */
 	public despawn(player?: Player): void {
+		// Create a new EntityDespawnedSignal
+		const signal = new EntityDespawnedSignal(this, this.dimension, player);
+		const value = this.dimension.world.emit(signal.identifier, signal);
+
+		// Check if the signal was cancelled
+		if (!value) return;
+
 		// Set the alive property of the entity to false
 		this.isAlive = false;
 

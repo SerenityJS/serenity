@@ -301,7 +301,10 @@ class PlayerAction extends SerenityHandler {
 		const permutation = block.permutation;
 
 		// Destroy the block.
-		block.destroy(player);
+		const destroyed = block.destroy(player);
+
+		// If the block was not destroyed, we will return.
+		if (!destroyed) return;
 
 		// Check if the player is in creative mode.
 		// If so, we will return.

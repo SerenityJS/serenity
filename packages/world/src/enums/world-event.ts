@@ -1,5 +1,9 @@
 enum WorldEvent {
-	EntitySpawned
+	EntitySpawned,
+	EntityDespawned,
+	PlayerPlaceBlock,
+	PlayerBreakBlock,
+	BlockUpdate
 }
 
 export { WorldEvent };

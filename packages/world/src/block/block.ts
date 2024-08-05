@@ -19,6 +19,11 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../item";
 import { BlockComponent, BlockStateComponent } from "../components";
+import {
+	BlockUpdateSignal,
+	PlayerBreakBlockSignal,
+	PlayerPlaceBlockSignal
+} from "../events";
 
 import type { BlockComponents, BlockUpdateOptions } from "../types";
 import type { Chunk } from "../chunk";
@@ -164,11 +169,15 @@ class Block {
 	 * Sets the permutation of the block.
 	 * @param permutation The permutation to set.
 	 * @param options The options of the block update.
+	 * @returns Whether or not the permutation was set.
 	 */
 	public setPermutation(
 		permutation: BlockPermutation,
 		options?: BlockUpdateOptions
-	): Block {
+	): boolean {
+		// Store the old permutation of the block.
+		const oldPermutation = this.permutation;
+
 		// Query with the clearComponents option.
 		const clear =
 			options?.clearComponents === undefined ? true : options.clearComponents;
@@ -187,13 +196,13 @@ class Block {
 		const chunk = this.dimension.getChunk(x >> 4, z >> 4);
 
 		// Set the permutation of the block.
-		chunk.setPermutation(x, y, z, permutation);
+		chunk.setPermutation(x, y, z, this.permutation);
 
 		// Create a new UpdateBlockPacket.
 		const update = new UpdateBlockPacket();
 
 		// Set the packet properties.
-		update.networkBlockId = permutation.network;
+		update.networkBlockId = this.permutation.network;
 		update.position = this.position;
 		update.flags = UpdateBlockFlagsType.Network;
 		update.layer = UpdateBlockLayerType.Normal;
@@ -243,7 +252,28 @@ class Block {
 		// If so, we will play the block place sound.
 		if (options && options.player) {
 			// Get the clicked position of the player.
+			const clickedFace = options.blockFace ?? BlockFace.Top;
 			const clickedPosition = options.clickPosition ?? new Vector3f(0, 0, 0);
+
+			// Create a new PlayerPlaceBlockSignal.
+			const signal = new PlayerPlaceBlockSignal(
+				this,
+				this.dimension,
+				options.player,
+				this.permutation,
+				clickedFace,
+				clickedPosition
+			);
+
+			// Emit the signal to the dimension.
+			const value = this.dimension.world.emit(signal.identifier, signal);
+			if (!value) {
+				// If the signal was cancelled, we will revert the changes.
+				this.setPermutation(oldPermutation, { clearComponents: false });
+
+				// Return false as the signal was cancelled.
+				return false;
+			}
 
 			// Call the onPlace method of the components.
 			for (const component of this.components.values()) {
@@ -278,8 +308,8 @@ class Block {
 			if (position.x === x && position.z === z) entity.onGround = false;
 		}
 
-		// Return the block.
-		return this;
+		// Return true if the permutation was set.
+		return true;
 	}
 
 	/**
@@ -300,7 +330,7 @@ class Block {
 		const permutation = type.getPermutation();
 
 		// Set the permutation of the block.
-		this.setPermutation(permutation, { player: options?.player });
+		this.setPermutation(permutation, options);
 
 		// Return the block.
 		return this;
@@ -485,8 +515,36 @@ class Block {
 	/**
 	 * Destroys the block.
 	 * @param playerInitiated If the block was destroyed by a player.
+	 * @returns Whether or not the block was destroyed.
 	 */
-	public destroy(playerInitiated?: Player): void {
+	public destroy(playerInitiated?: Player): boolean {
+		// Check if the destruction was initiated by a player.
+		if (playerInitiated) {
+			// Get the inventory of the player.
+			const inventory = playerInitiated.getComponent("minecraft:inventory");
+
+			// Get the held item of the player.
+			const itemStack = inventory.getHeldItem();
+
+			// Create a new PlayerBreakBlockSignal.
+			const signal = new PlayerBreakBlockSignal(
+				this,
+				this.dimension,
+				playerInitiated,
+				itemStack
+			);
+
+			// Emit the signal to the dimension.
+			const value = this.dimension.world.emit(signal.identifier, signal);
+			if (!value) {
+				// If the signal was cancelled, we will revert the changes
+				this.setPermutation(this.permutation, { clearComponents: false });
+
+				// Return false as the signal was cancelled.
+				return false;
+			}
+		}
+
 		// Call the onBreak method of the components.
 		for (const component of this.components.values()) {
 			// Call the onBlockBrokenByPlayer method.
@@ -497,10 +555,15 @@ class Block {
 		const air = BlockPermutation.resolve(BlockIdentifier.Air);
 
 		// Set the block permutation to air.
-		this.setPermutation(air);
+		const placed = this.setPermutation(air);
+
+		// Check if the block was not placed.
+		if (!placed) return false;
 
 		// Since the block is becoming air, we can remove the block from the dimension cache to save memory.
 		this.dimension.blocks.delete(this.position);
+
+		return true;
 	}
 
 	/**
@@ -508,6 +571,13 @@ class Block {
 	 * @param surrounding If the surrounding blocks should be updated.
 	 */
 	public update(surrounding = false, source?: Block): void {
+		// Create a new BlockUpdateSignal.
+		const signal = new BlockUpdateSignal(this, this.dimension);
+		const value = this.dimension.world.emit(signal.identifier, signal);
+
+		// Check if the signal was cancelled.
+		if (!value) return;
+
 		// Call the onUpdate method of the components.
 		for (const component of this.components.values()) {
 			// Call the onUpdate method.
@@ -518,6 +588,7 @@ class Block {
 		const update = new BlockActorDataPacket();
 		update.position = this.position;
 		update.nbt = this.nbt;
+
 		// Send the packet to the dimension.
 		this.dimension.broadcast(update);
 
