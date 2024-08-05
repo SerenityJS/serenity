@@ -1,6 +1,8 @@
 import type { WorldEvent } from "../enums";
 import type {
 	BlockUpdateSignal,
+	ChunkReadSignal,
+	ChunkWriteSignal,
 	EntityDespawnedSignal,
 	EntitySpawnedSignal,
 	PlayerBreakBlockSignal,
@@ -10,9 +12,11 @@ import type {
 interface WorldEvents {
 	[WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
 	[WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
-	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
+	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
+	[WorldEvent.ChunkRead]: [ChunkReadSignal];
+	[WorldEvent.ChunkWrite]: [ChunkWriteSignal];
 }
 
 export { WorldEvents };

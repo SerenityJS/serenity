@@ -19,6 +19,7 @@ import {
 	EntityItemComponent,
 	EntityPhysicsComponent
 } from "../components";
+import { ChunkReadSignal } from "../events";
 
 import type { Chunk } from "../chunk";
 import type { Items } from "@serenityjs/item";
@@ -233,18 +234,31 @@ class Dimension {
 
 	/**
 	 * Gets a chunk from the dimension.
-	 *
 	 * @param cx The chunk X coordinate.
 	 * @param cz The chunk Z coordinate.
 	 * @returns The chunk.
 	 */
 	public getChunk(cx: number, cz: number): Chunk {
-		return this.world.provider.readChunk(cx, cz, this);
+		// Read the chunk from the provider
+		const chunk = this.world.provider.readChunk(cx, cz, this);
+
+		// Create a new ChunkReadSignal
+		const signal = new ChunkReadSignal(chunk, this);
+		const value = this.world.emit(signal.identifier, signal);
+
+		// Check if the signal was attempted to be cancelled
+		if (value === false)
+			// Log a warning to the console, as this signal cannot be cancelled
+			this.world.logger.warn(
+				`Chunk read signal cannot be cancelled, chunk: ${cx}, ${cz}`
+			);
+
+		// Return the chunk
+		return chunk;
 	}
 
 	/**
 	 * Gets a chunk from the dimension using a hash key.
-	 *
 	 * @param hash The hash of the chunk.
 	 * @returns The chunk.
 	 */
@@ -258,11 +272,22 @@ class Dimension {
 
 	/**
 	 * Sets a chunk in the dimension.
-	 *
 	 * @param chunk The chunk to set.
 	 */
 	public setChunk(chunk: Chunk): void {
-		this.world.provider.writeChunk(chunk, this);
+		// Create a new ChunkWriteSignal
+		const signal = new ChunkReadSignal(chunk, this);
+		const value = this.world.emit(signal.identifier, signal);
+
+		// Check if the signal was attempted to be cancelled
+		if (value === false)
+			// Log a warning to the console, as this signal cannot be cancelled
+			this.world.logger.warn(
+				`Chunk write signal cannot be cancelled, chunk: ${chunk.x}, ${chunk.z}`
+			);
+
+		// Write the chunk to the provider
+		return this.world.provider.writeChunk(chunk, this);
 	}
 
 	/**

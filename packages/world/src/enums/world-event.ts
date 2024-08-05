@@ -3,7 +3,9 @@ enum WorldEvent {
 	EntityDespawned,
 	PlayerPlaceBlock,
 	PlayerBreakBlock,
-	BlockUpdate
+	BlockUpdate,
+	ChunkRead,
+	ChunkWrite
 }
 
 export { WorldEvent };
