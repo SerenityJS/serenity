@@ -1,10 +1,10 @@
 import {
+	type ContainerId,
 	ContainerOpenPacket,
 	ContainerType,
 	InventoryContentPacket,
 	InventorySlotPacket,
-	NetworkItemStackDescriptor,
-	type ContainerId
+	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 
 import { ItemStack } from "../item";
@@ -75,17 +75,8 @@ class BlockContainer extends Container {
 		// Check if the container has an occupant.
 		if (this.occupants.size === 0) return;
 
-		// Create a new InventorySlotPacket.
-		const packet = new InventorySlotPacket();
-
-		// Set properties of the packet.
-		packet.containerId = this.identifier;
-		packet.slot = slot;
-		packet.item = ItemStack.toNetworkStack(item);
-
-		// Send the packet to the occupants.
-		// TODO: Figure out why the items aren't updating for other players in the container.
-		for (const player of this.occupants) player.session.send(packet);
+		// Sync the items to the occupants.
+		for (const player of this.occupants) this.sync(player);
 	}
 
 	/**
@@ -261,6 +252,31 @@ class BlockContainer extends Container {
 	}
 
 	/**
+	 * Syncs the container contents to a player.
+	 * @param player The player to sync the container to.
+	 */
+	public sync(player: Player): void {
+		// Create a new InventoryContentPacket.
+		const packet = new InventoryContentPacket();
+
+		// Set the properties of the packet.
+		packet.containerId = this.identifier;
+
+		// Map the items in the storage to network item stack descriptors.
+		packet.items = this.storage.map((item) => {
+			// If the item is null, return a new NetworkItemStackDescriptor.
+			// This will indicate that the slot is empty.
+			if (item === null) return new NetworkItemStackDescriptor(0);
+
+			// Convert the item stack to a network item stack descriptor
+			return ItemStack.toNetworkStack(item);
+		});
+
+		// Send the packet to the player.
+		return player.session.send(packet);
+	}
+
+	/**
 	 * Shows the container to a player.
 	 * @param player The player to show the container to.
 	 */
@@ -272,21 +288,15 @@ class BlockContainer extends Container {
 		open.position = this.block.position;
 		open.uniqueId = this.type === ContainerType.Container ? -1n : player.unique;
 
-		// Create a new InventoryContentPacket.
-		const content = new InventoryContentPacket();
-		content.containerId = this.identifier;
-		content.items = this.storage.map((item) => {
-			if (item === null) return new NetworkItemStackDescriptor(0);
-
-			return ItemStack.toNetworkStack(item);
-		});
-
 		// Add the player to the occupants and set the opened container.
 		this.occupants.add(player);
 		player.openedContainer = this;
 
 		// Send the packets to the player.
-		player.session.send(open, content);
+		player.session.send(open);
+
+		// Sync the container to the player.
+		return this.sync(player);
 	}
 }
 

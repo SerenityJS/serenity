@@ -8,6 +8,9 @@ import {
 	ContainerDataType,
 	ContainerSetDataPacket
 } from "@serenityjs/protocol";
+import { ItemIdentifier, ItemType } from "@serenityjs/item";
+
+import { ItemStack } from "../../item";
 
 import { BlockComponent } from "./block-component";
 import { BlockInventoryComponent } from "./inventory";
@@ -62,26 +65,47 @@ class BlockFurnaceComponent extends BlockComponent {
 			BlockInventoryComponent.identifier
 		);
 
+		// console.log(
+		// 	`Burn time: ${this.burnTime}, Burn duration: ${this.burnDuration}, Cook time: ${this.cookTime}`
+		// );
+
 		if (this.burnTime > 0 && this.burnDuration > 0) {
 			// Decrement the burn time
 			this.burnTime--;
+			this.cookTime++;
 
 			// Check if the block type is not a lit furnace
 			// If so, transform the block to a lit furnace
 			if (this.block.getType().identifier !== BlockIdentifier.LitFurnace)
 				this.transform(true);
-		} else if (this.burnTime <= 0 && this.burnDuration >= 0) {
-			console.log("done");
 		}
 
-		if (this.burnDuration <= 0 && this.burnTime <= 0) {
+		if (this.burnTime >= 0 && this.cookTime >= 200) {
+			this.cookTime = 0;
+
+			// Get the ingredient item
+			const ingredient = inventory.container.getItem(0);
+
+			if (ingredient) {
+				// Decrement the ingredient item count
+				ingredient.decrement();
+
+				const type = ItemType.get(ItemIdentifier.IronIngot);
+
+				if (type && ingredient.container)
+					ingredient.container.addItem(ItemStack.create(type, 1));
+			}
+		}
+
+		if (this.burnTime <= 0) {
 			// Get the fuel and ingredient items
-			const fuel = inventory.container.getItem(0);
-			const ingredient = inventory.container.getItem(1);
+			const fuel = inventory.container.getItem(1);
+			const ingredient = inventory.container.getItem(0);
 
 			if (fuel && ingredient) {
 				this.burnDuration = 1600;
 				this.burnTime = 1600;
+				this.cookTime = 0;
 
 				// Decrement the fuel item count
 				fuel.decrement();
@@ -108,7 +132,7 @@ class BlockFurnaceComponent extends BlockComponent {
 			const tickCount = new ContainerSetDataPacket();
 			tickCount.containerId = inventory.container.identifier;
 			tickCount.type = ContainerDataType.FurnanceTickCount;
-			tickCount.value = 200 - this.cookTime;
+			tickCount.value = this.cookTime;
 
 			player.session.send(burnTime, burnDuration, tickCount);
 		}

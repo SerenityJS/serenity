@@ -56,6 +56,7 @@ class BlockInventoryComponent extends BlockComponent {
 				break;
 			}
 
+			case BlockIdentifier.LitFurnace:
 			case BlockIdentifier.Furnace: {
 				// Set the container type and id
 				this.containerType = ContainerType.Furnace;
