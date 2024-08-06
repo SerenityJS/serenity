@@ -10,12 +10,7 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
-import {
-	ItemStack,
-	ItemUseCause,
-	WorldEvent,
-	type Player
-} from "@serenityjs/world";
+import { ItemStack, ItemUseCause, type Player } from "@serenityjs/world";
 import { type ItemIdentifier, ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
