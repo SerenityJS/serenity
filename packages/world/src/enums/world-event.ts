@@ -7,6 +7,7 @@ enum WorldEvent {
 	PlayerBreakBlock,
 	PlayerInteractWithEntity,
 	PlayerInteractWithBlock,
+	PlayerItemConsume,
 	BlockUpdate,
 	ChunkRead,
 	ChunkWrite

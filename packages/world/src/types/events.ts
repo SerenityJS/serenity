@@ -10,6 +10,7 @@ import type {
 	PlayerBreakBlockSignal,
 	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
+	PlayerItemConsumeSignal,
 	PlayerPlaceBlockSignal
 } from "../events";
 
@@ -20,6 +21,7 @@ interface WorldEvents {
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
 	[WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
+	[WorldEvent.PlayerItemConsume]: [PlayerItemConsumeSignal];
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
 	[WorldEvent.ChunkRead]: [ChunkReadSignal];
 	[WorldEvent.ChunkWrite]: [ChunkWriteSignal];
