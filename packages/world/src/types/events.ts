@@ -7,6 +7,7 @@ import type {
 	EntityEffectAddSignal,
 	EntityEffectRemoveSignal,
 	EntitySpawnedSignal,
+	EntityTeleportSignal,
 	PlayerBreakBlockSignal,
 	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
@@ -16,6 +17,9 @@ import type {
 interface WorldEvents {
 	[WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
 	[WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
+	[WorldEvent.EntityTeleport]: [EntityTeleportSignal];
+	[WorldEvent.EntityEffectAdd]: [EntityEffectAddSignal];
+	[WorldEvent.EntityEffectRemove]: [EntityEffectRemoveSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
@@ -23,8 +27,6 @@ interface WorldEvents {
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
 	[WorldEvent.ChunkRead]: [ChunkReadSignal];
 	[WorldEvent.ChunkWrite]: [ChunkWriteSignal];
-	[WorldEvent.EntityEffectAdd]: [EntityEffectAddSignal];
-	[WorldEvent.EntityEffectRemove]: [EntityEffectRemoveSignal];
 }
 
 export { WorldEvents };

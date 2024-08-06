@@ -38,6 +38,7 @@ import { ItemStack } from "../item";
 import {
 	EntityDespawnedSignal,
 	EntitySpawnedSignal,
+	EntityTeleportSignal,
 	PlayerInteractWithEntitySignal
 } from "../events";
 
@@ -972,6 +973,13 @@ class Entity {
 	 * @param dimension The dimension to teleport to.
 	 */
 	public teleport(position: Vector3f, dimension?: Dimension): void {
+		// Create a new EntityTeleportSignal
+		const signal = new EntityTeleportSignal(this, position, dimension);
+		const value = this.dimension.world.emit(signal.identifier, signal);
+
+		// Check if the signal was cancelled
+		if (!value) return;
+
 		// Set the position of the entity
 		this.position.x = position.x;
 		this.position.y = position.y;

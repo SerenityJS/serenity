@@ -3,6 +3,7 @@ enum WorldEvent {
 	EntityDespawned,
 	EntityEffectAdd,
 	EntityEffectRemove,
+	EntityTeleport,
 	PlayerPlaceBlock,
 	PlayerBreakBlock,
 	PlayerInteractWithEntity,
