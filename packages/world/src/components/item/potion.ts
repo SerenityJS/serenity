@@ -31,7 +31,7 @@ class ItemPotionComponent<T extends keyof Items> extends ItemComponent<T> {
 		const signal = new PlayerItemConsumeSignal(player, player.usingItem);
 		const canceled = player.getWorld().emit(signal.identifier, signal);
 
-		if (canceled) return false;
+		if (!canceled) return false;
 
 		// ? Add the potion effect to the player
 		player.addEffect(this.potionEffect);

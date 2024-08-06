@@ -77,7 +77,7 @@ class EntityEffectsComponent extends EntityComponent {
 			signal
 		);
 
-		if (canceled) return;
+		if (!canceled) return;
 		if (currentEffect && !currentEffect.isExpired) return;
 
 		effect.onAdd?.(this.entity);

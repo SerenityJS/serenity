@@ -49,7 +49,7 @@ class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 		const signal = new PlayerItemConsumeSignal(player, player.usingItem);
 		const canceled = player.getWorld().emit(signal.identifier, signal);
 
-		if (canceled) return false;
+		if (!canceled) return false;
 
 		// ? Increase the food based on nutrition
 		hungerComponent.increaseValue(this.nutrition);
