@@ -11,3 +11,4 @@ export * from "./chunk-read";
 export * from "./chunk-write";
 export * from "./effect-add";
 export * from "./effect-remove";
+export * from "./player-item-consume";

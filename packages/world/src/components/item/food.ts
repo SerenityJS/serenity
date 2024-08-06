@@ -2,6 +2,7 @@ import { ItemIdentifier, type Items } from "@serenityjs/item";
 
 import { ItemUseCause } from "../../enums";
 import { ItemStack } from "../../item";
+import { PlayerItemConsumeSignal } from "../../events";
 
 import { ItemComponent } from "./item-component";
 
@@ -45,6 +46,11 @@ class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 		const { container, selectedSlot } = player.getComponent(
 			"minecraft:inventory"
 		);
+		const signal = new PlayerItemConsumeSignal(player, player.usingItem);
+		const canceled = player.getWorld().emit(signal.identifier, signal);
+
+		if (canceled) return false;
+
 		// ? Increase the food based on nutrition
 		hungerComponent.increaseValue(this.nutrition);
 		// ? Add a saturation buff using the formula nutrition * saturationModifier * 2
@@ -70,9 +76,9 @@ class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 	/**
 	 * ? Necessary methods to make it work lol
 	 */
-	public onStartUse(player: Player, cause: ItemUseCause): void {}
+	public onStartUse(_player: Player, _cause: ItemUseCause): void {}
 
-	public onStopUse(player: Player, cause: ItemUseCause): void {}
+	public onStopUse(_player: Player, _cause: ItemUseCause): void {}
 }
 
 export { ItemFoodComponent };
