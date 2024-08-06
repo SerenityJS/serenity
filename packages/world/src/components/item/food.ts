@@ -70,9 +70,9 @@ class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 	/**
 	 * ? Necessary methods to make it work lol
 	 */
-	public onStartUse(player: Player, cause: ItemUseCause): void {}
+	public onStartUse(_player: Player, _cause: ItemUseCause): void {}
 
-	public onStopUse(player: Player, cause: ItemUseCause): void {}
+	public onStopUse(_player: Player, _cause: ItemUseCause): void {}
 }
 
 export { ItemFoodComponent };
