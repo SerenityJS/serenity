@@ -4,6 +4,8 @@ import type {
 	ChunkReadSignal,
 	ChunkWriteSignal,
 	EntityDespawnedSignal,
+	EntityEffectAddSignal,
+	EntityEffectRemoveSignal,
 	EntitySpawnedSignal,
 	PlayerBreakBlockSignal,
 	PlayerInteractWithBlockSignal,
@@ -21,6 +23,8 @@ interface WorldEvents {
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
 	[WorldEvent.ChunkRead]: [ChunkReadSignal];
 	[WorldEvent.ChunkWrite]: [ChunkWriteSignal];
+	[WorldEvent.EntityEffectAdd]: [EntityEffectAddSignal];
+	[WorldEvent.EntityEffectRemove]: [EntityEffectRemoveSignal];
 }
 
 export { WorldEvents };

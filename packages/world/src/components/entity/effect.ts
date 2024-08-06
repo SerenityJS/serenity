@@ -7,6 +7,8 @@ import {
 	Vector3f
 } from "@serenityjs/protocol";
 
+import { EntityEffectAddSignal, EntityEffectRemoveSignal } from "../../events";
+
 import { EntityComponent } from "./entity-component";
 
 import type { Entity } from "../../entity";
@@ -26,8 +28,7 @@ class EntityEffectsComponent extends EntityComponent {
 	public onTick(): void {
 		for (const [effectType, effect] of this.effects) {
 			if (effect.isExpired) {
-				effect.onRemove?.(this.entity);
-				this.effects.delete(effectType);
+				this.remove(effectType);
 				continue;
 			}
 			// Spawn a particle every 1s
@@ -70,9 +71,15 @@ class EntityEffectsComponent extends EntityComponent {
 	public add(effect: Effect): void {
 		const currentEffect = this.effects.get(effect.effectType);
 
-		if (currentEffect && !currentEffect.isExpired) {
-			return;
-		}
+		const signal = new EntityEffectAddSignal(this.entity, effect);
+		const canceled = this.entity.dimension.world.emit(
+			signal.identifier,
+			signal
+		);
+
+		if (canceled) return;
+		if (currentEffect && !currentEffect.isExpired) return;
+
 		effect.onAdd?.(this.entity);
 		this.effects.set(effect.effectType, effect);
 
@@ -99,6 +106,8 @@ class EntityEffectsComponent extends EntityComponent {
 		if (!this.effects.has(effectType)) return false;
 		const effect = this.effects.get(effectType);
 		const packet = new MobEffectPacket();
+		const signal = new EntityEffectRemoveSignal(this.entity, effectType);
+		this.entity.dimension.world.emit(signal.identifier, signal);
 
 		effect?.onRemove?.(this.entity);
 		this.effects.delete(effectType);

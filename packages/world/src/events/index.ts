@@ -8,3 +8,5 @@ export * from "./player-interact-with-entity";
 export * from "./player-interact-with-block";
 export * from "./chunk-read";
 export * from "./chunk-write";
+export * from "./effect-add";
+export * from "./effect-remove";
