@@ -184,6 +184,14 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	}
 
 	/**
+	 * Checks if the item is smeltable.
+	 * @returns If the item is smeltable.
+	 */
+	public isSmeltable(): boolean {
+		return this.hasComponent("minecraft:smeltable");
+	}
+
+	/**
 	 * Converts the item stack to a network item instance descriptor.
 	 * Which is used on the protocol level.
 	 * @param item The item stack to convert.

@@ -9,6 +9,7 @@ import type {
 	EntityEffectRemoveSignal,
 	EntitySpawnedSignal,
 	EntityTeleportSignal,
+	FurnaceSmeltSignal,
 	PlayerBreakBlockSignal,
 	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
@@ -28,6 +29,7 @@ interface WorldEvents {
 	[WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
 	[WorldEvent.PlayerItemConsume]: [PlayerItemConsumeSignal];
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
+	[WorldEvent.FurnaceSmelt]: [FurnaceSmeltSignal];
 	[WorldEvent.ChunkRead]: [ChunkReadSignal];
 	[WorldEvent.ChunkWrite]: [ChunkWriteSignal];
 	[WorldEvent.EntityDie]: [EntityDieSignal];

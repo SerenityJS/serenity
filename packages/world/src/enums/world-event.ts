@@ -11,6 +11,7 @@ enum WorldEvent {
 	PlayerInteractWithBlock,
 	PlayerItemConsume,
 	BlockUpdate,
+	FurnaceSmelt,
 	ChunkRead,
 	ChunkWrite
 }

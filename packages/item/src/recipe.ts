@@ -15,7 +15,7 @@ class ItemRecipe {
 	/**
 	 * The running total network identifier of recipes.
 	 */
-	protected static NETWORK = 1000;
+	protected static NETWORK = 25_000;
 
 	/**
 	 * A collective map of recipes registered.

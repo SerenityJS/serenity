@@ -8,9 +8,8 @@ import {
 	ContainerDataType,
 	ContainerSetDataPacket
 } from "@serenityjs/protocol";
-import { ItemIdentifier, ItemType } from "@serenityjs/item";
 
-import { ItemStack } from "../../item";
+import { FurnaceSmeltSignal } from "../../events";
 
 import { BlockComponent } from "./block-component";
 import { BlockInventoryComponent } from "./inventory";
@@ -69,31 +68,79 @@ class BlockFurnaceComponent extends BlockComponent {
 		// 	`Burn time: ${this.burnTime}, Burn duration: ${this.burnDuration}, Cook time: ${this.cookTime}`
 		// );
 
+		// Get the ingredient item
+		const ingredient = inventory.container.getItem(0);
+
 		if (this.burnTime > 0 && this.burnDuration > 0) {
+			// Check if the ingredient is still present
+			// If so, increment the cook time
+			if (ingredient && ingredient.isSmeltable()) this.cookTime++;
+			// If not, reset the cook time
+			else this.cookTime = 0;
+
 			// Decrement the burn time
 			this.burnTime--;
-			this.cookTime++;
 
 			// Check if the block type is not a lit furnace
 			// If so, transform the block to a lit furnace
 			if (this.block.getType().identifier !== BlockIdentifier.LitFurnace)
 				this.transform(true);
+
+			// Get the resultant item from the container
+			const resultant = inventory.container.getItem(2);
+
+			// Check if the resultant item and ingredient item are present
+			if (resultant && ingredient) {
+				// Get the smeltable component
+				const smeltable = ingredient.getComponent("minecraft:smeltable");
+
+				// Check if the resultant item will be compatible with the current resultant item
+				if (
+					resultant.type.identifier !== smeltable.resultant.identifier ||
+					resultant.amount >= resultant.maxAmount ||
+					resultant.metadata !== smeltable.metadata
+				) {
+					// Reset the cook time as the resultant item is not compatible
+					this.cookTime = 0;
+				}
+			}
 		}
 
+		// Check if the item is done cooking
 		if (this.burnTime >= 0 && this.cookTime >= 200) {
+			// Reset the cook time
 			this.cookTime = 0;
 
-			// Get the ingredient item
-			const ingredient = inventory.container.getItem(0);
+			// Check if the ingredient is still present and is smeltable
+			if (ingredient && ingredient.isSmeltable()) {
+				// Get the smeltable component
+				const smeltable = ingredient.getComponent("minecraft:smeltable");
 
-			if (ingredient) {
-				// Decrement the ingredient item count
-				ingredient.decrement();
+				// Get the resultant item type
+				const resultant = smeltable.smelt();
 
-				const type = ItemType.get(ItemIdentifier.IronIngot);
+				// Create a new FurnaceSmeltSignal
+				const signal = new FurnaceSmeltSignal(
+					this.block,
+					this.block.dimension,
+					ingredient,
+					resultant
+				);
 
-				if (type && ingredient.container)
-					ingredient.container.addItem(ItemStack.create(type, 1));
+				// Emit the signal
+				const value = this.block.dimension.world.emit(
+					signal.identifier,
+					signal
+				);
+
+				// Check if the signal was cancelled
+				if (value) {
+					// Add the resultant to the container of the ingredient as the signal was not cancelled
+					if (ingredient.container) ingredient.container.addItem(resultant);
+				} else {
+					// Increment the ingredient item count as the signal was cancelled
+					ingredient.increment();
+				}
 			}
 		}
 
