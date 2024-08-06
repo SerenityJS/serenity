@@ -4,6 +4,7 @@ import type {
 	ChunkReadSignal,
 	ChunkWriteSignal,
 	EntityDespawnedSignal,
+	EntityDieSignal,
 	EntityEffectAddSignal,
 	EntityEffectRemoveSignal,
 	EntitySpawnedSignal,
@@ -29,6 +30,7 @@ interface WorldEvents {
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
 	[WorldEvent.ChunkRead]: [ChunkReadSignal];
 	[WorldEvent.ChunkWrite]: [ChunkWriteSignal];
+	[WorldEvent.EntityDie]: [EntityDieSignal];
 }
 
 export { WorldEvents };

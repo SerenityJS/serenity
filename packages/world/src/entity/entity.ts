@@ -37,6 +37,7 @@ import {
 import { ItemStack } from "../item";
 import {
 	EntityDespawnedSignal,
+	EntityDieSignal,
 	EntitySpawnedSignal,
 	EntityTeleportSignal,
 	PlayerInteractWithEntitySignal
@@ -396,6 +397,8 @@ class Entity {
 	public kill(): void {
 		// Set the alive property of the entity to false
 		this.isAlive = false;
+		const signal = new EntityDieSignal(this, this.dimension);
+		this.getWorld().emit(signal.identifier, signal);
 
 		// TODO: Implement item drops and experience drops
 
