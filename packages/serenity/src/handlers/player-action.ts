@@ -10,7 +10,12 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
-import { ItemStack, ItemUseCause, type Player } from "@serenityjs/world";
+import {
+	ItemStack,
+	ItemUseCause,
+	WorldEvent,
+	type Player
+} from "@serenityjs/world";
 import { type ItemIdentifier, ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -133,6 +138,12 @@ class PlayerAction extends SerenityHandler {
 				// Set the player's flying ability to false
 				player.isFlying = false;
 				flying.setCurrentValue(false);
+				break;
+			}
+
+			case ActionIds.MissedSwing: {
+				player.executeMissSwing();
+				break;
 			}
 		}
 	}

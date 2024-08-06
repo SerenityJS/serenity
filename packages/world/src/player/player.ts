@@ -2,11 +2,15 @@ import {
 	type AbilityFlag,
 	type AbilityLayerFlag,
 	AbilityLayerType,
+	ActorEventIds,
+	ActorEventPacket,
 	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
 	ContainerName,
 	Gamemode,
+	LevelSoundEvent,
+	LevelSoundEventPacket,
 	MoveMode,
 	MovePlayerPacket,
 	NetworkItemStackDescriptor,
@@ -80,6 +84,7 @@ import type { Dimension } from "../world";
 import type { PlayerComponents } from "../types/components";
 import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
+import { PlayerMissSwingSignal } from "../events";
 
 /**
  * Represents a player in a Dimension instance that is connected to the server, and can interact with the world. Creating a new Player instance should be handled by the server instead of Plugins. This class is responsible for handling player-specific logic, such as sending packets, handling player movement, and managing player data. Player instances requires a NetworkSession instance to communicate with the player, and data from the player's login tokens.
@@ -813,6 +818,28 @@ class Player extends Entity {
 				return cursor.container;
 			}
 		}
+	}
+
+	public executeMissSwing(): void {
+		const signal = new PlayerMissSwingSignal(this);
+		const value = this.dimension.world.emit(signal.identifier, signal);
+
+		if (!value) return;
+
+		const levelEvent = new LevelSoundEventPacket();
+		levelEvent.event = LevelSoundEvent.AttackNoDamage;
+		levelEvent.position = this.position;
+		levelEvent.data = -1;
+		levelEvent.actorIdentifier = EntityIdentifier.Player;
+		levelEvent.isBabyMob = false;
+		levelEvent.isGlobal = false;
+
+		const actorEvent = new ActorEventPacket();
+		actorEvent.actorRuntimeId = this.unique;
+		actorEvent.eventId = ActorEventIds.ARM_SWING;
+		actorEvent.eventData = 0;
+
+		this.session.send(levelEvent, actorEvent);
 	}
 }
 
