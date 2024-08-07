@@ -100,6 +100,7 @@ import { CameraInstructionsPacket } from "./camera-instructions";
 import { CraftingDataPacket } from "./crafting-data";
 import { SpawnParticleEffectPacket } from "./spawn-particle-effect";
 import { ContainerSetDataPacket } from "./container-set-data";
+import { AvailableActorIdentifiersPacket } from "./available-actor-identifiers";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -169,6 +170,7 @@ const Packets = {
 	[Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
 	[Packet.NetworkStackLatency]: NetworkStackLatencyPacket, // 115
 	[Packet.SpawnParticleEffect]: SpawnParticleEffectPacket, // 118
+	[Packet.AvailableActorIdentifiers]: AvailableActorIdentifiersPacket, // 119
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
 	[Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123

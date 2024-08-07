@@ -80,7 +80,7 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 
 		// Read the length.
 		const length = varint
-			? stream.readVarInt()
+			? stream.readZigZag()
 			: stream.readInt32(Endianness.Little);
 
 		// Prepare the an array to store the values.
@@ -195,7 +195,7 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 
 		// Write the length.
 		varint
-			? stream.writeVarInt(tag.value.length)
+			? stream.writeZigZag(tag.value.length)
 			: stream.writeInt32(tag.value.length, Endianness.Little);
 
 		// Write the values.

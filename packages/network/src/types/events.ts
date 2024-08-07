@@ -97,7 +97,8 @@ import type {
 	CameraPresetsPacket,
 	CraftingDataPacket,
 	SpawnParticleEffectPacket,
-	ContainerSetDataPacket
+	ContainerSetDataPacket,
+	AvailableActorIdentifiersPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -193,6 +194,9 @@ interface NetworkEvents {
 		NetworkPacketEvent<SetScoreboardIdentityPacket>
 	];
 	[Packet.NetworkStackLatency]: [NetworkPacketEvent<NetworkStackLatencyPacket>];
+	[Packet.AvailableActorIdentifiers]: [
+		NetworkPacketEvent<AvailableActorIdentifiersPacket>
+	];
 	[Packet.SetLocalPlayerAsInitialized]: [
 		NetworkPacketEvent<SetLocalPlayerAsInitializedPacket>
 	];
