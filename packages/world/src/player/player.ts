@@ -2,11 +2,15 @@ import {
 	type AbilityFlag,
 	type AbilityLayerFlag,
 	AbilityLayerType,
+	ActorEventIds,
+	ActorEventPacket,
 	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
 	ContainerName,
 	Gamemode,
+	LevelSoundEvent,
+	LevelSoundEventPacket,
 	MoveMode,
 	MovePlayerPacket,
 	NetworkItemStackDescriptor,
@@ -72,6 +76,7 @@ import {
 	PlayerCraftingInputComponent
 } from "../components";
 import { ItemStack } from "../item";
+import { PlayerMissSwingSignal } from "../events";
 
 import { PlayerStatus } from "./status";
 
@@ -813,6 +818,37 @@ class Player extends Entity {
 				return cursor.container;
 			}
 		}
+	}
+
+	public executeMissSwing(): void {
+		// Create a new PlayerMissSwingSignal
+		const signal = new PlayerMissSwingSignal(this);
+		const value = this.dimension.world.emit(signal.identifier, signal);
+
+		// Check if the signal was cancelled
+		if (!value) return;
+
+		// Create a new LevelSoundEvent
+		const levelEvent = new LevelSoundEventPacket();
+
+		// Set the packet properties
+		levelEvent.event = LevelSoundEvent.AttackNoDamage;
+		levelEvent.position = this.position;
+		levelEvent.data = -1;
+		levelEvent.actorIdentifier = EntityIdentifier.Player;
+		levelEvent.isBabyMob = false;
+		levelEvent.isGlobal = false;
+
+		// Create a new ActorEvent
+		const actorEvent = new ActorEventPacket();
+
+		// Set the packet properties
+		actorEvent.actorRuntimeId = this.unique;
+		actorEvent.eventId = ActorEventIds.ARM_SWING;
+		actorEvent.eventData = 0;
+
+		// Send packet to player
+		this.session.send(levelEvent, actorEvent);
 	}
 }
 

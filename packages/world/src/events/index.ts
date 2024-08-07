@@ -14,3 +14,4 @@ export * from "./effect-add";
 export * from "./effect-remove";
 export * from "./player-item-consume";
 export * from "./entity-die";
+export * from "./player-miss-swing";

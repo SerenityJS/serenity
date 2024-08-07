@@ -133,6 +133,12 @@ class PlayerAction extends SerenityHandler {
 				// Set the player's flying ability to false
 				player.isFlying = false;
 				flying.setCurrentValue(false);
+				break;
+			}
+
+			case ActionIds.MissedSwing: {
+				player.executeMissSwing();
+				break;
 			}
 		}
 	}

@@ -10,6 +10,7 @@ enum WorldEvent {
 	PlayerInteractWithEntity,
 	PlayerInteractWithBlock,
 	PlayerItemConsume,
+	PlayerMissSwing,
 	BlockUpdate,
 	FurnaceSmelt,
 	ChunkRead,
