@@ -42,6 +42,7 @@ import {
 	EntityTeleportSignal,
 	PlayerInteractWithEntitySignal
 } from "../events";
+import { ScoreboardIdentity } from "../scoreboard";
 
 import type { Container } from "../container";
 import type { Effect } from "../effect/effect";
@@ -130,6 +131,11 @@ class Entity {
 	public readonly attributes = new Set<Attribute>();
 
 	/**
+	 * The scoreboard identity of the entity.
+	 */
+	public readonly scoreboardIdentity: ScoreboardIdentity;
+
+	/**
 	 * The dimension of the entity.
 	 */
 	public dimension: Dimension;
@@ -160,6 +166,9 @@ class Entity {
 
 		// Mutable properties
 		this.dimension = dimension;
+
+		// Create the scoreboard identity
+		this.scoreboardIdentity = new ScoreboardIdentity(this);
 
 		// Check if the entity is a player
 		if (this.type.identifier === EntityIdentifier.Player) return;

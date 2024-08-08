@@ -1,6 +1,6 @@
 enum ScoreboardIdentityAction {
-	REGISTER,
-	CLEAR
+	Register,
+	Clear
 }
 
 export { ScoreboardIdentityAction };

@@ -1,9 +1,7 @@
 import { VarString, ZigZag } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
-import { Packet } from "../../enums";
-import { DisplaySlotType } from "../../enums/display-slot-type";
-import { ObjectiveSortOrder } from "../../enums/objective-sort-order";
+import { Packet, DisplaySlotType, ObjectiveSortOrder } from "../../enums";
 
 import { DataPacket } from "./data-packet";
 

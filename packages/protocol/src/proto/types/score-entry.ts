@@ -1,78 +1,102 @@
 import { DataType } from "@serenityjs/raknet";
 import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
 
-enum ScoreEntryType {
-	PLAYER = 1,
-	ENTITY = 2,
-	FAKE_PLAYER = 3
-}
-
-enum ScoreActionType {
-	CHANGE,
-	REMOVE
-}
+import { ScoreboardActionType, ScoreboardIdentityType } from "../../enums";
 
 class ScoreEntry extends DataType {
-	public scoreboardId: bigint;
-	public objectiveName: string;
-	public score: number;
-	public type: ScoreEntryType;
-	public entityUniqueId!: bigint | null;
-	public customName!: string | undefined | null;
+	/**
+	 * The global unique identifier of the scoreboard.
+	 */
+	public readonly scoreboardId: bigint;
 
-	public action!: ScoreActionType | number | undefined;
+	/**
+	 * The name of the objective.
+	 */
+	public readonly objectiveName: string;
 
+	/**
+	 * The score of the entry.
+	 */
+	public readonly score: number;
+
+	/**
+	 * The identity type of the score entry.
+	 */
+	public readonly identityType!: ScoreboardIdentityType | null;
+
+	/**
+	 * The unique identifier type of the entity.
+	 */
+	public readonly actorUniqueId!: bigint | null;
+
+	/**
+	 * The type of the entry.
+	 */
+	public readonly customName!: string | null;
+
+	/**
+	 * Creates a new score entry.
+	 * @param scoreboardId
+	 * @param objectiveName
+	 * @param score
+	 * @param identityType
+	 * @param actorUniqueId
+	 * @param customName
+	 */
 	public constructor(
 		scoreboardId: bigint,
 		objectiveName: string,
 		score: number,
-		type: ScoreEntryType,
-		entityUniqueId: bigint | null,
-		customName: string | null,
-		action?: ScoreActionType | number | undefined
+		identityType: ScoreboardIdentityType | null,
+		actorUniqueId: bigint | null,
+		customName: string | null
 	) {
 		super();
 		this.scoreboardId = scoreboardId;
 		this.objectiveName = objectiveName;
 		this.score = score;
-		this.type = type;
-		this.entityUniqueId =
-			type === (ScoreEntryType.PLAYER ?? ScoreEntryType.ENTITY)
-				? entityUniqueId
-				: 0n;
-		this.customName = type == ScoreEntryType.FAKE_PLAYER ? customName : null;
-
-		this.action = action ?? ScoreActionType.CHANGE;
+		this.identityType = identityType;
+		this.actorUniqueId = actorUniqueId;
+		this.customName = customName;
 	}
 
-	public static read(stream: BinaryStream): Array<ScoreEntry> {
+	public static read(
+		stream: BinaryStream,
+		_: Endianness,
+		type: ScoreboardActionType
+	): Array<ScoreEntry> {
 		// Prepare an array to store entries.
 		const entries: Array<ScoreEntry> = [];
 
-		// Read the action
-		const action = stream.readUint8();
-
 		// Read the number of entries.
-		const amount = stream.readVarInt();
+		const count = stream.readVarInt();
 
-		for (let index = 0; index < amount; index++) {
+		// Loop through the entries.
+		for (let index = 0; index < count; index++) {
+			// Read the entries.
 			const scoreboardId = stream.readVarLong();
 			const objectiveName = stream.readVarString();
 			const score = stream.readInt32(Endianness.Little);
+			let identityType: ScoreboardIdentityType | null = null;
+			let actorUniqueId: bigint | null = null;
+			let customName: string | null = null;
 
-			const type = stream.readInt8();
+			// Check if the action type is to change a score.
+			if (type === ScoreboardActionType.Change) {
+				// Read the identity type.
+				identityType = stream.readByte() as ScoreboardIdentityType;
 
-			let entityUniqueId = 0n;
-			let customName = "";
-
-			if (action === ScoreActionType.CHANGE) {
-				switch (type) {
-					case ScoreEntryType.PLAYER:
-					case ScoreEntryType.ENTITY: {
-						entityUniqueId = stream.readVarLong();
+				// Switch based on the identity type.
+				switch (identityType) {
+					// Check if the identity type is a player or entity.
+					case ScoreboardIdentityType.Player:
+					case ScoreboardIdentityType.Entity: {
+						actorUniqueId = stream.readZigZong();
 						break;
 					}
-					case ScoreEntryType.FAKE_PLAYER: {
+
+					// Check if the identity type is a fake player.
+					case ScoreboardIdentityType.FakePlayer: {
 						customName = stream.readVarString();
 						break;
 					}
@@ -85,10 +109,9 @@ class ScoreEntry extends DataType {
 					scoreboardId,
 					objectiveName,
 					score,
-					type,
-					entityUniqueId,
-					customName,
-					action
+					identityType,
+					actorUniqueId,
+					customName
 				)
 			);
 		}
@@ -97,23 +120,38 @@ class ScoreEntry extends DataType {
 		return entries;
 	}
 
-	public static write(stream: BinaryStream, value: Array<ScoreEntry>): void {
+	public static write(
+		stream: BinaryStream,
+		value: Array<ScoreEntry>,
+		_: Endianness,
+		type: ScoreboardActionType
+	): void {
+		// Write the number of entries.
 		stream.writeVarInt(value.length);
 
+		// Loop through the entries.
 		for (const entry of value) {
+			// Write the entries.
 			stream.writeVarLong(entry.scoreboardId);
 			stream.writeVarString(entry.objectiveName);
 			stream.writeInt32(entry.score, Endianness.Little);
 
-			if (entry.action === ScoreActionType.CHANGE) {
-				stream.writeByte(entry.type);
-				switch (entry.type) {
-					case ScoreEntryType.PLAYER:
-					case ScoreEntryType.ENTITY: {
-						stream.writeVarLong(entry.entityUniqueId as bigint);
+			// Check if the action type is to change a score.
+			if (type === ScoreboardActionType.Change) {
+				// Write the identity type.
+				stream.writeByte(entry.identityType as number);
+
+				// Switch based on the identity type.
+				switch (entry.identityType) {
+					// Check if the identity type is a player or entity.
+					case ScoreboardIdentityType.Player:
+					case ScoreboardIdentityType.Entity: {
+						stream.writeZigZong(entry.actorUniqueId as bigint);
 						break;
 					}
-					case ScoreEntryType.FAKE_PLAYER: {
+
+					// Check if the identity type is a fake player.
+					case ScoreboardIdentityType.FakePlayer: {
 						stream.writeVarString(entry.customName as string);
 						break;
 					}
@@ -123,4 +161,4 @@ class ScoreEntry extends DataType {
 	}
 }
 
-export { ScoreEntry, ScoreEntryType, ScoreActionType };
+export { ScoreEntry };

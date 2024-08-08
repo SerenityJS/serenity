@@ -2,6 +2,7 @@ export * from "./block";
 export * from "./chunk";
 export * from "./enums";
 export * from "./types";
+export * from "./scoreboard";
 export * from "./entity";
 export * from "./player";
 export * from "./world";

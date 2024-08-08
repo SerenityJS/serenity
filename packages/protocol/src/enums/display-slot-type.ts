@@ -1,7 +1,7 @@
 enum DisplaySlotType {
-	LIST = "slot",
-	SIDEBAR = "sidebar",
-	BELOW_NAME = "belowname"
+	List = "slot",
+	Sidebar = "sidebar",
+	BelowName = "belowname"
 }
 
 export { DisplaySlotType };

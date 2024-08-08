@@ -11,6 +11,7 @@ import { Emitter } from "@serenityjs/emitter";
 
 import { COMMON_COMMANDS } from "../commands";
 import { ADMIN_COMMANDS } from "../commands/admin";
+import { Scoreboard } from "../scoreboard";
 
 import { Dimension } from "./dimension";
 
@@ -40,6 +41,11 @@ class World extends Emitter<WorldEvents> {
 	 * The commands for the world.
 	 */
 	public readonly commands: Commands<Entity | Dimension>;
+
+	/**
+	 * The scoreboard for the world.
+	 */
+	public readonly scoreboard = new Scoreboard(this);
 
 	/**
 	 * The logger for the world.
