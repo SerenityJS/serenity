@@ -39,7 +39,7 @@ abstract class EntityFlagComponent extends EntityComponent {
 		this.entity.flags.set(this.flag, value);
 
 		// Check if the data should be synced
-		if (sync) this.entity.sync();
+		if (sync) this.entity.syncData();
 	}
 
 	/**
