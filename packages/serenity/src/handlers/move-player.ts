@@ -1,4 +1,8 @@
-import { DisconnectReason, MovePlayerPacket } from "@serenityjs/protocol";
+import {
+	DisconnectReason,
+	MoveActorAbsolutePacket,
+	MovePlayerPacket
+} from "@serenityjs/protocol";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -30,16 +34,23 @@ class MovePlayer extends SerenityHandler {
 		player.rotation.yaw = packet.yaw;
 		player.rotation.headYaw = packet.headYaw;
 
-		// Clear the player's motion
-		if (packet.onGround && !player.onGround) {
-			player.clearMotion();
-		}
+		// // Clear the player's motion
+		// if (packet.onGround && !player.onGround) {
+		// 	player.clearMotion();
+		// }
 
 		// Set the player's on ground status
 		player.onGround = packet.onGround;
 
+		// Create a new move actor absolute packet
+		const movement = new MoveActorAbsolutePacket();
+		movement.runtimeId = player.runtime;
+		movement.flags = 0;
+		movement.position = player.position;
+		movement.rotation = player.rotation;
+
 		// Send the move player packet to all the players in the dimension.
-		player.dimension.broadcastExcept(player, packet);
+		player.dimension.broadcastExcept(player, movement);
 	}
 }
 
