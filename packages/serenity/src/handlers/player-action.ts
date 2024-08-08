@@ -1,5 +1,6 @@
 import {
 	ActionIds,
+	ActorFlag,
 	DisconnectReason,
 	Gamemode,
 	LevelEvent,
@@ -54,21 +55,29 @@ class PlayerAction extends SerenityHandler {
 
 			case ActionIds.StartSprint: {
 				player.isSprinting = true;
+				player.flags.set(ActorFlag.Sprinting, true);
+				player.syncData();
 				break;
 			}
 
 			case ActionIds.StopSprint: {
 				player.isSprinting = false;
+				player.flags.set(ActorFlag.Sprinting, false);
+				player.syncData();
 				break;
 			}
 
 			case ActionIds.StartSneak: {
 				player.isSneaking = true;
+				player.flags.set(ActorFlag.Sneaking, true);
+				player.syncData();
 				break;
 			}
 
 			case ActionIds.StopSneak: {
 				player.isSneaking = false;
+				player.flags.set(ActorFlag.Sneaking, false);
+				player.syncData();
 				break;
 			}
 
