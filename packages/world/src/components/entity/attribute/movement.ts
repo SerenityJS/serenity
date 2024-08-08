@@ -1,4 +1,4 @@
-import { AttributeName } from "@serenityjs/protocol";
+import { AttributeName, MoveActorAbsolutePacket } from "@serenityjs/protocol";
 
 import { EntityAttributeComponent } from "./attribute";
 
@@ -36,6 +36,20 @@ class EntityMovementComponent extends EntityAttributeComponent {
 
 		// Set the default movement for the entity
 		this.setCurrentValue(this.defaultValue, false);
+	}
+
+	public onTick(): void {
+		if (!this.entity.isPlayer()) return;
+
+		// Create a new move actor absolute packet
+		const movement = new MoveActorAbsolutePacket();
+		movement.runtimeId = this.entity.runtime;
+		movement.flags = 0;
+		movement.position = this.entity.position;
+		movement.rotation = this.entity.rotation;
+
+		// Send the move player packet to all the players in the dimension.
+		this.entity.dimension.broadcastExcept(this.entity, movement);
 	}
 }
 

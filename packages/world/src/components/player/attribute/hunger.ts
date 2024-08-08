@@ -43,7 +43,7 @@ class PlayerHungerComponent extends EntityAttributeComponent {
 		// difficulty modifier
 
 		// Exhaust player if its running (Temporary)
-		if (this.entity.isSprinting) this.exhaust(0.05);
+		// if (this.entity.isSprinting) this.exhaust(0.05);
 
 		// Reset tick timer after 4 seconds
 		if (this.tickTimer >= 80) this.tickTimer = 0;

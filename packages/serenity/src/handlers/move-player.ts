@@ -50,7 +50,7 @@ class MovePlayer extends SerenityHandler {
 		movement.rotation = player.rotation;
 
 		// Send the move player packet to all the players in the dimension.
-		player.dimension.broadcastExcept(player, movement);
+		// player.dimension.broadcastExcept(player, movement);
 	}
 }
 
