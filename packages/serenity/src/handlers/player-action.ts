@@ -55,29 +55,25 @@ class PlayerAction extends SerenityHandler {
 
 			case ActionIds.StartSprint: {
 				player.isSprinting = true;
-				player.flags.set(ActorFlag.Sprinting, true);
-				player.syncData();
+				player.setActorFlag(ActorFlag.Sprinting, true);
 				break;
 			}
 
 			case ActionIds.StopSprint: {
 				player.isSprinting = false;
-				player.flags.set(ActorFlag.Sprinting, false);
-				player.syncData();
+				player.setActorFlag(ActorFlag.Sprinting, false);
 				break;
 			}
 
 			case ActionIds.StartSneak: {
 				player.isSneaking = true;
-				player.flags.set(ActorFlag.Sneaking, true);
-				player.syncData();
+				player.setActorFlag(ActorFlag.Sneaking, true);
 				break;
 			}
 
 			case ActionIds.StopSneak: {
 				player.isSneaking = false;
-				player.flags.set(ActorFlag.Sneaking, false);
-				player.syncData();
+				player.setActorFlag(ActorFlag.Sneaking, false);
 				break;
 			}
 

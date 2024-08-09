@@ -183,7 +183,7 @@ class Entity {
 	 */
 	public sync(): void {
 		// Syncs the entity data
-		this.syncData();
+		this.updateActorData();
 
 		// Syncs the entity attributes
 		this.syncAttributes();
@@ -518,9 +518,40 @@ class Entity {
 	}
 
 	/**
-	 * Syncs the metadata of the entity.
+	 * Checks if the entity contains a specified actor flag.
+	 * @param flag The flag to check.
+	 * @returns Whether or not the entity has the flag.
 	 */
-	public syncData(): void {
+	public hasActorFlag(flag: ActorFlag): boolean {
+		return this.flags.has(flag);
+	}
+
+	/**
+	 * Gets the value of the actor flag.
+	 * @param flag The flag to get.
+	 * @returns The value of the flag.
+	 */
+	public getActorFlag(flag: ActorFlag): boolean {
+		return this.flags.get(flag) ?? false;
+	}
+
+	/**
+	 * Sets the actor flag of the entity.
+	 * @param flag The flag to set.
+	 * @param value The value to set.
+	 */
+	public setActorFlag(flag: ActorFlag, value: boolean): void {
+		// Set the flag value
+		this.flags.set(flag, value);
+
+		// Update the actor flags
+		this.updateActorData();
+	}
+
+	/**
+	 * Updates the actor flags of the entity.
+	 */
+	public updateActorData(): void {
 		// Create a new SetActorDataPacket
 		const packet = new SetActorDataPacket();
 		packet.runtimeEntityId = this.runtime;

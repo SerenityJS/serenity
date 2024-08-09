@@ -40,7 +40,7 @@ class EntityNpcComponent extends EntityComponent {
 			entity.metadata.add(npc);
 
 			// Sync the entity with the npc metadata
-			entity.syncData();
+			entity.updateActorData();
 		}
 
 		// Check if the entity has a nametag component
