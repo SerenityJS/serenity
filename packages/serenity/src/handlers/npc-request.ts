@@ -96,7 +96,7 @@ class NpcRequest extends SerenityHandler {
 		if (!entity) throw new Error("Failed to find the entity.");
 
 		// Sync the entity data
-		entity.syncData();
+		entity.updateActorData();
 	}
 
 	public static setName(packet: NpcRequestPacket, player: Player): void {
@@ -124,7 +124,7 @@ class NpcRequest extends SerenityHandler {
 		if (!entity) throw new Error("Failed to find the entity.");
 
 		// Sync the entity data
-		entity.syncData();
+		entity.updateActorData();
 	}
 }
 
