@@ -36,30 +36,7 @@ import {
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
-import {
-	EntityAlwaysShowNametagComponent,
-	EntityHealthComponent,
-	EntityInventoryComponent,
-	EntityMovementComponent,
-	EntityNametagComponent,
-	EntityArmorComponent,
-	PlayerChunkRenderingComponent,
-	type PlayerComponent,
-	PlayerCursorComponent,
-	EntityComponent,
-	PlayerEntityRenderingComponent,
-	EntitySkinIDComponent,
-	PlayerHungerComponent,
-	PlayerExhaustionComponent,
-	PlayerSaturationComponent,
-	EntityHasGravityComponent,
-	EntityBreathingComponent,
-	PlayerExperienceLevelComponent,
-	PlayerExperienceComponent,
-	PlayerAbsorptionComponent,
-	PlayerCraftingInputComponent,
-	PlayerAbilityComponent
-} from "../components";
+import { PlayerComponent, EntityComponent } from "../components";
 import { ItemStack } from "../item";
 import { PlayerMissSwingSignal } from "../events";
 
