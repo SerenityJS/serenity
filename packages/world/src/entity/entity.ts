@@ -19,7 +19,10 @@ import {
 	type DataItem,
 	type ActorFlag,
 	type ActorDamageCause,
-	ActorDataId
+	ActorDataId,
+	PlayerListPacket,
+	PlayerListAction,
+	PlayerListRecord
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
@@ -398,6 +401,17 @@ class Entity {
 
 		// Trigger the onDespawn method of all applicable components
 		for (const component of this.getComponents()) component.onDespawn?.();
+
+		// Check if the entity is a player
+		if (this.isPlayer()) {
+			// Create a new PlayerListPacket
+			const packet = new PlayerListPacket();
+			packet.action = PlayerListAction.Remove;
+			packet.records = [new PlayerListRecord(this.uuid)];
+
+			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
+			player ? player.session.send(packet) : this.dimension.broadcast(packet);
+		}
 	}
 
 	/**

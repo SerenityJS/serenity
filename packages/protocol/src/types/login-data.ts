@@ -1,5 +1,5 @@
 interface ClientData {
-	AnimatedImageData: Array<unknown>; // TODO
+	AnimatedImageData: Array<AnimatedImageData>;
 	ArmSize: string;
 	CapeData: string;
 	CapeId: string;
@@ -18,9 +18,9 @@ interface ClientData {
 	IsEditorMode: boolean;
 	LanguageCode: string;
 	OverrideSkin: boolean;
-	PersonaPieces: Array<unknown>; // TODO
+	PersonaPieces: Array<PersonaPiece>;
 	PersonaSkin: boolean;
-	PieceTintColors: Array<unknown>; // TODO
+	PieceTintColors: Array<PieceTintColor>;
 	PlatformOfflineId: string;
 	PlatformOnlineId: string;
 	PlayFabId: string;
@@ -40,6 +40,28 @@ interface ClientData {
 	ThirdPartyNameOnly: boolean;
 	TrustedSkin: boolean;
 	UIProfile: number;
+}
+
+interface AnimatedImageData {
+	AnimationExpression: number;
+	Frames: 2;
+	Image: string;
+	ImageHeight: number;
+	ImageWidth: number;
+	Type: number;
+}
+
+interface PersonaPiece {
+	IsDefault: boolean;
+	PackId: string;
+	PieceId: string;
+	PieceType: string;
+	ProductId: string;
+}
+
+interface PieceTintColor {
+	Colors: Array<string>;
+	PieceType: string;
 }
 
 interface IdentityData {

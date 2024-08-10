@@ -27,7 +27,11 @@ import {
 	TextPacketType,
 	TransferPacket,
 	UpdateAbilitiesPacket,
-	Vector3f
+	Vector3f,
+	type LoginTokenData,
+	PlayerListPacket,
+	PlayerListAction,
+	PlayerListRecord
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 
@@ -83,7 +87,6 @@ import { PlayerStatus } from "./status";
 import type { Container } from "../container";
 import type { Dimension } from "../world";
 import type { PlayerComponents } from "../types/components";
-import type { LoginTokenData } from "../types/login-data";
 import type { NetworkSession } from "@serenityjs/network";
 
 /**
@@ -255,10 +258,29 @@ class Player extends Entity {
 		// Update the commands of the player
 		available.commands = filtered;
 
-		// Send the commands to the player
-		this.session.sendImmediate(available);
+		// Create the player list packet.
+		const playerList = new PlayerListPacket();
+		playerList.action = PlayerListAction.Add;
+		playerList.records = this.dimension.world
+			.getPlayers()
+			.map(
+				(player) =>
+					new PlayerListRecord(
+						player.uuid,
+						player.unique,
+						player.username,
+						player.xuid,
+						String(),
+						0,
+						player.skin,
+						false,
+						false,
+						false
+					)
+			);
 
-		// TODO: Send the player the world settings.
+		// Send the commands & playerList to the player
+		this.session.sendImmediate(available, playerList);
 	}
 
 	/**
@@ -307,15 +329,34 @@ class Player extends Entity {
 		packet.deviceId = "";
 		packet.deviceOS = 0;
 
+		const playerList = new PlayerListPacket();
+		playerList.action = PlayerListAction.Add;
+		playerList.records = [
+			new PlayerListRecord(
+				this.uuid,
+				this.unique,
+				this.username,
+				this.xuid,
+				String(),
+				0,
+				this.skin,
+				false,
+				false,
+				false
+			)
+		];
+
 		// Check if the dimension has the player already
 		if (this.dimension.entities.has(this.unique)) {
 			// Send the packet to the player
 			player
-				? player.session.send(packet)
-				: this.dimension.broadcastExcept(this, packet);
+				? player.session.send(packet, playerList)
+				: this.dimension.broadcastExcept(this, packet, playerList);
 		} else {
 			// Send the packet to the player
-			player ? player.session.send(packet) : this.dimension.broadcast(packet);
+			player
+				? player.session.send(packet, playerList)
+				: this.dimension.broadcast(packet, playerList);
 		}
 
 		// If a player was provided, then return

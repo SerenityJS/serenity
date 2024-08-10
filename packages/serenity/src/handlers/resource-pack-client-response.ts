@@ -183,7 +183,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.exportedFromEdior = false;
 				packet.dayCycleStopTime = player.dimension.world.dayTime;
 				packet.eduOffer = 0;
-				packet.eduFeatures = true;
+				packet.eduFeatures = false;
 				packet.eduProductUuid = "";
 				packet.rainLevel = 0;
 				packet.lightningLevel = 0;

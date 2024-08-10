@@ -18,7 +18,7 @@ class SkinImage extends DataType {
 	/**
 	 * The data of the image.
 	 */
-	public readonly data: string;
+	public readonly data: Buffer;
 
 	/**
 	 * Creates a new skin image.
@@ -27,7 +27,7 @@ class SkinImage extends DataType {
 	 * @param height The height of the image.
 	 * @param data The data of the image.
 	 */
-	public constructor(width: number, height: number, data: string) {
+	public constructor(width: number, height: number, data: Buffer) {
 		super();
 		this.width = width;
 		this.height = height;
@@ -39,21 +39,18 @@ class SkinImage extends DataType {
 		const width = stream.readUint32(Endianness.Little);
 		const height = stream.readUint32(Endianness.Little);
 		const length = stream.readVarInt();
-		const data = stream.readBuffer(length).toString("base64");
+		const buffer = stream.readBuffer(length);
 
 		// Return the new skin image.
-		return new SkinImage(width, height, data);
+		return new SkinImage(width, height, buffer);
 	}
 
 	public static write(stream: BinaryStream, image: SkinImage): void {
 		// Write the width, height and data of the image.
 		stream.writeUint32(image.width, Endianness.Little);
 		stream.writeUint32(image.height, Endianness.Little);
-
-		const buffer = Buffer.from(image.data, "base64");
-
-		stream.writeVarInt(buffer.length);
-		stream.writeBuffer(buffer);
+		stream.writeVarInt(image.data.length);
+		stream.writeBuffer(image.data);
 	}
 }
 

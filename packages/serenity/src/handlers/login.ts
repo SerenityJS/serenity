@@ -1,21 +1,18 @@
 import {
 	DisconnectReason,
 	LoginPacket,
+	type ClientData,
+	type IdentityData,
+	type LoginTokenData,
 	type LoginTokens,
 	PlayStatus,
 	PlayStatusPacket,
 	ResourcePacksInfoPacket,
 	SerializedSkin,
-	SkinImage,
 	TexturePackInfo
 } from "@serenityjs/protocol";
 import { createDecoder } from "fast-jwt";
-import {
-	type ClientData,
-	type IdentityData,
-	type LoginTokenData,
-	Player
-} from "@serenityjs/world";
+import { Player } from "@serenityjs/world";
 import { Reliability } from "@serenityjs/raknet";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -92,54 +89,8 @@ class Login extends SerenityHandler {
 		// Get the permission level of the player.
 		const permission = this.serenity.permissions.get(xuid, username);
 
-		const {
-			SkinId,
-			PlayFabId,
-			SkinResourcePatch,
-			SkinImageWidth,
-			SkinImageHeight,
-			SkinData,
-			CapeImageWidth,
-			CapeImageHeight,
-			CapeData,
-			SkinGeometryData,
-			SkinGeometryDataEngineVersion,
-			SkinAnimationData,
-			CapeId,
-			ArmSize,
-			SkinColor,
-			PremiumSkin,
-			PersonaSkin,
-			CapeOnClassicSkin,
-			TrustedSkin,
-			OverrideSkin
-		} = data.clientData;
-
-		const skinImage = new SkinImage(SkinImageWidth, SkinImageHeight, SkinData);
-		const capeImage = new SkinImage(CapeImageWidth, CapeImageHeight, CapeData);
-
-		const skin = new SerializedSkin(
-			SkinId,
-			PlayFabId,
-			SkinResourcePatch,
-			skinImage,
-			[],
-			capeImage,
-			SkinGeometryData,
-			SkinGeometryDataEngineVersion,
-			SkinAnimationData,
-			CapeId,
-			SkinId,
-			ArmSize,
-			SkinColor,
-			[],
-			[],
-			PremiumSkin,
-			PersonaSkin,
-			CapeOnClassicSkin,
-			TrustedSkin,
-			OverrideSkin
-		);
+		// Create a new skin instance from the client data.
+		const skin = SerializedSkin.from(data.clientData);
 
 		// Create a new player instance.
 		// Since we have gotten the players login data, we can create a new player instance.
