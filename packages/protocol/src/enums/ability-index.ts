@@ -1,4 +1,4 @@
-enum AbilityLayerFlag {
+enum AbilityIndex {
 	Build,
 	Mine,
 	DoorsAndSwitches,
@@ -21,4 +21,4 @@ enum AbilityLayerFlag {
 	Count
 }
 
-export { AbilityLayerFlag };
+export { AbilityIndex };

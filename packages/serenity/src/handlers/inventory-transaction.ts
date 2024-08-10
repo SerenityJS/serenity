@@ -8,7 +8,8 @@ import {
 	type ItemUseInventoryTransaction,
 	Gamemode,
 	type ItemUseOnEntityInventoryTransaction,
-	type ItemReleaseInventoryTransaction
+	type ItemReleaseInventoryTransaction,
+	AbilityIndex
 } from "@serenityjs/protocol";
 import {
 	EntityInteractType,
@@ -177,9 +178,7 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Check if the player is in adventure mode, if so stop the block placement
 				// And check if the player is able to place blocks
-				const canBuild = player
-					.getComponent("minecraft:ability.build")
-					.getCurrentValue();
+				const canBuild = player.getAbility(AbilityIndex.Build);
 
 				// Check if the player is in adventure mode, if so stop the block placement
 				if (player.gamemode === Gamemode.Adventure || !canBuild) {
