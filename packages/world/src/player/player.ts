@@ -58,7 +58,9 @@ import {
 	PlayerExperienceComponent,
 	PlayerAbsorptionComponent,
 	PlayerCraftingInputComponent,
-	PlayerAbilityComponent
+	PlayerAbilityComponent,
+	EntityDamageComponent,
+	EntityEffectsComponent
 } from "../components";
 import { ItemStack } from "../item";
 import { PlayerMissSwingSignal } from "../events";
@@ -839,7 +841,9 @@ EntityNametagComponent.register(type);
 EntityAlwaysShowNametagComponent.register(type);
 EntityHealthComponent.register(type);
 EntityArmorComponent.register(type);
+EntityDamageComponent.register(type);
 EntitySkinIDComponent.register(type);
+EntityEffectsComponent.register(type);
 PlayerSaturationComponent.register(type);
 PlayerExhaustionComponent.register(type);
 PlayerHungerComponent.register(type);
