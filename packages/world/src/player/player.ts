@@ -20,7 +20,7 @@ import {
 	PropertySyncData,
 	RespawnPacket,
 	RespawnState,
-	type SerializedSkin,
+	SerializedSkin,
 	SetPlayerGameTypePacket,
 	TeleportCause,
 	TextPacket,
@@ -83,6 +83,7 @@ import { ItemStack } from "../item";
 import { PlayerMissSwingSignal } from "../events";
 
 import { PlayerStatus } from "./status";
+import { Device } from "./device";
 
 import type { Container } from "../container";
 import type { Dimension } from "../world";
@@ -119,6 +120,16 @@ class Player extends Entity {
 	public readonly abilities = new Set<AbilityFlag>();
 
 	/**
+	 * The player's skin.
+	 */
+	public readonly skin: SerializedSkin;
+
+	/**
+	 * The player's device information.
+	 */
+	public readonly device: Device;
+
+	/**
 	 * The current status of the player's connection.
 	 */
 	public status: PlayerStatus = PlayerStatus.Connecting;
@@ -127,8 +138,6 @@ class Player extends Entity {
 	 * The player's permission level.
 	 */
 	public permission: PermissionLevel;
-
-	public readonly skin: SerializedSkin;
 
 	/**
 	 * The gamemode of the player.
@@ -179,8 +188,7 @@ class Player extends Entity {
 		session: NetworkSession,
 		tokens: LoginTokenData,
 		dimension: Dimension,
-		permission: PermissionLevel,
-		skin: SerializedSkin
+		permission: PermissionLevel
 	) {
 		super(EntityIdentifier.Player, dimension, session.guid);
 		this.session = session;
@@ -188,7 +196,8 @@ class Player extends Entity {
 		this.xuid = tokens.identityData.XUID;
 		this.uuid = tokens.identityData.identity;
 		this.permission = permission;
-		this.skin = skin;
+		this.skin = SerializedSkin.from(tokens.clientData);
+		this.device = new Device(tokens.clientData);
 
 		// Register the type components to the entity.
 		for (const component of EntityComponent.registry.get(

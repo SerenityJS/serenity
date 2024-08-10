@@ -8,7 +8,6 @@ import {
 	PlayStatus,
 	PlayStatusPacket,
 	ResourcePacksInfoPacket,
-	SerializedSkin,
 	TexturePackInfo
 } from "@serenityjs/protocol";
 import { createDecoder } from "fast-jwt";
@@ -89,13 +88,10 @@ class Login extends SerenityHandler {
 		// Get the permission level of the player.
 		const permission = this.serenity.permissions.get(xuid, username);
 
-		// Create a new skin instance from the client data.
-		const skin = SerializedSkin.from(data.clientData);
-
 		// Create a new player instance.
 		// Since we have gotten the players login data, we can create a new player instance.
 		// We will also add the player to the players map.
-		const player = new Player(session, data, dimension, permission, skin);
+		const player = new Player(session, data, dimension, permission);
 		this.serenity.players.set(xuid, player);
 
 		// TODO: Enable encryption, the public key is given in the tokens
