@@ -60,6 +60,7 @@ enum Packet {
 	ResourcePackChunkRequest = 0x54, // 84
 	Transfer = 0x55, // 85
 	SetTitle = 0x58, // 88
+	StructureBlockUpdate = 0x5a, // 90
 	PlayerSkin = 0x5d, // 93
 	BookEdit = 0x61, // 97
 	NpcRequest = 0x62, // 98

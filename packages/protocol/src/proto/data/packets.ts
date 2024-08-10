@@ -101,6 +101,7 @@ import { CraftingDataPacket } from "./crafting-data";
 import { SpawnParticleEffectPacket } from "./spawn-particle-effect";
 import { ContainerSetDataPacket } from "./container-set-data";
 import { AvailableActorIdentifiersPacket } from "./available-actor-identifiers";
+import { StructureBlockUpdatePacket } from "./structure-block-update";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -158,6 +159,7 @@ const Packets = {
 	[Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
 	[Packet.Transfer]: TransferPacket, // 85
 	[Packet.SetTitle]: SetTitlePacket, // 88
+	[Packet.StructureBlockUpdate]: StructureBlockUpdatePacket, // 90
 	[Packet.PlayerSkin]: PlayerSkinPacket, // 93
 	[Packet.BookEdit]: BookEditPacket, // 97
 	[Packet.NpcRequest]: NpcRequestPacket, // 98

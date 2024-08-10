@@ -98,7 +98,8 @@ import type {
 	CraftingDataPacket,
 	SpawnParticleEffectPacket,
 	ContainerSetDataPacket,
-	AvailableActorIdentifiersPacket
+	AvailableActorIdentifiersPacket,
+	StructureBlockUpdatePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -169,6 +170,9 @@ interface NetworkEvents {
 	[Packet.CommandOutput]: [NetworkPacketEvent<CommandOutputPacket>];
 	[Packet.ResourcePackDataInfo]: [
 		NetworkPacketEvent<ResourcePackDataInfoPacket>
+	];
+	[Packet.StructureBlockUpdate]: [
+		NetworkPacketEvent<StructureBlockUpdatePacket>
 	];
 	[Packet.CameraInstructions]: [NetworkPacketEvent<CameraInstructionsPacket>];
 	[Packet.ResourcePackChunkData]: [

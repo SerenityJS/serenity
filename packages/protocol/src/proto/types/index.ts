@@ -86,3 +86,5 @@ export * from "./container-mix-data-entry";
 export * from "./material-reducer-data-entry";
 export * from "./shaped-recipe";
 export * from "./shapeless-recipe";
+export * from "./structure-editor-data";
+export * from "./structure-settings";
