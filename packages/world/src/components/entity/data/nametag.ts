@@ -1,4 +1,5 @@
 import { ActorDataId, ActorDataType } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityDataComponent } from "./data";
 
@@ -6,6 +7,8 @@ import type { Entity } from "../../../entity";
 
 class EntityNametagComponent extends EntityDataComponent {
 	public static readonly identifier = "minecraft:nametag";
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	public readonly key = ActorDataId.Name;
 

@@ -1,4 +1,5 @@
 import { ActorDataId, ActorDataType } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityDataComponent } from "./data";
 
@@ -6,6 +7,8 @@ import type { Entity } from "../../../entity";
 
 class EntityAlwaysShowNametagComponent extends EntityDataComponent {
 	public static readonly identifier = "minecraft:always_show_nametag";
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	public readonly key = ActorDataId.NametagAlwaysShow;
 
