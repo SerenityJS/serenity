@@ -22,7 +22,7 @@ import {
 	PropertySyncData,
 	DataItem,
 	Vector3f,
-	AbilityLayers,
+	AbilityLayer,
 	Links,
 	NetworkItemStackDescriptor
 } from "../types";
@@ -49,7 +49,7 @@ class AddPlayerPacket extends DataPacket {
 	@Serialize(Int64, Endianness.Little) public uniqueEntityId!: bigint;
 	@Serialize(Uint8) public premissionLevel!: PermissionLevel;
 	@Serialize(Uint8) public commandPermission!: CommandPermissionLevel;
-	@Serialize(AbilityLayers) public abilities!: Array<AbilityLayers>;
+	@Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
 	@Serialize(Links) public links!: Array<Links>;
 	@Serialize(VarString) public deviceId!: string;
 	@Serialize(Int32, Endianness.Little) public deviceOS!: DeviceOS;

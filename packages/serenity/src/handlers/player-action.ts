@@ -1,4 +1,5 @@
 import {
+	AbilityIndex,
 	ActionIds,
 	ActorFlag,
 	DisconnectReason,
@@ -107,16 +108,13 @@ class PlayerAction extends SerenityHandler {
 
 			case ActionIds.StartFlying: {
 				// Get the players mayfly component
-				const mayfly = player.getComponent("minecraft:ability.may_fly");
-
-				// Get the player's flying ability
-				const flying = player.getComponent("minecraft:ability.flying");
+				const mayfly = player.getAbility(AbilityIndex.MayFly);
 
 				// This stops horion flying exploit
 				// Check if the player has the mayfly ability
-				if (!mayfly.getCurrentValue()) {
+				if (!mayfly) {
 					// Set the player's flying ability to false
-					flying.setCurrentValue(false);
+					player.setAbility(AbilityIndex.Flying, false);
 
 					// Log a warning
 					this.serenity.logger.warn(
@@ -127,17 +125,14 @@ class PlayerAction extends SerenityHandler {
 
 				// Set the player's flying ability to true
 				player.isFlying = true;
-				flying.setCurrentValue(true);
+				player.setAbility(AbilityIndex.Flying, true);
 				break;
 			}
 
 			case ActionIds.StopFlying: {
-				// Get the player's flying ability
-				const flying = player.getComponent("minecraft:ability.flying");
-
 				// Set the player's flying ability to false
 				player.isFlying = false;
-				flying.setCurrentValue(false);
+				player.setAbility(AbilityIndex.Flying, false);
 				break;
 			}
 
@@ -287,9 +282,7 @@ class PlayerAction extends SerenityHandler {
 		// If the player is in adventure mode, we will set the block permutation.
 		// The player should not be able to break the block.
 		// And also check if the player has the ability to break the block.
-		const canMine = player
-			.getComponent("minecraft:ability.mine")
-			.getCurrentValue();
+		const canMine = player.getAbility(AbilityIndex.Mine);
 		if (player.gamemode === Gamemode.Adventure || !canMine) {
 			// Set the block permutation.
 			block.setPermutation(block.permutation);

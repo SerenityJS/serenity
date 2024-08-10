@@ -1,4 +1,4 @@
-enum AbilitySet {
+enum AbilitySetId {
 	AttackMobs = "minecraft:ability.attack_mobs",
 	AttackPlayers = "minecraft:ability.attack_players",
 	Build = "minecraft:ability.build",
@@ -21,4 +21,4 @@ enum AbilitySet {
 	WorldBuilder = "minecraft:ability.world_builder"
 }
 
-export { AbilitySet };
+export { AbilitySetId };
