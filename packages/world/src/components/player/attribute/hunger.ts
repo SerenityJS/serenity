@@ -3,6 +3,7 @@ import {
 	AttributeName,
 	Gamemode
 } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityAttributeComponent } from "../../entity/attribute/attribute";
 
@@ -12,6 +13,8 @@ import type { Player } from "../../../player";
 
 class PlayerHungerComponent extends EntityAttributeComponent {
 	public static readonly identifier = AttributeName.PlayerHunger;
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	public readonly effectiveMin: number = 0;
 	public readonly effectiveMax: number = 20;

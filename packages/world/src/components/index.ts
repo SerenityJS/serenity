@@ -18,6 +18,18 @@ for (const key in EntityComponents) {
 }
 
 //
+// Register all valid player components.
+//
+import * as PlayerComponents from "./player";
+for (const key in PlayerComponents) {
+	// Get the player component.
+	const value = PlayerComponents[key as keyof typeof PlayerComponents];
+
+	// Bind the component to the registry.
+	value.bind();
+}
+
+//
 // Register all valid item components.
 //
 import * as ItemComponents from "./item";

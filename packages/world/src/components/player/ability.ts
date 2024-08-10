@@ -1,5 +1,5 @@
-import { EntityIdentifier } from "@serenityjs/entity";
 import { AbilityIndex, Gamemode } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { PlayerComponent } from "./player-component";
 

@@ -33,33 +33,10 @@ import {
 	PlayerListRecord,
 	AbilitySet
 } from "@serenityjs/protocol";
-import { EntityIdentifier, EntityType } from "@serenityjs/entity";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
-import {
-	EntityAlwaysShowNametagComponent,
-	EntityHealthComponent,
-	EntityInventoryComponent,
-	EntityMovementComponent,
-	EntityNametagComponent,
-	EntityArmorComponent,
-	PlayerChunkRenderingComponent,
-	type PlayerComponent,
-	PlayerCursorComponent,
-	EntityComponent,
-	PlayerEntityRenderingComponent,
-	EntitySkinIDComponent,
-	PlayerHungerComponent,
-	PlayerExhaustionComponent,
-	PlayerSaturationComponent,
-	EntityHasGravityComponent,
-	EntityBreathingComponent,
-	PlayerExperienceLevelComponent,
-	PlayerExperienceComponent,
-	PlayerAbsorptionComponent,
-	PlayerCraftingInputComponent,
-	PlayerAbilityComponent
-} from "../components";
+import { PlayerComponent, EntityComponent } from "../components";
 import { ItemStack } from "../item";
 import { PlayerMissSwingSignal } from "../events";
 
@@ -182,6 +159,12 @@ class Player extends Entity {
 
 		// Register the type components to the entity.
 		for (const component of EntityComponent.registry.get(
+			this.type.identifier
+		) ?? [])
+			new component(this, component.identifier);
+
+		// Register the type components to the player.
+		for (const component of PlayerComponent.registry.get(
 			this.type.identifier
 		) ?? [])
 			new component(this, component.identifier);
@@ -825,27 +808,3 @@ class Player extends Entity {
 }
 
 export { Player };
-
-// Register the player components
-// TODO: Move this to a separate file.
-const type = EntityType.get(EntityIdentifier.Player) as EntityType;
-PlayerCursorComponent.register(type);
-PlayerCraftingInputComponent.register(type);
-EntityInventoryComponent.register(type);
-EntityMovementComponent.register(type);
-EntityHasGravityComponent.register(type);
-EntityBreathingComponent.register(type);
-EntityNametagComponent.register(type);
-EntityAlwaysShowNametagComponent.register(type);
-EntityHealthComponent.register(type);
-EntityArmorComponent.register(type);
-EntitySkinIDComponent.register(type);
-PlayerSaturationComponent.register(type);
-PlayerExhaustionComponent.register(type);
-PlayerHungerComponent.register(type);
-PlayerChunkRenderingComponent.register(type);
-PlayerEntityRenderingComponent.register(type);
-PlayerExperienceLevelComponent.register(type);
-PlayerExperienceComponent.register(type);
-PlayerAbsorptionComponent.register(type);
-PlayerAbilityComponent.register(type);

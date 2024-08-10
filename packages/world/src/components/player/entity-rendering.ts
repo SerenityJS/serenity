@@ -1,9 +1,13 @@
+import { EntityIdentifier } from "@serenityjs/entity";
+
 import { PlayerComponent } from "./player-component";
 
 import type { Player } from "../../player";
 
 class PlayerEntityRenderingComponent extends PlayerComponent {
 	public static readonly identifier = "minecraft:entity_rendering";
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	/**
 	 * A collective map of all the entities that have been rendered for the player.

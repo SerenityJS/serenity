@@ -1,4 +1,5 @@
 import { ContainerId, ContainerType } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityContainer } from "../../container";
 
@@ -8,6 +9,8 @@ import type { Player } from "../../player";
 
 class PlayerCraftingInputComponent extends PlayerComponent {
 	public static readonly identifier = "minecraft:crafting_input";
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	public readonly container: EntityContainer;
 

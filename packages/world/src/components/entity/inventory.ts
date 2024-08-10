@@ -1,4 +1,5 @@
 import { ContainerId, ContainerType } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityContainer } from "../../container";
 
@@ -9,6 +10,8 @@ import type { ItemStack } from "../../item";
 
 class EntityInventoryComponent extends EntityComponent {
 	public static readonly identifier = "minecraft:inventory";
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	public readonly container: EntityContainer;
 

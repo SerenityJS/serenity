@@ -1,4 +1,5 @@
 import { AttributeName, MoveActorAbsolutePacket } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityAttributeComponent } from "./attribute";
 
@@ -9,6 +10,8 @@ class EntityMovementComponent extends EntityAttributeComponent {
 	 * The identifier of the component.
 	 */
 	public static readonly identifier = AttributeName.Movement;
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	/**
 	 * The minimum health allowed for the entity.

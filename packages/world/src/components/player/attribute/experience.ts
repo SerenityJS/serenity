@@ -1,4 +1,5 @@
 import { AttributeName } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityAttributeComponent } from "../../entity/attribute/attribute";
 
@@ -6,6 +7,9 @@ import type { Player } from "../../../player";
 
 class PlayerExperienceComponent extends EntityAttributeComponent {
 	public static readonly identifier = AttributeName.PlayerExperience;
+
+	public static readonly types = [EntityIdentifier.Player];
+
 	public readonly effectiveMin: number = 0;
 	/**
 	 * Infinity because it converts automatically to xp levels
