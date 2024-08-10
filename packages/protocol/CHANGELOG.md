@@ -1,5 +1,14 @@
 # @serenityjs/protocol
 
+## 0.4.1
+
+### Patch Changes
+
+- 13cd4f0: v0.4.1-beta
+- Updated dependencies [13cd4f0]
+  - @serenityjs/nbt@0.4.1
+  - @serenityjs/raknet@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes
