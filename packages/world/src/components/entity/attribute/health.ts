@@ -7,6 +7,7 @@ import {
 	Gamemode,
 	Vector3f
 } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityInteractType } from "../../../enums";
 
@@ -20,6 +21,8 @@ class EntityHealthComponent extends EntityAttributeComponent {
 	 * The identifier of the component.
 	 */
 	public static readonly identifier = AttributeName.Health;
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	/**
 	 * The minimum health allowed for the entity.

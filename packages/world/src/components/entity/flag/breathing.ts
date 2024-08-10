@@ -1,4 +1,5 @@
 import { ActorFlag } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityFlagComponent } from "./flag";
 
@@ -6,6 +7,8 @@ import type { Entity } from "../../../entity";
 
 class EntityBreathingComponent extends EntityFlagComponent {
 	public static readonly identifier = "minecraft:breathing";
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	public readonly flag = ActorFlag.Breathing;
 

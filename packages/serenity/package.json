@@ -37,7 +37,7 @@
 		"@serenityjs/emitter": "*",
 		"@serenityjs/entity": "*",
 		"@serenityjs/item": "*",
-		"@serenityjs/leveldb": "^1.0.0",
+		"@serenityjs/leveldb": "^1.0.1",
 		"@serenityjs/logger": "*",
 		"@serenityjs/nbt": "*",
 		"@serenityjs/network": "*",

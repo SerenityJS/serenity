@@ -3,6 +3,7 @@ import {
 	LevelChunkPacket,
 	NetworkChunkPublisherUpdatePacket
 } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Chunk } from "../../chunk";
 
@@ -12,6 +13,8 @@ import type { Player } from "../../player";
 
 class PlayerChunkRenderingComponent extends PlayerComponent {
 	public static readonly identifier = "minecraft:chunk_rendering";
+
+	public static readonly types = [EntityIdentifier.Player];
 
 	/**
 	 * A map of chunks that the player has been sent, and whether or not they have been rendered.

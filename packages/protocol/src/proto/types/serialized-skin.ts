@@ -15,102 +15,102 @@ class SerializedSkin extends DataType {
 	/**
 	 * The identifier of the skin.
 	 */
-	public readonly identifier: string;
+	public identifier: string;
 
 	/**
 	 * The playfab identifier of the skin.
 	 */
-	public readonly playFabIdentifier: string;
+	public playFabIdentifier: string;
 
 	/**
 	 * The resource patch of the skin.
 	 */
-	public readonly resourcePatch: string;
+	public resourcePatch: string;
 
 	/**
 	 * The skin image.
 	 */
-	public readonly skinImage: SkinImage;
+	public skinImage: SkinImage;
 
 	/**
 	 * The animations of the skin.
 	 */
-	public readonly animations: Array<SkinAnimation>;
+	public animations: Array<SkinAnimation>;
 
 	/**
 	 * The cape image.
 	 */
-	public readonly capeImage: SkinImage;
+	public capeImage: SkinImage;
 
 	/**
 	 * The geometry data of the skin.
 	 */
-	public readonly geometryData: string;
+	public geometryData: string;
 
 	/**
 	 * The geometry version of the skin.
 	 */
-	public readonly geometryVersion: string;
+	public geometryVersion: string;
 
 	/**
 	 * The animation data of the skin.
 	 */
-	public readonly animationData: string;
+	public animationData: string;
 
 	/**
 	 * The animation engine of the skin.
 	 */
-	public readonly capeIdentifier: string;
+	public capeIdentifier: string;
 
 	/**
 	 * The full identifier of the skin.
 	 */
-	public readonly fullIdentifier: string;
+	public fullIdentifier: string;
 
 	/**
 	 * The arm size of the skin.
 	 */
-	public readonly armSize: string;
+	public armSize: string;
 
 	/**
 	 * The skin color of the skin.
 	 */
-	public readonly skinColor: string;
+	public skinColor: string;
 
 	/**
 	 * The persona pieces of the skin.
 	 */
-	public readonly personaPieces: Array<SkinPersonaPiece>;
+	public personaPieces: Array<SkinPersonaPiece>;
 
 	/**
 	 * The tint pieces of the skin.
 	 */
-	public readonly tintPieces: Array<SkinPersonaTintPiece>;
+	public tintPieces: Array<SkinPersonaTintPiece>;
 
 	/**
 	 * If the skin is premium.
 	 */
-	public readonly isPremium: boolean;
+	public isPremium: boolean;
 
 	/**
 	 * If the skin is persona.
 	 */
-	public readonly isPersona: boolean;
+	public isPersona: boolean;
 
 	/**
 	 * If there is a persona cape on classic skin.
 	 */
-	public readonly isPersonaCapeOnClassic: boolean;
+	public isPersonaCapeOnClassic: boolean;
 
 	/**
 	 * If the skin is used by its primary user.
 	 */
-	public readonly isPrimaryUser: boolean;
+	public isPrimaryUser: boolean;
 
 	/**
 	 * If the skin will override the player appearance.
 	 */
-	public readonly overridingPlayerAppearance: boolean;
+	public overridingPlayerAppearance: boolean;
 
 	/**
 	 * Creates a new serialized skin.
