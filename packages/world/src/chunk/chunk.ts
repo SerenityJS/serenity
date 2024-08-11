@@ -74,6 +74,8 @@ export class Chunk {
 	 */
 	public readonly subchunks: Array<SubChunk>;
 
+	public cache: Buffer | null = null;
+
 	/**
 	 * If the chunk has been modified, and has not been saved.
 	 */
@@ -153,6 +155,9 @@ export class Chunk {
 
 		// Set the chunk as dirty.
 		dirty === true ? (this.dirty = true) : null;
+
+		// Set the cache as null.
+		this.cache = null;
 	}
 
 	/**
@@ -253,7 +258,16 @@ export class Chunk {
 		return true;
 	}
 
+	/**
+	 * Serialize the chunk into a buffer.
+	 * @param chunk The chunk to serialize.
+	 * @param nbt If block palette should be serialized as NBT.
+	 * @returns The serialized buffer.
+	 */
 	public static serialize(chunk: Chunk, nbt = false): Buffer {
+		// Check if the chunk has a cache.
+		if (chunk.cache) return chunk.cache;
+
 		// Create a new stream.
 		const stream = new BinaryStream();
 
@@ -285,10 +299,22 @@ export class Chunk {
 		// Border blocks?
 		stream.writeByte(0);
 
+		// Set the cache of the chunk.
+		chunk.cache = stream.getBuffer();
+
 		// Return the buffer.
-		return stream.getBuffer();
+		return chunk.cache;
 	}
 
+	/**
+	 * Deserialize a buffer into a chunk.
+	 * @param type The dimension type of the chunk.
+	 * @param x The X coordinate of the chunk.
+	 * @param z The Z coordinate of the chunk.
+	 * @param buffer The buffer to deserialize.
+	 * @param nbt If block palette should be deserialized as NBT.
+	 * @returns The deserialized chunk.
+	 */
 	public static deserialize(
 		type: DimensionType,
 		x: number,
@@ -322,7 +348,10 @@ export class Chunk {
 		// Border blocks?
 		stream.readByte();
 
+		// Create a new chunk.
+		const chunk = new Chunk(x, z, type, subchunks);
+
 		// Return the chunk.
-		return new Chunk(x, z, type, subchunks);
+		return chunk;
 	}
 }
