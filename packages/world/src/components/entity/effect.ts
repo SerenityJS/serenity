@@ -6,6 +6,7 @@ import {
 	MobEffectPacket,
 	Vector3f
 } from "@serenityjs/protocol";
+import { EntityIdentifier } from "@serenityjs/entity";
 
 import { EntityEffectAddSignal, EntityEffectRemoveSignal } from "../../events";
 
@@ -20,6 +21,7 @@ class EntityEffectsComponent extends EntityComponent {
 	 * The linked entity effects
 	 */
 	public readonly effects: Map<EffectType, Effect> = new Map();
+	public static types: Array<EntityIdentifier> = [EntityIdentifier.Player];
 
 	public constructor(entity: Entity) {
 		super(entity, EntityEffectsComponent.identifier);
