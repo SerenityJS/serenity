@@ -89,3 +89,5 @@ export * from "./shapeless-recipe";
 export * from "./structure-editor-data";
 export * from "./structure-settings";
 export * from "./ability-set";
+export * from "./dimension-definition-group";
+export * from "./dimension-definition";

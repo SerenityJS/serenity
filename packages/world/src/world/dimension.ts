@@ -21,6 +21,7 @@ import {
 } from "../components";
 import { ChunkReadSignal } from "../events";
 
+import type { DimensionBounds } from "../types";
 import type { Chunk } from "../chunk";
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../item";
@@ -74,6 +75,11 @@ class Dimension {
 	public simulationDistance: number = 48;
 
 	/**
+	 * The min-max dimension build limits
+	 */
+	public bounds: DimensionBounds;
+
+	/**
 	 * Creates a new dimension.
 	 *
 	 * @param identifier The identifier of the dimension.
@@ -86,10 +92,13 @@ class Dimension {
 		identifier: string,
 		type: DimensionType,
 		generator: TerrainGenerator,
-		world: World
+		world: World,
+		bounds?: DimensionBounds
 	) {
 		this.identifier = identifier;
 		this.type = type;
+		// ? Default Bounds
+		this.bounds = bounds ?? { min: -64, max: 320 };
 		this.generator = generator;
 		this.world = world;
 		this.entities = new Map();

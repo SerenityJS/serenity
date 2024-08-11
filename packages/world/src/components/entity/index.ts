@@ -11,3 +11,4 @@ export * from "./physics";
 export * from "./armor";
 export * from "./effect";
 export * from "./npc";
+export * from "./damage";

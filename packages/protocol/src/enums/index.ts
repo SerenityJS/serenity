@@ -80,3 +80,4 @@ export * from "./unlocking-context";
 export * from "./container-data-type";
 export * from "./scoreboard-identity-type";
 export * from "./scoreboard-action-type";
+export * from "./generator-type";

@@ -15,7 +15,7 @@ import { Scoreboard } from "../scoreboard";
 
 import { Dimension } from "./dimension";
 
-import type { WorldEvents } from "../types";
+import type { DimensionBounds, WorldEvents } from "../types";
 import type { TerrainGenerator } from "../generator";
 import type { Entity } from "../entity";
 import type { WorldProvider } from "../provider";
@@ -156,7 +156,8 @@ class World extends Emitter<WorldEvents> {
 	public createDimension(
 		identifier: string,
 		type: DimensionType,
-		generator: TerrainGenerator
+		generator: TerrainGenerator,
+		bounds?: DimensionBounds
 	): Dimension {
 		// Check if the dimension already exists
 		if (this.dimensions.has(identifier)) {
@@ -168,7 +169,7 @@ class World extends Emitter<WorldEvents> {
 		}
 
 		// Create the dimension
-		const dimension = new Dimension(identifier, type, generator, this);
+		const dimension = new Dimension(identifier, type, generator, this, bounds);
 
 		// Set the dimension
 		this.dimensions.set(identifier, dimension);

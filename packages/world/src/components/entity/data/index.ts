@@ -9,3 +9,4 @@ export * from "./bounding-height";
 export * from "./bounding-width";
 export * from "./skin-id";
 export * from "./variant";
+export * from "./air-supply";

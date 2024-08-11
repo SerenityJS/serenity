@@ -105,3 +105,4 @@ export * from "./player-start-item-cooldown";
 export * from "./camera-presets";
 export * from "./camera-instructions";
 export * from "./structure-block-update";
+export * from "./dimension-data";
