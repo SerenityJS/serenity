@@ -84,7 +84,7 @@ class World extends Emitter<WorldEvents> {
 	/**
 	 * Ticks the world instance.
 	 */
-	public tick(): void {
+	public tick(deltaTick: number): void {
 		// Check if there are no players in the world
 		if (this.getPlayers().length === 0) return;
 
@@ -98,7 +98,7 @@ class World extends Emitter<WorldEvents> {
 		// Tick all the dimensions
 		for (const dimension of this.dimensions.values())
 			try {
-				dimension.tick();
+				dimension.tick(deltaTick);
 			} catch (reason) {
 				this.logger.error(
 					`Failed to tick dimension "${dimension.identifier}"`,

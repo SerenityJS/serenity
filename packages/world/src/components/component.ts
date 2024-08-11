@@ -40,7 +40,7 @@ class Component {
 	/**
 	 * Called when the component is ticked.
 	 */
-	public onTick?(): void;
+	public onTick?(deltaTick: number): void;
 
 	/**
 	 * Binds the component to the specified types.

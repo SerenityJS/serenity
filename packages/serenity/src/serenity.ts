@@ -218,6 +218,8 @@ class Serenity extends Emitter<EventSignals> {
 		// Get the server tps from the properties
 		const tps = this.properties.getValue("server-tps") ?? 20;
 
+		let lastTick = Date.now();
+
 		// Create a ticking loop with default 50ms interval
 		// Handle delta time and tick the world
 		const tick = () =>
@@ -236,9 +238,11 @@ class Serenity extends Emitter<EventSignals> {
 
 					// Calculate the TPS
 					this.tps = this.ticks.length;
+					const deltaTick = now - lastTick;
+					lastTick = now;
 
 					// Tick all the worlds
-					for (const world of this.worlds.getAll()) world.tick();
+					for (const world of this.worlds.getAll()) world.tick(deltaTick);
 
 					// Increment the tick
 					this.tick++;

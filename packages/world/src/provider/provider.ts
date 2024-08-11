@@ -1,3 +1,4 @@
+import type { Player } from "../player";
 import type { CompoundTag } from "@serenityjs/nbt";
 import type { Dimension, World } from "../world";
 import type { Chunk } from "../chunk";
@@ -63,7 +64,7 @@ class WorldProvider {
 	 * @param uuid The UUID of the player to read.
 	 * @returns The player read from the world.
 	 */
-	public readPlayer(_uuid: string): CompoundTag<PlayerEntry> {
+	public readPlayer(_player: string | Player): CompoundTag<PlayerEntry> {
 		throw new Error("WorldProvider.readPlayer is not implemented");
 	}
 
@@ -71,7 +72,7 @@ class WorldProvider {
 	 * Writes a player to the world.
 	 * @param player The player to write to the world.
 	 */
-	public writePlayer(_player: CompoundTag<PlayerEntry>): void {
+	public writePlayer(_player: Player): void {
 		throw new Error("WorldProvider.writePlayer is not implemented");
 	}
 }

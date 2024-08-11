@@ -99,52 +99,47 @@ class Dimension {
 	/**
 	 * Ticks the dimension instance.
 	 */
-	public tick(): void {
+	public tick(deltaTick: number): void {
 		// Return if there are no players in the dimension
 		if (this.getPlayers().length === 0) return;
 
-		// Iterate over all the players in the dimension
-		for (const player of this.getPlayers()) {
-			// Tick all the tickable player components
-			for (const component of player.components.values()) component.onTick?.();
+		// Get the positions of all the players in the dimension
+		const positions = this.getPlayers().map((player) => player.position);
 
-			// Iterate over all the entities, and check if the entity is in simulation range
-			for (const entity of this.entities.values()) {
-				// Check if the entity is a player
-				if (entity instanceof Player) continue;
+		// Iterate over all the entities in the dimension
+		for (const entity of this.entities.values()) {
+			// Check if there is a player within the simulation distance to tick the entity
+			const inSimulationRange = positions.some((position) => {
+				const distance = position.distance(entity.position);
+				return distance <= this.simulationDistance;
+			});
 
-				// Get the players and entities position
-				const playerPos = player.position;
-				const entityPos = entity.position;
-
-				// Calulate the distance between the player and the entity
-				const distance = playerPos.distance(entityPos);
-
-				// Check if the entity is in simulation range
-				if (distance > this.simulationDistance) continue;
-
-				// Tick all the tickable entity components
+			// Tick the entity if it is in simulation range
+			if (inSimulationRange) {
 				for (const component of entity.components.values())
-					component.onTick?.();
+					component.onTick?.(deltaTick);
 			}
+		}
 
-			// Iterate over all the blocks, and check if the block is in simulation range
-			for (const block of this.blocks.values()) {
-				// Get the block cords from the block
-				const { x, y, z } = block.position;
+		// Iterate over all the blocks in the dimension
+		for (const block of this.blocks.values()) {
+			// Get the block position
+			const position = new Vector3f(
+				block.position.x,
+				block.position.y,
+				block.position.z
+			);
 
-				// Get the players and blocks position
-				const playerPos = player.position;
-				const blockPos = new Vector3f(x, y, z);
+			// Check if there is a player within the simulation distance to tick the block
+			const inSimulationRange = positions.some((player) => {
+				const distance = player.distance(position);
+				return distance <= this.simulationDistance;
+			});
 
-				// Calulate the distance between the player and the block
-				const distance = playerPos.distance(blockPos);
-
-				// Check if the block is in simulation range
-				if (distance > this.simulationDistance) continue;
-
-				// Tick all the tickable block components
-				for (const component of block.components.values()) component.onTick?.();
+			// Tick the block if it is in simulation range
+			if (inSimulationRange) {
+				for (const component of block.components.values())
+					component.onTick?.(deltaTick);
 			}
 		}
 	}
