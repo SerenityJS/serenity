@@ -102,6 +102,7 @@ import { SpawnParticleEffectPacket } from "./spawn-particle-effect";
 import { ContainerSetDataPacket } from "./container-set-data";
 import { AvailableActorIdentifiersPacket } from "./available-actor-identifiers";
 import { StructureBlockUpdatePacket } from "./structure-block-update";
+import { DimensionDataPacket } from "./dimension-data";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -191,6 +192,7 @@ const Packets = {
 	[Packet.NpcDialogue]: NpcDialoguePacket, // 169
 	[Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
 	[Packet.ScriptMessage]: ScriptMessagePacket, // 177
+	[Packet.DimensionData]: DimensionDataPacket, // 180
 	[Packet.ToastRequest]: ToastRequestPacket, // 186
 	[Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188

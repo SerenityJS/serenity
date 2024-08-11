@@ -94,6 +94,7 @@ enum Packet {
 	NpcDialogue = 0xa9, // 169
 	PlayerStartItemCooldown = 0xb0, // 176
 	ScriptMessage = 0xb1, // 177
+	DimensionData = 0xb4, // 180
 	ToastRequest = 0xba, // 186
 	UpdateAbilities = 0xbb, // 187
 	UpdateAdventureSettings = 0xbc, // 188
