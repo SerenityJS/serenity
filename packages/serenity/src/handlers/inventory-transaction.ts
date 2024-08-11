@@ -181,7 +181,12 @@ class InventoryTransaction extends SerenityHandler {
 				const canBuild = player.getAbility(AbilityIndex.Build);
 
 				// Check if the player is in adventure mode, if so stop the block placement
-				if (player.gamemode === Gamemode.Adventure || !canBuild) {
+				if (
+					player.gamemode === Gamemode.Adventure ||
+					!canBuild ||
+					player.dimension.bounds.max < resultingBlock.position.y ||
+					player.dimension.bounds.min > resultingBlock.position.y
+				) {
 					// Get the Air Permutation
 					const air = BlockPermutation.resolve(BlockIdentifier.Air);
 

@@ -47,7 +47,7 @@ export class Chunk {
 	/**
 	 * The maximum amount of sub chunks.
 	 */
-	public static readonly MAX_SUB_CHUNKS = 20;
+	public static readonly MAX_SUB_CHUNKS = 24;
 
 	/**
 	 * The dimension type of the chunk.
