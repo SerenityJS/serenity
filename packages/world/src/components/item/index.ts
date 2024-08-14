@@ -13,3 +13,4 @@ export * from "./book";
 export * from "./fluid-container";
 export * from "./potion";
 export * from "./smeltable";
+export * from "./throwable";

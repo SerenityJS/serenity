@@ -10,7 +10,8 @@ import type {
 	ItemLoreComponent,
 	ItemNametagComponent,
 	ItemPotionComponent,
-	ItemSmeltableComponent
+	ItemSmeltableComponent,
+	ItemThrowableComponent
 } from "../../components";
 
 interface ItemComponents<T extends keyof Items> {
@@ -25,6 +26,7 @@ interface ItemComponents<T extends keyof Items> {
 	"minecraft:fluid_container": ItemFluidContainerComponent<T>;
 	"minecraft:potion": ItemPotionComponent<T>;
 	"minecraft:smeltable": ItemSmeltableComponent<T>;
+	"minecraft:throwable": ItemThrowableComponent<T>;
 }
 
 export { ItemComponents };
