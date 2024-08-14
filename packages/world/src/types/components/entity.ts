@@ -19,7 +19,9 @@ import type {
 	EntityVariantComponent,
 	EntityHasCollisionComponent,
 	EntityAirSupplyComponent,
-	EntityDamageComponent
+	EntityDamageComponent,
+	EntityProjectileComponent,
+	EntityCollisionBoxComponent
 } from "../../components";
 
 /**
@@ -60,6 +62,8 @@ interface EntityComponents
 	"minecraft:effects": EntityEffectsComponent;
 	"minecraft:npc": EntityNpcComponent;
 	"minecraft:damaging": EntityDamageComponent;
+	"minecraft:projectile": EntityProjectileComponent;
+	"minecraft:collision_box": EntityCollisionBoxComponent;
 }
 
 export {
