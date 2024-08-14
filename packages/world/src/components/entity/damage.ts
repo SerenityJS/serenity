@@ -17,7 +17,7 @@ class EntityDamageComponent extends EntityComponent {
 	public onTick(): void {
 		if (this.isBelowWorld() && this.entity.getWorld().currentTick % 10n == 0n) {
 			if (!this.entity.isAlive) return;
-			if (this.entity.isPlayer() && this.entity.gamemode != Gamemode.Creative)
+			if (this.entity.isPlayer() && this.entity.gamemode == Gamemode.Creative)
 				return;
 			// ? Apply damage if is below dimension bounds
 			this.entity.applyDamage(4, ActorDamageCause.Void);
