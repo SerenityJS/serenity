@@ -113,6 +113,11 @@ class Player extends Entity {
 	public target: BlockCoordinates | null = null;
 
 	/**
+	 * The player spawn position
+	 */
+	public spawnPosition: BlockCoordinates = this.dimension.spawn;
+
+	/**
 	 * @readonly
 	 * The currently opened container visible to the player.
 	 */
@@ -369,8 +374,7 @@ class Player extends Entity {
 		const respawn = new RespawnPacket();
 
 		// Get the spawn position of the dimension
-		// TODO: Add a spawn position to player instance
-		const { x, y, z } = this.dimension.spawn;
+		const { x, y, z } = this.spawnPosition;
 
 		// Set the packet properties
 		respawn.position = this.position;

@@ -8,6 +8,7 @@ import CLEAR from "./clear";
 // import ABILITY from "./ability";
 import TP from "./tp";
 import KILL from "./kill";
+import SPAWNPOINT from "./spawnpoint";
 
 // Define all admin commands
 const ADMIN_COMMANDS = [
@@ -19,6 +20,7 @@ const ADMIN_COMMANDS = [
 	KICK,
 	CLEAR,
 	// ABILITY,
+	SPAWNPOINT,
 	TP,
 	KILL
 ];
