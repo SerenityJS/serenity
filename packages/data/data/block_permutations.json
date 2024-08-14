@@ -417,50 +417,23 @@
   },
   {
     "identifier": "minecraft:dark_oak_wood",
-    "hash": 2089965187,
+    "hash": 1020570755,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:dark_oak_wood",
-    "hash": 1034658616,
+    "hash": -34735816,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:dark_oak_wood",
-    "hash": -229107444,
+    "hash": 2075877326,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:dark_oak_wood",
-    "hash": 826199127,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:dark_oak_wood",
-    "hash": -1626325622,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:dark_oak_wood",
-    "hash": -571019051,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -5583,38 +5556,8 @@
   },
   {
     "identifier": "minecraft:chiseled_stone_bricks",
-    "hash": 1972585366,
-    "state": {
-      "stone_brick_type": "default"
-    }
-  },
-  {
-    "identifier": "minecraft:chiseled_stone_bricks",
-    "hash": 1831187448,
-    "state": {
-      "stone_brick_type": "mossy"
-    }
-  },
-  {
-    "identifier": "minecraft:chiseled_stone_bricks",
-    "hash": -405632512,
-    "state": {
-      "stone_brick_type": "cracked"
-    }
-  },
-  {
-    "identifier": "minecraft:chiseled_stone_bricks",
-    "hash": -1736255007,
-    "state": {
-      "stone_brick_type": "chiseled"
-    }
-  },
-  {
-    "identifier": "minecraft:chiseled_stone_bricks",
-    "hash": -954757262,
-    "state": {
-      "stone_brick_type": "smooth"
-    }
+    "hash": 1117720546,
+    "state": {}
   },
   {
     "identifier": "minecraft:spruce_pressure_plate",
@@ -6595,50 +6538,23 @@
   },
   {
     "identifier": "minecraft:stripped_acacia_wood",
-    "hash": 989946706,
+    "hash": -1047830858,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:stripped_acacia_wood",
-    "hash": 2045253277,
+    "hash": 7475713,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:stripped_acacia_wood",
-    "hash": 15409017,
+    "hash": -2103137429,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_acacia_wood",
-    "hash": -1039897554,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_acacia_wood",
-    "hash": -1575150549,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_acacia_wood",
-    "hash": 1664510176,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -8208,50 +8124,23 @@
   },
   {
     "identifier": "minecraft:stripped_birch_wood",
-    "hash": -1876109443,
+    "hash": 155416677,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:stripped_birch_wood",
-    "hash": 1363551282,
+    "hash": -899889894,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:stripped_birch_wood",
-    "hash": 183162502,
+    "hash": 1284464260,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_birch_wood",
-    "hash": 1238469073,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_birch_wood",
-    "hash": 735950984,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_birch_wood",
-    "hash": 1791257555,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -8270,38 +8159,8 @@
   },
   {
     "identifier": "minecraft:mossy_stone_bricks",
-    "hash": 682205657,
-    "state": {
-      "stone_brick_type": "default"
-    }
-  },
-  {
-    "identifier": "minecraft:mossy_stone_bricks",
-    "hash": 817008739,
-    "state": {
-      "stone_brick_type": "mossy"
-    }
-  },
-  {
-    "identifier": "minecraft:mossy_stone_bricks",
-    "hash": 1651132979,
-    "state": {
-      "stone_brick_type": "cracked"
-    }
-  },
-  {
-    "identifier": "minecraft:mossy_stone_bricks",
-    "hash": -1323058904,
-    "state": {
-      "stone_brick_type": "chiseled"
-    }
-  },
-  {
-    "identifier": "minecraft:mossy_stone_bricks",
-    "hash": 888466087,
-    "state": {
-      "stone_brick_type": "smooth"
-    }
+    "hash": -1341221187,
+    "state": {}
   },
   {
     "identifier": "minecraft:hard_light_blue_stained_glass_pane",
@@ -24123,50 +23982,23 @@
   },
   {
     "identifier": "minecraft:stripped_oak_wood",
-    "hash": -173538146,
+    "hash": 2055607698,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:stripped_oak_wood",
-    "hash": 881768425,
+    "hash": -1184053027,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:stripped_oak_wood",
-    "hash": 1343642965,
+    "hash": 1000301127,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_oak_wood",
-    "hash": 288336394,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_oak_wood",
-    "hash": -1319199353,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_oak_wood",
-    "hash": 1920461372,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -30976,50 +30808,23 @@
   },
   {
     "identifier": "minecraft:stripped_jungle_wood",
-    "hash": -446157289,
+    "hash": 490498551,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:stripped_jungle_wood",
-    "hash": -1501463860,
+    "hash": -564808020,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:stripped_jungle_wood",
-    "hash": 1543937424,
+    "hash": 1545805122,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_jungle_wood",
-    "hash": -1695723301,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_jungle_wood",
-    "hash": -1841486354,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_jungle_wood",
-    "hash": -786179783,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -31480,50 +31285,23 @@
   },
   {
     "identifier": "minecraft:birch_wood",
-    "hash": 751030552,
+    "hash": 1439623604,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:birch_wood",
-    "hash": 1806337123,
+    "hash": -1800037121,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:birch_wood",
-    "hash": 1141075167,
+    "hash": 310576021,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:birch_wood",
-    "hash": 85768596,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:birch_wood",
-    "hash": 178116045,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:birch_wood",
-    "hash": -877190526,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -36198,50 +35976,23 @@
   },
   {
     "identifier": "minecraft:stripped_spruce_wood",
-    "hash": 1513779238,
+    "hash": 1957875066,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:stripped_spruce_wood",
-    "hash": -1725881487,
+    "hash": -1281785659,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:stripped_spruce_wood",
-    "hash": 230155933,
+    "hash": 902568495,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_spruce_wood",
-    "hash": -825150638,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_spruce_wood",
-    "hash": 360965871,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_spruce_wood",
-    "hash": -694340700,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -54276,50 +54027,23 @@
   },
   {
     "identifier": "minecraft:jungle_wood",
-    "hash": -560188036,
+    "hash": 764042440,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:jungle_wood",
-    "hash": 495118535,
+    "hash": 1819349011,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:jungle_wood",
-    "hash": -1388862029,
+    "hash": -365005143,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:jungle_wood",
-    "hash": 1850798696,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:jungle_wood",
-    "hash": 285746337,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:jungle_wood",
-    "hash": -769560234,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -94180,38 +93904,8 @@
   },
   {
     "identifier": "minecraft:cracked_stone_bricks",
-    "hash": -682481143,
-    "state": {
-      "stone_brick_type": "default"
-    }
-  },
-  {
-    "identifier": "minecraft:cracked_stone_bricks",
-    "hash": 1882391475,
-    "state": {
-      "stone_brick_type": "mossy"
-    }
-  },
-  {
-    "identifier": "minecraft:cracked_stone_bricks",
-    "hash": 1406652995,
-    "state": {
-      "stone_brick_type": "cracked"
-    }
-  },
-  {
-    "identifier": "minecraft:cracked_stone_bricks",
-    "hash": 1397759256,
-    "state": {
-      "stone_brick_type": "chiseled"
-    }
-  },
-  {
-    "identifier": "minecraft:cracked_stone_bricks",
-    "hash": -1492918025,
-    "state": {
-      "stone_brick_type": "smooth"
-    }
+    "hash": 194928973,
+    "state": {}
   },
   {
     "identifier": "minecraft:dead_tube_coral_wall_fan",
@@ -103883,50 +103577,23 @@
   },
   {
     "identifier": "minecraft:cherry_wood",
-    "hash": 2093744656,
+    "hash": -1040123092,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:cherry_wood",
-    "hash": -1145916069,
+    "hash": 15183479,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:cherry_wood",
-    "hash": 103649943,
+    "hash": 2125796621,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:cherry_wood",
-    "hash": -951656628,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:cherry_wood",
-    "hash": 925271141,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:cherry_wood",
-    "hash": -130035430,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -105516,38 +105183,8 @@
   },
   {
     "identifier": "minecraft:stone_bricks",
-    "hash": 1190988313,
-    "state": {
-      "stone_brick_type": "default"
-    }
-  },
-  {
-    "identifier": "minecraft:stone_bricks",
-    "hash": 399582627,
-    "state": {
-      "stone_brick_type": "mossy"
-    }
-  },
-  {
-    "identifier": "minecraft:stone_bricks",
-    "hash": -1127352205,
-    "state": {
-      "stone_brick_type": "cracked"
-    }
-  },
-  {
-    "identifier": "minecraft:stone_bricks",
-    "hash": -227653016,
-    "state": {
-      "stone_brick_type": "chiseled"
-    }
-  },
-  {
-    "identifier": "minecraft:stone_bricks",
-    "hash": -374172441,
-    "state": {
-      "stone_brick_type": "smooth"
-    }
+    "hash": 1972208509,
+    "state": {}
   },
   {
     "identifier": "minecraft:mossy_cobblestone_stairs",
@@ -106152,50 +105789,23 @@
   },
   {
     "identifier": "minecraft:mangrove_wood",
-    "hash": 1112708072,
+    "hash": 480159908,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:mangrove_wood",
-    "hash": -2126952653,
+    "hash": 1535466479,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:mangrove_wood",
-    "hash": -709547345,
+    "hash": -648887675,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:mangrove_wood",
-    "hash": -1764853916,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:mangrove_wood",
-    "hash": 1224119901,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:mangrove_wood",
-    "hash": 168813330,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -123584,50 +123194,23 @@
   },
   {
     "identifier": "minecraft:stripped_dark_oak_wood",
-    "hash": 873487604,
+    "hash": 1427006944,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:stripped_dark_oak_wood",
-    "hash": 1928794175,
+    "hash": -1812653781,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:stripped_dark_oak_wood",
-    "hash": 1999028459,
+    "hash": 297959361,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_dark_oak_wood",
-    "hash": 943721888,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_dark_oak_wood",
-    "hash": -1149659335,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:stripped_dark_oak_wood",
-    "hash": 2090001390,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -123637,50 +123220,23 @@
   },
   {
     "identifier": "minecraft:oak_wood",
-    "hash": 1414576091,
+    "hash": 1622499771,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:oak_wood",
-    "hash": 359269520,
+    "hash": 567193200,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:oak_wood",
-    "hash": 303853412,
+    "hash": -1617160954,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:oak_wood",
-    "hash": 1359159983,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:oak_wood",
-    "hash": 525399426,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:oak_wood",
-    "hash": 1580705997,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -152616,50 +152172,23 @@
   },
   {
     "identifier": "minecraft:acacia_wood",
-    "hash": 239010065,
+    "hash": 1923429817,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:acacia_wood",
-    "hash": -816296506,
+    "hash": 868123246,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:acacia_wood",
-    "hash": 2114922218,
+    "hash": -1242489896,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:acacia_wood",
-    "hash": -1124738507,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:acacia_wood",
-    "hash": 1507812076,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:acacia_wood",
-    "hash": -1731848649,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
@@ -163154,50 +162683,23 @@
   },
   {
     "identifier": "minecraft:spruce_wood",
-    "hash": 1711456097,
+    "hash": 200372841,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": false
+      "pillar_axis": "y"
     }
   },
   {
     "identifier": "minecraft:spruce_wood",
-    "hash": 656149526,
+    "hash": -854933730,
     "state": {
-      "pillar_axis": "y",
-      "stripped_bit": true
+      "pillar_axis": "x"
     }
   },
   {
     "identifier": "minecraft:spruce_wood",
-    "hash": 38379386,
+    "hash": 1329420424,
     "state": {
-      "pillar_axis": "x",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:spruce_wood",
-    "hash": 1093685957,
-    "state": {
-      "pillar_axis": "x",
-      "stripped_bit": true
-    }
-  },
-  {
-    "identifier": "minecraft:spruce_wood",
-    "hash": 375312188,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": false
-    }
-  },
-  {
-    "identifier": "minecraft:spruce_wood",
-    "hash": 1430618759,
-    "state": {
-      "pillar_axis": "z",
-      "stripped_bit": true
+      "pillar_axis": "z"
     }
   },
   {
