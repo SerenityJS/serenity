@@ -140,6 +140,14 @@ class Vector3f extends DataType {
 	}
 
 	/**
+	 * Calculates the square length of this 3D vector.
+	 * @returns the square length of the 3D vector.
+	 */
+	public lengthSqrt(): number {
+		return this.x * this.x + this.y * this.y + this.z * this.z;
+	}
+
+	/**
 	 * Normalizes this 3D vector.
 	 * @returns The normalized 3D vector.
 	 */
