@@ -1,4 +1,4 @@
-import { BlockActorDataPacket, Color } from "@serenityjs/protocol";
+import { BlockActorDataPacket } from "@serenityjs/protocol";
 
 import { SerenityHandler } from "./serenity-handler";
 
