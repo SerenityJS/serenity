@@ -1,5 +1,26 @@
 # @serenityjs/serenity
 
+## 0.4.2
+
+### Patch Changes
+
+- aff9b3d: init v0.4.2-beta
+- Updated dependencies [aff9b3d]
+  - @serenityjs/block@0.4.2
+  - @serenityjs/command@0.4.2
+  - @serenityjs/data@0.4.2
+  - @serenityjs/emitter@0.4.2
+  - @serenityjs/entity@0.4.2
+  - @serenityjs/item@0.4.2
+  - @serenityjs/logger@0.4.2
+  - @serenityjs/nbt@0.4.2
+  - @serenityjs/network@0.4.2
+  - @serenityjs/plugins@0.4.2
+  - @serenityjs/protocol@0.4.2
+  - @serenityjs/raknet@0.4.2
+  - @serenityjs/server-ui@0.4.2
+  - @serenityjs/world@0.4.2
+
 ## 0.4.1
 
 ### Patch Changes

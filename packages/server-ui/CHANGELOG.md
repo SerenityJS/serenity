@@ -1,5 +1,14 @@
 # @serenityjs/server-ui
 
+## 0.4.2
+
+### Patch Changes
+
+- aff9b3d: init v0.4.2-beta
+- Updated dependencies [aff9b3d]
+  - @serenityjs/protocol@0.4.2
+  - @serenityjs/world@0.4.2
+
 ## 0.4.1
 
 ### Patch Changes
