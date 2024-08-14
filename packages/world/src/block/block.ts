@@ -18,7 +18,11 @@ import { ItemIdentifier, ItemType } from "@serenityjs/item";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../item";
-import { BlockComponent, BlockStateComponent } from "../components";
+import {
+	BlockCollisionComponent,
+	BlockComponent,
+	BlockStateComponent
+} from "../components";
 import {
 	BlockUpdateSignal,
 	PlayerBreakBlockSignal,
@@ -602,6 +606,17 @@ class Block {
 			this.east().update(false, source);
 			this.west().update(false, source);
 		}
+	}
+
+	/**
+	 * Checks if the block has any collision
+	 * @returns Wether or not the block has any existing collision
+	 */
+	public hasCollision(): boolean {
+		if (!this.isAir()) return false;
+		if (!this.hasComponent("minecraft:collision_box"))
+			new BlockCollisionComponent(this);
+		return this.getComponent("minecraft:collision_box").boxes.length > 0;
 	}
 
 	/**
