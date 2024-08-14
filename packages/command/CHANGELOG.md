@@ -1,5 +1,15 @@
 # @serenityjs/command
 
+## 0.4.2
+
+### Patch Changes
+
+- aff9b3d: init v0.4.2-beta
+- Updated dependencies [aff9b3d]
+  - @serenityjs/logger@0.4.2
+  - @serenityjs/network@0.4.2
+  - @serenityjs/protocol@0.4.2
+
 ## 0.4.1
 
 ### Patch Changes

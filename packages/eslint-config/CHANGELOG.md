@@ -1,5 +1,11 @@
 # @serenityjs/eslint-config
 
+## 0.4.2
+
+### Patch Changes
+
+- aff9b3d: init v0.4.2-beta
+
 ## 0.4.1
 
 ### Patch Changes
