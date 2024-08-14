@@ -12,3 +12,5 @@ export * from "./armor";
 export * from "./effect";
 export * from "./npc";
 export * from "./damage";
+export * from "./projectile";
+export * from "./collision-box";

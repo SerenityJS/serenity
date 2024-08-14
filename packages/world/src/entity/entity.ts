@@ -708,6 +708,24 @@ class Entity {
 	}
 
 	/**
+	 * Computes the view direction vector based on the current pitch and yaw rotations.
+	 *
+	 * @returns A Vector3f representing the direction the view is pointing.
+	 */
+	public getViewDirection(): Vector3f {
+		// Convert pitch and yaw angles from degrees to radians
+		const pitchRadians = this.rotation.pitch * (Math.PI / 180);
+		const yawRadians = -this.rotation.headYaw * (Math.PI / 180); // Invert yaw for correct orientation
+
+		// Calculate the direction vector components
+		return new Vector3f(
+			Math.sin(yawRadians) * Math.cos(pitchRadians), // X component of the view vector
+			-Math.sin(pitchRadians), // Y component of the view vector (negative for correct orientation)
+			Math.cos(yawRadians) * Math.cos(pitchRadians) // Z component of the view vector
+		);
+	}
+
+	/**
 	 * Adds effect to the player
 	 * @param effect The effect to add to the player
 	 */
