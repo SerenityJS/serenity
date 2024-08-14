@@ -21,7 +21,7 @@ const register = (world: World) => {
 				entityFilter(entity)
 			);
 
-			if (parameters.target.result.some((entity) => entityFilter(entity))) {
+			if (!parameters.target.result.some((entity) => entityFilter(entity))) {
 				if (origin instanceof Dimension) {
 					console.info(
 						"Players cannot be killed while they are in Creative mode."
