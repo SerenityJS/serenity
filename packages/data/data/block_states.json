@@ -810,13 +810,6 @@
     ]
   },
   {
-    "identifier": "dirt_type",
-    "values": [
-      "normal",
-      "coarse"
-    ]
-  },
-  {
     "identifier": "stability_check",
     "values": [
       false,

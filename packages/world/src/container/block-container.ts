@@ -244,6 +244,7 @@ class BlockContainer extends Container {
 
 		// Set properties of the packet.
 		packet.containerId = this.identifier;
+		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
 		packet.slot = slot;
 		packet.item = new NetworkItemStackDescriptor(0);
 
@@ -261,6 +262,7 @@ class BlockContainer extends Container {
 
 		// Set the properties of the packet.
 		packet.containerId = this.identifier;
+		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
 
 		// Map the items in the storage to network item stack descriptors.
 		packet.items = this.storage.map((item) => {

@@ -5,7 +5,11 @@ import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 import { Vector3f } from "./vector3f";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { BlockFace, ItemUseInventoryTransactionType } from "../../enums";
+import type {
+	BlockFace,
+	ItemUseInventoryTransactionType,
+	TriggerType
+} from "../../enums";
 
 /**
  * Represents an item use inventory transaction.
@@ -15,6 +19,11 @@ class ItemUseInventoryTransaction extends DataType {
 	 * The type of the item use inventory transaction.
 	 */
 	public readonly type: ItemUseInventoryTransactionType;
+
+	/**
+	 * The trigger type of the item use inventory transaction.
+	 */
+	public readonly triggerType: TriggerType;
 
 	/**
 	 * The block position of the item use inventory transaction.
@@ -52,9 +61,15 @@ class ItemUseInventoryTransaction extends DataType {
 	public readonly networkBlockId: number;
 
 	/**
+	 * Whether or not the transaction is an initial transaction.
+	 */
+	public readonly intialTransaction: boolean;
+
+	/**
 	 * Creates an instance of ItemUseInventoryTransaction.
 	 *
 	 * @param type The type of the item use inventory transaction.
+	 * @param triggerType The trigger type of the item use inventory transaction.
 	 * @param blockPosition The block position of the item use inventory transaction.
 	 * @param face The block face of the item use inventory transaction.
 	 * @param slot The slot of the item use inventory transaction.
@@ -62,19 +77,23 @@ class ItemUseInventoryTransaction extends DataType {
 	 * @param fromPosition The from position of the item use inventory transaction.
 	 * @param clickPosition The click position of the item use inventory transaction.
 	 * @param networkBlockId The network block id of the item use inventory transaction.
+	 * @param initialTransaction Whether or not the transaction is an initial transaction.
 	 */
 	public constructor(
 		type: ItemUseInventoryTransactionType,
+		triggerType: TriggerType,
 		blockPosition: BlockCoordinates,
 		face: BlockFace,
 		slot: number,
 		item: NetworkItemStackDescriptor,
 		fromPosition: Vector3f,
 		clickPosition: Vector3f,
-		networkBlockId: number
+		networkBlockId: number,
+		initialTransaction: boolean
 	) {
 		super();
 		this.type = type;
+		this.triggerType = triggerType;
 		this.blockPosition = blockPosition;
 		this.face = face;
 		this.slot = slot;
@@ -82,11 +101,15 @@ class ItemUseInventoryTransaction extends DataType {
 		this.fromPosition = fromPosition;
 		this.clickPosition = clickPosition;
 		this.networkBlockId = networkBlockId;
+		this.intialTransaction = initialTransaction;
 	}
 
 	public static read(stream: BinaryStream): ItemUseInventoryTransaction {
 		// Read the type of the item use inventory transaction
 		const type = stream.readVarInt() as ItemUseInventoryTransactionType;
+
+		// Read the trigger type of the item use inventory transaction
+		const triggerType = stream.readVarInt() as TriggerType;
 
 		// Read the block position of the item use inventory transaction
 		const blockPosition = BlockCoordinates.read(stream);
@@ -109,16 +132,21 @@ class ItemUseInventoryTransaction extends DataType {
 		// Read the network block id of the item use inventory transaction
 		const networkBlockId = stream.readZigZag();
 
+		// Read whether or not the transaction is an initial transaction
+		const initialTransaction = stream.readBool();
+
 		// Return the new instance of ItemUseInventoryTransaction
 		return new ItemUseInventoryTransaction(
 			type,
+			triggerType,
 			blockPosition,
 			face,
 			slot,
 			item,
 			fromPosition,
 			clickPosition,
-			networkBlockId
+			networkBlockId,
+			initialTransaction
 		);
 	}
 
@@ -128,6 +156,9 @@ class ItemUseInventoryTransaction extends DataType {
 	): void {
 		// Write the type of the item use inventory transaction
 		stream.writeVarInt(value.type);
+
+		// Write the trigger type of the item use inventory transaction
+		stream.writeVarInt(value.triggerType);
 
 		// Write the block position of the item use inventory transaction
 		BlockCoordinates.write(stream, value.blockPosition);
@@ -149,6 +180,9 @@ class ItemUseInventoryTransaction extends DataType {
 
 		// Write the network block id of the item use inventory transaction
 		stream.writeZigZag(value.networkBlockId);
+
+		// Write whether or not the transaction is an initial transaction
+		stream.writeBool(value.intialTransaction);
 	}
 }
 

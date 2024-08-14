@@ -142,19 +142,9 @@ export type TallGrassType = "default" | "tall" | "fern" | "snow";
 export type SandStoneType = "default" | "heiroglyphs" | "cut" | "smooth";
 export type SpongeType = "dry" | "wet";
 export type NewLeafType = "acacia" | "dark_oak";
-export type OldLeafType = "oak" | "spruce" | "birch" | "jungle";
 export type ChiselType = "default" | "chiseled" | "lines" | "smooth";
 export type NewLogType = "acacia" | "dark_oak";
 export type SandType = "normal" | "red";
-export type DirtType = "normal" | "coarse";
-export type StoneType =
-	| "stone"
-	| "granite"
-	| "granite_smooth"
-	| "diorite"
-	| "diorite_smooth"
-	| "andesite"
-	| "andesite_smooth";
 export type BambooLeafSize = "no_leaves" | "small_leaves" | "large_leaves";
 export type BambooStalkThickness = "thin" | "thick";
 export type CrackedState = "no_cracks" | "cracked" | "max_cracked";

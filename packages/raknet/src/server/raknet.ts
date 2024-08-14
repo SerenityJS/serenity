@@ -104,6 +104,7 @@ class Server extends Emitter<RaknetEvents> {
 
 		// Bind the incoming messages to the handle method
 		this.socket.on("message", this.handle.bind(this));
+		this.socket.unref();
 
 		// Bind server instance to the offline handler
 		Offline.server = this;
@@ -119,7 +120,7 @@ class Server extends Emitter<RaknetEvents> {
 		const tick = () =>
 			setTimeout(() => {
 				// Check if the server is alive, if not clear the interval
-				if (!this.alive && this.interval) return clearInterval(this.interval);
+				if (!this.alive || !this.interval) return;
 
 				// Update the connections for the server
 				for (const connection of this.connections) connection.tick();
@@ -138,7 +139,7 @@ class Server extends Emitter<RaknetEvents> {
 	public stop() {
 		try {
 			// Clear the interval
-			if (this.interval) clearInterval(this.interval);
+			if (this.interval) this.interval = null;
 
 			// Close the socket
 			this.socket.close();

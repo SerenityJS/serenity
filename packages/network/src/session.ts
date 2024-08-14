@@ -2,7 +2,8 @@ import { type Connection, Priority, Reliability } from "@serenityjs/raknet";
 import {
 	type DisconnectReason,
 	DisconnectPacket,
-	type DataPacket
+	type DataPacket,
+	DisconnectMessage
 } from "@serenityjs/protocol";
 import Emitter from "@serenityjs/emitter";
 
@@ -84,7 +85,7 @@ class NetworkSession extends Emitter<NetworkEvents> {
 		const packet = new DisconnectPacket();
 
 		// Assign the packet properties.
-		packet.message = message;
+		packet.message = new DisconnectMessage(message, message);
 		packet.reason = reason;
 		packet.hideDisconnectScreen = hideReason;
 

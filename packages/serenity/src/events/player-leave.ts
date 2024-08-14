@@ -1,7 +1,8 @@
 import {
 	type DisconnectReason,
 	Packet,
-	type DisconnectPacket
+	type DisconnectPacket,
+	type DisconnectMessage
 } from "@serenityjs/protocol";
 
 import { EventSignal } from "./event-signal";
@@ -41,7 +42,7 @@ class PlayerLeaveSignal extends EventSignal {
 	/**
 	 * The message to display when the player disconnects
 	 */
-	public readonly message: string;
+	public readonly message: DisconnectMessage;
 
 	/**
 	 * Constructs a new player leave signal instance.
@@ -52,7 +53,7 @@ class PlayerLeaveSignal extends EventSignal {
 	public constructor(
 		player: Player,
 		reason: DisconnectReason,
-		message: string
+		message: DisconnectMessage
 	) {
 		super();
 		this.player = player;

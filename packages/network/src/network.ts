@@ -121,7 +121,6 @@ class Network extends Emitter<NetworkEvents> {
 			if (session) {
 				// Create a new disconnect packet.
 				const packet = new DisconnectPacket();
-				packet.message = "Player disconnected.";
 				packet.reason = DisconnectReason.Disconnected;
 				packet.hideDisconnectScreen = true;
 

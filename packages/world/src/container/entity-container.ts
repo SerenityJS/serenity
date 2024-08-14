@@ -74,6 +74,7 @@ class EntityContainer extends Container {
 
 		// Set properties of the packet.
 		packet.containerId = this.identifier;
+		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
 		packet.slot = slot;
 		packet.item = ItemStack.toNetworkStack(item);
 
@@ -246,6 +247,7 @@ class EntityContainer extends Container {
 
 		// Set properties of the packet.
 		packet.containerId = this.identifier;
+		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
 		packet.slot = slot;
 		packet.item = new NetworkItemStackDescriptor(0);
 

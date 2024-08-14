@@ -11,7 +11,11 @@ import {
 	type WorldProvider
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { DisconnectPacket, DisconnectReason } from "@serenityjs/protocol";
+import {
+	DisconnectMessage,
+	DisconnectPacket,
+	DisconnectReason
+} from "@serenityjs/protocol";
 
 import { FileSystemProvider, LevelDBProvider } from "../providers";
 import { exists } from "../utils/exists";
@@ -201,7 +205,7 @@ class Worlds {
 
 			// Create a new DisconnectPacket.
 			const packet = new DisconnectPacket();
-			packet.message = message;
+			packet.message = new DisconnectMessage(message, message);
 			packet.hideDisconnectScreen = false;
 			packet.reason = DisconnectReason.Shutdown;
 

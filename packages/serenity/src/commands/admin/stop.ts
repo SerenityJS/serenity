@@ -17,17 +17,7 @@ const register = (world: World, serenity: Serenity) => {
 				return;
 			} else {
 				// Stop the server
-				serenity
-					.stop()
-					.then(() => {
-						// eslint-disable-next-line unicorn/no-process-exit
-						process.nextTick(() => process.exit(0));
-
-						return;
-					})
-					.catch(() => {
-						return;
-					});
+				void serenity.stop();
 
 				return {
 					message: "§aServer is shutting down...§r"

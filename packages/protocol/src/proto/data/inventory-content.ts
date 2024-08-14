@@ -10,6 +10,7 @@ import { DataPacket } from "./data-packet";
 class InventoryContentPacket extends DataPacket {
 	@Serialize(VarInt) public containerId!: ContainerId;
 	@Serialize(ItemStacks) public items!: Array<NetworkItemStackDescriptor>;
+	@Serialize(VarInt) public dynamicContainerId!: number;
 }
 
 export { InventoryContentPacket };

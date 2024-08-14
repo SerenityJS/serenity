@@ -255,17 +255,17 @@ class Serenity extends Emitter<EventSignals> {
 					}
 
 					// Tick the server
-					tick();
+					if (this.interval) return tick();
 				},
 				1000 / tps - 10
 			);
 
-		// Start the ticking loop
-		this.interval = tick().unref();
-
 		// Start the worlds
 		await this.worlds.start();
 		await this.plugins.start(this);
+
+		// Set the interval to the tick method
+		this.interval = tick().unref();
 
 		this.logger.info(
 			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
@@ -276,12 +276,15 @@ class Serenity extends Emitter<EventSignals> {
 	 * Stops the server and all the plugins.
 	 */
 	public async stop(): Promise<void> {
+		// Close the console interface
+		this.console.interface.close();
+
 		// Stop all the plugins & worlds
 		await this.plugins.stop(this);
 		await this.worlds.stop();
 
 		// Clear the ticking interval
-		if (this.interval) clearInterval(this.interval);
+		if (this.interval) this.interval = null;
 
 		// Stop the raknet instance
 		process.nextTick(() => {
