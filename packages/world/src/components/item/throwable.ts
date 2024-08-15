@@ -1,10 +1,13 @@
+import { ItemUseMethod } from "@serenityjs/protocol";
+import { ItemIdentifier, type Items } from "@serenityjs/item";
+
 import { ItemUseCause } from "../../enums";
+import { ItemStack } from "../../item";
 
 import { ItemComponent } from "./item-component";
 
 import type { EntityIdentifier } from "@serenityjs/entity";
 import type { Player } from "../../player";
-import type { Items } from "@serenityjs/item";
 
 class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 	public static readonly identifier: string = "minecraft:throwable";
@@ -22,10 +25,10 @@ class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 	 * @param cause - The cause for the item use (e.g., Use, Place).
 	 * @return True if the projectile was successfully launched; otherwise, false.
 	 */
-	public onUse(player: Player, cause: ItemUseCause): boolean {
+	public onUse(player: Player, cause: ItemUseCause): ItemUseMethod | undefined {
 		// Check if the item is used in the correct context.
-		if (cause !== ItemUseCause.Use) return false;
-		if (!this.projectile) return false; // Ensure there is a projectile to launch.
+		if (cause !== ItemUseCause.Use) return;
+		if (!this.projectile) return; // Ensure there is a projectile to launch.
 
 		// Determine the direction the player is looking.
 		const direction = player.getViewDirection();
@@ -40,6 +43,13 @@ class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 		const projectileComponent = projectileEntity.getComponent(
 			"minecraft:projectile"
 		);
+		const playerInventory = player.getComponent("minecraft:inventory");
+
+		playerInventory.getHeldItem()?.decrement(1);
+		playerInventory.container.setItem(
+			playerInventory.selectedSlot,
+			playerInventory.getHeldItem() ?? new ItemStack(ItemIdentifier.Air, 1)
+		);
 
 		// Set the player as the owner of the projectile.
 		projectileComponent.owner = player;
@@ -47,7 +57,7 @@ class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 		// Launch the projectile with the specified power.
 		projectileComponent.shoot(direction.multiply(this.launchPower));
 
-		return true; // Indicate that the item use was successful.
+		return ItemUseMethod.Throw; // Indicate that the item use was successful.
 	}
 
 	/**
@@ -71,6 +81,10 @@ class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 		this.launchPower = power;
 		return this;
 	}
+
+	public onStartUse(): void {}
+
+	public onStopUse(): void {}
 }
 
 export { ItemThrowableComponent };

@@ -1,8 +1,11 @@
 import {
 	EquipmentSlot,
+	ItemUseMethod,
 	LevelSoundEvent,
 	LevelSoundEventPacket
 } from "@serenityjs/protocol";
+
+import { ItemUseCause } from "../../enums";
 
 import { ItemComponent } from "./item-component";
 
@@ -28,8 +31,8 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 	 * @param player The player that used the item.
 	 * @param cause The cause of the item use.
 	 */
-	public onUse(player: Player): boolean {
-		if (!player.usingItem) return false;
+	public onUse(player: Player, cause: ItemUseCause): ItemUseMethod | undefined {
+		if (!player.usingItem || cause !== ItemUseCause.Use) return;
 		// Get both the armor inventory and inventory
 		const playerArmorComponent = player.getComponent("minecraft:armor");
 		const playerInventoryComponent = player.getComponent("minecraft:inventory");
@@ -37,7 +40,7 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 		const itemEquipmentSlot = this.resolveEquipmentSlot(player.usingItem);
 
 		// Return if cant resolve the item equipment slot
-		if (itemEquipmentSlot == undefined) return false;
+		if (itemEquipmentSlot == undefined) return;
 		const sound = new LevelSoundEventPacket();
 		sound.event = LevelSoundEvent.EquipGeneric;
 		sound.position = player.position;
@@ -57,7 +60,7 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 				playerInventoryComponent.selectedSlot,
 				equipedItem as ItemStack
 			);
-			return true;
+			return ItemUseMethod.EquipArmor;
 		}
 		// Clear the selected slot, and set the used item into the players armor inventory
 		playerInventoryComponent.container.clearSlot(
@@ -65,7 +68,7 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 		);
 		playerArmorComponent.setEquipment(itemEquipmentSlot, player.usingItem);
 
-		return true;
+		return ItemUseMethod.EquipArmor;
 	}
 
 	// TODO: Clean up function

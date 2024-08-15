@@ -1,4 +1,5 @@
 import { ItemIdentifier, type Items } from "@serenityjs/item";
+import { ItemUseMethod } from "@serenityjs/protocol";
 
 import { ItemStack } from "../../item";
 import { ItemUseCause } from "../../enums";
@@ -22,8 +23,8 @@ class ItemPotionComponent<T extends keyof Items> extends ItemComponent<T> {
 		this.potionEffect = effect;
 	}
 
-	public onUse(player: Player, cause: ItemUseCause): boolean {
-		if (cause != ItemUseCause.Use || !player.usingItem) return false;
+	public onUse(player: Player, cause: ItemUseCause): ItemUseMethod | undefined {
+		if (cause != ItemUseCause.Use || !player.usingItem) return;
 		// ? Get the player inventory to transform the potion into a glass bottle
 		const { container, selectedSlot } = player.getComponent(
 			"minecraft:inventory"
@@ -31,7 +32,7 @@ class ItemPotionComponent<T extends keyof Items> extends ItemComponent<T> {
 		const signal = new PlayerItemConsumeSignal(player, player.usingItem);
 		const canceled = player.getWorld().emit(signal.identifier, signal);
 
-		if (!canceled) return false;
+		if (!canceled) return;
 
 		// ? Add the potion effect to the player
 		player.addEffect(this.potionEffect);
@@ -39,7 +40,7 @@ class ItemPotionComponent<T extends keyof Items> extends ItemComponent<T> {
 		// ? Convert the potion into a empty glass bottle
 		const convertedItemStack = new ItemStack(ItemIdentifier.GlassBottle, 1);
 		container.setItem(selectedSlot, convertedItemStack);
-		return true;
+		return ItemUseMethod.Consume;
 	}
 
 	public onStartUse(_player: Player, _cause: ItemUseCause): void {}

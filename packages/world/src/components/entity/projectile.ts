@@ -51,7 +51,6 @@ class EntityProjectileComponent extends EntityComponent {
 		);
 
 		if (!hit) return; // Exit if no collision is detected.
-		console.warn(hit);
 		// Destroy the projectile after a short delay if configured.
 		if (this.destroyOnHit) {
 			setTimeout(() => {
