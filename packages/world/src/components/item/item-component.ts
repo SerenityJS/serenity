@@ -2,6 +2,7 @@ import { type ItemIdentifier, type Items, ItemType } from "@serenityjs/item";
 
 import { Component } from "../component";
 
+import type { ItemUseMethod } from "@serenityjs/protocol";
 import type { ItemUseCause } from "../../enums";
 import type { Player } from "../../player";
 import type { ItemStack } from "../../item";
@@ -105,7 +106,7 @@ class ItemComponent<T extends keyof Items> extends Component {
 	 * @param cause The cause of the item use. (e.g. right-click, left-click)
 	 * @returns If the item was successfully used, this will cause the event to be done using the item.
 	 */
-	public onUse?(player: Player, cause: ItemUseCause): boolean;
+	public onUse?(player: Player, cause: ItemUseCause): ItemUseMethod | undefined;
 
 	public static bind(): void {
 		// Bind the component to the item types.

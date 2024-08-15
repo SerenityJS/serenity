@@ -9,7 +9,8 @@ import {
 	Gamemode,
 	type ItemUseOnEntityInventoryTransaction,
 	type ItemReleaseInventoryTransaction,
-	AbilityIndex
+	AbilityIndex,
+	CompletedUsingItemPacket
 } from "@serenityjs/protocol";
 import {
 	EntityInteractType,
@@ -243,7 +244,13 @@ class InventoryTransaction extends SerenityHandler {
 					const used = component.onUse?.(player, ItemUseCause.Use);
 
 					// Check if the item was successfully used
-					if (used) player.usingItem = null;
+					if (used != undefined) {
+						const packet = new CompletedUsingItemPacket();
+
+						packet.itemId = player.usingItem?.type.network ?? 0;
+						packet.itemUseMethod = used;
+						player.usingItem = null;
+					}
 				}
 
 				break;
