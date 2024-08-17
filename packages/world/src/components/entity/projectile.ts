@@ -1,4 +1,3 @@
-import { Raycaster } from "../../collisions";
 import {
 	ProjectileHitBlockSignal,
 	ProjectileHitEntiySignal
@@ -7,7 +6,7 @@ import {
 import { EntityComponent } from "./entity-component";
 
 import type { Vector3f } from "@serenityjs/protocol";
-import type { BlockHitResult, EntityHitResult } from "../../types";
+import type { BlockHitResult, EntityHitResult, HitResult } from "../../types";
 import type { Entity } from "../../entity";
 
 class EntityProjectileComponent extends EntityComponent {
@@ -37,21 +36,7 @@ class EntityProjectileComponent extends EntityComponent {
 		super(entity, EntityProjectileComponent.identifier);
 	}
 
-	/**
-	 * Called every tick to check for collisions and handle projectile behavior.
-	 */
-	public onTick(): void {
-		// Check for collision with blocks or entities along the projectile's path.
-		const hit = Raycaster.clip(
-			this.entity.dimension,
-			this.entity.position,
-			this.entity.position.add(this.entity.velocity),
-			this.entity.getComponent("minecraft:collision_box")?.collisionBox,
-			(entity) => entity.unique == this.entity.unique || !entity.isAlive
-		);
-
-		if (!hit) return; // Exit if no collision is detected.
-		// Destroy the projectile after a short delay if configured.
+	public onHit(hit: HitResult): void {
 		if (this.destroyOnHit) {
 			setTimeout(() => {
 				this.entity.despawn();
