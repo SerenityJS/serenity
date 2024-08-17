@@ -148,49 +148,44 @@ class AABB {
 		end: Vector3f
 	): HitResult | undefined {
 		const { min, max } = aabb;
-		let vec1 = AABB.onLine(Axis.X, start, end, min.x);
-		let vec2 = AABB.onLine(Axis.X, start, end, max.x);
-		let vec3 = AABB.onLine(Axis.Y, start, end, min.y);
-		let vec4 = AABB.onLine(Axis.Y, start, end, max.y);
-		let vec5 = AABB.onLine(Axis.Z, start, end, min.z);
-		let vec6 = AABB.onLine(Axis.Z, start, end, max.z);
-		let distance = Number.MAX_VALUE;
+		const faces = [
+			{ axis: Axis.X, value: min.x, face: BlockFace.West },
+			{ axis: Axis.X, value: max.x, face: BlockFace.East },
+			{ axis: Axis.Y, value: min.y, face: BlockFace.Bottom },
+			{ axis: Axis.Y, value: max.y, face: BlockFace.Top },
+			{ axis: Axis.Z, value: min.z, face: BlockFace.North },
+			{ axis: Axis.Z, value: max.z, face: BlockFace.South }
+		];
+
 		let hitPosition: Vector3f | undefined;
-		const faceMap: Map<Vector3f | undefined, BlockFace> = new Map([
-			[vec1, BlockFace.West],
-			[vec2, BlockFace.East],
-			[vec3, BlockFace.Bottom],
-			[vec4, BlockFace.Top],
-			[vec5, BlockFace.North],
-			[vec6, BlockFace.South]
-		]);
+		let minDistance = Number.MAX_VALUE;
+		let hitFace: BlockFace = BlockFace.North;
 
-		// Check if intersection points are within the AABB
-		if (vec1 && !aabb.withinAxis([Axis.Y, Axis.Z], vec1)) vec1 = undefined;
-		if (vec2 && !aabb.withinAxis([Axis.Y, Axis.Z], vec2)) vec2 = undefined;
-		if (vec3 && !aabb.withinAxis([Axis.X, Axis.Z], vec3)) vec3 = undefined;
-		if (vec4 && !aabb.withinAxis([Axis.X, Axis.Z], vec4)) vec4 = undefined;
-		if (vec5 && !aabb.withinAxis([Axis.X, Axis.Y], vec5)) vec5 = undefined;
-		if (vec6 && !aabb.withinAxis([Axis.X, Axis.Y], vec6)) vec6 = undefined;
-
-		// Find the closest valid intersection point
-		for (const vec of faceMap.keys()) {
-			if (!vec) continue;
-			const vecDistance = start.subtract(vec).lengthSqrt();
-
-			if (vecDistance > distance) continue;
-			distance = vecDistance;
-			hitPosition = vec;
+		for (const { axis, value, face } of faces) {
+			const vec = AABB.onLine(axis, start, end, value);
+			if (
+				vec &&
+				aabb.withinAxis(
+					axis === Axis.X
+						? [Axis.Y, Axis.Z]
+						: axis === Axis.Y
+							? [Axis.X, Axis.Z]
+							: [Axis.X, Axis.Y],
+					vec
+				)
+			) {
+				const distance = start.subtract(vec).lengthSqrt();
+				if (distance < minDistance) {
+					minDistance = distance;
+					hitPosition = vec;
+					hitFace = face;
+				}
+			}
 		}
 
-		// Return the hit result if an intersection was found
-		if (!hitPosition) return;
-
-		return {
-			box: aabb,
-			position: hitPosition,
-			face: faceMap.get(hitPosition) ?? BlockFace.North
-		};
+		return hitPosition
+			? { box: aabb, position: hitPosition, face: hitFace }
+			: undefined;
 	}
 }
 

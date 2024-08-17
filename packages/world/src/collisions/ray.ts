@@ -21,7 +21,7 @@ class Raycaster {
 		dimension: Dimension,
 		start: Vector3f,
 		end: Vector3f,
-		box: AABB,
+		box?: AABB,
 		condition?: (entity: Entity) => boolean
 	): HitResult | undefined {
 		let hit: HitResult | undefined;
@@ -43,6 +43,7 @@ class Raycaster {
 			return true; // Stop traversing further blocks.
 		});
 
+		// If there is not entity box, we cant check if the entity collides with other entities
 		if (!box) return hit;
 
 		// Calculate the bounding box of the ray.
