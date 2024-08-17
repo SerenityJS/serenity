@@ -40,7 +40,7 @@ class Login extends SerenityHandler {
 		const username = data.identityData.displayName;
 
 		// TODO: This is a temporary solution to the reliability and channel issue.
-		session.reliablity = Reliability.UnreliableSequenced;
+		session.reliablity = Reliability.Reliable;
 
 		// Check if the xuid is smaller than 16 characters.
 		// If so then the xuid is invalid.

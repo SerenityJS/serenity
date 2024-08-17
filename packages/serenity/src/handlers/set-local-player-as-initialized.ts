@@ -28,9 +28,6 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		if (this.serenity.connecting.has(session))
 			this.serenity.connecting.delete(session);
 
-		// Spawn the player in the dimension
-		player.status = PlayerStatus.Spawned;
-
 		// Sync the player
 		player.sync();
 
@@ -41,6 +38,9 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		player.dimension.world.logger.info(
 			`§8[§9${player.username}§8] Event:§r Player has joined the game.`
 		);
+
+		// Spawn the player in the dimension
+		player.status = PlayerStatus.Spawned;
 	}
 }
 

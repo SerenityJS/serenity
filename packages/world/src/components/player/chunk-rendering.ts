@@ -6,10 +6,9 @@ import {
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Chunk } from "../../chunk";
+import { PlayerStatus, type Player } from "../../player";
 
 import { PlayerComponent } from "./player-component";
-
-import type { Player } from "../../player";
 
 class PlayerChunkRenderingComponent extends PlayerComponent {
 	public static readonly identifier = "minecraft:chunk_rendering";
@@ -113,6 +112,9 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 	}
 
 	public onTick(): void {
+		// Check if the player is spawned
+		if (this.player.status !== PlayerStatus.Spawned) return;
+
 		// Get the next chunks to send to the player
 		const hashes = [...this.chunks.keys(), ...this.next()].filter(
 			// Filter out the chunks that are already rendered
