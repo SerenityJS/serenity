@@ -7,7 +7,8 @@ import {
 	type TerrainGenerator,
 	WorldProvider,
 	type Dimension,
-	World
+	World,
+	type WorldConfig
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
@@ -55,6 +56,7 @@ class FileSystemProvider extends WorldProvider {
 	}
 
 	public static initialize(
+		config: WorldConfig,
 		path: string,
 		generators: Array<typeof TerrainGenerator>
 	): World {

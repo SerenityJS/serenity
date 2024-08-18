@@ -115,6 +115,8 @@ const CREATIVE_CONTENT = readFileSync(resolve(data, "creative_content.bin"));
  */
 const ITEMDATA = readFileSync(resolve(data, "itemdata.bin"));
 
+const CRAFTING_DATA = readFileSync(resolve(data, "crafting_data.bin"));
+
 export {
 	BLOCK_STATES,
 	BLOCK_TYPES,
@@ -125,5 +127,6 @@ export {
 	CANONICAL_BLOCK_STATES,
 	BIOME_DEFINITION_LIST,
 	CREATIVE_CONTENT,
-	ITEMDATA
+	ITEMDATA,
+	CRAFTING_DATA
 };

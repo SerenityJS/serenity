@@ -62,7 +62,7 @@ class Dimension {
 	/**
 	 * The spawn position of the dimension.
 	 */
-	public spawn = new BlockCoordinates(0, 6, 0);
+	public spawn = new Vector3f(0, 0, 0);
 
 	/**
 	 * The view distance of the dimension.

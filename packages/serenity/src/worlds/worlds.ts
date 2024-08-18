@@ -6,6 +6,7 @@ import {
 	Overworld,
 	Superflat,
 	Void,
+	type WorldConfig,
 	type TerrainGenerator,
 	type World,
 	type WorldProvider
@@ -104,20 +105,35 @@ class Worlds {
 		// If the worlds directory is empty, then create the default world.
 		if (directories.length === 0) {
 			// Get the default world name.
-			const defaultName = this.serenity.properties.getValue("worlds-default");
+			const identifier = this.serenity.properties.getValue("worlds-default");
 
 			// Create a "default" directory in the worlds directory.
-			await mkdirSync(resolve(this.path, defaultName));
+			await mkdirSync(resolve(this.path, identifier));
 
 			// Create a ".provider" file in the "default" directory.
 			const provider = this.serenity.properties.getValue(
 				"worlds-default-provider"
 			);
 
-			// Write the provider to the ".provider" file.
+			// Create the default world configuration.
+			const config: WorldConfig = {
+				identifier,
+				provider,
+				seed: Math.floor(Math.random() * 1_000_000),
+				dimensions: [
+					{
+						identifier: "overworld",
+						type: "overworld",
+						generator: "overworld",
+						spawn: [0, 120, 0]
+					}
+				]
+			};
+
+			// Write the provider to the "config.json" file.
 			await writeFileSync(
-				resolve(this.path, defaultName, ".provider"),
-				provider
+				resolve(this.path, identifier, "config.json"),
+				JSON.stringify(config, null, 2)
 			);
 		}
 	}
@@ -133,24 +149,30 @@ class Worlds {
 		);
 
 		// Loop through the directories in the worlds directory.
-		// And check if the directory container a .provider file.
+		// And check if the directory container a config.json file.
 		for await (const directory of directories) {
 			if (
-				exists(resolve(this.path, directory.path, directory.name, ".provider"))
+				exists(
+					resolve(this.path, directory.path, directory.name, "config.json")
+				)
 			) {
 				// Get the path of the world
 				const path = resolve(this.path, directory.path, directory.name);
 
-				// Read the .provider file.
-				const entry = readFileSync(resolve(path, ".provider"), "utf8");
+				// Read the config.json file.
+				const entry = readFileSync(resolve(path, "config.json"), "utf8");
+
+				// Parse the config.json file.
+				const config = JSON.parse(entry) as WorldConfig;
 
 				// Get the provider class instance.
-				const provider = this.getProvider(entry);
+				const provider = this.getProvider(config.provider);
 
 				// Check if the provider is not undefined.
 				if (provider) {
 					// Initialize the world with the provider.
 					const world = provider.initialize(
+						config,
 						resolve(this.path, directory.path, directory.name),
 						[...this.generators.values()]
 					);

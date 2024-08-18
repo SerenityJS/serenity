@@ -13,9 +13,9 @@ import {
 	DisconnectReason,
 	type BlockProperties,
 	ResourceIdVersions,
-	Vector3f
+	CraftingDataPacket
 } from "@serenityjs/protocol";
-import { BIOME_DEFINITION_LIST } from "@serenityjs/data";
+import { BIOME_DEFINITION_LIST, CRAFTING_DATA } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
 import { CustomBlockType } from "@serenityjs/block";
 import { PlayerStatus } from "@serenityjs/world";
@@ -165,7 +165,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.entityId = player.unique;
 				packet.runtimeEntityId = player.runtime;
 				packet.playerGamemode = player.gamemode;
-				packet.playerPosition = new Vector3f(0, 6, 0);
+				packet.playerPosition = player.dimension.spawn;
 				packet.pitch = player.rotation.pitch;
 				packet.yaw = player.rotation.yaw;
 				packet.seed = BigInt(player.dimension.generator.seed);
@@ -453,6 +453,10 @@ class ResourcePackClientResponse extends SerenityHandler {
 				const biomes = new BiomeDefinitionListPacket();
 				biomes.biomes = BIOME_DEFINITION_LIST;
 
+				const crafting = new CraftingDataPacket(CRAFTING_DATA).deserialize();
+				crafting.materitalReducers = [];
+				crafting.clearRecipes = false;
+
 				const content = new CreativeContentPacket();
 				// content.items = CreativeItems.read(new BinaryStream(CREATIVE_CONTENT));
 				content.items = [...CreativeItem.items.values()].map((item) => {
@@ -474,7 +478,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				status.status = PlayStatus.PlayerSpawn;
 
 				// Send the spawn sequence
-				session.send(packet, biomes, content, status);
+				session.send(packet, biomes, content, status, crafting);
 
 				// Spawn the player in the dimension
 				player.spawn();

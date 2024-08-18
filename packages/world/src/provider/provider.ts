@@ -2,7 +2,7 @@ import type { Player } from "../player";
 import type { CompoundTag } from "@serenityjs/nbt";
 import type { Dimension, World } from "../world";
 import type { Chunk } from "../chunk";
-import type { PlayerEntry } from "../types";
+import type { PlayerEntry, WorldConfig } from "../types";
 
 class WorldProvider {
 	/**
@@ -26,9 +26,14 @@ class WorldProvider {
 
 	/**
 	 * Initializes the world provider.
-	 * @param path The path to initialize the world provider with.
+	 * @param config The configuration for the world.
+	 * @param parameters The additional parameters for the world provider.
+	 * @returns The world created by the provider.
 	 */
-	public static initialize(..._parameters: Array<unknown>): World {
+	public static initialize(
+		_config: WorldConfig,
+		..._parameters: Array<unknown>
+	): World {
 		throw new Error("WorldProvider.initialize is not implemented");
 	}
 

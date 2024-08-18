@@ -1,5 +1,4 @@
-import { join, resolve } from "node:path";
-import { readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 import {
 	Chunk,
@@ -7,22 +6,14 @@ import {
 	SubChunk,
 	type TerrainGenerator,
 	World,
+	type WorldConfig,
+	type WorldDimensionConfig,
 	WorldProvider
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
 import { Leveldb } from "@serenityjs/leveldb";
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
-
-import { exists } from "../utils/exists";
-
-interface LevelDBDimension {
-	identifier: string;
-	type: string;
-	generator: string;
-	viewDistance?: number;
-	simulationDistance?: number;
-}
 
 class LevelDBProvider extends WorldProvider {
 	/**
@@ -43,14 +34,14 @@ class LevelDBProvider extends WorldProvider {
 	/**
 	 * The dimensions registered for the world.
 	 */
-	public readonly dimensions: Array<LevelDBDimension>;
+	public readonly dimensions: Array<WorldDimensionConfig>;
 
 	/**
 	 * The chunks stored in the provider.
 	 */
 	public readonly chunks: Map<number, Map<bigint, Chunk>> = new Map();
 
-	public constructor(path: string, dimensions: Array<LevelDBDimension>) {
+	public constructor(path: string, dimensions: Array<WorldDimensionConfig>) {
 		super();
 
 		// Open the LevelDB database.
@@ -272,39 +263,12 @@ class LevelDBProvider extends WorldProvider {
 	}
 
 	public static initialize(
+		config: WorldConfig,
 		path: string,
 		generators: Array<typeof TerrainGenerator>
 	): World {
-		// Check if the levelname.txt file exists.
-		if (!exists(join(path, "levelname.txt"))) {
-			// Write the default level name to the levelname.txt file.
-			writeFileSync(join(path, "levelname.txt"), "default");
-		}
-
-		// Check if a .dimensions file exists.
-		// This is a SerenityJS specific file that stores will store the dimensions of the world.
-		if (!exists(join(path, ".dimensions"))) {
-			// The default dimension for a world.
-			const defaultDimension = {
-				identifier: "overworld",
-				type: "overworld",
-				generator: "superflat"
-			};
-
-			// Write the default dimensions to the .dimensions file.
-			writeFileSync(
-				join(path, ".dimensions"),
-				JSON.stringify([defaultDimension], null, 2)
-			);
-		}
-
 		// Read the level name from the levelname.txt file.
-		const identifier = readFileSync(join(path, "levelname.txt"), "utf8").trim();
-
-		// Read the dimensions from the .dimensions file.
-		const dimensions: Array<LevelDBDimension> = JSON.parse(
-			readFileSync(join(path, ".dimensions"), "utf8").trim()
-		);
+		const { identifier, dimensions } = config;
 
 		// Create a new provider instance.
 		const provider = new this(path, dimensions);
@@ -312,51 +276,94 @@ class LevelDBProvider extends WorldProvider {
 		// Create a new world instance with the provider.
 		const world = new World(identifier, provider);
 
-		for (const dimension of dimensions) {
+		// Iterate through the dimensions and create them.
+		for (const entry of dimensions) {
+			// Seperate the dimension properties.
+			const { identifier, type, generator, viewDistance, simulationDistance } =
+				entry;
+
 			// Check if the dimension identifier is valid. (no spaces, no special characters)
-			if (!/^[\d_a-z]+$/.test(dimension.identifier)) {
+			if (!/^[\d_a-z]+$/.test(identifier)) {
 				throw new Error(
-					`Invalid dimension identifier: "${dimension.identifier}"\nDimension identifiers must only contain lowercase letters, numbers, and underscores.`
+					`Invalid dimension identifier: "${identifier}"\nDimension identifiers must only contain lowercase letters, numbers, and underscores.`
 				);
 			}
 
 			// Find the generator for the dimension.
-			const generator = generators.find(
-				(generator) => generator.identifier === dimension.generator
-			);
+			const dgenerator = generators.find((x) => x.identifier === generator);
 
 			// Check if the generator exists.
-			if (!generator)
+			if (!dgenerator)
 				throw new Error(
-					`Unknown generator "${dimension.generator}" for dimension "${dimension.identifier}" in world "${identifier}"\nMake sure the provided generator is valid and registered.`
+					`Unknown generator "${generator}" for dimension "${identifier}" in world "${identifier}"\nMake sure the provided generator is valid and registered.`
 				);
 
 			// Parse the dimension type.
-			const type =
-				dimension.type === "overworld"
+			const dim =
+				type === "overworld"
 					? DimensionType.Overworld
-					: dimension.type === "nether"
+					: type === "nether"
 						? DimensionType.Nether
 						: DimensionType.End;
 
-			// TODO: Get the seed from the level.dat file.
-			const instance = world.createDimension(
-				dimension.identifier,
-				type,
-				new generator(0)
-			);
+			// Create a new instance of the generator & dimension.
+			const instance = new dgenerator(config.seed);
+			const dimension = world.createDimension(identifier, dim, instance);
 
 			// Set the view distance for the dimension.
-			if (dimension.viewDistance)
-				instance.viewDistance = dimension.viewDistance;
+			if (viewDistance) dimension.viewDistance = viewDistance;
 
 			// Set the simulation distance for the dimension.
-			if (dimension.simulationDistance)
-				instance.simulationDistance = dimension.simulationDistance;
+			if (simulationDistance) dimension.simulationDistance = simulationDistance;
+
+			// Get the spawn coordinates for the dimension.
+			const [x, y, z] = entry.spawn;
+
+			// Set the spawn coordinates for the dimension.
+			dimension.spawn.x = x;
+			dimension.spawn.y = y;
+			dimension.spawn.z = z;
 
 			// Debug log the dimension creation.
 			this.logger.debug(
-				`Created dimension "${dimension.identifier}" with generator "${dimension.generator}" in world "${identifier}"`
+				`Created dimension "${dimension.identifier}" with generator "${dimension.generator.identifier}" in world "${identifier}"`
+			);
+		}
+
+		// Pregenerate the spawn chunks for each dimension.
+		for (const dimension of world.dimensions.values()) {
+			// Get the spawn position of the dimension.
+			const sx = dimension.spawn.x >> 4;
+			const sz = dimension.spawn.z >> 4;
+
+			// Get the view distance of the dimension.
+			const viewDistance = dimension.viewDistance >> 4;
+
+			// Calculate the amount of chunks to pregenerate.
+			const amount = (viewDistance * 2 + 1) ** 2;
+
+			// Log the amount of chunks to pregenerate.
+			this.logger.info(
+				`Preparing §c${amount}§r chunks for world §a${world.identifier}§r in dimension §a${dimension.identifier}§r.`
+			);
+
+			// Iterate over the chunks to pregenerate.
+			for (let x = -viewDistance; x <= viewDistance; x++) {
+				for (let z = -viewDistance; z <= viewDistance; z++) {
+					// Read the chunk from the provider.
+					const chunk = provider.readChunk(sx + x, sz + z, dimension);
+
+					// Serialize the chunk, the will cache the chunk in the provider.
+					Chunk.serialize(chunk);
+
+					// Set the dirty flag to false.
+					chunk.dirty = false;
+				}
+			}
+
+			// Log the success message.
+			this.logger.success(
+				`Successfully pregenerated §c${amount}§r chunks for world §a${world.identifier}§r in dimension §a${dimension.identifier}§r.`
 			);
 		}
 
