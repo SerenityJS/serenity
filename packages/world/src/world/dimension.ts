@@ -15,6 +15,7 @@ import { Player } from "../player";
 import { Block } from "../block";
 import {
 	BlockComponent,
+	BlockStateComponent,
 	EntityComponent,
 	EntityItemComponent,
 	EntityPhysicsComponent
@@ -367,6 +368,25 @@ class Dimension {
 
 				// Check if the component exists.
 				if (component) new component(block, identifier);
+			}
+
+			for (const key of Object.keys(permutation.state)) {
+				// Get the component from the registry
+				const component = [...BlockComponent.components.values()].find((x) => {
+					// If the identifier is undefined, we will skip it.
+					if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
+						return false;
+
+					// Initialize the component as a BlockStateComponent.
+					const component = x as typeof BlockStateComponent;
+
+					// Check if the identifier includes the key.
+					// As some states dont include a namespace.
+					return component.state === key;
+				});
+
+				// Check if the component exists.
+				if (component) new component(block, key);
 			}
 
 			// If the block has components add it to the blocks
