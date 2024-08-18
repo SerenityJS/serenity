@@ -270,6 +270,9 @@ class Serenity extends Emitter<EventSignals> {
 		this.logger.info(
 			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
 		);
+
+		// Emit the ready event
+		return void this.emit("Ready");
 	}
 
 	/**

@@ -12,6 +12,7 @@ import type { PlayerChatSignal } from "./player-chat";
 import type { PlayerPlaceBlockSignal } from "./player-place-block";
 
 interface EventSignals {
+	Ready: [];
 	PlayerJoined: [PlayerJoinedSignal];
 	PlayerLeave: [PlayerLeaveSignal];
 	PlayerSpawned: [PlayerSpawnedSignal];

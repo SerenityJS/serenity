@@ -168,6 +168,9 @@ class InventoryTransaction extends SerenityHandler {
 					component.onUse?.(player, ItemUseCause.Place);
 				}
 
+				// Check if the transaction is an initial transaction
+				if (!transaction.intialTransaction) return;
+
 				// Check if a block type is present within the item
 				const blockType = usingItem.type.block;
 				if (!blockType || blockType.identifier === BlockIdentifier.Air) break;
