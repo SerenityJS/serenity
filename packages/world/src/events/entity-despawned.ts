@@ -3,7 +3,7 @@ import { WorldEvent } from "../enums";
 import { WorldEventSignal } from "./signal";
 
 import type { Player } from "../player";
-import type { Dimension } from "../world";
+import type { Dimension, World } from "../world";
 import type { Entity } from "../entity";
 
 /**
@@ -41,6 +41,10 @@ class EntityDespawnedSignal extends WorldEventSignal {
 
 		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
 		this.emit();
+	}
+
+	public getWorld(): World {
+		return this.entity.dimension.world;
 	}
 }
 

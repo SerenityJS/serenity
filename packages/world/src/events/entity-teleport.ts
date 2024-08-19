@@ -2,7 +2,7 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { Dimension } from "../world";
+import type { Dimension, World } from "../world";
 import type { Vector3f } from "@serenityjs/protocol";
 import type { Entity } from "../entity";
 
@@ -42,6 +42,10 @@ class EntityTeleportSignal extends WorldEventSignal {
 
 		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
 		this.emit();
+	}
+
+	public getWorld(): World {
+		return this.entity.dimension.world;
 	}
 }
 

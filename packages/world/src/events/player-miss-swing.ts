@@ -1,5 +1,6 @@
 import { WorldEventSignal } from "./signal";
 
+import type { World } from "../world";
 import type { Player } from "../player";
 import type { WorldEvent } from "../enums";
 
@@ -21,6 +22,10 @@ class PlayerMissSwingSignal extends WorldEventSignal {
 
 		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
 		this.emit();
+	}
+
+	public getWorld(): World {
+		return this.player.dimension.world;
 	}
 }
 

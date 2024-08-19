@@ -1,5 +1,6 @@
 import { WorldEvents } from "./world-events";
 
+import type { World } from "../world";
 import type { WorldEvent } from "../enums";
 
 class WorldEventSignal {
@@ -18,6 +19,14 @@ class WorldEventSignal {
 	public emit(): boolean {
 		// Return the emitted signal
 		return WorldEvents.emit(this.identifier, this as never);
+	}
+
+	/**
+	 * Gets the world instance the signal was emitted in.
+	 * @returns The world instance.
+	 */
+	public getWorld(): World {
+		throw new Error("Method not implemented.");
 	}
 }
 

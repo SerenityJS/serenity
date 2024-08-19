@@ -2,6 +2,7 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
+import type { World } from "../world";
 import type { EffectType } from "@serenityjs/protocol";
 import type { Entity } from "../entity";
 
@@ -23,6 +24,10 @@ class EntityEffectRemoveSignal extends WorldEventSignal {
 
 		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
 		this.emit();
+	}
+
+	public getWorld(): World {
+		return this.entity.dimension.world;
 	}
 }
 

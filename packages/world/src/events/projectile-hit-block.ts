@@ -2,9 +2,11 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
+import type { World } from "../world";
 import type { Entity } from "../entity";
 import type { BlockHitResult } from "../types";
 
+// TODO: Added the hit block in the block hit result.
 class ProjectileHitBlockSignal extends WorldEventSignal {
 	public static readonly identifier = WorldEvent.ProjectileHitBlock;
 
@@ -27,6 +29,13 @@ class ProjectileHitBlockSignal extends WorldEventSignal {
 
 		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
 		this.emit();
+	}
+
+	public getWorld(): World {
+		if (!this.projectile)
+			throw new Error("ProjectileHitBlockSignal has no projectile entity.");
+
+		return this.projectile.dimension.world;
 	}
 }
 

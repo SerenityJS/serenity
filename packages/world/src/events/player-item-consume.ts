@@ -2,6 +2,7 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
+import type { World } from "../world";
 import type { ItemStack } from "../item";
 import type { Player } from "../player";
 
@@ -30,6 +31,10 @@ class PlayerItemConsumeSignal extends WorldEventSignal {
 
 		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
 		this.emit();
+	}
+
+	public getWorld(): World {
+		return this.player.dimension.world;
 	}
 }
 
