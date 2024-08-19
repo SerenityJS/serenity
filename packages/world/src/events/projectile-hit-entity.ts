@@ -16,6 +16,9 @@ class ProjectileHitEntiySignal extends WorldEventSignal {
 		super();
 		this.projectile = projectileEntity;
 		this.hit = hit;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

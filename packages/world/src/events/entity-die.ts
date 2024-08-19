@@ -37,6 +37,9 @@ class EntityDieSignal extends WorldEventSignal {
 		this.entity = entity;
 		this.dimension = dimension;
 		this.attacker = attacker;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

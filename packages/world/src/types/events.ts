@@ -21,7 +21,7 @@ import type {
 	ProjectileHitEntiySignal
 } from "../events";
 
-interface WorldEvents {
+interface WorldEventSignals {
 	[WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
 	[WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
 	[WorldEvent.EntityTeleport]: [EntityTeleportSignal];
@@ -43,4 +43,4 @@ interface WorldEvents {
 	[WorldEvent.EntityDie]: [EntityDieSignal];
 }
 
-export { WorldEvents };
+export { WorldEventSignals };

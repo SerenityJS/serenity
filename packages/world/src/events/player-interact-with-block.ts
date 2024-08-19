@@ -56,6 +56,9 @@ class PlayerInteractWithBlockSignal extends WorldEventSignal {
 		this.blockFace = blockFace;
 		this.faceLocation = faceLocation;
 		this.itemStack = itemStack;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

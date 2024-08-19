@@ -27,6 +27,9 @@ class PlayerItemConsumeSignal extends WorldEventSignal {
 		super();
 		this.player = player;
 		this.itemStack = itemStack;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

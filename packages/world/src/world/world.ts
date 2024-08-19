@@ -15,13 +15,13 @@ import { Scoreboard } from "../scoreboard";
 
 import { Dimension } from "./dimension";
 
-import type { DimensionBounds, WorldEvents } from "../types";
+import type { DimensionBounds, WorldEventSignals } from "../types";
 import type { TerrainGenerator } from "../generator";
 import type { Entity } from "../entity";
 import type { WorldProvider } from "../provider";
 import type { Player } from "../player";
 
-class World extends Emitter<WorldEvents> {
+class World extends Emitter<WorldEventSignals> {
 	/**
 	 * The identifier of the world.
 	 */

@@ -24,6 +24,9 @@ class ProjectileHitBlockSignal extends WorldEventSignal {
 		super(); // Call the superclass constructor.
 		this.hit = hit;
 		this.projectile = projectileEntity;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

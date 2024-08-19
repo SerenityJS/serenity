@@ -27,6 +27,9 @@ class BlockUpdateSignal extends WorldEventSignal {
 		super();
 		this.block = block;
 		this.dimension = dimension;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

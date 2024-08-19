@@ -20,6 +20,9 @@ class EntityEffectAddSignal extends WorldEventSignal {
 		super();
 		this.entity = entity;
 		this.effect = effect;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

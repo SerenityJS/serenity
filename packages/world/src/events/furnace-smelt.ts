@@ -35,6 +35,9 @@ class FurnaceSmeltSignal extends BlockUpdateSignal {
 		super(block, dimension);
 		this.ingredient = ingredient;
 		this.resultant = resultant;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

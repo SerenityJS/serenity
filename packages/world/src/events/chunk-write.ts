@@ -27,6 +27,9 @@ class ChunkWriteSignal extends WorldEventSignal {
 		super();
 		this.chunk = chunk;
 		this.dimension = dimension;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

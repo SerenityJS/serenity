@@ -47,6 +47,9 @@ class PlayerInteractWithEntitySignal extends WorldEventSignal {
 		this.target = target;
 		this.itemStack = itemStack;
 		this.type = type;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

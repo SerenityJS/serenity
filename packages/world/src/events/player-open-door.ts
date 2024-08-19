@@ -36,6 +36,9 @@ class PlayerOpenDoorSignal extends BlockUpdateSignal {
 		this.player = player;
 		this.previousState = previousState;
 		this.newState = newState;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

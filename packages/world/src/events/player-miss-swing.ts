@@ -18,6 +18,9 @@ class PlayerMissSwingSignal extends WorldEventSignal {
 	public constructor(player: Player) {
 		super();
 		this.player = player;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

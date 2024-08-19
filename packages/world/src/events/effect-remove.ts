@@ -20,6 +20,9 @@ class EntityEffectRemoveSignal extends WorldEventSignal {
 		super();
 		this.entity = entity;
 		this.effectType = effectType;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

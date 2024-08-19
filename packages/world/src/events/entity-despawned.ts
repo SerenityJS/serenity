@@ -38,6 +38,9 @@ class EntityDespawnedSignal extends WorldEventSignal {
 		this.entity = entity;
 		this.dimension = dimension;
 		this.player = player;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 

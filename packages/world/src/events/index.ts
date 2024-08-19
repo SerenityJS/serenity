@@ -1,4 +1,5 @@
 export * from "./signal";
+export * from "./world-events";
 export * from "./entity-spawned";
 export * from "./entity-despawned";
 export * from "./entity-teleport";

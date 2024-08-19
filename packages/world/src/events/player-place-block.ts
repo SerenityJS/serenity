@@ -51,6 +51,9 @@ class PlayerPlaceBlockSignal extends BlockUpdateSignal {
 		this.permutationBeingPlaced = permutationBeingPlaced;
 		this.face = face;
 		this.faceLocation = faceLocation;
+
+		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
+		this.emit();
 	}
 }
 
