@@ -5,6 +5,8 @@ export * from "./entity-despawned";
 export * from "./entity-teleport";
 export * from "./block-update";
 export * from "./furnace-smelt";
+export * from "./player-join";
+export * from "./player-leave";
 export * from "./player-place-block";
 export * from "./player-break-block";
 export * from "./player-interact-with-entity";

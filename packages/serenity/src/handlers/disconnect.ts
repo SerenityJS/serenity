@@ -1,4 +1,5 @@
 import { DisconnectPacket } from "@serenityjs/protocol";
+import { PlayerLeaveSignal } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -15,6 +16,14 @@ class Disconnect extends SerenityHandler {
 		// And check if the player is not undefined
 		const player = this.serenity.getPlayer(session);
 		if (!player) return;
+
+		// Create a new player leave signal
+		// This event cannot be cancelled.
+		new PlayerLeaveSignal(
+			player,
+			packet.reason,
+			packet.message.message ?? String()
+		).emit();
 
 		// Despawn the player
 		player.despawn();

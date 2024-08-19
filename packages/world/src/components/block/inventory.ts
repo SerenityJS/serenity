@@ -38,8 +38,6 @@ class BlockInventoryComponent extends BlockComponent {
 	public constructor(block: Block) {
 		super(block, BlockInventoryComponent.identifier);
 
-		console.log("BlockInventoryComponent created");
-
 		// Create the container for the block based on the block type
 		switch (block.getType().identifier) {
 			default: {

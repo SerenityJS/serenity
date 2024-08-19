@@ -11,7 +11,7 @@ import {
 	TexturePackInfo
 } from "@serenityjs/protocol";
 import { createDecoder } from "fast-jwt";
-import { Player } from "@serenityjs/world";
+import { Player, PlayerJoinSignal } from "@serenityjs/world";
 import { Reliability } from "@serenityjs/raknet";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -93,6 +93,16 @@ class Login extends SerenityHandler {
 		// We will also add the player to the players map.
 		const player = new Player(session, data, dimension, permission);
 		this.serenity.players.set(xuid, player);
+
+		// Create the player join signal and emit it.
+		const signal = new PlayerJoinSignal(player).emit();
+
+		// Check if the player join signal was cancelled.
+		if (!signal)
+			return session.disconnect(
+				"Failed to join the server.",
+				DisconnectReason.Kicked
+			);
 
 		// TODO: Enable encryption, the public key is given in the tokens
 		// This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet

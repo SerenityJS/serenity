@@ -1,3 +1,4 @@
+import type { PlayerLeaveSignal } from "../events/player-leave";
 import type { WorldEvent } from "../enums";
 import type {
 	BlockUpdateSignal,
@@ -14,6 +15,7 @@ import type {
 	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
 	PlayerItemConsumeSignal,
+	PlayerJoinSignal,
 	PlayerMissSwingSignal,
 	PlayerOpenDoorSignal,
 	PlayerPlaceBlockSignal,
@@ -27,6 +29,8 @@ interface WorldEventSignals {
 	[WorldEvent.EntityTeleport]: [EntityTeleportSignal];
 	[WorldEvent.EntityEffectAdd]: [EntityEffectAddSignal];
 	[WorldEvent.EntityEffectRemove]: [EntityEffectRemoveSignal];
+	[WorldEvent.PlayerJoin]: [PlayerJoinSignal];
+	[WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
