@@ -1,7 +1,7 @@
 import { ItemType, type Items } from "@serenityjs/item";
 import { CompoundTag } from "@serenityjs/nbt";
 
-import { ItemComponent } from "../components";
+import { ItemComponent, ItemTagComponent } from "../components";
 
 import type {
 	NetworkItemInstanceDescriptor,
@@ -67,6 +67,26 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Register the type components to the item.
 		for (const component of ItemComponent.registry.get(identifier) ?? [])
 			new component(this, component.identifier);
+
+		// Register the tag components to the item.
+		for (const tag of this.type.tags) {
+			// Get the component from the registry
+			const component = [...ItemComponent.components.values()].find((x) => {
+				// If the identifier is undefined, we will skip it.
+				if (!x.identifier || !(x.prototype instanceof ItemTagComponent))
+					return false;
+
+				// Initialize the component as a BlockStateComponent.
+				const component = x as typeof ItemTagComponent;
+
+				// Check if the identifier includes the key.
+				// As some states dont include a namespace.
+				return component.tag === tag;
+			});
+
+			// Check if the component exists.
+			if (component) new component(this, component.identifier);
+		}
 	}
 
 	/**

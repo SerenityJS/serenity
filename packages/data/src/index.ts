@@ -30,6 +30,7 @@ interface ItemTypes {
 	identifier: string;
 	stackable: boolean;
 	maxAmount: number;
+	tags: Array<string>;
 }
 
 interface EntityTypes {

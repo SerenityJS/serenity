@@ -1,4 +1,5 @@
 export * from "./block";
+export * from "./item";
 export * from "./components";
 export * from "./nbt";
 export * from "./events";

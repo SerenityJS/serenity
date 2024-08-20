@@ -2,6 +2,7 @@
 export * from "./item-component";
 
 // Concrete components
+export * from "./tags";
 export * from "./nametag";
 export * from "./enchantable";
 export * from "./lore";

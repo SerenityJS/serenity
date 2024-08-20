@@ -41,6 +41,7 @@ class CustomItemType extends ItemType {
 			CustomItemType.network++,
 			true,
 			64,
+			[],
 			block as Items[keyof Items]
 		);
 

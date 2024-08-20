@@ -165,7 +165,11 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Trigger the onUse method of the item components
 				for (const component of usingItem.components.values()) {
-					component.onUse?.(player, ItemUseCause.Place);
+					component.onUse?.(
+						player,
+						ItemUseCause.Place,
+						transaction.blockPosition
+					);
 				}
 
 				// Check if the transaction is an initial transaction

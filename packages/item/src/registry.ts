@@ -24,7 +24,8 @@ for (const item of data) {
 		item.name as ItemIdentifier,
 		item.networkId,
 		meta?.stackable,
-		meta?.maxAmount
+		meta?.maxAmount,
+		meta?.tags
 	);
 
 	// Add the item type to the map.
