@@ -74,10 +74,7 @@ class EntityEffectsComponent extends EntityComponent {
 		const currentEffect = this.effects.get(effect.effectType);
 
 		const signal = new EntityEffectAddSignal(this.entity, effect);
-		const canceled = this.entity.dimension.world.emit(
-			signal.identifier,
-			signal
-		);
+		const canceled = signal.emit();
 
 		if (!canceled) return;
 		if (currentEffect && !currentEffect.isExpired) return;
@@ -109,7 +106,7 @@ class EntityEffectsComponent extends EntityComponent {
 		const effect = this.effects.get(effectType);
 		const packet = new MobEffectPacket();
 		const signal = new EntityEffectRemoveSignal(this.entity, effectType);
-		this.entity.dimension.world.emit(signal.identifier, signal);
+		signal.emit();
 
 		effect?.onRemove?.(this.entity);
 		this.effects.delete(effectType);

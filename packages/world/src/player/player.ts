@@ -782,7 +782,7 @@ class Player extends Entity {
 	public executeMissSwing(): void {
 		// Create a new PlayerMissSwingSignal
 		const signal = new PlayerMissSwingSignal(this);
-		const value = this.dimension.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was cancelled
 		if (!value) return;

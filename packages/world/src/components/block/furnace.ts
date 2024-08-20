@@ -122,16 +122,12 @@ class BlockFurnaceComponent extends BlockComponent {
 				// Create a new FurnaceSmeltSignal
 				const signal = new FurnaceSmeltSignal(
 					this.block,
-					this.block.dimension,
 					ingredient,
 					resultant
 				);
 
 				// Emit the signal
-				const value = this.block.dimension.world.emit(
-					signal.identifier,
-					signal
-				);
+				const value = signal.emit();
 
 				// Check if the signal was cancelled
 				if (value) {

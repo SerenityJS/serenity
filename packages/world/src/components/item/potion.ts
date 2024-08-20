@@ -30,7 +30,7 @@ class ItemPotionComponent<T extends keyof Items> extends ItemComponent<T> {
 			"minecraft:inventory"
 		);
 		const signal = new PlayerItemConsumeSignal(player, player.usingItem);
-		const canceled = player.getWorld().emit(signal.identifier, signal);
+		const canceled = signal.emit();
 
 		if (!canceled) return;
 

@@ -49,7 +49,7 @@ class EntityProjectileComponent extends EntityComponent {
 				hit as BlockHitResult,
 				this.entity
 			);
-			this.entity.getWorld().emit(signal.identifier, signal);
+			signal.emit();
 
 			return;
 		}
@@ -61,7 +61,7 @@ class EntityProjectileComponent extends EntityComponent {
 				this.entity
 			);
 
-			this.entity.getWorld().emit(signal.identifier, signal);
+			signal.emit();
 		}
 	}
 
