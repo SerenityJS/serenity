@@ -318,7 +318,7 @@ class Entity {
 	public spawn(player?: Player): void {
 		// Create a new EntitySpawnedSignal
 		const signal = new EntitySpawnedSignal(this, this.dimension, player);
-		const value = this.dimension.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was cancelled
 		if (!value) return;
@@ -379,7 +379,7 @@ class Entity {
 	public despawn(player?: Player): void {
 		// Create a new EntityDespawnedSignal
 		const signal = new EntityDespawnedSignal(this, this.dimension, player);
-		const value = this.dimension.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was cancelled
 		if (!value) return;
@@ -421,7 +421,9 @@ class Entity {
 		// Set the alive property of the entity to false
 		this.isAlive = false;
 		const signal = new EntityDieSignal(this, this.dimension);
-		this.getWorld().emit(signal.identifier, signal);
+		const value = signal.emit();
+
+		if (!value) return;
 
 		// TODO: Implement item drops and experience drops
 
@@ -1050,7 +1052,7 @@ class Entity {
 	public teleport(position: Vector3f, dimension?: Dimension): void {
 		// Create a new EntityTeleportSignal
 		const signal = new EntityTeleportSignal(this, position, dimension);
-		const value = this.dimension.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was cancelled
 		if (!value) return;
@@ -1147,7 +1149,7 @@ class Entity {
 		);
 
 		// Emit the signal
-		const value = this.dimension.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was cancelled
 		if (!value)

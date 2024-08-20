@@ -7,7 +7,6 @@ import {
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Commands } from "@serenityjs/command";
-import { Emitter } from "@serenityjs/emitter";
 
 import { COMMON_COMMANDS } from "../commands";
 import { ADMIN_COMMANDS } from "../commands/admin";
@@ -15,13 +14,13 @@ import { Scoreboard } from "../scoreboard";
 
 import { Dimension } from "./dimension";
 
-import type { DimensionBounds, WorldEventSignals } from "../types";
+import type { DimensionBounds } from "../types";
 import type { TerrainGenerator } from "../generator";
 import type { Entity } from "../entity";
 import type { WorldProvider } from "../provider";
 import type { Player } from "../player";
 
-class World extends Emitter<WorldEventSignals> {
+class World {
 	/**
 	 * The identifier of the world.
 	 */
@@ -69,7 +68,6 @@ class World extends Emitter<WorldEventSignals> {
 	 * @returns A new world instance with the specified identifier and provider.
 	 */
 	public constructor(identifier: string, provider: WorldProvider) {
-		super();
 		this.identifier = identifier;
 		this.provider = provider;
 		this.dimensions = new Map();

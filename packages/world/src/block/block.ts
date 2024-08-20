@@ -263,7 +263,6 @@ class Block {
 			// Create a new PlayerPlaceBlockSignal.
 			const signal = new PlayerPlaceBlockSignal(
 				this,
-				this.dimension,
 				options.player,
 				this.permutation,
 				clickedFace,
@@ -271,7 +270,7 @@ class Block {
 			);
 
 			// Emit the signal to the dimension.
-			const value = this.dimension.world.emit(signal.identifier, signal);
+			const value = signal.emit();
 			if (!value) {
 				// If the signal was cancelled, we will revert the changes.
 				this.setPermutation(oldPermutation, { clearComponents: false });
@@ -534,13 +533,12 @@ class Block {
 			// Create a new PlayerBreakBlockSignal.
 			const signal = new PlayerBreakBlockSignal(
 				this,
-				this.dimension,
 				playerInitiated,
 				itemStack
 			);
 
 			// Emit the signal to the dimension.
-			const value = this.dimension.world.emit(signal.identifier, signal);
+			const value = signal.emit();
 			if (!value) {
 				// If the signal was cancelled, we will revert the changes
 				this.setPermutation(this.permutation, { clearComponents: false });
@@ -577,8 +575,8 @@ class Block {
 	 */
 	public update(surrounding = false, source?: Block): void {
 		// Create a new BlockUpdateSignal.
-		const signal = new BlockUpdateSignal(this, this.dimension);
-		const value = this.dimension.world.emit(signal.identifier, signal);
+		const signal = new BlockUpdateSignal(this);
+		const value = signal.emit();
 
 		// Check if the signal was cancelled.
 		if (!value) return;
@@ -645,7 +643,7 @@ class Block {
 		);
 
 		// Emit the signal to the dimension.
-		const value = this.dimension.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 		if (!value)
 			// Return false as the signal was cancelled.
 			return false;

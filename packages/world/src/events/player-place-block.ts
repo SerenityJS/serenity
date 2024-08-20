@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { BlockUpdateSignal } from "./block-update";
 
-import type { Dimension } from "../world";
 import type { Block } from "../block";
 import type { Player } from "../player";
 import type { BlockPermutation } from "@serenityjs/block";
@@ -40,20 +39,18 @@ class PlayerPlaceBlockSignal extends BlockUpdateSignal {
 	 */
 	public constructor(
 		block: Block,
-		dimension: Dimension,
 		player: Player,
 		permutationBeingPlaced: BlockPermutation,
 		face: BlockFace,
 		faceLocation: Vector3f
 	) {
-		super(block, dimension);
+		super(block);
 		this.player = player;
 		this.permutationBeingPlaced = permutationBeingPlaced;
 		this.face = face;
 		this.faceLocation = faceLocation;
 
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
+		console.log("PlayerPlaceBlockSignal", this.player.username);
 	}
 }
 

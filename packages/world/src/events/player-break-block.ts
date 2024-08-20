@@ -3,7 +3,6 @@ import { WorldEvent } from "../enums";
 import { BlockUpdateSignal } from "./block-update";
 
 import type { ItemStack } from "../item";
-import type { Dimension } from "../world";
 import type { Block } from "../block";
 import type { Player } from "../player";
 
@@ -27,16 +26,12 @@ class PlayerBreakBlockSignal extends BlockUpdateSignal {
 	 */
 	public constructor(
 		block: Block,
-		dimension: Dimension,
 		player: Player,
 		itemStack: ItemStack | null
 	) {
-		super(block, dimension);
+		super(block);
 		this.player = player;
 		this.itemStack = itemStack;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
 	}
 }
 

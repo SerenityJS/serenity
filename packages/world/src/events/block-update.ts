@@ -23,13 +23,10 @@ class BlockUpdateSignal extends WorldEventSignal {
 	 * @param block The block that was updated.
 	 * @param dimension The dimension the block was updated in.
 	 */
-	public constructor(block: Block, dimension: Dimension) {
+	public constructor(block: Block) {
 		super();
 		this.block = block;
-		this.dimension = dimension;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
+		this.dimension = block.dimension;
 	}
 
 	public getWorld(): World {

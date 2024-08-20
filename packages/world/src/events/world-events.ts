@@ -10,7 +10,6 @@ class WorldEventSignals extends Emitter<Events> {}
 
 /**
  * A static instance of the all world event signals.
- * @note This instance WILL NOT cancel any events for the time being.
  */
 const WorldEvents = new WorldEventSignals();
 

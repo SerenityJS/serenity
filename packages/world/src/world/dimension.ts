@@ -249,7 +249,7 @@ class Dimension {
 
 		// Create a new ChunkReadSignal
 		const signal = new ChunkReadSignal(chunk, this);
-		const value = this.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was attempted to be cancelled
 		if (value === false)
@@ -282,7 +282,7 @@ class Dimension {
 	public setChunk(chunk: Chunk): void {
 		// Create a new ChunkWriteSignal
 		const signal = new ChunkReadSignal(chunk, this);
-		const value = this.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was attempted to be cancelled
 		if (value === false)

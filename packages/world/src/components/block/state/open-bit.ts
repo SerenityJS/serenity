@@ -36,7 +36,7 @@ class BlockOpenBitComponent extends BlockStateComponent {
 		);
 
 		// Emit the signal to the dimension
-		const value = this.block.dimension.world.emit(signal.identifier, signal);
+		const value = signal.emit();
 
 		// Check if the signal was cancelled, reset the block state
 		if (value === false) return this.setBit(openBit, true);
