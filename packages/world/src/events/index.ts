@@ -12,6 +12,7 @@ export * from "./player-break-block";
 export * from "./player-interact-with-entity";
 export * from "./player-interact-with-block";
 export * from "./player-open-door";
+export * from "./player-jump";
 export * from "./chunk-read";
 export * from "./chunk-write";
 export * from "./effect-add";

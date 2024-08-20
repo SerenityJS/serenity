@@ -12,7 +12,12 @@ import {
 	UpdateBlockPacket,
 	Vector3f
 } from "@serenityjs/protocol";
-import { ItemStack, ItemUseCause, type Player } from "@serenityjs/world";
+import {
+	ItemStack,
+	ItemUseCause,
+	PlayerJumpSignal,
+	type Player
+} from "@serenityjs/world";
 import { type ItemIdentifier, ItemType } from "@serenityjs/item";
 
 import { SerenityHandler } from "./serenity-handler";
@@ -52,6 +57,12 @@ class PlayerAction extends SerenityHandler {
 			case ActionIds.AbortBreak: {
 				this.handleAbortBreak(packet, player);
 				break;
+			}
+
+			case ActionIds.Jump: {
+				// Create a new PlayerJumpSignal and emit it.
+				const signal = new PlayerJumpSignal(player);
+				return void signal.emit();
 			}
 
 			case ActionIds.StartSprint: {

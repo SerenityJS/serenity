@@ -14,6 +14,7 @@ enum WorldEvent {
 	PlayerItemConsume,
 	PlayerMissSwing,
 	PlayerOpenDoor,
+	PlayerJump,
 	BlockUpdate,
 	FurnaceSmelt,
 	ProjectileHitBlock,

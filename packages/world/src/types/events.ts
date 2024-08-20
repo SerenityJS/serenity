@@ -16,6 +16,7 @@ import type {
 	PlayerInteractWithEntitySignal,
 	PlayerItemConsumeSignal,
 	PlayerJoinSignal,
+	PlayerJumpSignal,
 	PlayerMissSwingSignal,
 	PlayerOpenDoorSignal,
 	PlayerPlaceBlockSignal,
@@ -38,6 +39,7 @@ interface WorldEventSignals {
 	[WorldEvent.PlayerItemConsume]: [PlayerItemConsumeSignal];
 	[WorldEvent.PlayerMissSwing]: [PlayerMissSwingSignal];
 	[WorldEvent.PlayerOpenDoor]: [PlayerOpenDoorSignal];
+	[WorldEvent.PlayerJump]: [PlayerJumpSignal];
 	[WorldEvent.ProjectileHitBlock]: [ProjectileHitBlockSignal];
 	[WorldEvent.ProjectileHitEntity]: [ProjectileHitEntiySignal];
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
