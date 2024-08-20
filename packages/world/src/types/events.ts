@@ -13,6 +13,7 @@ import type {
 	FurnaceSmeltSignal,
 	PlayerBreakBlockSignal,
 	PlayerChatSignal,
+	PlayerExecuteCommandSignal,
 	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
 	PlayerItemConsumeSignal,
@@ -34,6 +35,7 @@ interface WorldEventSignals {
 	[WorldEvent.PlayerJoin]: [PlayerJoinSignal];
 	[WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
 	[WorldEvent.PlayerChat]: [PlayerChatSignal];
+	[WorldEvent.PlayerExecuteCommand]: [PlayerExecuteCommandSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];

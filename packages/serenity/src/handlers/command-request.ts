@@ -4,6 +4,7 @@ import {
 	PermissionLevel
 } from "@serenityjs/protocol";
 import { CommandExecutionState } from "@serenityjs/command";
+import { PlayerExecuteCommandSignal } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -20,6 +21,16 @@ class CommandRequest extends SerenityHandler {
 		// And check if the player is not undefined
 		const player = this.serenity.getPlayer(session);
 		if (!player) return;
+
+		// Create a new PlayerExecuteCommandSignal instance.
+		const signal = new PlayerExecuteCommandSignal(player, packet.command);
+		const value = signal.emit();
+
+		// If the signal was cancelled, return.
+		if (value === false) return;
+
+		// Reassign the command to the signal's command.
+		packet.command = signal.command;
 
 		// Get the command from the packet
 		const state = new CommandExecutionState(
