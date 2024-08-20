@@ -94,8 +94,7 @@ class ItemStackRequest extends SerenityHandler {
 
 					// Get the source.
 					const source = request.source;
-
-					if (!source) return;
+					if (!source) continue;
 
 					// Check if the source is the cursor.
 					if (source.container.identifier === ContainerName.Cursor) {
@@ -110,6 +109,54 @@ class ItemStackRequest extends SerenityHandler {
 
 						// Clear the source.
 						inventory.container.clearSlot(source.slot);
+					}
+				}
+
+				if (action.craftRecipe) {
+					// Get the item instance action.
+					const itemInstanceAction = request
+						.actions[1] as ItemStackRequestAction;
+
+					// Check if the item instance action exists.
+					if (!itemInstanceAction.resultsDeprecated)
+						throw new Error("Invalid item instance action.");
+
+					// Get the items being crafted.
+					const descriptors = itemInstanceAction.resultsDeprecated.resultants;
+
+					// Get the destination action.
+					const destinationAction = request.actions.at(
+						-1
+					) as ItemStackRequestAction;
+
+					// Check if the destination action exists.
+					if (!destinationAction.takeOrPlace)
+						throw new Error("Invalid destination action.");
+
+					// Get the destination.
+					const destination = player.getContainer(
+						destinationAction.takeOrPlace.destination.container.identifier
+					);
+
+					// Check if the destination exists.
+					if (!destination)
+						throw new Error(
+							`Invalid destination: ${destinationAction.takeOrPlace.destination.container.identifier}`
+						);
+
+					// Add the items to the destination.
+					for (const descriptor of descriptors) {
+						// Convert the descriptor to an item stack.
+						const itemStack = ItemStack.fromNetworkInstance(descriptor);
+
+						// Check if the item stack exists
+						if (!itemStack)
+							throw new Error(
+								"Failed to convert network discriptor to item stack."
+							);
+
+						// Add the item stack to the destination.
+						destination.addItem(itemStack);
 					}
 				}
 
@@ -153,7 +200,7 @@ class ItemStackRequest extends SerenityHandler {
 					const itemStack = ItemStack.create(creativeItem.type, amount);
 
 					// Set the item stack in the container
-					return container.setItem(destination.slot, itemStack);
+					container.setItem(destination.slot, itemStack);
 				}
 			}
 		}
