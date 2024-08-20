@@ -4,4 +4,3 @@ export * from "./properties";
 export * from "./providers";
 export * from "./types";
 export * from "./worlds";
-export * from "./events";

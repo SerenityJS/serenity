@@ -12,6 +12,7 @@ import type {
 	EntityTeleportSignal,
 	FurnaceSmeltSignal,
 	PlayerBreakBlockSignal,
+	PlayerChatSignal,
 	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
 	PlayerItemConsumeSignal,
@@ -32,6 +33,7 @@ interface WorldEventSignals {
 	[WorldEvent.EntityEffectRemove]: [EntityEffectRemoveSignal];
 	[WorldEvent.PlayerJoin]: [PlayerJoinSignal];
 	[WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
+	[WorldEvent.PlayerChat]: [PlayerChatSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];

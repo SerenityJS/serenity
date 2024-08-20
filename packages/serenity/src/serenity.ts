@@ -1,18 +1,11 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Server } from "@serenityjs/raknet";
 import { Network, type NetworkSession } from "@serenityjs/network";
-import Emitter from "@serenityjs/emitter";
 import { Plugins } from "@serenityjs/plugins";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
 import { Properties } from "./properties";
 import { ResourcePackManager } from "./resource-packs/resource-pack-manager";
-import {
-	EVENT_SIGNALS,
-	EventPriority,
-	type EventSignal,
-	type EventSignals
-} from "./events";
 import { Worlds } from "./worlds";
 import { DEFAULT_SERVER_PROPERTIES } from "./properties/default";
 import { Permissions } from "./permissions";
@@ -22,7 +15,7 @@ import type { DataPacket } from "@serenityjs/protocol";
 import type { DefaultServerProperties } from "./types";
 import type { Player } from "@serenityjs/world";
 
-class Serenity extends Emitter<EventSignals> {
+class Serenity {
 	/**
 	 * The server logger instance
 	 */
@@ -64,11 +57,6 @@ class Serenity extends Emitter<EventSignals> {
 	public readonly resourcePacks: ResourcePackManager;
 
 	/**
-	 * A collective registry of all events.
-	 */
-	public readonly events: Map<string, EventSignal>;
-
-	/**
 	 * The plugins manager instance
 	 */
 	public readonly plugins: Plugins;
@@ -99,8 +87,6 @@ class Serenity extends Emitter<EventSignals> {
 	public tps: number = 20;
 
 	public constructor() {
-		super();
-
 		// Assign instances
 		this.logger = new Logger("Serenity", LoggerColors.Magenta);
 		this.properties = new Properties(
@@ -140,7 +126,6 @@ class Serenity extends Emitter<EventSignals> {
 		);
 
 		this.players = new Map();
-		this.events = new Map();
 
 		this.resourcePacks = new ResourcePackManager(
 			"./resource_packs",
@@ -150,49 +135,6 @@ class Serenity extends Emitter<EventSignals> {
 
 		// Set the Serenity instance for all handlers and event signals
 		SerenityHandler.serenity = this;
-
-		// Load all the event signals
-		for (const signal of EVENT_SIGNALS) {
-			// Apply the event signal priority
-			// This will corrispond to the incoming packet priority
-			switch (signal.priority as EventPriority) {
-				default: {
-					// If no priority is set, check if the signal has a hook
-					// If so we will set the priority to "During"
-					if (signal.hook) {
-						this.network.on(signal.hook, signal.logic.bind(signal) as never);
-					}
-					break;
-				}
-
-				case EventPriority.Before: {
-					// If the priority is set to "Before"
-					// We will bind the signal logic to the network event before it is handled
-					this.network.before(signal.hook, signal.logic.bind(signal) as never);
-					break;
-				}
-
-				case EventPriority.After: {
-					// If the priority is set to "After"
-					// We will bind the signal logic to the network event after it is handled
-					this.network.after(signal.hook, signal.logic.bind(signal) as never);
-					break;
-				}
-
-				case EventPriority.During: {
-					// If the priority is set to "During"
-					// We will bind the signal logic to the network event
-					this.network.on(signal.hook, signal.logic.bind(signal) as never);
-					break;
-				}
-			}
-
-			// Set the Serenity instance for the event signal
-			signal.serenity = this;
-
-			// Set the signal in the events map
-			this.events.set(signal.name, signal);
-		}
 
 		// Register the worlds manager
 		this.worlds = new Worlds(this);
@@ -270,9 +212,6 @@ class Serenity extends Emitter<EventSignals> {
 		this.logger.info(
 			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
 		);
-
-		// Emit the ready event
-		return void this.emit("Ready");
 	}
 
 	/**

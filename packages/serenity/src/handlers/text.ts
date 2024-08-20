@@ -1,4 +1,5 @@
 import { DisconnectReason, TextPacket } from "@serenityjs/protocol";
+import { PlayerChatSignal } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -19,19 +20,18 @@ class Text extends SerenityHandler {
 				DisconnectReason.MissingClient
 			);
 
-		// Send the message to the player.
-		const text = new TextPacket();
-		text.type = packet.type;
-		text.needsTranslation = packet.needsTranslation;
-		text.source = packet.source;
-		text.message = packet.message;
-		text.parameters = packet.parameters;
-		text.xuid = packet.xuid;
-		text.platformChatId = packet.platformChatId;
-		text.filtered = packet.filtered;
+		// Create a new PlayerChatSignal instance.
+		const signal = new PlayerChatSignal(player, packet.message);
+		const value = signal.emit();
+
+		// If the signal was cancelled, return.
+		if (value === false) return;
+
+		// Set the message to the signal's message.
+		packet.message = signal.message;
 
 		// Send the packet.
-		player.dimension.world.broadcast(text);
+		player.dimension.world.broadcast(packet);
 	}
 }
 

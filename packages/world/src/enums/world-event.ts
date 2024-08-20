@@ -7,6 +7,7 @@ enum WorldEvent {
 	EntityTeleport,
 	PlayerJoin,
 	PlayerLeave,
+	PlayerChat,
 	PlayerPlaceBlock,
 	PlayerBreakBlock,
 	PlayerInteractWithEntity,
