@@ -10,7 +10,7 @@ class EnchantOption extends DataType {
 	public heldEnchantments: Array<Enchant>;
 	public selfEnchantments: Array<Enchant>;
 	public name: string;
-	public optionId: number; //bigint
+	public optionId: number;
 
 	public constructor(
 		cost: number,
@@ -62,8 +62,6 @@ class EnchantOption extends DataType {
 				)
 			);
 		}
-
-		// zigzag / uint32
 
 		return options;
 	}
