@@ -167,13 +167,13 @@ export class Chunk {
 	 */
 	public getTopmostLevel(position: Vector3f): number {
 		// Get the Y level.
-		for (let y = position.y; y >= 0; y--) {
+		for (let y = position.y; y >= -64; y--) {
 			const permutation = this.getPermutation(position.x, y, position.z);
 			if (permutation.type.identifier !== BlockIdentifier.Air) return y;
 		}
 
 		// Return 0 if no block was found.
-		return 0;
+		return -64;
 	}
 
 	/**
@@ -197,9 +197,14 @@ export class Chunk {
 	 * @param index The index.
 	 */
 	public getSubChunk(index: number): SubChunk {
-		// Check if the index is valid.
-		if (index < 0 || index > Chunk.MAX_SUB_CHUNKS)
-			throw new Error("Invalid sub chunk index.");
+		// Check if the index is below 0.
+		// Then will we return the bottom sub chunk.
+		if (index < 0) return this.getSubChunk(0);
+
+		// Check if the index is above the maximum sub chunks.
+		// Then will we return the top sub chunk.
+		if (index >= Chunk.MAX_SUB_CHUNKS)
+			return this.getSubChunk(Chunk.MAX_SUB_CHUNKS - 1);
 
 		// Check if the sub chunk exists.
 		if (!this.subchunks[index]) {
