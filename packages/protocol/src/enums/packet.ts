@@ -84,6 +84,7 @@ enum Packet {
 	PlayerAuthInput = 0x90, // 144
 	// PlayerAuthInput = 0x90, // 144
 	CreativeContent = 0x91, // 145
+	PlayerEnchantOptions = 0x92, // 146
 	ItemStackRequest = 0x93, // 147
 	ItemStackResponse = 0x94, // 148
 	EmoteList = 0x98, // 152
