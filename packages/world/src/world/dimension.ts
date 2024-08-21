@@ -127,7 +127,14 @@ class Dimension {
 			// Tick the entity if it is in simulation range
 			if (inSimulationRange) {
 				for (const component of entity.components.values())
-					component.onTick?.(deltaTick);
+					try {
+						component.onTick?.(deltaTick);
+					} catch (reason) {
+						this.world.logger.error(
+							`Failed to tick entity component "${component.identifier}" for entity "${entity.type.identifier}:${entity.unique}" in dimension "${this.identifier}"`,
+							reason
+						);
+					}
 			}
 		}
 
@@ -149,7 +156,14 @@ class Dimension {
 			// Tick the block if it is in simulation range
 			if (inSimulationRange) {
 				for (const component of block.components.values())
-					component.onTick?.(deltaTick);
+					try {
+						component.onTick?.(deltaTick);
+					} catch (reason) {
+						this.world.logger.error(
+							`Failed to tick block component "${component.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+							reason
+						);
+					}
 			}
 		}
 	}

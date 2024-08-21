@@ -1,5 +1,16 @@
 # @serenityjs/item
 
+## 0.4.3
+
+### Patch Changes
+
+- dd3c52b: init v0.4.3-beta
+- Updated dependencies [dd3c52b]
+  - @serenityjs/block@0.4.3
+  - @serenityjs/data@0.4.3
+  - @serenityjs/nbt@0.4.3
+  - @serenityjs/protocol@0.4.3
+
 ## 0.4.2
 
 ### Patch Changes

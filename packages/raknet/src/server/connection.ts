@@ -33,6 +33,11 @@ class Connection {
 	public status = Status.Connecting;
 
 	/**
+	 * The last update time of the connection
+	 */
+	public lastUpdate = Date.now();
+
+	/**
 	 * The network identifier of the connection
 	 */
 	public readonly rinfo: RemoteInfo;
@@ -106,6 +111,17 @@ class Connection {
 	 * Ticks the connection
 	 */
 	public tick(): void {
+		// Check if the client is stale
+		if (this.lastUpdate + 5000 < Date.now()) {
+			// Log a warning message for stale connections
+			this.server.logger.warn(
+				`Detected stale connection from §c${this.rinfo.address}§r:§c${this.rinfo.port}§r, disconnecting...`
+			);
+
+			// Disconnect the client
+			return this.disconnect();
+		}
+
 		// Check if the client is disconnecting or disconnected
 		if (
 			this.status === Status.Disconnecting ||
@@ -177,6 +193,9 @@ class Connection {
 	 * @param buffer The packet buffer
 	 */
 	public incoming(buffer: Buffer): void {
+		// Update the last update time
+		this.lastUpdate = Date.now();
+
 		// Reads the header of the packet (u8)
 		// And masks it with 0xf0 to get the header
 		const header = (buffer[0] as number) & 0xf0;
