@@ -2,7 +2,7 @@ import {
 	DisconnectReason,
 	SetLocalPlayerAsInitializedPacket
 } from "@serenityjs/protocol";
-import { PlayerStatus } from "@serenityjs/world";
+import { PlayerInitializeSignal, PlayerStatus } from "@serenityjs/world";
 
 import { SerenityHandler } from "./serenity-handler";
 
@@ -27,6 +27,13 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		// Delete the player from the connecting map
 		if (this.serenity.connecting.has(session))
 			this.serenity.connecting.delete(session);
+
+		// Create a new PlayerInitializeSignal
+		const signal = new PlayerInitializeSignal(player);
+		const value = signal.emit();
+
+		// Check if the signal was cancelled
+		if (value === false) return;
 
 		// Sync the player
 		player.sync();

@@ -38,7 +38,7 @@ import { EntityIdentifier } from "@serenityjs/entity";
 import { Entity } from "../entity";
 import { PlayerComponent, EntityComponent } from "../components";
 import { ItemStack } from "../item";
-import { PlayerMissSwingSignal } from "../events";
+import { EntitySpawnedSignal, PlayerMissSwingSignal } from "../events";
 
 import { PlayerStatus } from "./status";
 import { Device } from "./device";
@@ -279,6 +279,13 @@ class Player extends Entity {
 	 * @param player The player to spawn the player to.
 	 */
 	public spawn(player?: Player): void {
+		// Create a new EntitySpawnedSignal
+		const signal = new EntitySpawnedSignal(this, this.dimension, player);
+		const value = signal.emit();
+
+		// Check if the signal was cancelled
+		if (!value) return;
+
 		// Create a new AddPlayerPacket
 		const packet = new AddPlayerPacket();
 

@@ -14,6 +14,7 @@ import type {
 	PlayerBreakBlockSignal,
 	PlayerChatSignal,
 	PlayerExecuteCommandSignal,
+	PlayerInitializeSignal,
 	PlayerInteractWithBlockSignal,
 	PlayerInteractWithEntitySignal,
 	PlayerItemConsumeSignal,
@@ -38,6 +39,7 @@ interface WorldEventSignals {
 	[WorldEvent.EntityEffectRemove]: [EntityEffectRemoveSignal];
 	[WorldEvent.PlayerJoin]: [PlayerJoinSignal];
 	[WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
+	[WorldEvent.PlayerInitialize]: [PlayerInitializeSignal];
 	[WorldEvent.PlayerChat]: [PlayerChatSignal];
 	[WorldEvent.PlayerExecuteCommand]: [PlayerExecuteCommandSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
