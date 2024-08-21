@@ -23,10 +23,12 @@ import type {
 	PlayerOpenDoorSignal,
 	PlayerPlaceBlockSignal,
 	ProjectileHitBlockSignal,
-	ProjectileHitEntiySignal
+	ProjectileHitEntiySignal,
+	WorldInitializeSignal
 } from "../events";
 
 interface WorldEventSignals {
+	[WorldEvent.WorldInitialize]: [WorldInitializeSignal];
 	[WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
 	[WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
 	[WorldEvent.EntityTeleport]: [EntityTeleportSignal];

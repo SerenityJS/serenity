@@ -9,7 +9,8 @@ import {
 	type WorldConfig,
 	type TerrainGenerator,
 	type World,
-	type WorldProvider
+	type WorldProvider,
+	WorldInitializeSignal
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
@@ -176,6 +177,9 @@ class Worlds {
 						resolve(this.path, directory.path, directory.name),
 						[...this.generators.values()]
 					);
+
+					// Create a new WorldInitializeSignal and emit it.
+					new WorldInitializeSignal(world).emit();
 
 					// Register the admin commands.
 					for (const command of ADMIN_COMMANDS) {

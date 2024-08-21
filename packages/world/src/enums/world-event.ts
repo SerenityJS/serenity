@@ -1,4 +1,5 @@
 enum WorldEvent {
+	WorldInitialize,
 	EntitySpawned,
 	EntityDespawned,
 	EntityEffectAdd,
