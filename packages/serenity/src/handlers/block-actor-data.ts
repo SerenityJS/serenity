@@ -19,9 +19,9 @@ export class BlockActorData extends SerenityHandler {
 		const {
 			value: { x, y, z }
 		} = packet.nbt as CompoundTag<{
-			x: IntTag<number>;
-			y: IntTag<number>;
-			z: IntTag<number>;
+			x: IntTag;
+			y: IntTag;
+			z: IntTag;
 		}>;
 
 		const blockActor = player.dimension.getBlock(x.value, y.value, z.value);
