@@ -1,4 +1,5 @@
 import {
+	ActorData,
 	ActorEventIds,
 	ActorEventPacket,
 	AddEntityPacket,
@@ -26,6 +27,8 @@ import {
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
+import { CompoundTag } from "@serenityjs/nbt";
+import { ItemIdentifier } from "@serenityjs/item";
 
 import { CardinalDirection, type EntityInteractType } from "../enums";
 import {
@@ -33,6 +36,7 @@ import {
 	EntityComponent,
 	EntityEffectsComponent,
 	EntityHealthComponent,
+	EntityItemComponent,
 	EntityNametagComponent,
 	EntityOnFireComponent,
 	EntityVariantComponent
@@ -144,6 +148,11 @@ class Entity {
 	public dimension: Dimension;
 
 	/**
+	 * The nbt data of the entity.
+	 */
+	public nbt = new CompoundTag();
+
+	/**
 	 * Whether or not the entity is on the ground.
 	 */
 	public onGround = false;
@@ -161,11 +170,7 @@ class Entity {
 		// Readonly properties
 		this.type = EntityType.get(identifier) as EntityType;
 		this.runtime = Entity.runtime++;
-		this.unique = uniqueId
-			? uniqueId < 0n
-				? -uniqueId >> 32n
-				: uniqueId >> 32n
-			: Entity.runtime;
+		this.unique = uniqueId ?? BigInt(Math.floor(Math.random() * 1_000_000_000));
 
 		// Mutable properties
 		this.dimension = dimension;
@@ -326,7 +331,10 @@ class Entity {
 		// Check if the entity is an item
 		if (this.isItem()) {
 			// Get the item component
-			const itemComponent = this.getComponent("minecraft:item");
+			// TODO: fix this
+			const itemComponent = this.hasComponent("minecraft:item")
+				? this.getComponent("minecraft:item")
+				: new EntityItemComponent(this, new ItemStack(ItemIdentifier.Air, 1));
 
 			// Create a new AddItemActorPacket
 			const packet = new AddItemActorPacket();
@@ -1163,6 +1171,23 @@ class Entity {
 
 		// Return true as the interaction was successful
 		return true;
+	}
+
+	/**
+	 * Creates actor data from a given entity.
+	 * @param entity The entity to generate the actor data from.
+	 * @returns The generated actor data.
+	 */
+	public static toActorData(entity: Entity): ActorData {
+		const identifier = entity.type.identifier;
+		const position = entity.position;
+		const rotation = entity.rotation;
+
+		const extras = Buffer.from("Hello World!");
+
+		const data = new ActorData(identifier, position, rotation, extras);
+
+		return data;
 	}
 }
 

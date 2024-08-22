@@ -108,3 +108,4 @@ export * from "./item-stack-request-action-results-deprecated";
 export * from "./item-stack-request-action";
 export * from "./item-stack-request";
 export * from "./disconnect-message";
+export * from "./actor-data";

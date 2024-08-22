@@ -222,6 +222,25 @@ class Dimension {
 	}
 
 	/**
+	 * Gets all the entities in a chunk.
+	 * @param chunk The chunk to query.
+	 * @param players Whether or not to include players.
+	 * @returns All the entities in the chunk.
+	 */
+	public getEntitiesInChunk(chunk: Chunk, players = true): Array<Entity> {
+		return this.getEntities().filter((entity) => {
+			// Check if the entity is a player
+			if (!players && entity.isPlayer()) return false;
+
+			// Get the entities chunk
+			const entChunk = entity.getChunk();
+
+			// Check if entities chunk and the given chunk are the same
+			return entChunk.x === chunk.x && entChunk.z === chunk.z;
+		});
+	}
+
+	/**
 	 * Broadcasts packets to all the players in the dimension.
 	 *
 	 * @param packets The packets to broadcast.
@@ -472,9 +491,13 @@ class Dimension {
 	 * @param position The position of the entity.
 	 * @returns The entity that was spawned.
 	 */
-	public spawnEntity(identifier: EntityIdentifier, position: Vector3f): Entity {
+	public spawnEntity(
+		identifier: EntityIdentifier | Entity,
+		position: Vector3f
+	): Entity {
 		// Create a new Entity instance
-		const entity = new Entity(identifier, this);
+		const entity =
+			identifier instanceof Entity ? identifier : new Entity(identifier, this);
 
 		// Apply physics to the entity
 		new EntityPhysicsComponent(entity);

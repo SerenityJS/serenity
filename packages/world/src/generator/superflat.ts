@@ -25,10 +25,10 @@ class Superflat extends TerrainGenerator {
 
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
-				for (let y = 0; y < 4; y++) {
-					if (y === 0) {
+				for (let y = -64; y < -60; y++) {
+					if (y === -64) {
 						chunk.setPermutation(x, y, z, bedrock, false);
-					} else if (y === 1 || y === 2) {
+					} else if (y === -63 || y === -62) {
 						chunk.setPermutation(x, y, z, dirt, false);
 					} else {
 						chunk.setPermutation(x, y, z, grass, false);

@@ -152,7 +152,7 @@ class BlockSignComponent extends BlockComponent {
 		} = textData;
 		const signTag = new CompoundTag(tagName, {}) as CompoundTag<SignTextTag>;
 
-		return signTag.addTag<unknown>(
+		return signTag.addTag(
 			new StringTag("Text", Text),
 			new IntTag("SignTextColor", TextColor),
 			new ByteTag("HideGlowOutline", Number(HideGlowOutline)),

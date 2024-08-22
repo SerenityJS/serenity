@@ -1,3 +1,4 @@
+import type { Entity } from "../entity";
 import type { Player } from "../player";
 import type { CompoundTag } from "@serenityjs/nbt";
 import type { Dimension, World } from "../world";
@@ -62,6 +63,30 @@ class WorldProvider {
 	 */
 	public writeChunk(_chunk: Chunk, _dimension: Dimension | string): void {
 		throw new Error("WorldProvider.writeChunk is not implemented");
+	}
+
+	/**
+	 * Reads the entities that are in the chunk.
+	 * @param _chunk The chunk to read the entities from.
+	 * @param _dimension The dimension to read the entities from.
+	 * @returns The entities read from the chunk.
+	 */
+	public readEntities(_chunk: Chunk, _dimension: Dimension): Array<Entity> {
+		throw new Error("WorldProvider.readEntities is not implemented");
+	}
+
+	/**
+	 * Writes the entities to the chunk.
+	 * @param _entities The entities to write to the chunk.
+	 * @param _chunk The chunk to write the entities to.
+	 * @param _dimension The dimension to write the entities to.
+	 */
+	public writeEntities(
+		_entities: Array<Entity>,
+		_chunk: Chunk,
+		_dimension: Dimension
+	): void {
+		throw new Error("WorldProvider.writeEntities is not implemented");
 	}
 
 	/**

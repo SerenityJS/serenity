@@ -1,8 +1,8 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-
 import { Tag } from "../named-binary-tag";
 
 import { NBTTag } from "./tag";
+
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * @remarks This is a custom tag that performs the same function as the ByteTag class.
