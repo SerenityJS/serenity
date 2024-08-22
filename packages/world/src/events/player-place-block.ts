@@ -49,8 +49,6 @@ class PlayerPlaceBlockSignal extends BlockUpdateSignal {
 		this.permutationBeingPlaced = permutationBeingPlaced;
 		this.face = face;
 		this.faceLocation = faceLocation;
-
-		console.log("PlayerPlaceBlockSignal", this.player.username);
 	}
 }
 

@@ -11,6 +11,7 @@ import { Commands } from "@serenityjs/command";
 import { COMMON_COMMANDS } from "../commands";
 import { ADMIN_COMMANDS } from "../commands/admin";
 import { Scoreboard } from "../scoreboard";
+import { WorldTickSignal } from "../events";
 
 import { Dimension } from "./dimension";
 
@@ -85,6 +86,17 @@ class World {
 	public tick(deltaTick: number): void {
 		// Check if there are no players in the world
 		if (this.getPlayers().length === 0) return;
+
+		// Create a new tick signal
+		const signal = new WorldTickSignal(
+			this.currentTick,
+			BigInt(deltaTick),
+			this
+		);
+
+		// Emit the tick signal
+		const value = signal.emit();
+		if (value === false) return;
 
 		// Add one to the current tick
 		this.currentTick++;
