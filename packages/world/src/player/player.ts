@@ -153,7 +153,7 @@ class Player extends Entity {
 		dimension: Dimension,
 		permission: PermissionLevel
 	) {
-		super(EntityIdentifier.Player, dimension, session.guid);
+		super(EntityIdentifier.Player, dimension);
 		this.session = session;
 		this.username = tokens.identityData.displayName;
 		this.xuid = tokens.identityData.XUID;

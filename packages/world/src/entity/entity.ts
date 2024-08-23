@@ -170,7 +170,7 @@ class Entity {
 		// Readonly properties
 		this.type = EntityType.get(identifier) as EntityType;
 		this.runtime = Entity.runtime++;
-		this.unique = uniqueId ?? BigInt(Math.floor(Math.random() * 1_000_000_000));
+		this.unique = uniqueId ?? BigInt(Date.now() << 2);
 
 		// Mutable properties
 		this.dimension = dimension;
