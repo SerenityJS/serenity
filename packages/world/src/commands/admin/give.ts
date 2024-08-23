@@ -14,12 +14,19 @@ const register = (world: World) => {
 		"Gives an item to a player",
 		(_, parameters) => {
 			// Get the result of the item, amount, and metadata
-			const itemIdentifier = parameters.item.result as ItemIdentifier;
+			const itemResult = parameters.item.result;
+			const itemIdentifier = itemResult.includes(":")
+				? itemResult
+				: `minecraft:${itemResult}`;
 			const amount = parameters.amount?.result ?? 1;
 			const metadata = parameters.metadata?.result ?? 0;
 
 			// Create a new item stack
-			const itemStack = new ItemStack(itemIdentifier, amount, metadata);
+			const itemStack = new ItemStack(
+				itemIdentifier as ItemIdentifier,
+				amount,
+				metadata
+			);
 
 			// Loop through the targets
 			for (const target of parameters.target.result) {

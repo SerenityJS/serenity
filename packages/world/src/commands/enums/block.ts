@@ -10,6 +10,7 @@ const identifiers = BlockType.getAll().map((block) =>
 class BlockEnum extends CustomEnum {
 	public static readonly name = "block";
 	public static readonly options = identifiers;
+	public static readonly strict = false;
 }
 
 export { BlockEnum };
