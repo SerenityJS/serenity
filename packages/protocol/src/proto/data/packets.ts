@@ -103,6 +103,7 @@ import { ContainerSetDataPacket } from "./container-set-data";
 import { AvailableActorIdentifiersPacket } from "./available-actor-identifiers";
 import { StructureBlockUpdatePacket } from "./structure-block-update";
 import { DimensionDataPacket } from "./dimension-data";
+import { PlayerEnchantOptionsPacket } from "./player-enchant-options";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -182,6 +183,7 @@ const Packets = {
 	[Packet.NetworkSettings]: NetworkSettingsPacket, // 143
 	[Packet.PlayerAuthInput]: PlayerAuthInputPacket, // 144
 	[Packet.CreativeContent]: CreativeContentPacket, // 145
+	[Packet.PlayerEnchantOptions]: PlayerEnchantOptionsPacket, // 146
 	[Packet.ItemStackRequest]: ItemStackRequestPacket, // 147
 	[Packet.ItemStackResponse]: ItemStackResponsePacket, // 148
 	[Packet.EmoteList]: EmoteListPacket, // 152
