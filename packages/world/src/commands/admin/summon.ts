@@ -14,7 +14,10 @@ const register = (world: World) => {
 		"Summons an entity at a specified location",
 		(origin, parameters) => {
 			// Get the result of the entity and position
-			const identifier = parameters.entity.result as EntityIdentifier;
+			const identifierResult = parameters.entity.result;
+			const identifier = identifierResult.includes(":")
+				? identifierResult
+				: `minecraft:${identifierResult}`;
 			const { x, y, z, xSteps, ySteps, zSteps } = parameters.position;
 
 			if (origin instanceof Entity) {
@@ -27,7 +30,10 @@ const register = (world: World) => {
 				const nz = z === "~" ? ez + zSteps : z === "^" ? ez + 1 : +z;
 
 				// Spawn the entity at the specified location
-				origin.dimension.spawnEntity(identifier, new Vector3f(nx, ny, nz));
+				origin.dimension.spawnEntity(
+					identifier as EntityIdentifier,
+					new Vector3f(nx, ny, nz)
+				);
 
 				// Send the success message
 				return {
@@ -40,7 +46,10 @@ const register = (world: World) => {
 				const nz = z === "~" ? 0 : z === "^" ? 0 + 1 : +z;
 
 				// Spawn the entity at the specified location
-				origin.spawnEntity(identifier, new Vector3f(nx, ny, nz));
+				origin.spawnEntity(
+					identifier as EntityIdentifier,
+					new Vector3f(nx, ny, nz)
+				);
 
 				// Send the success message
 				return {

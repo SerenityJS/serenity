@@ -4,6 +4,14 @@ import { Tag } from "../named-binary-tag";
 
 import { NBTTag } from "./tag";
 import { NBT_TAGS } from "./tags";
+import { ByteTag } from "./byte";
+import { ShortTag } from "./short";
+import { IntTag } from "./int";
+import { LongTag } from "./long";
+import { ListTag } from "./list";
+import { FloatTag } from "./float";
+import { DoubleTag } from "./double";
+import { StringTag } from "./string";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
 
@@ -15,16 +23,25 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 
 	/**
 	 * Creates a new compound tag.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 */
+	public constructor(name?: string, value?: T) {
+		super(name ?? String(), value ?? ({} as T));
+	}
+
+	/**
+	 * Creates a new compound tag.
 	 *
 	 * @param name The name of the tag.
 	 * @param value The value of the tag.
 	 * @returns A new compound tag.
 	 */
-	public addTag<T>(...tags: Array<NBTTag<T>>): this {
+	public addTag(...tags: Array<NBTTag>): this {
 		// Iterate over the tags.
 		for (const tag of tags) {
 			// Add the tag to the value.
-			(this.value as Record<string, NBTTag<unknown>>)[tag.name] = tag;
+			(this.value as Record<string, NBTTag>)[tag.name] = tag;
 		}
 
 		return this;
@@ -36,7 +53,7 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 	 * @param name The name of the tag to remove.
 	 */
 	public removeTag(name: string): this {
-		delete (this.value as Record<string, NBTTag<unknown>>)[name];
+		delete (this.value as Record<string, NBTTag>)[name];
 
 		return this;
 	}
@@ -47,8 +64,8 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 	 * @param name The name of the tag to get.
 	 * @returns The tag that was found.
 	 */
-	public getTag<T>(name: string): NBTTag<T> | undefined {
-		return (this.value as Record<string, NBTTag<T>>)[name];
+	public getTag<T extends NBTTag>(name: string): T | undefined {
+		return (this.value as Record<string, T>)[name];
 	}
 
 	/**
@@ -58,7 +75,7 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 	 * @returns The tag that was found.
 	 */
 	public hasTag(name: string): boolean {
-		return name in (this.value as Record<string, NBTTag<unknown>>);
+		return name in (this.value as Record<string, NBTTag>);
 	}
 
 	/**
@@ -67,8 +84,8 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 	 * @param name The name of the tag to set.
 	 * @param tag The tag to set.
 	 */
-	public setTag<T>(name: string, tag: NBTTag<T>): this {
-		(this.value as Record<string, NBTTag<T>>)[name] = tag;
+	public setTag<T extends NBTTag>(name: string, tag: T): this {
+		(this.value as Record<string, T>)[name] = tag;
 
 		return this;
 	}
@@ -78,8 +95,8 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 	 *
 	 * @returns All the tags in the compound tag.
 	 */
-	public getTags<T>(): Array<NBTTag<T>> {
-		return Object.values(this.value as Record<string, NBTTag<T>>);
+	public getTags<T extends NBTTag>(): Array<T> {
+		return Object.values(this.value as Record<string, T>);
 	}
 
 	/**
@@ -92,6 +109,160 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 		}
 
 		return this;
+	}
+
+	/**
+	 * Creates a new byte tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createByteTag(name: string, value: number): ByteTag {
+		// Create the tag.
+		const tag = new ByteTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	/**
+	 * Creates a new short tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createShortTag(name: string, value: number): ShortTag {
+		// Create the tag.
+		const tag = new ShortTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	/**
+	 * Creates a new int tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createIntTag(name: string, value: number): IntTag {
+		// Create the tag.
+		const tag = new IntTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	/**
+	 * Creates a new long tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createLongTag(name: string, value: bigint): LongTag {
+		// Create the tag.
+		const tag = new LongTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	/**
+	 * Creates a new float tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createFloatTag(name: string, value: number): FloatTag {
+		// Create the tag.
+		const tag = new FloatTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	/**
+	 * Creates a new double tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createDoubleTag(name: string, value: number): DoubleTag {
+		// Create the tag.
+		const tag = new DoubleTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	/**
+	 * Creates a new string tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createStringTag(name: string, value: string): StringTag {
+		// Create the tag.
+		const tag = new StringTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	/**
+	 * Creates a new compound tag on the compound.
+	 * @param name The name of the tag.
+	 * @param value The value of the tag.
+	 * @returns The created tag.
+	 */
+	public createCompoundTag(
+		name: string,
+		value?: Record<string, unknown>
+	): CompoundTag {
+		// Create the tag.
+		const tag = new CompoundTag(name, value);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
+	}
+
+	public createListTag(
+		name: string,
+		type: Tag,
+		value?: Array<unknown>
+	): ListTag {
+		// Create the tag.
+		const tag = new ListTag(name, value ?? [], type);
+
+		// Add the tag to the compound.
+		this.addTag(tag);
+
+		// Return the tag.
+		return tag;
 	}
 
 	public valueOf<K = unknown>(snbt?: boolean): K | string {

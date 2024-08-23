@@ -1,4 +1,4 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { Tag } from "../named-binary-tag";
 
@@ -7,7 +7,7 @@ import { NBTTag } from "./tag";
 /**
  * A tag that contains a long value.
  */
-class LongTag<T extends bigint = bigint> extends NBTTag<T> {
+class LongTag extends NBTTag<bigint> {
 	public static readonly type = Tag.Long;
 
 	public valueOf(snbt?: boolean): bigint | string {
@@ -17,11 +17,11 @@ class LongTag<T extends bigint = bigint> extends NBTTag<T> {
 	/**
 	 * Reads a long tag from the stream.
 	 */
-	public static read<T extends bigint = bigint>(
+	public static read(
 		stream: BinaryStream,
 		varint = false,
 		type = true
-	): LongTag<T> {
+	): LongTag {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -41,15 +41,15 @@ class LongTag<T extends bigint = bigint> extends NBTTag<T> {
 			: stream.readLong(Endianness.Little);
 
 		// Return the tag.
-		return new LongTag(name, value as T);
+		return new LongTag(name, value);
 	}
 
 	/**
 	 * Writes a long tag to the stream.
 	 */
-	public static write<T extends bigint = bigint>(
+	public static write(
 		stream: BinaryStream,
-		tag: LongTag<T>,
+		tag: LongTag,
 		varint = false
 	): void {
 		// Write the type.

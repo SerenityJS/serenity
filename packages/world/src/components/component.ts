@@ -1,5 +1,3 @@
-import type { CompoundTag } from "@serenityjs/nbt";
-
 /**
  * The base class for all components.
  */
@@ -46,24 +44,6 @@ class Component {
 	 * Binds the component to the specified types.
 	 */
 	public static bind(): void {
-		throw new Error("Method not implemented.");
-	}
-
-	/**
-	 * Compresses the component into a compound tag.
-	 * @param component The component to compress.
-	 * @returns The compressed component.
-	 */
-	public static compress(_component: Component): CompoundTag {
-		throw new Error("Method not implemented.");
-	}
-
-	/**
-	 * Decompresses the component from a compound tag.
-	 * @param tag The tag to decompress.
-	 * @returns The decompressed component.
-	 */
-	public static decompress(..._parameters: Array<unknown>): Component {
 		throw new Error("Method not implemented.");
 	}
 }

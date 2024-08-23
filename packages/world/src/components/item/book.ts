@@ -102,7 +102,7 @@ class ItemBookComponent<T extends keyof Items> extends ItemComponent<T> {
 
 		const pages = this.item.nbt.getTag("pages");
 
-		writtenBook.nbt.addTag<unknown>(
+		writtenBook.nbt.addTag(
 			new StringTag("author", author),
 			new StringTag("title", title),
 			new StringTag("xuid", xuid),
@@ -110,7 +110,7 @@ class ItemBookComponent<T extends keyof Items> extends ItemComponent<T> {
 		);
 
 		if (pages) {
-			writtenBook.nbt.addTag<unknown>(pages);
+			writtenBook.nbt.addTag(pages);
 		}
 		return writtenBook;
 	}

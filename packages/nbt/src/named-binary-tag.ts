@@ -13,6 +13,7 @@ import {
 	IntTag,
 	ListTag,
 	LongTag,
+	type NBTTag,
 	ShortTag,
 	StringTag
 } from "./tags";
@@ -151,12 +152,12 @@ class NamedBinaryTag extends BinaryStream {
 		CompoundTag.write<T>(this, tag);
 	}
 
-	public readListTag<T = unknown>(): ListTag {
-		return ListTag.read<T>(this);
+	public readListTag(): ListTag {
+		return ListTag.read(this);
 	}
 
-	public writeListTag<T = unknown>(tag: ListTag<T>): void {
-		ListTag.write<T>(this, tag);
+	public writeListTag(tag: ListTag<NBTTag>): void {
+		ListTag.write(this, tag);
 	}
 }
 

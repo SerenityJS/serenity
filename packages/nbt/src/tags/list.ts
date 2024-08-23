@@ -6,6 +6,13 @@ import { Tag } from "../named-binary-tag";
 import { NBTTag } from "./tag";
 import { CompoundTag } from "./compound";
 import { NBT_TAGS } from "./tags";
+import { ByteTag } from "./byte";
+import { ShortTag } from "./short";
+import { IntTag } from "./int";
+import { LongTag } from "./long";
+import { FloatTag } from "./float";
+import { DoubleTag } from "./double";
+import { StringTag } from "./string";
 
 /**
  * A tag that contains a list value.
@@ -57,11 +64,11 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 	/**
 	 * Reads a list tag from the stream.
 	 */
-	public static read<T>(
+	public static read(
 		stream: BinaryStream,
 		varint = false,
 		type = true
-	): ListTag<T> {
+	): ListTag<NBTTag> {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -84,7 +91,7 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 			: stream.readInt32(Endianness.Little);
 
 		// Prepare the an array to store the values.
-		const values: Array<T> = [];
+		const values: Array<NBTTag> = [];
 
 		// Read the values.
 		for (let index = 0; index < length; index++) {
@@ -97,20 +104,20 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 				}
 
 				case Tag.Byte: {
-					values.push(stream.readByte() as T);
+					values.push(new ByteTag("", stream.readByte()));
 					break;
 				}
 
 				case Tag.Short: {
-					values.push(stream.readInt16(Endianness.Little) as T);
+					values.push(new ShortTag("", stream.readInt16(Endianness.Little)));
 					break;
 				}
 
 				case Tag.Int: {
 					values.push(
 						varint
-							? (stream.readVarInt() as T)
-							: (stream.readInt32(Endianness.Little) as T)
+							? new IntTag("", stream.readVarInt())
+							: new IntTag("", stream.readInt32(Endianness.Little))
 					);
 					break;
 				}
@@ -118,29 +125,29 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 				case Tag.Long: {
 					values.push(
 						varint
-							? (stream.readVarLong() as T)
-							: (stream.readLong(Endianness.Little) as T)
+							? new LongTag("", stream.readVarLong())
+							: new LongTag("", stream.readLong(Endianness.Little))
 					);
 					break;
 				}
 
 				case Tag.Float: {
-					values.push(stream.readFloat32(Endianness.Little) as T);
+					values.push(new FloatTag("", stream.readFloat32(Endianness.Little)));
 					break;
 				}
 
 				case Tag.Double: {
-					values.push(stream.readFloat64(Endianness.Little) as T);
+					values.push(new DoubleTag("", stream.readFloat64(Endianness.Little)));
 					break;
 				}
 
 				case Tag.String: {
-					values.push(this.readString(stream, varint) as T);
+					values.push(new StringTag("", this.readString(stream, varint)));
 					break;
 				}
 
 				case Tag.Compound: {
-					const value: Record<string, NBTTag<T>> = {};
+					const value: Record<string, unknown> = {};
 
 					// Read the tags.
 					do {
@@ -164,10 +171,10 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 						const read = reader.read(stream, varint, false);
 
 						// Add the tag to the value.
-						value[read.name] = read as NBTTag<T>;
+						value[read.name] = read as unknown;
 					} while (!stream.cursorAtEnd());
 
-					values.push(new CompoundTag("", value) as T);
+					values.push(new CompoundTag("", value));
 				}
 			}
 		}
@@ -179,9 +186,9 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 	/**
 	 * Writes a list tag to the stream.
 	 */
-	public static write<T = unknown>(
+	public static write(
 		stream: BinaryStream,
-		tag: ListTag<T>,
+		tag: ListTag<NBTTag>,
 		varint = false
 	): void {
 		// Write the type.
@@ -209,41 +216,41 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 				}
 
 				case Tag.Byte: {
-					stream.writeByte(value as number);
+					stream.writeByte(value.value as number);
 					break;
 				}
 
 				case Tag.Short: {
-					stream.writeInt16(value as number, Endianness.Little);
+					stream.writeInt16(value.value as number, Endianness.Little);
 					break;
 				}
 
 				case Tag.Int: {
 					varint
-						? stream.writeVarInt(value as number)
-						: stream.writeInt32(value as number, Endianness.Little);
+						? stream.writeVarInt(value.value as number)
+						: stream.writeInt32(value.value as number, Endianness.Little);
 					break;
 				}
 
 				case Tag.Long: {
 					varint
-						? stream.writeVarLong(value as bigint)
-						: stream.writeLong(value as bigint, Endianness.Little);
+						? stream.writeVarLong(value.value as bigint)
+						: stream.writeLong(value.value as bigint, Endianness.Little);
 					break;
 				}
 
 				case Tag.Float: {
-					stream.writeFloat32(value as number, Endianness.Little);
+					stream.writeFloat32(value.value as number, Endianness.Little);
 					break;
 				}
 
 				case Tag.Double: {
-					stream.writeFloat64(value as number, Endianness.Little);
+					stream.writeFloat64(value.value as number, Endianness.Little);
 					break;
 				}
 
 				case Tag.String: {
-					this.writeString(value as string, stream, varint);
+					this.writeString(value.value as string, stream, varint);
 					break;
 				}
 

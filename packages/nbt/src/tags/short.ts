@@ -1,4 +1,4 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { Tag } from "../named-binary-tag";
 
@@ -7,7 +7,7 @@ import { NBTTag } from "./tag";
 /**
  * A tag that contains a short value.
  */
-class ShortTag<T extends number = number> extends NBTTag<T> {
+class ShortTag extends NBTTag<number> {
 	public static readonly type = Tag.Short;
 
 	public valueOf(snbt?: boolean): number | string {
@@ -17,11 +17,11 @@ class ShortTag<T extends number = number> extends NBTTag<T> {
 	/**
 	 * Reads a short tag from the stream.
 	 */
-	public static read<T extends number = number>(
+	public static read(
 		stream: BinaryStream,
 		varint = false,
 		type = true
-	): ShortTag<T> {
+	): ShortTag {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -39,15 +39,15 @@ class ShortTag<T extends number = number> extends NBTTag<T> {
 		const value = stream.readShort(Endianness.Little);
 
 		// Return the tag.
-		return new ShortTag(name, value as T);
+		return new ShortTag(name, value);
 	}
 
 	/**
 	 * Writes a short tag to the stream.
 	 */
-	public static write<T extends number = number>(
+	public static write(
 		stream: BinaryStream,
-		tag: ShortTag<T>,
+		tag: ShortTag,
 		varint = false
 	): void {
 		// Write the type.

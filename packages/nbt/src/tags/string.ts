@@ -1,23 +1,23 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-
 import { Tag } from "../named-binary-tag";
 
 import { NBTTag } from "./tag";
 
+import type { BinaryStream } from "@serenityjs/binarystream";
+
 /**
  * A tag that contains a string value.
  */
-class StringTag<T extends string = string> extends NBTTag<T> {
+class StringTag extends NBTTag<string> {
 	public static readonly type = Tag.String;
 
 	/**
 	 * Reads a string tag from the stream.
 	 */
-	public static read<T extends string = string>(
+	public static read(
 		stream: BinaryStream,
 		varint = false,
 		type = true
-	): StringTag<T> {
+	): StringTag {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -35,15 +35,15 @@ class StringTag<T extends string = string> extends NBTTag<T> {
 		const value = this.readString(stream, varint);
 
 		// Return the tag.
-		return new StringTag<T>(name, value as T);
+		return new StringTag(name, value);
 	}
 
 	/**
 	 * Writes a string tag to the stream.
 	 */
-	public static write<T extends string = string>(
+	public static write(
 		stream: BinaryStream,
-		tag: StringTag<T>,
+		tag: StringTag,
 		varint = false
 	): void {
 		// Write the type.

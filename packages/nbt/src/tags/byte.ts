@@ -7,7 +7,7 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 /**
  * A tag that contains a byte value.
  */
-class ByteTag<T extends number = number> extends NBTTag<T> {
+class ByteTag extends NBTTag<number> {
 	public static readonly type = Tag.Byte;
 
 	public valueOf(snbt?: boolean): number | string {
@@ -17,11 +17,11 @@ class ByteTag<T extends number = number> extends NBTTag<T> {
 	/**
 	 * Reads a byte tag from the stream.
 	 */
-	public static read<T extends number>(
+	public static read(
 		stream: BinaryStream,
 		varint = false,
 		type = true
-	): ByteTag<T> {
+	): ByteTag {
 		// Check if the type should be read.
 		if (type) {
 			// Read the type.
@@ -39,15 +39,15 @@ class ByteTag<T extends number = number> extends NBTTag<T> {
 		const value = stream.readByte();
 
 		// Return the tag.
-		return new ByteTag<T>(name, value as T);
+		return new ByteTag(name, value);
 	}
 
 	/**
 	 * Writes a byte tag to the stream.
 	 */
-	public static write<T extends number>(
+	public static write(
 		stream: BinaryStream,
-		tag: ByteTag<T>,
+		tag: ByteTag,
 		varint = false
 	): void {
 		// Write the type.
