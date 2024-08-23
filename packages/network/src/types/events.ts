@@ -100,7 +100,8 @@ import type {
 	ContainerSetDataPacket,
 	AvailableActorIdentifiersPacket,
 	StructureBlockUpdatePacket,
-	DimensionDataPacket
+	DimensionDataPacket,
+	ClientToServerHandshakePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -113,6 +114,9 @@ interface NetworkEvents {
 	[Packet.ServerToClientHandshake]: [
 		NetworkPacketEvent<ServerToClientHandshakePacket>
 	];
+	[Packet.ClientToServerHandshake]: [
+		NetworkPacketEvent<ClientToServerHandshakePacket>
+	]
 	[Packet.Disconnect]: [NetworkPacketEvent<DisconnectPacket>];
 	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfoPacket>];
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStackPacket>];
