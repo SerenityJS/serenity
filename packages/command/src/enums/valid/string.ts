@@ -19,6 +19,11 @@ class StringEnum extends ValidEnum {
 	public static readonly options: Array<string> = [];
 
 	/**
+	 * Whether the enum is strict to its options.
+	 */
+	public static readonly strict = true;
+
+	/**
 	 * The result of the enum.
 	 */
 	public readonly result: string;
@@ -73,12 +78,12 @@ class StringEnum extends ValidEnum {
 			} else if (this.options.length > 0) {
 				// Check if the text is in the options array.
 				if (this.options.includes(text)) return new StringEnum(text);
-				else {
+				else if (this.strict) {
 					// Throw error if text is not in the options array.
 					throw new TypeError(
 						`Expected argument to be one of: ${this.options.join(", ")}`
 					);
-				}
+				} else return new StringEnum(text);
 			} else return new StringEnum(text);
 
 			// If argument is invalid/undefined throw expected argument syntax error.
