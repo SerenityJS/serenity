@@ -64,6 +64,14 @@ class BlockInventoryComponent extends BlockComponent {
 				this.inventorySize = 3;
 				break;
 			}
+
+			case BlockIdentifier.EnchantingTable: {
+				// Set the container type and id
+				this.containerType = ContainerType.Enchantment;
+				this.containerId = ContainerId.Ui;
+				this.inventorySize = 20; // Why?
+				break;
+			}
 		}
 
 		// Create the container for the block

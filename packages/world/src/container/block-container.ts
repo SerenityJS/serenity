@@ -268,7 +268,7 @@ class BlockContainer extends Container {
 		packet.items = this.storage.map((item) => {
 			// If the item is null, return a new NetworkItemStackDescriptor.
 			// This will indicate that the slot is empty.
-			if (item === null) return new NetworkItemStackDescriptor(0);
+			if (!item) return new NetworkItemStackDescriptor(0);
 
 			// Convert the item stack to a network item stack descriptor
 			return ItemStack.toNetworkStack(item);
