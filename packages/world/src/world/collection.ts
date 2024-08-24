@@ -1,5 +1,7 @@
 import Emitter from "@serenityjs/emitter";
 
+import { WorldEnum } from "../commands";
+
 import type { World } from "./world";
 import type { WorldEventSignals } from "../types";
 
@@ -28,6 +30,9 @@ class GlobalWorldCollection extends Emitter<WorldEventSignals> {
 	 */
 	public add(world: World): void {
 		this.entries.set(world.identifier, world);
+
+		// Add the world identifier to the WorldEnum options.
+		WorldEnum.options.push(world.identifier);
 	}
 }
 

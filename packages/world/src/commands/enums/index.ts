@@ -5,3 +5,4 @@ export * from "./item";
 export * from "./entity";
 export * from "./bool";
 export * from "./ability";
+export * from "./world";

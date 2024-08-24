@@ -568,6 +568,9 @@ class Player extends Entity {
 
 			// Spawn the player in the new dimension
 			this.spawn();
+
+			// Update the player's position
+			return this.teleport(position);
 		} else {
 			// Create a new MovePlayerPacket
 			const packet = new MovePlayerPacket();
