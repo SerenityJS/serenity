@@ -107,3 +107,4 @@ export * from "./camera-instructions";
 export * from "./structure-block-update";
 export * from "./dimension-data";
 export * from "./player-enchant-options";
+export * from './client-to-server-handshake'

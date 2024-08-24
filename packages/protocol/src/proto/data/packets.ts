@@ -104,11 +104,13 @@ import { AvailableActorIdentifiersPacket } from "./available-actor-identifiers";
 import { StructureBlockUpdatePacket } from "./structure-block-update";
 import { DimensionDataPacket } from "./dimension-data";
 import { PlayerEnchantOptionsPacket } from "./player-enchant-options";
+import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
 	[Packet.PlayStatus]: PlayStatusPacket, // 2
 	[Packet.ServerToClientHandshake]: ServerToClientHandshakePacket, // 3
+	[Packet.ClientToServerHandshake]: ClientToServerHandshakePacket, // 4
 	[Packet.Disconnect]: DisconnectPacket, // 5
 	[Packet.ResourcePacksInfo]: ResourcePacksInfoPacket, // 6
 	[Packet.ResourcePackStack]: ResourcePackStackPacket, // 7
