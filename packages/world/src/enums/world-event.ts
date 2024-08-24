@@ -16,6 +16,7 @@ enum WorldEvent {
 	PlayerBreakBlock,
 	PlayerInteractWithEntity,
 	PlayerInteractWithBlock,
+	PlayerButtonPush,
 	PlayerItemConsume,
 	PlayerMissSwing,
 	PlayerOpenDoor,

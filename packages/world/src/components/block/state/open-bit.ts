@@ -66,7 +66,8 @@ class BlockOpenBitComponent extends BlockStateComponent {
 		const permutation = type.getPermutation(newState);
 
 		// Set the permutation of the block
-		if (permutation) this.block.setPermutation(permutation);
+		if (permutation)
+			this.block.setPermutation(permutation, { clearComponents: false });
 
 		// Check if the block is silent
 		if (silent) return;

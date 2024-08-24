@@ -67,7 +67,8 @@ class BlockFacingDirectionComponent extends BlockStateComponent {
 		const permutation = type.getPermutation(newState);
 
 		// Set the permutation of the block
-		if (permutation) this.block.setPermutation(permutation);
+		if (permutation)
+			this.block.setPermutation(permutation, { clearComponents: false });
 	}
 }
 

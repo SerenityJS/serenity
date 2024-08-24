@@ -12,6 +12,7 @@ import type {
 	EntityTeleportSignal,
 	FurnaceSmeltSignal,
 	PlayerBreakBlockSignal,
+	PlayerButtonPushSignal,
 	PlayerChatSignal,
 	PlayerExecuteCommandSignal,
 	PlayerInitializeSignal,
@@ -46,6 +47,7 @@ interface WorldEventSignals {
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
 	[WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
+	[WorldEvent.PlayerButtonPush]: [PlayerButtonPushSignal];
 	[WorldEvent.PlayerItemConsume]: [PlayerItemConsumeSignal];
 	[WorldEvent.PlayerMissSwing]: [PlayerMissSwingSignal];
 	[WorldEvent.PlayerOpenDoor]: [PlayerOpenDoorSignal];
