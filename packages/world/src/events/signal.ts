@@ -1,4 +1,4 @@
-import { WorldEvents } from "./world-events";
+import { Worlds } from "../world";
 
 import type { World } from "../world";
 import type { WorldEvent } from "../enums";
@@ -18,7 +18,7 @@ class WorldEventSignal {
 	 */
 	public emit(): boolean {
 		// Return the emitted signal
-		return WorldEvents.emit(this.identifier, this as never);
+		return Worlds.emit(this.identifier, this as never);
 	}
 
 	/**

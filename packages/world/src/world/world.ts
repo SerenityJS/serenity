@@ -14,6 +14,7 @@ import { Scoreboard } from "../scoreboard";
 import { WorldTickSignal } from "../events";
 
 import { Dimension } from "./dimension";
+import { Worlds } from "./collection";
 
 import type { DimensionBounds } from "../types";
 import type { TerrainGenerator } from "../generator";
@@ -78,6 +79,9 @@ class World {
 		// Register the default comman and admin commands
 		for (const register of [...COMMON_COMMANDS, ...ADMIN_COMMANDS])
 			register(this);
+
+		// Add the world to the global collection
+		Worlds.add(this);
 	}
 
 	/**
