@@ -100,7 +100,8 @@ import type {
 	ContainerSetDataPacket,
 	AvailableActorIdentifiersPacket,
 	StructureBlockUpdatePacket,
-	DimensionDataPacket
+	DimensionDataPacket,
+	PlayerEnchantOptionsPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -215,6 +216,9 @@ interface NetworkEvents {
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettingsPacket>];
 	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInputPacket>];
 	[Packet.CreativeContent]: [NetworkPacketEvent<CreativeContentPacket>];
+	[Packet.PlayerEnchantOptions]: [
+		NetworkPacketEvent<PlayerEnchantOptionsPacket>
+	];
 	[Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequestPacket>];
 	[Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponsePacket>];
 	[Packet.EmoteList]: [NetworkPacketEvent<EmoteListPacket>];
