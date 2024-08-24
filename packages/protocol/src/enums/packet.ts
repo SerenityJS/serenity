@@ -4,7 +4,7 @@ enum Packet {
 	Login = 0x01, // 1
 	PlayStatus = 0x02, // 2
 	ServerToClientHandshake = 0x03, // 3
-	// ClientToServerHandshake = 0x04, // 4
+	ClientToServerHandshake = 0x04, // 4
 	Disconnect = 0x05, // 5
 	ResourcePacksInfo = 0x06, // 6
 	ResourcePackStack = 0x07, // 7
