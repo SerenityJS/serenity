@@ -92,7 +92,11 @@ class EntityContainer extends Container {
 		const slot = this.storage.findIndex((slot) => {
 			if (slot === null) return false;
 
-			return slot.type === item.type && slot.amount < item.maxAmount;
+			// Check if the item can be stacked.
+			if (slot.amount >= item.maxAmount) return false;
+
+			// Check if the item is equal to the slot.
+			return item.equals(slot);
 		});
 
 		// Check if the item is maxed.

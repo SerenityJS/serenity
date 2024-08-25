@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { World } from "../world";
 import type { ItemStack } from "../item";
 import type { Player } from "../player";
 
@@ -25,16 +24,9 @@ class PlayerItemConsumeSignal extends WorldEventSignal {
 	 * @param itemStack The item stack that is being consumed.
 	 */
 	public constructor(player: Player, itemStack: ItemStack) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
 		this.itemStack = itemStack;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

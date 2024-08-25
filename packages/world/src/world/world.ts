@@ -7,6 +7,7 @@ import {
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Commands } from "@serenityjs/command";
+import Emitter from "@serenityjs/emitter";
 
 import { COMMON_COMMANDS } from "../commands";
 import { ADMIN_COMMANDS } from "../commands/admin";
@@ -16,7 +17,7 @@ import { WorldTickSignal } from "../events";
 import { Dimension } from "./dimension";
 import { Worlds } from "./collection";
 
-import type { DimensionBounds } from "../types";
+import type { DimensionBounds, WorldEventSignals } from "../types";
 import type { TerrainGenerator } from "../generator";
 import type { Entity } from "../entity";
 import type { WorldProvider } from "../provider";
@@ -54,6 +55,11 @@ class World {
 	public readonly logger: Logger;
 
 	/**
+	 * The emitter for the world.
+	 */
+	public emitter: Emitter<WorldEventSignals>;
+
+	/**
 	 * The current tick of the world.
 	 */
 	public currentTick = 0n;
@@ -67,14 +73,20 @@ class World {
 	 * Creates a new world instance.
 	 * @param identifier The identifier of the world.
 	 * @param provider The data provider for the world.
+	 * @param emitter The emitter for the world.
 	 * @returns A new world instance with the specified identifier and provider.
 	 */
-	public constructor(identifier: string, provider: WorldProvider) {
+	public constructor(
+		identifier: string,
+		provider: WorldProvider,
+		emitter?: Emitter<WorldEventSignals>
+	) {
 		this.identifier = identifier;
 		this.provider = provider;
 		this.dimensions = new Map();
 		this.commands = new Commands();
 		this.logger = new Logger(identifier, LoggerColors.GreenBright);
+		this.emitter = emitter ?? new Emitter();
 
 		// Register the default comman and admin commands
 		for (const register of [...COMMON_COMMANDS, ...ADMIN_COMMANDS])

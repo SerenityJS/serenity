@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { World } from "../world";
 import type { Player } from "../player";
 
 class PlayerExecuteCommandSignal extends WorldEventSignal {
@@ -24,13 +23,9 @@ class PlayerExecuteCommandSignal extends WorldEventSignal {
 	 * @param command The command that was executed.
 	 */
 	public constructor(player: Player, command: string) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
 		this.command = command;
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

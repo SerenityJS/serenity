@@ -2,7 +2,7 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { Dimension, World } from "../world";
+import type { Dimension } from "../world";
 import type { Chunk } from "../chunk";
 
 class ChunkWriteSignal extends WorldEventSignal {
@@ -24,16 +24,9 @@ class ChunkWriteSignal extends WorldEventSignal {
 	 * @param dimension The dimension the chunk belongs to.
 	 */
 	public constructor(chunk: Chunk, dimension: Dimension) {
-		super();
+		super(dimension.world);
 		this.chunk = chunk;
 		this.dimension = dimension;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
-	}
-
-	public getWorld(): World {
-		return this.dimension.world;
 	}
 }
 

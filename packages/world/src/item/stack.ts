@@ -143,12 +143,41 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * @returns If the item stack is equal to the other item stack.
 	 */
 	public equals(item: ItemStack): boolean {
-		// TODO: Check if the item nbts are equal, and if the item components are equal.
+		// Check if the identifiers & metadata are equal.
+		if (this.type.identifier !== item.type.identifier) return false;
+		if (this.metadata !== item.metadata) return false;
+		if (this.components.size !== item.components.size) return false;
 
-		return (
-			this.type.identifier === item.type.identifier &&
-			this.metadata === item.metadata
-		);
+		// Iterate over the components and check if they are equal.
+		for (const component of this.components.values()) {
+			// Check if the item has the component.
+			if (!item.components.has(component.identifier)) return false;
+
+			// Get the component from the item.
+			const other = item.components.get(
+				component.identifier
+			) as ItemComponent<T>;
+
+			// Check if the components are equal.
+			if (!component.equals(other)) return false;
+		}
+
+		// Iterate over the components of the other item.
+		for (const component of item.components.values()) {
+			// Check if the item has the component.
+			if (!this.components.has(component.identifier)) return false;
+
+			// Get the component from the item.
+			const other = this.components.get(
+				component.identifier
+			) as ItemComponent<T>;
+
+			// Check if the components are equal.
+			if (!component.equals(other)) return false;
+		}
+
+		// Return true if all checks passed.
+		return true;
 	}
 
 	/**

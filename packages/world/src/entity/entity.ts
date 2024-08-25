@@ -170,7 +170,7 @@ class Entity {
 		// Readonly properties
 		this.type = EntityType.get(identifier) as EntityType;
 		this.runtime = Entity.runtime++;
-		this.unique = uniqueId ?? BigInt(Date.now() << 2);
+		this.unique = uniqueId ?? BigInt(Date.now() << 2) + this.runtime;
 
 		// Mutable properties
 		this.dimension = dimension;
@@ -324,6 +324,8 @@ class Entity {
 		// Create a new EntitySpawnedSignal
 		const signal = new EntitySpawnedSignal(this, this.dimension, player);
 		const value = signal.emit();
+
+		console.log("Entity Spawned Signal", value);
 
 		// Check if the signal was cancelled
 		if (!value) return;

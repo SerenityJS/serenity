@@ -35,13 +35,10 @@ class EntityTeleportSignal extends WorldEventSignal {
 		position: Vector3f,
 		dimension?: Dimension
 	) {
-		super();
+		super(entity.dimension.world);
 		this.entity = entity;
 		this.position = position;
 		this.dimension = dimension;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
 	}
 
 	public getWorld(): World {

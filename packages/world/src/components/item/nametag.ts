@@ -55,6 +55,14 @@ class ItemNametagComponent<T extends keyof Items> extends ItemComponent<T> {
 	public resetToDefault(): void {
 		this.setCurrentValue(this.defaultValue);
 	}
+
+	public equals(component: ItemComponent<T>): boolean {
+		// Check if the component is an instance of the item nametag component.
+		if (!(component instanceof ItemNametagComponent)) return false;
+
+		// Compare the current values.
+		return this.currentValue === component.currentValue;
+	}
 }
 
 export { ItemNametagComponent };

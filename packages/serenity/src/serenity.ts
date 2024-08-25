@@ -70,9 +70,9 @@ class Serenity {
 		new Map();
 
 	/**
-	 * The server tick interval
+	 * Whether the server is stopped
 	 */
-	public interval: NodeJS.Timeout | null = null;
+	public stopped = false;
 
 	/**
 	 * The server ticks
@@ -150,6 +150,9 @@ class Serenity {
 	}
 
 	public async start(): Promise<void> {
+		// Set the server to not stopped
+		this.stopped = false;
+
 		// Initialize the worlds
 		await this.worlds.initialize();
 		await this.plugins.initialize(this);
@@ -165,49 +168,40 @@ class Serenity {
 		// Create a ticking loop with default 50ms interval
 		// Handle delta time and tick the world
 		const tick = () =>
-			setTimeout(
-				() => {
-					// Assign the current time to the now variable
-					const now = Date.now();
+			process.nextTick(() => {
+				// Check if the server is stopped
+				if (this.stopped) return;
 
-					// Push the current time to the ticks array
-					this.ticks.push(now);
-
-					// Calculate the ticking threshold
-					// Filter the ticks array to remove all ticks older than 1000ms
-					const threshold = now - 1000;
-					this.ticks = this.ticks.filter((tick) => tick > threshold);
-
-					// Calculate the TPS
-					this.tps = this.ticks.length;
+				// Get the current time
+				const now = Date.now();
+				if (now - lastTick >= 1000 / tps) {
+					// Calculate the delta time
 					const deltaTick = now - lastTick;
 					lastTick = now;
+
+					// Calculate the server tps
+					this.ticks.push(now);
+					const threshold = now - 1000;
+					this.ticks = this.ticks.filter((tick) => tick > threshold);
+					this.tps = this.ticks.length;
 
 					// Tick all the worlds
 					for (const world of this.worlds.getAll()) world.tick(deltaTick);
 
 					// Increment the tick
 					this.tick++;
+				}
 
-					// TODO: ??? Maybe find a better solution?
-					if (this.tick % 100 === 0 && this.connecting.size > 0) {
-						for (const [session, packets] of this.connecting) {
-							session.sendImmediate(...packets);
-						}
-					}
-
-					// Tick the server
-					if (this.interval) return tick();
-				},
-				1000 / tps - 10
-			);
+				// Set the timeout to the next tick
+				setTimeout(() => tick(), 2);
+			});
 
 		// Start the worlds
 		await this.worlds.start();
 		await this.plugins.start(this);
 
 		// Set the interval to the tick method
-		this.interval = tick().unref();
+		tick();
 
 		this.logger.info(
 			`Serenity is now up and running on ${this.raknet.address}:${this.raknet.port}`
@@ -225,8 +219,8 @@ class Serenity {
 		await this.plugins.stop(this);
 		await this.worlds.stop();
 
-		// Clear the ticking interval
-		if (this.interval) this.interval = null;
+		// Stop the server
+		this.stopped = true;
 
 		// Stop the raknet instance
 		process.nextTick(() => {

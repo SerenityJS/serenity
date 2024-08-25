@@ -2,7 +2,6 @@ import { type EntityInteractType, WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { World } from "../world";
 import type { ItemStack } from "../item";
 import type { Entity } from "../entity";
 import type { Player } from "../player";
@@ -43,18 +42,11 @@ class PlayerInteractWithEntitySignal extends WorldEventSignal {
 		itemStack: ItemStack | null,
 		type: EntityInteractType
 	) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
 		this.target = target;
 		this.itemStack = itemStack;
 		this.type = type;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

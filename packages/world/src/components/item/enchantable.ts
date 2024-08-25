@@ -137,6 +137,28 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 		// Update the item in the container.
 		this.item.update();
 	}
+
+	public equals(component: ItemComponent<T>): boolean {
+		// Check if the component is an instance of the item enchantable component.
+		if (!(component instanceof ItemEnchantableComponent)) return false;
+
+		// Compare the enchantments.
+		if (this.enchantments.size !== component.enchantments.size) return false;
+
+		// Iterate over the enchantments and check if they are equal.
+		for (const [enchantment, level] of this.enchantments) {
+			// Check if the item has the enchantment.
+			if (!component.enchantments.has(enchantment)) return false;
+
+			// Get the level of the enchantment from the item.
+			const other = component.enchantments.get(enchantment) as number;
+
+			// Check if the levels are equal.
+			if (level !== other) return false;
+		}
+
+		return true;
+	}
 }
 
 export { ItemEnchantableComponent };

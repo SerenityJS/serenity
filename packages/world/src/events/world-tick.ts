@@ -29,14 +29,10 @@ class WorldTickSignal extends WorldEventSignal {
 	 * @param world The world that has been ticked.
 	 */
 	public constructor(currentTick: bigint, deltaTick: bigint, world: World) {
-		super();
+		super(world);
 		this.currentTick = currentTick;
 		this.deltaTick = deltaTick;
 		this.world = world;
-	}
-
-	public getWorld(): World {
-		return this.world;
 	}
 }
 
