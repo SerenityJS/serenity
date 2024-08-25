@@ -9,7 +9,6 @@ import CLEAR from "./clear";
 import TP from "./tp";
 import KILL from "./kill";
 import SPAWNPOINT from "./spawnpoint";
-import WORLD from "./world";
 
 // Define all admin commands
 const ADMIN_COMMANDS = [
@@ -23,8 +22,7 @@ const ADMIN_COMMANDS = [
 	// ABILITY,
 	SPAWNPOINT,
 	TP,
-	KILL,
-	WORLD
+	KILL
 ];
 
 export { ADMIN_COMMANDS };
