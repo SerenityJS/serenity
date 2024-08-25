@@ -353,6 +353,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 			component.deserialize?.(tag);
 		}
 
+		item.nbt.addTag(...tag.getTags());
 		return item;
 	}
 

@@ -157,7 +157,6 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 
 	public deserialize(tag: CompoundTag): void {
 		const enchanments: ListTag<CompoundTag> | undefined = tag.getTag("ench");
-
 		if (!enchanments) return;
 		this.enchantments.clear();
 		for (const ench of enchanments.value) {
