@@ -16,3 +16,4 @@ export * from "./effect";
 export * from "./dialogue";
 export * from "./book";
 export * from "./events";
+export * from "./loot";
