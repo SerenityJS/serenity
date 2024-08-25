@@ -325,8 +325,6 @@ class Entity {
 		const signal = new EntitySpawnedSignal(this, this.dimension, player);
 		const value = signal.emit();
 
-		console.log("Entity Spawned Signal", value);
-
 		// Check if the signal was cancelled
 		if (!value) return;
 
