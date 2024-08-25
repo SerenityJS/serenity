@@ -2,6 +2,7 @@ import { type ItemIdentifier, type Items, ItemType } from "@serenityjs/item";
 
 import { Component } from "../component";
 
+import type { CompoundTag } from "@serenityjs/nbt";
 import type { BlockCoordinates, ItemUseMethod } from "@serenityjs/protocol";
 import type { ItemUseCause } from "../../enums";
 import type { Player } from "../../player";
@@ -121,6 +122,10 @@ class ItemComponent<T extends keyof Items> extends Component {
 		cause: ItemUseCause,
 		blockPosition?: BlockCoordinates
 	): ItemUseMethod | undefined;
+
+	public serialize?(tag: CompoundTag): CompoundTag;
+
+	public deserialize?(tag: CompoundTag): void;
 
 	public static bind(): void {
 		// Bind the component to the item types.

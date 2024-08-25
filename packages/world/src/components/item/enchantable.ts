@@ -138,6 +138,36 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 		this.item.update();
 	}
 
+	public serialize(tag: CompoundTag): CompoundTag {
+		// Serialize the enchantments to the tag.
+		const enchTag = new ListTag<CompoundTag>("ench", [], Tag.Compound);
+
+		for (const [enchantment, level] of this.enchantments) {
+			const ench = new CompoundTag("", {});
+
+			ench.addTag(new ShortTag("id", enchantment));
+			ench.addTag(new ShortTag("lvl", level));
+			enchTag.value.push(ench);
+		}
+
+		tag.addTag(enchTag);
+
+		return tag;
+	}
+
+	public deserialize(tag: CompoundTag): void {
+		const enchanments: ListTag<CompoundTag> | undefined = tag.getTag("ench");
+		if (!enchanments) return;
+		this.enchantments.clear();
+		for (const ench of enchanments.value) {
+			const id = ench.getTag("id")?.value as number;
+			const level = ench.getTag("lvl")?.value as number;
+
+			if (id == undefined || level == undefined) continue;
+			this.enchantments.set(id, level);
+		}
+	}
+
 	public equals(component: ItemComponent<T>): boolean {
 		// Check if the component is an instance of the item enchantable component.
 		if (!(component instanceof ItemEnchantableComponent)) return false;
