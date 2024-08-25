@@ -1,12 +1,7 @@
-import {
-	ProjectileHitBlockSignal,
-	ProjectileHitEntiySignal
-} from "../../events";
-
 import { EntityComponent } from "./entity-component";
 
+import type { HitResult } from "../../types";
 import type { Vector3f } from "@serenityjs/protocol";
-import type { BlockHitResult, EntityHitResult, HitResult } from "../../types";
 import type { Entity } from "../../entity";
 
 class EntityProjectileComponent extends EntityComponent {
@@ -36,32 +31,11 @@ class EntityProjectileComponent extends EntityComponent {
 		super(entity, EntityProjectileComponent.identifier);
 	}
 
-	public onHit(hit: HitResult): void {
+	public onHit(_hit: HitResult): void {
 		if (this.destroyOnHit) {
 			setTimeout(() => {
 				this.entity.despawn();
 			}, 20);
-		}
-
-		if ("blockPosition" in hit) {
-			// Handle block hit case.
-			const signal = new ProjectileHitBlockSignal(
-				hit as BlockHitResult,
-				this.entity
-			);
-			signal.emit();
-
-			return;
-		}
-
-		if ("entity" in hit) {
-			// Handle entity hit case.
-			const signal = new ProjectileHitEntiySignal(
-				hit as EntityHitResult,
-				this.entity
-			);
-
-			signal.emit();
 		}
 	}
 

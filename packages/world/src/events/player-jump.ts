@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { World } from "../world";
 import type { Player } from "../player";
 
 class PlayerJumpSignal extends WorldEventSignal {
@@ -17,12 +16,8 @@ class PlayerJumpSignal extends WorldEventSignal {
 	 * Creates a new player jump event signal.
 	 */
 	public constructor(player: Player) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

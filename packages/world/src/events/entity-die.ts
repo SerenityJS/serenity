@@ -2,7 +2,7 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { Dimension, World } from "../world";
+import type { Dimension } from "../world";
 import type { Entity } from "../entity";
 
 /**
@@ -33,17 +33,10 @@ class EntityDieSignal extends WorldEventSignal {
 	 * @param attacker If the entity died for a specific entity.
 	 */
 	public constructor(entity: Entity, dimension: Dimension, attacker?: Entity) {
-		super();
+		super(entity.dimension.world);
 		this.entity = entity;
 		this.dimension = dimension;
 		this.attacker = attacker;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
-	}
-
-	public getWorld(): World {
-		return this.entity.dimension.world;
 	}
 }
 

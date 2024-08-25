@@ -3,7 +3,7 @@ import { WorldEvent } from "../enums";
 import { WorldEventSignal } from "./signal";
 
 import type { Player } from "../player";
-import type { Dimension, World } from "../world";
+import type { Dimension } from "../world";
 import type { Entity } from "../entity";
 
 /**
@@ -34,17 +34,10 @@ class EntitySpawnedSignal extends WorldEventSignal {
 	 * @param player If the entity spawned for a specific player.
 	 */
 	public constructor(entity: Entity, dimension: Dimension, player?: Player) {
-		super();
+		super(entity.dimension.world);
 		this.entity = entity;
 		this.dimension = dimension;
 		this.player = player;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
-	}
-
-	public getWorld(): World {
-		return this.entity.dimension.world;
 	}
 }
 

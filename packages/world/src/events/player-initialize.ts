@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { World } from "../world";
 import type { Player } from "../player";
 
 class PlayerInitializeSignal extends WorldEventSignal {
@@ -18,12 +17,8 @@ class PlayerInitializeSignal extends WorldEventSignal {
 	 * @param player The player that initialized..
 	 */
 	public constructor(player: Player) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

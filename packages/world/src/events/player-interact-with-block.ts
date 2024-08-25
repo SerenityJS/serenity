@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { World } from "../world";
 import type { BlockFace, Vector3f } from "@serenityjs/protocol";
 import type { Block } from "../block";
 import type { ItemStack } from "../item";
@@ -51,19 +50,12 @@ class PlayerInteractWithBlockSignal extends WorldEventSignal {
 		faceLocation: Vector3f,
 		itemStack: ItemStack | null
 	) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
 		this.block = block;
 		this.blockFace = blockFace;
 		this.faceLocation = faceLocation;
 		this.itemStack = itemStack;
-
-		// TODO: WorldEvents experimental - Remove this once the chosen event system is implemented.
-		this.emit();
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

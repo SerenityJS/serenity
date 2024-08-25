@@ -88,6 +88,15 @@ class ItemComponent<T extends keyof Items> extends Component {
 	}
 
 	/**
+	 * Checks if the item component equals another item component.
+	 * @param component The item component to compare.
+	 * @returns True if the item component equals the other item component, false otherwise.
+	 */
+	public equals(component: ItemComponent<T>): boolean {
+		return this.identifier === component.identifier;
+	}
+
+	/**
 	 * Called when the item has started to be used.
 	 * @param player The player that started to use the item.
 	 * @param cause The cause of the item use. (e.g. right-click, left-click)

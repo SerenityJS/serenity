@@ -34,6 +34,15 @@ class GlobalWorldCollection extends Emitter<WorldEventSignals> {
 		// Add the world identifier to the WorldEnum options.
 		WorldEnum.options.push(world.identifier);
 	}
+
+	/**
+	 * Sets a world in the collection.
+	 * @param identifier The identifier of the world.
+	 * @param world The instance of the world.
+	 */
+	public set(identifier: string, world: World): void {
+		this.entries.set(identifier, world);
+	}
 }
 
 /**

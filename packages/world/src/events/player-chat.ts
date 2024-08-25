@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { World } from "../world";
 import type { Player } from "../player";
 
 class PlayerChatSignal extends WorldEventSignal {
@@ -24,13 +23,9 @@ class PlayerChatSignal extends WorldEventSignal {
 	 * @param message The message that was sent.
 	 */
 	public constructor(player: Player, message: string) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
 		this.message = message;
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

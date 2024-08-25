@@ -23,8 +23,6 @@ enum WorldEvent {
 	PlayerJump,
 	BlockUpdate,
 	FurnaceSmelt,
-	ProjectileHitBlock,
-	ProjectileHitEntity,
 	ChunkRead,
 	ChunkWrite
 }

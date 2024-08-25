@@ -3,7 +3,6 @@ import { WorldEvent } from "../enums";
 import { WorldEventSignal } from "./signal";
 
 import type { DisconnectReason } from "@serenityjs/protocol";
-import type { World } from "../world";
 import type { Player } from "../player";
 
 class PlayerLeaveSignal extends WorldEventSignal {
@@ -35,14 +34,10 @@ class PlayerLeaveSignal extends WorldEventSignal {
 		reason: DisconnectReason,
 		message: string
 	) {
-		super();
+		super(player.dimension.world);
 		this.player = player;
 		this.reason = reason;
 		this.message = message;
-	}
-
-	public getWorld(): World {
-		return this.player.dimension.world;
 	}
 }
 

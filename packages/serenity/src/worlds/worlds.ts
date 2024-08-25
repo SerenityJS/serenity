@@ -10,7 +10,8 @@ import {
 	type TerrainGenerator,
 	type World,
 	type WorldProvider,
-	WorldInitializeSignal
+	WorldInitializeSignal,
+	type WorldEventSignals
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
@@ -18,6 +19,7 @@ import {
 	DisconnectPacket,
 	DisconnectReason
 } from "@serenityjs/protocol";
+import Emitter from "@serenityjs/emitter";
 
 import { FileSystemProvider, LevelDBProvider } from "../providers";
 import { exists } from "../utils/exists";
@@ -29,7 +31,7 @@ import type { Serenity } from "../serenity";
 // This way, we could have more structured data and it would be easier to read and write.
 // This would also allow to add comfiguration options to the provider.
 
-class Worlds {
+class Worlds extends Emitter<WorldEventSignals> {
 	/**
 	 * The serenity instance.
 	 */
@@ -67,6 +69,7 @@ class Worlds {
 	 * @returns A new worlds manager.
 	 */
 	public constructor(serenity: Serenity) {
+		super();
 		this.serenity = serenity;
 		this.path = resolve(
 			process.cwd(),
@@ -177,6 +180,9 @@ class Worlds {
 						resolve(this.path, directory.path, directory.name),
 						[...this.generators.values()]
 					);
+
+					// Set the emitter of the world to this emitter.
+					world.emitter = this;
 
 					// Create a new WorldInitializeSignal and emit it.
 					new WorldInitializeSignal(world).emit();
