@@ -6,7 +6,8 @@ import type {
 	BlockFluidContainerComponent,
 	BlockUpsideDownBitComponent,
 	BlockCollisionComponent,
-	BlockSignComponent
+	BlockSignComponent,
+	BlockLootComponent
 } from "../../components";
 
 interface BlockComponents {
@@ -18,6 +19,7 @@ interface BlockComponents {
 	"minecraft:upside_down_bit": BlockUpsideDownBitComponent;
 	"minecraft:collision_box": BlockCollisionComponent;
 	"minecraft:sign": BlockSignComponent;
+	"minecraft:loot_table": BlockLootComponent;
 }
 
 export { BlockComponents };

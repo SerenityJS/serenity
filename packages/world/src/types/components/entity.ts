@@ -21,7 +21,8 @@ import type {
 	EntityAirSupplyComponent,
 	EntityDamageComponent,
 	EntityProjectileComponent,
-	EntityCollisionBoxComponent
+	EntityCollisionBoxComponent,
+	EntityLootComponent
 } from "../../components";
 
 /**
@@ -64,6 +65,7 @@ interface EntityComponents
 	"minecraft:damaging": EntityDamageComponent;
 	"minecraft:projectile": EntityProjectileComponent;
 	"minecraft:collision_box": EntityCollisionBoxComponent;
+	"minecraft:loot": EntityLootComponent;
 }
 
 export {

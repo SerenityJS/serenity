@@ -14,3 +14,4 @@ export * from "./npc";
 export * from "./damage";
 export * from "./projectile";
 export * from "./collision-box";
+export * from "./loot";

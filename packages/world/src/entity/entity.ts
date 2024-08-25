@@ -433,7 +433,15 @@ class Entity {
 
 		if (!value) return;
 
-		// TODO: Implement item drops and experience drops
+		// TODO: Implement experience drops
+
+		if (this.hasComponent("minecraft:loot")) {
+			// Get the loot component
+			const loot = this.getComponent("minecraft:loot");
+
+			// Generate and drop the entity loot
+			loot.dropLoot();
+		}
 
 		// TODO: Check for keep inventory gamerule
 		if (this.hasComponent("minecraft:inventory")) {
