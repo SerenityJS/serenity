@@ -129,7 +129,8 @@ class Login extends SerenityHandler {
 				pack.originalSize,
 				pack.selectedSubpack,
 				pack.uuid,
-				pack.version
+				pack.version,
+				false
 			);
 
 			packs.texturePacks.push(packInfo);

@@ -12,6 +12,7 @@ class TexturePackInfo extends DataType {
 	public subpackName: string;
 	public uuid: string;
 	public version: string;
+	public addonPack: boolean;
 
 	public constructor(
 		contentIdentity: string,
@@ -21,7 +22,8 @@ class TexturePackInfo extends DataType {
 		size: bigint,
 		subpackName: string,
 		uuid: string,
-		version: string
+		version: string,
+		addonPack: boolean
 	) {
 		super();
 		this.contentIdentity = contentIdentity;
@@ -32,6 +34,7 @@ class TexturePackInfo extends DataType {
 		this.subpackName = subpackName;
 		this.uuid = uuid;
 		this.version = version;
+		this.addonPack = addonPack;
 	}
 
 	public static override read(stream: BinaryStream): Array<TexturePackInfo> {
@@ -52,6 +55,7 @@ class TexturePackInfo extends DataType {
 			const subpackName = stream.readVarString();
 			const contentIdentity = stream.readVarString();
 			const hasScripts = stream.readBool();
+			const addonPack = stream.readBool();
 			const rtxEnabled = stream.readBool();
 
 			// Push the pack to the array.
@@ -64,7 +68,8 @@ class TexturePackInfo extends DataType {
 					size,
 					subpackName,
 					uuid,
-					version
+					version,
+					addonPack
 				)
 			);
 		}
@@ -91,6 +96,7 @@ class TexturePackInfo extends DataType {
 			stream.writeVarString(pack.contentIdentity);
 			stream.writeBool(pack.hasScripts);
 			stream.writeBool(pack.rtxEnabled);
+			stream.writeBool(pack.addonPack);
 		}
 	}
 }
