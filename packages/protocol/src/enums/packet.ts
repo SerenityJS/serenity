@@ -27,6 +27,7 @@ enum Packet {
 	UpdateAttributes = 0x1d, // 29
 	InventoryTransaction = 0x1e, // 30
 	MobEquipment = 0x1f, // 31
+	MobArmorEquipment = 0x20, // 32
 	Interact = 0x21, // 33
 	BlockPickRequest = 0x22, // 34
 	PlayerAction = 0x24, // 36

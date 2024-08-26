@@ -105,6 +105,7 @@ import { StructureBlockUpdatePacket } from "./structure-block-update";
 import { DimensionDataPacket } from "./dimension-data";
 import { PlayerEnchantOptionsPacket } from "./player-enchant-options";
 import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
+import { MobArmorEquipmentPacket } from "./mob-armor-equipment";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -132,6 +133,7 @@ const Packets = {
 	[Packet.UpdateAttributes]: UpdateAttributesPacket, // 29
 	[Packet.InventoryTransaction]: InventoryTransactionPacket, // 30
 	[Packet.MobEquipment]: MobEquipmentPacket, // 31
+	[Packet.MobArmorEquipment]: MobArmorEquipmentPacket, // 32
 	[Packet.Interact]: InteractPacket, // 33
 	[Packet.BlockPickRequest]: BlockPickRequestPacket, // 34
 	[Packet.PlayerAction]: PlayerActionPacket, // 36

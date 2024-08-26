@@ -102,7 +102,8 @@ import type {
 	StructureBlockUpdatePacket,
 	DimensionDataPacket,
 	PlayerEnchantOptionsPacket,
-	ClientToServerHandshakePacket
+	ClientToServerHandshakePacket,
+	MobArmorEquipmentPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -143,6 +144,7 @@ interface NetworkEvents {
 	];
 	[Packet.CompletedUsingItem]: [NetworkPacketEvent<CompletedUsingItemPacket>];
 	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipmentPacket>];
+	[Packet.MobArmorEquipment]: [NetworkPacketEvent<MobArmorEquipmentPacket>];
 	[Packet.MobEffect]: [NetworkPacketEvent<MobEffectPacket>];
 	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
