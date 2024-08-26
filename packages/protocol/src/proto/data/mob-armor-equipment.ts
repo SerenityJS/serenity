@@ -11,6 +11,7 @@ class MobArmorEquipmentPacket extends DataPacket {
     @Serialize(NetworkItemStackDescriptor) public chestplate!: NetworkItemStackDescriptor;
     @Serialize(NetworkItemStackDescriptor) public leggings!: NetworkItemStackDescriptor;
     @Serialize(NetworkItemStackDescriptor) public boots!: NetworkItemStackDescriptor;
+    @Serialize(NetworkItemStackDescriptor) public body!: NetworkItemStackDescriptor;
 }
 
 export { MobArmorEquipmentPacket };

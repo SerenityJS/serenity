@@ -107,6 +107,7 @@ import { PlayerEnchantOptionsPacket } from "./player-enchant-options";
 import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
 import { MobArmorEquipmentPacket } from "./mob-armor-equipment";
 import { RiderJumpPacket } from "./rider-jump";
+import { BlockEventPacket } from "./block-event";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -130,6 +131,7 @@ const Packets = {
 	[Packet.RiderJump]: RiderJumpPacket, // 20
 	[Packet.UpdateBlock]: UpdateBlockPacket, // 21
 	[Packet.LevelEvent]: LevelEventPacket, // 25
+	[Packet.BlockEvent]: BlockEventPacket, // 26
 	[Packet.ActorEvent]: ActorEventPacket, // 27
 	[Packet.MobEffect]: MobEffectPacket,
 	[Packet.UpdateAttributes]: UpdateAttributesPacket, // 29

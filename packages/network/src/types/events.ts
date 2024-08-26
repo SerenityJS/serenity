@@ -104,7 +104,8 @@ import type {
 	PlayerEnchantOptionsPacket,
 	ClientToServerHandshakePacket,
 	MobArmorEquipmentPacket,
-	RiderJumpPacket
+	RiderJumpPacket,
+	BlockEventPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -139,6 +140,7 @@ interface NetworkEvents {
 	[Packet.RiderJump]: [NetworkPacketEvent<RiderJumpPacket>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlockPacket>];
 	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEventPacket>];
+	[Packet.BlockEvent]: [NetworkPacketEvent<BlockEventPacket>];
 	[Packet.ActorEvent]: [NetworkPacketEvent<ActorEventPacket>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributesPacket>];
 	[Packet.InventoryTransaction]: [

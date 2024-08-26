@@ -22,6 +22,7 @@ enum Packet {
 	RiderJump = 0x14, // 20
 	UpdateBlock = 0x15, // 21
 	LevelEvent = 0x19, // 25
+	BlockEvent = 0x1a, // 26
 	ActorEvent = 0x1b, // 27
 	MobEffect = 0x1c, // 28
 	// TickSync = 0x17, // 23

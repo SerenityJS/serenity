@@ -85,3 +85,4 @@ export * from "./input-data-flags";
 export * from "./play-mode";
 export * from "./input-mode";
 export * from "./interaction-mode";
+export * from "./block-event-type";
