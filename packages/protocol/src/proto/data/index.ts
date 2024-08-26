@@ -111,3 +111,4 @@ export * from "./client-to-server-handshake"
 export * from "./mob-armor-equipment";
 export * from "./rider-jump";
 export * from "./block-event";
+export * from "./entity-pick-request";

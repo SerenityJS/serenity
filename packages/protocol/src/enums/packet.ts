@@ -32,6 +32,7 @@ enum Packet {
 	MobArmorEquipment = 0x20, // 32
 	Interact = 0x21, // 33
 	BlockPickRequest = 0x22, // 34
+	EntityPickRequest = 0x23, // 35
 	PlayerAction = 0x24, // 36
 	SetActorData = 0x27, // 39
 	SetActorMotion = 0x28, // 40

@@ -108,6 +108,7 @@ import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
 import { MobArmorEquipmentPacket } from "./mob-armor-equipment";
 import { RiderJumpPacket } from "./rider-jump";
 import { BlockEventPacket } from "./block-event";
+import { EntityPickRequestPacket } from "./entity-pick-request";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -140,6 +141,7 @@ const Packets = {
 	[Packet.MobArmorEquipment]: MobArmorEquipmentPacket, // 32
 	[Packet.Interact]: InteractPacket, // 33
 	[Packet.BlockPickRequest]: BlockPickRequestPacket, // 34
+	[Packet.EntityPickRequest]: EntityPickRequestPacket, // 35
 	[Packet.PlayerAction]: PlayerActionPacket, // 36
 	[Packet.SetActorData]: SetActorDataPacket, // 39
 	[Packet.SetActorMotion]: SetActorMotionPacket, // 40
