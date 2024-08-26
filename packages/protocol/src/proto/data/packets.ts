@@ -106,6 +106,7 @@ import { DimensionDataPacket } from "./dimension-data";
 import { PlayerEnchantOptionsPacket } from "./player-enchant-options";
 import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
 import { MobArmorEquipmentPacket } from "./mob-armor-equipment";
+import { RiderJumpPacket } from "./rider-jump";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -126,6 +127,7 @@ const Packets = {
 	[Packet.TakeItemActor]: TakeItemActorPacket, // 17
 	[Packet.MoveActorAbsolute]: MoveActorAbsolutePacket, // 18
 	[Packet.MovePlayer]: MovePlayerPacket, // 19
+	[Packet.RiderJump]: RiderJumpPacket, // 20
 	[Packet.UpdateBlock]: UpdateBlockPacket, // 21
 	[Packet.LevelEvent]: LevelEventPacket, // 25
 	[Packet.ActorEvent]: ActorEventPacket, // 27

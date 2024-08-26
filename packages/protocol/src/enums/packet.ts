@@ -19,6 +19,7 @@ enum Packet {
 	TakeItemActor = 0x11, // 17
 	MoveActorAbsolute = 0x12, // 18
 	MovePlayer = 0x13, // 19
+	RiderJump = 0x14, // 20
 	UpdateBlock = 0x15, // 21
 	LevelEvent = 0x19, // 25
 	ActorEvent = 0x1b, // 27
