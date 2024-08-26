@@ -109,6 +109,7 @@ import { MobArmorEquipmentPacket } from "./mob-armor-equipment";
 import { RiderJumpPacket } from "./rider-jump";
 import { BlockEventPacket } from "./block-event";
 import { EntityPickRequestPacket } from "./entity-pick-request";
+import { HurtArmorPacket } from "./hurt-armor";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -143,6 +144,7 @@ const Packets = {
 	[Packet.BlockPickRequest]: BlockPickRequestPacket, // 34
 	[Packet.EntityPickRequest]: EntityPickRequestPacket, // 35
 	[Packet.PlayerAction]: PlayerActionPacket, // 36
+	[Packet.HurtArmor]: HurtArmorPacket, // 38
 	[Packet.SetActorData]: SetActorDataPacket, // 39
 	[Packet.SetActorMotion]: SetActorMotionPacket, // 40
 	[Packet.Animate]: AnimatePacket, // 44

@@ -34,6 +34,7 @@ enum Packet {
 	BlockPickRequest = 0x22, // 34
 	EntityPickRequest = 0x23, // 35
 	PlayerAction = 0x24, // 36
+	HurtArmor = 0x26, // 38
 	SetActorData = 0x27, // 39
 	SetActorMotion = 0x28, // 40
 	// SetSpawnPosition = 0x2b, // 43

@@ -106,9 +106,11 @@ import type {
 	MobArmorEquipmentPacket,
 	RiderJumpPacket,
 	BlockEventPacket,
-	EntityPickRequestPacket
+	EntityPickRequestPacket,
+	HurtArmorPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
+import { Network } from "../network";
 
 /**
  * All available network events.
@@ -159,6 +161,7 @@ interface NetworkEvents {
 	];
 	[Packet.EntityPickRequest]: [NetworkPacketEvent<EntityPickRequestPacket>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
+	[Packet.HurtArmor]: [NetworkPacketEvent<HurtArmorPacket>];
 	[Packet.SetActorData]: [NetworkPacketEvent<SetActorDataPacket>];
 	[Packet.SetActorMotion]: [NetworkPacketEvent<SetActorMotionPacket>];
 	[Packet.Animate]: [NetworkPacketEvent<AnimatePacket>];
