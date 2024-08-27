@@ -91,7 +91,8 @@ class EntityContainer extends Container {
 		// Find a slot that has the same item type and isn't full (x64)
 		// If there is no slot, find the next empty slot.
 		const slot = this.storage.findIndex((slot) => {
-			if (slot === null) return false;
+			// Check if the slot is empty.
+			if (!slot) return false;
 
 			// Check if the item can be stacked.
 			if (slot.amount >= item.maxAmount) return false;

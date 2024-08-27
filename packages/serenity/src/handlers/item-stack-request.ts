@@ -155,6 +155,9 @@ class ItemStackRequest extends SerenityHandler {
 								"Failed to convert network discriptor to item stack."
 							);
 
+						// Set the amount of the item stack.
+						itemStack.setAmount(itemStack.amount * action.craftRecipe.amount);
+
 						// Add the item stack to the destination.
 						destination.addItem(itemStack);
 					}
