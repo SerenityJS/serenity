@@ -80,6 +80,73 @@ class ItemLoreComponent<T extends keyof Items> extends ItemComponent<T> {
 		// Update the item in the container.
 		this.item.update();
 	}
+
+	public static serialize<T extends keyof Items>(
+		nbt: CompoundTag,
+		component: ItemComponent<T>
+	): void {
+		// Get the lore component.
+		const loreComponent = component as ItemLoreComponent<T>;
+
+		// Check if the lore component has any values.
+		if (loreComponent.values.length === 0) return;
+
+		// Check if a display tag exists.
+		if (!nbt.hasTag("display")) {
+			// Create a new display tag.
+			const displayTag = new CompoundTag("display", {});
+
+			// Add the display tag to the item.
+			nbt.addTag(displayTag);
+		}
+
+		// Get the display tag.
+		const displayTag = nbt.getTag("display") as CompoundTag<unknown>;
+
+		// Check if a Lore tag exists.
+		if (displayTag.hasTag("Lore")) displayTag.removeTag("Lore");
+
+		// Create the lore tag.
+		const loreTag = new ListTag<StringTag>(
+			"Lore",
+			loreComponent.values.map((value) => new StringTag("", value)),
+			Tag.String
+		);
+
+		// Add the lore tag to the display tag.
+		displayTag.addTag(loreTag);
+	}
+
+	public static deserialize<T extends keyof Items>(
+		nbt: CompoundTag,
+		itemStack: ItemStack<T>
+	): ItemLoreComponent<T> {
+		// Create a new item lore component.
+		const component = new ItemLoreComponent(itemStack);
+
+		// Check if a display tag exists.
+		if (!nbt.hasTag("display")) return component;
+
+		// Get the display tag.
+		const displayTag = nbt.getTag("display") as CompoundTag<unknown>;
+
+		// Check if a Lore tag exists.
+		if (!displayTag.hasTag("Lore")) return component;
+
+		// Get the lore tag.
+		const loreTag = displayTag.getTag<ListTag<StringTag>>("Lore");
+
+		// Check if the lore tag is invalid.
+		if (!loreTag) return component;
+
+		// Iterate over the lore values.
+		for (const lore of loreTag.value) {
+			// Add the lore value to the component.
+			component.addLore(lore.value);
+		}
+
+		return component;
+	}
 }
 
 export { ItemLoreComponent };

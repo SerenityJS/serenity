@@ -1,17 +1,19 @@
 import { EntityComponent } from "../entity-component";
 
+import type { Entity } from "../../../entity";
+import type { CompoundTag } from "@serenityjs/nbt";
 import type { ActorFlag } from "@serenityjs/protocol";
 
-abstract class EntityFlagComponent extends EntityComponent {
+class EntityFlagComponent extends EntityComponent {
 	/**
 	 * The flag of the flag component.
 	 */
-	public abstract readonly flag: ActorFlag;
+	public flag!: ActorFlag;
 
 	/**
 	 * The default value for the flag component.
 	 */
-	public abstract readonly defaultValue: boolean;
+	public defaultValue!: boolean;
 
 	/**
 	 * Gets the current value of the flag component.
@@ -47,6 +49,41 @@ abstract class EntityFlagComponent extends EntityComponent {
 	 */
 	public resetToDefaultValue(): void {
 		this.setCurrentValue(this.defaultValue);
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: EntityFlagComponent
+	): void {
+		nbt.createByteTag("flag", component.flag);
+		nbt.createByteTag("value", component.getCurrentValue() ? 1 : 0);
+		nbt.createByteTag("default", component.defaultValue ? 1 : 0);
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		entity: Entity
+	): EntityFlagComponent {
+		// Create a new entity flag component.
+		const component = new this(entity, this.identifier);
+
+		// Get the flag from the nbt.
+		component.flag = nbt.getTag("flag")?.value as ActorFlag;
+
+		// Get the value from the nbt.
+		const value = nbt.getTag("value")?.value as number;
+
+		// Get the default value from the nbt.
+		const defaultValue = nbt.getTag("default")?.value as number;
+
+		// Set the current value of the flag.
+		component.setCurrentValue(value === 1);
+
+		// Set the default value of the flag.
+		component.defaultValue = defaultValue === 1;
+
+		// Return the entity flag component.
+		return component;
 	}
 }
 

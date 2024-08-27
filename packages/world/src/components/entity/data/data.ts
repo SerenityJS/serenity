@@ -1,26 +1,29 @@
 import {
+	ActorDataType,
 	DataItem,
-	type ActorDataId,
-	type ActorDataType
+	type ActorDataId
 } from "@serenityjs/protocol";
 
 import { EntityComponent } from "../entity-component";
 
-abstract class EntityDataComponent<T = unknown> extends EntityComponent {
+import type { Entity } from "../../../entity";
+import type { CompoundTag } from "@serenityjs/nbt";
+
+class EntityDataComponent<T = unknown> extends EntityComponent {
 	/**
 	 * The key of the metadata component.
 	 */
-	public abstract readonly key: ActorDataId;
+	public key!: ActorDataId;
 
 	/**
 	 * The type of the metadata component.
 	 */
-	public abstract readonly type: ActorDataType;
+	public type!: ActorDataType;
 
 	/**
 	 * The default value for the metadata component.
 	 */
-	public abstract readonly defaultValue: T;
+	public defaultValue!: T;
 
 	/**
 	 * Gets the current value of the metadata component.
@@ -67,6 +70,107 @@ abstract class EntityDataComponent<T = unknown> extends EntityComponent {
 	 */
 	public resetToDefaultValue(): void {
 		this.setCurrentValue(this.defaultValue);
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: EntityDataComponent
+	): void {
+		nbt.createByteTag("key", component.key);
+		nbt.createByteTag("type", component.type);
+
+		switch (component.type) {
+			case ActorDataType.Byte: {
+				nbt.createByteTag("current", component.getCurrentValue() as number);
+				nbt.createByteTag("default", component.defaultValue as number);
+				break;
+			}
+
+			case ActorDataType.Short: {
+				nbt.createShortTag("current", component.getCurrentValue() as number);
+				nbt.createShortTag("default", component.defaultValue as number);
+				break;
+			}
+
+			case ActorDataType.Int: {
+				nbt.createIntTag("current", component.getCurrentValue() as number);
+				nbt.createIntTag("default", component.defaultValue as number);
+				break;
+			}
+
+			case ActorDataType.Long: {
+				nbt.createLongTag("current", component.getCurrentValue() as bigint);
+				nbt.createLongTag("default", component.defaultValue as bigint);
+				break;
+			}
+
+			case ActorDataType.Float: {
+				nbt.createFloatTag("current", component.getCurrentValue() as number);
+				nbt.createFloatTag("default", component.defaultValue as number);
+				break;
+			}
+
+			case ActorDataType.String: {
+				nbt.createStringTag("current", component.getCurrentValue() as string);
+				nbt.createStringTag("default", component.defaultValue as string);
+				break;
+			}
+		}
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		entity: Entity
+	): EntityDataComponent {
+		const key = nbt.getTag("key")?.value as ActorDataId;
+		const type = nbt.getTag("type")?.value as ActorDataType;
+		const currentValue = nbt.getTag("current")?.value as number;
+		const defaultValue = nbt.getTag("default")?.value as number;
+
+		const component = new this(entity, this.identifier);
+
+		component.key = key;
+		component.type = type;
+
+		switch (type) {
+			case ActorDataType.Byte: {
+				component.setCurrentValue(currentValue);
+				component.defaultValue = defaultValue;
+				break;
+			}
+
+			case ActorDataType.Short: {
+				component.setCurrentValue(currentValue);
+				component.defaultValue = defaultValue;
+				break;
+			}
+
+			case ActorDataType.Int: {
+				component.setCurrentValue(currentValue);
+				component.defaultValue = defaultValue;
+				break;
+			}
+
+			case ActorDataType.Long: {
+				component.setCurrentValue(currentValue);
+				component.defaultValue = defaultValue;
+				break;
+			}
+
+			case ActorDataType.Float: {
+				component.setCurrentValue(currentValue);
+				component.defaultValue = defaultValue;
+				break;
+			}
+
+			case ActorDataType.String: {
+				component.setCurrentValue(currentValue);
+				component.defaultValue = defaultValue;
+				break;
+			}
+		}
+
+		return component;
 	}
 }
 

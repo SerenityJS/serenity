@@ -33,11 +33,12 @@ class Login extends SerenityHandler {
 		// Decode the tokens given by the client.
 		// This contains the client data, identity data, and public key.
 		// Along with the players XUID, display name, and uuid.
-		const data = this.decode(packet.tokens);
+		const tokens = this.decode(packet.tokens);
 
 		// Get the clients xuid and username.
-		const xuid = data.identityData.XUID;
-		const username = data.identityData.displayName;
+		const xuid = tokens.identityData.XUID;
+		const uuid = tokens.identityData.identity;
+		const username = tokens.identityData.displayName;
 
 		// TODO: This is a temporary solution to the reliability and channel issue.
 		session.reliablity = Reliability.Reliable;
@@ -88,10 +89,21 @@ class Login extends SerenityHandler {
 		// Get the permission level of the player.
 		const permission = this.serenity.permissions.get(xuid, username);
 
+		// Create the options for the player
+		const options = { session, permission, tokens };
+
 		// Create a new player instance.
 		// Since we have gotten the players login data, we can create a new player instance.
 		// We will also add the player to the players map.
-		const player = new Player(session, data, dimension, permission);
+		const player = world.provider.hasPlayer(uuid)
+			? (Player.deserialize(
+					world.provider.readPlayer(uuid),
+					dimension,
+					options
+				) as Player)
+			: new Player(dimension, options);
+
+		// Set the players xuid and username.
 		this.serenity.players.set(xuid, player);
 
 		// Create the player join signal and emit it.

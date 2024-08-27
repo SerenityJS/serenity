@@ -27,7 +27,6 @@ import {
 	TransferPacket,
 	UpdateAbilitiesPacket,
 	Vector3f,
-	type LoginTokenData,
 	PlayerListPacket,
 	PlayerListAction,
 	PlayerListRecord,
@@ -43,6 +42,7 @@ import { EntitySpawnedSignal, PlayerMissSwingSignal } from "../events";
 import { PlayerStatus } from "./status";
 import { Device } from "./device";
 
+import type { PlayerOptions } from "./options";
 import type { Container } from "../container";
 import type { Dimension } from "../world";
 import type { PlayerComponents } from "../types/components";
@@ -147,20 +147,15 @@ class Player extends Entity {
 	 */
 	public isFlying = false;
 
-	public constructor(
-		session: NetworkSession,
-		tokens: LoginTokenData,
-		dimension: Dimension,
-		permission: PermissionLevel
-	) {
+	public constructor(dimension: Dimension, options: PlayerOptions) {
 		super(EntityIdentifier.Player, dimension);
-		this.session = session;
-		this.username = tokens.identityData.displayName;
-		this.xuid = tokens.identityData.XUID;
-		this.uuid = tokens.identityData.identity;
-		this.permission = permission;
-		this.skin = SerializedSkin.from(tokens.clientData);
-		this.device = new Device(tokens.clientData);
+		this.session = options.session;
+		this.username = options.tokens.identityData.displayName;
+		this.xuid = options.tokens.identityData.XUID;
+		this.uuid = options.tokens.identityData.identity;
+		this.permission = options.permission;
+		this.skin = SerializedSkin.from(options.tokens.clientData);
+		this.device = new Device(options.tokens.clientData);
 
 		// Register the type components to the entity.
 		for (const component of EntityComponent.registry.get(
@@ -229,6 +224,9 @@ class Player extends Entity {
 
 		// Sync the player's abilities
 		this.updateAbilities();
+
+		const inventory = this.getComponent("minecraft:inventory");
+		inventory.container.sync(this);
 
 		// Get the commands that are available to the player
 		const available = this.dimension.world.commands.serialize();

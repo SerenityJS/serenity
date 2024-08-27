@@ -2,6 +2,7 @@ import {
 	type ContainerId,
 	ContainerOpenPacket,
 	type ContainerType,
+	InventoryContentPacket,
 	InventorySlotPacket,
 	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
@@ -257,6 +258,32 @@ class EntityContainer extends Container {
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
+	}
+
+	/**
+	 * Syncs the container contents to a player.
+	 * @param player The player to sync the container to.
+	 */
+	public sync(player: Player): void {
+		// Create a new InventoryContentPacket.
+		const packet = new InventoryContentPacket();
+
+		// Set the properties of the packet.
+		packet.containerId = this.identifier;
+		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
+
+		// Map the items in the storage to network item stack descriptors.
+		packet.items = this.storage.map((item) => {
+			// If the item is null, return a new NetworkItemStackDescriptor.
+			// This will indicate that the slot is empty.
+			if (!item) return new NetworkItemStackDescriptor(0);
+
+			// Convert the item stack to a network item stack descriptor
+			return ItemStack.toNetworkStack(item);
+		});
+
+		// Send the packet to the player.
+		return player.session.send(packet);
 	}
 
 	public show(player: Player): void {

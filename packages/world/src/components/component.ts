@@ -1,3 +1,5 @@
+import type { CompoundTag } from "@serenityjs/nbt";
+
 /**
  * The base class for all components.
  */
@@ -45,6 +47,29 @@ class Component {
 	 */
 	public static bind(): void {
 		throw new Error("Method not implemented.");
+	}
+
+	/**
+	 * Serializes the component.
+	 * @param nbt The NBT tag to serialize to.
+	 * @param component The component to serialize.
+	 * @returns The serialized component.
+	 */
+	public static serialize(_nbt: CompoundTag, _component: Component): void {
+		return;
+	}
+
+	/**
+	 * Deserializes the component.
+	 * @param nbt The NBT tag to deserialize from.
+	 * @param unknown Unknown arguments.
+	 * @returns The deserialized component.
+	 */
+	public static deserialize(
+		_nbt: CompoundTag,
+		..._unknown: Array<unknown>
+	): Component {
+		return new this(this.identifier);
 	}
 }
 

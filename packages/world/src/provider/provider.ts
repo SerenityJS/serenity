@@ -3,7 +3,7 @@ import type { Player } from "../player";
 import type { CompoundTag } from "@serenityjs/nbt";
 import type { Dimension, World } from "../world";
 import type { Chunk } from "../chunk";
-import type { PlayerEntry, WorldConfig } from "../types";
+import type { WorldConfig } from "../types";
 
 class WorldProvider {
 	/**
@@ -66,27 +66,58 @@ class WorldProvider {
 	}
 
 	/**
-	 * Reads the entities that are in the chunk.
-	 * @param _chunk The chunk to read the entities from.
-	 * @param _dimension The dimension to read the entities from.
-	 * @returns The entities read from the chunk.
+	 * Reads the available actor unique ids in the dimension.
+	 * @param dimension The dimension to read the available actors from.
+	 * @returns An array of available actor unique ids.
 	 */
-	public readEntities(_chunk: Chunk, _dimension: Dimension): Array<Entity> {
-		throw new Error("WorldProvider.readEntities is not implemented");
+	public readAvailableActors(_dimension: Dimension): Array<bigint> {
+		throw new Error("WorldProvider.readAvailableActors is not implemented");
 	}
 
 	/**
-	 * Writes the entities to the chunk.
-	 * @param _entities The entities to write to the chunk.
-	 * @param _chunk The chunk to write the entities to.
-	 * @param _dimension The dimension to write the entities to.
+	 * Writes the available actor unique ids to the dimension.
+	 * @param dimension The dimension to write the available actors
+	 * @param uniqueIds The unique ids to write.
 	 */
-	public writeEntities(
-		_entities: Array<Entity>,
-		_chunk: Chunk,
-		_dimension: Dimension
+	public writeAvailableActors(
+		_dimension: Dimension,
+		_uniqueIds: Array<bigint>
 	): void {
-		throw new Error("WorldProvider.writeEntities is not implemented");
+		throw new Error("WorldProvider.writeAvailableActors is not implemented");
+	}
+
+	/**
+	 * Reads an entity from the world.
+	 * @param dimension The dimension to read the entity from.
+	 * @param entity The entity to read.
+	 * @returns CompoundTag of the entity.
+	 */
+	public readEntity(
+		_dimension: Dimension,
+		_entity: bigint | Entity
+	): CompoundTag {
+		throw new Error("WorldProvider.readEntity is not implemented");
+	}
+
+	/**
+	 * Writes an entity to the world.
+	 * @param entity The entity to write to the world.
+	 */
+	public writeEntity(_entity: Entity): void {
+		throw new Error("WorldProvider.writeEntity is not implemented");
+	}
+
+	public deleteEntity(_entity: Entity): void {
+		throw new Error("WorldProvider.deleteEntity is not implemented");
+	}
+
+	/**
+	 * Checks if the player is saved in the world.
+	 * @param Player The player to check.
+	 * @returns True if the player is saved in the world.
+	 */
+	public hasPlayer(_player: string | Player): boolean {
+		return false;
 	}
 
 	/**
@@ -94,7 +125,7 @@ class WorldProvider {
 	 * @param uuid The UUID of the player to read.
 	 * @returns The player read from the world.
 	 */
-	public readPlayer(_player: string | Player): CompoundTag<PlayerEntry> {
+	public readPlayer(_player: string | Player): CompoundTag {
 		throw new Error("WorldProvider.readPlayer is not implemented");
 	}
 

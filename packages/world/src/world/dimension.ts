@@ -216,9 +216,16 @@ class Dimension {
 
 	/**
 	 * Gets all the entities in the dimension.
+	 * @param players Whether or not to include players.
 	 */
-	public getEntities(): Array<Entity> {
-		return [...this.entities.values()];
+	public getEntities(players = true): Array<Entity> {
+		return [...this.entities.values()].filter((entity) => {
+			// Check if the entity is a player
+			if (!players && entity.isPlayer()) return false;
+
+			// Return the entity
+			return true;
+		});
 	}
 
 	/**
@@ -547,7 +554,9 @@ class Dimension {
 
 		// Create a new item component, this will register the item to the entity
 		// As well as a new physics component
-		new EntityItemComponent(entity, itemStack);
+		const component = new EntityItemComponent(entity);
+		component.itemStack = itemStack;
+
 		new EntityPhysicsComponent(entity);
 
 		// Spawn the item entity

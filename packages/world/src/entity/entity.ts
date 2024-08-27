@@ -27,8 +27,14 @@ import {
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
-import { CompoundTag } from "@serenityjs/nbt";
-import { ItemIdentifier } from "@serenityjs/item";
+import {
+	CompoundTag,
+	FloatTag,
+	ListTag,
+	LongTag,
+	StringTag,
+	Tag
+} from "@serenityjs/nbt";
 
 import { CardinalDirection, type EntityInteractType } from "../enums";
 import {
@@ -36,7 +42,6 @@ import {
 	EntityComponent,
 	EntityEffectsComponent,
 	EntityHealthComponent,
-	EntityItemComponent,
 	EntityNametagComponent,
 	EntityOnFireComponent,
 	EntityVariantComponent
@@ -50,11 +55,11 @@ import {
 	PlayerInteractWithEntitySignal
 } from "../events";
 import { ScoreboardIdentity } from "../scoreboard";
+import { Player, type PlayerOptions } from "../player";
 
 import type { Container } from "../container";
 import type { Effect } from "../effect/effect";
 import type { Chunk } from "../chunk";
-import type { Player } from "../player";
 import type { Dimension, World } from "../world";
 import type { EntityComponents } from "../types/components";
 
@@ -116,6 +121,11 @@ class Entity {
 	 * The rotation of the entity.
 	 */
 	public readonly rotation = new Rotation(0, 0, 0);
+
+	/**
+	 * The tags of the entity.
+	 */
+	public readonly tags = new Array<string>();
 
 	/**
 	 * The components of the entity.
@@ -331,10 +341,7 @@ class Entity {
 		// Check if the entity is an item
 		if (this.isItem()) {
 			// Get the item component
-			// TODO: fix this
-			const itemComponent = this.hasComponent("minecraft:item")
-				? this.getComponent("minecraft:item")
-				: new EntityItemComponent(this, new ItemStack(ItemIdentifier.Air, 1));
+			const itemComponent = this.getComponent("minecraft:item");
 
 			// Create a new AddItemActorPacket
 			const packet = new AddItemActorPacket();
@@ -1196,6 +1203,132 @@ class Entity {
 		const data = new ActorData(identifier, position, rotation, extras);
 
 		return data;
+	}
+
+	public static serialize(entity: Entity): CompoundTag {
+		// Create a new root compound tag
+		const root = new CompoundTag("", {
+			UniqueID: new LongTag("UniqueID", entity.unique),
+			Identifier: new StringTag("Identifier", entity.type.identifier),
+			Tags: new ListTag<StringTag>(
+				"Tags",
+				entity.tags.map((tag) => new StringTag("", tag)),
+				Tag.String
+			)
+		});
+
+		// Create a position list tag.
+		const position = root.createListTag("Pos", Tag.Float);
+
+		// Push the position values to the list.
+		position.push(
+			new FloatTag("", entity.position.x),
+			new FloatTag("", entity.position.y),
+			new FloatTag("", entity.position.z)
+		);
+
+		// Create a rotation list tag.
+		const rotation = root.createListTag("Rotation", Tag.Float);
+
+		// Push the rotation values to the list.
+		rotation.push(
+			new FloatTag("", entity.rotation.yaw),
+			new FloatTag("", entity.rotation.pitch),
+			new FloatTag("", entity.rotation.headYaw)
+		);
+
+		// Create a components list tag.
+		const components = root.createListTag("SerenityComponents", Tag.Compound);
+
+		// Add the components to the root tag.
+		root.addTag(components);
+
+		// Iterate over the components and serialize them.
+		for (const component of entity.getComponents()) {
+			// Get the component type.
+			const type = EntityComponent.components.get(component.identifier);
+			if (!type) continue;
+
+			// Create a data compound tag for the data to be written to.
+			// And serialize the component.
+			const data = new CompoundTag("data");
+			type.serialize(data, component);
+
+			// Create the component tag.
+			const componentTag = new CompoundTag().addTag(
+				new StringTag("identifier", component.identifier),
+				data
+			);
+
+			// Add the component to the list.
+			components.push(componentTag);
+		}
+
+		// Return the root compound tag
+		return root;
+	}
+
+	public static deserialize(
+		tag: CompoundTag,
+		dimension: Dimension,
+		options?: PlayerOptions
+	): Entity {
+		// Get the unique id of the entity.
+		const unique = tag.getTag("UniqueID")?.value as bigint;
+
+		// Get the identifier of the entity.
+		const identifier = tag.getTag("Identifier")?.value as EntityIdentifier;
+
+		// Get the position of the entity.
+		const position = tag.getTag("Pos")?.value as Array<FloatTag>;
+
+		// Get the rotation of the entity.
+		const rotation = tag.getTag("Rotation")?.value as Array<FloatTag>;
+
+		// Get the tags of the entity.
+		const tags = tag.getTag<ListTag<StringTag>>("Tags")?.value ?? [];
+
+		// Create a new entity.
+		const entity = options
+			? new Player(dimension, options)
+			: new Entity(identifier, dimension, unique);
+
+		// Set the position of the entity.
+		entity.position.x = position[0]?.value ?? 0;
+		entity.position.y = position[1]?.value ?? 0;
+		entity.position.z = position[2]?.value ?? 0;
+
+		// Set the rotation of the entity.
+		entity.rotation.yaw = rotation[0]?.value ?? 0;
+		entity.rotation.pitch = rotation[1]?.value ?? 0;
+		entity.rotation.headYaw = rotation[2]?.value ?? 0;
+
+		// Iterate over the tags and add them to the entity.
+		for (const tag of tags) entity.tags.push(tag.value);
+
+		// Get the components of the entity.
+		const components = tag.getTag("SerenityComponents")
+			?.value as Array<CompoundTag>;
+
+		// Iterate over the components and deserialize them.
+		for (const componentTag of components) {
+			// Get the identifier of the component.
+			const identifier = componentTag.getTag("identifier")?.value as string;
+
+			// Get the component type.
+			const type = EntityComponent.components.get(identifier);
+			if (!type) continue;
+
+			// Get the data of the component.
+			const data = componentTag.getTag("data") as CompoundTag;
+			if (!data) continue;
+
+			// Deserialize the component.
+			type.deserialize(data, entity);
+		}
+
+		// Return the entity.
+		return entity;
 	}
 }
 

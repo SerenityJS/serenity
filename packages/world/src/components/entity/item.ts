@@ -7,25 +7,28 @@ import {
 	TakeItemActorPacket,
 	Vector3f
 } from "@serenityjs/protocol";
+import { ItemIdentifier } from "@serenityjs/item";
+
+import { ItemStack } from "../../item";
 
 import { EntityComponent } from "./entity-component";
 
+import type { CompoundTag } from "@serenityjs/nbt";
 import type { Player } from "../../player";
 import type { Entity } from "../../entity";
-import type { ItemStack } from "../../item";
 
 class EntityItemComponent extends EntityComponent {
 	public static readonly identifier = "minecraft:item";
 
 	/**
-	 * The item stack of the component.
-	 */
-	public readonly itemStack: ItemStack;
-
-	/**
 	 * The birth tick of the item.
 	 */
 	public readonly birthTick: bigint;
+
+	/**
+	 * The item stack of the component.
+	 */
+	public itemStack: ItemStack;
 
 	/**
 	 * The lifespan of the item in ticks.
@@ -51,7 +54,7 @@ class EntityItemComponent extends EntityComponent {
 	 * @param itemStack The item stack of the component.
 	 * @returns A new entity inventory component.
 	 */
-	public constructor(entity: Entity, itemStack: ItemStack) {
+	public constructor(entity: Entity) {
 		super(entity, EntityItemComponent.identifier);
 
 		// Check if the entity type is an item
@@ -61,7 +64,7 @@ class EntityItemComponent extends EntityComponent {
 		}
 
 		// Set the item stack of the component
-		this.itemStack = itemStack;
+		this.itemStack = new ItemStack(ItemIdentifier.Air, 1);
 
 		// Set the birth tick of the item
 		this.birthTick = entity.dimension.world.currentTick;
@@ -253,6 +256,34 @@ class EntityItemComponent extends EntityComponent {
 			// Remove the item from the dimension
 			this.entity.despawn();
 		}
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: EntityItemComponent
+	): void {
+		// Serialize the item stack
+		const itemStack = ItemStack.serialize(component.itemStack);
+
+		// Add the item stack to the NBT
+		nbt.addTag(...itemStack.getTags());
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		entity: Entity
+	): EntityItemComponent {
+		// Create a new entity item component
+		const component = new EntityItemComponent(entity);
+
+		// Deserialize the item stack
+		const itemStack = ItemStack.deserialize(nbt);
+
+		// Set the item stack of the component
+		component.itemStack = itemStack;
+
+		// Return the component
+		return component;
 	}
 }
 

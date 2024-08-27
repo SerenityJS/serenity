@@ -3,6 +3,7 @@ import { EntityIdentifier } from "@serenityjs/entity";
 
 import { PlayerComponent } from "./player-component";
 
+import type { CompoundTag } from "@serenityjs/nbt";
 import type { Player } from "../../player";
 
 class PlayerAbilityComponent extends PlayerComponent {
@@ -38,6 +39,39 @@ class PlayerAbilityComponent extends PlayerComponent {
 		this.player.abilities.set(AbilityIndex.NoClip, false);
 		this.player.abilities.set(AbilityIndex.PrivilegedBuilder, false);
 		this.player.abilities.set(AbilityIndex.Count, false);
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: PlayerAbilityComponent
+	): void {
+		// Iterate over the abilities and serialize them.
+		for (const [index, value] of component.player.abilities) {
+			nbt.createByteTag(AbilityIndex[index], value ? 1 : 0);
+		}
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		player: Player
+	): PlayerAbilityComponent {
+		// Create a new player ability component.
+		const component = new PlayerAbilityComponent(player);
+
+		// Deserialize the abilities.
+		for (const index of Object.values(AbilityIndex)) {
+			// Get the value of the ability.
+			const value = nbt.getTag(AbilityIndex[index as AbilityIndex])
+				?.value as number;
+
+			// Set the ability if the value is not undefined.
+			if (value !== undefined) {
+				player.setAbility(index as AbilityIndex, value === 1);
+			}
+		}
+
+		// Return the component.
+		return component;
 	}
 }
 

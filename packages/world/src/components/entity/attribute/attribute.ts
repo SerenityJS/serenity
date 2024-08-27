@@ -1,9 +1,10 @@
 import { EntityComponent } from "../entity-component";
 
+import type { CompoundTag } from "@serenityjs/nbt";
 import type { AttributeName } from "@serenityjs/protocol";
 import type { Entity } from "../../../entity";
 
-abstract class EntityAttributeComponent extends EntityComponent {
+class EntityAttributeComponent extends EntityComponent {
 	/**
 	 * The identifier of the component.
 	 */
@@ -17,17 +18,17 @@ abstract class EntityAttributeComponent extends EntityComponent {
 	/**
 	 * The minimum value allowed for the attribute.
 	 */
-	public abstract readonly effectiveMin: number;
+	public effectiveMin: number = 0;
 
 	/**
 	 * The maximum value allowed for the attribute.
 	 */
-	public abstract readonly effectiveMax: number;
+	public effectiveMax: number = 0;
 
 	/**
 	 * The default value for the attribute.
 	 */
-	public abstract readonly defaultValue: number;
+	public defaultValue: number = 0;
 
 	/**
 	 * Creates a new entity attribute component.
@@ -139,6 +140,39 @@ abstract class EntityAttributeComponent extends EntityComponent {
 
 		// Set the current value
 		this.setCurrentValue(this.getCurrentValue());
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: EntityAttributeComponent
+	): void {
+		nbt.createFloatTag("Current", component.getCurrentValue());
+		nbt.createFloatTag("Default", component.defaultValue);
+		nbt.createFloatTag("Max", component.effectiveMax);
+		nbt.createFloatTag("Min", component.effectiveMin);
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		entity: Entity
+	): EntityAttributeComponent {
+		// Get the values from the nbt tag
+		const current = nbt.getTag("Current")?.value as number;
+		const defaultValue = nbt.getTag("Default")?.value as number;
+		const effectiveMax = nbt.getTag("Max")?.value as number;
+		const effectiveMin = nbt.getTag("Min")?.value as number;
+
+		// Create a new entity attribute component
+		const component = new this(entity, this.identifier);
+
+		// Set the values to the component
+		component.setCurrentValue(current, true);
+		component.defaultValue = defaultValue;
+		component.effectiveMax = effectiveMax;
+		component.effectiveMin = effectiveMin;
+
+		// Return the component
+		return component;
 	}
 }
 

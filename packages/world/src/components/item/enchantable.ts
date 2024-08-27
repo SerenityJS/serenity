@@ -138,36 +138,6 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 		this.item.update();
 	}
 
-	public serialize(tag: CompoundTag): CompoundTag {
-		// Serialize the enchantments to the tag.
-		const enchTag = new ListTag<CompoundTag>("ench", [], Tag.Compound);
-
-		for (const [enchantment, level] of this.enchantments) {
-			const ench = new CompoundTag("", {});
-
-			ench.addTag(new ShortTag("id", enchantment));
-			ench.addTag(new ShortTag("lvl", level));
-			enchTag.value.push(ench);
-		}
-
-		tag.addTag(enchTag);
-
-		return tag;
-	}
-
-	public deserialize(tag: CompoundTag): void {
-		const enchanments: ListTag<CompoundTag> | undefined = tag.getTag("ench");
-		if (!enchanments) return;
-		this.enchantments.clear();
-		for (const ench of enchanments.value) {
-			const id = ench.getTag("id")?.value as number;
-			const level = ench.getTag("lvl")?.value as number;
-
-			if (id == undefined || level == undefined) continue;
-			this.enchantments.set(id, level);
-		}
-	}
-
 	public equals(component: ItemComponent<T>): boolean {
 		// Check if the component is an instance of the item enchantable component.
 		if (!(component instanceof ItemEnchantableComponent)) return false;
@@ -188,6 +158,66 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 		}
 
 		return true;
+	}
+
+	public static serialize<T extends keyof Items>(
+		nbt: CompoundTag,
+		component: ItemEnchantableComponent<T>
+	): void {
+		// Create a new list tag for the enchantments.
+		const enchTag = new ListTag<CompoundTag>("ench", [], Tag.Compound);
+
+		// Iterate over the enchantments.
+		for (const [enchantment, level] of component.enchantments) {
+			// Create the enchantment tag.
+			const ench = new CompoundTag("", {});
+
+			// Create the id and level tags.
+			const id = new ShortTag("id", enchantment);
+			const lvl = new ShortTag("lvl", level);
+
+			// Add the id and level tags to the enchantment tag.
+			ench.addTag(id);
+			ench.addTag(lvl);
+
+			// Push the enchantment tag to the list tag.
+			enchTag.value.push(ench);
+		}
+
+		// Add the enchantment list tag to the item.
+		nbt.addTag(enchTag);
+	}
+
+	public static deserialize<T extends keyof Items>(
+		nbt: CompoundTag,
+		itemStack: ItemStack<T>
+	): ItemEnchantableComponent<T> {
+		// Create a new item enchantable component.
+		const component = new ItemEnchantableComponent(itemStack);
+
+		// Check if the item has enchantments.
+		if (!nbt.hasTag("ench")) return component;
+
+		// Get the enchantment list tag.
+		const enchTag = nbt.getTag<ListTag<CompoundTag>>("ench");
+
+		// Check if the enchantment list tag is invalid.
+		if (!enchTag) return component;
+
+		// Iterate over the enchantments.
+		for (const ench of enchTag.value) {
+			// Get the id and level tags.
+			const id = ench.getTag<ShortTag>("id");
+			const lvl = ench.getTag<ShortTag>("lvl");
+
+			// Check if the id or level tags are invalid.
+			if (!id || !lvl) continue;
+
+			// Add the enchantment to the item.
+			component.addEnchantment(id.value, lvl.value);
+		}
+
+		return component;
 	}
 }
 
