@@ -258,22 +258,19 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 					const compound = value as CompoundTag<Record<string, NBTTag>>;
 
 					// Write the tags.
-					for (const key in compound.value) {
-						// Get the type.
-						const type = compound.value[key]!;
-
+					for (const tag of compound.getTags()) {
 						// Find the tag.
 						const writter = NBT_TAGS.find(
-							(tag) => type instanceof tag
+							(x) => tag instanceof x
 						) as typeof NBTTag;
 
 						// Check if the tag was found.
 						if (!writter) {
-							throw new Error(`Unknown tag type: ${type}`);
+							throw new Error(`Unknown tag type for: ${tag.name}`);
 						}
 
 						// Write the tag.
-						writter.write(stream, type, varint, false);
+						writter.write(stream, tag, varint);
 					}
 
 					// Write the end tag.

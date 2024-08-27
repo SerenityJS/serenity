@@ -163,38 +163,42 @@ class Serenity {
 		// Get the server tps from the properties
 		const tps = this.properties.getValue("server-tps") ?? 20;
 
-		let lastTick = Date.now();
+		let lastTick = process.hrtime();
 
 		// Create a ticking loop with default 50ms interval
 		// Handle delta time and tick the world
-		const tick = () =>
-			process.nextTick(() => {
-				// Check if the server is stopped
-				if (this.stopped) return;
+		const tick = () => {
+			// Check if the server is stopped
+			if (this.stopped) return;
 
-				// Get the current time
-				const now = Date.now();
-				if (now - lastTick >= 1000 / tps) {
-					// Calculate the delta time
-					const deltaTick = now - lastTick;
-					lastTick = now;
+			// Get the current time
+			const [seconds, nanoseconds] = process.hrtime(lastTick);
+			const delta = seconds + nanoseconds / 1e9;
 
-					// Calculate the server tps
-					this.ticks.push(now);
-					const threshold = now - 1000;
-					this.ticks = this.ticks.filter((tick) => tick > threshold);
-					this.tps = this.ticks.length;
+			// Check if the server should tick
+			if (delta >= 1 / tps) {
+				// Set the last tick to the current time
+				lastTick = process.hrtime();
 
-					// Tick all the worlds
-					for (const world of this.worlds.getAll()) world.tick(deltaTick);
+				// Calculate the delta time
+				const deltaTick = delta * 1000;
 
-					// Increment the tick
-					this.tick++;
-				}
+				// Calculate the server tps
+				this.ticks.push(Date.now());
+				const threshold = Date.now() - 1000;
+				this.ticks = this.ticks.filter((tick) => tick > threshold);
+				this.tps = this.ticks.length;
 
-				// Set the timeout to the next tick
-				setTimeout(() => tick(), 2);
-			});
+				// Tick all the worlds
+				for (const world of this.worlds.getAll())
+					world.tick(Math.floor(deltaTick));
+
+				// Increment the tick
+				this.tick++;
+			}
+
+			setImmediate(tick);
+		};
 
 		// Start the worlds
 		await this.worlds.start();

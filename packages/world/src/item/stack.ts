@@ -1,5 +1,12 @@
 import { ItemType, type Items } from "@serenityjs/item";
-import { ByteTag, CompoundTag, StringTag } from "@serenityjs/nbt";
+import {
+	ByteTag,
+	CompoundTag,
+	ListTag,
+	ShortTag,
+	StringTag,
+	Tag
+} from "@serenityjs/nbt";
 
 import { ItemComponent, ItemTagComponent } from "../components";
 
@@ -309,55 +316,6 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	}
 
 	/**
-	 * Serializes the item stack into a CompoundTag.
-	 *
-	 * This method converts the item stack's properties and components into a CompoundTag,
-	 * which can be used for storage or network transmission.
-	 *
-	 * @returnsThe serialized representation of the item stack.
-	 */
-	public serialize(): CompoundTag {
-		let tag = new CompoundTag().addTag(
-			new StringTag("Name", this.type.identifier),
-			new ByteTag("Count", this.amount)
-		);
-
-		for (const component of this.components.values()) {
-			if (component.serialize) tag = component.serialize?.(tag);
-		}
-		return tag;
-	}
-
-	/**
-	 * Deserializes a CompoundTag into an ItemStack.
-	 *
-	 * This method takes a CompoundTag, extracts the necessary information,
-	 * and constructs an ItemStack object from it.
-	 *
-	 * @param tag - The CompoundTag containing the serialized item stack data.
-	 * @returns The deserialized Itemstack
-	 * @throws Will throw an error if the tag does not contain a valid item identifier.
-	 */
-	public static deserialize(tag: CompoundTag): ItemStack {
-		// Create the item stack.
-		const itemIdentifier = tag.getTag<StringTag>("Name");
-
-		if (!itemIdentifier) throw new Error(`Invalid item tag`);
-
-		const item = new ItemStack(
-			itemIdentifier.value as keyof Items,
-			tag.getTag<ByteTag>("Count")?.value ?? 1
-		);
-
-		for (const component of item.components.values()) {
-			component.deserialize?.(tag);
-		}
-
-		item.nbt.addTag(...tag.getTags());
-		return item;
-	}
-
-	/**
 	 * Creates a new item stack from a provided item type.
 	 * @param type The type of the item.
 	 * @param amount The amount of the item.
@@ -370,6 +328,104 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		metadata?: number
 	): ItemStack<T> {
 		return new ItemStack(type.identifier, amount, metadata);
+	}
+
+	/**
+	 * Serializes the item stack into a CompoundTag.
+	 *
+	 * This method converts the item stack's properties and components into a CompoundTag,
+	 * which can be used for storage or network transmission.
+	 *
+	 * @returns The serialized representation of the item stack.
+	 */
+	public static serialize(itemStack: ItemStack): CompoundTag {
+		// Create the root tag.
+		const root = new CompoundTag().addTag(
+			new StringTag("Name", itemStack.type.identifier),
+			new ByteTag("Count", itemStack.amount),
+			new ShortTag("Damage", itemStack.metadata)
+		);
+
+		// Create a components list tag.
+		const components = new ListTag<CompoundTag>(
+			"SerenityComponents",
+			[],
+			Tag.Compound
+		);
+
+		// Add the components to the root tag.
+		root.addTag(components);
+
+		// Iterate over the components and serialize them.
+		for (const component of itemStack.getComponents()) {
+			// Get the component type.
+			const type = ItemComponent.components.get(component.identifier);
+			if (!type) continue;
+
+			// Create a data compound tag for the data to be written to.
+			// And serialize the component.
+			const data = new CompoundTag("data");
+			type.serialize(data, component);
+
+			// Create the component tag.
+			const componentTag = new CompoundTag().addTag(
+				new StringTag("identifier", component.identifier),
+				data
+			);
+
+			// Add the component to the list.
+			components.push(componentTag);
+		}
+
+		// Return the root tag.
+		return root;
+	}
+
+	/**
+	 * Deserializes a CompoundTag into an ItemStack.
+	 *
+	 * This method takes a CompoundTag, extracts the necessary information,
+	 * and constructs an ItemStack object from it.
+	 *
+	 * @param tag The CompoundTag containing the serialized item stack data.
+	 * @returns The deserialized Itemstack
+	 * @throws Will throw an error if the tag does not contain a valid item identifier.
+	 */
+	public static deserialize(tag: CompoundTag): ItemStack {
+		// Create the item stack.
+		const itemIdentifier = tag.getTag<StringTag>("Name");
+
+		// Check if the item identifier is invalid.
+		if (!itemIdentifier) throw new Error(`Invalid item tag`);
+
+		// Creat the item stack.
+		const item = new ItemStack(
+			itemIdentifier.value as keyof Items,
+			tag.getTag<ByteTag>("Count")?.value ?? 1,
+			tag.getTag<ShortTag>("Damage")?.value ?? 0
+		);
+
+		// Deserialize the components.
+		const components = tag.getTag<ListTag<CompoundTag>>("SerenityComponents");
+		for (const componentTag of components?.value ?? []) {
+			// Get the component identifier.
+			const identifier = componentTag.getTag<StringTag>("identifier")?.value;
+			if (!identifier) continue;
+
+			// Get the component data.
+			const data = componentTag.getTag<CompoundTag>("data");
+			if (!data) continue;
+
+			// Get the component type.
+			const type = ItemComponent.components.get(identifier);
+			if (!type) continue;
+
+			// Deserialize the component.
+			type.deserialize(data, item);
+		}
+
+		// Return the item stack.
+		return item;
 	}
 }
 

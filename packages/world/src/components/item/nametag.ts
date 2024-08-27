@@ -63,6 +63,33 @@ class ItemNametagComponent<T extends keyof Items> extends ItemComponent<T> {
 		// Compare the current values.
 		return this.currentValue === component.currentValue;
 	}
+
+	public static serialize<T extends keyof Items>(
+		nbt: CompoundTag,
+		component: ItemNametagComponent<T>
+	): void {
+		nbt.createStringTag("NameTag", component.currentValue);
+	}
+
+	public static deserialize<T extends keyof Items>(
+		nbt: CompoundTag,
+		item: ItemStack<T>
+	): ItemNametagComponent<T> {
+		// Create a new item nametag component.
+		const component = new ItemNametagComponent(item);
+
+		// Get the NameTag string tag.
+		const nametag = nbt.getTag<StringTag>("NameTag");
+
+		// Check if the NameTag tag exists
+		if (!nametag) throw new Error("NameTag tag not found");
+
+		// Set the current value.
+		component.setCurrentValue(nametag.value);
+
+		// Return the component.
+		return component;
+	}
 }
 
 export { ItemNametagComponent };

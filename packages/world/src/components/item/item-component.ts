@@ -123,9 +123,30 @@ class ItemComponent<T extends keyof Items> extends Component {
 		blockPosition?: BlockCoordinates
 	): ItemUseMethod | undefined;
 
-	public serialize?(tag: CompoundTag): CompoundTag;
+	/**
+	 * Serializes the item component into the NBT.
+	 * @param nbt The NBT to serialize the component to.
+	 * @param component The component to serialize.
+	 */
+	public static serialize<T extends keyof Items>(
+		_nbt: CompoundTag,
+		_component: ItemComponent<T>
+	): void {
+		return;
+	}
 
-	public deserialize?(tag: CompoundTag): void;
+	/**
+	 * Deserializes the item component from the NBT.
+	 * @param nbt The NBT to deserialize the component from.
+	 * @param itemStack The item stack to deserialize the component to.
+	 * @returns A new item component.
+	 */
+	public static deserialize<T extends keyof Items>(
+		_nbt: CompoundTag,
+		_itemStack: ItemStack<T>
+	): ItemComponent<T> {
+		return new this(_itemStack, this.identifier);
+	}
 
 	public static bind(): void {
 		// Bind the component to the item types.

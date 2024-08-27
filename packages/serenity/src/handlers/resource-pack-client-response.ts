@@ -165,7 +165,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.entityId = player.unique;
 				packet.runtimeEntityId = player.runtime;
 				packet.playerGamemode = player.gamemode;
-				packet.playerPosition = player.dimension.spawn;
+				packet.playerPosition = player.position;
 				packet.pitch = player.rotation.pitch;
 				packet.yaw = player.rotation.yaw;
 				packet.seed = BigInt(player.dimension.generator.seed);

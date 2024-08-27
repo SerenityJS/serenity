@@ -348,7 +348,7 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 	 */
 	public static write<T = unknown>(
 		stream: BinaryStream,
-		tag: CompoundTag<T>,
+		root: CompoundTag<T>,
 		varint = false,
 		type = true
 	): void {
@@ -358,18 +358,13 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 			stream.writeByte(this.type);
 
 			// Write the name.
-			this.writeString(tag.name, stream, varint);
+			this.writeString(root.name, stream, varint);
 		}
 
 		// Write the tags.
-		for (const key in tag.value) {
-			// Get the type.
-			const type = tag.value[key] as NBTTag<unknown>;
-
+		for (const tag of root.getTags()) {
 			// Find the tag.
-			const writter = NBT_TAGS.find(
-				(tag) => type instanceof tag
-			) as typeof NBTTag;
+			const writter = NBT_TAGS.find((x) => tag instanceof x) as typeof NBTTag;
 
 			// Check if the tag was found.
 			if (!writter) {
@@ -377,10 +372,10 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 			}
 
 			// Write the tag.
-			writter.write(stream, type, varint);
+			writter.write(stream, tag, varint);
 		}
 
-		// Write the end.
+		// Write the end tag.
 		stream.writeByte(Tag.End);
 	}
 }

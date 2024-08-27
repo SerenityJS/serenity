@@ -17,6 +17,9 @@ class Disconnect extends SerenityHandler {
 		const player = this.serenity.getPlayer(session);
 		if (!player) return;
 
+		// Save the player data
+		player.dimension.world.provider.writePlayer(player);
+
 		// Create a new player leave signal
 		// This event cannot be cancelled.
 		new PlayerLeaveSignal(
