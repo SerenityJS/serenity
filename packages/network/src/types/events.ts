@@ -102,9 +102,15 @@ import type {
 	StructureBlockUpdatePacket,
 	DimensionDataPacket,
 	PlayerEnchantOptionsPacket,
-	ClientToServerHandshakePacket
+	ClientToServerHandshakePacket,
+	MobArmorEquipmentPacket,
+	RiderJumpPacket,
+	BlockEventPacket,
+	EntityPickRequestPacket,
+	HurtArmorPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
+import { Network } from "../network";
 
 /**
  * All available network events.
@@ -134,8 +140,10 @@ interface NetworkEvents {
 	[Packet.TakeItemActor]: [NetworkPacketEvent<TakeItemActorPacket>];
 	[Packet.MoveActorAbsolute]: [NetworkPacketEvent<MoveActorAbsolutePacket>];
 	[Packet.MovePlayer]: [NetworkPacketEvent<MovePlayerPacket>];
+	[Packet.RiderJump]: [NetworkPacketEvent<RiderJumpPacket>];
 	[Packet.UpdateBlock]: [NetworkPacketEvent<UpdateBlockPacket>];
 	[Packet.LevelEvent]: [NetworkPacketEvent<LevelEventPacket>];
+	[Packet.BlockEvent]: [NetworkPacketEvent<BlockEventPacket>];
 	[Packet.ActorEvent]: [NetworkPacketEvent<ActorEventPacket>];
 	[Packet.UpdateAttributes]: [NetworkPacketEvent<UpdateAttributesPacket>];
 	[Packet.InventoryTransaction]: [
@@ -143,6 +151,7 @@ interface NetworkEvents {
 	];
 	[Packet.CompletedUsingItem]: [NetworkPacketEvent<CompletedUsingItemPacket>];
 	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipmentPacket>];
+	[Packet.MobArmorEquipment]: [NetworkPacketEvent<MobArmorEquipmentPacket>];
 	[Packet.MobEffect]: [NetworkPacketEvent<MobEffectPacket>];
 	[Packet.Interact]: [NetworkPacketEvent<InteractPacket>];
 	[Packet.BlockPickRequest]: [NetworkPacketEvent<BlockPickRequestPacket>];
@@ -150,7 +159,9 @@ interface NetworkEvents {
 	[Packet.PlayerStartItemCooldown]: [
 		NetworkPacketEvent<PlayerStartItemCooldownPacket>
 	];
+	[Packet.EntityPickRequest]: [NetworkPacketEvent<EntityPickRequestPacket>];
 	[Packet.PlayerAction]: [NetworkPacketEvent<PlayerActionPacket>];
+	[Packet.HurtArmor]: [NetworkPacketEvent<HurtArmorPacket>];
 	[Packet.SetActorData]: [NetworkPacketEvent<SetActorDataPacket>];
 	[Packet.SetActorMotion]: [NetworkPacketEvent<SetActorMotionPacket>];
 	[Packet.Animate]: [NetworkPacketEvent<AnimatePacket>];

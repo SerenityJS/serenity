@@ -105,6 +105,11 @@ import { StructureBlockUpdatePacket } from "./structure-block-update";
 import { DimensionDataPacket } from "./dimension-data";
 import { PlayerEnchantOptionsPacket } from "./player-enchant-options";
 import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
+import { MobArmorEquipmentPacket } from "./mob-armor-equipment";
+import { RiderJumpPacket } from "./rider-jump";
+import { BlockEventPacket } from "./block-event";
+import { EntityPickRequestPacket } from "./entity-pick-request";
+import { HurtArmorPacket } from "./hurt-armor";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -125,16 +130,21 @@ const Packets = {
 	[Packet.TakeItemActor]: TakeItemActorPacket, // 17
 	[Packet.MoveActorAbsolute]: MoveActorAbsolutePacket, // 18
 	[Packet.MovePlayer]: MovePlayerPacket, // 19
+	[Packet.RiderJump]: RiderJumpPacket, // 20
 	[Packet.UpdateBlock]: UpdateBlockPacket, // 21
 	[Packet.LevelEvent]: LevelEventPacket, // 25
+	[Packet.BlockEvent]: BlockEventPacket, // 26
 	[Packet.ActorEvent]: ActorEventPacket, // 27
 	[Packet.MobEffect]: MobEffectPacket,
 	[Packet.UpdateAttributes]: UpdateAttributesPacket, // 29
 	[Packet.InventoryTransaction]: InventoryTransactionPacket, // 30
 	[Packet.MobEquipment]: MobEquipmentPacket, // 31
+	[Packet.MobArmorEquipment]: MobArmorEquipmentPacket, // 32
 	[Packet.Interact]: InteractPacket, // 33
 	[Packet.BlockPickRequest]: BlockPickRequestPacket, // 34
+	[Packet.EntityPickRequest]: EntityPickRequestPacket, // 35
 	[Packet.PlayerAction]: PlayerActionPacket, // 36
+	[Packet.HurtArmor]: HurtArmorPacket, // 38
 	[Packet.SetActorData]: SetActorDataPacket, // 39
 	[Packet.SetActorMotion]: SetActorMotionPacket, // 40
 	[Packet.Animate]: AnimatePacket, // 44

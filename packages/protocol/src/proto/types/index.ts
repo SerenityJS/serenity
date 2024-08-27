@@ -110,3 +110,7 @@ export * from "./item-stack-request";
 export * from "./disconnect-message";
 export * from "./enchant-option";
 export * from "./actor-data";
+export * from "./client-predicted-vehicle";
+export * from "./input-transaction";
+export * from "./player-auth-input-data";
+export * from "./block-action"
