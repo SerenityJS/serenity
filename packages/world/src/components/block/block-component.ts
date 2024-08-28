@@ -2,6 +2,7 @@ import { type BlockIdentifier, BlockType } from "@serenityjs/block";
 
 import { Component } from "../component";
 
+import type { CompoundTag } from "@serenityjs/nbt";
 import type { Vector3f } from "@serenityjs/protocol";
 import type { Player } from "../../player";
 import type { Block } from "../../block";
@@ -136,6 +137,25 @@ class BlockComponent extends Component {
 
 		// Register the component.
 		BlockComponent.components.set(this.identifier, this);
+	}
+
+	/**
+	 * Serializes the block component to the NBT tag.
+	 * @param nbt The NBT tag to serialize to.
+	 * @param component The block component to serialize
+	 */
+	public static serialize(_nbt: CompoundTag, _component: BlockComponent): void {
+		return;
+	}
+
+	/**
+	 * Deserializes the block component from the NBT tag.
+	 * @param nbt The NBT tag to deserialize from.
+	 * @param block The block the component is binded to.
+	 * @returns The deserialized block component.
+	 */
+	public static deserialize(_nbt: CompoundTag, _block: Block): BlockComponent {
+		return new this(_block, this.identifier);
 	}
 }
 

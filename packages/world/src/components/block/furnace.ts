@@ -14,6 +14,7 @@ import { FurnaceSmeltSignal } from "../../events";
 import { BlockComponent } from "./block-component";
 import { BlockInventoryComponent } from "./inventory";
 
+import type { CompoundTag } from "@serenityjs/nbt";
 import type { Block } from "../../block";
 
 class BlockFurnaceComponent extends BlockComponent {
@@ -179,6 +180,28 @@ class BlockFurnaceComponent extends BlockComponent {
 
 			player.session.send(burnTime, burnDuration, tickCount);
 		}
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: BlockFurnaceComponent
+	): void {
+		nbt.createIntTag("BurnTime", component.burnTime);
+		nbt.createIntTag("BurnDuration", component.burnDuration);
+		nbt.createIntTag("CookTime", component.cookTime);
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		block: Block
+	): BlockFurnaceComponent {
+		const component = new BlockFurnaceComponent(block);
+
+		component.burnTime = nbt.getTag("BurnTime")?.value as number;
+		component.burnDuration = nbt.getTag("BurnDuration")?.value as number;
+		component.cookTime = nbt.getTag("CookTime")?.value as number;
+
+		return component;
 	}
 }
 

@@ -1,6 +1,6 @@
 import {
 	BlockActorDataPacket,
-	type BlockCoordinates,
+	BlockCoordinates,
 	BlockFace,
 	LevelSoundEvent,
 	LevelSoundEventPacket,
@@ -12,10 +12,17 @@ import {
 import {
 	BlockPermutation,
 	BlockIdentifier,
-	type BlockType
+	BlockType,
+	type BlockState
 } from "@serenityjs/block";
 import { ItemIdentifier, ItemType } from "@serenityjs/item";
-import { CompoundTag } from "@serenityjs/nbt";
+import {
+	CompoundTag,
+	IntTag,
+	type ListTag,
+	StringTag,
+	Tag
+} from "@serenityjs/nbt";
 
 import { ItemStack } from "../item";
 import {
@@ -668,6 +675,88 @@ class Block {
 			(BigInt(coordinates.z) & 0xff_ff_ff_ffn) |
 			BigInt(coordinates.y)
 		);
+	}
+
+	public static serialize(block: Block): CompoundTag {
+		// Create the root compound tag.
+		const root = new CompoundTag("", {
+			id: new StringTag("id", block.getType().identifier),
+			hash: new IntTag("hash", block.permutation.network),
+			x: new IntTag("x", block.position.x),
+			y: new IntTag("y", block.position.y),
+			z: new IntTag("z", block.position.z)
+		});
+
+		// Create the components list tag.
+		const components = root.createListTag("SerenityComponents", Tag.Compound);
+
+		// Iterate over the components and serialize them.
+		for (const component of block.getComponents()) {
+			// Get the component type.
+			const type = BlockComponent.components.get(component.identifier);
+			if (!type) continue;
+
+			// Create a data compound tag for the data to be written to.
+			// And serialize the component.
+			const data = new CompoundTag("data");
+			type.serialize(data, component);
+
+			// Create the component tag.
+			const componentTag = new CompoundTag().addTag(
+				new StringTag("identifier", component.identifier),
+				data
+			);
+
+			// Add the component to the list.
+			components.push(componentTag);
+		}
+
+		// Return the root compound tag.
+		return root;
+	}
+
+	public static deserialize(dimension: Dimension, nbt: CompoundTag): Block {
+		// Get the block type.
+		const type = BlockType.get(nbt.getTag("id")?.value as keyof BlockState);
+
+		// Get the block permutation.
+		const permutation = type.permutations.find(
+			(x) => x.network === (nbt.getTag("hash")?.value as number)
+		);
+
+		// Check if the permutation is valid.
+		if (!permutation) throw new Error("Invalid block permutation.");
+
+		// Get the block coordinates.
+		const x = nbt.getTag("x")?.value as number;
+		const y = nbt.getTag("y")?.value as number;
+		const z = nbt.getTag("z")?.value as number;
+
+		// Create a new block position.
+		const position = new BlockCoordinates(x, y, z);
+
+		// Create a new block.
+		const block = new Block(dimension, permutation, position);
+
+		// Get the components list tag.
+		const components =
+			nbt.getTag<ListTag<CompoundTag>>("SerenityComponents")?.value ?? [];
+
+		// Iterate over the components and deserialize them.
+		for (const componentTag of components) {
+			// Get the component identifier.
+			const identifier = componentTag.getTag("identifier")?.value as string;
+
+			// Get the component type.
+			const type = BlockComponent.components.get(identifier);
+			if (!type) continue;
+
+			// Deserialize the component.
+			type.deserialize(componentTag.getTag("data") as CompoundTag, block);
+		}
+
+		// Return the block.
+		return block;
 	}
 }
 

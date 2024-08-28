@@ -1,7 +1,9 @@
 import { ContainerId, ContainerType, Vector3f } from "@serenityjs/protocol";
 import { BlockIdentifier } from "@serenityjs/block";
+import { type ListTag, Tag, type CompoundTag } from "@serenityjs/nbt";
 
 import { BlockContainer } from "../../container";
+import { ItemStack } from "../../item";
 
 import { BlockComponent } from "./block-component";
 
@@ -110,6 +112,59 @@ class BlockInventoryComponent extends BlockComponent {
 			// Add some upwards velocity to the item.
 			entity.setMotion(new Vector3f(0, 0.1, 0));
 		}
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: BlockInventoryComponent
+	): void {
+		// Create the inventory list tag.
+		const inventory = nbt.createListTag("Inventory", Tag.Compound);
+
+		// Iterate of the items in the container.
+		for (let index = 0; index < component.container.size; index++) {
+			// Get the item stack.
+			const itemStack = component.container.getItem(index);
+
+			// Check if the item stack exists.
+			if (!itemStack) continue;
+
+			// Serialize the item stack.
+			const nbt = ItemStack.serialize(itemStack);
+			nbt.createByteTag("Slot", index);
+
+			// Add the item stack to the inventory.
+			inventory.push(nbt);
+		}
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		block: Block
+	): BlockInventoryComponent {
+		// Create a new entity inventory component.
+		const component = new BlockInventoryComponent(block);
+
+		// Check if the inventory tag exists.
+		if (!nbt.hasTag("Inventory")) return component;
+
+		// Get the inventory tag.
+		const inventory = nbt.getTag("Inventory") as ListTag<CompoundTag>;
+
+		// Iterate over the inventory items.
+		for (const itemTag of inventory.value) {
+			// Get the slot of the item.
+			const slot = itemTag.getTag("Slot")?.value as number;
+
+			// Deserialize the item stack.
+			const itemStack = ItemStack.deserialize(itemTag);
+
+			// Add the item stack to the container.
+			component.container.setItem(slot, itemStack);
+		}
+
+		// Return the entity inventory component.
+		return component;
 	}
 }
 

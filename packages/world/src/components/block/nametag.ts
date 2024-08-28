@@ -1,4 +1,4 @@
-import { StringTag } from "@serenityjs/nbt";
+import { type CompoundTag, StringTag } from "@serenityjs/nbt";
 
 import { BlockComponent } from "./block-component";
 
@@ -54,6 +54,22 @@ class BlockNametagComponent extends BlockComponent {
 	 */
 	public resetToDefault(): void {
 		this.setCurrentValue(this.defaultValue);
+	}
+
+	public static serialize(
+		nbt: CompoundTag,
+		component: BlockNametagComponent
+	): void {
+		nbt.createStringTag("CustomName", component.currentValue);
+	}
+
+	public static deserialize(
+		nbt: CompoundTag,
+		block: Block
+	): BlockNametagComponent {
+		const component = new BlockNametagComponent(block);
+		component.setCurrentValue(nbt.getTag("CustomName")?.value as string);
+		return component;
 	}
 }
 

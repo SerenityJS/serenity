@@ -86,6 +86,17 @@ class WorldProvider {
 		throw new Error("WorldProvider.writeAvailableActors is not implemented");
 	}
 
+	public readBlockData(_dimension: Dimension): Array<CompoundTag> {
+		throw new Error("WorldProvider.readBlockData is not implemented");
+	}
+
+	public writeBlockData(
+		_dimension: Dimension,
+		_data: Array<CompoundTag>
+	): void {
+		throw new Error("WorldProvider.writeBlockData is not implemented");
+	}
+
 	/**
 	 * Reads an entity from the world.
 	 * @param dimension The dimension to read the entity from.
@@ -105,10 +116,6 @@ class WorldProvider {
 	 */
 	public writeEntity(_entity: Entity): void {
 		throw new Error("WorldProvider.writeEntity is not implemented");
-	}
-
-	public deleteEntity(_entity: Entity): void {
-		throw new Error("WorldProvider.deleteEntity is not implemented");
 	}
 
 	/**

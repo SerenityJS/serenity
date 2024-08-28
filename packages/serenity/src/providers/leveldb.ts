@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 
 import {
+	Block,
 	Chunk,
 	type Dimension,
 	Entity,
@@ -353,6 +354,73 @@ class LevelDBProvider extends WorldProvider {
 		this.db.put(key, stream.getBuffer());
 	}
 
+	public readBlockData(dimension: Dimension): Array<CompoundTag> {
+		// Get the dimension index from the dimensions array.
+		const index = this.dimensions.findIndex(
+			(x) => x.identifier === dimension.identifier
+		);
+
+		// Check if the dimension index is invalid.
+		if (index === -1)
+			throw new Error(
+				`Dimension index "${dimension.identifier}" was not found for world.`
+			);
+
+		// Attempt to read the block data from the database.
+		try {
+			// Create a key for the block data.
+			const key = LevelDBProvider.buildBlockDataKey(index);
+
+			// Get the block data from the database.
+			const data = this.db.get(key);
+
+			// Create a new BinaryStream instance.
+			const stream = new BinaryStream(data);
+
+			// Prepare an array of block data.
+			const blockData = new Array<CompoundTag>();
+
+			// Read the block data from the stream.
+			do {
+				blockData.push(CompoundTag.read(stream));
+			} while (!stream.cursorAtEnd());
+
+			// Return the block data array.
+			return blockData;
+		} catch {
+			// Return an empty array if no block data was found.
+			return new Array<CompoundTag>();
+		}
+	}
+
+	public writeBlockData(dimension: Dimension, data: Array<CompoundTag>): void {
+		// Get the dimension index from the dimensions array.
+		const index = this.dimensions.findIndex(
+			(x) => x.identifier === dimension.identifier
+		);
+
+		// Check if the dimension index is invalid.
+		if (index === -1)
+			throw new Error(
+				`Dimension index "${dimension.identifier}" was not found for world.`
+			);
+
+		// Create a key for the block data.
+		const key = LevelDBProvider.buildBlockDataKey(index);
+
+		// Create a new BinaryStream instance.
+		const stream = new BinaryStream();
+
+		// Iterate through the block data and write them to the database.
+		for (const nbt of data) {
+			// Write the block data to the stream.
+			CompoundTag.write(stream, nbt);
+		}
+
+		// Write the block data to the database.
+		this.db.put(key, stream.getBuffer());
+	}
+
 	public hasPlayer(player: string | Player): boolean {
 		// Get the player UUID from the player instance.
 		const uuid = player instanceof Player ? player.uuid : player;
@@ -425,6 +493,14 @@ class LevelDBProvider extends WorldProvider {
 				// Write the entity to the database.
 				this.writeEntity(entity);
 			}
+
+			// Get the block data from the dimension.
+			const blockData = [...dimension.blocks.values()].map((x) =>
+				Block.serialize(x)
+			);
+
+			// Write the block data to the database.
+			this.writeBlockData(dimension, blockData);
 		}
 
 		// If the provider is shutting down, close the database connection.
@@ -549,6 +625,18 @@ class LevelDBProvider extends WorldProvider {
 
 				// Spawn the entity in the dimension.
 				instance.spawn();
+			}
+
+			// Read the block data for the dimension.
+			const blockData = provider.readBlockData(dimension);
+
+			// Iterate through the block data and deserialize the blocks.
+			for (const nbt of blockData) {
+				// Deserialize the block from the nbt.
+				const block = Block.deserialize(dimension, nbt);
+
+				// Add the block to the dimension.
+				dimension.blocks.set(block.position, block);
 			}
 
 			// Debug log the dimension creation.
@@ -685,6 +773,20 @@ class LevelDBProvider extends WorldProvider {
 
 		// Write the unique identifier to the stream.
 		stream.writeInt64(uniqueId, Endianness.Little);
+
+		// Return the buffer from the stream.
+		return stream.getBuffer();
+	}
+
+	public static buildBlockDataKey(index: number): Buffer {
+		// Create a new BinaryStream instance.
+		const stream = new BinaryStream();
+
+		// Write the key symbol to the stream.
+		stream.writeInt32(0x31);
+
+		// Check if the index is not 0.
+		if (index !== 0) stream.writeInt32(index, Endianness.Little);
 
 		// Return the buffer from the stream.
 		return stream.getBuffer();
