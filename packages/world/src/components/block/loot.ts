@@ -25,7 +25,6 @@ class BlockLootComponent extends BlockComponent {
 			let slot: number = Math.floor(Math.random() * inventory.inventorySize);
 
 			while (inventory.container.getItem(slot)) {
-				console.warn(slot);
 				slot = Math.floor(Math.random() * inventory.inventorySize);
 			}
 			inventory.container.setItem(slot, item);
