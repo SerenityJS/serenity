@@ -110,18 +110,6 @@ class Plugins extends Emitter<PluginEvents> {
 				readFileSync(resolve(path, "package.json"), "utf8")
 			) as { name: string; version: string; main: string };
 
-			// Check if the path to the main file exists
-			// If it doesn't, then we will log a warning and skip this directory
-			if (!exists(resolve(path, pak.main))) {
-				// Log an warning message that the main file was not found
-				this.logger.warn(
-					`Unable to load plugin §1${pak.name}§8@§1${pak.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, pak.main))}§r" was not found in the directory.`
-				);
-
-				// Skip this directory
-				continue;
-			}
-
 			// Install the dependencies
 			try {
 				// Log a info message that we are installing the package dependencies
@@ -139,15 +127,45 @@ class Plugins extends Emitter<PluginEvents> {
 				);
 			}
 
+			// Check if the plugin need to be compiled
+			if (
+				exists(resolve(path, "tsconfig.json")) &&
+				!exists(resolve(path, "dist"))
+			) {
+				// Log a info message that we are compiling the plugin
+				this.logger.info(
+					`Compiling plugin §1${pak.name}§8@§1${pak.version}§r.`
+				);
+
+				// Execute the tsc command
+				try {
+					await execSync("npm run build", { stdio: "ignore", cwd: path });
+				} catch (reason) {
+					// Log the error
+					this.logger.error(
+						`Failed to compile plugin §1${pak.name}§8@§1${pak.version}§r!`,
+						reason
+					);
+				}
+			}
+
+			// Check if the path to the main file exists
+			// If it doesn't, then we will log a warning and skip this directory
+			if (!exists(resolve(path, pak.main))) {
+				// Log an warning message that the main file was not found
+				this.logger.warn(
+					`Unable to load plugin §1${pak.name}§8@§1${pak.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, pak.main))}§r" was not found in the directory.`
+				);
+
+				// Skip this directory
+				continue;
+			}
+
 			// Import the plugin entry point
 			const instance = await import(`file://${resolve(path, pak.main)}`);
 
 			// Get the exported module
 			const module = instance["default"] as PluginModule;
-
-			// Adjust the color to match the logger colors
-
-			// Get the color from the logger colors
 
 			// Create a new logger instance
 			const logger = new Logger(
