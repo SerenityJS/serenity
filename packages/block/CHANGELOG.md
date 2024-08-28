@@ -1,5 +1,14 @@
 # @serenityjs/block
 
+## 0.4.4
+
+### Patch Changes
+
+- dcdcbbb: init 0.4.4-beta
+- Updated dependencies [dcdcbbb]
+  - @serenityjs/data@0.4.4
+  - @serenityjs/nbt@0.4.4
+
 ## 0.4.3
 
 ### Patch Changes

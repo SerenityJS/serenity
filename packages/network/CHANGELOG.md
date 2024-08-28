@@ -1,5 +1,16 @@
 # @serenityjs/network
 
+## 0.4.4
+
+### Patch Changes
+
+- dcdcbbb: init 0.4.4-beta
+- Updated dependencies [dcdcbbb]
+  - @serenityjs/emitter@0.4.4
+  - @serenityjs/logger@0.4.4
+  - @serenityjs/protocol@0.4.4
+  - @serenityjs/raknet@0.4.4
+
 ## 0.4.3
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @serenityjs/serenity
 
+## 0.4.4
+
+### Patch Changes
+
+- dcdcbbb: init 0.4.4-beta
+- Updated dependencies [dcdcbbb]
+  - @serenityjs/block@0.4.4
+  - @serenityjs/command@0.4.4
+  - @serenityjs/data@0.4.4
+  - @serenityjs/emitter@0.4.4
+  - @serenityjs/entity@0.4.4
+  - @serenityjs/item@0.4.4
+  - @serenityjs/logger@0.4.4
+  - @serenityjs/nbt@0.4.4
+  - @serenityjs/network@0.4.4
+  - @serenityjs/plugins@0.4.4
+  - @serenityjs/protocol@0.4.4
+  - @serenityjs/raknet@0.4.4
+  - @serenityjs/server-ui@0.4.4
+  - @serenityjs/world@0.4.4
+
 ## 0.4.3
 
 ### Patch Changes
