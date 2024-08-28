@@ -1,6 +1,6 @@
 import { EntityComponent } from "./entity-component";
 
-import type { HitResult } from "../../types";
+import type { EntityHitResult, HitResult } from "../../types";
 import type { Vector3f } from "@serenityjs/protocol";
 import type { Entity } from "../../entity";
 
@@ -22,6 +22,9 @@ class EntityProjectileComponent extends EntityComponent {
 	// Whether the projectile should stop moving upon hitting something.
 	public stopOnHit: boolean = true;
 
+	// The damage dealt by the projectile upon hitting something.
+	public hurtDamage: number = 0;
+
 	/**
 	 * Constructs an EntityProjectileComponent for a given entity.
 	 *
@@ -31,7 +34,17 @@ class EntityProjectileComponent extends EntityComponent {
 		super(entity, EntityProjectileComponent.identifier);
 	}
 
-	public onHit(_hit: HitResult): void {
+	/**
+	 * Called when the projectile hits something.
+	 * TODO: This should spawn particles when the projectile hits something
+	 * @param hit - The hit result containing the entity that was hit.
+	 */
+	public onHit(hit: HitResult): void {
+		if ("entity" in hit) {
+			if (this.hurtDamage == 0) return;
+			const entity = (hit as EntityHitResult).entity;
+			entity.applyDamage(this.hurtDamage);
+		}
 		if (this.destroyOnHit) {
 			setTimeout(() => {
 				this.entity.despawn();

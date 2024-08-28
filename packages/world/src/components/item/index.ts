@@ -15,3 +15,4 @@ export * from "./fluid-container";
 export * from "./potion";
 export * from "./smeltable";
 export * from "./throwable";
+export * from "./shooter";

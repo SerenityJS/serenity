@@ -56,7 +56,9 @@ import {
 } from "../events";
 import { ScoreboardIdentity } from "../scoreboard";
 import { Player, type PlayerOptions } from "../player";
+import { Raycaster } from "../collisions";
 
+import type { BlockHitResult } from "../types";
 import type { Container } from "../container";
 import type { Effect } from "../effect/effect";
 import type { Chunk } from "../chunk";
@@ -759,6 +761,23 @@ class Entity {
 			? this.getComponent("minecraft:effects")
 			: new EntityEffectsComponent(this);
 		effects.add(effect);
+	}
+
+	/**
+	 * Computes the view direction vector based on the current pitch and yaw rotations.
+	 *
+	 * @param maxDistance - The maximum distance to raycast in the view direction.
+	 * @returns A BlockHitResult representing the block hit by the raycast, or `undefined` if no block was hit.
+	 */
+	public getBlockFromViewDirection(
+		maxDistance: number
+	): BlockHitResult | undefined {
+		const viewDirection = this.getViewDirection();
+		const end = this.position.add(viewDirection.multiply(maxDistance)).floor();
+		const hit = Raycaster.clip(this.dimension, this.position.floor(), end);
+
+		if (!hit || !("blockPosition" in hit)) return undefined;
+		return hit as BlockHitResult;
 	}
 
 	/**

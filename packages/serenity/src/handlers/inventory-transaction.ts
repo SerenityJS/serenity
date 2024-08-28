@@ -238,6 +238,7 @@ class InventoryTransaction extends SerenityHandler {
 					player.usingItem = usingItem;
 
 					// Trigger the onStartUse method of the item components
+					player.startUsingTick = player.getWorld().currentTick;
 					for (const component of usingItem.components.values()) {
 						component.onStartUse?.(player, ItemUseCause.Use);
 					}
