@@ -1,5 +1,11 @@
 # @serenityjs/chokidar
 
+## 0.4.4
+
+### Patch Changes
+
+- dcdcbbb: init 0.4.4-beta
+
 ## 0.4.3
 
 ### Patch Changes
