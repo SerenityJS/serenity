@@ -131,6 +131,12 @@ class Player extends Entity {
 
 	/**
 	 * @readonly
+	 * The latest start item use tick
+	 */
+	public startUsingTick: bigint = -1n;
+
+	/**
+	 * @readonly
 	 * If the player is sneaking.
 	 */
 	public isSneaking = false;
@@ -730,6 +736,18 @@ class Player extends Entity {
 				return cursor.container;
 			}
 		}
+	}
+
+	/**
+	 * Retrieves the duration for which the player has been using an item.
+	 *
+	 * @returns  The duration in ticks that the player has been using the item.
+	 *           Returns 0 if the player is not currently using an item.
+	 */
+	public getItemUseDuration(): bigint {
+		return this.startUsingTick == -1n
+			? 0n
+			: this.getWorld().currentTick - this.startUsingTick;
 	}
 
 	/**
