@@ -137,7 +137,7 @@ class EntityNpcComponent extends EntityComponent {
 		packet.action = NpcDialogueAction.Open;
 		packet.dialogue = fScene.dialogue;
 		packet.scene = fScene.name;
-		packet.name = this.entity.getNametag();
+		packet.name = this.entity.getNametag() ?? "NPC";
 		packet.json = JSON.stringify(buttons);
 
 		// Send the packet to the player
@@ -157,7 +157,7 @@ class EntityNpcComponent extends EntityComponent {
 		packet.action = NpcDialogueAction.Close;
 		packet.dialogue = String();
 		packet.scene = String();
-		packet.name = this.entity.getNametag();
+		packet.name = this.entity.getNametag() ?? "NPC";
 		packet.json = String();
 
 		// Send the packet to the player
