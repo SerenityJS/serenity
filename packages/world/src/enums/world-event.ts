@@ -21,6 +21,8 @@ enum WorldEvent {
 	PlayerMissSwing,
 	PlayerOpenDoor,
 	PlayerJump,
+	PlayerStartSwimming,
+	PlayerStopSwimming,
 	BlockUpdate,
 	FurnaceSmelt,
 	ChunkRead,

@@ -24,6 +24,8 @@ import type {
 	PlayerMissSwingSignal,
 	PlayerOpenDoorSignal,
 	PlayerPlaceBlockSignal,
+	PlayerStartSwimmingSignal,
+	PlayerStopSwimmingSignal,
 	WorldInitializeSignal,
 	WorldTickSignal
 } from "../events";
@@ -50,6 +52,8 @@ interface WorldEventSignals {
 	[WorldEvent.PlayerMissSwing]: [PlayerMissSwingSignal];
 	[WorldEvent.PlayerOpenDoor]: [PlayerOpenDoorSignal];
 	[WorldEvent.PlayerJump]: [PlayerJumpSignal];
+	[WorldEvent.PlayerStartSwimming]: [PlayerStartSwimmingSignal];
+	[WorldEvent.PlayerStopSwimming]: [PlayerStopSwimmingSignal];
 	[WorldEvent.BlockUpdate]: [BlockUpdateSignal];
 	[WorldEvent.FurnaceSmelt]: [FurnaceSmeltSignal];
 	[WorldEvent.ChunkRead]: [ChunkReadSignal];

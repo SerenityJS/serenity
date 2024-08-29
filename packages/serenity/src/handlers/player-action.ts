@@ -16,6 +16,8 @@ import {
 	ItemStack,
 	ItemUseCause,
 	PlayerJumpSignal,
+	PlayerStartSwimmingSignal,
+	PlayerStopSwimmingSignal,
 	type Player
 } from "@serenityjs/world";
 import { type ItemIdentifier, ItemType } from "@serenityjs/item";
@@ -95,6 +97,37 @@ class PlayerAction extends SerenityHandler {
 				break;
 				// this.handleCreativePlayerDestroyBlock(packet, player);
 				// break;
+			}
+
+			case ActionIds.Swimming: {
+				// Check if this is the first time the player is swimming.
+				if (!player.isSwimming) {
+					// Create a new PlayerStartSwimmingSignal and emit it.
+					const signal = new PlayerStartSwimmingSignal(player);
+					const value = signal.emit();
+
+					// If the signal was cancelled, we will return.
+					if (!value) return player.setActorFlag(ActorFlag.Swimming, false);
+
+					// Set the player's swimming property to true.
+					player.isSwimming = true;
+					player.setActorFlag(ActorFlag.Swimming, true);
+				}
+				break;
+			}
+
+			case ActionIds.StopSwimming: {
+				// Create a new PlayerStopSwimmingSignal and emit it.
+				const signal = new PlayerStopSwimmingSignal(player);
+				const value = signal.emit();
+
+				// If the signal was cancelled, we will return.
+				if (!value) return player.setActorFlag(ActorFlag.Swimming, true);
+
+				// Set the player's swimming property to false.
+				player.isSwimming = false;
+				player.setActorFlag(ActorFlag.Swimming, false);
+				break;
 			}
 
 			case ActionIds.PredictBreak: {

@@ -18,6 +18,8 @@ export * from "./player-interact-with-block";
 export * from "./player-button-push";
 export * from "./player-open-door";
 export * from "./player-jump";
+export * from "./player-start-swimming";
+export * from "./player-stop-swimming";
 export * from "./chunk-read";
 export * from "./chunk-write";
 export * from "./effect-add";

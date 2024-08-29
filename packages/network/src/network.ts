@@ -430,7 +430,7 @@ class Network extends Emitter<NetworkEvents> {
 
 			// Disconnect the session if an error occurs.
 			return session.disconnect(
-				`Internal SerenityJS Error: Server failed to send packets to the session.\n\n§c${reason}§r\nBatched packets: §c${packets.map((x) => Packet[x.getId()]).join("§r, §c")}§r5`,
+				`Internal SerenityJS Error: Server failed to send packets to the session.\n\n§c${reason}§r\nBatched packets: §c${packets.map((x) => Packet[x.getId()]).join("§r, §c")}§r`,
 				DisconnectReason.BadPacket
 			);
 		}

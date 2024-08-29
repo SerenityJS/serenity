@@ -167,6 +167,11 @@ class Entity {
 	 */
 	public isAlive = true;
 
+	/**
+	 * Whether or not the entity is swimming.
+	 */
+	public isSwimming = false;
+
 	public constructor(
 		identifier: EntityIdentifier,
 		dimension: Dimension,
