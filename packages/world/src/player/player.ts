@@ -263,14 +263,17 @@ class Player extends Entity {
 		// Check if the signal was cancelled
 		if (!value) return this.despawn();
 
-		// Sync the player instance
-		this.sync();
+		// Set the player's status
+		this.status = PlayerStatus.Spawned;
 
 		// Add the player to the dimension
 		this.dimension.entities.set(this.unique, this);
 
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
+
+		// Sync the players data
+		return this.sync();
 	}
 
 	/**

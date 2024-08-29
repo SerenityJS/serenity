@@ -180,7 +180,7 @@ class Entity {
 		// Readonly properties
 		this.type = EntityType.get(identifier) as EntityType;
 		this.runtime = Entity.runtime++;
-		this.unique = uniqueId ?? BigInt(Date.now() << 2) + this.runtime;
+		this.unique = uniqueId ?? BigInt(-Date.now() >> 4) + this.runtime;
 
 		// Mutable properties
 		this.dimension = dimension;
@@ -804,13 +804,12 @@ class Entity {
 
 	/**
 	 * Geta the nametag of the entity.
-	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if not will result in an `error`.
+	 * @note This method is dependant on the entity having a `minecraft:nametag` component.
 	 * @returns The nametag of the entity.
 	 */
-	public getNametag(): string {
+	public getNametag(): string | null {
 		// Check if the entity has a nametag component
-		if (!this.hasComponent("minecraft:nametag"))
-			throw new Error("The entity does not have a nametag component.");
+		if (!this.hasComponent("minecraft:nametag")) return null;
 
 		// Get the nametag component
 		const nametag = this.getComponent("minecraft:nametag");
@@ -1150,6 +1149,14 @@ class Entity {
 	 */
 	public hasTag(tag: string): boolean {
 		return this.tags.includes(tag);
+	}
+
+	/**
+	 * Gets the tags of the entity.
+	 * @returns The tags of the entity.
+	 */
+	public getTags(): Array<string> {
+		return this.tags;
 	}
 
 	/**

@@ -480,9 +480,6 @@ class ResourcePackClientResponse extends SerenityHandler {
 				// Send the spawn sequence
 				session.send(packet, biomes, content, status, crafting);
 
-				// Spawn the player in the dimension
-				player.spawn();
-
 				// Add the player to the connecting map
 				this.serenity.connecting.set(player.session, [
 					packet,

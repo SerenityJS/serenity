@@ -79,7 +79,33 @@ class TargetEnum extends ValidEnum {
 							switch (key) {
 								// Check if the player name matches the query.
 								case "name": {
-									if (player.username !== value) return false;
+									// Get the name query.
+									let name = value as string;
+
+									// Check if the query is negated.
+									const negate = name.startsWith("!");
+									if (negate) name = name.slice(1);
+
+									// Check if the player name matches the query.
+									if (
+										negate ? player.username === name : player.username !== name
+									)
+										return false;
+									break;
+								}
+
+								// Check if the player tag matches the query.
+								case "tag": {
+									// Get the tag query.
+									let tag = value as string;
+
+									// Check if the query is negated.
+									const negate = tag.startsWith("!");
+									if (negate) tag = tag.slice(1);
+
+									// Check if the player has the tag.
+									if (negate ? player.hasTag(tag) : !player.hasTag(tag))
+										return false;
 									break;
 								}
 
@@ -108,11 +134,22 @@ class TargetEnum extends ValidEnum {
 								// Check if the entity name matches the query.
 								case "name": {
 									if (entity.hasComponent("minecraft:nametag")) {
+										// Get the name from the query.
+										let name = value as string;
+
+										const negate = name.startsWith("!");
+										if (negate) name = name.slice(1);
+
 										// Get the nametag component.
 										const nametag = entity.getComponent("minecraft:nametag");
 
 										// Check if the nametag matches the query.
-										if (nametag.getCurrentValue() !== value) return false;
+										if (
+											negate
+												? nametag.getCurrentValue() === name
+												: nametag.getCurrentValue() !== name
+										)
+											return false;
 									} else {
 										return false;
 									}
@@ -121,12 +158,40 @@ class TargetEnum extends ValidEnum {
 
 								// Check if the entity type matches the query.
 								case "type": {
+									// Get the type query.
+									let type = value as string;
+
+									// Check if the query is negated.
+									const negate = type.startsWith("!");
+									if (negate) type = type.slice(1);
+
 									// Parse the entity type.
-									const type = value?.includes(":")
+									const parsed = type.includes(":")
 										? value
 										: `minecraft:${value}`;
 
-									if (entity.type.identifier !== type) return false;
+									// Check if the entity type matches the query.
+									if (
+										negate
+											? entity.type.identifier === parsed
+											: entity.type.identifier !== parsed
+									)
+										return;
+									break;
+								}
+
+								// Check if the entity tag matches the query.
+								case "tag": {
+									// Get the tag query.
+									let tag = value as string;
+
+									// Check if the query is negated.
+									const negate = tag.startsWith("!");
+									if (negate) tag = tag.slice(1);
+
+									// Check if the player has the tag.
+									if (negate ? entity.hasTag(tag) : !entity.hasTag(tag))
+										return false;
 									break;
 								}
 
@@ -165,7 +230,33 @@ class TargetEnum extends ValidEnum {
 							switch (key) {
 								// Check if the player name matches the query.
 								case "name": {
-									if (player.username !== value) return false;
+									// Get the name query.
+									let name = value as string;
+
+									// Check if the query is negated.
+									const negate = name.startsWith("!");
+									if (negate) name = name.slice(1);
+
+									// Check if the player name matches the query.
+									if (
+										negate ? player.username === name : player.username !== name
+									)
+										return false;
+									break;
+								}
+
+								// Check if the entity tag matches the query.
+								case "tag": {
+									// Get the tag query.
+									let tag = value as string;
+
+									// Check if the query is negated.
+									const negate = tag.startsWith("!");
+									if (negate) tag = tag.slice(1);
+
+									// Check if the player has the tag.
+									if (negate ? player.hasTag(tag) : !player.hasTag(tag))
+										return false;
 									break;
 								}
 
