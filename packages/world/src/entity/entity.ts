@@ -1144,6 +1144,48 @@ class Entity {
 	}
 
 	/**
+	 * Whether or not the entity has a tag.
+	 * @param tag The tag to check.
+	 * @returns Whether or not the entity has the tag.
+	 */
+	public hasTag(tag: string): boolean {
+		return this.tags.includes(tag);
+	}
+
+	/**
+	 * Adds a tag to the entity.
+	 * @param tag The tag to add.
+	 * @returns Whether or not the tag was added.
+	 */
+	public addTag(tag: string): boolean {
+		// Check if the tag already exists
+		if (this.tags.includes(tag)) return false;
+
+		// Tags are read-only
+		this.tags.push(tag);
+
+		// Return true as the tag was added
+		return true;
+	}
+
+	/**
+	 * Removes a tag from the entity.
+	 * @param tag The tag to remove.
+	 * @returns Whether or not the tag was removed.
+	 */
+	public removeTag(tag: string): boolean {
+		// Check if the tag exists
+		const index = this.tags.indexOf(tag);
+		if (index === -1) return false;
+
+		// Remove the tag from the entity
+		this.tags.splice(index, 1);
+
+		// Return true as the tag was removed
+		return true;
+	}
+
+	/**
 	 * Creates actor data from a given entity.
 	 * @param entity The entity to generate the actor data from.
 	 * @returns The generated actor data.
