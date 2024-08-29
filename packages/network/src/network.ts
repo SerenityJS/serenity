@@ -427,6 +427,12 @@ class Network extends Emitter<NetworkEvents> {
 				packets.map((x) => Packet[x.getId()]),
 				reason
 			);
+
+			// Disconnect the session if an error occurs.
+			return session.disconnect(
+				`Internal SerenityJS Error: Server failed to send packets to the session.\n\n§c${reason}§r\nBatched packets: §c${packets.map((x) => Packet[x.getId()]).join("§r, §c")}§r5`,
+				DisconnectReason.BadPacket
+			);
 		}
 	}
 }

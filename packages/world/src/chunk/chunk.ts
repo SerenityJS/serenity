@@ -168,8 +168,15 @@ export class Chunk {
 	public getTopmostLevel(position: Vector3f): number {
 		// Get the Y level.
 		for (let y = position.y; y >= -64; y--) {
+			// Get the permutation at the position.
 			const permutation = this.getPermutation(position.x, y, position.z);
-			if (permutation.type.identifier !== BlockIdentifier.Air) return y;
+
+			// Check if the permutation is air or is not solid.
+			if (permutation.type.identifier === BlockIdentifier.Air) continue;
+			if (!permutation.type.solid) continue;
+
+			// Return the Y level.
+			return y;
 		}
 
 		// Return 0 if no block was found.
