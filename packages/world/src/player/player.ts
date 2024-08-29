@@ -3,7 +3,6 @@ import {
 	AbilityLayerType,
 	ActorEventIds,
 	ActorEventPacket,
-	AddPlayerPacket,
 	type BlockCoordinates,
 	ChangeDimensionPacket,
 	ContainerName,
@@ -12,11 +11,9 @@ import {
 	LevelSoundEventPacket,
 	MoveMode,
 	MovePlayerPacket,
-	NetworkItemStackDescriptor,
 	PermissionLevel,
 	PlayStatus,
 	PlayStatusPacket,
-	PropertySyncData,
 	RespawnPacket,
 	RespawnState,
 	SerializedSkin,
@@ -27,21 +24,18 @@ import {
 	TransferPacket,
 	UpdateAbilitiesPacket,
 	Vector3f,
-	PlayerListPacket,
-	PlayerListAction,
-	PlayerListRecord,
 	AbilitySet
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
 import { PlayerComponent, EntityComponent } from "../components";
-import { ItemStack } from "../item";
 import { EntitySpawnedSignal, PlayerMissSwingSignal } from "../events";
 
 import { PlayerStatus } from "./status";
 import { Device } from "./device";
 
+import type { ItemStack } from "../item";
 import type { PlayerOptions } from "./options";
 import type { Container } from "../container";
 import type { Dimension } from "../world";
@@ -245,29 +239,8 @@ class Player extends Entity {
 		// Update the commands of the player
 		available.commands = filtered;
 
-		// Create the player list packet.
-		const playerList = new PlayerListPacket();
-		playerList.action = PlayerListAction.Add;
-		playerList.records = this.dimension.world
-			.getPlayers()
-			.map(
-				(player) =>
-					new PlayerListRecord(
-						player.uuid,
-						player.unique,
-						player.username,
-						player.xuid,
-						String(),
-						0,
-						player.skin,
-						false,
-						false,
-						false
-					)
-			);
-
 		// Send the commands & playerList to the player
-		this.session.sendImmediate(available, playerList);
+		this.session.sendImmediate(available);
 	}
 
 	/**
@@ -282,98 +255,22 @@ class Player extends Entity {
 	 * Spawns the player in the world.
 	 * @param player The player to spawn the player to.
 	 */
-	public spawn(player?: Player): void {
+	public spawn(): void {
 		// Create a new EntitySpawnedSignal
-		const signal = new EntitySpawnedSignal(this, this.dimension, player);
+		const signal = new EntitySpawnedSignal(this, this.dimension);
 		const value = signal.emit();
 
 		// Check if the signal was cancelled
-		if (!value) return;
+		if (!value) return this.despawn();
 
-		// Create a new AddPlayerPacket
-		const packet = new AddPlayerPacket();
-
-		// Get the players inventory
-		const inventory = this.getComponent("minecraft:inventory");
-
-		// Get the players held item
-		const heldItem = inventory.getHeldItem();
-
-		// Set the packet properties
-		packet.uuid = this.uuid;
-		packet.username = this.username;
-		packet.runtimeId = this.runtime;
-		packet.platformChatId = String(); // TODO: Not sure what this is.
-		packet.position = this.position;
-		packet.velocity = this.velocity;
-		packet.pitch = this.rotation.pitch;
-		packet.yaw = this.rotation.yaw;
-		packet.headYaw = this.rotation.headYaw;
-		packet.heldItem =
-			heldItem === null
-				? new NetworkItemStackDescriptor(0)
-				: ItemStack.toNetworkStack(heldItem);
-		packet.gamemode = this.gamemode;
-		packet.data = [...this.metadata];
-		packet.properties = new PropertySyncData([], []);
-		packet.uniqueEntityId = this.unique;
-		packet.premissionLevel = this.permission;
-		packet.commandPermission = this.permission === 2 ? 1 : 0;
-		packet.abilities = [
-			{
-				type: AbilityLayerType.Base,
-				abilities: [...this.abilities.entries()].map(
-					([ability, value]) => new AbilitySet(ability, value)
-				),
-				flySpeed: 0.05,
-				walkSpeed: 0.1
-			}
-		];
-		packet.links = [];
-		packet.deviceId = "";
-		packet.deviceOS = 0;
-
-		const playerList = new PlayerListPacket();
-		playerList.action = PlayerListAction.Add;
-		playerList.records = [
-			new PlayerListRecord(
-				this.uuid,
-				this.unique,
-				this.username,
-				this.xuid,
-				String(),
-				0,
-				this.skin,
-				false,
-				false,
-				false
-			)
-		];
-
-		// Check if the dimension has the player already
-		if (this.dimension.entities.has(this.unique)) {
-			// Send the packet to the player
-			player
-				? player.session.send(packet, playerList)
-				: this.dimension.broadcastExcept(this, packet, playerList);
-		} else {
-			// Send the packet to the player
-			player
-				? player.session.send(packet, playerList)
-				: this.dimension.broadcast(packet, playerList);
-		}
-
-		// If a player was provided, then return
-		if (player) return;
+		// Sync the player instance
+		this.sync();
 
 		// Add the player to the dimension
 		this.dimension.entities.set(this.unique, this);
 
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
-
-		// Sync the player instance
-		this.sync();
 	}
 
 	/**
@@ -541,13 +438,7 @@ class Player extends Entity {
 
 			// Check if the dimension types are different
 			// This allows for a faster dimension change if the types are the same
-			if (this.dimension.type === dimension.type) {
-				// Despawn all entities in the dimension for the player
-				for (const entity of this.dimension.entities.values()) {
-					// Despawn the entity for the player
-					entity.despawn(this);
-				}
-			} else {
+			if (this.dimension.type !== dimension.type) {
 				// Create a new ChangeDimensionPacket
 				const packet = new ChangeDimensionPacket();
 				packet.dimension = dimension.type;
@@ -555,7 +446,7 @@ class Player extends Entity {
 				packet.respawn = true;
 
 				// Send the packet to the player
-				this.session.send(packet);
+				this.session.sendImmediate(packet);
 			}
 
 			// Set the new dimension

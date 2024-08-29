@@ -2,15 +2,12 @@ import {
 	ActorData,
 	ActorEventIds,
 	ActorEventPacket,
-	AddEntityPacket,
-	AddItemActorPacket,
 	Attribute,
 	type AttributeName,
 	ChunkCoords,
 	ContainerName,
 	type EffectType,
 	MoveActorAbsolutePacket,
-	RemoveEntityPacket,
 	Rotation,
 	SetActorMotionPacket,
 	SetActorDataPacket,
@@ -20,10 +17,7 @@ import {
 	type DataItem,
 	type ActorFlag,
 	type ActorDamageCause,
-	ActorDataId,
-	PlayerListPacket,
-	PlayerListAction,
-	PlayerListRecord
+	ActorDataId
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
@@ -46,7 +40,6 @@ import {
 	EntityOnFireComponent,
 	EntityVariantComponent
 } from "../components";
-import { ItemStack } from "../item";
 import {
 	EntityDespawnedSignal,
 	EntityDieSignal,
@@ -332,55 +325,13 @@ class Entity {
 	 * Spawns the entity in the world.
 	 * @param player The player to spawn the entity to.
 	 */
-	public spawn(player?: Player): void {
+	public spawn(): void {
 		// Create a new EntitySpawnedSignal
-		const signal = new EntitySpawnedSignal(this, this.dimension, player);
+		const signal = new EntitySpawnedSignal(this, this.dimension);
 		const value = signal.emit();
 
 		// Check if the signal was cancelled
-		if (!value) return;
-
-		// Check if the entity is an item
-		if (this.isItem()) {
-			// Get the item component
-			const itemComponent = this.getComponent("minecraft:item");
-
-			// Create a new AddItemActorPacket
-			const packet = new AddItemActorPacket();
-
-			// Set the packet properties
-			packet.uniqueId = this.unique;
-			packet.runtimeId = this.runtime;
-			packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
-			packet.position = this.position;
-			packet.velocity = this.velocity;
-			packet.data = [];
-			packet.fromFishing = false;
-
-			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
-			player ? player.session.send(packet) : this.dimension.broadcast(packet);
-		} else {
-			// Create a new AddEntityPacket
-			const packet = new AddEntityPacket();
-
-			// Set the packet properties
-			packet.uniqueEntityId = this.unique;
-			packet.runtimeId = this.runtime;
-			packet.identifier = this.type.identifier;
-			packet.position = this.position;
-			packet.velocity = this.velocity;
-			packet.pitch = this.rotation.pitch;
-			packet.yaw = this.rotation.yaw;
-			packet.headYaw = this.rotation.headYaw;
-			packet.bodyYaw = this.rotation.yaw;
-			packet.attributes = [];
-			packet.data = [...this.metadata];
-			packet.properties = new PropertySyncData([], []);
-			packet.links = [];
-
-			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
-			player ? player.session.send(packet) : this.dimension.broadcast(packet);
-		}
+		if (!value) return this.despawn();
 
 		// Add the entity to the dimension
 		this.dimension.entities.set(this.unique, this);
@@ -393,9 +344,9 @@ class Entity {
 	 * Despawns the entity from the world.
 	 * @param player The player to despawn the entity from.
 	 */
-	public despawn(player?: Player): void {
+	public despawn(): void {
 		// Create a new EntityDespawnedSignal
-		const signal = new EntityDespawnedSignal(this, this.dimension, player);
+		const signal = new EntityDespawnedSignal(this, this.dimension);
 		const value = signal.emit();
 
 		// Check if the signal was cancelled
@@ -404,31 +355,11 @@ class Entity {
 		// Set the alive property of the entity to false
 		this.isAlive = false;
 
-		// Create a new RemoveEntityPacket
-		const packet = new RemoveEntityPacket();
-
-		// Set the packet properties
-		packet.uniqueEntityId = this.unique;
-
-		// Remove the entity from the dimension, only if the player is not null
-		if (!player) this.dimension.entities.delete(this.unique);
-
-		// Send the packet to the player if it exists, otherwise broadcast it to the dimension
-		player ? player.session.send(packet) : this.dimension.broadcast(packet);
+		// Delete the entity from the dimension
+		this.dimension.entities.delete(this.unique);
 
 		// Trigger the onDespawn method of all applicable components
 		for (const component of this.getComponents()) component.onDespawn?.();
-
-		// Check if the entity is a player
-		if (this.isPlayer()) {
-			// Create a new PlayerListPacket
-			const packet = new PlayerListPacket();
-			packet.action = PlayerListAction.Remove;
-			packet.records = [new PlayerListRecord(this.uuid)];
-
-			// Send the packet to the player if it exists, otherwise broadcast it to the dimension
-			player ? player.session.send(packet) : this.dimension.broadcast(packet);
-		}
 	}
 
 	/**

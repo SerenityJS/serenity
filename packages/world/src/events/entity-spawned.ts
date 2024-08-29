@@ -2,7 +2,6 @@ import { WorldEvent } from "../enums";
 
 import { WorldEventSignal } from "./signal";
 
-import type { Player } from "../player";
 import type { Dimension } from "../world";
 import type { Entity } from "../entity";
 
@@ -23,21 +22,14 @@ class EntitySpawnedSignal extends WorldEventSignal {
 	public readonly dimension: Dimension;
 
 	/**
-	 * If the entity spawned for a specific player.
-	 */
-	public readonly player?: Player;
-
-	/**
 	 * Creates a new entity spawned signal.
 	 * @param entity The entity that spawned.
 	 * @param dimension The dimension the entity spawned in.
-	 * @param player If the entity spawned for a specific player.
 	 */
-	public constructor(entity: Entity, dimension: Dimension, player?: Player) {
+	public constructor(entity: Entity, dimension: Dimension) {
 		super(entity.dimension.world);
 		this.entity = entity;
 		this.dimension = dimension;
-		this.player = player;
 	}
 }
 

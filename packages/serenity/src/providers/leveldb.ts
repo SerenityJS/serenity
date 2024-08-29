@@ -494,6 +494,12 @@ class LevelDBProvider extends WorldProvider {
 				this.writeEntity(entity);
 			}
 
+			// Iterate through the players and write them to the database.
+			for (const player of dimension.getPlayers()) {
+				// Write the player to the database.
+				this.writePlayer(player);
+			}
+
 			// Get the block data from the dimension.
 			const blockData = [...dimension.blocks.values()].map((x) =>
 				Block.serialize(x)
