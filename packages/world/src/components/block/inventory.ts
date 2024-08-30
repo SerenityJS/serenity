@@ -1,4 +1,13 @@
-import { ContainerId, ContainerType, Vector3f } from "@serenityjs/protocol";
+import {
+	BlockCoordinates,
+	BlockEventPacket,
+	BlockEventType,
+	ContainerId,
+	ContainerType,
+	LevelSoundEvent,
+	LevelSoundEventPacket,
+	Vector3f
+} from "@serenityjs/protocol";
 import { BlockIdentifier } from "@serenityjs/block";
 import { type ListTag, Tag, type CompoundTag } from "@serenityjs/nbt";
 
@@ -83,6 +92,82 @@ class BlockInventoryComponent extends BlockComponent {
 			this.containerId,
 			this.inventorySize
 		);
+	}
+
+	public onTick(): void {
+		// Check if the container has any occupants
+		if (this.container.occupants.size > 0 && !this.container.opened) {
+			// Set the container to opened
+			this.container.opened = true;
+
+			// Create a new block event packet
+			const packet = new BlockEventPacket();
+			packet.position = this.block.position;
+			packet.type = BlockEventType.ChangeState;
+			packet.data = 1;
+
+			// Create a new level sound event packet
+			const sound = new LevelSoundEventPacket();
+			sound.position = BlockCoordinates.toVector3f(this.block.position);
+			sound.data = this.block.permutation.network;
+			sound.actorIdentifier = String();
+			sound.isBabyMob = false;
+			sound.isGlobal = false;
+
+			// Set the sound event based on the block type
+			switch (this.block.getType().identifier) {
+				default: {
+					sound.event = -1 as LevelSoundEvent;
+					break;
+				}
+
+				case BlockIdentifier.Chest:
+				case BlockIdentifier.TrappedChest: {
+					sound.event = LevelSoundEvent.ChestOpen;
+					break;
+				}
+			}
+
+			// Broadcast the block event packet
+			this.block.dimension.broadcast(packet, sound);
+		}
+
+		// Check if the container has no occupants
+		if (this.container.occupants.size === 0 && this.container.opened) {
+			// Set the container to closed
+			this.container.opened = false;
+
+			// Create a new block event packet
+			const packet = new BlockEventPacket();
+			packet.position = this.block.position;
+			packet.type = BlockEventType.ChangeState;
+			packet.data = 0;
+
+			// Create a new level sound event packet
+			const sound = new LevelSoundEventPacket();
+			sound.position = BlockCoordinates.toVector3f(this.block.position);
+			sound.data = this.block.permutation.network;
+			sound.actorIdentifier = String();
+			sound.isBabyMob = false;
+			sound.isGlobal = false;
+
+			// Set the sound event based on the block type
+			switch (this.block.getType().identifier) {
+				default: {
+					sound.event = -1 as LevelSoundEvent;
+					break;
+				}
+
+				case BlockIdentifier.Chest:
+				case BlockIdentifier.TrappedChest: {
+					sound.event = LevelSoundEvent.ChestClosed;
+					break;
+				}
+			}
+
+			// Broadcast the block event packet
+			this.block.dimension.broadcast(packet, sound);
+		}
 	}
 
 	public onInteract(player: Player): void {

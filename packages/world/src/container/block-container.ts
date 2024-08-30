@@ -30,6 +30,11 @@ class BlockContainer extends Container {
 	public readonly occupants = new Set<Player>();
 
 	/**
+	 * The opened state of the container.
+	 */
+	public opened = false;
+
+	/**
 	 * Creates a new block container.
 	 * @param block The block that owns the container.
 	 * @param size The size of the container.

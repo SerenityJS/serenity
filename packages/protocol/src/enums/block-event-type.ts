@@ -1,6 +1,6 @@
 enum BlockEventType {
-  Sound,
-  ChangeState
+	Sound,
+	ChangeState
 }
 
-export { BlockEventType }
+export { BlockEventType };
