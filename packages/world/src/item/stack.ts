@@ -338,9 +338,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 *
 	 * @returns The serialized representation of the item stack.
 	 */
-	public static serialize(itemStack: ItemStack): CompoundTag {
+	public static serialize(itemStack: ItemStack, tagName?: string): CompoundTag {
 		// Create the root tag.
-		const root = new CompoundTag().addTag(
+		const root = new CompoundTag(tagName).addTag(
 			new StringTag("Name", itemStack.type.identifier),
 			new ByteTag("Count", itemStack.amount),
 			new ShortTag("Damage", itemStack.metadata)
