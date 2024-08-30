@@ -2023,8 +2023,10 @@ __metadata:
     "@serenityjs/jest-presets": "npm:*"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/typescript-config": "npm:*"
+    "@types/adm-zip": "npm:^0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20.11.24"
+    adm-zip: "npm:^0.5.16"
     jest: "npm:^29.7.0"
     tsup: "npm:^8.0.2"
     typescript: "npm:^5.4.2"
@@ -2279,6 +2281,15 @@ __metadata:
   bin:
     workspaces: dist/cli.js
   checksum: 10c0/1a7a0f82826ec8b738ac6a0adaee989367188bd315629e47e040597e0aae88da5b7fe57f20f9765803e70e02e4470c48e52b11a6db21ed2d09b356b346c60d92
+  languageName: node
+  linkType: hard
+
+"@types/adm-zip@npm:^0":
+  version: 0.5.5
+  resolution: "@types/adm-zip@npm:0.5.5"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/4976dc61e33534ecfb7eee87e8a587db06420a4eb9f34eee9425aece82e9fdd01ddd22677ff6430c582f4d9735c7d714c71adb8f149e3511bc189501b4113631
   languageName: node
   linkType: hard
 
@@ -2954,6 +2965,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: 10c0/51fb26cd678f914e13287e886da2d7021f8c2bc0ccc95e03d3e0447ee278dd3b40b9c57dc222acd5881adcf26f3edc40901a4953403232129e3876793cd17386
+  languageName: node
+  linkType: hard
+
+"adm-zip@npm:^0.5.16":
+  version: 0.5.16
+  resolution: "adm-zip@npm:0.5.16"
+  checksum: 10c0/6f10119d4570c7ba76dcf428abb8d3f69e63f92e51f700a542b43d4c0130373dd2ddfc8f85059f12d4a843703a90c3970cfd17876844b4f3f48bf042bfa6b49f
   languageName: node
   linkType: hard
 

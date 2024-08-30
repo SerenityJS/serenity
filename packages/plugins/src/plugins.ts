@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { mkdirSync, readFileSync, readdirSync } from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import { relative, resolve } from "node:path";
 import process from "node:process";
 
@@ -7,6 +7,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import Emitter from "@serenityjs/emitter";
 
 import { exists } from "./utils/exists";
+import { unzip } from "./utils";
 
 export interface Plugin {
 	logger: Logger;
@@ -75,6 +76,20 @@ class Plugins extends Emitter<PluginEvents> {
 			} catch (reason) {
 				this.logger.error(`Failed to create plugins directory!`, reason);
 			}
+		}
+
+		// Check if there are any bundled plugins ".sjs" in the plugins directory
+		const bundled = readdirSync(this.path).filter((file) =>
+			file.endsWith(".sjs")
+		);
+
+		// Iterate over all bundled plugins
+		for (const file of bundled) {
+			// Unzip the bundled plugin
+			unzip(resolve(this.path, file), this.path);
+
+			// Remove the ".sjs" file
+			rmSync(resolve(this.path, file));
 		}
 
 		// Read all directories with in the plugins directory
