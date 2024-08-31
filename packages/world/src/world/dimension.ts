@@ -1,4 +1,5 @@
 import {
+	ActorFlag,
 	BlockCoordinates,
 	ChunkCoords,
 	type DataPacket,
@@ -508,6 +509,7 @@ class Dimension {
 
 		// Apply physics to the entity
 		new EntityPhysicsComponent(entity);
+		entity.setActorFlag(ActorFlag.HasGravity, true);
 
 		// Register all valid components to the entity
 		for (const identifier of entity.type.components) {
@@ -558,6 +560,7 @@ class Dimension {
 		component.itemStack = itemStack;
 
 		new EntityPhysicsComponent(entity);
+		entity.setActorFlag(ActorFlag.HasGravity, true);
 
 		// Spawn the item entity
 		entity.spawn();
