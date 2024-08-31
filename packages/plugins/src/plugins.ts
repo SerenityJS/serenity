@@ -12,6 +12,7 @@ import { unzip } from "./utils";
 export interface Plugin {
 	logger: Logger;
 	package: { name: string; version: string; main: string };
+	path: string;
 	module: PluginModule;
 }
 
@@ -189,7 +190,7 @@ class Plugins extends Emitter<PluginEvents> {
 			);
 
 			// Create a new plugin object
-			const plugin = { package: pak, module, logger };
+			const plugin = { package: pak, module, logger, path };
 
 			// Store the plugin in the registry
 			this.entries.set(pak.name, plugin);
@@ -238,6 +239,23 @@ class Plugins extends Emitter<PluginEvents> {
 				await plugin.module.onShutdown(...arguments_, plugin);
 			}
 		}
+	}
+
+	/**
+	 * Gets all the currently loaded plugins.
+	 * @returns All the currently loaded plugins.
+	 */
+	public getAll(): Array<Plugin> {
+		return [...this.entries.values()];
+	}
+
+	/**
+	 * Gets a plugin by its name.
+	 * @param name - The name of the plugin.
+	 * @returns The plugin or undefined if not found.
+	 */
+	public get(name: string): Plugin | undefined {
+		return this.entries.get(name);
 	}
 
 	/**
