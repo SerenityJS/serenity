@@ -178,10 +178,13 @@ class Plugins extends Emitter<PluginEvents> {
 			}
 
 			// Import the plugin entry point
-			const instance = await import(`file://${resolve(path, pak.main)}`);
+			// eslint-disable-next-line @typescript-eslint/no-var-requires
+			const module = require(`${resolve(path, pak.main)}`) as PluginModule;
 
-			// Get the exported module
-			const module = instance["default"] as PluginModule;
+			// console.log(instance);
+
+			// // Get the exported module
+			// const module = instance["default"] as PluginModule;
 
 			// Create a new logger instance
 			const logger = new Logger(
@@ -238,6 +241,67 @@ class Plugins extends Emitter<PluginEvents> {
 				// Call the onShutdown method
 				await plugin.module.onShutdown(...arguments_, plugin);
 			}
+		}
+	}
+
+	/**
+	 * Reloads a plugin by its name.
+	 * @param name - The name of the plugin.
+	 * @param arguments_ - The arguments to pass to the plugin.
+	 */
+	public async reload(
+		name: string,
+		...arguments_: Array<unknown>
+	): Promise<void> {
+		// Get the plugin from the registry
+		const plugin = this.entries.get(name);
+
+		// Check if the plugin exists
+		if (!plugin) throw new Error(`Plugin ${name} not found!`);
+
+		// Call the onShutdown method
+		if (plugin.module.onShutdown) {
+			await plugin.module.onShutdown(...arguments_, plugin);
+		}
+
+		const { path, package: pak } = plugin;
+
+		// Remove the plugin from the registry
+		this.entries.delete(name);
+
+		// Delete the require cache
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+		delete require.cache[require.resolve(path)];
+
+		// Import the plugin entry point
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const module = require(`${resolve(path, pak.main)}`) as PluginModule;
+
+		// Create a new logger instance
+		const logger = new Logger(
+			`${pak.name}@${pak.version}.r`,
+			LoggerColors.Blue
+		);
+
+		// Create a new plugin object
+		const reloaded = { package: pak, module, logger, path };
+
+		// Store the plugin in the registry
+		this.entries.set(pak.name, reloaded);
+
+		// Log the success message
+		this.logger.success(`Reloaded plugin §1${pak.name}§8@§1${pak.version}§r.`);
+
+		// Check if the plugin has an onInitialize method
+		if (module.onInitialize) {
+			// Call the onInitialize method
+			await module.onInitialize(...arguments_, reloaded);
+		}
+
+		// Check if the plugin has an onStartup method
+		if (module.onStartup) {
+			// Call the onStartup method
+			await module.onStartup(...arguments_, reloaded);
 		}
 	}
 
