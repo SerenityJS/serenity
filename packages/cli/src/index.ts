@@ -1,52 +1,54 @@
 #!/usr/bin/env node
 
 import "./locale";
-import yargs, { command } from "yargs";
 
-yargs.scriptName("");
-yargs.help("help", "Show all commands for SerenityJS.");
+import yargs from "yargs";
 
-command(
-	"plugin",
-	"Interact with SerenityJS plugins.",
-	(yargs) => {
-		// Command usage
-		yargs.usage("Usage: $0 plugin <command> [options]");
+import * as CliCommands from "./commands/index";
 
-		// Bundle flag
-		yargs.option("bundle", {
-			alias: "b",
-			description: "Bundle all plugins into a single file."
-		});
+// Import all commands from the commands directory
+import type { CliCommand } from "./commands/index";
 
-		// Create flag
-		yargs.option("create", {
-			alias: "c",
-			description: "Create a new plugin."
-		});
+class Cli {
+	public static readonly commands: Map<string, CliCommand> = new Map();
 
-		// Demands either bundle or create
-		yargs.conflicts("bundle", "create");
+	public constructor() {
+		// initialize the cli
+		this.init();
+		// Parse the command line arguments and exit if no command is provided
+		yargs.demandCommand(1, 1);
 
-		// Check if either bundle or create is specified
-		yargs.check((argv) => {
-			if (!argv.bundle && !argv.create)
-				throw new Error("You must specify either --bundle or --create.");
+		// Parse the command line arguments and exit if any error occurs during parsing or execution of the command
+		void yargs.parse();
+	}
 
-			return true;
-		});
-	},
-	(argv) => {
-		if (argv.create) {
-			console.log("Creating a new plugin...");
-		}
+	// Initialize the CLI with yargs and register commands
+	private init(): void {
+		yargs.scriptName("");
+		yargs.help("help", "Show all commands for SerenityJS.");
 
-		if (argv.bundle) {
-			console.log("Bundling all plugins...");
+		// Register all commands in the commands map
+		for (const commandKey in CliCommands) {
+			const command = CliCommands[commandKey as keyof typeof CliCommands];
+
+			Cli.register(new command());
 		}
 	}
-);
 
-yargs.demandCommand(1, 1);
+	public static register(cliCommand: CliCommand): void {
+		if (Cli.commands.has(cliCommand.name)) return;
+		// Register the command in yargs
+		yargs.command(
+			cliCommand.name,
+			cliCommand.description,
+			cliCommand.register,
+			(arguments_) => cliCommand.handle(arguments_)
+		);
 
-yargs.parse();
+		// Add the command to the commands map
+		Cli.commands.set(cliCommand.name, cliCommand);
+	}
+}
+
+// Create a new instance of the CLI
+new Cli();
