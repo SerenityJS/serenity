@@ -26,10 +26,10 @@ class EntityPhysicsComponent extends EntityComponent {
 	public onTick(): void {
 		// Check if the entity is on the ground
 		if (this.entity.onGround) return;
-		if (!this.entity.hasComponent("minecraft:has_gravity")) return;
 		const entityHasGravity = this.entity.getComponent("minecraft:has_gravity");
 
-		if (!entityHasGravity.getCurrentValue()) return;
+		// If the entity does not have gravity or it is not enabled, return immediately
+		if (!entityHasGravity || !entityHasGravity.getCurrentValue()) return;
 
 		// Check how many blocks is between the entity and the nearest ground block
 		const { y } = this.entity.position;
