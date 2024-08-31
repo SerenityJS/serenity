@@ -1806,6 +1806,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@serenityjs/cli@workspace:packages/cli":
+  version: 0.0.0-use.local
+  resolution: "@serenityjs/cli@workspace:packages/cli"
+  dependencies:
+    "@serenityjs/eslint-config": "npm:*"
+    "@serenityjs/jest-presets": "npm:*"
+    "@serenityjs/typescript-config": "npm:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/node": "npm:^20.11.24"
+    colorette: "npm:^2.0.20"
+    jest: "npm:^29.7.0"
+    tsup: "npm:^8.0.2"
+    typescript: "npm:^5.4.2"
+    yargs: "npm:^17.7.2"
+  bin:
+    serenity: ./dist/index.js
+  languageName: unknown
+  linkType: soft
+
 "@serenityjs/command@npm:*, @serenityjs/command@workspace:packages/command":
   version: 0.0.0-use.local
   resolution: "@serenityjs/command@workspace:packages/command"

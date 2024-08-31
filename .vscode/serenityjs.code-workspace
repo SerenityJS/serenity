@@ -5,6 +5,10 @@
       "path": "../"
     },
     {
+      "name": "🖥️ Cli",
+      "path": "../packages/cli"
+    },
+    {
       "name": "📀 Serenity",
       "path": "../packages/serenity"
     },
@@ -67,7 +71,7 @@
     {
       "name": "📦 Server Ui",
       "path": "../packages/server-ui"
-    }
+    },
   ],
   "settings": {
     "files.exclude": {
