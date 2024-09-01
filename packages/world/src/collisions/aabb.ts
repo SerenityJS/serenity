@@ -184,7 +184,12 @@ class AABB {
 		}
 
 		return hitPosition
-			? { box: aabb, position: hitPosition, face: hitFace }
+			? {
+					box: aabb,
+					position: hitPosition,
+					face: hitFace,
+					distance: minDistance
+				}
 			: undefined;
 	}
 }
