@@ -16,6 +16,7 @@ interface HitResult {
 	box: AABB;
 	position: Vector3f;
 	face: BlockFace;
+	distance: number;
 }
 
 interface BlockHitResult {
@@ -23,6 +24,7 @@ interface BlockHitResult {
 	blockPosition: BlockCoordinates;
 	position: Vector3f;
 	face: BlockFace;
+	distance: number;
 }
 
 interface EntityHitResult {
@@ -30,6 +32,7 @@ interface EntityHitResult {
 	position: Vector3f;
 	face: BlockFace;
 	entity: Entity;
+	distance: number;
 }
 
 export { Axis, HitResult, BlockHitResult, EntityHitResult };

@@ -1,4 +1,5 @@
 import { Vector3f } from "@serenityjs/protocol";
+import { BlockIdentifier } from "@serenityjs/block";
 
 import { AABB } from "../../collisions";
 
@@ -13,6 +14,9 @@ class BlockCollisionComponent extends BlockComponent {
 	// List of collision boxes associated with this block.
 	public readonly boxes: Array<AABB>;
 
+	public static readonly types: Array<BlockIdentifier> =
+		Object.values(BlockIdentifier);
+
 	/**
 	 * Constructor for the BlockCollisionComponent.
 	 * Initializes the component with a default collision box.
@@ -24,7 +28,7 @@ class BlockCollisionComponent extends BlockComponent {
 
 		// Initialize with a default solid collision box if the block is not air
 		this.boxes = [];
-		if (!block.isAir()) this.addCollision(BlockCollisionComponent.Solid);
+		if (!block.isSolid()) this.addCollision(BlockCollisionComponent.Solid);
 	}
 
 	/**
@@ -60,7 +64,11 @@ class BlockCollisionComponent extends BlockComponent {
 
 		// Return the closest hit result, including the block's position.
 		if (!closestHit) return;
-		return { ...closestHit, blockPosition: this.block.position };
+		return {
+			...closestHit,
+			blockPosition: this.block.position,
+			distance: closestDistance
+		};
 	}
 
 	/**
