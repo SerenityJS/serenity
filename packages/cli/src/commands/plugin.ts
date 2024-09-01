@@ -6,7 +6,7 @@ import type { ArgumentsCamelCase, Argv } from "yargs";
 class PluginCommand extends CliCommand {
 	public name = "plugin";
 
-	public description: string = "Plugin command";
+	public description: string = "Plugin command (not implemented yet).";
 
 	public register<T = object>(registry: Argv<T>): void {
 		// ? --- Command usage ---

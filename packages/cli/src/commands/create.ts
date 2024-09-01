@@ -1,15 +1,26 @@
-import { spawnSync } from "node:child_process";
+/* eslint-disable no-async-promise-executor */
+/* eslint-disable unicorn/import-style */
+import { exec, spawn } from "node:child_process";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
-import { check, sleep } from "../utils";
+import { sleep } from "../utils";
+import { NPM_CREATE } from "../scripts";
+import {
+	INDEX_TEMPLATE,
+	START_TEMPLATE,
+	TSCONFIG_TEMPLATE
+} from "../templates";
+import { COMMON_PACKAGES, SERENITY_PACKAGES } from "../packages";
 
 import { CliCommand } from "./command";
 
-import type { Argv } from "yargs";
+import type { ArgumentsCamelCase, Argv } from "yargs";
 
 // Command to create a new SerenityJS project
 class CreateCommand extends CliCommand {
 	public name: string = "create";
-	public description = "Create a new SerenityJS project";
+	public description = "Create a new SerenityJS server project.";
 
 	// URLs for different branches of the SerenityJS repository
 	private static readonly repositories = [
@@ -21,94 +32,173 @@ class CreateCommand extends CliCommand {
 	public register(registry: Argv): void {
 		// Register command usage
 		registry.usage("Usage: $0 create");
-	}
 
-	public async handle(): Promise<void> {
-		const prompt = await import("@clack/prompts");
-		console.clear();
-
-		// Introduction message
-		prompt.intro("Create a new Serenity server");
-
-		// Prompt user to select the server branch
-		const selection = await prompt.select({
-			message: "Server branch",
-			initialValue: 0,
-			options: [
-				{
-					value: 0,
-					hint: "Includes the latest features and bug fixes.",
-					label: "Latest (recommended)"
-				},
-				{
-					value: 1,
-					hint: "Includes new upcoming features, may be unstable and contain bugs.",
-					label: "Beta"
-				},
-				{
-					value: 2,
-					hint: "Clones the latest development branch from GitHub.",
-					label: "Development"
-				}
-			]
+		// Register command options
+		registry.option("latest", {
+			alias: "l",
+			description: "Create a new server with the latest features."
 		});
 
-		// Handle cancel action
-		if (prompt.isCancel(selection)) return;
+		// Register command options
+		registry.option("beta", {
+			alias: "b",
+			description: "Create a new server with new upcoming features."
+		});
+	}
 
-		// Clear console for a clean output
+	public async handle(options: ArgumentsCamelCase): Promise<void> {
+		// TODO: Preinstall checks
+
+		// Import clack prompts & chalk
+		const Clack = await import("@clack/prompts");
+		const { Chalk } = await import("chalk");
+
+		// Create a new instance of Chalk
+		const chalk = new Chalk();
+
+		// Clear the console and display the introduction message
 		console.clear();
 
-		// Get the repository URL based on the user's selection
-		const spinner = prompt.spinner();
-		const repoUrl = CreateCommand.repositories[selection];
+		Clack.intro(chalk.hex("#8560e9")("SerenityJS Installation Wizard"));
+		Clack.note(
+			"This installation wizard will help setup the perfect server for your project."
+		);
+		const spin = Clack.spinner();
 
-		// Check for required tools if the Development branch is selected
-		if (selection === 2) {
-			spinner.start("Checking if git is available on your system...");
-			await sleep(1000);
+		spin.start("Preparing workspace environment...");
 
-			if (!CreateCommand.hasGit()) {
-				spinner.stop("Git is not installed. Please install git and try again.");
-				return;
-			}
-
-			if (!CreateCommand.hasYarn()) {
-				spinner.stop(
-					"Yarn is not installed. Please install yarn and try again."
-				);
-				return;
-			}
+		// Check if the package.json file exists
+		if (!existsSync(resolve(process.cwd(), "package.json"))) {
+			// Create a new package.json file
+			writeFileSync("package.json", JSON.stringify({}, null, 2));
+			Clack.log.info(`Created ${chalk.hex("#8560ef")("package.json")} file.`);
 		}
 
-		// Ensure the repository URL is valid
-		if (!repoUrl) return;
+		// Check if a tsconfig.json file exists
+		if (!existsSync(resolve(process.cwd(), "tsconfig.json"))) {
+			// Create a new tsconfig.json file
+			writeFileSync("tsconfig.json", TSCONFIG_TEMPLATE);
+			Clack.log.info(`Created ${chalk.hex("#8560e9")("tsconfig.json")} file.`);
+		}
 
-		// Clone the selected repository
-		spinner.start("Downloading local clone of the SerenityJS repository");
+		// Check if a src directory exists
+		if (!existsSync(resolve(process.cwd(), "src"))) {
+			// Create a new src directory
+			mkdirSync("src");
+
+			// Write an index.ts file
+			writeFileSync(resolve(process.cwd(), "src", "index.ts"), INDEX_TEMPLATE);
+			Clack.log.info(`Created ${chalk.hex("#8560e9")("src")} directory.`);
+		}
+
+		// Check if a start.bat file exists
+		if (!existsSync(resolve(process.cwd(), "start.bat"))) {
+			// Create a new start.bat file
+			writeFileSync("start.bat", START_TEMPLATE);
+			Clack.log.info(`Created ${chalk.hex("#8560e9")("start.bat")} file.`);
+		}
+
+		// Execute the NPM_CREATE scripts
+		// This will format the package.json file
 		await sleep(1000);
-		this.clone(repoUrl);
-		spinner.stop("Repository cloned successfully.");
+		spin.message("Formatting package.json file");
+		await Promise.all(
+			NPM_CREATE.map(async (script) => {
+				exec(script);
+				await sleep(100);
+			})
+		);
+
+		await sleep(1000);
+		spin.stop(chalk.greenBright("Workspace environment prepared."));
+
+		// Check if the user has used a specific flag
+		// This will skip the prompt if a flag is used
+		if (options.latest) return this.installLatest();
+		if (options.beta) return this.installBeta();
+
+		// Install the latest version of SerenityJS
+		return this.installLatest();
 	}
 
-	private clone(repoUrl: string): void {
-		// Ensure Git is available before attempting to clone
-		if (!CreateCommand.hasGit()) {
-			console.error("Git is required to clone the Serenity repository.");
-			return;
-		}
+	private async installLatest(): Promise<void> {
+		return new Promise(async (resolve, reject) => {
+			// Import clack prompts
+			const Clack = await import("@clack/prompts");
+			const { Chalk } = await import("chalk");
 
-		spawnSync("git", ["clone", repoUrl]);
+			// Create a new instance of Chalk
+			const chalk = new Chalk();
+
+			// Create a new spinner
+			const spinner = Clack.spinner();
+			spinner.start("Installing the latest version of SerenityJS");
+
+			// Get the list of packages to install
+			const packages = [
+				...COMMON_PACKAGES,
+				...SERENITY_PACKAGES.map((package_) => `${package_}@latest`)
+			];
+
+			// Install the latest version of SerenityJS
+			const process = spawn("npm", ["install", "--save-dev", ...packages], {
+				stdio: "ignore",
+				shell: true
+			});
+
+			// Wait for the process to exit
+			process.once("exit", (code) => {
+				if (code === 0) {
+					spinner.stop(
+						chalk.greenBright("SerenityJS latest installed successfully.")
+					);
+					resolve();
+				} else {
+					spinner.stop(chalk.redBright("Failed to install SerenityJS."));
+					reject();
+				}
+			});
+		});
 	}
 
-	private static hasGit(): boolean {
-		// Check if Git is installed by verifying its version
-		return check("git", ["--version"]);
-	}
+	private async installBeta(): Promise<void> {
+		return new Promise(async (resolve, reject) => {
+			// Import clack prompts
+			const Clack = await import("@clack/prompts");
+			const { Chalk } = await import("chalk");
 
-	private static hasYarn(): boolean {
-		// Check if Yarn is installed by verifying its version
-		return check("yarn", ["--version"]);
+			// Create a new instance of Chalk
+			const chalk = new Chalk();
+
+			// Create a new spinner
+			const spinner = Clack.spinner();
+			spinner.start("Installing the beta version of SerenityJS");
+
+			// Get the list of packages to install
+			const packages = [
+				...COMMON_PACKAGES,
+				...SERENITY_PACKAGES.map((package_) => `${package_}@beta`)
+			];
+
+			// Install the beta version of SerenityJS
+			const process = spawn("npm", ["install", "--save-dev", ...packages], {
+				stdio: "ignore",
+				shell: true
+			});
+
+			// Wait for the process to exit
+			process.once("exit", (code) => {
+				if (code === 0) {
+					spinner.stop(
+						chalk.greenBright("SerenityJS beta installed successfully.")
+					);
+					resolve();
+				} else {
+					spinner.stop(chalk.redBright("Failed to install SerenityJS."));
+					reject();
+				}
+			});
+		});
 	}
 }
 
