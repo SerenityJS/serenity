@@ -1,13 +1,14 @@
 import { Endianness } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
+import type { IPosition } from "../../types";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * A 3D vector with floating point precision.
  *
  */
-class Vector3f extends DataType {
+class Vector3f extends DataType implements IPosition {
 	/**
 	 * The x coordinate of the vector.
 	 */
