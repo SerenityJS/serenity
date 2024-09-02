@@ -114,6 +114,17 @@ class Commands<O> {
 		return command;
 	}
 
+	/**
+	 * Unregisters a command from the registry by its name.
+	 * @param name - The name of the command to be unregistered.
+	 * @remarks
+	 * This method removes the command associated with the given name from the registry.
+	 * If the command does not exist in the registry, this method does nothing.
+	 */
+	public unregister(name: string): void {
+		this.commands.delete(name);
+	}
+
 	public serialize(): AvailableCommandsPacket {
 		// Create a new available commands packet
 		const packet = new AvailableCommandsPacket();
