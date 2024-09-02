@@ -21,14 +21,11 @@ export class BlockPick extends SerenityHandler {
 			// Get the players inventory component
 			const inventory = player.getComponent("minecraft:inventory");
 
-			// Separate the packet data into variables.
-			const { x, y, z } = packet;
-
 			// Get current hotbar slot selected
 			const selectedSlot = inventory.selectedSlot;
 
 			// Get the selected block in x, y, z
-			const block = player.dimension.getBlock(x, y, z);
+			const block = player.dimension.getBlock(packet);
 
 			// Check if the block is not air
 			if (!block.isAir()) {

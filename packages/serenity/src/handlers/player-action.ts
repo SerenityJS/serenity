@@ -198,7 +198,7 @@ class PlayerAction extends SerenityHandler {
 		const { x, y, z } = packet.blockPosition;
 
 		// Set the mining position to the player.
-		player.target = { x, y, z };
+		player.target = packet.blockPosition;
 
 		// Calculate the break time.
 		const breakTime = Math.ceil(2 * 20);
@@ -213,7 +213,7 @@ class PlayerAction extends SerenityHandler {
 		player.dimension.broadcast(event);
 
 		// Trigger the onStartBreak method of the block components.
-		const block = player.dimension.getBlock(x, y, z);
+		const block = player.dimension.getBlock(packet.blockPosition);
 		for (const component of block.components.values()) {
 			// Trigger the onStartBreak method of the block component.
 			component.onStartBreak?.(player);
@@ -254,7 +254,7 @@ class PlayerAction extends SerenityHandler {
 		player.dimension.broadcast(event);
 
 		// Trigger the onStopBreak method of the block components.
-		const block = player.dimension.getBlock(x, y, z);
+		const block = player.dimension.getBlock({ x, y, z });
 		for (const component of block.components.values()) {
 			// Trigger the onStopBreak method of the block component.
 			component.onStopBreak?.(player);
@@ -282,7 +282,7 @@ class PlayerAction extends SerenityHandler {
 		const { x, y, z } = packet.blockPosition;
 
 		// Get the block from the dimension.
-		const block = player.dimension.getBlock(x, y, z);
+		const block = player.dimension.getBlock(packet.blockPosition);
 
 		// Verify if the player is in creative mode.
 		// If not, we will return.
@@ -290,7 +290,7 @@ class PlayerAction extends SerenityHandler {
 			// Create a new UpdateBlock packet.
 			const update = new UpdateBlockPacket();
 			update.networkBlockId = block.permutation.network;
-			update.position = { x, y, z };
+			update.position = packet.blockPosition;
 			update.flags = UpdateBlockFlagsType.Network;
 			update.layer = UpdateBlockLayerType.Normal;
 
@@ -321,7 +321,7 @@ class PlayerAction extends SerenityHandler {
 		const { x, y, z } = packet.blockPosition;
 
 		// Get the block from the dimension.
-		const block = player.dimension.getBlock(x, y, z);
+		const block = player.dimension.getBlock(packet.blockPosition);
 
 		// If the player is in adventure mode, we will set the block permutation.
 		// The player should not be able to break the block.

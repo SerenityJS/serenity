@@ -24,7 +24,11 @@ export class BlockActorData extends SerenityHandler {
 			z: IntTag;
 		}>;
 
-		const blockActor = player.dimension.getBlock(x.value, y.value, z.value);
+		const blockActor = player.dimension.getBlock({
+			x: x.value,
+			y: y.value,
+			z: z.value
+		});
 
 		if (blockActor.hasComponent("minecraft:sign")) {
 			const signComponent = blockActor.getComponent("minecraft:sign");

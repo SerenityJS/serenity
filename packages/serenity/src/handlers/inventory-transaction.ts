@@ -142,8 +142,9 @@ class InventoryTransaction extends SerenityHandler {
 		switch (transaction.type) {
 			case ItemUseInventoryTransactionType.Place: {
 				// Get the interacted block and check if it is air
-				const { x, y, z } = transaction.blockPosition;
-				const interactedBlock = player.dimension.getBlock(x, y, z);
+				const interactedBlock = player.dimension.getBlock(
+					transaction.blockPosition
+				);
 				if (interactedBlock.isAir()) break;
 
 				// Trigger the onInteract method of the block components
