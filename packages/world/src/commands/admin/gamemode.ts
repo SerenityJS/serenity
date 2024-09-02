@@ -10,151 +10,82 @@ const register = (world: World) => {
 	world.commands.register(
 		"gamemode",
 		"Sets a player's gamemode",
-		(origin, parameters) => {
-			// Get the result of the mode and player
-			const mode = parameters.mode.result.toLowerCase();
-			const target = parameters.target?.result;
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-			// Check if the player is not undefined
-			if (!target && !(origin instanceof Player)) {
-				throw new Error("Player must be specified");
-			} else if (!target && origin instanceof Player) {
-				switch (mode) {
-					default: {
-						throw new TypeError("Invalid gamemode specified!");
+			// Create an overload for the command
+			registry.overload(
+				{
+					gamemode: GamemodeEnum,
+					target: [TargetEnum, true]
+				},
+				(context) => {
+					// Validate the gamemode, we dont need to validate the target as it is optional
+					context.gamemode.validate(true);
+
+					// Get the targets from the context
+					const targets = context.target.validate()
+						? context.target.result
+						: [context.origin instanceof Player ? context.origin : null];
+
+					// Check if there are no targets
+					if (!targets || targets.length === 0)
+						throw new Error("No targets matched the selector.");
+
+					// Get the gamemode from the context
+					const gamemode = context.gamemode.result as string;
+
+					// Create an array to hold the log messages
+					const logs: Array<string> = [];
+
+					// Loop through all the targets
+					for (const target of targets) {
+						// Check if the target is not a player
+						if (!target || !(target instanceof Player)) continue;
+
+						switch (gamemode) {
+							case "s":
+							case "survival": {
+								target.setGamemode(Gamemode.Survival);
+								break;
+							}
+
+							case "c":
+							case "creative": {
+								target.setGamemode(Gamemode.Creative);
+								break;
+							}
+
+							case "a":
+							case "adventure": {
+								target.setGamemode(Gamemode.Adventure);
+								break;
+							}
+
+							case "sp":
+							case "spectator": {
+								target.setGamemode(Gamemode.Spectator);
+								break;
+							}
+
+							default: {
+								throw new TypeError("Invalid gamemode specified!");
+							}
+						}
+
+						// Add the log message
+						logs.push(
+							`§7Successfully updated §a${target.username}'s§7 gamemode!§r`
+						);
 					}
 
-					// Update the player's gamemode to survival
-					case "s":
-					case "survival": {
-						origin.setGamemode(Gamemode.Survival);
-
-						// Return the success message
-						return {
-							message: "Successfully set your gamemode to Survival!"
-						};
-					}
-
-					// Update the player's gamemode to creative
-					case "c":
-					case "creative": {
-						origin.setGamemode(Gamemode.Creative);
-
-						// Return the success message
-						return {
-							message: "Successfully set your gamemode to Creative!"
-						};
-					}
-
-					// Update the player's gamemode to adventure
-					case "a":
-					case "adventure": {
-						origin.setGamemode(Gamemode.Adventure);
-
-						// Return the success message
-						return {
-							message: "Successfully set your gamemode to Adventure!"
-						};
-					}
-
-					// Update the player's gamemode to spectator
-					case "sp":
-					case "spectator": {
-						origin.setGamemode(Gamemode.Spectator);
-
-						// Return the success message
-						return {
-							message: "Successfully set your gamemode to Spectator!"
-						};
-					}
+					// Return the success message
+					return { message: logs.join("\n") };
 				}
-			} else {
-				switch (mode) {
-					default: {
-						throw new TypeError("Invalid gamemode specified!");
-					}
-
-					// Update the player's gamemode to survival
-					case "s":
-					case "survival": {
-						// Loop through all the players
-						// Return the success message
-						for (const entity of target) {
-							// Check if the entity is a player
-							if (!(entity instanceof Player)) continue;
-
-							// Update the player's gamemode to survival
-							entity.setGamemode(Gamemode.Survival);
-						}
-
-						return {
-							message: `Successfully set ${target.length} player's gamemode to Survival!`
-						};
-					}
-
-					// Update the player's gamemode to creative
-					case "c":
-					case "creative": {
-						// Loop through all the players
-						// Return the success message
-						for (const entity of target) {
-							// Check if the entity is a player
-							if (!(entity instanceof Player)) continue;
-
-							// Update the player's gamemode to creative
-							entity.setGamemode(Gamemode.Creative);
-						}
-
-						return {
-							message: `Successfully set ${target.length} player's gamemode to Creative!`
-						};
-					}
-
-					// Update the player's gamemode to adventure
-					case "a":
-					case "adventure": {
-						// Loop through all the players
-						// Return the success message
-						for (const entity of target) {
-							// Check if the entity is a player
-							if (!(entity instanceof Player)) continue;
-
-							// Update the player's gamemode to adventure
-							entity.setGamemode(Gamemode.Adventure);
-						}
-
-						return {
-							message: `Successfully set ${target.length} player's gamemode to Adventure!`
-						};
-					}
-
-					// Update the player's gamemode to spectator
-					case "sp":
-					case "spectator": {
-						// Loop through all the players
-						// Return the success message
-						for (const entity of target) {
-							// Check if the entity is a player
-							if (!(entity instanceof Player)) continue;
-
-							// Update the player's gamemode to spectator
-							entity.setGamemode(Gamemode.Spectator);
-						}
-
-						return {
-							message: `Successfully set ${target.length} player's gamemode to Spectator!`
-						};
-					}
-				}
-			}
+			);
 		},
-		{
-			mode: GamemodeEnum,
-			target: [TargetEnum, true]
-		},
-		{
-			permission: CommandPermissionLevel.Operator
-		}
+		() => {}
 	);
 };
 

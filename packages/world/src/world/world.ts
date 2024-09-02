@@ -6,13 +6,14 @@ import {
 	TextPacketType
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { Commands } from "@serenityjs/command";
 import Emitter from "@serenityjs/emitter";
+import { Commands } from "@serenityjs/command";
 
-import { COMMON_COMMANDS } from "../commands";
-import { ADMIN_COMMANDS } from "../commands/admin";
+// import { COMMON_COMMANDS } from "../commands";
+// import { ADMIN_COMMANDS } from "../commands/admin";
 import { Scoreboard } from "../scoreboard";
 import { WorldTickSignal } from "../events";
+import { ADMIN_COMMANDS, COMMON_COMMANDS } from "../commands";
 
 import { Dimension } from "./dimension";
 
@@ -41,7 +42,7 @@ class World {
 	/**
 	 * The commands for the world.
 	 */
-	public readonly commands: Commands<Entity | Dimension>;
+	public readonly commands: Commands<Dimension | Entity>;
 
 	/**
 	 * The scoreboard for the world.
