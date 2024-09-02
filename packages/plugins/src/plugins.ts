@@ -12,9 +12,16 @@ import { unzip } from "./utils";
 export interface Plugin {
 	logger: Logger;
 	reloadable?: boolean;
-	package: { name: string; version: string; main: string };
+	package: PluginPackage;
 	path: string;
 	module: PluginModule;
+}
+
+interface PluginPackage {
+	name: string;
+	version: string;
+	main: string;
+	reloadable: boolean;
 }
 
 interface PluginEvents {
@@ -125,7 +132,7 @@ class Plugins extends Emitter<PluginEvents> {
 			// Read the package.json file
 			const pak = JSON.parse(
 				readFileSync(resolve(path, "package.json"), "utf8")
-			) as { name: string; version: string; main: string; reloadable: boolean };
+			) as PluginPackage;
 
 			// Install the dependencies
 			try {
@@ -291,7 +298,13 @@ class Plugins extends Emitter<PluginEvents> {
 		);
 
 		// Create a new plugin object
-		const reloaded = { package: pak, module, logger, path };
+		const reloaded: Plugin = {
+			package: pak,
+			module,
+			logger,
+			path,
+			reloadable: pak.reloadable ?? false
+		};
 
 		// Store the plugin in the registry
 		this.entries.set(pak.name, reloaded);
