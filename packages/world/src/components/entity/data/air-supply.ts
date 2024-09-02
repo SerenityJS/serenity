@@ -79,11 +79,8 @@ class EntityAirSupplyComponent extends EntityDataComponent {
 		)
 			return true;
 
-		// Get the players position
-		const { x, y, z } = this.entity.position.floor();
-
 		// Get the block at the players position
-		const block = this.entity.dimension.getBlock(x, y, z);
+		const block = this.entity.dimension.getBlock(this.entity.position.floor());
 
 		// Check if the block is air
 		if (block.isAir()) return true;

@@ -27,8 +27,8 @@ class Raycaster {
 		let hit: HitResult | undefined;
 
 		// Check for intersections with blocks along the ray.
-		Raycaster.transverseBlocks(start, end, ({ x, y, z }) => {
-			const block = dimension.getBlock(x, y, z);
+		Raycaster.transverseBlocks(start, end, (position) => {
+			const block = dimension.getBlock(position);
 			const blockCollisions = block.getComponent("minecraft:collision_box");
 
 			// Skip blocks without collision components.

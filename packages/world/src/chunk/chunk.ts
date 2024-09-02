@@ -1,7 +1,7 @@
 import {
 	ChunkCoords,
 	DimensionType,
-	type Vector3f
+	type IPosition
 } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
 import { BlockIdentifier, BlockPermutation } from "@serenityjs/block";
@@ -165,7 +165,7 @@ export class Chunk {
 	 * @param position The position to query.
 	 * @returns The topmost level in which a permutation is not air.
 	 */
-	public getTopmostLevel(position: Vector3f): number {
+	public getTopmostLevel(position: IPosition): number {
 		// Get the Y level.
 		for (let y = position.y; y >= -64; y--) {
 			// Get the permutation at the position.
@@ -188,7 +188,7 @@ export class Chunk {
 	 * @param position The position to query.
 	 * @returns The bottommost level in which a permutation is not air.
 	 */
-	public getBottommostLevel(position: Vector3f): number {
+	public getBottommostLevel(position: IPosition): number {
 		// Get the Y level.
 		for (let y = 0; y <= position.y; y++) {
 			const permutation = this.getPermutation(position.x, y, position.z);

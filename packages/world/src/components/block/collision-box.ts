@@ -1,4 +1,4 @@
-import { Vector3f } from "@serenityjs/protocol";
+import { BlockCoordinates, Vector3f } from "@serenityjs/protocol";
 import { BlockIdentifier } from "@serenityjs/block";
 
 import { AABB } from "../../collisions";
@@ -42,12 +42,13 @@ class BlockCollisionComponent extends BlockComponent {
 	public intercept(start: Vector3f, end: Vector3f): BlockHitResult | undefined {
 		let closestHit: HitResult | undefined;
 		let closestDistance = Number.MAX_VALUE;
-		const { x, y, z } = this.block.position;
 
 		// Iterate through each collision box and check for intersections.
 		for (const box of this.boxes) {
 			// Move the box to the block's position and check for intersections.
-			const movedBox = box.move(new Vector3f(x, y, z));
+			const movedBox = box.move(
+				BlockCoordinates.toVector3f(this.block.position)
+			);
 			const result = AABB.Intercept(movedBox, start, end);
 
 			// Continue if no intersection is found.

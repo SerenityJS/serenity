@@ -1,8 +1,9 @@
 import {
-	BlockCoordinates,
+	type BlockCoordinates,
 	ChunkCoords,
 	type DataPacket,
 	type DimensionType,
+	type IPosition,
 	TextPacket,
 	TextPacketType,
 	Vector3f
@@ -373,9 +374,9 @@ class Dimension {
 	 * @param z The Z coordinate of the block.
 	 * @returns The block.
 	 */
-	public getBlock(x: number, y: number, z: number): Block {
+	public getBlock(position: IPosition): Block {
 		// Create a new position vector
-		const position = new BlockCoordinates(x, y, z);
+		const { x, y, z } = position;
 
 		// Check if the block is in the blocks
 		const block = [...this.blocks.entries()].find(
@@ -394,7 +395,7 @@ class Dimension {
 			const permutation = chunk.getPermutation(x, y, z);
 
 			// Convert the permutation to a block.
-			const block = new Block(this, permutation, { x, y, z });
+			const block = new Block(this, permutation, position as BlockCoordinates);
 
 			// Register the components to the block.
 			for (const component of BlockComponent.registry.get(
@@ -431,7 +432,8 @@ class Dimension {
 			}
 
 			// If the block has components add it to the blocks
-			if (block.components.size > 0) this.blocks.set(position, block);
+			if (block.components.size > 0)
+				this.blocks.set(position as BlockCoordinates, block);
 
 			// Return the block
 			return block;
@@ -443,7 +445,7 @@ class Dimension {
 	 * @param position The position to query.
 	 * @returns The topmost block in which the permutation is not air.
 	 */
-	public getTopmostBlock(position: Vector3f): Block {
+	public getTopmostBlock(position: IPosition): Block {
 		// Get the current chunk
 		const chunk = this.getChunk(position.x >> 4, position.z >> 4);
 
@@ -451,7 +453,7 @@ class Dimension {
 		const topLevel = chunk.getTopmostLevel(position);
 
 		// Return the block
-		return this.getBlock(position.x, topLevel, position.z);
+		return this.getBlock({ ...position, y: topLevel });
 	}
 
 	/**
@@ -459,7 +461,7 @@ class Dimension {
 	 * @param position The position to query.
 	 * @returns The bottommost block in which the permutation is not air.
 	 */
-	public getBottommostBlock(position: Vector3f): Block {
+	public getBottommostBlock(position: IPosition): Block {
 		// Get the current chunk
 		const chunk = this.getChunk(position.x >> 4, position.z >> 4);
 
@@ -467,7 +469,7 @@ class Dimension {
 		const bottomLevel = chunk.getBottommostLevel(position);
 
 		// Return the block
-		return this.getBlock(position.x, bottomLevel, position.z);
+		return this.getBlock({ ...position, y: bottomLevel });
 	}
 
 	/**

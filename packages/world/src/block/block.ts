@@ -423,11 +423,10 @@ class Block {
 	 * @param steps The amount of steps to go up.
 	 */
 	public above(steps?: number): Block {
-		return this.dimension.getBlock(
-			this.position.x,
-			this.position.y + (steps ?? 1),
-			this.position.z
-		);
+		return this.dimension.getBlock({
+			...this.position,
+			y: this.position.y + (steps ?? 1)
+		});
 	}
 
 	/**
@@ -436,11 +435,10 @@ class Block {
 	 * @param steps The amount of steps to go down.
 	 */
 	public below(steps?: number): Block {
-		return this.dimension.getBlock(
-			this.position.x,
-			this.position.y - (steps ?? 1),
-			this.position.z
-		);
+		return this.dimension.getBlock({
+			...this.position,
+			y: this.position.y - (steps ?? 1)
+		});
 	}
 
 	/**
@@ -449,11 +447,10 @@ class Block {
 	 * @param steps The amount of steps to go north.
 	 */
 	public north(steps?: number): Block {
-		return this.dimension.getBlock(
-			this.position.x,
-			this.position.y,
-			this.position.z - (steps ?? 1)
-		);
+		return this.dimension.getBlock({
+			...this.position,
+			z: this.position.z - (steps ?? 1)
+		});
 	}
 
 	/**
@@ -462,11 +459,10 @@ class Block {
 	 * @param steps The amount of steps to go south.
 	 */
 	public south(steps?: number): Block {
-		return this.dimension.getBlock(
-			this.position.x,
-			this.position.y,
-			this.position.z + (steps ?? 1)
-		);
+		return this.dimension.getBlock({
+			...this.position,
+			z: this.position.z + (steps ?? 1)
+		});
 	}
 
 	/**
@@ -475,11 +471,10 @@ class Block {
 	 * @param steps The amount of steps to go east.
 	 */
 	public east(steps?: number): Block {
-		return this.dimension.getBlock(
-			this.position.x + (steps ?? 1),
-			this.position.y,
-			this.position.z
-		);
+		return this.dimension.getBlock({
+			...this.position,
+			x: this.position.x + (steps ?? 1)
+		});
 	}
 
 	/**
@@ -488,11 +483,10 @@ class Block {
 	 * @param steps The amount of steps to go west.
 	 */
 	public west(steps?: number): Block {
-		return this.dimension.getBlock(
-			this.position.x - (steps ?? 1),
-			this.position.y,
-			this.position.z
-		);
+		return this.dimension.getBlock({
+			...this.position,
+			x: this.position.x - (steps ?? 1)
+		});
 	}
 
 	/**
