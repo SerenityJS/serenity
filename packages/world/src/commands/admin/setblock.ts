@@ -1,8 +1,7 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-import { BlockPositionEnum, JsonEnum } from "@serenityjs/command";
-import { BlockPermutation, type BlockIdentifier } from "@serenityjs/block";
+import { CommandPermissionLevel, type Vector3f } from "@serenityjs/protocol";
+import { BlockType, type BlockIdentifier } from "@serenityjs/block";
 
-import { BlockEnum } from "../enums";
+import { BlockEnum, PositionEnum } from "../enums";
 import { Entity } from "../../entity";
 
 import type { World } from "../../world";
@@ -12,69 +11,48 @@ const register = (world: World) => {
 	world.commands.register(
 		"setblock",
 		"Sets a block at the specified location",
-		(origin, parameters) => {
-			// Get the result of the block, position, and mode
-			const result = parameters.block.result;
-			const identifier = result.includes(":") ? result : `minecraft:${result}`;
-			const { x, y, z, xSteps, ySteps, zSteps } = parameters.position;
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-			const state = parameters.state?.result
-				? JSON.parse(parameters.state.result)
-				: {};
+			// Create an overload for the command
+			registry.overload(
+				{
+					position: PositionEnum,
+					block: BlockEnum
+				},
+				(context) => {
+					// Validate the position and block
+					context.position.validate(true);
+					context.block.validate(true);
 
-			if (origin instanceof Entity) {
-				// Get the position of the entity
-				const { x: ex, y: ey, z: ez } = origin.position.floor();
+					// Get the result of the block, position, and mode
+					const result = context.block.result as string;
+					const identifier = result.includes(":")
+						? result
+						: `minecraft:${result}`;
 
-				// Get the new position of the block
-				const nx = x === "~" ? ex + xSteps : x === "^" ? ex + 1 : +x;
-				const ny = y === "~" ? ey - 1 + ySteps : y === "^" ? ey + 1 : +y;
-				const nz = z === "~" ? ez + zSteps : z === "^" ? ez + 1 : +z;
+					// Get the position from the context
+					const position = context.position.result?.floor() as Vector3f;
 
-				// Get the block at the specified location
-				const block = origin.dimension.getBlock(nx, ny, nz);
-				const permutation = BlockPermutation.resolve(
-					identifier as BlockIdentifier,
-					state as unknown as Record<string, string>
-				);
+					// Get the dimension based on the origin
+					const dimension =
+						context.origin instanceof Entity
+							? context.origin.dimension
+							: context.origin;
 
-				// Set the block at the specified location
-				block.setPermutation(permutation);
+					// Get the block at the specified location
+					const block = dimension.getBlock(position.x, position.y, position.z);
 
-				// Send the success message
-				return {
-					message: `Successfully set block at ${nx}, ${ny}, ${nz} to ${identifier}!`
-				};
-			} else {
-				// Get the new position of the block
-				const nx = x === "~" ? 0 : x === "^" ? 0 + 1 : +x;
-				const ny = y === "~" ? 0 : y === "^" ? 0 + 1 : +y;
-				const nz = z === "~" ? 0 : z === "^" ? 0 + 1 : +z;
+					// Get the block type from the identifier
+					const type = BlockType.get(identifier as BlockIdentifier);
 
-				// Get the block at the specified location
-				const block = origin.getBlock(nx, ny, nz);
-				const permutation = BlockPermutation.resolve(
-					identifier as BlockIdentifier,
-					state as unknown as Record<string, string>
-				);
-
-				// Set the block at the specified location
-				block.setPermutation(permutation);
-
-				// Send the success message
-				return {
-					message: `Successfully set block at ${nx}, ${ny}, ${nz} to ${identifier}!`
-				};
-			}
+					// Set the block at the specified location
+					block.setType(type);
+				}
+			);
 		},
-		{
-			position: BlockPositionEnum,
-			block: BlockEnum,
-			state: [JsonEnum, true]
-		},
-		{
-			permission: CommandPermissionLevel.Operator
-		}
+		() => {}
 	);
 };
 

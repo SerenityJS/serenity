@@ -1,4 +1,4 @@
-import { Player, TargetEnum, type World } from "@serenityjs/world";
+import { type Player, TargetEnum, type World } from "@serenityjs/world";
 import { PermissionLevel, CommandPermissionLevel } from "@serenityjs/protocol";
 
 import type { Serenity } from "../../serenity";
@@ -8,48 +8,51 @@ const register = (world: World, serenity: Serenity) => {
 	world.commands.register(
 		"op",
 		"Sets the operator status of a player",
-		(_, paramaters) => {
-			// Get the targets
-			const targets = paramaters.target.result;
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-			// Filter the targets to only players
-			const players = targets.filter((target) => target instanceof Player);
+			// Create an overload for the command
+			registry.overload(
+				{
+					target: TargetEnum
+				},
+				(context) => {
+					// Validate the target
+					context.target.validate(true);
 
-			// Loop through all the targets
-			for (const player of players) {
-				// Sanity check
-				if (!(player instanceof Player)) continue;
+					// Get the targets from the context
+					const targets = context.target.result as Array<Player>;
 
-				// Check if the player is already an operator
-				if (player.permission === PermissionLevel.Operator) continue;
+					// Loop through all the targets
+					for (const player of targets) {
+						// Check if the player is already an operator
+						if (player.permission === PermissionLevel.Operator) continue;
 
-				// Set the player as an operator
-				serenity.permissions.set(player, PermissionLevel.Operator);
+						// Set the player as an operator
+						serenity.permissions.set(player, PermissionLevel.Operator);
 
-				// Log and send a message to the player
-				player.sendMessage(`§aYou have been set as an operator.§r`);
-				serenity.logger.info(
-					`§a${player.username} has been set as an operator.§r`
-				);
+						// Log and send a message to the player
+						player.sendMessage("§aYou have been set as an operator§r");
+						serenity.logger.info(
+							`§a${player.username} has been set as an operator§r`
+						);
 
-				// Set the player permission level
-				player.permission = PermissionLevel.Operator;
+						// Set the player permission level
+						player.permission = PermissionLevel.Operator;
 
-				// Sync the player
-				player.sync();
-			}
+						// Sync the player
+						player.sync();
+					}
 
-			// Return the success message
-			return {
-				message: `§a${players.length} player(s) have been set as operators§r`
-			};
+					// Return the success message
+					return {
+						message: `§a${targets.length} player(s) have been set as operators§r`
+					};
+				}
+			);
 		},
-		{
-			target: TargetEnum
-		},
-		{
-			permission: CommandPermissionLevel.Operator
-		}
+		() => {}
 	);
 };
 

@@ -1,4 +1,4 @@
-import { Player, TargetEnum, type World } from "@serenityjs/world";
+import { type Player, TargetEnum, type World } from "@serenityjs/world";
 import { CommandPermissionLevel, PermissionLevel } from "@serenityjs/protocol";
 
 import type { Serenity } from "../../serenity";
@@ -8,46 +8,51 @@ const register = (world: World, serenity: Serenity) => {
 	world.commands.register(
 		"deop",
 		"Removes the operator status of a player",
-		(_, paramaters) => {
-			// Get the targets
-			const targets = paramaters.target.result;
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-			// Filter the targets to only players
-			const players = targets.filter((target) => target instanceof Player);
+			// Create an overload for the command
+			registry.overload(
+				{
+					target: TargetEnum
+				},
+				(context) => {
+					// Validate the target
+					context.target.validate(true);
 
-			// Loop through all the targets
-			for (const player of players) {
-				// Sanity check
-				if (!(player instanceof Player)) continue;
+					// Get the targets from the context
+					const targets = context.target.result as Array<Player>;
 
-				// Check if the player is already an member
-				if (player.permission === PermissionLevel.Member) continue;
+					// Loop through all the targets
+					for (const player of targets) {
+						// Check if the player is already an member
+						if (player.permission === PermissionLevel.Member) continue;
 
-				// Set the player as an member
-				serenity.permissions.set(player, PermissionLevel.Member);
+						// Set the player as an member
+						serenity.permissions.set(player, PermissionLevel.Member);
 
-				// Log and send a message to the player
-				player.sendMessage("§cYou are no longer an operator§r");
-				serenity.logger.info(`§cPlayer ${player.username} has been deoped§r`);
+						// Log and send a message to the player
+						player.sendMessage("§cYou are no longer an operator§r");
+						serenity.logger.info(
+							`§cPlayer ${player.username} has been deoped§r`
+						);
 
-				// Set the player permission level
-				player.permission = PermissionLevel.Member;
+						// Set the player permission level
+						player.permission = PermissionLevel.Member;
 
-				// Sync the player
-				player.sync();
-			}
+						// Sync the player
+						player.sync();
+					}
 
-			// Return the success message
-			return {
-				message: `§aSuccessfully deoped ${players.length} player(s)§r`
-			};
+					// Return the success message
+					return {
+						message: `§aSuccessfully deoped ${targets.length} player(s)§r`
+					};
+				}
+			);
 		},
-		{
-			target: TargetEnum
-		},
-		{
-			permission: CommandPermissionLevel.Operator
-		}
+		() => {}
 	);
 };
 

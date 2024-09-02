@@ -1,12 +1,12 @@
 import { ValidEnum } from "./valid";
 
-import type { CommandExecutionState } from "../../execution-state";
+import type { CommandArgumentPointer } from "../../execution-state";
 
 class StringEnum extends ValidEnum {
 	/**
 	 * The type of the enum.
 	 */
-	public static readonly name = "string";
+	public static readonly identifier = "string";
 
 	/**
 	 * The symbol of the enum.
@@ -33,65 +33,21 @@ class StringEnum extends ValidEnum {
 		this.result = result;
 	}
 
-	public static extract<O>(
-		state: CommandExecutionState<O>
-	): StringEnum | undefined {
-		// Read next argument in slice array.
-		const text = state.readNext();
+	public static extract(pointer: CommandArgumentPointer): StringEnum | null {
+		// Peek the next value from the pointer.
+		const peek = pointer.peek();
 
-		// Ensure the argument is valid and defined.
-		if (typeof text === "string") {
-			// If an empty string call extract again to try next argument.
-			if (text.length === 0) return this.extract(state);
+		// Check if the peek value is null.
+		if (!peek) return null;
 
-			// If text starts with quotation its a string scope.
-			if (text.startsWith('"')) {
-				// Create array to hold the final scope.
-				const final = [];
+		// Check if the value can be a number or a float.
+		if (+peek >= 0 || +peek <= 0) return null;
 
-				// Create variable i and assign to current argument
-				// While i is a typeof string continue looping
-				// After every increment assign i to next argument
-				for (
-					let index: string | undefined = text;
-					typeof index === "string";
-					index = state.readNext()
-				) {
-					// Push current argument to final scope array.
-					final.push(index);
+		// Check if the value can be a boolean.
+		if (peek === "true" || peek === "false") return null;
 
-					// If current argument endswith quotation and its not the
-					// first quotation mark, scope was ended so stop loop.
-					if (index.endsWith('"') && (index.length > 1 || final.length > 1))
-						break;
-				}
-
-				// If last element in final string scope does end with
-				// a quatation then its a closed scope so return.
-				if (final.at(-1)?.endsWith('"'))
-					return new StringEnum(final.join(" ").slice(1).slice(0, -1));
-				// Otherwise its an unclosed string scope so we need
-				// to throw an error to the executor.
-				throw new Error("Unclosed string scope.");
-
-				// Not string scope, just return text argument
-			} else if (this.options.length > 0) {
-				// Check if the text is in the options array.
-				if (this.options.includes(text)) return new StringEnum(text);
-				else if (this.strict) {
-					// Throw error if text is not in the options array.
-					throw new TypeError(
-						`Expected argument to be one of: ${this.options.join(", ")}`
-					);
-				} else return new StringEnum(text);
-			} else return new StringEnum(text);
-
-			// If argument is invalid/undefined throw expected argument syntax error.
-		} else {
-			throw new TypeError(
-				`Expected argument of type string, received: ${typeof text}`
-			);
-		}
+		// Return the value as a string
+		return new StringEnum(pointer.next() as string);
 	}
 }
 

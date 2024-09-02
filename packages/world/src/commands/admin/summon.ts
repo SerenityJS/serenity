@@ -1,7 +1,6 @@
 import { CommandPermissionLevel, Vector3f } from "@serenityjs/protocol";
-import { BlockPositionEnum } from "@serenityjs/command";
 
-import { EntityEnum } from "../enums";
+import { EntityEnum, PositionEnum } from "../enums";
 import { Entity } from "../../entity";
 
 import type { EntityIdentifier } from "@serenityjs/entity";
@@ -12,58 +11,75 @@ const register = (world: World) => {
 	world.commands.register(
 		"summon",
 		"Summons an entity at a specified location",
-		(origin, parameters) => {
-			// Get the result of the entity and position
-			const identifierResult = parameters.entity.result;
-			const identifier = identifierResult.includes(":")
-				? identifierResult
-				: `minecraft:${identifierResult}`;
-			const { x, y, z, xSteps, ySteps, zSteps } = parameters.position;
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-			if (origin instanceof Entity) {
-				// Get the position of the entity
-				const { x: ex, y: ey, z: ez } = origin.position.floor();
+			// Create an overload for the command
+			registry.overload(
+				{
+					entity: EntityEnum
+				},
+				(context) => {
+					// Validate the entity
+					context.entity.validate(true);
 
-				// Get the new position of the entity
-				const nx = x === "~" ? ex + xSteps : x === "^" ? ex + 1 : +x;
-				const ny = y === "~" ? ey - 1 + ySteps : y === "^" ? ey + 1 : +y;
-				const nz = z === "~" ? ez + zSteps : z === "^" ? ez + 1 : +z;
+					// Check if the origin is a dimension, if so, throw an error
+					if (!(context.origin instanceof Entity))
+						throw new Error(
+							"You can't use this command in this context, try adding a position argument."
+						);
 
-				// Spawn the entity at the specified location
-				origin.dimension.spawnEntity(
-					identifier as EntityIdentifier,
-					new Vector3f(nx, ny, nz)
-				);
+					// Get the result of the entity
+					const identifier = (context.entity.result as string).includes(":")
+						? (context.entity.result as EntityIdentifier)
+						: (`minecraft:${context.entity.result}` as EntityIdentifier);
 
-				// Send the success message
-				return {
-					message: `Successfully summoned entity at ${nx}, ${ny}, ${nz}!`
-				};
-			} else {
-				// Get the new position of the entity
-				const nx = x === "~" ? 0 : x === "^" ? 0 + 1 : +x;
-				const ny = y === "~" ? 0 : y === "^" ? 0 + 1 : +y;
-				const nz = z === "~" ? 0 : z === "^" ? 0 + 1 : +z;
+					// Get the position of the entity
+					const { x, y, z } = context.origin.position.floor();
 
-				// Spawn the entity at the specified location
-				origin.spawnEntity(
-					identifier as EntityIdentifier,
-					new Vector3f(nx, ny, nz)
-				);
+					// Spawn the entity at the specified location
+					context.origin.dimension.spawnEntity(
+						identifier,
+						new Vector3f(x, y, z)
+					);
 
-				// Send the success message
-				return {
-					message: `Successfully summoned entity at ${nx}, ${ny}, ${nz}!`
-				};
-			}
+					// Send the success message
+					return {
+						message: `Successfully summoned entity at ${x}, ${y}, ${z}!`
+					};
+				}
+			);
+
+			// Create an overload for the command
+			registry.overload(
+				{
+					entity: EntityEnum,
+					position: PositionEnum
+				},
+				(context) => {
+					// Validate the entity and position
+					context.entity.validate(true);
+					context.position.validate(true);
+
+					// Get the result of the entity and position
+					const identifier = (context.entity.result as string).includes(":")
+						? (context.entity.result as EntityIdentifier)
+						: (`minecraft:${context.entity.result}` as EntityIdentifier);
+					const { x, y, z } = context.position.result as Vector3f;
+
+					// Get the dimension based on the origin
+					const dimension =
+						context.origin instanceof Entity
+							? context.origin.dimension
+							: context.origin;
+
+					// Summon the entity at the specified location
+					dimension.spawnEntity(identifier, new Vector3f(x, y, z));
+				}
+			);
 		},
-		{
-			entity: EntityEnum,
-			position: BlockPositionEnum
-		},
-		{
-			permission: CommandPermissionLevel.Operator
-		}
+		() => {}
 	);
 };
 

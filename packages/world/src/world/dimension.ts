@@ -8,7 +8,10 @@ import {
 	TextPacketType,
 	Vector3f
 } from "@serenityjs/protocol";
-import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
+import {
+	CommandExecutionState,
+	type CommandResponse
+} from "@serenityjs/command";
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
@@ -172,20 +175,35 @@ class Dimension {
 
 	/**
 	 * Executes a command in the dimension.
-	 *
 	 * @param command The command to execute.
-	 * @returns The result of the command.
+	 * @returns The response of the command.
 	 */
-	public executeCommand(command: string): CommandResult | undefined {
-		// Check if the command doesnt start with /
-		// If so, add it
-		if (!command.startsWith("/")) command = `/${command}`;
+	public executeCommand<T = unknown>(
+		command: string
+	): CommandResponse<T> | null {
+		// Check if the command starts with a slash, remove it if it does not
+		if (command.startsWith("/")) command = command.slice(1);
 
 		// Create a new command execute state
-		const state = new CommandExecutionState(this.world.commands, command, this);
+		const state = new CommandExecutionState(
+			this.world.commands.getAll(),
+			command,
+			this
+		);
 
-		// Execute the commmand state
-		return state.execute();
+		try {
+			// Execute the command state
+			return state.execute() as CommandResponse<T>;
+		} catch (reason) {
+			// Log the error to the console
+			this.world.logger.error(
+				`Failed to execute command "${command}" in dimension "${this.identifier}"`,
+				reason
+			);
+
+			// Return null if the command was not executed successfully
+			return null;
+		}
 	}
 
 	/**

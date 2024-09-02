@@ -110,7 +110,6 @@ import type {
 	HurtArmorPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
-import { Network } from "../network";
 
 /**
  * All available network events.
@@ -123,7 +122,7 @@ interface NetworkEvents {
 	];
 	[Packet.ClientToServerHandshake]: [
 		NetworkPacketEvent<ClientToServerHandshakePacket>
-	]
+	];
 	[Packet.Disconnect]: [NetworkPacketEvent<DisconnectPacket>];
 	[Packet.ResourcePacksInfo]: [NetworkPacketEvent<ResourcePacksInfoPacket>];
 	[Packet.ResourcePackStack]: [NetworkPacketEvent<ResourcePackStackPacket>];

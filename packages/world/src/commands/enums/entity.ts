@@ -8,9 +8,8 @@ const identifiers = EntityType.getAll().map((entity) =>
 );
 
 class EntityEnum extends CustomEnum {
-	public static readonly name = "entity";
+	public static readonly identifier = "entities";
 	public static readonly options = identifiers;
-	public static readonly strict = false;
 }
 
 export { EntityEnum };

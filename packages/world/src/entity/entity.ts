@@ -20,7 +20,10 @@ import {
 	ActorDataId
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
-import { CommandExecutionState, type CommandResult } from "@serenityjs/command";
+import {
+	CommandExecutionState,
+	type CommandResponse
+} from "@serenityjs/command";
 import {
 	CompoundTag,
 	FloatTag,
@@ -291,38 +294,33 @@ class Entity {
 	/**
 	 * Executes a command on the entity.
 	 * @param command The command to execute.
-	 * @returns The result of the command.
+	 * @returns Whether or not the command was executed.
 	 */
-	public executeCommand(command: string): CommandResult | undefined {
-		// Check if the command doesnt start with /
-		// If so, add it
-		if (!command.startsWith("/")) command = `/${command}`;
+	public executeCommand<T = unknown>(
+		command: string
+	): CommandResponse<T> | null {
+		// Check if the command starts with a slash, remove it if it does not
+		if (command.startsWith("/")) command = command.slice(1);
 
 		// Create a new command execute state
 		const state = new CommandExecutionState(
-			this.dimension.world.commands,
+			this.dimension.world.commands.getAll(),
 			command,
 			this
 		);
 
-		// Try and execute the command
 		try {
-			// Return the result of the command
-			return state.execute();
+			// Execute the command state
+			return state.execute() as CommandResponse<T>;
 		} catch (reason) {
-			// Check if the entity is a player
-			if (this.isPlayer()) {
-				this.dimension.world.logger.error(
-					`Failed to execute command '${command}' for player '${this.username}':`,
-					reason
-				);
-			} else {
-				// Log the error to the console
-				this.dimension.world.logger.error(
-					`Failed to execute command '${command}' for ${this.type.identifier} entity '${this.unique}':`,
-					reason
-				);
-			}
+			// Log the error
+			this.dimension.world.logger.error(
+				`Failed to execute command as entity "${this.unique}".`,
+				reason
+			);
+
+			// Return null
+			return null;
 		}
 	}
 

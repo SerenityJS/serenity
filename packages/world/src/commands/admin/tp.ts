@@ -1,9 +1,8 @@
-import { BlockPositionEnum } from "@serenityjs/command";
-import { CommandPermissionLevel, Vector3f } from "@serenityjs/protocol";
+import { CommandPermissionLevel, type Vector3f } from "@serenityjs/protocol";
 
-import { TargetEnum } from "../enums";
-import { Entity } from "../../entity";
+import { PositionEnum, TargetEnum } from "../enums";
 
+import type { Entity } from "../../entity";
 import type { World } from "../../world";
 
 const register = (world: World) => {
@@ -11,42 +10,36 @@ const register = (world: World) => {
 	world.commands.register(
 		"tp",
 		"Teleports an entity to a specified location",
-		(origin, parameters) => {
-			// Get the position to teleport to.
-			const { x, y, z, xSteps, ySteps, zSteps } = parameters.position;
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-			// Get the position to teleport the entity to.
-			const {
-				x: ex,
-				y: ey,
-				z: ez
-			} = origin instanceof Entity
-				? origin.position.floor()
-				: new Vector3f(0, 0, 0);
+			// Create an overload for the command
+			registry.overload(
+				{
+					target: TargetEnum,
+					position: PositionEnum
+				},
+				(context) => {
+					// Validate the target and position
+					context.target.validate(true);
+					context.position.validate(true);
 
-			// Get the new position to teleport the entity to.
-			const nx = x === "~" ? ex + xSteps : x === "^" ? ex + 1 : +x;
-			const ny = y === "~" ? ey - 1 + ySteps : y === "^" ? ey + 1 : +y;
-			const nz = z === "~" ? ez + zSteps : z === "^" ? ez + 1 : +z;
+					// Get the targets from the context
+					const targets = context.target.result as Array<Entity>;
 
-			// Loop through the targets
-			for (const target of parameters.target.result) {
-				// Teleport the entity to the new location.
-				target.teleport(new Vector3f(nx, ny, nz));
-			}
+					// Get the position from the context
+					const position = context.position.result as Vector3f;
 
-			// Send the success message
-			return {
-				message: `Successfully teleported entity to ${nx}, ${ny}, ${nz}!`
-			};
+					// Loop through all the targets
+					for (const target of targets) {
+						// Teleport the entity to the new location
+						target.teleport(position);
+					}
+				}
+			);
 		},
-		{
-			target: TargetEnum,
-			position: BlockPositionEnum
-		},
-		{
-			permission: CommandPermissionLevel.Operator
-		}
+		() => {}
 	);
 };
 

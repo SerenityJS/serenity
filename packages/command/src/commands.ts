@@ -1,134 +1,119 @@
-import {
-	AvailableCommandsPacket,
-	CommandPermissionLevel
-} from "@serenityjs/protocol";
+import { AvailableCommandsPacket } from "@serenityjs/protocol";
 
-import { type CustomEnum, SoftEnum, type Enum } from "./enums";
+import { Command } from "./command";
+import { CommandRegistry } from "./registry";
+import { SoftEnum } from "./enums/valid/soft";
 
-import type { CommandResult } from "./types";
-
-interface CommandParameters {
-	[key: string]: typeof Enum | [typeof Enum, boolean];
-}
-
-interface CommandOptions {
-	permission?: CommandPermissionLevel;
-	special?: boolean;
-}
-
-interface CommandPartial<O, T extends CommandParameters> {
-	name: string;
-	description: string;
-	parameters: T;
-	call: CommandCallable<O, T>;
-}
-
-type CommandEntry<
-	O,
-	T extends CommandParameters = CommandParameters
-> = CommandPartial<O, T> & CommandOptions;
-
-type CommandCallable<O, T extends CommandParameters> = (
-	origin: O,
-	parameters: {
-		[K in keyof T]: T[K] extends [typeof Enum, boolean]
-			? T[K][0]["prototype"]
-			: T[K] extends typeof Enum
-				? T[K]["prototype"]
-				: T[K] | Enum;
-	}
-) => CommandResult | undefined;
+import type { CustomEnum } from "./enums/valid/custom";
+import type {
+	CommandCallback,
+	CommandContext,
+	CommandRegistryCallback
+} from "./types";
 
 class Commands<O> {
 	/**
-	 * A collection registry of all commands.
+	 * The commands of the registry.
 	 */
-	public readonly entries: Map<string, CommandEntry<O>>;
+	public readonly commands = new Map<string, Command<unknown, O>>();
 
 	/**
-	 * Construct a new commands instance.
-	 * @param commands The commands to register.
+	 * Gets all the commands in the registry.
+	 * @returns All the commands in the registry.
 	 */
-	public constructor(commands?: Map<string, CommandEntry<O>>) {
-		this.entries = commands ?? new Map();
+	public getAll(): Array<Command<unknown, O>> {
+		return [...this.commands.values()];
 	}
 
 	/**
-	 * Register a new command.
+	 * Gets a command by its name.
 	 * @param name The name of the command.
-	 * @param description The description of the command.
-	 * @param callback The callback to execute when the command is called.
-	 * @param parameters The parameters of the command.
-	 * @param options Additional options for the command.
-	 * @returns The command entry.
+	 * @returns The command or undefined if it does not exist.
 	 */
-	public register<T extends CommandParameters>(
-		name: string,
-		description: string,
-		callback: CommandCallable<O, T>,
-		parameters?: T,
-		options?: CommandOptions
-	): CommandEntry<O, T> {
-		// Throw an error if the command already exists.
-		if (this.entries.has(name)) {
-			throw new Error(
-				`Command "${name}" is already registered. Unregister the existing command first, or rename the new command.`
-			);
+	public get(name: string): Command<unknown, O> | undefined {
+		// Check if the name starts with a slash.
+		if (name.startsWith("/")) {
+			// Remove the slash from the name.
+			name = name.slice(1);
 		}
 
-		// Create the command entry.
-		const entry: CommandEntry<O, T> = {
+		// Get the first word of the name.
+		name = name.split(" ")[0] as string;
+
+		// Return the command by the name.
+		return this.commands.get(name);
+	}
+
+	/**
+	 * Registers a new command in the registry.
+	 * @param name The name of the command.
+	 * @param description The description of the command.
+	 * @param callback The callback of the command.
+	 * @returns The command that was registered.
+	 */
+	public register<K = NonNullable<unknown>, T = CommandContext<K>>(
+		name: string,
+		description: string,
+		callback: CommandCallback<T, O>
+	): Command<T, O>;
+
+	/**
+	 * Registers a new command in the registry.
+	 * @param name  The name of the command.
+	 * @param description The description of the command.
+	 * @param registry The registry of the command.
+	 * @param callback The callback of the command.
+	 * @returns The command that was registered.
+	 */
+	public register<K = NonNullable<unknown>, T = CommandContext<K>>(
+		name: string,
+		description: string,
+		registry: CommandRegistryCallback<O>,
+		callback: CommandCallback<T, O>
+	): Command<T, O>;
+
+	/**
+	 * Registers a new command in the registry.
+	 * @param name The name of the command.
+	 * @param description The description of the command.
+	 * @param registry The registry of the command.
+	 * @param callback The callback of the command.
+	 * @returns The command that was registered.
+	 */
+	public register<K = NonNullable<unknown>, T = CommandContext<K>>(
+		name: string,
+		description: string,
+		registry: CommandRegistryCallback<O> | CommandCallback<T, O>,
+		callback?: CommandCallback<T, O>
+	): Command<T, O> {
+		// Create a new registry instance
+		const regInstance = new CommandRegistry<O>();
+
+		// Get the callback from the arguments
+		const execCallback = callback ?? (registry as CommandCallback<T, O>);
+
+		const regCallback = callback
+			? (registry as CommandRegistryCallback<O>)
+			: () => {};
+
+		// Execute the registry callback
+		regCallback(regInstance);
+
+		// Create a new command instance
+		const command = new Command<T, O>(
 			name,
 			description,
-			parameters: parameters ?? ({} as T),
-			...options,
-			call: callback as CommandCallable<O, T>
-		};
-
-		// Store the command entry in the commands map.
-		this.entries.set(
-			name,
-			entry as unknown as CommandEntry<
-				O,
-				{
-					[key: string]: typeof Enum | [typeof Enum, boolean];
-				}
-			>
+			regInstance,
+			execCallback
 		);
 
-		// Return the command entry.
-		return entry;
+		// Set the command in the commands map
+		this.commands.set(name, command as Command<unknown, O>);
+
+		// Return the command
+		return command;
 	}
 
-	/**
-	 * Unregister a command.
-	 * @param name The name of the command to unregister.
-	 */
-	public unregister(name: string): void {
-		this.entries.delete(name);
-	}
-
-	/**
-	 * Get a command entry.
-	 * @param name The name of the command to get.
-	 * @returns The command entry.
-	 */
-	public get(name: string): CommandEntry<O> | undefined {
-		return this.entries.get(name);
-	}
-
-	/**
-	 * Get all command entries.
-	 * @returns All command entries.
-	 */
-	public getAll(): Array<CommandEntry<O>> {
-		return [...this.entries.values()];
-	}
-
-	/**
-	 * Serializse the commands to an available commands packet.
-	 * @returns The available commands packet.
-	 */
 	public serialize(): AvailableCommandsPacket {
 		// Create a new available commands packet
 		const packet = new AvailableCommandsPacket();
@@ -141,45 +126,48 @@ class Commands<O> {
 			return {
 				name: command.name,
 				description: command.description,
-				permissionLevel: command.permission ?? CommandPermissionLevel.Normal,
+				permissionLevel: command.registry.permissionLevel,
 				subcommands: [],
-				flags: command.special ? 1 : 0,
+				flags: command.registry.debug ? 1 : 0,
 				alias: -1,
-				overloads: [
-					{
+				overloads: [...command.registry.overloads.keys()].map((overload) => {
+					// Iterate through the keys of the overload and extract the parameters.
+					const parameters = Object.entries(overload).map(([name, value]) => {
+						// Get the parameter constructor by checking if the value is an array.
+						const enm = Array.isArray(value) ? value[0] : value;
+
+						// Get the name of the parameter.
+						const symbol =
+							enm.type === SoftEnum.type
+								? (enm as typeof CustomEnum).options.length > 0
+									? (0x4_10 << 16) |
+										(packet.dynamicEnums.push({
+											name: enm.name,
+											values: (enm as typeof CustomEnum).options
+										}) -
+											1)
+									: enm.symbol
+								: enm.symbol;
+
+						// Check if the parameter is optional.
+						const optional = Array.isArray(value) ? value[1] : false;
+
+						// Add the question mark to the name if the parameter is optional.
+						name = optional ? name + "?" : name;
+
+						return {
+							symbol,
+							name,
+							optional,
+							options: 0
+						};
+					});
+
+					return {
 						chaining: false,
-						parameters: Object.entries(command.parameters).map(
-							([name, value]) => {
-								// Get the parameter constuctor by checking if the value is an array.
-								const enm = Array.isArray(value) ? value[0] : value;
-
-								// TODO: Clean this up
-								// Get the name of the parameter.
-								const symbol =
-									enm.type === SoftEnum.type
-										? (enm as typeof CustomEnum).options.length > 0
-											? (0x4_10 << 16) |
-												(packet.dynamicEnums.push({
-													name: enm.name,
-													values: (enm as typeof CustomEnum).options
-												}) -
-													1)
-											: enm.symbol
-										: enm.symbol;
-
-								// Check if the parameter is optional.
-								const optional = Array.isArray(value) ? value[1] : false;
-
-								return {
-									symbol,
-									name,
-									optional,
-									options: 0
-								};
-							}
-						)
-					}
-				]
+						parameters
+					};
+				})
 			};
 		});
 
@@ -196,4 +184,4 @@ class Commands<O> {
 	}
 }
 
-export { Commands, CommandEntry, CommandParameters };
+export { Commands };

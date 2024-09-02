@@ -1,16 +1,16 @@
-import { ValidEnum, StringEnum } from "@serenityjs/command";
+import { ValidEnum } from "@serenityjs/command";
 
 import { Entity } from "../../entity";
 import { Player } from "../../player";
 
 import type { Dimension } from "../../world";
-import type { CommandExecutionState } from "@serenityjs/command";
+import type { CommandArgumentPointer } from "@serenityjs/command";
 
 class TargetEnum extends ValidEnum {
 	/**
 	 * The type of the enum.
 	 */
-	public static readonly name = "target";
+	public static readonly identifier = "target";
 
 	/**
 	 * The symbol of the enum.
@@ -20,28 +20,52 @@ class TargetEnum extends ValidEnum {
 	/**
 	 * The result of the enum.
 	 */
-	public readonly result: Array<Entity>;
+	public readonly result: Array<Entity> | null;
 
-	public constructor(result: Array<Entity>) {
+	public constructor(result: Array<Entity> | null) {
 		super();
 		this.result = result;
 	}
 
-	public static extract<O = Entity | Dimension>(
-		state: CommandExecutionState<O>
-	): TargetEnum | undefined {
-		// Read next argument in slice array.
-		const stringValue = StringEnum.extract(state as never);
-		if (!stringValue) throw new Error("Invalid target.");
+	public validate(error = false): boolean {
+		// Check if we should throw an error if the result is null.
+		if (error && !this.result)
+			throw new Error("No targets matched the selector.");
 
-		// Separate the target from the arguments.
-		const target = stringValue.result;
+		// Check if the result is null.
+		if (!this.result) return false;
+
+		// Check if the result is an array.
+		return true;
+	}
+
+	public static extract<O = Entity | Dimension>(
+		pointer: CommandArgumentPointer<O>
+	): TargetEnum | null {
+		// Peek the next value from the pointer.
+		const target = pointer.next() as string;
+
+		// Check if the target is null.
+		if (!target) return new TargetEnum(null);
+
+		// Check if the target can be a number or a float.
+		if (+target >= 0 || +target <= 0) return new TargetEnum(null);
+
+		// Check if the target can be a boolean.
+		if (target === "true" || target === "false") return new TargetEnum(null);
 
 		// Get the origin of the command.
 		const origin =
-			state.origin instanceof Entity
-				? state.origin.dimension
-				: (state.origin as Dimension);
+			pointer.state.origin instanceof Entity
+				? pointer.state.origin.dimension
+				: (pointer.state.origin as Dimension);
+
+		// Check if the target is a player or starts with @.
+		if (
+			!target.startsWith("@") &&
+			!origin.getPlayers().some((x) => x.username === target)
+		)
+			return new TargetEnum(null);
 
 		// Check if the target starts with @.
 		// This means we are querying for a target.
@@ -209,8 +233,8 @@ class TargetEnum extends ValidEnum {
 
 				// Get the nearest player.
 				case "p": {
-					if (state.origin instanceof Player) {
-						return new TargetEnum([state.origin]);
+					if (pointer.state.origin instanceof Player) {
+						return new TargetEnum([pointer.state.origin]);
 					} else {
 						throw new TypeError(
 							"Nearest player is not available in this context."
@@ -280,8 +304,8 @@ class TargetEnum extends ValidEnum {
 
 				// Get the source player.
 				case "s": {
-					if (state.origin instanceof Entity) {
-						return new TargetEnum([state.origin]);
+					if (pointer.state.origin instanceof Entity) {
+						return new TargetEnum([pointer.state.origin]);
 					} else {
 						throw new TypeError(
 							"Source player is not available in this context."
@@ -305,6 +329,9 @@ class TargetEnum extends ValidEnum {
 			// Return the player.
 			return new TargetEnum(players);
 		}
+
+		// Return null if no target was found
+		return new TargetEnum(null);
 	}
 }
 

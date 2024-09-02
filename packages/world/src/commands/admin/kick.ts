@@ -4,35 +4,49 @@ import { StringEnum } from "@serenityjs/command";
 import { TargetEnum } from "../enums";
 import { Player } from "../../player";
 
+import type { Entity } from "../../entity";
 import type { World } from "../../world";
 
 const register = (world: World) => {
 	world.commands.register(
 		"kick",
 		"Kicks a player from the server",
-		(origin, parameters) => {
-			const targets = parameters.name.result;
-			const kickReason = parameters.reason?.result ?? "Kicked by an operator.";
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-			if (targets.length === 0)
-				return { message: "No targets matched selector" };
+			// Create an overload for the command
+			registry.overload(
+				{
+					target: TargetEnum,
+					reason: [StringEnum, true]
+				},
+				(context) => {
+					// Valid the target
+					context.target.validate(true);
 
-			for (const target of targets) {
-				if (!(target instanceof Player)) continue;
-				if (origin instanceof Player && origin.xuid == target.xuid) continue;
-				target.session.disconnect(kickReason, DisconnectReason.Kicked, false);
-			}
-			return {
-				message: `Kicked ${targets.map((target) => (target as Player).username).join(", ")} from the game`
-			};
+					// Get the targets from the context
+					const targets = context.target.result as Array<Entity>;
+
+					// Get the kick reason from the context
+					const reason = context.reason?.result ?? "Kicked by an operator.";
+
+					// Check if there are no targets
+					if (targets.length === 0)
+						throw new Error("No targets matched the selector.");
+
+					// Loop through all the targets
+					for (const target of targets) {
+						// Check if the target is not a player
+						if (!(target instanceof Player)) continue;
+
+						// Kick the player
+						target.session.disconnect(reason, DisconnectReason.Kicked, false);
+					}
+				}
+			);
 		},
-		{
-			name: TargetEnum,
-			reason: [StringEnum, true]
-		},
-		{
-			permission: CommandPermissionLevel.Operator
-		}
+		() => {}
 	);
 };
 
