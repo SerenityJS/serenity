@@ -9,33 +9,30 @@ const register = (world: World, serenity: Serenity) => {
 	world.commands.register(
 		"reload",
 		"Reloads all the server plugins",
-		(_, parameter) => {
-			const pluginName = parameter.pluginName.result;
+		(registry) => {
+			registry.permissionLevel = CommandPermissionLevel.Internal;
 
-			// ? Iterate through all the server plugins
-			const plugin = serenity.plugins.get(pluginName);
+			registry.overload(
+				{
+					pluginName: StringEnum
+				},
+				(context) => {
+					const pluginName = context.pluginName.result;
+					const plugin = serenity.plugins.get(pluginName);
 
-			if (!plugin)
-				return {
-					message: `§4Unknow plugin: ${pluginName}`
-				};
-			if (!plugin.reloadable) {
-				return {
-					message: `§4Plugin ${pluginName} is not reloadable`
-				};
-			}
-			void serenity.plugins.reload(pluginName, serenity);
+					if (!plugin) {
+						return { message: `§4Unknow plugin: ${pluginName}` };
+					}
+					if (!plugin.reloadable) {
+						return { message: `§4Plugin ${pluginName} is not reloadable` };
+					}
+					void serenity.plugins.reload(pluginName, serenity);
 
-			return {
-				message: `§aReloaded plugin ${pluginName}`
-			};
+					return { message: `§aReloaded plugin ${pluginName}` };
+				}
+			);
 		},
-		{
-			pluginName: StringEnum
-		},
-		{
-			permission: CommandPermissionLevel.Internal
-		}
+		() => {}
 	);
 };
 
