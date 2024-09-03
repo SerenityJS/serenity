@@ -95,12 +95,12 @@ abstract class Container {
 	 * Swaps items in the container.
 	 * @param slot The slot to swap the item from.
 	 * @param otherSlot The slot to swap the item to.
-	 * @param otherCatainer The other container to swap the item to.
+	 * @param otherContainer The other container to swap the item to.
 	 */
 	public abstract swapItems(
 		slot: number,
 		otherSlot: number,
-		otherCatainer?: Container
+		otherContainer?: Container
 	): void;
 
 	/**
@@ -109,6 +109,10 @@ abstract class Container {
 	 */
 	public abstract clearSlot(slot: number): void;
 
+	/**
+	 * Clears all slots in the container.
+	 */
+	public abstract clear(): void;
 	/**
 	 * Shows the container to a player.
 	 * @param player The player to show the container to.

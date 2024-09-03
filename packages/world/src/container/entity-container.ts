@@ -211,15 +211,15 @@ class EntityContainer extends Container {
 	 * Swaps items in the container.
 	 * @param slot The slot to swap the item from.
 	 * @param otherSlot The slot to swap the item to.
-	 * @param otherCatainer The other container to swap the item with.
+	 * @param otherContainer The other container to swap the item with.
 	 */
 	public swapItems(
 		slot: number,
 		otherSlot: number,
-		otherCatainer?: Container
+		otherContainer?: Container
 	): void {
 		// Assign the target container
-		const targetContainer = otherCatainer ?? this;
+		const targetContainer = otherContainer ?? this;
 
 		// Get the items in the slots
 		const item = this.getItem(slot);
@@ -259,6 +259,15 @@ class EntityContainer extends Container {
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
+	}
+
+	/**
+	 * Clears all slots in the container.
+	 */
+	public clear(): void {
+		for (let slot = 0; slot < this.storage.length; slot++) {
+			this.clearSlot(slot);
+		}
 	}
 
 	/**
