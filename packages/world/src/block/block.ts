@@ -364,6 +364,17 @@ class Block {
 		return this.permutation.type.tags.includes(tag);
 	}
 
+	public getNeighbors(): Array<Block> {
+		return [
+			this.above(),
+			this.below(),
+			this.north(),
+			this.south(),
+			this.east(),
+			this.west()
+		];
+	}
+
 	/**
 	 * Gets the item stack of the block.
 	 * @param amount The amount of items in the stack.
@@ -598,12 +609,7 @@ class Block {
 
 		// Check if the surrounding blocks should be updated.
 		if (surrounding) {
-			this.above().update(false, source);
-			this.below().update(false, source);
-			this.north().update(false, source);
-			this.south().update(false, source);
-			this.east().update(false, source);
-			this.west().update(false, source);
+			this.getNeighbors().map((neighbor) => neighbor?.update(false, source));
 		}
 	}
 
