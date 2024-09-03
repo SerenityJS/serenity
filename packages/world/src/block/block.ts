@@ -178,6 +178,26 @@ class Block {
 	}
 
 	/**
+	 * Add a CompoundTag to the block.
+	 * @param tag The CompoundTag to add.
+	 * @returns Whether or not the NBT tag was added.
+	 */
+	public addNbt(tag: CompoundTag): boolean {
+		// Check if the block has the same NBT tag.
+		// If so, we will return false.
+		if (this.nbt.hasTag(tag.name)) return false;
+
+		// Add the NBT tag to the block.
+		this.nbt.addTag(tag);
+
+		// Update the block.
+		this.update();
+
+		// Return true as the NBT tag was added.
+		return true;
+	}
+
+	/**
 	 * Sets the permutation of the block.
 	 * @param permutation The permutation to set.
 	 * @param options The options of the block update.
