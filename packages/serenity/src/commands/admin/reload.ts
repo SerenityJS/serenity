@@ -18,6 +18,8 @@ const register = (world: World, serenity: Serenity) => {
 				},
 				(context) => {
 					context.pluginName.validate(true);
+
+					if (!context.pluginName) return;
 					const pluginName = context.pluginName.result;
 					const plugin = serenity.plugins.get(pluginName);
 
