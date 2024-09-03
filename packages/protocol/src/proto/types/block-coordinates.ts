@@ -206,6 +206,18 @@ class BlockCoordinates extends DataType implements IPosition {
 		return Math.hypot(this.x - other.x, this.y - other.y, this.z - other.z);
 	}
 
+	/**
+	 * Computes the absolute value of each coordinate of the 3D vector.
+	 * @returnsthe absolute value of this 3D vector.
+	 */
+	public absolute(): BlockCoordinates {
+		return new BlockCoordinates(
+			Math.abs(this.x),
+			Math.abs(this.y),
+			Math.abs(this.z)
+		);
+	}
+
 	public static read(stream: BinaryStream): BlockCoordinates {
 		// Reads a x, y, z float from the stream
 		const x = stream.readZigZag();
