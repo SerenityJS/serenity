@@ -1,5 +1,5 @@
 import {
-	type BlockCoordinates,
+	BlockCoordinates,
 	ChunkCoords,
 	type DataPacket,
 	type DimensionType,
@@ -413,7 +413,11 @@ class Dimension {
 			const permutation = chunk.getPermutation(x, y, z);
 
 			// Convert the permutation to a block.
-			const block = new Block(this, permutation, position as BlockCoordinates);
+			const block = new Block(
+				this,
+				permutation,
+				new BlockCoordinates(position.x, position.y, position.z)
+			);
 
 			// Register the components to the block.
 			for (const component of BlockComponent.registry.get(
