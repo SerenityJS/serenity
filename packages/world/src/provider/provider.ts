@@ -18,11 +18,30 @@ class WorldProvider {
 		.identifier;
 
 	/**
+	 * The world instance that the provider belongs to.
+	 */
+	public world!: NonNullable<World>;
+
+	/**
 	 * The constructor for the world provider.
-	 * @param parameters The parameters for the world provider.
+	 * @param parameters The additional parameters for the world provider.
 	 */
 	public constructor(..._parameters: Array<unknown>) {
 		return;
+	}
+
+	/**
+	 * Gets the index of a specific dimension.
+	 * @param dimension The dimension to get the index of.
+	 * @returns The index of the dimension, or -1 if the dimension does not exist.
+	 */
+	public dimensionIndexOf(dimension: string | Dimension): number {
+		// Convert the dimension to a string.
+		const identifier =
+			typeof dimension === "string" ? dimension : dimension.identifier;
+
+		// Get the index of the dimension.
+		return [...this.world.dimensions.keys()].indexOf(identifier);
 	}
 
 	/**

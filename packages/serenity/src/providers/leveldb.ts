@@ -10,7 +10,6 @@ import {
 	type TerrainGenerator,
 	World,
 	type WorldConfig,
-	type WorldDimensionConfig,
 	WorldProvider
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
@@ -36,29 +35,21 @@ class LevelDBProvider extends WorldProvider {
 	public readonly db: Leveldb;
 
 	/**
-	 * The dimensions registered for the world.
-	 */
-	public readonly dimensions: Array<WorldDimensionConfig>;
-
-	/**
 	 * The chunks stored in the provider.
 	 */
 	public readonly chunks: Map<Dimension, Map<bigint, Chunk>> = new Map();
 
-	public constructor(path: string, dimensions: Array<WorldDimensionConfig>) {
+	public constructor(path: string) {
 		super();
 
 		// Open the LevelDB database.
 		this.db = Leveldb.open(resolve(path, "db"));
-		this.dimensions = dimensions;
 	}
 
 	public readChunk(cx: number, cz: number, dimension: Dimension): Chunk {
 		// Get the dimension index from the dimensions array.
 		// This will be used as the dimension key in the database.
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index was found.
 		if (index === -1)
@@ -150,9 +141,7 @@ class LevelDBProvider extends WorldProvider {
 
 	public readAvailableActors(dimension: Dimension): Array<bigint> {
 		// Get the dimension index from the dimensions array.
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index is invalid.
 		if (index === -1)
@@ -189,9 +178,7 @@ class LevelDBProvider extends WorldProvider {
 		uniqueIds: Array<bigint>
 	): void {
 		// Get the dimension index from the dimensions array.
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index is invalid.
 		if (index === -1)
@@ -220,9 +207,7 @@ class LevelDBProvider extends WorldProvider {
 		entity: bigint | Entity
 	): CompoundTag {
 		// Get the dimension index from the dimensions array.
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index is invalid.
 		if (index === -1)
@@ -271,9 +256,7 @@ class LevelDBProvider extends WorldProvider {
 	public deleteEntity(entity: Entity): void {
 		// Get the dimension index from the dimensions array.
 		const dimension = entity.dimension;
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index is invalid.
 		if (index === -1)
@@ -300,9 +283,7 @@ class LevelDBProvider extends WorldProvider {
 	public writeChunk(chunk: Chunk, dimension: Dimension): void {
 		// Get the dimension index from the dimensions array.
 		// This will be used as the dimension key in the database.
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index was found.
 		if (index === -1)
@@ -356,9 +337,7 @@ class LevelDBProvider extends WorldProvider {
 
 	public readBlockData(dimension: Dimension): Array<CompoundTag> {
 		// Get the dimension index from the dimensions array.
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index is invalid.
 		if (index === -1)
@@ -395,9 +374,7 @@ class LevelDBProvider extends WorldProvider {
 
 	public writeBlockData(dimension: Dimension, data: Array<CompoundTag>): void {
 		// Get the dimension index from the dimensions array.
-		const index = this.dimensions.findIndex(
-			(x) => x.identifier === dimension.identifier
-		);
+		const index = this.dimensionIndexOf(dimension);
 
 		// Check if the dimension index is invalid.
 		if (index === -1)
@@ -565,7 +542,7 @@ class LevelDBProvider extends WorldProvider {
 		const { identifier, dimensions } = config;
 
 		// Create a new provider instance.
-		const provider = new this(path, dimensions);
+		const provider = new this(path);
 
 		// Create a new world instance with the provider.
 		const world = new World(identifier, provider);

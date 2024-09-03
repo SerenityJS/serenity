@@ -91,6 +91,9 @@ class World {
 		// Register the default comman and admin commands
 		for (const register of [...COMMON_COMMANDS, ...ADMIN_COMMANDS])
 			register(this);
+
+		// Assign the world to the provider
+		this.provider.world = this;
 	}
 
 	/**
@@ -169,12 +172,11 @@ class World {
 	}
 
 	/**
-	 * Creates a new dimension.
-	 *
+	 * Creates a new dimension for the world.
 	 * @param identifier The identifier of the dimension.
 	 * @param type The type of the dimension.
 	 * @param generator The generator of the dimension.
-	 * @returns A new dimension.
+	 * @returns The dimension that was created.
 	 */
 	public createDimension(
 		identifier: string,
@@ -185,9 +187,10 @@ class World {
 		// Check if the dimension already exists
 		if (this.dimensions.has(identifier)) {
 			this.logger.error(
-				`Failed to create dimension "${identifier}," it already exists.`
+				`Failed to create dimension "${identifier}", as it already exists in the world.`
 			);
 
+			// Return the existing dimension
 			return this.dimensions.get(identifier) as Dimension;
 		}
 

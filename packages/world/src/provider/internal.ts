@@ -5,6 +5,7 @@ import { Superflat } from "../generator";
 
 import { WorldProvider } from "./provider";
 
+import type { Player } from "../player";
 import type { WorldConfig } from "../types";
 import type { Chunk } from "../chunk";
 
@@ -77,6 +78,10 @@ class InternalProvider extends WorldProvider {
 
 		// Set the chunk.
 		chunks.set(ChunkCoords.hash({ x: chunk.x, z: chunk.z }), chunk);
+	}
+
+	public writePlayer(_player: Player): void {
+		return;
 	}
 }
 
