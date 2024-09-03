@@ -11,6 +11,13 @@ class Enum {
 
 	public static readonly default = new Enum();
 
+	/**
+	 * Whether the enum value is optional.
+	 */
+	public optional = true;
+
+	public result: unknown;
+
 	public constructor(..._arguments: Array<unknown>) {
 		this;
 	}

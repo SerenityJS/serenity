@@ -21,10 +21,6 @@ const register = (world: World) => {
 					position: PositionEnum
 				},
 				(context) => {
-					// Validate the target and position
-					context.target.validate(true);
-					context.position.validate(true);
-
 					// Get the targets from the context
 					const targets = context.target.result as Array<Entity>;
 

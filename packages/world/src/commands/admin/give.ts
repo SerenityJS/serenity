@@ -26,10 +26,6 @@ const register = (world: World) => {
 					metadata: [IntegerEnum, true]
 				},
 				(context) => {
-					// Validate the target and item
-					context.target.validate(true);
-					context.item.validate(true);
-
 					// Get the targets from the context
 					const targets = context.target.result as Array<Entity>;
 

@@ -21,9 +21,6 @@ const register = (world: World) => {
 					entity: EntityEnum
 				},
 				(context) => {
-					// Validate the entity
-					context.entity.validate(true);
-
 					// Check if the origin is a dimension, if so, throw an error
 					if (!(context.origin instanceof Entity))
 						throw new Error(
@@ -58,10 +55,6 @@ const register = (world: World) => {
 					position: PositionEnum
 				},
 				(context) => {
-					// Validate the entity and position
-					context.entity.validate(true);
-					context.position.validate(true);
-
 					// Get the result of the entity and position
 					const identifier = (context.entity.result as string).includes(":")
 						? (context.entity.result as EntityIdentifier)

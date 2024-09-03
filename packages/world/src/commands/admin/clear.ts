@@ -24,9 +24,6 @@ const register = (world: World) => {
 					amount: [IntegerEnum, true]
 				},
 				(context) => {
-					// Validate the target
-					context.target.validate(true);
-
 					// Get the targets from the context
 					const targets = context.target.result as Array<Entity>;
 
@@ -62,17 +59,17 @@ const register = (world: World) => {
 							}
 
 							const stackAmount = itemStack.amount;
-							const remaining = stackAmount - itemAmount;
+							const remaining = stackAmount - (itemAmount ?? 1);
 
 							if (remaining < 0) {
 								container.clearSlot(Number.parseInt(slot));
 								itemCount += stackAmount;
 							} else {
 								itemStack.setAmount(Math.max(remaining, 0));
-								itemCount += Math.min(itemAmount, stackAmount);
+								itemCount += Math.min(itemAmount ?? 1, stackAmount);
 							}
 
-							if (itemCount >= itemAmount) break;
+							if (itemCount >= (itemAmount ?? 1)) break;
 						}
 					}
 

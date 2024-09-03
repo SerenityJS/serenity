@@ -1,3 +1,5 @@
+import { Enum } from "./enums";
+
 import type { Command } from "./command";
 import type { CommandContext, CommandResponse } from "./types";
 
@@ -97,13 +99,11 @@ class CommandExecutionState<O> {
 			O
 		>;
 
-		const globalResponses = {} as CommandResponse;
-
 		// Iterate through the overloads and extract the arguments.
 		for (const [overload, callback] of this.command.registry.overloads) {
 			// Create a new context object with the origin.
 			const context = { origin: this.origin } as CommandContext<
-				Record<string, unknown>,
+				Record<string, Enum>,
 				O
 			>;
 
@@ -132,12 +132,22 @@ class CommandExecutionState<O> {
 					// We will pass the execution state to the extract method.
 					// This allows customs enums to extract the argument in various ways.
 					const value_ = type.extract(state as CommandArgumentPointer);
+
+					// Declare if the value is optional.
+					if (value_) value_.optional = optional;
+
+					// Add the value to the context object.
 					context[key] = value_ ?? type.default;
 				} else {
 					// Extract the argument from the split array.
 					// We will pass the execution state to the extract method.
 					// This allows customs enums to extract the argument in various ways.
 					const value_ = value.extract(state as CommandArgumentPointer);
+
+					// Declare that the enum value is not optional.
+					if (value_) value_.optional = false;
+
+					// Add the value to the context object.
 					context[key] = value_ ?? value.default;
 				}
 			}
@@ -151,21 +161,31 @@ class CommandExecutionState<O> {
 
 			// Check that the length of the context object is the same as the overload object.
 			// We need to add 1 to compensate for the origin property.
-			if (Object.keys(context).length === Object.keys(overload).length + 1) {
-				// Get the response from the callback.
-				const response = callback(context);
+			if (Object.keys(context).length !== Object.keys(overload).length + 1)
+				continue;
 
-				// Assign the response to the global responses object.
-				Object.assign(globalResponses, response);
-				break;
+			// Iterate through the context onject and try to validate the arguments.
+			for (const [_, value] of Object.entries(context)) {
+				// Check if the value is an instance of Enum.
+				if (!(value instanceof Enum)) continue;
+
+				// Get the result from the value.
+				const result = value.result;
+
+				// Check if the value is optional and if it is not valid.
+				if (value.optional && (result === null || result === undefined))
+					continue;
+
+				// Validate the value.
+				value.validate(true);
 			}
+
+			// Get the response from the callback.
+			return callback(context) ?? {};
 		}
 
 		// Call the global callback with the global context object.
-		const response = this.command.callback(globalContext);
-
-		// Assign the response to the global responses object.
-		return Object.assign(globalResponses, response);
+		return this.command.callback(globalContext) ?? {};
 	}
 
 	protected parse(source: string): Array<string> {

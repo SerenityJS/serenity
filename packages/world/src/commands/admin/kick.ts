@@ -22,9 +22,6 @@ const register = (world: World) => {
 					reason: [StringEnum, true]
 				},
 				(context) => {
-					// Valid the target
-					context.target.validate(true);
-
 					// Get the targets from the context
 					const targets = context.target.result as Array<Entity>;
 

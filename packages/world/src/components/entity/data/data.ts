@@ -36,7 +36,7 @@ class EntityDataComponent<T = unknown> extends EntityComponent {
 		);
 
 		// Check if the data was not found
-		if (!data)
+		if (data === undefined)
 			// Throw an error as this should never happen if the component was set up correctly
 			throw new Error(`The entity does not have the ${this.key} data.`);
 

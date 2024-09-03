@@ -21,9 +21,6 @@ const register = (world: World) => {
 					target: [TargetEnum, true]
 				},
 				(context) => {
-					// Validate the gamemode, we dont need to validate the target as it is optional
-					context.gamemode.validate(true);
-
 					// Get the targets from the context
 					const targets = context.target.validate()
 						? context.target.result

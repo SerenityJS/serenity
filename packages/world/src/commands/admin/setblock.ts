@@ -22,10 +22,6 @@ const register = (world: World) => {
 					block: BlockEnum
 				},
 				(context) => {
-					// Validate the position and block
-					context.position.validate(true);
-					context.block.validate(true);
-
 					// Get the result of the block, position, and mode
 					const result = context.block.result as string;
 					const identifier = result.includes(":")

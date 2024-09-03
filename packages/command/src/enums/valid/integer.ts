@@ -16,19 +16,34 @@ class IntegerEnum extends ValidEnum {
 	/**
 	 * The result of the enum.
 	 */
-	public readonly result: number;
+	public readonly result: number | null;
 
-	public constructor(result: number) {
+	public constructor(result: number | null) {
 		super();
 		this.result = result;
 	}
 
+	public validate(_error?: boolean): boolean {
+		// Check if the value is null.
+		if (this.result === null) {
+			// Check if we should throw an error.
+			if (_error)
+				throw new TypeError('Expected type "integer" after previous argument.');
+
+			// Return false.
+			return false;
+		}
+
+		// Return true.
+		return true;
+	}
+
 	public static extract(pointer: CommandArgumentPointer): IntegerEnum | null {
 		// Peek the next value from the pointer.
-		const peek = pointer.peek();
+		const peek = pointer.next();
 
 		// Check if the peek value is null.
-		if (!peek) return null;
+		if (!peek) return new IntegerEnum(null);
 
 		// Check if the value can be a boolean.
 		if (peek === "true") {
@@ -49,11 +64,10 @@ class IntegerEnum extends ValidEnum {
 		}
 
 		// Check if the value can be a number or a float.
-		if (+peek >= 0 || +peek <= 0)
-			return new IntegerEnum(+(pointer.next() as string));
+		if (+peek >= 0 || +peek <= 0) return new IntegerEnum(+(peek as string));
 
 		// Return null if the value is not a number.
-		return null;
+		return new IntegerEnum(null);
 	}
 }
 
