@@ -6,9 +6,9 @@ import {
 	Overworld,
 	Superflat,
 	Void,
+	World,
 	type WorldConfig,
 	type TerrainGenerator,
-	type World,
 	type WorldProvider,
 	WorldInitializeSignal,
 	type WorldEventSignals
@@ -273,6 +273,27 @@ class Worlds extends Emitter<WorldEventSignals> {
 	 */
 	public register(world: World): void {
 		this.entries.set(world.identifier, world);
+	}
+
+	/**
+	 * Create a new world with the given identifier and provider.
+	 * @param identifier The identifier of the world.
+	 * @param provider The provider of the world.
+	 * @returns The created world.
+	 */
+	public create(identifier: string, provider: WorldProvider): World {
+		// Check if the world identifier already exists.
+		if (this.entries.has(identifier))
+			throw new Error(`World "${identifier}" already exists.`);
+
+		// Create a new world with the given identifier and provider.
+		const world = new World(identifier, provider);
+
+		// Register the world to the manager.
+		this.register(world);
+
+		// Return the created world.
+		return world;
 	}
 
 	/**
