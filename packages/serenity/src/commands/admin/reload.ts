@@ -17,6 +17,7 @@ const register = (world: World, serenity: Serenity) => {
 					pluginName: StringEnum
 				},
 				(context) => {
+					context.pluginName.validate(true);
 					const pluginName = context.pluginName.result;
 					const plugin = serenity.plugins.get(pluginName);
 
