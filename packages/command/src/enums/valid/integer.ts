@@ -40,28 +40,23 @@ class IntegerEnum extends ValidEnum {
 
 	public static extract(pointer: CommandArgumentPointer): IntegerEnum | null {
 		// Peek the next value from the pointer.
-		const peek = pointer.next();
+		let peek = pointer.peek();
 
 		// Check if the peek value is null.
 		if (!peek) return new IntegerEnum(null);
 
-		// Check if the value can be a boolean.
-		if (peek === "true") {
-			// Read the next value from the pointer.
-			pointer.next();
+		// Read the next value from the pointer.
+		peek = pointer.next() as string;
 
+		// Check if the value can be a boolean.
+		if (peek === "true")
 			// Return the value as an integer.
 			return new IntegerEnum(1);
-		}
 
 		// Check if the value can be a boolean.
-		if (peek === "false") {
-			// Read the next value from the pointer.
-			pointer.next();
-
+		if (peek === "false")
 			// Return the value as an integer.
 			return new IntegerEnum(0);
-		}
 
 		// Check if the value can be a number or a float.
 		if (+peek >= 0 || +peek <= 0) return new IntegerEnum(+(peek as string));

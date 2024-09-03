@@ -21,14 +21,14 @@ class BooleanEnum extends CustomEnum {
 	/**
 	 * The result of the enum.
 	 */
-	public readonly result: boolean;
+	public readonly result: boolean | null;
 
 	/**
 	 * Creates an instance of boolean enum.
 	 * @param result The result of the enum.
 	 */
-	public constructor(result: boolean) {
-		super(result.toString(), BooleanEnum.options);
+	public constructor(result: boolean | null) {
+		super(result?.toString() ?? "false", BooleanEnum.options);
 		this.result = result;
 	}
 
@@ -51,31 +51,26 @@ class BooleanEnum extends CustomEnum {
 
 	public static extract(pointer: CommandArgumentPointer): BooleanEnum | null {
 		// Peek the next value from the pointer.
-		const peek = pointer.peek();
+		let peek = pointer.peek();
 
 		// Check if the peek value is null.
-		if (!peek) return null;
+		if (!peek) return new BooleanEnum(null);
+
+		// Read the next value from the pointer
+		peek = pointer.next() as string;
 
 		// Check if the value can be a boolean.
-		if (peek === "true") {
-			// Read the next value from the pointer.
-			pointer.next();
-
+		if (peek === "true")
 			// Return the value as a boolean.
 			return new BooleanEnum(true);
-		}
 
 		// Check if the value can be a boolean.
-		if (peek === "false") {
-			// Read the next value from the pointer.
-			pointer.next();
-
+		if (peek === "false")
 			// Return the value as a boolean.
 			return new BooleanEnum(false);
-		}
 
 		// Return null if the value is not a boolean.
-		return null;
+		return new BooleanEnum(null);
 	}
 }
 
