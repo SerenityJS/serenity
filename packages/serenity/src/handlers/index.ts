@@ -20,6 +20,7 @@ import { Respawn } from "./respawn";
 import { NpcRequest } from "./npc-request";
 import { BlockActorData } from "./block-actor-data";
 import { BookEdit } from "./book-edit";
+import { RequestChunkRadius } from "./request-chunk-radius";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -43,7 +44,8 @@ const HANDLERS = [
 	Respawn,
 	NpcRequest,
 	BlockActorData,
-	BookEdit
+	BookEdit,
+	RequestChunkRadius
 ];
 
 export { HANDLERS };
