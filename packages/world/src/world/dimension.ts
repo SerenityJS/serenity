@@ -73,12 +73,12 @@ class Dimension {
 	/**
 	 * The view distance of the dimension.
 	 */
-	public viewDistance: number = 128;
+	public viewDistance: number = 256;
 
 	/**
 	 * The simulation distance of the dimension.
 	 */
-	public simulationDistance: number = 48;
+	public simulationDistance: number = 128;
 
 	/**
 	 * The min-max dimension build limits
