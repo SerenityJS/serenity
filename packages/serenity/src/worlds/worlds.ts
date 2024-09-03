@@ -287,7 +287,7 @@ class Worlds extends Emitter<WorldEventSignals> {
 			throw new Error(`World "${identifier}" already exists.`);
 
 		// Create a new world with the given identifier and provider.
-		const world = new World(identifier, provider);
+		const world = new World(identifier, provider, this);
 
 		// Register the world to the manager.
 		this.register(world);
