@@ -42,7 +42,7 @@ const register = (world: World) => {
 							: context.origin;
 
 					// Get the block at the specified location
-					const block = dimension.getBlock(position.x, position.y, position.z);
+					const block = dimension.getBlock(position);
 
 					// Get the block type from the identifier
 					const type = BlockType.get(identifier as BlockIdentifier);
