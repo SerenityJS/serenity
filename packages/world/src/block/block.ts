@@ -364,6 +364,12 @@ class Block {
 		return this.permutation.type.tags.includes(tag);
 	}
 
+	/**
+	 * Retrieves the neighboring blocks surrounding the current block.
+	 *
+	 * @returns An array of `Block` objects representing the neighboring blocks.
+	 * The array includes the blocks above, below, north, south, east, and west of the current block.
+	 */
 	public getNeighbors(): Array<Block> {
 		return [
 			this.above(),
