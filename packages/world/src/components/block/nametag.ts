@@ -35,18 +35,16 @@ class BlockNametagComponent extends BlockComponent {
 		// Set the current value.
 		this.currentValue = value;
 
-		// Check if a CustomName tag exists.
-		if (this.block.nbt.hasTag("CustomName"))
-			this.block.nbt.removeTag("CustomName");
+		// Get the CustomName tag.
+		const customName = this.block.hasNbtTag("CustomName")
+			? this.block.nbt
+			: new StringTag("CustomName", value);
 
-		// Create a new CustomName tag.
-		const customName = new StringTag("CustomName", value);
+		// Set the value of the tag.
+		customName.setValue(value);
 
-		// Add the CustomName tag to the block.
-		this.block.nbt.addTag(customName);
-
-		// Update the item in the container.
-		this.block.update();
+		// Set the nbt tag to the block.
+		this.block.setNbtTag(customName);
 	}
 
 	/**
@@ -60,6 +58,7 @@ class BlockNametagComponent extends BlockComponent {
 		nbt: CompoundTag,
 		component: BlockNametagComponent
 	): void {
+		// Create the CustomName tag.
 		nbt.createStringTag("CustomName", component.currentValue);
 	}
 
@@ -67,8 +66,13 @@ class BlockNametagComponent extends BlockComponent {
 		nbt: CompoundTag,
 		block: Block
 	): BlockNametagComponent {
+		// Create the component.
 		const component = new BlockNametagComponent(block);
+
+		// Set the current value.
 		component.setCurrentValue(nbt.getTag("CustomName")?.value as string);
+
+		// Return the component.
 		return component;
 	}
 }

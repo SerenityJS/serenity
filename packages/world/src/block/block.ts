@@ -20,6 +20,7 @@ import {
 	CompoundTag,
 	IntTag,
 	type ListTag,
+	type NBTTag,
 	StringTag,
 	Tag
 } from "@serenityjs/nbt";
@@ -178,11 +179,29 @@ class Block {
 	}
 
 	/**
+	 * Checks if the block has an NBT tag.
+	 * @param tag The tag to check.
+	 * @returns Whether or not the block has the NBT tag.
+	 */
+	public hasNbtTag(tag: string): boolean {
+		return this.nbt.hasTag(tag);
+	}
+
+	/**
+	 * Gets the NBT tag of the block.
+	 * @param tag The tag to get.
+	 * @returns The NBT tag of the block if it exists.
+	 */
+	public getNbtTag(tag: string): NBTTag | undefined {
+		return this.nbt.getTag(tag);
+	}
+
+	/**
 	 * Add a CompoundTag to the block.
 	 * @param tag The CompoundTag to add.
 	 * @returns Whether or not the NBT tag was added.
 	 */
-	public addNbt(tag: CompoundTag): boolean {
+	public addNbtTag(tag: NBTTag): boolean {
 		// Check if the block has the same NBT tag.
 		// If so, we will return false.
 		if (this.nbt.hasTag(tag.name)) return false;
@@ -195,6 +214,38 @@ class Block {
 
 		// Return true as the NBT tag was added.
 		return true;
+	}
+
+	/**
+	 * Remove a NBT tag from the block.
+	 * @param tag The tag to remove.
+	 * @returns Whether or not the NBT tag was removed.
+	 */
+	public removeNbtTag(tag: string): boolean {
+		// Check if the block has the NBT tag.
+		// If not, we will return false.
+		if (!this.nbt.hasTag(tag)) return false;
+
+		// Remove the NBT tag from the block.
+		this.nbt.removeTag(tag);
+
+		// Update the block.
+		this.update();
+
+		// Return true as the NBT tag was removed.
+		return true;
+	}
+
+	/**
+	 * Sets the NBT tag of the block.
+	 * @param tag The tag to set.
+	 */
+	public setNbtTag(tag: NBTTag): void {
+		// Set the NBT tag to the block.
+		this.nbt.setTag(tag.name, tag);
+
+		// Update the block.
+		this.update();
 	}
 
 	/**
