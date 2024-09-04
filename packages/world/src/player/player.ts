@@ -24,7 +24,9 @@ import {
 	TransferPacket,
 	UpdateAbilitiesPacket,
 	Vector3f,
-	AbilitySet
+	AbilitySet,
+	type EffectType,
+	OnScreenTextureAnimationPacket
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
@@ -740,6 +742,19 @@ class Player extends Entity {
 
 		// Send packet to player
 		this.session.send(levelEvent, actorEvent);
+	}
+
+	/**
+	 * Plays an effect animation to the player.
+	 * @param effect The effect to play.
+	 */
+	public playerEffectAnimation(effect: EffectType): void {
+		// Create a new OnScreenTextureAnimationPacket
+		const packet = new OnScreenTextureAnimationPacket();
+		packet.effectId = effect;
+
+		// Send the packet to the player
+		this.session.send(packet);
 	}
 }
 
