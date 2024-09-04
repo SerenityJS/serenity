@@ -26,7 +26,8 @@ import {
 	Vector3f,
 	AbilitySet,
 	type EffectType,
-	OnScreenTextureAnimationPacket
+	OnScreenTextureAnimationPacket,
+	ToastRequestPacket
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
@@ -416,7 +417,6 @@ class Player extends Entity {
 
 	/**
 	 * Sends a message to the player.
-	 *
 	 * @param message The message to send.
 	 */
 	public sendMessage(message: string): void {
@@ -434,6 +434,21 @@ class Player extends Entity {
 		packet.filtered = message;
 
 		// Send the packet.
+		this.session.send(packet);
+	}
+
+	/**
+	 * Sends a toast to the player.
+	 * @param title The title of the toast.
+	 * @param message The message of the toast.
+	 */
+	public sendToast(title: string, message: string): void {
+		// Create a new ToastRequestPacket
+		const packet = new ToastRequestPacket();
+		packet.title = title;
+		packet.message = message;
+
+		// Send the packet to the player
 		this.session.send(packet);
 	}
 
