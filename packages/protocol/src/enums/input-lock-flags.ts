@@ -1,4 +1,5 @@
 enum InputLockFlagsType {
+	None = 0x0,
 	Camera = 0x2,
 	Movement = 0x4
 }
