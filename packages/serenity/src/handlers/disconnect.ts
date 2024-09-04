@@ -35,7 +35,7 @@ class Disconnect extends SerenityHandler {
 		this.serenity.players.delete(player.xuid);
 
 		// Send the player left message
-		player.dimension.sendMessage(`§e${player.username} left the game.§r`);
+		player.dimension.world.sendMessage(`§e${player.username} left the game.§r`);
 
 		// Log the player left message
 		player.dimension.world.logger.info(

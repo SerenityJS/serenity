@@ -1,6 +1,7 @@
 export * from "./signal";
 export * from "./world-initialize";
 export * from "./world-tick";
+export * from "./world-message";
 export * from "./entity-spawned";
 export * from "./entity-despawned";
 export * from "./entity-teleport";
