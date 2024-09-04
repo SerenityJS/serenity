@@ -64,6 +64,7 @@ export * from "./set-local-player-as-initialized";
 export * from "./network-chunk-publisher-update";
 export * from "./biome-definition-list";
 export * from "./level-sound-event";
+export * from "./on-screen-texture-animation";
 export * from "./emote";
 export * from "./network-settings";
 export * from "./player-auth-input";

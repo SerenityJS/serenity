@@ -83,6 +83,7 @@ enum Packet {
 	BiomeDefinitionList = 0x7a, // 122
 	LevelSoundEvent = 0x7b, // 123
 	// ClientCacheStatus = 0x81, // 129
+	OnScreenTextureAnimation = 0x82, // 130
 	Emote = 0x8a, // 138
 	CompletedUsingItem = 0x8e, // 142
 	NetworkSettings = 0x8f, // 143

@@ -111,6 +111,7 @@ import { BlockEventPacket } from "./block-event";
 import { EntityPickRequestPacket } from "./entity-pick-request";
 import { HurtArmorPacket } from "./hurt-armor";
 import { UpdateClientInputLocksPacket } from "./update-client-input-locks";
+import { OnScreenTextureAnimationPacket } from "./on-screen-texture-animation";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -191,6 +192,7 @@ const Packets = {
 	[Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
 	[Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
 	[Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123
+	[Packet.OnScreenTextureAnimation]: OnScreenTextureAnimationPacket, // 130
 	[Packet.Emote]: EmotePacket, // 138
 	[Packet.CompletedUsingItem]: CompletedUsingItemPacket, // 142
 	[Packet.NetworkSettings]: NetworkSettingsPacket, // 143
