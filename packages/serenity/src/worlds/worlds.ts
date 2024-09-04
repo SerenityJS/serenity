@@ -119,9 +119,9 @@ class Worlds extends Emitter<WorldEventSignals> {
 				"worlds-default-provider"
 			);
 
-			const generator = this.serenity.properties.getValue(
-				"worlds-default-generator"
-			) || "overworld";
+			const generator =
+				this.serenity.properties.getValue("worlds-default-generator") ||
+				"overworld";
 
 			// Create the default world configuration.
 			const config: WorldConfig = {
