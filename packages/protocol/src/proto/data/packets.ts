@@ -110,6 +110,7 @@ import { RiderJumpPacket } from "./rider-jump";
 import { BlockEventPacket } from "./block-event";
 import { EntityPickRequestPacket } from "./entity-pick-request";
 import { HurtArmorPacket } from "./hurt-armor";
+import { UpdateClientInputLocksPacket } from "./update-client-input-locks";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -212,6 +213,7 @@ const Packets = {
 	[Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
 	[Packet.DeathInfo]: DeathInfoPacket, // 189
 	[Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
+	[Packet.UpdateClientInputLocks]: UpdateClientInputLocksPacket, // 196
 	[Packet.CameraPresetsPacket]: CameraPresetsPacket, // 198
 	[Packet.CameraInstructions]: CameraInstructionsPacket, // 300
 	[Packet.OpenSign]: OpenSignPacket, // 303

@@ -107,7 +107,8 @@ import type {
 	RiderJumpPacket,
 	BlockEventPacket,
 	EntityPickRequestPacket,
-	HurtArmorPacket
+	HurtArmorPacket,
+	UpdateClientInputLocksPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -262,6 +263,9 @@ interface NetworkEvents {
 	];
 	[Packet.ServerboundLoadingScreenPacket]: [
 		NetworkPacketEvent<ServerboundLoadingScreenPacketPacket>
+	];
+	[Packet.UpdateClientInputLocks]: [
+		NetworkPacketEvent<UpdateClientInputLocksPacket>
 	];
 }
 

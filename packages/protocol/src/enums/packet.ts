@@ -106,6 +106,7 @@ enum Packet {
 	UpdateAdventureSettings = 0xbc, // 188
 	DeathInfo = 0xbd, // 189
 	RequestNetworkSettings = 0xc1, // 193
+	UpdateClientInputLocks = 0xc4, // 196
 	CameraPresetsPacket = 0xc6, // 198
 	CameraInstructions = 0x1_2c, // 300
 	OpenSign = 0x1_2f, // 303
