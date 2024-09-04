@@ -34,25 +34,41 @@ class EntityAirSupplyComponent extends EntityDataComponent {
 		// If the entity isn't alive, we will skip the logic.
 		if (!this.entity.isAlive) return;
 
+		// TODO: Add enchantment check
 		const enchantmentCheck = true;
 
-		// Check if the entity is a player and if the player is in creative mode
-		if (this.entity.isPlayer() && this.entity.gamemode === Gamemode.Creative)
+		// Check if the entity is a player and if the player is in creative mode or spectator mode
+		if (
+			this.entity.isPlayer() &&
+			(this.entity.gamemode === Gamemode.Creative ||
+				this.entity.gamemode === Gamemode.Spectator)
+		)
 			return;
 
-		// ? Check if the player cannot breath
-		if (!this.canBreath()) {
-			// Set the entity to not breathing
+		const breathing = this.breathing.getCurrentValue();
+
+		// Update the breathing flag if the entity cannot breath
+		if (!this.canBreath() && breathing)
 			this.breathing.setCurrentValue(false, true);
 
-			// TODO: Add Breathing enchantment modifier
+		// Update the breathing flag if the entity can breath
+		if (this.canBreath() && !breathing)
+			this.breathing.setCurrentValue(true, true);
+
+		if (!this.canBreath()) {
+			// Check if an enchantment is preventing the entity from drowning
 			if (!enchantmentCheck) return;
-			// ? Reduce the air supply time
+
+			// Reduce the air supply time
 			this.airTicks--;
 
-			// ? -20 is when the player starts drowning
+			// Check if the entity is already drowning
 			if (this.airTicks > -20) return;
+
+			// Check if the entity is not alive
 			if (!this.entity.isAlive) return;
+
+			// Reset the air supply time
 			this.airTicks = 0;
 
 			// Get the cause of the damage
@@ -63,14 +79,18 @@ class EntityAirSupplyComponent extends EntityDataComponent {
 			this.entity.applyDamage(2, cause);
 			return;
 		}
+
 		// ? If the player can breath, and the air supply time is less than the max time, recover air time
 		if (this.airTicks < this.maxValue) {
+			// Increase the air supply time
 			this.airTicks += 5;
-			return;
-		} else if (this.airTicks >= this.maxValue)
-			this.breathing.setCurrentValue(true, true);
+		}
 	}
 
+	/**
+	 * Checks if the entity can breath.
+	 * @returns True if the entity can breath, false otherwise.
+	 */
 	public canBreath(): boolean {
 		// Check if the entity has breathable effects
 		if (

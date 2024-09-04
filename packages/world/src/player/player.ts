@@ -183,8 +183,20 @@ class Player extends Entity {
 	 * @param gamemode The gamemode to set.
 	 */
 	public setGamemode(gamemode: Gamemode): void {
+		// Get the previous gamemode of the player
+		const previous = this.gamemode;
+
 		// Set the gamemode of the player
 		this.gamemode = gamemode;
+
+		// Trigger the onGamemodeChange method fof all applicable components
+		for (const [, component] of this.components) {
+			// Check if the component is not a PlayerComponent
+			if (!(component instanceof PlayerComponent)) continue;
+
+			// Call the onGamemodeChange method of the component
+			component.onGamemodeChange?.(previous, gamemode);
+		}
 
 		// Create a new SetPlayerGameTypePacket
 		const packet = new SetPlayerGameTypePacket();
