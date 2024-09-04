@@ -48,6 +48,9 @@ worlds-default: "default"
 worlds-default-provider: "leveldb"
 # The default provider to use when creating new worlds.
 
+worlds-default-generator: "overworld"
+# The default generator to use when creating new worlds.
+
 worlds-path: "worlds"
 # The path to the worlds folder.
 
