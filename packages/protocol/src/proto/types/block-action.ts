@@ -30,8 +30,8 @@ class BlockAction extends DataType {
       value.action == ActionIds.CrackBreak || value.action == ActionIds.PredictBreak || 
       value.action == ActionIds.ContinueBreak 
     ) {
-      if(!value.position) throw new Error("Position is not defined but action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak");
-      if(!value.face) throw new Error("Face is not defined but action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak");
+      if(value.position === undefined || value.position === null) throw new Error("Position is not defined but action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak");
+      if(value.face === undefined || value.face === null) throw new Error("Face is not defined but action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak");
       stream.writeZigZag(value.position.x);
       stream.writeZigZag(value.position.y);
       stream.writeZigZag(value.position.z);
