@@ -1,5 +1,17 @@
 # @serenityjs/server-ui
 
+## 0.5.0
+
+### Minor Changes
+
+- eea5f6d: init v0.5.0-beta
+
+### Patch Changes
+
+- Updated dependencies [eea5f6d]
+  - @serenityjs/protocol@0.5.0
+  - @serenityjs/world@0.5.0
+
 ## 0.4.4
 
 ### Patch Changes
