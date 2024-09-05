@@ -763,7 +763,7 @@ class Player extends Entity {
 	 * Plays an effect animation to the player.
 	 * @param effect The effect to play.
 	 */
-	public playerEffectAnimation(effect: EffectType): void {
+	public playEffectAnimation(effect: EffectType): void {
 		// Create a new OnScreenTextureAnimationPacket
 		const packet = new OnScreenTextureAnimationPacket();
 		packet.effectId = effect;
