@@ -170,6 +170,7 @@ class Serenity {
 
 			// Iterate over all the events
 			for (const event of events) {
+				// Check for "on" event hooks
 				if (keys.includes("on" + event)) {
 					// Get the value of the event
 					const value = WorldEvent[event as keyof typeof WorldEvent];
@@ -181,6 +182,34 @@ class Serenity {
 
 					// Bind the handler to the plugin
 					this.worlds.on(value, handler.bind(this));
+				}
+
+				// Check for "before" event hooks
+				if (keys.includes("before" + event)) {
+					// Get the value of the event
+					const value = WorldEvent[event as keyof typeof WorldEvent];
+
+					// Get the handler from the plugin module
+					const handler = (plugin.module as Record<string, unknown>)[
+						"before" + event
+					] as () => boolean;
+
+					// Bind the handler to the plugin
+					this.worlds.before(value, handler.bind(this));
+				}
+
+				// Check for "after" event hooks
+				if (keys.includes("after" + event)) {
+					// Get the value of the event
+					const value = WorldEvent[event as keyof typeof WorldEvent];
+
+					// Get the handler from the plugin module
+					const handler = (plugin.module as Record<string, unknown>)[
+						"after" + event
+					] as () => void;
+
+					// Bind the handler to the plugin
+					this.worlds.after(value, handler.bind(this));
 				}
 			}
 		}
