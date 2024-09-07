@@ -85,7 +85,6 @@ export * from "./request-network-settings";
 export * from "./available-commands";
 export * from "./command-request";
 export * from "./command-output";
-export * from "./varint-array";
 export * from "./resource-pack-data-info";
 export * from "./resource-pack-chunk-data";
 export * from "./resource-pack-chunk-request";
