@@ -108,6 +108,7 @@ import type {
 	BlockEventPacket,
 	EntityPickRequestPacket,
 	HurtArmorPacket,
+	ShowCreditsPacket,
 	UpdateClientInputLocksPacket,
 	OnScreenTextureAnimationPacket
 } from "@serenityjs/protocol";
@@ -197,6 +198,7 @@ interface NetworkEvents {
 	[Packet.ResourcePackChunkData]: [
 		NetworkPacketEvent<ResourcePackChunkDataPacket>
 	];
+	[Packet.ShowCredits]: [NetworkPacketEvent<ShowCreditsPacket>];
 	[Packet.CameraPresetsPacket]: [NetworkPacketEvent<CameraPresetsPacket>];
 	[Packet.ResourcePackChunkRequest]: [
 		NetworkPacketEvent<ResourcePackChunkRequestPacket>

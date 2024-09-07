@@ -114,4 +114,6 @@ export * from "./rider-jump";
 export * from "./block-event";
 export * from "./entity-pick-request";
 export * from "./hurt-armor";
+export * from "./show-credits";
+
 export * from "./update-client-input-locks";

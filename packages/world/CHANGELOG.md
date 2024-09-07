@@ -1,5 +1,25 @@
 # @serenityjs/world
 
+## 0.5.0
+
+### Minor Changes
+
+- eea5f6d: init v0.5.0-beta
+
+### Patch Changes
+
+- Updated dependencies [eea5f6d]
+  - @serenityjs/block@0.5.0
+  - @serenityjs/command@0.5.0
+  - @serenityjs/data@0.5.0
+  - @serenityjs/emitter@0.5.0
+  - @serenityjs/entity@0.5.0
+  - @serenityjs/item@0.5.0
+  - @serenityjs/logger@0.5.0
+  - @serenityjs/nbt@0.5.0
+  - @serenityjs/network@0.5.0
+  - @serenityjs/protocol@0.5.0
+
 ## 0.4.4
 
 ### Patch Changes
