@@ -34,8 +34,8 @@ class PlayerListComponent extends PlayerComponent {
 		// We don't need this running every tick
 		if (currentTick % 20n !== 0n) return;
 
-		// Get all the players in the player's dimension
-		const players = this.player.dimension.getPlayers();
+		// Get all the players in the player's world
+		const players = this.player.dimension.world.getPlayers();
 
 		// Filter out the players that are already in the player list & if the player is spawned
 		const adding = players.filter(

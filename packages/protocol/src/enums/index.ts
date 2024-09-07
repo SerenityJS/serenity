@@ -86,3 +86,4 @@ export * from "./play-mode";
 export * from "./input-mode";
 export * from "./interaction-mode";
 export * from "./block-event-type";
+export * from "./input-lock-flags";

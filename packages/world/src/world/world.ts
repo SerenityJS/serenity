@@ -12,7 +12,7 @@ import { Commands } from "@serenityjs/command";
 // import { COMMON_COMMANDS } from "../commands";
 // import { ADMIN_COMMANDS } from "../commands/admin";
 import { Scoreboard } from "../scoreboard";
-import { WorldTickSignal } from "../events";
+import { WorldMessageSignal, WorldTickSignal } from "../events";
 import { ADMIN_COMMANDS, COMMON_COMMANDS } from "../commands";
 
 import { Dimension } from "./dimension";
@@ -239,6 +239,15 @@ class World {
 	 * @param message The message to send.
 	 */
 	public sendMessage(message: string): void {
+		// Create a new WorldMessageSignal
+		const signal = new WorldMessageSignal(this, message);
+
+		// Emit the signal and get the value
+		const value = signal.emit();
+
+		// Check if the signal was cancelled
+		if (value === false) return;
+
 		// Create a new TextPacket
 		const packet = new TextPacket();
 
@@ -246,11 +255,11 @@ class World {
 		packet.type = TextPacketType.Raw;
 		packet.needsTranslation = false;
 		packet.source = null;
-		packet.message = message;
+		packet.message = signal.message;
 		packet.parameters = null;
 		packet.xuid = "";
 		packet.platformChatId = "";
-		packet.filtered = message;
+		packet.filtered = signal.message;
 
 		// Broadcast the packet
 		this.broadcast(packet);

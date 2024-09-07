@@ -1,5 +1,11 @@
 # @serenityjs/jest-presets
 
+## 0.5.0
+
+### Minor Changes
+
+- eea5f6d: init v0.5.0-beta
+
 ## 0.4.4
 
 ### Patch Changes

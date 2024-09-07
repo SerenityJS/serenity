@@ -108,7 +108,9 @@ import type {
 	BlockEventPacket,
 	EntityPickRequestPacket,
 	HurtArmorPacket,
-	ShowCreditsPacket
+	ShowCreditsPacket,
+	UpdateClientInputLocksPacket,
+	OnScreenTextureAnimationPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -228,6 +230,9 @@ interface NetworkEvents {
 	];
 	[Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionListPacket>];
 	[Packet.LevelSoundEvent]: [NetworkPacketEvent<LevelSoundEventPacket>];
+	[Packet.OnScreenTextureAnimation]: [
+		NetworkPacketEvent<OnScreenTextureAnimationPacket>
+	];
 	[Packet.Emote]: [NetworkPacketEvent<EmotePacket>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettingsPacket>];
 	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInputPacket>];
@@ -264,6 +269,9 @@ interface NetworkEvents {
 	];
 	[Packet.ServerboundLoadingScreenPacket]: [
 		NetworkPacketEvent<ServerboundLoadingScreenPacketPacket>
+	];
+	[Packet.UpdateClientInputLocks]: [
+		NetworkPacketEvent<UpdateClientInputLocksPacket>
 	];
 }
 

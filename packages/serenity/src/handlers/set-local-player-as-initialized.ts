@@ -39,7 +39,9 @@ class SetLocalPlayerAsIntialized extends SerenityHandler {
 		player.spawn();
 
 		// Send the player joined message
-		player.dimension.sendMessage(`§e${player.username} joined the game.§r`);
+		player.dimension.world.sendMessage(
+			`§e${player.username} joined the game.§r`
+		);
 
 		// Log the player joined message
 		player.dimension.world.logger.info(

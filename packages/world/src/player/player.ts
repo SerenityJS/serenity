@@ -24,7 +24,10 @@ import {
 	TransferPacket,
 	UpdateAbilitiesPacket,
 	Vector3f,
-	AbilitySet
+	AbilitySet,
+	type EffectType,
+	OnScreenTextureAnimationPacket,
+	ToastRequestPacket
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
@@ -183,8 +186,20 @@ class Player extends Entity {
 	 * @param gamemode The gamemode to set.
 	 */
 	public setGamemode(gamemode: Gamemode): void {
+		// Get the previous gamemode of the player
+		const previous = this.gamemode;
+
 		// Set the gamemode of the player
 		this.gamemode = gamemode;
+
+		// Trigger the onGamemodeChange method fof all applicable components
+		for (const [, component] of this.components) {
+			// Check if the component is not a PlayerComponent
+			if (!(component instanceof PlayerComponent)) continue;
+
+			// Call the onGamemodeChange method of the component
+			component.onGamemodeChange?.(previous, gamemode);
+		}
 
 		// Create a new SetPlayerGameTypePacket
 		const packet = new SetPlayerGameTypePacket();
@@ -402,7 +417,6 @@ class Player extends Entity {
 
 	/**
 	 * Sends a message to the player.
-	 *
 	 * @param message The message to send.
 	 */
 	public sendMessage(message: string): void {
@@ -420,6 +434,21 @@ class Player extends Entity {
 		packet.filtered = message;
 
 		// Send the packet.
+		this.session.send(packet);
+	}
+
+	/**
+	 * Sends a toast to the player.
+	 * @param title The title of the toast.
+	 * @param message The message of the toast.
+	 */
+	public sendToast(title: string, message: string): void {
+		// Create a new ToastRequestPacket
+		const packet = new ToastRequestPacket();
+		packet.title = title;
+		packet.message = message;
+
+		// Send the packet to the player
 		this.session.send(packet);
 	}
 
@@ -728,6 +757,19 @@ class Player extends Entity {
 
 		// Send packet to player
 		this.session.send(levelEvent, actorEvent);
+	}
+
+	/**
+	 * Plays an effect animation to the player.
+	 * @param effect The effect to play.
+	 */
+	public playerEffectAnimation(effect: EffectType): void {
+		// Create a new OnScreenTextureAnimationPacket
+		const packet = new OnScreenTextureAnimationPacket();
+		packet.effectId = effect;
+
+		// Send the packet to the player
+		this.session.send(packet);
 	}
 }
 

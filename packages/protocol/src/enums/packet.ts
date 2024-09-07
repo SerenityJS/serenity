@@ -84,6 +84,7 @@ enum Packet {
 	BiomeDefinitionList = 0x7a, // 122
 	LevelSoundEvent = 0x7b, // 123
 	// ClientCacheStatus = 0x81, // 129
+	OnScreenTextureAnimation = 0x82, // 130
 	Emote = 0x8a, // 138
 	CompletedUsingItem = 0x8e, // 142
 	NetworkSettings = 0x8f, // 143
@@ -107,6 +108,7 @@ enum Packet {
 	UpdateAdventureSettings = 0xbc, // 188
 	DeathInfo = 0xbd, // 189
 	RequestNetworkSettings = 0xc1, // 193
+	UpdateClientInputLocks = 0xc4, // 196
 	CameraPresetsPacket = 0xc6, // 198
 	CameraInstructions = 0x1_2c, // 300
 	OpenSign = 0x1_2f, // 303

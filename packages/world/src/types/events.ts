@@ -27,12 +27,14 @@ import type {
 	PlayerStartSwimmingSignal,
 	PlayerStopSwimmingSignal,
 	WorldInitializeSignal,
+	WorldMessageSignal,
 	WorldTickSignal
 } from "../events";
 
 interface WorldEventSignals {
 	[WorldEvent.WorldInitialize]: [WorldInitializeSignal];
 	[WorldEvent.WorldTick]: [WorldTickSignal];
+	[WorldEvent.WorldMessage]: [WorldMessageSignal];
 	[WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
 	[WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
 	[WorldEvent.EntityTeleport]: [EntityTeleportSignal];

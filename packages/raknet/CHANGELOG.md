@@ -1,5 +1,18 @@
 # @serenityjs/raknet
 
+## 0.5.0
+
+### Minor Changes
+
+- eea5f6d: init v0.5.0-beta
+
+### Patch Changes
+
+- Updated dependencies [eea5f6d]
+  - @serenityjs/emitter@0.5.0
+  - @serenityjs/logger@0.5.0
+  - @serenityjs/nbt@0.5.0
+
 ## 0.4.4
 
 ### Patch Changes

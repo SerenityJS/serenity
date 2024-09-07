@@ -2,6 +2,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Server } from "@serenityjs/raknet";
 import { Network, type NetworkSession } from "@serenityjs/network";
 import { Plugins } from "@serenityjs/plugins";
+import { WorldEvent, type Player } from "@serenityjs/world";
 
 import { SerenityHandler, HANDLERS } from "./handlers";
 import { Properties } from "./properties";
@@ -13,7 +14,6 @@ import { Console } from "./commands";
 
 import type { DataPacket } from "@serenityjs/protocol";
 import type { DefaultServerProperties } from "./types";
-import type { Player } from "@serenityjs/world";
 
 class Serenity {
 	/**
@@ -159,6 +159,60 @@ class Serenity {
 
 		// Start the raknet instance.
 		this.raknet.start();
+
+		// Iterate over all the plugins to bind the exported event handlers
+		for (const plugin of this.plugins.getAll()) {
+			// Check if the module has the event handlers
+			const keys = Object.keys(plugin.module);
+
+			// Get all the world events
+			const events = Object.keys(WorldEvent);
+
+			// Iterate over all the events
+			for (const event of events) {
+				// Check for "on" event hooks
+				if (keys.includes("on" + event)) {
+					// Get the value of the event
+					const value = WorldEvent[event as keyof typeof WorldEvent];
+
+					// Get the handler from the plugin module
+					const handler = (plugin.module as Record<string, unknown>)[
+						"on" + event
+					] as () => void;
+
+					// Bind the handler to the plugin
+					this.worlds.on(value, handler.bind(this));
+				}
+
+				// Check for "before" event hooks
+				if (keys.includes("before" + event)) {
+					// Get the value of the event
+					const value = WorldEvent[event as keyof typeof WorldEvent];
+
+					// Get the handler from the plugin module
+					const handler = (plugin.module as Record<string, unknown>)[
+						"before" + event
+					] as () => boolean;
+
+					// Bind the handler to the plugin
+					this.worlds.before(value, handler.bind(this));
+				}
+
+				// Check for "after" event hooks
+				if (keys.includes("after" + event)) {
+					// Get the value of the event
+					const value = WorldEvent[event as keyof typeof WorldEvent];
+
+					// Get the handler from the plugin module
+					const handler = (plugin.module as Record<string, unknown>)[
+						"after" + event
+					] as () => void;
+
+					// Bind the handler to the plugin
+					this.worlds.after(value, handler.bind(this));
+				}
+			}
+		}
 
 		// Get the server tps from the properties
 		const tps = this.properties.getValue("server-tps") ?? 20;

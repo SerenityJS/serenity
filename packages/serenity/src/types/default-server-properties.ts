@@ -14,6 +14,7 @@ interface DefaultServerProperties {
 	"plugins-path": string;
 	"worlds-default": string;
 	"worlds-default-provider": string;
+	"worlds-default-generator": string;
 	"worlds-path": string;
 	"debug-logging": boolean;
 	"must-accept-packs": boolean;

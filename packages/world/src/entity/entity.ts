@@ -39,6 +39,7 @@ import {
 	EntityComponent,
 	EntityEffectsComponent,
 	EntityHealthComponent,
+	EntityIsVisibleComponent,
 	EntityNametagComponent,
 	EntityOnFireComponent,
 	EntityVariantComponent
@@ -542,13 +543,32 @@ class Entity {
 	}
 
 	/**
-	 * Set's if the entity is visible to other's
+	 * Sets the visibility of the entity.
 	 * @param visibility the value of the entity visibility
 	 */
 	public setVisibility(visibility: boolean): void {
-		const isVisibleComponent = this.getComponent("minecraft:is_visible");
-		if (isVisibleComponent.getCurrentValue() == !visibility) return;
-		isVisibleComponent.setCurrentValue(!visibility, true);
+		// Check if the entity has the visibility component
+		const component = this.hasComponent("minecraft:is_visible")
+			? this.getComponent("minecraft:is_visible")
+			: new EntityIsVisibleComponent(this);
+
+		// Set the visibility of the entity
+		component.setCurrentValue(visibility);
+	}
+
+	/**
+	 * Gets the visibility of the entity.
+	 * @returns The visibility of the entity.
+	 */
+	public getVisibility(): boolean {
+		// Check if the entity has the visibility component
+		if (!this.hasComponent("minecraft:is_visible")) return true;
+
+		// Get the visibility component
+		const component = this.getComponent("minecraft:is_visible");
+
+		// Return the current value
+		return component.getCurrentValue();
 	}
 
 	/**
@@ -820,6 +840,7 @@ class Entity {
 	 * Sets the nametag of the entity.
 	 * @note This method is dependant on the entity having a `minecraft:nametag` component, if the component does not exist it will be created.
 	 * @param nametag The nametag to set.
+	 * @param alwaysVisible Whether or not the nametag should always be visible.
 	 */
 	public setNametag(nametag: string, alwaysVisible = false): void {
 		// Check if the entity has a nametag component
@@ -878,12 +899,11 @@ class Entity {
 
 	/**
 	 * Extinguishes the entity from fire.
-	 * @note This method is dependant on the entity having a `minecraft:on_fire` component, if the component does not exist it will result in an `error`.
+	 * @note This method is dependant on the entity having a `minecraft:on_fire` component.
 	 */
 	public extinguishFire(): void {
 		// Check if the entity has an on fire
-		if (!this.hasComponent("minecraft:on_fire"))
-			throw new Error("The entity does not have an on fire component.");
+		if (!this.hasComponent("minecraft:on_fire")) return;
 
 		// Get the on fire component
 		const component = this.getComponent("minecraft:on_fire");
@@ -898,13 +918,12 @@ class Entity {
 
 	/**
 	 * Gets the variant of the entity.
-	 * @note This method is dependant on the entity having a `minecraft:variant` component, if not will result in an `error`.
+	 * @note This method is dependant on the entity having a `minecraft:variant` component.
 	 * @returns The variant of the entity.
 	 */
 	public getVariant(): number {
 		// Check if the entity has a variant component
-		if (!this.hasComponent("minecraft:variant"))
-			throw new Error("The entity does not have a variant component.");
+		if (!this.hasComponent("minecraft:variant")) return 0;
 
 		// Get the variant component
 		const variant = this.getComponent("minecraft:variant");
