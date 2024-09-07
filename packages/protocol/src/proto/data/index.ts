@@ -107,9 +107,10 @@ export * from "./camera-instructions";
 export * from "./structure-block-update";
 export * from "./dimension-data";
 export * from "./player-enchant-options";
-export * from "./client-to-server-handshake"
+export * from "./client-to-server-handshake";
 export * from "./mob-armor-equipment";
 export * from "./rider-jump";
 export * from "./block-event";
 export * from "./entity-pick-request";
 export * from "./hurt-armor";
+export * from "./show-credits";

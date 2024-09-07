@@ -107,7 +107,8 @@ import type {
 	RiderJumpPacket,
 	BlockEventPacket,
 	EntityPickRequestPacket,
-	HurtArmorPacket
+	HurtArmorPacket,
+	ShowCreditsPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -195,6 +196,7 @@ interface NetworkEvents {
 	[Packet.ResourcePackChunkData]: [
 		NetworkPacketEvent<ResourcePackChunkDataPacket>
 	];
+	[Packet.ShowCredits]: [NetworkPacketEvent<ShowCreditsPacket>];
 	[Packet.CameraPresetsPacket]: [NetworkPacketEvent<CameraPresetsPacket>];
 	[Packet.ResourcePackChunkRequest]: [
 		NetworkPacketEvent<ResourcePackChunkRequestPacket>

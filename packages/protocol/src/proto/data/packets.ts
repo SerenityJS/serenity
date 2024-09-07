@@ -110,6 +110,7 @@ import { RiderJumpPacket } from "./rider-jump";
 import { BlockEventPacket } from "./block-event";
 import { EntityPickRequestPacket } from "./entity-pick-request";
 import { HurtArmorPacket } from "./hurt-armor";
+import { ShowCreditsPacket } from "./show-credits";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -164,6 +165,7 @@ const Packets = {
 	[Packet.PlayerList]: PlayerListPacket, // 63
 	[Packet.RequestChunkRadius]: RequestChunkRadiusPacket, // 69
 	[Packet.ChunkRadiusUpdate]: ChunkRadiusUpdatePacket, // 70
+	[Packet.ShowCredits]: ShowCreditsPacket, // 75
 	[Packet.BossEvent]: BossEventPacket, // 74
 	[Packet.AvailableCommands]: AvailableCommandsPacket, // 76
 	[Packet.CommandRequest]: CommandRequestPacket, // 77
