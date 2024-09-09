@@ -9,7 +9,7 @@ These forms add a simple popup with a brief context with only 2 selection button
 <br/>
 <p align="center">
   <a href="https://github.com/SerenityJS/serenity">
-    <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/forms/message-form.png" alt="Logo">
+    <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/forms/message-form.png" alt="Logo" />
   </a>
 </p>
 
@@ -34,7 +34,7 @@ These forms also contain a title and a context area, but developers can add as m
 <br/>
 <p align="center">
   <a href="https://github.com/SerenityJS/serenity">
-    <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/forms/action-form.png" alt="Logo">
+    <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/forms/action-form.png" alt="Logo" />
   </a>
 </p>
 
@@ -72,7 +72,7 @@ These forms are the must advanced type of form. These allow developers to add el
 <br/>
 <p align="center">
   <a href="https://github.com/SerenityJS/serenity">
-    <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/forms/modal-form.png" alt="Logo">
+    <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/forms/modal-form.png" alt="Logo" />
   </a>
 </p>
 
