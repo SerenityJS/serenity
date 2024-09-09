@@ -101,7 +101,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 				type: "list",
 				name: "type",
 				message: "What type of package do you want to create?",
-				choices: ["TypeScript", "Rust"]
+				choices: ["TypeScript" /*, "Rust"*/]
 			},
 			{
 				type: "confirm",
