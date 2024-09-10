@@ -17,8 +17,7 @@
       "@serenityjs/nbt",
       "@serenityjs/plugins",
       "@serenityjs/emitter",
-      "@serenityjs/logger",
-      "@serenityjs/cli"
+      "@serenityjs/logger"
     ],
     [
       "@serenityjs/chokidar",
