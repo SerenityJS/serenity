@@ -695,28 +695,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@clack/core@npm:^0.3.3":
-  version: 0.3.4
-  resolution: "@clack/core@npm:0.3.4"
-  dependencies:
-    picocolors: "npm:^1.0.0"
-    sisteransi: "npm:^1.0.5"
-  checksum: 10c0/2531c18885da676510c339b94906e2071bce538c6ea14c36df425d99de2bdb8fe317f9795461811fc6fe233bb3e653b030a3975eb1da9997cac09dcd53f43068
-  languageName: node
-  linkType: hard
-
-"@clack/prompts@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@clack/prompts@npm:0.7.0"
-  dependencies:
-    "@clack/core": "npm:^0.3.3"
-    is-unicode-supported: "npm:*"
-    picocolors: "npm:^1.0.0"
-    sisteransi: "npm:^1.0.5"
-  checksum: 10c0/fecb3b34308c5cb75807211b28d50caa4b0c5d150d16e733e59bfba3187ac856f050ed44baeca90eb99e047671096ff54402dd2790e9c0e77845a75b04003e2e
-  languageName: node
-  linkType: hard
-
 "@commitlint/cli@npm:^19.2.1":
   version: 19.4.0
   resolution: "@commitlint/cli@npm:19.4.0"
@@ -1825,27 +1803,6 @@ __metadata:
   bin:
     chokidar: ./dist/index.js
     chokidar-cli: ./dist/index.js
-  languageName: unknown
-  linkType: soft
-
-"@serenityjs/cli@workspace:packages/cli":
-  version: 0.0.0-use.local
-  resolution: "@serenityjs/cli@workspace:packages/cli"
-  dependencies:
-    "@clack/prompts": "npm:^0.7.0"
-    "@serenityjs/eslint-config": "workspace:*"
-    "@serenityjs/jest-presets": "workspace:*"
-    "@serenityjs/typescript-config": "workspace:*"
-    "@types/jest": "npm:^29.5.12"
-    "@types/node": "npm:^20.11.24"
-    chalk: "npm:^5.3.0"
-    colorette: "npm:^2.0.20"
-    jest: "npm:^29.7.0"
-    tsup: "npm:^8.0.2"
-    typescript: "npm:^5.4.2"
-    yargs: "npm:^17.7.2"
-  bin:
-    serenity: ./dist/index.js
   languageName: unknown
   linkType: soft
 
@@ -6968,13 +6925,6 @@ __metadata:
   dependencies:
     which-typed-array: "npm:^1.1.14"
   checksum: 10c0/fa5cb97d4a80e52c2cc8ed3778e39f175a1a2ae4ddf3adae3187d69586a1fd57cfa0b095db31f66aa90331e9e3da79184cea9c6abdcd1abc722dc3c3edd51cca
-  languageName: node
-  linkType: hard
-
-"is-unicode-supported@npm:*":
-  version: 2.0.0
-  resolution: "is-unicode-supported@npm:2.0.0"
-  checksum: 10c0/3013dfb8265fe9f9a0d1e9433fc4e766595631a8d85d60876c457b4bedc066768dab1477c553d02e2f626d88a4e019162706e04263c94d74994ef636a33b5f94
   languageName: node
   linkType: hard
 

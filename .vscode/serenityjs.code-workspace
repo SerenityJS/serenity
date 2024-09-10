@@ -5,10 +5,6 @@
       "path": "../"
     },
     {
-      "name": "🖥️ Cli",
-      "path": "../packages/cli"
-    },
-    {
       "name": "📀 Serenity",
       "path": "../packages/serenity"
     },
