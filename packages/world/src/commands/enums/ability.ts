@@ -1,7 +1,9 @@
 import { CustomEnum } from "@serenityjs/command";
-import { AbilitySet } from "@serenityjs/protocol";
+import { AbilityIndex } from "@serenityjs/protocol";
 
-const identifiers = Object.values(AbilitySet);
+const identifiers = Object.values(AbilityIndex).filter(
+	(id) => typeof id === "string"
+) as Array<string>;
 
 class AbilityEnum extends CustomEnum {
 	public static readonly name = "ability";
