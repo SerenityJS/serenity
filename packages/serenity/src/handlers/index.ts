@@ -21,6 +21,7 @@ import { NpcRequest } from "./npc-request";
 import { BlockActorData } from "./block-actor-data";
 import { BookEdit } from "./book-edit";
 import { RequestChunkRadius } from "./request-chunk-radius";
+import { ServerboundDiagnostics } from "./serverbound-diagnostics";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -45,7 +46,8 @@ const HANDLERS = [
 	NpcRequest,
 	BlockActorData,
 	BookEdit,
-	RequestChunkRadius
+	RequestChunkRadius,
+	ServerboundDiagnostics
 ];
 
 export { HANDLERS };
@@ -73,3 +75,5 @@ export * from "./respawn";
 export * from "./npc-request";
 export * from "./block-actor-data";
 export * from "./book-edit";
+export * from "./request-chunk-radius";
+export * from "./serverbound-diagnostics";

@@ -37,6 +37,7 @@ import { EntitySpawnedSignal, PlayerMissSwingSignal } from "../events";
 
 import { PlayerStatus } from "./status";
 import { Device } from "./device";
+import { PlayerDiagnostic } from "./diagnostics";
 
 import type { ItemStack } from "../item";
 import type { PlayerOptions } from "./options";
@@ -83,6 +84,12 @@ class Player extends Entity {
 	 * The player's device information.
 	 */
 	public readonly device: Device;
+
+	/**
+	 * The player's diagnostics. This is used to track the player's network latency, and other diagnostic information.
+	 * This is only available when the client has `Enable Client Diagnostics` enabled in the creator settings.
+	 */
+	public readonly diagnostics = new PlayerDiagnostic();
 
 	/**
 	 * The current status of the player's connection.
