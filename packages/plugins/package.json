@@ -18,9 +18,9 @@
     "preset": "@serenityjs/jest-presets/jest/node"
   },
   "devDependencies": {
-    "@serenityjs/eslint-config": "workspace:*",
-    "@serenityjs/jest-presets": "workspace:*",
-    "@serenityjs/typescript-config": "workspace:*",
+    "@serenityjs/eslint-config": "*",
+    "@serenityjs/jest-presets": "*",
+    "@serenityjs/typescript-config": "*",
     "@types/adm-zip": "^0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.24",
@@ -29,8 +29,8 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@serenityjs/emitter": "workspace:*",
-    "@serenityjs/logger": "workspace:*",
+    "@serenityjs/emitter": "*",
+    "@serenityjs/logger": "*",
     "adm-zip": "^0.5.16"
   }
 }
