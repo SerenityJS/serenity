@@ -635,7 +635,7 @@ class LevelDBProvider extends WorldProvider {
 			const sz = dimension.spawn.z >> 4;
 
 			// Get the view distance of the dimension.
-			const viewDistance = dimension.viewDistance >> 4;
+			const viewDistance = dimension.viewDistance;
 
 			// Calculate the amount of chunks to pregenerate.
 			const amount = (viewDistance * 2 + 1) ** 2;
@@ -652,7 +652,7 @@ class LevelDBProvider extends WorldProvider {
 					const chunk = provider.readChunk(sx + x, sz + z, dimension);
 
 					// Serialize the chunk, the will cache the chunk in the provider.
-					Chunk.serialize(chunk);
+					chunk.cache = Chunk.serialize(chunk);
 
 					// Set the dirty flag to false.
 					chunk.dirty = false;

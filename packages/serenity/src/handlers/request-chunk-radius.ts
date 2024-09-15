@@ -28,7 +28,7 @@ class RequestChunkRadius extends SerenityHandler {
 		const maxViewDistance = player.dimension.viewDistance;
 
 		// Get the requested view distance
-		const viewDistance = packet.radius << 4;
+		const viewDistance = packet.radius;
 
 		// Get the player's chunk rendering component
 		const component = player.getComponent("minecraft:chunk_rendering");
@@ -37,9 +37,12 @@ class RequestChunkRadius extends SerenityHandler {
 		component.viewDistance =
 			viewDistance > maxViewDistance ? maxViewDistance : viewDistance;
 
+		// Clear the player's chunks
+		component.clear();
+
 		// Send the chunk radius updated packet
 		const update = new ChunkRadiusUpdatePacket();
-		update.radius = component.viewDistance >> 4;
+		update.radius = component.viewDistance;
 
 		// Send the update to the player
 		player.session.sendImmediate(update);

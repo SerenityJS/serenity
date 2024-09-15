@@ -490,7 +490,7 @@ class Player extends Entity {
 				const component = this.getComponent("minecraft:chunk_rendering");
 
 				// Clear the chunks
-				component.chunks.clear();
+				component.clear();
 			}
 
 			// Spawn the player in the new dimension
