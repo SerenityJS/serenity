@@ -1,2 +1,2 @@
-export * from "./named-binary-tag";
 export * from "./tags";
+export * from "./named-binary-tag";
