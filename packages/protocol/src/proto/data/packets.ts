@@ -113,6 +113,7 @@ import { HurtArmorPacket } from "./hurt-armor";
 import { ShowCreditsPacket } from "./show-credits";
 import { UpdateClientInputLocksPacket } from "./update-client-input-locks";
 import { OnScreenTextureAnimationPacket } from "./on-screen-texture-animation";
+import { ServerboundDiagnosticsPacket } from "./serverbound-diagnostics";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -225,7 +226,8 @@ const Packets = {
 	[Packet.SetHud]: SetHudPacket, // 308
 	[Packet.AwardAchievement]: AwardAchievementPacket, // 309
 	[Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310
-	[Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket // 312
+	[Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket, // 312
+	[Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket // 315
 };
 
 export { Packets };

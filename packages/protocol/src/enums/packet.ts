@@ -116,7 +116,8 @@ enum Packet {
 	SetHud = 0x1_34, // 308
 	AwardAchievement = 0x1_35, // 309
 	ClientboundCloseForm = 0x1_36, // 310
-	ServerboundLoadingScreenPacket = 0x1_38 // 312
+	ServerboundLoadingScreenPacket = 0x1_38, // 312
+	ServerboundDiagnosticPacket = 0x1_3b // 315
 }
 
 export { Packet };

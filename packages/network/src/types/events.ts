@@ -110,7 +110,8 @@ import type {
 	HurtArmorPacket,
 	ShowCreditsPacket,
 	UpdateClientInputLocksPacket,
-	OnScreenTextureAnimationPacket
+	OnScreenTextureAnimationPacket,
+	ServerboundDiagnosticsPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -272,6 +273,9 @@ interface NetworkEvents {
 	];
 	[Packet.UpdateClientInputLocks]: [
 		NetworkPacketEvent<UpdateClientInputLocksPacket>
+	];
+	[Packet.ServerboundDiagnosticPacket]: [
+		NetworkPacketEvent<ServerboundDiagnosticsPacket>
 	];
 }
 
