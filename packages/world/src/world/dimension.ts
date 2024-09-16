@@ -4,6 +4,7 @@ import {
 	type DataPacket,
 	type DimensionType,
 	type IPosition,
+	PlaySoundPacket,
 	TextPacket,
 	TextPacketType,
 	Vector3f
@@ -27,6 +28,7 @@ import {
 } from "../components";
 import { ChunkReadSignal } from "../events";
 
+import type { DimensionSoundOptions } from "../options";
 import type { DimensionBounds } from "../types";
 import type { Chunk } from "../chunk";
 import type { Items } from "@serenityjs/item";
@@ -591,6 +593,35 @@ class Dimension {
 
 		// Return the item entity
 		return entity;
+	}
+
+	/**
+	 * Plays a sound in the dimension.
+	 * @param sound The sound to play.
+	 * @param position The position to play the sound at.
+	 * @param options The options of the sound.
+	 */
+	public playSound(
+		sound: string,
+		position: BlockPosition,
+		options?: DimensionSoundOptions
+	): void {
+		// Create a new PlaySoundPacket
+		const packet = new PlaySoundPacket();
+
+		// Mojank...
+		position.x *= 8;
+		position.y *= 8;
+		position.z *= 8;
+
+		// Set the packet properties
+		packet.name = sound;
+		packet.position = position;
+		packet.volume = options?.volume ?? 1;
+		packet.pitch = options?.pitch ?? 1;
+
+		// Broadcast the packet
+		this.broadcast(packet);
 	}
 }
 
