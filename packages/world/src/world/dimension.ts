@@ -1,5 +1,5 @@
 import {
-	BlockCoordinates,
+	BlockPosition,
 	ChunkCoords,
 	type DataPacket,
 	type DimensionType,
@@ -63,7 +63,7 @@ class Dimension {
 	/**
 	 * The blocks that contain components in the dimension.
 	 */
-	public readonly blocks: Map<BlockCoordinates, Block>;
+	public readonly blocks: Map<BlockPosition, Block>;
 
 	/**
 	 * The spawn position of the dimension.
@@ -416,7 +416,7 @@ class Dimension {
 			const block = new Block(
 				this,
 				permutation,
-				new BlockCoordinates(position.x, position.y, position.z)
+				new BlockPosition(position.x, position.y, position.z)
 			);
 
 			// Register the components to the block.
@@ -455,7 +455,7 @@ class Dimension {
 
 			// If the block has components add it to the blocks
 			if (block.components.size > 0)
-				this.blocks.set(position as BlockCoordinates, block);
+				this.blocks.set(position as BlockPosition, block);
 
 			// Return the block
 			return block;

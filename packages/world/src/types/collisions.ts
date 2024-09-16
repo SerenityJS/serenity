@@ -1,6 +1,6 @@
 import type { Entity } from "../entity";
 import type {
-	BlockCoordinates,
+	BlockPosition,
 	BlockFace,
 	Vector3f
 } from "@serenityjs/protocol";
@@ -21,7 +21,7 @@ interface HitResult {
 
 interface BlockHitResult {
 	box: AABB;
-	blockPosition: BlockCoordinates;
+	blockPosition: BlockPosition;
 	position: Vector3f;
 	face: BlockFace;
 	distance: number;

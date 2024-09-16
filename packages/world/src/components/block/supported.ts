@@ -1,4 +1,4 @@
-import { BlockCoordinates, BlockFace } from "@serenityjs/protocol";
+import { BlockPosition, BlockFace } from "@serenityjs/protocol";
 import { BlockIdentifier } from "@serenityjs/block";
 
 import { BlockComponent } from "./block-component";
@@ -49,7 +49,7 @@ class BlockSupportedComponent extends BlockComponent {
 
 			// Get the position of the block
 			const position = this.block.position.add(
-				new BlockCoordinates(0.5, 0, 0.5)
+				new BlockPosition(0.5, 0, 0.5)
 			);
 
 			// Spawn the item stack entity

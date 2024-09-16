@@ -1,5 +1,5 @@
 import {
-	BlockCoordinates,
+	BlockPosition,
 	LevelSoundEvent,
 	LevelSoundEventPacket
 } from "@serenityjs/protocol";
@@ -98,7 +98,7 @@ class BlockButtonPressedBitComponent extends BlockStateComponent {
 		sound.event = pressed
 			? LevelSoundEvent.ButtonClickOn
 			: LevelSoundEvent.ButtonClickOff;
-		sound.position = BlockCoordinates.toVector3f(this.block.position);
+		sound.position = BlockPosition.toVector3f(this.block.position);
 		sound.actorIdentifier = String();
 		sound.isBabyMob = false;
 		sound.isGlobal = true;

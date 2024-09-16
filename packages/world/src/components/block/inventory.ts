@@ -1,5 +1,5 @@
 import {
-	BlockCoordinates,
+	BlockPosition,
 	BlockEventPacket,
 	BlockEventType,
 	ContainerId,
@@ -108,7 +108,7 @@ class BlockInventoryComponent extends BlockComponent {
 
 			// Create a new level sound event packet
 			const sound = new LevelSoundEventPacket();
-			sound.position = BlockCoordinates.toVector3f(this.block.position);
+			sound.position = BlockPosition.toVector3f(this.block.position);
 			sound.data = this.block.permutation.network;
 			sound.actorIdentifier = String();
 			sound.isBabyMob = false;
@@ -145,7 +145,7 @@ class BlockInventoryComponent extends BlockComponent {
 
 			// Create a new level sound event packet
 			const sound = new LevelSoundEventPacket();
-			sound.position = BlockCoordinates.toVector3f(this.block.position);
+			sound.position = BlockPosition.toVector3f(this.block.position);
 			sound.data = this.block.permutation.network;
 			sound.actorIdentifier = String();
 			sound.isBabyMob = false;

@@ -3,7 +3,7 @@ import { type ItemIdentifier, type Items, ItemType } from "@serenityjs/item";
 import { Component } from "../component";
 
 import type { CompoundTag } from "@serenityjs/nbt";
-import type { BlockCoordinates, ItemUseMethod } from "@serenityjs/protocol";
+import type { BlockPosition, ItemUseMethod } from "@serenityjs/protocol";
 import type { ItemUseCause } from "../../enums";
 import type { Player } from "../../player";
 import type { ItemStack } from "../../item";
@@ -120,7 +120,7 @@ class ItemComponent<T extends keyof Items> extends Component {
 	public onUse?(
 		player: Player,
 		cause: ItemUseCause,
-		blockPosition?: BlockCoordinates
+		blockPosition?: BlockPosition
 	): ItemUseMethod | undefined;
 
 	/**

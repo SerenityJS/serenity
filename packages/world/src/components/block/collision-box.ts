@@ -1,4 +1,4 @@
-import { BlockCoordinates, Vector3f } from "@serenityjs/protocol";
+import { BlockPosition, Vector3f } from "@serenityjs/protocol";
 import { BlockIdentifier } from "@serenityjs/block";
 
 import { AABB } from "../../collisions";
@@ -47,7 +47,7 @@ class BlockCollisionComponent extends BlockComponent {
 		for (const box of this.boxes) {
 			// Move the box to the block's position and check for intersections.
 			const movedBox = box.move(
-				BlockCoordinates.toVector3f(this.block.position)
+				BlockPosition.toVector3f(this.block.position)
 			);
 			const result = AABB.Intercept(movedBox, start, end);
 

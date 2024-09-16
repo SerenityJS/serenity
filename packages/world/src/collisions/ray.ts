@@ -1,4 +1,4 @@
-import { BlockCoordinates, Vector3f } from "@serenityjs/protocol";
+import { BlockPosition, Vector3f } from "@serenityjs/protocol";
 
 import type { Entity } from "../entity";
 import type { AABB } from "./aabb";
@@ -85,19 +85,19 @@ class Raycaster {
 	 *
 	 * @param start - The starting point of the line segment (Vector3f).
 	 * @param end - The ending point of the line segment (Vector3f).
-	 * @param condition - A function that takes BlockCoordinates and returns a boolean,
+	 * @param condition - A function that takes BlockPosition and returns a boolean,
 	 *                    defining the condition to stop traversing when met.
 	 */
 	public static transverseBlocks(
 		start: Vector3f,
 		end: Vector3f,
-		condition: (position: BlockCoordinates) => boolean
+		condition: (position: BlockPosition) => boolean
 	): void {
 		if (start.equals(end)) return; // No traversal needed if start and end are the same.
 
 		const direction = end.subtract(start);
 		const { x, y, z } = start.floor();
-		const blockPosition = new BlockCoordinates(x, y, z);
+		const blockPosition = new BlockPosition(x, y, z);
 
 		// Check if the initial block position meets the condition.
 		if (condition(blockPosition)) return;

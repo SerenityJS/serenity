@@ -1,4 +1,4 @@
-import { BlockCoordinates, ItemUseMethod } from "@serenityjs/protocol";
+import { BlockPosition, ItemUseMethod } from "@serenityjs/protocol";
 
 import { ItemUseCause } from "../../../enums";
 
@@ -30,7 +30,7 @@ class ItemSpawnEggComponent<T extends keyof Items> extends ItemTagComponent<T> {
 	public onUse(
 		player: Player,
 		cause: ItemUseCause,
-		blockPosition: BlockCoordinates
+		blockPosition: BlockPosition
 	): ItemUseMethod | undefined {
 		// Check if the spawn egg is being used in the correct context.
 		if (cause !== ItemUseCause.Place) return;
@@ -46,7 +46,7 @@ class ItemSpawnEggComponent<T extends keyof Items> extends ItemTagComponent<T> {
 			) as EntityIdentifier;
 
 			// Convert the block position to a vector.
-			const position = BlockCoordinates.toVector3f(blockPosition);
+			const position = BlockPosition.toVector3f(blockPosition);
 
 			// Add 1 to the y position to prevent the entity from spawning inside the block.
 			position.x += 0.5;

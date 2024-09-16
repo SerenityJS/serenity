@@ -7,7 +7,7 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 
 // This is a perfect example that Mojank has no idea what they are doing...
 
-class BlockCoordinates extends DataType implements IPosition {
+class BlockPosition extends DataType implements IPosition {
 	public x: number;
 	public y: number;
 	public z: number;
@@ -23,36 +23,36 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * Rounds the coordinates of the 3D position to the nearest whole number.
 	 * @returns
 	 */
-	public round(): BlockCoordinates {
+	public round(): BlockPosition {
 		const x = Math.round(this.x);
 		const y = Math.round(this.y);
 		const z = Math.round(this.z);
 
-		return new BlockCoordinates(x, y, z);
+		return new BlockPosition(x, y, z);
 	}
 
 	/**
 	 * Ceils the coordinates of the 3D position.
 	 * @returns The 3D position with the coordinates ceiled.
 	 */
-	public ceil(): BlockCoordinates {
+	public ceil(): BlockPosition {
 		const x = Math.ceil(this.x);
 		const y = Math.ceil(this.y);
 		const z = Math.ceil(this.z);
 
-		return new BlockCoordinates(x, y, z);
+		return new BlockPosition(x, y, z);
 	}
 
 	/**
 	 * Floors the coordinates of the 3D position.
 	 * @returns The 3D position with the coordinates floored.
 	 */
-	public floor(): BlockCoordinates {
+	public floor(): BlockPosition {
 		const x = Math.floor(this.x);
 		const y = Math.floor(this.y);
 		const z = Math.floor(this.z);
 
-		return new BlockCoordinates(x, y, z);
+		return new BlockPosition(x, y, z);
 	}
 
 	/**
@@ -60,8 +60,8 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param other The other 3D position to add.
 	 * @returns The result of the addition.
 	 */
-	public add(other: BlockCoordinates): BlockCoordinates {
-		return new BlockCoordinates(
+	public add(other: BlockPosition): BlockPosition {
+		return new BlockPosition(
 			this.x + other.x,
 			this.y + other.y,
 			this.z + other.z
@@ -73,8 +73,8 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param other The other 3D position to subtract.
 	 * @returns The result of the subtraction.
 	 */
-	public subtract(other: BlockCoordinates): BlockCoordinates {
-		return new BlockCoordinates(
+	public subtract(other: BlockPosition): BlockPosition {
+		return new BlockPosition(
 			this.x - other.x,
 			this.y - other.y,
 			this.z - other.z
@@ -86,12 +86,8 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param scalar The scalar to multiply with.
 	 * @returns The result of the multiplication.
 	 */
-	public multiply(scalar: number): BlockCoordinates {
-		return new BlockCoordinates(
-			this.x * scalar,
-			this.y * scalar,
-			this.z * scalar
-		);
+	public multiply(scalar: number): BlockPosition {
+		return new BlockPosition(this.x * scalar, this.y * scalar, this.z * scalar);
 	}
 
 	/**
@@ -99,12 +95,8 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param scalar The scalar to divide with.
 	 * @returns The result of the division.
 	 */
-	public divide(scalar: number): BlockCoordinates {
-		return new BlockCoordinates(
-			this.x / scalar,
-			this.y / scalar,
-			this.z / scalar
-		);
+	public divide(scalar: number): BlockPosition {
+		return new BlockPosition(this.x / scalar, this.y / scalar, this.z / scalar);
 	}
 
 	/**
@@ -112,7 +104,7 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param other The other 3D position to calculate the dot product with.
 	 * @returns The result of the dot product.
 	 */
-	public dot(other: BlockCoordinates): number {
+	public dot(other: BlockPosition): number {
 		return this.x * other.x + this.y * other.y + this.z * other.z;
 	}
 
@@ -121,12 +113,12 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param other The other 3D position to calculate the cross product with.
 	 * @returns The result of the cross product.
 	 */
-	public cross(other: BlockCoordinates): BlockCoordinates {
+	public cross(other: BlockPosition): BlockPosition {
 		const x = this.y * other.z - this.z * other.y;
 		const y = this.z * other.x - this.x * other.z;
 		const z = this.x * other.y - this.y * other.x;
 
-		return new BlockCoordinates(x, y, z);
+		return new BlockPosition(x, y, z);
 	}
 
 	/**
@@ -149,13 +141,9 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * Normalizes this 3D position.
 	 * @returns The normalized 3D position.
 	 */
-	public normalize(): BlockCoordinates {
+	public normalize(): BlockPosition {
 		const length = this.length();
-		return new BlockCoordinates(
-			this.x / length,
-			this.y / length,
-			this.z / length
-		);
+		return new BlockPosition(this.x / length, this.y / length, this.z / length);
 	}
 
 	/**
@@ -164,8 +152,8 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param t The interpolation factor.
 	 * @returns The interpolated 3D position.
 	 */
-	public lerp(other: BlockCoordinates, t: number): BlockCoordinates {
-		return new BlockCoordinates(
+	public lerp(other: BlockPosition, t: number): BlockPosition {
+		return new BlockPosition(
 			this.x + (other.x - this.x) * t,
 			this.y + (other.y - this.y) * t,
 			this.z + (other.z - this.z) * t
@@ -178,7 +166,7 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param t The interpolation factor.
 	 * @returns The interpolated 3D position.
 	 */
-	public slerp(other: BlockCoordinates, t: number): BlockCoordinates {
+	public slerp(other: BlockPosition, t: number): BlockPosition {
 		const dot = this.dot(other);
 		const theta = Math.acos(dot);
 		const sinTheta = Math.sin(theta);
@@ -193,7 +181,7 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * Returns a string representation of this 3D position.
 	 * @returns The string representation of this 3D position.
 	 */
-	public equals(other: BlockCoordinates): boolean {
+	public equals(other: BlockPosition): boolean {
 		return this.x === other.x && this.y === other.y && this.z === other.z;
 	}
 
@@ -202,7 +190,7 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * @param other The other 3D position to get the distance to.
 	 * @returns The distance between the 3D positions.
 	 */
-	public distance(other: BlockCoordinates): number {
+	public distance(other: BlockPosition): number {
 		return Math.hypot(this.x - other.x, this.y - other.y, this.z - other.z);
 	}
 
@@ -210,15 +198,15 @@ class BlockCoordinates extends DataType implements IPosition {
 	 * Computes the absolute value of each coordinate of the 3D vector.
 	 * @returnsthe absolute value of this 3D vector.
 	 */
-	public absolute(): BlockCoordinates {
-		return new BlockCoordinates(
+	public absolute(): BlockPosition {
+		return new BlockPosition(
 			Math.abs(this.x),
 			Math.abs(this.y),
 			Math.abs(this.z)
 		);
 	}
 
-	public static read(stream: BinaryStream): BlockCoordinates {
+	public static read(stream: BinaryStream): BlockPosition {
 		// Reads a x, y, z float from the stream
 		const x = stream.readZigZag();
 		let y = stream.readVarInt(); // WHY MOJANK
@@ -229,10 +217,10 @@ class BlockCoordinates extends DataType implements IPosition {
 		y = 4_294_967_295 - 64 >= y ? y : y - 4_294_967_296;
 
 		// Returns the x, y, z float
-		return new BlockCoordinates(x, y, z);
+		return new BlockPosition(x, y, z);
 	}
 
-	public static write(stream: BinaryStream, value: BlockCoordinates): void {
+	public static write(stream: BinaryStream, value: BlockPosition): void {
 		// Converts the y value to an unsigned value
 		const y = value.y < 0 ? 4_294_967_296 + value.y : value.y;
 
@@ -243,12 +231,12 @@ class BlockCoordinates extends DataType implements IPosition {
 	}
 
 	/**
-	 * Converts a BlockCoordinates to a BlockCoordinates
-	 * @param position - The BlockCoordinates to convert
-	 * @returns The converted BlockCoordinates
+	 * Converts a BlockPosition to a BlockPosition
+	 * @param position - The BlockPosition to convert
+	 * @returns The converted BlockPosition
 	 */
-	public static fromVector3f(position: Vector3f): BlockCoordinates {
-		return new BlockCoordinates(
+	public static fromVector3f(position: Vector3f): BlockPosition {
+		return new BlockPosition(
 			Math.floor(position.x),
 			Math.floor(position.y),
 			Math.floor(position.z)
@@ -256,12 +244,12 @@ class BlockCoordinates extends DataType implements IPosition {
 	}
 
 	/**
-	 * Converts the BlockCoordinates to a BlockCoordinates
-	 * @returns The converted BlockCoordinates
+	 * Converts the BlockPosition to a BlockPosition
+	 * @returns The converted BlockPosition
 	 */
-	public static toVector3f(coordinates: BlockCoordinates): Vector3f {
+	public static toVector3f(coordinates: BlockPosition): Vector3f {
 		return new Vector3f(coordinates.x, coordinates.y, coordinates.z);
 	}
 }
 
-export { BlockCoordinates };
+export { BlockPosition };

@@ -4,7 +4,7 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import { type ActorDataId, ActorDataType } from "../../enums";
 
-import { BlockCoordinates } from "./block-coordinates";
+import { BlockPosition } from "./block-position";
 import { Vector3f } from "./vector3f";
 
 class DataItem<T = unknown> extends DataType {
@@ -86,7 +86,7 @@ class DataItem<T = unknown> extends DataType {
 				}
 
 				case ActorDataType.BlockPos: {
-					value = BlockCoordinates.read(stream);
+					value = BlockPosition.read(stream);
 					break;
 				}
 
@@ -157,7 +157,7 @@ class DataItem<T = unknown> extends DataType {
 				}
 
 				case ActorDataType.BlockPos: {
-					BlockCoordinates.write(stream, item.value as BlockCoordinates);
+					BlockPosition.write(stream, item.value as BlockPosition);
 					break;
 				}
 

@@ -3,7 +3,7 @@ import {
 	AbilityLayerType,
 	ActorEventIds,
 	ActorEventPacket,
-	type BlockCoordinates,
+	type BlockPosition,
 	ChangeDimensionPacket,
 	ContainerName,
 	Gamemode,
@@ -114,12 +114,12 @@ class Player extends Entity {
 	/**
 	 * The target block the player is currently mining.
 	 */
-	public target: BlockCoordinates | null = null;
+	public target: BlockPosition | null = null;
 
 	/**
 	 * The player spawn position
 	 */
-	public spawnPosition: BlockCoordinates = this.dimension.spawn;
+	public spawnPosition: BlockPosition = this.dimension.spawn;
 
 	/**
 	 * @readonly

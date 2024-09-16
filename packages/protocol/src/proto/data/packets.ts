@@ -114,6 +114,7 @@ import { ShowCreditsPacket } from "./show-credits";
 import { UpdateClientInputLocksPacket } from "./update-client-input-locks";
 import { OnScreenTextureAnimationPacket } from "./on-screen-texture-animation";
 import { ServerboundDiagnosticsPacket } from "./serverbound-diagnostics";
+import { PlaySoundPacket } from "./play-sound";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -177,6 +178,7 @@ const Packets = {
 	[Packet.ResourcePackChunkData]: ResourcePackChunkDataPacket, // 83
 	[Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
 	[Packet.Transfer]: TransferPacket, // 85
+	[Packet.PlaySound]: PlaySoundPacket, // 86
 	[Packet.SetTitle]: SetTitlePacket, // 88
 	[Packet.StructureBlockUpdate]: StructureBlockUpdatePacket, // 90
 	[Packet.PlayerSkin]: PlayerSkinPacket, // 93

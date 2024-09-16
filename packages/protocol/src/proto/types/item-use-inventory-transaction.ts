@@ -1,6 +1,6 @@
 import { DataType } from "@serenityjs/raknet";
 
-import { BlockCoordinates } from "./block-coordinates";
+import { BlockPosition } from "./block-position";
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 import { Vector3f } from "./vector3f";
 
@@ -28,7 +28,7 @@ class ItemUseInventoryTransaction extends DataType {
 	/**
 	 * The block position of the item use inventory transaction.
 	 */
-	public readonly blockPosition: BlockCoordinates;
+	public readonly blockPosition: BlockPosition;
 
 	/**
 	 * The block face of the item use inventory transaction.
@@ -82,7 +82,7 @@ class ItemUseInventoryTransaction extends DataType {
 	public constructor(
 		type: ItemUseInventoryTransactionType,
 		triggerType: TriggerType,
-		blockPosition: BlockCoordinates,
+		blockPosition: BlockPosition,
 		face: BlockFace,
 		slot: number,
 		item: NetworkItemStackDescriptor,
@@ -112,7 +112,7 @@ class ItemUseInventoryTransaction extends DataType {
 		const triggerType = stream.readVarInt() as TriggerType;
 
 		// Read the block position of the item use inventory transaction
-		const blockPosition = BlockCoordinates.read(stream);
+		const blockPosition = BlockPosition.read(stream);
 
 		// Read the face of the item use inventory transaction
 		const face = stream.readZigZag();
@@ -161,7 +161,7 @@ class ItemUseInventoryTransaction extends DataType {
 		stream.writeVarInt(value.triggerType);
 
 		// Write the block position of the item use inventory transaction
-		BlockCoordinates.write(stream, value.blockPosition);
+		BlockPosition.write(stream, value.blockPosition);
 
 		// Write the face of the item use inventory transaction
 		stream.writeZigZag(value.face);

@@ -1,6 +1,6 @@
 import { DataType } from "@serenityjs/raknet";
 
-import { BlockCoordinates } from "./block-coordinates";
+import { BlockPosition } from "./block-position";
 import { Vector3f } from "./vector3f";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
@@ -10,8 +10,8 @@ class StructureSettings extends DataType {
 	public ignoreEntities: boolean;
 	public ignoreBlocks: boolean;
 	public allowNonTicking: boolean;
-	public size: BlockCoordinates;
-	public offset: BlockCoordinates;
+	public size: BlockPosition;
+	public offset: BlockPosition;
 	public lastEdit: bigint;
 	public rotation: number;
 	public mirror: number;
@@ -26,8 +26,8 @@ class StructureSettings extends DataType {
 		ignoreEntities: boolean,
 		ignoreBlocks: boolean,
 		allowNonTicking: boolean,
-		size: BlockCoordinates,
-		offset: BlockCoordinates,
+		size: BlockPosition,
+		offset: BlockPosition,
 		lastEdit: bigint,
 		rotation: number,
 		mirror: number,
@@ -59,8 +59,8 @@ class StructureSettings extends DataType {
 		stream.writeBool(value.ignoreBlocks);
 		stream.writeBool(value.ignoreEntities);
 		stream.writeBool(value.allowNonTicking);
-		BlockCoordinates.write(stream, value.size);
-		BlockCoordinates.write(stream, value.offset);
+		BlockPosition.write(stream, value.size);
+		BlockPosition.write(stream, value.offset);
 		stream.writeZigZong(value.lastEdit);
 		stream.writeByte(value.animationMode);
 		stream.writeFloat32(value.animationSeconds);
@@ -75,8 +75,8 @@ class StructureSettings extends DataType {
 			stream.readBool(), // ? Ignore entities
 			stream.readBool(), // ? Ignore Blocks
 			stream.readBool(), // ? Allow non tick
-			BlockCoordinates.read(stream), // ? Size
-			BlockCoordinates.read(stream), // ? Offset
+			BlockPosition.read(stream), // ? Size
+			BlockPosition.read(stream), // ? Offset
 			stream.readZigZong(), // ? Last Edit Unique ID
 			stream.readByte(), // ? Rotation
 			stream.readByte(), // ? Mirror

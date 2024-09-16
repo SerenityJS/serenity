@@ -19,7 +19,7 @@ import { Proto, Serialize } from "@serenityjs/raknet";
 import { Difficulty, Gamemode, Packet, PermissionLevel } from "../../enums";
 import {
 	Vector3f,
-	BlockCoordinates,
+	BlockPosition,
 	GameRules,
 	Experiments,
 	BlockProperties,
@@ -44,7 +44,7 @@ class StartGamePacket extends DataPacket {
 	@Serialize(ZigZag) public worldGamemode!: Gamemode;
 	@Serialize(Bool) public hardcore!: boolean;
 	@Serialize(ZigZag) public difficulty!: Difficulty;
-	@Serialize(BlockCoordinates) public spawnPosition!: BlockCoordinates;
+	@Serialize(BlockPosition) public spawnPosition!: BlockPosition;
 	@Serialize(Bool) public achievementsDisabled!: boolean;
 	@Serialize(ZigZag) public editorWorldType!: number;
 	@Serialize(Bool) public createdInEdior!: boolean;

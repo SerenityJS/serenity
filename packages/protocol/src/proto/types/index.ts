@@ -7,7 +7,7 @@ export * from "./resource-id-versions";
 export * from "./experiments";
 export * from "./vector3f";
 export * from "./vector2f";
-export * from "./block-coordinates";
+export * from "./block-position";
 export * from "./game-rules";
 export * from "./block-properties";
 export * from "./item-data";
@@ -113,4 +113,4 @@ export * from "./actor-data";
 export * from "./client-predicted-vehicle";
 export * from "./input-transaction";
 export * from "./player-auth-input-data";
-export * from "./block-action"
+export * from "./block-action";

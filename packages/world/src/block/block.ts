@@ -1,6 +1,6 @@
 import {
 	BlockActorDataPacket,
-	BlockCoordinates,
+	BlockPosition,
 	BlockFace,
 	LevelSoundEvent,
 	LevelSoundEventPacket,
@@ -52,7 +52,7 @@ class Block {
 	/**
 	 * The position of the block.
 	 */
-	public readonly position: BlockCoordinates;
+	public readonly position: BlockPosition;
 
 	/**
 	 * The components of the block.
@@ -78,7 +78,7 @@ class Block {
 	public constructor(
 		dimension: Dimension,
 		permutation: BlockPermutation,
-		position: BlockCoordinates
+		position: BlockPosition
 	) {
 		this.dimension = dimension;
 		this.permutation = permutation;
@@ -746,7 +746,7 @@ class Block {
 	 * Gets the hash of the block.
 	 * @param coordinates The coordinates of the block.
 	 */
-	public static getHash(coordinates: BlockCoordinates): bigint {
+	public static getHash(coordinates: BlockPosition): bigint {
 		return (
 			((BigInt(coordinates.x) & 0xff_ff_ff_ffn) << 32n) |
 			(BigInt(coordinates.z) & 0xff_ff_ff_ffn) |
@@ -810,7 +810,7 @@ class Block {
 		const z = nbt.getTag("z")?.value as number;
 
 		// Create a new block position.
-		const position = new BlockCoordinates(x, y, z);
+		const position = new BlockPosition(x, y, z);
 
 		// Create a new block.
 		const block = new Block(dimension, permutation, position);

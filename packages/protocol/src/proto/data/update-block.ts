@@ -6,13 +6,13 @@ import {
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType
 } from "../../enums";
-import { BlockCoordinates } from "../types";
+import { BlockPosition } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.UpdateBlock)
 class UpdateBlockPacket extends DataPacket {
-	@Serialize(BlockCoordinates) public position!: BlockCoordinates;
+	@Serialize(BlockPosition) public position!: BlockPosition;
 	@Serialize(VarInt) public networkBlockId!: number;
 	@Serialize(VarInt) public flags!: UpdateBlockFlagsType;
 	@Serialize(VarInt) public layer!: UpdateBlockLayerType;
