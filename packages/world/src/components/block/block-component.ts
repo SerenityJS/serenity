@@ -125,6 +125,12 @@ class BlockComponent extends Component {
 	 */
 	public onInteract?(player: Player): void;
 
+	/**
+	 * Called when a player picks the block.
+	 * @param player The player that picked the block.
+	 */
+	public onPick?(player: Player): void;
+
 	public static bind(): void {
 		// Bind the component to the block types.
 		for (const identifier of this.types) {

@@ -16,6 +16,12 @@ export class BlockPick extends SerenityHandler {
 		const player = this.serenity.getPlayer(session);
 		if (!player) return;
 
+		// Get the block from the packet
+		const block = player.dimension.getBlock(packet);
+
+		// Call the onPick methods on the block components
+		for (const component of block.getComponents()) component.onPick?.(player);
+
 		// Check if the player is in creative mode
 		if (player.gamemode === Gamemode.Creative) {
 			// Get the players inventory component
@@ -23,9 +29,6 @@ export class BlockPick extends SerenityHandler {
 
 			// Get current hotbar slot selected
 			const selectedSlot = inventory.selectedSlot;
-
-			// Get the selected block in x, y, z
-			const block = player.dimension.getBlock(packet);
 
 			// Check if the block is not air
 			if (!block.isAir()) {
