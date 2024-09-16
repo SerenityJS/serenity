@@ -3,7 +3,7 @@ import {
 	AbilityLayerType,
 	ActorEventIds,
 	ActorEventPacket,
-	type BlockPosition,
+	BlockPosition,
 	ChangeDimensionPacket,
 	ContainerName,
 	Gamemode,
@@ -27,7 +27,8 @@ import {
 	AbilitySet,
 	type EffectType,
 	OnScreenTextureAnimationPacket,
-	ToastRequestPacket
+	ToastRequestPacket,
+	PlaySoundPacket
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
@@ -39,6 +40,7 @@ import { PlayerStatus } from "./status";
 import { Device } from "./device";
 import { PlayerDiagnostic } from "./diagnostics";
 
+import type { PlayerSoundOptions } from "../options";
 import type { ItemStack } from "../item";
 import type { PlayerOptions } from "./options";
 import type { Container } from "../container";
@@ -774,6 +776,40 @@ class Player extends Entity {
 		// Create a new OnScreenTextureAnimationPacket
 		const packet = new OnScreenTextureAnimationPacket();
 		packet.effectId = effect;
+
+		// Send the packet to the player
+		this.session.send(packet);
+	}
+
+	/**
+	 * Plays a sound to the player.
+	 * @param sound The sound to play.
+	 * @param options The options to play the sound with.
+	 */
+	public playSound(sound: string, options?: PlayerSoundOptions): void {
+		// Create a new PlaySoundPacket
+		const packet = new PlaySoundPacket();
+
+		// Convert the player's position to a BlockPosition
+		const position = BlockPosition.fromVector3f(this.position.floor());
+
+		// Check if the options are provided
+		if (options?.position) {
+			position.x = Math.floor(options.position.x);
+			position.y = Math.floor(options.position.y);
+			position.z = Math.floor(options.position.z);
+		}
+
+		// Mojank...
+		position.x *= 8;
+		position.y *= 8;
+		position.z *= 8;
+
+		// Set the packet properties
+		packet.name = sound;
+		packet.position = position;
+		packet.volume = options?.volume ?? 1;
+		packet.pitch = options?.pitch ?? 1;
 
 		// Send the packet to the player
 		this.session.send(packet);
