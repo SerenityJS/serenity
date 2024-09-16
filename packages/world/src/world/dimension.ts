@@ -128,7 +128,7 @@ class Dimension {
 			// Check if there is a player within the simulation distance to tick the entity
 			const inSimulationRange = positions.some((position) => {
 				const distance = position.distance(entity.position);
-				return distance <= this.simulationDistance;
+				return distance <= this.simulationDistance << 4;
 			});
 
 			// Tick the entity if it is in simulation range
