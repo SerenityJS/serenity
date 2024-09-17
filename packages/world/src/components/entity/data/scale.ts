@@ -28,6 +28,28 @@ class EntityScaleComponent extends EntityDataComponent {
 		// Set the entity to have a custom scale
 		this.setCurrentValue(this.defaultValue, false);
 	}
+
+	public setCurrentValue(value: number, sync?: boolean): void {
+		// Get the entity collision height and width
+		const entityHeight = this.entity.getComponent(
+			"minecraft:boundingbox_height"
+		);
+		const entityWidth = this.entity.getComponent("minecraft:boundingbox_width");
+
+		// Recalculate the collision size
+		if (entityHeight)
+			entityHeight.setCurrentValue(
+				(entityHeight.getCurrentValue() as number) * value
+			);
+
+		if (entityWidth)
+			entityWidth.setCurrentValue(
+				(entityWidth.getCurrentValue() as number) * value
+			);
+
+		// Continue with the base method
+		super.setCurrentValue(value, sync);
+	}
 }
 
 export { EntityScaleComponent };
