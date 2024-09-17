@@ -184,7 +184,7 @@ class Entity {
 		// Readonly properties
 		this.type = EntityType.get(identifier) as EntityType;
 		this.runtime = Entity.runtime++;
-		this.unique = uniqueId ?? BigInt(-Date.now() >> 4) + this.runtime;
+		this.unique = uniqueId ?? BigInt(Math.abs(Date.now() >> 4)) + this.runtime;
 
 		// Mutable properties
 		this.dimension = dimension;
