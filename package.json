@@ -56,6 +56,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.27.1"
+    "@changesets/cli": "^2.27.1",
+    "fastnoise-lite": "^1.1.1"
   }
 }

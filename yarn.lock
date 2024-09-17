@@ -5756,6 +5756,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastnoise-lite@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "fastnoise-lite@npm:1.1.1"
+  checksum: 10c0/393aa84ea403f62162bf4792aa6b9919c9aed0ac77dddbcb5bc3efe3670eb4cb39d39a30ba8b356e85eef163f25d80dc5bd276f605f7f7d1309de8972deb2de0
+  languageName: node
+  linkType: hard
+
 "fastq@npm:^1.6.0":
   version: 1.17.1
   resolution: "fastq@npm:1.17.1"
@@ -10018,6 +10025,7 @@ __metadata:
     cross-spawn: "npm:^7.0.3"
     debug: "npm:^4.3.5"
     eslint: "npm:^8.57.0"
+    fastnoise-lite: "npm:^1.1.1"
     husky: "npm:^9.0.11"
     json5: "npm:^2.2.3"
     pinst: "npm:^3.0.0"
