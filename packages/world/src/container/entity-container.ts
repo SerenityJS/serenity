@@ -2,6 +2,7 @@ import {
 	type ContainerId,
 	ContainerOpenPacket,
 	type ContainerType,
+	FullContainerName,
 	InventoryContentPacket,
 	InventorySlotPacket,
 	NetworkItemStackDescriptor
@@ -75,9 +76,10 @@ class EntityContainer extends Container {
 
 		// Set properties of the packet.
 		packet.containerId = this.identifier;
-		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
 		packet.slot = slot;
 		packet.item = ItemStack.toNetworkStack(item);
+		packet.fullContainerName = new FullContainerName(0, 0);
+		packet.dynamicContainerSize = this.size;
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
@@ -253,9 +255,10 @@ class EntityContainer extends Container {
 
 		// Set properties of the packet.
 		packet.containerId = this.identifier;
-		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
 		packet.slot = slot;
 		packet.item = new NetworkItemStackDescriptor(0);
+		packet.fullContainerName = new FullContainerName(0, 0);
+		packet.dynamicContainerSize = this.size;
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
@@ -280,7 +283,8 @@ class EntityContainer extends Container {
 
 		// Set the properties of the packet.
 		packet.containerId = this.identifier;
-		packet.dynamicContainerId = 0; // TODO: Implement dynamic containers.
+		packet.fullContainerName = new FullContainerName(0, 0);
+		packet.dynamicContainerSize = this.size;
 
 		// Map the items in the storage to network item stack descriptors.
 		packet.items = this.storage.map((item) => {

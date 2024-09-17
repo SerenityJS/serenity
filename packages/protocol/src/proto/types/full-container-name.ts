@@ -12,14 +12,14 @@ class FullContainerName extends DataType {
 	/**
 	 * The identifier of the container, if it is dynamic.
 	 */
-	public readonly dynamicIdentifier: number;
+	public readonly dynamicIdentifier?: number;
 
 	/**
 	 * Creates a new instance of FullContainerName.
 	 * @param identifier - The identifier of the container.
 	 * @param dynamicIdentifier - The identifier of the container, if it is dynamic.
 	 */
-	public constructor(identifier: ContainerName, dynamicIdentifier: number) {
+	public constructor(identifier: ContainerName, dynamicIdentifier?: number) {
 		super();
 		this.identifier = identifier;
 		this.dynamicIdentifier = dynamicIdentifier;
@@ -29,8 +29,13 @@ class FullContainerName extends DataType {
 		// Read the identifier.
 		const identifier = stream.readUint8();
 
-		// Read the dynamic identifier.
-		const dynamicIdentifier = stream.readUint32(Endianness.Little);
+		// Read a bool indicating if the identifier is dynamic.
+		const isDynamic = stream.readBool();
+
+		// If the identifier is dynamic, read the dynamic identifier.
+		const dynamicIdentifier = isDynamic
+			? stream.readUint32(Endianness.Little)
+			: undefined;
 
 		// Return the full container name.
 		return new FullContainerName(identifier, dynamicIdentifier);
@@ -40,8 +45,16 @@ class FullContainerName extends DataType {
 		// Write the identifier.
 		stream.writeUint8(value.identifier);
 
-		// Write the dynamic identifier.
-		stream.writeUint32(value.dynamicIdentifier, Endianness.Little);
+		if (value.dynamicIdentifier) {
+			// Write a bool indicating that the identifier is dynamic.
+			stream.writeBool(true);
+
+			// Write the dynamic identifier.
+			stream.writeUint32(value.dynamicIdentifier, Endianness.Little);
+		} else {
+			// Write a bool indicating that the identifier is not dynamic.
+			stream.writeBool(false);
+		}
 	}
 }
 

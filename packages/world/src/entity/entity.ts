@@ -661,12 +661,14 @@ class Entity {
 		sync = true
 	): Attribute {
 		const attribute = new Attribute(
-			value,
-			defaultValue,
-			maxValue,
 			minValue,
-			[],
-			name
+			maxValue,
+			value,
+			-Infinity,
+			Infinity,
+			defaultValue,
+			name,
+			[]
 		);
 
 		this.addAttribute(attribute, sync);

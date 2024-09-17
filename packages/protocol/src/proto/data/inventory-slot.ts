@@ -2,7 +2,7 @@ import { VarInt } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet, ContainerId } from "../../enums";
-import { NetworkItemStackDescriptor } from "../types";
+import { FullContainerName, NetworkItemStackDescriptor } from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -10,7 +10,8 @@ import { DataPacket } from "./data-packet";
 class InventorySlotPacket extends DataPacket {
 	@Serialize(VarInt) public containerId!: ContainerId;
 	@Serialize(VarInt) public slot!: number;
-	@Serialize(VarInt) public dynamicContainerId!: number;
+	@Serialize(FullContainerName) public fullContainerName!: FullContainerName;
+	@Serialize(VarInt) public dynamicContainerSize!: number;
 	@Serialize(NetworkItemStackDescriptor)
 	public item!: NetworkItemStackDescriptor;
 }

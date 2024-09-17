@@ -127,11 +127,7 @@ class Login extends SerenityHandler {
 
 		packs.hasAddons = false;
 		packs.hasScripts = false;
-		packs.behaviorPacks = [];
-
-		packs.forceServerPacks = false; // What this does is unknown.
-
-		packs.texturePacks = [];
+		packs.packs = [];
 		for (const pack of this.serenity.resourcePacks.getPacks()) {
 			const packInfo = new TexturePackInfo(
 				pack.uuid,
@@ -145,7 +141,7 @@ class Login extends SerenityHandler {
 				false
 			);
 
-			packs.texturePacks.push(packInfo);
+			packs.packs.push(packInfo);
 		}
 
 		packs.links = []; // TODO: CDN links (can these be provided alongside?)
