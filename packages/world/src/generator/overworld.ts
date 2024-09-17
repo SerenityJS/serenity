@@ -1,8 +1,6 @@
 import { createNoise2D, type NoiseFunction2D } from "simplex-noise";
 import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
-
 //@ts-expect-error No Types but we are propably going to creaate ones one day
-
 import fastnoise from "fastnoise-lite";
 
 import { Chunk } from "../chunk";

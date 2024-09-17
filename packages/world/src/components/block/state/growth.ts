@@ -1,5 +1,9 @@
+import { ItemIdentifier } from "@serenityjs/item";
+import { Gamemode, LevelEvent, LevelEventPacket } from "@serenityjs/protocol";
+
 import { BlockStateComponent } from "./state";
 
+import type { Player } from "../../../player";
 import type { Block } from "../../../block";
 
 class BlockGrowthComponent extends BlockStateComponent {
@@ -61,11 +65,11 @@ class BlockGrowthComponent extends BlockStateComponent {
 		// And if the stage is greater than or equal to 7
 		if (currentTick % 20n !== 0n || this.stage >= 7) return;
 
-		// Geneate a random number between 0 and 100
+		// Random growth has a probability of 14%
 		const random = Math.floor(Math.random() * 100);
 
-		// Check if the random number is less than 5
-		if (random < 5) {
+		// Check if the random number is less than 14
+		if (random < 14) {
 			// Increment the stage of the block
 			this.setStage(this.stage + 1);
 		}
@@ -77,6 +81,53 @@ class BlockGrowthComponent extends BlockStateComponent {
 
 		// Block is not fully grown, don't drop anything
 		return false;
+	}
+
+	public onInteract(player: Player): void {
+		// Check if the plant is fully grown
+		if (this.stage === 7) return;
+
+		// Get the player's inventory
+		const inventory = player.getComponent("minecraft:inventory");
+
+		// Get the item in the player's hand
+		const item = inventory.getHeldItem();
+
+		// Check if there is no item in the player's hand
+		if (!item) return;
+
+		// Check if the item is a bone meal
+		const identifier = item.type.identifier;
+		if (identifier !== ItemIdentifier.BoneMeal) return;
+
+		// Check if the player is in creative mode
+		if (player.getGamemode() === Gamemode.Creative) {
+			// Set the stage of the block to 7
+			this.setStage(7);
+		} else {
+			// Decrement the amount of bone meal in the player's hand
+			item.decrement();
+
+			// Growth is has a probability of 75%
+			const random = Math.floor(Math.random() * 100);
+
+			// Check if the random number is less than 75
+			if (random < 75) {
+				// Increment the stage of the block
+				this.setStage(this.stage + 1);
+
+				// Create a new LevelEventPacket
+				const packet = new LevelEventPacket();
+
+				// Set the event of the packet
+				packet.event = LevelEvent.ParticleCropGrowth;
+				packet.position = this.block.position;
+				packet.data = this.block.permutation.network;
+
+				// Send the packet to the dimension
+				this.block.dimension.broadcast(packet);
+			}
+		}
 	}
 }
 
