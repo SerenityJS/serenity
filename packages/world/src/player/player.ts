@@ -518,7 +518,7 @@ class Player extends Entity {
 			packet.yaw = this.rotation.yaw;
 			packet.headYaw = this.rotation.headYaw;
 			packet.mode = MoveMode.Teleport;
-			packet.onGround = false; // TODO: Added ground check
+			packet.onGround = this.onGround;
 			packet.riddenRuntimeId = 0n;
 			packet.cause = new TeleportCause(4, 0);
 			packet.tick = this.dimension.world.currentTick;

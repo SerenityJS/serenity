@@ -9,7 +9,7 @@ import { ItemUseCause } from "../../enums";
 
 import { ItemComponent } from "./item-component";
 
-import type { Player } from "../../player";
+import type { ItemUseOptions } from "../../options";
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
@@ -52,12 +52,10 @@ class ItemDurabilityComponent<T extends keyof Items> extends ItemComponent<T> {
 		this.item.update();
 	}
 
-	/**
-	 * Applies the durability to the item when used.
-	 * @param player The player that used the item.
-	 * @param cause The cause of the item use.
-	 */
-	public onUse(player: Player, cause: ItemUseCause): ItemUseMethod | undefined {
+	public onUse(options: ItemUseOptions): ItemUseMethod | undefined {
+		// Separate the player and cause from the options
+		const { player, cause } = options;
+
 		// Check if the durability is at the max.
 		if (this.durability >= this.maxDurability) {
 			// Set the amount of the item stack.

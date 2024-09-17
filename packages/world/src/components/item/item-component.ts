@@ -2,10 +2,9 @@ import { type ItemIdentifier, type Items, ItemType } from "@serenityjs/item";
 
 import { Component } from "../component";
 
+import type { ItemUseOptions } from "../../options";
 import type { CompoundTag } from "@serenityjs/nbt";
-import type { BlockPosition, ItemUseMethod } from "@serenityjs/protocol";
-import type { ItemUseCause } from "../../enums";
-import type { Player } from "../../player";
+import type { ItemUseMethod } from "@serenityjs/protocol";
 import type { ItemStack } from "../../item";
 
 class ItemComponent<T extends keyof Items> extends Component {
@@ -98,30 +97,22 @@ class ItemComponent<T extends keyof Items> extends Component {
 
 	/**
 	 * Called when the item has started to be used.
-	 * @param player The player that started to use the item.
-	 * @param cause The cause of the item use. (e.g. right-click, left-click)
+	 * @param options The options of the item use.
 	 */
-	public onStartUse?(player: Player, cause: ItemUseCause): void;
+	public onStartUse?(options: ItemUseOptions): void;
 
 	/**
 	 * Called when the item has stopped being used.
-	 * @param player The player that stopped using the item.
-	 * @param cause The cause of the item use. (e.g. right-click, left-click)
+	 * @param options The options of the item use.
 	 */
-	public onStopUse?(player: Player, cause: ItemUseCause): void;
+	public onStopUse?(options: ItemUseOptions): void;
 
 	/**
 	 * Called when the item has been used.
-	 * @param player The player that used the item.
-	 * @param cause The cause of the item use. (e.g. right-click, left-click)
-	 * @param blockPosition The block position the item was used on.
+	 * @param options The options of the item use.
 	 * @returns If the item was successfully used, this will cause the event to be done using the item.
 	 */
-	public onUse?(
-		player: Player,
-		cause: ItemUseCause,
-		blockPosition?: BlockPosition
-	): ItemUseMethod | undefined;
+	public onUse?(options: ItemUseOptions): ItemUseMethod | undefined;
 
 	/**
 	 * Serializes the item component into the NBT.

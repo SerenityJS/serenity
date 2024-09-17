@@ -6,8 +6,8 @@ import { ItemStack } from "../../item";
 
 import { ItemComponent } from "./item-component";
 
+import type { ItemUseOptions } from "../../options";
 import type { EntityIdentifier } from "@serenityjs/entity";
-import type { Player } from "../../player";
 
 class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 	public static readonly identifier: string = "minecraft:throwable";
@@ -18,14 +18,10 @@ class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 	// The power with which the projectile is launched.
 	public launchPower: number = 1.5;
 
-	/**
-	 * Handles the usage of the item, causing the associated projectile to be launched.
-	 *
-	 * @param player - The player using the item.
-	 * @param cause - The cause for the item use (e.g., Use, Place).
-	 * @return True if the projectile was successfully launched; otherwise, false.
-	 */
-	public onUse(player: Player, cause: ItemUseCause): ItemUseMethod | undefined {
+	public onUse(options: ItemUseOptions): ItemUseMethod | undefined {
+		// Separate the player and cause from the options.
+		const { player, cause } = options;
+
 		// Check if the item is used in the correct context.
 		if (cause !== ItemUseCause.Use) return;
 		if (!this.projectile) return; // Ensure there is a projectile to launch.

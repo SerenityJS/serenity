@@ -7,7 +7,7 @@ import { PlayerItemConsumeSignal } from "../../events";
 
 import { ItemComponent } from "./item-component";
 
-import type { Player } from "../../player";
+import type { ItemUseOptions } from "../../options";
 
 class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 	public static readonly identifier = "minecraft:food";
@@ -36,7 +36,9 @@ class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 		super(item, ItemFoodComponent.identifier);
 	}
 
-	public onUse(player: Player, cause: ItemUseCause): ItemUseMethod | undefined {
+	public onUse(options: ItemUseOptions): ItemUseMethod | undefined {
+		const { player, cause } = options;
+
 		if (cause != ItemUseCause.Use || !player.usingItem) return;
 		if (!this.canAlwaysEat && !player.isHungry()) return;
 		// ? Get the player hunger, saturation and inventory
@@ -73,13 +75,6 @@ class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 		}
 		return ItemUseMethod.Eat;
 	}
-
-	/**
-	 * ? Necessary methods to make it work lol
-	 */
-	public onStartUse(_player: Player, _cause: ItemUseCause): void {}
-
-	public onStopUse(_player: Player, _cause: ItemUseCause): void {}
 }
 
 export { ItemFoodComponent };

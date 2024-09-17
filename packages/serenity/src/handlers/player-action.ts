@@ -227,8 +227,11 @@ class PlayerAction extends SerenityHandler {
 
 		// Trigger the onStartUse method of the item components.
 		for (const component of usingItem.components.values()) {
+			// Get the item use cause.
+			const cause = ItemUseCause.Break;
+
 			// Trigger the onStartUse method of the item component.
-			component.onStartUse?.(player, ItemUseCause.Break);
+			component.onStartUse?.({ player, cause });
 		}
 	}
 
@@ -267,8 +270,11 @@ class PlayerAction extends SerenityHandler {
 
 		// Trigger the onStartUse method of the item components.
 		for (const component of usingItem.components.values()) {
+			// Get the item use cause.
+			const cause = ItemUseCause.Break;
+
 			// Trigger the onStartUse method of the item component.
-			component.onStopUse?.(player, ItemUseCause.Break);
+			component.onStopUse?.({ player, cause });
 		}
 	}
 
@@ -360,8 +366,11 @@ class PlayerAction extends SerenityHandler {
 		const usingItem = player.usingItem;
 		if (!usingItem) return;
 		for (const component of usingItem.components.values()) {
+			// Get the item use cause.
+			const cause = ItemUseCause.Break;
+
 			// Trigger the onUse method of the item component.
-			component.onUse?.(player, ItemUseCause.Break);
+			component.onUse?.({ player, cause });
 		}
 	}
 
@@ -422,8 +431,11 @@ class PlayerAction extends SerenityHandler {
 		// Trigger the onStartUse method of the item components.
 		if (!item) return;
 		for (const component of item.components.values()) {
+			// Get the item use cause.
+			const cause = ItemUseCause.Place;
+
 			// Trigger the onStartUse method of the item component.
-			component.onStartUse?.(player, ItemUseCause.Place);
+			component.onStartUse?.({ player, cause });
 		}
 	}
 
@@ -434,8 +446,11 @@ class PlayerAction extends SerenityHandler {
 		// Trigger the onStopUse method of the item components.
 		if (!player.usingItem) return;
 		for (const component of player.usingItem.components.values()) {
+			// Get the item use cause.
+			const cause = ItemUseCause.Place;
+
 			// Trigger the onStopUse method of the item component.
-			component.onStopUse?.(player, ItemUseCause.Place);
+			component.onStopUse?.({ player, cause });
 		}
 
 		// Update the player's usingItem property.

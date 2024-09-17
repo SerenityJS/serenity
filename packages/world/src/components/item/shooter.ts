@@ -5,6 +5,7 @@ import { type ItemStack, ItemUseCause, type Player } from "../..";
 
 import { ItemComponent } from "./item-component";
 
+import type { ItemUseOptions } from "../../options";
 import type { ItemIdentifier, Items } from "@serenityjs/item";
 
 // TODO: Fix the projectile rotation
@@ -78,7 +79,9 @@ class ItemShooterComponent<T extends keyof Items> extends ItemComponent<T> {
 
 	public onStartUse(): void {}
 
-	public onStopUse(player: Player, cause: ItemUseCause): void {
+	public onStopUse(options: ItemUseOptions): void {
+		const { player, cause } = options;
+
 		if (cause !== ItemUseCause.Use) return;
 		const inventory = player.getComponent("minecraft:inventory");
 
