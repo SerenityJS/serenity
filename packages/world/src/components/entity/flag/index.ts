@@ -7,3 +7,4 @@ export * from "./breathing";
 export * from "./is-visible";
 export * from "./on-fire";
 export * from "./has-collision";
+export * from "./is-baby";

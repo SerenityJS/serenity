@@ -22,7 +22,8 @@ import type {
 	EntityDamageComponent,
 	EntityProjectileComponent,
 	EntityCollisionBoxComponent,
-	EntityLootComponent
+	EntityLootComponent,
+	EntityIsBabyComponent
 } from "../../components";
 
 /**
@@ -43,6 +44,7 @@ interface EntityMetadataComponents {
 	"minecraft:boundingbox_width": EntityBoundingWidthComponent;
 	"minecraft:boundingbox_height": EntityBoundingHeightComponent;
 	"minecraft:scale": EntityScaleComponent;
+	"minecraft:is_baby": EntityIsBabyComponent;
 	"minecraft:item": EntityItemComponent;
 	"minecraft:physics": EntityPhysicsComponent;
 	"minecraft:is_visible": EntityIsVisibleComponent;
