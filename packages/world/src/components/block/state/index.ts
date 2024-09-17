@@ -6,3 +6,4 @@ export * from "./direction";
 export * from "./open-bit";
 export * from "./facing-direction";
 export * from "./button-pressed-bit";
+export * from "./growth";

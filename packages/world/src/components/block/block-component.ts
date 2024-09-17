@@ -116,8 +116,9 @@ class BlockComponent extends Component {
 	 * Called when the block is broken in the dimension.
 	 * @note The `player` parameter is optional as the block can be broken by the server.
 	 * @param player The player that broke the block.
+	 * @returns Whether the block was successfully broken.
 	 */
-	public onBreak?(player?: Player): void;
+	public onBreak?(player?: Player): boolean;
 
 	/**
 	 * Called when the block is interacted with in the dimension.
