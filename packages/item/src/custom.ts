@@ -42,6 +42,7 @@ class CustomItemType extends ItemType {
 			true,
 			64,
 			ItemToolType.None,
+			-1,
 			[],
 			block as Items[keyof Items]
 		);

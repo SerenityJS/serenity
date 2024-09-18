@@ -40,6 +40,11 @@ class ItemType<T extends keyof Items = keyof Items> {
 	public readonly tool: ItemToolType;
 
 	/**
+	 * The tool level of the item type.
+	 */
+	public readonly level: number;
+
+	/**
 	 * The tags of the item type.
 	 */
 	public readonly tags: Array<string>;
@@ -56,6 +61,7 @@ class ItemType<T extends keyof Items = keyof Items> {
 	 * @param stackable Whether the item type is stackable.
 	 * @param maxAmount The maximum stack size of the item type.
 	 * @param tool The tool type of the item type.
+	 * @param level The tool level of the item type.
 	 * @param tags The tags of the item type.
 	 * @param block The block of the item type.
 	 */
@@ -65,6 +71,7 @@ class ItemType<T extends keyof Items = keyof Items> {
 		stackable?: boolean,
 		maxAmount?: number,
 		tool?: ItemToolType,
+		level?: number,
 		tags?: Array<string>,
 		block?: Items[T]
 	) {
@@ -73,10 +80,19 @@ class ItemType<T extends keyof Items = keyof Items> {
 		this.stackable = stackable ?? true;
 		this.maxAmount = maxAmount ?? 64;
 		this.tool = tool ?? ItemToolType.None;
+		this.level = level ?? -1;
 		this.tags = tags ?? [];
 		this.block =
 			block ??
 			(BlockType.get(identifier as unknown as BlockIdentifier) as Items[T]);
+	}
+
+	/**
+	 * Determine if the item type is a tool.
+	 * @returns Whether the item type is a tool.
+	 */
+	public isTool(): boolean {
+		return this.tool !== ItemToolType.None && this.level !== -1;
 	}
 
 	/**

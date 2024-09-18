@@ -26,6 +26,8 @@ for (const item of data) {
 
 	// Get the tool type for the item.
 	const tool = TOOL_TYPES.find((tool) => tool.types.includes(item.name));
+	const index = tool?.types.indexOf(item.name);
+	const level = index === undefined ? -1 : index + 1;
 
 	// Create the item type.
 	const type = new ItemType(
@@ -34,6 +36,7 @@ for (const item of data) {
 		meta?.stackable,
 		meta?.maxAmount,
 		tool?.network,
+		level,
 		meta?.tags
 	);
 
