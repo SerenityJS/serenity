@@ -229,6 +229,10 @@ class PlayerAction extends SerenityHandler {
 			component.onStartBreak?.(player);
 		}
 
+		// Check if the player has the instant build ability.
+		if (player.getAbility(AbilityIndex.InstantBuild) === true)
+			block.destroy(player);
+
 		// Trigger the onStartUse method of the item components.
 		const inventory = player.getComponent("minecraft:inventory");
 		const usingItem = inventory.container.getItem(inventory.selectedSlot);
@@ -333,17 +337,22 @@ class PlayerAction extends SerenityHandler {
 		packet: PlayerActionPacket,
 		player: Player
 	): void {
-		// Get the block position from the packet.
-		const { x, y, z } = packet.blockPosition;
+		// Get the gamemode of the player.
+		const gamemode = player.getGamemode();
 
 		// Get the block from the dimension.
 		const block = player.dimension.getBlock(packet.blockPosition);
 
 		// Check if the player has a target.
-		if (!player.target) return void block.setPermutation(block.permutation);
+		if (!player.target && gamemode !== Gamemode.Creative)
+			return void block.setPermutation(block.permutation);
 
 		// Check if the target matches the block position.
-		if (!player.target.equals(packet.blockPosition))
+		if (
+			player.target &&
+			!player.target.equals(packet.blockPosition) &&
+			gamemode !== Gamemode.Creative
+		)
 			return void block.setPermutation(block.permutation);
 
 		// If the player is in adventure mode, we will set the block permutation.
@@ -357,16 +366,6 @@ class PlayerAction extends SerenityHandler {
 			// Return.
 			return;
 		}
-
-		// Emit the block break particles to the dimension.
-		// Create a new LevelEvent packet.
-		const event = new LevelEventPacket();
-		event.event = LevelEvent.ParticlesDestroyBlock;
-		event.position = new Vector3f(x, y, z);
-		event.data = block.permutation.network;
-
-		// Broadcast the event to the dimension.
-		player.dimension.broadcast(event);
 
 		// Destroy the block.
 		const destroyed = block.destroy(player);
@@ -439,6 +438,10 @@ class PlayerAction extends SerenityHandler {
 
 		// Broadcast the event to the dimension.
 		player.dimension.broadcast(event);
+
+		// Check if the player has the instant build ability.
+		if (player.getAbility(AbilityIndex.InstantBuild) === true)
+			block.destroy(player);
 	}
 
 	private static handleStartItemUseOn(

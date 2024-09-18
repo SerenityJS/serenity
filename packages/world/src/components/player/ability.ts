@@ -30,7 +30,7 @@ class PlayerAbilityComponent extends PlayerComponent {
 		this.player.abilities.set(AbilityIndex.Invulnerable, false);
 		this.player.abilities.set(AbilityIndex.Flying, false);
 		this.player.abilities.set(AbilityIndex.MayFly, mayfly);
-		this.player.abilities.set(AbilityIndex.InstantBuild, true);
+		this.player.abilities.set(AbilityIndex.InstantBuild, false);
 		this.player.abilities.set(AbilityIndex.Lightning, false);
 		this.player.abilities.set(AbilityIndex.FlySpeed, true);
 		this.player.abilities.set(AbilityIndex.WalkSpeed, true);

@@ -8,7 +8,9 @@ import {
 	UpdateBlockLayerType,
 	UpdateBlockPacket,
 	Vector3f,
-	Gamemode
+	Gamemode,
+	LevelEventPacket,
+	LevelEvent
 } from "@serenityjs/protocol";
 import {
 	BlockPermutation,
@@ -674,6 +676,19 @@ class Block {
 					itemEntity.addMotion(velocity);
 				}
 			}
+
+			// Get the position of the block.
+			const { x, y, z } = this.position;
+
+			// Emit the block break particles to the dimension.
+			// Create a new LevelEvent packet.
+			const event = new LevelEventPacket();
+			event.event = LevelEvent.ParticlesDestroyBlock;
+			event.position = new Vector3f(x, y, z);
+			event.data = this.permutation.network;
+
+			// Broadcast the event to the dimension.
+			this.dimension.broadcast(event);
 		}
 
 		// Get the air permutation.
