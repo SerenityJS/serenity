@@ -198,8 +198,11 @@ class PlayerAction extends SerenityHandler {
 		// Set the mining position to the player.
 		player.target = packet.blockPosition;
 
+		// Get the block from the dimension.
+		const block = player.dimension.getBlock(packet.blockPosition);
+
 		// Calculate the break time.
-		const breakTime = Math.ceil(2 * 20);
+		const breakTime = block.getBreakTime();
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();
@@ -211,7 +214,6 @@ class PlayerAction extends SerenityHandler {
 		player.dimension.broadcast(event);
 
 		// Trigger the onStartBreak method of the block components.
-		const block = player.dimension.getBlock(packet.blockPosition);
 		for (const component of block.components.values()) {
 			// Trigger the onStartBreak method of the block component.
 			component.onStartBreak?.(player);
@@ -400,8 +402,10 @@ class PlayerAction extends SerenityHandler {
 		// Set the mining position to the player.
 		player.target = packet.blockPosition;
 
+		const block = player.dimension.getBlock(packet.blockPosition);
+
 		// TODO: Calculate the break time based on hardness
-		const breakTime = Math.ceil(2 * 20);
+		const breakTime = block.getBreakTime();
 
 		// Create a new LevelEvent packet.
 		const event = new LevelEventPacket();

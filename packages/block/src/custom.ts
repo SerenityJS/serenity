@@ -40,6 +40,7 @@ class CustomBlockType extends BlockType {
 	 * @param loggable Whether the block type is loggable.
 	 */
 	public constructor(identifier: string, loggable: boolean) {
+		// TODO: custom states, hardness, friction, mapColor, components, tags, etc.
 		super(identifier as keyof BlockState, loggable, false, false, true);
 
 		// Construct the NBT tag.

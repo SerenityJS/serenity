@@ -50,6 +50,13 @@ interface BlockDrops {
 	drops: Array<BlockDrop>;
 }
 
+interface BlockMetadata {
+	identifier: string;
+	hardness: number;
+	friction: number;
+	mapColor: string;
+}
+
 /**
  * Block states for all blocks in the game.
  */
@@ -76,6 +83,13 @@ const BLOCK_PERMUTATIONS: Array<BlockPermutations> = JSON.parse(
  */
 const BLOCK_DROPS: Array<BlockDrops> = JSON.parse(
 	readFileSync(resolve(data, "block_drops.json"), "utf8")
+);
+
+/**
+ * Block metadata for all blocks in the game.
+ */
+const BLOCK_METADATA: Array<BlockMetadata> = JSON.parse(
+	readFileSync(resolve(data, "block_metadata.json"), "utf8")
 );
 
 /**
@@ -123,6 +137,7 @@ export {
 	BLOCK_TYPES,
 	BLOCK_PERMUTATIONS,
 	BLOCK_DROPS,
+	BLOCK_METADATA,
 	ITEM_TYPES,
 	ENTITY_TYPES,
 	CANONICAL_BLOCK_STATES,
