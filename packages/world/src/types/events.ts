@@ -24,6 +24,7 @@ import type {
 	PlayerMissSwingSignal,
 	PlayerOpenDoorSignal,
 	PlayerPlaceBlockSignal,
+	PlayerStartBreakBlockSignal,
 	PlayerStartSwimmingSignal,
 	PlayerStopSwimmingSignal,
 	WorldInitializeSignal,
@@ -46,6 +47,7 @@ interface WorldEventSignals {
 	[WorldEvent.PlayerChat]: [PlayerChatSignal];
 	[WorldEvent.PlayerExecuteCommand]: [PlayerExecuteCommandSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
+	[WorldEvent.PlayerStartBreakBlock]: [PlayerStartBreakBlockSignal];
 	[WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
 	[WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
 	[WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];

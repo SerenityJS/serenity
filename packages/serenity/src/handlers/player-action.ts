@@ -17,6 +17,7 @@ import {
 	PlayerJumpSignal,
 	PlayerStartSwimmingSignal,
 	PlayerStopSwimmingSignal,
+	PlayerStartBreakBlockSignal,
 	type Player
 } from "@serenityjs/world";
 
@@ -195,11 +196,20 @@ class PlayerAction extends SerenityHandler {
 		// Get the block position from the packet.
 		const { x, y, z } = packet.blockPosition;
 
-		// Set the mining position to the player.
-		player.target = packet.blockPosition;
-
 		// Get the block from the dimension.
 		const block = player.dimension.getBlock(packet.blockPosition);
+
+		// Create a new PlayerStartBreakBlockSignal and emit it.
+		const signal = new PlayerStartBreakBlockSignal(block, player);
+
+		// Emit the signal.
+		const value = signal.emit();
+
+		// If the signal was cancelled, we will return.
+		if (!value) return;
+
+		// Set the mining position to the player.
+		player.target = packet.blockPosition;
 
 		// Calculate the break time.
 		const breakTime = block.getBreakTime();
@@ -329,6 +339,13 @@ class PlayerAction extends SerenityHandler {
 		// Get the block from the dimension.
 		const block = player.dimension.getBlock(packet.blockPosition);
 
+		// Check if the player has a target.
+		if (!player.target) return void block.setPermutation(block.permutation);
+
+		// Check if the target matches the block position.
+		if (!player.target.equals(packet.blockPosition))
+			return void block.setPermutation(block.permutation);
+
 		// If the player is in adventure mode, we will set the block permutation.
 		// The player should not be able to break the block.
 		// And also check if the player has the ability to break the block.
@@ -374,6 +391,9 @@ class PlayerAction extends SerenityHandler {
 			// Trigger the onUse method of the item component.
 			component.onUse?.({ player, cause });
 		}
+
+		// Set the target to null.
+		player.target = null;
 	}
 
 	private static handleContinueBreak(
