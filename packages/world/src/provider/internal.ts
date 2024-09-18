@@ -1,7 +1,7 @@
 import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
 
 import { type Dimension, World } from "../world";
-import { Superflat } from "../generator";
+import { Overworld } from "../generator";
 
 import { WorldProvider } from "./provider";
 
@@ -31,7 +31,7 @@ class InternalProvider extends WorldProvider {
 		world.createDimension(
 			"overworld",
 			DimensionType.Overworld,
-			new Superflat()
+			new Overworld()
 		);
 
 		// Return the world.

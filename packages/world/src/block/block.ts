@@ -7,7 +7,8 @@ import {
 	UpdateBlockFlagsType,
 	UpdateBlockLayerType,
 	UpdateBlockPacket,
-	Vector3f
+	Vector3f,
+	Gamemode
 } from "@serenityjs/protocol";
 import {
 	BlockPermutation,
@@ -611,6 +612,19 @@ class Block {
 	 * @returns Whether or not the block was destroyed.
 	 */
 	public destroy(playerInitiated?: Player): boolean {
+		// Call the onBreak method of the components.
+		let cancelled = false;
+		for (const component of this.components.values()) {
+			// Call the onBlockBrokenByPlayer method.
+			const result = component.onBreak?.(playerInitiated);
+
+			// Check if the result is false.
+			if (result === false) {
+				// Set the cancelled flag to true.
+				cancelled = true;
+			}
+		}
+
 		// Check if the destruction was initiated by a player.
 		if (playerInitiated) {
 			// Get the inventory of the player.
@@ -635,12 +649,44 @@ class Block {
 				// Return false as the signal was cancelled.
 				return false;
 			}
-		}
 
-		// Call the onBreak method of the components.
-		for (const component of this.components.values()) {
-			// Call the onBlockBrokenByPlayer method.
-			component.onBreak?.(playerInitiated);
+			// Check if the player is not in creative mode.
+			if (playerInitiated.getGamemode() !== Gamemode.Creative && !cancelled) {
+				// Get the position of the block.
+				const { x, y, z } = this.position;
+
+				// TODO: Check for the correct tool.
+
+				// Iterate over the drops of the block.
+				for (const drop of this.permutation.type.drops) {
+					// Roll the drop amount.
+					const amount = drop.roll();
+
+					// Create a new ItemStack.
+					const itemType = ItemType.get(
+						drop.type as ItemIdentifier
+					) as ItemType;
+
+					// Create a new ItemStack.
+					const itemStack = ItemStack.create(itemType, amount);
+
+					// Create a new ItemEntity.
+					const itemEntity = this.dimension.spawnItem(
+						itemStack,
+						new Vector3f(x + 0.5, y + 0.5, z + 0.5)
+					);
+
+					// Add random x & z velocity to the item entity.
+					const velocity = new Vector3f(
+						Math.random() * 0.1 - 0.05,
+						itemEntity.velocity.y,
+						Math.random() * 0.1 - 0.05
+					);
+
+					// Add the velocity to the item entity.
+					itemEntity.addMotion(velocity);
+				}
+			}
 		}
 
 		// Get the air permutation.

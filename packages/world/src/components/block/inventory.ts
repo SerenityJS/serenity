@@ -178,9 +178,9 @@ class BlockInventoryComponent extends BlockComponent {
 		}
 	}
 
-	public onBreak(player?: Player): void {
+	public onBreak(player?: Player): boolean {
 		// Check if a player is provided
-		if (!player) return;
+		if (!player) return false;
 
 		// Loop through the items in the container
 		for (const item of this.container.storage) {
@@ -197,6 +197,9 @@ class BlockInventoryComponent extends BlockComponent {
 			// Add some upwards velocity to the item.
 			entity.setMotion(new Vector3f(0, 0.1, 0));
 		}
+
+		// Return true to break the block
+		return true;
 	}
 
 	public static serialize(

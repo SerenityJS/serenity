@@ -184,7 +184,7 @@ class Entity {
 		// Readonly properties
 		this.type = EntityType.get(identifier) as EntityType;
 		this.runtime = Entity.runtime++;
-		this.unique = uniqueId ?? BigInt(-Date.now() >> 4) + this.runtime;
+		this.unique = uniqueId ?? BigInt(Math.abs(Date.now() >> 4)) + this.runtime;
 
 		// Mutable properties
 		this.dimension = dimension;
@@ -661,12 +661,14 @@ class Entity {
 		sync = true
 	): Attribute {
 		const attribute = new Attribute(
-			value,
-			defaultValue,
-			maxValue,
 			minValue,
-			[],
-			name
+			maxValue,
+			value,
+			-Infinity,
+			Infinity,
+			defaultValue,
+			name,
+			[]
 		);
 
 		this.addAttribute(attribute, sync);

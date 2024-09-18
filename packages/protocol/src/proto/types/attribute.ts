@@ -8,9 +8,29 @@ import type { AttributeName } from "../../enums";
 
 class Attribute extends DataType {
 	/**
+	 * The minimum value of the attribute.
+	 */
+	public min: number;
+
+	/**
+	 * The maximum value of the attribute
+	 */
+	public max: number;
+
+	/**
 	 * The current value of the attribute.
 	 */
 	public current: number;
+
+	/**
+	 * The default minimum value of the attribute.
+	 */
+	public defaultMin: number;
+
+	/**
+	 * The default maximum value of the attribute.
+	 */
+	public defaultMax: number;
 
 	/**
 	 * The default value of the attribute.
@@ -18,14 +38,9 @@ class Attribute extends DataType {
 	public default: number;
 
 	/**
-	 * The maximum value of the attribute.
+	 * The name of the attribute.
 	 */
-	public max: number;
-
-	/**
-	 * The minimum value of the attribute.
-	 */
-	public min: number;
+	public name: AttributeName;
 
 	/**
 	 * The modifiers of the attribute.
@@ -33,36 +48,35 @@ class Attribute extends DataType {
 	public modifiers: Array<AttributeModifier>;
 
 	/**
-	 * The name of the attribute.
-	 */
-	public name: AttributeName;
-
-	/**
-	 * Creates a new attribute.
-	 *
-	 * @param current The current value of the attribute.
-	 * @param default_ The default value of the attribute.
-	 * @param max The maximum value of the attribute.
-	 * @param min The minimum value of the attribute.
-	 * @param modifiers The modifiers of the attribute.
-	 * @param name The name of the attribute.
-	 * @returns A new attribute.
+	 * Creates a new instance of Attribute.
+	 * @param min - The minimum value of the attribute.
+	 * @param max - The maximum value of the attribute.
+	 * @param current - The current value of the attribute.
+	 * @param defaultMin - The default maximum value of the attribute.
+	 * @param defaultMax - The default minimum value of the attribute.
+	 * @param default - The default value of the attribute.
+	 * @param name - The name of the attribute.
+	 * @param modifiers - The modifiers of the attribute.
 	 */
 	public constructor(
-		current: number,
-		default_: number,
-		max: number,
 		min: number,
-		modifiers: Array<AttributeModifier>,
-		name: AttributeName
+		max: number,
+		current: number,
+		defaultMin: number,
+		defaultMax: number,
+		default_: number,
+		name: AttributeName,
+		modifiers: Array<AttributeModifier>
 	) {
 		super();
-		this.current = current;
-		this.default = default_;
-		this.max = max;
 		this.min = min;
-		this.modifiers = modifiers;
+		this.max = max;
+		this.current = current;
+		this.defaultMin = defaultMin;
+		this.defaultMax = defaultMax;
+		this.default = default_;
 		this.name = name;
+		this.modifiers = modifiers;
 	}
 
 	public static override read(stream: BinaryStream): Array<Attribute> {
@@ -79,6 +93,8 @@ class Attribute extends DataType {
 			const min = stream.readFloat32(Endianness.Little);
 			const max = stream.readFloat32(Endianness.Little);
 			const current = stream.readFloat32(Endianness.Little);
+			const defaultMin = stream.readFloat32(Endianness.Little);
+			const defaultMax = stream.readFloat32(Endianness.Little);
 			const default_ = stream.readFloat32(Endianness.Little);
 			const name = stream.readVarString() as AttributeName;
 
@@ -96,7 +112,16 @@ class Attribute extends DataType {
 
 			// Push the attribute to the array.
 			attributes.push(
-				new Attribute(current, default_, max, min, modifiers, name)
+				new this(
+					min,
+					max,
+					current,
+					defaultMax,
+					defaultMin,
+					default_,
+					name,
+					modifiers
+				)
 			);
 		}
 
@@ -117,6 +142,8 @@ class Attribute extends DataType {
 			stream.writeFloat32(attribute.min, Endianness.Little);
 			stream.writeFloat32(attribute.max, Endianness.Little);
 			stream.writeFloat32(attribute.current, Endianness.Little);
+			stream.writeFloat32(attribute.defaultMin, Endianness.Little);
+			stream.writeFloat32(attribute.defaultMax, Endianness.Little);
 			stream.writeFloat32(attribute.default, Endianness.Little);
 			stream.writeVarString(attribute.name);
 

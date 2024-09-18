@@ -532,14 +532,16 @@ class Player extends Entity {
 	 * Transfers the player to a different server.
 	 * @param address The address to transfer the player to.
 	 * @param port The port to transfer the player to.
+	 * @param reload If the world should be reloaded.
 	 */
-	public transfer(address: string, port: number): void {
+	public transfer(address: string, port: number, reload = false): void {
 		// Create a new TransferPacket
 		const packet = new TransferPacket();
 
 		// Set the packet properties
 		packet.address = address;
 		packet.port = port;
+		packet.reloadWorld = reload;
 
 		// Send the packet to the player
 		this.session.send(packet);
