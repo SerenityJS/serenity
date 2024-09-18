@@ -115,6 +115,7 @@ import { UpdateClientInputLocksPacket } from "./update-client-input-locks";
 import { OnScreenTextureAnimationPacket } from "./on-screen-texture-animation";
 import { ServerboundDiagnosticsPacket } from "./serverbound-diagnostics";
 import { PlaySoundPacket } from "./play-sound";
+import { SetActorLinkPacket } from "./set-actor-link";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -152,6 +153,7 @@ const Packets = {
 	[Packet.HurtArmor]: HurtArmorPacket, // 38
 	[Packet.SetActorData]: SetActorDataPacket, // 39
 	[Packet.SetActorMotion]: SetActorMotionPacket, // 40
+	[Packet.SetActorLink]: SetActorLinkPacket, // 41
 	[Packet.Animate]: AnimatePacket, // 44
 	[Packet.Respawn]: RespawnPacket, // 45
 	[Packet.ContainerOpen]: ContainerOpenPacket, // 46

@@ -112,7 +112,8 @@ import type {
 	UpdateClientInputLocksPacket,
 	OnScreenTextureAnimationPacket,
 	ServerboundDiagnosticsPacket,
-	PlaySoundPacket
+	PlaySoundPacket,
+	SetActorLinkPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -153,6 +154,7 @@ interface NetworkEvents {
 	[Packet.InventoryTransaction]: [
 		NetworkPacketEvent<InventoryTransactionPacket>
 	];
+	[Packet.SetActorLink]: [NetworkPacketEvent<SetActorLinkPacket>];
 	[Packet.CompletedUsingItem]: [NetworkPacketEvent<CompletedUsingItemPacket>];
 	[Packet.MobEquipment]: [NetworkPacketEvent<MobEquipmentPacket>];
 	[Packet.MobArmorEquipment]: [NetworkPacketEvent<MobArmorEquipmentPacket>];

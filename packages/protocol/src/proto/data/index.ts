@@ -117,3 +117,4 @@ export * from "./hurt-armor";
 export * from "./show-credits";
 export * from "./update-client-input-locks";
 export * from "./serverbound-diagnostics";
+export * from "./set-actor-link";

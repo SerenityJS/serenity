@@ -114,3 +114,4 @@ export * from "./client-predicted-vehicle";
 export * from "./input-transaction";
 export * from "./player-auth-input-data";
 export * from "./block-action";
+export * from "./actor-link";

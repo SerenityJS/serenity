@@ -37,6 +37,7 @@ enum Packet {
 	HurtArmor = 0x26, // 38
 	SetActorData = 0x27, // 39
 	SetActorMotion = 0x28, // 40
+	SetActorLink = 0x29, // 41
 	// SetSpawnPosition = 0x2b, // 43
 	Animate = 0x2c, // 44
 	Respawn = 0x2d, // 45
