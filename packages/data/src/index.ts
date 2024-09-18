@@ -57,6 +57,12 @@ interface BlockMetadata {
 	mapColor: string;
 }
 
+interface ToolType {
+	identifier: string;
+	network: number;
+	types: Array<string>;
+}
+
 /**
  * Block states for all blocks in the game.
  */
@@ -100,6 +106,13 @@ const ITEM_TYPES: Array<ItemTypes> = JSON.parse(
 );
 
 /**
+ * Tool types for all tools in the game.
+ */
+const TOOL_TYPES: Array<ToolType> = JSON.parse(
+	readFileSync(resolve(data, "tool_types.json"), "utf8")
+);
+
+/**
  * Entity types for all entities in the game.
  */
 const ENTITY_TYPES: Array<EntityTypes> = JSON.parse(
@@ -139,6 +152,7 @@ export {
 	BLOCK_DROPS,
 	BLOCK_METADATA,
 	ITEM_TYPES,
+	TOOL_TYPES,
 	ENTITY_TYPES,
 	CANONICAL_BLOCK_STATES,
 	BIOME_DEFINITION_LIST,
