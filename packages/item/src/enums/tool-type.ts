@@ -1,5 +1,5 @@
 enum ItemToolType {
-	None = -1,
+	None,
 	Axe,
 	Hoe,
 	Shovel,

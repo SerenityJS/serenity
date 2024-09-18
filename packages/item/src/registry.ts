@@ -9,8 +9,8 @@ import { CreativeItems, ItemData } from "@serenityjs/protocol";
 
 import { ItemType } from "./type";
 import { CreativeItem } from "./creative";
+import { ItemToolTier, type ItemIdentifier } from "./enums";
 
-import type { ItemIdentifier } from "./enums";
 import type { CompoundTag } from "@serenityjs/nbt";
 
 // Create a new stream from the item data.
@@ -27,7 +27,7 @@ for (const item of data) {
 	// Get the tool type for the item.
 	const tool = TOOL_TYPES.find((tool) => tool.types.includes(item.name));
 	const index = tool?.types.indexOf(item.name);
-	const level = index === undefined ? -1 : index + 1;
+	const level = index === undefined ? ItemToolTier.None : index + 1;
 
 	// Create the item type.
 	const type = new ItemType(
