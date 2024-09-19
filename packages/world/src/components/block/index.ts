@@ -12,3 +12,4 @@ export * from "./collision-box";
 export * from "./sign";
 export * from "./loot";
 export * from "./supported";
+export * from "./tillable";

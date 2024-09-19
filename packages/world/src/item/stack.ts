@@ -1,4 +1,4 @@
-import { ItemType, type Items } from "@serenityjs/item";
+import { type ItemToolType, ItemType, type Items } from "@serenityjs/item";
 import {
 	ByteTag,
 	CompoundTag,
@@ -245,6 +245,14 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 */
 	public isSmeltable(): boolean {
 		return this.hasComponent("minecraft:smeltable");
+	}
+
+	/**
+	 * Gets the tool type of the item.
+	 * @returns The tool type of the item.
+	 */
+	public getToolType(): ItemToolType {
+		return this.type.tool;
 	}
 
 	/**

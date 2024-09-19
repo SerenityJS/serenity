@@ -166,11 +166,15 @@ class InventoryTransaction extends SerenityHandler {
 
 				// Trigger the onUse method of the item components
 				for (const component of usingItem.components.values()) {
-					component.onUse?.(
-						player,
-						ItemUseCause.Place,
+					// Get the item use cause
+					const cause = ItemUseCause.Place;
+
+					// Get the block from the transaction
+					const targetBlock = player.dimension.getBlock(
 						transaction.blockPosition
 					);
+
+					component.onUse?.({ player, cause, targetBlock });
 				}
 
 				// Check if the transaction is an initial transaction
@@ -241,7 +245,10 @@ class InventoryTransaction extends SerenityHandler {
 					// Trigger the onStartUse method of the item components
 					player.startUsingTick = player.getWorld().currentTick;
 					for (const component of usingItem.components.values()) {
-						component.onStartUse?.(player, ItemUseCause.Use);
+						// Get the item use cause
+						const cause = ItemUseCause.Use;
+
+						component.onStartUse?.({ player, cause });
 					}
 
 					// Break the switch statement
@@ -249,8 +256,11 @@ class InventoryTransaction extends SerenityHandler {
 				}
 
 				for (const component of usingItem.components.values()) {
+					// Get the item use cause
+					const cause = ItemUseCause.Use;
+
 					// Trigger the onUse method of the item component.
-					const used = component.onUse?.(player, ItemUseCause.Use);
+					const used = component.onUse?.({ player, cause });
 
 					// Check if the item was successfully used
 					if (used != undefined) {
@@ -294,6 +304,30 @@ class InventoryTransaction extends SerenityHandler {
 
 		// Trigger the onInteract method of the entity components
 		entity.interact(player, type);
+
+		// Get the held item of the player.
+		const inventory = player.getComponent("minecraft:inventory");
+
+		// Get using item from the player
+		const usingItem = inventory.getHeldItem();
+
+		// Check if the item is valid
+		if (!usingItem) return;
+
+		// Trigger the onUse method of the item components;
+		for (const component of usingItem.components.values()) {
+			// Get the item use cause
+			const cause =
+				type === EntityInteractType.Interact
+					? ItemUseCause.Place
+					: ItemUseCause.Use;
+
+			// Get the targeted entity of the action
+			const targetEntity = entity;
+
+			// Call the onUse method
+			component.onUse?.({ player, cause, targetEntity });
+		}
 	}
 
 	public static handleItemReleaseTransaction(
@@ -308,7 +342,10 @@ class InventoryTransaction extends SerenityHandler {
 
 		// Trigger the onRelease method of the item components
 		for (const component of usingItem.components.values()) {
-			component.onStopUse?.(player, ItemUseCause.Use);
+			// Get the item use cause
+			const cause = ItemUseCause.Use;
+
+			component.onStopUse?.({ player, cause });
 		}
 
 		// Set the player's using item to null

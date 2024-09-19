@@ -57,6 +57,21 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	public readonly solid: boolean;
 
 	/**
+	 * The hardness of the block type.
+	 */
+	public readonly hardness: number;
+
+	/**
+	 * The friction of the block type.
+	 */
+	public readonly friction: number;
+
+	/**
+	 * The map color of the block type.
+	 */
+	public readonly color: string;
+
+	/**
 	 * The default components of the block type.
 	 */
 	public readonly components: Array<string> = [];
@@ -83,6 +98,9 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 	 * @param air Whether the block type is air.
 	 * @param liquid Whether the block type is liquid.
 	 * @param solid Whether the block type is solid.
+	 * @param hardness The hardness of the block type.
+	 * @param friction The friction of the block type.
+	 * @param color The map color of the block type.
 	 * @param components The default components of the block type.
 	 * @param tags The default tags of the block type.
 	 * @param permutations The default permutations of the block type.
@@ -93,6 +111,9 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 		air: boolean,
 		liquid: boolean,
 		solid: boolean,
+		hardness?: number,
+		friction?: number,
+		color?: string,
 		components?: Array<string>,
 		tags?: Array<string>,
 		permutations?: Array<BlockPermutation>
@@ -103,6 +124,9 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 		this.air = air;
 		this.liquid = liquid;
 		this.solid = solid;
+		this.hardness = hardness ?? 0;
+		this.friction = friction ?? 0;
+		this.color = color ?? "";
 		this.components = components ?? this.components;
 		this.tags = tags ?? this.tags;
 		this.permutations = permutations ?? this.permutations;

@@ -9,7 +9,7 @@ import { ItemUseCause } from "../../enums";
 
 import { ItemComponent } from "./item-component";
 
-import type { Player } from "../../player";
+import type { ItemUseOptions } from "../../options";
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
@@ -26,12 +26,11 @@ class ItemArmorComponent<T extends keyof Items> extends ItemComponent<T> {
 		super(item, ItemArmorComponent.identifier);
 	}
 
-	/**
-	 * Applies the item to the armor slot
-	 * @param player The player that used the item.
-	 * @param cause The cause of the item use.
-	 */
-	public onUse(player: Player, cause: ItemUseCause): ItemUseMethod | undefined {
+	public onUse(options: ItemUseOptions): ItemUseMethod | undefined {
+		// Separate the player and cause from the options
+		const { player, cause } = options;
+
+		// Check if the player is using an item, and if the cause is a use
 		if (!player.usingItem || cause !== ItemUseCause.Use) return;
 		// Get both the armor inventory and inventory
 		const playerArmorComponent = player.getComponent("minecraft:armor");

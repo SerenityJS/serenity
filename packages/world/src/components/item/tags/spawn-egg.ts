@@ -4,10 +4,10 @@ import { ItemUseCause } from "../../../enums";
 
 import { ItemTagComponent } from "./tag";
 
+import type { ItemUseOptions } from "../../../options";
 import type { ItemStack } from "../../../item";
 import type { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import type { Items } from "@serenityjs/item";
-import type { Player } from "../../../player";
 
 class ItemSpawnEggComponent<T extends keyof Items> extends ItemTagComponent<T> {
 	public static readonly identifier = "minecraft:spawn_egg";
@@ -27,13 +27,11 @@ class ItemSpawnEggComponent<T extends keyof Items> extends ItemTagComponent<T> {
 		super(item, ItemSpawnEggComponent.identifier);
 	}
 
-	public onUse(
-		player: Player,
-		cause: ItemUseCause,
-		blockPosition: BlockPosition
-	): ItemUseMethod | undefined {
+	public onUse(options: ItemUseOptions): ItemUseMethod | undefined {
+		const { player, cause, targetBlock } = options;
+
 		// Check if the spawn egg is being used in the correct context.
-		if (cause !== ItemUseCause.Place) return;
+		if (cause !== ItemUseCause.Place || !targetBlock) return;
 
 		// Check if there is an entity type set.
 		if (this.entityType) {
@@ -46,7 +44,7 @@ class ItemSpawnEggComponent<T extends keyof Items> extends ItemTagComponent<T> {
 			) as EntityIdentifier;
 
 			// Convert the block position to a vector.
-			const position = BlockPosition.toVector3f(blockPosition);
+			const position = BlockPosition.toVector3f(targetBlock?.position);
 
 			// Add 1 to the y position to prevent the entity from spawning inside the block.
 			position.x += 0.5;

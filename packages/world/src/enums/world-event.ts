@@ -14,6 +14,7 @@ enum WorldEvent {
 	PlayerChat,
 	PlayerExecuteCommand,
 	PlayerPlaceBlock,
+	PlayerStartBreakBlock,
 	PlayerBreakBlock,
 	PlayerInteractWithEntity,
 	PlayerInteractWithBlock,

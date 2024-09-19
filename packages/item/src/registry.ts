@@ -1,11 +1,16 @@
 import { BinaryStream } from "@serenityjs/binarystream";
-import { CREATIVE_CONTENT, ITEM_TYPES, ITEMDATA } from "@serenityjs/data";
+import {
+	CREATIVE_CONTENT,
+	ITEM_TYPES,
+	ITEMDATA,
+	TOOL_TYPES
+} from "@serenityjs/data";
 import { CreativeItems, ItemData } from "@serenityjs/protocol";
 
 import { ItemType } from "./type";
 import { CreativeItem } from "./creative";
+import { ItemToolTier, type ItemIdentifier } from "./enums";
 
-import type { ItemIdentifier } from "./enums";
 import type { CompoundTag } from "@serenityjs/nbt";
 
 // Create a new stream from the item data.
@@ -19,12 +24,19 @@ for (const item of data) {
 	// Get the metadata for the item.
 	const meta = ITEM_TYPES.find((type) => type.identifier === item.name);
 
+	// Get the tool type for the item.
+	const tool = TOOL_TYPES.find((tool) => tool.types.includes(item.name));
+	const index = tool?.types.indexOf(item.name);
+	const level = index === undefined ? ItemToolTier.None : index + 1;
+
 	// Create the item type.
 	const type = new ItemType(
 		item.name as ItemIdentifier,
 		item.networkId,
 		meta?.stackable,
 		meta?.maxAmount,
+		tool?.network,
+		level,
 		meta?.tags
 	);
 

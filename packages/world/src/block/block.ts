@@ -8,7 +8,9 @@ import {
 	UpdateBlockLayerType,
 	UpdateBlockPacket,
 	Vector3f,
-	Gamemode
+	Gamemode,
+	LevelEventPacket,
+	LevelEvent
 } from "@serenityjs/protocol";
 import {
 	BlockPermutation,
@@ -16,7 +18,7 @@ import {
 	BlockType,
 	type BlockState
 } from "@serenityjs/block";
-import { ItemIdentifier, ItemType } from "@serenityjs/item";
+import { type ItemIdentifier, ItemType } from "@serenityjs/item";
 import {
 	CompoundTag,
 	IntTag,
@@ -38,6 +40,7 @@ import {
 	PlayerInteractWithBlockSignal,
 	PlayerPlaceBlockSignal
 } from "../events";
+import { BlockToolType } from "../enums";
 
 import type { BlockComponents, BlockUpdateOptions } from "../types";
 import type { Chunk } from "../chunk";
@@ -466,44 +469,30 @@ class Block {
 	}
 
 	/**
+	 * Gets the tool type required to break the block.
+	 * @returns
+	 */
+	public getToolType(): BlockToolType {
+		// TODO: Implement tool type checking.
+
+		return BlockToolType.None;
+	}
+
+	/**
 	 * Gets the tool required to break the block.
 	 * @returns The tool required to break the block.
 	 */
-	public getTool(): ItemIdentifier {
-		// Get the tags of the block.
-		const tags = this.getTags().sort((a, b) => b.localeCompare(a));
+	public isToolCompatible(_itemStack: ItemStack): boolean {
+		// Get the block type.
+		const blockType = this.getType();
 
-		// Iterate over the tags.
-		for (const tag of tags) {
-			switch (tag) {
-				case "wooden_axe_diggable": {
-					return ItemIdentifier.WoodenAxe;
-				}
+		// If the hardness is less than 0, no tool is compatible.
+		if (blockType.hardness < 0) return false;
 
-				case "stone_pick_diggable": {
-					return ItemIdentifier.StonePickaxe;
-				}
+		// Check if the tool type is none.
+		if (this.getToolType() === BlockToolType.None) return true;
 
-				case "iron_pick_diggable": {
-					return ItemIdentifier.IronPickaxe;
-				}
-
-				case "golden_pick_diggable": {
-					return ItemIdentifier.GoldenPickaxe;
-				}
-
-				case "diamond_pick_diggable": {
-					return ItemIdentifier.DiamondPickaxe;
-				}
-
-				case "netherite_pick_diggable": {
-					return ItemIdentifier.NetheritePickaxe;
-				}
-			}
-		}
-
-		// Return the default tool.
-		return ItemIdentifier.Air;
+		return true;
 	}
 
 	/**
@@ -687,6 +676,19 @@ class Block {
 					itemEntity.addMotion(velocity);
 				}
 			}
+
+			// Get the position of the block.
+			const { x, y, z } = this.position;
+
+			// Emit the block break particles to the dimension.
+			// Create a new LevelEvent packet.
+			const event = new LevelEventPacket();
+			event.event = LevelEvent.ParticlesDestroyBlock;
+			event.position = new Vector3f(x, y, z);
+			event.data = this.permutation.network;
+
+			// Broadcast the event to the dimension.
+			this.dimension.broadcast(event);
 		}
 
 		// Get the air permutation.
@@ -786,6 +788,29 @@ class Block {
 
 		// Return true as the player was able to interact with the block.
 		return true;
+	}
+
+	/**
+	 * Get the time it takes to break the block.
+	 * @param itemStack The item stack used to break the block.
+	 * @returns The time it takes to break the block.
+	 */
+	public getBreakTime(itemStack?: ItemStack): number {
+		// Get the type of the block.
+		const type = this.getType();
+
+		// Get the hardness of the block.
+		let hardness = type.hardness;
+
+		if (!itemStack && this.getToolType() === BlockToolType.None) {
+			hardness *= 1.5;
+		} else if (itemStack && this.isToolCompatible(itemStack)) {
+			hardness *= 1.5;
+		} else {
+			hardness *= 5;
+		}
+
+		return Math.ceil(hardness * 20);
 	}
 
 	/**

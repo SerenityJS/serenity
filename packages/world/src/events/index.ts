@@ -13,6 +13,7 @@ export * from "./player-initialize";
 export * from "./player-chat";
 export * from "./player-execute-command";
 export * from "./player-place-block";
+export * from "./player-start-break-block";
 export * from "./player-break-block";
 export * from "./player-interact-with-entity";
 export * from "./player-interact-with-block";

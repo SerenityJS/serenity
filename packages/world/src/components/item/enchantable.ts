@@ -1,8 +1,11 @@
 import { CompoundTag, ListTag, ShortTag, Tag } from "@serenityjs/nbt";
+import { type Enchantment, ItemUseMethod } from "@serenityjs/protocol";
+
+import { ItemUseCause } from "../../enums";
 
 import { ItemComponent } from "./item-component";
 
-import type { Enchantment } from "@serenityjs/protocol";
+import type { ItemUseOptions } from "../../options";
 import type { Items } from "@serenityjs/item";
 import type { ItemStack } from "../../item";
 
@@ -136,6 +139,26 @@ class ItemEnchantableComponent<T extends keyof Items> extends ItemComponent<T> {
 
 		// Update the item in the container.
 		this.item.update();
+	}
+
+	public onUse(options: ItemUseOptions): ItemUseMethod | undefined {
+		// Check if there is a targeted entity, and it the use cause was "use"
+		if (!options.targetEntity || options.cause !== ItemUseCause.Use) return;
+
+		const entity = options.targetEntity;
+
+		console.log(
+			"Attack entity with ench.",
+			"\nTarget:",
+			entity.unique,
+			entity.runtime
+		);
+
+		console.log("Enchatments:", this.enchantments);
+
+		entity.setOnFire(4 * 20);
+
+		return ItemUseMethod.Attack;
 	}
 
 	public equals(component: ItemComponent<T>): boolean {

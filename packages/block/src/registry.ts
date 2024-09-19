@@ -1,4 +1,9 @@
-import { BLOCK_TYPES, BLOCK_PERMUTATIONS, BLOCK_DROPS } from "@serenityjs/data";
+import {
+	BLOCK_TYPES,
+	BLOCK_PERMUTATIONS,
+	BLOCK_DROPS,
+	BLOCK_METADATA
+} from "@serenityjs/data";
 
 import { BlockType } from "./type";
 import { BlockPermutation } from "./permutation";
@@ -13,10 +18,13 @@ for (const type of BLOCK_TYPES) {
 		throw new Error(`Block type ${type.identifier} is already registered`);
 	}
 
-	/**
-	 * The default drops of the block type.
-	 */
+	// Find the block drops for the block type.
 	const block = BLOCK_DROPS.find((drop) => drop.identifier === type.identifier);
+
+	// Find the metadata for the block type.
+	const metadata = BLOCK_METADATA.find(
+		(meta) => meta.identifier === type.identifier
+	) ?? { hardness: 0, friction: 0, mapColor: "" };
 
 	// Register the block type.
 	const instance = new BlockType(
@@ -25,6 +33,9 @@ for (const type of BLOCK_TYPES) {
 		type.air,
 		type.liquid,
 		type.solid,
+		metadata.hardness,
+		metadata.friction,
+		metadata.mapColor,
 		type.components,
 		type.tags
 	);

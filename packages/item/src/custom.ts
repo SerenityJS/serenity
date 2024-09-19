@@ -2,7 +2,12 @@ import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
 
 import { CreativeItem } from "./creative";
 import { ItemType } from "./type";
-import { ItemCategory, type ItemGroup } from "./enums";
+import {
+	ItemCategory,
+	ItemToolTier,
+	ItemToolType,
+	type ItemGroup
+} from "./enums";
 
 import type { Items } from "./types";
 import type { BlockType } from "@serenityjs/block";
@@ -41,6 +46,8 @@ class CustomItemType extends ItemType {
 			CustomItemType.network++,
 			true,
 			64,
+			ItemToolType.None,
+			ItemToolTier.None,
 			[],
 			block as Items[keyof Items]
 		);

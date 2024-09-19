@@ -35,6 +35,7 @@ import { EntityIdentifier } from "@serenityjs/entity";
 import { Entity } from "../entity";
 import { PlayerComponent, EntityComponent } from "../components";
 import { EntitySpawnedSignal, PlayerMissSwingSignal } from "../events";
+import { ItemUseCause } from "../enums";
 
 import { PlayerStatus } from "./status";
 import { Device } from "./device";
@@ -518,7 +519,7 @@ class Player extends Entity {
 			packet.yaw = this.rotation.yaw;
 			packet.headYaw = this.rotation.headYaw;
 			packet.mode = MoveMode.Teleport;
-			packet.onGround = false; // TODO: Added ground check
+			packet.onGround = this.onGround;
 			packet.riddenRuntimeId = 0n;
 			packet.cause = new TeleportCause(4, 0);
 			packet.tick = this.dimension.world.currentTick;
@@ -736,6 +737,42 @@ class Player extends Entity {
 		];
 
 		// Send the packet to the player
+		this.dimension.broadcast(packet);
+	}
+
+	/**
+	 * Forces the player to use an item.
+	 * @param slot The slot of the item to use.
+	 */
+	public useItem(slot?: number): void {
+		// Get the player's inventory component
+		const inventory = this.getComponent("minecraft:inventory");
+
+		// Get the item stack from the player's inventory
+		const itemStack =
+			slot === undefined
+				? inventory.getHeldItem()
+				: inventory.container.getItem(slot);
+
+		// Check if the item stack is valid
+		if (itemStack === null) return;
+
+		// Trigger the onUse method of all applicable components for the item
+		for (const component of itemStack.getComponents()) {
+			// Get the item use cause
+			const cause = ItemUseCause.Use;
+
+			// Call the onUse method of the component
+			component.onUse?.({ player: this, cause });
+		}
+
+		// Create a new ActorEventPacket
+		const packet = new ActorEventPacket();
+		packet.actorRuntimeId = this.runtime;
+		packet.eventId = ActorEventIds.ARM_SWING;
+		packet.eventData = inventory.selectedSlot;
+
+		// Send the packet to the dimension
 		this.dimension.broadcast(packet);
 	}
 
