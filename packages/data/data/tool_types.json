@@ -1,7 +1,7 @@
 [
   {
     "identifier": "axe",
-    "network": 0,
+    "network": 1,
     "types": [
       "minecraft:wooden_axe",
       "minecraft:stone_axe",
@@ -13,7 +13,7 @@
   },
   {
     "identifier": "hoe",
-    "network": 1,
+    "network": 2,
     "types": [
       "minecraft:wooden_hoe",
       "minecraft:stone_hoe",
@@ -25,7 +25,7 @@
   },
   {
     "identifier": "shovel",
-    "network": 2,
+    "network": 3,
     "types": [
       "minecraft:wooden_shovel",
       "minecraft:stone_shovel",
@@ -37,7 +37,7 @@
   },
   {
     "identifier": "sword",
-    "network": 3,
+    "network": 4,
     "types": [
       "minecraft:wooden_sword",
       "minecraft:stone_sword",
@@ -49,7 +49,7 @@
   },
   {
     "identifier": "pickaxe",
-    "network": 4,
+    "network": 5,
     "types": [
       "minecraft:wooden_pickaxe",
       "minecraft:stone_pickaxe",

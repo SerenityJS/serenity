@@ -1,4 +1,4 @@
-import { ItemType, type Items } from "@serenityjs/item";
+import { type ItemToolType, ItemType, type Items } from "@serenityjs/item";
 import {
 	ByteTag,
 	CompoundTag,
@@ -9,7 +9,6 @@ import {
 } from "@serenityjs/nbt";
 
 import { ItemComponent, ItemTagComponent } from "../components";
-import { BlockToolType } from "../enums";
 
 import type {
 	NetworkItemInstanceDescriptor,
@@ -252,20 +251,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * Gets the tool type of the item.
 	 * @returns The tool type of the item.
 	 */
-	public getToolType(): BlockToolType {
-		// Get the identifier of the item.
-		const identifier = this.type.identifier;
-
-		// Check if the identifier includes a tool type.
-		if (identifier.includes("sword")) return BlockToolType.Sword;
-		if (identifier.includes("shovel")) return BlockToolType.Shovel;
-		if (identifier.includes("pickaxe")) return BlockToolType.Pickaxe;
-		if (identifier.includes("axe")) return BlockToolType.Axe;
-		if (identifier.includes("hoe")) return BlockToolType.Hoe;
-		if (identifier.includes("shears")) return BlockToolType.Shears;
-
-		// Return the default tool type.
-		return BlockToolType.None;
+	public getToolType(): ItemToolType {
+		return this.type.tool;
 	}
 
 	/**
