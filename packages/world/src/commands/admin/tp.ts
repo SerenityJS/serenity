@@ -36,6 +36,33 @@ const register = (world: World) => {
 				}
 			);
 
+			registry.overload(
+				{
+					target: TargetEnum,
+					destination: TargetEnum
+				},
+				(context) => {
+					// Get the targets from the context
+					const targets = context.target.result as Array<Entity>;
+
+					// Get the destination from the context
+					const destination = context.destination.result as Array<Entity>;
+
+					// Check if the destination is a dimension
+					if (destination.length > 1)
+						throw new Error("Destination must be a single entity");
+
+					// Get the position from the destination
+					const position = (destination[0] as Entity).position;
+
+					// Loop through all the targets
+					for (const target of targets) {
+						// Teleport the entity to the new location
+						target.teleport(position);
+					}
+				}
+			);
+
 			// Create an overload for the command
 			registry.overload(
 				{
