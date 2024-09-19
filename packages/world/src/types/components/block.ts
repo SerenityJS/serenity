@@ -9,10 +9,15 @@ import type {
 	BlockSignComponent,
 	BlockLootComponent,
 	BlockSupportedComponent,
-	BlockTillableComponent
+	BlockTillableComponent,
+	BlockGrowthComponent
 } from "../../components";
 
-interface BlockComponents {
+interface BlockSateCompnents {
+	"minecraft:growth": BlockGrowthComponent;
+}
+
+interface BlockComponents extends BlockSateCompnents {
 	"minecraft:inventory": BlockInventoryComponent;
 	"minecraft:nametag": BlockNametagComponent;
 	"minecraft:cardinal_direction": BlockCardinalDirectionComponent;

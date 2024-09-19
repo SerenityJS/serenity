@@ -13,7 +13,8 @@ class BlockTillableComponent extends BlockComponent {
 
 	public static readonly types = [
 		BlockIdentifier.Dirt,
-		BlockIdentifier.GrassBlock
+		BlockIdentifier.GrassBlock,
+		BlockIdentifier.Farmland
 	];
 
 	/**
@@ -25,6 +26,14 @@ class BlockTillableComponent extends BlockComponent {
 	 * The block outcome when tilled.
 	 */
 	public outcome: BlockIdentifier = BlockIdentifier.Farmland;
+
+	public constructor(block: Block) {
+		super(block, BlockTillableComponent.identifier);
+
+		// Check if the block is farmland, if so set the tilled value to true.
+		if (block.getType().identifier === BlockIdentifier.Farmland)
+			this.tilled = true;
+	}
 
 	public onInteract(player: Player): void {
 		// Verify the player's gamemode.
@@ -61,6 +70,19 @@ class BlockTillableComponent extends BlockComponent {
 
 		// Tills the block.
 		this.till(player);
+	}
+
+	public onBreak(player?: Player): boolean {
+		// Get the block above the current block.
+		const above = this.block.above();
+
+		// Check if the block above has a growth component.
+		const growth = above.hasComponent("minecraft:growth");
+
+		// Destroy the block above if it has a growth component.
+		if (growth) above.destroy(player);
+
+		return true;
 	}
 
 	/**
@@ -108,7 +130,7 @@ class BlockTillableComponent extends BlockComponent {
 		block: Block
 	): BlockTillableComponent {
 		// Create the component.
-		const component = new this(block, this.identifier);
+		const component = new this(block);
 
 		// Set the tilled value.
 		component.tilled = nbt.getTag("Tilled")?.value === 1;

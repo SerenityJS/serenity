@@ -644,12 +644,16 @@ class Block {
 				// Get the position of the block.
 				const { x, y, z } = this.position;
 
-				// TODO: Check for the correct tool.
-
 				// Iterate over the drops of the block.
-				for (const drop of this.permutation.type.drops) {
+				for (const drop of this.getType().drops) {
+					// Check if the drop is air, if so we will skip it.
+					if (drop.type === BlockIdentifier.Air) continue;
+
 					// Roll the drop amount.
 					const amount = drop.roll();
+
+					// Check if the amount is less than or equal to 0.
+					if (amount <= 0) continue;
 
 					// Create a new ItemStack.
 					const itemType = ItemType.get(

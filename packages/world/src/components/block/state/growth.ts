@@ -61,9 +61,9 @@ class BlockGrowthComponent extends BlockStateComponent {
 		// Get the current tick of the world
 		const currentTick = this.block.dimension.world.currentTick;
 
-		// Check if the current tick is not divisible by 20
+		// Check if the current tick is not divisible by 100
 		// And if the stage is greater than or equal to 7
-		if (currentTick % 20n !== 0n || this.stage >= 7) return;
+		if (currentTick % 100n !== 0n || this.stage >= 7) return;
 
 		// Random growth has a probability of 14%
 		const random = Math.floor(Math.random() * 100);

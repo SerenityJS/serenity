@@ -19,7 +19,7 @@ for (const type of BLOCK_TYPES) {
 	}
 
 	// Find the block drops for the block type.
-	const block = BLOCK_DROPS.find((drop) => drop.identifier === type.identifier);
+	const drop = BLOCK_DROPS.find((drop) => drop.identifier === type.identifier);
 
 	// Find the metadata for the block type.
 	const metadata = BLOCK_METADATA.find(
@@ -40,15 +40,21 @@ for (const type of BLOCK_TYPES) {
 		type.tags
 	);
 
-	if (block) {
-		for (const drop of block?.drops ?? []) {
-			const itemDrop = new ItemDrop(drop.identifier, drop.min, drop.max);
+	// Check if the block type has drops.
+	if (drop) {
+		for (const entry of drop?.drops ?? []) {
+			// Separate the drop information.
+			const { identifier, min, max, chance } = entry;
 
+			// Create a new item drop.
+			const itemDrop = new ItemDrop(identifier, min, max, chance);
+
+			// Register the item drop to the block type.
 			instance.drops.push(itemDrop);
 		}
-	} else {
-		instance.drops.push(new ItemDrop(type.identifier, 1, 1));
 	}
+	// Register the default drop for the block type.
+	else instance.drops.push(new ItemDrop(type.identifier, 1, 1, 1));
 
 	// Set the block type in the registry.
 	BlockType.types.set(type.identifier as BlockIdentifier, instance);
