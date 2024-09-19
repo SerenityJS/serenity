@@ -1,9 +1,20 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
+import { CommandPermissionLevel, Gamemode } from "@serenityjs/protocol";
 
 import { TargetEnum } from "../enums";
+import { Player } from "../../player";
 
 import type { World } from "../../world";
 import type { Entity } from "../../entity";
+
+/**
+ * When executing /kill on a player, if the player
+ * has one of these gamemodes, the player will be ignored.
+ */
+const IGNORED_GAMEMODES = new Set([
+	Gamemode.Creative,
+	Gamemode.CreativeSpectator,
+	Gamemode.Spectator
+]);
 
 const register = (world: World) => {
 	// Register the kill command
@@ -31,7 +42,14 @@ const register = (world: World) => {
 						throw new Error("No targets matched the selector.");
 
 					// Loop through all the targets
-					for (const target of targets) target.kill();
+					for (const target of targets) {
+						if (
+							target instanceof Player &&
+							IGNORED_GAMEMODES.has(target.gamemode)
+						)
+							continue;
+						target.kill();
+					}
 				}
 			);
 		},
