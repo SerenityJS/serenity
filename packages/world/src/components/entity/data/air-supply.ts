@@ -21,8 +21,6 @@ class EntityAirSupplyComponent extends EntityDataComponent {
 	public maxValue = 300;
 	public readonly defaultValue = 300;
 
-	public readonly breathing = this.entity.getComponent("minecraft:breathing");
-
 	public constructor(entity: Entity) {
 		super(entity, EntityAirSupplyComponent.identifier);
 
@@ -33,6 +31,10 @@ class EntityAirSupplyComponent extends EntityDataComponent {
 		// Check if the entity is alive.
 		// If the entity isn't alive, we will skip the logic.
 		if (!this.entity.isAlive) return;
+
+		// Get the breathing component of the entity
+		const breathing = this.entity.getComponent("minecraft:breathing");
+		if (!breathing) return;
 
 		// TODO: Add enchantment check
 		const enchantmentCheck = true;
@@ -45,15 +47,13 @@ class EntityAirSupplyComponent extends EntityDataComponent {
 		)
 			return;
 
-		const breathing = this.breathing.getCurrentValue();
+		const value = breathing.getCurrentValue();
 
 		// Update the breathing flag if the entity cannot breath
-		if (!this.canBreath() && breathing)
-			this.breathing.setCurrentValue(false, true);
+		if (!this.canBreath() && value) breathing.setCurrentValue(false, true);
 
 		// Update the breathing flag if the entity can breath
-		if (this.canBreath() && !breathing)
-			this.breathing.setCurrentValue(true, true);
+		if (this.canBreath() && !value) breathing.setCurrentValue(true, true);
 
 		if (!this.canBreath()) {
 			// Check if an enchantment is preventing the entity from drowning

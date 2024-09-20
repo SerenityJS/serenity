@@ -16,12 +16,12 @@ import { WorldMessageSignal, WorldTickSignal } from "../events";
 import { ADMIN_COMMANDS, COMMON_COMMANDS } from "../commands";
 import { BlockPalette } from "../block";
 import { ItemPalette } from "../item";
+import { EntityPalette, type Entity } from "../entity";
 
 import { Dimension } from "./dimension";
 
 import type { DimensionBounds, WorldEventSignals } from "../types";
 import type { TerrainGenerator } from "../generator";
-import type { Entity } from "../entity";
 import type { WorldProvider } from "../provider";
 import type { Player } from "../player";
 
@@ -60,6 +60,11 @@ class World {
 	 * The item palette for the world.
 	 */
 	public readonly items = new ItemPalette();
+
+	/**
+	 * The entity palette for the world.
+	 */
+	public readonly entities = new EntityPalette();
 
 	/**
 	 * The logger for the world.

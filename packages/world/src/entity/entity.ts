@@ -36,7 +36,7 @@ import {
 import { CardinalDirection, type EntityInteractType } from "../enums";
 import {
 	EntityAlwaysShowNametagComponent,
-	EntityComponent,
+	type EntityComponent,
 	EntityEffectsComponent,
 	EntityHealthComponent,
 	EntityIsVisibleComponent,
@@ -195,9 +195,17 @@ class Entity {
 		// Check if the entity is a player
 		if (this.type.identifier === EntityIdentifier.Player) return;
 
+		// Get the components of the entity from the entity palette
+		const components = this.dimension.world.entities.getRegistryFor(identifier);
+
 		// Register the type components to the entity.
-		for (const component of EntityComponent.registry.get(identifier) ?? [])
+		for (const component of components) {
+			// Skip if the entity already has the component
+			if (this.components.has(component.identifier)) continue;
+
+			// Create a new instance of the component
 			new component(this, component.identifier);
+		}
 	}
 
 	/**
@@ -1266,10 +1274,13 @@ class Entity {
 		// Add the components to the root tag.
 		root.addTag(components);
 
+		// Get the world from the entity.
+		const world = entity.dimension.world;
+
 		// Iterate over the components and serialize them.
 		for (const component of entity.getComponents()) {
 			// Get the component type.
-			const type = EntityComponent.components.get(component.identifier);
+			const type = world.entities.components.get(component.identifier);
 			if (!type) continue;
 
 			// Create a data compound tag for the data to be written to.
@@ -1333,13 +1344,16 @@ class Entity {
 		const components = tag.getTag("SerenityComponents")
 			?.value as Array<CompoundTag>;
 
+		// Get the world from the entity.
+		const world = entity.dimension.world;
+
 		// Iterate over the components and deserialize them.
 		for (const componentTag of components) {
 			// Get the identifier of the component.
 			const identifier = componentTag.getTag("identifier")?.value as string;
 
 			// Get the component type.
-			const type = EntityComponent.components.get(identifier);
+			const type = world.entities.components.get(identifier);
 			if (!type) continue;
 
 			// Get the data of the component.

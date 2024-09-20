@@ -1,3 +1,4 @@
+import type { World } from "../world";
 import type { CompoundTag } from "@serenityjs/nbt";
 
 /**
@@ -43,9 +44,11 @@ class Component {
 	public onTick?(deltaTick: number): void;
 
 	/**
-	 * Binds the component to the specified types.
+	 * Register the component to a world.
+	 * @param world The world to register the component to.
+	 * @returns If the component was registered.
 	 */
-	public static bind(): void {
+	public static register(_world: World): boolean {
 		throw new Error("Method not implemented.");
 	}
 

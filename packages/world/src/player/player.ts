@@ -33,7 +33,7 @@ import {
 import { EntityIdentifier } from "@serenityjs/entity";
 
 import { Entity } from "../entity";
-import { PlayerComponent, EntityComponent } from "../components";
+import { PlayerComponent } from "../components";
 import { EntitySpawnedSignal, PlayerMissSwingSignal } from "../events";
 import { ItemUseCause } from "../enums";
 
@@ -170,17 +170,19 @@ class Player extends Entity {
 		this.skin = SerializedSkin.from(options.tokens.clientData);
 		this.device = new Device(options.tokens.clientData);
 
-		// Register the type components to the entity.
-		for (const component of EntityComponent.registry.get(
+		// Get the components of the entity from the entity palette
+		const components = this.dimension.world.entities.getRegistryFor(
 			this.type.identifier
-		) ?? [])
-			new component(this, component.identifier);
+		);
 
-		// Register the type components to the player.
-		for (const component of PlayerComponent.registry.get(
-			this.type.identifier
-		) ?? [])
+		// Register the type components to the entity.
+		for (const component of components) {
+			// Skip if the player already has the component
+			if (this.components.has(component.identifier)) continue;
+
+			// Create a new instance of the component
 			new component(this, component.identifier);
+		}
 	}
 
 	/**

@@ -449,7 +449,7 @@ class LevelDBProvider extends WorldProvider {
 		this.db.put(Buffer.from(key), stream.getBuffer());
 	}
 
-	public save(shutdown?: boolean): void {
+	public save(): void {
 		// Iterate through the chunks and write them to the database.
 		for (const [dimension, chunks] of this.chunks) {
 			// Iterate through the chunks and write them to the database
@@ -485,9 +485,6 @@ class LevelDBProvider extends WorldProvider {
 			// Write the block data to the database.
 			this.writeBlockData(dimension, blockData);
 		}
-
-		// If the provider is shutting down, close the database connection.
-		if (shutdown) this.db.close();
 	}
 
 	/**
@@ -531,6 +528,49 @@ class LevelDBProvider extends WorldProvider {
 
 		// Write the chunk version to the database.
 		this.db.put(key, Buffer.from([version]));
+	}
+
+	public onStartup(): void {
+		// Get the provider instance for the world.
+		const provider = this.world.provider;
+
+		// Iterate through the dimensions and read the block data and actors from the database.
+		for (const [, dimension] of this.world.dimensions) {
+			// Read the available actors for the dimension.
+			const uniqueIds = provider.readAvailableActors(dimension);
+
+			// Iterate through the unique identifiers and spawn the entities.
+			for (const uniqueId of uniqueIds) {
+				// Read the entity from the provider.
+				const entity = provider.readEntity(dimension, uniqueId);
+
+				// Deserialize the entity and add it to the dimension.
+				const instance = Entity.deserialize(entity, dimension);
+
+				// Spawn the entity in the dimension.
+				instance.spawn();
+			}
+
+			// Read the block data for the dimension.
+			const blockData = provider.readBlockData(dimension);
+
+			// Iterate through the block data and deserialize the blocks.
+			for (const nbt of blockData) {
+				// Deserialize the block from the nbt.
+				const block = Block.deserialize(dimension, nbt);
+
+				// Add the block to the dimension.
+				dimension.blocks.set(block.position, block);
+			}
+		}
+	}
+
+	public onShutdown(): void {
+		// Save the world data to the database.
+		this.save();
+
+		// Close the LevelDB database.
+		this.db.close();
 	}
 
 	public static initialize(
@@ -594,33 +634,6 @@ class LevelDBProvider extends WorldProvider {
 			dimension.spawn.x = x;
 			dimension.spawn.y = y;
 			dimension.spawn.z = z;
-
-			// Read the available actors for the dimension.
-			const uniqueIds = provider.readAvailableActors(dimension);
-
-			// Iterate through the unique identifiers and spawn the entities.
-			for (const uniqueId of uniqueIds) {
-				// Read the entity from the provider.
-				const entity = provider.readEntity(dimension, uniqueId);
-
-				// Deserialize the entity and add it to the dimension.
-				const instance = Entity.deserialize(entity, dimension);
-
-				// Spawn the entity in the dimension.
-				instance.spawn();
-			}
-
-			// Read the block data for the dimension.
-			const blockData = provider.readBlockData(dimension);
-
-			// Iterate through the block data and deserialize the blocks.
-			for (const nbt of blockData) {
-				// Deserialize the block from the nbt.
-				const block = Block.deserialize(dimension, nbt);
-
-				// Add the block to the dimension.
-				dimension.blocks.set(block.position, block);
-			}
 
 			// Debug log the dimension creation.
 			this.logger.debug(

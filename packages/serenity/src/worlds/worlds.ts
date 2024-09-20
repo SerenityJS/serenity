@@ -198,6 +198,9 @@ class Worlds extends Emitter<WorldEventSignals> {
 
 					// Add the world to the worlds map.
 					this.entries.set(world.identifier, world);
+
+					// Startup the provider.
+					world.provider.onStartup();
 				} else {
 					// Log an error message.
 					this.logger.error(
@@ -234,7 +237,7 @@ class Worlds extends Emitter<WorldEventSignals> {
 		// Save all the worlds.
 		for await (const world of this.entries.values()) {
 			// Save the world.
-			await world.provider.save(true);
+			await world.provider.onShutdown();
 
 			// Delete the world from the worlds map.
 			this.entries.delete(world.identifier);

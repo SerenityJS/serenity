@@ -31,7 +31,7 @@ import {
 import { ItemStack } from "../item";
 import {
 	BlockCollisionComponent,
-	BlockComponent,
+	type BlockComponent,
 	BlockStateComponent
 } from "../components";
 import {
@@ -299,8 +299,11 @@ class Block {
 
 		// If the components should be cleared, we will register the new components.
 		if (clear) {
+			// Get the world of the block.
+			const world = this.dimension.world;
+
 			// Register the components to the block.
-			for (const component of BlockComponent.registry.get(
+			for (const component of world.blocks.getRegistry(
 				permutation.type.identifier
 			) ?? [])
 				new component(this, component.identifier);
@@ -308,7 +311,7 @@ class Block {
 			// Register the components that are type specific.
 			for (const identifier of permutation.type.components) {
 				// Get the component from the registry
-				const component = BlockComponent.components.get(identifier);
+				const component = world.blocks.getComponent(identifier);
 
 				// Check if the component exists.
 				if (component) new component(this, identifier);
@@ -317,7 +320,7 @@ class Block {
 			// Register the components that are state specific.
 			for (const key of Object.keys(permutation.state)) {
 				// Get the component from the registry
-				const component = [...BlockComponent.components.values()].find((x) => {
+				const component = world.blocks.getAllComponents().find((x) => {
 					// If the identifier is undefined, we will skip it.
 					if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
 						return false;
@@ -842,10 +845,13 @@ class Block {
 		// Create the components list tag.
 		const components = root.createListTag("SerenityComponents", Tag.Compound);
 
+		// Get the world of the block.
+		const world = block.dimension.world;
+
 		// Iterate over the components and serialize them.
 		for (const component of block.getComponents()) {
 			// Get the component type.
-			const type = BlockComponent.components.get(component.identifier);
+			const type = world.blocks.getComponent(component.identifier);
 			if (!type) continue;
 
 			// Create a data compound tag for the data to be written to.
@@ -894,13 +900,16 @@ class Block {
 		const components =
 			nbt.getTag<ListTag<CompoundTag>>("SerenityComponents")?.value ?? [];
 
+		// Get the world of the block.
+		const world = dimension.world;
+
 		// Iterate over the components and deserialize them.
 		for (const componentTag of components) {
 			// Get the component identifier.
 			const identifier = componentTag.getTag("identifier")?.value as string;
 
 			// Get the component type.
-			const type = BlockComponent.components.get(identifier);
+			const type = world.blocks.getComponent(identifier);
 			if (!type) continue;
 
 			// Deserialize the component.

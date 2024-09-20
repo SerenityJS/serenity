@@ -1,26 +1,13 @@
-import { type EntityIdentifier, EntityType } from "@serenityjs/entity";
-
 import { Component } from "../component";
 
+import type { World } from "../../world";
+import type { EntityIdentifier } from "@serenityjs/entity";
 import type { CompoundTag } from "@serenityjs/nbt";
 import type { EntityInteractType } from "../../enums";
 import type { Player } from "../../player";
 import type { Entity } from "../../entity";
 
 class EntityComponent extends Component {
-	/**
-	 * A collective registry of all entity components registered to an entity type.
-	 */
-	public static readonly registry = new Map<
-		EntityIdentifier,
-		Array<typeof EntityComponent>
-	>();
-
-	/**
-	 * A collective registry of all entity components.
-	 */
-	public static readonly components = new Map<string, typeof EntityComponent>();
-
 	/**
 	 * The entity type identifiers to bind the component to.
 	 */
@@ -72,21 +59,6 @@ class EntityComponent extends Component {
 	}
 
 	/**
-	 * Registers the entity component to the entity type.
-	 * @param type The entity type to register the component to.
-	 */
-	public static register(type: EntityType): void {
-		// Get the components of the entity type.
-		const components = EntityComponent.registry.get(type.identifier) ?? [];
-
-		// Push the component to the registry.
-		components.push(this);
-
-		// Set the components to the entity type.
-		EntityComponent.registry.set(type.identifier, components);
-	}
-
-	/**
 	 * Called when the entity is spawned into the dimension.
 	 */
 	public onSpawn?(): void;
@@ -104,36 +76,12 @@ class EntityComponent extends Component {
 	public onInteract?(player: Player, type: EntityInteractType): void;
 
 	/**
-	 * Get a component by its identifier from the registry.
-	 * @param identifier The identifier of the component.
-	 * @returns The component if found, otherwise null.
+	 * Register the entity component to a world.
+	 * @param world The world to register the entity component to.
+	 * @returns True if the entity component was registered, false otherwise.
 	 */
-	public static get(identifier: string): typeof EntityComponent | null {
-		return EntityComponent.components.get(identifier) as
-			| typeof EntityComponent
-			| null;
-	}
-
-	/**
-	 * Get all the components from the registry.
-	 * @returns All the components from the registry.
-	 */
-	public static getAll(): Array<typeof EntityComponent> {
-		return [...EntityComponent.components.values()];
-	}
-
-	public static bind(): void {
-		// Bind the component to the entity types.
-		for (const identifier of this.types) {
-			// Get the entity type.
-			const type = EntityType.get(identifier);
-
-			// Register the component to the entity type.
-			if (type) this.register(type);
-		}
-
-		// Register the component.
-		EntityComponent.components.set(this.identifier, this);
+	public static register(world: World): boolean {
+		return world.entities.registerComponent(this);
 	}
 
 	/**

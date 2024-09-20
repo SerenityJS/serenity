@@ -7,6 +7,7 @@ import {
 } from "@serenityjs/block";
 
 import { BlockEnum } from "../commands";
+import { BLOCK_COMPONENTS, type BlockComponent } from "../components";
 
 class BlockPalette {
 	/**
@@ -18,6 +19,24 @@ class BlockPalette {
 	 * The registered block permutations for the palette.
 	 */
 	public readonly permutations = BlockPermutation.permutations;
+
+	/**
+	 * The registered block components for the palette.
+	 */
+	public readonly components = new Map<string, typeof BlockComponent>();
+
+	/**
+	 * The registry for the block components.
+	 */
+	public readonly registry = new Map<
+		BlockIdentifier,
+		Array<typeof BlockComponent>
+	>();
+
+	public constructor() {
+		// Register all block components.
+		for (const component of BLOCK_COMPONENTS) this.registerComponent(component);
+	}
 
 	/**
 	 * Gets all block types from the palette.
@@ -145,6 +164,109 @@ class BlockPalette {
 
 		// Return true if the block permutation was registered.
 		return true;
+	}
+
+	/**
+	 * Get the registry for the block identifier.
+	 * @param type The block identifier to get the registry for.
+	 * @returns The registry for the block identifier.
+	 */
+	public getRegistry(type: BlockIdentifier): Array<typeof BlockComponent> {
+		// Get the registry for the block identifier.
+		const registry = this.registry.get(type) || [];
+
+		// Return the registry.
+		return registry as Array<typeof BlockComponent>;
+	}
+
+	/**
+	 * Register a component to the palette.
+	 * @param component The component to register.
+	 * @returns True if the component was registered, false otherwise.
+	 */
+	public registerComponent(component: typeof BlockComponent): boolean {
+		// Check if the block component is already registered.
+		if (this.components.has(component.identifier)) return false;
+
+		// Register the block component.
+		this.components.set(component.identifier, component);
+
+		// Iterate over the types of the component.
+		for (const type of component.types) {
+			// Check if the registry has the block identifier.
+			if (!this.registry.has(type))
+				// Set the registry for the block identifier.
+				this.registry.set(type, []);
+
+			// Get the registry for the block identifier.
+			const registry = this.registry.get(type);
+
+			// Check if the registry exists.
+			if (registry) {
+				// Push the component to the registry.
+				registry.push(component);
+
+				// Set the registry for the block identifier.
+				this.registry.set(type, registry);
+			}
+		}
+
+		// Return true if the block component was registered.
+		return true;
+	}
+
+	/**
+	 * Remove a component from the palette.
+	 * @param identifier The identifier of the component.
+	 * @returns True if the component was removed, false otherwise.
+	 */
+	public removeComponent(identifier: string): boolean {
+		// Check if the component exists.
+		if (!this.components.has(identifier)) return false;
+
+		// Get the component.
+		const component = this.components.get(identifier);
+
+		// Check if the component exists.
+		if (!component) return false;
+
+		// Iterate over the types of the component.
+		for (const type of component.types) {
+			// Get the registry for the block identifier.
+			const registry = this.registry.get(type);
+
+			// Check if the registry exists.
+			if (registry) {
+				// Remove the component from the registry.
+				this.registry.set(
+					type,
+					registry.filter((component) => component.identifier !== identifier)
+				);
+			}
+		}
+
+		// Remove the component from the palette.
+		this.components.delete(identifier);
+
+		// Return true if the component was removed.
+		return true;
+	}
+
+	/**
+	 * Get all the components from the palette.
+	 * @returns All the components from the palette.
+	 */
+	public getAllComponents(): Array<typeof BlockComponent> {
+		return [...this.components.values()];
+	}
+
+	/**
+	 * Get a component from the palette.
+	 * @param identifier The identifier of the component.
+	 * @returns The component from the palette.
+	 */
+	public getComponent(identifier: string): typeof BlockComponent | null {
+		return this.components.get(identifier) ?? null;
 	}
 }
 
