@@ -33,9 +33,6 @@ for (const key in ItemComponents) {
 
 	// Push the item component to the registry.
 	ITEM_COMPONENTS.push(value as typeof ItemComponents.ItemComponent);
-
-	// Iterate over the item types.
-	value.bind();
 }
 
 //

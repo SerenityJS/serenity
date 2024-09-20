@@ -8,14 +8,19 @@ import {
 	Tag
 } from "@serenityjs/nbt";
 
-import { ItemComponent, ItemTagComponent } from "../components";
+import { type ItemComponent, ItemTagComponent } from "../components";
+import { BlockContainer, EntityContainer, type Container } from "../container";
 
+import type { World } from "../world";
 import type {
 	NetworkItemInstanceDescriptor,
 	NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 import type { ItemComponents } from "../types";
-import type { Container } from "../container";
+
+// TODO
+// READ ME!!!!
+// This class is in a desperate need of a refactor!!!!
 
 class ItemStack<T extends keyof Items = keyof Items> {
 	/**
@@ -71,29 +76,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		this.maxAmount = this.type.maxAmount;
 		this.amount = amount;
 
-		// Register the type components to the item.
-		for (const component of ItemComponent.registry.get(identifier) ?? [])
-			new component(this, component.identifier);
-
-		// Register the tag components to the item.
-		for (const tag of this.type.tags) {
-			// Get the component from the registry
-			const component = [...ItemComponent.components.values()].find((x) => {
-				// If the identifier is undefined, we will skip it.
-				if (!x.identifier || !(x.prototype instanceof ItemTagComponent))
-					return false;
-
-				// Initialize the component as a BlockStateComponent.
-				const component = x as typeof ItemTagComponent;
-
-				// Check if the identifier includes the key.
-				// As some states dont include a namespace.
-				return component.tag === tag;
-			});
-
-			// Check if the component exists.
-			if (component) new component(this, component.identifier);
-		}
+		// Update the item stack.
+		this.update();
 	}
 
 	/**
@@ -126,6 +110,50 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
 		// Set the item in the container.
 		else this.container.setItem(slot, this);
+	}
+
+	// TODO: Get rid of this...
+	public sync(): void {
+		// Check if the item is in a world.
+		if (!this.getWorld()) return;
+
+		// Get the world the item is in.
+		const world = this.getWorld() as World;
+
+		// Register the type components to the item.
+		for (const component of world.items.getRegistry(this.type.identifier)) {
+			// Skip if the item already has the component.
+			if (this.components.has(component.identifier)) continue;
+
+			// Create the component.
+			new component(this, component.identifier);
+		}
+
+		// Register the tag components to the item.
+		for (const tag of this.type.tags) {
+			// Get the component from the registry
+			const component = world.items.getAllComponents().find((x) => {
+				// If the identifier is undefined, we will skip it.
+				if (!x.identifier || !(x.prototype instanceof ItemTagComponent))
+					return false;
+
+				// Initialize the component as a BlockStateComponent.
+				const component = x as typeof ItemTagComponent;
+
+				// Check if the identifier includes the key.
+				// As some states dont include a namespace.
+				return component.tag === tag;
+			});
+
+			// Check if the component exists.
+			if (!component) continue;
+
+			// Check if the item already has the component.
+			if (this.components.has(component.identifier)) continue;
+
+			// Create the component.
+			new component(this, component.identifier);
+		}
 	}
 
 	/**
@@ -256,6 +284,26 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	}
 
 	/**
+	 * Gets the world the item is in.
+	 * @returns The world the item is in.
+	 */
+	public getWorld(): World | null {
+		// Check if the item is in a container.
+		if (!this.container) return null;
+
+		// Check if the container is an entity container.
+		if (this.container instanceof EntityContainer)
+			return this.container.entity.dimension.world;
+
+		// Check if the container is a block container.
+		if (this.container instanceof BlockContainer)
+			return this.container.block.dimension.world;
+
+		// Return null if the world is not found.
+		return null;
+	}
+
+	/**
 	 * Converts the item stack to a network item instance descriptor.
 	 * Which is used on the protocol level.
 	 * @param item The item stack to convert.
@@ -347,6 +395,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * @returns The serialized representation of the item stack.
 	 */
 	public static serialize(itemStack: ItemStack, tagName?: string): CompoundTag {
+		const world = itemStack.getWorld();
+
+		if (!world) throw new Error(`ItemStack is not in a world`);
+
 		// Create the root tag.
 		const root = new CompoundTag(tagName).addTag(
 			new StringTag("Name", itemStack.type.identifier),
@@ -367,7 +419,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 		// Iterate over the components and serialize them.
 		for (const component of itemStack.getComponents()) {
 			// Get the component type.
-			const type = ItemComponent.components.get(component.identifier);
+			const type = world.items.getComponent(component.identifier);
 			if (!type) continue;
 
 			// Create a data compound tag for the data to be written to.
@@ -399,7 +451,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 	 * @returns The deserialized Itemstack
 	 * @throws Will throw an error if the tag does not contain a valid item identifier.
 	 */
-	public static deserialize(tag: CompoundTag): ItemStack {
+	public static deserialize(world: World, tag: CompoundTag): ItemStack {
 		// Create the item stack.
 		const itemIdentifier = tag.getTag<StringTag>("Name");
 
@@ -425,7 +477,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 			if (!data) continue;
 
 			// Get the component type.
-			const type = ItemComponent.components.get(identifier);
+			const type = world.items.getComponent(identifier);
 			if (!type) continue;
 
 			// Deserialize the component.

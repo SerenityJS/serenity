@@ -83,6 +83,9 @@ class BlockContainer extends Container {
 
 		// Sync the items to the occupants.
 		for (const player of this.occupants) this.sync(player);
+
+		// Sync the item
+		item.sync();
 	}
 
 	/**
