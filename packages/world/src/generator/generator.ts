@@ -1,3 +1,4 @@
+import type { BlockPalette } from "../block";
 import type { Worker } from "node:worker_threads";
 import type { TerrainWorker } from "./worker";
 import type { DimensionType } from "@serenityjs/protocol";
@@ -23,6 +24,11 @@ export class TerrainGenerator {
 	public readonly identifier: string;
 
 	/**
+	 * The block palette for the generator.
+	 */
+	public readonly palette: BlockPalette;
+
+	/**
 	 * The chunks that are queued for threaded generation.
 	 */
 	public readonly queue = new Set<Chunk>();
@@ -39,10 +45,13 @@ export class TerrainGenerator {
 
 	/**
 	 * Creates a new generator instance.
-	 *
+	 * @param palette The block palette for the generator.
 	 * @param seed The seed of the generator.
 	 */
-	public constructor(seed: number) {
+	public constructor(palette: BlockPalette, seed: number) {
+		// Set the palette of the generator.
+		this.palette = palette;
+
 		// Set the seed of the generator.
 		this.seed = seed;
 

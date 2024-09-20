@@ -1,5 +1,5 @@
 import { createNoise2D, type NoiseFunction2D } from "simplex-noise";
-import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
+import { BlockIdentifier, type BlockPermutation } from "@serenityjs/block";
 //@ts-expect-error No Types but we are propably going to creaate ones one day
 import fastnoise from "fastnoise-lite";
 
@@ -7,6 +7,7 @@ import { Chunk } from "../chunk";
 
 import { TerrainGenerator } from "./generator";
 
+import type { BlockPalette } from "../block";
 import type { DimensionType } from "@serenityjs/protocol";
 
 class Overworld extends TerrainGenerator {
@@ -35,43 +36,45 @@ class Overworld extends TerrainGenerator {
 		return kinds[Math.floor(Math.random() * kinds.length)]!;
 	}
 
-	public constructor() {
-		super(0);
+	public constructor(palette: BlockPalette, seed: number) {
+		super(palette, seed);
 
 		this.worldNoise = createNoise2D(() => this.seed);
 		this.foilageNoise = createNoise2D(() => this.seed * 0.1337);
 		this.treeNoise = createNoise2D(() => this.seed * 0.925);
 
-		this.base = BlockPermutation.resolve(BlockIdentifier.Bedrock);
+		this.base = this.palette.resolvePermutation(BlockIdentifier.Bedrock);
 		this.fill = [
-			BlockPermutation.resolve(BlockIdentifier.Cobblestone),
-			BlockPermutation.resolve(BlockIdentifier.Cobblestone),
-			BlockPermutation.resolve(BlockIdentifier.Stone),
-			BlockPermutation.resolve(BlockIdentifier.Stone),
-			BlockPermutation.resolve(BlockIdentifier.MossyCobblestone),
-			BlockPermutation.resolve(BlockIdentifier.MossyCobblestone)
+			this.palette.resolvePermutation(BlockIdentifier.Cobblestone),
+			this.palette.resolvePermutation(BlockIdentifier.Cobblestone),
+			this.palette.resolvePermutation(BlockIdentifier.Stone),
+			this.palette.resolvePermutation(BlockIdentifier.Stone),
+			this.palette.resolvePermutation(BlockIdentifier.MossyCobblestone),
+			this.palette.resolvePermutation(BlockIdentifier.MossyCobblestone)
 		];
 		this.top_layer = [
-			BlockPermutation.resolve(BlockIdentifier.GrassBlock),
-			BlockPermutation.resolve(BlockIdentifier.GrassBlock),
-			BlockPermutation.resolve(BlockIdentifier.GrassBlock),
-			BlockPermutation.resolve(BlockIdentifier.MossBlock)
+			this.palette.resolvePermutation(BlockIdentifier.GrassBlock),
+			this.palette.resolvePermutation(BlockIdentifier.GrassBlock),
+			this.palette.resolvePermutation(BlockIdentifier.GrassBlock),
+			this.palette.resolvePermutation(BlockIdentifier.MossBlock)
 		];
 		this.vegetation = [
-			BlockPermutation.resolve(BlockIdentifier.Cornflower),
-			BlockPermutation.resolve(BlockIdentifier.Poppy),
-			BlockPermutation.resolve(BlockIdentifier.RedTulip),
-			BlockPermutation.resolve(BlockIdentifier.WhiteTulip),
-			BlockPermutation.resolve(BlockIdentifier.RedTulip),
-			BlockPermutation.resolve(BlockIdentifier.TallGrass),
-			BlockPermutation.resolve(BlockIdentifier.TallGrass),
-			BlockPermutation.resolve(BlockIdentifier.TallGrass),
-			BlockPermutation.resolve(BlockIdentifier.TallGrass)
+			this.palette.resolvePermutation(BlockIdentifier.Cornflower),
+			this.palette.resolvePermutation(BlockIdentifier.Poppy),
+			this.palette.resolvePermutation(BlockIdentifier.RedTulip),
+			this.palette.resolvePermutation(BlockIdentifier.WhiteTulip),
+			this.palette.resolvePermutation(BlockIdentifier.RedTulip),
+			this.palette.resolvePermutation(BlockIdentifier.TallGrass),
+			this.palette.resolvePermutation(BlockIdentifier.TallGrass),
+			this.palette.resolvePermutation(BlockIdentifier.TallGrass),
+			this.palette.resolvePermutation(BlockIdentifier.TallGrass)
 		];
-		this.dirt = BlockPermutation.resolve(BlockIdentifier.Dirt);
-		this.water = BlockPermutation.resolve(BlockIdentifier.Water);
-		this.oak_log = BlockPermutation.resolve(BlockIdentifier.OakLog);
-		this.oak_leaves = BlockPermutation.resolve(BlockIdentifier.OakLeaves);
+		this.dirt = this.palette.resolvePermutation(BlockIdentifier.Dirt);
+		this.water = this.palette.resolvePermutation(BlockIdentifier.Water);
+		this.oak_log = this.palette.resolvePermutation(BlockIdentifier.OakLog);
+		this.oak_leaves = this.palette.resolvePermutation(
+			BlockIdentifier.OakLeaves
+		);
 		this.fast = new fastnoise(this.seed);
 		this.fast.SetNoiseType(fastnoise.NoiseType.Perlin);
 		this.fast.SetFractalOctaves(3);

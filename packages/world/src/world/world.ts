@@ -14,6 +14,8 @@ import { Commands } from "@serenityjs/command";
 import { Scoreboard } from "../scoreboard";
 import { WorldMessageSignal, WorldTickSignal } from "../events";
 import { ADMIN_COMMANDS, COMMON_COMMANDS } from "../commands";
+import { BlockPalette } from "../block";
+import { ItemPalette } from "../item";
 
 import { Dimension } from "./dimension";
 
@@ -48,6 +50,16 @@ class World {
 	 * The scoreboard for the world.
 	 */
 	public readonly scoreboard = new Scoreboard(this);
+
+	/**
+	 * The block palette for the world.
+	 */
+	public readonly blocks = new BlockPalette();
+
+	/**
+	 * The item palette for the world.
+	 */
+	public readonly items = new ItemPalette();
 
 	/**
 	 * The logger for the world.

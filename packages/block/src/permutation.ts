@@ -152,6 +152,9 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 		// Register the block permutation.
 		BlockPermutation.permutations.set(permutation.network, permutation);
 
+		// Register the permutation in the block type.
+		type.permutations.push(permutation);
+
 		// Return the block permutation.
 		return permutation;
 	}

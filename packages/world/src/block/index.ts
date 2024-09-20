@@ -1,2 +1,2 @@
 export * from "./block";
-// export * from "./custom";
+export * from "./palette";

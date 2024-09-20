@@ -578,7 +578,7 @@ class LevelDBProvider extends WorldProvider {
 						: DimensionType.End;
 
 			// Create a new instance of the generator & dimension.
-			const instance = new dgenerator(config.seed);
+			const instance = new dgenerator(world.blocks, config.seed);
 			const dimension = world.createDimension(identifier, dim, instance);
 
 			// Set the view distance for the dimension.
