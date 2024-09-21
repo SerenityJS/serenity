@@ -44,7 +44,8 @@ class ItemThrowableComponent<T extends keyof Items> extends ItemComponent<T> {
 		playerInventory.getHeldItem()?.decrement(1);
 		playerInventory.container.setItem(
 			playerInventory.selectedSlot,
-			playerInventory.getHeldItem() ?? new ItemStack(ItemIdentifier.Air, 1)
+			playerInventory.getHeldItem() ??
+				new ItemStack(ItemIdentifier.Air, 1, 0, this.item.dimension)
 		);
 
 		// Set the player as the owner of the projectile.

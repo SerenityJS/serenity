@@ -65,8 +65,9 @@ class EntityContainer extends Container {
 		// Calculate the amount of empty slots in the container.
 		this.calculateEmptySlotCount();
 
-		// Set the items container instance.
+		// Set the items container instance & dimension
 		item.container = this;
+		item.dimension = this.entity.dimension;
 
 		// Check if the entity is a player, if so, return.
 		if (!this.entity.isPlayer()) return;
@@ -83,9 +84,6 @@ class EntityContainer extends Container {
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
-
-		// Sync the item
-		item.sync();
 	}
 
 	/**
@@ -136,7 +134,8 @@ class EntityContainer extends Container {
 				const newItem = new ItemStack(
 					item.type.identifier,
 					item.maxAmount,
-					item.metadata
+					item.metadata,
+					this.entity.dimension
 				);
 
 				// Add the new Item and decrease it
@@ -196,7 +195,12 @@ class EntityContainer extends Container {
 		}
 
 		// Create a new item with the removed amount.
-		const newItem = ItemStack.create(item.type, removed, item.metadata);
+		const newItem = ItemStack.create(
+			item.type,
+			removed,
+			item.metadata,
+			this.entity.dimension
+		);
 
 		// Clone the components of the item.
 		for (const component of item.components.values()) {

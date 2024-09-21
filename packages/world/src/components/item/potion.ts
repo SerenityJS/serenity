@@ -40,7 +40,12 @@ class ItemPotionComponent<T extends keyof Items> extends ItemComponent<T> {
 		player.addEffect(this.potionEffect);
 
 		// ? Convert the potion into a empty glass bottle
-		const convertedItemStack = new ItemStack(ItemIdentifier.GlassBottle, 1);
+		const convertedItemStack = new ItemStack(
+			ItemIdentifier.GlassBottle,
+			1,
+			0,
+			this.item.dimension
+		);
 		container.setItem(selectedSlot, convertedItemStack);
 		return ItemUseMethod.Consume;
 	}

@@ -75,17 +75,15 @@ class BlockContainer extends Container {
 		// Calculate the amount of empty slots in the container.
 		this.calculateEmptySlotCount();
 
-		// Set the items container instance.
+		// Set the items container instance & dimension
 		item.container = this;
+		item.dimension = this.block.dimension;
 
 		// Check if the container has an occupant.
 		if (this.occupants.size === 0) return;
 
 		// Sync the items to the occupants.
 		for (const player of this.occupants) this.sync(player);
-
-		// Sync the item
-		item.sync();
 	}
 
 	/**
@@ -136,7 +134,8 @@ class BlockContainer extends Container {
 				const newItem = new ItemStack(
 					item.type.identifier,
 					item.maxAmount,
-					item.metadata
+					item.metadata,
+					this.block.dimension
 				);
 
 				// Add the new Item and decrease it
@@ -197,7 +196,12 @@ class BlockContainer extends Container {
 		this.calculateEmptySlotCount();
 
 		// Create a new item with the removed amount.
-		const newItem = ItemStack.create(item.type, removed, item.metadata);
+		const newItem = ItemStack.create(
+			item.type,
+			removed,
+			item.metadata,
+			this.block.dimension
+		);
 
 		// Clone the components of the item.
 		for (const component of item.components.values()) {

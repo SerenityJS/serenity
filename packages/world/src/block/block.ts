@@ -45,7 +45,7 @@ import { BlockToolType } from "../enums";
 import type { BlockComponents, BlockUpdateOptions } from "../types";
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
-import type { Dimension } from "../world";
+import type { Dimension, World } from "../world";
 
 class Block {
 	/**
@@ -108,6 +108,14 @@ class Block {
 	 */
 	public isSolid(): boolean {
 		return this.permutation.type.solid;
+	}
+
+	/**
+	 * Gets the world the block is in.
+	 * @returns The world the block is in.
+	 */
+	public getWorld(): World {
+		return this.dimension.world;
 	}
 
 	/**
@@ -468,7 +476,12 @@ class Block {
 		const type = ItemType.resolve(this.permutation.type) as ItemType;
 
 		// Create a new ItemStack.
-		return ItemStack.create(type, amount ?? 1, this.permutation.index);
+		return ItemStack.create(
+			type,
+			amount ?? 1,
+			this.permutation.index,
+			this.dimension
+		);
 	}
 
 	/**
@@ -664,7 +677,12 @@ class Block {
 					) as ItemType;
 
 					// Create a new ItemStack.
-					const itemStack = ItemStack.create(itemType, amount);
+					const itemStack = ItemStack.create(
+						itemType,
+						amount,
+						0,
+						this.dimension
+					);
 
 					// Create a new ItemEntity.
 					const itemEntity = this.dimension.spawnItem(

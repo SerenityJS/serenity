@@ -2,7 +2,6 @@ import { IntegerEnum } from "@serenityjs/command";
 import { CommandPermissionLevel } from "@serenityjs/protocol";
 
 import { ItemEnum, TargetEnum } from "../enums";
-import { ItemStack } from "../../item";
 
 import type { Entity } from "../../entity";
 import type { ItemIdentifier } from "@serenityjs/item";
@@ -37,17 +36,20 @@ const register = (world: World) => {
 					const amount = context.amount?.result ?? 1;
 					const metadata = context.metadata?.result ?? 0;
 
-					// Create a new item stack
-					const itemStack = new ItemStack(
-						itemIdentifier as ItemIdentifier,
-						amount,
-						metadata
-					);
-
 					// Loop through the targets
 					for (const target of targets) {
 						// Check if the target is an entity
 						if (!target.isPlayer()) continue;
+
+						// Get the dimension of the target
+						const dimension = target.dimension;
+
+						// Create the item stack
+						const itemStack = dimension.createItemStack(
+							itemIdentifier as ItemIdentifier,
+							amount,
+							metadata
+						);
 
 						// Get the player's inventory
 						const { container } = target.getComponent("minecraft:inventory");

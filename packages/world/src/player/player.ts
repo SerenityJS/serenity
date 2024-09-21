@@ -299,6 +299,9 @@ class Player extends Entity {
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
 
+		// Set the player's alive state
+		this.isAlive = true;
+
 		// Sync the players data
 		return this.sync();
 	}

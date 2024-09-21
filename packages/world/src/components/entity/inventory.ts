@@ -81,7 +81,7 @@ class EntityInventoryComponent extends EntityComponent {
 			const slot = itemTag.getTag("Slot")?.value as number;
 
 			// Deserialize the item stack.
-			const itemStack = ItemStack.deserialize(entity.getWorld(), itemTag);
+			const itemStack = ItemStack.deserialize(entity.dimension, itemTag);
 
 			// Add the item stack to the container.
 			component.container.setItem(slot, itemStack);

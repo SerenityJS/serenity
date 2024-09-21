@@ -348,6 +348,9 @@ class Entity {
 		// Add the entity to the dimension
 		this.dimension.entities.set(this.unique, this);
 
+		// Set the alive property of the entity to true
+		this.isAlive = true;
+
 		// Trigger the onSpawn method of all applicable components
 		for (const component of this.getComponents()) component.onSpawn?.();
 	}
