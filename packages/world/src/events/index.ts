@@ -10,6 +10,7 @@ export * from "./furnace-smelt";
 export * from "./player-join";
 export * from "./player-leave";
 export * from "./player-initialize";
+export * from "./player-data-write";
 export * from "./player-chat";
 export * from "./player-execute-command";
 export * from "./player-place-block";
