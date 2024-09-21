@@ -1,5 +1,16 @@
 # @serenityjs/item
 
+## 0.5.1
+
+### Patch Changes
+
+- 2880acc: init v0.5.1-beta
+- Updated dependencies [2880acc]
+  - @serenityjs/block@0.5.1
+  - @serenityjs/data@0.5.1
+  - @serenityjs/nbt@0.5.1
+  - @serenityjs/protocol@0.5.1
+
 ## 0.5.0
 
 ### Minor Changes
