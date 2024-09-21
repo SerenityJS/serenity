@@ -277,7 +277,7 @@ class EntityItemComponent extends EntityComponent {
 		const component = new EntityItemComponent(entity);
 
 		// Deserialize the item stack
-		const itemStack = ItemStack.deserialize(nbt);
+		const itemStack = ItemStack.deserialize(entity.getWorld(), nbt);
 
 		// Set the item stack of the component
 		component.itemStack = itemStack;

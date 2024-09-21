@@ -17,7 +17,6 @@ import {
 } from "@serenityjs/protocol";
 import { BIOME_DEFINITION_LIST, CRAFTING_DATA } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
-import { CustomBlockType } from "@serenityjs/block";
 import { PlayerStatus } from "@serenityjs/world";
 
 import { ResourcePack } from "../resource-packs/resource-pack-manager";
@@ -123,10 +122,14 @@ class ResourcePackClientResponse extends SerenityHandler {
 				// Set the player as connected
 				player.status = PlayerStatus.Connected;
 
-				const blocks: Array<BlockProperties> = CustomBlockType.getAll().map(
-					(type) => {
+				// Get the player's world
+				const world = player.dimension.world;
+
+				const blocks: Array<BlockProperties> = world.blocks
+					.getAllCustomTypes()
+					.map((type) => {
 						// Get the item type from the block type
-						const item = ItemType.resolve(type) as CustomItemType;
+						const item = world.items.resolveType(type) as CustomItemType;
 
 						// Get the block nbt and item nbt
 						const blockNbt = type.nbt;
@@ -158,8 +161,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 							name: item.identifier,
 							nbt: blockNbt
 						};
-					}
-				);
+					});
 
 				const packet = new StartGamePacket();
 				packet.entityId = player.unique;
@@ -434,9 +436,9 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.blockProperties = blocks;
 
 				// Map the custom items to the packet
-				packet.items = ItemType.getAll().map((item) =>
-					ItemType.toItemData(item)
-				);
+				packet.items = world.items
+					.getAllTypes()
+					.map((item) => ItemType.toItemData(item));
 
 				packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
 				packet.serverAuthoritativeInventory = true;

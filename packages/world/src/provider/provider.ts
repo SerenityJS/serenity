@@ -58,8 +58,19 @@ class WorldProvider {
 	}
 
 	/**
+	 * Called when the world provider should start up.
+	 */
+	public onStartup(): void {}
+
+	/**
+	 * Called when the world provider should shut down.
+	 */
+	public onShutdown(): void {}
+
+	/**
 	 * Trigger to save any data that needs to be saved.
 	 */
+	// TODO Rename to onSave
 	public save(_shutdown = false): void {
 		throw new Error("WorldProvider.save is not implemented");
 	}

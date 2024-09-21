@@ -19,9 +19,8 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { Block } from "../block";
 import {
-	BlockComponent,
 	BlockStateComponent,
-	EntityComponent,
+	type EntityComponent,
 	EntityHasGravityComponent,
 	EntityItemComponent,
 	EntityPhysicsComponent
@@ -422,7 +421,7 @@ class Dimension {
 			);
 
 			// Register the components to the block.
-			for (const component of BlockComponent.registry.get(
+			for (const component of this.world.blocks.getRegistry(
 				permutation.type.identifier
 			) ?? [])
 				new component(block, component.identifier);
@@ -430,7 +429,7 @@ class Dimension {
 			// Register the components that are type specific.
 			for (const identifier of permutation.type.components) {
 				// Get the component from the registry
-				const component = BlockComponent.components.get(identifier);
+				const component = this.world.blocks.getComponent(identifier);
 
 				// Check if the component exists.
 				if (component) new component(block, identifier);
@@ -438,7 +437,7 @@ class Dimension {
 
 			for (const key of Object.keys(permutation.state)) {
 				// Get the component from the registry
-				const component = [...BlockComponent.components.values()].find((x) => {
+				const component = this.world.blocks.getAllComponents().find((x) => {
 					// If the identifier is undefined, we will skip it.
 					if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
 						return false;
@@ -540,7 +539,12 @@ class Dimension {
 		// Register all valid components to the entity
 		for (const identifier of entity.type.components) {
 			// Get the component from the entity component registry
-			const component = EntityComponent.get(identifier);
+			const component = this.world.entities.getComponent(
+				identifier
+			) as typeof EntityComponent;
+
+			// Check if the component is valid
+			if (!component) continue;
 
 			// Check if the component is valid
 			if (component) {

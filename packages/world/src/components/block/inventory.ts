@@ -245,7 +245,7 @@ class BlockInventoryComponent extends BlockComponent {
 			const slot = itemTag.getTag("Slot")?.value as number;
 
 			// Deserialize the item stack.
-			const itemStack = ItemStack.deserialize(itemTag);
+			const itemStack = ItemStack.deserialize(block.dimension.world, itemTag);
 
 			// Add the item stack to the container.
 			component.container.setItem(slot, itemStack);

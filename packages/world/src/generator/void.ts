@@ -1,4 +1,4 @@
-import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
+import { BlockIdentifier } from "@serenityjs/block";
 
 import { Chunk } from "../chunk";
 
@@ -12,14 +12,7 @@ class Void extends TerrainGenerator {
 	 */
 	public static readonly identifier = "void";
 
-	public readonly bedrock: BlockPermutation;
-
-	public constructor() {
-		super(0);
-
-		// Get the bedrock block permutation.
-		this.bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
-	}
+	public bedrock = this.palette.resolvePermutation(BlockIdentifier.Bedrock);
 
 	public apply(cx: number, cz: number, type: DimensionType): Chunk {
 		// Create the chunk.

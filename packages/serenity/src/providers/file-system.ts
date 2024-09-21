@@ -145,7 +145,10 @@ class FileSystemProvider extends WorldProvider {
 			const name = basename(directory.name);
 
 			// Create the generator instance.
-			const instance = new generator(properties.getValue("world-seed"));
+			const instance = new generator(
+				world.blocks,
+				properties.getValue("world-seed")
+			);
 
 			// Create a new dimension for the world.
 			const dimension = world.createDimension(

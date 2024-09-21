@@ -1,26 +1,12 @@
-import { type ItemIdentifier, type Items, ItemType } from "@serenityjs/item";
-
 import { Component } from "../component";
 
+import type { ItemIdentifier, Items } from "@serenityjs/item";
 import type { ItemUseOptions } from "../../options";
 import type { CompoundTag } from "@serenityjs/nbt";
 import type { ItemUseMethod } from "@serenityjs/protocol";
 import type { ItemStack } from "../../item";
 
 class ItemComponent<T extends keyof Items> extends Component {
-	/**
-	 * A collective registry of all item components registered to an item.
-	 */
-	public static readonly registry = new Map<
-		ItemIdentifier,
-		Array<typeof ItemComponent>
-	>();
-
-	/**
-	 * A collective registry of all item components.
-	 */
-	public static readonly components = new Map<string, typeof ItemComponent>();
-
 	/**
 	 * The item the component is binded to.
 	 */
@@ -44,21 +30,6 @@ class ItemComponent<T extends keyof Items> extends Component {
 
 		// Register the component to the item.
 		this.item.components.set(this.identifier, this);
-	}
-
-	/**
-	 * Registers the item component to the item type.
-	 * @param type The item type to register the component to.
-	 */
-	public static register<T extends keyof Items>(type: ItemType<T>): void {
-		// Get the components of the item type.
-		const components = this.registry.get(type.identifier) ?? [];
-
-		// Push the component to the components.
-		components.push(this);
-
-		// Register the components to the item type.
-		this.registry.set(type.identifier, components);
 	}
 
 	/**
@@ -137,20 +108,6 @@ class ItemComponent<T extends keyof Items> extends Component {
 		_itemStack: ItemStack<T>
 	): ItemComponent<T> {
 		return new this(_itemStack, this.identifier);
-	}
-
-	public static bind(): void {
-		// Bind the component to the item types.
-		for (const identifier of this.types) {
-			// Get the item type.
-			const type = ItemType.get(identifier);
-
-			// Register the component to the item type.
-			if (type) this.register(type);
-		}
-
-		// Register the component.
-		ItemComponent.components.set(this.identifier, this);
 	}
 }
 

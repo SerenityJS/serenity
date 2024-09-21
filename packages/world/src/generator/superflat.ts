@@ -1,4 +1,4 @@
-import { BlockPermutation, BlockIdentifier } from "@serenityjs/block";
+import { BlockIdentifier } from "@serenityjs/block";
 
 import { Chunk } from "../chunk";
 
@@ -12,26 +12,22 @@ class Superflat extends TerrainGenerator {
 	 */
 	public static readonly identifier = "superflat";
 
-	public constructor() {
-		super(0);
-	}
+	public bedrock = this.palette.resolvePermutation(BlockIdentifier.Bedrock);
+	public dirt = this.palette.resolvePermutation(BlockIdentifier.Dirt);
+	public grass = this.palette.resolvePermutation(BlockIdentifier.GrassBlock);
 
 	public apply(cx: number, cz: number, type: DimensionType): Chunk {
 		const chunk = new Chunk(cx, cz, type);
-
-		const bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
-		const dirt = BlockPermutation.resolve(BlockIdentifier.Dirt);
-		const grass = BlockPermutation.resolve(BlockIdentifier.GrassBlock);
 
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
 				for (let y = -64; y < -60; y++) {
 					if (y === -64) {
-						chunk.setPermutation(x, y, z, bedrock, false);
+						chunk.setPermutation(x, y, z, this.bedrock, false);
 					} else if (y === -63 || y === -62) {
-						chunk.setPermutation(x, y, z, dirt, false);
+						chunk.setPermutation(x, y, z, this.dirt, false);
 					} else {
-						chunk.setPermutation(x, y, z, grass, false);
+						chunk.setPermutation(x, y, z, this.grass, false);
 					}
 				}
 			}

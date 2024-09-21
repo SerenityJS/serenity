@@ -83,6 +83,9 @@ class EntityContainer extends Container {
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
+
+		// Sync the item
+		item.sync();
 	}
 
 	/**

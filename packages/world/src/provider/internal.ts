@@ -31,7 +31,7 @@ class InternalProvider extends WorldProvider {
 		world.createDimension(
 			"overworld",
 			DimensionType.Overworld,
-			new Overworld()
+			new Overworld(world.blocks, config.seed)
 		);
 
 		// Return the world.

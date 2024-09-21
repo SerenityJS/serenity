@@ -40,11 +40,11 @@ class CreativeItem {
 	 * @param metadata The metadata of the creative item.
 	 */
 	public static register(type: ItemType, metadata: number): void {
+		// Get the index for the item.
+		const index = CreativeItem.items.size;
+
 		// Set the item in the registry.
-		CreativeItem.items.set(
-			CreativeItem.items.size + 1,
-			new CreativeItem(type, metadata)
-		);
+		CreativeItem.items.set(index, new CreativeItem(type, metadata));
 	}
 }
 
