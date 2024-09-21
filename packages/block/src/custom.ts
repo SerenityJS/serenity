@@ -45,9 +45,6 @@ class CustomBlockType extends BlockType {
 
 		// Construct the NBT tag.
 		this.nbt = new CompoundTag("", {});
-
-		// Register the block type.
-		BlockType.types.set(identifier, this);
 	}
 
 	/**

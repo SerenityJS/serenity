@@ -56,9 +56,6 @@ class CustomItemType extends ItemType {
 		this.category = category ?? ItemCategory.None;
 		this.group = group ?? null;
 
-		// Register the item type.
-		ItemType.types.set(identifier, this);
-
 		// If the custom item type has a creative category, register it as a creative item.
 		if (this.category !== ItemCategory.None) {
 			// Register the creative item.
