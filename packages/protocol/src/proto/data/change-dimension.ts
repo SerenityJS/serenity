@@ -11,6 +11,7 @@ class ChangeDimensionPacket extends DataPacket {
 	@Serialize(ZigZag) public dimension!: DimensionType;
 	@Serialize(Vector3f) public position!: Vector3f;
 	@Serialize(Bool) public respawn!: boolean;
+	@Serialize(Bool) public hasLoadingScreen!: boolean;
 }
 
 export { ChangeDimensionPacket };

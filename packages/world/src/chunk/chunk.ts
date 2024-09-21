@@ -74,6 +74,9 @@ export class Chunk {
 	 */
 	public readonly subchunks: Array<SubChunk>;
 
+	/**
+	 * A cached buffer of the serialized chunk.
+	 */
 	public cache: Buffer | null = null;
 
 	/**
@@ -222,7 +225,8 @@ export class Chunk {
 
 				// Create a new sub chunk.
 				const subchunk = new SubChunk();
-				subchunk.index = ndex - 4;
+				subchunk.index =
+					this.type === DimensionType.Overworld ? ndex - 4 : ndex;
 
 				// Set the sub chunk.
 				this.subchunks[ndex] = subchunk;

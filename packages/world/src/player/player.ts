@@ -491,6 +491,7 @@ class Player extends Entity {
 				packet.dimension = dimension.type;
 				packet.position = position;
 				packet.respawn = true;
+				packet.hasLoadingScreen = false;
 
 				// Send the packet to the player
 				this.session.sendImmediate(packet);
