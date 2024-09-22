@@ -97,7 +97,9 @@ class ItemBookComponent<T extends keyof Items> extends ItemComponent<T> {
 		this.write();
 		const writtenBook = new ItemStack(
 			"minecraft:written_book" as ItemIdentifier,
-			1
+			1,
+			0,
+			this.item.dimension
 		);
 
 		const pages = this.item.nbt.getTag("pages");

@@ -9,9 +9,19 @@ class EntityType {
 	public static readonly types = new Map<string, EntityType>();
 
 	/**
+	 * The network identifier counter for entity types.
+	 */
+	public static network = 1;
+
+	/**
 	 * The identifier of the entity type.
 	 */
 	public readonly identifier: EntityIdentifier;
+
+	/**
+	 * The network id of the entity type.
+	 */
+	public readonly network: number = EntityType.network++;
 
 	/**
 	 * The default components of the entity type.

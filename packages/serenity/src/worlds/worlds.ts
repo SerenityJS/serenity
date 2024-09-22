@@ -11,7 +11,9 @@ import {
 	type TerrainGenerator,
 	type WorldProvider,
 	WorldInitializeSignal,
-	type WorldEventSignals
+	type WorldEventSignals,
+	End,
+	Nether
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
@@ -85,6 +87,8 @@ class Worlds extends Emitter<WorldEventSignals> {
 		this.registerGenerator(Superflat);
 		this.registerGenerator(Overworld);
 		this.registerGenerator(Void);
+		this.registerGenerator(End);
+		this.registerGenerator(Nether);
 	}
 
 	/**

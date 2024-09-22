@@ -147,7 +147,10 @@ class ItemStackRequest extends SerenityHandler {
 					// Add the items to the destination.
 					for (const descriptor of descriptors) {
 						// Convert the descriptor to an item stack.
-						const itemStack = ItemStack.fromNetworkInstance(descriptor);
+						const itemStack = ItemStack.fromNetworkInstance(
+							descriptor,
+							player.dimension
+						);
 
 						// Check if the item stack exists
 						if (!itemStack)
@@ -200,7 +203,12 @@ class ItemStackRequest extends SerenityHandler {
 						);
 
 					// Create the item stack.
-					const itemStack = ItemStack.create(creativeItem.type, amount);
+					const itemStack = ItemStack.create(
+						creativeItem.type,
+						amount,
+						0,
+						player.dimension
+					);
 
 					// Set the item stack in the container
 					container.setItem(destination.slot, itemStack);

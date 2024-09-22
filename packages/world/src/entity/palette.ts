@@ -1,4 +1,5 @@
 import { type EntityIdentifier, EntityType } from "@serenityjs/entity";
+import { CustomEntityType } from "@serenityjs/entity";
 
 import {
 	type EntityComponent,
@@ -6,6 +7,7 @@ import {
 	type PlayerComponent,
 	PLAYER_COMPONENTS
 } from "../components";
+import { EntityEnum } from "../commands";
 
 class EntityPalette {
 	/**
@@ -51,12 +53,41 @@ class EntityPalette {
 	}
 
 	/**
+	 * Gets all custom entity types from the palette.
+	 * @returns All custom entity types from the palette.
+	 */
+	public getAllCustomTypes(): Array<CustomEntityType> {
+		return [...this.types.values()].filter(
+			(type) => type instanceof CustomEntityType
+		) as Array<CustomEntityType>;
+	}
+
+	/**
 	 * Gets an entity type from the palette.
 	 * @param identifier The entity identifier to get.
 	 * @returns The entity type from the palette.
 	 */
 	public getType(identifier: string): EntityType | null {
 		return this.types.get(identifier) as EntityType;
+	}
+
+	/**
+	 * Register an entity type to the palette.
+	 * @param type The entity type to register.
+	 * @returns True if the entity type was registered, false otherwise.
+	 */
+	public registerType(type: EntityType): boolean {
+		// Check if the entity type is already registered.
+		if (this.types.has(type.identifier)) return false;
+
+		// Register the entity type.
+		this.types.set(type.identifier, type);
+
+		// Register the entity type in the entity enum.
+		EntityEnum.options.push(type.identifier);
+
+		// Return true if the entity type was registered.
+		return true;
 	}
 
 	/**

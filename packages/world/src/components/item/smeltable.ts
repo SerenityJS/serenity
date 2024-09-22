@@ -98,7 +98,8 @@ class ItemSmeltableComponent<T extends keyof Items> extends ItemComponent<T> {
 		const itemStack = ItemStack.create(
 			this.resultant,
 			this.amount,
-			this.metadata
+			this.metadata,
+			this.item.dimension
 		);
 
 		// Return the item stack.

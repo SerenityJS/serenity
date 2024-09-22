@@ -28,7 +28,8 @@ class EntityArmorComponent extends EntityComponent {
 
 	public getAll(): Array<ItemStack> {
 		return this.container.storage.map(
-			(item) => item ?? new ItemStack(ItemIdentifier.Air, 1)
+			(item) =>
+				item ?? new ItemStack(ItemIdentifier.Air, 1, 0, this.entity.dimension)
 		);
 	}
 

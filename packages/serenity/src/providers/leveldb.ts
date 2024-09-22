@@ -6,6 +6,7 @@ import {
 	type Dimension,
 	Entity,
 	Player,
+	PlayerDataWriteSignal,
 	SubChunk,
 	type TerrainGenerator,
 	World,
@@ -440,6 +441,12 @@ class LevelDBProvider extends WorldProvider {
 		// Serialize the player data.
 		const nbt = Entity.serialize(player);
 		nbt.createStringTag("Username", player.username);
+
+		// Create a new PlayerDataWriteSignal instance.
+		const signal = new PlayerDataWriteSignal(player, nbt);
+
+		// Check if the signal was cancelled.
+		if (!signal.emit()) return;
 
 		// Create a new BinaryStream instance.
 		const stream = new BinaryStream();

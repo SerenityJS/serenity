@@ -13,11 +13,13 @@ import {
 	DisconnectReason,
 	type BlockProperties,
 	ResourceIdVersions,
-	CraftingDataPacket
+	CraftingDataPacket,
+	AvailableActorIdentifiersPacket
 } from "@serenityjs/protocol";
 import { BIOME_DEFINITION_LIST, CRAFTING_DATA } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
 import { PlayerStatus } from "@serenityjs/world";
+import { CompoundTag, Tag } from "@serenityjs/nbt";
 
 import { ResourcePack } from "../resource-packs/resource-pack-manager";
 
@@ -476,11 +478,31 @@ class ResourcePackClientResponse extends SerenityHandler {
 					};
 				});
 
+				// Map the entities to a nbt tag
+				const entities = world.entities.getAllTypes().map((type) => {
+					const tag = new CompoundTag();
+					tag.createStringTag("bid", "");
+					tag.createByteTag("hasspawnegg", 1);
+					tag.createStringTag("id", type.identifier);
+					tag.createIntTag("rid", type.network);
+					tag.createByteTag("summonable", 1);
+
+					return tag;
+				});
+
+				// Create root compound tag
+				const root = new CompoundTag();
+				root.createListTag("idlist", Tag.Compound, entities);
+
+				// Create the actors packet
+				const actors = new AvailableActorIdentifiersPacket();
+				actors.data = root;
+
 				const status = new PlayStatusPacket();
 				status.status = PlayStatus.PlayerSpawn;
 
 				// Send the spawn sequence
-				session.send(packet, biomes, content, status, crafting);
+				session.send(packet, biomes, content, status, crafting, actors);
 
 				// Add the player to the connecting map
 				this.serenity.connecting.set(player.session, [

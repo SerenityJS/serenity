@@ -65,7 +65,12 @@ class ItemFoodComponent<T extends keyof Items> extends ItemComponent<T> {
 
 		// ? If the item will be converted to a item different than air, convert it
 		if (this.convertsTo != ItemIdentifier.Air) {
-			const convertedItemStack = new ItemStack(this.convertsTo, 1);
+			const convertedItemStack = new ItemStack(
+				this.convertsTo,
+				1,
+				0,
+				this.item.dimension
+			);
 
 			if (player.usingItem.amount > 0) {
 				container.addItem(convertedItemStack);

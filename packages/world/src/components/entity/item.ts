@@ -64,7 +64,12 @@ class EntityItemComponent extends EntityComponent {
 		}
 
 		// Set the item stack of the component
-		this.itemStack = new ItemStack(ItemIdentifier.Air, 1);
+		this.itemStack = new ItemStack(
+			ItemIdentifier.Air,
+			1,
+			0,
+			this.entity.dimension
+		);
 
 		// Set the birth tick of the item
 		this.birthTick = entity.dimension.world.currentTick;
@@ -277,7 +282,7 @@ class EntityItemComponent extends EntityComponent {
 		const component = new EntityItemComponent(entity);
 
 		// Deserialize the item stack
-		const itemStack = ItemStack.deserialize(entity.getWorld(), nbt);
+		const itemStack = ItemStack.deserialize(entity.dimension, nbt);
 
 		// Set the item stack of the component
 		component.itemStack = itemStack;

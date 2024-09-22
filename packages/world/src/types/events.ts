@@ -14,6 +14,7 @@ import type {
 	PlayerBreakBlockSignal,
 	PlayerButtonPushSignal,
 	PlayerChatSignal,
+	PlayerDataWriteSignal,
 	PlayerExecuteCommandSignal,
 	PlayerInitializeSignal,
 	PlayerInteractWithBlockSignal,
@@ -44,6 +45,7 @@ interface WorldEventSignals {
 	[WorldEvent.PlayerJoin]: [PlayerJoinSignal];
 	[WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
 	[WorldEvent.PlayerInitialize]: [PlayerInitializeSignal];
+	[WorldEvent.PlayerDataWrite]: [PlayerDataWriteSignal];
 	[WorldEvent.PlayerChat]: [PlayerChatSignal];
 	[WorldEvent.PlayerExecuteCommand]: [PlayerExecuteCommandSignal];
 	[WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];

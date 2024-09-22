@@ -26,12 +26,12 @@ import {
 	EntityPhysicsComponent
 } from "../components";
 import { ChunkReadSignal } from "../events";
+import { ItemStack } from "../item";
 
 import type { DimensionSoundOptions } from "../options";
 import type { DimensionBounds } from "../types";
 import type { Chunk } from "../chunk";
 import type { Items } from "@serenityjs/item";
-import type { ItemStack } from "../item";
 import type { TerrainGenerator } from "../generator";
 import type { World } from "./world";
 
@@ -597,6 +597,21 @@ class Dimension {
 
 		// Return the item entity
 		return entity;
+	}
+
+	/**
+	 * Create an item stack in the dimension.
+	 * @param identifier The identifier of the item.
+	 * @param amount The amount of the item.
+	 * @param metadata The metadata of the item.
+	 * @returns The item stack that was created.
+	 */
+	public createItemStack<T extends keyof Items>(
+		identifier: T,
+		amount: number,
+		metadata: number
+	): ItemStack<T> {
+		return new ItemStack(identifier, amount, metadata, this);
 	}
 
 	/**

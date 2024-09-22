@@ -11,6 +11,7 @@ enum WorldEvent {
 	PlayerJoin,
 	PlayerLeave,
 	PlayerInitialize,
+	PlayerDataWrite,
 	PlayerChat,
 	PlayerExecuteCommand,
 	PlayerPlaceBlock,
