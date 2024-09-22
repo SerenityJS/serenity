@@ -768,7 +768,7 @@ class Block {
 	 * @returns Wether or not the block has any existing collision
 	 */
 	public hasCollision(): boolean {
-		if (!this.isAir()) return false;
+		if (this.isAir()) return false;
 		if (!this.hasComponent("minecraft:collision_box"))
 			new BlockCollisionComponent(this);
 		return this.getComponent("minecraft:collision_box").boxes.length > 0;
