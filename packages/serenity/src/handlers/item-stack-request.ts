@@ -87,6 +87,28 @@ class ItemStackRequest extends SerenityHandler {
 					} else throw new Error("Invalid count possible.");
 				}
 
+				if (action.drop) {
+					// Get the request.
+					const request = action.drop;
+
+					// Get the source and slot.
+					const source = request.source;
+					const slot = source.slot;
+					const amount = request.amount;
+
+					// Get the source container.
+					const container = player.getContainer(source.container.identifier);
+
+					// Check if the container exists.
+					if (!container)
+						throw new Error(
+							`Invalid container: ${source.container.identifier}`
+						);
+
+					// Force the player to drop the item.
+					player.dropItem(slot, amount, container);
+				}
+
 				if (action.swap) {
 					// Get the request.
 					const request = action.swap;

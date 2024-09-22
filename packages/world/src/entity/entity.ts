@@ -1223,6 +1223,48 @@ class Entity {
 	}
 
 	/**
+	 * Forces the entity to drop an item from its inventory.
+	 * @param slot The slot to drop the item from.
+	 * @param amount The amount of items to drop.
+	 * @param container The container to drop the item from.
+	 * @returns Whether or not the item was dropped.
+	 */
+	public dropItem(slot: number, amount: number, container: Container): boolean {
+		// Check if the entity has an inventory component
+		if (!this.hasComponent("minecraft:inventory")) return false;
+
+		// Get the item from the slot
+		const item = container.takeItem(slot, amount);
+
+		// Check if the item is valid
+		if (!item) return false;
+
+		// Get the entity's position and rotation
+		const { x, y, z } = this.position;
+		const { headYaw, pitch } = this.rotation;
+
+		// Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
+		const headYawRad = (headYaw * Math.PI) / 180;
+		const pitchRad = (pitch * Math.PI) / 180;
+
+		// Calculate the velocity of the entity based on the entitys's rotation
+		const velocity = new Vector3f(
+			(-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3,
+			-Math.sin(pitchRad) / 2,
+			(Math.cos(headYawRad) * Math.cos(pitchRad)) / 3
+		);
+
+		// Spawn the entity
+		const entity = this.dimension.spawnItem(item, new Vector3f(x, y - 0.25, z));
+
+		// Set the velocity of the entity
+		entity.setMotion(velocity);
+
+		// Return true as the item was dropped
+		return true;
+	}
+
+	/**
 	 * Creates actor data from a given entity.
 	 * @param entity The entity to generate the actor data from.
 	 * @returns The generated actor data.
