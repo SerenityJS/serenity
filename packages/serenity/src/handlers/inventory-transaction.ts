@@ -4,7 +4,6 @@ import {
 	type InventoryAction,
 	InventoryTransactionPacket,
 	ItemUseInventoryTransactionType,
-	Vector3f,
 	type ItemUseInventoryTransaction,
 	Gamemode,
 	type ItemUseOnEntityInventoryTransaction,
@@ -103,35 +102,8 @@ class InventoryTransaction extends SerenityHandler {
 		// Get the inventory of the player
 		const inventory = player.getComponent("minecraft:inventory");
 
-		// Get the item from the slot
-		const item = inventory.container.takeItem(inventory.selectedSlot, amount);
-
-		// Check if the item is valid
-		if (!item) return;
-
-		// Get the player's position and rotation
-		const { x, y, z } = player.position;
-		const { headYaw, pitch } = player.rotation;
-
-		// Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
-		const headYawRad = (headYaw * Math.PI) / 180;
-		const pitchRad = (pitch * Math.PI) / 180;
-
-		// Calculate the velocity of the entity based on the player's rotation
-		const velocity = new Vector3f(
-			(-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3,
-			-Math.sin(pitchRad) / 2,
-			(Math.cos(headYawRad) * Math.cos(pitchRad)) / 3
-		);
-
-		// Spawn the entity
-		const entity = player.dimension.spawnItem(
-			item,
-			new Vector3f(x, y - 0.25, z)
-		);
-
-		// Set the velocity of the entity
-		entity.setMotion(velocity);
+		// Drop the item from the player's inventory
+		player.dropItem(inventory.selectedSlot, amount, inventory.container);
 	}
 
 	public static handleItemUseTransaction(

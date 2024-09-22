@@ -87,14 +87,15 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 	 * @returns The distance between the player and the chunk.
 	 */
 	public distance(hash: bigint): number {
-		// Convert the chunk hash to a position
+		// Convert the chunk hash to a chunk position
 		const { x: cx, z: cz } = ChunkCoords.unhash(hash);
 
-		// Get the player's position
-		const { x: px, z: pz } = this.player.position.floor();
+		// Get the player's chunk position
+		const px = this.player.position.x >> 4;
+		const pz = this.player.position.z >> 4;
 
-		// Calculate the distance between the player and the chunk
-		return Math.max(Math.abs(cx - (px >> 4)), Math.abs(cz - (pz >> 4)));
+		// Calculate the Euclidean distance between the player and the chunk
+		return Math.hypot(cx - px, cz - pz);
 	}
 
 	/**
@@ -206,7 +207,13 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 				const distance = this.distance(hash);
 
 				// Check if the chunk is outside of the player's view distance
-				if (distance > this.viewDistance) this.clear(ChunkCoords.unhash(hash));
+				if (distance > this.viewDistance + 0.5) {
+					// Get the chunk position
+					const { x, z } = ChunkCoords.unhash(hash);
+
+					// Clear the chunk from the player's view
+					this.clear({ x, z });
+				}
 			}
 
 			// Create a new NetworkChunkPublisherUpdatePacket
