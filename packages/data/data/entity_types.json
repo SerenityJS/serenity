@@ -4,6 +4,10 @@
     "components": []
   },
   {
+    "identifier": "minecraft:falling_block",
+    "components": []
+  },
+  {
     "identifier": "minecraft:vindicator",
     "components": [
       "minecraft:movement.jump",
@@ -175,10 +179,7 @@
   },
   {
     "identifier": "minecraft:wind_charge_projectile",
-    "components": [
-      "minecraft:type_family",
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:type_family", "minecraft:projectile"]
   },
   {
     "identifier": "minecraft:sheep",
@@ -558,9 +559,7 @@
   },
   {
     "identifier": "minecraft:arrow",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:llama",
@@ -867,9 +866,7 @@
   },
   {
     "identifier": "minecraft:ender_crystal",
-    "components": [
-      "minecraft:fire_immune"
-    ]
+    "components": ["minecraft:fire_immune"]
   },
   {
     "identifier": "minecraft:silverfish",
@@ -1448,9 +1445,7 @@
   },
   {
     "identifier": "minecraft:xp_orb",
-    "components": [
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:type_family"]
   },
   {
     "identifier": "minecraft:zombie_villager_v2",
@@ -1535,21 +1530,15 @@
   },
   {
     "identifier": "minecraft:xp_bottle",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:tnt",
-    "components": [
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:type_family"]
   },
   {
     "identifier": "minecraft:splash_potion",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:lingering_potion",
@@ -1569,9 +1558,7 @@
   },
   {
     "identifier": "minecraft:snowball",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:fishing_hook",
@@ -1583,9 +1570,7 @@
   },
   {
     "identifier": "minecraft:egg",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:dragon_fireball",
@@ -1603,9 +1588,7 @@
   },
   {
     "identifier": "minecraft:lightning_bolt",
-    "components": [
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:type_family"]
   },
   {
     "identifier": "minecraft:tripod_camera",
@@ -1613,10 +1596,7 @@
   },
   {
     "identifier": "minecraft:tnt_minecart",
-    "components": [
-      "minecraft:type_family",
-      "minecraft:is_stackable"
-    ]
+    "components": ["minecraft:type_family", "minecraft:is_stackable"]
   },
   {
     "identifier": "minecraft:minecart",
@@ -1644,10 +1624,7 @@
   },
   {
     "identifier": "minecraft:command_block_minecart",
-    "components": [
-      "minecraft:inventory",
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:inventory", "minecraft:type_family"]
   },
   {
     "identifier": "minecraft:chest_minecart",

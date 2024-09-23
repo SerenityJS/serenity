@@ -48,9 +48,7 @@ class BlockSupportedComponent extends BlockComponent {
 			const itemStack = this.block.getItemStack();
 
 			// Get the position of the block
-			const position = this.block.position.add(
-				new BlockPosition(0.5, 0, 0.5)
-			);
+			const position = this.block.position.add(new BlockPosition(0.5, 0, 0.5));
 
 			// Spawn the item stack entity
 			this.block.dimension.spawnItem(itemStack, position);

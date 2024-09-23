@@ -44,6 +44,8 @@ class PlayerEntityRenderingComponent extends PlayerComponent {
 			// Check if the entity is a player and if the player is spawned
 			if (entity.isPlayer() && entity.status !== PlayerStatus.Spawned) continue;
 
+			if (!entity.isAlive) continue;
+
 			// Add the entity to the rendered entities
 			this.entities.add(unique);
 

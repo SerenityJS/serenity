@@ -3,6 +3,7 @@
 
 export enum EntityIdentifier {
 	Balloon = "minecraft:balloon",
+	FallingBlock = "minecraft:falling_block",
 	Vindicator = "minecraft:vindicator",
 	VillagerV2 = "minecraft:villager_v2",
 	IceBomb = "minecraft:ice_bomb",
