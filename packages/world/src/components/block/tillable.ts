@@ -80,7 +80,7 @@ class BlockTillableComponent extends BlockComponent {
 		const growth = above.hasComponent("minecraft:growth");
 
 		// Destroy the block above if it has a growth component.
-		if (growth) above.destroy(player);
+		if (growth) above.destroy({ player });
 
 		return true;
 	}
