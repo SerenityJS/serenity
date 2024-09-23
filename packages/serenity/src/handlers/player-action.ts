@@ -231,7 +231,7 @@ class PlayerAction extends SerenityHandler {
 
 		// Check if the player has the instant build ability.
 		if (player.getAbility(AbilityIndex.InstantBuild) === true)
-			block.destroy(player);
+			block.destroy({ player });
 
 		// Trigger the onStartUse method of the item components.
 		const inventory = player.getComponent("minecraft:inventory");
@@ -330,7 +330,7 @@ class PlayerAction extends SerenityHandler {
 		player.dimension.broadcast(event);
 
 		// Destroy the block.
-		block.destroy(player);
+		block.destroy({ player });
 	}
 
 	private static handlePredictBreak(
@@ -368,7 +368,7 @@ class PlayerAction extends SerenityHandler {
 		}
 
 		// Destroy the block.
-		const destroyed = block.destroy(player);
+		const destroyed = block.destroy({ player });
 
 		// If the block was not destroyed, we will return.
 		if (!destroyed) return;
@@ -441,7 +441,7 @@ class PlayerAction extends SerenityHandler {
 
 		// Check if the player has the instant build ability.
 		if (player.getAbility(AbilityIndex.InstantBuild) === true)
-			block.destroy(player);
+			block.destroy({ player });
 	}
 
 	private static handleStartItemUseOn(

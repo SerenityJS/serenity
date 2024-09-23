@@ -19,6 +19,7 @@ import { ItemPalette } from "../item";
 import { EntityPalette, type Entity } from "../entity";
 
 import { Dimension } from "./dimension";
+import { TickSchedule } from "./schedule";
 
 import type { DimensionBounds, WorldEventSignals } from "../types";
 import type { TerrainGenerator } from "../generator";
@@ -65,6 +66,11 @@ class World {
 	 * The entity palette for the world.
 	 */
 	public readonly entities = new EntityPalette();
+
+	/**
+	 * The pending schedules for the world.
+	 */
+	public readonly schedules = new Set<TickSchedule>();
 
 	/**
 	 * The logger for the world.
@@ -158,6 +164,45 @@ class World {
 				this.logger.error(`Failed to save world, reason: ${reason}`);
 			}
 		}
+
+		// Check if there are any schedules to execute
+		if (this.schedules.size > 0) {
+			// Iterate over the schedules
+			for (const schedule of this.schedules) {
+				// Check if the schedule is complete
+				if (this.currentTick >= schedule.completeTick) {
+					// Execute the schedule
+					try {
+						schedule.execute();
+					} catch (reason) {
+						// Log the error if the schedule failed to execute
+						this.logger.error(
+							`Failed to execute schedule for world "${this.identifier}"`,
+							reason
+						);
+					}
+
+					// Delete the schedule
+					this.schedules.delete(schedule);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Schedules a tick to be executed after a certain amount of ticks.
+	 * @param ticks The amount of ticks to wait before the schedule is complete.
+	 * @returns The tick schedule that was created.
+	 */
+	public schedule(ticks: number): TickSchedule {
+		// Create a new tick schedule
+		const schedule = new TickSchedule(ticks, this);
+
+		// Add the schedule to the world
+		this.schedules.add(schedule);
+
+		// Return the schedule
+		return schedule;
 	}
 
 	/**

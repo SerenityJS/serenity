@@ -10,7 +10,8 @@ import type {
 	BlockLootComponent,
 	BlockSupportedComponent,
 	BlockTillableComponent,
-	BlockGrowthComponent
+	BlockGrowthComponent,
+	BlockGravityComponent
 } from "../../components";
 
 interface BlockSateCompnents {
@@ -29,6 +30,7 @@ interface BlockComponents extends BlockSateCompnents {
 	"minecraft:loot_table": BlockLootComponent;
 	"minecraft:supported": BlockSupportedComponent;
 	"minecraft:tillable": BlockTillableComponent;
+	"minecraft:gravity": BlockGravityComponent;
 }
 
 export { BlockComponents };

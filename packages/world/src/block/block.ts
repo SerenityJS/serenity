@@ -42,7 +42,8 @@ import {
 } from "../events";
 import { BlockToolType } from "../enums";
 
-import type { BlockComponents, BlockUpdateOptions } from "../types";
+import type { BlockUpdateOptions } from "../options";
+import type { BlockComponents } from "../types";
 import type { Chunk } from "../chunk";
 import type { Player } from "../player";
 import type { Dimension, World } from "../world";
@@ -393,8 +394,10 @@ class Block {
 			this.dimension.broadcast(sound);
 		}
 
+		const updateBlock = options?.updateBlock ?? true;
+
 		// Update the block and the surrounding blocks.
-		this.update(true);
+		if (updateBlock) this.update(true);
 
 		// Check if there is an entity on the block.
 		for (const entity of this.dimension.entities.values()) {
@@ -613,15 +616,15 @@ class Block {
 
 	/**
 	 * Destroys the block.
-	 * @param playerInitiated If the block was destroyed by a player.
+	 * @param The options of the block update.
 	 * @returns Whether or not the block was destroyed.
 	 */
-	public destroy(playerInitiated?: Player): boolean {
+	public destroy(options?: BlockUpdateOptions): boolean {
 		// Call the onBreak method of the components.
 		let cancelled = false;
 		for (const component of this.components.values()) {
 			// Call the onBlockBrokenByPlayer method.
-			const result = component.onBreak?.(playerInitiated);
+			const result = component.onBreak?.(options?.player);
 
 			// Check if the result is false.
 			if (result === false) {
@@ -631,19 +634,18 @@ class Block {
 		}
 
 		// Check if the destruction was initiated by a player.
-		if (playerInitiated) {
+		if (options?.player) {
+			// Get the player that initiated the destruction.
+			const player = options.player;
+
 			// Get the inventory of the player.
-			const inventory = playerInitiated.getComponent("minecraft:inventory");
+			const inventory = player.getComponent("minecraft:inventory");
 
 			// Get the held item of the player.
 			const itemStack = inventory.getHeldItem();
 
 			// Create a new PlayerBreakBlockSignal.
-			const signal = new PlayerBreakBlockSignal(
-				this,
-				playerInitiated,
-				itemStack
-			);
+			const signal = new PlayerBreakBlockSignal(this, player, itemStack);
 
 			// Emit the signal to the dimension.
 			const value = signal.emit();
@@ -656,7 +658,7 @@ class Block {
 			}
 
 			// Check if the player is not in creative mode.
-			if (playerInitiated.getGamemode() !== Gamemode.Creative && !cancelled) {
+			if (player.getGamemode() !== Gamemode.Creative && !cancelled) {
 				// Get the position of the block.
 				const { x, y, z } = this.position;
 
@@ -720,7 +722,7 @@ class Block {
 		const air = BlockPermutation.resolve(BlockIdentifier.Air);
 
 		// Set the block permutation to air.
-		const placed = this.setPermutation(air);
+		const placed = this.setPermutation(air, options);
 
 		// Check if the block was not placed.
 		if (!placed) return false;

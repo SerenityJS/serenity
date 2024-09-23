@@ -28,6 +28,8 @@ import {
 import { ChunkReadSignal } from "../events";
 import { ItemStack } from "../item";
 
+import { TickSchedule } from "./schedule";
+
 import type { DimensionSoundOptions } from "../options";
 import type { DimensionBounds } from "../types";
 import type { Chunk } from "../chunk";
@@ -172,6 +174,22 @@ class Dimension {
 					}
 			}
 		}
+	}
+
+	/**
+	 * Schedules a tick to be executed after a certain amount of ticks.
+	 * @param ticks The amount of ticks to wait before the schedule is complete.
+	 * @returns The tick schedule that was created.
+	 */
+	public schedule(ticks: number): TickSchedule {
+		// Create a new tick schedule
+		const schedule = new TickSchedule(ticks, this);
+
+		// Add the schedule to the world
+		this.world.schedules.add(schedule);
+
+		// Return the schedule
+		return schedule;
 	}
 
 	/**

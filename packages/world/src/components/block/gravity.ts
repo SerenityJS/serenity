@@ -11,11 +11,7 @@ import type { Block } from "../../block";
 class BlockGravityComponent extends BlockComponent {
 	public static readonly identifier = "minecraft:gravity";
 
-	public static readonly types = [
-		BlockIdentifier.Sand,
-		BlockIdentifier.Gravel,
-		BlockIdentifier.Glowingobsidian
-	];
+	public static readonly types = [BlockIdentifier.Sand, BlockIdentifier.Gravel];
 
 	public constructor(block: Block) {
 		super(block, BlockGravityComponent.identifier);
@@ -43,11 +39,17 @@ class BlockGravityComponent extends BlockComponent {
 		// Set the permutation of the falling block
 		component.setPermutation(this.block.permutation);
 
+		// Destroy the block
+		this.block.destroy({ clearComponents: true, updateBlock: false });
+
 		// Spawn the entity
 		entity.spawn();
 
-		// Destroy the block
-		this.block.destroy();
+		// Create a new task to update the additional components
+		const task = this.block.dimension.schedule(2);
+
+		// Add the task to the task
+		task.on(() => this.block.above().update(false, this.block));
 	}
 }
 

@@ -10,3 +10,4 @@ export * from "./bounding-width";
 export * from "./skin-id";
 export * from "./variant";
 export * from "./air-supply";
+export * from "./interact-text";
