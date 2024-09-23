@@ -394,24 +394,20 @@ class Dimension {
 	 * @returns The block.
 	 */
 	public getBlock(position: IPosition): Block {
-		// Create a new position vector
-		const { x, y, z } = position;
+		// Get X and Z coordinates to get the chunk of the position.
+		const { x, z } = position;
 
-		// Check if the block is in the blocks
-		const block = [...this.blocks.entries()].find(
-			([pos]) => pos.x === x && pos.y === y && pos.z === z
-		);
+		// Get the block from the block cache.
+		const block = this.blocks.get(position as BlockPosition);
 
-		// Check if the block is in the blocks
-		if (block) {
-			// Get the block from the blocks
-			return block[1] as Block;
-		} else {
-			// Get the chunk
+		// If the block is in the block cache, return it.
+		if (block) return block;
+		else {
+			// Get the chunk position
 			const chunk = this.getChunk(x >> 4, z >> 4);
 
-			// Get the block permutation
-			const permutation = chunk.getPermutation(x, y, z);
+			// Get the block permutation at the block's position
+			const permutation = chunk.getPermutation(position);
 
 			// Convert the permutation to a block.
 			const block = new Block(

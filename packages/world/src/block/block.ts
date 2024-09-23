@@ -291,7 +291,7 @@ class Block {
 		const chunk = this.dimension.getChunk(x >> 4, z >> 4);
 
 		// Set the permutation of the block.
-		chunk.setPermutation(x, y, z, this.permutation);
+		chunk.setPermutation(this.position, this.permutation);
 
 		// Create a new UpdateBlockPacket.
 		const update = new UpdateBlockPacket();

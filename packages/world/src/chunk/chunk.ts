@@ -116,8 +116,9 @@ export class Chunk {
 	 * @param y The Y coordinate.
 	 * @param z The Z coordinate.
 	 */
-	public getPermutation(x: number, y: number, z: number): BlockPermutation {
+	public getPermutation(position: IPosition): BlockPermutation {
 		// Correct the Y level for the overworld.
+		const { x, y, z } = position;
 		const yf = this.type === DimensionType.Overworld ? y + 64 : y;
 
 		// Get the sub chunk.
@@ -138,12 +139,12 @@ export class Chunk {
 	 * @param permutation The permutation.
 	 */
 	public setPermutation(
-		x: number,
-		y: number,
-		z: number,
+		position: IPosition,
 		permutation: BlockPermutation,
 		dirty = true
 	): void {
+		const { x, y, z } = position;
+
 		// Correct the Y level for the overworld.
 		const yf = this.type === DimensionType.Overworld ? y + 64 : y;
 
@@ -172,7 +173,7 @@ export class Chunk {
 		// Get the Y level.
 		for (let y = position.y; y >= -64; y--) {
 			// Get the permutation at the position.
-			const permutation = this.getPermutation(position.x, y, position.z);
+			const permutation = this.getPermutation({ ...position, y });
 
 			// Check if the permutation is air or is not solid.
 			if (permutation.type.identifier === BlockIdentifier.Air) continue;
@@ -194,7 +195,7 @@ export class Chunk {
 	public getBottommostLevel(position: IPosition): number {
 		// Get the Y level.
 		for (let y = 0; y <= position.y; y++) {
-			const permutation = this.getPermutation(position.x, y, position.z);
+			const permutation = this.getPermutation({ ...position, y });
 			if (permutation.type.identifier !== BlockIdentifier.Air) return y;
 		}
 
