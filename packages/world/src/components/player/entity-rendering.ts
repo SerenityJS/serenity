@@ -7,7 +7,8 @@ import {
 	AddPlayerPacket,
 	NetworkItemStackDescriptor,
 	PropertySyncData,
-	RemoveEntityPacket
+	RemoveEntityPacket,
+	type Vector3f
 } from "@serenityjs/protocol";
 
 import { PlayerStatus, type Player } from "../../player";
@@ -30,8 +31,21 @@ class PlayerEntityRenderingComponent extends PlayerComponent {
 	}
 
 	public onTick(): void {
+		// Get the current tick
+		const currentTick = this.player.dimension.world.currentTick;
+
+		// Check if the current tick is a multiple of 5
+		if (currentTick % 5n !== 0n) return;
+
 		// Check if the player is spawned
 		if (this.player.status !== PlayerStatus.Spawned) return;
+
+		// Check if the player has a chunk rendering component
+		const component = this.player.getComponent("minecraft:chunk_rendering");
+		if (!component) return;
+
+		// Get the player's view distance
+		const viewDistance = component.viewDistance << 4;
 
 		// Get all the entities in the player's dimension
 		const entities = this.player.dimension.entities;
@@ -44,7 +58,12 @@ class PlayerEntityRenderingComponent extends PlayerComponent {
 			// Check if the entity is a player and if the player is spawned
 			if (entity.isPlayer() && entity.status !== PlayerStatus.Spawned) continue;
 
+			// Check if the entity is alive
 			if (!entity.isAlive) continue;
+
+			// Check if the entity is within the player's view distance
+			if (this.distance(entity.position, this.player.position) > viewDistance)
+				continue;
 
 			// Add the entity to the rendered entities
 			this.entities.add(unique);
@@ -159,18 +178,46 @@ class PlayerEntityRenderingComponent extends PlayerComponent {
 		// Iterate over the entities
 		for (const unique of this.entities) {
 			// Check if the entity is still in the player's dimension
-			if (this.player.dimension.entities.has(unique)) continue;
+			if (this.player.dimension.entities.has(unique)) {
+				// Get the entity
+				const entity = this.player.dimension.getEntity(unique);
+				if (!entity) continue;
 
-			// Create a new remove entity packet
-			const packet = new RemoveEntityPacket();
-			packet.uniqueEntityId = unique;
+				// Check if the entity is in the player's view distance
+				if (
+					this.distance(entity.position, this.player.position) <= viewDistance
+				)
+					continue;
 
-			// Send the packet to the player
-			this.player.session.send(packet);
+				// Create a new remove entity packet
+				const packet = new RemoveEntityPacket();
 
-			// Remove the entity from the rendered entities
-			this.entities.delete(unique);
+				// Set the unique entity id
+				packet.uniqueEntityId = unique;
+
+				// Send the packet to the player
+				this.player.session.send(packet);
+
+				// Remove the entity from the rendered entities
+				this.entities.delete(unique);
+			} else {
+				// Create a new remove entity packet
+				const packet = new RemoveEntityPacket();
+				packet.uniqueEntityId = unique;
+
+				// Send the packet to the player
+				this.player.session.send(packet);
+
+				// Remove the entity from the rendered entities
+				this.entities.delete(unique);
+			}
 		}
+	}
+
+	public distance(a: Vector3f, b: Vector3f): number {
+		return Math.sqrt(
+			Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2) + Math.pow(a.z - b.z, 2)
+		);
 	}
 }
 
