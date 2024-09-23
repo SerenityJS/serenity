@@ -28,7 +28,8 @@ import {
 	type EffectType,
 	OnScreenTextureAnimationPacket,
 	ToastRequestPacket,
-	PlaySoundPacket
+	PlaySoundPacket,
+	StopSoundPacket
 } from "@serenityjs/protocol";
 import { EntityIdentifier } from "@serenityjs/entity";
 
@@ -821,6 +822,22 @@ class Player extends Entity {
 		// Create a new OnScreenTextureAnimationPacket
 		const packet = new OnScreenTextureAnimationPacket();
 		packet.effectId = effect;
+
+		// Send the packet to the player
+		this.session.send(packet);
+	}
+
+	/**
+	 * Stops sound that are playing to the player, if the sound name is not provided, all the sounds will be stopped
+	 * @param sound - The name of the sound to stop. If not provided, all sounds will be stopped.
+	 */
+	public stopSound(sound: string = ""): void {
+		// Create a new StopSoundPacket
+		const packet = new StopSoundPacket();
+
+		packet.soundName = sound;
+		packet.stopAllSounds = sound == "";
+		packet.stopMusic = false;
 
 		// Send the packet to the player
 		this.session.send(packet);
