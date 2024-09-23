@@ -21,10 +21,12 @@ class End extends TerrainGenerator {
 		for (let x = 0; x < 16; x++) {
 			for (let z = 0; z < 16; z++) {
 				for (let y = 0; y < 4; y++) {
+					const position = { x, y, z };
+
 					if (y === 0) {
-						chunk.setPermutation(x, y, z, this.bedrock, false);
+						chunk.setPermutation(position, this.bedrock, false);
 					} else {
-						chunk.setPermutation(x, y, z, this.endstone, false);
+						chunk.setPermutation(position, this.endstone, false);
 					}
 				}
 			}
