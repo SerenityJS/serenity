@@ -116,6 +116,7 @@ import { OnScreenTextureAnimationPacket } from "./on-screen-texture-animation";
 import { ServerboundDiagnosticsPacket } from "./serverbound-diagnostics";
 import { PlaySoundPacket } from "./play-sound";
 import { SetActorLinkPacket } from "./set-actor-link";
+import { StopSoundPacket } from "./stop-sound";
 
 const Packets = {
 	[Packet.Login]: LoginPacket, // 1
@@ -181,6 +182,7 @@ const Packets = {
 	[Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
 	[Packet.Transfer]: TransferPacket, // 85
 	[Packet.PlaySound]: PlaySoundPacket, // 86
+	[Packet.StopSound]: StopSoundPacket, // 87
 	[Packet.SetTitle]: SetTitlePacket, // 88
 	[Packet.StructureBlockUpdate]: StructureBlockUpdatePacket, // 90
 	[Packet.PlayerSkin]: PlayerSkinPacket, // 93

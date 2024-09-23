@@ -67,6 +67,7 @@ enum Packet {
 	ResourcePackChunkRequest = 0x54, // 84
 	Transfer = 0x55, // 85
 	PlaySound = 0x56, // 86
+	StopSound = 0x57, // 87
 	SetTitle = 0x58, // 88
 	StructureBlockUpdate = 0x5a, // 90
 	PlayerSkin = 0x5d, // 93

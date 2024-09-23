@@ -113,7 +113,8 @@ import type {
 	OnScreenTextureAnimationPacket,
 	ServerboundDiagnosticsPacket,
 	PlaySoundPacket,
-	SetActorLinkPacket
+	SetActorLinkPacket,
+	StopSoundPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -238,6 +239,7 @@ interface NetworkEvents {
 	[Packet.OnScreenTextureAnimation]: [
 		NetworkPacketEvent<OnScreenTextureAnimationPacket>
 	];
+	[Packet.StopSound]: [NetworkPacketEvent<StopSoundPacket>];
 	[Packet.Emote]: [NetworkPacketEvent<EmotePacket>];
 	[Packet.NetworkSettings]: [NetworkPacketEvent<NetworkSettingsPacket>];
 	[Packet.PlayerAuthInput]: [NetworkPacketEvent<PlayerAuthInputPacket>];
