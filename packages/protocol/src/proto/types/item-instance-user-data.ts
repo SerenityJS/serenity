@@ -107,7 +107,7 @@ class ItemInstanceUserData extends DataType {
 		}
 
 		// Check if the item is a shield.
-		const ticking = id === 362 ? stream.readInt64(Endianness.Little) : null;
+		const ticking = id === 363 ? stream.readInt64(Endianness.Little) : null;
 
 		// Return the instance.
 		return new ItemInstanceUserData(nbt, canPlaceOn, canDestroy, ticking);
@@ -155,7 +155,7 @@ class ItemInstanceUserData extends DataType {
 		}
 
 		// Check if the item is a shield.
-		if (id === 362) {
+		if (id === 363) {
 			stream.writeInt64(value.ticking ?? BigInt(0), Endianness.Little);
 		}
 	}
