@@ -589,6 +589,20 @@ class LevelDBProvider extends WorldProvider {
 		// Save the world data to the database.
 		this.save();
 
+		// Iterate through the dimensions and shutdown the generators.
+		for (const [, dimension] of this.world.dimensions) {
+			// get the generator for the dimension.
+			const generator = dimension.generator;
+
+			// Check if the generator has a worker.
+			if (!generator.worker) continue;
+
+			// Send the shutdown signal to the worker.
+			generator.worker
+				.terminate()
+				.catch((reason) => LevelDBProvider.logger.error(reason));
+		}
+
 		// Close the LevelDB database.
 		this.db.close();
 	}
@@ -683,6 +697,9 @@ class LevelDBProvider extends WorldProvider {
 				for (let z = -viewDistance; z <= viewDistance; z++) {
 					// Read the chunk from the provider.
 					const chunk = provider.readChunk(sx + x, sz + z, dimension);
+
+					// Check if the chunk is ready.
+					if (!chunk.ready) continue;
 
 					// Serialize the chunk, the will cache the chunk in the provider.
 					chunk.cache = Chunk.serialize(chunk);

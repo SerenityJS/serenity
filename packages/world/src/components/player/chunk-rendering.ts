@@ -37,7 +37,7 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 		// Get the amount of chunks to send
 		const amount = chunks.length;
 
-		// We want to send the chunks in batches of 4
+		// We want to send the chunks in batches of 8
 		const batches = Math.ceil(amount / 8);
 
 		// Iterate over the batches

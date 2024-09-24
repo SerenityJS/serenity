@@ -161,6 +161,11 @@ class Player extends Entity {
 	 */
 	public isFlying = false;
 
+	/**
+	 * The player's fly speed.
+	 */
+	public flySpeed = 0.05;
+
 	public constructor(dimension: Dimension, options: PlayerOptions) {
 		super(EntityIdentifier.Player, dimension);
 		this.session = options.session;
@@ -748,7 +753,7 @@ class Player extends Entity {
 					([ability, value]) => new AbilitySet(ability, value)
 				),
 				walkSpeed: 0.1,
-				flySpeed: 0.05
+				flySpeed: this.flySpeed
 			}
 		];
 
