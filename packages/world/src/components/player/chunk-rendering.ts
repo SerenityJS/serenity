@@ -163,6 +163,17 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 
 			// Remove the chunk from the player's view
 			this.chunks.delete(ChunkCoords.hash(coord));
+
+			//Return chunk handler to the provider, chunk will be released from the memory later
+			// !!! 1, Be sure that borrowed chunk is returned with right dimension
+			// !!! 2, As i am not author of this PlayerChunkRenderingComponent, i relay on current behavior of this class
+			// !!!    so keep in mind this once you are about to change core behavior of PlayerChunkRenderingComponent.
+			this.player.dimension.world.provider.returnChunk(
+				this,
+				coord.x,
+				coord.z,
+				this.player.dimension
+			);
 		}
 	}
 
@@ -192,6 +203,14 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 
 					// Check if the chunk is ready
 					if (!chunk.ready) return null;
+
+					// Rent a handle to this chunk
+					this.player.dimension.world.provider.rentChunk(
+						this,
+						coord.x,
+						coord.z,
+						this.player.dimension
+					);
 
 					// Return the chunk
 					return chunk;

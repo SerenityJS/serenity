@@ -44,6 +44,11 @@ class LevelDBProvider extends WorldProvider {
 	 */
 	public readonly chunks: Map<Dimension, Map<bigint, Chunk>> = new Map();
 
+	/**
+	 * The number of rented chunks by players in the provider.
+	 */
+	public readonly borrowers: WeakMap<Chunk, Set<object>> = new WeakMap();
+
 	public constructor(path: string) {
 		super();
 
@@ -111,6 +116,100 @@ class LevelDBProvider extends WorldProvider {
 			// Return the chunk.
 			return chunk;
 		}
+	}
+
+	public readChunkCache(
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): Chunk | null {
+		// Get the dimension index from the dimensions array.
+		// This will be used as the dimension key in the database.
+		const index = this.dimensionIndexOf(dimension);
+
+		// Check if the dimension index was found.
+		if (index === -1)
+			throw new Error(
+				`Dimension index "${dimension.identifier}" was not found for world.`
+			);
+
+		// Check if the chunks map has the index.
+		if (!this.chunks.has(dimension))
+			this.chunks.set(dimension, new Map<bigint, Chunk>());
+
+		// Get the chunks map for the dimension index.
+		const chunks = this.chunks.get(dimension);
+
+		// Check if no chunks were found.
+		if (!chunks)
+			throw new Error(
+				`Failed to get chunks for dimension "${dimension.identifier}" with index "${index}"`
+			);
+
+		// Hash the chunk coordinates.
+		const hash = ChunkCoords.hash({ x: cx, z: cz });
+
+		// Check if the chunk exists in the chunks map.
+		if (chunks.has(hash)) {
+			// Return the chunk from the chunks cache.
+			return chunks.get(hash) as Chunk;
+		}
+		return null;
+	}
+
+	public rentChunk<T extends object>(
+		borrower: T,
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): Chunk {
+		const chunk = this.readChunk(cx, cz, dimension);
+		const sets = this.borrowers.get(chunk) ?? new Set();
+		sets.add(borrower);
+		this.borrowers.set(chunk, sets);
+		return chunk;
+	}
+
+	public returnChunk<T extends object>(
+		borrower: T,
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): boolean {
+		const chunk = this.readChunkCache(cx, cz, dimension);
+		if (chunk) {
+			const sets = this.borrowers.get(chunk);
+			if (!sets) return false;
+
+			sets.delete(borrower);
+
+			// Get the dimension index from the dimensions array.
+			// This will be used as the dimension key in the database.
+			const index = this.dimensionIndexOf(dimension);
+
+			// Check if the dimension index was found.
+			if (index === -1)
+				throw new Error(
+					`Dimension index "${dimension.identifier}" was not found for world.`
+				);
+
+			// Check if the chunks map has the index.
+			if (!this.chunks.has(dimension)) return true; //Return true bc we know this chunk was borrowed
+
+			// Get the chunks map for the dimension index.
+			const chunks = this.chunks.get(dimension);
+
+			// Check if no chunks were found.
+			if (!chunks) return true; //Return true bc we know this chunk was borrowed
+
+			// Hash the chunk coordinates.
+			const hash = ChunkCoords.hash({ x: cx, z: cz });
+
+			// delete chunk from cache
+			chunks.delete(hash);
+			return true;
+		}
+		return false;
 	}
 
 	/**

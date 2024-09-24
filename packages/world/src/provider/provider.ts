@@ -30,6 +30,32 @@ class WorldProvider {
 		return;
 	}
 
+	public readChunkCache(
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): Chunk | null {
+		throw new Error("WorldProvider.readChunkCache is not implemented");
+	}
+
+	public rentChunk<T extends object>(
+		borrower: T,
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): Chunk {
+		throw new Error("WorldProvider.rentChunk is not implemented");
+	}
+
+	public returnChunk<T extends object>(
+		borrower: T,
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): boolean {
+		throw new Error("WorldProvider.returnChunk is not implemented");
+	}
+
 	/**
 	 * Gets the index of a specific dimension.
 	 * @param dimension The dimension to get the index of.
