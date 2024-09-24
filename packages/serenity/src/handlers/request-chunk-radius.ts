@@ -42,7 +42,7 @@ class RequestChunkRadius extends SerenityHandler {
 		update.radius = component.viewDistance;
 
 		// Send the update to the player
-		// player.session.sendImmediate(update);
+		player.session.sendImmediate(update);
 	}
 }
 
