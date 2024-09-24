@@ -37,9 +37,6 @@ class RequestChunkRadius extends SerenityHandler {
 		component.viewDistance =
 			viewDistance > maxViewDistance ? maxViewDistance : viewDistance;
 
-		// Clear the player's chunks
-		component.clear();
-
 		// Send the chunk radius updated packet
 		const update = new ChunkRadiusUpdatePacket();
 		update.radius = component.viewDistance;

@@ -26,6 +26,7 @@ class EntityInventoryComponent extends EntityComponent {
 
 	public constructor(entity: Entity) {
 		super(entity, EntityInventoryComponent.identifier);
+
 		this.container = new EntityContainer(
 			entity,
 			this.containerType,

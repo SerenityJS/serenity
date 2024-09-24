@@ -250,6 +250,34 @@ class BlockPosition extends DataType implements IPosition {
 	public static toVector3f(coordinates: BlockPosition): Vector3f {
 		return new Vector3f(coordinates.x, coordinates.y, coordinates.z);
 	}
+
+	/**
+	 * Convert the block position to a hash.
+	 * @param coords The block position.
+	 * @returns The hash of the block position.
+	 */
+	public static hash(position: BlockPosition): bigint {
+		const x = BigInt(position.x);
+		const y = BigInt(position.y);
+		const z = BigInt(position.z);
+
+		const hash = (x << 32n) | (y << 16n) | (z & 0xff_ffn);
+
+		return hash;
+	}
+
+	/**
+	 * Convert the hash to block position.
+	 * @param hash The hash.
+	 * @returns The block position.
+	 */
+	public static unhash(hash: bigint): BlockPosition {
+		const x = Number(hash >> 32n);
+		const y = Number((hash >> 16n) & 0xffn);
+		const z = Number(hash & 0xffn);
+
+		return new BlockPosition(x, y, z);
+	}
 }
 
 export { BlockPosition };

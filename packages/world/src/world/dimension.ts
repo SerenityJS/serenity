@@ -66,7 +66,7 @@ class Dimension {
 	/**
 	 * The blocks that contain components in the dimension.
 	 */
-	public readonly blocks: Map<BlockPosition, Block>;
+	public readonly blocks: Map<bigint, Block>;
 
 	/**
 	 * The spawn position of the dimension.
@@ -134,14 +134,19 @@ class Dimension {
 
 			// Tick the entity if it is in simulation range
 			if (inSimulationRange) {
+				// Iterate over all the components in the entity
 				for (const component of entity.components.values())
 					try {
 						component.onTick?.(deltaTick);
 					} catch (reason) {
+						// Log the error to the console
 						this.world.logger.error(
 							`Failed to tick entity component "${component.identifier}" for entity "${entity.type.identifier}:${entity.unique}" in dimension "${this.identifier}"`,
 							reason
 						);
+
+						// Remove the component from the entity
+						entity.components.delete(component.identifier);
 					}
 			}
 		}
@@ -163,14 +168,20 @@ class Dimension {
 
 			// Tick the block if it is in simulation range
 			if (inSimulationRange) {
-				for (const component of block.components.values())
+				// Iterate over all the components in the block
+				// Try to tick the block component
+				for (const component of block.getComponents())
 					try {
 						component.onTick?.(deltaTick);
 					} catch (reason) {
+						// Log the error to the console
 						this.world.logger.error(
 							`Failed to tick block component "${component.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
 							reason
 						);
+
+						// Remove the component from the block
+						block.components.delete(component.identifier);
 					}
 			}
 		}
@@ -414,9 +425,10 @@ class Dimension {
 	public getBlock(position: IPosition): Block {
 		// Get X and Z coordinates to get the chunk of the position.
 		const { x, z } = position;
+		const hash = BlockPosition.hash(position as BlockPosition);
 
 		// Get the block from the block cache.
-		const block = this.blocks.get(position as BlockPosition);
+		const block = this.blocks.get(hash);
 
 		// If the block is in the block cache, return it.
 		if (block) return block;
@@ -434,11 +446,10 @@ class Dimension {
 				new BlockPosition(position.x, position.y, position.z)
 			);
 
-			// Register the components to the block.
-			for (const component of this.world.blocks.getRegistry(
+			// Get the components of the block.
+			const components = this.world.blocks.getRegistry(
 				permutation.type.identifier
-			) ?? [])
-				new component(block, component.identifier);
+			);
 
 			// Register the components that are type specific.
 			for (const identifier of permutation.type.components) {
@@ -446,31 +457,52 @@ class Dimension {
 				const component = this.world.blocks.getComponent(identifier);
 
 				// Check if the component exists.
-				if (component) new component(block, identifier);
+				if (component) components.push(component);
 			}
 
+			// Register the components that are state specific.
 			for (const key of Object.keys(permutation.state)) {
-				// Get the component from the registry
-				const component = this.world.blocks.getAllComponents().find((x) => {
-					// If the identifier is undefined, we will skip it.
-					if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
-						return false;
+				// Iterate over the components in the registry.
+				for (const component of this.world.blocks.getAllComponents()) {
+					// Check if the component is a BlockStateComponent.
+					if (component.prototype instanceof BlockStateComponent) {
+						// Get the component as a BlockStateComponent.
+						const componentx = component as typeof BlockStateComponent;
 
-					// Initialize the component as a BlockStateComponent.
-					const component = x as typeof BlockStateComponent;
+						// Check if the component has the same state.
+						if (componentx.state === key) {
+							components.push(component);
+						}
+					}
+				}
+			}
 
-					// Check if the identifier includes the key.
-					// As some states dont include a namespace.
-					return component.state === key;
-				});
+			// Attempt to register the components.
+			for (const component of components) {
+				// Check if the component is already registered.
+				if (block.components.has(component.identifier)) continue;
 
-				// Check if the component exists.
-				if (component) new component(block, key);
+				// Try to create a new component.
+				try {
+					// Create a new component.
+					const instance = new component(block, component.identifier);
+
+					// Register the component.
+					block.components.set(component.identifier, instance);
+				} catch (reason) {
+					// Get the position of the block.
+					const { x, y, z } = block.position;
+
+					// Log the error to the console.
+					this.world.logger.error(
+						`Failed to create component "${component.identifier}" for block "${permutation.type.identifier}" at ${x}, ${y}, ${z}.`,
+						reason
+					);
+				}
 			}
 
 			// If the block has components add it to the blocks
-			if (block.components.size > 0)
-				this.blocks.set(position as BlockPosition, block);
+			this.blocks.set(hash, block);
 
 			// Return the block
 			return block;

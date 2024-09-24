@@ -170,10 +170,12 @@ class Block {
 		// Set the component to the block.
 		this.components.set(component.identifier, component);
 
+		// Get the hash of the block.
+		const hash = BlockPosition.hash(this.position);
+
 		// Check if the dimension already has the block.
 		// If not, we will add it to the cache.
-		if (!this.dimension.blocks.has(this.position))
-			this.dimension.blocks.set(this.position, this);
+		if (!this.dimension.blocks.has(hash)) this.dimension.blocks.set(hash, this);
 	}
 
 	/**
@@ -275,8 +277,7 @@ class Block {
 		const oldPermutation = this.permutation;
 
 		// Query with the clearComponents option.
-		const clear =
-			options?.clearComponents === undefined ? true : options.clearComponents;
+		const clear = options?.clearComponents ? true : options?.clearComponents;
 
 		// Clear the previous components.
 		if (this.permutation.type !== permutation.type && clear)
@@ -307,43 +308,61 @@ class Block {
 		this.dimension.broadcast(update);
 
 		// If the components should be cleared, we will register the new components.
-		if (clear) {
-			// Get the world of the block.
-			const world = this.dimension.world;
+		if (clear) this.components.clear();
 
-			// Register the components to the block.
-			for (const component of world.blocks.getRegistry(
-				permutation.type.identifier
-			) ?? [])
-				new component(this, component.identifier);
+		// Get the world of the block.
+		const world = this.dimension.world;
 
-			// Register the components that are type specific.
-			for (const identifier of permutation.type.components) {
-				// Get the component from the registry
-				const component = world.blocks.getComponent(identifier);
+		// Get the components of the block.
+		const components = world.blocks.getRegistry(permutation.type.identifier);
 
-				// Check if the component exists.
-				if (component) new component(this, identifier);
+		// Register the components that are type specific.
+		for (const identifier of permutation.type.components) {
+			// Get the component from the registry
+			const component = world.blocks.getComponent(identifier);
+
+			// Check if the component exists.
+			if (component) components.push(component);
+		}
+
+		// Register the components that are state specific.
+		for (const key of Object.keys(permutation.state)) {
+			// Iterate over the components in the registry.
+			for (const component of world.blocks.getAllComponents()) {
+				// Check if the component is a BlockStateComponent.
+				if (component.prototype instanceof BlockStateComponent) {
+					// Get the component as a BlockStateComponent.
+					const componentx = component as typeof BlockStateComponent;
+
+					// Check if the component has the same state.
+					if (componentx.state === key) {
+						components.push(component);
+					}
+				}
 			}
+		}
 
-			// Register the components that are state specific.
-			for (const key of Object.keys(permutation.state)) {
-				// Get the component from the registry
-				const component = world.blocks.getAllComponents().find((x) => {
-					// If the identifier is undefined, we will skip it.
-					if (!x.identifier || !(x.prototype instanceof BlockStateComponent))
-						return false;
+		// Attempt to register the components.
+		for (const component of components) {
+			// Check if the component is already registered.
+			if (this.components.has(component.identifier)) continue;
 
-					// Initialize the component as a BlockStateComponent.
-					const component = x as typeof BlockStateComponent;
+			// Try to create a new component.
+			try {
+				// Create a new component.
+				const instance = new component(this, component.identifier);
 
-					// Check if the identifier includes the key.
-					// As some states dont include a namespace.
-					return component.state === key;
-				});
+				// Register the component.
+				this.components.set(component.identifier, instance);
+			} catch (reason) {
+				// Get the position of the block.
+				const { x, y, z } = this.position;
 
-				// Check if the component exists.
-				if (component) new component(this, key);
+				// Log the error to the console.
+				this.getWorld().logger.error(
+					`Failed to create component "${component.identifier}" for block "${permutation.type.identifier}" at ${x}, ${y}, ${z}.`,
+					reason
+				);
 			}
 		}
 
@@ -728,7 +747,8 @@ class Block {
 		if (!placed) return false;
 
 		// Since the block is becoming air, we can remove the block from the dimension cache to save memory.
-		this.dimension.blocks.delete(this.position);
+		const hash = BlockPosition.hash(this.position);
+		this.dimension.blocks.delete(hash);
 
 		return true;
 	}

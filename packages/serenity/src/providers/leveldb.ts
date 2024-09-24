@@ -14,7 +14,11 @@ import {
 	WorldProvider
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
+import {
+	BlockPosition,
+	ChunkCoords,
+	DimensionType
+} from "@serenityjs/protocol";
 import { Leveldb } from "@serenityjs/leveldb";
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
@@ -485,8 +489,14 @@ class LevelDBProvider extends WorldProvider {
 			}
 
 			// Get the block data from the dimension.
-			const blockData = [...dimension.blocks.values()].map((x) =>
-				Block.serialize(x)
+			// And filter out the air blocks.
+			const blockData = [...dimension.blocks.values()]
+				.filter((x) => !x.isAir())
+				.map((x) => Block.serialize(x));
+
+			// Log the amount of blocks being saved.
+			LevelDBProvider.logger.debug(
+				`Saving ${blockData.length} blocks for dimension ${dimension.identifier} in world ${this.world.identifier}.`
 			);
 
 			// Write the block data to the database.
@@ -566,8 +576,11 @@ class LevelDBProvider extends WorldProvider {
 				// Deserialize the block from the nbt.
 				const block = Block.deserialize(dimension, nbt);
 
+				// Get the position block hash.
+				const hash = BlockPosition.hash(block.position);
+
 				// Add the block to the dimension.
-				dimension.blocks.set(block.position, block);
+				dimension.blocks.set(hash, block);
 			}
 		}
 	}

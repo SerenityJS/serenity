@@ -13,19 +13,19 @@ class Logger {
 	public static DEBUG: boolean = false;
 
 	/**
+	 * The colorette instance.
+	 */
+	public readonly colorette: Colorette;
+
+	/**
 	 * The module name of the logger.
 	 */
-	public readonly name: string;
+	public name: string;
 
 	/**
 	 * The color of module name.
 	 */
-	public readonly color: Color;
-
-	/**
-	 * The colorette instance.
-	 */
-	public readonly colorette: Colorette;
+	public color: Color;
 
 	/**
 	 * Constructs a new logger.

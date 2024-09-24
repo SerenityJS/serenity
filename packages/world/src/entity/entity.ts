@@ -203,8 +203,17 @@ class Entity {
 			// Skip if the entity already has the component
 			if (this.components.has(component.identifier)) continue;
 
-			// Create a new instance of the component
-			new component(this, component.identifier);
+			// Try to create the component
+			try {
+				// Create a new instance of the component
+				new component(this, component.identifier);
+			} catch (reason) {
+				// Log the error
+				this.dimension.world.logger.error(
+					`Failed to create component "${component.identifier}" for entity "${this.unique}".`,
+					reason
+				);
+			}
 		}
 	}
 
