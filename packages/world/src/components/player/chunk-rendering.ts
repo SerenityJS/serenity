@@ -168,6 +168,9 @@ class PlayerChunkRenderingComponent extends PlayerComponent {
 			// !!! 1, Be sure that borrowed chunk is returned with right dimension
 			// !!! 2, As i am not author of this PlayerChunkRenderingComponent, i relay on current behavior of this class
 			// !!!    so keep in mind this once you are about to change core behavior of PlayerChunkRenderingComponent.
+			// !!! 3, Not sure if teleportation is handled well, and same when player leaves just hopeing it works
+
+			// !!! If you don't return the chunk then provider will hold you as a borrower so this class will not be deallocated
 			this.player.dimension.world.provider.returnChunk(
 				this,
 				coord.x,
