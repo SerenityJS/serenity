@@ -1,11 +1,5 @@
 # @serenityjs/chokidar
 
-## 0.5.2
-
-### Patch Changes
-
-- 03a55ba: init v0.5.2-beta
-
 ## 0.5.1
 
 ### Patch Changes
