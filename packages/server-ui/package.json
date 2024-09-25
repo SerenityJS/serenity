@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/server-ui",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/SerenityJS/serenity",
