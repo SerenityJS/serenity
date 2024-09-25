@@ -1,5 +1,14 @@
 # @serenityjs/block
 
+## 0.5.2
+
+### Patch Changes
+
+- 03a55ba: init v0.5.2-beta
+- Updated dependencies [03a55ba]
+  - @serenityjs/data@0.5.2
+  - @serenityjs/nbt@0.5.2
+
 ## 0.5.1
 
 ### Patch Changes

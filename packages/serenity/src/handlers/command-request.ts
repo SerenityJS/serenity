@@ -44,7 +44,7 @@ class CommandRequest extends SerenityHandler {
 		);
 
 		// Check if the player has the required permission to execute the command
-		if ((state.command?.registry.permissionLevel ?? 4) > player.permission)
+		if ((state.command?.registry.permissionLevel ?? 4) + 1 > player.permission)
 			return player.sendMessage(
 				`§cYou do not have permission to execute this command.`
 			);
