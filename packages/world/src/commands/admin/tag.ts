@@ -7,114 +7,114 @@ import type { World } from "../../world";
 import type { Entity } from "../../entity";
 
 const register = (world: World) => {
-  // Register the kill command
-  world.commands.register(
-    "tag",
-    "Manages tags stored in entities.",
-    (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+	// Register the kill command
+	world.commands.register(
+		"tag",
+		"Interact with the tags of a specified entity.",
+		(registry) => {
+			// Set the command to be an operator command
+			registry.permissionLevel = CommandPermissionLevel.Operator;
 
-      // Create an overload for the command
-      registry.overload(
-        {
-          target: TargetEnum,
-          operation: TagEnum,
-          tag: [StringEnum, true],
-        },
-        (context) => {
-          // Get the targets from the context
-          const targets = context.target.result as Array<Entity>;
+			// Create an overload for the command
+			registry.overload(
+				{
+					target: TargetEnum,
+					operation: TagEnum,
+					tag: [StringEnum, true]
+				},
+				(context) => {
+					// Get the targets from the context
+					const targets = context.target.result as Array<Entity>;
 
-          // Get the operation from the context
-          const operation = context.operation.result as string;
+					// Get the operation from the context
+					const operation = context.operation.result as string;
 
-          // Prepare the message to send to the origin
-          const message = [];
+					// Prepare the message to send to the origin
+					const message = [];
 
-          // Loop through the targets
-          for (const entity of targets) {
-            // Switch the operation
-            switch (operation) {
-              case "add": {
-                // Get the tag from the parameters
-                const tag = context.tag.result as string;
+					// Loop through the targets
+					for (const entity of targets) {
+						// Switch the operation
+						switch (operation) {
+							case "add": {
+								// Get the tag from the parameters
+								const tag = context.tag.result as string;
 
-                // Add the tag to the entity
-                const added = entity.addTag(tag);
+								// Add the tag to the entity
+								const added = entity.addTag(tag);
 
-                // Get the nametag of the entity
-                const nametag = entity.getNametag();
+								// Get the nametag of the entity
+								const nametag = entity.getNametag();
 
-                // Push the message to the array
-                if (added) {
-                  message.push(
-                    `§fAdded tag §7${tag}§f to ${nametag ?? entity.unique}`
-                  );
-                } else {
-                  message.push(
-                    `§fTag §7${tag}§f already exists on ${nametag ?? entity.unique}`
-                  );
-                }
-                break;
-              }
+								// Push the message to the array
+								if (added) {
+									message.push(
+										`§7Added tag §a${tag}§7 to §c${nametag ?? entity.unique}§7`
+									);
+								} else {
+									message.push(
+										`§7Tag §a${tag}§7 already exists on §c${nametag ?? entity.unique}§7`
+									);
+								}
+								break;
+							}
 
-              case "remove": {
-                // Get the tag from the parameters
-                const tag = context.tag.result as string;
+							case "remove": {
+								// Get the tag from the parameters
+								const tag = context.tag.result as string;
 
-                // Remove the tag from the entity
-                const removed = entity.removeTag(tag);
+								// Remove the tag from the entity
+								const removed = entity.removeTag(tag);
 
-                // Get the nametag of the entity
-                const nametag = entity.getNametag();
+								// Get the nametag of the entity
+								const nametag = entity.getNametag();
 
-                // Push the message to the array
-                if (removed) {
-                  message.push(
-                    `§fRemoved tag §7${tag}§f from ${nametag ?? entity.unique}`
-                  );
-                } else {
-                  message.push(
-                    `§fTag §7${tag}§f does not exist on ${nametag ?? entity.unique}`
-                  );
-                }
+								// Push the message to the array
+								if (removed) {
+									message.push(
+										`§7Removed tag §a${tag}§7 from §c${nametag ?? entity.unique}§7`
+									);
+								} else {
+									message.push(
+										`§7Tag §a${tag}§7 does not exist on §c${nametag ?? entity.unique}§7`
+									);
+								}
 
-                break;
-              }
+								break;
+							}
 
-              case "list": {
-                // Get the tags of the entity
-                const tags = entity.getTags();
+							case "list": {
+								// Get the tags of the entity
+								const tags = entity.getTags();
 
-                // Get the nametag of the entity
-                const nametag = entity.getNametag();
+								// Get the nametag of the entity
+								const nametag = entity.getNametag();
 
-                // Push the message to the array
-                if (tags.length === 0) {
-                  message.push(`§f${nametag ?? entity.unique} has no tags.`);
-                } else {
-                  message.push(
-                    `§f${nametag ?? entity.unique} has the following tags: §a${tags.join(
-                      "§7, §a"
-                    )}`
-                  );
-                }
+								// Push the message to the array
+								if (tags.length === 0) {
+									message.push(`§c${nametag ?? entity.unique}§7 has no tags.`);
+								} else {
+									message.push(
+										`§c${nametag ?? entity.unique}§7 has the following tags: §a${tags.join(
+											"§7, §a"
+										)}`
+									);
+								}
 
-                break;
-              }
-            }
-          }
+								break;
+							}
+						}
+					}
 
-          // Send the message to the origin
-          return {
-            message: message.join("\n"),
-          };
-        }
-      );
-    },
-    () => {}
-  );
+					// Send the message to the origin
+					return {
+						message: message.join("\n")
+					};
+				}
+			);
+		},
+		() => {}
+	);
 };
 
 export default register;
