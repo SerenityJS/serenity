@@ -244,3 +244,18 @@ Cargo.lock
 
 *.node
 
+.vscode/settings.json
+packages/serenity/permissions.json
+packages/serenity/plugins/debug-stats-main/LICENSE
+packages/serenity/plugins/debug-stats-main/package.json
+packages/serenity/plugins/debug-stats-main/README.md
+packages/serenity/plugins/debug-stats-main/src/index.ts
+packages/serenity/plugins/debug-stats-main/tsconfig.json
+packages/serenity/server.properties
+packages/serenity/worlds/default/config.json
+packages/serenity/worlds/default/db/CURRENT
+packages/serenity/worlds/default/db/LOCK
+packages/serenity/worlds/default/db/LOG
+packages/serenity/worlds/default/db/LOG.old
+packages/serenity/worlds/default/db/MANIFEST-000001
+.vscode/settings.json
