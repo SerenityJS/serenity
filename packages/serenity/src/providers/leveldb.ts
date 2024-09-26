@@ -761,7 +761,7 @@ class LevelDBProvider extends WorldProvider {
 			if (simulationDistance) dimension.simulationDistance = simulationDistance;
 
 			// Get the spawn coordinates for the dimension.
-			const [x, y, z] = entry.spawn;
+			const [x, y, z] = entry.spawn || [0, 120, 0]; // TODO: change
 
 			// Set the spawn coordinates for the dimension.
 			dimension.spawn.x = x;

@@ -31,27 +31,27 @@ class WorldProvider {
 	}
 
 	public readChunkCache(
-		cx: number,
-		cz: number,
-		dimension: Dimension
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
 	): Chunk | null {
 		throw new Error("WorldProvider.readChunkCache is not implemented");
 	}
 
 	public rentChunk<T extends object>(
-		borrower: T,
-		cx: number,
-		cz: number,
-		dimension: Dimension
+		_borrower: T,
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
 	): Chunk {
 		throw new Error("WorldProvider.rentChunk is not implemented");
 	}
 
 	public returnChunk<T extends object>(
-		borrower: T,
-		cx: number,
-		cz: number,
-		dimension: Dimension
+		_borrower: T,
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
 	): boolean {
 		throw new Error("WorldProvider.returnChunk is not implemented");
 	}
