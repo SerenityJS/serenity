@@ -1092,10 +1092,18 @@ class Entity {
 			// Create a new MoveActorAbsolutePacket
 			const packet = new MoveActorAbsolutePacket();
 
+			// Assign the properties of the packet
+			const yAdjust =
+				this.type.identifier === EntityIdentifier.Item ? 0 : -0.25;
+
 			// Set the properties of the packet
 			packet.runtimeId = this.runtime;
 			packet.flags = 1;
-			packet.position = position;
+			packet.position = new Vector3f(
+				position.x,
+				position.y + yAdjust,
+				position.z
+			);
 			packet.rotation = this.rotation;
 
 			// Broadcast the packet to the dimension

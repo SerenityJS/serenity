@@ -502,7 +502,7 @@ class Dimension {
 			}
 
 			// If the block has components add it to the blocks
-			this.blocks.set(hash, block);
+			if (components.length > 0) this.blocks.set(hash, block);
 
 			// Return the block
 			return block;
