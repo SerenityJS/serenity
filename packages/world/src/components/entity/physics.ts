@@ -8,7 +8,7 @@ class EntityPhysicsComponent extends EntityComponent {
 	/**
 	 * The gravity of the entity.
 	 */
-	public gravity = 0.04;
+	public gravity = 0.03;
 
 	/**
 	 * Creates a new entity inventory component.
