@@ -1,9 +1,9 @@
 import { DataType } from "@serenityjs/raknet";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { Vector3f } from "./vector3f";
 
 import type { IPosition } from "../../types";
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 // This is a perfect example that Mojank has no idea what they are doing...
 
@@ -256,14 +256,15 @@ class BlockPosition extends DataType implements IPosition {
 	 * @param coords The block position.
 	 * @returns The hash of the block position.
 	 */
-	public static hash(position: BlockPosition): bigint {
-		const x = BigInt(position.x);
-		const y = BigInt(position.y);
-		const z = BigInt(position.z);
+	public static hash(position: BlockPosition): Buffer {
+		// Create a new binary stream.
+		const stream = new BinaryStream();
 
-		const hash = (x << 32n) | (y << 16n) | (z & 0xff_ffn);
+		// Write the block position to the stream.
+		this.write(stream, position);
 
-		return hash;
+		// Return the buffer.
+		return stream.getBuffer();
 	}
 
 	/**
@@ -271,12 +272,12 @@ class BlockPosition extends DataType implements IPosition {
 	 * @param hash The hash.
 	 * @returns The block position.
 	 */
-	public static unhash(hash: bigint): BlockPosition {
-		const x = Number(hash >> 32n);
-		const y = Number((hash >> 16n) & 0xffn);
-		const z = Number(hash & 0xffn);
+	public static unhash(hash: Buffer): BlockPosition {
+		// Create a new binary stream.
+		const stream = new BinaryStream(hash);
 
-		return new BlockPosition(x, y, z);
+		// Read the block position from the stream.
+		return this.read(stream);
 	}
 }
 

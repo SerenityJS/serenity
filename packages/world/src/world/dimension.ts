@@ -66,7 +66,7 @@ class Dimension {
 	/**
 	 * The blocks that contain components in the dimension.
 	 */
-	public readonly blocks: Map<bigint, Block>;
+	public readonly blocks: Map<Buffer, Block>;
 
 	/**
 	 * The spawn position of the dimension.
