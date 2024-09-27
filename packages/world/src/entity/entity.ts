@@ -102,11 +102,6 @@ class Entity {
 	public readonly runtime: bigint;
 
 	/**
-	 * The unique id of the entity.
-	 */
-	public readonly unique: bigint;
-
-	/**
 	 * The position of the entity.
 	 */
 	public readonly position = new Vector3f(0, 0, 0);
@@ -150,6 +145,11 @@ class Entity {
 	 * The scoreboard identity of the entity.
 	 */
 	public readonly scoreboardIdentity: ScoreboardIdentity;
+
+	/**
+	 * The unique id of the entity.
+	 */
+	public unique: bigint;
 
 	/**
 	 * The dimension of the entity.

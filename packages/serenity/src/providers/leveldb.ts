@@ -706,6 +706,14 @@ class LevelDBProvider extends WorldProvider {
 		this.db.close();
 	}
 
+	public readProperty(key: Buffer): Buffer {
+		return this.db.get(key);
+	}
+
+	public writeProperty(key: Buffer, value: Buffer): void {
+		this.db.put(key, value);
+	}
+
 	public static initialize(
 		config: WorldConfig,
 		path: string,

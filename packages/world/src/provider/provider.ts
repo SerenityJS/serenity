@@ -199,6 +199,23 @@ class WorldProvider {
 	public writePlayer(_player: Player): void {
 		throw new Error("WorldProvider.writePlayer is not implemented");
 	}
+
+	/**
+	 * Reads a property from the world.
+	 * @param key The key of the property to read.
+	 */
+	public readProperty(_key: Buffer): Buffer {
+		throw new Error("WorldProvider.readProperty is not implemented");
+	}
+
+	/**
+	 * Writes a property to the world.
+	 * @param key The key of the property to write.
+	 * @param value The value of the property to write.
+	 */
+	public writeProperty(_key: Buffer, _value: Buffer): void {
+		throw new Error("WorldProvider.writeProperty is not implemented");
+	}
 }
 
 export { WorldProvider };
