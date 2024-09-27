@@ -112,7 +112,7 @@ class Connection {
 	 */
 	public tick(): void {
 		// Check if the client is stale
-		if (this.lastUpdate + 5000 < Date.now()) {
+		if (this.lastUpdate + 15_000 < Date.now()) {
 			// Log a warning message for stale connections
 			this.server.logger.warn(
 				`Detected stale connection from §c${this.rinfo.address}§r:§c${this.rinfo.port}§r, disconnecting...`
