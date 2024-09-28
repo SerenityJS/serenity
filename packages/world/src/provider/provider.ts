@@ -30,32 +30,6 @@ class WorldProvider {
 		return;
 	}
 
-	public readChunkCache(
-		_cx: number,
-		_cz: number,
-		_dimension: Dimension
-	): Chunk | null {
-		throw new Error("WorldProvider.readChunkCache is not implemented");
-	}
-
-	public rentChunk<T extends object>(
-		_borrower: T,
-		_cx: number,
-		_cz: number,
-		_dimension: Dimension
-	): Chunk {
-		throw new Error("WorldProvider.rentChunk is not implemented");
-	}
-
-	public returnChunk<T extends object>(
-		_borrower: T,
-		_cx: number,
-		_cz: number,
-		_dimension: Dimension
-	): boolean {
-		throw new Error("WorldProvider.returnChunk is not implemented");
-	}
-
 	/**
 	 * Gets the index of a specific dimension.
 	 * @param dimension The dimension to get the index of.
@@ -184,6 +158,14 @@ class WorldProvider {
 	}
 
 	/**
+	 * Gets the unique id of the player.
+	 * @param player The player to get the unique id of.
+	 */
+	public getPlayerUniqueId(_player: string | Player): bigint {
+		throw new Error("WorldProvider.getPlayerUniqueId is not implemented");
+	}
+
+	/**
 	 * Reads a player from the world.
 	 * @param uuid The UUID of the player to read.
 	 * @returns The player read from the world.
@@ -215,6 +197,32 @@ class WorldProvider {
 	 */
 	public writeProperty(_key: Buffer, _value: Buffer): void {
 		throw new Error("WorldProvider.writeProperty is not implemented");
+	}
+
+	public readChunkCache(
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
+	): Chunk | null {
+		throw new Error("WorldProvider.readChunkCache is not implemented");
+	}
+
+	public rentChunk<T extends object>(
+		_borrower: T,
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
+	): Chunk {
+		throw new Error("WorldProvider.rentChunk is not implemented");
+	}
+
+	public returnChunk<T extends object>(
+		_borrower: T,
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
+	): boolean {
+		throw new Error("WorldProvider.returnChunk is not implemented");
 	}
 }
 

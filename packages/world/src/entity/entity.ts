@@ -1,5 +1,4 @@
 import {
-	ActorData,
 	ActorEventIds,
 	ActorEventPacket,
 	Attribute,
@@ -52,9 +51,9 @@ import {
 	PlayerInteractWithEntitySignal
 } from "../events";
 import { ScoreboardIdentity } from "../scoreboard";
-import { Player, type PlayerOptions } from "../player";
 import { Raycaster } from "../collisions";
 
+import type { Player } from "../player";
 import type { BlockHitResult } from "../types";
 import type { Container } from "../container";
 import type { Effect } from "../effect/effect";
@@ -89,7 +88,7 @@ class Entity {
 	/**
 	 * The running total of the entity runtime id.
 	 */
-	public static runtime = 1n;
+	public static runtime = 0n;
 
 	/**
 	 * The type of entity.
@@ -100,6 +99,11 @@ class Entity {
 	 * The runtime id of the entity.
 	 */
 	public readonly runtime: bigint;
+
+	/**
+	 * The unique id of the entity.
+	 */
+	public readonly unique: bigint;
 
 	/**
 	 * The position of the entity.
@@ -147,19 +151,14 @@ class Entity {
 	public readonly scoreboardIdentity: ScoreboardIdentity;
 
 	/**
-	 * The unique id of the entity.
+	 * The nbt data of the entity.
 	 */
-	public unique: bigint;
+	public readonly nbt = new CompoundTag();
 
 	/**
 	 * The dimension of the entity.
 	 */
 	public dimension: Dimension;
-
-	/**
-	 * The nbt data of the entity.
-	 */
-	public nbt = new CompoundTag();
 
 	/**
 	 * Whether or not the entity is on the ground.
@@ -177,14 +176,34 @@ class Entity {
 	public isSwimming = false;
 
 	public constructor(
-		identifier: EntityIdentifier,
+		type: EntityIdentifier | EntityType,
 		dimension: Dimension,
 		uniqueId?: bigint
 	) {
-		// Readonly properties
-		this.type = EntityType.get(identifier) as EntityType;
-		this.runtime = Entity.runtime++;
-		this.unique = uniqueId ?? BigInt(Math.abs(Date.now() >> 4)) + this.runtime;
+		// Check if the entity type is an EntityType instance
+		if (type instanceof EntityType) {
+			// Set the entity type as the provided EntityType instance
+			this.type = type;
+		} else {
+			// Get the type from the world entity palette
+			const pType = dimension.world.entities.getType(type);
+
+			// Check if the entity type was not found
+			if (!pType)
+				throw new Error(
+					`Failed to create entity of type "${type}", type was not found in the entity palette.`
+				);
+
+			// Set the entity type
+			this.type = pType;
+		}
+
+		// Increment the entity runtime id
+		this.runtime = ++Entity.runtime;
+
+		// Set the unique id of the entity
+		this.unique =
+			uniqueId ?? Entity.createUnique(this.type.network, this.runtime);
 
 		// Mutable properties
 		this.dimension = dimension;
@@ -195,8 +214,18 @@ class Entity {
 		// Check if the entity is a player
 		if (this.type.identifier === EntityIdentifier.Player) return;
 
+		// Initialize the entity
+		this.intialize();
+	}
+
+	/**
+	 * Initializes the entity and its components.
+	 */
+	protected intialize(): void {
 		// Get the components of the entity from the entity palette
-		const components = this.dimension.world.entities.getRegistryFor(identifier);
+		const components = this.dimension.world.entities.getRegistryFor(
+			this.type.identifier
+		);
 
 		// Register the type components to the entity.
 		for (const component of components) {
@@ -712,7 +741,6 @@ class Entity {
 
 	/**
 	 * Computes the view direction vector based on the current pitch and yaw rotations.
-	 *
 	 * @returns A Vector3f representing the direction the view is pointing.
 	 */
 	public getViewDirection(): Vector3f {
@@ -1282,20 +1310,16 @@ class Entity {
 	}
 
 	/**
-	 * Creates actor data from a given entity.
-	 * @param entity The entity to generate the actor data from.
-	 * @returns The generated actor data.
+	 * Create a new unique entity id.
+	 * @param network The network id of the entity type.
+	 * @param runtime The runtime id of the entity.
+	 * @returns The unique entity id.
 	 */
-	public static toActorData(entity: Entity): ActorData {
-		const identifier = entity.type.identifier;
-		const position = entity.position;
-		const rotation = entity.rotation;
+	public static createUnique(network: number, runtime: bigint): bigint {
+		// Generate a unique id for the entity
+		const unique = BigInt(Math.abs(Date.now() >> 4) & 0x1_ff);
 
-		const extras = Buffer.from("Hello World!");
-
-		const data = new ActorData(identifier, position, rotation, extras);
-
-		return data;
+		return BigInt(network << 19) | (unique << 10n) | runtime;
 	}
 
 	public static serialize(entity: Entity): CompoundTag {
@@ -1336,6 +1360,15 @@ class Entity {
 		// Add the components to the root tag.
 		root.addTag(components);
 
+		// Iterate over the nbt tags and add them to the root tag.
+		for (const tag of entity.nbt.getTags()) {
+			// Check if the tag already exists in the root tag.
+			if (root.hasTag(tag.name)) continue;
+
+			// Add the tag to the root tag.
+			root.addTag(tag);
+		}
+
 		// Get the world from the entity.
 		const world = entity.dimension.world;
 
@@ -1364,16 +1397,20 @@ class Entity {
 		return root;
 	}
 
-	public static deserialize(
-		tag: CompoundTag,
-		dimension: Dimension,
-		options?: PlayerOptions
-	): Entity {
+	public static deserialize(tag: CompoundTag, entity: Entity): Entity {
 		// Get the unique id of the entity.
 		const unique = tag.getTag("UniqueID")?.value as bigint;
 
+		// Verify that the unique ids match.
+		if (entity.unique !== unique)
+			throw new Error("The entity unique ids do not match.");
+
 		// Get the identifier of the entity.
 		const identifier = tag.getTag("Identifier")?.value as EntityIdentifier;
+
+		// Verify that the identifiers match.
+		if (entity.type.identifier !== identifier)
+			throw new Error("The entity identifiers do not match.");
 
 		// Get the position of the entity.
 		const position = tag.getTag("Pos")?.value as Array<FloatTag>;
@@ -1384,11 +1421,6 @@ class Entity {
 		// Get the tags of the entity.
 		const tags = tag.getTag<ListTag<StringTag>>("Tags")?.value ?? [];
 
-		// Create a new entity.
-		const entity = options
-			? new Player(dimension, options)
-			: new Entity(identifier, dimension, unique);
-
 		// Set the position of the entity.
 		entity.position.x = position[0]?.value ?? 0;
 		entity.position.y = position[1]?.value ?? 0;
@@ -1398,6 +1430,9 @@ class Entity {
 		entity.rotation.yaw = rotation[0]?.value ?? 0;
 		entity.rotation.pitch = rotation[1]?.value ?? 0;
 		entity.rotation.headYaw = rotation[2]?.value ?? 0;
+
+		// Add the nbt tags to the entity.
+		entity.nbt.addTag(...tag.getTags());
 
 		// Iterate over the tags and add them to the entity.
 		for (const tag of tags) entity.tags.push(tag.value);

@@ -256,15 +256,15 @@ class BlockPosition extends DataType implements IPosition {
 	 * @param coords The block position.
 	 * @returns The hash of the block position.
 	 */
-	public static hash(position: BlockPosition): Buffer {
+	public static hash(position: BlockPosition): bigint {
 		// Create a new binary stream.
 		const stream = new BinaryStream();
 
 		// Write the block position to the stream.
 		this.write(stream, position);
 
-		// Return the buffer.
-		return stream.getBuffer();
+		// Convert the buffer to a bigint.
+		return BigInt("0x" + stream.getBuffer().toString("hex"));
 	}
 
 	/**
@@ -272,9 +272,12 @@ class BlockPosition extends DataType implements IPosition {
 	 * @param hash The hash.
 	 * @returns The block position.
 	 */
-	public static unhash(hash: Buffer): BlockPosition {
+	public static unhash(hash: bigint): BlockPosition {
+		// Convert the hash to a buffer.
+		const buffer = Buffer.from(hash.toString(16), "hex");
+
 		// Create a new binary stream.
-		const stream = new BinaryStream(hash);
+		const stream = new BinaryStream(buffer);
 
 		// Read the block position from the stream.
 		return this.read(stream);
