@@ -66,7 +66,7 @@ class Dimension {
 	/**
 	 * The blocks that contain components in the dimension.
 	 */
-	public readonly blocks: Map<Buffer, Block>;
+	public readonly blocks: Map<bigint, Block>;
 
 	/**
 	 * The spawn position of the dimension.
@@ -423,8 +423,7 @@ class Dimension {
 	 * @returns The block.
 	 */
 	public getBlock(position: IPosition): Block {
-		// Get X and Z coordinates to get the chunk of the position.
-		const { x, z } = position;
+		// Get the hash of the block position
 		const hash = BlockPosition.hash(position as BlockPosition);
 
 		// Get the block from the block cache.
@@ -433,6 +432,9 @@ class Dimension {
 		// If the block is in the block cache, return it.
 		if (block) return block;
 		else {
+			// Get x and z coordinates to get the chunk of the position.
+			const { x, z } = position;
+
 			// Get the chunk position
 			const chunk = this.getChunk(x >> 4, z >> 4);
 

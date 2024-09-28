@@ -166,8 +166,12 @@ class Player extends Entity {
 	 */
 	public flySpeed = 0.05;
 
-	public constructor(dimension: Dimension, options: PlayerOptions) {
-		super(EntityIdentifier.Player, dimension);
+	public constructor(
+		dimension: Dimension,
+		options: PlayerOptions,
+		uniqueId?: bigint
+	) {
+		super(EntityIdentifier.Player, dimension, uniqueId);
 		this.session = options.session;
 		this.username = options.tokens.identityData.displayName;
 		this.xuid = options.tokens.identityData.XUID;
@@ -176,6 +180,14 @@ class Player extends Entity {
 		this.skin = SerializedSkin.from(options.tokens.clientData);
 		this.device = new Device(options.tokens.clientData);
 
+		// Initialize the player instance
+		this.intialize();
+	}
+
+	/**
+	 * Initializes the player instance.
+	 */
+	protected intialize(): void {
 		// Get the components of the entity from the entity palette
 		const components = this.dimension.world.entities.getRegistryFor(
 			this.type.identifier
@@ -497,6 +509,26 @@ class Player extends Entity {
 		if (dimension) {
 			// Despawn the player from the current dimension
 			this.despawn();
+
+			if (dimension.world !== this.dimension.world) {
+				// Check if the new world has player data
+				if (dimension.world.provider.hasPlayer(this)) {
+					// Write the player data to the world
+					this.dimension.world.provider.writePlayer(this);
+
+					// Read the player data from the world
+					const data = dimension.world.provider.readPlayer(this);
+
+					// Deserialize the data into the player instance
+					Player.deserialize(data, this);
+				} else {
+					// Clear the player's components
+					this.components.clear();
+
+					// Reinitalize the player instance
+					this.intialize();
+				}
+			}
 
 			// Check if the dimension types are different
 			// This allows for a faster dimension change if the types are the same

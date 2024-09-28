@@ -520,6 +520,14 @@ class LevelDBProvider extends WorldProvider {
 		}
 	}
 
+	public getPlayerUniqueId(player: string | Player): bigint {
+		// Attempt to get the player from the database.
+		const data = this.readPlayer(player);
+
+		// Get the player UUID from the player instance.
+		return data.getTag("UniqueID")?.value as bigint;
+	}
+
 	public readPlayer(player: string | Player): CompoundTag {
 		// Get the player UUID from the player instance.
 		const uuid = player instanceof Player ? player.uuid : player;
@@ -657,14 +665,31 @@ class LevelDBProvider extends WorldProvider {
 
 			// Iterate through the unique identifiers and spawn the entities.
 			for (const uniqueId of uniqueIds) {
-				// Read the entity from the provider.
-				const entity = provider.readEntity(dimension, uniqueId);
+				// Parse the entity type from the unique identifier.
+				const type = dimension.world.entities.getTypeByUnique(uniqueId);
 
-				// Deserialize the entity and add it to the dimension.
-				const instance = Entity.deserialize(entity, dimension);
+				// Check if the entity type was not found.
+				if (!type) {
+					// Log the error and continue to the next entity.
+					LevelDBProvider.logger.debug(
+						`Failed to find entity type for unique identifier ${uniqueId} in dimension ${dimension.identifier} in world ${this.world.identifier}.`
+					);
+
+					// Continue to the next entity.
+					continue;
+				}
+
+				// Create a new entity instance.
+				const entity = new Entity(type, dimension, uniqueId);
+
+				// Read the entity data from the database.
+				const data = provider.readEntity(dimension, entity);
+
+				// Deserialize the entity data into the entity.
+				Entity.deserialize(data, entity);
 
 				// Spawn the entity in the dimension.
-				instance.spawn();
+				entity.spawn();
 			}
 
 			// Read the block data for the dimension.

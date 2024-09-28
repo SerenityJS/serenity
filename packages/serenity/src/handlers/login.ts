@@ -96,12 +96,17 @@ class Login extends SerenityHandler {
 		// Since we have gotten the players login data, we can create a new player instance.
 		// We will also add the player to the players map.
 		const player = world.provider.hasPlayer(uuid)
-			? (Player.deserialize(
-					world.provider.readPlayer(uuid),
-					dimension,
-					options
-				) as Player)
+			? new Player(dimension, options, world.provider.getPlayerUniqueId(uuid))
 			: new Player(dimension, options);
+
+		// Check if the player is saved in the world.
+		if (world.provider.hasPlayer(player)) {
+			// Read the player data from the world.
+			const data = world.provider.readPlayer(player);
+
+			// Deserialize the data into the player instance.
+			Player.deserialize(data, player);
+		}
 
 		// Set the players xuid and username.
 		this.serenity.players.set(xuid, player);
