@@ -10,6 +10,7 @@ import TP from "./tp";
 import KILL from "./kill";
 // import SPAWNPOINT from "./spawnpoint";
 import TAG from "./tag";
+import TRANSFER from "./transfer";
 
 // Define all admin commands
 const ADMIN_COMMANDS = [
@@ -24,7 +25,8 @@ const ADMIN_COMMANDS = [
 	// SPAWNPOINT,
 	TP,
 	KILL,
-	TAG
+	TAG,
+	TRANSFER
 ];
 
 export { ADMIN_COMMANDS };

@@ -208,9 +208,7 @@ class Dimension {
 	 * @param command The command to execute.
 	 * @returns The response of the command.
 	 */
-	public executeCommand<T = unknown>(
-		command: string
-	): CommandResponse<T> | null {
+	public executeCommand<T = unknown>(command: string): CommandResponse<T> {
 		// Check if the command starts with a slash, remove it if it does not
 		if (command.startsWith("/")) command = command.slice(1);
 
@@ -221,19 +219,8 @@ class Dimension {
 			this
 		);
 
-		try {
-			// Execute the command state
-			return state.execute() as CommandResponse<T>;
-		} catch (reason) {
-			// Log the error to the console
-			this.world.logger.error(
-				`Failed to execute command "${command}" in dimension "${this.identifier}"`,
-				reason
-			);
-
-			// Return null if the command was not executed successfully
-			return null;
-		}
+		// Execute the command state
+		return state.execute() as CommandResponse<T>;
 	}
 
 	/**
