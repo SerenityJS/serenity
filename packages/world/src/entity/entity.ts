@@ -53,6 +53,7 @@ import {
 import { ScoreboardIdentity } from "../scoreboard";
 import { Raycaster } from "../collisions";
 
+import type { PathType } from "../pathfinding";
 import type { Player } from "../player";
 import type { BlockHitResult } from "../types";
 import type { Container } from "../container";
@@ -149,6 +150,11 @@ class Entity {
 	 * The scoreboard identity of the entity.
 	 */
 	public readonly scoreboardIdentity: ScoreboardIdentity;
+
+	/**
+	 * The pathfinding costs of the entity.
+	 */
+	public readonly pathfindingCosts = new Map<PathType, number>();
 
 	/**
 	 * The nbt data of the entity.
@@ -336,6 +342,10 @@ class Entity {
 	 */
 	public getWorld(): World {
 		return this.dimension.world;
+	}
+
+	public getPathfindingCost(pathType: PathType): number {
+		return this.pathfindingCosts.get(pathType) ?? pathType.cost;
 	}
 
 	/**
