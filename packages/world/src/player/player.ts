@@ -556,6 +556,15 @@ class Player extends Entity {
 				component.clear();
 			}
 
+			// Check if the player has the entity rendering component
+			if (this.hasComponent("minecraft:entity_rendering")) {
+				// Get the entity rendering component
+				const component = this.getComponent("minecraft:entity_rendering");
+
+				// Clear the entities
+				component.entities.clear();
+			}
+
 			// Spawn the player in the new dimension
 			this.spawn();
 

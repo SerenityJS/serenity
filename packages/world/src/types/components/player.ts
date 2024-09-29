@@ -7,7 +7,8 @@ import type {
 	PlayerHungerComponent,
 	PlayerSaturationComponent,
 	PlayerCraftingInputComponent,
-	PlayerAbilityComponent
+	PlayerAbilityComponent,
+	PlayerEntityRenderingComponent
 } from "../../components";
 import type { EntityComponents } from "./entity";
 interface PlayerAttributeComponents {
@@ -21,6 +22,7 @@ interface PlayerAttributeComponents {
 interface PlayerComponents extends EntityComponents, PlayerAttributeComponents {
 	"minecraft:cursor": PlayerCursorComponent;
 	"minecraft:chunk_rendering": PlayerChunkRenderingComponent;
+	"minecraft:entity_rendering": PlayerEntityRenderingComponent;
 	"minecraft:crafting_input": PlayerCraftingInputComponent;
 	"minecraft:ability": PlayerAbilityComponent;
 }
