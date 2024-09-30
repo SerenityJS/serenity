@@ -158,6 +158,14 @@ class WorldProvider {
 	}
 
 	/**
+	 * Gets the unique id of the player.
+	 * @param player The player to get the unique id of.
+	 */
+	public getPlayerUniqueId(_player: string | Player): bigint {
+		throw new Error("WorldProvider.getPlayerUniqueId is not implemented");
+	}
+
+	/**
 	 * Reads a player from the world.
 	 * @param uuid The UUID of the player to read.
 	 * @returns The player read from the world.
@@ -172,6 +180,49 @@ class WorldProvider {
 	 */
 	public writePlayer(_player: Player): void {
 		throw new Error("WorldProvider.writePlayer is not implemented");
+	}
+
+	/**
+	 * Reads a property from the world.
+	 * @param key The key of the property to read.
+	 */
+	public readProperty(_key: Buffer): Buffer {
+		throw new Error("WorldProvider.readProperty is not implemented");
+	}
+
+	/**
+	 * Writes a property to the world.
+	 * @param key The key of the property to write.
+	 * @param value The value of the property to write.
+	 */
+	public writeProperty(_key: Buffer, _value: Buffer): void {
+		throw new Error("WorldProvider.writeProperty is not implemented");
+	}
+
+	public readChunkCache(
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
+	): Chunk | null {
+		throw new Error("WorldProvider.readChunkCache is not implemented");
+	}
+
+	public rentChunk<T extends object>(
+		_borrower: T,
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
+	): Chunk {
+		throw new Error("WorldProvider.rentChunk is not implemented");
+	}
+
+	public returnChunk<T extends object>(
+		_borrower: T,
+		_cx: number,
+		_cz: number,
+		_dimension: Dimension
+	): boolean {
+		throw new Error("WorldProvider.returnChunk is not implemented");
 	}
 }
 

@@ -13,6 +13,7 @@ interface WorkerData {
 	cx: number;
 	cz: number;
 	type: DimensionType;
+	id: string;
 }
 
 function Worker(generator: typeof TerrainGenerator) {
@@ -41,7 +42,7 @@ function Worker(generator: typeof TerrainGenerator) {
 				const chunk = instance.apply(data.cx, data.cz, data.type);
 
 				// Send the generated chunk back to the main thread
-				parentPort?.postMessage(chunk);
+				parentPort?.postMessage({ identifier: generator.identifier, ...chunk });
 			});
 		}
 	};

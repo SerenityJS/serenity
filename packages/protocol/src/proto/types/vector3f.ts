@@ -207,7 +207,7 @@ class Vector3f extends DataType implements IPosition {
 
 	/**
 	 * Computes the absolute value of each coordinate of the 3D vector.
-	 * @returnsthe absolute value of this 3D vector.
+	 * @returns the absolute value of this 3D vector.
 	 */
 	public absolute(): Vector3f {
 		return new Vector3f(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));

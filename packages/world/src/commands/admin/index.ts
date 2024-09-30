@@ -1,7 +1,7 @@
 import GAMEMODE from "./gamemode";
 import SETBLOCK from "./setblock";
 import GIVE from "./give";
-// import FILL from "./fill";
+import FILL from "./fill";
 import SUMMON from "./summon";
 import KICK from "./kick";
 import CLEAR from "./clear";
@@ -10,13 +10,14 @@ import TP from "./tp";
 import KILL from "./kill";
 // import SPAWNPOINT from "./spawnpoint";
 import TAG from "./tag";
+import TRANSFER from "./transfer";
 
 // Define all admin commands
 const ADMIN_COMMANDS = [
 	GAMEMODE,
 	SETBLOCK,
 	GIVE,
-	// FILL,
+	FILL,
 	SUMMON,
 	KICK,
 	CLEAR,
@@ -24,7 +25,8 @@ const ADMIN_COMMANDS = [
 	// SPAWNPOINT,
 	TP,
 	KILL,
-	TAG
+	TAG,
+	TRANSFER
 ];
 
 export { ADMIN_COMMANDS };

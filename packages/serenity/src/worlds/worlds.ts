@@ -25,7 +25,7 @@ import Emitter from "@serenityjs/emitter";
 
 import { FileSystemProvider, LevelDBProvider } from "../providers";
 import { exists } from "../utils/exists";
-import { ADMIN_COMMANDS } from "../commands";
+import { ADMIN_COMMANDS, WorldsEnum } from "../commands";
 
 import type { Serenity } from "../serenity";
 
@@ -202,6 +202,9 @@ class Worlds extends Emitter<WorldEventSignals> {
 
 					// Add the world to the worlds map.
 					this.entries.set(world.identifier, world);
+
+					// Add the world to the WorldsEnum.
+					WorldsEnum.options.push(world.identifier);
 
 					// Startup the provider.
 					world.provider.onStartup();

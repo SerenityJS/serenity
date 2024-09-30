@@ -54,14 +54,11 @@ class Console {
 			// Log the command to the console
 			this.serenity.logger.info(`§a${execute.message}§r`);
 		} catch (reason) {
-			// Check if the reason is a type error
-			if (reason instanceof TypeError) {
-				this.serenity.logger.warn(
-					`§cType Error: ${(reason as Error).message}§r`
-				);
-			} else {
-				this.serenity.logger.warn(`§c${(reason as Error).message}§r`);
-			}
+			// Cast the reason to an error
+			const error = reason as Error;
+
+			// Log the error to the console
+			this.serenity.logger.error(error.message);
 		}
 	}
 }

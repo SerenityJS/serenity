@@ -11,7 +11,7 @@ class EntityType {
 	/**
 	 * The network identifier counter for entity types.
 	 */
-	public static network = 1;
+	public static network = 0;
 
 	/**
 	 * The identifier of the entity type.
@@ -21,7 +21,7 @@ class EntityType {
 	/**
 	 * The network id of the entity type.
 	 */
-	public readonly network: number = EntityType.network++;
+	public readonly network: number = ++EntityType.network;
 
 	/**
 	 * The default components of the entity type.

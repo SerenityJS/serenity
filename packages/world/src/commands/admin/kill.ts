@@ -41,15 +41,35 @@ const register = (world: World) => {
 					if (targets.length === 0)
 						throw new Error("No targets matched the selector.");
 
+					// Prepare the return message
+					const message = [];
+
 					// Loop through all the targets
 					for (const target of targets) {
 						if (
 							target instanceof Player &&
 							IGNORED_GAMEMODES.has(target.gamemode)
-						)
+						) {
+							// Append the message
+							message.push(
+								`§cPlayer §4${target.username}§c is in a gamemode that cannot be killed.§r`
+							);
+
+							// Skip the player
 							continue;
+						}
+
+						// Kill the entity
 						target.kill();
+
+						// Append the message
+						message.push(
+							`§aKilled §2${target.isPlayer() ? target.username : target.unique}§a.`
+						);
 					}
+
+					// Return the message
+					return { message: message.join("\n") };
 				}
 			);
 		},

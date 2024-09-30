@@ -72,6 +72,25 @@ class EntityPalette {
 	}
 
 	/**
+	 * Gets an entity type from the palette by its unique identifier.
+	 * @param unique The unique identifier of the entity type.
+	 * @returns The entity type from the palette.
+	 */
+	public getTypeByUnique(unique: bigint): EntityType | null {
+		// Convert the unique identifier to a network identifier.
+		const network = Number(unique >> 19n);
+
+		// Iterate over the entity types.
+		for (const type of this.types.values()) {
+			// Check if the network identifier matches.
+			if (type.network === network) return type;
+		}
+
+		// Return null if the entity type was not found.
+		return null;
+	}
+
+	/**
 	 * Register an entity type to the palette.
 	 * @param type The entity type to register.
 	 * @returns True if the entity type was registered, false otherwise.

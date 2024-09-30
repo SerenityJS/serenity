@@ -44,6 +44,11 @@ class LevelDBProvider extends WorldProvider {
 	 */
 	public readonly chunks: Map<Dimension, Map<bigint, Chunk>> = new Map();
 
+	/**
+	 * The number of rented chunks by players in the provider.
+	 */
+	public readonly borrowers: WeakMap<Chunk, Set<object>> = new WeakMap();
+
 	public constructor(path: string) {
 		super();
 
@@ -111,6 +116,100 @@ class LevelDBProvider extends WorldProvider {
 			// Return the chunk.
 			return chunk;
 		}
+	}
+
+	public readChunkCache(
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): Chunk | null {
+		// Get the dimension index from the dimensions array.
+		// This will be used as the dimension key in the database.
+		const index = this.dimensionIndexOf(dimension);
+
+		// Check if the dimension index was found.
+		if (index === -1)
+			throw new Error(
+				`Dimension index "${dimension.identifier}" was not found for world.`
+			);
+
+		// Check if the chunks map has the index.
+		if (!this.chunks.has(dimension))
+			this.chunks.set(dimension, new Map<bigint, Chunk>());
+
+		// Get the chunks map for the dimension index.
+		const chunks = this.chunks.get(dimension);
+
+		// Check if no chunks were found.
+		if (!chunks)
+			throw new Error(
+				`Failed to get chunks for dimension "${dimension.identifier}" with index "${index}"`
+			);
+
+		// Hash the chunk coordinates.
+		const hash = ChunkCoords.hash({ x: cx, z: cz });
+
+		// Check if the chunk exists in the chunks map.
+		if (chunks.has(hash)) {
+			// Return the chunk from the chunks cache.
+			return chunks.get(hash) as Chunk;
+		}
+		return null;
+	}
+
+	public rentChunk<T extends object>(
+		borrower: T,
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): Chunk {
+		const chunk = this.readChunk(cx, cz, dimension);
+		const sets = this.borrowers.get(chunk) ?? new Set();
+		sets.add(borrower);
+		this.borrowers.set(chunk, sets);
+		return chunk;
+	}
+
+	public returnChunk<T extends object>(
+		borrower: T,
+		cx: number,
+		cz: number,
+		dimension: Dimension
+	): boolean {
+		const chunk = this.readChunkCache(cx, cz, dimension);
+		if (chunk) {
+			const sets = this.borrowers.get(chunk);
+			if (!sets) return false;
+
+			sets.delete(borrower);
+
+			// Get the dimension index from the dimensions array.
+			// This will be used as the dimension key in the database.
+			const index = this.dimensionIndexOf(dimension);
+
+			// Check if the dimension index was found.
+			if (index === -1)
+				throw new Error(
+					`Dimension index "${dimension.identifier}" was not found for world.`
+				);
+
+			// Check if the chunks map has the index.
+			if (!this.chunks.has(dimension)) return true; //Return true bc we know this chunk was borrowed
+
+			// Get the chunks map for the dimension index.
+			const chunks = this.chunks.get(dimension);
+
+			// Check if no chunks were found.
+			if (!chunks) return true; //Return true bc we know this chunk was borrowed
+
+			// Hash the chunk coordinates.
+			const hash = ChunkCoords.hash({ x: cx, z: cz });
+
+			// delete chunk from cache
+			chunks.delete(hash);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -421,6 +520,14 @@ class LevelDBProvider extends WorldProvider {
 		}
 	}
 
+	public getPlayerUniqueId(player: string | Player): bigint {
+		// Attempt to get the player from the database.
+		const data = this.readPlayer(player);
+
+		// Get the player UUID from the player instance.
+		return data.getTag("UniqueID")?.value as bigint;
+	}
+
 	public readPlayer(player: string | Player): CompoundTag {
 		// Get the player UUID from the player instance.
 		const uuid = player instanceof Player ? player.uuid : player;
@@ -558,14 +665,31 @@ class LevelDBProvider extends WorldProvider {
 
 			// Iterate through the unique identifiers and spawn the entities.
 			for (const uniqueId of uniqueIds) {
-				// Read the entity from the provider.
-				const entity = provider.readEntity(dimension, uniqueId);
+				// Parse the entity type from the unique identifier.
+				const type = dimension.world.entities.getTypeByUnique(uniqueId);
 
-				// Deserialize the entity and add it to the dimension.
-				const instance = Entity.deserialize(entity, dimension);
+				// Check if the entity type was not found.
+				if (!type) {
+					// Log the error and continue to the next entity.
+					LevelDBProvider.logger.debug(
+						`Failed to find entity type for unique identifier ${uniqueId} in dimension ${dimension.identifier} in world ${this.world.identifier}.`
+					);
+
+					// Continue to the next entity.
+					continue;
+				}
+
+				// Create a new entity instance.
+				const entity = new Entity(type, dimension, uniqueId);
+
+				// Read the entity data from the database.
+				const data = provider.readEntity(dimension, entity);
+
+				// Deserialize the entity data into the entity.
+				Entity.deserialize(data, entity);
 
 				// Spawn the entity in the dimension.
-				instance.spawn();
+				entity.spawn();
 			}
 
 			// Read the block data for the dimension.
@@ -605,6 +729,14 @@ class LevelDBProvider extends WorldProvider {
 
 		// Close the LevelDB database.
 		this.db.close();
+	}
+
+	public readProperty(key: Buffer): Buffer {
+		return this.db.get(key);
+	}
+
+	public writeProperty(key: Buffer, value: Buffer): void {
+		this.db.put(key, value);
 	}
 
 	public static initialize(
@@ -662,7 +794,7 @@ class LevelDBProvider extends WorldProvider {
 			if (simulationDistance) dimension.simulationDistance = simulationDistance;
 
 			// Get the spawn coordinates for the dimension.
-			const [x, y, z] = entry.spawn;
+			const [x, y, z] = entry.spawn || [0, 120, 0]; // TODO: change
 
 			// Set the spawn coordinates for the dimension.
 			dimension.spawn.x = x;

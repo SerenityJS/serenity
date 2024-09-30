@@ -31,7 +31,7 @@ export class TerrainGenerator {
 	/**
 	 * The chunks that are queued for threaded generation.
 	 */
-	public readonly queue = new Set<Chunk>();
+	public readonly queue = new Map<bigint, Chunk>();
 
 	/**
 	 * The seed of the generator.
@@ -64,7 +64,10 @@ export class TerrainGenerator {
 			null;
 
 		// Check if the worker is available and listen for messages.
-		this.worker?.on("message", (chunk: Chunk) => {
+		this.worker?.on("message", (chunk: Chunk & { identifier: string }) => {
+			// Check if the identifier matches the generator.
+			if (chunk.identifier !== this.identifier) return;
+
 			// Process the chunk.
 			this.process(chunk);
 		});
@@ -89,7 +92,7 @@ export class TerrainGenerator {
 		if (!this.worker) throw new Error("Worker is not available.");
 
 		// Add the chunk to the queue.
-		this.queue.add(chunk);
+		this.queue.set(chunk.hash, chunk);
 
 		// Seperate the chunk data.
 		const { x: cx, z: cz, type } = chunk;
@@ -104,12 +107,10 @@ export class TerrainGenerator {
 	 */
 	protected process(chunk: Chunk): void {
 		// Find the queued chunk from the set.
-		const queued = [...this.queue].find(
-			(ch) => ch.x === chunk.x && ch.z === chunk.z
-		);
+		const queued = this.queue.get(chunk.hash);
 
 		// Check if the chunk was found.
-		if (!queued) throw new Error("Chunk not found in queue.");
+		if (!queued) return;
 
 		// Update the queued chunk with the generated data.
 		// Since workers are not allowed to transfer class instances, we need to manually copy the data.
@@ -141,6 +142,6 @@ export class TerrainGenerator {
 		queued.ready = true;
 
 		// Remove the chunk from the queue.
-		this.queue.delete(queued);
+		this.queue.delete(chunk.hash);
 	}
 }

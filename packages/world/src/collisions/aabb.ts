@@ -31,6 +31,22 @@ class AABB {
 		return new AABB(this.min.add(position), this.max.add(position));
 	}
 
+	public get size(): number {
+		return this.max.subtract(this.min).length();
+	}
+
+	public get width(): number {
+		return this.max.x - this.min.x;
+	}
+
+	public get height(): number {
+		return this.max.y - this.min.y;
+	}
+
+	public get depth(): number {
+		return this.max.z - this.min.z;
+	}
+
 	/**
 	 * Expands the AABB by a given vector. The expansion affects the min and max points
 	 * depending on whether the expansion vector is positive or negative.
