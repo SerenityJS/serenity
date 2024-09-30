@@ -25,11 +25,12 @@ import {
 	EntityItemComponent,
 	EntityPhysicsComponent
 } from "../components";
-import { ChunkReadSignal } from "../events";
+import { ChunkReadSignal, ChunkWriteSignal } from "../events";
 import { ItemStack } from "../item";
 
 import { TickSchedule } from "./schedule";
 
+import type { BlockPermutation } from "@serenityjs/block";
 import type { DimensionSoundOptions } from "../options";
 import type { DimensionBounds } from "../types";
 import type { Chunk } from "../chunk";
@@ -358,7 +359,7 @@ class Dimension {
 	 */
 	public setChunk(chunk: Chunk): void {
 		// Create a new ChunkWriteSignal
-		const signal = new ChunkReadSignal(chunk, this);
+		const signal = new ChunkWriteSignal(chunk, this);
 		const value = signal.emit();
 
 		// Check if the signal was attempted to be cancelled
@@ -367,6 +368,18 @@ class Dimension {
 			this.world.logger.warn(
 				`Chunk write signal cannot be cancelled, chunk: ${chunk.x}, ${chunk.z}`
 			);
+
+		// Iterate over all the players in the dimension
+		for (const player of this.getPlayers()) {
+			// Get the player's chunk rendering component
+			const component = player.getComponent("minecraft:chunk_rendering");
+
+			// Check if the player has the chunk being set
+			if (!component.chunks.has(chunk.hash)) continue;
+
+			// Send the chunk to the player
+			component.send(chunk);
+		}
 
 		// Write the chunk to the provider
 		return this.world.provider.writeChunk(chunk, this);
@@ -528,6 +541,51 @@ class Dimension {
 
 		// Return the block
 		return this.getBlock({ ...position, y: bottomLevel });
+	}
+
+	/**
+	 * Fills a region with a permutation.
+	 * @param from The starting position.
+	 * @param to The ending position.
+	 * @param permutation The permutation to fill the region with.
+	 */
+	public fill(
+		from: IPosition,
+		to: IPosition,
+		permutation: BlockPermutation
+	): void {
+		// Get the min and max coordinates
+		const minX = Math.min(from.x, to.x);
+		const minY = Math.min(from.y, to.y);
+		const minZ = Math.min(from.z, to.z);
+		const maxX = Math.max(from.x, to.x);
+		const maxY = Math.max(from.y, to.y);
+		const maxZ = Math.max(from.z, to.z);
+
+		// Hold the updated chunks
+		const updatedChunks = new Set<Chunk>();
+
+		// Iterate over the coordinates
+		for (let x = minX; x <= maxX; x++) {
+			for (let y = minY; y <= maxY; y++) {
+				for (let z = minZ; z <= maxZ; z++) {
+					// Get the chunk of the block
+					const chunk = this.getChunk(x >> 4, z >> 4);
+
+					// Set the permutation of the block
+					chunk.setPermutation({ x, y, z }, permutation);
+
+					// Add the chunk to the updated chunks
+					updatedChunks.add(chunk);
+
+					// Set the chunk to dirty
+					chunk.dirty = true;
+				}
+			}
+		}
+
+		// Set the updated chunks
+		for (const chunk of updatedChunks) this.setChunk(chunk);
 	}
 
 	/**
