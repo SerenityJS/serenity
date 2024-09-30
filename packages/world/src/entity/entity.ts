@@ -17,7 +17,8 @@ import {
 	type DataItem,
 	type ActorFlag,
 	type ActorDamageCause,
-	ActorDataId
+	ActorDataId,
+	PlayerInputTick
 } from "@serenityjs/protocol";
 import { EntityIdentifier, EntityType } from "@serenityjs/entity";
 import {
@@ -551,9 +552,9 @@ class Entity {
 		// Create a new SetActorDataPacket
 		const packet = new SetActorDataPacket();
 		packet.runtimeEntityId = this.runtime;
-		packet.tick = this.dimension.world.currentTick;
 		packet.data = [...this.metadata];
 		packet.properties = new PropertySyncData([], []);
+		packet.input = new PlayerInputTick(this.dimension.world.currentTick);
 
 		// Iterate over the flags set on the entity
 		for (const [flag, enabled] of this.flags) packet.setFlag(flag, enabled);
@@ -598,8 +599,8 @@ class Entity {
 		// Create a new UpdateAttributesPacket
 		const packet = new UpdateAttributesPacket();
 		packet.runtimeActorId = this.runtime;
-		packet.tick = this.dimension.world.currentTick;
 		packet.attributes = [...this.attributes];
+		packet.input = new PlayerInputTick(this.dimension.world.currentTick);
 
 		// Broadcast the packet to the dimension
 		this.dimension.broadcast(packet);

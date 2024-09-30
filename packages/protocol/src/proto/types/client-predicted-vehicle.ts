@@ -1,27 +1,67 @@
 import { DataType } from "@serenityjs/raknet";
+
+import { InputData } from "../../enums";
+
 import { Vector2f } from "./vector2f";
-import { BinaryStream } from "@serenityjs/binarystream";
+
+import type { PlayerAuthInputData } from "./player-auth-input-data";
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ClientPredictedVehicle extends DataType {
-  public rotation: Vector2f;
-  public vehicle: number;
+	/**
+	 * The rotation of the vehicle.
+	 */
+	public vehicleRotation: Vector2f;
 
-  constructor(rotation: Vector2f, vehicle: number) {
-    super();
-    this.rotation = rotation;
-    this.vehicle = vehicle;
-  }
+	/**
+	 * The unique id of the vehicle actor.
+	 */
+	public actorUniqueId: number;
 
-  public static write(stream: BinaryStream, value: ClientPredictedVehicle): void {
-    Vector2f.write(stream, value.rotation);     
-    stream.writeZigZag(value.vehicle);
-  }
+	/**
+	 * Creates a new instance of the ClientPredictedVehicle class.
+	 * @param vehicleRotation The rotation of the vehicle.
+	 * @param actorUniqueId The unique id of the vehicle actor.
+	 */
+	public constructor(vehicleRotation: Vector2f, actorUniqueId: number) {
+		super();
+		this.vehicleRotation = vehicleRotation;
+		this.actorUniqueId = actorUniqueId;
+	}
 
-  public static read(stream: BinaryStream): ClientPredictedVehicle {
-    const rotation = Vector2f.read(stream);
-    const vehicle = stream.readZigZag();
-    return new ClientPredictedVehicle(rotation, vehicle);
-  }
+	public static read(
+		stream: BinaryStream,
+		_: unknown,
+		data: PlayerAuthInputData
+	): ClientPredictedVehicle | null {
+		// Check if the input data has the vehicle flag
+		if (!data.hasFlag(InputData.IsInClientPredictedVehicle)) return null;
+
+		// Read the vehicle rotation
+		const rotation = Vector2f.read(stream);
+
+		// Read the unique id of the vehicle actor
+		const vehicle = stream.readZigZag();
+
+		// Return a new instance of this class with the rotation and vehicle
+		return new ClientPredictedVehicle(rotation, vehicle);
+	}
+
+	public static write(
+		stream: BinaryStream,
+		value: ClientPredictedVehicle,
+		_: unknown,
+		data: PlayerAuthInputData
+	): void {
+		// Check if the input data has the vehicle flag
+		if (!data.hasFlag(InputData.IsInClientPredictedVehicle)) return;
+
+		// Write the vehicle rotation
+		Vector2f.write(stream, value.vehicleRotation);
+
+		// Write the unique id of the vehicle actor
+		stream.writeZigZag(value.actorUniqueId);
+	}
 }
 
-export { ClientPredictedVehicle }
+export { ClientPredictedVehicle };

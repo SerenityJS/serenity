@@ -1,9 +1,9 @@
 enum InputMode {
-  Unknown,
-  Mouse,
-  Touch,
-  GamePad,
-  MotionController
-};
+	Unknown,
+	Mouse,
+	Touch,
+	GamePad,
+	MotionController
+}
 
-export { InputMode }
+export { InputMode };

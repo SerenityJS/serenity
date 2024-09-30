@@ -138,13 +138,12 @@ class Login extends SerenityHandler {
 				pack.selectedSubpack,
 				pack.uuid,
 				pack.version,
-				false
+				false,
+				""
 			);
 
 			packs.packs.push(packInfo);
 		}
-
-		packs.links = []; // TODO: CDN links (can these be provided alongside?)
 
 		// Send the player the login status packet and the resource pack info packet.
 		session.send(login, packs);

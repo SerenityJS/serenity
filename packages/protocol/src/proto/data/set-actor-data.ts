@@ -2,7 +2,7 @@ import { VarLong } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { ActorDataId, ActorDataType, ActorFlag, Packet } from "../../enums";
-import { PropertySyncData, DataItem } from "../types";
+import { PropertySyncData, DataItem, PlayerInputTick } from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -11,7 +11,7 @@ class SetActorDataPacket extends DataPacket {
 	@Serialize(VarLong) public runtimeEntityId!: bigint;
 	@Serialize(DataItem) public data!: Array<DataItem>;
 	@Serialize(PropertySyncData) public properties!: PropertySyncData;
-	@Serialize(VarLong) public tick!: bigint;
+	@Serialize(PlayerInputTick) public input!: PlayerInputTick;
 
 	/**
 	 * The first set of flags of the actor.

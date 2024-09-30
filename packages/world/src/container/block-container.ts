@@ -265,7 +265,7 @@ class BlockContainer extends Container {
 		packet.slot = slot;
 		packet.item = new NetworkItemStackDescriptor(0);
 		packet.fullContainerName = new FullContainerName(0, 0);
-		packet.dynamicContainerSize = this.size;
+		packet.storageItem = new NetworkItemStackDescriptor(0);
 
 		// Send the packet to the occupants.
 		for (const player of this.occupants) player.session.send(packet);
@@ -291,7 +291,7 @@ class BlockContainer extends Container {
 		// Set the properties of the packet.
 		packet.containerId = this.identifier;
 		packet.fullContainerName = new FullContainerName(0, 0);
-		packet.dynamicContainerSize = this.size;
+		packet.storageItem = new NetworkItemStackDescriptor(0); // ??? not sure what this is
 
 		// Map the items in the storage to network item stack descriptors.
 		packet.items = this.storage.map((item) => {

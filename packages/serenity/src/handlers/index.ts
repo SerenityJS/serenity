@@ -7,7 +7,6 @@ import { InventoryTransaction } from "./inventory-transaction";
 import { ItemStackRequest } from "./item-stack-request";
 import { Login } from "./login";
 import { MobEquipment } from "./mob-equipment";
-import { MovePlayer } from "./move-player";
 import { PlayerAction } from "./player-action";
 import { RequestNetworkSettings } from "./request-network-settings";
 import { ResourcePackChunkRequest } from "./resource-pack-chunk-request";
@@ -22,6 +21,7 @@ import { BlockActorData } from "./block-actor-data";
 import { BookEdit } from "./book-edit";
 import { RequestChunkRadius } from "./request-chunk-radius";
 import { ServerboundDiagnostics } from "./serverbound-diagnostics";
+import { PlayerAuthInput } from "./player-auth-input";
 
 const HANDLERS = [
 	RequestNetworkSettings,
@@ -29,7 +29,7 @@ const HANDLERS = [
 	Disconnect,
 	ResourcePackClientResponse,
 	ResourcePackChunkRequest,
-	MovePlayer,
+	PlayerAuthInput,
 	Interact,
 	ContainerClose,
 	ItemStackRequest,

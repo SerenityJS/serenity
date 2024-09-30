@@ -80,7 +80,7 @@ class EntityContainer extends Container {
 		packet.slot = slot;
 		packet.item = ItemStack.toNetworkStack(item);
 		packet.fullContainerName = new FullContainerName(0, 0);
-		packet.dynamicContainerSize = this.size;
+		packet.storageItem = new NetworkItemStackDescriptor(0);
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
@@ -265,7 +265,7 @@ class EntityContainer extends Container {
 		packet.slot = slot;
 		packet.item = new NetworkItemStackDescriptor(0);
 		packet.fullContainerName = new FullContainerName(0, 0);
-		packet.dynamicContainerSize = this.size;
+		packet.storageItem = new NetworkItemStackDescriptor(0);
 
 		// Send the packet to the player.
 		this.entity.session.send(packet);
@@ -291,7 +291,7 @@ class EntityContainer extends Container {
 		// Set the properties of the packet.
 		packet.containerId = this.identifier;
 		packet.fullContainerName = new FullContainerName(0, 0);
-		packet.dynamicContainerSize = this.size;
+		packet.storageItem = new NetworkItemStackDescriptor(0); // ?? Not sure what this is for
 
 		// Map the items in the storage to network item stack descriptors.
 		packet.items = this.storage.map((item) => {

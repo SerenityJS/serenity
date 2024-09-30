@@ -14,7 +14,8 @@ import {
 	type BlockProperties,
 	ResourceIdVersions,
 	CraftingDataPacket,
-	AvailableActorIdentifiersPacket
+	AvailableActorIdentifiersPacket,
+	ServerAuthMovementMode
 } from "@serenityjs/protocol";
 import { BIOME_DEFINITION_LIST, CRAFTING_DATA } from "@serenityjs/data";
 import { CreativeItem, CustomItemType, ItemType } from "@serenityjs/item";
@@ -430,7 +431,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				packet.worldName = player.dimension.world.identifier;
 				packet.premiumWorldTemplateId = "00000000-0000-0000-0000-000000000000";
 				packet.isTrial = false;
-				packet.movementAuthority = 0;
+				packet.movementAuthority = ServerAuthMovementMode.ServerAuthoritativeV3;
 				packet.rewindHistorySize = 0;
 				packet.serverAuthoritativeBlockBreaking = true;
 				packet.currentTick = player.dimension.world.currentTick;
@@ -502,7 +503,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				status.status = PlayStatus.PlayerSpawn;
 
 				// Send the spawn sequence
-				session.send(packet, biomes, content, status, crafting, actors);
+				session.send(packet, biomes, content, status, actors);
 
 				// Add the player to the connecting map
 				this.serenity.connecting.set(player.session, [

@@ -1,6 +1,6 @@
 import {
 	AbilityIndex,
-	ActionIds,
+	PlayerActionType,
 	ActorFlag,
 	DisconnectReason,
 	Gamemode,
@@ -44,61 +44,53 @@ class PlayerAction extends SerenityHandler {
 		switch (packet.action) {
 			default: {
 				this.serenity.logger.debug(
-					`Unhandled PlayerAction: ${ActionIds[packet.action]}`
+					`Unhandled PlayerAction: ${PlayerActionType[packet.action]}`
 				);
 				break;
 			}
 
 			// Handles when a player breaks a block in survival mode.
-			case ActionIds.StartBreak: {
+			case PlayerActionType.StartDestroyBlock: {
 				this.handleStartBreak(packet, player);
 				break;
 			}
 
-			case ActionIds.AbortBreak: {
+			case PlayerActionType.StopDestroyBlock: {
 				this.handleAbortBreak(packet, player);
 				break;
 			}
 
-			case ActionIds.Jump: {
+			case PlayerActionType.StartJump: {
 				// Create a new PlayerJumpSignal and emit it.
 				const signal = new PlayerJumpSignal(player);
 				return void signal.emit();
 			}
 
-			case ActionIds.StartSprint: {
+			case PlayerActionType.StartSprinting: {
 				player.isSprinting = true;
 				player.setActorFlag(ActorFlag.Sprinting, true);
 				break;
 			}
 
-			case ActionIds.StopSprint: {
+			case PlayerActionType.StopSprinting: {
 				player.isSprinting = false;
 				player.setActorFlag(ActorFlag.Sprinting, false);
 				break;
 			}
 
-			case ActionIds.StartSneak: {
+			case PlayerActionType.StartSneaking: {
 				player.isSneaking = true;
 				player.setActorFlag(ActorFlag.Sneaking, true);
 				break;
 			}
 
-			case ActionIds.StopSneak: {
+			case PlayerActionType.StopSneaking: {
 				player.isSneaking = false;
 				player.setActorFlag(ActorFlag.Sneaking, false);
 				break;
 			}
 
-			// Check if a creative player destroys a block.
-			// If so, we will handle the block destruction.
-			case ActionIds.CreativePlayerDestroyBlock: {
-				break;
-				// this.handleCreativePlayerDestroyBlock(packet, player);
-				// break;
-			}
-
-			case ActionIds.Swimming: {
+			case PlayerActionType.StartSwimming: {
 				// Check if this is the first time the player is swimming.
 				if (!player.isSwimming) {
 					// Create a new PlayerStartSwimmingSignal and emit it.
@@ -115,7 +107,7 @@ class PlayerAction extends SerenityHandler {
 				break;
 			}
 
-			case ActionIds.StopSwimming: {
+			case PlayerActionType.StopSwimming: {
 				// Create a new PlayerStopSwimmingSignal and emit it.
 				const signal = new PlayerStopSwimmingSignal(player);
 				const value = signal.emit();
@@ -129,27 +121,27 @@ class PlayerAction extends SerenityHandler {
 				break;
 			}
 
-			case ActionIds.PredictBreak: {
+			case PlayerActionType.PredictDestroyBlock: {
 				this.handlePredictBreak(packet, player);
 				break;
 			}
 
-			case ActionIds.ContinueBreak: {
+			case PlayerActionType.ContinueDestroyBlock: {
 				this.handleContinueBreak(packet, player);
 				break;
 			}
 
-			case ActionIds.StartItemUseOn: {
+			case PlayerActionType.StartItemUseOn: {
 				this.handleStartItemUseOn(packet, player);
 				break;
 			}
 
-			case ActionIds.StopItemUseOn: {
+			case PlayerActionType.StopItemUseOn: {
 				this.handleStopItemUseOn(packet, player);
 				break;
 			}
 
-			case ActionIds.StartFlying: {
+			case PlayerActionType.StartFlying: {
 				// Get the players mayfly component
 				const mayfly = player.getAbility(AbilityIndex.MayFly);
 
@@ -172,14 +164,14 @@ class PlayerAction extends SerenityHandler {
 				break;
 			}
 
-			case ActionIds.StopFlying: {
+			case PlayerActionType.StopFlying: {
 				// Set the player's flying ability to false
 				player.isFlying = false;
 				player.setAbility(AbilityIndex.Flying, false);
 				break;
 			}
 
-			case ActionIds.MissedSwing: {
+			case PlayerActionType.MissedSwing: {
 				player.executeMissSwing();
 				break;
 			}

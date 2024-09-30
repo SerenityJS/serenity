@@ -2,6 +2,7 @@ import { DataType } from "@serenityjs/raknet";
 
 import { RecipeIngredient } from "./recipe-ingredient";
 import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
+import { RecipeUnlockingRequirement } from "./recipe-unlocking-requirement";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
 
@@ -38,6 +39,11 @@ class ShulkerBoxRecipe extends DataType {
 	public readonly priority: number;
 
 	/**
+	 * The requirement to unlock the recipe.
+	 */
+	public readonly requirement: RecipeUnlockingRequirement;
+
+	/**
 	 * @param identifier The identifier of the recipe.
 	 * @param ingredients The ingredients required to craft the recipe.
 	 * @param resultants The resultants of the recipe.
@@ -51,7 +57,8 @@ class ShulkerBoxRecipe extends DataType {
 		resultants: Array<NetworkItemInstanceDescriptor>,
 		uuid: string,
 		tag: string,
-		priority: number
+		priority: number,
+		requirement: RecipeUnlockingRequirement
 	) {
 		super();
 		this.identifier = identifier;
@@ -60,6 +67,7 @@ class ShulkerBoxRecipe extends DataType {
 		this.uuid = uuid;
 		this.tag = tag;
 		this.priority = priority;
+		this.requirement = requirement;
 	}
 
 	public static read(stream: BinaryStream): ShulkerBoxRecipe {
@@ -101,8 +109,19 @@ class ShulkerBoxRecipe extends DataType {
 		// Read the priority
 		const priority = stream.readZigZag();
 
+		// Read the requirement
+		const requirement = RecipeUnlockingRequirement.read(stream);
+
 		// Return a new instance with the identifier, ingredients, resultants, UUID, tag, priority, and requirement
-		return new this(identifier, ingredients, resultants, uuid, tag, priority);
+		return new this(
+			identifier,
+			ingredients,
+			resultants,
+			uuid,
+			tag,
+			priority,
+			requirement
+		);
 	}
 
 	public static write(stream: BinaryStream, value: ShulkerBoxRecipe): void {
@@ -141,6 +160,9 @@ class ShulkerBoxRecipe extends DataType {
 
 		// Write the priority
 		stream.writeZigZag(value.priority);
+
+		// Write the requirement
+		RecipeUnlockingRequirement.write(stream, value.requirement);
 	}
 }
 

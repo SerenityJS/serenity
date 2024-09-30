@@ -1,7 +1,7 @@
 enum InteractionMode {
-  Touch,
-  Crosshair,
-  Classic
+	Touch,
+	Crosshair,
+	Classic
 }
 
 export { InteractionMode };

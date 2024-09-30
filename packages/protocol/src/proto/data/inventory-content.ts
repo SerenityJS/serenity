@@ -15,7 +15,8 @@ class InventoryContentPacket extends DataPacket {
 	@Serialize(VarInt) public containerId!: ContainerId;
 	@Serialize(ItemStacks) public items!: Array<NetworkItemStackDescriptor>;
 	@Serialize(FullContainerName) public fullContainerName!: FullContainerName;
-	@Serialize(VarInt) public dynamicContainerSize!: number;
+	@Serialize(NetworkItemStackDescriptor)
+	public storageItem!: NetworkItemStackDescriptor;
 }
 
 export { InventoryContentPacket };

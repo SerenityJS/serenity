@@ -16,7 +16,13 @@ import {
 } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
-import { Difficulty, Gamemode, Packet, PermissionLevel } from "../../enums";
+import {
+	Difficulty,
+	Gamemode,
+	Packet,
+	PermissionLevel,
+	ServerAuthMovementMode
+} from "../../enums";
 import {
 	Vector3f,
 	BlockPosition,
@@ -95,7 +101,7 @@ class StartGamePacket extends DataPacket {
 	@Serialize(VarString) public worldName!: string;
 	@Serialize(VarString) public premiumWorldTemplateId!: string;
 	@Serialize(Bool) public isTrial!: boolean;
-	@Serialize(ZigZag) public movementAuthority!: number;
+	@Serialize(ZigZag) public movementAuthority!: ServerAuthMovementMode;
 	@Serialize(ZigZag) public rewindHistorySize!: number;
 	@Serialize(Bool) public serverAuthoritativeBlockBreaking!: boolean;
 	@Serialize(Int64, Endianness.Little) public currentTick!: bigint;
