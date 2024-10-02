@@ -16,7 +16,7 @@ export * from "./command-parameter-type";
 export * from "./ability-layer-type";
 export * from "./ability-index";
 export * from "./text-packet-type";
-export * from "./title-types";
+export * from "./title-type";
 export * from "./interact-actions";
 export * from "./container-id";
 export * from "./container-name";

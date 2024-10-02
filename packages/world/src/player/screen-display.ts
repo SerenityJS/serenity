@@ -2,9 +2,14 @@ import {
 	HudElement,
 	HudElementData,
 	HudVisibility,
-	SetHudPacket
+	SetHudPacket,
+	SetTitlePacket,
+	TextPacket,
+	TextPacketType,
+	TitleType
 } from "@serenityjs/protocol";
 
+import type { TitleDisplayOptions } from "../options";
 import type { Player } from "./player";
 
 class ScreenDisplay {
@@ -97,6 +102,131 @@ class ScreenDisplay {
 
 		// Remove the elements from the hidden elements.
 		this.showElement(...values);
+	}
+
+	/**
+	 * Set the title of the player.
+	 * @param text The text to display.
+	 * @param options The additional options for the title.
+	 */
+	public setTitle(text: string, options?: TitleDisplayOptions): void {
+		// Create a new SetTitlePacket.
+		const packet = new SetTitlePacket();
+		packet.type = TitleType.Title;
+		packet.text = text;
+		packet.fadeInTime = options?.fadeInDuration ?? 20;
+		packet.stayTime = options?.stayDuration ?? 60;
+		packet.fadeOutTime = options?.fadeOutDuration ?? 20;
+		packet.xuid = this.player.xuid;
+		packet.platformOnlineId = String();
+		packet.filteredText = text; // TODO: Filter the text.
+
+		// Update the subtitle if it is provided
+		if (options?.subtitle) this.updateSubtitle(options.subtitle, options);
+
+		// Send the packet to the player.
+		this.player.session.send(packet);
+	}
+
+	/**
+	 * Set the action bar of the player.
+	 * @param text The text to display.
+	 * @param options The additional options for the action bar.
+	 */
+	public setActionBar(text: string, options?: TitleDisplayOptions): void {
+		// Create a new SetTitlePacket.
+		const packet = new SetTitlePacket();
+		packet.type = TitleType.Actionbar;
+		packet.text = text;
+		packet.fadeInTime = options?.fadeInDuration ?? 20;
+		packet.stayTime = options?.stayDuration ?? 60;
+		packet.fadeOutTime = options?.fadeOutDuration ?? 20;
+		packet.xuid = this.player.xuid;
+		packet.platformOnlineId = String();
+		packet.filteredText = text; // TODO: Filter the text.
+
+		// Send the packet to the player.
+		this.player.session.send(packet);
+	}
+
+	/**
+	 * Set the jukebox popup of the player.
+	 * @param text The text to display.
+	 */
+	public setJukeboxPopup(text: string): void {
+		// Create a new TextPacket.
+		const packet = new TextPacket();
+		packet.type = TextPacketType.JukeboxPopup;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = text;
+		packet.parameters = [];
+		packet.xuid = this.player.xuid;
+		packet.platformChatId = String();
+		packet.filtered = text; // TODO: Filter the text.
+
+		// Send the packet to the player.
+		this.player.session.send(packet);
+	}
+
+	/**
+	 * Set the tooltip text of the player.
+	 * @param text The text to display.
+	 */
+	public setToolTip(text: string): void {
+		// Create a new TextPacket.
+		const packet = new TextPacket();
+		packet.type = TextPacketType.Tip;
+		packet.needsTranslation = false;
+		packet.source = null;
+		packet.message = text;
+		packet.parameters = [];
+		packet.xuid = this.player.xuid;
+		packet.platformChatId = String();
+		packet.filtered = text; // TODO: Filter the text.
+
+		// Send the packet to the player.
+		this.player.session.send(packet);
+	}
+
+	/**
+	 * Update the subtitle for the title of the player.
+	 * @param text The text to display.
+	 * @param options The additional options for the subtitle.
+	 */
+	public updateSubtitle(text: string, options?: TitleDisplayOptions): void {
+		// Create a new SetTitlePacket.
+		const packet = new SetTitlePacket();
+		packet.type = TitleType.Subtitle;
+		packet.text = text;
+		packet.fadeInTime = options?.fadeInDuration ?? 20;
+		packet.stayTime = options?.stayDuration ?? 60;
+		packet.fadeOutTime = options?.fadeOutDuration ?? 20;
+		packet.xuid = this.player.xuid;
+		packet.platformOnlineId = String();
+		packet.filteredText = text; // TODO: Filter the text.
+
+		// Send the packet to the player.
+		this.player.session.send(packet);
+	}
+
+	/**
+	 * Clear the title of the player.
+	 */
+	public clearTitle(): void {
+		// Create a new SetTitlePacket.
+		const packet = new SetTitlePacket();
+		packet.type = TitleType.Clear;
+		packet.text = String();
+		packet.fadeInTime = 0;
+		packet.stayTime = 0;
+		packet.fadeOutTime = 0;
+		packet.xuid = this.player.xuid;
+		packet.platformOnlineId = String();
+		packet.filteredText = String(); // TODO: Filter the text.
+
+		// Send the packet to the player.
+		this.player.session.send;
 	}
 }
 
