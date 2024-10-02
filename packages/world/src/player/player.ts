@@ -41,6 +41,7 @@ import { ItemUseCause } from "../enums";
 import { PlayerStatus } from "./status";
 import { Device } from "./device";
 import { PlayerDiagnostic } from "./diagnostics";
+import { ScreenDisplay } from "./screen-display";
 
 import type { PlayerSoundOptions } from "../options";
 import type { ItemStack } from "../item";
@@ -94,6 +95,11 @@ class Player extends Entity {
 	 * This is only available when the client has `Enable Client Diagnostics` enabled in the creator settings.
 	 */
 	public readonly diagnostics = new PlayerDiagnostic();
+
+	/**
+	 * The player's on-screen display.
+	 */
+	public readonly onScreenDisplay = new ScreenDisplay(this);
 
 	/**
 	 * The current status of the player's connection.

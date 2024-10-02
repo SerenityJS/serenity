@@ -60,7 +60,7 @@ export * from "./skin-persona-tint-piece";
 export * from "./serialized-skin";
 export * from "./score-entry";
 export * from "./scoreboard-identity";
-export * from "./hud-element";
+export * from "./hud-element-data";
 export * from "./boss-event-add";
 export * from "./boss-event-update";
 export * from "./animate-entity";

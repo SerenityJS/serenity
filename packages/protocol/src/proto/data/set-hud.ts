@@ -1,15 +1,15 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { VarInt } from "@serenityjs/binarystream";
+import { Uint8 } from "@serenityjs/binarystream";
 
-import { Packet, HUDVisibility } from "../../enums";
-import { HUDElement } from "../types";
+import { Packet, HudVisibility } from "../../enums";
+import { HudElementData } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.SetHud)
 class SetHudPacket extends DataPacket {
-	@Serialize(HUDElement) public hudElements!: Array<HUDElement>;
-	@Serialize(VarInt) public visibility!: HUDVisibility;
+	@Serialize(HudElementData) public elements!: Array<HudElementData>;
+	@Serialize(Uint8) public visibility!: HudVisibility;
 }
 
 export { SetHudPacket };
