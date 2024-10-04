@@ -42,6 +42,7 @@ import {
 } from "../events";
 import { BlockToolType } from "../enums";
 
+import type { AABB } from "../collisions";
 import type { BlockUpdateOptions } from "../options";
 import type { BlockComponents } from "../types";
 import type { Chunk } from "../chunk";
@@ -794,6 +795,17 @@ class Block {
 		if (!this.hasComponent("minecraft:collision_box"))
 			new BlockCollisionComponent(this);
 		return this.getComponent("minecraft:collision_box").boxes.length > 0;
+	}
+
+	/**
+	 * Retrieves the collision boxes of the block.
+	 *
+	 * @returns An array of `AABB` objects representing the collision boxes of the block.
+	 * If the block does not have any collision boxes, an empty array is returned.
+	 */
+	public getCollisions(): Array<AABB> {
+		if (!this.hasComponent("minecraft:collision_box")) return [];
+		return this.getComponent("minecraft:collision_box").boxes;
 	}
 
 	/**
