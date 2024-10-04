@@ -11,6 +11,7 @@ import {
 	type TerrainGenerator,
 	World,
 	type WorldConfig,
+	type WorldEventSignals,
 	WorldProvider
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
@@ -22,6 +23,8 @@ import {
 import { Leveldb } from "@serenityjs/leveldb";
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
+
+import type Emitter from "@serenityjs/emitter";
 
 class LevelDBProvider extends WorldProvider {
 	/**
@@ -751,7 +754,8 @@ class LevelDBProvider extends WorldProvider {
 	public static initialize(
 		config: WorldConfig,
 		path: string,
-		generators: Array<typeof TerrainGenerator>
+		generators: Array<typeof TerrainGenerator>,
+		emitter: Emitter<WorldEventSignals>
 	): World {
 		// Read the level name from the levelname.txt file.
 		const { identifier, dimensions } = config;
@@ -760,7 +764,7 @@ class LevelDBProvider extends WorldProvider {
 		const provider = new this(path);
 
 		// Create a new world instance with the provider.
-		const world = new World(identifier, provider);
+		const world = new World(identifier, provider, emitter);
 
 		// Iterate through the dimensions and create them.
 		for (const entry of dimensions) {

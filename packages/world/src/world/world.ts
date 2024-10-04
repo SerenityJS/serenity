@@ -12,7 +12,11 @@ import { Commands } from "@serenityjs/command";
 // import { COMMON_COMMANDS } from "../commands";
 // import { ADMIN_COMMANDS } from "../commands/admin";
 import { Scoreboard } from "../scoreboard";
-import { WorldMessageSignal, WorldTickSignal } from "../events";
+import {
+	WorldInitializeSignal,
+	WorldMessageSignal,
+	WorldTickSignal
+} from "../events";
 import { ADMIN_COMMANDS, COMMON_COMMANDS } from "../commands";
 import { BlockPalette } from "../block";
 import { ItemPalette } from "../item";
@@ -117,6 +121,9 @@ class World {
 
 		// Assign the world to the provider
 		this.provider.world = this;
+
+		// Create a new WorldInitializeSignal and emit it.
+		new WorldInitializeSignal(this).emit();
 	}
 
 	/**

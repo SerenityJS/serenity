@@ -10,7 +10,6 @@ import {
 	type WorldConfig,
 	type TerrainGenerator,
 	type WorldProvider,
-	WorldInitializeSignal,
 	type WorldEventSignals,
 	End,
 	Nether
@@ -28,10 +27,6 @@ import { exists } from "../utils/exists";
 import { ADMIN_COMMANDS, WorldsEnum } from "../commands";
 
 import type { Serenity } from "../serenity";
-
-// TODO: This is just a thought, bu maybe for ".provider" files, we could use YAML instead of plain text.
-// This way, we could have more structured data and it would be easier to read and write.
-// This would also allow to add comfiguration options to the provider.
 
 class Worlds extends Emitter<WorldEventSignals> {
 	/**
@@ -186,14 +181,9 @@ class Worlds extends Emitter<WorldEventSignals> {
 					const world = provider.initialize(
 						config,
 						resolve(this.path, directory.path, directory.name),
-						[...this.generators.values()]
+						[...this.generators.values()],
+						this
 					);
-
-					// Set the emitter of the world to this emitter.
-					world.emitter = this;
-
-					// Create a new WorldInitializeSignal and emit it.
-					new WorldInitializeSignal(world).emit();
 
 					// Register the admin commands.
 					for (const command of ADMIN_COMMANDS) {
