@@ -1,5 +1,19 @@
 # @serenityjs/item
 
+## 0.6.0
+
+### Minor Changes
+
+- 162712e: init v0.6.0-beta
+
+### Patch Changes
+
+- Updated dependencies [162712e]
+  - @serenityjs/block@0.6.0
+  - @serenityjs/data@0.6.0
+  - @serenityjs/nbt@0.6.0
+  - @serenityjs/protocol@0.6.0
+
 ## 0.5.2
 
 ### Patch Changes
