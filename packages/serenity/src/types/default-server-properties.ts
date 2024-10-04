@@ -17,6 +17,8 @@ interface DefaultServerProperties {
 	"worlds-default-generator": string;
 	"worlds-path": string;
 	"debug-logging": boolean;
+	"debugger-enabled": boolean;
+	"debugger-port": number;
 	"must-accept-packs": boolean;
 	"resource-packs": Array<{
 		uuid: string;

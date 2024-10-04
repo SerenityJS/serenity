@@ -114,7 +114,8 @@ import type {
 	ServerboundDiagnosticsPacket,
 	PlaySoundPacket,
 	SetActorLinkPacket,
-	StopSoundPacket
+	StopSoundPacket,
+	DataPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -122,6 +123,7 @@ import type { NetworkPacketEvent } from "./packet-event";
  * All available network events.
  */
 interface NetworkEvents {
+	all: [NetworkPacketEvent<DataPacket>];
 	[Packet.Login]: [NetworkPacketEvent<LoginPacket>];
 	[Packet.PlayStatus]: [NetworkPacketEvent<PlayStatusPacket>];
 	[Packet.ServerToClientHandshake]: [

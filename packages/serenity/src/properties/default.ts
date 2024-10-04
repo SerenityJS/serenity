@@ -57,6 +57,12 @@ worlds-path: "worlds"
 debug-logging: false
 # Whether or not debug messages should be shown.
 
+debugger-enabled: false
+# Whether or not the debugger should be enabled.
+
+debugger-port: 19144
+# The port that the debugger listen on.
+
 must-accept-packs: false
 # Whether or not the client must accept resource packs.
 

@@ -127,6 +127,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 				// Get the player's world
 				const world = player.dimension.world;
 
+				// Map the custom blocks to the packet
 				const blocks: Array<BlockProperties> = world.blocks
 					.getAllCustomTypes()
 					.map((type) => {
@@ -140,25 +141,7 @@ class ResourcePackClientResponse extends SerenityHandler {
 						// Add the item block properties to the block type nbt
 						for (const tag of itemNbt.getTags()) blockNbt.addTag(tag);
 
-						// const components = new CompoundTag("components", {});
-
-						// for (const component of BlockComponent.registry.get(
-						// 	type.identifier
-						// ) ?? []) {
-						// 	// Check if the component is an NBT component
-						// 	if (!(component.prototype instanceof BlockNBTComponent)) continue;
-
-						// 	// Serialize the component
-						// 	const serialized = (
-						// 		component as typeof BlockNBTComponent
-						// 	).serialize() as CompoundTag;
-
-						// 	// Add the component to the components
-						// 	components.addTag(serialized);
-						// }
-
-						// nbt.addTag(components);
-
+						// Return the block property
 						return {
 							name: item.identifier,
 							nbt: blockNbt

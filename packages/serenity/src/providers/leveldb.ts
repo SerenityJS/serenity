@@ -11,6 +11,7 @@ import {
 	type TerrainGenerator,
 	World,
 	type WorldConfig,
+	type WorldEventSignals,
 	WorldProvider
 } from "@serenityjs/world";
 import { Logger, LoggerColors } from "@serenityjs/logger";
@@ -22,6 +23,8 @@ import {
 import { Leveldb } from "@serenityjs/leveldb";
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
+
+import type Emitter from "@serenityjs/emitter";
 
 class LevelDBProvider extends WorldProvider {
 	/**
@@ -654,6 +657,25 @@ class LevelDBProvider extends WorldProvider {
 		this.db.put(key, Buffer.from([version]));
 	}
 
+	/**
+	 * Get the dimension index from the dimensions array.
+	 * @param dimension The dimension to get the index of.
+	 * @returns The dimension index.
+	 */
+	public getCachedChunkSize(dimension: Dimension): number {
+		// Get the dimension index from the dimensions array.
+		const chunks = this.chunks.get(dimension);
+
+		// Check if the dimension index was found.
+		if (!chunks) return 0;
+
+		// Filter out any chunks that arent ready
+		const readyChunks = [...chunks.values()].filter((x) => x.ready);
+
+		// Return the size of the chunks map.
+		return readyChunks.length;
+	}
+
 	public onStartup(): void {
 		// Get the provider instance for the world.
 		const provider = this.world.provider;
@@ -742,7 +764,8 @@ class LevelDBProvider extends WorldProvider {
 	public static initialize(
 		config: WorldConfig,
 		path: string,
-		generators: Array<typeof TerrainGenerator>
+		generators: Array<typeof TerrainGenerator>,
+		emitter: Emitter<WorldEventSignals>
 	): World {
 		// Read the level name from the levelname.txt file.
 		const { identifier, dimensions } = config;
@@ -751,7 +774,7 @@ class LevelDBProvider extends WorldProvider {
 		const provider = new this(path);
 
 		// Create a new world instance with the provider.
-		const world = new World(identifier, provider);
+		const world = new World(identifier, provider, emitter);
 
 		// Iterate through the dimensions and create them.
 		for (const entry of dimensions) {

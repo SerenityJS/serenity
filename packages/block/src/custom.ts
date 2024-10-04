@@ -44,7 +44,9 @@ class CustomBlockType extends BlockType {
 		super(identifier as keyof BlockState, loggable, false, false, true);
 
 		// Construct the NBT tag.
-		this.nbt = new CompoundTag("", {});
+		this.nbt = new CompoundTag("", {
+			components: new CompoundTag("components")
+		});
 	}
 
 	/**
@@ -53,6 +55,34 @@ class CustomBlockType extends BlockType {
 	 */
 	public register(permutation: BlockPermutation): void {
 		this.permutations.push(permutation);
+	}
+
+	/**
+	 * Set the light emission of the block type.
+	 * @param emission The light emission value.
+	 */
+	public setLightEmission(emission: number): void {
+		// Get the components from the nbt value.
+		const components = this.nbt.getTag("components") as CompoundTag;
+
+		// Check if the components has a light emission value.
+		if (components.hasTag("minecraft:light_emission")) {
+			// Set the light emission value.
+			const component = components.getTag(
+				"minecraft:light_emission"
+			) as CompoundTag;
+
+			// Get the emission value from the component.
+			component.createByteTag("emission", emission);
+		} else {
+			// Create a new light emission component.
+			const component = components.createCompoundTag(
+				"minecraft:light_emission"
+			);
+
+			// Set the emission value.
+			component.createByteTag("emission", emission);
+		}
 	}
 
 	/**
