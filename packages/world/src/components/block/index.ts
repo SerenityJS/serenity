@@ -14,3 +14,4 @@ export * from "./loot";
 export * from "./supported";
 export * from "./tillable";
 export * from "./gravity";
+export * from "./item-frame";
