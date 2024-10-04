@@ -654,6 +654,15 @@ class LevelDBProvider extends WorldProvider {
 		this.db.put(key, Buffer.from([version]));
 	}
 
+	/**
+	 * Get the dimension index from the dimensions array.
+	 * @param dimension The dimension to get the index of.
+	 * @returns The dimension index.
+	 */
+	public getCachedChunkSize(dimension: Dimension): number {
+		return this.chunks.get(dimension)?.size ?? 0;
+	}
+
 	public onStartup(): void {
 		// Get the provider instance for the world.
 		const provider = this.world.provider;

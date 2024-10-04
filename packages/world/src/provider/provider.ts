@@ -199,6 +199,14 @@ class WorldProvider {
 		throw new Error("WorldProvider.writeProperty is not implemented");
 	}
 
+	/**
+	 * Gets the amount of chunks that are cached.
+	 * @param dimension The dimension to get the cached chunk size of.
+	 */
+	public getCachedChunkSize(_dimension: Dimension): number {
+		throw new Error("WorldProvider.getCachedChunkSize is not implemented");
+	}
+
 	public readChunkCache(
 		_cx: number,
 		_cz: number,

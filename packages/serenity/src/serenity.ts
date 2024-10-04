@@ -11,6 +11,7 @@ import { Worlds } from "./worlds";
 import { DEFAULT_SERVER_PROPERTIES } from "./properties/default";
 import { Permissions } from "./permissions";
 import { Console } from "./commands";
+import { Debugger } from "./debug";
 
 import type { DataPacket } from "@serenityjs/protocol";
 import type { DefaultServerProperties } from "./types";
@@ -65,6 +66,11 @@ class Serenity {
 	 * The console instance
 	 */
 	public readonly console = new Console(this);
+
+	/**
+	 * The debugger instance for the server
+	 */
+	public readonly debugger: Debugger;
 
 	public readonly connecting: Map<NetworkSession, Array<DataPacket>> =
 		new Map();
@@ -145,6 +151,9 @@ class Serenity {
 			this.properties.values["plugins-enabled"]
 		);
 
+		// Create the debugger instance
+		this.debugger = new Debugger(this);
+
 		// Log the startup message
 		this.logger.info("Serenity is now starting up...");
 	}
@@ -152,6 +161,9 @@ class Serenity {
 	public async start(): Promise<void> {
 		// Set the server to not stopped
 		this.stopped = false;
+
+		// Start the debugger
+		this.debugger.start();
 
 		// Initialize the worlds
 		await this.worlds.initialize();
@@ -243,6 +255,9 @@ class Serenity {
 				this.ticks = this.ticks.filter((tick) => tick > threshold);
 				this.tps = this.ticks.length;
 
+				// Tick the debugger
+				this.debugger.tick(deltaTick);
+
 				// Tick all the worlds
 				for (const world of this.worlds.getAll())
 					world.tick(Math.floor(deltaTick));
@@ -276,6 +291,9 @@ class Serenity {
 		// Stop all the plugins & worlds
 		await this.plugins.stop(this);
 		await this.worlds.stop();
+
+		// Stop the debugger
+		this.debugger.stop();
 
 		// Stop the server
 		this.stopped = true;

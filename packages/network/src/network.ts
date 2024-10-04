@@ -297,9 +297,10 @@ class Network extends Emitter<NetworkEvents> {
 						// If the value is true, the packet was either modified or not listened to.
 						const net = this.emit(packet.id, event as never);
 						const ses = session.emit(packet.id, event as never);
+						const glob = this.emit("all", event as never);
 
 						// Check if the packet was cancelled.
-						if (!net || !ses) continue;
+						if (!net || !ses || !glob) continue;
 
 						// Attempt to find handlers registered for the packet.
 						const handlers = this.handlers.filter(
@@ -376,10 +377,11 @@ class Network extends Emitter<NetworkEvents> {
 				// If the value is true, the packet was either modified or not listened to.
 				const net = this.emit(packet.getId() as Packet, event as never);
 				const ses = session.emit(packet.getId() as Packet, event as never);
+				const glob = this.emit("all", event as never);
 
 				// Check if the packet was cancelled.
 				// If so, we will ignore the packet and continue to the next one.
-				if (!net || !ses) continue;
+				if (!net || !ses || !glob) continue;
 
 				// Will will then serialize the packet.
 				// And push the serialized packet into the payloads array.
