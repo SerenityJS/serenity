@@ -663,7 +663,17 @@ class LevelDBProvider extends WorldProvider {
 	 * @returns The dimension index.
 	 */
 	public getCachedChunkSize(dimension: Dimension): number {
-		return this.chunks.get(dimension)?.size ?? 0;
+		// Get the dimension index from the dimensions array.
+		const chunks = this.chunks.get(dimension);
+
+		// Check if the dimension index was found.
+		if (!chunks) return 0;
+
+		// Filter out any chunks that arent ready
+		const readyChunks = [...chunks.values()].filter((x) => x.ready);
+
+		// Return the size of the chunks map.
+		return readyChunks.length;
 	}
 
 	public onStartup(): void {
