@@ -293,6 +293,12 @@ class Worlds extends Emitter<WorldEventSignals> {
 		// Create a new world with the given identifier and provider.
 		const world = new World(identifier, provider, this);
 
+		// Add the world to the WorldsEnum.
+		WorldsEnum.options.push(world.identifier);
+
+		// Register the admin commands.
+		for (const command of ADMIN_COMMANDS) command(world, this.serenity);
+
 		// Register the world to the manager.
 		this.register(world);
 
