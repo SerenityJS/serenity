@@ -1,5 +1,29 @@
 # @serenityjs/serenity
 
+## 0.6.0
+
+### Minor Changes
+
+- 162712e: init v0.6.0-beta
+
+### Patch Changes
+
+- Updated dependencies [162712e]
+  - @serenityjs/block@0.6.0
+  - @serenityjs/command@0.6.0
+  - @serenityjs/data@0.6.0
+  - @serenityjs/emitter@0.6.0
+  - @serenityjs/entity@0.6.0
+  - @serenityjs/item@0.6.0
+  - @serenityjs/logger@0.6.0
+  - @serenityjs/nbt@0.6.0
+  - @serenityjs/network@0.6.0
+  - @serenityjs/plugins@0.6.0
+  - @serenityjs/protocol@0.6.0
+  - @serenityjs/raknet@0.6.0
+  - @serenityjs/server-ui@0.6.0
+  - @serenityjs/world@0.6.0
+
 ## 0.5.2
 
 ### Patch Changes

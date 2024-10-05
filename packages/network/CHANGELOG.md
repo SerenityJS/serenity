@@ -1,5 +1,19 @@
 # @serenityjs/network
 
+## 0.6.0
+
+### Minor Changes
+
+- 162712e: init v0.6.0-beta
+
+### Patch Changes
+
+- Updated dependencies [162712e]
+  - @serenityjs/emitter@0.6.0
+  - @serenityjs/logger@0.6.0
+  - @serenityjs/protocol@0.6.0
+  - @serenityjs/raknet@0.6.0
+
 ## 0.5.2
 
 ### Patch Changes
