@@ -11,3 +11,4 @@ export * from "./skin-id";
 export * from "./variant";
 export * from "./air-supply";
 export * from "./interact-text";
+export * from "./rider-seat-position";
