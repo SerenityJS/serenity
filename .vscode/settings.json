@@ -8,13 +8,20 @@
   // Old Version
   "mc-color.enabled": true,
   "mc-color.markerType": "foreground",
-  "mc-color.languages": ["*"],
+  "mc-color.languages": [
+    "*"
+  ],
   "mc-color.newLineDelimiter": true,
-  "mc-color.delimiters": ["`", "\"", "'"],
-  "mc-color.prefixes": ["§"],
+  "mc-color.delimiters": [
+    "`",
+    "\"",
+    "'"
+  ],
+  "mc-color.prefixes": [
+    "§"
+  ],
   "mc-color.mode": "bedrock",
   "mc-color.replicateJavaBug": false,
-
   // Pre Release Verison
   "mc-color.enable": true,
   "mc-color.version": "bedrock",
@@ -26,6 +33,11 @@
     "(?<!\\\\)`", // Unescaped backticks
     "\\r?\\n" // Newline (Unix or Windows style)
   ],
-
-  "cSpell.words": ["devapp", "pkgs", "serenityjs", "tsup", "typecheck"]
+  "cSpell.words": [
+    "devapp",
+    "pkgs",
+    "serenityjs",
+    "tsup",
+    "typecheck"
+  ]
 }

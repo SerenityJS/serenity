@@ -1,0 +1,32 @@
+{
+  "name": "@serenityjs/raknet",
+  "author": "Serenity",
+  "license": "MIT",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "repository": "https://github.com/SerenityJS/packages/raknet",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@serenityjs/internal-config": "workspace:^",
+    "@types/node": "^22.7.5",
+    "eslint": "^9.12.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@serenityjs/binarystream": "^2.6.6",
+    "@serenityjs/emitter": "workspace:^",
+    "@serenityjs/logger": "workspace:^",
+    "@serenityjs/nbt": "workspace:^",
+    "reflect-metadata": "^0.2.2"
+  }
+}

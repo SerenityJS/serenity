@@ -1,3 +1,13 @@
-import { test } from "serenity.ts";
+import { Server } from "@serenityjs/raknet";
 
-console.log("Hello World", test);
+const server = new Server("0.0.0.0", 19132);
+
+server.start();
+
+console.log(`Raknet server started on ${server.address}:${server.port}`);
+
+server.on("connect", (data) => {
+  console.log(data);
+});
+
+setInterval(() => {}, 1);

@@ -12,13 +12,14 @@ export const serenity = config({
         semi: true,
         singleQuote: false,
         jsxSingleQuote: false,
-        trailingComma: "none"
+        trailingComma: "none",
       },
       {
-        usePrettierrc: false
-      }
-    ]
-  }
+        usePrettierrc: false,
+      },
+    ],
+    "@typescript-eslint/no-extraneous-class": "off",
+  },
 });
 
 export { config };
