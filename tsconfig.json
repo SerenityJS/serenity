@@ -1,4 +1,0 @@
-{
-  "extends": "@serenityjs/typescript-config/base.json",
-  "include": ["packages/**/*.ts", "test/**/*.ts"]
-}

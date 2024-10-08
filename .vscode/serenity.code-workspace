@@ -1,0 +1,59 @@
+{
+  "folders": [
+    {
+      "name": "📁 Repository",
+      "path": "../",
+    },
+    {
+      "name": "🌱 Dev App",
+      "path": "../devapp",
+    },
+    {
+      "name": "📀 Serenity",
+      "path": "../packages/serenity.ts",
+    },
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "eslint.format.enable": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "files.eol": "\n",
+    // Old Version
+    "mc-color.enabled": true,
+    "mc-color.markerType": "foreground",
+    "mc-color.languages": ["*"],
+    "mc-color.newLineDelimiter": true,
+    "mc-color.delimiters": ["`", "\"", "'"],
+    "mc-color.prefixes": ["§"],
+    "mc-color.mode": "bedrock",
+    "mc-color.replicateJavaBug": false,
+
+    // Pre Release Verison
+    "mc-color.enable": true,
+    "mc-color.version": "bedrock",
+    "mc-color.marker": "foreground",
+    "mc-color.fallback": true,
+    "mc-color.fallbackRegex": [
+      "(?<!\\\\)\"", // Unescaped double quotes
+      "(?<!\\\\)'", // Unescaped single quotes
+      "(?<!\\\\)`", // Unescaped backticks
+      "\\r?\\n", // Newline (Unix or Windows style)
+    ],
+    "cSpell.words": ["devapp", "pkgs", "serenityjs", "tsup", "typecheck"],
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "bierner.comment-tagged-templates",
+      "mikestead.dotenv",
+      "naumovs.color-highlight",
+      "exodiusstudios.comment-anchors",
+      "christian-kohler.npm-intellisense",
+      "christian-kohler.path-intellisense",
+      "christian-kohler.path-intellisense",
+      "nobuwu.mc-color",
+    ],
+  },
+}

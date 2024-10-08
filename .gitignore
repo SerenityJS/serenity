@@ -1,12 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Serentity files
-launcher/server.properties
-launcher/permissions.json
-launcher/resource_packs/
-launcher/plugins/
-launcher/worlds/
-
 # Dependencies
 .yarn/*
 !.yarn/patches
@@ -243,4 +236,3 @@ target
 Cargo.lock
 
 *.node
-

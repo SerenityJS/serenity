@@ -7,6 +7,7 @@
     "exodiusstudios.comment-anchors",
     "christian-kohler.npm-intellisense",
     "christian-kohler.path-intellisense",
-    "1yib.rust-bundle"
+    "christian-kohler.path-intellisense",
+    "nobuwu.mc-color"
   ]
 }

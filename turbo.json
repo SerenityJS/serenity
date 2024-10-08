@@ -3,17 +3,11 @@
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"]
-    },
-    "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
     },
     "watch": {
       "dependsOn": ["^build"],
