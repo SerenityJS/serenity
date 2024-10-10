@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@serenityjs/binarystream": "^2.6.6",
     "@serenityjs/core": "workspace:^",
+    "@serenityjs/logger": "workspace:^",
     "@serenityjs/raknet": "workspace:^"
   },
   "devDependencies": {

@@ -693,9 +693,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/core@workspace:packages/core"
   dependencies:
+    "@serenityjs/binarystream": "npm:^2.6.6"
     "@serenityjs/emitter": "workspace:^"
     "@serenityjs/internal-config": "workspace:^"
     "@serenityjs/logger": "workspace:^"
+    "@serenityjs/nbt": "workspace:^"
     "@serenityjs/protocol": "workspace:^"
     "@serenityjs/raknet": "workspace:^"
     "@types/node": "npm:^22.7.5"
@@ -2089,8 +2091,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dev-app@workspace:devapp"
   dependencies:
+    "@serenityjs/binarystream": "npm:^2.6.6"
     "@serenityjs/core": "workspace:^"
     "@serenityjs/internal-config": "workspace:^"
+    "@serenityjs/logger": "workspace:^"
     "@serenityjs/raknet": "workspace:^"
     "@types/node": "npm:^22.7.5"
     eslint: "npm:^9.12.0"
