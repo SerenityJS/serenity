@@ -6,5 +6,5 @@ export default {
   clean: true,
   dts: true,
   format: ["cjs"],
-  minify: true,
-}
+  minify: false,
+};

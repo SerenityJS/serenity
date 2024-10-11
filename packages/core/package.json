@@ -24,10 +24,12 @@
   },
   "dependencies": {
     "@serenityjs/binarystream": "^2.6.6",
+    "@serenityjs/data": "workspace:^",
     "@serenityjs/emitter": "workspace:^",
     "@serenityjs/logger": "workspace:^",
     "@serenityjs/nbt": "workspace:^",
     "@serenityjs/protocol": "workspace:^",
-    "@serenityjs/raknet": "workspace:^"
+    "@serenityjs/raknet": "workspace:^",
+    "fast-jwt": "^4.0.5"
   }
 }

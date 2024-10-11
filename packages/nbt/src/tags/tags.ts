@@ -10,16 +10,16 @@ import { CompoundTag } from "./compound";
 import { ListTag } from "./list";
 
 const NBT_TAGS = [
-	ByteTag,
-	ShortTag,
-	IntTag,
-	LongTag,
-	FloatTag,
-	DoubleTag,
-	ByteListTag,
-	StringTag,
-	ListTag,
-	CompoundTag
+  ByteTag,
+  ShortTag,
+  IntTag,
+  LongTag,
+  FloatTag,
+  DoubleTag,
+  ByteListTag,
+  StringTag,
+  ListTag,
+  CompoundTag
 ];
 
 export { NBT_TAGS };

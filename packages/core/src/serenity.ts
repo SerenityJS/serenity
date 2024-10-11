@@ -1,28 +1,60 @@
 import { CompressionMethod } from "@serenityjs/protocol";
+import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { Network } from "./network";
 import { Handlers } from "./handlers";
+import {
+  DefaultWorldProviderProperties,
+  VoidGenerator,
+  World,
+  WorldProvider
+} from "./world";
+import { Player } from "./entity";
 
-import type { ServerProperties } from "./types";
+import type {
+  ServerProperties,
+  WorldProperties,
+  WorldProviderProperties
+} from "./types";
 
-const DefaultProperties: ServerProperties = {
+const DefaultServerProperties: ServerProperties = {
   port: 19132,
   address: "0.0.0.0",
   compressionMethod: CompressionMethod.Zlib,
   compressionThreshold: 256,
-  packetsPerFrame: 64
+  packetsPerFrame: 64,
+  defaultGenerator: VoidGenerator,
+  debugLogging: false
 };
 
 class Serenity {
   /**
    * The properties that are being used for the server
    */
-  public readonly properties: ServerProperties = DefaultProperties;
+  public readonly properties: ServerProperties = DefaultServerProperties;
 
   /**
    * The network handler for the server
    */
   public readonly network: Network;
+
+  /**
+   * The worlds that are currently loaded on the server
+   */
+  public readonly worlds = new Map<string, World>();
+
+  /**
+   * The registered providers and properties that are available to the server
+   */
+  public readonly providers = new Map<
+    typeof WorldProvider,
+    WorldProviderProperties
+  >();
+
+  /**
+   * The logger instance for the server
+   */
+  public readonly logger = new Logger("Serenity", LoggerColors.Magenta);
 
   /**
    * Whether the server is currently running or not
@@ -45,7 +77,10 @@ class Serenity {
    */
   public constructor(properties?: Partial<ServerProperties>) {
     // Assign the properties to the server with the default properties
-    this.properties = { ...DefaultProperties, ...properties };
+    this.properties = { ...DefaultServerProperties, ...properties };
+
+    // Set the enabled value for debug logging
+    Logger.DEBUG = this.properties.debugLogging;
 
     // Create a new network handler for the server
     this.network = new Network(this, Handlers);
@@ -100,6 +135,94 @@ class Serenity {
 
     // Start the ticking loop
     tick();
+  }
+
+  /**
+   * Registers a provider with the server
+   * @param provider The provider to register
+   * @param properties The properties to use for the provider
+   * @returns Whether the provider was successfully registered or not
+   */
+  public registerProvider(
+    provider: typeof WorldProvider,
+    properties?: Partial<WorldProviderProperties>
+  ): boolean {
+    // Check if the provider is already registered
+    if (this.providers.has(provider)) {
+      // Log that the provider is already registered
+      this.logger.error(`Provider already registered: ${provider.identifier}`);
+
+      // Return false if the provider is already registered
+      return false;
+    }
+
+    // Attempt to initialize the provider, catch any errors
+    try {
+      // Initialize the provider
+      provider.initialize(this, {
+        ...DefaultWorldProviderProperties,
+        ...properties
+      });
+
+      // Add the provider to the registered providers
+      this.providers.set(provider, {
+        ...DefaultWorldProviderProperties,
+        ...properties
+      });
+
+      // Log that the provider has been registered
+      this.logger.debug(`Registered provider: ${provider.identifier}`);
+
+      // Add the provider to the server
+      return true;
+    } catch (reason) {
+      // Log the error
+      this.logger.error(
+        `Failed to register provider: ${provider.identifier}`,
+        reason
+      );
+
+      // Return false if the provider failed to register
+      return false;
+    }
+  }
+
+  /**
+   * Creates a new world using the specified provider
+   * @param provider The provider to use for the world
+   * @param properties The properties to use for the world
+   * @returns The created world, if successful; otherwise, false
+   */
+  public createWorld(
+    provider: typeof WorldProvider,
+    properties?: WorldProperties
+  ): World | false {
+    // Get the provider properties from the registered providers
+    const providerProperties = this.providers.get(provider);
+
+    // Check if the provider is registered
+    if (!providerProperties) {
+      // Log that the provider is not registered
+      this.logger.error(
+        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
+      );
+
+      // Return false if the provider is not registered
+      return false;
+    }
+
+    // Create a new world using the provider
+    const world = provider.create(this, providerProperties, properties);
+
+    // Add the world to the server
+    this.worlds.set(world.identifier, world);
+
+    // Return the created world
+    return world;
+  }
+
+  public getPlayerByXuid(xuid: string): Player | null {
+    throw new Error("Method not implemented.");
   }
 }
 

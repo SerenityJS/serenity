@@ -1,0 +1,6602 @@
+[
+  {
+    "identifier": "minecraft:cyan_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#575c5cff"
+  },
+  {
+    "identifier": "minecraft:hard_pink_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:blue_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:birch_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:polished_basalt",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:nether_gold_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:warped_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:light_blue_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_block",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:piston_arm_collision",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:granite",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:blue_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:powder_snow",
+    "hardness": 0.25,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:deepslate_copper_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:nether_brick_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:yellow_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:blackstone_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:lime_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:red_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:jungle_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:spruce_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:hard_green_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:diorite",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:gray_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:polished_tuff_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:cherry_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:cherry_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#a04d4eff"
+  },
+  {
+    "identifier": "minecraft:yellow_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:crimson_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:yellow_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:end_gateway",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:azure_bluet",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:beacon",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#5cdbd5ff"
+  },
+  {
+    "identifier": "minecraft:red_nether_brick",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:cobbled_deepslate_stairs",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:snow_layer",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:black_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:blue_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:glow_frame",
+    "hardness": 0.25,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:mud_brick_double_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:hanging_roots",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:prismarine_bricks_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#5cdbd5ff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:calcite",
+    "hardness": 0.75,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:stripped_dark_oak_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:hard_orange_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:dead_bubble_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:jungle_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:bubble_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:hard_brown_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:sculk_shrieker",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#0d1217ff"
+  },
+  {
+    "identifier": "minecraft:gray_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:orange_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:hard_black_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:gray_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:lily_of_the_valley",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:lime_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:dead_brain_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:info_update",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:seagrass",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4040ffff"
+  },
+  {
+    "identifier": "minecraft:tube_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:redstone_lamp",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:mossy_cobblestone",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:deepslate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:magenta_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:pitcher_crop",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:brown_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:tuff_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:warped_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:stripped_acacia_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:diamond_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#5cdbd5ff"
+  },
+  {
+    "identifier": "minecraft:oak_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:hard_gray_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:oak_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:brown_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:end_bricks",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:magenta_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:packed_ice",
+    "hardness": 0.5,
+    "friction": 0.98,
+    "mapColor": "#a0a0ffff"
+  },
+  {
+    "identifier": "minecraft:packed_mud",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:light_blue_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:moss_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:warped_fungus",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:polished_deepslate_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:amethyst_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:gold_block",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#faee4dff"
+  },
+  {
+    "identifier": "minecraft:flower_pot",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:chiseled_bookshelf",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:polished_deepslate_stairs",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:yellow_flower",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:lime_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:weathered_chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:small_amethyst_bud",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:activator_rail",
+    "hardness": 0.7,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:iron_trapdoor",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:potatoes",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:muddy_mangrove_roots",
+    "hardness": 0.7,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:stripped_jungle_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:noteblock",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:tuff",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_tile_double_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:sandstone_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:raw_gold_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#faee4dff"
+  },
+  {
+    "identifier": "minecraft:allium",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:white_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:black_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:orange_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:powered_comparator",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:jungle_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:warped_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:spruce_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_sapling",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:melon_block",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:black_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:waxed_cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:mob_spawner",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:polished_granite",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:soul_fire",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:magenta_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:obsidian",
+    "hardness": 35,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:dark_oak_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_brick_wall",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:exposed_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:polished_deepslate_double_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:stone_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:waxed_copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:sponge",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:exposed_double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:normal_stone_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:hardened_clay",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:birch_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:stripped_jungle_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:oak_sapling",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:smoker",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:brown_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:andesite",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:fire_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:stone",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:birch_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:hard_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:tuff_brick_wall",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:brain_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:stripped_spruce_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:orange_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_brick_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:crimson_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:respawn_anchor",
+    "hardness": 50,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:green_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:birch_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:hay_block",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:jungle_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:oak_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#3d592900"
+  },
+  {
+    "identifier": "minecraft:brain_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:cyan_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:polished_tuff_wall",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:torch",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:mud_brick_wall",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:honey_block",
+    "hardness": 0,
+    "friction": 0.8,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:dripstone_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c3223ff"
+  },
+  {
+    "identifier": "minecraft:vine",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#4b6e3200"
+  },
+  {
+    "identifier": "minecraft:cherry_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:blackstone_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:gold_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:yellow_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:stonecutter",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:warped_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:piston",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:brown_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:stone_brick_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:dead_bubble_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:gray_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:cherry_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:invisible_bedrock",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:red_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#8e3c2eff"
+  },
+  {
+    "identifier": "minecraft:dead_fire_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:magenta_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:magenta_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_brick_wall",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:orange_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:hard_brown_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:smooth_basalt",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:waterlily",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:hard_light_blue_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:emerald_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#00d93aff"
+  },
+  {
+    "identifier": "minecraft:suspicious_sand",
+    "hardness": 0.25,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:heavy_weighted_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:purple_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:lightning_rod",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:acacia_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#3d592900"
+  },
+  {
+    "identifier": "minecraft:black_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:cobblestone_wall",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:underwater_torch",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:deepslate_brick_double_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:spruce_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_mosaic_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:acacia_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:ochre_froglight",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:tuff_wall",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:observer",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:redstone_torch",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:silver_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:granite_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:pink_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:glowingobsidian",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:brown_mushroom",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:cyan_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:brown_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:waxed_copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:copper_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:birch_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:scaffolding",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:sandstone_stairs",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:green_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:stripped_bamboo_block",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:red_mushroom_block",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:sculk_catalyst",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#0d1217ff"
+  },
+  {
+    "identifier": "minecraft:cobblestone",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:horn_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:yellow_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:cyan_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:oak_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:smooth_sandstone_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:jungle_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:blue_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#4c3e5cff"
+  },
+  {
+    "identifier": "minecraft:sandstone",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:brown_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:acacia_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:light_weighted_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#faee4dff"
+  },
+  {
+    "identifier": "minecraft:undyed_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:mycelium",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:bamboo",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:quartz_block",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:stone_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:gray_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:green_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#4c522aff"
+  },
+  {
+    "identifier": "minecraft:deepslate_brick_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:warped_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:smithing_table",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:weathered_copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:poppy",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:tuff_brick_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:green_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:green_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:wooden_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:pitcher_plant",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:spruce_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:netherite_block",
+    "hardness": 50,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:pink_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:redstone_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#ff0000ff"
+  },
+  {
+    "identifier": "minecraft:birch_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:redstone_wire",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:lava",
+    "hardness": 100,
+    "friction": 0.6,
+    "mapColor": "#ff0000ff"
+  },
+  {
+    "identifier": "minecraft:jungle_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:birch_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:loom",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:dead_tube_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:end_stone",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:polished_tuff_double_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:crimson_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#943f61ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:jungle_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:light_blue_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:glowstone",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:stone_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:hard_white_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:mud_brick_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:farmland",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:rail",
+    "hardness": 0.7,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:blackstone_wall",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:mossy_cobblestone_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:coral_fan_hang2",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:coral_fan_hang3",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:hard_magenta_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:detector_rail",
+    "hardness": 0.7,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:monster_egg",
+    "hardness": 0.75,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:blue_orchid",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:green_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:polished_granite_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:birch_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#455a2e00"
+  },
+  {
+    "identifier": "minecraft:pink_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#a04d4eff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:pink_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:cracked_deepslate_tiles",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:red_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_mosaic_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:cobblestone_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:crimson_nylium",
+    "hardness": 0.4,
+    "friction": 0.6,
+    "mapColor": "#bd3031ff"
+  },
+  {
+    "identifier": "minecraft:structure_void",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:purple_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_brick_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:hard_yellow_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:spruce_sapling",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:yellow_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#ba8524ff"
+  },
+  {
+    "identifier": "minecraft:snow",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:sand",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:daylight_detector",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:stripped_mangrove_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:conduit",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#5cdbd5ff"
+  },
+  {
+    "identifier": "minecraft:slime",
+    "hardness": 0,
+    "friction": 0.8,
+    "mapColor": "#7fb238ff"
+  },
+  {
+    "identifier": "minecraft:bone_block",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:frame",
+    "hardness": 0.25,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:spruce_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:lapis_block",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#4a80ffff"
+  },
+  {
+    "identifier": "minecraft:coal_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:client_request_placeholder_block",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:redstone_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:green_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:bubble_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:nether_brick_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:pink_tulip",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:oak_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_tile_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:pink_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:dead_tube_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:nether_wart_block",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:cherry_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:crimson_hyphae",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#5c191dff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:weathered_cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:small_dripleaf_block",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:pink_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:spruce_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:acacia_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:crimson_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:basalt",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:hard_cyan_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:light_blue_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#706c8aff"
+  },
+  {
+    "identifier": "minecraft:lit_redstone_lamp",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:hard_blue_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:hard_purple_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:diamond_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:warped_roots",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:magenta_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:sticky_piston",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:ender_chest",
+    "hardness": 22.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:medium_amethyst_bud",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:pink_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:warped_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:jungle_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:sculk_sensor",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#0d1217ff"
+  },
+  {
+    "identifier": "minecraft:copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:diorite_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:spruce_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#34523400"
+  },
+  {
+    "identifier": "minecraft:frog_spawn",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4040ffff"
+  },
+  {
+    "identifier": "minecraft:acacia_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:red_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:stripped_cherry_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:crimson_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:acacia_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:fire_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:magenta_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:iron_door",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:honeycomb_block",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_brick_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:quartz_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:daylight_detector_inverted",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:barrel",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:chorus_flower",
+    "hardness": 0.4,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:coral_fan_hang",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:orange_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:white_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:stripped_birch_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:cracked_nether_bricks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:powered_repeater",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:light_blue_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:hard_lime_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:pumpkin",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_tiles",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:smooth_stone",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:hard_light_gray_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:gray_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:white_tulip",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:lime_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:black_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:red_mushroom",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:gilded_blackstone",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:hard_yellow_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:magenta_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#95576cff"
+  },
+  {
+    "identifier": "minecraft:exposed_cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:reserved6",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:unknown",
+    "hardness": 0,
+    "friction": 0.9,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:cherry_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:yellow_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:mangrove_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:sunflower",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:pink_petals",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:bamboo_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:infested_deepslate",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:soul_torch",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:podzol",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:copper_block",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:lit_redstone_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_tile_stairs",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:crimson_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#943f61ff"
+  },
+  {
+    "identifier": "minecraft:deadbush",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_bricks",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:red_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:iron_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:spruce_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:frosted_ice",
+    "hardness": 0.5,
+    "friction": 0.98,
+    "mapColor": "#a0a0ffff"
+  },
+  {
+    "identifier": "minecraft:large_amethyst_bud",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:exposed_copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:suspicious_gravel",
+    "hardness": 0.25,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:warped_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:flowing_water",
+    "hardness": 100,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:brick_block",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:hard_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:quartz_stairs",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:cave_vines",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:magenta_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:iron_bars",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:white_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:stripped_oak_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:light_blue_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:oak_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:white_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:melon_stem",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:crimson_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#943f61ff"
+  },
+  {
+    "identifier": "minecraft:stripped_dark_oak_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:white_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:oak_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:purple_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:jukebox",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:stripped_cherry_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#a04d4eff"
+  },
+  {
+    "identifier": "minecraft:jigsaw",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:border_block",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#ff0000ff"
+  },
+  {
+    "identifier": "minecraft:shroomlight",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:cornflower",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:chiseled_polished_blackstone",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_tile_wall",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:chiseled_deepslate",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:red_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:acacia_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:raw_copper_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:horn_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:beetroot",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:skull",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:light_gray_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:white_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#c7c7c7ff"
+  },
+  {
+    "identifier": "minecraft:andesite_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:birch_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:golden_rail",
+    "hardness": 0.7,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:cyan_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:darkoak_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:jungle_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#3d592900"
+  },
+  {
+    "identifier": "minecraft:gray_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:red_sandstone_stairs",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:cyan_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:cracked_deepslate_bricks",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:jungle_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:exposed_copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:waxed_copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:hard_light_blue_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:jungle_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:dirt_with_roots",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:coal_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:white_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:warped_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:composter",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:waxed_double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:kelp",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4040ffff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_bricks",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:blue_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:light_blue_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:rose_bush",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:flowering_azalea",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:blue_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:weeping_vines",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:chorus_plant",
+    "hardness": 0.4,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:water",
+    "hardness": 100,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:mud_brick_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:unpowered_repeater",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:smooth_red_sandstone_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:element_100",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_101",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_102",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_103",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_104",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_105",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_106",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_107",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_108",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_109",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_113",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_112",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_111",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_110",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_117",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f9c654ff"
+  },
+  {
+    "identifier": "minecraft:element_116",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_115",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_114",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_118",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ce7cfcff"
+  },
+  {
+    "identifier": "minecraft:white_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:stripped_warped_hyphae",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#562c3eff"
+  },
+  {
+    "identifier": "minecraft:moving_block",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:trapped_chest",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:acacia_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:brain_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:glow_lichen",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#7fa796ff"
+  },
+  {
+    "identifier": "minecraft:wall_banner",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:twisting_vines",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:acacia_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:oak_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:soul_lantern",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:dirt",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:blue_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:deny",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:bee_nest",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:bubble_column",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4040ffff"
+  },
+  {
+    "identifier": "minecraft:campfire",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:light_blue_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:stone_block_slab2",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:stone_block_slab3",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:stone_block_slab4",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:soul_soil",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:soul_sand",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:spruce_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:polished_diorite",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:reinforced_deepslate",
+    "hardness": 55,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:fletching_table",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:cherry_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:black_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:calibrated_sculk_sensor",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#0d1217ff"
+  },
+  {
+    "identifier": "minecraft:copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:stripped_acacia_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:cobbled_deepslate_double_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:warped_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:crafting_table",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:sea_pickle",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:cherry_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:brown_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:brown_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:mossy_stone_brick_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:end_rod",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:crimson_stem",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#943f61ff"
+  },
+  {
+    "identifier": "minecraft:green_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:tuff_brick_double_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:crimson_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:warped_hyphae",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#562c3eff"
+  },
+  {
+    "identifier": "minecraft:warped_wart_block",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#14b485ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:carrots",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:tuff_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:yellow_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:cyan_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:black_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:dead_horn_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:grass_block",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:tripwire_hook",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:cave_vines_body_with_berries",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:hard_black_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:stripped_birch_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:tinted_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:big_dripleaf",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:warped_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:lime_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:blue_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:sweet_berry_bush",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:reeds",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:black_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:jungle_sapling",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:barrier",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:torchflower_crop",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:black_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:jungle_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:cherry_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:weathered_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#3d592900"
+  },
+  {
+    "identifier": "minecraft:nether_brick_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:fire",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ff0000ff"
+  },
+  {
+    "identifier": "minecraft:fern",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:torchflower",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:end_portal_frame",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:prismarine",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:magenta_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:exposed_copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:black_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#251610ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_gold_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:ancient_debris",
+    "hardness": 30,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:vault",
+    "hardness": 50,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:beehive",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:hard_orange_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:jungle_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:wither_rose",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:exposed_cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_cut_copper_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:mangrove_roots",
+    "hardness": 0.7,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:yellow_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:acacia_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_mosaic_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:brown_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:cherry_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:bubble_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:orange_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:acacia_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:tuff_brick_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:blue_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:exposed_copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:dead_fire_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:stone_brick_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:crimson_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#943f61ff"
+  },
+  {
+    "identifier": "minecraft:stripped_spruce_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:pumpkin_stem",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:azalea_leaves_flowered",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:hard_magenta_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:sticky_piston_arm_collision",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:warped_nylium",
+    "hardness": 0.4,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_emerald_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:acacia_sapling",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:quartz_bricks",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:unpowered_comparator",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:lime_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:structure_block",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:end_brick_stairs",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:purple_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#7a4958ff"
+  },
+  {
+    "identifier": "minecraft:target",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:wooden_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:mangrove_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:hard_lime_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:weathered_copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:pearlescent_froglight",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:double_stone_block_slab2",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:double_stone_block_slab3",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:double_stone_block_slab4",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:tall_grass",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:nether_sprouts",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:cyan_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:dead_horn_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:verdant_froglight",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#7fa796ff"
+  },
+  {
+    "identifier": "minecraft:hard_gray_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:warped_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:warped_stem",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:horn_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:green_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:large_fern",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:stripped_crimson_hyphae",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#5c191dff"
+  },
+  {
+    "identifier": "minecraft:cocoa",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:lever",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:bamboo_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:hard_green_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:brick_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:weathered_copper_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:moss_block",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:purple_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:pink_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:short_grass",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:stonebrick",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:fire_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:spruce_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:chain_command_block",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:red_sandstone",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:exposed_chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:spruce_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:exposed_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:red_nether_brick_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:green_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:jungle_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:deepslate_redstone_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:double_stone_block_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:dead_brain_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:mangrove_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:anvil",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:birch_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:tuff_bricks",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#3d592900"
+  },
+  {
+    "identifier": "minecraft:cobbled_deepslate",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:quartz_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:bookshelf",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:mud",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#575c5cff"
+  },
+  {
+    "identifier": "minecraft:lit_pumpkin",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:ice",
+    "hardness": 0.5,
+    "friction": 0.98,
+    "mapColor": "#a0a0ffff"
+  },
+  {
+    "identifier": "minecraft:air",
+    "hardness": -1,
+    "friction": 0.9,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:bed",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:black_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:tnt",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ff0000ff"
+  },
+  {
+    "identifier": "minecraft:purple_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:web",
+    "hardness": 4,
+    "friction": 0.6,
+    "mapColor": "#c7c7c7ff"
+  },
+  {
+    "identifier": "minecraft:dead_tube_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:polished_diorite_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:blue_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:orange_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:crying_obsidian",
+    "hardness": 35,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:lime_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:dead_fire_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:decorated_pot",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8e3c2eff"
+  },
+  {
+    "identifier": "minecraft:enchanting_table",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_wall",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:orange_tulip",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:brown_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:azalea",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:mud_bricks",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#876b62ff"
+  },
+  {
+    "identifier": "minecraft:birch_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:acacia_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:gray_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:hopper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:hard_red_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:bell",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#faee4dff"
+  },
+  {
+    "identifier": "minecraft:lectern",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:stripped_crimson_stem",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#943f61ff"
+  },
+  {
+    "identifier": "minecraft:standing_banner",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:light_blue_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:jungle_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:mangrove_propagule",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:cactus",
+    "hardness": 0.4,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:budding_amethyst",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:sniffer_egg",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:birch_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:purple_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:green_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:bedrock",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:spruce_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:blackstone_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:blue_ice",
+    "hardness": 2.8,
+    "friction": 0.989,
+    "mapColor": "#a0a0ffff"
+  },
+  {
+    "identifier": "minecraft:cyan_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:hard_red_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:polished_andesite_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:sculk",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#0d1217ff"
+  },
+  {
+    "identifier": "minecraft:hard_purple_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:netherrack",
+    "hardness": 0.4,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:purple_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:spruce_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:mangrove_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:orange_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:dead_horn_coral_fan",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:lantern",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:red_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:lit_blast_furnace",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:pink_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:light_blue_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:allow",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:birch_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:chest",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:cherry_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:chain",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:clay",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#a4a8b8ff"
+  },
+  {
+    "identifier": "minecraft:cherry_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:crimson_hanging_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:sculk_vein",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#0d1217ff"
+  },
+  {
+    "identifier": "minecraft:dead_brain_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:deepslate_coal_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:weathered_cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:warped_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:cracked_polished_blackstone_bricks",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:flowing_lava",
+    "hardness": 100,
+    "friction": 0.6,
+    "mapColor": "#ff0000ff"
+  },
+  {
+    "identifier": "minecraft:polished_tuff",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:magenta_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:hard_white_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:acacia_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:hard_cyan_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:lit_furnace",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:chiseled_nether_bricks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:warped_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:red_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_lapis_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:dead_bubble_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:cherry_sapling",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:cherry_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:prismarine_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:white_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:cyan_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:polished_tuff_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:dragon_egg",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:blue_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:nether_brick",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_iron_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:element_1",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7ab244ff"
+  },
+  {
+    "identifier": "minecraft:element_0",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#000000ff"
+  },
+  {
+    "identifier": "minecraft:element_3",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#567ce5ff"
+  },
+  {
+    "identifier": "minecraft:element_2",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ce7cfcff"
+  },
+  {
+    "identifier": "minecraft:element_5",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ba8784ff"
+  },
+  {
+    "identifier": "minecraft:element_4",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#33a5c1ff"
+  },
+  {
+    "identifier": "minecraft:element_7",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7ab244ff"
+  },
+  {
+    "identifier": "minecraft:element_6",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7ab244ff"
+  },
+  {
+    "identifier": "minecraft:element_9",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f9c654ff"
+  },
+  {
+    "identifier": "minecraft:element_8",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7ab244ff"
+  },
+  {
+    "identifier": "minecraft:oxeye_daisy",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:camera",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:wheat",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:waxed_cut_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:chemistry_table",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:heavy_core",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:cobbled_deepslate_slab",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:lilac",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:spore_blossom",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:crimson_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:darkoak_standing_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:weathered_double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:emerald_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:brown_mushroom_block",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:gray_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:petrified_oak_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:gray_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:pink_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:purple_shulker_box",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:carved_pumpkin",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:dropper",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:spruce_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:stripped_warped_stem",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:pointed_dripstone",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:red_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:netherreactor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_brick_stairs",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:dark_prismarine_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#5cdbd5ff"
+  },
+  {
+    "identifier": "minecraft:chiseled_tuff_bricks",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:light_blue_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#6699d8ff"
+  },
+  {
+    "identifier": "minecraft:red_tulip",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:chemical_heat",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:trip_wire",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:cauldron",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:cave_vines_head_with_berries",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:tube_coral_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#334cb2ff"
+  },
+  {
+    "identifier": "minecraft:birch_sapling",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:dark_oak_trapdoor",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:colored_torch_bp",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:colored_torch_rg",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:hard_pink_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:orange_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#9f5224ff"
+  },
+  {
+    "identifier": "minecraft:brick_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:oak_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:stripped_oak_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:smooth_stone_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:polished_andesite",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:sea_lantern",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:brewing_stand",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:bamboo_sapling",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:weathered_copper_bulb",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:blast_furnace",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:crimson_roots",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:acacia_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:stonecutter_block",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:yellow_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:white_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:lime_stained_glass_pane",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:end_portal",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:yellow_stained_glass",
+    "hardness": 0.3,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:jungle_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:spruce_wood",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:blackstone",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#191919ff"
+  },
+  {
+    "identifier": "minecraft:acacia_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:lit_deepslate_redstone_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:element_10",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ce7cfcff"
+  },
+  {
+    "identifier": "minecraft:element_11",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#567ce5ff"
+  },
+  {
+    "identifier": "minecraft:element_12",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#33a5c1ff"
+  },
+  {
+    "identifier": "minecraft:element_13",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_14",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ba8784ff"
+  },
+  {
+    "identifier": "minecraft:element_15",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7ab244ff"
+  },
+  {
+    "identifier": "minecraft:element_16",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7ab244ff"
+  },
+  {
+    "identifier": "minecraft:element_17",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f9c654ff"
+  },
+  {
+    "identifier": "minecraft:element_18",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ce7cfcff"
+  },
+  {
+    "identifier": "minecraft:element_19",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#567ce5ff"
+  },
+  {
+    "identifier": "minecraft:element_36",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ce7cfcff"
+  },
+  {
+    "identifier": "minecraft:element_37",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#567ce5ff"
+  },
+  {
+    "identifier": "minecraft:element_34",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7ab244ff"
+  },
+  {
+    "identifier": "minecraft:element_35",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f9c654ff"
+  },
+  {
+    "identifier": "minecraft:element_32",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ba8784ff"
+  },
+  {
+    "identifier": "minecraft:element_33",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ba8784ff"
+  },
+  {
+    "identifier": "minecraft:element_30",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_31",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_38",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#33a5c1ff"
+  },
+  {
+    "identifier": "minecraft:element_39",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_29",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_28",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_21",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_20",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#33a5c1ff"
+  },
+  {
+    "identifier": "minecraft:element_23",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_22",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_25",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_24",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_27",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_26",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_58",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_59",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_54",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ce7cfcff"
+  },
+  {
+    "identifier": "minecraft:element_55",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#567ce5ff"
+  },
+  {
+    "identifier": "minecraft:element_56",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#33a5c1ff"
+  },
+  {
+    "identifier": "minecraft:element_57",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_50",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_51",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ba8784ff"
+  },
+  {
+    "identifier": "minecraft:element_52",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ba8784ff"
+  },
+  {
+    "identifier": "minecraft:element_53",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f9c654ff"
+  },
+  {
+    "identifier": "minecraft:element_49",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_48",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_47",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_46",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_45",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_44",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_43",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_42",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_41",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_40",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_72",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_73",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_70",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_71",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_76",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_77",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_74",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_75",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_78",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_79",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_65",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_64",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_67",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_66",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_61",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_60",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_63",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_62",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_69",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_68",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ef9ee2ff"
+  },
+  {
+    "identifier": "minecraft:element_98",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_99",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_90",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_91",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_92",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_93",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_94",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_95",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_96",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_97",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_89",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#7f4cccff"
+  },
+  {
+    "identifier": "minecraft:element_88",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#33a5c1ff"
+  },
+  {
+    "identifier": "minecraft:element_83",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_82",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_81",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#b2aa8cff"
+  },
+  {
+    "identifier": "minecraft:element_80",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#828282ff"
+  },
+  {
+    "identifier": "minecraft:element_87",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#567ce5ff"
+  },
+  {
+    "identifier": "minecraft:element_86",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ce7cfcff"
+  },
+  {
+    "identifier": "minecraft:element_85",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#f9c654ff"
+  },
+  {
+    "identifier": "minecraft:element_84",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#ba8784ff"
+  },
+  {
+    "identifier": "minecraft:lit_smoker",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:lapis_ore",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:red_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:pink_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#f27fa5ff"
+  },
+  {
+    "identifier": "minecraft:smooth_quartz_stairs",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#fffcf5ff"
+  },
+  {
+    "identifier": "minecraft:red_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:azalea_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:purpur_block",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:cherry_wall_sign",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:cyan_candle",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#4c7f99ff"
+  },
+  {
+    "identifier": "minecraft:waxed_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:repeating_command_block",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:nether_wart",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:purple_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_double_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:crimson_fungus",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:cherry_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:polished_deepslate",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:tuff_double_slab",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:purpur_stairs",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#b24cd8ff"
+  },
+  {
+    "identifier": "minecraft:tube_coral",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#8db87000"
+  },
+  {
+    "identifier": "minecraft:waxed_copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:portal",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:birch_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:peony",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#007c00ff"
+  },
+  {
+    "identifier": "minecraft:command_block",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#664c33ff"
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_button",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:crafter",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:spruce_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:furnace",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:info_update2",
+    "hardness": 1,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:amethyst_cluster",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:waxed_chiseled_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:waxed_cut_copper_slab",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:polished_deepslate_wall",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:dried_kelp_block",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#667f33ff"
+  },
+  {
+    "identifier": "minecraft:light_block",
+    "hardness": -1,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:hard_light_gray_stained_glass",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:crimson_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:chiseled_tuff",
+    "hardness": 1.5,
+    "friction": 0.6,
+    "mapColor": "#392923ff"
+  },
+  {
+    "identifier": "minecraft:lime_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#7fcc19ff"
+  },
+  {
+    "identifier": "minecraft:turtle_egg",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:magma",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:dispenser",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:brown_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#4c3223ff"
+  },
+  {
+    "identifier": "minecraft:deepslate_diamond_ore",
+    "hardness": 4.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:grindstone",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:soul_campfire",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#815631ff"
+  },
+  {
+    "identifier": "minecraft:wooden_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:birch_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:lime_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_grate",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:birch_double_slab",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#f7e9a3ff"
+  },
+  {
+    "identifier": "minecraft:white_concrete",
+    "hardness": 1.8,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:trial_spawner",
+    "hardness": 50,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:acacia_fence",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:grass_path",
+    "hardness": 0.65,
+    "friction": 0.6,
+    "mapColor": "#976d4dff"
+  },
+  {
+    "identifier": "minecraft:cobbled_deepslate_wall",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#646464ff"
+  },
+  {
+    "identifier": "minecraft:orange_concrete_powder",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#d87f33ff"
+  },
+  {
+    "identifier": "minecraft:orange_candle_cake",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:weathered_copper",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#3a8e8cff"
+  },
+  {
+    "identifier": "minecraft:unlit_redstone_torch",
+    "hardness": 0,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:lime_terracotta",
+    "hardness": 1.25,
+    "friction": 0.6,
+    "mapColor": "#677535ff"
+  },
+  {
+    "identifier": "minecraft:cherry_fence_gate",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#d1b1a1ff"
+  },
+  {
+    "identifier": "minecraft:gray_glazed_terracotta",
+    "hardness": 1.4,
+    "friction": 0.6,
+    "mapColor": "#4c4c4cff"
+  },
+  {
+    "identifier": "minecraft:lodestone",
+    "hardness": 3.5,
+    "friction": 0.6,
+    "mapColor": "#ffffffff"
+  },
+  {
+    "identifier": "minecraft:bamboo_mosaic",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#e5e533ff"
+  },
+  {
+    "identifier": "minecraft:hard_blue_stained_glass_pane",
+    "hardness": 10,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:raw_iron_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#d8af93ff"
+  },
+  {
+    "identifier": "minecraft:light_gray_carpet",
+    "hardness": 0.1,
+    "friction": 0.6,
+    "mapColor": "#999999ff"
+  },
+  {
+    "identifier": "minecraft:purple_wool",
+    "hardness": 0.8,
+    "friction": 0.6,
+    "mapColor": "#995acdff"
+  },
+  {
+    "identifier": "minecraft:iron_block",
+    "hardness": 5,
+    "friction": 0.6,
+    "mapColor": "#a7a7a7ff"
+  },
+  {
+    "identifier": "minecraft:ladder",
+    "hardness": 0.4,
+    "friction": 0.6,
+    "mapColor": "#00000000"
+  },
+  {
+    "identifier": "minecraft:crimson_pressure_plate",
+    "hardness": 0.5,
+    "friction": 0.6,
+    "mapColor": "#700200ff"
+  },
+  {
+    "identifier": "minecraft:stripped_mangrove_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": "#993333ff"
+  },
+  {
+    "identifier": "minecraft:gravel",
+    "hardness": 0.6,
+    "friction": 0.6,
+    "mapColor": "#707070ff"
+  },
+  {
+    "identifier": "minecraft:cartography_table",
+    "hardness": 2.5,
+    "friction": 0.6,
+    "mapColor": "#8f7748ff"
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_door",
+    "hardness": 3,
+    "friction": 0.6,
+    "mapColor": "#167e86ff"
+  }
+]

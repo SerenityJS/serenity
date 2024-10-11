@@ -17,7 +17,7 @@ import {
   type DisconnectReason,
   Framer,
   getPacketId,
-  type Packet,
+  Packet,
   Packets
 } from "@serenityjs/protocol";
 
@@ -265,9 +265,25 @@ class Network extends Emitter<NetworkEvents> {
             continue;
           }
 
+          // Filter out all the handlers that have a packet that matches the packet id.
+          const handlers = Array.from(this.handlers).filter((handler) => {
+            return handler.packet === packetId;
+          });
+
+          // Check if no handlers were found for the packet id.
+          if (handlers.length === 0) {
+            // Debug log that no handlers were found for the packet id.
+            this.logger.debug(
+              `No handlers found for packet ${Packet[packetId]}, with id ${packetId}`
+            );
+
+            // Skip the packet if no handlers were found for the packet id.
+            continue;
+          }
+
           // Iterate over all the registered handlers.
           // And call the handle method for each handler.
-          for (const handler of this.handlers) {
+          for (const handler of handlers) {
             // Check if the handler has a packet that matches the packet id.
             if (handler.packet === packetId) {
               // Attempt to handle the packet with the handler.

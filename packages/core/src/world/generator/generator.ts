@@ -17,11 +17,6 @@ class TerrainGenerator {
   public static readonly identifier: string;
 
   /**
-   * The dimension type of the generator.
-   */
-  public static readonly type: DimensionType;
-
-  /**
    * The terrain worker for the generator.
    * This is set by the worker decorator, which will create a worker thread for the generator.
    */
@@ -32,11 +27,6 @@ class TerrainGenerator {
    */
   public readonly identifier = (this.constructor as typeof TerrainGenerator)
     .identifier;
-
-  /**
-   * The dimension type of the generator.
-   */
-  public readonly type = (this.constructor as typeof TerrainGenerator).type;
 
   /**
    * The properties of the generator.

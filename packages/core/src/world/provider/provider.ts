@@ -1,4 +1,20 @@
+import { Player } from "../../entity";
+import { Serenity } from "../../serenity";
+import {
+  PlayerProperties,
+  WorldProperties,
+  WorldProviderProperties
+} from "../../types";
 import { Chunk } from "../chunk/chunk";
+import { Dimension } from "../dimension";
+import { World } from "../world";
+
+/**
+ * The default world provider properties.
+ */
+const DefaultWorldProviderProperties: WorldProviderProperties = {
+  path: "./worlds"
+};
 
 class WorldProvider {
   /**
@@ -39,20 +55,60 @@ class WorldProvider {
    * Reads a chunk for a specified dimension from the provider.
    * @param cx The chunk x coordinate.
    * @param cz The chunk z coordinate.
-   * @param index The dimension index to read the chunk from.
+   * @param dimension The dimension to read the chunk from.
    */
-  public readChunk(_cx: number, _cz: number, _index: number): Chunk {
+  public readChunk(_cx: number, _cz: number, _dimension: Dimension): Chunk {
     throw new Error(`${this.identifier}.readChunk() is not implemented!`);
   }
 
   /**
    * Writes a chunk for a specified dimension to the provider.
    * @param chunk The chunk to write.
-   * @param index The dimension index to write the chunk to.
+   * @param dimension The dimension to write the chunk to.
    */
-  public writeChunk(_chunk: Chunk, _index: number): void {
+  public writeChunk(_chunk: Chunk, _dimension: Dimension): void {
     throw new Error(`${this.identifier}.writeChunk() is not implemented!`);
+  }
+
+  /**
+   * Reads a player from the provider.
+   * @param player The player to read.
+   */
+  public readPlayer(_player: string | Player): PlayerProperties | null {
+    throw new Error(`${this.identifier}.readPlayer() is not implemented!`);
+  }
+
+  /**
+   * Writes a player to the provider.
+   * @param player The player to write.
+   * @param properties The properties to write.
+   */
+  public writePlayer(
+    _player: string | Player,
+    _properties: PlayerProperties
+  ): void {
+    throw new Error(`${this.identifier}.writePlayer() is not implemented!`);
+  }
+
+  /**
+   * Initializes the provider with the specified properties.
+   * @param serenity The serenity instance to use.
+   * @param properties The properties to use for the provider.
+   */
+  public static initialize(
+    _serenity: Serenity,
+    _properties: WorldProviderProperties
+  ): void {
+    throw new Error(`${this.identifier}.initialize() is not implemented!`);
+  }
+
+  public static create(
+    _serenity: Serenity,
+    _properties: WorldProviderProperties,
+    _worldProperties?: WorldProperties
+  ): World {
+    throw new Error(`${this.identifier}.create() is not implemented!`);
   }
 }
 
-export { WorldProvider };
+export { WorldProvider, DefaultWorldProviderProperties };

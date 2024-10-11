@@ -5,6 +5,8 @@ import {
   Worker as WorkerThread
 } from "node:worker_threads";
 
+import { DimensionType } from "@serenityjs/protocol";
+
 import { TerrainGeneratorProperties } from "../../../types";
 
 import type { TerrainWorker } from "./worker";
@@ -13,6 +15,7 @@ import type { TerrainGenerator } from "../generator";
 interface WorkerData {
   cx: number;
   cz: number;
+  type: DimensionType;
   id: string;
 }
 
@@ -39,7 +42,7 @@ function Worker(generator: typeof TerrainGenerator) {
       // Bind the message event to the worker
       parentPort?.on("message", (data: WorkerData) => {
         // Call the apply method of the worker to generate the chunk
-        const chunk = instance.apply(data.cx, data.cz);
+        const chunk = instance.apply(data.cx, data.cz, data.type);
 
         // Send the generated chunk back to the main thread
         parentPort?.postMessage({ identifier: generator.identifier, ...chunk });

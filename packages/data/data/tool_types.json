@@ -1,0 +1,62 @@
+[
+  {
+    "identifier": "axe",
+    "network": 1,
+    "types": [
+      "minecraft:wooden_axe",
+      "minecraft:stone_axe",
+      "minecraft:iron_axe",
+      "minecraft:golden_axe",
+      "minecraft:diamond_axe",
+      "minecraft:netherite_axe"
+    ]
+  },
+  {
+    "identifier": "hoe",
+    "network": 2,
+    "types": [
+      "minecraft:wooden_hoe",
+      "minecraft:stone_hoe",
+      "minecraft:iron_hoe",
+      "minecraft:golden_hoe",
+      "minecraft:diamond_hoe",
+      "minecraft:netherite_hoe"
+    ]
+  },
+  {
+    "identifier": "shovel",
+    "network": 3,
+    "types": [
+      "minecraft:wooden_shovel",
+      "minecraft:stone_shovel",
+      "minecraft:iron_shovel",
+      "minecraft:golden_shovel",
+      "minecraft:diamond_shovel",
+      "minecraft:netherite_shovel"
+    ]
+  },
+  {
+    "identifier": "sword",
+    "network": 4,
+    "types": [
+      "minecraft:wooden_sword",
+      "minecraft:stone_sword",
+      "minecraft:iron_sword",
+      "minecraft:golden_sword",
+      "minecraft:diamond_sword",
+      "minecraft:netherite_sword"
+    ]
+  },
+  {
+    "identifier": "pickaxe",
+    "network": 5,
+    "types": [
+      "minecraft:wooden_pickaxe",
+      "minecraft:stone_pickaxe",
+      "minecraft:iron_pickaxe",
+      "minecraft:golden_pickaxe",
+      "minecraft:diamond_pickaxe",
+      "minecraft:netherite_pickaxe"
+    ]
+  }
+]

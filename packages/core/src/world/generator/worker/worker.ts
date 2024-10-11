@@ -18,11 +18,6 @@ class TerrainWorker {
   public readonly properties: TerrainGeneratorProperties;
 
   /**
-   * The dimension type of the worker.
-   */
-  public readonly type: DimensionType;
-
-  /**
    * The generator for the worker.
    */
   public readonly generator: typeof TerrainGenerator;
@@ -41,9 +36,6 @@ class TerrainWorker {
     // Set the properties of the worker
     this.properties = properties;
 
-    // Set the dimension type of the worker
-    this.type = generator.type;
-
     // Set the generator of the worker
     this.generator = generator;
   }
@@ -52,8 +44,9 @@ class TerrainWorker {
    * Generates a chunk at the specified coordinates.
    * @param _cx The chunk x coordinate.
    * @param _cz  The chunk z coordinate.
+   * @param _type The dimension type of the chunk.
    */
-  public apply(_cx: number, _cz: number): Chunk {
+  public apply(_cx: number, _cz: number, _type: DimensionType): Chunk {
     throw new Error(`${this.generator.identifier}.apply() is not implemented!`);
   }
 
