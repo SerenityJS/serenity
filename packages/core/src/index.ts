@@ -5,3 +5,4 @@ export * from "./world";
 export * from "./types";
 export * from "./enums";
 export * from "./handlers";
+export * from "./entity";

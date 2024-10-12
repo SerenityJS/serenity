@@ -232,10 +232,15 @@ class Network extends Emitter<NetworkEvents> {
         const packetType = Packets[packetId];
 
         // Check if the no packet was found for the packet id.
-        if (!packetType)
-          throw Error(
+        if (!packetType) {
+          // Log a debug message if no packet was found for the packet id.
+          this.logger.debug(
             `No packet serializer/deserializer found for packet id ${packetId}.`
           );
+
+          // Skip the packet if no packet was found for the packet id.
+          continue;
+        }
 
         // Attempt to deserialize the packet from the frame.
         try {

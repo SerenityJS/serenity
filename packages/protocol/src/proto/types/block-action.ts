@@ -1,20 +1,24 @@
 import { DataType } from "@serenityjs/raknet";
 
-import { ActionIds } from "../../enums";
+import { PlayerActionType } from "../../enums";
 
 import { Vector3f } from "./vector3f";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 class BlockAction extends DataType {
-  public action!: ActionIds;
+  public action!: PlayerActionType;
 
   /**  If action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak */
   public position!: Vector3f | undefined;
   /**  If action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak */
   public face!: number | undefined;
 
-  public constructor(action: ActionIds, position?: Vector3f, face?: number) {
+  public constructor(
+    action: PlayerActionType,
+    position?: Vector3f,
+    face?: number
+  ) {
     super();
     this.action = action;
     this.position = position;
@@ -25,11 +29,11 @@ class BlockAction extends DataType {
     stream.writeZigZag(value.action);
 
     if (
-      value.action == ActionIds.StartBreak ||
-      value.action == ActionIds.AbortBreak ||
-      value.action == ActionIds.CrackBreak ||
-      value.action == ActionIds.PredictBreak ||
-      value.action == ActionIds.ContinueBreak
+      value.action == PlayerActionType.StartDestroyBlock ||
+      value.action == PlayerActionType.AbortDestroyBlock ||
+      value.action == PlayerActionType.CrackBlock ||
+      value.action == PlayerActionType.PredictDestroyBlock ||
+      value.action == PlayerActionType.ContinueDestroyBlock
     ) {
       if (value.position === undefined || value.position === null)
         throw new Error(

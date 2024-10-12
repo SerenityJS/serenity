@@ -1,5 +1,6 @@
 import { CompressionMethod } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
+import { Connection } from "@serenityjs/raknet";
 
 import { Network } from "./network";
 import { Handlers } from "./handlers";
@@ -55,6 +56,11 @@ class Serenity {
    * The logger instance for the server
    */
   public readonly logger = new Logger("Serenity", LoggerColors.Magenta);
+
+  /**
+   * The players that are currently connected to the server
+   */
+  public readonly players = new Map<Connection, Player>();
 
   /**
    * Whether the server is currently running or not
@@ -221,8 +227,41 @@ class Serenity {
     return world;
   }
 
+  public getWorld(): World;
+  public getWorld(identifier: string): World | null;
+  public getWorld(identifier?: string): World | null {
+    // Check if the identifier is not provided
+    if (!identifier) {
+      // Get the first world from the worlds map
+      return this.worlds.values().next().value ?? null;
+    }
+
+    // Get the world from the worlds map
+    return this.worlds.get(identifier) ?? null;
+  }
+
+  public getPlayerByConnection(connection: Connection): Player | null {
+    return this.players.get(connection) ?? null;
+  }
+
   public getPlayerByXuid(xuid: string): Player | null {
-    throw new Error("Method not implemented.");
+    return (
+      [...this.players.values()].find((player) => player.xuid === xuid) ?? null
+    );
+  }
+
+  public getPlayerByUsername(username: string): Player | null {
+    return (
+      [...this.players.values()].find(
+        (player) => player.username === username
+      ) ?? null
+    );
+  }
+
+  public getPlayerByUuid(uuid: string): Player | null {
+    return (
+      [...this.players.values()].find((player) => player.uuid === uuid) ?? null
+    );
   }
 }
 

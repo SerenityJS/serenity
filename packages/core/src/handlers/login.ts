@@ -5,7 +5,10 @@ import {
   LoginPacket,
   LoginTokenData,
   LoginTokens,
-  Packet
+  Packet,
+  PlayStatus,
+  PlayStatusPacket,
+  ResourcePacksInfoPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { createDecoder } from "fast-jwt";
@@ -44,40 +47,45 @@ class LoginHandler extends NetworkHandler {
 
     // Check if the player is already connected.
     // And if so, disconnect the player the player currently connected.
-    // if (this.serenity.getPlayerByXuid(xuid)) {
-    //   // Get the player to disconnect.
-    //   const player = this.serenity.getPlayerByXuid(xuid) as Player;
+    if (this.serenity.getPlayerByXuid(xuid)) {
+      // Get the player to disconnect.
+      const player = this.serenity.getPlayerByXuid(xuid) as Player;
 
-    //   // Disconnect the player.
-    //   player.disconnect(
-    //     "You have been disconnected from the server because you logged in from another location.",
-    //     DisconnectReason.LoggedInOtherLocation
-    //   );
-    // }
+      // Disconnect the player.
+      player.disconnect(
+        "You have been disconnected from the server because you logged in from another location.",
+        DisconnectReason.LoggedInOtherLocation
+      );
+    }
 
-    // // Get the default world, and check if it is undefined.
-    // // If so, then disconnect the player.
-    // const world = this.serenity.worlds.get();
-    // if (!world)
-    //   return session.disconnect(
-    //     "There are no worlds registered within the server process.",
-    //     DisconnectReason.WorldCorruption
-    //   );
+    // Get the default world, and check if it is undefined.
+    // If so, then disconnect the player.
+    const world = this.serenity.getWorld();
+    if (!world)
+      return this.network.disconnectConnection(
+        connection,
+        "There are no worlds registered within the server process.",
+        DisconnectReason.WorldCorruption
+      );
 
-    // // Get the default dimension, and check if it is undefined.
-    // // If so, then disconnect the player.
-    // const dimension = world.getDimension();
-    // if (!dimension)
-    //   return session.disconnect(
-    //     "There are no dimensions registered within the world instance.",
-    //     DisconnectReason.WorldCorruption
-    //   );
+    // Get the default dimension, and check if it is undefined.
+    // If so, then disconnect the player.
+    const dimension = world.getDimension();
+    if (!dimension)
+      return this.network.disconnectConnection(
+        connection,
+        "There are no dimensions registered within the world instance.",
+        DisconnectReason.WorldCorruption
+      );
 
     // // Get the permission level of the player.
     // const permission = this.serenity.permissions.get(xuid, username);
 
-    // // Create the options for the player
-    // const options = { session, permission, tokens };
+    // Create the properties for the player
+    const properties = { username, xuid, uuid };
+
+    // Create a new player instance.
+    const player = new Player(dimension, connection, properties);
 
     // // Create a new player instance.
     // // Since we have gotten the players login data, we can create a new player instance.
@@ -95,8 +103,8 @@ class LoginHandler extends NetworkHandler {
     //   Player.deserialize(data, player);
     // }
 
-    // // Set the players xuid and username.
-    // this.serenity.players.set(xuid, player);
+    // Set the players xuid and username.
+    this.serenity.players.set(connection, player);
 
     // // Create the player join signal and emit it.
     // const signal = new PlayerJoinSignal(player).emit();
@@ -108,18 +116,18 @@ class LoginHandler extends NetworkHandler {
     //     DisconnectReason.Kicked
     //   );
 
-    // // TODO: Enable encryption, the public key is given in the tokens
-    // // This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet
-    // // But for now, we will just send the player the login status, this will skip the encryption
-    // const login = new PlayStatusPacket();
-    // login.status = PlayStatus.LoginSuccess;
+    // TODO: Enable encryption, the public key is given in the tokens
+    // This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet
+    // But for now, we will just send the player the login status, this will skip the encryption
+    const login = new PlayStatusPacket();
+    login.status = PlayStatus.LoginSuccess;
 
-    // const packs = new ResourcePacksInfoPacket();
-    // packs.mustAccept = this.serenity.resourcePacks.mustAcceptResourcePacks;
+    const packs = new ResourcePacksInfoPacket();
+    packs.mustAccept = false; // this.serenity.resourcePacks.mustAcceptResourcePacks;
 
-    // packs.hasAddons = false;
-    // packs.hasScripts = false;
-    // packs.packs = [];
+    packs.hasAddons = false;
+    packs.hasScripts = false;
+    packs.packs = [];
     // for (const pack of this.serenity.resourcePacks.getPacks()) {
     //   const packInfo = new TexturePackInfo(
     //     pack.uuid,
@@ -136,10 +144,10 @@ class LoginHandler extends NetworkHandler {
     //   packs.packs.push(packInfo);
     // }
 
-    // packs.links = []; // TODO: CDN links (can these be provided alongside?)
+    packs.links = []; // TODO: CDN links (can these be provided alongside?)
 
-    // // Send the player the login status packet and the resource pack info packet.
-    // session.send(login, packs);
+    // Send the player the login status packet and the resource pack info packet.
+    player.send(login, packs);
   }
 
   /**
