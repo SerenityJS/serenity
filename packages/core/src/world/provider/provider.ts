@@ -1,7 +1,7 @@
-import { Player } from "../../entity";
 import { Serenity } from "../../serenity";
 import {
-  PlayerProperties,
+  EntityEntry,
+  PlayerEntry,
   WorldProperties,
   WorldProviderProperties
 } from "../../types";
@@ -71,22 +71,50 @@ class WorldProvider {
   }
 
   /**
-   * Reads a player from the provider.
-   * @param player The player to read.
+   * Gets the available entities for a specified dimension.
+   * @param dimension The dimension to get the available entities for.
    */
-  public readPlayer(_player: string | Player): PlayerProperties | null {
+  public getAvailableEntities(_dimension: Dimension): Array<bigint> {
+    throw new Error(
+      `${this.identifier}.getAvailableEntities() is not implemented!`
+    );
+  }
+
+  /**
+   * Reads an entity from the provider.
+   * @param uniqueId The unique identifier of the entity to read.
+   * @param dimension The dimension to read the entity from.
+   * @returns The entity data.
+   */
+  public readEntity(_uniqueId: bigint, _dimension: Dimension): EntityEntry {
+    throw new Error(`${this.identifier}.readEntity() is not implemented!`);
+  }
+
+  /**
+   * Writes an entity to the provider.
+   * @param entity The entity data to write.
+   * @param dimension The dimension to write the entity to.
+   */
+  public writeEntity(_entity: EntityEntry, _dimension: Dimension): void {
+    throw new Error(`${this.identifier}.writeEntity() is not implemented!`);
+  }
+
+  /**
+   * Reads a players data from the provider.
+   * @param uuid The uuid of the player to read.
+   * @param dimension The dimension to read the player from.
+   * @returns The player data if found, otherwise null.
+   */
+  public readPlayer(_uuid: string, _dimension: Dimension): PlayerEntry | null {
     throw new Error(`${this.identifier}.readPlayer() is not implemented!`);
   }
 
   /**
-   * Writes a player to the provider.
-   * @param player The player to write.
-   * @param properties The properties to write.
+   * Writes a players data to the provider.
+   * @param player The player data to write.
+   * @param dimension The dimension to write the player to.
    */
-  public writePlayer(
-    _player: string | Player,
-    _properties: PlayerProperties
-  ): void {
+  public writePlayer(_player: PlayerEntry, _dimension: Dimension): void {
     throw new Error(`${this.identifier}.writePlayer() is not implemented!`);
   }
 

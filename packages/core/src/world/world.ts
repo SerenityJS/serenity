@@ -2,6 +2,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { Serenity } from "../serenity";
 import { DimensionProperties, WorldProperties } from "../types";
+import { Entity, Player } from "../entity";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -25,6 +26,10 @@ class World {
 
   public readonly logger: Logger;
 
+  public currentTick = 0n;
+
+  public dayTime = 0;
+
   public constructor(
     serenity: Serenity,
     provider: WorldProvider,
@@ -42,6 +47,35 @@ class World {
 
     // Create a new logger for the world
     this.logger = new Logger(this.identifier, LoggerColors.GreenBright);
+  }
+
+  /**
+   * Ticks the world with a given delta tick.
+   * @param deltaTick The delta tick to tick the world with.
+   */
+  public onTick(deltaTick: number): void {
+    // Return if there are no players in the world
+    if (this.getPlayers().length === 0) return;
+
+    // Increment the current tick
+    ++this.currentTick;
+
+    // Increment the day time; day time is 24000 ticks long
+    this.dayTime = (this.dayTime + 1) % 24_000;
+
+    // Attempt to tick each dimension
+    for (const dimension of this.dimensions.values()) {
+      try {
+        // Tick the dimension with the delta tick
+        dimension.onTick(deltaTick);
+      } catch (reason) {
+        // Log that the dimension failed to tick
+        this.logger.error(
+          `Failed to tick dimension ${dimension.identifier}`,
+          reason
+        );
+      }
+    }
   }
 
   public createDimension(
@@ -104,6 +138,26 @@ class World {
 
     // Get the dimension by the identifier
     return this.dimensions.get(identifier);
+  }
+
+  /**
+   * Gets all the players in the world.
+   * @returns An array of players.
+   */
+  public getPlayers(): Array<Player> {
+    return [...this.dimensions.values()].flatMap((dimension) =>
+      dimension.getPlayers()
+    );
+  }
+
+  /**
+   * Gets all the entities in the world.
+   * @returns An array of entities.
+   */
+  public getEntities(): Array<Entity> {
+    return [...this.dimensions.values()].flatMap((dimension) =>
+      dimension.getEntities()
+    );
   }
 }
 

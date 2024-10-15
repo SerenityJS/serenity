@@ -2,14 +2,14 @@ import { ChunkCoords } from "@serenityjs/protocol";
 
 import { Serenity } from "../../serenity";
 import {
-  PlayerProperties,
+  EntityEntry,
+  PlayerEntry,
   WorldProperties,
   WorldProviderProperties
 } from "../../types";
 import { Chunk } from "../chunk";
 import { World } from "../world";
 import { Dimension } from "../dimension";
-import { Player } from "../../entity";
 
 import { WorldProvider } from "./provider";
 
@@ -22,9 +22,14 @@ class InternalProvider extends WorldProvider {
   public readonly chunks = new Map<Dimension, Map<bigint, Chunk>>();
 
   /**
-   * The player properties in the provider.
+   * The entities that exist for the world.
    */
-  public readonly players = new Map<string, PlayerProperties>();
+  public readonly entities = new Map<Dimension, Map<bigint, EntityEntry>>();
+
+  /**
+   * The players that exist for the world.
+   */
+  public readonly players = new Map<Dimension, Map<string, PlayerEntry>>();
 
   public readChunk(cx: number, cz: number, dimension: Dimension): Chunk {
     // Check if the chunks contain the dimension.
@@ -60,28 +65,79 @@ class InternalProvider extends WorldProvider {
     chunks.set(ChunkCoords.hash({ x: chunk.x, z: chunk.z }), chunk);
   }
 
-  public readPlayer(player: string | Player): PlayerProperties | null {
-    // Get the uuid of the player.
-    const uuid = typeof player === "string" ? player : player.uuid;
+  public getAvailableEntities(dimension: Dimension): Array<bigint> {
+    // Check if the entities contain the dimension.
+    if (!this.entities.has(dimension)) {
+      this.entities.set(dimension, new Map());
+    }
 
-    // Check if the players contain the player.
-    if (!this.players.has(uuid)) {
+    // Get the dimension entities.
+    const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
+
+    // Return the entity unique ids.
+    return [...entities].map(([uniqueId]) => uniqueId);
+  }
+
+  public readEntity(uniqueId: bigint, dimension: Dimension): EntityEntry {
+    // Check if the entities contain the dimension.
+    if (!this.entities.has(dimension)) {
+      this.entities.set(dimension, new Map());
+    }
+
+    // Get the dimension entities.
+    const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
+
+    // Check if the entities contain the unique id.
+    if (!entities.has(uniqueId)) {
+      throw new Error(`Entity with unique id ${uniqueId} not found!`);
+    }
+
+    // Return the entity.
+    return entities.get(uniqueId) as EntityEntry;
+  }
+
+  public writeEntity(entity: EntityEntry, dimension: Dimension): void {
+    // Check if the entities contain the dimension.
+    if (!this.entities.has(dimension)) {
+      this.entities.set(dimension, new Map());
+    }
+
+    // Get the dimension entities.
+    const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
+
+    // Set the entity.
+    entities.set(entity.uniqueId, entity);
+  }
+
+  public readPlayer(uuid: string, dimension: Dimension): PlayerEntry | null {
+    // Check if the players contain the dimension.
+    if (!this.players.has(dimension)) {
+      this.players.set(dimension, new Map());
+    }
+
+    // Get the dimension players.
+    const players = this.players.get(dimension) as Map<string, PlayerEntry>;
+
+    // Check if the players contain the uuid.
+    if (!players.has(uuid)) {
       return null;
     }
 
-    // Return the player properties.
-    return this.players.get(uuid) as PlayerProperties;
+    // Return the player.
+    return players.get(uuid) as PlayerEntry;
   }
 
-  public writePlayer(
-    player: string | Player,
-    properties: PlayerProperties
-  ): void {
-    // Get uuid of the player.
-    const uuid = typeof player === "string" ? player : player.uuid;
+  public writePlayer(player: PlayerEntry, dimension: Dimension): void {
+    // Check if the players contain the dimension.
+    if (!this.players.has(dimension)) {
+      this.players.set(dimension, new Map());
+    }
 
-    // Set the player properties.
-    this.players.set(uuid, properties);
+    // Get the dimension players.
+    const players = this.players.get(dimension) as Map<string, PlayerEntry>;
+
+    // Set the player.
+    players.set(player.uuid, player);
   }
 
   public static initialize(): void {

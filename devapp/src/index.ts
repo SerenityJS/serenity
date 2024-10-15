@@ -3,10 +3,12 @@ import {
   InternalProvider,
   VoidGenerator,
   Dimension,
-  Entity,
-  EntityIdentifier
+  Player,
+  PlayerChunkRenderingTrait,
+  EntityHasGravityTrait,
+  SuperflatGenerator
 } from "@serenityjs/core";
-import { Packet } from "@serenityjs/protocol";
+import { AbilityIndex, Packet } from "@serenityjs/protocol";
 
 const serenity = new Serenity({ port: 19142, debugLogging: true });
 
@@ -19,15 +21,22 @@ serenity.registerProvider(InternalProvider);
 const world = serenity.createWorld(InternalProvider, { identifier: "test123" });
 
 if (world) {
-  const dim = world.createDimension(VoidGenerator) as Dimension;
-
-  const entity = new Entity(dim, EntityIdentifier.Cow);
-
-  entity.components.set("test", { value: [1, 3, 4] });
+  const dim = world.createDimension(SuperflatGenerator) as Dimension;
 }
 
-// serenity.network.on("all", (data) => console.log(data.packet.getId()));
+serenity.network.after(Packet.Login, (data) => {
+  const player = serenity.getPlayerByConnection(data.connection) as Player;
 
-// serenity.network.on(Packet.PlayerAuthInput, (data) => {
-//   console.log(data.packet);
-// });
+  new PlayerChunkRenderingTrait(player);
+  new EntityHasGravityTrait(player);
+
+  player.abilities.set(AbilityIndex.MayFly, true);
+});
+
+serenity.network.after(Packet.SetLocalPlayerAsInitialized, (data) => {
+  const player = serenity.getPlayerByConnection(data.connection) as Player;
+
+  console.log(player.components);
+
+  // setInterval(() => player.updateAbilities(), 1000);
+});

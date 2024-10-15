@@ -14,7 +14,7 @@ import {
   type DataPacket,
   DisconnectMessage,
   DisconnectPacket,
-  type DisconnectReason,
+  DisconnectReason,
   Framer,
   getPacketId,
   Packet,
@@ -145,8 +145,26 @@ class Network extends Emitter<NetworkEvents> {
     // Check if the connection is in the connections map
     if (!this.connections.has(connection)) return;
 
+    // Create a dummy disconnect packet
+    const packet = new DisconnectPacket();
+    packet.reason = DisconnectReason.Disconnected;
+    packet.hideDisconnectScreen = true;
+
+    // Then we will create a dummy payload.
+    const payload = Buffer.from([
+      0xfe,
+      CompressionMethod.None,
+      ...Framer.frame(packet.serialize())
+    ]);
+
+    // Finally we will call the onEncapsulated method with the dummy payload.
+    this.onEncapsulated(connection, payload);
+
     // Remove the connection from the connections map
     this.connections.delete(connection);
+
+    // Remove the connection from the players map
+    this.serenity.players.delete(connection);
 
     // Log a debug message that a connection has been disconnected
     this.logger.debug(

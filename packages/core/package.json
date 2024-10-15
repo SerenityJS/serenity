@@ -30,6 +30,7 @@
     "@serenityjs/nbt": "workspace:^",
     "@serenityjs/protocol": "workspace:^",
     "@serenityjs/raknet": "workspace:^",
-    "fast-jwt": "^4.0.5"
+    "fast-jwt": "^4.0.5",
+    "simplex-noise": "^4.0.3"
   }
 }

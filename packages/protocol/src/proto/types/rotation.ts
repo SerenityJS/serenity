@@ -34,6 +34,16 @@ class Rotation extends DataType {
   }
 
   /**
+   * Sets the coordinates of the 3D vector.
+   * @param other The other 3D vector to set the coordinates to.
+   */
+  public set(other: Rotation): void {
+    this.yaw = other.yaw;
+    this.pitch = other.pitch;
+    this.headYaw = other.headYaw;
+  }
+
+  /**
    * Floors the coordinates of the 3D vector.
    *
    * @returns The 3D vector with the coordinates floored.

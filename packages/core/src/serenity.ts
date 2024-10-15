@@ -8,7 +8,7 @@ import {
   DefaultWorldProviderProperties,
   VoidGenerator,
   World,
-  WorldProvider
+  type WorldProvider
 } from "./world";
 import { Player } from "./entity";
 
@@ -119,7 +119,7 @@ class Serenity {
         lastTick = process.hrtime();
 
         // Calculate the delta time
-        const _deltaTick = delta * 1000;
+        const deltaTick = delta * 1000;
 
         // Calculate the server tps
         this.ticks.push(Date.now());
@@ -130,9 +130,9 @@ class Serenity {
         // // Tick the debugger
         // this.debugger.tick(deltaTick);
 
-        // // Tick all the worlds
-        // for (const world of this.worlds.getAll())
-        //   world.tick(Math.floor(deltaTick));
+        // Tick all the worlds
+        for (const world of this.worlds.values())
+          world.onTick(Math.floor(deltaTick));
       }
 
       // Schedule the next tick

@@ -39,6 +39,16 @@ class Vector3f extends DataType implements IPosition {
   }
 
   /**
+   * Sets the coordinates of the 3D vector.
+   * @param other The other 3D vector to set the coordinates to.
+   */
+  public set(other: IPosition): void {
+    this.x = other.x;
+    this.y = other.y;
+    this.z = other.z;
+  }
+
+  /**
    * Rounds the coordinates of the 3D vector to the nearest whole number.
    * @returns
    */

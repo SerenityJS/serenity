@@ -1,18 +1,20 @@
-import { Rotation, Vector3f } from "@serenityjs/protocol";
+import {
+  ActorFlag,
+  DataItem,
+  PropertySyncData,
+  Rotation,
+  SetActorDataPacket,
+  Vector3f
+} from "@serenityjs/protocol";
 
-import { Dimension } from "../world";
+import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
-import { EntityProperties } from "../types";
+import { EntityEntry, EntityProperties, JSONLikeValue } from "../types";
 import { Serenity } from "../serenity";
 
 import { EntityType } from "./identity";
 import { EntityTrait } from "./traits";
-
-type JSONValue = string | number | boolean | JSONObject | JSONArray;
-interface JSONObject {
-  [key: string]: JSONValue;
-}
-type JSONArray = Array<JSONValue>;
+import { Player } from "./player";
 
 class Entity {
   /**
@@ -60,13 +62,33 @@ class Entity {
    */
   public readonly traits = new Map<string, EntityTrait>();
 
-  public readonly components = new Map<string, JSONValue>();
+  /**
+   * The components that are attached to the entity
+   */
+  public readonly components = new Map<string, JSONLikeValue>();
+
+  /**
+   * The metadata that is attached to the entity
+   * These values are derived from the components and traits of the entity
+   */
+  public readonly metadata = new Set<DataItem>();
+
+  /**
+   * The flags that are attached to the entity
+   * These values are derived from the components and traits of the entity
+   */
+  public readonly flags = new Map<ActorFlag, boolean>();
 
   /**
    * The current dimension of the entity.
    * This should not be dynamically changed, but instead use the `teleport` method.
    */
   public dimension: Dimension;
+
+  /**
+   * Whether the entity is alive or not.
+   */
+  public isAlive = false;
 
   /**
    * Creates a new entity within a dimension.
@@ -92,6 +114,206 @@ class Entity {
     this.uniqueId = !properties?.uniqueId
       ? Entity.createUniqueId(this.type.network, this.runtimeId)
       : properties.uniqueId;
+
+    // If the entity properties contains an entry, load it
+    if (properties?.entry && !this.isPlayer()) this.load(properties.entry);
+  }
+
+  /**
+   * Checks if the entity is a player.
+   * @returns Whether or not the entity is a player.
+   */
+  public isPlayer(): this is Player {
+    return this.type.identifier === EntityIdentifier.Player;
+  }
+
+  /**
+   * Whether the entity has the specified trait.
+   * @param trait The trait to check for
+   * @returns Whether the entity has the trait
+   */
+  public hasTrait(trait: string | typeof EntityTrait): boolean {
+    return this.traits.has(
+      typeof trait === "string" ? trait : trait.identifier
+    );
+  }
+
+  /**
+   * Gets the specified trait from the entity.
+   * @param trait The trait to get from the entity
+   * @returns The trait if it exists, otherwise null
+   */
+  public getTrait<T extends typeof EntityTrait>(trait: T): InstanceType<T>;
+
+  /**
+   * Gets the specified trait from the entity.
+   * @param trait The trait to get from the entity
+   * @returns The trait if it exists, otherwise null
+   */
+  public getTrait(trait: string): EntityTrait | null;
+
+  /**
+   * Gets the specified trait from the entity.
+   * @param trait The trait to get from the entity
+   * @returns The trait if it exists, otherwise null
+   */
+  public getTrait(trait: string | typeof EntityTrait): EntityTrait | null {
+    return this.traits.get(
+      typeof trait === "string" ? trait : trait.identifier
+    ) as EntityTrait | null;
+  }
+
+  /**
+   * Removes the specified trait from the entity.
+   * @param trait The trait to remove
+   */
+  public removeTrait(trait: string | typeof EntityTrait): void {
+    this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
+  }
+
+  /**
+   * Gets the world the entity is currently in.
+   * @returns The world the entity is in
+   */
+  public getWorld(): World {
+    return this.dimension.world;
+  }
+
+  /**
+   * Spawns the entity into the dimension.
+   */
+  public spawn(): void {
+    // Add the entity to the dimension
+    this.dimension.entities.set(this.uniqueId, this);
+
+    // Set the entity as alive
+    this.isAlive = true;
+
+    // Trigger the entity onSpawn trait event
+    for (const trait of this.traits.values()) {
+      // Attempt to trigger the onSpawn trait event
+      try {
+        // Call the onSpawn trait event
+        trait.onSpawn?.();
+      } catch (reason) {
+        // Log the error to the console
+        this.serenity.logger.error(
+          `Failed to trigger onSpawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the entity
+        this.traits.delete(trait.identifier);
+      }
+    }
+
+    // Update the actor data of the entity
+    this.updateActorData();
+  }
+
+  /**
+   * Despawns the entity from the dimension.
+   */
+  public despawn(): void {
+    // Set the entity as not alive
+    this.isAlive = false;
+
+    // Remove the entity from the dimension
+    this.dimension.entities.delete(this.uniqueId);
+
+    // Trigger the entity onDespawn trait event
+    for (const trait of this.traits.values()) {
+      // Attempt to trigger the onDespawn trait event
+      try {
+        // Call the onDespawn trait event
+        trait.onDespawn?.();
+      } catch (reason) {
+        // Log the error to the console
+        this.serenity.logger.error(
+          `Failed to trigger onDespawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the entity
+        this.traits.delete(trait.identifier);
+      }
+    }
+  }
+
+  /**
+   * Updates the actor data of the entity.
+   */
+  public updateActorData(): void {
+    // Create a new SetActorDataPacket
+    const packet = new SetActorDataPacket();
+    packet.runtimeEntityId = this.runtimeId;
+    packet.tick = this.dimension.world.currentTick;
+    packet.data = [...this.metadata];
+    packet.properties = new PropertySyncData([], []);
+
+    // Iterate over the flags set on the entity
+    for (const [flag, enabled] of this.flags) packet.setFlag(flag, enabled);
+
+    // Send the packet to the dimension
+    this.dimension.broadcast(packet);
+  }
+
+  /**
+   * Saves the entity to the current provider of the world the entity is in.
+   */
+  public save(): void {
+    // Get the provider of the dimension
+    const provider = this.dimension.world.provider;
+
+    // Create the entity entry to save
+    const entry: EntityEntry = {
+      uniqueId: this.uniqueId,
+      identifier: this.type.identifier,
+      position: this.position,
+      rotation: this.rotation,
+      components: this.components,
+      traits: [...this.traits.keys()]
+    };
+
+    // Write the entity to the provider
+    provider.writeEntity(entry, this.dimension);
+  }
+
+  /**
+   * Loads the entity from the provided entity entry.
+   * @param entry The entity entry to load
+   * @param overwrite Whether to overwrite the current entity data; default is true
+   */
+  public load(entry: EntityEntry, overwrite = true): void {
+    // Check that the unique id matches the entity's unique id
+    if (entry.uniqueId !== this.uniqueId)
+      throw new Error(
+        "Failed to load entity entry as the unique id does not match the entity's unique id!"
+      );
+
+    // Check that the identifier matches the entity's identifier
+    if (entry.identifier !== this.type.identifier)
+      throw new Error(
+        "Failed to load entity entry as the identifier does not match the entity's identifier!"
+      );
+
+    // Set the entity's position and rotation
+    this.position.set(entry.position);
+    this.rotation.set(entry.rotation);
+
+    // Check if the entity should overwrite the current data
+    if (overwrite) {
+      this.components.clear();
+      this.traits.clear();
+    }
+
+    // Add the components to the entity, if it does not already exist
+    for (const [key, value] of entry.components) {
+      if (!this.components.has(key)) this.components.set(key, value);
+    }
+
+    // Add the traits to the entity, if it does not already exist
+    // TODO: Implement trait loading
   }
 
   /**

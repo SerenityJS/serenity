@@ -5,3 +5,5 @@ const MINECRAFT_VERSION = "1.21.30";
 const MINECRAFT_TICK_SPEED = 50;
 
 export { PROTOCOL_VERSION, MINECRAFT_VERSION, MINECRAFT_TICK_SPEED };
+
+export * from "./default-ability-values";

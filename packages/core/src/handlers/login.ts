@@ -15,6 +15,7 @@ import { createDecoder } from "fast-jwt";
 
 import { NetworkHandler } from "../network";
 import { Player } from "../entity";
+import { PlayerProperties } from "../types";
 
 class LoginHandler extends NetworkHandler {
   public static readonly packet = Packet.Login;
@@ -81,27 +82,23 @@ class LoginHandler extends NetworkHandler {
     // // Get the permission level of the player.
     // const permission = this.serenity.permissions.get(xuid, username);
 
+    // Read the player data from the world provider.
+    const data = world.provider.readPlayer(uuid, dimension);
+
     // Create the properties for the player
-    const properties = { username, xuid, uuid };
+    const properties: Partial<PlayerProperties> = { username, xuid, uuid };
+
+    // Check if the player data exists
+    if (data) {
+      // Set the unique id of the player
+      properties.uniqueId = data.uniqueId;
+
+      // Assign the player entry to the properties
+      properties.entry = data;
+    }
 
     // Create a new player instance.
     const player = new Player(dimension, connection, properties);
-
-    // // Create a new player instance.
-    // // Since we have gotten the players login data, we can create a new player instance.
-    // // We will also add the player to the players map.
-    // const player = world.provider.hasPlayer(uuid)
-    //   ? new Player(dimension, options, world.provider.getPlayerUniqueId(uuid))
-    //   : new Player(dimension, options);
-
-    // // Check if the player is saved in the world.
-    // if (world.provider.hasPlayer(player)) {
-    //   // Read the player data from the world.
-    //   const data = world.provider.readPlayer(player);
-
-    //   // Deserialize the data into the player instance.
-    //   Player.deserialize(data, player);
-    // }
 
     // Set the players xuid and username.
     this.serenity.players.set(connection, player);
