@@ -1,8 +1,20 @@
-import { AbilityIndex, Rotation, Vector3f } from "@serenityjs/protocol";
+import {
+  AbilityIndex,
+  ActorDataId,
+  ActorFlag,
+  Attribute,
+  AttributeName,
+  DataItem,
+  Rotation,
+  Vector3f
+} from "@serenityjs/protocol";
 
 import { JSONLikeValue } from "../json";
 
 interface WorldProviderProperties {
+  /**
+   * The path of the world provider.
+   */
   path: string;
 }
 
@@ -30,12 +42,27 @@ interface EntityEntry {
   /**
    * The components attached to the entity.
    */
-  components: Map<string, JSONLikeValue>;
+  components: Array<[string, JSONLikeValue]>;
 
   /**
    * The traits attached to the entity.
    */
   traits: Array<string>;
+
+  /**
+   * The metadata attached to the entity.
+   */
+  metadata: Array<[ActorDataId, DataItem]>;
+
+  /**
+   * The flags attached to the entity.
+   */
+  flags: Array<[ActorFlag, boolean]>;
+
+  /**
+   * The attributes attached to the entity.
+   */
+  attributes: Array<[AttributeName, Attribute]>;
 }
 
 interface PlayerEntry extends EntityEntry {
@@ -57,7 +84,7 @@ interface PlayerEntry extends EntityEntry {
   /**
    * The abilities of the player.
    */
-  abilities: Map<AbilityIndex, boolean>;
+  abilities: Array<[AbilityIndex, boolean]>;
 }
 
 export { WorldProviderProperties, EntityEntry, PlayerEntry };

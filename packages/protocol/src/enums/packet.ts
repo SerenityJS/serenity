@@ -78,6 +78,7 @@ enum Packet {
   RemoveObjective = 0x6a, // 106
   SetDisplayObjective = 0x6b, // 107
   SetScore = 0x6c, // 108
+  MoveActorDelta = 0x6f, // 111
   SetScoreboardIdentity = 0x70, // 112
   SetLocalPlayerAsInitialized = 0x71, // 113
   NetworkStackLatency = 0x73, // 115

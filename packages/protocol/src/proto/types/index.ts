@@ -120,3 +120,4 @@ export * from "./signed-block-position";
 export * from "./player-block-actions";
 export * from "./player-block-action-data";
 export * from "./player-input-tick";
+export * from "./rotation-byte";

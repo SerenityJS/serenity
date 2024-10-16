@@ -117,6 +117,7 @@ import { ServerboundDiagnosticsPacket } from "./serverbound-diagnostics";
 import { PlaySoundPacket } from "./play-sound";
 import { SetActorLinkPacket } from "./set-actor-link";
 import { StopSoundPacket } from "./stop-sound";
+import { MoveActorDeltaPacket } from "./move-actor-delta";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -193,6 +194,7 @@ const Packets = {
   [Packet.RemoveObjective]: RemoveObjectivePacket, // 106
   [Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
   [Packet.SetScore]: SetScorePacket, // 108
+  [Packet.MoveActorDelta]: MoveActorDeltaPacket, // 111
   [Packet.SetScoreboardIdentity]: SetScoreboardIdentityPacket, // 112
   [Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
   [Packet.NetworkStackLatency]: NetworkStackLatencyPacket, // 115

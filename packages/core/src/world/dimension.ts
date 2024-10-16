@@ -1,7 +1,13 @@
-import { DataPacket, DimensionType } from "@serenityjs/protocol";
+import {
+  BlockPosition,
+  DataPacket,
+  DimensionType,
+  IPosition
+} from "@serenityjs/protocol";
 
 import { DimensionProperties } from "../types";
 import { Entity, Player } from "../entity";
+import { Block, BlockPermutation } from "../block";
 
 import { World } from "./world";
 import { TerrainGenerator } from "./generator";
@@ -24,6 +30,8 @@ class Dimension {
   public readonly generator: TerrainGenerator;
 
   public readonly entities = new Map<bigint, Entity>();
+
+  public readonly blocks = new Map<bigint, Block>();
 
   public viewDistance: number = 16;
 
@@ -109,6 +117,67 @@ class Dimension {
   }
 
   /**
+   * Gets a block from the dimension.
+   * @param position The position of the block.
+   * @returns The block at the specified position.
+   */
+  public getBlock(position: IPosition): Block {
+    // Convert the position to a block position
+    const blockPosition = position as BlockPosition;
+
+    // Calculate the block hash using the position
+    const hash = BlockPosition.hash(blockPosition);
+
+    // Get the block from the block cache
+    const block = this.blocks.get(hash);
+
+    // Return the block if it exists
+    if (block) return block;
+    else {
+      // Convert the block position to a chunk position
+      const cx = blockPosition.x >> 4;
+      const cz = blockPosition.z >> 4;
+
+      // Get the current chunk the block will be in
+      const chunk = this.getChunk(cx, cz);
+
+      // Get the permutation from the chunk
+      const permutation = chunk.getPermutation(blockPosition);
+
+      // Create a new block with the dimension, position, and permutation
+      const block = new Block(this, blockPosition, permutation);
+
+      // If the block has components or traits, we will cache the block
+      if (block.components.size > 0 || block.traits.size > 0)
+        this.blocks.set(hash, block);
+
+      // Return the block
+      return block;
+    }
+  }
+
+  /**
+   * Get the permutation of a block at a given position.
+   * This method won't construct a block instance.
+   * @param position The position of the block.
+   * @returns The block permutation at the specified position.
+   */
+  public getPermutation(position: IPosition): BlockPermutation {
+    // Convert the position to a block position
+    const blockPosition = position as BlockPosition;
+
+    // Convert the block position to a chunk position
+    const cx = blockPosition.x >> 4;
+    const cz = blockPosition.z >> 4;
+
+    // Get the chunk of the provided position
+    const chunk = this.getChunk(cx, cz);
+
+    // Get the permutation from the chunk
+    return chunk.getPermutation({ x: cx, y: blockPosition.y, z: cz });
+  }
+
+  /**
    * Gets all the players in the dimension.
    * @returns An array of players.
    */
@@ -130,6 +199,17 @@ class Dimension {
    */
   public broadcast(...packets: Array<DataPacket>): void {
     for (const player of this.getPlayers()) player.send(...packets);
+  }
+
+  /**
+   * Broadcast packets to all the players in the dimension except the specified player.
+   * @param player The player to exclude from the broadcast.
+   * @param packets The packets to broadcast.
+   */
+  public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
+    // Check if the entity is a player and is not the player to exclude
+    for (const entity of this.entities.values())
+      if (entity.isPlayer() && entity !== player) entity.send(...packets);
   }
 }
 

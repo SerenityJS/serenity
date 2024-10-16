@@ -14,7 +14,7 @@ import { DataPacket } from "./data-packet";
 class UpdateAbilitiesPacket extends DataPacket {
   @Serialize(Int64, Endianness.Little) public entityUniqueId!: bigint;
   @Serialize(Uint8) public permissionLevel!: PermissionLevel;
-  @Serialize(Uint8) public commandPersmissionLevel!: CommandPermissionLevel;
+  @Serialize(Uint8) public commandPermissionLevel!: CommandPermissionLevel;
   @Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
 }
 

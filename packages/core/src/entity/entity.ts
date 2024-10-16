@@ -1,20 +1,15 @@
-import {
-  ActorFlag,
-  DataItem,
-  PropertySyncData,
-  Rotation,
-  SetActorDataPacket,
-  Vector3f
-} from "@serenityjs/protocol";
+import { Rotation, Vector3f } from "@serenityjs/protocol";
 
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { EntityEntry, EntityProperties, JSONLikeValue } from "../types";
 import { Serenity } from "../serenity";
+import { Chunk } from "../world/chunk";
 
 import { EntityType } from "./identity";
 import { EntityTrait } from "./traits";
 import { Player } from "./player";
+import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
 
 class Entity {
   /**
@@ -71,13 +66,19 @@ class Entity {
    * The metadata that is attached to the entity
    * These values are derived from the components and traits of the entity
    */
-  public readonly metadata = new Set<DataItem>();
+  public readonly metadata = new MetadataMap(this);
 
   /**
    * The flags that are attached to the entity
    * These values are derived from the components and traits of the entity
    */
-  public readonly flags = new Map<ActorFlag, boolean>();
+  public readonly flags = new ActorFlagMap(this);
+
+  /**
+   * The attributes that are attached to the entity
+   * These values are derived from the components and traits of the entity
+   */
+  public readonly attributes = new AttributeMap(this);
 
   /**
    * The current dimension of the entity.
@@ -89,6 +90,11 @@ class Entity {
    * Whether the entity is alive or not.
    */
   public isAlive = false;
+
+  /**
+   * Whether the entity is on the ground or not.
+   */
+  public onGround = false;
 
   /**
    * Creates a new entity within a dimension.
@@ -115,8 +121,19 @@ class Entity {
       ? Entity.createUniqueId(this.type.network, this.runtimeId)
       : properties.uniqueId;
 
-    // If the entity properties contains an entry, load it
-    if (properties?.entry && !this.isPlayer()) this.load(properties.entry);
+    // If the entity is not a player
+    if (!this.isPlayer()) {
+      // If the entity properties contains an entry, load it
+      if (properties?.entry) this.load(properties.entry);
+
+      // Get the traits for the entity
+      const traits = dimension.world.entityPalette.getRegistryFor(
+        this.type.identifier
+      );
+
+      // Register the traits to the entity
+      for (const trait of traits) this.addTrait(trait);
+    }
   }
 
   /**
@@ -172,11 +189,52 @@ class Entity {
   }
 
   /**
+   * Adds a trait to the entity.
+   * @param trait The trait to add
+   * @returns The trait that was added
+   */
+  public addTrait(trait: typeof EntityTrait): void {
+    // Check if the trait already exists
+    if (this.traits.has(trait.identifier)) return;
+
+    // Check if the trait is in the palette
+    if (!this.getWorld().entityPalette.traits.has(trait.identifier))
+      this.getWorld().logger.warn(
+        `Trait "§c${trait.identifier}§r" was added to entity "§d${this.type.identifier}§r:§d${this.uniqueId}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
+      );
+
+    // Attempt to add the trait to the entity
+    try {
+      // Create a new instance of the trait
+      new trait(this);
+    } catch (reason) {
+      // Log the error to the console
+      this.serenity.logger.error(
+        `Failed to add trait "${trait.identifier}" to entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+        reason
+      );
+    }
+  }
+
+  /**
    * Gets the world the entity is currently in.
    * @returns The world the entity is in
    */
   public getWorld(): World {
     return this.dimension.world;
+  }
+
+  /**
+   * Gets the chunk the entity is currently in.
+   * @returns The chunk the entity is in
+   */
+  public getChunk(): Chunk {
+    // Convert the position to a chunk position
+    const cx = this.position.x >> 4;
+    const cz = this.position.z >> 4;
+
+    // Get the chunk from the dimension
+    return this.dimension.getChunk(cx, cz);
   }
 
   /**
@@ -207,8 +265,9 @@ class Entity {
       }
     }
 
-    // Update the actor data of the entity
-    this.updateActorData();
+    // Update the entity actor data & attributes
+    this.metadata.update();
+    this.attributes.update();
   }
 
   /**
@@ -241,24 +300,6 @@ class Entity {
   }
 
   /**
-   * Updates the actor data of the entity.
-   */
-  public updateActorData(): void {
-    // Create a new SetActorDataPacket
-    const packet = new SetActorDataPacket();
-    packet.runtimeEntityId = this.runtimeId;
-    packet.tick = this.dimension.world.currentTick;
-    packet.data = [...this.metadata];
-    packet.properties = new PropertySyncData([], []);
-
-    // Iterate over the flags set on the entity
-    for (const [flag, enabled] of this.flags) packet.setFlag(flag, enabled);
-
-    // Send the packet to the dimension
-    this.dimension.broadcast(packet);
-  }
-
-  /**
    * Saves the entity to the current provider of the world the entity is in.
    */
   public save(): void {
@@ -271,8 +312,11 @@ class Entity {
       identifier: this.type.identifier,
       position: this.position,
       rotation: this.rotation,
-      components: this.components,
-      traits: [...this.traits.keys()]
+      components: [...this.components.entries()],
+      traits: [...this.traits.keys()],
+      metadata: [...this.metadata.entries()],
+      flags: [...this.flags.entries()],
+      attributes: [...this.attributes.entries()]
     };
 
     // Write the entity to the provider
@@ -313,7 +357,37 @@ class Entity {
     }
 
     // Add the traits to the entity, if it does not already exist
-    // TODO: Implement trait loading
+    for (const trait of entry.traits) {
+      // Check if the palette has the trait
+      const traitType = this.dimension.world.entityPalette.traits.get(trait);
+
+      // Check if the trait exists in the palette
+      if (!traitType) {
+        this.serenity.logger.error(
+          `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}" as it does not exist in the palette`
+        );
+
+        continue;
+      }
+
+      // Attempt to add the trait to the entity
+      this.addTrait(traitType);
+    }
+
+    // Add the metadata to the entity, if it does not already exist
+    for (const [key, value] of entry.metadata) {
+      if (!this.metadata.has(key)) this.metadata.set(key, value);
+    }
+
+    // Add the flags to the entity, if it does not already exist
+    for (const [key, value] of entry.flags) {
+      if (!this.flags.has(key)) this.flags.set(key, value);
+    }
+
+    // Add the attributes to the entity, if it does not already exist
+    for (const [key, value] of entry.attributes) {
+      if (!this.attributes.has(key)) this.attributes.set(key, value);
+    }
   }
 
   /**

@@ -115,7 +115,8 @@ import type {
   PlaySoundPacket,
   SetActorLinkPacket,
   StopSoundPacket,
-  DataPacket
+  DataPacket,
+  MoveActorDeltaPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -222,6 +223,7 @@ interface NetworkEvents {
   [Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];
   [Packet.SetDisplayObjective]: [NetworkPacketEvent<SetDisplayObjectivePacket>];
   [Packet.SetScore]: [NetworkPacketEvent<SetScorePacket>];
+  [Packet.MoveActorDelta]: [NetworkPacketEvent<MoveActorDeltaPacket>];
   [Packet.SetScoreboardIdentity]: [
     NetworkPacketEvent<SetScoreboardIdentityPacket>
   ];

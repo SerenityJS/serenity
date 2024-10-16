@@ -56,6 +56,7 @@ export * from "./modal-form-response";
 export * from "./remove-objective";
 export * from "./set-display-objective";
 export * from "./set-score";
+export * from "./move-actor-delta";
 export * from "./set-scoreboard-identity";
 export * from "./network-stack-latency";
 export * from "./spawn-particle-effect";

@@ -1,12 +1,13 @@
 import {
   Serenity,
   InternalProvider,
-  VoidGenerator,
   Dimension,
   Player,
-  PlayerChunkRenderingTrait,
-  EntityHasGravityTrait,
-  SuperflatGenerator
+  SuperflatGenerator,
+  PlayerTrait,
+  BlockPermutation,
+  BlockIdentifier,
+  EntityNameTagTrait
 } from "@serenityjs/core";
 import { AbilityIndex, Packet } from "@serenityjs/protocol";
 
@@ -27,16 +28,55 @@ if (world) {
 serenity.network.after(Packet.Login, (data) => {
   const player = serenity.getPlayerByConnection(data.connection) as Player;
 
-  new PlayerChunkRenderingTrait(player);
-  new EntityHasGravityTrait(player);
-
-  player.abilities.set(AbilityIndex.MayFly, true);
+  // player.abilities.set(AbilityIndex.MayFly, true);
 });
 
-serenity.network.after(Packet.SetLocalPlayerAsInitialized, (data) => {
+serenity.network.before(Packet.SetLocalPlayerAsInitialized, (data) => {
   const player = serenity.getPlayerByConnection(data.connection) as Player;
 
-  console.log(player.components);
+  player.addTrait(CustomTrait);
 
-  // setInterval(() => player.updateAbilities(), 1000);
+  return true;
 });
+
+serenity.network.before(Packet.Text, (data) => {
+  const player = serenity.getPlayerByConnection(data.connection) as Player;
+
+  const trait = player.getTrait(EntityNameTagTrait);
+
+  switch (data.packet.message) {
+    case "on":
+      trait.setVisibility(true);
+      break;
+
+    case "off":
+      trait.setVisibility(false);
+      break;
+
+    case "set":
+      trait.setNameTag(data.packet.message.replace("set ", ""));
+      break;
+  }
+
+  console.log(trait.getNameTag());
+  console.log(trait.getVisibility());
+
+  return true;
+});
+
+serenity.network.on(Packet.PacketViolationWarning, (data) => {
+  console.log(data.packet);
+});
+
+class CustomTrait extends PlayerTrait {
+  public static readonly identifier = "custom_trait";
+
+  public onTick(): void {
+    const position = this.player.position.floor();
+    const block = this.player.dimension.getBlock({ ...position, y: -60 });
+
+    block.setPermutation(
+      BlockPermutation.resolve(BlockIdentifier.DiamondBlock)
+    );
+  }
+}

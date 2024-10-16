@@ -2,7 +2,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { Serenity } from "../serenity";
 import { DimensionProperties, WorldProperties } from "../types";
-import { Entity, Player } from "../entity";
+import { Entity, EntityPalette, Player } from "../entity";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -25,6 +25,8 @@ class World {
   public readonly dimensions = new Map<string, Dimension>();
 
   public readonly logger: Logger;
+
+  public readonly entityPalette = new EntityPalette();
 
   public currentTick = 0n;
 
@@ -78,6 +80,12 @@ class World {
     }
   }
 
+  /**
+   * Creates a new dimension with the specified generator and properties.
+   * @param generator The generator to use for the dimension
+   * @param properties The properties to use for the dimension
+   * @returns The created dimension, if successful; otherwise, false
+   */
   public createDimension(
     generator: typeof TerrainGenerator,
     properties?: Partial<DimensionProperties>

@@ -1,16 +1,11 @@
 import { Connection } from "@serenityjs/raknet";
 import {
   AbilityIndex,
-  AbilityLayerType,
-  AbilitySet,
-  CommandPermissionLevel,
   DataPacket,
   DefaultAbilityValues,
   DisconnectMessage,
   DisconnectPacket,
-  DisconnectReason,
-  PermissionLevel,
-  UpdateAbilitiesPacket
+  DisconnectReason
 } from "@serenityjs/protocol";
 
 import { PlayerEntry, PlayerProperties } from "../types";
@@ -18,6 +13,7 @@ import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
 
 import { Entity } from "./entity";
+import { AbilityMap } from "./maps";
 
 const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
@@ -51,7 +47,7 @@ class Player extends Entity {
   /**
    * The current abilities of the player, and whether they are enabled
    */
-  public readonly abilities = new Map<AbilityIndex, boolean>();
+  public readonly abilities = new AbilityMap(this);
 
   public constructor(
     dimension: Dimension,
@@ -71,8 +67,16 @@ class Player extends Entity {
     this.xuid = props.xuid;
     this.uuid = props.uuid;
 
-    // If the entity properties contains an entry, load it
+    // If the player properties contains an entry, load it
     if (properties?.entry) this.load(properties.entry);
+
+    // Get the traits for the player
+    const traits = dimension.world.entityPalette.getRegistryFor(
+      this.type.identifier
+    );
+
+    // Register the traits to the player
+    for (const trait of traits) this.addTrait(trait);
 
     // Add the default abilities to the player, if they do not already exist
     for (const [ability, value] of Object.entries(DefaultAbilityValues)) {
@@ -128,31 +132,7 @@ class Player extends Entity {
     super.spawn();
 
     // Update the abilities of the player
-    this.updateAbilities();
-  }
-
-  /**
-   * Update the abilities of the player
-   */
-  public updateAbilities(): void {
-    // Create a new UpdateAbilitiesPacket
-    const packet = new UpdateAbilitiesPacket();
-    packet.permissionLevel = PermissionLevel.Operator; // this.permission;
-    packet.commandPersmissionLevel = CommandPermissionLevel.Operator; // this.permission === 2 ? 1 : 0;
-    packet.entityUniqueId = this.uniqueId;
-    packet.abilities = [
-      {
-        type: AbilityLayerType.Base,
-        abilities: [...this.abilities.entries()].map(
-          ([ability, value]) => new AbilitySet(ability, value)
-        ),
-        walkSpeed: 0.1,
-        flySpeed: 0.05
-      }
-    ];
-
-    // Send the packet to the player
-    this.dimension.broadcast(packet);
+    this.abilities.update();
   }
 
   /**
@@ -171,9 +151,12 @@ class Player extends Entity {
       identifier: this.type.identifier,
       position: this.position,
       rotation: this.rotation,
-      components: this.components,
+      components: [...this.components.entries()],
       traits: [...this.traits.keys()],
-      abilities: this.abilities
+      metadata: [...this.metadata.entries()],
+      flags: [...this.flags.entries()],
+      attributes: [...this.attributes.entries()],
+      abilities: [...this.abilities.entries()]
     };
 
     // Write the player to the provider
@@ -233,7 +216,39 @@ class Player extends Entity {
     }
 
     // Add the traits to the player, if it does not already exist
-    // TODO: Implement trait loading
+    // Add the traits to the entity, if it does not already exist
+    for (const trait of entry.traits) {
+      // Check if the palette has the trait
+      const traitType = this.dimension.world.entityPalette.traits.get(trait);
+
+      // Check if the trait exists in the palette
+      if (!traitType) {
+        this.serenity.logger.error(
+          `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}" as it does not exist in the palette`
+        );
+
+        continue;
+      }
+
+      // Attempt to add the trait to the entity
+      this.addTrait(traitType);
+    }
+
+    // Add the metadata to the player, if it does not already exist
+    for (const [key, value] of entry.metadata) {
+      if (!this.metadata.has(key)) this.metadata.set(key, value);
+    }
+
+    // Add the flags to the player, if it does not already exist
+    for (const [flag, value] of entry.flags) {
+      if (!this.flags.has(flag)) this.flags.set(flag, value);
+    }
+
+    // Add the attributes to the player, if it does not already exist
+    for (const [attribute, value] of entry.attributes) {
+      if (!this.attributes.has(attribute))
+        this.attributes.set(attribute, value);
+    }
 
     // Add the abilities to the player, if it does not already exist
     for (const [ability, value] of entry.abilities) {
