@@ -8,7 +8,8 @@ import {
   Packet,
   PlayStatus,
   PlayStatusPacket,
-  ResourcePacksInfoPacket
+  ResourcePacksInfoPacket,
+  SerializedSkin
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { createDecoder } from "fast-jwt";
@@ -85,8 +86,16 @@ class LoginHandler extends NetworkHandler {
     // Read the player data from the world provider.
     const data = world.provider.readPlayer(uuid, dimension);
 
+    // Get the skin from the client data.
+    const skin = SerializedSkin.from(tokens.clientData);
+
     // Create the properties for the player
-    const properties: Partial<PlayerProperties> = { username, xuid, uuid };
+    const properties: Partial<PlayerProperties> = {
+      username,
+      xuid,
+      uuid,
+      skin
+    };
 
     // Check if the player data exists
     if (data) {

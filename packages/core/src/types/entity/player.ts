@@ -1,4 +1,4 @@
-import { PermissionLevel } from "@serenityjs/protocol";
+import { PermissionLevel, SerializedSkin } from "@serenityjs/protocol";
 
 import { PlayerEntry } from "../world";
 
@@ -9,6 +9,7 @@ interface PlayerProperties extends EntityProperties {
   xuid: string;
   uuid: string;
   permission: PermissionLevel;
+  skin: SerializedSkin;
   entry?: PlayerEntry;
 }
 

@@ -7,9 +7,10 @@ import {
   PlayerTrait,
   BlockPermutation,
   BlockIdentifier,
-  EntityNameTagTrait
+  EntityNameTagTrait,
+  World
 } from "@serenityjs/core";
-import { AbilityIndex, Packet } from "@serenityjs/protocol";
+import { Packet } from "@serenityjs/protocol";
 
 const serenity = new Serenity({ port: 19142, debugLogging: true });
 
@@ -19,11 +20,11 @@ serenity.start();
 
 serenity.registerProvider(InternalProvider);
 
-const world = serenity.createWorld(InternalProvider, { identifier: "test123" });
+const world = serenity.createWorld(InternalProvider, {
+  identifier: "test123"
+}) as World;
 
-if (world) {
-  const dim = world.createDimension(SuperflatGenerator) as Dimension;
-}
+const _overworld = world.createDimension(SuperflatGenerator) as Dimension;
 
 serenity.network.after(Packet.Login, (data) => {
   const player = serenity.getPlayerByConnection(data.connection) as Player;

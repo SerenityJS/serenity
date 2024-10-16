@@ -5,7 +5,8 @@ import {
   DefaultAbilityValues,
   DisconnectMessage,
   DisconnectPacket,
-  DisconnectReason
+  DisconnectReason,
+  SerializedSkin
 } from "@serenityjs/protocol";
 
 import { PlayerEntry, PlayerProperties } from "../types";
@@ -20,7 +21,8 @@ const DefaultPlayerProperties: PlayerProperties = {
   xuid: "0000000000000000",
   uuid: "00000000-0000-0000-0000-000000000000",
   permission: 0,
-  uniqueId: 0n
+  uniqueId: 0n,
+  skin: SerializedSkin.empty()
 };
 
 class Player extends Entity {
@@ -49,6 +51,11 @@ class Player extends Entity {
    */
   public readonly abilities = new AbilityMap(this);
 
+  /**
+   * The skin of the player
+   */
+  public readonly skin: SerializedSkin;
+
   public constructor(
     dimension: Dimension,
     connection: Connection,
@@ -66,6 +73,7 @@ class Player extends Entity {
     this.username = props.username;
     this.xuid = props.xuid;
     this.uuid = props.uuid;
+    this.skin = props.skin;
 
     // If the player properties contains an entry, load it
     if (properties?.entry) this.load(properties.entry);

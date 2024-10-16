@@ -370,6 +370,35 @@ class SerializedSkin extends DataType {
       overridingPlayerAppearance: data.OverrideSkin
     };
   }
+
+  /**
+   * Returns an empty serialized skin.
+   * @returns An empty serialized skin.
+   */
+  public static empty(): SerializedSkin {
+    return new SerializedSkin(
+      "",
+      "",
+      "",
+      new SkinImage(0, 0, Buffer.alloc(0)),
+      [],
+      new SkinImage(0, 0, Buffer.alloc(0)),
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      [],
+      [],
+      false,
+      false,
+      false,
+      false,
+      false
+    );
+  }
 }
 
 export { SerializedSkin };
