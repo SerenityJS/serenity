@@ -10,6 +10,8 @@ import {
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
+import { EntityInventoryTrait } from "../inventory";
+import { ItemStack } from "../../../item";
 
 import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
@@ -65,10 +67,10 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         const packet = new AddPlayerPacket();
 
         // Get the players inventory
-        // const inventory = entity.getComponent("minecraft:inventory");
+        const inventory = entity.getTrait(EntityInventoryTrait);
 
         // Get the players held item
-        // const heldItem = inventory.getHeldItem();
+        const heldItem = inventory.getHeldItem();
 
         // Set the packet properties
         packet.uuid = entity.uuid;
@@ -80,10 +82,10 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.pitch = entity.rotation.pitch;
         packet.yaw = entity.rotation.yaw;
         packet.headYaw = entity.rotation.headYaw;
-        packet.heldItem = new NetworkItemStackDescriptor(0);
-        // heldItem === null
-        //   ? new NetworkItemStackDescriptor(0)
-        //   : ItemStack.toNetworkStack(heldItem);
+        packet.heldItem =
+          heldItem === null
+            ? new NetworkItemStackDescriptor(0)
+            : ItemStack.toNetworkStack(heldItem);
         packet.gamemode = 0;
         packet.data = [...entity.metadata.values()];
         packet.properties = new PropertySyncData([], []);

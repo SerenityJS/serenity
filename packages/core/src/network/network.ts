@@ -86,7 +86,12 @@ class Network extends Emitter<NetworkEvents> {
     this.properties = serenity.properties;
 
     // Create a new raknet server for the network handler
-    this.raknet = new Server(this.properties.address, this.properties.port);
+    this.raknet = new Server(
+      this.properties.address,
+      this.properties.port,
+      1000,
+      400
+    );
 
     // Bind the incoming packets to the incoming method
     this.raknet.on("encapsulated", this.onEncapsulated.bind(this));

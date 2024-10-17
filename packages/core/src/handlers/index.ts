@@ -1,6 +1,7 @@
 import { ContainerCloseHandler } from "./container-close";
 import { DisconnectHandler } from "./disconnect";
 import { LoginHandler } from "./login";
+import { MobEquipmentHandler } from "./mob-equipment";
 import { PlayerAuthInputHandler } from "./player-auth-input";
 import { RequestNetworkSettingsHandler } from "./request-network-settings";
 import { ResourcePackClientResponseHandler } from "./resource-pack-response";
@@ -13,7 +14,8 @@ const Handlers = [
   PlayerAuthInputHandler,
   SetLocalPlayerAsInitializedHandler,
   DisconnectHandler,
-  ContainerCloseHandler
+  ContainerCloseHandler,
+  MobEquipmentHandler
 ];
 
 export { Handlers };
