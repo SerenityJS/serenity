@@ -12,6 +12,7 @@ import {
 import { PlayerEntry, PlayerProperties } from "../types";
 import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
+import { Container } from "../container";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
@@ -55,6 +56,11 @@ class Player extends Entity {
    * The skin of the player
    */
   public readonly skin: SerializedSkin;
+
+  /**
+   * The container that the player is currently viewing.
+   */
+  public openedContainer: Container | null = null;
 
   public constructor(
     dimension: Dimension,

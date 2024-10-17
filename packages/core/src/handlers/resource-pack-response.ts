@@ -1,5 +1,6 @@
 import {
   BlockPosition,
+  CreativeContentPacket,
   Difficulty,
   MINECRAFT_VERSION,
   Packet,
@@ -13,6 +14,7 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
+import { CreativeItem } from "../item";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
@@ -354,7 +356,24 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        player.send(packet, status);
+        // TODO: Fetch creative content from the worlds palette
+        const content = new CreativeContentPacket();
+        content.items = [...CreativeItem.items.values()].map((item) => {
+          return {
+            network: item.type.network,
+            metadata: item.metadata,
+            stackSize: 1,
+            networkBlockId:
+              item.type.block?.permutations[item.metadata]?.network ?? 0,
+            extras: {
+              canDestroy: [],
+              canPlaceOn: [],
+              nbt: item.nbt
+            }
+          };
+        });
+
+        player.send(packet, status, content);
       }
     }
   }

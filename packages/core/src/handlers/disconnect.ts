@@ -11,11 +11,11 @@ class DisconnectHandler extends NetworkHandler {
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
-    // Save the player data
-    player.save();
-
     // Despawn the player
     player.despawn();
+
+    // Save the player data
+    player.save();
   }
 }
 

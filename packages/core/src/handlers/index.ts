@@ -1,3 +1,4 @@
+import { ContainerCloseHandler } from "./container-close";
 import { DisconnectHandler } from "./disconnect";
 import { LoginHandler } from "./login";
 import { PlayerAuthInputHandler } from "./player-auth-input";
@@ -11,7 +12,8 @@ const Handlers = [
   ResourcePackClientResponseHandler,
   PlayerAuthInputHandler,
   SetLocalPlayerAsInitializedHandler,
-  DisconnectHandler
+  DisconnectHandler,
+  ContainerCloseHandler
 ];
 
 export { Handlers };

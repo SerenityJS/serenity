@@ -6,6 +6,7 @@ export * from "./player";
 export * from "./traits";
 export * from "./maps";
 export * from "./palette";
+export * from "./container";
 
 /**
  * A list of all entity traits

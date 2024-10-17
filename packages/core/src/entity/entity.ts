@@ -113,7 +113,7 @@ class Entity {
     // Assign the dimension and type to the entity
     this.dimension = dimension;
     this.type =
-      type instanceof EntityType ? type : (EntityType.get(type) as EntityType);
+      type instanceof EntityType ? type : (EntityType.get(type) as EntityType); // TODO: Fix this, fetch from the palette
 
     // Assign the properties to the entity
     // If a provided unique id is not given, generate one

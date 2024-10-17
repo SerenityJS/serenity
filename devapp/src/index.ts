@@ -8,9 +8,18 @@ import {
   BlockPermutation,
   BlockIdentifier,
   EntityNameTagTrait,
-  World
+  World,
+  EntityContainer,
+  ItemStack,
+  ItemIdentifier,
+  EntityInventoryTrait
 } from "@serenityjs/core";
-import { Packet } from "@serenityjs/protocol";
+import {
+  ContainerId,
+  ContainerType,
+  InteractActions,
+  Packet
+} from "@serenityjs/protocol";
 
 const serenity = new Serenity({ port: 19142, debugLogging: true });
 
@@ -81,3 +90,23 @@ class CustomTrait extends PlayerTrait {
     );
   }
 }
+
+serenity.network.on(Packet.Interact, (data) => {
+  if (data.packet.action !== InteractActions.OpenInventory) return;
+
+  const player = serenity.getPlayerByConnection(data.connection) as Player;
+
+  const inventory = player.getTrait(EntityInventoryTrait);
+
+  inventory.container.show(player);
+});
+
+serenity.network.on(Packet.CommandRequest, (data) => {
+  const player = serenity.getPlayerByConnection(data.connection) as Player;
+
+  const inventory = player.getTrait(EntityInventoryTrait);
+
+  const item = new ItemStack(ItemIdentifier.DiamondSword);
+
+  inventory.container.addItem(item);
+});
