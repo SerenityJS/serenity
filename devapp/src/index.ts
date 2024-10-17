@@ -9,17 +9,11 @@ import {
   BlockIdentifier,
   EntityNameTagTrait,
   World,
-  EntityContainer,
   ItemStack,
   ItemIdentifier,
   EntityInventoryTrait
 } from "@serenityjs/core";
-import {
-  ContainerId,
-  ContainerType,
-  InteractActions,
-  Packet
-} from "@serenityjs/protocol";
+import { InteractActions, Packet } from "@serenityjs/protocol";
 
 const serenity = new Serenity({ port: 19142, debugLogging: true });
 

@@ -1,6 +1,7 @@
 import { DataType } from "@serenityjs/raknet";
 
-import type { InputData } from "../../enums";
+import { InputData } from "../../enums";
+
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 export class PlayerAuthInputData extends DataType {
@@ -46,6 +47,32 @@ export class PlayerAuthInputData extends DataType {
 
     // Return whether the flag is set.
     return (this.flags & flagBit) !== 0n;
+  }
+
+  /**
+   * Gets all the flags of the input data.
+   * @returns An array of flags.
+   */
+  public getFlags(): Array<InputData> {
+    // Prepare an array to store the flags.
+    const flags: Array<InputData> = [];
+
+    // Get the values of the input data.q
+    const inputDataValues = Object.values(InputData).filter(
+      (value) => typeof value === "number"
+    );
+
+    // Iterate over the values of the input data.
+    for (const value of inputDataValues) {
+      // Check if the input data has the flag.
+      if (this.hasFlag(value as InputData)) {
+        // Add the flag to the array.
+        flags.push(value as InputData);
+      }
+    }
+
+    // Return the array of flags.
+    return flags;
   }
 
   public static write(stream: BinaryStream, value: PlayerAuthInputData): void {
