@@ -1,13 +1,14 @@
-import { Rotation, Vector3f } from "@serenityjs/protocol";
+import { ContainerName, Rotation, Vector3f } from "@serenityjs/protocol";
 
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { EntityEntry, EntityProperties, JSONLikeValue } from "../types";
 import { Serenity } from "../serenity";
 import { Chunk } from "../world/chunk";
+import { Container } from "../container";
 
 import { EntityType } from "./identity";
-import { EntityTrait } from "./traits";
+import { EntityInventoryTrait, EntityTrait } from "./traits";
 import { Player } from "./player";
 import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
 
@@ -295,6 +296,46 @@ class Entity {
 
         // Remove the trait from the entity
         this.traits.delete(trait.identifier);
+      }
+    }
+  }
+
+  /**
+   * Get a container from the entity.
+   * @param name The name of the container.
+   */
+  public getContainer(name: ContainerName): Container | null {
+    // Switch name of the container
+    switch (name) {
+      default: {
+        // Return null if the container name is not valid
+        return null;
+      }
+
+      // case ContainerName.Armor: {
+      //   // Check if the entity has an inventory component
+      //   if (!this.hasComponent("minecraft:inventory"))
+      //     throw new Error("The entity does not have an inventory component.");
+
+      //   // Get the inventory component
+      //   const inventory = this.getComponent("minecraft:inventory");
+
+      //   // Return the armor container
+      //   return inventory.container;
+      // }
+
+      case ContainerName.Hotbar:
+      case ContainerName.Inventory:
+      case ContainerName.HotbarAndInventory: {
+        // Check if the entity has an inventory trait
+        if (!this.hasTrait(EntityInventoryTrait))
+          throw new Error("The entity does not have an inventory trait.");
+
+        // Get the inventory trait
+        const inventory = this.getTrait(EntityInventoryTrait);
+
+        // Return the inventory container
+        return inventory.container;
       }
     }
   }

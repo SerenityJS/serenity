@@ -162,6 +162,30 @@ class ItemStack<T extends keyof Items = keyof Items> {
       stackNetId: null // TODO: Implement stackNetId, this is so that the server can track the item stack.
     };
   }
+
+  /**
+   * Converts a network item instance descriptor to an item stack.
+   * @param descriptor The network item instance descriptor.
+   * @returns The item stack.
+   */
+  public static fromNetworkInstance(
+    descriptor: NetworkItemInstanceDescriptor
+  ): ItemStack | null {
+    // Get the item type from the network.
+    const type = ItemType.getByNetwork(descriptor.network);
+
+    // Check if the item type was found.
+    if (!type) return null;
+
+    // Create the item stack.
+    const item = new this(type.identifier, {
+      amount: descriptor.stackSize ?? 1,
+      auxillary: descriptor.metadata ?? 0
+    });
+
+    // Return the item stack.
+    return item;
+  }
 }
 
 export { ItemStack, ItemStackProperties, DefaultItemStackProperties };

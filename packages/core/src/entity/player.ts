@@ -1,6 +1,7 @@
 import { Connection } from "@serenityjs/raknet";
 import {
   AbilityIndex,
+  ContainerName,
   DataPacket,
   DefaultAbilityValues,
   DisconnectMessage,
@@ -16,6 +17,7 @@ import { Container } from "../container";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
+import { PlayerCursorTrait } from "./traits";
 
 const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
@@ -136,6 +138,50 @@ class Player extends Entity {
 
     // Send the packet to the player
     this.sendImmediate(packet);
+  }
+
+  /**
+   * Get a container from the player.
+   * @param name The name of the container to get.
+   */
+  public getContainer(name: ContainerName): Container | null {
+    // Check if the super instance will fetch the container
+    const container = super.getContainer(name);
+
+    // Check if the super instance found the container
+    if (container !== null) return container;
+
+    // Switch the container name
+    switch (name) {
+      default: {
+        // Return the opened container if it exists
+        return this.openedContainer;
+      }
+
+      // case ContainerName.CraftingInput: {
+      //   // Check if the player has the crafting input component
+      //   if (!this.hasComponent("minecraft:crafting_input"))
+      //     throw new Error("The player does not have a crafting input.");
+
+      //   // Get the crafting input component
+      //   const craftingInput = this.getComponent("minecraft:crafting_input");
+
+      //   // Return the crafting input container
+      //   return craftingInput.container;
+      // }
+
+      case ContainerName.Cursor: {
+        // Check if the player has the cursor trait
+        if (!this.hasTrait(PlayerCursorTrait))
+          throw new Error("The player does not have a cursor trait.");
+
+        // Get the cursor trait
+        const cursor = this.getTrait(PlayerCursorTrait);
+
+        // Return the cursor container
+        return cursor.container;
+      }
+    }
   }
 
   /**
