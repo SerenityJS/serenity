@@ -1,4 +1,9 @@
-import { ActorFlag } from "@serenityjs/protocol";
+import {
+  ActorDataId,
+  ActorDataType,
+  ActorFlag,
+  DataItem
+} from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
 
@@ -10,7 +15,39 @@ class EntityAirSupplyTrait extends EntityTrait {
   public static readonly types = [EntityIdentifier.Player];
 
   public onTick(): void {
-    // TODO: Implement air supply trait logic
+    // Check if the entity is not alive or is not breathing.
+    if (!this.entity.isAlive || !this.entity.flags.get(ActorFlag.Breathing))
+      return;
+
+    // TODO: Check if the entity is a player and is in a not drownable gamemode.
+    // Get the current air ticks of the entity.
+    const currentAirTicks = this.getAirSupplyTicks();
+    if (!this.canBreathe()) {
+      // The air supply is reduced by 1 tick.
+      // If the entity air supply reaches -20, it starts drowning
+
+      this.setAirSupplyTicks(currentAirTicks - 1);
+      if (currentAirTicks > -20) return;
+      // Reset the air supply to 0.
+      this.setAirSupplyTicks(0);
+
+      // TODO: Apply drowning damage.
+      console.warn("The entity is drowning");
+    }
+
+    // If the entity air supply is full then return.
+    if (currentAirTicks >= 300) return;
+    this.setAirSupplyTicks(currentAirTicks + 5);
+    // The entity can breathe, so we need to increment the air supply.
+  }
+
+  private canBreathe(): boolean {
+    return this.getAirSupplyTicks() < 150;
+    const blockAtHead = this.entity.dimension.getBlock(
+      this.entity.position.floor()
+    );
+
+    return !blockAtHead.isLiquid() && !blockAtHead.isSolid();
   }
 
   public onSpawn(): void {
@@ -19,6 +56,33 @@ class EntityAirSupplyTrait extends EntityTrait {
       // Set the entity flag for gravity
       this.entity.flags.set(ActorFlag.Breathing, true);
     }
+
+    if (!this.entity.metadata.has(ActorDataId.AirSupply)) {
+      // Set the default air supply value
+      this.setAirSupplyTicks(300);
+    }
+  }
+
+  public getAirSupplyTicks(): number {
+    const airSupplyData = this.entity.metadata.get(ActorDataId.AirSupply);
+
+    if (airSupplyData) {
+      return airSupplyData.value as number;
+    }
+
+    return 0;
+  }
+
+  public setAirSupplyTicks(ticks: number): void {
+    // Create the air supply data item.
+    const airSupplyData = new DataItem(
+      ActorDataId.AirSupply,
+      ActorDataType.Short,
+      ticks
+    );
+
+    // Update the current air supply data
+    this.entity.metadata.set(ActorDataId.AirSupply, airSupplyData);
   }
 }
 
