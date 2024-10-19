@@ -5,6 +5,6 @@ export default {
   entryPoints: ["src/index.ts"],
   clean: true,
   dts: true,
-  format: ["cjs"],
+  format: ["cjs", "esm"],
   minify: false,
 };
