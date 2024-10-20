@@ -9,6 +9,7 @@ import { RequestChunkRadiusHandler } from "./request-chunk-radius";
 import { RequestNetworkSettingsHandler } from "./request-network-settings";
 import { ResourcePackClientResponseHandler } from "./resource-pack-response";
 import { SetLocalPlayerAsInitializedHandler } from "./set-local-player-as-initialized";
+import { TextHandler } from "./text";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -21,7 +22,8 @@ const Handlers = [
   MobEquipmentHandler,
   ItemStackRequestHandler,
   RequestChunkRadiusHandler,
-  AnimateHandler
+  AnimateHandler,
+  TextHandler
 ];
 
 export { Handlers };
