@@ -1,19 +1,23 @@
 import { Connection } from "@serenityjs/raknet";
 import {
   AbilityIndex,
+  BlockPosition,
   ContainerName,
   DataPacket,
   DefaultAbilityValues,
   DisconnectMessage,
   DisconnectPacket,
   DisconnectReason,
-  SerializedSkin
+  Gamemode,
+  SerializedSkin,
+  SetPlayerGameTypePacket
 } from "@serenityjs/protocol";
 
 import { PlayerEntry, PlayerProperties } from "../types";
 import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
+import { ItemStack } from "../item";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
@@ -63,6 +67,21 @@ class Player extends Entity {
    * The container that the player is currently viewing.
    */
   public openedContainer: Container | null = null;
+
+  /**
+   * The current gamemode of the player
+   */
+  public gamemode: Gamemode = Gamemode.Survival;
+
+  /**
+   * The target block that the player is currently breaking.
+   */
+  public blockTarget: BlockPosition | null = null;
+
+  /**
+   * The target item that the player is currently using.
+   */
+  public itemTarget: ItemStack | null = null;
 
   public constructor(
     dimension: Dimension,
@@ -138,6 +157,22 @@ class Player extends Entity {
 
     // Send the packet to the player
     this.sendImmediate(packet);
+  }
+
+  /**
+   * Sets the gamemode of the player
+   * @param gamemode The gamemode to set
+   */
+  public setGamemode(gamemode: Gamemode): void {
+    // Set the gamemode of the player
+    this.gamemode = gamemode;
+
+    // Create a new set player game type packet
+    const packet = new SetPlayerGameTypePacket();
+    packet.gamemode = gamemode;
+
+    // Send the packet to the player
+    this.send(packet);
   }
 
   /**

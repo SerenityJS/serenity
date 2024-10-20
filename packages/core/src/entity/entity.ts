@@ -1,4 +1,11 @@
-import { ContainerName, Rotation, Vector3f } from "@serenityjs/protocol";
+import {
+  ContainerName,
+  MoveActorDeltaPacket,
+  MoveDeltaFlags,
+  Rotation,
+  SetActorMotionPacket,
+  Vector3f
+} from "@serenityjs/protocol";
 
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
@@ -6,6 +13,7 @@ import { EntityEntry, EntityProperties, JSONLikeValue } from "../types";
 import { Serenity } from "../serenity";
 import { Chunk } from "../world/chunk";
 import { Container } from "../container";
+import { ItemStack } from "../item";
 
 import { EntityType } from "./identity";
 import { EntityInventoryTrait, EntityTrait } from "./traits";
@@ -146,6 +154,14 @@ class Entity {
   }
 
   /**
+   * Checks if the entity is an item.
+   * @returns Whether or not the entity is an item.
+   */
+  public isItem(): boolean {
+    return this.type.identifier === EntityIdentifier.Item;
+  }
+
+  /**
    * Whether the entity has the specified trait.
    * @param trait The trait to check for
    * @returns Whether the entity has the trait
@@ -236,6 +252,21 @@ class Entity {
 
     // Get the chunk from the dimension
     return this.dimension.getChunk(cx, cz);
+  }
+
+  /**
+   * Gets the item the entity is currently holding.
+   * @returns The item the entity is holding
+   */
+  public getHeldItem(): ItemStack | null {
+    // Check if the entity has an inventory trait
+    if (!this.hasTrait(EntityInventoryTrait)) return null;
+
+    // Get the inventory trait
+    const inventory = this.getTrait(EntityInventoryTrait);
+
+    // Return the held item
+    return inventory.getHeldItem();
   }
 
   /**
@@ -338,6 +369,159 @@ class Entity {
         return inventory.container;
       }
     }
+  }
+
+  /**
+   * Sets the position of the entity.
+   * @param vector The position to set.
+   */
+  public setMotion(vector?: Vector3f): void {
+    // Update the velocity of the entity
+    this.velocity.x = vector?.x ?? this.velocity.x;
+    this.velocity.y = vector?.y ?? this.velocity.y;
+    this.velocity.z = vector?.z ?? this.velocity.z;
+
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+    this.position.z += this.velocity.z;
+
+    // Set the onGround property of the entity
+    this.onGround = false;
+
+    // Create a new SetActorMotionPacket
+    const packet = new SetActorMotionPacket();
+
+    // Set the properties of the packet
+    packet.runtimeId = this.runtimeId;
+    packet.motion = this.velocity;
+    packet.tick = this.dimension.world.currentTick;
+
+    // Broadcast the packet to the dimension
+    this.dimension.broadcast(packet);
+  }
+
+  /**
+   * Adds motion to the entity.
+   * @param vector The motion to add.
+   */
+  public addMotion(vector: Vector3f): void {
+    // Update the velocity of the entity
+    this.velocity.x += vector.x;
+    this.velocity.y += vector.y;
+    this.velocity.z += vector.z;
+
+    // Set the motion of the entity
+    this.setMotion();
+  }
+
+  /**
+   * Clears the motion of the entity.
+   */
+  public clearMotion(): void {
+    this.velocity.x = 0;
+    this.velocity.y = 0;
+    this.velocity.z = 0;
+
+    // Set the motion of the entity
+    this.setMotion();
+  }
+
+  /**
+   * Applies an impulse to the entity.
+   * @param vector The impulse to apply.
+   */
+  public applyImpulse(vector: Vector3f): void {
+    // Update the velocity of the entity
+    this.velocity.x += vector.x;
+    this.velocity.y += vector.y;
+    this.velocity.z += vector.z;
+
+    // Set the motion of the entity
+    this.setMotion();
+  }
+
+  public teleport(position: Vector3f, dimension?: Dimension): void {
+    // Set the position of the entity
+    this.position.x = position.x;
+    this.position.y = position.y;
+    this.position.z = position.z;
+
+    // Check if a dimension was provided
+    if (dimension) {
+      // Despawn the entity from the current dimension
+      this.despawn();
+
+      // Set the dimension of the entity
+      this.dimension = dimension;
+
+      // Spawn the entity in the new dimension
+      this.spawn();
+    } else {
+      // Create a new MoveActorDeltaPacket
+      const packet = new MoveActorDeltaPacket();
+
+      // Adjust the y position of the entity
+      const yAdjust =
+        this.type.identifier === EntityIdentifier.Item ? 0 : -0.25;
+
+      // Assign the packet properties
+      packet.runtimeId = this.runtimeId;
+      packet.flags = MoveDeltaFlags.All;
+      packet.x = this.position.x;
+      packet.y = this.position.y + yAdjust;
+      packet.z = this.position.z;
+      packet.yaw = this.rotation.yaw;
+      packet.headYaw = this.rotation.headYaw;
+      packet.pitch = this.rotation.pitch;
+
+      // Check if the entity is on the ground
+      if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
+
+      // Broadcast the packet to the dimension
+      this.dimension.broadcast(packet);
+    }
+  }
+
+  /**
+   * Forces the entity to drop an item from its inventory.
+   * @param slot The slot to drop the item from.
+   * @param amount The amount of items to drop.
+   * @param container The container to drop the item from.
+   * @returns Whether or not the item was dropped.
+   */
+  public dropItem(slot: number, amount: number, container: Container): boolean {
+    // Check if the entity has an inventory trait
+    if (!this.hasTrait(EntityInventoryTrait)) return false;
+
+    // Get the item from the slot
+    const item = container.takeItem(slot, amount);
+
+    // Check if the item is valid
+    if (!item) return false;
+
+    // Get the entity's position and rotation
+    const { x, y, z } = this.position;
+    const { headYaw, pitch } = this.rotation;
+
+    // Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
+    const headYawRad = (headYaw * Math.PI) / 180;
+    const pitchRad = (pitch * Math.PI) / 180;
+
+    // Calculate the velocity of the entity based on the entity's rotation
+    const velocity = new Vector3f(
+      (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3,
+      -Math.sin(pitchRad) / 2,
+      (Math.cos(headYawRad) * Math.cos(pitchRad)) / 3
+    );
+
+    // Spawn the entity
+    const entity = this.dimension.spawnItem(item, new Vector3f(x, y - 0.25, z));
+
+    // Set the velocity of the entity
+    entity.setMotion(velocity);
+
+    // Return true as the item was dropped
+    return true;
   }
 
   /**

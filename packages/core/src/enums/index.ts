@@ -6,3 +6,5 @@ export * from "./item-category";
 export * from "./item-group";
 export * from "./tool-tier";
 export * from "./tool-type";
+export * from "./block-tool-type";
+export * from "./item-use-method";

@@ -7,7 +7,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "../network";
-import { CreativeItem, ItemStack } from "../item";
+import { ItemStack } from "../item";
 import { EntityInventoryTrait, PlayerCursorTrait } from "../entity";
 
 class ItemStackRequestHandler extends NetworkHandler {
@@ -97,7 +97,7 @@ class ItemStackRequestHandler extends NetworkHandler {
             );
 
           // Force the player to drop the item.
-          // TODO: player.dropItem(slot, amount, container);
+          player.dropItem(slot, amount, container);
         }
 
         if (action.swap) {
@@ -255,8 +255,11 @@ class ItemStackRequestHandler extends NetworkHandler {
           // Get the request.
           const craft = action.craftCreative;
 
-          // Get the creative item.
-          const creativeItem = CreativeItem.items.get(craft.creativeIndex);
+          // Get the world of the player, and the creative item.
+          const world = player.dimension.world;
+          const creativeItem = world.itemPalette.getCreativeContentByIndex(
+            craft.creativeIndex
+          );
 
           // Check if the creative item exists
           if (!creativeItem)

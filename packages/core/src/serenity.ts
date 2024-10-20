@@ -6,6 +6,7 @@ import { Network } from "./network";
 import { Handlers } from "./handlers";
 import {
   DefaultWorldProviderProperties,
+  Dimension,
   VoidGenerator,
   World,
   type WorldProvider
@@ -21,6 +22,7 @@ import type {
 const DefaultServerProperties: ServerProperties = {
   port: 19132,
   address: "0.0.0.0",
+  motd: "SerenityJS",
   compressionMethod: CompressionMethod.Zlib,
   compressionThreshold: 256,
   packetsPerFrame: 64,
@@ -90,6 +92,9 @@ class Serenity {
 
     // Create a new network handler for the server
     this.network = new Network(this, Handlers);
+
+    // Set the motd for the server
+    this.network.raknet.message = this.properties.motd;
   }
 
   /**
@@ -141,6 +146,14 @@ class Serenity {
 
     // Start the ticking loop
     tick();
+  }
+
+  /**
+   * Sets the message of the day for the server
+   * @param motd The message of the day to set
+   */
+  public setMotd(motd: string): void {
+    this.network.raknet.message = motd;
   }
 
   /**
@@ -240,16 +253,58 @@ class Serenity {
     return this.worlds.get(identifier) ?? null;
   }
 
+  /**
+   * Gets all the worlds that are currently loaded on the server
+   * @returns An array of worlds
+   */
+  public getWorlds(): Array<World> {
+    return [...this.worlds.values()];
+  }
+
+  /**
+   * Gets a dimension from a world by its identifier
+   * @param world The world to get the dimension from
+   * @param identifier The identifier of the dimension
+   * @returns The dimension, if found; otherwise, null
+   */
+  public getDimension(world: World, identifier: string): Dimension | null {
+    return world.dimensions.get(identifier) ?? null;
+  }
+
+  /**
+   * Gets all the dimensions that are currently loaded in a world
+   * @param world The world to get the dimensions from
+   * @returns An array of dimensions
+   */
+  public getDimensions(world: World): Array<Dimension> {
+    return [...world.dimensions.values()];
+  }
+
+  /**
+   * Gets a player by their raknet connection
+   * @param connection The connection to get the player from
+   * @returns The player, if found; otherwise, null
+   */
   public getPlayerByConnection(connection: Connection): Player | null {
     return this.players.get(connection) ?? null;
   }
 
+  /**
+   * Gets a player by their xuid
+   * @param xuid The xuid to get the player from
+   * @returns The player, if found; otherwise, null
+   */
   public getPlayerByXuid(xuid: string): Player | null {
     return (
       [...this.players.values()].find((player) => player.xuid === xuid) ?? null
     );
   }
 
+  /**
+   * Gets a player by their username
+   * @param username The username to get the player from
+   * @returns The player, if found; otherwise, null
+   */
   public getPlayerByUsername(username: string): Player | null {
     return (
       [...this.players.values()].find(
@@ -258,10 +313,23 @@ class Serenity {
     );
   }
 
+  /**
+   * Gets a player by their uuid
+   * @param uuid The uuid to get the player from
+   * @returns The player, if found; otherwise, null
+   */
   public getPlayerByUuid(uuid: string): Player | null {
     return (
       [...this.players.values()].find((player) => player.uuid === uuid) ?? null
     );
+  }
+
+  /**
+   * Gets all the players that are currently connected to the server
+   * @returns An array of players
+   */
+  public getPlayers(): Array<Player> {
+    return [...this.players.values()];
   }
 }
 

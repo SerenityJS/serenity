@@ -91,7 +91,10 @@ abstract class Container {
 
     // Check if the item amount is 0
     // If so, set the slot to null as there is no item
-    if (item.amount === 0) this.storage[slot] = null;
+    if (item.amount === 0) this.clearSlot(slot);
+
+    // Set the container of the item
+    item.container = this;
 
     // Update the empty slots count
     this.emptySlotsCount = this.calculateEmptySlotCount();
@@ -116,7 +119,7 @@ abstract class Container {
       if (slot.amount >= item.maxAmount) return false;
 
       // Check if the item is equal to the slot.
-      return true; // TODO: item.equals(slot);
+      return item.equals(slot);
     });
 
     // Check if the item is maxed.
@@ -200,15 +203,13 @@ abstract class Container {
 
     // Calculate the amount of items to remove.
     const removed = Math.min(amount, item.amount);
-    item.amount -= removed;
+    item.decrement(removed);
 
     // Check if the item amount is 0.
-    if (item.amount === 0) {
-      this.storage[slot] = null;
-    }
+    if (item.amount === 0) this.clearSlot(slot);
 
     // Calculate the amount of empty slots in the container.
-    this.calculateEmptySlotCount();
+    this.emptySlotsCount = this.calculateEmptySlotCount();
 
     // Create a new item with the removed amount.
     const newItem = new ItemStack(item.type, { ...item, amount: removed });

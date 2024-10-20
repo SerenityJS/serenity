@@ -7,17 +7,22 @@ import {
   PlayerTrait,
   BlockPermutation,
   BlockIdentifier,
-  EntityNameTagTrait,
   World,
   ItemStack,
   ItemIdentifier,
-  EntityInventoryTrait
+  EntityInventoryTrait,
+  ItemType,
+  Items,
+  BlockTrait,
+  Block
 } from "@serenityjs/core";
-import { InteractActions, Packet } from "@serenityjs/protocol";
+import {
+  InteractActions,
+  Packet,
+  PlayerActionType
+} from "@serenityjs/protocol";
 
 const serenity = new Serenity({ port: 19142, debugLogging: true });
-
-serenity.network.raknet.message = "2";
 
 serenity.start();
 
@@ -27,43 +32,18 @@ const world = serenity.createWorld(InternalProvider, {
   identifier: "test123"
 }) as World;
 
+// world.itemPalette.clearCreativeContent();
+world.itemPalette.registerCreativeContent(
+  ItemType.get("minecraft:lava" as keyof Items)!
+);
+
 const _overworld = world.createDimension(SuperflatGenerator) as Dimension;
-
-serenity.network.after(Packet.Login, (data) => {
-  const player = serenity.getPlayerByConnection(data.connection) as Player;
-
-  // player.abilities.set(AbilityIndex.MayFly, true);
-});
-
-serenity.network.before(Packet.SetLocalPlayerAsInitialized, (data) => {
-  const player = serenity.getPlayerByConnection(data.connection) as Player;
-
-  player.addTrait(CustomTrait);
-
-  return true;
-});
 
 serenity.network.before(Packet.Text, (data) => {
   const player = serenity.getPlayerByConnection(data.connection) as Player;
 
-  const trait = player.getTrait(EntityNameTagTrait);
-
-  switch (data.packet.message) {
-    case "on":
-      trait.setVisibility(true);
-      break;
-
-    case "off":
-      trait.setVisibility(false);
-      break;
-
-    case "set":
-      trait.setNameTag(data.packet.message.replace("set ", ""));
-      break;
-  }
-
-  console.log(trait.getNameTag());
-  console.log(trait.getVisibility());
+  const stack = new ItemStack(ItemIdentifier.DiamondSword);
+  player.dimension.spawnItem(stack, player.position);
 
   return true;
 });
@@ -71,19 +51,6 @@ serenity.network.before(Packet.Text, (data) => {
 serenity.network.on(Packet.PacketViolationWarning, (data) => {
   console.log(data.packet);
 });
-
-class CustomTrait extends PlayerTrait {
-  public static readonly identifier = "custom_trait";
-
-  public onTick(): void {
-    const position = this.player.position.floor();
-    const block = this.player.dimension.getBlock({ ...position, y: -60 });
-
-    block.setPermutation(
-      BlockPermutation.resolve(BlockIdentifier.DiamondBlock)
-    );
-  }
-}
 
 serenity.network.on(Packet.Interact, (data) => {
   if (data.packet.action !== InteractActions.OpenInventory) return;
@@ -104,3 +71,5 @@ serenity.network.on(Packet.CommandRequest, (data) => {
 
   inventory.container.addItem(item);
 });
+
+// setInterval(() => console.log(serenity.tps), 250);

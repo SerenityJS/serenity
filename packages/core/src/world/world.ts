@@ -1,8 +1,11 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
+import { DataPacket } from "@serenityjs/protocol";
 
 import { Serenity } from "../serenity";
 import { DimensionProperties, WorldProperties } from "../types";
 import { Entity, EntityPalette, Player } from "../entity";
+import { ItemPalette } from "../item";
+import { BlockPalette } from "../block";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -14,22 +17,59 @@ const DefaultWorldProperties: WorldProperties = {
 };
 
 class World {
+  /**
+   * The serenity instance that the world belongs to.
+   */
   public readonly serenity: Serenity;
 
+  /**
+   * The properties of the world.
+   */
   public readonly properties: WorldProperties = DefaultWorldProperties;
 
+  /**
+   * The identifier of the world.
+   */
   public readonly identifier: string;
 
+  /**
+   * The provider of the world.
+   */
   public readonly provider: WorldProvider;
 
+  /**
+   * The dimensions of the world.
+   */
   public readonly dimensions = new Map<string, Dimension>();
 
+  /**
+   * The logger of the world.
+   */
   public readonly logger: Logger;
 
+  /**
+   * The entity palette of the world.
+   */
   public readonly entityPalette = new EntityPalette();
 
+  /**
+   * The block palette of the world.
+   */
+  public readonly blockPalette = new BlockPalette();
+
+  /**
+   * The item palette of the world.
+   */
+  public readonly itemPalette = new ItemPalette();
+
+  /**
+   * The current tick of the world.
+   */
   public currentTick = 0n;
 
+  /**
+   * The current time of day for the world.
+   */
   public dayTime = 0;
 
   public constructor(
@@ -149,6 +189,14 @@ class World {
   }
 
   /**
+   * Get all the dimensions in the world
+   * @returns An array of dimensions
+   */
+  public getDimensions(): Array<Dimension> {
+    return [...this.dimensions.values()];
+  }
+
+  /**
    * Gets all the players in the world.
    * @returns An array of players.
    */
@@ -166,6 +214,19 @@ class World {
     return [...this.dimensions.values()].flatMap((dimension) =>
       dimension.getEntities()
     );
+  }
+
+  public broadcast(...packets: Array<DataPacket>): void {
+    for (const player of this.getPlayers()) player.send(...packets);
+  }
+
+  public broadcastImmediate(...packets: Array<DataPacket>): void {
+    for (const player of this.getPlayers()) player.sendImmediate(...packets);
+  }
+
+  public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
+    for (const other of this.getPlayers())
+      if (other !== player) other.send(...packets);
   }
 }
 

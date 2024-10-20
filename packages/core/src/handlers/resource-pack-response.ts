@@ -14,7 +14,7 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { CreativeItem } from "../item";
+import { ItemType } from "../item";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
@@ -26,6 +26,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
+
+    // Get the players current world
+    const world = player.dimension.world;
 
     switch (packet.response) {
       default: {
@@ -65,7 +68,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const packet = new StartGamePacket();
         packet.entityId = player.uniqueId;
         packet.runtimeEntityId = player.runtimeId;
-        packet.playerGamemode = 0;
+        packet.playerGamemode = player.gamemode;
         packet.playerPosition = player.position;
         packet.pitch = player.rotation.pitch;
         packet.yaw = player.rotation.yaw;
@@ -300,7 +303,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.bonusChest = false;
         packet.mapEnabled = false;
         packet.permissionLevel = 0; // player.permission;
-        packet.serverChunkTickRange = 32; // player.dimension.simulationDistance >> 4;
+        packet.serverChunkTickRange = player.dimension.simulationDistance >> 4;
         packet.hasLockedBehaviorPack = false;
         packet.hasLockedResourcePack = false;
         packet.isFromLockedWorldTemplate = false;
@@ -330,16 +333,14 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.movementAuthority = 1;
         packet.rewindHistorySize = 0;
         packet.serverAuthoritativeBlockBreaking = true;
-        packet.currentTick = 0n; // player.dimension.world.currentTick;
+        packet.currentTick = player.dimension.world.currentTick;
         packet.enchantmentSeed = 0;
         packet.blockProperties = [];
 
         // Map the custom items to the packet
-        // packet.items = world.items
-        //   .getAllTypes()
-        //   .map((item) => ItemType.toItemData(item));
-
-        packet.items = [];
+        packet.items = world.itemPalette
+          .getAllTypes()
+          .map((item) => ItemType.toItemData(item));
 
         packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
         packet.serverAuthoritativeInventory = true;
@@ -356,9 +357,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        // TODO: Fetch creative content from the worlds palette
+        // Create a new CreativeContentPacket, and map the creative content to the packet
         const content = new CreativeContentPacket();
-        content.items = [...CreativeItem.items.values()].map((item) => {
+        content.items = world.itemPalette.getCreativeContent().map((item) => {
           return {
             network: item.type.network,
             metadata: item.metadata,

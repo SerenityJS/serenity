@@ -181,7 +181,7 @@ class BlockPosition extends DataType implements IPosition {
    * Returns a string representation of this 3D position.
    * @returns The string representation of this 3D position.
    */
-  public equals(other: BlockPosition): boolean {
+  public equals(other: IPosition): boolean {
     return this.x === other.x && this.y === other.y && this.z === other.z;
   }
 
@@ -236,6 +236,19 @@ class BlockPosition extends DataType implements IPosition {
    * @returns The converted BlockPosition
    */
   public static fromVector3f(position: Vector3f): BlockPosition {
+    return new BlockPosition(
+      Math.floor(position.x),
+      Math.floor(position.y),
+      Math.floor(position.z)
+    );
+  }
+
+  /**
+   * Gets the block position from a positional object.
+   * @param position The positional object.
+   * @returns The block position.
+   */
+  public static from(position: IPosition): BlockPosition {
     return new BlockPosition(
       Math.floor(position.x),
       Math.floor(position.y),

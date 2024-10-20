@@ -20,6 +20,7 @@ export const serenity = config({
     ],
     "@typescript-eslint/no-extraneous-class": "off",
     "@typescript-eslint/consistent-type-imports": "off",
+    "@typescript-eslint/no-invalid-void-type": "off",
   },
 });
 

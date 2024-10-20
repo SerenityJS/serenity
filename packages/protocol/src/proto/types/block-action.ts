@@ -11,6 +11,7 @@ class BlockAction extends DataType {
 
   /**  If action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak */
   public position!: Vector3f | undefined;
+
   /**  If action is startBreak or abortBreak or crackBreak or predictBreak or continueBreak */
   public face!: number | undefined;
 

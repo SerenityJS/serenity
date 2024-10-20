@@ -2,6 +2,7 @@ import {
   AbilityLayerType,
   AbilitySet,
   AddEntityPacket,
+  AddItemActorPacket,
   AddPlayerPacket,
   NetworkItemStackDescriptor,
   PropertySyncData,
@@ -12,6 +13,7 @@ import {
 import { EntityIdentifier } from "../../../enums";
 import { EntityInventoryTrait } from "../inventory";
 import { ItemStack } from "../../../item";
+import { EntityItemStackTrait } from "../item-stack";
 
 import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
@@ -109,38 +111,33 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         // Send the packet to the player
         this.player.send(packet);
 
-        console.log("Sent player packet");
-
         // Continue to the next entity
         continue;
       }
 
       // Check if the entity is an item
-      // if (entity.isItem()) {
-      //   // Get the item component
-      //   const itemComponent = entity.getComponent("minecraft:item");
+      if (entity.isItem()) {
+        // Get the item component
+        const itemComponent = entity.getTrait(EntityItemStackTrait);
 
-      //   // Create a new AddItemActorPacket
-      //   const packet = new AddItemActorPacket();
+        // Create a new AddItemActorPacket
+        const packet = new AddItemActorPacket();
 
-      //   // Set the packet properties
-      //   packet.uniqueId = entity.unique;
-      //   packet.runtimeId = entity.runtime;
-      //   packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
-      //   packet.position = entity.position;
-      //   packet.velocity = entity.velocity;
-      //   packet.data = [...entity.metadata];
-      //   packet.fromFishing = false;
+        // Set the packet properties
+        packet.uniqueId = entity.uniqueId;
+        packet.runtimeId = entity.runtimeId;
+        packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
+        packet.position = entity.position;
+        packet.velocity = entity.velocity;
+        packet.data = [...entity.metadata.values()];
+        packet.fromFishing = false;
 
-      //   // Send the packet to the player
-      //   this.player.session.send(packet);
+        // Send the packet to the player
+        this.player.send(packet);
 
-      //   // Sync the entity
-      //   entity.sync();
-
-      //   // Continue to the next entity
-      //   continue;
-      // }
+        // Continue to the next entity
+        continue;
+      }
 
       // Create a new AddEntityPacket
       const packet = new AddEntityPacket();

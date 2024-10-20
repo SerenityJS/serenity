@@ -6,10 +6,10 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
-import { Trait } from "../trait";
 import { Items, JSONLikeValue } from "../types";
 
 import { ItemType } from "./identity";
+import { ItemTrait } from "./traits";
 
 interface ItemStackProperties {
   amount: number;
@@ -28,7 +28,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
   public readonly components = new Map<string, JSONLikeValue>();
 
-  public readonly traits = new Map<string, Trait>();
+  public readonly traits = new Map<string, ItemTrait<T>>();
 
   public readonly nbt = new CompoundTag();
 
@@ -118,6 +118,36 @@ class ItemStack<T extends keyof Items = keyof Items> {
    */
   public increment(amount?: number): void {
     this.setAmount(this.amount + (amount ?? 1));
+  }
+
+  public equals(other: ItemStack): boolean {
+    // Check if the identifiers & aux are equal.
+    if (this.type.identifier !== other.type.identifier) return false;
+    if (this.auxillary !== other.auxillary) return false;
+    if (this.components.size !== other.components.size) return false;
+    if (this.traits.size !== other.traits.size) return false;
+
+    // Stringify the components.
+    const components = JSON.stringify([...this.components.entries()]);
+    const otherComponents = JSON.stringify([...other.components.entries()]);
+
+    // Check if the components are equal.
+    if (components !== otherComponents) return false;
+
+    // Iterate over the traits.
+    for (const [identifier, trait] of this.traits) {
+      // Get the other trait.
+      const otherTrait = other.traits.get(identifier) as ItemTrait<T>;
+
+      // Check if the other trait exists.
+      if (!otherTrait) return false;
+
+      // Check if the traits are equal.
+      if (!trait.equals(otherTrait)) return false;
+    }
+
+    // Return true if the item stacks are equal.
+    return true;
   }
 
   /**

@@ -450,7 +450,7 @@ class Network extends Emitter<NetworkEvents> {
     // The frame contains the reliability and priority of the packet.
     // As well as the payload itself.
     const frame = new Frame();
-    frame.reliability = Reliability.ReliableOrdered;
+    frame.reliability = Reliability.Reliable;
     frame.orderChannel = 0;
     frame.payload = payload;
 
