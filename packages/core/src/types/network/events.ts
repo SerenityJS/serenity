@@ -116,7 +116,9 @@ import type {
   SetActorLinkPacket,
   StopSoundPacket,
   DataPacket,
-  MoveActorDeltaPacket
+  MoveActorDeltaPacket,
+  PlayerFogPacket,
+  CurrectStructureFeaturePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -218,6 +220,7 @@ interface NetworkEvents {
   [Packet.NpcRequest]: [NetworkPacketEvent<NpcRequestPacket>];
   [Packet.OpenSign]: [NetworkPacketEvent<OpenSignPacket>];
   [Packet.CameraShake]: [NetworkPacketEvent<CameraShakePacket>];
+  [Packet.PlayerFog]: [NetworkPacketEvent<PlayerFogPacket>];
   [Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
   [Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
   [Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];
