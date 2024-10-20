@@ -129,6 +129,7 @@ import { SetSpawnPositionPacket } from "./set-spawn-position";
 import { SetHealthPacket } from "./set-health";
 import { SyncActorPropertyPacket } from "./sync-actor-property";
 import { TrimDataPacket } from "./trim-data";
+import { UnlockedRecipesPacket } from "./unlocked-recipes";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -247,6 +248,7 @@ const Packets = {
   [Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
   [Packet.UpdateClientInputLocks]: UpdateClientInputLocksPacket, // 196
   [Packet.CameraPresetsPacket]: CameraPresetsPacket, // 198
+  [Packet.UnlockedRecipes]: UnlockedRecipesPacket, // 199
   [Packet.CameraInstructions]: CameraInstructionsPacket, // 300
   [Packet.TrimData]: TrimDataPacket, // 302
   [Packet.OpenSign]: OpenSignPacket, // 303

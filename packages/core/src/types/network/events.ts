@@ -126,7 +126,8 @@ import type {
   SetHealthPacket,
   SetSpawnPositionPacket,
   SyncActorPropertyPacket,
-  TrimDataPacket
+  TrimDataPacket,
+  UnlockedRecipesPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -227,6 +228,7 @@ interface NetworkEvents {
   [Packet.ResourcePackChunkRequest]: [
     NetworkPacketEvent<ResourcePackChunkRequestPacket>
   ];
+  [Packet.UnlockedRecipes]: [NetworkPacketEvent<UnlockedRecipesPacket>];
   [Packet.Transfer]: [NetworkPacketEvent<TransferPacket>];
   [Packet.PlaySound]: [NetworkPacketEvent<PlaySoundPacket>];
   [Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];

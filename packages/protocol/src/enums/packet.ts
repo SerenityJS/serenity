@@ -120,6 +120,7 @@ enum Packet {
   RequestNetworkSettings = 0xc1, // 193
   UpdateClientInputLocks = 0xc4, // 196
   CameraPresetsPacket = 0xc6, // 198
+  UnlockedRecipes = 0xc7, // 199
   CameraInstructions = 0x1_2c, // 300
   TrimData = 0x1_2e, // 302
   OpenSign = 0x1_2f, // 303
