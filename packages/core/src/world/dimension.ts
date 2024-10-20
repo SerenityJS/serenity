@@ -3,6 +3,8 @@ import {
   DataPacket,
   DimensionType,
   IPosition,
+  TextPacket,
+  TextPacketType,
   Vector3f
 } from "@serenityjs/protocol";
 
@@ -251,6 +253,28 @@ class Dimension {
 
     // Get the permutation from the chunk
     return chunk.getPermutation({ x: cx, y: blockPosition.y, z: cz });
+  }
+
+  /**
+   * Broadcasts a message to all players in the dimension.
+   * @param message The message to broadcast.
+   */
+  public sendMessage(message: string): void {
+    // Construct the text packet.
+    const packet = new TextPacket();
+
+    // Assign the packet data.
+    packet.type = TextPacketType.Raw;
+    packet.needsTranslation = false;
+    packet.source = null;
+    packet.message = message;
+    packet.parameters = null;
+    packet.xuid = "";
+    packet.platformChatId = "";
+    packet.filtered = message;
+
+    // Send the packet.
+    this.broadcast(packet);
   }
 
   /**
