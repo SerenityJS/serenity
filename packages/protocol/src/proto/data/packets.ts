@@ -118,6 +118,9 @@ import { PlaySoundPacket } from "./play-sound";
 import { SetActorLinkPacket } from "./set-actor-link";
 import { StopSoundPacket } from "./stop-sound";
 import { MoveActorDeltaPacket } from "./move-actor-delta";
+import { PlayerFogPacket } from "./player-fog";
+import { CurrectStructureFeaturePacket } from "./current-structure-feature";
+import { GameRulesChangedPacket } from "./game-rules-changed";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -173,6 +176,7 @@ const Packets = {
   [Packet.PlayerList]: PlayerListPacket, // 63
   [Packet.RequestChunkRadius]: RequestChunkRadiusPacket, // 69
   [Packet.ChunkRadiusUpdate]: ChunkRadiusUpdatePacket, // 70
+  [Packet.GameRulesChanged]: GameRulesChangedPacket, // 72
   [Packet.ShowCredits]: ShowCreditsPacket, // 75
   [Packet.BossEvent]: BossEventPacket, // 74
   [Packet.AvailableCommands]: AvailableCommandsPacket, // 76
@@ -216,6 +220,7 @@ const Packets = {
   [Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
   [Packet.AnimateEntity]: AnimateEntityPacket, // 158
   [Packet.CameraShake]: CameraShakePacket, // 159
+  [Packet.PlayerFog]: PlayerFogPacket, // 160
   [Packet.ItemComponent]: ItemComponentPacket, // 162
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
@@ -235,6 +240,7 @@ const Packets = {
   [Packet.AwardAchievement]: AwardAchievementPacket, // 309
   [Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310
   [Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket, // 312
+  [Packet.CurrentStructureFeature]: CurrectStructureFeaturePacket, // 314
   [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket // 315
 };
 

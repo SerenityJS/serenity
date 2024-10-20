@@ -57,6 +57,7 @@ enum Packet {
   PlayerList = 0x3f, // 63
   RequestChunkRadius = 0x45, // 69
   ChunkRadiusUpdate = 0x46, // 70
+  GameRulesChanged = 0x48, // 72
   BossEvent = 0x4a, // 74
   ShowCredits = 0x4b, // 75
   AvailableCommands = 0x4c, // 76
@@ -102,6 +103,7 @@ enum Packet {
   PacketViolationWarning = 0x9c, // 156
   AnimateEntity = 0x9e, // 158
   CameraShake = 0x9f, // 159
+  PlayerFog = 0xa0, // 160
   ItemComponent = 0xa2, // 162
   NpcDialogue = 0xa9, // 169
   PlayerStartItemCooldown = 0xb0, // 176
@@ -121,6 +123,7 @@ enum Packet {
   AwardAchievement = 0x1_35, // 309
   ClientboundCloseForm = 0x1_36, // 310
   ServerboundLoadingScreenPacket = 0x1_38, // 312
+  CurrentStructureFeature = 0x1_3a, // 314
   ServerboundDiagnosticPacket = 0x1_3b // 315
 }
 

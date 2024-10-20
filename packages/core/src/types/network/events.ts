@@ -118,7 +118,8 @@ import type {
   DataPacket,
   MoveActorDeltaPacket,
   PlayerFogPacket,
-  CurrectStructureFeaturePacket
+  CurrectStructureFeaturePacket,
+  GameRulesChangedPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -193,6 +194,7 @@ interface NetworkEvents {
   [Packet.PlayerList]: [NetworkPacketEvent<PlayerListPacket>];
   [Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadiusPacket>];
   [Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdatePacket>];
+  [Packet.GameRulesChanged]: [NetworkPacketEvent<GameRulesChangedPacket>];
   [Packet.BossEvent]: [NetworkPacketEvent<BossEventPacket>];
   [Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommandsPacket>];
   [Packet.CommandRequest]: [NetworkPacketEvent<CommandRequestPacket>];
@@ -286,6 +288,9 @@ interface NetworkEvents {
   ];
   [Packet.UpdateClientInputLocks]: [
     NetworkPacketEvent<UpdateClientInputLocksPacket>
+  ];
+  [Packet.CurrentStructureFeature]: [
+    NetworkPacketEvent<CurrectStructureFeaturePacket>
   ];
   [Packet.ServerboundDiagnosticPacket]: [
     NetworkPacketEvent<ServerboundDiagnosticsPacket>
