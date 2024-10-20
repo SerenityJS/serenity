@@ -81,7 +81,7 @@ class DataItem<T = unknown> extends DataType {
         }
 
         case ActorDataType.CompoundTag: {
-          value = CompoundTag.read(stream);
+          value = CompoundTag.read(stream, true);
           break;
         }
 
