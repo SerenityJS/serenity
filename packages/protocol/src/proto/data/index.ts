@@ -123,4 +123,4 @@ export * from "./stop-sound";
 export * from "./player-fog";
 export * from "./current-structure-feature";
 export * from "./game-rules-changed";
-
+export * from "./legacy-telemetry-event";

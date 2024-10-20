@@ -121,6 +121,7 @@ import { MoveActorDeltaPacket } from "./move-actor-delta";
 import { PlayerFogPacket } from "./player-fog";
 import { CurrectStructureFeaturePacket } from "./current-structure-feature";
 import { GameRulesChangedPacket } from "./game-rules-changed";
+import { LegacyTelemetryEventPacket } from "./legacy-telemetry-event";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -174,6 +175,7 @@ const Packets = {
   [Packet.ChangeDimension]: ChangeDimensionPacket, // 61
   [Packet.SetPlayerGameType]: SetPlayerGameTypePacket, // 62
   [Packet.PlayerList]: PlayerListPacket, // 63
+  [Packet.LegacyTelemetryEvent]: LegacyTelemetryEventPacket, // 65
   [Packet.RequestChunkRadius]: RequestChunkRadiusPacket, // 69
   [Packet.ChunkRadiusUpdate]: ChunkRadiusUpdatePacket, // 70
   [Packet.GameRulesChanged]: GameRulesChangedPacket, // 72

@@ -90,3 +90,4 @@ export * from "./input-lock-flags";
 export * from "./actor-link-type";
 export * from "./debugger-protocol-version";
 export * from "./move-delta-flags";
+export * from "./telemetry-event-type";

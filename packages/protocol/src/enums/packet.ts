@@ -55,6 +55,7 @@ enum Packet {
   ChangeDimension = 0x3d, // 61
   SetPlayerGameType = 0x3e, // 62
   PlayerList = 0x3f, // 63
+  LegacyTelemetryEvent = 0x41, // 65
   RequestChunkRadius = 0x45, // 69
   ChunkRadiusUpdate = 0x46, // 70
   GameRulesChanged = 0x48, // 72
