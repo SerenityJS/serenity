@@ -122,3 +122,6 @@ export * from "./player-block-action-data";
 export * from "./player-input-tick";
 export * from "./rotation-byte";
 export * from "./fogs";
+export * from "./nbt-loop";
+export * from "./patterns";
+export * from "./materials";

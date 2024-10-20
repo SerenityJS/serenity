@@ -1,4 +1,5 @@
 export * from "./login-data";
 export * from "./position";
-export * from "./material";
 export * from "./legacy-telemetry-event-data";
+export * from "./trim-data-pattern";
+export * from "./trim-data-material";

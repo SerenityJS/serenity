@@ -120,7 +120,13 @@ import type {
   PlayerFogPacket,
   CurrectStructureFeaturePacket,
   GameRulesChangedPacket,
-  LegacyTelemetryEventPacket
+  LegacyTelemetryEventPacket,
+  LevelEventGenericPacket,
+  SetDifficultyPacket,
+  SetHealthPacket,
+  SetSpawnPositionPacket,
+  SyncActorPropertyPacket,
+  TrimDataPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -204,14 +210,18 @@ interface NetworkEvents {
   [Packet.ResourcePackDataInfo]: [
     NetworkPacketEvent<ResourcePackDataInfoPacket>
   ];
+  [Packet.SetSpawnPosition]: [NetworkPacketEvent<SetSpawnPositionPacket>];
   [Packet.StructureBlockUpdate]: [
     NetworkPacketEvent<StructureBlockUpdatePacket>
   ];
+  [Packet.SetHealth]: [NetworkPacketEvent<SetHealthPacket>];
+  [Packet.SetDifficulty]: [NetworkPacketEvent<SetDifficultyPacket>];
   [Packet.DimensionData]: [NetworkPacketEvent<DimensionDataPacket>];
   [Packet.CameraInstructions]: [NetworkPacketEvent<CameraInstructionsPacket>];
   [Packet.ResourcePackChunkData]: [
     NetworkPacketEvent<ResourcePackChunkDataPacket>
   ];
+  [Packet.TrimData]: [NetworkPacketEvent<TrimDataPacket>];
   [Packet.ShowCredits]: [NetworkPacketEvent<ShowCreditsPacket>];
   [Packet.CameraPresetsPacket]: [NetworkPacketEvent<CameraPresetsPacket>];
   [Packet.ResourcePackChunkRequest]: [
@@ -247,6 +257,7 @@ interface NetworkEvents {
   ];
   [Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionListPacket>];
   [Packet.LevelSoundEvent]: [NetworkPacketEvent<LevelSoundEventPacket>];
+  [Packet.LevelEventGeneric]: [NetworkPacketEvent<LevelEventGenericPacket>];
   [Packet.OnScreenTextureAnimation]: [
     NetworkPacketEvent<OnScreenTextureAnimationPacket>
   ];
@@ -258,6 +269,7 @@ interface NetworkEvents {
   [Packet.PlayerEnchantOptions]: [
     NetworkPacketEvent<PlayerEnchantOptionsPacket>
   ];
+  [Packet.SyncActorProperty]: [NetworkPacketEvent<SyncActorPropertyPacket>];
   [Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequestPacket>];
   [Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponsePacket>];
   [Packet.EmoteList]: [NetworkPacketEvent<EmoteListPacket>];

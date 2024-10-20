@@ -1,4 +1,5 @@
 // NOTE: Please try to put the packets in the order according to their id. Thx!
+// ok 😉 - @bonanoo
 
 import { Packet } from "../../enums";
 
@@ -122,6 +123,12 @@ import { PlayerFogPacket } from "./player-fog";
 import { CurrectStructureFeaturePacket } from "./current-structure-feature";
 import { GameRulesChangedPacket } from "./game-rules-changed";
 import { LegacyTelemetryEventPacket } from "./legacy-telemetry-event";
+import { LevelEventGenericPacket } from "./level-event-generic";
+import { SetDifficultyPacket } from "./set-difficulty";
+import { SetSpawnPositionPacket } from "./set-spawn-position";
+import { SetHealthPacket } from "./set-health";
+import { SyncActorPropertyPacket } from "./sync-actor-property";
+import { TrimDataPacket } from "./trim-data";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -160,6 +167,8 @@ const Packets = {
   [Packet.SetActorData]: SetActorDataPacket, // 39
   [Packet.SetActorMotion]: SetActorMotionPacket, // 40
   [Packet.SetActorLink]: SetActorLinkPacket, // 41
+  [Packet.SetHealth]: SetHealthPacket, // 42
+  [Packet.SetSpawnPosition]: SetSpawnPositionPacket, // 43
   [Packet.Animate]: AnimatePacket, // 44
   [Packet.Respawn]: RespawnPacket, // 45
   [Packet.ContainerOpen]: ContainerOpenPacket, // 46
@@ -172,6 +181,7 @@ const Packets = {
   [Packet.BlockActorData]: BlockActorDataPacket, // 56
   [Packet.LevelChunk]: LevelChunkPacket, // 58
   [Packet.SetCommandsEnabled]: SetCommandsEnabledPacket, // 59
+  [Packet.SetDifficulty]: SetDifficultyPacket, // 60
   [Packet.ChangeDimension]: ChangeDimensionPacket, // 61
   [Packet.SetPlayerGameType]: SetPlayerGameTypePacket, // 62
   [Packet.PlayerList]: PlayerListPacket, // 63
@@ -209,6 +219,7 @@ const Packets = {
   [Packet.NetworkChunkPublisherUpdate]: NetworkChunkPublisherUpdatePacket, // 121
   [Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
   [Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123
+  [Packet.LevelEventGeneric]: LevelEventGenericPacket, // 124
   [Packet.OnScreenTextureAnimation]: OnScreenTextureAnimationPacket, // 130
   [Packet.Emote]: EmotePacket, // 138
   [Packet.CompletedUsingItem]: CompletedUsingItemPacket, // 142
@@ -224,6 +235,7 @@ const Packets = {
   [Packet.CameraShake]: CameraShakePacket, // 159
   [Packet.PlayerFog]: PlayerFogPacket, // 160
   [Packet.ItemComponent]: ItemComponentPacket, // 162
+  [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
   [Packet.ScriptMessage]: ScriptMessagePacket, // 177
@@ -236,6 +248,7 @@ const Packets = {
   [Packet.UpdateClientInputLocks]: UpdateClientInputLocksPacket, // 196
   [Packet.CameraPresetsPacket]: CameraPresetsPacket, // 198
   [Packet.CameraInstructions]: CameraInstructionsPacket, // 300
+  [Packet.TrimData]: TrimDataPacket, // 302
   [Packet.OpenSign]: OpenSignPacket, // 303
   [Packet.SetPlayerInventoryOptions]: SetPlayerInventoryOptionsPacket, // 307
   [Packet.SetHud]: SetHudPacket, // 308
