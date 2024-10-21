@@ -38,7 +38,8 @@ enum Packet {
   SetActorData = 0x27, // 39
   SetActorMotion = 0x28, // 40
   SetActorLink = 0x29, // 41
-  // SetSpawnPosition = 0x2b, // 43
+  SetHealth = 0x2a, // 42
+  SetSpawnPosition = 0x2b, // 43
   Animate = 0x2c, // 44
   Respawn = 0x2d, // 45
   ContainerOpen = 0x2e, // 46
@@ -51,12 +52,14 @@ enum Packet {
   BlockActorData = 0x38, // 56
   LevelChunk = 0x3a, // 58
   SetCommandsEnabled = 0x3b, // 59
-  // SetDifficulty = 0x3c, // 60
+  SetDifficulty = 0x3c, // 60
   ChangeDimension = 0x3d, // 61
   SetPlayerGameType = 0x3e, // 62
   PlayerList = 0x3f, // 63
+  LegacyTelemetryEvent = 0x41, // 65
   RequestChunkRadius = 0x45, // 69
   ChunkRadiusUpdate = 0x46, // 70
+  GameRulesChanged = 0x48, // 72
   BossEvent = 0x4a, // 74
   ShowCredits = 0x4b, // 75
   AvailableCommands = 0x4c, // 76
@@ -87,6 +90,7 @@ enum Packet {
   NetworkChunkPublisherUpdate = 0x79, // 121
   BiomeDefinitionList = 0x7a, // 122
   LevelSoundEvent = 0x7b, // 123
+  LevelEventGeneric = 0x7c, // 124
   // ClientCacheStatus = 0x81, // 129
   OnScreenTextureAnimation = 0x82, // 130
   Emote = 0x8a, // 138
@@ -102,7 +106,9 @@ enum Packet {
   PacketViolationWarning = 0x9c, // 156
   AnimateEntity = 0x9e, // 158
   CameraShake = 0x9f, // 159
+  PlayerFog = 0xa0, // 160
   ItemComponent = 0xa2, // 162
+  SyncActorProperty = 0xa5, // 165
   NpcDialogue = 0xa9, // 169
   PlayerStartItemCooldown = 0xb0, // 176
   ScriptMessage = 0xb1, // 177
@@ -114,13 +120,16 @@ enum Packet {
   RequestNetworkSettings = 0xc1, // 193
   UpdateClientInputLocks = 0xc4, // 196
   CameraPresetsPacket = 0xc6, // 198
+  UnlockedRecipes = 0xc7, // 199
   CameraInstructions = 0x1_2c, // 300
+  TrimData = 0x1_2e, // 302
   OpenSign = 0x1_2f, // 303
   SetPlayerInventoryOptions = 0x1_33, // 307
   SetHud = 0x1_34, // 308
   AwardAchievement = 0x1_35, // 309
   ClientboundCloseForm = 0x1_36, // 310
   ServerboundLoadingScreenPacket = 0x1_38, // 312
+  CurrentStructureFeature = 0x1_3a, // 314
   ServerboundDiagnosticPacket = 0x1_3b // 315
 }
 
