@@ -10,7 +10,9 @@ import {
   DisconnectReason,
   Gamemode,
   SerializedSkin,
-  SetPlayerGameTypePacket
+  SetPlayerGameTypePacket,
+  TextPacket,
+  TextPacketType
 } from "@serenityjs/protocol";
 
 import { PlayerEntry, PlayerProperties } from "../types";
@@ -172,6 +174,28 @@ class Player extends Entity {
     packet.gamemode = gamemode;
 
     // Send the packet to the player
+    this.send(packet);
+  }
+
+  /**
+   * Sends a message to the player
+   * @param message The message that will be sent.
+   */
+  public sendMessage(message: string): void {
+    // Construct the text packet.
+    const packet = new TextPacket();
+
+    // Assign the packet data.
+    packet.type = TextPacketType.Raw;
+    packet.needsTranslation = false;
+    packet.source = null;
+    packet.message = message;
+    packet.parameters = null;
+    packet.xuid = "";
+    packet.platformChatId = "";
+    packet.filtered = "";
+
+    // Send the packet.
     this.send(packet);
   }
 

@@ -1,5 +1,5 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { DataPacket } from "@serenityjs/protocol";
+import { DataPacket, TextPacket, TextPacketType } from "@serenityjs/protocol";
 
 import { Serenity } from "../serenity";
 import { DimensionProperties, WorldProperties } from "../types";
@@ -158,6 +158,27 @@ class World {
 
     // Return the created dimension
     return dimension;
+  }
+
+  /**
+   * Broadcasts a message to all players in the world.
+   * @param message The message to broadcast.
+   */
+  public sendMessage(message: string): void {
+    // Construct the text packet.
+    const packet = new TextPacket();
+
+    // Assign the packet data.
+    packet.type = TextPacketType.Raw;
+    packet.needsTranslation = false;
+    packet.source = null;
+    packet.message = message;
+    packet.parameters = null;
+    packet.xuid = "";
+    packet.platformChatId = "";
+    packet.filtered = message;
+
+    this.broadcast(packet);
   }
 
   /**

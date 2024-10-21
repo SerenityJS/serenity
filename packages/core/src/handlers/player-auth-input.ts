@@ -25,7 +25,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
   public handle(packet: PlayerAuthInputPacket, connection: Connection): void {
     // Get the player from the connection
-    const player = this.serenity.players.get(connection);
+    const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
     // Set the player's position
