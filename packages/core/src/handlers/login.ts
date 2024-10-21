@@ -86,6 +86,8 @@ class LoginHandler extends NetworkHandler {
     // Read the player data from the world provider.
     const data = world.provider.readPlayer(uuid, dimension);
 
+    console.log(data?.components);
+
     // Get the skin from the client data.
     const skin = SerializedSkin.from(tokens.clientData);
 

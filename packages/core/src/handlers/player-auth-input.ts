@@ -201,6 +201,23 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Get the block from the action position
           const block = dimension.getBlock(action.position);
 
+          // Check if the block is air, if so, the client has a ghost block
+          if (block.isAir()) {
+            // Get the block permutation from the dimension
+            const permutation = block.permutation;
+
+            // Update the block permutation to the client
+            const packet = new UpdateBlockPacket();
+            packet.position = BlockPosition.toVector3f(block.position);
+            packet.layer = UpdateBlockLayerType.Normal;
+            packet.flags = UpdateBlockFlagsType.Network;
+            packet.networkBlockId = permutation.network;
+
+            // Send the packet to the player
+            player.send(packet);
+            continue;
+          }
+
           // Call the block onStartBreak trait methods
           let canceled = false;
           for (const trait of block.traits.values()) {

@@ -23,7 +23,7 @@ import { ItemStack } from "../item";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
-import { PlayerCursorTrait } from "./traits";
+import { PlayerCursorTrait, PlayerTrait } from "./traits";
 
 const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
@@ -54,6 +54,8 @@ class Player extends Entity {
    * The uuid of the player
    */
   public readonly uuid: string;
+
+  public readonly traits = new Map<string, PlayerTrait>();
 
   /**
    * The current abilities of the player, and whether they are enabled

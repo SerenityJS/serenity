@@ -14,7 +14,8 @@ import {
   ItemType,
   Items,
   ItemTrait,
-  ItemUseOptions
+  ItemUseOptions,
+  EntityIdentifier
 } from "@serenityjs/core";
 import { InteractActions, Packet } from "@serenityjs/protocol";
 
@@ -96,4 +97,16 @@ class CustomItem extends ItemTrait<ItemIdentifier.Cobblestone> {
   }
 }
 
-// setInterval(() => console.log(serenity.tps), 250);
+class CustomPlayerTrait extends PlayerTrait {
+  public static readonly identifier = "custom:player";
+
+  public static readonly types = [EntityIdentifier.Player];
+
+  public onChat(message: string): boolean {
+    if (message === "cancel") return false;
+
+    return true;
+  }
+}
+
+world.entityPalette.registerTrait(CustomPlayerTrait);
