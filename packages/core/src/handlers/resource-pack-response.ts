@@ -1,6 +1,5 @@
 import {
   BlockPosition,
-  CreativeContentPacket,
   Difficulty,
   MINECRAFT_VERSION,
   Packet,
@@ -85,9 +84,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.editorWorldType = 0;
         packet.createdInEdior = false;
         packet.exportedFromEdior = false;
-        packet.dayCycleStopTime = 0; // player.dimension.world.dayTime;
+        packet.dayCycleStopTime = player.dimension.world.dayTime;
         packet.eduOffer = 0;
-        packet.eduFeatures = false;
+        packet.eduFeatures = true;
         packet.eduProductUuid = "";
         packet.rainLevel = 0;
         packet.lightningLevel = 0;
@@ -302,7 +301,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.experimentsPreviouslyToggled = false;
         packet.bonusChest = false;
         packet.mapEnabled = false;
-        packet.permissionLevel = 0; // player.permission;
+        packet.permissionLevel = player.permission;
         packet.serverChunkTickRange = player.dimension.simulationDistance >> 4;
         packet.hasLockedBehaviorPack = false;
         packet.hasLockedResourcePack = false;
@@ -357,24 +356,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        // Create a new CreativeContentPacket, and map the creative content to the packet
-        const content = new CreativeContentPacket();
-        content.items = world.itemPalette.getCreativeContent().map((item) => {
-          return {
-            network: item.type.network,
-            metadata: item.metadata,
-            stackSize: 1,
-            networkBlockId:
-              item.type.block?.permutations[item.metadata]?.network ?? 0,
-            extras: {
-              canDestroy: [],
-              canPlaceOn: [],
-              nbt: item.nbt
-            }
-          };
-        });
-
-        player.send(packet, status, content);
+        player.send(packet, status);
       }
     }
   }

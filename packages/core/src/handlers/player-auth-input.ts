@@ -1,6 +1,8 @@
 import {
+  AbilityIndex,
   ActorFlag,
   BlockPosition,
+  Gamemode,
   InputData,
   ItemStackRequestActionMineBlock,
   ItemStackRequestActionType,
@@ -145,6 +147,24 @@ class PlayerAuthInputHandler extends NetworkHandler {
           player.flags.set(ActorFlag.Gliding, !gliding);
           break;
         }
+
+        case InputData.StartFlying:
+        case InputData.StopFlying: {
+          // Get the flying ability from the player
+          const flying = player.abilities.get(AbilityIndex.Flying) ?? false;
+          const mayFly = player.abilities.get(AbilityIndex.MayFly) ?? false;
+
+          // Check if the player is not allowed to fly
+          // This stops the Horion fly exploit
+          if (!flying && !mayFly) {
+            // Disable flying if the player does not have the may fly ability
+            player.abilities.set(AbilityIndex.Flying, false);
+          } else {
+            // Set the flying ability based on the action
+            player.abilities.set(AbilityIndex.Flying, !flying);
+          }
+          break;
+        }
       }
     }
   }
@@ -176,6 +196,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
         case PlayerActionType.ContinueDestroyBlock:
         case PlayerActionType.StartDestroyBlock: {
+          // Check if the player is in creative mode
+          // If so, skip the block break
+          if (player.gamemode === Gamemode.Creative) continue;
+
           // Check if the player already has a block target
           if (player.blockTarget) {
             // Call the block onStopBreak trait methods
@@ -323,7 +347,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const block = dimension.getBlock(action.position);
 
           // Check if the player does not have a block target
-          if (!player.blockTarget) {
+          // And if the player is not in creative mode
+          if (!player.blockTarget && player.gamemode !== Gamemode.Creative) {
             // Create a new UpdateBlockPacket for the block update
             const packet = new UpdateBlockPacket();
             packet.position = BlockPosition.toVector3f(block.position);
@@ -372,6 +397,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
               predictedDurability
             });
           }
+
+          // Break out of the switch statement
+          continue;
         }
       }
     }

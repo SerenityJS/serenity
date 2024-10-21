@@ -18,6 +18,24 @@ class PlayerListTrait extends PlayerTrait {
    */
   public readonly players = new Set<string>();
 
+  /**
+   * Clears the player list.
+   */
+  public clear(): void {
+    // Remove all the players from the player list
+    const remove = new PlayerListPacket();
+    remove.action = PlayerListAction.Remove;
+    remove.records = [...this.players].map(
+      (uuid) => new PlayerListRecord(uuid)
+    );
+
+    // Clear the player list
+    this.players.clear();
+
+    // Send the remove packet to the player
+    this.player.send(remove);
+  }
+
   public onTick(): void {
     // Check if the player is spawned
     if (!this.player.isAlive) return;
@@ -80,6 +98,11 @@ class PlayerListTrait extends PlayerTrait {
 
     // Update the player list
     for (const uuid of removing) this.players.delete(uuid);
+  }
+
+  public onDespawn(): void {
+    // Clear the player list
+    this.clear();
   }
 }
 

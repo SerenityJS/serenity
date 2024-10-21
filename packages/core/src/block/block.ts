@@ -120,6 +120,10 @@ class Block {
     this.permutation = permutation;
   }
 
+  public setType(type: BlockType): void {
+    this.setPermutation(type.getPermutation());
+  }
+
   public getType(): BlockType {
     return this.permutation.type;
   }

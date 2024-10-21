@@ -38,6 +38,11 @@ class PlayerActionHandler extends NetworkHandler {
         player.itemTarget = null;
         break;
       }
+
+      // DEPRECATED: Handles when a player destroys a block in creative mode
+      case PlayerActionType.CreativeDestroyBlock: {
+        break;
+      }
     }
   }
 }

@@ -265,7 +265,7 @@ abstract class Container {
     this.storage[slot] = null;
 
     // Calculate the amount of empty slots in the container.
-    this.calculateEmptySlotCount();
+    this.emptySlotsCount = this.calculateEmptySlotCount();
 
     // Check if the entity is a player, if so, return.
     if (this.occupants.size === 0) return;

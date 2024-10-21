@@ -6,6 +6,7 @@ import { DimensionProperties, WorldProperties } from "../types";
 import { Entity, EntityPalette, Player } from "../entity";
 import { ItemPalette } from "../item";
 import { BlockPalette } from "../block";
+import { AdminCommands, Commands } from "../commands";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -63,6 +64,11 @@ class World {
   public readonly itemPalette = new ItemPalette();
 
   /**
+   * The commands of the world.
+   */
+  public readonly commands = new Commands();
+
+  /**
    * The current tick of the world.
    */
   public currentTick = 0n;
@@ -89,6 +95,9 @@ class World {
 
     // Create a new logger for the world
     this.logger = new Logger(this.identifier, LoggerColors.GreenBright);
+
+    // Register the admin commands
+    for (const command of AdminCommands) command(this);
   }
 
   /**

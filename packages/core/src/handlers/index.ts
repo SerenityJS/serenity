@@ -12,6 +12,7 @@ import { RequestNetworkSettingsHandler } from "./request-network-settings";
 import { ResourcePackClientResponseHandler } from "./resource-pack-response";
 import { SetLocalPlayerAsInitializedHandler } from "./set-local-player-as-initialized";
 import { TextHandler } from "./text";
+import { CommandRequestHandler } from "./command-request";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -27,7 +28,8 @@ const Handlers = [
   AnimateHandler,
   InventoryTransactionHandler,
   PlayerActionHandler,
-  TextHandler
+  TextHandler,
+  CommandRequestHandler
 ];
 
 export { Handlers };

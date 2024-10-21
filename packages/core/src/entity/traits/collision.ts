@@ -2,7 +2,8 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
-  DataItem
+  DataItem,
+  Gamemode
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
@@ -42,6 +43,17 @@ class EntityCollision extends EntityTrait {
       // Set the default width value
       this.setWidth(this.width);
     }
+  }
+
+  public onGamemodeChange(): void {
+    // Check if the entity is not a player
+    if (!this.entity.isPlayer()) return;
+
+    // If the player is now in spectator mode, collision should be disabled
+    if (this.entity.gamemode === Gamemode.Spectator)
+      this.entity.flags.set(ActorFlag.HasCollision, false);
+    // If the player is not in spectator mode, collision should be enabled
+    else this.entity.flags.set(ActorFlag.HasCollision, true);
   }
 
   /**

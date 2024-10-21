@@ -102,6 +102,9 @@ class EntityInventoryTrait extends EntityTrait {
         this.container.setItem(item.slot, stack);
       }
     }
+
+    // Update the container if the entity is a player
+    if (this.entity.isPlayer()) this.container.update(this.entity);
   }
 
   public onDespawn(): void {
@@ -116,7 +119,7 @@ class EntityInventoryTrait extends EntityTrait {
       // Get the item stack at the index
       const item = this.container.getItem(i);
 
-      // If the item stack is null, skip
+      // Check if the item is null
       if (item === null) continue;
 
       // Create a new item stack entry

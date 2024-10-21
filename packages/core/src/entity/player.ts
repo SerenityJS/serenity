@@ -2,17 +2,25 @@ import { Connection } from "@serenityjs/raknet";
 import {
   AbilityIndex,
   BlockPosition,
+  ChangeDimensionPacket,
   ContainerName,
+  CreativeContentPacket,
   DataPacket,
   DefaultAbilityValues,
   DisconnectMessage,
   DisconnectPacket,
   DisconnectReason,
   Gamemode,
+  MoveMode,
+  MovePlayerPacket,
+  PermissionLevel,
   SerializedSkin,
   SetPlayerGameTypePacket,
+  TeleportCause,
   TextPacket,
-  TextPacketType
+  TextPacketType,
+  TransferPacket,
+  Vector3f
 } from "@serenityjs/protocol";
 
 import { PlayerEntry, PlayerProperties } from "../types";
@@ -55,6 +63,9 @@ class Player extends Entity {
    */
   public readonly uuid: string;
 
+  /**
+   * The traits that are attached to the player
+   */
   public readonly traits = new Map<string, PlayerTrait>();
 
   /**
@@ -66,6 +77,11 @@ class Player extends Entity {
    * The skin of the player
    */
   public readonly skin: SerializedSkin;
+
+  /**
+   * The permission level of the player
+   */
+  public permission: PermissionLevel = PermissionLevel.Member;
 
   /**
    * The container that the player is currently viewing.
@@ -109,13 +125,18 @@ class Player extends Entity {
     // If the player properties contains an entry, load it
     if (properties?.entry) this.load(properties.entry);
 
+    // Initialize the player
+    this.initialize();
+  }
+
+  protected initialize(): void {
     // Get the traits for the player
-    const traits = dimension.world.entityPalette.getRegistryFor(
+    const traits = this.dimension.world.entityPalette.getRegistryFor(
       this.type.identifier
     );
 
-    // Register the traits to the player
-    for (const trait of traits) this.addTrait(trait);
+    // Register the traits to the player, if they do not already exist
+    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
 
     // Add the default abilities to the player, if they do not already exist
     for (const [ability, value] of Object.entries(DefaultAbilityValues)) {
@@ -140,6 +161,38 @@ class Player extends Entity {
   public sendImmediate(...packets: Array<DataPacket>): void {
     // Send the packets to the player
     this.serenity.network.sendImmediate(this.connection, ...packets);
+  }
+
+  /**
+   * Check if the player is an operator
+   * @returns Whether the player is an operator
+   */
+  public isOp(): boolean {
+    return this.permission === PermissionLevel.Operator;
+  }
+
+  /**
+   * Add the operator status to the player
+   */
+  public op(): void {
+    // Set the player's permission level to operator
+    this.permission = PermissionLevel.Operator;
+
+    // Update the player's abilities
+    this.abilities.set(AbilityIndex.OperatorCommands, true);
+    this.abilities.set(AbilityIndex.Teleport, true);
+  }
+
+  /**
+   * Remove the operator status from the player
+   */
+  public deop(): void {
+    // Set the player's permission level to member
+    this.permission = PermissionLevel.Member;
+
+    // Update the player's abilities
+    this.abilities.set(AbilityIndex.OperatorCommands, false);
+    this.abilities.set(AbilityIndex.Teleport, false);
   }
 
   /**
@@ -168,8 +221,32 @@ class Player extends Entity {
    * @param gamemode The gamemode to set
    */
   public setGamemode(gamemode: Gamemode): void {
+    // Get the previous gamemode of the player
+    const previous = this.gamemode;
+
     // Set the gamemode of the player
     this.gamemode = gamemode;
+
+    // Call the onGamemodeChange event for the player
+    for (const trait of this.traits.values())
+      trait.onGamemodeChange?.(previous);
+
+    // Enable or disable the ability to fly based on the gamemode
+    switch (gamemode) {
+      case Gamemode.Survival:
+      case Gamemode.Adventure: {
+        // Disable the ability to fly
+        this.abilities.set(AbilityIndex.MayFly, false);
+        break;
+      }
+
+      case Gamemode.Creative:
+      case Gamemode.Spectator: {
+        // Enable the ability to fly
+        this.abilities.set(AbilityIndex.MayFly, true);
+        break;
+      }
+    }
 
     // Create a new set player game type packet
     const packet = new SetPlayerGameTypePacket();
@@ -254,6 +331,136 @@ class Player extends Entity {
 
     // Update the abilities of the player
     this.abilities.update();
+
+    // Create a new CreativeContentPacket, and map the creative content to the packet
+    const content = new CreativeContentPacket();
+    content.items = this.getWorld()
+      .itemPalette.getCreativeContent()
+      .map((item) => {
+        return {
+          network: item.type.network,
+          metadata: item.metadata,
+          stackSize: 1,
+          networkBlockId:
+            item.type.block?.permutations[item.metadata]?.network ?? 0,
+          extras: {
+            canDestroy: [],
+            canPlaceOn: [],
+            nbt: item.nbt
+          }
+        };
+      });
+
+    // Serialize the available commands for the player
+    const commands = this.getWorld().commands.serialize();
+
+    // Filter the commands by the player's permission level
+    commands.commands = commands.commands.filter(
+      (x) => x.permissionLevel <= this.permission
+    );
+
+    // Send the available commands packet to the player
+    this.send(content, commands);
+  }
+
+  /**
+   * Transfers the player to a different server.
+   * @param address The address to transfer the player to.
+   * @param port The port to transfer the player to.
+   * @param reload If the world should be reloaded.
+   */
+  public transfer(address: string, port: number, reload = false): void {
+    // Create a new TransferPacket
+    const packet = new TransferPacket();
+
+    // Set the packet properties
+    packet.address = address;
+    packet.port = port;
+    packet.reloadWorld = reload;
+
+    // Send the packet to the player
+    this.send(packet);
+  }
+
+  /**
+   * Teleports the player to a specific position.
+   * @param position The position to teleport the player to.
+   * @param dimension The dimension to teleport the player to.
+   */
+  public teleport(position: Vector3f, dimension?: Dimension): void {
+    // Set the player's position
+    this.position.x = position.x;
+    this.position.y = position.y;
+    this.position.z = position.z;
+
+    // Check if the dimension is provided
+    if (dimension) {
+      // Despawn the player from the current dimension
+      this.despawn();
+
+      if (dimension.world !== this.dimension.world) {
+        // Save the players current data
+        this.save();
+
+        // Read the player data from the new world
+        const data = dimension.world.provider.readPlayer(this.uuid, dimension);
+
+        // Check if the player data exists
+        if (data) this.load(data, true);
+        else {
+          // Clear the player's data
+          this.components.clear();
+          this.traits.clear();
+          this.abilities.clear();
+          this.metadata.clear();
+          this.flags.clear();
+        }
+
+        // Initialize the player
+        this.initialize();
+      }
+
+      // Check if the dimension types are different
+      // This allows for a faster dimension change if the types are the same
+      if (this.dimension.type !== dimension.type) {
+        // Create a new ChangeDimensionPacket
+        const packet = new ChangeDimensionPacket();
+        packet.dimension = dimension.type;
+        packet.position = position;
+        packet.respawn = true;
+        packet.hasLoadingScreen = false;
+
+        // Send the packet to the player
+        this.sendImmediate(packet);
+      }
+
+      // Set the new dimension
+      this.dimension = dimension;
+
+      // Spawn the player in the new dimension
+      this.spawn();
+
+      // Update the player's position
+      return this.teleport(position);
+    } else {
+      // Create a new MovePlayerPacket
+      const packet = new MovePlayerPacket();
+
+      // Set the packet properties
+      packet.runtimeId = this.runtimeId;
+      packet.position = position;
+      packet.pitch = this.rotation.pitch;
+      packet.yaw = this.rotation.yaw;
+      packet.headYaw = this.rotation.headYaw;
+      packet.mode = MoveMode.Teleport;
+      packet.onGround = this.onGround;
+      packet.riddenRuntimeId = 0n;
+      packet.cause = new TeleportCause(4, 0);
+      packet.tick = this.dimension.world.currentTick;
+
+      // Send the packet to the player
+      this.send(packet);
+    }
   }
 
   /**
@@ -268,6 +475,8 @@ class Player extends Entity {
       username: this.username,
       xuid: this.xuid,
       uuid: this.uuid,
+      permission: this.permission,
+      gamemode: this.gamemode,
       uniqueId: this.uniqueId,
       identifier: this.type.identifier,
       position: this.position,
@@ -319,6 +528,10 @@ class Player extends Entity {
       throw new Error(
         "Failed to load player entry as the identifier does not match the player's identifier!"
       );
+
+    // Set the player's permission level & gamemode
+    this.permission = entry.permission;
+    this.gamemode = entry.gamemode;
 
     // Set the player's position and rotation
     this.position.set(entry.position);

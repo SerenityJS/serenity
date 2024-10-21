@@ -42,7 +42,6 @@ class EntityAirSupplyTrait extends EntityTrait {
   }
 
   private canBreathe(): boolean {
-    return this.getAirSupplyTicks() < 150;
     const blockAtHead = this.entity.dimension.getBlock(
       this.entity.position.floor()
     );

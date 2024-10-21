@@ -1,3 +1,5 @@
+import { Gamemode } from "@serenityjs/protocol";
+
 import { Player } from "../../player";
 import { EntityTrait } from "../trait";
 
@@ -13,6 +15,12 @@ class PlayerTrait extends EntityTrait {
    * @returns Whether the chat message was successful; default is true
    */
   public onChat?(message: string): boolean | void;
+
+  /**
+   * Called when a players gamemode is changed.
+   * @param previous The previous gamemode of the player.
+   */
+  public onGamemodeChange?(previous: Gamemode): void;
 }
 
 export { PlayerTrait };

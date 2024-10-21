@@ -90,6 +90,11 @@ class Entity {
   public readonly attributes = new AttributeMap(this);
 
   /**
+   * The tags that are attached to the entity
+   */
+  public readonly tags = new Set<string>();
+
+  /**
    * The current dimension of the entity.
    * This should not be dynamically changed, but instead use the `teleport` method.
    */
@@ -537,6 +542,55 @@ class Entity {
     entity.setMotion(velocity);
 
     // Return true as the item was dropped
+    return true;
+  }
+
+  /**
+   * Whether or not the entity has a tag.
+   * @param tag The tag to check.
+   * @returns Whether or not the entity has the tag.
+   */
+  public hasTag(tag: string): boolean {
+    return this.tags.has(tag);
+  }
+
+  /**
+   * Gets the tags of the entity.
+   * @returns The tags of the entity.
+   */
+  public getTags(): Array<string> {
+    return [...this.tags];
+  }
+
+  /**
+   * Adds a tag to the entity.
+   * @param tag The tag to add.
+   * @returns Whether or not the tag was added.
+   */
+  public addTag(tag: string): boolean {
+    // Check if the tag already exists
+    if (this.tags.has(tag)) return false;
+
+    // Tags are read-only
+    this.tags.add(tag);
+
+    // Return true as the tag was added
+    return true;
+  }
+
+  /**
+   * Removes a tag from the entity.
+   * @param tag The tag to remove.
+   * @returns Whether or not the tag was removed.
+   */
+  public removeTag(tag: string): boolean {
+    // Check if the tag exists
+    if (!this.tags.has(tag)) return false;
+
+    // Remove the tag from the entity
+    this.tags.delete(tag);
+
+    // Return true as the tag was removed
     return true;
   }
 

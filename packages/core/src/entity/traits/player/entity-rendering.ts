@@ -78,7 +78,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.uuid = entity.uuid;
         packet.username = entity.username;
         packet.runtimeId = entity.runtimeId;
-        packet.platformChatId = String(); // TODO: Not sure what entity is.
+        packet.platformChatId = String(); // TODO: Not sure what this is
         packet.position = entity.position;
         packet.velocity = entity.velocity;
         packet.pitch = entity.rotation.pitch;
@@ -92,8 +92,8 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.data = [...entity.metadata.values()];
         packet.properties = new PropertySyncData([], []);
         packet.uniqueEntityId = entity.uniqueId;
-        packet.premissionLevel = 0; // entity.permission;
-        packet.commandPermission = 0; // entity.permission === 2 ? 1 : 0;
+        packet.premissionLevel = entity.permission;
+        packet.commandPermission = entity.permission === 2 ? 1 : 0;
         packet.abilities = [
           {
             type: AbilityLayerType.Base,
@@ -201,6 +201,29 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         this.entities.delete(unique);
       }
     }
+  }
+
+  public onDespawn(): void {
+    // Clear the entities
+    this.clear();
+  }
+
+  /**
+   * Clears all the entities that have been rendered for the player.
+   */
+  public clear(): void {
+    // Iterate over the entities
+    for (const unique of this.entities) {
+      // Create a new remove entity packet
+      const packet = new RemoveEntityPacket();
+      packet.uniqueEntityId = unique;
+
+      // Send the packet to the player
+      this.player.send(packet);
+    }
+
+    // Clear the entities
+    this.entities.clear();
   }
 
   public distance(a: Vector3f, b: Vector3f): number {

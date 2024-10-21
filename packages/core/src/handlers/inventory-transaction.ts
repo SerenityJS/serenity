@@ -71,6 +71,11 @@ class InventoryTransactionHandler extends NetworkHandler {
           break;
         }
 
+        case InventorySourceType.ContainerInventory: {
+          // TODO: Implement validation for container inventory
+          break;
+        }
+
         // Handle dropping items into the world
         case InventorySourceType.WorldInteraction: {
           // Get the stack amount from the action

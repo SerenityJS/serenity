@@ -2,6 +2,7 @@ import { Trait } from "../../trait";
 import { EntityIdentifier } from "../../enums";
 import { Entity } from "../entity";
 import { Player } from "../player";
+import { CommandExecutionState } from "../../commands";
 
 class EntityTrait extends Trait {
   /**
@@ -41,6 +42,13 @@ class EntityTrait extends Trait {
    * @param player The player that interacted with the entity.
    */
   public onInteract?(player: Player): void;
+
+  /**
+   * Called when the entity that this trait is attached executes a command.
+   * @param state The command execution state.
+   * @returns Whether the command was successful; default is true.
+   */
+  public onCommand?(state: CommandExecutionState): boolean | void;
 
   /**
    * Clones the entity trait.
