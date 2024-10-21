@@ -116,7 +116,18 @@ import type {
   SetActorLinkPacket,
   StopSoundPacket,
   DataPacket,
-  MoveActorDeltaPacket
+  MoveActorDeltaPacket,
+  PlayerFogPacket,
+  CurrectStructureFeaturePacket,
+  GameRulesChangedPacket,
+  LegacyTelemetryEventPacket,
+  LevelEventGenericPacket,
+  SetDifficultyPacket,
+  SetHealthPacket,
+  SetSpawnPositionPacket,
+  SyncActorPropertyPacket,
+  TrimDataPacket,
+  UnlockedRecipesPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -191,26 +202,33 @@ interface NetworkEvents {
   [Packet.PlayerList]: [NetworkPacketEvent<PlayerListPacket>];
   [Packet.RequestChunkRadius]: [NetworkPacketEvent<RequestChunkRadiusPacket>];
   [Packet.ChunkRadiusUpdate]: [NetworkPacketEvent<ChunkRadiusUpdatePacket>];
+  [Packet.GameRulesChanged]: [NetworkPacketEvent<GameRulesChangedPacket>];
   [Packet.BossEvent]: [NetworkPacketEvent<BossEventPacket>];
+  [Packet.LegacyTelemetryEvent]: [NetworkPacketEvent<LegacyTelemetryEventPacket>];
   [Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommandsPacket>];
   [Packet.CommandRequest]: [NetworkPacketEvent<CommandRequestPacket>];
   [Packet.CommandOutput]: [NetworkPacketEvent<CommandOutputPacket>];
   [Packet.ResourcePackDataInfo]: [
     NetworkPacketEvent<ResourcePackDataInfoPacket>
   ];
+  [Packet.SetSpawnPosition]: [NetworkPacketEvent<SetSpawnPositionPacket>];
   [Packet.StructureBlockUpdate]: [
     NetworkPacketEvent<StructureBlockUpdatePacket>
   ];
+  [Packet.SetHealth]: [NetworkPacketEvent<SetHealthPacket>];
+  [Packet.SetDifficulty]: [NetworkPacketEvent<SetDifficultyPacket>];
   [Packet.DimensionData]: [NetworkPacketEvent<DimensionDataPacket>];
   [Packet.CameraInstructions]: [NetworkPacketEvent<CameraInstructionsPacket>];
   [Packet.ResourcePackChunkData]: [
     NetworkPacketEvent<ResourcePackChunkDataPacket>
   ];
+  [Packet.TrimData]: [NetworkPacketEvent<TrimDataPacket>];
   [Packet.ShowCredits]: [NetworkPacketEvent<ShowCreditsPacket>];
   [Packet.CameraPresetsPacket]: [NetworkPacketEvent<CameraPresetsPacket>];
   [Packet.ResourcePackChunkRequest]: [
     NetworkPacketEvent<ResourcePackChunkRequestPacket>
   ];
+  [Packet.UnlockedRecipes]: [NetworkPacketEvent<UnlockedRecipesPacket>];
   [Packet.Transfer]: [NetworkPacketEvent<TransferPacket>];
   [Packet.PlaySound]: [NetworkPacketEvent<PlaySoundPacket>];
   [Packet.SetTitle]: [NetworkPacketEvent<SetTitlePacket>];
@@ -218,6 +236,7 @@ interface NetworkEvents {
   [Packet.NpcRequest]: [NetworkPacketEvent<NpcRequestPacket>];
   [Packet.OpenSign]: [NetworkPacketEvent<OpenSignPacket>];
   [Packet.CameraShake]: [NetworkPacketEvent<CameraShakePacket>];
+  [Packet.PlayerFog]: [NetworkPacketEvent<PlayerFogPacket>];
   [Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
   [Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
   [Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];
@@ -240,6 +259,7 @@ interface NetworkEvents {
   ];
   [Packet.BiomeDefinitionList]: [NetworkPacketEvent<BiomeDefinitionListPacket>];
   [Packet.LevelSoundEvent]: [NetworkPacketEvent<LevelSoundEventPacket>];
+  [Packet.LevelEventGeneric]: [NetworkPacketEvent<LevelEventGenericPacket>];
   [Packet.OnScreenTextureAnimation]: [
     NetworkPacketEvent<OnScreenTextureAnimationPacket>
   ];
@@ -251,6 +271,7 @@ interface NetworkEvents {
   [Packet.PlayerEnchantOptions]: [
     NetworkPacketEvent<PlayerEnchantOptionsPacket>
   ];
+  [Packet.SyncActorProperty]: [NetworkPacketEvent<SyncActorPropertyPacket>];
   [Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequestPacket>];
   [Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponsePacket>];
   [Packet.EmoteList]: [NetworkPacketEvent<EmoteListPacket>];
@@ -283,6 +304,9 @@ interface NetworkEvents {
   ];
   [Packet.UpdateClientInputLocks]: [
     NetworkPacketEvent<UpdateClientInputLocksPacket>
+  ];
+  [Packet.CurrentStructureFeature]: [
+    NetworkPacketEvent<CurrectStructureFeaturePacket>
   ];
   [Packet.ServerboundDiagnosticPacket]: [
     NetworkPacketEvent<ServerboundDiagnosticsPacket>

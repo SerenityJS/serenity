@@ -26,7 +26,7 @@ class ComponentItem extends DataType {
       const name = stream.readVarString();
 
       // Read the data of the item.
-      const data = CompoundTag.read(stream);
+      const data = CompoundTag.read(stream, true);
 
       // Add the item to the array.
       items.push(new ComponentItem(name, data));
@@ -46,7 +46,7 @@ class ComponentItem extends DataType {
       stream.writeVarString(item.name);
 
       // Write the data of the item.
-      CompoundTag.write(stream, item.data);
+      CompoundTag.write(stream, item.data, true);
     }
   }
 }
