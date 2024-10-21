@@ -1,4 +1,5 @@
 import {
+  BlockFace,
   BlockPosition,
   Gamemode,
   LevelEvent,
@@ -247,6 +248,117 @@ class Block {
     }
 
     return Math.ceil(hardness * 20);
+  }
+
+  /**
+   * Gets the block above this block.
+   *
+   * @param steps The amount of steps to go up.
+   */
+  public above(steps?: number): Block {
+    return this.dimension.getBlock({
+      ...this.position,
+      y: this.position.y + (steps ?? 1)
+    });
+  }
+
+  /**
+   * Gets the block below this block.
+   *
+   * @param steps The amount of steps to go down.
+   */
+  public below(steps?: number): Block {
+    return this.dimension.getBlock({
+      ...this.position,
+      y: this.position.y - (steps ?? 1)
+    });
+  }
+
+  /**
+   * Gets the block to the north of this block.
+   *
+   * @param steps The amount of steps to go north.
+   */
+  public north(steps?: number): Block {
+    return this.dimension.getBlock({
+      ...this.position,
+      z: this.position.z - (steps ?? 1)
+    });
+  }
+
+  /**
+   * Gets the block to the south of this block.
+   *
+   * @param steps The amount of steps to go south.
+   */
+  public south(steps?: number): Block {
+    return this.dimension.getBlock({
+      ...this.position,
+      z: this.position.z + (steps ?? 1)
+    });
+  }
+
+  /**
+   * Gets the block to the east of this block.
+   *
+   * @param steps The amount of steps to go east.
+   */
+  public east(steps?: number): Block {
+    return this.dimension.getBlock({
+      ...this.position,
+      x: this.position.x + (steps ?? 1)
+    });
+  }
+
+  /**
+   * Gets the block to the west of this block.
+   *
+   * @param steps The amount of steps to go west.
+   */
+  public west(steps?: number): Block {
+    return this.dimension.getBlock({
+      ...this.position,
+      x: this.position.x - (steps ?? 1)
+    });
+  }
+
+  /**
+   * Gets the corresponding block next to a given block face of the block.
+   *
+   * @param face The face of the block.
+   */
+  public face(face: BlockFace): Block {
+    switch (face) {
+      case BlockFace.Top: {
+        return this.above();
+      }
+      case BlockFace.Bottom: {
+        return this.below();
+      }
+      case BlockFace.North: {
+        return this.north();
+      }
+      case BlockFace.South: {
+        return this.south();
+      }
+      case BlockFace.East: {
+        return this.east();
+      }
+      case BlockFace.West: {
+        return this.west();
+      }
+    }
+  }
+
+  /**
+   * Forces a player to interact with the block.
+   * @param player The player to interact with the block.
+   */
+  public interact(player: Player): void {
+    // Call the block onInteract trait methods
+    for (const trait of this.traits.values()) {
+      trait.onInteract?.(player);
+    }
   }
 
   /**

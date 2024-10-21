@@ -2,6 +2,8 @@ import {
   ActorFlag,
   BlockPosition,
   InputData,
+  ItemStackRequestActionMineBlock,
+  ItemStackRequestActionType,
   LevelEvent,
   LevelEventPacket,
   Packet,
@@ -51,8 +53,29 @@ class PlayerAuthInputHandler extends NetworkHandler {
     player.onGround = permutation.type.solid;
 
     // Check if the packet contains block actions
-    if (packet.blockActions)
-      this.handleBlockActions(player, packet.blockActions.actions);
+    if (packet.blockActions) {
+      // Check if an item stack request was provided
+      if (packet.itemStackRequest) {
+        // Check if the actions include mining a block
+        // If so, this indicates the player is using a tool to mine a block
+        const action = packet.itemStackRequest.actions.find(
+          (x) =>
+            x.action === ItemStackRequestActionType.ScreenHUDMineBlock &&
+            x.mineBlock
+        );
+
+        // If the player is mining a block, handle the block actions
+        if (action)
+          this.handleBlockActions(
+            player,
+            packet.blockActions.actions,
+            action.mineBlock as ItemStackRequestActionMineBlock
+          );
+      } else {
+        // Handle the block actions
+        this.handleBlockActions(player, packet.blockActions.actions);
+      }
+    }
 
     // Handle the player's actions
     this.handleActorActions(player, packet.inputData.getFlags());
@@ -133,7 +156,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
    */
   public handleBlockActions(
     player: Player,
-    actions: Array<PlayerBlockActionData>
+    actions: Array<PlayerBlockActionData>,
+    request?: ItemStackRequestActionMineBlock
   ): void {
     // Iterate over the actions
     for (const action of actions) {
@@ -142,6 +166,14 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
       // Switch on the action type
       switch (action.type) {
+        // Log unimplemented actions
+        default: {
+          this.serenity.logger.debug(
+            `PlayerAuthInputHandler: Unimplemented block action: ${PlayerActionType[action.type]}`
+          );
+          break;
+        }
+
         case PlayerActionType.ContinueDestroyBlock:
         case PlayerActionType.StartDestroyBlock: {
           // Check if the player already has a block target
@@ -300,6 +332,28 @@ class PlayerAuthInputHandler extends NetworkHandler {
               // Send the packet to the player
               player.send(packet);
             }
+          }
+
+          // Check if a mine block request was provided
+          // If not, skip the block break
+          if (!request || !player.itemTarget) continue;
+
+          // Get the item stack from the player
+          const stack = player.itemTarget;
+
+          // Call the item onUse trait methods
+          for (const trait of stack.traits.values()) {
+            // Set the use method for the trait, predicted durability, and target block
+            const method = ItemUseMethod.Use;
+            const predictedDurability = request.predictedDurability;
+            const targetBlock = block;
+
+            // Call the onUse method for the trait
+            trait.onUse?.(player, {
+              method,
+              targetBlock,
+              predictedDurability
+            });
           }
         }
       }

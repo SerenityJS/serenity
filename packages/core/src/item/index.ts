@@ -1,8 +1,9 @@
 import * as Traits from "./traits";
 
 export * from "./identity";
-export * from "./stack";
 export * from "./palette";
+export * from "./traits";
+export * from "./stack";
 
 /**
  * A list of all item stack traits

@@ -121,3 +121,4 @@ export * from "./player-block-actions";
 export * from "./player-block-action-data";
 export * from "./player-input-tick";
 export * from "./rotation-byte";
+export * from "./player-auth-item-stack-request";

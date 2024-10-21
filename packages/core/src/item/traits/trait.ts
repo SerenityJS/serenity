@@ -49,6 +49,16 @@ class ItemTrait<T extends keyof Items> extends Trait {
   ): boolean | void;
 
   /**
+   * Called when the item is used by a player.
+   * @param player The player that used the item.
+   * @param options The additional options for the item use.
+   */
+  public onUse?(
+    player: Player,
+    options: Partial<ItemUseOptions>
+  ): boolean | void;
+
+  /**
    * Compares another item trait to this one.
    * @param other The other item trait to compare.
    * @returns Whether the item traits are equal.

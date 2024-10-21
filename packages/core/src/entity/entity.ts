@@ -483,6 +483,22 @@ class Entity {
   }
 
   /**
+   * Gets the selected inventory slot of the entity.
+   * @returns The selected hotbar index of the entity.
+   */
+  public getSelectedSlot(): number {
+    // Check if the entity has an inventory trait
+    if (!this.hasTrait(EntityInventoryTrait))
+      throw new Error("The entity does not have an inventory trait.");
+
+    // Get the inventory trait
+    const inventory = this.getTrait(EntityInventoryTrait);
+
+    // Return the selected slot
+    return inventory.selectedSlot;
+  }
+
+  /**
    * Forces the entity to drop an item from its inventory.
    * @param slot The slot to drop the item from.
    * @param amount The amount of items to drop.

@@ -1,9 +1,11 @@
 import { AnimateHandler } from "./animate";
 import { ContainerCloseHandler } from "./container-close";
 import { DisconnectHandler } from "./disconnect";
+import { InventoryTransactionHandler } from "./inventory-transaction";
 import { ItemStackRequestHandler } from "./item-stack-request";
 import { LoginHandler } from "./login";
 import { MobEquipmentHandler } from "./mob-equipment";
+import { PlayerActionHandler } from "./player-action";
 import { PlayerAuthInputHandler } from "./player-auth-input";
 import { RequestChunkRadiusHandler } from "./request-chunk-radius";
 import { RequestNetworkSettingsHandler } from "./request-network-settings";
@@ -21,7 +23,9 @@ const Handlers = [
   MobEquipmentHandler,
   ItemStackRequestHandler,
   RequestChunkRadiusHandler,
-  AnimateHandler
+  AnimateHandler,
+  InventoryTransactionHandler,
+  PlayerActionHandler
 ];
 
 export { Handlers };
