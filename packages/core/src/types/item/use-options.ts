@@ -17,6 +17,11 @@ interface ItemUseOptions {
    * The target entity that the item is being used on.
    */
   targetEntity: Entity;
+
+  /**
+   * The predicted amount of durability used during the use of the item.
+   */
+  predictedDurability: number;
 }
 
 export { ItemUseOptions };

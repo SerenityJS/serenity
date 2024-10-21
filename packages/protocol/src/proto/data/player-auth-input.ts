@@ -11,7 +11,8 @@ import {
   PlayerInputTick,
   Vector2f,
   Vector3f,
-  PlayerBlockActions
+  PlayerBlockActions,
+  PlayerAuthItemStackRequest
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -29,6 +30,9 @@ export class PlayerAuthInputPacket extends DataPacket {
   // @Serialize(Vector2f) public interactRotation!: Vector2f; // TODO v748
   @Serialize(PlayerInputTick) public inputTick!: PlayerInputTick;
   @Serialize(Vector3f) public positionDelta!: Vector3f;
+  @Serialize(PlayerAuthItemStackRequest, 0, "inputData")
+  public itemStackRequest!: PlayerAuthItemStackRequest | null;
+
   @Serialize(PlayerBlockActions, 0, "inputData")
   public blockActions!: PlayerBlockActions | null;
 

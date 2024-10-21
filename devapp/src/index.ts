@@ -13,14 +13,10 @@ import {
   EntityInventoryTrait,
   ItemType,
   Items,
-  BlockTrait,
-  Block
+  ItemTrait,
+  ItemUseOptions
 } from "@serenityjs/core";
-import {
-  InteractActions,
-  Packet,
-  PlayerActionType
-} from "@serenityjs/protocol";
+import { InteractActions, Packet } from "@serenityjs/protocol";
 
 const serenity = new Serenity({ port: 19142, debugLogging: true });
 
@@ -42,7 +38,12 @@ const _overworld = world.createDimension(SuperflatGenerator) as Dimension;
 serenity.network.before(Packet.Text, (data) => {
   const player = serenity.getPlayerByConnection(data.connection) as Player;
 
-  const stack = new ItemStack(ItemIdentifier.DiamondSword);
+  const stack = new ItemStack(ItemIdentifier.Cobblestone, { amount: 1 });
+
+  new CustomItem(stack);
+
+  stack.nbt.createIntTag("Damage", 0);
+
   player.dimension.spawnItem(stack, player.position);
 
   return true;
@@ -71,5 +72,28 @@ serenity.network.on(Packet.CommandRequest, (data) => {
 
   inventory.container.addItem(item);
 });
+
+class CustomItem extends ItemTrait<ItemIdentifier.Cobblestone> {
+  public static readonly identifier = "custom:item";
+
+  public onUse(player: Player, options: Partial<ItemUseOptions>): boolean {
+    console.log(
+      "Item used!",
+      options.method,
+      options.predictedDurability,
+      options.targetBlock?.position
+    );
+
+    return true;
+  }
+
+  public onStartUse(player: Player, options: Partial<ItemUseOptions>): void {
+    console.log("Item started to be used!");
+  }
+
+  public onStopUse(player: Player, options: Partial<ItemUseOptions>): void {
+    console.log("Item stopped being used!");
+  }
+}
 
 // setInterval(() => console.log(serenity.tps), 250);

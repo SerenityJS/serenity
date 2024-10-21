@@ -1,0 +1,45 @@
+import {
+  PlayerActionPacket,
+  Packet,
+  PlayerActionType
+} from "@serenityjs/protocol";
+import { Connection } from "@serenityjs/raknet";
+
+import { NetworkHandler } from "../network";
+
+class PlayerActionHandler extends NetworkHandler {
+  public static readonly packet = Packet.PlayerAction;
+
+  public handle(packet: PlayerActionPacket, connection: Connection): void {
+    // Get the player from the connection
+    const player = this.serenity.getPlayerByConnection(connection);
+    if (!player) return connection.disconnect();
+
+    // Switch the action type
+    switch (packet.action) {
+      // Log unimplemented action types
+      default: {
+        // Debug log the unimplemented action type
+        this.serenity.logger.debug(
+          `PlayerActionHandler: Unimplemented PlayerActionType: ${PlayerActionType[packet.action]}`
+        );
+        break;
+      }
+
+      // Handles when a player starts using an item on a block or entity
+      case PlayerActionType.StartItemUseOn: {
+        // Set the player's target item
+        player.itemTarget = player.getHeldItem();
+        break;
+      }
+
+      case PlayerActionType.StopItemUseOn: {
+        // Set the player's target item to null
+        player.itemTarget = null;
+        break;
+      }
+    }
+  }
+}
+
+export { PlayerActionHandler };

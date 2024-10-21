@@ -63,7 +63,7 @@ class ItemUseInventoryTransaction extends DataType {
   /**
    * Whether or not the transaction is an initial transaction.
    */
-  public readonly intialTransaction: boolean;
+  public readonly initialTransaction: boolean;
 
   /**
    * Creates an instance of ItemUseInventoryTransaction.
@@ -101,7 +101,7 @@ class ItemUseInventoryTransaction extends DataType {
     this.fromPosition = fromPosition;
     this.clickPosition = clickPosition;
     this.networkBlockId = networkBlockId;
-    this.intialTransaction = initialTransaction;
+    this.initialTransaction = initialTransaction;
   }
 
   public static read(stream: BinaryStream): ItemUseInventoryTransaction {
@@ -182,7 +182,7 @@ class ItemUseInventoryTransaction extends DataType {
     stream.writeZigZag(value.networkBlockId);
 
     // Write whether or not the transaction is an initial transaction
-    stream.writeBool(value.intialTransaction);
+    stream.writeBool(value.initialTransaction);
   }
 }
 

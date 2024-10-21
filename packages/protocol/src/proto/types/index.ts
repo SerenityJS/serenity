@@ -126,3 +126,4 @@ export * from "./nbt-loop";
 export * from "./patterns";
 export * from "./materials";
 export * from "./unlocked-recipes-entry";
+export * from "./player-auth-item-stack-request";
