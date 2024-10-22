@@ -8,7 +8,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { Dimension, World } from "../world";
-import { EntityIdentifier } from "../enums";
+import { EntityIdentifier, EntityInteractMethod } from "../enums";
 import { EntityEntry, EntityProperties, JSONLikeValue } from "../types";
 import { Serenity } from "../serenity";
 import { Chunk } from "../world/chunk";
@@ -16,7 +16,7 @@ import { Container } from "../container";
 import { ItemStack } from "../item";
 
 import { EntityType } from "./identity";
-import { EntityInventoryTrait, EntityTrait } from "./traits";
+import { EntityHealthTrait, EntityInventoryTrait, EntityTrait } from "./traits";
 import { Player } from "./player";
 import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
 
@@ -106,6 +106,11 @@ class Entity {
   public isAlive = false;
 
   /**
+   * Whether the entity is moving or not.
+   */
+  public isMoving = false;
+
+  /**
    * Whether the entity is on the ground or not.
    */
   public onGround = false;
@@ -126,8 +131,10 @@ class Entity {
 
     // Assign the dimension and type to the entity
     this.dimension = dimension;
-    this.type =
-      type instanceof EntityType ? type : (EntityType.get(type) as EntityType); // TODO: Fix this, fetch from the palette
+
+    // Assign the type of the entity
+    if (type instanceof EntityType) this.type = type;
+    else this.type = dimension.world.entityPalette.getType(type) as EntityType;
 
     // Assign the properties to the entity
     // If a provided unique id is not given, generate one
@@ -140,14 +147,38 @@ class Entity {
       // If the entity properties contains an entry, load it
       if (properties?.entry) this.load(properties.entry);
 
-      // Get the traits for the entity
-      const traits = dimension.world.entityPalette.getRegistryFor(
-        this.type.identifier
-      );
-
-      // Register the traits to the entity
-      for (const trait of traits) this.addTrait(trait);
+      // Initialize the entity
+      this.initialize();
     }
+  }
+
+  protected initialize(): void {
+    // Get the traits for the entity
+    const traits = this.dimension.world.entityPalette.getRegistryFor(
+      this.type.identifier
+    );
+
+    // Fetch the component type based traits
+    for (const component of this.type.components) {
+      // Prepare the identifier for the component
+      let identifier = component;
+
+      // Check if the component starts with a namespace
+      if (component.includes(":")) {
+        const split = component.split(":");
+        identifier = split[1] as string;
+      }
+
+      // Find the trait for the component
+      const trait = this.dimension.world.entityPalette.getTrait(identifier);
+
+      // Check if the trait exists
+      // If so, add it to the entity
+      if (trait) traits.push(trait);
+    }
+
+    // Register the traits to the entity
+    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
   }
 
   /**
@@ -215,9 +246,9 @@ class Entity {
    * @param trait The trait to add
    * @returns The trait that was added
    */
-  public addTrait(trait: typeof EntityTrait): void {
+  public addTrait<T extends typeof EntityTrait>(trait: T): InstanceType<T> {
     // Check if the trait already exists
-    if (this.traits.has(trait.identifier)) return;
+    if (this.traits.has(trait.identifier)) return this.getTrait<T>(trait);
 
     // Check if the trait is in the palette
     if (!this.getWorld().entityPalette.traits.has(trait.identifier))
@@ -228,13 +259,16 @@ class Entity {
     // Attempt to add the trait to the entity
     try {
       // Create a new instance of the trait
-      new trait(this);
+      return new trait(this) as InstanceType<T>;
     } catch (reason) {
       // Log the error to the console
       this.serenity.logger.error(
         `Failed to add trait "${trait.identifier}" to entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
         reason
       );
+
+      // Return null as the trait was not added
+      return null as InstanceType<T>;
     }
   }
 
@@ -277,7 +311,7 @@ class Entity {
   /**
    * Spawns the entity into the dimension.
    */
-  public spawn(): void {
+  public spawn(): this {
     // Add the entity to the dimension
     this.dimension.entities.set(this.uniqueId, this);
 
@@ -305,12 +339,15 @@ class Entity {
     // Update the entity actor data & attributes
     this.metadata.update();
     this.attributes.update();
+
+    // Return the entity
+    return this;
   }
 
   /**
    * Despawns the entity from the dimension.
    */
-  public despawn(): void {
+  public despawn(): this {
     // Set the entity as not alive
     this.isAlive = false;
 
@@ -327,6 +364,78 @@ class Entity {
         // Log the error to the console
         this.serenity.logger.error(
           `Failed to trigger onDespawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the entity
+        this.traits.delete(trait.identifier);
+      }
+    }
+
+    // Return the entity
+    return this;
+  }
+
+  /**
+   * Kills the entity.
+   */
+  public kill(): void {
+    // Set the entity as not alive
+    this.isAlive = false;
+
+    // Check if the entity has an inventory trait
+    if (this.hasTrait(EntityInventoryTrait)) {
+      // Get the inventory trait
+      const { container, inventorySize } = this.getTrait(EntityInventoryTrait);
+
+      // Iterate over the inventory slots
+      for (let slot = 0; slot < inventorySize; slot++) {
+        // Get the item from the slot
+        const item = container.getItem(slot);
+
+        // Check if the item is valid
+        if (!item) continue;
+
+        // Spawn the item in the dimension
+        this.dimension.spawnItem(item, this.position);
+
+        // Clear the slot
+        container.clearSlot(slot);
+      }
+    }
+
+    // Check if the entity has a health trait
+    if (this.hasTrait(EntityHealthTrait)) {
+      // Get the health trait
+      const health = this.getTrait(EntityHealthTrait);
+
+      // Set the health to minimum value
+      health.currentValue = health.effectiveMin;
+    }
+
+    // If the entity is not a player, despawn the entity
+    if (!this.isPlayer()) this.despawn();
+    // Manually trigger the onDespawn trait event for players
+    // We does this because the player has the option to disconnect at the respawn screen
+    else for (const trait of this.traits.values()) trait.onDespawn?.();
+  }
+
+  /**
+   * Causes a player to interact with the entity.
+   * @param player The player that is interacting with the entity.
+   * @param method The method that the player used to interact with the entity.
+   */
+  public interact(player: Player, method: EntityInteractMethod): void {
+    // Trigger the entity onInteract trait event
+    for (const trait of this.traits.values()) {
+      // Attempt to trigger the onInteract trait event
+      try {
+        // Call the onInteract trait event
+        trait.onInteract?.(player, method);
+      } catch (reason) {
+        // Log the error to the console
+        this.serenity.logger.error(
+          `Failed to trigger onInteract trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
           reason
         );
 
@@ -465,15 +574,11 @@ class Entity {
       // Create a new MoveActorDeltaPacket
       const packet = new MoveActorDeltaPacket();
 
-      // Adjust the y position of the entity
-      const yAdjust =
-        this.type.identifier === EntityIdentifier.Item ? 0 : -0.25;
-
       // Assign the packet properties
       packet.runtimeId = this.runtimeId;
       packet.flags = MoveDeltaFlags.All;
       packet.x = this.position.x;
-      packet.y = this.position.y + yAdjust;
+      packet.y = this.position.y;
       packet.z = this.position.z;
       packet.yaw = this.rotation.yaw;
       packet.headYaw = this.rotation.headYaw;

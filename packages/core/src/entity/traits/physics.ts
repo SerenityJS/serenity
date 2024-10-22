@@ -19,6 +19,10 @@ class EntityPhysicsTrait extends EntityTrait {
     const hitboxWidth = 0.15;
     const hitboxHeight = 0.15;
 
+    // Check if the entity is moving
+    if (velocity.isZero()) this.entity.isMoving = false;
+    else this.entity.isMoving = true;
+
     if (velocity.y !== 0) {
       const negate = velocity.y < 0 ? -1 : 1;
 
@@ -43,9 +47,6 @@ class EntityPhysicsTrait extends EntityTrait {
         // Update the entity's position
         this.entity.position.y += velocity.y;
       }
-
-      // Teleport the entity to the new position
-      this.entity.teleport(this.entity.position);
     }
 
     // Check if the entity is moving north
@@ -85,9 +86,6 @@ class EntityPhysicsTrait extends EntityTrait {
         // Update the entity's position
         this.entity.position.z += velocity.z;
       }
-
-      // Teleport the entity to the new position
-      this.entity.teleport(this.entity.position);
     }
 
     // Check if the entity is moving east
@@ -127,9 +125,6 @@ class EntityPhysicsTrait extends EntityTrait {
         // Update the entity's position
         this.entity.position.x += velocity.x;
       }
-
-      // Teleport the entity to the new position
-      this.entity.teleport(this.entity.position);
     }
 
     if (hasGravity) {
@@ -161,8 +156,6 @@ class EntityPhysicsTrait extends EntityTrait {
 
         // Set the entity to not on ground
         this.entity.onGround = false;
-
-        this.entity.teleport(this.entity.position);
       }
     }
   }

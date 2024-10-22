@@ -18,6 +18,9 @@ class EntityMovementTrait extends EntityAttributeTrait {
   public readonly defaultValue = 0.1;
 
   public onTick(): void {
+    // Check if the entity is moving
+    if (!this.entity.isMoving) return;
+
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();
 
@@ -30,6 +33,9 @@ class EntityMovementTrait extends EntityAttributeTrait {
     packet.yaw = this.entity.rotation.yaw;
     packet.headYaw = this.entity.rotation.headYaw;
     packet.pitch = this.entity.rotation.pitch;
+
+    // Adjust the y position of the entity
+    if (!this.entity.isPlayer() && !this.entity.isItem()) packet.y -= 0.25;
 
     // Check if the entity is on the ground
     if (this.entity.onGround) packet.flags |= MoveDeltaFlags.OnGround;

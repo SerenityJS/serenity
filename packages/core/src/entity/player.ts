@@ -325,7 +325,7 @@ class Player extends Entity {
   /**
    * Spawn the player in the dimension
    */
-  public spawn(): void {
+  public spawn(): this {
     // Call the super method to spawn the player
     super.spawn();
 
@@ -361,6 +361,9 @@ class Player extends Entity {
 
     // Send the available commands packet to the player
     this.send(content, commands);
+
+    // Return the player
+    return this;
   }
 
   /**

@@ -224,6 +224,18 @@ class Vector3f extends DataType implements IPosition {
   }
 
   /**
+   * Checks if the 3D vector is zero.
+   * @returns true if the 3D vector is zero, false otherwise.
+   */
+  public isZero(): boolean {
+    return (
+      Math.abs(this.x) < Number.EPSILON &&
+      Math.abs(this.y) < Number.EPSILON &&
+      Math.abs(this.z) < Number.EPSILON
+    );
+  }
+
+  /**
    * Reads a 3D vector from the stream.
    *
    * @param stream The stream to read from.

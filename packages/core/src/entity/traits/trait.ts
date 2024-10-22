@@ -1,5 +1,5 @@
 import { Trait } from "../../trait";
-import { EntityIdentifier } from "../../enums";
+import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { Entity } from "../entity";
 import { Player } from "../player";
 import { CommandExecutionState } from "../../commands";
@@ -40,8 +40,9 @@ class EntityTrait extends Trait {
   /**
    * Called when the entity that this trait is attached to is interacted with by a player.
    * @param player The player that interacted with the entity.
+   * @param method The method that the player used to interact with the entity.
    */
-  public onInteract?(player: Player): void;
+  public onInteract?(player: Player, method: EntityInteractMethod): void;
 
   /**
    * Called when the entity that this trait is attached executes a command.

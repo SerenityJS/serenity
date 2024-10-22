@@ -34,6 +34,17 @@ class EntityAttributeTrait extends EntityTrait {
 
   /**
    * Get the current value of the attribute
+   */
+  public get currentValue(): number {
+    return this.get().current;
+  }
+
+  public set currentValue(value: number) {
+    this.set(value);
+  }
+
+  /**
+   * Get the current value of the attribute
    * @returns Whether the attribute is enabled or not
    */
   public get(): AttributeProperties {

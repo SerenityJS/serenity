@@ -8,6 +8,8 @@ import Setblock from "./setblock";
 import Tag from "./tag";
 import Tp from "./tp";
 import Transfer from "./transfer";
+import Summon from "./summon";
+import Kill from "./kill";
 
 // Define all the admin commands
 const AdminCommands = [
@@ -20,7 +22,9 @@ const AdminCommands = [
   Setblock,
   Tag,
   Tp,
-  Transfer
+  Transfer,
+  Summon,
+  Kill
 ];
 
 export { AdminCommands };

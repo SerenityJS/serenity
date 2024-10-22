@@ -22,6 +22,11 @@ interface ItemUseOptions {
    * The predicted amount of durability used during the use of the item.
    */
   predictedDurability: number;
+
+  /**
+   * Whether the use of the item was canceled.
+   */
+  canceled: boolean;
 }
 
 export { ItemUseOptions };

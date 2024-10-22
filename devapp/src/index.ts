@@ -17,13 +17,19 @@ import {
   ItemUseOptions,
   EntityIdentifier,
   StringEnum,
-  Command
+  Command,
+  EntityTrait,
+  EntityInteractMethod,
+  EntityHealthTrait
 } from "@serenityjs/core";
 import {
   CommandPermissionLevel,
   InteractActions,
-  Packet
+  Packet,
+  Vector3f
 } from "@serenityjs/protocol";
+
+import { DebugStatsTrait } from "./debug-stats";
 
 const serenity = new Serenity({ port: 19142, debugLogging: true });
 
@@ -63,7 +69,7 @@ class CustomPlayerTrait extends PlayerTrait {
   public static readonly types = [EntityIdentifier.Player];
 
   public onSpawn(): void {
-    // this.player.op();
+    this.player.op();
     // this.player.setGamemode(1);
   }
 
@@ -87,28 +93,48 @@ class CustomPlayerTrait extends PlayerTrait {
 }
 
 world.entityPalette.registerTrait(CustomPlayerTrait);
-const command = world.commands.register(
-  "test",
-  "test command",
-  (registry) => {
-    registry.permissionLevel = CommandPermissionLevel.Operator;
 
-    registry.overload(
-      {
-        message: StringEnum
-      },
-      (context) => {
-        const world = serenity.getWorld(context.message.result as string);
+class CustomCowTrait extends EntityTrait {
+  public static readonly identifier = "custom:cow";
 
-        if (!world) throw new Error("World not found");
+  public static readonly types = [EntityIdentifier.Cow];
 
-        const player = context.origin as Player;
+  public onSpawn(): void {
+    console.log("Cow spawned!");
+  }
 
-        player.teleport(player.position, world.getDimension());
-      }
-    );
-  },
-  () => new Error("Command not implemented")
-);
+  public onInteract(player: Player, method: EntityInteractMethod): void {
+    player.sendMessage(`Moo! ${method}`);
+  }
+}
 
-world2.commands.commands.set("test", command as Command<unknown>);
+world.entityPalette.registerTrait(CustomCowTrait);
+world.entityPalette.registerTrait(DebugStatsTrait);
+
+world.commands.register("test", "", () => {
+  for (let x = -20; x < 20; x++) {
+    for (let z = -20; z < 20; z++) {
+      // Check that the x & z are divisible by 5
+      if (x % 2 !== 0 || z % 2 !== 0) continue;
+
+      const entity = _overworld.spawnEntity(
+        EntityIdentifier.ArmorStand,
+        new Vector3f(x, 20, z)
+      );
+
+      const health = entity.getTrait(EntityHealthTrait);
+      health.currentValue = 5;
+
+      const item = new ItemStack(ItemIdentifier.Diamond, { amount: 32 });
+      const inventory = entity.addTrait(EntityInventoryTrait);
+      inventory.container.addItem(item);
+
+      // Generate a random velocity from -1 to 1
+      const vx = Math.random() * 2 - 1;
+      const vy = Math.random() * 2 - 1;
+      const vz = Math.random() * 2 - 1;
+
+      entity.setMotion(new Vector3f(vx, vy, vz));
+    }
+  }
+});

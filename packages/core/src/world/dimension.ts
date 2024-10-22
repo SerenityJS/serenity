@@ -13,7 +13,9 @@ import {
   Entity,
   EntityGravityTrait,
   EntityItemStackTrait,
+  EntityMovementTrait,
   EntityPhysicsTrait,
+  EntityType,
   Player,
   PlayerChunkRenderingTrait
 } from "../entity";
@@ -286,6 +288,21 @@ class Dimension {
   }
 
   /**
+   * Gets an entity from the dimension.
+   */
+  public getEntity(id: bigint, runtimeId = false): Entity | null {
+    // Check if the provided id is a runtime id
+    // If not, we will get the entity by the unique id
+    if (!runtimeId) return this.entities.get(id) ?? null;
+    // If the id is a runtime id, we will get the entity by the runtime id
+    else
+      return (
+        [...this.entities.values()].find((entity) => entity.runtimeId === id) ||
+        null
+      );
+  }
+
+  /**
    * Gets all the entities in the dimension.
    * @returns An array of entities.
    */
@@ -339,6 +356,33 @@ class Dimension {
   }
 
   /**
+   * Spawns an entity in the dimension.
+   * @param type The type of the entity.
+   * @param position The position of the entity.
+   * @returns The entity that was spawned.
+   */
+  public spawnEntity(
+    type: EntityIdentifier | EntityType,
+    position: Vector3f
+  ): Entity {
+    // Create a new Entity instance with the dimension and type
+    const entity = new Entity(this, type);
+
+    // As a Serenity standard, we will add the gravity, physics, movement traits to the entity
+    entity.addTrait(EntityGravityTrait);
+    entity.addTrait(EntityPhysicsTrait);
+    entity.addTrait(EntityMovementTrait);
+
+    // Set the entity position
+    entity.position.x = position.x;
+    entity.position.y = position.y;
+    entity.position.z = position.z;
+
+    // Spawn the entity
+    return entity.spawn();
+  }
+
+  /**
    * Spawns an item in the dimension.
    *
    * @param itemStack The item stack of the item.
@@ -364,6 +408,7 @@ class Dimension {
     // Add gravity and physics traits to the entity
     entity.addTrait(EntityGravityTrait);
     entity.addTrait(EntityPhysicsTrait);
+    entity.addTrait(EntityMovementTrait);
 
     // Spawn the item entity
     entity.spawn();

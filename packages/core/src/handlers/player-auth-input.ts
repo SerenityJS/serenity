@@ -54,6 +54,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
     // Update the player's onGround status
     player.onGround = permutation.type.solid;
 
+    // TODO: find a better way to handle this
+    player.isMoving = true;
+
     // Check if the packet contains block actions
     if (packet.blockActions) {
       // Check if an item stack request was provided

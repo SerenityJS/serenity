@@ -6,7 +6,8 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
-import { Items, JSONLikeValue } from "../types";
+import { Items, ItemUseOptions, JSONLikeValue } from "../types";
+import { Player } from "../entity";
 
 import { ItemType } from "./identity";
 import { ItemTrait } from "./traits";
@@ -118,6 +119,48 @@ class ItemStack<T extends keyof Items = keyof Items> {
    */
   public increment(amount?: number): void {
     this.setAmount(this.amount + (amount ?? 1));
+  }
+
+  /**
+   * Causes a player to use the item stack.
+   * @param player The player using the item.
+   * @param options The options for the item use.
+   * @returns Whether the item use was successful; default is true.
+   */
+  public use(player: Player, options: Partial<ItemUseOptions>): boolean {
+    // Trigger the item onUse trait event
+    let canceled = false;
+    for (const trait of this.traits.values()) {
+      // Set the canceled flag in the options
+      options.canceled = canceled;
+
+      // Attempt to trigger the onUse trait event
+      try {
+        // Check if the start break was successful
+        const success = trait.onUse?.(player, options);
+
+        // If the result is undefined, continue
+        // As the trait does not implement the method
+        if (success === undefined) continue;
+
+        // If the result is false, cancel the break
+        canceled = !success;
+      } catch (reason) {
+        // Log the error to the console
+        player
+          .getWorld()
+          .serenity.logger.error(
+            `Failed to trigger onUse trait event for item "${this.type.identifier}" in dimension "${player.dimension.identifier}"`,
+            reason
+          );
+
+        // Remove the trait from the item
+        this.traits.delete(trait.identifier);
+      }
+    }
+
+    // Return whether the item use was canceled
+    return !canceled;
   }
 
   public equals(other: ItemStack): boolean {

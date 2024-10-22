@@ -7,6 +7,7 @@ import {
   InventoryTransactionPacket,
   ItemUseInventoryTransaction,
   ItemUseInventoryTransactionType,
+  ItemUseOnEntityInventoryTransaction,
   LevelSoundEvent,
   LevelSoundEventPacket,
   Packet
@@ -16,7 +17,7 @@ import { Connection } from "@serenityjs/raknet";
 import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack } from "../item";
-import { BlockIdentifier, ItemUseMethod } from "../enums";
+import { BlockIdentifier, EntityInteractMethod, ItemUseMethod } from "../enums";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -50,6 +51,25 @@ class InventoryTransactionHandler extends NetworkHandler {
 
         // Handle the item use transaction
         return this.handleItemUseTransaction(player, transaction);
+      }
+
+      // Item use on entity transactions include using items on entities
+      case ComplexInventoryTransaction.ItemUseOnEntityTransaction: {
+        // Get the item use on entity transaction
+        const transaction = packet.transaction.itemUseOnEntity;
+
+        // Validate that the transaction actually contains an item use on entity transaction
+        if (!transaction)
+          throw new Error(
+            "ItemUseOnEntity object missing from ItemUseOnEntityTransaction"
+          );
+
+        // Handle the item use on entity transaction
+        return this.handleItemUseOnEntityTransaction(player, transaction);
+      }
+
+      case ComplexInventoryTransaction.ItemReleaseTransaction: {
+        return console.log("TODO: Implement item release transaction");
       }
     }
   }
@@ -157,23 +177,12 @@ class InventoryTransactionHandler extends NetworkHandler {
           placeCanceled = !success;
         }
 
+        // Get the use method of the action & target block
+        const method = ItemUseMethod.Place;
+        const targetBlock = result;
+
         // Call the onUse method for the item stack
-        let useCanceled = false;
-        for (const trait of stack.traits.values()) {
-          // Get the use method of the action & target block
-          const method = ItemUseMethod.Place;
-          const targetBlock = result;
-
-          // Check if the start break was successful
-          const success = trait.onUse?.(player, { method, targetBlock });
-
-          // If the result is undefined, continue
-          // As the trait does not implement the method
-          if (success === undefined) continue;
-
-          // If the result is false, cancel the break
-          useCanceled = !success;
-        }
+        const useSuccess = stack.use(player, { method, targetBlock });
 
         // Create a new LevelSoundEventPacket to play the block place sound
         const sound = new LevelSoundEventPacket();
@@ -190,7 +199,7 @@ class InventoryTransactionHandler extends NetworkHandler {
 
         // If the item use was canceled, increment the stack
         // If not, decrement the stack
-        if (useCanceled) return stack.increment();
+        if (!useSuccess) return stack.increment();
         else if (player.gamemode === Gamemode.Survival)
           return stack.decrement();
         break;
@@ -207,15 +216,52 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Verify that the item stack network ids match
         if (stack.type.network !== transaction.item.network) return;
 
-        // Call the onUse method for the item stack
-        for (const trait of stack.traits.values()) {
-          // Get the use method of the action
-          const method = ItemUseMethod.Use;
+        // Get the use method of the action
+        const method = ItemUseMethod.Use;
 
-          // Call the onUse method for the item stack
-          trait.onUse?.(player, { method });
-        }
+        // Call the onUse method for the item stack
+        stack.use(player, { method });
+
+        // Break from the switch statement
+        break;
       }
+
+      case ItemUseInventoryTransactionType.Destroy: {
+        console.log("TODO: Implement destroy item use transaction");
+      }
+    }
+  }
+
+  public handleItemUseOnEntityTransaction(
+    player: Player,
+    transaction: ItemUseOnEntityInventoryTransaction
+  ): void {
+    // Get the dimension from the player
+    const dimension = player.dimension;
+
+    // Get the entity from the dimension using the runtime id
+    const entity = dimension.getEntity(transaction.actorRuntimeId, true);
+
+    // Return if the entity is not found
+    if (!entity) return;
+
+    // Get the entity interact method
+    const method = transaction.type as unknown as EntityInteractMethod;
+
+    // Call the onInteract method for the entity
+    entity.interact(player, method);
+
+    // Call the onUse method for the item stack
+    if (player.getHeldItem()) {
+      // Get the item stack from the player
+      const stack = player.getHeldItem() as ItemStack;
+
+      // Get the use method of the action
+      const method =
+        transaction.type === 0 ? ItemUseMethod.Place : ItemUseMethod.Use;
+
+      // Call the onUse method for the item stack
+      stack.use(player, { method });
     }
   }
 }
