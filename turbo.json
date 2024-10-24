@@ -12,13 +12,14 @@
       "dependsOn": ["^lint"]
     },
     "dev": {
+      "dependsOn": ["build"],
       "cache": false,
       "persistent": true
     },
     "watch": {
       "dependsOn": ["^build"],
-      "persistent": true,
-      "cache": false
+      "cache": false,
+      "persistent": true
     }
   }
 }

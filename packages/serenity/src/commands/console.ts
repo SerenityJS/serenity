@@ -12,7 +12,11 @@ class Console {
 	/**
 	 * The console interface.
 	 */
-	public readonly interface = createInterface(stdin, stdout);
+	public readonly interface = createInterface({
+		input: stdin,
+		output: stdout,
+		terminal: true
+	});
 
 	/**
 	 * The console constructor.
@@ -21,11 +25,14 @@ class Console {
 	public constructor(serenity: Serenity) {
 		this.serenity = serenity;
 
-		// Set the prompt
-		this.interface.setPrompt("> ");
+		stdin.setRawMode(true);
+		stdin.resume();
 
 		// Hook the events
 		this.interface.on("line", this.onLine.bind(this));
+
+		// Set the prompt
+		this.interface.setPrompt("> ");
 	}
 
 	/**
@@ -53,10 +60,11 @@ class Console {
 			const execute = dimension.executeCommand(command);
 
 			// Check if the command is undefined
-			if (!execute) return;
+			if (execute) {
 
-			// Log the command to the console
-			this.serenity.logger.info(`§a${execute.message}§r`);
+				// Log the command to the console
+				this.serenity.logger.info(`§a${execute.message}§r`);
+			}
 		} catch (reason) {
 			// Cast the reason to an error
 			const error = reason as Error;
@@ -64,6 +72,9 @@ class Console {
 			// Log the error to the console
 			this.serenity.logger.error(error.message);
 		}
+
+		// Draw the prompt
+		this.interface.prompt();
 	}
 }
 
