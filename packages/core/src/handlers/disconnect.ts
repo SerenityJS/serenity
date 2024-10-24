@@ -14,8 +14,11 @@ class DisconnectHandler extends NetworkHandler {
     // Despawn the player
     player.despawn();
 
-    // Save the player data
-    player.save();
+    // Get the player's dimension
+    const dimension = player.dimension;
+
+    // Save the player's data
+    dimension.world.provider.writePlayer(player.getDataEntry(), dimension);
   }
 }
 

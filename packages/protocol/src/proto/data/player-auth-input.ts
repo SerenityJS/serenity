@@ -27,18 +27,15 @@ export class PlayerAuthInputPacket extends DataPacket {
   @Serialize(VarInt) public inputMode!: InputMode;
   @Serialize(VarInt) public playMode!: PlayMode;
   @Serialize(VarInt) public interactionMode!: InteractionMode;
-  // @Serialize(Vector2f) public interactRotation!: Vector2f; // TODO v748
-  @Serialize(PlayerInputTick) public inputTick!: PlayerInputTick;
+  @Serialize(Vector2f) public interactRotation!: Vector2f;
+  @Serialize(PlayerInputTick) public inputTick!: bigint;
   @Serialize(Vector3f) public positionDelta!: Vector3f;
   @Serialize(PlayerAuthItemStackRequest, 0, "inputData")
   public itemStackRequest!: PlayerAuthItemStackRequest | null;
-
   @Serialize(PlayerBlockActions, 0, "inputData")
   public blockActions!: PlayerBlockActions | null;
-
   @Serialize(ClientPredictedVehicle, 0, "inputData")
   public predictedVehicle!: ClientPredictedVehicle | null;
-
   @Serialize(Vector2f) public analogueMotion!: Vector2f;
-  // @Serialize(Vector3f) public cameraOrientation!: Vector3f; // TODO v748
+  @Serialize(Vector3f) public cameraOrientation!: Vector3f;
 }

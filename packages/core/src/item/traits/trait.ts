@@ -66,6 +66,31 @@ class ItemTrait<T extends keyof Items> extends Trait {
   public equals(other: ItemTrait<T>): boolean {
     return this.identifier === other.identifier;
   }
+
+  /**
+   * Clones the item trait to another item stack.
+   * @param item The item stack to clone the component to.
+   * @returns A new item trait.
+   */
+  public clone(item: ItemStack<T>): this {
+    // Create a new instance of the trait
+    const component = new (this.constructor as new (
+      item: ItemStack<T>,
+      identifier: string
+    ) => ItemTrait<T>)(item, this.identifier) as this;
+
+    // Copy the key-value pairs.
+    for (const [key, value] of Object.entries(this)) {
+      // Skip the item.
+      if (key === "item") continue;
+
+      // @ts-expect-error
+      component[key] = value;
+    }
+
+    // Return the trait
+    return component;
+  }
 }
 
 export { ItemTrait };

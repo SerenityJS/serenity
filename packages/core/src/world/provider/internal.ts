@@ -156,6 +156,9 @@ class InternalProvider extends WorldProvider {
     // Create a new world instance
     const world = new World(serenity, provider, worldProperties);
 
+    // Assign the world to the provider
+    provider.world = world;
+
     // Return the created world
     return world;
   }

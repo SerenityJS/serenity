@@ -704,6 +704,7 @@ __metadata:
     "@serenityjs/data": "workspace:^"
     "@serenityjs/emitter": "workspace:^"
     "@serenityjs/internal-config": "workspace:^"
+    "@serenityjs/leveldb": "npm:^1.0.1"
     "@serenityjs/logger": "workspace:^"
     "@serenityjs/nbt": "workspace:^"
     "@serenityjs/protocol": "workspace:^"
@@ -753,6 +754,55 @@ __metadata:
     typescript-eslint: "npm:^8.8.1"
   languageName: unknown
   linkType: soft
+
+"@serenityjs/leveldb-darwin-arm64@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@serenityjs/leveldb-darwin-arm64@npm:1.0.1"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@serenityjs/leveldb-darwin-x64@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@serenityjs/leveldb-darwin-x64@npm:1.0.1"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@serenityjs/leveldb-linux-x64-gnu@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@serenityjs/leveldb-linux-x64-gnu@npm:1.0.1"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@serenityjs/leveldb-win32-x64-msvc@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@serenityjs/leveldb-win32-x64-msvc@npm:1.0.1"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@serenityjs/leveldb@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@serenityjs/leveldb@npm:1.0.1"
+  dependencies:
+    "@serenityjs/leveldb-darwin-arm64": "npm:1.0.1"
+    "@serenityjs/leveldb-darwin-x64": "npm:1.0.1"
+    "@serenityjs/leveldb-linux-x64-gnu": "npm:1.0.1"
+    "@serenityjs/leveldb-win32-x64-msvc": "npm:1.0.1"
+  dependenciesMeta:
+    "@serenityjs/leveldb-darwin-arm64":
+      optional: true
+    "@serenityjs/leveldb-darwin-x64":
+      optional: true
+    "@serenityjs/leveldb-linux-x64-gnu":
+      optional: true
+    "@serenityjs/leveldb-win32-x64-msvc":
+      optional: true
+  checksum: 10c0/c4afbb0f41a8f273f1c8bbeeb6b606dfb13d28503f94338cfc4813fd47c802b5d4ccc4a8c4e83e2fdf986a3ad8d7ec477ac2b2d5bbccd60338d723a6efc138fd
+  languageName: node
+  linkType: hard
 
 "@serenityjs/logger@workspace:^, @serenityjs/logger@workspace:packages/logger":
   version: 0.0.0-use.local

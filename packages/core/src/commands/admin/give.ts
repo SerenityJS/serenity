@@ -44,7 +44,8 @@ const register = (world: World) => {
             // Create the item stack
             const itemStack = new ItemStack(itemIdentifier as ItemIdentifier, {
               amount,
-              auxillary
+              auxillary,
+              world: target.getWorld()
             });
 
             // Get the player's inventory

@@ -6,7 +6,8 @@ enum ContainerId {
   Offhand = 119,
   Armor = 120,
   SelectionSlots = 122,
-  Ui = 124
+  Ui = 124,
+  Registry = 125
 }
 
 export { ContainerId };

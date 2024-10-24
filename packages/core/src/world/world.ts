@@ -1,5 +1,10 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { DataPacket, TextPacket, TextPacketType } from "@serenityjs/protocol";
+import {
+  DataPacket,
+  DimensionType,
+  TextPacket,
+  TextPacketType
+} from "@serenityjs/protocol";
 
 import { Serenity } from "../serenity";
 import { DimensionProperties, WorldProperties } from "../types";
@@ -11,10 +16,16 @@ import { AdminCommands, Commands } from "../commands";
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
 
-import type { TerrainGenerator } from "./generator";
-
 const DefaultWorldProperties: WorldProperties = {
-  identifier: "default"
+  identifier: "default",
+  seed: Math.floor(Math.random() * 2 ** 32),
+  dimensions: [
+    {
+      identifier: "overworld",
+      type: DimensionType.Overworld,
+      generator: "superflat"
+    }
+  ]
 };
 
 class World {
@@ -98,6 +109,9 @@ class World {
 
     // Register the admin commands
     for (const command of AdminCommands) command(this);
+
+    // Register the dimensions from the properties
+    for (const entry of this.properties.dimensions) this.createDimension(entry);
   }
 
   /**
@@ -136,8 +150,7 @@ class World {
    * @returns The created dimension, if successful; otherwise, false
    */
   public createDimension(
-    generator: typeof TerrainGenerator,
-    properties?: Partial<DimensionProperties>
+    properties: Partial<DimensionProperties>
   ): Dimension | false {
     // Create the dimension properties
     const dimensionProperties = {
@@ -157,7 +170,7 @@ class World {
     }
 
     // Create a new dimension
-    const dimension = new Dimension(this, new generator(), dimensionProperties);
+    const dimension = new Dimension(this, dimensionProperties);
 
     // Register the dimension
     this.dimensions.set(dimension.identifier, dimension);

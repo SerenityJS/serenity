@@ -1,25 +1,16 @@
 import { ContainerId, ContainerType } from "@serenityjs/protocol";
 
-import { EntityIdentifier, ItemIdentifier } from "../../enums";
+import { EntityIdentifier } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStack } from "../../item";
-import { JSONLikeObject, JSONLikeValue } from "../../types";
+import { ItemStackEntry, JSONLikeObject } from "../../types";
 
 import { EntityTrait } from "./trait";
 
-interface ItemStackEntry extends JSONLikeObject {
-  slot: number;
-  identifier: ItemIdentifier;
-  amount: number;
-  auxillary: number;
-  traits: Array<string>;
-  components: Array<[string, JSONLikeValue]>;
-}
-
 interface InventoryComponent extends JSONLikeObject {
   size: number;
-  items: Array<ItemStackEntry>;
+  items: Array<[number, ItemStackEntry]>;
 }
 
 class EntityInventoryTrait extends EntityTrait {
@@ -90,16 +81,20 @@ class EntityInventoryTrait extends EntityTrait {
 
       // Iterate over each item in the inventory
       for (const item of inventory.items) {
+        // Get the slot and entry from the item
+        const slot = item[0] as number;
+        const entry = item[1] as ItemStackEntry;
+
         // Create a new item stack
-        const stack = new ItemStack(item.identifier, {
-          amount: item.amount,
-          auxillary: item.auxillary
+        const stack = new ItemStack(entry.identifier, {
+          amount: entry.amount,
+          auxillary: entry.auxillary,
+          world: this.entity.getWorld(),
+          entry
         });
 
-        // TODO: Load the item stack traits
-
         // Add the item stack to the container
-        this.container.setItem(item.slot, stack);
+        this.container.setItem(slot, stack);
       }
     }
 
@@ -122,18 +117,11 @@ class EntityInventoryTrait extends EntityTrait {
       // Check if the item is null
       if (item === null) continue;
 
-      // Create a new item stack entry
-      const entry: ItemStackEntry = {
-        slot: i,
-        identifier: item.type.identifier,
-        amount: item.amount,
-        auxillary: item.auxillary,
-        traits: [],
-        components: []
-      };
+      // Get the data entry of the item stack
+      const entry = item.getDataEntry();
 
       // Push the item stack entry to the inventory items
-      inventory.items.push(entry);
+      inventory.items.push([i, entry]);
     }
 
     // Set the inventory component to the entity

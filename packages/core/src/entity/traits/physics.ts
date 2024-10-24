@@ -4,7 +4,7 @@ import { EntityTrait } from "./trait";
 class EntityPhysicsTrait extends EntityTrait {
   public static readonly identifier = "physics";
 
-  public gravity = 0.03;
+  public gravity = 0.05;
 
   public onTick(): void {
     // North = -z, South = +z, East = +x, West = -x

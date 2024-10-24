@@ -59,7 +59,9 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
     // Create a new SetActorDataPacket
     const packet = new SetActorDataPacket();
     packet.runtimeEntityId = this.entity.runtimeId;
-    packet.tick = this.entity.dimension.world.currentTick;
+    packet.inputTick = this.entity.isPlayer()
+      ? this.entity.inputTick
+      : this.entity.dimension.world.currentTick;
     packet.data = [...this.entity.metadata.values()];
     packet.properties = new PropertySyncData([], []);
 

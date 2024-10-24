@@ -22,6 +22,7 @@ import {
 import { Block, BlockPermutation } from "../block";
 import { ItemStack } from "../item";
 import { EntityIdentifier } from "../enums";
+import { Serenity } from "../serenity";
 
 import { World } from "./world";
 import { TerrainGenerator } from "./generator";
@@ -29,10 +30,13 @@ import { Chunk } from "./chunk";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
-  type: DimensionType.Overworld
+  type: DimensionType.Overworld,
+  generator: "void"
 };
 
 class Dimension {
+  protected readonly serenity: Serenity;
+
   public readonly properties: DimensionProperties = DefaultDimensionProperties;
 
   public readonly identifier: string;
@@ -51,17 +55,25 @@ class Dimension {
 
   public simulationDistance: number = 8;
 
-  public constructor(
-    world: World,
-    generator: TerrainGenerator,
-    properties?: DimensionProperties
-  ) {
-    // Assign the world and generator
+  public constructor(world: World, properties?: DimensionProperties) {
+    // Assign the serenity instance & world
+    this.serenity = world.serenity;
     this.world = world;
-    this.generator = generator;
 
     // Assign the properties to the dimension with the default properties
     this.properties = { ...DefaultDimensionProperties, ...properties };
+
+    // Get the generator from the serenity instance
+    const generator = this.serenity.getGenerator(this.properties.generator);
+
+    // Check if the generator exists
+    if (!generator)
+      throw new Error(
+        `Failed to find generator "${this.properties.generator}" for dimension "${this.properties.identifier}"`
+      );
+
+    // Assign the generator to the dimension
+    this.generator = new generator({ seed: world.properties.seed });
 
     // Assign the identifier and type
     this.identifier = this.properties.identifier;
@@ -395,6 +407,9 @@ class Dimension {
   ): Entity {
     // Create a new Entity instance
     const entity = new Entity(this, EntityIdentifier.Item);
+
+    // Set the world in the item stack if it doesn't exist
+    if (!itemStack.world) itemStack.world = this.world;
 
     // Set the entity position
     entity.position.x = position.x;

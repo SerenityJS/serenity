@@ -7,7 +7,7 @@ import {
   type ActorFlag,
   Packet
 } from "../../enums";
-import { PropertySyncData, DataItem } from "../types";
+import { PropertySyncData, DataItem, PlayerInputTick } from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -16,7 +16,7 @@ class SetActorDataPacket extends DataPacket {
   @Serialize(VarLong) public runtimeEntityId!: bigint;
   @Serialize(DataItem) public data!: Array<DataItem>;
   @Serialize(PropertySyncData) public properties!: PropertySyncData;
-  @Serialize(VarLong) public tick!: bigint;
+  @Serialize(PlayerInputTick) public inputTick!: bigint;
 
   /**
    * The first set of flags of the actor.

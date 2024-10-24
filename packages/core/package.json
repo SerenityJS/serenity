@@ -26,6 +26,7 @@
     "@serenityjs/binarystream": "^2.6.6",
     "@serenityjs/data": "workspace:^",
     "@serenityjs/emitter": "workspace:^",
+    "@serenityjs/leveldb": "^1.0.1",
     "@serenityjs/logger": "workspace:^",
     "@serenityjs/nbt": "workspace:^",
     "@serenityjs/protocol": "workspace:^",

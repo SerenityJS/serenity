@@ -29,6 +29,11 @@ class WorldProvider {
     .identifier;
 
   /**
+   * The world that the provider belongs to.
+   */
+  public world!: World;
+
+  /**
    * Create a new world provider.
    * @param parameters The parameters to use for the provider.
    */
@@ -71,12 +76,27 @@ class WorldProvider {
   }
 
   /**
-   * Gets the available entities for a specified dimension.
+   * Reads the available entities for a specified dimension.
    * @param dimension The dimension to get the available entities for.
+   * @returns The available entities.
    */
-  public getAvailableEntities(_dimension: Dimension): Array<bigint> {
+  public readAvailableEntities(_dimension: Dimension): Array<bigint> {
     throw new Error(
       `${this.identifier}.getAvailableEntities() is not implemented!`
+    );
+  }
+
+  /**
+   * Writes the available entities for a specified dimension.
+   * @param dimension The dimension to write the available entities for.
+   * @param entities The entities to write.
+   */
+  public writeAvailableEntities(
+    _dimension: Dimension,
+    _entities: Array<bigint>
+  ): void {
+    throw new Error(
+      `${this.identifier}.writeAvailableEntities() is not implemented!`
     );
   }
 
@@ -133,7 +153,7 @@ class WorldProvider {
   public static create(
     _serenity: Serenity,
     _properties: WorldProviderProperties,
-    _worldProperties?: WorldProperties
+    _worldProperties?: Partial<WorldProperties>
   ): World {
     throw new Error(`${this.identifier}.create() is not implemented!`);
   }

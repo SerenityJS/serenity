@@ -150,8 +150,6 @@ class LoginHandler extends NetworkHandler {
     //   packs.packs.push(packInfo);
     // }
 
-    packs.links = []; // TODO: CDN links (can these be provided alongside?)
-
     // Send the player the login status packet and the resource pack info packet.
     player.send(login, packs);
   }

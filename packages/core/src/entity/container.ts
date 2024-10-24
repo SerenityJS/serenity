@@ -26,9 +26,13 @@ class EntityContainer extends Container {
     this.entity = entity;
   }
 
-  public setItem(slot: number, item: ItemStack): void {
+  public setItem(slot: number, itemStack: ItemStack): void {
     // Call the original setItem method
-    super.setItem(slot, item);
+    super.setItem(slot, itemStack);
+
+    // Set the world in the item stack if it doesn't exist
+    if (!itemStack.world) itemStack.world = this.entity.getWorld();
+    itemStack.initialize();
 
     // Update the container if the entity is a player
     if (this.entity.isPlayer()) this.update(this.entity);

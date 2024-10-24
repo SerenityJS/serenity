@@ -5,7 +5,7 @@ import { Packet, type ContainerId } from "../../enums";
 import {
   FullContainerName,
   ItemStacks,
-  type NetworkItemStackDescriptor
+  NetworkItemStackDescriptor
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -15,7 +15,8 @@ class InventoryContentPacket extends DataPacket {
   @Serialize(VarInt) public containerId!: ContainerId;
   @Serialize(ItemStacks) public items!: Array<NetworkItemStackDescriptor>;
   @Serialize(FullContainerName) public fullContainerName!: FullContainerName;
-  @Serialize(VarInt) public dynamicContainerSize!: number;
+  @Serialize(NetworkItemStackDescriptor)
+  public storageItem!: NetworkItemStackDescriptor;
 }
 
 export { InventoryContentPacket };

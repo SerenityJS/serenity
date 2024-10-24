@@ -58,7 +58,9 @@ class AttributeMap extends Map<AttributeName, Attribute> {
     // Create a new UpdateAttributesPacket
     const packet = new UpdateAttributesPacket();
     packet.runtimeActorId = this.entity.runtimeId;
-    packet.tick = this.entity.dimension.world.currentTick;
+    packet.inputTick = this.entity.isPlayer()
+      ? this.entity.inputTick
+      : this.entity.dimension.world.currentTick;
     packet.attributes = [...this.entity.attributes.values()];
 
     // Send the packet to the dimension

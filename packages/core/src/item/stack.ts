@@ -6,16 +6,18 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
-import { Items, ItemUseOptions, JSONLikeValue } from "../types";
+import {
+  Items,
+  ItemStackEntry,
+  ItemStackProperties,
+  ItemUseOptions,
+  JSONLikeValue
+} from "../types";
 import { Player } from "../entity";
+import { World } from "../world";
 
 import { ItemType } from "./identity";
 import { ItemTrait } from "./traits";
-
-interface ItemStackProperties {
-  amount: number;
-  auxillary: number;
-}
 
 const DefaultItemStackProperties: ItemStackProperties = {
   amount: 1,
@@ -23,14 +25,24 @@ const DefaultItemStackProperties: ItemStackProperties = {
 };
 
 class ItemStack<T extends keyof Items = keyof Items> {
+  /**
+   * The type of the item stack.
+   */
   public readonly type: ItemType<T>;
 
-  public readonly auxillary: number;
-
+  /**
+   * The components of the item stack.
+   */
   public readonly components = new Map<string, JSONLikeValue>();
 
+  /**
+   * The traits of the item stack.
+   */
   public readonly traits = new Map<string, ItemTrait<T>>();
 
+  /**
+   * The nbt data of the item stack.
+   */
   public readonly nbt = new CompoundTag();
 
   /**
@@ -44,12 +56,25 @@ class ItemStack<T extends keyof Items = keyof Items> {
   public readonly maxAmount: number;
 
   /**
+   * The world the item stack is in.
+   */
+  public world!: World;
+
+  /**
    * The container the item stack is in.
    * If the item stack is not in a container, this will be null.
    */
   public container: Container | null = null;
 
+  /**
+   * The amount of the item stack.
+   */
   public amount: number;
+
+  /**
+   * The auxillary data of the item stack.
+   */
+  public auxillary: number;
 
   public constructor(
     identifier: T | ItemIdentifier | ItemType<T>,
@@ -71,6 +96,31 @@ class ItemStack<T extends keyof Items = keyof Items> {
     // Assign the stackable and max amount properties
     this.stackable = this.type.stackable;
     this.maxAmount = this.type.maxAmount;
+
+    // Check if a world was provided
+    if (props.world) {
+      // Assign the world to the item stack
+      this.world = props.world;
+
+      // Check if a entry was provided
+      if (props.entry)
+        // Load the data entry for the item stack
+        this.loadDataEntry(props.world, props.entry);
+
+      // Initialize the item stack
+      this.initialize();
+    }
+  }
+
+  /**
+   * Initializes the item stack.
+   */
+  public initialize(): void {
+    // Get the traits for the itemstack
+    const traits = this.world.itemPalette.getRegistry(this.type.identifier);
+
+    // Register the traits to the itemstack
+    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
   }
 
   /**
@@ -163,6 +213,81 @@ class ItemStack<T extends keyof Items = keyof Items> {
     return !canceled;
   }
 
+  /**
+   * Whether the itemstack has the specified trait.
+   * @param trait The trait to check for
+   * @returns Whether the itemstack has the trait
+   */
+  public hasTrait(trait: string | typeof ItemTrait<T>): boolean {
+    return this.traits.has(
+      typeof trait === "string" ? trait : trait.identifier
+    );
+  }
+
+  /**
+   * Gets the specified trait from the itemstack.
+   * @param trait The trait to get from the itemstack
+   * @returns The trait if it exists, otherwise null
+   */
+  public getTrait<K extends typeof ItemTrait<T>>(trait: K): InstanceType<K>;
+
+  /**
+   * Gets the specified trait from the itemstack.
+   * @param trait The trait to get from the itemstack
+   * @returns The trait if it exists, otherwise null
+   */
+  public getTrait(trait: string): ItemTrait<T> | null;
+
+  /**
+   * Gets the specified trait from the itemstack.
+   * @param trait The trait to get from the itemstack
+   * @returns The trait if it exists, otherwise null
+   */
+  public getTrait(trait: string | typeof ItemTrait<T>): ItemTrait<T> | null {
+    return this.traits.get(
+      typeof trait === "string" ? trait : trait.identifier
+    ) as ItemTrait<T> | null;
+  }
+
+  /**
+   * Removes the specified trait from the itemstack.
+   * @param trait The trait to remove
+   */
+  public removeTrait(trait: string | typeof ItemTrait<T>): void {
+    this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
+  }
+
+  /**
+   * Adds a trait to the itemstack.
+   * @param trait The trait to add
+   * @returns The trait that was added
+   */
+  public addTrait<K extends typeof ItemTrait<T>>(trait: K): InstanceType<K> {
+    // Check if the trait already exists
+    if (this.traits.has(trait.identifier)) return this.getTrait<K>(trait);
+
+    // Check if the trait is in the palette
+    if (!this.world.itemPalette.traits.has(trait.identifier))
+      this.world.logger.warn(
+        `Trait "§c${trait.identifier}§r" was added to itemstack "§d${this.type.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
+      );
+
+    // Attempt to add the trait to the itemstack
+    try {
+      // Create a new instance of the trait
+      return new trait(this) as InstanceType<K>;
+    } catch (reason) {
+      // Log the error to the console
+      this.world.logger.error(
+        `Failed to add trait "${trait.identifier}" to itemstack "${this.type.identifier}"`,
+        reason
+      );
+
+      // Return null as the trait was not added
+      return null as InstanceType<K>;
+    }
+  }
+
   public equals(other: ItemStack): boolean {
     // Check if the identifiers & aux are equal.
     if (this.type.identifier !== other.type.identifier) return false;
@@ -191,6 +316,76 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
     // Return true if the item stacks are equal.
     return true;
+  }
+
+  /**
+   * Gets the data entry for the item stack.
+   * @returns The data entry for the item stack.
+   */
+  public getDataEntry(): ItemStackEntry {
+    // Create the item stack entry.
+    const entry: ItemStackEntry = {
+      identifier: this.type.identifier,
+      amount: this.amount,
+      auxillary: this.auxillary,
+      components: [...this.components.entries()],
+      traits: [...this.traits.keys()]
+    };
+
+    // Return the item stack entry.
+    return entry;
+  }
+
+  /**
+   * Loads the data entry for the item stack.
+   * @param world The world to load the item stack in.
+   * @param entry The item stack entry to load.
+   * @param overwrite Whether to overwrite the existing data.
+   */
+  public loadDataEntry(
+    world: World,
+    entry: ItemStackEntry,
+    overwrite = true
+  ): void {
+    // Check that the identifiers match.
+    if (entry.identifier !== this.type.identifier)
+      throw new Error(
+        "Failed to load itemstack entry as the type identifier does not match!"
+      );
+
+    // Check if the entry should overwrite the existing data.
+    if (overwrite) {
+      // Clear the components and traits.
+      this.components.clear();
+      this.traits.clear();
+    }
+
+    // Update the item stack properties.
+    this.amount = entry.amount;
+    this.auxillary = entry.auxillary;
+
+    // Add the components to the stack, if it does not already exist
+    for (const [key, value] of entry.components) {
+      if (!this.components.has(key)) this.components.set(key, value);
+    }
+
+    // Add the traits to the itemstack, if it does not already exist
+    for (const trait of entry.traits) {
+      // Check if the palette has the trait
+      const traitType = world.itemPalette.traits.get(trait);
+
+      // Check if the trait exists in the palette
+      if (!traitType) {
+        world.logger.error(
+          `Failed to load trait "${trait}" for itemstack "${this.type.identifier}" as it does not exist in the palette`
+        );
+
+        continue;
+      }
+
+      // Attempt to add the trait to the itemstack
+      this.addTrait(traitType);
+    }
   }
 
   /**

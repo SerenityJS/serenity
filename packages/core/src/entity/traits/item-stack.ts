@@ -11,6 +11,7 @@ import { EntityIdentifier, ItemIdentifier } from "../../enums";
 import { ItemStack } from "../../item";
 import { Entity } from "../entity";
 import { Player } from "../player";
+import { ItemStackEntry } from "../../types";
 
 import { EntityTrait } from "./trait";
 import { EntityInventoryTrait } from "./inventory";
@@ -61,8 +62,17 @@ class EntityItemStackTrait extends EntityTrait {
       throw new Error("Entity must be an item");
     }
 
-    // Set the item stack of the component
-    this.itemStack = new ItemStack(ItemIdentifier.Air);
+    // Get the component of the item stack from the entity
+    const entry = entity.components.get("itemstack") as ItemStackEntry;
+
+    // Check if the entry exists
+    if (entry) {
+      // Set the item stack of the component
+      this.itemStack = new ItemStack(entry.identifier, { entry });
+    } else {
+      // Set the item stack of the component
+      this.itemStack = new ItemStack(ItemIdentifier.Air);
+    }
 
     // Set the birth tick of the item
     this.birthTick = entity.dimension.world.currentTick;
@@ -122,6 +132,9 @@ class EntityItemStackTrait extends EntityTrait {
   }
 
   public onTick(): void {
+    // Set the item stack component of the entity
+    this.entity.components.set("itemstack", this.itemStack.getDataEntry());
+
     // Get the current tick
     const current = this.entity.dimension.world.currentTick;
 

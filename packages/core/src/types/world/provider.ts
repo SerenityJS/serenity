@@ -11,7 +11,8 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { JSONLikeValue } from "../json";
+import { JSONLikeObject, JSONLikeValue } from "../json";
+import { EntityIdentifier, ItemIdentifier } from "../../enums";
 
 interface WorldProviderProperties {
   /**
@@ -29,7 +30,7 @@ interface EntityEntry {
   /**
    * The type identifier of the entity.
    */
-  identifier: string;
+  identifier: EntityIdentifier;
 
   /**
    * The spawn position of the entity.
@@ -99,4 +100,31 @@ interface PlayerEntry extends EntityEntry {
   abilities: Array<[AbilityIndex, boolean]>;
 }
 
-export { WorldProviderProperties, EntityEntry, PlayerEntry };
+interface ItemStackEntry extends JSONLikeObject {
+  /**
+   * The identifier of the item stack.
+   */
+  identifier: ItemIdentifier;
+
+  /**
+   * The amount of the item stack.
+   */
+  amount: number;
+
+  /**
+   * The auxillary data of the item stack.
+   */
+  auxillary: number;
+
+  /**
+   * The traits attached to the item stack.
+   */
+  traits: Array<string>;
+
+  /**
+   * The components attached to the item stack.
+   */
+  components: Array<[string, JSONLikeValue]>;
+}
+
+export { WorldProviderProperties, EntityEntry, PlayerEntry, ItemStackEntry };

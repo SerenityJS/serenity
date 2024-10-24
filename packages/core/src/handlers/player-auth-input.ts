@@ -51,8 +51,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
       y: position.y - 2
     });
 
-    // Update the player's onGround status
+    // Update the player's onGround status & inputTick
     player.onGround = permutation.type.solid;
+    player.inputTick = packet.inputTick;
 
     // TODO: find a better way to handle this
     player.isMoving = true;

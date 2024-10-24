@@ -2,7 +2,7 @@ import { VarLong } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
-import { Attribute } from "../types";
+import { Attribute, PlayerInputTick } from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -10,7 +10,7 @@ import { DataPacket } from "./data-packet";
 class UpdateAttributesPacket extends DataPacket {
   @Serialize(VarLong) public runtimeActorId!: bigint;
   @Serialize(Attribute) public attributes!: Array<Attribute>;
-  @Serialize(VarLong) public tick!: bigint;
+  @Serialize(PlayerInputTick) public inputTick!: bigint;
 }
 
 export { UpdateAttributesPacket };

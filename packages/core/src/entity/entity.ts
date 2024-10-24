@@ -145,7 +145,8 @@ class Entity {
     // If the entity is not a player
     if (!this.isPlayer()) {
       // If the entity properties contains an entry, load it
-      if (properties?.entry) this.load(properties.entry);
+      if (properties?.entry)
+        this.loadDataEntry(this.dimension.world, properties.entry);
 
       // Initialize the entity
       this.initialize();
@@ -508,7 +509,9 @@ class Entity {
     // Set the properties of the packet
     packet.runtimeId = this.runtimeId;
     packet.motion = this.velocity;
-    packet.tick = this.dimension.world.currentTick;
+    packet.inputTick = this.isPlayer()
+      ? this.inputTick
+      : this.dimension.world.currentTick;
 
     // Broadcast the packet to the dimension
     this.dimension.broadcast(packet);
@@ -700,12 +703,10 @@ class Entity {
   }
 
   /**
-   * Saves the entity to the current provider of the world the entity is in.
+   * Gets the entity's data as a database entry.
+   * @returns The entity entry
    */
-  public save(): void {
-    // Get the provider of the dimension
-    const provider = this.dimension.world.provider;
-
+  public getDataEntry(): EntityEntry {
     // Create the entity entry to save
     const entry: EntityEntry = {
       uniqueId: this.uniqueId,
@@ -719,16 +720,21 @@ class Entity {
       attributes: [...this.attributes.entries()]
     };
 
-    // Write the entity to the provider
-    provider.writeEntity(entry, this.dimension);
+    // Return the entity entry
+    return entry;
   }
 
   /**
    * Loads the entity from the provided entity entry.
+   * @param world The world to the entity data is coming from
    * @param entry The entity entry to load
    * @param overwrite Whether to overwrite the current entity data; default is true
    */
-  public load(entry: EntityEntry, overwrite = true): void {
+  public loadDataEntry(
+    world: World,
+    entry: EntityEntry,
+    overwrite = true
+  ): void {
     // Check that the unique id matches the entity's unique id
     if (entry.uniqueId !== this.uniqueId)
       throw new Error(
@@ -759,12 +765,12 @@ class Entity {
     // Add the traits to the entity, if it does not already exist
     for (const trait of entry.traits) {
       // Check if the palette has the trait
-      const traitType = this.dimension.world.entityPalette.traits.get(trait);
+      const traitType = world.entityPalette.traits.get(trait);
 
       // Check if the trait exists in the palette
       if (!traitType) {
-        this.serenity.logger.error(
-          `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}" as it does not exist in the palette`
+        world.logger.error(
+          `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" as it does not exist in the palette`
         );
 
         continue;

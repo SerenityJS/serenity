@@ -409,7 +409,8 @@ class Block {
 
           // Create a new ItemStack.
           const itemStack = new ItemStack(drop.type as ItemIdentifier, {
-            amount
+            amount,
+            world: this.dimension.world
           });
 
           // Create a new ItemEntity.

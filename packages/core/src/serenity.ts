@@ -7,6 +7,8 @@ import { Handlers } from "./handlers";
 import {
   DefaultWorldProviderProperties,
   Dimension,
+  SuperflatGenerator,
+  type TerrainGenerator,
   VoidGenerator,
   World,
   type WorldProvider
@@ -55,6 +57,11 @@ class Serenity {
   >();
 
   /**
+   * The registered terrain generators that are available to the server
+   */
+  public readonly generators = new Map<string, typeof TerrainGenerator>();
+
+  /**
    * The logger instance for the server
    */
   public readonly logger = new Logger("Serenity", LoggerColors.Magenta);
@@ -95,6 +102,10 @@ class Serenity {
 
     // Set the motd for the server
     this.network.raknet.message = this.properties.motd;
+
+    // Register the default terrain generators
+    this.registerGenerator(VoidGenerator);
+    this.registerGenerator(SuperflatGenerator);
   }
 
   /**
@@ -146,6 +157,24 @@ class Serenity {
 
     // Start the ticking loop
     tick();
+  }
+
+  /**
+   * Stops the server and closes all connections
+   */
+  public stop(): void {
+    // Disconnect all players
+    for (const player of this.players.values())
+      player.disconnect("Server closed.");
+
+    // Shutdown all world providers
+    for (const world of this.worlds.values()) world.provider.onShutdown();
+
+    // Set the server to not be alive
+    this.alive = false;
+
+    // Stop the raknet server
+    process.nextTick(() => this.network.raknet.stop());
   }
 
   /**
@@ -206,6 +235,32 @@ class Serenity {
     }
   }
 
+  public registerGenerator(generator: typeof TerrainGenerator): boolean {
+    // Check if the generator is already registered
+    if (this.generators.has(generator.identifier)) {
+      // Log that the generator is already registered
+      this.logger.error(
+        `Generator already registered: ${generator.identifier}`
+      );
+
+      // Return false if the generator is already registered
+      return false;
+    }
+
+    // Add the generator to the registered generators
+    this.generators.set(generator.identifier, generator);
+
+    // Log that the generator has been registered
+    this.logger.debug(`Registered generator: ${generator.identifier}`);
+
+    // Return true if the generator was successfully registered
+    return true;
+  }
+
+  public getGenerator(identifier: string): typeof TerrainGenerator | null {
+    return this.generators.get(identifier) ?? null;
+  }
+
   /**
    * Creates a new world using the specified provider
    * @param provider The provider to use for the world
@@ -214,7 +269,7 @@ class Serenity {
    */
   public createWorld(
     provider: typeof WorldProvider,
-    properties?: WorldProperties
+    properties?: Partial<WorldProperties>
   ): World | false {
     // Get the provider properties from the registered providers
     const providerProperties = this.providers.get(provider);
@@ -233,8 +288,8 @@ class Serenity {
     // Create a new world using the provider
     const world = provider.create(this, providerProperties, properties);
 
-    // Add the world to the server
-    this.worlds.set(world.identifier, world);
+    // Register the world with the server
+    this.registerWorld(world);
 
     // Return the created world
     return world;
@@ -259,6 +314,29 @@ class Serenity {
    */
   public getWorlds(): Array<World> {
     return [...this.worlds.values()];
+  }
+
+  public registerWorld(world: World): boolean {
+    // Check if the world is already registered
+    if (this.worlds.has(world.identifier)) {
+      // Log that the world is already registered
+      this.logger.error(`World already registered: ${world.identifier}`);
+
+      // Return false if the world is already registered
+      return false;
+    }
+
+    // Add the world to the registered worlds
+    this.worlds.set(world.identifier, world);
+
+    // Log that the world has been registered
+    this.logger.debug(`Registered world: ${world.identifier}`);
+
+    // Call the onStartup method of the world provider
+    world.provider.onStartup();
+
+    // Return true if the world was successfully registered
+    return true;
   }
 
   /**

@@ -24,7 +24,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { PlayerEntry, PlayerProperties } from "../types";
-import { Dimension } from "../world";
+import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
 import { ItemStack } from "../item";
@@ -79,6 +79,11 @@ class Player extends Entity {
   public readonly skin: SerializedSkin;
 
   /**
+   * The current input tick of the player
+   */
+  public inputTick = 0n;
+
+  /**
    * The permission level of the player
    */
   public permission: PermissionLevel = PermissionLevel.Member;
@@ -123,7 +128,8 @@ class Player extends Entity {
     this.skin = props.skin;
 
     // If the player properties contains an entry, load it
-    if (properties?.entry) this.load(properties.entry);
+    if (properties?.entry)
+      this.loadDataEntry(dimension.world, properties.entry);
 
     // Initialize the player
     this.initialize();
@@ -214,6 +220,9 @@ class Player extends Entity {
 
     // Send the packet to the player
     this.sendImmediate(packet);
+
+    // Despawn the player from the world
+    this.despawn();
   }
 
   /**
@@ -403,13 +412,16 @@ class Player extends Entity {
 
       if (dimension.world !== this.dimension.world) {
         // Save the players current data
-        this.save();
+        this.getWorld().provider.writePlayer(
+          this.getDataEntry(),
+          this.dimension
+        );
 
         // Read the player data from the new world
         const data = dimension.world.provider.readPlayer(this.uuid, dimension);
 
         // Check if the player data exists
-        if (data) this.load(data, true);
+        if (data) this.loadDataEntry(dimension.world, data, true);
         else {
           // Clear the player's data
           this.components.clear();
@@ -459,7 +471,7 @@ class Player extends Entity {
       packet.onGround = this.onGround;
       packet.riddenRuntimeId = 0n;
       packet.cause = new TeleportCause(4, 0);
-      packet.tick = this.dimension.world.currentTick;
+      packet.inputTick = this.inputTick;
 
       // Send the packet to the player
       this.send(packet);
@@ -467,12 +479,10 @@ class Player extends Entity {
   }
 
   /**
-   * Save the player to the provider of the dimension
+   * Gets the player's data as a database entry
+   * @returns The player entry
    */
-  public save(): void {
-    // Get the provider of the dimension
-    const provider = this.dimension.world.provider;
-
+  public getDataEntry(): PlayerEntry {
     // Create the player entry to save
     const entry: PlayerEntry = {
       username: this.username,
@@ -492,16 +502,21 @@ class Player extends Entity {
       abilities: [...this.abilities.entries()]
     };
 
-    // Write the player to the provider
-    provider.writePlayer(entry, this.dimension);
+    // Return the player entry
+    return entry;
   }
 
   /**
    * Load the player from the provided player entry
+   * @param world The world the player data is coming from
    * @param entry The player entry to load
    * @param overwrite Whether to overwrite the current player data; default is true
    */
-  public load(entry: PlayerEntry, overwrite = true): void {
+  public loadDataEntry(
+    world: World,
+    entry: PlayerEntry,
+    overwrite = true
+  ): void {
     // Check that the username matches the player's username
     if (entry.username !== this.username)
       throw new Error(
@@ -556,12 +571,12 @@ class Player extends Entity {
     // Add the traits to the entity, if it does not already exist
     for (const trait of entry.traits) {
       // Check if the palette has the trait
-      const traitType = this.dimension.world.entityPalette.traits.get(trait);
+      const traitType = world.entityPalette.traits.get(trait);
 
       // Check if the trait exists in the palette
       if (!traitType) {
-        this.serenity.logger.error(
-          `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}" as it does not exist in the palette`
+        world.logger.error(
+          `Failed to load trait "${trait}" for player "${this.username}:${this.uniqueId}" as it does not exist in the palette`
         );
 
         continue;

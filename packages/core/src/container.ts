@@ -149,7 +149,10 @@ abstract class Container {
       if (emptySlot === -1) return;
       if (item.amount > item.maxAmount) {
         // Create a full stack item for the empty slot
-        const newItem = new ItemStack(item.type.identifier, { ...item });
+        const newItem = new ItemStack(item.type, {
+          ...item,
+          amount: item.maxAmount
+        });
 
         // Add the new Item and decrease it
         this.setItem(emptySlot, newItem);
@@ -214,12 +217,12 @@ abstract class Container {
     // Create a new item with the removed amount.
     const newItem = new ItemStack(item.type, { ...item, amount: removed });
 
-    // TODO: Clone the components and traits of the item.
+    // Clone the components of the item to the new item.
+    for (const [key, value] of item.components)
+      newItem.components.set(key, value);
 
-    // // Clone the components of the item.
-    // for (const component of item.components.values()) {
-    //   component.clone(newItem);
-    // }
+    // Clone the traits of the item to the new item.
+    for (const trait of item.traits.values()) trait.clone(newItem);
 
     // // Clone the NBT tags of the item.
     // for (const tag of item.nbt.getTags()) {
@@ -278,7 +281,7 @@ abstract class Container {
     packet.slot = slot;
     packet.item = new NetworkItemStackDescriptor(0);
     packet.fullContainerName = new FullContainerName(0, 0);
-    packet.dynamicContainerSize = this.size;
+    packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
     // Send the packet to the occupants.
     for (const player of this.occupants) player.send(packet);
@@ -302,7 +305,7 @@ abstract class Container {
     // Set the properties of the packet.
     packet.containerId = this.identifier;
     packet.fullContainerName = new FullContainerName(0, 0);
-    packet.dynamicContainerSize = this.size;
+    packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
     // Map the items in the storage to network item stack descriptors.
     packet.items = this.storage.map((item) => {

@@ -8,7 +8,7 @@ import {
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { type MoveMode, Packet } from "../../enums";
-import { Vector3f, TeleportCause } from "../types";
+import { Vector3f, TeleportCause, PlayerInputTick } from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -26,8 +26,7 @@ class MovePlayerPacket extends DataPacket {
   @Serialize(VarLong) public riddenRuntimeId!: bigint;
   @Serialize(TeleportCause, Endianness.Little, "mode")
   public cause!: TeleportCause | null;
-
-  @Serialize(VarLong) public tick!: bigint;
+  @Serialize(PlayerInputTick) public inputTick!: bigint;
 }
 
 export { MovePlayerPacket };

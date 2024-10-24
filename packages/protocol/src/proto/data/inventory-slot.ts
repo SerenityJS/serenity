@@ -11,7 +11,8 @@ class InventorySlotPacket extends DataPacket {
   @Serialize(VarInt) public containerId!: ContainerId;
   @Serialize(VarInt) public slot!: number;
   @Serialize(FullContainerName) public fullContainerName!: FullContainerName;
-  @Serialize(VarInt) public dynamicContainerSize!: number;
+  @Serialize(NetworkItemStackDescriptor)
+  public storageItem!: NetworkItemStackDescriptor;
   @Serialize(NetworkItemStackDescriptor)
   public item!: NetworkItemStackDescriptor;
 }

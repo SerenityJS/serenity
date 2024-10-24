@@ -22,7 +22,7 @@ class DebugStatsTrait extends PlayerTrait {
   );
 
   public onSpawn(): void {
-    console.log("Player spawned");
+    this.player.op();
 
     this.bossbar.show(this.player);
   }
