@@ -256,11 +256,11 @@ class Worlds extends Emitter<WorldEventSignals> {
 	 * @param name The name of the world.
 	 * @returns The world with the given name.
 	 */
-	public get(name?: string): World {
+	public get(name?: string): World | undefined {
 		// Return the world with the given name.
 		return this.entries.get(
 			name ?? this.serenity.properties.getValue("worlds-default")
-		) as World;
+		);
 	}
 
 	/**
