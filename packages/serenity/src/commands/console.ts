@@ -42,6 +42,10 @@ class Console {
 			// Get the default world of the serenity instance
 			const world = this.serenity.worlds.get();
 
+			// Check if a world is loaded
+			// TODO: This should probably throw an error
+			if (!world) return;
+
 			// Get the default dimension of the world
 			const dimension = world.getDimension();
 
