@@ -223,9 +223,9 @@ class EntityItemStackTrait extends EntityTrait {
       this.entity.despawn();
     } else if (this.target) return;
 
-    // Check if the item has been alive for 15 ticks
+    // Check if the item has been alive for 10 ticks
     // This is to prevent the item from being picked up immediately
-    if (current - this.birthTick <= 15n) return;
+    if (current - this.birthTick <= 10n) return;
 
     // Check if the current tick is a multiple of 5
     if (current % 5n !== 0n) return;
@@ -251,7 +251,7 @@ class EntityItemStackTrait extends EntityTrait {
       ) {
         // Teleport the item to the player
         this.entity.teleport(
-          new Vector3f(playerPos.x, playerPos.y - 1, playerPos.z)
+          new Vector3f(playerPos.x, playerPos.y - 1.5, playerPos.z)
         );
 
         // Set the player as the target

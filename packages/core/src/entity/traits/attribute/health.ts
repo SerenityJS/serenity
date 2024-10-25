@@ -34,8 +34,6 @@ class EntityHealthTrait extends EntityAttributeTrait {
     // Broadcast the packet to all players
     this.entity.dimension.broadcast(packet);
 
-    console.log(this.currentValue);
-
     // Check if the health is less than or equal to 0
     // If so, the entity is dead
     if (this.currentValue <= 0) this.entity.kill();

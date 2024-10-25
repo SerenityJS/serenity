@@ -166,8 +166,11 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Call the block onPlace trait methods
         let placeCanceled = false;
         for (const trait of result.traits.values()) {
+          // Get the click position from the transaction
+          const clickPosition = transaction.clickPosition;
+
           // Check if the start break was successful
-          const success = trait.onPlace?.(player);
+          const success = trait.onPlace?.(player, clickPosition);
 
           // If the result is undefined, continue
           // As the trait does not implement the method

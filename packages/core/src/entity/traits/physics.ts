@@ -9,6 +9,9 @@ class EntityPhysicsTrait extends EntityTrait {
   public onTick(): void {
     // North = -z, South = +z, East = +x, West = -x
 
+    // Check if the entity is alive
+    if (this.entity.isAlive === false) return;
+
     const hasGravity = this.entity.hasTrait(EntityGravityTrait);
 
     const dimension = this.entity.dimension;

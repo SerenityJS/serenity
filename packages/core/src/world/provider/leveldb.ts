@@ -103,6 +103,10 @@ class LevelDBProvider extends WorldProvider {
 
       // Write the available entities to the database.
       this.writeAvailableEntities(dimension, uniqueIds);
+
+      for (const block of dimension.blocks.values()) {
+        console.log(block.getType().identifier);
+      }
     }
   }
 
@@ -475,10 +479,10 @@ class LevelDBProvider extends WorldProvider {
       (dirent) => dirent.isDirectory()
     );
 
-    // TODO: Create a new world
-    if (directories.length === 0) {
-      //
-    }
+    // Check if the directory is empty.
+    // If it is, create a new world with the default identifier.
+    if (directories.length === 0)
+      return void this.create(serenity, properties, { identifier: "default" });
 
     // Iterate over the world entries in the directory.
     for (const directory of directories) {

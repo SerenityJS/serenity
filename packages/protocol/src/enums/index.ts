@@ -17,7 +17,7 @@ export * from "./ability-layer-type";
 export * from "./ability-index";
 export * from "./text-packet-type";
 export * from "./title-type";
-export * from "./interact-actions";
+export * from "./interact-action";
 export * from "./container-id";
 export * from "./container-name";
 export * from "./container-type";

@@ -108,6 +108,11 @@ class Player extends Entity {
    */
   public itemTarget: ItemStack | null = null;
 
+  /**
+   * The target entity that the player is currently looking at.
+   */
+  public entityTarget: Entity | null = null;
+
   public constructor(
     dimension: Dimension,
     connection: Connection,

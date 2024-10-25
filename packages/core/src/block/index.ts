@@ -4,6 +4,7 @@ export * from "./identity";
 export * from "./traits";
 export * from "./palette";
 export * from "./block";
+export * from "./container";
 
 /**
  * A list of all block traits

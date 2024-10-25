@@ -13,6 +13,7 @@ import { ResourcePackClientResponseHandler } from "./resource-pack-response";
 import { SetLocalPlayerAsInitializedHandler } from "./set-local-player-as-initialized";
 import { TextHandler } from "./text";
 import { CommandRequestHandler } from "./command-request";
+import { InteractHandler } from "./interact";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -29,7 +30,8 @@ const Handlers = [
   InventoryTransactionHandler,
   PlayerActionHandler,
   TextHandler,
-  CommandRequestHandler
+  CommandRequestHandler,
+  InteractHandler
 ];
 
 export { Handlers };

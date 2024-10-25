@@ -1,3 +1,5 @@
+import { Vector3f } from "@serenityjs/protocol";
+
 import { Player } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 import { Trait } from "../../trait";
@@ -35,9 +37,10 @@ class BlockTrait extends Trait {
   /**
    * Called when the block is placed in the world
    * @param player The player that placed the block
+   * @param clickPosition The position where the affected block was clicked
    * @returns Whether the block placement was successful; default is true
    */
-  public onPlace?(player: Player): boolean | void;
+  public onPlace?(player: Player, clickPosition: Vector3f): boolean | void;
 
   /**
    * Called when the block is broken in the world

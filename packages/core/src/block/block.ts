@@ -104,6 +104,35 @@ class Block {
     // Set the permutation of the block.
     chunk.setPermutation(this.position, permutation);
 
+    // Get the traits from the block palette
+    const traits = this.getWorld().blockPalette.getRegistry(
+      permutation.type.identifier
+    );
+
+    // Fetch any traits that apply to the base type components
+    for (const identifier of permutation.type.components) {
+      // Get the trait from the block palette using the identifier
+      const trait = this.getWorld().blockPalette.getTrait(identifier);
+
+      // Check if the trait exists
+      if (trait) traits.push(trait);
+    }
+
+    // Fetch any traits that are block state specific
+    for (const key of Object.keys(permutation.state)) {
+      // Iterate over the trait in the registry.
+      for (const trait of this.getWorld().blockPalette.getAllTraits()) {
+        // Check if the trait identifier matches the key
+        if (trait.identifier === key) {
+          // Add the trait to the traits list
+          traits.push(trait);
+        }
+      }
+    }
+
+    // Iterate over all the traits and apply them to the block
+    for (const trait of traits) this.addTrait(trait);
+
     // Create a new UpdateBlockPacket to broadcast the change.
     const packet = new UpdateBlockPacket();
 

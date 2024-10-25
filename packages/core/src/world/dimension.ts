@@ -126,6 +126,41 @@ class Dimension {
           }
       }
     }
+
+    // Iterate over all the blocks in the dimension
+    for (const block of this.blocks.values()) {
+      // Get the block position
+      const position = new Vector3f(
+        block.position.x,
+        block.position.y,
+        block.position.z
+      );
+
+      // Check if there is a player within the simulation distance to tick the block
+      const inSimulationRange = positions.some((player) => {
+        const distance = player.distance(position);
+        return distance <= this.simulationDistance;
+      });
+
+      // Tick the block if it is in simulation range
+      if (inSimulationRange) {
+        // Iterate over all the traits in the block
+        // Try to tick the block trait
+        for (const trait of block.traits.values())
+          try {
+            trait.onTick?.(deltaTick);
+          } catch (reason) {
+            // Log the error to the console
+            this.world.logger.error(
+              `Failed to tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+              reason
+            );
+
+            // Remove the trait from the block
+            block.traits.delete(trait.identifier);
+          }
+      }
+    }
   }
 
   /**
@@ -220,21 +255,16 @@ class Dimension {
       }
 
       // Fetch any traits that are block state specific
-      // for (const key of Object.keys(permutation.state)) {
-      //   // Iterate over the components in the registry.
-      //   for (const component of this.world.blockPalette.getAllComponents()) {
-      //     // Check if the component is a BlockStateComponent.
-      //     if (component.prototype instanceof BlockStateComponent) {
-      //       // Get the component as a BlockStateComponent.
-      //       const componentx = component as typeof BlockStateComponent;
-
-      //       // Check if the component has the same state.
-      //       if (componentx.state === key) {
-      //         components.push(component);
-      //       }
-      //     }
-      //   }
-      // }
+      for (const key of Object.keys(permutation.state)) {
+        // Iterate over the trait in the registry.
+        for (const trait of this.world.blockPalette.getAllTraits()) {
+          // Check if the trait identifier matches the key
+          if (trait.identifier === key) {
+            // Add the trait to the traits list
+            traits.push(trait);
+          }
+        }
+      }
 
       // Iterate over all the traits and apply them to the block
       for (const trait of traits) block.addTrait(trait);
@@ -438,6 +468,14 @@ class Dimension {
    */
   public broadcast(...packets: Array<DataPacket>): void {
     for (const player of this.getPlayers()) player.send(...packets);
+  }
+
+  /**
+   * Broadcast packets to all the players in the dimension immediately.
+   * @param packets The packets to broadcast.
+   */
+  public broadcastImmediate(...packets: Array<DataPacket>): void {
+    for (const player of this.getPlayers()) player.sendImmediate(...packets);
   }
 
   /**

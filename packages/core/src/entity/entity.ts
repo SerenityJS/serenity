@@ -1,4 +1,5 @@
 import {
+  ActorFlag,
   ContainerName,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
@@ -8,7 +9,11 @@ import {
 } from "@serenityjs/protocol";
 
 import { Dimension, World } from "../world";
-import { EntityIdentifier, EntityInteractMethod } from "../enums";
+import {
+  CardinalDirection,
+  EntityIdentifier,
+  EntityInteractMethod
+} from "../enums";
 import { EntityEntry, EntityProperties, JSONLikeValue } from "../types";
 import { Serenity } from "../serenity";
 import { Chunk } from "../world/chunk";
@@ -199,6 +204,27 @@ class Entity {
   }
 
   /**
+   * Whether the entity is sneaking or not.
+   */
+  public get isSneaking(): boolean {
+    return this.flags.get(ActorFlag.Sneaking) ?? false;
+  }
+
+  /**
+   * Whether the entity is sprinting or not.
+   */
+  public get isSprinting(): boolean {
+    return this.flags.get(ActorFlag.Sprinting) ?? false;
+  }
+
+  /**
+   * Whether the entity is swimming or not.
+   */
+  public get isSwimming(): boolean {
+    return this.flags.get(ActorFlag.Swimming) ?? false;
+  }
+
+  /**
    * Whether the entity has the specified trait.
    * @param trait The trait to check for
    * @returns Whether the entity has the trait
@@ -307,6 +333,26 @@ class Entity {
 
     // Return the held item
     return inventory.getHeldItem();
+  }
+
+  /**
+   * Gets the cardinal direction of the entity.
+   * @returns The cardinal direction of the entity.
+   */
+  public getCardinalDirection(): CardinalDirection {
+    // Calculate the cardinal direction of the entity
+    // Entity yaw is -180 to 180
+
+    // Calculate the rotation of the entity
+    const rotation = (Math.floor(this.rotation.yaw) + 360) % 360;
+
+    // Calculate the cardinal direction
+    if (rotation >= 315 || rotation < 45) return CardinalDirection.South;
+    if (rotation >= 45 && rotation < 135) return CardinalDirection.West;
+    if (rotation >= 135 && rotation < 225) return CardinalDirection.North;
+    if (rotation >= 225 && rotation < 315) return CardinalDirection.East;
+
+    return CardinalDirection.South;
   }
 
   /**
@@ -638,9 +684,9 @@ class Entity {
 
     // Calculate the velocity of the entity based on the entity's rotation
     const velocity = new Vector3f(
-      (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3,
-      -Math.sin(pitchRad) / 2,
-      (Math.cos(headYawRad) * Math.cos(pitchRad)) / 3
+      (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3 / 0.5,
+      (-Math.sin(pitchRad) / 2) * 0.75,
+      (Math.cos(headYawRad) * Math.cos(pitchRad)) / 3 / 0.5
     );
 
     // Spawn the entity

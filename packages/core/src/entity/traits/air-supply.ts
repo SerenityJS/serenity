@@ -1,4 +1,5 @@
 import {
+  ActorDamageCause,
   ActorDataId,
   ActorDataType,
   ActorFlag,
@@ -8,6 +9,7 @@ import {
 import { EntityIdentifier } from "../../enums";
 
 import { EntityTrait } from "./trait";
+import { EntityHealthTrait } from "./attribute";
 
 class EntityAirSupplyTrait extends EntityTrait {
   public static readonly identifier = "air_supply";
@@ -31,8 +33,20 @@ class EntityAirSupplyTrait extends EntityTrait {
       // Reset the air supply to 0.
       this.setAirSupplyTicks(0);
 
-      // TODO: Apply drowning damage.
-      console.warn("The entity is drowning");
+      // Check if the entity has a health trait.
+      // If the entity has a health trait, apply damage to the entity.
+      if (!this.entity.hasTrait(EntityHealthTrait)) return;
+
+      // Get the health trait of the entity.
+      const health = this.entity.getTrait(EntityHealthTrait);
+
+      // Apply damage to the entity based on the entity's current state.
+      health.applyDamage(
+        0.5,
+        this.entity.isSwimming
+          ? ActorDamageCause.Drowning
+          : ActorDamageCause.Suffocation
+      );
     }
 
     // If the entity air supply is full then return.
