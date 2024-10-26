@@ -61,7 +61,8 @@ enum ContainerName {
   Cursor,
   CreativeOutput,
   SmithingTableTemplate,
-  Crafter
+  Crafter,
+  Dynamic
 }
 
 export { ContainerName };

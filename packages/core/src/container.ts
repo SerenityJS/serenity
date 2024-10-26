@@ -15,7 +15,7 @@ import type { Player } from "./entity";
 /**
  * Represents a container.
  */
-abstract class Container {
+class Container {
   /**
    * The type of the container.
    */
@@ -341,6 +341,15 @@ abstract class Container {
 
     // Set the opened container of the player.
     player.openedContainer = this;
+
+    // Iterate over the storage, and call the onContainerOpen method of the item.
+    for (const item of this.storage) {
+      // Check if the item is null.
+      if (!item) continue;
+
+      // Iterate over the traits of the item and call the onContainerOpen method.
+      for (const trait of item.traits.values()) trait.onContainerOpen?.(player);
+    }
   }
 
   /**
@@ -366,6 +375,16 @@ abstract class Container {
 
     // Remove the player from the occupants.
     this.occupants.delete(player);
+
+    // Iterate over the storage, and call the onContainerClose method of the item.
+    for (const item of this.storage) {
+      // Check if the item is null.
+      if (!item) continue;
+
+      // Iterate over the traits of the item and call the onContainerClose method.
+      for (const trait of item.traits.values())
+        trait.onContainerClose?.(player);
+    }
   }
 }
 

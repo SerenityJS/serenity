@@ -9,6 +9,11 @@ abstract class NBTTag<T = unknown> {
   public static readonly type: Tag;
 
   /**
+   * The type of the tag.
+   */
+  public readonly type = (this.constructor as typeof NBTTag).type;
+
+  /**
    * The name of the tag.
    */
   public readonly name: string;

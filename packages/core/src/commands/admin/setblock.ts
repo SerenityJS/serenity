@@ -47,6 +47,11 @@ const register = (world: World) => {
 
           // Set the block at the specified location
           block.setType(type);
+
+          // Return the message
+          return {
+            message: `§aSuccessfully set block at §2${position.x}§a, §2${position.y}§a, §2${position.z}§a to §2${type.identifier}§a.§r`
+          };
         }
       );
     },

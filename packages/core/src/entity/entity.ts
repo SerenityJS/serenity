@@ -14,11 +14,17 @@ import {
   EntityIdentifier,
   EntityInteractMethod
 } from "../enums";
-import { EntityEntry, EntityProperties, JSONLikeValue } from "../types";
+import {
+  CommandResponse,
+  EntityEntry,
+  EntityProperties,
+  JSONLikeValue
+} from "../types";
 import { Serenity } from "../serenity";
 import { Chunk } from "../world/chunk";
 import { Container } from "../container";
-import { ItemStack } from "../item";
+import { ItemBundleTrait, ItemStack } from "../item";
+import { CommandExecutionState } from "../commands";
 
 import { EntityType } from "./identity";
 import { EntityHealthTrait, EntityInventoryTrait, EntityTrait } from "./traits";
@@ -496,7 +502,34 @@ class Entity {
    * Get a container from the entity.
    * @param name The name of the container.
    */
-  public getContainer(name: ContainerName): Container | null {
+  public getContainer(
+    name: ContainerName,
+    dynamicId?: number
+  ): Container | null {
+    // Check if a dynamic id was provided
+    if (dynamicId) {
+      // Check if the entity has an inventory trait
+      if (!this.hasTrait(EntityInventoryTrait)) return null;
+
+      // Get the inventory trait
+      const { container } = this.getTrait(EntityInventoryTrait);
+
+      // Iterate over the items in the container
+      for (const item of container.storage) {
+        // Check if the item is valid
+        if (!item) continue;
+
+        // Check if the item has a ItemBundleTrait
+        if (item.hasTrait(ItemBundleTrait)) {
+          // Get the bundle trait
+          const bundle = item.getTrait(ItemBundleTrait);
+
+          // Check if the bundle has the dynamic id
+          if (bundle.dynamicId === dynamicId) return bundle.container;
+        }
+      }
+    }
+
     // Switch name of the container
     switch (name) {
       default: {
@@ -746,6 +779,26 @@ class Entity {
 
     // Return true as the tag was removed
     return true;
+  }
+
+  /**
+   * Executes a command as the entity.
+   * @param command The command to execute.
+   * @returns The response of the command.
+   */
+  public executeCommand<T = unknown>(command: string): CommandResponse<T> {
+    // Check if the command starts with a slash, remove it if it does not
+    if (command.startsWith("/")) command = command.slice(1);
+
+    // Create a new command execute state
+    const state = new CommandExecutionState(
+      this.getWorld().commands.getAll(),
+      command,
+      this
+    );
+
+    // Execute the command state
+    return state.execute() as CommandResponse<T>;
   }
 
   /**

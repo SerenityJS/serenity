@@ -11,18 +11,26 @@ import {
   PlayerTrait,
   EntityIdentifier,
   BlockTrait,
-  BlockIdentifier
+  BlockIdentifier,
+  ItemType,
+  ItemBundleTrait
 } from "@serenityjs/core";
 import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
   ContainerId,
+  ContainerName,
   ContainerOpenPacket,
   ContainerType,
   DataItem,
+  FullContainerName,
+  InventoryContentPacket,
+  ItemInstanceUserData,
+  NetworkItemStackDescriptor,
   Packet
 } from "@serenityjs/protocol";
+import { CompoundTag, IntTag } from "@serenityjs/nbt";
 
 import { DebugStatsTrait } from "./debug-stats";
 
@@ -48,10 +56,16 @@ world.commands.register("stop", "", (context) => {
 world.commands.register("test", "", (context) => {
   if (!(context.origin instanceof Player)) return;
 
-  const item = new ItemStack(ItemIdentifier.DiamondBlock, { amount: 64 });
+  const stack = new ItemStack(ItemIdentifier.BlueBundle);
 
-  const { container } = context.origin.getTrait(EntityInventoryTrait);
-  container.addItem(item);
+  stack.addTrait(ItemBundleTrait);
+  const bundle = stack.getTrait(ItemBundleTrait);
+
+  bundle.container.addItem(new ItemStack(ItemIdentifier.Diamond));
+  bundle.container.addItem(new ItemStack(ItemIdentifier.IronIngot));
+  bundle.container.addItem(new ItemStack(ItemIdentifier.GoldIngot));
+
+  context.origin.getTrait(EntityInventoryTrait).container.addItem(stack);
 
   return { message: "Item created!" };
 });

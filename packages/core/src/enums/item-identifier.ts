@@ -1341,5 +1341,22 @@ export enum ItemIdentifier {
   Sandstone = "minecraft:sandstone",
   QuartzBlock = "minecraft:quartz_block",
   Prismarine = "minecraft:prismarine",
-  Bucket = "minecraft:bucket"
+  Bucket = "minecraft:bucket",
+  Bundle = "minecraft:bundle",
+  BlueBundle = "minecraft:blue_bundle",
+  BlackBundle = "minecraft:black_bundle",
+  BrownBundle = "minecraft:brown_bundle",
+  CyanBundle = "minecraft:cyan_bundle",
+  GrayBundle = "minecraft:gray_bundle",
+  GreenBundle = "minecraft:green_bundle",
+  LightBlueBundle = "minecraft:light_blue_bundle",
+  LightGrayBundle = "minecraft:light_gray_bundle",
+  LimeBundle = "minecraft:lime_bundle",
+  MagentaBundle = "minecraft:magenta_bundle",
+  OrangeBundle = "minecraft:orange_bundle",
+  PinkBundle = "minecraft:pink_bundle",
+  PurpleBundle = "minecraft:purple_bundle",
+  RedBundle = "minecraft:red_bundle",
+  WhiteBundle = "minecraft:white_bundle",
+  YellowBundle = "minecraft:yellow_bundle"
 }

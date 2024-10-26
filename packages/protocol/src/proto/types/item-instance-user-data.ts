@@ -1,6 +1,8 @@
 import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 import { DataType } from "@serenityjs/raknet";
+
+import { SHIELD_NETWORK_ID } from "../../constants";
 class ItemInstanceUserData extends DataType {
   /**
    * The NBT data for the item.
@@ -49,7 +51,7 @@ class ItemInstanceUserData extends DataType {
     // Read the data marker.
     const marker = stream.readUint16(Endianness.Little);
 
-    // Check if the marker idicates nbt data.
+    // Check if the marker indicates nbt data.
     // If it does, read the nbt data.
     let nbt: CompoundTag | null;
     if (marker === 0xff_ff) {
@@ -64,7 +66,7 @@ class ItemInstanceUserData extends DataType {
           break;
         }
         default: {
-          throw new Error(`Unsupported NBT formating version: ${version}`);
+          throw new Error(`Unsupported NBT formatting version: ${version}`);
         }
       }
     } else {
@@ -107,7 +109,8 @@ class ItemInstanceUserData extends DataType {
     }
 
     // Check if the item is a shield.
-    const ticking = id === 363 ? stream.readInt64(Endianness.Little) : null;
+    const ticking =
+      id === SHIELD_NETWORK_ID ? stream.readInt64(Endianness.Little) : null;
 
     // Return the instance.
     return new ItemInstanceUserData(nbt, canPlaceOn, canDestroy, ticking);
@@ -155,7 +158,7 @@ class ItemInstanceUserData extends DataType {
     }
 
     // Check if the item is a shield.
-    if (id === 363) {
+    if (id === SHIELD_NETWORK_ID) {
       stream.writeInt64(value.ticking ?? BigInt(0), Endianness.Little);
     }
   }

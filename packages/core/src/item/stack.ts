@@ -267,7 +267,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
     if (this.traits.has(trait.identifier)) return this.getTrait<K>(trait);
 
     // Check if the trait is in the palette
-    if (!this.world.itemPalette.traits.has(trait.identifier))
+    if (this.world && !this.world.itemPalette.traits.has(trait.identifier))
       this.world.logger.warn(
         `Trait "§c${trait.identifier}§r" was added to itemstack "§d${this.type.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
       );
@@ -456,4 +456,4 @@ class ItemStack<T extends keyof Items = keyof Items> {
   }
 }
 
-export { ItemStack, ItemStackProperties, DefaultItemStackProperties };
+export { ItemStack, DefaultItemStackProperties };

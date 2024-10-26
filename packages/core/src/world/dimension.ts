@@ -8,10 +8,11 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { DimensionProperties, Items } from "../types";
+import { CommandResponse, DimensionProperties, Items } from "../types";
 import {
   Entity,
   EntityGravityTrait,
+  EntityInventoryTrait,
   EntityItemStackTrait,
   EntityMovementTrait,
   EntityPhysicsTrait,
@@ -23,6 +24,7 @@ import { Block, BlockPermutation } from "../block";
 import { ItemStack } from "../item";
 import { EntityIdentifier } from "../enums";
 import { Serenity } from "../serenity";
+import { CommandExecutionState } from "../commands";
 
 import { World } from "./world";
 import { TerrainGenerator } from "./generator";
@@ -124,6 +126,34 @@ class Dimension {
             // Remove the trait from the entity
             entity.traits.delete(trait.identifier);
           }
+
+        // Check if the entity has a inventory trait
+        if (entity.hasTrait(EntityInventoryTrait)) {
+          // Get the inventory trait from the entity
+          const { container } = entity.getTrait(EntityInventoryTrait);
+
+          // Iterate over all the items in the inventory
+          for (const item of container.storage) {
+            // Check if the item is null
+            if (!item) continue;
+
+            // Iterate over all the traits in the item
+            for (const trait of item.traits.values())
+              try {
+                // Tick the item trait
+                trait.onTick?.(deltaTick);
+              } catch (reason) {
+                // Log the error to the console
+                this.world.logger.error(
+                  `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
+                  reason
+                );
+
+                // Remove the trait from the item
+                item.traits.delete(trait.identifier);
+              }
+          }
+        }
       }
     }
 
@@ -460,6 +490,26 @@ class Dimension {
 
     // Return the item entity
     return entity;
+  }
+
+  /**
+   * Executes a command in the dimension.
+   * @param command The command to execute.
+   * @returns The response of the command.
+   */
+  public executeCommand<T = unknown>(command: string): CommandResponse<T> {
+    // Check if the command starts with a slash, remove it if it does not
+    if (command.startsWith("/")) command = command.slice(1);
+
+    // Create a new command execute state
+    const state = new CommandExecutionState(
+      this.world.commands.getAll(),
+      command,
+      this
+    );
+
+    // Execute the command state
+    return state.execute() as CommandResponse<T>;
   }
 
   /**

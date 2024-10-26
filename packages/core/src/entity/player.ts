@@ -27,7 +27,7 @@ import { PlayerEntry, PlayerProperties } from "../types";
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
-import { ItemStack } from "../item";
+import { ItemBundleTrait, ItemStack } from "../item";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
@@ -296,9 +296,37 @@ class Player extends Entity {
    * Get a container from the player.
    * @param name The name of the container to get.
    */
-  public getContainer(name: ContainerName): Container | null {
+  public getContainer(
+    name: ContainerName,
+    dynamicId?: number
+  ): Container | null {
     // Check if the super instance will fetch the container
-    const container = super.getContainer(name);
+    const container = super.getContainer(name, dynamicId);
+
+    // Check if the container is null and the name is dynamic
+    if (container === null && name === ContainerName.Dynamic) {
+      // Check if the player has the cursor trait
+      if (!this.hasTrait(PlayerCursorTrait))
+        throw new Error("The player does not have a cursor trait.");
+
+      // Get the cursor trait
+      const { container } = this.getTrait(PlayerCursorTrait);
+
+      // Iterate over the items in the container
+      for (const item of container.storage) {
+        // Check if the item is valid
+        if (!item) continue;
+
+        // Check if the item has a ItemBundleTrait
+        if (item.hasTrait(ItemBundleTrait)) {
+          // Get the bundle trait
+          const bundle = item.getTrait(ItemBundleTrait);
+
+          // Check if the bundle has the dynamic id
+          if (bundle.dynamicId === dynamicId) return bundle.container;
+        }
+      }
+    }
 
     // Check if the super instance found the container
     if (container !== null) return container;

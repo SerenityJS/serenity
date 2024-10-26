@@ -1,10 +1,10 @@
 import { Player } from "../../entity";
 import { ItemIdentifier } from "../../enums";
 import { Trait } from "../../trait";
-import { Items, ItemUseOptions } from "../../types";
+import { ItemUseOptions } from "../../types";
 import { ItemStack } from "../stack";
 
-class ItemTrait<T extends keyof Items> extends Trait {
+class ItemTrait<T extends ItemIdentifier> extends Trait {
   /**
    * The item type identifiers that this trait is compatible with by default.
    */
@@ -57,6 +57,18 @@ class ItemTrait<T extends keyof Items> extends Trait {
     player: Player,
     options: Partial<ItemUseOptions>
   ): boolean | void;
+
+  /**
+   * Called when the container that the item is stored in is opened.
+   * @param player The player that opened the container.
+   */
+  public onContainerOpen?(player: Player): void;
+
+  /**
+   * Called when the container that the item is stored in is closed.
+   * @param player The player that closed the container
+   */
+  public onContainerClose?(player: Player): void;
 
   /**
    * Compares another item trait to this one.

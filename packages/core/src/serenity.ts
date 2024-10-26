@@ -14,6 +14,7 @@ import {
   type WorldProvider
 } from "./world";
 import { Player } from "./entity";
+import { ConsoleInterface } from "./commands";
 
 import type {
   ServerProperties,
@@ -70,6 +71,11 @@ class Serenity {
    * The players that are currently connected to the server
    */
   public readonly players = new Map<Connection, Player>();
+
+  /**
+   * The console command interface for the server
+   */
+  public readonly console = new ConsoleInterface(this);
 
   /**
    * Whether the server is currently running or not
@@ -163,6 +169,9 @@ class Serenity {
    * Stops the server and closes all connections
    */
   public stop(): void {
+    // Close the console interface
+    this.console.interface.close();
+
     // Disconnect all players
     for (const player of this.players.values())
       player.disconnect("Server closed.");

@@ -367,7 +367,7 @@ class CompoundTag<T = unknown> extends NBTTag<T> {
 
       // Check if the tag was found.
       if (!writter) {
-        throw new Error(`Unknown tag type: ${type}`);
+        throw new Error(`Unknown tag type: ${tag.type}`);
       }
 
       // Write the tag.

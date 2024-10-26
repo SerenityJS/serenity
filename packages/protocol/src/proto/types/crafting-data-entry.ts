@@ -9,8 +9,8 @@ import { FurnanceAuxRecipe } from "./furnance-aux-recipe";
 import { FurnanceRecipe } from "./furnance-recipe";
 import { ShapedRecipe } from "./shaped-recipe";
 import { SmithingTrimRecipe } from "./smithing-trim-recipe";
+import { UserDataShapelessRecipe } from "./user-data-shapeless-recipe";
 
-import type { ShulkerBoxRecipe } from "./shulkerbox-recipe";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 class CraftingDataEntry extends DataType {
@@ -20,8 +20,8 @@ class CraftingDataEntry extends DataType {
   public readonly furnace: FurnanceRecipe | null;
   public readonly furnaceAux: FurnanceAuxRecipe | null;
   public readonly multi: MultiRecipe | null;
-  public readonly shulkerBox: ShulkerBoxRecipe | null;
-  public readonly shaplessChemistry: ShapelessRecipe | null;
+  public readonly userDataShapeless: UserDataShapelessRecipe | null;
+  public readonly shapelessChemistry: ShapelessRecipe | null;
   public readonly shapedChemistry: ShapedRecipe | null;
   public readonly smithingTransform: SmithingTransformRecipe | null;
   public readonly smithingTrim: SmithingTrimRecipe | null;
@@ -33,8 +33,8 @@ class CraftingDataEntry extends DataType {
     furnace: FurnanceRecipe | null,
     furnaceAux: FurnanceAuxRecipe | null,
     multi: MultiRecipe | null,
-    shulkerBox: ShulkerBoxRecipe | null,
-    shaplessChemistry: ShapelessRecipe | null,
+    userDataShapeless: UserDataShapelessRecipe | null,
+    shapelessChemistry: ShapelessRecipe | null,
     shapedChemistry: ShapedRecipe | null,
     smithingTransform: SmithingTransformRecipe | null,
     smithingTrim: SmithingTrimRecipe | null
@@ -46,8 +46,8 @@ class CraftingDataEntry extends DataType {
     this.furnace = furnace;
     this.furnaceAux = furnaceAux;
     this.multi = multi;
-    this.shulkerBox = shulkerBox;
-    this.shaplessChemistry = shaplessChemistry;
+    this.userDataShapeless = userDataShapeless;
+    this.shapelessChemistry = shapelessChemistry;
     this.shapedChemistry = shapedChemistry;
     this.smithingTransform = smithingTransform;
     this.smithingTrim = smithingTrim;
@@ -71,8 +71,8 @@ class CraftingDataEntry extends DataType {
       let furnace: FurnanceRecipe | null = null;
       let furnaceAux: FurnanceAuxRecipe | null = null;
       let multi: MultiRecipe | null = null;
-      let shulkerBox: ShulkerBoxRecipe | null = null;
-      let shaplessChemistry: ShapelessRecipe | null = null;
+      let userDataShapeless: UserDataShapelessRecipe | null = null;
+      let shapelessChemistry: ShapelessRecipe | null = null;
       let shapedChemistry: ShapedRecipe | null = null;
       let smithingTransform: SmithingTransformRecipe | null = null;
       let smithingTrim: SmithingTrimRecipe | null = null;
@@ -110,13 +110,13 @@ class CraftingDataEntry extends DataType {
           break;
         }
 
-        case CraftingDataEntryType.ShulkerBoxRecipe: {
-          shulkerBox = ShapelessRecipe.read(stream);
+        case CraftingDataEntryType.UserDataShapelessRecipe: {
+          userDataShapeless = ShapelessRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.ShapelessChemistryRecipe: {
-          shaplessChemistry = ShapelessRecipe.read(stream);
+          shapelessChemistry = ShapelessRecipe.read(stream);
           break;
         }
 
@@ -144,8 +144,8 @@ class CraftingDataEntry extends DataType {
         furnace,
         furnaceAux,
         multi,
-        shulkerBox,
-        shaplessChemistry,
+        userDataShapeless,
+        shapelessChemistry,
         shapedChemistry,
         smithingTransform,
         smithingTrim
@@ -205,15 +205,18 @@ class CraftingDataEntry extends DataType {
           break;
         }
 
-        case CraftingDataEntryType.ShulkerBoxRecipe: {
-          ShapelessRecipe.write(stream, entry.shulkerBox as ShapelessRecipe);
+        case CraftingDataEntryType.UserDataShapelessRecipe: {
+          ShapelessRecipe.write(
+            stream,
+            entry.userDataShapeless as ShapelessRecipe
+          );
           break;
         }
 
         case CraftingDataEntryType.ShapelessChemistryRecipe: {
           ShapelessRecipe.write(
             stream,
-            entry.shaplessChemistry as ShapelessRecipe
+            entry.shapelessChemistry as ShapelessRecipe
           );
           break;
         }

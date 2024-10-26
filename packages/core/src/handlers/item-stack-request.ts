@@ -28,31 +28,39 @@ class ItemStackRequestHandler extends NetworkHandler {
           const request = action.takeOrPlace;
 
           // Get the source type and destination type.
-          const sourceType = request.source.container.identifier;
-          const destinationType = request.destination.container.identifier;
+          const sourceContainer = request.source.container;
+          const destinationContainer = request.destination.container;
+
           const sourceSlot = request.source.slot;
           const destinationSlot = request.destination.slot;
           const amount = request.amount ?? 1;
 
           // Check if the source type is a creative output.
-          if (sourceType === ContainerName.CreativeOutput) break;
+          if (sourceContainer.identifier === ContainerName.CreativeOutput)
+            break;
 
           // Fetch the source container from the player.
-          const source = player.getContainer(sourceType);
+          const source = player.getContainer(
+            sourceContainer.identifier,
+            sourceContainer.dynamicIdentifier
+          );
 
           // Check if the source container exists.
           if (!source)
             throw new Error(
-              `Invalid source type: ${ContainerName[sourceType]}`
+              `Invalid source type: ${ContainerName[sourceContainer.identifier]}`
             );
 
           // Fetch the destination container from the player.
-          const destination = player.getContainer(destinationType);
+          const destination = player.getContainer(
+            destinationContainer.identifier,
+            destinationContainer.dynamicIdentifier
+          );
 
           // Check if the destination container exists.
           if (!destination)
             throw new Error(
-              `Invalid destination type: ${ContainerName[destinationType]}`
+              `Invalid destination type: ${ContainerName[destinationContainer.identifier]}`
             );
 
           // Get the source item.
@@ -60,8 +68,10 @@ class ItemStackRequestHandler extends NetworkHandler {
 
           // Check if the source item exists.
           if (!sourceItem) throw new Error("Invalid source item.");
+
           // Get the destination item.
           const destinationItem = destination.getItem(destinationSlot);
+
           if (amount <= sourceItem.amount) {
             const item = source.takeItem(sourceSlot, amount);
             if (!item) throw new Error("Invalid item.");
@@ -105,51 +115,49 @@ class ItemStackRequestHandler extends NetworkHandler {
           const request = action.swap;
 
           // Get the source and destination.
-          const source = request.source;
-          const destination = request.destination;
+          const sourceContainer = request.source.container;
+          const sourceSlot = request.source.slot;
+          const destinationContainer = request.destination.container;
+          const destinationSlot = request.destination.slot;
 
           // Get the source container.
-          const sourceContainer = player.getContainer(
-            source.container.identifier
+          const source = player.getContainer(
+            sourceContainer.identifier,
+            sourceContainer.dynamicIdentifier
           );
 
           // Check if the source container exists.
-          if (!sourceContainer)
+          if (!source)
             throw new Error(
-              `Invalid source container: ${source.container.identifier}`
+              `Invalid source container: ${sourceContainer.identifier}`
             );
 
           // Get the destination container.
-          const destinationContainer = player.getContainer(
-            destination.container.identifier
+          const destination = player.getContainer(
+            destinationContainer.identifier,
+            destinationContainer.dynamicIdentifier
           );
 
           // Check if the destination container exists.
-          if (!destinationContainer)
+          if (!destination)
             throw new Error(
-              `Invalid destination container: ${destination.container.identifier}`
+              `Invalid destination container: ${destinationContainer.identifier}`
             );
 
           // Get the source item.
-          const sourceItem = sourceContainer.getItem(source.slot);
+          const sourceItem = source.getItem(sourceSlot);
 
           // Check if the source item exists.
           if (!sourceItem) throw new Error("Invalid source item.");
 
           // Get the destination item.
-          const destinationItem = destinationContainer.getItem(
-            destination.slot
-          );
+          const destinationItem = destination.getItem(destinationSlot);
 
           // Check if the destination item exists.
           if (!destinationItem) throw new Error("Invalid destination item.");
 
           // Swap the items.
-          sourceContainer.swapItems(
-            source.slot,
-            destination.slot,
-            destinationContainer
-          );
+          source.swapItems(sourceSlot, destinationSlot, destination);
         }
 
         // Check if the action is a destroy or consume action.

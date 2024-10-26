@@ -1346,4 +1346,21 @@ export interface Items {
   [ItemIdentifier.QuartzBlock]: BlockType<BlockIdentifier.QuartzBlock>;
   [ItemIdentifier.Prismarine]: BlockType<BlockIdentifier.Prismarine>;
   [ItemIdentifier.Bucket]: null;
+  [ItemIdentifier.Bundle]: null;
+  [ItemIdentifier.BlackBundle]: null;
+  [ItemIdentifier.BlueBundle]: null;
+  [ItemIdentifier.BrownBundle]: null;
+  [ItemIdentifier.CyanBundle]: null;
+  [ItemIdentifier.GrayBundle]: null;
+  [ItemIdentifier.GreenBundle]: null;
+  [ItemIdentifier.LightBlueBundle]: null;
+  [ItemIdentifier.LightGrayBundle]: null;
+  [ItemIdentifier.LimeBundle]: null;
+  [ItemIdentifier.MagentaBundle]: null;
+  [ItemIdentifier.OrangeBundle]: null;
+  [ItemIdentifier.PinkBundle]: null;
+  [ItemIdentifier.PurpleBundle]: null;
+  [ItemIdentifier.RedBundle]: null;
+  [ItemIdentifier.WhiteBundle]: null;
+  [ItemIdentifier.YellowBundle]: null;
 }
