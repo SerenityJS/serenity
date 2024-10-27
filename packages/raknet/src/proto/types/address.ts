@@ -1,5 +1,5 @@
+import { DataType } from "./type";
 import { BinaryStream } from "@serenityjs/binarystream";
-import { DataType } from "./data-type";
 import { RemoteInfo } from "node:dgram";
 
 /**
