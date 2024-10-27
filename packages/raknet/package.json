@@ -16,17 +16,18 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@serenityjs/internal-config": "workspace:^",
-    "@types/node": "^22.7.9",
-    "eslint": "^9.13.0",
-    "tsup": "^8.3.0",
-    "typescript": "^5.6.3"
+    "@serenityjs/internal-config": "workspace:*",
+    "@swc/core": "1.7.40",
+    "@types/node": "22.7.9",
+    "eslint": "9.13.0",
+    "tsup": "8.3.0",
+    "typescript": "5.6.3"
   },
   "dependencies": {
-    "@serenityjs/binarystream": "^2.6.6",
-    "@serenityjs/emitter": "workspace:^",
-    "@serenityjs/logger": "workspace:^",
-    "@serenityjs/nbt": "workspace:^",
-    "reflect-metadata": "^0.2.2"
+    "@serenityjs/binarystream": "2.6.6",
+    "@serenityjs/emitter": "workspace:*",
+    "@serenityjs/logger": "workspace:*",
+    "@serenityjs/nbt": "workspace:*",
+    "reflect-metadata": "0.2.2"
   }
 }

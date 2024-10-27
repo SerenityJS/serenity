@@ -5,7 +5,7 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@ariesclark/eslint-config@npm:^2.1.0":
+"@ariesclark/eslint-config@npm:2.1.0":
   version: 2.1.0
   resolution: "@ariesclark/eslint-config@npm:2.1.0"
   dependencies:
@@ -689,7 +689,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream@npm:^2.6.6":
+"@serenityjs/binarystream@npm:2.6.6":
   version: 2.6.6
   resolution: "@serenityjs/binarystream@npm:2.6.6"
   dependencies:
@@ -710,62 +710,65 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/core@workspace:^, @serenityjs/core@workspace:packages/core":
+"@serenityjs/core@workspace:*, @serenityjs/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@serenityjs/core@workspace:packages/core"
   dependencies:
-    "@serenityjs/binarystream": "npm:^2.6.6"
-    "@serenityjs/data": "workspace:^"
-    "@serenityjs/emitter": "workspace:^"
-    "@serenityjs/internal-config": "workspace:^"
-    "@serenityjs/leveldb": "npm:^1.0.1"
-    "@serenityjs/logger": "workspace:^"
-    "@serenityjs/nbt": "workspace:^"
-    "@serenityjs/protocol": "workspace:^"
-    "@serenityjs/raknet": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    fast-jwt: "npm:^4.0.5"
-    simplex-noise: "npm:^4.0.3"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/data": "workspace:*"
+    "@serenityjs/emitter": "workspace:*"
+    "@serenityjs/internal-config": "workspace:*"
+    "@serenityjs/leveldb": "npm:1.0.1"
+    "@serenityjs/logger": "workspace:*"
+    "@serenityjs/nbt": "workspace:*"
+    "@serenityjs/protocol": "workspace:*"
+    "@serenityjs/raknet": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    fast-jwt: "npm:4.0.5"
+    simplex-noise: "npm:4.0.3"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/data@workspace:^, @serenityjs/data@workspace:packages/data":
+"@serenityjs/data@workspace:*, @serenityjs/data@workspace:packages/data":
   version: 0.0.0-use.local
   resolution: "@serenityjs/data@workspace:packages/data"
   dependencies:
-    "@serenityjs/internal-config": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/internal-config": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/emitter@workspace:^, @serenityjs/emitter@workspace:packages/emitter":
+"@serenityjs/emitter@workspace:*, @serenityjs/emitter@workspace:packages/emitter":
   version: 0.0.0-use.local
   resolution: "@serenityjs/emitter@workspace:packages/emitter"
   dependencies:
-    "@serenityjs/internal-config": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/internal-config": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/internal-config@workspace:^, @serenityjs/internal-config@workspace:packages/internal-config":
+"@serenityjs/internal-config@workspace:*, @serenityjs/internal-config@workspace:packages/internal-config":
   version: 0.0.0-use.local
   resolution: "@serenityjs/internal-config@workspace:packages/internal-config"
   dependencies:
-    "@ariesclark/eslint-config": "npm:^2.1.0"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
-    typescript-eslint: "npm:^8.11.0"
+    "@ariesclark/eslint-config": "npm:2.1.0"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
+    typescript-eslint: "npm:8.11.0"
   languageName: unknown
   linkType: soft
 
@@ -797,7 +800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/leveldb@npm:^1.0.1":
+"@serenityjs/leveldb@npm:1.0.1":
   version: 1.0.1
   resolution: "@serenityjs/leveldb@npm:1.0.1"
   dependencies:
@@ -818,64 +821,200 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/logger@workspace:^, @serenityjs/logger@workspace:packages/logger":
+"@serenityjs/logger@workspace:*, @serenityjs/logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@serenityjs/logger@workspace:packages/logger"
   dependencies:
-    "@serenityjs/internal-config": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    colorette: "npm:^2.0.20"
-    eslint: "npm:^9.13.0"
-    moment: "npm:^2.30.1"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/internal-config": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    colorette: "npm:2.0.20"
+    eslint: "npm:9.13.0"
+    moment: "npm:2.30.1"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/nbt@workspace:^, @serenityjs/nbt@workspace:packages/nbt":
+"@serenityjs/nbt@workspace:*, @serenityjs/nbt@workspace:packages/nbt":
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
-    "@serenityjs/binarystream": "npm:^2.6.6"
-    "@serenityjs/internal-config": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/internal-config": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/protocol@workspace:^, @serenityjs/protocol@workspace:packages/protocol":
+"@serenityjs/protocol@workspace:*, @serenityjs/protocol@workspace:packages/protocol":
   version: 0.0.0-use.local
   resolution: "@serenityjs/protocol@workspace:packages/protocol"
   dependencies:
-    "@serenityjs/binarystream": "npm:^2.6.6"
-    "@serenityjs/internal-config": "workspace:^"
-    "@serenityjs/nbt": "workspace:^"
-    "@serenityjs/raknet": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/internal-config": "workspace:*"
+    "@serenityjs/nbt": "workspace:*"
+    "@serenityjs/raknet": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
 
-"@serenityjs/raknet@workspace:^, @serenityjs/raknet@workspace:packages/raknet":
+"@serenityjs/raknet@workspace:*, @serenityjs/raknet@workspace:packages/raknet":
   version: 0.0.0-use.local
   resolution: "@serenityjs/raknet@workspace:packages/raknet"
   dependencies:
-    "@serenityjs/binarystream": "npm:^2.6.6"
-    "@serenityjs/emitter": "workspace:^"
-    "@serenityjs/internal-config": "workspace:^"
-    "@serenityjs/logger": "workspace:^"
-    "@serenityjs/nbt": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    reflect-metadata: "npm:^0.2.2"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/emitter": "workspace:*"
+    "@serenityjs/internal-config": "workspace:*"
+    "@serenityjs/logger": "workspace:*"
+    "@serenityjs/nbt": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    reflect-metadata: "npm:0.2.2"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
+
+"@swc/core-darwin-arm64@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-darwin-arm64@npm:1.7.40"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@swc/core-darwin-x64@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-darwin-x64@npm:1.7.40"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm-gnueabihf@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.7.40"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm64-gnu@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.7.40"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm64-musl@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-linux-arm64-musl@npm:1.7.40"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-x64-gnu@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-linux-x64-gnu@npm:1.7.40"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-x64-musl@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-linux-x64-musl@npm:1.7.40"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-arm64-msvc@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.7.40"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-ia32-msvc@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.7.40"
+  conditions: os=win32 & cpu=ia32
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-x64-msvc@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core-win32-x64-msvc@npm:1.7.40"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@swc/core@npm:1.7.40":
+  version: 1.7.40
+  resolution: "@swc/core@npm:1.7.40"
+  dependencies:
+    "@swc/core-darwin-arm64": "npm:1.7.40"
+    "@swc/core-darwin-x64": "npm:1.7.40"
+    "@swc/core-linux-arm-gnueabihf": "npm:1.7.40"
+    "@swc/core-linux-arm64-gnu": "npm:1.7.40"
+    "@swc/core-linux-arm64-musl": "npm:1.7.40"
+    "@swc/core-linux-x64-gnu": "npm:1.7.40"
+    "@swc/core-linux-x64-musl": "npm:1.7.40"
+    "@swc/core-win32-arm64-msvc": "npm:1.7.40"
+    "@swc/core-win32-ia32-msvc": "npm:1.7.40"
+    "@swc/core-win32-x64-msvc": "npm:1.7.40"
+    "@swc/counter": "npm:^0.1.3"
+    "@swc/types": "npm:^0.1.13"
+  peerDependencies:
+    "@swc/helpers": "*"
+  dependenciesMeta:
+    "@swc/core-darwin-arm64":
+      optional: true
+    "@swc/core-darwin-x64":
+      optional: true
+    "@swc/core-linux-arm-gnueabihf":
+      optional: true
+    "@swc/core-linux-arm64-gnu":
+      optional: true
+    "@swc/core-linux-arm64-musl":
+      optional: true
+    "@swc/core-linux-x64-gnu":
+      optional: true
+    "@swc/core-linux-x64-musl":
+      optional: true
+    "@swc/core-win32-arm64-msvc":
+      optional: true
+    "@swc/core-win32-ia32-msvc":
+      optional: true
+    "@swc/core-win32-x64-msvc":
+      optional: true
+  peerDependenciesMeta:
+    "@swc/helpers":
+      optional: true
+  checksum: 10c0/d763413eb649e365282de70994ff6582ecc32b282721d04bd72b8c4403bc3a43327cd4d05fdac2bdb21eb2a6c6de77d9268ace1d358848ee9ffa7d81463b7ee8
+  languageName: node
+  linkType: hard
+
+"@swc/counter@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@swc/counter@npm:0.1.3"
+  checksum: 10c0/8424f60f6bf8694cfd2a9bca45845bce29f26105cda8cf19cdb9fd3e78dc6338699e4db77a89ae449260bafa1cc6bec307e81e7fb96dbf7dcfce0eea55151356
+  languageName: node
+  linkType: hard
+
+"@swc/types@npm:^0.1.13":
+  version: 0.1.13
+  resolution: "@swc/types@npm:0.1.13"
+  dependencies:
+    "@swc/counter": "npm:^0.1.3"
+  checksum: 10c0/f85a850dead981ca9a26ae366529f2b383fa26324ffcbbee46d7b48399e6ed36d6a6a3d55398f17f87c65f550e28d642a35877d40f389c78765a31ecdfc88bd9
+  languageName: node
+  linkType: hard
 
 "@tootallnate/quickjs-emscripten@npm:^0.23.0":
   version: 0.23.0
@@ -912,7 +1051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@turbo/gen@npm:^2.2.3":
+"@turbo/gen@npm:2.2.3":
   version: 2.2.3
   resolution: "@turbo/gen@npm:2.2.3"
   dependencies:
@@ -1012,7 +1151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.7.9":
+"@types/node@npm:22.7.9":
   version: 22.7.9
   resolution: "@types/node@npm:22.7.9"
   dependencies:
@@ -2072,7 +2211,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^2.0.20":
+"colorette@npm:2.0.20":
   version: 2.0.20
   resolution: "colorette@npm:2.0.20"
   checksum: 10c0/e94116ff33b0ff56f3b83b9ace895e5bf87c2a7a47b3401b8c3f3226e050d5ef76cf4072fb3325f9dc24d1698f9b730baf4e05eeaf861d74a1883073f4c98a40
@@ -2321,16 +2460,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dev-app@workspace:devapp"
   dependencies:
-    "@serenityjs/binarystream": "npm:^2.6.6"
-    "@serenityjs/core": "workspace:^"
-    "@serenityjs/internal-config": "workspace:^"
-    "@serenityjs/logger": "workspace:^"
-    "@serenityjs/nbt": "workspace:^"
-    "@serenityjs/raknet": "workspace:^"
-    "@types/node": "npm:^22.7.9"
-    eslint: "npm:^9.13.0"
-    tsup: "npm:^8.3.0"
-    typescript: "npm:^5.6.3"
+    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/core": "workspace:*"
+    "@serenityjs/internal-config": "workspace:*"
+    "@serenityjs/logger": "workspace:*"
+    "@serenityjs/nbt": "workspace:*"
+    "@serenityjs/raknet": "workspace:*"
+    "@swc/core": "npm:1.7.40"
+    "@types/node": "npm:22.7.9"
+    eslint: "npm:9.13.0"
+    tsup: "npm:8.3.0"
+    typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
 
@@ -3041,6 +3181,56 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint@npm:9.13.0":
+  version: 9.13.0
+  resolution: "eslint@npm:9.13.0"
+  dependencies:
+    "@eslint-community/eslint-utils": "npm:^4.2.0"
+    "@eslint-community/regexpp": "npm:^4.11.0"
+    "@eslint/config-array": "npm:^0.18.0"
+    "@eslint/core": "npm:^0.7.0"
+    "@eslint/eslintrc": "npm:^3.1.0"
+    "@eslint/js": "npm:9.13.0"
+    "@eslint/plugin-kit": "npm:^0.2.0"
+    "@humanfs/node": "npm:^0.16.5"
+    "@humanwhocodes/module-importer": "npm:^1.0.1"
+    "@humanwhocodes/retry": "npm:^0.3.1"
+    "@types/estree": "npm:^1.0.6"
+    "@types/json-schema": "npm:^7.0.15"
+    ajv: "npm:^6.12.4"
+    chalk: "npm:^4.0.0"
+    cross-spawn: "npm:^7.0.2"
+    debug: "npm:^4.3.2"
+    escape-string-regexp: "npm:^4.0.0"
+    eslint-scope: "npm:^8.1.0"
+    eslint-visitor-keys: "npm:^4.1.0"
+    espree: "npm:^10.2.0"
+    esquery: "npm:^1.5.0"
+    esutils: "npm:^2.0.2"
+    fast-deep-equal: "npm:^3.1.3"
+    file-entry-cache: "npm:^8.0.0"
+    find-up: "npm:^5.0.0"
+    glob-parent: "npm:^6.0.2"
+    ignore: "npm:^5.2.0"
+    imurmurhash: "npm:^0.1.4"
+    is-glob: "npm:^4.0.0"
+    json-stable-stringify-without-jsonify: "npm:^1.0.1"
+    lodash.merge: "npm:^4.6.2"
+    minimatch: "npm:^3.1.2"
+    natural-compare: "npm:^1.4.0"
+    optionator: "npm:^0.9.3"
+    text-table: "npm:^0.2.0"
+  peerDependencies:
+    jiti: "*"
+  peerDependenciesMeta:
+    jiti:
+      optional: true
+  bin:
+    eslint: bin/eslint.js
+  checksum: 10c0/d3577444152182a9d8ea8c6a6acb073d3a2773ad73a6b646f432746583ec4bfcd6a44fcc2e37d05d276984e583c46c2d289b3b981ca8f8b4052756a152341d19
+  languageName: node
+  linkType: hard
+
 "eslint@npm:^9.11.0":
   version: 9.12.0
   resolution: "eslint@npm:9.12.0"
@@ -3088,56 +3278,6 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: 10c0/67cf6ea3ea28dcda7dd54aac33e2d4028eb36991d13defb0d2339c3eaa877d5dddd12cd4416ddc701a68bcde9e0bb9e65524c2e4e9914992c724f5b51e949dda
-  languageName: node
-  linkType: hard
-
-"eslint@npm:^9.13.0":
-  version: 9.13.0
-  resolution: "eslint@npm:9.13.0"
-  dependencies:
-    "@eslint-community/eslint-utils": "npm:^4.2.0"
-    "@eslint-community/regexpp": "npm:^4.11.0"
-    "@eslint/config-array": "npm:^0.18.0"
-    "@eslint/core": "npm:^0.7.0"
-    "@eslint/eslintrc": "npm:^3.1.0"
-    "@eslint/js": "npm:9.13.0"
-    "@eslint/plugin-kit": "npm:^0.2.0"
-    "@humanfs/node": "npm:^0.16.5"
-    "@humanwhocodes/module-importer": "npm:^1.0.1"
-    "@humanwhocodes/retry": "npm:^0.3.1"
-    "@types/estree": "npm:^1.0.6"
-    "@types/json-schema": "npm:^7.0.15"
-    ajv: "npm:^6.12.4"
-    chalk: "npm:^4.0.0"
-    cross-spawn: "npm:^7.0.2"
-    debug: "npm:^4.3.2"
-    escape-string-regexp: "npm:^4.0.0"
-    eslint-scope: "npm:^8.1.0"
-    eslint-visitor-keys: "npm:^4.1.0"
-    espree: "npm:^10.2.0"
-    esquery: "npm:^1.5.0"
-    esutils: "npm:^2.0.2"
-    fast-deep-equal: "npm:^3.1.3"
-    file-entry-cache: "npm:^8.0.0"
-    find-up: "npm:^5.0.0"
-    glob-parent: "npm:^6.0.2"
-    ignore: "npm:^5.2.0"
-    imurmurhash: "npm:^0.1.4"
-    is-glob: "npm:^4.0.0"
-    json-stable-stringify-without-jsonify: "npm:^1.0.1"
-    lodash.merge: "npm:^4.6.2"
-    minimatch: "npm:^3.1.2"
-    natural-compare: "npm:^1.4.0"
-    optionator: "npm:^0.9.3"
-    text-table: "npm:^0.2.0"
-  peerDependencies:
-    jiti: "*"
-  peerDependenciesMeta:
-    jiti:
-      optional: true
-  bin:
-    eslint: bin/eslint.js
-  checksum: 10c0/d3577444152182a9d8ea8c6a6acb073d3a2773ad73a6b646f432746583ec4bfcd6a44fcc2e37d05d276984e583c46c2d289b3b981ca8f8b4052756a152341d19
   languageName: node
   linkType: hard
 
@@ -3274,7 +3414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-jwt@npm:^4.0.5":
+"fast-jwt@npm:4.0.5":
   version: 4.0.5
   resolution: "fast-jwt@npm:4.0.5"
   dependencies:
@@ -4887,7 +5027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.30.1":
+"moment@npm:2.30.1":
   version: 2.30.1
   resolution: "moment@npm:2.30.1"
   checksum: 10c0/865e4279418c6de666fca7786607705fd0189d8a7b7624e2e56be99290ac846f90878a6f602e34b4e0455c549b85385b1baf9966845962b313699e7cb847543a
@@ -5652,7 +5792,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.2.2":
+"reflect-metadata@npm:0.2.2":
   version: 0.2.2
   resolution: "reflect-metadata@npm:0.2.2"
   checksum: 10c0/1cd93a15ea291e420204955544637c264c216e7aac527470e393d54b4bb075f10a17e60d8168ec96600c7e0b9fcc0cb0bb6e91c3fbf5b0d8c9056f04e6ac1ec2
@@ -5836,18 +5976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "rimraf@npm:3.0.2"
-  dependencies:
-    glob: "npm:^7.1.3"
-  bin:
-    rimraf: bin.js
-  checksum: 10c0/9cb7757acb489bd83757ba1a274ab545eafd75598a9d817e0c3f8b164238dd90eba50d6b848bd4dcc5f3040912e882dc7ba71653e35af660d77b25c381d402e8
-  languageName: node
-  linkType: hard
-
-"rimraf@npm:^6.0.1":
+"rimraf@npm:6.0.1":
   version: 6.0.1
   resolution: "rimraf@npm:6.0.1"
   dependencies:
@@ -5856,6 +5985,17 @@ __metadata:
   bin:
     rimraf: dist/esm/bin.mjs
   checksum: 10c0/b30b6b072771f0d1e73b4ca5f37bb2944ee09375be9db5f558fcd3310000d29dfcfa93cf7734d75295ad5a7486dc8e40f63089ced1722a664539ffc0c3ece8c6
+  languageName: node
+  linkType: hard
+
+"rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "rimraf@npm:3.0.2"
+  dependencies:
+    glob: "npm:^7.1.3"
+  bin:
+    rimraf: bin.js
+  checksum: 10c0/9cb7757acb489bd83757ba1a274ab545eafd75598a9d817e0c3f8b164238dd90eba50d6b848bd4dcc5f3040912e882dc7ba71653e35af660d77b25c381d402e8
   languageName: node
   linkType: hard
 
@@ -6034,9 +6174,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "serenity@workspace:."
   dependencies:
-    "@turbo/gen": "npm:^2.2.3"
-    rimraf: "npm:^6.0.1"
-    turbo: "npm:^2.2.3"
+    "@turbo/gen": "npm:2.2.3"
+    rimraf: "npm:6.0.1"
+    turbo: "npm:2.2.3"
   languageName: unknown
   linkType: soft
 
@@ -6108,7 +6248,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simplex-noise@npm:^4.0.3":
+"simplex-noise@npm:4.0.3":
   version: 4.0.3
   resolution: "simplex-noise@npm:4.0.3"
   checksum: 10c0/117b7f85abd90f3dc63817ed790705ff0fb50cb0bf396a8fc8fa1443265e4b2529429bb34992e43e7b27d6cacb9059f37fa52a37e59c52f51698ad0d3038d0f3
@@ -6677,7 +6817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^8.3.0":
+"tsup@npm:8.3.0":
   version: 8.3.0
   resolution: "tsup@npm:8.3.0"
   dependencies:
@@ -6760,7 +6900,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo@npm:^2.2.3":
+"turbo@npm:2.2.3":
   version: 2.2.3
   resolution: "turbo@npm:2.2.3"
   dependencies:
@@ -6885,7 +7025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript-eslint@npm:^8.11.0":
+"typescript-eslint@npm:8.11.0":
   version: 8.11.0
   resolution: "typescript-eslint@npm:8.11.0"
   dependencies:
@@ -6899,7 +7039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.6.3":
+"typescript@npm:5.6.3":
   version: 5.6.3
   resolution: "typescript@npm:5.6.3"
   bin:
@@ -6909,7 +7049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.6.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>":
   version: 5.6.3
   resolution: "typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"
   bin:

@@ -2,9 +2,14 @@
  * @type {import("tsup").Options}
  */
 export default {
-  entryPoints: ["src/index.ts"],
+  entry: ["src/index.ts"],
+  external: [/^@serenityjs/],
   clean: true,
-  dts: true,
   format: ["cjs", "esm"],
   minify: false,
+  dts: true,
+  skipNodeModulesBundle: true,
+  splitting: false,
+  treeshake: true,
+  cjsInterop: true,
 };
