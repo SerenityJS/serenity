@@ -6,10 +6,20 @@
     "build": "turbo build",
     "build:pkgs": "turbo build --filter='./packages/*'",
     "lint": "turbo lint",
+    "test": "exit 0",
     "clean": "rimraf -g '**/{dist,node_modules}' || true",
-    "running-top-level-from-any-directory": "yarn run -T ..."
+    "running-top-level-from-any-directory": "yarn run -T ...",
+    "postversion": "yarn install",
+    "version": "yarn changeset version",
+    "version:beta": "yarn changeset version --snapshot beta",
+    "release": "yarn changeset publish",
+    "release:beta": "yarn changeset publish --no-git-tag --snapshot --tag beta",
+    "changeset": "changeset"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "0.5.0",
+    "@changesets/cli": "2.27.1",
+    "@changesets/types": "6.0.0",
     "@turbo/gen": "2.2.3",
     "rimraf": "6.0.1",
     "turbo": "2.2.3"

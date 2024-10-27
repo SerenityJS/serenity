@@ -1,0 +1,17 @@
+name: Build
+on:
+    push:
+    pull_request:
+
+jobs:
+    lint:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install
+              uses: ./.github/common/install
+
+            - name: Build
+              run: yarn build
