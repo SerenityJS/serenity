@@ -7,7 +7,9 @@
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/SerenityJS/packages/core",
   "files": [
-    "dist/**"
+    "dist/**",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsup",

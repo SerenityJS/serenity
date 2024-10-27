@@ -2,12 +2,14 @@
   "name": "@serenityjs/raknet",
   "author": "Serenity",
   "license": "MIT",
-  "version": "0.0.0",
+  "version": "0.5.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/SerenityJS/packages/raknet",
   "files": [
-    "dist/**"
+    "dist/**",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsup",

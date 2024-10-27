@@ -1,6 +1,6 @@
 {
   "name": "dev-app",
-  "version": "0.0.0",
+  "version": "0.5.2",
   "main": "dist/index.js",
   "private": true,
   "scripts": {
