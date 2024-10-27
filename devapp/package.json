@@ -1,6 +1,6 @@
 {
   "name": "dev-app",
-  "version": "0.0.0",
+  "version": "0.5.2",
   "main": "dist/index.js",
   "private": true,
   "scripts": {
@@ -11,17 +11,18 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@serenityjs/binarystream": "^2.6.6",
-    "@serenityjs/core": "workspace:^",
-    "@serenityjs/logger": "workspace:^",
-    "@serenityjs/nbt": "workspace:^",
-    "@serenityjs/raknet": "workspace:^"
+    "@serenityjs/binarystream": "2.6.6",
+    "@serenityjs/core": "workspace:*",
+    "@serenityjs/logger": "workspace:*",
+    "@serenityjs/nbt": "workspace:*",
+    "@serenityjs/raknet": "workspace:*"
   },
   "devDependencies": {
-    "@serenityjs/internal-config": "workspace:^",
-    "@types/node": "^22.7.9",
-    "eslint": "^9.13.0",
-    "tsup": "^8.3.0",
-    "typescript": "^5.6.3"
+    "@serenityjs/internal-config": "workspace:*",
+    "@swc/core": "1.7.40",
+    "@types/node": "22.7.9",
+    "eslint": "9.13.0",
+    "tsup": "8.3.0",
+    "typescript": "5.6.3"
   }
 }

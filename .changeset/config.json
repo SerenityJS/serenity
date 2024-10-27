@@ -1,0 +1,19 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@latest/schema.json",
+  "changelog": [
+      "@changesets/changelog-github",
+      {
+          "repo": "SerenityJS/serenity"
+      }
+  ],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "ignore": ["dev-app"],
+  "access": "public",
+  "baseBranch": "develop",
+  "updateInternalDependencies": "patch",
+  "snapshot": {
+    "useCalculatedVersion": true
+  }
+}

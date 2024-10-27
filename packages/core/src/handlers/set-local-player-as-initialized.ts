@@ -10,7 +10,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
   public static readonly packet = Packet.SetLocalPlayerAsInitialized;
 
   public handle(
-    packet: SetLocalPlayerAsInitializedPacket,
+    _packet: SetLocalPlayerAsInitializedPacket,
     connection: Connection
   ): void {
     // Get the player by the connection

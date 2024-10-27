@@ -5,158 +5,163 @@ import { resolve } from "node:path";
 const data = resolve(__dirname, "../data");
 
 interface BlockStates {
-	identifier: string;
-	values: Array<string | number | boolean>;
+  identifier: string;
+  values: Array<string | number | boolean>;
 }
 
 interface BlockTypes {
-	identifier: string;
-	loggable: boolean;
-	components: Array<string>;
-	states: Array<string>;
-	tags: Array<string>;
-	air: boolean;
-	liquid: boolean;
-	solid: boolean;
+  identifier: string;
+  loggable: boolean;
+  components: Array<string>;
+  states: Array<string>;
+  tags: Array<string>;
+  air: boolean;
+  liquid: boolean;
+  solid: boolean;
 }
 
 interface BlockPermutations {
-	identifier: string;
-	hash: number;
-	state: Record<string, string | number | boolean>;
+  identifier: string;
+  hash: number;
+  state: Record<string, string | number | boolean>;
 }
 
 interface ItemTypes {
-	identifier: string;
-	stackable: boolean;
-	maxAmount: number;
-	tags: Array<string>;
+  identifier: string;
+  stackable: boolean;
+  maxAmount: number;
+  tags: Array<string>;
 }
 
 interface EntityTypes {
-	identifier: string;
-	components: Array<string>;
+  identifier: string;
+  components: Array<string>;
 }
 
 interface BlockDrop {
-	identifier: string;
-	min: number;
-	max: number;
-	chance: number;
+  identifier: string;
+  min: number;
+  max: number;
+  chance: number;
 }
 
 interface BlockDrops {
-	identifier: string;
-	drops: Array<BlockDrop>;
+  identifier: string;
+  drops: Array<BlockDrop>;
 }
 
 interface BlockMetadata {
-	identifier: string;
-	hardness: number;
-	friction: number;
-	mapColor: string;
+  identifier: string;
+  hardness: number;
+  friction: number;
+  mapColor: string;
 }
 
 interface ToolType {
-	identifier: string;
-	network: number;
-	types: Array<string>;
+  identifier: string;
+  network: number;
+  types: Array<string>;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TODO = any;
 
 /**
  * Block states for all blocks in the game.
  */
 const BLOCK_STATES: Array<BlockStates> = JSON.parse(
-	readFileSync(resolve(data, "block_states.json"), "utf8")
+  readFileSync(resolve(data, "block_states.json"), "utf8")
 );
 
 /**
  * Block types for all blocks in the game.
  */
 const BLOCK_TYPES: Array<BlockTypes> = JSON.parse(
-	readFileSync(resolve(data, "block_types.json"), "utf8")
+  readFileSync(resolve(data, "block_types.json"), "utf8")
 );
 
 /**
  * Block permutations for all blocks in the game.
  */
 const BLOCK_PERMUTATIONS: Array<BlockPermutations> = JSON.parse(
-	readFileSync(resolve(data, "block_permutations.json"), "utf8")
+  readFileSync(resolve(data, "block_permutations.json"), "utf8")
 );
 
 /**
  * Block drops for all blocks in the game.
  */
 const BLOCK_DROPS: Array<BlockDrops> = JSON.parse(
-	readFileSync(resolve(data, "block_drops.json"), "utf8")
+  readFileSync(resolve(data, "block_drops.json"), "utf8")
 );
 
 /**
  * Block metadata for all blocks in the game.
  */
 const BLOCK_METADATA: Array<BlockMetadata> = JSON.parse(
-	readFileSync(resolve(data, "block_metadata.json"), "utf8")
+  readFileSync(resolve(data, "block_metadata.json"), "utf8")
 );
 
 /**
  * Item types for all items in the game.
  */
 const ITEM_TYPES: Array<ItemTypes> = JSON.parse(
-	readFileSync(resolve(data, "item_types.json"), "utf8")
+  readFileSync(resolve(data, "item_types.json"), "utf8")
 );
 
 /**
  * Tool types for all tools in the game.
  */
 const TOOL_TYPES: Array<ToolType> = JSON.parse(
-	readFileSync(resolve(data, "tool_types.json"), "utf8")
+  readFileSync(resolve(data, "tool_types.json"), "utf8")
 );
 
 /**
  * Entity types for all entities in the game.
  */
 const ENTITY_TYPES: Array<EntityTypes> = JSON.parse(
-	readFileSync(resolve(data, "entity_types.json"), "utf8")
+  readFileSync(resolve(data, "entity_types.json"), "utf8")
 );
 
 /**
  * Raw NBT data for the canonical block states.
  */
-const CANONICAL_BLOCK_STATES = readFileSync(
-	resolve(data, "canonical_block_states.nbt")
+const CANONICAL_BLOCK_STATES: TODO = readFileSync(
+  resolve(data, "canonical_block_states.nbt")
 );
 
 /**
  * Raw NBT data for the biome definition list.
  */
-const BIOME_DEFINITION_LIST = readFileSync(
-	resolve(data, "biome_definition_list.nbt")
+const BIOME_DEFINITION_LIST: TODO = readFileSync(
+  resolve(data, "biome_definition_list.nbt")
 );
 
 /**
  * Raw binary data for the creative content.
  */
-const CREATIVE_CONTENT = readFileSync(resolve(data, "creative_content.bin"));
+const CREATIVE_CONTENT: TODO = readFileSync(
+  resolve(data, "creative_content.bin")
+);
 
 /**
  * Raw binary data for the item states.
  */
-const ITEMDATA = readFileSync(resolve(data, "itemdata.bin"));
+const ITEMDATA: TODO = readFileSync(resolve(data, "itemdata.bin"));
 
-const CRAFTING_DATA = readFileSync(resolve(data, "crafting_data.bin"));
+const CRAFTING_DATA: TODO = readFileSync(resolve(data, "crafting_data.bin"));
 
 export {
-	BLOCK_STATES,
-	BLOCK_TYPES,
-	BLOCK_PERMUTATIONS,
-	BLOCK_DROPS,
-	BLOCK_METADATA,
-	ITEM_TYPES,
-	TOOL_TYPES,
-	ENTITY_TYPES,
-	CANONICAL_BLOCK_STATES,
-	BIOME_DEFINITION_LIST,
-	CREATIVE_CONTENT,
-	ITEMDATA,
-	CRAFTING_DATA
+  BLOCK_STATES,
+  BLOCK_TYPES,
+  BLOCK_PERMUTATIONS,
+  BLOCK_DROPS,
+  BLOCK_METADATA,
+  ITEM_TYPES,
+  TOOL_TYPES,
+  ENTITY_TYPES,
+  CANONICAL_BLOCK_STATES,
+  BIOME_DEFINITION_LIST,
+  CREATIVE_CONTENT,
+  ITEMDATA,
+  CRAFTING_DATA
 };

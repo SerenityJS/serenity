@@ -23,7 +23,6 @@
   "mc-color.mode": "bedrock",
   "mc-color.replicateJavaBug": false,
   // Pre Release Verison
-  "mc-color.enable": true,
   "mc-color.version": "bedrock",
   "mc-color.marker": "foreground",
   "mc-color.fallback": true,
