@@ -53,13 +53,21 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
 
       // Set the bundle id component and nbt.
       item.components.set("dynamic_container", id);
-      item.nbt.createIntTag("bundle_id", id);
+
+      // Create a new int tag for the bundle id.
+      const tag = new IntTag("bundle_id", id);
+
+      // Set the bundle id nbt.
+      item.nbt.set("bundle_id", tag);
     } else {
       // Get the bundle id.
       const id = item.components.get("dynamic_container") as number;
 
+      // Create a new int tag for the bundle id.
+      const tag = new IntTag("bundle_id", id);
+
       // Set the bundle id nbt.
-      item.nbt.createIntTag("bundle_id", id);
+      item.nbt.set("bundle_id", tag);
     }
 
     // Create a new container.
@@ -84,7 +92,12 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
   public set dynamicId(id: number) {
     // Set the bundle id.
     this.item.components.set("dynamic_container", id);
-    this.item.nbt.setTag("bundle_id", new IntTag("bundle_id", id));
+
+    // Create a new int tag for the bundle id.
+    const tag = new IntTag("bundle_id", id);
+
+    // Set the bundle id nbt.
+    this.item.nbt.set("bundle_id", tag);
   }
 
   public onContainerOpen(player: Player): void {

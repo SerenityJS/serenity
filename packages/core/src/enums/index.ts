@@ -10,3 +10,4 @@ export * from "./block-tool-type";
 export * from "./item-use-method";
 export * from "./entity-interact-method";
 export * from "./cardinal-direction";
+export * from "./world-event";

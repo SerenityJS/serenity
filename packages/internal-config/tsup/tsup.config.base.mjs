@@ -2,18 +2,18 @@
  * @type {import("tsup").Options}
  */
 export default {
-  bundle: false,
+  bundle: true,
   cjsInterop: true,
   clean: true,
   dts: true,
-  entry: ["src/index.ts", "src/**/*"],
+  entry: ["src/index.ts"],
   external: [/^@serenityjs/],
   format: ["cjs", "esm"],
   keepNames: true,
-  minify: false,
+  minify: true,
   skipNodeModulesBundle: true,
-  sourcemap: 'inline',
+  sourcemap: "inline",
   splitting: false,
-  treeshake: true,
-  tsconfig: "./tsconfig.json"
+  treeshake: false,
+  tsconfig: "./tsconfig.json",
 };

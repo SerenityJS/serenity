@@ -22,6 +22,7 @@ import {
 } from "../../types";
 import { World } from "../world";
 import { Entity } from "../../entity";
+import { WorldInitializeSignal } from "../../events";
 
 import { WorldProvider } from "./provider";
 
@@ -512,6 +513,9 @@ class LevelDBProvider extends WorldProvider {
 
       // Register the world with the serenity instance.
       serenity.registerWorld(world);
+
+      // Create a new WorldInitializedSignal instance.
+      new WorldInitializeSignal(world).emit();
     }
   }
 
@@ -554,6 +558,9 @@ class LevelDBProvider extends WorldProvider {
       resolve(worldPath, "properties.json"),
       JSON.stringify(world.properties, null, 2)
     );
+
+    // Create a new WorldInitializedSignal instance.
+    new WorldInitializeSignal(world).emit();
 
     // Return the created world.
     return world;

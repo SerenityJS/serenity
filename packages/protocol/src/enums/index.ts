@@ -93,3 +93,4 @@ export * from "./move-delta-flags";
 export * from "./telemetry-event-type";
 export * from "./spawn-type";
 export * from "./server-auth-movement-mode";
+export * from "./memory-tier";

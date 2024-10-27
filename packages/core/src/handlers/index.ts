@@ -14,6 +14,7 @@ import { SetLocalPlayerAsInitializedHandler } from "./set-local-player-as-initia
 import { TextHandler } from "./text";
 import { CommandRequestHandler } from "./command-request";
 import { InteractHandler } from "./interact";
+import { RespawnHandler } from "./respawn";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -31,7 +32,8 @@ const Handlers = [
   PlayerActionHandler,
   TextHandler,
   CommandRequestHandler,
-  InteractHandler
+  InteractHandler,
+  RespawnHandler
 ];
 
 export { Handlers };

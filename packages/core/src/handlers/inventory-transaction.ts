@@ -18,6 +18,7 @@ import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack } from "../item";
 import { BlockIdentifier, EntityInteractMethod, ItemUseMethod } from "../enums";
+import { PlayerPlaceBlockSignal } from "../events";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -158,10 +159,20 @@ class InventoryTransactionHandler extends NetworkHandler {
         if (!result.isAir()) return;
 
         // Get the permutation to set the block state
-        const permutation = blockType.permutations[stack.auxillary];
+        const permutation =
+          blockType.permutations[stack.auxillary] ?? blockType.getPermutation();
+
+        // Create a new PlayerPlaceBlockSignal
+        const signal = new PlayerPlaceBlockSignal(
+          result,
+          player,
+          permutation,
+          transaction.face,
+          transaction.clickPosition
+        ).emit();
 
         // Set the permutation of the block
-        result.setPermutation(permutation ?? blockType.getPermutation());
+        result.setPermutation(permutation);
 
         // Call the block onPlace trait methods
         let placeCanceled = false;
@@ -197,7 +208,8 @@ class InventoryTransactionHandler extends NetworkHandler {
         sound.isGlobal = false;
 
         // If the block placement was canceled, revert the block
-        if (placeCanceled) return result.setPermutation(oldPermutation);
+        if (placeCanceled || !signal)
+          return result.setPermutation(oldPermutation);
         else result.dimension.broadcast(sound);
 
         // If the item use was canceled, increment the stack

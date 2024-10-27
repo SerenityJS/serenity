@@ -17,6 +17,8 @@ interface ClientData {
   GuiScale: number;
   IsEditorMode: boolean;
   LanguageCode: string;
+  MaxViewDistance: number;
+  MemoryTier: number;
   OverrideSkin: boolean;
   PersonaPieces: Array<PersonaPiece>;
   PersonaSkin: boolean;

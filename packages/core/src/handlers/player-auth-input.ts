@@ -21,6 +21,7 @@ import { Connection } from "@serenityjs/raknet";
 import { NetworkHandler } from "../network";
 import { Player } from "../entity";
 import { ItemUseMethod } from "../enums";
+import { PlayerBreakBlockSignal } from "../events";
 
 class PlayerAuthInputHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAuthInput;
@@ -39,6 +40,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
     player.rotation.pitch = packet.rotation.x;
     player.rotation.yaw = packet.rotation.y;
     player.rotation.headYaw = packet.headYaw;
+
+    // Set the player device information
+    player.device.inputMode = packet.inputMode;
+    player.device.interactionMode = packet.interactionMode;
+    player.device.playMode = packet.playMode;
 
     // Convert the player's position to a block position
     const position = player.position.floor();
@@ -350,9 +356,19 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Get the block from the action position
           const block = dimension.getBlock(action.position);
 
+          // Create a new PlayerBreakBlockSignal
+          const signal = new PlayerBreakBlockSignal(
+            block,
+            player,
+            player.getHeldItem()
+          ).emit();
+
           // Check if the player does not have a block target
-          // And if the player is not in creative mode
-          if (!player.blockTarget && player.gamemode !== Gamemode.Creative) {
+          // And if the player is not in creative mode; also check if the signal was canceled
+          if (
+            (!player.blockTarget && player.gamemode !== Gamemode.Creative) ||
+            !signal
+          ) {
             // Create a new UpdateBlockPacket for the block update
             const packet = new UpdateBlockPacket();
             packet.position = BlockPosition.toVector3f(block.position);

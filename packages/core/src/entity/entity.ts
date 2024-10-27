@@ -25,6 +25,7 @@ import { Chunk } from "../world/chunk";
 import { Container } from "../container";
 import { ItemBundleTrait, ItemStack } from "../item";
 import { CommandExecutionState } from "../commands";
+import { EntityDespawnedSignal, EntitySpawnedSignal } from "../events";
 
 import { EntityType } from "./identity";
 import { EntityHealthTrait, EntityInventoryTrait, EntityTrait } from "./traits";
@@ -365,6 +366,12 @@ class Entity {
    * Spawns the entity into the dimension.
    */
   public spawn(): this {
+    // Create a new EntitySpawnedSignal
+    const signal = new EntitySpawnedSignal(this, this.dimension).emit();
+
+    // Check if the signal was cancelled
+    if (!signal) return this;
+
     // Add the entity to the dimension
     this.dimension.entities.set(this.uniqueId, this);
 
@@ -401,6 +408,12 @@ class Entity {
    * Despawns the entity from the dimension.
    */
   public despawn(): this {
+    // Create a new EntityDespawnedSignal
+    const signal = new EntityDespawnedSignal(this, this.dimension).emit();
+
+    // Check if the signal was cancelled
+    if (!signal) return this;
+
     // Set the entity as not alive
     this.isAlive = false;
 

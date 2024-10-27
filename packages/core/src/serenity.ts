@@ -1,6 +1,7 @@
 import { CompressionMethod } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Connection } from "@serenityjs/raknet";
+import Emitter from "@serenityjs/emitter";
 
 import { Network } from "./network";
 import { Handlers } from "./handlers";
@@ -18,6 +19,7 @@ import { ConsoleInterface } from "./commands";
 
 import type {
   ServerProperties,
+  WorldEventSignals,
   WorldProperties,
   WorldProviderProperties
 } from "./types";
@@ -33,7 +35,7 @@ const DefaultServerProperties: ServerProperties = {
   debugLogging: false
 };
 
-class Serenity {
+class Serenity extends Emitter<WorldEventSignals> {
   /**
    * The properties that are being used for the server
    */
@@ -97,6 +99,8 @@ class Serenity {
    * @param properties The properties to use for the server
    */
   public constructor(properties?: Partial<ServerProperties>) {
+    super();
+
     // Assign the properties to the server with the default properties
     this.properties = { ...DefaultServerProperties, ...properties };
 

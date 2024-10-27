@@ -15,8 +15,9 @@ import { Connection } from "@serenityjs/raknet";
 import { createDecoder } from "fast-jwt";
 
 import { NetworkHandler } from "../network";
-import { Player } from "../entity";
+import { Device, Player } from "../entity";
 import { PlayerProperties } from "../types";
+import { PlayerJoinSignal } from "../events";
 
 class LoginHandler extends NetworkHandler {
   public static readonly packet = Packet.Login;
@@ -83,6 +84,15 @@ class LoginHandler extends NetworkHandler {
     // // Get the permission level of the player.
     // const permission = this.serenity.permissions.get(xuid, username);
 
+    // Create a new Device instance.
+    const device = new Device(
+      tokens.clientData.DeviceId,
+      tokens.clientData.DeviceModel,
+      tokens.clientData.DeviceOS,
+      tokens.clientData.MaxViewDistance,
+      tokens.clientData.MemoryTier
+    );
+
     // Read the player data from the world provider.
     const data = world.provider.readPlayer(uuid, dimension);
 
@@ -94,6 +104,7 @@ class LoginHandler extends NetworkHandler {
       username,
       xuid,
       uuid,
+      device,
       skin
     };
 
@@ -112,15 +123,15 @@ class LoginHandler extends NetworkHandler {
     // Set the players xuid and username.
     this.serenity.players.set(connection, player);
 
-    // // Create the player join signal and emit it.
-    // const signal = new PlayerJoinSignal(player).emit();
+    // Create a new PlayerJoinSignal
+    const signal = new PlayerJoinSignal(player).emit();
 
-    // // Check if the player join signal was cancelled.
-    // if (!signal)
-    //   return session.disconnect(
-    //     "Failed to join the server.",
-    //     DisconnectReason.Kicked
-    //   );
+    // Check if the signal was cancelled.
+    if (!signal)
+      return player.disconnect(
+        "Failed to join the server.",
+        DisconnectReason.Kicked
+      );
 
     // TODO: Enable encryption, the public key is given in the tokens
     // This is with the ClientToSeverHandshake packet & the ServerToClientHandshake packet

@@ -5,13 +5,19 @@ import {
   TextPacket,
   TextPacketType
 } from "@serenityjs/protocol";
+import Emitter from "@serenityjs/emitter";
 
 import { Serenity } from "../serenity";
-import { DimensionProperties, WorldProperties } from "../types";
+import {
+  DimensionProperties,
+  WorldEventSignals,
+  WorldProperties
+} from "../types";
 import { Entity, EntityPalette, Player } from "../entity";
 import { ItemPalette } from "../item";
 import { BlockPalette } from "../block";
 import { AdminCommands, Commands } from "../commands";
+import { WorldTickSignal } from "../events";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -28,7 +34,7 @@ const DefaultWorldProperties: WorldProperties = {
   ]
 };
 
-class World {
+class World extends Emitter<WorldEventSignals> {
   /**
    * The serenity instance that the world belongs to.
    */
@@ -94,6 +100,8 @@ class World {
     provider: WorldProvider,
     properties?: Partial<WorldProperties>
   ) {
+    super();
+
     // Assign the serenity and provider to the world
     this.serenity = serenity;
     this.provider = provider;
@@ -121,6 +129,16 @@ class World {
   public onTick(deltaTick: number): void {
     // Return if there are no players in the world
     if (this.getPlayers().length === 0) return;
+
+    // Create a new WorldTickSignal
+    const signal = new WorldTickSignal(
+      this.currentTick,
+      BigInt(deltaTick),
+      this
+    ).emit();
+
+    // Return if the signal was not emitted
+    if (!signal) return;
 
     // Increment the current tick
     ++this.currentTick;

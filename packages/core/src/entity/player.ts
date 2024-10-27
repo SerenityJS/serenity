@@ -32,6 +32,7 @@ import { ItemBundleTrait, ItemStack } from "../item";
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
 import { PlayerCursorTrait, PlayerTrait } from "./traits";
+import { Device } from "./device";
 
 const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
@@ -39,6 +40,7 @@ const DefaultPlayerProperties: PlayerProperties = {
   uuid: "00000000-0000-0000-0000-000000000000",
   permission: 0,
   uniqueId: 0n,
+  device: Device.empty(),
   skin: SerializedSkin.empty()
 };
 
@@ -72,6 +74,11 @@ class Player extends Entity {
    * The current abilities of the player, and whether they are enabled
    */
   public readonly abilities = new AbilityMap(this);
+
+  /**
+   * The device information of the player
+   */
+  public readonly device: Device;
 
   /**
    * The skin of the player
@@ -130,6 +137,7 @@ class Player extends Entity {
     this.username = props.username;
     this.xuid = props.xuid;
     this.uuid = props.uuid;
+    this.device = props.device;
     this.skin = props.skin;
 
     // If the player properties contains an entry, load it

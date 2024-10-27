@@ -2,7 +2,6 @@ import {
   NetworkItemInstanceDescriptor,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
@@ -18,6 +17,7 @@ import { World } from "../world";
 
 import { ItemType } from "./identity";
 import { ItemTrait } from "./traits";
+import { ItemStackNbtMap } from "./maps";
 
 const DefaultItemStackProperties: ItemStackProperties = {
   amount: 1,
@@ -43,7 +43,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
   /**
    * The nbt data of the item stack.
    */
-  public readonly nbt = new CompoundTag();
+  public readonly nbt = new ItemStackNbtMap(this);
 
   /**
    * If the item stack is stackable.
@@ -407,7 +407,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
       metadata: item.auxillary,
       networkBlockId: permutation?.network ?? 0,
       extras: {
-        nbt: item.nbt,
+        nbt: item.nbt.toCompound(),
         canDestroy: [],
         canPlaceOn: []
       }

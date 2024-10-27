@@ -7,6 +7,7 @@ export * from "./traits";
 export * from "./maps";
 export * from "./palette";
 export * from "./container";
+export * from "./device";
 
 /**
  * A list of all entity traits

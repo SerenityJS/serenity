@@ -28,9 +28,15 @@ class RequestChunkRadiusHandler extends NetworkHandler {
     // Get the player's chunk rendering trait
     const trait = player.getTrait(PlayerChunkRenderingTrait);
 
-    // Set the view distance
-    trait.viewDistance =
+    // Calculate the new view distance
+    const distance =
       viewDistance > maxViewDistance ? maxViewDistance : viewDistance;
+
+    // Set the view distance, verifying it is not greater than the player's max view distance
+    trait.viewDistance =
+      distance > player.device.maxViewDistance
+        ? player.device.maxViewDistance
+        : distance;
 
     // Send the chunk radius updated packet
     const update = new ChunkRadiusUpdatePacket();
