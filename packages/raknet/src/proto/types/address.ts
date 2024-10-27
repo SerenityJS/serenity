@@ -1,107 +1,104 @@
-import { DataType } from "./type";
-
-import type { RemoteInfo } from "node:dgram";
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream } from "@serenityjs/binarystream";
+import { DataType } from "./data-type";
+import { RemoteInfo } from "node:dgram";
 
 /**
  * Represents an address data type.
  * Address is used when establishing a connection in RakNet.
  */
-class Address extends DataType {
-  /**
-   * The address of the data type.
-   */
-  public address: string;
+export class Address extends DataType {
+    /**
+     * The address of the data type.
+     */
+    public address: string;
 
-  /**
-   * The port of the data type.
-   */
-  public port: number;
+    /**
+     * The port of the data type.
+     */
+    public port: number;
 
-  /**
-   * The version of the data type.
-   */
-  public version: number;
+    /**
+     * The version of the data type.
+     */
+    public version: number;
 
-  /**
-   * Initializes a new instance of the Address data type.
-   * @param address The address of the data type.
-   * @param port The port of the data type.
-   * @param version The version of the data type.
-   */
-  public constructor(address: string, port: number, version: number) {
-    super();
-    this.address = address;
-    this.port = port;
-    this.version = version;
-  }
-
-  /**
-   * Converts the Address data type to a NetworkIdentifier.
-   *
-   * @param identifier The NetworkIdentifier.
-   * @returns The NetworkIdentifier.
-   */
-  public static fromIdentifier(identifier: RemoteInfo): Address {
-    return new Address(
-      identifier.address,
-      identifier.port,
-      identifier.family === "IPv4" ? 4 : 6
-    );
-  }
-
-  /**
-   * Reads the Address data type from a binary stream.
-   * @param stream The binary stream to read from.
-   * @returns The Address data type.
-   */
-  public static read(stream: BinaryStream): Address {
-    // Read the version of the address.
-    const version = stream.readUint8();
-
-    // Check if the version is 4.
-    if (version === 4) {
-      // Read the address and port.
-      const addressBuffer = stream.read(4);
-      const address = addressBuffer.map((byte) => (-byte - 1) & 0xff).join(".");
-      const port = stream.readUShort();
-
-      // Return the address.
-      return new Address(address, port, version);
-    } else {
-      stream.skip(2);
-      const port = stream.readUShort();
-      stream.skip(16);
-      const addressBuffer = stream.read(4);
-      const address = addressBuffer.filter((byte) => byte !== 0xff).join(".");
-      stream.skip(4);
-
-      // Return the address.
-      return new Address(address, port, version);
+    /**
+     * Initializes a new instance of the Address data type.
+     * @param address The address of the data type.
+     * @param port The port of the data type.
+     * @param version The version of the data type.
+     */
+    public constructor(address: string, port: number, version: number) {
+        super();
+        this.address = address;
+        this.port = port;
+        this.version = version;
     }
-  }
 
-  /**
-   * Writes the Address data type to a binary stream.
+    /**
+     * Converts the Address data type to a NetworkIdentifier.
+     *
+     * @param identifier The NetworkIdentifier.
+     * @returns The NetworkIdentifier.
+     */
+    public static fromIdentifier(identifier: RemoteInfo): Address {
+        return new Address(
+            identifier.address,
+            identifier.port,
+            identifier.family === "IPv4" ? 4 : 6
+        );
+    }
+
+    /**
+     * Writes the Address data type to a binary stream.
    * @param stream The binary stream to write to.
    * @param value The value to write.
    */
-  public static write(stream: BinaryStream, value: Address): void {
-    // Separate the address, port, and version.
-    const { address, port, version } = value;
-
-    // Write the version of the address.
-    stream.writeUint8(version);
-
-    // Format the address and write it to the stream.
-    const addressBits = address.split(".", 4);
-    for (const bit of addressBits) {
-      stream.writeUint8(Number(bit));
+    public static write(stream: BinaryStream, value: Address): void {
+        stream.writeUint8(value.version);
+        if (value.version === 4) {
+            const addressBits = value.address.split(".", 4);
+            for (const bit of addressBits) {
+                stream.writeUint8(parseInt(bit, 10) ^ 0xFF);
+            }
+            stream.writeUShort(value.port);
+        } else {
+            stream.writeUShort(23);
+            stream.writeUShort(value.port);
+            stream.writeUint32(0);
+            const addressParts = value.address.split(':');
+            for (const part of addressParts) {
+                const num = parseInt(part, 16);
+                stream.writeUShort(num ^ 0xFFFF);
+            }
+            stream.writeUint32(0);
+        }
     }
 
-    // Write the port to the stream.
-    stream.writeUShort(port);
-  }
+    /**
+     * Reads the Address data type from a binary stream.
+     * @param stream The binary stream to read from.
+     * @returns The Address data type.
+     */
+    public static read(stream: BinaryStream): Address {
+        const version = stream.readUint8();
+        if (version === 4) {
+            const bytes = stream.read(4);
+            const address = bytes.map(byte => (byte ^ 0xFF).toString()).join('.');
+            const port = stream.readUShort();
+            return new Address(address, port, version);
+        } else {
+            stream.readUShort();
+            const port = stream.readUShort();
+            stream.readUint32();
+            const addressParts = [];
+            for (let i = 0; i < 8; i++) {
+                const part = stream.readUShort() ^ 0xFFFF;
+                addressParts.push(part.toString(16).padStart(4, '0'));
+            }
+            const address = addressParts.join(':');
+            stream.readUint32();
+            return new Address(address, port, version);
+        }
+    }
 }
-
-export { Address };
