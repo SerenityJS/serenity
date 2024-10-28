@@ -1,10 +1,10 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@latest/schema.json",
   "changelog": [
-      "@changesets/changelog-github",
-      {
-          "repo": "SerenityJS/serenity"
-      }
+    "@changesets/changelog-github",
+    {
+      "repo": "SerenityJS/serenity"
+    }
   ],
   "commit": false,
   "fixed": [],

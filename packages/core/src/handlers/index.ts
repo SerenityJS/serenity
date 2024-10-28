@@ -15,6 +15,7 @@ import { TextHandler } from "./text";
 import { CommandRequestHandler } from "./command-request";
 import { InteractHandler } from "./interact";
 import { RespawnHandler } from "./respawn";
+import { ModalFormResponseHandler } from "./modal-form-response";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -33,7 +34,8 @@ const Handlers = [
   TextHandler,
   CommandRequestHandler,
   InteractHandler,
-  RespawnHandler
+  RespawnHandler,
+  ModalFormResponseHandler
 ];
 
 export { Handlers };

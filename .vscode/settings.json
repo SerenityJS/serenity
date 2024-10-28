@@ -5,8 +5,7 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "files.eol": "\n",
-  // Old Version
-  "mc-color.enabled": true,
+  "mc-color.enable": true,
   "mc-color.markerType": "foreground",
   "mc-color.languages": [
     "*"
