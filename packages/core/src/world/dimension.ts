@@ -194,6 +194,14 @@ class Dimension {
   }
 
   /**
+   * Get the world that the dimension belongs to.
+   * @returns The world that the dimension belongs to.
+   */
+  public getWorld(): World {
+    return this.world;
+  }
+
+  /**
    * Gets a chunk from the dimension.
    * @param cx The chunk x coordinate.
    * @param cz The chunk z coordinate.

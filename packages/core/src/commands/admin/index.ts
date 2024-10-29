@@ -10,6 +10,8 @@ import Tp from "./tp";
 import Transfer from "./transfer";
 import Summon from "./summon";
 import Kill from "./kill";
+import STOP from "./stop";
+import WORLD from "./world";
 
 // Define all the admin commands
 const AdminCommands = [
@@ -24,7 +26,9 @@ const AdminCommands = [
   Tp,
   Transfer,
   Summon,
-  Kill
+  Kill,
+  STOP,
+  WORLD
 ];
 
 export { AdminCommands };

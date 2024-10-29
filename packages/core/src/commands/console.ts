@@ -56,7 +56,7 @@ class ConsoleInterface {
         const execute = dimension.executeCommand(command);
 
         // Check if the command is undefined
-        if (!execute) return;
+        if (!execute.message) return;
 
         // Log the command to the console
         world.logger.info(`§a${execute.message}§r`);
@@ -103,7 +103,7 @@ class ConsoleInterface {
         const execute = dimension.executeCommand(command);
 
         // Check if the command is undefined
-        if (!execute) return;
+        if (!execute.message) return;
 
         // Log the command to the console
         world.logger.success(`${execute.message}§r`);
@@ -124,8 +124,10 @@ class ConsoleInterface {
       try {
         // Execute the command
         const execute = dimension.executeCommand(command);
+
         // Check if the command is undefined
-        if (!execute) return;
+        if (!execute.message) return;
+
         // Log the command to the console
         world.logger.info(`§a${execute.message}§r`);
       } catch (reason) {

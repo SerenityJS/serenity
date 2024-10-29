@@ -47,6 +47,10 @@ class LevelDBProvider extends WorldProvider {
   }
 
   public onShutdown(): void {
+    // Iterate through the dimensions and terminate any workers.
+    for (const dimension of this.world.dimensions.values())
+      void dimension.generator.worker?.terminate();
+
     // Save all the world data.
     this.onSave();
 

@@ -15,7 +15,7 @@ import {
   type WorldProvider
 } from "./world";
 import { Player } from "./entity";
-import { ConsoleInterface } from "./commands";
+import { ConsoleInterface, WorldEnum } from "./commands";
 
 import type {
   ServerProperties,
@@ -177,8 +177,15 @@ class Serenity extends Emitter<WorldEventSignals> {
     this.console.interface.close();
 
     // Disconnect all players
-    for (const player of this.players.values())
+    for (const player of this.players.values()) {
+      // Write the player data to the world provider
+      player
+        .getWorld()
+        .provider.writePlayer(player.getDataEntry(), player.dimension);
+
+      // Disconnect the player from the server
       player.disconnect("Server closed.");
+    }
 
     // Shutdown all world providers
     for (const world of this.worlds.values()) world.provider.onShutdown();
@@ -347,6 +354,9 @@ class Serenity extends Emitter<WorldEventSignals> {
 
     // Call the onStartup method of the world provider
     world.provider.onStartup();
+
+    // Add the world to the worlds enum
+    WorldEnum.options.push(world.identifier);
 
     // Return true if the world was successfully registered
     return true;
