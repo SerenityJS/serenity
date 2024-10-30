@@ -1,4 +1,5 @@
 import {
+  AbilityIndex,
   BlockEventPacket,
   BlockEventType,
   BlockPosition,
@@ -55,7 +56,8 @@ class BlockInventoryTrait extends BlockTrait {
 
   public onInteract(player: Player): void {
     // Check if the player is sneaking
-    if (player.isSneaking) return;
+    if (player.isSneaking || !player.abilities.get(AbilityIndex.OpenContainers))
+      return;
 
     // Show the container to the player
     this.container.show(player);

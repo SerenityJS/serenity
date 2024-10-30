@@ -1,4 +1,5 @@
 import {
+  AbilityIndex,
   ActorDamageCause,
   ActorEventIds,
   ActorEventPacket,
@@ -42,6 +43,20 @@ class EntityHealthTrait extends EntityAttributeTrait {
   public onInteract(player: Player, method: EntityInteractMethod): void {
     // Check if the method is not an attack; if it is not, return
     if (method !== EntityInteractMethod.Attack) return;
+
+    // Check if the player has the ability to attack players; if it does not, return
+    if (
+      !player.abilities.get(AbilityIndex.AttackPlayers) &&
+      this.entity.isPlayer()
+    )
+      return;
+
+    // Check if the player has the ability to attack mobs; if it does not, return
+    if (
+      !player.abilities.get(AbilityIndex.AttackMobs) &&
+      !this.entity.isPlayer()
+    )
+      return;
 
     // Check if the target entity is a player and is in creative mode; if it is, return
     if (this.entity.isPlayer() && this.entity.gamemode === Gamemode.Creative)
