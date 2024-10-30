@@ -2,6 +2,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
   DataPacket,
   DimensionType,
+  SetTimePacket,
   TextPacket,
   TextPacketType
 } from "@serenityjs/protocol";
@@ -158,6 +159,17 @@ class World extends Emitter<WorldEventSignals> {
           reason
         );
       }
+    }
+
+    // Check if the current tick is divisible by 500 (25 seconds)
+    // When want to sync the dayTime with the client, as stress could cause de-sync
+    if (this.currentTick % 500n === 0n) {
+      // Create a new SetTimePacket
+      const packet = new SetTimePacket();
+      packet.time = this.dayTime;
+
+      // Broadcast the time packet to all players
+      this.broadcast(packet);
     }
   }
 
