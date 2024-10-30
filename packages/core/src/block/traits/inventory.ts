@@ -6,15 +6,24 @@ import {
   ContainerId,
   ContainerType,
   LevelSoundEvent,
-  LevelSoundEventPacket
+  LevelSoundEventPacket,
+  Vector3f
 } from "@serenityjs/protocol";
 
 import { Player } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 import { BlockContainer } from "../index";
 import { Block } from "../block";
+import { Container } from "../../container";
+import { ItemStackEntry, JSONLikeObject } from "../../types";
+import { ItemStack } from "../../item";
 
 import { BlockTrait } from "./trait";
+
+interface InventoryComponent extends JSONLikeObject {
+  size: number;
+  items: Array<[number, ItemStackEntry]>;
+}
 
 class BlockInventoryTrait extends BlockTrait {
   public static readonly identifier = "inventory";
@@ -52,6 +61,25 @@ class BlockInventoryTrait extends BlockTrait {
       this.containerId,
       this.inventorySize
     );
+
+    // Check if the block has an inventory component
+    if (block.components.has("inventory")) {
+      // Get the inventory component from the block
+      const inventory = block.components.get("inventory") as InventoryComponent;
+      // Iterate over each item in the inventory
+      for (const [slot, entry] of inventory.items) {
+        // Create a new item stack
+        const stack = new ItemStack(entry.identifier, {
+          amount: entry.amount,
+          auxillary: entry.auxillary,
+          world: block.dimension.world,
+          entry
+        });
+
+        // Add the item stack to the container
+        this.container.setItem(slot, stack);
+      }
+    }
   }
 
   public onInteract(player: Player): void {
@@ -61,6 +89,53 @@ class BlockInventoryTrait extends BlockTrait {
 
     // Show the container to the player
     this.container.show(player);
+  }
+
+  public onBreak(): void {
+    // Loop through the items in the container
+    for (const item of this.container.storage) {
+      // Check if the item is valid
+      if (!item) continue;
+
+      // Spawn the item in the world
+      const { x, y, z } = this.block.position;
+      const entity = this.block.dimension.spawnItem(
+        item,
+        new Vector3f(x + 0.5, y + 0.5, z + 0.5)
+      );
+
+      // Add some upwards velocity to the item.
+      entity.setMotion(new Vector3f(0, 0.1, 0));
+    }
+  }
+
+  public onContainerUpdate(container: Container): void {
+    // Verify the container is the same as the block container
+    if (container !== this.container) return;
+
+    // Create a new inventory component
+    const inventory: InventoryComponent = {
+      size: this.inventorySize,
+      items: []
+    };
+
+    // Iterate over each item in the container
+    for (let i = 0; i < this.inventorySize; i++) {
+      // Get the item stack at the index
+      const item = this.container.getItem(i);
+
+      // Check if the item is null
+      if (item === null) continue;
+
+      // Get the data entry of the item stack
+      const entry = item.getDataEntry();
+
+      // Push the item stack entry to the inventory items
+      inventory.items.push([i, entry]);
+    }
+
+    // Set the inventory component to the block
+    this.block.components.set("inventory", inventory);
   }
 
   public onTick(): void {

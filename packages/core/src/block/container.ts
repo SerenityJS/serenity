@@ -35,6 +35,33 @@ class BlockContainer extends Container {
     itemStack.initialize();
   }
 
+  public update(player?: Player): void {
+    // Call the original update method
+    super.update(player);
+
+    // Call the onContainerUpdate method for the block traits
+    for (const trait of this.block.traits.values()) {
+      try {
+        // Call the trait method
+        trait.onContainerUpdate?.(this);
+      } catch (reason) {
+        // Get the block position
+        const { x, y, z } = this.block.position;
+
+        // Log the error to the console
+        this.block
+          .getWorld()
+          .logger.error(
+            `Failed to trigger onContainerUpdate trait event for block "${this.block.getType().identifier}:${x},${y},${z}" in dimension "${this.block.dimension.identifier}"`,
+            reason
+          );
+
+        // Remove the trait from the block
+        this.block.traits.delete(trait.identifier);
+      }
+    }
+  }
+
   public show(player: Player): void {
     // Call the original show method
     super.show(player);

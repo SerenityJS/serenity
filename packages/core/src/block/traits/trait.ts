@@ -4,6 +4,7 @@ import { Player } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 import { Trait } from "../../trait";
 import { Block } from "../block";
+import { Container } from "../../container";
 
 class BlockTrait extends Trait {
   /**
@@ -29,49 +30,55 @@ class BlockTrait extends Trait {
   }
 
   /**
-   * Called when the block is updated in the world
-   * @param source The source of the update, if any
+   * Called when the block is updated in the world.
+   * @param source The source of the update, if any.
    */
   public onUpdate?(source?: Block): void;
 
   /**
-   * Called when the block is placed in the world
-   * @param player The player that placed the block
-   * @param clickPosition The position where the affected block was clicked
-   * @returns Whether the block placement was successful; default is true
+   * Called when the block is placed in the world.
+   * @param player The player that placed the block.
+   * @param clickPosition The position where the affected block was clicked.
+   * @returns Whether the block placement was successful; default is true.
    */
   public onPlace?(player: Player, clickPosition: Vector3f): boolean | void;
 
   /**
-   * Called when the block is broken in the world
-   * @param player Whether the player broke the block; most cases it will be defined
-   * @returns Whether the block break was successful; default is true
+   * Called when the block is broken in the world.
+   * @param player Whether the player broke the block; most cases it will be defined.
+   * @returns Whether the block break was successful; default is true.
    */
   public onBreak?(player?: Player): boolean | void;
 
   /**
-   * Called when the block is started to be broken in the world
-   * @param player The player that started to break the block
+   * Called when the block is started to be broken in the world.
+   * @param player The player that started to break the block.
    */
   public onStartBreak?(player: Player): boolean | void;
 
   /**
-   * Called when the block is stopped to be broken in the world
-   * @param player The player that stopped breaking the block
+   * Called when the block is stopped to be broken in the world.
+   * @param player The player that stopped breaking the block.
    */
   public onStopBreak?(player: Player): void;
 
   /**
-   * Called when the block is interacted with by a player
-   * @param player The player that interacted with the block
+   * Called when the block is interacted with by a player.
+   * @param player The player that interacted with the block.
    */
   public onInteract?(player: Player): void;
 
   /**
-   * Called when a player pick blocks the block
-   * @param player The player that picked the block
+   * Called when a player pick blocks the block.
+   * @param player The player that picked the block.
    */
   public onPick?(player: Player): void;
+
+  /**
+   * Called when a container that is attached to the block is updated.
+   * @param container The container that was updated.
+   */
+  public onContainerUpdate?(container: Container): void;
 }
 
 export { BlockTrait };

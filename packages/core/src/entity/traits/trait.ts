@@ -3,6 +3,7 @@ import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { Entity } from "../entity";
 import { Player } from "../player";
 import { CommandExecutionState } from "../../commands";
+import { Container } from "../../container";
 
 class EntityTrait extends Trait {
   /**
@@ -50,6 +51,12 @@ class EntityTrait extends Trait {
    * @returns Whether the command was successful; default is true.
    */
   public onCommand?(state: CommandExecutionState): boolean | void;
+
+  /**
+   * Called when a container that is attached to the entity is updated.
+   * @param container The container that was updated.
+   */
+  public onContainerUpdate?(container: Container): void;
 
   /**
    * Clones the entity trait.

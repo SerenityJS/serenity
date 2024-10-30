@@ -9,12 +9,13 @@ import { resolve } from "node:path";
 
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { Leveldb } from "@serenityjs/leveldb";
-import { ChunkCoords } from "@serenityjs/protocol";
+import { BlockPosition, ChunkCoords } from "@serenityjs/protocol";
 
 import { Chunk, SubChunk } from "../chunk";
 import { Dimension } from "../dimension";
 import { Serenity } from "../../serenity";
 import {
+  BlockEntry,
   EntityEntry,
   PlayerEntry,
   WorldProperties,
@@ -23,6 +24,7 @@ import {
 import { World } from "../world";
 import { Entity } from "../../entity";
 import { WorldInitializeSignal } from "../../events";
+import { Block } from "../../block";
 
 import { WorldProvider } from "./provider";
 
@@ -61,11 +63,12 @@ class LevelDBProvider extends WorldProvider {
   public onStartup(): void {
     // Iterate through the dimensions and load the entities.
     for (const dimension of this.world.dimensions.values()) {
-      // Get the available entities for the dimension.
+      // Get the available entities & blocks for the dimension.
       const entities = this.readAvailableEntities(dimension);
+      const blocks = this.readAvailableBlocks(dimension);
 
       // Check if the entities are empty.
-      if (entities.length === 0) continue;
+      if (entities.length === 0 && blocks.length) continue;
 
       // Iterate through the entities and load them.
       for (const uniqueId of entities) {
@@ -80,6 +83,31 @@ class LevelDBProvider extends WorldProvider {
 
         // Add the entity to the dimension.
         entity.spawn();
+      }
+
+      // Iterate through the blocks and load them.
+      for (const position of blocks) {
+        // Read the block from the database.
+        const entry = this.readBlock(position, dimension);
+
+        // Get the permutation from the block palette.
+        const permutation = dimension.world.blockPalette
+          .getAllPermutations()
+          .find((permutation) => permutation.network === entry.permutation);
+
+        // Skip the block if the permutation does not exist.
+        if (!permutation) continue;
+
+        // Create a new block instance.
+        const block = new Block(
+          dimension,
+          BlockPosition.from(entry.position),
+          permutation,
+          { entry }
+        );
+
+        // Add the block to the dimension blocks collection.
+        dimension.blocks.set(BlockPosition.hash(block.position), block);
       }
     }
   }
@@ -109,9 +137,19 @@ class LevelDBProvider extends WorldProvider {
       // Write the available entities to the database.
       this.writeAvailableEntities(dimension, uniqueIds);
 
-      for (const block of dimension.blocks.values()) {
-        console.log(block.getType().identifier);
+      // Iterate through the blocks and write them to the database.
+      const blocks = [...dimension.blocks.values()];
+      const positions: Array<BlockPosition> = [];
+      for (const block of blocks) {
+        // Write the block to the database.
+        this.writeBlock(block.getDataEntry(), dimension);
+
+        // Add the block position to the list.
+        positions.push(block.position);
       }
+
+      // Write the available blocks to the database.
+      this.writeAvailableBlocks(dimension, positions);
     }
   }
 
@@ -467,6 +505,106 @@ class LevelDBProvider extends WorldProvider {
     this.db.put(Buffer.from(key), buffer);
   }
 
+  public readAvailableBlocks(dimension: Dimension): Array<BlockPosition> {
+    // Prepare an array to store the block positions.
+    const positions = new Array<BlockPosition>();
+
+    // Attempt to read the blocks from the database.
+    try {
+      // Create a key for the block list.
+      const key = LevelDBProvider.buildBlockDataListKey(dimension);
+
+      // Create a new BinaryStream instance.
+      const stream = new BinaryStream(this.db.get(key));
+
+      // Read the block positions from the stream.
+      do {
+        const x = stream.readZigZag();
+        const y = stream.readZigZag();
+        const z = stream.readZigZag();
+
+        positions.push(new BlockPosition(x, y, z));
+      } while (!stream.cursorAtEnd());
+
+      // Return the block positions.
+      return positions;
+    } catch {
+      // If an error occurs, return an empty array.
+      return positions;
+    }
+  }
+
+  public writeAvailableBlocks(
+    dimension: Dimension,
+    blocks: Array<BlockPosition>
+  ): void {
+    // Create a key for the block list.
+    const key = LevelDBProvider.buildBlockDataListKey(dimension);
+
+    // Create a new BinaryStream instance.
+    const stream = new BinaryStream();
+
+    // Write the block positions to the stream.
+    for (const position of blocks) {
+      stream.writeZigZag(position.x);
+      stream.writeZigZag(position.y);
+      stream.writeZigZag(position.z);
+    }
+
+    // Write the stream to the database.
+    this.db.put(key, stream.getBuffer());
+  }
+
+  public readBlock(position: BlockPosition, dimension: Dimension): BlockEntry {
+    // Get all the available blocks for the dimension.
+    const blocks = this.readAvailableBlocks(dimension);
+
+    // Check if the block exists.
+    if (!blocks.find((block) => block.equals(position))) {
+      throw new Error(
+        `Block at position ${position.x} ${position.y} ${position.z} not found!`
+      );
+    }
+
+    // Create a key for the block.
+    const key = LevelDBProvider.buildBlockDataKey(
+      position,
+      dimension.indexOf()
+    );
+
+    // Read the block data from the database.
+    const buffer = this.db.get(key);
+
+    // Parse the block data from the buffer.
+    const data = JSON.parse(buffer.toString()) as BlockEntry;
+
+    // Return the block data.
+    return data;
+  }
+
+  public writeBlock(block: BlockEntry, dimension: Dimension): void {
+    // Get all the available blocks for the dimension.
+    const blocks = this.readAvailableBlocks(dimension);
+
+    // Check if the block already exists.
+    if (!blocks.includes(block.position)) blocks.push(block.position);
+
+    // Write the block to the database.
+    const data = JSON.stringify(block);
+
+    // Convert the block data to a buffer.
+    const buffer = Buffer.from(data);
+
+    // Create a key for the block.
+    const key = LevelDBProvider.buildBlockDataKey(
+      block.position,
+      dimension.indexOf()
+    );
+
+    // Write the block data to the database.
+    this.db.put(key, buffer);
+  }
+
   public static initialize(
     serenity: Serenity,
     properties: WorldProviderProperties
@@ -669,6 +807,55 @@ class LevelDBProvider extends WorldProvider {
 
     // Write the unique identifier to the stream.
     stream.writeInt64(uniqueId, Endianness.Little);
+
+    // Return the buffer from the stream.
+    return stream.getBuffer();
+  }
+
+  /**
+   * Build a block key for the database.
+   * @param position The block position.
+   * @param index The dimension index.
+   * @returns The buffer key for the block
+   */
+  public static buildBlockDataListKey(dimension: Dimension): Buffer {
+    // Create a new BinaryStream instance.
+    const stream = new BinaryStream();
+
+    // Write the key symbol to the stream.
+    stream.writeInt32(0x62_6c_6f_63_6b);
+
+    // Check if the index is not 0.
+    if (dimension.indexOf() !== 0)
+      stream.writeInt32(dimension.indexOf(), Endianness.Little);
+
+    // Return the buffer from the stream.
+    return stream.getBuffer();
+  }
+
+  /**
+   * Build a block key for the database.
+   * @param position The block position.
+   * @param index The dimension index.
+   * @returns The buffer key for the block
+   */
+  public static buildBlockDataKey(
+    position: BlockPosition,
+    index: number
+  ): Buffer {
+    // Create a new BinaryStream instance.
+    const stream = new BinaryStream();
+
+    // Write the block position to the stream.
+    stream.writeZigZag(position.x);
+    stream.writeZigZag(position.y);
+    stream.writeZigZag(position.z);
+
+    // Check if the index is not 0.
+    if (index !== 0) stream.writeInt32(index, Endianness.Little);
+
+    // Write the key symbol to the stream.
+    stream.writeByte(0x2d);
 
     // Return the buffer from the stream.
     return stream.getBuffer();

@@ -224,6 +224,9 @@ class Container {
     // Clone the traits of the item to the new item.
     for (const trait of item.traits.values()) trait.clone(newItem);
 
+    // Update the container for all occupants.
+    this.update();
+
     // // Clone the NBT tags of the item.
     // for (const tag of item.nbt.getTags()) {
     //   newItem.nbt.addTag(tag);

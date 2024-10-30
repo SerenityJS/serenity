@@ -1,5 +1,8 @@
+import { BlockPosition } from "@serenityjs/protocol";
+
 import { Serenity } from "../../serenity";
 import {
+  BlockEntry,
   EntityEntry,
   PlayerEntry,
   WorldProperties,
@@ -136,6 +139,52 @@ class WorldProvider {
    */
   public writePlayer(_player: PlayerEntry, _dimension: Dimension): void {
     throw new Error(`${this.identifier}.writePlayer() is not implemented!`);
+  }
+
+  /**
+   * Reads the available blocks for a specified dimension.
+   * @param dimension The dimension to read the available blocks for.
+   */
+  public readAvailableBlocks(_dimension: Dimension): Array<BlockPosition> {
+    throw new Error(
+      `${this.identifier}.readAvailableBlocks() is not implemented!`
+    );
+  }
+
+  /**
+   * Writes the available blocks for a specified dimension.
+   * @param dimension The dimension to write the available blocks for.
+   * @param blocks The blocks to write.
+   */
+  public writeAvailableBlocks(
+    _dimension: Dimension,
+    _blocks: Array<BlockPosition>
+  ): void {
+    throw new Error(
+      `${this.identifier}.writeAvailableBlocks() is not implemented!`
+    );
+  }
+
+  /**
+   * Reads a block from the provider.
+   * @param position The position to read the block from.
+   * @param dimension The dimension to read the block from.
+   */
+  public readBlock(
+    _position: BlockPosition,
+    _dimension: Dimension
+  ): BlockEntry {
+    throw new Error(`${this.identifier}.readBlock() is not implemented!`);
+  }
+
+  /**
+   * Writes a block to the provider.
+   * @param block The block to write.
+   * @param dimension The dimension to write the block to.
+   * @returns The block data.
+   */
+  public writeBlock(_block: BlockEntry, _dimension: Dimension): void {
+    throw new Error(`${this.identifier}.writeBlock() is not implemented!`);
   }
 
   /**

@@ -10,8 +10,8 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { Dimension } from "../world";
-import { JSONLikeValue } from "../types";
+import { Dimension, World } from "../world";
+import { BlockEntry, BlockProperties, JSONLikeValue } from "../types";
 import { Chunk } from "../world/chunk";
 import { ItemStack } from "../item";
 import { BlockIdentifier, BlockToolType, ItemIdentifier } from "../enums";
@@ -38,12 +38,16 @@ class Block {
   public constructor(
     dimension: Dimension,
     position: BlockPosition,
-    permutation: BlockPermutation
+    permutation: BlockPermutation,
+    properties?: Partial<BlockProperties>
   ) {
     this.serenity = dimension.world.serenity;
     this.dimension = dimension;
     this.position = position;
     this.permutation = permutation;
+
+    if (properties?.entry)
+      this.loadDataEntry(this.dimension.world, properties.entry);
   }
 
   /**
@@ -478,6 +482,59 @@ class Block {
 
     // Return true if the block was destroyed.
     return true;
+  }
+
+  /**
+   * Gets the block's data as a database entry.
+   * @returns The block entry object.
+   */
+  public getDataEntry(): BlockEntry {
+    // Create the block entry object.
+    const entry: BlockEntry = {
+      identifier: this.getType().identifier,
+      permutation: this.permutation.network,
+      position: this.position,
+      traits: [...this.traits.keys()],
+      components: [...this.components.entries()]
+    };
+
+    // Return the block entry object.
+    return entry;
+  }
+
+  public loadDataEntry(
+    world: World,
+    entry: BlockEntry,
+    overwrite = true
+  ): void {
+    // Check if the block should be overwritten.
+    if (overwrite) {
+      this.traits.clear();
+      this.components.clear();
+    }
+
+    // Add the components to the block, if it does not already exist.
+    for (const [key, value] of entry.components) {
+      if (!this.components.has(key)) this.components.set(key, value);
+    }
+
+    // Add the traits to the block, if it does not already exist
+    for (const trait of entry.traits) {
+      // Check if the palette has the trait
+      const traitType = world.blockPalette.traits.get(trait);
+
+      // Check if the trait exists in the palette
+      if (!traitType) {
+        world.logger.error(
+          `Failed to load trait "${trait}" for block "${this.getType().identifier}:${this.position.x},${this.position.y},${this.position.z}" as it does not exist in the palette`
+        );
+
+        continue;
+      }
+
+      // Attempt to add the trait to the block
+      this.addTrait(traitType);
+    }
   }
 }
 

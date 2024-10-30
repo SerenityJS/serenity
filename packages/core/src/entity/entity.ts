@@ -816,7 +816,7 @@ class Entity {
 
   /**
    * Gets the entity's data as a database entry.
-   * @returns The entity entry
+   * @returns The entity entry object.
    */
   public getDataEntry(): EntityEntry {
     // Create the entity entry to save

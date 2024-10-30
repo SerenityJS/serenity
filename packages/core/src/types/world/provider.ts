@@ -4,6 +4,7 @@ import {
   ActorFlag,
   Attribute,
   AttributeName,
+  BlockPosition,
   DataItem,
   Gamemode,
   Rotation,
@@ -11,7 +12,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { JSONLikeObject, JSONLikeValue } from "../json";
-import { EntityIdentifier, ItemIdentifier } from "../../enums";
+import { BlockIdentifier, EntityIdentifier, ItemIdentifier } from "../../enums";
 
 interface WorldProviderProperties {
   /**
@@ -121,4 +122,37 @@ interface ItemStackEntry extends JSONLikeObject {
   components: Array<[string, JSONLikeValue]>;
 }
 
-export { WorldProviderProperties, EntityEntry, PlayerEntry, ItemStackEntry };
+interface BlockEntry {
+  /**
+   * The identifier of the block.
+   */
+  identifier: BlockIdentifier;
+
+  /**
+   * The permutation of the block.
+   */
+  permutation: number;
+
+  /**
+   * The position of the block.
+   */
+  position: BlockPosition;
+
+  /**
+   * The traits attached to the block.
+   */
+  traits: Array<string>;
+
+  /**
+   * The components attached to the block.
+   */
+  components: Array<[string, JSONLikeValue]>;
+}
+
+export {
+  WorldProviderProperties,
+  EntityEntry,
+  PlayerEntry,
+  ItemStackEntry,
+  BlockEntry
+};

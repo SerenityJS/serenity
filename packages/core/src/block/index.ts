@@ -1,10 +1,10 @@
-import * as Traits from "./traits";
-
 export * from "./identity";
 export * from "./traits";
 export * from "./palette";
 export * from "./block";
 export * from "./container";
+
+import * as Traits from "./traits";
 
 /**
  * A list of all block traits

@@ -1,5 +1,3 @@
-import * as Traits from "./traits";
-
 export * from "./identity";
 export * from "./entity";
 export * from "./player";
@@ -8,6 +6,8 @@ export * from "./maps";
 export * from "./palette";
 export * from "./container";
 export * from "./device";
+
+import * as Traits from "./traits";
 
 /**
  * A list of all entity traits
