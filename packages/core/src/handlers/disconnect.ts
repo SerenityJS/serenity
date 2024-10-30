@@ -27,6 +27,11 @@ class DisconnectHandler extends NetworkHandler {
 
     // Save the player's data
     dimension.world.provider.writePlayer(player.getDataEntry(), dimension);
+
+    // Log the leave event to the console
+    dimension.world.logger.info(
+      `§8[§9${player.username}§8] Event:§r Player left the server.`
+    );
   }
 }
 

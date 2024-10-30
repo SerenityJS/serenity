@@ -161,6 +161,11 @@ class LoginHandler extends NetworkHandler {
     //   packs.packs.push(packInfo);
     // }
 
+    // Log the join event to the console
+    world.logger.info(
+      `§8[§9${player.username}§8] Event:§r Player joined the server.`
+    );
+
     // Send the player the login status packet and the resource pack info packet.
     player.send(login, packs);
   }

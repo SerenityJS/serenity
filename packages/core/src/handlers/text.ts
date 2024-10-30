@@ -36,7 +36,15 @@ class TextHandler extends NetworkHandler {
     }
 
     // Broadcast the packet if it was not canceled
-    if (!canceled) player.dimension.world.broadcast(packet);
+    if (!canceled) {
+      // Broadcast the packet to the world
+      player.dimension.world.broadcast(packet);
+
+      // Log the chat to the console
+      player.dimension.world.logger.info(
+        `§8[§9${player.username}§8] Chat:§r ${packet.message}`
+      );
+    }
   }
 }
 
