@@ -38,7 +38,6 @@ const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
   xuid: "0000000000000000",
   uuid: "00000000-0000-0000-0000-000000000000",
-  permission: 0,
   uniqueId: 0n,
   device: Device.empty(),
   skin: SerializedSkin.empty()
@@ -93,7 +92,7 @@ class Player extends Entity {
   /**
    * The permission level of the player
    */
-  public permission: PermissionLevel = PermissionLevel.Member;
+  public permission: PermissionLevel;
 
   /**
    * The container that the player is currently viewing.
@@ -139,6 +138,9 @@ class Player extends Entity {
     this.uuid = props.uuid;
     this.device = props.device;
     this.skin = props.skin;
+
+    // Get the player's permission level from the permissions map
+    this.permission = this.serenity.permissions.get(this.uuid);
 
     // If the player properties contains an entry, load it
     if (properties?.entry)
@@ -197,6 +199,9 @@ class Player extends Entity {
     // Set the player's permission level to operator
     this.permission = PermissionLevel.Operator;
 
+    // Set the player's permission level to operator in the permissions map
+    this.serenity.permissions.set(this.uuid, PermissionLevel.Operator);
+
     // Update the player's abilities
     this.abilities.set(AbilityIndex.OperatorCommands, true);
     this.abilities.set(AbilityIndex.Teleport, true);
@@ -208,6 +213,9 @@ class Player extends Entity {
   public deop(): void {
     // Set the player's permission level to member
     this.permission = PermissionLevel.Member;
+
+    // Set the player's permission level to member in the permissions map
+    this.serenity.permissions.set(this.uuid, PermissionLevel.Member);
 
     // Update the player's abilities
     this.abilities.set(AbilityIndex.OperatorCommands, false);
@@ -529,7 +537,6 @@ class Player extends Entity {
       username: this.username,
       xuid: this.xuid,
       uuid: this.uuid,
-      permission: this.permission,
       gamemode: this.gamemode,
       uniqueId: this.uniqueId,
       identifier: this.type.identifier,
@@ -588,8 +595,7 @@ class Player extends Entity {
         "Failed to load player entry as the identifier does not match the player's identifier!"
       );
 
-    // Set the player's permission level & gamemode
-    this.permission = entry.permission;
+    // Set the player's gamemode
     this.gamemode = entry.gamemode;
 
     // Set the player's position and rotation

@@ -12,6 +12,8 @@ import Summon from "./summon";
 import Kill from "./kill";
 import STOP from "./stop";
 import WORLD from "./world";
+import OP from "./op";
+import DEOP from "./deop";
 
 // Define all the admin commands
 const AdminCommands = [
@@ -28,7 +30,9 @@ const AdminCommands = [
   Summon,
   Kill,
   STOP,
-  WORLD
+  WORLD,
+  OP,
+  DEOP
 ];
 
 export { AdminCommands };

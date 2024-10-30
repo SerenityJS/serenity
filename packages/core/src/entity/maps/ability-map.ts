@@ -53,6 +53,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
   }
 
   /**
+   * Call the original set method
+   * @param key The ability index
+   * @param value The value
+   * @returns The ability map
+   */
+  public superSet(key: AbilityIndex, value: boolean): this {
+    // Call the original set method
+    return super.set(key, value);
+  }
+
+  /**
    * Update the abilities of the player
    */
   public update(): void {

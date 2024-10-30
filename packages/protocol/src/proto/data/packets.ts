@@ -130,6 +130,7 @@ import { SetHealthPacket } from "./set-health";
 import { SyncActorPropertyPacket } from "./sync-actor-property";
 import { TrimDataPacket } from "./trim-data";
 import { UnlockedRecipesPacket } from "./unlocked-recipes";
+import { RequestPermissionsPacket } from "./request-permissions";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -241,6 +242,7 @@ const Packets = {
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
   [Packet.ScriptMessage]: ScriptMessagePacket, // 177
   [Packet.DimensionData]: DimensionDataPacket, // 180
+  [Packet.RequestPermissions]: RequestPermissionsPacket, // 185
   [Packet.ToastRequest]: ToastRequestPacket, // 186
   [Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
   [Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188

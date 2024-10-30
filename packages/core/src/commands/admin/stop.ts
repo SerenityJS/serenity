@@ -14,9 +14,6 @@ const register = (world: World) => {
     () => {
       // stop the server
       world.serenity.stop();
-
-      // Log the message
-      world.serenity.logger.info("Shutting down the server...");
     }
   );
 };

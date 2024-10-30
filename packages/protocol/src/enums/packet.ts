@@ -113,6 +113,7 @@ enum Packet {
   PlayerStartItemCooldown = 0xb0, // 176
   ScriptMessage = 0xb1, // 177
   DimensionData = 0xb4, // 180
+  RequestPermissions = 0xb9, // 185
   ToastRequest = 0xba, // 186
   UpdateAbilities = 0xbb, // 187
   UpdateAdventureSettings = 0xbc, // 188

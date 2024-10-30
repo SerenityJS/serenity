@@ -1,4 +1,8 @@
-import { CompressionMethod } from "@serenityjs/protocol";
+import {
+  CompressionMethod,
+  MINECRAFT_VERSION,
+  PROTOCOL_VERSION
+} from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Connection } from "@serenityjs/raknet";
 import Emitter from "@serenityjs/emitter";
@@ -16,6 +20,7 @@ import {
 } from "./world";
 import { Player } from "./entity";
 import { ConsoleInterface, WorldEnum } from "./commands";
+import { Permissions } from "./permissions";
 
 import type {
   ServerProperties,
@@ -31,6 +36,7 @@ const DefaultServerProperties: ServerProperties = {
   compressionMethod: CompressionMethod.Zlib,
   compressionThreshold: 256,
   packetsPerFrame: 64,
+  permissions: [],
   defaultGenerator: VoidGenerator,
   debugLogging: false
 };
@@ -79,6 +85,8 @@ class Serenity extends Emitter<WorldEventSignals> {
    */
   public readonly console = new ConsoleInterface(this);
 
+  public readonly permissions: Permissions;
+
   /**
    * Whether the server is currently running or not
    */
@@ -116,6 +124,12 @@ class Serenity extends Emitter<WorldEventSignals> {
     // Register the default terrain generators
     this.registerGenerator(VoidGenerator);
     this.registerGenerator(SuperflatGenerator);
+
+    // Create the permissions map for the server
+    this.permissions =
+      typeof this.properties.permissions === "string"
+        ? Permissions.fromPath(this, this.properties.permissions)
+        : new Permissions(this, { permissions: this.properties.permissions });
   }
 
   /**
@@ -167,6 +181,11 @@ class Serenity extends Emitter<WorldEventSignals> {
 
     // Start the ticking loop
     tick();
+
+    // Log that the server is now running
+    this.logger.info(
+      `§aServer is now running at §2${this.properties.address}§a:§2${this.properties.port}§a.§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`
+    );
   }
 
   /**
@@ -195,6 +214,9 @@ class Serenity extends Emitter<WorldEventSignals> {
 
     // Stop the raknet server
     process.nextTick(() => this.network.raknet.stop());
+
+    // Log that the server has been stopped
+    this.logger.info(`§cServer has been stopped.§r`);
   }
 
   /**

@@ -108,6 +108,7 @@ export * from "./camera-presets";
 export * from "./camera-instructions";
 export * from "./structure-block-update";
 export * from "./dimension-data";
+export * from "./request-permissions";
 export * from "./player-enchant-options";
 export * from "./client-to-server-handshake";
 export * from "./mob-armor-equipment";
