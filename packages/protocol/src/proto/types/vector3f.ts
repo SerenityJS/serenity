@@ -236,6 +236,16 @@ class Vector3f extends DataType implements IPosition {
   }
 
   /**
+   * Converts this array to a 3D vector.
+   * @returns The 3D vector that was converted.
+   */
+  public static fromArray(
+    array: [number, number, number] | Array<number>
+  ): Vector3f {
+    return new Vector3f(array[0], array[1], array[2]);
+  }
+
+  /**
    * Reads a 3D vector from the stream.
    *
    * @param stream The stream to read from.

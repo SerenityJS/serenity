@@ -1,5 +1,4 @@
 import {
-  BlockPosition,
   Difficulty,
   MINECRAFT_VERSION,
   Packet,
@@ -79,7 +78,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.worldGamemode = 0;
         packet.hardcore = false;
         packet.difficulty = Difficulty.Easy;
-        packet.spawnPosition = new BlockPosition(0, 0, 0);
+        packet.spawnPosition = player.dimension.spawnPosition;
         packet.achievementsDisabled = true;
         packet.editorWorldType = 0;
         packet.createdInEdior = false;

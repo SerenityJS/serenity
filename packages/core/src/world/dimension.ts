@@ -33,30 +33,119 @@ import { Chunk } from "./chunk";
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
   type: DimensionType.Overworld,
-  generator: "void"
+  generator: "void",
+  viewDistance: 20,
+  simulationDistance: 10,
+  spawnPosition: [0, 32767, 0]
 };
 
 class Dimension {
+  /**
+   * The serenity instance of the server.
+   */
   protected readonly serenity: Serenity;
 
+  /**
+   * The properties of the dimension.
+   */
   public readonly properties: DimensionProperties = DefaultDimensionProperties;
 
+  /**
+   * The identifier of the dimension.
+   */
   public readonly identifier: string;
 
+  /**
+   * The type of the dimension.
+   */
   public readonly type: DimensionType;
 
+  /**
+   * The world that the dimension belongs to.
+   */
   public readonly world: World;
 
+  /**
+   * The generator of the dimension.
+   */
   public readonly generator: TerrainGenerator;
 
+  /**
+   * The entities in the dimension.
+   */
   public readonly entities = new Map<bigint, Entity>();
 
+  /**
+   * The blocks in the dimension that contain data.
+   */
   public readonly blocks = new Map<bigint, Block>();
 
-  public viewDistance: number = 16;
+  /**
+   * The amount of chunks that that will be rendered by the client.
+   */
+  public get viewDistance(): number {
+    return this.properties.viewDistance;
+  }
 
-  public simulationDistance: number = 8;
+  /**
+   * The amount of chunks that that will be rendered by the client.
+   */
+  public set viewDistance(value: number) {
+    this.properties.viewDistance = value;
+  }
 
+  /**
+   * The distance in chunks that entities will be simulated.
+   */
+  public get simulationDistance(): number {
+    return this.properties.simulationDistance;
+  }
+
+  /**
+   * The distance in chunks that entities will be simulated.
+   */
+  public set simulationDistance(value: number) {
+    this.properties.simulationDistance = value;
+  }
+
+  /**
+   * The spawn position of the dimension.
+   */
+  public get spawnPosition(): Vector3f {
+    // Get the spawn position from the properties
+    const position = Vector3f.fromArray(this.properties.spawnPosition);
+
+    // Find the spawn position if it is at the maximum height
+    // This will determine the topmost block at the spawn position
+    if (position.y >= 32767) {
+      // Get the topmost block at the spawn position
+      const block = this.getTopmostBlock(position);
+
+      // Set the spawn position to the topmost block
+      if (block) position.y = block.position.y + 3;
+      // Set the spawn position to the topmost block
+      else position.y = 0;
+
+      // Set the spawn position in the properties
+      this.spawnPosition = position;
+    }
+
+    // Return the spawn position
+    return position;
+  }
+
+  /**
+   * The spawn position of the dimension.
+   */
+  public set spawnPosition(value: Vector3f) {
+    this.properties.spawnPosition = [value.x, value.y, value.z];
+  }
+
+  /**
+   * Creates a new dimension for a world.
+   * @param world The world that the dimension will belong to.
+   * @param properties The properties of the dimension.
+   */
   public constructor(world: World, properties?: DimensionProperties) {
     // Assign the serenity instance & world
     this.serenity = world.serenity;
@@ -75,7 +164,7 @@ class Dimension {
       );
 
     // Assign the generator to the dimension
-    this.generator = new generator({ seed: world.properties.seed });
+    this.generator = new generator(this, { seed: world.properties.seed });
 
     // Assign the identifier and type
     this.identifier = this.properties.identifier;
@@ -316,6 +405,21 @@ class Dimension {
     }
   }
 
+  /**
+   * Gets the topmost block in which the permutation is not air, at the given X and Z coordinates.
+   * @param position The position to query.
+   * @returns The topmost block in which the permutation is not air.
+   */
+  public getTopmostBlock(position: IPosition): Block {
+    // Get the current chunk
+    const chunk = this.getChunk(position.x >> 4, position.z >> 4);
+
+    // Get the topmost level that is not air
+    const topLevel = chunk.getTopmostLevel(position);
+
+    // Return the block
+    return this.getBlock({ ...position, y: topLevel });
+  }
   /**
    * Get the permutation of a block at a given position.
    * This method won't construct a block instance.

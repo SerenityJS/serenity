@@ -154,6 +154,9 @@ class Entity {
       ? Entity.createUniqueId(this.type.network, this.runtimeId)
       : properties.uniqueId;
 
+    // Set the position of the entity
+    this.position.set(dimension.spawnPosition);
+
     // If the entity is not a player
     if (!this.isPlayer()) {
       // If the entity properties contains an entry, load it

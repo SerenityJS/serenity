@@ -30,7 +30,10 @@ const DefaultWorldProperties: WorldProperties = {
     {
       identifier: "overworld",
       type: DimensionType.Overworld,
-      generator: "superflat"
+      generator: "superflat",
+      viewDistance: 20,
+      simulationDistance: 10,
+      spawnPosition: [0, 32767, 0]
     }
   ]
 };
