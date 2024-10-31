@@ -214,7 +214,7 @@ class LevelDBProvider extends WorldProvider {
       return chunk;
     } else {
       // Generate a new chunk if it does not exist.
-      const chunk = dimension.generator.apply(cx, cz, dimension.type);
+      const chunk = dimension.generator.apply(cx, cz);
 
       // Add the chunk to the cache.
       chunks.set(hash, chunk);

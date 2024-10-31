@@ -44,7 +44,7 @@ class InternalProvider extends WorldProvider {
     if (!chunks.has(ChunkCoords.hash({ x: cx, z: cz }))) {
       chunks.set(
         ChunkCoords.hash({ x: cx, z: cz }),
-        dimension.generator.apply(cx, cz, dimension.type)
+        dimension.generator.apply(cx, cz)
       );
     }
 
