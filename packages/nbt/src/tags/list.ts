@@ -66,7 +66,8 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
   public static read(
     stream: BinaryStream,
     varint = false,
-    type = true
+    type = true,
+    namex = true
   ): ListTag<NBTTag> {
     // Check if the type should be read.
     if (type) {
@@ -74,12 +75,14 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
       // And check if the type is a list.
       const type = stream.readByte();
       if (type !== this.type) {
-        throw new Error(`Expected tag type to be ${this.type} but got ${type}`);
+        throw new Error(
+          `Expected tag type to be ${this.type} but got ${type}, ${stream.offset}`
+        );
       }
     }
 
     // Read the name.
-    const name = this.readString(stream, varint);
+    const name = namex ? this.readString(stream, varint) : "";
 
     // Find the reader for the type.
     const tag = stream.readByte() as Tag;
@@ -142,6 +145,11 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
 
         case Tag.String: {
           values.push(new StringTag("", this.readString(stream, varint)));
+          break;
+        }
+
+        case Tag.List: {
+          values.push(this.read(stream, varint, false, false));
           break;
         }
 

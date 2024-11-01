@@ -4,7 +4,7 @@ import {
   PROTOCOL_VERSION
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { Connection } from "@serenityjs/raknet";
+import { Connection, RAKNET_TPS } from "@serenityjs/raknet";
 import Emitter from "@serenityjs/emitter";
 
 import { Network } from "./network";
@@ -137,7 +137,7 @@ class Serenity extends Emitter<WorldEventSignals> {
    */
   public start(): void {
     // Start the raknet server
-    this.network.raknet.start();
+    this.network.raknet.start(false);
 
     // Initialize the last tick variable
     let lastTick = process.hrtime();
@@ -153,6 +153,13 @@ class Serenity extends Emitter<WorldEventSignals> {
       const [seconds, nanoseconds] = process.hrtime(lastTick);
       const delta = seconds + nanoseconds / 1e9;
 
+      // Check if the server should tick the raknet connections
+      if (delta >= 1 / RAKNET_TPS) {
+        // Iterate over all the connections and tick the connection
+        for (const connection of this.network.raknet.connections.values())
+          connection.tick();
+      }
+
       // Check if the server should tick
       if (delta >= 1 / TPS) {
         // Set the last tick to the current time
@@ -166,9 +173,6 @@ class Serenity extends Emitter<WorldEventSignals> {
         const threshold = Date.now() - 1000;
         this.ticks = this.ticks.filter((tick) => tick > threshold);
         this.tps = this.ticks.length;
-
-        // // Tick the debugger
-        // this.debugger.tick(deltaTick);
 
         // Tick all the worlds
         for (const world of this.worlds.values())

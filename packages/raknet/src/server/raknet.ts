@@ -113,7 +113,7 @@ class Server extends Emitter<RaknetEvents> {
   /**
    * Starts the server
    */
-  public start() {
+  public start(shouldTick = true) {
     this.socket.bind(this.port, this.address);
 
     // Create a tick function
@@ -130,7 +130,7 @@ class Server extends Emitter<RaknetEvents> {
       }, RAKNET_TICK_LEN);
 
     // Set the interval to the tick method
-    this.interval = tick().unref();
+    if (shouldTick) this.interval = tick();
   }
 
   /**

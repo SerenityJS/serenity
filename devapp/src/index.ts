@@ -15,6 +15,6 @@ const world = serenity.getWorld();
 
 world.entityPalette.registerTrait(DebugStatsTrait);
 
-world.on(WorldEvent.PlayerPlaceBlock, ({ permutationBeingPlaced }) => {
-  console.log(permutationBeingPlaced.state);
+world.on(WorldEvent.PlayerUseItem, ({ player, itemStack }) => {
+  player.sendMessage(`You used ${itemStack.type.identifier}`);
 });

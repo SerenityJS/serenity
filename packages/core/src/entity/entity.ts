@@ -742,7 +742,7 @@ class Entity {
     const entity = this.dimension.spawnItem(item, new Vector3f(x, y - 0.25, z));
 
     // Set the velocity of the entity
-    entity.setMotion(velocity);
+    entity.addMotion(velocity);
 
     // Return true as the item was dropped
     return true;

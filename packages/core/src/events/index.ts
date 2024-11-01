@@ -8,4 +8,8 @@ export * from "./player-leave";
 export * from "./player-chat";
 export * from "./player-place-block";
 export * from "./player-break-block";
+export * from "./player-drop-item";
+export * from "./player-start-using-item";
+export * from "./player-stop-using-item";
+export * from "./player-use-item";
 export * from "./block-update";

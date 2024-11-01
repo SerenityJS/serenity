@@ -21,7 +21,12 @@ import { Connection } from "@serenityjs/raknet";
 import { NetworkHandler } from "../network";
 import { Player } from "../entity";
 import { ItemUseMethod } from "../enums";
-import { PlayerBreakBlockSignal } from "../events";
+import {
+  PlayerBreakBlockSignal,
+  PlayerStartUsingItemSignal,
+  PlayerStopUsingItemSignal,
+  PlayerUseItemSignal
+} from "../events";
 
 class PlayerAuthInputHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAuthInput;
@@ -287,12 +292,18 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Check if the player was holding an item
           if (heldItem) {
-            // Call the item onStartUse trait methods
-            let canceled = false;
-            for (const trait of heldItem.traits.values()) {
-              // Set the use method for the trait
-              const method = ItemUseMethod.Break;
+            // Set the use method for the trait
+            const method = ItemUseMethod.Break;
 
+            // Create a new PlayerStartUsingItemSignal
+            let canceled = !new PlayerStartUsingItemSignal(
+              player,
+              heldItem,
+              method
+            ).emit();
+
+            // Call the item onStartUse trait methods
+            for (const trait of heldItem.traits.values()) {
               // Check if the start use was successful
               const success = trait.onStartUse?.(player, { method });
 
@@ -340,6 +351,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Check if the player was holding an item
           if (player.itemTarget) {
+            // Create a new PlayerStopUsingItemSignal
+            new PlayerStopUsingItemSignal(player, player.itemTarget).emit();
+
             // Call the item onStopUse trait methods
             for (const trait of player.itemTarget.traits.values())
               trait.onStopUse?.(player, { method: ItemUseMethod.Break });
@@ -403,20 +417,16 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Get the item stack from the player
           const stack = player.itemTarget;
 
-          // Call the item onUse trait methods
-          for (const trait of stack.traits.values()) {
-            // Set the use method for the trait, predicted durability, and target block
-            const method = ItemUseMethod.Use;
-            const predictedDurability = request.predictedDurability;
-            const targetBlock = block;
+          // Set the use method for the trait, predicted durability, and target block
+          const method = ItemUseMethod.Use;
+          const predictedDurability = request.predictedDurability;
+          const targetBlock = block;
 
-            // Call the onUse method for the trait
-            trait.onUse?.(player, {
-              method,
-              targetBlock,
-              predictedDurability
-            });
-          }
+          // Call the item onUse trait methods
+          stack.use(player, { method, predictedDurability, targetBlock });
+
+          // Create a new PlayerUseItemSignal
+          new PlayerUseItemSignal(player, stack, method).emit();
 
           // Break out of the switch statement
           continue;

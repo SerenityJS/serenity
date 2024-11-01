@@ -4,9 +4,13 @@ import {
   EntitySpawnedSignal,
   PlayerBreakBlockSignal,
   PlayerChatSignal,
+  PlayerDropItemSignal,
   PlayerJoinSignal,
   PlayerLeaveSignal,
   PlayerPlaceBlockSignal,
+  PlayerStartUsingItemSignal,
+  PlayerStopUsingItemSignal,
+  PlayerUseItemSignal,
   WorldInitializeSignal,
   WorldTickSignal
 } from "../../events";
@@ -21,6 +25,10 @@ interface WorldEventSignals {
   [WorldEvent.PlayerChat]: [PlayerChatSignal];
   [WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
   [WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
+  [WorldEvent.PlayerDropItem]: [PlayerDropItemSignal];
+  [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
+  [WorldEvent.PlayerStopUsingItem]: [PlayerStopUsingItemSignal];
+  [WorldEvent.PlayerUseItem]: [PlayerUseItemSignal];
   [WorldEvent.BlockUpdate]: [];
 }
 

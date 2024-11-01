@@ -1,6 +1,7 @@
 import { Chunk } from "../chunk";
 import { TerrainGeneratorProperties } from "../../types";
 import { Dimension } from "../dimension";
+import { World } from "../world";
 
 import type { TerrainWorker } from "./worker";
 import type { Worker } from "node:worker_threads";
@@ -33,6 +34,11 @@ class TerrainGenerator {
   public readonly dimension: Dimension;
 
   /**
+   * The world of the generator.
+   */
+  public readonly world: World;
+
+  /**
    * The properties of the generator.
    */
   public readonly properties: TerrainGeneratorProperties =
@@ -56,8 +62,9 @@ class TerrainGenerator {
     dimension: Dimension,
     properties?: Partial<TerrainGeneratorProperties>
   ) {
-    // Set the dimension of the generator.
+    // Set the dimension & world of the generator.
     this.dimension = dimension;
+    this.world = dimension.world;
 
     // Set the properties of the generator.
     this.properties = { ...DefaultTerrainGeneratorProperties, ...properties };

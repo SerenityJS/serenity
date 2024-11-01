@@ -18,7 +18,11 @@ import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack } from "../item";
 import { BlockIdentifier, EntityInteractMethod, ItemUseMethod } from "../enums";
-import { PlayerPlaceBlockSignal } from "../events";
+import {
+  PlayerDropItemSignal,
+  PlayerPlaceBlockSignal,
+  PlayerUseItemSignal
+} from "../events";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -104,6 +108,27 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Get the player's inventory trait
           const inventory = player.getTrait(EntityInventoryTrait);
+
+          // Get the item stack from the player's inventory
+          const itemStack = inventory.container.getItem(
+            action.slot
+          ) as ItemStack;
+
+          // Create a new PlayerDropItemSignal
+          const signal = new PlayerDropItemSignal(
+            player,
+            itemStack,
+            amount
+          ).emit();
+
+          // If the signal was canceled, we don't want to drop the item
+          if (!signal) {
+            // Update the item stack in the inventory
+            itemStack.update();
+
+            // Break from the switch statement
+            break;
+          }
 
           // Make the player drop the item
           player.dropItem(inventory.selectedSlot, amount, inventory.container);
@@ -196,7 +221,9 @@ class InventoryTransactionHandler extends NetworkHandler {
         const targetBlock = result;
 
         // Call the onUse method for the item stack
-        const useSuccess = stack.use(player, { method, targetBlock });
+        const useSuccess =
+          stack.use(player, { method, targetBlock }) &&
+          new PlayerUseItemSignal(player, stack, method).emit();
 
         // Create a new LevelSoundEventPacket to play the block place sound
         const sound = new LevelSoundEventPacket();
@@ -223,19 +250,38 @@ class InventoryTransactionHandler extends NetworkHandler {
       // Handles when an item is used
       case ItemUseInventoryTransactionType.Use: {
         // Check if the player is using an item
-        if (!player.itemTarget) return;
+        // If so, the item use clicked in their hand
+        if (!player.itemTarget) {
+          // Get the players held item stack
+          const stack = player.getHeldItem() as ItemStack;
 
-        // Get the item stack from the player
-        const stack = player.itemTarget as ItemStack;
+          // Verify that the item stack network ids match
+          if (stack.type.network !== transaction.item.network) return;
 
-        // Verify that the item stack network ids match
-        if (stack.type.network !== transaction.item.network) return;
+          // Get the use method of the action
+          const method = ItemUseMethod.Click;
 
-        // Get the use method of the action
-        const method = ItemUseMethod.Use;
+          // Call the onUse method for the item stack
+          stack.use(player, { method });
 
-        // Call the onUse method for the item stack
-        stack.use(player, { method });
+          // Create a new PlayerUseItemSignal
+          new PlayerUseItemSignal(player, stack, method).emit();
+        } else {
+          // Get the item stack from the player
+          const stack = player.itemTarget as ItemStack;
+
+          // Verify that the item stack network ids match
+          if (stack.type.network !== transaction.item.network) return;
+
+          // Get the use method of the action
+          const method = ItemUseMethod.Use;
+
+          // Call the onUse method for the item stack
+          stack.use(player, { method });
+
+          // Create a new PlayerUseItemSignal
+          new PlayerUseItemSignal(player, stack, method).emit();
+        }
 
         // Break from the switch statement
         break;
@@ -276,7 +322,10 @@ class InventoryTransactionHandler extends NetworkHandler {
         transaction.type === 0 ? ItemUseMethod.Place : ItemUseMethod.Use;
 
       // Call the onUse method for the item stack
-      stack.use(player, { method });
+      stack.use(player, { method, targetEntity: entity });
+
+      // Create a new PlayerUseItemSignal
+      new PlayerUseItemSignal(player, stack, method).emit();
     }
   }
 }

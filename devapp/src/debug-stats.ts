@@ -22,8 +22,6 @@ class DebugStatsTrait extends PlayerTrait {
   );
 
   public onSpawn(): void {
-    this.player.op();
-
     this.bossbar.show(this.player);
   }
 

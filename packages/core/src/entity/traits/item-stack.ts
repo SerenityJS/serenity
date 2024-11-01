@@ -44,6 +44,9 @@ class EntityItemStackTrait extends EntityTrait {
    */
   protected target: Player | null = null;
 
+  /**
+   * The merging state of the item.
+   */
   protected merging = false;
 
   /**

@@ -8,6 +8,10 @@ enum WorldEvent {
   PlayerChat,
   PlayerPlaceBlock,
   PlayerBreakBlock,
+  PlayerDropItem,
+  PlayerStartUsingItem,
+  PlayerStopUsingItem,
+  PlayerUseItem,
   BlockUpdate
 }
 
