@@ -44,6 +44,11 @@ class Pipeline {
   public readonly plugins = new Map<string, Plugin>();
 
   /**
+   * The temporary paths used by the pipeline.
+   */
+  protected readonly tempPaths = new Set<string>();
+
+  /**
    * Whether the pipeline is running in ESM mode.
    */
   public readonly esm: boolean =
@@ -116,9 +121,6 @@ class Pipeline {
       // Import the plugin module
       const module = await import(`file://${tempPath}`);
 
-      // Unlink the temporary file
-      unlinkSync(tempPath);
-
       // Get the plugin class from the module
       const plugin = module.default as Plugin;
 
@@ -140,6 +142,9 @@ class Pipeline {
 
       // Initialize the plugin
       plugin.onInitialize(this.serenity, plugin);
+
+      // Add the temporary path to the set
+      this.tempPaths.add(tempPath);
     }
 
     // Filter out all the directories from the entries
@@ -208,6 +213,12 @@ class Pipeline {
     // Start up all the plugins
     for (const plugin of this.plugins.values())
       plugin.onStartUp(this.serenity, plugin);
+
+    // Delete all the temporary files
+    for (const tempPath of this.tempPaths) {
+      // Delete the temporary file
+      unlinkSync(tempPath);
+    }
   }
 
   /**
