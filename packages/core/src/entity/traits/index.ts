@@ -8,3 +8,4 @@ export * from "./nametag";
 export * from "./inventory";
 export * from "./item-stack";
 export * from "./physics";
+export * from "./effects";
