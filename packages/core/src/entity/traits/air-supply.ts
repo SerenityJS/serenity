@@ -3,7 +3,8 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
-  DataItem
+  DataItem,
+  EffectType
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
@@ -60,7 +61,10 @@ class EntityAirSupplyTrait extends EntityTrait {
       this.entity.position.floor()
     );
 
-    return !blockAtHead.isLiquid() && !blockAtHead.isSolid();
+    return (
+      (!blockAtHead.isLiquid() && !blockAtHead.isSolid()) ||
+      this.entity.hasEffect(EffectType.WaterBreathing)
+    );
   }
 
   public onSpawn(): void {
