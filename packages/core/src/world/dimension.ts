@@ -187,15 +187,16 @@ class Dimension {
     // Check if there are no players in the dimension
     if (this.getPlayers().length === 0) return;
 
-    // Get the positions of all the players in the dimension
-    const positions = this.getPlayers().map((player) => player.position);
+    // Get all the player positions in the dimension.
+    const playerPositions = this.getPlayers().map((player) => player.position);
 
     // Iterate over all the entities in the dimension
     for (const entity of this.entities.values()) {
       // Check if there is a player within the simulation distance to tick the entity
-      const inSimulationRange = positions.some((position) => {
-        const distance = position.distance(entity.position);
-        return distance <= this.simulationDistance << 4;
+      const inSimulationRange = playerPositions.some((position) => {
+        return (
+          position.distance(entity.position) <= this.simulationDistance << 4
+        );
       });
 
       // Tick the entity if it is in simulation range
@@ -248,17 +249,9 @@ class Dimension {
 
     // Iterate over all the blocks in the dimension
     for (const block of this.blocks.values()) {
-      // Get the block position
-      const position = new Vector3f(
-        block.position.x,
-        block.position.y,
-        block.position.z
-      );
-
       // Check if there is a player within the simulation distance to tick the block
-      const inSimulationRange = positions.some((player) => {
-        const distance = player.distance(position);
-        return distance <= this.simulationDistance;
+      const inSimulationRange = playerPositions.some((player) => {
+        return player.distance(block.position) <= this.simulationDistance;
       });
 
       // Tick the block if it is in simulation range
