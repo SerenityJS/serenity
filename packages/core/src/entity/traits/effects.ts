@@ -60,6 +60,7 @@ class EntityEffectsTrait extends EntityTrait {
     signal.emit();
 
     effect?.onRemove?.(this.entity); */
+    this.effects.get(effectType)?.onRemove?.(this.entity);
     this.effects.delete(effectType);
 
     if (!this.entity.isPlayer()) return;
@@ -117,6 +118,7 @@ class EntityEffectsTrait extends EntityTrait {
     }
     // eslint fix
     if (!effect) return;
+    effect.onAdd?.(this.entity);
     this.effects.set(effectType, effect);
 
     // If the entity is not a player, exit.
