@@ -1,20 +1,21 @@
-import { Serenity, LevelDBProvider, WorldEvent } from "@serenityjs/core";
+import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import { Pipeline } from "@serenityjs/plugins";
 
-import { DebugStatsTrait } from "./debug-stats";
-
+// Create a new Serenity instance
 const serenity = new Serenity({
   port: 19142,
+  permissions: "./permissions.json",
   debugLogging: true
 });
 
-serenity.start();
+// Create a new plugin pipeline
+const pipeline = new Pipeline(serenity, { path: "./plugins" });
 
-serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
+// Initialize the pipeline
+void pipeline.initialize(() => {
+  // Register the LevelDBProvider
+  serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
 
-const world = serenity.getWorld();
-
-world.entityPalette.registerTrait(DebugStatsTrait);
-
-world.on(WorldEvent.PlayerUseItem, ({ player, itemStack }) => {
-  player.sendMessage(`You used ${itemStack.type.identifier}`);
+  // Start the server
+  serenity.start();
 });

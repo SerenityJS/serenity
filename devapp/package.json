@@ -16,6 +16,7 @@
     "@serenityjs/core": "workspace:*",
     "@serenityjs/logger": "workspace:*",
     "@serenityjs/nbt": "workspace:*",
+    "@serenityjs/plugins": "workspace:*",
     "@serenityjs/raknet": "workspace:*"
   },
   "devDependencies": {
