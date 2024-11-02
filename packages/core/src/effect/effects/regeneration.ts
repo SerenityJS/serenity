@@ -7,7 +7,7 @@ import { Effect } from "./effect";
 class RegenerationEffect extends Effect {
   public static readonly type: EffectType = EffectType.Regeneration;
 
-  public readonly color: Color = new Color(255, 255, 0, 0);
+  public readonly color: Color = new Color(255, 205, 92, 171);
 
   public onTick(entity: Entity): void {
     // Get the entity health trait.

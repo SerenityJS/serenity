@@ -26,7 +26,7 @@ class Effect {
     amplifier?: number,
     showParticles?: boolean
   ) {
-    this.duration = duration;
+    this.duration = Object.getPrototypeOf(this).instant ? 0 : duration;
     this.amplifier = amplifier ?? 0;
     this.showParticles = showParticles ?? true;
   }
