@@ -11,7 +11,6 @@ class InvisibilityEffect extends Effect {
 
   public onAdd(entity: Entity): void {
     // Make the entity invisible.
-    console.warn(entity.getTrait(EntityInvisibilityTrait));
     entity.getTrait(EntityInvisibilityTrait)?.setInvisibility(true);
   }
 
