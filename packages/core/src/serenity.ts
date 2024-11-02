@@ -21,8 +21,10 @@ import {
 import { Player } from "./entity";
 import { ConsoleInterface, WorldEnum } from "./commands";
 import { Permissions } from "./permissions";
+import { ServerEvent } from "./enums";
 
 import type {
+  ServerEvents,
   ServerProperties,
   WorldEventSignals,
   WorldProperties,
@@ -41,7 +43,7 @@ const DefaultServerProperties: ServerProperties = {
   debugLogging: false
 };
 
-class Serenity extends Emitter<WorldEventSignals> {
+class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * The properties that are being used for the server
    */
@@ -186,6 +188,9 @@ class Serenity extends Emitter<WorldEventSignals> {
     // Start the ticking loop
     tick();
 
+    // Emit the server startup event
+    this.emit(ServerEvent.Start, 0 as never);
+
     // Log that the server is now running
     this.logger.info(
       `§aServer is now running at §2${this.properties.address}§a:§2${this.properties.port}§a.§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`
@@ -198,6 +203,9 @@ class Serenity extends Emitter<WorldEventSignals> {
   public stop(): void {
     // Close the console interface
     this.console.interface.close();
+
+    // Emit the server shutdown event
+    this.emit(ServerEvent.Stop, 0 as never);
 
     // Disconnect all players
     for (const player of this.players.values()) {

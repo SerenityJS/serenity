@@ -11,3 +11,4 @@ export * from "./item-use-method";
 export * from "./entity-interact-method";
 export * from "./cardinal-direction";
 export * from "./world-event";
+export * from "./server-event";

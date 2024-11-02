@@ -1,12 +1,12 @@
 {
-  "name": "@serenityjs/nbt",
+  "name": "@serenityjs/plugins",
   "author": "Serenity",
   "license": "MIT",
   "version": "0.5.2",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/SerenityJS/packages/nbt",
+  "repository": "https://github.com/SerenityJS/packages/plugins",
   "files": [
     "dist/**",
     "README.md",
@@ -27,6 +27,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@serenityjs/binarystream": "2.6.6"
+    "@serenityjs/core": "workspace:^",
+    "@serenityjs/logger": "workspace:*"
   }
 }
