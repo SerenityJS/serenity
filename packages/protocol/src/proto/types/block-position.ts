@@ -60,7 +60,7 @@ class BlockPosition extends DataType implements IPosition {
    * @param other The other 3D position to add.
    * @returns The result of the addition.
    */
-  public add(other: BlockPosition): BlockPosition {
+  public add(other: IPosition): BlockPosition {
     return new BlockPosition(
       this.x + other.x,
       this.y + other.y,
@@ -73,7 +73,7 @@ class BlockPosition extends DataType implements IPosition {
    * @param other The other 3D position to subtract.
    * @returns The result of the subtraction.
    */
-  public subtract(other: BlockPosition): BlockPosition {
+  public subtract(other: IPosition): BlockPosition {
     return new BlockPosition(
       this.x - other.x,
       this.y - other.y,
@@ -104,7 +104,7 @@ class BlockPosition extends DataType implements IPosition {
    * @param other The other 3D position to calculate the dot product with.
    * @returns The result of the dot product.
    */
-  public dot(other: BlockPosition): number {
+  public dot(other: IPosition): number {
     return this.x * other.x + this.y * other.y + this.z * other.z;
   }
 
@@ -113,7 +113,7 @@ class BlockPosition extends DataType implements IPosition {
    * @param other The other 3D position to calculate the cross product with.
    * @returns The result of the cross product.
    */
-  public cross(other: BlockPosition): BlockPosition {
+  public cross(other: IPosition): BlockPosition {
     const x = this.y * other.z - this.z * other.y;
     const y = this.z * other.x - this.x * other.z;
     const z = this.x * other.y - this.y * other.x;
@@ -152,7 +152,7 @@ class BlockPosition extends DataType implements IPosition {
    * @param t The interpolation factor.
    * @returns The interpolated 3D position.
    */
-  public lerp(other: BlockPosition, t: number): BlockPosition {
+  public lerp(other: IPosition, t: number): BlockPosition {
     return new BlockPosition(
       this.x + (other.x - this.x) * t,
       this.y + (other.y - this.y) * t,
@@ -166,7 +166,7 @@ class BlockPosition extends DataType implements IPosition {
    * @param t The interpolation factor.
    * @returns The interpolated 3D position.
    */
-  public slerp(other: BlockPosition, t: number): BlockPosition {
+  public slerp(other: BlockPosition | Vector3f, t: number): BlockPosition {
     const dot = this.dot(other);
     const theta = Math.acos(dot);
     const sinTheta = Math.sin(theta);
@@ -190,7 +190,7 @@ class BlockPosition extends DataType implements IPosition {
    * @param other The other 3D position to get the distance to.
    * @returns The distance between the 3D positions.
    */
-  public distance(other: BlockPosition): number {
+  public distance(other: IPosition): number {
     return Math.hypot(this.x - other.x, this.y - other.y, this.z - other.z);
   }
 

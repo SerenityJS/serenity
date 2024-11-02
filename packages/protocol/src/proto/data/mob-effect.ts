@@ -11,7 +11,7 @@ class MobEffectPacket extends DataPacket {
   @Serialize(VarLong) public runtimeId!: bigint;
   @Serialize(Byte) public eventId!: MobEffectEvents;
   @Serialize(ZigZag) public effectId!: EffectType;
-  @Serialize(VarInt) public amplifier!: number;
+  @Serialize(ZigZag) public amplifier!: number;
   @Serialize(Bool) public particles!: boolean;
   @Serialize(VarInt) public duration!: number;
   @Serialize(PlayerInputTick) public inputTick!: bigint;

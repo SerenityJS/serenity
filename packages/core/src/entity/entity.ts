@@ -1,6 +1,7 @@
 import {
   ActorFlag,
   ContainerName,
+  EffectType,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
   Rotation,
@@ -28,7 +29,12 @@ import { CommandExecutionState } from "../commands";
 import { EntityDespawnedSignal, EntitySpawnedSignal } from "../events";
 
 import { EntityType } from "./identity";
-import { EntityHealthTrait, EntityInventoryTrait, EntityTrait } from "./traits";
+import {
+  EntityEffectsTrait,
+  EntityHealthTrait,
+  EntityInventoryTrait,
+  EntityTrait
+} from "./traits";
 import { Player } from "./player";
 import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
 
@@ -232,6 +238,49 @@ class Entity {
    */
   public get isSwimming(): boolean {
     return this.flags.get(ActorFlag.Swimming) ?? false;
+  }
+
+  /**
+   * Add's an effect to the entity.
+   * @param effectType The effect type that will be applied to the entity
+   * @param duration The duration of the effect in seconds.
+   * @param amplifier The amplifier of the effect.
+   * @param showParticles Wether or not the effect will show particles.
+   * TODO: Refactor method parameters.
+   */
+  public addEffect(
+    effectType: EffectType,
+    duration: number,
+    amplifier?: number,
+    showParticles?: boolean
+  ): void {
+    // If the entity doesn't have the effects trait, add the trait
+    const effectTrait =
+      this.getTrait(EntityEffectsTrait) ?? this.addTrait(EntityEffectsTrait);
+
+    // Add the effect to the entity.
+    effectTrait.add(effectType, duration * 40, amplifier, showParticles);
+  }
+
+  /**
+   * Removes an effect from the entity.
+   * @param effectType The effect type to remove from the entity
+   */
+  public removeEffect(effectType: EffectType): void {
+    const effectTrait = this.getTrait(EntityEffectsTrait);
+    if (!effectTrait || !effectTrait.has(effectType)) return;
+
+    effectTrait.remove(effectType);
+  }
+
+  /**
+   * Checks whether the entity has the effect or not.
+   * @param effectType The effect type to check if the entity has.
+   * @returns whether the entity has the effect or not.
+   */
+  public hasEffect(effectType: EffectType): boolean {
+    const effectTrait = this.getTrait(EntityEffectsTrait);
+    return effectTrait?.has(effectType) ?? false;
   }
 
   /**

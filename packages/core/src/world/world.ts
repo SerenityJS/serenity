@@ -19,6 +19,7 @@ import { ItemPalette } from "../item";
 import { BlockPalette } from "../block";
 import { AdminCommands, Commands } from "../commands";
 import { WorldTickSignal } from "../events";
+import { EffectPallete } from "../effect";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -73,6 +74,11 @@ class World extends Emitter<WorldEventSignals> {
    * The entity palette of the world.
    */
   public readonly entityPalette = new EntityPalette();
+
+  /**
+   * The effect pallete of the world.
+   */
+  public readonly effectPalette = new EffectPallete();
 
   /**
    * The block palette of the world.

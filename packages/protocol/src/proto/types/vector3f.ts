@@ -1,6 +1,8 @@
 import { Endianness } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
+import { BlockPosition } from "./block-position";
+
 import type { IPosition } from "../../types";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
@@ -89,7 +91,7 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to add.
    * @returns The result of the addition.
    */
-  public add(other: Vector3f): Vector3f {
+  public add(other: IPosition): Vector3f {
     return new Vector3f(this.x + other.x, this.y + other.y, this.z + other.z);
   }
 
@@ -98,7 +100,7 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to subtract.
    * @returns The result of the subtraction.
    */
-  public subtract(other: Vector3f): Vector3f {
+  public subtract(other: IPosition): Vector3f {
     return new Vector3f(this.x - other.x, this.y - other.y, this.z - other.z);
   }
 
@@ -125,7 +127,7 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to calculate the dot product with.
    * @returns The result of the dot product.
    */
-  public dot(other: Vector3f): number {
+  public dot(other: IPosition): number {
     return this.x * other.x + this.y * other.y + this.z * other.z;
   }
 
@@ -134,7 +136,7 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to calculate the cross product with.
    * @returns The result of the cross product.
    */
-  public cross(other: Vector3f): Vector3f {
+  public cross(other: IPosition): Vector3f {
     const x = this.y * other.z - this.z * other.y;
     const y = this.z * other.x - this.x * other.z;
     const z = this.x * other.y - this.y * other.x;
@@ -173,7 +175,7 @@ class Vector3f extends DataType implements IPosition {
    * @param t The interpolation factor.
    * @returns The interpolated 3D vector.
    */
-  public lerp(other: Vector3f, t: number): Vector3f {
+  public lerp(other: IPosition, t: number): Vector3f {
     return new Vector3f(
       this.x + (other.x - this.x) * t,
       this.y + (other.y - this.y) * t,
@@ -187,7 +189,7 @@ class Vector3f extends DataType implements IPosition {
    * @param t The interpolation factor.
    * @returns The interpolated 3D vector.
    */
-  public slerp(other: Vector3f, t: number): Vector3f {
+  public slerp(other: Vector3f | BlockPosition, t: number): Vector3f {
     const dot = this.dot(other);
     const theta = Math.acos(dot);
     const sinTheta = Math.sin(theta);
@@ -202,7 +204,7 @@ class Vector3f extends DataType implements IPosition {
    * Returns a string representation of this 3D vector.
    * @returns The string representation of this 3D vector.
    */
-  public equals(other: Vector3f): boolean {
+  public equals(other: IPosition): boolean {
     return this.x === other.x && this.y === other.y && this.z === other.z;
   }
 
@@ -211,7 +213,7 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to get the distance to.
    * @returns The distance between the 3D vectors.
    */
-  public distance(other: Vector3f): number {
+  public distance(other: IPosition): number {
     return Math.hypot(this.x - other.x, this.y - other.y, this.z - other.z);
   }
 
