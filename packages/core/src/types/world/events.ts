@@ -1,5 +1,7 @@
 import { WorldEvent } from "../../enums";
 import {
+  EffectAddEventSignal,
+  EffectRemoveEventSignal,
   EntityDespawnedSignal,
   EntitySpawnedSignal,
   PlayerBreakBlockSignal,
@@ -20,6 +22,8 @@ interface WorldEventSignals {
   [WorldEvent.WorldTick]: [WorldTickSignal];
   [WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
   [WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
+  [WorldEvent.EffectAdd]: [EffectAddEventSignal];
+  [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];
   [WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
   [WorldEvent.PlayerChat]: [PlayerChatSignal];

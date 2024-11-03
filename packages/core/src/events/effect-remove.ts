@@ -1,13 +1,12 @@
 import { EffectType } from "@serenityjs/protocol";
 
-import { Effect } from "../effect";
 import { Entity } from "../entity";
 import { WorldEvent } from "../enums";
 
 import { EventSignal } from "./event-signal";
 
 class EffectRemoveEventSignal extends EventSignal {
-  public static readonly identifier: WorldEvent = WorldEvent.EffectRemove;
+  public static readonly identifier: WorldEvent = WorldEvent.EffectAdd;
 
   /**
    * The entity where the effect was removed
