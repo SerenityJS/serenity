@@ -3,6 +3,8 @@ enum WorldEvent {
   WorldTick,
   EntitySpawned,
   EntityDespawned,
+  EffectAdd,
+  EffectRemove,
   PlayerJoin,
   PlayerLeave,
   PlayerChat,
