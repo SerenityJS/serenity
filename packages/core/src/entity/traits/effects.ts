@@ -9,6 +9,7 @@ import {
 
 import { Effect } from "../../effect";
 import { EntityIdentifier } from "../../enums";
+import { EntityEffectOptions } from "../../types";
 
 import { EntityTrait } from "./trait";
 
@@ -98,9 +99,11 @@ class EntityEffectsTrait extends EntityTrait {
   public add(
     effectType: EffectType,
     duration: number,
-    amplifier?: number,
-    showParticles?: boolean
+    options?: EntityEffectOptions
   ): void {
+    const showParticles = options?.showParticles ?? true;
+    const amplifier = options?.amplifier ?? 0;
+
     // Get the effect type builder
     const effectBuilder = this.entity
       .getWorld()

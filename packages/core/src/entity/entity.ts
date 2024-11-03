@@ -17,6 +17,7 @@ import {
 } from "../enums";
 import {
   CommandResponse,
+  EntityEffectOptions,
   EntityEntry,
   EntityProperties,
   JSONLikeValue
@@ -251,15 +252,14 @@ class Entity {
   public addEffect(
     effectType: EffectType,
     duration: number,
-    amplifier?: number,
-    showParticles?: boolean
+    options?: EntityEffectOptions
   ): void {
     // If the entity doesn't have the effects trait, add the trait
     const effectTrait =
       this.getTrait(EntityEffectsTrait) ?? this.addTrait(EntityEffectsTrait);
 
     // Add the effect to the entity.
-    effectTrait.add(effectType, duration * 40, amplifier, showParticles);
+    effectTrait.add(effectType, duration * 40, options);
   }
 
   /**
