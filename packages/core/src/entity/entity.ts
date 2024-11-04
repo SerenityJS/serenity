@@ -17,6 +17,7 @@ import {
 } from "../enums";
 import {
   CommandResponse,
+  EntityEffectOptions,
   EntityEntry,
   EntityProperties,
   JSONLikeValue
@@ -31,6 +32,7 @@ import { EntityDespawnedSignal, EntitySpawnedSignal } from "../events";
 import { EntityType } from "./identity";
 import {
   EntityEffectsTrait,
+  EntityEquipmentTrait,
   EntityHealthTrait,
   EntityInventoryTrait,
   EntityTrait
@@ -251,15 +253,14 @@ class Entity {
   public addEffect(
     effectType: EffectType,
     duration: number,
-    amplifier?: number,
-    showParticles?: boolean
+    options?: EntityEffectOptions
   ): void {
     // If the entity doesn't have the effects trait, add the trait
     const effectTrait =
       this.getTrait(EntityEffectsTrait) ?? this.addTrait(EntityEffectsTrait);
 
     // Add the effect to the entity.
-    effectTrait.add(effectType, duration * 40, amplifier, showParticles);
+    effectTrait.add(effectType, duration * 40, options);
   }
 
   /**
@@ -291,6 +292,24 @@ class Entity {
   public hasTrait(trait: string | typeof EntityTrait): boolean {
     return this.traits.has(
       typeof trait === "string" ? trait : trait.identifier
+    );
+  }
+
+  /**
+   * Computes the view direction vector based on the current pitch and yaw rotations.
+   *
+   * @returns A Vector3f representing the direction the view is pointing.
+   */
+  public getViewDirection(): Vector3f {
+    // Convert pitch and yaw angles from degrees to radians
+    const pitchRadians = this.rotation.pitch * (Math.PI / 180);
+    const yawRadians = -this.rotation.headYaw * (Math.PI / 180); // Invert yaw for correct orientation
+
+    // Calculate the direction vector components
+    return new Vector3f(
+      Math.sin(yawRadians) * Math.cos(pitchRadians), // X component of the view vector
+      -Math.sin(pitchRadians), // Y component of the view vector (negative for correct orientation)
+      Math.cos(yawRadians) * Math.cos(pitchRadians) // Z component of the view vector
     );
   }
 
@@ -613,6 +632,17 @@ class Entity {
       //   // Return the armor container
       //   return inventory.container;
       // }
+
+      case ContainerName.Armor: {
+        if (!this.hasTrait(EntityEquipmentTrait))
+          throw new Error("The player does not have an equipment trait.");
+
+        // Get the equipment trait
+        const equipment = this.getTrait(EntityEquipmentTrait);
+
+        // Return the equipment container
+        return equipment.container;
+      }
 
       case ContainerName.Hotbar:
       case ContainerName.Inventory:

@@ -9,6 +9,8 @@ import {
 
 import { Effect } from "../../effect";
 import { EntityIdentifier } from "../../enums";
+import { EntityEffectOptions } from "../../types";
+import { EffectAddEventSignal, EffectRemoveEventSignal } from "../../events";
 
 import { EntityTrait } from "./trait";
 
@@ -19,7 +21,6 @@ interface savedEffect {
   showParticles: boolean;
 }
 
-// TODO: Implement effect signals.
 class EntityEffectsTrait extends EntityTrait {
   public static readonly type = [EntityIdentifier.Player];
   public static readonly identifier = "effects";
@@ -56,10 +57,9 @@ class EntityEffectsTrait extends EntityTrait {
 
   public remove(effectType: EffectType): void {
     if (!this.effects.has(effectType)) return;
-    /*  const signal = new EntityEffectRemoveSignal(this.entity, effectType);
-    signal.emit();
+    const signal = new EffectRemoveEventSignal(this.entity, effectType);
 
-    effect?.onRemove?.(this.entity); */
+    signal.emit();
     this.effects.get(effectType)?.onRemove?.(this.entity);
     this.effects.delete(effectType);
 
@@ -98,9 +98,11 @@ class EntityEffectsTrait extends EntityTrait {
   public add(
     effectType: EffectType,
     duration: number,
-    amplifier?: number,
-    showParticles?: boolean
+    options?: EntityEffectOptions
   ): void {
+    const showParticles = options?.showParticles ?? true;
+    const amplifier = options?.amplifier ?? 0;
+
     // Get the effect type builder
     const effectBuilder = this.entity
       .getWorld()
@@ -118,6 +120,10 @@ class EntityEffectsTrait extends EntityTrait {
     }
     // eslint fix
     if (!effect) return;
+    const signal = new EffectAddEventSignal(this.entity, effect);
+
+    if (!signal.emit()) return;
+
     effect.onAdd?.(this.entity);
     this.effects.set(effectType, effect);
 
