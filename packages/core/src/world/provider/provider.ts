@@ -188,6 +188,25 @@ class WorldProvider {
   }
 
   /**
+   * Writes a property to the provider.
+   * @param key The key of the property to write.
+   * @param value The value of the property to write.
+   */
+  public readProperty(_key: Buffer): Buffer {
+    throw new Error(`${this.identifier}.readProperty() is not implemented!`);
+  }
+
+  /**
+   * Writes a property to the provider.
+   * @param key The key of the property to write.
+   * @param value The value of the property to write.
+   * @returns The value of the property.
+   */
+  public writeProperty(_key: Buffer, _value: Buffer): void {
+    throw new Error(`${this.identifier}.writeProperty() is not implemented!`);
+  }
+
+  /**
    * Initializes the provider with the specified properties.
    * @param serenity The serenity instance to use.
    * @param properties The properties to use for the provider.

@@ -634,6 +634,14 @@ class LevelDBProvider extends WorldProvider {
     this.db.put(key, buffer);
   }
 
+  public readProperty(key: Buffer): Buffer {
+    return this.db.get(key);
+  }
+
+  public writeProperty(key: Buffer, value: Buffer): void {
+    return this.db.put(key, value);
+  }
+
   public static initialize(
     serenity: Serenity,
     properties: WorldProviderProperties

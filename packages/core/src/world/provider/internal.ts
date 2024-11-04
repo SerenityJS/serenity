@@ -31,6 +31,11 @@ class InternalProvider extends WorldProvider {
    */
   public readonly players = new Map<Dimension, Map<string, PlayerEntry>>();
 
+  /**
+   * The properties that exist for the world.
+   */
+  public readonly properties = new Map<Buffer, Buffer>();
+
   public readChunk(cx: number, cz: number, dimension: Dimension): Chunk {
     // Check if the chunks contain the dimension.
     if (!this.chunks.has(dimension)) {
@@ -141,6 +146,21 @@ class InternalProvider extends WorldProvider {
 
     // Set the player.
     players.set(player.uuid, player);
+  }
+
+  public readProperty(key: Buffer): Buffer {
+    // Iterate over the properties.
+    for (const [property, value] of this.properties) {
+      // Check if the property is equal to the key.
+      if (property.equals(key)) return value;
+    }
+
+    // Throw an error if the property is not found.
+    throw new Error(`Property with key ${key.toString("hex")} not found!`);
+  }
+
+  public writeProperty(key: Buffer, value: Buffer): void {
+    this.properties.set(key, value);
   }
 
   public static initialize(): void {
