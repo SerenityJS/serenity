@@ -2,6 +2,7 @@ import {
   AbilityIndex,
   AbilityLayerType,
   AbilitySet,
+  SetPlayerGameTypePacket,
   UpdateAbilitiesPacket
 } from "@serenityjs/protocol";
 
@@ -83,8 +84,15 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
       }
     ];
 
+    // Create a new SetPlayerGameTypePacket
+    const gamemode = new SetPlayerGameTypePacket();
+    gamemode.gamemode = this.player.gamemode;
+
     // Send the packet to the player
     this.player.dimension.broadcast(packet);
+
+    // Send the gamemode packet to the player
+    this.player.send(gamemode);
   }
 }
 

@@ -1,5 +1,6 @@
 import { WorldEvent } from "../../enums";
 import {
+  ChunkReadySignal,
   EffectAddEventSignal,
   EffectRemoveEventSignal,
   EntityDespawnedSignal,
@@ -20,6 +21,7 @@ import {
 interface WorldEventSignals {
   [WorldEvent.WorldInitialize]: [WorldInitializeSignal];
   [WorldEvent.WorldTick]: [WorldTickSignal];
+  [WorldEvent.ChunkReady]: [ChunkReadySignal];
   [WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
   [WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];

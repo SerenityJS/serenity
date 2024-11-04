@@ -160,7 +160,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         if (interacting.isAir()) return;
 
         // Make the player interact with the block
-        interacting.interact(player);
+        if (!interacting.interact(player)) return;
 
         // Check if the interaction opened a container or if the player isn't using an item
         // If so, we skip the block placement

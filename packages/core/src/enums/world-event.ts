@@ -1,6 +1,7 @@
 enum WorldEvent {
   WorldInitialize,
   WorldTick,
+  ChunkReady,
   EntitySpawned,
   EntityDespawned,
   EffectAdd,

@@ -391,11 +391,18 @@ class Block {
    * Forces a player to interact with the block.
    * @param player The player to interact with the block.
    */
-  public interact(player: Player): void {
+  public interact(player: Player): boolean {
     // Call the block onInteract trait methods
     for (const trait of this.traits.values()) {
-      trait.onInteract?.(player);
+      // Call the onInteract method of the trait
+      const result = trait.onInteract?.(player);
+
+      // Return false if the result is false
+      if (result === false) return false;
     }
+
+    // Return true if the block was interacted with
+    return true;
   }
 
   /**

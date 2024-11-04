@@ -1,6 +1,7 @@
 export * from "./event-signal";
 export * from "./world-initialize";
 export * from "./world-tick";
+export * from "./chunk-ready";
 export * from "./entity-spawned";
 export * from "./entity-despawned";
 export * from "./player-join";

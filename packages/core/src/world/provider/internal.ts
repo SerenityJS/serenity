@@ -48,8 +48,11 @@ class InternalProvider extends WorldProvider {
       );
     }
 
+    // Get the chunk from the chunks map for the dimension.
+    const chunk = chunks.get(ChunkCoords.hash({ x: cx, z: cz })) as Chunk;
+
     // Return the chunk.
-    return chunks.get(ChunkCoords.hash({ x: cx, z: cz })) as Chunk;
+    return chunk;
   }
 
   public writeChunk(chunk: Chunk, dimension: Dimension): void {

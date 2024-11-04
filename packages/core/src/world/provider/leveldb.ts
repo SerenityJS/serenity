@@ -24,7 +24,7 @@ import {
 } from "../../types";
 import { World } from "../world";
 import { Entity } from "../../entity";
-import { WorldInitializeSignal } from "../../events";
+import { ChunkReadySignal, WorldInitializeSignal } from "../../events";
 import { Block } from "../../block";
 
 import { WorldProvider } from "./provider";
@@ -218,6 +218,10 @@ class LevelDBProvider extends WorldProvider {
 
       // Add the chunk to the cache.
       chunks.set(hash, chunk);
+
+      // Check if the chunk is ready.
+      // If so, emit a new ChunkReadySignal.
+      if (chunk.ready) new ChunkReadySignal(dimension, chunk).emit();
 
       // Return the generated chunk.
       return chunk;
