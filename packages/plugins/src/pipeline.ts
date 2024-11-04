@@ -1,15 +1,17 @@
 import {
-  copyFileSync,
   existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,
-  unlinkSync
+  unlinkSync,
+  writeFileSync
 } from "node:fs";
 import { relative, resolve } from "node:path";
+import { inflateSync } from "node:zlib";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Serenity, ServerEvent } from "@serenityjs/core";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { PluginPackage } from "./types";
 import { Plugin } from "./plugin";
@@ -113,16 +115,38 @@ class Pipeline {
     for (const bundle of bundles) {
       // Get the path to the plugin
       const path = resolve(this.path, bundle.name);
-      const tempPath = resolve(this.path, bundle.name.slice(0, -7));
 
-      // Copy the plugin to a temporary file
-      copyFileSync(path, tempPath);
+      // Read the .plugin file and inflate it, and create a new binary stream
+      const buffer = inflateSync(readFileSync(path));
+      const stream = new BinaryStream(buffer);
+
+      // Read the length of the module and main entry points
+      let length = stream.readVarInt();
+      const esm = stream.readBuffer(length).toString("utf-8");
+
+      // Read the length of the main entry point
+      length = stream.readVarInt();
+      const cjs = stream.readBuffer(length).toString("utf-8");
+
+      // Write the module or main entry points to temporary files
+      const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
+      writeFileSync(tempPath, this.esm ? esm : cjs);
 
       // Import the plugin module
       const module = await import(`file://${tempPath}`);
 
       // Get the plugin class from the module
       const plugin = module.default as Plugin;
+
+      // Check if the plugin is an instance of the Plugin class
+      if (!(plugin instanceof Plugin)) {
+        this.logger.warn(
+          `Unable to load plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
+        );
+
+        // Skip the plugin
+        continue;
+      }
 
       // Check if the plugin has already been loaded
       if (this.plugins.has(plugin.identifier)) {
@@ -213,12 +237,6 @@ class Pipeline {
     // Start up all the plugins
     for (const plugin of this.plugins.values())
       plugin.onStartUp(this.serenity, plugin);
-
-    // Delete all the temporary files
-    for (const tempPath of this.tempPaths) {
-      // Delete the temporary file
-      unlinkSync(tempPath);
-    }
   }
 
   /**
@@ -228,6 +246,12 @@ class Pipeline {
     // Shut down all the plugins
     for (const plugin of this.plugins.values())
       plugin.onShutDown(this.serenity, plugin);
+
+    // Delete all the temporary files
+    for (const tempPath of this.tempPaths) {
+      // Delete the temporary file
+      unlinkSync(tempPath);
+    }
   }
 }
 

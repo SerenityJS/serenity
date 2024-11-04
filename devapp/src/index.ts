@@ -1,4 +1,9 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import {
+  Serenity,
+  LevelDBProvider,
+  WorldEvent,
+  Player
+} from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -18,4 +23,17 @@ void pipeline.initialize(() => {
 
   // Start the server
   serenity.start();
+});
+
+serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
+  world.commands.register("test", "test command", (context) => {
+    if (!(context.origin instanceof Player))
+      throw new Error("Only players can run this command");
+
+    const player = context.origin;
+
+    player
+      .getWorld()
+      .createDimension({ identifier: "beans", generator: "nether-superflat" });
+  });
 });

@@ -87,8 +87,6 @@ class Permissions extends Map<string, PermissionLevel> {
    * @returns
    */
   public static fromPath(serenity: Serenity, path: string): Permissions {
-    console.log(resolve(path));
-
     // Check if the path exists
     if (!existsSync(resolve(path))) {
       // Create a new permissions.json file
