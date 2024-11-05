@@ -17,7 +17,7 @@ import {
 import { Entity, EntityPalette, Player } from "../entity";
 import { ItemPalette } from "../item";
 import { BlockPalette } from "../block";
-import { AdminCommands, Commands } from "../commands";
+import { AdminCommands, Commands, CommonCommands } from "../commands";
 import { WorldTickSignal } from "../events";
 import { EffectPallete } from "../effect";
 
@@ -126,7 +126,7 @@ class World extends Emitter<WorldEventSignals> {
     this.logger = new Logger(this.identifier, LoggerColors.GreenBright);
 
     // Register the admin commands
-    for (const command of AdminCommands) command(this);
+    for (const command of [...AdminCommands, ...CommonCommands]) command(this);
 
     // Register the dimensions from the properties
     for (const entry of this.properties.dimensions) this.createDimension(entry);

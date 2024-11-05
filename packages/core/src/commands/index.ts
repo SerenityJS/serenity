@@ -4,4 +4,5 @@ export * from "./commands";
 export * from "./execution-state";
 export * from "./registry";
 export * from "./admin";
+export * from "./common";
 export * from "./console";
