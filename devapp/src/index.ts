@@ -1,4 +1,9 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import {
+  Serenity,
+  LevelDBProvider,
+  WorldEvent,
+  Player
+} from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -18,4 +23,16 @@ void pipeline.initialize(() => {
 
   // Start the server
   serenity.start();
+});
+
+serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
+  world.commands.register("test", "", (context) => {
+    if (!(context.origin instanceof Player)) return;
+
+    // context.origin.metadata.update();
+    // context.origin.abilities.update();
+    // context.origin.attributes.update();
+
+    context.origin.spawn();
+  });
 });

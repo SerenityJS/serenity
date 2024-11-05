@@ -56,10 +56,6 @@ class EntityEquipmentTrait extends EntityTrait {
     if (!this.entity.components.has("equipment")) return;
     const equipment = this.entity.components.get("equipment") as EquipmentEntry;
 
-    console.dir(this.entity.components.get("equipment"), {
-      depth: Infinity,
-      colors: true
-    });
     for (const slot in equipment) {
       const entry = equipment[slot] as ItemStackEntry;
 
