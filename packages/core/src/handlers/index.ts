@@ -17,6 +17,7 @@ import { InteractHandler } from "./interact";
 import { RespawnHandler } from "./respawn";
 import { ModalFormResponseHandler } from "./modal-form-response";
 import { RequestPermissionsHandler } from "./request-permissions";
+import { BlockPickRequestHandler } from "./block-pick-request";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -37,7 +38,8 @@ const Handlers = [
   InteractHandler,
   RespawnHandler,
   ModalFormResponseHandler,
-  RequestPermissionsHandler
+  RequestPermissionsHandler,
+  BlockPickRequestHandler
 ];
 
 export { Handlers };

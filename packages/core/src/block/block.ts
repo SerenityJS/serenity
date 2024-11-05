@@ -11,9 +11,14 @@ import {
 } from "@serenityjs/protocol";
 
 import { Dimension, World } from "../world";
-import { BlockEntry, BlockProperties, JSONLikeValue } from "../types";
+import {
+  BlockEntry,
+  BlockProperties,
+  ItemStackProperties,
+  JSONLikeValue
+} from "../types";
 import { Chunk } from "../world/chunk";
-import { ItemStack } from "../item";
+import { ItemStack, ItemType } from "../item";
 import { BlockIdentifier, BlockToolType, ItemIdentifier } from "../enums";
 import { Serenity } from "../serenity";
 import { Player } from "../entity";
@@ -285,6 +290,25 @@ class Block {
     }
 
     return Math.ceil(hardness * 20);
+  }
+
+  /**
+   * Gets the item stack of the block.
+   * @param properties The additional properties to apply to the item stack.
+   * @returns The item stack of the block.
+   */
+  public getItemStack(properties?: Partial<ItemStackProperties>): ItemStack {
+    // Get the itemPalette from the world.
+    const palette = this.getWorld().itemPalette;
+
+    // Get the item type of the block.
+    const type = palette.resolveType(this.getType()) as ItemType;
+
+    // Create a new item stack with the type.
+    const itemStack = new ItemStack(type, properties);
+
+    // Return the item stack.
+    return itemStack;
   }
 
   /**

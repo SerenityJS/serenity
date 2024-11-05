@@ -72,8 +72,9 @@ class BlockTrait extends Trait {
   /**
    * Called when a player pick blocks the block.
    * @param player The player that picked the block.
+   * @param withData Whether the player picked the block with a data request.
    */
-  public onPick?(player: Player): void;
+  public onPick?(player: Player, withData: boolean): void;
 
   /**
    * Called when a container that is attached to the block is updated.
