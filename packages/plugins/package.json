@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "bin": {
-    "bundle": "./app/bundle.js"
+    "bundle": "./bin/bundle.js"
   },
   "devDependencies": {
     "@serenityjs/internal-config": "workspace:*",
