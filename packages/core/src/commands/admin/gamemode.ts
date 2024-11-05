@@ -44,25 +44,25 @@ const register = (world: World) => {
             switch (gamemode) {
               case "s":
               case "survival": {
-                target.setGamemode(Gamemode.Survival);
+                target.gamemode = Gamemode.Survival;
                 break;
               }
 
               case "c":
               case "creative": {
-                target.setGamemode(Gamemode.Creative);
+                target.gamemode = Gamemode.Creative;
                 break;
               }
 
               case "a":
               case "adventure": {
-                target.setGamemode(Gamemode.Adventure);
+                target.gamemode = Gamemode.Adventure;
                 break;
               }
 
               case "sp":
               case "spectator": {
-                target.setGamemode(Gamemode.Spectator);
+                target.gamemode = Gamemode.Spectator;
                 break;
               }
 

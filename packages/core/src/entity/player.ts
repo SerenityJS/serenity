@@ -100,11 +100,6 @@ class Player extends Entity {
   public openedContainer: Container | null = null;
 
   /**
-   * The current gamemode of the player
-   */
-  public gamemode: Gamemode = Gamemode.Survival;
-
-  /**
    * The target block that the player is currently breaking.
    */
   public blockTarget: BlockPosition | null = null;
@@ -118,6 +113,54 @@ class Player extends Entity {
    * The target entity that the player is currently looking at.
    */
   public entityTarget: Entity | null = null;
+
+  /**
+   * The gamemode of the player.
+   */
+  public get gamemode(): Gamemode {
+    // Check if the player has the gamemode component
+    if (!this.components.has("gamemode"))
+      // Set the default gamemode for the player
+      this.components.set("gamemode", Gamemode.Survival); // TODO: Get the default gamemode from the world
+
+    // Return the gamemode of the player
+    return this.components.get("gamemode") as Gamemode;
+  }
+
+  /**
+   * The gamemode of the player.
+   */
+  public set gamemode(value: Gamemode) {
+    // Set the gamemode of the player
+    this.components.set("gamemode", value);
+
+    // Call the onGamemodeChange event for the player
+    for (const trait of this.traits.values()) trait.onGamemodeChange?.(value);
+
+    // Enable or disable the ability to fly based on the gamemode
+    switch (value) {
+      case Gamemode.Survival:
+      case Gamemode.Adventure: {
+        // Disable the ability to fly
+        this.abilities.set(AbilityIndex.MayFly, false);
+        break;
+      }
+
+      case Gamemode.Creative:
+      case Gamemode.Spectator: {
+        // Enable the ability to fly
+        this.abilities.set(AbilityIndex.MayFly, true);
+        break;
+      }
+    }
+
+    // Create a new set player game type packet
+    const packet = new SetPlayerGameTypePacket();
+    packet.gamemode = value;
+
+    // Send the packet to the player
+    this.send(packet);
+  }
 
   public constructor(
     dimension: Dimension,
@@ -244,46 +287,6 @@ class Player extends Entity {
 
     // Despawn the player from the world
     this.despawn();
-  }
-
-  /**
-   * Sets the gamemode of the player
-   * @param gamemode The gamemode to set
-   */
-  public setGamemode(gamemode: Gamemode): void {
-    // Get the previous gamemode of the player
-    const previous = this.gamemode;
-
-    // Set the gamemode of the player
-    this.gamemode = gamemode;
-
-    // Call the onGamemodeChange event for the player
-    for (const trait of this.traits.values())
-      trait.onGamemodeChange?.(previous);
-
-    // Enable or disable the ability to fly based on the gamemode
-    switch (gamemode) {
-      case Gamemode.Survival:
-      case Gamemode.Adventure: {
-        // Disable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, false);
-        break;
-      }
-
-      case Gamemode.Creative:
-      case Gamemode.Spectator: {
-        // Enable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, true);
-        break;
-      }
-    }
-
-    // Create a new set player game type packet
-    const packet = new SetPlayerGameTypePacket();
-    packet.gamemode = gamemode;
-
-    // Send the packet to the player
-    this.send(packet);
   }
 
   /**
@@ -537,7 +540,6 @@ class Player extends Entity {
       username: this.username,
       xuid: this.xuid,
       uuid: this.uuid,
-      gamemode: this.gamemode,
       uniqueId: this.uniqueId,
       identifier: this.type.identifier,
       position: this.position,
@@ -594,9 +596,6 @@ class Player extends Entity {
       throw new Error(
         "Failed to load player entry as the identifier does not match the player's identifier!"
       );
-
-    // Set the player's gamemode
-    this.gamemode = entry.gamemode;
 
     // Set the player's position and rotation
     this.position.set(entry.position);

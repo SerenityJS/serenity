@@ -84,12 +84,15 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
       }
     ];
 
+    // Send the packet to the player
+    this.player.dimension.broadcast(packet);
+
+    // Check if the player is alive
+    if (!this.player.isAlive) return;
+
     // Create a new SetPlayerGameTypePacket
     const gamemode = new SetPlayerGameTypePacket();
     gamemode.gamemode = this.player.gamemode;
-
-    // Send the packet to the player
-    this.player.dimension.broadcast(packet);
 
     // Send the gamemode packet to the player
     this.player.send(gamemode);

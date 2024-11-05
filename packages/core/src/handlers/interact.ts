@@ -1,9 +1,4 @@
-import {
-  Gamemode,
-  InteractAction,
-  InteractPacket,
-  Packet
-} from "@serenityjs/protocol";
+import { InteractAction, InteractPacket, Packet } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
@@ -57,11 +52,6 @@ class InteractHandler extends NetworkHandler {
 
         // Get the inventory trait from the entity
         const { container } = entity.getTrait(EntityInventoryTrait);
-
-        // Check if the player is in creative mode
-        // This is a temporary solution for a bug involving the client to randomly behave like survival
-        if (player.gamemode === Gamemode.Creative)
-          player.setGamemode(Gamemode.Creative);
 
         // Show the container to the player
         return container.show(player);

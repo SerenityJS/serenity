@@ -6,7 +6,6 @@ import {
   AttributeName,
   BlockPosition,
   DataItem,
-  Gamemode,
   Rotation,
   Vector3f
 } from "@serenityjs/protocol";
@@ -83,11 +82,6 @@ interface PlayerEntry extends EntityEntry {
    * The xuid of the player.
    */
   xuid: string;
-
-  /**
-   * The gamemode of the player.
-   */
-  gamemode: Gamemode;
 
   /**
    * The abilities of the player.
