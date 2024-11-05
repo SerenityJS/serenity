@@ -113,62 +113,72 @@ class Pipeline {
 
     // Iterate over all the bundled plugins, and import them
     for (const bundle of bundles) {
-      // Get the path to the plugin
-      const path = resolve(this.path, bundle.name);
+      // Attempt to load the plugin
+      try {
+        // Get the path to the plugin
+        const path = resolve(this.path, bundle.name);
 
-      // Read the .plugin file and inflate it, and create a new binary stream
-      const buffer = inflateSync(readFileSync(path));
-      const stream = new BinaryStream(buffer);
+        // Read the .plugin file and inflate it, and create a new binary stream
+        const buffer = inflateSync(readFileSync(path));
+        const stream = new BinaryStream(buffer);
 
-      // Read the length of the module and main entry points
-      let length = stream.readVarInt();
-      const esm = stream.readBuffer(length).toString("utf-8");
+        // Read the length of the module and main entry points
+        let length = stream.readVarInt();
+        const esm = stream.readBuffer(length).toString("utf-8");
 
-      // Read the length of the main entry point
-      length = stream.readVarInt();
-      const cjs = stream.readBuffer(length).toString("utf-8");
+        // Read the length of the main entry point
+        length = stream.readVarInt();
+        const cjs = stream.readBuffer(length).toString("utf-8");
 
-      // Write the module or main entry points to temporary files
-      const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
-      writeFileSync(tempPath, this.esm ? esm : cjs);
+        // Write the module or main entry points to temporary files
+        const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
+        writeFileSync(tempPath, this.esm ? esm : cjs);
 
-      // Import the plugin module
-      const module = await import(`file://${tempPath}`);
+        // Import the plugin module
+        const module = await import(`file://${tempPath}`);
 
-      // Get the plugin class from the module
-      const plugin = module.default as Plugin;
+        // Get the plugin class from the module
+        const plugin = module.default as Plugin;
 
-      // Check if the plugin is an instance of the Plugin class
-      if (!(plugin instanceof Plugin)) {
+        // Check if the plugin is an instance of the Plugin class
+        if (!(plugin instanceof Plugin)) {
+          this.logger.warn(
+            `Unable to load plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
+          );
+
+          // Skip the plugin
+          continue;
+        }
+
+        // Check if the plugin has already been loaded
+        if (this.plugins.has(plugin.identifier)) {
+          this.logger.warn(
+            `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
+          );
+
+          // Skip the plugin
+          continue;
+        }
+
+        // Set the pipeline & serenity for the plugin
+        plugin.pipeline = this;
+        plugin.serenity = this.serenity;
+
+        // Add the plugin to the plugins map
+        this.plugins.set(plugin.identifier, plugin);
+
+        // Initialize the plugin
+        plugin.onInitialize(plugin);
+
+        // Add the temporary path to the set
+        this.tempPaths.add(tempPath);
+      } catch (reason) {
+        // Log the error
         this.logger.warn(
-          `Unable to load plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
+          `Failed to load plugin from §8${relative(process.cwd(), resolve(this.path, bundle.name))}§r, skipping the plugin.`,
+          reason
         );
-
-        // Skip the plugin
-        continue;
       }
-
-      // Check if the plugin has already been loaded
-      if (this.plugins.has(plugin.identifier)) {
-        this.logger.warn(
-          `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
-        );
-
-        // Skip the plugin
-        continue;
-      }
-
-      // Set the pipeline for the plugin
-      plugin.pipeline = this;
-
-      // Add the plugin to the plugins map
-      this.plugins.set(plugin.identifier, plugin);
-
-      // Initialize the plugin
-      plugin.onInitialize(this.serenity, plugin);
-
-      // Add the temporary path to the set
-      this.tempPaths.add(tempPath);
     }
 
     // Filter out all the directories from the entries
@@ -176,54 +186,64 @@ class Pipeline {
 
     // Iterate over all the directories, checking if they are valid plugins
     for (const directory of directories) {
-      // Get the path to the plugin
-      const path = resolve(this.path, directory.name);
+      // Attempt to load the plugin
+      try {
+        // Get the path to the plugin
+        const path = resolve(this.path, directory.name);
 
-      // Check if the plugin has a package.json file, if not, skip the plugin
-      if (!existsSync(resolve(path, "package.json"))) continue;
+        // Check if the plugin has a package.json file, if not, skip the plugin
+        if (!existsSync(resolve(path, "package.json"))) continue;
 
-      // Read the package.json file
-      const manifest = JSON.parse(
-        readFileSync(resolve(path, "package.json"), "utf-8")
-      ) as PluginPackage;
+        // Read the package.json file
+        const manifest = JSON.parse(
+          readFileSync(resolve(path, "package.json"), "utf-8")
+        ) as PluginPackage;
 
-      // Get the main entry point for the plugin
-      const main = resolve(path, this.esm ? manifest.module : manifest.main);
+        // Get the main entry point for the plugin
+        const main = resolve(path, this.esm ? manifest.module : manifest.main);
 
-      // Check if the provided entry point is valid
-      if (!existsSync(resolve(path, main))) {
+        // Check if the provided entry point is valid
+        if (!existsSync(resolve(path, main))) {
+          this.logger.warn(
+            `Unable to load plugin §1${manifest.name}§8@§1${manifest.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+          );
+
+          // Skip the plugin
+          continue;
+        }
+
+        // Import the plugin module
+        const module = await import(`file://${resolve(path, main)}`);
+
+        // Get the plugin class from the module
+        const plugin = module.default as Plugin;
+
+        // Check if the plugin has already been loaded
+        if (this.plugins.has(plugin.identifier)) {
+          this.logger.warn(
+            `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
+          );
+
+          // Skip the plugin
+          continue;
+        }
+
+        // Set the pipeline & serenity for the plugin
+        plugin.pipeline = this;
+        plugin.serenity = this.serenity;
+
+        // Add the plugin to the plugins map
+        this.plugins.set(plugin.identifier, plugin);
+
+        // Initialize the plugin
+        plugin.onInitialize(plugin);
+      } catch (reason) {
+        // Log the error
         this.logger.warn(
-          `Unable to load plugin §1${manifest.name}§8@§1${manifest.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+          `Failed to load plugin from §8${relative(process.cwd(), resolve(this.path, directory.name))}§r, skipping the plugin.`,
+          reason
         );
-
-        // Skip the plugin
-        continue;
       }
-
-      // Import the plugin module
-      const module = await import(`file://${resolve(path, main)}`);
-
-      // Get the plugin class from the module
-      const plugin = module.default as Plugin;
-
-      // Check if the plugin has already been loaded
-      if (this.plugins.has(plugin.identifier)) {
-        this.logger.warn(
-          `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
-        );
-
-        // Skip the plugin
-        continue;
-      }
-
-      // Set the pipeline for the plugin
-      plugin.pipeline = this;
-
-      // Add the plugin to the plugins map
-      this.plugins.set(plugin.identifier, plugin);
-
-      // Initialize the plugin
-      plugin.onInitialize(this.serenity, plugin);
     }
 
     // Call the complete callback
@@ -235,8 +255,7 @@ class Pipeline {
    */
   public start(): void {
     // Start up all the plugins
-    for (const plugin of this.plugins.values())
-      plugin.onStartUp(this.serenity, plugin);
+    for (const plugin of this.plugins.values()) plugin.onStartUp(plugin);
   }
 
   /**
@@ -244,8 +263,7 @@ class Pipeline {
    */
   public stop(): void {
     // Shut down all the plugins
-    for (const plugin of this.plugins.values())
-      plugin.onShutDown(this.serenity, plugin);
+    for (const plugin of this.plugins.values()) plugin.onShutDown(plugin);
 
     // Delete all the temporary files
     for (const tempPath of this.tempPaths) {

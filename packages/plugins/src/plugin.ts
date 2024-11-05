@@ -5,9 +5,9 @@ import { Pipeline } from "./pipeline";
 
 interface PluginProperties {
   logger: Logger;
-  onInitialize: (serenity: Serenity, plugin: Plugin) => void;
-  onStartUp: (serenity: Serenity, plugin: Plugin) => void;
-  onShutDown: (serenity: Serenity, plugin: Plugin) => void;
+  onInitialize: (plugin: Plugin) => void;
+  onStartUp: (plugin: Plugin) => void;
+  onShutDown: (plugin: Plugin) => void;
 }
 
 class Plugin {
@@ -30,6 +30,11 @@ class Plugin {
    * The plugin pipeline the plugin is in.
    */
   public pipeline!: Pipeline;
+
+  /**
+   * The serenity instance of the server.
+   */
+  public serenity!: Serenity;
 
   /**
    * Create a new plugin instance.
@@ -59,28 +64,25 @@ class Plugin {
 
   /**
    * Called when the plugin is initialized.
-   * @param serenity The serenity server instance of the server.
    * @param plugin The plugin instance that was initialized. (this)
    */
-  public onInitialize(_serenity: Serenity, _plugin: this): void {
+  public onInitialize(_plugin: this): void {
     // Override this method in your plugin
   }
 
   /**
    * Called when the plugin is started up.
-   * @param serenity The serenity server instance of the server.
    * @param plugin The plugin instance that was started up. (this)
    */
-  public onStartUp(_serenity: Serenity, _plugin: this): void {
+  public onStartUp(_plugin: this): void {
     // Override this method in your plugin
   }
 
   /**
    * Called when the plugin is shut down.
-   * @param serenity The serenity server instance of the server.
    * @param plugin The plugin instance that was shut down. (this)
    */
-  public onShutDown(_serenity: Serenity, _plugin: this): void {
+  public onShutDown(_plugin: this): void {
     // Override this method in your plugin
   }
 }
