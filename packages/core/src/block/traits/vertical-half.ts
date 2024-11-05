@@ -26,8 +26,6 @@ class VerticalHalfTrait extends BlockTrait {
     // Check if the block type is equal to the interacting block
     if (blockType !== this.block.getType()) return true;
 
-    console.log(this.block.permutation.state);
-
     return false;
   }
 

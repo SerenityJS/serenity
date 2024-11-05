@@ -77,7 +77,7 @@ class LevelDBProvider extends WorldProvider {
       const blocks = this.readAvailableBlocks(dimension);
 
       // Check if the entities are empty.
-      if (entities.length === 0 && blocks.length) continue;
+      if (entities.length === 0 && blocks.length === 0) continue;
 
       // Iterate through the entities and load them.
       for (const uniqueId of entities) {
@@ -95,9 +95,9 @@ class LevelDBProvider extends WorldProvider {
       }
 
       // Iterate through the blocks and load them.
-      for (const position of blocks) {
+      for (const hash of blocks) {
         // Read the block from the database.
-        const entry = this.readBlock(position, dimension);
+        const entry = this.readBlock(hash, dimension);
 
         // Get the permutation from the block palette.
         const permutation = dimension.world.blockPalette
@@ -110,7 +110,7 @@ class LevelDBProvider extends WorldProvider {
         // Create a new block instance.
         const block = new Block(
           dimension,
-          BlockPosition.from(entry.position),
+          new BlockPosition(...entry.position),
           permutation,
           { entry }
         );
@@ -164,17 +164,17 @@ class LevelDBProvider extends WorldProvider {
 
       // Iterate through the blocks and write them to the database.
       const blocks = [...dimension.blocks.values()];
-      const positions: Array<BlockPosition> = [];
+      const hashes: Array<bigint> = [];
       for (const block of blocks) {
         // Write the block to the database.
         this.writeBlock(block.getDataEntry(), dimension);
 
-        // Add the block position to the list.
-        positions.push(block.position);
+        // Add the block position hash to the list.
+        hashes.push(BlockPosition.hash(block.position));
       }
 
       // Write the available blocks to the database.
-      this.writeAvailableBlocks(dimension, positions);
+      this.writeAvailableBlocks(dimension, hashes);
     }
   }
 
@@ -534,9 +534,9 @@ class LevelDBProvider extends WorldProvider {
     this.db.put(Buffer.from(key), buffer);
   }
 
-  public readAvailableBlocks(dimension: Dimension): Array<BlockPosition> {
-    // Prepare an array to store the block positions.
-    const positions = new Array<BlockPosition>();
+  public readAvailableBlocks(dimension: Dimension): Array<bigint> {
+    // Prepare an array to store the block positions hashes.
+    const hashes = new Array<bigint>();
 
     // Attempt to read the blocks from the database.
     try {
@@ -548,24 +548,24 @@ class LevelDBProvider extends WorldProvider {
 
       // Read the block positions from the stream.
       do {
-        const x = stream.readZigZag();
-        const y = stream.readZigZag();
-        const z = stream.readZigZag();
+        // Read the block position hash from the stream.
+        const hash = stream.readZigZong();
 
-        positions.push(new BlockPosition(x, y, z));
+        // Add the block position to the list.
+        hashes.push(hash);
       } while (!stream.cursorAtEnd());
 
-      // Return the block positions.
-      return positions;
+      // Return the block positions hashes.
+      return hashes;
     } catch {
       // If an error occurs, return an empty array.
-      return positions;
+      return hashes;
     }
   }
 
   public writeAvailableBlocks(
     dimension: Dimension,
-    blocks: Array<BlockPosition>
+    blocks: Array<bigint>
   ): void {
     // Create a key for the block list.
     const key = LevelDBProvider.buildBlockDataListKey(dimension);
@@ -574,26 +574,15 @@ class LevelDBProvider extends WorldProvider {
     const stream = new BinaryStream();
 
     // Write the block positions to the stream.
-    for (const position of blocks) {
-      stream.writeZigZag(position.x);
-      stream.writeZigZag(position.y);
-      stream.writeZigZag(position.z);
-    }
+    for (const hash of blocks) stream.writeZigZong(hash);
 
     // Write the stream to the database.
     this.db.put(key, stream.getBuffer());
   }
 
-  public readBlock(position: BlockPosition, dimension: Dimension): BlockEntry {
-    // Get all the available blocks for the dimension.
-    const blocks = this.readAvailableBlocks(dimension);
-
-    // Check if the block exists.
-    if (!blocks.find((block) => block.equals(position))) {
-      throw new Error(
-        `Block at position ${position.x} ${position.y} ${position.z} not found!`
-      );
-    }
+  public readBlock(hash: bigint, dimension: Dimension): BlockEntry {
+    // Unhash the block position.
+    const position = BlockPosition.unhash(hash);
 
     // Create a key for the block.
     const key = LevelDBProvider.buildBlockDataKey(
@@ -612,11 +601,8 @@ class LevelDBProvider extends WorldProvider {
   }
 
   public writeBlock(block: BlockEntry, dimension: Dimension): void {
-    // Get all the available blocks for the dimension.
-    const blocks = this.readAvailableBlocks(dimension);
-
-    // Check if the block already exists.
-    if (!blocks.includes(block.position)) blocks.push(block.position);
+    // Create a block position instance.
+    const position = new BlockPosition(...block.position);
 
     // Write the block to the database.
     const data = JSON.stringify(block);
@@ -626,7 +612,7 @@ class LevelDBProvider extends WorldProvider {
 
     // Create a key for the block.
     const key = LevelDBProvider.buildBlockDataKey(
-      block.position,
+      position,
       dimension.indexOf()
     );
 

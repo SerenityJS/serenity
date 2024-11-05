@@ -1,5 +1,3 @@
-import { BlockPosition } from "@serenityjs/protocol";
-
 import { Serenity } from "../../serenity";
 import {
   BlockEntry,
@@ -145,7 +143,7 @@ class WorldProvider {
    * Reads the available blocks for a specified dimension.
    * @param dimension The dimension to read the available blocks for.
    */
-  public readAvailableBlocks(_dimension: Dimension): Array<BlockPosition> {
+  public readAvailableBlocks(_dimension: Dimension): Array<bigint> {
     throw new Error(
       `${this.identifier}.readAvailableBlocks() is not implemented!`
     );
@@ -158,7 +156,7 @@ class WorldProvider {
    */
   public writeAvailableBlocks(
     _dimension: Dimension,
-    _blocks: Array<BlockPosition>
+    _blocks: Array<bigint>
   ): void {
     throw new Error(
       `${this.identifier}.writeAvailableBlocks() is not implemented!`
@@ -167,13 +165,10 @@ class WorldProvider {
 
   /**
    * Reads a block from the provider.
-   * @param position The position to read the block from.
+   * @param hash The position hash to read the block from.
    * @param dimension The dimension to read the block from.
    */
-  public readBlock(
-    _position: BlockPosition,
-    _dimension: Dimension
-  ): BlockEntry {
+  public readBlock(_hash: bigint, _dimension: Dimension): BlockEntry {
     throw new Error(`${this.identifier}.readBlock() is not implemented!`);
   }
 

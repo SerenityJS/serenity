@@ -66,6 +66,7 @@ class BlockInventoryTrait extends BlockTrait {
     if (block.components.has("inventory")) {
       // Get the inventory component from the block
       const inventory = block.components.get("inventory") as InventoryComponent;
+
       // Iterate over each item in the inventory
       for (const [slot, entry] of inventory.items) {
         // Create a new item stack

@@ -23,6 +23,7 @@ import {
   PlayerPlaceBlockSignal,
   PlayerUseItemSignal
 } from "../events";
+import { BlockEntry } from "../types";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -196,8 +197,20 @@ class InventoryTransactionHandler extends NetworkHandler {
           transaction.clickPosition
         ).emit();
 
-        // Set the permutation of the block
-        result.setPermutation(permutation);
+        // Check if the item stack has a block_data component
+        if (stack.components.has("block_data")) {
+          // Get the block data entry from the item stack
+          const entry = stack.components.get("block_data") as BlockEntry;
+
+          // Set the block data entry to the block
+          result.loadDataEntry(result.getWorld(), entry);
+
+          // Set the permutation of the block with the block data
+          result.setPermutation(permutation, entry);
+        } else {
+          // Set the permutation of the block
+          result.setPermutation(permutation);
+        }
 
         // Call the block onPlace trait methods
         let placeCanceled = false;

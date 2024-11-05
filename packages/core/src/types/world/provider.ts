@@ -4,7 +4,6 @@ import {
   ActorFlag,
   Attribute,
   AttributeName,
-  BlockPosition,
   DataItem,
   Rotation,
   Vector3f
@@ -116,7 +115,7 @@ interface ItemStackEntry extends JSONLikeObject {
   components: Array<[string, JSONLikeValue]>;
 }
 
-interface BlockEntry {
+interface BlockEntry extends JSONLikeObject {
   /**
    * The identifier of the block.
    */
@@ -130,7 +129,7 @@ interface BlockEntry {
   /**
    * The position of the block.
    */
-  position: BlockPosition;
+  position: [number, number, number];
 
   /**
    * The traits attached to the block.

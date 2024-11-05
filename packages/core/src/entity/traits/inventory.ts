@@ -1,4 +1,9 @@
-import { ContainerId, ContainerType } from "@serenityjs/protocol";
+import {
+  ContainerId,
+  ContainerType,
+  MobEquipmentPacket,
+  NetworkItemStackDescriptor
+} from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
 import { EntityContainer } from "../container";
@@ -67,8 +72,33 @@ class EntityInventoryTrait extends EntityTrait {
    * Sets the held item in the inventory.
    * @param slot The slot to set the held item to.
    */
-  public setHeldItem(_slot: number): void {
-    throw new Error("Method not implemented.");
+  public setHeldItem(slot: number): void {
+    // Check if the entity is not a player
+    if (!this.entity.isPlayer()) return;
+
+    // Create a new MobEquipmentPacket
+    const packet = new MobEquipmentPacket();
+
+    // Get the held item from the inventory
+    const heldItem = this.getHeldItem();
+
+    // Create a new item descriptor from the held item
+    const itemDescriptor = heldItem
+      ? ItemStack.toNetworkStack(heldItem)
+      : new NetworkItemStackDescriptor(0);
+
+    // Assign the packet properties
+    packet.runtimeEntityId = this.entity.runtimeId;
+    packet.containerId = this.containerId;
+    packet.selectedSlot = slot;
+    packet.slot = slot;
+    packet.item = itemDescriptor;
+
+    // Set the selected slot to the slot
+    this.selectedSlot = slot;
+
+    // Send the packet to the player
+    this.entity.send(packet);
   }
 
   public onSpawn(): void {

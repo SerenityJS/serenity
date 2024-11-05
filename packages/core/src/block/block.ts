@@ -93,7 +93,10 @@ class Block {
     return this.permutation;
   }
 
-  public setPermutation(permutation: BlockPermutation): void {
+  public setPermutation(
+    permutation: BlockPermutation,
+    entry?: BlockEntry
+  ): void {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
       // Clear the components and traits if the type has changed.
@@ -112,6 +115,9 @@ class Block {
 
     // Set the permutation of the block.
     chunk.setPermutation(this.position, permutation);
+
+    // Check if the entry is provided.
+    if (entry) this.loadDataEntry(this.getWorld(), entry);
 
     // Get the traits from the block palette
     const traits = this.getWorld().blockPalette.getRegistry(
@@ -156,6 +162,15 @@ class Block {
 
     // Update the permutation of the block.
     this.permutation = permutation;
+
+    // Check if the block should be cached.
+    if ((this.components.size > 0 || this.traits.size > 0) && !this.isAir()) {
+      // Calculate the block hash using the position
+      const hash = BlockPosition.hash(this.position);
+
+      // Set the block in the cache.
+      this.dimension.blocks.set(hash, this);
+    }
   }
 
   public setType(type: BlockType): void {
@@ -520,11 +535,14 @@ class Block {
    * @returns The block entry object.
    */
   public getDataEntry(): BlockEntry {
+    // Get the position of the block.
+    const { x, y, z } = this.position;
+
     // Create the block entry object.
     const entry: BlockEntry = {
       identifier: this.getType().identifier,
       permutation: this.permutation.network,
-      position: this.position,
+      position: [x, y, z],
       traits: [...this.traits.keys()],
       components: [...this.components.entries()]
     };
