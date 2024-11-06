@@ -6,7 +6,7 @@ import { WorldEvent } from "../enums";
 import { EventSignal } from "./event-signal";
 
 class EffectRemoveEventSignal extends EventSignal {
-  public static readonly identifier: WorldEvent = WorldEvent.EffectAdd;
+  public static readonly identifier: WorldEvent = WorldEvent.EffectRemove;
 
   /**
    * The entity where the effect was removed
