@@ -17,6 +17,7 @@ enum WorldEvent {
   PlayerDimensionChange,
   PlayerDropItem,
   PlayerGamemodeChange,
+  PlayerAbilityUpdate,
   PlayerStartUsingItem,
   PlayerStopUsingItem,
   PlayerUseItem,
