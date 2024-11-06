@@ -11,6 +11,7 @@ import {
   EntityHurtEventSignal,
   EntityMetadataUpdateSignal,
   EntitySpawnedSignal,
+  EntityHealthChangedEventSignal,
   PlayerAbilityUpdateSignal,
   PlayerBreakBlockSignal,
   PlayerChatSignal,
@@ -42,6 +43,7 @@ interface WorldEventSignals {
   [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
   [WorldEvent.EntityHit]: [EntityHitEventSignal];
   [WorldEvent.EntityHurt]: [EntityHurtEventSignal];
+  [WorldEvent.HealthChanged]: [EntityHealthChangedEventSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];

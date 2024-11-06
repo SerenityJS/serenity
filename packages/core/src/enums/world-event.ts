@@ -2,6 +2,7 @@ enum WorldEvent {
   WorldInitialize,
   WorldTick,
   ChunkReady,
+  HealthChanged,
   EntitySpawned,
   EntityDespawned,
   EntityFlagUpdate,

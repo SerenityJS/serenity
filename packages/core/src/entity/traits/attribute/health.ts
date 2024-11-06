@@ -10,7 +10,10 @@ import {
 
 import { EntityIdentifier, EntityInteractMethod } from "../../../enums";
 import { Player } from "../../player";
-import { EntityHurtEventSignal } from "../../../events";
+import {
+  EntityHealthChangedEventSignal,
+  EntityHurtEventSignal
+} from "../../../events";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -42,6 +45,17 @@ class EntityHealthTrait extends EntityAttributeTrait {
     // Check if the health is less than or equal to 0
     // If so, the entity is dead
     if (this.currentValue <= 0) this.entity.kill();
+  }
+
+  public set(value: number): void {
+    const signal = new EntityHealthChangedEventSignal(
+      this.entity,
+      this.currentValue,
+      value
+    );
+
+    if (!signal.emit()) return;
+    super.set(value);
   }
 
   public onInteract(player: Player, method: EntityInteractMethod): void {

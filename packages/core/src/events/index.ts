@@ -28,3 +28,4 @@ export * from "./player-block-interact";
 export * from "./player-entity-interact";
 export * from "./entity-hit";
 export * from "./entity-hurt";
+export * from "./entity-health-changed";
