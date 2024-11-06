@@ -14,6 +14,7 @@ import {
   EntityHealthChangedEventSignal,
   EntityHurtEventSignal
 } from "../../../events";
+import { Entity } from "../../entity";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -26,8 +27,17 @@ class EntityHealthTrait extends EntityAttributeTrait {
   public readonly effectiveMax = 20;
   public readonly defaultValue = 20;
 
-  public applyDamage(amount: number, cause?: ActorDamageCause): void {
-    const signal = new EntityHurtEventSignal(this.entity, amount, cause);
+  public applyDamage(
+    amount: number,
+    damager?: Entity,
+    cause?: ActorDamageCause
+  ): void {
+    const signal = new EntityHurtEventSignal(
+      this.entity,
+      amount,
+      cause,
+      damager
+    );
 
     if (!signal.emit()) return;
     // Calculate the new health value
@@ -44,7 +54,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
 
     // Check if the health is less than or equal to 0
     // If so, the entity is dead
-    if (this.currentValue <= 0) this.entity.kill();
+    if (this.currentValue <= 0) this.entity.kill(damager, cause);
   }
 
   public set(value: number): void {
@@ -100,7 +110,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
 
     // Apply damage to the entity
     // TODO: Calculate the damage based on the player's item
-    this.applyDamage(1, ActorDamageCause.EntityAttack);
+    this.applyDamage(1, player, ActorDamageCause.EntityAttack);
   }
 }
 
