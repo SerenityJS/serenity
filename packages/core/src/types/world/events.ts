@@ -7,6 +7,7 @@ import {
   EntityDespawnedSignal,
   EntityDimensionChangeSignal,
   EntityFlagUpdateSignal,
+  EntityHitEventSignal,
   EntityMetadataUpdateSignal,
   EntitySpawnedSignal,
   PlayerAbilityUpdateSignal,
@@ -38,6 +39,7 @@ interface WorldEventSignals {
   [WorldEvent.EntityDimensionChange]: [EntityDimensionChangeSignal];
   [WorldEvent.EntityMetadataUpdate]: [EntityMetadataUpdateSignal];
   [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
+  [WorldEvent.EntityHit]: [EntityHitEventSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];

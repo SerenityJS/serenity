@@ -30,6 +30,7 @@ import { CommandExecutionState } from "../commands";
 import {
   EntityDespawnedSignal,
   EntityDimensionChangeSignal,
+  EntityHitEventSignal,
   EntitySpawnedSignal,
   PlayerInteractWithEntitySignal
 } from "../events";
@@ -578,6 +579,10 @@ class Entity {
         player.getHeldItem(),
         null
       );
+      if (!signal.emit()) return;
+    } else {
+      const signal = new EntityHitEventSignal(player, this);
+
       if (!signal.emit()) return;
     }
 
