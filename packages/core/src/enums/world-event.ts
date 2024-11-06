@@ -17,6 +17,7 @@ enum WorldEvent {
   PlayerBreakBlock,
   PlayerDropItem,
   PlayerGamemodeChange,
+  PlayerAbilityUpdate,
   PlayerStartUsingItem,
   PlayerStopUsingItem,
   PlayerUseItem,

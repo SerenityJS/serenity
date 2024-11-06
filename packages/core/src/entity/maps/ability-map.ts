@@ -7,6 +7,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { Player } from "../player";
+import { PlayerAbilityUpdateSignal } from "../../events";
 
 class AbilityMap extends Map<AbilityIndex, boolean> {
   /**
@@ -24,8 +25,14 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
   }
 
   public set(key: AbilityIndex, value: boolean): this {
+    // Create a new PlayerAbilityUpdateSignal
+    const signal = new PlayerAbilityUpdateSignal(this.player, key, value);
+
+    // If the signal was cancelled, return this
+    if (!signal.emit()) return this;
+
     // Call the original set method
-    const result = super.set(key, value);
+    const result = super.set(key, signal.value);
 
     // Update the abilities when a new value is added
     this.update();

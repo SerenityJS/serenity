@@ -9,6 +9,7 @@ import {
   EntityFlagUpdateSignal,
   EntityMetadataUpdateSignal,
   EntitySpawnedSignal,
+  PlayerAbilityUpdateSignal,
   PlayerBreakBlockSignal,
   PlayerChatSignal,
   PlayerDropItemSignal,
@@ -45,6 +46,7 @@ interface WorldEventSignals {
   [WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
   [WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
   [WorldEvent.PlayerDropItem]: [PlayerDropItemSignal];
+  [WorldEvent.PlayerAbilityUpdate]: [PlayerAbilityUpdateSignal];
   [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
   [WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
   [WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
