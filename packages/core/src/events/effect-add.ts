@@ -4,7 +4,7 @@ import { WorldEvent } from "../enums";
 
 import { EventSignal } from "./event-signal";
 
-class EffectAddEventSignal extends EventSignal {
+class EffectAddSignal extends EventSignal {
   public static readonly identifier: WorldEvent = WorldEvent.EffectAdd;
 
   /**
@@ -24,4 +24,4 @@ class EffectAddEventSignal extends EventSignal {
   }
 }
 
-export { EffectAddEventSignal };
+export { EffectAddSignal };

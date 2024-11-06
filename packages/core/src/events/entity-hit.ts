@@ -3,7 +3,7 @@ import { WorldEvent } from "../enums";
 
 import { EventSignal } from "./event-signal";
 
-class EntityHitEventSignal extends EventSignal {
+class EntityHitSignal extends EventSignal {
   public static readonly identifier: WorldEvent = WorldEvent.EntityHit;
 
   /**
@@ -23,4 +23,4 @@ class EntityHitEventSignal extends EventSignal {
   }
 }
 
-export { EntityHitEventSignal };
+export { EntityHitSignal };

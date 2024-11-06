@@ -5,7 +5,7 @@ import { WorldEvent } from "../enums";
 
 import { EventSignal } from "./event-signal";
 
-class EntityDieEventSignal extends EventSignal {
+class EntityDieSignal extends EventSignal {
   public static readonly identifier: WorldEvent = WorldEvent.EntityDie;
 
   /**
@@ -35,4 +35,4 @@ class EntityDieEventSignal extends EventSignal {
   }
 }
 
-export { EntityDieEventSignal };
+export { EntityDieSignal };

@@ -10,7 +10,7 @@ import {
 import { Effect } from "../../effect";
 import { EntityIdentifier } from "../../enums";
 import { EntityEffectOptions } from "../../types";
-import { EffectAddEventSignal, EffectRemoveEventSignal } from "../../events";
+import { EffectAddSignal, EffectRemoveSignal } from "../../events";
 
 import { EntityTrait } from "./trait";
 
@@ -57,7 +57,7 @@ class EntityEffectsTrait extends EntityTrait {
 
   public remove(effectType: EffectType): void {
     if (!this.effects.has(effectType)) return;
-    const signal = new EffectRemoveEventSignal(this.entity, effectType);
+    const signal = new EffectRemoveSignal(this.entity, effectType);
 
     signal.emit();
     this.effects.get(effectType)?.onRemove?.(this.entity);
@@ -120,7 +120,7 @@ class EntityEffectsTrait extends EntityTrait {
     }
     // eslint fix
     if (!effect) return;
-    const signal = new EffectAddEventSignal(this.entity, effect);
+    const signal = new EffectAddSignal(this.entity, effect);
 
     if (!signal.emit()) return;
 

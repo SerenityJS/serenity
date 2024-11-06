@@ -5,7 +5,7 @@ import { WorldEvent } from "../enums";
 
 import { EventSignal } from "./event-signal";
 
-class EffectRemoveEventSignal extends EventSignal {
+class EffectRemoveSignal extends EventSignal {
   public static readonly identifier: WorldEvent = WorldEvent.EffectRemove;
 
   /**
@@ -25,4 +25,4 @@ class EffectRemoveEventSignal extends EventSignal {
   }
 }
 
-export { EffectRemoveEventSignal };
+export { EffectRemoveSignal };
