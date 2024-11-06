@@ -10,7 +10,7 @@ class InstantHealthEffect extends Effect {
 
   public onAdd(entity: Entity): void {
     const healthTrait = entity.getTrait(EntityHealthTrait);
-    const currentHealth = healthTrait.get().current;
+    const currentHealth = healthTrait.currentValue;
 
     // TODO: Undead check to damage
     if (currentHealth >= healthTrait.effectiveMax) return;

@@ -25,7 +25,7 @@ class PoisonEffect extends Effect {
     if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
     const entityHealth = entity.getTrait(EntityHealthTrait);
 
-    if (entityHealth.get().current <= 1) return;
+    if (entityHealth.currentValue <= 1) return;
     entityHealth.applyDamage(1, ActorDamageCause.Magic);
   }
 }
