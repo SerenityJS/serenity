@@ -21,7 +21,7 @@ class WitherEffect extends Effect {
     if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
     const healthTrait = entity.getTrait(EntityHealthTrait);
 
-    healthTrait.applyDamage(1, ActorDamageCause.Magic);
+    healthTrait.applyDamage(1, undefined, ActorDamageCause.Magic);
   }
 }
 

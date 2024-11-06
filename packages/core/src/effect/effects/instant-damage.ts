@@ -16,7 +16,11 @@ class InstantDamageEffect extends Effect {
     const healthTrait = entity.getTrait(EntityHealthTrait);
 
     if (!healthTrait) return;
-    healthTrait.applyDamage(3 * 2 ** this.amplifier, ActorDamageCause.Magic);
+    healthTrait.applyDamage(
+      3 * 2 ** this.amplifier,
+      undefined,
+      ActorDamageCause.Magic
+    );
   }
 }
 

@@ -56,7 +56,7 @@ class PlayerHungerTrait extends EntityAttributeTrait {
         playerHealthTrait.set(playerHealthTrait.currentValue + 1);
         this.exhaust(6);
       } else if (this.currentValue <= 0) {
-        playerHealthTrait.applyDamage(1, ActorDamageCause.Starve);
+        playerHealthTrait.applyDamage(1, undefined, ActorDamageCause.Starve);
       }
     }
   }

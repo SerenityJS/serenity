@@ -24,7 +24,7 @@ class FatalPoisonEffect extends Effect {
 
     if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
     const entityHealth = entity.getTrait(EntityHealthTrait);
-    entityHealth.applyDamage(1, ActorDamageCause.Magic);
+    entityHealth.applyDamage(1, undefined, ActorDamageCause.Magic);
   }
 }
 

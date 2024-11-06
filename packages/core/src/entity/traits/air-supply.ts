@@ -44,6 +44,7 @@ class EntityAirSupplyTrait extends EntityTrait {
       // Apply damage to the entity based on the entity's current state.
       health.applyDamage(
         0.5,
+        undefined,
         this.entity.isSwimming
           ? ActorDamageCause.Drowning
           : ActorDamageCause.Suffocation
