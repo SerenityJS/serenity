@@ -21,6 +21,7 @@ import {
   WorldInitializeSignal,
   WorldTickSignal
 } from "../../events";
+import { PlayerDimensionChangeSignal } from "../../events/player-dimension-change";
 
 interface WorldEventSignals {
   [WorldEvent.WorldInitialize]: [WorldInitializeSignal];
@@ -43,6 +44,7 @@ interface WorldEventSignals {
   [WorldEvent.PlayerStartEmoting]: [PlayerStartEmotingSignal];
   [WorldEvent.PlayerStopEmoting]: [PlayerStopEmotingSignal];
   [WorldEvent.PlayerGamemodeChange]: [PlayerGamemodeChangeSignal];
+  [WorldEvent.PlayerDimensionChange]: [PlayerDimensionChangeSignal];
   [WorldEvent.BlockUpdate]: [];
 }
 
