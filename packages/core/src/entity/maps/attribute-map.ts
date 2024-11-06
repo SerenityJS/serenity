@@ -5,6 +5,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
+import { EntityAttributeUpdateSignal } from "../../events";
 
 class AttributeMap extends Map<AttributeName, Attribute> {
   /**
@@ -22,8 +23,14 @@ class AttributeMap extends Map<AttributeName, Attribute> {
   }
 
   public set(key: AttributeName, value: Attribute): this {
+    // Create a new EntityAttributeUpdateSignal
+    const signal = new EntityAttributeUpdateSignal(this.entity, key, value);
+
+    // If the signal was cancelled, return this
+    if (!signal.emit()) return this;
+
     // Call the original set method
-    const result = super.set(key, value);
+    const result = super.set(key, signal.value);
 
     // Update the actor data when a new value is added
     this.update();

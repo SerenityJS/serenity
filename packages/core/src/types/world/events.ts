@@ -3,6 +3,7 @@ import {
   ChunkReadySignal,
   EffectAddEventSignal,
   EffectRemoveEventSignal,
+  EntityAttributeUpdateSignal,
   EntityDespawnedSignal,
   EntityFlagUpdateSignal,
   EntityMetadataUpdateSignal,
@@ -30,6 +31,7 @@ interface WorldEventSignals {
   [WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
   [WorldEvent.EntityFlagUpdate]: [EntityFlagUpdateSignal];
   [WorldEvent.EntityMetadataUpdate]: [EntityMetadataUpdateSignal];
+  [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];
