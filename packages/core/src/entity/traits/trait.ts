@@ -9,7 +9,7 @@ class EntityTrait extends Trait {
   /**
    * The entity type identifiers that this trait is compatible with by default.
    */
-  public static readonly type: Array<EntityIdentifier> = [];
+  public static readonly types: Array<EntityIdentifier> = [];
 
   /**
    * The entity that this trait is attached to.
