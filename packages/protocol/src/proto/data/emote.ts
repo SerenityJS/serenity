@@ -1,5 +1,5 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { Byte, VarInt, VarString, ZigZong } from "@serenityjs/binarystream";
+import { Byte, VarInt, VarString, VarLong } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
 
@@ -9,7 +9,7 @@ import type { EmoteFlags } from "../../enums/emote-flag";
 
 @Proto(Packet.Emote)
 class EmotePacket extends DataPacket {
-  @Serialize(ZigZong) public actorRuntimeId!: bigint;
+  @Serialize(VarLong) public actorRuntimeId!: bigint;
   @Serialize(VarString) public emoteId!: string;
   @Serialize(VarInt) public tickLength!: number;
   @Serialize(VarString) public xuid!: string;

@@ -11,7 +11,9 @@ import {
   PlayerJoinSignal,
   PlayerLeaveSignal,
   PlayerPlaceBlockSignal,
+  PlayerStartEmotingSignal,
   PlayerStartUsingItemSignal,
+  PlayerStopEmotingSignal,
   PlayerStopUsingItemSignal,
   PlayerUseItemSignal,
   WorldInitializeSignal,
@@ -35,6 +37,8 @@ interface WorldEventSignals {
   [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
   [WorldEvent.PlayerStopUsingItem]: [PlayerStopUsingItemSignal];
   [WorldEvent.PlayerUseItem]: [PlayerUseItemSignal];
+  [WorldEvent.PlayerStartEmoting]: [PlayerStartEmotingSignal];
+  [WorldEvent.PlayerStopEmoting]: [PlayerStopEmotingSignal];
   [WorldEvent.BlockUpdate]: [];
 }
 
