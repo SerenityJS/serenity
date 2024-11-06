@@ -4,6 +4,7 @@ import {
   EffectAddEventSignal,
   EffectRemoveEventSignal,
   EntityDespawnedSignal,
+  EntityFlagUpdateSignal,
   EntitySpawnedSignal,
   PlayerBreakBlockSignal,
   PlayerChatSignal,
@@ -26,6 +27,7 @@ interface WorldEventSignals {
   [WorldEvent.ChunkReady]: [ChunkReadySignal];
   [WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
   [WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
+  [WorldEvent.EntityFlagUpdate]: [EntityFlagUpdateSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];

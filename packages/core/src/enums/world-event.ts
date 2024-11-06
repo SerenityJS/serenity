@@ -4,6 +4,7 @@ enum WorldEvent {
   ChunkReady,
   EntitySpawned,
   EntityDespawned,
+  EntityFlagUpdate,
   EffectAdd,
   EffectRemove,
   PlayerJoin,

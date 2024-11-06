@@ -34,7 +34,7 @@ class EmoteHandler extends NetworkHandler {
       new PlayerStopEmotingSignal(player, packet.emoteId).emit();
 
       // Clear the player's emote flag
-      player.flags.delete(ActorFlag.Emoting);
+      player.flags.set(ActorFlag.Emoting, false);
     });
 
     // Broadcast the emote to all players in the dimension

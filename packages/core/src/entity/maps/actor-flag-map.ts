@@ -5,6 +5,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
+import { EntityFlagUpdateSignal } from "../../events";
 
 class ActorFlagMap extends Map<ActorFlag, boolean> {
   /**
@@ -22,6 +23,12 @@ class ActorFlagMap extends Map<ActorFlag, boolean> {
   }
 
   public set(key: ActorFlag, value: boolean): this {
+    // Create a new EntityFlagUpdateSignal
+    const signal = new EntityFlagUpdateSignal(this.entity, key, value).emit();
+
+    // If the signal was cancelled, return this
+    if (!signal) return this;
+
     // Call the original set method
     const result = super.set(key, value);
 
