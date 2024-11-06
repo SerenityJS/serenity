@@ -6,6 +6,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
+import { EntityMetadataUpdateSignal } from "../../events";
 
 class MetadataMap extends Map<ActorDataId, DataItem> {
   /**
@@ -23,8 +24,14 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
   }
 
   public set(key: ActorDataId, value: DataItem<unknown>): this {
+    // Create a new EntityMetadataUpdateSignal
+    const signal = new EntityMetadataUpdateSignal(this.entity, key, value);
+
+    // If the signal was cancelled, return this
+    if (!signal.emit()) return this;
+
     // Call the original set method
-    const result = super.set(key, value);
+    const result = super.set(key, signal.dataItem);
 
     // Update the actor data when a new value is added
     this.update();

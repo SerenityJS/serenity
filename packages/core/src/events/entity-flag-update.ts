@@ -21,7 +21,7 @@ class EntityFlagUpdateSignal extends EventSignal {
   /**
    * The new value of the flag.
    */
-  public readonly value: boolean;
+  public value: boolean;
 
   /**
    * Create a new entity flag update event.

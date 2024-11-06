@@ -3,9 +3,11 @@ import {
   ChunkReadySignal,
   EffectAddEventSignal,
   EffectRemoveEventSignal,
+  EntityAttributeUpdateSignal,
   EntityDespawnedSignal,
   EntityDimensionChangeSignal,
   EntityFlagUpdateSignal,
+  EntityMetadataUpdateSignal,
   EntitySpawnedSignal,
   PlayerBreakBlockSignal,
   PlayerChatSignal,
@@ -31,6 +33,8 @@ interface WorldEventSignals {
   [WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
   [WorldEvent.EntityFlagUpdate]: [EntityFlagUpdateSignal];
   [WorldEvent.EntityDimensionChange]: [EntityDimensionChangeSignal];
+  [WorldEvent.EntityMetadataUpdate]: [EntityMetadataUpdateSignal];
+  [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];
