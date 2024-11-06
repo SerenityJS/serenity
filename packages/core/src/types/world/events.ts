@@ -4,6 +4,7 @@ import {
   EffectAddEventSignal,
   EffectRemoveEventSignal,
   EntityDespawnedSignal,
+  EntityDimensionChangeSignal,
   EntityFlagUpdateSignal,
   EntitySpawnedSignal,
   PlayerBreakBlockSignal,
@@ -21,7 +22,6 @@ import {
   WorldInitializeSignal,
   WorldTickSignal
 } from "../../events";
-import { PlayerDimensionChangeSignal } from "../../events/player-dimension-change";
 
 interface WorldEventSignals {
   [WorldEvent.WorldInitialize]: [WorldInitializeSignal];
@@ -30,6 +30,7 @@ interface WorldEventSignals {
   [WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
   [WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
   [WorldEvent.EntityFlagUpdate]: [EntityFlagUpdateSignal];
+  [WorldEvent.EntityDimensionChange]: [EntityDimensionChangeSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];
@@ -44,7 +45,6 @@ interface WorldEventSignals {
   [WorldEvent.PlayerStartEmoting]: [PlayerStartEmotingSignal];
   [WorldEvent.PlayerStopEmoting]: [PlayerStopEmotingSignal];
   [WorldEvent.PlayerGamemodeChange]: [PlayerGamemodeChangeSignal];
-  [WorldEvent.PlayerDimensionChange]: [PlayerDimensionChangeSignal];
   [WorldEvent.BlockUpdate]: [];
 }
 

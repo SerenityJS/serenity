@@ -22,6 +22,7 @@ import { ItemStack, ItemType } from "../item";
 import { BlockIdentifier, BlockToolType, ItemIdentifier } from "../enums";
 import { Serenity } from "../serenity";
 import { Player } from "../entity";
+import { PlayerInteractWithBlockSignal } from "../events";
 
 import { BlockTrait } from "./traits";
 
@@ -431,6 +432,8 @@ class Block {
    * @param player The player to interact with the block.
    */
   public interact(player: Player): boolean {
+    const beforeItem = player.getHeldItem();
+
     // Call the block onInteract trait methods
     for (const trait of this.traits.values()) {
       // Call the onInteract method of the trait
@@ -439,6 +442,14 @@ class Block {
       // Return false if the result is false
       if (result === false) return false;
     }
+    const signal = new PlayerInteractWithBlockSignal(
+      player,
+      this,
+      beforeItem,
+      player.getHeldItem()
+    );
+
+    if (!signal.emit()) return false;
 
     // Return true if the block was interacted with
     return true;
