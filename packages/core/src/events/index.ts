@@ -13,6 +13,8 @@ export * from "./player-drop-item";
 export * from "./player-start-using-item";
 export * from "./player-stop-using-item";
 export * from "./player-use-item";
+export * from "./player-start-emoting";
+export * from "./player-stop-emoting";
 export * from "./block-update";
 export * from "./effect-add";
 export * from "./effect-remove";
