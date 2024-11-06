@@ -1,29 +1,16 @@
-import { Attribute, AttributeName } from "@serenityjs/protocol";
+import { AttributeName } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
+import { EntityAttributeTrait } from "../attribute";
 
-import { PlayerTrait } from "./trait";
-
-class PlayerExhaustionTrait extends PlayerTrait {
+class PlayerExhaustionTrait extends EntityAttributeTrait {
   public static readonly identifier = "exhaustion";
-
   public static readonly types = [EntityIdentifier.Player];
 
-  public onSpawn(): void {
-    if (this.entity.attributes.has(AttributeName.PlayerExhaustion)) return;
-    this.entity.attributes.set(
-      AttributeName.PlayerExhaustion,
-      new Attribute(0, 5, 0, 0, 5, 0, AttributeName.PlayerExhaustion, [])
-    );
-  }
-
-  public get exhaustion(): number {
-    return this.entity.attributes.get(AttributeName.PlayerExhaustion)!.current;
-  }
-
-  public set exhaustion(value: number) {
-    this.entity.attributes.get(AttributeName.PlayerExhaustion)!.current = value;
-  }
+  public attribute: AttributeName = AttributeName.PlayerExhaustion;
+  public effectiveMax: number = 5;
+  public defaultValue: number = 0;
+  public effectiveMin: number = 0;
 }
 
 export { PlayerExhaustionTrait };
