@@ -24,3 +24,4 @@ export * from "./effect-remove";
 export * from "./gamemode-change";
 export * from "./entity-dimension-change";
 export * from "./player-block-interact";
+export * from "./player-entity-interact";

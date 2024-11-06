@@ -432,7 +432,14 @@ class Block {
    * @param player The player to interact with the block.
    */
   public interact(player: Player): boolean {
-    const beforeItem = player.getHeldItem();
+    const signal = new PlayerInteractWithBlockSignal(
+      player,
+      this,
+      player.getHeldItem(),
+      null
+    );
+
+    if (!signal.emit()) return false;
 
     // Call the block onInteract trait methods
     for (const trait of this.traits.values()) {
@@ -442,14 +449,6 @@ class Block {
       // Return false if the result is false
       if (result === false) return false;
     }
-    const signal = new PlayerInteractWithBlockSignal(
-      player,
-      this,
-      beforeItem,
-      player.getHeldItem()
-    );
-
-    if (!signal.emit()) return false;
 
     // Return true if the block was interacted with
     return true;

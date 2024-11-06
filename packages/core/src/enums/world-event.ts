@@ -23,6 +23,7 @@ enum WorldEvent {
   PlayerStartEmoting,
   PlayerStopEmoting,
   PlayerInteractWithBlock,
+  PlayerInteractWithEntity,
   BlockUpdate
 }
 

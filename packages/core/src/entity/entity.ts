@@ -27,7 +27,12 @@ import { Chunk } from "../world/chunk";
 import { Container } from "../container";
 import { ItemBundleTrait, ItemStack } from "../item";
 import { CommandExecutionState } from "../commands";
-import { EntityDespawnedSignal, EntitySpawnedSignal } from "../events";
+import {
+  EntityDespawnedSignal,
+  EntityDimensionChangeSignal,
+  EntitySpawnedSignal,
+  PlayerInteractWithEntitySignal
+} from "../events";
 
 import { EntityType } from "./identity";
 import {
@@ -566,6 +571,16 @@ class Entity {
    * @param method The method that the player used to interact with the entity.
    */
   public interact(player: Player, method: EntityInteractMethod): void {
+    if (method === EntityInteractMethod.Interact) {
+      const signal = new PlayerInteractWithEntitySignal(
+        player,
+        this,
+        player.getHeldItem(),
+        null
+      );
+      if (!signal.emit()) return;
+    }
+
     // Trigger the entity onInteract trait event
     for (const trait of this.traits.values()) {
       // Attempt to trigger the onInteract trait event
@@ -742,6 +757,14 @@ class Entity {
 
     // Check if a dimension was provided
     if (dimension) {
+      const signal = new EntityDimensionChangeSignal(
+        this,
+        this.dimension,
+        dimension
+      );
+
+      if (!signal.emit()) return;
+
       // Despawn the entity from the current dimension
       this.despawn();
 
