@@ -13,6 +13,7 @@ import {
   PlayerChatSignal,
   PlayerDropItemSignal,
   PlayerGamemodeChangeSignal,
+  PlayerInteractWithBlockSignal,
   PlayerJoinSignal,
   PlayerLeaveSignal,
   PlayerPlaceBlockSignal,
@@ -44,6 +45,7 @@ interface WorldEventSignals {
   [WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
   [WorldEvent.PlayerDropItem]: [PlayerDropItemSignal];
   [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
+  [WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
   [WorldEvent.PlayerStopUsingItem]: [PlayerStopUsingItemSignal];
   [WorldEvent.PlayerUseItem]: [PlayerUseItemSignal];
   [WorldEvent.PlayerStartEmoting]: [PlayerStartEmotingSignal];
