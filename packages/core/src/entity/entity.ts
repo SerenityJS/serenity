@@ -1,4 +1,5 @@
 import {
+  ActorDamageCause,
   ActorFlag,
   ContainerName,
   EffectType,
@@ -29,6 +30,7 @@ import { ItemBundleTrait, ItemStack } from "../item";
 import { CommandExecutionState } from "../commands";
 import {
   EntityDespawnedSignal,
+  EntityDieEventSignal,
   EntityDimensionChangeSignal,
   EntityHitEventSignal,
   EntitySpawnedSignal,
@@ -522,7 +524,9 @@ class Entity {
   /**
    * Kills the entity.
    */
-  public kill(): void {
+  public kill(damagingEntity?: Entity, damageCause?: ActorDamageCause): void {
+    new EntityDieEventSignal(this, damagingEntity, damageCause).emit();
+
     // Set the entity as not alive
     this.isAlive = false;
 

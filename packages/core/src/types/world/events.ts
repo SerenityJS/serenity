@@ -28,7 +28,8 @@ import {
   PlayerStopUsingItemSignal,
   PlayerUseItemSignal,
   WorldInitializeSignal,
-  WorldTickSignal
+  WorldTickSignal,
+  EntityDieEventSignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -42,6 +43,7 @@ interface WorldEventSignals {
   [WorldEvent.EntityMetadataUpdate]: [EntityMetadataUpdateSignal];
   [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
   [WorldEvent.EntityHit]: [EntityHitEventSignal];
+  [WorldEvent.EntityDie]: [EntityDieEventSignal];
   [WorldEvent.EntityHurt]: [EntityHurtEventSignal];
   [WorldEvent.HealthChanged]: [EntityHealthChangedEventSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
