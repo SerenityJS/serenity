@@ -22,3 +22,4 @@ export * from "./block-update";
 export * from "./effect-add";
 export * from "./effect-remove";
 export * from "./gamemode-change";
+export * from "./player-dimension-change";

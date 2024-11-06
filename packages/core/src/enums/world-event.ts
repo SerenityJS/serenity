@@ -14,6 +14,7 @@ enum WorldEvent {
   PlayerChat,
   PlayerPlaceBlock,
   PlayerBreakBlock,
+  PlayerDimensionChange,
   PlayerDropItem,
   PlayerGamemodeChange,
   PlayerStartUsingItem,
