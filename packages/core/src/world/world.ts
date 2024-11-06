@@ -23,6 +23,7 @@ import { EffectPallete } from "../effect";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
+import { TickSchedule } from "./schedule";
 
 const DefaultWorldProperties: WorldProperties = {
   identifier: "default",
@@ -76,7 +77,7 @@ class World extends Emitter<WorldEventSignals> {
   public readonly entityPalette = new EntityPalette();
 
   /**
-   * The effect pallete of the world.
+   * The effect palette of the world.
    */
   public readonly effectPalette = new EffectPallete();
 
@@ -94,6 +95,11 @@ class World extends Emitter<WorldEventSignals> {
    * The commands of the world.
    */
   public readonly commands = new Commands();
+
+  /**
+   * The pending schedules of the world.
+   */
+  public readonly schedules = new Set<TickSchedule>();
 
   /**
    * The current tick of the world.
@@ -179,6 +185,29 @@ class World extends Emitter<WorldEventSignals> {
 
       // Broadcast the time packet to all players
       this.broadcast(packet);
+    }
+
+    // Check if there are any schedules to execute
+    if (this.schedules.size > 0) {
+      // Iterate over the schedules
+      for (const schedule of this.schedules) {
+        // Check if the schedule is complete
+        if (this.currentTick >= schedule.completeTick) {
+          // Execute the schedule
+          try {
+            schedule.execute();
+          } catch (reason) {
+            // Log the error if the schedule failed to execute
+            this.logger.error(
+              `Failed to execute schedule for dimension at tick ${schedule.completeTick}`,
+              reason
+            );
+          }
+
+          // Delete the schedule
+          this.schedules.delete(schedule);
+        }
+      }
     }
   }
 
@@ -296,6 +325,22 @@ class World extends Emitter<WorldEventSignals> {
     return [...this.dimensions.values()].flatMap((dimension) =>
       dimension.getEntities()
     );
+  }
+
+  /**
+   * Schedule an execution of a function after a specified amount of ticks.
+   * @param ticks The amount of ticks to wait before the schedule is complete.
+   * @returns The created tick schedule.
+   */
+  public schedule(ticks: number): TickSchedule {
+    // Create a new tick schedule
+    const schedule = new TickSchedule(ticks, this);
+
+    // Add the schedule to the world
+    this.schedules.add(schedule);
+
+    // Return the schedule
+    return schedule;
   }
 
   public broadcast(...packets: Array<DataPacket>): void {
