@@ -30,9 +30,9 @@ import { ItemBundleTrait, ItemStack } from "../item";
 import { CommandExecutionState } from "../commands";
 import {
   EntityDespawnedSignal,
-  EntityDieEventSignal,
+  EntityDieSignal,
   EntityDimensionChangeSignal,
-  EntityHitEventSignal,
+  EntityHitSignal,
   EntitySpawnedSignal,
   PlayerInteractWithEntitySignal
 } from "../events";
@@ -525,7 +525,7 @@ class Entity {
    * Kills the entity.
    */
   public kill(damagingEntity?: Entity, damageCause?: ActorDamageCause): void {
-    new EntityDieEventSignal(this, damagingEntity, damageCause).emit();
+    new EntityDieSignal(this, damagingEntity, damageCause).emit();
 
     // Set the entity as not alive
     this.isAlive = false;
@@ -585,7 +585,7 @@ class Entity {
       );
       if (!signal.emit()) return;
     } else {
-      const signal = new EntityHitEventSignal(player, this);
+      const signal = new EntityHitSignal(player, this);
 
       if (!signal.emit()) return;
     }

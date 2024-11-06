@@ -1,17 +1,17 @@
 import { WorldEvent } from "../../enums";
 import {
   ChunkReadySignal,
-  EffectAddEventSignal,
-  EffectRemoveEventSignal,
+  EffectAddSignal,
+  EffectRemoveSignal,
   EntityAttributeUpdateSignal,
   EntityDespawnedSignal,
   EntityDimensionChangeSignal,
   EntityFlagUpdateSignal,
-  EntityHitEventSignal,
-  EntityHurtEventSignal,
+  EntityHitSignal,
+  EntityHurtSignal,
   EntityMetadataUpdateSignal,
   EntitySpawnedSignal,
-  EntityHealthChangedEventSignal,
+  EntityHealthChangedSignal,
   PlayerAbilityUpdateSignal,
   PlayerBreakBlockSignal,
   PlayerChatSignal,
@@ -29,7 +29,7 @@ import {
   PlayerUseItemSignal,
   WorldInitializeSignal,
   WorldTickSignal,
-  EntityDieEventSignal
+  EntityDieSignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -42,12 +42,12 @@ interface WorldEventSignals {
   [WorldEvent.EntityDimensionChange]: [EntityDimensionChangeSignal];
   [WorldEvent.EntityMetadataUpdate]: [EntityMetadataUpdateSignal];
   [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
-  [WorldEvent.EntityHit]: [EntityHitEventSignal];
-  [WorldEvent.EntityDie]: [EntityDieEventSignal];
-  [WorldEvent.EntityHurt]: [EntityHurtEventSignal];
-  [WorldEvent.HealthChanged]: [EntityHealthChangedEventSignal];
-  [WorldEvent.EffectAdd]: [EffectAddEventSignal];
-  [WorldEvent.EffectRemove]: [EffectRemoveEventSignal];
+  [WorldEvent.EntityHit]: [EntityHitSignal];
+  [WorldEvent.EntityDie]: [EntityDieSignal];
+  [WorldEvent.EntityHurt]: [EntityHurtSignal];
+  [WorldEvent.HealthChanged]: [EntityHealthChangedSignal];
+  [WorldEvent.EffectAdd]: [EffectAddSignal];
+  [WorldEvent.EffectRemove]: [EffectRemoveSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];
   [WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
   [WorldEvent.PlayerChat]: [PlayerChatSignal];

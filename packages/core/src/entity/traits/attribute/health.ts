@@ -10,10 +10,7 @@ import {
 
 import { EntityIdentifier, EntityInteractMethod } from "../../../enums";
 import { Player } from "../../player";
-import {
-  EntityHealthChangedEventSignal,
-  EntityHurtEventSignal
-} from "../../../events";
+import { EntityHealthChangedSignal, EntityHurtSignal } from "../../../events";
 import { Entity } from "../../entity";
 
 import { EntityAttributeTrait } from "./attribute";
@@ -32,7 +29,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
     damager?: Entity,
     cause?: ActorDamageCause
   ): void {
-    const signal = new EntityHurtEventSignal(
+    const signal = new EntityHurtSignal(
       this.entity,
       amount,
       cause,
@@ -58,7 +55,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
   }
 
   public set(value: number): void {
-    const signal = new EntityHealthChangedEventSignal(
+    const signal = new EntityHealthChangedSignal(
       this.entity,
       this.currentValue,
       value
