@@ -5,6 +5,7 @@ enum WorldEvent {
   EntitySpawned,
   EntityDespawned,
   EntityFlagUpdate,
+  EntityMetadataUpdate,
   EffectAdd,
   EffectRemove,
   PlayerJoin,
