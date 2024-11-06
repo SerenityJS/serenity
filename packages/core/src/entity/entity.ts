@@ -550,11 +550,14 @@ class Entity {
       health.currentValue = health.effectiveMin;
     }
 
-    // If the entity is not a player, despawn the entity
-    if (!this.isPlayer()) this.despawn();
-    // Manually trigger the onDespawn trait event for players
-    // We does this because the player has the option to disconnect at the respawn screen
-    else for (const trait of this.traits.values()) trait.onDespawn?.();
+    // Schedule the entity to despawn
+    this.dimension.schedule(50).on(() => {
+      // If the entity is not a player, despawn the entity
+      if (!this.isPlayer()) this.despawn();
+      // Manually trigger the onDespawn trait event for players
+      // We does this because the player has the option to disconnect at the respawn screen
+      else for (const trait of this.traits.values()) trait.onDespawn?.();
+    });
   }
 
   /**

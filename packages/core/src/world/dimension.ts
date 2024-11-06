@@ -29,6 +29,7 @@ import { CommandExecutionState } from "../commands";
 import { World } from "./world";
 import { TerrainGenerator } from "./generator";
 import { Chunk } from "./chunk";
+import { TickSchedule } from "./schedule";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -615,6 +616,22 @@ class Dimension {
 
     // Execute the command state
     return state.execute() as CommandResponse<T>;
+  }
+
+  /**
+   * Schedule an execution of a function after a specified amount of ticks.
+   * @param ticks The amount of ticks to wait before the schedule is complete.
+   * @returns The created tick schedule.
+   */
+  public schedule(ticks: number): TickSchedule {
+    // Create a new tick schedule
+    const schedule = new TickSchedule(ticks, this);
+
+    // Add the schedule to the world
+    this.world.schedules.add(schedule);
+
+    // Return the schedule
+    return schedule;
   }
 
   /**
