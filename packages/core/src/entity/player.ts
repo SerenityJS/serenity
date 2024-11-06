@@ -28,6 +28,7 @@ import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
 import { ItemBundleTrait, ItemStack } from "../item";
+import { PlayerGamemodeChangeSignal } from "../events";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
@@ -131,6 +132,10 @@ class Player extends Entity {
    * The gamemode of the player.
    */
   public set gamemode(value: Gamemode) {
+    const signal = new PlayerGamemodeChangeSignal(this, this.gamemode, value);
+
+    if (!signal.emit()) return;
+
     // Set the gamemode of the player
     this.components.set("gamemode", value);
 

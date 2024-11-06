@@ -21,3 +21,4 @@ export * from "./player-stop-emoting";
 export * from "./block-update";
 export * from "./effect-add";
 export * from "./effect-remove";
+export * from "./gamemode-change";
