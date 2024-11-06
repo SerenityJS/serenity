@@ -53,6 +53,22 @@ class EntityAttributeTrait extends EntityTrait {
   }
 
   /**
+   * Increases the attribute value.
+   * @param amount The amount to increase the attribute current value.
+   */
+  public increase(amount: number): void {
+    this.set(this.currentValue + amount);
+  }
+
+  /**
+   * Decreases the attribute value.
+   * @param amount The amount to decrease the attribute current value.
+   */
+  public decrease(amount: number): void {
+    this.set(this.currentValue - amount);
+  }
+
+  /**
    * Set the current value of the attribute
    * @param value Whether the attribute is enabled or not
    * @param update Whether to update the entity's actor data; default is true
