@@ -10,6 +10,7 @@ import {
 
 import { EntityIdentifier, EntityInteractMethod } from "../../../enums";
 import { Player } from "../../player";
+import { EntityHurtEventSignal } from "../../../events";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -23,6 +24,9 @@ class EntityHealthTrait extends EntityAttributeTrait {
   public readonly defaultValue = 20;
 
   public applyDamage(amount: number, cause?: ActorDamageCause): void {
+    const signal = new EntityHurtEventSignal(this.entity, amount, cause);
+
+    if (!signal.emit()) return;
     // Calculate the new health value
     this.currentValue -= amount;
 
