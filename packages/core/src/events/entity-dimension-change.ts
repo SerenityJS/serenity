@@ -1,38 +1,38 @@
-import { Player } from "../entity";
+import { Entity } from "../entity";
 import { WorldEvent } from "../enums";
 import { Dimension } from "../world";
 
 import { EventSignal } from "./event-signal";
 
-class PlayerDimensionChangeSignal extends EventSignal {
+class EntityDimensionChangeSignal extends EventSignal {
   public static readonly identifier: WorldEvent =
-    WorldEvent.PlayerDimensionChange;
+    WorldEvent.EntityDimensionChange;
 
   /**
-   * The player that changed dimensions.
+   * The entity that changed dimensions.
    */
-  public readonly player: Player;
+  public readonly entity: Entity;
 
   /**
-   * The dimension the player moved to.
+   * The dimension the entity moved to.
    */
   public readonly fromDimension: Dimension;
 
   /**
-   * The dimension the player moved from.
+   * The dimension the entity moved from.
    */
   public readonly toDimension: Dimension;
 
   public constructor(
-    player: Player,
+    entity: Entity,
     fromDimension: Dimension,
     toDimension: Dimension
   ) {
-    super(player.getWorld());
-    this.player = player;
+    super(entity.getWorld());
+    this.entity = entity;
     this.fromDimension = fromDimension;
     this.toDimension = toDimension;
   }
 }
 
-export { PlayerDimensionChangeSignal };
+export { EntityDimensionChangeSignal };

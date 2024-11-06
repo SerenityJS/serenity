@@ -5,6 +5,7 @@ import {
   EffectRemoveEventSignal,
   EntityAttributeUpdateSignal,
   EntityDespawnedSignal,
+  EntityDimensionChangeSignal,
   EntityFlagUpdateSignal,
   EntityMetadataUpdateSignal,
   EntitySpawnedSignal,
@@ -13,6 +14,7 @@ import {
   PlayerChatSignal,
   PlayerDropItemSignal,
   PlayerGamemodeChangeSignal,
+  PlayerInteractWithBlockSignal,
   PlayerJoinSignal,
   PlayerLeaveSignal,
   PlayerPlaceBlockSignal,
@@ -24,7 +26,6 @@ import {
   WorldInitializeSignal,
   WorldTickSignal
 } from "../../events";
-import { PlayerDimensionChangeSignal } from "../../events/player-dimension-change";
 
 interface WorldEventSignals {
   [WorldEvent.WorldInitialize]: [WorldInitializeSignal];
@@ -33,6 +34,7 @@ interface WorldEventSignals {
   [WorldEvent.EntitySpawned]: [EntitySpawnedSignal];
   [WorldEvent.EntityDespawned]: [EntityDespawnedSignal];
   [WorldEvent.EntityFlagUpdate]: [EntityFlagUpdateSignal];
+  [WorldEvent.EntityDimensionChange]: [EntityDimensionChangeSignal];
   [WorldEvent.EntityMetadataUpdate]: [EntityMetadataUpdateSignal];
   [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
   [WorldEvent.EffectAdd]: [EffectAddEventSignal];
@@ -45,12 +47,12 @@ interface WorldEventSignals {
   [WorldEvent.PlayerDropItem]: [PlayerDropItemSignal];
   [WorldEvent.PlayerAbilityUpdate]: [PlayerAbilityUpdateSignal];
   [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
+  [WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
   [WorldEvent.PlayerStopUsingItem]: [PlayerStopUsingItemSignal];
   [WorldEvent.PlayerUseItem]: [PlayerUseItemSignal];
   [WorldEvent.PlayerStartEmoting]: [PlayerStartEmotingSignal];
   [WorldEvent.PlayerStopEmoting]: [PlayerStopEmotingSignal];
   [WorldEvent.PlayerGamemodeChange]: [PlayerGamemodeChangeSignal];
-  [WorldEvent.PlayerDimensionChange]: [PlayerDimensionChangeSignal];
   [WorldEvent.BlockUpdate]: [];
 }
 

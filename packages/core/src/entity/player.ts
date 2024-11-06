@@ -29,7 +29,7 @@ import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
 import { ItemBundleTrait, ItemStack } from "../item";
 import {
-  PlayerDimensionChangeSignal,
+  EntityDimensionChangeSignal,
   PlayerGamemodeChangeSignal
 } from "../events";
 
@@ -467,14 +467,13 @@ class Player extends Entity {
 
     // Check if the dimension is provided
     if (dimension) {
-      const signal = new PlayerDimensionChangeSignal(
+      const signal = new EntityDimensionChangeSignal(
         this,
         this.dimension,
         dimension
       );
 
       if (!signal.emit()) return;
-
       // Despawn the player from the current dimension
       this.despawn();
 

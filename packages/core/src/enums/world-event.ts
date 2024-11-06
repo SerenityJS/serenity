@@ -5,6 +5,7 @@ enum WorldEvent {
   EntitySpawned,
   EntityDespawned,
   EntityFlagUpdate,
+  EntityDimensionChange,
   EntityMetadataUpdate,
   EntityAttributeUpdate,
   EffectAdd,
@@ -14,7 +15,6 @@ enum WorldEvent {
   PlayerChat,
   PlayerPlaceBlock,
   PlayerBreakBlock,
-  PlayerDimensionChange,
   PlayerDropItem,
   PlayerGamemodeChange,
   PlayerAbilityUpdate,
@@ -23,6 +23,7 @@ enum WorldEvent {
   PlayerUseItem,
   PlayerStartEmoting,
   PlayerStopEmoting,
+  PlayerInteractWithBlock,
   BlockUpdate
 }
 
