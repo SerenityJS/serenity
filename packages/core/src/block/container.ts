@@ -7,6 +7,7 @@ import {
 import { Container } from "../container";
 import { ItemStack } from "../item";
 import { Player } from "../entity";
+import { PlayerOpenedContainerSignal } from "../events";
 
 import { Block } from "./block";
 
@@ -63,6 +64,12 @@ class BlockContainer extends Container {
   }
 
   public show(player: Player): void {
+    // Create a new PlayerOpenedContainerSignal
+    const signal = new PlayerOpenedContainerSignal(player, this);
+
+    // Check if the signal was cancelled
+    if (!signal.emit()) return;
+
     // Call the original show method
     super.show(player);
 

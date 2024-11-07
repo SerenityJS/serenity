@@ -26,6 +26,7 @@ export * from "./gamemode-change";
 export * from "./entity-dimension-change";
 export * from "./player-block-interact";
 export * from "./player-entity-interact";
+export * from "./player-opened-container";
 export * from "./entity-hit";
 export * from "./entity-hurt";
 export * from "./entity-health-changed";

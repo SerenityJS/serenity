@@ -128,7 +128,8 @@ import type {
   SyncActorPropertyPacket,
   TrimDataPacket,
   UnlockedRecipesPacket,
-  RequestPermissionsPacket
+  RequestPermissionsPacket,
+  ServerSettingsResponsePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -242,6 +243,9 @@ interface NetworkEvents {
   [Packet.PlayerFog]: [NetworkPacketEvent<PlayerFogPacket>];
   [Packet.ModalFormRequest]: [NetworkPacketEvent<ModalFormRequestPacket>];
   [Packet.ModalFormResponse]: [NetworkPacketEvent<ModalFormResponsePacket>];
+  [Packet.ServerSettingsResponse]: [
+    NetworkPacketEvent<ServerSettingsResponsePacket>
+  ];
   [Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];
   [Packet.SetDisplayObjective]: [NetworkPacketEvent<SetDisplayObjectivePacket>];
   [Packet.SetScore]: [NetworkPacketEvent<SetScorePacket>];

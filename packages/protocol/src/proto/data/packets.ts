@@ -131,6 +131,7 @@ import { SyncActorPropertyPacket } from "./sync-actor-property";
 import { TrimDataPacket } from "./trim-data";
 import { UnlockedRecipesPacket } from "./unlocked-recipes";
 import { RequestPermissionsPacket } from "./request-permissions";
+import { ServerSettingsResponsePacket } from "./server-settings-response";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -209,6 +210,7 @@ const Packets = {
   [Packet.NpcRequest]: NpcRequestPacket, // 98
   [Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
   [Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
+  [Packet.ServerSettingsResponse]: ServerSettingsResponsePacket, // 103
   [Packet.RemoveObjective]: RemoveObjectivePacket, // 106
   [Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
   [Packet.SetScore]: SetScorePacket, // 108

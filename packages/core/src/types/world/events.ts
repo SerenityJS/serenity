@@ -29,7 +29,8 @@ import {
   PlayerUseItemSignal,
   WorldInitializeSignal,
   WorldTickSignal,
-  EntityDieSignal
+  EntityDieSignal,
+  PlayerOpenedContainerSignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -54,15 +55,16 @@ interface WorldEventSignals {
   [WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
   [WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
   [WorldEvent.PlayerDropItem]: [PlayerDropItemSignal];
+  [WorldEvent.PlayerGamemodeChange]: [PlayerGamemodeChangeSignal];
   [WorldEvent.PlayerAbilityUpdate]: [PlayerAbilityUpdateSignal];
   [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
-  [WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
-  [WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
   [WorldEvent.PlayerStopUsingItem]: [PlayerStopUsingItemSignal];
   [WorldEvent.PlayerUseItem]: [PlayerUseItemSignal];
   [WorldEvent.PlayerStartEmoting]: [PlayerStartEmotingSignal];
   [WorldEvent.PlayerStopEmoting]: [PlayerStopEmotingSignal];
-  [WorldEvent.PlayerGamemodeChange]: [PlayerGamemodeChangeSignal];
+  [WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
+  [WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
+  [WorldEvent.PlayerOpenedContainer]: [PlayerOpenedContainerSignal];
   [WorldEvent.BlockUpdate]: [];
 }
 

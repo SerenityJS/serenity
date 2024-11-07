@@ -78,6 +78,7 @@ enum Packet {
   NpcRequest = 0x62, // 98
   ModalFormRequest = 0x64, // 100
   ModalFormResponse = 0x65, // 101
+  ServerSettingsResponse = 0x67, // 103
   RemoveObjective = 0x6a, // 106
   SetDisplayObjective = 0x6b, // 107
   SetScore = 0x6c, // 108
