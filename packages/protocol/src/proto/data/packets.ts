@@ -132,6 +132,7 @@ import { TrimDataPacket } from "./trim-data";
 import { UnlockedRecipesPacket } from "./unlocked-recipes";
 import { RequestPermissionsPacket } from "./request-permissions";
 import { ServerSettingsResponsePacket } from "./server-settings-response";
+import { CommandBlockUpdatePacket } from "./command-block-update";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -196,6 +197,7 @@ const Packets = {
   [Packet.BossEvent]: BossEventPacket, // 74
   [Packet.AvailableCommands]: AvailableCommandsPacket, // 76
   [Packet.CommandRequest]: CommandRequestPacket, // 77
+  [Packet.CommandBlockUpdate]: CommandBlockUpdatePacket, // 78
   [Packet.CommandOutput]: CommandOutputPacket, // 79
   [Packet.ResourcePackDataInfo]: ResourcePackDataInfoPacket, // 82
   [Packet.ResourcePackChunkData]: ResourcePackChunkDataPacket, // 83
