@@ -5,7 +5,8 @@ import { Pipeline } from "@serenityjs/plugins";
 const serenity = new Serenity({
   port: 19142,
   permissions: "./permissions.json",
-  debugLogging: true
+  resourcePacks: "./resource_packs",
+  debugLogging: true,
 });
 
 // Create a new plugin pipeline
