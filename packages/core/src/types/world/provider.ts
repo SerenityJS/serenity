@@ -64,6 +64,11 @@ interface EntityEntry {
    * The attributes attached to the entity.
    */
   attributes: Array<[AttributeName, Attribute]>;
+
+  /**
+   * The scoreboard identity identifier attached to the entity.
+   */
+  scoreboardIdentity: bigint;
 }
 
 interface PlayerEntry extends EntityEntry {

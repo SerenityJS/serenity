@@ -24,6 +24,7 @@ import { EffectPallete } from "../effect";
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
 import { TickSchedule } from "./schedule";
+import { Scoreboard } from "./scoreboard";
 
 const DefaultWorldProperties: WorldProperties = {
   identifier: "default",
@@ -100,6 +101,11 @@ class World extends Emitter<WorldEventSignals> {
    * The pending schedules of the world.
    */
   public readonly schedules = new Set<TickSchedule>();
+
+  /**
+   * The scoreboard for the world.
+   */
+  public readonly scoreboard = new Scoreboard(this);
 
   /**
    * The current tick of the world.

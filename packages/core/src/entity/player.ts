@@ -564,7 +564,8 @@ class Player extends Entity {
       metadata: [...this.metadata.entries()],
       flags: [...this.flags.entries()],
       attributes: [...this.attributes.entries()],
-      abilities: [...this.abilities.entries()]
+      abilities: [...this.abilities.entries()],
+      scoreboardIdentity: this.scoreboardIdentity.identifier
     };
 
     // Return the player entry
