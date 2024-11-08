@@ -98,15 +98,14 @@ class World extends Emitter<WorldEventSignals> {
   public readonly commands = new Commands();
 
   /**
-<<<<<<< Updated upstream
    * The pending schedules of the world.
    */
   public readonly schedules = new Set<TickSchedule>();
-=======
+
+  /**
    * The scoreboard for the world.
    */
   public readonly scoreboard = new Scoreboard(this);
->>>>>>> Stashed changes
 
   /**
    * The current tick of the world.
