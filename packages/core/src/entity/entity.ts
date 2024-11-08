@@ -36,6 +36,7 @@ import {
   EntitySpawnedSignal,
   PlayerInteractWithEntitySignal
 } from "../events";
+import { ScoreboardIdentity } from "../world/scoreboard";
 
 import { EntityType } from "./identity";
 import {
@@ -123,6 +124,11 @@ class Entity {
   public readonly tags = new Set<string>();
 
   /**
+   * The scoreboard identity of the entity.
+   */
+  public scoreboardIdentity: ScoreboardIdentity;
+
+  /**
    * The current dimension of the entity.
    * This should not be dynamically changed, but instead use the `teleport` method.
    */
@@ -172,6 +178,9 @@ class Entity {
 
     // Set the position of the entity
     this.position.set(dimension.spawnPosition);
+
+    // Create the scoreboard identity
+    this.scoreboardIdentity = new ScoreboardIdentity(this);
 
     // If the entity is not a player
     if (!this.isPlayer()) {
@@ -946,7 +955,8 @@ class Entity {
       traits: [...this.traits.keys()],
       metadata: [...this.metadata.entries()],
       flags: [...this.flags.entries()],
-      attributes: [...this.attributes.entries()]
+      attributes: [...this.attributes.entries()],
+      scoreboardIdentity: this.scoreboardIdentity.identifier
     };
 
     // Return the entity entry
@@ -979,6 +989,12 @@ class Entity {
     // Set the entity's position and rotation
     this.position.set(entry.position);
     this.rotation.set(entry.rotation);
+
+    // Set the entity's scoreboard identity
+    this.scoreboardIdentity = new ScoreboardIdentity(
+      this,
+      entry.scoreboardIdentity
+    );
 
     // Check if the entity should overwrite the current data
     if (overwrite) {
