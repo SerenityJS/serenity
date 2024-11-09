@@ -672,6 +672,9 @@ class LevelDBProvider extends WorldProvider {
       // Assign the world to the provider.
       world.provider.world = world;
 
+      // Create a new WorldInitializedSignal instance.
+      new WorldInitializeSignal(world).emit();
+
       // Write the properties to the world.
       writeFileSync(
         resolve(worldPath, "properties.json"),
@@ -720,9 +723,6 @@ class LevelDBProvider extends WorldProvider {
 
       // Register the world with the serenity instance.
       serenity.registerWorld(world);
-
-      // Create a new WorldInitializedSignal instance.
-      new WorldInitializeSignal(world).emit();
     }
   }
 
@@ -759,6 +759,9 @@ class LevelDBProvider extends WorldProvider {
 
     // Assign the world to the provider.
     world.provider.world = world;
+
+    // Create a new WorldInitializedSignal instance.
+    new WorldInitializeSignal(world).emit();
 
     // Create the properties file for the world.
     writeFileSync(
@@ -805,9 +808,6 @@ class LevelDBProvider extends WorldProvider {
         `Successfully pregenerated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
       );
     }
-
-    // Create a new WorldInitializedSignal instance.
-    new WorldInitializeSignal(world).emit();
 
     // Return the created world.
     return world;
