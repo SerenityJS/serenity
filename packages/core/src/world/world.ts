@@ -29,6 +29,7 @@ import { Scoreboard } from "./scoreboard";
 const DefaultWorldProperties: WorldProperties = {
   identifier: "default",
   seed: Math.floor(Math.random() * 2 ** 32),
+  saveInterval: 5,
   dimensions: [
     {
       identifier: "overworld",
@@ -214,6 +215,15 @@ class World extends Emitter<WorldEventSignals> {
           this.schedules.delete(schedule);
         }
       }
+    }
+
+    // Check if the current tick is divisible by the save interval (in minutes)
+    if (
+      this.currentTick % (BigInt(this.properties.saveInterval) * 1200n) ===
+      0n
+    ) {
+      // Save the world via the provider
+      this.provider.onSave();
     }
   }
 

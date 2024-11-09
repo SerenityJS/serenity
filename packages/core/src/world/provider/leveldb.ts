@@ -175,6 +175,11 @@ class LevelDBProvider extends WorldProvider {
 
       // Write the available blocks to the database.
       this.writeAvailableBlocks(dimension, hashes);
+
+      // Log the amount of chunks, entities, and blocks saved.
+      this.world.logger.info(
+        `Saved §c${chunks.size}§r chunks, §c${entities.length}§r entities, and §c${blocks.length}§r blocks for dimension §a${dimension.identifier}§r.`
+      );
     }
   }
 
