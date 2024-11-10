@@ -1,6 +1,8 @@
 import { DataType } from "@serenityjs/raknet";
 import { BinaryStream } from "@serenityjs/binarystream";
 
+import { CommandBlockMode } from "../../enums";
+
 import { BlockPosition } from "./block-position";
 
 class CommandBlockSettings extends DataType {
@@ -12,7 +14,7 @@ class CommandBlockSettings extends DataType {
   /**
    * The command mode of the command block.
    */
-  public readonly commandMode: number;
+  public readonly commandMode: CommandBlockMode;
 
   /**
    * Whether the command block is in redstone mode.
@@ -33,7 +35,7 @@ class CommandBlockSettings extends DataType {
    */
   public constructor(
     position: BlockPosition,
-    commandMode: number,
+    commandMode: CommandBlockMode,
     redstoneMode: boolean,
     conditionalMode: boolean
   ) {

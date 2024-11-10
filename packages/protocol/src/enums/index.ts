@@ -95,3 +95,4 @@ export * from "./spawn-type";
 export * from "./server-auth-movement-mode";
 export * from "./memory-tier";
 export * from "./permission-flag";
+export * from "./command-block-mode";
