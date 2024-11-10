@@ -15,6 +15,7 @@ import {
   BlockEntry,
   BlockProperties,
   ItemStackProperties,
+  JSONLikeObject,
   JSONLikeValue
 } from "../types";
 import { Chunk } from "../world/chunk";
@@ -25,6 +26,7 @@ import { Player } from "../entity";
 import { PlayerInteractWithBlockSignal } from "../events";
 
 import { BlockTrait } from "./traits";
+import { NbtMap } from "./maps";
 
 import { BlockPermutation, BlockType } from ".";
 
@@ -38,6 +40,8 @@ class Block {
   public readonly components = new Map<string, JSONLikeValue>();
 
   public readonly traits = new Map<string, BlockTrait>();
+
+  public readonly nbt = new NbtMap(this);
 
   public permutation: BlockPermutation;
 
@@ -184,6 +188,41 @@ class Block {
 
   public getWorld() {
     return this.dimension.world;
+  }
+
+  /**
+   * Whether the block has the specified component.
+   * @param key The key of the component to check for.
+   * @returns Whether the block has the component.
+   */
+  public hasComponent(key: string): boolean {
+    return this.components.has(key);
+  }
+
+  /**
+   * Gets the specified component from the block.
+   * @param key The key of the component to get from the block.
+   * @returns The component if it exists, otherwise null.
+   */
+  public getComponent<T extends JSONLikeObject>(key: string): T | null {
+    return this.components.get(key) as T | null;
+  }
+
+  /**
+   * Removes the specified component from the block.
+   * @param key The key of the component to remove.
+   */
+  public removeComponent(key: string): void {
+    this.components.delete(key);
+  }
+
+  /**
+   * Adds a component to the block.
+   * @param key The key of the component to add.
+   * @param component The component to add.
+   */
+  public addComponent(key: string, component: JSONLikeObject): void {
+    this.components.set(key, component);
   }
 
   /**

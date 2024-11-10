@@ -133,3 +133,4 @@ export * from "./set-spawn-position";
 export * from "./sync-actor-property";
 export * from "./trim-data";
 export * from "./unlocked-recipes";
+export * from "./command-block-update";

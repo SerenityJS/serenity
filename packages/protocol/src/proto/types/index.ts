@@ -128,3 +128,5 @@ export * from "./patterns";
 export * from "./materials";
 export * from "./unlocked-recipes-entry";
 export * from "./player-auth-item-stack-request";
+export * from "./command-block-actor-runtime-id";
+export * from "./command-block-settings";

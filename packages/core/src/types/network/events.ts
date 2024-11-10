@@ -129,7 +129,8 @@ import type {
   TrimDataPacket,
   UnlockedRecipesPacket,
   RequestPermissionsPacket,
-  ServerSettingsResponsePacket
+  ServerSettingsResponsePacket,
+  CommandBlockUpdatePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -211,6 +212,7 @@ interface NetworkEvents {
   ];
   [Packet.AvailableCommands]: [NetworkPacketEvent<AvailableCommandsPacket>];
   [Packet.CommandRequest]: [NetworkPacketEvent<CommandRequestPacket>];
+  [Packet.CommandBlockUpdate]: [NetworkPacketEvent<CommandBlockUpdatePacket>];
   [Packet.CommandOutput]: [NetworkPacketEvent<CommandOutputPacket>];
   [Packet.ResourcePackDataInfo]: [
     NetworkPacketEvent<ResourcePackDataInfoPacket>

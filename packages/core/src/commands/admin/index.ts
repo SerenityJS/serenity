@@ -14,6 +14,7 @@ import STOP from "./stop";
 import WORLD from "./world";
 import OP from "./op";
 import DEOP from "./deop";
+import SAVE from "./save";
 
 // Define all the admin commands
 const AdminCommands = [
@@ -32,7 +33,8 @@ const AdminCommands = [
   STOP,
   WORLD,
   OP,
-  DEOP
+  DEOP,
+  SAVE
 ];
 
 export { AdminCommands };

@@ -276,8 +276,15 @@ class BlockPosition extends DataType implements IPosition {
     // Write the block position to the stream.
     this.write(stream, position);
 
-    // Convert the buffer to a bigint.
-    return BigInt("0x" + stream.getBuffer().toString("hex"));
+    // Calculate the hash of the stream.
+    // Iterate over the buffer and shift the hash left by 8 bits and add the byte.
+    let hash = 0n;
+    for (const byte of stream.getBuffer()) {
+      hash = (hash << 8n) | BigInt(byte);
+    }
+
+    // Return the hash.
+    return hash;
   }
 
   /**
@@ -286,8 +293,15 @@ class BlockPosition extends DataType implements IPosition {
    * @returns The block position.
    */
   public static unhash(hash: bigint): BlockPosition {
-    // Convert the hash to a buffer.
-    const buffer = Buffer.from(hash.toString(16), "hex");
+    // Prepare an array to store the bytes.
+    const bytes = [];
+    while (hash > 0) {
+      bytes.push(Number(hash & 0xffn)); // Get last 8 bits
+      hash >>= 8n; // Shift right by 8 bits
+    }
+
+    // Create a new buffer from the bytes.
+    const buffer = Buffer.from(bytes.reverse());
 
     // Create a new binary stream.
     const stream = new BinaryStream(buffer);

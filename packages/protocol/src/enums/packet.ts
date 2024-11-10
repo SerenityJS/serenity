@@ -64,6 +64,7 @@ enum Packet {
   ShowCredits = 0x4b, // 75
   AvailableCommands = 0x4c, // 76
   CommandRequest = 0x4d, // 77
+  CommandBlockUpdate = 0x4e, // 78
   CommandOutput = 0x4f, // 79
   ResourcePackDataInfo = 0x52, // 82
   ResourcePackChunkData = 0x53, // 83
