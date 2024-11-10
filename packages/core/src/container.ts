@@ -227,10 +227,10 @@ class Container {
     // Update the container for all occupants.
     this.update();
 
-    // // Clone the NBT tags of the item.
-    // for (const tag of item.nbt.getTags()) {
-    //   newItem.nbt.addTag(tag);
-    // }
+    // Clone the NBT tags of the item.
+    for (const tag of item.nbt.values()) {
+      newItem.nbt.add(tag);
+    }
 
     // Return the new item.
     return newItem;

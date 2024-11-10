@@ -17,6 +17,17 @@ class ItemStackNbtMap extends Map<string, NBTTag> {
     this.itemStack = itemStack;
   }
 
+  public add(value: NBTTag<unknown>): this {
+    // Call the original set method
+    const result = super.set(value.name, value);
+
+    // Update the nbt data when a new value is added
+    this.update();
+
+    // Return the result
+    return result;
+  }
+
   public set(key: string, value: NBTTag<unknown>): this {
     // Call the original set method
     const result = super.set(key, value);

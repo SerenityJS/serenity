@@ -294,6 +294,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
     if (this.auxillary !== other.auxillary) return false;
     if (this.components.size !== other.components.size) return false;
     if (this.traits.size !== other.traits.size) return false;
+    if (this.nbt.size !== other.nbt.size) return false;
 
     // Stringify the components.
     const components = JSON.stringify([...this.components.entries()]);
@@ -312,6 +313,22 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
       // Check if the traits are equal.
       if (!trait.equals(otherTrait)) return false;
+    }
+
+    // Iterate over the nbt.
+    for (const [key, value] of this.nbt) {
+      // Get the other value.
+      const otherValue = other.nbt.get(key);
+
+      // Check if the other value exists.
+      if (!otherValue) return false;
+
+      // Get the snbt values of the nbt.
+      const snbt = value.valueOf(true) as string;
+      const otherSnbt = otherValue.valueOf(true) as string;
+
+      // Check if the nbt values are equal.
+      if (snbt !== otherSnbt) return false;
     }
 
     // Return true if the item stacks are equal.
