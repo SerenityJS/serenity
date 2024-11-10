@@ -19,11 +19,13 @@ import { ModalFormResponseHandler } from "./modal-form-response";
 import { RequestPermissionsHandler } from "./request-permissions";
 import { BlockPickRequestHandler } from "./block-pick-request";
 import { EmoteHandler } from "./emote";
+import { ResourcePackChunkRequestHandler } from "./resource-pack-chunk-request";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
   LoginHandler,
   ResourcePackClientResponseHandler,
+  ResourcePackChunkRequestHandler,
   PlayerAuthInputHandler,
   SetLocalPlayerAsInitializedHandler,
   DisconnectHandler,
@@ -41,7 +43,7 @@ const Handlers = [
   ModalFormResponseHandler,
   RequestPermissionsHandler,
   BlockPickRequestHandler,
-  EmoteHandler
+  EmoteHandler,
 ];
 
 export { Handlers };

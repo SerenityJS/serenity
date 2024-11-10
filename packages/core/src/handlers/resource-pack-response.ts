@@ -1,25 +1,29 @@
 import {
   Difficulty,
+  DisconnectReason,
   MINECRAFT_VERSION,
   Packet,
   PlayStatus,
   PlayStatusPacket,
+  ResourceIdVersions,
   ResourcePackClientResponsePacket,
+  ResourcePackDataInfoPacket,
   ResourcePackResponse,
   ResourcePackStackPacket,
-  StartGamePacket
+  StartGamePacket,
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { ItemType } from "../item";
+import { ResourcePack } from "../resource-packs/pack";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
 
   public handle(
     packet: ResourcePackClientResponsePacket,
-    connection: Connection
+    connection: Connection,
   ): void {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
@@ -32,9 +36,45 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
       default: {
         // Debug the unhandled ResourcePackClientResponse
         this.serenity.logger.debug(
-          `Unhandled ResourcePackClientResponse: ${ResourcePackResponse[packet.response]}`
+          `Unhandled ResourcePackClientResponse: ${ResourcePackResponse[packet.response]}`,
         );
         break;
+      }
+
+      case ResourcePackResponse.Refused: {
+        // This means the resource packs must be accepted but the client didn't accept them
+        player.disconnect(
+          "Must accept resource packs.",
+          DisconnectReason.Kicked,
+        );
+
+        return; // TODO: Logging
+      }
+
+      case ResourcePackResponse.SendPacks: {
+        for (const packId of packet.packs) {
+          const pack = this.serenity.resourcePacks.getPack(packId);
+
+          // This should never happen
+          if (!pack) {
+            // TODO: logging
+            continue;
+          }
+
+          const dataInfoPacket = new ResourcePackDataInfoPacket();
+
+          dataInfoPacket.packId = packId;
+          dataInfoPacket.maxChunkSize = ResourcePack.MAX_CHUNK_SIZE;
+          dataInfoPacket.chunkCount = pack.getChunkCount();
+          dataInfoPacket.fileSize = pack.compressedSize;
+          dataInfoPacket.fileHash = pack.getHash();
+          dataInfoPacket.isPremium = false;
+          dataInfoPacket.packType = pack.packType;
+
+          player.send(dataInfoPacket);
+        }
+
+        return;
       }
 
       case ResourcePackResponse.HaveAllPacks: {
@@ -48,15 +88,15 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         stack.hasEditorPacks = false;
 
         stack.texturePacks = [];
-        // for (const pack of this.serenity.resourcePacks.getPacks()) {
-        //   const packInfo = new ResourceIdVersions(
-        //     pack.name,
-        //     pack.uuid,
-        //     pack.version
-        //   );
+        for (const pack of this.serenity.resourcePacks.getPacks()) {
+          const packInfo = new ResourceIdVersions(
+            pack.name,
+            pack.uuid,
+            pack.version,
+          );
 
-        //   stack.texturePacks.push(packInfo);
-        // }
+          stack.texturePacks.push(packInfo);
+        }
 
         // Send the ResourcePackStackPacket to the player
         return player.send(stack);
@@ -101,200 +141,200 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
             name: "commandblockoutput",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "dodaylightcycle",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "doentitydrops",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "dofiretick",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "recipesunlock",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "dolimitedcrafting",
             editable: true,
             type: 1,
-            value: false
+            value: false,
           },
           {
             name: "domobloot",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "domobspawning",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "dotiledrops",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "doweathercycle",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "drowningdamage",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "falldamage",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "firedamage",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "keepinventory",
             editable: true,
             type: 1,
-            value: false
+            value: false,
           },
           {
             name: "mobgriefing",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "pvp",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "showcoordinates",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "naturalregeneration",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "tntexplodes",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "sendcommandfeedback",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "maxcommandchainlength",
             editable: true,
             type: 2,
-            value: 65_535
+            value: 65_535,
           },
           {
             name: "doinsomnia",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "commandblocksenabled",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "randomtickspeed",
             editable: true,
             type: 2,
-            value: 1
+            value: 1,
           },
           {
             name: "doimmediaterespawn",
             editable: true,
             type: 1,
-            value: false
+            value: false,
           },
           {
             name: "showdeathmessages",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "functioncommandlimit",
             editable: true,
             type: 2,
-            value: 10_000
+            value: 10_000,
           },
           {
             name: "spawnradius",
             editable: true,
             type: 2,
-            value: 10
+            value: 10,
           },
           {
             name: "showtags",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "freezedamage",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "respawnblocksexplode",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "showbordereffect",
             editable: true,
             type: 1,
-            value: true
+            value: true,
           },
           {
             name: "playerssleepingpercentage",
             editable: true,
             type: 2,
-            value: 100
-          }
+            value: 100,
+          },
         ];
         packet.experiments = [];
         packet.experimentsPreviouslyToggled = false;

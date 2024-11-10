@@ -30,6 +30,7 @@ import type {
   WorldProperties,
   WorldProviderProperties
 } from "./types";
+import { ResourcePackManager } from "./resource-packs/manager";
 
 const DefaultServerProperties: ServerProperties = {
   port: 19132,
@@ -91,7 +92,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
   public readonly permissions: Permissions;
 
-  //public readonly resourcePacks: ResourcePackManager;
+  public readonly resourcePacks: ResourcePackManager;
 
   /**
    * Whether the server is currently running or not
@@ -138,7 +139,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         : new Permissions(this, { permissions: this.properties.permissions });
 
     // Create the resource pack manager
-    //this.resourcePacks = new ResourcePackManager(this.properties.resourcePacks, this.options.mustAcceptPacks);
+    this.resourcePacks = new ResourcePackManager(
+      this.properties.resourcePacks,
+      this.properties.mustAcceptPacks,
+    );
   }
 
   /**
