@@ -1348,6 +1348,7 @@ __metadata:
     "@serenityjs/core": "workspace:*"
     "@serenityjs/internal-config": "workspace:*"
     "@serenityjs/logger": "workspace:*"
+    "@serenityjs/protocol": "workspace:^"
     "@swc/core": "npm:1.7.42"
     "@types/node": "npm:22.8.6"
     eslint: "npm:9.13.0"
@@ -1358,7 +1359,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/protocol@workspace:*, @serenityjs/protocol@workspace:packages/protocol":
+"@serenityjs/protocol@workspace:*, @serenityjs/protocol@workspace:^, @serenityjs/protocol@workspace:packages/protocol":
   version: 0.0.0-use.local
   resolution: "@serenityjs/protocol@workspace:packages/protocol"
   dependencies:

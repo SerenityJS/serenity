@@ -10,18 +10,22 @@ import { relative, resolve } from "node:path";
 import { inflateSync } from "node:zlib";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { Serenity, ServerEvent } from "@serenityjs/core";
+import { Serenity, ServerEvent, WorldEvent } from "@serenityjs/core";
 import { BinaryStream } from "@serenityjs/binarystream";
 
 import { PluginPackage } from "./types";
 import { Plugin } from "./plugin";
+import Command from "./commands/command";
+import { PluginsEnum } from "./commands";
 
 interface PipelineProperties {
   path: string;
+  commands: boolean;
 }
 
 const DefaultPipelineProperties: PipelineProperties = {
-  path: "./plugins"
+  path: "./plugins",
+  commands: true
 };
 
 class Pipeline {
@@ -88,6 +92,14 @@ class Pipeline {
     // Hook into the serenity server events
     serenity.on(ServerEvent.Start, this.start.bind(this));
     serenity.on(ServerEvent.Stop, this.stop.bind(this));
+
+    // Check if the plugins command should be registered
+    if (!this.properties.commands) return;
+
+    // Hook into the world initialize event
+    serenity.on(WorldEvent.WorldInitialize, ({ world }) =>
+      Command(world, this)
+    );
   }
 
   /**
@@ -160,15 +172,19 @@ class Pipeline {
           continue;
         }
 
-        // Set the pipeline & serenity for the plugin
+        // Set the pipeline, serenity, and path for the plugin
         plugin.pipeline = this;
         plugin.serenity = this.serenity;
+        plugin.path = path;
 
         // Add the plugin to the plugins map
         this.plugins.set(plugin.identifier, plugin);
 
         // Initialize the plugin
         plugin.onInitialize(plugin);
+
+        // Add the plugin to the plugins enum
+        PluginsEnum.options.push(plugin.identifier);
 
         // Add the temporary path to the set
         this.tempPaths.add(tempPath);
@@ -228,12 +244,16 @@ class Pipeline {
           continue;
         }
 
-        // Set the pipeline & serenity for the plugin
+        // Set the pipeline, serenity, and path for the plugin
         plugin.pipeline = this;
         plugin.serenity = this.serenity;
+        plugin.path = path;
 
         // Add the plugin to the plugins map
         this.plugins.set(plugin.identifier, plugin);
+
+        // Add the plugin to the plugins enum
+        PluginsEnum.options.push(plugin.identifier);
 
         // Initialize the plugin
         plugin.onInitialize(plugin);
@@ -269,6 +289,68 @@ class Pipeline {
     for (const tempPath of this.tempPaths) {
       // Delete the temporary file
       unlinkSync(tempPath);
+    }
+  }
+
+  public reload(plugin: Plugin): void {
+    // Shut down the plugin
+    plugin.onShutDown(plugin);
+
+    // Remove the plugin from the plugins map
+    this.plugins.delete(plugin.identifier);
+
+    // Get the plugin path
+    const path = plugin.path;
+
+    // Delete the require cache for the plugin
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- Dynamic delete is required here
+    delete require.cache[require.resolve(path)];
+
+    this.serenity.removePath(path);
+
+    // Attempt to load the plugin
+    try {
+      // Import the plugin module
+      // eslint-disable-next-line @typescript-eslint/no-require-imports -- Require is used here to import the plugin module
+      const module = require(path);
+
+      // Get the plugin class from the module
+      const rPlugin = module.default as Plugin;
+
+      // Check if the plugin is an instance of the Plugin class
+      if (!(rPlugin instanceof Plugin)) {
+        this.logger.warn(
+          `Unable to reload plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
+        );
+
+        // Skip the plugin
+        return;
+      }
+
+      // Set the pipeline, serenity, and path for the plugin
+      rPlugin.pipeline = this;
+      rPlugin.serenity = this.serenity;
+      rPlugin.path = path;
+
+      // Add the plugin to the plugins map
+      this.plugins.set(rPlugin.identifier, rPlugin);
+
+      // Initialize the plugin
+      rPlugin.onInitialize(rPlugin);
+
+      // Start up the plugin
+      rPlugin.onStartUp(rPlugin);
+
+      // Log the successful reload
+      this.logger.info(
+        `Successfully reloaded plugin §1${rPlugin.identifier}§r from §8${relative(process.cwd(), path)}§r.`
+      );
+    } catch (reason) {
+      // Log the error
+      this.logger.warn(
+        `Failed to reload plugin from §8${relative(process.cwd(), path)}§r, skipping the plugin.`,
+        reason
+      );
     }
   }
 }

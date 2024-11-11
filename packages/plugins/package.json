@@ -33,6 +33,7 @@
   "dependencies": {
     "@serenityjs/binarystream": "^2.6.6",
     "@serenityjs/core": "workspace:*",
-    "@serenityjs/logger": "workspace:*"
+    "@serenityjs/logger": "workspace:*",
+    "@serenityjs/protocol": "workspace:*"
   }
 }
