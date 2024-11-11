@@ -33,6 +33,12 @@ class Plugin {
   public path!: string;
 
   /**
+   * Whether or not the plugin is bundled.
+   * @Note This is only available after the plugin is initialized.
+   */
+  public isBundled!: boolean;
+
+  /**
    * The plugin pipeline the plugin is in.
    * @Note This is only available after the plugin is initialized.
    */

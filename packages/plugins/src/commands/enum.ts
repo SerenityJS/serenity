@@ -7,7 +7,7 @@ class PluginsEnum extends CustomEnum {
 
 class PluginActionsEnum extends CustomEnum {
   public static readonly identifier = "plugin_actions";
-  public static readonly options: Array<string> = ["list", "reload"];
+  public static readonly options: Array<string> = ["list", "reload", "bundle"];
 }
 
 export { PluginsEnum, PluginActionsEnum };

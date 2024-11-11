@@ -1,3 +1,5 @@
+import { relative } from "path";
+
 import { World } from "@serenityjs/core";
 import { CommandPermissionLevel } from "@serenityjs/protocol";
 
@@ -54,7 +56,7 @@ const register = (world: World, pipeline: Pipeline) => {
         },
         ({ action, plugin }) => {
           // Check if the action is reload
-          if (action.result !== "reload") return;
+          if (action.result !== "reload" && action.result !== "bundle") return;
 
           // Get the plugin from the pipeline
           const pluginInstance = pipeline.plugins.get(plugin.result as string);
@@ -63,13 +65,30 @@ const register = (world: World, pipeline: Pipeline) => {
           if (!pluginInstance)
             throw new Error(`Plugin ${plugin.result} is not found.`);
 
-          // Reload the plugin
-          pipeline.reload(pluginInstance);
+          // Check if the action is reload
+          if (action.result === "reload") {
+            // Reload the plugin
+            pipeline.reload(pluginInstance);
 
-          // Send the message to the origin
-          return {
-            message: `§aSuccessfully reloaded §2${pluginInstance.identifier}§a.`
-          };
+            // Send the message to the origin
+            return {
+              message: `§aSuccessfully reloaded §2${pluginInstance.identifier}§a.`
+            };
+          } else {
+            if (pluginInstance.isBundled)
+              // Check if the plugin is already bundled
+              throw new Error(
+                `Plugin ${pluginInstance.identifier} cannot be bundled, as it is already a bundled plugin.`
+              );
+
+            // Bundle the plugin
+            pipeline.bundle(pluginInstance);
+
+            // Send the message to the origin
+            return {
+              message: `§aSuccessfully bundled §2${pluginInstance.identifier}§a, output file was placed at §7${relative(process.cwd(), pipeline.path)}§a.`
+            };
+          }
         }
       );
     },

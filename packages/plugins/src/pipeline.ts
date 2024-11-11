@@ -7,7 +7,7 @@ import {
   writeFileSync
 } from "node:fs";
 import { relative, resolve } from "node:path";
-import { inflateSync } from "node:zlib";
+import { deflateSync, inflateSync } from "node:zlib";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Serenity, ServerEvent, WorldEvent } from "@serenityjs/core";
@@ -176,6 +176,7 @@ class Pipeline {
         plugin.pipeline = this;
         plugin.serenity = this.serenity;
         plugin.path = path;
+        plugin.isBundled = true;
 
         // Add the plugin to the plugins map
         this.plugins.set(plugin.identifier, plugin);
@@ -248,6 +249,7 @@ class Pipeline {
         plugin.pipeline = this;
         plugin.serenity = this.serenity;
         plugin.path = path;
+        plugin.isBundled = false;
 
         // Add the plugin to the plugins map
         this.plugins.set(plugin.identifier, plugin);
@@ -352,6 +354,34 @@ class Pipeline {
         reason
       );
     }
+  }
+
+  public bundle(plugin: Plugin): void {
+    const inputPath = resolve(plugin.path, "dist");
+
+    // Read the ESM and CJS index files from the input path
+    const esmIndex = readFileSync(resolve(inputPath, "index.mjs"));
+    const cjsIndex = readFileSync(resolve(inputPath, "index.js"));
+
+    // Create a new BinaryStream instance
+    const stream = new BinaryStream();
+
+    // Write the length of the ESM index file and then write the compressed ESM index file
+    stream.writeVarInt(esmIndex.length);
+    stream.writeBuffer(esmIndex);
+
+    // Write the length of the CJS index file and then write the compressed CJS index file
+    stream.writeVarInt(cjsIndex.length);
+    stream.writeBuffer(cjsIndex);
+
+    // Get the buffer from the BinaryStream
+    const buffer = stream.getBuffer();
+
+    // Write the BinaryStream to the output path
+    writeFileSync(
+      resolve(this.path, `${plugin.identifier}.plugin`),
+      deflateSync(buffer)
+    );
   }
 }
 
