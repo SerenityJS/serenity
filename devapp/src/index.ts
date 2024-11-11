@@ -1,13 +1,4 @@
-import {
-  Serenity,
-  LevelDBProvider,
-  WorldEvent,
-  Player,
-  ItemStack,
-  ItemIdentifier,
-  EntityInventoryTrait
-} from "@serenityjs/core";
-import { CompoundTag } from "@serenityjs/nbt";
+import { Serenity, LevelDBProvider } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -27,19 +18,4 @@ void pipeline.initialize(() => {
 
   // Start the server
   serenity.start();
-});
-
-serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
-  world.commands.register("test", "", ({ origin }) => {
-    if (!(origin instanceof Player)) return;
-
-    const itemStack = new ItemStack(ItemIdentifier.Diamond, { amount: 8 });
-
-    const display = new CompoundTag("display");
-    display.createStringTag("Name", "Hello World!");
-
-    itemStack.nbt.set("display", display);
-
-    origin.getTrait(EntityInventoryTrait).container.addItem(itemStack);
-  });
 });
