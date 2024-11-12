@@ -137,9 +137,29 @@ class BlockStorage {
     let bitsPerBlock = Math.ceil(Math.log2(storage.palette.length));
 
     // Set bitsPerBlock to 1 if calculated as 0, and pad as necessary
-    if (bitsPerBlock < 1) bitsPerBlock = 1;
-    else if (bitsPerBlock > 8 && bitsPerBlock < 16) bitsPerBlock = 8;
-    else if (bitsPerBlock > 8) bitsPerBlock = 16;
+    switch (bitsPerBlock) {
+      case 0: {
+        bitsPerBlock = 1;
+        break;
+      }
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6: {
+        break;
+      }
+      case 7:
+      case 8: {
+        bitsPerBlock = 8;
+        break;
+      }
+      default: {
+        bitsPerBlock = 16;
+        break;
+      }
+    }
 
     // Write the bits per block (shifted and flagged)
     stream.writeByte((bitsPerBlock << 1) | 1);
@@ -210,6 +230,9 @@ class BlockStorage {
     // Read the bits per block
     const paletteAndFlag = stream.readByte();
     const bitsPerBlock = paletteAndFlag >> 1;
+
+    // Check if the palette is using runtime IDs.
+    const _isRuntime = (paletteAndFlag & 1) !== 0;
 
     // Calculate block and word sizes
     const blocksPerWord = Math.floor(32 / bitsPerBlock);
