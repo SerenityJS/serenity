@@ -1,7 +1,8 @@
 import { BlockIdentifier } from "../enums";
 import { BlockState } from "../types";
+import { BlockEnum } from "..";
 
-import { BlockPermutation, BlockType } from "./identity";
+import { BlockPermutation, BlockType, CustomBlockType } from "./identity";
 
 import { BlockTraits } from ".";
 
@@ -42,6 +43,14 @@ class BlockPalette {
    */
   public getAllTypes(): Array<BlockType> {
     return [...this.types.values()];
+  }
+
+  /**
+   * Gets all custom block types from the palette.
+   * @returns All custom block types from the palette.
+   */
+  public getAllCustomTypes(): Array<CustomBlockType> {
+    return this.getAllTypes().filter((type) => type instanceof CustomBlockType);
   }
 
   /**
@@ -126,6 +135,9 @@ class BlockPalette {
 
     // Register the block type.
     this.types.set(type.identifier, type);
+
+    // Add the block type to the block enum.
+    BlockEnum.options.push(type.identifier);
 
     // Register the permutations of the block type.
     for (const permutation of type.permutations) {

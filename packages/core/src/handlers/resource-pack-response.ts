@@ -13,6 +13,7 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { ItemType } from "../item";
+import { CustomBlockType } from "../block";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
@@ -333,7 +334,11 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.serverAuthoritativeBlockBreaking = true;
         packet.currentTick = player.dimension.world.currentTick;
         packet.enchantmentSeed = 0;
-        packet.blockProperties = [];
+
+        // Map the custom blocks to the packet
+        packet.blockProperties = world.blockPalette
+          .getAllCustomTypes()
+          .map((block) => CustomBlockType.toBlockProperty(block));
 
         // Map the custom items to the packet
         packet.items = world.itemPalette

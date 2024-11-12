@@ -8,6 +8,7 @@ import {
 import { CreativeItems, ItemData } from "@serenityjs/protocol";
 
 import { ItemToolTier, type ItemIdentifier } from "../../enums";
+import { BlockType } from "../../block";
 
 import { ItemType } from "./type";
 import { CreativeItem } from "./creative";
@@ -29,17 +30,17 @@ for (const item of data) {
   const tool = TOOL_TYPES.find((tool) => tool.types.includes(item.name));
   const index = tool?.types.indexOf(item.name);
   const level = index === undefined ? ItemToolTier.None : index + 1;
+  const blockType = BlockType.types.get(item.name) ?? null;
 
   // Create the item type.
-  const type = new ItemType(
-    item.name as ItemIdentifier,
-    item.networkId,
-    meta?.stackable,
-    meta?.maxAmount,
-    tool?.network,
-    level,
-    meta?.tags
-  );
+  const type = new ItemType(item.name as ItemIdentifier, item.networkId, {
+    stackable: meta?.stackable,
+    maxAmount: meta?.maxAmount,
+    tool: tool?.network,
+    tier: level,
+    tags: meta?.tags,
+    block: blockType
+  });
 
   // Add the item type to the map.
   ItemType.types.set(type.identifier, type);

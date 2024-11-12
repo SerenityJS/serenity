@@ -1,6 +1,21 @@
 import { BlockFace, Vector3f } from "@serenityjs/protocol";
 
 import { BlockEntry } from "../world";
+import { BlockPermutation, ItemDrop } from "../../block";
+
+interface BlockTypeProperties {
+  loggable: boolean;
+  air: boolean;
+  liquid: boolean;
+  solid: boolean;
+  hardness: number;
+  friction: number;
+  color: string;
+  components: Array<string>;
+  tags: Array<string>;
+  drops: Array<ItemDrop>;
+  permutations: Array<BlockPermutation>;
+}
 
 interface BlockProperties {
   entry?: BlockEntry;
@@ -11,4 +26,4 @@ interface BlockInteractionOptions {
   face: BlockFace;
 }
 
-export { BlockProperties, BlockInteractionOptions };
+export { BlockProperties, BlockInteractionOptions, BlockTypeProperties };

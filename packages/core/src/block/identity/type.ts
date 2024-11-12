@@ -1,23 +1,9 @@
 import { BlockIdentifier } from "../../enums";
-import { BlockState } from "../../types";
+import { BlockState, BlockTypeProperties } from "../../types";
 
 import { ItemDrop } from "./drops";
 
 import type { BlockPermutation } from "./permutation";
-
-interface BlockTypeProperties {
-  loggable: boolean;
-  air: boolean;
-  liquid: boolean;
-  solid: boolean;
-  hardness: number;
-  friction: number;
-  color: string;
-  components: Array<string>;
-  tags: Array<string>;
-  drops: Array<ItemDrop>;
-  permutations: Array<BlockPermutation>;
-}
 
 const DefaultBlockTypeProperties: BlockTypeProperties = {
   loggable: false,
@@ -123,10 +109,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * @param identifier The identifier of the block type.
    * @param properties The properties of the block type.
    */
-  public constructor(
-    identifier: T,
-    properties: Partial<BlockTypeProperties> = DefaultBlockTypeProperties
-  ) {
+  public constructor(identifier: T, properties?: Partial<BlockTypeProperties>) {
     this.identifier = identifier;
     this.custom = false;
 

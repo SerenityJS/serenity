@@ -1,4 +1,11 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import {
+  Serenity,
+  LevelDBProvider,
+  WorldEvent,
+  CustomBlockType,
+  CustomItemType,
+  BlockPermutation
+} from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -18,4 +25,16 @@ void pipeline.initialize(() => {
 
   // Start the server
   serenity.start();
+});
+
+const block = new CustomBlockType("serenity:test_block");
+BlockPermutation.create(block, {});
+
+const customItem = new CustomItemType("serenity:test_block", {
+  block
+});
+
+serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
+  world.blockPalette.registerType(block);
+  world.itemPalette.registerType(customItem);
 });

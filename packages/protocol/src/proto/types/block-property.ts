@@ -3,7 +3,7 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
 
-class BlockProperties extends DataType {
+class BlockProperty extends DataType {
   public name: string;
   public nbt: CompoundTag<unknown>;
 
@@ -13,9 +13,9 @@ class BlockProperties extends DataType {
     this.nbt = nbt;
   }
 
-  public static override read(stream: BinaryStream): Array<BlockProperties> {
+  public static override read(stream: BinaryStream): Array<BlockProperty> {
     // Prepare an array to store the properties.
-    const properties: Array<BlockProperties> = [];
+    const properties: Array<BlockProperty> = [];
 
     // Read the number of properties.
     const amount = stream.readVarInt();
@@ -30,7 +30,7 @@ class BlockProperties extends DataType {
       const nbt = CompoundTag.read(stream, true);
 
       // Push the rule to the array.
-      properties.push(new BlockProperties(name, nbt));
+      properties.push(new BlockProperty(name, nbt));
     }
 
     // Return the properties.
@@ -39,7 +39,7 @@ class BlockProperties extends DataType {
 
   public static override write(
     stream: BinaryStream,
-    value: Array<BlockProperties>
+    value: Array<BlockProperty>
   ): void {
     // Write the number of properties given in the array.
     stream.writeVarInt(value.length);
@@ -55,4 +55,4 @@ class BlockProperties extends DataType {
   }
 }
 
-export { BlockProperties };
+export { BlockProperty };
