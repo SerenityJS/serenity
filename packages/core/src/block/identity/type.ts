@@ -141,9 +141,10 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     this.hardness = props.hardness;
     this.friction = props.friction;
     this.color = props.color;
-    this.components = props.components;
-    this.tags = props.tags;
-    this.drops = props.drops;
+    this.components = [...props.components, ...this.components];
+    this.tags = [...props.tags, ...this.tags];
+    this.drops = [...props.drops, ...this.drops];
+    this.permutations = [...props.permutations, ...this.permutations];
   }
 
   /**
