@@ -3,8 +3,7 @@ import {
   ActorEventPacket,
   LevelSoundEvent,
   LevelSoundEventPacket,
-  TakeItemActorPacket,
-  Vector3f
+  TakeItemActorPacket
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier, ItemIdentifier } from "../../enums";
@@ -201,8 +200,8 @@ class EntityItemStackTrait extends EntityTrait {
     ) {
       // Create a new take item actor packet
       const take = new TakeItemActorPacket();
-      take.itemUniqueId = this.entity.uniqueId;
-      take.targetUniqueId = this.target.uniqueId;
+      take.itemRuntimeId = this.entity.runtimeId;
+      take.targetRuntimeId = this.target.runtimeId;
 
       // Create a new level sound event packet
       const sound = new LevelSoundEventPacket();
@@ -214,7 +213,8 @@ class EntityItemStackTrait extends EntityTrait {
       sound.isGlobal = false;
 
       // Send the packets to the player
-      this.target.send(sound, take);
+      this.target.send(sound);
+      this.target.dimension.broadcast(take);
 
       // Get the players inventory component
       const inventory = this.target.getTrait(EntityInventoryTrait);
@@ -252,11 +252,6 @@ class EntityItemStackTrait extends EntityTrait {
         Math.abs(distance.y - 1) <= 1 &&
         Math.abs(distance.z) <= 1
       ) {
-        // Teleport the item to the player
-        this.entity.teleport(
-          new Vector3f(playerPos.x, playerPos.y - 1.5, playerPos.z)
-        );
-
         // Set the player as the target
         this.target = player;
 
