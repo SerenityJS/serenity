@@ -47,8 +47,6 @@ class CustomBlockType extends BlockType {
     // Create a compound tag for the Molang data.
     root.createIntTag("molangVersion", 0); // The version of the Molang data, not sure what this indicates on the client end.
 
-    console.log(root.valueOf());
-
     // Return the root compound tag.
     return root;
   }

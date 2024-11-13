@@ -1,6 +1,7 @@
 import { EntityIdentifier } from "../enums";
+import { EntityEnum } from "../commands";
 
-import { EntityType } from "./identity";
+import { CustomEntityType, EntityType } from "./identity";
 
 import { EntityTraits } from ".";
 
@@ -44,6 +45,12 @@ class EntityPalette {
     return [...this.types.values()];
   }
 
+  public getAllCustomTypes(): Array<CustomEntityType> {
+    return this.getAllTypes().filter(
+      (type) => type instanceof CustomEntityType
+    );
+  }
+
   /**
    * Gets an entity type from the palette.
    * @param identifier The entity identifier to get.
@@ -83,6 +90,9 @@ class EntityPalette {
 
     // Register the entity type.
     this.types.set(type.identifier, type);
+
+    // Add the entity type to the entity enum.
+    EntityEnum.options.push(type.identifier);
 
     // Return true if the entity type was registered.
     return true;
