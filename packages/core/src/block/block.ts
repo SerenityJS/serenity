@@ -226,6 +226,15 @@ class Block {
   }
 
   /**
+   * Sets the specified component to the block.
+   * @param key The key of the component to set.
+   * @param component The component to set.
+   */
+  public setComponent(key: string, component: JSONLikeObject): void {
+    this.components.set(key, component);
+  }
+
+  /**
    * Whether the block has the specified trait.
    * @param trait The trait to check for
    * @returns Whether the block has the trait
