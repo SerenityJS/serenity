@@ -336,8 +336,8 @@ class Container {
    */
   public show(player: Player): void {
     // Check if the player is already viewing a container.
-    if (player.openedContainer)
-      throw new Error("Player is already viewing a container.");
+    // If so, close the container.
+    if (player.openedContainer) player.openedContainer.close(player);
 
     // Add the player to the occupants.
     this.occupants.add(player);

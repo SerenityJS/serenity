@@ -1,4 +1,5 @@
 import {
+  AbilityIndex,
   BlockPosition,
   LevelSoundEvent,
   LevelSoundEventPacket
@@ -12,7 +13,10 @@ import { BlockTrait } from "./trait";
 class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open_bit";
 
-  public onInteract(_player: Player): void {
+  public onInteract(player: Player): boolean {
+    // Check if the player can open doors
+    if (!player.abilities.get(AbilityIndex.DoorsAndSwitches)) return false;
+
     // Get the state of the block
     const state = this.block.permutation.state as Record<string, unknown>;
 
@@ -21,6 +25,10 @@ class BlockOpenBitTrait extends BlockTrait {
 
     // Set the bit of the block
     this.setBit(!openBit);
+
+    // If the player is sneaking, we should place the block and interact with it door.
+    // If the player is not sneaking, we should just interact with the door.
+    return player.isSneaking; // The sneaking state of the player will be used to determine the action.
   }
 
   public setBit(open: boolean, silent = false): void {

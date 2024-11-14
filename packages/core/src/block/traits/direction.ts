@@ -3,8 +3,8 @@ import { CardinalDirection } from "../../enums";
 
 import { BlockTrait } from "./trait";
 
-class BlockCardinalDirectionTrait extends BlockTrait {
-  public static readonly identifier = "minecraft:cardinal_direction";
+class BlockDirectionTrait extends BlockTrait {
+  public static readonly identifier = "direction";
 
   public onPlace(player: Player): void {
     // Get the player's cardinal direction
@@ -41,7 +41,7 @@ class BlockCardinalDirectionTrait extends BlockTrait {
     // Create the state of the block
     const newState = {
       ...state,
-      direction: CardinalDirection[direction].toLowerCase()
+      direction: direction
     };
 
     // Get the permutation of the block
@@ -52,4 +52,4 @@ class BlockCardinalDirectionTrait extends BlockTrait {
   }
 }
 
-export { BlockCardinalDirectionTrait };
+export { BlockDirectionTrait };
