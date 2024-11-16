@@ -141,7 +141,8 @@ class LevelDBProvider extends WorldProvider {
     // Iterate through the chunks and write them to the database.
     for (const [dimension, chunks] of this.chunks) {
       // Iterate through the chunks and write them to the database.
-      for (const chunk of chunks.values()) this.writeChunk(chunk, dimension);
+      for (const chunk of chunks.values()) // Check if the chunk is dirty.
+        if (chunk.dirty) this.writeChunk(chunk, dimension);
 
       // Iterate through the entities and write them to the database.
       const entities = [...dimension.entities.values()];
@@ -153,7 +154,6 @@ class LevelDBProvider extends WorldProvider {
         else {
           // Write the entity to the database.
           this.writeEntity(entity.getDataEntry(), dimension);
-
           // Add the unique identifier to the list.
           uniqueIds.push(entity.uniqueId);
         }

@@ -254,6 +254,15 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param trait The trait to remove
    */
   public removeTrait(trait: string | typeof ItemTrait<T>): void {
+    // Get the trait from the itemstack
+    const instance = this.traits.get(
+      typeof trait === "string" ? trait : trait.identifier
+    );
+
+    // Call the onRemove trait event
+    instance?.onRemove?.();
+
+    // Remove the trait from the itemstack
     this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
   }
 
@@ -262,9 +271,12 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param trait The trait to add
    * @returns The trait that was added
    */
-  public addTrait<K extends typeof ItemTrait<T>>(trait: K): InstanceType<K> {
+  public addTrait<K extends typeof ItemTrait<T>>(
+    trait: K | ItemTrait<T>
+  ): InstanceType<K> {
     // Check if the trait already exists
-    if (this.traits.has(trait.identifier)) return this.getTrait<K>(trait);
+    if (this.traits.has(trait.identifier))
+      return this.getTrait(trait.identifier) as InstanceType<K>;
 
     // Check if the trait is in the palette
     if (this.world && !this.world.itemPalette.traits.has(trait.identifier))
@@ -274,8 +286,29 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
     // Attempt to add the trait to the itemstack
     try {
-      // Create a new instance of the trait
-      return new trait(this) as InstanceType<K>;
+      // Check if the trait is an instance of ItemTrait
+      if (trait instanceof ItemTrait) {
+        // Add the trait to the itemstack
+        this.traits.set(trait.identifier, trait);
+
+        // Call the onAdd trait event
+        trait.onAdd?.();
+
+        // Return the trait that was added
+        return trait as InstanceType<K>;
+      } else {
+        // Create a new instance of the trait
+        const instance = new trait(this);
+
+        // Add the trait to the itemstack
+        this.traits.set(instance.identifier, instance);
+
+        // Call the onAdd trait event
+        instance.onAdd?.();
+
+        // Return the trait that was added
+        return instance as InstanceType<K>;
+      }
     } catch (reason) {
       // Log the error to the console
       this.world.logger.error(
@@ -346,7 +379,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
       amount: this.amount,
       auxillary: this.auxillary,
       components: [...this.components.entries()],
-      traits: [...this.traits.keys()]
+      traits: [...this.traits.keys()],
+      nbt: this.nbt.serialize().toString("base64")
     };
 
     // Return the item stack entry.
@@ -403,6 +437,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
       // Attempt to add the trait to the itemstack
       this.addTrait(traitType);
     }
+
+    // Deserialize the nbt data.
+    this.nbt.deserialize(Buffer.from(entry.nbt, "base64"));
   }
 
   /**

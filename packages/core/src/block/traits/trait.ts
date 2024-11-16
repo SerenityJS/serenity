@@ -25,8 +25,8 @@ class BlockTrait extends Trait {
     super();
     this.block = block;
 
-    // Register the trait to the block
-    block.traits.set(this.identifier, this);
+    // Add the trait to the block.
+    block.addTrait(this);
   }
 
   /**

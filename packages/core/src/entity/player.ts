@@ -35,7 +35,7 @@ import {
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
-import { PlayerCursorTrait, PlayerTrait } from "./traits";
+import { type EntityTrait, PlayerCursorTrait, PlayerTrait } from "./traits";
 import { Device } from "./device";
 
 const DefaultPlayerProperties: PlayerProperties = {
@@ -645,7 +645,7 @@ class Player extends Entity {
       }
 
       // Attempt to add the trait to the entity
-      this.addTrait(traitType);
+      this.addTrait(traitType as typeof EntityTrait);
     }
 
     // Add the metadata to the player, if it does not already exist

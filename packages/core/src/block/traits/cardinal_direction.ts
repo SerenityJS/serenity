@@ -41,7 +41,7 @@ class BlockCardinalDirectionTrait extends BlockTrait {
     // Create the state of the block
     const newState = {
       ...state,
-      direction: CardinalDirection[direction].toLowerCase()
+      "minecraft:cardinal_direction": CardinalDirection[direction].toLowerCase()
     };
 
     // Get the permutation of the block

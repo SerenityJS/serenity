@@ -22,6 +22,16 @@ class Trait {
   }
 
   /**
+   * Called when the trait is added to an object.
+   */
+  public onAdd?(): void;
+
+  /**
+   * Called when the trait is removed from an object.
+   */
+  public onRemove?(): void;
+
+  /**
    * Called when the trait is ticked by the dimension.
    * @param deltaTick The delta tick of the trait.
    */
