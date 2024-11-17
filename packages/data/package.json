@@ -9,6 +9,7 @@
   "repository": "https://github.com/SerenityJS/packages/data",
   "files": [
     "dist/**",
+    "data/**",
     "README.md",
     "CHANGELOG.md"
   ],
