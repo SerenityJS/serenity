@@ -6,10 +6,11 @@
  * to provide resource packs pre-zipped, which is in line with vanilla's BDS.
  */
 
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { readdirSync, readFileSync, statSync, type Stats } from "fs";
 import { join } from "path";
 import { deflateRawSync } from "zlib";
+
+import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 interface CentralDirectoryFileHeader {
   version: number;
@@ -107,7 +108,7 @@ class Zip {
         const subItems = this.readDirectory(
           itemPath,
           relativePath.length === 0 ? item : relativePath + "/" + item,
-          compress,
+          compress
         );
 
         // Add the items from the subdirectory to the files map.
@@ -128,8 +129,8 @@ class Zip {
             stats: itemStats,
             data: useCompressed ? compressedData : fileData,
             crc32: this.calculateCRC32(fileData),
-            compressionMethod: useCompressed ? 8 : 0,
-          },
+            compressionMethod: useCompressed ? 8 : 0
+          }
         );
       }
     }
@@ -153,13 +154,13 @@ class Zip {
       ((header.lastModified.getSeconds() / 2) & 0x1f) |
         ((header.lastModified.getMinutes() & 0x3f) << 5) |
         ((header.lastModified.getHours() & 0x1f) << 11),
-      Endianness.Little,
+      Endianness.Little
     );
     this.stream.writeUShort(
       (header.lastModified.getDate() & 0x1f) |
         (((header.lastModified.getMonth() + 1) & 0x0f) << 5) |
         ((header.lastModified.getFullYear() - 1980) << 9),
-      Endianness.Little,
+      Endianness.Little
     );
 
     this.stream.writeInt32(header.crc32, Endianness.Little);
@@ -183,12 +184,12 @@ class Zip {
    * Writes a central directory file header to the zip file.
    */
   private writeCentralDirectoryFileHeader(
-    header: CentralDirectoryFileHeader,
+    header: CentralDirectoryFileHeader
   ): void {
     // Central directory file header signature
     this.stream.writeUint32(
       Zip.CENTRAL_DIRECTORY_FILE_HEADER_SIG,
-      Endianness.Little,
+      Endianness.Little
     );
 
     this.stream.writeShort(header.version, Endianness.Little);
@@ -201,13 +202,13 @@ class Zip {
       ((header.lastModified.getSeconds() / 2) & 0x1f) |
         ((header.lastModified.getMinutes() & 0x3f) << 5) |
         ((header.lastModified.getHours() & 0x1f) << 11),
-      Endianness.Little,
+      Endianness.Little
     );
     this.stream.writeUShort(
       (header.lastModified.getDate() & 0x1f) |
         (((header.lastModified.getMonth() + 1) & 0x0f) << 5) |
         ((header.lastModified.getFullYear() - 1980) << 9),
-      Endianness.Little,
+      Endianness.Little
     );
 
     this.stream.writeInt32(header.crc32, Endianness.Little);
@@ -245,7 +246,7 @@ class Zip {
     // End of central directory signature
     this.stream.writeUint32(
       Zip.END_OF_CENTRAL_DIRECTORY_SIG,
-      Endianness.Little,
+      Endianness.Little
     );
 
     this.stream.writeShort(eocd.diskNumber, Endianness.Little);
@@ -302,7 +303,7 @@ class Zip {
         compressedSize: file.data.length,
         uncompressedSize: file.stats.size,
         fileName: relativePath,
-        extraField: Buffer.alloc(0),
+        extraField: Buffer.alloc(0)
       };
 
       const centralDirectoryFileHeader: CentralDirectoryFileHeader = {
@@ -320,7 +321,7 @@ class Zip {
         fileHeaderOffset: this.stream.offset,
         fileName: relativePath,
         extraField: Buffer.alloc(0),
-        fileComment: "",
+        fileComment: ""
       };
 
       centralDirectoryFileHeaders.push(centralDirectoryFileHeader);
@@ -343,7 +344,7 @@ class Zip {
       totalEntries: files.size,
       centralDirectorySize: this.stream.offset - centralDirectoryOffset,
       centralDirectoryOffset: centralDirectoryOffset,
-      comment: "",
+      comment: ""
     };
 
     this.writeEndOfCentralDirectory(endOfCentralDirectory);

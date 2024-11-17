@@ -43,7 +43,7 @@ const Handlers = [
   ModalFormResponseHandler,
   RequestPermissionsHandler,
   BlockPickRequestHandler,
-  EmoteHandler,
+  EmoteHandler
 ];
 
 export { Handlers };

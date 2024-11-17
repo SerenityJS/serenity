@@ -22,6 +22,7 @@ import { Player } from "./entity";
 import { ConsoleInterface, WorldEnum } from "./commands";
 import { Permissions } from "./permissions";
 import { ServerEvent } from "./enums";
+import { ResourcePackManager } from "./resource-packs";
 
 import type {
   ServerEvents,
@@ -30,7 +31,6 @@ import type {
   WorldProperties,
   WorldProviderProperties
 } from "./types";
-import { ResourcePackManager } from "./resource-packs";
 
 const DefaultServerProperties: ServerProperties = {
   port: 19132,
@@ -43,7 +43,7 @@ const DefaultServerProperties: ServerProperties = {
   resourcePacks: "",
   mustAcceptPacks: false,
   defaultGenerator: VoidGenerator,
-  debugLogging: false,
+  debugLogging: false
 };
 
 class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
@@ -141,7 +141,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Create the resource pack manager
     this.resourcePacks = new ResourcePackManager(
       this.properties.resourcePacks,
-      this.properties.mustAcceptPacks,
+      this.properties.mustAcceptPacks
     );
   }
 
@@ -204,7 +204,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Log that the server is now running
     this.logger.info(
-      `§aServer is now running at §2${this.properties.address}§a:§2${this.properties.port}§a.§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`,
+      `§aServer is now running at §2${this.properties.address}§a:§2${this.properties.port}§a.§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`
     );
   }
 
@@ -258,7 +258,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    */
   public registerProvider(
     provider: typeof WorldProvider,
-    properties?: Partial<WorldProviderProperties>,
+    properties?: Partial<WorldProviderProperties>
   ): boolean {
     // Check if the provider is already registered
     if (this.providers.has(provider)) {
@@ -274,13 +274,13 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       // Initialize the provider
       provider.initialize(this, {
         ...DefaultWorldProviderProperties,
-        ...properties,
+        ...properties
       });
 
       // Add the provider to the registered providers
       this.providers.set(provider, {
         ...DefaultWorldProviderProperties,
-        ...properties,
+        ...properties
       });
 
       // Log that the provider has been registered
@@ -292,7 +292,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       // Log the error
       this.logger.error(
         `Failed to register provider: ${provider.identifier}`,
-        reason,
+        reason
       );
 
       // Return false if the provider failed to register
@@ -305,7 +305,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     if (this.generators.has(generator.identifier)) {
       // Log that the generator is already registered
       this.logger.error(
-        `Generator already registered: ${generator.identifier}`,
+        `Generator already registered: ${generator.identifier}`
       );
 
       // Return false if the generator is already registered
@@ -334,7 +334,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    */
   public createWorld(
     provider: typeof WorldProvider,
-    properties?: Partial<WorldProperties>,
+    properties?: Partial<WorldProperties>
   ): World | false {
     // Get the provider properties from the registered providers
     const providerProperties = this.providers.get(provider);
@@ -343,7 +343,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     if (!providerProperties) {
       // Log that the provider is not registered
       this.logger.error(
-        `Failed to create world, as the given provider is not registered: ${provider.identifier}`,
+        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
       );
 
       // Return false if the provider is not registered
@@ -454,7 +454,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public getPlayerByUsername(username: string): Player | null {
     return (
       [...this.players.values()].find(
-        (player) => player.username === username,
+        (player) => player.username === username
       ) ?? null
     );
   }

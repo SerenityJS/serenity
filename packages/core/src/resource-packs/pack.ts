@@ -1,7 +1,10 @@
-import { PackType } from "@serenityjs/protocol";
-import { ResourceManifest } from "../types";
-import { Zip } from "./zipfile";
 import { createHash } from "crypto";
+
+import { PackType } from "@serenityjs/protocol";
+
+import { ResourceManifest } from "../types";
+
+import { Zip } from "./zipfile";
 
 class ResourcePack {
   // TODO: Make this configurable
@@ -26,7 +29,7 @@ class ResourcePack {
     public readonly path: string,
     public readonly manifest: ResourceManifest,
     private readonly packZip: Zip,
-    public readonly selectedSubpack?: string,
+    public readonly selectedSubpack?: string
     //private readonly zippedPack:
   ) {
     this.name = this.manifest.header.name;
@@ -54,7 +57,7 @@ class ResourcePack {
   /** Get the amount of chunks that need to be sent to the client for this pack. */
   public getChunkCount(): number {
     return Math.ceil(
-      this.compressedData.byteLength / ResourcePack.MAX_CHUNK_SIZE,
+      this.compressedData.byteLength / ResourcePack.MAX_CHUNK_SIZE
     );
   }
 
@@ -63,7 +66,7 @@ class ResourcePack {
     const start = ResourcePack.MAX_CHUNK_SIZE * index;
     const end = Math.min(
       start + ResourcePack.MAX_CHUNK_SIZE,
-      this.compressedData.byteLength,
+      this.compressedData.byteLength
     );
 
     return this.compressedData.subarray(start, end);

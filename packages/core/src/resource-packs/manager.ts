@@ -4,16 +4,19 @@ import {
   readdirSync,
   readFileSync,
   statSync,
-  writeFileSync,
+  writeFileSync
 } from "fs";
-import { ResourceManifest } from "../types";
-import { ResourcePack } from "./pack";
 import { join } from "path";
-import { Zip } from "./zipfile";
+
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
+import { ResourceManifest } from "../types";
+
+import { ResourcePack } from "./pack";
+import { Zip } from "./zipfile";
+
 // Utility function to read JSON files with comments
-function readJsoncSync<T = any>(path: string): T {
+function readJsoncSync<T = unknown>(path: string): T {
   const data = readFileSync(path, "utf-8");
 
   const strippedData = data
@@ -43,13 +46,13 @@ class ResourcePackManager {
 
   public constructor(
     public readonly packsFolder: string,
-    public readonly mustAccept: boolean,
+    public readonly mustAccept: boolean
   ) {
     if (!existsSync(this.packsFolder)) {
       mkdirSync(this.packsFolder, { recursive: true });
     } else if (!statSync(this.packsFolder).isDirectory()) {
       this.logger.error(
-        "The provided resource pack folder path already exists and is not a directory.",
+        "The provided resource pack folder path already exists and is not a directory."
       );
       return;
     }
@@ -60,7 +63,9 @@ class ResourcePackManager {
     const selectedPacks = new Array<SelectedPack>();
     if (existsSync(selectedPacksPath)) {
       // Load the selected packs file
-      selectedPacks.push(...readJsoncSync<SelectedPack[]>(selectedPacksPath));
+      selectedPacks.push(
+        ...readJsoncSync<Array<SelectedPack>>(selectedPacksPath)
+      );
     } else if (this.installedPacks.size === 0) {
       // If no resource packs are installed, and there is no selected_packs.json file, then just return
       this.logger.info("Currently no resource packs installed.");
@@ -69,11 +74,11 @@ class ResourcePackManager {
       // If there is no selected_packs.json file, then read all available
       // packs and select all of them. Then write selected_packs.json
       const installed = Array.from(this.installedPacks.keys()).map((id) => ({
-        id,
+        id
       }));
 
       this.logger.info(
-        `selected_packs.json file not found; Selecting all ${installed.length} installed packs by default.`,
+        `selected_packs.json file not found; Selecting all ${installed.length} installed packs by default.`
       );
 
       selectedPacks.push(...installed);
@@ -98,13 +103,13 @@ class ResourcePackManager {
       let manifest: ResourceManifest;
       try {
         manifest = readJsoncSync<ResourceManifest>(manifestPath);
-      } catch (e) {
+      } catch (reason) {
         // fail to read manifest, skip this folder
         this.logger.info(
-          `Failed to find/read manifest.json in folder '${folder}' - skipping.`,
+          `Failed to find/read manifest.json in folder '${folder}' - skipping.`
         );
         this.logger.debug(
-          `Error finding/reading manifest.json in resource pack folder: '${folder}' - ${e.message}`,
+          `Error finding/reading manifest.json in resource pack folder: '${folder}' - ${reason}`
         );
         continue;
       }
@@ -112,7 +117,7 @@ class ResourcePackManager {
       this.installedPacks.set(manifest.header.uuid, {
         manifest,
         packPath,
-        id: manifest.header.uuid,
+        id: manifest.header.uuid
       });
     }
   }
@@ -123,7 +128,7 @@ class ResourcePackManager {
 
       if (!installedPack) {
         this.logger.info(
-          `Selected pack '${id}' is not installed; not enabling`,
+          `Selected pack '${id}' is not installed; not enabling`
         );
         continue;
       }
@@ -135,12 +140,16 @@ class ResourcePackManager {
         installedPack.packPath,
         installedPack.manifest,
         packZip,
-        subpack,
+        subpack
       );
       pack.compress();
 
       this.resourcePacks.set(id, pack);
     }
+
+    this.logger.info(
+      `Successfully loaded ${this.resourcePacks.size} resource packs.`
+    );
   }
 
   public getPacks(): Array<ResourcePack> {

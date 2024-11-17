@@ -29,12 +29,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
     damager?: Entity,
     cause?: ActorDamageCause
   ): void {
-    const signal = new EntityHurtSignal(
-      this.entity,
-      amount,
-      cause,
-      damager
-    );
+    const signal = new EntityHurtSignal(this.entity, amount, cause, damager);
 
     if (!signal.emit()) return;
     // Calculate the new health value

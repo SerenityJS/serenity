@@ -1,10 +1,11 @@
 import {
   Packet,
   ResourcePackChunkDataPacket,
-  ResourcePackChunkRequestPacket,
+  ResourcePackChunkRequestPacket
 } from "@serenityjs/protocol";
-import { NetworkHandler } from "../network";
 import { Connection } from "@serenityjs/raknet";
+
+import { NetworkHandler } from "../network";
 import { ResourcePack } from "../resource-packs";
 
 class ResourcePackChunkRequestHandler extends NetworkHandler {
@@ -12,7 +13,7 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
 
   public handle(
     packet: ResourcePackChunkRequestPacket,
-    connection: Connection,
+    connection: Connection
   ): void {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
@@ -30,7 +31,7 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
     chunkPacket.packId = packet.packId;
     chunkPacket.chunkId = packet.chunkId;
     chunkPacket.byteOffset = BigInt(
-      packet.chunkId * ResourcePack.MAX_CHUNK_SIZE,
+      packet.chunkId * ResourcePack.MAX_CHUNK_SIZE
     );
     chunkPacket.chunkData = pack.getChunk(packet.chunkId);
 

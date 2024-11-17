@@ -10,7 +10,7 @@ import {
   PlayStatusPacket,
   ResourcePacksInfoPacket,
   SerializedSkin,
-  TexturePackInfo,
+  TexturePackInfo
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { createDecoder } from "fast-jwt";
@@ -45,7 +45,7 @@ class LoginHandler extends NetworkHandler {
       return this.network.disconnectConnection(
         connection,
         "Failed to connect due to having an invalid xuid. Make sure you are connected to Xbox Live before joining the server.",
-        DisconnectReason.InvalidTenant,
+        DisconnectReason.InvalidTenant
       );
     }
 
@@ -58,7 +58,7 @@ class LoginHandler extends NetworkHandler {
       // Disconnect the player.
       player.disconnect(
         "You have been disconnected from the server because you logged in from another location.",
-        DisconnectReason.LoggedInOtherLocation,
+        DisconnectReason.LoggedInOtherLocation
       );
     }
 
@@ -69,7 +69,7 @@ class LoginHandler extends NetworkHandler {
       return this.network.disconnectConnection(
         connection,
         "There are no worlds registered within the server process.",
-        DisconnectReason.WorldCorruption,
+        DisconnectReason.WorldCorruption
       );
 
     // Get the default dimension, and check if it is undefined.
@@ -79,7 +79,7 @@ class LoginHandler extends NetworkHandler {
       return this.network.disconnectConnection(
         connection,
         "There are no dimensions registered within the world instance.",
-        DisconnectReason.WorldCorruption,
+        DisconnectReason.WorldCorruption
       );
 
     // // Get the permission level of the player.
@@ -91,7 +91,7 @@ class LoginHandler extends NetworkHandler {
       tokens.clientData.DeviceModel,
       tokens.clientData.DeviceOS,
       tokens.clientData.MaxViewDistance,
-      tokens.clientData.MemoryTier,
+      tokens.clientData.MemoryTier
     );
 
     // Read the player data from the world provider.
@@ -106,7 +106,7 @@ class LoginHandler extends NetworkHandler {
       xuid,
       uuid,
       device,
-      skin,
+      skin
     };
 
     // Check if the player data exists
@@ -131,7 +131,7 @@ class LoginHandler extends NetworkHandler {
     if (!signal)
       return player.disconnect(
         "Failed to join the server.",
-        DisconnectReason.Kicked,
+        DisconnectReason.Kicked
       );
 
     // TODO: Enable encryption, the public key is given in the tokens
@@ -158,7 +158,7 @@ class LoginHandler extends NetworkHandler {
         pack.uuid,
         pack.version,
         false,
-        "", // TODO: CDN links
+        "" // TODO: CDN links
       );
 
       packs.packs.push(packInfo);
@@ -166,7 +166,7 @@ class LoginHandler extends NetworkHandler {
 
     // Log the join event to the console
     world.logger.info(
-      `§8[§9${player.username}§8] Event:§r Player joined the server.`,
+      `§8[§9${player.username}§8] Event:§r Player joined the server.`
     );
 
     // Send the player the login status packet and the resource pack info packet.
@@ -190,19 +190,19 @@ class LoginHandler extends NetworkHandler {
 
     // Contains mainly metadata, but also includes important XBL data (displayName, xuid, identity uuid, etc.)
     const identityData: IdentityData = decodedChains.find(
-      (chain) => chain.extraData !== undefined,
+      (chain) => chain.extraData !== undefined
     )?.extraData;
 
     // Public key for encryption
     // TODO: Implement encryption
     const publicKey = decodedChains.find(
-      (chain) => chain.identityPublicKey !== undefined,
+      (chain) => chain.identityPublicKey !== undefined
     )?.identityPublicKey;
 
     return {
       clientData,
       identityData,
-      publicKey,
+      publicKey
     };
   }
 }
