@@ -1,5 +1,6 @@
 export * from "./serenity";
 export * from "./network";
+export * from "./commands";
 export * from "./item";
 export * from "./entity";
 export * from "./block";
@@ -8,7 +9,6 @@ export * from "./types";
 export * from "./enums";
 export * from "./handlers";
 export * from "./container";
-export * from "./commands";
 export * from "./events";
 export * from "./forms";
 export * from "./loot";

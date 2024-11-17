@@ -1,6 +1,15 @@
-import { Items } from "../../types";
-import { BlockIdentifier, ItemToolTier, ItemToolType } from "../../enums";
+import { Items, ItemTypeProperties } from "../../types";
+import { ItemToolTier, ItemToolType } from "../../enums";
 import { BlockType } from "../../block";
+
+const DefaultItemTypeProperties: ItemTypeProperties = {
+  stackable: true,
+  maxAmount: 64,
+  tool: ItemToolType.None,
+  tier: ItemToolTier.None,
+  tags: [],
+  block: null
+};
 
 import type {
   ItemData,
@@ -57,33 +66,24 @@ class ItemType<T extends keyof Items = keyof Items> {
    * Create a new item type.
    * @param identifier The identifier of the item type.
    * @param network The network of the item type.
-   * @param stackable Whether the item type is stackable.
-   * @param maxAmount The maximum stack size of the item type.
-   * @param tool The tool type of the item type.
-   * @param tier The tool tier of the item type.
-   * @param tags The tags of the item type.
-   * @param block The block of the item type.
+   * @param properties The properties of the item type.
    */
   public constructor(
     identifier: T,
     network: number,
-    stackable?: boolean,
-    maxAmount?: number,
-    tool?: ItemToolType,
-    tier?: number,
-    tags?: Array<string>,
-    block?: Items[T]
+    properties?: Partial<ItemTypeProperties>
   ) {
     this.identifier = identifier;
     this.network = network;
-    this.stackable = stackable ?? true;
-    this.maxAmount = maxAmount ?? 64;
-    this.tool = tool ?? ItemToolType.None;
-    this.tier = tier ?? ItemToolTier.None;
-    this.tags = tags ?? [];
-    this.block =
-      block ??
-      (BlockType.get(identifier as unknown as BlockIdentifier) as Items[T]);
+
+    const props = { ...DefaultItemTypeProperties, ...properties };
+
+    this.stackable = props.stackable;
+    this.maxAmount = props.maxAmount;
+    this.tool = props.tool;
+    this.tier = props.tier;
+    this.tags = props.tags;
+    this.block = props.block as Items[T];
   }
 
   /**

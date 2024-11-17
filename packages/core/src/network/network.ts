@@ -283,7 +283,7 @@ class Network extends Emitter<NetworkEvents> {
 
           // Check if the packet was cancelled by an external listener.
           // If so, the registered handlers will not be called.
-          if (!network && !all) {
+          if (!network || !all) {
             // Log a debug message if the packet was cancelled by an external listener.
             this.logger.debug(
               `Packet received with id ${packetId} was cancelled by an external listener.`
@@ -398,7 +398,7 @@ class Network extends Emitter<NetworkEvents> {
 
       // Check if the packet was cancelled by an external listener
       // If so, the registered handlers will not be called
-      if (!network && !all) {
+      if (!network || !all) {
         // Log a debug message if the packet was cancelled by an external listener
         this.logger.debug(
           `Packet sent with id ${packet.getId()} was cancelled by an external listener.`

@@ -150,12 +150,15 @@ class InventoryTransactionHandler extends NetworkHandler {
     switch (transaction.type) {
       // Handles placing items as blocks
       case ItemUseInventoryTransactionType.Place: {
-        // Check if the transaction is the initial action
-        // If it isn't, we don't want to place a block
-        if (!transaction.initialTransaction) return;
-
         // Get the block that the transaction is initially interacting with
         const interacting = dimension.getBlock(transaction.blockPosition);
+
+        // Check if the transaction is the initial action
+        // If it isn't, we don't want to place a block
+        if (!transaction.initialTransaction) {
+          // Interact with the block at the position
+          return void interacting.interact(player);
+        }
 
         // If the block is air, we can't place a block there
         if (interacting.isAir()) return;

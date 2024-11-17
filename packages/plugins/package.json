@@ -23,7 +23,7 @@
     "bundle": "./bin/bundle.js"
   },
   "devDependencies": {
-    "@serenityjs/internal-config": "workspace:*",
+    "@serenityjs/internal-config": "*",
     "@swc/core": "1.7.42",
     "@types/node": "22.8.6",
     "eslint": "9.13.0",
@@ -32,7 +32,8 @@
   },
   "dependencies": {
     "@serenityjs/binarystream": "^2.6.6",
-    "@serenityjs/core": "workspace:*",
-    "@serenityjs/logger": "workspace:*"
+    "@serenityjs/core": "*",
+    "@serenityjs/logger": "*",
+    "@serenityjs/protocol": "*"
   }
 }

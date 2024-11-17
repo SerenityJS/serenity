@@ -10,8 +10,8 @@
 
 node_modules
 
-worlds
-plugins
+devapp/worlds
+devapp/plugins/*
 permissions.json
 resource_packs
 

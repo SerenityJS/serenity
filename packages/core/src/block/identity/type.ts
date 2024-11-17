@@ -1,9 +1,23 @@
 import { BlockIdentifier } from "../../enums";
-import { BlockState } from "../../types";
+import { BlockState, BlockTypeProperties } from "../../types";
 
 import { ItemDrop } from "./drops";
 
 import type { BlockPermutation } from "./permutation";
+
+const DefaultBlockTypeProperties: BlockTypeProperties = {
+  loggable: false,
+  air: false,
+  liquid: false,
+  solid: false,
+  hardness: 0,
+  friction: 0,
+  color: "",
+  components: [],
+  tags: [],
+  drops: [],
+  permutations: []
+};
 
 /**
  * BlockType represents a block type in the game, which hold all possible permutations the block can have.
@@ -93,42 +107,27 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   /**
    * Create a new block type.
    * @param identifier The identifier of the block type.
-   * @param loggable Whether the block type is loggable.
-   * @param air Whether the block type is air.
-   * @param liquid Whether the block type is liquid.
-   * @param solid Whether the block type is solid.
-   * @param hardness The hardness of the block type.
-   * @param friction The friction of the block type.
-   * @param color The map color of the block type.
-   * @param components The default components of the block type.
-   * @param tags The default tags of the block type.
-   * @param permutations The default permutations of the block type.
+   * @param properties The properties of the block type.
    */
-  public constructor(
-    identifier: T,
-    loggable: boolean,
-    air: boolean,
-    liquid: boolean,
-    solid: boolean,
-    hardness?: number,
-    friction?: number,
-    color?: string,
-    components?: Array<string>,
-    tags?: Array<string>,
-    permutations?: Array<BlockPermutation>
-  ) {
+  public constructor(identifier: T, properties?: Partial<BlockTypeProperties>) {
     this.identifier = identifier;
     this.custom = false;
-    this.loggable = loggable;
-    this.air = air;
-    this.liquid = liquid;
-    this.solid = solid;
-    this.hardness = hardness ?? 0;
-    this.friction = friction ?? 0;
-    this.color = color ?? "";
-    this.components = components ?? this.components;
-    this.tags = tags ?? this.tags;
-    this.permutations = permutations ?? this.permutations;
+
+    // Spread the properties with the default properties.
+    const props = { ...DefaultBlockTypeProperties, ...properties };
+
+    // Assign the properties to the block type.
+    this.loggable = props.loggable;
+    this.air = props.air;
+    this.liquid = props.liquid;
+    this.solid = props.solid;
+    this.hardness = props.hardness;
+    this.friction = props.friction;
+    this.color = props.color;
+    this.components = [...props.components, ...this.components];
+    this.tags = [...props.tags, ...this.tags];
+    this.drops = [...props.drops, ...this.drops];
+    this.permutations = [...props.permutations, ...this.permutations];
   }
 
   /**

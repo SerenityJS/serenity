@@ -29,12 +29,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
   public readonly entities: Set<bigint> = new Set();
 
   public onTick(): void {
-    // Get the current tick
-    const currentTick = this.player.dimension.world.currentTick;
-
-    // Check if the current tick is a multiple of 5
-    if (currentTick % 5n !== 0n) return;
-
     // Check if the player is spawned
     if (!this.player.isAlive) return;
 

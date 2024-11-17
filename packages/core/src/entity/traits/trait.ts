@@ -24,8 +24,8 @@ class EntityTrait extends Trait {
     super();
     this.entity = entity;
 
-    // Register the trait to the entity
-    entity.traits.set(this.identifier, this);
+    // Add the trait to the entity.
+    entity.addTrait(this);
   }
 
   /**

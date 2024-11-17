@@ -226,6 +226,15 @@ class Block {
   }
 
   /**
+   * Sets the specified component to the block.
+   * @param key The key of the component to set.
+   * @param component The component to set.
+   */
+  public setComponent(key: string, component: JSONLikeObject): void {
+    this.components.set(key, component);
+  }
+
+  /**
    * Whether the block has the specified trait.
    * @param trait The trait to check for
    * @returns Whether the block has the trait
@@ -266,6 +275,15 @@ class Block {
    * @param trait The trait to remove
    */
   public removeTrait(trait: string | typeof BlockTrait): void {
+    // Get the trait from the block
+    const instance = this.traits.get(
+      typeof trait === "string" ? trait : trait.identifier
+    );
+
+    // Call the onRemove method of the trait
+    instance?.onRemove?.();
+
+    // Remove the trait from the block
     this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
   }
 
@@ -274,9 +292,12 @@ class Block {
    * @param trait The trait to add
    * @returns The trait that was added
    */
-  public addTrait(trait: typeof BlockTrait): void {
+  public addTrait<T extends typeof BlockTrait>(
+    trait: T | BlockTrait
+  ): InstanceType<T> {
     // Check if the trait already exists
-    if (this.traits.has(trait.identifier)) return;
+    if (this.traits.has(trait.identifier))
+      return this.traits.get(trait.identifier) as InstanceType<T>;
 
     // Check if the trait is in the palette
     if (!this.getWorld().blockPalette.traits.has(trait.identifier))
@@ -286,14 +307,38 @@ class Block {
 
     // Attempt to add the trait to the block
     try {
-      // Create a new instance of the trait
-      new trait(this);
+      // Check if the trait is a block trait
+      if (trait instanceof BlockTrait) {
+        // Add the trait to the block
+        this.traits.set(trait.identifier, trait);
+
+        // Call the onAdd method of the trait
+        trait.onAdd?.();
+
+        // Return the trait that was added
+        return trait as InstanceType<T>;
+      } else {
+        // Create a new instance of the trait
+        const instance = new trait(this) as InstanceType<T>;
+
+        // Add the trait to the block
+        this.traits.set(instance.identifier, instance);
+
+        // Call the onAdd method of the trait
+        instance.onAdd?.();
+
+        // Return the trait that was added
+        return instance;
+      }
     } catch (reason) {
       // Log the error to the console
       this.serenity.logger.error(
         `Failed to add trait "${trait.identifier}" to block "${this.getType().identifier}:${JSON.stringify(this.position)}" in dimension "${this.dimension.identifier}"`,
         reason
       );
+
+      // Return null as the trait could not be added
+      return null as InstanceType<T>;
     }
   }
 

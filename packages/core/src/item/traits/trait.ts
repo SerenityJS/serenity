@@ -24,7 +24,7 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
     this.item = item;
 
     // Register the trait to the item stack
-    item.traits.set(this.identifier, this);
+    item.addTrait(this);
   }
 
   /**

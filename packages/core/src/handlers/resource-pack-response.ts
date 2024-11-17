@@ -1,4 +1,5 @@
 import {
+  AvailableActorIdentifiersPacket,
   Difficulty,
   DisconnectReason,
   MINECRAFT_VERSION,
@@ -13,10 +14,13 @@ import {
   StartGamePacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
+import { CompoundTag, Tag } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
-import { ItemType } from "../item";
 import { ResourcePack } from "../resource-packs";
+import { ItemType } from "../item";
+import { CustomBlockType } from "../block";
+import { EntityType } from "../entity";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
@@ -389,7 +393,11 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.serverAuthoritativeBlockBreaking = true;
         packet.currentTick = player.dimension.world.currentTick;
         packet.enchantmentSeed = 0;
-        packet.blockProperties = [];
+
+        // Map the custom blocks to the packet
+        packet.blockProperties = world.blockPalette
+          .getAllCustomTypes()
+          .map((block) => CustomBlockType.toBlockProperty(block));
 
         // Map the custom items to the packet
         packet.items = world.itemPalette
@@ -408,10 +416,22 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
 
+        // Get the available actor identifiers
+        const actors = new AvailableActorIdentifiersPacket();
+        actors.data = new CompoundTag();
+
+        // Map the entities to the packet
+        const entities = world.entityPalette
+          .getAllTypes()
+          .map((entity) => EntityType.toNbt(entity));
+
+        // Create a new list tag for the entities
+        actors.data.createListTag("idlist", Tag.Compound, entities);
+
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        player.send(packet, status);
+        player.sendImmediate(packet, status, actors);
       }
     }
   }

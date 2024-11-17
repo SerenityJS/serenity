@@ -1,4 +1,5 @@
 import { CompoundTag, NBTTag } from "@serenityjs/nbt";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { ItemStack } from "../stack";
 
@@ -15,6 +16,21 @@ class ItemStackNbtMap extends Map<string, NBTTag> {
   public constructor(itemStack: ItemStack) {
     super();
     this.itemStack = itemStack;
+  }
+
+  public get<T extends NBTTag>(key: string): T {
+    return super.get(key) as T;
+  }
+
+  public add(value: NBTTag<unknown>): this {
+    // Call the original set method
+    const result = super.set(value.name, value);
+
+    // Update the nbt data when a new value is added
+    this.update();
+
+    // Return the result
+    return result;
   }
 
   public set(key: string, value: NBTTag<unknown>): this {
@@ -75,6 +91,31 @@ class ItemStackNbtMap extends Map<string, NBTTag> {
       // Set the tag in the map
       this.set(tag.name, tag);
     }
+  }
+
+  public serialize(): Buffer {
+    // Get the compound tag from the map
+    const root = this.toCompound();
+
+    // Create a new BinaryStream to write the data
+    const stream = new BinaryStream();
+
+    // Write the compound tag to the stream
+    CompoundTag.write(stream, root);
+
+    // Return the buffer
+    return stream.getBuffer();
+  }
+
+  public deserialize(buffer: Buffer): void {
+    // Create a new BinaryStream to read the data
+    const stream = new BinaryStream(buffer);
+
+    // Read the compound tag from the stream
+    const root = CompoundTag.read(stream);
+
+    // Add the tags from the compound to the map
+    this.fromCompound(root);
   }
 
   protected update(): void {

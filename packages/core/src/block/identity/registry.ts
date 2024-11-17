@@ -27,18 +27,17 @@ for (const type of BLOCK_TYPES) {
   ) ?? { hardness: 0, friction: 0, mapColor: "" };
 
   // Register the block type.
-  const instance = new BlockType(
-    type.identifier as BlockIdentifier,
-    type.loggable,
-    type.air,
-    type.liquid,
-    type.solid,
-    metadata.hardness,
-    metadata.friction,
-    metadata.mapColor,
-    type.components,
-    type.tags
-  );
+  const instance = new BlockType(type.identifier as BlockIdentifier, {
+    loggable: type.loggable,
+    air: type.air,
+    liquid: type.liquid,
+    solid: type.solid,
+    hardness: metadata.hardness,
+    friction: metadata.friction,
+    color: metadata.mapColor,
+    components: type.components,
+    tags: type.tags
+  });
 
   // Check if the block type has drops.
   if (drop) {

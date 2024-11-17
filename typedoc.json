@@ -1,0 +1,34 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "SerenityJS",
+  "customTitle": "SerenityJS",
+  "entryPoints": [
+    "packages/*"
+  ],
+  "entryPointStrategy": "packages",
+  "excludeExternals": true,
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "externalPattern": [
+    "**/node_modules/**",
+    ".*packages(/[^/]+)/.*"
+  ],
+  "footerLastModified": true,
+  "out": "./dist",
+  "placeInternalsInOwningModule": true,
+  "plugin": [
+    "@droppedcode/typedoc-plugin-relative-includes",
+    "typedoc-material-theme",
+    "typedoc-plugin-extras",
+    "typedoc-plugin-missing-exports",
+    "typedoc-plugin-rename-defaults"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "node_modules/**"
+  ],
+  "readme": "./README.md",
+  "themeColor": "#8560e9",
+  "titleLink": "https://serenityjs.net/",
+}

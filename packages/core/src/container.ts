@@ -227,10 +227,10 @@ class Container {
     // Update the container for all occupants.
     this.update();
 
-    // // Clone the NBT tags of the item.
-    // for (const tag of item.nbt.getTags()) {
-    //   newItem.nbt.addTag(tag);
-    // }
+    // Clone the NBT tags of the item.
+    for (const tag of item.nbt.values()) {
+      newItem.nbt.add(tag);
+    }
 
     // Return the new item.
     return newItem;
@@ -336,8 +336,8 @@ class Container {
    */
   public show(player: Player): void {
     // Check if the player is already viewing a container.
-    if (player.openedContainer)
-      throw new Error("Player is already viewing a container.");
+    // If so, close the container.
+    if (player.openedContainer) player.openedContainer.close(player);
 
     // Add the player to the occupants.
     this.occupants.add(player);

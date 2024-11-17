@@ -360,6 +360,15 @@ class Entity {
    * @param trait The trait to remove
    */
   public removeTrait(trait: string | typeof EntityTrait): void {
+    // Get the trait from the entity
+    const instance = this.traits.get(
+      typeof trait === "string" ? trait : trait.identifier
+    );
+
+    // Call the onRemove trait event
+    instance?.onRemove?.();
+
+    // Remove the trait from the entity
     this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
   }
 
@@ -368,9 +377,12 @@ class Entity {
    * @param trait The trait to add
    * @returns The trait that was added
    */
-  public addTrait<T extends typeof EntityTrait>(trait: T): InstanceType<T> {
+  public addTrait<T extends typeof EntityTrait>(
+    trait: T | EntityTrait
+  ): InstanceType<T> {
     // Check if the trait already exists
-    if (this.traits.has(trait.identifier)) return this.getTrait<T>(trait);
+    if (this.traits.has(trait.identifier))
+      return this.getTrait(trait.identifier) as InstanceType<T>;
 
     // Check if the trait is in the palette
     if (!this.getWorld().entityPalette.traits.has(trait.identifier))
@@ -380,8 +392,28 @@ class Entity {
 
     // Attempt to add the trait to the entity
     try {
-      // Create a new instance of the trait
-      return new trait(this) as InstanceType<T>;
+      if (trait instanceof EntityTrait) {
+        // Add the trait to the entity
+        this.traits.set(trait.identifier, trait);
+
+        // Call the onAdd trait event
+        trait.onAdd?.();
+
+        // Return the trait that was added
+        return trait as InstanceType<T>;
+      } else {
+        // Create a new instance of the trait
+        const instance = new trait(this) as InstanceType<T>;
+
+        // Add the trait to the entity
+        this.traits.set(trait.identifier, instance);
+
+        // Call the onAdd trait event
+        instance.onAdd?.();
+
+        // Return the trait that was added
+        return instance;
+      }
     } catch (reason) {
       // Log the error to the console
       this.serenity.logger.error(
@@ -1022,7 +1054,7 @@ class Entity {
       }
 
       // Attempt to add the trait to the entity
-      this.addTrait(traitType);
+      this.addTrait(traitType as typeof EntityTrait);
     }
 
     // Add the metadata to the entity, if it does not already exist

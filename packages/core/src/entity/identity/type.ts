@@ -1,3 +1,5 @@
+import { CompoundTag } from "@serenityjs/nbt";
+
 import type { EntityIdentifier } from "../../enums";
 
 type ComponentRecord<T> = T & { identifier: string };
@@ -83,6 +85,21 @@ class EntityType {
    */
   public static getAll(): Array<EntityType> {
     return [...EntityType.types.values()];
+  }
+
+  public static toNbt(type: EntityType): CompoundTag {
+    // Create a root compound tag for the entity type.
+    const root = new CompoundTag();
+
+    // Create a compound tag for the entity data.
+    root.createStringTag("bid", "");
+    root.createByteTag("hasspawnegg", 1);
+    root.createStringTag("id", type.identifier);
+    root.createIntTag("rid", type.network);
+    root.createByteTag("summonable", 1);
+
+    // Return the root compound tag.
+    return root;
   }
 }
 

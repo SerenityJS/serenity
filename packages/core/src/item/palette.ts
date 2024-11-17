@@ -1,5 +1,6 @@
 import { ItemIdentifier } from "../enums";
 import { Items } from "../types";
+import { ItemEnum } from "../commands";
 
 import { CreativeItem, ItemTraits, ItemType } from ".";
 
@@ -64,6 +65,9 @@ class ItemPalette {
 
     // Register the item type.
     this.types.set(type.identifier, type);
+
+    // Add the item type to the item enum.
+    ItemEnum.options.push(type.identifier);
 
     // Return true if the item type was registered.
     return true;

@@ -118,6 +118,11 @@ interface ItemStackEntry extends JSONLikeObject {
    * The components attached to the item stack.
    */
   components: Array<[string, JSONLikeValue]>;
+
+  /**
+   * The nbt data serialized as a base64 string.
+   */
+  nbt: string;
 }
 
 interface BlockEntry extends JSONLikeObject {

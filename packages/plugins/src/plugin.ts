@@ -27,12 +27,26 @@ class Plugin {
   public readonly logger: Logger;
 
   /**
+   * The path to the plugin.
+   * @Note This is only available after the plugin is initialized.
+   */
+  public path!: string;
+
+  /**
+   * Whether or not the plugin is bundled.
+   * @Note This is only available after the plugin is initialized.
+   */
+  public isBundled!: boolean;
+
+  /**
    * The plugin pipeline the plugin is in.
+   * @Note This is only available after the plugin is initialized.
    */
   public pipeline!: Pipeline;
 
   /**
    * The serenity instance of the server.
+   * @Note This is only available after the plugin is initialized.
    */
   public serenity!: Serenity;
 

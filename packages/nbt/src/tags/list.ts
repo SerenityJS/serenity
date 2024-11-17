@@ -66,8 +66,7 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
   public static read(
     stream: BinaryStream,
     varint = false,
-    type = true,
-    namex = true
+    type = true
   ): ListTag<NBTTag> {
     // Check if the type should be read.
     if (type) {
@@ -75,14 +74,12 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
       // And check if the type is a list.
       const type = stream.readByte();
       if (type !== this.type) {
-        throw new Error(
-          `Expected tag type to be ${this.type} but got ${type}, ${stream.offset}`
-        );
+        throw new Error(`Expected tag type to be ${this.type} but got ${type}`);
       }
     }
 
     // Read the name.
-    const name = namex ? this.readString(stream, varint) : "";
+    const name = this.readString(stream, varint);
 
     // Find the reader for the type.
     const tag = stream.readByte() as Tag;
@@ -148,11 +145,6 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
           break;
         }
 
-        case Tag.List: {
-          values.push(this.read(stream, varint, false, false));
-          break;
-        }
-
         case Tag.Compound: {
           const value: Record<string, unknown> = {};
 
@@ -208,11 +200,10 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
     stream.writeByte(tag.type);
 
     // Write the length.
-    if (varint) {
-      stream.writeVarInt(tag.value.length);
-    } else {
-      stream.writeInt32(tag.value.length, Endianness.Little);
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    varint
+      ? stream.writeZigZag(tag.value.length)
+      : stream.writeInt32(tag.value.length, Endianness.Little);
 
     // Write the values.
     for (const value of tag.value) {
@@ -235,20 +226,18 @@ class ListTag<T = unknown> extends NBTTag<Array<T>> {
         }
 
         case Tag.Int: {
-          if (varint) {
-            stream.writeVarInt(value.value as number);
-          } else {
-            stream.writeInt32(value.value as number, Endianness.Little);
-          }
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          varint
+            ? stream.writeVarInt(value.value as number)
+            : stream.writeInt32(value.value as number, Endianness.Little);
           break;
         }
 
         case Tag.Long: {
-          if (varint) {
-            stream.writeVarLong(value.value as bigint);
-          } else {
-            stream.writeLong(value.value as bigint, Endianness.Little);
-          }
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          varint
+            ? stream.writeVarLong(value.value as bigint)
+            : stream.writeLong(value.value as bigint, Endianness.Little);
           break;
         }
 
