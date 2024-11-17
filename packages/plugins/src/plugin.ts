@@ -2,9 +2,11 @@ import { Serenity } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { Pipeline } from "./pipeline";
+import { PluginType } from "./enums";
 
 interface PluginProperties {
   logger: Logger;
+  type: PluginType;
   onInitialize: (plugin: Plugin) => void;
   onStartUp: (plugin: Plugin) => void;
   onShutDown: (plugin: Plugin) => void;
@@ -25,6 +27,11 @@ class Plugin {
    * The logger for the plugin.
    */
   public readonly logger: Logger;
+
+  /**
+   * The type of the plugin.
+   */
+  public readonly type: PluginType;
 
   /**
    * The path to the plugin.
@@ -67,8 +74,11 @@ class Plugin {
 
     // Set the logger for the plugin
     this.logger =
-      properties?.logger ||
+      properties?.logger ??
       new Logger(`${identifier}@${version}`, LoggerColors.Blue);
+
+    // Set the type of the plugin
+    this.type = properties?.type ?? PluginType.Addon;
 
     // Set the on initialize, start up, and shut down properties
     if (properties?.onInitialize) this.onInitialize = properties.onInitialize;

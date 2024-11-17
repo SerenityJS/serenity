@@ -3,11 +3,13 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  renameSync,
   unlinkSync,
   writeFileSync
 } from "node:fs";
 import { relative, resolve } from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
+import { execSync } from "node:child_process";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Serenity, ServerEvent, WorldEvent } from "@serenityjs/core";
@@ -17,6 +19,7 @@ import { PluginPackage } from "./types";
 import { Plugin } from "./plugin";
 import Command from "./commands/command";
 import { PluginsEnum } from "./commands";
+import { PluginType } from "./enums";
 
 interface PipelineProperties {
   path: string;
@@ -134,61 +137,102 @@ class Pipeline {
         const buffer = inflateSync(readFileSync(path));
         const stream = new BinaryStream(buffer);
 
-        // Read the length of the module and main entry points
-        let length = stream.readVarInt();
-        const esm = stream.readBuffer(length).toString("utf-8");
+        // Read the plugin type from the stream
+        const type = stream.readByte();
 
-        // Read the length of the main entry point
-        length = stream.readVarInt();
-        const cjs = stream.readBuffer(length).toString("utf-8");
+        // Check if the plugin type is valid
+        if (type === PluginType.Addon) {
+          // Read the length of the module and main entry points
+          let length = stream.readVarInt();
+          const esm = stream.readBuffer(length).toString("utf-8");
 
-        // Write the module or main entry points to temporary files
-        const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
-        writeFileSync(tempPath, this.esm ? esm : cjs);
+          // Read the length of the main entry point
+          length = stream.readVarInt();
+          const cjs = stream.readBuffer(length).toString("utf-8");
 
-        // Import the plugin module
-        const module = await import(`file://${tempPath}`);
+          // Write the module or main entry points to temporary files
+          const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
+          writeFileSync(tempPath, this.esm ? esm : cjs);
 
-        // Get the plugin class from the module
-        const plugin = module.default as Plugin;
+          // Import the plugin module
+          const module = await import(`file://${tempPath}`);
 
-        // Check if the plugin is an instance of the Plugin class
-        if (!(plugin instanceof Plugin)) {
-          this.logger.warn(
-            `Unable to load plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
+          // Get the plugin class from the module
+          const plugin = module.default as Plugin;
+
+          // Check if the plugin is an instance of the Plugin class
+          if (!(plugin instanceof Plugin)) {
+            this.logger.warn(
+              `Unable to load plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
+            );
+
+            // Skip the plugin
+            continue;
+          }
+
+          // Check if the plugin has already been loaded
+          if (this.plugins.has(plugin.identifier)) {
+            this.logger.warn(
+              `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
+            );
+
+            // Skip the plugin
+            continue;
+          }
+
+          // Set the pipeline, serenity, and path for the plugin
+          plugin.pipeline = this;
+          plugin.serenity = this.serenity;
+          plugin.path = path;
+          plugin.isBundled = true;
+
+          // Add the plugin to the plugins map
+          this.plugins.set(plugin.identifier, plugin);
+
+          // Initialize the plugin
+          plugin.onInitialize(plugin);
+
+          // Add the plugin to the plugins enum
+          PluginsEnum.options.push(plugin.identifier);
+
+          // Add the temporary path to the set
+          this.tempPaths.add(tempPath);
+        } else if (type === PluginType.Api) {
+          // Read the buffer from the stream
+          const buffer = stream.readRemainingBuffer();
+
+          // Delete the .plugin file
+          unlinkSync(path);
+
+          // Write the buffer to a temporary file
+          const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
+
+          // Write the buffer to the temporary file
+          writeFileSync(tempPath, buffer);
+
+          // Extract the tarball to the plugins directory
+          execSync(`tar -xzf ${tempPath} -C ${this.path}`, {
+            stdio: "ignore"
+          });
+
+          // Delete the temporary file
+          unlinkSync(tempPath);
+
+          // Get the plugin name from the tarball
+          const name = bundle.name.slice(0, -7);
+
+          // Rename the extracted "package" directory to the plugin name
+          renameSync(
+            resolve(this.path, "package"),
+            resolve(this.path, `${name}.api`)
           );
 
-          // Skip the plugin
-          continue;
+          // Install the dependencies for the plugin
+          execSync("npm install", {
+            cwd: resolve(this.path, `${name}.api`),
+            stdio: "ignore"
+          });
         }
-
-        // Check if the plugin has already been loaded
-        if (this.plugins.has(plugin.identifier)) {
-          this.logger.warn(
-            `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
-          );
-
-          // Skip the plugin
-          continue;
-        }
-
-        // Set the pipeline, serenity, and path for the plugin
-        plugin.pipeline = this;
-        plugin.serenity = this.serenity;
-        plugin.path = path;
-        plugin.isBundled = true;
-
-        // Add the plugin to the plugins map
-        this.plugins.set(plugin.identifier, plugin);
-
-        // Initialize the plugin
-        plugin.onInitialize(plugin);
-
-        // Add the plugin to the plugins enum
-        PluginsEnum.options.push(plugin.identifier);
-
-        // Add the temporary path to the set
-        this.tempPaths.add(tempPath);
       } catch (reason) {
         // Log the error
         this.logger.warn(
@@ -199,7 +243,9 @@ class Pipeline {
     }
 
     // Filter out all the directories from the entries
-    const directories = entries.filter((dirent) => dirent.isDirectory());
+    const directories = readdirSync(resolve(this.path), {
+      withFileTypes: true
+    }).filter((dirent) => dirent.isDirectory());
 
     // Iterate over all the directories, checking if they are valid plugins
     for (const directory of directories) {
@@ -357,31 +403,60 @@ class Pipeline {
   }
 
   public bundle(plugin: Plugin): void {
-    const inputPath = resolve(plugin.path, "dist");
-
-    // Read the ESM and CJS index files from the input path
-    const esmIndex = readFileSync(resolve(inputPath, "index.mjs"));
-    const cjsIndex = readFileSync(resolve(inputPath, "index.js"));
-
     // Create a new BinaryStream instance
     const stream = new BinaryStream();
 
-    // Write the length of the ESM index file and then write the compressed ESM index file
-    stream.writeVarInt(esmIndex.length);
-    stream.writeBuffer(esmIndex);
+    // Write the plugin type to the stream
+    stream.writeByte(plugin.type);
 
-    // Write the length of the CJS index file and then write the compressed CJS index file
-    stream.writeVarInt(cjsIndex.length);
-    stream.writeBuffer(cjsIndex);
+    if (plugin.type === PluginType.Addon) {
+      // Get the addon path
+      const inputPath = resolve(plugin.path, "dist");
 
-    // Get the buffer from the BinaryStream
-    const buffer = stream.getBuffer();
+      // Read the ESM and CJS index files from the input path
+      const esmIndex = readFileSync(resolve(inputPath, "index.mjs"));
+      const cjsIndex = readFileSync(resolve(inputPath, "index.js"));
 
-    // Write the BinaryStream to the output path
-    writeFileSync(
-      resolve(this.path, `${plugin.identifier}.plugin`),
-      deflateSync(buffer)
-    );
+      // Write the length of the ESM index file and then write the compressed ESM index file
+      stream.writeVarInt(esmIndex.length);
+      stream.writeBuffer(esmIndex);
+
+      // Write the length of the CJS index file and then write the compressed CJS index file
+      stream.writeVarInt(cjsIndex.length);
+      stream.writeBuffer(cjsIndex);
+
+      // Write the BinaryStream to the output path
+      writeFileSync(
+        resolve(this.path, `${plugin.identifier}.plugin`),
+        deflateSync(stream.getBuffer())
+      );
+    } else if (plugin.type === PluginType.Api) {
+      // Pack the plugin
+      execSync("npm pack", { cwd: plugin.path, stdio: "ignore" });
+
+      // Get the tarball path
+      const tarball = readdirSync(plugin.path).find((file) =>
+        file.endsWith(".tgz")
+      );
+
+      // Check if the tarball exists
+      if (!tarball) throw new Error("Packed tarball not found.");
+
+      // Read the tarball file
+      const buffer = readFileSync(resolve(plugin.path, tarball));
+
+      // Delete the tarball file
+      unlinkSync(resolve(plugin.path, tarball));
+
+      // Write the buffer to the output path
+      stream.writeBuffer(buffer);
+
+      // Write the buffer to the output path
+      writeFileSync(
+        resolve(this.path, `${plugin.identifier}.plugin`),
+        deflateSync(stream.getBuffer())
+      );
+    }
   }
 }
 
