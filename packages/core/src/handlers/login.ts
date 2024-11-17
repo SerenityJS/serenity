@@ -9,7 +9,8 @@ import {
   PlayStatus,
   PlayStatusPacket,
   ResourcePacksInfoPacket,
-  SerializedSkin
+  SerializedSkin,
+  TexturePackInfo
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { createDecoder } from "fast-jwt";
@@ -140,26 +141,28 @@ class LoginHandler extends NetworkHandler {
     login.status = PlayStatus.LoginSuccess;
 
     const packs = new ResourcePacksInfoPacket();
-    packs.mustAccept = false; // this.serenity.resourcePacks.mustAcceptResourcePacks;
+    packs.mustAccept = this.serenity.resourcePacks.mustAccept;
 
     packs.hasAddons = false;
     packs.hasScripts = false;
-    packs.packs = [];
-    // for (const pack of this.serenity.resourcePacks.getPacks()) {
-    //   const packInfo = new TexturePackInfo(
-    //     pack.uuid,
-    //     pack.contentKey,
-    //     pack.hasScripts,
-    //     pack.isRtx,
-    //     pack.originalSize,
-    //     pack.selectedSubpack,
-    //     pack.uuid,
-    //     pack.version,
-    //     false
-    //   );
 
-    //   packs.packs.push(packInfo);
-    // }
+    packs.packs = [];
+    for (const pack of this.serenity.resourcePacks.getPacks()) {
+      const packInfo = new TexturePackInfo(
+        pack.uuid,
+        pack.contentKey,
+        pack.hasScripts,
+        pack.isRtx,
+        pack.originalSize,
+        pack.selectedSubpack ?? "",
+        pack.uuid,
+        pack.version,
+        false,
+        "" // TODO: CDN links
+      );
+
+      packs.packs.push(packInfo);
+    }
 
     // Log the join event to the console
     world.logger.info(

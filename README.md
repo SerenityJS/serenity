@@ -58,7 +58,7 @@ pnpm create serenity
 
 ### Installing Serenity Locally
 
-Installing Serenity locally allows developers to created changes to the core for the application. Clone or download a local copy of the Serenity repository to a preferred area on your machine. You can then open the Serenity folder in your preferred integrated development environment. You will now need to run a few terminal commands before starting.
+Installing Serenity locally allows developers to make changes to the core of the application. Clone or download a local copy of the Serenity repository to a preferred area on your machine. You can then open the Serenity folder in your preferred integrated development environment. You will now need to run a few terminal commands before starting.
 
 #### Setting Up Locally
 

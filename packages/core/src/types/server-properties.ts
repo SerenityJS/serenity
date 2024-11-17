@@ -7,11 +7,18 @@ interface ServerProperties {
   port: number;
   address: string;
   motd: string;
+
   compressionMethod: CompressionMethod;
   compressionThreshold: number;
   packetsPerFrame: number;
+
   permissions: string | Array<PermissionEntry>;
+
+  resourcePacks: string;
+  mustAcceptPacks: boolean;
+
   defaultGenerator: typeof TerrainGenerator;
+
   debugLogging: boolean;
 }
 

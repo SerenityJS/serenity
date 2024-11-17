@@ -12,3 +12,4 @@ export * from "./container";
 export * from "./events";
 export * from "./forms";
 export * from "./loot";
+export * from "./resource-packs";

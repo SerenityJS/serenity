@@ -22,6 +22,7 @@ import { Player } from "./entity";
 import { ConsoleInterface, WorldEnum } from "./commands";
 import { Permissions } from "./permissions";
 import { ServerEvent } from "./enums";
+import { ResourcePackManager } from "./resource-packs";
 
 import type {
   ServerEvents,
@@ -39,6 +40,8 @@ const DefaultServerProperties: ServerProperties = {
   compressionThreshold: 256,
   packetsPerFrame: 64,
   permissions: [],
+  resourcePacks: "",
+  mustAcceptPacks: false,
   defaultGenerator: VoidGenerator,
   debugLogging: false
 };
@@ -89,6 +92,8 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
   public readonly permissions: Permissions;
 
+  public readonly resourcePacks: ResourcePackManager;
+
   /**
    * Whether the server is currently running or not
    */
@@ -132,6 +137,12 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       typeof this.properties.permissions === "string"
         ? Permissions.fromPath(this, this.properties.permissions)
         : new Permissions(this, { permissions: this.properties.permissions });
+
+    // Create the resource pack manager
+    this.resourcePacks = new ResourcePackManager(
+      this.properties.resourcePacks,
+      this.properties.mustAcceptPacks
+    );
   }
 
   /**
