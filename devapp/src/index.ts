@@ -6,7 +6,7 @@ const serenity = new Serenity({
   port: 19142,
   permissions: "./permissions.json",
   resourcePacks: "./resource_packs",
-  debugLogging: true,
+  debugLogging: true
 });
 
 // Create a new plugin pipeline

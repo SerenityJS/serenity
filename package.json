@@ -24,7 +24,6 @@
     "@changesets/types": "6.0.0",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-angular": "^19.5.0",
-    "@droppedcode/typedoc-plugin-relative-includes": "^1.0.5",
     "@turbo/gen": "2.2.3",
     "husky": "^9.1.6",
     "rimraf": "6.0.1",

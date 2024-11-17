@@ -18,7 +18,6 @@
   "out": "./dist",
   "placeInternalsInOwningModule": true,
   "plugin": [
-    "@droppedcode/typedoc-plugin-relative-includes",
     "typedoc-material-theme",
     "typedoc-plugin-extras",
     "typedoc-plugin-missing-exports",
