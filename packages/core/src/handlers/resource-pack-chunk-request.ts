@@ -5,7 +5,7 @@ import {
 } from "@serenityjs/protocol";
 import { NetworkHandler } from "../network";
 import { Connection } from "@serenityjs/raknet";
-import { ResourcePack } from "../resource-packs/pack";
+import { ResourcePack } from "../resource-packs";
 
 class ResourcePackChunkRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackChunkRequest;

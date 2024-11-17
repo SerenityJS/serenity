@@ -30,7 +30,7 @@ import type {
   WorldProperties,
   WorldProviderProperties
 } from "./types";
-import { ResourcePackManager } from "./resource-packs/manager";
+import { ResourcePackManager } from "./resource-packs";
 
 const DefaultServerProperties: ServerProperties = {
   port: 19132,

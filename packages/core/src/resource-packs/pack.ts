@@ -11,7 +11,7 @@ class ResourcePack {
   public compressedSize!: bigint; // The filesize of the compressed resource pack
   public originalSize!: bigint; // The original combined size of the resource pack
 
-  // These could all be replaced by JS getters, but it's shorter this way
+  // These could all be replaced by JS getters / directly from this.manifest, but it's shorter this way
   public readonly version: string;
   public readonly name: string;
   public readonly packType: PackType = PackType.Resources;

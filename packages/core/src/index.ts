@@ -12,3 +12,4 @@ export * from "./commands";
 export * from "./events";
 export * from "./forms";
 export * from "./loot";
+export * from "./resource-packs";

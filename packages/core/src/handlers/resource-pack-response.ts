@@ -16,7 +16,7 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { ItemType } from "../item";
-import { ResourcePack } from "../resource-packs/pack";
+import { ResourcePack } from "../resource-packs";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
