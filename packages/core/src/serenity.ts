@@ -25,6 +25,7 @@ import { ServerEvent } from "./enums";
 import { ResourcePackManager } from "./resource-packs";
 
 import type {
+  ResourcePacksProperties,
   ServerEvents,
   ServerProperties,
   WorldEventSignals,
@@ -41,7 +42,6 @@ const DefaultServerProperties: ServerProperties = {
   packetsPerFrame: 64,
   permissions: [],
   resourcePacks: "",
-  mustAcceptPacks: false,
   defaultGenerator: VoidGenerator,
   debugLogging: false
 };
@@ -139,10 +139,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         : new Permissions(this, { permissions: this.properties.permissions });
 
     // Create the resource pack manager
-    this.resourcePacks = new ResourcePackManager(
-      this.properties.resourcePacks,
-      this.properties.mustAcceptPacks
-    );
+    this.resourcePacks =
+      typeof this.properties.resourcePacks === "string"
+        ? new ResourcePackManager({ path: this.properties.resourcePacks })
+        : new ResourcePackManager(this.properties.resourcePacks);
   }
 
   /**

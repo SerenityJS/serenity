@@ -1,16 +1,9 @@
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  statSync,
-  writeFileSync
-} from "fs";
-import { join } from "path";
+import { existsSync, mkdirSync, readdirSync, readFileSync } from "fs";
+import { join, resolve } from "path";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
-import { ResourceManifest } from "../types";
+import { ResourceManifest, ResourcePacksProperties } from "../types";
 
 import { ResourcePack } from "./pack";
 import { Zip } from "./zipfile";
@@ -30,100 +23,120 @@ function readJsoncSync<T = unknown>(path: string): T {
 interface InstalledPack {
   id: string;
   manifest: ResourceManifest;
+  subPack?: string;
   packPath: string;
 }
 
-interface SelectedPack {
-  id: string;
-  subpack?: string;
-}
+const DefaultResourcePacksProperties: ResourcePacksProperties = {
+  path: null,
+  mustAcceptPacks: true,
+  resourcePacks: []
+};
 
 class ResourcePackManager {
   private readonly resourcePacks = new Map<string, ResourcePack>();
   private readonly installedPacks = new Map<string, InstalledPack>();
 
+  private readonly properties: ResourcePacksProperties;
+
   public readonly logger = new Logger("Resource Packs", LoggerColors.RedBright);
 
-  public constructor(
-    public readonly packsFolder: string,
-    public readonly mustAccept: boolean
-  ) {
-    if (!existsSync(this.packsFolder)) {
-      mkdirSync(this.packsFolder, { recursive: true });
-    } else if (!statSync(this.packsFolder).isDirectory()) {
-      this.logger.error(
-        "The provided resource pack folder path already exists and is not a directory."
-      );
-      return;
-    }
-
-    this.getInstalledPacks();
-
-    const selectedPacksPath = join(this.packsFolder, "selected_packs.json");
-    const selectedPacks = new Array<SelectedPack>();
-    if (existsSync(selectedPacksPath)) {
-      // Load the selected packs file
-      selectedPacks.push(
-        ...readJsoncSync<Array<SelectedPack>>(selectedPacksPath)
-      );
-    } else if (this.installedPacks.size === 0) {
-      // If no resource packs are installed, and there is no selected_packs.json file, then just return
-      this.logger.info("Currently no resource packs installed.");
-      return;
-    } else {
-      // If there is no selected_packs.json file, then read all available
-      // packs and select all of them. Then write selected_packs.json
-      const installed = Array.from(this.installedPacks.keys()).map((id) => ({
-        id
-      }));
-
-      this.logger.info(
-        `selected_packs.json file not found; Selecting all ${installed.length} installed packs by default.`
-      );
-
-      selectedPacks.push(...installed);
-
-      writeFileSync(selectedPacksPath, JSON.stringify(selectedPacks, null, 2));
-    }
-
-    this.loadSelectedPacks(selectedPacks);
+  public get mustAccept(): boolean {
+    return this.properties.mustAcceptPacks;
   }
 
-  /** Reads all resource packs in the packs folder */
-  public getInstalledPacks() {
-    const folders = readdirSync(this.packsFolder);
+  public constructor(properties: Partial<ResourcePacksProperties>) {
+    // Spread the properties
+    const props = { ...DefaultResourcePacksProperties, ...properties };
 
-    for (const folder of folders) {
-      const packPath = join(this.packsFolder, folder);
+    // Set the properties
+    this.properties = props;
 
-      if (!statSync(packPath).isDirectory()) continue;
+    // Check if a path was provided
+    if (props.path) {
+      // Check if the path doesn't exist
+      if (!existsSync(resolve(props.path)))
+        // Create the directory if it doesn't exist
+        mkdirSync(resolve(props.path), { recursive: true });
 
-      const manifestPath = join(packPath, "manifest.json");
-
-      let manifest: ResourceManifest;
-      try {
-        manifest = readJsoncSync<ResourceManifest>(manifestPath);
-      } catch (reason) {
-        // fail to read manifest, skip this folder
-        this.logger.info(
-          `Failed to find/read manifest.json in folder '${folder}' - skipping.`
-        );
-        this.logger.debug(
-          `Error finding/reading manifest.json in resource pack folder: '${folder}' - ${reason}`
-        );
-        continue;
-      }
-
-      this.installedPacks.set(manifest.header.uuid, {
-        manifest,
-        packPath,
-        id: manifest.header.uuid
+      // Get all the directories in the resource packs folder
+      const entries = readdirSync(resolve(props.path), {
+        withFileTypes: true
       });
+
+      // Filter out the directories
+      const directories = entries.filter((entry) => entry.isDirectory());
+
+      // Check if there are any directories
+      if (directories.length === 0) {
+        // Log that there are no resource packs
+        this.logger.info("Currently no resource packs installed.");
+      } else {
+        // Attempt to read all the resource packs
+        for (const entry of directories) {
+          // Attempt to read the pack
+          const pack = this.readPack(resolve(props.path, entry.name));
+
+          // Check if the pack was read
+          if (pack) {
+            // Add the pack to the installed packs
+            this.installedPacks.set(pack.manifest.header.uuid, pack);
+          }
+        }
+      }
     }
+
+    // Check if there are any resource packs
+    if (props.resourcePacks.length > 0) {
+      // Iterate over the resource packs
+      for (const entry of props.resourcePacks) {
+        // Attempt to read the pack from the path
+        const pack = this.readPack(entry.path);
+
+        // Check if the pack was read
+        if (pack) {
+          // Check if a sub-pack was provided
+          if (entry.subPack) pack.subPack = entry.subPack;
+
+          // Add the pack to the installed packs
+          this.installedPacks.set(pack.manifest.header.uuid, pack);
+        }
+      }
+    }
+
+    // Load the selected packs
+    this.loadSelectedPacks([...this.installedPacks.values()]);
   }
 
-  public loadSelectedPacks(selectedPacks: Array<SelectedPack>): void {
-    for (const { id, subpack } of selectedPacks) {
+  public readPack(path: string): InstalledPack | null {
+    // Get the manifest path
+    const manifestPath = join(path, "manifest.json");
+
+    // Prepare the manifest
+    let manifest: ResourceManifest;
+    try {
+      // Read the manifest from the file
+      manifest = readJsoncSync<ResourceManifest>(resolve(manifestPath));
+    } catch (reason) {
+      // Log the error
+      this.logger.debug(
+        `Error finding/reading manifest.json in resource pack folder: '${path}' - ${reason}`
+      );
+
+      // Return null
+      return null;
+    }
+
+    // Return the installed pack
+    return {
+      manifest,
+      packPath: path,
+      id: manifest.header.uuid
+    };
+  }
+
+  public loadSelectedPacks(selectedPacks: Array<InstalledPack>): void {
+    for (const { id, subPack } of selectedPacks) {
       const installedPack = this.installedPacks.get(id);
 
       if (!installedPack) {
@@ -140,7 +153,7 @@ class ResourcePackManager {
         installedPack.packPath,
         installedPack.manifest,
         packZip,
-        subpack
+        subPack
       );
       pack.compress();
 
@@ -161,6 +174,10 @@ class ResourcePackManager {
     if (isVersionUuid) uuid = uuid.split("_")[0] as string;
 
     return this.resourcePacks.get(uuid);
+  }
+
+  public static fromPath(path: string): ResourcePackManager {
+    return new ResourcePackManager({ path });
   }
 }
 

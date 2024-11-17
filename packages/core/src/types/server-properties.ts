@@ -1,5 +1,7 @@
 import { PermissionEntry } from "../permissions";
 
+import { ResourcePacksProperties } from "./resource";
+
 import type { TerrainGenerator } from "../world";
 import type { CompressionMethod } from "@serenityjs/protocol";
 
@@ -14,8 +16,7 @@ interface ServerProperties {
 
   permissions: string | Array<PermissionEntry>;
 
-  resourcePacks: string;
-  mustAcceptPacks: boolean;
+  resourcePacks: string | ResourcePacksProperties;
 
   defaultGenerator: typeof TerrainGenerator;
 
