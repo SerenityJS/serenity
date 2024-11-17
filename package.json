@@ -5,6 +5,7 @@
   "scripts": {
     "build": "turbo build",
     "build:pkgs": "turbo build --filter='./packages/*'",
+    "build:docs": "typedoc",
     "lint": "turbo lint",
     "test": "exit 0",
     "clean": "rimraf -g '**/{dist,node_modules}' || true",
@@ -23,10 +24,16 @@
     "@changesets/types": "6.0.0",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-angular": "^19.5.0",
+    "@droppedcode/typedoc-plugin-relative-includes": "^1.0.5",
     "@turbo/gen": "2.2.3",
     "husky": "^9.1.6",
     "rimraf": "6.0.1",
-    "turbo": "2.2.3"
+    "turbo": "2.2.3",
+    "typedoc": "^0.26.11",
+    "typedoc-material-theme": "^1.1.0",
+    "typedoc-plugin-extras": "^3.1.0",
+    "typedoc-plugin-missing-exports": "^3.0.2",
+    "typedoc-plugin-rename-defaults": "^0.7.1"
   },
   "engines": {
     "node": ">= 22.0.0"
