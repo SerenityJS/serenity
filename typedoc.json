@@ -31,5 +31,4 @@
   "readme": "./README.md",
   "themeColor": "#8560e9",
   "titleLink": "https://serenityjs.net/",
-  "tsconfig": "./tsconfig.json"
 }
