@@ -25,7 +25,6 @@ import { ServerEvent } from "./enums";
 import { ResourcePackManager } from "./resource-packs";
 
 import type {
-  ResourcePacksProperties,
   ServerEvents,
   ServerProperties,
   WorldEventSignals,
