@@ -16,7 +16,7 @@
   ],
   "footerLastModified": true,
   "out": "./dist",
-  "placeInternalsInOwningModule": true,
+  "placeInternalsInOwningModule": false,
   "plugin": [
     "typedoc-material-theme",
     "typedoc-plugin-extras",
