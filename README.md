@@ -4,7 +4,7 @@
     <img src="https://raw.githubusercontent.com/SerenityJS/serenity/develop/public/serenityjs-banner.png" alt="Logo">
   </a>
   <p align="center">
-    <strong><font size = "5.5">Serenity RC-1 Beta</font></strong>
+    <strong><font size = "5.5">Minecraft Bedrock Edition Server Software</font></strong>
     <br/>
     <br/>
     <a href="https://serenityjs.net"><strong>Explore Documentation »</strong></a>

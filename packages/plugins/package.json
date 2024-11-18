@@ -19,9 +19,6 @@
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },
-  "bin": {
-    "bundle": "./bin/bundle.js"
-  },
   "devDependencies": {
     "@serenityjs/internal-config": "*",
     "@swc/core": "1.7.42",

@@ -9,6 +9,7 @@ import {
 import { NetworkHandler } from "../network";
 import { ItemStack } from "../item";
 import { EntityInventoryTrait, PlayerCursorTrait } from "../entity";
+import { PlayerContainerInteractionSignal } from "..";
 
 class ItemStackRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ItemStackRequest;
@@ -63,11 +64,31 @@ class ItemStackRequestHandler extends NetworkHandler {
               `Invalid destination type: ${ContainerName[destinationContainer.identifier]}`
             );
 
+          // Create a new PlayerContainerInteractionSignal.
+          const signal = new PlayerContainerInteractionSignal(
+            player,
+            source,
+            sourceSlot,
+            destination,
+            destinationSlot,
+            amount
+          );
+
+          // Emit the signal, and check if it was cancelled.
+          if (!signal.emit()) {
+            // Update the source and destination containers.
+            source.update(player);
+            destination.update(player);
+
+            // Continue to the next action.
+            continue;
+          }
+
           // Get the source item.
           const sourceItem = source.getItem(sourceSlot);
 
           // Check if the source item exists.
-          if (!sourceItem) throw new Error("Invalid source item.");
+          if (!sourceItem) continue;
 
           // Get the destination item.
           const destinationItem = destination.getItem(destinationSlot);
@@ -105,6 +126,25 @@ class ItemStackRequestHandler extends NetworkHandler {
             throw new Error(
               `Invalid container: ${source.container.identifier}`
             );
+
+          // Create a new PlayerContainerInteractionSignal.
+          const signal = new PlayerContainerInteractionSignal(
+            player,
+            container,
+            slot,
+            null,
+            null,
+            amount
+          );
+
+          // Emit the signal, and check if it was cancelled.
+          if (!signal.emit()) {
+            // Update the container.
+            container.update(player);
+
+            // Continue to the next action.
+            continue;
+          }
 
           // Force the player to drop the item.
           player.dropItem(slot, amount, container);
@@ -144,17 +184,37 @@ class ItemStackRequestHandler extends NetworkHandler {
               `Invalid destination container: ${destinationContainer.identifier}`
             );
 
+          // Create a new PlayerContainerInteractionSignal.
+          const signal = new PlayerContainerInteractionSignal(
+            player,
+            source,
+            sourceSlot,
+            destination,
+            destinationSlot,
+            1
+          );
+
+          // Emit the signal, and check if it was cancelled.
+          if (!signal.emit()) {
+            // Update the source and destination containers.
+            source.update(player);
+            destination.update(player);
+
+            // Continue to the next action.
+            continue;
+          }
+
           // Get the source item.
           const sourceItem = source.getItem(sourceSlot);
 
           // Check if the source item exists.
-          if (!sourceItem) throw new Error("Invalid source item.");
+          if (!sourceItem) continue;
 
           // Get the destination item.
           const destinationItem = destination.getItem(destinationSlot);
 
           // Check if the destination item exists.
-          if (!destinationItem) throw new Error("Invalid destination item.");
+          if (!destinationItem) continue;
 
           // Swap the items.
           source.swapItems(sourceSlot, destinationSlot, destination);

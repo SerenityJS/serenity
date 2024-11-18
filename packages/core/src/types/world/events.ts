@@ -30,7 +30,8 @@ import {
   WorldInitializeSignal,
   WorldTickSignal,
   EntityDieSignal,
-  PlayerOpenedContainerSignal
+  PlayerOpenedContainerSignal,
+  PlayerContainerInteractionSignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -65,6 +66,7 @@ interface WorldEventSignals {
   [WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];
   [WorldEvent.PlayerInteractWithEntity]: [PlayerInteractWithEntitySignal];
   [WorldEvent.PlayerOpenedContainer]: [PlayerOpenedContainerSignal];
+  [WorldEvent.PlayerContainerInteraction]: [PlayerContainerInteractionSignal];
   [WorldEvent.BlockUpdate]: [];
 }
 

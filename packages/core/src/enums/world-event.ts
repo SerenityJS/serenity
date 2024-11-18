@@ -30,6 +30,7 @@ enum WorldEvent {
   PlayerInteractWithBlock,
   PlayerInteractWithEntity,
   PlayerOpenedContainer,
+  PlayerContainerInteraction,
   BlockUpdate
 }
 
