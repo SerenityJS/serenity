@@ -2,6 +2,7 @@ import { ContainerClosePacket, Packet } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
+import { PlayerClosedContainerSignal } from "..";
 
 class ContainerCloseHandler extends NetworkHandler {
   public static readonly packet = Packet.ContainerClose;
@@ -13,6 +14,9 @@ class ContainerCloseHandler extends NetworkHandler {
 
     // Check if the player has an opened container
     if (!player.openedContainer) return;
+
+    // Create a new PlayerClosedContainerSignal
+    new PlayerClosedContainerSignal(player, player.openedContainer).emit();
 
     // Close the container
     player.openedContainer.close(player);
