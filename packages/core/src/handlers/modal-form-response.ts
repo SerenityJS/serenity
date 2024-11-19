@@ -6,7 +6,7 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { Form } from "../forms";
+import { Form } from "../ui";
 
 class ModalFormResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ModalFormResponse;
