@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import {
   existsSync,
   mkdirSync,
@@ -144,7 +145,7 @@ class Pipeline {
         if (type === PluginType.Addon) {
           // Read the length of the module and main entry points
           let length = stream.readVarInt();
-          const esm = stream.readBuffer(length).toString("utf-8");
+          const _esm = stream.readBuffer(length).toString("utf-8");
 
           // Read the length of the main entry point
           length = stream.readVarInt();
@@ -152,10 +153,10 @@ class Pipeline {
 
           // Write the module or main entry points to temporary files
           const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
-          writeFileSync(tempPath, this.esm ? esm : cjs);
+          writeFileSync(tempPath, cjs);
 
           // Import the plugin module
-          const module = await import(`file://${tempPath}`);
+          const module = require(tempPath);
 
           // Get the plugin class from the module
           const plugin = module.default as Plugin;
@@ -263,7 +264,8 @@ class Pipeline {
         ) as PluginPackage;
 
         // Get the main entry point for the plugin
-        const main = resolve(path, this.esm ? manifest.module : manifest.main);
+        // const main = resolve(path, this.esm ? manifest.module : manifest.main);
+        const main = resolve(path, manifest.main);
 
         // Check if the provided entry point is valid
         if (!existsSync(resolve(path, main))) {
@@ -276,7 +278,7 @@ class Pipeline {
         }
 
         // Import the plugin module
-        const module = await import(`file://${resolve(path, main)}`);
+        const module = require(resolve(path, main));
 
         // Get the plugin class from the module
         const plugin = module.default as Plugin;
@@ -359,7 +361,7 @@ class Pipeline {
     // Attempt to load the plugin
     try {
       // Import the plugin module
-      // eslint-disable-next-line @typescript-eslint/no-require-imports -- Require is used here to import the plugin module
+
       const module = require(path);
 
       // Get the plugin class from the module
