@@ -111,7 +111,7 @@ class Pipeline {
    * @param complete The callback to call when the pipeline is initialized.
    * @returns A promise that resolves when the pipeline is initialized.
    */
-  public async initialize(complete: () => void): Promise<void> {
+  public initialize(complete: () => void): void {
     // Check if the plugins directory exists
     if (!existsSync(resolve(this.path)))
       // If not, create the plugins directory
@@ -143,17 +143,12 @@ class Pipeline {
 
         // Check if the plugin type is valid
         if (type === PluginType.Addon) {
-          // Read the length of the module and main entry points
-          let length = stream.readVarInt();
-          const _esm = stream.readBuffer(length).toString("utf-8");
-
-          // Read the length of the main entry point
-          length = stream.readVarInt();
-          const cjs = stream.readBuffer(length).toString("utf-8");
+          // Read the module entry point from the stream
+          const index = stream.readRemainingBuffer().toString("utf-8");
 
           // Write the module or main entry points to temporary files
           const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
-          writeFileSync(tempPath, cjs);
+          writeFileSync(tempPath, index);
 
           // Import the plugin module
           const module = require(tempPath);
@@ -356,6 +351,7 @@ class Pipeline {
     // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- Dynamic delete is required here
     delete require.cache[require.resolve(path)];
 
+    // Remove the plugin from the serenity instance
     this.serenity.removePath(path);
 
     // Attempt to load the plugin
@@ -415,17 +411,11 @@ class Pipeline {
       // Get the addon path
       const inputPath = resolve(plugin.path, "dist");
 
-      // Read the ESM and CJS index files from the input path
-      const esmIndex = readFileSync(resolve(inputPath, "index.mjs"));
-      const cjsIndex = readFileSync(resolve(inputPath, "index.js"));
+      // Read the index file
+      const index = readFileSync(resolve(inputPath, "index.js"));
 
-      // Write the length of the ESM index file and then write the compressed ESM index file
-      stream.writeVarInt(esmIndex.length);
-      stream.writeBuffer(esmIndex);
-
-      // Write the length of the CJS index file and then write the compressed CJS index file
-      stream.writeVarInt(cjsIndex.length);
-      stream.writeBuffer(cjsIndex);
+      // Write the module entry point to the stream
+      stream.writeBuffer(index);
 
       // Write the BinaryStream to the output path
       writeFileSync(
