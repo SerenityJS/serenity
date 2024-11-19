@@ -84,7 +84,7 @@ class CommandExecutionState {
    * Attempts to execute the command.
    * @returns
    */
-  public execute(): CommandResponse {
+  public execute(): CommandResponse | Promise<CommandResponse> {
     // Check if the command is undefined.
     // If it is, we will throw an error.
     if (!this.command) {
@@ -162,7 +162,7 @@ class CommandExecutionState {
       if (Object.keys(context).length !== Object.keys(overload).length + 1)
         continue;
 
-      // Iterate through the context onject and try to validate the arguments.
+      // Iterate through the context object and try to validate the arguments.
       for (const [_, value] of Object.entries(context)) {
         // Check if the value is an instance of Enum.
         if (!(value instanceof Enum)) continue;
@@ -179,11 +179,11 @@ class CommandExecutionState {
       }
 
       // Get the response from the callback.
-      return callback(context) ?? {};
+      return (callback(context) ?? {}) as CommandResponse;
     }
 
     // Call the global callback with the global context object.
-    return this.command.callback(globalContext) ?? {};
+    return (this.command.callback(globalContext) ?? {}) as CommandResponse;
   }
 
   protected parse(source: string): Array<string> {

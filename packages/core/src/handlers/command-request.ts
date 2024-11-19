@@ -7,7 +7,10 @@ import { CommandExecutionState } from "../commands";
 class CommandRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.CommandRequest;
 
-  public handle(packet: CommandRequestPacket, connection: Connection): void {
+  public async handle(
+    packet: CommandRequestPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player by the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -52,7 +55,7 @@ class CommandRequestHandler extends NetworkHandler {
 
     try {
       // Try to execute the command
-      const result = state.execute();
+      const result = await state.execute();
 
       // Log the command to the console
       world.logger.info(
