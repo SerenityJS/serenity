@@ -235,8 +235,8 @@ class Pipeline {
         }
       } catch (reason) {
         // Log the error
-        this.logger.warn(
-          `Failed to load plugin from §8${relative(process.cwd(), resolve(this.path, bundle.name))}§r, skipping the plugin.`,
+        this.logger.error(
+          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, bundle.name))}", skipping the plugin.`,
           reason
         );
       }
@@ -307,8 +307,8 @@ class Pipeline {
         plugin.onInitialize(plugin);
       } catch (reason) {
         // Log the error
-        this.logger.warn(
-          `Failed to load plugin from §8${relative(process.cwd(), resolve(this.path, directory.name))}§r, skipping the plugin.`,
+        this.logger.error(
+          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, directory.name))}", skipping the plugin.`,
           reason
         );
       }
