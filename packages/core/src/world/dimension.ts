@@ -619,6 +619,28 @@ class Dimension {
   }
 
   /**
+   * Executes a command in the dimension asynchronously.
+   * @param command The command to execute.
+   * @returns The response of the command.
+   */
+  public async executeCommandAsync<T = unknown>(
+    command: string
+  ): Promise<CommandResponse<T>> {
+    // Check if the command starts with a slash, remove it if it does not
+    if (command.startsWith("/")) command = command.slice(1);
+
+    // Create a new command execute state
+    const state = new CommandExecutionState(
+      this.world.commands.getAll(),
+      command,
+      this
+    );
+
+    // Execute the command state
+    return (await state.execute()) as Promise<CommandResponse<T>>;
+  }
+
+  /**
    * Schedule an execution of a function after a specified amount of ticks.
    * @param ticks The amount of ticks to wait before the schedule is complete.
    * @returns The created tick schedule.

@@ -23,7 +23,7 @@ class ConsoleInterface {
     this.interface.setPrompt("> ");
   }
 
-  protected onLine(line: string): void {
+  protected async onLine(line: string): Promise<void> {
     // Check if the line starts with a /
     // If so, slice the line and execute the command
     const format = line.startsWith("/") ? line.slice(1) : line;
@@ -53,7 +53,7 @@ class ConsoleInterface {
       // Attempt to execute the command
       try {
         // Execute the command
-        const execute = dimension.executeCommand(command);
+        const execute = await dimension.executeCommandAsync(command);
 
         // Check if the command is undefined
         if (!execute.message) return;
@@ -100,7 +100,7 @@ class ConsoleInterface {
       // Attempt to execute the command
       try {
         // Execute the command
-        const execute = dimension.executeCommand(command);
+        const execute = await dimension.executeCommandAsync(command);
 
         // Check if the command is undefined
         if (!execute.message) return;
@@ -123,7 +123,7 @@ class ConsoleInterface {
       // Attempt to execute the command
       try {
         // Execute the command
-        const execute = dimension.executeCommand(command);
+        const execute = await dimension.executeCommandAsync(command);
 
         // Check if the command is undefined
         if (!execute.message) return;
