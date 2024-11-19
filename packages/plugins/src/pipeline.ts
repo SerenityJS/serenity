@@ -393,7 +393,7 @@ class Pipeline {
       );
     } catch (reason) {
       // Log the error
-      this.logger.warn(
+      this.logger.error(
         `Failed to reload plugin from §8${relative(process.cwd(), path)}§r, skipping the plugin.`,
         reason
       );
