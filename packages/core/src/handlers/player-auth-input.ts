@@ -114,6 +114,17 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Get the sneaking flag from the player
           const sneaking = player.flags.get(ActorFlag.Sneaking) ?? false;
 
+          // Check if the player is already sneaking
+          if (sneaking === true) {
+            // Signal the player to stop sneaking
+            for (const trait of player.traits.values())
+              trait.onStopSneaking?.();
+          } else {
+            // Signal the player to start sneaking
+            for (const trait of player.traits.values())
+              trait.onStartSneaking?.();
+          }
+
           // Set the sneaking flag based on the action
           player.flags.set(ActorFlag.Sneaking, !sneaking);
           break;
