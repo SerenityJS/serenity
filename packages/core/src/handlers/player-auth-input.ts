@@ -125,6 +125,17 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Get the sprinting flag from the player
           const sprinting = player.flags.get(ActorFlag.Sprinting) ?? false;
 
+          // Check if the player is already sprinting
+          if (sprinting === true) {
+            // Signal the player to stop sprinting
+            for (const trait of player.traits.values())
+              trait.onStopSprinting?.();
+          } else {
+            // Signal the player to start sprinting
+            for (const trait of player.traits.values())
+              trait.onStartSprinting?.();
+          }
+
           // Set the sprinting flag based on the action
           player.flags.set(ActorFlag.Sprinting, !sprinting);
           break;
