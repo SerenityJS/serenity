@@ -161,7 +161,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         }
 
         // If the block is air, we can't place a block there
-        if (interacting.isAir()) return;
+        if (interacting.isAir) return;
 
         // Make the player interact with the block
         if (!interacting.interact(player)) return;
@@ -185,7 +185,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         const oldPermutation = result.getPermutation();
 
         // If the is's air, we can't place a block there
-        if (!result.isAir()) return;
+        if (!result.isAir) return;
 
         // Get the permutation to set the block state
         const permutation =

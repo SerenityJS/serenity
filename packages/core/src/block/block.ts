@@ -45,6 +45,48 @@ class Block {
 
   public permutation: BlockPermutation;
 
+  /**
+   * Whether or not the block is air.
+   */
+  public get isAir(): boolean {
+    return this.permutation.type.air;
+  }
+
+  /**
+   * Whether or not the block is liquid.
+   */
+  public get isLiquid(): boolean {
+    return this.permutation.type.liquid;
+  }
+
+  /**
+   * Whether or not the block is solid.
+   */
+  public get isSolid(): boolean {
+    return this.permutation.type.solid;
+  }
+
+  /**
+   * The block type of the block.
+   */
+  public get type(): BlockType {
+    return this.permutation.type;
+  }
+
+  /**
+   * The block type of the block.
+   */
+  public set type(type: BlockType) {
+    this.setPermutation(type.getPermutation());
+  }
+
+  /**
+   * The block identifier of the block.
+   */
+  public get identifier(): BlockIdentifier {
+    return this.type.identifier;
+  }
+
   public constructor(
     dimension: Dimension,
     position: BlockPosition,
@@ -58,27 +100,6 @@ class Block {
 
     if (properties?.entry)
       this.loadDataEntry(this.dimension.world, properties.entry);
-  }
-
-  /**
-   * Whether or not the block is air.
-   */
-  public isAir(): boolean {
-    return this.permutation.type.air;
-  }
-
-  /**
-   * Whether or not the block is liquid.
-   */
-  public isLiquid(): boolean {
-    return this.permutation.type.liquid;
-  }
-
-  /**
-   * Whether or not the block is solid.
-   */
-  public isSolid(): boolean {
-    return this.permutation.type.solid;
   }
 
   /**
@@ -169,21 +190,13 @@ class Block {
     this.permutation = permutation;
 
     // Check if the block should be cached.
-    if ((this.components.size > 0 || this.traits.size > 0) && !this.isAir()) {
+    if ((this.components.size > 0 || this.traits.size > 0) && !this.isAir) {
       // Calculate the block hash using the position
       const hash = BlockPosition.hash(this.position);
 
       // Set the block in the cache.
       this.dimension.blocks.set(hash, this);
     }
-  }
-
-  public setType(type: BlockType): void {
-    this.setPermutation(type.getPermutation());
-  }
-
-  public getType(): BlockType {
-    return this.permutation.type;
   }
 
   public getWorld() {
@@ -302,7 +315,7 @@ class Block {
     // Check if the trait is in the palette
     if (!this.getWorld().blockPalette.traits.has(trait.identifier))
       this.getWorld().logger.warn(
-        `Trait "§c${trait.identifier}§r" was added to block "§d${this.getType().identifier}§r:§d${JSON.stringify(this.position)}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
+        `Trait "§c${trait.identifier}§r" was added to block "§d${this.type.identifier}§r:§d${JSON.stringify(this.position)}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
       );
 
     // Attempt to add the trait to the block
@@ -333,7 +346,7 @@ class Block {
     } catch (reason) {
       // Log the error to the console
       this.serenity.logger.error(
-        `Failed to add trait "${trait.identifier}" to block "${this.getType().identifier}:${JSON.stringify(this.position)}" in dimension "${this.dimension.identifier}"`,
+        `Failed to add trait "${trait.identifier}" to block "${this.type.identifier}:${JSON.stringify(this.position)}" in dimension "${this.dimension.identifier}"`,
         reason
       );
 
@@ -358,7 +371,7 @@ class Block {
    */
   public isToolCompatible(_itemStack: ItemStack): boolean {
     // Get the block type.
-    const blockType = this.getType();
+    const blockType = this.type;
 
     // If the hardness is less than 0, no tool is compatible.
     if (blockType.hardness < 0) return false;
@@ -376,7 +389,7 @@ class Block {
    */
   public getBreakTime(itemStack?: ItemStack | null): number {
     // Get the type of the block.
-    const type = this.getType();
+    const type = this.type;
 
     // Get the hardness of the block.
     let hardness = type.hardness;
@@ -402,7 +415,7 @@ class Block {
     const palette = this.getWorld().itemPalette;
 
     // Get the item type of the block.
-    const type = palette.resolveType(this.getType()) as ItemType;
+    const type = palette.resolveType(this.type) as ItemType;
 
     // Create a new item stack with the type.
     const itemStack = new ItemStack(type, properties);
@@ -570,7 +583,7 @@ class Block {
         const { x, y, z } = this.position;
 
         // Iterate over the drops of the block.
-        for (const drop of this.getType().drops) {
+        for (const drop of this.type.drops) {
           // Check if the drop is air, if so we will skip it.
           if (drop.type === BlockIdentifier.Air) continue;
 
@@ -634,7 +647,7 @@ class Block {
 
     // Create the block entry object.
     const entry: BlockEntry = {
-      identifier: this.getType().identifier,
+      identifier: this.type.identifier,
       permutation: this.permutation.network,
       position: [x, y, z],
       traits: [...this.traits.keys()],
@@ -669,7 +682,7 @@ class Block {
       // Check if the trait exists in the palette
       if (!traitType) {
         world.logger.error(
-          `Failed to load trait "${trait}" for block "${this.getType().identifier}:${this.position.x},${this.position.y},${this.position.z}" as it does not exist in the palette`
+          `Failed to load trait "${trait}" for block "${this.type.identifier}:${this.position.x},${this.position.y},${this.position.z}" as it does not exist in the palette`
         );
 
         continue;

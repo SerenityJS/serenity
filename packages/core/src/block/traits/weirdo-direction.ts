@@ -20,7 +20,7 @@ class BlockWeirdoDirectionTrait extends BlockTrait {
    */
   public setDirection(direction: CardinalDirection): void {
     // Get the block type
-    const type = this.block.getType();
+    const type = this.block.type;
 
     // Get the state of the block
     const state = this.block.permutation.state;

@@ -36,7 +36,7 @@ class EntityPhysicsTrait extends EntityTrait {
       const block = dimension.getBlock({ x: bx, y: by, z: bz });
 
       // Check if the block is solid or if the velocity is approaching 0
-      if (block.isSolid() || Math.abs(velocity.y) < 0.01) {
+      if (block.isSolid || Math.abs(velocity.y) < 0.01) {
         this.entity.velocity.y = 0;
       } else {
         // Get the friction of the block below the entity
@@ -45,7 +45,7 @@ class EntityPhysicsTrait extends EntityTrait {
         // Apply gravity to the entity
         this.entity.velocity.y *= hasGravity
           ? 1 - this.gravity
-          : below.getType().friction;
+          : below.type.friction;
 
         // Update the entity's position
         this.entity.position.y += velocity.y;
@@ -63,7 +63,7 @@ class EntityPhysicsTrait extends EntityTrait {
       const block = dimension.getBlock({ x: bx, y: by, z: bz });
 
       // Check if the block is solid or if the velocity is approaching 0
-      if (block.isSolid()) {
+      if (block.isSolid) {
         // Set the entity's velocity to 0
         this.entity.velocity.z = 0;
 
@@ -81,7 +81,7 @@ class EntityPhysicsTrait extends EntityTrait {
         });
 
         // Get the friction of the block below the entity
-        const friction = below.getType().friction;
+        const friction = below.type.friction;
 
         // Apply gravity to the entity
         this.entity.velocity.z *= friction;
@@ -102,7 +102,7 @@ class EntityPhysicsTrait extends EntityTrait {
       const block = dimension.getBlock({ x: bx, y: by, z: bz });
 
       // Check if the block is solid or if the velocity is approaching 0
-      if (block.isSolid()) {
+      if (block.isSolid) {
         // Set the entity's velocity to 0
         this.entity.velocity.x = 0;
 
@@ -120,7 +120,7 @@ class EntityPhysicsTrait extends EntityTrait {
         });
 
         // Get the friction of the block below the entity
-        const friction = below.getType().friction;
+        const friction = below.type.friction;
 
         // Apply gravity to the entity
         this.entity.velocity.x *= friction;
@@ -139,17 +139,17 @@ class EntityPhysicsTrait extends EntityTrait {
       });
 
       // Check if the block below the entity is solid
-      if (below.isSolid()) {
+      if (below.isSolid) {
         // Apply gravity to the entity
         this.entity.velocity.y = 0;
 
         // Apply friction to the entity
         if (this.entity.velocity.z !== 0)
-          this.entity.velocity.z *= below.getType().friction;
+          this.entity.velocity.z *= below.type.friction;
 
         // Apply friction to the entity
         if (this.entity.velocity.x !== 0)
-          this.entity.velocity.x *= below.getType().friction;
+          this.entity.velocity.x *= below.type.friction;
 
         // Set the entity to on ground
         this.entity.onGround = true;

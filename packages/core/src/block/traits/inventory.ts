@@ -44,7 +44,7 @@ class BlockInventoryTrait extends BlockTrait {
     super(block);
 
     // Create the container for the block based on the block type
-    switch (block.getType().identifier) {
+    switch (block.type.identifier) {
       default: {
         // Set the container type and id
         this.containerType = ContainerType.Container;
@@ -160,7 +160,7 @@ class BlockInventoryTrait extends BlockTrait {
       sound.isGlobal = false;
 
       // Set the sound event based on the block type
-      switch (this.block.getType().identifier) {
+      switch (this.block.type.identifier) {
         default: {
           sound.event = -1 as LevelSoundEvent;
           break;
@@ -197,7 +197,7 @@ class BlockInventoryTrait extends BlockTrait {
       sound.isGlobal = false;
 
       // Set the sound event based on the block type
-      switch (this.block.getType().identifier) {
+      switch (this.block.type.identifier) {
         default: {
           sound.event = -1 as LevelSoundEvent;
           break;

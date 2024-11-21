@@ -33,7 +33,7 @@ class BlockOpenBitTrait extends BlockTrait {
 
   public setBit(open: boolean, silent = false): void {
     // Get the block type
-    const type = this.block.getType();
+    const type = this.block.type;
 
     // Get the state of the block
     const state = this.block.permutation.state as Record<string, unknown>;
@@ -95,7 +95,7 @@ class BlockOpenBitTrait extends BlockTrait {
     if (silent) return;
 
     // Get the position of the block and the identifier
-    const identifier = this.block.getType().identifier;
+    const identifier = this.block.type.identifier;
 
     // Create the level sound event packet
     const packet = new LevelSoundEventPacket();

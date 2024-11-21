@@ -14,7 +14,7 @@ class BlockUpperBitTrait extends BlockTrait {
       upper_block_bit: true
     };
 
-    const permutation = this.block.getType().getPermutation(newState);
+    const permutation = this.block.type.getPermutation(newState);
 
     above.setPermutation(permutation);
   }

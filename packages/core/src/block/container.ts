@@ -53,7 +53,7 @@ class BlockContainer extends Container {
         this.block
           .getWorld()
           .logger.error(
-            `Failed to trigger onContainerUpdate trait event for block "${this.block.getType().identifier}:${x},${y},${z}" in dimension "${this.block.dimension.identifier}"`,
+            `Failed to trigger onContainerUpdate trait event for block "${this.block.type.identifier}:${x},${y},${z}" in dimension "${this.block.dimension.identifier}"`,
             reason
           );
 

@@ -1,10 +1,4 @@
-import {
-  Serenity,
-  LevelDBProvider,
-  WorldEvent,
-  PlayerHungerTrait,
-  EntityItemStackTrait
-} from "@serenityjs/core";
+import { Serenity, LevelDBProvider } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -25,21 +19,4 @@ void pipeline.initialize(() => {
 
   // Start the server
   serenity.start();
-});
-
-serenity.on(WorldEvent.PlayerChat, ({ player }) => {
-  const hunger = player.getTrait(PlayerHungerTrait);
-
-  hunger.currentValue = 20;
-  hunger.saturation = 20;
-  hunger.exhaustion = 0;
-});
-
-serenity.on(WorldEvent.EntitySpawned, ({ entity }) => {
-  if (!entity.isItem()) return;
-
-  const { itemStack } = entity.getTrait(EntityItemStackTrait);
-
-  entity.alwaysShowNameTag = true;
-  entity.nameTag = `${itemStack.type.identifier} x${itemStack.amount}`;
 });

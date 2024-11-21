@@ -269,7 +269,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const block = dimension.getBlock(action.position);
 
           // Check if the block is air, if so, the client has a ghost block
-          if (block.isAir()) {
+          if (block.isAir) {
             // Get the block permutation from the dimension
             const permutation = block.permutation;
 

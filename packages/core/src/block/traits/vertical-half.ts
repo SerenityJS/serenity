@@ -24,14 +24,14 @@ class VerticalHalfTrait extends BlockTrait {
     const blockType = itemStack.type.block;
 
     // Check if the block type is equal to the interacting block
-    if (blockType !== this.block.getType()) return true;
+    if (blockType !== this.block.type) return true;
 
     return false;
   }
 
   public setVerticalHalf(topBit: boolean): void {
     // Get the block type
-    const type = this.block.getType();
+    const type = this.block.type;
 
     // Get the state of the block
     const state = this.block.permutation.state;

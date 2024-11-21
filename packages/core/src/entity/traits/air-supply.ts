@@ -63,7 +63,7 @@ class EntityAirSupplyTrait extends EntityTrait {
     );
 
     return (
-      (!blockAtHead.isLiquid() && !blockAtHead.isSolid()) ||
+      (!blockAtHead.isLiquid && !blockAtHead.isSolid) ||
       this.entity.hasEffect(EffectType.WaterBreathing)
     );
   }

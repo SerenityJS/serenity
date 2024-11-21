@@ -8102,7 +8102,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8112,7 +8112,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8122,7 +8122,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8132,7 +8132,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8142,7 +8142,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8152,7 +8152,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8162,7 +8162,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8172,7 +8172,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8182,7 +8182,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8192,7 +8192,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8202,7 +8202,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8212,7 +8212,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8222,7 +8222,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8232,7 +8232,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8242,7 +8242,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8252,7 +8252,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": false,
+    "air": true,
     "liquid": false,
     "solid": false,
     "states": []
