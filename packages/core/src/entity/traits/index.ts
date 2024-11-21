@@ -4,7 +4,6 @@ export * from "./player";
 export * from "./gravity";
 export * from "./collision";
 export * from "./air-supply";
-export * from "./nametag";
 export * from "./inventory";
 export * from "./item-stack";
 export * from "./physics";

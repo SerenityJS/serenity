@@ -189,6 +189,7 @@ class Player extends Entity {
     this.uuid = props.uuid;
     this.device = props.device;
     this.skin = props.skin;
+    this.alwaysShowNameTag = true;
 
     // Get the player's permission level from the permissions map
     this.permission = this.serenity.permissions.get(this.uuid);

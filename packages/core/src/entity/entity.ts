@@ -1,7 +1,10 @@
 import {
   ActorDamageCause,
+  ActorDataId,
+  ActorDataType,
   ActorFlag,
   ContainerName,
+  DataItem,
   EffectType,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
@@ -149,6 +152,60 @@ class Entity {
    * Whether the entity is on the ground or not.
    */
   public onGround = false;
+
+  /**
+   * The name tag of the entity.
+   */
+  public get nameTag(): string {
+    // Check if the entity has a name metadata
+    if (!this.metadata.has(ActorDataId.Name)) return "";
+
+    // Get the name metadata
+    const item = this.metadata.get<string>(ActorDataId.Name);
+
+    // Return the name metadata
+    return item?.value;
+  }
+
+  /**
+   * The name tag of the entity
+   */
+  public set nameTag(value: string) {
+    // Create a new DataItem for the name metadata
+    const item = new DataItem(ActorDataId.Name, ActorDataType.String, value);
+
+    // Set the name metadata
+    this.metadata.set(ActorDataId.Name, item);
+  }
+
+  /**
+   * Whether the entity name tag is always visible.
+   */
+  public get alwaysShowNameTag(): boolean {
+    // Check if the entity has a name tag visibility metadata
+    if (!this.metadata.has(ActorDataId.NametagAlwaysShow)) return false;
+
+    // Get the name tag visibility metadata
+    const item = this.metadata.get<number>(ActorDataId.NametagAlwaysShow);
+
+    // Return the name tag visibility metadata
+    return item?.value === 1;
+  }
+
+  /**
+   * Whether the entity name tag is always visible.
+   */
+  public set alwaysShowNameTag(value: boolean) {
+    // Create a new DataItem for the name tag visibility metadata
+    const item = new DataItem(
+      ActorDataId.NametagAlwaysShow,
+      ActorDataType.Byte,
+      value ? 1 : 0
+    );
+
+    // Set the name tag visibility metadata
+    this.metadata.set(ActorDataId.NametagAlwaysShow, item);
+  }
 
   /**
    * Creates a new entity within a dimension.

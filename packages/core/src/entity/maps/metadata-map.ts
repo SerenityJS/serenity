@@ -23,6 +23,10 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
     this.entity = entity;
   }
 
+  public get<T = unknown>(key: ActorDataId): DataItem<T> {
+    return super.get(key) as DataItem<T>;
+  }
+
   public set(key: ActorDataId, value: DataItem<unknown>): this {
     // Create a new EntityMetadataUpdateSignal
     const signal = new EntityMetadataUpdateSignal(this.entity, key, value);

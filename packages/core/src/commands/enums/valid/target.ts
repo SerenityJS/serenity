@@ -1,4 +1,4 @@
-import { Entity, EntityNameTagTrait, Player } from "../../../entity";
+import { Entity, Player } from "../../../entity";
 
 import { ValidEnum } from ".";
 
@@ -154,26 +154,17 @@ class TargetEnum extends ValidEnum {
               switch (key) {
                 // Check if the entity name matches the query.
                 case "name": {
-                  if (entity.hasTrait(EntityNameTagTrait)) {
-                    // Get the name from the query.
-                    let name = value as string;
+                  // Get the name from the query.
+                  let name = value as string;
 
-                    const negate = name.startsWith("!");
-                    if (negate) name = name.slice(1);
+                  const negate = name.startsWith("!");
+                  if (negate) name = name.slice(1);
 
-                    // Get the nametag trait.
-                    const trait = entity.getTrait(EntityNameTagTrait);
-
-                    // Check if the nametag matches the query.
-                    if (
-                      negate
-                        ? trait.getNameTag() === name
-                        : trait.getNameTag() !== name
-                    )
-                      return false;
-                  } else {
+                  // Check if the nametag matches the query.
+                  if (
+                    negate ? entity.nameTag === name : entity.nameTag !== name
+                  )
                     return false;
-                  }
                   break;
                 }
 
