@@ -154,6 +154,13 @@ class Entity {
   public onGround = false;
 
   /**
+   * The identifier of the entity.
+   */
+  public get identifier(): EntityIdentifier {
+    return this.type.identifier;
+  }
+
+  /**
    * The name tag of the entity.
    */
   public get nameTag(): string {
