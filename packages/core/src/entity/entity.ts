@@ -65,9 +65,14 @@ class Entity {
   protected readonly serenity: Serenity;
 
   /**
-   * The type of the entity. (Identifier, NetworkId, etc)
+   * The type of the entity.
    */
   public readonly type: EntityType;
+
+  /**
+   * The identifier of the entity.
+   */
+  public readonly identifier: EntityIdentifier;
 
   /**
    * The current runtime id of the entity. (Incremented each time an entity is created)
@@ -154,13 +159,6 @@ class Entity {
   public onGround = false;
 
   /**
-   * The identifier of the entity.
-   */
-  public get identifier(): EntityIdentifier {
-    return this.type.identifier;
-  }
-
-  /**
    * The name tag of the entity.
    */
   public get nameTag(): string {
@@ -234,6 +232,9 @@ class Entity {
     // Assign the type of the entity
     if (type instanceof EntityType) this.type = type;
     else this.type = dimension.world.entityPalette.getType(type) as EntityType;
+
+    // Assign the identifier of the entity
+    this.identifier = this.type.identifier;
 
     // Assign the properties to the entity
     // If a provided unique id is not given, generate one

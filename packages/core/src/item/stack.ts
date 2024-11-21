@@ -31,6 +31,11 @@ class ItemStack<T extends keyof Items = keyof Items> {
   public readonly type: ItemType<T>;
 
   /**
+   * The identifier of the item stack.
+   */
+  public readonly identifier: T;
+
+  /**
    * The components of the item stack.
    */
   public readonly components = new Map<string, JSONLikeValue>();
@@ -85,6 +90,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
       identifier instanceof ItemType
         ? identifier
         : (ItemType.get(identifier as T) as ItemType<T>); // TODO: Fix this, fetch from palette
+
+    // Assign the identifier of the item stack
+    this.identifier = this.type.identifier;
 
     // Spread the default properties and the provided properties
     const props = { ...DefaultItemStackProperties, ...properties };
