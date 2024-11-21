@@ -24,9 +24,6 @@ class BlockTrait extends Trait {
   public constructor(block: Block) {
     super();
     this.block = block;
-
-    // Add the trait to the block.
-    block.addTrait(this);
   }
 
   /**

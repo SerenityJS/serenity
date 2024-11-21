@@ -23,9 +23,6 @@ class EntityTrait extends Trait {
   public constructor(entity: Entity) {
     super();
     this.entity = entity;
-
-    // Add the trait to the entity.
-    entity.addTrait(this);
   }
 
   /**

@@ -1,4 +1,9 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import {
+  Serenity,
+  LevelDBProvider,
+  WorldEvent,
+  PlayerHungerTrait
+} from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -19,4 +24,12 @@ void pipeline.initialize(() => {
 
   // Start the server
   serenity.start();
+});
+
+serenity.on(WorldEvent.PlayerChat, ({ player }) => {
+  const hunger = player.getTrait(PlayerHungerTrait);
+
+  hunger.currentValue = 20;
+  hunger.saturation = 20;
+  hunger.exhaustion = 0;
 });

@@ -13,12 +13,12 @@ class InstantHealthEffect extends Effect {
     const currentHealth = healthTrait.currentValue;
 
     // TODO: Undead check to damage
-    if (currentHealth >= healthTrait.effectiveMax) return;
-    healthTrait.set(
-      Math.min(
-        healthTrait.effectiveMax,
-        currentHealth + 2 * 2 ** this.amplifier
-      )
+    if (currentHealth >= healthTrait.maximumValue) return;
+
+    // Set the health to the maximum value.
+    healthTrait.currentValue = Math.min(
+      healthTrait.maximumValue,
+      currentHealth + 2 * 2 ** this.amplifier
     );
   }
 }

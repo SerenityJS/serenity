@@ -11,12 +11,14 @@ class SlownessEffect extends Effect {
 
   public onAdd(entity: Entity): void {
     const movementTrait = entity.getTrait(EntityMovementTrait);
-    movementTrait.set(movementTrait.currentValue * (1 - 0.15 * this.amplifier));
+
+    movementTrait.currentValue =
+      movementTrait.currentValue * (1 - 0.15 * this.amplifier);
   }
 
   public onRemove(entity: Entity): void {
     const movementTrait = entity.getTrait(EntityMovementTrait);
-    movementTrait.set(movementTrait.defaultValue);
+    movementTrait.currentValue = movementTrait.defaultValue;
   }
 }
 

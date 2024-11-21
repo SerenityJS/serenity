@@ -79,7 +79,7 @@ class Attribute extends DataType {
     this.modifiers = modifiers;
   }
 
-  public static override read(stream: BinaryStream): Array<Attribute> {
+  public static read(stream: BinaryStream): Array<Attribute> {
     // Prepare an array to store the attributes.
     const attributes: Array<Attribute> = [];
 
@@ -129,10 +129,7 @@ class Attribute extends DataType {
     return attributes;
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: Array<Attribute>
-  ): void {
+  public static write(stream: BinaryStream, value: Array<Attribute>): void {
     // Write the amount of attributes.
     stream.writeVarInt(value.length);
 
@@ -155,6 +152,34 @@ class Attribute extends DataType {
         AttributeModifier.write(stream, modifier);
       }
     }
+  }
+
+  /**
+   * Creates a new instance of Attribute.
+   * @param name The name of the attribute.
+   * @param minimumValue The minimum value of the attribute.
+   * @param maximumValue The maximum value of the attribute.
+   * @param current The current value of the attribute.
+   * @param defaultValue The default value of the attribute.
+   * @returns A new instance of Attribute.
+   */
+  public static create(
+    name: AttributeName,
+    minimumValue: number,
+    maximumValue: number,
+    current?: number,
+    defaultValue?: number
+  ): Attribute {
+    return new Attribute(
+      minimumValue,
+      maximumValue,
+      current ?? maximumValue,
+      Infinity,
+      -Infinity,
+      defaultValue ?? maximumValue,
+      name,
+      []
+    );
   }
 }
 

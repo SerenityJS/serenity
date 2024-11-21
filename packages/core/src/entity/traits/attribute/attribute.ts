@@ -1,14 +1,12 @@
 import { Attribute, AttributeName } from "@serenityjs/protocol";
 
 import { EntityTrait } from "../trait";
-import { JSONLikeObject } from "../../../types";
 
-interface AttributeProperties extends JSONLikeObject {
-  attribute: AttributeName;
-  current: number;
-  effectiveMin: number;
-  effectiveMax: number;
-  defaultValue: number;
+interface AttributeProperties {
+  minimumValue?: number;
+  maximumValue?: number;
+  defaultValue?: number;
+  currentValue?: number;
 }
 
 class EntityAttributeTrait extends EntityTrait {
@@ -18,102 +16,146 @@ class EntityAttributeTrait extends EntityTrait {
   public attribute!: AttributeName;
 
   /**
+   * Whether the trait will be synchronized with the client
+   */
+  public sync = true;
+
+  /**
    * The minimum value of the attribute
    */
-  public effectiveMin: number = 0;
+  public get minimumValue(): number {
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Return the minimum value of the attribute
+    return attribute.min;
+  }
+
+  /**
+   * The minimum value of the attribute
+   */
+  public set minimumValue(value: number) {
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Set the minimum value of the attribute
+    attribute.min = value;
+
+    // Update the attribute in the entity
+    this.entity.attributes.add(attribute);
+  }
 
   /**
    * The maximum value of the attribute
    */
-  public effectiveMax: number = 0;
+  public get maximumValue(): number {
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Return the maximum value of the attribute
+    return attribute.max;
+  }
+
+  /**
+   * The maximum value of the attribute
+   */
+  public set maximumValue(value: number) {
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Set the maximum value of the attribute
+    attribute.max = value;
+
+    // Update the attribute in the entity
+    this.entity.attributes.add(attribute);
+  }
 
   /**
    * The default value of the attribute
    */
-  public defaultValue: number = 0;
+  public get defaultValue(): number {
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Return the default value of the attribute
+    return attribute.default;
+  }
 
   /**
-   * Get the current value of the attribute
+   * The default value of the attribute
+   */
+  public set defaultValue(value: number) {
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Set the default value of the attribute
+    attribute.default = value;
+
+    // Update the attribute in the entity
+    this.entity.attributes.add(attribute);
+  }
+
+  /**
+   * The current value of the attribute
    */
   public get currentValue(): number {
-    return this.get()?.current ?? this.defaultValue;
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Return the current value of the attribute
+    return attribute.current;
   }
 
+  /**
+   * The current value of the attribute
+   */
   public set currentValue(value: number) {
-    this.set(value);
+    // Get the attribute from the entity
+    const attribute = this.getAttribute();
+
+    // Set the current value of the attribute
+    attribute.current = value;
+
+    // Update the attribute in the entity
+    this.entity.attributes.add(attribute);
   }
 
   /**
-   * Get the current value of the attribute
-   * @returns Whether the attribute is enabled or not
+   * Gets the saturation attribute of the entity
+   * @returns The saturation attribute of the entity
    */
-  public get(): Attribute | undefined {
-    // Get the component value from the entity
-    return this.entity.attributes.get(this.attribute);
+  public getAttribute(): Attribute {
+    return this.entity.attributes.get(this.attribute) as Attribute;
   }
 
   /**
-   * Increases the attribute value.
-   * @param amount The amount to increase the attribute current value.
+   * Resets the current value of the attribute to the default value
    */
-  public increase(amount: number): void {
-    this.set(this.currentValue + amount);
+  public reset(): void {
+    // Reset the current value of the attribute to the default value
+    this.currentValue = this.defaultValue;
   }
 
-  /**
-   * Decreases the attribute value.
-   * @param amount The amount to decrease the attribute current value.
-   */
-  public decrease(amount: number): void {
-    this.set(this.currentValue - amount);
-  }
+  public onAdd(properties?: AttributeProperties): void {
+    // Check if the entity has a saturation attribute
+    if (!this.entity.attributes.has(this.attribute)) {
+      // If not, create a new saturation attribute for the entity
+      const attribute = Attribute.create(
+        this.attribute,
+        properties?.minimumValue ?? 0,
+        properties?.maximumValue ?? 0,
+        properties?.currentValue ?? 0,
+        properties?.defaultValue ?? 0
+      );
 
-  /**
-   * Set the current value of the attribute
-   * @param value Whether the attribute is enabled or not
-   * @param update Whether to update the entity's actor data; default is true
-   */
-  public set(value: number): void {
-    // Create a new attribute properties object
-    const properties: AttributeProperties = {
-      attribute: this.attribute,
-      current: value,
-      effectiveMin: this.effectiveMin,
-      effectiveMax: this.effectiveMax,
-      defaultValue: this.defaultValue
-    };
-
-    // Create a new attribute object
-    const attribute = new Attribute(
-      this.effectiveMin,
-      this.effectiveMax,
-      value,
-      -Infinity,
-      Infinity,
-      this.defaultValue,
-      this.attribute,
-      []
-    );
-
-    // Update the component value
-    this.entity.components.set(this.identifier, properties);
-    this.entity.attributes.set(this.attribute, attribute);
-  }
-
-  public onSpawn(): void {
-    // Check if the entity has the component
-    if (this.entity.components.has(this.identifier)) {
-      // Get the component value from the entity
-      const enabled = this.entity.components.get(
-        this.identifier
-      ) as AttributeProperties;
-
-      // Set the entity flag
-      this.set(enabled.current);
-    } else {
-      // Set the component value to the default value
-      this.set(this.defaultValue);
+      // Add the attribute to the entity
+      this.entity.attributes.add(attribute);
     }
+  }
+
+  public onRemove(): void {
+    // Remove the saturation attribute from the entity
+    this.entity.attributes.delete(this.attribute);
   }
 }
 

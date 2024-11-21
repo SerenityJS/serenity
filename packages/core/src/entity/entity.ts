@@ -44,7 +44,8 @@ import {
   EntityEquipmentTrait,
   EntityHealthTrait,
   EntityInventoryTrait,
-  EntityTrait
+  EntityTrait,
+  PlayerHungerTrait
 } from "./traits";
 import { Player } from "./player";
 import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
@@ -420,10 +421,10 @@ class Entity {
         `Failed to add trait "${trait.identifier}" to entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
         reason
       );
-
-      // Return null as the trait was not added
-      return null as InstanceType<T>;
     }
+
+    // Return null as the trait was not added
+    return null as InstanceType<T>;
   }
 
   /**
@@ -597,8 +598,17 @@ class Entity {
       // Get the health trait
       const health = this.getTrait(EntityHealthTrait);
 
-      // Set the health to minimum value
-      health.currentValue = health.effectiveMin;
+      // Reset the health of the entity
+      health?.reset();
+
+      // Check if the entity is a player
+      if (this.isPlayer()) {
+        // Get the hunger trait
+        const hunger = this.getTrait(PlayerHungerTrait);
+
+        // Reset the hunger of the player
+        hunger?.reset();
+      }
     }
 
     // Schedule the entity to despawn
@@ -1030,8 +1040,26 @@ class Entity {
 
     // Check if the entity should overwrite the current data
     if (overwrite) {
+      this.metadata.clear();
+      this.flags.clear();
+      this.attributes.clear();
       this.components.clear();
       this.traits.clear();
+    }
+
+    // Add the metadata to the entity, if it does not already exist
+    for (const [key, value] of entry.metadata) {
+      if (!this.metadata.has(key)) this.metadata.set(key, value);
+    }
+
+    // Add the flags to the entity, if it does not already exist
+    for (const [key, value] of entry.flags) {
+      if (!this.flags.has(key)) this.flags.set(key, value);
+    }
+
+    // Add the attributes to the entity, if it does not already exist
+    for (const [key, value] of entry.attributes) {
+      if (!this.attributes.has(key)) this.attributes.set(key, value);
     }
 
     // Add the components to the entity, if it does not already exist
@@ -1055,21 +1083,6 @@ class Entity {
 
       // Attempt to add the trait to the entity
       this.addTrait(traitType as typeof EntityTrait);
-    }
-
-    // Add the metadata to the entity, if it does not already exist
-    for (const [key, value] of entry.metadata) {
-      if (!this.metadata.has(key)) this.metadata.set(key, value);
-    }
-
-    // Add the flags to the entity, if it does not already exist
-    for (const [key, value] of entry.flags) {
-      if (!this.flags.has(key)) this.flags.set(key, value);
-    }
-
-    // Add the attributes to the entity, if it does not already exist
-    for (const [key, value] of entry.attributes) {
-      if (!this.attributes.has(key)) this.attributes.set(key, value);
     }
   }
 

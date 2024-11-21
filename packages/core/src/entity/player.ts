@@ -619,9 +619,33 @@ class Player extends Entity {
 
     // Check if the player should overwrite the current data
     if (overwrite) {
+      this.metadata.clear();
+      this.flags.clear();
+      this.attributes.clear();
+      this.abilities.clear();
       this.components.clear();
       this.traits.clear();
-      this.abilities.clear();
+    }
+
+    // Add the metadata to the player, if it does not already exist
+    for (const [key, value] of entry.metadata) {
+      if (!this.metadata.has(key)) this.metadata.set(key, value);
+    }
+
+    // Add the flags to the player, if it does not already exist
+    for (const [flag, value] of entry.flags) {
+      if (!this.flags.has(flag)) this.flags.set(flag, value);
+    }
+
+    // Add the attributes to the player, if it does not already exist
+    for (const [attribute, value] of entry.attributes) {
+      if (!this.attributes.has(attribute))
+        this.attributes.set(attribute, value);
+    }
+
+    // Add the abilities to the player, if it does not already exist
+    for (const [ability, value] of entry.abilities) {
+      if (!this.abilities.has(ability)) this.abilities.set(ability, value);
     }
 
     // Add the components to the player, if it does not already exist
@@ -646,27 +670,6 @@ class Player extends Entity {
 
       // Attempt to add the trait to the entity
       this.addTrait(traitType as typeof EntityTrait);
-    }
-
-    // Add the metadata to the player, if it does not already exist
-    for (const [key, value] of entry.metadata) {
-      if (!this.metadata.has(key)) this.metadata.set(key, value);
-    }
-
-    // Add the flags to the player, if it does not already exist
-    for (const [flag, value] of entry.flags) {
-      if (!this.flags.has(flag)) this.flags.set(flag, value);
-    }
-
-    // Add the attributes to the player, if it does not already exist
-    for (const [attribute, value] of entry.attributes) {
-      if (!this.attributes.has(attribute))
-        this.attributes.set(attribute, value);
-    }
-
-    // Add the abilities to the player, if it does not already exist
-    for (const [ability, value] of entry.abilities) {
-      if (!this.abilities.has(ability)) this.abilities.set(ability, value);
     }
   }
 }

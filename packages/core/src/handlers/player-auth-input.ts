@@ -202,6 +202,12 @@ class PlayerAuthInputHandler extends NetworkHandler {
           }
           break;
         }
+
+        case InputData.StartJumping: {
+          // Signal the player to jump
+          for (const trait of player.traits.values()) trait.onJump?.();
+          break;
+        }
       }
     }
   }

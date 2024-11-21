@@ -39,6 +39,10 @@ class AttributeMap extends Map<AttributeName, Attribute> {
     return result;
   }
 
+  public add(value: Attribute): this {
+    return this.set(value.name, value);
+  }
+
   public delete(key: AttributeName): boolean {
     // Call the original delete method
     const result = super.delete(key);

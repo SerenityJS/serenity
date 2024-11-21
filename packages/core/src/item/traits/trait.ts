@@ -22,9 +22,6 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   public constructor(item: ItemStack<T>) {
     super();
     this.item = item;
-
-    // Register the trait to the item stack
-    item.addTrait(this);
   }
 
   /**

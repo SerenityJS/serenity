@@ -13,9 +13,16 @@ class EntityMovementTrait extends EntityAttributeTrait {
   public static readonly types = [EntityIdentifier.Player];
 
   public readonly attribute = AttributeName.Movement;
-  public readonly effectiveMin = 0;
-  public readonly effectiveMax = 3.402_823_466e+38;
-  public readonly defaultValue = 0.1;
+
+  public onAdd(): void {
+    // Call the super method
+    super.onAdd({
+      minimumValue: 0,
+      maximumValue: 3.402_823_466e+38,
+      defaultValue: 0.1,
+      currentValue: 0.1
+    });
+  }
 
   public onTick(): void {
     // Check if the entity is moving
