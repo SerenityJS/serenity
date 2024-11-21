@@ -655,17 +655,17 @@ class Entity {
       // Get the health trait
       const health = this.getTrait(EntityHealthTrait);
 
-      // Reset the health of the entity
-      health?.reset();
+      // Set the health of the entity to 0
+      health.currentValue = health.minimumValue;
+    }
 
-      // Check if the entity is a player
-      if (this.isPlayer()) {
-        // Get the hunger trait
-        const hunger = this.getTrait(PlayerHungerTrait);
+    // Check if the entity has a hunger trait
+    if (this.hasTrait(PlayerHungerTrait)) {
+      // Get the hunger trait of the entity
+      const hunger = this.getTrait(PlayerHungerTrait);
 
-        // Reset the hunger of the player
-        hunger?.reset();
-      }
+      // Reset the hunger of the entity
+      hunger.reset();
     }
 
     // Schedule the entity to despawn

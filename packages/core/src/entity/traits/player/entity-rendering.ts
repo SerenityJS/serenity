@@ -197,11 +197,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     }
   }
 
-  public onDespawn(): void {
-    // Clear the entities
-    this.clear();
-  }
-
   /**
    * Clears all the entities that have been rendered for the player.
    */
