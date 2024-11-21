@@ -46,7 +46,7 @@ const register = (world: World) => {
           );
 
           // Set the block at the specified location
-          block.setType(type);
+          block.type = type;
 
           // Return the message
           return {
