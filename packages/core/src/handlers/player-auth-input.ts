@@ -208,6 +208,19 @@ class PlayerAuthInputHandler extends NetworkHandler {
           for (const trait of player.traits.values()) trait.onJump?.();
           break;
         }
+
+        // Handle when a player starts using an item. (Eating, drinking, etc.)
+        case InputData.StartUsingItem: {
+          // Set the item target for the player
+          player.itemTarget = player.getHeldItem();
+
+          // Check if the target item is not null
+          if (player.itemTarget)
+            // Call the item onStartUse trait methods
+            for (const trait of player.itemTarget.traits.values())
+              trait.onStartUse?.(player, { method: ItemUseMethod.Use });
+          break;
+        }
       }
     }
   }

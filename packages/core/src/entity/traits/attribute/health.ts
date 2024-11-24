@@ -1,7 +1,7 @@
 import {
   AbilityIndex,
   ActorDamageCause,
-  ActorEventIds,
+  ActorEvent,
   ActorEventPacket,
   AttributeName,
   Gamemode,
@@ -35,8 +35,8 @@ class EntityHealthTrait extends EntityAttributeTrait {
     // Create a new ActorEventPacket
     const packet = new ActorEventPacket();
     packet.actorRuntimeId = this.entity.runtimeId;
-    packet.eventId = ActorEventIds.HURT_ANIMATION;
-    packet.eventData = cause ?? ActorDamageCause.None;
+    packet.event = ActorEvent.Hurt;
+    packet.data = cause ?? ActorDamageCause.None;
 
     // Broadcast the packet to all players
     this.entity.dimension.broadcast(packet);

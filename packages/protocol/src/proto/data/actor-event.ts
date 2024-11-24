@@ -8,8 +8,8 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.ActorEvent)
 class ActorEventPacket extends DataPacket {
   @Serialize(VarLong) public actorRuntimeId!: bigint;
-  @Serialize(Uint8) public eventId!: number;
-  @Serialize(ZigZag) public eventData!: number;
+  @Serialize(Uint8) public event!: number;
+  @Serialize(ZigZag) public data!: number;
 }
 
 export { ActorEventPacket };

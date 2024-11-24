@@ -1,5 +1,5 @@
 import {
-  ActorEventIds,
+  ActorEvent,
   ActorEventPacket,
   LevelSoundEvent,
   LevelSoundEventPacket,
@@ -115,8 +115,8 @@ class EntityItemStackTrait extends EntityTrait {
     this.itemStack.increment(amount);
 
     const packet = new ActorEventPacket();
-    packet.eventId = ActorEventIds.ITEM_ENTITY_MERGE;
-    packet.eventData = this.itemStack.amount;
+    packet.event = ActorEvent.UpdateStackSize;
+    packet.data = this.itemStack.amount;
     packet.actorRuntimeId = this.entity.runtimeId;
 
     this.entity.dimension.broadcast(packet);
@@ -126,8 +126,8 @@ class EntityItemStackTrait extends EntityTrait {
     this.itemStack.decrement(amount);
 
     const packet = new ActorEventPacket();
-    packet.eventId = ActorEventIds.ITEM_ENTITY_MERGE;
-    packet.eventData = this.itemStack.amount;
+    packet.event = ActorEvent.UpdateStackSize;
+    packet.data = this.itemStack.amount;
     packet.actorRuntimeId = this.entity.runtimeId;
 
     this.entity.dimension.broadcast(packet);

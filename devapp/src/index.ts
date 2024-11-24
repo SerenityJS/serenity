@@ -1,4 +1,9 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import {
+  Serenity,
+  LevelDBProvider,
+  WorldEvent,
+  ItemUseMethod
+} from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -19,4 +24,8 @@ void pipeline.initialize(() => {
 
   // Start the server
   serenity.start();
+});
+
+serenity.on(WorldEvent.PlayerUseItem, ({ useMethod, player }) => {
+  player.sendMessage(ItemUseMethod[useMethod]);
 });

@@ -75,7 +75,23 @@ class InventoryTransactionHandler extends NetworkHandler {
       }
 
       case ComplexInventoryTransaction.ItemReleaseTransaction: {
-        return console.log("TODO: Implement item release transaction");
+        // Get the item release transaction
+        const transaction = packet.transaction.itemRelease;
+
+        // Validate that the transaction actually contains an item release transaction
+        if (!transaction)
+          throw new Error(
+            "ItemRelease object missing from ItemReleaseTransaction"
+          );
+
+        // Check if the player is using an item
+        if (player.itemTarget)
+          // Call the onRelease method for the item stack traits
+          for (const trait of player.itemTarget.traits.values())
+            trait.onRelease?.(player);
+
+        // Set the player's item target to null
+        player.itemTarget = null;
       }
     }
   }
@@ -265,39 +281,22 @@ class InventoryTransactionHandler extends NetworkHandler {
 
       // Handles when an item is used
       case ItemUseInventoryTransactionType.Use: {
-        // Check if the player is using an item
-        // If so, the item use clicked in their hand
-        if (!player.itemTarget) {
-          // Get the players held item stack
-          const stack = player.getHeldItem() as ItemStack;
+        // Get the players held item stack
+        const stack = player.getHeldItem() as ItemStack;
 
-          // Verify that the item stack network ids match
-          if (stack.type.network !== transaction.item.network) return;
+        // Verify that the item stack network ids match
+        if (stack.type.network !== transaction.item.network) return;
 
-          // Get the use method of the action
-          const method = ItemUseMethod.Click;
+        // Get the use method of the action depending if there is an item target
+        const method = player.itemTarget
+          ? ItemUseMethod.Use
+          : ItemUseMethod.Click;
 
-          // Call the onUse method for the item stack
-          stack.use(player, { method });
+        // Call the onUse method for the item stack
+        stack.use(player, { method });
 
-          // Create a new PlayerUseItemSignal
-          new PlayerUseItemSignal(player, stack, method).emit();
-        } else {
-          // Get the item stack from the player
-          const stack = player.itemTarget as ItemStack;
-
-          // Verify that the item stack network ids match
-          if (stack.type.network !== transaction.item.network) return;
-
-          // Get the use method of the action
-          const method = ItemUseMethod.Use;
-
-          // Call the onUse method for the item stack
-          stack.use(player, { method });
-
-          // Create a new PlayerUseItemSignal
-          new PlayerUseItemSignal(player, stack, method).emit();
-        }
+        // Create a new PlayerUseItemSignal
+        new PlayerUseItemSignal(player, stack, method).emit();
 
         // Break from the switch statement
         break;

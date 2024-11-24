@@ -56,6 +56,12 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   ): boolean | void;
 
   /**
+   * Called when the release action is triggered by a player.
+   * @param player The player that released the item.
+   */
+  public onRelease?(player: Player): void;
+
+  /**
    * Called when the container that the item is stored in is opened.
    * @param player The player that opened the container.
    */
