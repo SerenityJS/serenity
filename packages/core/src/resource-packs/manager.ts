@@ -3,7 +3,11 @@ import { join, resolve } from "path";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
-import { ResourceManifest, ResourcePacksProperties } from "../types";
+import {
+  ResourceManifest,
+  ResourcePackEntry,
+  ResourcePacksProperties
+} from "../types";
 
 import { ResourcePack } from "./pack";
 import { Zip } from "./zipfile";
@@ -174,6 +178,29 @@ class ResourcePackManager {
     if (isVersionUuid) uuid = uuid.split("_")[0] as string;
 
     return this.resourcePacks.get(uuid);
+  }
+
+  /**
+   * Adds a pack to the resource pack manager
+   * @param entry The pack entry to add
+   */
+  public addPack(entry: ResourcePackEntry): void {
+    // Read the pack from the path
+    const pack = this.readPack(entry.path);
+
+    if (!pack) {
+      this.logger.error(`Failed to add pack from path: ${entry.path}`);
+      return;
+    }
+
+    // Check if a sub-pack was provided
+    if (entry.subPack) pack.subPack = entry.subPack;
+
+    // Add the pack to the installed packs
+    this.installedPacks.set(pack.manifest.header.uuid, pack);
+
+    // Load the selected packs
+    this.loadSelectedPacks([pack]);
   }
 
   public static fromPath(path: string): ResourcePackManager {
