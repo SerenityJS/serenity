@@ -1,10 +1,6 @@
-import {
-  Serenity,
-  LevelDBProvider,
-  WorldEvent,
-  ItemUseMethod
-} from "@serenityjs/core";
+import { Serenity, LevelDBProvider } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
+import { Packet } from "@serenityjs/protocol";
 
 // Create a new Serenity instance
 const serenity = new Serenity({
@@ -26,6 +22,10 @@ void pipeline.initialize(() => {
   serenity.start();
 });
 
-serenity.on(WorldEvent.PlayerUseItem, ({ useMethod, player }) => {
-  player.sendMessage(ItemUseMethod[useMethod]);
+serenity.network.on(Packet.PlayerAuthInput, ({ packet }) => {
+  const size = packet.binary.length;
+  const offset = packet.offset;
+
+  // Check if data is available
+  if (size > offset) return console.log("remaining data");
 });
