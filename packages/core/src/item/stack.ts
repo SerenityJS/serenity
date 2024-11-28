@@ -129,6 +129,18 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
     // Register the traits to the itemstack
     for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
+
+    // Iterate over the tags of the item type
+    for (const tag of this.type.tags) {
+      // Get the traits for the tag
+      const traits = [...this.world.itemPalette.traits].filter(
+        ([, trait]) => trait.tag === tag
+      );
+
+      // Register the traits to the itemstack
+      for (const [, trait] of traits)
+        if (!this.hasTrait(trait)) this.addTrait(trait);
+    }
   }
 
   /**

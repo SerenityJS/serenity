@@ -11,6 +11,12 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   public static readonly types: Array<ItemIdentifier> = [];
 
   /**
+   * The item tag that this trait is compatible with by default.
+   * If null, the trait is not compatible with any tag.
+   */
+  public static readonly tag: string | null = null;
+
+  /**
    * The item stack that this trait is attached to.
    */
   protected readonly item: ItemStack<T>;
