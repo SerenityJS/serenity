@@ -238,6 +238,35 @@ class Entity {
   }
 
   /**
+   * The scale of the entity.
+   */
+  public get scale(): number {
+    // Check if the entity has a scale metadata
+    if (!this.metadata.has(ActorDataId.Reserved038)) return 1;
+
+    // Get the scale metadata
+    const item = this.metadata.get<number>(ActorDataId.Reserved038);
+
+    // Return the scale metadata
+    return item?.value;
+  }
+
+  /**
+   * The scale of the entity.
+   */
+  public set scale(value: number) {
+    // Create a new DataItem for the scale metadata
+    const item = new DataItem(
+      ActorDataId.Reserved038,
+      ActorDataType.Float,
+      value
+    );
+
+    // Set the scale metadata
+    this.metadata.set(ActorDataId.Reserved038, item);
+  }
+
+  /**
    * Creates a new entity within a dimension.
    * @param dimension The dimension to create the entity in
    * @param type The type of the entity to create
