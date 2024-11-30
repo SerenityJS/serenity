@@ -463,7 +463,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const predictedDurability = request.predictedDurability;
           const targetBlock = block;
 
-          // Call the item onUse trait methods
+          // Check if the predicted durability will equal the item stack durability
           stack.use(player, { method, predictedDurability, targetBlock });
 
           // Create a new PlayerUseItemSignal
