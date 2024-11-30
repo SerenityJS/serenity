@@ -229,6 +229,11 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       this.player.send(update);
     }
   }
+
+  public onRemove(): void {
+    // Clear the chunks from the player's view
+    this.clear();
+  }
 }
 
 export { PlayerChunkRenderingTrait };

@@ -104,6 +104,11 @@ class PlayerListTrait extends PlayerTrait {
     // Clear the player list
     this.clear();
   }
+
+  public onRemove(): void {
+    // Clear the player list
+    this.clear();
+  }
 }
 
 export { PlayerListTrait };

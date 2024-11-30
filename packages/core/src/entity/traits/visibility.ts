@@ -10,9 +10,19 @@ class EntityInvisibilityTrait extends EntityTrait {
     EntityIdentifier.Player
   ];
 
-  public onSpawn(): void {
+  public onAdd(): void {
+    // Check if the entity has a metadata flag value for invisibility
     if (!this.entity.flags.has(ActorFlag.Invisible)) {
+      // Set the entity flag for invisibility
       this.entity.flags.set(ActorFlag.Invisible, false);
+    }
+  }
+
+  public onRemove(): void {
+    // Check if the entity has a metadata flag value for invisibility
+    if (this.entity.flags.has(ActorFlag.Invisible)) {
+      // Remove the entity flag for invisibility
+      this.entity.flags.delete(ActorFlag.Invisible);
     }
   }
 

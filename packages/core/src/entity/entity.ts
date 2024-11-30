@@ -213,6 +213,31 @@ class Entity {
   }
 
   /**
+   * The variant index of the entity.
+   */
+  public get variant(): number {
+    // Check if the entity has a variant metadata
+    if (!this.metadata.has(ActorDataId.Variant)) return 0;
+
+    // Get the variant metadata
+    const item = this.metadata.get<number>(ActorDataId.Variant);
+
+    // Return the variant metadata
+    return item?.value;
+  }
+
+  /**
+   * The variant index of the entity.
+   */
+  public set variant(value: number) {
+    // Create a new DataItem for the variant metadata
+    const item = new DataItem(ActorDataId.Variant, ActorDataType.Int, value);
+
+    // Set the variant metadata
+    this.metadata.set(ActorDataId.Variant, item);
+  }
+
+  /**
    * Creates a new entity within a dimension.
    * @param dimension The dimension to create the entity in
    * @param type The type of the entity to create

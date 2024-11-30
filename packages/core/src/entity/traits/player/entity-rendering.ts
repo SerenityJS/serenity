@@ -197,6 +197,11 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     }
   }
 
+  public onRemove(): void {
+    // Clear the entities
+    this.clear();
+  }
+
   /**
    * Clears all the entities that have been rendered for the player.
    */
