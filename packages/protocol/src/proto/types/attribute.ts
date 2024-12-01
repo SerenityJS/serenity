@@ -174,8 +174,8 @@ class Attribute extends DataType {
       minimumValue,
       maximumValue,
       current ?? maximumValue,
-      Infinity,
       -Infinity,
+      Infinity,
       defaultValue ?? maximumValue,
       name,
       []

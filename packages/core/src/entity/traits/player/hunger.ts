@@ -1,9 +1,3 @@
-// import {
-//   ActorDamageCause,
-//   AttributeName,
-//   Gamemode
-// } from "@serenityjs/protocol";
-
 import {
   ActorDamageCause,
   AttributeName,

@@ -140,12 +140,15 @@ class EntityAttributeTrait extends EntityTrait {
     // Check if the entity has a saturation attribute
     if (!this.entity.attributes.has(this.attribute)) {
       // If not, create a new saturation attribute for the entity
-      const attribute = Attribute.create(
-        this.attribute,
+      const attribute = new Attribute(
         properties?.minimumValue ?? 0,
         properties?.maximumValue ?? 0,
         properties?.currentValue ?? 0,
-        properties?.defaultValue ?? 0
+        -Infinity,
+        Infinity,
+        properties?.defaultValue ?? 0,
+        this.attribute,
+        []
       );
 
       // Add the attribute to the entity
