@@ -42,7 +42,8 @@ class EntityMovementTrait extends EntityAttributeTrait {
     packet.pitch = this.entity.rotation.pitch;
 
     // Adjust the y position of the entity
-    if (!this.entity.isPlayer() && !this.entity.isItem()) packet.y -= 0.25;
+    if (!this.entity.isPlayer() && !this.entity.isItem())
+      packet.y -= this.entity.hitboxHeight;
 
     // Check if the entity is on the ground
     if (this.entity.onGround) packet.flags |= MoveDeltaFlags.OnGround;

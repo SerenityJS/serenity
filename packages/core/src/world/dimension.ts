@@ -8,9 +8,15 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { CommandResponse, DimensionProperties, Items } from "../types";
+import {
+  CommandResponse,
+  DimensionProperties,
+  EntityQueryOptions,
+  Items
+} from "../types";
 import {
   Entity,
+  EntityCollisionTrait,
   EntityGravityTrait,
   EntityInventoryTrait,
   EntityItemStackTrait,
@@ -484,8 +490,28 @@ class Dimension {
    * Gets all the entities in the dimension.
    * @returns An array of entities.
    */
-  public getEntities(): Array<Entity> {
-    return [...this.entities.values()];
+  public getEntities(options?: EntityQueryOptions): Array<Entity> {
+    // Check if there are no options provided
+    if (!options) return [...this.entities.values()];
+
+    // Get the position, max distance, and min distance from the options
+    const position = options.position ?? { x: 0, y: 0, z: 0 };
+    const maxDistance = options.maxDistance ?? 0;
+    const minDistance = options.minDistance ?? 0;
+
+    // Filter the entities based on the options
+    return [...this.entities.values()].filter((entity) => {
+      // Check if the entity is within the maximum distance
+      if (maxDistance > 0 && entity.position.distance(position) > maxDistance)
+        return false;
+
+      // Check if the entity is within the minimum distance
+      if (minDistance > 0 && entity.position.distance(position) < minDistance)
+        return false;
+
+      // Return the entity
+      return true;
+    });
   }
 
   /**
@@ -550,10 +576,11 @@ class Dimension {
     entity.addTrait(EntityGravityTrait);
     entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
+    entity.addTrait(EntityCollisionTrait);
 
     // Set the entity position
     entity.position.x = position.x;
-    entity.position.y = position.y;
+    entity.position.y = position.y + 1;
     entity.position.z = position.z;
 
     // Spawn the entity
@@ -590,6 +617,7 @@ class Dimension {
     entity.addTrait(EntityGravityTrait);
     entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
+    entity.addTrait(EntityCollisionTrait);
 
     // Spawn the item entity
     entity.spawn();

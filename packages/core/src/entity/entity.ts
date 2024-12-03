@@ -267,6 +267,58 @@ class Entity {
   }
 
   /**
+   * The height of the entity collision box.
+   */
+  public get hitboxHeight(): number {
+    // Check if the entity has a metadata value for hitbox height
+    if (!this.metadata.has(ActorDataId.Reserved054)) return 0;
+
+    // Get the entity hitbox height
+    return this.metadata.get(ActorDataId.Reserved054).value as number;
+  }
+
+  /**
+   * The height of the entity collision box.
+   */
+  public set hitboxHeight(value: number) {
+    // Create a new DataItem object
+    const data = new DataItem(
+      ActorDataId.Reserved054,
+      ActorDataType.Float,
+      value
+    );
+
+    // Set the entity hitbox height
+    this.metadata.set(ActorDataId.Reserved054, data);
+  }
+
+  /**
+   * The width of the entity collision box.
+   */
+  public get hitboxWidth(): number {
+    // Check if the entity has a metadata value for hitbox width
+    if (!this.metadata.has(ActorDataId.Reserved053)) return 0;
+
+    // Get the entity hitbox width
+    return this.metadata.get(ActorDataId.Reserved053).value as number;
+  }
+
+  /**
+   * The width of the entity collision box.
+   */
+  public set hitboxWidth(value: number) {
+    // Create a new DataItem object
+    const data = new DataItem(
+      ActorDataId.Reserved053,
+      ActorDataType.Float,
+      value
+    );
+
+    // Set the entity hitbox width
+    this.metadata.set(ActorDataId.Reserved053, data);
+  }
+
+  /**
    * Creates a new entity within a dimension.
    * @param dimension The dimension to create the entity in
    * @param type The type of the entity to create
@@ -871,9 +923,6 @@ class Entity {
     this.position.y += this.velocity.y;
     this.position.z += this.velocity.z;
 
-    // Set the onGround property of the entity
-    this.onGround = false;
-
     // Create a new SetActorMotionPacket
     const packet = new SetActorMotionPacket();
 
@@ -1017,9 +1066,9 @@ class Entity {
 
     // Calculate the velocity of the entity based on the entity's rotation
     const velocity = new Vector3f(
-      (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3 / 0.5,
-      (-Math.sin(pitchRad) / 2) * 0.75,
-      (Math.cos(headYawRad) * Math.cos(pitchRad)) / 3 / 0.5
+      (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5,
+      (-Math.sin(pitchRad) / 2) * 0.75 - 0.1,
+      (Math.cos(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5
     );
 
     // Spawn the entity

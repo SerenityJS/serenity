@@ -54,6 +54,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
     // Convert the player's position to a block position
     const position = player.position.floor();
 
+    player.velocity.x = packet.motion.y;
+    player.velocity.z = packet.motion.x;
+
     // Get the block permutation below the player
     // Getting the permutation rather than the block will reduce server load
     // As getting the block will construct a block instance, the permutation is already loaded

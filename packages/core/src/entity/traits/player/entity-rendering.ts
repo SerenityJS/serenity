@@ -153,9 +153,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
       // Send the packet to the player
       this.player.send(packet);
-
-      // Sync the entity
-      // entity.sync();
     }
 
     // Iterate over the entities

@@ -1,4 +1,4 @@
-import { DimensionType } from "@serenityjs/protocol";
+import { DimensionType, Vector3f } from "@serenityjs/protocol";
 
 interface DimensionProperties {
   identifier: string;
@@ -9,4 +9,23 @@ interface DimensionProperties {
   spawnPosition: [number, number, number];
 }
 
-export { DimensionProperties };
+interface EntityQueryOptions {
+  /**
+   * The seed position to query entities from.
+   */
+  position?: Vector3f;
+
+  /**
+   * The maximum distance from the position to query entities from.
+   * @Note A position is required to use this option.
+   */
+  maxDistance?: number;
+
+  /**
+   * The minimum distance from the position to query entities from.
+   * @Note A position is required to use this option.
+   */
+  minDistance?: number;
+}
+
+export { DimensionProperties, EntityQueryOptions };
