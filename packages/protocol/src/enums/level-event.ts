@@ -125,6 +125,9 @@ enum LevelEvent {
   AnimationVaultActivate = 9811,
   AnimationVaultDeactivate = 9812,
   AnimationVaultEjectItem = 9813,
+  AnimationSpawnCobweb = 9814,
+  ParticleSmashAttackGroundDust = 9815,
+  ParticleCreakingHeartTrail = 9816,
   ParticleLegacyEvent = 0x40_00
 }
 

@@ -57,7 +57,13 @@ enum InputData {
   IsRotControlledByMoveDirection = 55,
   StartSpinAttack = 56,
   StopSpinAttack = 57,
-  INPUT_NUM = 58
+  IsHotbarOnlyTouch = 58,
+  JumpReleasedRaw = 59,
+  JumpPressedRaw = 60,
+  JumpCurrentRaw = 61,
+  SneakReleasedRaw = 62,
+  SneakPressedRaw = 63,
+  SneakCurrentRaw = 64
 }
 
 export { InputData };
