@@ -109,6 +109,13 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         continue;
       }
 
+      // Adjust the entity's position
+      const position = new Vector3f(
+        entity.position.x,
+        entity.position.y - entity.hitboxHeight,
+        entity.position.z
+      );
+
       // Check if the entity is an item
       if (entity.isItem()) {
         // Get the item component
@@ -121,7 +128,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.uniqueId = entity.uniqueId;
         packet.runtimeId = entity.runtimeId;
         packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
-        packet.position = entity.position;
+        packet.position = position;
         packet.velocity = entity.velocity;
         packet.data = [...entity.metadata.values()];
         packet.fromFishing = false;
@@ -140,7 +147,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.uniqueEntityId = entity.uniqueId;
       packet.runtimeId = entity.runtimeId;
       packet.identifier = entity.type.identifier;
-      packet.position = entity.position;
+      packet.position = position;
       packet.velocity = entity.velocity;
       packet.pitch = entity.rotation.pitch;
       packet.yaw = entity.rotation.yaw;
