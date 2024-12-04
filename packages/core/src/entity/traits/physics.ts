@@ -76,9 +76,6 @@ class EntityPhysicsTrait extends EntityTrait {
     // Check if the entity is moving
     if (this.entity.velocity.isZero()) this.entity.isMoving = false;
     else this.entity.isMoving = true;
-
-    this.entity.nameTag = `isMoving: ${this.entity.isMoving}\nonGround: ${this.entity.onGround}\nPosition: ${this.entity.position.x.toFixed(4)}, ${this.entity.position.y.toFixed(4)}, ${this.entity.position.z.toFixed(4)}\nVelocity: ${this.entity.velocity.x.toFixed(4)}, ${this.entity.velocity.y.toFixed(4)}, ${this.entity.velocity.z.toFixed(4)}`;
-    this.entity.alwaysShowNameTag = true;
   }
 
   public isCollidingOnXAxis(): boolean {
