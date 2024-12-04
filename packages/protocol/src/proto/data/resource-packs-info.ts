@@ -1,4 +1,4 @@
-import { Bool } from "@serenityjs/binarystream";
+import { Bool, Uuid, VarString } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
@@ -11,6 +11,8 @@ class ResourcePacksInfoPacket extends DataPacket {
   @Serialize(Bool) public mustAccept!: boolean;
   @Serialize(Bool) public hasAddons!: boolean;
   @Serialize(Bool) public hasScripts!: boolean;
+  @Serialize(Uuid) public worldTemplateUuid!: string;
+  @Serialize(VarString) public worldTemplateVersion!: string;
   @Serialize(TexturePackInfo) public packs!: Array<TexturePackInfo>;
 }
 

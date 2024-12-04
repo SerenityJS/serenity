@@ -142,9 +142,10 @@ class LoginHandler extends NetworkHandler {
 
     const packs = new ResourcePacksInfoPacket();
     packs.mustAccept = this.serenity.resourcePacks.mustAccept;
-
     packs.hasAddons = false;
     packs.hasScripts = false;
+    packs.worldTemplateUuid = "00000000-0000-0000-0000-000000000000";
+    packs.worldTemplateVersion = "";
 
     packs.packs = [];
     for (const pack of this.serenity.resourcePacks.getPacks()) {

@@ -38,4 +38,5 @@ export class PlayerAuthInputPacket extends DataPacket {
   public predictedVehicle!: ClientPredictedVehicle | null;
   @Serialize(Vector2f) public analogueMotion!: Vector2f;
   @Serialize(Vector3f) public cameraOrientation!: Vector3f;
+  @Serialize(Vector2f) public rawMoveVector!: Vector2f;
 }
