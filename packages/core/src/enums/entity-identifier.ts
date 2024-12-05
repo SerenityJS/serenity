@@ -122,5 +122,6 @@ export enum EntityIdentifier {
   CommandBlockMinecart = "minecraft:command_block_minecart",
   ChestMinecart = "minecraft:chest_minecart",
   AreaEffectCloud = "minecraft:area_effect_cloud",
+  Creaking = "minecraft:creaking",
   Item = "minecraft:item"
 }

@@ -3,7 +3,7 @@
     "identifier": "minecraft:acacia_button",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -20,6 +20,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -37,7 +38,7 @@
     "identifier": "minecraft:acacia_double_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -52,7 +53,7 @@
     "identifier": "minecraft:acacia_fence",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -66,6 +67,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -84,6 +86,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -117,7 +120,7 @@
     "identifier": "minecraft:acacia_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood",
       "log",
       "acacia"
@@ -134,7 +137,7 @@
     "identifier": "minecraft:acacia_planks",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -147,7 +150,7 @@
     "identifier": "minecraft:acacia_pressure_plate",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -176,7 +179,7 @@
     "identifier": "minecraft:acacia_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -191,6 +194,7 @@
     "identifier": "minecraft:acacia_stairs",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -208,6 +212,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -225,6 +230,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -243,6 +249,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -258,7 +265,7 @@
     "identifier": "minecraft:acacia_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -400,7 +407,9 @@
   {
     "identifier": "minecraft:andesite_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -432,7 +441,9 @@
   {
     "identifier": "minecraft:anvil",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -497,8 +508,7 @@
     "identifier": "minecraft:bamboo",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
-      "minecraft:is_shovel_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -514,7 +524,7 @@
     "identifier": "minecraft:bamboo_block",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -528,6 +538,7 @@
     "identifier": "minecraft:bamboo_button",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -543,7 +554,8 @@
     "identifier": "minecraft:bamboo_door",
     "components": [],
     "tags": [
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -559,7 +571,9 @@
   {
     "identifier": "minecraft:bamboo_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -571,7 +585,9 @@
   {
     "identifier": "minecraft:bamboo_fence",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -583,6 +599,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -601,6 +618,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -618,7 +636,9 @@
   {
     "identifier": "minecraft:bamboo_mosaic",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -628,7 +648,9 @@
   {
     "identifier": "minecraft:bamboo_mosaic_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -640,7 +662,9 @@
   {
     "identifier": "minecraft:bamboo_mosaic_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -652,7 +676,9 @@
   {
     "identifier": "minecraft:bamboo_mosaic_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -665,7 +691,9 @@
   {
     "identifier": "minecraft:bamboo_planks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -676,6 +704,7 @@
     "identifier": "minecraft:bamboo_pressure_plate",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -701,7 +730,9 @@
   {
     "identifier": "minecraft:bamboo_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -713,7 +744,9 @@
   {
     "identifier": "minecraft:bamboo_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -729,6 +762,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -746,6 +780,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -764,6 +799,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -781,6 +817,7 @@
       "minecraft:inventory"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -805,7 +842,9 @@
   {
     "identifier": "minecraft:basalt",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -858,7 +897,7 @@
     "identifier": "minecraft:bee_nest",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -873,7 +912,7 @@
     "identifier": "minecraft:beehive",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -901,7 +940,9 @@
   {
     "identifier": "minecraft:bell",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -915,7 +956,9 @@
   {
     "identifier": "minecraft:big_dripleaf",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -930,7 +973,7 @@
     "identifier": "minecraft:birch_button",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -947,6 +990,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -964,7 +1008,7 @@
     "identifier": "minecraft:birch_double_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -979,7 +1023,7 @@
     "identifier": "minecraft:birch_fence",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -993,6 +1037,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -1011,6 +1056,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -1044,7 +1090,7 @@
     "identifier": "minecraft:birch_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood",
       "log",
       "birch"
@@ -1061,7 +1107,7 @@
     "identifier": "minecraft:birch_planks",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -1074,7 +1120,7 @@
     "identifier": "minecraft:birch_pressure_plate",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -1103,7 +1149,7 @@
     "identifier": "minecraft:birch_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -1118,6 +1164,7 @@
     "identifier": "minecraft:birch_stairs",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -1135,6 +1182,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -1152,6 +1200,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -1170,6 +1219,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -1185,7 +1235,7 @@
     "identifier": "minecraft:birch_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -1258,7 +1308,9 @@
   {
     "identifier": "minecraft:black_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1304,7 +1356,9 @@
   {
     "identifier": "minecraft:black_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1324,7 +1378,9 @@
   {
     "identifier": "minecraft:blackstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1334,7 +1390,9 @@
   {
     "identifier": "minecraft:blackstone_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1346,7 +1404,9 @@
   {
     "identifier": "minecraft:blackstone_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -1358,7 +1418,9 @@
   {
     "identifier": "minecraft:blackstone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -1371,7 +1433,9 @@
   {
     "identifier": "minecraft:blackstone_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -1389,7 +1453,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1460,7 +1526,9 @@
   {
     "identifier": "minecraft:blue_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1472,7 +1540,9 @@
   {
     "identifier": "minecraft:blue_ice",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1528,7 +1598,9 @@
   {
     "identifier": "minecraft:blue_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1548,7 +1620,9 @@
   {
     "identifier": "minecraft:bone_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1562,7 +1636,7 @@
     "identifier": "minecraft:bookshelf",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -1573,7 +1647,9 @@
   {
     "identifier": "minecraft:border_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -1599,7 +1675,9 @@
   {
     "identifier": "minecraft:brain_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1635,7 +1713,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -1650,6 +1730,7 @@
     "identifier": "minecraft:brick_block",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "stone"
     ],
     "loggable": false,
@@ -1691,7 +1772,9 @@
   {
     "identifier": "minecraft:brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -1782,7 +1865,9 @@
   {
     "identifier": "minecraft:brown_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1804,7 +1889,9 @@
   {
     "identifier": "minecraft:brown_mushroom_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1850,7 +1937,9 @@
   {
     "identifier": "minecraft:brown_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1892,7 +1981,9 @@
   {
     "identifier": "minecraft:bubble_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1926,7 +2017,9 @@
   {
     "identifier": "minecraft:budding_amethyst",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -1987,7 +2080,9 @@
   {
     "identifier": "minecraft:camera",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -1998,7 +2093,7 @@
     "identifier": "minecraft:campfire",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -2051,7 +2146,9 @@
   {
     "identifier": "minecraft:cartography_table",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2062,7 +2159,7 @@
     "identifier": "minecraft:carved_pumpkin",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "pumpkin"
     ],
     "loggable": false,
@@ -2079,6 +2176,7 @@
       "minecraft:fluidContainer"
     ],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "metal"
     ],
     "loggable": false,
@@ -2129,7 +2227,9 @@
   {
     "identifier": "minecraft:chain",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2154,7 +2254,9 @@
   {
     "identifier": "minecraft:chemical_heat",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2165,6 +2267,7 @@
     "identifier": "minecraft:cherry_button",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -2180,7 +2283,8 @@
     "identifier": "minecraft:cherry_door",
     "components": [],
     "tags": [
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -2196,7 +2300,9 @@
   {
     "identifier": "minecraft:cherry_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2208,7 +2314,9 @@
   {
     "identifier": "minecraft:cherry_fence",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2220,6 +2328,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -2238,6 +2347,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -2271,7 +2381,7 @@
     "identifier": "minecraft:cherry_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -2285,7 +2395,9 @@
   {
     "identifier": "minecraft:cherry_planks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2296,6 +2408,7 @@
     "identifier": "minecraft:cherry_pressure_plate",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -2321,7 +2434,9 @@
   {
     "identifier": "minecraft:cherry_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2333,7 +2448,9 @@
   {
     "identifier": "minecraft:cherry_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2349,6 +2466,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -2366,6 +2484,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -2384,6 +2503,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -2399,7 +2519,7 @@
     "identifier": "minecraft:cherry_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -2416,7 +2536,7 @@
       "minecraft:inventory"
     ],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "not_feature_replaceable"
     ],
     "loggable": true,
@@ -2430,7 +2550,9 @@
   {
     "identifier": "minecraft:chipped_anvil",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2443,6 +2565,7 @@
     "identifier": "minecraft:chiseled_bookshelf",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "not_feature_replaceable"
     ],
     "loggable": false,
@@ -2471,7 +2594,9 @@
   {
     "identifier": "minecraft:chiseled_deepslate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2481,7 +2606,9 @@
   {
     "identifier": "minecraft:chiseled_nether_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2491,7 +2618,9 @@
   {
     "identifier": "minecraft:chiseled_polished_blackstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2501,7 +2630,9 @@
   {
     "identifier": "minecraft:chiseled_quartz_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2513,7 +2644,21 @@
   {
     "identifier": "minecraft:chiseled_red_sandstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:chiseled_resin_bricks",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2547,7 +2692,9 @@
   {
     "identifier": "minecraft:chiseled_tuff",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2557,7 +2704,9 @@
   {
     "identifier": "minecraft:chiseled_tuff_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2567,7 +2716,9 @@
   {
     "identifier": "minecraft:chorus_flower",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2579,7 +2730,9 @@
   {
     "identifier": "minecraft:chorus_plant",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2599,13 +2752,13 @@
     "states": []
   },
   {
-    "identifier": "minecraft:client_request_placeholder_block",
+    "identifier": "minecraft:closed_eyeblossom",
     "components": [],
     "tags": [],
     "loggable": false,
     "air": false,
     "liquid": false,
-    "solid": true,
+    "solid": false,
     "states": []
   },
   {
@@ -2651,7 +2804,9 @@
   {
     "identifier": "minecraft:cobbled_deepslate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2661,7 +2816,9 @@
   {
     "identifier": "minecraft:cobbled_deepslate_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2673,7 +2830,9 @@
   {
     "identifier": "minecraft:cobbled_deepslate_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2685,7 +2844,9 @@
   {
     "identifier": "minecraft:cobbled_deepslate_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2698,7 +2859,9 @@
   {
     "identifier": "minecraft:cobbled_deepslate_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2776,7 +2939,9 @@
   {
     "identifier": "minecraft:cocoa",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2851,7 +3016,7 @@
     "identifier": "minecraft:composter",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -2864,7 +3029,9 @@
   {
     "identifier": "minecraft:compound_creator",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -2876,7 +3043,9 @@
   {
     "identifier": "minecraft:conduit",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -2902,6 +3071,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -2936,6 +3106,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -2964,7 +3135,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -2991,7 +3163,9 @@
   {
     "identifier": "minecraft:cracked_deepslate_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3001,7 +3175,9 @@
   {
     "identifier": "minecraft:cracked_deepslate_tiles",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3011,7 +3187,9 @@
   {
     "identifier": "minecraft:cracked_nether_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3021,7 +3199,9 @@
   {
     "identifier": "minecraft:cracked_polished_blackstone_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3044,8 +3224,7 @@
     "identifier": "minecraft:crafter",
     "components": [],
     "tags": [
-      "minecraft:is_pickaxe_item_destructible",
-      "minecraft:stone_tier_destructible"
+      "minecraft:is_pickaxe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -3060,12 +3239,30 @@
   {
     "identifier": "minecraft:crafting_table",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:creaking_heart",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "active",
+      "natural",
+      "pillar_axis"
+    ]
   },
   {
     "identifier": "minecraft:creeper_head",
@@ -3082,7 +3279,9 @@
   {
     "identifier": "minecraft:crimson_button",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3096,7 +3295,8 @@
     "identifier": "minecraft:crimson_door",
     "components": [],
     "tags": [
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -3112,7 +3312,9 @@
   {
     "identifier": "minecraft:crimson_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3124,7 +3326,9 @@
   {
     "identifier": "minecraft:crimson_fence",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3135,7 +3339,8 @@
     "identifier": "minecraft:crimson_fence_gate",
     "components": [],
     "tags": [
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -3163,6 +3368,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -3181,7 +3387,7 @@
     "identifier": "minecraft:crimson_hyphae",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -3195,6 +3401,7 @@
     "identifier": "minecraft:crimson_nylium",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "fertilize_area"
     ],
     "loggable": false,
@@ -3206,7 +3413,9 @@
   {
     "identifier": "minecraft:crimson_planks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3216,7 +3425,9 @@
   {
     "identifier": "minecraft:crimson_pressure_plate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3238,7 +3449,9 @@
   {
     "identifier": "minecraft:crimson_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3250,7 +3463,9 @@
   {
     "identifier": "minecraft:crimson_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3266,6 +3481,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign"
     ],
     "loggable": true,
@@ -3280,7 +3496,7 @@
     "identifier": "minecraft:crimson_stem",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -3295,7 +3511,8 @@
     "components": [],
     "tags": [
       "trapdoors",
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -3313,6 +3530,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign"
     ],
     "loggable": true,
@@ -3385,7 +3603,9 @@
   {
     "identifier": "minecraft:cut_red_sandstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3522,7 +3742,9 @@
   {
     "identifier": "minecraft:cyan_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3568,7 +3790,9 @@
   {
     "identifier": "minecraft:cyan_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3588,7 +3812,9 @@
   {
     "identifier": "minecraft:damaged_anvil",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3613,7 +3839,7 @@
     "identifier": "minecraft:dark_oak_button",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3630,6 +3856,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3647,7 +3874,7 @@
     "identifier": "minecraft:dark_oak_double_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -3662,7 +3889,7 @@
     "identifier": "minecraft:dark_oak_fence",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3676,6 +3903,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3694,6 +3922,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -3727,7 +3956,7 @@
     "identifier": "minecraft:dark_oak_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood",
       "log",
       "dark_oak"
@@ -3744,7 +3973,7 @@
     "identifier": "minecraft:dark_oak_planks",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -3757,7 +3986,7 @@
     "identifier": "minecraft:dark_oak_pressure_plate",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3786,7 +4015,7 @@
     "identifier": "minecraft:dark_oak_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3801,6 +4030,7 @@
     "identifier": "minecraft:dark_oak_stairs",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3818,6 +4048,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -3834,7 +4065,7 @@
     "identifier": "minecraft:dark_oak_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -3848,7 +4079,9 @@
   {
     "identifier": "minecraft:dark_prismarine",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -3886,7 +4119,9 @@
   {
     "identifier": "minecraft:dark_prismarine_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3902,6 +4137,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -3919,6 +4155,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -3933,7 +4170,9 @@
   {
     "identifier": "minecraft:daylight_detector",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3945,7 +4184,9 @@
   {
     "identifier": "minecraft:daylight_detector_inverted",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -3967,7 +4208,9 @@
   {
     "identifier": "minecraft:dead_brain_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4011,7 +4254,9 @@
   {
     "identifier": "minecraft:dead_bubble_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4055,7 +4300,9 @@
   {
     "identifier": "minecraft:dead_fire_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4099,7 +4346,9 @@
   {
     "identifier": "minecraft:dead_horn_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4143,7 +4392,9 @@
   {
     "identifier": "minecraft:dead_tube_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4213,7 +4464,9 @@
   {
     "identifier": "minecraft:deepslate_brick_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4225,7 +4478,9 @@
   {
     "identifier": "minecraft:deepslate_brick_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -4237,7 +4492,9 @@
   {
     "identifier": "minecraft:deepslate_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -4250,7 +4507,9 @@
   {
     "identifier": "minecraft:deepslate_brick_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -4266,7 +4525,9 @@
   {
     "identifier": "minecraft:deepslate_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4277,6 +4538,7 @@
     "identifier": "minecraft:deepslate_coal_ore",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "iron_pick_diggable",
       "diamond_pick_diggable"
     ],
@@ -4391,7 +4653,9 @@
   {
     "identifier": "minecraft:deepslate_tile_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4403,7 +4667,9 @@
   {
     "identifier": "minecraft:deepslate_tile_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -4415,7 +4681,9 @@
   {
     "identifier": "minecraft:deepslate_tile_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -4428,7 +4696,9 @@
   {
     "identifier": "minecraft:deepslate_tile_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -4444,7 +4714,9 @@
   {
     "identifier": "minecraft:deepslate_tiles",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4460,42 +4732,6 @@
     "liquid": false,
     "solid": true,
     "states": []
-  },
-  {
-    "identifier": "minecraft:deprecated_anvil",
-    "components": [],
-    "tags": [],
-    "loggable": true,
-    "air": false,
-    "liquid": false,
-    "solid": false,
-    "states": [
-      "minecraft:cardinal_direction"
-    ]
-  },
-  {
-    "identifier": "minecraft:deprecated_purpur_block_1",
-    "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": true,
-    "states": [
-      "pillar_axis"
-    ]
-  },
-  {
-    "identifier": "minecraft:deprecated_purpur_block_2",
-    "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": true,
-    "states": [
-      "pillar_axis"
-    ]
   },
   {
     "identifier": "minecraft:detector_rail",
@@ -4585,7 +4821,9 @@
   {
     "identifier": "minecraft:diorite_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -4646,7 +4884,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -4723,7 +4963,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -5926,7 +6168,9 @@
   {
     "identifier": "minecraft:element_constructor",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -5966,7 +6210,9 @@
   {
     "identifier": "minecraft:enchanting_table",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -5976,7 +6222,9 @@
   {
     "identifier": "minecraft:end_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -5989,21 +6237,13 @@
   {
     "identifier": "minecraft:end_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
     "solid": true,
-    "states": []
-  },
-  {
-    "identifier": "minecraft:end_gateway",
-    "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": false,
     "states": []
   },
   {
@@ -6046,7 +6286,9 @@
   {
     "identifier": "minecraft:end_stone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6103,7 +6345,9 @@
   {
     "identifier": "minecraft:ender_chest",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -6145,6 +6389,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -6179,6 +6424,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -6193,7 +6439,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -6286,6 +6533,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -6333,7 +6581,9 @@
   {
     "identifier": "minecraft:fire_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6368,6 +6618,7 @@
     "identifier": "minecraft:fletching_table",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -6465,7 +6716,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6477,7 +6730,9 @@
   {
     "identifier": "minecraft:gilded_blackstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6521,7 +6776,9 @@
   {
     "identifier": "minecraft:glow_lichen",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -6529,19 +6786,6 @@
     "states": [
       "multi_face_direction_bits"
     ]
-  },
-  {
-    "identifier": "minecraft:glowingobsidian",
-    "components": [],
-    "tags": [
-      "minecraft:is_pickaxe_item_destructible",
-      "minecraft:diamond_tier_destructible"
-    ],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": true,
-    "states": []
   },
   {
     "identifier": "minecraft:glowstone",
@@ -6642,7 +6886,9 @@
   {
     "identifier": "minecraft:granite_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -6774,7 +7020,9 @@
   {
     "identifier": "minecraft:gray_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6820,7 +7068,9 @@
   {
     "identifier": "minecraft:gray_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6899,7 +7149,9 @@
   {
     "identifier": "minecraft:green_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6945,7 +7197,9 @@
   {
     "identifier": "minecraft:green_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -6965,7 +7219,9 @@
   {
     "identifier": "minecraft:grindstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -7328,7 +7584,9 @@
   {
     "identifier": "minecraft:hardened_clay",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -7365,7 +7623,9 @@
   {
     "identifier": "minecraft:heavy_weighted_pressure_plate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -7399,7 +7659,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -7422,7 +7684,9 @@
   {
     "identifier": "minecraft:horn_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -7456,7 +7720,9 @@
   {
     "identifier": "minecraft:ice",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -7550,39 +7816,10 @@
     "states": []
   },
   {
-    "identifier": "minecraft:info_update",
-    "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": true,
-    "states": []
-  },
-  {
-    "identifier": "minecraft:info_update2",
-    "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": true,
-    "states": []
-  },
-  {
-    "identifier": "minecraft:invisible_bedrock",
-    "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": false,
-    "states": []
-  },
-  {
     "identifier": "minecraft:iron_bars",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "metal"
     ],
     "loggable": true,
@@ -7610,6 +7847,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_pickaxe_item_destructible",
       "metal"
     ],
     "loggable": true,
@@ -7643,7 +7881,8 @@
     "components": [],
     "tags": [
       "trapdoors",
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_pickaxe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -7674,7 +7913,9 @@
       "minecraft:inventory",
       "minecraft:record_player"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -7685,7 +7926,7 @@
     "identifier": "minecraft:jungle_button",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7702,6 +7943,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7719,7 +7961,7 @@
     "identifier": "minecraft:jungle_double_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -7734,7 +7976,7 @@
     "identifier": "minecraft:jungle_fence",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7748,6 +7990,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7766,6 +8009,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -7799,7 +8043,7 @@
     "identifier": "minecraft:jungle_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood",
       "log",
       "jungle"
@@ -7816,7 +8060,7 @@
     "identifier": "minecraft:jungle_planks",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -7829,7 +8073,7 @@
     "identifier": "minecraft:jungle_pressure_plate",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7858,7 +8102,7 @@
     "identifier": "minecraft:jungle_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7873,6 +8117,7 @@
     "identifier": "minecraft:jungle_stairs",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7890,6 +8135,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -7907,6 +8153,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -7925,6 +8172,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -7940,7 +8188,7 @@
     "identifier": "minecraft:jungle_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -7966,7 +8214,9 @@
   {
     "identifier": "minecraft:lab_table",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -7979,7 +8229,8 @@
     "identifier": "minecraft:ladder",
     "components": [],
     "tags": [
-      "wood"
+      "wood",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -7992,7 +8243,9 @@
   {
     "identifier": "minecraft:lantern",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -8074,7 +8327,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -8102,7 +8357,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8112,7 +8367,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8122,7 +8377,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8132,7 +8387,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8142,7 +8397,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8152,7 +8407,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8162,7 +8417,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8172,7 +8427,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8182,7 +8437,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8192,7 +8447,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8202,7 +8457,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8212,7 +8467,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8222,7 +8477,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8232,7 +8487,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8242,7 +8497,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8252,7 +8507,7 @@
     "components": [],
     "tags": [],
     "loggable": true,
-    "air": true,
+    "air": false,
     "liquid": false,
     "solid": false,
     "states": []
@@ -8319,7 +8574,9 @@
   {
     "identifier": "minecraft:light_blue_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8365,7 +8622,9 @@
   {
     "identifier": "minecraft:light_blue_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8478,7 +8737,9 @@
   {
     "identifier": "minecraft:light_gray_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8498,7 +8759,9 @@
   {
     "identifier": "minecraft:light_weighted_pressure_plate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -8610,7 +8873,9 @@
   {
     "identifier": "minecraft:lime_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8656,7 +8921,9 @@
   {
     "identifier": "minecraft:lime_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8678,7 +8945,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8707,7 +8976,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8720,7 +8991,7 @@
     "identifier": "minecraft:lit_pumpkin",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "pumpkin"
     ],
     "loggable": false,
@@ -8761,7 +9032,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8773,7 +9046,9 @@
   {
     "identifier": "minecraft:lodestone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8783,7 +9058,9 @@
   {
     "identifier": "minecraft:loom",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8854,7 +9131,9 @@
   {
     "identifier": "minecraft:magenta_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8900,7 +9179,9 @@
   {
     "identifier": "minecraft:magenta_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8920,7 +9201,9 @@
   {
     "identifier": "minecraft:magma",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8931,6 +9214,7 @@
     "identifier": "minecraft:mangrove_button",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -8946,7 +9230,8 @@
     "identifier": "minecraft:mangrove_door",
     "components": [],
     "tags": [
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -8962,7 +9247,9 @@
   {
     "identifier": "minecraft:mangrove_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -8974,7 +9261,9 @@
   {
     "identifier": "minecraft:mangrove_fence",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -8986,6 +9275,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -9004,6 +9294,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -9037,7 +9328,7 @@
     "identifier": "minecraft:mangrove_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -9051,7 +9342,9 @@
   {
     "identifier": "minecraft:mangrove_planks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -9062,6 +9355,7 @@
     "identifier": "minecraft:mangrove_pressure_plate",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -9089,7 +9383,7 @@
     "identifier": "minecraft:mangrove_roots",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -9100,7 +9394,9 @@
   {
     "identifier": "minecraft:mangrove_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -9112,7 +9408,9 @@
   {
     "identifier": "minecraft:mangrove_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -9128,6 +9426,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -9145,6 +9444,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -9163,6 +9463,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -9178,7 +9479,7 @@
     "identifier": "minecraft:mangrove_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -9192,7 +9493,9 @@
   {
     "identifier": "minecraft:material_reducer",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -9219,7 +9522,7 @@
     "identifier": "minecraft:melon_block",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -9244,6 +9547,7 @@
     "identifier": "minecraft:mob_spawner",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "mob_spawner",
       "not_feature_replaceable"
     ],
@@ -9323,7 +9627,9 @@
   {
     "identifier": "minecraft:mossy_cobblestone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -9383,7 +9689,9 @@
   {
     "identifier": "minecraft:mossy_stone_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -9422,16 +9730,6 @@
     "air": false,
     "liquid": false,
     "solid": true,
-    "states": []
-  },
-  {
-    "identifier": "minecraft:moving_block",
-    "components": [],
-    "tags": [],
-    "loggable": true,
-    "air": false,
-    "liquid": false,
-    "solid": false,
     "states": []
   },
   {
@@ -9538,7 +9836,9 @@
   {
     "identifier": "minecraft:mushroom_stem",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -9563,7 +9863,9 @@
   {
     "identifier": "minecraft:nether_brick",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -9588,7 +9890,9 @@
   {
     "identifier": "minecraft:nether_brick_fence",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -9613,7 +9917,9 @@
   {
     "identifier": "minecraft:nether_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -9704,17 +10010,9 @@
   {
     "identifier": "minecraft:netherrack",
     "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": true,
-    "states": []
-  },
-  {
-    "identifier": "minecraft:netherreactor",
-    "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -9752,7 +10050,9 @@
   {
     "identifier": "minecraft:normal_stone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -9765,7 +10065,9 @@
   {
     "identifier": "minecraft:noteblock",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -9776,7 +10078,7 @@
     "identifier": "minecraft:oak_double_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -9791,7 +10093,7 @@
     "identifier": "minecraft:oak_fence",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -9806,6 +10108,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -9839,7 +10142,7 @@
     "identifier": "minecraft:oak_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood",
       "log",
       "oak"
@@ -9856,7 +10159,7 @@
     "identifier": "minecraft:oak_planks",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -9883,7 +10186,7 @@
     "identifier": "minecraft:oak_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -9898,6 +10201,7 @@
     "identifier": "minecraft:oak_stairs",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -9913,7 +10217,7 @@
     "identifier": "minecraft:oak_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -9927,7 +10231,9 @@
   {
     "identifier": "minecraft:observer",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -9962,6 +10268,16 @@
     "states": [
       "pillar_axis"
     ]
+  },
+  {
+    "identifier": "minecraft:open_eyeblossom",
+    "components": [],
+    "tags": [],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
   },
   {
     "identifier": "minecraft:orange_candle",
@@ -10025,7 +10341,9 @@
   {
     "identifier": "minecraft:orange_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10071,7 +10389,9 @@
   {
     "identifier": "minecraft:orange_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10145,6 +10465,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -10179,6 +10500,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -10193,7 +10515,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -10269,7 +10592,9 @@
   {
     "identifier": "minecraft:packed_ice",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10287,6 +10612,317 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:pale_hanging_moss",
+    "components": [],
+    "tags": [],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "tip"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_moss_block",
+    "components": [],
+    "tags": [
+      "minecraft:is_hoe_item_destructible",
+      "fertilize_area",
+      "dirt"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:pale_moss_carpet",
+    "components": [],
+    "tags": [
+      "minecraft:is_hoe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pale_moss_carpet_side_east",
+      "pale_moss_carpet_side_north",
+      "pale_moss_carpet_side_south",
+      "pale_moss_carpet_side_west",
+      "upper_block_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_button",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "button_pressed_bit",
+      "facing_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_door",
+    "components": [],
+    "tags": [
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "direction",
+      "door_hinge_bit",
+      "open_bit",
+      "upper_block_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_double_slab",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_fence",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:pale_oak_fence_gate",
+    "components": [],
+    "tags": [
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "direction",
+      "in_wall_bit",
+      "open_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_hanging_sign",
+    "components": [
+      "minecraft:sign"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "text_sign",
+      "wood"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "attached_bit",
+      "facing_direction",
+      "ground_sign_direction",
+      "hanging"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_leaves",
+    "components": [],
+    "tags": [
+      "minecraft:is_hoe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "persistent_bit",
+      "update_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_log",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_planks",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:pale_oak_pressure_plate",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "redstone_signal"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_sapling",
+    "components": [],
+    "tags": [],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "age_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_slab",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_stairs",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_standing_sign",
+    "components": [
+      "minecraft:sign"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "text_sign",
+      "wood"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "ground_sign_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_trapdoor",
+    "components": [],
+    "tags": [
+      "trapdoors",
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "direction",
+      "open_bit",
+      "upside_down_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_wall_sign",
+    "components": [
+      "minecraft:sign"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "text_sign",
+      "wood"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_wood",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
   },
   {
     "identifier": "minecraft:pearlescent_froglight",
@@ -10418,7 +11054,9 @@
   {
     "identifier": "minecraft:pink_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10477,7 +11115,9 @@
   {
     "identifier": "minecraft:pink_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10650,7 +11290,9 @@
   {
     "identifier": "minecraft:polished_andesite_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10663,7 +11305,9 @@
   {
     "identifier": "minecraft:polished_basalt",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10675,7 +11319,9 @@
   {
     "identifier": "minecraft:polished_blackstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10685,7 +11331,9 @@
   {
     "identifier": "minecraft:polished_blackstone_brick_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10697,7 +11345,9 @@
   {
     "identifier": "minecraft:polished_blackstone_brick_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10709,7 +11359,9 @@
   {
     "identifier": "minecraft:polished_blackstone_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10722,7 +11374,9 @@
   {
     "identifier": "minecraft:polished_blackstone_brick_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10738,7 +11392,9 @@
   {
     "identifier": "minecraft:polished_blackstone_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10748,7 +11404,9 @@
   {
     "identifier": "minecraft:polished_blackstone_button",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10761,7 +11419,9 @@
   {
     "identifier": "minecraft:polished_blackstone_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10773,7 +11433,9 @@
   {
     "identifier": "minecraft:polished_blackstone_pressure_plate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10785,7 +11447,9 @@
   {
     "identifier": "minecraft:polished_blackstone_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10797,7 +11461,9 @@
   {
     "identifier": "minecraft:polished_blackstone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10810,7 +11476,9 @@
   {
     "identifier": "minecraft:polished_blackstone_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10826,7 +11494,9 @@
   {
     "identifier": "minecraft:polished_deepslate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10836,7 +11506,9 @@
   {
     "identifier": "minecraft:polished_deepslate_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -10848,7 +11520,9 @@
   {
     "identifier": "minecraft:polished_deepslate_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10860,7 +11534,9 @@
   {
     "identifier": "minecraft:polished_deepslate_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10873,7 +11549,9 @@
   {
     "identifier": "minecraft:polished_deepslate_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10930,7 +11608,9 @@
   {
     "identifier": "minecraft:polished_diorite_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10984,7 +11664,9 @@
   {
     "identifier": "minecraft:polished_granite_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -10997,7 +11679,9 @@
   {
     "identifier": "minecraft:polished_tuff",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11007,7 +11691,9 @@
   {
     "identifier": "minecraft:polished_tuff_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11019,7 +11705,9 @@
   {
     "identifier": "minecraft:polished_tuff_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11031,7 +11719,9 @@
   {
     "identifier": "minecraft:polished_tuff_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11044,7 +11734,9 @@
   {
     "identifier": "minecraft:polished_tuff_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11135,7 +11827,9 @@
   {
     "identifier": "minecraft:prismarine",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11173,7 +11867,9 @@
   {
     "identifier": "minecraft:prismarine_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11183,7 +11879,9 @@
   {
     "identifier": "minecraft:prismarine_bricks_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11224,7 +11922,9 @@
   {
     "identifier": "minecraft:prismarine_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11257,7 +11957,7 @@
     "identifier": "minecraft:pumpkin",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "pumpkin"
     ],
     "loggable": false,
@@ -11343,7 +12043,9 @@
   {
     "identifier": "minecraft:purple_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11389,7 +12091,9 @@
   {
     "identifier": "minecraft:purple_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11409,7 +12113,9 @@
   {
     "identifier": "minecraft:purpur_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11435,7 +12141,9 @@
   {
     "identifier": "minecraft:purpur_pillar",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11461,7 +12169,9 @@
   {
     "identifier": "minecraft:purpur_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11474,7 +12184,9 @@
   {
     "identifier": "minecraft:quartz_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11486,7 +12198,9 @@
   {
     "identifier": "minecraft:quartz_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11511,7 +12225,9 @@
   {
     "identifier": "minecraft:quartz_ore",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11521,7 +12237,9 @@
   {
     "identifier": "minecraft:quartz_pillar",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11548,7 +12266,9 @@
   {
     "identifier": "minecraft:quartz_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11679,7 +12399,9 @@
   {
     "identifier": "minecraft:red_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11701,7 +12423,9 @@
   {
     "identifier": "minecraft:red_mushroom_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11713,7 +12437,9 @@
   {
     "identifier": "minecraft:red_nether_brick",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11751,7 +12477,9 @@
   {
     "identifier": "minecraft:red_nether_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11796,7 +12524,9 @@
   {
     "identifier": "minecraft:red_sandstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11834,7 +12564,9 @@
   {
     "identifier": "minecraft:red_sandstone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -11900,7 +12632,9 @@
   {
     "identifier": "minecraft:red_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -11932,7 +12666,9 @@
   {
     "identifier": "minecraft:redstone_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -12024,7 +12760,7 @@
     ]
   },
   {
-    "identifier": "minecraft:reserved6",
+    "identifier": "minecraft:resin_block",
     "components": [],
     "tags": [],
     "loggable": false,
@@ -12032,6 +12768,91 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:resin_brick_double_slab",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:resin_brick_slab",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:resin_brick_stairs",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:resin_brick_wall",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "wall_connection_type_east",
+      "wall_connection_type_north",
+      "wall_connection_type_south",
+      "wall_connection_type_west",
+      "wall_post_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:resin_bricks",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:resin_clump",
+    "components": [],
+    "tags": [],
+    "loggable": true,
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "multi_face_direction_bits"
+    ]
   },
   {
     "identifier": "minecraft:respawn_anchor",
@@ -12120,7 +12941,9 @@
   {
     "identifier": "minecraft:sandstone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -12153,7 +12976,7 @@
     "identifier": "minecraft:scaffolding",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -12293,7 +13116,9 @@
   {
     "identifier": "minecraft:silver_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -12355,6 +13180,7 @@
     "identifier": "minecraft:smithing_table",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -12368,7 +13194,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -12392,7 +13220,9 @@
   {
     "identifier": "minecraft:smooth_quartz",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -12432,7 +13262,9 @@
   {
     "identifier": "minecraft:smooth_quartz_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -12445,7 +13277,9 @@
   {
     "identifier": "minecraft:smooth_red_sandstone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -12483,7 +13317,9 @@
   {
     "identifier": "minecraft:smooth_red_sandstone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -12536,7 +13372,9 @@
   {
     "identifier": "minecraft:smooth_sandstone_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -12549,7 +13387,9 @@
   {
     "identifier": "minecraft:smooth_stone",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -12601,7 +13441,9 @@
   {
     "identifier": "minecraft:snow",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_shovel_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -12612,7 +13454,8 @@
     "identifier": "minecraft:snow_layer",
     "components": [],
     "tags": [
-      "snow"
+      "snow",
+      "minecraft:is_shovel_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -12627,7 +13470,7 @@
     "identifier": "minecraft:soul_campfire",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -12653,7 +13496,9 @@
   {
     "identifier": "minecraft:soul_lantern",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -12724,7 +13569,7 @@
     "identifier": "minecraft:spruce_button",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12741,6 +13586,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12758,7 +13604,7 @@
     "identifier": "minecraft:spruce_double_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -12773,7 +13619,7 @@
     "identifier": "minecraft:spruce_fence",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12787,6 +13633,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12805,6 +13652,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -12838,7 +13686,7 @@
     "identifier": "minecraft:spruce_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood",
       "log",
       "spruce"
@@ -12855,7 +13703,7 @@
     "identifier": "minecraft:spruce_planks",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -12868,7 +13716,7 @@
     "identifier": "minecraft:spruce_pressure_plate",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12897,7 +13745,7 @@
     "identifier": "minecraft:spruce_slab",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12912,6 +13760,7 @@
     "identifier": "minecraft:spruce_stairs",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12929,6 +13778,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -12946,6 +13796,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -12964,6 +13815,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -12979,7 +13831,7 @@
     "identifier": "minecraft:spruce_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -12993,7 +13845,9 @@
   {
     "identifier": "minecraft:standing_banner",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13008,6 +13862,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -13095,7 +13950,9 @@
   {
     "identifier": "minecraft:stone_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13127,7 +13984,9 @@
   {
     "identifier": "minecraft:stone_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13138,6 +13997,7 @@
     "identifier": "minecraft:stone_button",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "stone"
     ],
     "loggable": true,
@@ -13153,6 +14013,7 @@
     "identifier": "minecraft:stone_pressure_plate",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "stone"
     ],
     "loggable": true,
@@ -13167,6 +14028,7 @@
     "identifier": "minecraft:stone_stairs",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "stone"
     ],
     "loggable": true,
@@ -13179,19 +14041,11 @@
     ]
   },
   {
-    "identifier": "minecraft:stonecutter",
-    "components": [],
-    "tags": [],
-    "loggable": false,
-    "air": false,
-    "liquid": false,
-    "solid": true,
-    "states": []
-  },
-  {
     "identifier": "minecraft:stonecutter_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13204,7 +14058,7 @@
     "identifier": "minecraft:stripped_acacia_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13219,7 +14073,7 @@
     "identifier": "minecraft:stripped_acacia_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13233,7 +14087,9 @@
   {
     "identifier": "minecraft:stripped_bamboo_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13246,7 +14102,7 @@
     "identifier": "minecraft:stripped_birch_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13261,7 +14117,7 @@
     "identifier": "minecraft:stripped_birch_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13276,6 +14132,7 @@
     "identifier": "minecraft:stripped_cherry_log",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13290,6 +14147,7 @@
     "identifier": "minecraft:stripped_cherry_wood",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13303,7 +14161,9 @@
   {
     "identifier": "minecraft:stripped_crimson_hyphae",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13316,7 +14176,7 @@
     "identifier": "minecraft:stripped_crimson_stem",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -13330,7 +14190,7 @@
     "identifier": "minecraft:stripped_dark_oak_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13345,7 +14205,7 @@
     "identifier": "minecraft:stripped_dark_oak_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13360,7 +14220,7 @@
     "identifier": "minecraft:stripped_jungle_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13375,7 +14235,7 @@
     "identifier": "minecraft:stripped_jungle_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13390,6 +14250,7 @@
     "identifier": "minecraft:stripped_mangrove_log",
     "components": [],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13404,7 +14265,7 @@
     "identifier": "minecraft:stripped_mangrove_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13419,7 +14280,7 @@
     "identifier": "minecraft:stripped_oak_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13434,7 +14295,37 @@
     "identifier": "minecraft:stripped_oak_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
+    "identifier": "minecraft:stripped_pale_oak_log",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "loggable": false,
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
+    "identifier": "minecraft:stripped_pale_oak_wood",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13449,7 +14340,7 @@
     "identifier": "minecraft:stripped_spruce_log",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13464,7 +14355,7 @@
     "identifier": "minecraft:stripped_spruce_wood",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": false,
@@ -13478,7 +14369,9 @@
   {
     "identifier": "minecraft:stripped_warped_hyphae",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13491,7 +14384,7 @@
     "identifier": "minecraft:stripped_warped_stem",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -13673,6 +14566,7 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -13690,7 +14584,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13756,7 +14652,9 @@
   {
     "identifier": "minecraft:tube_coral_block",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13802,7 +14700,9 @@
   {
     "identifier": "minecraft:tuff_brick_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13814,7 +14714,9 @@
   {
     "identifier": "minecraft:tuff_brick_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13826,7 +14728,9 @@
   {
     "identifier": "minecraft:tuff_brick_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13839,7 +14743,9 @@
   {
     "identifier": "minecraft:tuff_brick_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13855,7 +14761,9 @@
   {
     "identifier": "minecraft:tuff_bricks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13865,7 +14773,9 @@
   {
     "identifier": "minecraft:tuff_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -13877,7 +14787,9 @@
   {
     "identifier": "minecraft:tuff_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13889,7 +14801,9 @@
   {
     "identifier": "minecraft:tuff_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13902,7 +14816,9 @@
   {
     "identifier": "minecraft:tuff_wall",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -13969,7 +14885,9 @@
     "components": [
       "minecraft:inventory"
     ],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14056,7 +14974,9 @@
   {
     "identifier": "minecraft:vine",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14068,7 +14988,9 @@
   {
     "identifier": "minecraft:wall_banner",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14083,6 +15005,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -14097,7 +15020,9 @@
   {
     "identifier": "minecraft:warped_button",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14111,7 +15036,8 @@
     "identifier": "minecraft:warped_door",
     "components": [],
     "tags": [
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -14127,7 +15053,9 @@
   {
     "identifier": "minecraft:warped_double_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -14139,7 +15067,9 @@
   {
     "identifier": "minecraft:warped_fence",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14150,7 +15080,8 @@
     "identifier": "minecraft:warped_fence_gate",
     "components": [],
     "tags": [
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -14178,6 +15109,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign",
       "wood"
     ],
@@ -14196,7 +15128,7 @@
     "identifier": "minecraft:warped_hyphae",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -14210,6 +15142,7 @@
     "identifier": "minecraft:warped_nylium",
     "components": [],
     "tags": [
+      "minecraft:is_pickaxe_item_destructible",
       "fertilize_area"
     ],
     "loggable": false,
@@ -14221,7 +15154,9 @@
   {
     "identifier": "minecraft:warped_planks",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -14231,7 +15166,9 @@
   {
     "identifier": "minecraft:warped_pressure_plate",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14253,7 +15190,9 @@
   {
     "identifier": "minecraft:warped_slab",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14265,7 +15204,9 @@
   {
     "identifier": "minecraft:warped_stairs",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
     "loggable": true,
     "air": false,
     "liquid": false,
@@ -14281,6 +15222,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign"
     ],
     "loggable": true,
@@ -14295,7 +15237,7 @@
     "identifier": "minecraft:warped_stem",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible"
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": false,
     "air": false,
@@ -14310,7 +15252,8 @@
     "components": [],
     "tags": [
       "trapdoors",
-      "one_way_collidable"
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -14328,6 +15271,7 @@
       "minecraft:sign"
     ],
     "tags": [
+      "minecraft:is_axe_item_destructible",
       "text_sign"
     ],
     "loggable": true,
@@ -14407,6 +15351,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -14441,6 +15386,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -14455,7 +15401,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -14561,6 +15508,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -14595,6 +15543,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -14609,7 +15558,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -14715,6 +15665,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -14749,6 +15700,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -14763,7 +15715,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -14871,6 +15824,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -14905,6 +15859,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -14919,7 +15874,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -15025,6 +15981,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": false,
@@ -15059,6 +16016,7 @@
     "components": [],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
     ],
     "loggable": true,
@@ -15073,7 +16031,8 @@
     "tags": [
       "trapdoors",
       "one_way_collidable",
-      "minecraft:is_pickaxe_item_destructible"
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -15151,8 +16110,7 @@
     "components": [],
     "tags": [
       "minecraft:is_shears_item_destructible",
-      "minecraft:is_sword_item_destructible",
-      "minecraft:is_mace_item_destructible"
+      "minecraft:is_sword_item_destructible"
     ],
     "loggable": true,
     "air": false,
@@ -15260,7 +16218,9 @@
   {
     "identifier": "minecraft:white_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -15306,7 +16266,9 @@
   {
     "identifier": "minecraft:white_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -15361,7 +16323,7 @@
     "identifier": "minecraft:wooden_button",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -15378,6 +16340,7 @@
     "components": [],
     "tags": [
       "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -15395,7 +16358,7 @@
     "identifier": "minecraft:wooden_pressure_plate",
     "components": [],
     "tags": [
-      "minecraft:is_hatchet_item_destructible",
+      "minecraft:is_axe_item_destructible",
       "wood"
     ],
     "loggable": true,
@@ -15468,7 +16431,9 @@
   {
     "identifier": "minecraft:yellow_glazed_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,
@@ -15514,7 +16479,9 @@
   {
     "identifier": "minecraft:yellow_terracotta",
     "components": [],
-    "tags": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
     "loggable": false,
     "air": false,
     "liquid": false,

@@ -963,6 +963,14 @@
     ]
   },
   {
+    "identifier": "natural",
+    "type": "bool",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
     "identifier": "new_leaf_type",
     "type": "string",
     "values": [
@@ -1062,6 +1070,42 @@
     "values": [
       false,
       true
+    ]
+  },
+  {
+    "identifier": "pale_moss_carpet_side_east",
+    "type": "string",
+    "values": [
+      "none",
+      "short",
+      "tall"
+    ]
+  },
+  {
+    "identifier": "pale_moss_carpet_side_north",
+    "type": "string",
+    "values": [
+      "none",
+      "short",
+      "tall"
+    ]
+  },
+  {
+    "identifier": "pale_moss_carpet_side_south",
+    "type": "string",
+    "values": [
+      "none",
+      "short",
+      "tall"
+    ]
+  },
+  {
+    "identifier": "pale_moss_carpet_side_west",
+    "type": "string",
+    "values": [
+      "none",
+      "short",
+      "tall"
     ]
   },
   {
@@ -1222,7 +1266,8 @@
       "birch",
       "jungle",
       "acacia",
-      "dark_oak"
+      "dark_oak",
+      "pale_oak"
     ]
   },
   {
@@ -1394,6 +1439,14 @@
       "tall",
       "fern",
       "snow"
+    ]
+  },
+  {
+    "identifier": "tip",
+    "type": "bool",
+    "values": [
+      false,
+      true
     ]
   },
   {
