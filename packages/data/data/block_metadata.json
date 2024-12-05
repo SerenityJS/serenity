@@ -6598,5 +6598,23 @@
     "hardness": 3,
     "friction": 0.6,
     "mapColor": "#167e86ff"
+  },
+  {
+    "identifier": "minecraft:pale_oak_planks",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": ""
+  },
+  {
+    "identifier": "minecraft:pale_oak_log",
+    "hardness": 2,
+    "friction": 0.6,
+    "mapColor": ""
+  },
+  {
+    "identifier": "minecraft:pale_oak_leaves",
+    "hardness": 0.2,
+    "friction": 0.6,
+    "mapColor": ""
   }
 ]

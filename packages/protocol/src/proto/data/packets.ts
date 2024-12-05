@@ -134,6 +134,8 @@ import { RequestPermissionsPacket } from "./request-permissions";
 import { ServerSettingsResponsePacket } from "./server-settings-response";
 import { CommandBlockUpdatePacket } from "./command-block-update";
 import { ShowProfilePacket } from "./show-profile";
+import { DebugInfoPacket } from "./debug-info";
+import { ClientBoundDebugRendererPacket } from "./client-bound-debug-renderer";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -238,11 +240,13 @@ const Packets = {
   [Packet.ItemStackRequest]: ItemStackRequestPacket, // 147
   [Packet.ItemStackResponse]: ItemStackResponsePacket, // 148
   [Packet.EmoteList]: EmoteListPacket, // 152
+  [Packet.DebugInfo]: DebugInfoPacket, // 155
   [Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
   [Packet.AnimateEntity]: AnimateEntityPacket, // 158
   [Packet.CameraShake]: CameraShakePacket, // 159
   [Packet.PlayerFog]: PlayerFogPacket, // 160
   [Packet.ItemComponent]: ItemComponentPacket, // 162
+  [Packet.ClientBoundDebugRenderer]: ClientBoundDebugRendererPacket, // 163
   [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176

@@ -131,7 +131,9 @@ import type {
   RequestPermissionsPacket,
   ServerSettingsResponsePacket,
   CommandBlockUpdatePacket,
-  ShowProfilePacket
+  ShowProfilePacket,
+  DebugInfoPacket,
+  ClientBoundDebugRendererPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -286,11 +288,15 @@ interface NetworkEvents {
   [Packet.ItemStackRequest]: [NetworkPacketEvent<ItemStackRequestPacket>];
   [Packet.ItemStackResponse]: [NetworkPacketEvent<ItemStackResponsePacket>];
   [Packet.EmoteList]: [NetworkPacketEvent<EmoteListPacket>];
+  [Packet.DebugInfo]: [NetworkPacketEvent<DebugInfoPacket>];
   [Packet.PacketViolationWarning]: [
     NetworkPacketEvent<PacketViolationWarningPacket>
   ];
   [Packet.AnimateEntity]: [NetworkPacketEvent<AnimateEntityPacket>];
   [Packet.ItemComponent]: [NetworkPacketEvent<ItemComponentPacket>];
+  [Packet.ClientBoundDebugRenderer]: [
+    NetworkPacketEvent<ClientBoundDebugRendererPacket>
+  ];
   [Packet.NpcDialogue]: [NetworkPacketEvent<NpcDialoguePacket>];
   [Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessagePacket>];
   [Packet.RequestPermissions]: [NetworkPacketEvent<RequestPermissionsPacket>];

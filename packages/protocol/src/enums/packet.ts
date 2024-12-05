@@ -106,11 +106,13 @@ enum Packet {
   ItemStackRequest = 0x93, // 147
   ItemStackResponse = 0x94, // 148
   EmoteList = 0x98, // 152
+  DebugInfo = 0x9b, // 155
   PacketViolationWarning = 0x9c, // 156
   AnimateEntity = 0x9e, // 158
   CameraShake = 0x9f, // 159
   PlayerFog = 0xa0, // 160
   ItemComponent = 0xa2, // 162
+  ClientBoundDebugRenderer = 0xa4, // 164
   SyncActorProperty = 0xa5, // 165
   NpcDialogue = 0xa9, // 169
   PlayerStartItemCooldown = 0xb0, // 176
