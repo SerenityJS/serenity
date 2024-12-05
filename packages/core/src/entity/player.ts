@@ -16,6 +16,7 @@ import {
   PermissionLevel,
   SerializedSkin,
   SetPlayerGameTypePacket,
+  ShowProfilePacket,
   TeleportCause,
   TextPacket,
   TextPacketType,
@@ -450,6 +451,23 @@ class Player extends Entity {
     packet.address = address;
     packet.port = port;
     packet.reloadWorld = reload;
+
+    // Send the packet to the player
+    this.send(packet);
+  }
+
+  /**
+   * Shows the player profile of another player.
+   * @param xuid The xuid of the player to show the profile of; default is this player.
+   */
+  public showProfile(xuid?: Player | string): void {
+    // Create a new ShowProfilePacket
+    const packet = new ShowProfilePacket();
+
+    // Assign the xuid to the packet
+    if (!xuid) packet.xuid = this.xuid;
+    else if (xuid instanceof Player) packet.xuid = xuid.xuid;
+    else packet.xuid = xuid;
 
     // Send the packet to the player
     this.send(packet);
