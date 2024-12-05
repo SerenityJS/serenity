@@ -130,7 +130,8 @@ import type {
   UnlockedRecipesPacket,
   RequestPermissionsPacket,
   ServerSettingsResponsePacket,
-  CommandBlockUpdatePacket
+  CommandBlockUpdatePacket,
+  ShowProfilePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -248,6 +249,7 @@ interface NetworkEvents {
   [Packet.ServerSettingsResponse]: [
     NetworkPacketEvent<ServerSettingsResponsePacket>
   ];
+  [Packet.ShowProfile]: [NetworkPacketEvent<ShowProfilePacket>];
   [Packet.RemoveObjective]: [NetworkPacketEvent<RemoveObjectivePacket>];
   [Packet.SetDisplayObjective]: [NetworkPacketEvent<SetDisplayObjectivePacket>];
   [Packet.SetScore]: [NetworkPacketEvent<SetScorePacket>];

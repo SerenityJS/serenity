@@ -54,6 +54,7 @@ export * from "./player-skin";
 export * from "./modal-form-request";
 export * from "./modal-form-response";
 export * from "./server-settings-response";
+export * from "./show-profile";
 export * from "./remove-objective";
 export * from "./set-display-objective";
 export * from "./set-score";

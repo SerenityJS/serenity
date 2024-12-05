@@ -133,6 +133,7 @@ import { UnlockedRecipesPacket } from "./unlocked-recipes";
 import { RequestPermissionsPacket } from "./request-permissions";
 import { ServerSettingsResponsePacket } from "./server-settings-response";
 import { CommandBlockUpdatePacket } from "./command-block-update";
+import { ShowProfilePacket } from "./show-profile";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -213,6 +214,7 @@ const Packets = {
   [Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
   [Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
   [Packet.ServerSettingsResponse]: ServerSettingsResponsePacket, // 103
+  [Packet.ShowProfile]: ShowProfilePacket, // 104
   [Packet.RemoveObjective]: RemoveObjectivePacket, // 106
   [Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
   [Packet.SetScore]: SetScorePacket, // 108
