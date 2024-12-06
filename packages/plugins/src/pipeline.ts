@@ -25,11 +25,13 @@ import { PluginType } from "./enums";
 interface PipelineProperties {
   path: string;
   commands: boolean;
+  initialize: boolean;
 }
 
 const DefaultPipelineProperties: PipelineProperties = {
   path: "./plugins",
-  commands: true
+  commands: true,
+  initialize: true
 };
 
 class Pipeline {
@@ -98,20 +100,21 @@ class Pipeline {
     serenity.on(ServerEvent.Stop, this.stop.bind(this));
 
     // Check if the plugins command should be registered
-    if (!this.properties.commands) return;
+    if (this.properties.commands) {
+      // Hook into the world initialize event
+      serenity.on(WorldEvent.WorldInitialize, ({ world }) =>
+        Command(world, this)
+      );
+    }
 
-    // Hook into the world initialize event
-    serenity.on(WorldEvent.WorldInitialize, ({ world }) =>
-      Command(world, this)
-    );
+    // Check if the plugins should be initialized
+    if (this.properties.initialize) this.initialize();
   }
 
   /**
    * Initializes the plugins pipeline.
-   * @param complete The callback to call when the pipeline is initialized.
-   * @returns A promise that resolves when the pipeline is initialized.
    */
-  public initialize(complete: () => void): void {
+  public initialize(): void {
     // Check if the plugins directory exists
     if (!existsSync(resolve(this.path)))
       // If not, create the plugins directory
@@ -310,9 +313,6 @@ class Pipeline {
         );
       }
     }
-
-    // Call the complete callback
-    return complete();
   }
 
   /**
