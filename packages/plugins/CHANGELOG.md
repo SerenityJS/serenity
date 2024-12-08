@@ -1,5 +1,16 @@
 # @serenityjs/plugins
 
+## 0.6.3
+
+### Patch Changes
+
+- [`3b05784`](https://github.com/SerenityJS/serenity/commit/3b05784cc490269a3a2f5feb46de4927365579fc) Thanks [@PMK744](https://github.com/PMK744)! - init v0.6.3
+
+- Updated dependencies [[`3b05784`](https://github.com/SerenityJS/serenity/commit/3b05784cc490269a3a2f5feb46de4927365579fc)]:
+  - @serenityjs/protocol@0.6.3
+  - @serenityjs/logger@0.6.3
+  - @serenityjs/core@0.6.3
+
 ## 0.6.2
 
 ### Patch Changes
