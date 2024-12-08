@@ -12,8 +12,9 @@ node_modules
 
 devapp/worlds
 devapp/plugins/*
-permissions.json
-resource_packs
+devapp/properties.json
+devapp/permissions.json
+devapp/resource_packs
 
 # Swap the comments on the following lines if you don't wish to use zero-installs
 # Documentation here: https://yarnpkg.com/features/zero-installs

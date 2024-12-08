@@ -3,7 +3,7 @@ import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
 const serenity = new Serenity({
-  port: 19142,
+  path: "./properties.json",
   permissions: "./permissions.json",
   resourcePacks: "./resource_packs",
   debugLogging: true

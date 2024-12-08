@@ -1,3 +1,6 @@
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 import {
   CompressionMethod,
   MINECRAFT_VERSION,
@@ -42,7 +45,8 @@ const DefaultServerProperties: ServerProperties = {
   permissions: [],
   resourcePacks: "",
   defaultGenerator: VoidGenerator,
-  debugLogging: false
+  debugLogging: false,
+  path: null
 };
 
 class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
@@ -118,6 +122,15 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Assign the properties to the server with the default properties
     this.properties = { ...DefaultServerProperties, ...properties };
 
+    // Check if a properties path is provided
+    if (this.properties.path) {
+      // Read the properties from the provided path
+      const properties = this.readProperties(this.properties.path);
+
+      // Assign the properties to the server with the default properties
+      this.properties = { ...this.properties, ...properties };
+    }
+
     // Set the enabled value for debug logging
     Logger.DEBUG = this.properties.debugLogging;
 
@@ -142,6 +155,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       typeof this.properties.resourcePacks === "string"
         ? new ResourcePackManager({ path: this.properties.resourcePacks })
         : new ResourcePackManager(this.properties.resourcePacks);
+
+    // Write the properties to the properties path
+    if (this.properties.path) this.writeProperties(this.properties.path);
   }
 
   /**
@@ -236,6 +252,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Stop the raknet server
     process.nextTick(() => this.network.raknet.stop());
+
+    // Write the properties to the properties path
+    if (this.properties.path) this.writeProperties(this.properties.path);
 
     // Log that the server has been stopped
     this.logger.info(`§cServer has been stopped.§r`);
@@ -475,6 +494,37 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    */
   public getPlayers(): Array<Player> {
     return [...this.players.values()];
+  }
+
+  /**
+   * Reads the server properties from the specified path
+   * @param path The path to read the server properties from
+   * @returns The server properties that were read
+   */
+  public readProperties(path: string): Partial<ServerProperties> {
+    try {
+      // Read the server properties from the file
+      const buffer = readFileSync(resolve(path));
+
+      // Parse the buffer as JSON
+      return JSON.parse(buffer.toString());
+    } catch {
+      return {};
+    }
+  }
+
+  /**
+   * Writes the server properties to the specified path
+   * @param path The path to write the server properties to
+   * @returns Whether the properties were successfully written or not
+   */
+  public writeProperties(path: string) {
+    try {
+      // Write the properties to the file
+      writeFileSync(resolve(path), JSON.stringify(this.properties, null, 2));
+    } catch {
+      return false;
+    }
   }
 }
 

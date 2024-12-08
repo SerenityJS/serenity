@@ -6,6 +6,7 @@ import type { TerrainGenerator } from "../world";
 import type { CompressionMethod } from "@serenityjs/protocol";
 
 interface ServerProperties {
+  path: string | null;
   port: number;
   address: string;
   motd: string;
