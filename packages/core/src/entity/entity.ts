@@ -1187,6 +1187,28 @@ class Entity {
   }
 
   /**
+   * Executes a command in the dimension asynchronously.
+   * @param command The command to execute.
+   * @returns The response of the command.
+   */
+  public async executeCommandAsync<T = unknown>(
+    command: string
+  ): Promise<CommandResponse<T>> {
+    // Check if the command starts with a slash, remove it if it does not
+    if (command.startsWith("/")) command = command.slice(1);
+
+    // Create a new command execute state
+    const state = new CommandExecutionState(
+      this.getWorld().commands.getAll(),
+      command,
+      this
+    );
+
+    // Execute the command state
+    return (await state.execute()) as Promise<CommandResponse<T>>;
+  }
+
+  /**
    * Gets the entity's data as a database entry.
    * @returns The entity entry object.
    */
