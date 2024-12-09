@@ -7,3 +7,4 @@ export * from "./upper-block-bit";
 export * from "./vertical-half";
 export * from "./cardinal_direction";
 export * from "./direction";
+export * from "./furnace";

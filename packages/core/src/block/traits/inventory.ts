@@ -26,46 +26,80 @@ interface InventoryComponent extends JSONLikeObject {
 }
 
 class BlockInventoryTrait extends BlockTrait {
-  public static readonly identifier = "inventory";
+  public static readonly identifier: string = "inventory";
 
   public static readonly types = [BlockIdentifier.Chest];
 
-  protected opened = false;
-
   public readonly container: BlockContainer;
 
-  public readonly containerType: ContainerType;
+  /**
+   * The container type of the block.
+   */
+  public get containerType(): ContainerType {
+    return this.container.type;
+  }
 
-  public readonly containerId: ContainerId;
+  /**
+   * The container type of the block.
+   */
+  public set containerType(value: ContainerType) {
+    this.container.type = value;
+  }
 
-  public readonly inventorySize: number;
+  /**
+   * The container id of the block.
+   */
+  public get containerId(): ContainerId {
+    return this.container.identifier;
+  }
+
+  /**
+   * The container id of the block.
+   */
+  public set containerId(value: ContainerId) {
+    this.container.identifier = value;
+  }
+
+  /**
+   * The amount of slots in the container.
+   */
+  public get containerSize(): number {
+    return this.container.size;
+  }
+
+  /**
+   * The amount of slots in the container.
+   */
+  public set containerSize(value: number) {
+    this.container.size = value;
+  }
+
+  /**
+   * Whether the block is opened or not.
+   */
+  protected opened = false;
 
   public constructor(block: Block) {
     super(block);
 
-    // Create the container for the block based on the block type
-    switch (block.type.identifier) {
-      default: {
-        // Set the container type and id
-        this.containerType = ContainerType.Container;
-        this.containerId = ContainerId.None;
-        this.inventorySize = 27;
-        break;
-      }
-    }
-
     // Create the container for the trait
     this.container = new BlockContainer(
       block,
-      this.containerType,
-      this.containerId,
-      this.inventorySize
+      ContainerType.Container,
+      ContainerId.None,
+      27
     );
+  }
 
+  public onAdd(): void {
     // Check if the block has an inventory component
-    if (block.components.has("inventory")) {
+    if (this.block.components.has("inventory")) {
       // Get the inventory component from the block
-      const inventory = block.components.get("inventory") as InventoryComponent;
+      const inventory =
+        this.block.getComponent<InventoryComponent>("inventory");
+
+      // Check if the inventory component is valid
+      if (!inventory) return;
 
       // Iterate over each item in the inventory
       for (const [slot, entry] of inventory.items) {
@@ -73,7 +107,7 @@ class BlockInventoryTrait extends BlockTrait {
         const stack = new ItemStack(entry.identifier, {
           amount: entry.amount,
           auxillary: entry.auxillary,
-          world: block.dimension.world,
+          world: this.block.dimension.world,
           entry
         });
 
@@ -116,12 +150,12 @@ class BlockInventoryTrait extends BlockTrait {
 
     // Create a new inventory component
     const inventory: InventoryComponent = {
-      size: this.inventorySize,
+      size: this.containerSize,
       items: []
     };
 
     // Iterate over each item in the container
-    for (let i = 0; i < this.inventorySize; i++) {
+    for (let i = 0; i < this.containerSize; i++) {
       // Get the item stack at the index
       const item = this.container.getItem(i);
 
@@ -145,36 +179,8 @@ class BlockInventoryTrait extends BlockTrait {
       // Set the block state to open
       this.opened = true;
 
-      // Create a new BlockEventPacket
-      const event = new BlockEventPacket();
-      event.position = this.block.position;
-      event.type = BlockEventType.ChangeState;
-      event.data = 1;
-
-      // Create a new LevelSoundEventPacket
-      const sound = new LevelSoundEventPacket();
-      sound.position = BlockPosition.toVector3f(this.block.position);
-      sound.data = this.block.permutation.network;
-      sound.actorIdentifier = String();
-      sound.isBabyMob = false;
-      sound.isGlobal = false;
-
-      // Set the sound event based on the block type
-      switch (this.block.type.identifier) {
-        default: {
-          sound.event = -1 as LevelSoundEvent;
-          break;
-        }
-
-        case BlockIdentifier.Chest:
-        case BlockIdentifier.TrappedChest: {
-          sound.event = LevelSoundEvent.ChestOpen;
-          break;
-        }
-      }
-
-      // Broadcast the block event packet
-      this.block.dimension.broadcast(event, sound);
+      // Call the onOpen method
+      this.onOpen();
     }
 
     // Check if the container has no occupants
@@ -182,37 +188,81 @@ class BlockInventoryTrait extends BlockTrait {
       // Set the block state to closed
       this.opened = false;
 
-      // Create a new block event packet
-      const packet = new BlockEventPacket();
-      packet.position = this.block.position;
-      packet.type = BlockEventType.ChangeState;
-      packet.data = 0;
+      // Call the onClose method
+      this.onClose();
+    }
+  }
 
-      // Create a new level sound event packet
-      const sound = new LevelSoundEventPacket();
-      sound.position = BlockPosition.toVector3f(this.block.position);
-      sound.data = this.block.permutation.network;
-      sound.actorIdentifier = String();
-      sound.isBabyMob = false;
-      sound.isGlobal = false;
+  /**
+   * Called when the state of the inventory is set to open.
+   */
+  public onOpen(): void {
+    // Create a new BlockEventPacket
+    const event = new BlockEventPacket();
+    event.position = this.block.position;
+    event.type = BlockEventType.ChangeState;
+    event.data = 1;
 
-      // Set the sound event based on the block type
-      switch (this.block.type.identifier) {
-        default: {
-          sound.event = -1 as LevelSoundEvent;
-          break;
-        }
+    // Create a new LevelSoundEventPacket
+    const sound = new LevelSoundEventPacket();
+    sound.position = BlockPosition.toVector3f(this.block.position);
+    sound.data = this.block.permutation.network;
+    sound.actorIdentifier = String();
+    sound.isBabyMob = false;
+    sound.isGlobal = false;
 
-        case BlockIdentifier.Chest:
-        case BlockIdentifier.TrappedChest: {
-          sound.event = LevelSoundEvent.ChestClosed;
-          break;
-        }
+    // Set the sound event based on the block type
+    switch (this.block.identifier) {
+      default: {
+        sound.event = -1 as LevelSoundEvent;
+        break;
       }
 
-      // Broadcast the block event packet
-      this.block.dimension.broadcast(packet, sound);
+      case BlockIdentifier.Chest:
+      case BlockIdentifier.TrappedChest: {
+        sound.event = LevelSoundEvent.ChestOpen;
+        break;
+      }
     }
+
+    // Broadcast the block event packet
+    this.block.dimension.broadcast(event, sound);
+  }
+
+  /**
+   * Called when the state of the inventory is set to close.
+   */
+  public onClose(): void {
+    // Create a new block event packet
+    const packet = new BlockEventPacket();
+    packet.position = this.block.position;
+    packet.type = BlockEventType.ChangeState;
+    packet.data = 0;
+
+    // Create a new level sound event packet
+    const sound = new LevelSoundEventPacket();
+    sound.position = BlockPosition.toVector3f(this.block.position);
+    sound.data = this.block.permutation.network;
+    sound.actorIdentifier = String();
+    sound.isBabyMob = false;
+    sound.isGlobal = false;
+
+    // Set the sound event based on the block type
+    switch (this.block.type.identifier) {
+      default: {
+        sound.event = -1 as LevelSoundEvent;
+        break;
+      }
+
+      case BlockIdentifier.Chest:
+      case BlockIdentifier.TrappedChest: {
+        sound.event = LevelSoundEvent.ChestClosed;
+        break;
+      }
+    }
+
+    // Broadcast the block event packet
+    this.block.dimension.broadcast(packet, sound);
   }
 }
 

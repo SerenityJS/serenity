@@ -24,6 +24,7 @@ import {
   EntityEffectOptions,
   EntityEntry,
   EntityProperties,
+  JSONLikeObject,
   JSONLikeValue
 } from "../types";
 import { Serenity } from "../serenity";
@@ -604,6 +605,41 @@ class Entity {
    */
   public getWorld(): World {
     return this.dimension.world;
+  }
+
+  /**
+   * Whether the entity has the specified component.
+   * @param key The key of the component.
+   * @returns Whether the entity has the component or not.
+   */
+  public hasComponent(key: string): boolean {
+    return this.components.has(key);
+  }
+
+  /**
+   * Gets the specified component from the entity.
+   * @param key The key of the component.
+   * @returns The component if it exists, otherwise null.
+   */
+  public getComponent<T extends JSONLikeObject>(key: string): T | null {
+    return this.components.get(key) as T;
+  }
+
+  /**
+   * Removes the specified component from the entity.
+   * @param key The key of the component.
+   */
+  public removeComponent(key: string): void {
+    this.components.delete(key);
+  }
+
+  /**
+   * Adds a component to the entity.
+   * @param key The key of the component.
+   * @param value The value of the component.
+   */
+  public addComponent<T extends JSONLikeObject>(key: string, value: T): void {
+    this.components.set(key, value);
   }
 
   /**

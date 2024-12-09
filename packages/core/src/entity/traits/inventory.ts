@@ -20,7 +20,6 @@ interface InventoryComponent extends JSONLikeObject {
 
 class EntityInventoryTrait extends EntityTrait {
   public static readonly identifier = "inventory";
-
   public static readonly types = [EntityIdentifier.Player];
 
   /**
@@ -31,32 +30,63 @@ class EntityInventoryTrait extends EntityTrait {
   /**
    * The type of container that this trait represents.
    */
-  public readonly containerType: ContainerType = ContainerType.Inventory;
+  public get containerType(): ContainerType {
+    return this.container.type;
+  }
+
+  /**
+   * The type of container that this trait represents.
+   */
+  public set containerType(value: ContainerType) {
+    this.container.type = value;
+  }
 
   /**
    * The identifier of the container that this trait represents.
    */
-  public readonly containerId: ContainerId = ContainerId.Inventory;
+  public get containerId(): ContainerId {
+    return this.container.identifier;
+  }
+
+  /**
+   * The identifier of the container that this trait represents.
+   */
+  public set containerId(value: ContainerId) {
+    this.container.identifier = value;
+  }
 
   /**
    * The amount of slots in the inventory.
    */
-  public readonly inventorySize: number = 36;
+  public get inventorySize(): number {
+    return this.container.size;
+  }
+
+  /**
+   * The amount of slots in the inventory.
+   */
+  public set inventorySize(value: number) {
+    this.container.size = value;
+  }
 
   /**
    * The selected slot in the inventory.
    */
   public selectedSlot: number = 0;
 
+  /**
+   * Creates a new entity inventory trait.
+   * @param entity The entity that this trait will be attached to.
+   */
   public constructor(entity: Entity) {
     super(entity);
 
     // Create a new container
     this.container = new EntityContainer(
       entity,
-      this.containerType,
-      this.containerId,
-      this.inventorySize
+      ContainerType.Inventory,
+      ContainerId.Inventory,
+      36
     );
   }
 

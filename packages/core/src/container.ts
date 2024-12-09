@@ -17,29 +17,38 @@ import type { Player } from "./entity";
  */
 class Container {
   /**
+   * The occupants of the container.
+   */
+  public readonly occupants = new Set<Player>();
+
+  /**
    * The type of the container.
    */
-  public readonly type: ContainerType;
+  public type: ContainerType;
 
   /**
    * The identifier of the container.
    */
-  public readonly identifier: ContainerId;
+  public identifier: ContainerId;
 
   /**
    * The size of the container.
    */
-  public readonly size: number;
+  public get size(): number {
+    return this.storage.length;
+  }
+
+  /**
+   * The size of the container.
+   */
+  public set size(value: number) {
+    this.storage = Array.from({ length: value }, () => null);
+  }
 
   /**
    * The storage of the container.
    */
-  public readonly storage: Array<ItemStack | null>;
-
-  /**
-   * The occupants of the container.
-   */
-  public readonly occupants = new Set<Player>();
+  public storage: Array<ItemStack | null>;
 
   /**
    * The amount of empty slots in the container.
