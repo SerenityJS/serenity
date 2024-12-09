@@ -150,7 +150,7 @@ class Pipeline {
           const index = stream.readRemainingBuffer().toString("utf-8");
 
           // Write the module or main entry points to temporary files
-          const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
+          const tempPath = resolve(this.path, bundle.name.slice(0, -7));
           writeFileSync(tempPath, index);
 
           // Import the plugin module
@@ -204,7 +204,7 @@ class Pipeline {
           unlinkSync(path);
 
           // Write the buffer to a temporary file
-          const tempPath = resolve(this.path, `~${bundle.name.slice(0, -7)}`);
+          const tempPath = resolve(this.path, bundle.name.slice(0, -7));
 
           // Write the buffer to the temporary file
           writeFileSync(tempPath, buffer);
@@ -221,14 +221,11 @@ class Pipeline {
           const name = bundle.name.slice(0, -7);
 
           // Rename the extracted "package" directory to the plugin name
-          renameSync(
-            resolve(this.path, "package"),
-            resolve(this.path, `${name}.api`)
-          );
+          renameSync(resolve(this.path, "package"), resolve(this.path, name));
 
           // Install the dependencies for the plugin
           execSync("npm install", {
-            cwd: resolve(this.path, `${name}.api`),
+            cwd: resolve(this.path, name),
             stdio: "ignore"
           });
         }
