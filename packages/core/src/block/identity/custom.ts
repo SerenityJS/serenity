@@ -1,4 +1,4 @@
-import { CompoundTag } from "@serenityjs/nbt";
+import { ByteTag, CompoundTag } from "@serenityjs/nbt";
 import { BlockProperty } from "@serenityjs/protocol";
 
 import { BlockTypeProperties } from "../../types";
@@ -20,6 +20,69 @@ class CustomBlockType extends BlockType {
   public readonly networkId = ++CustomBlockType.networkId;
 
   /**
+   * The NBT data of the custom block type.
+   */
+  public readonly vanillaComponents = new CompoundTag("components");
+
+  /**
+   * The light emission of the block type.
+   */
+  public get lightEmission(): number {
+    // Check if the type has a destructible by light emission
+    if (!this.vanillaComponents.hasTag("minecraft:light_emission")) return 0;
+
+    // Get the destructible by light emission
+    const tag = this.vanillaComponents.getTag<CompoundTag>(
+      "minecraft:light_emission"
+    );
+
+    // Return the hardness value.
+    return tag?.getTag<ByteTag>("emission")?.value ?? 0;
+  }
+
+  /**
+   * The light emission of the block type.
+   */
+  public set lightEmission(value: number) {
+    // Create a compound tag for the destructible by light emission
+    const tag = this.vanillaComponents.createCompoundTag(
+      "minecraft:light_emission"
+    );
+
+    // Add the hardness property to the destructible by light emission
+    tag.createByteTag("emission", value);
+  }
+
+  /**
+   * The light dampening of the block type.
+   */
+  public get lightDampening(): number {
+    // Check if the type has a destructible by light emission
+    if (!this.vanillaComponents.hasTag("minecraft:light_dampening")) return 0;
+
+    // Get the destructible by light emission
+    const tag = this.vanillaComponents.getTag<CompoundTag>(
+      "minecraft:light_dampening"
+    );
+
+    // Return the hardness value.
+    return tag?.getTag<ByteTag>("lightLevel")?.value ?? 0;
+  }
+
+  /**
+   * The light dampening of the block type.
+   */
+  public set lightDampening(value: number) {
+    // Create a compound tag for the destructible by light emission
+    const tag = this.vanillaComponents.createCompoundTag(
+      "minecraft:light_dampening"
+    );
+
+    // Add the hardness property to the destructible by light emission
+    tag.createByteTag("lightLevel", value);
+  }
+
+  /**
    * Creates a new custom block type.
    * @param identifier The identifier of the block type.
    * @param properties The properties of the block type.
@@ -29,11 +92,35 @@ class CustomBlockType extends BlockType {
     properties?: Partial<BlockTypeProperties>
   ) {
     super(identifier as BlockIdentifier, properties);
+
+    // Check if hardness is defined in the properties.
+    if (properties?.hardness) {
+      // Create a compound tag for the destructible by mining component.
+      const tag = this.vanillaComponents.createCompoundTag(
+        "minecraft:destructible_by_mining"
+      );
+
+      // Add the hardness property to the destructible by mining component.
+      tag.createFloatTag("value", properties.hardness);
+    }
+
+    // Check if friction is defined in the properties.
+    if (properties?.friction) {
+      // Create a compound tag for the friction component.
+      const tag =
+        this.vanillaComponents.createCompoundTag("minecraft:friction");
+
+      // Add the friction property to the friction component.
+      tag.createFloatTag("value", properties.friction);
+    }
   }
 
   public static toNbt(type: CustomBlockType): CompoundTag {
     // Create a root compound tag for the block type.
     const root = new CompoundTag();
+
+    // Add the nbt data to the root compound tag.
+    root.addTag(type.vanillaComponents);
 
     // Create a compound tag for the block data.
     const vanillaBlockData = root.createCompoundTag("vanilla_block_data");
