@@ -1,5 +1,16 @@
 # @serenityjs/raknet
 
+## 0.6.4
+
+### Patch Changes
+
+- [`063df63`](https://github.com/SerenityJS/serenity/commit/063df632c6898164db7bacff0106abd2303ace01) Thanks [@PMK744](https://github.com/PMK744)! - init v0.6.4-beta
+
+- Updated dependencies [[`063df63`](https://github.com/SerenityJS/serenity/commit/063df632c6898164db7bacff0106abd2303ace01)]:
+  - @serenityjs/emitter@0.6.4
+  - @serenityjs/logger@0.6.4
+  - @serenityjs/nbt@0.6.4
+
 ## 0.6.3
 
 ### Patch Changes
