@@ -92,7 +92,7 @@ class PlayerAuthItemStackRequest extends DataType {
     data: PlayerAuthInputData
   ): void {
     // Check if the input data has the block actions flag
-    if (!data.hasFlag(InputData.PerformBlockActions)) return;
+    if (!data.hasFlag(InputData.PerformItemStackRequest)) return;
 
     // Write the client request id.
     stream.writeZigZag(value.clientRequestId);
