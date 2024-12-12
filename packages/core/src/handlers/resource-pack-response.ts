@@ -14,7 +14,7 @@ import {
   StartGamePacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { CompoundTag, Tag } from "@serenityjs/nbt";
+import { CompoundTag, TagType } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
 import { ResourcePack } from "../resource-packs";
@@ -426,7 +426,11 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           .map((entity) => EntityType.toNbt(entity));
 
         // Create a new list tag for the entities
-        actors.data.createListTag("idlist", Tag.Compound, entities);
+        actors.data.createListTag({
+          name: "idlist",
+          value: entities,
+          listType: TagType.Compound
+        });
 
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;

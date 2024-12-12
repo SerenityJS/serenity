@@ -55,7 +55,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       item.components.set("dynamic_container", id);
 
       // Create a new int tag for the bundle id.
-      const tag = new IntTag("bundle_id", id);
+      const tag = new IntTag({ name: "bundle_id", value: id });
 
       // Set the bundle id nbt.
       item.nbt.set("bundle_id", tag);
@@ -64,7 +64,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       const id = item.components.get("dynamic_container") as number;
 
       // Create a new int tag for the bundle id.
-      const tag = new IntTag("bundle_id", id);
+      const tag = new IntTag({ name: "bundle_id", value: id });
 
       // Set the bundle id nbt.
       item.nbt.set("bundle_id", tag);
@@ -94,7 +94,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     this.item.components.set("dynamic_container", id);
 
     // Create a new int tag for the bundle id.
-    const tag = new IntTag("bundle_id", id);
+    const tag = new IntTag({ name: "bundle_id", value: id });
 
     // Set the bundle id nbt.
     this.item.nbt.set("bundle_id", tag);

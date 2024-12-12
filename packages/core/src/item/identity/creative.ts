@@ -21,17 +21,21 @@ class CreativeItem {
   /**
    * The NBT of the creative item.
    */
-  public readonly nbt: CompoundTag;
+  public readonly nbt: CompoundTag<unknown>;
 
   /**
    * Create a new creative item.
    * @param type The type of the creative item.
    * @param metadata The metadata of the creative item.
    */
-  public constructor(type: ItemType, metadata: number, nbt?: CompoundTag) {
+  public constructor(
+    type: ItemType,
+    metadata: number,
+    nbt?: CompoundTag<unknown>
+  ) {
     this.type = type;
     this.metadata = metadata;
-    this.nbt = nbt ?? new CompoundTag("", {});
+    this.nbt = nbt ?? new CompoundTag({ name: "", value: {} });
   }
 
   /**

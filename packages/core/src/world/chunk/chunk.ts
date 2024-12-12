@@ -352,7 +352,7 @@ export class Chunk {
 
     // Loop through each sub chunk.
     for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; ++index) {
-      const header = stream.binary[stream.offset];
+      const header = stream.get(stream.offset);
 
       if (header !== 8 && header !== 9) break;
       subchunks[index] = SubChunk.deserialize(stream, nbt);

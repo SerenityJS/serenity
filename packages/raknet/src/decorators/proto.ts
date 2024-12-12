@@ -67,7 +67,7 @@ function Proto(id: number) {
               const ctype = type as typeof CompoundTag;
 
               // Pull the tag from the class.
-              const tag = (this as never)[name] as CompoundTag;
+              const tag = (this as never)[name] as CompoundTag<unknown>;
 
               // Write the property to the binary stream using the type.
               ctype.write(this, tag, endian as boolean);

@@ -5,9 +5,9 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ComponentItem extends DataType {
   public readonly name: string;
-  public readonly data: CompoundTag;
+  public readonly data: CompoundTag<unknown>;
 
-  public constructor(name: string, data: CompoundTag) {
+  public constructor(name: string, data: CompoundTag<unknown>) {
     super();
     this.name = name;
     this.data = data;

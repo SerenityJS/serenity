@@ -22,7 +22,7 @@ class CustomBlockType extends BlockType {
   /**
    * The NBT data of the custom block type.
    */
-  public readonly vanillaComponents = new CompoundTag("components");
+  public readonly vanillaComponents = new CompoundTag({ name: "components" });
 
   /**
    * The light emission of the block type.
@@ -32,7 +32,7 @@ class CustomBlockType extends BlockType {
     if (!this.vanillaComponents.hasTag("minecraft:light_emission")) return 0;
 
     // Get the destructible by light emission
-    const tag = this.vanillaComponents.getTag<CompoundTag>(
+    const tag = this.vanillaComponents.getTag<CompoundTag<unknown>>(
       "minecraft:light_emission"
     );
 
@@ -45,12 +45,12 @@ class CustomBlockType extends BlockType {
    */
   public set lightEmission(value: number) {
     // Create a compound tag for the destructible by light emission
-    const tag = this.vanillaComponents.createCompoundTag(
-      "minecraft:light_emission"
-    );
+    const tag = this.vanillaComponents.createCompoundTag({
+      name: "minecraft:light_emission"
+    });
 
     // Add the hardness property to the destructible by light emission
-    tag.createByteTag("emission", value);
+    tag.createByteTag({ name: "emission", value });
   }
 
   /**
@@ -61,7 +61,7 @@ class CustomBlockType extends BlockType {
     if (!this.vanillaComponents.hasTag("minecraft:light_dampening")) return 0;
 
     // Get the destructible by light emission
-    const tag = this.vanillaComponents.getTag<CompoundTag>(
+    const tag = this.vanillaComponents.getTag<CompoundTag<unknown>>(
       "minecraft:light_dampening"
     );
 
@@ -74,12 +74,12 @@ class CustomBlockType extends BlockType {
    */
   public set lightDampening(value: number) {
     // Create a compound tag for the destructible by light emission
-    const tag = this.vanillaComponents.createCompoundTag(
-      "minecraft:light_dampening"
-    );
+    const tag = this.vanillaComponents.createCompoundTag({
+      name: "minecraft:light_dampening"
+    });
 
     // Add the hardness property to the destructible by light emission
-    tag.createByteTag("lightLevel", value);
+    tag.createByteTag({ name: "lightLevel", value });
   }
 
   /**
@@ -96,26 +96,27 @@ class CustomBlockType extends BlockType {
     // Check if hardness is defined in the properties.
     if (properties?.hardness) {
       // Create a compound tag for the destructible by mining component.
-      const tag = this.vanillaComponents.createCompoundTag(
-        "minecraft:destructible_by_mining"
-      );
+      const tag = this.vanillaComponents.createCompoundTag({
+        name: "minecraft:destructible_by_mining"
+      });
 
       // Add the hardness property to the destructible by mining component.
-      tag.createFloatTag("value", properties.hardness);
+      tag.createFloatTag({ name: "value", value: properties.hardness });
     }
 
     // Check if friction is defined in the properties.
     if (properties?.friction) {
       // Create a compound tag for the friction component.
-      const tag =
-        this.vanillaComponents.createCompoundTag("minecraft:friction");
+      const tag = this.vanillaComponents.createCompoundTag({
+        name: "minecraft:friction"
+      });
 
       // Add the friction property to the friction component.
-      tag.createFloatTag("value", properties.friction);
+      tag.createFloatTag({ name: "value", value: properties.friction });
     }
   }
 
-  public static toNbt(type: CustomBlockType): CompoundTag {
+  public static toNbt(type: CustomBlockType): CompoundTag<unknown> {
     // Create a root compound tag for the block type.
     const root = new CompoundTag();
 
@@ -123,16 +124,22 @@ class CustomBlockType extends BlockType {
     root.addTag(type.vanillaComponents);
 
     // Create a compound tag for the block data.
-    const vanillaBlockData = root.createCompoundTag("vanilla_block_data");
-    vanillaBlockData.createIntTag("block_id", type.networkId); // The block network ID, this should correspond to a matching item type.
+    const vanillaBlockData = root.createCompoundTag({
+      name: "vanilla_block_data"
+    });
+
+    vanillaBlockData.createIntTag({ name: "block_id", value: type.networkId }); // The block network ID, this should correspond to a matching item type.
 
     // Create a compound tag for creative inventory data.
-    const menuCategoryData = root.createCompoundTag("menu_category");
-    menuCategoryData.createStringTag("category", ItemCategory.Nature); // TODO: Add a property for the creative inventory category.
+    const menuCategoryData = root.createCompoundTag({ name: "menu_category" });
+    menuCategoryData.createStringTag({
+      name: "category",
+      value: ItemCategory.Nature
+    }); // TODO: Add a property for the creative inventory category.
     // menuCategoryData.createStringTag("group", ItemGroup.); // The creative inventory group.
 
     // Create a compound tag for the Molang data.
-    root.createIntTag("molangVersion", 0); // The version of the Molang data, not sure what this indicates on the client end.
+    root.createIntTag({ name: "molangVersion", value: 0 }); // The version of the Molang data, not sure what this indicates on the client end.
 
     // Return the root compound tag.
     return root;

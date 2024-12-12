@@ -3,9 +3,9 @@ import { DataType } from "@serenityjs/raknet";
 import { CompoundTag } from "@serenityjs/nbt";
 
 class NbtLoop extends DataType {
-  public data: CompoundTag | null;
+  public data: CompoundTag<unknown> | null;
 
-  constructor(data: CompoundTag | null) {
+  public constructor(data: CompoundTag<unknown> | null) {
     super();
     this.data = data;
   }
@@ -13,15 +13,13 @@ class NbtLoop extends DataType {
   public static read(stream: BinaryStream): NbtLoop {
     try {
       const buffer = stream.readRemainingBuffer();
-      const wrappedBuffer = new BinaryStream(Buffer.concat([
-        Buffer.from([0x0a, 0x00]),
-        buffer,
-        Buffer.from([0x00])
-      ]));
+      const wrappedBuffer = new BinaryStream(
+        Buffer.concat([Buffer.from([0x0a, 0x00]), buffer, Buffer.from([0x00])])
+      );
       const compound = CompoundTag.read(wrappedBuffer, true);
       return new NbtLoop(compound);
-    } catch (error) {
-      throw new Error(`Error reading NbtLoop: ${(error as Error).message}`);
+    } catch (reason) {
+      throw new Error(`Error reading NbtLoop: ${(reason as Error).message}`);
     }
   }
 
@@ -40,8 +38,8 @@ class NbtLoop extends DataType {
       const unwrappedBuffer = buffer.slice(2, buffer.length - 1);
 
       stream.writeBuffer(unwrappedBuffer);
-    } catch (error) {
-      throw new Error(`Error writing NbtLoop: ${(error as Error).message}`);
+    } catch (reason) {
+      throw new Error(`Error writing NbtLoop: ${(reason as Error).message}`);
     }
   }
 }

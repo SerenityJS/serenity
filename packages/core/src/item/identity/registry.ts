@@ -68,7 +68,7 @@ for (const [index, item] of creative.entries()) {
   const metadata = item.metadata ?? 0;
   // index - creative.findIndex((index_) => index_.network === item.network);
 
-  const nbt = item.extras?.nbt as CompoundTag;
+  const nbt = item.extras?.nbt as CompoundTag<unknown>;
 
   // Create a new item instance descriptor.
   item.metadata = metadata;

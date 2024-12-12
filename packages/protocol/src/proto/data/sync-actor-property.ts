@@ -1,11 +1,13 @@
 import { CompoundTag } from "@serenityjs/nbt";
-import { DataPacket } from "./data-packet";
-import { Packet } from "../../enums";
 import { Proto, Serialize } from "@serenityjs/raknet";
+
+import { Packet } from "../../enums";
+
+import { DataPacket } from "./data-packet";
 
 @Proto(Packet.SyncActorProperty)
 class SyncActorPropertyPacket extends DataPacket {
-  @Serialize(CompoundTag, true) public properties!: CompoundTag;
+  @Serialize(CompoundTag, true) public properties!: CompoundTag<unknown>;
 }
 
 export { SyncActorPropertyPacket };

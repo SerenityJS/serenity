@@ -1176,42 +1176,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream-darwin-arm64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@serenityjs/binarystream-darwin-arm64@npm:2.6.6"
+"@serenityjs/binarystream-darwin-arm64@npm:2.7.0":
+  version: 2.7.0
+  resolution: "@serenityjs/binarystream-darwin-arm64@npm:2.7.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream-darwin-x64@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@serenityjs/binarystream-darwin-x64@npm:2.6.6"
+"@serenityjs/binarystream-darwin-x64@npm:2.7.0":
+  version: 2.7.0
+  resolution: "@serenityjs/binarystream-darwin-x64@npm:2.7.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream-linux-x64-gnu@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@serenityjs/binarystream-linux-x64-gnu@npm:2.6.6"
+"@serenityjs/binarystream-linux-x64-gnu@npm:2.7.0":
+  version: 2.7.0
+  resolution: "@serenityjs/binarystream-linux-x64-gnu@npm:2.7.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream-win32-x64-msvc@npm:2.6.6":
-  version: 2.6.6
-  resolution: "@serenityjs/binarystream-win32-x64-msvc@npm:2.6.6"
+"@serenityjs/binarystream-win32-x64-msvc@npm:2.7.0":
+  version: 2.7.0
+  resolution: "@serenityjs/binarystream-win32-x64-msvc@npm:2.7.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream@npm:2.6.6, @serenityjs/binarystream@npm:^2.6.6":
-  version: 2.6.6
-  resolution: "@serenityjs/binarystream@npm:2.6.6"
+"@serenityjs/binarystream@npm:2.7.0, @serenityjs/binarystream@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@serenityjs/binarystream@npm:2.7.0"
   dependencies:
-    "@serenityjs/binarystream-darwin-arm64": "npm:2.6.6"
-    "@serenityjs/binarystream-darwin-x64": "npm:2.6.6"
-    "@serenityjs/binarystream-linux-x64-gnu": "npm:2.6.6"
-    "@serenityjs/binarystream-win32-x64-msvc": "npm:2.6.6"
+    "@serenityjs/binarystream-darwin-arm64": "npm:2.7.0"
+    "@serenityjs/binarystream-darwin-x64": "npm:2.7.0"
+    "@serenityjs/binarystream-linux-x64-gnu": "npm:2.7.0"
+    "@serenityjs/binarystream-win32-x64-msvc": "npm:2.7.0"
   dependenciesMeta:
     "@serenityjs/binarystream-darwin-arm64":
       optional: true
@@ -1221,7 +1221,7 @@ __metadata:
       optional: true
     "@serenityjs/binarystream-win32-x64-msvc":
       optional: true
-  checksum: 10c0/f310f56adeb6695cdd9e40a9c72c402d63dce76b64c7bd110bd79cdfd6032de99a2f1199308c6d264c82cb91f9eea93791e56cfae50498e3e613270eb0376e28
+  checksum: 10c0/d105c2e404418ea59f27e65f8ba6e3c5cdac720399a254ec68621784f85b2360b7ba4255ea1bb9555a3546c4e3272fede31108591d7c0d06eea219c9971c847f
   languageName: node
   linkType: hard
 
@@ -1229,7 +1229,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/core@workspace:packages/core"
   dependencies:
-    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/binarystream": "npm:2.7.0"
     "@serenityjs/data": "npm:*"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/internal-config": "npm:*"
@@ -1355,7 +1355,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
-    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/binarystream": "npm:^2.7.0"
     "@serenityjs/internal-config": "npm:*"
     "@swc/core": "npm:1.7.42"
     "@types/node": "npm:22.8.6"
@@ -1369,7 +1369,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/plugins@workspace:packages/plugins"
   dependencies:
-    "@serenityjs/binarystream": "npm:^2.6.6"
+    "@serenityjs/binarystream": "npm:^2.7.0"
     "@serenityjs/core": "npm:*"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/logger": "npm:*"
@@ -1386,7 +1386,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/protocol@workspace:packages/protocol"
   dependencies:
-    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/binarystream": "npm:2.7.0"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/nbt": "npm:*"
     "@serenityjs/raknet": "npm:*"
@@ -1402,7 +1402,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/raknet@workspace:packages/raknet"
   dependencies:
-    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/binarystream": "npm:^2.7.0"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/logger": "npm:*"
@@ -3148,7 +3148,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dev-app@workspace:devapp"
   dependencies:
-    "@serenityjs/binarystream": "npm:2.6.6"
+    "@serenityjs/binarystream": "npm:2.7.0"
     "@serenityjs/core": "npm:*"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/logger": "npm:*"

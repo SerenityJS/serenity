@@ -261,8 +261,7 @@ class BlockStorage {
         const permutation = BlockPermutation.fromNbt(data);
 
         // Check if the permutation exists
-        if (!permutation)
-          throw new Error(`Unknown permutation state: ${data.valueOf(true)}`);
+        if (!permutation) throw new Error(`Unknown permutation state: ${data}`);
 
         // Assign the permutation to the palette
         palette[index] = permutation.network;

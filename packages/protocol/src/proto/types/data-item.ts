@@ -152,7 +152,7 @@ class DataItem<T = unknown> extends DataType {
         }
 
         case ActorDataType.CompoundTag: {
-          CompoundTag.write(stream, item.value as CompoundTag);
+          CompoundTag.write(stream, item.value as CompoundTag<unknown>);
           break;
         }
 

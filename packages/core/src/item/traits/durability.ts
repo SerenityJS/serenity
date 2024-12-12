@@ -47,7 +47,7 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       this.item.nbt.set("Damage", damage);
     } else {
       // Create the Damage tag with the specified value
-      this.item.nbt.add(new IntTag("Damage", value));
+      this.item.nbt.add(new IntTag({ name: "Damage", value }));
     }
   }
 
@@ -84,7 +84,7 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     // Check if the item has the Damage tag
     if (!this.item.nbt.has("Damage")) {
       // Create the Damage tag with an initial value of 0
-      const damage = new IntTag("Damage", 0);
+      const damage = new IntTag({ name: "Damage", value: 0 });
 
       // Set the Damage tag on the item stack's NBT
       this.item.nbt.add(damage);

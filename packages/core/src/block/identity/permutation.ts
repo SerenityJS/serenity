@@ -143,11 +143,14 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   }
 
   public static toNbt(permutation: BlockPermutation): CompoundTag<unknown> {
-    const nbt = new CompoundTag("", {});
+    const nbt = new CompoundTag({ name: "", value: {} });
 
-    const name = new StringTag("name", permutation.type.identifier);
+    const name = new StringTag({
+      name: "name",
+      value: permutation.type.identifier
+    });
 
-    const states = new CompoundTag("states", {});
+    const states = new CompoundTag({ name: "states", value: {} });
 
     const keys = Object.keys(permutation.state);
     const values = Object.values(permutation.state);
@@ -157,17 +160,17 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 
       switch (typeof value) {
         case "number": {
-          states.addTag(new IntTag(key, value));
+          states.addTag(new IntTag({ name: key, value }));
           break;
         }
 
         case "string": {
-          states.addTag(new StringTag(key, value));
+          states.addTag(new StringTag({ name: key, value }));
           break;
         }
 
         case "boolean": {
-          states.addTag(new ByteTag(key, value ? 1 : 0));
+          states.addTag(new ByteTag({ name: key, value: value ? 1 : 0 }));
           break;
         }
       }

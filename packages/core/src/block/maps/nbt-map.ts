@@ -1,9 +1,9 @@
-import { CompoundTag, NBTTag } from "@serenityjs/nbt";
+import { CompoundTag, Tag } from "@serenityjs/nbt";
 import { BlockActorDataPacket } from "@serenityjs/protocol";
 
 import { Block } from "../block";
 
-class NbtMap extends Map<string, NBTTag> {
+class NbtMap extends Map<string, Tag> {
   /**
    * The block in which the NBT data is attached to.
    */
@@ -18,7 +18,7 @@ class NbtMap extends Map<string, NBTTag> {
     this.block = block;
   }
 
-  public add(value: NBTTag): this {
+  public add(value: Tag): this {
     // Call the super method
     super.set(value.name, value);
 
@@ -29,7 +29,7 @@ class NbtMap extends Map<string, NBTTag> {
     return this;
   }
 
-  public set(key: string, value: NBTTag): this {
+  public set(key: string, value: Tag): this {
     // Call the super method
     super.set(key, value);
 

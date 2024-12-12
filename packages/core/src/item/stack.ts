@@ -376,9 +376,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
       // Check if the other value exists.
       if (!otherValue) return false;
 
-      // Get the snbt values of the nbt.
-      const snbt = value.valueOf(true) as string;
-      const otherSnbt = otherValue.valueOf(true) as string;
+      // // Get the snbt values of the nbt.
+      const snbt = JSON.stringify(value.toJSON());
+      const otherSnbt = JSON.stringify(otherValue.toJSON());
 
       // Check if the nbt values are equal.
       if (snbt !== otherSnbt) return false;

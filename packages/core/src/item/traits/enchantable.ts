@@ -1,4 +1,4 @@
-import { CompoundTag, ListTag, ShortTag, Tag } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, ShortTag, TagType } from "@serenityjs/nbt";
 import { Enchantment } from "@serenityjs/protocol";
 
 import { ItemIdentifier } from "../../enums";
@@ -73,8 +73,8 @@ class ItemEnchantableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       const value = new CompoundTag<EnchantmentValue>();
 
       // Set the enchantment value's id and level
-      value.createShortTag("id", id);
-      value.createShortTag("lvl", level);
+      value.createShortTag({ name: "id", value: id });
+      value.createShortTag({ name: "lvl", value: level });
 
       // Add the enchantment value to the list tag
       ench.push(value);
@@ -96,7 +96,11 @@ class ItemEnchantableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     // Check if the item has the enchantment list tag
     if (!this.item.nbt.has("ench")) {
       // Create the enchantment list tag
-      const ench = new ListTag("ench", [], Tag.Compound);
+      const ench = new ListTag({
+        name: "ench",
+        value: [],
+        listType: TagType.Compound
+      });
 
       // Add the enchantment list tag to the item stack's NBT
       this.item.nbt.add(ench);

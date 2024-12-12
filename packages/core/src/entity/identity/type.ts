@@ -87,16 +87,16 @@ class EntityType {
     return [...EntityType.types.values()];
   }
 
-  public static toNbt(type: EntityType): CompoundTag {
+  public static toNbt(type: EntityType): CompoundTag<unknown> {
     // Create a root compound tag for the entity type.
     const root = new CompoundTag();
 
     // Create a compound tag for the entity data.
-    root.createStringTag("bid", "");
-    root.createByteTag("hasspawnegg", 1);
-    root.createStringTag("id", type.identifier);
-    root.createIntTag("rid", type.network);
-    root.createByteTag("summonable", 1);
+    root.createStringTag({ name: "bid", value: "" });
+    root.createByteTag({ name: "hasspawnegg", value: 1 });
+    root.createStringTag({ name: "id", value: type.identifier });
+    root.createIntTag({ name: "rid", value: type.network });
+    root.createByteTag({ name: "summonable", value: 1 });
 
     // Return the root compound tag.
     return root;

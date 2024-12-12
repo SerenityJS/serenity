@@ -12,11 +12,11 @@ function hash(
   const values = Object.values(state);
 
   // Create a new compound tag with the name of the identifier.
-  const root = new CompoundTag("", {});
-  root.addTag(new StringTag("name", identifier));
+  const root = new CompoundTag({ name: "", value: {} });
+  root.addTag(new StringTag({ name: "name", value: identifier }));
 
   // Create a new compound tag with the name of "states".
-  const states = new CompoundTag("states", {});
+  const states = new CompoundTag({ name: "states", value: {} });
 
   // Loop through each key and value in the state object.
   for (const [index, key] of keys.entries()) {
@@ -24,17 +24,17 @@ function hash(
 
     switch (typeof value) {
       case "number": {
-        states.addTag(new IntTag(key, value));
+        states.addTag(new IntTag({ name: key, value }));
         break;
       }
 
       case "string": {
-        states.addTag(new StringTag(key, value));
+        states.addTag(new StringTag({ name: key, value }));
         break;
       }
 
       case "boolean": {
-        states.addTag(new ByteTag(key, value ? 1 : 0));
+        states.addTag(new ByteTag({ name: key, value: value ? 1 : 0 }));
         break;
       }
     }
