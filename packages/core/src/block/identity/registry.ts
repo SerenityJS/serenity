@@ -21,20 +21,12 @@ for (const type of BLOCK_TYPES) {
   // Find the block drops for the block type.
   const drop = BLOCK_DROPS.find((drop) => drop.identifier === type.identifier);
 
-  // Find the metadata for the block type.
-  const metadata = BLOCK_METADATA.find(
-    (meta) => meta.identifier === type.identifier
-  ) ?? { hardness: 0, friction: 0, mapColor: "" };
-
   // Register the block type.
   const instance = new BlockType(type.identifier as BlockIdentifier, {
     loggable: type.loggable,
     air: type.air,
     liquid: type.liquid,
     solid: type.solid,
-    hardness: metadata.hardness,
-    friction: metadata.friction,
-    color: metadata.mapColor,
     components: type.components,
     tags: type.tags
   });
@@ -69,12 +61,23 @@ for (const permutation of BLOCK_PERMUTATIONS) {
     throw new Error(`Block type ${permutation.identifier} does not exist`);
   }
 
+  // Find the metadata for the block type.
+  const metadata = BLOCK_METADATA.find(
+    (meta) => meta.identifier === type.identifier
+  ) ?? { hardness: 0, friction: 0, mapColor: "" };
+
   // Create a new block permutation.
-  const instance = new BlockPermutation(
-    permutation.hash,
-    permutation.state as never,
-    type
-  );
+  // const instance = new BlockPermutation(
+  //   permutation.hash,
+  //   permutation.state as never,
+  //   type
+  // );
+  const instance = BlockPermutation.create(type, permutation.state);
+
+  // Assign the block permutation properties.
+  instance.properties.hardness = metadata.hardness;
+  // instance.components.friction = metadata.friction;
+  // instance.components.color = metadata.mapColor;
 
   // Register the block permutation.
   type.permutations.push(instance);

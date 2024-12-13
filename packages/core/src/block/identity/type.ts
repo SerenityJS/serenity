@@ -1,5 +1,12 @@
+import { CompoundTag } from "@serenityjs/nbt";
+
+import { CustomBlockType } from "../..";
 import { BlockIdentifier } from "../../enums";
-import { BlockState, BlockTypeProperties } from "../../types";
+import {
+  BlockState,
+  BlockTypeProperties,
+  CustomBlockTypeVanillaNbt
+} from "../../types";
 
 import { ItemDrop } from "./drops";
 
@@ -10,9 +17,6 @@ const DefaultBlockTypeProperties: BlockTypeProperties = {
   air: false,
   liquid: false,
   solid: false,
-  hardness: 0,
-  friction: 0,
-  color: "",
   components: [],
   tags: [],
   drops: [],
@@ -70,21 +74,6 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   public readonly solid: boolean;
 
   /**
-   * The hardness of the block type.
-   */
-  public readonly hardness: number;
-
-  /**
-   * The friction of the block type.
-   */
-  public readonly friction: number;
-
-  /**
-   * The map color of the block type.
-   */
-  public readonly color: string;
-
-  /**
    * The default components of the block type.
    */
   public readonly components: Array<string> = [];
@@ -105,6 +94,11 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   public readonly permutations: Array<BlockPermutation> = [];
 
   /**
+   * The NBT data of the custom block type.
+   */
+  public readonly nbt = new CompoundTag<Partial<CustomBlockTypeVanillaNbt>>();
+
+  /**
    * Create a new block type.
    * @param identifier The identifier of the block type.
    * @param properties The properties of the block type.
@@ -121,9 +115,6 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     this.air = props.air;
     this.liquid = props.liquid;
     this.solid = props.solid;
-    this.hardness = props.hardness;
-    this.friction = props.friction;
-    this.color = props.color;
     this.components = [...props.components, ...this.components];
     this.tags = [...props.tags, ...this.tags];
     this.drops = [...props.drops, ...this.drops];
@@ -145,6 +136,10 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 
     // Return the default permutation if the state is not found.
     return this.permutations[0] as BlockPermutation<T>;
+  }
+
+  public isCustom(): this is CustomBlockType {
+    return this.custom;
   }
 
   /**

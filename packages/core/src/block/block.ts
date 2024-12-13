@@ -370,11 +370,11 @@ class Block {
    * @returns The tool required to break the block.
    */
   public isToolCompatible(_itemStack: ItemStack): boolean {
-    // Get the block type.
-    const blockType = this.type;
+    // Get the block permutation properties
+    const properties = this.permutation.properties;
 
     // If the hardness is less than 0, no tool is compatible.
-    if (blockType.hardness < 0) return false;
+    if (properties.hardness < 0) return false;
 
     // Check if the tool type is none.
     if (this.getToolType() === BlockToolType.None) return true;
@@ -388,11 +388,11 @@ class Block {
    * @returns The time it takes to break the block.
    */
   public getBreakTime(itemStack?: ItemStack | null): number {
-    // Get the type of the block.
-    const type = this.type;
+    // Get the block permutation properties.
+    const properties = this.permutation.properties;
 
     // Get the hardness of the block.
-    let hardness = type.hardness;
+    let hardness = properties.hardness;
 
     if (!itemStack && this.getToolType() === BlockToolType.None) {
       hardness *= 1.5;
@@ -527,8 +527,9 @@ class Block {
   /**
    * Forces a player to interact with the block.
    * @param player The player to interact with the block.
+   * @param initial Whether the interaction is the initial interaction.
    */
-  public interact(player: Player): boolean {
+  public interact(player: Player, initial: boolean): boolean {
     const signal = new PlayerInteractWithBlockSignal(
       player,
       this,
@@ -541,7 +542,7 @@ class Block {
     // Call the block onInteract trait methods
     for (const trait of this.traits.values()) {
       // Call the onInteract method of the trait
-      const result = trait.onInteract?.(player);
+      const result = trait.onInteract?.(player, initial);
 
       // Return false if the result is false
       if (result === false) return false;

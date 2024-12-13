@@ -1,24 +1,5 @@
-import {
-  Serenity,
-  LevelDBProvider,
-  CustomBlockType,
-  CustomItemType,
-  WorldEvent,
-  BlockPermutation
-} from "@serenityjs/core";
+import { Serenity, LevelDBProvider } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
-
-const block = new CustomBlockType("serenityjs:custom_block", {
-  friction: 0.4,
-  hardness: 0.5,
-  solid: true
-});
-
-BlockPermutation.create(block, {});
-
-const item = new CustomItemType("serenityjs:custom_block", {
-  block
-});
 
 // Create a new Serenity instance
 const serenity = new Serenity({
@@ -26,11 +7,6 @@ const serenity = new Serenity({
   permissions: "./permissions.json",
   resourcePacks: "./resource_packs",
   debugLogging: true
-});
-
-serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
-  world.blockPalette.registerType(block);
-  world.itemPalette.registerType(item);
 });
 
 // Create a new plugin pipeline

@@ -8,9 +8,6 @@ interface BlockTypeProperties {
   air: boolean;
   liquid: boolean;
   solid: boolean;
-  hardness: number;
-  friction: number;
-  color: string;
   components: Array<string>;
   tags: Array<string>;
   drops: Array<ItemDrop>;
