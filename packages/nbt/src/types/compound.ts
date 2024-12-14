@@ -25,10 +25,10 @@ class CompoundTag<T> extends Tag<GenericCompound<T>> {
 
   public value: T = {} as T;
 
-  public constructor(properties: Partial<TagProperties<T>>) {
+  public constructor(properties?: Partial<TagProperties<T>>) {
     super(properties);
 
-    this.value = properties.value ?? ({} as T);
+    this.value = properties?.value ?? ({} as T);
   }
 
   public hasTag(name: string): boolean {
