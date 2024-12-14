@@ -26,11 +26,12 @@ class ListTag<T extends Tag> extends Tag<GenericList<T>> {
   ) {
     super(properties);
 
+    this.value = properties.value ?? [];
     this.listType = properties.listType;
   }
 
-  public push(tag: T): void {
-    this.value.push(tag);
+  public push(...tag: Array<T>): void {
+    this.value.push(...tag);
   }
 
   public static read<T extends Tag>(

@@ -420,17 +420,21 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const actors = new AvailableActorIdentifiersPacket();
         actors.data = new CompoundTag();
 
-        // Map the entities to the packet
-        const entities = world.entityPalette
-          .getAllTypes()
-          .map((entity) => EntityType.toNbt(entity));
-
         // Create a new list tag for the entities
-        actors.data.createListTag({
+        const list = actors.data.createListTag<CompoundTag<unknown>>({
           name: "idlist",
-          value: entities,
+          value: [],
           listType: TagType.Compound
         });
+
+        // Push all the entity types to the list
+        for (const entry of world.entityPalette.getAllTypes()) {
+          // Create a new compound tag for the entity
+          const entity = EntityType.toNbt(entry);
+
+          // Push the entity to the list
+          list.value.push(entity);
+        }
 
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
