@@ -37,7 +37,7 @@ import { Form } from "./form";
 	  .catch((rejected) => {})
 	```
  */
-class ModalForm<T = unknown> extends Form<Array<T>> {
+class ModalForm<T = Array<unknown>> extends Form<T> {
   public readonly type = ModalFormType.Modal;
 
   /**
