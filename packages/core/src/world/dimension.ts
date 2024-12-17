@@ -459,8 +459,37 @@ class Dimension {
    * Gets all the players in the dimension.
    * @returns An array of players.
    */
-  public getPlayers(): Array<Player> {
-    return [...this.entities.values()].filter((entity) => entity.isPlayer());
+  public getPlayers(options?: EntityQueryOptions): Array<Player> {
+    // return [...this.entities.values()].filter((entity) => entity.isPlayer());
+    // Get all the entities in the dimension that are players
+    const players = [...this.entities.values()].filter((entity) =>
+      entity.isPlayer()
+    );
+
+    // Check if there are no options provided
+    if (!options) return players;
+
+    // Get the position, max distance, and min distance from the options
+    const position = options.position ?? { x: 0, y: 0, z: 0 };
+    const maxDistance = options.maxDistance ?? 0;
+    const minDistance = options.minDistance ?? 0;
+
+    // Filter the players based on the options
+    return players.filter((player, index) => {
+      // Check if the count is reached
+      if (options.count && options.count <= index) return false;
+
+      // Check if the player is within the maximum distance
+      if (maxDistance > 0 && player.position.distance(position) > maxDistance)
+        return false;
+
+      // Check if the player is within the minimum distance
+      if (minDistance > 0 && player.position.distance(position) < minDistance)
+        return false;
+
+      // Return the player
+      return true;
+    });
   }
 
   /**
@@ -492,7 +521,10 @@ class Dimension {
     const minDistance = options.minDistance ?? 0;
 
     // Filter the entities based on the options
-    return [...this.entities.values()].filter((entity) => {
+    return [...this.entities.values()].filter((entity, index) => {
+      // Check if the count is reached
+      if (options.count && options.count <= index) return false;
+
       // Check if the entity is within the maximum distance
       if (maxDistance > 0 && entity.position.distance(position) > maxDistance)
         return false;
@@ -686,6 +718,7 @@ class Dimension {
 
   /**
    * Broadcast packets to all the players in the dimension immediately.
+   * This will bypass the RakNet queue and send the packets immediately.
    * @param packets The packets to broadcast.
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {

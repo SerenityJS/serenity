@@ -133,7 +133,8 @@ import type {
   CommandBlockUpdatePacket,
   ShowProfilePacket,
   DebugInfoPacket,
-  ClientBoundDebugRendererPacket
+  ClientBoundDebugRendererPacket,
+  CorrectPlayerMovePredictionPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -293,6 +294,9 @@ interface NetworkEvents {
     NetworkPacketEvent<PacketViolationWarningPacket>
   ];
   [Packet.AnimateEntity]: [NetworkPacketEvent<AnimateEntityPacket>];
+  [Packet.CorrectPlayerMovePrediction]: [
+    NetworkPacketEvent<CorrectPlayerMovePredictionPacket>
+  ];
   [Packet.ItemComponent]: [NetworkPacketEvent<ItemComponentPacket>];
   [Packet.ClientBoundDebugRenderer]: [
     NetworkPacketEvent<ClientBoundDebugRendererPacket>

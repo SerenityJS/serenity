@@ -388,7 +388,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.worldName = player.dimension.world.identifier;
         packet.premiumWorldTemplateId = "00000000-0000-0000-0000-000000000000";
         packet.isTrial = false;
-        packet.movementAuthority = 1;
+        packet.movementAuthority = 2;
         packet.rewindHistorySize = 0;
         packet.serverAuthoritativeBlockBreaking = true;
         packet.currentTick = player.dimension.world.currentTick;

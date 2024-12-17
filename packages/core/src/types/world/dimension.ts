@@ -11,6 +11,11 @@ interface DimensionProperties {
 
 interface EntityQueryOptions {
   /**
+   * Limit the number of entities to query.
+   */
+  count?: number;
+
+  /**
    * The seed position to query entities from.
    */
   position?: Vector3f;

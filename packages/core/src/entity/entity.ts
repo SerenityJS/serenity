@@ -155,6 +155,11 @@ class Entity {
   public isMoving = false;
 
   /**
+   * Whether the entity is falling or not.
+   */
+  public isFalling = false;
+
+  /**
    * Whether the entity is on the ground or not.
    */
   public onGround = false;

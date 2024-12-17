@@ -126,6 +126,7 @@ export * from "./serverbound-diagnostics";
 export * from "./set-actor-link";
 export * from "./stop-sound";
 export * from "./player-fog";
+export * from "./correct-player-move-prediction";
 export * from "./current-structure-feature";
 export * from "./game-rules-changed";
 export * from "./legacy-telemetry-event";

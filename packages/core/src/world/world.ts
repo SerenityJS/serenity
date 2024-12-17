@@ -359,14 +359,28 @@ class World extends Emitter<WorldEventSignals> {
     return schedule;
   }
 
+  /**
+   * Sends a packet to all players in the world.
+   * @param packets
+   */
   public broadcast(...packets: Array<DataPacket>): void {
     for (const player of this.getPlayers()) player.send(...packets);
   }
 
+  /**
+   * Sends a packet to all players in the world immediately.
+   * This will bypass the RakNet queue and send the packet immediately.
+   * @param packets The packets to send.
+   */
   public broadcastImmediate(...packets: Array<DataPacket>): void {
     for (const player of this.getPlayers()) player.sendImmediate(...packets);
   }
 
+  /**
+   * Sends a packet to all players in the world except for the specified player.
+   * @param player The player to exclude from the broadcast.
+   * @param packets The packets to send.
+   */
   public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
     for (const other of this.getPlayers())
       if (other !== player) other.send(...packets);

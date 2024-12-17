@@ -2,6 +2,7 @@ import {
   AbilityIndex,
   ActorFlag,
   BlockPosition,
+  CorrectPlayerMovePredictionPacket,
   Gamemode,
   InputData,
   ItemStackRequestActionMineBlock,
@@ -12,9 +13,11 @@ import {
   PlayerActionType,
   PlayerAuthInputPacket,
   PlayerBlockActionData,
+  PredictionType,
   UpdateBlockFlagsType,
   UpdateBlockLayerType,
-  UpdateBlockPacket
+  UpdateBlockPacket,
+  Vector3f
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
@@ -31,15 +34,32 @@ import {
 class PlayerAuthInputHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAuthInput;
 
+  /**
+   * The max amount of block the player can move before the server will rewind the player
+   */
+  public static rewindMovementThreshold = 0.4;
+
   public handle(packet: PlayerAuthInputPacket, connection: Connection): void {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
+    // Validate the player's motion
+    if (!this.validatePlayerMotion(player, packet.positionDelta)) {
+      // Create a new CorrectPlayerMovePredictionPacket
+      const rewind = new CorrectPlayerMovePredictionPacket();
+      rewind.prediction = PredictionType.Player;
+      rewind.position = player.position;
+      rewind.velocity = new Vector3f(0, 0, 0);
+      rewind.onGround = player.onGround;
+      rewind.inputTick = packet.inputTick;
+
+      // Send the packet to the player
+      return player.sendImmediate(rewind);
+    }
+
     // Set the player's position
-    player.position.x = packet.position.x;
-    player.position.y = packet.position.y;
-    player.position.z = packet.position.z;
+    player.position.set(packet.position);
 
     // Set the player's rotation
     player.rotation.pitch = packet.rotation.x;
@@ -99,6 +119,37 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
     // Handle the player's actions
     this.handleActorActions(player, packet.inputData.getFlags());
+  }
+
+  /**
+   * Validates the player's motion
+   * @param player The player to validate the motion for
+   * @param delta The delta position of the player
+   * @returns True if the player's motion is valid, false otherwise
+   */
+  public validatePlayerMotion(player: Player, delta: Vector3f): boolean {
+    // Check if the player is flying, if so the movement is valid.
+    if (player.abilities.get(AbilityIndex.Flying)) return true;
+
+    // Check if the delta x is greater than the movement threshold
+    if (Math.abs(delta.x) >= PlayerAuthInputHandler.rewindMovementThreshold)
+      return false;
+
+    // Check if the delta y is greater than the movement threshold
+    if (Math.abs(delta.y) >= PlayerAuthInputHandler.rewindMovementThreshold) {
+      // Check if the player is falling, if so the movement is valid.
+      if (player.isFalling) return true;
+
+      // Return false, as the movement is invalid
+      return false;
+    }
+
+    // Check if the delta z is greater than the movement threshold
+    if (Math.abs(delta.z) >= PlayerAuthInputHandler.rewindMovementThreshold)
+      return false;
+
+    // Return true, as the movement is valid
+    return true;
   }
 
   /**

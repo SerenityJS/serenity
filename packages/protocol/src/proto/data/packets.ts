@@ -136,6 +136,7 @@ import { CommandBlockUpdatePacket } from "./command-block-update";
 import { ShowProfilePacket } from "./show-profile";
 import { DebugInfoPacket } from "./debug-info";
 import { ClientBoundDebugRendererPacket } from "./client-bound-debug-renderer";
+import { CorrectPlayerMovePredictionPacket } from "./correct-player-move-prediction";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -245,6 +246,7 @@ const Packets = {
   [Packet.AnimateEntity]: AnimateEntityPacket, // 158
   [Packet.CameraShake]: CameraShakePacket, // 159
   [Packet.PlayerFog]: PlayerFogPacket, // 160
+  [Packet.CorrectPlayerMovePrediction]: CorrectPlayerMovePredictionPacket, // 161
   [Packet.ItemComponent]: ItemComponentPacket, // 162
   [Packet.ClientBoundDebugRenderer]: ClientBoundDebugRendererPacket, // 163
   [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
