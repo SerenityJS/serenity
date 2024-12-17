@@ -103,6 +103,13 @@ class Block {
   }
 
   /**
+   * Gets the current world the block is in.
+   */
+  public get world(): World {
+    return this.dimension.world;
+  }
+
+  /**
    * Gets the chunk the block is in.
    * @returns The chunk the block is in.
    */
@@ -143,17 +150,17 @@ class Block {
     chunk.setPermutation(this.position, permutation);
 
     // Check if the entry is provided.
-    if (entry) this.loadDataEntry(this.getWorld(), entry);
+    if (entry) this.loadDataEntry(this.world, entry);
 
     // Get the traits from the block palette
-    const traits = this.getWorld().blockPalette.getRegistry(
+    const traits = this.world.blockPalette.getRegistry(
       permutation.type.identifier
     );
 
     // Fetch any traits that apply to the base type components
     for (const identifier of permutation.type.components) {
       // Get the trait from the block palette using the identifier
-      const trait = this.getWorld().blockPalette.getTrait(identifier);
+      const trait = this.world.blockPalette.getTrait(identifier);
 
       // Check if the trait exists
       if (trait) traits.push(trait);
@@ -162,7 +169,7 @@ class Block {
     // Fetch any traits that are block state specific
     for (const key of Object.keys(permutation.state)) {
       // Iterate over the trait in the registry.
-      for (const trait of this.getWorld().blockPalette.getAllTraits()) {
+      for (const trait of this.world.blockPalette.getAllTraits()) {
         // Check if the trait identifier matches the key
         if (trait.identifier === key) {
           // Add the trait to the traits list
@@ -197,10 +204,6 @@ class Block {
       // Set the block in the cache.
       this.dimension.blocks.set(hash, this);
     }
-  }
-
-  public getWorld() {
-    return this.dimension.world;
   }
 
   /**
@@ -313,8 +316,8 @@ class Block {
       return this.traits.get(trait.identifier) as InstanceType<T>;
 
     // Check if the trait is in the palette
-    if (!this.getWorld().blockPalette.traits.has(trait.identifier))
-      this.getWorld().logger.warn(
+    if (!this.world.blockPalette.traits.has(trait.identifier))
+      this.world.logger.warn(
         `Trait "§c${trait.identifier}§r" was added to block "§d${this.type.identifier}§r:§d${JSON.stringify(this.position)}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
       );
 
@@ -412,7 +415,7 @@ class Block {
    */
   public getItemStack(properties?: Partial<ItemStackProperties>): ItemStack {
     // Get the itemPalette from the world.
-    const palette = this.getWorld().itemPalette;
+    const palette = this.world.itemPalette;
 
     // Get the item type of the block.
     const type = palette.resolveType(this.type) as ItemType;

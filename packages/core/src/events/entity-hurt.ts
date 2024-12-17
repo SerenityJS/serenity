@@ -34,7 +34,7 @@ class EntityHurtSignal extends EventSignal {
     cause?: ActorDamageCause,
     damagingEntity?: Entity
   ) {
-    super(hurtEntity.getWorld());
+    super(hurtEntity.world);
     this.hurtEntity = hurtEntity;
     this.damagingEntity = damagingEntity;
     this.damage = damage;

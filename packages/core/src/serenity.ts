@@ -236,9 +236,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Disconnect all players
     for (const player of this.players.values()) {
       // Write the player data to the world provider
-      player
-        .getWorld()
-        .provider.writePlayer(player.getDataEntry(), player.dimension);
+      player.world.provider.writePlayer(
+        player.getDataEntry(),
+        player.dimension
+      );
 
       // Disconnect the player from the server
       player.disconnect("Server closed.");

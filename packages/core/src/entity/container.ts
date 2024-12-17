@@ -32,7 +32,7 @@ class EntityContainer extends Container {
     super.setItem(slot, itemStack);
 
     // Set the world in the item stack if it doesn't exist
-    if (!itemStack.world) itemStack.world = this.entity.getWorld();
+    if (!itemStack.world) itemStack.world = this.entity.world;
     itemStack.initialize();
 
     // Update the container if the entity is a player
@@ -58,12 +58,10 @@ class EntityContainer extends Container {
         trait.onContainerUpdate?.(this);
       } catch (reason) {
         // Log the error to the console
-        this.entity
-          .getWorld()
-          .logger.error(
-            `Failed to trigger onContainerUpdate trait event for entity "${this.entity.type.identifier}:${this.entity.uniqueId}" in dimension "${this.entity.dimension.identifier}"`,
-            reason
-          );
+        this.entity.world.logger.error(
+          `Failed to trigger onContainerUpdate trait event for entity "${this.entity.type.identifier}:${this.entity.uniqueId}" in dimension "${this.entity.dimension.identifier}"`,
+          reason
+        );
 
         // Remove the trait from the entity
         this.entity.traits.delete(trait.identifier);

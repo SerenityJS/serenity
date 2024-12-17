@@ -19,7 +19,7 @@ class EffectRemoveSignal extends EventSignal {
   public readonly effect: EffectType;
 
   public constructor(entity: Entity, effect: EffectType) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.effect = effect;
   }

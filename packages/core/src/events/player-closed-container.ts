@@ -23,7 +23,7 @@ class PlayerClosedContainerSignal extends EventSignal {
    * @param container The container that was closed by the player.
    */
   public constructor(player: Player, container: Container) {
-    super(player.getWorld());
+    super(player.world);
     this.player = player;
     this.container = container;
   }

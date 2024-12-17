@@ -17,7 +17,7 @@ class EntityHitSignal extends EventSignal {
   public readonly damagingEntity: Entity;
 
   public constructor(damagingEntity: Entity, hitEntity: Entity) {
-    super(damagingEntity.getWorld());
+    super(damagingEntity.world);
     this.damagingEntity = damagingEntity;
     this.hitEntity = hitEntity;
   }

@@ -226,7 +226,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           const entry = stack.components.get("block_data") as BlockEntry;
 
           // Set the block data entry to the block
-          result.loadDataEntry(result.getWorld(), entry);
+          result.loadDataEntry(result.world, entry);
 
           // Set the permutation of the block with the block data
           result.setPermutation(permutation, entry);

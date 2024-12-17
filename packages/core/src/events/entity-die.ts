@@ -28,7 +28,7 @@ class EntityDieSignal extends EventSignal {
     damagingEntity?: Entity,
     damageCause?: ActorDamageCause
   ) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.damagingEntity = damagingEntity;
     this.damageCause = damageCause;

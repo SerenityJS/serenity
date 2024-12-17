@@ -35,7 +35,7 @@ class PlayerInteractWithBlockSignal extends EventSignal {
     beforeItemStack: ItemStack | null,
     itemStack: ItemStack | null
   ) {
-    super(source.getWorld());
+    super(source.world);
     this.source = source;
     this.block = block;
     this.beforeItemStack = beforeItemStack;

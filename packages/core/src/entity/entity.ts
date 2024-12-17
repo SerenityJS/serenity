@@ -396,6 +396,13 @@ class Entity {
   }
 
   /**
+   * The current world the entity is in.
+   */
+  public get world(): World {
+    return this.dimension.world;
+  }
+
+  /**
    * Checks if the entity is a player.
    * @returns Whether or not the entity is a player.
    */
@@ -558,8 +565,8 @@ class Entity {
       return this.getTrait(trait.identifier) as InstanceType<T>;
 
     // Check if the trait is in the palette
-    if (!this.getWorld().entityPalette.traits.has(trait.identifier))
-      this.getWorld().logger.warn(
+    if (!this.world.entityPalette.traits.has(trait.identifier))
+      this.world.logger.warn(
         `Trait "§c${trait.identifier}§r" was added to entity "§d${this.type.identifier}§r:§d${this.uniqueId}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
       );
 
@@ -597,14 +604,6 @@ class Entity {
 
     // Return null as the trait was not added
     return null as InstanceType<T>;
-  }
-
-  /**
-   * Gets the world the entity is currently in.
-   * @returns The world the entity is in
-   */
-  public getWorld(): World {
-    return this.dimension.world;
   }
 
   /**
@@ -1177,7 +1176,7 @@ class Entity {
 
     // Create a new command execute state
     const state = new CommandExecutionState(
-      this.getWorld().commands.getAll(),
+      this.world.commands.getAll(),
       command,
       this
     );
@@ -1199,7 +1198,7 @@ class Entity {
 
     // Create a new command execute state
     const state = new CommandExecutionState(
-      this.getWorld().commands.getAll(),
+      this.world.commands.getAll(),
       command,
       this
     );

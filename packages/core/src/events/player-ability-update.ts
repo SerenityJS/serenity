@@ -30,7 +30,7 @@ class PlayerAbilityUpdateSignal extends EventSignal {
    * @param value The new value of the ability.
    */
   public constructor(player: Player, ability: AbilityIndex, value: boolean) {
-    super(player.getWorld());
+    super(player.world);
     this.player = player;
     this.ability = ability;
     this.value = value;

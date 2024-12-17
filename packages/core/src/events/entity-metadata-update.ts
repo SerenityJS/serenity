@@ -30,7 +30,7 @@ class EntityMetadataUpdateSignal extends EventSignal {
    * @param dataItem The new value of the metadata.
    */
   public constructor(entity: Entity, key: ActorDataId, dataItem: DataItem) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.key = key;
     this.dataItem = dataItem;

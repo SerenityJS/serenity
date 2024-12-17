@@ -22,7 +22,7 @@ class PlayerStopEmotingSignal extends EventSignal {
    * @param emote The emote the player stopped.
    */
   public constructor(player: Player, emote: string) {
-    super(player.getWorld());
+    super(player.world);
     this.player = player;
     this.emote = emote;
   }

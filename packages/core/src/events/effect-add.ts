@@ -18,7 +18,7 @@ class EffectAddSignal extends EventSignal {
   public readonly effect: Effect;
 
   public constructor(entity: Entity, effect: Effect) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.effect = effect;
   }

@@ -53,7 +53,7 @@ class PlayerContainerInteractionSignal extends EventSignal {
     destinationSlot: number | null,
     amount: number
   ) {
-    super(player.getWorld());
+    super(player.world);
     this.player = player;
     this.sourceContainer = sourceContainer;
     this.sourceSlot = sourceSlot;

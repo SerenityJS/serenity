@@ -23,7 +23,7 @@ class RegenerationEffect extends Effect {
     );
 
     // Check if we can heal in the current tick.
-    if (Number(entity.getWorld().currentTick) % ticksPerSecond != 0) return;
+    if (Number(entity.world.currentTick) % ticksPerSecond != 0) return;
 
     // Heal the entity by 1 health point.
     entityHealth.currentValue = entityHealth.currentValue + 1;

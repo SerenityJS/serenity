@@ -34,7 +34,7 @@ class PlayerInteractWithEntitySignal extends EventSignal {
     beforeItemStack: ItemStack | null,
     itemStack: ItemStack | null
   ) {
-    super(source.getWorld());
+    super(source.world);
     this.source = source;
     this.target = target;
     this.beforeItemStack = beforeItemStack;

@@ -32,7 +32,7 @@ class BlockContainer extends Container {
     super.setItem(slot, itemStack);
 
     // Set the world in the item stack if it doesn't exist
-    if (!itemStack.world) itemStack.world = this.block.getWorld();
+    if (!itemStack.world) itemStack.world = this.block.world;
     itemStack.initialize();
   }
 
@@ -50,12 +50,10 @@ class BlockContainer extends Container {
         const { x, y, z } = this.block.position;
 
         // Log the error to the console
-        this.block
-          .getWorld()
-          .logger.error(
-            `Failed to trigger onContainerUpdate trait event for block "${this.block.type.identifier}:${x},${y},${z}" in dimension "${this.block.dimension.identifier}"`,
-            reason
-          );
+        this.block.world.logger.error(
+          `Failed to trigger onContainerUpdate trait event for block "${this.block.type.identifier}:${x},${y},${z}" in dimension "${this.block.dimension.identifier}"`,
+          reason
+        );
 
         // Remove the trait from the block
         this.block.traits.delete(trait.identifier);

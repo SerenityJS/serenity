@@ -28,7 +28,7 @@ class EntityDimensionChangeSignal extends EventSignal {
     fromDimension: Dimension,
     toDimension: Dimension
   ) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.fromDimension = fromDimension;
     this.toDimension = toDimension;

@@ -21,7 +21,7 @@ const register = (world: World) => {
         },
         (context) => {
           // Get the serenity instance from the context
-          const serenity = context.origin.getWorld().serenity;
+          const serenity = context.origin.world.serenity;
 
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;

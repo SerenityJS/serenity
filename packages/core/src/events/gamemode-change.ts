@@ -29,7 +29,7 @@ class PlayerGamemodeChangeSignal extends EventSignal {
     fromGamemode: Gamemode,
     toGamemode: Gamemode
   ) {
-    super(player.getWorld());
+    super(player.world);
     this.player = player;
     this.fromGamemode = fromGamemode;
     this.toGamemode = toGamemode;

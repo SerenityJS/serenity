@@ -22,7 +22,7 @@ class EntityHealthChangedSignal extends EventSignal {
   public readonly toHealth: number;
 
   public constructor(entity: Entity, fromHealth: number, toHealth: number) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.fromHealth = fromHealth;
     this.toHealth = toHealth;

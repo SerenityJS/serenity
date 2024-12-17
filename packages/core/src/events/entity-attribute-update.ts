@@ -34,7 +34,7 @@ class EntityAttributeUpdateSignal extends EventSignal {
     attribute: AttributeName,
     value: Attribute
   ) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.attribute = attribute;
     this.value = value;

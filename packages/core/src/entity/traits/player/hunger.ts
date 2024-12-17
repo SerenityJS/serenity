@@ -67,7 +67,7 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     }
 
     // Get the current tick of the world
-    const currentTick = this.player.getWorld().currentTick;
+    const currentTick = this.player.world.currentTick;
 
     // Check if the player is not exhausted and the current tick is divisible by 30
     if (this.currentValue > 17 && currentTick % 30n === 0n) {

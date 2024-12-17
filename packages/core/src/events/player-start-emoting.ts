@@ -28,7 +28,7 @@ class PlayerStartEmotingSignal extends EventSignal {
    * @param tickLength The duration of the emote in ticks.
    */
   public constructor(player: Player, emote: string, tickLength: number) {
-    super(player.getWorld());
+    super(player.world);
     this.player = player;
     this.emote = emote;
     this.tickLength = tickLength;

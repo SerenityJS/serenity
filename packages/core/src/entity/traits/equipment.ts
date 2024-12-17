@@ -62,7 +62,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = new ItemStack(entry.identifier, {
         amount: entry.amount,
         auxillary: entry.auxillary,
-        world: this.entity.getWorld(),
+        world: this.entity.world,
         entry
       });
       this.setEquipment(Number.parseInt(slot), itemStack);

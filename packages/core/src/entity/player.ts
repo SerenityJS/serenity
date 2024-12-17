@@ -405,25 +405,23 @@ class Player extends Entity {
 
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
-    content.items = this.getWorld()
-      .itemPalette.getCreativeContent()
-      .map((item) => {
-        return {
-          network: item.type.network,
-          metadata: item.metadata,
-          stackSize: 1,
-          networkBlockId:
-            item.type.block?.permutations[item.metadata]?.network ?? 0,
-          extras: {
-            canDestroy: [],
-            canPlaceOn: [],
-            nbt: item.nbt
-          }
-        };
-      });
+    content.items = this.world.itemPalette.getCreativeContent().map((item) => {
+      return {
+        network: item.type.network,
+        metadata: item.metadata,
+        stackSize: 1,
+        networkBlockId:
+          item.type.block?.permutations[item.metadata]?.network ?? 0,
+        extras: {
+          canDestroy: [],
+          canPlaceOn: [],
+          nbt: item.nbt
+        }
+      };
+    });
 
     // Serialize the available commands for the player
-    const commands = this.getWorld().commands.serialize();
+    const commands = this.world.commands.serialize();
 
     // Filter the commands by the player's permission level
     commands.commands = commands.commands.filter(
@@ -498,10 +496,7 @@ class Player extends Entity {
 
       if (dimension.world !== this.dimension.world) {
         // Save the players current data
-        this.getWorld().provider.writePlayer(
-          this.getDataEntry(),
-          this.dimension
-        );
+        this.world.provider.writePlayer(this.getDataEntry(), this.dimension);
 
         // Read the player data from the new world
         const data = dimension.world.provider.readPlayer(this.uuid, dimension);

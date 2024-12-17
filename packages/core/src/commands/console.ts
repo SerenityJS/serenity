@@ -117,6 +117,7 @@ class ConsoleInterface {
     } else {
       // Get the default world of the serenity instance
       const world = this.serenity.getWorld();
+
       // Get the default dimension of the world
       const dimension = world.getDimension();
 

@@ -30,7 +30,7 @@ class EntityFlagUpdateSignal extends EventSignal {
    * @param value The new value of the flag.
    */
   public constructor(entity: Entity, flag: ActorFlag, value: boolean) {
-    super(entity.getWorld());
+    super(entity.world);
     this.entity = entity;
     this.flag = flag;
     this.value = value;

@@ -217,12 +217,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
         canceled = !success;
       } catch (reason) {
         // Log the error to the console
-        player
-          .getWorld()
-          .serenity.logger.error(
-            `Failed to trigger onUse trait event for item "${this.type.identifier}" in dimension "${player.dimension.identifier}"`,
-            reason
-          );
+        player.world.serenity.logger.error(
+          `Failed to trigger onUse trait event for item "${this.type.identifier}" in dimension "${player.dimension.identifier}"`,
+          reason
+        );
 
         // Remove the trait from the item
         this.traits.delete(trait.identifier);

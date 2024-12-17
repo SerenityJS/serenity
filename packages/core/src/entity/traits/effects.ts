@@ -41,7 +41,7 @@ class EntityEffectsTrait extends EntityTrait {
 
     const particleInterval = this.effects.size > 1 ? 8n : 2n;
     // Spawn a particle based on the effect size interval.
-    if (this.entity.getWorld().currentTick % particleInterval == 0n) {
+    if (this.entity.world.currentTick % particleInterval == 0n) {
       const effect = this.getParticleEffect();
 
       if (!effect) return;
@@ -72,7 +72,7 @@ class EntityEffectsTrait extends EntityTrait {
     packet.particles = false;
     packet.amplifier = 0;
     packet.duration = 0;
-    packet.inputTick = this.entity.getWorld().currentTick;
+    packet.inputTick = this.entity.world.currentTick;
 
     this.entity.send(packet);
   }
@@ -104,9 +104,7 @@ class EntityEffectsTrait extends EntityTrait {
     const amplifier = options?.amplifier ?? 0;
 
     // Get the effect type builder
-    const effectBuilder = this.entity
-      .getWorld()
-      .effectPalette.getEffect(effectType);
+    const effectBuilder = this.entity.world.effectPalette.getEffect(effectType);
     let effect = this.effects.get(effectType);
 
     // If there's no active effect and there's effect builder, create a new effect
@@ -137,7 +135,7 @@ class EntityEffectsTrait extends EntityTrait {
     packet.particles = effect.showParticles;
     packet.amplifier = effect.amplifier;
     packet.duration = effect.duration;
-    packet.inputTick = this.entity.getWorld().currentTick;
+    packet.inputTick = this.entity.world.currentTick;
 
     // Send the packet to the player.
     this.entity.send(packet);
@@ -170,7 +168,7 @@ class EntityEffectsTrait extends EntityTrait {
 
     for (const effectEntry of entityEffects) {
       const { effectType, duration, amplifier, showParticles } = effectEntry;
-      const effect = this.entity.getWorld().effectPalette.getEffect(effectType);
+      const effect = this.entity.world.effectPalette.getEffect(effectType);
 
       if (!effect) return;
       this.effects.set(
