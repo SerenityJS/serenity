@@ -10,6 +10,7 @@ interface ServerProperties {
   port: number;
   address: string;
   motd: string;
+  maxPlayers: number;
 
   compressionMethod: CompressionMethod;
   compressionThreshold: number;

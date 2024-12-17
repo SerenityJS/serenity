@@ -39,6 +39,7 @@ const DefaultServerProperties: ServerProperties = {
   port: 19132,
   address: "0.0.0.0",
   motd: "SerenityJS",
+  maxPlayers: 10,
   compressionMethod: CompressionMethod.Zlib,
   compressionThreshold: 256,
   packetsPerFrame: 64,

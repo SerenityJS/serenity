@@ -93,6 +93,9 @@ class Network extends Emitter<NetworkEvents> {
       400
     );
 
+    // Set the maximum connections for the raknet server
+    this.raknet.maxConnections = this.properties.maxPlayers;
+
     // Bind the incoming packets to the incoming method
     this.raknet.on("encapsulated", this.onEncapsulated.bind(this));
 
