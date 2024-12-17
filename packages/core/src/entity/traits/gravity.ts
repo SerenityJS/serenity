@@ -36,7 +36,7 @@ class EntityGravityTrait extends EntityTrait {
       if (this.fallingDistance !== 0) this.fallingDistance = 0;
 
       // Reset the entity to not be falling
-      if (this.entity.isFalling) this.entity.isFalling = false;
+      this.entity.isFalling = false;
 
       // Return, as the entity is not falling
       return;
@@ -51,7 +51,7 @@ class EntityGravityTrait extends EntityTrait {
 
     // Calculate the distance between the entity and the block
     const distance = Math.round(entityY - blockY);
-    if (distance <= 0) return;
+    if (distance < this.fallingDistance) return;
 
     // Set the falling distance of the entity
     this.fallingDistance = distance;
