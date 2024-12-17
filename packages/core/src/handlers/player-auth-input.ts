@@ -45,7 +45,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (!player) return connection.disconnect();
 
     // Validate the player's motion
-    if (!this.validatePlayerMotion(player, packet.positionDelta)) {
+    if (
+      !this.validatePlayerMotion(player, packet.position, packet.positionDelta)
+    ) {
       // Create a new CorrectPlayerMovePredictionPacket
       const rewind = new CorrectPlayerMovePredictionPacket();
       rewind.prediction = PredictionType.Player;
@@ -124,10 +126,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
   /**
    * Validates the player's motion
    * @param player The player to validate the motion for
+   * @param position The new position of the player
    * @param delta The delta position of the player
    * @returns True if the player's motion is valid, false otherwise
    */
-  public validatePlayerMotion(player: Player, delta: Vector3f): boolean {
+  public validatePlayerMotion(
+    player: Player,
+    position: Vector3f,
+    delta: Vector3f
+  ): boolean {
     // Check if the player is flying, if so the movement is valid.
     if (player.abilities.get(AbilityIndex.Flying)) return true;
 
@@ -147,6 +154,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
     // Check if the delta z is greater than the movement threshold
     if (Math.abs(delta.z) >= PlayerAuthInputHandler.rewindMovementThreshold)
       return false;
+
+    // Check if the player has teleported
+    if (player.position.distance(position) >= 4) return false;
 
     // Return true, as the movement is valid
     return true;
