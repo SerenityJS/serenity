@@ -258,7 +258,7 @@ class Dimension {
     for (const block of this.blocks.values()) {
       // Check if there is a player within the simulation distance to tick the block
       const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(block.position) <= this.simulationDistance;
+        return player.distance(block.position) <= this.simulationDistance << 4;
       });
 
       // Tick the block if it is in simulation range
