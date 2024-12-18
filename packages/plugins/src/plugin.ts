@@ -3,16 +3,14 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { Pipeline } from "./pipeline";
 import { PluginType } from "./enums";
+import { PluginEvents } from "./types";
 
-interface PluginProperties {
+interface PluginProperties extends Partial<PluginEvents> {
   logger: Logger;
   type: PluginType;
-  onInitialize: (plugin: Plugin) => void;
-  onStartUp: (plugin: Plugin) => void;
-  onShutDown: (plugin: Plugin) => void;
 }
 
-class Plugin {
+class Plugin implements PluginProperties {
   /**
    * The identifier of the plugin.
    */
@@ -90,7 +88,7 @@ class Plugin {
    * Called when the plugin is initialized.
    * @param plugin The plugin instance that was initialized. (this)
    */
-  public onInitialize(_plugin: this): void {
+  public onInitialize(_plugin: Plugin): void {
     // Override this method in your plugin
   }
 
@@ -98,7 +96,7 @@ class Plugin {
    * Called when the plugin is started up.
    * @param plugin The plugin instance that was started up. (this)
    */
-  public onStartUp(_plugin: this): void {
+  public onStartUp(_plugin: Plugin): void {
     // Override this method in your plugin
   }
 
@@ -106,7 +104,7 @@ class Plugin {
    * Called when the plugin is shut down.
    * @param plugin The plugin instance that was shut down. (this)
    */
-  public onShutDown(_plugin: this): void {
+  public onShutDown(_plugin: Plugin): void {
     // Override this method in your plugin
   }
 }

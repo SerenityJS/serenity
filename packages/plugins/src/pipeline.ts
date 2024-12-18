@@ -188,8 +188,9 @@ class Pipeline {
           // Add the plugin to the plugins map
           this.plugins.set(plugin.identifier, plugin);
 
-          // Initialize the plugin
+          // Initialize the plugin and bind the events
           plugin.onInitialize(plugin);
+          this.bindEvents(plugin);
 
           // Add the plugin to the plugins enum
           PluginsEnum.options.push(plugin.identifier);
@@ -300,8 +301,9 @@ class Pipeline {
         // Add the plugin to the plugins enum
         PluginsEnum.options.push(plugin.identifier);
 
-        // Initialize the plugin
+        // Initialize the plugin, and bind the events
         plugin.onInitialize(plugin);
+        this.bindEvents(plugin);
       } catch (reason) {
         // Log the error
         this.logger.error(
@@ -380,6 +382,7 @@ class Pipeline {
 
       // Initialize the plugin
       rPlugin.onInitialize(rPlugin);
+      this.bindEvents(rPlugin);
 
       // Start up the plugin
       rPlugin.onStartUp(rPlugin);
@@ -445,6 +448,57 @@ class Pipeline {
         resolve(this.path, `${plugin.identifier}.plugin`),
         deflateSync(stream.getBuffer())
       );
+    }
+  }
+
+  protected bindEvents(plugin: Plugin): void {
+    // Get the prototype of the plugin
+    const prototype = Object.getPrototypeOf(plugin);
+
+    // Get the object keys from the plugin
+    const pluginKeys = Object.getOwnPropertyNames(prototype);
+
+    // Get the world event keys, and slice them in half
+    let eventKeys = Object.keys(WorldEvent);
+    eventKeys = eventKeys.slice(eventKeys.length / 2);
+
+    // Iterate over all the event keys
+    for (const eventKey of eventKeys) {
+      // Get the index of the event key
+      const index = eventKeys.indexOf(eventKey) as WorldEvent;
+
+      // Check if the plugin has any "on" event keys
+      if (pluginKeys.includes("on" + eventKey)) {
+        // Get the value of the event key
+        const value = plugin[("on" + eventKey) as keyof Plugin];
+
+        // Check if the value is a function
+        if (typeof value === "function")
+          // Bind the event to the plugin
+          this.serenity.on(index, value.bind(plugin) as () => void);
+      }
+
+      // Check if the plugin has any "before" event keys
+      if (pluginKeys.includes("before" + eventKey)) {
+        // Get the value of the event key
+        const value = plugin[("before" + eventKey) as keyof Plugin];
+
+        // Check if the value is a function
+        if (typeof value === "function")
+          // Bind the event to the plugin
+          this.serenity.before(index, value.bind(plugin) as () => boolean);
+      }
+
+      // Check if the plugin has any "after" event keys
+      if (pluginKeys.includes("after" + eventKey)) {
+        // Get the value of the event key
+        const value = plugin[("after" + eventKey) as keyof Plugin];
+
+        // Check if the value is a function
+        if (typeof value === "function")
+          // Bind the event to the plugin
+          this.serenity.after(index, value.bind(plugin) as () => void);
+      }
     }
   }
 }
