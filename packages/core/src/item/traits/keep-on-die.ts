@@ -10,7 +10,7 @@ class ItemKeepOnDieTrait<T extends ItemIdentifier> extends ItemTrait<T> {
   public get keep(): boolean {
     return this.item.nbt.has("minecraft:keep_on_death");
   }
-  
+
   public set keep(value: boolean) {
     if (value) {
       this.item.nbt.add(
