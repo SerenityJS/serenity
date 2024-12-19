@@ -1,6 +1,6 @@
 {
   "name": "serenity",
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.5.3",
   "private": true,
   "scripts": {
     "build": "turbo build",
