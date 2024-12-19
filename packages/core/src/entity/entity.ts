@@ -41,6 +41,7 @@ import {
   PlayerInteractWithEntitySignal
 } from "../events";
 import { ScoreboardIdentity } from "../world/scoreboard";
+import { ItemKeepOnDieTrait } from "../item/traits/keep-on-die";
 
 import { EntityType } from "./identity";
 import {
@@ -795,6 +796,15 @@ class Entity {
 
         // Check if the item is valid
         if (!item) continue;
+
+        // Check if the item has the keep on die trait
+        if (item.hasTrait(ItemKeepOnDieTrait)) {
+          // Get the keep on die trait
+          const keepOnDie = item.getTrait(ItemKeepOnDieTrait);
+
+          // Check if the item should be kept
+          if (keepOnDie.keep) continue;
+        }
 
         // Spawn the item in the dimension
         this.dimension.spawnItem(item, this.position);
