@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { BinaryStream } from "@serenityjs/binarystream";
 
 import { TagType } from "../enum";
@@ -49,6 +50,10 @@ class CompoundTag<T> extends Tag<GenericCompound<T>> {
 
   public addTag(tag: Tag): void {
     this.value[tag.name as keyof T] = tag as unknown as T[keyof T];
+  }
+
+  public removeTag(name: string): void {
+    delete this.value[name as keyof T];
   }
 
   public createByteTag(properties: Partial<TagProperties<number>>): ByteTag {
