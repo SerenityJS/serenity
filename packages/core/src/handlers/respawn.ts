@@ -30,6 +30,9 @@ class RespawnHandler extends NetworkHandler {
     // Set the players health to the max value
     health.currentValue = health.defaultValue;
 
+    const dimension = player.world.getDimension();
+
+    player.teleport(dimension.spawnPosition);
     player.spawn();
   }
 }
