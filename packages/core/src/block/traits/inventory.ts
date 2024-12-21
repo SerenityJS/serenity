@@ -15,63 +15,28 @@ import { BlockIdentifier } from "../../enums";
 import { BlockContainer } from "../index";
 import { Block } from "../block";
 import { Container } from "../../container";
-import { ItemStackEntry, JSONLikeObject } from "../../types";
-import { ItemStack } from "../../item";
+import { ItemStackEntry, ItemStorage } from "../../types";
 
 import { BlockTrait } from "./trait";
 
-interface InventoryComponent extends JSONLikeObject {
-  size: number;
-  items: Array<[number, ItemStackEntry]>;
-}
-
 class BlockInventoryTrait extends BlockTrait {
   public static readonly identifier: string = "inventory";
-
   public static readonly types = [BlockIdentifier.Chest];
 
   public readonly container: BlockContainer;
 
   /**
-   * The container type of the block.
+   * The component used to store the inventory items.
    */
-  public get containerType(): ContainerType {
-    return this.container.type;
+  public get component(): ItemStorage {
+    return this.block.getComponent("inventory") as ItemStorage;
   }
 
   /**
-   * The container type of the block.
+   * The component used to store the inventory items.
    */
-  public set containerType(value: ContainerType) {
-    this.container.type = value;
-  }
-
-  /**
-   * The container id of the block.
-   */
-  public get containerId(): ContainerId {
-    return this.container.identifier;
-  }
-
-  /**
-   * The container id of the block.
-   */
-  public set containerId(value: ContainerId) {
-    this.container.identifier = value;
-  }
-
-  /**
-   * The amount of slots in the container.
-   */
-  public get containerSize(): number {
-    return this.container.size;
-  }
-
-  /**
-   * The amount of slots in the container.
-   */
-  public set containerSize(value: number) {
-    this.container.size = value;
+  public set component(value: ItemStorage) {
+    this.block.setComponent<ItemStorage>("inventory", value);
   }
 
   /**
@@ -91,32 +56,6 @@ class BlockInventoryTrait extends BlockTrait {
     );
   }
 
-  public onAdd(): void {
-    // Check if the block has an inventory component
-    if (this.block.components.has("inventory")) {
-      // Get the inventory component from the block
-      const inventory =
-        this.block.getComponent<InventoryComponent>("inventory");
-
-      // Check if the inventory component is valid
-      if (!inventory) return;
-
-      // Iterate over each item in the inventory
-      for (const [slot, entry] of inventory.items) {
-        // Create a new item stack
-        const stack = new ItemStack(entry.identifier, {
-          amount: entry.amount,
-          auxillary: entry.auxillary,
-          world: this.block.dimension.world,
-          entry
-        });
-
-        // Add the item stack to the container
-        this.container.setItem(slot, stack);
-      }
-    }
-  }
-
   public onInteract(player: Player): void {
     // Check if the player is sneaking
     if (player.isSneaking || !player.abilities.get(AbilityIndex.OpenContainers))
@@ -133,14 +72,14 @@ class BlockInventoryTrait extends BlockTrait {
       if (!item) continue;
 
       // Spawn the item in the world
-      const { x, y, z } = this.block.position;
-      const entity = this.block.dimension.spawnItem(
-        item,
-        new Vector3f(x + 0.5, y + 0.5, z + 0.5)
-      );
+      const position = this.block.position;
+      const vector = BlockPosition.toVector3f(position);
 
-      // Add some upwards velocity to the item.
-      entity.setMotion(new Vector3f(0, 0.1, 0));
+      // Spawn the item entity in the dimension
+      this.block.dimension.spawnItem(
+        item,
+        vector.add(new Vector3f(0.5, 0.5, 0.5))
+      );
     }
   }
 
@@ -148,29 +87,23 @@ class BlockInventoryTrait extends BlockTrait {
     // Verify the container is the same as the block container
     if (container !== this.container) return;
 
-    // Create a new inventory component
-    const inventory: InventoryComponent = {
-      size: this.containerSize,
-      items: []
-    };
+    // Prepare the items array
+    const items: Array<[number, ItemStackEntry]> = [];
 
     // Iterate over each item in the container
-    for (let i = 0; i < this.containerSize; i++) {
+    for (let i = 0; i < this.container.size; i++) {
       // Get the item stack at the index
-      const item = this.container.getItem(i);
+      const itemStack = this.container.getItem(i);
 
       // Check if the item is null
-      if (item === null) continue;
-
-      // Get the data entry of the item stack
-      const entry = item.getDataEntry();
+      if (itemStack === null) continue;
 
       // Push the item stack entry to the inventory items
-      inventory.items.push([i, entry]);
+      items.push([i, itemStack.getDataEntry()]);
     }
 
     // Set the inventory component to the block
-    this.block.components.set("inventory", inventory);
+    this.component = { size: this.container.size, items };
   }
 
   public onTick(): void {
@@ -263,6 +196,22 @@ class BlockInventoryTrait extends BlockTrait {
 
     // Broadcast the block event packet
     this.block.dimension.broadcast(packet, sound);
+  }
+
+  public onAdd(): void {
+    // Check if the block has an inventory component
+    if (this.block.components.has("inventory")) return;
+
+    // Create the item storage component
+    this.block.setComponent<ItemStorage>("inventory", {
+      size: this.container.size,
+      items: []
+    });
+  }
+
+  public onRemove(): void {
+    // Remove the item storage component
+    this.block.removeComponent("inventory");
   }
 }
 

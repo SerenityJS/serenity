@@ -798,10 +798,10 @@ class Entity {
     // Check if the entity has an inventory trait
     if (this.hasTrait(EntityInventoryTrait)) {
       // Get the inventory trait
-      const { container, inventorySize } = this.getTrait(EntityInventoryTrait);
+      const { container } = this.getTrait(EntityInventoryTrait);
 
       // Iterate over the inventory slots
-      for (let slot = 0; slot < inventorySize; slot++) {
+      for (let slot = 0; slot < container.size; slot++) {
         // Get the item from the slot
         const item = container.getItem(slot);
 

@@ -23,45 +23,17 @@ class EntityInventoryTrait extends EntityTrait {
   public readonly container: EntityContainer;
 
   /**
-   * The type of container that this trait represents.
+   * The component used to store the inventory items.
    */
-  public get containerType(): ContainerType {
-    return this.container.type;
+  public get component(): ItemStorage {
+    return this.entity.getComponent("inventory") as ItemStorage;
   }
 
   /**
-   * The type of container that this trait represents.
+   * The component used to store the inventory items.
    */
-  public set containerType(value: ContainerType) {
-    this.container.type = value;
-  }
-
-  /**
-   * The identifier of the container that this trait represents.
-   */
-  public get containerId(): ContainerId {
-    return this.container.identifier;
-  }
-
-  /**
-   * The identifier of the container that this trait represents.
-   */
-  public set containerId(value: ContainerId) {
-    this.container.identifier = value;
-  }
-
-  /**
-   * The amount of slots in the inventory.
-   */
-  public get inventorySize(): number {
-    return this.container.size;
-  }
-
-  /**
-   * The amount of slots in the inventory.
-   */
-  public set inventorySize(value: number) {
-    this.container.size = value;
+  public set component(value: ItemStorage) {
+    this.entity.setComponent<ItemStorage>("inventory", value);
   }
 
   /**
@@ -114,7 +86,7 @@ class EntityInventoryTrait extends EntityTrait {
 
     // Assign the packet properties
     packet.runtimeEntityId = this.entity.runtimeId;
-    packet.containerId = this.containerId;
+    packet.containerId = this.container.identifier;
     packet.selectedSlot = slot;
     packet.slot = slot;
     packet.item = itemDescriptor;
@@ -127,61 +99,55 @@ class EntityInventoryTrait extends EntityTrait {
   }
 
   public onSpawn(): void {
-    // Check if the entity has an inventory component
-    if (this.entity.components.has("inventory")) {
-      // Get the inventory component from the entity
-      const inventory = this.entity.getComponent<ItemStorage>("inventory");
+    // Iterate over each item in the inventory component
+    for (const [slot, entry] of this.component.items) {
+      // Create a new item stack
+      const itemStack = new ItemStack(entry.identifier, {
+        amount: entry.amount,
+        auxillary: entry.auxillary,
+        world: this.entity.world,
+        entry
+      });
 
-      // Check if the inventory is null
-      if (!inventory) return;
-
-      // Iterate over each item in the inventory
-      for (const item of inventory.items) {
-        // Get the slot and entry from the item
-        const slot = item[0] as number;
-        const entry = item[1] as ItemStackEntry;
-
-        // Create a new item stack
-        const stack = new ItemStack(entry.identifier, {
-          amount: entry.amount,
-          auxillary: entry.auxillary,
-          world: this.entity.world,
-          entry
-        });
-
-        // Add the item stack to the container
-        this.container.setItem(slot, stack);
-      }
+      // Set the item stack to the equipment slot
+      this.container.setItem(slot, itemStack);
     }
-
-    // Update the container if the entity is a player
-    if (this.entity.isPlayer()) this.container.update(this.entity);
   }
 
   public onDespawn(): void {
-    // Create a new inventory component
-    const inventory: ItemStorage = {
-      size: this.inventorySize,
-      items: []
-    };
+    // Prepare the items array
+    const items: Array<[number, ItemStackEntry]> = [];
 
-    // Iterate over each item in the container
-    for (let i = 0; i < this.inventorySize; i++) {
+    // Iterate over the container slots
+    for (let i = 0; i < this.container.size; i++) {
       // Get the item stack at the index
-      const item = this.container.getItem(i);
+      const itemStack = this.container.getItem(i);
 
       // Check if the item is null
-      if (item === null) continue;
-
-      // Get the data entry of the item stack
-      const entry = item.getDataEntry();
+      if (!itemStack) continue;
 
       // Push the item stack entry to the inventory items
-      inventory.items.push([i, entry]);
+      items.push([i, itemStack.getDataEntry()]);
     }
 
-    // Set the inventory component to the entity
-    this.entity.components.set("inventory", inventory);
+    // Set the equipment component to the entity
+    this.component = { size: this.container.size, items };
+  }
+
+  public onAdd(): void {
+    // Check if the entity has an inventory component
+    if (this.entity.components.has("inventory")) return;
+
+    // Create the item storage component
+    this.entity.setComponent<ItemStorage>("inventory", {
+      size: this.container.size,
+      items: []
+    });
+  }
+
+  public onRemove(): void {
+    // Remove the item storage component
+    this.entity.removeComponent("inventory");
   }
 }
 

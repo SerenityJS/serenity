@@ -299,7 +299,10 @@ class Block {
    * @param key The key of the component to set.
    * @param component The component to set.
    */
-  public setComponent(key: string, component: JSONLikeObject): void {
+  public setComponent<T extends JSONLikeObject>(
+    key: string,
+    component: T
+  ): void {
     this.components.set(key, component);
   }
 
