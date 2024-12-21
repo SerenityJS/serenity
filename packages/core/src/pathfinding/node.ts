@@ -8,6 +8,8 @@ class Node extends Vector3f implements IPosition, BinaryItem {
   public parent?: Node;
 
   public constructor(position: Vector3f, parent?: Node) {
+    position = position.floor();
+
     super(position.x, position.y, position.z);
     this.parent = parent;
   }
@@ -25,6 +27,9 @@ class Node extends Vector3f implements IPosition, BinaryItem {
   public compareTo(other: Node): number {
     return this.fCost - other.fCost;
   }
-}
 
+  public static fromPosition(position: IPosition): Node {
+    return new Node(new Vector3f(position.x, position.y, position.z));
+  }
+}
 export { Node };

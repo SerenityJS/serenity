@@ -17,23 +17,23 @@ class Astar {
   }
 
   public findPath(start: Node, target: Node, maxDistance: number): Array<Node> {
+    const starTime = Date.now();
     start.gCost = 0;
     start.heuristic = start.distance(target);
 
     this.openSet.insert(start);
 
     while (this.openSet.size > 0) {
+      if (Date.now() - starTime > 10_000) break;
       const currentNode = this.openSet.pop()!;
       this.closedSet.add(currentNode);
 
       if (maxDistance && currentNode.distance(target) > maxDistance) break;
-      if (currentNode.equals(target))
+      if (currentNode.equals(target)) {
         return this.reconstructPath(currentNode, target);
+      }
 
       for (const neighbor of this.nodeEvaluator.getNeighbors(currentNode)) {
-        if (neighbor.equals(target))
-          return this.reconstructPath(currentNode, target);
-
         if (this.inSet(this.closedSet, neighbor)) continue;
         const cost = neighbor.gCost + neighbor.distance(currentNode);
 
