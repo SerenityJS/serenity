@@ -261,7 +261,7 @@ class Network extends Emitter<NetworkEvents> {
         if (!packetType) {
           // Log a debug message if no packet was found for the packet id.
           this.logger.debug(
-            `No packet serializer/deserializer found for packet id ${packetId}.`
+            `No packet serializer/deserializer found for packet id ${Packet[packetId] ?? packetId}.`
           );
 
           // Skip the packet if no packet was found for the packet id.
@@ -289,7 +289,7 @@ class Network extends Emitter<NetworkEvents> {
           if (!network || !all) {
             // Log a debug message if the packet was cancelled by an external listener.
             this.logger.debug(
-              `Packet received with id ${packetId} was cancelled by an external listener.`
+              `Packet received with id ${Packet[packetId] ?? packetId} was cancelled by an external listener.`
             );
 
             // Skip the packet if it was cancelled by an external listener.
@@ -336,7 +336,7 @@ class Network extends Emitter<NetworkEvents> {
         } catch (reason) {
           // Log the deserialization error if the packet could not be deserialized.
           this.logger.error(
-            `Failed to deserialize packet with id ${packetId}`,
+            `Failed to deserialize packet with id ${Packet[packetId] ?? packetId}`,
             reason
           );
         }
@@ -404,7 +404,7 @@ class Network extends Emitter<NetworkEvents> {
       if (!network || !all) {
         // Log a debug message if the packet was cancelled by an external listener
         this.logger.debug(
-          `Packet sent with id ${packet.getId()} was cancelled by an external listener.`
+          `Packet sent with id ${Packet[packet.getId()] ?? packet.getId()} was cancelled by an external listener.`
         );
 
         // Skip the packet if it was cancelled by an external listener
@@ -418,7 +418,7 @@ class Network extends Emitter<NetworkEvents> {
       } catch (reason) {
         // Log the serialization error if the packet could not be serialized
         this.logger.error(
-          `Failed to serialize packet with id ${packet.getId()}`,
+          `Failed to serialize packet with id ${Packet[packet.getId()] ?? packet.getId()}`,
           reason
         );
       }
