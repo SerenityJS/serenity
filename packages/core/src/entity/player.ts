@@ -20,6 +20,9 @@ import {
   TeleportCause,
   TextPacket,
   TextPacketType,
+  ToastRequestPacket,
+  SetTitlePacket,
+  TitleType,
   TransferPacket,
   Vector3f
 } from "@serenityjs/protocol";
@@ -318,6 +321,218 @@ class Player extends Entity {
     packet.filtered = "";
 
     // Send the packet.
+    this.send(packet);
+  }
+
+  /**
+   * Sends a popup message to the player
+   * @param message The message that will be sent.
+   */
+  public sendPopup(message: string): void {
+    const packet = new TextPacket();
+
+    // Assign the packet data.
+    packet.type = TextPacketType.Popup;
+    packet.needsTranslation = false;
+    packet.source = null;
+    packet.message = message;
+    packet.parameters = null;
+    packet.xuid = "";
+    packet.platformChatId = "";
+    packet.filtered = "";
+
+    // Send the packet.
+    this.send(packet);
+  }
+
+  /**
+   * Sends a tip message to the player
+   * @param message The message that will be sent.
+   */
+  public sendTip(message: string): void {
+    const packet = new TextPacket();
+
+    // Assign the packet data.
+    packet.type = TextPacketType.Tip;
+    packet.needsTranslation = false;
+    packet.source = null;
+    packet.message = message;
+    packet.parameters = null;
+    packet.xuid = "";
+    packet.platformChatId = "";
+    packet.filtered = "";
+
+    // Send the packet.
+    this.send(packet);
+  }
+
+  /**
+   * Sends a jukebox popup message to the player
+   * @param message The message that will be sent.
+   */
+  public sendJukeboxPopup(message: string): void {
+    const packet = new TextPacket();
+
+    // Assign the packet data.
+    packet.type = TextPacketType.JukeboxPopup;
+    packet.needsTranslation = false;
+    packet.source = null;
+    packet.message = message;
+    packet.parameters = null;
+    packet.xuid = "";
+    packet.platformChatId = "";
+    packet.filtered = "";
+
+    // Send the packet.
+    this.send(packet);
+  }
+
+  /**
+   * Sends a toast notification message to the player
+   * @param title The title that will be sent.
+   * @param body The message that will be sent.
+   */
+  public sendToastNotification(title: string, message: string): void {
+    const packet = new ToastRequestPacket();
+
+    // Assign the packet data.
+    packet.title = title;
+    packet.message = message;
+
+    // Send the packet.
+    this.send(packet);
+  }
+
+  /**
+   * Sends a title message to the player
+   * @param title The title that will be sent.
+   * @param fadeInTime The time it takes for the title to fade in.
+   * @param stayTime The time the title stays on the screen.
+   * @param fadeOutTime The time it takes for the title to fade out.
+   */
+  public sendTitle(
+    title: string,
+    fadeInTime?: number,
+    stayTime?: number,
+    fadeOutTime?: number
+  ): void {
+    const packet = new SetTitlePacket();
+
+    packet.type = TitleType.Title;
+    packet.text = title;
+    packet.fadeInTime = fadeInTime ?? 0;
+    packet.stayTime = stayTime ?? 0;
+    packet.fadeOutTime = fadeOutTime ?? 0;
+    packet.xuid = "";
+    packet.platformOnlineId = "";
+    packet.filteredText = "";
+
+    this.send(packet);
+  }
+
+  /**
+   * Sends a subtitle message to the player
+   * @param message The message that will be sent.
+   * @param fadeInTime The time it takes for the subtitle to fade in.
+   * @param stayTime The time the subtitle stays on the screen.
+   * @param fadeOutTime The time it takes for the subtitle to fade out.
+   */
+  public sendSubTitle(
+    message: string,
+    fadeInTime?: number,
+    stayTime?: number,
+    fadeOutTime?: number
+  ): void {
+    const packet = new SetTitlePacket();
+
+    packet.type = TitleType.Subtitle;
+    packet.text = message;
+    packet.fadeInTime = fadeInTime ?? 0;
+    packet.stayTime = stayTime ?? 0;
+    packet.fadeOutTime = fadeOutTime ?? 0;
+    packet.xuid = "";
+    packet.platformOnlineId = "";
+    packet.filteredText = "";
+
+    this.send(packet);
+  }
+
+  /**
+   * Sends an action bar message to the player
+   * @param message The message that will be sent.
+   */
+  public sendActionBar(message: string): void {
+    const packet = new SetTitlePacket();
+
+    packet.type = TitleType.Actionbar;
+    packet.text = message;
+    packet.fadeInTime = 0;
+    packet.stayTime = 0;
+    packet.fadeOutTime = 0;
+    packet.xuid = "";
+    packet.platformOnlineId = "";
+    packet.filteredText = "";
+
+    this.send(packet);
+  }
+
+  /**
+   * Sets the times for the titles on the player screen
+   * @param message The message that will be sent.
+   * @param fadeInTime The time it takes for the subtitle to fade in.
+   * @param stayTime The time the subtitle stays on the screen.
+   * @param fadeOutTime The time it takes for the subtitle to fade out.
+   */
+  public setTitleTimes(
+    fadeInTime: number,
+    stayTime: number,
+    fadeOutTime: number
+  ): void {
+    const packet = new SetTitlePacket();
+
+    packet.type = TitleType.Times;
+    packet.text = "";
+    packet.fadeInTime = fadeInTime;
+    packet.stayTime = stayTime;
+    packet.fadeOutTime = fadeOutTime;
+    packet.xuid = "";
+    packet.platformOnlineId = "";
+    packet.filteredText = "";
+
+    this.send(packet);
+  }
+
+  /**
+   * Clears the titles from the player screen
+   */
+  public clearTitles(): void {
+    const packet = new SetTitlePacket();
+
+    packet.type = TitleType.Clear;
+    packet.fadeInTime = 0;
+    packet.stayTime = 0;
+    packet.fadeOutTime = 0;
+    packet.xuid = "";
+    packet.platformOnlineId = "";
+    packet.filteredText = "";
+
+    this.send(packet);
+  }
+
+  /**
+   * Resets the titles on the player screen
+   */
+  public resetTitles(): void {
+    const packet = new SetTitlePacket();
+
+    packet.type = TitleType.Reset;
+    packet.fadeInTime = 0;
+    packet.stayTime = 0;
+    packet.fadeOutTime = 0;
+    packet.xuid = "";
+    packet.platformOnlineId = "";
+    packet.filteredText = "";
+
     this.send(packet);
   }
 
