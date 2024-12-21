@@ -1,5 +1,4 @@
-
-type LegacyTelemetryEventData = {
+interface LegacyTelemetryEventData {
   AchievementAwarded: { achievementId: number };
   EntityInteract: {
     interactedEntityId: bigint;
@@ -18,7 +17,11 @@ type LegacyTelemetryEventData = {
     tradeTier: number;
     traderName: string;
   };
-  CauldronUsed: { contentsColor: number; contentsType: number; fillLevel: number };
+  CauldronUsed: {
+    contentsColor: number;
+    contentsType: number;
+    fillLevel: number;
+  };
   PlayerDeath: {
     instigatorActorId: bigint;
     instigatorMobVariant: number;
@@ -26,10 +29,21 @@ type LegacyTelemetryEventData = {
     diedInRaid: boolean;
   };
   BossKilled: { bossActorId: bigint; partySize: number; bossType: number };
-  AgentCommand: { result: number; resultNumber: number; commandName: string; resultKey: string; resultString: string };
+  AgentCommand: {
+    result: number;
+    resultNumber: number;
+    commandName: string;
+    resultKey: string;
+    resultString: string;
+  };
   AgentCreated: Record<string, never>;
   BannerPatternRemoved: Record<string, never>;
-  CommandExecuted: { successCount: number; errorCount: number; commandName: string; errorList: string };
+  CommandExecuted: {
+    successCount: number;
+    errorCount: number;
+    commandName: string;
+    errorList: string;
+  };
   FishBucketed: Record<string, never>;
   MobBorn: { entityType: number; entityVariant: number; color: number };
   PetDied: {
@@ -43,7 +57,11 @@ type LegacyTelemetryEventData = {
   ComposterBlockUsed: { blockInteractionType: number; itemId: number };
   BellBlockUsed: { itemId: number };
   ActorDefinition: { eventName: string };
-  RaidUpdate: { currentRaidWave: number; totalRaidWaves: number; wonRaid: boolean };
+  RaidUpdate: {
+    currentRaidWave: number;
+    totalRaidWaves: number;
+    wonRaid: boolean;
+  };
   PlayerMovementA: Record<string, never>;
   PlayerMovementCorrected: Record<string, never>;
   HoneyHarvested: Record<string, never>;
@@ -51,11 +69,19 @@ type LegacyTelemetryEventData = {
   PiglinBarter: { itemId: number; wasTargetingBarteringPlayer: boolean };
   WaxedOrUnwaxedCopper: { playerWaxedOrUnwaxedCopperBlockId: number };
   CodeBuilderRuntimeAction: { codeBuilderRuntimeAction: string };
-  CodeBuilderScoreboard: { objectiveName: string; codeBuilderScoreboardScore: number };
+  CodeBuilderScoreboard: {
+    objectiveName: string;
+    codeBuilderScoreboardScore: number;
+  };
   StriderRiddenInLavaInOverworld: Record<string, never>;
   SneakCloseToSculkSensor: Record<string, never>;
   CarefulRestoration: Record<string, never>;
-  ItemUsed: { itemId: number; itemAux: number; useMethod: number; useCount: number };
-};
+  ItemUsed: {
+    itemId: number;
+    itemAux: number;
+    useMethod: number;
+    useCount: number;
+  };
+}
 
 export { LegacyTelemetryEventData };

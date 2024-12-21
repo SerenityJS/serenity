@@ -1,9 +1,10 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
 import { ZigZag } from "@serenityjs/binarystream";
+
 import { BlockPosition } from "../types";
+import { Packet, SpawnType } from "../../enums";
+
 import { DataPacket } from "./data-packet";
-import { Packet } from "../../enums";
-import { SpawnType } from "../../enums";
 
 @Proto(Packet.SetSpawnPosition)
 class SetSpawnPositionPacket extends DataPacket {

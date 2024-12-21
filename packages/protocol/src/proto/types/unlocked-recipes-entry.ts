@@ -1,12 +1,13 @@
 import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
+
 import { UnlockedRecipesType } from "../../types";
 
 class UnlockedRecipesEntry extends DataType {
   public type: UnlockedRecipesType;
-  public recipes: string[] = [];
+  public recipes: Array<string> = [];
 
-  public constructor(type: UnlockedRecipesType, recipes: string[]) {
+  public constructor(type: UnlockedRecipesType, recipes: Array<string>) {
     super();
     this.type = type;
     this.recipes = recipes;
@@ -35,4 +36,3 @@ class UnlockedRecipesEntry extends DataType {
 }
 
 export { UnlockedRecipesEntry };
-
