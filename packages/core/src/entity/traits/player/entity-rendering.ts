@@ -4,6 +4,8 @@ import {
   AddEntityPacket,
   AddItemActorPacket,
   AddPlayerPacket,
+  EquipmentSlot,
+  MobArmorEquipmentPacket,
   NetworkItemStackDescriptor,
   PropertySyncData,
   RemoveEntityPacket,
@@ -14,13 +16,13 @@ import { EntityIdentifier } from "../../../enums";
 import { EntityInventoryTrait } from "../inventory";
 import { ItemStack } from "../../../item";
 import { EntityItemStackTrait } from "../item-stack";
+import { EntityEquipmentTrait } from "../equipment";
 
 import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
 
 class PlayerEntityRenderingTrait extends PlayerTrait {
   public static readonly identifier = "entity_rendering";
-
   public static readonly types = [EntityIdentifier.Player];
 
   /**
@@ -53,6 +55,33 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       // Check if the entity is within the player's view distance
       if (this.distance(entity.position, this.player.position) > viewDistance)
         continue;
+
+      // Create a new MobArmorEquipmentPacket
+      const armor = new MobArmorEquipmentPacket();
+
+      // Check if the entity has an equipment component
+      if (entity.hasTrait(EntityEquipmentTrait)) {
+        // Get the equipment component
+        const trait = entity.getTrait(EntityEquipmentTrait);
+
+        // Set the head, chest, legs, and feet armor
+        const head =
+          trait.getEquipment(EquipmentSlot.Head) ?? ItemStack.empty();
+        const chest =
+          trait.getEquipment(EquipmentSlot.Chest) ?? ItemStack.empty();
+        const legs =
+          trait.getEquipment(EquipmentSlot.Legs) ?? ItemStack.empty();
+        const feet =
+          trait.getEquipment(EquipmentSlot.Feet) ?? ItemStack.empty();
+
+        // Assign the packet properties
+        armor.runtimeId = entity.runtimeId;
+        armor.helmet = ItemStack.toNetworkStack(head);
+        armor.chestplate = ItemStack.toNetworkStack(chest);
+        armor.leggings = ItemStack.toNetworkStack(legs);
+        armor.boots = ItemStack.toNetworkStack(feet);
+        armor.body = ItemStack.toNetworkStack(ItemStack.empty());
+      }
 
       // Add the entity to the rendered entities
       this.entities.add(unique);
@@ -104,6 +133,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
         // Send the packet to the player
         this.player.send(packet);
+        if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
 
         // Continue to the next entity
         continue;
@@ -135,6 +165,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
         // Send the packet to the player
         this.player.send(packet);
+        if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
 
         // Continue to the next entity
         continue;
@@ -160,6 +191,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
       // Send the packet to the player
       this.player.send(packet);
+      if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
     }
 
     // Iterate over the entities

@@ -9,14 +9,9 @@ import { EntityIdentifier } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStack } from "../../item";
-import { ItemStackEntry, JSONLikeObject } from "../../types";
+import { ItemStackEntry, ItemStorage } from "../../types";
 
 import { EntityTrait } from "./trait";
-
-interface InventoryComponent extends JSONLikeObject {
-  size: number;
-  items: Array<[number, ItemStackEntry]>;
-}
 
 class EntityInventoryTrait extends EntityTrait {
   public static readonly identifier = "inventory";
@@ -135,9 +130,10 @@ class EntityInventoryTrait extends EntityTrait {
     // Check if the entity has an inventory component
     if (this.entity.components.has("inventory")) {
       // Get the inventory component from the entity
-      const inventory = this.entity.components.get(
-        "inventory"
-      ) as InventoryComponent;
+      const inventory = this.entity.getComponent<ItemStorage>("inventory");
+
+      // Check if the inventory is null
+      if (!inventory) return;
 
       // Iterate over each item in the inventory
       for (const item of inventory.items) {
@@ -164,7 +160,7 @@ class EntityInventoryTrait extends EntityTrait {
 
   public onDespawn(): void {
     // Create a new inventory component
-    const inventory: InventoryComponent = {
+    const inventory: ItemStorage = {
       size: this.inventorySize,
       items: []
     };

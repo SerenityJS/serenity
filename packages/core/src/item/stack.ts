@@ -526,6 +526,14 @@ class ItemStack<T extends keyof Items = keyof Items> {
     // Return the item stack.
     return item;
   }
+
+  /**
+   * Creates an empty item stack.
+   * @returns The empty item stack.
+   */
+  public static empty(): ItemStack {
+    return new ItemStack(ItemIdentifier.Air, { amount: 0 });
+  }
 }
 
 export { ItemStack, DefaultItemStackProperties };
