@@ -38,7 +38,7 @@ for (const item of data) {
     maxAmount: meta?.maxAmount,
     tool: tool?.network,
     tier: level,
-    tags: meta?.tags,
+    tags: meta?.tags ?? [],
     block: blockType
   });
 

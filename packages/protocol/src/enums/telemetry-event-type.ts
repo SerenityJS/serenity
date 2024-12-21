@@ -1,4 +1,3 @@
-
 enum TelemetryEventType {
   AchievementAwarded = 0,
   EntityInteract = 1,
@@ -31,7 +30,7 @@ enum TelemetryEventType {
   StriderRiddenInLavaInOverworld = 28,
   SneakCloseToSculkSensor = 29,
   CarefulRestoration = 30,
-  ItemUsed = 31,
+  ItemUsed = 31
 }
 
 export { TelemetryEventType };

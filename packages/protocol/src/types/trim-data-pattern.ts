@@ -1,4 +1,4 @@
-export type TrimDataPattern = {
+export interface TrimDataPattern {
   item_name: string;
   pattern: string;
 }

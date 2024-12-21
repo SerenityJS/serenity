@@ -1,13 +1,13 @@
-import type { BinaryStream } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
+
 import { TrimDataPattern } from "../../types";
 
+import type { BinaryStream } from "@serenityjs/binarystream";
 
 class Patterns extends DataType {
-  public patterns: TrimDataPattern[];
+  public patterns: Array<TrimDataPattern>;
 
-
-  constructor(patterns: TrimDataPattern[] = []) {
+  public constructor(patterns: Array<TrimDataPattern> = []) {
     super();
     this.patterns = patterns;
   }

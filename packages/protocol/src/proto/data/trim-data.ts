@@ -1,7 +1,9 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
+
 import { Patterns, Materials } from "../types";
-import { DataPacket } from "./data-packet";
 import { Packet } from "../../enums";
+
+import { DataPacket } from "./data-packet";
 
 @Proto(Packet.TrimData)
 class TrimDataPacket extends DataPacket {

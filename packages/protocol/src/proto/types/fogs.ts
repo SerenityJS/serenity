@@ -2,9 +2,9 @@ import { BinaryStream } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
 
 class Fogs extends DataType {
-  public fogs: string[];
+  public fogs: Array<string>;
 
-  constructor(fogs: string[] = []) {
+  public constructor(fogs: Array<string> = []) {
     super();
     this.fogs = fogs;
   }

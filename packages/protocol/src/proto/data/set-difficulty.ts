@@ -1,8 +1,9 @@
 import { VarInt } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
+
+import { Difficulty, Packet } from "../../enums";
+
 import { DataPacket } from "./data-packet";
-import { Difficulty } from "../../enums";
-import { Packet } from "../../enums";
 
 @Proto(Packet.SetDifficulty)
 class SetDifficultyPacket extends DataPacket {

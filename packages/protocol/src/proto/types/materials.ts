@@ -1,11 +1,13 @@
-import type { BinaryStream } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
+
 import { TrimDataMaterial } from "../../types";
 
-class Materials extends DataType {
-  public materials: TrimDataMaterial[];
+import type { BinaryStream } from "@serenityjs/binarystream";
 
-  constructor(materials: TrimDataMaterial[] = []) {
+class Materials extends DataType {
+  public materials: Array<TrimDataMaterial>;
+
+  public constructor(materials: Array<TrimDataMaterial> = []) {
     super();
     this.materials = materials;
   }

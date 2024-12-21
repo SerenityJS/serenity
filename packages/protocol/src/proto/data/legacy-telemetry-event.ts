@@ -1,16 +1,18 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
+import { Proto } from "@serenityjs/raknet";
+
 import { Packet, TelemetryEventType } from "../../enums";
 import { LegacyTelemetryEventData } from "../../types";
+
 import { DataPacket } from "./data-packet";
-
-
 
 @Proto(Packet.LegacyTelemetryEvent)
 class LegacyTelemetryEventPacket extends DataPacket {
   public unique_id!: bigint;
   public type!: TelemetryEventType;
   public use_player_id!: number;
-  public event_data!: LegacyTelemetryEventData[keyof LegacyTelemetryEventData] | undefined;
+  public event_data!:
+    | LegacyTelemetryEventData[keyof LegacyTelemetryEventData]
+    | undefined;
 
   public override serialize(): Buffer {
     this.writeVarInt(Packet.LegacyTelemetryEvent);
@@ -20,11 +22,15 @@ class LegacyTelemetryEventPacket extends DataPacket {
 
     switch (this.type) {
       case TelemetryEventType.AchievementAwarded: {
-        this.writeVarInt((this.event_data as LegacyTelemetryEventData['AchievementAwarded']).achievementId);
+        this.writeVarInt(
+          (this.event_data as LegacyTelemetryEventData["AchievementAwarded"])
+            .achievementId
+        );
         break;
       }
       case TelemetryEventType.EntityInteract: {
-        const ei = this.event_data as LegacyTelemetryEventData['EntityInteract'];
+        const ei = this
+          .event_data as LegacyTelemetryEventData["EntityInteract"];
         this.writeVarLong(ei.interactedEntityId);
         this.writeVarInt(ei.interactionType);
         this.writeVarInt(ei.interactionActorType);
@@ -33,17 +39,20 @@ class LegacyTelemetryEventPacket extends DataPacket {
         break;
       }
       case TelemetryEventType.PortalBuilt: {
-        this.writeVarInt((this.event_data as LegacyTelemetryEventData['PortalBuilt']).dimensionId);
+        this.writeVarInt(
+          (this.event_data as LegacyTelemetryEventData["PortalBuilt"])
+            .dimensionId
+        );
         break;
       }
       case TelemetryEventType.PortalUsed: {
-        const pu = this.event_data as LegacyTelemetryEventData['PortalUsed'];
+        const pu = this.event_data as LegacyTelemetryEventData["PortalUsed"];
         this.writeVarInt(pu.fromDimensionId);
         this.writeVarInt(pu.toDimensionId);
         break;
       }
       case TelemetryEventType.MobKilled: {
-        const mk = this.event_data as LegacyTelemetryEventData['MobKilled'];
+        const mk = this.event_data as LegacyTelemetryEventData["MobKilled"];
         this.writeVarLong(mk.instigatorActorId);
         this.writeVarLong(mk.targetActorId);
         this.writeVarInt(mk.instigatorChildActorType);
@@ -53,14 +62,14 @@ class LegacyTelemetryEventPacket extends DataPacket {
         break;
       }
       case TelemetryEventType.CauldronUsed: {
-        const cu = this.event_data as LegacyTelemetryEventData['CauldronUsed'];
+        const cu = this.event_data as LegacyTelemetryEventData["CauldronUsed"];
         this.writeVarInt(cu.contentsColor);
         this.writeVarInt(cu.contentsType);
         this.writeVarInt(cu.fillLevel);
         break;
       }
       case TelemetryEventType.PlayerDeath: {
-        const pd = this.event_data as LegacyTelemetryEventData['PlayerDeath'];
+        const pd = this.event_data as LegacyTelemetryEventData["PlayerDeath"];
         this.writeVarLong(pd.instigatorActorId);
         this.writeVarInt(pd.instigatorMobVariant);
         this.writeVarInt(pd.damageSource);
@@ -68,14 +77,14 @@ class LegacyTelemetryEventPacket extends DataPacket {
         break;
       }
       case TelemetryEventType.BossKilled: {
-        const bk = this.event_data as LegacyTelemetryEventData['BossKilled'];
+        const bk = this.event_data as LegacyTelemetryEventData["BossKilled"];
         this.writeVarLong(bk.bossActorId);
         this.writeVarInt(bk.partySize);
         this.writeVarInt(bk.bossType);
         break;
       }
       case TelemetryEventType.AgentCommand: {
-        const ac = this.event_data as LegacyTelemetryEventData['AgentCommand'];
+        const ac = this.event_data as LegacyTelemetryEventData["AgentCommand"];
         this.writeVarInt(ac.result);
         this.writeVarInt(ac.resultNumber);
         this.writeVarString(ac.commandName);
@@ -84,7 +93,8 @@ class LegacyTelemetryEventPacket extends DataPacket {
         break;
       }
       case TelemetryEventType.CommandExecuted: {
-        const ce = this.event_data as LegacyTelemetryEventData['CommandExecuted'];
+        const ce = this
+          .event_data as LegacyTelemetryEventData["CommandExecuted"];
         this.writeVarInt(ce.successCount);
         this.writeVarInt(ce.errorCount);
         this.writeVarString(ce.commandName);
@@ -92,14 +102,14 @@ class LegacyTelemetryEventPacket extends DataPacket {
         break;
       }
       case TelemetryEventType.MobBorn: {
-        const mb = this.event_data as LegacyTelemetryEventData['MobBorn'];
+        const mb = this.event_data as LegacyTelemetryEventData["MobBorn"];
         this.writeVarInt(mb.entityType);
         this.writeVarInt(mb.entityVariant);
         this.writeUint8(mb.color);
         break;
       }
       case TelemetryEventType.PetDied: {
-        const petd = this.event_data as LegacyTelemetryEventData['PetDied'];
+        const petd = this.event_data as LegacyTelemetryEventData["PetDied"];
         this.writeVarInt(petd.killedPetEntityType);
         this.writeVarInt(petd.killedPetVariant);
         this.writeVarInt(petd.killerEntityType);
@@ -109,52 +119,70 @@ class LegacyTelemetryEventPacket extends DataPacket {
       }
       case TelemetryEventType.CauldronBlockUsed:
       case TelemetryEventType.ComposterBlockUsed: {
-        const cbu = this.event_data as LegacyTelemetryEventData['CauldronBlockUsed'];
+        const cbu = this
+          .event_data as LegacyTelemetryEventData["CauldronBlockUsed"];
         this.writeVarInt(cbu.blockInteractionType);
         this.writeVarInt(cbu.itemId);
         break;
       }
       case TelemetryEventType.BellBlockUsed: {
-        this.writeVarInt((this.event_data as LegacyTelemetryEventData['BellBlockUsed']).itemId);
+        this.writeVarInt(
+          (this.event_data as LegacyTelemetryEventData["BellBlockUsed"]).itemId
+        );
         break;
       }
       case TelemetryEventType.ActorDefinition: {
-        this.writeVarString((this.event_data as LegacyTelemetryEventData['ActorDefinition']).eventName);
+        this.writeVarString(
+          (this.event_data as LegacyTelemetryEventData["ActorDefinition"])
+            .eventName
+        );
         break;
       }
       case TelemetryEventType.RaidUpdate: {
-        const ru = this.event_data as LegacyTelemetryEventData['RaidUpdate'];
+        const ru = this.event_data as LegacyTelemetryEventData["RaidUpdate"];
         this.writeVarInt(ru.currentRaidWave);
         this.writeVarInt(ru.totalRaidWaves);
         this.writeBool(ru.wonRaid);
         break;
       }
       case TelemetryEventType.TargetBlockHit: {
-        this.writeVarInt((this.event_data as LegacyTelemetryEventData['TargetBlockHit']).redstoneLevel);
+        this.writeVarInt(
+          (this.event_data as LegacyTelemetryEventData["TargetBlockHit"])
+            .redstoneLevel
+        );
         break;
       }
       case TelemetryEventType.PiglinBarter: {
-        const pb = this.event_data as LegacyTelemetryEventData['PiglinBarter'];
+        const pb = this.event_data as LegacyTelemetryEventData["PiglinBarter"];
         this.writeVarInt(pb.itemId);
         this.writeBool(pb.wasTargetingBarteringPlayer);
         break;
       }
       case TelemetryEventType.WaxedOrUnwaxedCopper: {
-        this.writeVarInt((this.event_data as LegacyTelemetryEventData['WaxedOrUnwaxedCopper']).playerWaxedOrUnwaxedCopperBlockId);
+        this.writeVarInt(
+          (this.event_data as LegacyTelemetryEventData["WaxedOrUnwaxedCopper"])
+            .playerWaxedOrUnwaxedCopperBlockId
+        );
         break;
       }
       case TelemetryEventType.CodeBuilderRuntimeAction: {
-        this.writeVarString((this.event_data as LegacyTelemetryEventData['CodeBuilderRuntimeAction']).codeBuilderRuntimeAction);
+        this.writeVarString(
+          (
+            this
+              .event_data as LegacyTelemetryEventData["CodeBuilderRuntimeAction"]
+          ).codeBuilderRuntimeAction
+        );
         break;
       }
       case TelemetryEventType.CodeBuilderScoreboard: {
-        const cbs = this.event_data as LegacyTelemetryEventData['CodeBuilderScoreboard'];
+        const cbs = this
+          .event_data as LegacyTelemetryEventData["CodeBuilderScoreboard"];
         this.writeVarString(cbs.objectiveName);
         this.writeVarInt(cbs.codeBuilderScoreboardScore);
         break;
       }
       case TelemetryEventType.ItemUsed: {
-        const iu = this.event_data as LegacyTelemetryEventData['ItemUsed'];
+        const iu = this.event_data as LegacyTelemetryEventData["ItemUsed"];
         this.writeShort(iu.itemId);
         this.writeVarInt(iu.itemAux);
         this.writeVarInt(iu.useMethod);
@@ -325,7 +353,9 @@ class LegacyTelemetryEventPacket extends DataPacket {
         };
         break;
       case TelemetryEventType.WaxedOrUnwaxedCopper:
-        this.event_data = { playerWaxedOrUnwaxedCopperBlockId: this.readVarInt() };
+        this.event_data = {
+          playerWaxedOrUnwaxedCopperBlockId: this.readVarInt()
+        };
         break;
       case TelemetryEventType.CodeBuilderRuntimeAction:
         this.event_data = { codeBuilderRuntimeAction: this.readVarString() };
