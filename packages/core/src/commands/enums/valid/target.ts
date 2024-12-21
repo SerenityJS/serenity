@@ -179,16 +179,16 @@ class TargetEnum extends ValidEnum {
 
                   // Parse the entity type.
                   const parsed = type.includes(":")
-                    ? value
-                    : `minecraft:${value}`;
+                    ? type
+                    : `minecraft:${type}`;
 
                   // Check if the entity type matches the query.
                   if (
                     negate
-                      ? entity.type.identifier === parsed
-                      : entity.type.identifier !== parsed
+                      ? parsed == entity.type.identifier
+                      : parsed != entity.type.identifier
                   )
-                    return;
+                    return false;
                   break;
                 }
 
