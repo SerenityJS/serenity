@@ -7,7 +7,7 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 class Materials extends DataType {
   public materials: Array<TrimDataMaterial>;
 
-  constructor(materials: Array<TrimDataMaterial> = []) {
+  public constructor(materials: Array<TrimDataMaterial> = []) {
     super();
     this.materials = materials;
   }

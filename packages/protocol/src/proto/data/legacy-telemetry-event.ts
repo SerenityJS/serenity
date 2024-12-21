@@ -1,4 +1,4 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
+import { Proto } from "@serenityjs/raknet";
 
 import { Packet, TelemetryEventType } from "../../enums";
 import { LegacyTelemetryEventData } from "../../types";

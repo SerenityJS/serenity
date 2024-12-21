@@ -4,7 +4,7 @@ import { DataType } from "@serenityjs/raknet";
 class Fogs extends DataType {
   public fogs: Array<string>;
 
-  constructor(fogs: Array<string> = []) {
+  public constructor(fogs: Array<string> = []) {
     super();
     this.fogs = fogs;
   }

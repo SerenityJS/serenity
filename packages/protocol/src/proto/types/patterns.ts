@@ -7,7 +7,7 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 class Patterns extends DataType {
   public patterns: Array<TrimDataPattern>;
 
-  constructor(patterns: Array<TrimDataPattern> = []) {
+  public constructor(patterns: Array<TrimDataPattern> = []) {
     super();
     this.patterns = patterns;
   }
