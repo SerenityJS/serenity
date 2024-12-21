@@ -38,6 +38,7 @@ import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
 import { type EntityTrait, PlayerCursorTrait, PlayerTrait } from "./traits";
 import { Device } from "./device";
+import { ScreenDisplay } from "./screen-display";
 
 const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
@@ -88,6 +89,13 @@ class Player extends Entity {
    * The skin of the player
    */
   public readonly skin: SerializedSkin;
+
+  /**
+   * The screen display for the player.
+   * This is used to hide and show elements on the player's screen.
+   * This is also used to send title and subtitle messages to the player.
+   */
+  public readonly onScreenDisplay = new ScreenDisplay(this);
 
   /**
    * The current input tick of the player
