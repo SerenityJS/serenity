@@ -23,7 +23,7 @@ class BlockInventoryTrait extends BlockTrait {
   public static readonly identifier: string = "inventory";
   public static readonly types = [BlockIdentifier.Chest];
 
-  public readonly container: BlockContainer;
+  public container: BlockContainer;
 
   /**
    * The component used to store the inventory items.

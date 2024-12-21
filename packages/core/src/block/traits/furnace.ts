@@ -2,6 +2,7 @@ import { ContainerId, ContainerType } from "@serenityjs/protocol";
 
 import { BlockIdentifier } from "../../enums";
 import { Block } from "../block";
+import { BlockContainer } from "../..";
 
 import { BlockInventoryTrait } from "./inventory";
 
@@ -12,10 +13,13 @@ class BlockFurnaceTrait extends BlockInventoryTrait {
   public constructor(block: Block) {
     super(block);
 
-    // Assign the container properties for the furnace
-    this.containerType = ContainerType.Furnace;
-    this.containerId = ContainerId.None;
-    this.containerSize = 3;
+    // Create the container for the trait
+    this.container = new BlockContainer(
+      block,
+      ContainerType.Furnace,
+      ContainerId.None,
+      3
+    );
   }
 
   public onOpen(): void {
