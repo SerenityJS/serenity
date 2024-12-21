@@ -39,6 +39,11 @@ const register = (world: World) => {
                 // Get the tag from the parameters
                 const tag = context.tag.result as string;
 
+                if (!tag) {
+                  message.push("§cSyntax error: expected tag at add  <<");
+                  break;
+                }
+
                 // Add the tag to the entity
                 const added = entity.addTag(tag);
 
@@ -85,9 +90,9 @@ const register = (world: World) => {
                   message.push(`§c${entity.uniqueId}§7 has no tags.`);
                 } else {
                   message.push(
-                    `§c${entity.uniqueId}§7 has the following tags: §a${tags.join(
-                      "§7, §a"
-                    )}`
+                    `§c${
+                      entity.uniqueId
+                    }§7 has the following tags: §a${tags.join("§7, §a")}`
                   );
                 }
 
