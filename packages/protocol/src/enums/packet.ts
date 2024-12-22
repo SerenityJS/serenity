@@ -137,7 +137,8 @@ enum Packet {
   ClientboundCloseForm = 0x1_36, // 310
   ServerboundLoadingScreenPacket = 0x1_38, // 312
   CurrentStructureFeature = 0x1_3a, // 314
-  ServerboundDiagnosticPacket = 0x1_3b // 315
+  ServerboundDiagnosticPacket = 0x1_3b, // 315
+  MovementEffect = 0x1_3e // 318
 }
 
 export { Packet };
