@@ -137,6 +137,7 @@ import { ShowProfilePacket } from "./show-profile";
 import { DebugInfoPacket } from "./debug-info";
 import { ClientBoundDebugRendererPacket } from "./client-bound-debug-renderer";
 import { CorrectPlayerMovePredictionPacket } from "./correct-player-move-prediction";
+import { MovementEffectPacket } from "./movement-effect";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -272,7 +273,8 @@ const Packets = {
   [Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310
   [Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket, // 312
   [Packet.CurrentStructureFeature]: CurrectStructureFeaturePacket, // 314
-  [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket // 315
+  [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket, // 315
+  [Packet.MovementEffectPacket]: MovementEffectPacket // 318
 };
 
 export { Packets };
