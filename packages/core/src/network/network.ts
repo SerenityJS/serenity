@@ -25,7 +25,7 @@ import { NetworkBound } from "../enums";
 
 import type { NetworkHandler } from "./handler";
 import type { Serenity } from "../serenity";
-import type { NetworkEvents, ServerProperties } from "../types";
+import type { NetworkEvents } from "../types";
 
 interface ConnectionProperties {
   compression: boolean;
@@ -35,6 +35,18 @@ interface ConnectionProperties {
 const DefaultProperties: ConnectionProperties = {
   compression: false,
   encryption: false
+};
+
+interface NetworkProperties {
+  compressionMethod: CompressionMethod;
+  compressionThreshold: number;
+  packetsPerFrame: number;
+}
+
+const DefaultNetworkProperties: NetworkProperties = {
+  compressionMethod: CompressionMethod.Zlib,
+  compressionThreshold: 256,
+  packetsPerFrame: 64
 };
 
 class Network extends Emitter<NetworkEvents> {
@@ -51,7 +63,7 @@ class Network extends Emitter<NetworkEvents> {
   /**
    * The properties that are being used for the network
    */
-  public readonly properties: ServerProperties;
+  public readonly properties: NetworkProperties;
 
   /**
    * The logger that is being used to log network events
@@ -69,12 +81,55 @@ class Network extends Emitter<NetworkEvents> {
   public readonly handlers = new Set<typeof NetworkHandler>();
 
   /**
+   * The current compression method that is being used for the network
+   */
+  public get compressionMethod(): CompressionMethod {
+    return this.properties.compressionMethod;
+  }
+
+  /**
+   * The current compression method that is being used for the network
+   */
+  public set compressionMethod(method: CompressionMethod) {
+    this.properties.compressionMethod = method;
+  }
+
+  /**
+   * The current compression threshold that is being used for the network
+   */
+  public get compressionThreshold(): number {
+    return this.properties.compressionThreshold;
+  }
+
+  /**
+   * The current compression threshold that is being used for the network
+   */
+  public set compressionThreshold(threshold: number) {
+    this.properties.compressionThreshold = threshold;
+  }
+
+  /**
+   * The current packets per frame that is being used for the network
+   */
+  public get packetsPerFrame(): number {
+    return this.properties.packetsPerFrame;
+  }
+
+  /**
+   * The current packets per frame that is being used for the network
+   */
+  public set packetsPerFrame(packets: number) {
+    this.properties.packetsPerFrame = packets;
+  }
+
+  /**
    * Creates a new network handler for a raknet server
    * @param serenity The serenity instance to handle incoming packets with
    * @param handlers The handlers to register to the network
    */
   public constructor(
     serenity: Serenity,
+    properties?: Partial<NetworkProperties>,
     handlers?: Array<typeof NetworkHandler>
   ) {
     super();
@@ -83,18 +138,10 @@ class Network extends Emitter<NetworkEvents> {
     this.serenity = serenity;
 
     // Assign the properties to the network with the default properties
-    this.properties = serenity.properties;
+    this.properties = { ...DefaultNetworkProperties, ...properties };
 
     // Create a new raknet server for the network handler
-    this.raknet = new Server(
-      this.properties.address,
-      this.properties.port,
-      1000,
-      400
-    );
-
-    // Set the maximum connections for the raknet server
-    this.raknet.maxConnections = this.properties.maxPlayers;
+    this.raknet = new Server(serenity.properties.raknet);
 
     // Bind the incoming packets to the incoming method
     this.raknet.on("encapsulated", this.onEncapsulated.bind(this));
@@ -534,4 +581,4 @@ class Network extends Emitter<NetworkEvents> {
   }
 }
 
-export { Network };
+export { Network, NetworkProperties };

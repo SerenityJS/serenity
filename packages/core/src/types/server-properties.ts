@@ -1,20 +1,17 @@
+import { RaknetServerProperties } from "@serenityjs/raknet";
+
 import { PermissionEntry } from "../permissions";
+import { NetworkProperties } from "../network";
 
 import { ResourcePacksProperties } from "./resource";
 
 import type { TerrainGenerator } from "../world";
-import type { CompressionMethod } from "@serenityjs/protocol";
 
 interface ServerProperties {
-  path: string | null;
-  port: number;
-  address: string;
-  motd: string;
-  maxPlayers: number;
+  network?: Partial<NetworkProperties>;
+  raknet?: Partial<RaknetServerProperties>;
 
-  compressionMethod: CompressionMethod;
-  compressionThreshold: number;
-  packetsPerFrame: number;
+  path: string | null;
 
   permissions: string | Array<PermissionEntry>;
 

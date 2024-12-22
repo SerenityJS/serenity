@@ -41,9 +41,8 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
     // We can send the client the network settings.
     // Will will assign the values from the network instance to the settings packet.
     const settings = new NetworkSettingsPacket();
-    settings.compressionThreshold =
-      this.serenity.properties.compressionThreshold;
-    settings.compressionMethod = this.serenity.properties.compressionMethod;
+    settings.compressionThreshold = this.serenity.network.compressionThreshold;
+    settings.compressionMethod = this.serenity.network.compressionMethod;
     settings.clientThrottle = false;
     settings.clientThreshold = 0;
     settings.clientScalar = 0;

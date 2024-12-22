@@ -3,13 +3,29 @@ import { type RemoteInfo, createSocket } from "node:dgram";
 import { Emitter } from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
-import { MAX_MTU_SIZE, MIN_MTU_SIZE, RAKNET_TICK_LEN } from "../constants";
+import {
+  MAX_MTU_SIZE,
+  MIN_MTU_SIZE,
+  RAKNET_PROTOCOL,
+  RAKNET_TICK_LEN
+} from "../constants";
 import { Bitflags } from "../enums";
 
 import { Offline } from "./offline";
 
-import type { RaknetEvents } from "../types";
+import type { RaknetEvents, RaknetServerProperties } from "../types";
 import type { Connection } from "./connection";
+
+const DefaultRaknetServerProperties: RaknetServerProperties = {
+  address: "0.0.0.0",
+  port: 19132,
+  protocol: RAKNET_PROTOCOL,
+  version: "1.0.0",
+  message: "Raknet Server",
+  maxConnections: 40,
+  mtuMaxSize: MAX_MTU_SIZE,
+  mtuMinSize: MIN_MTU_SIZE
+};
 
 /**
  * The raknet server
@@ -19,6 +35,11 @@ class Server extends Emitter<RaknetEvents> {
    * The server tick interval
    */
   protected interval: NodeJS.Timeout | null = null;
+
+  /**
+   * The raknet properties for the server instance.
+   */
+  public readonly properties: RaknetServerProperties;
 
   /**
    * The raknet server logger
@@ -31,54 +52,123 @@ class Server extends Emitter<RaknetEvents> {
   public readonly socket = createSocket("udp4");
 
   /**
-   * The server address
-   */
-  public readonly address: string;
-
-  /**
-   * The server port
-   */
-  public readonly port: number;
-
-  /**
-   * The server guid
-   */
-  public readonly guid = BigInt(Math.floor(Math.random() * 2 ** 64));
-
-  /**
    * The server connections
    */
   public readonly connections = new Set<Connection>();
 
-  /**
-   * The server max mtu size
-   */
-  public readonly maxMtuSize: number;
+  public readonly guid = BigInt(Math.floor(Math.random() * 2 ** 64));
 
   /**
-   * The server min mtu size
+   * The address the raknet server is bound to.
    */
-  public readonly minMtuSize: number;
+  public get address(): string {
+    return this.properties.address;
+  }
 
   /**
-   * The server protocol
+   * The address the raknet server is bound to.
    */
-  public protocol: number | null = null;
+  public set address(value: string) {
+    this.properties.address = value;
+  }
 
   /**
-   * The server version
+   * The port the raknet server is bound to.
    */
-  public version: string | null = null;
+  public get port(): number {
+    return this.properties.port;
+  }
 
   /**
-   * The server message
+   * The port the raknet server is bound to.
    */
-  public message: string | null = null;
+  public set port(value: number) {
+    this.properties.port = value;
+  }
 
   /**
-   * The server max connections
+   * The maximum transmission unit size for the server.
    */
-  public maxConnections: number | null = null;
+  public get maxMtuSize(): number {
+    return this.properties.mtuMaxSize;
+  }
+
+  /**
+   * The maximum transmission unit size for the server.
+   */
+  public set maxMtuSize(value: number) {
+    this.properties.mtuMaxSize = value;
+  }
+
+  /**
+   * The minimum transmission unit size for the server.
+   */
+  public get minMtuSize(): number {
+    return this.properties.mtuMinSize;
+  }
+
+  /**
+   * The minimum transmission unit size for the server.
+   */
+  public set minMtuSize(value: number) {
+    this.properties.mtuMinSize = value;
+  }
+
+  /**
+   * The protocol version of the server.
+   */
+  public get protocol(): number {
+    return this.properties.protocol;
+  }
+
+  /**
+   * The protocol version of the server.
+   */
+  public set protocol(value: number) {
+    this.properties.protocol = value;
+  }
+
+  /**
+   * The version of the server.
+   */
+  public get version(): string {
+    return this.properties.version;
+  }
+
+  /**
+   * The version of the server.
+   */
+  public set version(value: string) {
+    this.properties.version = value;
+  }
+
+  /**
+   * The message of the day of the server.
+   */
+  public get message(): string {
+    return this.properties.message;
+  }
+
+  /**
+   * The message of the day of the server.
+   */
+  public set message(value: string) {
+    this.properties.message = value;
+  }
+
+  /**
+   * The max connections of the server.
+   */
+  public get maxConnections(): number {
+    return this.properties.maxConnections;
+  }
+
+  /**
+   * The max connections of the server.
+   */
+  public set maxConnections(value: number) {
+    this.properties.maxConnections = value;
+  }
 
   /**
    * Weather the server is alive
@@ -86,21 +176,12 @@ class Server extends Emitter<RaknetEvents> {
   public alive = true;
 
   /**
-   * Creates a new raknet server
-   * @param address the server address
-   * @param port the server port
    */
-  public constructor(
-    address: string,
-    port = 19_132,
-    mtuMaxSize = MAX_MTU_SIZE,
-    mtuMinSize = MIN_MTU_SIZE
-  ) {
+  public constructor(properties?: Partial<RaknetServerProperties>) {
     super();
-    this.address = address;
-    this.port = port;
-    this.maxMtuSize = mtuMaxSize;
-    this.minMtuSize = mtuMinSize;
+
+    // Assign the server properties with the default properties
+    this.properties = { ...DefaultRaknetServerProperties, ...properties };
 
     // Bind the incoming messages to the handle method
     this.socket.on("message", this.handle.bind(this));
