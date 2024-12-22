@@ -97,3 +97,4 @@ export * from "./memory-tier";
 export * from "./permission-flag";
 export * from "./command-block-mode";
 export * from "./prediction-type";
+export * from "./movement-effect-type";

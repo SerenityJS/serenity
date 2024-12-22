@@ -134,7 +134,8 @@ import type {
   ShowProfilePacket,
   DebugInfoPacket,
   ClientBoundDebugRendererPacket,
-  CorrectPlayerMovePredictionPacket
+  CorrectPlayerMovePredictionPacket,
+  MovementEffectPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -332,6 +333,9 @@ interface NetworkEvents {
   ];
   [Packet.ServerboundDiagnosticPacket]: [
     NetworkPacketEvent<ServerboundDiagnosticsPacket>
+  ];
+  [Packet.MovementEffect]: [
+    NetworkPacketEvent<MovementEffectPacket>
   ];
 }
 
