@@ -44,7 +44,6 @@ class EntityGravityTrait extends EntityTrait {
           (this.entity.gamemode == Gamemode.Adventure ||
             this.entity.gamemode == Gamemode.Survival)
         ) {
-          console.log(this.fallingDistance, fallDamage);
           this.entity
             .getTrait(EntityHealthTrait)
             .applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
