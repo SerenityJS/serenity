@@ -1,8 +1,9 @@
-import { ActorFlag } from "@serenityjs/protocol";
+import { ActorDamageCause, ActorFlag } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
 
 import { EntityTrait } from "./trait";
+import { EntityHealthTrait } from "./attribute";
 
 class EntityGravityTrait extends EntityTrait {
   public static readonly identifier = "gravity";
@@ -33,7 +34,17 @@ class EntityGravityTrait extends EntityTrait {
     // Check if the entity is on the ground
     if (this.entity.onGround) {
       // Reset the falling distance of the entity, if it is not already 0
-      if (this.fallingDistance !== 0) this.fallingDistance = 0;
+      if (this.fallingDistance !== 0) {
+        // TODO: Add block.onFallOn
+        const fallDamage = Math.max(0, this.fallingDistance - 4);
+
+        if (fallDamage > 0) {
+          this.entity
+            .getTrait(EntityHealthTrait)
+            .applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
+        }
+        this.fallingDistance = 0;
+      }
 
       // Reset the entity to not be falling
       this.entity.isFalling = false;
