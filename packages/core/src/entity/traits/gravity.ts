@@ -48,6 +48,8 @@ class EntityGravityTrait extends EntityTrait {
             .getTrait(EntityHealthTrait)
             .applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
         }
+
+        // Reset the falling distance of the entity
         this.fallingDistance = 0;
       }
 
@@ -61,12 +63,15 @@ class EntityGravityTrait extends EntityTrait {
     // Get the topmost block of the entity
     const top = this.entity.dimension.getTopmostBlock(this.entity.position);
 
-    // Add the y position of the block and entity
-    const blockY = top.position.y + 64;
-    const entityY = this.entity.position.y + 64 - 1.62;
+    // // Add the y position of the block and entity
+    const blockY = top.position.y;
+    const entityY = this.entity.position.y - 1 - this.entity.hitboxHeight;
 
-    // Calculate the distance between the entity and the block
+    // // Calculate the distance between the entity and the block
     const distance = Math.round(entityY - blockY);
+
+    // Check if the distance is less than the falling distance
+    // If so, return
     if (distance < this.fallingDistance) return;
 
     // Set the falling distance of the entity

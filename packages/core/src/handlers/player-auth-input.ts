@@ -44,6 +44,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
+    // Update the player's input tick
+    player.inputTick = packet.inputTick;
+
     // Validate the player's motion
     if (
       !this.validatePlayerMotion(player, packet.position, packet.positionDelta)
@@ -73,23 +76,14 @@ class PlayerAuthInputHandler extends NetworkHandler {
     player.device.interactionMode = packet.interactionMode;
     player.device.playMode = packet.playMode;
 
-    // Convert the player's position to a block position
-    const position = player.position.floor();
-
+    // Set the player's velocity
     player.velocity.x = packet.motion.y;
     player.velocity.z = packet.motion.x;
 
-    // Get the block permutation below the player
-    // Getting the permutation rather than the block will reduce server load
-    // As getting the block will construct a block instance, the permutation is already loaded
-    const permutation = player.dimension.getPermutation({
-      ...position,
-      y: position.y - 2
-    });
-
-    // Update the player's onGround status & inputTick
-    player.onGround = permutation.type.solid;
-    player.inputTick = packet.inputTick;
+    // Determine if the player is on the ground
+    player.onGround =
+      packet.inputData.hasFlag(InputData.VerticalCollision) &&
+      !packet.inputData.hasFlag(InputData.Jumping);
 
     // TODO: find a better way to handle this
     player.isMoving = true;
@@ -142,12 +136,18 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (Math.abs(delta.x) >= PlayerAuthInputHandler.rewindMovementThreshold)
       return false;
 
-    // Check if the delta y is greater than the movement threshold
-    if (Math.abs(delta.y) >= PlayerAuthInputHandler.rewindMovementThreshold) {
-      // Check if the player is falling, if so the movement is valid.
-      if (player.isFalling) return true;
+    // // Check if the delta y is greater than the movement threshold
+    // if (Math.abs(delta.y) >= PlayerAuthInputHandler.rewindMovementThreshold) {
+    //   // Check if the player is falling, if so the movement is valid.
+    //   if (player.isFalling) return true;
 
-      // Return false, as the movement is invalid
+    //   // Return false, as the movement is invalid
+    //   return false;
+    // }
+
+    if (delta.y >= PlayerAuthInputHandler.rewindMovementThreshold) return false;
+    else if (delta.y <= -PlayerAuthInputHandler.rewindMovementThreshold) {
+      if (player.isFalling) return true;
       return false;
     }
 
