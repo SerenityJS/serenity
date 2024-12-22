@@ -645,6 +645,17 @@ class Entity {
    */
   public addComponent<T extends JSONLikeObject>(key: string, value: T): void {
     this.components.set(key, value);
+
+    // TODO: add return type boolean, check if the component already exists before adding
+  }
+
+  /**
+   * Sets the component of the entity.
+   * @param key The key of the component.
+   * @param value The value of the component.
+   */
+  public setComponent<T extends JSONLikeObject>(key: string, value: T): void {
+    this.components.set(key, value);
   }
 
   /**
@@ -720,7 +731,7 @@ class Entity {
       } catch (reason) {
         // Log the error to the console
         this.serenity.logger.error(
-          `Failed to trigger onSpawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          `(EntityTrait::${trait.identifier}) Failed to trigger onSpawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
           reason
         );
 
@@ -787,10 +798,10 @@ class Entity {
     // Check if the entity has an inventory trait
     if (this.hasTrait(EntityInventoryTrait)) {
       // Get the inventory trait
-      const { container, inventorySize } = this.getTrait(EntityInventoryTrait);
+      const { container } = this.getTrait(EntityInventoryTrait);
 
       // Iterate over the inventory slots
-      for (let slot = 0; slot < inventorySize; slot++) {
+      for (let slot = 0; slot < container.size; slot++) {
         // Get the item from the slot
         const item = container.getItem(slot);
 
@@ -919,18 +930,6 @@ class Entity {
         // Return null if the container name is not valid
         return null;
       }
-
-      // case ContainerName.Armor: {
-      //   // Check if the entity has an inventory component
-      //   if (!this.hasComponent("minecraft:inventory"))
-      //     throw new Error("The entity does not have an inventory component.");
-
-      //   // Get the inventory component
-      //   const inventory = this.getComponent("minecraft:inventory");
-
-      //   // Return the armor container
-      //   return inventory.container;
-      // }
 
       case ContainerName.Armor: {
         if (!this.hasTrait(EntityEquipmentTrait))

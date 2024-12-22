@@ -10,6 +10,37 @@ interface PluginProperties extends Partial<PluginEvents> {
   type: PluginType;
 }
 
+/**
+ * # Introduction
+ * Plugins are the fundamental building blocks of SerenityJS.
+ * They are used to add additional functionality to the server, which allows total control over the server.
+ *
+ * There are 2 types of plugins that are defined in the `PluginType` enum: `Addon` & `Api`
+ *
+ * Addon plugins add additional functionality to the server, without an exposed API. This means external plugins cannot directly interact with the plugins API.
+ * Api plugins add additional functionality to the server, with an exposed API for other plugins to use. This means external plugins can directly interact with the plugins API.
+ *
+ * ## Class Extending Plugin
+ * ```ts
+ * import { Plugin, PluginType, PluginEvents } from "@serenityjs/plugins";
+ *
+ * class SamplePlugin extends Plugin {
+ *   public readonly type = PluginType.Addon;
+ *
+ *   public constructor() {
+ *     super("sample-plugin", "1.0.0");
+ *   }
+ *
+ *   public onInitialize(): void {}
+ *
+ *   public onStartUp(): void {}
+ *
+ *   public onShutDown(): void {}
+ * }
+ *
+ * export default new SamplePlugin();
+ * ```
+ */
 class Plugin implements PluginProperties {
   /**
    * The identifier of the plugin.

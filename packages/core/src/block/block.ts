@@ -30,23 +30,64 @@ import { NbtMap } from "./maps";
 
 import { BlockPermutation, BlockType } from ".";
 
+/**
+ * Block is a class the represents an instance of a block in a dimension of a world.
+ * The Block instance contains its position, dimension, type, permutation, components, traits, and nbt data.
+ * Blocks can be interacted with, destroyed, and have additional behavior added to them through traits.
+ *
+ * ```ts
+  // Fetching a block from a dimension.
+  const query = dimension.getBlock({ x: 0, y: 0, z: 0 });
+ * ```
+ */
 class Block {
-  protected serenity: Serenity;
+  /**
+   * The serenity instance of the server.
+   */
+  protected readonly serenity: Serenity;
 
+  /**
+   * The dimension the block is in.
+   */
   public readonly dimension: Dimension;
 
+  /**
+   * The position of the block. (x, y, z)
+   */
   public readonly position: BlockPosition;
 
+  /**
+   * The components that are attached to the block.
+   * Components are additional data that is attached to the block and will be saved with the world database.
+   * These are usaully used by traits to store additional data, but can be used by other systems as well.
+   */
   public readonly components = new Map<string, JSONLikeValue>();
 
+  /**
+   * The traits that are attached to the block.
+   * Traits add additional behavior to the block and only the trait identifier will be saved with the world database.
+   * Traits generally use components or nbt to store additional data.
+   */
   public readonly traits = new Map<string, BlockTrait>();
 
+  /**
+   * The nbt data that is attached to the block.
+   * Nbt data is additional data that is attached to the block and will be saved with the world database.
+   * The format of the nbt data is exactly the same as the nbt format of vanilla Minecraft.
+   * This data is used to apply additional metadata to the block. (Custom Name, Chest Open/Closed, etc.)
+   */
   public readonly nbt = new NbtMap(this);
 
+  /**
+   * The current permutation of the block.
+   * The permutation contains the specific state of the block, which determines the block's appearance and behavior.
+   * The permutation is a combination of the block type and the block state.
+   */
   public permutation: BlockPermutation;
 
   /**
    * Whether or not the block is air.
+   * Usaully if the block is air, it is not cached in the dimension.
    */
   public get isAir(): boolean {
     return this.permutation.type.air;
@@ -61,6 +102,7 @@ class Block {
 
   /**
    * Whether or not the block is solid.
+   * Depening on the value, this will determine if entities can pass through the block.
    */
   public get isSolid(): boolean {
     return this.permutation.type.solid;
@@ -68,6 +110,7 @@ class Block {
 
   /**
    * The block type of the block.
+   * This property will contain any additional metadata that is global to the block type.
    */
   public get type(): BlockType {
     return this.permutation.type;
@@ -75,13 +118,14 @@ class Block {
 
   /**
    * The block type of the block.
+   * This property will contain any additional metadata that is global to the block type.
    */
   public set type(type: BlockType) {
     this.setPermutation(type.getPermutation());
   }
 
   /**
-   * The block identifier of the block.
+   * The block identifier of the block. (minecraft:stone, minecraft:oak_log, minecraft:air, etc.)
    */
   public get identifier(): BlockIdentifier {
     return this.type.identifier;
@@ -122,10 +166,19 @@ class Block {
     return this.dimension.getChunk(cx, cz);
   }
 
+  /**
+   * Gets the current permutation of the block.
+   * @returns
+   */
   public getPermutation(): BlockPermutation {
     return this.permutation;
   }
 
+  /**
+   * Sets the permutation of the block.
+   * @param permutation The permutation to set the block to.
+   * @param entry The block entry to load the block data from.
+   */
   public setPermutation(
     permutation: BlockPermutation,
     entry?: BlockEntry
@@ -246,7 +299,10 @@ class Block {
    * @param key The key of the component to set.
    * @param component The component to set.
    */
-  public setComponent(key: string, component: JSONLikeObject): void {
+  public setComponent<T extends JSONLikeObject>(
+    key: string,
+    component: T
+  ): void {
     this.components.set(key, component);
   }
 

@@ -1,27 +1,40 @@
 import {
   ContainerId,
   ContainerType,
-  EquipmentSlot
+  EquipmentSlot,
+  MobArmorEquipmentPacket
 } from "@serenityjs/protocol";
 
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStack } from "../../item";
-import { ItemStackEntry, JSONLikeObject } from "../../types";
+import { ItemStackEntry, ItemStorage } from "../../types";
 import { EntityIdentifier } from "../../enums";
+import { Container } from "../..";
 
 import { EntityTrait } from "./trait";
-
-interface EquipmentEntry extends JSONLikeObject {
-  [x: number]: ItemStackEntry;
-}
-
 class EntityEquipmentTrait extends EntityTrait {
   public static readonly identifier = "equipment";
-
   public static readonly types = [EntityIdentifier.Player];
 
+  /**
+   * The armor container that holds the equipment items.
+   */
   public readonly container: EntityContainer;
+
+  /**
+   * The component used to store the equipment items.
+   */
+  public get component(): ItemStorage {
+    return this.entity.getComponent("equipment") as ItemStorage;
+  }
+
+  /**
+   * The component used to store the equipment items.
+   */
+  public set component(value: ItemStorage) {
+    this.entity.setComponent<ItemStorage>("equipment", value);
+  }
 
   public constructor(entity: Entity) {
     super(entity);
@@ -52,36 +65,90 @@ class EntityEquipmentTrait extends EntityTrait {
     return this.container.getItem(slot);
   }
 
+  public onContainerUpdate(container: Container): void {
+    // Check if the container is the equipment container
+    if (container !== this.container) return;
+
+    // Create a new equipment packet
+    const packet = new MobArmorEquipmentPacket();
+
+    // Set the runtime ID of the entity
+    packet.runtimeId = this.entity.runtimeId;
+
+    packet.helmet = ItemStack.toNetworkStack(
+      this.getEquipment(EquipmentSlot.Head) ?? ItemStack.empty()
+    );
+
+    packet.chestplate = ItemStack.toNetworkStack(
+      this.getEquipment(EquipmentSlot.Chest) ?? ItemStack.empty()
+    );
+
+    packet.leggings = ItemStack.toNetworkStack(
+      this.getEquipment(EquipmentSlot.Legs) ?? ItemStack.empty()
+    );
+
+    packet.boots = ItemStack.toNetworkStack(
+      this.getEquipment(EquipmentSlot.Feet) ?? ItemStack.empty()
+    );
+
+    packet.body = ItemStack.toNetworkStack(
+      this.getEquipment(EquipmentSlot.Chest) ?? ItemStack.empty()
+    );
+
+    // Broadcast the packet to the dimension
+    this.entity.dimension.broadcast(packet);
+  }
+
   public onSpawn(): void {
-    if (!this.entity.components.has("equipment")) return;
-    const equipment = this.entity.components.get("equipment") as EquipmentEntry;
-
-    for (const slot in equipment) {
-      const entry = equipment[slot] as ItemStackEntry;
-
+    // Iterate over the equipment slots
+    for (const [slot, entry] of this.component.items) {
+      // Create a new item stack
       const itemStack = new ItemStack(entry.identifier, {
         amount: entry.amount,
         auxillary: entry.auxillary,
         world: this.entity.world,
         entry
       });
-      this.setEquipment(Number.parseInt(slot), itemStack);
+
+      // Set the item stack to the equipment slot
+      this.setEquipment(slot as EquipmentSlot, itemStack);
     }
   }
 
   public onDespawn(): void {
-    const equipment: EquipmentEntry = {};
+    // Prepare the items array
+    const items: Array<[number, ItemStackEntry]> = [];
 
-    for (const itemStack of this.container.storage) {
+    // Iterate over the container slots
+    for (let i = 0; i < this.container.size; i++) {
+      // Get the item stack at the index
+      const itemStack = this.container.getItem(i);
+
+      // Check if the item is null
       if (!itemStack) continue;
-      equipment[this.container.storage.indexOf(itemStack)] =
-        itemStack.getDataEntry();
+
+      // Push the item stack entry to the inventory items
+      items.push([i, itemStack.getDataEntry()]);
     }
-    this.entity.components.set("equipment", equipment);
-    console.dir(this.entity.components.get("equipment"), {
-      depth: Infinity,
-      colors: true
+
+    // Set the equipment component to the entity
+    this.component = { size: this.container.size, items };
+  }
+
+  public onAdd(): void {
+    // Check if the entity has an equipment component
+    if (this.entity.hasComponent("equipment")) return;
+
+    // Create the item storage component
+    this.entity.setComponent<ItemStorage>("equipment", {
+      size: this.container.size,
+      items: []
     });
+  }
+
+  public onRemove(): void {
+    // Remove the item storage component
+    this.entity.removeComponent("equipment");
   }
 }
 
