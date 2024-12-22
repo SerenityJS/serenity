@@ -274,7 +274,7 @@ const Packets = {
   [Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket, // 312
   [Packet.CurrentStructureFeature]: CurrectStructureFeaturePacket, // 314
   [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket, // 315
-  [Packet.MovementEffectPacket]: MovementEffectPacket // 318
+  [Packet.MovementEffect]: MovementEffectPacket // 318
 };
 
 export { Packets };
