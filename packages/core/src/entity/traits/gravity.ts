@@ -36,7 +36,7 @@ class EntityGravityTrait extends EntityTrait {
       // Reset the falling distance of the entity, if it is not already 0
       if (this.fallingDistance !== 0) {
         // TODO: Add block.onFallOn
-        const fallDamage = Math.max(0, this.fallingDistance - 4);
+        const fallDamage = Math.max(0, this.fallingDistance - 3);
 
         if (
           fallDamage > 0 &&
