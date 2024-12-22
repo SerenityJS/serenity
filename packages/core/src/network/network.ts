@@ -5,6 +5,7 @@ import {
   type Connection,
   Frame,
   Priority,
+  RaknetServerProperties,
   Reliability,
   Server
 } from "@serenityjs/raknet";
@@ -17,8 +18,10 @@ import {
   DisconnectReason,
   Framer,
   getPacketId,
+  MINECRAFT_VERSION,
   Packet,
-  Packets
+  Packets,
+  PROTOCOL_VERSION
 } from "@serenityjs/protocol";
 
 import { NetworkBound } from "../enums";
@@ -130,6 +133,7 @@ class Network extends Emitter<NetworkEvents> {
   public constructor(
     serenity: Serenity,
     properties?: Partial<NetworkProperties>,
+    raknetProperties?: Partial<RaknetServerProperties>,
     handlers?: Array<typeof NetworkHandler>
   ) {
     super();
@@ -141,7 +145,12 @@ class Network extends Emitter<NetworkEvents> {
     this.properties = { ...DefaultNetworkProperties, ...properties };
 
     // Create a new raknet server for the network handler
-    this.raknet = new Server(serenity.properties.raknet);
+    this.raknet = new Server({
+      message: "SerenityJS",
+      protocol: PROTOCOL_VERSION,
+      version: MINECRAFT_VERSION,
+      ...raknetProperties
+    });
 
     // Bind the incoming packets to the incoming method
     this.raknet.on("encapsulated", this.onEncapsulated.bind(this));

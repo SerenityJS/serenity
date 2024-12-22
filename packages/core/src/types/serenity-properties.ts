@@ -5,21 +5,19 @@ import { NetworkProperties } from "../network";
 
 import { ResourcePacksProperties } from "./resource";
 
-import type { TerrainGenerator } from "../world";
-
-interface ServerProperties {
-  network?: Partial<NetworkProperties>;
-  raknet?: Partial<RaknetServerProperties>;
-
-  path: string | null;
-
+interface SerenityProperties {
   permissions: string | Array<PermissionEntry>;
-
   resourcePacks: string | ResourcePacksProperties;
-
-  defaultGenerator: typeof TerrainGenerator;
-
+  movementValidation: boolean;
+  movementRewindThreshold: number;
   debugLogging: boolean;
 }
 
-export { ServerProperties };
+interface ServerProperties {
+  serenity: Partial<SerenityProperties>;
+  network: Partial<NetworkProperties>;
+  raknet: Partial<RaknetServerProperties>;
+  path: string | null;
+}
+
+export { SerenityProperties, ServerProperties };

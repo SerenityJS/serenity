@@ -34,11 +34,6 @@ import {
 class PlayerAuthInputHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAuthInput;
 
-  /**
-   * The max amount of block the player can move before the server will rewind the player
-   */
-  public static rewindMovementThreshold = 0.4;
-
   public handle(packet: PlayerAuthInputPacket, connection: Connection): void {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
@@ -129,30 +124,30 @@ class PlayerAuthInputHandler extends NetworkHandler {
     position: Vector3f,
     delta: Vector3f
   ): boolean {
+    // Check if the movement validation is disabled
+    if (!this.serenity.properties.movementValidation) return true;
+
     // Check if the player is flying, if so the movement is valid.
     if (player.abilities.get(AbilityIndex.Flying)) return true;
 
     // Check if the delta x is greater than the movement threshold
-    if (Math.abs(delta.x) >= PlayerAuthInputHandler.rewindMovementThreshold)
+    if (Math.abs(delta.x) >= this.serenity.properties.movementRewindThreshold)
       return false;
 
-    // // Check if the delta y is greater than the movement threshold
-    // if (Math.abs(delta.y) >= PlayerAuthInputHandler.rewindMovementThreshold) {
-    //   // Check if the player is falling, if so the movement is valid.
-    //   if (player.isFalling) return true;
-
-    //   // Return false, as the movement is invalid
-    //   return false;
-    // }
-
-    if (delta.y >= PlayerAuthInputHandler.rewindMovementThreshold) return false;
-    else if (delta.y <= -PlayerAuthInputHandler.rewindMovementThreshold) {
+    // Check if the delta y is greater than the movement threshold
+    if (delta.y >= this.serenity.properties.movementRewindThreshold)
+      return false; // Return false, as the player is moving up
+    // Check if the delta y is less than the movement threshold
+    else if (delta.y <= -this.serenity.properties.movementRewindThreshold) {
+      // Check if the player is falling, if so the movement is valid
       if (player.isFalling) return true;
+
+      // If the player is not falling, return false
       return false;
     }
 
     // Check if the delta z is greater than the movement threshold
-    if (Math.abs(delta.z) >= PlayerAuthInputHandler.rewindMovementThreshold)
+    if (Math.abs(delta.z) >= this.serenity.properties.movementRewindThreshold)
       return false;
 
     // Check if the player has teleported

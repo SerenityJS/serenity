@@ -25,31 +25,26 @@ import { ResourcePackManager } from "./resource-packs";
 
 import type {
   ServerEvents,
-  ServerProperties,
+  SerenityProperties,
   WorldEventSignals,
   WorldProperties,
-  WorldProviderProperties
+  WorldProviderProperties,
+  ServerProperties
 } from "./types";
 
-const DefaultServerProperties: ServerProperties = {
-  network: {},
-  raknet: {
-    message: "SerenityJS Server",
-    protocol: PROTOCOL_VERSION,
-    version: MINECRAFT_VERSION
-  },
+const DefaultSerenityProperties: SerenityProperties = {
   permissions: [],
   resourcePacks: "",
-  defaultGenerator: VoidGenerator,
-  debugLogging: false,
-  path: null
+  movementValidation: true,
+  movementRewindThreshold: 0.4,
+  debugLogging: false
 };
 
 class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * The properties that are being used for the server
    */
-  public readonly properties: ServerProperties = DefaultServerProperties;
+  public readonly properties: SerenityProperties = DefaultSerenityProperties;
 
   /**
    * The network handler for the server
@@ -115,22 +110,28 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public constructor(properties?: Partial<ServerProperties>) {
     super();
 
-    // Assign the properties to the server with the default properties
-    this.properties = { ...DefaultServerProperties, ...properties };
-
     // Check if a properties path is provided
-    if (this.properties.path) {
+    if (properties?.path) {
       // Read the properties from the provided path
-      const properties = this.readProperties(this.properties.path);
+      const override = this.readProperties(properties.path);
+
       // Assign the properties to the server with the default properties
-      this.properties = { ...this.properties, ...properties };
+      properties = { ...properties, ...override };
     }
+
+    // Assign the properties to the server with the default properties
+    this.properties = { ...DefaultSerenityProperties, ...properties?.serenity };
 
     // Set the enabled value for debug logging
     Logger.DEBUG = this.properties.debugLogging;
 
     // Create a new network handler for the server
-    this.network = new Network(this, this.properties.network, Handlers);
+    this.network = new Network(
+      this,
+      properties?.network,
+      properties?.raknet,
+      Handlers
+    );
 
     // Register the default terrain generators
     this.registerGenerator(VoidGenerator);
@@ -149,7 +150,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         : new ResourcePackManager(this.properties.resourcePacks);
 
     // Write the properties to the properties path
-    if (this.properties.path) this.writeProperties(this.properties.path);
+    if (properties?.path) this.writeProperties(properties.path);
   }
 
   /**
@@ -245,9 +246,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Stop the raknet server
     process.nextTick(() => this.network.raknet.stop());
-
-    // Write the properties to the properties path
-    if (this.properties.path) this.writeProperties(this.properties.path);
 
     // Log that the server has been stopped
     this.logger.info(`§cServer has been stopped.§r`);
@@ -515,12 +513,15 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    */
   public writeProperties(path: string) {
     try {
-      // Assign the additional properties to the server properties
-      this.properties.network = this.network.properties;
-      this.properties.raknet = this.network.raknet.properties;
+      // Create a partial properties object
+      const properties: Partial<ServerProperties> = {
+        serenity: this.properties,
+        network: this.network.properties,
+        raknet: this.network.raknet.properties
+      };
 
       // Write the properties to the file
-      writeFileSync(resolve(path), JSON.stringify(this.properties, null, 2));
+      writeFileSync(resolve(path), JSON.stringify(properties, null, 2));
     } catch {
       return false;
     }
