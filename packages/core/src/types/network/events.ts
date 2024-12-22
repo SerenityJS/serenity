@@ -135,7 +135,7 @@ import type {
   DebugInfoPacket,
   ClientBoundDebugRendererPacket,
   CorrectPlayerMovePredictionPacket,
-  MovementEventPacket
+  MovementEffectPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
