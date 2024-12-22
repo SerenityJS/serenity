@@ -1,4 +1,4 @@
-import { ActorDamageCause, ActorFlag } from "@serenityjs/protocol";
+import { ActorDamageCause, ActorFlag, Gamemode } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
 
@@ -38,7 +38,12 @@ class EntityGravityTrait extends EntityTrait {
         // TODO: Add block.onFallOn
         const fallDamage = Math.max(0, this.fallingDistance - 4);
 
-        if (fallDamage > 0) {
+        if (
+          fallDamage > 0 &&
+          this.entity.isPlayer() &&
+          (this.entity.gamemode == Gamemode.Adventure ||
+            this.entity.gamemode == Gamemode.Survival)
+        ) {
           this.entity
             .getTrait(EntityHealthTrait)
             .applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
