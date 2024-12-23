@@ -4,9 +4,11 @@ import { Pipeline } from "@serenityjs/plugins";
 // Create a new Serenity instance
 const serenity = new Serenity({
   path: "./properties.json",
-  permissions: "./permissions.json",
-  resourcePacks: "./resource_packs",
-  debugLogging: true
+  serenity: {
+    permissions: "./permissions.json",
+    resourcePacks: "./resource_packs",
+    debugLogging: true
+  }
 });
 
 // Create a new plugin pipeline
