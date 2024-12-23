@@ -1,7 +1,9 @@
 import {
   AttributeName,
+  BlockPosition,
   MoveActorDeltaPacket,
-  MoveDeltaFlags
+  MoveDeltaFlags,
+  Vector3f
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
@@ -56,6 +58,20 @@ class EntityMovementTrait extends EntityAttributeTrait {
     } else {
       this.entity.dimension.broadcast(packet);
     }
+  }
+
+  public lookAt(position: BlockPosition | Vector3f) {
+    const direction = position.subtract(this.entity.position).floor();
+    const headYaw = -Math.atan2(direction.x, direction.z) * (180 / Math.PI);
+    const horizontalDistance = Math.sqrt(
+      Math.pow(direction.x, 2) + Math.pow(direction.z, 2)
+    );
+    const pitch =
+      -Math.atan2(direction.y, horizontalDistance) * (180 / Math.PI);
+
+    this.entity.rotation.headYaw = headYaw;
+    this.entity.rotation.pitch = pitch;
+    this.entity.teleport(this.entity.position);
   }
 }
 
