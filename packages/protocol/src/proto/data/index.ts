@@ -139,3 +139,4 @@ export * from "./trim-data";
 export * from "./unlocked-recipes";
 export * from "./command-block-update";
 export * from "./movement-effect";
+export * from "./client-bound-map-item-data";

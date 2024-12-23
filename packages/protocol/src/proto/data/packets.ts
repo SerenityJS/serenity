@@ -138,6 +138,7 @@ import { DebugInfoPacket } from "./debug-info";
 import { ClientBoundDebugRendererPacket } from "./client-bound-debug-renderer";
 import { CorrectPlayerMovePredictionPacket } from "./correct-player-move-prediction";
 import { MovementEffectPacket } from "./movement-effect";
+import { ClientBoundMapItemDataPacket } from "./client-bound-map-item-data";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -195,6 +196,7 @@ const Packets = {
   [Packet.SetPlayerGameType]: SetPlayerGameTypePacket, // 62
   [Packet.PlayerList]: PlayerListPacket, // 63
   [Packet.LegacyTelemetryEvent]: LegacyTelemetryEventPacket, // 65
+  [Packet.ClientBoundMapItemData]: ClientBoundMapItemDataPacket, // 67
   [Packet.RequestChunkRadius]: RequestChunkRadiusPacket, // 69
   [Packet.ChunkRadiusUpdate]: ChunkRadiusUpdatePacket, // 70
   [Packet.GameRulesChanged]: GameRulesChangedPacket, // 72

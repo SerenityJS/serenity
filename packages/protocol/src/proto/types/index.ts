@@ -129,3 +129,8 @@ export * from "./unlocked-recipes-entry";
 export * from "./player-auth-item-stack-request";
 export * from "./command-block-actor-runtime-id";
 export * from "./command-block-settings";
+export * from "./texture-update-bits";
+export * from "./decoration-update-bits";
+export * from "./map-creation-bits";
+export * from "./map-decoration";
+export * from "./map-scale";
