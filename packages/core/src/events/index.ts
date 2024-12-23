@@ -7,6 +7,7 @@ export * from "./entity-despawned";
 export * from "./entity-flag-update";
 export * from "./entity-metadata-update";
 export * from "./entity-attribute-update";
+export * from "./player-initialized";
 export * from "./player-join";
 export * from "./player-leave";
 export * from "./player-chat";

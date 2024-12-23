@@ -14,6 +14,7 @@ enum WorldEvent {
   EntityHurt,
   EffectAdd,
   EffectRemove,
+  PlayerInitialized,
   PlayerJoin,
   PlayerLeave,
   PlayerChat,

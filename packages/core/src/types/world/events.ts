@@ -32,7 +32,8 @@ import {
   EntityDieSignal,
   PlayerOpenedContainerSignal,
   PlayerContainerInteractionSignal,
-  PlayerClosedContainerSignal
+  PlayerClosedContainerSignal,
+  PlayerInitializedSignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -51,6 +52,7 @@ interface WorldEventSignals {
   [WorldEvent.HealthChanged]: [EntityHealthChangedSignal];
   [WorldEvent.EffectAdd]: [EffectAddSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveSignal];
+  [WorldEvent.PlayerInitialized]: [PlayerInitializedSignal];
   [WorldEvent.PlayerJoin]: [PlayerJoinSignal];
   [WorldEvent.PlayerLeave]: [PlayerLeaveSignal];
   [WorldEvent.PlayerChat]: [PlayerChatSignal];
