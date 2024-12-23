@@ -16,14 +16,6 @@ interface FormParticipant<T> {
 
 class Form<T> {
   /**
-   * The pending forms that are currently being submitted.
-   */
-  public static readonly pending = new Map<
-    number,
-    Map<bigint, FormParticipant<never>>
-  >();
-
-  /**
    * The next form id to use when creating a new form.
    */
   public static formId = 0;
@@ -44,17 +36,6 @@ class Form<T> {
    * @returns The form response; the value of the form.
    */
   public show(player: Player, result: FormResult<T>): this {
-    // Check if the form exists in the pending forms.
-    // If it does not exist, create a new map.
-    if (!Form.pending.has(this.formId))
-      Form.pending.set(this.formId, new Map());
-
-    // Get the pending forms map.
-    const pending = Form.pending.get(this.formId);
-
-    // Verify that the pending map exists.
-    if (!pending) return this;
-
     // Get the form payload from the class.
     const payload = JSON.stringify(this);
 
@@ -69,7 +50,7 @@ class Form<T> {
     player.send(packet);
 
     // Add the player to the pending forms map.
-    pending.set(player.uniqueId, { player, result });
+    player.pendingForms.set(this.formId, { player, result });
 
     // Return the form.
     return this;
@@ -87,12 +68,12 @@ class Form<T> {
     player.send(packet);
   }
 
-  public update(): void {
+  public update(player: Player): void {
     // Check if the form has a pending response
-    if (!Form.pending.has(this.formId)) return;
+    if (!player.pendingForms.has(this.formId)) return;
 
     // Get the pending responses
-    const pending = Form.pending.get(this.formId);
+    const pending = player.pendingForms.get(this.formId);
 
     // Verify that the pending responses exist
     if (!pending) return;
@@ -105,8 +86,8 @@ class Form<T> {
     packet.payload = JSON.stringify(this);
 
     // Send the packet to the players
-    for (const { player } of pending.values()) player.send(packet);
+    player.send(packet);
   }
 }
 
-export { Form };
+export { Form, FormParticipant };

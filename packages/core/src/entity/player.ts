@@ -33,6 +33,7 @@ import {
   EntityDimensionChangeSignal,
   PlayerGamemodeChangeSignal
 } from "../events";
+import { FormParticipant } from "../ui";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
@@ -106,6 +107,11 @@ class Player extends Entity {
    * The permission level of the player
    */
   public permission: PermissionLevel;
+
+  /**
+   * The pending forms of the player
+   */
+  public pendingForms: Map<number, FormParticipant<never>> = new Map();
 
   /**
    * The container that the player is currently viewing.
