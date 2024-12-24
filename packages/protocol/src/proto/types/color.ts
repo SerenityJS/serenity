@@ -27,13 +27,13 @@ class Color extends DataType {
   public blue: number;
 
   /**
-   * Creates a new ARGB color
+   * Creates a new RGBA color
    * @param alpha number the alpha value of the color
    * @param red number the red value of the color
    * @param green number the green value of the color
    * @param blue number the blue value of the color
    */
-  public constructor(alpha: number, red: number, green: number, blue: number) {
+  public constructor(red: number, green: number, blue: number, alpha: number) {
     super();
     this.alpha = alpha & 0xff;
     this.red = red & 0xff;
@@ -62,7 +62,7 @@ class Color extends DataType {
    */
   public toInt(): number {
     return (
-      (this.alpha << 24) | (this.red << 16) | (this.green << 8) | this.blue
+      this.red | (this.green << 8) | (this.blue << 16) | (this.alpha << 24)
     );
   }
 

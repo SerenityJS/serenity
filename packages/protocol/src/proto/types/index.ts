@@ -134,3 +134,4 @@ export * from "./decoration-update-bits";
 export * from "./map-creation-bits";
 export * from "./map-decoration";
 export * from "./map-scale";
+export * from "./map-pixels";
