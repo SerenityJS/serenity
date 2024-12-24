@@ -198,6 +198,17 @@ class EntityItemStackTrait extends EntityTrait {
       this.pickupTick && // Check if the current tick is greater than the pickup tick
       current - this.pickupTick >= 5n
     ) {
+      // Get the players inventory component
+      const inventory = this.target.getTrait(EntityInventoryTrait);
+
+      // Add the item to the players inventory
+      const success = inventory.container.addItem(this.itemStack);
+
+      // Check if the item was added to the inventory
+      if (!success)
+        // If not, reset the target player and pickup tick
+        return void (this.pickupTick = this.target = null);
+
       // Create a new take item actor packet
       const take = new TakeItemActorPacket();
       take.itemRuntimeId = this.entity.runtimeId;
@@ -216,12 +227,6 @@ class EntityItemStackTrait extends EntityTrait {
       this.target.send(sound);
       this.target.dimension.broadcast(take);
 
-      // Get the players inventory component
-      const inventory = this.target.getTrait(EntityInventoryTrait);
-
-      // Add the item to the players inventory
-      inventory.container.addItem(this.itemStack);
-
       // Remove the item from the dimension
       this.entity.despawn();
     } else if (this.target) return;
@@ -235,7 +240,6 @@ class EntityItemStackTrait extends EntityTrait {
 
     // Check if there is a player nearby within a 1 block radius
     const players = this.entity.dimension.getPlayers();
-    const item = this.entity.position;
 
     // Check if a player is within a 1 block radius
     for (const player of players) {
@@ -243,15 +247,10 @@ class EntityItemStackTrait extends EntityTrait {
       if (!player.isAlive) continue;
 
       // Calculate the distance between the player and the item
-      const playerPos = player.position;
-      const distance = playerPos.subtract(item);
+      const distance = player.position.distance(this.entity.position);
 
       // Calculate the distance between the player and the item
-      if (
-        Math.abs(distance.x) <= 1 &&
-        Math.abs(distance.y - 1) <= 1 &&
-        Math.abs(distance.z) <= 1
-      ) {
+      if (distance <= 1.5) {
         // Set the player as the target
         this.target = player;
 

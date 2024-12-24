@@ -81,8 +81,22 @@ class ItemStack<T extends keyof Items = keyof Items> {
    */
   public auxillary: number;
 
+  /**
+   * The slot of the item stack in the container.
+   */
   public get slot(): number {
     return this.container?.storage.indexOf(this) ?? -1;
+  }
+
+  /**
+   * The slot of the item stack in the container.
+   */
+  public set slot(value: number) {
+    // Check if the item is not in a container.
+    if (!this.container) return;
+
+    // Set the item in the container.
+    this.container.swapItems(this.slot, value);
   }
 
   public constructor(
