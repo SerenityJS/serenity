@@ -58,6 +58,7 @@ enum Packet {
   PlayerList = 0x3f, // 63
   LegacyTelemetryEvent = 0x41, // 65
   ClientBoundMapItemData = 0x43, // 67
+  MapInfoRequest = 0x44, // 68
   RequestChunkRadius = 0x45, // 69
   ChunkRadiusUpdate = 0x46, // 70
   GameRulesChanged = 0x48, // 72

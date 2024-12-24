@@ -136,7 +136,8 @@ import type {
   ClientBoundDebugRendererPacket,
   CorrectPlayerMovePredictionPacket,
   MovementEffectPacket,
-  ClientBoundMapItemDataPacket
+  ClientBoundMapItemDataPacket,
+  MapInfoRequestPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -302,6 +303,7 @@ interface NetworkEvents {
   [Packet.ClientBoundMapItemData]: [
     NetworkPacketEvent<ClientBoundMapItemDataPacket>
   ];
+  [Packet.MapInfoRequest]: [NetworkPacketEvent<MapInfoRequestPacket>];
   [Packet.ItemComponent]: [NetworkPacketEvent<ItemComponentPacket>];
   [Packet.ClientBoundDebugRenderer]: [
     NetworkPacketEvent<ClientBoundDebugRendererPacket>
