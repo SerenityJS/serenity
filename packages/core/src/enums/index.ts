@@ -12,3 +12,4 @@ export * from "./entity-interact-method";
 export * from "./cardinal-direction";
 export * from "./world-event";
 export * from "./server-event";
+export * from "./time-of-day";

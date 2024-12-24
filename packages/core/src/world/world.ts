@@ -20,6 +20,7 @@ import { BlockPalette } from "../block";
 import { AdminCommands, Commands, CommonCommands } from "../commands";
 import { WorldTickSignal } from "../events";
 import { EffectPallete } from "../effect";
+import { TimeOfDay } from "../enums";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -384,6 +385,24 @@ class World extends Emitter<WorldEventSignals> {
   public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
     for (const other of this.getPlayers())
       if (other !== player) other.send(...packets);
+  }
+
+  /**
+   * Sets the current time of day for the world.
+   * @param time The time of day to set.
+   */
+  public setTimeOfDay(time: number | TimeOfDay): void {
+    // Normalize the time to be between 0 and 24000
+    this.dayTime = time % 24000;
+
+    // Create a new SetTimePacket
+    const packet = new SetTimePacket();
+
+    // Assign the time to the packet
+    packet.time = this.dayTime;
+
+    // Broadcast the packet to all players
+    this.broadcast(packet);
   }
 }
 
