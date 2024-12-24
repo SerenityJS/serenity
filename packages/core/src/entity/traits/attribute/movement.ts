@@ -16,6 +16,11 @@ class EntityMovementTrait extends EntityAttributeTrait {
 
   public readonly attribute = AttributeName.Movement;
 
+  /**
+   * The position that the entity is targeting to move to.
+   */
+  public positionTarget: Vector3f | null = null;
+
   public onAdd(): void {
     // Call the super method
     super.onAdd({
@@ -27,6 +32,20 @@ class EntityMovementTrait extends EntityAttributeTrait {
   }
 
   public onTick(): void {
+    if (this.positionTarget !== null) {
+      // Calculate the distance to the target position
+      const distance = this.entity.position.distance(this.positionTarget);
+
+      // Check if the entity has reached the target position
+      if (distance < 0.5) {
+        this.positionTarget = null;
+        return;
+      }
+
+      // Move the entity towards the target position
+      this.moveTowards(this.positionTarget);
+    }
+
     // Check if the entity is moving
     if (!this.entity.isMoving) return;
 
@@ -72,6 +91,34 @@ class EntityMovementTrait extends EntityAttributeTrait {
     this.entity.rotation.headYaw = headYaw;
     this.entity.rotation.pitch = pitch;
     this.entity.teleport(this.entity.position);
+  }
+
+  public moveTowards(position: Vector3f) {
+    // Set the target position
+    if (this.positionTarget === null) this.positionTarget = position;
+
+    // Calculate the direction to the target position
+    const direction = this.calculateDirection(
+      this.entity.position,
+      position
+    ).multiply(this.currentValue);
+
+    this.entity.addMotion(direction);
+  }
+
+  protected calculateDirection(from: Vector3f, to: Vector3f): Vector3f {
+    // Calculate the direction from the from position to the to position
+    const direction = to.subtract(from);
+
+    // Calculate the magnitude of the direction
+    const magnitude = Math.sqrt(
+      Math.pow(direction.x, 2) +
+        Math.pow(direction.y, 2) +
+        Math.pow(direction.z, 2)
+    );
+
+    // Return the normalized direction
+    return direction.divide(magnitude);
   }
 }
 
