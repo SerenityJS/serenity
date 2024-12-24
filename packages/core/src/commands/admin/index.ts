@@ -15,6 +15,7 @@ import WORLD from "./world";
 import OP from "./op";
 import DEOP from "./deop";
 import SAVE from "./save";
+import TIME from "./time";
 
 // Define all the admin commands
 const AdminCommands = [
@@ -34,7 +35,8 @@ const AdminCommands = [
   WORLD,
   OP,
   DEOP,
-  SAVE
+  SAVE,
+  TIME
 ];
 
 export { AdminCommands };
