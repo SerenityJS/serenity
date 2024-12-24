@@ -1,5 +1,6 @@
 import {
   ContainerId,
+  ContainerName,
   ContainerType,
   EquipmentSlot,
   MobArmorEquipmentPacket
@@ -63,6 +64,16 @@ class EntityEquipmentTrait extends EntityTrait {
    */
   public getEquipment(slot: EquipmentSlot): ItemStack | null {
     return this.container.getItem(slot);
+  }
+
+  public swapFromInventory(slot: number, equipmentSlot: EquipmentSlot): void {
+    // Get the inventory container
+    const inventory = this.entity.getContainer(ContainerName.Inventory);
+
+    // Check if the inventory container is null
+    if (!inventory) return;
+
+    inventory.swapItems(slot, equipmentSlot, this.container);
   }
 
   public onContainerUpdate(container: Container): void {

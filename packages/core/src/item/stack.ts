@@ -81,6 +81,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
    */
   public auxillary: number;
 
+  public get slot(): number {
+    return this.container?.storage.indexOf(this) ?? -1;
+  }
+
   public constructor(
     identifier: T | ItemIdentifier | ItemType<T>,
     properties?: Partial<ItemStackProperties>

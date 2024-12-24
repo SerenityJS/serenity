@@ -42,6 +42,8 @@ class EntityMovementTrait extends EntityAttributeTrait {
         return;
       }
 
+      this.entity.isMoving = true;
+
       // Move the entity towards the target position
       this.moveTowards(this.positionTarget);
     }
@@ -103,7 +105,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
       position
     ).multiply(this.currentValue);
 
-    this.entity.addMotion(direction);
+    this.entity.setMotion(direction);
   }
 
   protected calculateDirection(from: Vector3f, to: Vector3f): Vector3f {
