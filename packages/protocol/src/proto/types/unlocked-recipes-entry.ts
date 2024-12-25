@@ -30,7 +30,6 @@ class UnlockedRecipesEntry extends DataType {
       recipes.push(stream.readVarString());
     }
 
-    console.log(stream.readRemainingBuffer());
     return new UnlockedRecipesEntry(type, recipes);
   }
 }
