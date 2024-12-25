@@ -201,6 +201,7 @@ class Block {
 
     // Set the permutation of the block.
     chunk.setPermutation(this.position, permutation);
+    this.permutation = permutation;
 
     // Check if the entry is provided.
     if (entry) this.loadDataEntry(this.world, entry);
