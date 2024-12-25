@@ -497,8 +497,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       // Read the server properties from the file
       const buffer = readFileSync(resolve(path));
 
-      console.log(resolve(path));
-
       // Parse the buffer as JSON
       return JSON.parse(buffer.toString());
     } catch {
