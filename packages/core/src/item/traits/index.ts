@@ -5,3 +5,4 @@ export * from "./enchantable";
 export * from "./durability";
 export * from "./display";
 export * from "./keep-on-die";
+export * from "./food";

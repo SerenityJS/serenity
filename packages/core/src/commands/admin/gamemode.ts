@@ -73,7 +73,7 @@ const register = (world: World) => {
 
             // Add the log message
             logs.push(
-              `§aSuccessfully updated §2${target.username}'s§a gamemode!§r`
+              `§7Successfully updated §u${target.username}'s§7 gamemode!§r`
             );
           }
 

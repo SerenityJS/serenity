@@ -57,7 +57,7 @@ const register = (world: World) => {
 
           // Send the success message
           return {
-            message: `Successfully gave x${amount} ${itemIdentifier} to ${targets.length} players.`
+            message: `§7Successfully gave §ux${amount} ${itemIdentifier}§7 to §u${targets.length}§7 players.`
           };
         }
       );

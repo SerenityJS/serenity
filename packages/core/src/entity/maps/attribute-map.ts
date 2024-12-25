@@ -33,7 +33,7 @@ class AttributeMap extends Map<AttributeName, Attribute> {
     const result = super.set(key, signal.value);
 
     // Update the actor data when a new value is added
-    this.update();
+    this.update(value);
 
     // Return the result
     return result;
@@ -65,14 +65,19 @@ class AttributeMap extends Map<AttributeName, Attribute> {
   /**
    * Update the actor data of the entity.
    */
-  public update(): void {
+  public update(attribute?: Attribute): void {
     // Create a new UpdateAttributesPacket
     const packet = new UpdateAttributesPacket();
     packet.runtimeActorId = this.entity.runtimeId;
     packet.inputTick = this.entity.isPlayer()
       ? this.entity.inputTick
       : this.entity.dimension.world.currentTick;
-    packet.attributes = [...this.entity.attributes.values()];
+
+    // NOTE: You don't need to resend all attributes if only one attribute is updated
+    // So we only send the updated attribute if it's provided
+    packet.attributes = attribute
+      ? [attribute]
+      : Array.from(this.entity.attributes.values());
 
     // Send the packet to the dimension
     this.entity.dimension.broadcast(packet);

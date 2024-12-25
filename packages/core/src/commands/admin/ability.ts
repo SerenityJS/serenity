@@ -51,7 +51,7 @@ const register = (world: World) => {
 
             // Push the message to the array
             message.push(
-              `§7Updated ability §a${index}§7 to §c${enabled}§7 for §c${entity.uniqueId}§7`
+              `§7Updated ability §u${index}§7 to §u${enabled}§7 for §u${entity.username}§7`
             );
           }
 
