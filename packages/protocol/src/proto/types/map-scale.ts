@@ -8,7 +8,6 @@ class MapScale extends DataType {
     _: Endianness,
     parameter: number
   ): void {
-    console.log(parameter & (0x2 | 0x4 | 0x8), value);
     if ((parameter & (0x2 | 0x4 | 0x8)) == 0) return;
 
     stream.writeByte(value);

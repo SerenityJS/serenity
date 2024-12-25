@@ -26,7 +26,6 @@ class MapPixel extends DataType {
 
   public static read(stream: BinaryStream): Array<MapPixel> | null {
     const size = stream.readVarInt();
-    console.log(size);
     const result: Array<MapPixel> = [];
 
     for (let i = 0; i < size; i++) {
