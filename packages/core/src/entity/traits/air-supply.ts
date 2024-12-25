@@ -4,7 +4,8 @@ import {
   ActorDataType,
   ActorFlag,
   DataItem,
-  EffectType
+  EffectType,
+  Gamemode
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
@@ -22,7 +23,13 @@ class EntityAirSupplyTrait extends EntityTrait {
     if (!this.entity.isAlive || !this.entity.flags.get(ActorFlag.Breathing))
       return;
 
-    // TODO: Check if the entity is a player and is in a not drownable gamemode.
+    if (
+      this.entity.isPlayer() &&
+      this.entity.gamemode != Gamemode.Survival &&
+      this.entity.gamemode != Gamemode.Adventure
+    )
+      return;
+
     // Get the current air ticks of the entity.
     const currentAirTicks = this.getAirSupplyTicks();
     if (!this.canBreathe()) {
