@@ -22,14 +22,11 @@ class DisconnectHandler extends NetworkHandler {
     // Despawn the player
     player.despawn();
 
-    // Get the player's dimension
-    const dimension = player.dimension;
-
     // Save the player's data
-    dimension.world.provider.writePlayer(player.getDataEntry(), dimension);
+    player.world.provider.writePlayer(player.getDataEntry(), player.dimension);
 
     // Log the leave event to the console
-    dimension.world.logger.info(
+    player.world.logger.info(
       `§8[§9${player.username}§8] Event:§r Player left the server.`
     );
   }
