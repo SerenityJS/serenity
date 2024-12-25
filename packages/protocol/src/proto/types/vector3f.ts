@@ -218,6 +218,21 @@ class Vector3f extends DataType implements IPosition {
   }
 
   /**
+   * Gets the Manhattan distance between this 3D vector and another 3D vector.
+   * The Manhattan distance is the sum of the absolute differences of their coordinates.
+   *
+   * @param other - The other 3D vector to get the distance to.
+   * @returns The Manhattan distance between the 3D vectors.
+   */
+  public distanceManhattan(other: IPosition): number {
+    return (
+      Math.abs(this.x - other.x) +
+      Math.abs(this.y - other.y) +
+      Math.abs(this.z - other.z)
+    );
+  }
+
+  /**
    * Computes the absolute value of each coordinate of the 3D vector.
    * @returns the absolute value of this 3D vector.
    */
