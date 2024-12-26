@@ -205,7 +205,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         const oldPermutation = result.getPermutation();
 
         // If the is's air, we can't place a block there
-        if (!result.isAir) return;
+        if (result.isSolid) return;
 
         // Get the permutation to set the block state
         const permutation =
