@@ -1,7 +1,8 @@
 import { BinaryStream } from "@serenityjs/binarystream";
-import { ItemStack } from "@serenityjs/core";
 import { CompoundTag, ListTag, TagType } from "@serenityjs/nbt";
 import { DataType } from "@serenityjs/raknet";
+
+import type { ItemStack } from "@serenityjs/core";
 
 class TradeOffer extends DataType {
   public buyA: ItemStack;
