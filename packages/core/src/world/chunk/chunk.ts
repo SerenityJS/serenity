@@ -114,11 +114,10 @@ export class Chunk {
 
   /**
    * Get the permutation at the given X, Y and Z coordinates.
-   * @param x The X coordinate.
-   * @param y The Y coordinate.
-   * @param z The Z coordinate.
+   * @param position The position.
+   * @param layer The state layer.
    */
-  public getPermutation(position: IPosition): BlockPermutation {
+  public getPermutation(position: IPosition, layer = 0): BlockPermutation {
     // Correct the Y level for the overworld.
     const { x, y, z } = position;
     const yf = this.type === DimensionType.Overworld ? y + 64 : y;
@@ -127,7 +126,7 @@ export class Chunk {
     const subchunk = this.getSubChunk(yf >> 4);
 
     // Get the block state.
-    const state = subchunk.getState(x & 0xf, yf & 0xf, z & 0xf, 0); // 0 = Solids, 1 = Liquids or Logged
+    const state = subchunk.getState(x & 0xf, yf & 0xf, z & 0xf, layer); // 0 = Solids, 1 = Liquids or Logged
 
     // Return the permutation.
     return BlockPermutation.permutations.get(state) as BlockPermutation;
@@ -135,14 +134,14 @@ export class Chunk {
 
   /**
    * Set the permutation at the given X, Y and Z coordinates.
-   * @param x The X coordinate.
-   * @param y The Y coordinate.
-   * @param z The Z coordinate.
+   * @param position The position.
+   * @param layer The state layer.
    * @param permutation The permutation.
    */
   public setPermutation(
     position: IPosition,
     permutation: BlockPermutation,
+    layer = 0,
     dirty = true
   ): void {
     const { x, y, z } = position;
@@ -157,7 +156,7 @@ export class Chunk {
     const state = permutation.network;
 
     // Set the block.
-    subchunk.setState(x & 0xf, yf & 0xf, z & 0xf, state, 0); // 0 = Solids, 1 = Liquids or Logged
+    subchunk.setState(x & 0xf, yf & 0xf, z & 0xf, state, layer); // 0 = Solids, 1 = Liquids or Logged
 
     // Set the chunk as dirty.
     if (dirty) this.dirty = true;

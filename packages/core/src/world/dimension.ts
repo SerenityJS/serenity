@@ -301,17 +301,6 @@ class Dimension {
    * @param chunk The chunk to set.
    */
   public setChunk(chunk: Chunk): void {
-    // Create a new ChunkWriteSignal
-    // const signal = new ChunkWriteSignal(chunk, this);
-    // const value = signal.emit();
-
-    // Check if the signal was attempted to be cancelled
-    // if (value === false)
-    //   // Log a warning to the console, as this signal cannot be cancelled
-    //   this.world.logger.warn(
-    //     `Chunk write signal cannot be cancelled, chunk: ${chunk.x}, ${chunk.z}`
-    //   );
-
     // Iterate over all the players in the dimension
     for (const player of this.getPlayers()) {
       // Get the player's chunk rendering trait
@@ -418,7 +407,7 @@ class Dimension {
    * @param position The position of the block.
    * @returns The block permutation at the specified position.
    */
-  public getPermutation(position: IPosition): BlockPermutation {
+  public getPermutation(position: IPosition, layer = 0): BlockPermutation {
     // Convert the position to a block position
     const blockPosition = position as BlockPosition;
 
@@ -430,7 +419,36 @@ class Dimension {
     const chunk = this.getChunk(cx, cz);
 
     // Get the permutation from the chunk
-    return chunk.getPermutation({ x: cx, y: blockPosition.y, z: cz });
+    return chunk.getPermutation({ x: cx, y: blockPosition.y, z: cz }, layer);
+  }
+
+  public setPermutation(
+    position: IPosition,
+    permutation: BlockPermutation,
+    layer = 0
+  ): void {
+    // Convert the position to a block position
+    const blockPosition = position as BlockPosition;
+
+    // Convert the block position to a chunk position
+    const cx = blockPosition.x >> 4;
+    const cz = blockPosition.z >> 4;
+
+    // Get the chunk of the provided position
+    const chunk = this.getChunk(cx, cz);
+
+    // Set the permutation of the block
+    chunk.setPermutation(
+      { x: blockPosition.x, y: blockPosition.y, z: blockPosition.z },
+      permutation,
+      layer
+    );
+
+    // Set the chunk to dirty
+    chunk.dirty = true;
+
+    // Set the chunk in the dimension
+    this.setChunk(chunk);
   }
 
   /**
