@@ -141,3 +141,4 @@ export * from "./command-block-update";
 export * from "./movement-effect";
 export * from "./client-bound-map-item-data";
 export * from "./map-info-request";
+export * from "./update-trade";

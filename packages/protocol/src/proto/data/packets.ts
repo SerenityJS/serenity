@@ -140,6 +140,7 @@ import { CorrectPlayerMovePredictionPacket } from "./correct-player-move-predict
 import { MovementEffectPacket } from "./movement-effect";
 import { ClientBoundMapItemDataPacket } from "./client-bound-map-item-data";
 import { MapInfoRequestPacket } from "./map-info-request";
+import { UpdateTradePacket } from "./update-trade";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -208,6 +209,7 @@ const Packets = {
   [Packet.CommandRequest]: CommandRequestPacket, // 77
   [Packet.CommandBlockUpdate]: CommandBlockUpdatePacket, // 78
   [Packet.CommandOutput]: CommandOutputPacket, // 79
+  [Packet.UpdateTrade]: UpdateTradePacket, // 80
   [Packet.ResourcePackDataInfo]: ResourcePackDataInfoPacket, // 82
   [Packet.ResourcePackChunkData]: ResourcePackChunkDataPacket, // 83
   [Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84

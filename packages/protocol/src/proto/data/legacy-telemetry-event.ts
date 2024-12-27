@@ -212,7 +212,6 @@ class LegacyTelemetryEventPacket extends DataPacket {
     this.unique_id = this.readVarLong();
     this.type = this.readVarInt() as TelemetryEventType;
     this.use_player_id = this.readByte();
-    console.log(this.getBuffer());
     switch (this.type) {
       case TelemetryEventType.AchievementAwarded:
         this.event_data = { achievementId: this.readVarInt() };

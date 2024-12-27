@@ -83,7 +83,7 @@ class EnchantOption extends DataType {
 
       stream.writeVarString(option.name);
 
-      stream.writeUint32(option.optionId);
+      stream.writeZigZag(option.optionId);
     }
   }
 }

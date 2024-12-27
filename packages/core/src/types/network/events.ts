@@ -137,7 +137,8 @@ import type {
   CorrectPlayerMovePredictionPacket,
   MovementEffectPacket,
   ClientBoundMapItemDataPacket,
-  MapInfoRequestPacket
+  MapInfoRequestPacket,
+  UpdateTradePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -308,6 +309,7 @@ interface NetworkEvents {
   [Packet.ClientBoundDebugRenderer]: [
     NetworkPacketEvent<ClientBoundDebugRendererPacket>
   ];
+  [Packet.UpdateTrade]: [NetworkPacketEvent<UpdateTradePacket>];
   [Packet.NpcDialogue]: [NetworkPacketEvent<NpcDialoguePacket>];
   [Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessagePacket>];
   [Packet.RequestPermissions]: [NetworkPacketEvent<RequestPermissionsPacket>];

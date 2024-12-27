@@ -68,6 +68,7 @@ enum Packet {
   CommandRequest = 0x4d, // 77
   CommandBlockUpdate = 0x4e, // 78
   CommandOutput = 0x4f, // 79
+  UpdateTrade = 0x50, // 80
   ResourcePackDataInfo = 0x52, // 82
   ResourcePackChunkData = 0x53, // 83
   ResourcePackChunkRequest = 0x54, // 84
