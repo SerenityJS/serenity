@@ -188,6 +188,36 @@ class Block {
     this.dimension.setPermutation(this.position, permutation, 1);
   }
 
+  /**
+   * Whether or not the block is lava logged.
+   */
+  public get isLavaLogged(): boolean {
+    // Check if the block can be waterlogged
+    if (!this.isLoggable) return false;
+
+    // Get the permutation of the block
+    const permutation = this.dimension.getPermutation(this.position);
+
+    // Check if the permutation is water
+    return permutation.type.identifier === BlockIdentifier.Lava;
+  }
+
+  /**
+   * Whether or not the block is lava logged.
+   */
+  public set isLavaLogged(value: boolean) {
+    // Check if the block can be waterlogged
+    if (!this.isLoggable) return;
+
+    // Get the permutation of the block
+    const permutation = value
+      ? this.world.blockPalette.resolvePermutation(BlockIdentifier.Lava)
+      : this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
+
+    // Set the block permutation
+    this.dimension.setPermutation(this.position, permutation, 1);
+  }
+
   public constructor(
     dimension: Dimension,
     position: BlockPosition,
@@ -725,8 +755,9 @@ class Block {
       this.dimension.broadcast(packet);
     }
 
-    // Check if the block is waterlogged.
+    // Check if the block is waterlogged or lavalogged.
     if (this.isWaterlogged) this.isWaterlogged = false;
+    if (this.isLavaLogged) this.isLavaLogged = false;
 
     // Get the air block permutation.
     const air = this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
