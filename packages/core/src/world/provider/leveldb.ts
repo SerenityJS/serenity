@@ -99,19 +99,10 @@ class LevelDBProvider extends WorldProvider {
         // Read the block from the database.
         const entry = this.readBlock(hash, dimension);
 
-        // Get the permutation from the block palette.
-        const permutation = dimension.world.blockPalette
-          .getAllPermutations()
-          .find((permutation) => permutation.network === entry.permutation);
-
-        // Skip the block if the permutation does not exist.
-        if (!permutation) continue;
-
         // Create a new block instance.
         const block = new Block(
           dimension,
           new BlockPosition(...entry.position),
-          permutation,
           { entry }
         );
 

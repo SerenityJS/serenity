@@ -5,6 +5,9 @@ import {
   IPosition,
   TextPacket,
   TextPacketType,
+  UpdateBlockFlagsType,
+  UpdateBlockLayerType,
+  UpdateBlockPacket,
   Vector3f
 } from "@serenityjs/protocol";
 
@@ -301,17 +304,6 @@ class Dimension {
    * @param chunk The chunk to set.
    */
   public setChunk(chunk: Chunk): void {
-    // Create a new ChunkWriteSignal
-    // const signal = new ChunkWriteSignal(chunk, this);
-    // const value = signal.emit();
-
-    // Check if the signal was attempted to be cancelled
-    // if (value === false)
-    //   // Log a warning to the console, as this signal cannot be cancelled
-    //   this.world.logger.warn(
-    //     `Chunk write signal cannot be cancelled, chunk: ${chunk.x}, ${chunk.z}`
-    //   );
-
     // Iterate over all the players in the dimension
     for (const player of this.getPlayers()) {
       // Get the player's chunk rendering trait
@@ -357,7 +349,7 @@ class Dimension {
       const permutation = chunk.getPermutation(blockPosition);
 
       // Create a new block with the dimension, position, and permutation
-      const block = new Block(this, blockPosition, permutation);
+      const block = new Block(this, blockPosition);
 
       // Get the traits from the block palette
       const traits = this.world.blockPalette.getRegistry(
@@ -418,9 +410,9 @@ class Dimension {
    * @param position The position of the block.
    * @returns The block permutation at the specified position.
    */
-  public getPermutation(position: IPosition): BlockPermutation {
+  public getPermutation(position: IPosition, layer = 0): BlockPermutation {
     // Convert the position to a block position
-    const blockPosition = position as BlockPosition;
+    const blockPosition = BlockPosition.from(position);
 
     // Convert the block position to a chunk position
     const cx = blockPosition.x >> 4;
@@ -430,7 +422,44 @@ class Dimension {
     const chunk = this.getChunk(cx, cz);
 
     // Get the permutation from the chunk
-    return chunk.getPermutation({ x: cx, y: blockPosition.y, z: cz });
+    const permutation = chunk.getPermutation(blockPosition, layer);
+
+    // Return the permutation
+    return permutation;
+  }
+
+  public setPermutation(
+    position: IPosition,
+    permutation: BlockPermutation,
+    layer = UpdateBlockLayerType.Normal
+  ): void {
+    // Convert the position to a block position
+    const blockPosition = BlockPosition.from(position);
+
+    // Convert the block position to a chunk position
+    const cx = blockPosition.x >> 4;
+    const cz = blockPosition.z >> 4;
+
+    // Get the chunk of the provided position
+    const chunk = this.getChunk(cx, cz);
+
+    // Set the permutation of the block
+    chunk.setPermutation(blockPosition, permutation, layer);
+
+    // Set the chunk to dirty
+    chunk.dirty = true;
+
+    // Create a new UpdateBlockPacket to broadcast the change.
+    const packet = new UpdateBlockPacket();
+
+    // Assign the block position and permutation to the packet.
+    packet.networkBlockId = permutation.network;
+    packet.position = blockPosition;
+    packet.flags = UpdateBlockFlagsType.Network;
+    packet.layer = layer;
+
+    // Broadcast the packet to the dimension.
+    this.broadcast(packet);
   }
 
   /**

@@ -4,9 +4,6 @@ import {
   Gamemode,
   LevelEvent,
   LevelEventPacket,
-  UpdateBlockFlagsType,
-  UpdateBlockLayerType,
-  UpdateBlockPacket,
   Vector3f
 } from "@serenityjs/protocol";
 
@@ -79,11 +76,56 @@ class Block {
   public readonly nbt = new NbtMap(this);
 
   /**
+   * The block type of the block.
+   * This property will contain any additional metadata that is global to the block type.
+   */
+  public get type(): BlockType {
+    return this.permutation.type;
+  }
+
+  /**
+   * The block type of the block.
+   * This property will contain any additional metadata that is global to the block type.
+   */
+  public set type(type: BlockType) {
+    this.setPermutation(type.getPermutation());
+  }
+
+  /**
+   * The block identifier of the block. (minecraft:stone, minecraft:oak_log, minecraft:air, etc.)
+   */
+  public get identifier(): BlockIdentifier {
+    return this.type.identifier;
+  }
+
+  /**
+   * The block identifier of the block. (minecraft:stone, minecraft:oak_log, minecraft:air, etc.)
+   */
+  public set identifier(identifier: BlockIdentifier) {
+    // Resolve the block type from the block palette.
+    const type = this.world.blockPalette.resolveType(identifier);
+
+    // Set the block type of the block.
+    this.type = type;
+  }
+
+  /**
    * The current permutation of the block.
    * The permutation contains the specific state of the block, which determines the block's appearance and behavior.
    * The permutation is a combination of the block type and the block state.
    */
-  public permutation: BlockPermutation;
+  public get permutation(): BlockPermutation {
+    return this.dimension.getPermutation(this.position);
+  }
+
+  /**
+   * The current permutation of the block.
+   * The permutation contains the specific state of the block, which determines the block's appearance and behavior.
+   * The permutation is a combination of the block type and the block state.
+   */
+  public set permutation(permutation: BlockPermutation) {
+    this.setPermutation(permutation);
+  }
 
   /**
    * Whether or not the block is air.
@@ -109,38 +151,81 @@ class Block {
   }
 
   /**
-   * The block type of the block.
-   * This property will contain any additional metadata that is global to the block type.
+   * Whether or not the block is loggable.
+   * Depening on the value, this will determine if the block can be logged with a fluid type block.
    */
-  public get type(): BlockType {
-    return this.permutation.type;
+  public get isLoggable(): boolean {
+    return this.type.loggable;
   }
 
   /**
-   * The block type of the block.
-   * This property will contain any additional metadata that is global to the block type.
+   * Whether or not the block is waterlogged.
    */
-  public set type(type: BlockType) {
-    this.setPermutation(type.getPermutation());
+  public get isWaterlogged(): boolean {
+    // Check if the block can be waterlogged
+    if (!this.isLoggable) return false;
+
+    // Get the permutation of the block
+    const permutation = this.dimension.getPermutation(this.position);
+
+    // Check if the permutation is water
+    return permutation.type.identifier === BlockIdentifier.Water;
   }
 
   /**
-   * The block identifier of the block. (minecraft:stone, minecraft:oak_log, minecraft:air, etc.)
+   * Whether or not the block is waterlogged.
    */
-  public get identifier(): BlockIdentifier {
-    return this.type.identifier;
+  public set isWaterlogged(value: boolean) {
+    // Check if the block can be waterlogged
+    if (!this.isLoggable) return;
+
+    // Get the permutation of the block
+    const permutation = value
+      ? this.world.blockPalette.resolvePermutation(BlockIdentifier.Water)
+      : this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
+
+    // Set the block permutation
+    this.dimension.setPermutation(this.position, permutation, 1);
+  }
+
+  /**
+   * Whether or not the block is lava logged.
+   */
+  public get isLavaLogged(): boolean {
+    // Check if the block can be waterlogged
+    if (!this.isLoggable) return false;
+
+    // Get the permutation of the block
+    const permutation = this.dimension.getPermutation(this.position);
+
+    // Check if the permutation is water
+    return permutation.type.identifier === BlockIdentifier.Lava;
+  }
+
+  /**
+   * Whether or not the block is lava logged.
+   */
+  public set isLavaLogged(value: boolean) {
+    // Check if the block can be waterlogged
+    if (!this.isLoggable) return;
+
+    // Get the permutation of the block
+    const permutation = value
+      ? this.world.blockPalette.resolvePermutation(BlockIdentifier.Lava)
+      : this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
+
+    // Set the block permutation
+    this.dimension.setPermutation(this.position, permutation, 1);
   }
 
   public constructor(
     dimension: Dimension,
     position: BlockPosition,
-    permutation: BlockPermutation,
     properties?: Partial<BlockProperties>
   ) {
     this.serenity = dimension.world.serenity;
     this.dimension = dimension;
     this.position = position;
-    this.permutation = permutation;
 
     if (properties?.entry)
       this.loadDataEntry(this.dimension.world, properties.entry);
@@ -197,12 +282,9 @@ class Block {
       this.dimension.blocks.delete(BlockPosition.hash(this.position));
     }
 
-    // Get the chunk the block is in.
-    const chunk = this.getChunk();
-
     // Set the permutation of the block.
-    chunk.setPermutation(this.position, permutation);
-    this.permutation = permutation;
+    this.dimension.setPermutation(this.position, permutation);
+    // this.permutation = permutation;
 
     // Check if the entry is provided.
     if (entry) this.loadDataEntry(this.world, entry);
@@ -237,21 +319,6 @@ class Block {
     for (const trait of traits) {
       this.addTrait(trait, true);
     }
-
-    // Create a new UpdateBlockPacket to broadcast the change.
-    const packet = new UpdateBlockPacket();
-
-    // Assign the block position and permutation to the packet.
-    packet.networkBlockId = permutation.network;
-    packet.position = this.position;
-    packet.flags = UpdateBlockFlagsType.Network;
-    packet.layer = UpdateBlockLayerType.Normal;
-
-    // Broadcast the packet to the dimension.
-    this.dimension.broadcast(packet);
-
-    // Update the permutation of the block.
-    this.permutation = permutation;
 
     // Check if the block should be cached.
     if ((this.components.size > 0 || this.traits.size > 0) && !this.isAir) {
@@ -693,8 +760,12 @@ class Block {
       this.dimension.broadcast(packet);
     }
 
+    // Check if the block is waterlogged or lavalogged.
+    if (this.isWaterlogged) this.isWaterlogged = false;
+    if (this.isLavaLogged) this.isLavaLogged = false;
+
     // Get the air block permutation.
-    const air = BlockPermutation.resolve(BlockIdentifier.Air);
+    const air = this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
 
     // Set the block permutation to air.
     this.setPermutation(air);

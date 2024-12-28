@@ -24,11 +24,11 @@ class SuperflatWorker extends TerrainWorker {
           const position = { x, y, z };
 
           if (y === -64) {
-            chunk.setPermutation(position, this.bedrock, false);
+            chunk.setPermutation(position, this.bedrock, 0, false);
           } else if (y === -63 || y === -62) {
-            chunk.setPermutation(position, this.dirt, false);
+            chunk.setPermutation(position, this.dirt, 0, false);
           } else {
-            chunk.setPermutation(position, this.grass, false);
+            chunk.setPermutation(position, this.grass, 0, false);
           }
         }
       }
