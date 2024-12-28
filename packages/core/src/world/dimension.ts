@@ -5,6 +5,9 @@ import {
   IPosition,
   TextPacket,
   TextPacketType,
+  UpdateBlockFlagsType,
+  UpdateBlockLayerType,
+  UpdateBlockPacket,
   Vector3f
 } from "@serenityjs/protocol";
 
@@ -346,7 +349,7 @@ class Dimension {
       const permutation = chunk.getPermutation(blockPosition);
 
       // Create a new block with the dimension, position, and permutation
-      const block = new Block(this, blockPosition, permutation);
+      const block = new Block(this, blockPosition);
 
       // Get the traits from the block palette
       const traits = this.world.blockPalette.getRegistry(
@@ -409,7 +412,7 @@ class Dimension {
    */
   public getPermutation(position: IPosition, layer = 0): BlockPermutation {
     // Convert the position to a block position
-    const blockPosition = position as BlockPosition;
+    const blockPosition = BlockPosition.from(position);
 
     // Convert the block position to a chunk position
     const cx = blockPosition.x >> 4;
@@ -419,16 +422,19 @@ class Dimension {
     const chunk = this.getChunk(cx, cz);
 
     // Get the permutation from the chunk
-    return chunk.getPermutation({ x: cx, y: blockPosition.y, z: cz }, layer);
+    const permutation = chunk.getPermutation(blockPosition, layer);
+
+    // Return the permutation
+    return permutation;
   }
 
   public setPermutation(
     position: IPosition,
     permutation: BlockPermutation,
-    layer = 0
+    layer = UpdateBlockLayerType.Normal
   ): void {
     // Convert the position to a block position
-    const blockPosition = position as BlockPosition;
+    const blockPosition = BlockPosition.from(position);
 
     // Convert the block position to a chunk position
     const cx = blockPosition.x >> 4;
@@ -438,17 +444,22 @@ class Dimension {
     const chunk = this.getChunk(cx, cz);
 
     // Set the permutation of the block
-    chunk.setPermutation(
-      { x: blockPosition.x, y: blockPosition.y, z: blockPosition.z },
-      permutation,
-      layer
-    );
+    chunk.setPermutation(blockPosition, permutation, layer);
 
     // Set the chunk to dirty
     chunk.dirty = true;
 
-    // Set the chunk in the dimension
-    this.setChunk(chunk);
+    // Create a new UpdateBlockPacket to broadcast the change.
+    const packet = new UpdateBlockPacket();
+
+    // Assign the block position and permutation to the packet.
+    packet.networkBlockId = permutation.network;
+    packet.position = blockPosition;
+    packet.flags = UpdateBlockFlagsType.Network;
+    packet.layer = layer;
+
+    // Broadcast the packet to the dimension.
+    this.broadcast(packet);
   }
 
   /**
