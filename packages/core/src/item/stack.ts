@@ -2,6 +2,7 @@ import {
   NetworkItemInstanceDescriptor,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
+import { ByteTag, StringTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
@@ -136,6 +137,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
       // Initialize the item stack
       this.initialize();
     }
+    this.nbt.add(new StringTag({ name: "Name", value: this.identifier }));
+    this.nbt.add(new ByteTag({ name: "Count", value: this.amount }));
+    this.nbt.add(new ByteTag({ name: "Damage", value: this.auxillary }));
   }
 
   /**
