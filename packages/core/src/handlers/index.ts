@@ -21,6 +21,7 @@ import { BlockPickRequestHandler } from "./block-pick-request";
 import { EmoteHandler } from "./emote";
 import { ResourcePackChunkRequestHandler } from "./resource-pack-chunk-request";
 import { ActorEventHandler } from "./actor-event";
+import { EntityPickRequestHandler } from "./entity-pick-request";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -44,6 +45,7 @@ const Handlers = [
   ModalFormResponseHandler,
   RequestPermissionsHandler,
   BlockPickRequestHandler,
+  EntityPickRequestHandler,
   EmoteHandler,
   ActorEventHandler
 ];
