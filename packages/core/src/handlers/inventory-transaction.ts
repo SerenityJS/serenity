@@ -213,11 +213,25 @@ class InventoryTransactionHandler extends NetworkHandler {
           });
         } else {
           // Get the item stack from the player & the previous block permutation
-          const stack = player.itemTarget as ItemStack;
+          const stack = player.getHeldItem() as ItemStack;
           const previousPermutation = resultant.permutation;
 
           // Verify that the item stack network ids match
           if (stack.type.network !== transaction.item.network) return;
+
+          // Call the useOnBlock method for the item stack
+          const useSuccess = stack.useOnBlock(player, {
+            method: ItemUseMethod.Place,
+            targetBlock: interacting,
+            clickPosition: transaction.clickPosition,
+            face: transaction.face
+          });
+
+          // If the item use was canceled, increment the stack
+          if (!useSuccess) return stack.increment();
+          // Check if the player is in survival mode
+          else if (player.gamemode === Gamemode.Survival)
+            return stack.decrement(); // If so, decrement the stack
 
           // Check if a block type is present for the item stack
           const blockType = stack.type.block;
@@ -255,6 +269,15 @@ class InventoryTransactionHandler extends NetworkHandler {
             resultant.setPermutation(permutation);
           }
 
+          // Create a new LevelSoundEventPacket to play the block place sound
+          const sound = new LevelSoundEventPacket();
+          sound.event = LevelSoundEvent.Place;
+          sound.position = BlockPosition.toVector3f(resultant.position);
+          sound.data = resultant.permutation.network;
+          sound.actorIdentifier = String();
+          sound.isBabyMob = false;
+          sound.isGlobal = false;
+
           // Call the block onPlace trait methods
           let placeCanceled = false;
           for (const trait of resultant.traits.values()) {
@@ -272,34 +295,10 @@ class InventoryTransactionHandler extends NetworkHandler {
             placeCanceled = !success;
           }
 
-          // Create a new LevelSoundEventPacket to play the block place sound
-          const sound = new LevelSoundEventPacket();
-          sound.event = LevelSoundEvent.Place;
-          sound.position = BlockPosition.toVector3f(resultant.position);
-          sound.data = resultant.permutation.network;
-          sound.actorIdentifier = String();
-          sound.isBabyMob = false;
-          sound.isGlobal = false;
-
           // Check if the block placement was canceled, revert the block
           if (placeCanceled || !signal)
             return resultant.setPermutation(previousPermutation);
-          else resultant.dimension.broadcast(sound); // If not, broadcast the sound
-
-          // Call the useOnBlock method for the item stack
-          const useSuccess = stack.useOnBlock(player, {
-            method: ItemUseMethod.Place,
-            targetBlock: interacting,
-            clickPosition: transaction.clickPosition,
-            face: transaction.face
-          });
-
-          // If the item use was canceled, increment the stack
-          // If not, decrement the stack
-          if (!useSuccess) return stack.increment();
-          else if (player.gamemode === Gamemode.Survival)
-            return stack.decrement();
-          else return;
+          else return resultant.dimension.broadcast(sound); // If not, broadcast the sound
         }
       }
 
