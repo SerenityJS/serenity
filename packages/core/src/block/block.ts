@@ -239,6 +239,36 @@ class Block {
   }
 
   /**
+   * Updates the block and surrounding blocks.
+   * @param surrounding Whether to update the surrounding blocks.
+   * @param source The source of the update.
+   */
+  public update(surrounding = false, source: Block = this): void {
+    // Call the onUpdate method of the block
+    for (const trait of this.traits.values()) {
+      // Attempt to call the onUpdate method of the trait
+      try {
+        // Call the onUpdate method of the trait
+        trait.onUpdate?.(source);
+      } catch (reason) {
+        // Log the error to the console
+        this.serenity.logger.error(
+          `Failed to update trait "${trait.identifier}" for block "${this.type.identifier}:${this.position}" in dimension "${this.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the block
+        this.traits.delete(trait.identifier);
+      }
+    }
+
+    // Check if the block is surrounded
+    if (surrounding)
+      // If so, update the surrounding blocks
+      this.getNeighborBlocks().forEach((block) => block.update(false, source));
+  }
+
+  /**
    * Gets the chunk the block is in.
    * @returns The chunk the block is in.
    */
@@ -325,6 +355,9 @@ class Block {
       // Set the block in the cache.
       this.dimension.blocks.set(hash, this);
     }
+
+    // Update the block after the permutation change
+    this.update(true);
   }
 
   /**
@@ -552,6 +585,21 @@ class Block {
   }
 
   /**
+   * Gets all the neighbor blocks around the block.
+   * @returns The neighbor blocks around the block.
+   */
+  public getNeighborBlocks(): Array<Block> {
+    return [
+      this.above(),
+      this.below(),
+      this.north(),
+      this.south(),
+      this.east(),
+      this.west()
+    ];
+  }
+
+  /**
    * Gets the block above this block.
    *
    * @param steps The amount of steps to go up.
@@ -673,6 +721,9 @@ class Block {
       // Return false if the result is false
       if (result === false) return false;
     }
+
+    // Update the block after the interaction
+    this.update(false);
 
     // Return true if the block was interacted with
     return true;
