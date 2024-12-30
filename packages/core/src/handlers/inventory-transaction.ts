@@ -7,22 +7,23 @@ import {
   InventoryTransactionPacket,
   ItemUseInventoryTransaction,
   ItemUseInventoryTransactionType,
+  ItemUseMethod,
   ItemUseOnEntityInventoryTransaction,
   LevelSoundEvent,
   LevelSoundEventPacket,
-  Packet
+  Packet,
+  PredictedResult,
+  UpdateBlockFlagsType,
+  UpdateBlockLayerType,
+  UpdateBlockPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack } from "../item";
-import { BlockIdentifier, EntityInteractMethod, ItemUseMethod } from "../enums";
-import {
-  PlayerDropItemSignal,
-  PlayerPlaceBlockSignal,
-  PlayerUseItemSignal
-} from "../events";
+import { BlockIdentifier, EntityInteractMethod } from "../enums";
+import { PlayerDropItemSignal, PlayerPlaceBlockSignal } from "../events";
 import { BlockEntry } from "../types";
 
 class InventoryTransactionHandler extends NetworkHandler {
@@ -169,118 +170,137 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Get the block that the transaction is initially interacting with
         const interacting = dimension.getBlock(transaction.blockPosition);
 
-        // Check if the transaction is the initial action
-        // If it isn't, we don't want to place a block
-        if (!transaction.initialTransaction) {
-          // Interact with the block at the position
-          return void interacting.interact(
-            player,
-            transaction.initialTransaction
-          );
+        // Get the block that will be updated based on the transaction
+        const resultant = interacting.face(transaction.face);
+
+        // If the interacting block is air or the resultant block is not air
+        // If any of these conditions are met, we don't want to place a block
+        if (interacting.isAir || !resultant.isAir) {
+          // To prevent ghost blocks from acuring, we send an update block packet to the source of the transaction
+          // Create a new UpdateBlockPacket to revert the block state to the source
+          const packet = new UpdateBlockPacket();
+
+          // Assign the block position, network block id, layer, and flags
+          packet.position = resultant.position;
+          packet.networkBlockId = resultant.permutation.network;
+          packet.layer = UpdateBlockLayerType.Normal;
+          packet.flags = UpdateBlockFlagsType.Network;
+
+          // Send the packet to the player
+          return player.send(packet);
         }
 
-        // If the block is air, we can't place a block there
-        if (interacting.isAir) return;
+        // Check if the interaction opened a container
+        if (player.openedContainer) return; // If so, we skip the block placement
 
-        // Make the player interact with the block
-        if (!interacting.interact(player, transaction.initialTransaction))
-          return;
+        // Check if the client prediction failed to place the block
+        if (transaction.clientPrediction === PredictedResult.Failure) {
+          // Get the held item stack from the player
+          const stack = player.getHeldItem() as ItemStack;
 
-        // Check if the interaction opened a container or if the player isn't using an item
-        // If so, we skip the block placement
-        if (player.openedContainer || !player.itemTarget) return;
+          // Verify that the item stack exists
+          if (!stack) return;
 
-        // Get the item stack from the player
-        const stack = player.itemTarget as ItemStack;
+          // Verify that the item stack network ids match
+          if (stack.type.network !== transaction.item.network) return;
 
-        // Verify that the item stack network ids match
-        if (stack.type.network !== transaction.item.network) return;
-
-        // Check if a block type is present for the item stack
-        const blockType = stack.type.block;
-        if (!blockType || blockType.identifier === BlockIdentifier.Air) return;
-
-        // Get the resulting block using the face provided by the transaction
-        const result = interacting.face(transaction.face);
-        const oldPermutation = result.getPermutation();
-
-        // If the is's air, we can't place a block there
-        if (result.isSolid) return;
-
-        // Get the permutation to set the block state
-        const permutation =
-          blockType.permutations[stack.auxillary] ?? blockType.getPermutation();
-
-        // Create a new PlayerPlaceBlockSignal
-        const signal = new PlayerPlaceBlockSignal(
-          result,
-          player,
-          permutation,
-          transaction.face,
-          transaction.clickPosition
-        ).emit();
-
-        // Check if the item stack has a block_data component
-        if (stack.components.has("block_data")) {
-          // Get the block data entry from the item stack
-          const entry = stack.components.get("block_data") as BlockEntry;
-
-          // Set the block data entry to the block
-          result.loadDataEntry(result.world, entry);
-
-          // Set the permutation of the block with the block data
-          result.setPermutation(permutation, entry);
+          // Trigger the useOnBlock method for the item stack
+          return void stack.useOnBlock(player, {
+            method: ItemUseMethod.Interact,
+            targetBlock: interacting,
+            clickPosition: transaction.clickPosition,
+            face: transaction.face
+          });
         } else {
-          // Set the permutation of the block
-          result.setPermutation(permutation);
+          // Get the item stack from the player & the previous block permutation
+          const stack = player.itemTarget as ItemStack;
+          const previousPermutation = resultant.permutation;
+
+          // Verify that the item stack network ids match
+          if (stack.type.network !== transaction.item.network) return;
+
+          // Check if a block type is present for the item stack
+          const blockType = stack.type.block;
+
+          // Check if the block type exists and is not air
+          if (!blockType || blockType.identifier === BlockIdentifier.Air)
+            return; // If so, we skip the block placement
+
+          // Get the permutation to set the block state
+          const permutation =
+            blockType.permutations[stack.auxillary] ??
+            blockType.getPermutation();
+
+          // Create a new PlayerPlaceBlockSignal
+          const signal = new PlayerPlaceBlockSignal(
+            resultant,
+            player,
+            permutation,
+            transaction.face,
+            transaction.clickPosition
+          ).emit();
+
+          // Check if the item stack has a block_data component
+          if (stack.components.has("block_data")) {
+            // Get the block data entry from the item stack
+            const entry = stack.components.get("block_data") as BlockEntry;
+
+            // Set the block data entry to the block
+            resultant.loadDataEntry(resultant.world, entry);
+
+            // Set the permutation of the block with the block data
+            resultant.setPermutation(permutation, entry);
+          } else {
+            // Set the permutation of the block
+            resultant.setPermutation(permutation);
+          }
+
+          // Call the block onPlace trait methods
+          let placeCanceled = false;
+          for (const trait of resultant.traits.values()) {
+            // Get the click position from the transaction
+            const clickPosition = transaction.clickPosition;
+
+            // Check if the start break was successful
+            const success = trait.onPlace?.(player, clickPosition);
+
+            // If the result is undefined, continue
+            // As the trait does not implement the method
+            if (success === undefined) continue;
+
+            // If the result is false, cancel the break
+            placeCanceled = !success;
+          }
+
+          // Create a new LevelSoundEventPacket to play the block place sound
+          const sound = new LevelSoundEventPacket();
+          sound.event = LevelSoundEvent.Place;
+          sound.position = BlockPosition.toVector3f(resultant.position);
+          sound.data = resultant.permutation.network;
+          sound.actorIdentifier = String();
+          sound.isBabyMob = false;
+          sound.isGlobal = false;
+
+          // Check if the block placement was canceled, revert the block
+          if (placeCanceled || !signal)
+            return resultant.setPermutation(previousPermutation);
+          else resultant.dimension.broadcast(sound); // If not, broadcast the sound
+
+          // Call the useOnBlock method for the item stack
+          const useSuccess = stack.useOnBlock(player, {
+            method: ItemUseMethod.Place,
+            targetBlock: interacting,
+            clickPosition: transaction.clickPosition,
+            face: transaction.face
+          });
+
+          // If the item use was canceled, increment the stack
+          // If not, decrement the stack
+          if (!useSuccess) return stack.increment();
+          else if (player.gamemode === Gamemode.Survival)
+            return stack.decrement();
+          else return;
         }
-
-        // Call the block onPlace trait methods
-        let placeCanceled = false;
-        for (const trait of result.traits.values()) {
-          // Get the click position from the transaction
-          const clickPosition = transaction.clickPosition;
-
-          // Check if the start break was successful
-          const success = trait.onPlace?.(player, clickPosition);
-
-          // If the result is undefined, continue
-          // As the trait does not implement the method
-          if (success === undefined) continue;
-
-          // If the result is false, cancel the break
-          placeCanceled = !success;
-        }
-
-        // Get the use method of the action & target block
-        const method = ItemUseMethod.Place;
-        const targetBlock = result;
-
-        // Call the onUse method for the item stack
-        const useSuccess =
-          stack.use(player, { method, targetBlock }) &&
-          new PlayerUseItemSignal(player, stack, method).emit();
-
-        // Create a new LevelSoundEventPacket to play the block place sound
-        const sound = new LevelSoundEventPacket();
-        sound.event = LevelSoundEvent.Place;
-        sound.position = BlockPosition.toVector3f(result.position);
-        sound.data = result.permutation.network;
-        sound.actorIdentifier = String();
-        sound.isBabyMob = false;
-        sound.isGlobal = false;
-
-        // If the block placement was canceled, revert the block
-        if (placeCanceled || !signal)
-          return result.setPermutation(oldPermutation);
-        else result.dimension.broadcast(sound);
-
-        // If the item use was canceled, increment the stack
-        // If not, decrement the stack
-        if (!useSuccess) return stack.increment();
-        else if (player.gamemode === Gamemode.Survival)
-          return stack.decrement();
-        break;
       }
 
       // Handles when an item is used
@@ -291,19 +311,15 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Verify that the item stack network ids match
         if (stack.type.network !== transaction.item.network) return;
 
-        // Get the use method of the action depending if there is an item target
+        // Determine the item use method
+        // If the player has started the use of an item, we don't know the method. The method will be determined by an external trait.
+        // If the player does not have an item target, the method is an interact.
         const method = player.itemTarget
-          ? ItemUseMethod.Use
-          : ItemUseMethod.Click;
+          ? ItemUseMethod.Unknown
+          : ItemUseMethod.Interact;
 
         // Call the onUse method for the item stack
-        stack.use(player, { method });
-
-        // Create a new PlayerUseItemSignal
-        new PlayerUseItemSignal(player, stack, method).emit();
-
-        // Break from the switch statement
-        break;
+        return void stack.use(player, { method });
       }
 
       case ItemUseInventoryTransactionType.Destroy: {
@@ -338,13 +354,13 @@ class InventoryTransactionHandler extends NetworkHandler {
 
       // Get the use method of the action
       const method =
-        transaction.type === 0 ? ItemUseMethod.Place : ItemUseMethod.Use;
+        transaction.type === 0 ? ItemUseMethod.Interact : ItemUseMethod.Attack;
 
-      // Call the onUse method for the item stack
-      stack.use(player, { method, targetEntity: entity });
-
-      // Create a new PlayerUseItemSignal
-      new PlayerUseItemSignal(player, stack, method).emit();
+      // Call the useOnEntity method for the item stack
+      return void stack.useOnEntity(player, {
+        method,
+        targetEntity: entity
+      });
     }
   }
 }

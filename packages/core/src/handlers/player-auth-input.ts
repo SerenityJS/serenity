@@ -7,6 +7,7 @@ import {
   InputData,
   ItemStackRequestActionMineBlock,
   ItemStackRequestActionType,
+  ItemUseMethod,
   LevelEvent,
   LevelEventPacket,
   Packet,
@@ -23,7 +24,6 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { Player } from "../entity";
-import { ItemUseMethod } from "../enums";
 import {
   PlayerBreakBlockSignal,
   PlayerStartUsingItemSignal,
@@ -277,7 +277,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           if (player.itemTarget)
             // Call the item onStartUse trait methods
             for (const trait of player.itemTarget.traits.values())
-              trait.onStartUse?.(player, { method: ItemUseMethod.Use });
+              trait.onStartUse?.(player, { method: ItemUseMethod.UseTool });
           break;
         }
       }
@@ -393,7 +393,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Check if the player was holding an item
           if (heldItem) {
             // Set the use method for the trait
-            const method = ItemUseMethod.Break;
+            const method = ItemUseMethod.UseTool;
 
             // Create a new PlayerStartUsingItemSignal
             let canceled = !new PlayerStartUsingItemSignal(
@@ -456,7 +456,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
             // Call the item onStopUse trait methods
             for (const trait of player.itemTarget.traits.values())
-              trait.onStopUse?.(player, { method: ItemUseMethod.Break });
+              trait.onStopUse?.(player, { method: ItemUseMethod.UseTool });
 
             // Reset the players item use time
             player.itemTarget = null;
@@ -518,12 +518,12 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const stack = player.itemTarget;
 
           // Set the use method for the trait, predicted durability, and target block
-          const method = ItemUseMethod.Use;
+          const method = ItemUseMethod.UseTool;
           const predictedDurability = request.predictedDurability;
-          const targetBlock = block;
+          const _targetBlock = block;
 
           // Check if the predicted durability will equal the item stack durability
-          stack.use(player, { method, predictedDurability, targetBlock });
+          stack.use(player, { method, predictedDurability });
 
           // Create a new PlayerUseItemSignal
           new PlayerUseItemSignal(player, stack, method).emit();

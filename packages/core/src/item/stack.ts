@@ -1,4 +1,6 @@
 import {
+  CompletedUsingItemPacket,
+  ItemUseMethod,
   NetworkItemInstanceDescriptor,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
@@ -9,11 +11,18 @@ import {
   Items,
   ItemStackEntry,
   ItemStackProperties,
+  ItemUseOnBlockOptions,
+  ItemUseOnEntityOptions,
   ItemUseOptions,
   JSONLikeValue
 } from "../types";
 import { Player } from "../entity";
 import { World } from "../world";
+import {
+  PlayerUseItemOnBlockSignal,
+  PlayerUseItemOnEntitySignal,
+  PlayerUseItemSignal
+} from "../events";
 
 import { ItemType } from "./identity";
 import { ItemTrait } from "./traits";
@@ -215,7 +224,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param options The options for the item use.
    * @returns Whether the item use was successful; default is true.
    */
-  public use(player: Player, options: Partial<ItemUseOptions>): boolean {
+  public use(player: Player, options: ItemUseOptions): boolean | ItemUseMethod {
     // Trigger the item onUse trait event
     let canceled = false;
     for (const trait of this.traits.values()) {
@@ -231,6 +240,21 @@ class ItemStack<T extends keyof Items = keyof Items> {
         // As the trait does not implement the method
         if (success === undefined) continue;
 
+        // Check if the result is a number
+        // If so, this indicates a correction to the use method
+        if (typeof success === "number") {
+          // Create a new CompletedUsingItemPacket
+          const packet = new CompletedUsingItemPacket();
+          packet.itemNetworkId = this.type.network;
+          packet.useMethod = success;
+
+          // Send the packet to the player
+          player.send(packet);
+
+          // Attempt to use the item with the corrected method
+          return this.use(player, { ...options, method: success });
+        }
+
         // If the result is false, cancel the break
         canceled = !success;
       } catch (reason) {
@@ -245,8 +269,131 @@ class ItemStack<T extends keyof Items = keyof Items> {
       }
     }
 
+    // Create a new PlayerUseItem signal
+    const signal = new PlayerUseItemSignal(player, this, options.method);
+
     // Return whether the item use was canceled
-    return !canceled;
+    return !canceled && signal.emit();
+  }
+
+  public useOnBlock(
+    player: Player,
+    options: ItemUseOnBlockOptions
+  ): boolean | ItemUseMethod {
+    // Trigger the item onUse trait event
+    let canceled = false;
+    for (const trait of this.traits.values()) {
+      // Set the canceled flag in the options
+      options.canceled = canceled;
+
+      // Attempt to trigger the onUse trait event
+      try {
+        // Check if the start break was successful
+        const success = trait.onUseOnBlock?.(player, options);
+
+        // If the result is undefined, continue
+        // As the trait does not implement the method
+        if (success === undefined) continue;
+
+        // Check if the result is a number
+        // If so, this indicates a correction to the use method
+        if (typeof success === "number") {
+          // Create a new CompletedUsingItemPacket
+          const packet = new CompletedUsingItemPacket();
+          packet.itemNetworkId = this.type.network;
+          packet.useMethod = success;
+
+          // Send the packet to the player
+          player.send(packet);
+
+          // Attempt to use the item on the block with the corrected method
+          return this.useOnBlock(player, { ...options, method: success });
+        }
+
+        // If the result is false, cancel the break
+        canceled = !success;
+      } catch (reason) {
+        // Log the error to the console
+        player.world.serenity.logger.error(
+          `Failed to trigger onUseOnBlock trait event for item "${this.type.identifier}" in dimension "${player.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the item
+        this.traits.delete(trait.identifier);
+      }
+    }
+
+    // Create a new PlayerUseItemOnBlock signal
+    const signal = new PlayerUseItemOnBlockSignal(
+      player,
+      this,
+      options.method,
+      options.targetBlock
+    );
+
+    // Return whether the item use was canceled
+    return !canceled && signal.emit();
+  }
+
+  public useOnEntity(
+    player: Player,
+    options: ItemUseOnEntityOptions
+  ): boolean | ItemUseMethod {
+    // Trigger the item onUse trait event
+    let canceled = false;
+    for (const trait of this.traits.values()) {
+      // Set the canceled flag in the options
+      options.canceled = canceled;
+
+      // Attempt to trigger the onUse trait event
+      try {
+        // Check if the start break was successful
+        const success = trait.onUseOnEntity?.(player, options);
+
+        // If the result is undefined, continue
+        // As the trait does not implement the method
+        if (success === undefined) continue;
+
+        // Check if the result is a number
+        // If so, this indicates a correction to the use method
+        if (typeof success === "number") {
+          // Create a new CompletedUsingItemPacket
+          const packet = new CompletedUsingItemPacket();
+          packet.itemNetworkId = this.type.network;
+          packet.useMethod = success;
+
+          // Send the packet to the player
+          player.send(packet);
+
+          // Attempt to use the item on the entity with the corrected method
+          return this.useOnEntity(player, { ...options, method: success });
+        }
+
+        // If the result is false, cancel the break
+        canceled = !success;
+      } catch (reason) {
+        // Log the error to the console
+        player.world.serenity.logger.error(
+          `Failed to trigger onUseOnEntity trait event for item "${this.type.identifier}" in dimension "${player.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the item
+        this.traits.delete(trait.identifier);
+      }
+    }
+
+    // Create a new PlayerUseItemOnEntity signal
+    const signal = new PlayerUseItemOnEntitySignal(
+      player,
+      this,
+      options.method,
+      options.targetEntity
+    );
+
+    // Return whether the item use was canceled
+    return !canceled && signal.emit();
   }
 
   /**

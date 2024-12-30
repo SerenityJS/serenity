@@ -654,9 +654,8 @@ class Block {
   /**
    * Forces a player to interact with the block.
    * @param player The player to interact with the block.
-   * @param initial Whether the interaction is the initial interaction.
    */
-  public interact(player: Player, initial: boolean): boolean {
+  public interact(player: Player): boolean {
     const signal = new PlayerInteractWithBlockSignal(
       player,
       this,
@@ -669,7 +668,7 @@ class Block {
     // Call the block onInteract trait methods
     for (const trait of this.traits.values()) {
       // Call the onInteract method of the trait
-      const result = trait.onInteract?.(player, initial);
+      const result = trait.onInteract?.(player);
 
       // Return false if the result is false
       if (result === false) return false;

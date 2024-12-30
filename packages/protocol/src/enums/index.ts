@@ -100,3 +100,4 @@ export * from "./prediction-type";
 export * from "./movement-effect-type";
 export * from "./tracked-item";
 export * from "./decoration-type";
+export * from "./predicted-result";

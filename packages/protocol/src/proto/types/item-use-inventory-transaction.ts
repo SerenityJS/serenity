@@ -8,6 +8,7 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 import type {
   BlockFace,
   ItemUseInventoryTransactionType,
+  PredictedResult,
   TriggerType
 } from "../../enums";
 
@@ -61,9 +62,9 @@ class ItemUseInventoryTransaction extends DataType {
   public readonly networkBlockId: number;
 
   /**
-   * Whether or not the transaction is an initial transaction.
+   * The client prediction of the item use inventory transaction.
    */
-  public readonly initialTransaction: boolean;
+  public readonly clientPrediction: PredictedResult;
 
   /**
    * Creates an instance of ItemUseInventoryTransaction.
@@ -77,7 +78,7 @@ class ItemUseInventoryTransaction extends DataType {
    * @param fromPosition The from position of the item use inventory transaction.
    * @param clickPosition The click position of the item use inventory transaction.
    * @param networkBlockId The network block id of the item use inventory transaction.
-   * @param initialTransaction Whether or not the transaction is an initial transaction.
+   * @param clientPrediction The client prediction of the item use inventory transaction.
    */
   public constructor(
     type: ItemUseInventoryTransactionType,
@@ -89,7 +90,7 @@ class ItemUseInventoryTransaction extends DataType {
     fromPosition: Vector3f,
     clickPosition: Vector3f,
     networkBlockId: number,
-    initialTransaction: boolean
+    clientPrediction: PredictedResult
   ) {
     super();
     this.type = type;
@@ -101,7 +102,7 @@ class ItemUseInventoryTransaction extends DataType {
     this.fromPosition = fromPosition;
     this.clickPosition = clickPosition;
     this.networkBlockId = networkBlockId;
-    this.initialTransaction = initialTransaction;
+    this.clientPrediction = clientPrediction;
   }
 
   public static read(stream: BinaryStream): ItemUseInventoryTransaction {
@@ -132,8 +133,8 @@ class ItemUseInventoryTransaction extends DataType {
     // Read the network block id of the item use inventory transaction
     const networkBlockId = stream.readZigZag();
 
-    // Read whether or not the transaction is an initial transaction
-    const initialTransaction = stream.readBool();
+    // Read the client prediction of the item use inventory transaction
+    const clientPrediction = stream.readVarInt() as PredictedResult;
 
     // Return the new instance of ItemUseInventoryTransaction
     return new ItemUseInventoryTransaction(
@@ -146,7 +147,7 @@ class ItemUseInventoryTransaction extends DataType {
       fromPosition,
       clickPosition,
       networkBlockId,
-      initialTransaction
+      clientPrediction
     );
   }
 
@@ -181,8 +182,8 @@ class ItemUseInventoryTransaction extends DataType {
     // Write the network block id of the item use inventory transaction
     stream.writeZigZag(value.networkBlockId);
 
-    // Write whether or not the transaction is an initial transaction
-    stream.writeBool(value.initialTransaction);
+    // Write whether the item use inventory transaction was successful
+    stream.writeVarInt(value.clientPrediction);
   }
 }
 

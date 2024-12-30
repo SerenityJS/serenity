@@ -1,11 +1,13 @@
+import { ItemUseMethod } from "@serenityjs/protocol";
+
 import { Player } from "../entity";
-import { ItemUseMethod, WorldEvent } from "../enums";
+import { WorldEvent } from "../enums";
 import { ItemStack } from "../item";
 
 import { EventSignal } from "./event-signal";
 
 class PlayerUseItemSignal extends EventSignal {
-  public static readonly identifier = WorldEvent.PlayerUseItem;
+  public static readonly identifier: WorldEvent = WorldEvent.PlayerUseItem;
 
   /**
    * The player that used the item.
@@ -33,7 +35,7 @@ class PlayerUseItemSignal extends EventSignal {
     itemStack: ItemStack,
     useMethod: ItemUseMethod
   ) {
-    super(player.dimension.world);
+    super(player.world);
     this.player = player;
     this.itemStack = itemStack;
     this.useMethod = useMethod;

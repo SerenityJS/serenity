@@ -18,6 +18,8 @@ export * from "./player-ability-update";
 export * from "./player-start-using-item";
 export * from "./player-stop-using-item";
 export * from "./player-use-item";
+export * from "./player-use-item-on-block";
+export * from "./player-use-item-on-entity";
 export * from "./player-start-emoting";
 export * from "./player-stop-emoting";
 export * from "./block-update";

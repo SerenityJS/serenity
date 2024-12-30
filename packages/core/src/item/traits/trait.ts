@@ -1,7 +1,13 @@
+import { ItemUseMethod } from "@serenityjs/protocol";
+
 import { Player } from "../../entity";
 import { ItemIdentifier } from "../../enums";
 import { Trait } from "../../trait";
-import { ItemUseOptions } from "../../types";
+import {
+  ItemUseOnBlockOptions,
+  ItemUseOnEntityOptions,
+  ItemUseOptions
+} from "../../types";
 import { ItemStack } from "../stack";
 
 class ItemTrait<T extends ItemIdentifier> extends Trait {
@@ -58,8 +64,28 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
    */
   public onUse?(
     player: Player,
-    options: Partial<ItemUseOptions>
-  ): boolean | void;
+    options: ItemUseOptions
+  ): boolean | ItemUseMethod | void;
+
+  /**
+   * Called when the item is used on a block by a player.
+   * @param player The player that used the item.
+   * @param options The additional options for the item use.
+   */
+  public onUseOnBlock?(
+    player: Player,
+    options: ItemUseOnBlockOptions
+  ): boolean | ItemUseMethod | void;
+
+  /**
+   * Called when the item is used on an entity by a player.
+   * @param player The player that used the item.
+   * @param options The additional options for the item use.
+   */
+  public onUseOnEntity?(
+    player: Player,
+    options: ItemUseOnEntityOptions
+  ): boolean | ItemUseMethod | void;
 
   /**
    * Called when the release action is triggered by a player.

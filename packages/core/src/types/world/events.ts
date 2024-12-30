@@ -33,7 +33,9 @@ import {
   PlayerOpenedContainerSignal,
   PlayerContainerInteractionSignal,
   PlayerClosedContainerSignal,
-  PlayerInitializedSignal
+  PlayerInitializedSignal,
+  PlayerUseItemOnBlockSignal,
+  PlayerUseItemOnEntitySignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -64,6 +66,8 @@ interface WorldEventSignals {
   [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
   [WorldEvent.PlayerStopUsingItem]: [PlayerStopUsingItemSignal];
   [WorldEvent.PlayerUseItem]: [PlayerUseItemSignal];
+  [WorldEvent.PlayerUseItemOnBlock]: [PlayerUseItemOnBlockSignal];
+  [WorldEvent.PlayerUseItemOnEntity]: [PlayerUseItemOnEntitySignal];
   [WorldEvent.PlayerStartEmoting]: [PlayerStartEmotingSignal];
   [WorldEvent.PlayerStopEmoting]: [PlayerStopEmotingSignal];
   [WorldEvent.PlayerInteractWithBlock]: [PlayerInteractWithBlockSignal];

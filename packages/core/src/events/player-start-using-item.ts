@@ -1,5 +1,7 @@
+import { ItemUseMethod } from "@serenityjs/protocol";
+
 import { Player } from "../entity";
-import { ItemUseMethod, WorldEvent } from "../enums";
+import { WorldEvent } from "../enums";
 import { ItemStack } from "../item";
 
 import { EventSignal } from "./event-signal";
@@ -33,7 +35,7 @@ class PlayerStartUsingItemSignal extends EventSignal {
     itemStack: ItemStack,
     useMethod: ItemUseMethod
   ) {
-    super(player.dimension.world);
+    super(player.world);
     this.player = player;
     this.itemStack = itemStack;
     this.useMethod = useMethod;

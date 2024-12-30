@@ -2,7 +2,7 @@ import { ItemIdentifier } from "../enums";
 import { Items } from "../types";
 import { ItemEnum } from "../commands";
 
-import { CreativeItem, ItemTraits, ItemType } from ".";
+import { CreativeItem, CustomItemType, ItemTraits, ItemType } from ".";
 
 import type { ItemTrait } from "./traits";
 import type { BlockType } from "../block";
@@ -39,6 +39,10 @@ class ItemPalette {
    */
   public getAllTypes(): Array<ItemType> {
     return [...this.types.values()];
+  }
+
+  public getAllCustomTypes(): Array<CustomItemType> {
+    return this.getAllTypes().filter((type) => type instanceof CustomItemType);
   }
 
   /**

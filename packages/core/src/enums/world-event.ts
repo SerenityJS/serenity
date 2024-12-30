@@ -26,6 +26,8 @@ enum WorldEvent {
   PlayerStartUsingItem,
   PlayerStopUsingItem,
   PlayerUseItem,
+  PlayerUseItemOnBlock,
+  PlayerUseItemOnEntity,
   PlayerStartEmoting,
   PlayerStopEmoting,
   PlayerInteractWithBlock,

@@ -1,6 +1,15 @@
+import { CompoundTag } from "@serenityjs/nbt";
+
 import { Items, ItemTypeProperties } from "../../types";
 import { ItemToolTier, ItemToolType } from "../../enums";
 import { BlockType } from "../../block";
+
+import { ItemTypeVanillaProperties } from "./properties";
+
+import type {
+  ItemData,
+  NetworkItemInstanceDescriptor
+} from "@serenityjs/protocol";
 
 const DefaultItemTypeProperties: ItemTypeProperties = {
   stackable: true,
@@ -10,11 +19,6 @@ const DefaultItemTypeProperties: ItemTypeProperties = {
   tags: [],
   block: null
 };
-
-import type {
-  ItemData,
-  NetworkItemInstanceDescriptor
-} from "@serenityjs/protocol";
 
 class ItemType<T extends keyof Items = keyof Items> {
   /**
@@ -56,6 +60,10 @@ class ItemType<T extends keyof Items = keyof Items> {
    * The tags of the item type.
    */
   public readonly tags: Array<string>;
+
+  public readonly nbt = new CompoundTag<unknown>();
+
+  public readonly properties = new ItemTypeVanillaProperties();
 
   /**
    * The block of the item type, if applicable.

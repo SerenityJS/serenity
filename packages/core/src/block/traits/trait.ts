@@ -62,10 +62,9 @@ class BlockTrait extends Trait {
   /**
    * Called when the block is interacted with by a player.
    * @param player The player that interacted with the block.
-   * @param initial Whether this is the initial interaction.
    * @returns Whether the interaction was successful; default is true.
    */
-  public onInteract?(player: Player, initial: boolean): boolean | void;
+  public onInteract?(player: Player): boolean | void;
 
   /**
    * Called when a player pick blocks the block.

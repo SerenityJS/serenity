@@ -1,10 +1,11 @@
 import {
   EquipmentSlot,
+  ItemUseMethod,
   LevelSoundEvent,
   LevelSoundEventPacket
 } from "@serenityjs/protocol";
 
-import { ItemIdentifier, ItemUseMethod } from "../../enums";
+import { ItemIdentifier } from "../../enums";
 import { EntityEquipmentTrait, Player } from "../../entity";
 import { ItemUseOptions } from "../../types";
 
@@ -13,9 +14,9 @@ import { ItemTrait } from "./trait";
 class ItemEquippableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
   public static readonly identifier = "equippable";
   public static readonly tag = "minecraft:is_armor";
-  public onUse(player: Player, options: Partial<ItemUseOptions>): boolean {
+  public onUse(player: Player, options: ItemUseOptions): ItemUseMethod | void {
     // Check if the item use method is not a click or if the use was canceled
-    if (options.method != ItemUseMethod.Click || options.canceled) return false;
+    if (options.method !== ItemUseMethod.Interact || options.canceled) return;
 
     // Get the player's equipment trait
     const equipment = player.getTrait(EntityEquipmentTrait);
@@ -92,8 +93,8 @@ class ItemEquippableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     // Send the packet to the player
     player.send(packet);
 
-    // Return true to indicate that the item was used
-    return true;
+    // Return the item use method
+    return ItemUseMethod.EquipArmor;
   }
 }
 

@@ -2,6 +2,7 @@ import {
   AvailableActorIdentifiersPacket,
   Difficulty,
   DisconnectReason,
+  ItemComponentPacket,
   MINECRAFT_VERSION,
   Packet,
   PlayStatus,
@@ -416,6 +417,12 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
 
+        // Get all the custom item properties
+        const items = new ItemComponentPacket();
+        items.items = world.itemPalette.getAllCustomTypes().map((item) => {
+          return { name: item.identifier, data: item.nbt };
+        });
+
         // Get the available actor identifiers
         const actors = new AvailableActorIdentifiersPacket();
         actors.data = new CompoundTag();
@@ -439,7 +446,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        player.sendImmediate(packet, status, actors);
+        player.sendImmediate(packet, status, actors, items);
       }
     }
   }
