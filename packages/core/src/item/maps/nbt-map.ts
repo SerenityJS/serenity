@@ -67,9 +67,9 @@ class ItemStackNbtMap extends Map<string, Tag> {
    * Converts the nbt map to a compound tag.
    * @returns
    */
-  public toCompound(): CompoundTag<unknown> {
+  public toCompound(name: string = ""): CompoundTag<unknown> {
     // Create a new compound tag
-    const root = new CompoundTag({ name: "", value: {} });
+    const root = new CompoundTag({ name, value: {} });
 
     // Iterate over the map
     for (const [_, value] of this) {

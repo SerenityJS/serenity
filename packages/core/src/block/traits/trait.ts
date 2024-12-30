@@ -38,7 +38,7 @@ class BlockTrait extends Trait {
    * @param clickPosition The position where the affected block was clicked.
    * @returns Whether the block placement was successful; default is true.
    */
-  public onPlace?(player: Player, clickPosition: Vector3f): boolean | void;
+  public onPlace?(player?: Player, clickPosition?: Vector3f): boolean | void;
 
   /**
    * Called when the block is broken in the world.
@@ -78,6 +78,8 @@ class BlockTrait extends Trait {
    * @param container The container that was updated.
    */
   public onContainerUpdate?(container: Container): void;
+
+  public onReplace?(): void;
 }
 
 export { BlockTrait };

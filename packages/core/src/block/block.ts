@@ -301,6 +301,7 @@ class Block {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
       // Clear the components and traits if the type has changed.
+
       this.traits.clear();
       this.components.clear();
     }
@@ -345,7 +346,9 @@ class Block {
     }
 
     // Iterate over all the traits and apply them to the block
-    for (const trait of traits) this.addTrait(trait);
+    for (const trait of traits) {
+      this.addTrait(trait, true);
+    }
 
     // Check if the block should be cached.
     if ((this.components.size > 0 || this.traits.size > 0) && !this.isAir) {
@@ -466,7 +469,8 @@ class Block {
    * @returns The trait that was added
    */
   public addTrait<T extends typeof BlockTrait>(
-    trait: T | BlockTrait
+    trait: T | BlockTrait,
+    placed: boolean = false
   ): InstanceType<T> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
@@ -487,22 +491,23 @@ class Block {
 
         // Call the onAdd method of the trait
         trait.onAdd?.();
+        if (placed) trait.onPlace?.();
 
         // Return the trait that was added
         return trait as InstanceType<T>;
-      } else {
-        // Create a new instance of the trait
-        const instance = new trait(this) as InstanceType<T>;
-
-        // Add the trait to the block
-        this.traits.set(instance.identifier, instance);
-
-        // Call the onAdd method of the trait
-        instance.onAdd?.();
-
-        // Return the trait that was added
-        return instance;
       }
+      // Create a new instance of the trait
+      const instance = new trait(this) as InstanceType<T>;
+
+      // Add the trait to the block
+      this.traits.set(instance.identifier, instance);
+
+      // Call the onAdd method of the trait
+      instance.onAdd?.();
+      if (placed) instance.onPlace?.();
+
+      // Return the trait that was added
+      return instance;
     } catch (reason) {
       // Log the error to the console
       this.serenity.logger.error(
