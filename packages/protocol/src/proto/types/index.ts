@@ -136,3 +136,4 @@ export * from "./map-decoration";
 export * from "./map-scale";
 export * from "./map-pixels";
 export * from "./trade-offer";
+export * from "./player-auth-input-transaction";
