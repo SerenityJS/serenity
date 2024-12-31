@@ -379,7 +379,7 @@ class Block {
 
     // Iterate over all the traits and apply them to the block
     for (const trait of traits) {
-      this.addTrait(trait, true);
+      this.addTrait(trait);
     }
 
     // Check if the block should be cached.
@@ -501,8 +501,7 @@ class Block {
    * @returns The trait that was added
    */
   public addTrait<T extends typeof BlockTrait>(
-    trait: T | BlockTrait,
-    placed: boolean = false
+    trait: T | BlockTrait
   ): InstanceType<T> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
@@ -523,7 +522,6 @@ class Block {
 
         // Call the onAdd method of the trait
         trait.onAdd?.();
-        if (placed) trait.onPlace?.();
 
         // Return the trait that was added
         return trait as InstanceType<T>;
@@ -536,7 +534,6 @@ class Block {
 
       // Call the onAdd method of the trait
       instance.onAdd?.();
-      if (placed) instance.onPlace?.();
 
       // Return the trait that was added
       return instance;
