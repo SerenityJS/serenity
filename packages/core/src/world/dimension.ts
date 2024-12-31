@@ -649,7 +649,7 @@ class Dimension {
    */
   public spawnItem<T extends keyof Items>(
     itemStack: ItemStack<T>,
-    position: Vector3f
+    position: IPosition
   ): Entity {
     // Create a new Entity instance
     const entity = new Entity(this, EntityIdentifier.Item);
