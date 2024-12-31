@@ -313,6 +313,9 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Get the players held item stack
         const stack = player.getHeldItem() as ItemStack;
 
+        // Verify that the item stack exists
+        if (!stack) return;
+
         // Verify that the item stack network ids match
         if (stack.type.network !== transaction.item.network) return;
 

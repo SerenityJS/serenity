@@ -7,3 +7,4 @@ export * from "./display";
 export * from "./keep-on-die";
 export * from "./food";
 export * from "./spawn-egg";
+export * from "./liquid-container";
