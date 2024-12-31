@@ -34,6 +34,7 @@ import { ItemStack } from "../item";
 import { EntityIdentifier } from "../enums";
 import { Serenity } from "../serenity";
 import { CommandExecutionState } from "../commands";
+import { BlockPermutationUpdateSignal } from "../events";
 
 import { World } from "./world";
 import { TerrainGenerator } from "./generator";
@@ -427,6 +428,12 @@ class Dimension {
     return permutation;
   }
 
+  /**
+   * Sets the permutation of a block at a given position.
+   * @param position The position of the block.
+   * @param permutation  The permutation to set.
+   * @param layer The layer to set the permutation on.
+   */
   public setPermutation(
     position: IPosition,
     permutation: BlockPermutation,
@@ -434,6 +441,34 @@ class Dimension {
   ): void {
     // Convert the position to a block position
     const blockPosition = BlockPosition.from(position);
+
+    // Create a new UpdateBlockPacket to broadcast the change.
+    const packet = new UpdateBlockPacket();
+
+    // Assign the block position and permutation to the packet.
+    packet.networkBlockId = permutation.network;
+    packet.position = blockPosition;
+    packet.flags = UpdateBlockFlagsType.Network;
+    packet.layer = layer;
+
+    // Create a new BlockPermutationUpdateSignal
+    const signal = new BlockPermutationUpdateSignal(
+      this,
+      blockPosition,
+      permutation
+    );
+
+    // Emit the signal and check if it is cancelled
+    if (!signal.emit()) {
+      // Get the permutation of the block
+      const permutation = this.getPermutation(blockPosition, layer);
+
+      // Assign the permutation to the block
+      packet.networkBlockId = permutation.network;
+
+      // Broadcast the packet to the dimension.
+      return this.broadcast(packet);
+    }
 
     // Convert the block position to a chunk position
     const cx = blockPosition.x >> 4;
@@ -447,15 +482,6 @@ class Dimension {
 
     // Set the chunk to dirty
     chunk.dirty = true;
-
-    // Create a new UpdateBlockPacket to broadcast the change.
-    const packet = new UpdateBlockPacket();
-
-    // Assign the block position and permutation to the packet.
-    packet.networkBlockId = permutation.network;
-    packet.position = blockPosition;
-    packet.flags = UpdateBlockFlagsType.Network;
-    packet.layer = layer;
 
     // Broadcast the packet to the dimension.
     this.broadcast(packet);
