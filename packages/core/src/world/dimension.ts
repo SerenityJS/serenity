@@ -369,11 +369,10 @@ class Dimension {
       for (const key of Object.keys(permutation.state)) {
         // Iterate over the trait in the registry.
         for (const trait of this.world.blockPalette.getAllTraits()) {
-          // Check if the trait identifier matches the key
-          if (trait.identifier === key) {
-            // Add the trait to the traits list
+          // Check if the trait state key matches the block state key
+          if (trait.state === key)
+            // If so, add the trait to the block traits
             traits.push(trait);
-          }
         }
       }
 

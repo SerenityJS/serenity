@@ -17,12 +17,17 @@ import {
 } from "../types";
 import { Chunk } from "../world/chunk";
 import { ItemStack, ItemType } from "../item";
-import { BlockIdentifier, BlockToolType, ItemIdentifier } from "../enums";
+import {
+  BlockIdentifier,
+  BlockToolType,
+  CardinalDirection,
+  ItemIdentifier
+} from "../enums";
 import { Serenity } from "../serenity";
 import { Player } from "../entity";
 import { PlayerInteractWithBlockSignal } from "../events";
 
-import { BlockTrait } from "./traits";
+import { BlockDirectionTrait, BlockTrait } from "./traits";
 import { NbtMap } from "./maps";
 
 import { BlockPermutation, BlockType } from ".";
@@ -218,6 +223,34 @@ class Block {
     this.dimension.setPermutation(this.position, permutation, 1);
   }
 
+  /**
+   * The direction the block is facing.
+   */
+  public get direction(): CardinalDirection {
+    // Check if the block has the direction trait
+    if (!this.hasTrait(BlockDirectionTrait)) return CardinalDirection.North;
+
+    // Get the direction trait
+    const trait = this.getTrait(BlockDirectionTrait);
+
+    // Get the direction of the block
+    return trait.getDirection();
+  }
+
+  /**
+   * The direction the block is facing.
+   */
+  public set direction(direction: CardinalDirection) {
+    // Check if the block has the direction trait
+    if (!this.hasTrait(BlockDirectionTrait)) return;
+
+    // Get the direction trait
+    const trait = this.getTrait(BlockDirectionTrait);
+
+    // Set the direction of the block
+    trait.setDirection(direction);
+  }
+
   public constructor(
     dimension: Dimension,
     position: BlockPosition,
@@ -337,11 +370,10 @@ class Block {
     for (const key of Object.keys(permutation.state)) {
       // Iterate over the trait in the registry.
       for (const trait of this.world.blockPalette.getAllTraits()) {
-        // Check if the trait identifier matches the key
-        if (trait.identifier === key) {
-          // Add the trait to the traits list
+        // Check if the trait state key matches the block state key
+        if (trait.state === key)
+          // If so, add the trait to the block traits
           traits.push(trait);
-        }
       }
     }
 
