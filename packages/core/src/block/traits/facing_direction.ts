@@ -1,7 +1,10 @@
-import { BlockTrait, CardinalDirection, Player } from "../..";
+import { Player } from "../../entity";
+import { CardinalDirection } from "../../enums";
 
-class BlockFacingDirection extends BlockTrait {
-  public static readonly identifier = "minecraft:facing_direction";
+import { BlockDirectionTrait } from "./direction";
+
+class BlockFacingDirection extends BlockDirectionTrait {
+  public static readonly state = "minecraft:facing_direction";
 
   public onPlace(player?: Player): boolean | void {
     if (!player) return;

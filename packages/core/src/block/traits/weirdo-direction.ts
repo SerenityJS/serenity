@@ -1,13 +1,14 @@
 import { Player } from "../../entity";
 import { CardinalDirection } from "../../enums";
 
-import { BlockTrait } from "./trait";
+import { BlockDirectionTrait } from "./direction";
 
-class BlockWeirdoDirectionTrait extends BlockTrait {
-  public static readonly identifier = "weirdo_direction";
+class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
+  public static readonly state = "weirdo_direction";
 
   public onPlace(player?: Player): void {
     if (!player) return;
+
     // Get the player's cardinal direction
     const direction = player.getCardinalDirection();
 
@@ -15,10 +16,6 @@ class BlockWeirdoDirectionTrait extends BlockTrait {
     this.setDirection(direction);
   }
 
-  /**
-   * Sets the direction of the block.
-   * @param direction The direction to set.
-   */
   public setDirection(direction: CardinalDirection): void {
     // Get the block type
     const type = this.block.type;
@@ -37,6 +34,15 @@ class BlockWeirdoDirectionTrait extends BlockTrait {
 
     // Set the permutation of the block
     if (permutation) this.block.setPermutation(permutation);
+  }
+
+  public getDirection(): CardinalDirection {
+    // Get the state of the block
+    const state = this.block.permutation.state as unknown &
+      Record<"weirdo_direction", CardinalDirection>;
+
+    // Get the direction of the block
+    return state.weirdo_direction;
   }
 }
 

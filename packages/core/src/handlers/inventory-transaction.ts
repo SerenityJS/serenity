@@ -190,6 +190,9 @@ class InventoryTransactionHandler extends NetworkHandler {
           return player.send(packet);
         }
 
+        // Interact with the block
+        interacting.interact(player);
+
         // Check if the interaction opened a container
         if (player.openedContainer) return; // If so, we skip the block placement
 
@@ -215,6 +218,9 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Get the item stack from the player & the previous block permutation
           const stack = player.getHeldItem() as ItemStack;
           const previousPermutation = resultant.permutation;
+
+          // Check if the item stack exists
+          if (!stack) return;
 
           // Verify that the item stack network ids match
           if (stack.type.network !== transaction.item.network) return;

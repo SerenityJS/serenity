@@ -12,6 +12,7 @@ import { BlockTrait } from "./trait";
 
 class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open_bit";
+  public static readonly state = "open_bit";
 
   public onInteract(player: Player): boolean {
     // Check if the player can open doors

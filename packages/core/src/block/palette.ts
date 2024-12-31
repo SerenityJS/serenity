@@ -183,11 +183,16 @@ class BlockPalette {
    * @returns True if the trait was registered, false otherwise.
    */
   public registerTrait(trait: typeof BlockTrait): boolean {
+    // Get the identifier of the trait.
+    const identifier = trait.state
+      ? trait.identifier + ":" + trait.state
+      : trait.identifier;
+
     // Check if the block trait is already registered.
-    if (this.traits.has(trait.identifier)) return false;
+    if (this.traits.has(identifier)) return false;
 
     // Register the block trait.
-    this.traits.set(trait.identifier, trait);
+    this.traits.set(identifier, trait);
 
     // Iterate over the types of the trait.
     for (const type of trait.types) {

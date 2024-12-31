@@ -8,6 +8,12 @@ import { Container } from "../../container";
 
 class BlockTrait extends Trait {
   /**
+   * The block state key that this trait is compatible with by default.
+   * If null, the trait will not be initialized by any state.
+   */
+  public static readonly state: string | null = null;
+
+  /**
    * The block type identifiers that this trait is compatible with by default.
    */
   public static readonly types: Array<BlockIdentifier> = [];
