@@ -1,17 +1,14 @@
-import { Player } from "../../entity";
-import { CardinalDirection } from "../../enums";
+import { BlockTrait, CardinalDirection, Player } from "../..";
 
-import { BlockTrait } from "./trait";
+class BlockFacingDirection extends BlockTrait {
+  public static readonly identifier = "minecraft:facing_direction";
 
-class BlockCardinalDirectionTrait extends BlockTrait {
-  public static readonly identifier = "minecraft:cardinal_direction";
-
-  public onPlace(player?: Player): void {
+  public onPlace(player?: Player): boolean | void {
     if (!player) return;
     // Get the player's cardinal direction
     const direction = player.getCardinalDirection();
 
-    // Set the direction of the block to the opposite of the player's direction
+    // Set the direction of the block
     switch (direction) {
       case CardinalDirection.North:
         this.setDirection(CardinalDirection.South);
@@ -42,7 +39,7 @@ class BlockCardinalDirectionTrait extends BlockTrait {
     // Create the state of the block
     const newState = {
       ...state,
-      "minecraft:cardinal_direction": CardinalDirection[direction].toLowerCase()
+      "minecraft:facing_direction": CardinalDirection[direction].toLowerCase()
     };
 
     // Get the permutation of the block
@@ -54,8 +51,8 @@ class BlockCardinalDirectionTrait extends BlockTrait {
 
   public getDirection(): CardinalDirection {
     const state = this.block.permutation.state as unknown &
-      Record<"minecraft:cardinal_direction", string>;
-    const rawDirection = state["minecraft:cardinal_direction"];
+      Record<"minecraft:facing_direction", string>;
+    const rawDirection = state["minecraft:facing_direction"];
     const direction =
       rawDirection.charAt(0).toUpperCase() + rawDirection.substring(1);
 
@@ -64,4 +61,4 @@ class BlockCardinalDirectionTrait extends BlockTrait {
   }
 }
 
-export { BlockCardinalDirectionTrait };
+export { BlockFacingDirection };

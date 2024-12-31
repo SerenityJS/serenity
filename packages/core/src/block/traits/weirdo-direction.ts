@@ -6,7 +6,8 @@ import { BlockTrait } from "./trait";
 class BlockWeirdoDirectionTrait extends BlockTrait {
   public static readonly identifier = "weirdo_direction";
 
-  public onPlace(player: Player): void {
+  public onPlace(player?: Player): void {
+    if (!player) return;
     // Get the player's cardinal direction
     const direction = player.getCardinalDirection();
 
