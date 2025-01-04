@@ -17,6 +17,7 @@ import { EntityInventoryTrait } from "../inventory";
 import { ItemStack } from "../../../item";
 import { EntityItemStackTrait } from "../item-stack";
 import { EntityEquipmentTrait } from "../equipment";
+import { Entity } from "../../entity";
 
 import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
@@ -26,9 +27,14 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
   public static readonly types = [EntityIdentifier.Player];
 
   /**
-   * A collective map of all the entities that have been rendered for the player.
+   * A collective list of all the entities that have been rendered for the player.
    */
   public readonly entities: Set<bigint> = new Set();
+
+  /**
+   * A collective list of all the entities that have been hidden from the player.
+   */
+  public readonly hidden: Set<bigint> = new Set();
 
   public onTick(): void {
     // Check if the player is spawned
@@ -48,6 +54,9 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     for (const [unique, entity] of entities) {
       // Check if the entity is the player or if the entity has already been rendered
       if (this.entities.has(unique) || entity === this.player) continue;
+
+      // Check if the entity is hidden
+      if (this.hidden.has(unique)) continue;
 
       // Check if the entity is alive
       if (!entity.isAlive) continue;
@@ -260,6 +269,43 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     return Math.sqrt(
       Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2) + Math.pow(a.z - b.z, 2)
     );
+  }
+
+  /**
+   * Hides an entity from the player.
+   * @param entity The entity to hide from the target player.
+   */
+  public hideEntity(entity: Entity | bigint): void {
+    // Get the unique entity id
+    const unique = typeof entity === "bigint" ? entity : entity.uniqueId;
+
+    // Check if the entity is already hidden
+    if (this.hidden.has(unique)) return;
+
+    // Add the entity to the hidden entities
+    this.hidden.add(unique);
+
+    // Create a new remove entity packet
+    const packet = new RemoveEntityPacket();
+    packet.uniqueEntityId = unique;
+
+    // Send the packet to the player
+    this.player.send(packet);
+  }
+
+  /**
+   * Unhides an entity from the target player.
+   * @param entity The entity to unhide from the target player.
+   */
+  public unhideEntity(entity: Entity | bigint): void {
+    // Get the unique entity id
+    const unique = typeof entity === "bigint" ? entity : entity.uniqueId;
+
+    // Check if the entity is hidden
+    if (!this.hidden.has(unique)) return;
+
+    // Remove the entity from the hidden entities
+    this.hidden.delete(unique);
   }
 }
 
