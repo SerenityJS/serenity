@@ -125,16 +125,23 @@ class EntityInventoryTrait extends EntityTrait {
   public onSpawn(): void {
     // Iterate over each item in the inventory component
     for (const [slot, entry] of this.component.items) {
-      // Create a new item stack
-      const itemStack = new ItemStack(entry.identifier, {
-        amount: entry.amount,
-        auxillary: entry.auxillary,
-        world: this.entity.world,
-        entry
-      });
+      try {
+        // Create a new item stack
+        const itemStack = new ItemStack(entry.identifier, {
+          amount: entry.amount,
+          auxillary: entry.auxillary,
+          world: this.entity.world,
+          entry
+        });
 
-      // Set the item stack to the equipment slot
-      this.container.setItem(slot, itemStack);
+        // Set the item stack to the equipment slot
+        this.container.setItem(slot, itemStack);
+      } catch {
+        // Log the error
+        this.entity.world.logger.error(
+          `Failed to create ItemStack with ItemType "${entry.identifier}", the type does not exist in the ItemPalette.`
+        );
+      }
     }
   }
 

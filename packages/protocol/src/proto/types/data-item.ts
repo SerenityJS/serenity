@@ -21,7 +21,7 @@ class DataItem<T = unknown> extends DataType {
   /**
    * The value of the data item.
    */
-  public readonly value: T;
+  public value: T;
 
   /**
    * Creates a new data item.
