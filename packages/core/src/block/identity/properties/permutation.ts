@@ -116,6 +116,35 @@ class PermutationProperties extends CompoundTag<unknown> {
     }
   }
 
+  /**
+   * Whether the permutation is interactive.
+   */
+  public get isInteractive(): boolean {
+    // Check if the root tag has a interactive tag
+    return this.hasTag("minecraft:custom_components");
+  }
+
+  /**
+   * Whether the permutation is interactive.
+   */
+  public set isInteractive(value: boolean) {
+    // Check if the value is false
+    if (value === false) this.removeTag("minecraft:custom_components");
+    // If the value is true, create the tag
+    else {
+      // Create a compound tag for the custom components
+      const tag = this.createCompoundTag({
+        name: "minecraft:custom_components"
+      });
+
+      // Create a string tag for the dummy component
+      tag.createStringTag({
+        name: "dummyComponent",
+        value: "ClientDummyCustomComponent"
+      });
+    }
+  }
+
   // TODO: bones, culling
   public setGeometry(geometry: string): void {
     // Check if the root tag has a geometry tag

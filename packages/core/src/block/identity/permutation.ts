@@ -77,7 +77,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     const keys = Object.keys(state ?? {});
 
     // Create the MolangQuery for the permutation.
-    let query: string = "";
+    let query = String();
     for (const key of keys) {
       // Get the value of the block state.
       let value = state[key as keyof BlockState[T]] as unknown;

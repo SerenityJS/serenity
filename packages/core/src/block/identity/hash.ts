@@ -60,7 +60,6 @@ function hash(
       (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
 
     // Convert the hash to a signed 32-bit integer.
-
     hash = hash | 0;
   }
 

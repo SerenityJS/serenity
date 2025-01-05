@@ -5,11 +5,11 @@ import {
   BLOCK_METADATA
 } from "@serenityjs/data";
 
+import { BlockIdentifier } from "../../enums";
+
 import { BlockType } from "./type";
 import { BlockPermutation } from "./permutation";
 import { ItemDrop } from "./drops";
-
-import type { BlockIdentifier } from "../../enums";
 
 // Iterate over the block types and register them.
 for (const type of BLOCK_TYPES) {
@@ -67,17 +67,10 @@ for (const permutation of BLOCK_PERMUTATIONS) {
   ) ?? { hardness: 0, friction: 0, mapColor: "" };
 
   // Create a new block permutation.
-  // const instance = new BlockPermutation(
-  //   permutation.hash,
-  //   permutation.state as never,
-  //   type
-  // );
   const instance = BlockPermutation.create(type, permutation.state);
 
   // Assign the block permutation properties.
   instance.properties.hardness = metadata.hardness;
-  // instance.components.friction = metadata.friction;
-  // instance.components.color = metadata.mapColor;
 
   // Register the block permutation.
   type.permutations.push(instance);
