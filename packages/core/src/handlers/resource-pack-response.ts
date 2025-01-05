@@ -144,7 +144,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.editorWorldType = 0;
         packet.createdInEdior = false;
         packet.exportedFromEdior = false;
-        packet.dayCycleStopTime = player.dimension.world.dayTime;
+        packet.dayCycleStopTime = player.world.dayTime;
         packet.eduOffer = 0;
         packet.eduFeatures = true;
         packet.eduProductUuid = "";
@@ -383,17 +383,17 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.chatRestrictionLevel = 0;
         packet.disablePlayerInteractions = false;
         packet.serverIdentfier = "SerenityJS";
-        packet.worldIdentifier = player.dimension.world.identifier;
+        packet.worldIdentifier = player.world.identifier;
         packet.scenarioIdentifier = "SerenityJS";
         packet.levelId = "SerenityJS";
-        packet.worldName = player.dimension.world.identifier;
+        packet.worldName = player.world.identifier;
         packet.premiumWorldTemplateId = "00000000-0000-0000-0000-000000000000";
         packet.isTrial = false;
         packet.movementAuthority = 2;
         packet.rewindHistorySize = 0;
         packet.serverAuthoritativeBlockBreaking = true;
-        packet.currentTick = player.dimension.world.currentTick;
-        packet.enchantmentSeed = 0;
+        packet.currentTick = player.world.currentTick;
+        packet.enchantmentSeed = player.world.properties.seed;
 
         // Map the custom blocks to the packet
         packet.blockProperties = world.blockPalette
@@ -407,7 +407,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
         packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
         packet.serverAuthoritativeInventory = true;
-        packet.engine = "*";
+        packet.engine = "SerenityJS";
         packet.propertyData1 = 0x0a;
         packet.propertyData2 = 0x00;
         packet.propertyData3 = 0x00;

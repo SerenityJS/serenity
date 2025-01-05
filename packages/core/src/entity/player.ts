@@ -14,6 +14,7 @@ import {
   MoveMode,
   MovePlayerPacket,
   PermissionLevel,
+  PlaySoundPacket,
   SerializedSkin,
   SetPlayerGameTypePacket,
   ShowProfilePacket,
@@ -24,7 +25,7 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { PlayerEntry, PlayerProperties } from "../types";
+import { PlayerEntry, PlayerProperties, PlaySoundOptions } from "../types";
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
@@ -571,6 +572,28 @@ class Player extends Entity {
       // Send the packet to the player
       this.send(packet);
     }
+  }
+
+  /**
+   * Plays a sound that player can only hear.
+   * @param sound The name of the sound to play.
+   * @param options The options for playing the sound.
+   */
+  public playSound(sound: string, options?: PlaySoundOptions): void {
+    // Create a new PlaySoundPacket
+    const packet = new PlaySoundPacket();
+
+    // Get the position to play the sound at
+    const position = BlockPosition.from(options?.position ?? this.position);
+
+    // Set the packet properties
+    packet.name = sound;
+    packet.position = position.multiply(8); // Mojank...
+    packet.volume = options?.volume ?? 1;
+    packet.pitch = options?.pitch ?? 1;
+
+    // Send the packet to the player
+    this.send(packet);
   }
 
   /**
