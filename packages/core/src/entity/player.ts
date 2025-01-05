@@ -18,6 +18,7 @@ import {
   SerializedSkin,
   SetPlayerGameTypePacket,
   ShowProfilePacket,
+  StopSoundPacket,
   TeleportCause,
   TextPacket,
   TextPacketType,
@@ -591,6 +592,23 @@ class Player extends Entity {
     packet.position = position.multiply(8); // Mojank...
     packet.volume = options?.volume ?? 1;
     packet.pitch = options?.pitch ?? 1;
+
+    // Send the packet to the player
+    this.send(packet);
+  }
+
+  /**
+   * Stops a sound that is currently playing.
+   * @param sound The name of the sound to stop; default is all sounds.
+   */
+  public stopSound(sound?: string): void {
+    // Create a new StopSoundPacket
+    const packet = new StopSoundPacket();
+
+    // Set the packet properties
+    packet.soundName = sound ?? "";
+    packet.stopAllSounds = sound === undefined;
+    packet.stopMusic = false;
 
     // Send the packet to the player
     this.send(packet);
