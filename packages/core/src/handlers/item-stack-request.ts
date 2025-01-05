@@ -32,8 +32,7 @@ class ItemStackRequestHandler extends NetworkHandler {
           const sourceContainer = request.source.container;
           const destinationContainer = request.destination.container;
 
-          const sourceSlot = request.source.slot;
-          const destinationSlot = request.destination.slot;
+          // Get the amount of items to take or place.
           const amount = request.amount ?? 1;
 
           // Check if the source type is a creative output.
@@ -52,6 +51,9 @@ class ItemStackRequestHandler extends NetworkHandler {
               `Invalid source type: ${ContainerName[sourceContainer.identifier]}`
             );
 
+          // Get the source slot.
+          const sourceSlot = request.source.slot % source.size;
+
           // Fetch the destination container from the player.
           const destination = player.getContainer(
             destinationContainer.identifier,
@@ -63,6 +65,9 @@ class ItemStackRequestHandler extends NetworkHandler {
             throw new Error(
               `Invalid destination type: ${ContainerName[destinationContainer.identifier]}`
             );
+
+          // Get the destination slot
+          const destinationSlot = request.destination.slot % destination.size;
 
           // Create a new PlayerContainerInteractionSignal.
           const signal = new PlayerContainerInteractionSignal(
@@ -115,7 +120,6 @@ class ItemStackRequestHandler extends NetworkHandler {
 
           // Get the source and slot.
           const source = request.source;
-          const slot = source.slot;
           const amount = request.amount;
 
           // Get the source container.
@@ -126,6 +130,9 @@ class ItemStackRequestHandler extends NetworkHandler {
             throw new Error(
               `Invalid container: ${source.container.identifier}`
             );
+
+          // Get the slot
+          const slot = source.slot % container.size;
 
           // Create a new PlayerContainerInteractionSignal.
           const signal = new PlayerContainerInteractionSignal(
@@ -156,9 +163,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 
           // Get the source and destination.
           const sourceContainer = request.source.container;
-          const sourceSlot = request.source.slot;
           const destinationContainer = request.destination.container;
-          const destinationSlot = request.destination.slot;
 
           // Get the source container.
           const source = player.getContainer(
@@ -172,6 +177,9 @@ class ItemStackRequestHandler extends NetworkHandler {
               `Invalid source container: ${sourceContainer.identifier}`
             );
 
+          // Get the source slot.
+          const sourceSlot = request.source.slot % source.size;
+
           // Get the destination container.
           const destination = player.getContainer(
             destinationContainer.identifier,
@@ -183,6 +191,9 @@ class ItemStackRequestHandler extends NetworkHandler {
             throw new Error(
               `Invalid destination container: ${destinationContainer.identifier}`
             );
+
+          // Get the destination slot.
+          const destinationSlot = request.destination.slot % destination.size;
 
           // Create a new PlayerContainerInteractionSignal.
           const signal = new PlayerContainerInteractionSignal(
@@ -240,8 +251,11 @@ class ItemStackRequestHandler extends NetworkHandler {
             // Get the inventory component
             const inventory = player.getTrait(EntityInventoryTrait);
 
+            // Get the source slot.
+            const slot = source.slot % inventory.container.size;
+
             // Clear the source.
-            inventory.container.clearSlot(source.slot);
+            inventory.container.clearSlot(slot);
           }
         }
 

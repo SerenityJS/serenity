@@ -39,7 +39,12 @@ import { FormParticipant } from "../ui";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
-import { type EntityTrait, PlayerCursorTrait, PlayerTrait } from "./traits";
+import {
+  type EntityTrait,
+  PlayerCraftingInputTrait,
+  PlayerCursorTrait,
+  PlayerTrait
+} from "./traits";
 import { Device } from "./device";
 import { ScreenDisplay } from "./screen-display";
 
@@ -383,17 +388,17 @@ class Player extends Entity {
         return this.openedContainer;
       }
 
-      // case ContainerName.CraftingInput: {
-      //   // Check if the player has the crafting input component
-      //   if (!this.hasComponent("minecraft:crafting_input"))
-      //     throw new Error("The player does not have a crafting input.");
+      case ContainerName.CraftingInput: {
+        // Check if the player has the crafting input component
+        if (!this.hasTrait(PlayerCraftingInputTrait))
+          throw new Error("The player does not have a crafting input.");
 
-      //   // Get the crafting input component
-      //   const craftingInput = this.getComponent("minecraft:crafting_input");
+        // Get the crafting input component
+        const craftingInput = this.getTrait(PlayerCraftingInputTrait);
 
-      //   // Return the crafting input container
-      //   return craftingInput.container;
-      // }
+        // Return the crafting input container
+        return craftingInput.container;
+      }
 
       case ContainerName.Cursor: {
         // Check if the player has the cursor trait
