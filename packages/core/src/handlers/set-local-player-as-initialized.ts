@@ -18,12 +18,16 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
   ).deserialize();
 
   public handle(
-    _packet: SetLocalPlayerAsInitializedPacket,
+    packet: SetLocalPlayerAsInitializedPacket,
     connection: Connection
   ): void {
     // Get the player by the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
+
+    // Check if the runtime entity id is the same as the player's
+    if (packet.runtimeEntityId !== player.runtimeId)
+      return player.disconnect("Entity runtime id mismatch");
 
     // Create a new player initialized signal
     const signal = new PlayerInitializedSignal(player);
