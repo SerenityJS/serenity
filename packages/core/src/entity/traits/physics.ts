@@ -4,7 +4,12 @@ import { EntityTrait } from "./trait";
 class EntityPhysicsTrait extends EntityTrait {
   public static readonly identifier = "physics";
 
-  public gravity = 0.05;
+  /**
+   * The gravity value of the entity. (m/s^2)
+   */
+  public gravity = 20;
+
+  // TODO: Drag coefficient (Air(0.98)/Water(0.8)/Lava(0.5))
 
   public onTick(): void {
     // Check if the entity is alive
@@ -16,7 +21,7 @@ class EntityPhysicsTrait extends EntityTrait {
       this.entity.velocity.x = 0;
     } else {
       // Update the entity's x position
-      this.entity.position.x += this.entity.velocity.x;
+      this.entity.position.x += this.entity.velocity.x * 0.98;
     }
 
     // Check if the entity is colliding on the y axis
@@ -64,7 +69,7 @@ class EntityPhysicsTrait extends EntityTrait {
       this.entity.velocity.z = 0;
     } else {
       // Update the entity's z position
-      this.entity.position.z += this.entity.velocity.z;
+      this.entity.position.z += this.entity.velocity.z * 0.98;
     }
 
     // Check if the entity's velocity is getting close to 0
@@ -218,7 +223,7 @@ class EntityPhysicsTrait extends EntityTrait {
     if (this.entity.onGround) return;
 
     // Apply gravity to the entity
-    this.entity.velocity.y -= this.gravity;
+    this.entity.velocity.y -= this.gravity / 20 / 20;
   }
 }
 

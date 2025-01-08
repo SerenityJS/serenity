@@ -7,6 +7,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
+import { PlayerEntityRenderingTrait } from "../player";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -49,7 +50,6 @@ class EntityMovementTrait extends EntityAttributeTrait {
     }
 
     // Check if the entity is moving
-    if (!this.entity.isMoving) return;
 
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();
@@ -73,11 +73,32 @@ class EntityMovementTrait extends EntityAttributeTrait {
 
     // Broadcast the packet to all players
     if (this.entity.isPlayer()) {
-      // Check if the moving entity is a player
-      // If so, broadcast the packet to all players except the moving entity
-      this.entity.dimension.broadcastExcept(this.entity, packet);
+      // Iterate over all players in the dimension
+      for (const player of this.entity.dimension.getPlayers()) {
+        // Check if the player is the moving entity
+        if (player === this.entity) continue;
+
+        // Get the players entity rendering trait
+        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+
+        // Check if the player has the entity in their entities list
+        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+
+        // Send the packet to the player
+        player.send(packet);
+      }
     } else {
-      this.entity.dimension.broadcast(packet);
+      // Iterate over all players in the dimension
+      for (const player of this.entity.dimension.getPlayers()) {
+        // Get the players entity rendering trait
+        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+
+        // Check if the player has the entity in their entities list
+        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+
+        // Send the packet to the player
+        player.send(packet);
+      }
     }
   }
 

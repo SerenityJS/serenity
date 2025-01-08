@@ -736,8 +736,14 @@ class Block {
   /**
    * Forces a player to interact with the block.
    * @param player The player to interact with the block.
+   * @param clickPosition The position where the player clicked the block.
+   * @param clickFace The face of the block the player clicked.
    */
-  public interact(player: Player): boolean {
+  public interact(
+    player: Player,
+    clickPosition: Vector3f,
+    clickFace: BlockFace
+  ): boolean {
     const signal = new PlayerInteractWithBlockSignal(
       player,
       this,
@@ -750,7 +756,7 @@ class Block {
     // Call the block onInteract trait methods
     for (const trait of this.traits.values()) {
       // Call the onInteract method of the trait
-      const result = trait.onInteract?.(player);
+      const result = trait.onInteract?.(player, clickPosition, clickFace);
 
       // Return false if the result is false
       if (result === false) return false;

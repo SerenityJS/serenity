@@ -12,6 +12,7 @@ import { EntityIdentifier, EntityInteractMethod } from "../../../enums";
 import { Player } from "../../player";
 import { EntityHurtSignal } from "../../../events";
 import { Entity } from "../../entity";
+import { PlayerCombatTrait } from "../player/combat";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -78,6 +79,15 @@ class EntityHealthTrait extends EntityAttributeTrait {
     if (this.entity.isPlayer() && this.entity.gamemode === Gamemode.Creative)
       return;
 
+    // Get the player's combat trait
+    const combat = player.getTrait(PlayerCombatTrait);
+
+    // Check if the player has a combat trait
+    if (!combat) throw new Error("Player does not have a combat trait.");
+
+    // Check if the player is in reach of the entity
+    if (combat.isOnCooldown || !combat.isInReachOf(this.entity)) return;
+
     // We want to apply knock back to the entity when it is attacked, based on the direction the player is facing.
     // Get the direction the player is facing
     const { headYaw, pitch } = player.rotation;
@@ -89,9 +99,21 @@ class EntityHealthTrait extends EntityAttributeTrait {
     // Calculate the velocity of the entity based on the player's rotation
     // NOTE: These numbers are not official/vanilla values, these seem to work similar to the vanilla values.
     // If we can get the official values, we should replace these with the official values.
-    const x = (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 3.75;
-    const y = 0.2;
-    const z = (Math.cos(headYawRad) * Math.cos(pitchRad)) / 3.75;
+    const x =
+      -Math.sin(headYawRad) *
+      Math.cos(pitchRad) *
+      combat.getCalculatedHorizontalKnockback() *
+      0.7;
+
+    const y = combat.getCalculatedVerticalKnockback();
+
+    const z =
+      Math.cos(headYawRad) *
+      Math.cos(pitchRad) *
+      combat.getCalculatedHorizontalKnockback() *
+      0.7;
+
+    console.log(x, y, z);
 
     // Set the velocity of the entity
     this.entity.setMotion(new Vector3f(x, y, z));
@@ -99,6 +121,9 @@ class EntityHealthTrait extends EntityAttributeTrait {
     // Apply damage to the entity
     // TODO: Calculate the damage based on the player's item
     this.applyDamage(1, player, ActorDamageCause.EntityAttack);
+
+    // Start the combat cooldown
+    return combat.startCooldown();
   }
 }
 

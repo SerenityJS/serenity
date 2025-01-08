@@ -508,6 +508,50 @@ class ItemStack<T extends keyof Items = keyof Items> {
     }
   }
 
+  /**
+   * Checks if the itemstack has the specified component.
+   * @param key The key of the component.
+   * @returns Whether the itemstack has the component
+   */
+  public hasComponent(key: string): boolean {
+    return this.components.has(key);
+  }
+
+  /**
+   * Gets the specified component from the itemstack.
+   * @param key The key of the component.
+   * @returns The component if it exists, otherwise null
+   */
+  public getComponent<T extends JSONLikeValue>(key: string): T | null {
+    return this.components.get(key) as T | null;
+  }
+
+  /**
+   * Removes the specified component from the itemstack.
+   * @param key The key of the component.
+   */
+  public removeComponent(key: string): void {
+    this.components.delete(key);
+  }
+
+  /**
+   * Adds a component to the itemstack.
+   * @param key The key of the component.
+   * @param value The value of the component.
+   */
+  public addComponent<T extends JSONLikeValue>(key: string, value: T): void {
+    this.components.set(key, value);
+  }
+
+  /**
+   * Sets the specified component of the itemstack.
+   * @param key The key of the component.
+   * @param value The value of the component.
+   */
+  public setComponent<T extends JSONLikeValue>(key: string, value: T): void {
+    this.components.set(key, value);
+  }
+
   public equals(other: ItemStack): boolean {
     // Check if the identifiers & aux are equal.
     if (this.type.identifier !== other.type.identifier) return false;

@@ -191,10 +191,14 @@ class InventoryTransactionHandler extends NetworkHandler {
         }
 
         // Interact with the block
-        interacting.interact(player);
+        const interact = interacting.interact(
+          player,
+          transaction.clickPosition,
+          transaction.face
+        );
 
-        // Check if the interaction opened a container
-        if (player.openedContainer) return; // If so, we skip the block placement
+        // Check if the interaction failed, or if the interaction opened a container
+        if (!interact || player.openedContainer) return; // If so, we skip the block placement
 
         // Check if the client prediction failed to place the block
         if (transaction.clientPrediction === PredictedResult.Failure) {

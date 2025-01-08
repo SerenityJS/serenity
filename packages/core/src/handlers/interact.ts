@@ -48,7 +48,7 @@ class InteractHandler extends NetworkHandler {
 
         // Check if the entity has a inventory trait
         if (!entity || !entity.hasTrait(EntityInventoryTrait))
-          return console.log("Entity does not have an inventory trait");
+          throw new Error("Entity does not have an inventory trait");
 
         // Get the inventory trait from the entity
         const { container } = entity.getTrait(EntityInventoryTrait);

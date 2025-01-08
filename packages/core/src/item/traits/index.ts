@@ -8,3 +8,5 @@ export * from "./keep-on-die";
 export * from "./food";
 export * from "./spawn-egg";
 export * from "./liquid-container";
+export * from "./weapon";
+export * from "./sword";
