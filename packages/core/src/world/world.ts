@@ -2,6 +2,7 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
   DataPacket,
   DimensionType,
+  GameRule,
   SetTimePacket,
   TextPacket,
   TextPacketType
@@ -40,7 +41,17 @@ const DefaultWorldProperties: WorldProperties = {
       simulationDistance: 10,
       spawnPosition: [0, 32767, 0]
     }
-  ]
+  ],
+  gamerules: {
+    showCoordinates: false,
+    showDaysPlayed: false,
+    doDayLightCycle: true,
+    doImmediateRespawn: false,
+    keepInventory: false,
+    fallDamage: true,
+    fireDamage: true,
+    drowningDamage: true
+  }
 };
 
 class World extends Emitter<WorldEventSignals> {
@@ -110,6 +121,13 @@ class World extends Emitter<WorldEventSignals> {
   public readonly scoreboard = new Scoreboard(this);
 
   /**
+   * The current gamerules values of the world.
+   */
+  public get gamerules(): Partial<Record<GameRule, boolean | number | string>> {
+    return this.properties.gamerules;
+  }
+
+  /**
    * The current tick of the world.
    */
   public currentTick = 0n;
@@ -168,7 +186,9 @@ class World extends Emitter<WorldEventSignals> {
     ++this.currentTick;
 
     // Increment the day time; day time is 24000 ticks long
-    this.dayTime = (this.dayTime + 1) % 24_000;
+    // Only increment if the day light cycle is enabled
+    if (this.gamerules.doDayLightCycle)
+      this.dayTime = (this.dayTime + 1) % 24_000;
 
     // Attempt to tick each dimension
     for (const dimension of this.dimensions.values()) {

@@ -48,6 +48,9 @@ class EntityAirSupplyTrait extends EntityTrait {
       // Get the health trait of the entity.
       const health = this.entity.getTrait(EntityHealthTrait);
 
+      // Check if the DrowningDamage gamerule is enabled.
+      if (!this.entity.world.gamerules.drowningDamage) return;
+
       // Apply damage to the entity based on the entity's current state.
       health.applyDamage(
         0.5,

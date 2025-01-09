@@ -44,6 +44,9 @@ class EntityGravityTrait extends EntityTrait {
           (this.entity.gamemode == Gamemode.Adventure ||
             this.entity.gamemode == Gamemode.Survival)
         ) {
+          // Check if the FallDamage gamerule is enabled
+          if (!this.entity.world.gamerules.fallDamage) return;
+
           this.entity
             .getTrait(EntityHealthTrait)
             .applyDamage(fallDamage, undefined, ActorDamageCause.Fall);

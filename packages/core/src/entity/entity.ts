@@ -797,6 +797,9 @@ class Entity {
 
     // Check if the entity has an inventory trait
     if (this.hasTrait(EntityInventoryTrait)) {
+      // Check if the KeepInventory gamerule is enabled
+      if (this.world.gamerules.keepInventory) return;
+
       // Get the inventory trait
       const { container } = this.getTrait(EntityInventoryTrait);
 

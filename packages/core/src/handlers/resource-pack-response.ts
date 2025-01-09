@@ -2,6 +2,7 @@ import {
   AvailableActorIdentifiersPacket,
   Difficulty,
   DisconnectReason,
+  GameRuleType,
   ItemComponentPacket,
   MINECRAFT_VERSION,
   Packet,
@@ -157,206 +158,19 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.platformBroadcastMode = 6;
         packet.commandsEnabled = true;
         packet.texturePacksRequired = false;
-        packet.gamerules = [
-          {
-            name: "commandblockoutput",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "dodaylightcycle",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "doentitydrops",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "dofiretick",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "recipesunlock",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "dolimitedcrafting",
-            editable: true,
-            type: 1,
-            value: false
-          },
-          {
-            name: "domobloot",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "domobspawning",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "dotiledrops",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "doweathercycle",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "drowningdamage",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "falldamage",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "firedamage",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "keepinventory",
-            editable: true,
-            type: 1,
-            value: false
-          },
-          {
-            name: "mobgriefing",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "pvp",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "showcoordinates",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "naturalregeneration",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "tntexplodes",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "sendcommandfeedback",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "maxcommandchainlength",
-            editable: true,
-            type: 2,
-            value: 65_535
-          },
-          {
-            name: "doinsomnia",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "commandblocksenabled",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "randomtickspeed",
-            editable: true,
-            type: 2,
-            value: 1
-          },
-          {
-            name: "doimmediaterespawn",
-            editable: true,
-            type: 1,
-            value: false
-          },
-          {
-            name: "showdeathmessages",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "functioncommandlimit",
-            editable: true,
-            type: 2,
-            value: 10_000
-          },
-          {
-            name: "spawnradius",
-            editable: true,
-            type: 2,
-            value: 10
-          },
-          {
-            name: "showtags",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "freezedamage",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "respawnblocksexplode",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "showbordereffect",
-            editable: true,
-            type: 1,
-            value: true
-          },
-          {
-            name: "playerssleepingpercentage",
-            editable: true,
-            type: 2,
-            value: 100
-          }
-        ];
+
+        // Assign the gamerules to the packet
+        packet.gamerules = packet.gamerules = Object.entries(
+          world.gamerules
+        ).map(([name, value]) => {
+          // Get the type of the value
+          const type =
+            typeof value === "boolean" ? GameRuleType.Bool : GameRuleType.Int;
+
+          // Create the gamerule object
+          return { name, type, value, editable: true };
+        });
+
         packet.experiments = [];
         packet.experimentsPreviouslyToggled = false;
         packet.bonusChest = false;
