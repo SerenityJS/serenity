@@ -968,9 +968,8 @@ class Entity {
     this.velocity.y = vector?.y ?? this.velocity.y;
     this.velocity.z = vector?.z ?? this.velocity.z;
 
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
-    this.position.z += this.velocity.z;
+    // Check if the entity is not a player, if so, reduce the velocity
+    if (!this.isPlayer()) this.velocity.set(this.velocity.multiply(0.5));
 
     // Create a new SetActorMotionPacket
     const packet = new SetActorMotionPacket();
@@ -1118,7 +1117,7 @@ class Entity {
       (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5,
       (-Math.sin(pitchRad) / 2) * 0.75 - 0.1,
       (Math.cos(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5
-    );
+    ).multiply(2);
 
     // Spawn the entity
     const entity = this.dimension.spawnItem(item, new Vector3f(x, y - 0.25, z));

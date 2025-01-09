@@ -57,7 +57,7 @@ class EntityPhysicsTrait extends EntityTrait {
       }
     } else {
       // Update the entity's y position
-      this.entity.position.y += this.entity.velocity.y;
+      this.entity.position.y += this.entity.velocity.y * 0.98;
 
       // Set the entity's on ground state to false
       this.entity.onGround = false;
