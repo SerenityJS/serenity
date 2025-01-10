@@ -1,7 +1,10 @@
+import { AbilityIndex, ActorDamageCause, Vector3f } from "@serenityjs/protocol";
+
 import { EntityIdentifier } from "../../../enums";
 import { ItemWeaponTrait } from "../../../item";
 import { PlayerCombatComponent } from "../../../types";
 import { Entity } from "../../entity";
+import { EntityHealthTrait } from "../attribute";
 
 import { PlayerTrait } from "./trait";
 
@@ -115,6 +118,74 @@ class PlayerCombatTrait extends PlayerTrait {
     this.player.removeComponent(PlayerCombatTrait.identifier);
   }
 
+  public onAttackEntity(target: Entity): void {
+    // Check if the player is in reach of the target, and if the player is on cooldown.
+    if (this.isOnCooldown || !this.isInReachOf(target)) return;
+
+    // Check if the target has a health trait.
+    if (!target.hasTrait(EntityHealthTrait)) return;
+
+    // Check if the target is a player, and if the player is allowed to attack players.
+    if (
+      target.isPlayer() &&
+      !this.player.abilities.get(AbilityIndex.AttackPlayers)
+    )
+      return;
+
+    // Check if the target is not a player, and if the player is allowed to attack mobs.
+    if (
+      !target.isPlayer() &&
+      !this.player.abilities.get(AbilityIndex.AttackMobs)
+    )
+      return;
+
+    // Get the health trait of the target.
+    const health = target.getTrait(EntityHealthTrait);
+
+    // We want to apply knock back to the entity when it is attacked, based on the direction the player is facing.
+    // Get the direction the player is facing
+    const { headYaw, pitch } = this.player.rotation;
+
+    // Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
+    const headYawRad = (headYaw * Math.PI) / 180;
+    const pitchRad = (pitch * Math.PI) / 180;
+
+    // Calculate the horizontal knockback in the x direction
+    const x =
+      -Math.sin(headYawRad) *
+      Math.cos(pitchRad) *
+      this.getCalculatedHorizontalKnockback() *
+      0.7;
+
+    // Calculate the vertical knockback
+    const y = this.getCalculatedVerticalKnockback();
+
+    // Calculate the horizontal knockback in the z direction
+    const z =
+      Math.cos(headYawRad) *
+      Math.cos(pitchRad) *
+      this.getCalculatedHorizontalKnockback() *
+      0.7;
+
+    // Set the velocity of the entity
+    target.addMotion(new Vector3f(x, y, z));
+
+    // Check if the player is critical attacking the entity.
+    const critical = !this.player.onGround && this.player.isSprinting;
+
+    // Get the calculated damage of the player.
+    const damage = this.getCalculatedDamage(critical);
+
+    // TEMP - Implementr critical particles effect
+    if (critical) this.player.sendMessage("TEMP -> Critical Hit!");
+
+    // Apply damage to the entity
+    health.applyDamage(damage, this.player, ActorDamageCause.EntityAttack);
+
+    // Start the combat cooldown
+    return this.startCooldown();
+  }
+
   /**
    * Checks whether the entity is in reach of the player.
    * @param entity The entity to check if it is in reach of the player.
@@ -162,6 +233,30 @@ class PlayerCombatTrait extends PlayerTrait {
    */
   public getCalculatedVerticalKnockback(): number {
     return this.verticalKnockback;
+  }
+
+  /**
+   * Gets the calculated damage of the player based on the held item enchantments.
+   * @param critical Whether the damage is critical.
+   * @returns The calculated damage.
+   */
+  public getCalculatedDamage(critical = false): number {
+    // Get the held item of the player.
+    const item = this.player.getHeldItem();
+
+    // Check if the item is not defined.
+    if (!item) return 1;
+
+    // Check if the item has a weapon trait.
+    if (!item.hasTrait(ItemWeaponTrait)) return 1;
+
+    // Get the weapon trait of the item.
+    const weapon = item.getTrait(ItemWeaponTrait);
+
+    // Return the calculated damage.
+    return critical
+      ? weapon.getCalculatedCriticalDamage()
+      : weapon.getCalculatedBaseDamage();
   }
 
   /**

@@ -858,22 +858,43 @@ class Entity {
 
   /**
    * Causes a player to interact with the entity.
-   * @param player The player that is interacting with the entity.
+   * @param origin The player that is interacting with the entity.
    * @param method The method that the player used to interact with the entity.
    */
-  public interact(player: Player, method: EntityInteractMethod): void {
+  public interact(origin: Player, method: EntityInteractMethod): void {
     if (method === EntityInteractMethod.Interact) {
       const signal = new PlayerInteractWithEntitySignal(
-        player,
+        origin,
         this,
-        player.getHeldItem(),
+        origin.getHeldItem(),
         null
       );
       if (!signal.emit()) return;
     } else {
-      const signal = new EntityHitSignal(player, this);
+      const signal = new EntityHitSignal(origin, this);
 
       if (!signal.emit()) return;
+    }
+
+    // Check if the method is attack, if so called the onAttackEntity method of the attacking entity
+    if (method === EntityInteractMethod.Attack) {
+      // Iterate over the traits of the entity
+      for (const trait of origin.traits.values()) {
+        // Attempt to trigger the onAttackEntity trait event
+        try {
+          // Call the onAttackEntity trait event
+          trait.onAttackEntity?.(this);
+        } catch (reason) {
+          // Log the error to the console
+          this.serenity.logger.error(
+            `Failed to trigger onAttackEntity trait event for entity "${origin.type.identifier}:${origin.uniqueId}" in dimension "${origin.dimension.identifier}"`,
+            reason
+          );
+
+          // Remove the trait from the entity
+          this.traits.delete(trait.identifier);
+        }
+      }
     }
 
     // Trigger the entity onInteract trait event
@@ -881,7 +902,7 @@ class Entity {
       // Attempt to trigger the onInteract trait event
       try {
         // Call the onInteract trait event
-        trait.onInteract?.(player, method);
+        trait.onInteract?.(origin, method);
       } catch (reason) {
         // Log the error to the console
         this.serenity.logger.error(

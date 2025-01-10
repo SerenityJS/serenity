@@ -62,18 +62,17 @@ class EntityTrait extends Trait {
    */
   public clone(entity: Entity): this {
     // Create a new instance of the trait.
-    const trait = new (this.constructor as new (
-      entity: Entity,
-      identifier: string
-    ) => EntityTrait)(entity, this.identifier) as this;
+    const trait = new (this.constructor as new (entity: Entity) => this)(
+      entity
+    );
 
     // Copy the key-value pairs.
     for (const [key, value] of Object.entries(this)) {
       // Skip the entity.
       if (key === "entity") continue;
 
-      // @ts-expect-error
-      trait[key] = value;
+      // Set the key-value pair.
+      trait[key as keyof this] = value;
     }
 
     // Return the trait.

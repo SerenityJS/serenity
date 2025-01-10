@@ -1,18 +1,13 @@
 import {
-  AbilityIndex,
   ActorDamageCause,
   ActorEvent,
   ActorEventPacket,
-  AttributeName,
-  Gamemode,
-  Vector3f
+  AttributeName
 } from "@serenityjs/protocol";
 
-import { EntityIdentifier, EntityInteractMethod } from "../../../enums";
-import { Player } from "../../player";
+import { EntityIdentifier } from "../../../enums";
 import { EntityHurtSignal } from "../../../events";
 import { Entity } from "../../entity";
-import { PlayerCombatTrait } from "../player/combat";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -55,73 +50,6 @@ class EntityHealthTrait extends EntityAttributeTrait {
       defaultValue: 20,
       currentValue: 20
     });
-  }
-
-  public onInteract(player: Player, method: EntityInteractMethod): void {
-    // Check if the method is not an attack; if it is not, return
-    if (method !== EntityInteractMethod.Attack) return;
-
-    // Check if the player has the ability to attack players; if it does not, return
-    if (
-      !player.abilities.get(AbilityIndex.AttackPlayers) &&
-      this.entity.isPlayer()
-    )
-      return;
-
-    // Check if the player has the ability to attack mobs; if it does not, return
-    if (
-      !player.abilities.get(AbilityIndex.AttackMobs) &&
-      !this.entity.isPlayer()
-    )
-      return;
-
-    // Check if the target entity is a player and is in creative mode; if it is, return
-    if (this.entity.isPlayer() && this.entity.gamemode === Gamemode.Creative)
-      return;
-
-    // Get the player's combat trait
-    const combat = player.getTrait(PlayerCombatTrait);
-
-    // Check if the player has a combat trait
-    if (!combat) throw new Error("Player does not have a combat trait.");
-
-    // Check if the player is in reach of the entity
-    if (combat.isOnCooldown || !combat.isInReachOf(this.entity)) return;
-
-    // We want to apply knock back to the entity when it is attacked, based on the direction the player is facing.
-    // Get the direction the player is facing
-    const { headYaw, pitch } = player.rotation;
-
-    // Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
-    const headYawRad = (headYaw * Math.PI) / 180;
-    const pitchRad = (pitch * Math.PI) / 180;
-
-    // Calculate the horizontal knockback in the x direction
-    const x =
-      -Math.sin(headYawRad) *
-      Math.cos(pitchRad) *
-      combat.getCalculatedHorizontalKnockback() *
-      0.7;
-
-    // Calculate the vertical knockback
-    const y = combat.getCalculatedVerticalKnockback();
-
-    // Calculate the horizontal knockback in the z direction
-    const z =
-      Math.cos(headYawRad) *
-      Math.cos(pitchRad) *
-      combat.getCalculatedHorizontalKnockback() *
-      0.7;
-
-    // Set the velocity of the entity
-    this.entity.addMotion(new Vector3f(x, y, z));
-
-    // Apply damage to the entity
-    // TODO: Calculate the damage based on the player's item
-    this.applyDamage(1, player, ActorDamageCause.EntityAttack);
-
-    // Start the combat cooldown
-    return combat.startCooldown();
   }
 }
 

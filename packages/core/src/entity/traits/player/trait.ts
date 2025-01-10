@@ -2,6 +2,7 @@ import { Gamemode } from "@serenityjs/protocol";
 
 import { Player } from "../../player";
 import { EntityTrait } from "../trait";
+import { Entity } from "../../entity";
 
 class PlayerTrait extends EntityTrait {
   /**
@@ -46,6 +47,12 @@ class PlayerTrait extends EntityTrait {
    * Called when the player stops sprinting.
    */
   public onStopSprinting?(): void;
+
+  /**
+   * Called when the player attacks an entity.
+   * @param entity The entity that the player attacked.
+   */
+  public onAttackEntity?(target: Entity): void;
 }
 
 export { PlayerTrait };
