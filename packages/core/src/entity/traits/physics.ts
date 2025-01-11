@@ -1,11 +1,8 @@
-import { EntityIdentifier } from "../../enums";
-
 import { EntityGravityTrait } from "./gravity";
 import { EntityTrait } from "./trait";
 
 class EntityPhysicsTrait extends EntityTrait {
   public static readonly identifier = "physics";
-  public static readonly types = [EntityIdentifier.Player];
 
   /**
    * The gravity value of the entity. (m/s^2)
@@ -17,20 +14,6 @@ class EntityPhysicsTrait extends EntityTrait {
   public onTick(): void {
     // Check if the entity is alive
     if (!this.entity.isAlive) return;
-
-    // Check if the entity is a player
-    if (this.entity.isPlayer()) {
-      // Check if the player is moving
-      if (this.entity.isMoving) return;
-
-      // Reset the player's velocity
-      this.entity.velocity.x = 0;
-      this.entity.velocity.y = 0;
-      this.entity.velocity.z = 0;
-
-      // Return as the physics logic is not needed for the player
-      return;
-    }
 
     // Check if the entity is colliding on the x axis
     if (this.isCollidingOnXAxis()) {
