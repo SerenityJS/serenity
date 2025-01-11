@@ -1,4 +1,10 @@
-import { AbilityIndex, ActorDamageCause, Vector3f } from "@serenityjs/protocol";
+import {
+  AbilityIndex,
+  ActorDamageCause,
+  AnimatePacket,
+  Vector3f,
+  AnimateId
+} from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
 import { ItemWeaponTrait } from "../../../item";
@@ -176,8 +182,19 @@ class PlayerCombatTrait extends PlayerTrait {
     // Get the calculated damage of the player.
     const damage = this.getCalculatedDamage(critical);
 
-    // TEMP - Implementr critical particles effect
-    if (critical) this.player.sendMessage("TEMP -> Critical Hit!");
+    // Check if the player is critical attacking the entity.
+    if (critical) {
+      // Create a new animate packet for the critical hit.
+      const packet = new AnimatePacket();
+
+      // Set the properties of the animate packet.
+      packet.id = AnimateId.CriticalHit;
+      packet.runtimeEntityId = target.runtimeId;
+      packet.boatRowingTime = null;
+
+      // Broadcast the animate packet to the dimension of the player.
+      this.player.dimension.broadcast(packet);
+    }
 
     // Apply damage to the entity
     health.applyDamage(damage, this.player, ActorDamageCause.EntityAttack);

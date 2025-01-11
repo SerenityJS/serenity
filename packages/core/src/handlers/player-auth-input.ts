@@ -58,6 +58,14 @@ class PlayerAuthInputHandler extends NetworkHandler {
       return player.sendImmediate(rewind);
     }
 
+    // Determine if the player is on the ground
+    player.onGround =
+      packet.inputData.hasFlag(InputData.VerticalCollision) &&
+      !packet.inputData.hasFlag(InputData.Jumping);
+
+    // Determine if the player is moving
+    player.isMoving = packet.position.distance(player.position) !== 0;
+
     // Set the player's position
     player.position.set(packet.position);
 
@@ -74,14 +82,6 @@ class PlayerAuthInputHandler extends NetworkHandler {
     // Set the player's velocity
     player.velocity.x = packet.motion.y;
     player.velocity.z = packet.motion.x;
-
-    // Determine if the player is on the ground
-    player.onGround =
-      packet.inputData.hasFlag(InputData.VerticalCollision) &&
-      !packet.inputData.hasFlag(InputData.Jumping);
-
-    // TODO: find a better way to handle this
-    player.isMoving = true;
 
     // Check if the packet contains block actions
     if (packet.blockActions) {
