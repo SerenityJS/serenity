@@ -102,6 +102,11 @@ class PlayerCombatTrait extends PlayerTrait {
    */
   public isOnCooldown: boolean = false;
 
+  /**
+   * Whether the player is on critical cooldown.
+   */
+  public isOnCriticalCooldown: boolean = false;
+
   public onAdd(): void {
     // Check if the player has a combat component.
     if (this.player.hasComponent(PlayerCombatTrait.identifier)) return;
@@ -177,7 +182,10 @@ class PlayerCombatTrait extends PlayerTrait {
     target.addMotion(new Vector3f(x, y, z));
 
     // Check if the player is critical attacking the entity.
-    const critical = !this.player.onGround && this.player.isSprinting;
+    const critical =
+      !this.isOnCriticalCooldown &&
+      this.player.isSprinting &&
+      !this.player.onGround;
 
     // Get the calculated damage of the player.
     const damage = this.getCalculatedDamage(critical);
@@ -194,6 +202,9 @@ class PlayerCombatTrait extends PlayerTrait {
 
       // Broadcast the animate packet to the dimension of the player.
       this.player.dimension.broadcast(packet);
+
+      // Start the critical cooldown
+      this.startCriticalCooldown();
     }
 
     // Apply damage to the entity
@@ -289,6 +300,21 @@ class PlayerCombatTrait extends PlayerTrait {
       // Schedule the combat cooldown based on the provided ticks or the default combat cooldown.
       .schedule(ticks ?? this.combatCooldown)
       .on(() => (this.isOnCooldown = false)); // Set the player off cooldown.
+  }
+
+  /**
+   * Starts the critical combat cooldown of the player.
+   * @param ticks The amount of ticks to cooldown the player; if not provided, the default combat cooldown will be used multiplied by 5.
+   */
+  public startCriticalCooldown(ticks?: number): void {
+    // Set the player on cooldown.
+    this.isOnCriticalCooldown = true;
+
+    // Schedule the combat cooldown
+    this.player.world
+      // Schedule the combat cooldown based on the provided ticks or the default combat cooldown.
+      .schedule(ticks ?? this.combatCooldown * 5)
+      .on(() => (this.isOnCriticalCooldown = false)); // Set the player off cooldown.
   }
 }
 
