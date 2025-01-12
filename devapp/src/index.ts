@@ -1,4 +1,4 @@
-import { Serenity, LevelDBProvider, JsonObjectEnum } from "@serenityjs/core";
+import { Serenity, LevelDBProvider } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -19,21 +19,3 @@ serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
 
 // Start the server
 serenity.start();
-
-for (const [, world] of serenity.worlds) {
-  world.commands.register(
-    "strtest",
-    "",
-    (registry) => {
-      registry.overload(
-        {
-          json: JsonObjectEnum
-        },
-        ({ json }) => {
-          console.log(json.result);
-        }
-      );
-    },
-    () => {}
-  );
-}
