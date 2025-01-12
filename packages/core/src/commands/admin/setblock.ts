@@ -1,6 +1,6 @@
 import { CommandPermissionLevel, type Vector3f } from "@serenityjs/protocol";
 
-import { BlockEnum, PositionEnum } from "../enums";
+import { BlockEnum, JsonObjectEnum, PositionEnum } from "../enums";
 import { Entity } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 
@@ -19,7 +19,8 @@ const register = (world: World) => {
       registry.overload(
         {
           position: PositionEnum,
-          block: BlockEnum
+          block: BlockEnum,
+          state: [JsonObjectEnum, true]
         },
         (context) => {
           // Get the result of the block, position, and mode
@@ -45,8 +46,14 @@ const register = (world: World) => {
             identifier as BlockIdentifier
           );
 
+          // Get the state from the context
+          const state = context.state.result ?? {};
+
+          // Get the permutation of the block
+          const permutation = type.getPermutation(state);
+
           // Set the block at the specified location
-          block.type = type;
+          block.setPermutation(permutation);
 
           // Return the message
           return {

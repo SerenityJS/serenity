@@ -3,3 +3,4 @@ export * from "./string";
 export * from "./integer";
 export * from "./target";
 export * from "./position";
+export * from "./json";

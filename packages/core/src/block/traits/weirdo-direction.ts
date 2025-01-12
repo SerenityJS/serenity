@@ -16,6 +16,15 @@ class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
     this.setDirection(direction);
   }
 
+  public getDirection(): CardinalDirection {
+    // Get the state of the block
+    const state = this.block.permutation.state as unknown &
+      Record<"weirdo_direction", CardinalDirection>;
+
+    // Get the direction of the block
+    return state.weirdo_direction;
+  }
+
   public setDirection(direction: CardinalDirection): void {
     // Get the block type
     const type = this.block.type;
@@ -34,15 +43,6 @@ class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
 
     // Set the permutation of the block
     if (permutation) this.block.setPermutation(permutation);
-  }
-
-  public getDirection(): CardinalDirection {
-    // Get the state of the block
-    const state = this.block.permutation.state as unknown &
-      Record<"weirdo_direction", CardinalDirection>;
-
-    // Get the direction of the block
-    return state.weirdo_direction;
   }
 }
 

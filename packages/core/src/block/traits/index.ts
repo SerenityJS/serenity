@@ -5,6 +5,6 @@ export * from "./upside-down-bit";
 export * from "./open-bit";
 export * from "./upper-block-bit";
 export * from "./vertical-half";
-export * from "./cardinal_direction";
+export * from "./cardinal-direction";
 export * from "./direction";
-export * from "./facing_direction";
+export * from "./facing-direction";

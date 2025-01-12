@@ -18,7 +18,7 @@ class ItemDrop {
   public readonly max: number;
 
   /**
-   * The probability of the block drop. 0.0 - 1.0
+   * The probability of the block drop. (0.0 to 1.0)
    */
   public readonly probability;
 
