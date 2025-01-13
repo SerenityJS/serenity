@@ -16,6 +16,118 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
   protected readonly player: Player;
 
   /**
+   * Whether the player can build
+   */
+  public get build(): boolean {
+    return this.get(AbilityIndex.Build) ?? false;
+  }
+
+  /**
+   * Whether the player can build
+   */
+  public set build(value: boolean) {
+    this.set(AbilityIndex.Build, value);
+  }
+
+  /**
+   * Whether the player can mine
+   */
+  public get mine(): boolean {
+    return this.get(AbilityIndex.Mine) ?? false;
+  }
+
+  /**
+   * Whether the player can mine
+   */
+  public set mine(value: boolean) {
+    this.set(AbilityIndex.Mine, value);
+  }
+
+  /**
+   * Whether the player can interact with doors and switches
+   */
+  public get doorsAndSwitches(): boolean {
+    return this.get(AbilityIndex.DoorsAndSwitches) ?? false;
+  }
+
+  /**
+   * Whether the player can interact with doors and switches
+   */
+  public set doorsAndSwitches(value: boolean) {
+    this.set(AbilityIndex.DoorsAndSwitches, value);
+  }
+
+  /**
+   * Whether the player can open containers
+   */
+  public get openContainers(): boolean {
+    return this.get(AbilityIndex.OpenContainers) ?? false;
+  }
+
+  /**
+   * Whether the player can open containers
+   */
+  public set openContainers(value: boolean) {
+    this.set(AbilityIndex.OpenContainers, value);
+  }
+
+  /**
+   * Whether the player can attack players
+   */
+  public get attackPlayers(): boolean {
+    return this.get(AbilityIndex.AttackPlayers) ?? false;
+  }
+
+  /**
+   * Whether the player can attack players
+   */
+  public set attackPlayers(value: boolean) {
+    this.set(AbilityIndex.AttackPlayers, value);
+  }
+
+  /**
+   * Whether the player can attack mobs
+   */
+  public get attackMobs(): boolean {
+    return this.get(AbilityIndex.AttackMobs) ?? false;
+  }
+
+  /**
+   * Whether the player can attack mobs
+   */
+  public set attackMobs(value: boolean) {
+    this.set(AbilityIndex.AttackMobs, value);
+  }
+
+  /**
+   * Whether the player can use operator commands
+   */
+  public get operatorCommands(): boolean {
+    return this.get(AbilityIndex.OperatorCommands) ?? false;
+  }
+
+  /**
+   * Whether the player can use operator commands
+   */
+  public set operatorCommands(value: boolean) {
+    this.set(AbilityIndex.OperatorCommands, value);
+  }
+
+  /**
+   * Whether the player can teleport
+   */
+  public get mayFly(): boolean {
+    return this.get(AbilityIndex.MayFly) ?? false;
+  }
+
+  /**
+   * Whether the player can teleport
+   */
+  public set mayFly(value: boolean) {
+    this.set(AbilityIndex.MayFly, value);
+  }
+
+  /**
    * Create a new ability map
    * @param player The player that the abilities are attached to
    */

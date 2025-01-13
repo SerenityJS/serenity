@@ -24,6 +24,11 @@ class BlockTrait extends Trait {
   protected readonly block: Block;
 
   /**
+   * The state of the block trait.
+   */
+  public readonly state = (this.constructor as typeof BlockTrait).state;
+
+  /**
    * Creates a new instance of the block trait.
    * @param block The block that this trait will be attached to.
    */

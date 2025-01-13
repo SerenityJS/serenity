@@ -378,9 +378,7 @@ class Block {
     }
 
     // Iterate over all the traits and apply them to the block
-    for (const trait of traits) {
-      this.addTrait(trait);
-    }
+    for (const trait of traits) this.addTrait(trait);
 
     // Check if the block should be cached.
     if ((this.components.size > 0 || this.traits.size > 0) && !this.isAir) {
@@ -508,7 +506,7 @@ class Block {
       return this.traits.get(trait.identifier) as InstanceType<T>;
 
     // Check if the trait is in the palette
-    if (!this.world.blockPalette.traits.has(trait.identifier))
+    if (!this.world.blockPalette.getTrait(trait.identifier, trait.state))
       this.world.logger.warn(
         `Trait "§c${trait.identifier}§r" was added to block "§d${this.type.identifier}§r:§d${JSON.stringify(this.position)}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
       );

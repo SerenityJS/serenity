@@ -185,7 +185,7 @@ class BlockPalette {
   public registerTrait(trait: typeof BlockTrait): boolean {
     // Get the identifier of the trait.
     const identifier = trait.state
-      ? trait.identifier + ":" + trait.state
+      ? trait.identifier + "<" + trait.state + ">"
       : trait.identifier;
 
     // Check if the block trait is already registered.
@@ -266,10 +266,18 @@ class BlockPalette {
   /**
    * Get a trait from the palette.
    * @param identifier The identifier of the trait.
+   * @param state The state of the trait.
    * @returns The trait from the palette.
    */
-  public getTrait(identifier: string): typeof BlockTrait | null {
-    return this.traits.get(identifier) ?? null;
+  public getTrait(
+    identifier: string,
+    state?: string | null
+  ): typeof BlockTrait | null {
+    // Get the trait identifier.
+    const traitIdentifier = state ? identifier + "<" + state + ">" : identifier;
+
+    // Get the trait from the palette.
+    return this.traits.get(traitIdentifier) ?? null;
   }
 }
 

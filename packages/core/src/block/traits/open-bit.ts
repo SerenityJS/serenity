@@ -1,5 +1,4 @@
 import {
-  AbilityIndex,
   BlockPosition,
   LevelSoundEvent,
   LevelSoundEventPacket
@@ -11,12 +10,12 @@ import { Block } from "../block";
 import { BlockTrait } from "./trait";
 
 class BlockOpenBitTrait extends BlockTrait {
-  public static readonly identifier = "open_bit";
+  public static readonly identifier = "open-bit";
   public static readonly state = "open_bit";
 
   public onInteract(player: Player): boolean {
     // Check if the player can open doors
-    if (!player.abilities.get(AbilityIndex.DoorsAndSwitches)) return false;
+    if (!player.abilities.doorsAndSwitches) return false;
 
     // Get the state of the block
     const state = this.block.permutation.state as Record<string, unknown>;
