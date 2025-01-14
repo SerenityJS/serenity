@@ -71,6 +71,7 @@ for (const permutation of BLOCK_PERMUTATIONS) {
 
   // Assign the block permutation properties.
   instance.properties.hardness = metadata.hardness;
+  instance.properties.friction = metadata.friction;
 
   // Register the block permutation.
   type.permutations.push(instance);

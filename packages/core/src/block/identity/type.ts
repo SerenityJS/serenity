@@ -1,4 +1,5 @@
 import { CompoundTag } from "@serenityjs/nbt";
+import { NetworkBlockTypeDefinition } from "@serenityjs/protocol";
 
 import { CustomBlockType } from "../..";
 import { BlockIdentifier } from "../../enums";
@@ -9,6 +10,7 @@ import {
 } from "../../types";
 
 import { ItemDrop } from "./drops";
+import { BlockPropertyCollection } from "./property-collection";
 
 import type { BlockPermutation } from "./permutation";
 
@@ -94,6 +96,13 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   public readonly permutations: Array<BlockPermutation> = [];
 
   /**
+   * The vanilla properties of the block permutation. (hardness, friction, lighting, etc.)
+   * This properties are active on the client end when the query condition is met.
+   * These properties will be used gobally for all permutations, unless a permutation has a different value.
+   */
+  public readonly properties = new BlockPropertyCollection(this);
+
+  /**
    * The NBT data of the custom block type.
    */
   public readonly nbt = new CompoundTag<Partial<CustomBlockTypeVanillaNbt>>();
@@ -140,6 +149,14 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 
   public isCustom(): this is CustomBlockType {
     return this.custom;
+  }
+
+  /**
+   * Gets the network definition of the block type, which is used to send the block type to the client.
+   * @returns The network block type definition.
+   */
+  public getNetworkDefinition(): NetworkBlockTypeDefinition {
+    return new NetworkBlockTypeDefinition(this.identifier, this.nbt);
   }
 
   /**

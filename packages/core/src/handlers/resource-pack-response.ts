@@ -21,7 +21,6 @@ import { CompoundTag, TagType } from "@serenityjs/nbt";
 import { NetworkHandler } from "../network";
 import { ResourcePack } from "../resource-packs";
 import { ItemType } from "../item";
-import { CustomBlockType } from "../block";
 import { EntityType } from "../entity";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
@@ -209,10 +208,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.currentTick = player.world.currentTick;
         packet.enchantmentSeed = player.world.properties.seed;
 
-        // Map the custom blocks to the packet
-        packet.blockProperties = world.blockPalette
-          .getAllCustomTypes()
-          .map((block) => CustomBlockType.toBlockProperty(block));
+        // Map the custom blocks definitions to the packet
+        packet.blockTypeDefinitions = world.blockPalette
+          .getAllTypes()
+          .map((type) => type.getNetworkDefinition());
 
         // Map the custom items to the packet
         packet.items = world.itemPalette

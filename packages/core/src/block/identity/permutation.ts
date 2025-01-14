@@ -1,3 +1,4 @@
+import { BinaryStream } from "@serenityjs/binarystream";
 import {
   ByteTag,
   CompoundTag,
@@ -10,19 +11,24 @@ import {
 import {
   BlockState,
   CustomBlockPermutation,
-  CustomBlockProperty
+  CustomBlockProperty,
+  GenericBlockState
 } from "../../types";
 import { BlockIdentifier } from "../../enums";
 
-import { PermutationProperties } from "./properties";
 import { BlockType } from "./type";
-import { hash } from "./hash";
+import { BlockPropertyCollection } from "./property-collection";
 
 class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   /**
    * A collective registry of all block permutations.
    */
   public static readonly permutations = new Map<number, BlockPermutation>();
+
+  /**
+   * The offset of the hash algorithm.
+   */
+  public static readonly hashOffset = 0x81_1c_9d_c5;
 
   /**
    * The network hash of the block permutation.
@@ -53,8 +59,9 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   /**
    * The vanilla properties of the block permutation. (hardness, friction, lighting, etc.s)
    * This properties are active on the client end when the query condition is met.
+   * These properties will override any global properties of the block type.
    */
-  public readonly properties = new PermutationProperties();
+  public readonly properties: BlockPropertyCollection;
 
   /**
    * Create a new block permutation.
@@ -72,6 +79,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     this.state = state;
     this.type = type;
     this.index = type.permutations.length;
+    this.properties = new BlockPropertyCollection(this.type);
 
     // Get keys of the block state.
     const keys = Object.keys(state ?? {});
@@ -171,10 +179,11 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    */
   public static create(
     type: BlockType,
-    state: Record<string, string | number | boolean> = {}
+    state: GenericBlockState = {},
+    properties: Partial<BlockPropertyCollection> = {}
   ): BlockPermutation {
     // Calculate the network hash of the block permutation.
-    const network = hash(type.identifier, state);
+    const network = BlockPermutation.hash(type.identifier, state);
 
     // Create a new block permutation.
     const permutation = new this(network, state, type);
@@ -185,34 +194,52 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     // Register the permutation in the block type.
     type.permutations.push(permutation);
 
+    // Assignt the properties of the block permutation.
+    Object.assign(permutation.properties, properties);
+
     // Get the properties of the block type.
-    const properties = type.nbt.value.properties;
+    const typeProperties = type.nbt.value.properties;
     const permutations = type.nbt.value.permutations;
 
     // Get the keys of the block state.
     const keys = Object.keys(state);
 
-    if (properties) {
+    // Check if the properties exist
+    if (typeProperties) {
+      // Iterate over the keys of the block state.
       for (const key of keys) {
+        // Get the value of the key
         const value = state[key];
-        let property = properties.value.find(
+
+        // Find the property in the properties.
+        let property = typeProperties.value.find(
           ({ value }) => value.name.value === key
         );
 
+        // If the property does not exist, create a new property.
         if (!property) {
+          // Create a new property tag.
           property = new CompoundTag<CustomBlockProperty>();
+
+          // Create the name tag for the property.
           property.createStringTag({ name: "name", value: key });
+
+          // Create the value tag for the property.
           property.createListTag({
             name: "enum",
             listType: this.getTagType(value)
           });
-          properties.push(property);
+
+          // Add the property to the properties.
+          typeProperties.push(property);
         }
 
+        // Find the index of the value in the property.
         const index = property.value.enum.value.find(
           (tag) => tag.value === value
         );
 
+        // Add the value to the property if it does not exist.
         if (index === undefined) {
           property.value.enum.value.push(this.createTag(value));
         }
@@ -316,6 +343,67 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
       default:
         throw new Error(`Unsupported value type: ${typeof value}`);
     }
+  }
+
+  public static hash(identifier: string, state: GenericBlockState): number {
+    // Separate the keys and values of the state object.
+    const keys = Object.keys(state);
+    const values = Object.values(state);
+
+    // Create a new compound tag with the name of the identifier.
+    const root = new CompoundTag({ name: "", value: {} });
+    root.addTag(new StringTag({ name: "name", value: identifier }));
+
+    // Create a new compound tag with the name of "states".
+    const states = new CompoundTag({ name: "states", value: {} });
+
+    // Loop through each key and value in the state object.
+    for (const [index, key] of keys.entries()) {
+      const value = values[index];
+
+      switch (typeof value) {
+        case "number": {
+          states.addTag(new IntTag({ name: key, value }));
+          break;
+        }
+
+        case "string": {
+          states.addTag(new StringTag({ name: key, value }));
+          break;
+        }
+
+        case "boolean": {
+          states.addTag(new ByteTag({ name: key, value: value ? 1 : 0 }));
+          break;
+        }
+      }
+    }
+
+    // Add the states tag to the root tag.
+    root.addTag(states);
+
+    // Create a new binary stream and write the root tag to it.
+    const stream = new BinaryStream();
+    CompoundTag.write(stream, root);
+
+    // Assign the hash to the offset.
+    let hash = this.hashOffset;
+
+    // Loop through each element in the buffer.
+    for (const element of stream.getBuffer()) {
+      // Set the hash to the XOR of the hash and the element.
+      hash ^= element & 0xff;
+
+      // Apply the hash algorithm.
+      hash +=
+        (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+
+      // Convert the hash to a signed 32-bit integer.
+      hash = hash | 0;
+    }
+
+    // Return the hash.
+    return hash;
   }
 }
 

@@ -3,19 +3,32 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
 
-class BlockProperty extends DataType {
-  public name: string;
-  public nbt: CompoundTag<unknown>;
+class NetworkBlockTypeDefinition extends DataType {
+  /**
+   * The identifier of the block type definition.
+   */
+  public readonly identifier: string;
 
-  public constructor(name: string, nbt: CompoundTag<unknown>) {
+  /**
+   * The nbt data for the block type definition.
+   * This includes the states, permutations, and other properties of the block type.
+   */
+  public readonly nbt: CompoundTag<unknown>;
+
+  /**
+   * Create a new block definition.
+   * @param identifier The identifier of the block type definition.
+   * @param nbt The nbt data for the block type definition.
+   */
+  public constructor(identifier: string, nbt: CompoundTag<unknown>) {
     super();
-    this.name = name;
+    this.identifier = identifier;
     this.nbt = nbt;
   }
 
-  public static override read(stream: BinaryStream): Array<BlockProperty> {
+  public static read(stream: BinaryStream): Array<NetworkBlockTypeDefinition> {
     // Prepare an array to store the properties.
-    const properties: Array<BlockProperty> = [];
+    const properties: Array<NetworkBlockTypeDefinition> = [];
 
     // Read the number of properties.
     const amount = stream.readVarInt();
@@ -30,16 +43,16 @@ class BlockProperty extends DataType {
       const nbt = CompoundTag.read(stream, true);
 
       // Push the rule to the array.
-      properties.push(new BlockProperty(name, nbt));
+      properties.push(new this(name, nbt));
     }
 
     // Return the properties.
     return properties;
   }
 
-  public static override write(
+  public static write(
     stream: BinaryStream,
-    value: Array<BlockProperty>
+    value: Array<NetworkBlockTypeDefinition>
   ): void {
     // Write the number of properties given in the array.
     stream.writeVarInt(value.length);
@@ -47,7 +60,7 @@ class BlockProperty extends DataType {
     // Loop through the properties.
     for (const property of value) {
       // Write the fields for the property.
-      stream.writeVarString(property.name);
+      stream.writeVarString(property.identifier);
 
       // Write the nbt for the property.
       CompoundTag.write(stream, property.nbt, true);
@@ -55,4 +68,4 @@ class BlockProperty extends DataType {
   }
 }
 
-export { BlockProperty };
+export { NetworkBlockTypeDefinition };

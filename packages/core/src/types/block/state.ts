@@ -3,52 +3,54 @@
 
 import { BlockIdentifier } from "../../enums/block-identifier";
 
+export type GenericBlockState = Record<string, string | number | boolean>;
+
 export interface BlockState {
   [BlockIdentifier.PinkTulip]: import("./blocks").PinkTulipBlock;
-  [BlockIdentifier.BuddingAmethyst]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BuddingAmethyst]: GenericBlockState;
   [BlockIdentifier.LightBlueConcretePowder]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Gravel]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Gravel]: GenericBlockState;
   [BlockIdentifier.DetectorRail]: import("./blocks").DetectorRailBlock;
-  [BlockIdentifier.CyanTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CyanTerracotta]: GenericBlockState;
   [BlockIdentifier.HardPinkStainedGlass]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.LightGrayCandle]: import("./blocks").LightGrayCandleBlock;
-  [BlockIdentifier.NetherGoldOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.NetherGoldOre]: GenericBlockState;
   [BlockIdentifier.PolishedBasalt]: import("./blocks").PolishedBasaltBlock;
   [BlockIdentifier.BlueCandle]: import("./blocks").BlueCandleBlock;
   [BlockIdentifier.DarkOakWood]: import("./blocks").DarkOakWoodBlock;
   [BlockIdentifier.TuffBrickWall]: import("./blocks").TuffBrickWallBlock;
   [BlockIdentifier.AcaciaWallSign]: import("./blocks").AcaciaWallSignBlock;
   [BlockIdentifier.BambooPressurePlate]: import("./blocks").BambooPressurePlateBlock;
-  [BlockIdentifier.MelonBlock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.RedWool]: Record<string, string | number | boolean>;
-  [BlockIdentifier.GoldOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MelonBlock]: GenericBlockState;
+  [BlockIdentifier.RedWool]: GenericBlockState;
+  [BlockIdentifier.GoldOre]: GenericBlockState;
   [BlockIdentifier.BirchStandingSign]: import("./blocks").BirchStandingSignBlock;
-  [BlockIdentifier.Element93]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element93]: GenericBlockState;
   [BlockIdentifier.WaxedCutCopperStairs]: import("./blocks").WaxedCutCopperStairsBlock;
   [BlockIdentifier.Cornflower]: import("./blocks").CornflowerBlock;
-  [BlockIdentifier.RedNetherBrick]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RedNetherBrick]: GenericBlockState;
   [BlockIdentifier.OxidizedCutCopperStairs]: import("./blocks").OxidizedCutCopperStairsBlock;
   [BlockIdentifier.WarpedDoor]: import("./blocks").WarpedDoorBlock;
   [BlockIdentifier.PolishedGraniteStairs]: import("./blocks").PolishedGraniteStairsBlock;
   [BlockIdentifier.RedMushroomBlock]: import("./blocks").RedMushroomBlockBlock;
-  [BlockIdentifier.Element30]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element30]: GenericBlockState;
   [BlockIdentifier.DeadBubbleCoralWallFan]: import("./blocks").DeadBubbleCoralWallFanBlock;
-  [BlockIdentifier.BlueCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlueCarpet]: GenericBlockState;
   [BlockIdentifier.BambooBlock]: import("./blocks").BambooBlockBlock;
-  [BlockIdentifier.DeepslateBricks]: Record<string, string | number | boolean>;
-  [BlockIdentifier.WaxedCopper]: Record<string, string | number | boolean>;
-  [BlockIdentifier.WhiteWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DeepslateBricks]: GenericBlockState;
+  [BlockIdentifier.WaxedCopper]: GenericBlockState;
+  [BlockIdentifier.WhiteWool]: GenericBlockState;
   [BlockIdentifier.WoodenDoor]: import("./blocks").WoodenDoorBlock;
   [BlockIdentifier.PistonArmCollision]: import("./blocks").PistonArmCollisionBlock;
   [BlockIdentifier.RedSandstoneSlab]: import("./blocks").RedSandstoneSlabBlock;
   [BlockIdentifier.DarkPrismarineStairs]: import("./blocks").DarkPrismarineStairsBlock;
-  [BlockIdentifier.EndBricks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.EndBricks]: GenericBlockState;
   [BlockIdentifier.SculkShrieker]: import("./blocks").SculkShriekerBlock;
   [BlockIdentifier.BambooMosaicStairs]: import("./blocks").BambooMosaicStairsBlock;
   [BlockIdentifier.Vine]: import("./blocks").VineBlock;
@@ -57,28 +59,28 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.WhiteTulip]: import("./blocks").WhiteTulipBlock;
-  [BlockIdentifier.Granite]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Granite]: GenericBlockState;
   [BlockIdentifier.PolishedTuffSlab]: import("./blocks").PolishedTuffSlabBlock;
-  [BlockIdentifier.BrownMushroom]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BrownMushroom]: GenericBlockState;
   [BlockIdentifier.CutCopperStairs]: import("./blocks").CutCopperStairsBlock;
   [BlockIdentifier.BlueStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Element0]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element0]: GenericBlockState;
   [BlockIdentifier.ExposedCopperDoor]: import("./blocks").ExposedCopperDoorBlock;
   [BlockIdentifier.BlackstoneDoubleSlab]: import("./blocks").BlackstoneDoubleSlabBlock;
   [BlockIdentifier.SpruceStandingSign]: import("./blocks").SpruceStandingSignBlock;
-  [BlockIdentifier.Element118]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element118]: GenericBlockState;
   [BlockIdentifier.FenceGate]: import("./blocks").FenceGateBlock;
   [BlockIdentifier.DeepslateTileSlab]: import("./blocks").DeepslateTileSlabBlock;
-  [BlockIdentifier.PowderSnow]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PowderSnow]: GenericBlockState;
   [BlockIdentifier.MagentaCandle]: import("./blocks").MagentaCandleBlock;
   [BlockIdentifier.DeepslateTileDoubleSlab]: import("./blocks").DeepslateTileDoubleSlabBlock;
-  [BlockIdentifier.Calcite]: Record<string, string | number | boolean>;
-  [BlockIdentifier.GrayTerracotta]: Record<string, string | number | boolean>;
-  [BlockIdentifier.CyanCarpet]: Record<string, string | number | boolean>;
-  [BlockIdentifier.CyanStainedGlass]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Calcite]: GenericBlockState;
+  [BlockIdentifier.GrayTerracotta]: GenericBlockState;
+  [BlockIdentifier.CyanCarpet]: GenericBlockState;
+  [BlockIdentifier.CyanStainedGlass]: GenericBlockState;
   [BlockIdentifier.DarkOakButton]: import("./blocks").DarkOakButtonBlock;
   [BlockIdentifier.DeepslateCopperOre]: Record<
     string,
@@ -90,16 +92,16 @@ export interface BlockState {
   [BlockIdentifier.Ladder]: import("./blocks").LadderBlock;
   [BlockIdentifier.ChiseledStoneBricks]: import("./blocks").ChiseledStoneBricksBlock;
   [BlockIdentifier.SprucePressurePlate]: import("./blocks").SprucePressurePlateBlock;
-  [BlockIdentifier.DiamondOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DiamondOre]: GenericBlockState;
   [BlockIdentifier.WaxedOxidizedCutCopper]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.DeadHornCoralWallFan]: import("./blocks").DeadHornCoralWallFanBlock;
-  [BlockIdentifier.GrayConcrete]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element73]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GrayConcrete]: GenericBlockState;
+  [BlockIdentifier.Element73]: GenericBlockState;
   [BlockIdentifier.CobblestoneSlab]: import("./blocks").CobblestoneSlabBlock;
-  [BlockIdentifier.GreenTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GreenTerracotta]: GenericBlockState;
   [BlockIdentifier.HardPurpleStainedGlassPane]: Record<
     string,
     string | number | boolean
@@ -110,15 +112,15 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.YellowShulkerBox]: Record<string, string | number | boolean>;
-  [BlockIdentifier.ChiseledCopper]: Record<string, string | number | boolean>;
+  [BlockIdentifier.YellowShulkerBox]: GenericBlockState;
+  [BlockIdentifier.ChiseledCopper]: GenericBlockState;
   [BlockIdentifier.GraniteStairs]: import("./blocks").GraniteStairsBlock;
-  [BlockIdentifier.GrayWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GrayWool]: GenericBlockState;
   [BlockIdentifier.GreenConcretePowder]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.LimeStainedGlass]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LimeStainedGlass]: GenericBlockState;
   [BlockIdentifier.OxidizedCopperBulb]: import("./blocks").OxidizedCopperBulbBlock;
   [BlockIdentifier.CobbledDeepslateStairs]: import("./blocks").CobbledDeepslateStairsBlock;
   [BlockIdentifier.WaxedExposedCopper]: Record<
@@ -126,7 +128,7 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.StrippedAcaciaWood]: import("./blocks").StrippedAcaciaWoodBlock;
-  [BlockIdentifier.Element16]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element16]: GenericBlockState;
   [BlockIdentifier.JungleButton]: import("./blocks").JungleButtonBlock;
   [BlockIdentifier.DeadBubbleCoralFan]: import("./blocks").DeadBubbleCoralFanBlock;
   [BlockIdentifier.PoweredRepeater]: import("./blocks").PoweredRepeaterBlock;
@@ -136,21 +138,21 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Element104]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element104]: GenericBlockState;
   [BlockIdentifier.YellowStainedGlass]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.OxidizedDoubleCutCopperSlab]: import("./blocks").OxidizedDoubleCutCopperSlabBlock;
   [BlockIdentifier.JungleDoor]: import("./blocks").JungleDoorBlock;
-  [BlockIdentifier.Diorite]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Diorite]: GenericBlockState;
   [BlockIdentifier.DarkoakWallSign]: import("./blocks").DarkoakWallSignBlock;
-  [BlockIdentifier.InfoUpdate2]: Record<string, string | number | boolean>;
-  [BlockIdentifier.DripstoneBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.InfoUpdate2]: GenericBlockState;
+  [BlockIdentifier.DripstoneBlock]: GenericBlockState;
   [BlockIdentifier.GrayCandleCake]: import("./blocks").GrayCandleCakeBlock;
   [BlockIdentifier.ExposedCopperTrapdoor]: import("./blocks").ExposedCopperTrapdoorBlock;
-  [BlockIdentifier.BlueTerracotta]: Record<string, string | number | boolean>;
-  [BlockIdentifier.HangingRoots]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlueTerracotta]: GenericBlockState;
+  [BlockIdentifier.HangingRoots]: GenericBlockState;
   [BlockIdentifier.SmoothSandstone]: import("./blocks").SmoothSandstoneBlock;
   [BlockIdentifier.PolishedBlackstoneButton]: import("./blocks").PolishedBlackstoneButtonBlock;
   [BlockIdentifier.StrippedBirchWood]: import("./blocks").StrippedBirchWoodBlock;
@@ -166,29 +168,29 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.CherryHangingSign]: import("./blocks").CherryHangingSignBlock;
-  [BlockIdentifier.YellowWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.YellowWool]: GenericBlockState;
   [BlockIdentifier.BlackCandleCake]: import("./blocks").BlackCandleCakeBlock;
   [BlockIdentifier.CrimsonWallSign]: import("./blocks").CrimsonWallSignBlock;
   [BlockIdentifier.PolishedBlackstoneBrickStairs]: import("./blocks").PolishedBlackstoneBrickStairsBlock;
   [BlockIdentifier.LightBlock1]: import("./blocks").LightBlock1Block;
-  [BlockIdentifier.Element46]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element46]: GenericBlockState;
   [BlockIdentifier.SmoothSandstoneSlab]: import("./blocks").SmoothSandstoneSlabBlock;
-  [BlockIdentifier.GrayCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GrayCarpet]: GenericBlockState;
   [BlockIdentifier.DarkOakDoor]: import("./blocks").DarkOakDoorBlock;
   [BlockIdentifier.Wheat]: import("./blocks").WheatBlock;
   [BlockIdentifier.Grindstone]: import("./blocks").GrindstoneBlock;
-  [BlockIdentifier.OakFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.OakFence]: GenericBlockState;
   [BlockIdentifier.YellowStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.DarkOakSlab]: import("./blocks").DarkOakSlabBlock;
   [BlockIdentifier.PolishedGraniteDoubleSlab]: import("./blocks").PolishedGraniteDoubleSlabBlock;
-  [BlockIdentifier.HoneycombBlock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.EndGateway]: Record<string, string | number | boolean>;
+  [BlockIdentifier.HoneycombBlock]: GenericBlockState;
+  [BlockIdentifier.EndGateway]: GenericBlockState;
   [BlockIdentifier.AzureBluet]: import("./blocks").AzureBluetBlock;
   [BlockIdentifier.StoneStairs]: import("./blocks").StoneStairsBlock;
-  [BlockIdentifier.Beacon]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Beacon]: GenericBlockState;
   [BlockIdentifier.PolishedBlackstoneBrickWall]: import("./blocks").PolishedBlackstoneBrickWallBlock;
   [BlockIdentifier.SnowLayer]: import("./blocks").SnowLayerBlock;
   [BlockIdentifier.HardPinkStainedGlassPane]: Record<
@@ -196,20 +198,20 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.BrickDoubleSlab]: import("./blocks").BrickDoubleSlabBlock;
-  [BlockIdentifier.WhiteCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WhiteCarpet]: GenericBlockState;
   [BlockIdentifier.BlackCandle]: import("./blocks").BlackCandleBlock;
   [BlockIdentifier.Cactus]: import("./blocks").CactusBlock;
   [BlockIdentifier.GlowFrame]: import("./blocks").GlowFrameBlock;
   [BlockIdentifier.MudBrickDoubleSlab]: import("./blocks").MudBrickDoubleSlabBlock;
   [BlockIdentifier.BambooMosaicSlab]: import("./blocks").BambooMosaicSlabBlock;
-  [BlockIdentifier.BambooFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BambooFence]: GenericBlockState;
   [BlockIdentifier.DarkPrismarineSlab]: import("./blocks").DarkPrismarineSlabBlock;
   [BlockIdentifier.PrismarineBricksStairs]: import("./blocks").PrismarineBricksStairsBlock;
-  [BlockIdentifier.Mycelium]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Mycelium]: GenericBlockState;
   [BlockIdentifier.DioriteSlab]: import("./blocks").DioriteSlabBlock;
-  [BlockIdentifier.RedConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RedConcrete]: GenericBlockState;
   [BlockIdentifier.CrimsonHyphae]: import("./blocks").CrimsonHyphaeBlock;
-  [BlockIdentifier.BlackTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlackTerracotta]: GenericBlockState;
   [BlockIdentifier.StrippedDarkOakLog]: import("./blocks").StrippedDarkOakLogBlock;
   [BlockIdentifier.HardOrangeStainedGlassPane]: Record<
     string,
@@ -222,7 +224,7 @@ export interface BlockState {
   [BlockIdentifier.JungleLog]: import("./blocks").JungleLogBlock;
   [BlockIdentifier.BubbleCoralFan]: import("./blocks").BubbleCoralFanBlock;
   [BlockIdentifier.BambooSlab]: import("./blocks").BambooSlabBlock;
-  [BlockIdentifier.LitRedstoneOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LitRedstoneOre]: GenericBlockState;
   [BlockIdentifier.NetherWart]: import("./blocks").NetherWartBlock;
   [BlockIdentifier.OrangeStainedGlassPane]: Record<
     string,
@@ -230,7 +232,7 @@ export interface BlockState {
   >;
   [BlockIdentifier.StrippedMangroveWood]: import("./blocks").StrippedMangroveWoodBlock;
   [BlockIdentifier.CutRedSandstone]: import("./blocks").CutRedSandstoneBlock;
-  [BlockIdentifier.LimeShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LimeShulkerBox]: GenericBlockState;
   [BlockIdentifier.HardBlackStainedGlassPane]: Record<
     string,
     string | number | boolean
@@ -240,15 +242,15 @@ export interface BlockState {
   [BlockIdentifier.BlueOrchid]: import("./blocks").BlueOrchidBlock;
   [BlockIdentifier.LimeGlazedTerracotta]: import("./blocks").LimeGlazedTerracottaBlock;
   [BlockIdentifier.Trapdoor]: import("./blocks").TrapdoorBlock;
-  [BlockIdentifier.HardGlassPane]: Record<string, string | number | boolean>;
+  [BlockIdentifier.HardGlassPane]: GenericBlockState;
   [BlockIdentifier.DeadBrainCoralFan]: import("./blocks").DeadBrainCoralFanBlock;
   [BlockIdentifier.AcaciaStandingSign]: import("./blocks").AcaciaStandingSignBlock;
-  [BlockIdentifier.UndyedShulkerBox]: Record<string, string | number | boolean>;
-  [BlockIdentifier.QuartzOre]: Record<string, string | number | boolean>;
-  [BlockIdentifier.InfoUpdate]: Record<string, string | number | boolean>;
+  [BlockIdentifier.UndyedShulkerBox]: GenericBlockState;
+  [BlockIdentifier.QuartzOre]: GenericBlockState;
+  [BlockIdentifier.InfoUpdate]: GenericBlockState;
   [BlockIdentifier.Seagrass]: import("./blocks").SeagrassBlock;
   [BlockIdentifier.TubeCoralFan]: import("./blocks").TubeCoralFanBlock;
-  [BlockIdentifier.Unknown]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Unknown]: GenericBlockState;
   [BlockIdentifier.CherryStairs]: import("./blocks").CherryStairsBlock;
   [BlockIdentifier.Barrel]: import("./blocks").BarrelBlock;
   [BlockIdentifier.BigDripleaf]: import("./blocks").BigDripleafBlock;
@@ -257,25 +259,25 @@ export interface BlockState {
   [BlockIdentifier.WaxedExposedCutCopperSlab]: import("./blocks").WaxedExposedCutCopperSlabBlock;
   [BlockIdentifier.DeadHornCoral]: import("./blocks").DeadHornCoralBlock;
   [BlockIdentifier.InfestedMossyStoneBricks]: import("./blocks").InfestedMossyStoneBricksBlock;
-  [BlockIdentifier.Element68]: Record<string, string | number | boolean>;
-  [BlockIdentifier.RedstoneLamp]: Record<string, string | number | boolean>;
-  [BlockIdentifier.MossyCobblestone]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element113]: Record<string, string | number | boolean>;
-  [BlockIdentifier.BlueStainedGlass]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element68]: GenericBlockState;
+  [BlockIdentifier.RedstoneLamp]: GenericBlockState;
+  [BlockIdentifier.MossyCobblestone]: GenericBlockState;
+  [BlockIdentifier.Element113]: GenericBlockState;
+  [BlockIdentifier.BlueStainedGlass]: GenericBlockState;
   [BlockIdentifier.Cake]: import("./blocks").CakeBlock;
   [BlockIdentifier.DarkOakDoubleSlab]: import("./blocks").DarkOakDoubleSlabBlock;
   [BlockIdentifier.StrippedCrimsonHyphae]: import("./blocks").StrippedCrimsonHyphaeBlock;
   [BlockIdentifier.DarkOakHangingSign]: import("./blocks").DarkOakHangingSignBlock;
-  [BlockIdentifier.GreenConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GreenConcrete]: GenericBlockState;
   [BlockIdentifier.Deepslate]: import("./blocks").DeepslateBlock;
   [BlockIdentifier.StrippedOakWood]: import("./blocks").StrippedOakWoodBlock;
   [BlockIdentifier.PurpurSlab]: import("./blocks").PurpurSlabBlock;
-  [BlockIdentifier.MagentaCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MagentaCarpet]: GenericBlockState;
   [BlockIdentifier.PitcherCrop]: import("./blocks").PitcherCropBlock;
-  [BlockIdentifier.BrownWool]: Record<string, string | number | boolean>;
-  [BlockIdentifier.PinkWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BrownWool]: GenericBlockState;
+  [BlockIdentifier.PinkWool]: GenericBlockState;
   [BlockIdentifier.WarpedStandingSign]: import("./blocks").WarpedStandingSignBlock;
-  [BlockIdentifier.Deadbush]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Deadbush]: GenericBlockState;
   [BlockIdentifier.EnderChest]: import("./blocks").EnderChestBlock;
   [BlockIdentifier.WaxedExposedChiseledCopper]: Record<
     string,
@@ -285,12 +287,12 @@ export interface BlockState {
   [BlockIdentifier.RedstoneWire]: import("./blocks").RedstoneWireBlock;
   [BlockIdentifier.WarpedPressurePlate]: import("./blocks").WarpedPressurePlateBlock;
   [BlockIdentifier.GreenCandleCake]: import("./blocks").GreenCandleCakeBlock;
-  [BlockIdentifier.DiamondBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DiamondBlock]: GenericBlockState;
   [BlockIdentifier.ExposedCopperBulb]: import("./blocks").ExposedCopperBulbBlock;
-  [BlockIdentifier.Element58]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element58]: GenericBlockState;
   [BlockIdentifier.BambooMosaicDoubleSlab]: import("./blocks").BambooMosaicDoubleSlabBlock;
   [BlockIdentifier.DarkPrismarineDoubleSlab]: import("./blocks").DarkPrismarineDoubleSlabBlock;
-  [BlockIdentifier.CryingObsidian]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CryingObsidian]: GenericBlockState;
   [BlockIdentifier.OakStairs]: import("./blocks").OakStairsBlock;
   [BlockIdentifier.HardGrayStainedGlass]: Record<
     string,
@@ -301,7 +303,7 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Andesite]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Andesite]: GenericBlockState;
   [BlockIdentifier.BrownStainedGlassPane]: Record<
     string,
     string | number | boolean
@@ -317,35 +319,35 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.PurpleTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PurpleTerracotta]: GenericBlockState;
   [BlockIdentifier.SmoothQuartz]: import("./blocks").SmoothQuartzBlock;
-  [BlockIdentifier.PackedIce]: Record<string, string | number | boolean>;
-  [BlockIdentifier.IronBars]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PackedIce]: GenericBlockState;
+  [BlockIdentifier.IronBars]: GenericBlockState;
   [BlockIdentifier.OxidizedCutCopper]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.PolishedGranite]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element39]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PolishedGranite]: GenericBlockState;
+  [BlockIdentifier.Element39]: GenericBlockState;
   [BlockIdentifier.LightBlueStainedGlass]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.Fern]: import("./blocks").FernBlock;
-  [BlockIdentifier.PackedMud]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PackedMud]: GenericBlockState;
   [BlockIdentifier.LightBlueCandleCake]: import("./blocks").LightBlueCandleCakeBlock;
-  [BlockIdentifier.Element1]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element1]: GenericBlockState;
   [BlockIdentifier.Poppy]: import("./blocks").PoppyBlock;
-  [BlockIdentifier.MossCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MossCarpet]: GenericBlockState;
   [BlockIdentifier.CrimsonStairs]: import("./blocks").CrimsonStairsBlock;
   [BlockIdentifier.GreenStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.WarpedFungus]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element102]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WarpedFungus]: GenericBlockState;
+  [BlockIdentifier.Element102]: GenericBlockState;
   [BlockIdentifier.StoneBrickDoubleSlab]: import("./blocks").StoneBrickDoubleSlabBlock;
-  [BlockIdentifier.CopperOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CopperOre]: GenericBlockState;
   [BlockIdentifier.GrayCandle]: import("./blocks").GrayCandleBlock;
   [BlockIdentifier.PolishedDeepslateSlab]: import("./blocks").PolishedDeepslateSlabBlock;
   [BlockIdentifier.BambooDoor]: import("./blocks").BambooDoorBlock;
@@ -354,12 +356,12 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.MelonStem]: import("./blocks").MelonStemBlock;
-  [BlockIdentifier.AmethystBlock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.GoldBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.AmethystBlock]: GenericBlockState;
+  [BlockIdentifier.GoldBlock]: GenericBlockState;
   [BlockIdentifier.StrippedOakLog]: import("./blocks").StrippedOakLogBlock;
   [BlockIdentifier.FlowerPot]: import("./blocks").FlowerPotBlock;
   [BlockIdentifier.ChiseledBookshelf]: import("./blocks").ChiseledBookshelfBlock;
-  [BlockIdentifier.JungleFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.JungleFence]: GenericBlockState;
   [BlockIdentifier.SpruceLog]: import("./blocks").SpruceLogBlock;
   [BlockIdentifier.PolishedDeepslateStairs]: import("./blocks").PolishedDeepslateStairsBlock;
   [BlockIdentifier.HardLimeStainedGlass]: Record<
@@ -367,15 +369,15 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.ShortGrass]: import("./blocks").ShortGrassBlock;
-  [BlockIdentifier.LapisBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LapisBlock]: GenericBlockState;
   [BlockIdentifier.WeatheredChiseledCopper]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.CoarseDirt]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CoarseDirt]: GenericBlockState;
   [BlockIdentifier.SmallAmethystBud]: import("./blocks").SmallAmethystBudBlock;
   [BlockIdentifier.ActivatorRail]: import("./blocks").ActivatorRailBlock;
-  [BlockIdentifier.Podzol]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Podzol]: GenericBlockState;
   [BlockIdentifier.MangroveButton]: import("./blocks").MangroveButtonBlock;
   [BlockIdentifier.IronTrapdoor]: import("./blocks").IronTrapdoorBlock;
   [BlockIdentifier.Potatoes]: import("./blocks").PotatoesBlock;
@@ -388,28 +390,28 @@ export interface BlockState {
   [BlockIdentifier.TrialSpawner]: import("./blocks").TrialSpawnerBlock;
   [BlockIdentifier.StrippedJungleWood]: import("./blocks").StrippedJungleWoodBlock;
   [BlockIdentifier.DeadTubeCoralBlock]: import("./blocks").DeadTubeCoralBlockBlock;
-  [BlockIdentifier.Noteblock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Tuff]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Reserved6]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Noteblock]: GenericBlockState;
+  [BlockIdentifier.Tuff]: GenericBlockState;
+  [BlockIdentifier.Reserved6]: GenericBlockState;
   [BlockIdentifier.SoulTorch]: import("./blocks").SoulTorchBlock;
-  [BlockIdentifier.QuartzBricks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.QuartzBricks]: GenericBlockState;
   [BlockIdentifier.MangroveLog]: import("./blocks").MangroveLogBlock;
   [BlockIdentifier.SandstoneSlab]: import("./blocks").SandstoneSlabBlock;
-  [BlockIdentifier.WhiteShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WhiteShulkerBox]: GenericBlockState;
   [BlockIdentifier.BirchWood]: import("./blocks").BirchWoodBlock;
   [BlockIdentifier.PolishedBlackstonePressurePlate]: import("./blocks").PolishedBlackstonePressurePlateBlock;
   [BlockIdentifier.MossyStoneBrickSlab]: import("./blocks").MossyStoneBrickSlabBlock;
-  [BlockIdentifier.RawGoldBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RawGoldBlock]: GenericBlockState;
   [BlockIdentifier.Allium]: import("./blocks").AlliumBlock;
   [BlockIdentifier.CrackedPolishedBlackstoneBricks]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.MobSpawner]: Record<string, string | number | boolean>;
-  [BlockIdentifier.CopperGrate]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MobSpawner]: GenericBlockState;
+  [BlockIdentifier.CopperGrate]: GenericBlockState;
   [BlockIdentifier.WeatheredDoubleCutCopperSlab]: import("./blocks").WeatheredDoubleCutCopperSlabBlock;
-  [BlockIdentifier.DeepslateTiles]: Record<string, string | number | boolean>;
-  [BlockIdentifier.BlackWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DeepslateTiles]: GenericBlockState;
+  [BlockIdentifier.BlackWool]: GenericBlockState;
   [BlockIdentifier.Lava]: import("./blocks").LavaBlock;
   [BlockIdentifier.LightBlock14]: import("./blocks").LightBlock14Block;
   [BlockIdentifier.AcaciaFenceGate]: import("./blocks").AcaciaFenceGateBlock;
@@ -423,7 +425,7 @@ export interface BlockState {
   [BlockIdentifier.CutSandstoneDoubleSlab]: import("./blocks").CutSandstoneDoubleSlabBlock;
   [BlockIdentifier.BlastFurnace]: import("./blocks").BlastFurnaceBlock;
   [BlockIdentifier.CutSandstoneSlab]: import("./blocks").CutSandstoneSlabBlock;
-  [BlockIdentifier.SpruceFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SpruceFence]: GenericBlockState;
   [BlockIdentifier.HardYellowStainedGlassPane]: Record<
     string,
     string | number | boolean
@@ -436,9 +438,9 @@ export interface BlockState {
   [BlockIdentifier.SandstoneDoubleSlab]: import("./blocks").SandstoneDoubleSlabBlock;
   [BlockIdentifier.PinkPetals]: import("./blocks").PinkPetalsBlock;
   [BlockIdentifier.SoulFire]: import("./blocks").SoulFireBlock;
-  [BlockIdentifier.PinkCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PinkCarpet]: GenericBlockState;
   [BlockIdentifier.MangroveDoubleSlab]: import("./blocks").MangroveDoubleSlabBlock;
-  [BlockIdentifier.BrownCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BrownCarpet]: GenericBlockState;
   [BlockIdentifier.GreenCandle]: import("./blocks").GreenCandleBlock;
   [BlockIdentifier.PurpleStainedGlassPane]: Record<
     string,
@@ -451,7 +453,7 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.BrainCoral]: import("./blocks").BrainCoralBlock;
-  [BlockIdentifier.Obsidian]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Obsidian]: GenericBlockState;
   [BlockIdentifier.Chest]: import("./blocks").ChestBlock;
   [BlockIdentifier.DeadBubbleCoralBlock]: import("./blocks").DeadBubbleCoralBlockBlock;
   [BlockIdentifier.LightGrayStainedGlassPane]: Record<
@@ -461,7 +463,7 @@ export interface BlockState {
   [BlockIdentifier.BlackstoneSlab]: import("./blocks").BlackstoneSlabBlock;
   [BlockIdentifier.StrippedSpruceWood]: import("./blocks").StrippedSpruceWoodBlock;
   [BlockIdentifier.Cauldron]: import("./blocks").CauldronBlock;
-  [BlockIdentifier.Glowingobsidian]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Glowingobsidian]: GenericBlockState;
   [BlockIdentifier.DeepslateBrickWall]: import("./blocks").DeepslateBrickWallBlock;
   [BlockIdentifier.DarkoakStandingSign]: import("./blocks").DarkoakStandingSignBlock;
   [BlockIdentifier.WaxedExposedCopperGrate]: Record<
@@ -469,22 +471,22 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.TubeCoralBlock]: import("./blocks").TubeCoralBlockBlock;
-  [BlockIdentifier.AcaciaPlanks]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element85]: Record<string, string | number | boolean>;
+  [BlockIdentifier.AcaciaPlanks]: GenericBlockState;
+  [BlockIdentifier.Element85]: GenericBlockState;
   [BlockIdentifier.JungleWallSign]: import("./blocks").JungleWallSignBlock;
   [BlockIdentifier.EndBrickStairs]: import("./blocks").EndBrickStairsBlock;
   [BlockIdentifier.PolishedBlackstoneDoubleSlab]: import("./blocks").PolishedBlackstoneDoubleSlabBlock;
-  [BlockIdentifier.OrangeCarpet]: Record<string, string | number | boolean>;
-  [BlockIdentifier.ExposedCopper]: Record<string, string | number | boolean>;
+  [BlockIdentifier.OrangeCarpet]: GenericBlockState;
+  [BlockIdentifier.ExposedCopper]: GenericBlockState;
   [BlockIdentifier.PolishedDeepslateDoubleSlab]: import("./blocks").PolishedDeepslateDoubleSlabBlock;
   [BlockIdentifier.NetherBrickSlab]: import("./blocks").NetherBrickSlabBlock;
   [BlockIdentifier.HeavyWeightedPressurePlate]: import("./blocks").HeavyWeightedPressurePlateBlock;
-  [BlockIdentifier.Element89]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element89]: GenericBlockState;
   [BlockIdentifier.StoneButton]: import("./blocks").StoneButtonBlock;
-  [BlockIdentifier.Stone]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Stone]: GenericBlockState;
   [BlockIdentifier.RedNetherBrickDoubleSlab]: import("./blocks").RedNetherBrickDoubleSlabBlock;
   [BlockIdentifier.PitcherPlant]: import("./blocks").PitcherPlantBlock;
-  [BlockIdentifier.Element101]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element101]: GenericBlockState;
   [BlockIdentifier.WaxedCopperBulb]: import("./blocks").WaxedCopperBulbBlock;
   [BlockIdentifier.AndesiteStairs]: import("./blocks").AndesiteStairsBlock;
   [BlockIdentifier.Sponge]: import("./blocks").SpongeBlock;
@@ -503,12 +505,12 @@ export interface BlockState {
   [BlockIdentifier.EndStoneBrickSlab]: import("./blocks").EndStoneBrickSlabBlock;
   [BlockIdentifier.Frame]: import("./blocks").FrameBlock;
   [BlockIdentifier.Smoker]: import("./blocks").SmokerBlock;
-  [BlockIdentifier.HardenedClay]: Record<string, string | number | boolean>;
+  [BlockIdentifier.HardenedClay]: GenericBlockState;
   [BlockIdentifier.BirchHangingSign]: import("./blocks").BirchHangingSignBlock;
   [BlockIdentifier.PolishedTuffWall]: import("./blocks").PolishedTuffWallBlock;
   [BlockIdentifier.UnlitRedstoneTorch]: import("./blocks").UnlitRedstoneTorchBlock;
   [BlockIdentifier.StrippedJungleLog]: import("./blocks").StrippedJungleLogBlock;
-  [BlockIdentifier.LapisOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LapisOre]: GenericBlockState;
   [BlockIdentifier.HardBlueStainedGlass]: Record<
     string,
     string | number | boolean
@@ -527,20 +529,20 @@ export interface BlockState {
   [BlockIdentifier.LightBlock5]: import("./blocks").LightBlock5Block;
   [BlockIdentifier.WaxedOxidizedCutCopperStairs]: import("./blocks").WaxedOxidizedCutCopperStairsBlock;
   [BlockIdentifier.LightBlock4]: import("./blocks").LightBlock4Block;
-  [BlockIdentifier.WarpedRoots]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WarpedRoots]: GenericBlockState;
   [BlockIdentifier.SmallDripleafBlock]: import("./blocks").SmallDripleafBlockBlock;
-  [BlockIdentifier.GreenWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GreenWool]: GenericBlockState;
   [BlockIdentifier.LimeCandleCake]: import("./blocks").LimeCandleCakeBlock;
   [BlockIdentifier.MangroveLeaves]: import("./blocks").MangroveLeavesBlock;
   [BlockIdentifier.LightBlock3]: import("./blocks").LightBlock3Block;
   [BlockIdentifier.AcaciaLeaves]: import("./blocks").AcaciaLeavesBlock;
-  [BlockIdentifier.Barrier]: Record<string, string | number | boolean>;
-  [BlockIdentifier.RawIronBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Barrier]: GenericBlockState;
+  [BlockIdentifier.RawIronBlock]: GenericBlockState;
   [BlockIdentifier.Dispenser]: import("./blocks").DispenserBlock;
-  [BlockIdentifier.CrimsonRoots]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CrimsonRoots]: GenericBlockState;
   [BlockIdentifier.LightBlock2]: import("./blocks").LightBlock2Block;
   [BlockIdentifier.LightBlock0]: import("./blocks").LightBlock0Block;
-  [BlockIdentifier.Stonecutter]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Stonecutter]: GenericBlockState;
   [BlockIdentifier.AndesiteDoubleSlab]: import("./blocks").AndesiteDoubleSlabBlock;
   [BlockIdentifier.UnpoweredRepeater]: import("./blocks").UnpoweredRepeaterBlock;
   [BlockIdentifier.OakSapling]: import("./blocks").OakSaplingBlock;
@@ -548,7 +550,7 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.PinkStainedGlass]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PinkStainedGlass]: GenericBlockState;
   [BlockIdentifier.HardMagentaStainedGlassPane]: Record<
     string,
     string | number | boolean
@@ -558,14 +560,14 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.FireCoral]: import("./blocks").FireCoralBlock;
-  [BlockIdentifier.CobbledDeepslate]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element99]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CobbledDeepslate]: GenericBlockState;
+  [BlockIdentifier.Element99]: GenericBlockState;
   [BlockIdentifier.BirchLog]: import("./blocks").BirchLogBlock;
   [BlockIdentifier.OrangeStainedGlass]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.OrangeWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.OrangeWool]: GenericBlockState;
   [BlockIdentifier.PolishedBlackstoneBrickDoubleSlab]: import("./blocks").PolishedBlackstoneBrickDoubleSlabBlock;
   [BlockIdentifier.BubbleCoralBlock]: import("./blocks").BubbleCoralBlockBlock;
   [BlockIdentifier.CrimsonDoubleSlab]: import("./blocks").CrimsonDoubleSlabBlock;
@@ -577,17 +579,17 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.BirchPlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BirchPlanks]: GenericBlockState;
   [BlockIdentifier.SeaPickle]: import("./blocks").SeaPickleBlock;
   [BlockIdentifier.RedSandstoneDoubleSlab]: import("./blocks").RedSandstoneDoubleSlabBlock;
-  [BlockIdentifier.Element74]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element74]: GenericBlockState;
   [BlockIdentifier.RedSand]: import("./blocks").RedSandBlock;
   [BlockIdentifier.HayBlock]: import("./blocks").HayBlockBlock;
   [BlockIdentifier.SuspiciousGravel]: import("./blocks").SuspiciousGravelBlock;
-  [BlockIdentifier.HeavyCore]: Record<string, string | number | boolean>;
+  [BlockIdentifier.HeavyCore]: GenericBlockState;
   [BlockIdentifier.JungleWood]: import("./blocks").JungleWoodBlock;
-  [BlockIdentifier.RedStainedGlass]: Record<string, string | number | boolean>;
-  [BlockIdentifier.PurpleShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RedStainedGlass]: GenericBlockState;
+  [BlockIdentifier.PurpleShulkerBox]: GenericBlockState;
   [BlockIdentifier.PolishedTuffDoubleSlab]: import("./blocks").PolishedTuffDoubleSlabBlock;
   [BlockIdentifier.OxidizedCopperDoor]: import("./blocks").OxidizedCopperDoorBlock;
   [BlockIdentifier.WaxedWeatheredCopper]: Record<
@@ -601,8 +603,8 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.DeepslateBrickSlab]: import("./blocks").DeepslateBrickSlabBlock;
-  [BlockIdentifier.FloweringAzalea]: Record<string, string | number | boolean>;
-  [BlockIdentifier.InvisibleBedrock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.FloweringAzalea]: GenericBlockState;
+  [BlockIdentifier.InvisibleBedrock]: GenericBlockState;
   [BlockIdentifier.OakLeaves]: import("./blocks").OakLeavesBlock;
   [BlockIdentifier.BrainCoralFan]: import("./blocks").BrainCoralFanBlock;
   [BlockIdentifier.BambooStairs]: import("./blocks").BambooStairsBlock;
@@ -611,25 +613,25 @@ export interface BlockState {
   [BlockIdentifier.CopperTrapdoor]: import("./blocks").CopperTrapdoorBlock;
   [BlockIdentifier.RedCandle]: import("./blocks").RedCandleBlock;
   [BlockIdentifier.MudBrickWall]: import("./blocks").MudBrickWallBlock;
-  [BlockIdentifier.HoneyBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.HoneyBlock]: GenericBlockState;
   [BlockIdentifier.CherryTrapdoor]: import("./blocks").CherryTrapdoorBlock;
-  [BlockIdentifier.BrownConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BrownConcrete]: GenericBlockState;
   [BlockIdentifier.LitPumpkin]: import("./blocks").LitPumpkinBlock;
-  [BlockIdentifier.PinkConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PinkConcrete]: GenericBlockState;
   [BlockIdentifier.YellowGlazedTerracotta]: import("./blocks").YellowGlazedTerracottaBlock;
-  [BlockIdentifier.SmoothBasalt]: Record<string, string | number | boolean>;
-  [BlockIdentifier.WarpedPlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SmoothBasalt]: GenericBlockState;
+  [BlockIdentifier.WarpedPlanks]: GenericBlockState;
   [BlockIdentifier.Piston]: import("./blocks").PistonBlock;
-  [BlockIdentifier.CherryFence]: Record<string, string | number | boolean>;
-  [BlockIdentifier.MangrovePlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CherryFence]: GenericBlockState;
+  [BlockIdentifier.MangrovePlanks]: GenericBlockState;
   [BlockIdentifier.HardLightGrayStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.RedTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RedTerracotta]: GenericBlockState;
   [BlockIdentifier.Water]: import("./blocks").WaterBlock;
   [BlockIdentifier.WeatheredCopperTrapdoor]: import("./blocks").WeatheredCopperTrapdoorBlock;
-  [BlockIdentifier.Element77]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element77]: GenericBlockState;
   [BlockIdentifier.WeatheredCopperGrate]: Record<
     string,
     string | number | boolean
@@ -637,7 +639,7 @@ export interface BlockState {
   [BlockIdentifier.SpruceButton]: import("./blocks").SpruceButtonBlock;
   [BlockIdentifier.WallBanner]: import("./blocks").WallBannerBlock;
   [BlockIdentifier.DeadFireCoralBlock]: import("./blocks").DeadFireCoralBlockBlock;
-  [BlockIdentifier.MagentaWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MagentaWool]: GenericBlockState;
   [BlockIdentifier.WaxedWeatheredCopperGrate]: Record<
     string,
     string | number | boolean
@@ -646,7 +648,7 @@ export interface BlockState {
   [BlockIdentifier.VerdantFroglight]: import("./blocks").VerdantFroglightBlock;
   [BlockIdentifier.MossyCobblestoneSlab]: import("./blocks").MossyCobblestoneSlabBlock;
   [BlockIdentifier.MagentaGlazedTerracotta]: import("./blocks").MagentaGlazedTerracottaBlock;
-  [BlockIdentifier.PolishedAndesite]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PolishedAndesite]: GenericBlockState;
   [BlockIdentifier.PurpleStainedGlass]: Record<
     string,
     string | number | boolean
@@ -665,23 +667,23 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Torchflower]: Record<string, string | number | boolean>;
-  [BlockIdentifier.SporeBlossom]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Waterlily]: Record<string, string | number | boolean>;
-  [BlockIdentifier.EmeraldBlock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Conduit]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Torchflower]: GenericBlockState;
+  [BlockIdentifier.SporeBlossom]: GenericBlockState;
+  [BlockIdentifier.Waterlily]: GenericBlockState;
+  [BlockIdentifier.EmeraldBlock]: GenericBlockState;
+  [BlockIdentifier.Conduit]: GenericBlockState;
   [BlockIdentifier.Anvil]: import("./blocks").AnvilBlock;
   [BlockIdentifier.SuspiciousSand]: import("./blocks").SuspiciousSandBlock;
-  [BlockIdentifier.AncientDebris]: Record<string, string | number | boolean>;
-  [BlockIdentifier.DarkOakPlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.AncientDebris]: GenericBlockState;
+  [BlockIdentifier.DarkOakPlanks]: GenericBlockState;
   [BlockIdentifier.JungleLeaves]: import("./blocks").JungleLeavesBlock;
   [BlockIdentifier.LightningRod]: import("./blocks").LightningRodBlock;
-  [BlockIdentifier.NetherBrickFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.NetherBrickFence]: GenericBlockState;
   [BlockIdentifier.BlackStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.MagentaConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MagentaConcrete]: GenericBlockState;
   [BlockIdentifier.CobblestoneWall]: import("./blocks").CobblestoneWallBlock;
   [BlockIdentifier.LightBlueStainedGlassPane]: Record<
     string,
@@ -692,8 +694,8 @@ export interface BlockState {
   [BlockIdentifier.SpruceDoubleSlab]: import("./blocks").SpruceDoubleSlabBlock;
   [BlockIdentifier.RedSandstone]: import("./blocks").RedSandstoneBlock;
   [BlockIdentifier.DarkOakLog]: import("./blocks").DarkOakLogBlock;
-  [BlockIdentifier.OakPlanks]: Record<string, string | number | boolean>;
-  [BlockIdentifier.RedstoneOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.OakPlanks]: GenericBlockState;
+  [BlockIdentifier.RedstoneOre]: GenericBlockState;
   [BlockIdentifier.AcaciaHangingSign]: import("./blocks").AcaciaHangingSignBlock;
   [BlockIdentifier.LightBlock13]: import("./blocks").LightBlock13Block;
   [BlockIdentifier.OchreFroglight]: import("./blocks").OchreFroglightBlock;
@@ -702,7 +704,7 @@ export interface BlockState {
   [BlockIdentifier.MangrovePressurePlate]: import("./blocks").MangrovePressurePlateBlock;
   [BlockIdentifier.Observer]: import("./blocks").ObserverBlock;
   [BlockIdentifier.PinkGlazedTerracotta]: import("./blocks").PinkGlazedTerracottaBlock;
-  [BlockIdentifier.YellowTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.YellowTerracotta]: GenericBlockState;
   [BlockIdentifier.BrownGlazedTerracotta]: import("./blocks").BrownGlazedTerracottaBlock;
   [BlockIdentifier.BrownCandleCake]: import("./blocks").BrownCandleCakeBlock;
   [BlockIdentifier.PinkCandleCake]: import("./blocks").PinkCandleCakeBlock;
@@ -714,23 +716,23 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.OxidizedCopper]: Record<string, string | number | boolean>;
+  [BlockIdentifier.OxidizedCopper]: GenericBlockState;
   [BlockIdentifier.BirchPressurePlate]: import("./blocks").BirchPressurePlateBlock;
-  [BlockIdentifier.Element19]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element19]: GenericBlockState;
   [BlockIdentifier.SandstoneStairs]: import("./blocks").SandstoneStairsBlock;
   [BlockIdentifier.StrippedBambooBlock]: import("./blocks").StrippedBambooBlockBlock;
   [BlockIdentifier.CrackedStoneBricks]: import("./blocks").CrackedStoneBricksBlock;
   [BlockIdentifier.DeadTubeCoralWallFan]: import("./blocks").DeadTubeCoralWallFanBlock;
   [BlockIdentifier.BirchFenceGate]: import("./blocks").BirchFenceGateBlock;
   [BlockIdentifier.SculkCatalyst]: import("./blocks").SculkCatalystBlock;
-  [BlockIdentifier.Element115]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Cobblestone]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element115]: GenericBlockState;
+  [BlockIdentifier.Cobblestone]: GenericBlockState;
   [BlockIdentifier.HornCoral]: import("./blocks").HornCoralBlock;
   [BlockIdentifier.WhiteConcretePowder]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.YellowConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.YellowConcrete]: GenericBlockState;
   [BlockIdentifier.OakDoubleSlab]: import("./blocks").OakDoubleSlabBlock;
   [BlockIdentifier.StrippedWarpedStem]: import("./blocks").StrippedWarpedStemBlock;
   [BlockIdentifier.DaylightDetector]: import("./blocks").DaylightDetectorBlock;
@@ -742,7 +744,7 @@ export interface BlockState {
   >;
   [BlockIdentifier.DoubleCutCopperSlab]: import("./blocks").DoubleCutCopperSlabBlock;
   [BlockIdentifier.BirchButton]: import("./blocks").BirchButtonBlock;
-  [BlockIdentifier.CrimsonPlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CrimsonPlanks]: GenericBlockState;
   [BlockIdentifier.Sandstone]: import("./blocks").SandstoneBlock;
   [BlockIdentifier.BlackstoneWall]: import("./blocks").BlackstoneWallBlock;
   [BlockIdentifier.LightWeightedPressurePlate]: import("./blocks").LightWeightedPressurePlateBlock;
@@ -752,36 +754,36 @@ export interface BlockState {
   >;
   [BlockIdentifier.Bamboo]: import("./blocks").BambooBlock;
   [BlockIdentifier.RedNetherBrickSlab]: import("./blocks").RedNetherBrickSlabBlock;
-  [BlockIdentifier.IronOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.IronOre]: GenericBlockState;
   [BlockIdentifier.WaxedWeatheredChiseledCopper]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Element17]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element17]: GenericBlockState;
   [BlockIdentifier.StickyPistonArmCollision]: import("./blocks").StickyPistonArmCollisionBlock;
-  [BlockIdentifier.Element51]: Record<string, string | number | boolean>;
-  [BlockIdentifier.GrayStainedGlass]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element51]: GenericBlockState;
+  [BlockIdentifier.GrayStainedGlass]: GenericBlockState;
   [BlockIdentifier.ExposedCutCopperSlab]: import("./blocks").ExposedCutCopperSlabBlock;
-  [BlockIdentifier.Element52]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element52]: GenericBlockState;
   [BlockIdentifier.WarpedStairs]: import("./blocks").WarpedStairsBlock;
   [BlockIdentifier.Bedrock]: import("./blocks").BedrockBlock;
-  [BlockIdentifier.SmithingTable]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SmithingTable]: GenericBlockState;
   [BlockIdentifier.LightBlock10]: import("./blocks").LightBlock10Block;
   [BlockIdentifier.TuffBrickSlab]: import("./blocks").TuffBrickSlabBlock;
   [BlockIdentifier.RoseBush]: import("./blocks").RoseBushBlock;
-  [BlockIdentifier.GreenCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GreenCarpet]: GenericBlockState;
   [BlockIdentifier.PurpleCandleCake]: import("./blocks").PurpleCandleCakeBlock;
   [BlockIdentifier.PrismarineBrickSlab]: import("./blocks").PrismarineBrickSlabBlock;
-  [BlockIdentifier.CyanConcrete]: Record<string, string | number | boolean>;
-  [BlockIdentifier.NetheriteBlock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.RedstoneBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CyanConcrete]: GenericBlockState;
+  [BlockIdentifier.NetheriteBlock]: GenericBlockState;
+  [BlockIdentifier.RedstoneBlock]: GenericBlockState;
   [BlockIdentifier.PolishedBlackstoneWall]: import("./blocks").PolishedBlackstoneWallBlock;
   [BlockIdentifier.QuartzPillar]: import("./blocks").QuartzPillarBlock;
   [BlockIdentifier.WaxedExposedCutCopper]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.GildedBlackstone]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GildedBlackstone]: GenericBlockState;
   [BlockIdentifier.JungleHangingSign]: import("./blocks").JungleHangingSignBlock;
   [BlockIdentifier.BlueConcretePowder]: Record<
     string,
@@ -789,14 +791,14 @@ export interface BlockState {
   >;
   [BlockIdentifier.CherryWood]: import("./blocks").CherryWoodBlock;
   [BlockIdentifier.BirchSlab]: import("./blocks").BirchSlabBlock;
-  [BlockIdentifier.EndStone]: Record<string, string | number | boolean>;
+  [BlockIdentifier.EndStone]: GenericBlockState;
   [BlockIdentifier.CrimsonDoor]: import("./blocks").CrimsonDoorBlock;
   [BlockIdentifier.JungleSlab]: import("./blocks").JungleSlabBlock;
   [BlockIdentifier.WaxedOxidizedCopper]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Glowstone]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Glowstone]: GenericBlockState;
   [BlockIdentifier.StonePressurePlate]: import("./blocks").StonePressurePlateBlock;
   [BlockIdentifier.QuartzStairs]: import("./blocks").QuartzStairsBlock;
   [BlockIdentifier.WaxedExposedCutCopperStairs]: import("./blocks").WaxedExposedCutCopperStairsBlock;
@@ -825,32 +827,32 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.PinkTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PinkTerracotta]: GenericBlockState;
   [BlockIdentifier.WaxedWeatheredCopperDoor]: import("./blocks").WaxedWeatheredCopperDoorBlock;
   [BlockIdentifier.DarkPrismarine]: import("./blocks").DarkPrismarineBlock;
   [BlockIdentifier.InfestedCobblestone]: import("./blocks").InfestedCobblestoneBlock;
   [BlockIdentifier.BrainCoralWallFan]: import("./blocks").BrainCoralWallFanBlock;
   [BlockIdentifier.MangroveWood]: import("./blocks").MangroveWoodBlock;
-  [BlockIdentifier.CraftingTable]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CraftingTable]: GenericBlockState;
   [BlockIdentifier.RedGlazedTerracotta]: import("./blocks").RedGlazedTerracottaBlock;
   [BlockIdentifier.DarkOakFenceGate]: import("./blocks").DarkOakFenceGateBlock;
   [BlockIdentifier.CherryButton]: import("./blocks").CherryButtonBlock;
-  [BlockIdentifier.CrimsonNylium]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CrimsonNylium]: GenericBlockState;
   [BlockIdentifier.WarpedDoubleSlab]: import("./blocks").WarpedDoubleSlabBlock;
   [BlockIdentifier.StructureVoid]: import("./blocks").StructureVoidBlock;
   [BlockIdentifier.BambooFenceGate]: import("./blocks").BambooFenceGateBlock;
-  [BlockIdentifier.PurpleConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PurpleConcrete]: GenericBlockState;
   [BlockIdentifier.WhiteStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.WaxedExposedCopperBulb]: import("./blocks").WaxedExposedCopperBulbBlock;
   [BlockIdentifier.BubbleCoral]: import("./blocks").BubbleCoralBlock;
-  [BlockIdentifier.CoalOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CoalOre]: GenericBlockState;
   [BlockIdentifier.PolishedBlackstoneBrickSlab]: import("./blocks").PolishedBlackstoneBrickSlabBlock;
   [BlockIdentifier.NormalStoneSlab]: import("./blocks").NormalStoneSlabBlock;
   [BlockIdentifier.PurpleCandle]: import("./blocks").PurpleCandleBlock;
-  [BlockIdentifier.Snow]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Snow]: GenericBlockState;
   [BlockIdentifier.CalibratedSculkSensor]: import("./blocks").CalibratedSculkSensorBlock;
   [BlockIdentifier.YellowConcretePowder]: Record<
     string,
@@ -859,8 +861,8 @@ export interface BlockState {
   [BlockIdentifier.OakSlab]: import("./blocks").OakSlabBlock;
   [BlockIdentifier.Sand]: import("./blocks").SandBlock;
   [BlockIdentifier.MangroveStandingSign]: import("./blocks").MangroveStandingSignBlock;
-  [BlockIdentifier.Slime]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element117]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Slime]: GenericBlockState;
+  [BlockIdentifier.Element117]: GenericBlockState;
   [BlockIdentifier.JungleStairs]: import("./blocks").JungleStairsBlock;
   [BlockIdentifier.MossyStoneBrickDoubleSlab]: import("./blocks").MossyStoneBrickDoubleSlabBlock;
   [BlockIdentifier.CutRedSandstoneDoubleSlab]: import("./blocks").CutRedSandstoneDoubleSlabBlock;
@@ -886,8 +888,8 @@ export interface BlockState {
   >;
   [BlockIdentifier.DeadTubeCoral]: import("./blocks").DeadTubeCoralBlock;
   [BlockIdentifier.AcaciaDoor]: import("./blocks").AcaciaDoorBlock;
-  [BlockIdentifier.OrangeShulkerBox]: Record<string, string | number | boolean>;
-  [BlockIdentifier.NetherWartBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.OrangeShulkerBox]: GenericBlockState;
+  [BlockIdentifier.NetherWartBlock]: GenericBlockState;
   [BlockIdentifier.LightBlueGlazedTerracotta]: import("./blocks").LightBlueGlazedTerracottaBlock;
   [BlockIdentifier.PrismarineSlab]: import("./blocks").PrismarineSlabBlock;
   [BlockIdentifier.PrismarineDoubleSlab]: import("./blocks").PrismarineDoubleSlabBlock;
@@ -896,19 +898,19 @@ export interface BlockState {
   [BlockIdentifier.WeatheredCutCopperStairs]: import("./blocks").WeatheredCutCopperStairsBlock;
   [BlockIdentifier.AcaciaLog]: import("./blocks").AcaciaLogBlock;
   [BlockIdentifier.FlowingLava]: import("./blocks").FlowingLavaBlock;
-  [BlockIdentifier.WhiteTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WhiteTerracotta]: GenericBlockState;
   [BlockIdentifier.CrimsonTrapdoor]: import("./blocks").CrimsonTrapdoorBlock;
-  [BlockIdentifier.BlueShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlueShulkerBox]: GenericBlockState;
   [BlockIdentifier.Basalt]: import("./blocks").BasaltBlock;
   [BlockIdentifier.WaxedWeatheredCopperTrapdoor]: import("./blocks").WaxedWeatheredCopperTrapdoorBlock;
   [BlockIdentifier.HardCyanStainedGlass]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.PolishedDiorite]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element13]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PolishedDiorite]: GenericBlockState;
+  [BlockIdentifier.Element13]: GenericBlockState;
   [BlockIdentifier.CyanGlazedTerracotta]: import("./blocks").CyanGlazedTerracottaBlock;
-  [BlockIdentifier.LitRedstoneLamp]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LitRedstoneLamp]: GenericBlockState;
   [BlockIdentifier.HardPurpleStainedGlass]: Record<
     string,
     string | number | boolean
@@ -916,14 +918,14 @@ export interface BlockState {
   [BlockIdentifier.YellowCandleCake]: import("./blocks").YellowCandleCakeBlock;
   [BlockIdentifier.StickyPiston]: import("./blocks").StickyPistonBlock;
   [BlockIdentifier.MediumAmethystBud]: import("./blocks").MediumAmethystBudBlock;
-  [BlockIdentifier.BrownShulkerBox]: Record<string, string | number | boolean>;
-  [BlockIdentifier.PinkShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BrownShulkerBox]: GenericBlockState;
+  [BlockIdentifier.PinkShulkerBox]: GenericBlockState;
   [BlockIdentifier.LightBlueCandle]: import("./blocks").LightBlueCandleBlock;
   [BlockIdentifier.DeepslateTileStairs]: import("./blocks").DeepslateTileStairsBlock;
   [BlockIdentifier.SculkSensor]: import("./blocks").SculkSensorBlock;
   [BlockIdentifier.CopperBulb]: import("./blocks").CopperBulbBlock;
-  [BlockIdentifier.Element6]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element97]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element6]: GenericBlockState;
+  [BlockIdentifier.Element97]: GenericBlockState;
   [BlockIdentifier.DioriteStairs]: import("./blocks").DioriteStairsBlock;
   [BlockIdentifier.SmoothStoneDoubleSlab]: import("./blocks").SmoothStoneDoubleSlabBlock;
   [BlockIdentifier.SpruceLeaves]: import("./blocks").SpruceLeavesBlock;
@@ -931,13 +933,13 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.FrogSpawn]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element111]: Record<string, string | number | boolean>;
+  [BlockIdentifier.FrogSpawn]: GenericBlockState;
+  [BlockIdentifier.Element111]: GenericBlockState;
   [BlockIdentifier.CrimsonFenceGate]: import("./blocks").CrimsonFenceGateBlock;
-  [BlockIdentifier.RedCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RedCarpet]: GenericBlockState;
   [BlockIdentifier.SmoothSandstoneDoubleSlab]: import("./blocks").SmoothSandstoneDoubleSlabBlock;
-  [BlockIdentifier.RedShulkerBox]: Record<string, string | number | boolean>;
-  [BlockIdentifier.DirtWithRoots]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RedShulkerBox]: GenericBlockState;
+  [BlockIdentifier.DirtWithRoots]: GenericBlockState;
   [BlockIdentifier.StrippedCherryLog]: import("./blocks").StrippedCherryLogBlock;
   [BlockIdentifier.HornCoralWallFan]: import("./blocks").HornCoralWallFanBlock;
   [BlockIdentifier.CopperDoor]: import("./blocks").CopperDoorBlock;
@@ -950,7 +952,7 @@ export interface BlockState {
   [BlockIdentifier.IronDoor]: import("./blocks").IronDoorBlock;
   [BlockIdentifier.MangroveTrapdoor]: import("./blocks").MangroveTrapdoorBlock;
   [BlockIdentifier.DaylightDetectorInverted]: import("./blocks").DaylightDetectorInvertedBlock;
-  [BlockIdentifier.JunglePlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.JunglePlanks]: GenericBlockState;
   [BlockIdentifier.ChorusFlower]: import("./blocks").ChorusFlowerBlock;
   [BlockIdentifier.TorchflowerCrop]: import("./blocks").TorchflowerCropBlock;
   [BlockIdentifier.CrackedNetherBricks]: Record<
@@ -958,11 +960,11 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.Pumpkin]: import("./blocks").PumpkinBlock;
-  [BlockIdentifier.SmoothStone]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SmoothStone]: GenericBlockState;
   [BlockIdentifier.GraniteSlab]: import("./blocks").GraniteSlabBlock;
-  [BlockIdentifier.LimeConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LimeConcrete]: GenericBlockState;
   [BlockIdentifier.WaxedWeatheredCutCopperSlab]: import("./blocks").WaxedWeatheredCutCopperSlabBlock;
-  [BlockIdentifier.RedMushroom]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RedMushroom]: GenericBlockState;
   [BlockIdentifier.HardYellowStainedGlass]: Record<
     string,
     string | number | boolean
@@ -971,7 +973,7 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.BlackCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlackCarpet]: GenericBlockState;
   [BlockIdentifier.ExposedCutCopperStairs]: import("./blocks").ExposedCutCopperStairsBlock;
   [BlockIdentifier.MangroveStairs]: import("./blocks").MangroveStairsBlock;
   [BlockIdentifier.PolishedDioriteSlab]: import("./blocks").PolishedDioriteSlabBlock;
@@ -983,21 +985,21 @@ export interface BlockState {
   [BlockIdentifier.MangroveFenceGate]: import("./blocks").MangroveFenceGateBlock;
   [BlockIdentifier.BubbleColumn]: import("./blocks").BubbleColumnBlock;
   [BlockIdentifier.Sunflower]: import("./blocks").SunflowerBlock;
-  [BlockIdentifier.Allow]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Allow]: GenericBlockState;
   [BlockIdentifier.GrayConcretePowder]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.BambooHangingSign]: import("./blocks").BambooHangingSignBlock;
-  [BlockIdentifier.WitherRose]: Record<string, string | number | boolean>;
-  [BlockIdentifier.CopperBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WitherRose]: GenericBlockState;
+  [BlockIdentifier.CopperBlock]: GenericBlockState;
   [BlockIdentifier.BirchDoubleSlab]: import("./blocks").BirchDoubleSlabBlock;
   [BlockIdentifier.WaxedWeatheredDoubleCutCopperSlab]: import("./blocks").WaxedWeatheredDoubleCutCopperSlabBlock;
   [BlockIdentifier.PolishedBlackstoneBricks]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.CutCopper]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CutCopper]: GenericBlockState;
   [BlockIdentifier.FrostedIce]: import("./blocks").FrostedIceBlock;
   [BlockIdentifier.SpruceDoor]: import("./blocks").SpruceDoorBlock;
   [BlockIdentifier.ChiseledSandstone]: import("./blocks").ChiseledSandstoneBlock;
@@ -1008,15 +1010,15 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.FlowingWater]: import("./blocks").FlowingWaterBlock;
-  [BlockIdentifier.BrickBlock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.HardGlass]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BrickBlock]: GenericBlockState;
+  [BlockIdentifier.HardGlass]: GenericBlockState;
   [BlockIdentifier.CaveVines]: import("./blocks").CaveVinesBlock;
   [BlockIdentifier.MagentaStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Element62]: Record<string, string | number | boolean>;
-  [BlockIdentifier.LightBlueCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element62]: GenericBlockState;
+  [BlockIdentifier.LightBlueCarpet]: GenericBlockState;
   [BlockIdentifier.OakHangingSign]: import("./blocks").OakHangingSignBlock;
   [BlockIdentifier.StrippedDarkOakWood]: import("./blocks").StrippedDarkOakWoodBlock;
   [BlockIdentifier.WhiteStainedGlass]: Record<
@@ -1026,17 +1028,17 @@ export interface BlockState {
   [BlockIdentifier.OakWood]: import("./blocks").OakWoodBlock;
   [BlockIdentifier.WaxedExposedDoubleCutCopperSlab]: import("./blocks").WaxedExposedDoubleCutCopperSlabBlock;
   [BlockIdentifier.WaxedOxidizedCopperTrapdoor]: import("./blocks").WaxedOxidizedCopperTrapdoorBlock;
-  [BlockIdentifier.Jukebox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Jukebox]: GenericBlockState;
   [BlockIdentifier.StrippedCherryWood]: import("./blocks").StrippedCherryWoodBlock;
   [BlockIdentifier.AcaciaPressurePlate]: import("./blocks").AcaciaPressurePlateBlock;
   [BlockIdentifier.SmoothRedSandstoneSlab]: import("./blocks").SmoothRedSandstoneSlabBlock;
   [BlockIdentifier.Jigsaw]: import("./blocks").JigsawBlock;
   [BlockIdentifier.BorderBlock]: import("./blocks").BorderBlockBlock;
-  [BlockIdentifier.Shroomlight]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Shroomlight]: GenericBlockState;
   [BlockIdentifier.YellowCandle]: import("./blocks").YellowCandleBlock;
   [BlockIdentifier.DarkOakStairs]: import("./blocks").DarkOakStairsBlock;
   [BlockIdentifier.DeepslateTileWall]: import("./blocks").DeepslateTileWallBlock;
-  [BlockIdentifier.GlassPane]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GlassPane]: GenericBlockState;
   [BlockIdentifier.ChiseledDeepslate]: Record<
     string,
     string | number | boolean
@@ -1051,69 +1053,69 @@ export interface BlockState {
   [BlockIdentifier.DarkOakTrapdoor]: import("./blocks").DarkOakTrapdoorBlock;
   [BlockIdentifier.MangroveWallSign]: import("./blocks").MangroveWallSignBlock;
   [BlockIdentifier.Beetroot]: import("./blocks").BeetrootBlock;
-  [BlockIdentifier.RawCopperBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.RawCopperBlock]: GenericBlockState;
   [BlockIdentifier.HornCoralBlock]: import("./blocks").HornCoralBlockBlock;
   [BlockIdentifier.Skull]: import("./blocks").SkullBlock;
   [BlockIdentifier.LightGrayCandleCake]: import("./blocks").LightGrayCandleCakeBlock;
-  [BlockIdentifier.Element95]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element95]: GenericBlockState;
   [BlockIdentifier.WhiteCandle]: import("./blocks").WhiteCandleBlock;
   [BlockIdentifier.GoldenRail]: import("./blocks").GoldenRailBlock;
   [BlockIdentifier.LitFurnace]: import("./blocks").LitFurnaceBlock;
-  [BlockIdentifier.CyanWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CyanWool]: GenericBlockState;
   [BlockIdentifier.PetrifiedOakDoubleSlab]: import("./blocks").PetrifiedOakDoubleSlabBlock;
   [BlockIdentifier.StructureBlock]: import("./blocks").StructureBlockBlock;
-  [BlockIdentifier.TintedGlass]: Record<string, string | number | boolean>;
+  [BlockIdentifier.TintedGlass]: GenericBlockState;
   [BlockIdentifier.DeprecatedAnvil]: import("./blocks").DeprecatedAnvilBlock;
-  [BlockIdentifier.GrayShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GrayShulkerBox]: GenericBlockState;
   [BlockIdentifier.FireCoralWallFan]: import("./blocks").FireCoralWallFanBlock;
   [BlockIdentifier.JungleFenceGate]: import("./blocks").JungleFenceGateBlock;
   [BlockIdentifier.ExposedCopperGrate]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.WaxedCopperGrate]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WaxedCopperGrate]: GenericBlockState;
   [BlockIdentifier.DeadBrainCoral]: import("./blocks").DeadBrainCoralBlock;
   [BlockIdentifier.JungleTrapdoor]: import("./blocks").JungleTrapdoorBlock;
   [BlockIdentifier.SpruceWallSign]: import("./blocks").SpruceWallSignBlock;
-  [BlockIdentifier.CoalBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CoalBlock]: GenericBlockState;
   [BlockIdentifier.WarpedFenceGate]: import("./blocks").WarpedFenceGateBlock;
   [BlockIdentifier.Composter]: import("./blocks").ComposterBlock;
-  [BlockIdentifier.Element44]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element44]: GenericBlockState;
   [BlockIdentifier.WaxedDoubleCutCopperSlab]: import("./blocks").WaxedDoubleCutCopperSlabBlock;
   [BlockIdentifier.WaxedExposedCopperDoor]: import("./blocks").WaxedExposedCopperDoorBlock;
   [BlockIdentifier.BlueGlazedTerracotta]: import("./blocks").BlueGlazedTerracottaBlock;
-  [BlockIdentifier.BlueWool]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Clay]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlueWool]: GenericBlockState;
+  [BlockIdentifier.Clay]: GenericBlockState;
   [BlockIdentifier.WeepingVines]: import("./blocks").WeepingVinesBlock;
-  [BlockIdentifier.ChorusPlant]: Record<string, string | number | boolean>;
+  [BlockIdentifier.ChorusPlant]: GenericBlockState;
   [BlockIdentifier.MudBrickStairs]: import("./blocks").MudBrickStairsBlock;
   [BlockIdentifier.SmoothRedSandstoneStairs]: import("./blocks").SmoothRedSandstoneStairsBlock;
-  [BlockIdentifier.Element100]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element103]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element105]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element100]: GenericBlockState;
+  [BlockIdentifier.Element103]: GenericBlockState;
+  [BlockIdentifier.Element105]: GenericBlockState;
   [BlockIdentifier.CrimsonPressurePlate]: import("./blocks").CrimsonPressurePlateBlock;
-  [BlockIdentifier.Element106]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element107]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element106]: GenericBlockState;
+  [BlockIdentifier.Element107]: GenericBlockState;
   [BlockIdentifier.HardGrayStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Element108]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element109]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element108]: GenericBlockState;
+  [BlockIdentifier.Element109]: GenericBlockState;
   [BlockIdentifier.LightGrayShulkerBox]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Element112]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element110]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element116]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element114]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element112]: GenericBlockState;
+  [BlockIdentifier.Element110]: GenericBlockState;
+  [BlockIdentifier.Element116]: GenericBlockState;
+  [BlockIdentifier.Element114]: GenericBlockState;
   [BlockIdentifier.WhiteGlazedTerracotta]: import("./blocks").WhiteGlazedTerracottaBlock;
   [BlockIdentifier.StrippedWarpedHyphae]: import("./blocks").StrippedWarpedHyphaeBlock;
-  [BlockIdentifier.Element50]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element50]: GenericBlockState;
   [BlockIdentifier.PumpkinStem]: import("./blocks").PumpkinStemBlock;
   [BlockIdentifier.Lever]: import("./blocks").LeverBlock;
-  [BlockIdentifier.MovingBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MovingBlock]: GenericBlockState;
   [BlockIdentifier.TrappedChest]: import("./blocks").TrappedChestBlock;
   [BlockIdentifier.LightGrayConcretePowder]: Record<
     string,
@@ -1125,22 +1127,22 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.BambooPlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BambooPlanks]: GenericBlockState;
   [BlockIdentifier.CommandBlock]: import("./blocks").CommandBlockBlock;
   [BlockIdentifier.TwistingVines]: import("./blocks").TwistingVinesBlock;
   [BlockIdentifier.AcaciaDoubleSlab]: import("./blocks").AcaciaDoubleSlabBlock;
   [BlockIdentifier.PolishedAndesiteDoubleSlab]: import("./blocks").PolishedAndesiteDoubleSlabBlock;
-  [BlockIdentifier.Magma]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Dirt]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Magma]: GenericBlockState;
+  [BlockIdentifier.Dirt]: GenericBlockState;
   [BlockIdentifier.Reeds]: import("./blocks").ReedsBlock;
-  [BlockIdentifier.Deny]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Deny]: GenericBlockState;
   [BlockIdentifier.BeeNest]: import("./blocks").BeeNestBlock;
   [BlockIdentifier.Campfire]: import("./blocks").CampfireBlock;
-  [BlockIdentifier.SoulSoil]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element8]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element28]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SoulSoil]: GenericBlockState;
+  [BlockIdentifier.Element8]: GenericBlockState;
+  [BlockIdentifier.Element28]: GenericBlockState;
   [BlockIdentifier.DarkOakPressurePlate]: import("./blocks").DarkOakPressurePlateBlock;
-  [BlockIdentifier.SoulSand]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SoulSand]: GenericBlockState;
   [BlockIdentifier.CobbledDeepslateDoubleSlab]: import("./blocks").CobbledDeepslateDoubleSlabBlock;
   [BlockIdentifier.SpruceHangingSign]: import("./blocks").SpruceHangingSignBlock;
   [BlockIdentifier.ReinforcedDeepslate]: Record<
@@ -1148,12 +1150,12 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.EndRod]: import("./blocks").EndRodBlock;
-  [BlockIdentifier.FletchingTable]: Record<string, string | number | boolean>;
+  [BlockIdentifier.FletchingTable]: GenericBlockState;
   [BlockIdentifier.CherryLeaves]: import("./blocks").CherryLeavesBlock;
   [BlockIdentifier.BlackGlazedTerracotta]: import("./blocks").BlackGlazedTerracottaBlock;
   [BlockIdentifier.StrippedAcaciaLog]: import("./blocks").StrippedAcaciaLogBlock;
   [BlockIdentifier.SnifferEgg]: import("./blocks").SnifferEggBlock;
-  [BlockIdentifier.WarpedFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WarpedFence]: GenericBlockState;
   [BlockIdentifier.CaveVinesBodyWithBerries]: import("./blocks").CaveVinesBodyWithBerriesBlock;
   [BlockIdentifier.CherryStandingSign]: import("./blocks").CherryStandingSignBlock;
   [BlockIdentifier.MangroveHangingSign]: import("./blocks").MangroveHangingSignBlock;
@@ -1164,20 +1166,20 @@ export interface BlockState {
   [BlockIdentifier.TuffBrickDoubleSlab]: import("./blocks").TuffBrickDoubleSlabBlock;
   [BlockIdentifier.Vault]: import("./blocks").VaultBlock;
   [BlockIdentifier.AzaleaLeavesFlowered]: import("./blocks").AzaleaLeavesFloweredBlock;
-  [BlockIdentifier.Element18]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element18]: GenericBlockState;
   [BlockIdentifier.CrimsonSlab]: import("./blocks").CrimsonSlabBlock;
   [BlockIdentifier.WarpedHyphae]: import("./blocks").WarpedHyphaeBlock;
   [BlockIdentifier.OxeyeDaisy]: import("./blocks").OxeyeDaisyBlock;
   [BlockIdentifier.BambooButton]: import("./blocks").BambooButtonBlock;
-  [BlockIdentifier.WarpedWartBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WarpedWartBlock]: GenericBlockState;
   [BlockIdentifier.TuffStairs]: import("./blocks").TuffStairsBlock;
-  [BlockIdentifier.YellowCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.YellowCarpet]: GenericBlockState;
   [BlockIdentifier.BlackStainedGlass]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.WaxedOxidizedCopperDoor]: import("./blocks").WaxedOxidizedCopperDoorBlock;
-  [BlockIdentifier.GrassBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GrassBlock]: GenericBlockState;
   [BlockIdentifier.TripwireHook]: import("./blocks").TripwireHookBlock;
   [BlockIdentifier.HardBlackStainedGlass]: Record<
     string,
@@ -1186,20 +1188,20 @@ export interface BlockState {
   [BlockIdentifier.StrippedBirchLog]: import("./blocks").StrippedBirchLogBlock;
   [BlockIdentifier.RedTulip]: import("./blocks").RedTulipBlock;
   [BlockIdentifier.CutSandstone]: import("./blocks").CutSandstoneBlock;
-  [BlockIdentifier.LimeWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LimeWool]: GenericBlockState;
   [BlockIdentifier.BlueCandleCake]: import("./blocks").BlueCandleCakeBlock;
   [BlockIdentifier.LargeFern]: import("./blocks").LargeFernBlock;
   [BlockIdentifier.SweetBerryBush]: import("./blocks").SweetBerryBushBlock;
   [BlockIdentifier.PolishedBlackstoneSlab]: import("./blocks").PolishedBlackstoneSlabBlock;
-  [BlockIdentifier.BlackShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlackShulkerBox]: GenericBlockState;
   [BlockIdentifier.JungleSapling]: import("./blocks").JungleSaplingBlock;
-  [BlockIdentifier.BlueConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlueConcrete]: GenericBlockState;
   [BlockIdentifier.JungleStandingSign]: import("./blocks").JungleStandingSignBlock;
-  [BlockIdentifier.Web]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Web]: GenericBlockState;
   [BlockIdentifier.WeatheredCutCopperSlab]: import("./blocks").WeatheredCutCopperSlabBlock;
   [BlockIdentifier.Cocoa]: import("./blocks").CocoaBlock;
   [BlockIdentifier.DarkOakLeaves]: import("./blocks").DarkOakLeavesBlock;
-  [BlockIdentifier.OrangeTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.OrangeTerracotta]: GenericBlockState;
   [BlockIdentifier.Fire]: import("./blocks").FireBlock;
   [BlockIdentifier.PurpurDoubleSlab]: import("./blocks").PurpurDoubleSlabBlock;
   [BlockIdentifier.ExposedChiseledCopper]: Record<
@@ -1210,26 +1212,26 @@ export interface BlockState {
   [BlockIdentifier.EndPortalFrame]: import("./blocks").EndPortalFrameBlock;
   [BlockIdentifier.Prismarine]: import("./blocks").PrismarineBlock;
   [BlockIdentifier.MagentaCandleCake]: import("./blocks").MagentaCandleCakeBlock;
-  [BlockIdentifier.DeepslateGoldOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DeepslateGoldOre]: GenericBlockState;
   [BlockIdentifier.HardOrangeStainedGlass]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Glass]: Record<string, string | number | boolean>;
-  [BlockIdentifier.MossBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Glass]: GenericBlockState;
+  [BlockIdentifier.MossBlock]: GenericBlockState;
   [BlockIdentifier.NetherBrickDoubleSlab]: import("./blocks").NetherBrickDoubleSlabBlock;
-  [BlockIdentifier.ExposedCutCopper]: Record<string, string | number | boolean>;
+  [BlockIdentifier.ExposedCutCopper]: GenericBlockState;
   [BlockIdentifier.PrismarineBrickDoubleSlab]: import("./blocks").PrismarineBrickDoubleSlabBlock;
-  [BlockIdentifier.Bookshelf]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Bookshelf]: GenericBlockState;
   [BlockIdentifier.WaxedWeatheredCutCopperStairs]: import("./blocks").WaxedWeatheredCutCopperStairsBlock;
-  [BlockIdentifier.MangroveRoots]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MangroveRoots]: GenericBlockState;
   [BlockIdentifier.AcaciaStairs]: import("./blocks").AcaciaStairsBlock;
   [BlockIdentifier.PolishedAndesiteStairs]: import("./blocks").PolishedAndesiteStairsBlock;
   [BlockIdentifier.CherrySlab]: import("./blocks").CherrySlabBlock;
   [BlockIdentifier.SmoothRedSandstoneDoubleSlab]: import("./blocks").SmoothRedSandstoneDoubleSlabBlock;
   [BlockIdentifier.LitBlastFurnace]: import("./blocks").LitBlastFurnaceBlock;
-  [BlockIdentifier.Element11]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Sculk]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element11]: GenericBlockState;
+  [BlockIdentifier.Sculk]: GenericBlockState;
   [BlockIdentifier.TuffBrickStairs]: import("./blocks").TuffBrickStairsBlock;
   [BlockIdentifier.ChemistryTable]: import("./blocks").ChemistryTableBlock;
   [BlockIdentifier.DeadFireCoral]: import("./blocks").DeadFireCoralBlock;
@@ -1237,7 +1239,7 @@ export interface BlockState {
   [BlockIdentifier.StrippedSpruceLog]: import("./blocks").StrippedSpruceLogBlock;
   [BlockIdentifier.WaxedOxidizedCopperBulb]: import("./blocks").WaxedOxidizedCopperBulbBlock;
   [BlockIdentifier.DeepslateBrickStairs]: import("./blocks").DeepslateBrickStairsBlock;
-  [BlockIdentifier.WarpedNylium]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WarpedNylium]: GenericBlockState;
   [BlockIdentifier.DeepslateEmeraldOre]: Record<
     string,
     string | number | boolean
@@ -1246,10 +1248,10 @@ export interface BlockState {
   [BlockIdentifier.AcaciaSapling]: import("./blocks").AcaciaSaplingBlock;
   [BlockIdentifier.StonecutterBlock]: import("./blocks").StonecutterBlockBlock;
   [BlockIdentifier.AndesiteSlab]: import("./blocks").AndesiteSlabBlock;
-  [BlockIdentifier.CyanShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CyanShulkerBox]: GenericBlockState;
   [BlockIdentifier.UnpoweredComparator]: import("./blocks").UnpoweredComparatorBlock;
   [BlockIdentifier.LimeCandle]: import("./blocks").LimeCandleBlock;
-  [BlockIdentifier.Target]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Target]: GenericBlockState;
   [BlockIdentifier.WoodenButton]: import("./blocks").WoodenButtonBlock;
   [BlockIdentifier.MangroveDoor]: import("./blocks").MangroveDoorBlock;
   [BlockIdentifier.EndStoneBrickDoubleSlab]: import("./blocks").EndStoneBrickDoubleSlabBlock;
@@ -1257,27 +1259,27 @@ export interface BlockState {
   [BlockIdentifier.PearlescentFroglight]: import("./blocks").PearlescentFroglightBlock;
   [BlockIdentifier.TallGrass]: import("./blocks").TallGrassBlock;
   [BlockIdentifier.LightBlock15]: import("./blocks").LightBlock15Block;
-  [BlockIdentifier.Element64]: Record<string, string | number | boolean>;
-  [BlockIdentifier.NetherSprouts]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element92]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element64]: GenericBlockState;
+  [BlockIdentifier.NetherSprouts]: GenericBlockState;
+  [BlockIdentifier.Element92]: GenericBlockState;
   [BlockIdentifier.CyanStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.DeadHornCoralBlock]: import("./blocks").DeadHornCoralBlockBlock;
-  [BlockIdentifier.Element12]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element12]: GenericBlockState;
   [BlockIdentifier.DeadHornCoralFan]: import("./blocks").DeadHornCoralFanBlock;
   [BlockIdentifier.Furnace]: import("./blocks").FurnaceBlock;
   [BlockIdentifier.WarpedSlab]: import("./blocks").WarpedSlabBlock;
-  [BlockIdentifier.Netherrack]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Netherrack]: GenericBlockState;
   [BlockIdentifier.WarpedStem]: import("./blocks").WarpedStemBlock;
   [BlockIdentifier.Chain]: import("./blocks").ChainBlock;
   [BlockIdentifier.HornCoralFan]: import("./blocks").HornCoralFanBlock;
-  [BlockIdentifier.GreenShulkerBox]: Record<string, string | number | boolean>;
+  [BlockIdentifier.GreenShulkerBox]: GenericBlockState;
   [BlockIdentifier.BrickStairs]: import("./blocks").BrickStairsBlock;
-  [BlockIdentifier.PurpleCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PurpleCarpet]: GenericBlockState;
   [BlockIdentifier.FireCoralFan]: import("./blocks").FireCoralFanBlock;
-  [BlockIdentifier.Element69]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element69]: GenericBlockState;
   [BlockIdentifier.SpruceTrapdoor]: import("./blocks").SpruceTrapdoorBlock;
   [BlockIdentifier.PurpleGlazedTerracotta]: import("./blocks").PurpleGlazedTerracottaBlock;
   [BlockIdentifier.ChainCommandBlock]: import("./blocks").ChainCommandBlockBlock;
@@ -1289,31 +1291,31 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.DeadBrainCoralBlock]: import("./blocks").DeadBrainCoralBlockBlock;
-  [BlockIdentifier.MangroveFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MangroveFence]: GenericBlockState;
   [BlockIdentifier.BirchTrapdoor]: import("./blocks").BirchTrapdoorBlock;
-  [BlockIdentifier.TuffBricks]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Mud]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Ice]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Air]: Record<string, string | number | boolean>;
+  [BlockIdentifier.TuffBricks]: GenericBlockState;
+  [BlockIdentifier.Mud]: GenericBlockState;
+  [BlockIdentifier.Ice]: GenericBlockState;
+  [BlockIdentifier.Air]: GenericBlockState;
   [BlockIdentifier.Bed]: import("./blocks").BedBlock;
-  [BlockIdentifier.LightBlueWool]: Record<string, string | number | boolean>;
-  [BlockIdentifier.BlackConcrete]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LightBlueWool]: GenericBlockState;
+  [BlockIdentifier.BlackConcrete]: GenericBlockState;
   [BlockIdentifier.Tnt]: import("./blocks").TntBlock;
   [BlockIdentifier.DeadTubeCoralFan]: import("./blocks").DeadTubeCoralFanBlock;
   [BlockIdentifier.PolishedDioriteStairs]: import("./blocks").PolishedDioriteStairsBlock;
-  [BlockIdentifier.Element83]: Record<string, string | number | boolean>;
-  [BlockIdentifier.OrangeConcrete]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Netherreactor]: Record<string, string | number | boolean>;
-  [BlockIdentifier.LimeCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element83]: GenericBlockState;
+  [BlockIdentifier.OrangeConcrete]: GenericBlockState;
+  [BlockIdentifier.Netherreactor]: GenericBlockState;
+  [BlockIdentifier.LimeCarpet]: GenericBlockState;
   [BlockIdentifier.DeadFireCoralFan]: import("./blocks").DeadFireCoralFanBlock;
   [BlockIdentifier.DecoratedPot]: import("./blocks").DecoratedPotBlock;
   [BlockIdentifier.GraniteDoubleSlab]: import("./blocks").GraniteDoubleSlabBlock;
-  [BlockIdentifier.EnchantingTable]: Record<string, string | number | boolean>;
+  [BlockIdentifier.EnchantingTable]: GenericBlockState;
   [BlockIdentifier.BubbleCoralWallFan]: import("./blocks").BubbleCoralWallFanBlock;
   [BlockIdentifier.OrangeTulip]: import("./blocks").OrangeTulipBlock;
-  [BlockIdentifier.Azalea]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Azalea]: GenericBlockState;
   [BlockIdentifier.Bell]: import("./blocks").BellBlock;
-  [BlockIdentifier.MudBricks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.MudBricks]: GenericBlockState;
   [BlockIdentifier.BirchWallSign]: import("./blocks").BirchWallSignBlock;
   [BlockIdentifier.BambooWallSign]: import("./blocks").BambooWallSignBlock;
   [BlockIdentifier.AcaciaWood]: import("./blocks").AcaciaWoodBlock;
@@ -1326,7 +1328,7 @@ export interface BlockState {
   [BlockIdentifier.Lectern]: import("./blocks").LecternBlock;
   [BlockIdentifier.AcaciaButton]: import("./blocks").AcaciaButtonBlock;
   [BlockIdentifier.StandingBanner]: import("./blocks").StandingBannerBlock;
-  [BlockIdentifier.SeaLantern]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SeaLantern]: GenericBlockState;
   [BlockIdentifier.WaxedOxidizedDoubleCutCopperSlab]: import("./blocks").WaxedOxidizedDoubleCutCopperSlabBlock;
   [BlockIdentifier.LightBlueShulkerBox]: Record<
     string,
@@ -1338,27 +1340,27 @@ export interface BlockState {
   [BlockIdentifier.BirchStairs]: import("./blocks").BirchStairsBlock;
   [BlockIdentifier.SpruceSlab]: import("./blocks").SpruceSlabBlock;
   [BlockIdentifier.BlackstoneStairs]: import("./blocks").BlackstoneStairsBlock;
-  [BlockIdentifier.BlueIce]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BlueIce]: GenericBlockState;
   [BlockIdentifier.HardRedStainedGlassPane]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.Lantern]: import("./blocks").LanternBlock;
-  [BlockIdentifier.DarkOakFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DarkOakFence]: GenericBlockState;
   [BlockIdentifier.BirchDoor]: import("./blocks").BirchDoorBlock;
   [BlockIdentifier.DeepslateLapisOre]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.CrimsonHangingSign]: import("./blocks").CrimsonHangingSignBlock;
-  [BlockIdentifier.DeepslateCoalOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DeepslateCoalOre]: GenericBlockState;
   [BlockIdentifier.WeatheredCutCopper]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.BambooStandingSign]: import("./blocks").BambooStandingSignBlock;
   [BlockIdentifier.StrippedMangroveLog]: import("./blocks").StrippedMangroveLogBlock;
-  [BlockIdentifier.PolishedTuff]: Record<string, string | number | boolean>;
+  [BlockIdentifier.PolishedTuff]: GenericBlockState;
   [BlockIdentifier.MagentaStainedGlass]: Record<
     string,
     string | number | boolean
@@ -1385,22 +1387,22 @@ export interface BlockState {
   [BlockIdentifier.CherrySapling]: import("./blocks").CherrySaplingBlock;
   [BlockIdentifier.CherryLog]: import("./blocks").CherryLogBlock;
   [BlockIdentifier.PolishedTuffStairs]: import("./blocks").PolishedTuffStairsBlock;
-  [BlockIdentifier.DragonEgg]: Record<string, string | number | boolean>;
-  [BlockIdentifier.NetherBrick]: Record<string, string | number | boolean>;
-  [BlockIdentifier.DeepslateIronOre]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element3]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element2]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element5]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element4]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element7]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element9]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Camera]: Record<string, string | number | boolean>;
-  [BlockIdentifier.WaxedCutCopper]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element47]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DragonEgg]: GenericBlockState;
+  [BlockIdentifier.NetherBrick]: GenericBlockState;
+  [BlockIdentifier.DeepslateIronOre]: GenericBlockState;
+  [BlockIdentifier.Element3]: GenericBlockState;
+  [BlockIdentifier.Element2]: GenericBlockState;
+  [BlockIdentifier.Element5]: GenericBlockState;
+  [BlockIdentifier.Element4]: GenericBlockState;
+  [BlockIdentifier.Element7]: GenericBlockState;
+  [BlockIdentifier.Element9]: GenericBlockState;
+  [BlockIdentifier.Camera]: GenericBlockState;
+  [BlockIdentifier.WaxedCutCopper]: GenericBlockState;
+  [BlockIdentifier.Element47]: GenericBlockState;
   [BlockIdentifier.CobbledDeepslateSlab]: import("./blocks").CobbledDeepslateSlabBlock;
   [BlockIdentifier.Lilac]: import("./blocks").LilacBlock;
   [BlockIdentifier.CrimsonStandingSign]: import("./blocks").CrimsonStandingSignBlock;
-  [BlockIdentifier.EmeraldOre]: Record<string, string | number | boolean>;
+  [BlockIdentifier.EmeraldOre]: GenericBlockState;
   [BlockIdentifier.BrownMushroomBlock]: import("./blocks").BrownMushroomBlockBlock;
   [BlockIdentifier.PetrifiedOakSlab]: import("./blocks").PetrifiedOakSlabBlock;
   [BlockIdentifier.CarvedPumpkin]: import("./blocks").CarvedPumpkinBlock;
@@ -1415,7 +1417,7 @@ export interface BlockState {
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.ChemicalHeat]: Record<string, string | number | boolean>;
+  [BlockIdentifier.ChemicalHeat]: GenericBlockState;
   [BlockIdentifier.TripWire]: import("./blocks").TripWireBlock;
   [BlockIdentifier.CaveVinesHeadWithBerries]: import("./blocks").CaveVinesHeadWithBerriesBlock;
   [BlockIdentifier.ChiseledRedSandstone]: import("./blocks").ChiseledRedSandstoneBlock;
@@ -1424,82 +1426,82 @@ export interface BlockState {
   [BlockIdentifier.BambooSapling]: import("./blocks").BambooSaplingBlock;
   [BlockIdentifier.SmoothQuartzSlab]: import("./blocks").SmoothQuartzSlabBlock;
   [BlockIdentifier.WhiteCandleCake]: import("./blocks").WhiteCandleCakeBlock;
-  [BlockIdentifier.EndPortal]: Record<string, string | number | boolean>;
+  [BlockIdentifier.EndPortal]: GenericBlockState;
   [BlockIdentifier.JungleDoubleSlab]: import("./blocks").JungleDoubleSlabBlock;
   [BlockIdentifier.SpruceWood]: import("./blocks").SpruceWoodBlock;
-  [BlockIdentifier.Blackstone]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Blackstone]: GenericBlockState;
   [BlockIdentifier.LitDeepslateRedstoneOre]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.Element10]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element14]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element15]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element36]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element37]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element34]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element35]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element32]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element33]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element31]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element38]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element29]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element21]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element20]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element23]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element22]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element25]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element24]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element27]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element26]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element59]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element54]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element55]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element56]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element57]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element53]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element49]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element48]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element45]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element43]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element42]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element41]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element40]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element72]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element70]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element71]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element76]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element75]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element78]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element79]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element65]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element67]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element10]: GenericBlockState;
+  [BlockIdentifier.Element14]: GenericBlockState;
+  [BlockIdentifier.Element15]: GenericBlockState;
+  [BlockIdentifier.Element36]: GenericBlockState;
+  [BlockIdentifier.Element37]: GenericBlockState;
+  [BlockIdentifier.Element34]: GenericBlockState;
+  [BlockIdentifier.Element35]: GenericBlockState;
+  [BlockIdentifier.Element32]: GenericBlockState;
+  [BlockIdentifier.Element33]: GenericBlockState;
+  [BlockIdentifier.Element31]: GenericBlockState;
+  [BlockIdentifier.Element38]: GenericBlockState;
+  [BlockIdentifier.Element29]: GenericBlockState;
+  [BlockIdentifier.Element21]: GenericBlockState;
+  [BlockIdentifier.Element20]: GenericBlockState;
+  [BlockIdentifier.Element23]: GenericBlockState;
+  [BlockIdentifier.Element22]: GenericBlockState;
+  [BlockIdentifier.Element25]: GenericBlockState;
+  [BlockIdentifier.Element24]: GenericBlockState;
+  [BlockIdentifier.Element27]: GenericBlockState;
+  [BlockIdentifier.Element26]: GenericBlockState;
+  [BlockIdentifier.Element59]: GenericBlockState;
+  [BlockIdentifier.Element54]: GenericBlockState;
+  [BlockIdentifier.Element55]: GenericBlockState;
+  [BlockIdentifier.Element56]: GenericBlockState;
+  [BlockIdentifier.Element57]: GenericBlockState;
+  [BlockIdentifier.Element53]: GenericBlockState;
+  [BlockIdentifier.Element49]: GenericBlockState;
+  [BlockIdentifier.Element48]: GenericBlockState;
+  [BlockIdentifier.Element45]: GenericBlockState;
+  [BlockIdentifier.Element43]: GenericBlockState;
+  [BlockIdentifier.Element42]: GenericBlockState;
+  [BlockIdentifier.Element41]: GenericBlockState;
+  [BlockIdentifier.Element40]: GenericBlockState;
+  [BlockIdentifier.Element72]: GenericBlockState;
+  [BlockIdentifier.Element70]: GenericBlockState;
+  [BlockIdentifier.Element71]: GenericBlockState;
+  [BlockIdentifier.Element76]: GenericBlockState;
+  [BlockIdentifier.Element75]: GenericBlockState;
+  [BlockIdentifier.Element78]: GenericBlockState;
+  [BlockIdentifier.Element79]: GenericBlockState;
+  [BlockIdentifier.Element65]: GenericBlockState;
+  [BlockIdentifier.Element67]: GenericBlockState;
   [BlockIdentifier.PolishedDeepslateWall]: import("./blocks").PolishedDeepslateWallBlock;
-  [BlockIdentifier.Element66]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element61]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element60]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element63]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element98]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element90]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element91]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element94]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element96]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element88]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element82]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element81]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element80]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element87]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element86]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Element84]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Element66]: GenericBlockState;
+  [BlockIdentifier.Element61]: GenericBlockState;
+  [BlockIdentifier.Element60]: GenericBlockState;
+  [BlockIdentifier.Element63]: GenericBlockState;
+  [BlockIdentifier.Element98]: GenericBlockState;
+  [BlockIdentifier.Element90]: GenericBlockState;
+  [BlockIdentifier.Element91]: GenericBlockState;
+  [BlockIdentifier.Element94]: GenericBlockState;
+  [BlockIdentifier.Element96]: GenericBlockState;
+  [BlockIdentifier.Element88]: GenericBlockState;
+  [BlockIdentifier.Element82]: GenericBlockState;
+  [BlockIdentifier.Element81]: GenericBlockState;
+  [BlockIdentifier.Element80]: GenericBlockState;
+  [BlockIdentifier.Element87]: GenericBlockState;
+  [BlockIdentifier.Element86]: GenericBlockState;
+  [BlockIdentifier.Element84]: GenericBlockState;
   [BlockIdentifier.LitSmoker]: import("./blocks").LitSmokerBlock;
   [BlockIdentifier.SmoothQuartzStairs]: import("./blocks").SmoothQuartzStairsBlock;
-  [BlockIdentifier.LightGrayCarpet]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LightGrayCarpet]: GenericBlockState;
   [BlockIdentifier.PurpurBlock]: import("./blocks").PurpurBlockBlock;
   [BlockIdentifier.CherryWallSign]: import("./blocks").CherryWallSignBlock;
   [BlockIdentifier.CyanCandle]: import("./blocks").CyanCandleBlock;
   [BlockIdentifier.RepeatingCommandBlock]: import("./blocks").RepeatingCommandBlockBlock;
-  [BlockIdentifier.CrimsonFungus]: Record<string, string | number | boolean>;
-  [BlockIdentifier.CherryPlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CrimsonFungus]: GenericBlockState;
+  [BlockIdentifier.CherryPlanks]: GenericBlockState;
   [BlockIdentifier.PolishedDeepslate]: Record<
     string,
     string | number | boolean
@@ -1511,33 +1513,33 @@ export interface BlockState {
   [BlockIdentifier.Portal]: import("./blocks").PortalBlock;
   [BlockIdentifier.Peony]: import("./blocks").PeonyBlock;
   [BlockIdentifier.Crafter]: import("./blocks").CrafterBlock;
-  [BlockIdentifier.SprucePlanks]: Record<string, string | number | boolean>;
+  [BlockIdentifier.SprucePlanks]: GenericBlockState;
   [BlockIdentifier.AmethystCluster]: import("./blocks").AmethystClusterBlock;
   [BlockIdentifier.WaxedChiseledCopper]: Record<
     string,
     string | number | boolean
   >;
   [BlockIdentifier.WaxedCutCopperSlab]: import("./blocks").WaxedCutCopperSlabBlock;
-  [BlockIdentifier.DriedKelpBlock]: Record<string, string | number | boolean>;
+  [BlockIdentifier.DriedKelpBlock]: GenericBlockState;
   [BlockIdentifier.HardLightGrayStainedGlass]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.CrimsonFence]: Record<string, string | number | boolean>;
-  [BlockIdentifier.ChiseledTuff]: Record<string, string | number | boolean>;
+  [BlockIdentifier.CrimsonFence]: GenericBlockState;
+  [BlockIdentifier.ChiseledTuff]: GenericBlockState;
   [BlockIdentifier.LimeConcretePowder]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.BirchFence]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BirchFence]: GenericBlockState;
   [BlockIdentifier.TurtleEgg]: import("./blocks").TurtleEggBlock;
-  [BlockIdentifier.BrownTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.BrownTerracotta]: GenericBlockState;
   [BlockIdentifier.CobblestoneDoubleSlab]: import("./blocks").CobblestoneDoubleSlabBlock;
   [BlockIdentifier.DeepslateDiamondOre]: Record<
     string,
     string | number | boolean
   >;
-  [BlockIdentifier.LightGrayWool]: Record<string, string | number | boolean>;
+  [BlockIdentifier.LightGrayWool]: GenericBlockState;
   [BlockIdentifier.SoulCampfire]: import("./blocks").SoulCampfireBlock;
   [BlockIdentifier.WoodenPressurePlate]: import("./blocks").WoodenPressurePlateBlock;
   [BlockIdentifier.WaxedOxidizedCopperGrate]: Record<
@@ -1545,18 +1547,18 @@ export interface BlockState {
     string | number | boolean
   >;
   [BlockIdentifier.DamagedAnvil]: import("./blocks").DamagedAnvilBlock;
-  [BlockIdentifier.WhiteConcrete]: Record<string, string | number | boolean>;
-  [BlockIdentifier.AcaciaFence]: Record<string, string | number | boolean>;
-  [BlockIdentifier.GrassPath]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WhiteConcrete]: GenericBlockState;
+  [BlockIdentifier.AcaciaFence]: GenericBlockState;
+  [BlockIdentifier.GrassPath]: GenericBlockState;
   [BlockIdentifier.OrangeCandleCake]: import("./blocks").OrangeCandleCakeBlock;
-  [BlockIdentifier.WeatheredCopper]: Record<string, string | number | boolean>;
-  [BlockIdentifier.LimeTerracotta]: Record<string, string | number | boolean>;
+  [BlockIdentifier.WeatheredCopper]: GenericBlockState;
+  [BlockIdentifier.LimeTerracotta]: GenericBlockState;
   [BlockIdentifier.CherryFenceGate]: import("./blocks").CherryFenceGateBlock;
   [BlockIdentifier.GrayGlazedTerracotta]: import("./blocks").GrayGlazedTerracottaBlock;
-  [BlockIdentifier.Lodestone]: Record<string, string | number | boolean>;
-  [BlockIdentifier.BambooMosaic]: Record<string, string | number | boolean>;
-  [BlockIdentifier.PurpleWool]: Record<string, string | number | boolean>;
-  [BlockIdentifier.IronBlock]: Record<string, string | number | boolean>;
-  [BlockIdentifier.CartographyTable]: Record<string, string | number | boolean>;
-  [BlockIdentifier.Dandelion]: Record<string, string | number | boolean>;
+  [BlockIdentifier.Lodestone]: GenericBlockState;
+  [BlockIdentifier.BambooMosaic]: GenericBlockState;
+  [BlockIdentifier.PurpleWool]: GenericBlockState;
+  [BlockIdentifier.IronBlock]: GenericBlockState;
+  [BlockIdentifier.CartographyTable]: GenericBlockState;
+  [BlockIdentifier.Dandelion]: GenericBlockState;
 }

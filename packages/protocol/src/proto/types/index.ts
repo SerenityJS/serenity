@@ -9,7 +9,7 @@ export * from "./vector3f";
 export * from "./vector2f";
 export * from "./block-position";
 export * from "./game-rules";
-export * from "./block-property";
+export * from "./network-block-type-definition";
 export * from "./item-data";
 export * from "./teleport-cause";
 export * from "./player-list-record";

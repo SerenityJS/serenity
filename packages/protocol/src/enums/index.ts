@@ -102,3 +102,4 @@ export * from "./tracked-item";
 export * from "./decoration-type";
 export * from "./predicted-result";
 export * from "./game-rule";
+export * from "./material-render-method";

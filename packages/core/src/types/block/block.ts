@@ -2,6 +2,7 @@ import { BlockFace, Vector3f } from "@serenityjs/protocol";
 
 import { BlockEntry } from "../world";
 import { BlockPermutation, ItemDrop } from "../../block";
+import { ItemCategory, ItemGroup } from "../../enums";
 
 interface BlockTypeProperties {
   loggable: boolean;
@@ -14,6 +15,11 @@ interface BlockTypeProperties {
   permutations: Array<BlockPermutation>;
 }
 
+interface CustomBlockProperties extends BlockTypeProperties {
+  creativeCategory: ItemCategory;
+  creativeGroup: ItemGroup;
+}
+
 interface BlockProperties {
   entry?: BlockEntry;
 }
@@ -23,4 +29,9 @@ interface BlockInteractionOptions {
   face: BlockFace;
 }
 
-export { BlockProperties, BlockInteractionOptions, BlockTypeProperties };
+export {
+  BlockProperties,
+  CustomBlockProperties,
+  BlockInteractionOptions,
+  BlockTypeProperties
+};

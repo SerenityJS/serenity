@@ -28,8 +28,8 @@ import {
   BlockPosition,
   GameRules,
   Experiments,
-  BlockProperty,
-  ItemData
+  ItemData,
+  NetworkBlockTypeDefinition
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -106,7 +106,13 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public serverAuthoritativeBlockBreaking!: boolean;
   @Serialize(Int64, Endianness.Little) public currentTick!: bigint;
   @Serialize(ZigZag) public enchantmentSeed!: number;
-  @Serialize(BlockProperty) public blockProperties!: Array<BlockProperty>;
+
+  /**
+   * The custom block type definitions that will be used in the world.
+   */
+  @Serialize(NetworkBlockTypeDefinition)
+  public blockTypeDefinitions!: Array<NetworkBlockTypeDefinition>;
+
   @Serialize(ItemData) public items!: Array<ItemData>;
   @Serialize(VarString) public multiplayerCorrelationId!: string;
   @Serialize(Bool) public serverAuthoritativeInventory!: boolean;
