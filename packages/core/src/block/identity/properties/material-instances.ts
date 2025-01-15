@@ -2,6 +2,7 @@ import { CompoundTag } from "@serenityjs/nbt";
 import { MaterialRenderMethod } from "@serenityjs/protocol";
 
 import { BlockPermutation } from "../permutation";
+import { BlockType } from "../type";
 
 import { BlockProperty } from "./property";
 
@@ -39,15 +40,15 @@ class BlockMaterialInstancesProperty extends BlockProperty {
   public readonly materials: CompoundTag<unknown>;
 
   /**
-   * Create a new material instances property.
-   * @param permutation The permutation of that this property will be attached to.
+   * Create a new material instances property for a block definition.
+   * @param block The block definition that this property will be attached to.
    * @param properties The properties of the material instances.
    */
   public constructor(
-    permutation: BlockPermutation,
+    block: BlockType | BlockPermutation,
     properties?: Record<string, MaterialInstanceProperties>
   ) {
-    super(permutation);
+    super(block);
 
     // Create a material instances tag.
     this.property.createCompoundTag({ name: "mappings" }); // Not sure what this is.

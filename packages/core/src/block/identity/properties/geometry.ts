@@ -1,6 +1,7 @@
 import { StringTag } from "@serenityjs/nbt";
 
 import { BlockPermutation } from "../permutation";
+import { BlockType } from "../type";
 
 import { BlockProperty } from "./property";
 
@@ -44,15 +45,15 @@ class BlockGeometryProperty extends BlockProperty {
   }
 
   /**
-   * Create a new geometry property for a permutation.
-   * @param permutation The permutation of that this property will be attached to.
+   * Create a new geometry property for a block definition.
+   * @param block The block definition that this property will be attached to.
    * @param properties The properties of the geometry.
    */
   public constructor(
-    permutation: BlockPermutation,
+    block: BlockType | BlockPermutation,
     properties?: Partial<BlockGeometryProperty>
   ) {
-    super(permutation);
+    super(block);
 
     // Assign the properties.
     Object.assign(this, { ...DefaultBlockGeometryProperty, ...properties });
