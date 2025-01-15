@@ -140,6 +140,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
     // Check if the movement validation is disabled
     if (!movementValidation) return true;
 
+    // Check if the player is in creative mode or spectator mode
+    if (player.gamemode === Gamemode.Creative) return true;
+    if (player.gamemode === Gamemode.Spectator) return true;
+
     // Check if the player is flying, if so the movement is valid.
     if (player.abilities.get(AbilityIndex.Flying)) return true;
 

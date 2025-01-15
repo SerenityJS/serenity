@@ -3,7 +3,8 @@ import {
   ActorDamageCause,
   AnimatePacket,
   Vector3f,
-  AnimateId
+  AnimateId,
+  Gamemode
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
@@ -147,6 +148,14 @@ class PlayerCombatTrait extends PlayerTrait {
     if (
       !target.isPlayer() &&
       !this.player.abilities.get(AbilityIndex.AttackMobs)
+    )
+      return;
+
+    // Check if the target is a player, and if the target is in creative or spectator mode.
+    if (
+      target.isPlayer() &&
+      (target.gamemode === Gamemode.Creative ||
+        target.gamemode === Gamemode.Spectator)
     )
       return;
 
