@@ -131,9 +131,7 @@ enum ActorDataId {
   PlayerHasDied = 129,
   CollisionBox = 130,
   VisibleMobEffects = 131,
-  FilteredName = 132,
-  EnterBedPositon = 133,
-  Count = 134
+  Count = 132
 }
 
 export { ActorDataId };

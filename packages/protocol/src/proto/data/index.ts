@@ -78,7 +78,7 @@ export * from "./emote-list";
 export * from "./debug-info";
 export * from "./packet-violation-warning";
 export * from "./animate-entity";
-export * from "./item-registry";
+export * from "./item-component";
 export * from "./client-bound-debug-renderer";
 export * from "./npc-dialogue";
 export * from "./script-message";

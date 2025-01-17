@@ -22,7 +22,7 @@ import { InteractPacket } from "./interact";
 import { InventoryContentPacket } from "./inventory-content";
 import { InventorySlotPacket } from "./inventory-slot";
 import { InventoryTransactionPacket } from "./inventory-transaction";
-import { ItemRegistryPacket } from "./item-registry";
+import { ItemComponentPacket } from "./item-component";
 import { ItemStackRequestPacket } from "./item-stack-request";
 import { ItemStackResponsePacket } from "./item-stack-response";
 import { LevelChunkPacket } from "./level-chunk";
@@ -254,7 +254,7 @@ const Packets = {
   [Packet.CameraShake]: CameraShakePacket, // 159
   [Packet.PlayerFog]: PlayerFogPacket, // 160
   [Packet.CorrectPlayerMovePrediction]: CorrectPlayerMovePredictionPacket, // 161
-  [Packet.ItemRegistry]: ItemRegistryPacket, // 162
+  [Packet.ItemComponent]: ItemComponentPacket, // 162
   [Packet.ClientBoundDebugRenderer]: ClientBoundDebugRendererPacket, // 163
   [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169

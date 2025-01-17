@@ -28,6 +28,7 @@ import {
   BlockPosition,
   GameRules,
   Experiments,
+  ItemData,
   NetworkBlockTypeDefinition
 } from "../types";
 
@@ -112,6 +113,7 @@ class StartGamePacket extends DataPacket {
   @Serialize(NetworkBlockTypeDefinition)
   public blockTypeDefinitions!: Array<NetworkBlockTypeDefinition>;
 
+  @Serialize(ItemData) public items!: Array<ItemData>;
   @Serialize(VarString) public multiplayerCorrelationId!: string;
   @Serialize(Bool) public serverAuthoritativeInventory!: boolean;
   @Serialize(VarString) public engine!: string;

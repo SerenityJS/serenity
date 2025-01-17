@@ -5,19 +5,14 @@ import {
   ChangeDimensionPacket,
   ContainerName,
   CreativeContentPacket,
-  CreativeGroup,
-  CreativeItem,
-  CreativeItemCategory,
   DataPacket,
   DefaultAbilityValues,
   DisconnectMessage,
   DisconnectPacket,
   DisconnectReason,
   Gamemode,
-  ItemInstanceUserData,
   MoveMode,
   MovePlayerPacket,
-  NetworkItemInstanceDescriptor,
   PermissionLevel,
   PlaySoundPacket,
   SerializedSkin,
@@ -30,11 +25,10 @@ import {
   TransferPacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
 
 import { PlayerEntry, PlayerProperties, PlaySoundOptions } from "../types";
 import { Dimension, World } from "../world";
-import { EntityIdentifier, ItemIdentifier } from "../enums";
+import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
 import { ItemBundleTrait, ItemStack } from "../item";
 import {
@@ -433,39 +427,20 @@ class Player extends Entity {
 
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
-
-    const stack = new ItemStack(ItemIdentifier.Dirt);
-
-    content.groups = [
-      new CreativeGroup(
-        CreativeItemCategory.All,
-        "test123",
-        ItemStack.toNetworkInstance(stack)
-      )
-    ];
-
-    content.items = [
-      new CreativeItem(
-        stack.type.network,
-        ItemStack.toNetworkInstance(stack),
-        0
-      )
-    ];
-
-    // content.items = this.world.itemPalette.getCreativeContent().map((item) => {
-    //   return {
-    //     network: item.type.network,
-    //     metadata: item.metadata,
-    //     stackSize: 1,
-    //     networkBlockId:
-    //       item.type.block?.permutations[item.metadata]?.network ?? 0,
-    //     extras: {
-    //       canDestroy: [],
-    //       canPlaceOn: [],
-    //       nbt: item.nbt
-    //     }
-    //   };
-    // });
+    content.items = this.world.itemPalette.getCreativeContent().map((item) => {
+      return {
+        network: item.type.network,
+        metadata: item.metadata,
+        stackSize: 1,
+        networkBlockId:
+          item.type.block?.permutations[item.metadata]?.network ?? 0,
+        extras: {
+          canDestroy: [],
+          canPlaceOn: [],
+          nbt: item.nbt
+        }
+      };
+    });
 
     // Serialize the available commands for the player
     const commands = this.world.commands.serialize();
