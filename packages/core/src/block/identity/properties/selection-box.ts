@@ -1,6 +1,9 @@
 import { FloatTag, ListTag, TagType } from "@serenityjs/nbt";
 
-import { BlockPermutation, BlockProperty, BlockType } from "@serenityjs/core";
+import { BlockType } from "../type";
+import { BlockPermutation } from "../permutation";
+
+import { BlockProperty } from "./property";
 
 const DefaultSelectionBoxProperties = {
   origin: [0, 0, 0],
