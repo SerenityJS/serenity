@@ -1,6 +1,5 @@
 import { Endianness } from "@serenityjs/binarystream";
 import { DataType } from "@serenityjs/raknet";
-import { ItemIdentifier } from "@serenityjs/core";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import type { BinaryStream } from "@serenityjs/binarystream";
@@ -9,7 +8,7 @@ class ItemData extends DataType {
   /**
    * The identifier of the item type.
    */
-  public identifier: ItemIdentifier;
+  public identifier: string;
 
   /**
    * The network identifier of the item type.
@@ -41,7 +40,7 @@ class ItemData extends DataType {
    * @param properties The additional properties of the item type.
    */
   public constructor(
-    identifier: ItemIdentifier,
+    identifier: string,
     networkId: number,
     isComponentBased: boolean,
     itemVersion: number,
@@ -68,7 +67,7 @@ class ItemData extends DataType {
     // Reading the individual fields in the stream.
     for (let index = 0; index < amount; index++) {
       // Read the identifier of the item.
-      const identifier = stream.readVarString() as ItemIdentifier;
+      const identifier = stream.readVarString();
 
       // Read the network identifier of the item.
       const networkId = stream.readInt16(Endianness.Little);
