@@ -11,7 +11,7 @@
   "linked": [],
   "ignore": ["dev-app"],
   "access": "public",
-  "baseBranch": "develop",
+  "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "snapshot": {
     "useCalculatedVersion": true
