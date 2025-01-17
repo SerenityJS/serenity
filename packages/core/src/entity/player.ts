@@ -41,6 +41,7 @@ import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
 import {
   type EntityTrait,
+  PlayerChunkRenderingTrait,
   PlayerCraftingInputTrait,
   PlayerCursorTrait,
   PlayerTrait
@@ -556,6 +557,9 @@ class Player extends Entity {
 
       // Spawn the player in the new dimension
       this.spawn();
+
+      // Clear the player's chunks
+      this.getTrait(PlayerChunkRenderingTrait).clear();
 
       // Update the player's position
       return this.teleport(position);
