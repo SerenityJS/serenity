@@ -5,3 +5,5 @@ export * from "./geometry";
 export * from "./interactable";
 export * from "./hardness";
 export * from "./friction";
+export * from "./collision-box";
+export * from "./selection-box";
