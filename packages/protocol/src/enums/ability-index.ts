@@ -18,6 +18,7 @@ enum AbilityIndex {
   WorldBuilder,
   NoClip,
   PrivilegedBuilder,
+  VerticalFlySpeed,
   Count
 }
 

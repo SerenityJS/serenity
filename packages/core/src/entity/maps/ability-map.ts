@@ -199,6 +199,7 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
           ([ability, value]) => new AbilitySet(ability, value)
         ),
         walkSpeed: 0.1,
+        verticalFlySpeed: 1,
         flySpeed: 0.05
       }
     ];

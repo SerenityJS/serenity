@@ -23,6 +23,11 @@ class AbilityLayer extends DataType {
   public readonly flySpeed: number;
 
   /**
+   * The vertical fly speed of the layer.
+   */
+  public readonly verticalFlySpeed: number;
+
+  /**
    * The walk speed of the layer.
    */
   public readonly walkSpeed: number;
@@ -32,18 +37,21 @@ class AbilityLayer extends DataType {
    * @param type The type of the layer.
    * @param abilities The abilities of the layer.
    * @param flySpeed The fly speed of the layer.
+   * @param verticalFlySpeed The vertical fly speed of the layer.
    * @param walkSpeed The walk speed of the layer.
    */
   public constructor(
     type: AbilityLayerType,
     abilities: Array<AbilitySet>,
     flySpeed: number,
+    verticalFlySpeed: number,
     walkSpeed: number
   ) {
     super();
     this.type = type;
     this.abilities = abilities;
     this.flySpeed = flySpeed;
+    this.verticalFlySpeed = verticalFlySpeed;
     this.walkSpeed = walkSpeed;
   }
 
@@ -61,10 +69,13 @@ class AbilityLayer extends DataType {
       const type: AbilityLayerType = stream.readUint16(Endianness.Little);
       const abilities = AbilitySet.read(stream);
       const flySpeed = stream.readFloat32(Endianness.Little);
+      const verticalFlySpeed = stream.readFloat32(Endianness.Little);
       const walkSpeed = stream.readFloat32(Endianness.Little);
 
       // Push the layer to the array.
-      layers.push(new AbilityLayer(type, abilities, flySpeed, walkSpeed));
+      layers.push(
+        new this(type, abilities, flySpeed, verticalFlySpeed, walkSpeed)
+      );
     }
 
     // Return the layers.
@@ -81,6 +92,7 @@ class AbilityLayer extends DataType {
       stream.writeUint16(layer.type, Endianness.Little);
       AbilitySet.write(stream, layer.abilities);
       stream.writeFloat32(layer.flySpeed, Endianness.Little);
+      stream.writeFloat32(layer.verticalFlySpeed, Endianness.Little);
       stream.writeFloat32(layer.walkSpeed, Endianness.Little);
     }
   }
