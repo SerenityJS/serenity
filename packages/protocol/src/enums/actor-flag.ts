@@ -119,7 +119,8 @@ enum ActorFlag {
   TimerFlag2 = 116,
   TimerFlag3 = 117,
   BodyRotationBlocked = 118,
-  Count = 119
+  RendersWhenInvisible = 119,
+  Count = 120
 }
 
 export { ActorFlag };

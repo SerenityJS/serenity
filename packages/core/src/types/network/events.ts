@@ -22,7 +22,7 @@ import type {
   InventoryContentPacket,
   InventorySlotPacket,
   InventoryTransactionPacket,
-  ItemComponentPacket,
+  ItemRegistryPacket,
   ItemStackRequestPacket,
   ItemStackResponsePacket,
   LevelChunkPacket,
@@ -305,7 +305,7 @@ interface NetworkEvents {
     NetworkPacketEvent<ClientBoundMapItemDataPacket>
   ];
   [Packet.MapInfoRequest]: [NetworkPacketEvent<MapInfoRequestPacket>];
-  [Packet.ItemComponent]: [NetworkPacketEvent<ItemComponentPacket>];
+  [Packet.ItemRegistry]: [NetworkPacketEvent<ItemRegistryPacket>];
   [Packet.ClientBoundDebugRenderer]: [
     NetworkPacketEvent<ClientBoundDebugRendererPacket>
   ];

@@ -20,6 +20,7 @@ const DefaultAbilityValues = {
   [AbilityIndex.WorldBuilder]: false,
   [AbilityIndex.NoClip]: false,
   [AbilityIndex.PrivilegedBuilder]: false,
+  [AbilityIndex.VerticalFlySpeed]: true,
   [AbilityIndex.Count]: false
 };
 

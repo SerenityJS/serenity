@@ -115,7 +115,7 @@ enum Packet {
   CameraShake = 0x9f, // 159
   PlayerFog = 0xa0, // 160
   CorrectPlayerMovePrediction = 0xa1, // 161
-  ItemComponent = 0xa2, // 162
+  ItemRegistry = 0xa2, // 162
   ClientBoundDebugRenderer = 0xa4, // 164
   SyncActorProperty = 0xa5, // 165
   NpcDialogue = 0xa9, // 169
