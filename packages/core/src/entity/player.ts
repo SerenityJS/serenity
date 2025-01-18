@@ -40,7 +40,6 @@ import { FormParticipant } from "../ui";
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
 import {
-  type EntityTrait,
   PlayerChunkRenderingTrait,
   PlayerCraftingInputTrait,
   PlayerCursorTrait,
@@ -633,17 +632,8 @@ class Player extends Entity {
       username: this.username,
       xuid: this.xuid,
       uuid: this.uuid,
-      uniqueId: this.uniqueId,
-      identifier: this.type.identifier,
-      position: this.position,
-      rotation: this.rotation,
-      components: [...this.components.entries()],
-      traits: [...this.traits.keys()],
-      metadata: [...this.metadata.entries()],
-      flags: [...this.flags.entries()],
-      attributes: [...this.attributes.entries()],
       abilities: [...this.abilities.entries()],
-      scoreboardIdentity: this.scoreboardIdentity.identifier
+      ...super.getDataEntry()
     };
 
     // Return the player entry
@@ -661,93 +651,39 @@ class Player extends Entity {
     entry: PlayerEntry,
     overwrite = true
   ): void {
-    // Check that the username matches the player's username
-    if (entry.username !== this.username)
-      throw new Error(
-        "Failed to load player entry as the username does not match the player's username!"
-      );
+    // Call the super method to load the player data
+    super.loadDataEntry(world, entry, overwrite);
 
-    // Check that the uuid matches the player's uuid
-    if (entry.uuid !== this.uuid)
-      throw new Error(
-        "Failed to load player entry as the uuid does not match the player's uuid!"
-      );
-
-    // Check that the xuid matches the player's xuid
-    if (entry.xuid !== this.xuid)
-      throw new Error(
-        "Failed to load player entry as the xuid does not match the player's xuid!"
-      );
-
-    // Check that the unique id matches the player's unique id
-    if (entry.uniqueId !== this.uniqueId)
-      throw new Error(
-        "Failed to load player entry as the unique id does not match the player's unique id!"
-      );
-
-    // Check that the identifier matches the player's identifier
-    if (entry.identifier !== this.type.identifier)
-      throw new Error(
-        "Failed to load player entry as the identifier does not match the player's identifier!"
-      );
-
-    // Set the player's position and rotation
-    this.position.set(entry.position);
-    this.rotation.set(entry.rotation);
-
-    // Check if the player should overwrite the current data
-    if (overwrite) {
-      this.metadata.clear();
-      this.flags.clear();
-      this.attributes.clear();
-      this.abilities.clear();
-      this.components.clear();
-      this.traits.clear();
-    }
-
-    // Add the metadata to the player, if it does not already exist
-    for (const [key, value] of entry.metadata) {
-      if (!this.metadata.has(key)) this.metadata.set(key, value);
-    }
-
-    // Add the flags to the player, if it does not already exist
-    for (const [flag, value] of entry.flags) {
-      if (!this.flags.has(flag)) this.flags.set(flag, value);
-    }
-
-    // Add the attributes to the player, if it does not already exist
-    for (const [attribute, value] of entry.attributes) {
-      if (!this.attributes.has(attribute))
-        this.attributes.set(attribute, value);
-    }
-
-    // Add the abilities to the player, if it does not already exist
-    for (const [ability, value] of entry.abilities) {
-      if (!this.abilities.has(ability)) this.abilities.set(ability, value);
-    }
-
-    // Add the components to the player, if it does not already exist
-    for (const [key, value] of entry.components) {
-      if (!this.components.has(key)) this.components.set(key, value);
-    }
-
-    // Add the traits to the player, if it does not already exist
-    // Add the traits to the entity, if it does not already exist
-    for (const trait of entry.traits) {
-      // Check if the palette has the trait
-      const traitType = world.entityPalette.traits.get(trait);
-
-      // Check if the trait exists in the palette
-      if (!traitType) {
-        world.logger.error(
-          `Failed to load trait "${trait}" for player "${this.username}:${this.uniqueId}" as it does not exist in the palette`
+    try {
+      // Check that the username matches the player's username
+      if (entry.username !== this.username)
+        throw new Error(
+          "Failed to load player entry as the username does not match the player's username!"
         );
 
-        continue;
-      }
+      // Check that the uuid matches the player's uuid
+      if (entry.uuid !== this.uuid)
+        throw new Error(
+          "Failed to load player entry as the uuid does not match the player's uuid!"
+        );
 
-      // Attempt to add the trait to the entity
-      this.addTrait(traitType as typeof EntityTrait);
+      // Check that the xuid matches the player's xuid
+      if (entry.xuid !== this.xuid)
+        throw new Error(
+          "Failed to load player entry as the xuid does not match the player's xuid!"
+        );
+
+      // Check if the player should overwrite the current data
+      if (overwrite) this.abilities.clear();
+
+      // Add the abilities to the player
+      for (const [key, value] of entry.abilities)
+        this.abilities.set(key, value);
+    } catch {
+      // Log the error to the console
+      this.world.logger.error(
+        `Failed to load player entry for player "${this.username}" in dimension "${this.dimension.identifier}". Player data will be reset for this player.`
+      );
     }
   }
 }

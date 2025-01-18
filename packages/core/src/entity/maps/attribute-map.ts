@@ -33,7 +33,7 @@ class AttributeMap extends Map<AttributeName, Attribute> {
     const result = super.set(key, signal.value);
 
     // Update the actor data when a new value is added
-    this.update(value);
+    this.update(signal.value);
 
     // Return the result
     return result;

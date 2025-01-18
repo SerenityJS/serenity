@@ -116,8 +116,8 @@ class Attribute extends DataType {
           min,
           max,
           current,
-          defaultMax,
           defaultMin,
+          defaultMax,
           default_,
           name,
           modifiers

@@ -3,6 +3,7 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
+  Attribute,
   ContainerName,
   DataItem,
   EffectType,
@@ -12,6 +13,7 @@ import {
   SetActorMotionPacket,
   Vector3f
 } from "@serenityjs/protocol";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { Dimension, World } from "../world";
 import {
@@ -1249,18 +1251,32 @@ class Entity {
    * @returns The entity entry object.
    */
   public getDataEntry(): EntityEntry {
+    // Get the x, y, and z position
+    const { x, y, z } = this.position;
+
+    // Get the yaw, pitch, and headYaw rotation
+    const { yaw, pitch, headYaw } = this.rotation;
+
+    // Write the metadata to a binary stream
+    const metadataStream = new BinaryStream();
+    DataItem.write(metadataStream, [...this.metadata.values()]);
+
+    // Write the attributes to a binary stream
+    const attributesStream = new BinaryStream();
+    Attribute.write(attributesStream, [...this.attributes.values()]);
+
     // Create the entity entry to save
     const entry: EntityEntry = {
-      uniqueId: this.uniqueId,
+      uniqueId: String(this.uniqueId),
       identifier: this.type.identifier,
-      position: this.position,
-      rotation: this.rotation,
+      position: [x, y, z],
+      rotation: [yaw, pitch, headYaw],
       components: [...this.components.entries()],
       traits: [...this.traits.keys()],
-      metadata: [...this.metadata.entries()],
+      metadata: metadataStream.getBuffer().toString("base64"),
       flags: [...this.flags.entries()],
-      attributes: [...this.attributes.entries()],
-      scoreboardIdentity: this.scoreboardIdentity.identifier
+      attributes: attributesStream.getBuffer().toString("base64"),
+      scoreboardIdentity: String(this.scoreboardIdentity.identifier)
     };
 
     // Return the entity entry
@@ -1278,73 +1294,79 @@ class Entity {
     entry: EntityEntry,
     overwrite = true
   ): void {
-    // Check that the unique id matches the entity's unique id
-    if (entry.uniqueId !== this.uniqueId)
-      throw new Error(
-        "Failed to load entity entry as the unique id does not match the entity's unique id!"
-      );
-
-    // Check that the identifier matches the entity's identifier
-    if (entry.identifier !== this.type.identifier)
-      throw new Error(
-        "Failed to load entity entry as the identifier does not match the entity's identifier!"
-      );
-
-    // Set the entity's position and rotation
-    this.position.set(entry.position);
-    this.rotation.set(entry.rotation);
-
-    // Set the entity's scoreboard identity
-    this.scoreboardIdentity = new ScoreboardIdentity(
-      this,
-      entry.scoreboardIdentity
-    );
-
-    // Check if the entity should overwrite the current data
-    if (overwrite) {
-      this.metadata.clear();
-      this.flags.clear();
-      this.attributes.clear();
-      this.components.clear();
-      this.traits.clear();
-    }
-
-    // Add the metadata to the entity, if it does not already exist
-    for (const [key, value] of entry.metadata) {
-      if (!this.metadata.has(key)) this.metadata.set(key, value);
-    }
-
-    // Add the flags to the entity, if it does not already exist
-    for (const [key, value] of entry.flags) {
-      if (!this.flags.has(key)) this.flags.set(key, value);
-    }
-
-    // Add the attributes to the entity, if it does not already exist
-    for (const [key, value] of entry.attributes) {
-      if (!this.attributes.has(key)) this.attributes.set(key, value);
-    }
-
-    // Add the components to the entity, if it does not already exist
-    for (const [key, value] of entry.components) {
-      if (!this.components.has(key)) this.components.set(key, value);
-    }
-
-    // Add the traits to the entity, if it does not already exist
-    for (const trait of entry.traits) {
-      // Check if the palette has the trait
-      const traitType = world.entityPalette.traits.get(trait);
-
-      // Check if the trait exists in the palette
-      if (!traitType) {
-        world.logger.error(
-          `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" as it does not exist in the palette`
+    try {
+      // Check that the identifier matches the entity's identifier
+      if (entry.identifier !== this.type.identifier)
+        throw new Error(
+          "Failed to load entity entry as the identifier does not match the entity's identifier!"
         );
 
-        continue;
+      // Set the entity's position and rotation
+      this.position.x = entry.position[0];
+      this.position.y = entry.position[1];
+      this.position.z = entry.position[2];
+      this.rotation.yaw = entry.rotation[0];
+      this.rotation.pitch = entry.rotation[1];
+      this.rotation.headYaw = entry.rotation[2];
+
+      // Set the entity's scoreboard identity
+      this.scoreboardIdentity = new ScoreboardIdentity(
+        this,
+        BigInt(entry.scoreboardIdentity)
+      );
+
+      // Check if the entity should overwrite the current data
+      if (overwrite) {
+        this.metadata.clear();
+        this.flags.clear();
+        this.attributes.clear();
+        this.components.clear();
+        this.traits.clear();
       }
 
-      // Attempt to add the trait to the entity
-      this.addTrait(traitType as typeof EntityTrait);
+      // Create a new BinaryStream for the metadata
+      const mStream = new BinaryStream(Buffer.from(entry.metadata, "base64"));
+      const metadata = DataItem.read(mStream);
+
+      // Create a new BinaryStream for the attributes
+      const aStream = new BinaryStream(Buffer.from(entry.attributes, "base64"));
+      const attributes = Attribute.read(aStream);
+
+      // Add the metadata to the entity
+      for (const value of metadata) this.metadata.set(value.identifier, value);
+
+      // Add the flags to the entity
+      for (const [key, value] of entry.flags) this.flags.set(key, value);
+
+      // Add the attributes to the entity
+      for (const value of attributes) this.attributes.set(value.name, value);
+
+      // Add the components to the entity
+      for (const [key, value] of entry.components)
+        this.components.set(key, value);
+
+      // Add the traits to the entity
+      for (const trait of entry.traits) {
+        // Check if the palette has the trait
+        const traitType = world.entityPalette.traits.get(trait);
+
+        // Check if the trait exists in the palette
+        if (!traitType) {
+          world.logger.error(
+            `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" as it does not exist in the palette`
+          );
+
+          continue;
+        }
+
+        // Attempt to add the trait to the entity
+        this.addTrait(traitType as typeof EntityTrait);
+      }
+    } catch {
+      // Log the error to the console
+      this.world.logger.error(
+        `Failed to load entity entry for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}". Entity data will be reset for this entity.`
+      );
     }
   }
 
