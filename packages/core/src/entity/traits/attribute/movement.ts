@@ -49,8 +49,6 @@ class EntityMovementTrait extends EntityAttributeTrait {
       this.moveTowards(this.positionTarget);
     }
 
-    // Check if the entity is moving
-
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();
 
@@ -58,7 +56,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     packet.runtimeId = this.entity.runtimeId;
     packet.flags = MoveDeltaFlags.All;
     packet.x = this.entity.position.x;
-    packet.y = this.entity.position.y;
+    packet.y = this.entity.position.y - 0.1; // Adjust the y position
     packet.z = this.entity.position.z;
     packet.yaw = this.entity.rotation.yaw;
     packet.headYaw = this.entity.rotation.headYaw;
@@ -113,20 +111,29 @@ class EntityMovementTrait extends EntityAttributeTrait {
 
     this.entity.rotation.headYaw = headYaw;
     this.entity.rotation.pitch = pitch;
-    this.entity.teleport(this.entity.position);
+    this.entity.rotation.yaw = headYaw;
   }
 
+  /**
+   * Move the entity towards a position.
+   * @param position The position to move towards.
+   */
   public moveTowards(position: Vector3f) {
     // Set the target position
     if (this.positionTarget === null) this.positionTarget = position;
 
     // Calculate the direction to the target position
-    const direction = this.calculateDirection(
-      this.entity.position,
-      position
-    ).multiply(this.currentValue);
+    const direction = this.calculateDirection(this.entity.position, position);
 
-    this.entity.setMotion(direction);
+    // Apply the movement speed to the direction
+    direction.x *= this.currentValue * 2.5;
+    direction.y *= this.currentValue * 2.5;
+    direction.z *= this.currentValue * 2.5;
+
+    this.lookAt(position);
+
+    // Add the direction to the entity motion
+    this.entity.addMotion(direction);
   }
 
   protected calculateDirection(from: Vector3f, to: Vector3f): Vector3f {
