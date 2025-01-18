@@ -114,7 +114,7 @@ class InternalProvider extends WorldProvider {
     const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
 
     // Set the entity.
-    entities.set(entity.uniqueId, entity);
+    entities.set(BigInt(entity.uniqueId), entity);
   }
 
   public readPlayer(uuid: string, dimension: Dimension): PlayerEntry | null {

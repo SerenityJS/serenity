@@ -456,7 +456,8 @@ class LevelDBProvider extends WorldProvider {
     const entities = this.readAvailableEntities(dimension);
 
     // Check if the entity already exists.
-    if (!entities.includes(entity.uniqueId)) entities.push(entity.uniqueId);
+    if (!entities.includes(BigInt(entity.uniqueId)))
+      entities.push(BigInt(entity.uniqueId));
 
     // Write the entity to the database.
     const data = JSON.stringify(entity, (_, value) => {
@@ -472,7 +473,7 @@ class LevelDBProvider extends WorldProvider {
     const buffer = Buffer.from(data);
 
     // Create a key for the entity.
-    const key = LevelDBProvider.buildActorDataKey(entity.uniqueId);
+    const key = LevelDBProvider.buildActorDataKey(BigInt(entity.uniqueId));
 
     // Write the entity data to the database.
     this.db.put(key, buffer);
