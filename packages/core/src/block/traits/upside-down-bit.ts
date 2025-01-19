@@ -6,6 +6,7 @@ import { BlockTrait } from "./trait";
 
 class BlockUpsideDownBitTrait extends BlockTrait {
   public static readonly identifier = "upside_down_bit";
+  public static readonly state = "upside_down_bit";
 
   public onPlace(_: Player, clickPosition: Vector3f): void {
     // Check if the click position is on the top face of the block
