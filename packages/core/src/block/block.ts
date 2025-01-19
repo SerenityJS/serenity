@@ -334,7 +334,6 @@ class Block {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
       // Clear the components and traits if the type has changed.
-
       this.traits.clear();
       this.components.clear();
     }
@@ -347,7 +346,6 @@ class Block {
 
     // Set the permutation of the block.
     this.dimension.setPermutation(this.position, permutation);
-    // this.permutation = permutation;
 
     // Check if the entry is provided.
     if (entry) this.loadDataEntry(this.world, entry);
