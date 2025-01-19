@@ -8,3 +8,4 @@ export * from "./vertical-half";
 export * from "./cardinal-direction";
 export * from "./direction";
 export * from "./facing-direction";
+export * from "./pillar-axis";
