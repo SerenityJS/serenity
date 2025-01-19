@@ -1,4 +1,5 @@
 import {
+  BlockPosition,
   ContainerId,
   ContainerOpenPacket,
   ContainerType
@@ -25,6 +26,15 @@ class EntityContainer extends Container {
   ) {
     super(type, identifier, size);
     this.entity = entity;
+  }
+
+  /**
+   * Check if the container is owned by the player.
+   * @param player The player to check
+   * @returns Returns true if the container is owned by the player, false otherwise
+   */
+  public isOwnedBy(player: Player): boolean {
+    return this.entity === player;
   }
 
   public setItem(slot: number, itemStack: ItemStack): void {
@@ -85,10 +95,16 @@ class EntityContainer extends Container {
     // Assign the properties
     packet.identifier = this.identifier;
     packet.type = this.type;
-    packet.position = this.entity.position;
+    packet.position = BlockPosition.fromVector3f(this.entity.position);
     packet.uniqueId = this.entity.uniqueId;
 
-    // Send the packet to the player
+    // Check if the container is the player's inventory, and the player is not the owner
+    if (this.identifier === ContainerId.Inventory && !this.isOwnedBy(player)) {
+      // Set the container type to the player's inventory
+      packet.type = ContainerType.Container;
+      packet.identifier = ContainerId.None;
+    }
+
     player.send(packet);
 
     // Update the container

@@ -1,16 +1,20 @@
 import {
+  ActorDataId,
+  ActorDataType,
   ContainerId,
   ContainerType,
+  DataItem,
   MobEquipmentPacket,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 
-import { EntityIdentifier } from "../../enums";
+import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStack } from "../../item";
 import { ItemStackEntry, ItemStorage } from "../../types";
 import { Container } from "../../container";
+import { Player } from "../player";
 
 import { EntityTrait } from "./trait";
 
@@ -49,12 +53,12 @@ class EntityInventoryTrait extends EntityTrait {
   public constructor(entity: Entity) {
     super(entity);
 
-    // Create a new container
+    // Create a new entity container
     this.container = new EntityContainer(
       entity,
-      ContainerType.Inventory,
-      ContainerId.Inventory,
-      36
+      entity.isPlayer() ? ContainerType.Inventory : ContainerType.Container,
+      entity.isPlayer() ? ContainerId.Inventory : ContainerId.None,
+      entity.isPlayer() ? 36 : 27
     );
   }
 
@@ -154,11 +158,44 @@ class EntityInventoryTrait extends EntityTrait {
       size: this.container.size,
       items: []
     });
+
+    // Create the container type metadata
+    const type = new DataItem(
+      ActorDataId.ContainerType,
+      ActorDataType.Byte,
+      this.container.type
+    );
+
+    // Create the container size metadata
+    const set = new DataItem(
+      ActorDataId.ContainerSize,
+      ActorDataType.Int,
+      this.container.size
+    );
+
+    // Set the container metadata
+    this.entity.metadata.set(ActorDataId.ContainerType, type);
+    this.entity.metadata.set(ActorDataId.ContainerSize, set);
   }
 
   public onRemove(): void {
     // Remove the item storage component
     this.entity.removeComponent("inventory");
+
+    // Remove the container metadata
+    this.entity.metadata.delete(ActorDataId.ContainerType);
+    this.entity.metadata.delete(ActorDataId.ContainerSize);
+  }
+
+  public onInteract(player: Player, method: EntityInteractMethod): void {
+    // Check if the method is not interact
+    if (method !== EntityInteractMethod.Interact) return;
+
+    // Check if the entity is a player, if so return
+    if (this.entity.isPlayer()) return;
+
+    // Show the inventory to the player
+    this.container.show(player);
   }
 }
 
