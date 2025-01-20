@@ -20,26 +20,15 @@ class PlayerInteractWithBlockSignal extends EventSignal {
   public block: Block;
 
   /**
-   * The player's held item before the interaction.
-   */
-  public beforeItemStack: ItemStack | null;
-
-  /**
    * The player's held item after the interaction.
    */
   public itemStack: ItemStack | null;
 
-  public constructor(
-    source: Player,
-    block: Block,
-    beforeItemStack: ItemStack | null,
-    itemStack: ItemStack | null
-  ) {
+  public constructor(source: Player, block: Block) {
     super(source.world);
     this.source = source;
     this.block = block;
-    this.beforeItemStack = beforeItemStack;
-    this.itemStack = itemStack;
+    this.itemStack = source.getHeldItem();
   }
 }
 

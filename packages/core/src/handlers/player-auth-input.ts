@@ -25,7 +25,6 @@ import { Connection } from "@serenityjs/raknet";
 import { NetworkHandler } from "../network";
 import { Player } from "../entity";
 import {
-  PlayerBreakBlockSignal,
   PlayerStartUsingItemSignal,
   PlayerStopUsingItemSignal,
   PlayerUseItemSignal
@@ -485,19 +484,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Get the block from the action position
           const block = dimension.getBlock(action.position);
 
-          // Create a new PlayerBreakBlockSignal
-          const signal = new PlayerBreakBlockSignal(
-            block,
-            player,
-            player.getHeldItem()
-          ).emit();
-
           // Check if the player does not have a block target
           // And if the player is not in creative mode; also check if the signal was canceled
-          if (
-            (!player.blockTarget && player.gamemode !== Gamemode.Creative) ||
-            !signal
-          ) {
+          if (!player.blockTarget && player.gamemode !== Gamemode.Creative) {
             // Create a new UpdateBlockPacket for the block update
             const packet = new UpdateBlockPacket();
             packet.position = BlockPosition.toVector3f(block.position);
@@ -506,10 +495,13 @@ class PlayerAuthInputHandler extends NetworkHandler {
             packet.networkBlockId = block.permutation.network;
 
             // Send the packet to the player
-            player.send(packet);
+            return player.send(packet);
           } else {
-            // Break the block
-            const success = block.destroy(player);
+            // Break the block based on the signal drop loot flag
+            const success = block.destroy({
+              origin: player,
+              dropLoot: true
+            });
 
             // If the block was not destroyed, update the block
             if (!success) {
@@ -521,7 +513,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
               packet.networkBlockId = block.permutation.network;
 
               // Send the packet to the player
-              player.send(packet);
+              return player.send(packet);
             }
           }
 

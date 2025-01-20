@@ -20,18 +20,19 @@ class PlayerBreakBlockSignal extends BlockUpdateSignal {
   public readonly itemStack: ItemStack | null;
 
   /**
+   * Whether the block should drop loot items when destroyed.
+   */
+  public dropLoot: boolean = true;
+
+  /**
    * Creates a new player break block signal.
    * @param player The player breaking the block.
    * @param itemStack The item stack that is being used to break the block, or null if empty hand.
    */
-  public constructor(
-    block: Block,
-    player: Player,
-    itemStack: ItemStack | null
-  ) {
+  public constructor(block: Block, player: Player) {
     super(block);
     this.player = player;
-    this.itemStack = itemStack;
+    this.itemStack = player.getHeldItem();
   }
 }
 

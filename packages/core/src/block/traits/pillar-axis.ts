@@ -1,23 +1,20 @@
-import { Vector3f } from "@serenityjs/protocol";
-
-import { BlockTrait } from "../..";
-import { Player } from "../../entity";
+import { BlockPlacementOptions, BlockTrait } from "../..";
 
 class BlockPillarAxisTrait extends BlockTrait {
   public static readonly state = "pillar_axis";
   public static readonly identifier = "pillar_axis";
 
-  public onPlace(_: Player, clickPosition: Vector3f): void {
+  public onPlace({ origin, clickedPosition }: BlockPlacementOptions): void {
+    // Check if the origin is a player
+    if (!origin || !origin.isPlayer() || !clickedPosition) return;
+
     // Set the direction of the block
-    if (clickPosition.x == 1 || clickPosition.x == 0) {
+    if (clickedPosition.x == 1 || clickedPosition.x == 0)
       this.setDirection("x");
-    }
-    if (clickPosition.y == 1 || clickPosition.y == 0) {
+    else if (clickedPosition.y == 1 || clickedPosition.y == 0)
       this.setDirection("y");
-    }
-    if (clickPosition.z == 1 || clickPosition.z == 0) {
+    else if (clickedPosition.z == 1 || clickedPosition.z == 0)
       this.setDirection("z");
-    }
   }
 
   public getDirection(): "x" | "y" | "z" {

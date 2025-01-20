@@ -1,16 +1,17 @@
-import { Player } from "../../entity";
 import { CardinalDirection } from "../../enums";
+import { BlockPlacementOptions } from "../../types";
 
 import { BlockDirectionTrait } from "./direction";
 
 class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
   public static readonly state = "weirdo_direction";
 
-  public onPlace(player?: Player): void {
-    if (!player) return;
+  public onPlace({ origin }: BlockPlacementOptions): void {
+    // Check if the origin is a player
+    if (!origin) return;
 
     // Get the player's cardinal direction
-    const direction = player.getCardinalDirection();
+    const direction = origin.getCardinalDirection();
 
     // Set the direction of the block
     this.setDirection(direction);

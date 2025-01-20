@@ -1,7 +1,5 @@
-import { Vector3f, BlockFace } from "@serenityjs/protocol";
-
-import { Player } from "../../entity";
 import { BlockIdentifier } from "../../enums";
+import { BlockInteractionOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
 
@@ -37,11 +35,7 @@ class BlockUpperTrait extends BlockTrait {
     this.block.setPermutation(permutation);
   }
 
-  public onInteract(
-    player: Player,
-    clickPosition: Vector3f,
-    clickFace: BlockFace
-  ): boolean | void {
+  public onInteract(options: BlockInteractionOptions): boolean | void {
     // Check if the block is not the upper block
     if (!this.isUpperBlock) return;
 
@@ -49,7 +43,7 @@ class BlockUpperTrait extends BlockTrait {
     const below = this.block.below();
 
     // Interact with the below block
-    return below.interact(player, clickPosition, clickFace);
+    return below.interact(options);
   }
 
   public onPlace(): void {
