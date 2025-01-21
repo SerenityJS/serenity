@@ -7,11 +7,18 @@ import {
 
 import { Player } from "../entity";
 
+/**
+ * The result of a form submission.
+ */
 type FormResult<T> = (response: T | null, error: Error | null) => void;
 
+/**
+ * The participant of a form.
+ */
 interface FormParticipant<T> {
   player: Player;
   result: FormResult<T>;
+  instance: Form<unknown>;
 }
 
 class Form<T> {
@@ -50,7 +57,7 @@ class Form<T> {
     player.send(packet);
 
     // Add the player to the pending forms map.
-    player.pendingForms.set(this.formId, { player, result });
+    player.pendingForms.set(this.formId, { player, result, instance: this });
 
     // Return the form.
     return this;
@@ -90,4 +97,4 @@ class Form<T> {
   }
 }
 
-export { Form, FormParticipant };
+export { Form, FormParticipant, FormResult };

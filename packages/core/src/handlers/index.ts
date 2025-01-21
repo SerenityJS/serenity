@@ -22,6 +22,7 @@ import { EmoteHandler } from "./emote";
 import { ResourcePackChunkRequestHandler } from "./resource-pack-chunk-request";
 import { ActorEventHandler } from "./actor-event";
 import { EntityPickRequestHandler } from "./entity-pick-request";
+import { NpcRequestHandler } from "./npc-request";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -47,7 +48,8 @@ const Handlers = [
   BlockPickRequestHandler,
   EntityPickRequestHandler,
   EmoteHandler,
-  ActorEventHandler
+  ActorEventHandler,
+  NpcRequestHandler
 ];
 
 export { Handlers };
