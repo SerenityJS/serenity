@@ -18,6 +18,18 @@ interface DialogueFormButton {
   text: string;
 }
 
+interface DialogueFormProperties {
+  /**
+   * The form id of the dialogue form.
+   */
+  formId: number;
+
+  /**
+   * Whether the dialogue form is from a trait.
+   */
+  fromTrait: boolean;
+}
+
 class DialogueForm extends Form<number> {
   public readonly type = ModalFormType.Dialogue;
 
@@ -37,6 +49,11 @@ class DialogueForm extends Form<number> {
   public content: string = "";
 
   /**
+   * Whether the dialogue form is from a trait.
+   */
+  public fromTrait: boolean;
+
+  /**
    * The buttons of the dialogue form.
    */
   public readonly buttons: Array<DialogueFormButton> = [];
@@ -44,12 +61,14 @@ class DialogueForm extends Form<number> {
   /**
    * Creates a new dialogue form.
    * @param target The target entity that the dialogue is focused on.
+   * @param fromTrait Whether the dialogue form is from a trait.
    */
-  public constructor(target: Entity) {
+  public constructor(target: Entity, fromTrait = false) {
     super();
 
     // Set the properties of the dialogue form.
     this.target = target;
+    this.fromTrait = fromTrait;
   }
 
   /**
@@ -91,7 +110,15 @@ class DialogueForm extends Form<number> {
     packet.uniqueEntityId = this.target.uniqueId;
     packet.action = NpcDialogueAction.Open;
     packet.dialogue = this.content;
-    packet.scene = JSON.stringify({ formId: this.formId });
+
+    // Create the dialogue form properties
+    const properties: DialogueFormProperties = {
+      formId: this.formId,
+      fromTrait: this.fromTrait
+    };
+
+    // Set the scene to the form id and from trait.
+    packet.scene = JSON.stringify(properties);
     packet.name = this.title;
     packet.json = JSON.stringify(buttons);
 
@@ -118,6 +145,20 @@ class DialogueForm extends Form<number> {
     // Send the packet to the player.
     player.send(packet);
   }
+
+  public static closeForm(player: Player, id: bigint): void {
+    // Create a new NpcDialoguePacket.
+    const packet = new NpcDialoguePacket();
+    packet.uniqueEntityId = id;
+    packet.action = NpcDialogueAction.Close;
+    packet.dialogue = String();
+    packet.scene = JSON.stringify({ formId: -1 });
+    packet.name = String();
+    packet.json = String();
+
+    // Send the packet to the player.
+    player.send(packet);
+  }
 }
 
-export { DialogueForm };
+export { DialogueForm, DialogueFormButton, DialogueFormProperties };
