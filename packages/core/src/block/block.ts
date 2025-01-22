@@ -497,11 +497,13 @@ class Block {
 
   /**
    * Adds a trait to the block.
-   * @param trait The trait to add
-   * @returns The trait that was added
+   * @param trait The trait to add to the block.
+   * @param options The additional options to pass to the trait.
+   * @returns The trait instance that was added to the block.
    */
   public addTrait<T extends typeof BlockTrait>(
-    trait: T | BlockTrait
+    trait: T | BlockTrait,
+    options?: ConstructorParameters<T>[1]
   ): InstanceType<T> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
@@ -527,7 +529,7 @@ class Block {
         return trait as InstanceType<T>;
       }
       // Create a new instance of the trait
-      const instance = new trait(this) as InstanceType<T>;
+      const instance = new trait(this, options) as InstanceType<T>;
 
       // Add the trait to the block
       this.traits.set(instance.identifier, instance);

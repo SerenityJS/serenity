@@ -6,7 +6,8 @@ import { Container } from "../../container";
 import {
   BlockDestroyOptions,
   BlockInteractionOptions,
-  BlockPlacementOptions
+  BlockPlacementOptions,
+  JSONLikeObject
 } from "../../types";
 
 class BlockTrait extends Trait {
@@ -34,8 +35,9 @@ class BlockTrait extends Trait {
   /**
    * Creates a new instance of the block trait.
    * @param block The block that this trait will be attached to.
+   * @param options additional options for the block trait.
    */
-  public constructor(block: Block) {
+  public constructor(block: Block, _options?: JSONLikeObject) {
     super();
     this.block = block;
   }

@@ -9,6 +9,7 @@ import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { JSONLikeObject } from "../../types";
 import { Player } from "../player";
 import { DialogueForm } from "../../ui";
+import { Entity } from "../entity";
 
 import { EntityTrait } from "./trait";
 
@@ -29,6 +30,12 @@ interface EntityNpcDialogueComponent extends JSONLikeObject {
   buttons: Array<[string, string]>;
 }
 
+const DefaultOptions: EntityNpcDialogueComponent = {
+  title: "NPC",
+  dialogue: "",
+  buttons: []
+};
+
 class EntityNpcTrait extends EntityTrait {
   public static readonly identifier = "npc";
   public static readonly types = [EntityIdentifier.Npc];
@@ -38,6 +45,13 @@ class EntityNpcTrait extends EntityTrait {
    */
   public get component(): EntityNpcDialogueComponent {
     return this.entity.getComponent("npc") as EntityNpcDialogueComponent;
+  }
+
+  /**
+   * The component used to store the npc dialogue form data.
+   */
+  public set component(value: EntityNpcDialogueComponent) {
+    this.entity.setComponent<EntityNpcDialogueComponent>("npc", value);
   }
 
   /**
@@ -80,6 +94,19 @@ class EntityNpcTrait extends EntityTrait {
    */
   public set buttons(value: Array<[string, string]>) {
     this.component.buttons = value;
+  }
+
+  public constructor(
+    entity: Entity,
+    options?: Partial<EntityNpcDialogueComponent>
+  ) {
+    super(entity);
+
+    // Set the options of the trait with the default options
+    this.component = {
+      ...DefaultOptions,
+      ...options
+    } as EntityNpcDialogueComponent;
   }
 
   /**
@@ -159,4 +186,4 @@ class EntityNpcTrait extends EntityTrait {
   }
 }
 
-export { EntityNpcTrait };
+export { EntityNpcTrait, EntityNpcDialogueComponent };

@@ -1,7 +1,21 @@
 import { EntityIdentifier } from "../../enums";
+import { JSONLikeObject } from "../../types";
+import { Entity } from "../entity";
 
 import { EntityMovementTrait } from "./attribute";
 import { EntityTrait } from "./trait";
+
+interface EntityLookAtPlayerTraitOptions extends JSONLikeObject {
+  /**
+   * The radius of the entity to look at the player.
+   */
+  radius: number;
+
+  /**
+   * The head tilt offset of the entity.
+   */
+  headTiltOffset: number;
+}
 
 class EntityLookAtPlayerTrait extends EntityTrait {
   public static readonly identifier = "look-at-player";
@@ -11,6 +25,19 @@ class EntityLookAtPlayerTrait extends EntityTrait {
    * The radius of the entity to look at the player.
    */
   public radius = 5;
+
+  /**
+   * The head tilt offset of the entity.
+   */
+  public headTiltOffset = 0;
+
+  public constructor(entity: Entity, options?: EntityLookAtPlayerTraitOptions) {
+    super(entity);
+
+    // Set the options of the trait.
+    this.radius = options?.radius ?? this.radius;
+    this.headTiltOffset = options?.headTiltOffset ?? this.headTiltOffset;
+  }
 
   public onTick(): void {
     // Check if the current tick is even.
@@ -50,6 +77,9 @@ class EntityLookAtPlayerTrait extends EntityTrait {
 
     // Clone the position of the player, and increase the y value by 0.9.
     const position = player.position.clone();
+
+    // Add the head tilt offset to the y value.
+    position.y += this.headTiltOffset;
 
     // Make the entity look at the player
     return movement.lookAt(position);

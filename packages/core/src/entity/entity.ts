@@ -562,11 +562,13 @@ class Entity {
 
   /**
    * Adds a trait to the entity.
-   * @param trait The trait to add
-   * @returns The trait that was added
+   * @param trait The trait to add to the entity.
+   * @param options The additional options to pass to the trait.
+   * @returns The trait instance that was added to the entity.
    */
   public addTrait<T extends typeof EntityTrait>(
-    trait: T | EntityTrait
+    trait: T | EntityTrait,
+    options?: ConstructorParameters<T>[1]
   ): InstanceType<T> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
@@ -591,7 +593,7 @@ class Entity {
         return trait as InstanceType<T>;
       } else {
         // Create a new instance of the trait
-        const instance = new trait(this) as InstanceType<T>;
+        const instance = new trait(this, options) as InstanceType<T>;
 
         // Add the trait to the entity
         this.traits.set(trait.identifier, instance);

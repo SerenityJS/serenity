@@ -6,7 +6,8 @@ import { Trait } from "../../trait";
 import {
   ItemUseOnBlockOptions,
   ItemUseOnEntityOptions,
-  ItemUseOptions
+  ItemUseOptions,
+  JSONLikeObject
 } from "../../types";
 import { ItemStack } from "../stack";
 
@@ -30,8 +31,9 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   /**
    * Creates a new instance of the item trait.
    * @param item The item stack that this trait will be attached to.
+   * @param options additional options for the item trait.
    */
-  public constructor(item: ItemStack<T>) {
+  public constructor(item: ItemStack<T>, _options?: JSONLikeObject) {
     super();
     this.item = item;
   }
