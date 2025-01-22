@@ -37,6 +37,7 @@ const DefaultSerenityProperties: SerenityProperties = {
   resourcePacks: "",
   movementValidation: true,
   movementRewindThreshold: 0.4,
+  ticksPerSecond: 20,
   debugLogging: false
 };
 
@@ -163,8 +164,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Initialize the last tick variable
     let lastTick = process.hrtime();
 
-    const TPS = 20;
-
     // Create a ticking loop that will run every 50ms
     const tick = () => {
       // Check if the server is still alive
@@ -182,7 +181,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       }
 
       // Check if the server should tick
-      if (delta >= 1 / TPS) {
+      if (delta >= 1 / this.properties.ticksPerSecond) {
         // Set the last tick to the current time
         lastTick = process.hrtime();
 
