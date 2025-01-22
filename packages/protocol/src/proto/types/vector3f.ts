@@ -253,6 +253,14 @@ class Vector3f extends DataType implements IPosition {
   }
 
   /**
+   * Clones this 3D vector into a new 3D vector.
+   * @returns The cloned 3D vector.
+   */
+  public clone(): Vector3f {
+    return new Vector3f(this.x, this.y, this.z);
+  }
+
+  /**
    * Converts this array to a 3D vector.
    * @returns The 3D vector that was converted.
    */

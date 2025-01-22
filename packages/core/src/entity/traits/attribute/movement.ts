@@ -56,7 +56,12 @@ class EntityMovementTrait extends EntityAttributeTrait {
     packet.runtimeId = this.entity.runtimeId;
     packet.flags = MoveDeltaFlags.All;
     packet.x = this.entity.position.x;
-    packet.y = this.entity.position.y - 0.1; // Adjust the y position
+
+    // Asjust the y position of the entity
+    packet.y = this.entity.isPlayer()
+      ? this.entity.position.y
+      : this.entity.position.y - 0.1;
+
     packet.z = this.entity.position.z;
     packet.yaw = this.entity.rotation.yaw;
     packet.headYaw = this.entity.rotation.headYaw;
@@ -101,17 +106,35 @@ class EntityMovementTrait extends EntityAttributeTrait {
   }
 
   public lookAt(position: BlockPosition | Vector3f) {
-    const direction = position.subtract(this.entity.position).floor();
-    const headYaw = -Math.atan2(direction.x, direction.z) * (180 / Math.PI);
-    const horizontalDistance = Math.sqrt(
-      Math.pow(direction.x, 2) + Math.pow(direction.z, 2)
-    );
-    const pitch =
-      -Math.atan2(direction.y, horizontalDistance) * (180 / Math.PI);
+    // Convert the block position to a vector
+    const vector = BlockPosition.toVector3f(position);
 
-    this.entity.rotation.headYaw = headYaw;
+    // Calculate the direction to the target position
+    const direction = this.calculateDirection(this.entity.position, vector);
+
+    // Calculate the yaw and pitch from the direction
+    let yaw = Math.atan2(direction.z, direction.x) * (180 / Math.PI) - 90;
+
+    // Calculate the pitch from the direction
+    const pitch =
+      -Math.atan2(
+        direction.y,
+        Math.sqrt(direction.x * direction.x + direction.z * direction.z)
+      ) *
+      (180 / Math.PI);
+
+    // Normalize the yaw if it is out of range
+    if (yaw > 180) yaw -= 360;
+    if (yaw < -180) yaw += 360;
+
+    // Normalize the pitch if it is out of range
+    if (pitch > 180) yaw -= 360;
+    if (pitch < -180) yaw += 360;
+
+    // Set the entity rotation
+    this.entity.rotation.yaw = yaw;
+    this.entity.rotation.headYaw = yaw;
     this.entity.rotation.pitch = pitch;
-    this.entity.rotation.yaw = headYaw;
   }
 
   /**
