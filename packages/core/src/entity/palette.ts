@@ -1,5 +1,5 @@
-import { EntityIdentifier } from "../enums";
-import { EntityEnum } from "../commands";
+import { EntityIdentifier } from "../enums/entity-identifier";
+import { EntityEnum, EntityTraitEnum } from "../commands";
 
 import { CustomEntityType, EntityType } from "./identity";
 
@@ -144,6 +144,15 @@ class EntityPalette {
 
         // Set the registry for the entity identifier.
         this.registry.set(type as EntityIdentifier, registry);
+      }
+    }
+
+    // Check if the trait has an identifier.
+    if (trait.identifier !== undefined) {
+      // Check if the trait is already in the entity trait enum.
+      if (!EntityTraitEnum.options.includes(trait.identifier)) {
+        // If not, add the trait to the entity trait enum.
+        EntityTraitEnum.options.push(trait.identifier);
       }
     }
 

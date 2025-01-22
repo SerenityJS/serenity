@@ -16,6 +16,7 @@ import OP from "./op";
 import DEOP from "./deop";
 import SAVE from "./save";
 import TIME from "./time";
+import ENTITYTRAITS from "./entity-traits";
 
 // Define all the admin commands
 const AdminCommands = [
@@ -36,7 +37,8 @@ const AdminCommands = [
   OP,
   DEOP,
   SAVE,
-  TIME
+  TIME,
+  ENTITYTRAITS
 ];
 
 export { AdminCommands };
