@@ -173,6 +173,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       const [seconds, nanoseconds] = process.hrtime(lastTick);
       const delta = seconds + nanoseconds / 1e9;
 
+      // Check if the server should tick
+      if (delta < 0.01) return setTimeout(tick, 0);
+
       // Check if the server should tick the raknet connections
       if (delta >= 1 / RAKNET_TPS) {
         // Iterate over all the connections and tick the connection
@@ -194,13 +197,13 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         this.ticks = this.ticks.filter((tick) => tick > threshold);
         this.tps = this.ticks.length;
 
-        // Tick all the worlds
+        // // Tick all the worlds
         for (const world of this.worlds.values())
           world.onTick(Math.floor(deltaTick));
       }
 
       // Schedule the next tick
-      setImmediate(tick);
+      return queueMicrotask(tick);
     };
 
     // Start the ticking loop
