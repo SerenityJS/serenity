@@ -10,7 +10,7 @@ class TerrainWorker {
   /**
    * The path of the worker file.
    */
-  public static readonly path = __filename;
+  public static path = __filename;
 
   /**
    * The properties of the worker.
