@@ -2,7 +2,7 @@ import { BinaryStream } from "@serenityjs/binarystream";
 import {
   CREATIVE_CONTENT,
   ITEM_TYPES,
-  ITEMDATA,
+  ITEM_DATA,
   TOOL_TYPES
 } from "@serenityjs/data";
 import { CreativeItems, ItemData } from "@serenityjs/protocol";
@@ -16,7 +16,7 @@ import { CreativeItem } from "./creative";
 import type { CompoundTag } from "@serenityjs/nbt";
 
 // Create a new stream from the item data.
-const dataStream = new BinaryStream(ITEMDATA);
+const dataStream = new BinaryStream(ITEM_DATA);
 
 // Read the item data from the stream.
 const data = ItemData.read(dataStream);
