@@ -4,8 +4,8 @@ import {
   LevelSoundEventPacket
 } from "@serenityjs/protocol";
 
-import { Player } from "../../entity";
 import { Block } from "../block";
+import { BlockInteractionOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
 
@@ -13,9 +13,12 @@ class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open-bit";
   public static readonly state = "open_bit";
 
-  public onInteract(player: Player): boolean {
+  public onInteract({ origin }: BlockInteractionOptions): boolean {
+    // Check if the origin is a player
+    if (!origin || !origin.isPlayer()) return false;
+
     // Check if the player can open doors
-    if (!player.abilities.doorsAndSwitches) return false;
+    if (!origin.abilities.doorsAndSwitches) return false;
 
     // Get the state of the block
     const state = this.block.permutation.state as Record<string, unknown>;
@@ -28,7 +31,7 @@ class BlockOpenBitTrait extends BlockTrait {
 
     // If the player is sneaking, we should place the block and interact with it door.
     // If the player is not sneaking, we should just interact with the door.
-    return player.isSneaking; // The sneaking state of the player will be used to determine the action.
+    return origin.isSneaking; // The sneaking state of the player will be used to determine the action.
   }
 
   public setBit(open: boolean, silent = false): void {

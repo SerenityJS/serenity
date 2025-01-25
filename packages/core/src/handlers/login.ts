@@ -112,7 +112,7 @@ class LoginHandler extends NetworkHandler {
     // Check if the player data exists
     if (data) {
       // Set the unique id of the player
-      properties.uniqueId = data.uniqueId;
+      properties.uniqueId = BigInt(data.uniqueId);
 
       // Assign the player entry to the properties
       properties.entry = data;

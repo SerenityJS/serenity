@@ -308,7 +308,13 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     const name = nbt.getTag("name") as StringTag;
     const states = nbt.getTag("states") as CompoundTag<unknown>;
 
-    const state = states.valueOf() as Record<string, string | number | boolean>;
+    const state: Record<string, number | string> = {};
+
+    const raw = states.value as Record<string, IntTag | StringTag | ByteTag>;
+
+    for (const [key, tag] of Object.entries(raw)) {
+      state[key] = tag.value;
+    }
 
     return BlockPermutation.resolve(name.value as BlockIdentifier, state);
   }

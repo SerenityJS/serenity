@@ -1,6 +1,4 @@
-import { Vector3f } from "@serenityjs/protocol";
-
-import { Player } from "../../entity";
+import { BlockInteractionOptions, BlockPlacementOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
 
@@ -8,15 +6,21 @@ class VerticalHalfTrait extends BlockTrait {
   public static readonly identifier = "vertical_half";
   public static readonly state = "minecraft:vertical_half";
 
-  public onPlace(_player: Player, clickPosition: Vector3f): void {
+  public onPlace({ origin, clickedPosition }: BlockPlacementOptions): void {
+    // Check if the origin is a player
+    if (!origin || !origin.isPlayer() || !clickedPosition) return;
+
     // Check if the click position is above the center of the block
-    if (clickPosition.y > 0.5 && clickPosition.y < 0.99)
+    if (clickedPosition.y > 0.5 && clickedPosition.y < 0.99)
       this.setVerticalHalf(true);
   }
 
-  public onInteract(player: Player): boolean {
+  public onInteract({ origin }: BlockInteractionOptions): boolean {
+    // Check if the origin is a player
+    if (!origin) return false;
+
     // Get the players held item
-    const itemStack = player.getHeldItem();
+    const itemStack = origin.getHeldItem();
 
     // Check if the stack has a block type
     if (!itemStack || !itemStack.type.block) return true;

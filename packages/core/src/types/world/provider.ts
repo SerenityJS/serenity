@@ -1,13 +1,4 @@
-import {
-  AbilityIndex,
-  ActorDataId,
-  ActorFlag,
-  Attribute,
-  AttributeName,
-  DataItem,
-  Rotation,
-  Vector3f
-} from "@serenityjs/protocol";
+import { AbilityIndex, ActorFlag } from "@serenityjs/protocol";
 
 import { JSONLikeObject, JSONLikeValue } from "../json";
 import { BlockIdentifier, EntityIdentifier, ItemIdentifier } from "../../enums";
@@ -19,11 +10,11 @@ interface WorldProviderProperties {
   path: string;
 }
 
-interface EntityEntry {
+interface EntityEntry extends JSONLikeObject {
   /**
    * The unique identifier of the entity.
    */
-  uniqueId: bigint;
+  uniqueId: string;
 
   /**
    * The type identifier of the entity.
@@ -33,12 +24,12 @@ interface EntityEntry {
   /**
    * The spawn position of the entity.
    */
-  position: Vector3f;
+  position: [number, number, number];
 
   /**
    * The rotation of the entity.
    */
-  rotation: Rotation;
+  rotation: [number, number, number];
 
   /**
    * The components attached to the entity.
@@ -52,8 +43,9 @@ interface EntityEntry {
 
   /**
    * The metadata attached to the entity.
+   * Serialized as a base64 string.
    */
-  metadata: Array<[ActorDataId, DataItem]>;
+  metadata: string;
 
   /**
    * The flags attached to the entity.
@@ -62,13 +54,14 @@ interface EntityEntry {
 
   /**
    * The attributes attached to the entity.
+   * Serialized as a base64 string.
    */
-  attributes: Array<[AttributeName, Attribute]>;
+  attributes: string;
 
   /**
    * The scoreboard identity identifier attached to the entity.
    */
-  scoreboardIdentity: bigint;
+  scoreboardIdentity: string;
 }
 
 interface PlayerEntry extends EntityEntry {

@@ -37,6 +37,7 @@ const DefaultSerenityProperties: SerenityProperties = {
   resourcePacks: "",
   movementValidation: true,
   movementRewindThreshold: 0.4,
+  ticksPerSecond: 20,
   debugLogging: false
 };
 
@@ -163,8 +164,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Initialize the last tick variable
     let lastTick = process.hrtime();
 
-    const TPS = 20;
-
     // Create a ticking loop that will run every 50ms
     const tick = () => {
       // Check if the server is still alive
@@ -174,6 +173,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       const [seconds, nanoseconds] = process.hrtime(lastTick);
       const delta = seconds + nanoseconds / 1e9;
 
+      // Check if the server should tick
+      if (delta < 0.01) return setTimeout(tick, 0);
+
       // Check if the server should tick the raknet connections
       if (delta >= 1 / RAKNET_TPS) {
         // Iterate over all the connections and tick the connection
@@ -182,7 +184,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       }
 
       // Check if the server should tick
-      if (delta >= 1 / TPS) {
+      if (delta >= 1 / this.properties.ticksPerSecond) {
         // Set the last tick to the current time
         lastTick = process.hrtime();
 
@@ -195,13 +197,13 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         this.ticks = this.ticks.filter((tick) => tick > threshold);
         this.tps = this.ticks.length;
 
-        // Tick all the worlds
+        // // Tick all the worlds
         for (const world of this.worlds.values())
           world.onTick(Math.floor(deltaTick));
       }
 
       // Schedule the next tick
-      setImmediate(tick);
+      return queueMicrotask(tick);
     };
 
     // Start the ticking loop

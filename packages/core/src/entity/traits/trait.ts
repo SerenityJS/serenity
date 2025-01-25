@@ -4,6 +4,7 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { CommandExecutionState } from "../../commands";
 import { Container } from "../../container";
+import { JSONLikeObject } from "../../types";
 
 class EntityTrait extends Trait {
   /**
@@ -19,8 +20,9 @@ class EntityTrait extends Trait {
   /**
    * Creates a new instance of the entity trait.
    * @param entity The entity that this trait will be attached to.
+   * @param options additional options for the entity trait.
    */
-  public constructor(entity: Entity) {
+  public constructor(entity: Entity, _options?: JSONLikeObject) {
     super();
     this.entity = entity;
   }

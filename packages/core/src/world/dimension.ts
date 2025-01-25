@@ -478,10 +478,7 @@ class Dimension {
     const chunk = this.getChunk(cx, cz);
 
     // Set the permutation of the block
-    chunk.setPermutation(blockPosition, permutation, layer);
-
-    // Set the chunk to dirty
-    chunk.dirty = true;
+    chunk.setPermutation(blockPosition, permutation, layer, true);
 
     // Broadcast the packet to the dimension.
     this.broadcast(packet);

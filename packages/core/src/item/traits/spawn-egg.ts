@@ -1,8 +1,8 @@
 import { ItemUseMethod, BlockPosition } from "@serenityjs/protocol";
 
-import { Player } from "../../entity";
+import { Entity, Player } from "../../entity";
 import { EntityIdentifier, ItemIdentifier } from "../../enums";
-import { ItemUseOnBlockOptions } from "../../types";
+import { EntityEntry, ItemUseOnBlockOptions } from "../../types";
 
 import { ItemTrait } from "./trait";
 
@@ -35,8 +35,27 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       .add(options.clickPosition)
       .add({ x: 0, y: 1, z: 0 });
 
-    // Spawn the entity at the calculated position.
-    player.dimension.spawnEntity(this.entityType, position);
+    // Check if any entity data should be added to the entity.
+    const entry =
+      this.item.getComponent<EntityEntry>("entity_data") ?? undefined;
+
+    // Check if the entity data entry is defined.
+    if (entry) {
+      // Create the entity with the entity data.
+      const entity = new Entity(player.dimension, this.entityType, { entry });
+
+      // Increase the Y position by 1.
+      position.y += 1;
+
+      // Set the entity position.
+      entity.position.set(position);
+
+      // Spawn the entity in the player's dimension.
+      entity.spawn();
+    } else {
+      // Create the entity without the entity data.
+      player.dimension.spawnEntity(this.entityType, position);
+    }
   }
 }
 

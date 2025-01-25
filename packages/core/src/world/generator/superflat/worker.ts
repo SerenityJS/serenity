@@ -9,7 +9,7 @@ import { SuperflatGenerator } from "./generator";
 
 @Worker(SuperflatGenerator)
 class SuperflatWorker extends TerrainWorker {
-  public static readonly path = __filename;
+  public static path = __filename;
 
   public bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
   public dirt = BlockPermutation.resolve(BlockIdentifier.Dirt);

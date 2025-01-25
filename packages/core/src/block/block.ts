@@ -9,7 +9,9 @@ import {
 
 import { Dimension, World } from "../world";
 import {
+  BlockDestroyOptions,
   BlockEntry,
+  BlockInteractionOptions,
   BlockProperties,
   ItemStackProperties,
   JSONLikeObject,
@@ -24,8 +26,10 @@ import {
   ItemIdentifier
 } from "../enums";
 import { Serenity } from "../serenity";
-import { Player } from "../entity";
-import { PlayerInteractWithBlockSignal } from "../events";
+import {
+  PlayerBreakBlockSignal,
+  PlayerInteractWithBlockSignal
+} from "../events";
 
 import { BlockDirectionTrait, BlockTrait } from "./traits";
 import { NbtMap } from "./maps";
@@ -334,7 +338,6 @@ class Block {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
       // Clear the components and traits if the type has changed.
-
       this.traits.clear();
       this.components.clear();
     }
@@ -347,7 +350,6 @@ class Block {
 
     // Set the permutation of the block.
     this.dimension.setPermutation(this.position, permutation);
-    // this.permutation = permutation;
 
     // Check if the entry is provided.
     if (entry) this.loadDataEntry(this.world, entry);
@@ -495,11 +497,13 @@ class Block {
 
   /**
    * Adds a trait to the block.
-   * @param trait The trait to add
-   * @returns The trait that was added
+   * @param trait The trait to add to the block.
+   * @param options The additional options to pass to the trait.
+   * @returns The trait instance that was added to the block.
    */
   public addTrait<T extends typeof BlockTrait>(
-    trait: T | BlockTrait
+    trait: T | BlockTrait,
+    options?: ConstructorParameters<T>[1]
   ): InstanceType<T> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
@@ -525,7 +529,7 @@ class Block {
         return trait as InstanceType<T>;
       }
       // Create a new instance of the trait
-      const instance = new trait(this) as InstanceType<T>;
+      const instance = new trait(this, options) as InstanceType<T>;
 
       // Add the trait to the block
       this.traits.set(instance.identifier, instance);
@@ -732,33 +736,36 @@ class Block {
   }
 
   /**
-   * Forces a player to interact with the block.
-   * @param player The player to interact with the block.
-   * @param clickPosition The position where the player clicked the block.
-   * @param clickFace The face of the block the player clicked.
+   * Interact with the block, calling the onInteract method of the block traits.
    */
-  public interact(
-    player: Player,
-    clickPosition: Vector3f,
-    clickFace: BlockFace
-  ): boolean {
-    const signal = new PlayerInteractWithBlockSignal(
-      player,
-      this,
-      player.getHeldItem(),
-      null
-    );
+  public interact(options?: Partial<BlockInteractionOptions>): boolean {
+    // Set the default options for the block interaction
+    options = { cancel: false, ...options } as BlockInteractionOptions;
 
-    if (!signal.emit()) return false;
+    // Check if the block was interacted with by a player
+    if (options.origin) {
+      // Create a new PlayerInteractWithBlockSignal
+      const signal = new PlayerInteractWithBlockSignal(options.origin, this);
+
+      // Emit the signal to the server
+      options.cancel = !signal.emit();
+    }
 
     // Call the block onInteract trait methods
     for (const trait of this.traits.values()) {
       // Call the onInteract method of the trait
-      const result = trait.onInteract?.(player, clickPosition, clickFace);
+      const success = trait.onInteract?.(options as BlockInteractionOptions);
 
-      // Return false if the result is false
-      if (result === false) return false;
+      // If the result is undefined, continue
+      // As the trait does not implement the method
+      if (success === undefined) continue;
+
+      // If the result is false, cancel the break
+      options.cancel = !success;
     }
+
+    // Return false if the block interaction was canceled
+    if (options.cancel) return false;
 
     // Update the block after the interaction
     this.update(false);
@@ -768,70 +775,50 @@ class Block {
   }
 
   /**
-   * Destroys the block.
-   * @param player Whether the block was destroyed by a player.
+   * Destroys the block, dropping its loot if specified.
+   * @param options The options for destroying the block.
    * @returns Whether the block was destroyed successfully; otherwise, false.
    */
-  public destroy(player?: Player): boolean {
+  public destroy(options?: Partial<BlockDestroyOptions>): boolean {
+    // Set the default options for the block break
+    options = { cancel: false, ...options } as BlockDestroyOptions;
+
+    // Check if the block was destroyed by a player
+    if (options?.origin && options.origin.isPlayer()) {
+      // Create a new PlayerBreakBlockSignal
+      const signal = new PlayerBreakBlockSignal(this, options.origin);
+
+      // Emit the signal to the server
+      options.cancel = !signal.emit();
+
+      // Set the drop loot value to the signal value
+      options.dropLoot = signal.dropLoot;
+    }
+
     // Call the block onBreak trait methods
-    let canceled = false;
     for (const trait of this.traits.values()) {
       // Check if the start break was successful
-      const success = trait.onBreak?.(player);
+      const success = trait.onBreak?.(options as BlockDestroyOptions);
 
       // If the result is undefined, continue
       // As the trait does not implement the method
       if (success === undefined) continue;
 
       // If the result is false, cancel the break
-      canceled = !success;
+      options.cancel = !success;
     }
 
     // Return false if the block break was canceled
-    if (canceled) return false;
+    if (options.cancel) return false;
 
     // Check if the player destroyed the block.
-    if (player) {
-      // Check if the player is in survival mode.
-      // If so, the block should drop an item.
-      if (player.gamemode === Gamemode.Survival) {
-        // Get the position of the block.
-        const { x, y, z } = this.position;
-
-        // Iterate over the drops of the block.
-        for (const drop of this.type.drops) {
-          // Check if the drop is air, if so we will skip it.
-          if (drop.type === BlockIdentifier.Air) continue;
-
-          // Roll the drop amount.
-          const amount = drop.roll();
-
-          // Check if the amount is less than or equal to 0.
-          if (amount <= 0) continue;
-
-          // Create a new ItemStack.
-          const itemStack = new ItemStack(drop.type as ItemIdentifier, {
-            amount,
-            world: this.dimension.world
-          });
-
-          // Create a new ItemEntity.
-          const itemEntity = this.dimension.spawnItem(
-            itemStack,
-            new Vector3f(x + 0.5, y + 0.5, z + 0.5)
-          );
-
-          // Add random x & z velocity to the item entity.
-          const velocity = new Vector3f(
-            Math.random() * 0.1 - 0.05,
-            itemEntity.velocity.y,
-            Math.random() * 0.1 - 0.05
-          );
-
-          // Add the velocity to the item entity.
-          itemEntity.addMotion(velocity);
-        }
-      }
+    if (options?.origin) {
+      // Check if the origin is a player.
+      if (options.origin.isPlayer() && options?.dropLoot) {
+        // Check if the player is in survival mode.
+        if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
+      } // If the origin is not a player, drop the loot if specified.
+      else if (options?.dropLoot) this.spawnLoot();
 
       // Create a new LevelEventPacket to broadcast the block break.
       const packet = new LevelEventPacket();
@@ -855,6 +842,48 @@ class Block {
 
     // Return true if the block was destroyed.
     return true;
+  }
+
+  /**
+   * Spawns the loot that is associated with the block.
+   */
+  public spawnLoot(): void {
+    // Get the position of the block.
+    const { x, y, z } = this.position;
+
+    // Iterate over the drops of the block.
+    for (const drop of this.type.drops) {
+      // Check if the drop is air, if so we will skip it.
+      if (drop.type === BlockIdentifier.Air) continue;
+
+      // Roll the drop amount.
+      const amount = drop.roll();
+
+      // Check if the amount is less than or equal to 0.
+      if (amount <= 0) continue;
+
+      // Create a new ItemStack.
+      const itemStack = new ItemStack(drop.type as ItemIdentifier, {
+        amount,
+        world: this.dimension.world
+      });
+
+      // Create a new ItemEntity.
+      const itemEntity = this.dimension.spawnItem(
+        itemStack,
+        new Vector3f(x + 0.5, y + 0.5, z + 0.5)
+      );
+
+      // Add random x & z velocity to the item entity.
+      const velocity = new Vector3f(
+        Math.random() * 0.1 - 0.05,
+        itemEntity.velocity.y,
+        Math.random() * 0.1 - 0.05
+      );
+
+      // Add the velocity to the item entity.
+      itemEntity.addMotion(velocity);
+    }
   }
 
   /**

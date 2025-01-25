@@ -1,3 +1,5 @@
+import { JSONLikeObject } from "./types";
+
 class Trait {
   /**
    * The identifier of the trait.
@@ -16,8 +18,9 @@ class Trait {
 
   /**
    * Creates a new instance of the trait.
+   * @param options additional options for the trait.
    */
-  public constructor() {
+  public constructor(_options?: JSONLikeObject) {
     return this;
   }
 

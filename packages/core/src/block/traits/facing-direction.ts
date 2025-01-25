@@ -1,15 +1,17 @@
-import { Player } from "../../entity";
 import { CardinalDirection } from "../../enums";
+import { BlockPlacementOptions } from "../../types";
 
 import { BlockDirectionTrait } from "./direction";
 
 class BlockFacingDirection extends BlockDirectionTrait {
   public static readonly state = "minecraft:facing_direction";
 
-  public onPlace(player?: Player): boolean | void {
-    if (!player) return;
+  public onPlace({ origin }: BlockPlacementOptions): void {
+    // Check if the origin is a player
+    if (!origin || !origin.isPlayer()) return;
+
     // Get the player's cardinal direction
-    const direction = player.getCardinalDirection();
+    const direction = origin.getCardinalDirection();
 
     // Set the direction of the block
     switch (direction) {

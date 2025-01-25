@@ -1,10 +1,14 @@
-import { BlockFace, Vector3f } from "@serenityjs/protocol";
-
 import { Player } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 import { Trait } from "../../trait";
 import { Block } from "../block";
 import { Container } from "../../container";
+import {
+  BlockDestroyOptions,
+  BlockInteractionOptions,
+  BlockPlacementOptions,
+  JSONLikeObject
+} from "../../types";
 
 class BlockTrait extends Trait {
   /**
@@ -31,8 +35,9 @@ class BlockTrait extends Trait {
   /**
    * Creates a new instance of the block trait.
    * @param block The block that this trait will be attached to.
+   * @param options additional options for the block trait.
    */
-  public constructor(block: Block) {
+  public constructor(block: Block, _options?: JSONLikeObject) {
     super();
     this.block = block;
   }
@@ -45,18 +50,17 @@ class BlockTrait extends Trait {
 
   /**
    * Called when the block is placed in the world.
-   * @param player The player that placed the block.
-   * @param clickPosition The position where the affected block was clicked.
+   * @param options The options of the block placement.
    * @returns Whether the block placement was successful; default is true.
    */
-  public onPlace?(player?: Player, clickPosition?: Vector3f): boolean | void;
+  public onPlace?(options: BlockPlacementOptions): boolean | void;
 
   /**
    * Called when the block is broken in the world.
    * @param player Whether the player broke the block; most cases it will be defined.
    * @returns Whether the block break was successful; default is true.
    */
-  public onBreak?(player?: Player): boolean | void;
+  public onBreak?(options: BlockDestroyOptions): boolean | void;
 
   /**
    * Called when the block is started to be broken in the world.
@@ -72,16 +76,10 @@ class BlockTrait extends Trait {
 
   /**
    * Called when the block is interacted with by a player.
-   * @param player The player that interacted with the block.
-   * @param clickPosition The position where the block was clicked.
-   * @param clickFace The face of the block that was clicked.
+   * @param options The options of the block interaction.
    * @returns Whether the interaction was successful; default is true.
    */
-  public onInteract?(
-    player: Player,
-    clickPosition: Vector3f,
-    clickFace: BlockFace
-  ): boolean | void;
+  public onInteract?(options: BlockInteractionOptions): boolean | void;
 
   /**
    * Called when a player pick blocks the block.

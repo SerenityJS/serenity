@@ -159,16 +159,6 @@ class Pipeline {
           // Get the plugin class from the module
           const plugin = module.default as Plugin;
 
-          // Check if the plugin is an instance of the Plugin class
-          if (!(plugin instanceof Plugin)) {
-            this.logger.warn(
-              `Unable to load plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
-            );
-
-            // Skip the plugin
-            continue;
-          }
-
           // Check if the plugin has already been loaded
           if (this.plugins.has(plugin.identifier)) {
             this.logger.warn(

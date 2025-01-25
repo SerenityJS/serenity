@@ -24,7 +24,7 @@ import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
 import { PlayerDropItemSignal, PlayerPlaceBlockSignal } from "../events";
-import { BlockEntry } from "../types";
+import { BlockEntry, BlockPlacementOptions } from "../types";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -191,11 +191,11 @@ class InventoryTransactionHandler extends NetworkHandler {
         }
 
         // Interact with the block
-        const interact = interacting.interact(
-          player,
-          transaction.clickPosition,
-          transaction.face
-        );
+        const interact = interacting.interact({
+          origin: player,
+          clickedPosition: transaction.clickPosition,
+          clickedFace: transaction.face
+        });
 
         // Check if the interaction failed, or if the interaction opened a container
         if (!interact || player.openedContainer) return; // If so, we skip the block placement
@@ -255,6 +255,15 @@ class InventoryTransactionHandler extends NetworkHandler {
             blockType.permutations[stack.auxillary] ??
             blockType.getPermutation();
 
+          // Create a new BlockPlacementOptions object
+          const options: BlockPlacementOptions = {
+            cancel: false,
+            permutation,
+            origin: player,
+            clickedPosition: transaction.clickPosition,
+            clickedFace: transaction.face
+          };
+
           // Create a new PlayerPlaceBlockSignal
           const signal = new PlayerPlaceBlockSignal(
             resultant,
@@ -262,7 +271,10 @@ class InventoryTransactionHandler extends NetworkHandler {
             permutation,
             transaction.face,
             transaction.clickPosition
-          ).emit();
+          );
+
+          // Emit the signal
+          options.cancel = !signal.emit();
 
           // Check if the item stack has a block_data component
           if (stack.components.has("block_data")) {
@@ -279,6 +291,19 @@ class InventoryTransactionHandler extends NetworkHandler {
             resultant.setPermutation(permutation);
           }
 
+          // Call the block onPlace trait methods
+          for (const trait of resultant.traits.values()) {
+            // Check if the start break was successful
+            const success = trait.onPlace?.(options);
+
+            // If the result is undefined, continue
+            // As the trait does not implement the method
+            if (success === undefined) continue;
+
+            // If the result is false, cancel the break
+            options.cancel = !success;
+          }
+
           // Create a new LevelSoundEventPacket to play the block place sound
           const sound = new LevelSoundEventPacket();
           sound.event = LevelSoundEvent.Place;
@@ -288,25 +313,8 @@ class InventoryTransactionHandler extends NetworkHandler {
           sound.isBabyMob = false;
           sound.isGlobal = false;
 
-          // Call the block onPlace trait methods
-          let placeCanceled = false;
-          for (const trait of resultant.traits.values()) {
-            // Get the click position from the transaction
-            const clickPosition = transaction.clickPosition;
-
-            // Check if the start break was successful
-            const success = trait.onPlace?.(player, clickPosition);
-
-            // If the result is undefined, continue
-            // As the trait does not implement the method
-            if (success === undefined) continue;
-
-            // If the result is false, cancel the break
-            placeCanceled = !success;
-          }
-
           // Check if the block placement was canceled, revert the block
-          if (placeCanceled || !signal)
+          if (options.cancel)
             return resultant.setPermutation(previousPermutation);
           else return resultant.dimension.broadcast(sound); // If not, broadcast the sound
         }

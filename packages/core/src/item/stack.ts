@@ -455,11 +455,13 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
   /**
    * Adds a trait to the itemstack.
-   * @param trait The trait to add
-   * @returns The trait that was added
+   * @param trait The trait to add to the itemstack.
+   * @param options The additional options to pass to the trait.
+   * @returns The trait instance that was added to the itemstack.
    */
   public addTrait<K extends typeof ItemTrait<T>>(
-    trait: K | ItemTrait<T>
+    trait: K | ItemTrait<T>,
+    options?: ConstructorParameters<K>[1]
   ): InstanceType<K> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
@@ -485,7 +487,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
         return trait as InstanceType<K>;
       } else {
         // Create a new instance of the trait
-        const instance = new trait(this);
+        const instance = new trait(this, options);
 
         // Add the trait to the itemstack
         this.traits.set(instance.identifier, instance);

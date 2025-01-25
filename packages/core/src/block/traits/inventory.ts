@@ -10,12 +10,15 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { Player } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 import { BlockContainer } from "../index";
 import { Block } from "../block";
 import { Container } from "../../container";
-import { ItemStackEntry, ItemStorage } from "../../types";
+import {
+  BlockInteractionOptions,
+  ItemStackEntry,
+  ItemStorage
+} from "../../types";
 
 import { BlockTrait } from "./trait";
 
@@ -56,13 +59,16 @@ class BlockInventoryTrait extends BlockTrait {
     );
   }
 
-  public onInteract(player: Player): void {
+  public onInteract({ cancel, origin }: BlockInteractionOptions): void {
+    // Check if the block interaction has been cancelled
+    if (cancel || !origin) return;
+
     // Check if the player is sneaking
-    if (player.isSneaking || !player.abilities.get(AbilityIndex.OpenContainers))
+    if (origin.isSneaking || !origin.abilities.get(AbilityIndex.OpenContainers))
       return;
 
     // Show the container to the player
-    this.container.show(player);
+    this.container.show(origin);
   }
 
   public onBreak(): void {

@@ -39,7 +39,7 @@ class EntityAttributeTrait extends EntityTrait {
     const attribute = this.getAttribute();
 
     // Set the minimum value of the attribute
-    attribute.min = value;
+    attribute.min = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
     this.entity.attributes.add(attribute);
@@ -64,7 +64,7 @@ class EntityAttributeTrait extends EntityTrait {
     const attribute = this.getAttribute();
 
     // Set the maximum value of the attribute
-    attribute.max = value;
+    attribute.max = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
     this.entity.attributes.add(attribute);
@@ -89,7 +89,7 @@ class EntityAttributeTrait extends EntityTrait {
     const attribute = this.getAttribute();
 
     // Set the default value of the attribute
-    attribute.default = value;
+    attribute.default = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
     this.entity.attributes.add(attribute);
@@ -114,7 +114,7 @@ class EntityAttributeTrait extends EntityTrait {
     const attribute = this.getAttribute();
 
     // Set the current value of the attribute
-    attribute.current = value;
+    attribute.current = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
     this.entity.attributes.add(attribute);
@@ -144,8 +144,8 @@ class EntityAttributeTrait extends EntityTrait {
         properties?.minimumValue ?? 0,
         properties?.maximumValue ?? 0,
         properties?.currentValue ?? 0,
-        -Infinity,
-        Infinity,
+        properties?.minimumValue ?? 0,
+        properties?.maximumValue ?? 0,
         properties?.defaultValue ?? 0,
         this.attribute,
         []

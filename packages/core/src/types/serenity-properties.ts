@@ -10,6 +10,7 @@ interface SerenityProperties {
   resourcePacks: string | ResourcePacksProperties;
   movementValidation: boolean;
   movementRewindThreshold: number;
+  ticksPerSecond: number;
   debugLogging: boolean;
 }
 

@@ -9,3 +9,5 @@ export * from "./item";
 export * from "./tag";
 export * from "./world";
 export * from "./time-operation";
+export * from "./trait-action";
+export * from "./entity-trait";

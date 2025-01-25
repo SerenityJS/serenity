@@ -103,7 +103,7 @@ class EntityCollisionTrait extends EntityTrait {
     const entities = this.entity.dimension.getEntities({
       position: this.entity.position,
       minDistance: 0,
-      maxDistance: 1
+      maxDistance: this.entity.hitboxWidth * 2
     });
 
     // Check if there are no entities around the entity
@@ -119,20 +119,12 @@ class EntityCollisionTrait extends EntityTrait {
 
       // Check if the entity is colliding with another entity
       if (this.isCollidingWith(entity)) {
-        // Push the target entity into direction the entity is facing;
+        // Push the target entity into direction the entity is moving
+        // Get the x and z velocity of the entity
+        const { x, z } = this.entity.velocity;
 
-        const { headYaw, pitch } = this.entity.rotation;
-
-        // Normalize the pitch & headYaw, so the entity will be spawned in the correct direction
-        const headYawRad = (headYaw * Math.PI) / 180;
-        const pitchRad = (pitch * Math.PI) / 180;
-
-        // Reduce the strength of the velocity
-        const x = (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 5;
-        const z = (Math.cos(headYawRad) * Math.cos(pitchRad)) / 5;
-
-        // Create a new motion vector
-        const motion = new Vector3f(x, 0, z);
+        // Move the entity in the opposite direction
+        const motion = new Vector3f(x, 0, z).multiply(5);
 
         // Set the entity to be moving
         entity.isMoving = true;

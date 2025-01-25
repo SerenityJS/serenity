@@ -9,8 +9,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { ItemStack } from "./item";
-
-import type { Player } from "./entity";
+import { EntityContainer, type Player } from "./entity";
 
 /**
  * Represents a container.
@@ -79,6 +78,14 @@ class Container {
     this.identifier = identifier;
     this.size = size;
     this.storage = Array.from({ length: size }, () => null);
+  }
+
+  /**
+   * Checks if the container is an entity container.
+   * @returns Whether the container is an entity container.
+   */
+  public isEntityContainer(): this is EntityContainer {
+    return this instanceof EntityContainer;
   }
 
   /**
@@ -293,7 +300,19 @@ class Container {
     packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
     // Send the packet to the occupants.
-    for (const player of this.occupants) player.send(packet);
+    for (const player of this.occupants) {
+      // Check if the container is a player inventory, and if its not owned by the player.
+      if (
+        this.isEntityContainer() &&
+        this.identifier === ContainerId.Inventory &&
+        !this.isOwnedBy(player)
+      )
+        // If so, set the container id to none.
+        packet.containerId = ContainerId.None;
+
+      // Send the packet to the player.
+      player.send(packet);
+    }
   }
 
   /**
@@ -328,11 +347,31 @@ class Container {
 
     // Check if the player is provided.
     if (player) {
+      // Check if the container is a player inventory, and if its not owned by the player.
+      if (
+        this.isEntityContainer() &&
+        this.identifier === ContainerId.Inventory &&
+        !this.isOwnedBy(player)
+      )
+        // If so, set the container id to none.
+        packet.containerId = ContainerId.None;
+
       // Send the packet to the player.
       player.send(packet);
     } else {
       // Send the packet to the occupants.
-      for (const player of this.occupants) player.send(packet);
+      for (const player of this.occupants) {
+        // Check if the container is a player inventory, and if its not owned by the player.
+        if (
+          this.isEntityContainer() &&
+          this.identifier === ContainerId.Inventory &&
+          !this.isOwnedBy(player)
+        )
+          // If so, set the container id to none.
+          packet.containerId = ContainerId.None;
+
+        player.send(packet);
+      }
     }
   }
 
@@ -375,6 +414,15 @@ class Container {
     packet.identifier = this.identifier;
     packet.type = ContainerType.None;
     packet.serverInitiated = false;
+
+    // Check if the container is a player inventory, and if its not owned by the player.
+    if (
+      this.isEntityContainer() &&
+      this.identifier === ContainerId.Inventory &&
+      !this.isOwnedBy(player)
+    )
+      // If so, set the container id to none.
+      packet.identifier = ContainerId.None;
 
     // Send the packet to the player.
     player.send(packet);
