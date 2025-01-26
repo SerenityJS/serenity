@@ -714,7 +714,7 @@ class LevelDBProvider extends WorldProvider {
 
         // Log the success message.
         world.logger.success(
-          `Successfully pregenerated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
+          `Successfully pre-generated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
         );
       }
 
@@ -802,7 +802,7 @@ class LevelDBProvider extends WorldProvider {
 
       // Log the success message.
       world.logger.success(
-        `Successfully pregenerated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
+        `Successfully pre-generated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
       );
     }
 
