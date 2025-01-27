@@ -226,18 +226,19 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
 
-        // // Get all the custom item properties
+        // Get all the custom item properties
         const items = new ItemRegistryPacket();
         items.definitions = world.itemPalette.getAllTypes().map((item) => {
           const identifier = item.identifier;
           const networkId = item.network;
-          const itemVersion = -1;
+          const componentBased = item.isComponentBased;
+          const itemVersion = item.version;
           const properties = item.properties;
 
           return new ItemData(
             identifier,
             networkId,
-            true,
+            componentBased,
             itemVersion,
             properties
           );

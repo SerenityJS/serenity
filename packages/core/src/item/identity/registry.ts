@@ -1,82 +1,75 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-import {
-  CREATIVE_CONTENT,
-  ITEM_TYPES,
-  ITEM_DATA,
-  TOOL_TYPES
-} from "@serenityjs/data";
-import { ItemData } from "@serenityjs/protocol";
+import { ITEM_TYPES, ITEM_METADATA, TOOL_TYPES } from "@serenityjs/data";
 
 import { ItemToolTier, type ItemIdentifier } from "../../enums";
 import { BlockType } from "../../block";
 
 import { ItemType } from "./type";
-import { CreativeItem } from "./creative";
+import { ItemTypeVanillaProperties } from "./properties";
 
-import type { CompoundTag } from "@serenityjs/nbt";
+// Iterate over the item types.
+for (const type of ITEM_TYPES) {
+  // Get the metadata for the item type.
+  const metadata = ITEM_METADATA.find(
+    (metadata) => metadata.identifier === type.identifier
+  );
 
-// Create a new stream from the item data.
-const dataStream = new BinaryStream(ITEM_DATA);
+  // Check if the metadata exists.
+  if (!metadata) continue; // If not, then continue to the next item type.
 
-// // Read the item data from the stream.
-// const data = ItemData.read(dataStream);
-
-// // Iterate over the item data.
-// for (const item of data) {
-//   // Get the metadata for the item.
-//   const meta = ITEM_TYPES.find((type) => type.identifier === item.name);
-
-//   // Get the tool type for the item.
-//   const tool = TOOL_TYPES.find((tool) => tool.types.includes(item.name));
-//   const index = tool?.types.indexOf(item.name);
-//   const level = index === undefined ? ItemToolTier.None : index + 1;
-//   const blockType = BlockType.types.get(item.name) ?? null;
-
-//   // Create the item type.
-//   const type = new ItemType(item.name as ItemIdentifier, item.networkId, {
-//     stackable: meta?.stackable,
-//     maxAmount: meta?.maxAmount,
-//     tool: tool?.network,
-//     tier: level,
-//     tags: meta?.tags ?? [],
-//     block: blockType
-//   });
-
-//   // Add the item type to the map.
-//   ItemType.types.set(type.identifier, type);
-// }
-
-// Sort the item types by longest identifier to shortest.
-const sorted = [...ITEM_TYPES].sort(
-  (a, b) => b.identifier.length - a.identifier.length
-);
-
-for (const [index, type] of sorted.entries()) {
-  // Get the tool type for the item.
+  // Get the tool type for the item type.
   const tool = TOOL_TYPES.find((tool) => tool.types.includes(type.identifier));
-  const i = tool?.types.indexOf(type.identifier);
-  const level = i === undefined ? ItemToolTier.None : i + 1;
+  const index = tool?.types.indexOf(type.identifier);
+  const level = index === undefined ? ItemToolTier.None : index + 1;
+
+  // Get the block type for the item type.
   const blockType = BlockType.types.get(type.identifier) ?? null;
 
+  const properties = ItemTypeVanillaProperties.fromBase64(metadata.properties);
+
   // Create the item type.
-  const item = new ItemType(type.identifier as ItemIdentifier, index, {
-    stackable: type.stackable,
-    maxAmount: type.maxAmount,
-    tool: tool?.network,
-    tier: level,
-    tags: type.tags ?? [],
-    block: blockType
-  });
+  const instance = new ItemType(
+    type.identifier as ItemIdentifier,
+    metadata.networkId,
+    {
+      version: metadata.itemVersion,
+      isComponentBased: metadata.isComponentBased,
+      stackable: type.stackable,
+      maxAmount: type.maxAmount,
+      tool: tool?.network,
+      tier: level,
+      tags: type.tags ?? [],
+      block: blockType,
+      properties
+    }
+  );
 
   // Add the item type to the map.
-  ItemType.types.set(item.identifier, item);
+  ItemType.types.set(instance.identifier, instance);
 }
 
-// Create a new stream from the creative content.
+// // Iterate over the creative groups.
+// for (const group of CREATIVE_GROUPS) {
+//   // Get the category and name of the group.
+//   const { category, name } = group;
+
+//   // Get the icon item type from the map.
+//   const icon = ItemType.get(group.icon as ItemIdentifier);
+//   if (!icon) continue; // If not, then continue to the next group.
+
+//   // Create a new creative group.
+//   const instance = new CreateContentGroup({ identifier: name, category, icon });
+
+//   // Register the creative group.
+//   CreateContentGroup.groups.set(instance.index, instance);
+// }
+
+// console.log(CreateContentGroup);
+
+// // Create a new stream from the creative content.
 // const creativeStream = new BinaryStream(CREATIVE_CONTENT);
 
 // // Read the creative content from the stream.
-// // const creative = CreativeItems.read(creativeStream);
+// const creative = CreativeItem.read(creativeStream);
 
 // // Iterate over the creative content.
 // for (const [index, item] of creative.entries()) {

@@ -1,7 +1,6 @@
 import { ItemIdentifier } from "../../enums";
 import { ItemTypeProperties } from "../../types";
 
-import { CreativeItem } from "./creative";
 import { ItemType } from "./type";
 
 class CustomItemType extends ItemType {
@@ -26,9 +25,6 @@ class CustomItemType extends ItemType {
 
     // Create a name tag.
     this.nbt.createStringTag({ name: "name", value: this.identifier });
-
-    // Register the custom item type to the creative inventory.
-    CreativeItem.register(this, 0);
   }
 }
 

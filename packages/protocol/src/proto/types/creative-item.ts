@@ -6,9 +6,9 @@ import type { BinaryStream } from "@serenityjs/binarystream";
 
 class CreativeItem extends DataType {
   /**
-   * The network identifier of the creative item.
+   * The index of the item in the creative menu.
    */
-  public networkId: number;
+  public itemIndex: number;
 
   /**
    * The item instance of the creative item.
@@ -22,19 +22,19 @@ class CreativeItem extends DataType {
 
   /**
    * Creates a new creative item.
-   * @param networkId The network identifier of the creative item.
+   * @param itemIndex The index of the item in the creative menu.
    * @param itemInstance The item instance of the creative item.
    * @param groupIndex The group index of the creative item.
    */
   public constructor(
-    networkId: number,
+    itemIndex: number,
     itemInstance: NetworkItemInstanceDescriptor,
     groupIndex: number
   ) {
     super();
 
     // Assign the properties of the creative item.
-    this.networkId = networkId;
+    this.itemIndex = itemIndex;
     this.itemInstance = itemInstance;
     this.groupIndex = groupIndex;
   }
@@ -49,8 +49,8 @@ class CreativeItem extends DataType {
     // We then loop through the amount of items.
     // Reading the individual fields in the stream.
     for (let index = 0; index < amount; index++) {
-      // Read the network identifier of the item.
-      const networkId = stream.readVarInt();
+      // Read the item index of the item.
+      const itemIndex = stream.readVarInt();
 
       // Read the item instance of the item.
       const itemInstance = NetworkItemInstanceDescriptor.read(stream);
@@ -59,7 +59,7 @@ class CreativeItem extends DataType {
       const groupIndex = stream.readVarInt();
 
       // Push the item to the array.
-      items.push(new this(networkId, itemInstance, groupIndex));
+      items.push(new this(itemIndex, itemInstance, groupIndex));
     }
 
     // Return the items.
@@ -72,8 +72,8 @@ class CreativeItem extends DataType {
 
     // Loop through the length of the items.
     for (const element of value) {
-      // Write the network identifier of the item.
-      stream.writeVarInt(element.networkId);
+      // Write the item index of the item.
+      stream.writeVarInt(element.itemIndex);
 
       // Write the item instance of the item.
       NetworkItemInstanceDescriptor.write(stream, element.itemInstance);

@@ -9,12 +9,15 @@ import { ItemTypeVanillaProperties } from "./properties";
 import type { NetworkItemInstanceDescriptor } from "@serenityjs/protocol";
 
 const DefaultItemTypeProperties: ItemTypeProperties = {
+  version: 1,
+  isComponentBased: true,
   stackable: true,
   maxAmount: 64,
   tool: ItemToolType.None,
   tier: ItemToolTier.None,
   tags: [],
-  block: null
+  block: null,
+  properties: new ItemTypeVanillaProperties()
 };
 
 class ItemType<T extends keyof Items = keyof Items> {
@@ -34,14 +37,24 @@ class ItemType<T extends keyof Items = keyof Items> {
   public readonly network: number;
 
   /**
+   * The version of the item type.
+   */
+  public readonly version: number = 1;
+
+  /**
+   * Whether the item type is component-based.
+   */
+  public readonly isComponentBased: boolean = false;
+
+  /**
    * Whether the item type is stackable.
    */
-  public readonly stackable: boolean;
+  public readonly stackable: boolean = true;
 
   /**
    * The maximum stack size of the item type.
    */
-  public readonly maxAmount: number;
+  public readonly maxAmount: number = 64;
 
   /**
    * The tool type of the item type.
@@ -60,7 +73,7 @@ class ItemType<T extends keyof Items = keyof Items> {
 
   public readonly nbt = new CompoundTag<unknown>();
 
-  public readonly properties = new ItemTypeVanillaProperties();
+  public readonly properties: ItemTypeVanillaProperties;
 
   /**
    * The block of the item type, if applicable.
@@ -78,17 +91,23 @@ class ItemType<T extends keyof Items = keyof Items> {
     network: number,
     properties?: Partial<ItemTypeProperties>
   ) {
+    // Assign the identifier and network of the item type.
     this.identifier = identifier;
     this.network = network;
 
-    const props = { ...DefaultItemTypeProperties, ...properties };
+    // Assign the default properties of the item type.
+    properties = { ...DefaultItemTypeProperties, ...properties };
 
-    this.stackable = props.stackable;
-    this.maxAmount = props.maxAmount;
-    this.tool = props.tool;
-    this.tier = props.tier;
-    this.tags = props.tags;
-    this.block = props.block as Items[T];
+    // Assign the properties of the item type.
+    this.version = properties.version ?? 1;
+    this.isComponentBased = properties.isComponentBased ?? true;
+    this.stackable = properties.stackable ?? true;
+    this.maxAmount = properties.maxAmount ?? 64;
+    this.tool = properties.tool as ItemToolType;
+    this.tier = properties.tier as ItemToolTier;
+    this.tags = properties.tags ?? [];
+    this.block = properties.block as Items[T];
+    this.properties = properties.properties as ItemTypeVanillaProperties;
   }
 
   /**
@@ -134,9 +153,17 @@ class ItemType<T extends keyof Items = keyof Items> {
     );
   }
 
+  /**
+   * Convert the item type to a network instance.
+   * @param type The item type to convert.
+   * @param stackSize The stack size of the item type, default 1.
+   * @param nbt The NBT of the item type, default null.
+   * @returns
+   */
   public static toNetworkInstance(
     type: ItemType,
-    stackSize: number = 1
+    stackSize: number = 1,
+    nbt: CompoundTag<unknown> | null = null
   ): NetworkItemInstanceDescriptor {
     return {
       network: type.network,
@@ -146,7 +173,7 @@ class ItemType<T extends keyof Items = keyof Items> {
       extras: {
         canDestroy: [],
         canPlaceOn: [],
-        nbt: null
+        nbt
       }
     };
   }
