@@ -4,7 +4,8 @@ import {
   ItemTypeBlockPlacerComponent,
   ItemTypeCanDestroyInCreativeComponent,
   ItemTypeDisplayNameComponent,
-  ItemTypeMaxStackComponent
+  ItemTypeMaxStackComponent,
+  ItemTypeWearableComponent
 } from "./components";
 import { ItemType } from "./type";
 import { ItemTypeComponent } from "./components/component";
@@ -193,6 +194,18 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
 
     // Set the can destroy in creative value.
     component.value = value;
+  }
+
+  /**
+   * The wearable component of the item type.
+   */
+  public get wearable(): ItemTypeWearableComponent {
+    // Check if the item type has the wearable component.
+    if (!this.has(ItemTypeWearableComponent))
+      return this.add(ItemTypeWearableComponent, undefined);
+
+    // Get the wearable component.
+    return this.get(ItemTypeWearableComponent);
   }
 }
 
