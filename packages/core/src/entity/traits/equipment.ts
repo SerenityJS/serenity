@@ -116,7 +116,7 @@ class EntityEquipmentTrait extends EntityTrait {
       // Create a new item stack
       const itemStack = new ItemStack(entry.identifier, {
         amount: entry.amount,
-        auxillary: entry.auxillary,
+        metadata: entry.metadata,
         world: this.entity.world,
         entry
       });

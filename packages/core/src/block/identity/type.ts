@@ -1,29 +1,17 @@
 import { CompoundTag } from "@serenityjs/nbt";
 import { NetworkBlockTypeDefinition } from "@serenityjs/protocol";
 
-import { CustomBlockType } from "../..";
 import { BlockIdentifier } from "../../enums";
 import {
   BlockState,
-  BlockTypeProperties,
-  CustomBlockTypeVanillaNbt
+  BlockTypeDefinition,
+  BlockTypeProperties
 } from "../../types";
 
 import { ItemDrop } from "./drops";
-import { BlockPropertyCollection } from "./property-collection";
+import { BlockTypeComponentCollection } from "./collection";
 
 import type { BlockPermutation } from "./permutation";
-
-const DefaultBlockTypeProperties: BlockTypeProperties = {
-  loggable: false,
-  air: false,
-  liquid: false,
-  solid: false,
-  components: [],
-  tags: [],
-  drops: [],
-  permutations: []
-};
 
 /**
  * BlockType represents a block type in the game, which hold all possible permutations the block can have.
@@ -49,12 +37,6 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * The identifier of the block type.
    */
   public readonly identifier: T;
-
-  /**
-   * Whether the block type is custom.
-   */
-  public readonly custom: boolean;
-
   /**
    * Whether the block type is loggable.
    */
@@ -76,11 +58,6 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   public readonly solid: boolean;
 
   /**
-   * The default components of the block type.
-   */
-  public readonly components: Array<string> = [];
-
-  /**
    * The default tags of the block type.
    */
   public readonly tags: Array<string> = [];
@@ -96,16 +73,56 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   public readonly permutations: Array<BlockPermutation> = [];
 
   /**
-   * The vanilla properties of the block permutation. (hardness, friction, lighting, etc.)
-   * This properties are active on the client end when the query condition is met.
-   * These properties will be used gobally for all permutations, unless a permutation has a different value.
+   * The nbt properties definition of the block type.
+   * This contains the vanilla component definitions.
    */
-  public readonly properties = new BlockPropertyCollection(this);
+  public readonly properties: BlockTypeDefinition;
 
   /**
-   * The NBT data of the custom block type.
+   * The vanilla components of the block permutation. (hardness, friction, lighting, etc.)
+   * These components are active on the client-end when the query condition is met.
+   * These components will be used gobally for all permutations, unless a permutation has a definition that overrides it.
    */
-  public readonly nbt = new CompoundTag<Partial<CustomBlockTypeVanillaNbt>>();
+  public get components(): BlockTypeComponentCollection {
+    // Check if the block type contains the components tag.
+    if (this.properties.hasTag("components")) {
+      // Get the components tag from the block type.
+      const components =
+        this.properties.getTag<CompoundTag<unknown>>("components");
+
+      // Check if the components is instance of the component collection.
+      if (components instanceof BlockTypeComponentCollection) return components;
+
+      // Create the new component collection.
+      const collection = new BlockTypeComponentCollection(this);
+
+      // Assign the components to the collection.
+      collection.value = components.value;
+
+      // Set the components tag to the block type.
+      this.properties.setTag("components", collection);
+
+      // Return the component collection.
+      return collection;
+    }
+
+    // Create the components tag.
+    const collection = new BlockTypeComponentCollection(this);
+
+    // Add the components tag to the block type.
+    this.properties.addTag(collection);
+
+    // Return the components tag.
+    return collection;
+  }
+
+  /**
+   * Whether the block type is component based.
+   * This is determined by the presence of any components in the block type.
+   */
+  public get isComponentBased(): boolean {
+    return this.components.getTags().length > 0;
+  }
 
   /**
    * Create a new block type.
@@ -113,21 +130,16 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * @param properties The properties of the block type.
    */
   public constructor(identifier: T, properties?: Partial<BlockTypeProperties>) {
+    // Assign the identifier of the block type.
     this.identifier = identifier;
-    this.custom = false;
-
-    // Spread the properties with the default properties.
-    const props = { ...DefaultBlockTypeProperties, ...properties };
 
     // Assign the properties to the block type.
-    this.loggable = props.loggable;
-    this.air = props.air;
-    this.liquid = props.liquid;
-    this.solid = props.solid;
-    this.components = [...props.components, ...this.components];
-    this.tags = [...props.tags, ...this.tags];
-    this.drops = [...props.drops, ...this.drops];
-    this.permutations = [...props.permutations, ...this.permutations];
+    this.loggable = properties?.loggable ?? false;
+    this.air = properties?.air ?? false;
+    this.liquid = properties?.liquid ?? false;
+    this.solid = properties?.solid ?? false;
+    this.tags = properties?.tags ?? [];
+    this.properties = properties?.properties ?? new CompoundTag();
   }
 
   /**
@@ -147,16 +159,12 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     return this.permutations[0] as BlockPermutation<T>;
   }
 
-  public isCustom(): this is CustomBlockType {
-    return this.custom;
-  }
-
   /**
    * Gets the network definition of the block type, which is used to send the block type to the client.
    * @returns The network block type definition.
    */
   public getNetworkDefinition(): NetworkBlockTypeDefinition {
-    return new NetworkBlockTypeDefinition(this.identifier, this.nbt);
+    return new NetworkBlockTypeDefinition(this.identifier, this.properties);
   }
 
   /**

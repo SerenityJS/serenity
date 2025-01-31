@@ -98,9 +98,9 @@ interface ItemStackEntry extends JSONLikeObject {
   amount: number;
 
   /**
-   * The auxillary data of the item stack.
+   * The metadata value of the item stack.
    */
-  auxillary: number;
+  metadata: number;
 
   /**
    * The traits attached to the item stack.
@@ -108,14 +108,14 @@ interface ItemStackEntry extends JSONLikeObject {
   traits: Array<string>;
 
   /**
-   * The components attached to the item stack.
+   * The dynamic properties attached to the item stack.
    */
-  components: Array<[string, JSONLikeValue]>;
+  dynamicProperties: Array<[string, JSONLikeValue]>;
 
   /**
    * The nbt data serialized as a base64 string.
    */
-  nbt: string;
+  nbtProperties: string;
 }
 
 interface BlockEntry extends JSONLikeObject {
@@ -140,9 +140,9 @@ interface BlockEntry extends JSONLikeObject {
   traits: Array<string>;
 
   /**
-   * The components attached to the block.
+   * The dynamic properties attached to the block.
    */
-  components: Array<[string, JSONLikeValue]>;
+  dynamicProperties: Array<[string, JSONLikeValue]>;
 }
 
 export {

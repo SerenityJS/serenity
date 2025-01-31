@@ -24,15 +24,14 @@ import {
   PlayerUseItemOnEntitySignal,
   PlayerUseItemSignal
 } from "../events";
+import {
+  DefaultItemStackEntry,
+  DefaultItemStackProperties
+} from "../constants";
 
 import { ItemType } from "./identity";
 import { ItemTrait } from "./traits";
 import { ItemStackNbtMap } from "./maps";
-
-const DefaultItemStackProperties: ItemStackProperties = {
-  amount: 1,
-  auxillary: 0
-};
 
 class ItemStack<T extends keyof Items = keyof Items> {
   /**
@@ -46,9 +45,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
   public readonly identifier: T;
 
   /**
-   * The components of the item stack.
+   * The dynamic properties of the item stack.
    */
-  public readonly components = new Map<string, JSONLikeValue>();
+  public readonly dynamicProperties = new Map<string, JSONLikeValue>();
 
   /**
    * The traits of the item stack.
@@ -61,14 +60,18 @@ class ItemStack<T extends keyof Items = keyof Items> {
   public readonly nbt = new ItemStackNbtMap(this);
 
   /**
-   * If the item stack is stackable.
-   */
-  public readonly stackable: boolean;
-
-  /**
    * The maximum stack size of the item stack.
    */
-  public readonly maxAmount: number;
+  public get maxAmount(): number {
+    return this.type.maxAmount;
+  }
+
+  /**
+   * If the item stack is stackable.
+   */
+  public get isStackable(): boolean {
+    return this.maxAmount > 1;
+  }
 
   /**
    * The world the item stack is in.
@@ -87,9 +90,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
   public amount: number;
 
   /**
-   * The auxillary data of the item stack.
+   * The metadata value of the item stack.
    */
-  public auxillary: number;
+  public metadata: number;
 
   /**
    * The slot of the item stack in the container.
@@ -127,11 +130,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
     // Assign the properties to the item stack
     this.amount = props.amount;
-    this.auxillary = props.auxillary;
-
-    // Assign the stackable and max amount properties
-    this.stackable = this.type.stackable;
-    this.maxAmount = this.type.maxAmount;
+    this.metadata = props.metadata;
 
     // Check if a world was provided
     if (props.world) {
@@ -148,7 +147,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
     }
     this.nbt.add(new StringTag({ name: "Name", value: this.identifier }));
     this.nbt.add(new ByteTag({ name: "Count", value: this.amount }));
-    this.nbt.add(new ByteTag({ name: "Damage", value: this.auxillary }));
+    this.nbt.add(new ByteTag({ name: "Damage", value: this.metadata }));
   }
 
   /**
@@ -166,6 +165,18 @@ class ItemStack<T extends keyof Items = keyof Items> {
       // Get the traits for the tag
       const traits = [...this.world.itemPalette.traits].filter(
         ([, trait]) => trait.tag === tag
+      );
+
+      // Register the traits to the itemstack
+      for (const [, trait] of traits)
+        if (!this.hasTrait(trait)) this.addTrait(trait);
+    }
+
+    // Iterate over the dynamic properties of the item type
+    for (const key of this.type.components.entries.keys()) {
+      // Get the traits for the component
+      const traits = [...this.world.itemPalette.traits].filter(
+        ([, trait]) => trait.component === key
       );
 
       // Register the traits to the itemstack
@@ -511,63 +522,75 @@ class ItemStack<T extends keyof Items = keyof Items> {
   }
 
   /**
-   * Checks if the itemstack has the specified component.
-   * @param key The key of the component.
-   * @returns Whether the itemstack has the component
+   * Checks if the itemstack has the specified dynamic property.
+   * @param key The key of the dynamic property.
+   * @returns Whether the itemstack has the dynamic property.
    */
-  public hasComponent(key: string): boolean {
-    return this.components.has(key);
+  public hasDynamicProperty(key: string): boolean {
+    return this.dynamicProperties.has(key);
   }
 
   /**
-   * Gets the specified component from the itemstack.
-   * @param key The key of the component.
-   * @returns The component if it exists, otherwise null
+   * Gets the specified dynamic property from the itemstack.
+   * @param key The key of the dynamic property.
+   * @returns The dynamic property if it exists, otherwise null
    */
-  public getComponent<T extends JSONLikeValue>(key: string): T | null {
-    return this.components.get(key) as T | null;
+  public getDynamicProperty<T extends JSONLikeValue>(key: string): T | null {
+    return this.dynamicProperties.get(key) as T | null;
   }
 
   /**
-   * Removes the specified component from the itemstack.
-   * @param key The key of the component.
+   * Removes the specified dynamic property from the itemstack.
+   * @param key The key of the dynamic property.
    */
-  public removeComponent(key: string): void {
-    this.components.delete(key);
+  public removeDynamicProperty(key: string): void {
+    this.dynamicProperties.delete(key);
   }
 
   /**
-   * Adds a component to the itemstack.
-   * @param key The key of the component.
-   * @param value The value of the component.
+   * Adds a dynamic property to the itemstack.
+   * @param key The key of the dynamic property.
+   * @param value The value of the dynamic property.
    */
-  public addComponent<T extends JSONLikeValue>(key: string, value: T): void {
-    this.components.set(key, value);
+  public addDynamicProperty<T extends JSONLikeValue>(
+    key: string,
+    value: T
+  ): void {
+    this.dynamicProperties.set(key, value);
   }
 
   /**
-   * Sets the specified component of the itemstack.
-   * @param key The key of the component.
-   * @param value The value of the component.
+   * Sets the specified dynamic property of the itemstack.
+   * @param key The key of the dynamic property.
+   * @param value The value of the dynamic property.
    */
-  public setComponent<T extends JSONLikeValue>(key: string, value: T): void {
-    this.components.set(key, value);
+  public setDynamicProperty<T extends JSONLikeValue>(
+    key: string,
+    value: T
+  ): void {
+    this.dynamicProperties.set(key, value);
   }
 
   public equals(other: ItemStack): boolean {
     // Check if the identifiers & aux are equal.
     if (this.type.identifier !== other.type.identifier) return false;
-    if (this.auxillary !== other.auxillary) return false;
-    if (this.components.size !== other.components.size) return false;
+    if (this.metadata !== other.metadata) return false;
+    if (this.dynamicProperties.size !== other.dynamicProperties.size)
+      return false;
     if (this.traits.size !== other.traits.size) return false;
     if (this.nbt.size !== other.nbt.size) return false;
 
-    // Stringify the components.
-    const components = JSON.stringify([...this.components.entries()]);
-    const otherComponents = JSON.stringify([...other.components.entries()]);
+    // Stringify the dynamicProperties.
+    const dynamicProperties = JSON.stringify([
+      ...this.dynamicProperties.entries()
+    ]);
 
-    // Check if the components are equal.
-    if (components !== otherComponents) return false;
+    const otherDynamicProperties = JSON.stringify([
+      ...other.dynamicProperties.entries()
+    ]);
+
+    // Check if the dynamicProperties are equal.
+    if (dynamicProperties !== otherDynamicProperties) return false;
 
     // Iterate over the traits.
     for (const [identifier, trait] of this.traits) {
@@ -610,10 +633,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
     const entry: ItemStackEntry = {
       identifier: this.type.identifier,
       amount: this.amount,
-      auxillary: this.auxillary,
-      components: [...this.components.entries()],
+      metadata: this.metadata,
+      dynamicProperties: [...this.dynamicProperties.entries()],
       traits: [...this.traits.keys()],
-      nbt: this.nbt.serialize().toString("base64")
+      nbtProperties: this.nbt.serialize().toString("base64")
     };
 
     // Return the item stack entry.
@@ -631,6 +654,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
     entry: ItemStackEntry,
     overwrite = true
   ): void {
+    // Spread the default item stack entry and the provided entry
+    // This will add any missing properties to the entry
+    entry = { ...DefaultItemStackEntry, ...entry };
+
     // Check that the identifiers match.
     if (entry.identifier !== this.type.identifier)
       throw new Error(
@@ -639,18 +666,19 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
     // Check if the entry should overwrite the existing data.
     if (overwrite) {
-      // Clear the components and traits.
-      this.components.clear();
+      // Clear the dynamic properties and traits.
+      this.dynamicProperties.clear();
       this.traits.clear();
     }
 
     // Update the item stack properties.
     this.amount = entry.amount;
-    this.auxillary = entry.auxillary;
+    this.metadata = entry.metadata;
 
-    // Add the components to the stack, if it does not already exist
-    for (const [key, value] of entry.components) {
-      if (!this.components.has(key)) this.components.set(key, value);
+    // Add the dynamic properties to the stack, if it does not already exist
+    for (const [key, value] of entry.dynamicProperties) {
+      if (!this.dynamicProperties.has(key))
+        this.dynamicProperties.set(key, value);
     }
 
     // Add the traits to the itemstack, if it does not already exist
@@ -672,7 +700,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
     }
 
     // Deserialize the nbt data.
-    this.nbt.deserialize(Buffer.from(entry.nbt, "base64"));
+    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
   }
 
   /**
@@ -685,14 +713,14 @@ class ItemStack<T extends keyof Items = keyof Items> {
     item: ItemStack
   ): NetworkItemInstanceDescriptor {
     // Get the permutation of the block.
-    const permutation = item.type.block?.permutations[item.auxillary];
+    const permutation = item.type.blockType?.permutations[item.metadata];
 
     // Return the item instance descriptor.
     return {
       network: item.type.network,
       stackSize: item.amount,
-      metadata: item.auxillary,
-      networkBlockId: permutation?.network ?? 0,
+      metadata: item.metadata,
+      networkBlockId: permutation?.networkId ?? 0,
       extras: {
         nbt: item.nbt.toCompound(),
         canDestroy: [],
@@ -735,7 +763,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
     // Create the item stack.
     const item = new this(type.identifier, {
       amount: descriptor.stackSize ?? 1,
-      auxillary: descriptor.metadata ?? 0
+      metadata: descriptor.metadata ?? 0
     });
 
     // Return the item stack.

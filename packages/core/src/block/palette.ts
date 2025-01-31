@@ -155,10 +155,10 @@ class BlockPalette {
    */
   public registerPermutation(permutation: BlockPermutation): boolean {
     // Check if the block permutation already exists.
-    if (this.permutations.has(permutation.network)) return false;
+    if (this.permutations.has(permutation.networkId)) return false;
 
     // Register the block permutation.
-    this.permutations.set(permutation.network, permutation);
+    this.permutations.set(permutation.networkId, permutation);
 
     // Return true if the block permutation was registered.
     return true;

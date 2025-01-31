@@ -47,12 +47,12 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     super(item);
 
     // Check if the item has a bundle id.
-    if (!item.components.has("dynamic_container")) {
+    if (!item.dynamicProperties.has("dynamic_container")) {
       // Generate a new bundle id.
       const id = Math.abs(Date.now() >> 4) + Math.floor(Math.random() * 32);
 
       // Set the bundle id component and nbt.
-      item.components.set("dynamic_container", id);
+      item.dynamicProperties.set("dynamic_container", id);
 
       // Create a new int tag for the bundle id.
       const tag = new IntTag({ name: "bundle_id", value: id });
@@ -61,7 +61,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       item.nbt.set("bundle_id", tag);
     } else {
       // Get the bundle id.
-      const id = item.components.get("dynamic_container") as number;
+      const id = item.dynamicProperties.get("dynamic_container") as number;
 
       // Create a new int tag for the bundle id.
       const tag = new IntTag({ name: "bundle_id", value: id });
@@ -83,7 +83,9 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    */
   public get dynamicId(): number {
     // Return the bundle id.
-    return (this.item.components.get("dynamic_container") as number) ?? 0;
+    return (
+      (this.item.dynamicProperties.get("dynamic_container") as number) ?? 0
+    );
   }
 
   /**
@@ -91,7 +93,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    */
   public set dynamicId(id: number) {
     // Set the bundle id.
-    this.item.components.set("dynamic_container", id);
+    this.item.dynamicProperties.set("dynamic_container", id);
 
     // Create a new int tag for the bundle id.
     const tag = new IntTag({ name: "bundle_id", value: id });

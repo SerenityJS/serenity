@@ -140,7 +140,7 @@ class Container {
     const maxed = item.amount >= item.maxAmount;
 
     // Check if exists an available slot
-    if (slot > -1 && !maxed && item.stackable) {
+    if (slot > -1 && !maxed && item.isStackable) {
       // Get the item if slot available
       const existingItem = this.storage[slot] as ItemStack;
 
@@ -233,9 +233,9 @@ class Container {
     // Create a new item with the removed amount.
     const newItem = new ItemStack(item.type, { ...item, amount: removed });
 
-    // Clone the components of the item to the new item.
-    for (const [key, value] of item.components)
-      newItem.components.set(key, value);
+    // Clone the dynamic properties of the item to the new item.
+    for (const [key, value] of item.dynamicProperties)
+      newItem.dynamicProperties.set(key, value);
 
     // Clone the traits of the item to the new item.
     for (const trait of item.traits.values()) trait.clone(newItem);

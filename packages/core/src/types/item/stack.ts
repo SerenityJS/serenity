@@ -1,24 +1,25 @@
 import { CompoundTag } from "@serenityjs/nbt";
 
-import { BlockType } from "../../block";
 import { ItemToolTier, ItemToolType } from "../../enums";
 import { World } from "../../world";
 import { ItemStackEntry } from "../world";
+import { BlockType } from "../..";
 
 interface ItemTypeProperties {
-  version: number;
+  properties: CompoundTag<unknown>;
   isComponentBased: boolean;
+  version: number;
   stackable: boolean;
   maxAmount: number;
   tool: ItemToolType;
   tier: ItemToolTier;
   tags: Array<string>;
-  block: BlockType | null;
-  properties: CompoundTag<unknown>;
+  blockType: BlockType | null;
 }
+
 interface ItemStackProperties {
   amount: number;
-  auxillary: number;
+  metadata: number;
   world?: World;
   entry?: ItemStackEntry;
 }

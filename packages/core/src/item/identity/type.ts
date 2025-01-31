@@ -4,21 +4,9 @@ import { Items, ItemTypeProperties } from "../../types";
 import { ItemToolTier, ItemToolType } from "../../enums";
 import { BlockType } from "../../block";
 
-import { ItemTypeVanillaProperties } from "./properties";
+import { ItemTypeComponentCollection } from "./collection";
 
 import type { NetworkItemInstanceDescriptor } from "@serenityjs/protocol";
-
-const DefaultItemTypeProperties: ItemTypeProperties = {
-  version: 1,
-  isComponentBased: true,
-  stackable: true,
-  maxAmount: 64,
-  tool: ItemToolType.None,
-  tier: ItemToolTier.None,
-  tags: [],
-  block: null,
-  properties: new ItemTypeVanillaProperties()
-};
 
 class ItemType<T extends keyof Items = keyof Items> {
   /**
@@ -42,19 +30,9 @@ class ItemType<T extends keyof Items = keyof Items> {
   public readonly version: number = 1;
 
   /**
-   * Whether the item type is component-based.
+   * The block type of the item type.
    */
-  public readonly isComponentBased: boolean = false;
-
-  /**
-   * Whether the item type is stackable.
-   */
-  public readonly stackable: boolean = true;
-
-  /**
-   * The maximum stack size of the item type.
-   */
-  public readonly maxAmount: number = 64;
+  public readonly blockType: BlockType | null = null;
 
   /**
    * The tool type of the item type.
@@ -71,14 +49,66 @@ class ItemType<T extends keyof Items = keyof Items> {
    */
   public readonly tags: Array<string>;
 
-  public readonly nbt = new CompoundTag<unknown>();
-
-  public readonly properties: ItemTypeVanillaProperties;
+  /**
+   * The nbt properties definition of the item type.
+   * This contains the vanilla component definitions.
+   */
+  public readonly properties: CompoundTag<unknown>;
 
   /**
-   * The block of the item type, if applicable.
+   * Whether the item type is component based.
    */
-  public readonly block: Items[T];
+  public readonly isComponentBased: boolean;
+
+  /**
+   * The maximum stack size of the item type.
+   */
+  public get maxAmount(): number {
+    return this.components.maxStackSize;
+  }
+
+  /**
+   * Whether the item type is stackable.
+   */
+  public get isStackable(): boolean {
+    return this.maxAmount > 1;
+  }
+
+  /**
+   * The vanilla components of the item type.
+   */
+  public get components(): ItemTypeComponentCollection {
+    // Check if the item type contains the components tag.
+    if (this.properties.hasTag("components")) {
+      // Get the components tag from the item type.
+      const components =
+        this.properties.getTag<CompoundTag<unknown>>("components");
+
+      // Check if the components is instance of the component collection.
+      if (components instanceof ItemTypeComponentCollection) return components;
+
+      // Create the new component collection.
+      const collection = new ItemTypeComponentCollection(this);
+
+      // Assign the components to the collection.
+      collection.value = components.value;
+
+      // Set the components tag to the item type.
+      this.properties.setTag("components", collection);
+
+      // Return the component collection.
+      return collection;
+    }
+
+    // Create the new component collection.
+    const components = new ItemTypeComponentCollection(this);
+
+    // Add the components tag to the item type.
+    this.properties.addTag(components);
+
+    // Return the components collection.
+    return components;
+  }
 
   /**
    * Create a new item type.
@@ -95,19 +125,22 @@ class ItemType<T extends keyof Items = keyof Items> {
     this.identifier = identifier;
     this.network = network;
 
-    // Assign the default properties of the item type.
-    properties = { ...DefaultItemTypeProperties, ...properties };
+    // Assign the properties of the item type first.
+    // As this will be used to define the item type.
+    this.properties = properties?.properties ?? new CompoundTag();
 
     // Assign the properties of the item type.
-    this.version = properties.version ?? 1;
-    this.isComponentBased = properties.isComponentBased ?? true;
-    this.stackable = properties.stackable ?? true;
-    this.maxAmount = properties.maxAmount ?? 64;
-    this.tool = properties.tool as ItemToolType;
-    this.tier = properties.tier as ItemToolTier;
-    this.tags = properties.tags ?? [];
-    this.block = properties.block as Items[T];
-    this.properties = properties.properties as ItemTypeVanillaProperties;
+    this.version = properties?.version ?? 1;
+    this.tool = properties?.tool as ItemToolType;
+    this.tier = properties?.tier as ItemToolTier;
+    this.tags = properties?.tags ?? [];
+    this.isComponentBased = properties?.isComponentBased ?? true;
+    this.blockType = properties?.blockType ?? null;
+
+    // Assign the component based properties of the item type.
+    this.components.maxStackSize = properties?.maxAmount ?? 64;
+    this.components.blockPlacer.useBlockAsIcon = true;
+    this.components.blockPlacer.useOn = [];
   }
 
   /**
@@ -149,7 +182,8 @@ class ItemType<T extends keyof Items = keyof Items> {
    */
   public static resolve(type: BlockType): ItemType | null {
     return (
-      [...ItemType.types.values()].find((item) => item.block === type) ?? null
+      [...ItemType.types.values()].find((item) => item.blockType === type) ??
+      null
     );
   }
 
@@ -168,7 +202,7 @@ class ItemType<T extends keyof Items = keyof Items> {
     return {
       network: type.network,
       metadata: 0,
-      networkBlockId: type.block?.getPermutation().network ?? 0,
+      networkBlockId: type.blockType?.getPermutation().networkId ?? 0,
       stackSize,
       extras: {
         canDestroy: [],

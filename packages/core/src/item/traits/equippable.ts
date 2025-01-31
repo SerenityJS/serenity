@@ -14,6 +14,8 @@ import { ItemTrait } from "./trait";
 class ItemEquippableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
   public static readonly identifier = "equippable";
   public static readonly tag = "minecraft:is_armor";
+  public static readonly component = "minecraft:wearable";
+
   public onUse(player: Player, options: ItemUseOptions): ItemUseMethod | void {
     // Check if the item use method is not a click or if the use was canceled
     if (options.method !== ItemUseMethod.Interact || options.canceled) return;

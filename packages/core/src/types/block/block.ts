@@ -1,4 +1,12 @@
 import { BlockFace, Vector3f } from "@serenityjs/protocol";
+import {
+  ByteTag,
+  CompoundTag,
+  IntTag,
+  ListTag,
+  LongTag,
+  StringTag
+} from "@serenityjs/nbt";
 
 import { BlockEntry } from "../world";
 import { BlockPermutation, ItemDrop } from "../../block";
@@ -10,10 +18,10 @@ interface BlockTypeProperties {
   air: boolean;
   liquid: boolean;
   solid: boolean;
-  components: Array<string>;
   tags: Array<string>;
   drops: Array<ItemDrop>;
   permutations: Array<BlockPermutation>;
+  properties: BlockTypeDefinition;
 }
 
 interface CustomBlockProperties extends BlockTypeProperties {
@@ -91,11 +99,35 @@ interface BlockDestroyOptions {
   dropLoot?: boolean;
 }
 
+interface BlockTypeNbtDefinition {
+  components: CompoundTag<unknown>;
+  menu_category: CompoundTag<unknown>;
+  vanilla_block_data: CompoundTag<unknown>;
+  molangVersion: IntTag;
+  properties: ListTag<CompoundTag<BlockTypeNbtStateDefinition>>;
+  permutations: ListTag<CompoundTag<BlockTypeNbtPermutationDefinition>>;
+}
+
+interface BlockTypeNbtStateDefinition {
+  name: StringTag;
+  enum: ListTag<ByteTag | IntTag | LongTag | StringTag>;
+}
+
+interface BlockTypeNbtPermutationDefinition {
+  condition: StringTag;
+}
+
+type BlockTypeDefinition = CompoundTag<BlockTypeNbtDefinition>;
+
 export {
   BlockProperties,
   CustomBlockProperties,
   BlockPlacementOptions,
   BlockInteractionOptions,
   BlockTypeProperties,
-  BlockDestroyOptions
+  BlockDestroyOptions,
+  BlockTypeNbtDefinition,
+  BlockTypeNbtStateDefinition,
+  BlockTypeNbtPermutationDefinition,
+  BlockTypeDefinition
 };

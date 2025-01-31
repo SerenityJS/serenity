@@ -3,23 +3,23 @@ import { ByteTag } from "@serenityjs/nbt";
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockProperty } from "./property";
+import { BlockTypeComponent } from "./property";
 
-class BlockLightEmissionProperty extends BlockProperty {
-  public static readonly component = "minecraft:light_emission";
+class BlockTypeLightEmissionComponent extends BlockTypeComponent {
+  public static readonly identifier = "minecraft:light_emission";
 
   /**
    * The amount of light that the block property will emit.
    */
   public set lightEmission(value: number) {
-    this.property.createByteTag({ name: "emission", value });
+    this.component.createByteTag({ name: "emission", value });
   }
 
   /**
    * The amount of light that the block property will emit.
    */
   public get lightEmission(): number {
-    return this.property.getTag<ByteTag>("emission")?.value ?? 0;
+    return this.component.getTag<ByteTag>("emission")?.value ?? 0;
   }
 
   /**
@@ -35,4 +35,4 @@ class BlockLightEmissionProperty extends BlockProperty {
   }
 }
 
-export { BlockLightEmissionProperty };
+export { BlockTypeLightEmissionComponent };

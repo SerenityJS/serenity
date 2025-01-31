@@ -3,23 +3,23 @@ import { FloatTag } from "@serenityjs/nbt";
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockProperty } from "./property";
+import { BlockTypeComponent } from "./property";
 
-class BlockFrictionProperty extends BlockProperty {
-  public static readonly component = "minecraft:friction";
+class BlockTypeFrictionComponent extends BlockTypeComponent {
+  public static readonly identifier = "minecraft:friction";
 
   /**
    * The friction of the block property.
    */
   public get friction(): number {
-    return this.property.getTag<FloatTag>("value")?.value ?? 0;
+    return this.component.getTag<FloatTag>("value")?.value ?? 0;
   }
 
   /**
    * The friction of the block property.
    */
   public set friction(value: number) {
-    this.property.createFloatTag({ name: "value", value });
+    this.component.createFloatTag({ name: "value", value });
   }
 
   /**
@@ -35,4 +35,4 @@ class BlockFrictionProperty extends BlockProperty {
   }
 }
 
-export { BlockFrictionProperty };
+export { BlockTypeFrictionComponent };

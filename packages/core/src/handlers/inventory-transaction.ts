@@ -182,7 +182,7 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Assign the block position, network block id, layer, and flags
           packet.position = resultant.position;
-          packet.networkBlockId = resultant.permutation.network;
+          packet.networkBlockId = resultant.permutation.networkId;
           packet.layer = UpdateBlockLayerType.Normal;
           packet.flags = UpdateBlockFlagsType.Network;
 
@@ -244,7 +244,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           else if (player.gamemode === Gamemode.Survival) stack.decrement();
 
           // Check if a block type is present for the item stack
-          const blockType = stack.type.block;
+          const blockType = stack.type.blockType;
 
           // Check if the block type exists and is not air
           if (!blockType || blockType.identifier === BlockIdentifier.Air)
@@ -252,7 +252,7 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Get the permutation to set the block state
           const permutation =
-            blockType.permutations[stack.auxillary] ??
+            blockType.permutations[stack.metadata] ??
             blockType.getPermutation();
 
           // Create a new BlockPlacementOptions object
@@ -277,9 +277,11 @@ class InventoryTransactionHandler extends NetworkHandler {
           options.cancel = !signal.emit();
 
           // Check if the item stack has a block_data component
-          if (stack.components.has("block_data")) {
+          if (stack.dynamicProperties.has("block_data")) {
             // Get the block data entry from the item stack
-            const entry = stack.components.get("block_data") as BlockEntry;
+            const entry = stack.dynamicProperties.get(
+              "block_data"
+            ) as BlockEntry;
 
             // Set the block data entry to the block
             resultant.loadDataEntry(resultant.world, entry);
@@ -308,7 +310,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           const sound = new LevelSoundEventPacket();
           sound.event = LevelSoundEvent.Place;
           sound.position = BlockPosition.toVector3f(resultant.position);
-          sound.data = resultant.permutation.network;
+          sound.data = resultant.permutation.networkId;
           sound.actorIdentifier = String();
           sound.isBabyMob = false;
           sound.isGlobal = false;

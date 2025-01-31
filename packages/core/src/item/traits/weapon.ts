@@ -14,7 +14,7 @@ class ItemWeaponTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    * The weapon component data for the item.
    */
   public get component(): ItemWeaponComponent {
-    return this.item.getComponent(
+    return this.item.getDynamicProperty(
       ItemWeaponTrait.identifier
     ) as ItemWeaponComponent;
   }
@@ -49,18 +49,21 @@ class ItemWeaponTrait<T extends ItemIdentifier> extends ItemTrait<T> {
 
   public onAdd(): void {
     // Create if the item does not have the component
-    if (this.item.hasComponent(ItemWeaponTrait.identifier)) return;
+    if (this.item.hasDynamicProperty(ItemWeaponTrait.identifier)) return;
 
     // Creata a new component for the item
-    this.item.addComponent<ItemWeaponComponent>(ItemWeaponTrait.identifier, {
-      baseDamage: 2,
-      criticalDamage: 3
-    });
+    this.item.addDynamicProperty<ItemWeaponComponent>(
+      ItemWeaponTrait.identifier,
+      {
+        baseDamage: 2,
+        criticalDamage: 3
+      }
+    );
   }
 
   public onRemove(): void {
     // Remove the component from the item
-    this.item.removeComponent(ItemWeaponTrait.identifier);
+    this.item.removeDynamicProperty(ItemWeaponTrait.identifier);
   }
 
   /**

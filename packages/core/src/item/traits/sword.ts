@@ -8,7 +8,7 @@ class ItemSwordTrait<T extends ItemIdentifier> extends ItemWeaponTrait<T> {
 
   public onAdd(): void {
     // Check if the item has the weapon component
-    if (this.item.hasComponent(ItemWeaponTrait.identifier)) return;
+    if (this.item.hasDynamicProperty(ItemWeaponTrait.identifier)) return;
 
     // Prepare the base and critical damage values
     let baseDamage = 3;
@@ -54,10 +54,13 @@ class ItemSwordTrait<T extends ItemIdentifier> extends ItemWeaponTrait<T> {
     }
 
     // Create a new component for the item
-    this.item.addComponent<ItemWeaponComponent>(ItemWeaponTrait.identifier, {
-      baseDamage,
-      criticalDamage
-    });
+    this.item.addDynamicProperty<ItemWeaponComponent>(
+      ItemWeaponTrait.identifier,
+      {
+        baseDamage,
+        criticalDamage
+      }
+    );
   }
 }
 

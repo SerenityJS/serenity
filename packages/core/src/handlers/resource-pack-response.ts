@@ -210,9 +210,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
         // Map the custom blocks definitions to the packet
         packet.blockTypeDefinitions = [];
-        // packet.blockTypeDefinitions = world.blockPalette
-        //   .getAllTypes()
-        //   .map((type) => type.getNetworkDefinition());
+        packet.blockTypeDefinitions = world.blockPalette
+          .getAllTypes()
+          .map((type) => type.getNetworkDefinition());
 
         packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
         packet.serverAuthoritativeInventory = true;
@@ -233,7 +233,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           const networkId = item.network;
           const componentBased = item.isComponentBased;
           const itemVersion = item.version;
-          const properties = item.properties;
+          const properties = !item.isComponentBased
+            ? new CompoundTag()
+            : item.properties;
 
           return new ItemData(
             identifier,

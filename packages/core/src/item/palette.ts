@@ -63,7 +63,9 @@ class ItemPalette {
    * @returns The item type from the palette.
    */
   public resolveType(type: BlockType): ItemType | null {
-    return [...this.types.values()].find((item) => item.block === type) ?? null;
+    return (
+      [...this.types.values()].find((item) => item.blockType === type) ?? null
+    );
   }
 
   public registerType(type: ItemType): boolean {
