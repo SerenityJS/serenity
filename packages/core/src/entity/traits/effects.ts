@@ -157,14 +157,15 @@ class EntityEffectsTrait extends EntityTrait {
   }
 
   /*
-   * This function retrieves the saved effects from the entity's components,
+   * This function retrieves the saved effects from the entity's dynamic properties.
    * creates new instances of the effects using the data, and adds them to the entity's effects list.
    * The saved effects are loaded from the "entity_effects" component, which is expected to be an array of objects
    */
   public onSpawn(): void {
     // Load the effects from the saved data.
-    const entityEffects = (this.entity.components.get("entity_effects") ??
-      []) as Array<unknown> as Array<savedEffect>;
+    const entityEffects = (this.entity.dynamicProperties.get(
+      "entity_effects"
+    ) ?? []) as Array<unknown> as Array<savedEffect>;
 
     for (const effectEntry of entityEffects) {
       const { effectType, duration, amplifier, showParticles } = effectEntry;
@@ -179,7 +180,7 @@ class EntityEffectsTrait extends EntityTrait {
   }
 
   public onDespawn(): void {
-    this.entity.components.set(
+    this.entity.dynamicProperties.set(
       "entity_effects",
       [...this.effects.values()].map((effect) => effect.toString())
     );

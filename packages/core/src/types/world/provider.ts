@@ -32,9 +32,9 @@ interface EntityEntry extends JSONLikeObject {
   rotation: [number, number, number];
 
   /**
-   * The components attached to the entity.
+   * The dynamic properties attached to the entity.
    */
-  components: Array<[string, JSONLikeValue]>;
+  dynamicProperties: Array<[string, JSONLikeValue]>;
 
   /**
    * The traits attached to the entity.

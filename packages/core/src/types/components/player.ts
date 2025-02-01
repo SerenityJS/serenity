@@ -1,6 +1,6 @@
 import { JSONLikeObject } from "../json";
 
-interface PlayerCombatComponent extends JSONLikeObject {
+interface PlayerCombatProperty extends JSONLikeObject {
   /**
    * The maximum reach of the player horizontally.
    */
@@ -27,4 +27,4 @@ interface PlayerCombatComponent extends JSONLikeObject {
   combatCooldown: number;
 }
 
-export { PlayerCombatComponent };
+export { PlayerCombatProperty };

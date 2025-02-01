@@ -65,7 +65,7 @@ class EntityItemStackTrait extends EntityTrait {
     }
 
     // Get the component of the item stack from the entity
-    const entry = entity.components.get("itemstack") as ItemStackEntry;
+    const entry = entity.dynamicProperties.get("itemstack") as ItemStackEntry;
 
     // Check if the entry exists
     if (entry) {
@@ -135,7 +135,10 @@ class EntityItemStackTrait extends EntityTrait {
 
   public onTick(): void {
     // Set the item stack component of the entity
-    this.entity.components.set("itemstack", this.itemStack.getDataEntry());
+    this.entity.dynamicProperties.set(
+      "itemstack",
+      this.itemStack.getDataEntry()
+    );
 
     // Get the current tick
     const current = this.entity.dimension.world.currentTick;

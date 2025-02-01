@@ -13,7 +13,7 @@ import { Entity } from "../entity";
 
 import { EntityTrait } from "./trait";
 
-interface EntityNpcDialogueComponent extends JSONLikeObject {
+interface EntityNpcDialogueProperty extends JSONLikeObject {
   /**
    * The title of the npc dialogue.
    */
@@ -30,7 +30,7 @@ interface EntityNpcDialogueComponent extends JSONLikeObject {
   buttons: Array<[string, string]>;
 }
 
-const DefaultOptions: EntityNpcDialogueComponent = {
+const DefaultOptions: EntityNpcDialogueProperty = {
   title: "NPC",
   dialogue: "",
   buttons: []
@@ -41,72 +41,72 @@ class EntityNpcTrait extends EntityTrait {
   public static readonly types = [EntityIdentifier.Npc];
 
   /**
-   * The component used to store the npc dialogue form data.
+   * The property used to store the npc dialogue form data.
    */
-  public get component(): EntityNpcDialogueComponent {
-    return this.entity.getComponent("npc") as EntityNpcDialogueComponent;
+  public get property(): EntityNpcDialogueProperty {
+    return this.entity.getDynamicProperty("npc") as EntityNpcDialogueProperty;
   }
 
   /**
-   * The component used to store the npc dialogue form data.
+   * The property used to store the npc dialogue form data.
    */
-  public set component(value: EntityNpcDialogueComponent) {
-    this.entity.setComponent<EntityNpcDialogueComponent>("npc", value);
+  public set property(value: EntityNpcDialogueProperty) {
+    this.entity.setDynamicProperty<EntityNpcDialogueProperty>("npc", value);
   }
 
   /**
    * The title of the npc dialogue form.
    */
   public get title(): string {
-    return this.component.title;
+    return this.property.title;
   }
 
   /**
    * The title of the npc dialogue form.
    */
   public set title(value: string) {
-    this.component.title = value;
+    this.property.title = value;
   }
 
   /**
    * The dialogue content of the npc dialogue form.
    */
   public get dialogue(): string {
-    return this.component.dialogue;
+    return this.property.dialogue;
   }
 
   /**
    * The dialogue content of the npc dialogue form.
    */
   public set dialogue(value: string) {
-    this.component.dialogue = value;
+    this.property.dialogue = value;
   }
 
   /**
    * The buttons of the npc dialogue form.
    */
   public get buttons(): Array<[string, string]> {
-    return this.component.buttons;
+    return this.property.buttons;
   }
 
   /**
    * The buttons of the npc dialogue form.
    */
   public set buttons(value: Array<[string, string]>) {
-    this.component.buttons = value;
+    this.property.buttons = value;
   }
 
   public constructor(
     entity: Entity,
-    options?: Partial<EntityNpcDialogueComponent>
+    options?: Partial<EntityNpcDialogueProperty>
   ) {
     super(entity);
 
     // Set the options of the trait with the default options
-    this.component = {
+    this.property = {
       ...DefaultOptions,
       ...options
-    } as EntityNpcDialogueComponent;
+    } as EntityNpcDialogueProperty;
   }
 
   /**
@@ -116,18 +116,18 @@ class EntityNpcTrait extends EntityTrait {
    */
   public addButton(text: string, command = ""): number {
     // Add the button to the npc dialogue form
-    this.component.buttons.push([text, command]);
+    this.property.buttons.push([text, command]);
 
     // Return the index of the button
-    return this.component.buttons.length - 1;
+    return this.property.buttons.length - 1;
   }
 
   public onAdd(): void {
     // Check if the entity has a npc component
-    if (this.entity.hasComponent(this.identifier)) return;
+    if (this.entity.hasDynamicProperty(this.identifier)) return;
 
     // Add the npc component to the entity
-    this.entity.addComponent<EntityNpcDialogueComponent>(this.identifier, {
+    this.entity.addDynamicProperty<EntityNpcDialogueProperty>(this.identifier, {
       title: "NPC",
       dialogue: "",
       buttons: []
@@ -142,7 +142,7 @@ class EntityNpcTrait extends EntityTrait {
 
   public onRemove(): void {
     // Remove the npc component from the entity
-    this.entity.removeComponent(this.identifier);
+    this.entity.removeDynamicProperty(this.identifier);
 
     // Remove the metadata item from the entity
     this.entity.metadata.delete(ActorDataId.HasNpc);
@@ -186,4 +186,4 @@ class EntityNpcTrait extends EntityTrait {
   }
 }
 
-export { EntityNpcTrait, EntityNpcDialogueComponent };
+export { EntityNpcTrait, EntityNpcDialogueProperty };

@@ -24,17 +24,17 @@ class EntityEquipmentTrait extends EntityTrait {
   public readonly container: EntityContainer;
 
   /**
-   * The component used to store the equipment items.
+   * The dynamic property used to store the equipment items.
    */
-  public get component(): ItemStorage {
-    return this.entity.getComponent("equipment") as ItemStorage;
+  public get property(): ItemStorage {
+    return this.entity.getDynamicProperty("equipment") as ItemStorage;
   }
 
   /**
-   * The component used to store the equipment items.
+   * The dynamic property used to store the equipment items.
    */
-  public set component(value: ItemStorage) {
-    this.entity.setComponent<ItemStorage>("equipment", value);
+  public set property(value: ItemStorage) {
+    this.entity.setDynamicProperty<ItemStorage>("equipment", value);
   }
 
   public constructor(entity: Entity) {
@@ -112,7 +112,7 @@ class EntityEquipmentTrait extends EntityTrait {
 
   public onSpawn(): void {
     // Iterate over the equipment slots
-    for (const [slot, entry] of this.component.items) {
+    for (const [slot, entry] of this.property.items) {
       // Create a new item stack
       const itemStack = new ItemStack(entry.identifier, {
         amount: entry.amount,
@@ -143,15 +143,15 @@ class EntityEquipmentTrait extends EntityTrait {
     }
 
     // Set the equipment component to the entity
-    this.component = { size: this.container.size, items };
+    this.property = { size: this.container.size, items };
   }
 
   public onAdd(): void {
     // Check if the entity has an equipment component
-    if (this.entity.hasComponent("equipment")) return;
+    if (this.entity.hasDynamicProperty("equipment")) return;
 
     // Create the item storage component
-    this.entity.setComponent<ItemStorage>("equipment", {
+    this.entity.setDynamicProperty<ItemStorage>("equipment", {
       size: this.container.size,
       items: []
     });
@@ -159,7 +159,7 @@ class EntityEquipmentTrait extends EntityTrait {
 
   public onRemove(): void {
     // Remove the item storage component
-    this.entity.removeComponent("equipment");
+    this.entity.removeDynamicProperty("equipment");
   }
 }
 

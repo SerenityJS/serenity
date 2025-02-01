@@ -147,12 +147,12 @@ class Player extends Entity {
    */
   public get gamemode(): Gamemode {
     // Check if the player has the gamemode component
-    if (!this.components.has("gamemode"))
+    if (!this.dynamicProperties.has("gamemode"))
       // Set the default gamemode for the player
-      this.components.set("gamemode", Gamemode.Survival); // TODO: Get the default gamemode from the world
+      this.dynamicProperties.set("gamemode", Gamemode.Survival); // TODO: Get the default gamemode from the world
 
     // Return the gamemode of the player
-    return this.components.get("gamemode") as Gamemode;
+    return this.dynamicProperties.get("gamemode") as Gamemode;
   }
 
   /**
@@ -164,7 +164,7 @@ class Player extends Entity {
     if (!signal.emit()) return;
 
     // Set the gamemode of the player
-    this.components.set("gamemode", value);
+    this.dynamicProperties.set("gamemode", value);
 
     // Call the onGamemodeChange event for the player
     for (const trait of this.traits.values()) trait.onGamemodeChange?.(value);
@@ -537,7 +537,7 @@ class Player extends Entity {
         if (data) this.loadDataEntry(dimension.world, data, true);
         else {
           // Clear the player's data
-          this.components.clear();
+          this.dynamicProperties.clear();
           this.traits.clear();
           this.abilities.clear();
           this.metadata.clear();
