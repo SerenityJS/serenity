@@ -52,7 +52,7 @@ const register = (world: World) => {
               if (
                 !itemStack ||
                 (itemStack.type.identifier !== itemIdentifier &&
-                  itemStack.auxillary !== itemMetadata)
+                  itemStack.metadata !== itemMetadata)
               ) {
                 continue;
               }

@@ -34,7 +34,7 @@ const register = (world: World) => {
             ? itemResult
             : `minecraft:${itemResult}`;
           const amount = context.amount?.result ?? 1;
-          const auxillary = context.metadata?.result ?? 0;
+          const metadata = context.metadata?.result ?? 0;
 
           // Loop through the targets
           for (const target of targets) {
@@ -44,7 +44,7 @@ const register = (world: World) => {
             // Create the item stack
             const itemStack = new ItemStack(itemIdentifier as ItemIdentifier, {
               amount,
-              auxillary,
+              metadata,
               world
             });
 
