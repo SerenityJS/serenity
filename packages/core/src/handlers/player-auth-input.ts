@@ -364,7 +364,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             packet.position = BlockPosition.toVector3f(block.position);
             packet.layer = UpdateBlockLayerType.Normal;
             packet.flags = UpdateBlockFlagsType.Network;
-            packet.networkBlockId = permutation.network;
+            packet.networkBlockId = permutation.networkId;
 
             // Send the packet to the player
             player.send(packet);
@@ -492,7 +492,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             packet.position = BlockPosition.toVector3f(block.position);
             packet.layer = UpdateBlockLayerType.Normal;
             packet.flags = UpdateBlockFlagsType.Network;
-            packet.networkBlockId = block.permutation.network;
+            packet.networkBlockId = block.permutation.networkId;
 
             // Send the packet to the player
             return player.send(packet);
@@ -510,7 +510,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
               packet.position = BlockPosition.toVector3f(block.position);
               packet.layer = UpdateBlockLayerType.Normal;
               packet.flags = UpdateBlockFlagsType.Network;
-              packet.networkBlockId = block.permutation.network;
+              packet.networkBlockId = block.permutation.networkId;
 
               // Send the packet to the player
               return player.send(packet);

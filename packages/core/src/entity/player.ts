@@ -5,6 +5,8 @@ import {
   ChangeDimensionPacket,
   ContainerName,
   CreativeContentPacket,
+  CreativeGroup,
+  CreativeItem,
   DataPacket,
   DefaultAbilityValues,
   DisconnectMessage,
@@ -30,7 +32,7 @@ import { PlayerEntry, PlayerProperties, PlaySoundOptions } from "../types";
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
-import { ItemBundleTrait, ItemStack } from "../item";
+import { ItemBundleTrait, ItemStack, ItemType } from "../item";
 import {
   EntityDimensionChangeSignal,
   PlayerGamemodeChangeSignal
@@ -145,12 +147,12 @@ class Player extends Entity {
    */
   public get gamemode(): Gamemode {
     // Check if the player has the gamemode component
-    if (!this.components.has("gamemode"))
+    if (!this.dynamicProperties.has("gamemode"))
       // Set the default gamemode for the player
-      this.components.set("gamemode", Gamemode.Survival); // TODO: Get the default gamemode from the world
+      this.dynamicProperties.set("gamemode", Gamemode.Survival); // TODO: Get the default gamemode from the world
 
     // Return the gamemode of the player
-    return this.components.get("gamemode") as Gamemode;
+    return this.dynamicProperties.get("gamemode") as Gamemode;
   }
 
   /**
@@ -162,7 +164,7 @@ class Player extends Entity {
     if (!signal.emit()) return;
 
     // Set the gamemode of the player
-    this.components.set("gamemode", value);
+    this.dynamicProperties.set("gamemode", value);
 
     // Call the onGamemodeChange event for the player
     for (const trait of this.traits.values()) trait.onGamemodeChange?.(value);
@@ -426,20 +428,29 @@ class Player extends Entity {
 
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
-    content.items = this.world.itemPalette.getCreativeContent().map((item) => {
-      return {
-        network: item.type.network,
-        metadata: item.metadata,
-        stackSize: 1,
-        networkBlockId:
-          item.type.block?.permutations[item.metadata]?.network ?? 0,
-        extras: {
-          canDestroy: [],
-          canPlaceOn: [],
-          nbt: item.nbt
+
+    // Prepare an array to store the creative items
+    content.items = [];
+
+    // Map the creative content to the packet
+    content.groups = [...this.world.itemPalette.creativeGroups].map(
+      ([index, group]) => {
+        // Iterate over the items in the group
+        for (const { descriptor } of group.items) {
+          // Get the next index for the item
+          const itemIndex = content.items.length;
+
+          // Create and push the creative item to the packet
+          content.items.push(new CreativeItem(itemIndex, descriptor, index));
         }
-      };
-    });
+
+        // Get the icon item type from the map
+        const icon = ItemType.toNetworkInstance(group.icon);
+
+        // Create a new creative group
+        return new CreativeGroup(group.category, group.identifier, icon);
+      }
+    );
 
     // Serialize the available commands for the player
     const commands = this.world.commands.serialize();
@@ -526,7 +537,7 @@ class Player extends Entity {
         if (data) this.loadDataEntry(dimension.world, data, true);
         else {
           // Clear the player's data
-          this.components.clear();
+          this.dynamicProperties.clear();
           this.traits.clear();
           this.abilities.clear();
           this.metadata.clear();

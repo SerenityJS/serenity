@@ -27,7 +27,6 @@ for (const type of BLOCK_TYPES) {
     air: type.air,
     liquid: type.liquid,
     solid: type.solid,
-    components: type.components,
     tags: type.tags
   });
 
@@ -70,12 +69,9 @@ for (const permutation of BLOCK_PERMUTATIONS) {
   const instance = BlockPermutation.create(type, permutation.state);
 
   // Assign the block permutation properties.
-  instance.properties.hardness = metadata.hardness;
-  instance.properties.friction = metadata.friction;
-
-  // Register the block permutation.
-  type.permutations.push(instance);
+  instance.components.hardness = metadata.hardness;
+  instance.components.friction = metadata.friction;
 
   // Register the block permutation in the registry.
-  BlockPermutation.permutations.set(permutation.hash, instance);
+  BlockPermutation.permutations.set(instance.networkId, instance);
 }

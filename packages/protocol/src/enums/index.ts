@@ -103,3 +103,6 @@ export * from "./decoration-type";
 export * from "./predicted-result";
 export * from "./game-rule";
 export * from "./material-render-method";
+export * from "./creative-item-category";
+export * from "./wearable-slot";
+export * from "./creative-item-group";

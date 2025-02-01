@@ -133,6 +133,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
               ([ability, value]) => new AbilitySet(ability, value)
             ),
             walkSpeed: 0.1,
+            verticalFlySpeed: 1.0,
             flySpeed: 0.05
           }
         ];

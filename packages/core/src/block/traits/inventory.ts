@@ -32,14 +32,14 @@ class BlockInventoryTrait extends BlockTrait {
    * The component used to store the inventory items.
    */
   public get component(): ItemStorage {
-    return this.block.getComponent("inventory") as ItemStorage;
+    return this.block.getDynamicProperty("inventory") as ItemStorage;
   }
 
   /**
    * The component used to store the inventory items.
    */
   public set component(value: ItemStorage) {
-    this.block.setComponent<ItemStorage>("inventory", value);
+    this.block.setDynamicProperty<ItemStorage>("inventory", value);
   }
 
   /**
@@ -145,7 +145,7 @@ class BlockInventoryTrait extends BlockTrait {
     // Create a new LevelSoundEventPacket
     const sound = new LevelSoundEventPacket();
     sound.position = BlockPosition.toVector3f(this.block.position);
-    sound.data = this.block.permutation.network;
+    sound.data = this.block.permutation.networkId;
     sound.actorIdentifier = String();
     sound.isBabyMob = false;
     sound.isGlobal = false;
@@ -181,7 +181,7 @@ class BlockInventoryTrait extends BlockTrait {
     // Create a new level sound event packet
     const sound = new LevelSoundEventPacket();
     sound.position = BlockPosition.toVector3f(this.block.position);
-    sound.data = this.block.permutation.network;
+    sound.data = this.block.permutation.networkId;
     sound.actorIdentifier = String();
     sound.isBabyMob = false;
     sound.isGlobal = false;
@@ -206,10 +206,10 @@ class BlockInventoryTrait extends BlockTrait {
 
   public onAdd(): void {
     // Check if the block has an inventory component
-    if (this.block.components.has("inventory")) return;
+    if (this.block.dyanamicProperties.has("inventory")) return;
 
     // Create the item storage component
-    this.block.setComponent<ItemStorage>("inventory", {
+    this.block.setDynamicProperty<ItemStorage>("inventory", {
       size: this.container.size,
       items: []
     });
@@ -217,7 +217,7 @@ class BlockInventoryTrait extends BlockTrait {
 
   public onRemove(): void {
     // Remove the item storage component
-    this.block.removeComponent("inventory");
+    this.block.removeDynamicProperty("inventory");
   }
 }
 

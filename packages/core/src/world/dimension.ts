@@ -358,7 +358,7 @@ class Dimension {
       );
 
       // Fetch any traits that apply to the base type components
-      for (const identifier of permutation.type.components) {
+      for (const [identifier] of permutation.type.components.entries) {
         // Get the trait from the block palette using the identifier
         const trait = this.world.blockPalette.getTrait(identifier);
 
@@ -380,8 +380,8 @@ class Dimension {
       // Iterate over all the traits and apply them to the block
       for (const trait of traits) block.addTrait(trait);
 
-      // If the block has components or traits, we will cache the block
-      if (block.components.size > 0 || block.traits.size > 0)
+      // If the block has dynamic properties or traits, we will cache the block
+      if (block.dyanamicProperties.size > 0 || block.traits.size > 0)
         this.blocks.set(hash, block);
 
       // Return the block
@@ -446,7 +446,7 @@ class Dimension {
     const packet = new UpdateBlockPacket();
 
     // Assign the block position and permutation to the packet.
-    packet.networkBlockId = permutation.network;
+    packet.networkBlockId = permutation.networkId;
     packet.position = blockPosition;
     packet.flags = UpdateBlockFlagsType.Network;
     packet.layer = layer;
@@ -464,7 +464,7 @@ class Dimension {
       const permutation = this.getPermutation(blockPosition, layer);
 
       // Assign the permutation to the block
-      packet.networkBlockId = permutation.network;
+      packet.networkBlockId = permutation.networkId;
 
       // Broadcast the packet to the dimension.
       return this.broadcast(packet);

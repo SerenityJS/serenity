@@ -9,7 +9,7 @@ import {
 
 import { EntityIdentifier } from "../../../enums";
 import { ItemWeaponTrait } from "../../../item";
-import { PlayerCombatComponent } from "../../../types";
+import { PlayerCombatProperty } from "../../../types";
 import { Entity } from "../../entity";
 import { EntityHealthTrait } from "../attribute";
 
@@ -20,82 +20,82 @@ class PlayerCombatTrait extends PlayerTrait {
   public static readonly types = [EntityIdentifier.Player];
 
   /**
-   * The combat component data for the player.
+   * The combat property data for the player.
    */
-  public get component(): PlayerCombatComponent {
-    return this.player.getComponent(
+  public get property(): PlayerCombatProperty {
+    return this.player.getDynamicProperty(
       PlayerCombatTrait.identifier
-    ) as PlayerCombatComponent;
+    ) as PlayerCombatProperty;
   }
 
   /**
    * The maximum reach of the player horizontally.
    */
   public get horizontalMaxReach(): number {
-    return this.component.horizontalMaxReach;
+    return this.property.horizontalMaxReach;
   }
 
   /**
    * The maximum reach of the player horizontally.
    */
   public set horizontalMaxReach(value: number) {
-    this.component.horizontalMaxReach = value;
+    this.property.horizontalMaxReach = value;
   }
 
   /**
    * The maximum reach of the player vertically.
    */
   public get verticalMaxReach(): number {
-    return this.component.verticalMaxReach;
+    return this.property.verticalMaxReach;
   }
 
   /**
    * The maximum reach of the player vertically.
    */
   public set verticalMaxReach(value: number) {
-    this.component.verticalMaxReach = value;
+    this.property.verticalMaxReach = value;
   }
 
   /**
    * The horizontal knockback of the player.
    */
   public get horizontalKnockback(): number {
-    return this.component.horizontalKnockback;
+    return this.property.horizontalKnockback;
   }
 
   /**
    * The horizontal knockback of the player.
    */
   public set horizontalKnockback(value: number) {
-    this.component.horizontalKnockback = value;
+    this.property.horizontalKnockback = value;
   }
 
   /**
    * The vertical knockback of the player.
    */
   public get verticalKnockback(): number {
-    return this.component.verticalKnockback;
+    return this.property.verticalKnockback;
   }
 
   /**
    * The vertical knockback of the player.
    */
   public set verticalKnockback(value: number) {
-    this.component.verticalKnockback = value;
+    this.property.verticalKnockback = value;
   }
 
   /**
    * The amount of ticks till the player can attack again.
    */
   public get combatCooldown(): number {
-    return this.component.combatCooldown;
+    return this.property.combatCooldown;
   }
 
   /**
    * The amount of ticks till the player can attack again.
    */
   public set combatCooldown(value: number) {
-    this.component.combatCooldown = value;
+    this.property.combatCooldown = value;
   }
 
   /**
@@ -109,11 +109,11 @@ class PlayerCombatTrait extends PlayerTrait {
   public isOnCriticalCooldown: boolean = false;
 
   public onAdd(): void {
-    // Check if the player has a combat component.
-    if (this.player.hasComponent(PlayerCombatTrait.identifier)) return;
+    // Check if the player has a combat property.
+    if (this.player.hasDynamicProperty(PlayerCombatTrait.identifier)) return;
 
-    // Create a new combat component.
-    this.player.addComponent<PlayerCombatComponent>(
+    // Create a new combat property.
+    this.player.addDynamicProperty<PlayerCombatProperty>(
       PlayerCombatTrait.identifier,
       {
         horizontalMaxReach: 3,
@@ -126,8 +126,8 @@ class PlayerCombatTrait extends PlayerTrait {
   }
 
   public onRemove(): void {
-    // Remove the combat component from the player.
-    this.player.removeComponent(PlayerCombatTrait.identifier);
+    // Remove the combat property from the player.
+    this.player.removeDynamicProperty(PlayerCombatTrait.identifier);
   }
 
   public onAttackEntity(target: Entity): void {

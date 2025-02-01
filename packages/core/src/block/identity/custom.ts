@@ -5,15 +5,10 @@ import { BlockIdentifier, ItemCategory } from "../../enums";
 import { BlockPermutation } from "../..";
 
 import { BlockType } from "./type";
-import { BlockPropertyCollection } from "./property-collection";
+import { BlockTypeComponentCollection } from "./collection";
 
 class CustomBlockType extends BlockType {
   protected static networkId = 10000; // Start at 10000 to avoid conflicts with vanilla block types.
-
-  /**
-   * Indicates that the block type is custom.
-   */
-  public readonly custom = true;
 
   /**
    * The network ID of the custom block type.
@@ -32,16 +27,20 @@ class CustomBlockType extends BlockType {
     super(identifier as BlockIdentifier, properties);
 
     // Create a molang version tag.
-    this.nbt.createIntTag({ name: "molangVersion", value: 0 });
+    this.properties.createIntTag({ name: "molangVersion", value: 0 });
 
     // Create a compound tag for the block data.
-    const data = this.nbt.createCompoundTag({ name: "vanilla_block_data" });
+    const data = this.properties.createCompoundTag({
+      name: "vanilla_block_data"
+    });
 
     // Add the block ID to the block data.
     data.createIntTag({ name: "block_id", value: this.networkId });
 
     // Create a compound tag for the menu category.
-    const menuCategory = this.nbt.createCompoundTag({ name: "menu_category" });
+    const menuCategory = this.properties.createCompoundTag({
+      name: "menu_category"
+    });
 
     // Add the category to the menu category.
     menuCategory.createStringTag({
@@ -57,14 +56,14 @@ class CustomBlockType extends BlockType {
       });
     }
 
-    // Add the properties to the root tag.
-    this.nbt.addTag(this.properties);
-
     // Create a list tag for the properties.
-    this.nbt.createListTag({ name: "properties", listType: TagType.Compound });
+    this.properties.createListTag({
+      name: "properties",
+      listType: TagType.Compound
+    });
 
     // Create a list tag for the permutations.
-    this.nbt.createListTag({
+    this.properties.createListTag({
       name: "permutations",
       listType: TagType.Compound
     });
@@ -73,14 +72,14 @@ class CustomBlockType extends BlockType {
   /**
    * Creates a new block permutation for the block type.
    * @param state The state of the block. `{ [key: string]: string | number | boolean }`
-   * @param properties The properties of the block permutation.
+   * @param components The components of the block permutation.
    * @returns The block permutation that was created using the state definition.
    */
   public createPermutation(
     state: GenericBlockState,
-    properties?: Partial<BlockPropertyCollection>
+    components?: Partial<BlockTypeComponentCollection>
   ): BlockPermutation {
-    return BlockPermutation.create(this, state, properties);
+    return BlockPermutation.create(this, state, components);
   }
 }
 

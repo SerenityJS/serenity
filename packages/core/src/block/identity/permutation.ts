@@ -10,14 +10,14 @@ import {
 
 import {
   BlockState,
-  CustomBlockPermutation,
-  CustomBlockProperty,
+  BlockTypeNbtPermutationDefinition,
+  BlockTypeNbtStateDefinition,
   GenericBlockState
 } from "../../types";
 import { BlockIdentifier } from "../../enums";
 
 import { BlockType } from "./type";
-import { BlockPropertyCollection } from "./property-collection";
+import { BlockTypeComponentCollection } from "./collection";
 
 class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   /**
@@ -33,7 +33,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   /**
    * The network hash of the block permutation.
    */
-  public readonly network: number;
+  public readonly networkId: number;
 
   /**
    * The index value of the block permutation in the block type.
@@ -52,16 +52,24 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 
   /**
    * The Molang conditional query of the block permutation.
-   * This is used on the client end to determine the block state and properties.
+   * This is used on the client end to determine the block state and components.
    */
   public readonly query: string;
 
   /**
-   * The vanilla properties of the block permutation. (hardness, friction, lighting, etc.s)
-   * This properties are active on the client end when the query condition is met.
-   * These properties will override any global properties of the block type.
+   * The vanilla components of the block permutation. (hardness, friction, lighting, etc.s)
+   * This components are active on the client end when the query condition is met.
+   * These components will override any global components of the block type.
    */
-  public readonly properties: BlockPropertyCollection;
+  public readonly components: BlockTypeComponentCollection;
+
+  /**
+   * Whether the block permutation is component based.
+   * This is determined by the presence of any components in the block permutation.
+   */
+  public get isComponentBased(): boolean {
+    return this.components.getTags().length > 0;
+  }
 
   /**
    * Create a new block permutation.
@@ -70,16 +78,16 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    * @param type The block type of the block permutation.
    */
   public constructor(
-    network: number,
+    networkId: number,
     state: BlockState[T],
     type: BlockType<T>
   ) {
     // Assign the block permutation properties.
-    this.network = network;
+    this.networkId = networkId;
     this.state = state;
     this.type = type;
     this.index = type.permutations.length;
-    this.properties = new BlockPropertyCollection(this.type);
+    this.components = new BlockTypeComponentCollection(this);
 
     // Get keys of the block state.
     const keys = Object.keys(state ?? {});
@@ -180,7 +188,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   public static create(
     type: BlockType,
     state: GenericBlockState = {},
-    properties: Partial<BlockPropertyCollection> = {}
+    components: Partial<BlockTypeComponentCollection> = {}
   ): BlockPermutation {
     // Calculate the network hash of the block permutation.
     const network = BlockPermutation.hash(type.identifier, state);
@@ -189,17 +197,17 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     const permutation = new this(network, state, type);
 
     // Register the block permutation.
-    BlockPermutation.permutations.set(permutation.network, permutation);
+    BlockPermutation.permutations.set(network, permutation);
 
     // Register the permutation in the block type.
     type.permutations.push(permutation);
 
     // Assignt the properties of the block permutation.
-    Object.assign(permutation.properties, properties);
+    Object.assign(permutation.components, components);
 
     // Get the properties of the block type.
-    const typeProperties = type.nbt.value.properties;
-    const permutations = type.nbt.value.permutations;
+    const typeProperties = type.properties.value.properties;
+    const permutations = type.properties.value.permutations;
 
     // Get the keys of the block state.
     const keys = Object.keys(state);
@@ -219,7 +227,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
         // If the property does not exist, create a new property.
         if (!property) {
           // Create a new property tag.
-          property = new CompoundTag<CustomBlockProperty>();
+          property = new CompoundTag<BlockTypeNbtStateDefinition>();
 
           // Create the name tag for the property.
           property.createStringTag({ name: "name", value: key });
@@ -248,13 +256,13 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 
     if (permutations) {
       // Create a new permutation tag.
-      const tag = new CompoundTag<CustomBlockPermutation>();
+      const tag = new CompoundTag<BlockTypeNbtPermutationDefinition>();
 
       // Create the condition tag for the permutation.
       tag.createStringTag({ name: "condition", value: permutation.query });
 
       // Add the permutation properties to the tag.
-      tag.addTag(permutation.properties);
+      tag.addTag(permutation.components);
 
       // Add the permutation to the permutations.
       permutations.push(tag);

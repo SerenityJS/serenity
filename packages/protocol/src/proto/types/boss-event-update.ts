@@ -65,6 +65,7 @@ class BossEventUpdate extends DataType {
       case BossEventUpdateType.UpdateName: {
         // Read the title.
         const title = stream.readVarString();
+        stream.readVarString(); // Filtered name
 
         // Return the title event.
         return new this(null, null, title);
@@ -129,6 +130,7 @@ class BossEventUpdate extends DataType {
       case BossEventUpdateType.UpdateName: {
         // Write the title.
         stream.writeVarString(value.title ?? String());
+        stream.writeVarString(value.title ?? String()); // Filtered name
         break;
       }
 

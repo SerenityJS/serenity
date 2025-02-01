@@ -30,6 +30,7 @@ import {
   PlayerBreakBlockSignal,
   PlayerInteractWithBlockSignal
 } from "../events";
+import { DefaultBlockEntry } from "../constants";
 
 import { BlockDirectionTrait, BlockTrait } from "./traits";
 import { NbtMap } from "./maps";
@@ -63,11 +64,11 @@ class Block {
   public readonly position: BlockPosition;
 
   /**
-   * The components that are attached to the block.
-   * Components are additional data that is attached to the block and will be saved with the world database.
+   * The dynamic properties that are attached to the block.
+   * Dynamic properties is additional data that is attached to the block and will be saved with the world database.
    * These are usaully used by traits to store additional data, but can be used by other systems as well.
    */
-  public readonly components = new Map<string, JSONLikeValue>();
+  public readonly dyanamicProperties = new Map<string, JSONLikeValue>();
 
   /**
    * The traits that are attached to the block.
@@ -339,7 +340,7 @@ class Block {
     if (this.permutation.type !== permutation.type) {
       // Clear the components and traits if the type has changed.
       this.traits.clear();
-      this.components.clear();
+      this.dyanamicProperties.clear();
     }
 
     // Check if the block is air.
@@ -360,7 +361,7 @@ class Block {
     );
 
     // Fetch any traits that apply to the base type components
-    for (const identifier of permutation.type.components) {
+    for (const identifier of permutation.type.components.entries.keys()) {
       // Get the trait from the block palette using the identifier
       const trait = this.world.blockPalette.getTrait(identifier);
 
@@ -383,7 +384,10 @@ class Block {
     for (const trait of traits) this.addTrait(trait);
 
     // Check if the block should be cached.
-    if ((this.components.size > 0 || this.traits.size > 0) && !this.isAir) {
+    if (
+      (this.dyanamicProperties.size > 0 || this.traits.size > 0) &&
+      !this.isAir
+    ) {
       // Calculate the block hash using the position
       const hash = BlockPosition.hash(this.position);
 
@@ -396,50 +400,50 @@ class Block {
   }
 
   /**
-   * Whether the block has the specified component.
-   * @param key The key of the component to check for.
-   * @returns Whether the block has the component.
+   * Whether the block has the specified dynamic property.
+   * @param key The key of the dynamic property to check for.
+   * @returns Whether the block has the dynamic property.
    */
-  public hasComponent(key: string): boolean {
-    return this.components.has(key);
+  public hasDynamicProperty(key: string): boolean {
+    return this.dyanamicProperties.has(key);
   }
 
   /**
-   * Gets the specified component from the block.
-   * @param key The key of the component to get from the block.
-   * @returns The component if it exists, otherwise null.
+   * Gets the specified dynamic property from the block.
+   * @param key The key of the dynamic property to get from the block.
+   * @returns The dynamic property if it exists, otherwise null.
    */
-  public getComponent<T extends JSONLikeObject>(key: string): T | null {
-    return this.components.get(key) as T | null;
+  public getDynamicProperty<T extends JSONLikeObject>(key: string): T | null {
+    return this.dyanamicProperties.get(key) as T | null;
   }
 
   /**
-   * Removes the specified component from the block.
-   * @param key The key of the component to remove.
+   * Removes the specified dynamic from the block.
+   * @param key The key of the dynamic to remove.
    */
-  public removeComponent(key: string): void {
-    this.components.delete(key);
+  public removeDynamicProperty(key: string): void {
+    this.dyanamicProperties.delete(key);
   }
 
   /**
-   * Adds a component to the block.
-   * @param key The key of the component to add.
-   * @param component The component to add.
+   * Adds a dynamic property to the block.
+   * @param key The key of the dynamic property to add.
+   * @param property The dynamic property to add.
    */
-  public addComponent(key: string, component: JSONLikeObject): void {
-    this.components.set(key, component);
+  public addDynamicProperty(key: string, property: JSONLikeObject): void {
+    this.dyanamicProperties.set(key, property);
   }
 
   /**
-   * Sets the specified component to the block.
-   * @param key The key of the component to set.
-   * @param component The component to set.
+   * Sets the specified dynamic property to the block.
+   * @param key The key of the dynamic property to set.
+   * @param property The dynamic property to set.
    */
-  public setComponent<T extends JSONLikeObject>(
+  public setDynamicProperty<T extends JSONLikeObject>(
     key: string,
-    component: T
+    property: T
   ): void {
-    this.components.set(key, component);
+    this.dyanamicProperties.set(key, property);
   }
 
   /**
@@ -567,7 +571,7 @@ class Block {
    */
   public isToolCompatible(_itemStack: ItemStack): boolean {
     // Get the block permutation properties
-    const properties = this.permutation.properties;
+    const properties = this.permutation.components;
 
     // If the hardness is less than 0, no tool is compatible.
     if (properties.hardness < 0) return false;
@@ -585,7 +589,7 @@ class Block {
    */
   public getBreakTime(itemStack?: ItemStack | null): number {
     // Get the block permutation properties.
-    const properties = this.permutation.properties;
+    const properties = this.permutation.components;
 
     // Get the hardness of the block.
     let hardness = properties.hardness;
@@ -824,7 +828,7 @@ class Block {
       const packet = new LevelEventPacket();
       packet.event = LevelEvent.ParticlesDestroyBlock;
       packet.position = BlockPosition.toVector3f(this.position);
-      packet.data = this.permutation.network;
+      packet.data = this.permutation.networkId;
 
       // Broadcast the packet to the dimension.
       this.dimension.broadcast(packet);
@@ -897,10 +901,10 @@ class Block {
     // Create the block entry object.
     const entry: BlockEntry = {
       identifier: this.type.identifier,
-      permutation: this.permutation.network,
+      permutation: this.permutation.networkId,
       position: [x, y, z],
       traits: [...this.traits.keys()],
-      components: [...this.components.entries()]
+      dynamicProperties: [...this.dyanamicProperties.entries()]
     };
 
     // Return the block entry object.
@@ -912,15 +916,20 @@ class Block {
     entry: BlockEntry,
     overwrite = true
   ): void {
+    // Spread the default block entry with the provided entry.
+    // This will ensure that all the properties are set.
+    entry = { ...DefaultBlockEntry, ...entry };
+
     // Check if the block should be overwritten.
     if (overwrite) {
       this.traits.clear();
-      this.components.clear();
+      this.dyanamicProperties.clear();
     }
 
-    // Add the components to the block, if it does not already exist.
-    for (const [key, value] of entry.components) {
-      if (!this.components.has(key)) this.components.set(key, value);
+    // Add the dynamic properties to the block, if it does not already exist.
+    for (const [key, value] of entry.dynamicProperties) {
+      if (!this.dyanamicProperties.has(key))
+        this.dyanamicProperties.set(key, value);
     }
 
     // Add the traits to the block, if it does not already exist

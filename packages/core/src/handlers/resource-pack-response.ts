@@ -3,7 +3,7 @@ import {
   Difficulty,
   DisconnectReason,
   GameRuleType,
-  ItemComponentPacket,
+  ItemData,
   MINECRAFT_VERSION,
   Packet,
   PlayStatus,
@@ -13,14 +13,14 @@ import {
   ResourcePackDataInfoPacket,
   ResourcePackResponse,
   ResourcePackStackPacket,
-  StartGamePacket
+  StartGamePacket,
+  ItemRegistryPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, TagType } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
 import { ResourcePack } from "../resource-packs";
-import { ItemType } from "../item";
 import { EntityType } from "../entity";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
@@ -209,14 +209,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.enchantmentSeed = player.world.properties.seed;
 
         // Map the custom blocks definitions to the packet
+        packet.blockTypeDefinitions = [];
         packet.blockTypeDefinitions = world.blockPalette
           .getAllTypes()
           .map((type) => type.getNetworkDefinition());
-
-        // Map the custom items to the packet
-        packet.items = world.itemPalette
-          .getAllTypes()
-          .map((item) => ItemType.toItemData(item));
 
         packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
         packet.serverAuthoritativeInventory = true;
@@ -231,9 +227,23 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.serverControlledSounds = true;
 
         // Get all the custom item properties
-        const items = new ItemComponentPacket();
-        items.items = world.itemPalette.getAllCustomTypes().map((item) => {
-          return { name: item.identifier, data: item.nbt };
+        const items = new ItemRegistryPacket();
+        items.definitions = world.itemPalette.getAllTypes().map((item) => {
+          const identifier = item.identifier;
+          const networkId = item.network;
+          const componentBased = item.isComponentBased;
+          const itemVersion = item.version;
+          const properties = !item.isComponentBased
+            ? new CompoundTag()
+            : item.properties;
+
+          return new ItemData(
+            identifier,
+            networkId,
+            componentBased,
+            itemVersion,
+            properties
+          );
         });
 
         // Get the available actor identifiers

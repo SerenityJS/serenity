@@ -111,7 +111,7 @@ class Entity {
   /**
    * The components that are attached to the entity
    */
-  public readonly components = new Map<string, JSONLikeValue>();
+  public readonly dynamicProperties = new Map<string, JSONLikeValue>();
 
   /**
    * The metadata that is attached to the entity
@@ -621,8 +621,8 @@ class Entity {
    * @param key The key of the component.
    * @returns Whether the entity has the component or not.
    */
-  public hasComponent(key: string): boolean {
-    return this.components.has(key);
+  public hasDynamicProperty(key: string): boolean {
+    return this.dynamicProperties.has(key);
   }
 
   /**
@@ -630,16 +630,16 @@ class Entity {
    * @param key The key of the component.
    * @returns The component if it exists, otherwise null.
    */
-  public getComponent<T extends JSONLikeObject>(key: string): T | null {
-    return this.components.get(key) as T;
+  public getDynamicProperty<T extends JSONLikeObject>(key: string): T | null {
+    return this.dynamicProperties.get(key) as T;
   }
 
   /**
    * Removes the specified component from the entity.
    * @param key The key of the component.
    */
-  public removeComponent(key: string): void {
-    this.components.delete(key);
+  public removeDynamicProperty(key: string): void {
+    this.dynamicProperties.delete(key);
   }
 
   /**
@@ -647,8 +647,11 @@ class Entity {
    * @param key The key of the component.
    * @param value The value of the component.
    */
-  public addComponent<T extends JSONLikeObject>(key: string, value: T): void {
-    this.components.set(key, value);
+  public addDynamicProperty<T extends JSONLikeObject>(
+    key: string,
+    value: T
+  ): void {
+    this.dynamicProperties.set(key, value);
 
     // TODO: add return type boolean, check if the component already exists before adding
   }
@@ -658,8 +661,11 @@ class Entity {
    * @param key The key of the component.
    * @param value The value of the component.
    */
-  public setComponent<T extends JSONLikeObject>(key: string, value: T): void {
-    this.components.set(key, value);
+  public setDynamicProperty<T extends JSONLikeObject>(
+    key: string,
+    value: T
+  ): void {
+    this.dynamicProperties.set(key, value);
   }
 
   /**
@@ -1273,7 +1279,7 @@ class Entity {
       identifier: this.type.identifier,
       position: [x, y, z],
       rotation: [yaw, pitch, headYaw],
-      components: [...this.components.entries()],
+      dynamicProperties: [...this.dynamicProperties.entries()],
       traits: [...this.traits.keys()],
       metadata: metadataStream.getBuffer().toString("base64"),
       flags: [...this.flags.entries()],
@@ -1322,7 +1328,7 @@ class Entity {
         this.metadata.clear();
         this.flags.clear();
         this.attributes.clear();
-        this.components.clear();
+        this.dynamicProperties.clear();
         this.traits.clear();
       }
 
@@ -1343,9 +1349,9 @@ class Entity {
       // Add the attributes to the entity
       for (const value of attributes) this.attributes.set(value.name, value);
 
-      // Add the components to the entity
-      for (const [key, value] of entry.components)
-        this.components.set(key, value);
+      // Add the dynamic properties to the entity
+      for (const [key, value] of entry.dynamicProperties)
+        this.dynamicProperties.set(key, value);
 
       // Add the traits to the entity
       for (const trait of entry.traits) {

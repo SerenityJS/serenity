@@ -4,7 +4,7 @@ import { MaterialRenderMethod } from "@serenityjs/protocol";
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockProperty } from "./property";
+import { BlockTypeComponent } from "./property";
 
 interface MaterialInstanceProperties {
   /**
@@ -31,8 +31,8 @@ interface MaterialInstanceProperties {
 /**
  * Refrence the wiki for more information: https://wiki.bedrock.dev/blocks/block-components.html#material-instances
  */
-class BlockMaterialInstancesProperty extends BlockProperty {
-  public static readonly component = "minecraft:material_instances";
+class BlockTypeMaterialInstancesComponent extends BlockTypeComponent {
+  public static readonly identifier = "minecraft:material_instances";
 
   /**
    * The material instances of the block.
@@ -51,10 +51,10 @@ class BlockMaterialInstancesProperty extends BlockProperty {
     super(block);
 
     // Create a material instances tag.
-    this.property.createCompoundTag({ name: "mappings" }); // Not sure what this is.
+    this.component.createCompoundTag({ name: "mappings" }); // Not sure what this is.
 
     // Create the material instances tag.
-    this.materials = this.property.createCompoundTag({ name: "materials" });
+    this.materials = this.component.createCompoundTag({ name: "materials" });
 
     // Add the material instances.
     if (properties) {
@@ -111,4 +111,4 @@ class BlockMaterialInstancesProperty extends BlockProperty {
   }
 }
 
-export { BlockMaterialInstancesProperty };
+export { BlockTypeMaterialInstancesComponent };

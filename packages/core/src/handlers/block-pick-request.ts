@@ -30,7 +30,7 @@ class BlockPickRequestHandler extends NetworkHandler {
     // Create a new item stack from the block
     const itemStack = block.getItemStack({
       amount: 1,
-      auxillary: addData ? block.permutation.index : 0
+      metadata: addData ? block.permutation.index : 0
     });
 
     // Check if block data should be added to the item stack
@@ -39,7 +39,7 @@ class BlockPickRequestHandler extends NetworkHandler {
       const entry = block.getDataEntry();
 
       // Add the entry to the item stack components
-      itemStack.components.set("block_data", entry);
+      itemStack.dynamicProperties.set("block_data", entry);
     }
 
     // Get the player's inventory container

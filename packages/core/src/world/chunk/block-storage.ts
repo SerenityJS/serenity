@@ -54,7 +54,7 @@ class BlockStorage {
   public constructor(palette?: Array<number>, blocks?: Array<number>) {
     // Find the air value.
     const permutation = BlockPermutation.resolve(BlockIdentifier.Air);
-    this.air = permutation.network;
+    this.air = permutation.networkId;
 
     // Assign the palette.
     // When we create chunks, we will provide the palette with the current air value.
@@ -264,7 +264,7 @@ class BlockStorage {
         if (!permutation) throw new Error(`Unknown permutation state: ${data}`);
 
         // Assign the permutation to the palette
-        palette[index] = permutation.network;
+        palette[index] = permutation.networkId;
       } else {
         // Read the state from the stream
         palette[index] = stream.readZigZag();

@@ -42,7 +42,7 @@ class EntityPhysicsTrait extends EntityTrait {
         });
 
         // Get the permutation properties of the block below the entity
-        const properties = below.permutation.properties;
+        const properties = below.permutation.components;
 
         // Create a friction factor based on the entity's gravity
         const factor = this.entity.hasTrait(EntityGravityTrait) ? 0.95 : 1;

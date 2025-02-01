@@ -3,23 +3,23 @@ import { FloatTag } from "@serenityjs/nbt";
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockProperty } from "./property";
+import { BlockTypeComponent } from "./property";
 
-class BlockHardnessProperty extends BlockProperty {
-  public static readonly component = "minecraft:destructible_by_mining";
+class BlockTypeHardnessComponent extends BlockTypeComponent {
+  public static readonly identifier = "minecraft:destructible_by_mining";
 
   /**
    * The hardness of the block property.
    */
   public get hardness(): number {
-    return this.property.getTag<FloatTag>("value")?.value ?? 0;
+    return this.component.getTag<FloatTag>("value")?.value ?? 0;
   }
 
   /**
    * The hardness of the block property.
    */
   public set hardness(value: number) {
-    this.property.createFloatTag({ name: "value", value });
+    this.component.createFloatTag({ name: "value", value });
   }
 
   /**
@@ -35,4 +35,4 @@ class BlockHardnessProperty extends BlockProperty {
   }
 }
 
-export { BlockHardnessProperty };
+export { BlockTypeHardnessComponent };

@@ -36,6 +36,7 @@ class BossEventAdd extends DataType {
     if (type === BossEventUpdateType.Add) {
       // Read the fields for the add event.
       const name = stream.readVarString();
+      stream.readVarString(); // Filtered name
       const percent = stream.readFloat32(Endianness.Little);
       const darkenScreen = stream.readInt16(Endianness.Little);
       const color = stream.readVarInt();
@@ -58,6 +59,7 @@ class BossEventAdd extends DataType {
     if (type === BossEventUpdateType.Add) {
       // Write the fields for the add event.
       stream.writeVarString(value.title);
+      stream.writeVarString(value.title); // Filtered name
       stream.writeFloat32(value.percent, Endianness.Little);
       stream.writeInt16(value.darkenScreen, Endianness.Little);
       stream.writeVarInt(value.color);

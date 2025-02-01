@@ -28,17 +28,17 @@ class EntityInventoryTrait extends EntityTrait {
   public readonly container: EntityContainer;
 
   /**
-   * The component used to store the inventory items.
+   * The dynamic property used to store the inventory items.
    */
-  public get component(): ItemStorage {
-    return this.entity.getComponent("inventory") as ItemStorage;
+  public get property(): ItemStorage {
+    return this.entity.getDynamicProperty("inventory") as ItemStorage;
   }
 
   /**
-   * The component used to store the inventory items.
+   * The dynamic property used to store the inventory items.
    */
-  public set component(value: ItemStorage) {
-    this.entity.setComponent<ItemStorage>("inventory", value);
+  public set property(value: ItemStorage) {
+    this.entity.setDynamicProperty<ItemStorage>("inventory", value);
   }
 
   /**
@@ -122,18 +122,18 @@ class EntityInventoryTrait extends EntityTrait {
       items.push([i, itemStack.getDataEntry()]);
     }
 
-    // Set the inventory component to the entity
-    this.component = { size: this.container.size, items };
+    // Set the inventory property to the entity
+    this.property = { size: this.container.size, items };
   }
 
   public onSpawn(): void {
-    // Iterate over each item in the inventory component
-    for (const [slot, entry] of this.component.items) {
+    // Iterate over each item in the inventory property
+    for (const [slot, entry] of this.property.items) {
       try {
         // Create a new item stack
         const itemStack = new ItemStack(entry.identifier, {
           amount: entry.amount,
-          auxillary: entry.auxillary,
+          metadata: entry.metadata,
           world: this.entity.world,
           entry
         });
@@ -150,11 +150,11 @@ class EntityInventoryTrait extends EntityTrait {
   }
 
   public onAdd(): void {
-    // Check if the entity has an inventory component
-    if (this.entity.hasComponent("inventory")) return;
+    // Check if the entity has an inventory property
+    if (this.entity.hasDynamicProperty("inventory")) return;
 
-    // Create the item storage component
-    this.entity.setComponent<ItemStorage>("inventory", {
+    // Create the item storage property
+    this.entity.setDynamicProperty<ItemStorage>("inventory", {
       size: this.container.size,
       items: []
     });
@@ -179,8 +179,8 @@ class EntityInventoryTrait extends EntityTrait {
   }
 
   public onRemove(): void {
-    // Remove the item storage component
-    this.entity.removeComponent("inventory");
+    // Remove the item storage property
+    this.entity.removeDynamicProperty("inventory");
 
     // Remove the container metadata
     this.entity.metadata.delete(ActorDataId.ContainerType);

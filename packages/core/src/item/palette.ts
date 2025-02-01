@@ -1,8 +1,13 @@
+import { CreativeItemCategory, CreativeItemGroup } from "@serenityjs/protocol";
+
 import { ItemIdentifier } from "../enums";
 import { Items } from "../types";
 import { ItemEnum } from "../commands";
 
-import { CreativeItem, CustomItemType, ItemTraits, ItemType } from ".";
+import { CustomItemType, ItemType } from "./identity";
+import { CreateContentGroup, CreativeItemDescriptor } from "./creative";
+
+import { ItemTraits } from "./index";
 
 import type { ItemTrait } from "./traits";
 import type { BlockType } from "../block";
@@ -16,7 +21,7 @@ class ItemPalette {
   /**
    * The creative content for the palette.
    */
-  public readonly creativeContent = CreativeItem.items;
+  public readonly creativeGroups = CreateContentGroup.groups;
 
   /**
    * The registered item traits for the palette.
@@ -60,12 +65,35 @@ class ItemPalette {
    * @returns The item type from the palette.
    */
   public resolveType(type: BlockType): ItemType | null {
-    return [...this.types.values()].find((item) => item.block === type) ?? null;
+    return (
+      [...this.types.values()].find((item) => item.blockType === type) ?? null
+    );
   }
 
   public registerType(type: ItemType): boolean {
     // Check if the item type is already registered.
     if (this.types.has(type.identifier)) return false;
+
+    // Check if the item type has a creative category.
+    if (
+      type.creativeCategory !== CreativeItemCategory.Undefined &&
+      type.creativeGroup.length > 0
+    ) {
+      // Get the creative group for the item type.
+      // And create a new creative content group if it doesn't exist.
+      let creativeGroup = this.getCreativeGroup(type.creativeGroup);
+      if (!creativeGroup) {
+        // Create a new creative content group.
+        creativeGroup = this.createContentGroup({
+          identifier: type.creativeGroup,
+          category: type.creativeCategory,
+          icon: type
+        });
+      }
+
+      // Register the item type to the creative group.
+      if (!creativeGroup.hasItem(type)) creativeGroup.registerItem(type);
+    }
 
     // Register the item type.
     this.types.set(type.identifier, type);
@@ -83,53 +111,6 @@ class ItemPalette {
 
     // Return the registry for the item identifier.
     return registry ?? [];
-  }
-
-  /**
-   * Gets all creative content from the palette.
-   * @returns All creative content from the palette.
-   */
-  public getCreativeContent(): Array<CreativeItem> {
-    return [...this.creativeContent.values()];
-  }
-
-  /**
-   * Get creative content by index.
-   * @param index The index of the creative content.
-   * @returns The creative content by index.
-   */
-  public getCreativeContentByIndex(index: number): CreativeItem | null {
-    return this.creativeContent.get(index) ?? null;
-  }
-
-  /**
-   * Register a new creative item.
-   * @param type The item type to register.
-   * @param auxillary The auxillary data for the item.
-   */
-  public registerCreativeContent(type: ItemType, auxillary = 0): void {
-    // TODO: Add NBT support
-
-    // Get the index for the creative item.
-    const index = this.creativeContent.size;
-
-    // Set the creative item in the registry.
-    this.creativeContent.set(index, new CreativeItem(type, auxillary));
-  }
-
-  /**
-   * Unregister a creative item from the palette.
-   * @param index The index of the creative item to unregister.
-   */
-  public unregisterCreativeContent(index: number): void {
-    this.creativeContent.delete(index);
-  }
-
-  /**
-   * Clear all creative content from the palette.
-   */
-  public clearCreativeContent(): void {
-    this.creativeContent.clear();
   }
 
   /**
@@ -183,6 +164,135 @@ class ItemPalette {
    */
   public getTrait(identifier: string): typeof ItemTrait | null {
     return this.traits.get(identifier) ?? null;
+  }
+
+  /**
+   * Create a new creative content group.
+   * @param properties The properties of the creative content group.
+   * @returns The creative content group.
+   */
+  public createContentGroup(
+    properties?: Partial<CreateContentGroup>
+  ): CreateContentGroup {
+    // Create a new creative content group.
+    const group = new CreateContentGroup(properties);
+
+    // Register the creative content group.
+    this.registerCreativeGroup(group);
+
+    // Return the creative content group.
+    return group;
+  }
+
+  /**
+   * Get a creative content group from the palette.
+   * @param value The index or identifier of the creative content group.
+   * @returns The creative content group from the palette, or null if not found.
+   */
+  public getCreativeGroup(
+    value: number | string | CreativeItemGroup
+  ): CreateContentGroup | null {
+    // Check if the index is a number.
+    if (typeof value === "number") {
+      // Get the creative group by index.
+      return this.creativeGroups.get(value) ?? null;
+    }
+
+    // Get the creative group by identifier.
+    return (
+      [...this.creativeGroups.values()].find(
+        (group) => group.identifier === value
+      ) ?? null
+    );
+  }
+
+  /**
+   * Register a creative group to the palette.
+   * @param group The creative group to register.
+   * @returns True if the creative group was registered, false otherwise.
+   */
+  public registerCreativeGroup(group: CreateContentGroup): boolean {
+    // Check if the creative group is already registered with the identifier.
+    if (this.getCreativeGroup(group.identifier)) return false;
+
+    // Get the next index for the creative group.
+    const index = this.creativeGroups.size;
+
+    // Register the creative group.
+    this.creativeGroups.set(index, group);
+
+    // Return true if the creative group was registered.
+    return true;
+  }
+
+  /**
+   * Unregister a creative group from the palette.
+   * @param value The index or identifier of the creative group to unregister.
+   */
+  public unregisterCreativeGroup(value: number | string): void {
+    // Check if the index is a number.
+    if (typeof value === "number") {
+      // Unregister the creative group by index.
+      this.creativeGroups.delete(value);
+    } else {
+      // Get the creative group by identifier.
+      const group = this.getCreativeGroup(value);
+
+      // Find the index of the creative group.
+      const index = [...this.creativeGroups.entries()].findIndex(
+        ([, g]) => g === group
+      );
+
+      // Unregister the creative group by index.
+      this.creativeGroups.delete(index);
+    }
+  }
+
+  /**
+   * Get creative content by index.
+   * @param index The index of the creative content.
+   * @returns The creative content by index.
+   */
+  public getCreativeContentByIndex(
+    index: number
+  ): CreativeItemDescriptor | null {
+    // Prepare the running index.
+    let runningIndex = 0;
+
+    // Iterate over the creative groups.
+    for (const group of this.creativeGroups.values()) {
+      // Iterate over the items in the group.
+      for (const item of group.items) {
+        // Check if the running index is equal to the index.
+        if (runningIndex === index) return item;
+
+        // Increment the running index.
+        runningIndex++;
+      }
+    }
+
+    // Return null if the creative content was not found.
+    return null;
+  }
+
+  /**
+   * Register an item for a creative content group.
+   * @param group The creative content group.
+   * @param type The item type to register.
+   * @returns The creative content group.
+   */
+  public registerItemForCreativeGroup(
+    group: CreativeItemGroup,
+    type: ItemType
+  ): void {
+    // Get the creative content group.
+    const contentGroup = this.getCreativeGroup(group);
+
+    // Check if the content group exists.
+    if (!contentGroup) return;
+
+    // Add the item to the creative content group.
+    contentGroup.registerItem(type);
   }
 }
 

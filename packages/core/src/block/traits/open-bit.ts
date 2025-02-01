@@ -102,7 +102,7 @@ class BlockOpenBitTrait extends BlockTrait {
 
     // Create the level sound event packet
     const packet = new LevelSoundEventPacket();
-    packet.data = this.block.permutation.network;
+    packet.data = this.block.permutation.networkId;
     packet.event = open ? LevelSoundEvent.DoorOpen : LevelSoundEvent.DoorClose;
     packet.position = BlockPosition.toVector3f(this.block.position);
     packet.actorIdentifier = String();

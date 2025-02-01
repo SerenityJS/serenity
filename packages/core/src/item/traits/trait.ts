@@ -19,9 +19,15 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
 
   /**
    * The item tag that this trait is compatible with by default.
-   * If null, the trait is not compatible with any tag.
+   * If null, the trait will not attach to any item stack by default.
    */
   public static readonly tag: string | null = null;
+
+  /**
+   * The item component that this trait is compatible with by default.
+   * If null, the trait will not attach to any item stack by default.
+   */
+  public static readonly component: string | null = null;
 
   /**
    * The item stack that this trait is attached to.

@@ -153,7 +153,7 @@ export class Chunk {
     const subchunk = this.getSubChunk(yf >> 4);
 
     // Get the block state.
-    const state = permutation.network;
+    const state = permutation.networkId;
 
     // Set the block.
     subchunk.setState(x & 0xf, yf & 0xf, z & 0xf, state, layer); // 0 = Solids, 1 = Liquids or Logged

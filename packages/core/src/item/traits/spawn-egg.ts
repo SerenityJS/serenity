@@ -37,7 +37,7 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
 
     // Check if any entity data should be added to the entity.
     const entry =
-      this.item.getComponent<EntityEntry>("entity_data") ?? undefined;
+      this.item.getDynamicProperty<EntityEntry>("entity_data") ?? undefined;
 
     // Check if the entity data entry is defined.
     if (entry) {

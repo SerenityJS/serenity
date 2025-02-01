@@ -1,79 +1,49 @@
+import { ITEM_TYPES, ITEM_METADATA, TOOL_TYPES } from "@serenityjs/data";
 import { BinaryStream } from "@serenityjs/binarystream";
-import {
-  CREATIVE_CONTENT,
-  ITEM_TYPES,
-  ITEM_DATA,
-  TOOL_TYPES
-} from "@serenityjs/data";
-import { CreativeItems, ItemData } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemToolTier, type ItemIdentifier } from "../../enums";
 import { BlockType } from "../../block";
 
 import { ItemType } from "./type";
-import { CreativeItem } from "./creative";
 
-import type { CompoundTag } from "@serenityjs/nbt";
-
-// Create a new stream from the item data.
-const dataStream = new BinaryStream(ITEM_DATA);
-
-// Read the item data from the stream.
-const data = ItemData.read(dataStream);
-
-// Iterate over the item data.
-for (const item of data) {
-  // Get the metadata for the item.
-  const meta = ITEM_TYPES.find((type) => type.identifier === item.name);
-
-  // Get the tool type for the item.
-  const tool = TOOL_TYPES.find((tool) => tool.types.includes(item.name));
-  const index = tool?.types.indexOf(item.name);
-  const level = index === undefined ? ItemToolTier.None : index + 1;
-  const blockType = BlockType.types.get(item.name) ?? null;
-
-  // Create the item type.
-  const type = new ItemType(item.name as ItemIdentifier, item.networkId, {
-    stackable: meta?.stackable,
-    maxAmount: meta?.maxAmount,
-    tool: tool?.network,
-    tier: level,
-    tags: meta?.tags ?? [],
-    block: blockType
-  });
-
-  // Add the item type to the map.
-  ItemType.types.set(type.identifier, type);
-}
-
-// Create a new stream from the creative content.
-const creativeStream = new BinaryStream(CREATIVE_CONTENT);
-
-// Read the creative content from the stream.
-const creative = CreativeItems.read(creativeStream);
-
-// Iterate over the creative content.
-for (const [index, item] of creative.entries()) {
-  // Get the item type from the map.
-  const type = [...ItemType.types.values()].find(
-    (type) => type.network === item.network
+// Iterate over the item types.
+for (const type of ITEM_TYPES) {
+  // Get the metadata for the item type.
+  const metadata = ITEM_METADATA.find(
+    (metadata) => metadata.identifier === type.identifier
   );
 
-  // Check if the item type is valid.
-  // If not, then continue to the next item.
-  if (!type) continue;
+  // Check if the metadata exists.
+  if (!metadata) continue; // If not, then continue to the next item type.
 
-  // Do to some reason, some items have an incorrect metadata value,
-  // So we will generate our own.
-  const metadata = item.metadata ?? 0;
-  // index - creative.findIndex((index_) => index_.network === item.network);
+  // Get the tool type for the item type.
+  const tool = TOOL_TYPES.find((tool) => tool.types.includes(type.identifier));
+  const index = tool?.types.indexOf(type.identifier);
+  const level = index === undefined ? ItemToolTier.None : index + 1;
 
-  const nbt = item.extras?.nbt as CompoundTag<unknown>;
+  // Get the block type for the item type.
+  const blockType = BlockType.types.get(type.identifier) ?? null;
 
-  // Create a new item instance descriptor.
-  item.metadata = metadata;
-  // item.networkBlockId = type.block?.permutations[metadata]?.network ?? 0;
+  const stream = new BinaryStream(Buffer.from(metadata.properties, "base64"));
+  const properties = CompoundTag.read(stream);
 
-  // Set the item in the registry.
-  CreativeItem.items.set(index, new CreativeItem(type, metadata, nbt));
+  // Create the item type.
+  const instance = new ItemType(
+    type.identifier as ItemIdentifier,
+    metadata.networkId,
+    {
+      properties,
+      blockType,
+      isComponentBased: metadata.isComponentBased,
+      version: metadata.itemVersion,
+      maxAmount: type.maxAmount,
+      tool: tool?.network,
+      tier: level,
+      tags: type.tags ?? []
+    }
+  );
+
+  // Add the item type to the map.
+  ItemType.types.set(instance.identifier, instance);
 }
