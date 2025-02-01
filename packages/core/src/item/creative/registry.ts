@@ -36,6 +36,10 @@ for (const { type, groupIndex, instance } of CREATIVE_CONTENT) {
   const item = ItemType.get(type as ItemIdentifier);
   if (!item) continue; // If not, then continue to the next content.
 
+  // Assign the creative category and group to the item.
+  item.creativeCategory = group.category;
+  item.creativeGroup = group.identifier;
+
   // Create a new stream from the content instance.
   const stream = new BinaryStream(Buffer.from(instance, "base64"));
   const _descriptor = NetworkItemInstanceDescriptor.read(stream); // TODO: <-- broken nbt data, crashes client

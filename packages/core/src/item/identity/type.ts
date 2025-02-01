@@ -1,12 +1,15 @@
 import { CompoundTag } from "@serenityjs/nbt";
+import {
+  CreativeItemCategory,
+  CreativeItemGroup,
+  NetworkItemInstanceDescriptor
+} from "@serenityjs/protocol";
 
 import { Items, ItemTypeProperties } from "../../types";
 import { ItemToolTier, ItemToolType } from "../../enums";
 import { BlockType } from "../../block";
 
 import { ItemTypeComponentCollection } from "./collection";
-
-import type { NetworkItemInstanceDescriptor } from "@serenityjs/protocol";
 
 class ItemType<T extends keyof Items = keyof Items> {
   /**
@@ -59,6 +62,10 @@ class ItemType<T extends keyof Items = keyof Items> {
    * Whether the item type is component based.
    */
   public readonly isComponentBased: boolean;
+
+  public creativeCategory: CreativeItemCategory;
+
+  public creativeGroup: CreativeItemGroup | string;
 
   /**
    * The maximum stack size of the item type.
@@ -136,6 +143,12 @@ class ItemType<T extends keyof Items = keyof Items> {
     this.tags = properties?.tags ?? [];
     this.isComponentBased = properties?.isComponentBased ?? true;
     this.blockType = properties?.blockType ?? null;
+
+    // Assign the creative properties of the item type.
+    this.creativeCategory =
+      properties?.creativeCategory ?? CreativeItemCategory.Undefined;
+    this.creativeGroup =
+      properties?.creativeGroup ?? `itemGroup.name.${identifier}`;
 
     // Assign the component based properties of the item type.
     this.components.maxStackSize = properties?.maxAmount ?? 64;

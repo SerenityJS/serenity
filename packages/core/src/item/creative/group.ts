@@ -55,6 +55,15 @@ class CreateContentGroup {
   }
 
   /**
+   * Checks if the creative group has an item.
+   * @param item The item to check.
+   * @returns True if the creative group has the item, false otherwise.
+   */
+  public hasItem(item: ItemType): boolean {
+    return [...this.items].some((descriptor) => descriptor.type === item);
+  }
+
+  /**
    * Registers an item to the creative group.
    * @param item The item to register.
    * @param descriptor The network item instance descriptor, if applicable.

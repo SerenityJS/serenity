@@ -1,3 +1,5 @@
+import { CreativeItemCategory, CreativeItemGroup } from "@serenityjs/protocol";
+
 import { ItemIdentifier } from "../enums";
 import { Items } from "../types";
 import { ItemEnum } from "../commands";
@@ -71,6 +73,27 @@ class ItemPalette {
   public registerType(type: ItemType): boolean {
     // Check if the item type is already registered.
     if (this.types.has(type.identifier)) return false;
+
+    // Check if the item type has a creative category.
+    if (
+      type.creativeCategory !== CreativeItemCategory.Undefined &&
+      type.creativeGroup.length > 0
+    ) {
+      // Get the creative group for the item type.
+      // And create a new creative content group if it doesn't exist.
+      let creativeGroup = this.getCreativeGroup(type.creativeGroup);
+      if (!creativeGroup) {
+        // Create a new creative content group.
+        creativeGroup = this.createContentGroup({
+          identifier: type.creativeGroup,
+          category: type.creativeCategory,
+          icon: type
+        });
+      }
+
+      // Register the item type to the creative group.
+      if (!creativeGroup.hasItem(type)) creativeGroup.registerItem(type);
+    }
 
     // Register the item type.
     this.types.set(type.identifier, type);
@@ -166,7 +189,9 @@ class ItemPalette {
    * @param value The index or identifier of the creative content group.
    * @returns The creative content group from the palette, or null if not found.
    */
-  public getCreativeGroup(value: number | string): CreateContentGroup | null {
+  public getCreativeGroup(
+    value: number | string | CreativeItemGroup
+  ): CreateContentGroup | null {
     // Check if the index is a number.
     if (typeof value === "number") {
       // Get the creative group by index.
@@ -248,6 +273,26 @@ class ItemPalette {
 
     // Return null if the creative content was not found.
     return null;
+  }
+
+  /**
+   * Register an item for a creative content group.
+   * @param group The creative content group.
+   * @param type The item type to register.
+   * @returns The creative content group.
+   */
+  public registerItemForCreativeGroup(
+    group: CreativeItemGroup,
+    type: ItemType
+  ): void {
+    // Get the creative content group.
+    const contentGroup = this.getCreativeGroup(group);
+
+    // Check if the content group exists.
+    if (!contentGroup) return;
+
+    // Add the item to the creative content group.
+    contentGroup.registerItem(type);
   }
 }
 

@@ -350,9 +350,7 @@ class ItemStackRequestHandler extends NetworkHandler {
             );
 
           // Create the item stack.
-          const itemStack = ItemStack.fromNetworkInstance(
-            creativeItem.descriptor
-          ) as ItemStack;
+          const itemStack = new ItemStack(creativeItem.type);
 
           // Set the amount of the item stack.
           itemStack.amount = amount;

@@ -18,7 +18,7 @@ class ItemTypeComponent {
   /**
    * The component collection of the item type.
    */
-  private readonly collection: ItemTypeComponentCollection;
+  protected readonly collection: ItemTypeComponentCollection;
 
   /**
    * The item type of the component.

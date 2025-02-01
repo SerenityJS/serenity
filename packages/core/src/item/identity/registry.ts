@@ -37,7 +37,6 @@ for (const type of ITEM_TYPES) {
       blockType,
       isComponentBased: metadata.isComponentBased,
       version: metadata.itemVersion,
-      stackable: type.stackable,
       maxAmount: type.maxAmount,
       tool: tool?.network,
       tier: level,

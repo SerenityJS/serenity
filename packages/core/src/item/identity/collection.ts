@@ -4,6 +4,7 @@ import {
   ItemTypeBlockPlacerComponent,
   ItemTypeCanDestroyInCreativeComponent,
   ItemTypeDisplayNameComponent,
+  ItemTypeIconComponent,
   ItemTypeMaxStackComponent,
   ItemTypeWearableComponent
 } from "./components";
@@ -41,6 +42,11 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
   public get<T extends typeof ItemTypeComponent>(
     component: T
   ): InstanceType<T> {
+    // Check if the component exists.
+    if (!this.entries.has(component.identifier))
+      return this.add(component, undefined) as InstanceType<T>;
+
+    // Get the component from the collection.
     return this.entries.get(component.identifier) as InstanceType<T>;
   }
 
@@ -206,6 +212,33 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
 
     // Get the wearable component.
     return this.get(ItemTypeWearableComponent);
+  }
+
+  /**
+   * The icon component of the item type.
+   */
+  public get icon(): string {
+    // Check if the item type has the icon component.
+    if (!this.has(ItemTypeIconComponent))
+      return this.add(ItemTypeIconComponent, undefined).value;
+
+    // Get the icon component.
+    return this.get(ItemTypeIconComponent).value;
+  }
+
+  /**
+   * The icon component of the item type.
+   */
+  public set icon(value: string) {
+    // Check if the item type has the icon component.
+    if (!this.has(ItemTypeIconComponent))
+      this.add(ItemTypeIconComponent, undefined);
+
+    // Get the icon component.
+    const component = this.get(ItemTypeIconComponent);
+
+    // Set the icon value.
+    component.value = value;
   }
 }
 

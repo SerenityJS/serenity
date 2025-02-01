@@ -29,7 +29,7 @@ import {
   DefaultItemStackProperties
 } from "../constants";
 
-import { ItemType } from "./identity";
+import { ItemType, ItemTypeComponentCollection } from "./identity";
 import { ItemTrait } from "./traits";
 import { ItemStackNbtMap } from "./maps";
 
@@ -110,6 +110,13 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
     // Set the item in the container.
     this.container.swapItems(this.slot, value);
+  }
+
+  /**
+   * The components of the item stack type.
+   */
+  public get components(): ItemTypeComponentCollection {
+    return this.type.components;
   }
 
   public constructor(
