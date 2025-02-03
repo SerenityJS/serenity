@@ -1,9 +1,8 @@
-import { ActorDamageCause, ActorFlag, Gamemode } from "@serenityjs/protocol";
+import { ActorFlag } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
 
 import { EntityTrait } from "./trait";
-import { EntityHealthTrait } from "./attribute";
 
 class EntityGravityTrait extends EntityTrait {
   public static readonly identifier = "gravity";
@@ -13,6 +12,11 @@ class EntityGravityTrait extends EntityTrait {
    * The current distance the entity is falling from.
    */
   public fallingDistance = 0;
+
+  /**
+   * The current amount of ticks the entity has been falling for.
+   */
+  public fallingTicks = 0;
 
   public onAdd(): void {
     // Check if the entity has a metadata flag value for gravity
@@ -31,57 +35,70 @@ class EntityGravityTrait extends EntityTrait {
   }
 
   public onTick(): void {
-    // Check if the entity is on the ground
-    if (this.entity.onGround) {
-      // Reset the falling distance of the entity, if it is not already 0
-      if (this.fallingDistance !== 0) {
-        // TODO: Add block.onFallOn
-        const fallDamage = Math.max(0, this.fallingDistance - 3);
+    // Get the dimension the entity is in
+    const dimension = this.entity.dimension;
 
-        if (
-          fallDamage > 0 &&
-          this.entity.isPlayer() &&
-          (this.entity.gamemode == Gamemode.Adventure ||
-            this.entity.gamemode == Gamemode.Survival)
-        ) {
-          // Check if the FallDamage gamerule is enabled
-          if (!this.entity.world.gamerules.fallDamage) return;
+    const position = this.entity.position.floor();
 
-          this.entity
-            .getTrait(EntityHealthTrait)
-            .applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
-        }
+    const velocity = this.entity.velocity;
 
-        // Reset the falling distance of the entity
-        this.fallingDistance = 0;
-      }
-
-      // Reset the entity to not be falling
+    // Check if the entity is falling
+    if (
+      this.fallingDistance > 0 &&
+      this.fallingTicks > 0 &&
+      this.entity.velocity.y < 0
+    ) {
+      // Set the entity falling flag
+      this.entity.isFalling = true;
+    } else {
+      // Reset the entity falling flag
       this.entity.isFalling = false;
-
-      // Return, as the entity is not falling
-      return;
     }
 
-    // Get the topmost block of the entity
-    const top = this.entity.dimension.getTopmostBlock(this.entity.position);
+    // Get the topmost block at the entity's position
+    const block = dimension.getTopmostBlock(position.floor());
 
-    // // Add the y position of the block and entity
-    const blockY = top.position.y;
-    const entityY = this.entity.position.y - 1 - this.entity.hitboxHeight;
+    // Calculate the entity's offset from the block
+    const entityOffset = position.y - this.entity.hitboxHeight;
 
-    // // Calculate the distance between the entity and the block
-    const distance = Math.round(entityY - blockY);
+    // Calculate the distance the entity is from the block
+    const distance = Math.round(entityOffset - block.position.y);
 
-    // Check if the distance is less than the falling distance
-    // If so, return
-    if (distance < this.fallingDistance) return;
+    // Check if the distance is 0
+    // This means the entity is on the block
+    if (distance === 0 && this.fallingDistance > 0) {
+      // Trigger the entity onFallOnBlock trait event
+      for (const trait of this.entity.traits.values()) {
+        // Attempt to trigger the onFallOnBlock event
+        try {
+          // Call the onFallOnBlock event
+          trait.onFallOnBlock?.({
+            block,
+            fallDistance: this.fallingDistance,
+            fallTicks: this.fallingTicks
+          });
+        } catch (reason) {
+          // Log the error to the console
+          this.entity.world.serenity.logger.error(
+            `Failed to trigger onFallOnBlock event for entity "${this.entity.type.identifier}:${this.entity.uniqueId}" in dimension "${dimension.identifier}"`,
+            reason
+          );
 
-    // Set the falling distance of the entity
-    this.fallingDistance = distance;
+          // Remove the trait from the entity
+          this.entity.traits.delete(trait.identifier);
+        }
+      }
 
-    // Set the entity to be falling
-    this.entity.isFalling = true;
+      // Reset the falling distance
+      this.fallingDistance = 0;
+    }
+
+    // Check if the distance is greater than the falling distance
+    if (distance > this.fallingDistance) this.fallingDistance = distance;
+
+    // Check if the entity is falling
+    if (this.fallingDistance > 0 && velocity.y < 0) this.fallingTicks++;
+    else if (!this.entity.isFalling) this.fallingTicks = 0;
   }
 }
 

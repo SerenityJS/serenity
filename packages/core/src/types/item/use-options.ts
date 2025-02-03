@@ -2,7 +2,6 @@ import { BlockFace, ItemUseMethod, Vector3f } from "@serenityjs/protocol";
 
 import { Block } from "../../block";
 import { Entity } from "../../entity";
-// import { Entity } from "../../entity";
 
 interface ItemUseOptions {
   /**

@@ -87,7 +87,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     } else {
       // Set the player's velocity
       player.velocity.x = packet.positionDelta.x;
-      player.velocity.y = packet.positionDelta.y;
+      player.velocity.y = packet.positionDelta.y + 0.07840000092983246; // The client has a constant gravity force, so we need to add it here
       player.velocity.z = packet.positionDelta.z;
     }
 

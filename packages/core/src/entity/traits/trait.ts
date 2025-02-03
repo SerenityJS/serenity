@@ -4,7 +4,7 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { CommandExecutionState } from "../../commands";
 import { Container } from "../../container";
-import { JSONLikeObject } from "../../types";
+import { EntityFallOnBlockTraitEvent, JSONLikeObject } from "../../types";
 
 class EntityTrait extends Trait {
   /**
@@ -56,6 +56,13 @@ class EntityTrait extends Trait {
    * @param container The container that was updated.
    */
   public onContainerUpdate?(container: Container): void;
+
+  /**
+   * Called when the entity that this trait is attached to falls on a block.
+   * @param event The event properties of the entity falling on a block.
+   * @note This event requires the entity to have `EntityGravityTrait` attached.
+   */
+  public onFallOnBlock?(event: EntityFallOnBlockTraitEvent): void;
 
   /**
    * Clones the entity trait.
