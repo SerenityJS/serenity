@@ -1,8 +1,10 @@
-import { ActorFlag } from "@serenityjs/protocol";
+import { ActorDamageCause, ActorFlag, Gamemode } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
+import { EntityFallOnBlockTraitEvent } from "../../types";
 
 import { EntityTrait } from "./trait";
+import { EntityHealthTrait } from "./attribute";
 
 class EntityGravityTrait extends EntityTrait {
   public static readonly identifier = "gravity";
@@ -38,8 +40,10 @@ class EntityGravityTrait extends EntityTrait {
     // Get the dimension the entity is in
     const dimension = this.entity.dimension;
 
+    // Get the entity's position
     const position = this.entity.position.floor();
 
+    // Get the entity's velocity
     const velocity = this.entity.velocity;
 
     // Check if the entity is falling
@@ -99,6 +103,32 @@ class EntityGravityTrait extends EntityTrait {
     // Check if the entity is falling
     if (this.fallingDistance > 0 && velocity.y < 0) this.fallingTicks++;
     else if (!this.entity.isFalling) this.fallingTicks = 0;
+  }
+
+  public onFallOnBlock(event: EntityFallOnBlockTraitEvent): void {
+    // Check if the entity is a player
+    if (this.entity.isPlayer()) {
+      // Check if fall damage is disabled in the world
+      if (!this.entity.world.gamerules.fallDamage) return;
+
+      // Check if the entity is in creative mode or spectator mode
+      if (this.entity.gamemode === Gamemode.Creative) return;
+      if (this.entity.gamemode === Gamemode.Spectator) return;
+    }
+
+    // Check if the entity has fallen less than 10 ticks
+    // If so, do not apply fall damage. The player is probably jumping.
+    if (event.fallTicks < 10) return;
+
+    // Calculate the fall damage for the entity
+    const fallDamage = Math.max(0, event.fallDistance - 3);
+    if (fallDamage <= 0) return;
+
+    // Get the entity health trait
+    const health = this.entity.getTrait(EntityHealthTrait);
+
+    // Apply the fall damage to the entity
+    health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
   }
 }
 
