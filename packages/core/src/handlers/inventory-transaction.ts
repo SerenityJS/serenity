@@ -163,6 +163,9 @@ class InventoryTransactionHandler extends NetworkHandler {
     // Get the player's dimension
     const dimension = player.dimension;
 
+    // Get the block palette from the dimension
+    const blockPalette = dimension.world.blockPalette;
+
     // Switch the transaction type
     switch (transaction.type) {
       // Handles placing items as blocks
@@ -171,23 +174,28 @@ class InventoryTransactionHandler extends NetworkHandler {
         const interacting = dimension.getBlock(transaction.blockPosition);
 
         // Get the block that will be updated based on the transaction
-        const resultant = interacting.face(transaction.face);
+        let resultant = interacting.face(transaction.face);
 
-        // If the interacting block is air or the resultant block is not air
-        // If any of these conditions are met, we don't want to place a block
-        if (interacting.isAir || !resultant.isAir) {
+        // If the interacting block is air, we don't want to place a block
+        if (interacting.isAir) {
           // To prevent ghost blocks from acuring, we send an update block packet to the source of the transaction
           // Create a new UpdateBlockPacket to revert the block state to the source
           const packet = new UpdateBlockPacket();
 
+          // Get the air block from the block palette
+          const air = blockPalette.resolvePermutation(BlockIdentifier.Air);
+
           // Assign the block position, network block id, layer, and flags
-          packet.position = resultant.position;
-          packet.networkBlockId = resultant.permutation.networkId;
+          packet.position = interacting.position;
+          packet.networkBlockId = air.networkId;
           packet.layer = UpdateBlockLayerType.Normal;
           packet.flags = UpdateBlockFlagsType.Network;
 
           // Send the packet to the player
           return player.send(packet);
+        } else if (interacting.hasTag("plant")) {
+          // Set the resultant block to the interacting block
+          resultant = interacting;
         }
 
         // Interact with the block
