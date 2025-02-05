@@ -319,6 +319,24 @@ class Block {
     return this.dimension.getChunk(cx, cz);
   }
 
+  public getState<T>(key: string): T {
+    return this.permutation.state[key as keyof BlockPermutation["state"]] as T;
+  }
+
+  public setState<T>(key: string, value: T): void {
+    // Get the current state of the block
+    const current = this.permutation.state;
+
+    // Set the new state of the block
+    const state = { ...current, [key]: value };
+
+    // Get the permutation of the block
+    const permutation = this.type.getPermutation(state);
+
+    // Set the permutation of the block
+    this.setPermutation(permutation);
+  }
+
   /**
    * Gets the current permutation of the block.
    * @returns
@@ -824,24 +842,21 @@ class Block {
     // Return false if the block break was canceled
     if (options.cancel) return false;
 
-    // Check if the player destroyed the block.
-    if (options?.origin) {
-      // Check if the origin is a player.
-      if (options.origin.isPlayer() && options?.dropLoot) {
-        // Check if the player is in survival mode.
-        if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
-      } // If the origin is not a player, drop the loot if specified.
-      else if (options?.dropLoot) this.spawnLoot();
+    // Check if the origin is a player.
+    if (options?.origin?.isPlayer() && options?.dropLoot) {
+      // Check if the player is in survival mode.
+      if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
+    } // If the origin is not a player, drop the loot if specified.
+    else if (options?.dropLoot) this.spawnLoot();
 
-      // Create a new LevelEventPacket to broadcast the block break.
-      const packet = new LevelEventPacket();
-      packet.event = LevelEvent.ParticlesDestroyBlock;
-      packet.position = BlockPosition.toVector3f(this.position);
-      packet.data = this.permutation.networkId;
+    // Create a new LevelEventPacket to broadcast the block break.
+    const packet = new LevelEventPacket();
+    packet.event = LevelEvent.ParticlesDestroyBlock;
+    packet.position = BlockPosition.toVector3f(this.position);
+    packet.data = this.permutation.networkId;
 
-      // Broadcast the packet to the dimension.
-      this.dimension.broadcast(packet);
-    }
+    // Broadcast the packet to the dimension.
+    this.dimension.broadcast(packet);
 
     // Check if the block is waterlogged or lavalogged.
     if (this.isWaterlogged) this.isWaterlogged = false;

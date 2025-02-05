@@ -19,31 +19,12 @@ class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
 
   public getDirection(): CardinalDirection {
     // Get the state of the block
-    const state = this.block.permutation.state as unknown &
-      Record<"weirdo_direction", CardinalDirection>;
-
-    // Get the direction of the block
-    return state.weirdo_direction;
+    return this.block.getState<CardinalDirection>(this.state as string);
   }
 
   public setDirection(direction: CardinalDirection): void {
-    // Get the block type
-    const type = this.block.type;
-
-    // Get the state of the block
-    const state = this.block.permutation.state;
-
-    // Create the state of the block
-    const newState = {
-      ...state,
-      weirdo_direction: direction
-    };
-
-    // Get the permutation of the block
-    const permutation = type.getPermutation(newState);
-
-    // Set the permutation of the block
-    if (permutation) this.block.setPermutation(permutation);
+    // Set the direction of the block
+    this.block.setState(this.state as string, direction);
   }
 }
 
