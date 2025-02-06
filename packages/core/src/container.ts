@@ -403,8 +403,9 @@ class Container {
   /**
    * Close the container for a player.
    * @param player The player to close the container for.
+   * @param serverInitiated Whether the close was initiated by the server.
    */
-  public close(player: Player): void {
+  public close(player: Player, serverInitiated = true): void {
     // Check if the player is not viewing the container.
     if (!this.occupants.has(player))
       throw new Error("Player is not viewing the container.");
@@ -412,8 +413,8 @@ class Container {
     // Create a new ContainerClosePacket.
     const packet = new ContainerClosePacket();
     packet.identifier = this.identifier;
-    packet.type = ContainerType.None;
-    packet.serverInitiated = false;
+    packet.type = this.type;
+    packet.serverInitiated = serverInitiated;
 
     // Check if the container is a player inventory, and if its not owned by the player.
     if (

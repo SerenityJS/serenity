@@ -19,7 +19,7 @@ class ContainerCloseHandler extends NetworkHandler {
     new PlayerClosedContainerSignal(player, player.openedContainer).emit();
 
     // Close the container
-    player.openedContainer.close(player);
+    player.openedContainer.close(player, false);
   }
 }
 

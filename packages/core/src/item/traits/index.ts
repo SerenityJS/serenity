@@ -1,6 +1,5 @@
 export * from "./trait";
 export * from "./bundle";
-export * from "./equippable";
 export * from "./enchantable";
 export * from "./durability";
 export * from "./display";
@@ -10,3 +9,4 @@ export * from "./spawn-egg";
 export * from "./liquid-container";
 export * from "./weapon";
 export * from "./sword";
+export * from "./wearable";

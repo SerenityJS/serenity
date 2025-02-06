@@ -2,7 +2,8 @@ enum EquipmentSlot {
   Head,
   Chest,
   Legs,
-  Feet
+  Feet,
+  Offhand
 }
 
 export { EquipmentSlot };

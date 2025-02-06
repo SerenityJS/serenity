@@ -1,6 +1,5 @@
 import {
   ContainerId,
-  ContainerName,
   ContainerType,
   EquipmentSlot,
   MobArmorEquipmentPacket
@@ -8,12 +7,22 @@ import {
 
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
-import { ItemStack } from "../../item";
-import { ItemStackEntry, ItemStorage } from "../../types";
+import { ItemStackEntry, JSONLikeObject } from "../../types";
 import { EntityIdentifier } from "../../enums";
-import { Container } from "../..";
+import { ItemStack } from "../../item";
+import { Container } from "../../container";
 
+import { EntityInventoryTrait } from "./inventory";
 import { EntityTrait } from "./trait";
+
+interface EntityEquipmentTraitProperties extends JSONLikeObject {
+  head: ItemStackEntry | null;
+  chest: ItemStackEntry | null;
+  legs: ItemStackEntry | null;
+  feet: ItemStackEntry | null;
+  offhand: ItemStackEntry | null;
+}
+
 class EntityEquipmentTrait extends EntityTrait {
   public static readonly identifier = "equipment";
   public static readonly types = [EntityIdentifier.Player];
@@ -21,145 +30,217 @@ class EntityEquipmentTrait extends EntityTrait {
   /**
    * The armor container that holds the equipment items.
    */
-  public readonly container: EntityContainer;
+  public readonly armor: EntityContainer;
+
+  /**
+   * The offhand container that holds the equipment items.
+   */
+  public readonly offhand: EntityContainer;
 
   /**
    * The dynamic property used to store the equipment items.
    */
-  public get property(): ItemStorage {
-    return this.entity.getDynamicProperty("equipment") as ItemStorage;
+  public get properties(): EntityEquipmentTraitProperties {
+    // Check if the entity has a dynamic property for the equipment trait
+    if (!this.entity.hasDynamicProperty(this.identifier)) {
+      // Create a new dynamic property for the equipment trait
+      this.entity.setDynamicProperty<EntityEquipmentTraitProperties>(
+        this.identifier,
+        {
+          head: null,
+          chest: null,
+          legs: null,
+          feet: null,
+          offhand: null
+        }
+      );
+    }
+
+    // Return the dynamic property for the equipment trait
+    return this.entity.getDynamicProperty(
+      this.identifier
+    ) as EntityEquipmentTraitProperties;
   }
 
   /**
-   * The dynamic property used to store the equipment items.
+   * Create a new equipment trait for the entity.
+   * @param entity The entity to apply the equipment trait to.
+   * @param properties The optional properties of the equipment trait.
    */
-  public set property(value: ItemStorage) {
-    this.entity.setDynamicProperty<ItemStorage>("equipment", value);
-  }
-
-  public constructor(entity: Entity) {
+  public constructor(
+    entity: Entity,
+    properties?: Partial<EntityEquipmentTraitProperties>
+  ) {
     super(entity);
 
-    this.container = new EntityContainer(
+    // Create the armor container
+    this.armor = new EntityContainer(
       entity,
       ContainerType.Armor,
       ContainerId.Armor,
       4
     );
+
+    // Create the offhand container
+    this.offhand = new EntityContainer(
+      entity,
+      ContainerType.Inventory,
+      ContainerId.Offhand,
+      1
+    );
+
+    // Assign the properties to the equipment trait, if defined
+    if (properties) Object.assign(this.properties, properties);
   }
 
   /**
-   * Equips the given item to given slot in the entity equipment.
-   * @param slot The item where the item will be placed
-   * @param itemStack The item that will be placed
+   * Sets an item stack to a specific equipment slot.
+   * @param slot The equipment slot to set the item stack to.
+   * @param itemStack The item stack to set to the equipment slot.
    */
-  public setEquipment(slot: EquipmentSlot, itemStack: ItemStack): void {
-    this.container.setItem(slot, itemStack);
+  public setEqupment(slot: EquipmentSlot, itemStack: ItemStack): void {
+    // Check if the slot is the head slot
+    if (slot === EquipmentSlot.Offhand)
+      // Set the item stack to the offhand container
+      return this.offhand.setItem(0, itemStack);
+
+    // Set the item stack to the armor container
+    this.armor.setItem(slot, itemStack);
   }
 
   /**
-   * Gets the equipment item at the given slot.
-   * @param slot The slot to get the equipment
-   * @returns The item in the desired slot if existing.
+   * Gets the item stack from a specific equipment slot.
+   * @param slot The equipment slot to get the item stack from.
+   * @returns The item stack from the equipment slot; otherwise, null.
    */
   public getEquipment(slot: EquipmentSlot): ItemStack | null {
-    return this.container.getItem(slot);
+    // Check if the slot is the head slot
+    if (slot === EquipmentSlot.Offhand)
+      // Get the item stack from the offhand container
+      return this.offhand.getItem(0);
+
+    // Get the item stack from the armor container
+    return this.armor.getItem(slot);
   }
 
+  /**
+   * Swaps an item stack from the inventory to an equipment slot.
+   * @param slot The slot of the item stack in the inventory.
+   * @param equipmentSlot The equipment slot to swap the item stack to.
+   */
   public swapFromInventory(slot: number, equipmentSlot: EquipmentSlot): void {
-    // Get the inventory container
-    const inventory = this.entity.getContainer(ContainerName.Inventory);
+    // Get the inventory trait of the entity
+    const inventory = this.entity.getTrait(EntityInventoryTrait);
 
-    // Check if the inventory container is null
-    if (!inventory) return;
+    // Check if the entity does not have an inventory trait
+    if (!inventory) throw new Error("Entity does not have an inventory trait.");
 
-    inventory.swapItems(slot, equipmentSlot, this.container);
+    // Get the item stack from the inventory slot
+    const itemStack = inventory.container.getItem(slot);
+
+    // Check if the item stack is null
+    if (!itemStack) return;
+
+    // Check if the equipment slot is the offhand slot
+    if (equipmentSlot === EquipmentSlot.Offhand)
+      return inventory.container.swapItems(slot, equipmentSlot, this.offhand);
+
+    // Swap the item stack from the inventory to the equipment slot
+    inventory.container.swapItems(slot, equipmentSlot, this.armor);
   }
 
   public onContainerUpdate(container: Container): void {
-    // Check if the container is the equipment container
-    if (container !== this.container) return;
+    // Check if the container is not the armor or offhand container
+    if (container !== this.armor && container !== this.offhand) return;
 
-    // Create a new equipment packet
+    const head = this.armor.getItem(EquipmentSlot.Head);
+    const chest = this.armor.getItem(EquipmentSlot.Chest);
+    const legs = this.armor.getItem(EquipmentSlot.Legs);
+    const feet = this.armor.getItem(EquipmentSlot.Feet);
+    const offhand = this.offhand.getItem(0);
+
+    // Assign the head item to the properties
+    this.properties.head = head ? head.getDataEntry() : null;
+
+    // Assign the chest item to the properties
+    this.properties.chest = chest ? chest.getDataEntry() : null;
+
+    // Assign the legs item to the properties
+    this.properties.legs = legs ? legs.getDataEntry() : null;
+
+    // Assign the feet item to the properties
+    this.properties.feet = feet ? feet.getDataEntry() : null;
+
+    // Assign the offhand item to the properties
+    this.properties.offhand = offhand ? offhand.getDataEntry() : null;
+
+    // Create a new MobArmorEquipmentPacket, and assign the equipment properties
     const packet = new MobArmorEquipmentPacket();
-
-    // Set the runtime ID of the entity
     packet.runtimeId = this.entity.runtimeId;
+    packet.helmet = ItemStack.toNetworkStack(head ?? ItemStack.empty());
+    packet.chestplate = ItemStack.toNetworkStack(chest ?? ItemStack.empty());
+    packet.leggings = ItemStack.toNetworkStack(legs ?? ItemStack.empty());
+    packet.boots = ItemStack.toNetworkStack(feet ?? ItemStack.empty());
+    packet.body = ItemStack.toNetworkStack(offhand ?? ItemStack.empty());
 
-    packet.helmet = ItemStack.toNetworkStack(
-      this.getEquipment(EquipmentSlot.Head) ?? ItemStack.empty()
-    );
-
-    packet.chestplate = ItemStack.toNetworkStack(
-      this.getEquipment(EquipmentSlot.Chest) ?? ItemStack.empty()
-    );
-
-    packet.leggings = ItemStack.toNetworkStack(
-      this.getEquipment(EquipmentSlot.Legs) ?? ItemStack.empty()
-    );
-
-    packet.boots = ItemStack.toNetworkStack(
-      this.getEquipment(EquipmentSlot.Feet) ?? ItemStack.empty()
-    );
-
-    packet.body = ItemStack.toNetworkStack(
-      this.getEquipment(EquipmentSlot.Chest) ?? ItemStack.empty()
-    );
-
-    // Broadcast the packet to the dimension
+    // Broadcast the packet to the dimension of the entity
     this.entity.dimension.broadcast(packet);
   }
 
   public onSpawn(): void {
-    // Iterate over the equipment slots
-    for (const [slot, entry] of this.property.items) {
-      // Create a new item stack
-      const itemStack = new ItemStack(entry.identifier, {
-        amount: entry.amount,
-        metadata: entry.metadata,
-        world: this.entity.world,
-        entry
-      });
+    // Get the equipment properties
+    // Clone the properties to avoid reference issues
+    const properties = { ...this.properties };
 
-      // Set the item stack to the equipment slot
-      this.setEquipment(slot as EquipmentSlot, itemStack);
-    }
-  }
+    // Check if a head item is defined
+    if (properties.head) {
+      // Create a new item stack using the head item entry
+      const itemStack = ItemStack.fromDataEntry(properties.head);
 
-  public onDespawn(): void {
-    // Prepare the items array
-    const items: Array<[number, ItemStackEntry]> = [];
-
-    // Iterate over the container slots
-    for (let i = 0; i < this.container.size; i++) {
-      // Get the item stack at the index
-      const itemStack = this.container.getItem(i);
-
-      // Check if the item is null
-      if (!itemStack) continue;
-
-      // Push the item stack entry to the inventory items
-      items.push([i, itemStack.getDataEntry()]);
+      // Set the item stack to the head equipment slot
+      this.setEqupment(EquipmentSlot.Head, itemStack);
     }
 
-    // Set the equipment component to the entity
-    this.property = { size: this.container.size, items };
-  }
+    // Check if a chest item is defined
+    if (properties.chest) {
+      // Create a new item stack using the chest item entry
+      const itemStack = ItemStack.fromDataEntry(properties.chest);
 
-  public onAdd(): void {
-    // Check if the entity has an equipment component
-    if (this.entity.hasDynamicProperty("equipment")) return;
+      // Set the item stack to the chest equipment slot
+      this.setEqupment(EquipmentSlot.Chest, itemStack);
+    }
 
-    // Create the item storage component
-    this.entity.setDynamicProperty<ItemStorage>("equipment", {
-      size: this.container.size,
-      items: []
-    });
+    // Check if a legs item is defined
+    if (properties.legs) {
+      // Create a new item stack using the legs item entry
+      const itemStack = ItemStack.fromDataEntry(properties.legs);
+
+      // Set the item stack to the legs equipment slot
+      this.setEqupment(EquipmentSlot.Legs, itemStack);
+    }
+
+    // Check if a feet item is defined
+    if (properties.feet) {
+      // Create a new item stack using the feet item entry
+      const itemStack = ItemStack.fromDataEntry(properties.feet);
+
+      // Set the item stack to the feet equipment slot
+      this.setEqupment(EquipmentSlot.Feet, itemStack);
+    }
+
+    // Check if an offhand item is defined
+    if (properties.offhand) {
+      // Create a new item stack using the offhand item entry
+      const itemStack = ItemStack.fromDataEntry(properties.offhand);
+
+      // Set the item stack to the offhand equipment slot
+      this.setEqupment(EquipmentSlot.Offhand, itemStack);
+    }
   }
 
   public onRemove(): void {
-    // Remove the item storage component
-    this.entity.removeDynamicProperty("equipment");
+    // Remove the equipment properties
+    this.entity.removeDynamicProperty(this.identifier);
   }
 }
 

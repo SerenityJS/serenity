@@ -778,6 +778,21 @@ class ItemStack<T extends keyof Items = keyof Items> {
   }
 
   /**
+   * Creates an item stack from a data entry.
+   * @param entry The data entry to create the item stack from.
+   * @param world The world to create the item stack in.
+   * @returns The item stack.
+   */
+  public static fromDataEntry(entry: ItemStackEntry, world?: World): ItemStack {
+    return new this(entry.identifier as ItemIdentifier, {
+      metadata: entry.metadata,
+      amount: entry.amount,
+      entry,
+      world
+    });
+  }
+
+  /**
    * Creates an empty item stack.
    * @returns The empty item stack.
    */

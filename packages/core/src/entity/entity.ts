@@ -965,15 +965,17 @@ class Entity {
         return null;
       }
 
-      case ContainerName.Armor: {
+      case ContainerName.Armor:
+      case ContainerName.Offhand: {
         if (!this.hasTrait(EntityEquipmentTrait))
           throw new Error("The player does not have an equipment trait.");
 
         // Get the equipment trait
         const equipment = this.getTrait(EntityEquipmentTrait);
 
-        // Return the equipment container
-        return equipment.container;
+        // Check if the container name is armor or offhand
+        if (name === ContainerName.Armor) return equipment.armor;
+        else return equipment.offhand;
       }
 
       case ContainerName.Hotbar:
