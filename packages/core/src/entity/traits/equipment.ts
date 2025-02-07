@@ -9,7 +9,7 @@ import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStackEntry, JSONLikeObject } from "../../types";
 import { EntityIdentifier } from "../../enums";
-import { ItemStack } from "../../item";
+import { ItemStack, ItemWearableTrait } from "../../item";
 import { Container } from "../../container";
 
 import { EntityInventoryTrait } from "./inventory";
@@ -147,6 +147,27 @@ class EntityEquipmentTrait extends EntityTrait {
 
     // Swap the item stack from the inventory to the equipment slot
     inventory.container.swapItems(slot, equipmentSlot, this.armor);
+  }
+
+  /**
+   * Calculates the total protection of the armor items.
+   * @returns The total protection of the armor items.
+   */
+  public calculateArmorProtection(): number {
+    // Get the armor items from the equipment trait
+    const head = this.getEquipment(EquipmentSlot.Head);
+    const chest = this.getEquipment(EquipmentSlot.Chest);
+    const legs = this.getEquipment(EquipmentSlot.Legs);
+    const feet = this.getEquipment(EquipmentSlot.Feet);
+
+    // Get the protection values of the armor items
+    const headProtection = head?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    const chestProtection = chest?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    const legsProtection = legs?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    const feetProtection = feet?.getTrait(ItemWearableTrait)?.protection ?? 0;
+
+    // Calculate the total protection of the armor items
+    return headProtection + chestProtection + legsProtection + feetProtection;
   }
 
   public onContainerUpdate(container: Container): void {

@@ -12,6 +12,7 @@ import { ItemWeaponTrait } from "../../../item";
 import { PlayerCombatProperty } from "../../../types";
 import { Entity } from "../../entity";
 import { EntityHealthTrait } from "../attribute";
+import { EntityEquipmentTrait } from "../equipment";
 
 import { PlayerTrait } from "./trait";
 
@@ -197,7 +198,7 @@ class PlayerCombatTrait extends PlayerTrait {
       !this.player.onGround;
 
     // Get the calculated damage of the player.
-    const damage = this.getCalculatedDamage(critical);
+    let damage = this.getCalculatedDamage(critical);
 
     // Check if the player is critical attacking the entity.
     if (critical) {
@@ -214,6 +215,21 @@ class PlayerCombatTrait extends PlayerTrait {
 
       // Start the critical cooldown
       this.startCriticalCooldown();
+    }
+
+    // Check if the target has an equipment trait.
+    if (target.hasTrait(EntityEquipmentTrait)) {
+      // Get the equipment trait of the target.
+      const equipment = target.getTrait(EntityEquipmentTrait);
+
+      // Get the total protection of the armor items.
+      const protection = equipment.calculateArmorProtection();
+
+      // Calculate the reduction of the damage based on the protection.
+      const reduction = Math.min(20, Math.max(0, protection)) / 30;
+
+      // Apply the reduction to the damage.
+      damage *= 1 - reduction;
     }
 
     // Apply damage to the entity

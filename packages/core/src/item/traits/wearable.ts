@@ -64,6 +64,34 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
   }
 
   /**
+   * The amount of protection the wearable item provides.
+   */
+  public get protection(): number {
+    return this.properties.protection;
+  }
+
+  /**
+   * The amount of protection the wearable item provides.
+   */
+  public set protection(value: number) {
+    this.properties.protection = value;
+  }
+
+  /**
+   * The slot the wearable item can be equipped to.
+   */
+  public get slot(): WearableSlot {
+    return this.properties.slot;
+  }
+
+  /**
+   * The slot the wearable item can be equipped to.
+   */
+  public set slot(value: WearableSlot) {
+    this.properties.slot = value;
+  }
+
+  /**
    * Create a new wearable trait for the item stack.
    * @param item The item stack to apply the wearable trait to.
    * @param properties The optional properties of the wearable trait.
