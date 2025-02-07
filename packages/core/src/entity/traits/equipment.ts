@@ -1,6 +1,7 @@
 import {
   ContainerId,
   ContainerType,
+  Enchantment,
   EquipmentSlot,
   MobArmorEquipmentPacket
 } from "@serenityjs/protocol";
@@ -9,7 +10,7 @@ import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStackEntry, JSONLikeObject } from "../../types";
 import { EntityIdentifier } from "../../enums";
-import { ItemStack, ItemWearableTrait } from "../../item";
+import { ItemEnchantableTrait, ItemStack, ItemWearableTrait } from "../../item";
 import { Container } from "../../container";
 
 import { EntityInventoryTrait } from "./inventory";
@@ -160,14 +161,48 @@ class EntityEquipmentTrait extends EntityTrait {
     const legs = this.getEquipment(EquipmentSlot.Legs);
     const feet = this.getEquipment(EquipmentSlot.Feet);
 
+    let protection = 0;
+
     // Get the protection values of the armor items
-    const headProtection = head?.getTrait(ItemWearableTrait)?.protection ?? 0;
-    const chestProtection = chest?.getTrait(ItemWearableTrait)?.protection ?? 0;
-    const legsProtection = legs?.getTrait(ItemWearableTrait)?.protection ?? 0;
-    const feetProtection = feet?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    protection += head?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    protection += chest?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    protection += legs?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    protection += feet?.getTrait(ItemWearableTrait)?.protection ?? 0;
+
+    // Check if the head item is enchantable
+    if (head?.hasTrait(ItemEnchantableTrait)) {
+      const enchantable = head.getTrait(ItemEnchantableTrait);
+
+      // Get the protection enchantments of the head item
+      protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
+    }
+
+    // Check if the chest item is enchantable
+    if (chest?.hasTrait(ItemEnchantableTrait)) {
+      const enchantable = chest.getTrait(ItemEnchantableTrait);
+
+      // Get the protection enchantments of the chest item
+      protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
+    }
+
+    // Check if the legs item is enchantable
+    if (legs?.hasTrait(ItemEnchantableTrait)) {
+      const enchantable = legs.getTrait(ItemEnchantableTrait);
+
+      // Get the protection enchantments of the legs item
+      protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
+    }
+
+    // Check if the feet item is enchantable
+    if (feet?.hasTrait(ItemEnchantableTrait)) {
+      const enchantable = feet.getTrait(ItemEnchantableTrait);
+
+      // Get the protection enchantments of the feet item
+      protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
+    }
 
     // Calculate the total protection of the armor items
-    return headProtection + chestProtection + legsProtection + feetProtection;
+    return protection;
   }
 
   public onContainerUpdate(container: Container): void {

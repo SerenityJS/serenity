@@ -226,10 +226,11 @@ class PlayerCombatTrait extends PlayerTrait {
       const protection = equipment.calculateArmorProtection();
 
       // Calculate the reduction of the damage based on the protection.
-      const reduction = Math.min(20, Math.max(0, protection)) / 30;
+      const reduction = Math.max(0, protection) / 30;
 
       // Apply the reduction to the damage.
-      damage *= 1 - reduction;
+      if (reduction >= 1) damage = 0;
+      else if (reduction > 0) damage *= 1 - reduction;
     }
 
     // Apply damage to the entity
