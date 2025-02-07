@@ -157,6 +157,10 @@ class World extends Emitter<WorldEventSignals> {
     // Create a new logger for the world
     this.logger = new Logger(this.identifier, LoggerColors.GreenBright);
 
+    // Register all the global commands
+    for (const command of serenity.commands.getAll())
+      this.commands.commands.set(command.name, command);
+
     // Register the admin commands
     for (const command of [...AdminCommands, ...CommonCommands]) command(this);
 

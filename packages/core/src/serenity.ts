@@ -18,7 +18,7 @@ import {
   type WorldProvider
 } from "./world";
 import { Player } from "./entity";
-import { ConsoleInterface, WorldEnum } from "./commands";
+import { ConsoleInterface, WorldEnum, Commands } from "./commands";
 import { Permissions } from "./permissions";
 import { ServerEvent } from "./enums";
 import { ResourcePackManager } from "./resource-packs";
@@ -88,6 +88,12 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public readonly permissions: Permissions;
 
   public readonly resourcePacks: ResourcePackManager;
+
+  /**
+   * The global commands registry for the server.
+   * The commands will register on every world that is created.
+   */
+  public readonly commands = new Commands();
 
   /**
    * Whether the server is currently running or not
