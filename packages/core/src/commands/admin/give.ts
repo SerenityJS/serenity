@@ -38,9 +38,6 @@ const register = (world: World) => {
 
           // Loop through the targets
           for (const target of targets) {
-            // Check if the target is an entity
-            if (!target.isPlayer()) continue;
-
             // Create the item stack
             const itemStack = new ItemStack(itemIdentifier as ItemIdentifier, {
               amount,
@@ -57,7 +54,7 @@ const register = (world: World) => {
 
           // Send the success message
           return {
-            message: `§7Successfully gave §ux${amount} ${itemIdentifier}§7 to §u${targets.length}§7 players.`
+            message: `§7Successfully gave §ux${amount} ${itemIdentifier}§7 to §u${targets.length}§7 entities.`
           };
         }
       );
