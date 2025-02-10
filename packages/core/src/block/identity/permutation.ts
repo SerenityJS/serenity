@@ -76,11 +76,13 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    * @param network The network hash of the block permutation.
    * @param state The state of the block permutation.
    * @param type The block type of the block permutation.
+   * @param query The Molang conditional query of the block permutation.
    */
   public constructor(
     networkId: number,
     state: BlockState[T],
-    type: BlockType<T>
+    type: BlockType<T>,
+    query?: string
   ) {
     // Assign the block permutation properties.
     this.networkId = networkId;
@@ -92,24 +94,28 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     // Get keys of the block state.
     const keys = Object.keys(state ?? {});
 
-    // Create the MolangQuery for the permutation.
-    let query = String();
-    for (const key of keys) {
-      // Get the value of the block state.
-      let value = state[key as keyof BlockState[T]] as unknown;
+    // Check if the query is provided.
+    if (query) this.query = query;
+    else {
+      // Create the MolangQuery for the permutation.
+      let query = String();
+      for (const key of keys) {
+        // Get the value of the block state.
+        let value = state[key as keyof BlockState[T]] as unknown;
 
-      // Update the value if it is a string.
-      value = typeof value === "string" ? `'${value}'` : value;
+        // Update the value if it is a string.
+        value = typeof value === "string" ? `'${value}'` : value;
 
-      // Append the query for the block state.
-      query += `query.block_state('${key}') == ${value}`;
+        // Append the query for the block state.
+        query += `query.block_state('${key}') == ${value}`;
 
-      // Check if a conjunction is needed.
-      if (keys.indexOf(key) !== keys.length - 1) query += " && ";
+        // Check if a conjunction is needed.
+        if (keys.indexOf(key) !== keys.length - 1) query += " && ";
+      }
+
+      // Assign the block permutation query.
+      this.query = query;
     }
-
-    // Assign the block permutation query.
-    this.query = query;
   }
 
   /**
