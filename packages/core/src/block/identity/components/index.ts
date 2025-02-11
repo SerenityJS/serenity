@@ -7,3 +7,4 @@ export * from "./hardness";
 export * from "./friction";
 export * from "./collision-box";
 export * from "./selection-box";
+export * from "./transformation";
