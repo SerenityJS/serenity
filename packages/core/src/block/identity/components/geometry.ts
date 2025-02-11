@@ -55,14 +55,15 @@ class BlockTypeGeometryComponent extends BlockTypeComponent {
   ) {
     super(block);
 
-    // Assign the properties.
-    Object.assign(this, {
-      ...DefaultBlockTypeGeometryComponent,
-      ...properties
-    });
+    // Assign the default geometry properties.
+    properties = { ...DefaultBlockTypeGeometryComponent, ...properties };
 
     // TODO: Implement bone visibility.
     this.component.createCompoundTag({ name: "bone_visibility" });
+
+    // Assign the default geometry properties.
+    if (properties?.model) this.model = properties.model;
+    if (properties?.culling) this.culling = properties.culling;
   }
 }
 

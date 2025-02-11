@@ -6,7 +6,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/SerenityJS/packages/core",
+  "repository": "https://github.com/SerenityJS/serenity/tree/main/packages/core",
   "files": [
     "dist/**",
     "README.md",
