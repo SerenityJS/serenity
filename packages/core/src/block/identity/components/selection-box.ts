@@ -6,7 +6,7 @@ import { BlockPermutation } from "../permutation";
 import { BlockTypeComponent } from "./property";
 
 const DefaultSelectionBoxProperties = {
-  origin: [0, 0, 0],
+  origin: [-8, 0, -8],
   size: [16, 16, 16]
 };
 
