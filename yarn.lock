@@ -62,7 +62,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.5.5":
+"@babel/runtime@npm:^7.20.1, @babel/runtime@npm:^7.5.5":
   version: 7.26.7
   resolution: "@babel/runtime@npm:7.26.7"
   dependencies:
@@ -179,6 +179,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@changesets/errors@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@changesets/errors@npm:0.1.4"
+  dependencies:
+    extendable-error: "npm:^0.1.5"
+  checksum: 10c0/21bec4e599a6833e03e0037f1cb9605c36490615db0741bd6b81063e7f2d98f0e2bdf86109ff519934888581bc77ebf7b2a7554040b10f40b71f55b766048747
+  languageName: node
+  linkType: hard
+
 "@changesets/errors@npm:^0.2.0":
   version: 0.2.0
   resolution: "@changesets/errors@npm:0.2.0"
@@ -231,6 +240,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@changesets/git@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@changesets/git@npm:2.0.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.20.1"
+    "@changesets/errors": "npm:^0.1.4"
+    "@changesets/types": "npm:^5.2.1"
+    "@manypkg/get-packages": "npm:^1.1.3"
+    is-subdir: "npm:^1.1.1"
+    micromatch: "npm:^4.0.2"
+    spawndamnit: "npm:^2.0.0"
+  checksum: 10c0/0f5eb05a062feb8b5877cb90d2463f5cb816c0d39151f5f7be970a2118b2925dae3646ee0f9cffa86a819902b04d86f9150dbde9a071e9aff89fa17cc5628037
+  languageName: node
+  linkType: hard
+
 "@changesets/git@npm:^3.0.1, @changesets/git@npm:^3.0.2":
   version: 3.0.2
   resolution: "@changesets/git@npm:3.0.2"
@@ -244,12 +268,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@changesets/logger@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@changesets/logger@npm:0.0.5"
+  dependencies:
+    chalk: "npm:^2.1.0"
+  checksum: 10c0/a4659a86c97e4f0ba5844168d0c8a5fb3f8d8a6b81fcdc986919eef338ea8c847140b30649d860b35a2c06f6fe584c10cfb78e25153977485e9d18d2c6d4b06a
+  languageName: node
+  linkType: hard
+
 "@changesets/logger@npm:^0.1.1":
   version: 0.1.1
   resolution: "@changesets/logger@npm:0.1.1"
   dependencies:
     picocolors: "npm:^1.1.0"
   checksum: 10c0/a0933b5bd4d99e10730b22612dc1bdfd25b8804c5b48f8cada050bf5c7a89b2ae9a61687f846a5e9e5d379a95b59fef795c8d5d91e49a251f8da2be76133f83f
+  languageName: node
+  linkType: hard
+
+"@changesets/parse@npm:^0.3.16":
+  version: 0.3.16
+  resolution: "@changesets/parse@npm:0.3.16"
+  dependencies:
+    "@changesets/types": "npm:^5.2.1"
+    js-yaml: "npm:^3.13.1"
+  checksum: 10c0/4fa076ef5ae856b54e62c57b2fae18482ab42a41cc70e059db1f6dade4e28ee796e5b9226af78e975bc9fb004748de5e09947da308fdd1d8bebc887c76f68054
   languageName: node
   linkType: hard
 
@@ -272,6 +315,22 @@ __metadata:
     "@manypkg/get-packages": "npm:^1.1.3"
     fs-extra: "npm:^7.0.1"
   checksum: 10c0/aacd4a71cab8a511702903bee50434188f300503a1207a08b89d09dc575981c28af77b7357a610504ce48d101e67308fc6ed4427ac2a61d162de4d01a2a0f695
+  languageName: node
+  linkType: hard
+
+"@changesets/read@npm:^0.5.9":
+  version: 0.5.9
+  resolution: "@changesets/read@npm:0.5.9"
+  dependencies:
+    "@babel/runtime": "npm:^7.20.1"
+    "@changesets/git": "npm:^2.0.0"
+    "@changesets/logger": "npm:^0.0.5"
+    "@changesets/parse": "npm:^0.3.16"
+    "@changesets/types": "npm:^5.2.1"
+    chalk: "npm:^2.1.0"
+    fs-extra: "npm:^7.0.1"
+    p-filter: "npm:^2.1.0"
+  checksum: 10c0/deb70f5e21ed5f6618fb79f16f19ccbbec38379613aa960f7c67133f73d3b8ef163b335d07b9d0658a46c9f615199322ab187d0693387791def2db75bf51ca2c
   languageName: node
   linkType: hard
 
@@ -311,6 +370,26 @@ __metadata:
   version: 4.1.0
   resolution: "@changesets/types@npm:4.1.0"
   checksum: 10c0/a372ad21f6a1e0d4ce6c19573c1ca269eef1ad53c26751ad9515a24f003e7c49dcd859dbb1fedb6badaf7be956c1559e8798304039e0ec0da2d9a68583f13464
+  languageName: node
+  linkType: hard
+
+"@changesets/types@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "@changesets/types@npm:5.2.1"
+  checksum: 10c0/2500a5047e28daa4ffdef44ba4afb8f47a923b2466f976e3611a2afb29373152f64ca79c624a7b84d3b0c1d3e44d72f3a82871c21690b36e28073b8cd2825a28
+  languageName: node
+  linkType: hard
+
+"@changesets/write@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "@changesets/write@npm:0.2.3"
+  dependencies:
+    "@babel/runtime": "npm:^7.20.1"
+    "@changesets/types": "npm:^5.2.1"
+    fs-extra: "npm:^7.0.1"
+    human-id: "npm:^1.0.2"
+    prettier: "npm:^2.7.1"
+  checksum: 10c0/24b7e0258421897a946275093b616529b12fe470aa785f088fb89c5844a5e41916abdbee0909b088e1e204e94725f2482c589ea80c14398e46b1723aee0bbbb4
   languageName: node
   linkType: hard
 
@@ -955,6 +1034,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@manypkg/find-root@npm:^2.2.2":
+  version: 2.2.3
+  resolution: "@manypkg/find-root@npm:2.2.3"
+  dependencies:
+    "@manypkg/tools": "npm:^1.1.2"
+  checksum: 10c0/fef84441d00ec9e69a12359c3faa635faa1a8e47d72f3641227cfd3ee86ba57cd6caf079973ab8d3d6984c8c4cc9deda0e59138800268f22ec17b40af7b973ea
+  languageName: node
+  linkType: hard
+
 "@manypkg/get-packages@npm:^1.1.3":
   version: 1.1.3
   resolution: "@manypkg/get-packages@npm:1.1.3"
@@ -966,6 +1054,27 @@ __metadata:
     globby: "npm:^11.0.0"
     read-yaml-file: "npm:^1.1.0"
   checksum: 10c0/f05907d1174ae28861eaa06d0efdc144f773d9a4b8b65e1e7cdc01eb93361d335351b4a336e05c6aac02661be39e8809a3f7ad28bc67b6b338071434ab442130
+  languageName: node
+  linkType: hard
+
+"@manypkg/get-packages@npm:^2.2.0":
+  version: 2.2.2
+  resolution: "@manypkg/get-packages@npm:2.2.2"
+  dependencies:
+    "@manypkg/find-root": "npm:^2.2.2"
+    "@manypkg/tools": "npm:^1.1.1"
+  checksum: 10c0/3b4fabbf9f7ed90264b0f16d2477d7124625472772ca33c6b2f3d70104a9ca13fadd860963453e5891e0c7722b1e0c045abec4544153e649e5b48f4817ada73a
+  languageName: node
+  linkType: hard
+
+"@manypkg/tools@npm:^1.1.1, @manypkg/tools@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@manypkg/tools@npm:1.1.2"
+  dependencies:
+    fast-glob: "npm:^3.3.2"
+    jju: "npm:^1.4.0"
+    js-yaml: "npm:^4.1.0"
+  checksum: 10c0/54e4b8e0d2aeb2682dff2d660139a825ab583aac86f42262ae81c108d6cc54e6d6de7172270e845a2409aaac2e113e51d9a1442bd226207547bc1bb454c3a5b8
   languageName: node
   linkType: hard
 
@@ -2687,7 +2796,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.4.2":
+"chalk@npm:^2.1.0, chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -2748,6 +2857,22 @@ __metadata:
     upper-case: "npm:^1.1.1"
     upper-case-first: "npm:^1.1.0"
   checksum: 10c0/cb44722e596e0c69e8ba28dce664b36e537ec76c8296c0baaef11d2b3db1e4a797ed50a99ff9c98a008c69dbe0270cfb96e384417a264d33de4baa709b79b9bb
+  languageName: node
+  linkType: hard
+
+"changeset-conventional-commits@npm:0.2.5":
+  version: 0.2.5
+  resolution: "changeset-conventional-commits@npm:0.2.5"
+  dependencies:
+    "@changesets/read": "npm:^0.5.9"
+    "@changesets/types": "npm:^5.2.1"
+    "@changesets/write": "npm:^0.2.3"
+    "@manypkg/get-packages": "npm:^2.2.0"
+    chalk: "npm:^5.3.0"
+    figlet: "npm:^1.7.0"
+  bin:
+    changeset-conventional: bin/index.js
+  checksum: 10c0/e5c5a0d319c4c9b374ac24ed1fa176600ecd8e0f7eefb95003531ad5b61e41276f583ac1312535ea6c88e2740de32098796c6e1d0e4ecb31bf2ffdc983d63657
   languageName: node
   linkType: hard
 
@@ -4236,6 +4361,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"figlet@npm:^1.7.0":
+  version: 1.8.0
+  resolution: "figlet@npm:1.8.0"
+  bin:
+    figlet: bin/index.js
+  checksum: 10c0/65c4eafa489e9c34e01f44c7813c0c90ec41fbf716ba5c48fff6d17290fc0bbe32c278eb1bbc2c1a705f59e77f82eb81f5a6c2f5d5022431f2d6ad90fe19ee26
+  languageName: node
+  linkType: hard
+
 "figures@npm:^3.0.0":
   version: 3.2.0
   resolution: "figures@npm:3.2.0"
@@ -5421,6 +5555,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jju@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "jju@npm:1.4.0"
+  checksum: 10c0/f3f444557e4364cfc06b1abf8331bf3778b26c0c8552ca54429bc0092652172fdea26cbffe33e1017b303d5aa506f7ede8571857400efe459cb7439180e2acad
+  languageName: node
+  linkType: hard
+
 "joycon@npm:^3.1.1":
   version: 3.1.1
   resolution: "joycon@npm:3.1.1"
@@ -5894,7 +6035,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micromatch@npm:^4.0.8":
+"micromatch@npm:^4.0.2, micromatch@npm:^4.0.8":
   version: 4.0.8
   resolution: "micromatch@npm:4.0.8"
   dependencies:
@@ -7370,6 +7511,7 @@ __metadata:
     "@commitlint/cli": "npm:^19.5.0"
     "@commitlint/config-angular": "npm:^19.5.0"
     "@turbo/gen": "npm:2.2.3"
+    changeset-conventional-commits: "npm:0.2.5"
     husky: "npm:^9.1.6"
     rimraf: "npm:6.0.1"
     turbo: "npm:2.2.3"
