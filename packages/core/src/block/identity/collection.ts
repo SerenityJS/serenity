@@ -12,7 +12,7 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
   /**
    * The type of block that the properties are for.
    */
-  protected readonly block: BlockType;
+  protected readonly block: BlockType | BlockPermutation;
 
   /**
    * The component definitions of the block type.
@@ -28,7 +28,7 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
     super({ name: "components" });
 
     // Set the block type that the properties are for.
-    this.block = block instanceof BlockPermutation ? block.type : block;
+    this.block = block;
   }
 
   /**
