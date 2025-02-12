@@ -194,13 +194,23 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   public static create(
     type: BlockType,
     state: GenericBlockState = {},
-    components: Partial<BlockTypeComponentCollection> = {}
+    components: Partial<BlockTypeComponentCollection> = {},
+    query?: string
   ): BlockPermutation {
+    // Reorder the state object keys so that the keys are in alphabetical order.
+    const sorted: Record<string, number | string | boolean> = {};
+
+    // Iterate over the keys of the block state.
+    for (const key of Object.keys(state).sort()) {
+      // Assign the key to the sorted state.
+      sorted[key] = state[key] as number | string | boolean;
+    }
+
     // Calculate the network hash of the block permutation.
-    const network = BlockPermutation.hash(type.identifier, state);
+    const network = BlockPermutation.hash(type.identifier, sorted);
 
     // Create a new block permutation.
-    const permutation = new this(network, state, type);
+    const permutation = new this(network, sorted, type, query);
 
     // Register the block permutation.
     BlockPermutation.permutations.set(network, permutation);
@@ -216,14 +226,14 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     const permutations = type.properties.value.permutations;
 
     // Get the keys of the block state.
-    const keys = Object.keys(state);
+    const keys = Object.keys(sorted);
 
     // Check if the properties exist
     if (typeProperties) {
       // Iterate over the keys of the block state.
       for (const key of keys) {
         // Get the value of the key
-        const value = state[key];
+        const value = sorted[key];
 
         // Find the property in the properties.
         let property = typeProperties.value.find(

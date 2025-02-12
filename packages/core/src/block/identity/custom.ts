@@ -73,13 +73,15 @@ class CustomBlockType extends BlockType {
    * Creates a new block permutation for the block type.
    * @param state The state of the block. `{ [key: string]: string | number | boolean }`
    * @param components The components of the block permutation.
+   * @param query The molang query for the block permutation. If not provided, the query will be generated from the state.
    * @returns The block permutation that was created using the state definition.
    */
   public createPermutation(
     state: GenericBlockState,
-    components?: Partial<BlockTypeComponentCollection>
+    components?: Partial<BlockTypeComponentCollection>,
+    query?: string
   ): BlockPermutation {
-    return BlockPermutation.create(this, state, components);
+    return BlockPermutation.create(this, state, components, query);
   }
 }
 
