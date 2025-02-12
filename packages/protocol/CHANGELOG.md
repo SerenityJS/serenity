@@ -1,5 +1,17 @@
 # @serenityjs/protocol
 
+## 0.7.3
+
+### Patch Changes
+
+- chore: init v0.7.3-beta
+
+- [`92dd472`](https://github.com/SerenityJS/serenity/commit/92dd4727ea702cf5d8c8b5a99c779f5b8f5f0979) Thanks [@PMK744](https://github.com/PMK744)! - init v0.7.3-beta
+
+- Updated dependencies [[`92dd472`](https://github.com/SerenityJS/serenity/commit/92dd4727ea702cf5d8c8b5a99c779f5b8f5f0979)]:
+  - @serenityjs/nbt@0.7.3
+  - @serenityjs/raknet@0.7.3
+
 ## 0.7.2
 
 ### Patch Changes
