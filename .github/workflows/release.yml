@@ -32,9 +32,6 @@ jobs:
             - name: Install Dependencies
               run: yarn install
 
-            - name: Generate Changelog
-              run: yarn changeset-conventional
-
             - name: Build
               run: yarn build
 
