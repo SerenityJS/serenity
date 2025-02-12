@@ -32,6 +32,9 @@ jobs:
             - name: Install Dependencies
               run: yarn install
 
+            - name: Generate Changelog
+              run: yarn changeset-conventional
+
             - name: Build
               run: yarn build
 
@@ -44,7 +47,7 @@ jobs:
                   publish: yarn run release
                   setupGitUser: true
                   commit: |
-                      Changeset: Increment package & dependecy versions.
+                      Changeset: Increment package & dependency versions.
 
                       Congratulations on the new release! 🎉
                       This is an automated commit triggered by the `release` workflow.
