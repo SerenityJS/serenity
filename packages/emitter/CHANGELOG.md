@@ -1,5 +1,13 @@
 # @serenityjs/emitter
 
+## 0.7.4
+
+### Patch Changes
+
+- chore: init v0.7.3-beta
+
+- chore: fix `BlockTypeComponentCollection`
+
 ## 0.7.3
 
 ### Patch Changes
