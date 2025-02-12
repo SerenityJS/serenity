@@ -1,5 +1,15 @@
 # @serenityjs/nbt
 
+## 0.7.5
+
+### Patch Changes
+
+- chore: fix `BlockTypeComponentCollection`
+
+- [`4117829`](https://github.com/SerenityJS/serenity/commit/411782918317a394ea3aafacbcba84ed8015b161) Thanks [@PMK744](https://github.com/PMK744)! - init v0.7.5-beta
+
+- chore: init v0.7.3-beta
+
 ## 0.7.4
 
 ### Patch Changes
