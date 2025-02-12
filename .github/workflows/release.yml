@@ -44,7 +44,7 @@ jobs:
                   publish: yarn run release
                   setupGitUser: true
                   commit: |
-                      Changeset: Increment package & dependency versions.
+                      Changeset: Increment package & dependecy versions.
 
                       Congratulations on the new release! 🎉
                       This is an automated commit triggered by the `release` workflow.
