@@ -1,5 +1,18 @@
 # @serenityjs/raknet
 
+## 0.7.5
+
+### Patch Changes
+
+- chore: fix `BlockTypeComponentCollection`
+
+- chore: init v0.7.3-beta
+
+- Updated dependencies []:
+  - @serenityjs/emitter@0.7.5
+  - @serenityjs/logger@0.7.5
+  - @serenityjs/nbt@0.7.5
+
 ## 0.7.4
 
 ### Patch Changes

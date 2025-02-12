@@ -1,5 +1,13 @@
 # @serenityjs/nbt
 
+## 0.7.5
+
+### Patch Changes
+
+- chore: fix `BlockTypeComponentCollection`
+
+- chore: init v0.7.3-beta
+
 ## 0.7.4
 
 ### Patch Changes
