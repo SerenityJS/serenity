@@ -1,5 +1,20 @@
 # @serenityjs/plugins
 
+## 0.7.6
+
+### Patch Changes
+
+- chore: fix `BlockTypeComponentCollection`
+
+- chore: init v0.7.5-beta
+
+- chore: init v0.7.3-beta
+
+- Updated dependencies []:
+  - @serenityjs/core@0.7.6
+  - @serenityjs/logger@0.7.6
+  - @serenityjs/protocol@0.7.6
+
 ## 0.7.5
 
 ### Patch Changes
