@@ -4,7 +4,7 @@ import { MaterialRenderMethod } from "@serenityjs/protocol";
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockTypeComponent } from "./property";
+import { BlockTypeComponent } from "./component";
 
 interface MaterialInstanceProperties {
   /**

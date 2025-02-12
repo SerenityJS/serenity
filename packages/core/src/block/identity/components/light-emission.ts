@@ -3,7 +3,7 @@ import { ByteTag } from "@serenityjs/nbt";
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockTypeComponent } from "./property";
+import { BlockTypeComponent } from "./component";
 
 class BlockTypeLightEmissionComponent extends BlockTypeComponent {
   public static readonly identifier = "minecraft:light_emission";

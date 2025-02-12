@@ -3,7 +3,7 @@ import { FloatTag } from "@serenityjs/nbt";
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockTypeComponent } from "./property";
+import { BlockTypeComponent } from "./component";
 
 class BlockTypeFrictionComponent extends BlockTypeComponent {
   public static readonly identifier = "minecraft:friction";

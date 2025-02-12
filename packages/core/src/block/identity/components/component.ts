@@ -43,10 +43,7 @@ class BlockTypeComponent {
   ) {
     // Assign the properties of the component.
     this.type = block instanceof BlockPermutation ? block.type : block;
-    this.collection = this.type.components;
-
-    // Check if the property already exists.
-    if (this.collection.hasTag(this.identifier)) return;
+    this.collection = block.components;
 
     // If not, create the property.
     this.collection.createCompoundTag({ name: this.identifier });

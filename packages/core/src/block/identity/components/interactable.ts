@@ -1,7 +1,7 @@
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
-import { BlockTypeComponent } from "./property";
+import { BlockTypeComponent } from "./component";
 
 // NOTE: This is bound to change, as this is an experimental feature apart of the vanilla scripting api.
 

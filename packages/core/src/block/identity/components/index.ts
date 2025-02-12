@@ -1,4 +1,4 @@
-export * from "./property";
+export * from "./component";
 export * from "./light-emission";
 export * from "./material-instances";
 export * from "./geometry";

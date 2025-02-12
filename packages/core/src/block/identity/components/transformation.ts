@@ -3,7 +3,7 @@ import { FloatTag, IntTag } from "@serenityjs/nbt";
 import { BlockType } from "../type";
 import { BlockPermutation } from "../permutation";
 
-import { BlockTypeComponent } from "./property";
+import { BlockTypeComponent } from "./component";
 
 const DefaultTransformationProperties: Partial<BlockTypeTransformationComponent> =
   {
