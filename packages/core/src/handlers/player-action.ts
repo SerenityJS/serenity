@@ -43,6 +43,11 @@ class PlayerActionHandler extends NetworkHandler {
       case PlayerActionType.CreativeDestroyBlock: {
         break;
       }
+
+      case PlayerActionType.ChangeDimensionAck: {
+        // Spawn the player once the dimension has finished loading
+        return void player.spawn({ changedDimensions: true });
+      }
     }
   }
 }

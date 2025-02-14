@@ -23,9 +23,11 @@ import {
 } from "../enums";
 import {
   CommandResponse,
+  EntityDespawnOptions,
   EntityEffectOptions,
   EntityEntry,
   EntityProperties,
+  EntitySpawnOptions,
   JSONLikeObject,
   JSONLikeValue
 } from "../types";
@@ -719,7 +721,15 @@ class Entity {
   /**
    * Spawns the entity into the dimension.
    */
-  public spawn(): this {
+  public spawn(options?: Partial<EntitySpawnOptions>): this {
+    // Spread the default options
+    options = {
+      initialSpawn: false,
+      dimension: this.dimension,
+      changedDimensions: false,
+      ...options
+    };
+
     // Create a new EntitySpawnedSignal
     const signal = new EntitySpawnedSignal(this, this.dimension).emit();
 
@@ -737,7 +747,7 @@ class Entity {
       // Attempt to trigger the onSpawn trait event
       try {
         // Call the onSpawn trait event
-        trait.onSpawn?.();
+        trait.onSpawn?.(options as EntitySpawnOptions);
       } catch (reason) {
         // Log the error to the console
         this.serenity.logger.error(
@@ -761,7 +771,13 @@ class Entity {
   /**
    * Despawns the entity from the dimension.
    */
-  public despawn(): this {
+  public despawn(options?: Partial<EntityDespawnOptions>): this {
+    // Spread the default options
+    options = {
+      hasDied: false,
+      ...options
+    };
+
     // Create a new EntityDespawnedSignal
     const signal = new EntityDespawnedSignal(this, this.dimension).emit();
 
@@ -779,7 +795,7 @@ class Entity {
       // Attempt to trigger the onDespawn trait event
       try {
         // Call the onDespawn trait event
-        trait.onDespawn?.();
+        trait.onDespawn?.(options as EntityDespawnOptions);
       } catch (reason) {
         // Log the error to the console
         this.serenity.logger.error(
@@ -862,7 +878,9 @@ class Entity {
       if (!this.isPlayer()) this.despawn();
       // Manually trigger the onDespawn trait event for players
       // We does this because the player has the option to disconnect at the respawn screen
-      else for (const trait of this.traits.values()) trait.onDespawn?.();
+      else
+        for (const trait of this.traits.values())
+          trait.onDespawn?.({ hasDied: true });
     });
   }
 
@@ -1061,50 +1079,57 @@ class Entity {
     this.setMotion();
   }
 
+  /**
+   * Teleport the entity to a new position.
+   * @param position The position to teleport the entity to.
+   * @param dimension The dimension to teleport the entity to; optional.
+   */
   public teleport(position: Vector3f, dimension?: Dimension): void {
     // Set the position of the entity
-    this.position.x = position.x;
-    this.position.y = position.y;
-    this.position.z = position.z;
+    this.position.set(position);
 
     // Check if a dimension was provided
-    if (dimension) {
-      const signal = new EntityDimensionChangeSignal(
-        this,
-        this.dimension,
-        dimension
-      );
+    if (dimension) this.changeDimension(dimension);
 
-      if (!signal.emit()) return;
+    // Create a new MoveActorDeltaPacket
+    const packet = new MoveActorDeltaPacket();
 
-      // Despawn the entity from the current dimension
-      this.despawn();
+    // Assign the packet properties
+    packet.runtimeId = this.runtimeId;
+    packet.flags = MoveDeltaFlags.All;
+    packet.x = this.position.x;
+    packet.y = this.position.y;
+    packet.z = this.position.z;
+    packet.yaw = this.rotation.yaw;
+    packet.headYaw = this.rotation.headYaw;
+    packet.pitch = this.rotation.pitch;
 
-      // Set the dimension of the entity
-      this.dimension = dimension;
+    // Check if the entity is on the ground
+    if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
 
-      // Spawn the entity in the new dimension
-      this.spawn();
-    } else {
-      // Create a new MoveActorDeltaPacket
-      const packet = new MoveActorDeltaPacket();
+    // Broadcast the packet to the dimension
+    this.dimension.broadcast(packet);
+  }
 
-      // Assign the packet properties
-      packet.runtimeId = this.runtimeId;
-      packet.flags = MoveDeltaFlags.All;
-      packet.x = this.position.x;
-      packet.y = this.position.y;
-      packet.z = this.position.z;
-      packet.yaw = this.rotation.yaw;
-      packet.headYaw = this.rotation.headYaw;
-      packet.pitch = this.rotation.pitch;
+  /**
+   * Changes the dimension of the entity.
+   * @param dimension The dimension to change to.
+   */
+  public changeDimension(dimension: Dimension): void {
+    // Check if the dimension is the same as the current dimension
+    if (this.dimension === dimension) return;
 
-      // Check if the entity is on the ground
-      if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
+    // Despawn the entity from the current dimension
+    this.despawn();
 
-      // Broadcast the packet to the dimension
-      this.dimension.broadcast(packet);
-    }
+    // Create a new EntityDimensionChangeSignal
+    new EntityDimensionChangeSignal(this, this.dimension, dimension).emit();
+
+    // Set the dimension of the entity
+    this.dimension = dimension;
+
+    // Spawn the entity in the new dimension
+    this.spawn({ changedDimensions: true });
   }
 
   /**

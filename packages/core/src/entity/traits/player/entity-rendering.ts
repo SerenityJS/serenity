@@ -18,6 +18,7 @@ import { ItemStack } from "../../../item";
 import { EntityItemStackTrait } from "../item-stack";
 import { EntityEquipmentTrait } from "../equipment";
 import { Entity } from "../../entity";
+import { EntityDespawnOptions } from "../../..";
 
 import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
@@ -307,6 +308,11 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
     // Remove the entity from the hidden entities
     this.hidden.delete(unique);
+  }
+
+  public onDespawn(options: EntityDespawnOptions): void {
+    // Clear the entities from the player's view if the entity has not died
+    if (!options.hasDied) this.clear();
   }
 }
 

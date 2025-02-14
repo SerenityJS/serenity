@@ -4,7 +4,12 @@ import { Entity } from "../entity";
 import { Player } from "../player";
 import { CommandExecutionState } from "../../commands";
 import { Container } from "../../container";
-import { EntityFallOnBlockTraitEvent, JSONLikeObject } from "../../types";
+import {
+  EntityDespawnOptions,
+  EntityFallOnBlockTraitEvent,
+  EntitySpawnOptions,
+  JSONLikeObject
+} from "../../types";
 
 class EntityTrait extends Trait {
   /**
@@ -30,12 +35,12 @@ class EntityTrait extends Trait {
   /**
    * Called then the entity that this trait is attached to is spawned into a dimension.
    */
-  public onSpawn?(): void;
+  public onSpawn?(options: EntitySpawnOptions): void;
 
   /**
    * Called when the entity that this trait is attached to is despawned from a dimension.
    */
-  public onDespawn?(): void;
+  public onDespawn?(options: EntityDespawnOptions): void;
 
   /**
    * Called when the entity that this trait is attached to is interacted with by a player.

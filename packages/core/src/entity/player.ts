@@ -28,7 +28,12 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { PlayerEntry, PlayerProperties, PlaySoundOptions } from "../types";
+import {
+  EntitySpawnOptions,
+  PlayerEntry,
+  PlayerProperties,
+  PlaySoundOptions
+} from "../types";
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
@@ -419,9 +424,9 @@ class Player extends Entity {
   /**
    * Spawn the player in the dimension
    */
-  public spawn(): this {
+  public spawn(options?: Partial<EntitySpawnOptions>): this {
     // Call the super method to spawn the player
-    super.spawn();
+    super.spawn(options);
 
     // Update the abilities of the player
     this.abilities.update();
@@ -509,71 +514,11 @@ class Player extends Entity {
    * @param dimension The dimension to teleport the player to.
    */
   public teleport(position: Vector3f, dimension?: Dimension): void {
-    // Set the player's position
-    this.position.x = position.x;
-    this.position.y = position.y;
-    this.position.z = position.z;
+    // Call the parent method to teleport the player
+    super.teleport(position, dimension);
 
-    // Check if the dimension is provided
-    if (dimension) {
-      const signal = new EntityDimensionChangeSignal(
-        this,
-        this.dimension,
-        dimension
-      );
-
-      if (!signal.emit()) return;
-      // Despawn the player from the current dimension
-      this.despawn();
-
-      if (dimension.world !== this.dimension.world) {
-        // Save the players current data
-        this.world.provider.writePlayer(this.getDataEntry(), this.dimension);
-
-        // Read the player data from the new world
-        const data = dimension.world.provider.readPlayer(this.uuid, dimension);
-
-        // Check if the player data exists
-        if (data) this.loadDataEntry(dimension.world, data, true);
-        else {
-          // Clear the player's data
-          this.dynamicProperties.clear();
-          this.traits.clear();
-          this.abilities.clear();
-          this.metadata.clear();
-          this.flags.clear();
-        }
-
-        // Initialize the player
-        this.initialize();
-      }
-
-      // Check if the dimension types are different
-      // This allows for a faster dimension change if the types are the same
-      if (this.dimension.type !== dimension.type) {
-        // Create a new ChangeDimensionPacket
-        const packet = new ChangeDimensionPacket();
-        packet.dimension = dimension.type;
-        packet.position = position;
-        packet.respawn = true;
-        packet.hasLoadingScreen = false;
-
-        // Send the packet to the player
-        this.sendImmediate(packet);
-      }
-
-      // Set the new dimension
-      this.dimension = dimension;
-
-      // Spawn the player in the new dimension
-      this.spawn();
-
-      // Clear the player's chunks
-      this.getTrait(PlayerChunkRenderingTrait).clear();
-
-      // Update the player's position
-      return this.teleport(position);
-    } else {
+    // Check if the dimension is not provided
+    if (!dimension) {
       // Create a new MovePlayerPacket
       const packet = new MovePlayerPacket();
 
@@ -591,6 +536,65 @@ class Player extends Entity {
 
       // Send the packet to the player
       this.send(packet);
+    }
+  }
+
+  /**
+   * Changes the dimension of the player.
+   * @param dimension The dimension to change the player to.
+   */
+  public changeDimension(dimension: Dimension): void {
+    // Check if the dimension is the same as the current dimension
+    if (this.dimension === dimension) return;
+
+    // Despawn the player from the current dimension
+    this.despawn();
+
+    // Create a new EntityDimensionChangeSignal
+    new EntityDimensionChangeSignal(this, this.dimension, dimension).emit();
+
+    // Check if the dimension is the same as the current dimension
+    if (this.dimension.type === dimension.type) {
+      // Change the player's dimension
+      this.dimension = dimension;
+
+      // Check if the player has the chunk rendering trait
+      if (!this.hasTrait(PlayerChunkRenderingTrait))
+        return void this.spawn({ changedDimensions: true });
+
+      // Get the chunk rendering trait
+      const rendering = this.getTrait(PlayerChunkRenderingTrait);
+
+      // Send the player the spawn chunks
+      rendering.send(...rendering.next());
+
+      // Spawn the player in the new dimension
+      return void this.spawn({ changedDimensions: true });
+    } else {
+      // Change the player's dimension
+      this.dimension = dimension;
+
+      // Create a new ChangeDimensionPacket
+      const change = new ChangeDimensionPacket();
+
+      // Set the packet properties
+      change.dimension = dimension.type;
+      change.position = this.position;
+      change.respawn = true;
+      change.hasLoadingScreen = false;
+
+      // Send the packet to the player
+      this.sendImmediate(change);
+
+      // Check if the player has the chunk rendering trait
+      if (!this.hasTrait(PlayerChunkRenderingTrait))
+        return void this.spawn({ changedDimensions: true });
+
+      // Get the chunk rendering trait
+      const rendering = this.getTrait(PlayerChunkRenderingTrait);
+
+      // Send the player the spawn chunks
+      return rendering.send(...rendering.next());
     }
   }
 

@@ -39,7 +39,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
     player.send(SetLocalPlayerAsInitializedHandler.CraftingData);
 
     // Spawn the player
-    player.spawn();
+    player.spawn({ initialSpawn: true });
   }
 }
 

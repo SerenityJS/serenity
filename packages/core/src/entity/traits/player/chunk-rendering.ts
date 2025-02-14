@@ -6,6 +6,7 @@ import {
 
 import { EntityIdentifier } from "../../../enums";
 import { Chunk } from "../../../world/chunk";
+import { EntityDespawnOptions } from "../../..";
 
 import { PlayerTrait } from "./trait";
 
@@ -99,7 +100,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * @param distance The distance to calculate the chunks for.
    * @returns An array of chunk hashes to send to the player.
    */
-  public next(distance?: number): Array<bigint> {
+  public next(distance?: number): Array<Chunk> {
     // Calculate the chunk position of the entity
     const cx = this.player.position.x >> 4;
     const cz = this.player.position.z >> 4;
@@ -127,8 +128,25 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       }
     }
 
-    // Return the hashes
-    return hashes;
+    // Convert the hashes to coordinates
+    const coords = hashes.map((hash) => ChunkCoords.unhash(hash));
+
+    // Get the chunks to send
+    const chunks = coords
+      .map((coord) => {
+        // Get the chunk from the dimension
+        const chunk = this.player.dimension.getChunk(coord.x, coord.z);
+
+        // Check if the chunk is ready
+        if (!chunk.ready) return null;
+
+        // Return the chunk
+        return chunk;
+      })
+      .filter((chunk) => chunk !== null) as Array<Chunk>;
+
+    // Return the chunks
+    return chunks;
   }
 
   /**
@@ -170,35 +188,25 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     if (!this.player.isAlive) return;
 
     // Get the next chunks to send to the player
-    const hashes = [...this.next(), ...this.chunks].filter(
-      // Filter out the chunks that are already rendered
-      (hash) => !this.chunks.has(hash)
-    );
-
-    // Get the coords of the chunks
-    const coords = hashes.map((hash) => ChunkCoords.unhash(hash));
+    const chunks = this.next();
 
     // Check if there are any chunks to send
-    if (coords.length > 0) {
-      // Get the chunks to send
-      const chunks = coords
-        .map((coord) => {
-          // Check if the chunk is already rendered
-          if (this.chunks.has(ChunkCoords.hash(coord))) return null;
-
-          // Get the chunk from the dimension
-          const chunk = this.player.dimension.getChunk(coord.x, coord.z);
-
-          // Check if the chunk is ready
-          if (!chunk.ready) return null;
-
-          // Return the chunk
-          return chunk;
-        })
-        .filter((chunk) => chunk !== null) as Array<Chunk>;
-
+    if (chunks.length > 0) {
       // Send the chunks to the player
       this.send(...chunks);
+
+      // Create a new NetworkChunkPublisherUpdatePacket
+      const update = new NetworkChunkPublisherUpdatePacket();
+
+      // Assign the values to the packet
+      update.radius = this.viewDistance << 4;
+      update.coordinate = this.player.position.floor();
+      update.savedChunks = [...this.chunks].map((hash) =>
+        ChunkCoords.unhash(hash)
+      );
+
+      // Send the packets to the player
+      this.player.send(update);
     } else {
       // Check if any chunks need to be removed from the player's view
       for (const hash of this.chunks) {
@@ -214,25 +222,17 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
           this.clear({ x, z });
         }
       }
-
-      // Create a new NetworkChunkPublisherUpdatePacket
-      const update = new NetworkChunkPublisherUpdatePacket();
-
-      // Assign the values to the packet
-      update.radius = this.viewDistance << 4;
-      update.coordinate = this.player.position.floor();
-      update.savedChunks = [...this.chunks].map((hash) =>
-        ChunkCoords.unhash(hash)
-      );
-
-      // Send the packets to the player
-      this.player.send(update);
     }
   }
 
   public onRemove(): void {
     // Clear the chunks from the player's view
     this.clear();
+  }
+
+  public onDespawn(options: EntityDespawnOptions): void {
+    // Clear the chunks from the player's view if the player has not died
+    if (!options.hasDied) this.clear();
   }
 }
 
