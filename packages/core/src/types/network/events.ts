@@ -138,7 +138,15 @@ import type {
   MovementEffectPacket,
   ClientBoundMapItemDataPacket,
   MapInfoRequestPacket,
-  UpdateTradePacket
+  UpdateTradePacket,
+  UpdateSubchunkBlocksPacket,
+  UpdateBlockSyncPacket,
+  ClientCacheStatusPacket,
+  UpdatePlayerGameTypePacket,
+  SetLastHurtByPacket,
+  SetDefaultGamemodePacket,
+  MotionPredictHintsPacket,
+  AddPaintingPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -343,6 +351,14 @@ interface NetworkEvents {
     NetworkPacketEvent<ServerboundDiagnosticsPacket>
   ];
   [Packet.MovementEffect]: [NetworkPacketEvent<MovementEffectPacket>];
+  [Packet.UpdateSubchunkBlocks]: [NetworkPacketEvent<UpdateSubchunkBlocksPacket>];
+  [Packet.UpdateBlockSync]: [NetworkPacketEvent<UpdateBlockSyncPacket>];
+  [Packet.SetLastHurtBy]: [NetworkPacketEvent<SetLastHurtByPacket>];
+  [Packet.UpdatePlayerGameType]: [NetworkPacketEvent<UpdatePlayerGameTypePacket>];
+  [Packet.SetDefaultGamemode]: [NetworkPacketEvent<SetDefaultGamemodePacket>];
+  [Packet.MotionPredictHints]: [NetworkPacketEvent<MotionPredictHintsPacket>];
+  [Packet.ClientCacheStatus]: [NetworkPacketEvent<ClientCacheStatusPacket>];
+  [Packet.AddPainting]: [NetworkPacketEvent<AddPaintingPacket>];
 }
 
 export { NetworkEvents };
