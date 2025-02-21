@@ -1,5 +1,4 @@
 import moment from "moment";
-import { type Colorette, createColors } from "colorette";
 
 import { formatMinecraftColorCode } from "./minecraft-colors";
 import { LoggerColors } from "./logger-colors";
@@ -12,11 +11,6 @@ class Logger {
    * Whether or not debug messages should be shown.
    */
   public static DEBUG: boolean = false;
-
-  /**
-   * The colorette instance.
-   */
-  public readonly colorette: Colorette;
 
   /**
    * The module name of the logger.
@@ -37,7 +31,6 @@ class Logger {
   public constructor(name: string, color: LoggerColors) {
     this.name = name;
     this.color = color;
-    this.colorette = createColors({ useColor: true });
   }
 
   /**
@@ -47,9 +40,9 @@ class Logger {
    */
   public log(...arguments_: Array<unknown>): void {
     const colorized = this.colorize(...arguments_);
-    const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
-      "["
-    )}${this.color + this.name + this.colorette.gray("]")}`;
+    const format =
+      `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${LoggerColors.DarkGray + "["}${this.color + this.name + LoggerColors + "]"}` +
+      LoggerColors.Reset;
 
     console.log(format, ...colorized);
   }
@@ -61,9 +54,11 @@ class Logger {
    */
   public info(...arguments_: Array<unknown>): void {
     const colorized = this.colorize(...arguments_);
-    const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
-      "["
-    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyan("Info")}${this.colorette.gray("]")}`;
+    const format =
+      `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
+        LoggerColors.DarkGray + "["
+      }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.DarkAqua + "Info"}${LoggerColors.DarkGray + "]"}` +
+      LoggerColors.Reset;
 
     console.log(format, ...colorized);
   }
@@ -75,9 +70,11 @@ class Logger {
    */
   public warn(...arguments_: Array<unknown>): void {
     const colorized = this.colorize(...arguments_);
-    const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
-      "["
-    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.yellow("Warning")}${this.colorette.gray("]")}`;
+    const format =
+      `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
+        LoggerColors.DarkGray + "["
+      }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.Yellow + "Warning"}${LoggerColors.DarkGray + "]"}` +
+      LoggerColors.Reset;
 
     console.log(format, ...colorized);
   }
@@ -88,9 +85,11 @@ class Logger {
    * @param arguments_ - The arguments to log.
    */
   public error(...arguments_: Array<unknown>): void {
-    const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
-      "["
-    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.red("Error")}${this.colorette.gray("]")}`;
+    const format =
+      `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
+        LoggerColors.DarkGray + "["
+      }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkRed + "["}${LoggerColors.DarkGray + "Error"}${LoggerColors.DarkGray + "]"}` +
+      LoggerColors.Reset;
 
     console.log(format, ...arguments_);
   }
@@ -102,11 +101,12 @@ class Logger {
    */
   public success(...arguments_: Array<unknown>): void {
     const colorized = this.colorize(...arguments_);
-    const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
-      "["
-    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.greenBright("Success")}${this.colorette.gray(
-      "]"
-    )}`;
+    const format =
+      `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
+        LoggerColors.DarkGray + "["
+      }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.Green + "Success"}${
+        LoggerColors.DarkGray + "]"
+      }` + LoggerColors.Reset;
 
     console.log(format, ...colorized);
   }
@@ -121,9 +121,11 @@ class Logger {
     const colorized = this.colorize(...arguments_);
     if (!Logger.DEBUG) return;
 
-    const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
-      "["
-    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.redBright("DEBUG")}${this.colorette.gray("]")}`;
+    const format =
+      `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
+        LoggerColors.DarkGray + "["
+      }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.Red + "DEBUG"}${LoggerColors.DarkGray + "]"}` +
+      LoggerColors.Reset;
 
     console.log(format, ...colorized);
   }
@@ -135,11 +137,11 @@ class Logger {
    */
   public chat(...arguments_: Array<unknown>): void {
     const colorized = this.colorize(...arguments_);
-    const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
-      "["
-    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyanBright("Chat")}${this.colorette.gray(
-      "]"
-    )}`;
+    const format = `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
+      LoggerColors.DarkGray + "["
+    }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.DarkAqua + "Chat"}${
+      LoggerColors.DarkGray + "]" + LoggerColors.Reset
+    }`;
 
     console.log(format, colorized[0], ">", colorized[1]);
   }

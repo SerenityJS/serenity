@@ -28,7 +28,8 @@ enum LoggerColors {
   MaterialEmerald = "\u001B[38;2;71;160;54m",
   MaterialDiamond = "\u001B[38;2;44;186;168m",
   MaterialLapis = "\u001B[38;2;33;73;123m",
-  MaterialAmethyst = "\u001B[38;2;154;92;198m"
+  MaterialAmethyst = "\u001B[38;2;154;92;198m",
+  Reset = "\u001B[0m"
 }
 
 export { LoggerColors };
