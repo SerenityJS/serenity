@@ -141,6 +141,14 @@ import { MovementEffectPacket } from "./movement-effect";
 import { ClientBoundMapItemDataPacket } from "./client-bound-map-item-data";
 import { MapInfoRequestPacket } from "./map-info-request";
 import { UpdateTradePacket } from "./update-trade";
+import { UpdateSubchunkBlocksPacket } from "./update-subchunk-blocks";
+import { UpdateBlockSyncPacket } from "./update-block-sync";
+import { SetLastHurtByPacket } from "./set-last-hurt-by";
+import { UpdatePlayerGameTypePacket } from "./update-player-game-type";
+import { SetDefaultGamemodePacket } from "./set-default-gamemode";
+import { MotionPredictHintsPacket } from "./motion-prediction-hints";
+import { ClientCacheStatusPacket } from "./client-cache-status";
+import { AddPaintingPacket } from "./add-painting";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -163,6 +171,7 @@ const Packets = {
   [Packet.MovePlayer]: MovePlayerPacket, // 19
   [Packet.RiderJump]: RiderJumpPacket, // 20
   [Packet.UpdateBlock]: UpdateBlockPacket, // 21
+  [Packet.AddPainting]: AddPaintingPacket, // 22
   [Packet.LevelEvent]: LevelEventPacket, // 25
   [Packet.BlockEvent]: BlockEventPacket, // 26
   [Packet.ActorEvent]: ActorEventPacket, // 27
@@ -219,15 +228,18 @@ const Packets = {
   [Packet.SetTitle]: SetTitlePacket, // 88
   [Packet.StructureBlockUpdate]: StructureBlockUpdatePacket, // 90
   [Packet.PlayerSkin]: PlayerSkinPacket, // 93
+  [Packet.SetLastHurtBy]: SetLastHurtByPacket, // 96
   [Packet.BookEdit]: BookEditPacket, // 97
   [Packet.NpcRequest]: NpcRequestPacket, // 98
   [Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
   [Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
   [Packet.ServerSettingsResponse]: ServerSettingsResponsePacket, // 103
   [Packet.ShowProfile]: ShowProfilePacket, // 104
+  [Packet.SetDefaultGamemode]: SetDefaultGamemodePacket, // 105
   [Packet.RemoveObjective]: RemoveObjectivePacket, // 106
   [Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
   [Packet.SetScore]: SetScorePacket, // 108
+  [Packet.UpdateBlockSync]: UpdateBlockSyncPacket, // 110
   [Packet.MoveActorDelta]: MoveActorDeltaPacket, // 111
   [Packet.SetScoreboardIdentity]: SetScoreboardIdentityPacket, // 112
   [Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
@@ -238,6 +250,7 @@ const Packets = {
   [Packet.BiomeDefinitionList]: BiomeDefinitionListPacket, // 122
   [Packet.LevelSoundEvent]: LevelSoundEventPacket, // 123
   [Packet.LevelEventGeneric]: LevelEventGenericPacket, // 124
+  [Packet.ClientCacheStatus]: ClientCacheStatusPacket, // 129
   [Packet.OnScreenTextureAnimation]: OnScreenTextureAnimationPacket, // 130
   [Packet.Emote]: EmotePacket, // 138
   [Packet.CompletedUsingItem]: CompletedUsingItemPacket, // 142
@@ -247,9 +260,11 @@ const Packets = {
   [Packet.PlayerEnchantOptions]: PlayerEnchantOptionsPacket, // 146
   [Packet.ItemStackRequest]: ItemStackRequestPacket, // 147
   [Packet.ItemStackResponse]: ItemStackResponsePacket, // 148
+  [Packet.UpdatePlayerGameType]: UpdatePlayerGameTypePacket, // 151
   [Packet.EmoteList]: EmoteListPacket, // 152
   [Packet.DebugInfo]: DebugInfoPacket, // 155
   [Packet.PacketViolationWarning]: PacketViolationWarningPacket, // 156
+  [Packet.MotionPredictHints]: MotionPredictHintsPacket, // 157
   [Packet.AnimateEntity]: AnimateEntityPacket, // 158
   [Packet.CameraShake]: CameraShakePacket, // 159
   [Packet.PlayerFog]: PlayerFogPacket, // 160
@@ -258,6 +273,7 @@ const Packets = {
   [Packet.ClientBoundDebugRenderer]: ClientBoundDebugRendererPacket, // 163
   [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169
+  [Packet.UpdateSubchunkBlocks]: UpdateSubchunkBlocksPacket, // 172
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
   [Packet.ScriptMessage]: ScriptMessagePacket, // 177
   [Packet.DimensionData]: DimensionDataPacket, // 180
