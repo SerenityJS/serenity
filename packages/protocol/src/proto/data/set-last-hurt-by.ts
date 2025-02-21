@@ -5,5 +5,5 @@ import { Packet } from "../../enums";
 
 @Proto(Packet.SetLastHurtBy)
 export class SetLastHurtByPacket extends DataPacket {
-	@Serialize(VarInt) public lastHurtBy!: bigint;
+	@Serialize(VarInt) public lastHurtBy!: number;
 }
