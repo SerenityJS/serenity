@@ -753,7 +753,7 @@ class Dimension {
     const schedule = new TickSchedule(ticks, this);
 
     // Add the schedule to the world
-    this.world.schedules.add(schedule);
+    this.serenity.schedules.add(schedule);
 
     // Return the schedule
     return schedule;

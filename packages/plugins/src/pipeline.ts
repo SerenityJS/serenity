@@ -48,7 +48,7 @@ class Pipeline {
   /**
    * The logger for the plugins pipeline.
    */
-  public readonly logger = new Logger("Plugins", LoggerColors.CyanBright);
+  public readonly logger = new Logger("Plugins", LoggerColors.MaterialLapis);
 
   /**
    * The plugins loaded in the pipeline.

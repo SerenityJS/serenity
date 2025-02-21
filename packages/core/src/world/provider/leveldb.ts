@@ -131,22 +131,56 @@ class LevelDBProvider extends WorldProvider {
 
     // Iterate through the chunks and write them to the database.
     for (const [dimension, chunks] of this.chunks) {
+      let savedChunks = 0;
+      let savedEntities = 0;
+      let savedBlocks = 0;
+
       // Iterate through the chunks and write them to the database.
-      for (const chunk of chunks.values()) // Check if the chunk is dirty.
-        if (chunk.dirty) this.writeChunk(chunk, dimension);
+      for (const [, chunk] of chunks) {
+        // Check if the chunk is dirty.
+        if (!chunk.dirty) continue;
+
+        // Attempt to write the chunk to the database.
+        try {
+          // Write the chunk to the database.
+          this.writeChunk(chunk, dimension);
+
+          // Increment the saved chunks count.
+          savedChunks++;
+        } catch (reason) {
+          // Log the error if the chunk failed to save.
+          this.world.logger.error(
+            `Failed to save chunk at position ${chunk.x}, ${chunk.z} for dimension ${dimension.identifier}. Reason:`,
+            reason
+          );
+        }
+      }
 
       // Iterate through the entities and write them to the database.
-      const entities = [...dimension.entities.values()];
       const uniqueIds: Array<bigint> = [];
-      for (const entity of entities) {
-        // Check if the entity is a player.
-        if (entity.isPlayer())
-          this.writePlayer(entity.getDataEntry(), dimension);
-        else {
-          // Write the entity to the database.
-          this.writeEntity(entity.getDataEntry(), dimension);
-          // Add the unique identifier to the list.
-          uniqueIds.push(entity.uniqueId);
+      for (const [uniqueId, entity] of dimension.entities) {
+        // Attempt to write the entity to the database.
+        try {
+          // Check if the entity is a player.
+          if (entity.isPlayer()) {
+            // Write the player to the database.
+            this.writePlayer(entity.getDataEntry(), dimension);
+          } else {
+            // Write the entity to the database.
+            this.writeEntity(entity.getDataEntry(), dimension);
+
+            // Add the unique identifier to the list.
+            uniqueIds.push(uniqueId);
+          }
+
+          // Increment the saved entities count.
+          savedEntities++;
+        } catch (reason) {
+          // Log the error if the entity failed to save.
+          this.world.logger.error(
+            `Failed to save entity with unique id ${uniqueId} for dimension ${dimension.identifier}. Reason:`,
+            reason
+          );
         }
       }
 
@@ -154,14 +188,27 @@ class LevelDBProvider extends WorldProvider {
       this.writeAvailableEntities(dimension, uniqueIds);
 
       // Iterate through the blocks and write them to the database.
-      const blocks = [...dimension.blocks.values()];
       const hashes: Array<bigint> = [];
-      for (const block of blocks) {
-        // Write the block to the database.
-        this.writeBlock(block.getDataEntry(), dimension);
+      for (const [hash, block] of dimension.blocks) {
+        // Attempt to write the block to the database.
+        try {
+          // Write the block to the database.
+          this.writeBlock(block.getDataEntry(), dimension);
 
-        // Add the block position hash to the list.
-        hashes.push(BlockPosition.hash(block.position));
+          // Add the block position hash to the list.
+          hashes.push(hash);
+
+          // Increment the saved blocks count.
+          savedBlocks++;
+        } catch (reason) {
+          // Log the error if the block failed to save.
+          this.world.logger.error(
+            `Failed to save block at position ${BlockPosition.unhash(
+              hash
+            )} for dimension ${dimension.identifier}. Reason:`,
+            reason
+          );
+        }
       }
 
       // Write the available blocks to the database.
@@ -169,7 +216,7 @@ class LevelDBProvider extends WorldProvider {
 
       // Log the amount of chunks, entities, and blocks saved.
       this.world.logger.info(
-        `Saved §c${chunks.size}§r chunks, §c${entities.length}§r entities, and §c${blocks.length}§r blocks for dimension §a${dimension.identifier}§r.`
+        `Saved §c${savedChunks}§r chunks, §c${savedEntities}§r entities, and §c${savedBlocks}§r blocks for dimension §a${dimension.identifier}§r.`
       );
     }
   }

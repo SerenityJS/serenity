@@ -1,4 +1,4 @@
-import { type RemoteInfo, createSocket } from "node:dgram";
+import { type RemoteInfo, Socket, createSocket } from "node:dgram";
 
 import { Emitter } from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
@@ -44,18 +44,21 @@ class Server extends Emitter<RaknetEvents> {
   /**
    * The raknet server logger
    */
-  public readonly logger = new Logger("Raknet", LoggerColors.CyanBright);
+  public readonly logger = new Logger("Raknet", LoggerColors.DarkAqua);
 
   /**
-   * The server socket
+   * The udp4 socket instance for the server.
    */
-  public readonly socket = createSocket("udp4");
+  public readonly socket: Socket = createSocket("udp4");
 
   /**
-   * The server connections
+   * A collection of connections for the server.
    */
   public readonly connections = new Set<Connection>();
 
+  /**
+   * The server guid for the server instance.
+   */
   public readonly guid = BigInt(Math.floor(Math.random() * 2 ** 64));
 
   /**
@@ -219,6 +222,12 @@ class Server extends Emitter<RaknetEvents> {
    */
   public stop() {
     try {
+      // Set the server to not alive
+      this.alive = false;
+
+      // Disconnect all connections
+      for (const connection of this.connections) connection.disconnect();
+
       // Clear the interval
       if (this.interval) this.interval = null;
 

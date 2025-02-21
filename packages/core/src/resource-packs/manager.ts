@@ -43,7 +43,7 @@ class ResourcePackManager {
 
   private readonly properties: ResourcePacksProperties;
 
-  public readonly logger = new Logger("Resource Packs", LoggerColors.RedBright);
+  public readonly logger = new Logger("Resource Packs", LoggerColors.Red);
 
   public get mustAccept(): boolean {
     return this.properties.mustAcceptPacks;

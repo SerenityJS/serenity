@@ -111,11 +111,6 @@ class World extends Emitter<WorldEventSignals> {
   public readonly commands = new Commands();
 
   /**
-   * The pending schedules of the world.
-   */
-  public readonly schedules = new Set<TickSchedule>();
-
-  /**
    * The scoreboard for the world.
    */
   public readonly scoreboard = new Scoreboard(this);
@@ -130,7 +125,9 @@ class World extends Emitter<WorldEventSignals> {
   /**
    * The current tick of the world.
    */
-  public currentTick = 0n;
+  public get currentTick(): bigint {
+    return this.serenity.currentTick;
+  }
 
   /**
    * The current time of day for the world.
@@ -155,7 +152,7 @@ class World extends Emitter<WorldEventSignals> {
     this.identifier = this.properties.identifier;
 
     // Create a new logger for the world
-    this.logger = new Logger(this.identifier, LoggerColors.GreenBright);
+    this.logger = new Logger(this.identifier, LoggerColors.Green);
 
     // Register all the global commands
     for (const command of serenity.commands.getAll())
@@ -182,9 +179,6 @@ class World extends Emitter<WorldEventSignals> {
 
     // Return if the signal was not emitted
     if (!signal) return;
-
-    // Increment the current tick
-    ++this.currentTick;
 
     // Increment the day time; day time is 24000 ticks long
     // Only increment if the day light cycle is enabled
@@ -216,33 +210,10 @@ class World extends Emitter<WorldEventSignals> {
       this.broadcast(packet);
     }
 
-    // Check if there are any schedules to execute
-    if (this.schedules.size > 0) {
-      // Iterate over the schedules
-      for (const schedule of this.schedules) {
-        // Check if the schedule is complete
-        if (this.currentTick >= schedule.completeTick) {
-          // Execute the schedule
-          try {
-            schedule.execute();
-          } catch (reason) {
-            // Log the error if the schedule failed to execute
-            this.logger.error(
-              `Failed to execute schedule for dimension at tick ${schedule.completeTick}`,
-              reason
-            );
-          }
-
-          // Delete the schedule
-          this.schedules.delete(schedule);
-        }
-      }
-    }
-
     // Check if the current tick is divisible by the save interval (in minutes)
     if (
-      this.currentTick % (BigInt(this.properties.saveInterval) * 1200n) ===
-      0n
+      this.currentTick !== 0n &&
+      this.currentTick % (BigInt(this.properties.saveInterval) * 1200n) === 0n
     ) {
       // Save the world via the provider
       this.provider.onSave();
@@ -375,7 +346,7 @@ class World extends Emitter<WorldEventSignals> {
     const schedule = new TickSchedule(ticks, this);
 
     // Add the schedule to the world
-    this.schedules.add(schedule);
+    this.serenity.schedules.add(schedule);
 
     // Return the schedule
     return schedule;

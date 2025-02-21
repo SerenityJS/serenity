@@ -1,7 +1,8 @@
 import moment from "moment";
-import { type Colorette, type Color, createColors } from "colorette";
+import { type Colorette, createColors } from "colorette";
 
 import { formatMinecraftColorCode } from "./minecraft-colors";
+import { LoggerColors } from "./logger-colors";
 
 /**
  * A colorized logger for applications.
@@ -25,7 +26,7 @@ class Logger {
   /**
    * The color of module name.
    */
-  public color: Color;
+  public color: LoggerColors;
 
   /**
    * Constructs a new logger.
@@ -33,7 +34,7 @@ class Logger {
    * @param name - The module name.
    * @param color - The color of the module name.
    */
-  public constructor(name: string, color: Color) {
+  public constructor(name: string, color: LoggerColors) {
     this.name = name;
     this.color = color;
     this.colorette = createColors({ useColor: true });
@@ -48,7 +49,7 @@ class Logger {
     const colorized = this.colorize(...arguments_);
     const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
       "["
-    )}${this.color(`${this.name}`)}${this.colorette.gray("]")}`;
+    )}${this.color + this.name + this.colorette.gray("]")}`;
 
     console.log(format, ...colorized);
   }
@@ -62,7 +63,7 @@ class Logger {
     const colorized = this.colorize(...arguments_);
     const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
       "["
-    )}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyan("Info")}${this.colorette.gray("]")}`;
+    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyan("Info")}${this.colorette.gray("]")}`;
 
     console.log(format, ...colorized);
   }
@@ -76,7 +77,7 @@ class Logger {
     const colorized = this.colorize(...arguments_);
     const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
       "["
-    )}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.yellow("Warning")}${this.colorette.gray("]")}`;
+    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.yellow("Warning")}${this.colorette.gray("]")}`;
 
     console.log(format, ...colorized);
   }
@@ -89,7 +90,7 @@ class Logger {
   public error(...arguments_: Array<unknown>): void {
     const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
       "["
-    )}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.red("Error")}${this.colorette.gray("]")}`;
+    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.red("Error")}${this.colorette.gray("]")}`;
 
     console.log(format, ...arguments_);
   }
@@ -103,7 +104,7 @@ class Logger {
     const colorized = this.colorize(...arguments_);
     const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
       "["
-    )}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.greenBright("Success")}${this.colorette.gray(
+    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.greenBright("Success")}${this.colorette.gray(
       "]"
     )}`;
 
@@ -122,7 +123,7 @@ class Logger {
 
     const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
       "["
-    )}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.redBright("DEBUG")}${this.colorette.gray("]")}`;
+    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.redBright("DEBUG")}${this.colorette.gray("]")}`;
 
     console.log(format, ...colorized);
   }
@@ -136,7 +137,7 @@ class Logger {
     const colorized = this.colorize(...arguments_);
     const format = `${this.colorette.gray("<")}${moment().format("MM-DD-YYYY HH:mm:ss")}${this.colorette.gray(">")} ${this.colorette.gray(
       "["
-    )}${this.color(`${this.name}`)}${this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyanBright("Chat")}${this.colorette.gray(
+    )}${this.color + this.name + this.colorette.gray("]")} ${this.colorette.gray("[")}${this.colorette.cyanBright("Chat")}${this.colorette.gray(
       "]"
     )}`;
 

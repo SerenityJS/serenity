@@ -1,7 +1,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { MINECRAFT_VERSION, PROTOCOL_VERSION } from "@serenityjs/protocol";
+import {
+  DisconnectReason,
+  MINECRAFT_VERSION,
+  PROTOCOL_VERSION
+} from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Connection, RAKNET_TPS } from "@serenityjs/raknet";
 import Emitter from "@serenityjs/emitter";
@@ -13,6 +17,7 @@ import {
   Dimension,
   SuperflatGenerator,
   type TerrainGenerator,
+  TickSchedule,
   VoidGenerator,
   World,
   type WorldProvider
@@ -20,7 +25,7 @@ import {
 import { Player } from "./entity";
 import { ConsoleInterface, WorldEnum, Commands } from "./commands";
 import { Permissions } from "./permissions";
-import { ServerEvent } from "./enums";
+import { ServerEvent, ServerState } from "./enums";
 import { ResourcePackManager } from "./resource-packs";
 
 import type {
@@ -73,7 +78,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * The logger instance for the server
    */
-  public readonly logger = new Logger("Serenity", LoggerColors.Magenta);
+  public readonly logger = new Logger(
+    "Serenity",
+    LoggerColors.MaterialAmethyst
+  );
 
   /**
    * The players that are currently connected to the server
@@ -90,15 +98,21 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public readonly resourcePacks: ResourcePackManager;
 
   /**
+   * The tick schedules that are currently active on the server.
+   * These schedules will be executed when the server ticks.
+   */
+  public readonly schedules = new Set<TickSchedule>();
+
+  /**
    * The global commands registry for the server.
    * The commands will register on every world that is created.
    */
   public readonly commands = new Commands();
 
   /**
-   * Whether the server is currently running or not
+   * The current state of the server, whether it is starting up, running, or shutting down
    */
-  public alive = true;
+  public state: ServerState = ServerState.StartingUp;
 
   /**
    * The ticks that have been recorded by the server
@@ -109,6 +123,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * The current ticks per second of the server
    */
   public tps = 0;
+
+  /**
+   * The current tick of the server
+   */
+  public currentTick = 0n;
 
   /**
    * Creates a new serenity server with the specified properties
@@ -173,7 +192,16 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Create a ticking loop that will run every 50ms
     const tick = () => {
       // Check if the server is still alive
-      if (!this.alive) return;
+      if (this.state === ServerState.ShuttingDown && this.schedules.size <= 0) {
+        // Stop the raknet server
+        this.network.raknet.stop();
+
+        // Log that the server has shutdown successfully
+        this.logger.info(`Server has shutdown successfully.`);
+
+        // Stop the ticking loop, and set the server state as stopped
+        return void (this.state = ServerState.Stopped);
+      }
 
       // Get the current time
       const [seconds, nanoseconds] = process.hrtime(lastTick);
@@ -203,9 +231,35 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         this.ticks = this.ticks.filter((tick) => tick > threshold);
         this.tps = this.ticks.length;
 
-        // // Tick all the worlds
+        // Tick all the worlds
         for (const world of this.worlds.values())
           world.onTick(Math.floor(deltaTick));
+
+        // Check if there are any schedules to execute
+        if (this.schedules.size > 0) {
+          // Iterate over the schedules
+          for (const schedule of this.schedules) {
+            // Check if the schedule is complete
+            if (this.currentTick >= schedule.completeTick) {
+              // Execute the schedule
+              try {
+                schedule.execute();
+              } catch (reason) {
+                // Log the error if the schedule failed to execute
+                this.logger.error(
+                  `Failed to execute schedule for at tick ${schedule.completeTick}`,
+                  reason
+                );
+              }
+
+              // Delete the schedule
+              this.schedules.delete(schedule);
+            }
+          }
+        }
+
+        // Increment the current tick
+        this.currentTick++;
       }
 
       // Schedule the next tick
@@ -220,7 +274,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Log that the server is now running
     this.logger.info(
-      `§aServer is now running at §2${this.network.raknet.address}§a:§2${this.network.raknet.port}§a.§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`
+      `§7Server is now running at §u${this.network.raknet.address}§8:§u${this.network.raknet.port}§7.§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`
     );
   }
 
@@ -234,6 +288,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Emit the server shutdown event
     this.emit(ServerEvent.Stop, 0 as never);
 
+    // Set the server state as shutting
+    this.state = ServerState.ShuttingDown;
+
     // Disconnect all players
     for (const player of this.players.values()) {
       // Write the player data to the world provider
@@ -243,20 +300,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       );
 
       // Disconnect the player from the server
-      player.disconnect("Server closed.");
+      player.disconnect("Server closed.", DisconnectReason.Shutdown);
     }
 
     // Shutdown all world providers
     for (const world of this.worlds.values()) world.provider.onShutdown();
-
-    // Set the server to not be alive
-    this.alive = false;
-
-    // Stop the raknet server
-    process.nextTick(() => this.network.raknet.stop());
-
-    // Log that the server has been stopped
-    this.logger.info(`§cServer has been stopped.§r`);
   }
 
   /**
