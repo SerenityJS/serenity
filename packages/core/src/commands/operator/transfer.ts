@@ -1,21 +1,21 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
-import { TargetEnum } from "../enums";
+import { IntegerEnum, StringEnum, TargetEnum } from "../enums";
 
 import type { World } from "../../world";
 import type { Entity } from "../../entity";
 
 const register = (world: World) => {
-  world.commands.register(
-    "op",
-    "Set the operator status of a player",
+  world.commandPalette.register(
+    "transfer",
+    "Transfer a player to a different server",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       registry.overload(
         {
-          target: TargetEnum
+          target: TargetEnum,
+          address: StringEnum,
+          port: IntegerEnum
         },
         (context) => {
           // Get the targets from the context
@@ -27,6 +27,12 @@ const register = (world: World) => {
 
           // Prepare the return message
           const message = [];
+
+          // Get the address from the context
+          const address = context.address.result as string;
+
+          // Get the port from the context
+          const port = context.port.result as number;
 
           // Loop through all the targets
           for (const target of targets) {
@@ -41,23 +47,12 @@ const register = (world: World) => {
               continue;
             }
 
-            // Check if the target is already a server operator
-            if (target.isOp()) {
-              // Append the message
-              message.push(
-                `§cPlayer §4${target.username}§c is already a server operator or has a higher permission level.§r`
-              );
-
-              // Skip to the next target
-              continue;
-            }
-
-            // Set the operator status of the player
-            target.op();
+            // Transfer the player to the new server
+            target.transfer(address, port);
 
             // Append the message
             message.push(
-              `§aSuccessfully made §2${target.username}§a a server operator.§r`
+              `§aTransferred §2${target.username}§a to §2${address}:${port}§a.§r`
             );
           }
 

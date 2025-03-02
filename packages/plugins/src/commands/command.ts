@@ -1,19 +1,18 @@
 import { relative } from "path";
 
 import { World } from "@serenityjs/core";
-import { CommandPermissionLevel } from "@serenityjs/protocol";
 
 import { Pipeline } from "../pipeline";
 
 import { PluginActionsEnum, PluginsEnum } from "./enum";
 
 const register = (world: World, pipeline: Pipeline) => {
-  world.commands.register(
+  world.commandPalette.register(
     "plugins",
     "Interact with the plugins of the server",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Overload for listing the plugins
       registry.overload(

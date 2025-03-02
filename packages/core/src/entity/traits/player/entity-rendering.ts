@@ -4,9 +4,11 @@ import {
   AddEntityPacket,
   AddItemActorPacket,
   AddPlayerPacket,
+  CommandPermissionLevel,
   EquipmentSlot,
   MobArmorEquipmentPacket,
   NetworkItemStackDescriptor,
+  PermissionLevel,
   PropertySyncData,
   RemoveEntityPacket,
   Vector3f
@@ -125,8 +127,14 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.data = [...entity.metadata.values()];
         packet.properties = new PropertySyncData([], []);
         packet.uniqueEntityId = entity.uniqueId;
-        packet.premissionLevel = entity.permission;
-        packet.commandPermission = entity.permission === 2 ? 1 : 0;
+        packet.premissionLevel = entity.isOp()
+          ? PermissionLevel.Operator
+          : PermissionLevel.Member;
+
+        packet.commandPermission = entity.isOp()
+          ? CommandPermissionLevel.Operator
+          : CommandPermissionLevel.Normal;
+
         packet.abilities = [
           {
             type: AbilityLayerType.Base,

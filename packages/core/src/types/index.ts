@@ -10,3 +10,4 @@ export * from "./serenity";
 export * from "./loot";
 export * from "./resource";
 export * from "./components";
+export * from "./permissions";

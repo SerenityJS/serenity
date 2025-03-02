@@ -1,18 +1,17 @@
-import { CommandPermissionLevel, type Vector3f } from "@serenityjs/protocol";
-
 import { BlockEnum, PositionEnum } from "../enums";
 import { Entity } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 
+import type { Vector3f } from "@serenityjs/protocol";
 import type { World } from "../../world";
 
 const register = (world: World) => {
-  world.commands.register(
+  world.commandPalette.register(
     "fill",
     "Fill a region with a specific block",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

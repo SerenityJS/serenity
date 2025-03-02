@@ -3,6 +3,7 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { CommandExecutionState } from "../commands";
+import { PlayerCommandExecutorTrait } from "../entity";
 
 class CommandRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.CommandRequest;
@@ -25,7 +26,7 @@ class CommandRequestHandler extends NetworkHandler {
 
     // Create a new CommandExecutionState instance
     const state = new CommandExecutionState(
-      world.commands.getAll(),
+      world.commandPalette.getAll(),
       name,
       player
     );
@@ -45,10 +46,13 @@ class CommandRequestHandler extends NetworkHandler {
     }
 
     // If the command was canceled, return
-    if (canceled) return;
+    if (canceled || !state.command) return;
 
-    // Check if the player has the required permission to execute the command
-    if ((state.command?.registry.permissionLevel ?? 4) + 1 > player.permission)
+    // Get the executor trait from the player
+    const executor = player.getTrait(PlayerCommandExecutorTrait);
+
+    // Check if the player has permission to execute the command
+    if (!executor || !executor.hasCommand(state.command))
       return player.sendMessage(
         `§cYou do not have permission to execute this command.`
       );

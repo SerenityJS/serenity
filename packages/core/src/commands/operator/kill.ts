@@ -1,8 +1,4 @@
-import {
-  ActorDamageCause,
-  CommandPermissionLevel,
-  Gamemode
-} from "@serenityjs/protocol";
+import { ActorDamageCause, Gamemode } from "@serenityjs/protocol";
 
 import { TargetEnum } from "../enums";
 import { Player } from "../../entity";
@@ -22,12 +18,12 @@ const IGNORED_GAMEMODES = new Set([
 
 const register = (world: World) => {
   // Register the kill command
-  world.commands.register(
+  world.commandPalette.register(
     "kill",
     "Kills entities (players, mobs, etc.).",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

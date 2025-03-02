@@ -1,5 +1,3 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import { StringEnum, TagEnum, TargetEnum } from "../enums";
 
 import type { World } from "../../world";
@@ -7,12 +5,12 @@ import type { Entity } from "../../entity";
 
 const register = (world: World) => {
   // Register the kill command
-  world.commands.register(
+  world.commandPalette.register(
     "tag",
     "Interact with the tags of a specified entity.",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

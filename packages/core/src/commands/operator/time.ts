@@ -1,17 +1,15 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import { IntegerEnum, TimeOpertation } from "../enums";
 
 import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the stop command
-  world.commands.register(
+  world.commandPalette.register(
     "time",
     "Modifies the current time of day",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       registry.overload(
         {

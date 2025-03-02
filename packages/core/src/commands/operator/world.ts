@@ -1,17 +1,15 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import { StringEnum, TargetEnum, WorldEnum } from "../enums";
 
 import type { World } from "../../world";
 import type { Entity } from "../../entity";
 
 const register = (world: World) => {
-  world.commands.register(
+  world.commandPalette.register(
     "world",
     "Change the current world of an entity",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       registry.overload(
         {

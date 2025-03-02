@@ -1,19 +1,18 @@
-import { CommandPermissionLevel, type Vector3f } from "@serenityjs/protocol";
-
 import { BlockEnum, JsonObjectEnum, PositionEnum } from "../enums";
 import { Entity } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 
+import type { Vector3f } from "@serenityjs/protocol";
 import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the setblock command
-  world.commands.register(
+  world.commandPalette.register(
     "setblock",
     "Sets a block at the specified location",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

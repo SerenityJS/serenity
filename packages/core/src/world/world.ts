@@ -18,7 +18,7 @@ import {
 import { Entity, EntityPalette, Player } from "../entity";
 import { ItemPalette } from "../item";
 import { BlockPalette } from "../block";
-import { AdminCommands, Commands, CommonCommands } from "../commands";
+import { OperatorCommands, CommandPalette, CommonCommands } from "../commands";
 import { WorldTickSignal } from "../events";
 import { EffectPallete } from "../effect";
 import { TimeOfDay } from "../enums";
@@ -106,9 +106,9 @@ class World extends Emitter<WorldEventSignals> {
   public readonly itemPalette = new ItemPalette();
 
   /**
-   * The commands of the world.
+   * The command palette of the world.
    */
-  public readonly commands = new Commands();
+  public readonly commandPalette = new CommandPalette();
 
   /**
    * The scoreboard for the world.
@@ -155,11 +155,12 @@ class World extends Emitter<WorldEventSignals> {
     this.logger = new Logger(this.identifier, LoggerColors.Green);
 
     // Register all the global commands
-    for (const command of serenity.commands.getAll())
-      this.commands.commands.set(command.name, command);
+    for (const command of serenity.commandPalette.getAll())
+      this.commandPalette.commands.set(command.name, command);
 
     // Register the admin commands
-    for (const command of [...AdminCommands, ...CommonCommands]) command(this);
+    for (const command of [...OperatorCommands, ...CommonCommands])
+      command(this);
 
     // Register the dimensions from the properties
     for (const entry of this.properties.dimensions) this.createDimension(entry);

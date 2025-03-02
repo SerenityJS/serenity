@@ -1,4 +1,4 @@
-import { DisconnectReason, CommandPermissionLevel } from "@serenityjs/protocol";
+import { DisconnectReason } from "@serenityjs/protocol";
 
 import { StringEnum, TargetEnum } from "../enums";
 import { Player } from "../../entity";
@@ -7,12 +7,12 @@ import type { Entity } from "../../entity";
 import type { World } from "../../world";
 
 const register = (world: World) => {
-  world.commands.register(
+  world.commandPalette.register(
     "kick",
     "Kicks a player from the server",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

@@ -1,15 +1,13 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the stop command
-  world.commands.register(
+  world.commandPalette.register(
     "stop",
     "Stops the server",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.internal"];
     },
     () => {
       // stop the server

@@ -1,5 +1,3 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import { IntegerEnum, ItemEnum, TargetEnum } from "../enums";
 import { EntityInventoryTrait, type Entity } from "../../entity";
 import { ItemStack } from "../../item";
@@ -9,12 +7,12 @@ import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the setblock command
-  world.commands.register(
+  world.commandPalette.register(
     "give",
     "Gives an item to a player",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

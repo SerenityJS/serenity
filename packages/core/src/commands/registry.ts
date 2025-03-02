@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/unified-signatures */
-import { CommandPermissionLevel } from "@serenityjs/protocol";
 
 import type {
   CommandArguments,
@@ -14,14 +13,14 @@ class CommandRegistry {
   public readonly overloads = new Map<CommandOverload, CommandCallback>();
 
   /**
+   * The permissions of the command.
+   */
+  public permissions: Array<string> = [];
+
+  /**
    * The will make the command appear with a `debug` flag in the available commands list.
    */
   public debug = false;
-
-  /**
-   * The permission level required to execute the command.
-   */
-  public permissionLevel = CommandPermissionLevel.Normal;
 
   /**
    * Overloads the command with the given options.

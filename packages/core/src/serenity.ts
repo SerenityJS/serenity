@@ -23,10 +23,11 @@ import {
   type WorldProvider
 } from "./world";
 import { Player } from "./entity";
-import { ConsoleInterface, WorldEnum, Commands } from "./commands";
-import { Permissions } from "./permissions";
+import { ConsoleInterface, WorldEnum, CommandPalette } from "./commands";
+import { PermissionGroup, PermissionMember } from "./permissions";
 import { ServerEvent, ServerState } from "./enums";
 import { ResourcePackManager } from "./resource-packs";
+import { IPermissions } from "./types/permissions";
 
 import type {
   ServerEvents,
@@ -38,7 +39,7 @@ import type {
 } from "./types";
 
 const DefaultSerenityProperties: SerenityProperties = {
-  permissions: [],
+  permissions: null,
   resourcePacks: "",
   movementValidation: true,
   movementRewindThreshold: 0.4,
@@ -93,8 +94,14 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    */
   public readonly console = new ConsoleInterface(this);
 
-  public readonly permissions: Permissions;
+  /**
+   * The permissions interface for the server.
+   */
+  public readonly permissions: IPermissions<PermissionGroup, PermissionMember>;
 
+  /**
+   * The resource pack manager for the server.
+   */
   public readonly resourcePacks: ResourcePackManager;
 
   /**
@@ -107,7 +114,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * The global commands registry for the server.
    * The commands will register on every world that is created.
    */
-  public readonly commands = new Commands();
+  public readonly commandPalette = new CommandPalette();
 
   /**
    * The current state of the server, whether it is starting up, running, or shutting down
@@ -164,10 +171,51 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     this.registerGenerator(SuperflatGenerator);
 
     // Create the permissions map for the server
-    this.permissions =
-      typeof this.properties.permissions === "string"
-        ? Permissions.fromPath(this, this.properties.permissions)
-        : new Permissions(this, { permissions: this.properties.permissions });
+    if (typeof this.properties.permissions === "string") {
+      // Read the permissions from the specified path
+      const permissions = this.readPermissions(this.properties.permissions);
+
+      // Instantiate the permissions groups
+      const groups = permissions.groups.map((group) =>
+        PermissionGroup.fromObject(group)
+      );
+
+      // Instantiate the permissions members
+      const members = permissions.members.map((x) =>
+        PermissionMember.fromObject(x)
+      );
+
+      // Set the permissions of the server
+      this.permissions = { groups, members };
+    } else if (this.properties.permissions !== null) {
+      // Instantiate the permissions groups
+      const groups = this.properties.permissions.groups.map((group) =>
+        PermissionGroup.fromObject(group)
+      );
+
+      // Instantiate the permissions members
+      const members = this.properties.permissions.members.map((x) =>
+        PermissionMember.fromObject(x)
+      );
+
+      // Set the permissions of the server
+      this.permissions = { groups, members };
+    } else {
+      // Set the permissions of the server
+      this.permissions = { groups: [], members: [] };
+    }
+
+    // Check if the permissions are empty
+    if (this.permissions.groups.length <= 0) {
+      // Create a new permission group
+      const group = new PermissionGroup("serenity");
+
+      // Create the operator permission for the group
+      group.createPermission("operator", ["stop", "save"]);
+
+      // Add the group to the permissions
+      this.permissions.groups.push(group);
+    }
 
     // Create the resource pack manager
     this.resourcePacks =
@@ -177,6 +225,8 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Write the properties to the properties path
     if (properties?.path) this.writeProperties(properties.path);
+    if (typeof this.properties.permissions === "string")
+      this.writePermissions(this.properties.permissions);
   }
 
   /**
@@ -203,6 +253,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         return void (this.state = ServerState.Stopped);
       }
 
+      // Set the server state as running if it is not already
+      if (this.state !== ServerState.Running) this.state = ServerState.Running;
+
       // Get the current time
       const [seconds, nanoseconds] = process.hrtime(lastTick);
       const delta = seconds + nanoseconds / 1e9;
@@ -213,7 +266,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       // Check if the server should tick the raknet connections
       if (delta >= 1 / RAKNET_TPS) {
         // Iterate over all the connections and tick the connection
-        for (const connection of this.network.raknet.connections.values())
+        for (const connection of this.network.raknet.connections)
           connection.tick();
       }
 
@@ -231,9 +284,15 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         this.ticks = this.ticks.filter((tick) => tick > threshold);
         this.tps = this.ticks.length;
 
-        // Tick all the worlds
-        for (const world of this.worlds.values())
-          world.onTick(Math.floor(deltaTick));
+        // Iterate over all the worlds and tick the world
+        // Catching any errors that occur during the tick
+        for (const [identifier, world] of this.worlds)
+          try {
+            world.onTick(Math.floor(deltaTick));
+          } catch (reason) {
+            // Log the error if the world failed to tick
+            this.logger.error(`Failed to tick world: ${identifier}`, reason);
+          }
 
         // Check if there are any schedules to execute
         if (this.schedules.size > 0) {
@@ -305,6 +364,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Shutdown all world providers
     for (const world of this.worlds.values()) world.provider.onShutdown();
+
+    // Write the permissions to the permissions path
+    if (typeof this.properties.permissions === "string")
+      this.writePermissions(this.properties.permissions);
   }
 
   /**
@@ -544,6 +607,35 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   }
 
   /**
+   * Gets the permission member for the specified player; creates a new member if one does not exist
+   * @param player The player to get the member permission for.
+   * @returns The member permission for the player.
+   */
+  public getPermissionMember(player: Player | string): PermissionMember {
+    // Get the uuid of the player
+    const uuid = typeof player === "string" ? player : player.uuid;
+
+    // Attempt to find the member in the permissions
+    const member = this.permissions.members.find((x) => x.uuid === uuid);
+
+    // Check if the member was found
+    if (member) return member;
+
+    // Create a new permission member
+    const newMember = new PermissionMember(uuid);
+
+    // Add the member to the permissions
+    this.permissions.members.push(newMember);
+
+    // Write the permissions to the permissions path
+    if (typeof this.properties.permissions === "string")
+      this.writePermissions(this.properties.permissions);
+
+    // Return the new member
+    return newMember;
+  }
+
+  /**
    * Reads the server properties from the specified path
    * @param path The path to read the server properties from
    * @returns The server properties that were read
@@ -576,6 +668,41 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
       // Write the properties to the file
       writeFileSync(resolve(path), JSON.stringify(properties, null, 2));
+    } catch {
+      return false;
+    }
+  }
+
+  public readPermissions(path: string): IPermissions {
+    try {
+      // Read the permissions from the file
+      const buffer = readFileSync(resolve(path));
+
+      // Parse the buffer as JSON
+      return JSON.parse(buffer.toString());
+    } catch {
+      // Return an empty permissions object if the file could not be read
+      return { groups: [], members: [] };
+    }
+  }
+
+  public writePermissions(path: string) {
+    try {
+      // Convert the groups to a json representation
+      const groups = this.permissions.groups.map((group) =>
+        PermissionGroup.toObject(group)
+      );
+
+      // Convert the members to a json representation
+      const members = this.permissions.members.map((member) =>
+        PermissionMember.toObject(member)
+      );
+
+      // Write the permissions to the file
+      writeFileSync(
+        resolve(path),
+        JSON.stringify({ groups, members }, null, 2)
+      );
     } catch {
       return false;
     }

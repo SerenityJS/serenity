@@ -1,5 +1,3 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import {
   EntityTraitEnum,
   JsonObjectEnum,
@@ -13,12 +11,12 @@ import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the traits command
-  world.commands.register(
+  world.commandPalette.register(
     "entity-traits",
     "wip",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       registry.overload(
         {

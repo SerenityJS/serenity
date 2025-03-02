@@ -14,7 +14,8 @@ import {
   ResourcePackResponse,
   ResourcePackStackPacket,
   StartGamePacket,
-  ItemRegistryPacket
+  ItemRegistryPacket,
+  PermissionLevel
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, TagType } from "@serenityjs/nbt";
@@ -174,7 +175,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.experimentsPreviouslyToggled = false;
         packet.bonusChest = false;
         packet.mapEnabled = false;
-        packet.permissionLevel = player.permission;
+        packet.permissionLevel = player.isOp()
+          ? PermissionLevel.Operator
+          : PermissionLevel.Member;
+
         packet.serverChunkTickRange = player.dimension.simulationDistance >> 4;
         packet.hasLockedBehaviorPack = false;
         packet.hasLockedResourcePack = false;

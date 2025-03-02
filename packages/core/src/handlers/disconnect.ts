@@ -25,6 +25,9 @@ class DisconnectHandler extends NetworkHandler {
     // Save the player's data
     player.world.provider.writePlayer(player.getDataEntry(), player.dimension);
 
+    // Nullify the player's permissions
+    player.permissions.player = null;
+
     // Log the leave event to the console
     player.world.logger.info(
       `§8[§9${player.username}§8] Event:§r Player left the server.`

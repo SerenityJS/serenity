@@ -1,17 +1,13 @@
-import { AvailableCommandsPacket } from "@serenityjs/protocol";
-
 import { Command } from "./command";
 import { CommandRegistry } from "./registry";
-import { SoftEnum } from "./enums";
 
-import type { CustomEnum } from "./enums";
 import type {
   CommandCallback,
   CommandContext,
   CommandRegistryCallback
 } from "../types";
 
-class Commands {
+class CommandPalette {
   /**
    * The commands of the registry.
    */
@@ -124,75 +120,6 @@ class Commands {
   public unregister(name: string): void {
     this.commands.delete(name);
   }
-
-  public serialize(): AvailableCommandsPacket {
-    // Create a new available commands packet
-    const packet = new AvailableCommandsPacket();
-
-    // Holds all custom enums that are used in the commands
-    packet.dynamicEnums = [];
-
-    // Map the commands to the packet property
-    packet.commands = this.getAll().map((command) => {
-      return {
-        name: command.name,
-        description: command.description,
-        permissionLevel: command.registry.permissionLevel,
-        subcommands: [],
-        flags: command.registry.debug ? 1 : 0,
-        alias: -1,
-        overloads: [...command.registry.overloads.keys()].map((overload) => {
-          // Iterate through the keys of the overload and extract the parameters.
-          const parameters = Object.entries(overload).map(([name, value]) => {
-            // Get the parameter constructor by checking if the value is an array.
-            const enm = Array.isArray(value) ? value[0] : value;
-
-            // Get the name of the parameter.
-            const symbol =
-              enm.type === SoftEnum.type
-                ? (enm as typeof CustomEnum).options.length > 0
-                  ? (0x4_10 << 16) |
-                    (packet.dynamicEnums.push({
-                      name: enm.name,
-                      values: (enm as typeof CustomEnum).options
-                    }) -
-                      1)
-                  : enm.symbol
-                : enm.symbol;
-
-            // Check if the parameter is optional.
-            const optional = Array.isArray(value) ? value[1] : false;
-
-            // Add the question mark to the name if the parameter is optional.
-            name = optional ? name + "?" : name;
-
-            return {
-              symbol,
-              name,
-              optional,
-              options: 0
-            };
-          });
-
-          return {
-            chaining: false,
-            parameters
-          };
-        })
-      };
-    });
-
-    // Assign the remaining properties to the packet
-    packet.chainedSubcommandValues = [];
-    packet.subcommands = [];
-    packet.enumConstraints = [];
-    packet.enumValues = [];
-    packet.enums = [];
-    packet.postFixes = [];
-
-    // Return the packet
-    return packet;
-  }
 }
 
-export { Commands };
+export { CommandPalette };

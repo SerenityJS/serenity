@@ -1,23 +1,19 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
-import { IntegerEnum, StringEnum, TargetEnum } from "../enums";
+import { TargetEnum } from "../enums";
 
 import type { World } from "../../world";
 import type { Entity } from "../../entity";
 
 const register = (world: World) => {
-  world.commands.register(
-    "transfer",
-    "Transfer a player to a different server",
+  world.commandPalette.register(
+    "deop",
+    "Remove the operator status of a player",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       registry.overload(
         {
-          target: TargetEnum,
-          address: StringEnum,
-          port: IntegerEnum
+          target: TargetEnum
         },
         (context) => {
           // Get the targets from the context
@@ -30,31 +26,36 @@ const register = (world: World) => {
           // Prepare the return message
           const message = [];
 
-          // Get the address from the context
-          const address = context.address.result as string;
-
-          // Get the port from the context
-          const port = context.port.result as number;
-
           // Loop through all the targets
           for (const target of targets) {
             // Check if the target is a player
             if (!target.isPlayer()) {
               // Append the message
               message.push(
-                `§cEntity §4${target.uniqueId}§c is not a player.§r`
+                `§7Entity §c${target.uniqueId}§7 is not a player.§r`
               );
 
               // Skip to the next target
               continue;
             }
 
-            // Transfer the player to the new server
-            target.transfer(address, port);
+            // Check if the target is not a server operator
+            if (!target.isOp()) {
+              // Append the message
+              message.push(
+                `§7Player §4${target.username}§7 is not a server operator.§r`
+              );
+
+              // Skip to the next target
+              continue;
+            }
+
+            // Remove the operator status of the player
+            target.deop();
 
             // Append the message
             message.push(
-              `§aTransferred §2${target.username}§a to §2${address}:${port}§a.§r`
+              `§7Successfully removed §u${target.username}§7 as a server operator.§r`
             );
           }
 

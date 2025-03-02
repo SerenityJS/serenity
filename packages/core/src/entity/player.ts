@@ -15,7 +15,6 @@ import {
   Gamemode,
   MoveMode,
   MovePlayerPacket,
-  PermissionLevel,
   PlaySoundPacket,
   SerializedSkin,
   SetPlayerGameTypePacket,
@@ -43,6 +42,7 @@ import {
   PlayerGamemodeChangeSignal
 } from "../events";
 import { FormParticipant } from "../ui";
+import { PermissionMember } from "../permissions";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
@@ -113,14 +113,14 @@ class Player extends Entity {
   public readonly onScreenDisplay = new ScreenDisplay(this);
 
   /**
+   * The permission level of the player.
+   */
+  public readonly permissions: PermissionMember;
+
+  /**
    * The current input tick of the player
    */
   public inputTick = 0n;
-
-  /**
-   * The permission level of the player
-   */
-  public permission: PermissionLevel;
 
   /**
    * The pending forms of the player
@@ -221,7 +221,8 @@ class Player extends Entity {
     this.alwaysShowNameTag = true;
 
     // Get the player's permission level from the permissions map
-    this.permission = this.serenity.permissions.get(this.uuid);
+    this.permissions = this.serenity.getPermissionMember(this);
+    this.permissions.player = this; // Set the player instance to the permission member
 
     // If the player properties contains an entry, load it
     if (properties?.entry)
@@ -270,18 +271,15 @@ class Player extends Entity {
    * @returns Whether the player is an operator
    */
   public isOp(): boolean {
-    return this.permission === PermissionLevel.Operator;
+    return this.permissions.has("serenity.operator");
   }
 
   /**
    * Add the operator status to the player
    */
   public op(): void {
-    // Set the player's permission level to operator
-    this.permission = PermissionLevel.Operator;
-
     // Set the player's permission level to operator in the permissions map
-    this.serenity.permissions.set(this.uuid, PermissionLevel.Operator);
+    this.permissions.add("serenity.operator");
 
     // Update the player's abilities
     this.abilities.set(AbilityIndex.OperatorCommands, true);
@@ -292,11 +290,8 @@ class Player extends Entity {
    * Remove the operator status from the player
    */
   public deop(): void {
-    // Set the player's permission level to member
-    this.permission = PermissionLevel.Member;
-
     // Set the player's permission level to member in the permissions map
-    this.serenity.permissions.set(this.uuid, PermissionLevel.Member);
+    this.permissions.remove("serenity.operator");
 
     // Update the player's abilities
     this.abilities.set(AbilityIndex.OperatorCommands, false);
@@ -457,16 +452,8 @@ class Player extends Entity {
       }
     );
 
-    // Serialize the available commands for the player
-    const commands = this.world.commands.serialize();
-
-    // Filter the commands by the player's permission level
-    commands.commands = commands.commands.filter(
-      (x) => x.permissionLevel <= this.permission
-    );
-
-    // Send the available commands packet to the player
-    this.send(content, commands);
+    // Send the available creative content to the player
+    this.send(content);
 
     // Return the player
     return this;

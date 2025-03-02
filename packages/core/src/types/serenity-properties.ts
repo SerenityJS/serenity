@@ -1,12 +1,12 @@
 import { RaknetServerProperties } from "@serenityjs/raknet";
 
-import { PermissionEntry } from "../permissions";
 import { NetworkProperties } from "../network";
 
 import { ResourcePacksProperties } from "./resource";
+import { IPermissions } from "./permissions";
 
 interface SerenityProperties {
-  permissions: string | Array<PermissionEntry>;
+  permissions: string | IPermissions | null;
   resourcePacks: string | ResourcePacksProperties;
   movementValidation: boolean;
   movementRewindThreshold: number;

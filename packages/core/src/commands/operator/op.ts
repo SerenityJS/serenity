@@ -1,17 +1,15 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import { TargetEnum } from "../enums";
 
 import type { World } from "../../world";
 import type { Entity } from "../../entity";
 
 const register = (world: World) => {
-  world.commands.register(
-    "deop",
-    "Remove the operator status of a player",
+  world.commandPalette.register(
+    "op",
+    "Set the operator status of a player",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       registry.overload(
         {
@@ -34,30 +32,30 @@ const register = (world: World) => {
             if (!target.isPlayer()) {
               // Append the message
               message.push(
-                `§7Entity §c${target.uniqueId}§7 is not a player.§r`
+                `§cEntity §4${target.uniqueId}§c is not a player.§r`
               );
 
               // Skip to the next target
               continue;
             }
 
-            // Check if the target is not a server operator
-            if (!target.isOp()) {
+            // Check if the target is already a server operator
+            if (target.isOp()) {
               // Append the message
               message.push(
-                `§7Player §4${target.username}§7 is not a server operator.§r`
+                `§cPlayer §4${target.username}§c is already a server operator or has a higher permission level.§r`
               );
 
               // Skip to the next target
               continue;
             }
 
-            // Remove the operator status of the player
-            target.deop();
+            // Set the operator status of the player
+            target.op();
 
             // Append the message
             message.push(
-              `§7Successfully removed §u${target.username}§7 as a server operator.§r`
+              `§aSuccessfully made §2${target.username}§a a server operator.§r`
             );
           }
 

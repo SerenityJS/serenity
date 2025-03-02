@@ -1,15 +1,13 @@
-import { CommandPermissionLevel } from "@serenityjs/protocol";
-
 import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the stop command
-  world.commands.register(
+  world.commandPalette.register(
     "save",
     "Save the current world's data to disk",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.internal"];
     },
     () => {
       // Save the world

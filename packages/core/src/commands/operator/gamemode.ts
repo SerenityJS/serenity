@@ -1,4 +1,4 @@
-import { Gamemode, CommandPermissionLevel } from "@serenityjs/protocol";
+import { Gamemode } from "@serenityjs/protocol";
 
 import { GamemodeEnum, TargetEnum } from "../enums";
 import { Player } from "../../entity";
@@ -7,12 +7,12 @@ import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the about command
-  world.commands.register(
+  world.commandPalette.register(
     "gamemode",
     "Sets a player's gamemode",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

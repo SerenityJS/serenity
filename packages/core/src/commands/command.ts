@@ -35,6 +35,8 @@ class Command<T = unknown> {
     registry: CommandRegistry,
     callback: CommandCallback<T>
   ) {
+    // Assign the properties of the command
+
     this.name = name;
     this.description = description;
     this.registry = registry;

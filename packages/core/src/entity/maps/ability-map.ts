@@ -2,6 +2,8 @@ import {
   AbilityIndex,
   AbilityLayerType,
   AbilitySet,
+  CommandPermissionLevel,
+  PermissionLevel,
   SetPlayerGameTypePacket,
   UpdateAbilitiesPacket
 } from "@serenityjs/protocol";
@@ -189,8 +191,14 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
   public update(): void {
     // Create a new UpdateAbilitiesPacket
     const packet = new UpdateAbilitiesPacket();
-    packet.permissionLevel = this.player.permission;
-    packet.commandPermissionLevel = this.player.permission === 2 ? 1 : 0;
+    packet.permissionLevel = this.player.isOp()
+      ? PermissionLevel.Operator
+      : PermissionLevel.Member;
+
+    packet.commandPermissionLevel = this.player.isOp()
+      ? CommandPermissionLevel.Operator
+      : CommandPermissionLevel.Normal;
+
     packet.entityUniqueId = this.player.uniqueId;
     packet.abilities = [
       {

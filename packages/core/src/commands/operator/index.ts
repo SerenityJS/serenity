@@ -18,8 +18,8 @@ import SAVE from "./save";
 import TIME from "./time";
 import ENTITYTRAITS from "./entity-traits";
 
-// Define all the admin commands
-const AdminCommands = [
+// Define all the serenity operator commands
+const OperatorCommands = [
   Gamemode,
   Ability,
   Clear,
@@ -41,4 +41,4 @@ const AdminCommands = [
   ENTITYTRAITS
 ];
 
-export { AdminCommands };
+export { OperatorCommands };

@@ -712,7 +712,7 @@ class Dimension {
 
     // Create a new command execute state
     const state = new CommandExecutionState(
-      this.world.commands.getAll(),
+      this.world.commandPalette.getAll(),
       command,
       this
     );
@@ -734,7 +734,7 @@ class Dimension {
 
     // Create a new command execute state
     const state = new CommandExecutionState(
-      this.world.commands.getAll(),
+      this.world.commandPalette.getAll(),
       command,
       this
     );

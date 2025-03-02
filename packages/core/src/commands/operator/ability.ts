@@ -1,4 +1,4 @@
-import { AbilityIndex, CommandPermissionLevel } from "@serenityjs/protocol";
+import { AbilityIndex } from "@serenityjs/protocol";
 
 import { BooleanEnum, TargetEnum, AbilityEnum } from "../enums";
 
@@ -7,12 +7,12 @@ import type { Entity } from "../../entity";
 
 const register = (world: World) => {
   // Register the kill command
-  world.commands.register(
+  world.commandPalette.register(
     "ability",
     "Update an ability for a specified player.",
     (registry) => {
-      // Set the command to be an operator command
-      registry.permissionLevel = CommandPermissionLevel.Operator;
+      // Set the permissions of the command
+      registry.permissions = ["serenity.operator"];
 
       // Create an overload for the command
       registry.overload(

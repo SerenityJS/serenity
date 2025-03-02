@@ -14,3 +14,4 @@ export * from "./ui";
 export * from "./loot";
 export * from "./resource-packs";
 export * from "./pathfinding";
+export * from "./permissions";
