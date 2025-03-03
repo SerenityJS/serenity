@@ -152,6 +152,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
       // Initialize the item stack
       this.initialize();
     }
+
+    // Add base the nbt properties to the item stack
+    for (const tag of this.type.properties.getTags()) this.nbt.add(tag);
+
     this.nbt.add(new StringTag({ name: "Name", value: this.identifier }));
     this.nbt.add(new ByteTag({ name: "Count", value: this.amount }));
     this.nbt.add(new ByteTag({ name: "Damage", value: this.metadata }));
