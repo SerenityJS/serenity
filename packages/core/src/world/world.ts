@@ -1,8 +1,11 @@
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import {
   DataPacket,
-  DimensionType,
+  Difficulty,
+  Gamemode,
   GameRule,
+  SetDefaultGamemodePacket,
+  SetDifficultyPacket,
   SetTimePacket,
   TextPacket,
   TextPacketType
@@ -22,37 +25,12 @@ import { OperatorCommands, CommandPalette, CommonCommands } from "../commands";
 import { WorldTickSignal } from "../events";
 import { EffectPallete } from "../effect";
 import { TimeOfDay } from "../enums";
+import { DefaultWorldProperties } from "../constants";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
 import { TickSchedule } from "./schedule";
 import { Scoreboard } from "./scoreboard";
-
-const DefaultWorldProperties: WorldProperties = {
-  identifier: "default",
-  seed: Math.floor(Math.random() * 2 ** 32),
-  saveInterval: 5,
-  dimensions: [
-    {
-      identifier: "overworld",
-      type: DimensionType.Overworld,
-      generator: "superflat",
-      viewDistance: 20,
-      simulationDistance: 10,
-      spawnPosition: [0, 32767, 0]
-    }
-  ],
-  gamerules: {
-    showCoordinates: false,
-    showDaysPlayed: false,
-    doDayLightCycle: true,
-    doImmediateRespawn: false,
-    keepInventory: false,
-    fallDamage: true,
-    fireDamage: true,
-    drowningDamage: true
-  }
-};
 
 class World extends Emitter<WorldEventSignals> {
   /**
@@ -393,6 +371,115 @@ class World extends Emitter<WorldEventSignals> {
 
     // Assign the time to the packet
     packet.time = this.dayTime;
+
+    // Broadcast the packet to all players
+    this.broadcast(packet);
+  }
+
+  /**
+   * Gets the default gamemode for the world.
+   * @returns The default gamemode.
+   */
+  public getDefaultGamemode(): Gamemode {
+    // Switch based on the gamemode
+    switch (this.properties.gamemode) {
+      default:
+        return this.properties.gamemode;
+
+      case "survival":
+        return Gamemode.Survival;
+
+      case "creative":
+        return Gamemode.Creative;
+
+      case "adventure":
+        return Gamemode.Adventure;
+
+      case "spectator":
+        return Gamemode.Spectator;
+    }
+  }
+
+  /**
+   * Sets the default gamemode for the world.
+   * @param gamemode The gamemode to set.
+   */
+  public setDefaultGamemode(gamemode: Gamemode): void {
+    switch (gamemode) {
+      case Gamemode.Survival:
+        this.properties.gamemode = "survival";
+        break;
+
+      case Gamemode.Creative:
+        this.properties.gamemode = "creative";
+        break;
+
+      case Gamemode.Adventure:
+        this.properties.gamemode = "adventure";
+        break;
+
+      case Gamemode.Spectator:
+        this.properties.gamemode = "spectator";
+        break;
+    }
+
+    // Create a new SetDefaultGamemode
+    const packet = new SetDefaultGamemodePacket();
+    packet.gamemode = gamemode;
+
+    // Broadcast the packet to all players
+    this.broadcast(packet);
+  }
+
+  /**
+   * Get the current difficulty of the world.
+   * @returns The difficulty of the world.
+   */
+  public getDifficulty(): Difficulty {
+    switch (this.properties.difficulty) {
+      default:
+        return this.properties.difficulty;
+
+      case "peaceful":
+        return Difficulty.Peaceful;
+
+      case "easy":
+        return Difficulty.Easy;
+
+      case "normal":
+        return Difficulty.Normal;
+
+      case "hard":
+        return Difficulty.Hard;
+    }
+  }
+
+  /**
+   * Set the current difficulty of the world.
+   * @param difficulty The difficulty to set.
+   */
+  public setDifficulty(difficulty: Difficulty): void {
+    switch (difficulty) {
+      case Difficulty.Peaceful:
+        this.properties.difficulty = "peaceful";
+        break;
+
+      case Difficulty.Easy:
+        this.properties.difficulty = "easy";
+        break;
+
+      case Difficulty.Normal:
+        this.properties.difficulty = "normal";
+        break;
+
+      case Difficulty.Hard:
+        this.properties.difficulty = "hard";
+        break;
+    }
+
+    // Create a new SetDifficultyPacket
+    const packet = new SetDifficultyPacket();
+    packet.difficulty = difficulty;
 
     // Broadcast the packet to all players
     this.broadcast(packet);

@@ -40,7 +40,7 @@ const register = (world: World) => {
             }
 
             // Check if the target is not a server operator
-            if (!target.isOp()) {
+            if (!target.isOp) {
               // Append the message
               message.push(
                 `§7Player §4${target.username}§7 is not a server operator.§r`
@@ -51,7 +51,7 @@ const register = (world: World) => {
             }
 
             // Remove the operator status of the player
-            target.deop();
+            target.isOp = false;
 
             // Append the message
             message.push(

@@ -191,11 +191,11 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
   public update(): void {
     // Create a new UpdateAbilitiesPacket
     const packet = new UpdateAbilitiesPacket();
-    packet.permissionLevel = this.player.isOp()
+    packet.permissionLevel = this.player.isOp
       ? PermissionLevel.Operator
       : PermissionLevel.Member;
 
-    packet.commandPermissionLevel = this.player.isOp()
+    packet.commandPermissionLevel = this.player.isOp
       ? CommandPermissionLevel.Operator
       : CommandPermissionLevel.Normal;
 

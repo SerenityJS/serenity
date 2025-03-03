@@ -1,4 +1,4 @@
-import { GameRule } from "@serenityjs/protocol";
+import { Difficulty, Gamemode, GameRule } from "@serenityjs/protocol";
 
 import { DimensionProperties } from "./dimension";
 
@@ -12,6 +12,16 @@ interface WorldProperties {
    * The generation seed of the world.
    */
   seed: number;
+
+  /**
+   * The gamemode of the world.
+   */
+  gamemode: Gamemode | "survival" | "creative" | "adventure" | "spectator";
+
+  /**
+   * The difficulty of the world.
+   */
+  difficulty: Difficulty | "peaceful" | "easy" | "normal" | "hard";
 
   /**
    * The amount of minutes between each save.

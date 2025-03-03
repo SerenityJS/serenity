@@ -17,13 +17,13 @@ import {
   MovePlayerPacket,
   PlaySoundPacket,
   SerializedSkin,
-  SetPlayerGameTypePacket,
   ShowProfilePacket,
   StopSoundPacket,
   TeleportCause,
   TextPacket,
   TextPacketType,
   TransferPacket,
+  UpdatePlayerGameTypePacket,
   Vector3f
 } from "@serenityjs/protocol";
 
@@ -43,6 +43,7 @@ import {
 } from "../events";
 import { FormParticipant } from "../ui";
 import { PermissionMember } from "../permissions";
+import { DefaultPlayerProperties } from "../constants";
 
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
@@ -54,15 +55,6 @@ import {
 } from "./traits";
 import { Device } from "./device";
 import { ScreenDisplay } from "./screen-display";
-
-const DefaultPlayerProperties: PlayerProperties = {
-  username: "SerenityJS",
-  xuid: "0000000000000000",
-  uuid: "00000000-0000-0000-0000-000000000000",
-  uniqueId: 0n,
-  device: Device.empty(),
-  skin: SerializedSkin.empty()
-};
 
 class Player extends Entity {
   /**
@@ -154,7 +146,7 @@ class Player extends Entity {
     // Check if the player has the gamemode component
     if (!this.dynamicProperties.has("gamemode"))
       // Set the default gamemode for the player
-      this.dynamicProperties.set("gamemode", Gamemode.Survival); // TODO: Get the default gamemode from the world
+      this.dynamicProperties.set("gamemode", this.world.getDefaultGamemode());
 
     // Return the gamemode of the player
     return this.dynamicProperties.get("gamemode") as Gamemode;
@@ -191,14 +183,42 @@ class Player extends Entity {
       }
     }
 
-    // Create a new set player game type packet
-    const packet = new SetPlayerGameTypePacket();
+    // Create a new UpdatePlayerGameTypePacket
+    const packet = new UpdatePlayerGameTypePacket();
     packet.gamemode = value;
+    packet.uniqueActorId = this.uniqueId;
+    packet.inputTick = this.inputTick;
 
-    // Send the packet to the player
-    this.send(packet);
+    // Broadcast the packet to the dimension
+    this.dimension.broadcast(packet);
   }
 
+  /**
+   * Whether the player has operator permissions.
+   */
+  public get isOp(): boolean {
+    return this.permissions.has("serenity.operator");
+  }
+
+  /**
+   * Whether the player has operator permissions.
+   */
+  public set isOp(value: boolean) {
+    // Add or remove the operator permission
+    if (value) this.permissions.add("serenity.operator");
+    else this.permissions.remove("serenity.operator");
+
+    // Update the player's abilities
+    this.abilities.set(AbilityIndex.OperatorCommands, value);
+    this.abilities.set(AbilityIndex.Teleport, value);
+  }
+
+  /**
+   * Create a new player instance within a dimension.
+   * @param dimension The dimension the player will spawn in.
+   * @param connection The raknet connection of the player.
+   * @param properties The additional properties of the player.
+   */
   public constructor(
     dimension: Dimension,
     connection: Connection,
@@ -264,38 +284,6 @@ class Player extends Entity {
   public sendImmediate(...packets: Array<DataPacket>): void {
     // Send the packets to the player
     this.serenity.network.sendImmediate(this.connection, ...packets);
-  }
-
-  /**
-   * Check if the player is an operator
-   * @returns Whether the player is an operator
-   */
-  public isOp(): boolean {
-    return this.permissions.has("serenity.operator");
-  }
-
-  /**
-   * Add the operator status to the player
-   */
-  public op(): void {
-    // Set the player's permission level to operator in the permissions map
-    this.permissions.add("serenity.operator");
-
-    // Update the player's abilities
-    this.abilities.set(AbilityIndex.OperatorCommands, true);
-    this.abilities.set(AbilityIndex.Teleport, true);
-  }
-
-  /**
-   * Remove the operator status from the player
-   */
-  public deop(): void {
-    // Set the player's permission level to member in the permissions map
-    this.permissions.remove("serenity.operator");
-
-    // Update the player's abilities
-    this.abilities.set(AbilityIndex.OperatorCommands, false);
-    this.abilities.set(AbilityIndex.Teleport, false);
   }
 
   /**

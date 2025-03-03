@@ -127,11 +127,11 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.data = [...entity.metadata.values()];
         packet.properties = new PropertySyncData([], []);
         packet.uniqueEntityId = entity.uniqueId;
-        packet.premissionLevel = entity.isOp()
+        packet.premissionLevel = entity.isOp
           ? PermissionLevel.Operator
           : PermissionLevel.Member;
 
-        packet.commandPermission = entity.isOp()
+        packet.commandPermission = entity.isOp
           ? CommandPermissionLevel.Operator
           : CommandPermissionLevel.Normal;
 

@@ -1,6 +1,5 @@
 import {
   AvailableActorIdentifiersPacket,
-  Difficulty,
   DisconnectReason,
   GameRuleType,
   ItemData,
@@ -137,9 +136,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.biomeName = "plains";
         packet.dimension = player.dimension.type;
         packet.generator = 1;
-        packet.worldGamemode = 0;
+        packet.worldGamemode = player.world.getDefaultGamemode();
         packet.hardcore = false;
-        packet.difficulty = Difficulty.Easy;
+        packet.difficulty = player.world.getDifficulty();
         packet.spawnPosition = player.dimension.spawnPosition;
         packet.achievementsDisabled = true;
         packet.editorWorldType = 0;
@@ -175,7 +174,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.experimentsPreviouslyToggled = false;
         packet.bonusChest = false;
         packet.mapEnabled = false;
-        packet.permissionLevel = player.isOp()
+        packet.permissionLevel = player.isOp
           ? PermissionLevel.Operator
           : PermissionLevel.Member;
 

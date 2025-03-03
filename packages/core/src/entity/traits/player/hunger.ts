@@ -1,6 +1,7 @@
 import {
   ActorDamageCause,
   AttributeName,
+  Difficulty,
   Gamemode
 } from "@serenityjs/protocol";
 
@@ -34,6 +35,12 @@ class PlayerHungerTrait extends EntityAttributeTrait {
   }
 
   public onTick(): void {
+    // Get the difficulty of the world
+    const difficulty = this.player.world.getDifficulty();
+
+    // Check if the difficulty of the world is peaceful
+    if (difficulty === Difficulty.Peaceful) return;
+
     // Check if the player is alive
     if (!this.player.isAlive) return;
 

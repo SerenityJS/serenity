@@ -40,7 +40,7 @@ const register = (world: World) => {
             }
 
             // Check if the target is already a server operator
-            if (target.isOp()) {
+            if (target.isOp) {
               // Append the message
               message.push(
                 `§cPlayer §4${target.username}§c is already a server operator or has a higher permission level.§r`
@@ -51,7 +51,7 @@ const register = (world: World) => {
             }
 
             // Set the operator status of the player
-            target.op();
+            target.isOp = true;
 
             // Append the message
             message.push(
