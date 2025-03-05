@@ -106,3 +106,5 @@ export * from "./material-render-method";
 export * from "./creative-item-category";
 export * from "./wearable-slot";
 export * from "./creative-item-group";
+export * from "./graphics-mode";
+export * from "./update-type";

@@ -1,4 +1,11 @@
-import { Bool, VarInt, VarString, ZigZag } from "@serenityjs/binarystream";
+import {
+  Bool,
+  Endianness,
+  Int64,
+  VarInt,
+  VarString,
+  ZigZag
+} from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { type LevelSoundEvent, Packet } from "../../enums";
@@ -14,6 +21,7 @@ class LevelSoundEventPacket extends DataPacket {
   @Serialize(VarString) public actorIdentifier!: string;
   @Serialize(Bool) public isBabyMob!: boolean;
   @Serialize(Bool) public isGlobal!: boolean;
+  @Serialize(Int64, Endianness.Little) public uniqueActorId!: bigint;
 }
 
 export { LevelSoundEventPacket };

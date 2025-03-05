@@ -108,6 +108,7 @@ class BlockOpenBitTrait extends BlockTrait {
     packet.actorIdentifier = String();
     packet.isBabyMob = false;
     packet.isGlobal = true;
+    packet.uniqueActorId = -1n;
 
     // Check if the block is a trapdoor
     if (identifier.includes("trapdoor")) {

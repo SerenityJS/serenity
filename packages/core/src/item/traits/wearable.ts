@@ -243,6 +243,7 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     packet.data = -1;
     packet.isBabyMob = false;
     packet.isGlobal = false;
+    packet.uniqueActorId = -1n;
 
     // Broadcast the packet to the dimension
     player.dimension.broadcast(packet);

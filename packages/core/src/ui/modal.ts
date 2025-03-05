@@ -51,6 +51,11 @@ class ModalForm<T = Array<unknown>> extends Form<T> {
   public readonly content: Array<unknown> = [];
 
   /**
+   * The sumbit button text.
+   */
+  public submit = "Submit";
+
+  /**
    * Adds a dropdown menu to the form.
    * @param text The text of the dropdown menu
    * @param options The options of the dropdown menu
@@ -158,6 +163,27 @@ class ModalForm<T = Array<unknown>> extends Form<T> {
    */
   public toggle(text: string, defaultValue = false): this {
     this.content.push({ type: "toggle", text, default: defaultValue });
+
+    return this;
+  }
+
+  /**
+   * Adds a sectuib divider to the form.
+   * @returns
+   */
+  public divider(): this {
+    this.content.push({ type: "divider", text: "" });
+
+    return this;
+  }
+
+  /**
+   * Adds a header to the form.
+   * @param text The text of the header
+   * @returns
+   */
+  public header(text: string): this {
+    this.content.push({ type: "header", text });
 
     return this;
   }

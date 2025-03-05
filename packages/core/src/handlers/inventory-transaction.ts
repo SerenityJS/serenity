@@ -322,6 +322,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           sound.actorIdentifier = String();
           sound.isBabyMob = false;
           sound.isGlobal = false;
+          sound.uniqueActorId = -1n;
 
           // Check if the block placement was canceled, revert the block
           if (options.cancel)

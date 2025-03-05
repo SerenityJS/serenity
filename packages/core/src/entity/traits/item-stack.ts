@@ -225,6 +225,7 @@ class EntityItemStackTrait extends EntityTrait {
       sound.data = -1;
       sound.isBabyMob = false;
       sound.isGlobal = false;
+      sound.uniqueActorId = -1n;
 
       // Send the packets to the player
       this.target.send(sound);
