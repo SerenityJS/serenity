@@ -17,6 +17,7 @@ import DEOP from "./deop";
 import SAVE from "./save";
 import TIME from "./time";
 import ENTITYTRAITS from "./entity-traits";
+import SPAWNPOINT from "./spawnpoint";
 
 // Define all the serenity operator commands
 const OperatorCommands = [
@@ -38,7 +39,8 @@ const OperatorCommands = [
   DEOP,
   SAVE,
   TIME,
-  ENTITYTRAITS
+  ENTITYTRAITS,
+  SPAWNPOINT
 ];
 
 export { OperatorCommands };

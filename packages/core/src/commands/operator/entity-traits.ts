@@ -13,7 +13,7 @@ const register = (world: World) => {
   // Register the traits command
   world.commandPalette.register(
     "entity-traits",
-    "wip",
+    "Interact with the traits of a specified entity",
     (registry) => {
       // Set the permissions of the command
       registry.permissions = ["serenity.operator"];
