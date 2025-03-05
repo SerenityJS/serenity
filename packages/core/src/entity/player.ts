@@ -613,6 +613,36 @@ class Player extends Entity {
   }
 
   /**
+   * Get the spawn point of the player.
+   * @returns The spawn point of the player.
+   */
+  public getSpawnPoint(): Vector3f {
+    // Check if the player has the spawn point dynamic property
+    if (!this.hasDynamicProperty("spawnPoint")) {
+      // Get the spawn position of the dimension
+      const { x, y, z } = this.dimension.spawnPosition;
+
+      // Set the spawn point of the player
+      this.setDynamicProperty<Array<number>>("spawnPoint", [x, y, z]);
+    }
+
+    // Get the spawn point of the player
+    const position = this.getDynamicProperty("spawnPoint") as Array<number>;
+
+    // Return the spawn point as a Vector3f
+    return Vector3f.fromArray(position);
+  }
+
+  /**
+   * Set the spawn point of the player.
+   * @param position The position to set the spawn point to.
+   */
+  public setSpawnPoint(position: Vector3f): void {
+    // Set the spawn point of the player
+    this.setDynamicProperty("spawnPoint", [position.x, position.y, position.z]);
+  }
+
+  /**
    * Gets the player's data as a database entry
    * @returns The player entry
    */

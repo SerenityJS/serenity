@@ -29,7 +29,6 @@ import {
   EntityEntry,
   EntityProperties,
   EntitySpawnOptions,
-  JSONLikeObject,
   JSONLikeValue
 } from "../types";
 import { Serenity } from "../serenity";
@@ -630,7 +629,7 @@ class Entity {
    * @param key The key of the component.
    * @returns The component if it exists, otherwise null.
    */
-  public getDynamicProperty<T extends JSONLikeObject>(key: string): T | null {
+  public getDynamicProperty<T extends JSONLikeValue>(key: string): T | null {
     return this.dynamicProperties.get(key) as T;
   }
 
@@ -647,7 +646,7 @@ class Entity {
    * @param key The key of the component.
    * @param value The value of the component.
    */
-  public addDynamicProperty<T extends JSONLikeObject>(
+  public addDynamicProperty<T extends JSONLikeValue>(
     key: string,
     value: T
   ): void {
@@ -661,7 +660,7 @@ class Entity {
    * @param key The key of the component.
    * @param value The value of the component.
    */
-  public setDynamicProperty<T extends JSONLikeObject>(
+  public setDynamicProperty<T extends JSONLikeValue>(
     key: string,
     value: T
   ): void {

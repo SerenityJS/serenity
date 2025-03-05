@@ -7,7 +7,6 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { EntityHealthTrait } from "../entity";
 
 class RespawnHandler extends NetworkHandler {
   public static readonly packet = Packet.Respawn;
@@ -24,9 +23,10 @@ class RespawnHandler extends NetworkHandler {
     // Send the packet to the player
     player.sendImmediate(status);
 
-    const dimension = player.world.getDimension();
+    // Teleport the player back to the spawn point
+    player.teleport(player.getSpawnPoint());
 
-    player.teleport(dimension.spawnPosition);
+    // Spawn the player into the dimension
     player.spawn();
   }
 }
