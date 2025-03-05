@@ -1,4 +1,5 @@
 import { WorldEvent } from "../enums";
+import { EntitySpawnOptions } from "../types";
 
 import { EventSignal } from "./event-signal";
 
@@ -17,19 +18,33 @@ class EntitySpawnedSignal extends EventSignal {
   public readonly entity: Entity;
 
   /**
+   * Whether the entity is spawning for the first time.
+   */
+  public readonly initialSpawn: boolean;
+
+  /**
    * The dimension the entity spawned in.
    */
   public readonly dimension: Dimension;
 
   /**
+   * Whether the entity is spawning due to a dimension change.
+   */
+  public readonly changedDimensions: boolean;
+
+  /**
    * Creates a new entity spawned signal.
    * @param entity The entity that spawned.
-   * @param dimension The dimension the entity spawned in.
+   * @param options The options of the entity spawn.
    */
-  public constructor(entity: Entity, dimension: Dimension) {
-    super(entity.dimension.world);
+  public constructor(entity: Entity, options: EntitySpawnOptions) {
+    super(entity.world);
+
+    // Assign the properties of the signal.
     this.entity = entity;
-    this.dimension = dimension;
+    this.initialSpawn = options.initialSpawn;
+    this.dimension = options.dimension;
+    this.changedDimensions = options.changedDimensions;
   }
 }
 

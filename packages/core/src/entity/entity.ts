@@ -731,7 +731,10 @@ class Entity {
     };
 
     // Create a new EntitySpawnedSignal
-    const signal = new EntitySpawnedSignal(this, this.dimension).emit();
+    const signal = new EntitySpawnedSignal(
+      this,
+      options as EntitySpawnOptions
+    ).emit();
 
     // Check if the signal was cancelled
     if (!signal) return this;
