@@ -55,19 +55,26 @@ class ActionForm extends Form<number> {
   public readonly type = ModalFormType.Action;
 
   /**
-   * The title of the form.
+   * The buttons of the form.
    */
-  public title!: string;
+  public readonly buttons: Array<ActionFormButton> = [];
 
   /**
    * The content of the form.
    */
-  public content!: string;
+  public content: string;
 
   /**
-   * The buttons of the form.
+   * Create a new server-sided action form.
+   * @param title The title of the form.
+   * @param content The content of the form; defaults to an empty string.
    */
-  public readonly buttons: Array<ActionFormButton> = [];
+  public constructor(title: string, content?: string) {
+    super(title);
+
+    // Assignt the form content
+    this.content = content ?? String();
+  }
 
   /**
    * Adds a button to the form.

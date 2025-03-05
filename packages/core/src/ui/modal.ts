@@ -41,11 +41,6 @@ class ModalForm<T = Array<unknown>> extends Form<T> {
   public readonly type = ModalFormType.Modal;
 
   /**
-   * The title of the form.
-   */
-  public title!: string;
-
-  /**
    * The content of the form.
    */
   public readonly content: Array<unknown> = [];
@@ -53,7 +48,19 @@ class ModalForm<T = Array<unknown>> extends Form<T> {
   /**
    * The sumbit button text.
    */
-  public submit = "Submit";
+  public submit: string;
+
+  /**
+   * Create a new server-sided modal form.
+   * @param title The title of the form.
+   * @param submit The text of the submit button; defaults to "Submit".
+   */
+  public constructor(title: string, submit?: string) {
+    super(title);
+
+    // Assign the form properties
+    this.submit = submit ?? "Submit";
+  }
 
   /**
    * Adds a dropdown menu to the form.

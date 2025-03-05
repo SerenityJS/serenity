@@ -162,9 +162,7 @@ class EntityNpcTrait extends EntityTrait {
     if (method !== EntityInteractMethod.Interact) return;
 
     // Create a new dialogue form for the entity, and indicate that it is from a trait
-    const form = new DialogueForm(this.entity, true);
-    form.title = this.title;
-    form.content = this.dialogue;
+    const form = new DialogueForm(this.entity, this.title, this.dialogue, true);
 
     // Add the buttons to the dialogue form
     for (const [text] of this.buttons) form.button(text);

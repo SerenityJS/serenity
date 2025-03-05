@@ -39,14 +39,9 @@ class DialogueForm extends Form<number> {
   public readonly target: Entity;
 
   /**
-   * The title of the form.
-   */
-  public title: string = "";
-
-  /**
    * The dialogue content of the form.
    */
-  public content: string = "";
+  public content: string;
 
   /**
    * Whether the dialogue form is from a trait.
@@ -61,13 +56,21 @@ class DialogueForm extends Form<number> {
   /**
    * Creates a new dialogue form.
    * @param target The target entity that the dialogue is focused on.
+   * @param title The title of the dialogue form.
+   * @param content The content of the dialogue form.
    * @param fromTrait Whether the dialogue form is from a trait.
    */
-  public constructor(target: Entity, fromTrait = false) {
-    super();
+  public constructor(
+    target: Entity,
+    title: string,
+    content?: string,
+    fromTrait = false
+  ) {
+    super(title);
 
     // Set the properties of the dialogue form.
     this.target = target;
+    this.content = content ?? String();
     this.fromTrait = fromTrait;
   }
 
