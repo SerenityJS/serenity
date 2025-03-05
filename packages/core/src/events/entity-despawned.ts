@@ -1,4 +1,5 @@
 import { WorldEvent } from "../enums";
+import { EntityDespawnOptions } from "../types";
 
 import { EventSignal } from "./event-signal";
 
@@ -22,14 +23,22 @@ class EntityDespawnedSignal extends EventSignal {
   public readonly dimension: Dimension;
 
   /**
+   * If the entity is despawning due to death.
+   */
+  public readonly hasDied: boolean;
+
+  /**
    * Creates a new entity despawned signal.
    * @param entity The entity that despawned.
    * @param dimension The dimension the entity despawned in.
    */
-  public constructor(entity: Entity, dimension: Dimension) {
+  public constructor(entity: Entity, options: EntityDespawnOptions) {
     super(entity.dimension.world);
+
+    // Assign the properties of the signal.
     this.entity = entity;
-    this.dimension = dimension;
+    this.dimension = entity.dimension;
+    this.hasDied = options.hasDied;
   }
 }
 

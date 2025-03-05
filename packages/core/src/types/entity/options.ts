@@ -1,3 +1,6 @@
+import { ActorDamageCause } from "@serenityjs/protocol";
+
+import { Entity } from "../../entity";
 import { Dimension } from "../../world";
 
 interface EntitySpawnOptions {
@@ -24,4 +27,16 @@ interface EntityDespawnOptions {
   hasDied: boolean;
 }
 
-export { EntitySpawnOptions, EntityDespawnOptions };
+interface EntityDeathOptions {
+  /**
+   * The source entity that killed the target entity.
+   */
+  killerSource: Entity | null;
+
+  /**
+   * The cause of the damage that killed the target entity.
+   */
+  damageCause: ActorDamageCause;
+}
+
+export { EntitySpawnOptions, EntityDespawnOptions, EntityDeathOptions };

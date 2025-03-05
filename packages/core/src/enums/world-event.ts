@@ -5,7 +5,7 @@ enum WorldEvent {
   HealthChanged,
   EntitySpawned,
   EntityDespawned,
-  EntityDie,
+  EntityDied,
   EntityFlagUpdate,
   EntityDimensionChange,
   EntityMetadataUpdate,

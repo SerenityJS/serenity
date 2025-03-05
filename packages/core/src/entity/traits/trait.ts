@@ -5,6 +5,7 @@ import { Player } from "../player";
 import { CommandExecutionState } from "../../commands";
 import { Container } from "../../container";
 import {
+  EntityDeathOptions,
   EntityDespawnOptions,
   EntityFallOnBlockTraitEvent,
   EntitySpawnOptions,
@@ -34,13 +35,21 @@ class EntityTrait extends Trait {
 
   /**
    * Called then the entity that this trait is attached to is spawned into a dimension.
+   * @param details The details of the entity spawn.
    */
-  public onSpawn?(options: EntitySpawnOptions): void;
+  public onSpawn?(details: EntitySpawnOptions): void;
 
   /**
    * Called when the entity that this trait is attached to is despawned from a dimension.
+   * @param details The details of the entity despawn.
    */
-  public onDespawn?(options: EntityDespawnOptions): void;
+  public onDespawn?(details: EntityDespawnOptions): void;
+
+  /**
+   * Called when the entity that this trait is attached to is killed.
+   * @param details The details of the entity death.
+   */
+  public onDeath?(details: EntityDeathOptions): void;
 
   /**
    * Called when the entity that this trait is attached to is interacted with by a player.

@@ -39,7 +39,8 @@ class EntityHealthTrait extends EntityAttributeTrait {
 
     // Check if the health is less than or equal to 0
     // If so, the entity is dead
-    if (this.currentValue <= 0) this.entity.kill(damager, cause);
+    if (this.currentValue <= 0)
+      this.entity.kill({ killerSource: damager, damageCause: cause });
   }
 
   public onAdd(): void {
@@ -50,6 +51,10 @@ class EntityHealthTrait extends EntityAttributeTrait {
       defaultValue: 20,
       currentValue: 20
     });
+  }
+
+  public onDeath(): void {
+    this.currentValue = this.maximumValue;
   }
 }
 

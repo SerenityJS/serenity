@@ -106,6 +106,10 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     this.saturation = 10;
     this.exhaustion = 0;
   }
+
+  public onDeath(): void {
+    this.reset();
+  }
 }
 
 export { PlayerHungerTrait };

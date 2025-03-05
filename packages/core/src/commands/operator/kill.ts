@@ -1,4 +1,4 @@
-import { ActorDamageCause, Gamemode } from "@serenityjs/protocol";
+import { Gamemode } from "@serenityjs/protocol";
 
 import { TargetEnum } from "../enums";
 import { Player } from "../../entity";
@@ -60,7 +60,7 @@ const register = (world: World) => {
             }
 
             // Kill the entity
-            target.kill(undefined, ActorDamageCause.None);
+            target.kill();
 
             // Append the message
             message.push(

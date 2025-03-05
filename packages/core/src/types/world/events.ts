@@ -29,7 +29,7 @@ import {
   PlayerUseItemSignal,
   WorldInitializeSignal,
   WorldTickSignal,
-  EntityDieSignal,
+  EntityDiedSignal,
   PlayerOpenedContainerSignal,
   PlayerContainerInteractionSignal,
   PlayerClosedContainerSignal,
@@ -50,7 +50,7 @@ interface WorldEventSignals {
   [WorldEvent.EntityMetadataUpdate]: [EntityMetadataUpdateSignal];
   [WorldEvent.EntityAttributeUpdate]: [EntityAttributeUpdateSignal];
   [WorldEvent.EntityHit]: [EntityHitSignal];
-  [WorldEvent.EntityDie]: [EntityDieSignal];
+  [WorldEvent.EntityDied]: [EntityDiedSignal];
   [WorldEvent.EntityHurt]: [EntityHurtSignal];
   [WorldEvent.HealthChanged]: [EntityHealthChangedSignal];
   [WorldEvent.EffectAdd]: [EffectAddSignal];

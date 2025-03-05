@@ -11,7 +11,7 @@ import {
 import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
-import { ItemStack } from "../../item";
+import { ItemKeepOnDieTrait, ItemStack } from "../../item";
 import { ItemStackEntry, ItemStorage } from "../../types";
 import { Container } from "../../container";
 import { Player } from "../player";
@@ -196,6 +196,27 @@ class EntityInventoryTrait extends EntityTrait {
 
     // Show the inventory to the player
     this.container.show(player);
+  }
+
+  public onDeath(): void {
+    // Check if the entity is a player, and the keep inventory gamerule is enabled
+    if (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+      return;
+
+    // Iterate over the container slots
+    for (let slot = 0; slot < this.container.size; slot++) {
+      // Get the item stack at the index
+      const itemStack = this.container.getItem(slot);
+
+      // Check if the item is null
+      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+
+      // Drop the item stack from the armor container
+      this.entity.dimension.spawnItem(itemStack, this.entity.position);
+
+      // Clear the item stack from the armor container
+      this.container.clearSlot(slot);
+    }
   }
 }
 

@@ -23,6 +23,7 @@ import {
 } from "../enums";
 import {
   CommandResponse,
+  EntityDeathOptions,
   EntityDespawnOptions,
   EntityEffectOptions,
   EntityEntry,
@@ -38,23 +39,20 @@ import { ItemBundleTrait, ItemStack } from "../item";
 import { CommandExecutionState } from "../commands";
 import {
   EntityDespawnedSignal,
-  EntityDieSignal,
+  EntityDiedSignal,
   EntityDimensionChangeSignal,
   EntityHitSignal,
   EntitySpawnedSignal,
   PlayerInteractWithEntitySignal
 } from "../events";
 import { ScoreboardIdentity } from "../world/scoreboard";
-import { ItemKeepOnDieTrait } from "../item/traits/keep-on-die";
 
 import { EntityType } from "./identity";
 import {
   EntityEffectsTrait,
   EntityEquipmentTrait,
-  EntityHealthTrait,
   EntityInventoryTrait,
-  EntityTrait,
-  PlayerHungerTrait
+  EntityTrait
 } from "./traits";
 import { Player } from "./player";
 import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
@@ -782,7 +780,10 @@ class Entity {
     };
 
     // Create a new EntityDespawnedSignal
-    const signal = new EntityDespawnedSignal(this, this.dimension).emit();
+    const signal = new EntityDespawnedSignal(
+      this,
+      options as EntityDespawnOptions
+    ).emit();
 
     // Check if the signal was cancelled
     if (!signal) return this;
@@ -817,63 +818,25 @@ class Entity {
 
   /**
    * Kills the entity.
+   * @param options The options for the entity death.
    */
-  public kill(damagingEntity?: Entity, damageCause?: ActorDamageCause): void {
-    new EntityDieSignal(this, damagingEntity, damageCause).emit();
+  public kill(options?: Partial<EntityDeathOptions>): void {
+    // Spread the default options
+    options = {
+      killerSource: null,
+      damageCause: ActorDamageCause.None,
+      ...options
+    };
+
+    // Create a new EntityDieSignal
+    new EntityDiedSignal(this, options as EntityDeathOptions).emit();
+
+    // Trigger the onDeath trait event for the entity
+    for (const [, trait] of this.traits)
+      trait.onDeath?.(options as EntityDeathOptions);
 
     // Set the entity as not alive
     this.isAlive = false;
-
-    // Check if the entity has an inventory trait
-    if (this.hasTrait(EntityInventoryTrait)) {
-      // Check if the KeepInventory gamerule is enabled
-      if (this.world.gamerules.keepInventory) return;
-
-      // Get the inventory trait
-      const { container } = this.getTrait(EntityInventoryTrait);
-
-      // Iterate over the inventory slots
-      for (let slot = 0; slot < container.size; slot++) {
-        // Get the item from the slot
-        const item = container.getItem(slot);
-
-        // Check if the item is valid
-        if (!item) continue;
-
-        // Check if the item has the keep on die trait
-        if (item.hasTrait(ItemKeepOnDieTrait)) {
-          // Get the keep on die trait
-          const keepOnDie = item.getTrait(ItemKeepOnDieTrait);
-
-          // Check if the item should be kept
-          if (keepOnDie.keep) continue;
-        }
-
-        // Spawn the item in the dimension
-        this.dimension.spawnItem(item, this.position);
-
-        // Clear the slot
-        container.clearSlot(slot);
-      }
-    }
-
-    // Check if the entity has a health trait
-    if (this.hasTrait(EntityHealthTrait)) {
-      // Get the health trait
-      const health = this.getTrait(EntityHealthTrait);
-
-      // Set the health of the entity to 0
-      health.currentValue = health.minimumValue;
-    }
-
-    // Check if the entity has a hunger trait
-    if (this.hasTrait(PlayerHungerTrait)) {
-      // Get the hunger trait of the entity
-      const hunger = this.getTrait(PlayerHungerTrait);
-
-      // Reset the hunger of the entity
-      hunger.reset();
-    }
 
     // Schedule the entity to despawn
     this.dimension.schedule(50).on(() => {
@@ -881,9 +844,11 @@ class Entity {
       if (!this.isPlayer()) this.despawn();
       // Manually trigger the onDespawn trait event for players
       // We does this because the player has the option to disconnect at the respawn screen
-      else
+      else {
+        // Iterate over the traits of the entity
         for (const trait of this.traits.values())
           trait.onDespawn?.({ hasDied: true });
+      }
     });
   }
 

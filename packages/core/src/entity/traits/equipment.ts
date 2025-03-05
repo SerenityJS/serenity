@@ -10,7 +10,12 @@ import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStackEntry, JSONLikeObject } from "../../types";
 import { EntityIdentifier } from "../../enums";
-import { ItemEnchantableTrait, ItemStack, ItemWearableTrait } from "../../item";
+import {
+  ItemEnchantableTrait,
+  ItemKeepOnDieTrait,
+  ItemStack,
+  ItemWearableTrait
+} from "../../item";
 import { Container } from "../../container";
 
 import { EntityInventoryTrait } from "./inventory";
@@ -297,6 +302,42 @@ class EntityEquipmentTrait extends EntityTrait {
   public onRemove(): void {
     // Remove the equipment properties
     this.entity.removeDynamicProperty(this.identifier);
+  }
+
+  public onDeath(): void {
+    // Check if the entity is a player, and the keep inventory gamerule is enabled
+    if (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+      return;
+
+    // Iterate over the armor container slots
+    for (let slot = 0; slot < this.armor.size; slot++) {
+      // Get the item stack from the armor container
+      const itemStack = this.armor.getItem(slot);
+
+      // Check if the item stack is null
+      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+
+      // Drop the item stack from the armor container
+      this.entity.dimension.spawnItem(itemStack, this.entity.position);
+
+      // Clear the item stack from the armor container
+      this.armor.clearSlot(slot);
+    }
+
+    // Iterate over the offhand container slots
+    for (let slot = 0; slot < this.offhand.size; slot++) {
+      // Get the item stack from the offhand container
+      const itemStack = this.offhand.getItem(slot);
+
+      // Check if the item stack is null
+      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+
+      // Drop the item stack from the offhand container
+      this.entity.dimension.spawnItem(itemStack, this.entity.position);
+
+      // Clear the item stack from the offhand container
+      this.offhand.clearSlot(slot);
+    }
   }
 }
 
