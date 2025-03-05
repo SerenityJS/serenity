@@ -34,7 +34,7 @@ class BlockPalette {
 
   public constructor() {
     // Register all block traits.
-    for (const trait of BlockTraits) this.registerTrait(trait);
+    this.registerTrait(...BlockTraits);
   }
 
   /**
@@ -129,23 +129,25 @@ class BlockPalette {
    * @param type The block type to register.
    * @returns Whether the block type was registered.
    */
-  public registerType(type: BlockType): boolean {
-    // Check if the block type already exists.
-    if (this.types.has(type.identifier)) return false;
+  public registerType(...types: Array<BlockType>): this {
+    // Iterate over the block types.
+    for (const type of types) {
+      // Check if the block type already exists.
+      if (this.types.has(type.identifier)) continue;
 
-    // Register the block type.
-    this.types.set(type.identifier, type);
+      // Register the block type.
+      this.types.set(type.identifier, type);
 
-    // Add the block type to the block enum.
-    BlockEnum.options.push(type.identifier);
+      // Add the block type to the block enum.
+      BlockEnum.options.push(type.identifier);
 
-    // Register the permutations of the block type.
-    for (const permutation of type.permutations) {
-      this.registerPermutation(permutation);
+      // Register the permutations of the block type.
+      for (const permutation of type.permutations)
+        this.registerPermutation(permutation);
     }
 
-    // Return true if the block type was registered.
-    return true;
+    // Return this instance.
+    return this;
   }
 
   /**
@@ -182,40 +184,42 @@ class BlockPalette {
    * @param trait The trait to register.
    * @returns True if the trait was registered, false otherwise.
    */
-  public registerTrait(trait: typeof BlockTrait): boolean {
-    // Get the identifier of the trait.
-    const identifier = trait.state
-      ? trait.identifier + "<" + trait.state + ">"
-      : trait.identifier;
+  public registerTrait(...traits: Array<typeof BlockTrait>): this {
+    for (const trait of traits) {
+      // Get the identifier of the trait.
+      const identifier = trait.state
+        ? trait.identifier + "<" + trait.state + ">"
+        : trait.identifier;
 
-    // Check if the block trait is already registered.
-    if (this.traits.has(identifier)) return false;
+      // Check if the block trait is already registered.
+      if (this.traits.has(identifier)) continue;
 
-    // Register the block trait.
-    this.traits.set(identifier, trait);
+      // Register the block trait.
+      this.traits.set(identifier, trait);
 
-    // Iterate over the types of the trait.
-    for (const type of trait.types) {
-      // Check if the registry has the block identifier.
-      if (!this.registry.has(type))
-        // Set the registry for the block identifier.
-        this.registry.set(type, []);
+      // Iterate over the types of the trait.
+      for (const type of trait.types) {
+        // Check if the registry has the block identifier.
+        if (!this.registry.has(type))
+          // Set the registry for the block identifier.
+          this.registry.set(type, []);
 
-      // Get the registry for the block identifier.
-      const registry = this.registry.get(type);
+        // Get the registry for the block identifier.
+        const registry = this.registry.get(type);
 
-      // Check if the registry exists.
-      if (registry) {
-        // Push the trait to the registry.
-        registry.push(trait);
+        // Check if the registry exists.
+        if (registry) {
+          // Push the trait to the registry.
+          registry.push(trait);
 
-        // Set the registry for the block identifier.
-        this.registry.set(type, registry);
+          // Set the registry for the block identifier.
+          this.registry.set(type, registry);
+        }
       }
     }
 
-    // Return true if the block trait was registered.
-    return true;
+    // Return this instance.
+    return this;
   }
 
   /**

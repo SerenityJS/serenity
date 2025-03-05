@@ -4,6 +4,11 @@ import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Pipeline } from "./pipeline";
 import { PluginType } from "./enums";
 import { PluginEvents } from "./types";
+import {
+  PluginBlockRegistry,
+  PluginEntityRegistry,
+  PluginItemRegistry
+} from "./registry";
 
 interface PluginProperties extends Partial<PluginEvents> {
   logger: Logger;
@@ -61,6 +66,24 @@ class Plugin implements PluginProperties {
    * The type of the plugin.
    */
   public readonly type: PluginType;
+
+  /**
+   * The block registry for the plugin.
+   * @note Only register types/traits during the `onInitialize` event.
+   */
+  public readonly blocks = new PluginBlockRegistry();
+
+  /**
+   * The item registry for the plugin.
+   * @note Only register types/traits during the `onInitialize` event.
+   */
+  public readonly items = new PluginItemRegistry();
+
+  /**
+   * The entity registry for the plugin.
+   * @note Only register types/traits during the `onInitialize` event.
+   */
+  public readonly entities = new PluginEntityRegistry();
 
   /**
    * The path to the plugin.

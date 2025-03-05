@@ -35,7 +35,7 @@ class ItemPalette {
 
   public constructor() {
     // Register all item traits.
-    for (const trait of ItemTraits) this.registerTrait(trait);
+    this.registerTrait(...ItemTraits);
   }
 
   /**
@@ -70,39 +70,41 @@ class ItemPalette {
     );
   }
 
-  public registerType(type: ItemType): boolean {
-    // Check if the item type is already registered.
-    if (this.types.has(type.identifier)) return false;
+  public registerType(...types: Array<ItemType>): this {
+    for (const type of types) {
+      // Check if the item type is already registered.
+      if (this.types.has(type.identifier)) continue;
 
-    // Check if the item type has a creative category.
-    if (
-      type.creativeCategory !== CreativeItemCategory.Undefined &&
-      type.creativeGroup.length > 0
-    ) {
-      // Get the creative group for the item type.
-      // And create a new creative content group if it doesn't exist.
-      let creativeGroup = this.getCreativeGroup(type.creativeGroup);
-      if (!creativeGroup) {
-        // Create a new creative content group.
-        creativeGroup = this.createContentGroup({
-          identifier: type.creativeGroup,
-          category: type.creativeCategory,
-          icon: type
-        });
+      // Check if the item type has a creative category.
+      if (
+        type.creativeCategory !== CreativeItemCategory.Undefined &&
+        type.creativeGroup.length > 0
+      ) {
+        // Get the creative group for the item type.
+        // And create a new creative content group if it doesn't exist.
+        let creativeGroup = this.getCreativeGroup(type.creativeGroup);
+        if (!creativeGroup) {
+          // Create a new creative content group.
+          creativeGroup = this.createContentGroup({
+            identifier: type.creativeGroup,
+            category: type.creativeCategory,
+            icon: type
+          });
+        }
+
+        // Register the item type to the creative group.
+        if (!creativeGroup.hasItem(type)) creativeGroup.registerItem(type);
       }
 
-      // Register the item type to the creative group.
-      if (!creativeGroup.hasItem(type)) creativeGroup.registerItem(type);
+      // Register the item type.
+      this.types.set(type.identifier, type);
+
+      // Add the item type to the item enum.
+      ItemEnum.options.push(type.identifier);
     }
 
-    // Register the item type.
-    this.types.set(type.identifier, type);
-
-    // Add the item type to the item enum.
-    ItemEnum.options.push(type.identifier);
-
-    // Return true if the item type was registered.
-    return true;
+    // Return this instance.
+    return this;
   }
 
   public getRegistry(identifier: ItemIdentifier): Array<typeof ItemTrait> {
@@ -118,35 +120,37 @@ class ItemPalette {
    * @param trait The item trait to register.
    * @returns True if the item trait was registered, false otherwise.
    */
-  public registerTrait(trait: typeof ItemTrait): boolean {
-    // Check if the item trait is already registered.
-    if (this.traits.has(trait.identifier)) return false;
+  public registerTrait(...traits: Array<typeof ItemTrait>): this {
+    for (const trait of traits) {
+      // Check if the item trait is already registered.
+      if (this.traits.has(trait.identifier)) continue;
 
-    // Register the item trait.
-    this.traits.set(trait.identifier, trait);
+      // Register the item trait.
+      this.traits.set(trait.identifier, trait);
 
-    // Iterate over the item types.
-    for (const type of trait.types) {
-      // Check if the registry has the item identifier.
-      if (!this.registry.has(type))
-        // Set the registry for the item identifier.
-        this.registry.set(type, []);
+      // Iterate over the item types.
+      for (const type of trait.types) {
+        // Check if the registry has the item identifier.
+        if (!this.registry.has(type))
+          // Set the registry for the item identifier.
+          this.registry.set(type, []);
 
-      // Get the registry for the item identifier.
-      const registry = this.registry.get(type);
+        // Get the registry for the item identifier.
+        const registry = this.registry.get(type);
 
-      // Check if the registry exists.
-      if (registry) {
-        // Push the trait to the registry.
-        registry.push(trait);
+        // Check if the registry exists.
+        if (registry) {
+          // Push the trait to the registry.
+          registry.push(trait);
 
-        // Set the registry for the item identifier.
-        this.registry.set(type, registry);
+          // Set the registry for the item identifier.
+          this.registry.set(type, registry);
+        }
       }
     }
 
-    // Return true if the item trait was registered.
-    return true;
+    // Return this instance.
+    return this;
   }
 
   /**

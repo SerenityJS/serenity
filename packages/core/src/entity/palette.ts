@@ -34,7 +34,7 @@ class EntityPalette {
    */
   public constructor() {
     // Register all entity traits.
-    for (const trait of EntityTraits) this.registerTrait(trait);
+    this.registerTrait(...EntityTraits);
   }
 
   /**
@@ -84,18 +84,20 @@ class EntityPalette {
    * @param type The entity type to register.
    * @returns True if the entity type was registered, false otherwise.
    */
-  public registerType(type: EntityType): boolean {
-    // Check if the entity type is already registered.
-    if (this.types.has(type.identifier)) return false;
+  public registerType(...types: Array<EntityType>): this {
+    for (const type of types) {
+      // Check if the entity type is already registered.
+      if (this.types.has(type.identifier)) continue;
 
-    // Register the entity type.
-    this.types.set(type.identifier, type);
+      // Register the entity type.
+      this.types.set(type.identifier, type);
 
-    // Add the entity type to the entity enum.
-    EntityEnum.options.push(type.identifier);
+      // Add the entity type to the entity enum.
+      EntityEnum.options.push(type.identifier);
+    }
 
-    // Return true if the entity type was registered.
-    return true;
+    // Return this instance.
+    return this;
   }
 
   /**
@@ -119,45 +121,46 @@ class EntityPalette {
    * @returns True if the trait was registered, false otherwise.
    */
   public registerTrait(
-    trait: typeof EntityTrait | typeof PlayerTrait
-  ): boolean {
-    // Check if the entity trait is already registered.
-    if (this.traits.has(trait.identifier)) return false;
+    ...traits: Array<typeof EntityTrait | typeof PlayerTrait>
+  ): this {
+    for (const trait of traits) {
+      // Check if the entity trait is already registered.
+      if (this.traits.has(trait.identifier)) continue;
+      // Register the entity trait.
+      this.traits.set(trait.identifier, trait);
 
-    // Register the entity trait.
-    this.traits.set(trait.identifier, trait);
+      // Iterate over the types of the trait.
+      for (const type of trait.types ?? []) {
+        // Check if the registry has the entity identifier.
+        if (!this.registry.has(type as EntityIdentifier))
+          // Set the registry for the entity identifier.
+          this.registry.set(type as EntityIdentifier, []);
 
-    // Iterate over the types of the trait.
-    for (const type of trait.types ?? []) {
-      // Check if the registry has the entity identifier.
-      if (!this.registry.has(type as EntityIdentifier))
-        // Set the registry for the entity identifier.
-        this.registry.set(type as EntityIdentifier, []);
+        // Get the registry for the entity identifier.
+        const registry = this.registry.get(type as EntityIdentifier);
 
-      // Get the registry for the entity identifier.
-      const registry = this.registry.get(type as EntityIdentifier);
+        // Check if the registry exists.
+        if (registry) {
+          // Push the trait to the registry.
+          registry.push(trait);
 
-      // Check if the registry exists.
-      if (registry) {
-        // Push the trait to the registry.
-        registry.push(trait);
+          // Set the registry for the entity identifier.
+          this.registry.set(type as EntityIdentifier, registry);
+        }
+      }
 
-        // Set the registry for the entity identifier.
-        this.registry.set(type as EntityIdentifier, registry);
+      // Check if the trait has an identifier.
+      if (trait.identifier !== undefined) {
+        // Check if the trait is already in the entity trait enum.
+        if (!EntityTraitEnum.options.includes(trait.identifier)) {
+          // If not, add the trait to the entity trait enum.
+          EntityTraitEnum.options.push(trait.identifier);
+        }
       }
     }
 
-    // Check if the trait has an identifier.
-    if (trait.identifier !== undefined) {
-      // Check if the trait is already in the entity trait enum.
-      if (!EntityTraitEnum.options.includes(trait.identifier)) {
-        // If not, add the trait to the entity trait enum.
-        EntityTraitEnum.options.push(trait.identifier);
-      }
-    }
-
-    // Return true if the entity trait was registered.
-    return true;
+    // Return this instance.
+    return this;
   }
 
   /**
