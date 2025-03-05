@@ -149,6 +149,9 @@ class World extends Emitter<WorldEventSignals> {
    * @param deltaTick The delta tick to tick the world with.
    */
   public onTick(deltaTick: number): void {
+    // Check if there are no players in the world
+    if (this.getPlayers().length === 0) return;
+
     // Create a new WorldTickSignal
     const signal = new WorldTickSignal(
       this.currentTick,

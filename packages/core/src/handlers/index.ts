@@ -23,6 +23,7 @@ import { ResourcePackChunkRequestHandler } from "./resource-pack-chunk-request";
 import { ActorEventHandler } from "./actor-event";
 import { EntityPickRequestHandler } from "./entity-pick-request";
 import { NpcRequestHandler } from "./npc-request";
+import { PacketViolationWarningHandler } from "./packet-violation-warning";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -49,7 +50,8 @@ const Handlers = [
   EntityPickRequestHandler,
   EmoteHandler,
   ActorEventHandler,
-  NpcRequestHandler
+  NpcRequestHandler,
+  PacketViolationWarningHandler
 ];
 
 export { Handlers };
