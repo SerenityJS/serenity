@@ -12,7 +12,7 @@ interface PluginOnEvents {
   onEntityHealthChange?: (event: Core.EntityHealthChangedSignal) => void;
   onEntitySpawned?: (event: Core.EntitySpawnedSignal) => void;
   onEntityDespawned?: (event: Core.EntityDespawnedSignal) => void;
-  onEntityDie?: (event: Core.EntityDieSignal) => void;
+  onEntityDied?: (event: Core.EntityDiedSignal) => void;
   onEntityFlagUpdate?: (event: Core.EntityFlagUpdateSignal) => void;
   onEntityDimensionChange?: (event: Core.EntityDimensionChangeSignal) => void;
   onEntityMetadataUpdate?: (event: Core.EntityMetadataUpdateSignal) => void;

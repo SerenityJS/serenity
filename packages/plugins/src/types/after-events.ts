@@ -7,7 +7,7 @@ interface PluginAfterEvents {
   afterEntityHealthChange?: (event: Core.EntityHealthChangedSignal) => void;
   afterEntitySpawned?: (event: Core.EntitySpawnedSignal) => void;
   afterEntityDespawned?: (event: Core.EntityDespawnedSignal) => void;
-  afterEntityDie?: (event: Core.EntityDieSignal) => void;
+  afterEntityDied?: (event: Core.EntityDiedSignal) => void;
   afterEntityFlagUpdate?: (event: Core.EntityFlagUpdateSignal) => void;
   afterEntityDimensionChange?: (
     event: Core.EntityDimensionChangeSignal

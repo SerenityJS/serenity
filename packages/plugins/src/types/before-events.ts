@@ -7,7 +7,7 @@ interface PluginBeforeEvents {
   beforeEntityHealthChange?: (event: Core.EntityHealthChangedSignal) => boolean;
   beforeEntitySpawned?: (event: Core.EntitySpawnedSignal) => boolean;
   beforeEntityDespawned?: (event: Core.EntityDespawnedSignal) => boolean;
-  beforeEntityDie?: (event: Core.EntityDieSignal) => boolean;
+  beforeEntityDied?: (event: Core.EntityDiedSignal) => boolean;
   beforeEntityFlagUpdate?: (event: Core.EntityFlagUpdateSignal) => boolean;
   beforeEntityDimensionChange: (
     event: Core.EntityDimensionChangeSignal
