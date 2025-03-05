@@ -29,12 +29,12 @@ class LoginHandler extends NetworkHandler {
     // Decode the tokens given by the client.
     // This contains the client data, identity data, and public key.
     // Along with the players XUID, display name, and uuid.
-    const tokens = LoginHandler.decode(packet.tokens);
+    const { clientData, identityData } = LoginHandler.decode(packet.tokens);
 
     // Get the clients xuid and username.
-    const xuid = tokens.identityData.XUID;
-    const uuid = tokens.identityData.identity;
-    const username = tokens.identityData.displayName;
+    const xuid = identityData.XUID;
+    const uuid = identityData.identity;
+    const username = identityData.displayName;
 
     // Check if the xuid is smaller than 16 characters.
     // If so then the xuid is invalid.
@@ -87,18 +87,18 @@ class LoginHandler extends NetworkHandler {
 
     // Create a new Device instance.
     const device = new Device(
-      tokens.clientData.DeviceId,
-      tokens.clientData.DeviceModel,
-      tokens.clientData.DeviceOS,
-      tokens.clientData.MaxViewDistance,
-      tokens.clientData.MemoryTier
+      clientData.DeviceId,
+      clientData.DeviceModel,
+      clientData.DeviceOS,
+      clientData.MaxViewDistance,
+      clientData.MemoryTier
     );
 
     // Read the player data from the world provider.
     const data = world.provider.readPlayer(uuid, dimension);
 
     // Get the skin from the client data.
-    const skin = SerializedSkin.from(tokens.clientData);
+    const skin = SerializedSkin.from(clientData);
 
     // Create the properties for the player
     const properties: Partial<PlayerProperties> = {

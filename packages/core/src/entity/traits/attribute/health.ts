@@ -54,7 +54,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
   }
 
   public onDeath(): void {
-    this.currentValue = this.maximumValue;
+    this.currentValue = this.minimumValue;
   }
 }
 
