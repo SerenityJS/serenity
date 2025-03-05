@@ -8,6 +8,7 @@ import {
 import { EntityIdentifier } from "../../../enums";
 import { EntityHurtSignal } from "../../../events";
 import { Entity } from "../../entity";
+import { EntitySpawnOptions } from "../../..";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -51,6 +52,14 @@ class EntityHealthTrait extends EntityAttributeTrait {
       defaultValue: 20,
       currentValue: 20
     });
+  }
+
+  public onSpawn(details: EntitySpawnOptions): void {
+    // Check if the entity is not being spawned for the first time
+    if (details.initialSpawn) return;
+
+    // Reset the health value
+    this.currentValue = this.defaultValue;
   }
 
   public onDeath(): void {

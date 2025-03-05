@@ -8,6 +8,7 @@ import {
 import { EntityIdentifier } from "../../../enums";
 import { EntityAttributeTrait, EntityHealthTrait } from "../attribute";
 import { Player } from "../../player";
+import { EntitySpawnOptions } from "../../..";
 
 class PlayerHungerTrait extends EntityAttributeTrait {
   public static readonly identifier = "hunger";
@@ -100,15 +101,14 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     if (this.player.isSprinting) this.exhaustion += 0.5;
   }
 
-  public reset(): void {
+  public onSpawn(details: EntitySpawnOptions): void {
+    // Check if the player is not being spawned for the first time
+    if (details.initialSpawn) return;
+
     // Reset the current value of the attribute to the default value
     this.currentValue = this.defaultValue;
     this.saturation = 10;
     this.exhaustion = 0;
-  }
-
-  public onDeath(): void {
-    this.reset();
   }
 }
 

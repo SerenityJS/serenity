@@ -24,12 +24,6 @@ class RespawnHandler extends NetworkHandler {
     // Send the packet to the player
     player.sendImmediate(status);
 
-    // Get the players health trait
-    const health = player.getTrait(EntityHealthTrait);
-
-    // Set the players health to the max value
-    health.currentValue = health.defaultValue;
-
     const dimension = player.world.getDimension();
 
     player.teleport(dimension.spawnPosition);
