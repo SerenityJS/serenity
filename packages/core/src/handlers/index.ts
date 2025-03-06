@@ -24,6 +24,7 @@ import { ActorEventHandler } from "./actor-event";
 import { EntityPickRequestHandler } from "./entity-pick-request";
 import { NpcRequestHandler } from "./npc-request";
 import { PacketViolationWarningHandler } from "./packet-violation-warning";
+import { CommandBlockUpdateHandler } from "./command-block-update";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -51,7 +52,8 @@ const Handlers = [
   EmoteHandler,
   ActorEventHandler,
   NpcRequestHandler,
-  PacketViolationWarningHandler
+  PacketViolationWarningHandler,
+  CommandBlockUpdateHandler
 ];
 
 export { Handlers };
