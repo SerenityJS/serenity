@@ -9,7 +9,8 @@ const DefaultBlockEntry: BlockEntry = {
   permutation: 0,
   position: [0, 0, 0],
   traits: [],
-  dynamicProperties: []
+  dynamicProperties: [],
+  nbtProperties: ""
 };
 
 export { DefaultBlockEntry };
