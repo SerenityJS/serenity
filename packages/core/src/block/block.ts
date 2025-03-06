@@ -928,13 +928,20 @@ class Block {
       permutation: this.permutation.networkId,
       position: [x, y, z],
       traits: [...this.traits.keys()],
-      dynamicProperties: [...this.dyanamicProperties.entries()]
+      dynamicProperties: [...this.dyanamicProperties.entries()],
+      nbtProperties: this.nbt.serialize().toString("base64")
     };
 
     // Return the block entry object.
     return entry;
   }
 
+  /**
+   * Loads the block data from a block entry object.
+   * @param world The world the block is in.
+   * @param entry The block entry object to load the block data from.
+   * @param overwrite Whether to overwrite the block data.
+   */
   public loadDataEntry(
     world: World,
     entry: BlockEntry,
@@ -973,6 +980,9 @@ class Block {
       // Attempt to add the trait to the block
       this.addTrait(traitType);
     }
+
+    // Deserialize the nbt properties of the block
+    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
   }
 }
 

@@ -1,4 +1,5 @@
 import {
+  BlockActorDataPacket,
   ChunkCoords,
   LevelChunkPacket,
   NetworkChunkPublisherUpdatePacket
@@ -44,8 +45,8 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
       // Get the chunks to send
       const batch = chunks.slice(start, end);
-
       const levelChunks = batch.map((chunk) => {
+        // Add the chunk to the player's view
         this.chunks.add(chunk.hash);
 
         // Create a new LevelChunkPacket
@@ -65,6 +66,25 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
       // Send the packets to the player
       this.player.send(...levelChunks);
+    }
+
+    // Iterate over the blocks in the dimension
+    for (const [, block] of this.player.dimension.blocks) {
+      // Check if the block has NBT data
+      if (block.nbt.size === 0) continue;
+
+      // Check if the block is in the chunks
+      if (chunks.some((chunk) => block.getChunk() === chunk)) {
+        // Create a new BlockActorData packet
+        const packet = new BlockActorDataPacket();
+
+        // Assign the packet values
+        packet.position = block.position;
+        packet.nbt = block.nbt.toCompound();
+
+        // Send the packet to the player
+        this.player.send(packet);
+      }
     }
   }
 

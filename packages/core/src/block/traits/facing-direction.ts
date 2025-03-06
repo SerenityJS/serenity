@@ -1,52 +1,56 @@
-import { CardinalDirection } from "../../enums";
+import { CardinalDirection, FacingDirection } from "../../enums";
 import { BlockPlacementOptions } from "../../types";
 
 import { BlockDirectionTrait } from "./direction";
 
 class BlockFacingDirection extends BlockDirectionTrait {
-  public static readonly state = "minecraft:facing_direction";
+  public static readonly state = "facing_direction";
 
   public onPlace({ origin }: BlockPlacementOptions): void {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return;
 
+    // Get the player's pitch
+    const pitch = Math.ceil(origin.rotation.pitch);
+
+    // Check if the player is looking up or down
+    if (pitch === 90) return this.setDirection(FacingDirection.Up);
+    else if (pitch === -90) return this.setDirection(FacingDirection.Down);
+
     // Get the player's cardinal direction
     const direction = origin.getCardinalDirection();
 
-    // Set the direction of the block
+    // Switch the direction of the block based on the player's direction
     switch (direction) {
-      case CardinalDirection.North:
-        this.setDirection(CardinalDirection.South);
-        break;
-      case CardinalDirection.South:
-        this.setDirection(CardinalDirection.North);
-        break;
-      case CardinalDirection.East:
-        this.setDirection(CardinalDirection.West);
-        break;
-      case CardinalDirection.West:
-        this.setDirection(CardinalDirection.East);
-        break;
+      case CardinalDirection.North: {
+        return this.setDirection(FacingDirection.South);
+      }
+
+      case CardinalDirection.South: {
+        return this.setDirection(FacingDirection.North);
+      }
+
+      case CardinalDirection.East: {
+        return this.setDirection(FacingDirection.West);
+      }
+
+      case CardinalDirection.West: {
+        return this.setDirection(FacingDirection.East);
+      }
     }
   }
 
-  public getDirection(): CardinalDirection {
+  public getDirection(): FacingDirection {
     // Get the state of the block
-    const state = this.block.getState<string>(this.state as string);
+    const state = this.block.getState<FacingDirection>(this.state as string);
 
-    // Convert the direction to a cardinal direction
-    const direction = state.charAt(0).toUpperCase() + state.substring(1);
-
-    // Return the cardinal direction
-    return CardinalDirection[direction as keyof typeof CardinalDirection];
+    // Return the direction of the block
+    return state;
   }
 
-  public setDirection(direction: CardinalDirection): void {
-    // Transform the cardinal direction to a string
-    const value = CardinalDirection[direction].toLowerCase();
-
+  public setDirection(direction: FacingDirection): void {
     // Set the direction of the block
-    this.block.setState(this.state as string, value);
+    this.block.setState(this.state as string, direction);
   }
 }
 

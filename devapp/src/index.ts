@@ -1,4 +1,9 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import {
+  Serenity,
+  LevelDBProvider,
+  WorldEvent,
+  BlockCommandBlockTrait
+} from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -19,3 +24,9 @@ serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
 
 // Start the server
 serenity.start();
+
+serenity.after(WorldEvent.PlayerPlaceBlock, ({ block }) => {
+  const trait = block.getTrait(BlockCommandBlockTrait);
+
+  trait.command = "give @a dirt";
+});

@@ -143,6 +143,11 @@ interface BlockEntry extends JSONLikeObject {
    * The dynamic properties attached to the block.
    */
   dynamicProperties: Array<[string, JSONLikeValue]>;
+
+  /**
+   * The nbt data serialized as a base64 string.
+   */
+  nbtProperties: string;
 }
 
 export {

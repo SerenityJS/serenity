@@ -1,7 +1,9 @@
 import { CompoundTag, Tag } from "@serenityjs/nbt";
 import { BlockActorDataPacket } from "@serenityjs/protocol";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { Block } from "../block";
+import { Player } from "../../entity";
 
 class NbtMap extends Map<string, Tag> {
   /**
@@ -16,6 +18,10 @@ class NbtMap extends Map<string, Tag> {
   public constructor(block: Block) {
     super();
     this.block = block;
+  }
+
+  public get<T extends Tag>(key: string): T {
+    return super.get(key) as T;
   }
 
   public add(value: Tag): this {
@@ -59,19 +65,72 @@ class NbtMap extends Map<string, Tag> {
     this.update();
   }
 
-  public update(): void {
+  /**
+   * Converts the nbt map to a compound tag.
+   * @returns
+   */
+  public toCompound(name: string = ""): CompoundTag<unknown> {
+    // Create a new compound tag
+    const root = new CompoundTag({ name, value: {} });
+
+    // Iterate over the map
+    for (const [_, value] of this) {
+      // Add the tag to the compound
+      root.addTag(value);
+    }
+
+    // Return the compound
+    return root;
+  }
+
+  /**
+   * Adds the tags from a compound to the map.
+   * @param root The compound tag to add the tags from.
+   */
+  public fromCompound(root: CompoundTag<unknown>): void {
+    // Iterate over the tags in the compound
+    for (const tag of root.getTags()) {
+      // Set the tag in the map
+      this.set(tag.name, tag);
+    }
+  }
+
+  public serialize(): Buffer {
+    // Get the compound tag from the map
+    const root = this.toCompound();
+
+    // Create a new BinaryStream to write the data
+    const stream = new BinaryStream();
+
+    // Write the compound tag to the stream
+    CompoundTag.write(stream, root);
+
+    // Return the buffer
+    return stream.getBuffer();
+  }
+
+  public deserialize(buffer: Buffer): void {
+    // Create a new BinaryStream to read the data
+    const stream = new BinaryStream(buffer);
+
+    // Read the compound tag from the stream
+    const root = CompoundTag.read(stream);
+
+    // Add the tags from the compound to the map
+    this.fromCompound(root);
+  }
+
+  public update(player?: Player): void {
     // Create a new BlockActorData packet
     const packet = new BlockActorDataPacket();
 
     // Assign the packet values
     packet.position = this.block.position;
-    packet.nbt = new CompoundTag();
+    packet.nbt = this.toCompound();
 
-    // Iterate over the NBT data
-    for (const [key, value] of this) packet.nbt.setTag(key, value);
-
-    // Broadcast the packet to the dimension
-    this.block.dimension.broadcast(packet);
+    // Broadcast the packet to the player or dimension
+    if (player) player.send(packet);
+    else this.block.dimension.broadcast(packet);
   }
 }
 
