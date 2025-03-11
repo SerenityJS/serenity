@@ -22,15 +22,17 @@ class ItemStackNbtMap extends Map<string, Tag> {
     return super.get(key) as T;
   }
 
-  public add(value: Tag<unknown>): this {
-    // Call the original set method
-    const result = super.set(value.name, value);
+  public add(...tags: Array<Tag<unknown>>): this {
+    for (const tag of tags) {
+      // Call the original set method
+      super.set(tag.name, tag);
 
-    // Update the nbt data when a new value is added
-    this.update();
+      // Update the nbt data when a new value is added
+      this.update();
+    }
 
     // Return the result
-    return result;
+    return this;
   }
 
   public set(key: string, value: Tag<unknown>): this {

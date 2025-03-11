@@ -8,6 +8,7 @@ import {
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
 import {
+  BlockEntry,
   Items,
   ItemStackEntry,
   ItemStackProperties,
@@ -153,7 +154,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
     }
 
     // Add base the nbt properties to the item stack
-    for (const tag of this.type.properties.getTags()) this.nbt.add(tag);
+    this.nbt.add(...this.type.properties.getTags());
   }
 
   /**
@@ -631,6 +632,22 @@ class ItemStack<T extends keyof Items = keyof Items> {
   }
 
   /**
+   * Get the block data for the item stack.
+   * @returns The block data for the item stack.
+   */
+  public getBlockData(): BlockEntry {
+    return this.dynamicProperties.get("block_data") as BlockEntry;
+  }
+
+  /**
+   * Set the block data for the item stack.
+   * @param data The block data to set.
+   */
+  public setBlockData(data: BlockEntry): void {
+    this.dynamicProperties.set("block_data", data);
+  }
+
+  /**
    * Gets the data entry for the item stack.
    * @returns The data entry for the item stack.
    */
@@ -771,6 +788,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
       amount: descriptor.stackSize ?? 1,
       metadata: descriptor.metadata ?? 0
     });
+
+    // Check if the descriptor has extras.
+    if (descriptor.extras?.nbt)
+      item.nbt.add(...descriptor.extras.nbt.getTags());
 
     // Return the item stack.
     return item;

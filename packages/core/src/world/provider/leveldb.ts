@@ -713,9 +713,6 @@ class LevelDBProvider extends WorldProvider {
       // Create a new world instance.
       const world = new World(serenity, new this(worldPath), properties);
 
-      // Assign the world to the provider.
-      world.provider.world = world;
-
       // Create a new WorldInitializedSignal instance.
       new WorldInitializeSignal(world).emit();
 

@@ -1,5 +1,11 @@
 import { CompoundTag } from "@serenityjs/nbt";
 import { NetworkBlockTypeDefinition } from "@serenityjs/protocol";
+import {
+  BLOCK_DROPS,
+  BLOCK_METADATA,
+  BLOCK_PERMUTATIONS,
+  BLOCK_TYPES
+} from "@serenityjs/data";
 
 import { BlockIdentifier } from "../../enums";
 import {
@@ -10,8 +16,7 @@ import {
 
 import { ItemDrop } from "./drops";
 import { BlockTypeComponentCollection } from "./collection";
-
-import type { BlockPermutation } from "./permutation";
+import { BlockPermutation } from "./permutation";
 
 /**
  * BlockType represents a block type in the game, which hold all possible permutations the block can have.
@@ -32,6 +37,78 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * A collective registry of all block types.
    */
   public static readonly types = new Map<string, BlockType>();
+
+  // Register all the vanilla block types.
+  static {
+    // Iterate over the block types.
+    for (const type of BLOCK_TYPES) {
+      // Check if the block type is already registered.
+      if (this.types.has(type.identifier as BlockIdentifier)) {
+        throw new Error(`Block type ${type.identifier} is already registered`);
+      }
+
+      // Find the block drops for the block type.
+      const drop = BLOCK_DROPS.find(
+        (drop) => drop.identifier === type.identifier
+      );
+
+      // Register the block type.
+      const instance = new this(type.identifier as BlockIdentifier, {
+        loggable: type.loggable,
+        air: type.air,
+        liquid: type.liquid,
+        solid: type.solid,
+        tags: type.tags
+      });
+
+      // Check if the block type has drops.
+      if (drop) {
+        for (const entry of drop?.drops ?? []) {
+          // Separate the drop information.
+          const { identifier, min, max, chance } = entry;
+
+          // Create a new item drop.
+          const itemDrop = new ItemDrop(identifier, min, max, chance);
+
+          // Register the item drop to the block type.
+          instance.drops.push(itemDrop);
+        }
+      }
+      // Register the default drop for the block type.
+      else instance.drops.push(new ItemDrop(type.identifier, 1, 1, 1));
+
+      // Set the block type in the registry.
+      this.types.set(type.identifier as BlockIdentifier, instance);
+    }
+
+    // Iterate over the block permutations.
+    for (const permutation of BLOCK_PERMUTATIONS) {
+      // Get the block type from the registry.
+      const type = BlockType.types.get(
+        permutation.identifier as BlockIdentifier
+      );
+
+      // Check if the block type exists.
+      if (!type) {
+        throw new Error(`Block type ${permutation.identifier} does not exist`);
+      }
+
+      // Find the metadata for the block type.
+      const metadata = BLOCK_METADATA.find(
+        (meta) => meta.identifier === type.identifier
+      ) ?? { hardness: 0, friction: 0, mapColor: "" };
+
+      // Create a new block permutation.
+      const instance = BlockPermutation.create(type, permutation.state);
+
+      // Assign the block permutation properties.
+      instance.components.hardness = metadata.hardness;
+      instance.components.friction = metadata.friction;
+
+      // Register the block permutation in the registry.
+      BlockPermutation.permutations.set(instance.networkId, instance);
+    }
+  }
 
   /**
    * The identifier of the block type.

@@ -123,6 +123,9 @@ class World extends Emitter<WorldEventSignals> {
     this.serenity = serenity;
     this.provider = provider;
 
+    // Assign the world to the provider
+    this.provider.world = this;
+
     // Assign the properties to the world with the default properties
     this.properties = { ...DefaultWorldProperties, ...properties };
 
