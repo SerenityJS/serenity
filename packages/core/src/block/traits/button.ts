@@ -5,6 +5,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { BlockInteractionOptions } from "../../types";
+// import { PlayerPressedButtonSignal } from "../../events";
 
 import { BlockTrait } from "./trait";
 
@@ -19,7 +20,7 @@ class BlockButtonTrait extends BlockTrait {
 
   public onInteract({ cancel, origin }: BlockInteractionOptions): void {
     // Check if the block interaction has been cancelled or if there is no origin
-    if (cancel || !origin) return;
+    if (cancel || !origin) return this.setState(false, true);
 
     // Check if the block is currently being pressed
     if (this.releaseTick !== -1n) return;
@@ -32,6 +33,25 @@ class BlockButtonTrait extends BlockTrait {
 
     // Add a release tick if the button is pressed
     this.releaseTick = this.block.world.currentTick + 40n;
+
+    // // Create a signal for the player pressing the button
+    // const signal = new PlayerPressedButtonSignal(
+    //   origin,
+    //   this.block,
+    //   this.releaseTick
+    // );
+
+    // // Emit the signal to notify other parts of the system
+    // if (!signal.emit()) {
+    //   // If the signal was not consumed, reset releaseTick to -1n
+    //   this.releaseTick = -1n;
+
+    //   // Reset the button state to false
+    //   return this.setState(false, true);
+    // }
+
+    // // If the signal was consumed, update the releaseTick to the new value
+    // this.releaseTick = signal.releaseTick;
   }
 
   public onTick(): void {
@@ -60,10 +80,14 @@ class BlockButtonTrait extends BlockTrait {
   /**
    * Set the state of the button.
    * @param state The desired state of the button (true for pressed, false for not pressed).
+   * @param silent If the sound event should be played (default is false).
    */
-  public setState(state: boolean): void {
+  public setState(state: boolean, silent = false): void {
     // Set the button state to the specified value
     this.block.setState(this.state as string, state);
+
+    // If silent is true, do not play the sound event
+    if (silent) return;
 
     // Create a sound event packet to play the button click sound
     const packet = new LevelSoundEventPacket();

@@ -1,5 +1,6 @@
 import { WorldEvent } from "../../enums";
-import {
+
+import type {
   ChunkReadySignal,
   EffectAddSignal,
   EffectRemoveSignal,

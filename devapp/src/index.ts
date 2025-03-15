@@ -19,3 +19,9 @@ serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
 
 // Start the server
 serenity.start();
+
+// serenity.before(WorldEvent.PlayerPressedButton, ({ player }) => {
+//   console.log(player.username, "pressed a button");
+
+//   return true;
+// });
