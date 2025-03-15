@@ -11,3 +11,4 @@ export * from "./facing-direction";
 export * from "./pillar-axis";
 export * from "./torch-direction";
 export * from "./command-block";
+export * from "./button";

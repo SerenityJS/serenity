@@ -49,6 +49,9 @@ class EntityMovementTrait extends EntityAttributeTrait {
       this.moveTowards(this.positionTarget);
     }
 
+    // Check if the entity is not moving, and if the entity is not a player
+    if (!this.entity.isMoving && !this.entity.isPlayer()) return;
+
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();
 
@@ -62,6 +65,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
       ? this.entity.position.y
       : this.entity.position.y - 0.1;
 
+    // Assign the z position and rotation properties
     packet.z = this.entity.position.z;
     packet.yaw = this.entity.rotation.yaw;
     packet.headYaw = this.entity.rotation.headYaw;
@@ -135,6 +139,62 @@ class EntityMovementTrait extends EntityAttributeTrait {
     this.entity.rotation.yaw = yaw;
     this.entity.rotation.headYaw = yaw;
     this.entity.rotation.pitch = pitch;
+
+    // Create a new MoveActorDeltaPacket
+    const packet = new MoveActorDeltaPacket();
+
+    // Assign the packet properties
+    packet.runtimeId = this.entity.runtimeId;
+    packet.flags = MoveDeltaFlags.All;
+    packet.x = this.entity.position.x;
+
+    // Asjust the y position of the entity
+    packet.y = this.entity.isPlayer()
+      ? this.entity.position.y
+      : this.entity.position.y - 0.1;
+
+    // Assign the z position and rotation properties
+    packet.z = this.entity.position.z;
+    packet.yaw = this.entity.rotation.yaw;
+    packet.headYaw = this.entity.rotation.headYaw;
+    packet.pitch = this.entity.rotation.pitch;
+
+    // Adjust the y position of the entity
+    if (!this.entity.isPlayer() && !this.entity.isItem())
+      packet.y -= this.entity.hitboxHeight;
+
+    // Check if the entity is on the ground
+    if (this.entity.onGround) packet.flags |= MoveDeltaFlags.OnGround;
+
+    // Broadcast the packet to all players
+    if (this.entity.isPlayer()) {
+      // Iterate over all players in the dimension
+      for (const player of this.entity.dimension.getPlayers()) {
+        // Check if the player is the moving entity
+        if (player === this.entity) continue;
+
+        // Get the players entity rendering trait
+        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+
+        // Check if the player has the entity in their entities list
+        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+
+        // Send the packet to the player
+        player.send(packet);
+      }
+    } else {
+      // Iterate over all players in the dimension
+      for (const player of this.entity.dimension.getPlayers()) {
+        // Get the players entity rendering trait
+        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+
+        // Check if the player has the entity in their entities list
+        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+
+        // Send the packet to the player
+        player.send(packet);
+      }
+    }
   }
 
   /**
