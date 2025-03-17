@@ -273,6 +273,9 @@ class Dimension {
 
       // Tick the block if it is in simulation range
       if (inSimulationRange) {
+        // Check if the block is not ticking
+        if (!block.isTicking) block.isTicking = true;
+
         // Iterate over all the traits in the block
         // Try to tick the block trait
         for (const trait of block.traits.values())
@@ -288,6 +291,9 @@ class Dimension {
             // Remove the trait from the block
             block.traits.delete(trait.identifier);
           }
+      } else if (block.isTicking) {
+        // If the block is not in simulation range, stop ticking it
+        block.isTicking = false;
       }
     }
   }

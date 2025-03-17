@@ -229,6 +229,13 @@ class Block {
   }
 
   /**
+   * Whether the block is currently ticking or not.
+   * If true, this means the behaviors of the block are being processed.
+   * If false, this means the block currently isn't within the simulation distance from a player.
+   */
+  public isTicking = false;
+
+  /**
    * The direction the block is facing.
    */
   public get direction(): CardinalDirection {
