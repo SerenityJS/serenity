@@ -221,6 +221,14 @@ class LevelDBProvider extends WorldProvider {
     }
   }
 
+  public readBuffer(key: string): Buffer {
+    return this.db.get(Buffer.from(key));
+  }
+
+  public writeBuffer(key: string, value: Buffer): void {
+    this.db.put(Buffer.from(key), value);
+  }
+
   public readChunk(cx: number, cz: number, dimension: Dimension): Chunk {
     // Check if the chunks contain the dimension.
     if (!this.chunks.has(dimension)) {

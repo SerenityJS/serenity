@@ -167,6 +167,13 @@ class Entity {
   public onGround = false;
 
   /**
+   * Whether the entity is currently ticking or not.
+   * If true, this means the behaviors of the entity are being processed.
+   * If false, this means the entity currently isn't within the simulation distance from a player.
+   */
+  public isTicking = true;
+
+  /**
    * The name tag of the entity.
    */
   public get nameTag(): string {

@@ -58,6 +58,24 @@ class WorldProvider {
   public onSave(): void {}
 
   /**
+   * Reads a buffer from the provider.
+   * @param key The key to read the buffer from.
+   * @returns The buffer data entry.
+   */
+  public readBuffer(_key: string): Buffer {
+    throw new Error(`${this.identifier}.readBuffer() is not implemented!`);
+  }
+
+  /**
+   * Writes a buffer to the provider.
+   * @param key The key to write the buffer to.
+   * @param value The buffer data to write.
+   */
+  public writeBuffer(_key: string, _value: Buffer): void {
+    throw new Error(`${this.identifier}.writeBuffer() is not implemented!`);
+  }
+
+  /**
    * Reads a chunk for a specified dimension from the provider.
    * @param cx The chunk x coordinate.
    * @param cz The chunk z coordinate.
@@ -180,25 +198,6 @@ class WorldProvider {
    */
   public writeBlock(_block: BlockEntry, _dimension: Dimension): void {
     throw new Error(`${this.identifier}.writeBlock() is not implemented!`);
-  }
-
-  /**
-   * Writes a property to the provider.
-   * @param key The key of the property to write.
-   * @param value The value of the property to write.
-   */
-  public readProperty(_key: Buffer): Buffer {
-    throw new Error(`${this.identifier}.readProperty() is not implemented!`);
-  }
-
-  /**
-   * Writes a property to the provider.
-   * @param key The key of the property to write.
-   * @param value The value of the property to write.
-   * @returns The value of the property.
-   */
-  public writeProperty(_key: Buffer, _value: Buffer): void {
-    throw new Error(`${this.identifier}.writeProperty() is not implemented!`);
   }
 
   /**

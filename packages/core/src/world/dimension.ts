@@ -212,6 +212,9 @@ class Dimension {
 
       // Tick the entity if it is in simulation range
       if (inSimulationRange) {
+        // Check if the entity is not ticking
+        if (!entity.isTicking) entity.isTicking = true;
+
         // Iterate over all the traits in the entity
         for (const trait of entity.traits.values())
           try {
@@ -255,6 +258,9 @@ class Dimension {
               }
           }
         }
+      } else if (entity.isTicking) {
+        // If the entity is not in simulation range, stop ticking it
+        entity.isTicking = false;
       }
     }
 
