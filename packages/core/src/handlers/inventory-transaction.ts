@@ -198,21 +198,23 @@ class InventoryTransactionHandler extends NetworkHandler {
           resultant = interacting;
         }
 
+        // Get the held item stack from the player
+        const stack = player.getHeldItem();
+
         // Interact with the block
-        const interact = interacting.interact({
+        const results = interacting.interact({
           origin: player,
           clickedPosition: transaction.clickPosition,
-          clickedFace: transaction.face
+          clickedFace: transaction.face,
+          placingBlock: stack ? !stack.type.blockType?.air : false
         });
 
         // Check if the interaction failed, or if the interaction opened a container
-        if (!interact || player.openedContainer) return; // If so, we skip the block placement
+        if (results.cancel || !results.placingBlock || player.openedContainer)
+          return; // If so, we skip the block placement
 
         // Check if the client prediction failed to place the block
         if (transaction.clientPrediction === PredictedResult.Failure) {
-          // Get the held item stack from the player
-          const stack = player.getHeldItem() as ItemStack;
-
           // Verify that the item stack exists
           if (!stack) return;
 

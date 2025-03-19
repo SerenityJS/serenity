@@ -18,9 +18,12 @@ class BlockButtonTrait extends BlockTrait {
    */
   public releaseTick: bigint = -1n;
 
-  public onInteract({ cancel, origin }: BlockInteractionOptions): void {
+  public onInteract(options: BlockInteractionOptions): void {
     // Check if the block interaction has been cancelled or if there is no origin
-    if (cancel || !origin) return this.setState(false, true);
+    if (options.cancel || !options.origin) return this.setState(false, true);
+
+    // Check if the origin is sneaking, this will prevent blocks being placed on the button
+    if (!options.origin.isSneaking) options.placingBlock = false;
 
     // Check if the block is currently being pressed
     if (this.releaseTick !== -1n) return;
@@ -33,25 +36,6 @@ class BlockButtonTrait extends BlockTrait {
 
     // Add a release tick if the button is pressed
     this.releaseTick = this.block.world.currentTick + 40n;
-
-    // // Create a signal for the player pressing the button
-    // const signal = new PlayerPressedButtonSignal(
-    //   origin,
-    //   this.block,
-    //   this.releaseTick
-    // );
-
-    // // Emit the signal to notify other parts of the system
-    // if (!signal.emit()) {
-    //   // If the signal was not consumed, reset releaseTick to -1n
-    //   this.releaseTick = -1n;
-
-    //   // Reset the button state to false
-    //   return this.setState(false, true);
-    // }
-
-    // // If the signal was consumed, update the releaseTick to the new value
-    // this.releaseTick = signal.releaseTick;
   }
 
   public onTick(): void {

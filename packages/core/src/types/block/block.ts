@@ -63,23 +63,34 @@ interface BlockPlacementOptions {
 interface BlockInteractionOptions {
   /**
    * Whether the block interaction should be cancelled.
+   * This property can be modified to cancel the interaction with the block.
    */
   cancel: boolean;
 
   /**
    * The player that interacted with the block.
+   * This property can be modified to change the player that is interacting with the block.
    */
   origin?: Player;
 
   /**
    * The relative position of the block that was interacted with.
+   * This property can be modified to change the position of the block that is interacted with.
    */
   clickedPosition?: Vector3f;
 
   /**
    * The face of the block that was interacted with.
+   * This property can be modified to change the face that the block is interacted with.
    */
   clickedFace?: BlockFace;
+
+  /**
+   * Whether the interaction will result in a block being placed.
+   * The position of the block will be relative to the `clickedFace` property.
+   * This property can be modified to cancel the placement of a block when interacting with it.
+   */
+  placingBlock?: boolean;
 }
 
 interface BlockDestroyOptions {

@@ -776,7 +776,9 @@ class Block {
   /**
    * Interact with the block, calling the onInteract method of the block traits.
    */
-  public interact(options?: Partial<BlockInteractionOptions>): boolean {
+  public interact(
+    options?: Partial<BlockInteractionOptions>
+  ): BlockInteractionOptions {
     // Set the default options for the block interaction
     options = { cancel: false, ...options } as BlockInteractionOptions;
 
@@ -802,14 +804,14 @@ class Block {
       options.cancel = !success;
     }
 
-    // Return false if the block interaction was canceled
-    if (options.cancel) return false;
+    // Return early if the interaction was canceled
+    if (options.cancel) return { ...options, cancel: true };
 
     // Update the block after the interaction
     this.update(false);
 
-    // Return true if the block was interacted with
-    return true;
+    // Return the options with cancel set to false
+    return { ...options, cancel: false };
   }
 
   /**
