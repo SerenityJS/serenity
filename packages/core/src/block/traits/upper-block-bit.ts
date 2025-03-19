@@ -43,7 +43,7 @@ class BlockUpperTrait extends BlockTrait {
     const below = this.block.below();
 
     // Interact with the below block
-    return below.interact(options);
+    return below.interact(options).cancel;
   }
 
   public onPlace(): void {
