@@ -219,6 +219,9 @@ class LevelDBProvider extends WorldProvider {
         `Saved §c${savedChunks}§r chunks, §c${savedEntities}§r entities, and §c${savedBlocks}§r blocks for dimension §a${dimension.identifier}§r.`
       );
     }
+
+    // Flush the database to ensure all data is written.
+    return this.db.flush();
   }
 
   public readBuffer(key: string): Buffer {

@@ -39,8 +39,8 @@ import type {
 } from "./types";
 
 const DefaultSerenityProperties: SerenityProperties = {
-  permissions: null,
-  resourcePacks: "",
+  permissions: "./permissions.json",
+  resourcePacks: "./resource_packs",
   movementValidation: true,
   movementRewindThreshold: 0.4,
   ticksPerSecond: 20,
