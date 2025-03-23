@@ -123,7 +123,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
           heldItem === null
             ? new NetworkItemStackDescriptor(0)
             : ItemStack.toNetworkStack(heldItem);
-        packet.gamemode = 0;
+        packet.gamemode = entity.gamemode;
         packet.data = [...entity.metadata.values()];
         packet.properties = new PropertySyncData([], []);
         packet.uniqueEntityId = entity.uniqueId;
@@ -147,8 +147,8 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
           }
         ];
         packet.links = [];
-        packet.deviceId = "";
-        packet.deviceOS = 0;
+        packet.deviceId = entity.device.identifier;
+        packet.deviceOS = entity.device.os;
 
         // Adjust the player's position for rendering
         packet.position.y -= entity.hitboxHeight; // Adjust the y position for the player
