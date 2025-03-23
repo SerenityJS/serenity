@@ -10,3 +10,4 @@ export * from "./liquid-container";
 export * from "./weapon";
 export * from "./sword";
 export * from "./wearable";
+export * from "./shooter";

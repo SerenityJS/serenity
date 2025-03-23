@@ -50,20 +50,14 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
    * @param options The additional options for the item use.
    * @returns Whether the item use was successful; default is true
    */
-  public onStartUse?(
-    player: Player,
-    options: Partial<ItemUseOptions>
-  ): boolean | void;
+  public onStartUse?(player: Player, options: ItemUseOptions): boolean | void;
 
   /**
    * Called when the item is stopped being used by a player.
    * @param player The player that stopped using the item.
    * @param options The additional options for the item use.
    */
-  public onStopUse?(
-    player: Player,
-    options: Partial<ItemUseOptions>
-  ): boolean | void;
+  public onStopUse?(player: Player, options: ItemUseOptions): boolean | void;
 
   /**
    * Called when the item is used by a player.

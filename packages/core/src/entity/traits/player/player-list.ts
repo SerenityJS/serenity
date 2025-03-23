@@ -64,7 +64,7 @@ class PlayerListTrait extends PlayerTrait {
       xuid: player.xuid,
       username: player.username,
       skin: player.skin,
-      platformBuild: 0, // TODO: Get the platform build from the player
+      platformBuild: player.device.os,
       platformChatIdentifier: "",
       isHost: false,
       isVisitor: false,
