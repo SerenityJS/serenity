@@ -57,6 +57,19 @@ class Rotation extends DataType {
   }
 
   /**
+   * Compares this rotation to another rotation.
+   * @param other The other rotation to compare to.
+   * @returns True if the rotations are equal, false otherwise.
+   */
+  public equals(other: Rotation): boolean {
+    return (
+      this.yaw === other.yaw &&
+      this.pitch === other.pitch &&
+      this.headYaw === other.headYaw
+    );
+  }
+
+  /**
    * Converts the rotation to a vector3f.
    *
    * @returns The vector3f that was converted.

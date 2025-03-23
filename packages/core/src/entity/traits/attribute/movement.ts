@@ -50,7 +50,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     }
 
     // Check if the entity is not moving, and if the entity is not a player
-    if (!this.entity.isMoving && !this.entity.isPlayer()) return;
+    if (!this.entity.isMoving) return;
 
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();
@@ -87,6 +87,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
 
         // Get the players entity rendering trait
         const rendering = player.getTrait(PlayerEntityRenderingTrait);
+        if (!rendering) continue;
 
         // Check if the player has the entity in their entities list
         if (!rendering.entities.has(this.entity.uniqueId)) continue;
@@ -99,6 +100,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
       for (const player of this.entity.dimension.getPlayers()) {
         // Get the players entity rendering trait
         const rendering = player.getTrait(PlayerEntityRenderingTrait);
+        if (!rendering) continue;
 
         // Check if the player has the entity in their entities list
         if (!rendering.entities.has(this.entity.uniqueId)) continue;

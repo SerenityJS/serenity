@@ -15,6 +15,7 @@ import {
   PlayerAuthInputPacket,
   PlayerBlockActionData,
   PredictionType,
+  Rotation,
   UpdateBlockFlagsType,
   UpdateBlockLayerType,
   UpdateBlockPacket,
@@ -62,16 +63,23 @@ class PlayerAuthInputHandler extends NetworkHandler {
       packet.inputData.hasFlag(InputData.VerticalCollision) &&
       !packet.inputData.hasFlag(InputData.Jumping);
 
+    // Create a new Rotation object from the packet data
+    const rotation = new Rotation(
+      packet.rotation.y,
+      packet.rotation.x,
+      packet.headYaw
+    );
+
     // Determine if the player is moving
-    player.isMoving = packet.position.distance(player.position) !== 0;
+    player.isMoving =
+      packet.position.distance(player.position) !== 0 ||
+      !player.rotation.equals(rotation);
 
     // Set the player's position
     player.position.set(packet.position);
 
     // Set the player's rotation
-    player.rotation.pitch = packet.rotation.x;
-    player.rotation.yaw = packet.rotation.y;
-    player.rotation.headYaw = packet.headYaw;
+    player.rotation.set(rotation);
 
     // Set the player device information
     player.device.inputMode = packet.inputMode;

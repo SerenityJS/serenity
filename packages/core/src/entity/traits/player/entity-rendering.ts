@@ -150,6 +150,9 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.deviceId = "";
         packet.deviceOS = 0;
 
+        // Adjust the player's position for rendering
+        packet.position.y -= entity.hitboxHeight; // Adjust the y position for the player
+
         // Send the packet to the player
         this.player.send(packet);
         if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
