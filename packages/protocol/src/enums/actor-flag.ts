@@ -120,7 +120,10 @@ enum ActorFlag {
   TimerFlag3 = 117,
   BodyRotationBlocked = 118,
   RendersWhenInvisible = 119,
-  Count = 120
+  BodyRotationAxisAligned = 120,
+  Collidable = 121,
+  WASDAirControlled = 122,
+  Count
 }
 
 export { ActorFlag };

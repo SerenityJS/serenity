@@ -38,6 +38,20 @@ class Form<T> {
   public readonly type!: ModalFormType;
 
   /**
+   * The title of the form.
+   */
+  public title: string;
+
+  /**
+   * Create a new server-side form.
+   * @param title The title of the form.
+   */
+  public constructor(title: string) {
+    // Assign the form title
+    this.title = title;
+  }
+
+  /**
    * Shows the form to a player.
    * @param player The player to show the form to.
    * @returns The form response; the value of the form.

@@ -1,7 +1,7 @@
 // Contains the current protocol version and Minecraft version
 
-const PROTOCOL_VERSION = 776;
-const MINECRAFT_VERSION = "1.21.60";
+const PROTOCOL_VERSION = 786;
+const MINECRAFT_VERSION = "1.21.70";
 const MINECRAFT_TICK_SPEED = 50;
 
 const SHIELD_NETWORK_ID = 380;

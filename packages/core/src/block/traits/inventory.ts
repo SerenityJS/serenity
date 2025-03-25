@@ -149,6 +149,7 @@ class BlockInventoryTrait extends BlockTrait {
     sound.actorIdentifier = String();
     sound.isBabyMob = false;
     sound.isGlobal = false;
+    sound.uniqueActorId = -1n;
 
     // Set the sound event based on the block type
     switch (this.block.identifier) {
@@ -185,6 +186,7 @@ class BlockInventoryTrait extends BlockTrait {
     sound.actorIdentifier = String();
     sound.isBabyMob = false;
     sound.isGlobal = false;
+    sound.uniqueActorId = -1n;
 
     // Set the sound event based on the block type
     switch (this.block.type.identifier) {

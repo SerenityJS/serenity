@@ -117,6 +117,7 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       packet.data = -1;
       packet.isBabyMob = false;
       packet.isGlobal = false;
+      packet.uniqueActorId = -1n;
 
       // Broadcast the sound event packet to the player's dimension
       player.dimension.broadcast(packet);

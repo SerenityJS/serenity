@@ -26,7 +26,7 @@ class HudElementData extends DataType {
     const amount = stream.readVarInt();
     for (let index = 0; index < amount; index++) {
       // Read the element id.
-      const element = stream.readUint8();
+      const element = stream.readZigZag();
 
       // Push the element to the list.
       elements.push(new this(element));
@@ -45,7 +45,7 @@ class HudElementData extends DataType {
 
     // Write the elements.
     for (const element of value) {
-      stream.writeUint8(element.element);
+      stream.writeZigZag(element.element);
     }
   }
 }
