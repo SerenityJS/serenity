@@ -138,6 +138,9 @@ class BlockPalette {
       // Register the block type.
       this.types.set(type.identifier, type);
 
+      // Register the traits of the block type.
+      this.registerTrait(...type.traits);
+
       // Add the block type to the block enum.
       BlockEnum.options.push(type.identifier);
 

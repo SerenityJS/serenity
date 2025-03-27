@@ -8,3 +8,4 @@ export * from "./friction";
 export * from "./collision-box";
 export * from "./selection-box";
 export * from "./transformation";
+export * from "./crafting-table";

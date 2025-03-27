@@ -16,6 +16,7 @@ import { Block } from "../block";
 import { Container } from "../../container";
 import {
   BlockInteractionOptions,
+  BlockInventoryTraitOptions,
   ItemStackEntry,
   ItemStorage
 } from "../../types";
@@ -47,14 +48,22 @@ class BlockInventoryTrait extends BlockTrait {
    */
   protected opened = false;
 
-  public constructor(block: Block) {
+  /**
+   * Create a new inventory trait for a specific block.
+   * @param block The block to create the trait for.
+   * @param options The options for the block inventory trait.
+   */
+  public constructor(
+    block: Block,
+    options?: Partial<BlockInventoryTraitOptions>
+  ) {
     super(block);
 
     // Create the container for the trait
     this.container = new BlockContainer(
       block,
-      ContainerType.Container,
-      ContainerId.None,
+      options?.type ?? ContainerType.Container,
+      options?.identifier ?? ContainerId.None,
       27
     );
   }

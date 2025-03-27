@@ -385,23 +385,26 @@ class Block {
       permutation.type.identifier
     );
 
-    // Fetch any traits that apply to the base type components
-    for (const identifier of permutation.type.components.entries.keys()) {
-      // Get the trait from the block palette using the identifier
-      const trait = this.world.blockPalette.getTrait(identifier);
+    // Iterate over all the traits and apply them to the block if they are applicable.
+    for (const trait of this.world.blockPalette.getAllTraits()) {
+      // Get all the components that belong to the permutation and the type
+      const components = [
+        ...permutation.components.entries,
+        ...permutation.type.components.entries
+      ];
 
-      // Check if the trait exists
-      if (trait) traits.push(trait);
-    }
-
-    // Fetch any traits that are block state specific
-    for (const key of Object.keys(permutation.state)) {
       // Iterate over the trait in the registry.
-      for (const trait of this.world.blockPalette.getAllTraits()) {
-        // Check if the trait state key matches the block state key
-        if (trait.state === key)
-          // If so, add the trait to the block traits
-          traits.push(trait);
+      for (const [identifier] of components) {
+        // Check if the trait components includes the identifier
+        if (trait.components.includes(identifier) && !traits.includes(trait))
+          traits.push(trait); // If so, add the trait to the block traits
+      }
+
+      // Iterate over the trait in the registry.
+      for (const state of Object.keys(permutation.state)) {
+        // Check if the trait state includes the state key
+        if (trait.state === state && !traits.includes(trait))
+          traits.push(trait); // If so, add the trait to the block traits
       }
     }
 
@@ -604,11 +607,11 @@ class Block {
    * @returns The tool required to break the block.
    */
   public isToolCompatible(_itemStack: ItemStack): boolean {
-    // Get the block permutation properties
-    const properties = this.permutation.components;
+    // Get the block permutation components
+    const components = this.permutation.components;
 
     // If the hardness is less than 0, no tool is compatible.
-    if (properties.hardness < 0) return false;
+    if (components.getHardness() < 0) return false;
 
     // Check if the tool type is none.
     if (this.getToolType() === BlockToolType.None) return true;
@@ -622,11 +625,11 @@ class Block {
    * @returns The time it takes to break the block.
    */
   public getBreakTime(itemStack?: ItemStack | null): number {
-    // Get the block permutation properties.
-    const properties = this.permutation.components;
+    // Get the block permutation components.
+    const components = this.permutation.components;
 
     // Get the hardness of the block.
-    let hardness = properties.hardness;
+    let hardness = components.getHardness();
 
     if (!itemStack && this.getToolType() === BlockToolType.None) {
       hardness *= 1.5;

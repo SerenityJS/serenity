@@ -50,17 +50,22 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
     const z = this.component.getTag<IntTag>("RZ")?.value ?? 0;
 
     // Return the rotation as a tuple
-    return [x, y, z];
+    return [x * 90, y * 90, z * 90];
   }
 
   /**
    * How many degrees to rotate the geometry. Must be in increments of 90. Can be negative. If not in increment of 90, the game will round to the nearest 90 increment.
    */
   public set rotation(value: [number, number, number]) {
+    // Normalize the translation values
+    const rx = Math.floor(value[0] / 90) % 4;
+    const ry = Math.floor(value[1] / 90) % 4;
+    const rz = Math.floor(value[2] / 90) % 4;
+
     // Set the rotation of the transformation
-    this.component.createIntTag({ name: "RX", value: value[0] });
-    this.component.createIntTag({ name: "RY", value: value[1] });
-    this.component.createIntTag({ name: "RZ", value: value[2] });
+    this.component.createIntTag({ name: "RX", value: rx });
+    this.component.createIntTag({ name: "RY", value: ry });
+    this.component.createIntTag({ name: "RZ", value: rz });
   }
 
   /**

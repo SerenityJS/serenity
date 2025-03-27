@@ -1,32 +1,10 @@
 import { CompoundTag } from "@serenityjs/nbt";
-import { MaterialRenderMethod } from "@serenityjs/protocol";
 
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
+import { MaterialInstanceProperties } from "../../../types";
 
 import { BlockTypeComponent } from "./component";
-
-interface MaterialInstanceProperties {
-  /**
-   * The texture of the block.
-   */
-  texture: string;
-
-  /**
-   * The render method to use for the block.
-   */
-  render_method: MaterialRenderMethod;
-
-  /**
-   * Whether the block should have face dimming.
-   */
-  face_dimming: boolean;
-
-  /**
-   * Whether the block should have ambient occlusion enabled.
-   */
-  ambient_occlusion: boolean;
-}
 
 /**
  * Refrence the wiki for more information: https://wiki.bedrock.dev/blocks/block-components.html#material-instances

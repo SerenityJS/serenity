@@ -18,6 +18,8 @@ import { ItemDrop } from "./drops";
 import { BlockTypeComponentCollection } from "./collection";
 import { BlockPermutation } from "./permutation";
 
+import type { BlockTrait } from "../traits";
+
 /**
  * BlockType represents a block type in the game, which hold all possible permutations the block can have.
  * 
@@ -102,8 +104,8 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
       const instance = BlockPermutation.create(type, permutation.state);
 
       // Assign the block permutation properties.
-      instance.components.hardness = metadata.hardness;
-      instance.components.friction = metadata.friction;
+      instance.components.setHardness(metadata.hardness);
+      instance.components.setFriction(metadata.friction);
 
       // Register the block permutation in the registry.
       BlockPermutation.permutations.set(instance.networkId, instance);
@@ -154,6 +156,12 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * This contains the vanilla component definitions.
    */
   public readonly properties: BlockTypeDefinition;
+
+  /**
+   * The traits of the block type.
+   * These traits are used to define custom behavior for the block type.
+   */
+  public readonly traits: Array<typeof BlockTrait> = [];
 
   /**
    * The vanilla components of the block permutation. (hardness, friction, lighting, etc.)
@@ -242,6 +250,44 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    */
   public getNetworkDefinition(): NetworkBlockTypeDefinition {
     return new NetworkBlockTypeDefinition(this.identifier, this.properties);
+  }
+
+  /**
+   * Register a trait to the block type.
+   * @param trait The trait to register.
+   * @returns The block type instance.
+   */
+  public registerTrait(trait: typeof BlockTrait): this {
+    // Check if the trait is already registered.
+    if (this.traits.includes(trait)) return this;
+
+    // Add the block type to the trait.
+    trait.types.push(this.identifier);
+
+    // Register the trait.
+    this.traits.push(trait);
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Unregister a trait from the block type.
+   * @param trait The trait to unregister.
+   * @returns The block type instance.
+   */
+  public unregisterTrait(trait: typeof BlockTrait): this {
+    // Check if the trait is not registered.
+    if (!this.traits.includes(trait)) return this;
+
+    // Remove the block type from the trait.
+    trait.types.splice(trait.types.indexOf(this.identifier), 1);
+
+    // Unregister the trait.
+    this.traits.splice(this.traits.indexOf(trait), 1);
+
+    // Return this instance.
+    return this;
   }
 
   /**

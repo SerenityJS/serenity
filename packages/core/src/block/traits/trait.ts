@@ -9,13 +9,20 @@ import {
   BlockPlacementOptions,
   JSONLikeObject
 } from "../../types";
+import { Dimension } from "../../world";
 
 class BlockTrait extends Trait {
   /**
    * The block state key that this trait is compatible with by default.
-   * If null, the trait will not be initialized by any state.
+   * If null, the trait will not be initialized by any block state.
    */
   public static readonly state: string | null = null;
+
+  /**
+   * The block component identifiers that this trait is compatible with by default.
+   * If empty, the trait will not be initialized by any component.
+   */
+  public static readonly components: Array<string> = [];
 
   /**
    * The block type identifiers that this trait is compatible with by default.
@@ -28,9 +35,22 @@ class BlockTrait extends Trait {
   protected readonly block: Block;
 
   /**
-   * The state of the block trait.
+   * The dimension that the block is in.
+   */
+  protected readonly dimension: Dimension;
+
+  /**
+   * The block state key that this trait is compatible with.
+   * If null, the trait will not be initialized by any block state.
    */
   public readonly state = (this.constructor as typeof BlockTrait).state;
+
+  /**
+   * The block component identifiers that this trait is compatible with.
+   * If empty, the trait will not be initialized by any component.
+   */
+  public readonly components = (this.constructor as typeof BlockTrait)
+    .components;
 
   /**
    * Creates a new instance of the block trait.
@@ -39,7 +59,10 @@ class BlockTrait extends Trait {
    */
   public constructor(block: Block, _options?: JSONLikeObject) {
     super();
+
+    // Assign the properties of the block trait.
     this.block = block;
+    this.dimension = block.dimension;
   }
 
   /**
