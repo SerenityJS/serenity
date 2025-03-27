@@ -1,7 +1,28 @@
-import { ActorDamageCause } from "@serenityjs/protocol";
+import {
+  ActorDamageCause,
+  ContainerId,
+  ContainerType
+} from "@serenityjs/protocol";
 
 import { Entity } from "../../entity";
 import { Dimension } from "../../world";
+
+interface EntityInventoryTraitOptions {
+  /**
+   * The size of the container.
+   */
+  size: number;
+
+  /**
+   * The type of the container.
+   */
+  type: ContainerType;
+
+  /**
+   * The identifier of the container.
+   */
+  identifier: ContainerId;
+}
 
 interface EntitySpawnOptions {
   /**
@@ -39,4 +60,9 @@ interface EntityDeathOptions {
   damageCause: ActorDamageCause;
 }
 
-export { EntitySpawnOptions, EntityDespawnOptions, EntityDeathOptions };
+export {
+  EntityInventoryTraitOptions,
+  EntitySpawnOptions,
+  EntityDespawnOptions,
+  EntityDeathOptions
+};

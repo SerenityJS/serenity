@@ -11,6 +11,7 @@ import {
   EntitySpawnOptions,
   JSONLikeObject
 } from "../../types";
+import { Dimension } from "../../world";
 
 class EntityTrait extends Trait {
   /**
@@ -24,12 +25,21 @@ class EntityTrait extends Trait {
   protected readonly entity: Entity;
 
   /**
+   * The dimension that the entity is in.
+   */
+  protected get dimension(): Dimension {
+    return this.entity.dimension;
+  }
+
+  /**
    * Creates a new instance of the entity trait.
    * @param entity The entity that this trait will be attached to.
    * @param options additional options for the entity trait.
    */
   public constructor(entity: Entity, _options?: JSONLikeObject) {
     super();
+
+    // Assign the properties of the entity trait.
     this.entity = entity;
   }
 

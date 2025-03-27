@@ -41,19 +41,19 @@ class EntityPhysicsTrait extends EntityTrait {
           z: Math.floor(this.entity.position.z)
         });
 
-        // Get the permutation properties of the block below the entity
-        const properties = below.permutation.components;
+        // Get the permutation components of the block below the entity
+        const components = below.permutation.components;
 
         // Create a friction factor based on the entity's gravity
         const factor = this.entity.hasTrait(EntityGravityTrait) ? 0.95 : 1;
 
         // Apply friction to the entity & apply friction to the entity
         if (this.entity.velocity.x !== 0)
-          this.entity.velocity.x *= properties.friction * factor;
+          this.entity.velocity.x *= components.getFriction() * factor;
 
         // Apply friction to the entity
         if (this.entity.velocity.z !== 0)
-          this.entity.velocity.z *= properties.friction * factor;
+          this.entity.velocity.z *= components.getFriction() * factor;
       }
     } else {
       // Update the entity's y position

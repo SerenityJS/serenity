@@ -12,7 +12,11 @@ import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemKeepOnDieTrait, ItemStack } from "../../item";
-import { ItemStackEntry, ItemStorage } from "../../types";
+import {
+  EntityInventoryTraitOptions,
+  ItemStackEntry,
+  ItemStorage
+} from "../../types";
 import { Container } from "../../container";
 import { Player } from "../player";
 
@@ -50,15 +54,25 @@ class EntityInventoryTrait extends EntityTrait {
    * Creates a new entity inventory trait.
    * @param entity The entity that this trait will be attached to.
    */
-  public constructor(entity: Entity) {
+  public constructor(
+    entity: Entity,
+    options?: Partial<EntityInventoryTraitOptions>
+  ) {
     super(entity);
 
     // Create a new entity container
     this.container = new EntityContainer(
       entity,
-      entity.isPlayer() ? ContainerType.Inventory : ContainerType.Container,
-      entity.isPlayer() ? ContainerId.Inventory : ContainerId.None,
-      entity.isPlayer() ? 36 : 27
+      // Determine the container type
+      entity.isPlayer()
+        ? ContainerType.Inventory
+        : (options?.type ?? ContainerType.Container),
+      // Determine the container identifier
+      entity.isPlayer()
+        ? ContainerId.Inventory
+        : (options?.identifier ?? ContainerId.None),
+      // Determine the container size
+      entity.isPlayer() ? 36 : (options?.size ?? 27)
     );
   }
 

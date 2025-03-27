@@ -37,9 +37,6 @@ class EntityGravityTrait extends EntityTrait {
   }
 
   public onTick(): void {
-    // Get the dimension the entity is in
-    const dimension = this.entity.dimension;
-
     // Get the entity's position
     const position = this.entity.position.floor();
 
@@ -60,7 +57,7 @@ class EntityGravityTrait extends EntityTrait {
     }
 
     // Get the topmost block at the entity's position
-    const block = dimension.getTopmostBlock(position.floor());
+    const block = this.dimension.getTopmostBlock(position.floor());
 
     // Calculate the entity's offset from the block
     const entityOffset = position.y - this.entity.hitboxHeight;
@@ -84,7 +81,7 @@ class EntityGravityTrait extends EntityTrait {
         } catch (reason) {
           // Log the error to the console
           this.entity.world.serenity.logger.error(
-            `Failed to trigger onFallOnBlock event for entity "${this.entity.type.identifier}:${this.entity.uniqueId}" in dimension "${dimension.identifier}"`,
+            `Failed to trigger onFallOnBlock event for entity "${this.entity.type.identifier}:${this.entity.uniqueId}" in dimension "${this.dimension.identifier}"`,
             reason
           );
 
