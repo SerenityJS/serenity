@@ -50,11 +50,11 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    * Creates a new icon component.
    * @param type The type of the item.
    */
-  public constructor(type: ItemType) {
+  public constructor(type: ItemType, value: string) {
     super(type);
 
-    // Create the textures compound tag.
-    // this.component.createCompoundTag({ name: "textures" });
+    // Assign the default texture.
+    this.value = value;
   }
 }
 

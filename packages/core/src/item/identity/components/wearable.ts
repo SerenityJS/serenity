@@ -1,6 +1,8 @@
 import { IntTag, StringTag } from "@serenityjs/nbt";
 import { WearableSlot } from "@serenityjs/protocol";
 
+import { ItemType } from "../type";
+
 import { ItemTypeComponent } from "./component";
 
 class ItemTypeWearableComponent extends ItemTypeComponent {
@@ -32,6 +34,22 @@ class ItemTypeWearableComponent extends ItemTypeComponent {
    */
   public set slot(value: WearableSlot) {
     this.component.createStringTag({ name: "slot", value });
+  }
+
+  /**
+   * Creates a new wearable component definition for an item type.
+   * @param type The type of item that the component is for.
+   * @param properties The properties of the wearable component.
+   */
+  public constructor(
+    type: ItemType,
+    properties?: Partial<ItemTypeWearableComponent>
+  ) {
+    super(type);
+
+    // Assign the default properties.
+    this.protection = properties?.protection ?? 0;
+    this.slot = properties?.slot ?? WearableSlot.Offhand;
   }
 }
 

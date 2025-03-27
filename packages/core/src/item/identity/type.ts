@@ -121,7 +121,7 @@ class ItemType<T extends keyof Items = keyof Items> {
    * The maximum stack size of the item type.
    */
   public get maxAmount(): number {
-    return this.components.maxStackSize;
+    return this.components.getMaxStackSize();
   }
 
   /**
@@ -201,9 +201,8 @@ class ItemType<T extends keyof Items = keyof Items> {
       properties?.creativeGroup ?? `itemGroup.name.${identifier}`;
 
     // Assign the component based properties of the item type.
-    this.components.maxStackSize = properties?.maxAmount ?? 64;
-    this.components.blockPlacer.useBlockAsIcon = true;
-    this.components.blockPlacer.useOn = [];
+    this.components.setMaxStackSize(properties?.maxAmount ?? 64);
+    this.components.setBlockPlacer({ useBlockAsIcon: true, useOn: [] });
   }
 
   /**

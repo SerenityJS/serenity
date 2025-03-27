@@ -107,138 +107,197 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
   }
 
   /**
-   * The max stack size component of the item type.
+   * Get the max stack size of the item type.
+   * @returns The max stack size of the item type.
    */
-  public get maxStackSize(): number {
-    // Check if the item type has the max stack size component.
-    if (!this.has(ItemTypeMaxStackComponent))
-      return this.add(ItemTypeMaxStackComponent, 64).value;
+  public getMaxStackSize(): number {
+    // Check if the max stack size component exists.
+    if (this.has(ItemTypeMaxStackComponent)) {
+      // Return the max stack size value.
+      return this.get(ItemTypeMaxStackComponent).value;
+    }
 
-    // Get the max stack size component.
-    const component = this.get(ItemTypeMaxStackComponent);
-
-    // Return the max stack size value.
-    return component.value;
+    // Return the default max stack size value.
+    return 64;
   }
 
   /**
-   * The max stack size component of the item type.
+   * Set the max stack size of the item type.
+   * @param value The max stack size value.
    */
-  public set maxStackSize(value: number) {
-    // Check if the item type has the max stack size component.
-    if (!this.has(ItemTypeMaxStackComponent))
+  public setMaxStackSize(value: number): void {
+    // Check if the max stack size component exists.
+    if (this.has(ItemTypeMaxStackComponent)) {
+      // Set the max stack size value.
+      this.get(ItemTypeMaxStackComponent).value = value;
+    } else {
+      // Add the max stack size component.
       this.add(ItemTypeMaxStackComponent, value);
-
-    // Get the max stack size component.
-    const component = this.get(ItemTypeMaxStackComponent);
-
-    // Set the max stack size value.
-    component.value = value;
+    }
   }
 
   /**
-   * The block placer component of the item type.
+   * Get the block placer component of the item type.
+   * @returns The block placer component of the item type.
    */
-  public get blockPlacer(): ItemTypeBlockPlacerComponent {
-    // Check if the item type has the block placer component.
-    if (!this.has(ItemTypeBlockPlacerComponent))
-      return this.add(ItemTypeBlockPlacerComponent, undefined);
+  public getBlockPlacer(): ItemTypeBlockPlacerComponent {
+    // Check if the block placer component exists.
+    if (this.has(ItemTypeBlockPlacerComponent)) {
+      // Return the block placer component.
+      return this.get(ItemTypeBlockPlacerComponent);
+    }
 
-    // Get the block placer component.
-    return this.get(ItemTypeBlockPlacerComponent);
+    // Add the block placer component.
+    return this.add(ItemTypeBlockPlacerComponent, {});
   }
 
   /**
-   * The display name component of the item type.
+   * Set the block placer component of the item type.
+   * @param properties The properties of the block placer component
    */
-  public get displayName(): string {
-    // Check if the item type has the display name component.
-    if (!this.has(ItemTypeDisplayNameComponent))
-      return this.add(ItemTypeDisplayNameComponent, undefined).value;
+  public setBlockPlacer(
+    properties?: Partial<ItemTypeBlockPlacerComponent>
+  ): void {
+    // Check if the block placer component exists.
+    if (!this.has(ItemTypeBlockPlacerComponent)) {
+      // Add the block placer component.
+      this.add(ItemTypeBlockPlacerComponent, properties);
+    } else {
+      // Get the block placer component
+      const component = this.get(ItemTypeBlockPlacerComponent);
 
-    // Get the display name component.
-    return this.get(ItemTypeDisplayNameComponent).value;
+      // Check if properties are defined
+      if (properties) {
+        // Assign the properties to the block placer component
+        Object.assign(component, properties);
+      }
+    }
   }
 
   /**
-   * The display name component of the item type.
+   * Get the display name of the item type.
+   * @returns The display name of the item type.
    */
-  public set displayName(value: string) {
-    // Check if the item type has the display name component.
-    if (!this.has(ItemTypeDisplayNameComponent))
+  public getDisplayName(): string {
+    // Check if the display name component exists.
+    if (this.has(ItemTypeDisplayNameComponent)) {
+      // Return the display name value.
+      return this.get(ItemTypeDisplayNameComponent).value;
+    }
+
+    // Return the default display name value.
+    return this.item.identifier;
+  }
+
+  /**
+   * Set the display name of the item type.
+   * @param value The display name value.
+   */
+  public setDisplayName(value: string): void {
+    // Check if the display name component exists.
+    if (this.has(ItemTypeDisplayNameComponent)) {
+      // Set the display name value.
+      this.get(ItemTypeDisplayNameComponent).value = value;
+    } else {
+      // Add the display name component.
       this.add(ItemTypeDisplayNameComponent, value);
-
-    // Get the display name component.
-    const component = this.get(ItemTypeDisplayNameComponent);
-
-    // Set the display name value.
-    component.value = value;
+    }
   }
 
   /**
-   * Whether the item type can destroy blocks in creative mode.
+   * Get whether the item type can destroy blocks in creative mode.
+   * @returns Whether the item type can destroy blocks in creative mode.
    */
-  public get canDestroyInCreative(): boolean {
-    // Check if the item type has the can destroy in creative component.
-    if (!this.has(ItemTypeCanDestroyInCreativeComponent))
-      return this.add(ItemTypeCanDestroyInCreativeComponent, true).value;
+  public getCanDestroyInCreative(): boolean {
+    // Check if the can destroy in creative component exists.
+    if (this.has(ItemTypeCanDestroyInCreativeComponent)) {
+      // Return the can destroy in creative value.
+      return this.get(ItemTypeCanDestroyInCreativeComponent).value;
+    }
 
-    // Get the can destroy in creative component.
-    return this.get(ItemTypeCanDestroyInCreativeComponent).value;
+    // Return the default can destroy in creative value.
+    return true;
   }
 
   /**
-   * Whether the item type can destroy blocks in creative mode.
+   * Set whether the item type can destroy blocks in creative mode.
+   * @param value The can destroy in creative value.
    */
-  public set canDestroyInCreative(value: boolean) {
-    // Check if the item type has the can destroy in creative component.
-    if (!this.has(ItemTypeCanDestroyInCreativeComponent))
+  public setCanDestroyInCreative(value: boolean): void {
+    // Check if the can destroy in creative component exists.
+    if (this.has(ItemTypeCanDestroyInCreativeComponent)) {
+      // Set the can destroy in creative value.
+      this.get(ItemTypeCanDestroyInCreativeComponent).value = value;
+    } else {
+      // Add the can destroy in creative component.
       this.add(ItemTypeCanDestroyInCreativeComponent, value);
-
-    // Get the can destroy in creative component.
-    const component = this.get(ItemTypeCanDestroyInCreativeComponent);
-
-    // Set the can destroy in creative value.
-    component.value = value;
+    }
   }
 
   /**
-   * The wearable component of the item type.
+   * Get the icon of the item type.
+   * @returns The icon of the item type.
    */
-  public get wearable(): ItemTypeWearableComponent {
-    // Check if the item type has the wearable component.
-    if (!this.has(ItemTypeWearableComponent))
-      return this.add(ItemTypeWearableComponent, undefined);
+  public getIcon(): string {
+    // Check if the icon component exists.
+    if (this.has(ItemTypeIconComponent)) {
+      // Return the icon value.
+      return this.get(ItemTypeIconComponent).value;
+    }
 
-    // Get the wearable component.
-    return this.get(ItemTypeWearableComponent);
+    // Return the default icon value.
+    return "";
   }
 
   /**
-   * The icon component of the item type.
+   * Set the icon of the item type.
+   * @param value The icon value.
    */
-  public get icon(): string {
-    // Check if the item type has the icon component.
-    if (!this.has(ItemTypeIconComponent))
-      return this.add(ItemTypeIconComponent, undefined).value;
-
-    // Get the icon component.
-    return this.get(ItemTypeIconComponent).value;
+  public setIcon(value: string): void {
+    // Check if the icon component exists.
+    if (this.has(ItemTypeIconComponent)) {
+      // Set the icon value.
+      this.get(ItemTypeIconComponent).value = value;
+    } else {
+      // Add the icon component.
+      this.add(ItemTypeIconComponent, value);
+    }
   }
 
   /**
-   * The icon component of the item type.
+   * Get the wearable component of the item type.
+   * @returns The wearable component of the item type.
    */
-  public set icon(value: string) {
-    // Check if the item type has the icon component.
-    if (!this.has(ItemTypeIconComponent))
-      this.add(ItemTypeIconComponent, undefined);
+  public getWearable(): ItemTypeWearableComponent {
+    // Check if the wearable component exists.
+    if (this.has(ItemTypeWearableComponent)) {
+      // Return the wearable component.
+      return this.get(ItemTypeWearableComponent);
+    }
 
-    // Get the icon component.
-    const component = this.get(ItemTypeIconComponent);
+    // Add the wearable component.
+    return this.add(ItemTypeWearableComponent, {});
+  }
 
-    // Set the icon value.
-    component.value = value;
+  /**
+   * Set the wearable component of the item type.
+   * @param properties The properties of the wearable component
+   */
+  public setWearable(properties?: Partial<ItemTypeWearableComponent>): void {
+    // Check if the wearable component exists.
+    if (!this.has(ItemTypeWearableComponent)) {
+      // Add the wearable component.
+      this.add(ItemTypeWearableComponent, properties);
+    } else {
+      // Get the wearable component
+      const component = this.get(ItemTypeWearableComponent);
+
+      // Check if properties are defined
+      if (properties) {
+        // Assign the properties to the wearable component
+        Object.assign(component, properties);
+      }
+    }
   }
 }
 

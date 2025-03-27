@@ -8,7 +8,6 @@ import {
 
 import { BlockIdentifier } from "../../../enums";
 import { ItemType } from "../type";
-import { ItemTypeBlockPlacerComponentInterface } from "../../../types";
 
 import { ItemTypeComponent } from "./component";
 
@@ -21,6 +20,17 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
   public get blockIdentifier(): BlockIdentifier | string {
     // Get the block identifier from the block tag.
     return this.component.getTag<StringTag>("block")?.value as BlockIdentifier;
+  }
+
+  /**
+   * The block type that the item type will place when used.
+   */
+  public set blockIdentifier(value: BlockIdentifier | string) {
+    // Create a new block tag.
+    this.component.createStringTag({
+      name: "block",
+      value: value
+    });
   }
 
   /**
@@ -88,20 +98,15 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
    */
   public constructor(
     type: ItemType,
-    properties?: ItemTypeBlockPlacerComponentInterface
+    properties?: Partial<ItemTypeBlockPlacerComponent>
   ) {
     super(type);
 
     // Get the block identifier from the properties.
     const identifier = type.blockType?.identifier ?? BlockIdentifier.Air;
 
-    // Create a new tag for the block identifier.
-    this.component.createStringTag({
-      name: "block",
-      value: identifier
-    });
-
     // Set the block placer properties.
+    this.blockIdentifier = properties?.blockIdentifier ?? identifier;
     this.useBlockAsIcon = properties?.useBlockAsIcon ?? true;
     this.useOn = properties?.useOn ?? [];
   }
