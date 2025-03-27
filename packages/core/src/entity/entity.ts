@@ -1078,6 +1078,9 @@ class Entity {
     packet.headYaw = this.rotation.headYaw;
     packet.pitch = this.rotation.pitch;
 
+    // Indicate that the entity must move
+    packet.flags |= MoveDeltaFlags.ForceMove;
+
     // Check if the entity is on the ground
     if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
 

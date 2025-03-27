@@ -7,7 +7,7 @@ import {
 
 import { EntityIdentifier } from "../../../enums";
 import { Chunk } from "../../../world/chunk";
-import { EntityDespawnOptions } from "../../..";
+import { EntityDespawnOptions, EntitySpawnOptions } from "../../..";
 
 import { PlayerTrait } from "./trait";
 
@@ -253,6 +253,10 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   public onDespawn(options: EntityDespawnOptions): void {
     // Clear the chunks from the player's view if the player has not died
     if (!options.hasDied) this.clear();
+  }
+
+  public onSpawn(details: EntitySpawnOptions): void {
+    if (details.changedDimensions) this.clear();
   }
 }
 
