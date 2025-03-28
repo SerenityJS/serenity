@@ -16,9 +16,14 @@ class BlockTypeInteractableComponent extends BlockTypeComponent {
     super(block);
 
     // Create the custom component property.
-    this.component.createStringTag({
-      name: "dummyComponent",
-      value: "ClientDummyCustomComponent"
+    this.component.createByteTag({
+      name: "hasPlayerInteract",
+      value: 1
+    });
+
+    this.component.createByteTag({
+      name: "hasPlayerPlacing",
+      value: 1
     });
   }
 }
