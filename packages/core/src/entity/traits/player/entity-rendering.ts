@@ -20,7 +20,7 @@ import { ItemStack } from "../../../item";
 import { EntityItemStackTrait } from "../item-stack";
 import { EntityEquipmentTrait } from "../equipment";
 import { Entity } from "../../entity";
-import { EntityDespawnOptions } from "../../..";
+import { EntityDespawnOptions, EntitySpawnOptions } from "../../..";
 
 import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
@@ -224,9 +224,14 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         const entity = this.player.dimension.entities.get(unique);
         if (!entity) continue;
 
+        // Calculate the distance from the player to the entity
+        const distance = this.distance(entity.position, this.player.position);
+
         // Check if the entity is in the player's view distance
+        // And that the entity is alive
         if (
-          this.distance(entity.position, this.player.position) <= viewDistance
+          distance <= viewDistance &&
+          entity.isAlive === true // Ensure the entity is alive
         )
           continue;
 
@@ -324,6 +329,11 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
   public onDespawn(options: EntityDespawnOptions): void {
     // Clear the entities from the player's view if the entity has not died
     if (!options.hasDied) this.clear();
+  }
+
+  public onSpawn(details: EntitySpawnOptions): void {
+    // Clear the entities if the spawn details indicate that the dimensions have changed
+    if (details.changedDimensions) this.clear();
   }
 }
 

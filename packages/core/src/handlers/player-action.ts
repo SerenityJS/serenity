@@ -48,6 +48,14 @@ class PlayerActionHandler extends NetworkHandler {
         // Spawn the player once the dimension has finished loading
         return void player.spawn({ changedDimensions: true });
       }
+
+      case PlayerActionType.Respawn: {
+        // Spawn the player when they request to respawn
+        player.spawn({ initialSpawn: false });
+
+        // Teleport the player back to the spawn point
+        return player.teleport(player.getSpawnPoint());
+      }
     }
   }
 }
