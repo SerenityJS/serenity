@@ -122,7 +122,7 @@ class Dimension {
   /**
    * The spawn position of the dimension.
    */
-  public get spawnPosition(): Vector3f {
+  public async getSpawnPosition(): Promise<Vector3f> {
     // Get the spawn position from the properties
     const position = Vector3f.fromArray(this.properties.spawnPosition);
 
@@ -130,7 +130,7 @@ class Dimension {
     // This will determine the topmost block at the spawn position
     if (position.y >= 32767) {
       // Get the topmost block at the spawn position
-      const block = this.getTopmostBlock(position);
+      const block = await this.getTopmostBlock(position);
 
       // Set the spawn position to the topmost block
       if (block) position.y = block.position.y + 3;
@@ -194,7 +194,7 @@ class Dimension {
    * Ticks the dimension with a given delta tick.
    * @param deltaTick The delta tick to tick the dimension with.
    */
-  public onTick(deltaTick: number): void {
+  public async onTick(deltaTick: number): Promise<void> {
     // Check if there are no players in the dimension
     if (this.getPlayers().length === 0) return;
 
@@ -216,20 +216,24 @@ class Dimension {
         if (!entity.isTicking) entity.isTicking = true;
 
         // Iterate over all the traits in the entity
-        for (const trait of entity.traits.values())
-          try {
-            // Tick the trait
-            trait.onTick?.(deltaTick);
-          } catch (reason) {
-            // Log the error to the console
-            this.world.logger.error(
-              `Failed to tick entity trait "${trait.identifier}" for entity "${entity.type.identifier}:${entity.uniqueId}" in dimension "${this.identifier}"`,
-              reason
-            );
+        await Promise.allSettled(
+          Array.from(
+            entity.traits.values().map(async (trait) => {
+              try {
+                await trait.onTick?.(deltaTick);
+              } catch (reason) {
+                // Log the error to the console
+                this.world.logger.error(
+                  `Failed to tick entity trait "${trait.identifier}" for entity "${entity.type.identifier}:${entity.uniqueId}" in dimension "${this.identifier}"`,
+                  reason
+                );
 
-            // Remove the trait from the entity
-            entity.traits.delete(trait.identifier);
-          }
+                // Remove the trait from the entity
+                entity.traits.delete(trait.identifier);
+              }
+            })
+          )
+        );
 
         // Check if the entity has a inventory trait
         if (entity.hasTrait(EntityInventoryTrait)) {
@@ -237,26 +241,28 @@ class Dimension {
           const { container } = entity.getTrait(EntityInventoryTrait);
 
           // Iterate over all the items in the inventory
-          for (const item of container.storage) {
-            // Check if the item is null
-            if (!item) continue;
+          await Promise.allSettled(
+            container.storage
+              .filter((item) => item !== null)
+              .map(async (item) =>
+                item.traits.values().map(async (trait) => {
+                  try {
+                    // Tick the item trait
+                    await trait.onTick?.(deltaTick);
+                  } catch (reason) {
+                    // Log the error to the console
+                    this.world.logger.error(
+                      `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
+                      reason
+                    );
 
-            // Iterate over all the traits in the item
-            for (const trait of item.traits.values())
-              try {
-                // Tick the item trait
-                trait.onTick?.(deltaTick);
-              } catch (reason) {
-                // Log the error to the console
-                this.world.logger.error(
-                  `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
-                  reason
-                );
-
-                // Remove the trait from the item
-                item.traits.delete(trait.identifier);
-              }
-          }
+                    // Remove the trait from the item
+                    item.traits.delete(trait.identifier);
+                  }
+                })
+              )
+              .flat()
+          );
         }
       } else if (entity.isTicking) {
         // If the entity is not in simulation range, stop ticking it
@@ -265,37 +271,73 @@ class Dimension {
     }
 
     // Iterate over all the blocks in the dimension
-    for (const block of this.blocks.values()) {
-      // Check if there is a player within the simulation distance to tick the block
-      const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(block.position) <= this.simulationDistance << 4;
-      });
+    // for (const block of this.blocks.values()) {
+    //   // Check if there is a player within the simulation distance to tick the block
+    // const inSimulationRange = playerPositions.some((player) => {
+    //   return player.distance(block.position) <= this.simulationDistance << 4;
+    // });
 
-      // Tick the block if it is in simulation range
-      if (inSimulationRange) {
-        // Check if the block is not ticking
-        if (!block.isTicking) block.isTicking = true;
+    //   // Tick the block if it is in simulation range
+    //   if (inSimulationRange) {
+    //     // Check if the block is not ticking
+    //     if (!block.isTicking) block.isTicking = true;
 
-        // Iterate over all the traits in the block
-        // Try to tick the block trait
-        for (const trait of block.traits.values())
-          try {
-            trait.onTick?.(deltaTick);
-          } catch (reason) {
-            // Log the error to the console
-            this.world.logger.error(
-              `Failed to tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
-              reason
-            );
+    //     // Iterate over all the traits in the block
+    //     // Try to tick the block trait
+    //     for (const trait of block.traits.values())
+    //       try {
+    //         trait.onTick?.(deltaTick);
+    //       } catch (reason) {
+    //         // Log the error to the console
+    //         this.world.logger.error(
+    //           `Failed to tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+    //           reason
+    //         );
 
-            // Remove the trait from the block
-            block.traits.delete(trait.identifier);
-          }
-      } else if (block.isTicking) {
-        // If the block is not in simulation range, stop ticking it
-        block.isTicking = false;
-      }
-    }
+    //         // Remove the trait from the block
+    //         block.traits.delete(trait.identifier);
+    //       }
+    //   } else if (block.isTicking) {
+    //     // If the block is not in simulation range, stop ticking it
+    //     block.isTicking = false;
+    //   }
+    // }
+    await Promise.allSettled(
+      this.blocks.values().map(async (block) => {
+        // Check if there is a player within the simulation distance to tick the block
+        const inSimulationRange = playerPositions.some((player) => {
+          return (
+            player.distance(block.position) <= this.simulationDistance << 4
+          );
+        });
+
+        // Tick the block if it is in simulation range
+        if (inSimulationRange) {
+          // Check if the block is not ticking
+          if (!block.isTicking) block.isTicking = true;
+
+          await Promise.allSettled(
+            block.traits.values().map(async (trait) => {
+              try {
+                await trait.onTick?.(deltaTick);
+              } catch (reason) {
+                // Log the error to the console
+                this.world.logger.error(
+                  `Failed to tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+                  reason
+                );
+
+                // Remove the trait from the block
+                block.traits.delete(trait.identifier);
+              }
+            })
+          );
+        } else if (block.isTicking) {
+          // If the block is not in simulation range, stop ticking it
+          block.isTicking = false;
+        }
+      })
+    );
   }
 
   /**
@@ -316,18 +358,20 @@ class Dimension {
    * Sets a chunk in the dimension.
    * @param chunk The chunk to set.
    */
-  public setChunk(chunk: Chunk): void {
+  public async setChunk(chunk: Chunk): Promise<void> {
     // Iterate over all the players in the dimension
-    for (const player of this.getPlayers()) {
-      // Get the player's chunk rendering trait
-      const trait = player.getTrait(PlayerChunkRenderingTrait);
+    await Promise.all(
+      this.getPlayers().map(async (player) => {
+        // Get the player's chunk rendering trait
+        const trait = player.getTrait(PlayerChunkRenderingTrait);
 
-      // Check if the player has the chunk being set
-      if (!trait.chunks.has(chunk.hash)) continue;
+        // Check if the player has the chunk being set
+        if (!trait.chunks.has(chunk.hash)) return;
 
-      // Send the chunk to the player
-      trait.send(chunk);
-    }
+        // Send the chunk to the player
+        await trait.send(chunk);
+      })
+    );
 
     // Write the chunk to the provider
     return this.world.provider.writeChunk(chunk, this);
@@ -338,7 +382,7 @@ class Dimension {
    * @param position The position of the block.
    * @returns The block at the specified position.
    */
-  public getBlock(position: IPosition): Block {
+  public async getBlock(position: IPosition): Promise<Block> {
     // Convert the position to a block position
     const blockPosition = BlockPosition.from(position);
 
@@ -356,13 +400,13 @@ class Dimension {
       const cz = blockPosition.z >> 4;
 
       // Get the current chunk the block will be in
-      const chunk = this.getChunk(cx, cz);
+      const chunk = await this.getChunk(cx, cz);
 
       // Get the permutation from the chunk
       const permutation = chunk.getPermutation(blockPosition);
 
       // Create a new block with the dimension, position, and permutation
-      const block = new Block(this, blockPosition);
+      const block = await Block.create(this, blockPosition);
 
       // Get the traits from the block palette
       const traits = this.world.blockPalette.getRegistry(
@@ -390,7 +434,7 @@ class Dimension {
       }
 
       // Iterate over all the traits and apply them to the block
-      for (const trait of traits) block.addTrait(trait);
+      await Promise.all(traits.map((trait) => block.addTrait(trait)));
 
       // If the block has dynamic properties or traits, we will cache the block
       if (block.dyanamicProperties.size > 0 || block.traits.size > 0)
@@ -406,9 +450,9 @@ class Dimension {
    * @param position The position to query.
    * @returns The topmost block in which the permutation is not air.
    */
-  public getTopmostBlock(position: IPosition): Block {
+  public async getTopmostBlock(position: IPosition): Promise<Block> {
     // Get the current chunk
-    const chunk = this.getChunk(position.x >> 4, position.z >> 4);
+    const chunk = await this.getChunk(position.x >> 4, position.z >> 4);
 
     // Get the topmost level that is not air
     const topLevel = chunk.getTopmostLevel(position);
@@ -446,11 +490,11 @@ class Dimension {
    * @param permutation  The permutation to set.
    * @param layer The layer to set the permutation on.
    */
-  public setPermutation(
+  public async setPermutation(
     position: IPosition,
     permutation: BlockPermutation,
     layer = UpdateBlockLayerType.Normal
-  ): void {
+  ): Promise<void> {
     // Convert the position to a block position
     const blockPosition = BlockPosition.from(position);
 
@@ -471,9 +515,9 @@ class Dimension {
     );
 
     // Emit the signal and check if it is cancelled
-    if (!signal.emit()) {
+    if (!(await signal.emit())) {
       // Get the permutation of the block
-      const permutation = this.getPermutation(blockPosition, layer);
+      const permutation = await this.getPermutation(blockPosition, layer);
 
       // Assign the permutation to the block
       packet.networkBlockId = permutation.networkId;
@@ -487,20 +531,20 @@ class Dimension {
     const cz = blockPosition.z >> 4;
 
     // Get the chunk of the provided position
-    const chunk = this.getChunk(cx, cz);
+    const chunk = await this.getChunk(cx, cz);
 
     // Set the permutation of the block
-    chunk.setPermutation(blockPosition, permutation, layer, true);
+    await chunk.setPermutation(blockPosition, permutation, layer, true);
 
     // Broadcast the packet to the dimension.
-    this.broadcast(packet);
+    return this.broadcast(packet);
   }
 
   /**
    * Broadcasts a message to all players in the dimension.
    * @param message The message to broadcast.
    */
-  public sendMessage(message: string): void {
+  public async sendMessage(message: string): Promise<void> {
     // Construct the text packet.
     const packet = new TextPacket();
 
@@ -515,7 +559,7 @@ class Dimension {
     packet.filtered = message;
 
     // Send the packet.
-    this.broadcast(packet);
+    return this.broadcast(packet);
   }
 
   /**
@@ -607,11 +651,11 @@ class Dimension {
    * @param to The ending position.
    * @param permutation The permutation to fill the region with.
    */
-  public fill(
+  public async fill(
     from: IPosition,
     to: IPosition,
     permutation: BlockPermutation
-  ): void {
+  ): Promise<void> {
     // Get the min and max coordinates
     const minX = Math.min(from.x, to.x);
     const minY = Math.min(from.y, to.y);
@@ -624,26 +668,35 @@ class Dimension {
     const updatedChunks = new Set<Chunk>();
 
     // Iterate over the coordinates
+    const coordinates: Array<[number, number, number]> = [];
     for (let x = minX; x <= maxX; x++) {
       for (let y = minY; y <= maxY; y++) {
         for (let z = minZ; z <= maxZ; z++) {
-          // Get the chunk of the block
-          const chunk = this.getChunk(x >> 4, z >> 4);
-
-          // Set the permutation of the block
-          chunk.setPermutation({ x, y, z }, permutation);
-
-          // Add the chunk to the updated chunks
-          updatedChunks.add(chunk);
-
-          // Set the chunk to dirty
-          chunk.dirty = true;
+          coordinates.push([x, y, z]);
         }
       }
     }
 
+    await Promise.all(
+      coordinates.map(async ([x, y, z]) => {
+        // Get the chunk of the block
+        const chunk = await this.getChunk(x >> 4, z >> 4);
+
+        // Set the permutation of the block
+        chunk.setPermutation({ x, y, z }, permutation);
+
+        // Add the chunk to the updated chunks
+        updatedChunks.add(chunk);
+
+        // Set the chunk to dirty
+        chunk.dirty = true;
+      })
+    );
+
     // Set the updated chunks
-    for (const chunk of updatedChunks) this.setChunk(chunk);
+    await Promise.all(
+      Array.from(updatedChunks).map((chunk) => this.setChunk(chunk))
+    );
   }
 
   /**
@@ -652,18 +705,20 @@ class Dimension {
    * @param position The position of the entity.
    * @returns The entity that was spawned.
    */
-  public spawnEntity(
+  public async spawnEntity(
     type: EntityIdentifier | EntityType,
     position: Vector3f
-  ): Entity {
+  ): Promise<Entity> {
     // Create a new Entity instance with the dimension and type
-    const entity = new Entity(this, type);
+    const entity = await Entity.create(this, type);
 
     // As a Serenity standard, we will add the gravity, physics, movement traits to the entity
-    entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
-    entity.addTrait(EntityMovementTrait);
-    entity.addTrait(EntityCollisionTrait);
+    await Promise.all([
+      entity.addTrait(EntityGravityTrait),
+      entity.addTrait(EntityPhysicsTrait),
+      entity.addTrait(EntityMovementTrait),
+      entity.addTrait(EntityCollisionTrait)
+    ]);
 
     // Set the entity position
     entity.position.x = position.x;
@@ -681,12 +736,12 @@ class Dimension {
    * @param position The position of the item.
    * @returns The entity that was spawned.
    */
-  public spawnItem<T extends keyof Items>(
+  public async spawnItem<T extends keyof Items>(
     itemStack: ItemStack<T>,
     position: IPosition
-  ): Entity {
+  ): Promise<Entity> {
     // Create a new Entity instance
-    const entity = new Entity(this, EntityIdentifier.Item);
+    const entity = await Entity.create(this, EntityIdentifier.Item);
 
     // Set the world in the item stack if it doesn't exist
     if (!itemStack.world) itemStack.world = this.world;
@@ -697,17 +752,19 @@ class Dimension {
     entity.position.z = position.z;
 
     // Create a new item trait, this will register the item to the entity
-    const trait = entity.addTrait(EntityItemStackTrait);
+    const trait = await entity.addTrait(EntityItemStackTrait);
     trait.itemStack = itemStack;
 
     // Add gravity and physics traits to the entity
-    entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
-    entity.addTrait(EntityMovementTrait);
-    entity.addTrait(EntityCollisionTrait);
+    await Promise.all([
+      entity.addTrait(EntityGravityTrait),
+      entity.addTrait(EntityPhysicsTrait),
+      entity.addTrait(EntityMovementTrait),
+      entity.addTrait(EntityCollisionTrait)
+    ]);
 
     // Spawn the item entity
-    entity.spawn();
+    await entity.spawn();
 
     // Return the item entity
     return entity;
@@ -775,8 +832,10 @@ class Dimension {
    * Broadcast packets to all the players in the dimension.
    * @param packets The packets to broadcast.
    */
-  public broadcast(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.send(...packets);
+  public async broadcast(...packets: Array<DataPacket>): Promise<void> {
+    await Promise.all(
+      this.getPlayers().map((player) => player.send(...packets))
+    );
   }
 
   /**
@@ -784,8 +843,12 @@ class Dimension {
    * This will bypass the RakNet queue and send the packets immediately.
    * @param packets The packets to broadcast.
    */
-  public broadcastImmediate(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.sendImmediate(...packets);
+  public async broadcastImmediate(
+    ...packets: Array<DataPacket>
+  ): Promise<void> {
+    await Promise.all(
+      this.getPlayers().map((player) => player.sendImmediate(...packets))
+    );
   }
 
   /**
@@ -793,10 +856,16 @@ class Dimension {
    * @param player The player to exclude from the broadcast.
    * @param packets The packets to broadcast.
    */
-  public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
+  public async broadcastExcept(
+    player: Player,
+    ...packets: Array<DataPacket>
+  ): Promise<void> {
     // Check if the entity is a player and is not the player to exclude
-    for (const entity of this.entities.values())
-      if (entity.isPlayer() && entity !== player) entity.send(...packets);
+    await Promise.all(
+      this.getPlayers()
+        .filter((entity) => entity.isPlayer() && entity !== player)
+        .map((p) => p.send(...packets))
+    );
   }
 }
 

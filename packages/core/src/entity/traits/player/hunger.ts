@@ -25,9 +25,9 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     this.player = player;
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Call the super method
-    super.onAdd({
+    return super.onAdd({
       minimumValue: 0,
       maximumValue: 20,
       defaultValue: 20,
@@ -35,7 +35,7 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     });
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Get the difficulty of the world
     const difficulty = this.player.world.getDifficulty();
 
@@ -86,7 +86,7 @@ class PlayerHungerTrait extends EntityAttributeTrait {
       }
     } else if (this.currentValue === 0 && currentTick % 30n === 0n) {
       // Apply damage to the player
-      health.applyDamage(1, this.player, ActorDamageCause.Starve);
+      await health.applyDamage(1, this.player, ActorDamageCause.Starve);
     }
   }
 

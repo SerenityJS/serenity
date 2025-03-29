@@ -14,7 +14,7 @@ class PoisonEffect extends Effect {
   public static instant: boolean = false;
   public color: Color = new Color(255, 78, 147, 49);
 
-  public onTick?(entity: Entity): void {
+  public async onTick?(entity: Entity): Promise<void> {
     let ticksPerSecond = Math.floor(
       Math.max(25 * Math.pow(0.5, this.amplifier - 1), 12)
     );
@@ -26,7 +26,7 @@ class PoisonEffect extends Effect {
     const entityHealth = entity.getTrait(EntityHealthTrait);
 
     if (entityHealth.currentValue <= 1) return;
-    entityHealth.applyDamage(1, undefined, ActorDamageCause.Magic);
+    await entityHealth.applyDamage(1, undefined, ActorDamageCause.Magic);
   }
 }
 

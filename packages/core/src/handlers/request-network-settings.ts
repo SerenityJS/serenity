@@ -13,10 +13,10 @@ import type { Connection } from "@serenityjs/raknet";
 class RequestNetworkSettingsHandler extends NetworkHandler {
   public static readonly packet = Packet.RequestNetworkSettings;
 
-  public handle(
+  public async handle(
     packet: RequestNetworkSettingsPacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Check is the servers protocol is greater than the clients protocol.
     // This would mean the client needs to be updated.
     // Also check if the servers protocol is less than the clients protocol.
@@ -48,7 +48,7 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
     settings.clientScalar = 0;
 
     // Send the settings packet to the client.
-    this.network.sendNormal(connection, settings);
+    await this.network.sendNormal(connection, settings);
 
     // We can now enable compression for the session.
     // For this point on, some packets will be compressed.

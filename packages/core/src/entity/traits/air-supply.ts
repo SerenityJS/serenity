@@ -18,7 +18,7 @@ class EntityAirSupplyTrait extends EntityTrait {
 
   public static readonly types = [EntityIdentifier.Player];
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the entity is not alive or is not breathing.
     if (!this.entity.isAlive || !this.entity.flags.get(ActorFlag.Breathing))
       return;
@@ -32,14 +32,14 @@ class EntityAirSupplyTrait extends EntityTrait {
 
     // Get the current air ticks of the entity.
     const currentAirTicks = this.getAirSupplyTicks();
-    if (!this.canBreathe()) {
+    if (!(await this.canBreathe())) {
       // The air supply is reduced by 1 tick.
       // If the entity air supply reaches -20, it starts drowning
 
-      this.setAirSupplyTicks(currentAirTicks - 1);
+      await this.setAirSupplyTicks(currentAirTicks - 1);
       if (currentAirTicks > -20) return;
       // Reset the air supply to 0.
-      this.setAirSupplyTicks(0);
+      await this.setAirSupplyTicks(0);
 
       // Check if the entity has a health trait.
       // If the entity has a health trait, apply damage to the entity.
@@ -52,7 +52,7 @@ class EntityAirSupplyTrait extends EntityTrait {
       if (!this.entity.world.gamerules.drowningDamage) return;
 
       // Apply damage to the entity based on the entity's current state.
-      health.applyDamage(
+      await health.applyDamage(
         0.5,
         undefined,
         this.entity.isSwimming
@@ -63,12 +63,12 @@ class EntityAirSupplyTrait extends EntityTrait {
 
     // If the entity air supply is full then return.
     if (currentAirTicks >= 300) return;
-    this.setAirSupplyTicks(currentAirTicks + 5);
+    await this.setAirSupplyTicks(currentAirTicks + 5);
     // The entity can breathe, so we need to increment the air supply.
   }
 
-  private canBreathe(): boolean {
-    const blockAtHead = this.entity.dimension.getBlock(
+  private async canBreathe(): Promise<boolean> {
+    const blockAtHead = await this.entity.dimension.getBlock(
       this.entity.position.floor()
     );
 
@@ -78,16 +78,16 @@ class EntityAirSupplyTrait extends EntityTrait {
     );
   }
 
-  public onSpawn(): void {
+  public async onSpawn(): Promise<void> {
     // Check if the entity has a metadata flag value for gravity
     if (!this.entity.flags.has(ActorFlag.Breathing)) {
       // Set the entity flag for gravity
-      this.entity.flags.set(ActorFlag.Breathing, true);
+      await this.entity.flags.set(ActorFlag.Breathing, true);
     }
 
     if (!this.entity.metadata.has(ActorDataId.AirSupply)) {
       // Set the default air supply value
-      this.setAirSupplyTicks(300);
+      await this.setAirSupplyTicks(300);
     }
   }
 
@@ -101,7 +101,7 @@ class EntityAirSupplyTrait extends EntityTrait {
     return 0;
   }
 
-  public setAirSupplyTicks(ticks: number): void {
+  public async setAirSupplyTicks(ticks: number): Promise<void> {
     // Create the air supply data item.
     const airSupplyData = new DataItem(
       ActorDataId.AirSupply,
@@ -110,7 +110,7 @@ class EntityAirSupplyTrait extends EntityTrait {
     );
 
     // Update the current air supply data
-    this.entity.metadata.set(ActorDataId.AirSupply, airSupplyData);
+    await this.entity.metadata.set(ActorDataId.AirSupply, airSupplyData);
   }
 }
 

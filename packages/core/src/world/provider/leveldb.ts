@@ -69,7 +69,7 @@ class LevelDBProvider extends WorldProvider {
     this.db.close();
   }
 
-  public onStartup(): void {
+  public async onStartup(): Promise<void> {
     // Iterate through the dimensions and load the entities.
     for (const dimension of this.world.dimensions.values()) {
       // Get the available entities & blocks for the dimension.
@@ -80,35 +80,39 @@ class LevelDBProvider extends WorldProvider {
       if (entities.length === 0 && blocks.length === 0) continue;
 
       // Iterate through the entities and load them.
-      for (const uniqueId of entities) {
-        // Read the entity from the database.
-        const entry = this.readEntity(uniqueId, dimension);
+      await Promise.all(
+        entities.map(async (uniqueId) => {
+          // Read the entity from the database.
+          const entry = this.readEntity(uniqueId, dimension);
 
-        // Create a new entity instance.
-        const entity = new Entity(dimension, entry.identifier, {
-          uniqueId,
-          entry
-        });
+          // Create a new entity instance.
+          const entity = await Entity.create(dimension, entry.identifier, {
+            uniqueId,
+            entry
+          });
 
-        // Add the entity to the dimension.
-        entity.spawn();
-      }
+          // Add the entity to the dimension.
+          await entity.spawn();
+        })
+      );
 
       // Iterate through the blocks and load them.
-      for (const hash of blocks) {
-        // Read the block from the database.
-        const entry = this.readBlock(hash, dimension);
+      await Promise.all(
+        blocks.map(async (hash) => {
+          // Read the block from the database.
+          const entry = this.readBlock(hash, dimension);
 
-        // Create a new block instance.
-        const block = new Block(
-          dimension,
-          new BlockPosition(...entry.position),
-          { entry }
-        );
+          // Create a new block instance.
+          const block = await Block.create(
+            dimension,
+            new BlockPosition(...entry.position),
+            { entry }
+          );
 
-        // Add the block to the dimension blocks collection.
-        dimension.blocks.set(BlockPosition.hash(block.position), block);
-      }
+          // Add the block to the dimension blocks collection.
+          dimension.blocks.set(BlockPosition.hash(block.position), block);
+        })
+      );
     }
   }
 
@@ -275,7 +279,7 @@ class LevelDBProvider extends WorldProvider {
 
       // Check if the chunk is ready.
       // If so, emit a new ChunkReadySignal.
-      if (chunk.ready) new ChunkReadySignal(dimension, chunk).emit();
+      if (chunk.ready) void new ChunkReadySignal(dimension, chunk).emit();
 
       // Return the generated chunk.
       return chunk;
@@ -683,10 +687,10 @@ class LevelDBProvider extends WorldProvider {
     return this.db.put(key, value);
   }
 
-  public static initialize(
+  public static async initialize(
     serenity: Serenity,
     properties: WorldProviderProperties
-  ): void {
+  ): Promise<void> {
     // Resolve the path for the worlds directory.
     const path = resolve(properties.path);
 
@@ -704,85 +708,96 @@ class LevelDBProvider extends WorldProvider {
     // If it is, create a new world with the default identifier.
     if (directories.length === 0)
       return void serenity.registerWorld(
-        this.create(serenity, properties, { identifier: "default" })
+        await this.create(serenity, properties, { identifier: "default" })
       );
 
     // Iterate over the world entries in the directory.
-    for (const directory of directories) {
-      // Get the path for the world.
-      const worldPath = resolve(path, directory.name);
+    await Promise.all(
+      directories.map(async (directory) => {
+        // Get the path for the world.
+        const worldPath = resolve(path, directory.name);
 
-      // Get the world properties.
-      let properties: Partial<WorldProperties> = { identifier: directory.name };
-      if (existsSync(resolve(worldPath, "properties.json"))) {
-        // Read the properties of the world.
-        properties = JSON.parse(
-          readFileSync(resolve(worldPath, "properties.json"), "utf-8")
-        );
-      }
-
-      // Create a new world instance.
-      const world = new World(serenity, new this(worldPath), properties);
-
-      // Create a new WorldInitializedSignal instance.
-      new WorldInitializeSignal(world).emit();
-
-      // Write the properties to the world.
-      writeFileSync(
-        resolve(worldPath, "properties.json"),
-        JSON.stringify(world.properties, null, 2)
-      );
-
-      // Prepare the dimensions for the world.
-      for (const dimension of world.dimensions.values()) {
-        // Get the spawn position of the dimension.
-        const sx = dimension.properties.spawnPosition[0] >> 4;
-        const sz = dimension.properties.spawnPosition[2] >> 4;
-
-        // Get the view distance of the dimension.
-        const viewDistance = dimension.viewDistance;
-
-        // Calculate the amount of chunks to pregenerate.
-        const amount = (viewDistance * 2 + 1) ** 2;
-
-        // Log the amount of chunks to pregenerate.
-        world.logger.info(
-          `Preparing §c${amount}§r chunks for dimension §a${dimension.identifier}§r.`
-        );
-
-        // Iterate over the chunks to pregenerate.
-        for (let x = -viewDistance; x <= viewDistance; x++) {
-          for (let z = -viewDistance; z <= viewDistance; z++) {
-            // Read the chunk from the provider.
-            const chunk = world.provider.readChunk(sx + x, sz + z, dimension);
-
-            // Check if the chunk is ready.
-            if (!chunk.ready) continue;
-
-            // Serialize the chunk, the will cache the chunk in the provider.
-            chunk.cache = Chunk.serialize(chunk);
-
-            // Set the dirty flag to false.
-            chunk.dirty = false;
-          }
+        // Get the world properties.
+        let properties: Partial<WorldProperties> = {
+          identifier: directory.name
+        };
+        if (existsSync(resolve(worldPath, "properties.json"))) {
+          // Read the properties of the world.
+          properties = JSON.parse(
+            readFileSync(resolve(worldPath, "properties.json"), "utf-8")
+          );
         }
 
-        // Log the success message.
-        world.logger.success(
-          `Successfully pre-generated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
-        );
-      }
+        // Create a new world instance.
+        const world = new World(serenity, new this(worldPath), properties);
 
-      // Register the world with the serenity instance.
-      serenity.registerWorld(world);
-    }
+        // Create a new WorldInitializedSignal instance.
+        await new WorldInitializeSignal(world).emit();
+
+        // Write the properties to the world.
+        writeFileSync(
+          resolve(worldPath, "properties.json"),
+          JSON.stringify(world.properties, null, 2)
+        );
+
+        // Prepare the dimensions for the world.
+        await Promise.all(
+          world.dimensions.values().map(async (dimension) => {
+            // Get the spawn position of the dimension.
+            const sx = dimension.properties.spawnPosition[0] >> 4;
+            const sz = dimension.properties.spawnPosition[2] >> 4;
+
+            // Get the view distance of the dimension.
+            const viewDistance = dimension.viewDistance;
+
+            // Calculate the amount of chunks to pregenerate.
+            const amount = (viewDistance * 2 + 1) ** 2;
+
+            // Log the amount of chunks to pregenerate.
+            world.logger.info(
+              `Preparing §c${amount}§r chunks for dimension §a${dimension.identifier}§r.`
+            );
+
+            const coordinates: Array<[number, number]> = [];
+            for (let x = -viewDistance; x <= viewDistance; x++) {
+              for (let z = -viewDistance; z <= viewDistance; z++) {
+                coordinates.push([sx + x, sz + z]);
+              }
+            }
+
+            await Promise.all(
+              coordinates.map(async ([cx, cz]) => {
+                // Read the chunk from the provider.
+                const chunk = await world.provider.readChunk(cx, cz, dimension);
+
+                // Check if the chunk is ready.
+                if (!chunk.ready) return;
+
+                // Serialize the chunk, the will cache the chunk in the provider.
+                chunk.cache = Chunk.serialize(chunk);
+
+                // Set the dirty flag to false.
+                chunk.dirty = false;
+              })
+            );
+
+            world.logger.success(
+              `Successfully pre-generated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
+            );
+          })
+        );
+
+        // Register the world with the serenity instance.
+        await serenity.registerWorld(world);
+      })
+    );
   }
 
-  public static create(
+  public static async create(
     serenity: Serenity,
     properties: WorldProviderProperties,
     worldProperties?: Partial<WorldProperties>
-  ): World {
+  ): Promise<World> {
     // Resolve the path for the worlds directory.
     const path = resolve(properties.path);
 
@@ -813,7 +828,7 @@ class LevelDBProvider extends WorldProvider {
     world.provider.world = world;
 
     // Create a new WorldInitializedSignal instance.
-    new WorldInitializeSignal(world).emit();
+    await new WorldInitializeSignal(world).emit();
 
     // Create the properties file for the world.
     writeFileSync(
@@ -822,44 +837,51 @@ class LevelDBProvider extends WorldProvider {
     );
 
     // Prepare the dimensions for the world.
-    for (const dimension of world.dimensions.values()) {
-      // Get the spawn position of the dimension.
-      const sx = dimension.properties.spawnPosition[0] >> 4;
-      const sz = dimension.properties.spawnPosition[2] >> 4;
+    await Promise.all(
+      world.dimensions.values().map(async (dimension) => {
+        // Get the spawn position of the dimension.
+        const sx = dimension.properties.spawnPosition[0] >> 4;
+        const sz = dimension.properties.spawnPosition[2] >> 4;
 
-      // Get the view distance of the dimension.
-      const viewDistance = dimension.viewDistance;
+        // Get the view distance of the dimension.
+        const viewDistance = dimension.viewDistance;
 
-      // Calculate the amount of chunks to pregenerate.
-      const amount = (viewDistance * 2 + 1) ** 2;
+        // Calculate the amount of chunks to pregenerate.
+        const amount = (viewDistance * 2 + 1) ** 2;
 
-      // Log the amount of chunks to pregenerate.
-      world.logger.info(
-        `Preparing §c${amount}§r chunks for dimension §a${dimension.identifier}§r.`
-      );
+        // Log the amount of chunks to pregenerate.
+        world.logger.info(
+          `Preparing §c${amount}§r chunks for dimension §a${dimension.identifier}§r.`
+        );
 
-      // Iterate over the chunks to pregenerate.
-      for (let x = -viewDistance; x <= viewDistance; x++) {
-        for (let z = -viewDistance; z <= viewDistance; z++) {
-          // Read the chunk from the provider.
-          const chunk = world.provider.readChunk(sx + x, sz + z, dimension);
-
-          // Check if the chunk is ready.
-          if (!chunk.ready) continue;
-
-          // Serialize the chunk, the will cache the chunk in the provider.
-          chunk.cache = Chunk.serialize(chunk);
-
-          // Set the dirty flag to false.
-          chunk.dirty = false;
+        const coordinates: Array<[number, number]> = [];
+        for (let x = -viewDistance; x <= viewDistance; x++) {
+          for (let z = -viewDistance; z <= viewDistance; z++) {
+            coordinates.push([sx + x, sz + z]);
+          }
         }
-      }
 
-      // Log the success message.
-      world.logger.success(
-        `Successfully pre-generated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
-      );
-    }
+        await Promise.all(
+          coordinates.map(async ([cx, cz]) => {
+            // Read the chunk from the provider.
+            const chunk = await world.provider.readChunk(cx, cz, dimension);
+
+            // Check if the chunk is ready.
+            if (!chunk.ready) return;
+
+            // Serialize the chunk, the will cache the chunk in the provider.
+            chunk.cache = Chunk.serialize(chunk);
+
+            // Set the dirty flag to false.
+            chunk.dirty = false;
+          })
+        );
+
+        world.logger.success(
+          `Successfully pre-generated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
+        );
+      })
+    );
 
     // Return the created world.
     return world;

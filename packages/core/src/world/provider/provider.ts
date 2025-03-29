@@ -1,3 +1,5 @@
+import { Awaitable } from "@serenityjs/emitter";
+
 import { Serenity } from "../../serenity";
 import {
   BlockEntry,
@@ -45,17 +47,17 @@ class WorldProvider {
   /**
    * Called when the provider is started.
    */
-  public onStartup(): void {}
+  public onStartup(): Awaitable<void> {}
 
   /**
    * Called when the provider is shutdown.
    */
-  public onShutdown(): void {}
+  public onShutdown(): Awaitable<void> {}
 
   /**
    * Called when the provider is saved.
    */
-  public onSave(): void {}
+  public onSave(): Awaitable<void> {}
 
   /**
    * Reads a buffer from the provider.
@@ -208,7 +210,7 @@ class WorldProvider {
   public static initialize(
     _serenity: Serenity,
     _properties: WorldProviderProperties
-  ): void {
+  ): Awaitable<void> {
     throw new Error(`${this.identifier}.initialize() is not implemented!`);
   }
 
@@ -216,7 +218,7 @@ class WorldProvider {
     _serenity: Serenity,
     _properties: WorldProviderProperties,
     _worldProperties?: Partial<WorldProperties>
-  ): World {
+  ): Awaitable<World> {
     throw new Error(`${this.identifier}.create() is not implemented!`);
   }
 }

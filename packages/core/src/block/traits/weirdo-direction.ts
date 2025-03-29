@@ -6,7 +6,7 @@ import { BlockDirectionTrait } from "./direction";
 class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
   public static readonly state = "weirdo_direction";
 
-  public onPlace({ origin }: BlockPlacementOptions): void {
+  public async onPlace({ origin }: BlockPlacementOptions): Promise<void> {
     // Check if the origin is a player
     if (!origin) return;
 
@@ -14,7 +14,7 @@ class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
     const direction = origin.getCardinalDirection();
 
     // Set the direction of the block
-    this.setDirection(direction);
+    return this.setDirection(direction);
   }
 
   public getDirection(): CardinalDirection {
@@ -22,9 +22,9 @@ class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
     return this.block.getState<CardinalDirection>(this.state as string);
   }
 
-  public setDirection(direction: CardinalDirection): void {
+  public async setDirection(direction: CardinalDirection): Promise<void> {
     // Set the direction of the block
-    this.block.setState(this.state as string, direction);
+    return this.block.setState(this.state as string, direction);
   }
 }
 

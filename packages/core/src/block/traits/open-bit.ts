@@ -13,7 +13,9 @@ class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open-bit";
   public static readonly state = "open_bit";
 
-  public onInteract({ origin }: BlockInteractionOptions): boolean {
+  public async onInteract({
+    origin
+  }: BlockInteractionOptions): Promise<boolean> {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return false;
 
@@ -27,14 +29,14 @@ class BlockOpenBitTrait extends BlockTrait {
     const openBit = state.open_bit as boolean;
 
     // Set the bit of the block
-    this.setBit(!openBit);
+    await this.setBit(!openBit);
 
     // If the player is sneaking, we should place the block and interact with it door.
     // If the player is not sneaking, we should just interact with the door.
     return origin.isSneaking; // The sneaking state of the player will be used to determine the action.
   }
 
-  public setBit(open: boolean, silent = false): void {
+  public async setBit(open: boolean, silent = false): Promise<void> {
     // Get the block type
     const type = this.block.type;
 
@@ -48,8 +50,12 @@ class BlockOpenBitTrait extends BlockTrait {
 
       // Get the above and below blocks
       // Get the above and below blocks
-      const above: Block = upperBlockBit ? this.block : this.block.above();
-      const below: Block = upperBlockBit ? this.block.below() : this.block;
+      const above: Block = upperBlockBit
+        ? this.block
+        : await this.block.above();
+      const below: Block = upperBlockBit
+        ? await this.block.below()
+        : this.block;
 
       // Get the state of the above block
       const aboveState = above.permutation.state as Record<string, unknown>;
@@ -64,7 +70,7 @@ class BlockOpenBitTrait extends BlockTrait {
       const abovePermutation = type.getPermutation(aboveNewState);
 
       // Set the permutation of the above block
-      if (abovePermutation) above.setPermutation(abovePermutation);
+      if (abovePermutation) await above.setPermutation(abovePermutation);
 
       // Get the state of the below block
       const belowState = below.permutation.state as Record<string, unknown>;
@@ -79,7 +85,7 @@ class BlockOpenBitTrait extends BlockTrait {
       const belowPermutation = type.getPermutation(belowNewState);
 
       // Set the permutation of the below block
-      if (belowPermutation) below.setPermutation(belowPermutation);
+      if (belowPermutation) await below.setPermutation(belowPermutation);
     } else {
       // Create the state of the block
       const newState = {
@@ -91,7 +97,7 @@ class BlockOpenBitTrait extends BlockTrait {
       const permutation = type.getPermutation(newState);
 
       // Set the permutation of the block
-      if (permutation) this.block.setPermutation(permutation);
+      if (permutation) await this.block.setPermutation(permutation);
     }
 
     // Check if the block is silent
@@ -125,7 +131,7 @@ class BlockOpenBitTrait extends BlockTrait {
     }
 
     // Send the packet to the dimension
-    this.block.dimension.broadcast(packet);
+    return this.block.dimension.broadcast(packet);
   }
 }
 

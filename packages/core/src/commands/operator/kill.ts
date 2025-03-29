@@ -30,7 +30,7 @@ const register = (world: World) => {
         {
           target: TargetEnum
         },
-        (context) => {
+        async (context) => {
           // Validate the target
           context.target.validate(true);
 
@@ -60,7 +60,7 @@ const register = (world: World) => {
             }
 
             // Kill the entity
-            target.kill();
+            await target.kill();
 
             // Append the message
             message.push(

@@ -160,11 +160,11 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    * Equip the wearable item to the entity.
    * @param entity The entity to equip the item to.
    */
-  public equip(entity: Entity): void {
+  public async equip(entity: Entity): Promise<void> {
     // Check if the entity does not have an equipment trait
     // If it does not, add the equipment trait to the entity
     if (!entity.hasTrait(EntityEquipmentTrait))
-      entity.addTrait(EntityEquipmentTrait);
+      await entity.addTrait(EntityEquipmentTrait);
 
     // Get the entity's equipment trait
     const equipment = entity.getTrait(EntityEquipmentTrait);
@@ -178,7 +178,7 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       return equipment.setEqupment(this.getEquipmentSlot(), this.item);
 
     // Swap the item from the player's inventory to the equipment slot
-    equipment.swapFromInventory(currentSlot, this.getEquipmentSlot());
+    await equipment.swapFromInventory(currentSlot, this.getEquipmentSlot());
   }
 
   /**
@@ -189,12 +189,15 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     return Object.values(WearableSlot).indexOf(this.properties.slot);
   }
 
-  public onUse(player: Player, options: ItemUseOptions): ItemUseMethod | void {
+  public async onUse(
+    player: Player,
+    options: ItemUseOptions
+  ): Promise<ItemUseMethod | void> {
     // Check if the item use method is not a click or if the use was canceled
     if (options.method !== ItemUseMethod.Interact || options.canceled) return;
 
     // Equip the wearable item to the player
-    this.equip(player);
+    await this.equip(player);
 
     // Create a new LevelSoundEventPacket
     const packet = new LevelSoundEventPacket();
@@ -246,7 +249,7 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     packet.uniqueActorId = -1n;
 
     // Broadcast the packet to the dimension
-    player.dimension.broadcast(packet);
+    await player.dimension.broadcast(packet);
 
     // Return the item use method
     return ItemUseMethod.EquipArmor;

@@ -188,14 +188,22 @@ class Entity {
   }
 
   /**
-   * The name tag of the entity
+   * The name tag of the entity.
+   * @deprecated Use setNameTag instead. Errors will be lost if you use this.
    */
   public set nameTag(value: string) {
+    void this.setNameTag(value);
+  }
+
+  /**
+   * The name tag of the entity
+   */
+  public async setNameTag(value: string): Promise<void> {
     // Create a new DataItem for the name metadata
     const item = new DataItem(ActorDataId.Name, ActorDataType.String, value);
 
     // Set the name metadata
-    this.metadata.set(ActorDataId.Name, item);
+    await this.metadata.set(ActorDataId.Name, item);
   }
 
   /**
@@ -214,8 +222,16 @@ class Entity {
 
   /**
    * Whether the entity name tag is always visible.
+   * @deprecated Use setAlwaysShowNameTag instead. Errors will be lost if you use this.
    */
   public set alwaysShowNameTag(value: boolean) {
+    void this.setAlwaysShowNameTag(value);
+  }
+
+  /**
+   * Whether the entity name tag is always visible.
+   */
+  public async setAlwaysShowNameTag(value: boolean): Promise<void> {
     // Create a new DataItem for the name tag visibility metadata
     const item = new DataItem(
       ActorDataId.NametagAlwaysShow,
@@ -224,7 +240,7 @@ class Entity {
     );
 
     // Set the name tag visibility metadata
-    this.metadata.set(ActorDataId.NametagAlwaysShow, item);
+    await this.metadata.set(ActorDataId.NametagAlwaysShow, item);
   }
 
   /**
@@ -243,13 +259,21 @@ class Entity {
 
   /**
    * The variant index of the entity.
+   * @deprecated Use setVariant instead. Errors will be lost if you use this.
    */
   public set variant(value: number) {
+    void this.setVariant(value);
+  }
+
+  /**
+   * The variant index of the entity.
+   */
+  public async setVariant(value: number): Promise<void> {
     // Create a new DataItem for the variant metadata
     const item = new DataItem(ActorDataId.Variant, ActorDataType.Int, value);
 
     // Set the variant metadata
-    this.metadata.set(ActorDataId.Variant, item);
+    await this.metadata.set(ActorDataId.Variant, item);
   }
 
   /**
@@ -268,8 +292,16 @@ class Entity {
 
   /**
    * The scale of the entity.
+   * @deprecated Use setScale instead. Errors will be lost if you use this.
    */
   public set scale(value: number) {
+    void this.setScale(value);
+  }
+
+  /**
+   * The scale of the entity.
+   */
+  public async setScale(value: number): Promise<void> {
     // Create a new DataItem for the scale metadata
     const item = new DataItem(
       ActorDataId.Reserved038,
@@ -278,7 +310,7 @@ class Entity {
     );
 
     // Set the scale metadata
-    this.metadata.set(ActorDataId.Reserved038, item);
+    await this.metadata.set(ActorDataId.Reserved038, item);
   }
 
   /**
@@ -294,8 +326,16 @@ class Entity {
 
   /**
    * The height of the entity collision box.
+   * @deprecated Use setHitboxHeight instead. Errors will be lost if you use this.
    */
   public set hitboxHeight(value: number) {
+    void this.setHitboxHeight(value);
+  }
+
+  /**
+   * The height of the entity collision box.
+   */
+  public async setHitboxHeight(value: number): Promise<void> {
     // Create a new DataItem object
     const data = new DataItem(
       ActorDataId.Reserved054,
@@ -304,7 +344,7 @@ class Entity {
     );
 
     // Set the entity hitbox height
-    this.metadata.set(ActorDataId.Reserved054, data);
+    await this.metadata.set(ActorDataId.Reserved054, data);
   }
 
   /**
@@ -320,8 +360,16 @@ class Entity {
 
   /**
    * The width of the entity collision box.
+   * @deprecated Use setHitboxWidth instead. Errors will be lost if you use this.
    */
   public set hitboxWidth(value: number) {
+    void this.setHitboxWidth(value);
+  }
+
+  /**
+   * The width of the entity collision box.
+   */
+  public async setHitboxWidth(value: number): Promise<void> {
     // Create a new DataItem object
     const data = new DataItem(
       ActorDataId.Reserved053,
@@ -330,7 +378,7 @@ class Entity {
     );
 
     // Set the entity hitbox width
-    this.metadata.set(ActorDataId.Reserved053, data);
+    await this.metadata.set(ActorDataId.Reserved053, data);
   }
 
   /**
@@ -339,7 +387,7 @@ class Entity {
    * @param type The type of the entity to create
    * @param properties Additional properties to assign to the entity
    */
-  public constructor(
+  protected constructor(
     dimension: Dimension,
     type: EntityType | EntityIdentifier,
     properties?: Partial<EntityProperties>
@@ -368,19 +416,27 @@ class Entity {
 
     // Create the scoreboard identity
     this.scoreboardIdentity = new ScoreboardIdentity(this);
-
-    // If the entity is not a player
-    if (!this.isPlayer()) {
-      // If the entity properties contains an entry, load it
-      if (properties?.entry)
-        this.loadDataEntry(this.dimension.world, properties.entry);
-
-      // Initialize the entity
-      this.initialize();
-    }
   }
 
-  protected initialize(): void {
+  public static async create(
+    dimension: Dimension,
+    type: EntityType | EntityIdentifier,
+    properties?: Partial<EntityProperties>
+  ): Promise<Entity> {
+    const entity = new Entity(dimension, type, properties);
+
+    // If the entity properties contains an entry, load it
+    if (properties?.entry) {
+      await entity.loadDataEntry(entity.dimension.world, properties.entry);
+    }
+
+    // Initialize the entity
+    await entity.initialize();
+
+    return entity;
+  }
+
+  protected async initialize(): Promise<void> {
     // Get the traits for the entity
     const traits = this.dimension.world.entityPalette.getRegistryFor(
       this.type.identifier
@@ -406,7 +462,11 @@ class Entity {
     }
 
     // Register the traits to the entity
-    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
+    await Promise.all(
+      traits.map(async (trait) => {
+        if (!this.hasTrait(trait)) await this.addTrait(trait);
+      })
+    );
   }
 
   /**
@@ -461,28 +521,28 @@ class Entity {
    * @param showParticles Wether or not the effect will show particles.
    * TODO: Refactor method parameters.
    */
-  public addEffect(
+  public async addEffect(
     effectType: EffectType,
     duration: number,
     options?: EntityEffectOptions
-  ): void {
+  ): Promise<void> {
     // If the entity doesn't have the effects trait, add the trait
     const effectTrait =
       this.getTrait(EntityEffectsTrait) ?? this.addTrait(EntityEffectsTrait);
 
     // Add the effect to the entity.
-    effectTrait.add(effectType, duration * 40, options);
+    return effectTrait.add(effectType, duration * 40, options);
   }
 
   /**
    * Removes an effect from the entity.
    * @param effectType The effect type to remove from the entity
    */
-  public removeEffect(effectType: EffectType): void {
+  public async removeEffect(effectType: EffectType): Promise<void> {
     const effectTrait = this.getTrait(EntityEffectsTrait);
     if (!effectTrait || !effectTrait.has(effectType)) return;
 
-    effectTrait.remove(effectType);
+    return effectTrait.remove(effectType);
   }
 
   /**
@@ -553,14 +613,14 @@ class Entity {
    * Removes the specified trait from the entity.
    * @param trait The trait to remove
    */
-  public removeTrait(trait: string | typeof EntityTrait): void {
+  public async removeTrait(trait: string | typeof EntityTrait): Promise<void> {
     // Get the trait from the entity
     const instance = this.traits.get(
       typeof trait === "string" ? trait : trait.identifier
     );
 
     // Call the onRemove trait event
-    instance?.onRemove?.();
+    await instance?.onRemove?.();
 
     // Remove the trait from the entity
     this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
@@ -572,10 +632,10 @@ class Entity {
    * @param options The additional options to pass to the trait.
    * @returns The trait instance that was added to the entity.
    */
-  public addTrait<T extends typeof EntityTrait>(
+  public async addTrait<T extends typeof EntityTrait>(
     trait: T | EntityTrait,
     options?: ConstructorParameters<T>[1]
-  ): InstanceType<T> {
+  ): Promise<InstanceType<T>> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
       return this.getTrait(trait.identifier) as InstanceType<T>;
@@ -593,7 +653,7 @@ class Entity {
         this.traits.set(trait.identifier, trait);
 
         // Call the onAdd trait event
-        trait.onAdd?.();
+        await trait.onAdd?.();
 
         // Return the trait that was added
         return trait as InstanceType<T>;
@@ -605,7 +665,7 @@ class Entity {
         this.traits.set(trait.identifier, instance);
 
         // Call the onAdd trait event
-        instance.onAdd?.();
+        await instance.onAdd?.();
 
         // Return the trait that was added
         return instance;
@@ -725,7 +785,7 @@ class Entity {
   /**
    * Spawns the entity into the dimension.
    */
-  public spawn(options?: Partial<EntitySpawnOptions>): this {
+  public async spawn(options?: Partial<EntitySpawnOptions>): Promise<this> {
     // Spread the default options
     options = {
       initialSpawn: false,
@@ -735,7 +795,7 @@ class Entity {
     };
 
     // Create a new EntitySpawnedSignal
-    const signal = new EntitySpawnedSignal(
+    const signal = await new EntitySpawnedSignal(
       this,
       options as EntitySpawnOptions
     ).emit();
@@ -750,26 +810,27 @@ class Entity {
     this.isAlive = true;
 
     // Trigger the entity onSpawn trait event
-    for (const trait of this.traits.values()) {
-      // Attempt to trigger the onSpawn trait event
-      try {
-        // Call the onSpawn trait event
-        trait.onSpawn?.(options as EntitySpawnOptions);
-      } catch (reason) {
-        // Log the error to the console
-        this.serenity.logger.error(
-          `(EntityTrait::${trait.identifier}) Failed to trigger onSpawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
-          reason
-        );
+    await Promise.allSettled(
+      this.traits.values().map(async (trait) => {
+        // Attempt to trigger the onSpawn trait event
+        try {
+          // Call the onSpawn trait event
+          await trait.onSpawn?.(options as EntitySpawnOptions);
+        } catch (reason) {
+          // Log the error to the console
+          this.serenity.logger.error(
+            `(EntityTrait::${trait.identifier}) Failed to trigger onSpawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+            reason
+          );
 
-        // Remove the trait from the entity
-        this.traits.delete(trait.identifier);
-      }
-    }
+          // Remove the trait from the entity
+          this.traits.delete(trait.identifier);
+        }
+      })
+    );
 
     // Update the entity actor data & attributes
-    this.metadata.update();
-    this.attributes.update();
+    await Promise.all([this.metadata.update(), this.attributes.update()]);
 
     // Return the entity
     return this;
@@ -778,7 +839,7 @@ class Entity {
   /**
    * Despawns the entity from the dimension.
    */
-  public despawn(options?: Partial<EntityDespawnOptions>): this {
+  public async despawn(options?: Partial<EntityDespawnOptions>): Promise<this> {
     // Spread the default options
     options = {
       hasDied: false,
@@ -786,7 +847,7 @@ class Entity {
     };
 
     // Create a new EntityDespawnedSignal
-    const signal = new EntityDespawnedSignal(
+    const signal = await new EntityDespawnedSignal(
       this,
       options as EntityDespawnOptions
     ).emit();
@@ -801,22 +862,24 @@ class Entity {
     this.dimension.entities.delete(this.uniqueId);
 
     // Trigger the entity onDespawn trait event
-    for (const trait of this.traits.values()) {
-      // Attempt to trigger the onDespawn trait event
-      try {
-        // Call the onDespawn trait event
-        trait.onDespawn?.(options as EntityDespawnOptions);
-      } catch (reason) {
-        // Log the error to the console
-        this.serenity.logger.error(
-          `Failed to trigger onDespawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
-          reason
-        );
+    await Promise.allSettled(
+      this.traits.values().map(async (trait) => {
+        // Attempt to trigger the onDespawn trait event
+        try {
+          // Call the onDespawn trait event
+          await trait.onDespawn?.(options as EntityDespawnOptions);
+        } catch (reason) {
+          // Log the error to the console
+          this.serenity.logger.error(
+            `Failed to trigger onDespawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+            reason
+          );
 
-        // Remove the trait from the entity
-        this.traits.delete(trait.identifier);
-      }
-    }
+          // Remove the trait from the entity
+          this.traits.delete(trait.identifier);
+        }
+      })
+    );
 
     // Return the entity
     return this;
@@ -826,7 +889,7 @@ class Entity {
    * Kills the entity.
    * @param options The options for the entity death.
    */
-  public kill(options?: Partial<EntityDeathOptions>): void {
+  public async kill(options?: Partial<EntityDeathOptions>): Promise<void> {
     // Spread the default options
     options = {
       killerSource: null,
@@ -835,25 +898,31 @@ class Entity {
     };
 
     // Create a new EntityDieSignal
-    new EntityDiedSignal(this, options as EntityDeathOptions).emit();
+    await new EntityDiedSignal(this, options as EntityDeathOptions).emit();
 
     // Trigger the onDeath trait event for the entity
-    for (const [, trait] of this.traits)
-      trait.onDeath?.(options as EntityDeathOptions);
+    await Promise.all(
+      this.traits
+        .values()
+        .map(async (trait) => trait.onDeath?.(options as EntityDeathOptions))
+    );
 
     // Set the entity as not alive
     this.isAlive = false;
 
     // Schedule the entity to despawn
-    this.dimension.schedule(50).on(() => {
+    this.dimension.schedule(50).on(async () => {
       // If the entity is not a player, despawn the entity
-      if (!this.isPlayer()) this.despawn();
+      if (!this.isPlayer()) await this.despawn();
       // Manually trigger the onDespawn trait event for players
       // We does this because the player has the option to disconnect at the respawn screen
       else {
         // Iterate over the traits of the entity
-        for (const trait of this.traits.values())
-          trait.onDespawn?.({ hasDied: true });
+        await Promise.all(
+          this.traits
+            .values()
+            .map(async (trait) => trait.onDespawn?.({ hasDied: true }))
+        );
       }
     });
   }
@@ -863,7 +932,10 @@ class Entity {
    * @param origin The player that is interacting with the entity.
    * @param method The method that the player used to interact with the entity.
    */
-  public interact(origin: Player, method: EntityInteractMethod): void {
+  public async interact(
+    origin: Player,
+    method: EntityInteractMethod
+  ): Promise<void> {
     if (method === EntityInteractMethod.Interact) {
       const signal = new PlayerInteractWithEntitySignal(
         origin,
@@ -871,51 +943,55 @@ class Entity {
         origin.getHeldItem(),
         null
       );
-      if (!signal.emit()) return;
+      if (!(await signal.emit())) return;
     } else {
       const signal = new EntityHitSignal(origin, this);
 
-      if (!signal.emit()) return;
+      if (!(await signal.emit())) return;
     }
 
     // Check if the method is attack, if so called the onAttackEntity method of the attacking entity
     if (method === EntityInteractMethod.Attack) {
       // Iterate over the traits of the entity
-      for (const trait of origin.traits.values()) {
-        // Attempt to trigger the onAttackEntity trait event
+      await Promise.allSettled(
+        origin.traits.values().map(async (trait) => {
+          // Attempt to trigger the onAttackEntity trait event
+          try {
+            // Call the onAttackEntity trait event
+            await trait.onAttackEntity?.(this);
+          } catch (reason) {
+            // Log the error to the console
+            this.serenity.logger.error(
+              `Failed to trigger onAttackEntity trait event for entity "${origin.type.identifier}:${origin.uniqueId}" in dimension "${origin.dimension.identifier}"`,
+              reason
+            );
+
+            // Remove the trait from the entity
+            this.traits.delete(trait.identifier);
+          }
+        })
+      );
+    }
+
+    // Trigger the entity onInteract trait event
+    await Promise.allSettled(
+      this.traits.values().map(async (trait) => {
+        // Attempt to trigger the onInteract trait event
         try {
-          // Call the onAttackEntity trait event
-          trait.onAttackEntity?.(this);
+          // Call the onInteract trait event
+          await trait.onInteract?.(origin, method);
         } catch (reason) {
           // Log the error to the console
           this.serenity.logger.error(
-            `Failed to trigger onAttackEntity trait event for entity "${origin.type.identifier}:${origin.uniqueId}" in dimension "${origin.dimension.identifier}"`,
+            `Failed to trigger onInteract trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
             reason
           );
 
           // Remove the trait from the entity
           this.traits.delete(trait.identifier);
         }
-      }
-    }
-
-    // Trigger the entity onInteract trait event
-    for (const trait of this.traits.values()) {
-      // Attempt to trigger the onInteract trait event
-      try {
-        // Call the onInteract trait event
-        trait.onInteract?.(origin, method);
-      } catch (reason) {
-        // Log the error to the console
-        this.serenity.logger.error(
-          `Failed to trigger onInteract trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
-          reason
-        );
-
-        // Remove the trait from the entity
-        this.traits.delete(trait.identifier);
-      }
-    }
+      })
+    );
   }
 
   /**
@@ -990,7 +1066,7 @@ class Entity {
    * Sets the position of the entity.
    * @param vector The position to set.
    */
-  public setMotion(vector?: Vector3f): void {
+  public async setMotion(vector?: Vector3f): Promise<void> {
     // Update the velocity of the entity
     this.velocity.x = vector?.x ?? this.velocity.x;
     this.velocity.y = vector?.y ?? this.velocity.y;
@@ -1010,47 +1086,47 @@ class Entity {
       : this.dimension.world.currentTick;
 
     // Broadcast the packet to the dimension
-    this.dimension.broadcast(packet);
+    return this.dimension.broadcast(packet);
   }
 
   /**
    * Adds motion to the entity.
    * @param vector The motion to add.
    */
-  public addMotion(vector: Vector3f): void {
+  public async addMotion(vector: Vector3f): Promise<void> {
     // Update the velocity of the entity
     this.velocity.x += vector.x;
     this.velocity.y += vector.y;
     this.velocity.z += vector.z;
 
     // Set the motion of the entity
-    this.setMotion();
+    return this.setMotion();
   }
 
   /**
    * Clears the motion of the entity.
    */
-  public clearMotion(): void {
+  public async clearMotion(): Promise<void> {
     this.velocity.x = 0;
     this.velocity.y = 0;
     this.velocity.z = 0;
 
     // Set the motion of the entity
-    this.setMotion();
+    return this.setMotion();
   }
 
   /**
    * Applies an impulse to the entity.
    * @param vector The impulse to apply.
    */
-  public applyImpulse(vector: Vector3f): void {
+  public async applyImpulse(vector: Vector3f): Promise<void> {
     // Update the velocity of the entity
     this.velocity.x += vector.x;
     this.velocity.y += vector.y;
     this.velocity.z += vector.z;
 
     // Set the motion of the entity
-    this.setMotion();
+    return this.setMotion();
   }
 
   /**
@@ -1058,12 +1134,15 @@ class Entity {
    * @param position The position to teleport the entity to.
    * @param dimension The dimension to teleport the entity to; optional.
    */
-  public teleport(position: Vector3f, dimension?: Dimension): void {
+  public async teleport(
+    position: Vector3f,
+    dimension?: Dimension
+  ): Promise<void> {
     // Set the position of the entity
     this.position.set(position);
 
     // Check if a dimension was provided
-    if (dimension) this.changeDimension(dimension);
+    if (dimension) await this.changeDimension(dimension);
 
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();
@@ -1085,28 +1164,29 @@ class Entity {
     if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
 
     // Broadcast the packet to the dimension
-    this.dimension.broadcast(packet);
+    return this.dimension.broadcast(packet);
   }
 
   /**
    * Changes the dimension of the entity.
    * @param dimension The dimension to change to.
    */
-  public changeDimension(dimension: Dimension): void {
+  public async changeDimension(dimension: Dimension): Promise<void> {
     // Check if the dimension is the same as the current dimension
     if (this.dimension === dimension) return;
 
-    // Despawn the entity from the current dimension
-    this.despawn();
-
-    // Create a new EntityDimensionChangeSignal
-    new EntityDimensionChangeSignal(this, this.dimension, dimension).emit();
+    await Promise.all([
+      // Despawn the entity from the current dimension
+      this.despawn(),
+      // Create a new EntityDimensionChangeSignal
+      new EntityDimensionChangeSignal(this, this.dimension, dimension).emit()
+    ]);
 
     // Set the dimension of the entity
     this.dimension = dimension;
 
     // Spawn the entity in the new dimension
-    this.spawn({ changedDimensions: true });
+    await this.spawn({ changedDimensions: true });
   }
 
   /**
@@ -1132,12 +1212,16 @@ class Entity {
    * @param container The container to drop the item from.
    * @returns Whether or not the item was dropped.
    */
-  public dropItem(slot: number, amount: number, container: Container): boolean {
+  public async dropItem(
+    slot: number,
+    amount: number,
+    container: Container
+  ): Promise<boolean> {
     // Check if the entity has an inventory trait
     if (!this.hasTrait(EntityInventoryTrait)) return false;
 
     // Get the item from the slot
-    const item = container.takeItem(slot, amount);
+    const item = await container.takeItem(slot, amount);
 
     // Check if the item is valid
     if (!item) return false;
@@ -1158,10 +1242,10 @@ class Entity {
     ).multiply(2);
 
     // Spawn the entity
-    const entity = this.dimension.spawnItem(item, new Vector3f(x, y - 0.25, z));
-
-    // Set the velocity of the entity
-    entity.addMotion(velocity);
+    await this.dimension
+      .spawnItem(item, new Vector3f(x, y - 0.25, z))
+      // Set the velocity of the entity
+      .then((entity) => entity.addMotion(velocity));
 
     // Return true as the item was dropped
     return true;
@@ -1301,11 +1385,11 @@ class Entity {
    * @param entry The entity entry to load
    * @param overwrite Whether to overwrite the current entity data; default is true
    */
-  public loadDataEntry(
+  public async loadDataEntry(
     world: World,
     entry: EntityEntry,
     overwrite = true
-  ): void {
+  ): Promise<void> {
     try {
       // Check that the identifier matches the entity's identifier
       if (entry.identifier !== this.type.identifier)
@@ -1329,9 +1413,11 @@ class Entity {
 
       // Check if the entity should overwrite the current data
       if (overwrite) {
-        this.metadata.clear();
-        this.flags.clear();
-        this.attributes.clear();
+        await Promise.all([
+          this.metadata.clear(),
+          this.flags.clear(),
+          this.attributes.clear()
+        ]);
         this.dynamicProperties.clear();
         this.traits.clear();
       }
@@ -1344,14 +1430,14 @@ class Entity {
       const aStream = new BinaryStream(Buffer.from(entry.attributes, "base64"));
       const attributes = Attribute.read(aStream);
 
-      // Add the metadata to the entity
-      for (const value of metadata) this.metadata.set(value.identifier, value);
-
-      // Add the flags to the entity
-      for (const [key, value] of entry.flags) this.flags.set(key, value);
-
-      // Add the attributes to the entity
-      for (const value of attributes) this.attributes.set(value.name, value);
+      await Promise.all([
+        // Add the metadata to the entity
+        ...metadata.map((value) => this.metadata.set(value.identifier, value)),
+        // Add the flags to the entity
+        ...entry.flags.map(([key, value]) => this.flags.set(key, value)),
+        // Add the attributes to the entity
+        ...attributes.map((value) => this.attributes.set(value.name, value))
+      ]);
 
       // Add the dynamic properties to the entity
       for (const [key, value] of entry.dynamicProperties)
@@ -1372,7 +1458,7 @@ class Entity {
         }
 
         // Attempt to add the trait to the entity
-        this.addTrait(traitType as typeof EntityTrait);
+        await this.addTrait(traitType as typeof EntityTrait);
       }
     } catch {
       // Log the error to the console

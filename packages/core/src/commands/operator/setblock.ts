@@ -21,7 +21,7 @@ const register = (world: World) => {
           block: BlockEnum,
           state: [JsonObjectEnum, true]
         },
-        (context) => {
+        async (context) => {
           // Get the result of the block, position, and mode
           const result = context.block.result as string;
           const identifier = result.includes(":")
@@ -38,7 +38,7 @@ const register = (world: World) => {
               : context.origin;
 
           // Get the block at the specified location
-          const block = dimension.getBlock(position);
+          const block = await dimension.getBlock(position);
 
           // Get the block type from the identifier
           const type = world.blockPalette.resolveType(
@@ -52,7 +52,7 @@ const register = (world: World) => {
           const permutation = type.getPermutation(state);
 
           // Set the block at the specified location
-          block.setPermutation(permutation);
+          await block.setPermutation(permutation);
 
           // Return the message
           return {

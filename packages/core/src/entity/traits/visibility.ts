@@ -10,19 +10,19 @@ class EntityInvisibilityTrait extends EntityTrait {
     EntityIdentifier.Player
   ];
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the entity has a metadata flag value for invisibility
     if (!this.entity.flags.has(ActorFlag.Invisible)) {
       // Set the entity flag for invisibility
-      this.entity.flags.set(ActorFlag.Invisible, false);
+      await this.entity.flags.set(ActorFlag.Invisible, false);
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Check if the entity has a metadata flag value for invisibility
     if (this.entity.flags.has(ActorFlag.Invisible)) {
       // Remove the entity flag for invisibility
-      this.entity.flags.delete(ActorFlag.Invisible);
+      await this.entity.flags.delete(ActorFlag.Invisible);
     }
   }
 
@@ -30,8 +30,8 @@ class EntityInvisibilityTrait extends EntityTrait {
    * Set's the visibility of the entity.
    * @param value Wether or not the entity will be visible.
    */
-  public setInvisibility(value: boolean): void {
-    this.entity.flags.set(ActorFlag.Invisible, value);
+  public async setInvisibility(value: boolean): Promise<void> {
+    await this.entity.flags.set(ActorFlag.Invisible, value);
   }
 }
 

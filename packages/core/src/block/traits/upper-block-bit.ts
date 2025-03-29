@@ -20,8 +20,16 @@ class BlockUpperTrait extends BlockTrait {
 
   /**
    * Set whether the block is an upper block
+   * @deprecated Use `setIsUpperBlock` instead. Errors will be lost if you use this.
    */
   public set isUpperBlock(value: boolean) {
+    void this.setIsUpperBlock(value);
+  }
+
+  /**
+   * Set whether the block is an upper block
+   */
+  public async setIsUpperBlock(value: boolean): Promise<void> {
     // Get the state of the block
     const state = this.block.permutation.state;
 
@@ -32,21 +40,23 @@ class BlockUpperTrait extends BlockTrait {
     });
 
     // Set the state of the block
-    this.block.setPermutation(permutation);
+    return this.block.setPermutation(permutation);
   }
 
-  public onInteract(options: BlockInteractionOptions): boolean | void {
+  public async onInteract(
+    options: BlockInteractionOptions
+  ): Promise<boolean | void> {
     // Check if the block is not the upper block
     if (!this.isUpperBlock) return;
 
     // Get the below block
-    const below = this.block.below();
+    const below = await this.block.below();
 
     // Interact with the below block
-    return below.interact(options).cancel;
+    return (await below.interact(options)).cancel;
   }
 
-  public onPlace(): void {
+  public async onPlace(): Promise<void> {
     // Get the state of the block
     const state = this.block.permutation.state as { upper_block_bit: boolean };
 
@@ -54,7 +64,7 @@ class BlockUpperTrait extends BlockTrait {
     if (state.upper_block_bit) return;
 
     // Get the above block
-    const above = this.block.above();
+    const above = await this.block.above();
 
     // Get the permutation of the block
     const permutation = this.block.type.getPermutation({
@@ -63,20 +73,20 @@ class BlockUpperTrait extends BlockTrait {
     });
 
     // Set the state of the block
-    above.setPermutation(permutation);
+    return above.setPermutation(permutation);
   }
 
-  public onBreak(): void {
+  public async onBreak(): Promise<void> {
     // Check if the block is the upper block
     if (this.isUpperBlock) {
       // Get the below block
-      const below = this.block.below();
+      const below = await this.block.below();
 
       // Break the below block
       below.identifier = BlockIdentifier.Air;
     } else {
       // Get the above block
-      const above = this.block.above();
+      const above = await this.block.above();
 
       // Break the above block
       above.identifier = BlockIdentifier.Air;

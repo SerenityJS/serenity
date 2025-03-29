@@ -4,17 +4,20 @@ class BlockPillarAxisTrait extends BlockTrait {
   public static readonly state = "pillar_axis";
   public static readonly identifier = "pillar_axis";
 
-  public onPlace({ origin, clickedPosition }: BlockPlacementOptions): void {
+  public async onPlace({
+    origin,
+    clickedPosition
+  }: BlockPlacementOptions): Promise<void> {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer() || !clickedPosition) return;
 
     // Set the direction of the block
     if (clickedPosition.x == 1 || clickedPosition.x == 0)
-      this.setDirection("x");
+      return this.setDirection("x");
     else if (clickedPosition.y == 1 || clickedPosition.y == 0)
-      this.setDirection("y");
+      return this.setDirection("y");
     else if (clickedPosition.z == 1 || clickedPosition.z == 0)
-      this.setDirection("z");
+      return this.setDirection("z");
   }
 
   public getDirection(): "x" | "y" | "z" {
@@ -26,7 +29,7 @@ class BlockPillarAxisTrait extends BlockTrait {
     return state.pillar_axis;
   }
 
-  public setDirection(direction: "x" | "y" | "z"): void {
+  public async setDirection(direction: "x" | "y" | "z"): Promise<void> {
     // Get the block type
     const type = this.block.type;
 
@@ -43,7 +46,7 @@ class BlockPillarAxisTrait extends BlockTrait {
     const permutation = type.getPermutation(newState);
 
     // Set the permutation of the block
-    if (permutation) this.block.setPermutation(permutation);
+    if (permutation) await this.block.setPermutation(permutation);
   }
 }
 

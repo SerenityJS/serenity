@@ -1,3 +1,5 @@
+import { Awaitable } from "@serenityjs/emitter";
+
 import type { Serenity } from "../serenity";
 import type { Connection } from "@serenityjs/raknet";
 import type { DataPacket, Packet } from "@serenityjs/protocol";
@@ -33,7 +35,7 @@ class NetworkHandler {
    * @param packet The packet to handle.
    * @param connection The raknet connection that the packet is being sent from.
    */
-  public handle(_packet: DataPacket, _connection: Connection): void {
+  public handle(_packet: DataPacket, _connection: Connection): Awaitable<void> {
     throw new Error("NetworkHandler.handle() is not implemented!");
   }
 }

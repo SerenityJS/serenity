@@ -39,7 +39,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
    */
   public readonly hidden: Set<bigint> = new Set();
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the player is spawned
     if (!this.player.isAlive) return;
 
@@ -88,11 +88,11 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
         // Assign the packet properties
         armor.runtimeId = entity.runtimeId;
-        armor.helmet = ItemStack.toNetworkStack(head);
-        armor.chestplate = ItemStack.toNetworkStack(chest);
-        armor.leggings = ItemStack.toNetworkStack(legs);
-        armor.boots = ItemStack.toNetworkStack(feet);
-        armor.body = ItemStack.toNetworkStack(ItemStack.empty());
+        armor.helmet = ItemStack.toNetworkStack(await head);
+        armor.chestplate = ItemStack.toNetworkStack(await chest);
+        armor.leggings = ItemStack.toNetworkStack(await legs);
+        armor.boots = ItemStack.toNetworkStack(await feet);
+        armor.body = ItemStack.toNetworkStack(await ItemStack.empty());
       }
 
       // Add the entity to the rendered entities
@@ -154,8 +154,9 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.position.y -= entity.hitboxHeight; // Adjust the y position for the player
 
         // Send the packet to the player
-        this.player.send(packet);
-        if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
+        await this.player.send(packet);
+        if (entity.hasTrait(EntityEquipmentTrait))
+          await this.player.send(armor);
 
         // Continue to the next entity
         continue;
@@ -172,6 +173,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       if (entity.isItem()) {
         // Get the item component
         const itemComponent = entity.getTrait(EntityItemStackTrait);
+        if (!itemComponent.isReady()) continue;
 
         // Create a new AddItemActorPacket
         const packet = new AddItemActorPacket();
@@ -186,8 +188,9 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.fromFishing = false;
 
         // Send the packet to the player
-        this.player.send(packet);
-        if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
+        await this.player.send(packet);
+        if (entity.hasTrait(EntityEquipmentTrait))
+          await this.player.send(armor);
 
         // Continue to the next entity
         continue;
@@ -212,8 +215,8 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.links = [];
 
       // Send the packet to the player
-      this.player.send(packet);
-      if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
+      await this.player.send(packet);
+      if (entity.hasTrait(EntityEquipmentTrait)) await this.player.send(armor);
     }
 
     // Iterate over the entities
@@ -242,7 +245,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.uniqueEntityId = unique;
 
         // Send the packet to the player
-        this.player.send(packet);
+        await this.player.send(packet);
 
         // Remove the entity from the rendered entities
         this.entities.delete(unique);
@@ -252,7 +255,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.uniqueEntityId = unique;
 
         // Send the packet to the player
-        this.player.send(packet);
+        await this.player.send(packet);
 
         // Remove the entity from the rendered entities
         this.entities.delete(unique);
@@ -260,15 +263,15 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Clear the entities
-    this.clear();
+    return this.clear();
   }
 
   /**
    * Clears all the entities that have been rendered for the player.
    */
-  public clear(): void {
+  public async clear(): Promise<void> {
     // Iterate over the entities
     for (const unique of this.entities) {
       // Create a new remove entity packet
@@ -276,7 +279,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.uniqueEntityId = unique;
 
       // Send the packet to the player
-      this.player.send(packet);
+      await this.player.send(packet);
     }
 
     // Clear the entities
@@ -293,7 +296,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
    * Hides an entity from the player.
    * @param entity The entity to hide from the target player.
    */
-  public hideEntity(entity: Entity | bigint): void {
+  public async hideEntity(entity: Entity | bigint): Promise<void> {
     // Get the unique entity id
     const unique = typeof entity === "bigint" ? entity : entity.uniqueId;
 
@@ -308,7 +311,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.uniqueEntityId = unique;
 
     // Send the packet to the player
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
@@ -326,14 +329,14 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     this.hidden.delete(unique);
   }
 
-  public onDespawn(options: EntityDespawnOptions): void {
+  public async onDespawn(options: EntityDespawnOptions): Promise<void> {
     // Clear the entities from the player's view if the entity has not died
-    if (!options.hasDied) this.clear();
+    if (!options.hasDied) await this.clear();
   }
 
-  public onSpawn(details: EntitySpawnOptions): void {
+  public async onSpawn(details: EntitySpawnOptions): Promise<void> {
     // Clear the entities if the spawn details indicate that the dimensions have changed
-    if (details.changedDimensions) this.clear();
+    if (details.changedDimensions) await this.clear();
   }
 }
 

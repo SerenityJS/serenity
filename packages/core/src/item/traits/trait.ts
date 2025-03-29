@@ -1,4 +1,5 @@
 import { ItemUseMethod } from "@serenityjs/protocol";
+import { Awaitable } from "@serenityjs/emitter";
 
 import { Player } from "../../entity";
 import { ItemIdentifier } from "../../enums";
@@ -50,14 +51,20 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
    * @param options The additional options for the item use.
    * @returns Whether the item use was successful; default is true
    */
-  public onStartUse?(player: Player, options: ItemUseOptions): boolean | void;
+  public onStartUse?(
+    player: Player,
+    options: ItemUseOptions
+  ): Awaitable<boolean | void>;
 
   /**
    * Called when the item is stopped being used by a player.
    * @param player The player that stopped using the item.
    * @param options The additional options for the item use.
    */
-  public onStopUse?(player: Player, options: ItemUseOptions): boolean | void;
+  public onStopUse?(
+    player: Player,
+    options: ItemUseOptions
+  ): Awaitable<boolean | void>;
 
   /**
    * Called when the item is used by a player.
@@ -67,7 +74,7 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   public onUse?(
     player: Player,
     options: ItemUseOptions
-  ): boolean | ItemUseMethod | void;
+  ): Awaitable<boolean | ItemUseMethod | void>;
 
   /**
    * Called when the item is used on a block by a player.
@@ -77,7 +84,7 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   public onUseOnBlock?(
     player: Player,
     options: ItemUseOnBlockOptions
-  ): boolean | ItemUseMethod | void;
+  ): Awaitable<boolean | ItemUseMethod | void>;
 
   /**
    * Called when the item is used on an entity by a player.
@@ -87,25 +94,25 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   public onUseOnEntity?(
     player: Player,
     options: ItemUseOnEntityOptions
-  ): boolean | ItemUseMethod | void;
+  ): Awaitable<boolean | ItemUseMethod | void>;
 
   /**
    * Called when the release action is triggered by a player.
    * @param player The player that released the item.
    */
-  public onRelease?(player: Player): void;
+  public onRelease?(player: Player): Awaitable<void>;
 
   /**
    * Called when the container that the item is stored in is opened.
    * @param player The player that opened the container.
    */
-  public onContainerOpen?(player: Player): void;
+  public onContainerOpen?(player: Player): Awaitable<void>;
 
   /**
    * Called when the container that the item is stored in is closed.
    * @param player The player that closed the container
    */
-  public onContainerClose?(player: Player): void;
+  public onContainerClose?(player: Player): Awaitable<void>;
 
   /**
    * Compares another item trait to this one.

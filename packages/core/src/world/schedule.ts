@@ -1,7 +1,10 @@
+import { Awaitable } from "@serenityjs/emitter";
+
 import { Dimension } from "./dimension";
 
 import type { World } from "./world";
 
+export type TickScheduleCallback = () => Awaitable<void>;
 class TickSchedule {
   /**
    * The amount of ticks to wait before the schedule is complete.
@@ -16,7 +19,7 @@ class TickSchedule {
   /**
    * The callbacks to call when the schedule is complete.
    */
-  public readonly callbacks = new Set<() => void>();
+  public readonly callbacks = new Set<TickScheduleCallback>();
 
   /**
    * Creates a new tick schedule.
@@ -46,16 +49,16 @@ class TickSchedule {
   /**
    * Executes all the callbacks in the schedule.
    */
-  public execute(): void {
+  public async execute(): Promise<void> {
     // Call all the callbacks
-    for (const callback of this.callbacks) callback();
+    await Promise.all(Array.from(this.callbacks).map((callback) => callback()));
   }
 
   /**
    * Adds a callback to the schedule.
    * @param callback The callback to add.
    */
-  public on(callback: () => void): void {
+  public on(callback: TickScheduleCallback): void {
     // Add the callback to the schedule
     this.callbacks.add(callback);
   }

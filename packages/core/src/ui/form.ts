@@ -4,13 +4,17 @@ import {
   ModalFormType,
   ServerSettingsResponsePacket
 } from "@serenityjs/protocol";
+import { Awaitable } from "@serenityjs/emitter";
 
 import { Player } from "../entity";
 
 /**
  * The result of a form submission.
  */
-type FormResult<T> = (response: T | null, error: Error | null) => void;
+type FormResult<T> = (
+  response: T | null,
+  error: Error | null
+) => Awaitable<void>;
 
 /**
  * The participant of a form.
@@ -56,7 +60,7 @@ class Form<T> {
    * @param player The player to show the form to.
    * @returns The form response; the value of the form.
    */
-  public show(player: Player, result: FormResult<T>): this {
+  public async show(player: Player, result: FormResult<T>): Promise<this> {
     // Get the form payload from the class.
     const payload = JSON.stringify(this);
 
@@ -68,7 +72,7 @@ class Form<T> {
     packet.payload = payload;
 
     // Send the packet to the player.
-    player.send(packet);
+    await player.send(packet);
 
     // Add the player to the pending forms map.
     player.pendingForms.set(this.formId, { player, result, instance: this });
@@ -81,15 +85,15 @@ class Form<T> {
    * Closes the form for a player.
    * @param player The player to close the form for.
    */
-  public close(player: Player): void {
+  public async close(player: Player): Promise<void> {
     // Create a new ClientboundCloseFormPacket
     const packet = new ClientboundCloseFormPacket();
 
     // Send the packet to the player.
-    player.send(packet);
+    await player.send(packet);
   }
 
-  public update(player: Player): void {
+  public async update(player: Player): Promise<void> {
     // Check if the form has a pending response
     if (!player.pendingForms.has(this.formId)) return;
 
@@ -107,7 +111,7 @@ class Form<T> {
     packet.payload = JSON.stringify(this);
 
     // Send the packet to the players
-    player.send(packet);
+    await player.send(packet);
   }
 }
 

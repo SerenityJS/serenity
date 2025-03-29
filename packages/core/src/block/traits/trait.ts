@@ -1,3 +1,5 @@
+import { Awaitable } from "@serenityjs/emitter";
+
 import { Player } from "../../entity";
 import { BlockIdentifier } from "../../enums";
 import { Trait } from "../../trait";
@@ -69,55 +71,57 @@ class BlockTrait extends Trait {
    * Called when the block is updated in the world.
    * @param source The source of the update, if any.
    */
-  public onUpdate?(source?: Block): void;
+  public onUpdate?(source?: Block): Awaitable<void>;
 
   /**
    * Called when the block is placed in the world.
    * @param options The options of the block placement.
    * @returns Whether the block placement was successful; default is true.
    */
-  public onPlace?(options: BlockPlacementOptions): boolean | void;
+  public onPlace?(options: BlockPlacementOptions): Awaitable<boolean | void>;
 
   /**
    * Called when the block is broken in the world.
    * @param player Whether the player broke the block; most cases it will be defined.
    * @returns Whether the block break was successful; default is true.
    */
-  public onBreak?(options: BlockDestroyOptions): boolean | void;
+  public onBreak?(options: BlockDestroyOptions): Awaitable<boolean | void>;
 
   /**
    * Called when the block is started to be broken in the world.
    * @param player The player that started to break the block.
    */
-  public onStartBreak?(player: Player): boolean | void;
+  public onStartBreak?(player: Player): Awaitable<boolean | void>;
 
   /**
    * Called when the block is stopped to be broken in the world.
    * @param player The player that stopped breaking the block.
    */
-  public onStopBreak?(player: Player): void;
+  public onStopBreak?(player: Player): Awaitable<void>;
 
   /**
    * Called when the block is interacted with by a player.
    * @param options The options of the block interaction.
    * @returns Whether the interaction was successful; default is true.
    */
-  public onInteract?(options: BlockInteractionOptions): boolean | void;
+  public onInteract?(
+    options: BlockInteractionOptions
+  ): Awaitable<boolean | void>;
 
   /**
    * Called when a player pick blocks the block.
    * @param player The player that picked the block.
    * @param withData Whether the player picked the block with a data request.
    */
-  public onPick?(player: Player, withData: boolean): void;
+  public onPick?(player: Player, withData: boolean): Awaitable<void>;
 
   /**
    * Called when a container that is attached to the block is updated.
    * @param container The container that was updated.
    */
-  public onContainerUpdate?(container: Container): void;
+  public onContainerUpdate?(container: Container): Awaitable<void>;
 
-  public onReplace?(): void;
+  public onReplace?(): Awaitable<void>;
 }
 
 export { BlockTrait };

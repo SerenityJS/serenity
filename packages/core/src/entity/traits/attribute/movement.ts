@@ -22,9 +22,9 @@ class EntityMovementTrait extends EntityAttributeTrait {
    */
   public positionTarget: Vector3f | null = null;
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Call the super method
-    super.onAdd({
+    return super.onAdd({
       minimumValue: 0,
       maximumValue: 3.402_823_466e+38,
       defaultValue: 0.1,
@@ -32,7 +32,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     });
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     if (this.positionTarget !== null) {
       // Calculate the distance to the target position
       const distance = this.entity.position.distance(this.positionTarget);
@@ -46,7 +46,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
       this.entity.isMoving = true;
 
       // Move the entity towards the target position
-      this.moveTowards(this.positionTarget);
+      await this.moveTowards(this.positionTarget);
     }
 
     // Check if the entity is not moving, and if the entity is not a player
@@ -81,37 +81,41 @@ class EntityMovementTrait extends EntityAttributeTrait {
     // Broadcast the packet to all players
     if (this.entity.isPlayer()) {
       // Iterate over all players in the dimension
-      for (const player of this.entity.dimension.getPlayers()) {
-        // Check if the player is the moving entity
-        if (player === this.entity) continue;
+      await Promise.all(
+        this.entity.dimension.getPlayers().map(async (player) => {
+          // Check if the player is the moving entity
+          if (player === this.entity) return;
 
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
-        if (!rendering) continue;
+          // Get the players entity rendering trait
+          const rendering = player.getTrait(PlayerEntityRenderingTrait);
+          if (!rendering) return;
 
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+          // Check if the player has the entity in their entities list
+          if (!rendering.entities.has(this.entity.uniqueId)) return;
 
-        // Send the packet to the player
-        player.send(packet);
-      }
+          // Send the packet to the player
+          await player.send(packet);
+        })
+      );
     } else {
       // Iterate over all players in the dimension
-      for (const player of this.entity.dimension.getPlayers()) {
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
-        if (!rendering) continue;
+      await Promise.all(
+        this.entity.dimension.getPlayers().map(async (player) => {
+          // Get the players entity rendering trait
+          const rendering = player.getTrait(PlayerEntityRenderingTrait);
+          if (!rendering) return;
 
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+          // Check if the player has the entity in their entities list
+          if (!rendering.entities.has(this.entity.uniqueId)) return;
 
-        // Send the packet to the player
-        player.send(packet);
-      }
+          // Send the packet to the player
+          await player.send(packet);
+        })
+      );
     }
   }
 
-  public lookAt(position: BlockPosition | Vector3f) {
+  public async lookAt(position: BlockPosition | Vector3f) {
     // Convert the block position to a vector
     const vector = BlockPosition.toVector3f(position);
 
@@ -171,31 +175,37 @@ class EntityMovementTrait extends EntityAttributeTrait {
     // Broadcast the packet to all players
     if (this.entity.isPlayer()) {
       // Iterate over all players in the dimension
-      for (const player of this.entity.dimension.getPlayers()) {
-        // Check if the player is the moving entity
-        if (player === this.entity) continue;
+      await Promise.all(
+        this.entity.dimension.getPlayers().map(async (player) => {
+          // Check if the player is the moving entity
+          if (player === this.entity) return;
 
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+          // Get the players entity rendering trait
+          const rendering = player.getTrait(PlayerEntityRenderingTrait);
+          if (!rendering) return;
 
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+          // Check if the player has the entity in their entities list
+          if (!rendering.entities.has(this.entity.uniqueId)) return;
 
-        // Send the packet to the player
-        player.send(packet);
-      }
+          // Send the packet to the player
+          await player.send(packet);
+        })
+      );
     } else {
       // Iterate over all players in the dimension
-      for (const player of this.entity.dimension.getPlayers()) {
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+      await Promise.all(
+        this.entity.dimension.getPlayers().map(async (player) => {
+          // Get the players entity rendering trait
+          const rendering = player.getTrait(PlayerEntityRenderingTrait);
+          if (!rendering) return;
 
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.entity.uniqueId)) continue;
+          // Check if the player has the entity in their entities list
+          if (!rendering.entities.has(this.entity.uniqueId)) return;
 
-        // Send the packet to the player
-        player.send(packet);
-      }
+          // Send the packet to the player
+          await player.send(packet);
+        })
+      );
     }
   }
 
@@ -203,7 +213,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
    * Move the entity towards a position.
    * @param position The position to move towards.
    */
-  public moveTowards(position: Vector3f) {
+  public async moveTowards(position: Vector3f) {
     // Set the target position
     if (this.positionTarget === null) this.positionTarget = position;
 
@@ -215,10 +225,11 @@ class EntityMovementTrait extends EntityAttributeTrait {
     direction.y *= this.currentValue * 2.5;
     direction.z *= this.currentValue * 2.5;
 
-    this.lookAt(position);
-
-    // Add the direction to the entity motion
-    this.entity.addMotion(direction);
+    await Promise.all([
+      this.lookAt(position),
+      // Add the direction to the entity motion
+      this.entity.addMotion(direction)
+    ]);
   }
 
   protected calculateDirection(from: Vector3f, to: Vector3f): Vector3f {

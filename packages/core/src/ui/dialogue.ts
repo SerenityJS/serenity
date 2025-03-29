@@ -87,14 +87,14 @@ class DialogueForm extends Form<number> {
     return this;
   }
 
-  public show(player: Player, result: FormResult<number>): this {
+  public async show(player: Player, result: FormResult<number>): Promise<this> {
     // Check if the target has a NPC metadata.
     if (!this.target.metadata.has(ActorDataId.HasNpc)) {
       // Create the data item for the NPC metadata.
       const data = new DataItem(ActorDataId.HasNpc, ActorDataType.Byte, 1);
 
       // Set the NPC metadata to the target.
-      this.target.metadata.set(ActorDataId.HasNpc, data);
+      await this.target.metadata.set(ActorDataId.HasNpc, data);
     }
 
     // Map the buttons to the dialogue buttons.
@@ -126,16 +126,20 @@ class DialogueForm extends Form<number> {
     packet.json = JSON.stringify(buttons);
 
     // Add the form to the pending forms map.
-    player.pendingForms.set(this.formId, { player, result, instance: this });
+    await player.pendingForms.set(this.formId, {
+      player,
+      result,
+      instance: this
+    });
 
     // Send the packet to the player.
-    player.send(packet);
+    await player.send(packet);
 
     // Return the form instance.
     return this;
   }
 
-  public close(player: Player): void {
+  public async close(player: Player): Promise<void> {
     // Create a new NpcDialoguePacket.
     const packet = new NpcDialoguePacket();
     packet.uniqueEntityId = this.target.uniqueId;
@@ -146,10 +150,10 @@ class DialogueForm extends Form<number> {
     packet.json = String();
 
     // Send the packet to the player.
-    player.send(packet);
+    return player.send(packet);
   }
 
-  public static closeForm(player: Player, id: bigint): void {
+  public static async closeForm(player: Player, id: bigint): Promise<void> {
     // Create a new NpcDialoguePacket.
     const packet = new NpcDialoguePacket();
     packet.uniqueEntityId = id;
@@ -160,7 +164,7 @@ class DialogueForm extends Form<number> {
     packet.json = String();
 
     // Send the packet to the player.
-    player.send(packet);
+    return player.send(packet);
   }
 }
 

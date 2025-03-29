@@ -11,12 +11,12 @@ class EntityPhysicsTrait extends EntityTrait {
 
   // TODO: Drag coefficient (Air(0.98)/Water(0.8)/Lava(0.5))
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the entity is alive
     if (!this.entity.isAlive) return;
 
     // Check if the entity is colliding on the x axis
-    if (this.isCollidingOnXAxis()) {
+    if (await this.isCollidingOnXAxis()) {
       // Set the entity's x velocity to 0
       this.entity.velocity.x = 0;
     } else {
@@ -25,7 +25,7 @@ class EntityPhysicsTrait extends EntityTrait {
     }
 
     // Check if the entity is colliding on the y axis
-    if (this.isCollidingOnYAxis()) {
+    if (await this.isCollidingOnYAxis()) {
       // Set the entity's y velocity to 0
       this.entity.velocity.y = 0;
 
@@ -35,7 +35,7 @@ class EntityPhysicsTrait extends EntityTrait {
       // Check if x or z velocity is not 0
       if (this.entity.velocity.x !== 0 || this.entity.velocity.z !== 0) {
         // Get the block below the entity
-        const below = this.entity.dimension.getBlock({
+        const below = await this.entity.dimension.getBlock({
           x: Math.floor(this.entity.position.x),
           y: Math.floor(this.entity.position.y - this.entity.hitboxHeight - 1),
           z: Math.floor(this.entity.position.z)
@@ -64,7 +64,7 @@ class EntityPhysicsTrait extends EntityTrait {
     }
 
     // Check if the entity is colliding on the z axis
-    if (this.isCollidingOnZAxis()) {
+    if (await this.isCollidingOnZAxis()) {
       // Set the entity's z velocity to 0
       this.entity.velocity.z = 0;
     } else {
@@ -86,7 +86,7 @@ class EntityPhysicsTrait extends EntityTrait {
     else this.entity.isMoving = true;
   }
 
-  public isCollidingOnXAxis(): boolean {
+  public async isCollidingOnXAxis(): Promise<boolean> {
     // Get the x velocity of the entity
     const velocity = this.entity.velocity.x;
 
@@ -95,7 +95,7 @@ class EntityPhysicsTrait extends EntityTrait {
 
     if (velocity > 0) {
       // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      const block = await dimension.getBlock({
         x: Math.floor(position.x + velocity + hitboxWidth / 2),
         y: Math.floor(position.y - hitboxHeight),
         z: Math.floor(position.z)
@@ -110,7 +110,7 @@ class EntityPhysicsTrait extends EntityTrait {
       } else return false;
     } else {
       // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      const block = await dimension.getBlock({
         x: Math.floor(position.x + velocity - hitboxWidth / 2),
         y: Math.floor(position.y - hitboxHeight),
         z: Math.floor(position.z)
@@ -126,7 +126,7 @@ class EntityPhysicsTrait extends EntityTrait {
     }
   }
 
-  public isCollidingOnYAxis(): boolean {
+  public async isCollidingOnYAxis(): Promise<boolean> {
     // Get the y velocity of the entity
     const velocity = this.entity.velocity.y;
 
@@ -135,7 +135,7 @@ class EntityPhysicsTrait extends EntityTrait {
 
     if (velocity > 0) {
       // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      const block = await dimension.getBlock({
         x: Math.floor(position.x),
         y: Math.floor(position.y + velocity + hitboxHeight),
         z: Math.floor(position.z)
@@ -150,7 +150,7 @@ class EntityPhysicsTrait extends EntityTrait {
       } else return false;
     } else if (velocity < 0) {
       // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      const block = await dimension.getBlock({
         x: Math.floor(position.x),
         y: Math.floor(position.y + velocity - hitboxHeight),
         z: Math.floor(position.z)
@@ -165,7 +165,7 @@ class EntityPhysicsTrait extends EntityTrait {
       } else return false;
     } else {
       // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      const block = await dimension.getBlock({
         x: Math.floor(position.x),
         y: Math.floor(position.y - 0.2 - hitboxHeight),
         z: Math.floor(position.z)
@@ -178,7 +178,7 @@ class EntityPhysicsTrait extends EntityTrait {
     }
   }
 
-  public isCollidingOnZAxis(): boolean {
+  public async isCollidingOnZAxis(): Promise<boolean> {
     // Get the z velocity of the entity
     const velocity = this.entity.velocity.z;
 
@@ -187,7 +187,7 @@ class EntityPhysicsTrait extends EntityTrait {
 
     if (velocity > 0) {
       // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      const block = await dimension.getBlock({
         x: Math.floor(position.x),
         y: Math.floor(position.y - hitboxHeight),
         z: Math.floor(position.z + velocity + hitboxWidth / 2)
@@ -202,7 +202,7 @@ class EntityPhysicsTrait extends EntityTrait {
       } else return false;
     } else {
       // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      const block = await dimension.getBlock({
         x: Math.floor(position.x),
         y: Math.floor(position.y - hitboxHeight),
         z: Math.floor(position.z + velocity - hitboxWidth / 2)

@@ -150,9 +150,9 @@ class ScoreboardObjective {
    * @param participant The identity of the participant to remove.
    * @returns True if the participant was removed, false otherwise.
    */
-  public removeParticipant(
+  public async removeParticipant(
     participant: Entity | string | ScoreboardIdentity
-  ): boolean {
+  ): Promise<boolean> {
     // Get the identity of the participant.
     const identity = this.getParticipant(participant);
 
@@ -177,7 +177,7 @@ class ScoreboardObjective {
     ];
 
     // Broadcast the packet to the world.
-    this.world.broadcast(packet);
+    await this.world.broadcast(packet);
 
     // Return true if the participant was removed.
     return true;
@@ -188,10 +188,10 @@ class ScoreboardObjective {
    * @param participant The identity of the participant.
    * @param score The new score of the participant.
    */
-  public setScore(
+  public async setScore(
     participant: Entity | string | ScoreboardIdentity,
     score: number
-  ): void {
+  ): Promise<void> {
     // Initialize the identity of the participant.
     const identity =
       this.getParticipant(participant) ?? this.addParticipant(participant);
@@ -214,7 +214,7 @@ class ScoreboardObjective {
     ];
 
     // Broadcast the packet to the world.
-    this.world.broadcast(packet);
+    await this.world.broadcast(packet);
   }
 
   /**
@@ -223,10 +223,10 @@ class ScoreboardObjective {
    * @param score The score to add.
    * @returns The new score of the participant.
    */
-  public addScore(
+  public async addScore(
     participant: Entity | string | ScoreboardIdentity,
     score: number
-  ): number {
+  ): Promise<number> {
     // Check if the participant is already in the objective.
     const identity =
       this.getParticipant(participant) ?? this.addParticipant(participant);
@@ -238,7 +238,7 @@ class ScoreboardObjective {
     const newScore = currentScore + score;
 
     // Set the new score of the participant.
-    this.setScore(identity, newScore);
+    await this.setScore(identity, newScore);
 
     // Return the new score.
     return newScore;
@@ -265,7 +265,7 @@ class ScoreboardObjective {
   /**
    * Clears the scores of all the participants in the objective.
    */
-  public clearScores(): void {
+  public async clearScores(): Promise<void> {
     // Create a new packet to remove the score.
     const packet = new SetScorePacket();
     packet.type = ScoreboardActionType.Remove;
@@ -281,7 +281,7 @@ class ScoreboardObjective {
     });
 
     // Broadcast the packet to the world.
-    this.world.broadcast(packet);
+    await this.world.broadcast(packet);
 
     // Clear the participants of the objective.
     this.participants.clear();

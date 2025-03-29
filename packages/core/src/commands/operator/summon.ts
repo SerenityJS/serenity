@@ -20,7 +20,7 @@ const register = (world: World) => {
         {
           entity: EntityEnum
         },
-        (context) => {
+        async (context) => {
           // Check if the origin is a dimension, if so, throw an error
           if (!(context.origin instanceof Entity))
             throw new Error(
@@ -36,7 +36,7 @@ const register = (world: World) => {
           const { x, y, z } = context.origin.position.floor();
 
           // Spawn the entity at the specified location
-          context.origin.dimension.spawnEntity(
+          await context.origin.dimension.spawnEntity(
             identifier,
             new Vector3f(x, y, z)
           );
@@ -54,7 +54,7 @@ const register = (world: World) => {
           entity: EntityEnum,
           position: PositionEnum
         },
-        (context) => {
+        async (context) => {
           // Get the result of the entity and position
           const identifier = (context.entity.result as string).includes(":")
             ? (context.entity.result as EntityIdentifier)
@@ -68,7 +68,7 @@ const register = (world: World) => {
               : context.origin;
 
           // Summon the entity at the specified location
-          dimension.spawnEntity(identifier, new Vector3f(x, y, z));
+          await dimension.spawnEntity(identifier, new Vector3f(x, y, z));
         }
       );
     },

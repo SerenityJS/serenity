@@ -20,23 +20,23 @@ class EntityGravityTrait extends EntityTrait {
    */
   public fallingTicks = 0;
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the entity has a metadata flag value for gravity
     if (!this.entity.flags.has(ActorFlag.HasGravity)) {
       // Set the entity flag for gravity
-      this.entity.flags.set(ActorFlag.HasGravity, true);
+      await this.entity.flags.set(ActorFlag.HasGravity, true);
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Check if the entity has a metadata flag value for gravity
     if (this.entity.flags.has(ActorFlag.HasGravity)) {
       // Remove the entity flag for gravity
-      this.entity.flags.delete(ActorFlag.HasGravity);
+      await this.entity.flags.delete(ActorFlag.HasGravity);
     }
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Get the entity's position
     const position = this.entity.position.floor();
 
@@ -57,7 +57,7 @@ class EntityGravityTrait extends EntityTrait {
     }
 
     // Get the topmost block at the entity's position
-    const block = this.dimension.getTopmostBlock(position.floor());
+    const block = await this.dimension.getTopmostBlock(position.floor());
 
     // Calculate the entity's offset from the block
     const entityOffset = position.y - this.entity.hitboxHeight;
@@ -73,7 +73,7 @@ class EntityGravityTrait extends EntityTrait {
         // Attempt to trigger the onFallOnBlock event
         try {
           // Call the onFallOnBlock event
-          trait.onFallOnBlock?.({
+          await trait.onFallOnBlock?.({
             block,
             fallDistance: this.fallingDistance,
             fallTicks: this.fallingTicks
@@ -102,7 +102,9 @@ class EntityGravityTrait extends EntityTrait {
     else if (!this.entity.isFalling) this.fallingTicks = 0;
   }
 
-  public onFallOnBlock(event: EntityFallOnBlockTraitEvent): void {
+  public async onFallOnBlock(
+    event: EntityFallOnBlockTraitEvent
+  ): Promise<void> {
     // Check if the entity is a player
     if (this.entity.isPlayer()) {
       // Check if fall damage is disabled in the world
@@ -125,7 +127,7 @@ class EntityGravityTrait extends EntityTrait {
     const health = this.entity.getTrait(EntityHealthTrait);
 
     // Apply the fall damage to the entity
-    health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
+    await health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
   }
 }
 

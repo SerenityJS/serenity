@@ -36,7 +36,7 @@ class ScreenDisplay {
    * Hide a specific element from the screen display.
    * @param element The element to hide.
    */
-  public hideElement(...elements: Array<HudElement>): void {
+  public async hideElement(...elements: Array<HudElement>): Promise<void> {
     // Add the element to the hidden elements.
     for (const element of elements) this.hiddenElements.add(element);
 
@@ -52,14 +52,14 @@ class ScreenDisplay {
     packet.visibility = HudVisibility.Hide;
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
    * Show a specific element from the screen display.
    * @param element The element to show.
    */
-  public showElement(...elements: Array<HudElement>): void {
+  public async showElement(...elements: Array<HudElement>): Promise<void> {
     // Remove the element from the hidden elements.
     for (const element of elements) this.hiddenElements.delete(element);
 
@@ -75,33 +75,33 @@ class ScreenDisplay {
     packet.visibility = HudVisibility.Reset;
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
    * Hide all elements from the screen display.
    */
-  public hideAllElements(): void {
+  public async hideAllElements(): Promise<void> {
     // Add all elements to the hidden elements.
     const values = Object.values(HudElement).filter(
       (element) => typeof element === "number"
     );
 
     // Add the elements to the hidden elements.
-    this.hideElement(...values);
+    return this.hideElement(...values);
   }
 
   /**
    * Show all elements from the screen display.
    */
-  public showAllElements(): void {
+  public async showAllElements(): Promise<void> {
     // Remove all elements from the hidden elements.
     const values = Object.values(HudElement).filter(
       (element) => typeof element === "number"
     );
 
     // Remove the elements from the hidden elements.
-    this.showElement(...values);
+    return this.showElement(...values);
   }
 
   /**
@@ -109,7 +109,10 @@ class ScreenDisplay {
    * @param text The text to display.
    * @param options The additional options for the title.
    */
-  public setTitle(text: string, options?: TitleDisplayOptions): void {
+  public async setTitle(
+    text: string,
+    options?: TitleDisplayOptions
+  ): Promise<void> {
     // Create a new SetTitlePacket.
     const packet = new SetTitlePacket();
     packet.type = TitleType.Title;
@@ -122,10 +125,10 @@ class ScreenDisplay {
     packet.filteredText = text; // TODO: Filter the text.
 
     // Update the subtitle if it is provided
-    if (options?.subtitle) this.updateSubtitle(options.subtitle, options);
+    if (options?.subtitle) await this.updateSubtitle(options.subtitle, options);
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
@@ -133,7 +136,10 @@ class ScreenDisplay {
    * @param text The text to display.
    * @param options The additional options for the action bar.
    */
-  public setActionBar(text: string, options?: TitleDisplayOptions): void {
+  public async setActionBar(
+    text: string,
+    options?: TitleDisplayOptions
+  ): Promise<void> {
     // Create a new SetTitlePacket.
     const packet = new SetTitlePacket();
     packet.type = TitleType.Actionbar;
@@ -146,14 +152,14 @@ class ScreenDisplay {
     packet.filteredText = text; // TODO: Filter the text.
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
    * Set the jukebox popup of the player.
    * @param text The text to display.
    */
-  public setJukeboxPopup(text: string): void {
+  public async setJukeboxPopup(text: string): Promise<void> {
     // Create a new TextPacket.
     const packet = new TextPacket();
     packet.type = TextPacketType.JukeboxPopup;
@@ -166,14 +172,14 @@ class ScreenDisplay {
     packet.filtered = text; // TODO: Filter the text.
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
    * Set the tooltip text of the player.
    * @param text The text to display.
    */
-  public setToolTip(text: string): void {
+  public async setToolTip(text: string): Promise<void> {
     // Create a new TextPacket.
     const packet = new TextPacket();
     packet.type = TextPacketType.Tip;
@@ -186,7 +192,7 @@ class ScreenDisplay {
     packet.filtered = text; // TODO: Filter the text.
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
@@ -194,7 +200,10 @@ class ScreenDisplay {
    * @param text The text to display.
    * @param options The additional options for the subtitle.
    */
-  public updateSubtitle(text: string, options?: TitleDisplayOptions): void {
+  public async updateSubtitle(
+    text: string,
+    options?: TitleDisplayOptions
+  ): Promise<void> {
     // Create a new SetTitlePacket.
     const packet = new SetTitlePacket();
     packet.type = TitleType.Subtitle;
@@ -207,13 +216,13 @@ class ScreenDisplay {
     packet.filteredText = text; // TODO: Filter the text.
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 
   /**
    * Clear the title of the player.
    */
-  public clearTitle(): void {
+  public async clearTitle(): Promise<void> {
     // Create a new SetTitlePacket.
     const packet = new SetTitlePacket();
     packet.type = TitleType.Clear;
@@ -226,7 +235,7 @@ class ScreenDisplay {
     packet.filteredText = String(); // TODO: Filter the text.
 
     // Send the packet to the player.
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 }
 

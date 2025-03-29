@@ -34,7 +34,10 @@ import {
 class PlayerAuthInputHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAuthInput;
 
-  public handle(packet: PlayerAuthInputPacket, connection: Connection): void {
+  public async handle(
+    packet: PlayerAuthInputPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -113,19 +116,19 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
         // If the player is mining a block, handle the block actions
         if (action)
-          this.handleBlockActions(
+          await this.handleBlockActions(
             player,
             packet.blockActions.actions,
             action.mineBlock as ItemStackRequestActionMineBlock
           );
       } else {
         // Handle the block actions
-        this.handleBlockActions(player, packet.blockActions.actions);
+        await this.handleBlockActions(player, packet.blockActions.actions);
       }
     }
 
     // Handle the player's actions
-    this.handleActorActions(player, packet.inputData.getFlags());
+    return this.handleActorActions(player, packet.inputData.getFlags());
   }
 
   /**
@@ -184,7 +187,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
    * @param player The player that performed the actions
    * @param actions The actions performed by the player
    */
-  public handleActorActions(player: Player, actions: Array<InputData>): void {
+  public async handleActorActions(
+    player: Player,
+    actions: Array<InputData>
+  ): Promise<void> {
     // Iterate over the actions
     for (const action of actions) {
       // Handle the action
@@ -198,16 +204,18 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Check if the player is already sneaking
           if (sneaking === true) {
             // Signal the player to stop sneaking
-            for (const trait of player.traits.values())
-              trait.onStopSneaking?.();
+            await Promise.all(
+              player.traits.values().map((trait) => trait.onStopSneaking?.())
+            );
           } else {
             // Signal the player to start sneaking
-            for (const trait of player.traits.values())
-              trait.onStartSneaking?.();
+            await Promise.all(
+              player.traits.values().map((trait) => trait.onStartSneaking?.())
+            );
           }
 
           // Set the sneaking flag based on the action
-          player.flags.set(ActorFlag.Sneaking, !sneaking);
+          await player.flags.set(ActorFlag.Sneaking, !sneaking);
           break;
         }
 
@@ -220,16 +228,18 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Check if the player is already sprinting
           if (sprinting === true) {
             // Signal the player to stop sprinting
-            for (const trait of player.traits.values())
-              trait.onStopSprinting?.();
+            await Promise.all(
+              player.traits.values().map((trait) => trait.onStopSprinting?.())
+            );
           } else {
             // Signal the player to start sprinting
-            for (const trait of player.traits.values())
-              trait.onStartSprinting?.();
+            await Promise.all(
+              player.traits.values().map((trait) => trait.onStartSprinting?.())
+            );
           }
 
           // Set the sprinting flag based on the action
-          player.flags.set(ActorFlag.Sprinting, !sprinting);
+          await player.flags.set(ActorFlag.Sprinting, !sprinting);
           break;
         }
 
@@ -240,7 +250,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const swimming = player.flags.get(ActorFlag.Swimming) ?? false;
 
           // Set the swimming flag based on the action
-          player.flags.set(ActorFlag.Swimming, !swimming);
+          await player.flags.set(ActorFlag.Swimming, !swimming);
           break;
         }
 
@@ -251,7 +261,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const crawling = player.flags.get(ActorFlag.Crawling) ?? false;
 
           // Set the crawling flag based on the action
-          player.flags.set(ActorFlag.Crawling, !crawling);
+          await player.flags.set(ActorFlag.Crawling, !crawling);
           break;
         }
 
@@ -262,7 +272,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const gliding = player.flags.get(ActorFlag.Gliding) ?? false;
 
           // Set the gliding flag based on the action
-          player.flags.set(ActorFlag.Gliding, !gliding);
+          await player.flags.set(ActorFlag.Gliding, !gliding);
           break;
         }
 
@@ -276,17 +286,19 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // This stops the Horion fly exploit
           if (!flying && !mayFly) {
             // Disable flying if the player does not have the may fly ability
-            player.abilities.set(AbilityIndex.Flying, false);
+            await player.abilities.set(AbilityIndex.Flying, false);
           } else {
             // Set the flying ability based on the action
-            player.abilities.set(AbilityIndex.Flying, !flying);
+            await player.abilities.set(AbilityIndex.Flying, !flying);
           }
           break;
         }
 
         case InputData.StartJumping: {
           // Signal the player to jump
-          for (const trait of player.traits.values()) trait.onJump?.();
+          await Promise.all(
+            player.traits.values().map((trait) => trait.onJump?.())
+          );
           break;
         }
 
@@ -298,8 +310,13 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Check if the target item is not null
           if (player.itemTarget)
             // Call the item onStartUse trait methods
-            for (const trait of player.itemTarget.traits.values())
-              trait.onStartUse?.(player, { method: ItemUseMethod.UseTool });
+            await Promise.all(
+              player.itemTarget.traits
+                .values()
+                .map((trait) =>
+                  trait.onStartUse?.(player, { method: ItemUseMethod.UseTool })
+                )
+            );
           break;
         }
       }
@@ -311,11 +328,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
    * @param player The player that performed the block actions
    * @param actions The block actions performed by the player
    */
-  public handleBlockActions(
+  public async handleBlockActions(
     player: Player,
     actions: Array<PlayerBlockActionData>,
     request?: ItemStackRequestActionMineBlock
-  ): void {
+  ): Promise<void> {
     // Iterate over the actions
     for (const action of actions) {
       // Get the dimension from the player
@@ -341,10 +358,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
           if (player.blockTarget) {
             // Call the block onStopBreak trait methods
             // We will ignore the result of the method
-            for (const trait of dimension
-              .getBlock(player.blockTarget)
-              .traits.values())
-              trait.onStopBreak?.(player);
+            await Promise.all(
+              (await dimension.getBlock(player.blockTarget)).traits
+                .values()
+                .map((trait) => trait.onStopBreak?.(player))
+            );
 
             // Create a new LevelEventPacket for the block break
             const packet = new LevelEventPacket();
@@ -353,14 +371,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
             packet.data = 0;
 
             // Broadcast the packet to the dimension
-            dimension.broadcast(packet);
+            await dimension.broadcast(packet);
 
             // Reset the players block target
+            // eslint-disable-next-line require-atomic-updates
             player.blockTarget = null;
           }
 
           // Get the block from the action position
-          const block = dimension.getBlock(action.position);
+          const block = await dimension.getBlock(action.position);
 
           // Check if the block is air, if so, the client has a ghost block
           if (block.isAir) {
@@ -375,7 +394,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             packet.networkBlockId = permutation.networkId;
 
             // Send the packet to the player
-            player.send(packet);
+            await player.send(packet);
             continue;
           }
 
@@ -397,6 +416,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           if (canceled) continue;
 
           // Set the players targeted block to the block
+          // eslint-disable-next-line require-atomic-updates
           player.blockTarget = block.position;
 
           // Get the players held item, and calculate the break time
@@ -410,7 +430,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           packet.data = 65535 / breakTime;
 
           // Broadcast the packet to the dimension
-          dimension.broadcast(packet);
+          await dimension.broadcast(packet);
 
           // Check if the player was holding an item
           if (heldItem) {
@@ -418,11 +438,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
             const method = ItemUseMethod.UseTool;
 
             // Create a new PlayerStartUsingItemSignal
-            let canceled = !new PlayerStartUsingItemSignal(
+            let canceled = !(await new PlayerStartUsingItemSignal(
               player,
               heldItem,
               method
-            ).emit();
+            ).emit());
 
             // Call the item onStartUse trait methods
             for (const trait of heldItem.traits.values()) {
@@ -441,6 +461,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             if (canceled) continue;
 
             // Set the players item use time
+            // eslint-disable-next-line require-atomic-updates
             player.itemTarget = heldItem;
           }
 
@@ -453,10 +474,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
           if (player.blockTarget) {
             // Call the block onStopBreak trait methods
             // We will ignore the result of the method
-            for (const trait of dimension
-              .getBlock(player.blockTarget)
-              .traits.values())
-              trait.onStopBreak?.(player);
+            await Promise.all(
+              (await dimension.getBlock(player.blockTarget)).traits
+                .values()
+                .map((trait) => trait.onStopBreak?.(player))
+            );
 
             // Create a new LevelEventPacket for the block break
             const packet = new LevelEventPacket();
@@ -465,22 +487,32 @@ class PlayerAuthInputHandler extends NetworkHandler {
             packet.data = 0;
 
             // Broadcast the packet to the dimension
-            dimension.broadcast(packet);
+            await dimension.broadcast(packet);
 
             // Reset the players block target
+            // eslint-disable-next-line require-atomic-updates
             player.blockTarget = null;
           }
 
           // Check if the player was holding an item
           if (player.itemTarget) {
             // Create a new PlayerStopUsingItemSignal
-            new PlayerStopUsingItemSignal(player, player.itemTarget).emit();
+            await new PlayerStopUsingItemSignal(
+              player,
+              player.itemTarget
+            ).emit();
 
             // Call the item onStopUse trait methods
-            for (const trait of player.itemTarget.traits.values())
-              trait.onStopUse?.(player, { method: ItemUseMethod.UseTool });
+            await Promise.all(
+              player.itemTarget.traits
+                .values()
+                .map((trait) =>
+                  trait.onStopUse?.(player, { method: ItemUseMethod.UseTool })
+                )
+            );
 
             // Reset the players item use time
+            // eslint-disable-next-line require-atomic-updates
             player.itemTarget = null;
           }
 
@@ -490,7 +522,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
         case PlayerActionType.PredictDestroyBlock: {
           // Get the block from the action position
-          const block = dimension.getBlock(action.position);
+          const block = await dimension.getBlock(action.position);
 
           // Check if the player does not have a block target
           // And if the player is not in creative mode; also check if the signal was canceled
@@ -506,7 +538,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             return player.send(packet);
           } else {
             // Break the block based on the signal drop loot flag
-            const success = block.destroy({
+            const success = await block.destroy({
               origin: player,
               dropLoot: true
             });
@@ -538,10 +570,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
           const _targetBlock = block;
 
           // Check if the predicted durability will equal the item stack durability
-          stack.use(player, { method, predictedDurability });
+          await stack.use(player, { method, predictedDurability });
 
           // Create a new PlayerUseItemSignal
-          new PlayerUseItemSignal(player, stack, method).emit();
+          await new PlayerUseItemSignal(player, stack, method).emit();
 
           // Break out of the switch statement
           continue;

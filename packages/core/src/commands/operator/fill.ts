@@ -20,7 +20,7 @@ const register = (world: World) => {
           to: PositionEnum,
           block: BlockEnum
         },
-        (context) => {
+        async (context) => {
           // Get the result of the block, position, and mode
           const result = context.block.result as string;
           const identifier = result.includes(":")
@@ -45,7 +45,7 @@ const register = (world: World) => {
           );
 
           // Fill the region with the specified block
-          dimension.fill(from, to, type.getPermutation());
+          await dimension.fill(from, to, type.getPermutation());
         }
       );
     },

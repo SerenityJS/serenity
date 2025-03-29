@@ -26,7 +26,10 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     this.entityType = entityType;
   }
 
-  public onUseOnBlock(player: Player, options: ItemUseOnBlockOptions): void {
+  public async onUseOnBlock(
+    player: Player,
+    options: ItemUseOnBlockOptions
+  ): Promise<void> {
     // Check if the entity type is defined.
     if (options.method !== ItemUseMethod.Place || !this.entityType) return;
 
@@ -42,7 +45,9 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     // Check if the entity data entry is defined.
     if (entry) {
       // Create the entity with the entity data.
-      const entity = new Entity(player.dimension, this.entityType, { entry });
+      const entity = await Entity.create(player.dimension, this.entityType, {
+        entry
+      });
 
       // Increase the Y position by 1.
       position.y += 1;
@@ -51,10 +56,10 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       entity.position.set(position);
 
       // Spawn the entity in the player's dimension.
-      entity.spawn();
+      await entity.spawn();
     } else {
       // Create the entity without the entity data.
-      player.dimension.spawnEntity(this.entityType, position);
+      await player.dimension.spawnEntity(this.entityType, position);
     }
   }
 }

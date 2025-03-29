@@ -12,7 +12,10 @@ import { ItemStack } from "../item";
 class MobEquipmentHandler extends NetworkHandler {
   public static readonly packet = Packet.MobEquipment;
 
-  public handle(packet: MobEquipmentPacket, connection: Connection): void {
+  public async handle(
+    packet: MobEquipmentPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -38,7 +41,7 @@ class MobEquipmentHandler extends NetworkHandler {
         : ItemStack.toNetworkStack(item);
 
     // Broadcast the packet to all players, except the player in context
-    player.dimension.broadcastExcept(player, update);
+    return player.dimension.broadcastExcept(player, update);
   }
 }
 

@@ -102,19 +102,20 @@ class Container {
    * @param slot The slot to set the item in.
    * @param item The item to set.
    */
-  public setItem(slot: number, item: ItemStack): void {
+  public async setItem(slot: number, item: ItemStack): Promise<void> {
     // Set the item in the slot
     this.storage[slot] = item;
 
     // Check if the item amount is 0
     // If so, set the slot to null as there is no item
-    if (item.amount === 0) this.clearSlot(slot);
+    if (item.amount === 0) await this.clearSlot(slot);
 
     // Set the container of the item
+    // eslint-disable-next-line require-atomic-updates
     item.container = this;
 
     // Update the container for all occupants
-    this.update();
+    return this.update();
   }
 
   /**
@@ -122,7 +123,7 @@ class Container {
    * @param item The item stack to add.
    * @returns Whether the item was successfully added into the container.
    */
-  public addItem(item: ItemStack): boolean {
+  public async addItem(item: ItemStack): Promise<boolean> {
     // Find a slot that has the same item type and isn't full (x64)
     // If there is no slot, find the next empty slot.
     const slot = this.storage.findIndex((slot) => {
@@ -150,11 +151,13 @@ class Container {
         item.amount
       );
 
-      // Add the amount to the existing item.
-      existingItem.increment(amount);
+      await Promise.all([
+        // Add the amount to the existing item.
+        existingItem.increment(amount),
 
-      // Subtract the amount from the item.
-      item.decrement(amount);
+        // Subtract the amount from the item.
+        item.decrement(amount)
+      ]);
 
       // Return true as the item was successfully added.
       return true;
@@ -168,21 +171,23 @@ class Container {
       // Check if the item is maxed.
       if (item.amount > item.maxAmount) {
         // Create a full stack item for the empty slot
-        const newItem = new ItemStack(item.type, {
+        const newItem = await ItemStack.create(item.type, {
           ...item,
           amount: item.maxAmount
         });
 
         // Add the new Item and decrease it
-        this.setItem(emptySlot, newItem);
-        item.decrement(item.maxAmount);
+        await Promise.all([
+          this.setItem(emptySlot, newItem),
+          item.decrement(item.maxAmount)
+        ]);
 
         // Because it is greater than 64 call the function to add the remaining items
         return this.addItem(item);
       }
 
       // Set the item in the empty slot.
-      this.setItem(emptySlot, item);
+      await this.setItem(emptySlot, item);
 
       // Return true as the item was successfully added.
       return true;
@@ -194,7 +199,10 @@ class Container {
    * @param slot The slot to remove the item from.
    * @param amount The amount of the item to remove.
    */
-  public removeItem(slot: number, amount: number): ItemStack | null {
+  public async removeItem(
+    slot: number,
+    amount: number
+  ): Promise<ItemStack | null> {
     // Get the item from the slot.
     const item = this.getItem(slot);
     if (!item) return null;
@@ -203,7 +211,7 @@ class Container {
     const removed = Math.min(amount, item.amount);
 
     // Subtract the amount from the item.
-    item.decrement(removed);
+    await item.decrement(removed);
 
     // Check if the item amount is 0.
     if (item.amount === 0) this.storage[slot] = null;
@@ -218,20 +226,26 @@ class Container {
    * @param amount The amount of the item to take.
    * @returns The taken item.
    */
-  public takeItem(slot: number, amount: number): ItemStack | null {
+  public async takeItem(
+    slot: number,
+    amount: number
+  ): Promise<ItemStack | null> {
     // Get the item in the slot.
     const item = this.getItem(slot);
     if (item === null) return null;
 
     // Calculate the amount of items to remove.
     const removed = Math.min(amount, item.amount);
-    item.decrement(removed);
+    await item.decrement(removed);
 
     // Check if the item amount is 0.
-    if (item.amount === 0) this.clearSlot(slot);
+    if (item.amount === 0) await this.clearSlot(slot);
 
     // Create a new item with the removed amount.
-    const newItem = new ItemStack(item.type, { ...item, amount: removed });
+    const newItem = await ItemStack.create(item.type, {
+      ...item,
+      amount: removed
+    });
 
     // Clone the dynamic properties of the item to the new item.
     for (const [key, value] of item.dynamicProperties)
@@ -241,12 +255,12 @@ class Container {
     for (const trait of item.traits.values()) trait.clone(newItem);
 
     // Update the container for all occupants.
-    this.update();
+    await this.update();
 
     // Clone the NBT tags of the item.
-    for (const tag of item.nbt.values()) {
-      newItem.nbt.add(tag);
-    }
+    await Promise.all(
+      Array.from(item.nbt.values()).map((tag) => newItem.nbt.add(tag))
+    );
 
     // Return the new item.
     return newItem;
@@ -258,11 +272,11 @@ class Container {
    * @param otherSlot The slot to swap the item to.
    * @param otherContainer The other container to swap the item to.
    */
-  public swapItems(
+  public async swapItems(
     slot: number,
     otherSlot: number,
     otherContainer?: Container
-  ): void {
+  ): Promise<void> {
     // Assign the target container
     const targetContainer = otherContainer ?? this;
 
@@ -271,18 +285,20 @@ class Container {
     const otherItem = targetContainer.getItem(otherSlot);
 
     // Clear the slots
-    this.clearSlot(slot);
-    targetContainer.clearSlot(otherSlot);
+    await Promise.all([
+      this.clearSlot(slot),
+      targetContainer.clearSlot(otherSlot)
+    ]);
 
-    if (item) targetContainer.setItem(otherSlot, item);
-    if (otherItem) this.setItem(slot, otherItem);
+    if (item) await targetContainer.setItem(otherSlot, item);
+    if (otherItem) await this.setItem(slot, otherItem);
   }
 
   /**
    * Clears a slot in the container.
    * @param slot The slot to clear.
    */
-  public clearSlot(slot: number): void {
+  public async clearSlot(slot: number): Promise<void> {
     // Set the slot to null.
     this.storage[slot] = null;
 
@@ -300,33 +316,37 @@ class Container {
     packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
     // Send the packet to the occupants.
-    for (const player of this.occupants) {
-      // Check if the container is a player inventory, and if its not owned by the player.
-      if (
-        this.isEntityContainer() &&
-        this.identifier === ContainerId.Inventory &&
-        !this.isOwnedBy(player)
-      )
-        // If so, set the container id to none.
-        packet.containerId = ContainerId.None;
+    await Promise.all(
+      Array.from(this.occupants).map((player) => {
+        // Check if the container is a player inventory, and if its not owned by the player.
+        if (
+          this.isEntityContainer() &&
+          this.identifier === ContainerId.Inventory &&
+          !this.isOwnedBy(player)
+        )
+          // If so, set the container id to none.
+          packet.containerId = ContainerId.None;
 
-      // Send the packet to the player.
-      player.send(packet);
-    }
+        // Send the packet to the player.
+        return player.send(packet);
+      })
+    );
   }
 
   /**
    * Clears all slots in the container.
    */
-  public clear(): void {
+  public async clear(): Promise<void> {
     // Clear all slots in the container.
-    for (let i = 0; i < this.size; i++) this.clearSlot(i);
+    await Promise.all(
+      Array.from({ length: this.size }, (_, i) => this.clearSlot(i))
+    );
   }
 
   /**
    * Updates the contents of the container.
    */
-  public update(player?: Player): void {
+  public async update(player?: Player): Promise<void> {
     // Create a new InventoryContentPacket.
     const packet = new InventoryContentPacket();
 
@@ -357,7 +377,7 @@ class Container {
         packet.containerId = ContainerId.None;
 
       // Send the packet to the player.
-      player.send(packet);
+      await player.send(packet);
     } else {
       // Send the packet to the occupants.
       for (const player of this.occupants) {
@@ -370,7 +390,7 @@ class Container {
           // If so, set the container id to none.
           packet.containerId = ContainerId.None;
 
-        player.send(packet);
+        await player.send(packet);
       }
     }
   }
@@ -379,10 +399,10 @@ class Container {
    * Shows the container to a player.
    * @param player The player to show the container to.
    */
-  public show(player: Player): void {
+  public async show(player: Player): Promise<void> {
     // Check if the player is already viewing a container.
     // If so, close the container.
-    if (player.openedContainer) player.openedContainer.close(player);
+    if (player.openedContainer) await player.openedContainer.close(player);
 
     // Add the player to the occupants.
     this.occupants.add(player);
@@ -391,13 +411,19 @@ class Container {
     player.openedContainer = this;
 
     // Iterate over the storage, and call the onContainerOpen method of the item.
-    for (const item of this.storage) {
-      // Check if the item is null.
-      if (!item) continue;
+    await Promise.all([
+      this.storage.map((item) => {
+        // Check if the item is null.
+        if (!item) return;
 
-      // Iterate over the traits of the item and call the onContainerOpen method.
-      for (const trait of item.traits.values()) trait.onContainerOpen?.(player);
-    }
+        // Iterate over the traits of the item and call the onContainerOpen method.
+        return Promise.all(
+          Array.from(item.traits.values()).map((trait) =>
+            trait.onContainerOpen?.(player)
+          )
+        );
+      })
+    ]);
   }
 
   /**
@@ -405,7 +431,7 @@ class Container {
    * @param player The player to close the container for.
    * @param serverInitiated Whether the close was initiated by the server.
    */
-  public close(player: Player, serverInitiated = true): void {
+  public async close(player: Player, serverInitiated = true): Promise<void> {
     // Check if the player is not viewing the container.
     if (!this.occupants.has(player))
       throw new Error("Player is not viewing the container.");
@@ -426,23 +452,29 @@ class Container {
       packet.identifier = ContainerId.None;
 
     // Send the packet to the player.
-    player.send(packet);
+    await player.send(packet);
 
     // Set the opened container of the player to null.
+    // eslint-disable-next-line require-atomic-updates
     player.openedContainer = null;
 
     // Remove the player from the occupants.
     this.occupants.delete(player);
 
     // Iterate over the storage, and call the onContainerClose method of the item.
-    for (const item of this.storage) {
-      // Check if the item is null.
-      if (!item) continue;
+    await Promise.all([
+      this.storage.map((item) => {
+        // Check if the item is null.
+        if (!item) return;
 
-      // Iterate over the traits of the item and call the onContainerClose method.
-      for (const trait of item.traits.values())
-        trait.onContainerClose?.(player);
-    }
+        // Iterate over the traits of the item and call the onContainerClose method.
+        return Promise.all(
+          Array.from(item.traits.values()).map((trait) =>
+            trait.onContainerClose?.(player)
+          )
+        );
+      })
+    ]);
   }
 }
 

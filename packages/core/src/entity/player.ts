@@ -154,31 +154,40 @@ class Player extends Entity {
 
   /**
    * The gamemode of the player.
+   * @deprecated Use `setGamemode` instead. Errors will be lost if you use this.
    */
   public set gamemode(value: Gamemode) {
+    void this.setGamemode(value);
+  }
+
+  /**
+   * The gamemode of the player.
+   */
+  public async setGamemode(value: Gamemode): Promise<void> {
     const signal = new PlayerGamemodeChangeSignal(this, this.gamemode, value);
 
-    if (!signal.emit()) return;
+    if (!(await signal.emit())) return;
 
     // Set the gamemode of the player
     this.dynamicProperties.set("gamemode", value);
 
     // Call the onGamemodeChange event for the player
-    for (const trait of this.traits.values()) trait.onGamemodeChange?.(value);
+    for (const trait of this.traits.values())
+      await trait.onGamemodeChange?.(value);
 
     // Enable or disable the ability to fly based on the gamemode
     switch (value) {
       case Gamemode.Survival:
       case Gamemode.Adventure: {
         // Disable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, false);
+        await this.abilities.set(AbilityIndex.MayFly, false);
         break;
       }
 
       case Gamemode.Creative:
       case Gamemode.Spectator: {
         // Enable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, true);
+        await this.abilities.set(AbilityIndex.MayFly, true);
         break;
       }
     }
@@ -190,7 +199,7 @@ class Player extends Entity {
     packet.inputTick = this.inputTick;
 
     // Broadcast the packet to the dimension
-    this.dimension.broadcast(packet);
+    return this.dimension.broadcast(packet);
   }
 
   /**
@@ -202,15 +211,25 @@ class Player extends Entity {
 
   /**
    * Whether the player has operator permissions.
+   * @deprecated Use `setIsOp` instead. Errors will be lost if you use this.
    */
   public set isOp(value: boolean) {
+    void this.setIsOp(value);
+  }
+
+  /**
+   * Whether the player has operator permissions.
+   */
+  public async setIsOp(value: boolean): Promise<void> {
     // Add or remove the operator permission
-    if (value) this.permissions.add("serenity.operator");
-    else this.permissions.remove("serenity.operator");
+    if (value) await this.permissions.add("serenity.operator");
+    else await this.permissions.remove("serenity.operator");
 
     // Update the player's abilities
-    this.abilities.set(AbilityIndex.OperatorCommands, value);
-    this.abilities.set(AbilityIndex.Teleport, value);
+    await Promise.all([
+      this.abilities.set(AbilityIndex.OperatorCommands, value),
+      this.abilities.set(AbilityIndex.Teleport, value)
+    ]);
   }
 
   /**
@@ -219,7 +238,7 @@ class Player extends Entity {
    * @param connection The raknet connection of the player.
    * @param properties The additional properties of the player.
    */
-  public constructor(
+  protected constructor(
     dimension: Dimension,
     connection: Connection,
     properties?: Partial<PlayerProperties>
@@ -243,47 +262,72 @@ class Player extends Entity {
     // Get the player's permission level from the permissions map
     this.permissions = this.serenity.getPermissionMember(this);
     this.permissions.player = this; // Set the player instance to the permission member
+  }
+
+  /**
+   * Create a new player instance.
+   * @deprecated Use `Player.new` instead.
+   */
+  public static async create(): Promise<never> {
+    throw new Error("Use `Player.new` instead of `Player.create`.");
+  }
+
+  public static async new(
+    dimension: Dimension,
+    connection: Connection,
+    properties?: Partial<PlayerProperties>
+  ): Promise<Player> {
+    // Create a new player instance
+    const player = new Player(dimension, connection, properties);
 
     // If the player properties contains an entry, load it
     if (properties?.entry)
-      this.loadDataEntry(dimension.world, properties.entry);
+      await player.loadDataEntry(dimension.world, properties.entry);
 
     // Initialize the player
-    this.initialize();
+    await player.initialize();
+
+    return player;
   }
 
-  protected initialize(): void {
+  protected async initialize(): Promise<void> {
     // Get the traits for the player
     const traits = this.dimension.world.entityPalette.getRegistryFor(
       this.type.identifier
     );
 
     // Register the traits to the player, if they do not already exist
-    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
+    for (const trait of traits)
+      if (!this.hasTrait(trait)) await this.addTrait(trait);
 
     // Add the default abilities to the player, if they do not already exist
-    for (const [ability, value] of Object.entries(DefaultAbilityValues)) {
-      if (!this.abilities.has(+ability as AbilityIndex))
-        this.abilities.set(+ability as AbilityIndex, value);
-    }
+    await Promise.all(
+      Object.entries(DefaultAbilityValues).map(([ability, value]) => {
+        // Check if the player has the ability
+        if (!this.abilities.has(+ability as AbilityIndex)) {
+          // Set the default ability value for the player
+          return this.abilities.set(+ability as AbilityIndex, value);
+        }
+      })
+    );
   }
 
   /**
    * Send packets to the player (Normal Priority)
    * @param packets The packets to send to the player
    */
-  public send(...packets: Array<DataPacket>): void {
+  public async send(...packets: Array<DataPacket>): Promise<void> {
     // Send the packets to the player
-    this.serenity.network.sendNormal(this.connection, ...packets);
+    return this.serenity.network.sendNormal(this.connection, ...packets);
   }
 
   /**
    * Send packets to the player (Immediate Priority)
    * @param packets The packets to send to the player
    */
-  public sendImmediate(...packets: Array<DataPacket>): void {
+  public async sendImmediate(...packets: Array<DataPacket>): Promise<void> {
     // Send the packets to the player
-    this.serenity.network.sendImmediate(this.connection, ...packets);
+    return this.serenity.network.sendImmediate(this.connection, ...packets);
   }
 
   /**
@@ -292,29 +336,30 @@ class Player extends Entity {
    * @param code The disconnect reason code
    * @param hideDisconnectScreen Whether to hide the disconnect screen
    */
-  public disconnect(
+  public async disconnect(
     reason: string,
     code?: DisconnectReason,
     hideDisconnectScreen?: false
-  ): void {
+  ): Promise<void> {
     // Create a new disconnect packet with the specified reason
     const packet = new DisconnectPacket();
     packet.message = new DisconnectMessage(reason, reason);
     packet.reason = code ?? DisconnectReason.Kicked;
     packet.hideDisconnectScreen = hideDisconnectScreen ?? false;
 
-    // Send the packet to the player
-    this.sendImmediate(packet);
-
-    // Despawn the player from the world
-    this.despawn();
+    await Promise.all([
+      // Send the packet to the player
+      this.sendImmediate(packet),
+      // Despawn the player from the world
+      this.despawn()
+    ]);
   }
 
   /**
    * Sends a message to the player
    * @param message The message that will be sent.
    */
-  public sendMessage(message: string): void {
+  public async sendMessage(message: string): Promise<void> {
     // Construct the text packet.
     const packet = new TextPacket();
 
@@ -329,7 +374,7 @@ class Player extends Entity {
     packet.filtered = "";
 
     // Send the packet.
-    this.send(packet);
+    return this.send(packet);
   }
 
   /**
@@ -407,12 +452,12 @@ class Player extends Entity {
   /**
    * Spawn the player in the dimension
    */
-  public spawn(options?: Partial<EntitySpawnOptions>): this {
+  public async spawn(options?: Partial<EntitySpawnOptions>): Promise<this> {
     // Call the super method to spawn the player
-    super.spawn(options);
+    await super.spawn(options);
 
     // Update the abilities of the player
-    this.abilities.update();
+    await this.abilities.update();
 
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
@@ -441,7 +486,7 @@ class Player extends Entity {
     );
 
     // Send the available creative content to the player
-    this.send(content);
+    await this.send(content);
 
     // Return the player
     return this;
@@ -453,7 +498,11 @@ class Player extends Entity {
    * @param port The port to transfer the player to.
    * @param reload If the world should be reloaded.
    */
-  public transfer(address: string, port: number, reload = false): void {
+  public async transfer(
+    address: string,
+    port: number,
+    reload = false
+  ): Promise<void> {
     // Create a new TransferPacket
     const packet = new TransferPacket();
 
@@ -463,14 +512,14 @@ class Player extends Entity {
     packet.reloadWorld = reload;
 
     // Send the packet to the player
-    this.send(packet);
+    return this.send(packet);
   }
 
   /**
    * Shows the player profile of another player.
    * @param xuid The xuid of the player to show the profile of; default is this player.
    */
-  public showProfile(xuid?: Player | string): void {
+  public async showProfile(xuid?: Player | string): Promise<void> {
     // Create a new ShowProfilePacket
     const packet = new ShowProfilePacket();
 
@@ -480,7 +529,7 @@ class Player extends Entity {
     else packet.xuid = xuid;
 
     // Send the packet to the player
-    this.send(packet);
+    return this.send(packet);
   }
 
   /**
@@ -488,9 +537,12 @@ class Player extends Entity {
    * @param position The position to teleport the player to.
    * @param dimension The dimension to teleport the player to.
    */
-  public teleport(position: Vector3f, dimension?: Dimension): void {
+  public async teleport(
+    position: Vector3f,
+    dimension?: Dimension
+  ): Promise<void> {
     // Call the parent method to teleport the player
-    super.teleport(position, dimension);
+    await super.teleport(position, dimension);
 
     // Check if the dimension is not provided
     if (!dimension) {
@@ -510,7 +562,7 @@ class Player extends Entity {
       packet.inputTick = this.inputTick;
 
       // Send the packet to the player
-      this.send(packet);
+      return this.send(packet);
     }
   }
 
@@ -518,15 +570,16 @@ class Player extends Entity {
    * Changes the dimension of the player.
    * @param dimension The dimension to change the player to.
    */
-  public changeDimension(dimension: Dimension): void {
+  public async changeDimension(dimension: Dimension): Promise<void> {
     // Check if the dimension is the same as the current dimension
     if (this.dimension === dimension) return;
 
-    // Despawn the player from the current dimension
-    this.despawn();
-
-    // Create a new EntityDimensionChangeSignal
-    new EntityDimensionChangeSignal(this, this.dimension, dimension).emit();
+    await Promise.all([
+      // Despawn the player from the current dimension
+      this.despawn(),
+      // Create a new EntityDimensionChangeSignal
+      new EntityDimensionChangeSignal(this, this.dimension, dimension).emit()
+    ]);
 
     // Check if the dimension is the same as the current dimension
     if (this.dimension.type === dimension.type) {
@@ -534,17 +587,19 @@ class Player extends Entity {
       this.dimension = dimension;
 
       // Check if the player has the chunk rendering trait
-      if (!this.hasTrait(PlayerChunkRenderingTrait))
-        return void this.spawn({ changedDimensions: true });
+      if (!this.hasTrait(PlayerChunkRenderingTrait)) {
+        await this.spawn({ changedDimensions: true });
+        return;
+      }
 
       // Get the chunk rendering trait
-      const rendering = this.getTrait(PlayerChunkRenderingTrait);
+      const rendering = await this.getTrait(PlayerChunkRenderingTrait);
 
       // Send the player the spawn chunks
-      rendering.send(...rendering.next());
+      await rendering.send(...(await rendering.next()));
 
       // Spawn the player in the new dimension
-      return void this.spawn({ changedDimensions: true });
+      await this.spawn({ changedDimensions: true });
     } else {
       // Change the player's dimension
       this.dimension = dimension;
@@ -559,17 +614,18 @@ class Player extends Entity {
       change.hasLoadingScreen = false;
 
       // Send the packet to the player
-      this.sendImmediate(change);
+      await this.sendImmediate(change);
 
       // Check if the player has the chunk rendering trait
-      if (!this.hasTrait(PlayerChunkRenderingTrait))
-        return void this.spawn({ changedDimensions: true });
-
+      if (!this.hasTrait(PlayerChunkRenderingTrait)) {
+        await this.spawn({ changedDimensions: true });
+        return;
+      }
       // Get the chunk rendering trait
       const rendering = this.getTrait(PlayerChunkRenderingTrait);
 
       // Send the player the spawn chunks
-      return rendering.send(...rendering.next());
+      return rendering.send(...(await rendering.next()));
     }
   }
 
@@ -578,7 +634,10 @@ class Player extends Entity {
    * @param sound The name of the sound to play.
    * @param options The options for playing the sound.
    */
-  public playSound(sound: string, options?: PlaySoundOptions): void {
+  public async playSound(
+    sound: string,
+    options?: PlaySoundOptions
+  ): Promise<void> {
     // Create a new PlaySoundPacket
     const packet = new PlaySoundPacket();
 
@@ -592,14 +651,14 @@ class Player extends Entity {
     packet.pitch = options?.pitch ?? 1;
 
     // Send the packet to the player
-    this.send(packet);
+    return this.send(packet);
   }
 
   /**
    * Stops a sound that is currently playing.
    * @param sound The name of the sound to stop; default is all sounds.
    */
-  public stopSound(sound?: string): void {
+  public async stopSound(sound?: string): Promise<void> {
     // Create a new StopSoundPacket
     const packet = new StopSoundPacket();
 
@@ -609,7 +668,7 @@ class Player extends Entity {
     packet.stopMusic = false;
 
     // Send the packet to the player
-    this.send(packet);
+    return this.send(packet);
   }
 
   /**
@@ -666,13 +725,12 @@ class Player extends Entity {
    * @param entry The player entry to load
    * @param overwrite Whether to overwrite the current player data; default is true
    */
-  public loadDataEntry(
+  public async loadDataEntry(
     world: World,
     entry: PlayerEntry,
     overwrite = true
-  ): void {
-    // Call the super method to load the player data
-    super.loadDataEntry(world, entry, overwrite);
+  ): Promise<void> {
+    await super.loadDataEntry(world, entry, overwrite);
 
     try {
       // Check that the username matches the player's username
@@ -694,11 +752,14 @@ class Player extends Entity {
         );
 
       // Check if the player should overwrite the current data
-      if (overwrite) this.abilities.clear();
+      if (overwrite) await this.abilities.clear();
 
       // Add the abilities to the player
-      for (const [key, value] of entry.abilities)
-        this.abilities.set(key, value);
+      await Promise.all(
+        entry.abilities.map(([key, value]) =>
+          this.abilities.set(key as AbilityIndex, value)
+        )
+      );
     } catch {
       // Log the error to the console
       this.world.logger.error(

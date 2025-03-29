@@ -21,7 +21,7 @@ const register = (world: World) => {
           ability: AbilityEnum,
           enabled: BooleanEnum
         },
-        (context) => {
+        async (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
@@ -47,7 +47,7 @@ const register = (world: World) => {
             }
 
             // Update the ability for the entity
-            entity.abilities.set(ability, enabled);
+            await entity.abilities.set(ability, enabled);
 
             // Push the message to the array
             message.push(

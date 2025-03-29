@@ -14,11 +14,11 @@ class ItemShooterTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    */
   public chargeTick: bigint = -1n;
 
-  public onRelease(player: Player): void {
+  public async onRelease(player: Player): Promise<void> {
     // Calculate the power based on the current world tick and the charge tick
     const power = Number(player.dimension.world.currentTick - this.chargeTick);
 
-    player.sendMessage(`Power: ${power}`);
+    await player.sendMessage(`Power: ${power}`);
 
     // Reset the charge tick to -1 when the item is released
     this.chargeTick = -1n;
@@ -36,12 +36,12 @@ class ItemShooterTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     const dy = -Math.sin(pitchRad) / 2; // Adjusted for better trajectory
     const dz = Math.cos(headYawRad) * Math.cos(pitchRad);
 
-    const entity = player.dimension.spawnEntity(
+    const entity = await player.dimension.spawnEntity(
       EntityIdentifier.Arrow,
       new Vector3f(x, y + 0.75, z) // Spawn slightly above the player
     );
 
-    entity.setMotion(
+    return entity.setMotion(
       new Vector3f((dx * power) / 3, (dy * power) / 3, (dz * power) / 3)
     );
   }

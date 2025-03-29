@@ -11,10 +11,10 @@ import { PlayerChunkRenderingTrait } from "../entity";
 class RequestChunkRadiusHandler extends NetworkHandler {
   public static readonly packet = Packet.RequestChunkRadius;
 
-  public handle(
+  public async handle(
     packet: RequestChunkRadiusPacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.players.get(connection);
     if (!player) return connection.disconnect();
@@ -43,7 +43,7 @@ class RequestChunkRadiusHandler extends NetworkHandler {
     update.radius = trait.viewDistance;
 
     // Send the update to the player
-    player.sendImmediate(update);
+    return player.sendImmediate(update);
   }
 }
 

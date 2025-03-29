@@ -20,7 +20,7 @@ const register = (world: World) => {
           metadata: [IntegerEnum, true],
           amount: [IntegerEnum, true]
         },
-        (context) => {
+        async (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
@@ -42,7 +42,7 @@ const register = (world: World) => {
             const { container } = target.getTrait(EntityInventoryTrait);
 
             if (!itemResult) {
-              container.clear();
+              await container.clear();
               continue;
             }
 
@@ -59,10 +59,10 @@ const register = (world: World) => {
               const remaining = stackAmount - (itemAmount ?? 1);
 
               if (remaining < 0) {
-                container.clearSlot(Number.parseInt(slot));
+                await container.clearSlot(Number.parseInt(slot));
                 itemCount += stackAmount;
               } else {
-                itemStack.setAmount(Math.max(remaining, 0));
+                await itemStack.setAmount(Math.max(remaining, 0));
                 itemCount += Math.min(itemAmount ?? 1, stackAmount);
               }
 

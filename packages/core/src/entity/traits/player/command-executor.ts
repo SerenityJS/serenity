@@ -56,7 +56,7 @@ class PlayerCommandExecutorTrait extends PlayerTrait {
     return availableCommands;
   }
 
-  public onSpawn(): void {
+  public async onSpawn(): Promise<void> {
     // Send the available commands to the player
     return this.sendAvailableCommands();
   }
@@ -85,7 +85,7 @@ class PlayerCommandExecutorTrait extends PlayerTrait {
   /**
    * Send the available commands to the player.
    */
-  public sendAvailableCommands(): void {
+  public async sendAvailableCommands(): Promise<void> {
     // Create a new AvailableCommandsPacket instance
     const packet = new AvailableCommandsPacket();
 
@@ -152,7 +152,7 @@ class PlayerCommandExecutorTrait extends PlayerTrait {
     packet.postFixes = [];
 
     // Send the packet to the player
-    this.player.send(packet);
+    return this.player.send(packet);
   }
 }
 

@@ -151,12 +151,12 @@ class World extends Emitter<WorldEventSignals> {
    * Ticks the world with a given delta tick.
    * @param deltaTick The delta tick to tick the world with.
    */
-  public onTick(deltaTick: number): void {
+  public async onTick(deltaTick: number): Promise<void> {
     // Check if there are no players in the world
     if (this.getPlayers().length === 0) return;
 
     // Create a new WorldTickSignal
-    const signal = new WorldTickSignal(
+    const signal = await new WorldTickSignal(
       this.currentTick,
       BigInt(deltaTick),
       this
@@ -171,18 +171,20 @@ class World extends Emitter<WorldEventSignals> {
       this.dayTime = (this.dayTime + 1) % 24_000;
 
     // Attempt to tick each dimension
-    for (const dimension of this.dimensions.values()) {
-      try {
-        // Tick the dimension with the delta tick
-        dimension.onTick(deltaTick);
-      } catch (reason) {
-        // Log that the dimension failed to tick
-        this.logger.error(
-          `Failed to tick dimension ${dimension.identifier}`,
-          reason
-        );
-      }
-    }
+    await Promise.allSettled(
+      this.dimensions.values().map(async (dimension) => {
+        try {
+          // Tick the dimension with the delta tick
+          await dimension.onTick(deltaTick);
+        } catch (reason) {
+          // Log that the dimension failed to tick
+          this.logger.error(
+            `Failed to tick dimension ${dimension.identifier}`,
+            reason
+          );
+        }
+      })
+    );
 
     // Check if the current tick is divisible by 500 (25 seconds)
     // When want to sync the dayTime with the client, as stress could cause de-sync
@@ -192,7 +194,7 @@ class World extends Emitter<WorldEventSignals> {
       packet.time = this.dayTime;
 
       // Broadcast the time packet to all players
-      this.broadcast(packet);
+      await this.broadcast(packet);
     }
 
     // Check if the current tick is divisible by the save interval (in minutes)
@@ -201,7 +203,7 @@ class World extends Emitter<WorldEventSignals> {
       this.currentTick % (BigInt(this.properties.saveInterval) * 1200n) === 0n
     ) {
       // Save the world via the provider
-      this.provider.onSave();
+      await this.provider.onSave();
     }
   }
 
@@ -248,7 +250,7 @@ class World extends Emitter<WorldEventSignals> {
    * Broadcasts a message to all players in the world.
    * @param message The message to broadcast.
    */
-  public sendMessage(message: string): void {
+  public async sendMessage(message: string): Promise<void> {
     // Construct the text packet.
     const packet = new TextPacket();
 
@@ -262,7 +264,7 @@ class World extends Emitter<WorldEventSignals> {
     packet.platformChatId = "";
     packet.filtered = message;
 
-    this.broadcast(packet);
+    await this.broadcast(packet);
   }
 
   /**
@@ -341,8 +343,10 @@ class World extends Emitter<WorldEventSignals> {
    * Sends a packet to all players in the world.
    * @param packets
    */
-  public broadcast(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.send(...packets);
+  public async broadcast(...packets: Array<DataPacket>): Promise<void> {
+    await Promise.all(
+      this.getPlayers().map((player) => player.send(...packets))
+    );
   }
 
   /**
@@ -350,8 +354,12 @@ class World extends Emitter<WorldEventSignals> {
    * This will bypass the RakNet queue and send the packet immediately.
    * @param packets The packets to send.
    */
-  public broadcastImmediate(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.sendImmediate(...packets);
+  public async broadcastImmediate(
+    ...packets: Array<DataPacket>
+  ): Promise<void> {
+    await Promise.all(
+      this.getPlayers().map((player) => player.sendImmediate(...packets))
+    );
   }
 
   /**
@@ -359,16 +367,22 @@ class World extends Emitter<WorldEventSignals> {
    * @param player The player to exclude from the broadcast.
    * @param packets The packets to send.
    */
-  public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
-    for (const other of this.getPlayers())
-      if (other !== player) other.send(...packets);
+  public async broadcastExcept(
+    player: Player,
+    ...packets: Array<DataPacket>
+  ): Promise<void> {
+    await Promise.all(
+      this.getPlayers()
+        .filter((other) => other !== player)
+        .map((other) => other.send(...packets))
+    );
   }
 
   /**
    * Sets the current time of day for the world.
    * @param time The time of day to set.
    */
-  public setTimeOfDay(time: number | TimeOfDay): void {
+  public async setTimeOfDay(time: number | TimeOfDay): Promise<void> {
     // Normalize the time to be between 0 and 24000
     this.dayTime = time % 24000;
 
@@ -379,7 +393,7 @@ class World extends Emitter<WorldEventSignals> {
     packet.time = this.dayTime;
 
     // Broadcast the packet to all players
-    this.broadcast(packet);
+    await this.broadcast(packet);
   }
 
   /**
@@ -410,7 +424,7 @@ class World extends Emitter<WorldEventSignals> {
    * Sets the default gamemode for the world.
    * @param gamemode The gamemode to set.
    */
-  public setDefaultGamemode(gamemode: Gamemode): void {
+  public async setDefaultGamemode(gamemode: Gamemode): Promise<void> {
     switch (gamemode) {
       case Gamemode.Survival:
         this.properties.gamemode = "survival";
@@ -434,7 +448,7 @@ class World extends Emitter<WorldEventSignals> {
     packet.gamemode = gamemode;
 
     // Broadcast the packet to all players
-    this.broadcast(packet);
+    await this.broadcast(packet);
   }
 
   /**
@@ -464,7 +478,7 @@ class World extends Emitter<WorldEventSignals> {
    * Set the current difficulty of the world.
    * @param difficulty The difficulty to set.
    */
-  public setDifficulty(difficulty: Difficulty): void {
+  public async setDifficulty(difficulty: Difficulty): Promise<void> {
     switch (difficulty) {
       case Difficulty.Peaceful:
         this.properties.difficulty = "peaceful";
@@ -488,7 +502,7 @@ class World extends Emitter<WorldEventSignals> {
     packet.difficulty = difficulty;
 
     // Broadcast the packet to all players
-    this.broadcast(packet);
+    await this.broadcast(packet);
   }
 }
 

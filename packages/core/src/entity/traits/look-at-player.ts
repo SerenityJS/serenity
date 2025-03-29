@@ -39,7 +39,7 @@ class EntityLookAtPlayerTrait extends EntityTrait {
     this.headTiltOffset = options?.headTiltOffset ?? this.headTiltOffset;
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the current tick is even.
     const currentTick = this.entity.world.currentTick;
     if (currentTick % 2n !== 0n) return;

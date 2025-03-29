@@ -6,7 +6,10 @@ import { NetworkHandler } from "../network";
 class RespawnHandler extends NetworkHandler {
   public static readonly packet = Packet.Respawn;
 
-  public handle(packet: RespawnPacket, connection: Connection): void {
+  public async handle(
+    packet: RespawnPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player by the connection
     const player = this.serenity.players.get(connection);
     if (!player) return connection.disconnect();
@@ -15,7 +18,7 @@ class RespawnHandler extends NetworkHandler {
     packet.state = RespawnState.ServerReadyToSpawn;
 
     // Send the packet to the player
-    player.send(packet);
+    return player.send(packet);
   }
 }
 

@@ -17,7 +17,7 @@ const register = (world: World) => {
         {
           position: PositionEnum
         },
-        (context) => {
+        async (context) => {
           // Get the origin from the context
           const origin = context.origin;
 
@@ -31,7 +31,7 @@ const register = (world: World) => {
           const position = context.position.result as Vector3f;
 
           // Teleport the entity to the new location
-          origin.teleport(position);
+          await origin.teleport(position);
         }
       );
 
@@ -40,7 +40,7 @@ const register = (world: World) => {
           target: TargetEnum,
           destination: TargetEnum
         },
-        (context) => {
+        async (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
@@ -57,7 +57,7 @@ const register = (world: World) => {
           // Loop through all the targets
           for (const target of targets) {
             // Teleport the entity to the new location
-            target.teleport(position);
+            await target.teleport(position);
           }
         }
       );
@@ -68,7 +68,7 @@ const register = (world: World) => {
           target: TargetEnum,
           position: PositionEnum
         },
-        (context) => {
+        async (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
@@ -78,7 +78,7 @@ const register = (world: World) => {
           // Loop through all the targets
           for (const target of targets) {
             // Teleport the entity to the new location
-            target.teleport(position);
+            await target.teleport(position);
           }
         }
       );

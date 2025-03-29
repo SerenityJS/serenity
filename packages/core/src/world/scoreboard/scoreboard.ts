@@ -109,10 +109,10 @@ class Scoreboard {
    * @param options The options to set the objective with.
    * @returns The objective that was set.
    */
-  public setObjectiveAtDisplaySlot(
+  public async setObjectiveAtDisplaySlot(
     slot: DisplaySlotType,
     options: ScoreboardObjectiveDisplayOptions
-  ): ScoreboardObjective {
+  ): Promise<ScoreboardObjective> {
     // Seperate the options into objective, sortOrder, and player
     const { objective, sortOrder, player } = options;
 
@@ -140,9 +140,9 @@ class Scoreboard {
 
     // Send the display and scores to the player if specified, otherwise broadcast it to the world
     if (player) {
-      player.send(display, scores);
+      await player.send(display, scores);
     } else {
-      this.world.broadcast(display, scores);
+      await this.world.broadcast(display, scores);
     }
     // Set the objective at the display slot
     this.slots.set(slot, objective);
@@ -157,10 +157,10 @@ class Scoreboard {
    * @param options The options to clear the objective with.
    * @returns The objective that was cleared.
    */
-  public clearObjectiveAtDisplaySlot(
+  public async clearObjectiveAtDisplaySlot(
     slot: DisplaySlotType,
     options?: ScoreboardObjectiveDisplayOptions
-  ): ScoreboardObjective | undefined {
+  ): Promise<ScoreboardObjective | undefined> {
     // Get the objective at the display slot
     const objective = this.slots.get(slot);
 
@@ -173,10 +173,10 @@ class Scoreboard {
 
     if (options?.player) {
       // Send the packet to the player
-      options.player.send(packet);
+      await options.player.send(packet);
     } else {
       // Broadcast the packet to the world
-      this.world.broadcast(packet);
+      await this.world.broadcast(packet);
 
       // Delete the objective from the display slot
       this.slots.delete(slot);

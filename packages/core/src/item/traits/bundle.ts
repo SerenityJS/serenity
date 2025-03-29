@@ -58,7 +58,8 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       const tag = new IntTag({ name: "bundle_id", value: id });
 
       // Set the bundle id nbt.
-      item.nbt.set("bundle_id", tag);
+      // FIXME: this should be avoided.
+      void item.nbt.set("bundle_id", tag);
     } else {
       // Get the bundle id.
       const id = item.dynamicProperties.get("dynamic_container") as number;
@@ -67,7 +68,8 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       const tag = new IntTag({ name: "bundle_id", value: id });
 
       // Set the bundle id nbt.
-      item.nbt.set("bundle_id", tag);
+      // FIXME: this should be avoided.
+      void item.nbt.set("bundle_id", tag);
     }
 
     // Create a new container.
@@ -90,8 +92,16 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
 
   /**
    * Sets the bundle id of the item.
+   * @deprecated Use setDynamicId instead. Errors will not propagate.
    */
   public set dynamicId(id: number) {
+    void this.setDynamicId(id);
+  }
+
+  /**
+   * Sets the bundle id of the item.
+   */
+  public async setDynamicId(id: number): Promise<void> {
     // Set the bundle id.
     this.item.dynamicProperties.set("dynamic_container", id);
 
@@ -99,7 +109,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     const tag = new IntTag({ name: "bundle_id", value: id });
 
     // Set the bundle id nbt.
-    this.item.nbt.set("bundle_id", tag);
+    await this.item.nbt.set("bundle_id", tag);
   }
 
   public onContainerOpen(player: Player): void {
@@ -112,7 +122,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     this.container.occupants.delete(player);
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Get the current tick of the world.
     const currentTick = this.item.world.currentTick;
 
@@ -147,7 +157,11 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     }
 
     // Send the packet to the occupants of the container.
-    for (const occupant of this.container.occupants) occupant.send(packet);
+    await Promise.all(
+      this.container.occupants
+        .values()
+        .map(async (occupant) => occupant.send(packet))
+    );
   }
 }
 

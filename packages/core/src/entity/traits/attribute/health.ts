@@ -18,14 +18,14 @@ class EntityHealthTrait extends EntityAttributeTrait {
 
   public readonly attribute = AttributeName.Health;
 
-  public applyDamage(
+  public async applyDamage(
     amount: number,
     damager?: Entity,
     cause?: ActorDamageCause
-  ): void {
+  ): Promise<void> {
     const signal = new EntityHurtSignal(this.entity, amount, cause, damager);
 
-    if (!signal.emit()) return;
+    if (!(await signal.emit())) return;
     // Calculate the new health value
     this.currentValue -= amount;
 
@@ -36,17 +36,17 @@ class EntityHealthTrait extends EntityAttributeTrait {
     packet.data = cause ?? ActorDamageCause.None;
 
     // Broadcast the packet to all players
-    this.entity.dimension.broadcast(packet);
+    await this.entity.dimension.broadcast(packet);
 
     // Check if the health is less than or equal to 0
     // If so, the entity is dead
     if (this.currentValue <= 0)
-      this.entity.kill({ killerSource: damager, damageCause: cause });
+      await this.entity.kill({ killerSource: damager, damageCause: cause });
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Call the super method
-    super.onAdd({
+    return super.onAdd({
       minimumValue: 0,
       maximumValue: 20,
       defaultValue: 20,

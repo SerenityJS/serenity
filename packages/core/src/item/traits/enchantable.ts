@@ -62,7 +62,7 @@ class ItemEnchantableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    * @param id The enchantment id.
    * @param level The enchantment level.
    */
-  public addEnchantment(id: Enchantment, level: number): void {
+  public async addEnchantment(id: Enchantment, level: number): Promise<void> {
     // Get the enchantment list tag from the item stack's NBT
     const ench =
       this.item.nbt.get<ListTag<CompoundTag<EnchantmentValue>>>("ench");
@@ -81,7 +81,7 @@ class ItemEnchantableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     }
 
     // Set the nbt's enchantment list tag
-    this.item.nbt.set("ench", ench);
+    await this.item.nbt.set("ench", ench);
   }
 
   /**
@@ -92,7 +92,7 @@ class ItemEnchantableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     return this.item.nbt.get<ListTag<CompoundTag<EnchantmentValue>>>("ench");
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the item has the enchantment list tag
     if (!this.item.nbt.has("ench")) {
       // Create the enchantment list tag
@@ -103,13 +103,13 @@ class ItemEnchantableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       });
 
       // Add the enchantment list tag to the item stack's NBT
-      this.item.nbt.add(ench);
+      await this.item.nbt.add(ench);
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Remove the enchantment list tag from the item stack's NBT
-    this.item.nbt.delete("ench");
+    await this.item.nbt.delete("ench");
   }
 }
 

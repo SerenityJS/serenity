@@ -7,7 +7,10 @@ import { PlayerStartEmotingSignal, PlayerStopEmotingSignal } from "../events";
 class EmoteHandler extends NetworkHandler {
   public static readonly packet = Packet.Emote;
 
-  public handle(packet: EmotePacket, connection: Connection): void {
+  public async handle(
+    packet: EmotePacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -16,7 +19,7 @@ class EmoteHandler extends NetworkHandler {
     const dimension = player.dimension;
 
     // Create a new PlayerStartEmotingSignal
-    const signal = new PlayerStartEmotingSignal(
+    const signal = await new PlayerStartEmotingSignal(
       player,
       packet.emoteId,
       packet.tickLength
@@ -26,19 +29,19 @@ class EmoteHandler extends NetworkHandler {
     if (!signal) return;
 
     // Set the player's emote flag
-    player.flags.set(ActorFlag.Emoting, true);
+    await player.flags.set(ActorFlag.Emoting, true);
 
     // Schedule the emote to stop after the tick length
-    dimension.schedule(packet.tickLength).on(() => {
+    dimension.schedule(packet.tickLength).on(async () => {
       // Create a new PlayerStopEmotingSignal
-      new PlayerStopEmotingSignal(player, packet.emoteId).emit();
+      await new PlayerStopEmotingSignal(player, packet.emoteId).emit();
 
       // Clear the player's emote flag
-      player.flags.set(ActorFlag.Emoting, false);
+      await player.flags.set(ActorFlag.Emoting, false);
     });
 
     // Broadcast the emote to all players in the dimension
-    dimension.broadcastExcept(player, packet);
+    return dimension.broadcastExcept(player, packet);
   }
 }
 

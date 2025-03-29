@@ -9,10 +9,10 @@ import { CommandBlockBlock } from "../types";
 class CommandBlockUpdateHandler extends NetworkHandler {
   public static readonly packet = Packet.CommandBlockUpdate;
 
-  public handle(
+  public async handle(
     packet: CommandBlockUpdatePacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -22,16 +22,18 @@ class CommandBlockUpdateHandler extends NetworkHandler {
 
     if (packet.settings) {
       // Get the block at the position provided by the packet
-      const block = player.dimension.getBlock(packet.settings.position);
+      const block = await player.dimension.getBlock(packet.settings.position);
 
       // Get the command block trait from the block
       const trait = block.getTrait(BlockCommandBlockTrait);
       if (!trait) return;
 
       // Set the command block settings
-      trait.setCommand(packet.command);
-      trait.setTickDelay(packet.tickDelay);
-      trait.setAlwaysActive(!packet.settings.redstoneMode);
+      await Promise.all([
+        trait.setCommand(packet.command),
+        trait.setTickDelay(packet.tickDelay),
+        trait.setAlwaysActive(!packet.settings.redstoneMode)
+      ]);
 
       // Switch the command mode
       switch (packet.settings.commandMode) {

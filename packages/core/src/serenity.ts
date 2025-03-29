@@ -232,7 +232,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * Starts the server and begins listening for incoming connections
    */
-  public start(): void {
+  public async start(): Promise<void> {
     // Start the raknet server
     this.network.raknet.start(false);
 
@@ -241,95 +241,113 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Create a ticking loop that will run every 50ms
     const tick = () => {
-      // Check if the server is still alive
-      if (this.state === ServerState.ShuttingDown && this.schedules.size <= 0) {
-        // Stop the raknet server
-        this.network.raknet.stop();
+      (async () => {
+        // Check if the server is still alive
+        if (
+          this.state === ServerState.ShuttingDown &&
+          this.schedules.size <= 0
+        ) {
+          // Stop the raknet server
+          this.network.raknet.stop();
 
-        // Log that the server has shutdown successfully
-        this.logger.info(`Server has shutdown successfully.`);
+          // Log that the server has shutdown successfully
+          this.logger.info(`Server has shutdown successfully.`);
 
-        // Stop the ticking loop, and set the server state as stopped
-        return void (this.state = ServerState.Stopped);
-      }
-
-      // Set the server state as running if it is not already
-      if (this.state !== ServerState.Running) this.state = ServerState.Running;
-
-      // Get the current time
-      const [seconds, nanoseconds] = process.hrtime(lastTick);
-      const delta = seconds + nanoseconds / 1e9;
-
-      // Check if the server should tick
-      if (delta < 0.01) return setTimeout(tick, 0);
-
-      // Check if the server should tick the raknet connections
-      if (delta >= 1 / RAKNET_TPS) {
-        // Iterate over all the connections and tick the connection
-        for (const connection of this.network.raknet.connections)
-          connection.tick();
-      }
-
-      // Check if the server should tick
-      if (delta >= 1 / this.properties.ticksPerSecond) {
-        // Set the last tick to the current time
-        lastTick = process.hrtime();
-
-        // Calculate the delta time
-        const deltaTick = delta * 1000;
-
-        // Calculate the server tps
-        this.ticks.push(Date.now());
-        const threshold = Date.now() - 1000;
-        this.ticks = this.ticks.filter((tick) => tick > threshold);
-        this.tps = this.ticks.length;
-
-        // Iterate over all the worlds and tick the world
-        // Catching any errors that occur during the tick
-        for (const [identifier, world] of this.worlds)
-          try {
-            world.onTick(Math.floor(deltaTick));
-          } catch (reason) {
-            // Log the error if the world failed to tick
-            this.logger.error(`Failed to tick world: ${identifier}`, reason);
-          }
-
-        // Check if there are any schedules to execute
-        if (this.schedules.size > 0) {
-          // Iterate over the schedules
-          for (const schedule of this.schedules) {
-            // Check if the schedule is complete
-            if (this.currentTick >= schedule.completeTick) {
-              // Execute the schedule
-              try {
-                schedule.execute();
-              } catch (reason) {
-                // Log the error if the schedule failed to execute
-                this.logger.error(
-                  `Failed to execute schedule for at tick ${schedule.completeTick}`,
-                  reason
-                );
-              }
-
-              // Delete the schedule
-              this.schedules.delete(schedule);
-            }
-          }
+          // Stop the ticking loop, and set the server state as stopped
+          return void (this.state = ServerState.Stopped);
         }
 
-        // Increment the current tick
-        this.currentTick++;
-      }
+        // Set the server state as running if it is not already
+        if (this.state !== ServerState.Running)
+          this.state = ServerState.Running;
 
-      // Schedule the next tick
-      return queueMicrotask(tick);
+        // Get the current time
+        const [seconds, nanoseconds] = process.hrtime(lastTick);
+        const delta = seconds + nanoseconds / 1e9;
+
+        // Check if the server should tick
+        if (delta < 0.01) return setTimeout(tick, 0);
+
+        // Check if the server should tick the raknet connections
+        if (delta >= 1 / RAKNET_TPS) {
+          // Iterate over all the connections and tick the connection
+          for (const connection of this.network.raknet.connections)
+            connection.tick();
+        }
+
+        // Check if the server should tick
+        if (delta >= 1 / this.properties.ticksPerSecond) {
+          // Set the last tick to the current time
+          lastTick = process.hrtime();
+
+          // Calculate the delta time
+          const deltaTick = delta * 1000;
+
+          // Calculate the server tps
+          this.ticks.push(Date.now());
+          const threshold = Date.now() - 1000;
+          this.ticks = this.ticks.filter((tick) => tick > threshold);
+          this.tps = this.ticks.length;
+
+          // Iterate over all the worlds and tick the world
+          // Catching any errors that occur during the tick
+          await Promise.allSettled(
+            Array.from(this.worlds.entries()).map(
+              async ([identifier, world]) => {
+                // Call the onTick method of the world
+                try {
+                  await world.onTick(Math.floor(deltaTick));
+                } catch (reason) {
+                  this.logger.error(
+                    `Failed to tick world: ${identifier}`,
+                    reason
+                  );
+                }
+              }
+            )
+          );
+
+          // Check if there are any schedules to execute
+          if (this.schedules.size > 0) {
+            // Iterate over the schedules
+            await Promise.allSettled(
+              Array.from(this.schedules.values()).map(async (schedule) => {
+                // Check if the schedule is complete
+                if (this.currentTick < schedule.completeTick) return;
+
+                // Execute the schedule
+                try {
+                  await schedule.execute();
+                } catch (reason) {
+                  this.logger.error(
+                    `Failed to execute schedule for at tick ${schedule.completeTick}`,
+                    reason
+                  );
+                }
+
+                // FIXME: does this need to happen finally after the awaited task?
+                this.schedules.delete(schedule);
+              })
+            );
+          }
+
+          // Increment the current tick
+          this.currentTick++;
+        }
+
+        // Schedule the next tick
+        return queueMicrotask(tick);
+      })().catch((reason) => {
+        // Log the error if the tick failed
+        this.logger.error("Failed to tick server", reason);
+      });
     };
 
     // Start the ticking loop
     tick();
 
     // Emit the server startup event
-    this.emit(ServerEvent.Start, 0 as never);
+    await this.emit(ServerEvent.Start, 0 as never);
 
     // Log that the server is now running
     this.logger.info(
@@ -340,30 +358,37 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * Stops the server and closes all connections
    */
-  public stop(): void {
+  public async stop(): Promise<void> {
     // Close the console interface
     this.console.interface.close();
 
     // Emit the server shutdown event
-    this.emit(ServerEvent.Stop, 0 as never);
+    await this.emit(ServerEvent.Stop, 0 as never);
 
     // Set the server state as shutting
     this.state = ServerState.ShuttingDown;
 
     // Disconnect all players
-    for (const player of this.players.values()) {
-      // Write the player data to the world provider
-      player.world.provider.writePlayer(
-        player.getDataEntry(),
-        player.dimension
-      );
+    await Promise.allSettled(
+      this.players.values().map((player) => {
+        // Write the player data to the world provider
+        player.world.provider.writePlayer(
+          player.getDataEntry(),
+          player.dimension
+        );
 
-      // Disconnect the player from the server
-      player.disconnect("Server closed.", DisconnectReason.Shutdown);
-    }
+        // Disconnect the player from the server
+        return player.disconnect("Server closed.", DisconnectReason.Shutdown);
+      })
+    );
 
     // Shutdown all world providers
-    for (const world of this.worlds.values()) world.provider.onShutdown();
+    await Promise.all(
+      this.worlds.values().map((world) => {
+        // Call the onShutdown method of the world provider
+        return world.provider.onShutdown();
+      })
+    );
 
     // Write the permissions to the permissions path
     if (typeof this.properties.permissions === "string")
@@ -384,10 +409,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * @param properties The properties to use for the provider
    * @returns Whether the provider was successfully registered or not
    */
-  public registerProvider(
+  public async registerProvider(
     provider: typeof WorldProvider,
     properties?: Partial<WorldProviderProperties>
-  ): boolean {
+  ): Promise<boolean> {
     // Check if the provider is already registered
     if (this.providers.has(provider)) {
       // Log that the provider is already registered
@@ -400,7 +425,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Attempt to initialize the provider, catch any errors
     try {
       // Initialize the provider
-      provider.initialize(this, {
+      await provider.initialize(this, {
         ...DefaultWorldProviderProperties,
         ...properties
       });
@@ -460,10 +485,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * @param properties The properties to use for the world
    * @returns The created world, if successful; otherwise, false
    */
-  public createWorld(
+  public async createWorld(
     provider: typeof WorldProvider,
     properties?: Partial<WorldProperties>
-  ): World | false {
+  ): Promise<World | false> {
     // Get the provider properties from the registered providers
     const providerProperties = this.providers.get(provider);
 
@@ -479,10 +504,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     }
 
     // Create a new world using the provider
-    const world = provider.create(this, providerProperties, properties);
+    const world = await provider.create(this, providerProperties, properties);
 
     // Register the world with the server
-    this.registerWorld(world);
+    await this.registerWorld(world);
 
     // Return the created world
     return world;
@@ -509,7 +534,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     return [...this.worlds.values()];
   }
 
-  public registerWorld(world: World): boolean {
+  public async registerWorld(world: World): Promise<boolean> {
     // Check if the world is already registered
     if (this.worlds.has(world.identifier)) {
       // Log that the world is already registered
@@ -526,7 +551,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     this.logger.debug(`Registered world: ${world.identifier}`);
 
     // Call the onStartup method of the world provider
-    world.provider.onStartup();
+    await world.provider.onStartup();
 
     // Add the world to the worlds enum
     WorldEnum.options.push(world.identifier);

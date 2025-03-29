@@ -104,14 +104,17 @@ class EntityEquipmentTrait extends EntityTrait {
    * @param slot The equipment slot to set the item stack to.
    * @param itemStack The item stack to set to the equipment slot.
    */
-  public setEqupment(slot: EquipmentSlot, itemStack: ItemStack): void {
+  public async setEqupment(
+    slot: EquipmentSlot,
+    itemStack: ItemStack
+  ): Promise<void> {
     // Check if the slot is the head slot
     if (slot === EquipmentSlot.Offhand)
       // Set the item stack to the offhand container
       return this.offhand.setItem(0, itemStack);
 
     // Set the item stack to the armor container
-    this.armor.setItem(slot, itemStack);
+    return this.armor.setItem(slot, itemStack);
   }
 
   /**
@@ -134,7 +137,10 @@ class EntityEquipmentTrait extends EntityTrait {
    * @param slot The slot of the item stack in the inventory.
    * @param equipmentSlot The equipment slot to swap the item stack to.
    */
-  public swapFromInventory(slot: number, equipmentSlot: EquipmentSlot): void {
+  public async swapFromInventory(
+    slot: number,
+    equipmentSlot: EquipmentSlot
+  ): Promise<void> {
     // Get the inventory trait of the entity
     const inventory = this.entity.getTrait(EntityInventoryTrait);
 
@@ -152,7 +158,7 @@ class EntityEquipmentTrait extends EntityTrait {
       return inventory.container.swapItems(slot, equipmentSlot, this.offhand);
 
     // Swap the item stack from the inventory to the equipment slot
-    inventory.container.swapItems(slot, equipmentSlot, this.armor);
+    return inventory.container.swapItems(slot, equipmentSlot, this.armor);
   }
 
   /**
@@ -210,7 +216,7 @@ class EntityEquipmentTrait extends EntityTrait {
     return protection;
   }
 
-  public onContainerUpdate(container: Container): void {
+  public async onContainerUpdate(container: Container): Promise<void> {
     // Check if the container is not the armor or offhand container
     if (container !== this.armor && container !== this.offhand) return;
 
@@ -238,17 +244,23 @@ class EntityEquipmentTrait extends EntityTrait {
     // Create a new MobArmorEquipmentPacket, and assign the equipment properties
     const packet = new MobArmorEquipmentPacket();
     packet.runtimeId = this.entity.runtimeId;
-    packet.helmet = ItemStack.toNetworkStack(head ?? ItemStack.empty());
-    packet.chestplate = ItemStack.toNetworkStack(chest ?? ItemStack.empty());
-    packet.leggings = ItemStack.toNetworkStack(legs ?? ItemStack.empty());
-    packet.boots = ItemStack.toNetworkStack(feet ?? ItemStack.empty());
-    packet.body = ItemStack.toNetworkStack(offhand ?? ItemStack.empty());
+    packet.helmet = ItemStack.toNetworkStack(head ?? (await ItemStack.empty()));
+    packet.chestplate = ItemStack.toNetworkStack(
+      chest ?? (await ItemStack.empty())
+    );
+    packet.leggings = ItemStack.toNetworkStack(
+      legs ?? (await ItemStack.empty())
+    );
+    packet.boots = ItemStack.toNetworkStack(feet ?? (await ItemStack.empty()));
+    packet.body = ItemStack.toNetworkStack(
+      offhand ?? (await ItemStack.empty())
+    );
 
     // Broadcast the packet to the dimension of the entity
-    this.entity.dimension.broadcast(packet);
+    return this.entity.dimension.broadcast(packet);
   }
 
-  public onSpawn(): void {
+  public async onSpawn(): Promise<void> {
     // Get the equipment properties
     // Clone the properties to avoid reference issues
     const properties = { ...this.properties };
@@ -259,7 +271,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = ItemStack.fromDataEntry(properties.head);
 
       // Set the item stack to the head equipment slot
-      this.setEqupment(EquipmentSlot.Head, itemStack);
+      await this.setEqupment(EquipmentSlot.Head, itemStack);
     }
 
     // Check if a chest item is defined
@@ -268,7 +280,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = ItemStack.fromDataEntry(properties.chest);
 
       // Set the item stack to the chest equipment slot
-      this.setEqupment(EquipmentSlot.Chest, itemStack);
+      await this.setEqupment(EquipmentSlot.Chest, itemStack);
     }
 
     // Check if a legs item is defined
@@ -277,7 +289,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = ItemStack.fromDataEntry(properties.legs);
 
       // Set the item stack to the legs equipment slot
-      this.setEqupment(EquipmentSlot.Legs, itemStack);
+      await this.setEqupment(EquipmentSlot.Legs, itemStack);
     }
 
     // Check if a feet item is defined
@@ -286,7 +298,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = ItemStack.fromDataEntry(properties.feet);
 
       // Set the item stack to the feet equipment slot
-      this.setEqupment(EquipmentSlot.Feet, itemStack);
+      await this.setEqupment(EquipmentSlot.Feet, itemStack);
     }
 
     // Check if an offhand item is defined
@@ -295,7 +307,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = ItemStack.fromDataEntry(properties.offhand);
 
       // Set the item stack to the offhand equipment slot
-      this.setEqupment(EquipmentSlot.Offhand, itemStack);
+      await this.setEqupment(EquipmentSlot.Offhand, itemStack);
     }
   }
 
@@ -304,40 +316,47 @@ class EntityEquipmentTrait extends EntityTrait {
     this.entity.removeDynamicProperty(this.identifier);
   }
 
-  public onDeath(): void {
+  public async onDeath(): Promise<void> {
     // Check if the entity is a player, and the keep inventory gamerule is enabled
     if (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
       return;
 
-    // Iterate over the armor container slots
-    for (let slot = 0; slot < this.armor.size; slot++) {
-      // Get the item stack from the armor container
-      const itemStack = this.armor.getItem(slot);
+    await Promise.all(
+      [
+        // Iterate over the armor container slots
+        Array.from({ length: this.armor.size }, async (_, slot) => {
+          // Get the item stack from the armor container
+          const itemStack = this.armor.getItem(slot);
 
-      // Check if the item stack is null
-      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+          // Check if the item stack is null
+          if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) return;
 
-      // Drop the item stack from the armor container
-      this.entity.dimension.spawnItem(itemStack, this.entity.position);
+          return Promise.all([
+            // Drop the item stack from the armor container
+            this.entity.dimension.spawnItem(itemStack, this.entity.position),
 
-      // Clear the item stack from the armor container
-      this.armor.clearSlot(slot);
-    }
+            // Clear the item stack from the armor container
+            this.armor.clearSlot(slot)
+          ]);
+        }),
+        // Iterate over the offhand container slots
+        Array.from({ length: this.offhand.size }, async (_, slot) => {
+          // Get the item stack from the offhand container
+          const itemStack = this.offhand.getItem(slot);
 
-    // Iterate over the offhand container slots
-    for (let slot = 0; slot < this.offhand.size; slot++) {
-      // Get the item stack from the offhand container
-      const itemStack = this.offhand.getItem(slot);
+          // Check if the item stack is null
+          if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) return;
 
-      // Check if the item stack is null
-      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+          return Promise.all([
+            // Drop the item stack from the offhand container
+            this.entity.dimension.spawnItem(itemStack, this.entity.position),
 
-      // Drop the item stack from the offhand container
-      this.entity.dimension.spawnItem(itemStack, this.entity.position);
-
-      // Clear the item stack from the offhand container
-      this.offhand.clearSlot(slot);
-    }
+            // Clear the item stack from the offhand container
+            this.offhand.clearSlot(slot)
+          ]);
+        })
+      ].flat()
+    );
   }
 }
 

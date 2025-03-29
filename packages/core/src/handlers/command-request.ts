@@ -67,12 +67,16 @@ class CommandRequestHandler extends NetworkHandler {
       );
 
       // Send the result message to the player, if any.
-      if (result.message) player.sendMessage(`§7${result.message}§r`);
+      if (result.message) await player.sendMessage(`§7${result.message}§r`);
     } catch (reason) {
       if (reason instanceof TypeError) {
-        player.sendMessage(`§cType Error: ${(reason as Error).message}§r`);
+        await player.sendMessage(
+          `§cType Error: ${(reason as Error).message}§r`
+        );
       } else {
-        player.sendMessage(`§cSyntax Error: ${(reason as Error).message}§r`);
+        await player.sendMessage(
+          `§cSyntax Error: ${(reason as Error).message}§r`
+        );
       }
     }
   }

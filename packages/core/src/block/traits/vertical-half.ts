@@ -6,13 +6,16 @@ class VerticalHalfTrait extends BlockTrait {
   public static readonly identifier = "vertical_half";
   public static readonly state = "minecraft:vertical_half";
 
-  public onPlace({ origin, clickedPosition }: BlockPlacementOptions): void {
+  public async onPlace({
+    origin,
+    clickedPosition
+  }: BlockPlacementOptions): Promise<void> {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer() || !clickedPosition) return;
 
     // Check if the click position is above the center of the block
     if (clickedPosition.y > 0.5 && clickedPosition.y < 0.99)
-      this.setVerticalHalf(true);
+      await this.setVerticalHalf(true);
   }
 
   public onInteract({ origin }: BlockInteractionOptions): boolean {
@@ -34,7 +37,7 @@ class VerticalHalfTrait extends BlockTrait {
     return false;
   }
 
-  public setVerticalHalf(topBit: boolean): void {
+  public async setVerticalHalf(topBit: boolean): Promise<void> {
     // Get the block type
     const type = this.block.type;
 
@@ -51,7 +54,7 @@ class VerticalHalfTrait extends BlockTrait {
     const permutation = type.getPermutation(newState);
 
     // Set the permutation of the block
-    if (permutation) this.block.setPermutation(permutation);
+    if (permutation) await this.block.setPermutation(permutation);
   }
 }
 

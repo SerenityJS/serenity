@@ -6,7 +6,10 @@ class BlockUpsideDownBitTrait extends BlockTrait {
   public static readonly identifier = "upside_down_bit";
   public static readonly state = "upside_down_bit";
 
-  public onPlace({ origin, clickedPosition }: BlockPlacementOptions): void {
+  public async onPlace({
+    origin,
+    clickedPosition
+  }: BlockPlacementOptions): Promise<void> {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer() || !clickedPosition) return;
 
@@ -27,7 +30,7 @@ class BlockUpsideDownBitTrait extends BlockTrait {
    * Sets the direction of the block.
    * @param direction The direction to set.
    */
-  public setUpsideDown(upsideDown: boolean): void {
+  public async setUpsideDown(upsideDown: boolean): Promise<void> {
     // Get the block type
     const type = this.block.type;
 
@@ -44,7 +47,7 @@ class BlockUpsideDownBitTrait extends BlockTrait {
     const permutation = type.getPermutation(newState);
 
     // Set the permutation of the block
-    if (permutation) this.block.setPermutation(permutation);
+    if (permutation) await this.block.setPermutation(permutation);
   }
 }
 

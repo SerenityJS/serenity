@@ -10,7 +10,10 @@ import { NetworkHandler } from "../network";
 class PlayerActionHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAction;
 
-  public handle(packet: PlayerActionPacket, connection: Connection): void {
+  public async handle(
+    packet: PlayerActionPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -46,15 +49,15 @@ class PlayerActionHandler extends NetworkHandler {
 
       case PlayerActionType.ChangeDimensionAck: {
         // Spawn the player once the dimension has finished loading
-        return void player.spawn({ changedDimensions: true });
+        await player.spawn({ changedDimensions: true });
+        return;
       }
 
       case PlayerActionType.Respawn: {
         // Spawn the player when they request to respawn
-        player.spawn({ initialSpawn: false });
-
-        // Teleport the player back to the spawn point
-        return player.teleport(player.getSpawnPoint());
+        await player.spawn({ initialSpawn: false });
+        await player.teleport(player.getSpawnPoint());
+        return;
       }
     }
   }

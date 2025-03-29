@@ -7,20 +7,23 @@ import { PlayerLeaveSignal } from "../events";
 class DisconnectHandler extends NetworkHandler {
   public static readonly packet = Packet.Disconnect;
 
-  public handle(packet: DisconnectPacket, connection: Connection): void {
+  public async handle(
+    packet: DisconnectPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player by the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
     // Create a PlayerLeaveSignal
-    new PlayerLeaveSignal(
+    await new PlayerLeaveSignal(
       player,
       packet.reason,
       packet.message.message ?? String()
     ).emit();
 
     // Despawn the player
-    player.despawn();
+    await player.despawn();
 
     // Save the player's data
     player.world.provider.writePlayer(player.getDataEntry(), player.dimension);

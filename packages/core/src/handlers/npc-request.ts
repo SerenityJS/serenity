@@ -8,7 +8,10 @@ import { EntityNpcTrait } from "../entity";
 class NpcRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.NpcRequest;
 
-  public handle(packet: NpcRequestPacket, connection: Connection): void {
+  public async handle(
+    packet: NpcRequestPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection.
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -83,10 +86,10 @@ class NpcRequestHandler extends NetworkHandler {
       if (packet.type !== NpcRequestType.ExecuteAction) return;
 
       // Call the form result with the packet index.
-      form.result(packet.index as unknown as null, null);
+      await form.result(packet.index as unknown as null, null);
 
       // Close the form for the player.
-      instance.close(player);
+      await instance.close(player);
 
       // Delete the form from the pending forms map.
       player.pendingForms.delete(formId);

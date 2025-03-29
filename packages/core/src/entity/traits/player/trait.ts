@@ -1,4 +1,5 @@
 import { Gamemode } from "@serenityjs/protocol";
+import { Awaitable } from "@serenityjs/emitter";
 
 import { Player } from "../../player";
 import { EntityTrait } from "../trait";
@@ -15,44 +16,44 @@ class PlayerTrait extends EntityTrait {
    * @param message The message that the player sent.
    * @returns Whether the chat message was successful; default is true
    */
-  public onChat?(message: string): boolean | void;
+  public onChat?(message: string): Awaitable<boolean | void>;
 
   /**
    * Called when a players gamemode is changed.
    * @param previous The previous gamemode of the player.
    */
-  public onGamemodeChange?(previous: Gamemode): void;
+  public onGamemodeChange?(previous: Gamemode): Awaitable<void>;
 
   /**
    * Called when the player jumps.
    */
-  public onJump?(): void;
+  public onJump?(): Awaitable<void>;
 
   /**
    * Called when the player starts sneaking.
    */
-  public onStartSneaking?(): void;
+  public onStartSneaking?(): Awaitable<void>;
 
   /**
    * Called when the player stops sneaking.
    */
-  public onStopSneaking?(): void;
+  public onStopSneaking?(): Awaitable<void>;
 
   /**
    * Called when the player starts sprinting.
    */
-  public onStartSprinting?(): void;
+  public onStartSprinting?(): Awaitable<void>;
 
   /**
    * Called when the player stops sprinting.
    */
-  public onStopSprinting?(): void;
+  public onStopSprinting?(): Awaitable<void>;
 
   /**
    * Called when the player attacks an entity.
    * @param entity The entity that the player attacked.
    */
-  public onAttackEntity?(target: Entity): void;
+  public onAttackEntity?(target: Entity): Awaitable<void>;
 }
 
 export { PlayerTrait };

@@ -46,11 +46,11 @@ class EntityCollisionTrait extends EntityTrait {
     this.entity.hitboxWidth = value;
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the entity has a metadata flag value for gravity
     if (!this.entity.flags.has(ActorFlag.HasCollision)) {
       // Set the entity flag for gravity
-      this.entity.flags.set(ActorFlag.HasCollision, true);
+      await this.entity.flags.set(ActorFlag.HasCollision, true);
     }
 
     // Check if the entity has a metadata value for collision height
@@ -70,29 +70,31 @@ class EntityCollisionTrait extends EntityTrait {
     }
   }
 
-  public onRemove(): void {
-    // Remove the entity flag for gravity
-    this.entity.flags.delete(ActorFlag.HasCollision);
+  public async onRemove(): Promise<void> {
+    await Promise.all([
+      // Remove the entity flag for gravity
+      this.entity.flags.delete(ActorFlag.HasCollision),
 
-    // Remove the entity collision height
-    this.entity.metadata.delete(ActorDataId.Reserved054);
+      // Remove the entity collision height
+      this.entity.metadata.delete(ActorDataId.Reserved054),
 
-    // Remove the entity collision width
-    this.entity.metadata.delete(ActorDataId.Reserved053);
+      // Remove the entity collision width
+      this.entity.metadata.delete(ActorDataId.Reserved053)
+    ]);
   }
 
-  public onGamemodeChange(): void {
+  public async onGamemodeChange(): Promise<void> {
     // Check if the entity is not a player
     if (!this.entity.isPlayer()) return;
 
     // If the player is now in spectator mode, collision should be disabled
     if (this.entity.gamemode === Gamemode.Spectator)
-      this.entity.flags.set(ActorFlag.HasCollision, false);
+      await this.entity.flags.set(ActorFlag.HasCollision, false);
     // If the player is not in spectator mode, collision should be enabled
-    else this.entity.flags.set(ActorFlag.HasCollision, true);
+    else await this.entity.flags.set(ActorFlag.HasCollision, true);
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the entity is alive
     if (!this.entity.isAlive) return;
 
@@ -110,29 +112,31 @@ class EntityCollisionTrait extends EntityTrait {
     if (entities.length === 0) return;
 
     // Check if the entity is colliding with another entity
-    entities.forEach((entity) => {
-      // Check if the entity is the same
-      if (entity === this.entity) return;
+    await Promise.all(
+      entities.map(async (entity) => {
+        // Check if the entity is the same
+        if (entity === this.entity) return;
 
-      // Check if the entity is an item or a player
-      if (entity.isItem() || entity.isPlayer()) return;
+        // Check if the entity is an item or a player
+        if (entity.isItem() || entity.isPlayer()) return;
 
-      // Check if the entity is colliding with another entity
-      if (this.isCollidingWith(entity)) {
-        // Push the target entity into direction the entity is moving
-        // Get the x and z velocity of the entity
-        const { x, z } = this.entity.velocity;
+        // Check if the entity is colliding with another entity
+        if (this.isCollidingWith(entity)) {
+          // Push the target entity into direction the entity is moving
+          // Get the x and z velocity of the entity
+          const { x, z } = this.entity.velocity;
 
-        // Move the entity in the opposite direction
-        const motion = new Vector3f(x, 0, z).multiply(5);
+          // Move the entity in the opposite direction
+          const motion = new Vector3f(x, 0, z).multiply(5);
 
-        // Set the entity to be moving
-        entity.isMoving = true;
+          // Set the entity to be moving
+          entity.isMoving = true;
 
-        // Add the motion to the entity
-        entity.addMotion(motion);
-      }
-    });
+          // Add the motion to the entity
+          return entity.addMotion(motion);
+        }
+      })
+    );
   }
 
   /**

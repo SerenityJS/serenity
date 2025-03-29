@@ -44,7 +44,7 @@ class BlockPermutationUpdateSignal extends EventSignal {
   /**
    * The block that was updated.
    */
-  public get block(): Block {
+  public getBlock(): Promise<Block> {
     return this.dimension.getBlock(this.position);
   }
 }

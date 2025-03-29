@@ -17,7 +17,7 @@ const register = (world: World) => {
           world: WorldEnum,
           dimension: [StringEnum, true]
         },
-        (context) => {
+        async (context) => {
           // Get the serenity instance from the context
           const serenity = context.origin.world.serenity;
 
@@ -49,7 +49,7 @@ const register = (world: World) => {
           // Loop through all the targets
           for (const target of targets) {
             // Change the world of the target
-            target.teleport(target.position, dimension);
+            await target.teleport(target.position, dimension);
 
             // Append the message
             message.push(

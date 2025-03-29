@@ -18,7 +18,7 @@ class BlockButtonTrait extends BlockTrait {
    */
   public releaseTick: bigint = -1n;
 
-  public onInteract(options: BlockInteractionOptions): void {
+  public async onInteract(options: BlockInteractionOptions): Promise<void> {
     // Check if the block interaction has been cancelled or if there is no origin
     if (options.cancel || !options.origin) return this.setState(false, true);
 
@@ -32,20 +32,20 @@ class BlockButtonTrait extends BlockTrait {
     const state = this.getState();
 
     // Set the state of the button to the opposite of its current state
-    this.setState(!state);
+    await this.setState(!state);
 
     // Add a release tick if the button is pressed
     this.releaseTick = this.block.world.currentTick + 40n;
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the button is currently pressed
     if (this.releaseTick === -1n) return;
 
     // Check if the release tick has passed
     if (this.releaseTick <= this.block.world.currentTick) {
       // Set the button state back to false
-      this.setState(false);
+      await this.setState(false);
 
       // Reset the release tick
       this.releaseTick = -1n;
@@ -66,9 +66,9 @@ class BlockButtonTrait extends BlockTrait {
    * @param state The desired state of the button (true for pressed, false for not pressed).
    * @param silent If the sound event should be played (default is false).
    */
-  public setState(state: boolean, silent = false): void {
+  public async setState(state: boolean, silent = false): Promise<void> {
     // Set the button state to the specified value
-    this.block.setState(this.state as string, state);
+    await this.block.setState(this.state as string, state);
 
     // If silent is true, do not play the sound event
     if (silent) return;
@@ -85,7 +85,7 @@ class BlockButtonTrait extends BlockTrait {
     packet.isGlobal = true;
 
     // Send the sound event to all players in the dimension
-    this.block.dimension.broadcast(packet);
+    return this.block.dimension.broadcast(packet);
   }
 }
 

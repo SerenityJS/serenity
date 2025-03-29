@@ -7,7 +7,10 @@ import { EntityInventoryTrait } from "../entity";
 class BlockPickRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.BlockPickRequest;
 
-  public handle(packet: BlockPickRequestPacket, connection: Connection): void {
+  public async handle(
+    packet: BlockPickRequestPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -19,16 +22,18 @@ class BlockPickRequestHandler extends NetworkHandler {
     const dimension = player.dimension;
 
     // Get the block at the position provided by the packet
-    const block = dimension.getBlock({ x, y, z });
+    const block = await dimension.getBlock({ x, y, z });
 
     // Call the onPick trait methods of the block
-    for (const trait of block.traits.values()) trait.onPick?.(player, addData);
+    await Promise.all(
+      block.traits.values().map((trait) => trait.onPick?.(player, addData))
+    );
 
     // Check if the player is in creative mode
     if (player.gamemode !== Gamemode.Creative) return;
 
     // Create a new item stack from the block
-    const itemStack = block.getItemStack({
+    const itemStack = await block.getItemStack({
       amount: 1,
       metadata: addData ? block.permutation.index : 0
     });
@@ -46,7 +51,7 @@ class BlockPickRequestHandler extends NetworkHandler {
     const { container, selectedSlot } = player.getTrait(EntityInventoryTrait);
 
     // Add the item stack to the player's inventory
-    container.setItem(selectedSlot, itemStack);
+    await container.setItem(selectedSlot, itemStack);
   }
 }
 

@@ -17,7 +17,7 @@ const register = (world: World) => {
           address: StringEnum,
           port: IntegerEnum
         },
-        (context) => {
+        async (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
@@ -48,7 +48,7 @@ const register = (world: World) => {
             }
 
             // Transfer the player to the new server
-            target.transfer(address, port);
+            await target.transfer(address, port);
 
             // Append the message
             message.push(

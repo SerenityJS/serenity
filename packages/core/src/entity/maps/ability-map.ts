@@ -10,8 +10,9 @@ import {
 
 import { Player } from "../player";
 import { PlayerAbilityUpdateSignal } from "../../events";
+import { AsyncMap } from "../../utility/async-map";
 
-class AbilityMap extends Map<AbilityIndex, boolean> {
+class AbilityMap extends AsyncMap<AbilityIndex, boolean> {
   /**
    * The player that the abilities are attached to
    */
@@ -26,9 +27,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can build
+   * @deprecated Use setBuild instead. Errors will be lost if you use this.
    */
   public set build(value: boolean) {
-    this.set(AbilityIndex.Build, value);
+    void this.setBuild(value);
+  }
+
+  /**
+   * Whether the player can build
+   */
+  public async setBuild(value: boolean) {
+    return this.set(AbilityIndex.Build, value);
   }
 
   /**
@@ -40,9 +49,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can mine
+   * @deprecated Use setMine instead. Errors will be lost if you use this.
    */
   public set mine(value: boolean) {
-    this.set(AbilityIndex.Mine, value);
+    void this.setMine(value);
+  }
+
+  /**
+   * Whether the player can mine
+   */
+  public async setMine(value: boolean) {
+    return this.set(AbilityIndex.Mine, value);
   }
 
   /**
@@ -54,9 +71,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can interact with doors and switches
+   * @deprecated Use setDoorsAndSwitches instead. Errors will be lost if you use this.
    */
   public set doorsAndSwitches(value: boolean) {
-    this.set(AbilityIndex.DoorsAndSwitches, value);
+    void this.setDoorsAndSwitches(value);
+  }
+
+  /**
+   * Whether the player can interact with doors and switches
+   */
+  public async setDoorsAndSwitches(value: boolean) {
+    return this.set(AbilityIndex.DoorsAndSwitches, value);
   }
 
   /**
@@ -68,9 +93,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can open containers
+   * @deprecated Use setOpenContainers instead. Errors will be lost if you use this.
    */
   public set openContainers(value: boolean) {
-    this.set(AbilityIndex.OpenContainers, value);
+    void this.setOpenContainers(value);
+  }
+
+  /**
+   * Whether the player can open containers
+   */
+  public async setOpenContainers(value: boolean) {
+    return this.set(AbilityIndex.OpenContainers, value);
   }
 
   /**
@@ -82,9 +115,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can attack players
+   * @deprecated Use setAttackPlayers instead. Errors will be lost if you use this.
    */
   public set attackPlayers(value: boolean) {
-    this.set(AbilityIndex.AttackPlayers, value);
+    void this.setAttackPlayers(value);
+  }
+
+  /**
+   * Whether the player can attack players
+   */
+  public async setAttackPlayers(value: boolean) {
+    return this.set(AbilityIndex.AttackPlayers, value);
   }
 
   /**
@@ -96,9 +137,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can attack mobs
+   * @deprecated Use setAttackMobs instead. Errors will be lost if you use this.
    */
   public set attackMobs(value: boolean) {
-    this.set(AbilityIndex.AttackMobs, value);
+    void this.setAttackMobs(value);
+  }
+
+  /**
+   * Whether the player can attack mobs
+   */
+  public async setAttackMobs(value: boolean) {
+    return this.set(AbilityIndex.AttackMobs, value);
   }
 
   /**
@@ -110,9 +159,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can use operator commands
+   * @deprecated Use setOperatorCommands instead. Errors will be lost if you use this.
    */
   public set operatorCommands(value: boolean) {
-    this.set(AbilityIndex.OperatorCommands, value);
+    void this.setOperatorCommands(value);
+  }
+
+  /**
+   * Whether the player can use operator commands
+   */
+  public async setOperatorCommands(value: boolean) {
+    return this.set(AbilityIndex.OperatorCommands, value);
   }
 
   /**
@@ -124,9 +181,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
 
   /**
    * Whether the player can teleport
+   * @deprecated Use setMayFly instead. Errors will be lost if you use this.
    */
   public set mayFly(value: boolean) {
-    this.set(AbilityIndex.MayFly, value);
+    void this.setMayFly(value);
+  }
+
+  /**
+   * Whether the player can teleport
+   */
+  public async setMayFly(value: boolean) {
+    return this.set(AbilityIndex.MayFly, value);
   }
 
   /**
@@ -138,57 +203,46 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
     this.player = player;
   }
 
-  public set(key: AbilityIndex, value: boolean): this {
+  public async set(key: AbilityIndex, value: boolean): Promise<this> {
     // Create a new PlayerAbilityUpdateSignal
     const signal = new PlayerAbilityUpdateSignal(this.player, key, value);
 
     // If the signal was cancelled, return this
-    if (!signal.emit()) return this;
+    if (!(await signal.emit())) return this;
 
     // Call the original set method
-    const result = super.set(key, signal.value);
+    await super.set(key, signal.value);
 
     // Update the abilities when a new value is added
-    this.update();
+    await this.update();
 
     // Return the result
-    return result;
+    return this;
   }
 
-  public delete(key: AbilityIndex): boolean {
+  public async delete(key: AbilityIndex): Promise<boolean> {
     // Call the original delete method
     const result = super.delete(key);
 
     // Update the abilities when a value is deleted
-    this.update();
+    await this.update();
 
     // Return the result
     return result;
   }
 
-  public clear(): void {
+  public async clear(): Promise<void> {
     // Call the original clear method
-    super.clear();
+    await super.clear();
 
     // Update the abilities when the map is cleared
-    this.update();
-  }
-
-  /**
-   * Call the original set method
-   * @param key The ability index
-   * @param value The value
-   * @returns The ability map
-   */
-  public superSet(key: AbilityIndex, value: boolean): this {
-    // Call the original set method
-    return super.set(key, value);
+    return this.update();
   }
 
   /**
    * Update the abilities of the player
    */
-  public update(): void {
+  public async update(): Promise<void> {
     // Create a new UpdateAbilitiesPacket
     const packet = new UpdateAbilitiesPacket();
     packet.permissionLevel = this.player.isOp
@@ -213,7 +267,7 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
     ];
 
     // Send the packet to the player
-    this.player.dimension.broadcast(packet);
+    await this.player.dimension.broadcast(packet);
 
     // Check if the player is alive
     if (!this.player.isAlive) return;
@@ -223,7 +277,7 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
     gamemode.gamemode = this.player.gamemode;
 
     // Send the gamemode packet to the player
-    this.player.send(gamemode);
+    return this.player.send(gamemode);
   }
 }
 

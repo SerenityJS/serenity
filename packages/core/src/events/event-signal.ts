@@ -31,10 +31,12 @@ class EventSignal {
    * Emits the signal instance.
    * @returns Whether the signal was emitted successfully; default is true.
    */
-  public emit(): boolean {
+  public async emit(): Promise<boolean> {
     // Emit the signal in the world and server
-    const world = this.world.emit(this.identifier, this);
-    const server = this.world.serenity.emit(this.identifier, this);
+    const [world, server] = await Promise.all([
+      this.world.emit(this.identifier, this),
+      this.world.serenity.emit(this.identifier, this)
+    ]);
 
     // Return whether the signal was emitted successfully
     return world && server;

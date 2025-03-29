@@ -27,24 +27,24 @@ class BlockContainer extends Container {
     this.block = block;
   }
 
-  public setItem(slot: number, itemStack: ItemStack): void {
+  public async setItem(slot: number, itemStack: ItemStack): Promise<void> {
     // Call the original setItem method
-    super.setItem(slot, itemStack);
+    await super.setItem(slot, itemStack);
 
     // Set the world in the item stack if it doesn't exist
     if (!itemStack.world) itemStack.world = this.block.world;
-    itemStack.initialize();
+    await itemStack.initialize();
   }
 
-  public update(player?: Player): void {
+  public async update(player?: Player): Promise<void> {
     // Call the original update method
-    super.update(player);
+    await super.update(player);
 
     // Call the onContainerUpdate method for the block traits
     for (const trait of this.block.traits.values()) {
       try {
         // Call the trait method
-        trait.onContainerUpdate?.(this);
+        await trait.onContainerUpdate?.(this);
       } catch (reason) {
         // Get the block position
         const { x, y, z } = this.block.position;
@@ -61,15 +61,15 @@ class BlockContainer extends Container {
     }
   }
 
-  public show(player: Player): void {
+  public async show(player: Player): Promise<void> {
     // Create a new PlayerOpenedContainerSignal
     const signal = new PlayerOpenedContainerSignal(player, this);
 
     // Check if the signal was cancelled
-    if (!signal.emit()) return;
+    if (!(await signal.emit())) return;
 
     // Call the original show method
-    super.show(player);
+    await super.show(player);
 
     // Create a new ContainerOpenPacket
     const packet = new ContainerOpenPacket();
@@ -82,10 +82,10 @@ class BlockContainer extends Container {
       this.type === ContainerType.Container ? -1n : player.uniqueId;
 
     // Send the packet to the player
-    player.send(packet);
+    await player.send(packet);
 
     // Update the container
-    this.update();
+    await this.update();
   }
 }
 

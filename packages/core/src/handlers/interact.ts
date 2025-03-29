@@ -7,7 +7,10 @@ import { EntityInventoryTrait } from "../entity";
 class InteractHandler extends NetworkHandler {
   public static readonly packet = Packet.Interact;
 
-  public handle(packet: InteractPacket, connection: Connection): void {
+  public async handle(
+    packet: InteractPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();

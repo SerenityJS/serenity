@@ -11,18 +11,25 @@ class ItemKeepOnDieTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     return this.item.nbt.has("minecraft:keep_on_death");
   }
 
+  /**
+   * @deprecated Use `setKeep` instead. Errors will not propagate.
+   */
   public set keep(value: boolean) {
+    void this.setKeep(value);
+  }
+
+  public async setKeep(value: boolean): Promise<void> {
     if (value) {
-      this.item.nbt.add(
+      await this.item.nbt.add(
         new ByteTag({ name: "minecraft:keep_on_death", value: 1 })
       );
     } else {
-      this.item.nbt.delete("minecraft:keep_on_death");
+      await this.item.nbt.delete("minecraft:keep_on_death");
     }
   }
 
-  public onRemove(): void {
-    this.item.nbt.delete("minecraft:keep_on_death");
+  public async onRemove(): Promise<void> {
+    await this.item.nbt.delete("minecraft:keep_on_death");
   }
 }
 

@@ -6,6 +6,8 @@
   <p align="center">
     <strong><font size = "5.5">Minecraft Bedrock Edition Server Software</font></strong>
     <br/>
+    <i><font size = "4">Async Experimentation Branch</font></i>
+    <br/>
     <br/>
     <a href="https://serenityjs.net"><strong>Explore Documentation »</strong></a>
     <br/>
@@ -24,6 +26,10 @@
     </a>
   </p>
 </p>
+
+## Async Experimentation Branch
+
+This branch adds experimental support for async/await in the Serenity server. This branch is a work in progress. To try and retain the API for older projects in as many scenarios as possible we prefer using `void Promise<>` over awaiting the promise and needing to change the api drastically. This branch is not recommended for production use, and is not guaranteed to be stable. If you are looking for a stable version of Serenity, please use the `main` branch.
 
 ## About The Project
 

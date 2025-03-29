@@ -7,7 +7,10 @@ import { PlayerChatSignal } from "../events";
 class TextHandler extends NetworkHandler {
   public static readonly packet = Packet.Text;
 
-  public handle(packet: TextPacket, connection: Connection): void {
+  public async handle(
+    packet: TextPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player by the connection
     const player = this.serenity.players.get(connection);
     if (!player) return connection.disconnect();
@@ -16,9 +19,10 @@ class TextHandler extends NetworkHandler {
     const signal = new PlayerChatSignal(player, packet.message);
 
     // If the signal was canceled, return
-    if (!signal.emit()) return;
+    if (!(await signal.emit())) return;
 
     // Set the message of the packet to the signal message
+    // eslint-disable-next-line require-atomic-updates
     packet.message = signal.message;
 
     // Call the block onStartBreak trait methods
@@ -38,7 +42,7 @@ class TextHandler extends NetworkHandler {
     // Broadcast the packet if it was not canceled
     if (!canceled) {
       // Broadcast the packet to the world
-      player.dimension.world.broadcast(packet);
+      await player.dimension.world.broadcast(packet);
 
       // Log the chat to the console
       player.dimension.world.logger.info(

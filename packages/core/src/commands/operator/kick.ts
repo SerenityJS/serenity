@@ -20,7 +20,7 @@ const register = (world: World) => {
           target: TargetEnum,
           reason: [StringEnum, true]
         },
-        (context) => {
+        async (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
@@ -37,7 +37,7 @@ const register = (world: World) => {
             if (!(target instanceof Player)) continue;
 
             // Kick the player
-            target.disconnect(reason, DisconnectReason.Kicked);
+            await target.disconnect(reason, DisconnectReason.Kicked);
           }
         }
       );

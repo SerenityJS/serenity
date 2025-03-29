@@ -17,10 +17,10 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
     CRAFTING_DATA
   ).deserialize();
 
-  public handle(
+  public async handle(
     packet: SetLocalPlayerAsInitializedPacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Get the player by the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -33,13 +33,13 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
     const signal = new PlayerInitializedSignal(player);
 
     // Emit the signal and check if it was emitted successfully
-    if (!signal.emit()) return;
+    if (!(await signal.emit())) return;
 
     // Send the player the crafting data
-    player.send(SetLocalPlayerAsInitializedHandler.CraftingData);
+    await player.send(SetLocalPlayerAsInitializedHandler.CraftingData);
 
     // Spawn the player
-    player.spawn({ initialSpawn: true });
+    await player.spawn({ initialSpawn: true });
   }
 }
 

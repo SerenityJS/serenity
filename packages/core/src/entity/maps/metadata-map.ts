@@ -7,8 +7,9 @@ import {
 
 import { Entity } from "../entity";
 import { EntityMetadataUpdateSignal } from "../../events";
+import { AsyncMap } from "../../utility/async-map";
 
-class MetadataMap extends Map<ActorDataId, DataItem> {
+class MetadataMap extends AsyncMap<ActorDataId, DataItem> {
   /**
    * The entity that this metadata set is attached to
    */
@@ -27,46 +28,46 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
     return super.get(key) as DataItem<T>;
   }
 
-  public set(key: ActorDataId, value: DataItem<unknown>): this {
+  public async set(key: ActorDataId, value: DataItem<unknown>): Promise<this> {
     // Create a new EntityMetadataUpdateSignal
     const signal = new EntityMetadataUpdateSignal(this.entity, key, value);
 
     // If the signal was cancelled, return this
-    if (!signal.emit()) return this;
+    if (!(await signal.emit())) return this;
 
     // Call the original set method
-    const result = super.set(key, signal.dataItem);
+    await super.set(key, signal.dataItem);
 
     // Update the actor data when a new value is added
-    this.update();
+    await this.update();
 
     // Return the result
-    return result;
+    return this;
   }
 
-  public delete(key: ActorDataId): boolean {
+  public async delete(key: ActorDataId): Promise<boolean> {
     // Call the original delete method
     const result = super.delete(key);
 
     // Update the actor data when a value is deleted
-    this.update();
+    await this.update();
 
     // Return the result
     return result;
   }
 
-  public clear(): void {
+  public async clear(): Promise<void> {
     // Call the original clear method
-    super.clear();
+    await super.clear();
 
     // Update the actor data when the set is cleared
-    this.update();
+    return this.update();
   }
 
   /**
    * Update the actor data of the entity.
    */
-  public update(): void {
+  public async update(): Promise<void> {
     // Create a new SetActorDataPacket
     const packet = new SetActorDataPacket();
     packet.runtimeEntityId = this.entity.runtimeId;
@@ -81,7 +82,7 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
       packet.setActorFlag(flag, enabled);
 
     // Send the packet to the dimension
-    this.entity.dimension.broadcast(packet);
+    await this.entity.dimension.broadcast(packet);
   }
 }
 

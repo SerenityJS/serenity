@@ -6,13 +6,16 @@ import { NetworkHandler } from "../network";
 class ActorEventHandler extends NetworkHandler {
   public static readonly packet = Packet.ActorEvent;
 
-  public handle(packet: ActorEventPacket, connection: Connection): void {
+  public async handle(
+    packet: ActorEventPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
     // Broadcast the packet to all players
-    player.dimension.broadcast(packet);
+    return player.dimension.broadcast(packet);
   }
 }
 

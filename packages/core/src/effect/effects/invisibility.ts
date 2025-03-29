@@ -9,14 +9,14 @@ class InvisibilityEffect extends Effect {
 
   public readonly color: Color = new Color(255, 127, 131, 146);
 
-  public onAdd(entity: Entity): void {
+  public async onAdd(entity: Entity): Promise<void> {
     // Make the entity invisible.
-    entity.getTrait(EntityInvisibilityTrait)?.setInvisibility(true);
+    return entity.getTrait(EntityInvisibilityTrait)?.setInvisibility(true);
   }
 
-  public onRemove(entity: Entity): void {
+  public async onRemove(entity: Entity): Promise<void> {
     // Make the entity visible again.
-    entity.getTrait(EntityInvisibilityTrait)?.setInvisibility(false);
+    return entity.getTrait(EntityInvisibilityTrait)?.setInvisibility(false);
   }
 }
 

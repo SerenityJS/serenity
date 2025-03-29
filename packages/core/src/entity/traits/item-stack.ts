@@ -26,7 +26,14 @@ class EntityItemStackTrait extends EntityTrait {
   /**
    * The item stack of the component.
    */
-  public itemStack: ItemStack;
+  public itemStack?: ItemStack;
+
+  private _isReady: boolean = false;
+  public isReady(): this is EntityItemStackTrait & {
+    itemStack: ItemStack;
+  } {
+    return this._isReady;
+  }
 
   /**
    * The lifespan of the item in ticks.
@@ -68,13 +75,18 @@ class EntityItemStackTrait extends EntityTrait {
     const entry = entity.dynamicProperties.get("itemstack") as ItemStackEntry;
 
     // Check if the entry exists
-    if (entry) {
-      // Set the item stack of the component
-      this.itemStack = new ItemStack(entry.identifier, { entry });
-    } else {
-      // Set the item stack of the component
-      this.itemStack = new ItemStack(ItemIdentifier.Air);
-    }
+    // FIXME: this is some hacky ass support man I just don't feel like modifying traits
+    void (async () => {
+      if (entry) {
+        // Set the item stack of the component
+        this.itemStack = await ItemStack.create(entry.identifier, { entry });
+      } else {
+        // Set the item stack of the component
+        this.itemStack = await ItemStack.create(ItemIdentifier.Air);
+      }
+
+      this._isReady = true;
+    })();
 
     // Set the birth tick of the item
     this.birthTick = entity.dimension.world.currentTick;
@@ -100,9 +112,9 @@ class EntityItemStackTrait extends EntityTrait {
    * Picks up the item by a player.
    * @param player The player that picked up the item.
    */
-  public pickup(player: Player): void {
+  public async pickup(player: Player): Promise<void> {
     // Teleport the item to the player
-    this.entity.teleport(player.position);
+    await this.entity.teleport(player.position);
 
     // Set the player as the target
     this.target = player;
@@ -111,29 +123,35 @@ class EntityItemStackTrait extends EntityTrait {
     this.pickupTick = this.entity.dimension.world.currentTick;
   }
 
-  public increment(amount?: number): void {
-    this.itemStack.increment(amount);
+  public async increment(amount?: number): Promise<void> {
+    if (!this.isReady()) return;
+
+    await this.itemStack.increment(amount);
 
     const packet = new ActorEventPacket();
     packet.event = ActorEvent.UpdateStackSize;
     packet.data = this.itemStack.amount;
     packet.actorRuntimeId = this.entity.runtimeId;
 
-    this.entity.dimension.broadcast(packet);
+    return this.entity.dimension.broadcast(packet);
   }
 
-  public decrement(amount?: number): void {
-    this.itemStack.decrement(amount);
+  public async decrement(amount?: number): Promise<void> {
+    if (!this.isReady()) return;
+
+    await this.itemStack.decrement(amount);
 
     const packet = new ActorEventPacket();
     packet.event = ActorEvent.UpdateStackSize;
     packet.data = this.itemStack.amount;
     packet.actorRuntimeId = this.entity.runtimeId;
 
-    this.entity.dimension.broadcast(packet);
+    return this.entity.dimension.broadcast(packet);
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
+    if (!this.isReady()) return;
+
     // Set the item stack component of the entity
     this.entity.dynamicProperties.set(
       "itemstack",
@@ -177,6 +195,7 @@ class EntityItemStackTrait extends EntityTrait {
         ) {
           // Get the item component of the entity
           const component = entity.getTrait(EntityItemStackTrait);
+          if (!component.isReady()) continue;
           const existingItem = component.itemStack;
 
           // Check if the existing item stack is full
@@ -186,8 +205,8 @@ class EntityItemStackTrait extends EntityTrait {
           if (!existingItem.equals(this.itemStack)) continue;
 
           // Increment the item stack and despawn the existing item
-          this.increment(existingItem.amount);
-          component.entity.despawn();
+          await this.increment(existingItem.amount);
+          await component.entity.despawn();
 
           // Set merging to true
           this.merging = true;
@@ -205,7 +224,7 @@ class EntityItemStackTrait extends EntityTrait {
       const inventory = this.target.getTrait(EntityInventoryTrait);
 
       // Add the item to the players inventory
-      const success = inventory.container.addItem(this.itemStack);
+      const success = await inventory.container.addItem(this.itemStack);
 
       // Check if the item was added to the inventory
       if (!success)
@@ -228,11 +247,11 @@ class EntityItemStackTrait extends EntityTrait {
       sound.uniqueActorId = -1n;
 
       // Send the packets to the player
-      this.target.send(sound);
-      this.target.dimension.broadcast(take);
+      await this.target.send(sound);
+      await this.target.dimension.broadcast(take);
 
       // Remove the item from the dimension
-      this.entity.despawn();
+      await this.entity.despawn();
     } else if (this.target) return;
 
     // Check if the item has been alive for 10 ticks
@@ -266,7 +285,7 @@ class EntityItemStackTrait extends EntityTrait {
     // Check if the item has been alive for the lifespan
     if (current - this.birthTick >= BigInt(this.lifeSpan)) {
       // Remove the item from the dimension
-      this.entity.despawn();
+      await this.entity.despawn();
     }
   }
 }

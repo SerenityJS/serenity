@@ -103,13 +103,21 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
   /**
    * The slot of the item stack in the container.
+   * @deprecated Use `setSlot` instead. Errors will be lost.
    */
   public set slot(value: number) {
+    void this.setSlot(value);
+  }
+
+  /**
+   * The slot of the item stack in the container.
+   */
+  public async setSlot(value: number): Promise<void> {
     // Check if the item is not in a container.
     if (!this.container) return;
 
     // Set the item in the container.
-    this.container.swapItems(this.slot, value);
+    return this.container.swapItems(this.slot, value);
   }
 
   /**
@@ -119,9 +127,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
     return this.type.components;
   }
 
-  public constructor(
+  protected constructor(
     identifier: T | ItemIdentifier | ItemType<T>,
-    properties?: Partial<ItemStackProperties>
+    properties: ItemStackProperties
   ) {
     // Assign the type of the item stack
     this.type =
@@ -132,70 +140,89 @@ class ItemStack<T extends keyof Items = keyof Items> {
     // Assign the identifier of the item stack
     this.identifier = this.type.identifier;
 
+    // Assign the properties to the item stack
+    this.amount = properties.amount;
+    this.metadata = properties.metadata;
+  }
+
+  public static async create<T extends keyof Items = keyof Items>(
+    identifier: T | ItemIdentifier | ItemType<T>,
+    properties?: Partial<ItemStackProperties>
+  ): Promise<ItemStack<T>> {
     // Spread the default properties and the provided properties
     const props = { ...DefaultItemStackProperties, ...properties };
 
+    const itemStack = new this(identifier, props);
+
     // Assign the properties to the item stack
-    this.amount = props.amount;
-    this.metadata = props.metadata;
+    itemStack.amount = props.amount;
+    itemStack.metadata = props.metadata;
 
     // Check if a world was provided
     if (props.world) {
       // Assign the world to the item stack
-      this.world = props.world;
+      itemStack.world = props.world;
 
       // Check if a entry was provided
       if (props.entry)
         // Load the data entry for the item stack
-        this.loadDataEntry(props.world, props.entry);
+        await itemStack.loadDataEntry(props.world, props.entry);
 
       // Initialize the item stack
-      this.initialize();
+      await itemStack.initialize();
     }
 
     // Add base the nbt properties to the item stack
-    this.nbt.add(...this.type.properties.getTags());
+    await itemStack.nbt.add(...itemStack.type.properties.getTags());
+
+    return itemStack;
   }
 
   /**
    * Initializes the item stack.
    */
-  public initialize(): void {
+  public async initialize(): Promise<void> {
     // Get the traits for the itemstack
     const traits = this.world.itemPalette.getRegistry(this.type.identifier);
 
     // Register the traits to the itemstack
-    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
+    await Promise.all(traits.map((trait) => this.addTrait(trait)));
 
     // Iterate over the tags of the item type
-    for (const tag of this.type.tags) {
-      // Get the traits for the tag
-      const traits = [...this.world.itemPalette.traits].filter(
-        ([, trait]) => trait.tag === tag
-      );
+    await Promise.all(
+      this.type.tags.map(async (tag) => {
+        // Get the traits for the tag
+        const traits = [...this.world.itemPalette.traits].filter(
+          ([, trait]) => trait.tag === tag
+        );
 
-      // Register the traits to the itemstack
-      for (const [, trait] of traits)
-        if (!this.hasTrait(trait)) this.addTrait(trait);
-    }
+        // Register the traits to the itemstack
+        return Promise.all(
+          traits.map(async ([, trait]) => this.addTrait(trait))
+        );
+      })
+    );
 
     // Iterate over the dynamic properties of the item type
-    for (const key of this.type.components.entries.keys()) {
-      // Get the traits for the component
-      const traits = [...this.world.itemPalette.traits].filter(
-        ([, trait]) => trait.component === key
-      );
+    await Promise.all(
+      this.type.components.entries.keys().map(async (key) => {
+        // Get the traits for the component
+        const traits = [...this.world.itemPalette.traits].filter(
+          ([, trait]) => trait.component === key
+        );
 
-      // Register the traits to the itemstack
-      for (const [, trait] of traits)
-        if (!this.hasTrait(trait)) this.addTrait(trait);
-    }
+        // Register the traits to the itemstack
+        return Promise.all(
+          traits.map(async ([, trait]) => this.addTrait(trait))
+        );
+      })
+    );
   }
 
   /**
    * Updates the item stack in the container.
    */
-  public update(): void {
+  public async update(): Promise<void> {
     // Check if the item is in a container.
     if (!this.container) return;
 
@@ -205,39 +232,39 @@ class ItemStack<T extends keyof Items = keyof Items> {
     // Check if the item is 0 or less.
     if (this.amount <= 0) {
       // Remove the item from the container.
-      this.container.clearSlot(slot);
+      await this.container.clearSlot(slot);
     }
 
     // Set the item in the container.
-    else this.container.setItem(slot, this);
+    else await this.container.setItem(slot, this);
   }
 
   /**
    * Set the amount of the item stack.
    * @param amount The amount to set.
    */
-  public setAmount(amount: number): void {
+  public async setAmount(amount: number): Promise<void> {
     // Update the amount of the item stack.
     this.amount = amount;
 
     // Update the item in the container.
-    this.update();
+    return this.update();
   }
 
   /**
    * Decrements the amount of the item stack.
    * @param amount The amount to decrement.
    */
-  public decrement(amount?: number): void {
-    this.setAmount(this.amount - (amount ?? 1));
+  public async decrement(amount?: number): Promise<void> {
+    return this.setAmount(this.amount - (amount ?? 1));
   }
 
   /**
    * Increments the amount of the item stack.
    * @param amount The amount to increment.
    */
-  public increment(amount?: number): void {
-    this.setAmount(this.amount + (amount ?? 1));
+  public async increment(amount?: number): Promise<void> {
+    return this.setAmount(this.amount + (amount ?? 1));
   }
 
   /**
@@ -246,7 +273,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param options The options for the item use.
    * @returns Whether the item use was successful; default is true.
    */
-  public use(player: Player, options: ItemUseOptions): boolean | ItemUseMethod {
+  public async use(
+    player: Player,
+    options: ItemUseOptions
+  ): Promise<boolean | ItemUseMethod> {
     // Trigger the item onUse trait event
     let canceled = false;
     for (const trait of this.traits.values()) {
@@ -271,7 +301,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
           packet.useMethod = success;
 
           // Send the packet to the player
-          player.send(packet);
+          await player.send(packet);
 
           // Attempt to use the item with the corrected method
           return this.use(player, { ...options, method: success });
@@ -298,10 +328,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
     return !canceled && signal.emit();
   }
 
-  public useOnBlock(
+  public async useOnBlock(
     player: Player,
     options: ItemUseOnBlockOptions
-  ): boolean | ItemUseMethod {
+  ): Promise<boolean | ItemUseMethod> {
     // Trigger the item onUse trait event
     let canceled = false;
     for (const trait of this.traits.values()) {
@@ -326,7 +356,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
           packet.useMethod = success;
 
           // Send the packet to the player
-          player.send(packet);
+          await player.send(packet);
 
           // Attempt to use the item on the block with the corrected method
           return this.useOnBlock(player, { ...options, method: success });
@@ -358,10 +388,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
     return !canceled && signal.emit();
   }
 
-  public useOnEntity(
+  public async useOnEntity(
     player: Player,
     options: ItemUseOnEntityOptions
-  ): boolean | ItemUseMethod {
+  ): Promise<boolean | ItemUseMethod> {
     // Trigger the item onUse trait event
     let canceled = false;
     for (const trait of this.traits.values()) {
@@ -386,7 +416,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
           packet.useMethod = success;
 
           // Send the packet to the player
-          player.send(packet);
+          await player.send(packet);
 
           // Attempt to use the item on the entity with the corrected method
           return this.useOnEntity(player, { ...options, method: success });
@@ -458,14 +488,14 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * Removes the specified trait from the itemstack.
    * @param trait The trait to remove
    */
-  public removeTrait(trait: string | typeof ItemTrait<T>): void {
+  public async removeTrait(trait: string | typeof ItemTrait<T>): Promise<void> {
     // Get the trait from the itemstack
     const instance = this.traits.get(
       typeof trait === "string" ? trait : trait.identifier
     );
 
     // Call the onRemove trait event
-    instance?.onRemove?.();
+    await instance?.onRemove?.();
 
     // Remove the trait from the itemstack
     this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
@@ -477,10 +507,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param options The additional options to pass to the trait.
    * @returns The trait instance that was added to the itemstack.
    */
-  public addTrait<K extends typeof ItemTrait<T>>(
+  public async addTrait<K extends typeof ItemTrait<T>>(
     trait: K | ItemTrait<T>,
     options?: ConstructorParameters<K>[1]
-  ): InstanceType<K> {
+  ): Promise<InstanceType<K>> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
       return this.getTrait(trait.identifier) as InstanceType<K>;
@@ -499,7 +529,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
         this.traits.set(trait.identifier, trait);
 
         // Call the onAdd trait event
-        trait.onAdd?.();
+        await trait.onAdd?.();
 
         // Return the trait that was added
         return trait as InstanceType<K>;
@@ -511,7 +541,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
         this.traits.set(instance.identifier, instance);
 
         // Call the onAdd trait event
-        instance.onAdd?.();
+        await instance.onAdd?.();
 
         // Return the trait that was added
         return instance as InstanceType<K>;
@@ -672,11 +702,11 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param entry The item stack entry to load.
    * @param overwrite Whether to overwrite the existing data.
    */
-  public loadDataEntry(
+  public async loadDataEntry(
     world: World,
     entry: ItemStackEntry,
     overwrite = true
-  ): void {
+  ): Promise<void> {
     // Spread the default item stack entry and the provided entry
     // This will add any missing properties to the entry
     entry = { ...DefaultItemStackEntry, ...entry };
@@ -719,11 +749,11 @@ class ItemStack<T extends keyof Items = keyof Items> {
       }
 
       // Attempt to add the trait to the itemstack
-      this.addTrait(traitType);
+      await this.addTrait(traitType);
     }
 
     // Deserialize the nbt data.
-    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
+    await this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
   }
 
   /**
@@ -774,9 +804,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param descriptor The network item instance descriptor.
    * @returns The item stack.
    */
-  public static fromNetworkInstance(
+  public static async fromNetworkInstance(
     descriptor: NetworkItemInstanceDescriptor
-  ): ItemStack | null {
+  ): Promise<ItemStack | null> {
     // Get the item type from the network.
     const type = ItemType.getByNetwork(descriptor.network);
 
@@ -791,7 +821,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
     // Check if the descriptor has extras.
     if (descriptor.extras?.nbt)
-      item.nbt.add(...descriptor.extras.nbt.getTags());
+      await item.nbt.add(...descriptor.extras.nbt.getTags());
 
     // Return the item stack.
     return item;
@@ -816,8 +846,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * Creates an empty item stack.
    * @returns The empty item stack.
    */
-  public static empty(): ItemStack {
-    return new ItemStack(ItemIdentifier.Air, { amount: 0 });
+  public static async empty(): Promise<ItemStack> {
+    return ItemStack.create(ItemIdentifier.Air, { amount: 0 });
   }
 }
 

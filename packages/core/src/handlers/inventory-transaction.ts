@@ -29,10 +29,10 @@ import { BlockEntry, BlockPlacementOptions } from "../types";
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
 
-  public handle(
+  public async handle(
     packet: InventoryTransactionPacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -88,19 +88,23 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Check if the player is using an item
         if (player.itemTarget)
           // Call the onRelease method for the item stack traits
-          for (const trait of player.itemTarget.traits.values())
-            trait.onRelease?.(player);
+          await Promise.all(
+            player.itemTarget.traits
+              .values()
+              .map((trait) => trait.onRelease?.(player))
+          );
 
         // Set the player's item target to null
+        // eslint-disable-next-line require-atomic-updates
         player.itemTarget = null;
       }
     }
   }
 
-  public handleNormalTransaction(
+  public async handleNormalTransaction(
     player: Player,
     actions: Array<InventoryAction>
-  ): void {
+  ): Promise<void> {
     // Iterate through each action
     for (const action of actions) {
       // Switch the action source type
@@ -133,7 +137,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           ) as ItemStack;
 
           // Create a new PlayerDropItemSignal
-          const signal = new PlayerDropItemSignal(
+          const signal = await new PlayerDropItemSignal(
             player,
             itemStack,
             amount
@@ -142,24 +146,28 @@ class InventoryTransactionHandler extends NetworkHandler {
           // If the signal was canceled, we don't want to drop the item
           if (!signal) {
             // Update the item stack in the inventory
-            itemStack.update();
+            await itemStack.update();
 
             // Break from the switch statement
             break;
           }
 
           // Make the player drop the item
-          player.dropItem(inventory.selectedSlot, amount, inventory.container);
+          await player.dropItem(
+            inventory.selectedSlot,
+            amount,
+            inventory.container
+          );
           break;
         }
       }
     }
   }
 
-  public handleItemUseTransaction(
+  public async handleItemUseTransaction(
     player: Player,
     transaction: ItemUseInventoryTransaction
-  ): void {
+  ): Promise<void> {
     // Get the player's dimension
     const dimension = player.dimension;
 
@@ -171,10 +179,10 @@ class InventoryTransactionHandler extends NetworkHandler {
       // Handles placing items as blocks
       case ItemUseInventoryTransactionType.Place: {
         // Get the block that the transaction is initially interacting with
-        const interacting = dimension.getBlock(transaction.blockPosition);
+        const interacting = await dimension.getBlock(transaction.blockPosition);
 
         // Get the block that will be updated based on the transaction
-        let resultant = interacting.face(transaction.face);
+        let resultant = await interacting.face(transaction.face);
 
         // If the interacting block is air, we don't want to place a block
         if (interacting.isAir) {
@@ -202,7 +210,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         const stack = player.getHeldItem();
 
         // Interact with the block
-        const results = interacting.interact({
+        const results = await interacting.interact({
           origin: player,
           clickedPosition: transaction.clickPosition,
           clickedFace: transaction.face,
@@ -222,12 +230,13 @@ class InventoryTransactionHandler extends NetworkHandler {
           if (stack.type.network !== transaction.item.network) return;
 
           // Trigger the useOnBlock method for the item stack
-          return void stack.useOnBlock(player, {
+          await stack.useOnBlock(player, {
             method: ItemUseMethod.Interact,
             targetBlock: interacting,
             clickPosition: transaction.clickPosition,
             face: transaction.face
           });
+          return;
         } else {
           // Get the item stack from the player & the previous block permutation
           const stack = player.getHeldItem() as ItemStack;
@@ -240,7 +249,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           if (stack.type.network !== transaction.item.network) return;
 
           // Call the useOnBlock method for the item stack
-          const useSuccess = stack.useOnBlock(player, {
+          const useSuccess = await stack.useOnBlock(player, {
             method: ItemUseMethod.Place,
             targetBlock: interacting,
             clickPosition: transaction.clickPosition,
@@ -251,7 +260,8 @@ class InventoryTransactionHandler extends NetworkHandler {
           if (!useSuccess) return stack.increment();
           // Check if the player is in survival mode
           // If so, decrement the stack
-          else if (player.gamemode === Gamemode.Survival) stack.decrement();
+          else if (player.gamemode === Gamemode.Survival)
+            await stack.decrement();
 
           // Check if a block type is present for the item stack
           const blockType = stack.type.blockType;
@@ -284,7 +294,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           );
 
           // Emit the signal
-          options.cancel = !signal.emit();
+          options.cancel = !(await signal.emit());
 
           // Check if the item stack has a block_data component
           if (stack.dynamicProperties.has("block_data")) {
@@ -294,13 +304,13 @@ class InventoryTransactionHandler extends NetworkHandler {
             ) as BlockEntry;
 
             // Set the block data entry to the block
-            resultant.loadDataEntry(resultant.world, entry);
+            await resultant.loadDataEntry(resultant.world, entry);
 
             // Set the permutation of the block with the block data
-            resultant.setPermutation(permutation, entry);
+            await resultant.setPermutation(permutation, entry);
           } else {
             // Set the permutation of the block
-            resultant.setPermutation(permutation);
+            await resultant.setPermutation(permutation);
           }
 
           // Call the block onPlace trait methods
@@ -352,7 +362,8 @@ class InventoryTransactionHandler extends NetworkHandler {
           : ItemUseMethod.Interact;
 
         // Call the onUse method for the item stack
-        return void stack.use(player, { method });
+        await stack.use(player, { method });
+        return;
       }
 
       case ItemUseInventoryTransactionType.Destroy: {
@@ -361,10 +372,10 @@ class InventoryTransactionHandler extends NetworkHandler {
     }
   }
 
-  public handleItemUseOnEntityTransaction(
+  public async handleItemUseOnEntityTransaction(
     player: Player,
     transaction: ItemUseOnEntityInventoryTransaction
-  ): void {
+  ): Promise<void> {
     // Get the dimension from the player
     const dimension = player.dimension;
 
@@ -378,7 +389,7 @@ class InventoryTransactionHandler extends NetworkHandler {
     const method = transaction.type as unknown as EntityInteractMethod;
 
     // Call the onInteract method for the entity
-    entity.interact(player, method);
+    await entity.interact(player, method);
 
     // Call the onUse method for the item stack
     if (player.getHeldItem()) {
@@ -390,10 +401,11 @@ class InventoryTransactionHandler extends NetworkHandler {
         transaction.type === 0 ? ItemUseMethod.Interact : ItemUseMethod.Attack;
 
       // Call the useOnEntity method for the item stack
-      return void stack.useOnEntity(player, {
+      await stack.useOnEntity(player, {
         method,
         targetEntity: entity
       });
+      return;
     }
   }
 }

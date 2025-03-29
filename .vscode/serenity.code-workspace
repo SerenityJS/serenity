@@ -2,31 +2,31 @@
   "folders": [
     {
       "name": "📁 Repository",
-      "path": "../",
+      "path": "../"
     },
     {
       "name": "🌱 Dev App",
-      "path": "../devapp",
+      "path": "../devapp"
     },
     {
       "name": "📀 Serenity",
-      "path": "../packages/core",
+      "path": "../packages/core"
     },
     {
       "name": "📀 Raknet",
-      "path": "../packages/raknet",
+      "path": "../packages/raknet"
     },
     {
       "name": "📀 Protocol",
-      "path": "../packages/protocol",
+      "path": "../packages/protocol"
     },
     {
       "name": "📀 Nbt",
-      "path": "../packages/nbt",
+      "path": "../packages/nbt"
     },
     {
       "name": "📀 Plugins",
-      "path": "../packages/plugins",
+      "path": "../packages/plugins"
     }
   ],
   "settings": {
@@ -39,18 +39,10 @@
     // Old Version
     "mc-color.enabled": true,
     "mc-color.markerType": "foreground",
-    "mc-color.languages": [
-      "*"
-    ],
+    "mc-color.languages": ["*"],
     "mc-color.newLineDelimiter": true,
-    "mc-color.delimiters": [
-      "`",
-      "\"",
-      "'"
-    ],
-    "mc-color.prefixes": [
-      "§"
-    ],
+    "mc-color.delimiters": ["`", "\"", "'"],
+    "mc-color.prefixes": ["§"],
     "mc-color.mode": "bedrock",
     "mc-color.replicateJavaBug": false,
     // Pre Release Verison
@@ -62,18 +54,12 @@
       "(?<!\\\\)\"", // Unescaped double quotes
       "(?<!\\\\)'", // Unescaped single quotes
       "(?<!\\\\)`", // Unescaped backticks
-      "\\r?\\n", // Newline (Unix or Windows style)
+      "\\r?\\n" // Newline (Unix or Windows style)
     ],
-    "cSpell.words": [
-      "devapp",
-      "pkgs",
-      "serenityjs",
-      "tsup",
-      "typecheck"
-    ],
+    "cSpell.words": ["devapp", "pkgs", "serenityjs", "tsup", "typecheck"],
     "[typescript]": {
       "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-    },
+    }
   },
   "extensions": {
     "recommendations": [
@@ -85,7 +71,7 @@
       "christian-kohler.npm-intellisense",
       "christian-kohler.path-intellisense",
       "christian-kohler.path-intellisense",
-      "nobuwu.mc-color",
-    ],
-  },
+      "nobuwu.mc-color"
+    ]
+  }
 }

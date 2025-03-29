@@ -10,20 +10,22 @@ class BlockTorchDirectionTrait extends BlockTrait {
   public static readonly identifier = "torch_direction";
   public static readonly state = "torch_facing_direction";
 
-  public onPlace({ origin, clickedFace }: BlockPlacementOptions): void {
+  public async onPlace({
+    origin,
+    clickedFace
+  }: BlockPlacementOptions): Promise<void> {
     // Check if there is an origin
     if (!origin) return;
 
     // Switch the direction of the torch based on the clicked face
     switch (clickedFace) {
       case BlockFace.Top: {
-        this.setDirection(TorchDirection.Top);
-        break;
+        return this.setDirection(TorchDirection.Top);
       }
 
       case BlockFace.North: {
         // Get the south block
-        const south = this.block.south();
+        const south = await this.block.south();
 
         // Check if the south block is solid
         // If it is, set the direction to south
@@ -35,7 +37,7 @@ class BlockTorchDirectionTrait extends BlockTrait {
 
       case BlockFace.South: {
         // Get the north block
-        const north = this.block.north();
+        const north = await this.block.north();
 
         // Check if the north block is solid
         // If it is, set the direction to north
@@ -47,7 +49,7 @@ class BlockTorchDirectionTrait extends BlockTrait {
 
       case BlockFace.East: {
         // Get the west block
-        const west = this.block.west();
+        const west = await this.block.west();
 
         // Check if the west block is solid
         // If it is, set the direction to west
@@ -58,7 +60,7 @@ class BlockTorchDirectionTrait extends BlockTrait {
 
       case BlockFace.West: {
         // Get the east block
-        const east = this.block.east();
+        const east = await this.block.east();
 
         // Check if the east block is solid
         // If it is, set the direction to east
@@ -70,21 +72,21 @@ class BlockTorchDirectionTrait extends BlockTrait {
       // If the torch is placed on the bottom face, determine the direction based on the surrounding blocks
       case BlockFace.Bottom: {
         // Check if the north block is solid
-        const north = this.block.north();
+        const north = await this.block.north();
         if (north && north.isSolid)
           return this.setDirection(TorchDirection.North);
 
         // Cjeck if the south block is solid
-        const south = this.block.south();
+        const south = await this.block.south();
         if (south && south.isSolid)
           return this.setDirection(TorchDirection.South);
 
         // Check if the east block is solid
-        const east = this.block.east();
+        const east = await this.block.east();
         if (east && east.isSolid) return this.setDirection(TorchDirection.East);
 
         // Check if the west block is solid
-        const west = this.block.west();
+        const west = await this.block.west();
         if (west && west.isSolid) return this.setDirection(TorchDirection.West);
 
         // If no solid blocks are found, default to the top direction
@@ -92,13 +94,12 @@ class BlockTorchDirectionTrait extends BlockTrait {
       }
 
       default: {
-        this.setDirection(TorchDirection.Top);
-        break;
+        return this.setDirection(TorchDirection.Top);
       }
     }
   }
 
-  public onUpdate(source?: Block): void {
+  public async onUpdate(source?: Block): Promise<void> {
     // Check if there is a source block
     if (!source || source === this.block) return;
 
@@ -107,52 +108,57 @@ class BlockTorchDirectionTrait extends BlockTrait {
     switch (this.getDirection()) {
       case TorchDirection.Top: {
         // Get the block below the torch
-        const below = this.block.below();
+        const below = await this.block.below();
 
         // Check if the block below is solid
-        if (below && !below.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
+        if (below && !below.isSolid) {
+          await this.block.destroy({ dropLoot: true });
+          return;
+        } else break;
       }
 
       case TorchDirection.North: {
         // Get the north block
-        const north = this.block.north();
+        const north = await this.block.north();
 
         // Check if the north block is solid
-        if (north && !north.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
+        if (north && !north.isSolid) {
+          await this.block.destroy({ dropLoot: true });
+          return;
+        } else break;
       }
 
       case TorchDirection.South: {
         // Get the south block
-        const south = this.block.south();
+        const south = await this.block.south();
 
         // Check if the south block is solid
-        if (south && !south.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
+        if (south && !south.isSolid) {
+          await this.block.destroy({ dropLoot: true });
+          return;
+        } else break;
       }
 
       case TorchDirection.East: {
         // Get the east block
-        const east = this.block.east();
+        const east = await this.block.east();
 
         // Check if the east block is solid
-        if (east && !east.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
+        if (east && !east.isSolid) {
+          await this.block.destroy({ dropLoot: true });
+          return;
+        } else break;
       }
 
       case TorchDirection.West: {
         // Get the west block
-        const west = this.block.west();
+        const west = await this.block.west();
 
         // Check if the west block is solid
-        if (west && !west.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
+        if (west && !west.isSolid) {
+          await this.block.destroy({ dropLoot: true });
+          return;
+        } else break;
       }
     }
   }
@@ -161,8 +167,8 @@ class BlockTorchDirectionTrait extends BlockTrait {
     return this.block.getState<TorchDirection>(this.state as string);
   }
 
-  public setDirection(direction: TorchDirection): void {
-    this.block.setState(this.state as string, direction);
+  public async setDirection(direction: TorchDirection): Promise<void> {
+    return this.block.setState(this.state as string, direction);
   }
 }
 

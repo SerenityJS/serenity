@@ -22,6 +22,9 @@ export const serenity = config({
     "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/no-invalid-void-type": "off",
     "@typescript-eslint/prefer-literal-enum-member": "off",
+    // We are moving to async, this is probably important.
+    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/no-misused-promises": ["error", { "checksConditionals": true }]
   },
 });
 

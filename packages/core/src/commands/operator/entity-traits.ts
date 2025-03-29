@@ -71,7 +71,7 @@ const register = (world: World) => {
           trait: EntityTraitEnum,
           options: [JsonObjectEnum, true]
         },
-        (context) => {
+        async (context) => {
           // Get the action from the context
           const action = context.action.result as "add" | "remove";
 
@@ -111,7 +111,7 @@ const register = (world: World) => {
               if (!trait) continue;
 
               // Add the trait to the entity
-              entity.addTrait(trait as unknown as EntityTrait, options);
+              await entity.addTrait(trait as unknown as EntityTrait, options);
 
               // Get the id of the entity
               const id = entity.isPlayer()
@@ -122,7 +122,7 @@ const register = (world: World) => {
               message.push(`  §7- §u${id}§7: [§f${traitName}§7]§r`);
             } else {
               // Remove the trait from the entity
-              entity.removeTrait(traitName);
+              await entity.removeTrait(traitName);
 
               // Get the id of the entity
               const id = entity.isPlayer()

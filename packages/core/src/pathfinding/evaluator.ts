@@ -12,7 +12,7 @@ abstract class NodeEvaluator {
 
   public abstract getNeighbors(node: Node): Generator<Node>;
 
-  protected getBlock(node: Node): Block {
+  protected async getBlock(node: Node): Promise<Block> {
     return this.entity.dimension.getBlock(node);
   }
 }

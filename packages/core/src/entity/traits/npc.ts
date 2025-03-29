@@ -122,7 +122,7 @@ class EntityNpcTrait extends EntityTrait {
     return this.property.buttons.length - 1;
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the entity has a npc component
     if (this.entity.hasDynamicProperty(this.identifier)) return;
 
@@ -137,25 +137,28 @@ class EntityNpcTrait extends EntityTrait {
     const metadata = new DataItem(ActorDataId.HasNpc, ActorDataType.Byte, 1);
 
     // Add the metadata item to the entity
-    this.entity.metadata.set(ActorDataId.HasNpc, metadata);
+    await this.entity.metadata.set(ActorDataId.HasNpc, metadata);
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Remove the npc component from the entity
     this.entity.removeDynamicProperty(this.identifier);
 
     // Remove the metadata item from the entity
-    this.entity.metadata.delete(ActorDataId.HasNpc);
+    await this.entity.metadata.delete(ActorDataId.HasNpc);
   }
 
-  public onInteract(player: Player, method: EntityInteractMethod): void {
+  public async onInteract(
+    player: Player,
+    method: EntityInteractMethod
+  ): Promise<void> {
     // Check if the player is in creative mode and attacking the entity
     if (
       method === EntityInteractMethod.Attack &&
       player.gamemode === Gamemode.Creative
     ) {
       // Remove the entity from the dimension
-      this.entity.despawn();
+      await this.entity.despawn();
     }
 
     // Check if the entity is not being interacted with (right-click)
@@ -168,7 +171,7 @@ class EntityNpcTrait extends EntityTrait {
     for (const [text] of this.buttons) form.button(text);
 
     // Show the form to the player
-    form.show(player, (index, error) => {
+    await form.show(player, (index, error) => {
       // Check if the index is null or an error occurred
       if (index === null || error) return;
 

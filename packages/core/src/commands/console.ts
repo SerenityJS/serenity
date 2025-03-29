@@ -18,6 +18,7 @@ class ConsoleInterface {
     stdin.setRawMode(true);
     stdin.resume();
 
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.interface.on("line", this.onLine.bind(this));
 
     this.interface.setPrompt("> ");

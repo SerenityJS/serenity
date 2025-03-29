@@ -2,8 +2,9 @@ import { CompoundTag, Tag } from "@serenityjs/nbt";
 import { BinaryStream } from "@serenityjs/binarystream";
 
 import { ItemStack } from "../stack";
+import { AsyncMap } from "../../utility";
 
-class ItemStackNbtMap extends Map<string, Tag> {
+class ItemStackNbtMap extends AsyncMap<string, Tag> {
   /**
    * The item stack that the nbt map is attached to.
    */
@@ -22,47 +23,49 @@ class ItemStackNbtMap extends Map<string, Tag> {
     return super.get(key) as T;
   }
 
-  public add(...tags: Array<Tag<unknown>>): this {
-    for (const tag of tags) {
-      // Call the original set method
-      super.set(tag.name, tag);
+  public async add(...tags: Array<Tag<unknown>>): Promise<this> {
+    await Promise.all(
+      tags.map(async (tag) => {
+        // Call the original set method
+        await super.set(tag.name, tag);
 
-      // Update the nbt data when a new value is added
-      this.update();
-    }
+        // Update the nbt data when a new value is added
+        return this.update();
+      })
+    );
 
     // Return the result
     return this;
   }
 
-  public set(key: string, value: Tag<unknown>): this {
+  public async set(key: string, value: Tag<unknown>): Promise<this> {
     // Call the original set method
-    const result = super.set(key, value);
+    await super.set(key, value);
 
     // Update the nbt data when a new value is added
-    this.update();
+    await this.update();
 
     // Return the result
-    return result;
+    return this;
   }
 
-  public delete(key: string): boolean {
+  public async delete(key: string): Promise<boolean> {
     // Call the original delete method
-    const result = super.delete(key);
+    const result = await super.delete(key);
 
     // Update the nbt data when a value is removed
-    this.update();
+    await this.update();
 
     // Return the result
     return result;
   }
 
-  public clear(): void {
+  public async clear(): Promise<void> {
     // Call the original clear method
-    super.clear();
+    await super.clear();
 
     // Update the nbt data when the map is cleared
-    this.update();
+    return this.update();
   }
 
   /**
@@ -87,12 +90,14 @@ class ItemStackNbtMap extends Map<string, Tag> {
    * Adds the tags from a compound to the map.
    * @param root The compound tag to add the tags from.
    */
-  public fromCompound(root: CompoundTag<unknown>): void {
+  public async fromCompound(root: CompoundTag<unknown>): Promise<void> {
     // Iterate over the tags in the compound
-    for (const tag of root.getTags()) {
-      // Set the tag in the map
-      this.set(tag.name, tag);
-    }
+    await Promise.all(
+      root.getTags().map(async (tag) => {
+        // Set the tag in the map
+        await this.set(tag.name, tag);
+      })
+    );
   }
 
   public serialize(): Buffer {
@@ -109,7 +114,7 @@ class ItemStackNbtMap extends Map<string, Tag> {
     return stream.getBuffer();
   }
 
-  public deserialize(buffer: Buffer): void {
+  public async deserialize(buffer: Buffer): Promise<void> {
     // Create a new BinaryStream to read the data
     const stream = new BinaryStream(buffer);
 
@@ -117,10 +122,10 @@ class ItemStackNbtMap extends Map<string, Tag> {
     const root = CompoundTag.read(stream);
 
     // Add the tags from the compound to the map
-    this.fromCompound(root);
+    return this.fromCompound(root);
   }
 
-  protected update(): void {
+  public async update(): Promise<void> {
     // Check if the item is in a container.
     if (!this.itemStack.container) return;
 
@@ -130,11 +135,11 @@ class ItemStackNbtMap extends Map<string, Tag> {
     // Check if the item is 0 or less.
     if (this.itemStack.amount <= 0) {
       // Remove the item from the container.
-      this.itemStack.container.clearSlot(slot);
+      await this.itemStack.container.clearSlot(slot);
     }
 
     // Set the item in the container.
-    else this.itemStack.container.setItem(slot, this.itemStack);
+    else await this.itemStack.container.setItem(slot, this.itemStack);
   }
 }
 

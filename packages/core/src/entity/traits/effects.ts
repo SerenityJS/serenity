@@ -27,7 +27,7 @@ class EntityEffectsTrait extends EntityTrait {
 
   private readonly effects: Map<EffectType, Effect> = new Map();
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     for (const [type, effect] of this.effects) {
       effect.onTick?.(this.entity);
 
@@ -36,7 +36,7 @@ class EntityEffectsTrait extends EntityTrait {
         effect.duration -= 2;
         continue;
       }
-      this.remove(type);
+      await this.remove(type);
     }
 
     const particleInterval = this.effects.size > 1 ? 8n : 2n;
@@ -51,15 +51,15 @@ class EntityEffectsTrait extends EntityTrait {
       packet.data = effect.color.toInt();
       packet.position = this.entity.position.subtract(new Vector3f(0, 1, 0));
 
-      this.entity.dimension.broadcast(packet);
+      await this.entity.dimension.broadcast(packet);
     }
   }
 
-  public remove(effectType: EffectType): void {
+  public async remove(effectType: EffectType): Promise<void> {
     if (!this.effects.has(effectType)) return;
     const signal = new EffectRemoveSignal(this.entity, effectType);
 
-    signal.emit();
+    await signal.emit();
     this.effects.get(effectType)?.onRemove?.(this.entity);
     this.effects.delete(effectType);
 
@@ -74,7 +74,7 @@ class EntityEffectsTrait extends EntityTrait {
     packet.duration = 0;
     packet.inputTick = this.entity.world.currentTick;
 
-    this.entity.send(packet);
+    await this.entity.send(packet);
   }
 
   /**
@@ -95,11 +95,11 @@ class EntityEffectsTrait extends EntityTrait {
    * @param amplifier - The amplifier of the effect. Optional, defaults to 0.
    * @param showParticles - Whether the effect should show particles. Optional, defaults to true.
    */
-  public add(
+  public async add(
     effectType: EffectType,
     duration: number,
     options?: EntityEffectOptions
-  ): void {
+  ): Promise<void> {
     const showParticles = options?.showParticles ?? true;
     const amplifier = options?.amplifier ?? 0;
 
@@ -120,7 +120,7 @@ class EntityEffectsTrait extends EntityTrait {
     if (!effect) return;
     const signal = new EffectAddSignal(this.entity, effect);
 
-    if (!signal.emit()) return;
+    if (!(await signal.emit())) return;
 
     effect.onAdd?.(this.entity);
     this.effects.set(effectType, effect);
@@ -138,7 +138,7 @@ class EntityEffectsTrait extends EntityTrait {
     packet.inputTick = this.entity.world.currentTick;
 
     // Send the packet to the player.
-    this.entity.send(packet);
+    await this.entity.send(packet);
   }
 
   /**

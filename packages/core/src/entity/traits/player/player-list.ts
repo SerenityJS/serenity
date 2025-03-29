@@ -21,7 +21,7 @@ class PlayerListTrait extends PlayerTrait {
   /**
    * Clears the player list.
    */
-  public clear(): void {
+  public async clear(): Promise<void> {
     // Remove all the players from the player list
     const remove = new PlayerListPacket();
     remove.action = PlayerListAction.Remove;
@@ -33,10 +33,10 @@ class PlayerListTrait extends PlayerTrait {
     this.players.clear();
 
     // Send the remove packet to the player
-    this.player.send(remove);
+    return this.player.send(remove);
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the player is spawned
     if (!this.player.isAlive) return;
 
@@ -82,32 +82,36 @@ class PlayerListTrait extends PlayerTrait {
     remove.records = removing.map((uuid) => new PlayerListRecord(uuid));
 
     // Send the player list packets to the player
-    if (add.records.length > 0) this.player.send(add);
-    if (remove.records.length > 0) this.player.send(remove);
+    if (add.records.length > 0) await this.player.send(add);
+    if (remove.records.length > 0) await this.player.send(remove);
 
     // Update the player list
-    for (const player of adding) {
-      // Add the player to the player list
-      this.players.add(player.uuid);
+    await Promise.all(
+      adding.map(async (player) => {
+        // Add the player to the player list
+        this.players.add(player.uuid);
 
-      // Update the player's metadata and abilities
-      player.metadata.update();
-      player.abilities.update();
-      player.abilities.update();
-    }
+        // Update the player's metadata and abilities
+        return Promise.all([
+          player.metadata.update(),
+          player.abilities.update()
+          // player.abilities.update()
+        ]);
+      })
+    );
 
     // Update the player list
     for (const uuid of removing) this.players.delete(uuid);
   }
 
-  public onDespawn(): void {
+  public async onDespawn(): Promise<void> {
     // Clear the player list
-    this.clear();
+    return this.clear();
   }
 
-  public onRemove(): void {
+  public onRemove(): Promise<void> {
     // Clear the player list
-    this.clear();
+    return this.clear();
   }
 }
 

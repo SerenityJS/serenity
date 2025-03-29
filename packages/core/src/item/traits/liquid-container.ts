@@ -16,10 +16,10 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     ItemIdentifier.LavaBucket
   ];
 
-  public onUseOnBlock(
+  public async onUseOnBlock(
     player: Player,
     options: ItemUseOnBlockOptions
-  ): ItemUseMethod | void {
+  ): Promise<ItemUseMethod | void> {
     // Check if the useMethod is unknown
     if (options.method !== ItemUseMethod.Place) return;
 
@@ -35,7 +35,7 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
           options.targetBlock.isWaterlogged = false;
 
           // Set the itemStack to a water bucket
-          itemStack = new ItemStack(ItemIdentifier.WaterBucket);
+          itemStack = await ItemStack.create(ItemIdentifier.WaterBucket);
         } else {
           // Check if the target block is neither water nor lava
           if (
@@ -47,15 +47,16 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
           // Determine the ItemStack to replace the bucket with
           itemStack =
             options.targetBlock.identifier === BlockIdentifier.Water
-              ? new ItemStack(ItemIdentifier.WaterBucket)
-              : new ItemStack(ItemIdentifier.LavaBucket);
+              ? await ItemStack.create(ItemIdentifier.WaterBucket)
+              : await ItemStack.create(ItemIdentifier.LavaBucket);
 
           // Set the target block to air
+          // eslint-disable-next-line require-atomic-updates
           options.targetBlock.identifier = BlockIdentifier.Air;
         }
 
         // Add the itemStack to the player's inventory
-        this.item.container?.addItem(itemStack);
+        await this.item.container?.addItem(itemStack);
 
         // Return the updated use method
         return ItemUseMethod.FillBucket;
@@ -75,7 +76,7 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
         // If nethier case is matched, get the resultanting block base on the face
         else {
           // Get the resultant block
-          const resultant = options.targetBlock.face(options.face);
+          const resultant = await options.targetBlock.face(options.face);
 
           // Set the resultant block to water
           resultant.identifier = BlockIdentifier.Water;
@@ -84,13 +85,13 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
         // Check if the player is in creative mode
         if (player.gamemode !== Gamemode.Creative) {
           // Create a new ItemStack to replace the water bucket
-          const itemStack = new ItemStack(ItemIdentifier.Bucket);
+          const itemStack = await ItemStack.create(ItemIdentifier.Bucket);
 
           // Get the current slot of the item
           const slot = this.item.slot;
 
           // Set the new ItemStack in the slot
-          this.item.container?.setItem(slot, itemStack);
+          await this.item.container?.setItem(slot, itemStack);
         }
 
         // Return updated use method
@@ -106,7 +107,7 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
         // If nethier case is matched, get the resultanting block base on the face
         else {
           // Get the resultant block
-          const resultant = options.targetBlock.face(options.face);
+          const resultant = await options.targetBlock.face(options.face);
 
           // Set the resultant block to lava
           resultant.identifier = BlockIdentifier.Lava;
@@ -115,13 +116,13 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
         // Check if the player is in creative mode
         if (player.gamemode !== Gamemode.Creative) {
           // Create a new ItemStack to replace the lava bucket
-          const itemStack = new ItemStack(ItemIdentifier.Bucket);
+          const itemStack = await ItemStack.create(ItemIdentifier.Bucket);
 
           // Get the current slot of the item
           const slot = this.item.slot;
 
           // Set the new ItemStack in the slot
-          this.item.container?.setItem(slot, itemStack);
+          await this.item.container?.setItem(slot, itemStack);
         }
 
         // Return updated use method

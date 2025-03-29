@@ -6,7 +6,7 @@ import { BlockDirectionTrait } from "./direction";
 class BlockFacingDirection extends BlockDirectionTrait {
   public static readonly state = "facing_direction";
 
-  public onPlace({ origin }: BlockPlacementOptions): void {
+  public async onPlace({ origin }: BlockPlacementOptions): Promise<void> {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return;
 
@@ -48,9 +48,9 @@ class BlockFacingDirection extends BlockDirectionTrait {
     return state;
   }
 
-  public setDirection(direction: FacingDirection): void {
+  public async setDirection(direction: FacingDirection): Promise<void> {
     // Set the direction of the block
-    this.block.setState(this.state as string, direction);
+    return this.block.setState(this.state as string, direction);
   }
 }
 

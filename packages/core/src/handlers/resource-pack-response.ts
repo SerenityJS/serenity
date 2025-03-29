@@ -26,10 +26,10 @@ import { EntityType } from "../entity";
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
 
-  public handle(
+  public async handle(
     packet: ResourcePackClientResponsePacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -52,7 +52,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
       case ResourcePackResponse.Refused: {
         // This means the resource packs must be accepted but the client didn't accept them
-        player.disconnect(
+        await player.disconnect(
           "Must accept resource packs.",
           DisconnectReason.Kicked
         );
@@ -92,7 +92,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           dataInfoPacket.isPremium = false;
           dataInfoPacket.packType = pack.packType;
 
-          player.send(dataInfoPacket);
+          await player.send(dataInfoPacket);
         }
 
         return;
@@ -272,7 +272,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        player.sendImmediate(packet, status, actors, items);
+        return player.sendImmediate(packet, status, actors, items);
       }
     }
   }

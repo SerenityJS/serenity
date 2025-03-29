@@ -131,7 +131,7 @@ class PlayerCombatTrait extends PlayerTrait {
     this.player.removeDynamicProperty(PlayerCombatTrait.identifier);
   }
 
-  public onAttackEntity(target: Entity): void {
+  public async onAttackEntity(target: Entity): Promise<void> {
     // Check if the player is in reach of the target, and if the player is on cooldown.
     if (this.isOnCooldown || !this.isInReachOf(target)) return;
 
@@ -189,7 +189,7 @@ class PlayerCombatTrait extends PlayerTrait {
       0.7;
 
     // Set the velocity of the entity
-    target.addMotion(new Vector3f(x, y, z));
+    await target.addMotion(new Vector3f(x, y, z));
 
     // Check if the player is critical attacking the entity.
     const critical =
@@ -211,7 +211,7 @@ class PlayerCombatTrait extends PlayerTrait {
       packet.boatRowingTime = null;
 
       // Broadcast the animate packet to the dimension of the player.
-      this.player.dimension.broadcast(packet);
+      await this.player.dimension.broadcast(packet);
 
       // Start the critical cooldown
       this.startCriticalCooldown();
@@ -234,7 +234,11 @@ class PlayerCombatTrait extends PlayerTrait {
     }
 
     // Apply damage to the entity
-    health.applyDamage(damage, this.player, ActorDamageCause.EntityAttack);
+    await health.applyDamage(
+      damage,
+      this.player,
+      ActorDamageCause.EntityAttack
+    );
 
     // Start the combat cooldown
     return this.startCooldown();
@@ -325,7 +329,9 @@ class PlayerCombatTrait extends PlayerTrait {
     this.player.world
       // Schedule the combat cooldown based on the provided ticks or the default combat cooldown.
       .schedule(ticks ?? this.combatCooldown)
-      .on(() => (this.isOnCooldown = false)); // Set the player off cooldown.
+      .on(() => {
+        this.isOnCooldown = false;
+      }); // Set the player off cooldown.
   }
 
   /**
@@ -340,7 +346,9 @@ class PlayerCombatTrait extends PlayerTrait {
     this.player.world
       // Schedule the combat cooldown based on the provided ticks or the default combat cooldown.
       .schedule(ticks ?? this.combatCooldown * 5)
-      .on(() => (this.isOnCriticalCooldown = false)); // Set the player off cooldown.
+      .on(() => {
+        this.isOnCriticalCooldown = false;
+      }); // Set the player off cooldown.
   }
 }
 

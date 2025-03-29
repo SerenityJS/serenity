@@ -33,8 +33,16 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
 
   /**
    * The amount of damage that the item stack has taken.
+   * @deprecated Use `setDamage` instead. Errors will not propagate.
    */
   public set damage(value: number) {
+    void this.setDamage(value);
+  }
+
+  /**
+   * The amount of damage that the item stack has taken.
+   */
+  public async setDamage(value: number): Promise<void> {
     // Get the Damage tag from the item stack's NBT
     const damage = this.item.nbt.get<IntTag>("Damage");
 
@@ -44,10 +52,10 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       damage.value = value;
 
       // Update the item stack's NBT
-      this.item.nbt.set("Damage", damage);
+      await this.item.nbt.set("Damage", damage);
     } else {
       // Create the Damage tag with the specified value
-      this.item.nbt.add(new IntTag({ name: "Damage", value }));
+      await this.item.nbt.add(new IntTag({ name: "Damage", value }));
     }
   }
 
@@ -80,26 +88,26 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     }
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the item has the Damage tag
     if (!this.item.nbt.has("Damage")) {
       // Create the Damage tag with an initial value of 0
       const damage = new IntTag({ name: "Damage", value: 0 });
 
       // Set the Damage tag on the item stack's NBT
-      this.item.nbt.add(damage);
+      await this.item.nbt.add(damage);
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Remove the Damage tag from the item stack's NBT
-    this.item.nbt.delete("Damage");
+    await this.item.nbt.delete("Damage");
   }
 
-  public onUse(
+  public async onUse(
     player: Player,
     options: Partial<ItemUseOptions>
-  ): boolean | void {
+  ): Promise<boolean | void> {
     // Check if a predicted durability was provided
     if (options.predictedDurability === undefined) return;
 
@@ -119,11 +127,10 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       packet.isGlobal = false;
       packet.uniqueActorId = -1n;
 
-      // Broadcast the sound event packet to the player's dimension
-      player.dimension.broadcast(packet);
-
-      // Decrement the item stack's amount
-      this.item.decrement();
+      await Promise.all([
+        player.dimension.broadcast(packet),
+        this.item.decrement()
+      ]);
     }
   }
 }

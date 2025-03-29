@@ -9,9 +9,9 @@ const register = (world: World) => {
       // Set the permissions of the command
       registry.permissions = ["serenity.internal"];
     },
-    () => {
+    async () => {
       // stop the server
-      world.serenity.stop();
+      await world.serenity.stop();
     }
   );
 };

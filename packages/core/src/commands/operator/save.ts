@@ -9,9 +9,9 @@ const register = (world: World) => {
       // Set the permissions of the command
       registry.permissions = ["serenity.internal"];
     },
-    () => {
+    async () => {
       // Save the world
-      world.provider.onSave();
+      await world.provider.onSave();
 
       // Return a message
       return {

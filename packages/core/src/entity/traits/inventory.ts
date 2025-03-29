@@ -88,7 +88,7 @@ class EntityInventoryTrait extends EntityTrait {
    * Sets the held item in the inventory.
    * @param slot The slot to set the held item to.
    */
-  public setHeldItem(slot: number): void {
+  public async setHeldItem(slot: number): Promise<void> {
     // Check if the entity is not a player
     if (!this.entity.isPlayer()) return;
 
@@ -114,7 +114,7 @@ class EntityInventoryTrait extends EntityTrait {
     this.selectedSlot = slot;
 
     // Send the packet to the player
-    this.entity.send(packet);
+    return this.entity.send(packet);
   }
 
   public onContainerUpdate(container: Container): void {
@@ -140,30 +140,32 @@ class EntityInventoryTrait extends EntityTrait {
     this.property = { size: this.container.size, items };
   }
 
-  public onSpawn(): void {
+  public async onSpawn(): Promise<void> {
     // Iterate over each item in the inventory property
-    for (const [slot, entry] of this.property.items) {
-      try {
-        // Create a new item stack
-        const itemStack = new ItemStack(entry.identifier, {
-          amount: entry.amount,
-          metadata: entry.metadata,
-          world: this.entity.world,
-          entry
-        });
+    await Promise.allSettled(
+      this.property.items.map(async ([slot, entry]) => {
+        try {
+          // Create a new item stack
+          const itemStack = await ItemStack.create(entry.identifier, {
+            amount: entry.amount,
+            metadata: entry.metadata,
+            world: this.entity.world,
+            entry
+          });
 
-        // Set the item stack to the equipment slot
-        this.container.setItem(slot, itemStack);
-      } catch {
-        // Log the error
-        this.entity.world.logger.error(
-          `Failed to create ItemStack with ItemType "${entry.identifier}", the type does not exist in the ItemPalette.`
-        );
-      }
-    }
+          // Set the item stack to the equipment slot
+          await this.container.setItem(slot, itemStack);
+        } catch {
+          // Log the error
+          this.entity.world.logger.error(
+            `Failed to create ItemStack with ItemType "${entry.identifier}", the type does not exist in the ItemPalette.`
+          );
+        }
+      })
+    );
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the entity has an inventory property
     if (this.entity.hasDynamicProperty("inventory")) return;
 
@@ -188,20 +190,23 @@ class EntityInventoryTrait extends EntityTrait {
     );
 
     // Set the container metadata
-    this.entity.metadata.set(ActorDataId.ContainerType, type);
-    this.entity.metadata.set(ActorDataId.ContainerSize, set);
+    await this.entity.metadata.set(ActorDataId.ContainerType, type);
+    await this.entity.metadata.set(ActorDataId.ContainerSize, set);
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Remove the item storage property
     this.entity.removeDynamicProperty("inventory");
 
     // Remove the container metadata
-    this.entity.metadata.delete(ActorDataId.ContainerType);
-    this.entity.metadata.delete(ActorDataId.ContainerSize);
+    await this.entity.metadata.delete(ActorDataId.ContainerType);
+    await this.entity.metadata.delete(ActorDataId.ContainerSize);
   }
 
-  public onInteract(player: Player, method: EntityInteractMethod): void {
+  public async onInteract(
+    player: Player,
+    method: EntityInteractMethod
+  ): Promise<void> {
     // Check if the method is not interact
     if (method !== EntityInteractMethod.Interact) return;
 
@@ -209,28 +214,31 @@ class EntityInventoryTrait extends EntityTrait {
     if (this.entity.isPlayer()) return;
 
     // Show the inventory to the player
-    this.container.show(player);
+    await this.container.show(player);
   }
 
-  public onDeath(): void {
+  public async onDeath(): Promise<void> {
     // Check if the entity is a player, and the keep inventory gamerule is enabled
     if (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
       return;
 
     // Iterate over the container slots
-    for (let slot = 0; slot < this.container.size; slot++) {
-      // Get the item stack at the index
-      const itemStack = this.container.getItem(slot);
+    await Promise.all(
+      Array.from({ length: this.container.size }, async (_, slot) => {
+        // Get the item stack at the index
+        const itemStack = this.container.getItem(slot);
 
-      // Check if the item is null
-      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+        // Check if the item is null
+        if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) return;
 
-      // Drop the item stack from the armor container
-      this.entity.dimension.spawnItem(itemStack, this.entity.position);
-
-      // Clear the item stack from the armor container
-      this.container.clearSlot(slot);
-    }
+        return Promise.all([
+          // Drop the item stack from the armor container
+          this.entity.dimension.spawnItem(itemStack, this.entity.position),
+          // Clear the item stack from the armor container
+          this.container.clearSlot(slot)
+        ]);
+      })
+    );
   }
 }
 

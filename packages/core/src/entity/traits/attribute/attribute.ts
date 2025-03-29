@@ -33,8 +33,16 @@ class EntityAttributeTrait extends EntityTrait {
 
   /**
    * The minimum value of the attribute
+   * @deprecated Use `setMinimumValue` instead. Errors will be lost.
    */
   public set minimumValue(value: number) {
+    void this.setMinimumValue(value);
+  }
+
+  /**
+   * The minimum value of the attribute
+   */
+  public async setMinimumValue(value: number): Promise<void> {
     // Get the attribute from the entity
     const attribute = this.getAttribute();
 
@@ -42,7 +50,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.min = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    await this.entity.attributes.add(attribute);
   }
 
   /**
@@ -58,8 +66,16 @@ class EntityAttributeTrait extends EntityTrait {
 
   /**
    * The maximum value of the attribute
+   * @deprecated Use `setMaximumValue` instead. Errors will be lost.
    */
   public set maximumValue(value: number) {
+    void this.setMaximumValue(value);
+  }
+
+  /**
+   * The maximum value of the attribute
+   */
+  public async setMaximumValue(value: number): Promise<void> {
     // Get the attribute from the entity
     const attribute = this.getAttribute();
 
@@ -67,7 +83,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.max = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    await this.entity.attributes.add(attribute);
   }
 
   /**
@@ -83,8 +99,16 @@ class EntityAttributeTrait extends EntityTrait {
 
   /**
    * The default value of the attribute
+   * @deprecated Use `setDefaultValue` instead. Errors will be lost.
    */
   public set defaultValue(value: number) {
+    void this.setDefaultValue(value);
+  }
+
+  /**
+   * The default value of the attribute
+   */
+  public async setDefaultValue(value: number): Promise<void> {
     // Get the attribute from the entity
     const attribute = this.getAttribute();
 
@@ -92,7 +116,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.default = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    await this.entity.attributes.add(attribute);
   }
 
   /**
@@ -108,8 +132,16 @@ class EntityAttributeTrait extends EntityTrait {
 
   /**
    * The current value of the attribute
+   * @deprecated Use `setCurrentValue` instead. Errors will be lost.
    */
   public set currentValue(value: number) {
+    void this.setCurrentValue(value);
+  }
+
+  /**
+   * The current value of the attribute
+   */
+  public async setCurrentValue(value: number): Promise<void> {
     // Get the attribute from the entity
     const attribute = this.getAttribute();
 
@@ -117,7 +149,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.current = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    await this.entity.attributes.add(attribute);
   }
 
   /**
@@ -136,7 +168,7 @@ class EntityAttributeTrait extends EntityTrait {
     this.currentValue = this.defaultValue;
   }
 
-  public onAdd(properties?: AttributeProperties): void {
+  public async onAdd(properties?: AttributeProperties): Promise<void> {
     // Check if the entity has a saturation attribute
     if (!this.entity.attributes.has(this.attribute)) {
       // If not, create a new saturation attribute for the entity
@@ -152,13 +184,13 @@ class EntityAttributeTrait extends EntityTrait {
       );
 
       // Add the attribute to the entity
-      this.entity.attributes.add(attribute);
+      await this.entity.attributes.add(attribute);
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Remove the saturation attribute from the entity
-    this.entity.attributes.delete(this.attribute);
+    await this.entity.attributes.delete(this.attribute);
   }
 }
 

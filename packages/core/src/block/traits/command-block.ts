@@ -14,7 +14,10 @@ class BlockCommandBlockTrait extends BlockTrait {
   public static readonly identifier = "command_block";
   public static readonly types = [BlockIdentifier.CommandBlock];
 
-  public onInteract({ origin, cancel }: BlockInteractionOptions): void {
+  public async onInteract({
+    origin,
+    cancel
+  }: BlockInteractionOptions): Promise<void> {
     // Check if the block interaction has been cancelled or if there is no origin
     if (cancel || !origin) return;
 
@@ -32,7 +35,7 @@ class BlockCommandBlockTrait extends BlockTrait {
     return origin.send(packet);
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the command block is always active or powered
     if (!this.getAlwaysActive() && !this.getPowered()) return;
 
@@ -50,7 +53,9 @@ class BlockCommandBlockTrait extends BlockTrait {
         if (this.getLastOutput() === result.message) return;
 
         // Set the last output message
-        this.setLastOutput(result.message ?? "Command Executed Successfully");
+        await this.setLastOutput(
+          result.message ?? "Command Executed Successfully"
+        );
       } catch (reason) {
         // Get the message from the error
         const message = (reason as Error).message;
@@ -59,7 +64,7 @@ class BlockCommandBlockTrait extends BlockTrait {
         if (this.getLastOutput() === message) return;
 
         // Set the last output message
-        this.setLastOutput((reason as Error).message);
+        await this.setLastOutput((reason as Error).message);
       }
     }
   }
@@ -80,12 +85,12 @@ class BlockCommandBlockTrait extends BlockTrait {
    * Sets the command of the command block.
    * @param value The command to set for the command block.
    */
-  public setCommand(value: string): void {
+  public async setCommand(value: string): Promise<void> {
     // Create the command NBT tag
     const command = new StringTag({ name: "Command", value });
 
     // Set the command NBT tag
-    this.block.nbt.set("Command", command);
+    await this.block.nbt.set("Command", command);
   }
 
   /**
@@ -104,12 +109,12 @@ class BlockCommandBlockTrait extends BlockTrait {
    * Set the last output message of the command block.
    * @param value The last output message to set.
    */
-  public setLastOutput(value: string): void {
+  public async setLastOutput(value: string): Promise<void> {
     // Create the last output NBT tag
     const lastOutput = new StringTag({ name: "LastOutput", value });
 
     // Set the last output NBT tag
-    this.block.nbt.set("LastOutput", lastOutput);
+    await this.block.nbt.set("LastOutput", lastOutput);
   }
 
   /**
@@ -128,12 +133,12 @@ class BlockCommandBlockTrait extends BlockTrait {
    * Set the tick delay of the command block.
    * @param value The tick delay to set.
    */
-  public setTickDelay(value: number): void {
+  public async setTickDelay(value: number): Promise<void> {
     // Create the tick delay NBT tag
     const tickDelay = new IntTag({ name: "TickDelay", value });
 
     // Set the tick delay NBT tag
-    this.block.nbt.set("TickDelay", tickDelay);
+    await this.block.nbt.set("TickDelay", tickDelay);
   }
 
   /**
@@ -152,12 +157,12 @@ class BlockCommandBlockTrait extends BlockTrait {
    * Set the always active state of the command block.
    * @param value The always active state to set.
    */
-  public setAlwaysActive(value: boolean): void {
+  public async setAlwaysActive(value: boolean): Promise<void> {
     // Create the always active NBT tag
     const alwaysActive = new ByteTag({ name: "auto", value: value ? 1 : 0 });
 
     // Set the always active NBT tag
-    this.block.nbt.set("auto", alwaysActive);
+    await this.block.nbt.set("auto", alwaysActive);
   }
 
   public getPowered(): boolean {
@@ -168,12 +173,12 @@ class BlockCommandBlockTrait extends BlockTrait {
     return powered ? powered.value === 1 : false;
   }
 
-  public setPowered(value: boolean): void {
+  public async setPowered(value: boolean): Promise<void> {
     // Create the powered NBT tag
     const powered = new ByteTag({ name: "powered", value: value ? 1 : 0 });
 
     // Set the powered NBT tag
-    this.block.nbt.set("powered", powered);
+    await this.block.nbt.set("powered", powered);
   }
 }
 

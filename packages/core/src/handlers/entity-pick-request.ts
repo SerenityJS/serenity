@@ -13,7 +13,10 @@ import { EntityInventoryTrait } from "../entity";
 class EntityPickRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.EntityPickRequest;
 
-  public handle(packet: EntityPickRequestPacket, connection: Connection): void {
+  public async handle(
+    packet: EntityPickRequestPacket,
+    connection: Connection
+  ): Promise<void> {
     // Get the player by the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -40,7 +43,7 @@ class EntityPickRequestHandler extends NetworkHandler {
     if (!itemType) return;
 
     // Create the item stack from the item type.
-    const itemStack = new ItemStack(itemType, { world: player.world });
+    const itemStack = await ItemStack.create(itemType, { world: player.world });
 
     // Check if the entity data should be added to the item stack.
     if (withData) {
@@ -55,7 +58,7 @@ class EntityPickRequestHandler extends NetworkHandler {
     const { container } = player.getTrait(EntityInventoryTrait);
 
     // Add the item stack to the player's inventory.
-    container.addItem(itemStack);
+    await container.addItem(itemStack);
   }
 }
 

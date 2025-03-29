@@ -30,7 +30,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * Sends a chunk to the player.
    * @param chunks The chunks to send to the player.
    */
-  public send(...chunks: Array<Chunk>): void {
+  public async send(...chunks: Array<Chunk>): Promise<void> {
     // Get the amount of chunks to send
     const amount = chunks.length;
 
@@ -65,27 +65,29 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       });
 
       // Send the packets to the player
-      this.player.send(...levelChunks);
+      await this.player.send(...levelChunks);
     }
 
     // Iterate over the blocks in the dimension
-    for (const [, block] of this.player.dimension.blocks) {
-      // Check if the block has NBT data
-      if (block.nbt.size === 0) continue;
+    await Promise.all(
+      this.player.dimension.blocks.values().map(async (block) => {
+        // Check if the block has NBT data
+        if (block.nbt.size === 0) return;
 
-      // Check if the block is in the chunks
-      if (chunks.some((chunk) => block.getChunk() === chunk)) {
-        // Create a new BlockActorData packet
-        const packet = new BlockActorDataPacket();
+        // Check if the block is in the chunks
+        if (chunks.some((chunk) => block.getChunk() === chunk)) {
+          // Create a new BlockActorData packet
+          const packet = new BlockActorDataPacket();
 
-        // Assign the packet values
-        packet.position = block.position;
-        packet.nbt = block.nbt.toCompound();
+          // Assign the packet values
+          packet.position = block.position;
+          packet.nbt = block.nbt.toCompound();
 
-        // Send the packet to the player
-        this.player.send(packet);
-      }
-    }
+          // Send the packet to the player
+          await this.player.send(packet);
+        }
+      })
+    );
   }
 
   /**
@@ -120,7 +122,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * @param distance The distance to calculate the chunks for.
    * @returns An array of chunk hashes to send to the player.
    */
-  public next(distance?: number): Array<Chunk> {
+  public async next(distance?: number): Promise<Array<Chunk>> {
     // Calculate the chunk position of the entity
     const cx = this.player.position.x >> 4;
     const cz = this.player.position.z >> 4;
@@ -152,18 +154,20 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     const coords = hashes.map((hash) => ChunkCoords.unhash(hash));
 
     // Get the chunks to send
-    const chunks = coords
-      .map((coord) => {
-        // Get the chunk from the dimension
-        const chunk = this.player.dimension.getChunk(coord.x, coord.z);
+    const chunks = (
+      await Promise.all(
+        coords.map(async (coord) => {
+          // Get the chunk from the dimension
+          const chunk = await this.player.dimension.getChunk(coord.x, coord.z);
 
-        // Check if the chunk is ready
-        if (!chunk.ready) return null;
+          // Check if the chunk is ready
+          if (!chunk.ready) return null;
 
-        // Return the chunk
-        return chunk;
-      })
-      .filter((chunk) => chunk !== null) as Array<Chunk>;
+          // Return the chunk
+          return chunk;
+        })
+      )
+    ).filter((chunk) => chunk !== null) as Array<Chunk>;
 
     // Return the chunks
     return chunks;
@@ -173,7 +177,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * Clears the chunks from the player's view.
    * @param position The position of the chunk to clear.
    */
-  public clear(position?: ChunkCoords): void {
+  public async clear(position?: ChunkCoords): Promise<void> {
     // Convert the hashes to coordinates
     const coords = position
       ? [position]
@@ -183,37 +187,39 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     const empty = new Chunk(0, 0, this.player.dimension.type);
 
     // Iterate over the coordinates
-    for (const coord of coords) {
-      // Create a new LevelChunkPacket
-      const packet = new LevelChunkPacket();
+    await Promise.all(
+      coords.map(async (coord) => {
+        // Create a new LevelChunkPacket
+        const packet = new LevelChunkPacket();
 
-      // Assign the chunk data to the packet
-      packet.x = coord.x;
-      packet.z = coord.z;
-      packet.dimension = this.player.dimension.type;
-      packet.subChunkCount = empty.getSubChunkSendCount();
-      packet.cacheEnabled = false;
-      packet.data = Chunk.serialize(empty);
+        // Assign the chunk data to the packet
+        packet.x = coord.x;
+        packet.z = coord.z;
+        packet.dimension = this.player.dimension.type;
+        packet.subChunkCount = empty.getSubChunkSendCount();
+        packet.cacheEnabled = false;
+        packet.data = Chunk.serialize(empty);
 
-      // Send the packet to the player
-      this.player.send(packet);
+        // Send the packet to the player
+        await this.player.send(packet);
 
-      // Remove the chunk from the player's view
-      this.chunks.delete(ChunkCoords.hash(coord));
-    }
+        // Remove the chunk from the player's view
+        this.chunks.delete(ChunkCoords.hash(coord));
+      })
+    );
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the player is spawned
     if (!this.player.isAlive) return;
 
     // Get the next chunks to send to the player
-    const chunks = this.next();
+    const chunks = await this.next();
 
     // Check if there are any chunks to send
     if (chunks.length > 0) {
       // Send the chunks to the player
-      this.send(...chunks);
+      await this.send(...chunks);
 
       // Create a new NetworkChunkPublisherUpdatePacket
       const update = new NetworkChunkPublisherUpdatePacket();
@@ -226,37 +232,39 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       );
 
       // Send the packets to the player
-      this.player.send(update);
+      await this.player.send(update);
     } else {
       // Check if any chunks need to be removed from the player's view
-      for (const hash of this.chunks) {
-        // Get the distance between the player and the chunk
-        const distance = this.distance(hash);
+      await Promise.all(
+        this.chunks.values().map(async (hash) => {
+          // Get the distance between the player and the chunk
+          const distance = this.distance(hash);
 
-        // Check if the chunk is outside of the player's view distance
-        if (distance > this.viewDistance + 0.5) {
-          // Get the chunk position
-          const { x, z } = ChunkCoords.unhash(hash);
+          // Check if the chunk is outside of the player's view distance
+          if (distance > this.viewDistance + 0.5) {
+            // Get the chunk position
+            const { x, z } = ChunkCoords.unhash(hash);
 
-          // Clear the chunk from the player's view
-          this.clear({ x, z });
-        }
-      }
+            // Clear the chunk from the player's view
+            await this.clear({ x, z });
+          }
+        })
+      );
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Clear the chunks from the player's view
-    this.clear();
+    return this.clear();
   }
 
-  public onDespawn(options: EntityDespawnOptions): void {
+  public async onDespawn(options: EntityDespawnOptions): Promise<void> {
     // Clear the chunks from the player's view if the player has not died
-    if (!options.hasDied) this.clear();
+    if (!options.hasDied) await this.clear();
   }
 
-  public onSpawn(details: EntitySpawnOptions): void {
-    if (details.changedDimensions) this.clear();
+  public async onSpawn(details: EntitySpawnOptions): Promise<void> {
+    if (details.changedDimensions) await this.clear();
   }
 }
 

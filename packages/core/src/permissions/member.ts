@@ -35,26 +35,26 @@ class PermissionMember implements IPermissionMember {
    * Add a permission to the member.
    * @param permission The permission to add.
    */
-  public add(permission: string): void {
+  public async add(permission: string): Promise<void> {
     // Add the permission if it does not exist
     if (!this.has(permission)) this.permissions.push(permission);
 
     // Send the available commands to the player
     const executor = this.player?.getTrait(PlayerCommandExecutorTrait);
-    if (executor) executor.sendAvailableCommands();
+    if (executor) await executor.sendAvailableCommands();
   }
 
   /**
    * Remove a permission from the member.
    * @param permission The permission to remove.
    */
-  public remove(permission: string): void {
+  public async remove(permission: string): Promise<void> {
     // Remove the permission from the member
     this.permissions = this.permissions.filter((x) => x !== permission);
 
     // Send the available commands to the player
     const executor = this.player?.getTrait(PlayerCommandExecutorTrait);
-    if (executor) executor.sendAvailableCommands();
+    if (executor) await executor.sendAvailableCommands();
   }
 
   public static toObject(member: PermissionMember): IPermissionMember {

@@ -1,3 +1,5 @@
+import { Awaitable } from "@serenityjs/emitter";
+
 import { JSONLikeObject } from "./types";
 
 class Trait {
@@ -27,18 +29,18 @@ class Trait {
   /**
    * Called when the trait is added to an object.
    */
-  public onAdd?(): void;
+  public onAdd?(): Awaitable<void>;
 
   /**
    * Called when the trait is removed from an object.
    */
-  public onRemove?(): void;
+  public onRemove?(): Awaitable<void>;
 
   /**
    * Called when the trait is ticked by the dimension.
    * @param deltaTick The delta tick of the trait.
    */
-  public onTick?(deltaTick: number): void;
+  public onTick?(deltaTick: number): Awaitable<void>;
 
   /**
    * Clones the trait with the specified arguments.

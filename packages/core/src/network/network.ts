@@ -205,7 +205,7 @@ class Network extends Emitter<NetworkEvents> {
    * Handles all disconnections from the raknet server
    * @param connection The connection that is being disconnected
    */
-  public onDisconnect(connection: Connection): void {
+  public async onDisconnect(connection: Connection): Promise<void> {
     // Check if the connection is in the connections map
     if (!this.connections.has(connection)) return;
 
@@ -222,7 +222,7 @@ class Network extends Emitter<NetworkEvents> {
     ]);
 
     // Finally we will call the onEncapsulated method with the dummy payload.
-    this.onEncapsulated(connection, payload);
+    await this.onEncapsulated(connection, payload);
 
     // Remove the connection from the connections map
     this.connections.delete(connection);
@@ -241,7 +241,10 @@ class Network extends Emitter<NetworkEvents> {
    * @param connection The raknet connection the data is coming from
    * @param data The data buffers that are being sent from the connection
    */
-  public onEncapsulated(connection: Connection, ...data: Array<Buffer>): void {
+  public async onEncapsulated(
+    connection: Connection,
+    ...data: Array<Buffer>
+  ): Promise<void> {
     // Get the connection object from the connections map
     const properties = this.connections.get(connection);
 
@@ -337,8 +340,10 @@ class Network extends Emitter<NetworkEvents> {
           };
 
           // Emit the packet event to the registered handlers.
-          const network = this.emit(packetId, event);
-          const all = this.emit("all", event);
+          const [network, all] = await Promise.all([
+            this.emit(packetId, event),
+            this.emit("all", event)
+          ]);
 
           // Check if the packet was cancelled by an external listener.
           // If so, the registered handlers will not be called.
@@ -370,25 +375,26 @@ class Network extends Emitter<NetworkEvents> {
 
           // Iterate over all the registered handlers.
           // And call the handle method for each handler.
-          for (const handler of handlers) {
-            // Check if the handler has a packet that matches the packet id.
-            if (handler.packet === packetId) {
-              // Attempt to handle the packet with the handler.
-              try {
-                // Create a new instance of the handler with the serenity instance.
-                const instance = new handler(this.serenity);
+          await Promise.allSettled(
+            handlers.map(async (handler) => {
+              if (handler.packet === packetId) {
+                // Attempt to handle the packet with the handler.
+                try {
+                  // Create a new instance of the handler with the serenity instance.
+                  const instance = new handler(this.serenity);
 
-                // Call the handle method for the handler.
-                instance.handle(packet, connection);
-              } catch (reason) {
-                // Log the handling error if the packet could not be handled.
-                this.logger.error(
-                  `Failed to handle packet with id ${packetId}`,
-                  reason
-                );
+                  // Call the handle method for the handler.
+                  return await instance.handle(packet, connection);
+                } catch (reason) {
+                  // Log the handling error if the packet could not be handled.
+                  this.logger.error(
+                    `Failed to handle packet with id ${packetId}`,
+                    reason
+                  );
+                }
               }
-            }
-          }
+            })
+          );
         } catch (reason) {
           // Log the deserialization error if the packet could not be deserialized.
           this.logger.error(
@@ -424,11 +430,11 @@ class Network extends Emitter<NetworkEvents> {
    * @param priority The priority of the packets being sent
    * @param packets The packets to send to the connection
    */
-  public send(
+  public async send(
     connection: Connection,
     priority = Priority.Normal,
     ...packets: Array<DataPacket>
-  ): void {
+  ): Promise<void> {
     // Get the connection object from the connections map
     const properties = this.connections.get(connection);
 
@@ -452,8 +458,10 @@ class Network extends Emitter<NetworkEvents> {
       };
 
       // Emit the packet event to the registered handlers
-      const network = this.emit(packet.getId() as Packet, event);
-      const all = this.emit("all", event);
+      const [network, all] = await Promise.all([
+        this.emit(packet.getId() as Packet, event),
+        this.emit("all", event)
+      ]);
 
       // Check if the packet was cancelled by an external listener
       // If so, the registered handlers will not be called
@@ -522,11 +530,11 @@ class Network extends Emitter<NetworkEvents> {
    * @param connection The connection to send the packets to with normal priority
    * @param packets The packets to send to the connection
    */
-  public sendNormal(
+  public async sendNormal(
     connection: Connection,
     ...packets: Array<DataPacket>
-  ): void {
-    this.send(connection, Priority.Normal, ...packets);
+  ): Promise<void> {
+    return this.send(connection, Priority.Normal, ...packets);
   }
 
   /**
@@ -534,11 +542,11 @@ class Network extends Emitter<NetworkEvents> {
    * @param connection The connection to send the packets to immediately
    * @param packets The packets to send to the connection
    */
-  public sendImmediate(
+  public async sendImmediate(
     connection: Connection,
     ...packets: Array<DataPacket>
-  ): void {
-    this.send(connection, Priority.Immediate, ...packets);
+  ): Promise<void> {
+    return this.send(connection, Priority.Immediate, ...packets);
   }
 
   /**
@@ -572,11 +580,11 @@ class Network extends Emitter<NetworkEvents> {
     properties.encryption = enabled;
   }
 
-  public disconnectConnection(
+  public async disconnectConnection(
     connection: Connection,
     message: string,
     reason: DisconnectReason
-  ): void {
+  ): Promise<void> {
     // Create a new DisconnectPacket with the specified message and reason
     const packet = new DisconnectPacket();
 
@@ -586,7 +594,7 @@ class Network extends Emitter<NetworkEvents> {
     packet.hideDisconnectScreen = false;
 
     // Send the packet to the connection
-    this.sendImmediate(connection, packet);
+    return this.sendImmediate(connection, packet);
   }
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 import {
   BlockFace,
   BlockPosition,
@@ -96,9 +97,18 @@ class Block {
   /**
    * The block type of the block.
    * This property will contain any additional metadata that is global to the block type.
+   * @deprecated Use `permutation.type` instead. Errors will be lost if you use this.
    */
   public set type(type: BlockType) {
-    this.setPermutation(type.getPermutation());
+    void this.setPermutation(type.getPermutation());
+  }
+
+  /**
+   * The block type of the block.
+   * This property will contain any additional metadata that is global to the block type.
+   */
+  public setType(type: BlockType): Promise<void> {
+    return this.setPermutation(type.getPermutation());
   }
 
   /**
@@ -132,9 +142,10 @@ class Block {
    * The current permutation of the block.
    * The permutation contains the specific state of the block, which determines the block's appearance and behavior.
    * The permutation is a combination of the block type and the block state.
+   * @deprecated Use `setPermutation` instead. Errors will be lost if you use this.
    */
   public set permutation(permutation: BlockPermutation) {
-    this.setPermutation(permutation);
+    void this.setPermutation(permutation);
   }
 
   /**
@@ -184,8 +195,16 @@ class Block {
 
   /**
    * Whether or not the block is waterlogged.
+   * @deprecated Use `setIsWaterlogged` instead. Errors will be lost if you use this.
    */
   public set isWaterlogged(value: boolean) {
+    void this.setIsWaterlogged(value);
+  }
+
+  /**
+   * Whether or not the block is waterlogged.
+   */
+  public async setIsWaterlogged(value: boolean): Promise<void> {
     // Check if the block can be waterlogged
     if (!this.isLoggable) return;
 
@@ -195,7 +214,7 @@ class Block {
       : this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
 
     // Set the block permutation
-    this.dimension.setPermutation(this.position, permutation, 1);
+    return this.dimension.setPermutation(this.position, permutation, 1);
   }
 
   /**
@@ -214,8 +233,16 @@ class Block {
 
   /**
    * Whether or not the block is lava logged.
+   * @deprecated Use `setIsLavaLogged` instead. Errors will be lost if you use this.
    */
   public set isLavaLogged(value: boolean) {
+    void this.setIsLavaLogged(value);
+  }
+
+  /**
+   * Whether or not the block is lava logged.
+   */
+  public async setIsLavaLogged(value: boolean): Promise<void> {
     // Check if the block can be waterlogged
     if (!this.isLoggable) return;
 
@@ -225,7 +252,7 @@ class Block {
       : this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
 
     // Set the block permutation
-    this.dimension.setPermutation(this.position, permutation, 1);
+    return this.dimension.setPermutation(this.position, permutation, 1);
   }
 
   /**
@@ -263,17 +290,24 @@ class Block {
     trait.setDirection(direction);
   }
 
-  public constructor(
-    dimension: Dimension,
-    position: BlockPosition,
-    properties?: Partial<BlockProperties>
-  ) {
+  protected constructor(dimension: Dimension, position: BlockPosition) {
     this.serenity = dimension.world.serenity;
     this.dimension = dimension;
     this.position = position;
+  }
 
-    if (properties?.entry)
-      this.loadDataEntry(this.dimension.world, properties.entry);
+  public static async create(
+    dimension: Dimension,
+    position: BlockPosition,
+    properties?: Partial<BlockProperties>
+  ): Promise<Block> {
+    const block = new Block(dimension, position);
+
+    if (properties?.entry) {
+      await block.loadDataEntry(block.dimension.world, properties.entry);
+    }
+
+    return block;
   }
 
   /**
@@ -288,13 +322,16 @@ class Block {
    * @param surrounding Whether to update the surrounding blocks.
    * @param source The source of the update.
    */
-  public update(surrounding = false, source: Block = this): void {
+  public async update(
+    surrounding = false,
+    source: Block = this
+  ): Promise<void> {
     // Call the onUpdate method of the block
     for (const trait of this.traits.values()) {
       // Attempt to call the onUpdate method of the trait
       try {
         // Call the onUpdate method of the trait
-        trait.onUpdate?.(source);
+        await trait.onUpdate?.(source);
       } catch (reason) {
         // Log the error to the console
         this.serenity.logger.error(
@@ -308,9 +345,14 @@ class Block {
     }
 
     // Check if the block is surrounded
-    if (surrounding)
+    if (surrounding) {
       // If so, update the surrounding blocks
-      this.getNeighborBlocks().forEach((block) => block.update(false, source));
+      await Promise.all(
+        (await this.getNeighborBlocks()).map((block) =>
+          block.update(false, source)
+        )
+      );
+    }
   }
 
   /**
@@ -330,7 +372,7 @@ class Block {
     return this.permutation.state[key as keyof BlockPermutation["state"]] as T;
   }
 
-  public setState<T>(key: string, value: T): void {
+  public async setState<T>(key: string, value: T): Promise<void> {
     // Get the current state of the block
     const current = this.permutation.state;
 
@@ -341,7 +383,7 @@ class Block {
     const permutation = this.type.getPermutation(state);
 
     // Set the permutation of the block
-    this.setPermutation(permutation);
+    return this.setPermutation(permutation);
   }
 
   /**
@@ -357,10 +399,10 @@ class Block {
    * @param permutation The permutation to set the block to.
    * @param entry The block entry to load the block data from.
    */
-  public setPermutation(
+  public async setPermutation(
     permutation: BlockPermutation,
     entry?: BlockEntry
-  ): void {
+  ): Promise<void> {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
       // Clear the components and traits if the type has changed.
@@ -375,10 +417,10 @@ class Block {
     }
 
     // Set the permutation of the block.
-    this.dimension.setPermutation(this.position, permutation);
+    await this.dimension.setPermutation(this.position, permutation);
 
     // Check if the entry is provided.
-    if (entry) this.loadDataEntry(this.world, entry);
+    if (entry) await this.loadDataEntry(this.world, entry);
 
     // Get the traits from the block palette
     const traits = this.world.blockPalette.getRegistry(
@@ -409,7 +451,7 @@ class Block {
     }
 
     // Iterate over all the traits and apply them to the block
-    for (const trait of traits) this.addTrait(trait);
+    for (const trait of traits) await this.addTrait(trait);
 
     // Check if the block should be cached.
     if (
@@ -424,7 +466,7 @@ class Block {
     }
 
     // Update the block after the permutation change
-    this.update(true);
+    return this.update(true);
   }
 
   /**
@@ -523,14 +565,14 @@ class Block {
    * Removes the specified trait from the block.
    * @param trait The trait to remove
    */
-  public removeTrait(trait: string | typeof BlockTrait): void {
+  public async removeTrait(trait: string | typeof BlockTrait): Promise<void> {
     // Get the trait from the block
     const instance = this.traits.get(
       typeof trait === "string" ? trait : trait.identifier
     );
 
     // Call the onRemove method of the trait
-    instance?.onRemove?.();
+    await instance?.onRemove?.();
 
     // Remove the trait from the block
     this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
@@ -542,10 +584,10 @@ class Block {
    * @param options The additional options to pass to the trait.
    * @returns The trait instance that was added to the block.
    */
-  public addTrait<T extends typeof BlockTrait>(
+  public async addTrait<T extends typeof BlockTrait>(
     trait: T | BlockTrait,
     options?: ConstructorParameters<T>[1]
-  ): InstanceType<T> {
+  ): Promise<InstanceType<T>> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
       return this.traits.get(trait.identifier) as InstanceType<T>;
@@ -564,7 +606,7 @@ class Block {
         this.traits.set(trait.identifier, trait);
 
         // Call the onAdd method of the trait
-        trait.onAdd?.();
+        await trait.onAdd?.();
 
         // Return the trait that was added
         return trait as InstanceType<T>;
@@ -576,7 +618,7 @@ class Block {
       this.traits.set(instance.identifier, instance);
 
       // Call the onAdd method of the trait
-      instance.onAdd?.();
+      await instance.onAdd?.();
 
       // Return the trait that was added
       return instance;
@@ -647,7 +689,9 @@ class Block {
    * @param properties The additional properties to apply to the item stack.
    * @returns The item stack of the block.
    */
-  public getItemStack(properties?: Partial<ItemStackProperties>): ItemStack {
+  public async getItemStack(
+    properties?: Partial<ItemStackProperties>
+  ): Promise<ItemStack> {
     // Get the itemPalette from the world.
     const palette = this.world.itemPalette;
 
@@ -655,7 +699,7 @@ class Block {
     const type = palette.resolveType(this.type) as ItemType;
 
     // Create a new item stack with the type.
-    const itemStack = new ItemStack(type, properties);
+    const itemStack = await ItemStack.create(type, properties);
 
     // Return the item stack.
     return itemStack;
@@ -665,15 +709,15 @@ class Block {
    * Gets all the neighbor blocks around the block.
    * @returns The neighbor blocks around the block.
    */
-  public getNeighborBlocks(): Array<Block> {
-    return [
+  public async getNeighborBlocks(): Promise<Array<Block>> {
+    return Promise.all([
       this.above(),
       this.below(),
       this.north(),
       this.south(),
       this.east(),
       this.west()
-    ];
+    ]);
   }
 
   /**
@@ -681,7 +725,7 @@ class Block {
    *
    * @param steps The amount of steps to go up.
    */
-  public above(steps?: number): Block {
+  public async above(steps?: number): Promise<Block> {
     return this.dimension.getBlock({
       ...this.position,
       y: this.position.y + (steps ?? 1)
@@ -693,7 +737,7 @@ class Block {
    *
    * @param steps The amount of steps to go down.
    */
-  public below(steps?: number): Block {
+  public async below(steps?: number): Promise<Block> {
     return this.dimension.getBlock({
       ...this.position,
       y: this.position.y - (steps ?? 1)
@@ -705,7 +749,7 @@ class Block {
    *
    * @param steps The amount of steps to go north.
    */
-  public north(steps?: number): Block {
+  public async north(steps?: number): Promise<Block> {
     return this.dimension.getBlock({
       ...this.position,
       z: this.position.z - (steps ?? 1)
@@ -717,7 +761,7 @@ class Block {
    *
    * @param steps The amount of steps to go south.
    */
-  public south(steps?: number): Block {
+  public async south(steps?: number): Promise<Block> {
     return this.dimension.getBlock({
       ...this.position,
       z: this.position.z + (steps ?? 1)
@@ -729,7 +773,7 @@ class Block {
    *
    * @param steps The amount of steps to go east.
    */
-  public east(steps?: number): Block {
+  public async east(steps?: number): Promise<Block> {
     return this.dimension.getBlock({
       ...this.position,
       x: this.position.x + (steps ?? 1)
@@ -741,7 +785,7 @@ class Block {
    *
    * @param steps The amount of steps to go west.
    */
-  public west(steps?: number): Block {
+  public async west(steps?: number): Promise<Block> {
     return this.dimension.getBlock({
       ...this.position,
       x: this.position.x - (steps ?? 1)
@@ -753,7 +797,7 @@ class Block {
    *
    * @param face The face of the block.
    */
-  public face(face: BlockFace): Block {
+  public async face(face: BlockFace): Promise<Block> {
     switch (face) {
       case BlockFace.Top: {
         return this.above();
@@ -779,9 +823,9 @@ class Block {
   /**
    * Interact with the block, calling the onInteract method of the block traits.
    */
-  public interact(
+  public async interact(
     options?: Partial<BlockInteractionOptions>
-  ): BlockInteractionOptions {
+  ): Promise<BlockInteractionOptions> {
     // Set the default options for the block interaction
     options = { cancel: false, ...options } as BlockInteractionOptions;
 
@@ -791,7 +835,7 @@ class Block {
       const signal = new PlayerInteractWithBlockSignal(options.origin, this);
 
       // Emit the signal to the server
-      options.cancel = !signal.emit();
+      options.cancel = !(await signal.emit());
     }
 
     // Call the block onInteract trait methods
@@ -811,7 +855,7 @@ class Block {
     if (options.cancel) return { ...options, cancel: true };
 
     // Update the block after the interaction
-    this.update(false);
+    await this.update(false);
 
     // Return the options with cancel set to false
     return { ...options, cancel: false };
@@ -822,7 +866,9 @@ class Block {
    * @param options The options for destroying the block.
    * @returns Whether the block was destroyed successfully; otherwise, false.
    */
-  public destroy(options?: Partial<BlockDestroyOptions>): boolean {
+  public async destroy(
+    options?: Partial<BlockDestroyOptions>
+  ): Promise<boolean> {
     // Set the default options for the block break
     options = { cancel: false, ...options } as BlockDestroyOptions;
 
@@ -832,7 +878,7 @@ class Block {
       const signal = new PlayerBreakBlockSignal(this, options.origin);
 
       // Emit the signal to the server
-      options.cancel = !signal.emit();
+      options.cancel = !(await signal.emit());
 
       // Set the drop loot value to the signal value
       options.dropLoot = signal.dropLoot;
@@ -857,9 +903,9 @@ class Block {
     // Check if the origin is a player.
     if (options?.origin?.isPlayer() && options?.dropLoot) {
       // Check if the player is in survival mode.
-      if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
+      if (options.origin.gamemode === Gamemode.Survival) await this.spawnLoot();
     } // If the origin is not a player, drop the loot if specified.
-    else if (options?.dropLoot) this.spawnLoot();
+    else if (options?.dropLoot) await this.spawnLoot();
 
     // Create a new LevelEventPacket to broadcast the block break.
     const packet = new LevelEventPacket();
@@ -868,7 +914,7 @@ class Block {
     packet.data = this.permutation.networkId;
 
     // Broadcast the packet to the dimension.
-    this.dimension.broadcast(packet);
+    await this.dimension.broadcast(packet);
 
     // Check if the block is waterlogged or lavalogged.
     if (this.isWaterlogged) this.isWaterlogged = false;
@@ -878,7 +924,7 @@ class Block {
     const air = this.world.blockPalette.resolvePermutation(BlockIdentifier.Air);
 
     // Set the block permutation to air.
-    this.setPermutation(air);
+    await this.setPermutation(air);
 
     // Return true if the block was destroyed.
     return true;
@@ -887,7 +933,7 @@ class Block {
   /**
    * Spawns the loot that is associated with the block.
    */
-  public spawnLoot(): void {
+  public async spawnLoot(): Promise<void> {
     // Get the position of the block.
     const { x, y, z } = this.position;
 
@@ -903,13 +949,13 @@ class Block {
       if (amount <= 0) continue;
 
       // Create a new ItemStack.
-      const itemStack = new ItemStack(drop.type as ItemIdentifier, {
+      const itemStack = await ItemStack.create(drop.type as ItemIdentifier, {
         amount,
         world: this.dimension.world
       });
 
       // Create a new ItemEntity.
-      const itemEntity = this.dimension.spawnItem(
+      const itemEntity = await this.dimension.spawnItem(
         itemStack,
         new Vector3f(x + 0.5, y + 0.5, z + 0.5)
       );
@@ -922,7 +968,7 @@ class Block {
       );
 
       // Add the velocity to the item entity.
-      itemEntity.addMotion(velocity);
+      await itemEntity.addMotion(velocity);
     }
   }
 
@@ -954,11 +1000,11 @@ class Block {
    * @param entry The block entry object to load the block data from.
    * @param overwrite Whether to overwrite the block data.
    */
-  public loadDataEntry(
+  public async loadDataEntry(
     world: World,
     entry: BlockEntry,
     overwrite = true
-  ): void {
+  ): Promise<void> {
     // Spread the default block entry with the provided entry.
     // This will ensure that all the properties are set.
     entry = { ...DefaultBlockEntry, ...entry };
@@ -990,11 +1036,11 @@ class Block {
       }
 
       // Attempt to add the trait to the block
-      this.addTrait(traitType);
+      await this.addTrait(traitType);
     }
 
     // Deserialize the nbt properties of the block
-    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
+    await this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
   }
 }
 

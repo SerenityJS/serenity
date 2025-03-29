@@ -35,7 +35,7 @@ class ItemDisplayTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    * Adds custom name to the item stack.
    * @param name The item stack custom name.
    */
-  public setName(name: string): void {
+  public async setName(name: string): Promise<void> {
     if (!NodeBuffer.isUtf8(Buffer.from(name))) {
       throw new Error("The given name is not a valid UTF-8 string.");
     }
@@ -46,7 +46,7 @@ class ItemDisplayTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       display.createStringTag(new StringTag({ name: "Name", value: name }));
     }
 
-    this.item.nbt.set("display", display);
+    await this.item.nbt.set("display", display);
   }
 
   /**
@@ -74,7 +74,7 @@ class ItemDisplayTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    * Adds lore to the item stack.
    * @param lore The lore array.
    */
-  public setLore(lore: Array<string>): void {
+  public async setLore(lore: Array<string>): Promise<void> {
     const display = this.item.nbt.get<CompoundTag<DisplayValue>>("display");
 
     const list = [...lore.values()].map((value) => new StringTag({ value }));
@@ -84,23 +84,23 @@ class ItemDisplayTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     );
 
     // Set the nbt's display tag
-    this.item.nbt.set("display", display);
+    await this.item.nbt.set("display", display);
   }
 
   /**
    * Clears the custom name from item stack
    */
-  public clearName(): void {
+  public async clearName(): Promise<void> {
     const display = this.item.nbt.get<CompoundTag<DisplayValue>>("display");
 
     if (display.hasTag("Name")) {
       display.removeTag("Name");
     }
 
-    this.item.nbt.set("display", display);
+    await this.item.nbt.set("display", display);
   }
 
-  public onAdd(): void {
+  public async onAdd(): Promise<void> {
     // Check if the item has the display tag
     if (!this.item.nbt.has("display")) {
       // Create the display tag
@@ -110,13 +110,13 @@ class ItemDisplayTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       });
 
       // Add the display tag to the item stack's NBT
-      this.item.nbt.add(display);
+      await this.item.nbt.add(display);
     }
   }
 
-  public onRemove(): void {
+  public async onRemove(): Promise<void> {
     // Remove the display tag from the item stack's NBT
-    this.item.nbt.delete("display");
+    await this.item.nbt.delete("display");
   }
 
   /**

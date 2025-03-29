@@ -58,7 +58,7 @@ class Bossbar {
    * Shows the bossbar to a specific player.
    * @param player The player to show the boss bar to.
    */
-  public show(player: Player): void {
+  public async show(player: Player): Promise<void> {
     // Create a boss event packet.
     const packet = new BossEventPacket();
 
@@ -68,7 +68,7 @@ class Bossbar {
     packet.add = new BossEventAdd(this.title, this.percent, 0, this.color, 0);
 
     // Send the packet to the player.
-    player.send(packet);
+    await player.send(packet);
 
     // Add the player to the occupants set.
     this.occupants.add(player);
@@ -79,7 +79,7 @@ class Bossbar {
    * @note If no player is provided, the bossbar will be hidden from all occupants.
    * @param player The player to hide the bossbar from.
    */
-  public hide(player?: Player): void {
+  public async hide(player?: Player): Promise<void> {
     // Create a boss event packet.
     const packet = new BossEventPacket();
 
@@ -90,21 +90,20 @@ class Bossbar {
     // If a player is provided, send the packet to the player.
     // If a player is not provided, send the packet to all occupants.
     if (player) {
-      player.send(packet);
+      await player.send(packet);
       this.occupants.delete(player);
     } else {
       // Loop through all occupants and send the packet to each one.
-      for (const occupant of this.occupants) {
-        occupant.send(packet);
-        this.occupants.delete(occupant);
-      }
+      await Promise.all(
+        this.occupants.values().map((occupant) => occupant.send(packet))
+      );
     }
   }
 
   /**
    * Updates the boss bar for all occupants.
    */
-  public setTitle(title: string): void {
+  public async setTitle(title: string): Promise<void> {
     // Create a boss event packet.
     const packet = new BossEventPacket();
 
@@ -114,9 +113,9 @@ class Bossbar {
     packet.update = new BossEventUpdate(null, null, title);
 
     // Send the packet to all occupants.
-    for (const occupant of this.occupants) {
-      occupant.send(packet);
-    }
+    await Promise.all(
+      this.occupants.values().map((occupant) => occupant.send(packet))
+    );
 
     // Update the title.
     this.title = title;
@@ -125,7 +124,7 @@ class Bossbar {
   /**
    * Updates the boss bar for all occupants.
    */
-  public setPercent(percent: number): void {
+  public async setPercent(percent: number): Promise<void> {
     // Create a boss event packet.
     const packet = new BossEventPacket();
 
@@ -135,9 +134,9 @@ class Bossbar {
     packet.update = new BossEventUpdate(null, percent);
 
     // Send the packet to all occupants.
-    for (const occupant of this.occupants) {
-      occupant.send(packet);
-    }
+    await Promise.all(
+      this.occupants.values().map((occupant) => occupant.send(packet))
+    );
 
     // Update the percent.
     this.percent = percent;
@@ -146,7 +145,7 @@ class Bossbar {
   /**
    * Updates the boss bar for all occupants.
    */
-  public setColor(color: BossEventColor): void {
+  public async setColor(color: BossEventColor): Promise<void> {
     // Create a boss event packet.
     const packet = new BossEventPacket();
 
@@ -156,9 +155,9 @@ class Bossbar {
     packet.update = new BossEventUpdate(null, null, null, 0, color, 0);
 
     // Send the packet to all occupants.
-    for (const occupant of this.occupants) {
-      occupant.send(packet);
-    }
+    await Promise.all(
+      this.occupants.values().map((occupant) => occupant.send(packet))
+    );
 
     // Update the color.
     this.color = color;

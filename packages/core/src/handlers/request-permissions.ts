@@ -11,10 +11,10 @@ import { NetworkHandler } from "../network";
 class RequestPermissionsHandler extends NetworkHandler {
   public static readonly packet = Packet.RequestPermissions;
 
-  public handle(
+  public async handle(
     packet: RequestPermissionsPacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -36,17 +36,17 @@ class RequestPermissionsHandler extends NetworkHandler {
     const canTeleport = packet.getFlag(PermissionFlag.Teleport);
 
     // Set the permission flags for the target player
-    target.abilities.superSet(AbilityIndex.Build, canBuild);
-    target.abilities.superSet(AbilityIndex.Mine, canMine);
-    target.abilities.superSet(AbilityIndex.DoorsAndSwitches, canUseDnS);
-    target.abilities.superSet(AbilityIndex.OpenContainers, canOpenContainers);
-    target.abilities.superSet(AbilityIndex.AttackPlayers, canAttackPlayers);
-    target.abilities.superSet(AbilityIndex.AttackMobs, canAttackMobs);
-    target.abilities.superSet(AbilityIndex.OperatorCommands, canUseOC);
-    target.abilities.superSet(AbilityIndex.Teleport, canTeleport);
+    target.abilities.map.set(AbilityIndex.Build, canBuild);
+    target.abilities.map.set(AbilityIndex.Mine, canMine);
+    target.abilities.map.set(AbilityIndex.DoorsAndSwitches, canUseDnS);
+    target.abilities.map.set(AbilityIndex.OpenContainers, canOpenContainers);
+    target.abilities.map.set(AbilityIndex.AttackPlayers, canAttackPlayers);
+    target.abilities.map.set(AbilityIndex.AttackMobs, canAttackMobs);
+    target.abilities.map.set(AbilityIndex.OperatorCommands, canUseOC);
+    target.abilities.map.set(AbilityIndex.Teleport, canTeleport);
 
     // Send the abilities to the target player
-    target.abilities.update();
+    return target.abilities.update();
   }
 }
 

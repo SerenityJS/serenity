@@ -68,7 +68,10 @@ class BlockInventoryTrait extends BlockTrait {
     );
   }
 
-  public onInteract({ cancel, origin }: BlockInteractionOptions): void {
+  public async onInteract({
+    cancel,
+    origin
+  }: BlockInteractionOptions): Promise<void> {
     // Check if the block interaction has been cancelled
     if (cancel || !origin) return;
 
@@ -77,10 +80,10 @@ class BlockInventoryTrait extends BlockTrait {
       return;
 
     // Show the container to the player
-    this.container.show(origin);
+    await this.container.show(origin);
   }
 
-  public onBreak(): void {
+  public async onBreak(): Promise<void> {
     // Loop through the items in the container
     for (const item of this.container.storage) {
       // Check if the item is valid
@@ -91,7 +94,7 @@ class BlockInventoryTrait extends BlockTrait {
       const vector = BlockPosition.toVector3f(position);
 
       // Spawn the item entity in the dimension
-      this.block.dimension.spawnItem(
+      await this.block.dimension.spawnItem(
         item,
         vector.add(new Vector3f(0.5, 0.5, 0.5))
       );
@@ -121,14 +124,14 @@ class BlockInventoryTrait extends BlockTrait {
     this.component = { size: this.container.size, items };
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the container has occupants and the block is not opened
     if (this.container.occupants.size > 0 && !this.opened) {
       // Set the block state to open
       this.opened = true;
 
       // Call the onOpen method
-      this.onOpen();
+      await this.onOpen();
     }
 
     // Check if the container has no occupants
@@ -137,14 +140,14 @@ class BlockInventoryTrait extends BlockTrait {
       this.opened = false;
 
       // Call the onClose method
-      this.onClose();
+      await this.onClose();
     }
   }
 
   /**
    * Called when the state of the inventory is set to open.
    */
-  public onOpen(): void {
+  public async onOpen(): Promise<void> {
     // Create a new BlockEventPacket
     const event = new BlockEventPacket();
     event.position = this.block.position;
@@ -175,13 +178,13 @@ class BlockInventoryTrait extends BlockTrait {
     }
 
     // Broadcast the block event packet
-    this.block.dimension.broadcast(event, sound);
+    return this.block.dimension.broadcast(event, sound);
   }
 
   /**
    * Called when the state of the inventory is set to close.
    */
-  public onClose(): void {
+  public async onClose(): Promise<void> {
     // Create a new block event packet
     const packet = new BlockEventPacket();
     packet.position = this.block.position;
@@ -212,7 +215,7 @@ class BlockInventoryTrait extends BlockTrait {
     }
 
     // Broadcast the block event packet
-    this.block.dimension.broadcast(packet, sound);
+    return this.block.dimension.broadcast(packet, sound);
   }
 
   public onAdd(): void {

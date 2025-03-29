@@ -15,7 +15,10 @@ const serenity = new Serenity({
 new Pipeline(serenity, { path: "./plugins" });
 
 // Register the LevelDBProvider
-serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
-
-// Start the server
-serenity.start();
+serenity
+  .registerProvider(LevelDBProvider, { path: "./worlds" })
+  .then(() => serenity.start())
+  .catch((reason) => {
+    serenity.logger.error("Failed to start the server:", reason);
+    process.exit(1);
+  });

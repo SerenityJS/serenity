@@ -8,7 +8,7 @@ class InstantDamageEffect extends Effect {
   public static readonly type: EffectType = EffectType.InstantDamage;
   public static readonly instant: boolean = true;
 
-  public onAdd(entity: Entity): void {
+  public async onAdd(entity: Entity): Promise<void> {
     // TODO: Undead check for healing
     //if (entity)
 
@@ -16,7 +16,7 @@ class InstantDamageEffect extends Effect {
     const healthTrait = entity.getTrait(EntityHealthTrait);
 
     if (!healthTrait) return;
-    healthTrait.applyDamage(
+    await healthTrait.applyDamage(
       3 * 2 ** this.amplifier,
       undefined,
       ActorDamageCause.Magic

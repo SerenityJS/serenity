@@ -25,7 +25,10 @@ class LoginHandler extends NetworkHandler {
 
   public static decoder = createDecoder();
 
-  public handle(packet: LoginPacket, connection: Connection): void {
+  public async handle(
+    packet: LoginPacket,
+    connection: Connection
+  ): Promise<void> {
     // Decode the tokens given by the client.
     // This contains the client data, identity data, and public key.
     // Along with the players XUID, display name, and uuid.
@@ -56,7 +59,7 @@ class LoginHandler extends NetworkHandler {
       const player = this.serenity.getPlayerByXuid(xuid) as Player;
 
       // Disconnect the player.
-      player.disconnect(
+      await player.disconnect(
         "You have been disconnected from the server because you logged in from another location.",
         DisconnectReason.LoggedInOtherLocation
       );
@@ -119,13 +122,13 @@ class LoginHandler extends NetworkHandler {
     }
 
     // Create a new player instance.
-    const player = new Player(dimension, connection, properties);
+    const player = await Player.new(dimension, connection, properties);
 
     // Set the players xuid and username.
     this.serenity.players.set(connection, player);
 
     // Create a new PlayerJoinSignal
-    const signal = new PlayerJoinSignal(player).emit();
+    const signal = await new PlayerJoinSignal(player).emit();
 
     // Check if the signal was cancelled.
     if (!signal)
@@ -171,7 +174,7 @@ class LoginHandler extends NetworkHandler {
     );
 
     // Send the player the login status packet and the resource pack info packet.
-    player.send(login, packs);
+    return player.send(login, packs);
   }
 
   /**

@@ -16,7 +16,7 @@ const register = (world: World) => {
           operation: TimeOpertation,
           value: [IntegerEnum, true]
         },
-        (context) => {
+        async (context) => {
           // Get the operation from the context
           const operation = context.operation.result as string;
 
@@ -33,7 +33,7 @@ const register = (world: World) => {
                 );
 
               // Set the time of day
-              world.setTimeOfDay(value);
+              await world.setTimeOfDay(value);
 
               // Return the message
               return {
@@ -50,7 +50,7 @@ const register = (world: World) => {
                 );
 
               // Add the time of day
-              world.setTimeOfDay(world.dayTime + value);
+              await world.setTimeOfDay(world.dayTime + value);
 
               // Return the message
               return {

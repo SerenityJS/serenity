@@ -13,7 +13,7 @@ class WitherEffect extends Effect {
   public static readonly type: EffectType = EffectType.Wither;
   public readonly color: Color = new Color(255, 53, 42, 39);
 
-  public onTick(entity: Entity): void {
+  public async onTick(entity: Entity): Promise<void> {
     const ticksPerSecond = Math.max(40 / Math.pow(2, this.amplifier - 1), 10);
 
     if (Number(entity.dimension.world.currentTick) % ticksPerSecond != 0)
@@ -21,7 +21,7 @@ class WitherEffect extends Effect {
     if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
     const healthTrait = entity.getTrait(EntityHealthTrait);
 
-    healthTrait.applyDamage(1, undefined, ActorDamageCause.Magic);
+    await healthTrait.applyDamage(1, undefined, ActorDamageCause.Magic);
   }
 }
 

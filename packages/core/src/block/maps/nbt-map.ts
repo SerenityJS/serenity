@@ -4,8 +4,9 @@ import { BinaryStream } from "@serenityjs/binarystream";
 
 import { Block } from "../block";
 import { Player } from "../../entity";
+import { AsyncMap } from "../../utility";
 
-class NbtMap extends Map<string, Tag> {
+class NbtMap extends AsyncMap<string, Tag> {
   /**
    * The block in which the NBT data is attached to.
    */
@@ -24,45 +25,45 @@ class NbtMap extends Map<string, Tag> {
     return super.get(key) as T;
   }
 
-  public add(value: Tag): this {
+  public async add(value: Tag): Promise<this> {
     // Call the super method
-    super.set(value.name, value);
+    await super.set(value.name, value);
 
     // Update the block with the new NBT data
-    this.update();
+    await this.update();
 
     // Return the instance
     return this;
   }
 
-  public set(key: string, value: Tag): this {
+  public async set(key: string, value: Tag): Promise<this> {
     // Call the super method
-    super.set(key, value);
+    await super.set(key, value);
 
     // Update the block with the new NBT data
-    this.update();
+    await this.update();
 
     // Return the instance
     return this;
   }
 
-  public delete(key: string): boolean {
+  public async delete(key: string): Promise<boolean> {
     // Call the super method
     const result = super.delete(key);
 
     // Update the block with the new NBT data
-    this.update();
+    await this.update();
 
     // Return the result
     return result;
   }
 
-  public clear(): void {
+  public async clear(): Promise<void> {
     // Call the super method
-    super.clear();
+    await super.clear();
 
     // Update the block with the new NBT data
-    this.update();
+    await this.update();
   }
 
   /**
@@ -87,12 +88,14 @@ class NbtMap extends Map<string, Tag> {
    * Adds the tags from a compound to the map.
    * @param root The compound tag to add the tags from.
    */
-  public fromCompound(root: CompoundTag<unknown>): void {
+  public async fromCompound(root: CompoundTag<unknown>): Promise<void> {
     // Iterate over the tags in the compound
-    for (const tag of root.getTags()) {
-      // Set the tag in the map
-      this.set(tag.name, tag);
-    }
+    await Promise.all(
+      root.getTags().map(async (tag) => {
+        // Set the tag in the map
+        await this.set(tag.name, tag);
+      })
+    );
   }
 
   public serialize(): Buffer {
@@ -109,7 +112,7 @@ class NbtMap extends Map<string, Tag> {
     return stream.getBuffer();
   }
 
-  public deserialize(buffer: Buffer): void {
+  public async deserialize(buffer: Buffer): Promise<void> {
     // Create a new BinaryStream to read the data
     const stream = new BinaryStream(buffer);
 
@@ -117,10 +120,10 @@ class NbtMap extends Map<string, Tag> {
     const root = CompoundTag.read(stream);
 
     // Add the tags from the compound to the map
-    this.fromCompound(root);
+    await this.fromCompound(root);
   }
 
-  public update(player?: Player): void {
+  public async update(player?: Player): Promise<void> {
     // Create a new BlockActorData packet
     const packet = new BlockActorDataPacket();
 
@@ -129,8 +132,8 @@ class NbtMap extends Map<string, Tag> {
     packet.nbt = this.toCompound();
 
     // Broadcast the packet to the player or dimension
-    if (player) player.send(packet);
-    else this.block.dimension.broadcast(packet);
+    if (player) await player.send(packet);
+    else return this.block.dimension.broadcast(packet);
   }
 }
 

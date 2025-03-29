@@ -11,10 +11,10 @@ import { ResourcePack } from "../resource-packs";
 class ResourcePackChunkRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackChunkRequest;
 
-  public handle(
+  public async handle(
     packet: ResourcePackChunkRequestPacket,
     connection: Connection
-  ): void {
+  ): Promise<void> {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
@@ -35,7 +35,7 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
     );
     chunkPacket.chunkData = pack.getChunk(packet.chunkId);
 
-    player.sendImmediate(chunkPacket);
+    return player.sendImmediate(chunkPacket);
   }
 }
 

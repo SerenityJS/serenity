@@ -6,7 +6,7 @@ import { BlockDirectionTrait } from "./direction";
 class BlockCardinalDirectionTrait extends BlockDirectionTrait {
   public static readonly state = "minecraft:cardinal_direction";
 
-  public onPlace({ origin }: BlockPlacementOptions): void {
+  public async onPlace({ origin }: BlockPlacementOptions): Promise<void> {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return;
 
@@ -16,17 +16,13 @@ class BlockCardinalDirectionTrait extends BlockDirectionTrait {
     // Set the direction of the block to the opposite of the player's direction
     switch (direction) {
       case CardinalDirection.North:
-        this.setDirection(CardinalDirection.South);
-        break;
+        return this.setDirection(CardinalDirection.South);
       case CardinalDirection.South:
-        this.setDirection(CardinalDirection.North);
-        break;
+        return this.setDirection(CardinalDirection.North);
       case CardinalDirection.East:
-        this.setDirection(CardinalDirection.West);
-        break;
+        return this.setDirection(CardinalDirection.West);
       case CardinalDirection.West:
-        this.setDirection(CardinalDirection.East);
-        break;
+        return this.setDirection(CardinalDirection.East);
     }
   }
 
@@ -41,12 +37,12 @@ class BlockCardinalDirectionTrait extends BlockDirectionTrait {
     return CardinalDirection[direction as keyof typeof CardinalDirection];
   }
 
-  public setDirection(direction: CardinalDirection): void {
+  public async setDirection(direction: CardinalDirection): Promise<void> {
     // Transform the cardinal direction to a string
     const value = CardinalDirection[direction].toLowerCase();
 
     // Set the direction of the block
-    this.block.setState(this.state as string, value);
+    await this.block.setState(this.state as string, value);
   }
 }
 

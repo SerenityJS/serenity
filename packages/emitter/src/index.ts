@@ -1,9 +1,13 @@
 import { getFilePath } from "./get-path";
 
+// Feature: Async Support
+export type Awaitable<T> = PromiseLike<T> | T;
+export type Awaited<T> = T extends Awaitable<infer U> ? U : T;
+
 // Experimental Event Emitter
 export type Listener<T extends Array<unknown>, R = unknown> = (
   ...arguments_: T
-) => R;
+) => Awaitable<R>;
 export type ForceArray<T> = T extends Array<unknown> ? T : never;
 
 export class Emitter<T> {
@@ -38,28 +42,31 @@ export class Emitter<T> {
   }
 
   // Returns true if all listeners were called. Returns false if a before hook returned false.
-  public emit<K extends keyof T>(
+  public async emit<K extends keyof T>(
     event: K,
     ...arguments_: ForceArray<T[K]>
-  ): boolean {
+  ): Promise<boolean> {
     const beforeHooks = this._beforeHooks.get(event) ?? [];
     const listeners = this._listeners.get(event) ?? [];
     const afterHooks = this._afterHooks.get(event) ?? [];
 
     // TODO: Optional optimization point. Listeners can be called in parallel for promises.
-    for (const hook of beforeHooks) {
-      const result = hook(...(arguments_ as ForceArray<T[never]>));
-      if (result === false) return false;
-    }
+    const results = await Promise.all(
+      beforeHooks.map((hook) => hook(...(arguments_ as ForceArray<T[never]>)))
+    );
+    const hasFalse = results.some((result) => result === false);
+    if (hasFalse) return false;
 
-    for (const listener of listeners) {
-      listener(...(arguments_ as ForceArray<T[never]>));
-    }
+    await Promise.all(
+      listeners.map((listener) =>
+        listener(...(arguments_ as ForceArray<T[never]>))
+      )
+    );
 
-    process.nextTick(() => {
-      for (const hook of afterHooks) {
-        hook(...(arguments_ as ForceArray<T[never]>));
-      }
+    process.nextTick(async () => {
+      await Promise.all(
+        afterHooks.map((hook) => hook(...(arguments_ as ForceArray<T[never]>)))
+      );
     });
 
     return true;
