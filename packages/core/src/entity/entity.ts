@@ -411,9 +411,6 @@ class Entity {
       ? Entity.createUniqueId(this.type.network, this.runtimeId)
       : properties.uniqueId;
 
-    // Set the position of the entity
-    this.position.set(dimension.spawnPosition);
-
     // Create the scoreboard identity
     this.scoreboardIdentity = new ScoreboardIdentity(this);
   }
@@ -424,6 +421,9 @@ class Entity {
     properties?: Partial<EntityProperties>
   ): Promise<Entity> {
     const entity = new Entity(dimension, type, properties);
+
+    // Set the position of the entity
+    entity.position.set(await dimension.getSpawnPosition());
 
     // If the entity properties contains an entry, load it
     if (properties?.entry) {

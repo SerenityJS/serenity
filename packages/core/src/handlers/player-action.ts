@@ -56,7 +56,7 @@ class PlayerActionHandler extends NetworkHandler {
       case PlayerActionType.Respawn: {
         // Spawn the player when they request to respawn
         await player.spawn({ initialSpawn: false });
-        await player.teleport(player.getSpawnPoint());
+        await player.teleport(await player.getSpawnPoint());
         return;
       }
     }

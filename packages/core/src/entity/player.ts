@@ -675,11 +675,11 @@ class Player extends Entity {
    * Get the spawn point of the player.
    * @returns The spawn point of the player.
    */
-  public getSpawnPoint(): Vector3f {
+  public async getSpawnPoint(): Promise<Vector3f> {
     // Check if the player has the spawn point dynamic property
     if (!this.hasDynamicProperty("spawnPoint")) {
       // Get the spawn position of the dimension
-      const { x, y, z } = this.dimension.spawnPosition;
+      const { x, y, z } = await this.dimension.getSpawnPosition();
 
       // Set the spawn point of the player
       this.setDynamicProperty<Array<number>>("spawnPoint", [x, y, z]);

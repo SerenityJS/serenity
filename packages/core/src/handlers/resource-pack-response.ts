@@ -139,7 +139,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.worldGamemode = player.world.getDefaultGamemode();
         packet.hardcore = false;
         packet.difficulty = player.world.getDifficulty();
-        packet.spawnPosition = player.dimension.spawnPosition;
+        packet.spawnPosition = await player.dimension.getSpawnPosition();
         packet.achievementsDisabled = true;
         packet.editorWorldType = 0;
         packet.createdInEdior = false;

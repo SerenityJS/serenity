@@ -120,6 +120,15 @@ class Dimension {
   }
 
   /**
+   * @deprecated this will not work anymore!
+   */
+  public get spawnPosition(): void {
+    throw new Error(
+      "Use `getSpawnPosition()` instead of `spawnPosition` to get the spawn position of the dimension."
+    );
+  }
+
+  /**
    * The spawn position of the dimension.
    */
   public async getSpawnPosition(): Promise<Vector3f> {
