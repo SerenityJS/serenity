@@ -46,6 +46,16 @@ const register = (world: World) => {
 
           // Fill the region with the specified block
           await dimension.fill(from, to, type.getPermutation());
+
+          const amountFilled =
+            Math.abs(from.x - to.x) *
+            Math.abs(from.y - to.y) *
+            Math.abs(from.z - to.z);
+          const blockName = type.identifier;
+
+          return {
+            message: `§7Filled §u${amountFilled} §7blocks with §u${blockName} §7from §u[${from.x}, ${from.y}, ${from.z}] §7to §u[${to.x}, ${to.y}, ${to.z}]§7.`
+          };
         }
       );
     },

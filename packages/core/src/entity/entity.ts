@@ -1305,27 +1305,7 @@ class Entity {
    * @param command The command to execute.
    * @returns The response of the command.
    */
-  public executeCommand<T = unknown>(command: string): CommandResponse<T> {
-    // Check if the command starts with a slash, remove it if it does not
-    if (command.startsWith("/")) command = command.slice(1);
-
-    // Create a new command execute state
-    const state = new CommandExecutionState(
-      this.world.commandPalette.getAll(),
-      command,
-      this
-    );
-
-    // Execute the command state
-    return state.execute() as CommandResponse<T>;
-  }
-
-  /**
-   * Executes a command in the dimension asynchronously.
-   * @param command The command to execute.
-   * @returns The response of the command.
-   */
-  public async executeCommandAsync<T = unknown>(
+  public async executeCommand<T = unknown>(
     command: string
   ): Promise<CommandResponse<T>> {
     // Check if the command starts with a slash, remove it if it does not
@@ -1339,7 +1319,18 @@ class Entity {
     );
 
     // Execute the command state
-    return (await state.execute()) as Promise<CommandResponse<T>>;
+    return state.execute() as Promise<CommandResponse<T>>;
+  }
+
+  /**
+   * Executes a command in the dimension asynchronously.
+   * @param command The command to execute.
+   * @returns The response of the command.
+   */
+  public async executeCommandAsync<T = unknown>(
+    command: string
+  ): Promise<CommandResponse<T>> {
+    return this.executeCommand(command);
   }
 
   /**

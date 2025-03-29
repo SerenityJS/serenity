@@ -47,7 +47,9 @@ class BlockCommandBlockTrait extends BlockTrait {
     if (tickDelay === 0n || currentTick % tickDelay === 0n) {
       try {
         // Execute the command
-        const result = this.block.dimension.executeCommand(this.getCommand());
+        const result = await this.block.dimension.executeCommand(
+          this.getCommand()
+        );
 
         // Check if the last output message is the same as the result message
         if (this.getLastOutput() === result.message) return;

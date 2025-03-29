@@ -84,7 +84,7 @@ class CommandExecutionState {
    * Attempts to execute the command.
    * @returns
    */
-  public execute(): CommandResponse | Promise<CommandResponse> {
+  public async execute(): Promise<CommandResponse> {
     // Check if the command is undefined.
     // If it is, we will throw an error.
     if (!this.command) {
@@ -179,11 +179,12 @@ class CommandExecutionState {
       }
 
       // Get the response from the callback.
-      return (callback(context) ?? {}) as CommandResponse;
+      return ((await callback(context)) || {}) as CommandResponse;
     }
 
     // Call the global callback with the global context object.
-    return (this.command.callback(globalContext) ?? {}) as CommandResponse;
+    return ((await this.command.callback(globalContext)) ||
+      {}) as CommandResponse;
   }
 
   protected parse(source: string): Array<string> {

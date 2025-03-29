@@ -171,7 +171,7 @@ class EntityNpcTrait extends EntityTrait {
     for (const [text] of this.buttons) form.button(text);
 
     // Show the form to the player
-    await form.show(player, (index, error) => {
+    await form.show(player, async (index, error) => {
       // Check if the index is null or an error occurred
       if (index === null || error) return;
 
@@ -179,7 +179,7 @@ class EntityNpcTrait extends EntityTrait {
       const command = this.buttons[index] ? this.buttons[index][1] : "";
 
       // Execute the command if it is not empty
-      if (command.length > 0) player.executeCommand(command);
+      if (command.length > 0) await player.executeCommand(command);
 
       // Close the form for the player
       return form.close(player);

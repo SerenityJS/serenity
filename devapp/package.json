@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "tsup --watch --onSuccess 'node dist/index.js'",
+    "dev": "tsup --watch --onSuccess 'node --max-old-space-size=12288 dist/index.js'",
     "build": "tsup",
     "watch": "tsup --watch",
     "lint": "eslint src/",
