@@ -88,7 +88,7 @@ class Logger {
     const format =
       `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
         LoggerColors.DarkGray + "["
-      }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkRed + "["}${LoggerColors.DarkGray + "Error"}${LoggerColors.DarkGray + "]"}` +
+      }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.DarkRed + "Error"}${LoggerColors.DarkGray + "]"}` +
       LoggerColors.Reset;
 
     console.log(format, ...arguments_);
