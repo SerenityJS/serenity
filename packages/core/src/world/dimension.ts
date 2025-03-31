@@ -195,19 +195,23 @@ class Dimension {
    * @param deltaTick The delta tick to tick the dimension with.
    */
   public onTick(deltaTick: number): void {
+    // Get all the players in the dimension
+    const players = this.getPlayers();
+
     // Check if there are no players in the dimension
-    if (this.getPlayers().length === 0) return;
+    if (players.length === 0) return;
+
+    // Get the current tick of the world
+    const currentTick = this.world.currentTick;
 
     // Get all the player positions in the dimension.
-    const playerPositions = this.getPlayers().map((player) => player.position);
+    const playerPositions = players.map((player) => player.position);
 
     // Iterate over all the entities in the dimension
-    for (const entity of this.entities.values()) {
+    for (const [, entity] of this.entities) {
       // Check if there is a player within the simulation distance to tick the entity
-      const inSimulationRange = playerPositions.some((position) => {
-        return (
-          position.distance(entity.position) <= this.simulationDistance << 4
-        );
+      const inSimulationRange = playerPositions.some((player) => {
+        return player.distance(entity.position) <= this.simulationDistance << 4;
       });
 
       // Tick the entity if it is in simulation range
@@ -216,19 +220,19 @@ class Dimension {
         if (!entity.isTicking) entity.isTicking = true;
 
         // Iterate over all the traits in the entity
-        for (const trait of entity.traits.values())
+        for (const [identifier, trait] of entity.traits)
           try {
             // Tick the trait
-            trait.onTick?.(deltaTick);
+            trait.onTick?.({ currentTick, deltaTick });
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(
-              `Failed to tick entity trait "${trait.identifier}" for entity "${entity.type.identifier}:${entity.uniqueId}" in dimension "${this.identifier}"`,
+              `Failed to tick entity trait "${identifier}" for entity "${entity.type.identifier}:${entity.uniqueId}" in dimension "${this.identifier}"`,
               reason
             );
 
             // Remove the trait from the entity
-            entity.traits.delete(trait.identifier);
+            entity.traits.delete(identifier);
           }
 
         // Check if the entity has a inventory trait
@@ -242,19 +246,19 @@ class Dimension {
             if (!item) continue;
 
             // Iterate over all the traits in the item
-            for (const trait of item.traits.values())
+            for (const [identifier, trait] of item.traits)
               try {
                 // Tick the item trait
-                trait.onTick?.(deltaTick);
+                trait.onTick?.({ currentTick, deltaTick });
               } catch (reason) {
                 // Log the error to the console
                 this.world.logger.error(
-                  `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
+                  `Failed to tick item trait "${identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
                   reason
                 );
 
                 // Remove the trait from the item
-                item.traits.delete(trait.identifier);
+                item.traits.delete(identifier);
               }
           }
         }
@@ -265,7 +269,7 @@ class Dimension {
     }
 
     // Iterate over all the blocks in the dimension
-    for (const block of this.blocks.values()) {
+    for (const [, block] of this.blocks) {
       // Check if there is a player within the simulation distance to tick the block
       const inSimulationRange = playerPositions.some((player) => {
         return player.distance(block.position) <= this.simulationDistance << 4;
@@ -278,18 +282,18 @@ class Dimension {
 
         // Iterate over all the traits in the block
         // Try to tick the block trait
-        for (const trait of block.traits.values())
+        for (const [identifier, trait] of block.traits)
           try {
-            trait.onTick?.(deltaTick);
+            trait.onTick?.({ currentTick, deltaTick });
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(
-              `Failed to tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+              `Failed to tick block trait "${identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
               reason
             );
 
             // Remove the trait from the block
-            block.traits.delete(trait.identifier);
+            block.traits.delete(identifier);
           }
       } else if (block.isTicking) {
         // If the block is not in simulation range, stop ticking it
@@ -523,11 +527,12 @@ class Dimension {
    * @returns An array of players.
    */
   public getPlayers(options?: EntityQueryOptions): Array<Player> {
-    // return [...this.entities.values()].filter((entity) => entity.isPlayer());
+    // Prepare an array to hold the players
+    const players: Array<Player> = [];
+
     // Get all the entities in the dimension that are players
-    const players = [...this.entities.values()].filter((entity) =>
-      entity.isPlayer()
-    );
+    for (const [, entity] of this.entities)
+      if (entity.isPlayer()) players.push(entity); // Check if the entity is a player
 
     // Check if there are no options provided
     if (!options) return players;
@@ -557,26 +562,38 @@ class Dimension {
 
   /**
    * Gets an entity from the dimension.
+   * @param id The id of the entity, either unique id or runtime id.
+   * @param runtimeId Whether to get the entity by runtime id; defaults to false.
+   * @returns The entity if found, otherwise null.
    */
   public getEntity(id: bigint, runtimeId = false): Entity | null {
     // Check if the provided id is a runtime id
     // If not, we will get the entity by the unique id
     if (!runtimeId) return this.entities.get(id) ?? null;
-    // If the id is a runtime id, we will get the entity by the runtime id
-    else
-      return (
-        [...this.entities.values()].find((entity) => entity.runtimeId === id) ||
-        null
-      );
+
+    // Iterate over all the entities in the dimension
+    for (const entity of this.entities.values())
+      if (entity.runtimeId === id) return entity; // Check if runtime id matches
+
+    // Return null if the entity is not found
+    return null;
   }
 
   /**
    * Gets all the entities in the dimension.
    * @returns An array of entities.
+   * @param options The options to filter the entities.
+   * @returns An array of entities.
    */
   public getEntities(options?: EntityQueryOptions): Array<Entity> {
+    // Prepare an array to hold the entities
+    const entities: Array<Entity> = [];
+
+    // Get all the entities in the dimension
+    for (const [, entity] of this.entities) entities.push(entity);
+
     // Check if there are no options provided
-    if (!options) return [...this.entities.values()];
+    if (!options) return entities;
 
     // Get the position, max distance, and min distance from the options
     const position = options.position ?? { x: 0, y: 0, z: 0 };
@@ -776,7 +793,9 @@ class Dimension {
    * @param packets The packets to broadcast.
    */
   public broadcast(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.send(...packets);
+    // Iterate over all the entities in the dimension
+    for (const [, entity] of this.entities)
+      if (entity.isPlayer()) entity.send(...packets); // Check if the entity is a player
   }
 
   /**
@@ -785,7 +804,9 @@ class Dimension {
    * @param packets The packets to broadcast.
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.sendImmediate(...packets);
+    // Iterate over all the entities in the dimension
+    for (const [, entity] of this.entities)
+      if (entity.isPlayer()) entity.sendImmediate(...packets); // Check if the entity is a player
   }
 
   /**
@@ -794,9 +815,9 @@ class Dimension {
    * @param packets The packets to broadcast.
    */
   public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
-    // Check if the entity is a player and is not the player to exclude
-    for (const entity of this.entities.values())
-      if (entity.isPlayer() && entity !== player) entity.send(...packets);
+    // Iterate over all the entities in the dimension
+    for (const [, entity] of this.entities)
+      if (entity.isPlayer() && entity !== player) entity.send(...packets); // Check if the entity is a player
   }
 }
 

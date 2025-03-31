@@ -51,7 +51,8 @@ import {
   EntityEffectsTrait,
   EntityEquipmentTrait,
   EntityInventoryTrait,
-  EntityTrait
+  EntityTrait,
+  PlayerEntityRenderingTrait
 } from "./traits";
 import { Player } from "./player";
 import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
@@ -750,7 +751,7 @@ class Entity {
     this.isAlive = true;
 
     // Trigger the entity onSpawn trait event
-    for (const trait of this.traits.values()) {
+    for (const [identifier, trait] of this.traits) {
       // Attempt to trigger the onSpawn trait event
       try {
         // Call the onSpawn trait event
@@ -758,13 +759,25 @@ class Entity {
       } catch (reason) {
         // Log the error to the console
         this.serenity.logger.error(
-          `(EntityTrait::${trait.identifier}) Failed to trigger onSpawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          `(EntityTrait::${identifier}) Failed to trigger onSpawn trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
           reason
         );
 
         // Remove the trait from the entity
-        this.traits.delete(trait.identifier);
+        this.traits.delete(identifier);
       }
+    }
+
+    // Iterate over the players in the dimension
+    for (const [, entity] of this.dimension.entities) {
+      // Check if the entity is the same as this
+      if (entity === this || !entity.isPlayer()) continue; // Check if the entity is a player
+
+      // Fetch the player entity rendering trait
+      const trait = entity.getTrait(PlayerEntityRenderingTrait);
+
+      // Check if the player has the trait
+      if (trait) trait.addEntity(this); // Add the entity to the player
     }
 
     // Update the entity actor data & attributes
@@ -816,6 +829,18 @@ class Entity {
         // Remove the trait from the entity
         this.traits.delete(trait.identifier);
       }
+    }
+
+    // Iterate over the players in the dimension
+    for (const [, entity] of this.dimension.entities) {
+      // Check if the entity is the the same as this
+      if (entity === this || !entity.isPlayer()) continue; // Check if the entity is a player
+
+      // Fetch the player entity rendering trait
+      const trait = entity.getTrait(PlayerEntityRenderingTrait);
+
+      // Check if the player has the trait
+      if (trait) trait.removeEntity(this); // Remove the entity from the player
     }
 
     // Return the entity

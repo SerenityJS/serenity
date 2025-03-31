@@ -171,16 +171,13 @@ class World extends Emitter<WorldEventSignals> {
       this.dayTime = (this.dayTime + 1) % 24_000;
 
     // Attempt to tick each dimension
-    for (const dimension of this.dimensions.values()) {
+    for (const [identifier, dimension] of this.dimensions) {
       try {
         // Tick the dimension with the delta tick
         dimension.onTick(deltaTick);
       } catch (reason) {
         // Log that the dimension failed to tick
-        this.logger.error(
-          `Failed to tick dimension ${dimension.identifier}`,
-          reason
-        );
+        this.logger.error(`Failed to tick dimension ${identifier}`, reason);
       }
     }
 
@@ -306,9 +303,20 @@ class World extends Emitter<WorldEventSignals> {
    * @returns An array of players.
    */
   public getPlayers(): Array<Player> {
-    return [...this.dimensions.values()].flatMap((dimension) =>
-      dimension.getPlayers()
-    );
+    // Prepare an array of players
+    const players: Array<Player> = [];
+
+    // Iterate over each dimension
+    for (const dimension of this.dimensions.values()) {
+      // Get the players in the dimension
+      const dimensionPlayers = dimension.getPlayers();
+
+      // Add the players to the array
+      players.push(...dimensionPlayers);
+    }
+
+    // Return the players
+    return players;
   }
 
   /**
@@ -316,9 +324,20 @@ class World extends Emitter<WorldEventSignals> {
    * @returns An array of entities.
    */
   public getEntities(): Array<Entity> {
-    return [...this.dimensions.values()].flatMap((dimension) =>
-      dimension.getEntities()
-    );
+    // Prepare an array of entities
+    const entities: Array<Entity> = [];
+
+    // Iterate over each dimension
+    for (const dimension of this.dimensions.values()) {
+      // Get the entities in the dimension
+      const dimensionEntities = dimension.getEntities();
+
+      // Add the entities to the array
+      entities.push(...dimensionEntities);
+    }
+
+    // Return the entities
+    return entities;
   }
 
   /**
@@ -342,7 +361,9 @@ class World extends Emitter<WorldEventSignals> {
    * @param packets
    */
   public broadcast(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.send(...packets);
+    // Iterate over each dimension in the world
+    for (const [, dimension] of this.dimensions)
+      dimension.broadcast(...packets); // Broadcast the packets to all players in the dimension
   }
 
   /**
@@ -351,7 +372,9 @@ class World extends Emitter<WorldEventSignals> {
    * @param packets The packets to send.
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {
-    for (const player of this.getPlayers()) player.sendImmediate(...packets);
+    // Iterate over each dimension in the world
+    for (const [, dimension] of this.dimensions)
+      dimension.broadcastImmediate(...packets); // Broadcast the packets to all players in the dimension
   }
 
   /**
@@ -360,8 +383,9 @@ class World extends Emitter<WorldEventSignals> {
    * @param packets The packets to send.
    */
   public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
-    for (const other of this.getPlayers())
-      if (other !== player) other.send(...packets);
+    // Iterate over each dimension in the world
+    for (const [, dimension] of this.dimensions)
+      dimension.broadcastExcept(player, ...packets); // Broadcast the packets to all players in the dimension
   }
 
   /**

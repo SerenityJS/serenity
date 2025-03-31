@@ -1,5 +1,17 @@
 import { JSONLikeObject } from "./types";
 
+interface TraitOnTickDetails {
+  /**
+   * The current tick of the world.
+   */
+  currentTick: bigint;
+
+  /**
+   * The time between the current tick and the last tick.
+   */
+  deltaTick: number;
+}
+
 class Trait {
   /**
    * The identifier of the trait.
@@ -36,9 +48,9 @@ class Trait {
 
   /**
    * Called when the trait is ticked by the dimension.
-   * @param deltaTick The delta tick of the trait.
+   * @param details The details about the tick event.
    */
-  public onTick?(deltaTick: number): void;
+  public onTick?(details: TraitOnTickDetails): void;
 
   /**
    * Clones the trait with the specified arguments.
@@ -49,4 +61,4 @@ class Trait {
   }
 }
 
-export { Trait };
+export { TraitOnTickDetails, Trait };
