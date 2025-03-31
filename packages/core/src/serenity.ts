@@ -322,7 +322,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       }
 
       // Schedule the next tick
-      return queueMicrotask(tick);
+      return setTimeout(tick, 0);
     };
 
     // Start the ticking loop
