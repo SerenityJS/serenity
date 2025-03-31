@@ -443,6 +443,10 @@ class Player extends Entity {
     // Send the available creative content to the player
     this.send(content);
 
+    // Teleport the player to their position
+    // This fixes an issue where the player is sometimes stuck in the ground
+    this.teleport(this.position, this.dimension);
+
     // Return the player
     return this;
   }
@@ -491,6 +495,8 @@ class Player extends Entity {
   public teleport(position: Vector3f, dimension?: Dimension): void {
     // Call the parent method to teleport the player
     super.teleport(position, dimension);
+
+    position.y += 0.5; // Set the y position to the player's height
 
     // Check if the dimension is not provided
     if (!dimension) {
