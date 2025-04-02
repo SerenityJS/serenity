@@ -8,7 +8,7 @@ class Node extends Vector3f implements IPosition, BinaryItem {
   public parent?: Node;
 
   public constructor(position: Vector3f, parent?: Node) {
-    position = position.floor();
+    position = Vector3f.floor(position);
 
     super(position.x, position.y, position.z);
     this.parent = parent;
@@ -19,7 +19,8 @@ class Node extends Vector3f implements IPosition, BinaryItem {
   }
 
   public distance(node: Node) {
-    const distance = this.subtract(node).absolute();
+    // const distance = this.subtract(node).absolute();
+    const distance = Vector3f.absolute(Vector3f.subtract(this, node));
 
     return distance.x + distance.y + distance.z;
   }

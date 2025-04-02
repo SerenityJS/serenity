@@ -116,7 +116,7 @@ class TerrainGenerator {
     const type = this.dimension.type;
 
     // Handoff the chunk generation to the worker thread.
-    this.worker.postMessage({ cx, cz, type });
+    this.worker.postMessage({ generator: true, cx, cz, type });
   }
 
   /**

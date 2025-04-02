@@ -16,3 +16,4 @@ export * from "./torch-direction";
 export * from "./item-wearable-tier";
 export * from "./server-state";
 export * from "./facing-direction";
+export * from "./serializer-method";

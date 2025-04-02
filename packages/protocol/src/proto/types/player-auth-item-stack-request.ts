@@ -5,8 +5,7 @@ import { InputData } from "../../enums";
 
 import { ItemStackRequest } from "./item-stack-request";
 import { ItemStackRequestAction } from "./item-stack-request-action";
-
-import type { PlayerAuthInputData } from "./player-auth-input-data";
+import { PlayerAuthInputData } from "./player-auth-input-data";
 
 class PlayerAuthItemStackRequest extends DataType {
   /**
@@ -55,7 +54,8 @@ class PlayerAuthItemStackRequest extends DataType {
     data: PlayerAuthInputData
   ): PlayerAuthItemStackRequest | null {
     // Check if the input data has the block actions flag
-    if (!data.hasFlag(InputData.PerformItemStackRequest)) return null;
+    if (!PlayerAuthInputData.hasFlag(data, InputData.PerformItemStackRequest))
+      return null;
 
     // Read the client request id.
     const clientRequestId = stream.readZigZag();
@@ -92,7 +92,8 @@ class PlayerAuthItemStackRequest extends DataType {
     data: PlayerAuthInputData
   ): void {
     // Check if the input data has the block actions flag
-    if (!data.hasFlag(InputData.PerformItemStackRequest)) return;
+    if (!PlayerAuthInputData.hasFlag(data, InputData.PerformItemStackRequest))
+      return;
 
     // Write the client request id.
     stream.writeZigZag(value.clientRequestId);

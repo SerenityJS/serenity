@@ -3,8 +3,8 @@ import { DataType } from "@serenityjs/raknet";
 import { InputData } from "../../enums";
 
 import { Vector2f } from "./vector2f";
+import { PlayerAuthInputData } from "./player-auth-input-data";
 
-import type { PlayerAuthInputData } from "./player-auth-input-data";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ClientPredictedVehicle extends DataType {
@@ -35,7 +35,10 @@ class ClientPredictedVehicle extends DataType {
     data: PlayerAuthInputData
   ): ClientPredictedVehicle | null {
     // Check if the input data has the vehicle flag
-    if (!data.hasFlag(InputData.IsInClientPredictedVehicle)) return null;
+    if (
+      !PlayerAuthInputData.hasFlag(data, InputData.IsInClientPredictedVehicle)
+    )
+      return null;
 
     // Read the vehicle rotation
     const rotation = Vector2f.read(stream);
@@ -54,7 +57,10 @@ class ClientPredictedVehicle extends DataType {
     data: PlayerAuthInputData
   ): void {
     // Check if the input data has the vehicle flag
-    if (!data.hasFlag(InputData.IsInClientPredictedVehicle)) return;
+    if (
+      !PlayerAuthInputData.hasFlag(data, InputData.IsInClientPredictedVehicle)
+    )
+      return;
 
     // Write the vehicle rotation
     Vector2f.write(stream, value.vehicleRotation);

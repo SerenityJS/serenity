@@ -124,7 +124,7 @@ class EntityCollisionTrait extends EntityTrait {
         const { x, z } = this.entity.velocity;
 
         // Move the entity in the opposite direction
-        const motion = new Vector3f(x, 0, z).multiply(5);
+        const motion = new Vector3f(x * 5, 0, z * 5);
 
         // Set the entity to be moving
         entity.isMoving = true;

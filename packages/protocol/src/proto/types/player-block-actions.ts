@@ -3,8 +3,8 @@ import { DataType } from "@serenityjs/raknet";
 import { InputData } from "../../enums";
 
 import { PlayerBlockActionData } from "./player-block-action-data";
+import { PlayerAuthInputData } from "./player-auth-input-data";
 
-import type { PlayerAuthInputData } from "./player-auth-input-data";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 class PlayerBlockActions extends DataType {
@@ -28,7 +28,8 @@ class PlayerBlockActions extends DataType {
     data: PlayerAuthInputData
   ): PlayerBlockActions | null {
     // Check if the input data has the block actions flag
-    if (!data.hasFlag(InputData.PerformBlockActions)) return null;
+    if (!PlayerAuthInputData.hasFlag(data, InputData.PerformBlockActions))
+      return null;
 
     // Read the amount of block actions
     const count = stream.readZigZag(); // Why
@@ -52,7 +53,8 @@ class PlayerBlockActions extends DataType {
     data: PlayerAuthInputData
   ): void {
     // Check if the input data has the block actions flag
-    if (!data.hasFlag(InputData.PerformBlockActions)) return;
+    if (!PlayerAuthInputData.hasFlag(data, InputData.PerformBlockActions))
+      return;
 
     // Write the amount of block actions
     stream.writeZigZag(value.actions.length); // Why

@@ -35,7 +35,10 @@ class EntityMovementTrait extends EntityAttributeTrait {
   public onTick(): void {
     if (this.positionTarget !== null) {
       // Calculate the distance to the target position
-      const distance = this.entity.position.distance(this.positionTarget);
+      const distance = Vector3f.distance(
+        this.entity.position,
+        this.positionTarget
+      );
 
       // Check if the entity has reached the target position
       if (distance < 0.5) {
@@ -223,7 +226,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
 
   protected calculateDirection(from: Vector3f, to: Vector3f): Vector3f {
     // Calculate the direction from the from position to the to position
-    const direction = to.subtract(from);
+    const direction = Vector3f.subtract(to, from);
 
     // Calculate the magnitude of the direction
     const magnitude = Math.sqrt(
@@ -233,7 +236,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     );
 
     // Return the normalized direction
-    return direction.divide(magnitude);
+    return Vector3f.divide(direction, magnitude);
   }
 }
 

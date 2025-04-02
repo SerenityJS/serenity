@@ -1,4 +1,9 @@
-import { ActorDamageCause, ActorFlag, Gamemode } from "@serenityjs/protocol";
+import {
+  ActorDamageCause,
+  ActorFlag,
+  Gamemode,
+  Vector3f
+} from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
 import { EntityFallOnBlockTraitEvent } from "../../types";
@@ -38,7 +43,7 @@ class EntityGravityTrait extends EntityTrait {
 
   public onTick(): void {
     // Get the entity's position
-    const position = this.entity.position.floor();
+    const position = Vector3f.floor(this.entity.position);
 
     // Get the entity's velocity
     const velocity = this.entity.velocity;
@@ -57,7 +62,7 @@ class EntityGravityTrait extends EntityTrait {
     }
 
     // Get the topmost block at the entity's position
-    const block = this.dimension.getTopmostBlock(position.floor());
+    const block = this.dimension.getTopmostBlock(position);
 
     // Calculate the entity's offset from the block
     const entityOffset = position.y - this.entity.hitboxHeight;

@@ -49,7 +49,10 @@ class EntityEffectsTrait extends EntityTrait {
       const packet = new LevelEventPacket();
       packet.event = LevelEvent.ParticleLegacyEvent | 34;
       packet.data = effect.color.toInt();
-      packet.position = this.entity.position.subtract(new Vector3f(0, 1, 0));
+      packet.position = Vector3f.subtract(
+        this.entity.position,
+        new Vector3f(0, 1, 0)
+      );
 
       this.entity.dimension.broadcast(packet);
     }

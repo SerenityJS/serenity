@@ -3,7 +3,8 @@ import {
   ActorEventPacket,
   LevelSoundEvent,
   LevelSoundEventPacket,
-  TakeItemActorPacket
+  TakeItemActorPacket,
+  Vector3f
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier, ItemIdentifier } from "../../enums";
@@ -171,7 +172,10 @@ class EntityItemStackTrait extends EntityTrait {
         if (entity === this.entity) continue;
 
         // Calculate the distance between the entities
-        const distance = entity.position.subtract(this.entity.position);
+        const distance = Vector3f.subtract(
+          entity.position,
+          this.entity.position
+        );
 
         // Check if the distance is less than 0.5 blocks
         if (
@@ -253,7 +257,7 @@ class EntityItemStackTrait extends EntityTrait {
       if (!entity.isPlayer() || !entity.isAlive) continue;
 
       // Calculate the distance between the player and the item
-      const distance = entity.position.distance(this.entity.position);
+      const distance = Vector3f.distance(entity.position, this.entity.position);
 
       // Calculate the distance between the player and the item
       if (distance <= 1.5) {

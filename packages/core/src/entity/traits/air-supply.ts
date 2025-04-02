@@ -5,7 +5,8 @@ import {
   ActorFlag,
   DataItem,
   EffectType,
-  Gamemode
+  Gamemode,
+  Vector3f
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
@@ -69,7 +70,7 @@ class EntityAirSupplyTrait extends EntityTrait {
 
   private canBreathe(): boolean {
     const blockAtHead = this.entity.dimension.getBlock(
-      this.entity.position.floor()
+      Vector3f.floor(this.entity.position)
     );
 
     return (

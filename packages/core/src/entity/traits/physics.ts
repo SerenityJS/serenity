@@ -1,3 +1,5 @@
+import { Vector3f } from "@serenityjs/protocol";
+
 import { EntityGravityTrait } from "./gravity";
 import { EntityTrait } from "./trait";
 
@@ -82,7 +84,7 @@ class EntityPhysicsTrait extends EntityTrait {
     if (this.entity.hasTrait(EntityGravityTrait)) this.applyGravityTick();
 
     // Check if the entity is moving
-    if (this.entity.velocity.isZero()) this.entity.isMoving = false;
+    if (Vector3f.isZero(this.entity.velocity)) this.entity.isMoving = false;
     else this.entity.isMoving = true;
   }
 

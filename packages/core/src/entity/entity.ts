@@ -365,7 +365,7 @@ class Entity {
       : properties.uniqueId;
 
     // Set the position of the entity
-    this.position.set(dimension.spawnPosition);
+    Vector3f.set(this.position, dimension.spawnPosition);
 
     // Create the scoreboard identity
     this.scoreboardIdentity = new ScoreboardIdentity(this);
@@ -1022,7 +1022,8 @@ class Entity {
     this.velocity.z = vector?.z ?? this.velocity.z;
 
     // Check if the entity is not a player, if so, reduce the velocity
-    if (!this.isPlayer()) this.velocity.set(this.velocity.multiply(0.5));
+    if (!this.isPlayer())
+      Vector3f.set(this.velocity, Vector3f.multiply(this.velocity, 0.5));
 
     // Create a new SetActorMotionPacket
     const packet = new SetActorMotionPacket();
@@ -1085,7 +1086,7 @@ class Entity {
    */
   public teleport(position: Vector3f, dimension?: Dimension): void {
     // Set the position of the entity
-    this.position.set(position);
+    Vector3f.set(this.position, position);
 
     // Check if a dimension was provided
     if (dimension) this.changeDimension(dimension);
@@ -1180,13 +1181,13 @@ class Entity {
       (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5,
       (-Math.sin(pitchRad) / 2) * 0.75 - 0.1,
       (Math.cos(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5
-    ).multiply(2);
+    );
 
     // Spawn the entity
     const entity = this.dimension.spawnItem(item, new Vector3f(x, y - 0.25, z));
 
     // Set the velocity of the entity
-    entity.addMotion(velocity);
+    entity.addMotion(Vector3f.multiply(velocity, 2));
 
     // Return true as the item was dropped
     return true;

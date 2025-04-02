@@ -1,3 +1,5 @@
+import { Vector3f } from "@serenityjs/protocol";
+
 import { EntityIdentifier } from "../../enums";
 import { JSONLikeObject } from "../../types";
 import { Entity } from "../entity";
@@ -63,8 +65,8 @@ class EntityLookAtPlayerTrait extends EntityTrait {
 
     // Find the closest player.
     const player = players.reduce((closest, current) =>
-      closest.position.distance(this.entity.position) <
-      current.position.distance(this.entity.position)
+      Vector3f.distance(closest.position, this.entity.position) <
+      Vector3f.distance(current.position, this.entity.position)
         ? closest
         : current
     );
@@ -76,7 +78,7 @@ class EntityLookAtPlayerTrait extends EntityTrait {
     const movement = this.entity.getTrait(EntityMovementTrait);
 
     // Clone the position of the player, and increase the y value by 0.9.
-    const position = player.position.clone();
+    const position = Vector3f.clone(player.position);
 
     // Add the head tilt offset to the y value.
     position.y += this.headTiltOffset;

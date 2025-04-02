@@ -13,6 +13,7 @@ import type { TerrainWorker } from "./worker";
 import type { TerrainGenerator } from "../generator";
 
 interface WorkerData {
+  generator: true;
   cx: number;
   cz: number;
   type: DimensionType;
@@ -41,6 +42,9 @@ function Worker(generator: typeof TerrainGenerator) {
 
       // Bind the message event to the worker
       parentPort?.on("message", (data: WorkerData) => {
+        // Check if the data is for the generator
+        if (!data.generator) return;
+
         // Call the apply method of the worker to generate the chunk
         const chunk = instance.apply(data.cx, data.cz, data.type);
 

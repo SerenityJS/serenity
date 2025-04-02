@@ -211,7 +211,10 @@ class Dimension {
     for (const [, entity] of this.entities) {
       // Check if there is a player within the simulation distance to tick the entity
       const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(entity.position) <= this.simulationDistance << 4;
+        return (
+          Vector3f.distance(player, entity.position) <=
+          this.simulationDistance << 4
+        );
       });
 
       // Tick the entity if it is in simulation range
@@ -272,7 +275,10 @@ class Dimension {
     for (const [, block] of this.blocks) {
       // Check if there is a player within the simulation distance to tick the block
       const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(block.position) <= this.simulationDistance << 4;
+        return (
+          Vector3f.distance(player, block.position) <=
+          this.simulationDistance << 4
+        );
       });
 
       // Tick the block if it is in simulation range
@@ -548,11 +554,17 @@ class Dimension {
       if (options.count && options.count <= index) return false;
 
       // Check if the player is within the maximum distance
-      if (maxDistance > 0 && player.position.distance(position) > maxDistance)
+      if (
+        maxDistance > 0 &&
+        Vector3f.distance(player.position, position) > maxDistance
+      )
         return false;
 
       // Check if the player is within the minimum distance
-      if (minDistance > 0 && player.position.distance(position) < minDistance)
+      if (
+        minDistance > 0 &&
+        Vector3f.distance(player.position, position) < minDistance
+      )
         return false;
 
       // Return the player
@@ -606,11 +618,17 @@ class Dimension {
       if (options.count && options.count <= index) return false;
 
       // Check if the entity is within the maximum distance
-      if (maxDistance > 0 && entity.position.distance(position) > maxDistance)
+      if (
+        maxDistance > 0 &&
+        Vector3f.distance(entity.position, position) > maxDistance
+      )
         return false;
 
       // Check if the entity is within the minimum distance
-      if (minDistance > 0 && entity.position.distance(position) < minDistance)
+      if (
+        minDistance > 0 &&
+        Vector3f.distance(entity.position, position) < minDistance
+      )
         return false;
 
       // Return the entity

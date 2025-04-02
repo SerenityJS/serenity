@@ -12,6 +12,7 @@ import {
   LevelEventPacket,
   Packet,
   PlayerActionType,
+  PlayerAuthInputData,
   PlayerAuthInputPacket,
   PlayerBlockActionData,
   PredictionType,
@@ -58,10 +59,20 @@ class PlayerAuthInputHandler extends NetworkHandler {
       return player.sendImmediate(rewind);
     }
 
+    // Get the vertical collision information from the input data
+    const verticalCollision = PlayerAuthInputData.hasFlag(
+      packet.inputData,
+      InputData.VerticalCollision
+    );
+
+    // Get the jumping information from the input data
+    const jumping = PlayerAuthInputData.hasFlag(
+      packet.inputData,
+      InputData.Jumping
+    );
+
     // Determine if the player is on the ground
-    player.onGround =
-      packet.inputData.hasFlag(InputData.VerticalCollision) &&
-      !packet.inputData.hasFlag(InputData.Jumping);
+    player.onGround = verticalCollision && !jumping;
 
     // Create a new Rotation object from the packet data
     const rotation = new Rotation(
@@ -72,14 +83,14 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
     // Determine if the player is moving
     player.isMoving =
-      packet.position.distance(player.position) !== 0 ||
-      !player.rotation.equals(rotation);
+      Vector3f.distance(packet.position, player.position) !== 0 ||
+      !Rotation.equals(player.rotation, rotation);
 
     // Set the player's position
-    player.position.set(packet.position);
+    Vector3f.set(player.position, packet.position);
 
     // Set the player's rotation
-    player.rotation.set(rotation);
+    Rotation.set(player.rotation, rotation);
 
     // Set the player device information
     player.device.inputMode = packet.inputMode;
@@ -125,7 +136,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
     }
 
     // Handle the player's actions
-    this.handleActorActions(player, packet.inputData.getFlags());
+    this.handleActorActions(
+      player,
+      PlayerAuthInputData.getFlags(packet.inputData)
+    );
   }
 
   /**
@@ -173,7 +187,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (Math.abs(delta.z) >= movementRewindThreshold) return false;
 
     // Check if the player has teleported
-    if (player.position.distance(position) >= 4) return false;
+    if (Vector3f.distance(player.position, position) >= 4) return false;
 
     // Return true, as the movement is valid
     return true;

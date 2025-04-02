@@ -1,5 +1,3 @@
-import { deflateRawSync, inflateRawSync } from "node:zlib";
-
 import { Emitter } from "@serenityjs/emitter";
 import {
   type Connection,
@@ -17,28 +15,18 @@ import {
   DisconnectPacket,
   DisconnectReason,
   Framer,
-  getPacketId,
   MINECRAFT_VERSION,
   Packet,
-  Packets,
   PROTOCOL_VERSION
 } from "@serenityjs/protocol";
 
 import { NetworkBound } from "../enums";
 
+import { Serializer } from "./serializer";
+
 import type { NetworkHandler } from "./handler";
 import type { Serenity } from "../serenity";
 import type { NetworkEvents } from "../types";
-
-interface ConnectionProperties {
-  compression: boolean;
-  encryption: boolean;
-}
-
-const DefaultProperties: ConnectionProperties = {
-  compression: false,
-  encryption: false
-};
 
 interface NetworkProperties {
   compressionMethod: CompressionMethod;
@@ -50,6 +38,18 @@ const DefaultNetworkProperties: NetworkProperties = {
   compressionMethod: CompressionMethod.Zlib,
   compressionThreshold: 256,
   packetsPerFrame: 64
+};
+
+interface ConnectionProperties {
+  compression: boolean;
+  encryption: boolean;
+  serializer: Serializer | null;
+}
+
+const DefaultProperties: ConnectionProperties = {
+  compression: false,
+  encryption: false,
+  serializer: null
 };
 
 class Network extends Emitter<NetworkEvents> {
@@ -190,10 +190,13 @@ class Network extends Emitter<NetworkEvents> {
     if (this.connections.has(connection)) return connection.disconnect();
 
     // Create a new connection object with the default properties
-    const object = { ...DefaultProperties } as ConnectionProperties;
+    const properties = { ...DefaultProperties } as ConnectionProperties;
+
+    // Create a new serializer for the connection
+    properties.serializer = new Serializer(this, connection);
 
     // Add the connection to the connections map
-    this.connections.set(connection, object);
+    this.connections.set(connection, properties);
 
     // Log a debug message that a connection has been established
     this.logger.debug(
@@ -206,8 +209,11 @@ class Network extends Emitter<NetworkEvents> {
    * @param connection The connection that is being disconnected
    */
   public onDisconnect(connection: Connection): void {
-    // Check if the connection is in the connections map
-    if (!this.connections.has(connection)) return;
+    // Get the connection object from the connections map
+    const properties = this.connections.get(connection);
+
+    // Check if the connection is not in the connections map
+    if (!properties) return;
 
     // Create a dummy disconnect packet
     const packet = new DisconnectPacket();
@@ -230,6 +236,9 @@ class Network extends Emitter<NetworkEvents> {
     // Remove the connection from the players map
     this.serenity.players.delete(connection);
 
+    // Kill the worker thread for the connection
+    if (properties.serializer) properties.serializer.terminate();
+
     // Log a debug message that a connection has been disconnected
     this.logger.debug(
       `Connection disconnected with ${connection.rinfo.address}:${connection.rinfo.port}`
@@ -246,176 +255,164 @@ class Network extends Emitter<NetworkEvents> {
     const properties = this.connections.get(connection);
 
     // Check if the connection is not in the connections map
-    if (!properties)
-      throw new Error(
-        "Received data from a connection that is not a registered connection."
-      );
+    if (!properties || !properties.serializer) return;
 
-    // Iterate over all the data buffers that are being sent
-    for (const buffer of data) {
-      // Check if the first byte is a header for a minecraft packet
-      if (buffer[0] !== 0xfe) throw new Error("Invalid packet header");
+    // Deserialize the data from the connection.
+    properties.serializer.deserialize(
+      (packets) => {
+        // Handle the packets with the connection
+        this.handlePacket(connection, NetworkBound.Server, ...packets);
+      },
+      ...data // Pass the buffers to the serializer
+    );
 
-      // Check if the connection is encrypted.
-      // NOTE: Encryption is not implemented yet. So we will just handle the packet as if it was not encrypted.
-      // TODO: Implement encryption for the connection.
-      let decrypted = properties.encryption
-        ? buffer.subarray(1)
-        : buffer.subarray(1);
+    // // Iterate over all the data buffers that are being sent
+    // for (const buffer of data) {
+    //   // Check if the first byte is a header for a minecraft packet
+    //   if (buffer[0] !== 0xfe) throw new Error("Invalid packet header");
 
-      // Get the compression byte from the decrypted buffer.
-      const compression = decrypted[0] as number;
+    //   // Check if the connection is encrypted.
+    //   // NOTE: Encryption is not implemented yet. So we will just handle the packet as if it was not encrypted.
+    //   // TODO: Implement encryption for the connection.
+    //   let decrypted = properties.encryption
+    //     ? buffer.subarray(1)
+    //     : buffer.subarray(1);
 
-      // Some packets have a byte that represents the compression algorithm.
-      // Read the compression algorithm from the buffer.
-      const algorithm: CompressionMethod = CompressionMethod[compression]
-        ? decrypted.readUint8()
-        : CompressionMethod.NotPresent;
+    //   // Get the compression byte from the decrypted buffer.
+    //   const compression = decrypted[0] as number;
 
-      if (algorithm !== CompressionMethod.NotPresent)
-        decrypted = decrypted.subarray(1);
+    //   // Some packets have a byte that represents the compression algorithm.
+    //   // Read the compression algorithm from the buffer.
+    //   const algorithm: CompressionMethod = CompressionMethod[compression]
+    //     ? decrypted.readUint8()
+    //     : CompressionMethod.NotPresent;
 
-      // Inflate the buffer based on the compression algorithm.
-      const inflated =
-        algorithm === CompressionMethod.None
-          ? decrypted
-          : algorithm === CompressionMethod.NotPresent
-            ? decrypted
-            : algorithm === CompressionMethod.Zlib
-              ? this.inflateZlib(decrypted)
-              : algorithm === CompressionMethod.Snappy
-                ? this.inflateSnappy(decrypted)
-                : decrypted;
+    //   if (algorithm !== CompressionMethod.NotPresent)
+    //     decrypted = decrypted.subarray(1);
 
-      // Unframe the inflated buffer.
-      // Buffers can contains multiple packets, so we need to unframe them.
-      const frames = Framer.unframe(inflated);
+    //   // Inflate the buffer based on the compression algorithm.
+    //   const inflated =
+    //     algorithm === CompressionMethod.None
+    //       ? decrypted
+    //       : algorithm === CompressionMethod.NotPresent
+    //         ? decrypted
+    //         : algorithm === CompressionMethod.Zlib
+    //           ? this.inflateZlib(decrypted)
+    //           : algorithm === CompressionMethod.Snappy
+    //             ? this.inflateSnappy(decrypted)
+    //             : decrypted;
 
-      // Check if the frames amount is greater than the packets per frame.
-      // If so, we will log a warning and disconnect the session.
-      // This could be an attempt to crash the server, or some other malicious intent.
-      if (frames.length > this.properties.packetsPerFrame) {
-        // Log a warning if too many packets were sent at once.
-        this.logger.warn(
-          `Received too many packets from "${connection.rinfo.address}:${connection.rinfo.port}", disconnecting the session.`
-        );
+    //   // Unframe the inflated buffer.
+    //   // Buffers can contains multiple packets, so we need to unframe them.
+    //   const frames = Framer.unframe(inflated);
 
-        // Disconnect the session if too many packets were sent at once.
-        return connection.disconnect();
-      }
+    //   // Check if the frames amount is greater than the packets per frame.
+    //   // If so, we will log a warning and disconnect the session.
+    //   // This could be an attempt to crash the server, or some other malicious intent.
+    //   if (frames.length > this.properties.packetsPerFrame) {
+    //     // Log a warning if too many packets were sent at once.
+    //     this.logger.warn(
+    //       `Received too many packets from "${connection.rinfo.address}:${connection.rinfo.port}", disconnecting the session.`
+    //     );
 
-      // Iterate over all the frames that were unframed.
-      // And pass the packets to the registered handlers.
-      for (const frame of frames) {
-        // Read the packet id from the frame.
-        const packetId = getPacketId(frame);
+    //     // Disconnect the session if too many packets were sent at once.
+    //     return connection.disconnect();
+    //   }
 
-        // Get the packet from the packet id.
-        const packetType = Packets[packetId];
+    //   // Iterate over all the frames that were unframed.
+    //   // And pass the packets to the registered handlers.
+    //   for (const frame of frames) {
+    //     // Read the packet id from the frame.
+    //     const packetId = getPacketId(frame);
 
-        // Check if the no packet was found for the packet id.
-        if (!packetType) {
-          // Log a debug message if no packet was found for the packet id.
-          this.logger.debug(
-            `No packet serializer/deserializer found for packet id ${Packet[packetId] ?? packetId}.`
-          );
+    //     // Get the packet from the packet id.
+    //     const packetType = Packets[packetId];
 
-          // Skip the packet if no packet was found for the packet id.
-          continue;
-        }
+    //     // Check if the no packet was found for the packet id.
+    //     if (!packetType) {
+    //       // Log a debug message if no packet was found for the packet id.
+    //       this.logger.debug(
+    //         `No packet serializer/deserializer found for packet id ${Packet[packetId] ?? packetId}.`
+    //       );
 
-        // Attempt to deserialize the packet from the frame.
-        try {
-          // Deserialize the packet from the frame.
-          const packet = new packetType(frame).deserialize();
+    //       // Skip the packet if no packet was found for the packet id.
+    //       continue;
+    //     }
 
-          // Construct the packet event for the registered handlers.
-          const event = {
-            bound: NetworkBound.Server,
-            connection,
-            packet
-          };
+    //     // Attempt to deserialize the packet from the frame.
+    //     try {
+    //       // Deserialize the packet from the frame.
+    //       const packet = new packetType(frame).deserialize();
 
-          // Emit the packet event to the registered handlers.
-          const network = this.emit(packetId, event);
-          const all = this.emit("all", event);
+    //       // Construct the packet event for the registered handlers.
+    //       const event = {
+    //         bound: NetworkBound.Server,
+    //         connection,
+    //         packet
+    //       };
 
-          // Check if the packet was cancelled by an external listener.
-          // If so, the registered handlers will not be called.
-          if (!network || !all) {
-            // Log a debug message if the packet was cancelled by an external listener.
-            this.logger.debug(
-              `Packet received with id ${Packet[packetId] ?? packetId} was cancelled by an external listener.`
-            );
+    //       // Emit the packet event to the registered handlers.
+    //       const network = this.emit(packetId, event);
+    //       const all = this.emit("all", event);
 
-            // Skip the packet if it was cancelled by an external listener.
-            continue;
-          }
+    //       // Check if the packet was cancelled by an external listener.
+    //       // If so, the registered handlers will not be called.
+    //       if (!network || !all) {
+    //         // Log a debug message if the packet was cancelled by an external listener.
+    //         this.logger.debug(
+    //           `Packet received with id ${Packet[packetId] ?? packetId} was cancelled by an external listener.`
+    //         );
 
-          // Filter out all the handlers that have a packet that matches the packet id.
-          const handlers = Array.from(this.handlers).filter((handler) => {
-            return handler.packet === packetId;
-          });
+    //         // Skip the packet if it was cancelled by an external listener.
+    //         continue;
+    //       }
 
-          // Check if no handlers were found for the packet id.
-          if (handlers.length === 0) {
-            // Debug log that no handlers were found for the packet id.
-            this.logger.debug(
-              `No handlers found for packet ${Packet[packetId]}, with id ${packetId}`
-            );
+    //       // Filter out all the handlers that have a packet that matches the packet id.
+    //       const handlers = Array.from(this.handlers).filter((handler) => {
+    //         return handler.packet === packetId;
+    //       });
 
-            // Skip the packet if no handlers were found for the packet id.
-            continue;
-          }
+    //       // Check if no handlers were found for the packet id.
+    //       if (handlers.length === 0) {
+    //         // Debug log that no handlers were found for the packet id.
+    //         this.logger.debug(
+    //           `No handlers found for packet ${Packet[packetId]}, with id ${packetId}`
+    //         );
 
-          // Iterate over all the registered handlers.
-          // And call the handle method for each handler.
-          for (const handler of handlers) {
-            // Check if the handler has a packet that matches the packet id.
-            if (handler.packet === packetId) {
-              // Attempt to handle the packet with the handler.
-              try {
-                // Create a new instance of the handler with the serenity instance.
-                const instance = new handler(this.serenity);
+    //         // Skip the packet if no handlers were found for the packet id.
+    //         continue;
+    //       }
 
-                // Call the handle method for the handler.
-                instance.handle(packet, connection);
-              } catch (reason) {
-                // Log the handling error if the packet could not be handled.
-                this.logger.error(
-                  `Failed to handle packet with id ${packetId}`,
-                  reason
-                );
-              }
-            }
-          }
-        } catch (reason) {
-          // Log the deserialization error if the packet could not be deserialized.
-          this.logger.error(
-            `Failed to deserialize packet with id ${Packet[packetId] ?? packetId}`,
-            reason
-          );
-        }
-      }
-    }
-  }
+    //       // Iterate over all the registered handlers.
+    //       // And call the handle method for each handler.
+    //       for (const handler of handlers) {
+    //         // Check if the handler has a packet that matches the packet id.
+    //         if (handler.packet === packetId) {
+    //           // Attempt to handle the packet with the handler.
+    //           try {
+    //             // Create a new instance of the handler with the serenity instance.
+    //             const instance = new handler(this.serenity);
 
-  /**
-   * Inflates a zlib compressed buffer
-   * @param buffer The zlib compressed buffer to inflate
-   * @returns The inflated buffer
-   */
-  public inflateZlib(buffer: Buffer): Buffer {
-    return inflateRawSync(buffer);
-  }
-
-  /**
-   * Inflates a snappy compressed buffer
-   * @param buffer The snappy compressed buffer to inflate
-   * @returns The inflated buffer
-   */
-  public inflateSnappy(_buffer: Buffer): Buffer {
-    throw new Error("Not implemented");
+    //             // Call the handle method for the handler.
+    //             instance.handle(packet, connection);
+    //           } catch (reason) {
+    //             // Log the handling error if the packet could not be handled.
+    //             this.logger.error(
+    //               `Failed to handle packet with id ${packetId}`,
+    //               reason
+    //             );
+    //           }
+    //         }
+    //       }
+    //     } catch (reason) {
+    //       // Log the deserialization error if the packet could not be deserialized.
+    //       this.logger.error(
+    //         `Failed to deserialize packet with id ${Packet[packetId] ?? packetId}`,
+    //         reason
+    //       );
+    //     }
+    //   }
+    // }
   }
 
   /**
@@ -433,88 +430,109 @@ class Network extends Emitter<NetworkEvents> {
     const properties = this.connections.get(connection);
 
     // Check if the connection is not in the connections map
-    if (!properties)
-      throw new Error(
-        "Attempted to send packets to a connection that is not a registered connection."
-      );
+    if (!properties || !properties.serializer) return;
 
-    // Prepare the data buffers to send to the connection
-    const data: Array<Buffer> = [];
+    // Attempt to handle the packets with the connection
+    const req = this.handlePacket(connection, NetworkBound.Client, ...packets);
+    if (!req) return; // If the packets were not handled, we will not send them
 
-    // Iterate over all the packets that are being sent, and attempt to serialize them
-    // We will also emit the packet event to through the network event emitter
-    for (const packet of packets) {
-      // Create a new packet event for the packet
-      const event = {
-        bound: NetworkBound.Client,
-        connection,
-        packet
-      };
+    // Serialize all the packets the need to be sent
+    properties.serializer.serialize(
+      (buffer) => {
+        // Check if the connection is no longer in the connections map
+        if (!this.connections.has(connection)) return;
 
-      // Emit the packet event to the registered handlers
-      const network = this.emit(packet.getId() as Packet, event);
-      const all = this.emit("all", event);
+        // Once we have the buffer, we can now create a new frame with the buffer payload.
+        // The frame contains the reliability and priority of the packet.
+        // As well as the payload itself.
+        const frame = new Frame();
+        frame.reliability = Reliability.Reliable;
+        frame.orderChannel = 0;
+        frame.payload = buffer;
 
-      // Check if the packet was cancelled by an external listener
-      // If so, the registered handlers will not be called
-      if (!network || !all) {
-        // Log a debug message if the packet was cancelled by an external listener
-        this.logger.debug(
-          `Packet sent with id ${Packet[packet.getId()] ?? packet.getId()} was cancelled by an external listener.`
-        );
+        // And send the frame to the session.
+        return connection.sendFrame(frame, priority);
+      },
+      ...packets // Pass the packets to the serializer
+    );
 
-        // Skip the packet if it was cancelled by an external listener
-        continue;
-      }
+    // // Prepare the data buffers to send to the connection
+    // const data: Array<Buffer> = [];
 
-      // Attempt to serialize the packet
-      try {
-        // Serialize the packet and add it to the data buffers
-        data.push(packet.serialize());
-      } catch (reason) {
-        // Log the serialization error if the packet could not be serialized
-        this.logger.error(
-          `Failed to serialize packet with id ${Packet[packet.getId()] ?? packet.getId()}`,
-          reason
-        );
-      }
-    }
+    // // Iterate over all the packets that are being sent, and attempt to serialize them
+    // // We will also emit the packet event to through the network event emitter
+    // for (const packet of packets) {
+    //   // Create a new packet event for the packet
+    //   const event = {
+    //     bound: NetworkBound.Client,
+    //     connection,
+    //     packet
+    //   };
 
-    // Frame the data buffers into a singular buffer
-    const framed = Framer.frame(...data);
+    //   // Emit the packet event to the registered handlers
+    //   const network = this.emit(packet.getId() as Packet, event);
+    //   const all = this.emit("all", event);
 
-    // Depending on the size of the framed buffer, we will compress it
-    const deflated =
-      framed.byteLength > this.properties.compressionThreshold &&
-      properties.compression
-        ? Buffer.concat([
-            Buffer.from([this.properties.compressionMethod]),
-            this.deflateZlib(framed)
-          ])
-        : properties.compression
-          ? Buffer.concat([Buffer.from([CompressionMethod.None]), framed])
-          : framed;
+    //   // Check if the packet was cancelled by an external listener
+    //   // If so, the registered handlers will not be called
+    //   if (!network || !all) {
+    //     // Log a debug message if the packet was cancelled by an external listener
+    //     this.logger.debug(
+    //       `Packet sent with id ${Packet[packet.getId()] ?? packet.getId()} was cancelled by an external listener.`
+    //     );
 
-    // We will then check if encryption is enabled for the session.
-    // If so, we will encrypt the deflated payload.
-    // If not, we will just use the deflated payload.
-    // NOTE: Encryption is not implemented yet. So we will just use the deflated payload for now.
-    // TODO: Implement encryption for the session.
-    const encrypted = properties.encryption ? deflated : deflated;
+    //     // Skip the packet if it was cancelled by an external listener
+    //     continue;
+    //   }
 
-    // We will then construct the final payload with the game header and the encrypted compressed payload.
-    const payload = Buffer.concat([Buffer.from([0xfe]), encrypted]);
+    //   // Attempt to serialize the packet
+    //   try {
+    //     // Serialize the packet and add it to the data buffers
+    //     data.push(packet.serialize());
+    //   } catch (reason) {
+    //     // Log the serialization error if the packet could not be serialized
+    //     this.logger.error(
+    //       `Failed to serialize packet with id ${Packet[packet.getId()] ?? packet.getId()}`,
+    //       reason
+    //     );
+    //   }
+    // }
 
-    // Finally we will assemble a new frame with the payload.
-    // The frame contains the reliability and priority of the packet.
-    // As well as the payload itself.
-    const frame = new Frame();
-    frame.reliability = Reliability.Reliable;
-    frame.orderChannel = 0;
-    frame.payload = payload;
+    // // Frame the data buffers into a singular buffer
+    // const framed = Framer.frame(...data);
 
-    // And send the frame to the session.
-    return connection.sendFrame(frame, priority);
+    // // Depending on the size of the framed buffer, we will compress it
+    // const deflated =
+    //   framed.byteLength > this.properties.compressionThreshold &&
+    //   properties.compression
+    //     ? Buffer.concat([
+    //         Buffer.from([this.properties.compressionMethod]),
+    //         this.deflateZlib(framed)
+    //       ])
+    //     : properties.compression
+    //       ? Buffer.concat([Buffer.from([CompressionMethod.None]), framed])
+    //       : framed;
+
+    // // We will then check if encryption is enabled for the session.
+    // // If so, we will encrypt the deflated payload.
+    // // If not, we will just use the deflated payload.
+    // // NOTE: Encryption is not implemented yet. So we will just use the deflated payload for now.
+    // // TODO: Implement encryption for the session.
+    // const encrypted = properties.encryption ? deflated : deflated;
+
+    // // We will then construct the final payload with the game header and the encrypted compressed payload.
+    // const payload = Buffer.concat([Buffer.from([0xfe]), encrypted]);
+
+    // // Finally we will assemble a new frame with the payload.
+    // // The frame contains the reliability and priority of the packet.
+    // // As well as the payload itself.
+    // const frame = new Frame();
+    // frame.reliability = Reliability.Reliable;
+    // frame.orderChannel = 0;
+    // frame.payload = payload;
+
+    // // And send the frame to the session.
+    // return connection.sendFrame(frame, priority);
   }
 
   /**
@@ -542,12 +560,89 @@ class Network extends Emitter<NetworkEvents> {
   }
 
   /**
-   * Deflates a buffer using the zlib compression algorithm
-   * @param buffer The buffer to deflate
-   * @returns The deflated buffer
+   * Batches a set of packets to be handled by the network.
+   * @param connection The connection the packets are being sent / received from.
+   * @param bound The directional flow of the packets. ( Server / Client )
+   * @param packets The packets to be handled by the network.
+   * @returns Whether the packets were handled successfully.
    */
-  public deflateZlib(buffer: Buffer): Buffer {
-    return deflateRawSync(buffer);
+  public handlePacket(
+    connection: Connection,
+    bound: NetworkBound,
+    ...packets: Array<DataPacket>
+  ): boolean {
+    // Prepare a flag to indicate if the packets were handled successfully
+    let success = true;
+
+    // Iterate over all the packets that need to be handled
+    for (const packet of packets) {
+      // Get the packet id from the packet instance
+      const id = packet.getId() as Packet;
+
+      // Create a new network event for the packet
+      const event = { bound, connection, packet };
+
+      // Emit the packet event to the listeners
+      const network = this.emit(id, event);
+      const all = this.emit("all", event);
+
+      // Check if the packet was cancelled by an external listener
+      if (!network || !all) {
+        // Log a debug message if the packet was cancelled by an external listener
+        this.logger.debug(
+          `Packet received with id ${Packet[id] ?? id} was cancelled by an external listener.`
+        );
+
+        // Set the success flag to false if the packet was cancelled by an external listener
+        success = false;
+
+        // Skip the packet if it was cancelled by an external listener
+        continue;
+      }
+
+      // If the packet is going to the client, we dont want to handle it
+      if (bound === NetworkBound.Client) continue;
+
+      // Filter out all the handlers that have a packet that matches the packet id
+      const handlers = Array.from(this.handlers).filter((handler) => {
+        return handler.packet === id;
+      });
+
+      // Check if no handlers were found for the packet id
+      if (handlers.length === 0) {
+        // Log a debug message if no handlers were found for the packet id
+        this.logger.debug(
+          `No handlers found for packet ${Packet[id]}, with id ${id}`
+        );
+
+        // Skip the packet if no handlers were found for the packet id
+        continue;
+      }
+
+      // Iterate over all the registered handlers
+      for (const handler of handlers) {
+        // Check if the handler has a packet that matches the packet id
+        if (handler.packet === id) {
+          // Attempt to handle the packet with the handler
+          try {
+            // Create a new instance of the handler with the serenity instance
+            const instance = new handler(this.serenity);
+
+            // Call the handle method for the handler
+            instance.handle(packet, connection);
+          } catch (reason) {
+            // Log the handling error if the packet could not be handled
+            this.logger.error(`Failed to handle packet with id ${id}`, reason);
+
+            // Set the success flag to false if the packet could not be handled
+            success = false;
+          }
+        }
+      }
+    }
+
+    // Return whether the packets were handled successfully
+    return success;
   }
 
   public setCompression(connection: Connection, enabled: boolean): void {
@@ -590,4 +685,4 @@ class Network extends Emitter<NetworkEvents> {
   }
 }
 
-export { Network, NetworkProperties };
+export { Network, NetworkProperties, ConnectionProperties };

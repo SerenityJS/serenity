@@ -2,7 +2,8 @@ import {
   BlockActorDataPacket,
   ChunkCoords,
   LevelChunkPacket,
-  NetworkChunkPublisherUpdatePacket
+  NetworkChunkPublisherUpdatePacket,
+  Vector3f
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
@@ -220,7 +221,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
       // Assign the values to the packet
       update.radius = this.viewDistance << 4;
-      update.coordinate = this.player.position.floor();
+      update.coordinate = Vector3f.floor(this.player.position);
       update.savedChunks = [...this.chunks].map((hash) =>
         ChunkCoords.unhash(hash)
       );

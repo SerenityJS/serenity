@@ -593,7 +593,7 @@ class Player extends Entity {
 
     // Set the packet properties
     packet.name = sound;
-    packet.position = position.multiply(8); // Mojank...
+    packet.position = Vector3f.multiply(position, 8); // Mojank...
     packet.volume = options?.volume ?? 1;
     packet.pitch = options?.pitch ?? 1;
 

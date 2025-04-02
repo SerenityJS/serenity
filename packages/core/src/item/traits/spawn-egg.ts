@@ -1,4 +1,4 @@
-import { ItemUseMethod, BlockPosition } from "@serenityjs/protocol";
+import { ItemUseMethod, BlockPosition, Vector3f } from "@serenityjs/protocol";
 
 import { Entity, Player } from "../../entity";
 import { EntityIdentifier, ItemIdentifier } from "../../enums";
@@ -31,9 +31,9 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     if (options.method !== ItemUseMethod.Place || !this.entityType) return;
 
     // Calculate the position to spawn the entity.
-    const position = BlockPosition.toVector3f(options.targetBlock.position)
-      .add(options.clickPosition)
-      .add({ x: 0, y: 1, z: 0 });
+    let position = BlockPosition.toVector3f(options.targetBlock.position);
+    position = Vector3f.add(position, options.clickPosition);
+    position = Vector3f.add(position, { x: 0, y: 1, z: 0 });
 
     // Check if any entity data should be added to the entity.
     const entry =
@@ -48,7 +48,7 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
       position.y += 1;
 
       // Set the entity position.
-      entity.position.set(position);
+      Vector3f.set(entity.position, position);
 
       // Spawn the entity in the player's dimension.
       entity.spawn();

@@ -44,20 +44,20 @@ class Vector3f extends DataType implements IPosition {
    * Sets the coordinates of the 3D vector.
    * @param other The other 3D vector to set the coordinates to.
    */
-  public set(other: IPosition): void {
-    this.x = other.x;
-    this.y = other.y;
-    this.z = other.z;
+  public static set(vec3f: IPosition, other: IPosition): void {
+    vec3f.x = other.x;
+    vec3f.y = other.y;
+    vec3f.z = other.z;
   }
 
   /**
    * Rounds the coordinates of the 3D vector to the nearest whole number.
    * @returns
    */
-  public round(): Vector3f {
-    const x = Math.round(this.x);
-    const y = Math.round(this.y);
-    const z = Math.round(this.z);
+  public static round(vec3f: IPosition): Vector3f {
+    const x = Math.round(vec3f.x);
+    const y = Math.round(vec3f.y);
+    const z = Math.round(vec3f.z);
 
     return new Vector3f(x, y, z);
   }
@@ -66,10 +66,10 @@ class Vector3f extends DataType implements IPosition {
    * Ceils the coordinates of the 3D vector.
    * @returns The 3D vector with the coordinates ceiled.
    */
-  public ceil(): Vector3f {
-    const x = Math.ceil(this.x);
-    const y = Math.ceil(this.y);
-    const z = Math.ceil(this.z);
+  public static ceil(vec3f: IPosition): Vector3f {
+    const x = Math.ceil(vec3f.x);
+    const y = Math.ceil(vec3f.y);
+    const z = Math.ceil(vec3f.z);
 
     return new Vector3f(x, y, z);
   }
@@ -78,21 +78,25 @@ class Vector3f extends DataType implements IPosition {
    * Floors the coordinates of the 3D vector.
    * @returns The 3D vector with the coordinates floored.
    */
-  public floor(): Vector3f {
-    const x = Math.floor(this.x);
-    const y = Math.floor(this.y);
-    const z = Math.floor(this.z);
+  public static floor(vec3f: IPosition): Vector3f {
+    const x = Math.floor(vec3f.x);
+    const y = Math.floor(vec3f.y);
+    const z = Math.floor(vec3f.z);
 
     return new Vector3f(x, y, z);
   }
 
   /**
-   * Adds another 3D vector to this 3D vector.
+   * Adds another 3D vector to another 3D vector.
    * @param other The other 3D vector to add.
    * @returns The result of the addition.
    */
-  public add(other: IPosition): Vector3f {
-    return new Vector3f(this.x + other.x, this.y + other.y, this.z + other.z);
+  public static add(vec3f: IPosition, other: IPosition): Vector3f {
+    return new Vector3f(
+      vec3f.x + other.x,
+      vec3f.y + other.y,
+      vec3f.z + other.z
+    );
   }
 
   /**
@@ -100,8 +104,12 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to subtract.
    * @returns The result of the subtraction.
    */
-  public subtract(other: IPosition): Vector3f {
-    return new Vector3f(this.x - other.x, this.y - other.y, this.z - other.z);
+  public static subtract(vec3f: IPosition, other: IPosition): Vector3f {
+    return new Vector3f(
+      vec3f.x - other.x,
+      vec3f.y - other.y,
+      vec3f.z - other.z
+    );
   }
 
   /**
@@ -109,8 +117,8 @@ class Vector3f extends DataType implements IPosition {
    * @param scalar The scalar to multiply with.
    * @returns The result of the multiplication.
    */
-  public multiply(scalar: number): Vector3f {
-    return new Vector3f(this.x * scalar, this.y * scalar, this.z * scalar);
+  public static multiply(vec3f: IPosition, scalar: number): Vector3f {
+    return new Vector3f(vec3f.x * scalar, vec3f.y * scalar, vec3f.z * scalar);
   }
 
   /**
@@ -118,8 +126,8 @@ class Vector3f extends DataType implements IPosition {
    * @param scalar The scalar to divide with.
    * @returns The result of the division.
    */
-  public divide(scalar: number): Vector3f {
-    return new Vector3f(this.x / scalar, this.y / scalar, this.z / scalar);
+  public static divide(vec3f: IPosition, scalar: number): Vector3f {
+    return new Vector3f(vec3f.x / scalar, vec3f.y / scalar, vec3f.z / scalar);
   }
 
   /**
@@ -127,8 +135,8 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to calculate the dot product with.
    * @returns The result of the dot product.
    */
-  public dot(other: IPosition): number {
-    return this.x * other.x + this.y * other.y + this.z * other.z;
+  public static dot(vec3f: IPosition, other: IPosition): number {
+    return vec3f.x * other.x + vec3f.y * other.y + vec3f.z * other.z;
   }
 
   /**
@@ -136,10 +144,10 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to calculate the cross product with.
    * @returns The result of the cross product.
    */
-  public cross(other: IPosition): Vector3f {
-    const x = this.y * other.z - this.z * other.y;
-    const y = this.z * other.x - this.x * other.z;
-    const z = this.x * other.y - this.y * other.x;
+  public static cross(vec3f: IPosition, other: IPosition): Vector3f {
+    const x = vec3f.y * other.z - vec3f.z * other.y;
+    const y = vec3f.z * other.x - vec3f.x * other.z;
+    const z = vec3f.x * other.y - vec3f.y * other.x;
 
     return new Vector3f(x, y, z);
   }
@@ -148,25 +156,25 @@ class Vector3f extends DataType implements IPosition {
    * Calculates the length of this 3D vector.
    * @returns The length of the 3D vector.
    */
-  public length(): number {
-    return Math.hypot(this.x, this.y, this.z);
+  public static length(vec3f: IPosition): number {
+    return Math.hypot(vec3f.x, vec3f.y, vec3f.z);
   }
 
   /**
    * Calculates the square length of this 3D vector.
    * @returns the square length of the 3D vector.
    */
-  public lengthSqrt(): number {
-    return this.x * this.x + this.y * this.y + this.z * this.z;
+  public static lengthSqrt(vec3f: IPosition): number {
+    return vec3f.x * vec3f.x + vec3f.y * vec3f.y + vec3f.z * vec3f.z;
   }
 
   /**
    * Normalizes this 3D vector.
    * @returns The normalized 3D vector.
    */
-  public normalize(): Vector3f {
-    const length = this.length();
-    return new Vector3f(this.x / length, this.y / length, this.z / length);
+  public static normalize(vec3f: Vector3f): Vector3f {
+    const length = this.length(vec3f);
+    return new Vector3f(vec3f.x / length, vec3f.y / length, vec3f.z / length);
   }
 
   /**
@@ -175,11 +183,11 @@ class Vector3f extends DataType implements IPosition {
    * @param t The interpolation factor.
    * @returns The interpolated 3D vector.
    */
-  public lerp(other: IPosition, t: number): Vector3f {
+  public static lerp(vec3f: Vector3f, other: IPosition, t: number): Vector3f {
     return new Vector3f(
-      this.x + (other.x - this.x) * t,
-      this.y + (other.y - this.y) * t,
-      this.z + (other.z - this.z) * t
+      vec3f.x + (other.x - vec3f.x) * t,
+      vec3f.y + (other.y - vec3f.y) * t,
+      vec3f.z + (other.z - vec3f.z) * t
     );
   }
 
@@ -189,23 +197,30 @@ class Vector3f extends DataType implements IPosition {
    * @param t The interpolation factor.
    * @returns The interpolated 3D vector.
    */
-  public slerp(other: Vector3f | BlockPosition, t: number): Vector3f {
-    const dot = this.dot(other);
+  public static slerp(
+    vec3f: Vector3f,
+    other: Vector3f | BlockPosition,
+    t: number
+  ): Vector3f {
+    const dot = this.dot(vec3f, other);
     const theta = Math.acos(dot);
     const sinTheta = Math.sin(theta);
 
     const a = Math.sin((1 - t) * theta) / sinTheta;
     const b = Math.sin(t * theta) / sinTheta;
 
-    return this.multiply(a).add(other.multiply(b));
+    const m = this.multiply(vec3f, a);
+    const n = this.multiply(other, b);
+
+    return new Vector3f(m.x + n.x, m.y + n.y, m.z + n.z);
   }
 
   /**
    * Returns a string representation of this 3D vector.
    * @returns The string representation of this 3D vector.
    */
-  public equals(other: IPosition): boolean {
-    return this.x === other.x && this.y === other.y && this.z === other.z;
+  public static equals(vec3f: Vector3f, other: IPosition): boolean {
+    return vec3f.x === other.x && vec3f.y === other.y && vec3f.z === other.z;
   }
 
   /**
@@ -213,8 +228,8 @@ class Vector3f extends DataType implements IPosition {
    * @param other The other 3D vector to get the distance to.
    * @returns The distance between the 3D vectors.
    */
-  public distance(other: IPosition): number {
-    return Math.hypot(this.x - other.x, this.y - other.y, this.z - other.z);
+  public static distance(vec3f: Vector3f, other: IPosition): number {
+    return Math.hypot(vec3f.x - other.x, vec3f.y - other.y, vec3f.z - other.z);
   }
 
   /**
@@ -224,11 +239,11 @@ class Vector3f extends DataType implements IPosition {
    * @param other - The other 3D vector to get the distance to.
    * @returns The Manhattan distance between the 3D vectors.
    */
-  public distanceManhattan(other: IPosition): number {
+  public static distanceManhattan(vec3f: Vector3f, other: IPosition): number {
     return (
-      Math.abs(this.x - other.x) +
-      Math.abs(this.y - other.y) +
-      Math.abs(this.z - other.z)
+      Math.abs(vec3f.x - other.x) +
+      Math.abs(vec3f.y - other.y) +
+      Math.abs(vec3f.z - other.z)
     );
   }
 
@@ -236,19 +251,23 @@ class Vector3f extends DataType implements IPosition {
    * Computes the absolute value of each coordinate of the 3D vector.
    * @returns the absolute value of this 3D vector.
    */
-  public absolute(): Vector3f {
-    return new Vector3f(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));
+  public static absolute(vec3f: Vector3f): Vector3f {
+    return new Vector3f(
+      Math.abs(vec3f.x),
+      Math.abs(vec3f.y),
+      Math.abs(vec3f.z)
+    );
   }
 
   /**
    * Checks if the 3D vector is zero.
    * @returns true if the 3D vector is zero, false otherwise.
    */
-  public isZero(): boolean {
+  public static isZero(vec3f: Vector3f): boolean {
     return (
-      Math.abs(this.x) < Number.EPSILON &&
-      Math.abs(this.y) < Number.EPSILON &&
-      Math.abs(this.z) < Number.EPSILON
+      Math.abs(vec3f.x) < Number.EPSILON &&
+      Math.abs(vec3f.y) < Number.EPSILON &&
+      Math.abs(vec3f.z) < Number.EPSILON
     );
   }
 
@@ -256,8 +275,8 @@ class Vector3f extends DataType implements IPosition {
    * Clones this 3D vector into a new 3D vector.
    * @returns The cloned 3D vector.
    */
-  public clone(): Vector3f {
-    return new Vector3f(this.x, this.y, this.z);
+  public static clone(vec3f: Vector3f): Vector3f {
+    return new Vector3f(vec3f.x, vec3f.y, vec3f.z);
   }
 
   /**

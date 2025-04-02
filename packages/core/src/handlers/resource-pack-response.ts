@@ -14,7 +14,8 @@ import {
   ResourcePackStackPacket,
   StartGamePacket,
   ItemRegistryPacket,
-  PermissionLevel
+  PermissionLevel,
+  Vector3f
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, TagType } from "@serenityjs/nbt";
@@ -128,7 +129,12 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.entityId = player.uniqueId;
         packet.runtimeEntityId = player.runtimeId;
         packet.playerGamemode = player.gamemode;
-        packet.playerPosition = player.position.add({ x: 0, y: 1.75, z: 0 });
+        packet.playerPosition = Vector3f.add(player.position, {
+          x: 0,
+          y: 1.75,
+          z: 0
+        });
+
         packet.pitch = player.rotation.pitch;
         packet.yaw = player.rotation.yaw;
         packet.seed = BigInt(player.dimension.generator.properties.seed);

@@ -29,7 +29,7 @@ class Astar {
       this.closedSet.add(currentNode);
 
       if (maxDistance && currentNode.distance(target) > maxDistance) break;
-      if (currentNode.equals(target)) {
+      if (Node.equals(currentNode, target)) {
         return this.reconstructPath(currentNode, target);
       }
 
@@ -66,7 +66,7 @@ class Astar {
   }
 
   private nodePredicate(node: Node): (node: Node) => boolean {
-    return (savedNode: Node) => node.equals(savedNode);
+    return (savedNode: Node) => Node.equals(node, savedNode);
   }
 
   private inSet(set: Set<Node>, node: Node): boolean {

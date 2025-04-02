@@ -1,7 +1,8 @@
 import { DataType } from "@serenityjs/raknet";
 
+import { Vector3f } from "./vector3f";
+
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { Vector3f } from "./vector3f";
 
 class Rotation extends DataType {
   /**
@@ -35,12 +36,13 @@ class Rotation extends DataType {
 
   /**
    * Sets the coordinates of the 3D vector.
+   * @param rot The 3D vector to set the coordinates to.
    * @param other The other 3D vector to set the coordinates to.
    */
-  public set(other: Rotation): void {
-    this.yaw = other.yaw;
-    this.pitch = other.pitch;
-    this.headYaw = other.headYaw;
+  public static set(rot: Rotation, other: Rotation): void {
+    rot.yaw = other.yaw;
+    rot.pitch = other.pitch;
+    rot.headYaw = other.headYaw;
   }
 
   /**
@@ -48,12 +50,12 @@ class Rotation extends DataType {
    *
    * @returns The 3D vector with the coordinates floored.
    */
-  public floor(): this {
-    this.yaw = Math.floor(this.yaw);
-    this.pitch = Math.floor(this.pitch);
-    this.headYaw = Math.floor(this.headYaw);
+  public static floor(rot: Rotation): Rotation {
+    rot.yaw = Math.floor(rot.yaw);
+    rot.pitch = Math.floor(rot.pitch);
+    rot.headYaw = Math.floor(rot.headYaw);
 
-    return this;
+    return rot;
   }
 
   /**
@@ -61,11 +63,11 @@ class Rotation extends DataType {
    * @param other The other rotation to compare to.
    * @returns True if the rotations are equal, false otherwise.
    */
-  public equals(other: Rotation): boolean {
+  public static equals(rot: Rotation, other: Rotation): boolean {
     return (
-      this.yaw === other.yaw &&
-      this.pitch === other.pitch &&
-      this.headYaw === other.headYaw
+      rot.yaw === other.yaw &&
+      rot.pitch === other.pitch &&
+      rot.headYaw === other.headYaw
     );
   }
 
@@ -75,7 +77,7 @@ class Rotation extends DataType {
    * @returns The vector3f that was converted.
    */
   public static fromVector3f(vector: Vector3f): Rotation {
-    const floor = vector.floor();
+    const floor = Vector3f.floor(vector);
 
     return new Rotation(floor.x, floor.y, floor.z);
   }

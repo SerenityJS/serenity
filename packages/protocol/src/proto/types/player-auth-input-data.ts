@@ -24,15 +24,19 @@ export class PlayerAuthInputData extends DataType {
    * @param flag The flag to set.
    * @param value The value to set the flag to.
    */
-  public setFlag(flag: InputData, value: boolean): void {
+  public static setFlag(
+    data: PlayerAuthInputData,
+    flag: InputData,
+    value: boolean
+  ): void {
     // Mask the flag with the flags of the input data.
     const flagBit = 1n << BigInt(flag);
 
     // Set the flag based on the value.
     if (value) {
-      this.flags |= flagBit;
+      data.flags |= flagBit;
     } else {
-      this.flags &= ~flagBit;
+      data.flags &= ~flagBit;
     }
   }
 
@@ -41,19 +45,19 @@ export class PlayerAuthInputData extends DataType {
    * @param flag The flag to check.
    * @returns Whether the input data has the flag.
    */
-  public hasFlag(flag: InputData): boolean {
+  public static hasFlag(data: PlayerAuthInputData, flag: InputData): boolean {
     // Mask the flag with the flags of the input data.
     const flagBit = 1n << BigInt(flag);
 
     // Return whether the flag is set.
-    return (this.flags & flagBit) !== 0n;
+    return (data.flags & flagBit) !== 0n;
   }
 
   /**
    * Gets all the flags of the input data.
    * @returns An array of flags.
    */
-  public getFlags(): Array<InputData> {
+  public static getFlags(data: PlayerAuthInputData): Array<InputData> {
     // Prepare an array to store the flags.
     const flags: Array<InputData> = [];
 
@@ -65,7 +69,7 @@ export class PlayerAuthInputData extends DataType {
     // Iterate over the values of the input data.
     for (const value of inputDataValues) {
       // Check if the input data has the flag.
-      if (this.hasFlag(value as InputData)) {
+      if (this.hasFlag(data, value as InputData)) {
         // Add the flag to the array.
         flags.push(value as InputData);
       }

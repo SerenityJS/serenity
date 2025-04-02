@@ -93,7 +93,7 @@ class BlockInventoryTrait extends BlockTrait {
       // Spawn the item entity in the dimension
       this.block.dimension.spawnItem(
         item,
-        vector.add(new Vector3f(0.5, 0.5, 0.5))
+        Vector3f.add(vector, { x: 0.5, y: 0.5, z: 0.5 })
       );
     }
   }
