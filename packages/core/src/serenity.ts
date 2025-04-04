@@ -117,6 +117,12 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public readonly commandPalette = new CommandPalette();
 
   /**
+   * The current runtime of the server.
+   */
+  public readonly runtime =
+    process.versions.bun === undefined ? "node.js" : "bun.sh";
+
+  /**
    * The current state of the server, whether it is starting up, running, or shutting down
    */
   public state: ServerState = ServerState.StartingUp;
@@ -322,7 +328,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       }
 
       // Schedule the next tick
-      return setImmediate(tick);
+      return this.runtime === "node.js"
+        ? setImmediate(tick)
+        : setTimeout(tick, 0);
     };
 
     // Start the ticking loop
