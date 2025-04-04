@@ -369,7 +369,7 @@ class Dimension {
       const block = new Block(this, blockPosition);
 
       // Iterate over all the traits and apply them to the block
-      for (const trait of permutation.type.traits) block.addTrait(trait);
+      for (const [, trait] of permutation.type.traits) block.addTrait(trait);
 
       // If the block has dynamic properties or traits, we will cache the block
       if (block.dyanamicProperties.size > 0 || block.traits.size > 0)
