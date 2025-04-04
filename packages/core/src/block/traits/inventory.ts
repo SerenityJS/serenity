@@ -20,6 +20,7 @@ import {
   ItemStackEntry,
   ItemStorage
 } from "../../types";
+import { ItemStack } from "../../item";
 
 import { BlockTrait } from "./trait";
 
@@ -30,16 +31,16 @@ class BlockInventoryTrait extends BlockTrait {
   public container: BlockContainer;
 
   /**
-   * The component used to store the inventory items.
+   * The property used to store the inventory items.
    */
-  public get component(): ItemStorage {
+  public get property(): ItemStorage {
     return this.block.getDynamicProperty("inventory") as ItemStorage;
   }
 
   /**
-   * The component used to store the inventory items.
+   * The property used to store the inventory items.
    */
-  public set component(value: ItemStorage) {
+  public set property(value: ItemStorage) {
     this.block.setDynamicProperty<ItemStorage>("inventory", value);
   }
 
@@ -117,8 +118,8 @@ class BlockInventoryTrait extends BlockTrait {
       items.push([i, itemStack.getDataEntry()]);
     }
 
-    // Set the inventory component to the block
-    this.component = { size: this.container.size, items };
+    // Set the inventory property to the block
+    this.property = { size: this.container.size, items };
   }
 
   public onTick(): void {
@@ -216,18 +217,30 @@ class BlockInventoryTrait extends BlockTrait {
   }
 
   public onAdd(): void {
-    // Check if the block has an inventory component
-    if (this.block.dyanamicProperties.has("inventory")) return;
+    // Get the item storage property
+    const property = this.block.getDynamicProperty<ItemStorage>("inventory");
 
-    // Create the item storage component
-    this.block.setDynamicProperty<ItemStorage>("inventory", {
-      size: this.container.size,
-      items: []
-    });
+    // Check if the block has an inventory property
+    if (property) {
+      // Iterate over the items in the property
+      for (const [slot, item] of property.items) {
+        // Create a new item stack from the item entry
+        const stack = ItemStack.fromDataEntry(item);
+
+        // Set the item stack in the container
+        this.container.setItem(slot, stack);
+      }
+    } else {
+      // Create the item storage property
+      this.block.setDynamicProperty<ItemStorage>("inventory", {
+        size: this.container.size,
+        items: []
+      });
+    }
   }
 
   public onRemove(): void {
-    // Remove the item storage component
+    // Remove the item storage property
     this.block.removeDynamicProperty("inventory");
   }
 }

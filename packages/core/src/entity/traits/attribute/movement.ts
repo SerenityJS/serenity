@@ -14,6 +14,7 @@ import { EntityAttributeTrait } from "./attribute";
 class EntityMovementTrait extends EntityAttributeTrait {
   public static readonly identifier = "movement";
   public static readonly types = [EntityIdentifier.Player];
+  public static readonly components = ["minecraft:movement"];
 
   public readonly attribute = AttributeName.Movement;
 

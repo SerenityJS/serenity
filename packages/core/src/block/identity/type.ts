@@ -152,16 +152,21 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   public readonly permutations: Array<BlockPermutation> = [];
 
   /**
+   * The state values of the block type.
+   */
+  public readonly states: Array<string> = [];
+
+  /**
    * The nbt properties definition of the block type.
    * This contains the vanilla component definitions.
    */
   public readonly properties: BlockTypeDefinition;
 
   /**
-   * The traits of the block type.
+   * The traitsthat are bound to the block type.
    * These traits are used to define custom behavior for the block type.
    */
-  public readonly traits: Array<typeof BlockTrait> = [];
+  public readonly traits = new Map<string, typeof BlockTrait>();
 
   /**
    * The vanilla components of the block permutation. (hardness, friction, lighting, etc.)
@@ -259,13 +264,10 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    */
   public registerTrait(trait: typeof BlockTrait): this {
     // Check if the trait is already registered.
-    if (this.traits.includes(trait)) return this;
+    if (this.traits.has(trait.identifier)) return this;
 
-    // Add the block type to the trait.
-    trait.types.push(this.identifier);
-
-    // Register the trait.
-    this.traits.push(trait);
+    // Add the trait to the block type.
+    this.traits.set(trait.identifier, trait);
 
     // Return this instance.
     return this;
@@ -276,15 +278,15 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * @param trait The trait to unregister.
    * @returns The block type instance.
    */
-  public unregisterTrait(trait: typeof BlockTrait): this {
+  public unregisterTrait(trait: string | typeof BlockTrait): this {
+    // Get the identifier of the trait.
+    const identifier = typeof trait === "string" ? trait : trait.identifier;
+
     // Check if the trait is not registered.
-    if (!this.traits.includes(trait)) return this;
+    if (!this.traits.has(identifier)) return this;
 
-    // Remove the block type from the trait.
-    trait.types.splice(trait.types.indexOf(this.identifier), 1);
-
-    // Unregister the trait.
-    this.traits.splice(this.traits.indexOf(trait), 1);
+    // Remove the trait from the block type.
+    this.traits.delete(identifier);
 
     // Return this instance.
     return this;

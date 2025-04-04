@@ -25,6 +25,7 @@ import { EntityTrait } from "./trait";
 class EntityInventoryTrait extends EntityTrait {
   public static readonly identifier = "inventory";
   public static readonly types = [EntityIdentifier.Player];
+  public static readonly components = ["minecraft:inventory"];
 
   /**
    * The container that holds the inventory items.

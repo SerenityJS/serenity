@@ -15,6 +15,12 @@ import { Dimension } from "../../world";
 
 class EntityTrait extends Trait {
   /**
+   * The entity component identifiers that this trait is compatible with by default.
+   * If empty, the trait will not be initialized by any component.
+   */
+  public static readonly components: Array<string> = [];
+
+  /**
    * The entity type identifiers that this trait is compatible with by default.
    */
   public static readonly types: Array<EntityIdentifier> = [];

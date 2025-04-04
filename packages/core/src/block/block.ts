@@ -268,12 +268,17 @@ class Block {
     position: BlockPosition,
     properties?: Partial<BlockProperties>
   ) {
+    // Assign the properties to the block
     this.serenity = dimension.world.serenity;
     this.dimension = dimension;
     this.position = position;
 
+    // Check if a data entry is provided
     if (properties?.entry)
       this.loadDataEntry(this.dimension.world, properties.entry);
+
+    // Add the traits of the block type to the block
+    for (const [, trait] of this.type.traits) this.addTrait(trait);
   }
 
   /**
@@ -380,36 +385,8 @@ class Block {
     // Check if the entry is provided.
     if (entry) this.loadDataEntry(this.world, entry);
 
-    // Get the traits from the block palette
-    const traits = this.world.blockPalette.getRegistry(
-      permutation.type.identifier
-    );
-
-    // Iterate over all the traits and apply them to the block if they are applicable.
-    for (const trait of this.world.blockPalette.getAllTraits()) {
-      // Get all the components that belong to the permutation and the type
-      const components = [
-        ...permutation.components.entries,
-        ...permutation.type.components.entries
-      ];
-
-      // Iterate over the trait in the registry.
-      for (const [identifier] of components) {
-        // Check if the trait components includes the identifier
-        if (trait.components.includes(identifier) && !traits.includes(trait))
-          traits.push(trait); // If so, add the trait to the block traits
-      }
-
-      // Iterate over the trait in the registry.
-      for (const state of Object.keys(permutation.state)) {
-        // Check if the trait state includes the state key
-        if (trait.state === state && !traits.includes(trait))
-          traits.push(trait); // If so, add the trait to the block traits
-      }
-    }
-
     // Iterate over all the traits and apply them to the block
-    for (const trait of traits) this.addTrait(trait);
+    for (const [, trait] of permutation.type.traits) this.addTrait(trait);
 
     // Check if the block should be cached.
     if (
@@ -543,18 +520,13 @@ class Block {
    * @returns The trait instance that was added to the block.
    */
   public addTrait<T extends typeof BlockTrait>(
-    trait: T | BlockTrait,
+    trait: T,
     options?: ConstructorParameters<T>[1]
   ): InstanceType<T> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
+      // Return the existing trait instance
       return this.traits.get(trait.identifier) as InstanceType<T>;
-
-    // Check if the trait is in the palette
-    if (!this.world.blockPalette.getTrait(trait.identifier, trait.state))
-      this.world.logger.warn(
-        `Trait "§c${trait.identifier}§r" was added to block "§d${this.type.identifier}§r:§d${JSON.stringify(this.position)}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
-      );
 
     // Attempt to add the trait to the block
     try {
@@ -569,6 +541,7 @@ class Block {
         // Return the trait that was added
         return trait as InstanceType<T>;
       }
+
       // Create a new instance of the trait
       const instance = new trait(this, options) as InstanceType<T>;
 
@@ -581,9 +554,12 @@ class Block {
       // Return the trait that was added
       return instance;
     } catch (reason) {
+      // Get the position of the block
+      const { x, y, z } = this.position;
+
       // Log the error to the console
       this.serenity.logger.error(
-        `Failed to add trait "${trait.identifier}" to block "${this.type.identifier}:${JSON.stringify(this.position)}" in dimension "${this.dimension.identifier}"`,
+        `Failed to add trait "${trait.identifier}" to block "${this.type.identifier} @ <${x}, ${y}, ${z}>" in dimension "${this.dimension.identifier}"`,
         reason
       );
 
@@ -934,12 +910,19 @@ class Block {
     // Get the position of the block.
     const { x, y, z } = this.position;
 
+    const traits: Array<string> = [];
+
+    for (const [identifier, { state }] of this.traits) {
+      if (state) traits.push(`${identifier}@${state}`);
+      else traits.push(identifier);
+    }
+
     // Create the block entry object.
     const entry: BlockEntry = {
       identifier: this.type.identifier,
       permutation: this.permutation.networkId,
       position: [x, y, z],
-      traits: [...this.traits.keys()],
+      traits,
       dynamicProperties: [...this.dyanamicProperties.entries()],
       nbtProperties: this.nbt.serialize().toString("base64")
     };
@@ -977,15 +960,23 @@ class Block {
 
     // Add the traits to the block, if it does not already exist
     for (const trait of entry.traits) {
+      // Split the trait identifier and state
+      const [identifier, state] = trait.split("@") as [string, string | null];
+
       // Check if the palette has the trait
-      const traitType = world.blockPalette.traits.get(trait);
+      const traitType = world.blockPalette.getTrait(identifier, state);
 
       // Check if the trait exists in the palette
       if (!traitType) {
+        // Get the position of the block
+        const { x, y, z } = this.position;
+
+        // Log the error of the trait not existing
         world.logger.error(
-          `Failed to load trait "${trait}" for block "${this.type.identifier}:${this.position.x},${this.position.y},${this.position.z}" as it does not exist in the palette`
+          `Failed to load trait "${trait}" for block "${this.type.identifier} @ <${x}, ${y}, ${z}>" as it does not exist in the palette`
         );
 
+        // Skip the trait.
         continue;
       }
 

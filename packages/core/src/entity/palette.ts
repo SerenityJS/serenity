@@ -1,4 +1,3 @@
-import { EntityIdentifier } from "../enums/entity-identifier";
 import { EntityEnum, EntityTraitEnum } from "../commands";
 
 import { CustomEntityType, EntityType } from "./identity";
@@ -19,14 +18,6 @@ class EntityPalette {
   public readonly traits = new Map<
     string,
     typeof EntityTrait | typeof PlayerTrait
-  >();
-
-  /**
-   * The registry for the entity traits.
-   */
-  public readonly registry = new Map<
-    EntityIdentifier,
-    Array<typeof EntityTrait | typeof PlayerTrait>
   >();
 
   /**
@@ -82,9 +73,9 @@ class EntityPalette {
   /**
    * Register an entity type to the palette.
    * @param type The entity type to register.
-   * @returns True if the entity type was registered, false otherwise.
    */
   public registerType(...types: Array<EntityType>): this {
+    // Iterate over the provided types.
     for (const type of types) {
       // Check if the entity type is already registered.
       if (this.types.has(type.identifier)) continue;
@@ -94,25 +85,31 @@ class EntityPalette {
 
       // Add the entity type to the entity enum.
       EntityEnum.options.push(type.identifier);
+
+      // Iterate over the entity traits of the palette.
+      for (const [, trait] of this.traits) {
+        // Check if the entity type has the trait.
+        if (trait.types.includes(type.identifier)) {
+          // Register the trait to the entity type.
+          type.registerTrait(trait);
+        }
+
+        // Check if the trait has components, and the entity type has the components.
+        else if (trait.components.length > 0) {
+          // Iterate over the components of the trait.
+          for (const component of trait.components) {
+            // Check if the entity type has the component.
+            if (type.components.includes(component)) {
+              // Register the trait to the entity type.
+              type.registerTrait(trait);
+            }
+          }
+        }
+      }
     }
 
     // Return this instance.
     return this;
-  }
-
-  /**
-   * Get the registry for the given entity identifier.
-   * @param identifier The entity identifier to get the registry for.
-   * @returns The registry for the given entity identifier.
-   */
-  public getRegistryFor(
-    identifier: EntityIdentifier
-  ): Array<typeof EntityTrait> {
-    // Get the registry for the given entity identifier.
-    const registry = this.registry.get(identifier) || [];
-
-    // Return the registry.
-    return registry as Array<typeof EntityTrait>;
   }
 
   /**
@@ -123,29 +120,32 @@ class EntityPalette {
   public registerTrait(
     ...traits: Array<typeof EntityTrait | typeof PlayerTrait>
   ): this {
+    // Iterate over the provided traits.
     for (const trait of traits) {
       // Check if the entity trait is already registered.
       if (this.traits.has(trait.identifier)) continue;
+
       // Register the entity trait.
       this.traits.set(trait.identifier, trait);
 
-      // Iterate over the types of the trait.
-      for (const type of trait.types ?? []) {
-        // Check if the registry has the entity identifier.
-        if (!this.registry.has(type as EntityIdentifier))
-          // Set the registry for the entity identifier.
-          this.registry.set(type as EntityIdentifier, []);
+      // Iterate over the entity types.
+      for (const [, type] of this.types) {
+        // Check if the trait contains the type.
+        if (trait.types.includes(type.identifier)) {
+          // Register the trait to the entity type.
+          type.registerTrait(trait);
+        }
 
-        // Get the registry for the entity identifier.
-        const registry = this.registry.get(type as EntityIdentifier);
-
-        // Check if the registry exists.
-        if (registry) {
-          // Push the trait to the registry.
-          registry.push(trait);
-
-          // Set the registry for the entity identifier.
-          this.registry.set(type as EntityIdentifier, registry);
+        // Check if the trait has components, and the entity type has the components.
+        else if (trait.components.length > 0) {
+          // Iterate over the components of the trait.
+          for (const component of trait.components) {
+            // Check if the entity type has the component.
+            if (type.components.includes(component)) {
+              // Register the trait to the entity type.
+              type.registerTrait(trait);
+            }
+          }
         }
       }
 
@@ -164,40 +164,39 @@ class EntityPalette {
   }
 
   /**
-   * Remove a trait from the palette.
-   * @param identifier The identifier of the trait.
-   * @returns True if the trait was removed, false otherwise.
+   * Remove a entity trait from the palette.
+   * @param type The entity type to remove the trait from, or the identifier of the trait.
    */
-  public removeTrait(identifier: string): boolean {
-    // Check if the trait exists.
-    if (!this.traits.has(identifier)) return false;
+  public removeTrait(...types: Array<string | typeof EntityTrait>): this {
+    // Iterate over the provided types.
+    for (const type of types) {
+      // Get the identifier of the passed type.
+      const identifier = typeof type === "string" ? type : type.identifier;
 
-    // Get the trait.
-    const trait = this.traits.get(identifier);
+      // Check if the trait exists.
+      if (!this.traits.has(identifier)) continue;
 
-    // Check if the trait exists.
-    if (!trait) return false;
+      // Get the trait.
+      const trait = this.traits.get(identifier);
 
-    // Iterate over the types of the trait.
-    for (const type of trait.types ?? []) {
-      // Get the registry for the entity identifier.
-      const registry = this.registry.get(type as EntityIdentifier);
+      // Check if the trait exists.
+      if (!trait) continue;
 
-      // Check if the registry exists.
-      if (registry) {
-        // Remove the trait from the registry.
-        this.registry.set(
-          type as EntityIdentifier,
-          registry.filter((c) => c !== trait)
-        );
+      // Iterate over the entity types.
+      for (const [, type] of this.types) {
+        // Check if the entity type has the trait.
+        if (type.traits.has(identifier)) {
+          // Unregister the trait from the entity type.
+          type.unregisterTrait(identifier);
+        }
       }
+
+      // Remove the trait from the palette.
+      this.traits.delete(identifier);
     }
 
-    // Remove the trait from the palette.
-    this.traits.delete(identifier);
-
-    // Return true if the trait was removed.
-    return true;
+    // Return this instance.
+    return this;
   }
 
   /**

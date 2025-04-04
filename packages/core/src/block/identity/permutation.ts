@@ -204,6 +204,11 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     for (const key of Object.keys(state).sort()) {
       // Assign the key to the sorted state.
       sorted[key] = state[key] as number | string | boolean;
+
+      // Check if the block type has the key in the states.
+      if (!type.states.includes(key))
+        // Add the key to the block type states.
+        type.states.push(key);
     }
 
     // Calculate the network hash of the block permutation.

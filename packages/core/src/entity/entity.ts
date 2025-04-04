@@ -370,44 +370,12 @@ class Entity {
     // Create the scoreboard identity
     this.scoreboardIdentity = new ScoreboardIdentity(this);
 
-    // If the entity is not a player
-    if (!this.isPlayer()) {
-      // If the entity properties contains an entry, load it
-      if (properties?.entry)
-        this.loadDataEntry(this.dimension.world, properties.entry);
+    // If the entity is not a player & has an entry
+    if (!this.isPlayer() && properties?.entry)
+      this.loadDataEntry(this.dimension.world, properties.entry);
 
-      // Initialize the entity
-      this.initialize();
-    }
-  }
-
-  protected initialize(): void {
-    // Get the traits for the entity
-    const traits = this.dimension.world.entityPalette.getRegistryFor(
-      this.type.identifier
-    );
-
-    // Fetch the component type based traits
-    for (const component of this.type.components) {
-      // Prepare the identifier for the component
-      let identifier = component;
-
-      // Check if the component starts with a namespace
-      if (component.includes(":")) {
-        const split = component.split(":");
-        identifier = split[1] as string;
-      }
-
-      // Find the trait for the component
-      const trait = this.dimension.world.entityPalette.getTrait(identifier);
-
-      // Check if the trait exists
-      // If so, add it to the entity
-      if (trait) traits.push(trait);
-    }
-
-    // Register the traits to the entity
-    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
+    // Add the traits of the block type to the entity
+    for (const [, trait] of this.type.traits) this.addTrait(trait);
   }
 
   /**
@@ -580,12 +548,6 @@ class Entity {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
       return this.getTrait(trait.identifier) as InstanceType<T>;
-
-    // Check if the trait is in the palette
-    if (!this.world.entityPalette.traits.has(trait.identifier))
-      this.world.logger.warn(
-        `Trait "§c${trait.identifier}§r" was added to entity "§d${this.type.identifier}§r:§d${this.uniqueId}§r" in dimension "§a${this.dimension.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
-      );
 
     // Attempt to add the trait to the entity
     try {

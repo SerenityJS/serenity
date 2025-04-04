@@ -1,8 +1,7 @@
 import { CompoundTag } from "@serenityjs/nbt";
 
+import type { EntityTrait } from "../traits";
 import type { EntityIdentifier } from "../../enums";
-
-type ComponentRecord<T> = T & { identifier: string };
 
 class EntityType {
   /**
@@ -26,6 +25,12 @@ class EntityType {
   public readonly network: number = ++EntityType.network;
 
   /**
+   * The traits that are bound to the entity type.
+   * These traits are used to define custom behavior for the entity type.
+   */
+  public readonly traits = new Map<string, typeof EntityTrait>();
+
+  /**
    * The default components of the entity type.
    */
   public readonly components: Array<string>;
@@ -41,33 +46,38 @@ class EntityType {
   }
 
   /**
-   * Register a component to the entity type.
-   * @param component The component to register.
+   * Register a trait to the entity type.
+   * @param trait The trait to register.
+   * @returns The entity type instance.
    */
-  public register<T>(component: ComponentRecord<T>): void {
-    // Check if the component is already registered
-    if (this.components.includes(component.identifier)) {
-      throw new Error(
-        `Component ${component.identifier} is already registered to entity type ${this.identifier}`
-      );
-    } else {
-      this.components.push(component.identifier);
-    }
+  public registerTrait(trait: typeof EntityTrait): this {
+    // Check if the trait is already registered.
+    if (this.traits.has(trait.identifier)) return this;
+
+    // Add the trait to the entity type.
+    this.traits.set(trait.identifier, trait);
+
+    // Return this instance.
+    return this;
   }
 
   /**
-   * Unregister a component from the entity type.
-   * @param component The component to unregister.
+   * Unregister a trait from the entity type.
+   * @param trait The trait to unregister, or the identifier of the trait.
+   * @returns The entity type instance.
    */
-  public unregister<T>(component: ComponentRecord<T>): void {
-    // Check if the component is registered
-    if (this.components.includes(component.identifier)) {
-      this.components.splice(this.components.indexOf(component.identifier), 1);
-    } else {
-      throw new Error(
-        `Component ${component.identifier} is not registered to entity type ${this.identifier}`
-      );
-    }
+  public unregisterTrait(trait: string | typeof EntityTrait): this {
+    // Get the identifier of the trait.
+    const identifier = typeof trait === "string" ? trait : trait.identifier;
+
+    // Check if the trait is not registered.
+    if (!this.traits.has(identifier)) return this;
+
+    // Remove the trait from the entity type.
+    this.traits.delete(identifier);
+
+    // Return this instance.
+    return this;
   }
 
   /**

@@ -39,6 +39,7 @@ const DefaultOptions: EntityNpcDialogueProperty = {
 class EntityNpcTrait extends EntityTrait {
   public static readonly identifier = "npc";
   public static readonly types = [EntityIdentifier.Npc];
+  public static readonly components = ["minecraft:npc"];
 
   /**
    * The property used to store the npc dialogue form data.

@@ -368,33 +368,8 @@ class Dimension {
       // Create a new block with the dimension, position, and permutation
       const block = new Block(this, blockPosition);
 
-      // Get the traits from the block palette
-      const traits = this.world.blockPalette.getRegistry(
-        permutation.type.identifier
-      );
-
-      // Fetch any traits that apply to the base type components
-      for (const [identifier] of permutation.type.components.entries) {
-        // Get the trait from the block palette using the identifier
-        const trait = this.world.blockPalette.getTrait(identifier);
-
-        // Check if the trait exists
-        if (trait) traits.push(trait);
-      }
-
-      // Fetch any traits that are block state specific
-      for (const key of Object.keys(permutation.state)) {
-        // Iterate over the trait in the registry.
-        for (const trait of this.world.blockPalette.getAllTraits()) {
-          // Check if the trait state key matches the block state key
-          if (trait.state === key)
-            // If so, add the trait to the block traits
-            traits.push(trait);
-        }
-      }
-
       // Iterate over all the traits and apply them to the block
-      for (const trait of traits) block.addTrait(trait);
+      for (const trait of permutation.type.traits) block.addTrait(trait);
 
       // If the block has dynamic properties or traits, we will cache the block
       if (block.dyanamicProperties.size > 0 || block.traits.size > 0)

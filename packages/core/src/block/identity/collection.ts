@@ -56,8 +56,15 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
    * @param property The property to check.
    * @returns True if the block has the property, false otherwise.
    */
-  public has<T extends typeof BlockTypeComponent>(property: T): boolean {
-    return this.entries.has(property.identifier);
+  public has<T extends typeof BlockTypeComponent>(
+    property: T | string
+  ): boolean {
+    // Get the identifier of the property.
+    const identifier =
+      typeof property === "string" ? property : property.identifier;
+
+    // Return true if the block has the property, false otherwise.
+    return this.entries.has(identifier);
   }
 
   /**

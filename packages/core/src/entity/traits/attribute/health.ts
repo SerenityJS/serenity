@@ -15,6 +15,7 @@ import { EntityAttributeTrait } from "./attribute";
 class EntityHealthTrait extends EntityAttributeTrait {
   public static readonly identifier = "health";
   public static readonly types = [EntityIdentifier.Player];
+  public static readonly components = ["minecraft:health"];
 
   public readonly attribute = AttributeName.Health;
 

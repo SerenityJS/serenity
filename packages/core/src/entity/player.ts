@@ -248,24 +248,17 @@ class Player extends Entity {
     if (properties?.entry)
       this.loadDataEntry(dimension.world, properties.entry);
 
-    // Initialize the player
-    this.initialize();
-  }
+    // Add the traits of the player type
+    for (const [, trait] of this.type.traits) this.addTrait(trait);
 
-  protected initialize(): void {
-    // Get the traits for the player
-    const traits = this.dimension.world.entityPalette.getRegistryFor(
-      this.type.identifier
-    );
-
-    // Register the traits to the player, if they do not already exist
-    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
-
-    // Add the default abilities to the player, if they do not already exist
+    // Add the default abilities to the player
     for (const [ability, value] of Object.entries(DefaultAbilityValues)) {
       if (!this.abilities.has(+ability as AbilityIndex))
         this.abilities.set(+ability as AbilityIndex, value);
     }
+
+    // Set the ability for operator commands
+    this.abilities.operatorCommands = this.isOp;
   }
 
   /**
