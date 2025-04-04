@@ -13,6 +13,8 @@ import { BlockType } from "../../block";
 
 import { ItemTypeComponentCollection } from "./collection";
 
+import type { ItemTrait } from "../traits";
+
 class ItemType<T extends keyof Items = keyof Items> {
   /**
    * A collective registry of all item types.
@@ -109,6 +111,12 @@ class ItemType<T extends keyof Items = keyof Items> {
   public readonly properties: CompoundTag<unknown>;
 
   /**
+   * The traits that are bound to the item type.
+   * These traits are used to define custom behavior for the item type.
+   */
+  public readonly traits = new Map<string, typeof ItemTrait>();
+
+  /**
    * Whether the item type is component based.
    */
   public readonly isComponentBased: boolean;
@@ -203,6 +211,41 @@ class ItemType<T extends keyof Items = keyof Items> {
     // Assign the component based properties of the item type.
     this.components.setMaxStackSize(properties?.maxAmount ?? 64);
     this.components.setBlockPlacer({ useBlockAsIcon: true, useOn: [] });
+  }
+
+  /**
+   * Register a trait to the item type.
+   * @param trait The trait to register.
+   * @returns The item type instance.
+   */
+  public registerTrait(trait: typeof ItemTrait): this {
+    // Check if the trait is already registered.
+    if (this.traits.has(trait.identifier)) return this;
+
+    // Add the trait to the item type.
+    this.traits.set(trait.identifier, trait);
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Unregister a trait from the item type.
+   * @param trait The trait to unregister, or the identifier of the trait.
+   * @returns The item type instance.
+   */
+  public unregisterTrait(trait: string | typeof ItemTrait): this {
+    // Get the identifier of the trait.
+    const identifier = typeof trait === "string" ? trait : trait.identifier;
+
+    // Check if the trait is not registered.
+    if (!this.traits.has(identifier)) return this;
+
+    // Remove the trait from the item type.
+    this.traits.delete(identifier);
+
+    // Return this instance.
+    return this;
   }
 
   /**

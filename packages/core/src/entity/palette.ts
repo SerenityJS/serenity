@@ -167,7 +167,7 @@ class EntityPalette {
    * Remove a entity trait from the palette.
    * @param type The entity type to remove the trait from, or the identifier of the trait.
    */
-  public removeTrait(...types: Array<string | typeof EntityTrait>): this {
+  public unregisterTrait(...types: Array<string | typeof EntityTrait>): this {
     // Iterate over the provided types.
     for (const type of types) {
       // Get the identifier of the passed type.

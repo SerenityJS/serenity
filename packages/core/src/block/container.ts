@@ -33,7 +33,9 @@ class BlockContainer extends Container {
 
     // Set the world in the item stack if it doesn't exist
     if (!itemStack.world) itemStack.world = this.block.world;
-    itemStack.initialize();
+
+    // Iterate through the traits of the item type and add them to the item stack
+    for (const [, trait] of itemStack.type.traits) itemStack.addTrait(trait);
   }
 
   public update(player?: Player): void {

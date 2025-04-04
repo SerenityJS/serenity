@@ -55,8 +55,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
    * @param component The component to check.
    * @returns True if the item type has the component, false otherwise.
    */
-  public has<T extends typeof ItemTypeComponent>(component: T): boolean {
-    return this.entries.has(component.identifier);
+  public has<T extends typeof ItemTypeComponent>(
+    component: T | string
+  ): boolean {
+    // Get the identifier of the component.
+    const identifier =
+      typeof component === "string" ? component : component.identifier;
+
+    // Return whether the component exists in the collection.
+    return this.entries.has(identifier);
   }
 
   /**

@@ -148,48 +148,13 @@ class ItemStack<T extends keyof Items = keyof Items> {
       if (props.entry)
         // Load the data entry for the item stack
         this.loadDataEntry(props.world, props.entry);
-
-      // Initialize the item stack
-      this.initialize();
     }
+
+    // Iterate over the traits of the item type
+    for (const [, trait] of this.type.traits) this.addTrait(trait);
 
     // Add base the nbt properties to the item stack
     this.nbt.add(...this.type.properties.getTags());
-  }
-
-  /**
-   * Initializes the item stack.
-   */
-  public initialize(): void {
-    // Get the traits for the itemstack
-    const traits = this.world.itemPalette.getRegistry(this.type.identifier);
-
-    // Register the traits to the itemstack
-    for (const trait of traits) if (!this.hasTrait(trait)) this.addTrait(trait);
-
-    // Iterate over the tags of the item type
-    for (const tag of this.type.tags) {
-      // Get the traits for the tag
-      const traits = [...this.world.itemPalette.traits].filter(
-        ([, trait]) => trait.tag === tag
-      );
-
-      // Register the traits to the itemstack
-      for (const [, trait] of traits)
-        if (!this.hasTrait(trait)) this.addTrait(trait);
-    }
-
-    // Iterate over the dynamic properties of the item type
-    for (const key of this.type.components.entries.keys()) {
-      // Get the traits for the component
-      const traits = [...this.world.itemPalette.traits].filter(
-        ([, trait]) => trait.component === key
-      );
-
-      // Register the traits to the itemstack
-      for (const [, trait] of traits)
-        if (!this.hasTrait(trait)) this.addTrait(trait);
-    }
   }
 
   /**
@@ -484,12 +449,6 @@ class ItemStack<T extends keyof Items = keyof Items> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
       return this.getTrait(trait.identifier) as InstanceType<K>;
-
-    // Check if the trait is in the palette
-    if (this.world && !this.world.itemPalette.traits.has(trait.identifier))
-      this.world.logger.warn(
-        `Trait "§c${trait.identifier}§r" was added to itemstack "§d${this.type.identifier}§r" but does not exist in the palette. This may result in a deserilization error.`
-      );
 
     // Attempt to add the trait to the itemstack
     try {

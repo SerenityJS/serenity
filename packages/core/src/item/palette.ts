@@ -1,6 +1,5 @@
 import { CreativeItemCategory, CreativeItemGroup } from "@serenityjs/protocol";
 
-import { ItemIdentifier } from "../enums";
 import { Items } from "../types";
 import { ItemEnum } from "../commands";
 
@@ -27,11 +26,6 @@ class ItemPalette {
    * The registered item traits for the palette.
    */
   public readonly traits = new Map<string, typeof ItemTrait>();
-
-  /**
-   * The registry for the item traits.
-   */
-  public readonly registry = new Map<ItemIdentifier, Array<typeof ItemTrait>>();
 
   public constructor() {
     // Register all item traits.
@@ -71,9 +65,16 @@ class ItemPalette {
   }
 
   public registerType(...types: Array<ItemType>): this {
+    // Iterate over the provided types.
     for (const type of types) {
       // Check if the item type is already registered.
       if (this.types.has(type.identifier)) continue;
+
+      // Register the item type.
+      this.types.set(type.identifier, type);
+
+      // Add the item type to the item enum.
+      ItemEnum.options.push(type.identifier);
 
       // Check if the item type has a creative category.
       if (
@@ -96,23 +97,36 @@ class ItemPalette {
         if (!creativeGroup.hasItem(type)) creativeGroup.registerItem(type);
       }
 
-      // Register the item type.
-      this.types.set(type.identifier, type);
+      // Iterate over the item traits of the palette.
+      for (const [, trait] of this.traits) {
+        // Check if the item type has the trait.
+        if (trait.types.includes(type.identifier)) {
+          // Register the trait to the item type.
+          type.registerTrait(trait);
+        }
 
-      // Add the item type to the item enum.
-      ItemEnum.options.push(type.identifier);
+        // Check if the trait has a tag and the item type has the tag.
+        else if (trait.tag && type.tags.includes(trait.tag)) {
+          // Register the trait to the item type.
+          type.registerTrait(trait);
+        }
+
+        // Check if the trait has components, and the item type has the components.
+        else if (trait.components.length > 0) {
+          // Iterate over the components of the trait.
+          for (const component of trait.components) {
+            // Check if the item type has the component.
+            if (type.components.has(component)) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
+          }
+        }
+      }
     }
 
     // Return this instance.
     return this;
-  }
-
-  public getRegistry(identifier: ItemIdentifier): Array<typeof ItemTrait> {
-    // Get the registry for the item identifier.
-    const registry = this.registry.get(identifier);
-
-    // Return the registry for the item identifier.
-    return registry ?? [];
   }
 
   /**
@@ -121,6 +135,7 @@ class ItemPalette {
    * @returns True if the item trait was registered, false otherwise.
    */
   public registerTrait(...traits: Array<typeof ItemTrait>): this {
+    // Iterate over the provided traits.
     for (const trait of traits) {
       // Check if the item trait is already registered.
       if (this.traits.has(trait.identifier)) continue;
@@ -129,22 +144,60 @@ class ItemPalette {
       this.traits.set(trait.identifier, trait);
 
       // Iterate over the item types.
-      for (const type of trait.types) {
-        // Check if the registry has the item identifier.
-        if (!this.registry.has(type))
-          // Set the registry for the item identifier.
-          this.registry.set(type, []);
+      for (const [, type] of this.types) {
+        // Check if the trait contains the item type.
+        if (trait.types.includes(type.identifier)) {
+          // Register the trait to the item type.
+          type.registerTrait(trait);
+        }
 
-        // Get the registry for the item identifier.
-        const registry = this.registry.get(type);
+        // Check if the trait has a tag and the item type has the tag.
+        else if (trait.tag && type.tags.includes(trait.tag)) {
+          // Register the trait to the item type.
+          type.registerTrait(trait);
+        }
 
-        // Check if the registry exists.
-        if (registry) {
-          // Push the trait to the registry.
-          registry.push(trait);
+        // Check if the trait has components and the item type has the components.
+        else if (trait.components.length > 0) {
+          // Iterate over the components of the trait.
+          for (const component of trait.components) {
+            // Check if the item type has the component.
+            if (type.components.has(component)) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
+          }
+        }
+      }
+    }
 
-          // Set the registry for the item identifier.
-          this.registry.set(type, registry);
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Unregister an item trait from the palette.
+   * @param types The item trait to unregister, or the identifier of the item trait.
+   * @returns The item palette instance.
+   */
+  public unregisterTrait(...types: Array<string | typeof ItemTrait>): this {
+    // Iterate over the provided types.
+    for (const type of types) {
+      // Get the identifier of the type.
+      const identifier = typeof type === "string" ? type : type.identifier;
+
+      // Check if the item trait is not registered.
+      if (!this.traits.has(identifier)) continue;
+
+      // Get the item trait.
+      const trait = this.traits.get(identifier) as typeof ItemTrait;
+
+      // Iterate over the item types.
+      for (const [, itemType] of this.types) {
+        // Check if the item type has the trait.
+        if (itemType.traits.has(identifier)) {
+          // Unregister the trait from the item type.
+          itemType.unregisterTrait(trait);
         }
       }
     }
