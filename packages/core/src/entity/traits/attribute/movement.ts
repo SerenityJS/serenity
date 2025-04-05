@@ -36,7 +36,11 @@ class EntityMovementTrait extends EntityAttributeTrait {
   public onTick(): void {
     if (this.positionTarget !== null) {
       // Calculate the distance to the target position
-      const distance = this.entity.position.distance(this.positionTarget);
+      // TODO: The position operation should use the bigger position sign
+      // TODO: We should refactor Y so its at foot level and not at head level?
+      const distance = this.positionTarget
+        .floor()
+        .distance(this.entity.position.floor().subtract(new Vector3f(0, 1, 0)));
 
       // Check if the entity has reached the target position
       if (distance < 0.5) {
@@ -216,7 +220,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     direction.y *= this.currentValue * 2.5;
     direction.z *= this.currentValue * 2.5;
 
-    this.lookAt(position);
+    /* this.lookAt(position); */
 
     // Add the direction to the entity motion
     this.entity.addMotion(direction);
@@ -224,7 +228,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
 
   protected calculateDirection(from: Vector3f, to: Vector3f): Vector3f {
     // Calculate the direction from the from position to the to position
-    const direction = to.subtract(from);
+    const direction = to.floor().subtract(from.floor());
 
     // Calculate the magnitude of the direction
     const magnitude = Math.sqrt(
