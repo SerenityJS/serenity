@@ -114,7 +114,7 @@ class Container {
     item.container = this;
 
     // Update the container for all occupants
-    this.update();
+    this.updateSlot(slot);
   }
 
   /**
@@ -240,8 +240,8 @@ class Container {
     // Clone the traits of the item to the new item.
     for (const trait of item.traits.values()) trait.clone(newItem);
 
-    // Update the container for all occupants.
-    this.update();
+    // Update the slot for all occupants.
+    this.updateSlot(slot);
 
     // Clone the NBT tags of the item.
     for (const tag of item.nbt.values()) {
@@ -288,18 +288,27 @@ class Container {
 
     // Check if the entity is a player, if so, return.
     if (this.occupants.size === 0) return;
+    this.updateSlot(slot);
+  }
 
+  /**
+   * Updates a slot in the container for all the occupants.
+   * @param slot The slot to be updated.
+   */
+  public updateSlot(slot: number): void {
     // Create a new InventorySlotPacket.
     const packet = new InventorySlotPacket();
+    const itemStack = this.storage.at(slot);
 
     // Set properties of the packet.
     packet.containerId = this.identifier;
     packet.slot = slot;
-    packet.item = new NetworkItemStackDescriptor(0);
+    packet.item = itemStack
+      ? ItemStack.toNetworkStack(itemStack)
+      : new NetworkItemStackDescriptor(0);
     packet.fullContainerName = new FullContainerName(0, 0);
     packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
-    // Send the packet to the occupants.
     for (const player of this.occupants) {
       // Check if the container is a player inventory, and if its not owned by the player.
       if (
