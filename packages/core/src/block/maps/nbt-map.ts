@@ -110,6 +110,9 @@ class NbtMap extends Map<string, Tag> {
   }
 
   public deserialize(buffer: Buffer): void {
+    // We cant deserialize a compound tag from an empty buffer.
+    if (buffer.length == 0) return;
+
     // Create a new BinaryStream to read the data
     const stream = new BinaryStream(buffer);
 
