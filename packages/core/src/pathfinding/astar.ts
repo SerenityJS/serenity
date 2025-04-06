@@ -17,14 +17,14 @@ class Astar {
   }
 
   public findPath(start: Node, target: Node, maxDistance: number): Array<Node> {
-    const starTime = Date.now();
+    const startTime = Date.now();
     start.gCost = 0;
     start.heuristic = start.distance(target);
 
     this.openSet.insert(start);
 
     while (this.openSet.size > 0) {
-      if (Date.now() - starTime > 10_000) break;
+      if (Date.now() - startTime > 10_000) break;
       const currentNode = this.openSet.pop()!;
       this.closedSet.add(currentNode);
 
