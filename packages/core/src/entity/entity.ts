@@ -11,6 +11,7 @@ import {
   MoveDeltaFlags,
   Rotation,
   SetActorMotionPacket,
+  Vector2f,
   Vector3f
 } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
@@ -148,6 +149,16 @@ class Entity {
   public dimension: Dimension;
 
   /**
+   * The last entity that hit the entity.
+   */
+  private lastDamageSource: Entity | null = null;
+
+  /**
+   * The timestamp of the last damage event.
+   */
+  private lastDamageStamp: bigint = 0n;
+
+  /**
    * Whether the entity is alive or not.
    */
   public isAlive = false;
@@ -186,6 +197,15 @@ class Entity {
 
     // Return the name metadata
     return item?.value;
+  }
+
+  public get lastAttacker(): Entity | null {
+    const currentTick = this.world.currentTick;
+
+    if (currentTick - this.lastDamageStamp > 20n) {
+      this.lastDamageSource = null;
+    }
+    return this.lastDamageSource;
   }
 
   /**
@@ -491,6 +511,65 @@ class Entity {
       -Math.sin(pitchRadians), // Y component of the view vector (negative for correct orientation)
       Math.cos(yawRadians) * Math.cos(pitchRadians) // Z component of the view vector
     );
+  }
+
+  public setHeadRotation(rotation: Vector2f): void {
+    // Set the entity rotation
+    this.rotation.headYaw = rotation.y;
+    this.rotation.pitch = rotation.x;
+
+    // Create a new MoveActorDeltaPacket
+    const packet = new MoveActorDeltaPacket();
+
+    // Assign the packet properties
+    packet.runtimeId = this.runtimeId;
+    packet.flags = MoveDeltaFlags.All;
+    packet.x = this.position.x;
+
+    // Asjust the y position of the entity
+    packet.y = this.isPlayer() ? this.position.y : this.position.y - 0.1;
+
+    // Assign the z position and rotation properties
+    packet.z = this.position.z;
+    packet.yaw = this.rotation.yaw;
+    packet.headYaw = this.rotation.headYaw;
+    packet.pitch = this.rotation.pitch;
+
+    // Adjust the y position of the entity
+    if (!this.isPlayer() && !this.isItem()) packet.y -= this.hitboxHeight;
+
+    // Check if the entity is on the ground
+    if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
+
+    // Broadcast the packet to all players
+    if (this.isPlayer()) {
+      // Iterate over all players in the dimension
+      for (const player of this.dimension.getPlayers()) {
+        // Check if the player is the moving entity
+        if (player === this) continue;
+
+        // Get the players entity rendering trait
+        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+
+        // Check if the player has the entity in their entities list
+        if (!rendering.entities.has(this.uniqueId)) continue;
+
+        // Send the packet to the player
+        player.send(packet);
+      }
+    } else {
+      // Iterate over all players in the dimension
+      for (const player of this.dimension.getPlayers()) {
+        // Get the players entity rendering trait
+        const rendering = player.getTrait(PlayerEntityRenderingTrait);
+
+        // Check if the player has the entity in their entities list
+        if (!rendering.entities.has(this.uniqueId)) continue;
+
+        // Send the packet to the player
+        player.send(packet);
+      }
+    }
   }
 
   /**
@@ -867,6 +946,9 @@ class Entity {
 
     // Check if the method is attack, if so called the onAttackEntity method of the attacking entity
     if (method === EntityInteractMethod.Attack) {
+      this.lastDamageSource = origin;
+      this.lastDamageStamp = this.world.currentTick;
+
       // Iterate over the traits of the entity
       for (const trait of origin.traits.values()) {
         // Attempt to trigger the onAttackEntity trait event
