@@ -3,6 +3,7 @@ import {
   BlockPosition,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
+  Vector2f,
   Vector3f
 } from "@serenityjs/protocol";
 
@@ -36,11 +37,14 @@ class EntityMovementTrait extends EntityAttributeTrait {
   public onTick(): void {
     if (this.positionTarget !== null) {
       // Calculate the distance to the target position
-      // TODO: The position operation should use the bigger position sign
       // TODO: We should refactor Y so its at foot level and not at head level?
       const distance = this.positionTarget
         .floor()
-        .distance(this.entity.position.floor().subtract(new Vector3f(0, 1, 0)));
+        .distance(
+          this.entity.position
+            .subtract(new Vector3f(0, this.entity.hitboxHeight, 0))
+            .floor()
+        );
 
       // Check if the entity has reached the target position
       if (distance < 0.5) {
@@ -142,66 +146,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     if (pitch > 180) yaw -= 360;
     if (pitch < -180) yaw += 360;
 
-    // Set the entity rotation
-    this.entity.rotation.yaw = yaw;
-    this.entity.rotation.headYaw = yaw;
-    this.entity.rotation.pitch = pitch;
-
-    // Create a new MoveActorDeltaPacket
-    const packet = new MoveActorDeltaPacket();
-
-    // Assign the packet properties
-    packet.runtimeId = this.entity.runtimeId;
-    packet.flags = MoveDeltaFlags.All;
-    packet.x = this.entity.position.x;
-
-    // Asjust the y position of the entity
-    packet.y = this.entity.isPlayer()
-      ? this.entity.position.y
-      : this.entity.position.y - 0.1;
-
-    // Assign the z position and rotation properties
-    packet.z = this.entity.position.z;
-    packet.yaw = this.entity.rotation.yaw;
-    packet.headYaw = this.entity.rotation.headYaw;
-    packet.pitch = this.entity.rotation.pitch;
-
-    // Adjust the y position of the entity
-    if (!this.entity.isPlayer() && !this.entity.isItem())
-      packet.y -= this.entity.hitboxHeight;
-
-    // Check if the entity is on the ground
-    if (this.entity.onGround) packet.flags |= MoveDeltaFlags.OnGround;
-
-    // Broadcast the packet to all players
-    if (this.entity.isPlayer()) {
-      // Iterate over all players in the dimension
-      for (const player of this.entity.dimension.getPlayers()) {
-        // Check if the player is the moving entity
-        if (player === this.entity) continue;
-
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
-
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.entity.uniqueId)) continue;
-
-        // Send the packet to the player
-        player.send(packet);
-      }
-    } else {
-      // Iterate over all players in the dimension
-      for (const player of this.entity.dimension.getPlayers()) {
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
-
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.entity.uniqueId)) continue;
-
-        // Send the packet to the player
-        player.send(packet);
-      }
-    }
+    this.entity.setHeadRotation(new Vector2f(pitch, yaw));
   }
 
   /**
