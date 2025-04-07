@@ -15,7 +15,7 @@ class PacketViolationWarningHandler extends NetworkHandler {
     if (!player) return connection.disconnect();
 
     // Log the packet violation warning
-    this.serenity.logger.warn(
+    this.serenity.logger.debug(
       `Packet violation warning from ${player.username} (${Packet[packet.packet] ?? packet.packet}): ${packet.context}`
     );
   }
