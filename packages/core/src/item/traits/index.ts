@@ -11,3 +11,4 @@ export * from "./weapon";
 export * from "./sword";
 export * from "./wearable";
 export * from "./shooter";
+export * from "./lock";
