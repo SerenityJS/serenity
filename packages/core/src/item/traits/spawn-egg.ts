@@ -33,7 +33,7 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     // Calculate the position to spawn the entity.
     const position = BlockPosition.toVector3f(options.targetBlock.position)
       .add(options.clickPosition)
-      .add({ x: 0, y: 1, z: 0 });
+      .add({ x: 0, y: -1, z: 0 });
 
     // Check if any entity data should be added to the entity.
     const entry =
