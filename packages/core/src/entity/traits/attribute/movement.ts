@@ -37,14 +37,9 @@ class EntityMovementTrait extends EntityAttributeTrait {
   public onTick(): void {
     if (this.positionTarget !== null) {
       // Calculate the distance to the target position
-      // TODO: We should refactor Y so its at foot level and not at head level?
       const distance = this.positionTarget
         .floor()
-        .distance(
-          this.entity.position
-            .subtract(new Vector3f(0, this.entity.hitboxHeight, 0))
-            .floor()
-        );
+        .distance(this.entity.position.floor());
 
       // Check if the entity has reached the target position
       if (distance < 0.5) {
@@ -172,8 +167,8 @@ class EntityMovementTrait extends EntityAttributeTrait {
     // Calculate the magnitude of the direction
     const magnitude = Math.sqrt(
       Math.pow(direction.x, 2) +
-        Math.pow(direction.y, 2) +
-        Math.pow(direction.z, 2)
+      Math.pow(direction.y, 2) +
+      Math.pow(direction.z, 2)
     );
 
     // Return the normalized direction

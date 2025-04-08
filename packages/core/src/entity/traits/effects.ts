@@ -3,8 +3,7 @@ import {
   LevelEvent,
   LevelEventPacket,
   MobEffectEvents,
-  MobEffectPacket,
-  Vector3f
+  MobEffectPacket
 } from "@serenityjs/protocol";
 
 import { Effect } from "../../effect";
@@ -49,8 +48,7 @@ class EntityEffectsTrait extends EntityTrait {
       const packet = new LevelEventPacket();
       packet.event = LevelEvent.ParticleLegacyEvent | 34;
       packet.data = effect.color.toInt();
-      packet.position = this.entity.position.subtract(new Vector3f(0, 1, 0));
-
+      packet.position = this.entity.position;
       this.entity.dimension.broadcast(packet);
     }
   }

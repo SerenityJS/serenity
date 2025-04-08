@@ -69,7 +69,7 @@ class EntityAirSupplyTrait extends EntityTrait {
 
   private canBreathe(): boolean {
     const blockAtHead = this.entity.dimension.getBlock(
-      this.entity.position.floor()
+      this.entity.getHeadLocation()
     );
 
     return (

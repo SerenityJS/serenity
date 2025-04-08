@@ -512,6 +512,17 @@ class Entity {
     );
   }
 
+  /**
+   * Computes the entity's head location
+   */
+  public getHeadLocation(): Vector3f {
+    return this.position.add(new Vector3f(0, this.hitboxHeight, 0));
+  }
+
+  /**
+   * Sets and sends the entity head rotation
+   * @param rotation The new entity's head rotation
+   */
   public setHeadRotation(rotation: Vector2f): void {
     // Set the entity rotation
     this.rotation.headYaw = rotation.y;

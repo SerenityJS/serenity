@@ -37,7 +37,7 @@ class EntityPhysicsTrait extends EntityTrait {
         // Get the block below the entity
         const below = this.entity.dimension.getBlock({
           x: Math.floor(this.entity.position.x),
-          y: Math.floor(this.entity.position.y - this.entity.hitboxHeight - 1),
+          y: Math.floor(this.entity.position.y - 1),
           z: Math.floor(this.entity.position.z)
         });
 
@@ -91,13 +91,13 @@ class EntityPhysicsTrait extends EntityTrait {
     const velocity = this.entity.velocity.x;
 
     // Get the entity's position and dimension
-    const { position, dimension, hitboxWidth, hitboxHeight } = this.entity;
+    const { position, dimension, hitboxWidth } = this.entity;
 
     if (velocity > 0) {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x + velocity + hitboxWidth / 2),
-        y: Math.floor(position.y - hitboxHeight),
+        y: Math.floor(position.y),
         z: Math.floor(position.z)
       });
 
@@ -112,7 +112,7 @@ class EntityPhysicsTrait extends EntityTrait {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x + velocity - hitboxWidth / 2),
-        y: Math.floor(position.y - hitboxHeight),
+        y: Math.floor(position.y),
         z: Math.floor(position.z)
       });
 
@@ -131,13 +131,13 @@ class EntityPhysicsTrait extends EntityTrait {
     const velocity = this.entity.velocity.y;
 
     // Get the entity's position and dimension
-    const { position, dimension, hitboxHeight } = this.entity;
+    const { position, dimension } = this.entity;
 
     if (velocity > 0) {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x),
-        y: Math.floor(position.y + velocity + hitboxHeight),
+        y: Math.floor(position.y + velocity),
         z: Math.floor(position.z)
       });
 
@@ -152,7 +152,7 @@ class EntityPhysicsTrait extends EntityTrait {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x),
-        y: Math.floor(position.y + velocity - hitboxHeight),
+        y: Math.floor(position.y + velocity),
         z: Math.floor(position.z)
       });
 
@@ -167,7 +167,7 @@ class EntityPhysicsTrait extends EntityTrait {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x),
-        y: Math.floor(position.y - hitboxHeight),
+        y: Math.floor(position.y),
         z: Math.floor(position.z)
       });
 
@@ -183,13 +183,13 @@ class EntityPhysicsTrait extends EntityTrait {
     const velocity = this.entity.velocity.z;
 
     // Get the entity's position and dimension
-    const { position, dimension, hitboxWidth, hitboxHeight } = this.entity;
+    const { position, dimension, hitboxWidth } = this.entity;
 
     if (velocity > 0) {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x),
-        y: Math.floor(position.y - hitboxHeight),
+        y: Math.floor(position.y),
         z: Math.floor(position.z + velocity + hitboxWidth / 2)
       });
 
@@ -204,7 +204,7 @@ class EntityPhysicsTrait extends EntityTrait {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x),
-        y: Math.floor(position.y - hitboxHeight),
+        y: Math.floor(position.y),
         z: Math.floor(position.z + velocity - hitboxWidth / 2)
       });
 
