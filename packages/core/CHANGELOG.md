@@ -1,5 +1,11 @@
 # @serenityjs/core
 
+## 0.7.9
+
+### Patch Changes
+
+- [`b9c006f`](https://github.com/SerenityJS/serenity/commit/b9c006fceee0756a0962f92c428eea2fa9971f41) Thanks [@Felipe-Devr](https://github.com/Felipe-Devr)! - Fixed empty buffer reading on nbt map
+
 ## 0.7.8
 
 ### Patch Changes
