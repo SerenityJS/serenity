@@ -129,7 +129,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     const d = distance ?? this.viewDistance;
 
     // Prepare an array to store the chunks that need to be sent to the player.
-    const hashes: Array<bigint> = [];
+    const chunks: Array<Chunk> = [];
 
     // Get the chunks to render, we want to get the chunks from the inside out
     for (let dx = -d; dx <= d; dx++) {
@@ -144,26 +144,18 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         const distance = Math.hypot(dx, dz);
 
         // Check if the chunk is within the view distance
-        if (distance <= d + 0.5) hashes.push(hash);
+        if (distance <= d + 0.5) {
+          // Get the chunk from the dimension
+          const chunk = this.player.dimension.getChunk(cx + dx, cz + dz);
+
+          // Check if the chunk is ready
+          if (!chunk.ready) continue;
+
+          // Add the chunk to the chunks array
+          chunks.push(chunk);
+        }
       }
     }
-
-    // Convert the hashes to coordinates
-    const coords = hashes.map((hash) => ChunkCoords.unhash(hash));
-
-    // Get the chunks to send
-    const chunks = coords
-      .map((coord) => {
-        // Get the chunk from the dimension
-        const chunk = this.player.dimension.getChunk(coord.x, coord.z);
-
-        // Check if the chunk is ready
-        if (!chunk.ready) return null;
-
-        // Return the chunk
-        return chunk;
-      })
-      .filter((chunk) => chunk !== null) as Array<Chunk>;
 
     // Return the chunks
     return chunks;

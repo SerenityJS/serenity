@@ -167,7 +167,7 @@ class EntityPhysicsTrait extends EntityTrait {
       // Get the block in the direction the entity is moving
       const block = dimension.getBlock({
         x: Math.floor(position.x),
-        y: Math.floor(position.y - 0.2 - hitboxHeight),
+        y: Math.floor(position.y - hitboxHeight),
         z: Math.floor(position.z)
       });
 

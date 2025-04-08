@@ -489,8 +489,6 @@ class Player extends Entity {
     // Call the parent method to teleport the player
     super.teleport(position, dimension);
 
-    position.y += 0.5; // Set the y position to the player's height
-
     // Check if the dimension is not provided
     if (!dimension) {
       // Create a new MovePlayerPacket
@@ -507,6 +505,9 @@ class Player extends Entity {
       packet.riddenRuntimeId = 0n;
       packet.cause = new TeleportCause(4, 0);
       packet.inputTick = this.inputTick;
+
+      // Adjust the y position to account for the hitbox height
+      packet.position.y += this.hitboxHeight;
 
       // Send the packet to the player
       this.send(packet);

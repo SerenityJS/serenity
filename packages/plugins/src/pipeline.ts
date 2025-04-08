@@ -99,32 +99,29 @@ class Pipeline {
     serenity.on(ServerEvent.Start, this.start.bind(this));
     serenity.on(ServerEvent.Stop, this.stop.bind(this));
 
-    // Check if the plugins command should be registered
-    if (this.properties.commands) {
-      // Hook into the world initialize event
-      serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
-        // Register the commands for the plugins
-        Command(world, this);
+    // Hook into the world initialize event
+    serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
+      // Register the commands for the plugins
+      if (this.properties.commands) Command(world, this);
 
-        // Iterate over all the plugins, and register the blocks, items, and entities
-        for (const [, plugin] of this.plugins) {
-          // Register the blocks for the world
-          world.blockPalette
-            .registerType(...plugin.blocks.types)
-            .registerTrait(...plugin.blocks.traits);
+      // Iterate over all the plugins, and register the blocks, items, and entities
+      for (const [, plugin] of this.plugins) {
+        // Register the blocks for the world
+        world.blockPalette
+          .registerType(...plugin.blocks.types)
+          .registerTrait(...plugin.blocks.traits);
 
-          // Register the items for the world
-          world.itemPalette
-            .registerType(...plugin.items.types)
-            .registerTrait(...plugin.items.traits);
+        // Register the items for the world
+        world.itemPalette
+          .registerType(...plugin.items.types)
+          .registerTrait(...plugin.items.traits);
 
-          // Register the entities for the world
-          world.entityPalette
-            .registerType(...plugin.entities.types)
-            .registerTrait(...plugin.entities.traits);
-        }
-      });
-    }
+        // Register the entities for the world
+        world.entityPalette
+          .registerType(...plugin.entities.types)
+          .registerTrait(...plugin.entities.traits);
+      }
+    });
 
     // Check if the plugins should be initialized
     if (this.properties.initialize) this.initialize();

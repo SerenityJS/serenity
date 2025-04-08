@@ -129,7 +129,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.deviceOS = entity.device.os;
 
       // Adjust the player's position for rendering
-      packet.position.y -= entity.hitboxHeight; // Adjust the y position for the player
+      packet.position.y += entity.hitboxHeight; // Adjust the y position for the player
 
       // Send the packet to the player
       this.player.send(packet);
@@ -142,7 +142,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     // Adjust the entity's position
     const position = new Vector3f(
       entity.position.x,
-      entity.position.y - entity.hitboxHeight,
+      entity.position.y,
       entity.position.z
     );
 
@@ -150,6 +150,9 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     if (entity.isItem()) {
       // Get the item component
       const itemComponent = entity.getTrait(EntityItemStackTrait);
+
+      // Check if the item component is not valid
+      if (!itemComponent) return this.removeEntity(entity); // Remove the entity
 
       // Create a new AddItemActorPacket
       const packet = new AddItemActorPacket();
