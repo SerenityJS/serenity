@@ -52,12 +52,13 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     this.entities.add(entity.uniqueId);
 
     // Create a new MobArmorEquipmentPacket
-    const armor = new MobArmorEquipmentPacket();
+    let armor: MobArmorEquipmentPacket | undefined;
 
     // Check if the entity has an equipment component
-    if (entity.hasTrait(EntityEquipmentTrait)) {
+    if (armor) {
       // Get the equipment component
       const trait = entity.getTrait(EntityEquipmentTrait);
+      armor = new MobArmorEquipmentPacket();
 
       // Set the head, chest, legs, and feet armor
       const head = trait.getEquipment(EquipmentSlot.Head) ?? ItemStack.empty();
@@ -132,7 +133,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
       // Send the packet to the player
       this.player.send(packet);
-      if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
+      if (armor) this.player.send(armor);
 
       // Break out of the function
       return;
@@ -164,7 +165,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
       // Send the packet to the player
       this.player.send(packet);
-      if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
+      if (armor) this.player.send(armor);
 
       // Break out of the function
       return;
@@ -190,7 +191,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
     // Send the packet to the player
     this.player.send(packet);
-    if (entity.hasTrait(EntityEquipmentTrait)) this.player.send(armor);
+    if (armor) this.player.send(armor);
   }
 
   /**
@@ -247,7 +248,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       if (!entity.isAlive) continue;
 
       // Check if the entity is within the player's view distance
-      if (this.distance(entity.position, this.player.position) > viewDistance)
+      if (entity.position.distance(this.player.position) > viewDistance)
         continue;
 
       // Show the entity to the player
@@ -263,7 +264,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         if (!entity) continue;
 
         // Calculate the distance from the player to the entity
-        const distance = this.distance(entity.position, this.player.position);
+        const distance = entity.position.distance(this.player.position);
 
         // Check if the entity is in the player's view distance
         // And that the entity is alive
@@ -303,12 +304,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
     // Clear the entities
     this.entities.clear();
-  }
-
-  public distance(a: Vector3f, b: Vector3f): number {
-    return Math.sqrt(
-      Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2) + Math.pow(a.z - b.z, 2)
-    );
   }
 
   public onDespawn(options: EntityDespawnOptions): void {
