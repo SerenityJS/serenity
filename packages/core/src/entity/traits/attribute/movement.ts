@@ -148,21 +148,15 @@ class EntityMovementTrait extends EntityAttributeTrait {
     packet.runtimeId = this.entity.runtimeId;
     packet.flags = MoveDeltaFlags.All;
     packet.x = this.entity.position.x;
-
-    // Asjust the y position of the entity
-    packet.y = this.entity.isPlayer()
-      ? this.entity.position.y
-      : this.entity.position.y - 0.1;
-
-    // Assign the z position and rotation properties
+    packet.y = this.entity.position.y;
     packet.z = this.entity.position.z;
     packet.yaw = this.entity.rotation.yaw;
     packet.headYaw = this.entity.rotation.headYaw;
     packet.pitch = this.entity.rotation.pitch;
 
-    // Adjust the y position of the entity
-    if (!this.entity.isPlayer() && !this.entity.isItem())
-      packet.y -= this.entity.hitboxHeight;
+    // Adjust the y position of the entity according to the entity type
+    if (this.entity.isPlayer()) packet.y += this.entity.hitboxHeight;
+    if (this.entity.isItem()) packet.y += 0.1;
 
     // Check if the entity is on the ground
     if (this.entity.onGround) packet.flags |= MoveDeltaFlags.OnGround;
