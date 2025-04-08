@@ -21,7 +21,7 @@ class LevelChunkPacket extends DataPacket {
   public blobs!: Array<bigint>;
   public data!: Buffer;
 
-	public override serialize(): Buffer {
+  public override serialize(): Buffer {
     this.writeVarInt(Packet.LevelChunk);
     this.writeZigZag(this.x);
     this.writeZigZag(this.z);
@@ -35,23 +35,22 @@ class LevelChunkPacket extends DataPacket {
       if (!this.blobs)
         throw new Error("Blobs required when cache_enabled is true");
       this.writeVarInt(this.blobs.length);
-			for (const hash of this.blobs) {
-				this.writeUint64(hash, Endianness.Little);
-			}
+      for (const hash of this.blobs) {
+        this.writeUint64(hash, Endianness.Little);
+      }
     }
     this.writeVarInt(this.data.length);
     this.writeBuffer(this.data);
     return this.getBuffer();
   }
 
-
-	public override deserialize(): this {
-		this.readVarInt(); // packet id
-		this.x = this.readZigZag();
-		this.z = this.readZigZag();
-		this.dimension = this.readZigZag();
-		this.subChunkCount = this.readVarInt();
-		if (this.subChunkCount === 4294967294) this.subChunkCount = -2;
+  public override deserialize(): this {
+    this.readVarInt(); // packet id
+    this.x = this.readZigZag();
+    this.z = this.readZigZag();
+    this.dimension = this.readZigZag();
+    this.subChunkCount = this.readVarInt();
+    if (this.subChunkCount === 4294967294) this.subChunkCount = -2;
 
     if (this.subChunkCount === -2) {
       this.highestSubChunkCount = this.readUint16(Endianness.Little);
@@ -62,13 +61,13 @@ class LevelChunkPacket extends DataPacket {
       const blobCount = this.readVarInt();
       if (blobCount > LevelChunkPacket.MAX_BLOB_HASHES) {
         throw new Error(`Too many blob hashes: ${blobCount}`);
-			}
+      }
 
-			this.blobs = [];
-			for (let index = 0; index < blobCount; index++) {
-				this.blobs.push(this.readLong(Endianness.Little));
-			}
-		}
+      this.blobs = [];
+      for (let index = 0; index < blobCount; index++) {
+        this.blobs.push(this.readLong(Endianness.Little));
+      }
+    }
 
     const dataLength = this.readVarInt();
     this.data = this.readBuffer(dataLength);

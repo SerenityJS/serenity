@@ -351,10 +351,14 @@ interface NetworkEvents {
     NetworkPacketEvent<ServerboundDiagnosticsPacket>
   ];
   [Packet.MovementEffect]: [NetworkPacketEvent<MovementEffectPacket>];
-  [Packet.UpdateSubchunkBlocks]: [NetworkPacketEvent<UpdateSubchunkBlocksPacket>];
+  [Packet.UpdateSubchunkBlocks]: [
+    NetworkPacketEvent<UpdateSubchunkBlocksPacket>
+  ];
   [Packet.UpdateBlockSync]: [NetworkPacketEvent<UpdateBlockSyncPacket>];
   [Packet.SetLastHurtBy]: [NetworkPacketEvent<SetLastHurtByPacket>];
-  [Packet.UpdatePlayerGameType]: [NetworkPacketEvent<UpdatePlayerGameTypePacket>];
+  [Packet.UpdatePlayerGameType]: [
+    NetworkPacketEvent<UpdatePlayerGameTypePacket>
+  ];
   [Packet.SetDefaultGamemode]: [NetworkPacketEvent<SetDefaultGamemodePacket>];
   [Packet.MotionPredictHints]: [NetworkPacketEvent<MotionPredictHintsPacket>];
   [Packet.ClientCacheStatus]: [NetworkPacketEvent<ClientCacheStatusPacket>];
