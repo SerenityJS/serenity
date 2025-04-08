@@ -181,6 +181,11 @@ class EntityItemStackTrait extends EntityTrait {
         ) {
           // Get the item component of the entity
           const component = entity.getTrait(EntityItemStackTrait);
+
+          // Check if the component exists
+          if (!component) continue;
+
+          // Get the item stack of the component
           const existingItem = component.itemStack;
 
           // Check if the existing item stack is full

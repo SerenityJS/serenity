@@ -58,7 +58,7 @@ class EntityCollisionTrait extends EntityTrait {
       // Check if the entity is an item
       if (this.entity.isItem()) this.height = 0.25;
       // Set the default height value
-      else this.height = 1.75;
+      else this.height = 1.62;
     }
 
     // Check if the entity has a metadata value for collision width

@@ -75,6 +75,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
       packet.position.distance(player.position) !== 0 ||
       !player.rotation.equals(rotation);
 
+    // Adjust the player's position based on the input data
+    packet.position.y -= player.hitboxHeight;
+
     // Set the player's position
     player.position.set(packet.position);
 

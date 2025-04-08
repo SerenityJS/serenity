@@ -1065,6 +1065,9 @@ class Entity {
     packet.headYaw = this.rotation.headYaw;
     packet.pitch = this.rotation.pitch;
 
+    // Adjust the y position to account for the entity's height
+    packet.y += this.hitboxHeight;
+
     // Indicate that the entity must move
     packet.flags |= MoveDeltaFlags.ForceMove;
 
@@ -1145,7 +1148,7 @@ class Entity {
     ).multiply(2);
 
     // Spawn the entity
-    const entity = this.dimension.spawnItem(item, new Vector3f(x, y - 0.25, z));
+    const entity = this.dimension.spawnItem(item, new Vector3f(x, y + 1.25, z));
 
     // Set the velocity of the entity
     entity.addMotion(velocity);
