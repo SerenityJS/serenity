@@ -89,13 +89,17 @@ class BlockInventoryTrait extends BlockTrait {
 
       // Spawn the item in the world
       const position = this.block.position;
-      const vector = BlockPosition.toVector3f(position);
 
       // Spawn the item entity in the dimension
-      this.block.dimension.spawnItem(
-        item,
-        vector.add(new Vector3f(0.5, 0.5, 0.5))
-      );
+      const entity = this.dimension.spawnItem(item, position);
+
+      // Generate a random motion vector
+      const vx = Math.random() * 1 - 0.5;
+      const vy = Math.random() * 0.5;
+      const vz = Math.random() * 1 - 0.5;
+
+      // Set the item stack motion vector
+      entity.setMotion(new Vector3f(vx, vy, vz));
     }
   }
 

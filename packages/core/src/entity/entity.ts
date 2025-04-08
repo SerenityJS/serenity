@@ -10,7 +10,6 @@ import {
   MoveActorDeltaPacket,
   MoveDeltaFlags,
   Rotation,
-  SetActorMotionPacket,
   Vector2f,
   Vector3f
 } from "@serenityjs/protocol";
@@ -1067,19 +1066,6 @@ class Entity {
 
     // Check if the entity is not a player, if so, reduce the velocity
     if (!this.isPlayer()) this.velocity.set(this.velocity.multiply(0.5));
-
-    // Create a new SetActorMotionPacket
-    const packet = new SetActorMotionPacket();
-
-    // Set the properties of the packet
-    packet.runtimeId = this.runtimeId;
-    packet.motion = this.velocity;
-    packet.inputTick = this.isPlayer()
-      ? this.inputTick
-      : this.dimension.world.currentTick;
-
-    // Broadcast the packet to the dimension
-    this.dimension.broadcast(packet);
   }
 
   /**

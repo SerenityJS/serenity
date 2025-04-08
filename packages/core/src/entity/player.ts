@@ -17,6 +17,7 @@ import {
   MovePlayerPacket,
   PlaySoundPacket,
   SerializedSkin,
+  SetActorMotionPacket,
   ShowProfilePacket,
   StopSoundPacket,
   TeleportCause,
@@ -323,6 +324,26 @@ class Player extends Entity {
 
     // Send the packet.
     this.send(packet);
+  }
+
+  /**
+   * Set the motion of the player.
+   * @param vector The motion vector to set.
+   */
+  public setMotion(vector?: Vector3f): void {
+    // Call the super method to set the motion
+    super.setMotion(vector);
+
+    // Create a new SetActorMotionPacket
+    const packet = new SetActorMotionPacket();
+
+    // Set the properties of the packet
+    packet.runtimeId = this.runtimeId;
+    packet.motion = this.velocity;
+    packet.inputTick = this.inputTick;
+
+    // Broadcast the packet to the dimension
+    this.dimension.broadcast(packet);
   }
 
   /**

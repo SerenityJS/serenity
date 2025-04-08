@@ -3,7 +3,8 @@ import {
   ContainerType,
   Enchantment,
   EquipmentSlot,
-  MobArmorEquipmentPacket
+  MobArmorEquipmentPacket,
+  Vector3f
 } from "@serenityjs/protocol";
 
 import { EntityContainer } from "../container";
@@ -318,7 +319,15 @@ class EntityEquipmentTrait extends EntityTrait {
       if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
 
       // Drop the item stack from the armor container
-      this.entity.dimension.spawnItem(itemStack, this.entity.position);
+      const entity = this.dimension.spawnItem(itemStack, this.entity.position);
+
+      // Generate a random motion vector
+      const vx = Math.random() * 1 - 0.5;
+      const vy = Math.random() * 0.5;
+      const vz = Math.random() * 1 - 0.5;
+
+      // Set the item stack motion vector
+      entity.setMotion(new Vector3f(vx, vy, vz));
 
       // Clear the item stack from the armor container
       this.armor.clearSlot(slot);
@@ -333,7 +342,15 @@ class EntityEquipmentTrait extends EntityTrait {
       if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
 
       // Drop the item stack from the offhand container
-      this.entity.dimension.spawnItem(itemStack, this.entity.position);
+      const entity = this.dimension.spawnItem(itemStack, this.entity.position);
+
+      // Generate a random motion vector
+      const vx = Math.random() * 1 - 0.5;
+      const vy = Math.random() * 0.5;
+      const vz = Math.random() * 1 - 0.5;
+
+      // Set the item stack motion vector
+      entity.setMotion(new Vector3f(vx, vy, vz));
 
       // Clear the item stack from the offhand container
       this.offhand.clearSlot(slot);
