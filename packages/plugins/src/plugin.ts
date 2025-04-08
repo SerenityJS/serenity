@@ -139,6 +139,25 @@ class Plugin implements PluginProperties {
   }
 
   /**
+   * Resolve a plugin by its identifier
+   * @param identifier The identifier of the plugin to resolve.
+   * @returns The plugin instance if found, otherwise null.
+   */
+  public resolve<T extends Plugin>(identifier: string): T | null {
+    // Check if the pipeline is defined.
+    if (!this.pipeline) return null;
+
+    // Get the plugin from the pipeline
+    const plugin = this.pipeline.plugins.get(identifier);
+
+    // Check if the plugin is defined
+    if (!plugin) return null;
+
+    // Return the plugin
+    return plugin as T;
+  }
+
+  /**
    * Called when the plugin is initialized.
    * @param plugin The plugin instance that was initialized. (this)
    */
