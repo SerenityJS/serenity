@@ -42,6 +42,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
     // Update the player's input tick
     player.inputTick = packet.inputTick;
 
+    // Adjust the player's position based on the input data
+    packet.position.y -= player.hitboxHeight;
+
     // Validate the player's motion
     if (
       !this.validatePlayerMotion(player, packet.position, packet.positionDelta)
@@ -53,6 +56,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
       rewind.velocity = new Vector3f(0, 0, 0);
       rewind.onGround = player.onGround;
       rewind.inputTick = packet.inputTick;
+
+      // Adjust the rewind position based on the player's hitbox height
+      rewind.position.y += player.hitboxHeight;
 
       // Send the packet to the player
       return player.sendImmediate(rewind);
@@ -74,9 +80,6 @@ class PlayerAuthInputHandler extends NetworkHandler {
     player.isMoving =
       packet.position.distance(player.position) !== 0 ||
       !player.rotation.equals(rotation);
-
-    // Adjust the player's position based on the input data
-    packet.position.y -= player.hitboxHeight;
 
     // Set the player's position
     player.position.set(packet.position);
@@ -164,7 +167,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (delta.y >= movementRewindThreshold)
       return false; // Return false, as the player is moving up
     // Check if the delta y is less than the movement threshold
-    else if (delta.y <= -movementRewindThreshold) {
+    else if (delta.y <= -movementRewindThreshold * 1.25) {
       // Check if the player is falling, if so the movement is valid
       if (player.isFalling) return true;
 
