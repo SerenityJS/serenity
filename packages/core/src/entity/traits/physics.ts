@@ -35,14 +35,14 @@ class EntityPhysicsTrait extends EntityTrait {
       // Check if x or z velocity is not 0
       if (this.entity.velocity.x !== 0 || this.entity.velocity.z !== 0) {
         // Get the block below the entity
-        const below = this.entity.dimension.getBlock({
+        const below = this.entity.dimension.getPermutation({
           x: Math.floor(this.entity.position.x),
           y: Math.floor(this.entity.position.y - 1),
           z: Math.floor(this.entity.position.z)
         });
 
         // Get the permutation components of the block below the entity
-        const components = below.permutation.components;
+        const components = below.components;
 
         // Create a friction factor based on the entity's gravity
         const factor = this.entity.hasTrait(EntityGravityTrait) ? 0.95 : 1;
@@ -94,30 +94,30 @@ class EntityPhysicsTrait extends EntityTrait {
     const { position, dimension, hitboxWidth } = this.entity;
 
     if (velocity > 0) {
-      // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      // Get the block permutation in the direction the entity is moving
+      const permutation = dimension.getPermutation({
         x: Math.floor(position.x + velocity + hitboxWidth / 2),
         y: Math.floor(position.y),
         z: Math.floor(position.z)
       });
 
-      // Check if the block in the direction the entity is moving is solid
-      if (block.isSolid) {
+      // Check if the permutation in the direction the entity is moving is solid
+      if (permutation.type.solid) {
         // Set the entity's x velocity to 0
         this.entity.velocity.x = 0;
 
         return true;
       } else return false;
     } else {
-      // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      // Get the block permutation in the direction the entity is moving
+      const permutation = dimension.getPermutation({
         x: Math.floor(position.x + velocity - hitboxWidth / 2),
         y: Math.floor(position.y),
         z: Math.floor(position.z)
       });
 
-      // Check if the block in the direction the entity is moving is solid
-      if (block.isSolid) {
+      // Check if the permutation in the direction the entity is moving is solid
+      if (permutation.type.solid) {
         // Set the entity's x velocity to 0
         this.entity.velocity.x = 0;
 
@@ -134,45 +134,45 @@ class EntityPhysicsTrait extends EntityTrait {
     const { position, dimension } = this.entity;
 
     if (velocity > 0) {
-      // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      // Get the block permutation in the direction the entity is moving
+      const permutation = dimension.getPermutation({
         x: Math.floor(position.x),
         y: Math.floor(position.y + velocity),
         z: Math.floor(position.z)
       });
 
-      // Check if the block in the direction the entity is moving is solid
-      if (block.isSolid) {
+      // Check if the permutation in the direction the entity is moving is solid
+      if (permutation.type.solid) {
         // Set the entity's y velocity to 0
         this.entity.velocity.y = 0;
 
         return true;
       } else return false;
     } else if (velocity < 0) {
-      // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      // Get the block permutation in the direction the entity is moving
+      const permutation = dimension.getPermutation({
         x: Math.floor(position.x),
         y: Math.floor(position.y + velocity),
         z: Math.floor(position.z)
       });
 
-      // Check if the block in the direction the entity is moving is solid
-      if (block.isSolid) {
+      // Check if the permutation in the direction the entity is moving is solid
+      if (permutation.type.solid) {
         // Set the entity's y velocity to 0
         this.entity.velocity.y = 0;
 
         return true;
       } else return false;
     } else {
-      // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      // Get the block permutation in the direction the entity is moving
+      const permutation = dimension.getPermutation({
         x: Math.floor(position.x),
         y: Math.floor(position.y),
         z: Math.floor(position.z)
       });
 
-      // Check if the block in the direction the entity is moving is solid
-      if (block.isSolid) {
+      // Check if the permutation in the direction the entity is moving is solid
+      if (permutation.type.solid) {
         return true;
       } else return false;
     }
@@ -186,30 +186,30 @@ class EntityPhysicsTrait extends EntityTrait {
     const { position, dimension, hitboxWidth } = this.entity;
 
     if (velocity > 0) {
-      // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      // Get the block permutation in the direction the entity is moving
+      const permutation = dimension.getPermutation({
         x: Math.floor(position.x),
         y: Math.floor(position.y),
         z: Math.floor(position.z + velocity + hitboxWidth / 2)
       });
 
-      // Check if the block in the direction the entity is moving is solid
-      if (block.isSolid) {
+      // Check if the permutation in the direction the entity is moving is solid
+      if (permutation.type.solid) {
         // Set the entity's z velocity to 0
         this.entity.velocity.z = 0;
 
         return true;
       } else return false;
     } else {
-      // Get the block in the direction the entity is moving
-      const block = dimension.getBlock({
+      // Get the block permutation in the direction the entity is moving
+      const permutation = dimension.getPermutation({
         x: Math.floor(position.x),
         y: Math.floor(position.y),
         z: Math.floor(position.z + velocity - hitboxWidth / 2)
       });
 
-      // Check if the block in the direction the entity is moving is solid
-      if (block.isSolid) {
+      // Check if the permutation in the direction the entity is moving is solid
+      if (permutation.type.solid) {
         // Set the entity's z velocity to 0
         this.entity.velocity.z = 0;
 
