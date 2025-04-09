@@ -125,8 +125,8 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         }
       ];
       packet.links = [];
-      packet.deviceId = entity.device.identifier;
-      packet.deviceOS = entity.device.os;
+      packet.deviceId = entity.clientSystemInfo.identifier;
+      packet.deviceOS = entity.clientSystemInfo.os;
 
       // Adjust the player's position for rendering
       packet.position.y += entity.hitboxHeight; // Adjust the y position for the player

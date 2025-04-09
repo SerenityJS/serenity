@@ -88,9 +88,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
     player.rotation.set(rotation);
 
     // Set the player device information
-    player.device.inputMode = packet.inputMode;
-    player.device.interactionMode = packet.interactionMode;
-    player.device.playMode = packet.playMode;
+    player.clientSystemInfo.inputMode = packet.inputMode;
+    player.clientSystemInfo.interactionMode = packet.interactionMode;
+    player.clientSystemInfo.playMode = packet.playMode;
 
     // Check if the player is moving
     if (!player.isMoving) {

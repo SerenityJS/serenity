@@ -1,7 +1,7 @@
 import { IPosition, SerializedSkin } from "@serenityjs/protocol";
 
 import { PlayerEntry } from "../world";
-import { Device } from "../../entity";
+import { ClientSystemInfo } from "../../entity";
 
 import { EntityProperties } from "./entity";
 
@@ -10,7 +10,7 @@ interface PlayerProperties extends EntityProperties {
   xuid: string;
   uuid: string;
   skin: SerializedSkin;
-  device: Device;
+  clientSystemInfo: ClientSystemInfo;
   entry?: PlayerEntry;
 }
 

@@ -54,8 +54,8 @@ import {
   PlayerCursorTrait,
   PlayerTrait
 } from "./traits";
-import { Device } from "./device";
 import { ScreenDisplay } from "./screen-display";
+import { ClientSystemInfo } from "./system-info";
 
 class Player extends Entity {
   /**
@@ -89,9 +89,9 @@ class Player extends Entity {
   public readonly abilities = new AbilityMap(this);
 
   /**
-   * The device information of the player
+   * The player's device information.
    */
-  public readonly device: Device;
+  public readonly clientSystemInfo: ClientSystemInfo;
 
   /**
    * The skin of the player
@@ -237,7 +237,7 @@ class Player extends Entity {
     this.username = props.username;
     this.xuid = props.xuid;
     this.uuid = props.uuid;
-    this.device = props.device;
+    this.clientSystemInfo = props.clientSystemInfo;
     this.skin = props.skin;
     this.alwaysShowNameTag = true;
 

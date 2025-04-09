@@ -16,7 +16,7 @@ import { Connection } from "@serenityjs/raknet";
 import { createDecoder } from "fast-jwt";
 
 import { NetworkHandler } from "../network";
-import { Device, Player } from "../entity";
+import { ClientSystemInfo, Player } from "../entity";
 import { PlayerProperties } from "../types";
 import { PlayerJoinSignal } from "../events";
 
@@ -82,11 +82,8 @@ class LoginHandler extends NetworkHandler {
         DisconnectReason.WorldCorruption
       );
 
-    // // Get the permission level of the player.
-    // const permission = this.serenity.permissions.get(xuid, username);
-
-    // Create a new Device instance.
-    const device = new Device(
+    // Create a new ClientSystemInfo instance.
+    const clientSystemInfo = new ClientSystemInfo(
       clientData.DeviceId,
       clientData.DeviceModel,
       clientData.DeviceOS,
@@ -105,7 +102,7 @@ class LoginHandler extends NetworkHandler {
       username,
       xuid,
       uuid,
-      device,
+      clientSystemInfo,
       skin
     };
 

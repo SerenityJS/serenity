@@ -6,7 +6,7 @@ import {
   PlayMode
 } from "@serenityjs/protocol";
 
-class Device {
+class ClientSystemInfo {
   /**
    * The identifier of the device.
    * This is a uuid string.
@@ -74,9 +74,15 @@ class Device {
    * Returns an empty device object.
    * @returns An empty device object.
    */
-  public static empty(): Device {
-    return new Device("", "", DeviceOS.Undefined, 0, MemoryTier.Undetermined);
+  public static empty(): ClientSystemInfo {
+    return new ClientSystemInfo(
+      "",
+      "",
+      DeviceOS.Undefined,
+      0,
+      MemoryTier.Undetermined
+    );
   }
 }
 
-export { Device };
+export { ClientSystemInfo };

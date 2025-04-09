@@ -354,15 +354,8 @@ class Dimension {
     // Return the block if it exists
     if (block) return block;
     else {
-      // Convert the block position to a chunk position
-      const cx = blockPosition.x >> 4;
-      const cz = blockPosition.z >> 4;
-
-      // Get the current chunk the block will be in
-      const chunk = this.getChunk(cx, cz);
-
       // Get the permutation from the chunk
-      const permutation = chunk.getPermutation(blockPosition);
+      const permutation = this.getPermutation(blockPosition);
 
       // Create a new block with the dimension, position, and permutation
       const block = new Block(this, blockPosition);

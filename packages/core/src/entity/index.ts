@@ -5,7 +5,7 @@ export * from "./container";
 export * from "./traits";
 export * from "./maps";
 export * from "./palette";
-export * from "./device";
+export * from "./system-info";
 
 import * as Traits from "./traits";
 

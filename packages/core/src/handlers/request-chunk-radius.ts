@@ -34,8 +34,8 @@ class RequestChunkRadiusHandler extends NetworkHandler {
 
     // Set the view distance, verifying it is not greater than the player's max view distance
     trait.viewDistance =
-      distance > player.device.maxViewDistance
-        ? player.device.maxViewDistance
+      distance > player.clientSystemInfo.maxViewDistance
+        ? player.clientSystemInfo.maxViewDistance
         : distance;
 
     // Send the chunk radius updated packet
