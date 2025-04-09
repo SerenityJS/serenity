@@ -43,7 +43,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     player.inputTick = packet.inputTick;
 
     // Adjust the player's position based on the input data
-    packet.position.y -= player.hitboxHeight;
+    packet.position.y -= player.getCollisionHeight();
 
     // Validate the player's motion
     if (
@@ -58,7 +58,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
       rewind.inputTick = packet.inputTick;
 
       // Adjust the rewind position based on the player's hitbox height
-      rewind.position.y += player.hitboxHeight;
+      rewind.position.y += player.getCollisionHeight();
 
       // Send the packet to the player
       return player.sendImmediate(rewind);

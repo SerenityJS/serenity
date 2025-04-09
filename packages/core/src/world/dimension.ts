@@ -19,6 +19,7 @@ import {
 } from "../types";
 import {
   Entity,
+  EntityCollisionTrait,
   EntityGravityTrait,
   EntityInventoryTrait,
   EntityItemStackTrait,
@@ -647,6 +648,7 @@ class Dimension {
     entity.addTrait(EntityGravityTrait);
     entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
+    entity.addTrait(EntityCollisionTrait);
 
     // Set the entity position
     entity.position.x = position.x;
@@ -687,6 +689,7 @@ class Dimension {
     entity.addTrait(EntityGravityTrait);
     entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
+    entity.addTrait(EntityCollisionTrait);
 
     // Spawn the item entity
     entity.spawn();

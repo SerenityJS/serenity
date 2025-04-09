@@ -231,9 +231,9 @@ class EntityInventoryTrait extends EntityTrait {
       const entity = this.dimension.spawnItem(itemStack, this.entity.position);
 
       // Generate a random motion vector
-      const vx = Math.random() * 1 - 0.5;
-      const vy = Math.random() * 0.5;
-      const vz = Math.random() * 1 - 0.5;
+      const vx = Math.random() * 0.6 - 0.35;
+      const vy = Math.random() * 0.35;
+      const vz = Math.random() * 0.6 - 0.35;
 
       // Set the item stack motion vector
       entity.setMotion(new Vector3f(vx, vy, vz));

@@ -129,7 +129,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.deviceOS = entity.clientSystemInfo.os;
 
       // Adjust the player's position for rendering
-      packet.position.y += entity.hitboxHeight; // Adjust the y position for the player
+      packet.position.y += entity.getCollisionHeight(); // Adjust the y position for the player
 
       // Send the packet to the player
       this.player.send(packet);

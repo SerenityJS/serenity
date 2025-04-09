@@ -10,6 +10,13 @@ class EntityGravityTrait extends EntityTrait {
   public static readonly identifier = "gravity";
   public static readonly types = [EntityIdentifier.Player];
 
+  public static defaultForce = -0.08;
+
+  /**
+   * The gravity force value of the entity.
+   */
+  public force: number = EntityGravityTrait.defaultForce;
+
   /**
    * The current distance the entity is falling from.
    */
@@ -60,8 +67,7 @@ class EntityGravityTrait extends EntityTrait {
     const block = this.dimension.getTopmostBlock(position.floor());
 
     // Calculate the entity's offset from the block
-    const entityOffset = position.y - this.entity.hitboxHeight;
-
+    const entityOffset = position.y - this.entity.getCollisionHeight();
     // Calculate the distance the entity is from the block
     const distance = Math.round(entityOffset - block.position.y);
 

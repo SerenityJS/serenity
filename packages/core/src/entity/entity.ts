@@ -48,8 +48,10 @@ import { ScoreboardIdentity } from "../world/scoreboard";
 
 import { EntityType } from "./identity";
 import {
+  EntityCollisionTrait,
   EntityEffectsTrait,
   EntityEquipmentTrait,
+  EntityGravityTrait,
   EntityInventoryTrait,
   EntityTrait,
   PlayerEntityRenderingTrait
@@ -302,58 +304,6 @@ class Entity {
   }
 
   /**
-   * The height of the entity collision box.
-   */
-  public get hitboxHeight(): number {
-    // Check if the entity has a metadata value for hitbox height
-    if (!this.metadata.has(ActorDataId.Reserved054)) return 0;
-
-    // Get the entity hitbox height
-    return this.metadata.get(ActorDataId.Reserved054).value as number;
-  }
-
-  /**
-   * The height of the entity collision box.
-   */
-  public set hitboxHeight(value: number) {
-    // Create a new DataItem object
-    const data = new DataItem(
-      ActorDataId.Reserved054,
-      ActorDataType.Float,
-      value
-    );
-
-    // Set the entity hitbox height
-    this.metadata.set(ActorDataId.Reserved054, data);
-  }
-
-  /**
-   * The width of the entity collision box.
-   */
-  public get hitboxWidth(): number {
-    // Check if the entity has a metadata value for hitbox width
-    if (!this.metadata.has(ActorDataId.Reserved053)) return 0;
-
-    // Get the entity hitbox width
-    return this.metadata.get(ActorDataId.Reserved053).value as number;
-  }
-
-  /**
-   * The width of the entity collision box.
-   */
-  public set hitboxWidth(value: number) {
-    // Create a new DataItem object
-    const data = new DataItem(
-      ActorDataId.Reserved053,
-      ActorDataType.Float,
-      value
-    );
-
-    // Set the entity hitbox width
-    this.metadata.set(ActorDataId.Reserved053, data);
-  }
-
-  /**
    * Creates a new entity within a dimension.
    * @param dimension The dimension to create the entity in
    * @param type The type of the entity to create
@@ -516,7 +466,14 @@ class Entity {
    * Computes the entity's head location
    */
   public getHeadLocation(): Vector3f {
-    return this.position.add(new Vector3f(0, this.hitboxHeight, 0));
+    // Get the collision trait
+    const collision = this.getTrait(EntityCollisionTrait);
+
+    // Get the height of the entity
+    const height = collision?.height ?? 1.62;
+
+    // Compute the head location
+    return this.position.add(new Vector3f(0, height, 0));
   }
 
   /**
@@ -545,8 +502,14 @@ class Entity {
     packet.headYaw = this.rotation.headYaw;
     packet.pitch = this.rotation.pitch;
 
+    // Get the entity's hitbox height
+    const collision = this.getTrait(EntityCollisionTrait);
+
+    // Get the height of the entity
+    const height = collision?.height ?? 1.62;
+
     // Adjust the y position of the entity
-    if (!this.isPlayer() && !this.isItem()) packet.y -= this.hitboxHeight;
+    if (!this.isPlayer() && !this.isItem()) packet.y -= height;
 
     // Check if the entity is on the ground
     if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
@@ -1074,9 +1037,6 @@ class Entity {
     this.velocity.x = vector?.x ?? this.velocity.x;
     this.velocity.y = vector?.y ?? this.velocity.y;
     this.velocity.z = vector?.z ?? this.velocity.z;
-
-    // Check if the entity is not a player, if so, reduce the velocity
-    if (!this.isPlayer()) this.velocity.set(this.velocity.multiply(0.5));
   }
 
   /**
@@ -1085,12 +1045,10 @@ class Entity {
    */
   public addMotion(vector: Vector3f): void {
     // Update the velocity of the entity
-    this.velocity.x += vector.x;
-    this.velocity.y += vector.y;
-    this.velocity.z += vector.z;
+    const motion = this.velocity.add(vector);
 
     // Set the motion of the entity
-    this.setMotion();
+    this.setMotion(motion);
   }
 
   /**
@@ -1145,7 +1103,7 @@ class Entity {
     packet.pitch = this.rotation.pitch;
 
     // Adjust the y position to account for the entity's height
-    packet.y += this.hitboxHeight;
+    packet.y += this.getCollisionHeight();
 
     // Indicate that the entity must move
     packet.flags |= MoveDeltaFlags.ForceMove;
@@ -1176,6 +1134,111 @@ class Entity {
 
     // Spawn the entity in the new dimension
     this.spawn({ changedDimensions: true });
+  }
+
+  /**
+   * Get the collision height of the entity.
+   * @note This method depends on the `EntityCollisionTrait` trait.
+   * @returns The collision height of the entity.
+   */
+  public getCollisionHeight(): number {
+    // Check if the entity has a collision trait
+    if (!this.hasTrait(EntityCollisionTrait))
+      return EntityCollisionTrait.defaultHeight;
+
+    // Get the collision trait
+    const collision = this.getTrait(EntityCollisionTrait);
+
+    // Return the collision height
+    return collision.height;
+  }
+
+  /**
+   * Set the collision height of the entity.
+   * @note This method depends on the `EntityCollisionTrait` trait.
+   * @param height The collision height to set.
+   */
+  public setCollisionHeight(height: number): void {
+    // Get the collision trait of the entity
+    const collision = this.hasTrait(EntityCollisionTrait)
+      ? this.getTrait(EntityCollisionTrait)
+      : this.addTrait(EntityCollisionTrait);
+
+    // Set the collision height
+    collision.height = height;
+  }
+
+  /**
+   * Get the collision width of the entity.
+   * @note This method depends on the `EntityCollisionTrait` trait.
+   * @returns The collision width of the entity.
+   */
+  public getCollisionWidth(): number {
+    // Check if the entity has a collision trait
+    if (!this.hasTrait(EntityCollisionTrait))
+      return EntityCollisionTrait.defaultWidth;
+
+    // Get the collision trait
+    const collision = this.getTrait(EntityCollisionTrait);
+
+    // Return the collision width
+    return collision.width;
+  }
+
+  /**
+   * Set the collision width of the entity.
+   * @note This method depends on the `EntityCollisionTrait` trait.
+   * @param width The collision width to set.
+   */
+  public setCollisionWidth(width: number): void {
+    // Get the collision trait of the entity
+    const collision = this.hasTrait(EntityCollisionTrait)
+      ? this.getTrait(EntityCollisionTrait)
+      : this.addTrait(EntityCollisionTrait);
+
+    // Set the collision width
+    collision.width = width;
+  }
+
+  /**
+   * Checks if the entity has gravity.
+   * @note This method depends on the `EntityGravityTrait` trait.
+   * @returns Whether or not the entity has gravity.
+   */
+  public hasGravity(): boolean {
+    return this.hasTrait(EntityGravityTrait);
+  }
+
+  /**
+   * Gets the gravity force of the entity.
+   * @note This method depends on the `EntityGravityTrait` trait.
+   * @returns The gravity force of the entity.
+   */
+  public getGravityForce(): number {
+    // Check if the entity has a gravity trait
+    if (!this.hasTrait(EntityGravityTrait))
+      return EntityGravityTrait.defaultForce;
+
+    // Get the gravity trait
+    const gravity = this.getTrait(EntityGravityTrait);
+
+    // Return the gravity force
+    return gravity.force;
+  }
+
+  /**
+   * Sets the gravity force of the entity.
+   * @note This method depends on the `EntityGravityTrait` trait.
+   * @param force The gravity force to set.
+   */
+  public setGravityForce(force: number): void {
+    // Get the gravity trait of the entity
+    const gravity = this.hasTrait(EntityGravityTrait)
+      ? this.getTrait(EntityGravityTrait)
+      : this.addTrait(EntityGravityTrait);
+
+    // Set the gravity force
+    gravity.force = force;
   }
 
   /**
@@ -1220,17 +1283,18 @@ class Entity {
     const pitchRad = (pitch * Math.PI) / 180;
 
     // Calculate the velocity of the entity based on the entity's rotation
-    const velocity = new Vector3f(
-      (-Math.sin(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5,
-      (-Math.sin(pitchRad) / 2) * 0.75 - 0.1,
-      (Math.cos(headYawRad) * Math.cos(pitchRad)) / 7 / 0.5
-    ).multiply(2);
+    const vx = -Math.sin(headYawRad) * Math.cos(pitchRad);
+    const vy = -Math.sin(pitchRad);
+    const vz = Math.cos(headYawRad) * Math.cos(pitchRad);
+
+    // Calculate the velocity of the entity based on the entity's rotation
+    const velocity = new Vector3f(vx, vy, vz).divide(2);
 
     // Spawn the entity
     const entity = this.dimension.spawnItem(item, new Vector3f(x, y + 1.25, z));
 
     // Set the velocity of the entity
-    entity.addMotion(velocity);
+    entity.addMotion(velocity.add(this.velocity));
 
     // Return true as the item was dropped
     return true;

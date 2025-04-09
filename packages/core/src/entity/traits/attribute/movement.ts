@@ -70,8 +70,8 @@ class EntityMovementTrait extends EntityAttributeTrait {
     packet.pitch = this.entity.rotation.pitch;
 
     // Adjust the y position of the entity according to the entity type
-    if (this.entity.isPlayer()) packet.y += this.entity.hitboxHeight;
-    if (this.entity.isItem()) packet.y += 0.1;
+    if (this.entity.isPlayer()) packet.y += this.entity.getCollisionHeight();
+    else if (this.entity.isItem()) packet.y += 0.15;
 
     // Check if the entity is on the ground
     if (this.entity.onGround) packet.flags |= MoveDeltaFlags.OnGround;
@@ -167,8 +167,8 @@ class EntityMovementTrait extends EntityAttributeTrait {
     // Calculate the magnitude of the direction
     const magnitude = Math.sqrt(
       Math.pow(direction.x, 2) +
-      Math.pow(direction.y, 2) +
-      Math.pow(direction.z, 2)
+        Math.pow(direction.y, 2) +
+        Math.pow(direction.z, 2)
     );
 
     // Return the normalized direction

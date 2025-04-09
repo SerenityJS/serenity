@@ -528,7 +528,7 @@ class Player extends Entity {
       packet.inputTick = this.inputTick;
 
       // Adjust the y position to account for the hitbox height
-      packet.position.y += this.hitboxHeight;
+      packet.position.y += this.getCollisionHeight();
 
       // Send the packet to the player
       this.send(packet);

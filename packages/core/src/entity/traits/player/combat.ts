@@ -175,18 +175,16 @@ class PlayerCombatTrait extends PlayerTrait {
     const x =
       -Math.sin(headYawRad) *
       Math.cos(pitchRad) *
-      this.getCalculatedHorizontalKnockback() *
-      0.7;
+      this.getCalculatedHorizontalKnockback();
 
     // Calculate the vertical knockback
-    const y = this.getCalculatedVerticalKnockback();
+    const y = this.getCalculatedVerticalKnockback() * 0.9;
 
     // Calculate the horizontal knockback in the z direction
     const z =
       Math.cos(headYawRad) *
       Math.cos(pitchRad) *
-      this.getCalculatedHorizontalKnockback() *
-      0.7;
+      this.getCalculatedHorizontalKnockback();
 
     // Set the velocity of the entity
     target.addMotion(new Vector3f(x, y, z));
