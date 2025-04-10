@@ -37,7 +37,7 @@ class EntityItemStackTrait extends EntityTrait {
   /**
    * The pickup tick of the item.
    */
-  protected pickupTick: bigint | null = null;
+  protected pickupTick: bigint = -1n;
 
   /**
    * The target player of the item.
@@ -47,7 +47,7 @@ class EntityItemStackTrait extends EntityTrait {
   /**
    * The merging state of the item.
    */
-  protected merging = false;
+  protected isMerging = false;
 
   protected mergingEntity: Entity | null = null;
 
@@ -149,36 +149,40 @@ class EntityItemStackTrait extends EntityTrait {
   }
 
   public onTick(details: TraitOnTickDetails): void {
-    // Check if the item is on the ground and the current tick is a multiple of 25
+    // Check if an item stack exists
+    if (!this.itemStack) return;
+
+    // Check if the current tick is a multiple of 5, if the entity is alive
+    if (details.currentTick % 5n !== 0n || !this.entity.isAlive) return;
+
     if (
-      this.entity.onGround &&
-      this.entity.dimension.world.currentTick % 25n === 0n &&
-      this.pickupTick === null
+      this.entity.onGround && // Check if the entity is on the ground
+      this.pickupTick === -1n && // And if the item does not have a pickup tick
+      this.itemStack.amount < this.itemStack.maxAmount && // Check if the item stack is not full
+      details.currentTick % 25n === 0n // Check if the current tick is a multiple of 25
     ) {
-      // Check if there is a existing item stack nearby within a 0.5 block radius
+      // Iterate over the entities in the dimension
       for (const [, entity] of this.entity.dimension.entities) {
         // Check if the entity is not an item
-        if (!this.entity.isItem()) continue;
-
-        // Continue if the item is being merged
-        if (this.merging && this.mergingEntity?.isAlive) continue;
-        // Check if the item is being merged and the entity is the last item
-        else if (this.merging && !this.mergingEntity?.isAlive)
-          // Set merging to false as its done
-          this.merging = false;
+        if (!entity.isItem()) continue;
 
         // Check if the entity is the same as the item
         if (entity === this.entity) continue;
 
-        // Calculate the distance between the entities
-        const distance = entity.position.subtract(this.entity.position);
+        // Continue if the item is being merged
+        if (this.isMerging && this.mergingEntity?.isAlive) continue;
+        // Check if the item is being merged and the entity is the last item
+        else if (this.isMerging && !this.mergingEntity?.isAlive) {
+          // Reset the merging properties
+          this.isMerging = false;
+          this.mergingEntity = null;
+        }
 
-        // Check if the distance is less than 0.5 blocks
-        if (
-          Math.abs(distance.x) <= 0.9 &&
-          Math.abs(distance.y) <= 0.9 &&
-          Math.abs(distance.z) <= 0.9
-        ) {
+        // Calculate the distance between the entities
+        const distance = entity.position.distance(this.entity.position);
+
+        // Check if the distance is less than 1.5 blocks
+        if (distance <= 1.5) {
           // Get the item component of the entity
           const component = entity.getTrait(EntityItemStackTrait);
 
@@ -199,7 +203,7 @@ class EntityItemStackTrait extends EntityTrait {
           component.entity.despawn();
 
           // Set merging to true and set the merging entity
-          this.merging = true;
+          this.isMerging = true;
           this.mergingEntity = entity;
         }
       }
@@ -218,9 +222,14 @@ class EntityItemStackTrait extends EntityTrait {
       const success = inventory.container.addItem(this.itemStack);
 
       // Check if the item was added to the inventory
-      if (!success)
+      if (!success) {
         // If not, reset the target player and pickup tick
-        return void (this.pickupTick = this.target = null);
+        this.target = null;
+        this.pickupTick = -1n;
+
+        // Break the loop
+        return;
+      }
 
       // Create a new take item actor packet
       const take = new TakeItemActorPacket();
@@ -247,10 +256,7 @@ class EntityItemStackTrait extends EntityTrait {
 
     // Check if the item has been alive for 10 ticks
     // This is to prevent the item from being picked up immediately
-    if (details.currentTick - this.birthTick <= 10n) return;
-
-    // Check if the current tick is a multiple of 5
-    if (details.currentTick % 5n !== 0n) return;
+    if (details.currentTick - this.birthTick <= 10n || this.target) return;
 
     // Check if a player is within a 1 block radius
     for (const player of this.entity.dimension.getPlayers()) {
@@ -260,20 +266,14 @@ class EntityItemStackTrait extends EntityTrait {
       // Calculate the distance between the player and the item
       const distance = player.position.distance(this.entity.position);
 
-      // Calculate the distance between the player and the item
-      if (distance <= 1.5) {
+      // Check if the distance is less than 1.5 blocks
+      if (distance <= 1.0) {
         // Set the player as the target
         this.target = player;
 
         // Set the pickup tick
         this.pickupTick = details.currentTick;
       }
-    }
-
-    // Check if the item has been alive for the lifespan
-    if (details.currentTick - this.birthTick >= BigInt(this.lifeSpan)) {
-      // Remove the item from the dimension
-      this.entity.despawn();
     }
   }
 }
