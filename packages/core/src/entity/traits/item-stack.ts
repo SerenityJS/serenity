@@ -253,17 +253,17 @@ class EntityItemStackTrait extends EntityTrait {
     if (details.currentTick % 5n !== 0n) return;
 
     // Check if a player is within a 1 block radius
-    for (const [, entity] of this.entity.dimension.entities) {
+    for (const player of this.entity.dimension.getPlayers()) {
       // Check if the player is alive
-      if (!entity.isPlayer() || !entity.isAlive) continue;
+      if (!player.isAlive) continue;
 
       // Calculate the distance between the player and the item
-      const distance = entity.position.distance(this.entity.position);
+      const distance = player.position.distance(this.entity.position);
 
       // Calculate the distance between the player and the item
       if (distance <= 1.5) {
         // Set the player as the target
-        this.target = entity;
+        this.target = player;
 
         // Set the pickup tick
         this.pickupTick = details.currentTick;
