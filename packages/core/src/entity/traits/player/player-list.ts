@@ -1,4 +1,5 @@
 import {
+  Color,
   PlayerListAction,
   PlayerListPacket,
   PlayerListRecord
@@ -68,7 +69,8 @@ class PlayerListTrait extends PlayerTrait {
       platformChatIdentifier: "",
       isHost: false,
       isVisitor: false,
-      isTeacher: false
+      isTeacher: false,
+      locatorColor: new Color(0, 0, 0, 0)
     }));
 
     // Filter out the players that need to be removed from the player list

@@ -133,7 +133,9 @@ enum ActorDataId {
   VisibleMobEffects = 131,
   FilteredName = 132,
   EnterBedPositon = 133,
-  Count = 134
+  SeatThirdPersonCameraRadius = 134,
+  SeatCameraRelaxDistanceSmoothing = 135,
+  Count
 }
 
 export { ActorDataId };
