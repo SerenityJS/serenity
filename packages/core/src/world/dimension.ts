@@ -498,9 +498,9 @@ class Dimension {
     // Prepare an array to hold the players
     const players: Array<Player> = [];
 
-    // Get all the entities in the dimension that are players
-    for (const [, entity] of this.entities)
-      if (entity.isPlayer()) players.push(entity); // Check if the entity is a player
+    // Iterate over all the players in serenity instance
+    for (const [, player] of this.serenity.players)
+      if (player.dimension === this) players.push(player); // Check if the player is in the dimension
 
     // Check if there are no options provided
     if (!options) return players;
