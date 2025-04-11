@@ -1,6 +1,6 @@
 {
   "name": "@serenityjs/internal-config",
-  "version": "0.7.7",
+  "version": "0.8.0",
   "private": true,
   "repository": "https://github.com/SerenityJS/serenity/tree/main/packages/internal-config",
   "files": [
