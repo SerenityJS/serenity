@@ -80,6 +80,7 @@ class BlockButtonTrait extends BlockTrait {
       ? LevelSoundEvent.ButtonClickOff
       : LevelSoundEvent.ButtonClickOn;
     packet.position = BlockPosition.toVector3f(this.block.position);
+    packet.uniqueActorId = -1n;
     packet.actorIdentifier = "";
     packet.isBabyMob = false;
     packet.isGlobal = true;
