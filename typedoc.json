@@ -16,18 +16,24 @@
   ],
   "footerLastModified": true,
   "out": "./dist",
-  "placeInternalsInOwningModule": false,
   "plugin": [
     "typedoc-material-theme",
     "typedoc-plugin-extras",
-    "typedoc-plugin-missing-exports",
+    "typedoc-plugin-merge-modules",
     "typedoc-plugin-rename-defaults"
   ],
   "exclude": [
     "**/node_modules/**",
     "node_modules/**"
   ],
+  "projectDocuments": [
+    "./README.md",
+    "./docs/*.md",
+  ],
   "readme": "./README.md",
   "themeColor": "#8560e9",
   "titleLink": "https://serenityjs.net/",
+  "tsconfig": "./packages/internal-config/typescript/tsconfig.base.json",
+  "mergeModulesRenameDefaults": true,
+  "mergeModulesMergeMode": "module",
 }
