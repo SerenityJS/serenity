@@ -7,7 +7,7 @@ import { TerrainGenerator } from "./generator";
 class VoidGenerator extends TerrainGenerator {
   public static readonly identifier = "void";
 
-  public apply(cx: number, cz: number): Chunk {
+  public async apply(cx: number, cz: number): Promise<Chunk> {
     // Create a new chunk
     const chunk = new Chunk(cx, cz, this.dimension.type);
 

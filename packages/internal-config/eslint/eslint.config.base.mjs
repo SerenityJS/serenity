@@ -18,10 +18,12 @@ export const serenity = config({
         usePrettierrc: false,
       },
     ],
+    "promise/catch-or-return": "off",
     "@typescript-eslint/no-extraneous-class": "off",
     "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/no-invalid-void-type": "off",
     "@typescript-eslint/prefer-literal-enum-member": "off",
+    "@typescript-eslint/no-floating-promises": "off",
   },
 });
 

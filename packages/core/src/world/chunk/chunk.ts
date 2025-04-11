@@ -277,6 +277,31 @@ export class Chunk {
   }
 
   /**
+   * Insert a chunk into the current chunk.
+   * @param source The chunk to insert.
+   * @returns The current chunk with the updated sub chunks.
+   */
+  public insert(source: Chunk): Chunk {
+    // Check if the specified chunk coordinates are the same.
+    if (this.x !== source.x || this.z !== source.z)
+      // Throw an error if not the case.
+      throw new Error("Cannot assign chunk with different coordinates.");
+
+    // Copy over the subchunks of the source chunk.
+    for (let i = 0; i < source.subchunks.length; i++) {
+      // Copy over the subchunk.
+      this.subchunks[i] = source.subchunks[i] ?? new SubChunk();
+    }
+
+    // Copy over the chunk flags.
+    this.dirty = source.dirty;
+    this.ready = source.ready;
+
+    // Return the target chunk.
+    return this;
+  }
+
+  /**
    * Serialize the chunk into a buffer.
    * @param chunk The chunk to serialize.
    * @param nbt If block palette should be serialized as NBT.

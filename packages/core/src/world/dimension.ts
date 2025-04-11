@@ -1,5 +1,6 @@
 import {
   BlockPosition,
+  ChunkCoords,
   DataPacket,
   DimensionType,
   IPosition,
@@ -309,11 +310,30 @@ class Dimension {
    * @returns The chunk at the specified coordinates.
    */
   public getChunk(cx: number, cz: number): Chunk {
-    // Read the chunk from the provider
-    const chunk = this.world.provider.readChunk(cx, cz, this);
+    // Generate the coordinate hash for the chunk
+    const hash = ChunkCoords.hash({ x: cx, z: cz });
 
-    // Return the chunk
-    return chunk;
+    // Check if the provider contains the dimensions
+    if (!this.world.provider.chunks.has(this))
+      // If not, create a new map for the dimension
+      this.world.provider.chunks.set(this, new Map());
+
+    // Fetch the chunks from the provider via the dimension
+    const chunks = this.world.provider.chunks.get(this);
+
+    // Check if the targeted chunk is cached, if so, return it
+    if (chunks && chunks.has(hash)) return chunks.get(hash)!; // Check if the chunk is in the cache
+
+    // Create a new chunk to pass to the provider
+    const chunk = new Chunk(cx, cz, this.type);
+
+    // Mark the chunk as not ready
+    chunk.ready = false;
+
+    // Await for the chunk to be generated
+    this.world.provider.readChunk(chunk, this);
+
+    return chunk; // Return the chunk
   }
 
   /**
@@ -334,7 +354,7 @@ class Dimension {
     }
 
     // Write the chunk to the provider
-    return this.world.provider.writeChunk(chunk, this);
+    return void this.world.provider.writeChunk(chunk, this);
   }
 
   /**

@@ -1,22 +1,21 @@
-import { DimensionType } from "@serenityjs/protocol";
+import { Chunk } from "../chunk";
+import { BlockPermutation } from "../../block";
+import { BlockIdentifier } from "../../enums";
 
-import { BlockPermutation } from "../../../block";
-import { Chunk } from "../../chunk";
-import { TerrainWorker, Worker } from "../worker";
-import { BlockIdentifier } from "../../../enums";
+import { TerrainGenerator } from "./generator";
 
-import { SuperflatGenerator } from "./generator";
-
-@Worker(SuperflatGenerator)
-class SuperflatWorker extends TerrainWorker {
-  public static path = __filename;
+class SuperflatGenerator extends TerrainGenerator {
+  public static readonly identifier = "superflat";
 
   public bedrock = BlockPermutation.resolve(BlockIdentifier.Bedrock);
   public dirt = BlockPermutation.resolve(BlockIdentifier.Dirt);
   public grass = BlockPermutation.resolve(BlockIdentifier.GrassBlock);
 
-  public apply(cx: number, cz: number, type: DimensionType): Chunk {
-    const chunk = new Chunk(cx, cz, type);
+  public readonly path = __filename;
+
+  public async apply(cx: number, cz: number): Promise<Chunk> {
+    // Create a new chunk and set it as not ready
+    const chunk = new Chunk(cx, cz, this.dimension.type);
 
     for (let x = 0; x < 16; x++) {
       for (let z = 0; z < 16; z++) {
@@ -34,9 +33,9 @@ class SuperflatWorker extends TerrainWorker {
       }
     }
 
-    // Return the chunk.
+    // Return the chunk
     return chunk;
   }
 }
 
-export { SuperflatWorker };
+export { SuperflatGenerator };

@@ -468,10 +468,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * @param properties The properties to use for the world
    * @returns The created world, if successful; otherwise, false
    */
-  public createWorld(
+  public async createWorld(
     provider: typeof WorldProvider,
     properties?: Partial<WorldProperties>
-  ): World | false {
+  ): Promise<World | null> {
     // Get the provider properties from the registered providers
     const providerProperties = this.providers.get(provider);
 
@@ -483,11 +483,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       );
 
       // Return false if the provider is not registered
-      return false;
+      return null;
     }
 
     // Create a new world using the provider
-    const world = provider.create(this, providerProperties, properties);
+    const world = await provider.create(this, providerProperties, properties);
 
     // Register the world with the server
     this.registerWorld(world);

@@ -9,7 +9,7 @@ import { resolve } from "node:path";
 
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { Leveldb } from "@serenityjs/leveldb";
-import { BlockPosition, ChunkCoords } from "@serenityjs/protocol";
+import { BlockPosition } from "@serenityjs/protocol";
 
 import { Chunk, SubChunk } from "../chunk";
 import { Dimension } from "../dimension";
@@ -58,10 +58,6 @@ class LevelDBProvider extends WorldProvider {
   }
 
   public onShutdown(): void {
-    // Iterate through the dimensions and terminate any workers.
-    for (const dimension of this.world.dimensions.values())
-      void dimension.generator.worker?.terminate();
-
     // Save all the world data.
     this.onSave();
 
@@ -81,33 +77,54 @@ class LevelDBProvider extends WorldProvider {
 
       // Iterate through the entities and load them.
       for (const uniqueId of entities) {
-        // Read the entity from the database.
-        const entry = this.readEntity(uniqueId, dimension);
+        // Attempt to read the entity from the database.
+        try {
+          // Read the entity from the database.
+          const entry = this.readEntity(uniqueId, dimension);
 
-        // Create a new entity instance.
-        const entity = new Entity(dimension, entry.identifier, {
-          uniqueId,
-          entry
-        });
+          // Create a new entity instance.
+          const entity = new Entity(dimension, entry.identifier, {
+            uniqueId,
+            entry
+          });
 
-        // Add the entity to the dimension.
-        entity.spawn();
+          // Add the entity to the dimension.
+          entity.spawn();
+        } catch (reason) {
+          // Log the error if the entity failed to load.
+          this.world.logger.debug(
+            `Failed to load entity with unique id ${uniqueId} for dimension ${dimension.identifier}. Reason:`,
+            reason
+          );
+        }
       }
 
       // Iterate through the blocks and load them.
-      for (const hash of blocks) {
-        // Read the block from the database.
-        const entry = this.readBlock(hash, dimension);
+      for (const position of blocks) {
+        // Attempt to read the block from the database.
+        try {
+          // Read the block from the database.
+          const entry = this.readBlock(position, dimension);
 
-        // Create a new block instance.
-        const block = new Block(
-          dimension,
-          new BlockPosition(...entry.position),
-          { entry }
-        );
+          // Create a new block instance.
+          const block = new Block(
+            dimension,
+            new BlockPosition(...entry.position),
+            { entry }
+          );
 
-        // Add the block to the dimension blocks collection.
-        dimension.blocks.set(BlockPosition.hash(block.position), block);
+          // Add the block to the dimension blocks collection.
+          dimension.blocks.set(BlockPosition.hash(block.position), block);
+        } catch (reason) {
+          // Separate the position into x, y, and z coordinates.
+          const { x, y, z } = position;
+
+          // Log the error if the block failed to load.
+          this.world.logger.debug(
+            `Failed to load block from position (${x}, ${y}, ${z}) for dimension ${dimension.identifier}. Reason:`,
+            reason
+          );
+        }
       }
     }
   }
@@ -188,7 +205,7 @@ class LevelDBProvider extends WorldProvider {
       this.writeAvailableEntities(dimension, uniqueIds);
 
       // Iterate through the blocks and write them to the database.
-      const hashes: Array<bigint> = [];
+      const positions: Array<BlockPosition> = [];
       for (const [hash, block] of dimension.blocks) {
         // Attempt to write the block to the database.
         try {
@@ -196,7 +213,7 @@ class LevelDBProvider extends WorldProvider {
           this.writeBlock(block.getDataEntry(), dimension);
 
           // Add the block position hash to the list.
-          hashes.push(hash);
+          positions.push(block.position);
 
           // Increment the saved blocks count.
           savedBlocks++;
@@ -212,7 +229,7 @@ class LevelDBProvider extends WorldProvider {
       }
 
       // Write the available blocks to the database.
-      this.writeAvailableBlocks(dimension, hashes);
+      this.writeAvailableBlocks(dimension, positions);
 
       // Log the amount of chunks, entities, and blocks saved.
       this.world.logger.info(
@@ -232,7 +249,7 @@ class LevelDBProvider extends WorldProvider {
     this.db.put(Buffer.from(key), value);
   }
 
-  public readChunk(cx: number, cz: number, dimension: Dimension): Chunk {
+  public async readChunk(chunk: Chunk, dimension: Dimension): Promise<Chunk> {
     // Check if the chunks contain the dimension.
     if (!this.chunks.has(dimension)) {
       this.chunks.set(dimension, new Map());
@@ -241,37 +258,38 @@ class LevelDBProvider extends WorldProvider {
     // Get the dimension chunks.
     const chunks = this.chunks.get(dimension) as Map<bigint, Chunk>;
 
-    // Generate a hash for the chunk coordinates.
-    const hash = ChunkCoords.hash({ x: cx, z: cz });
-
     // Check if the cache contains the chunk.
-    if (chunks.has(hash)) {
-      return chunks.get(hash) as Chunk;
-    } else if (this.hasChunk(cx, cz, dimension)) {
-      // Create an array of subchunks.
-      const subchunks = new Array<SubChunk>();
+    if (chunks.has(chunk.hash)) return chunks.get(chunk.hash) as Chunk;
+    // Check if the leveldb contains the chunk.
+    else if (this.hasChunk(chunk.x, chunk.z, dimension)) {
+      for (let i = 0; i < 20; i++) {
+        // Calculate the subchunk Y coordinate.
+        const cy = i - 4;
 
-      // Iterate through the subchunks and read them from the database.
-      // TODO: Dimensions can have a data driven min and max subchunk value, we should use that.
-      for (let cy = -4; cy < 16; cy++) {
-        // Read and push the subchunk to the subchunks array.
-        subchunks.push(this.readSubChunk(cx, cy, cz, dimension));
+        // Read the subchunk from the database.
+        const subchunk = this.readSubChunk(chunk.x, cy, chunk.z, dimension);
+
+        // Check if the subchunk is empty.
+        if (subchunk.isEmpty()) continue;
+
+        // Push the subchunk to the chunk.
+        chunk.subchunks[i] = subchunk;
       }
 
-      // Create a new chunk instance.
-      const chunk = new Chunk(cx, cz, dimension.type, subchunks);
+      // Set the chunk as ready.
+      chunk.ready = true;
 
       // Add the chunk to the cache.
-      chunks.set(hash, chunk);
+      chunks.set(chunk.hash, chunk);
 
       // Return the chunk.
       return chunk;
     } else {
       // Generate a new chunk if it does not exist.
-      const chunk = dimension.generator.apply(cx, cz);
+      const resultant = await dimension.generator.apply(chunk.x, chunk.z);
 
       // Add the chunk to the cache.
-      chunks.set(hash, chunk);
+      chunks.set(chunk.hash, chunk.insert(resultant));
 
       // Check if the chunk is ready.
       // If so, emit a new ChunkReadySignal.
@@ -282,7 +300,7 @@ class LevelDBProvider extends WorldProvider {
     }
   }
 
-  public writeChunk(chunk: Chunk, dimension: Dimension): void {
+  public async writeChunk(chunk: Chunk, dimension: Dimension): Promise<void> {
     // Check if the chunk is empty.
     if (chunk.isEmpty() || !chunk.dirty) return;
 
@@ -589,9 +607,9 @@ class LevelDBProvider extends WorldProvider {
     this.db.put(Buffer.from(key), buffer);
   }
 
-  public readAvailableBlocks(dimension: Dimension): Array<bigint> {
-    // Prepare an array to store the block positions hashes.
-    const hashes = new Array<bigint>();
+  public readAvailableBlocks(dimension: Dimension): Array<BlockPosition> {
+    // Prepare an array to store the block positions.
+    const positions = new Array<BlockPosition>();
 
     // Attempt to read the blocks from the database.
     try {
@@ -603,24 +621,24 @@ class LevelDBProvider extends WorldProvider {
 
       // Read the block positions from the stream.
       do {
-        // Read the block position hash from the stream.
-        const hash = stream.readZigZong();
+        // Read the block position from the stream.
+        const position = BlockPosition.read(stream);
 
-        // Add the block position to the list.
-        hashes.push(hash);
+        // Add the block position to the array.
+        positions.push(position);
       } while (!stream.cursorAtEnd());
 
-      // Return the block positions hashes.
-      return hashes;
+      // Return the block positions;
+      return positions;
     } catch {
       // If an error occurs, return an empty array.
-      return hashes;
+      return positions;
     }
   }
 
   public writeAvailableBlocks(
     dimension: Dimension,
-    blocks: Array<bigint>
+    positions: Array<BlockPosition>
   ): void {
     // Create a key for the block list.
     const key = LevelDBProvider.buildBlockDataListKey(dimension);
@@ -629,16 +647,13 @@ class LevelDBProvider extends WorldProvider {
     const stream = new BinaryStream();
 
     // Write the block positions to the stream.
-    for (const hash of blocks) stream.writeZigZong(hash);
+    for (const position of positions) BlockPosition.write(stream, position);
 
     // Write the stream to the database.
     this.db.put(key, stream.getBuffer());
   }
 
-  public readBlock(hash: bigint, dimension: Dimension): BlockEntry {
-    // Unhash the block position.
-    const position = BlockPosition.unhash(hash);
-
+  public readBlock(position: BlockPosition, dimension: Dimension): BlockEntry {
     // Create a key for the block.
     const key = LevelDBProvider.buildBlockDataKey(
       position,
@@ -683,10 +698,10 @@ class LevelDBProvider extends WorldProvider {
     return this.db.put(key, value);
   }
 
-  public static initialize(
+  public static async initialize(
     serenity: Serenity,
     properties: WorldProviderProperties
-  ): void {
+  ): Promise<void> {
     // Resolve the path for the worlds directory.
     const path = resolve(properties.path);
 
@@ -702,10 +717,13 @@ class LevelDBProvider extends WorldProvider {
 
     // Check if the directory is empty.
     // If it is, create a new world with the default identifier.
-    if (directories.length === 0)
-      return void serenity.registerWorld(
-        this.create(serenity, properties, { identifier: "default" })
+    if (directories.length === 0) {
+      serenity.registerWorld(
+        await this.create(serenity, properties, { identifier: "default" })
       );
+
+      return;
+    }
 
     // Iterate over the world entries in the directory.
     for (const directory of directories) {
@@ -736,8 +754,8 @@ class LevelDBProvider extends WorldProvider {
       // Prepare the dimensions for the world.
       for (const dimension of world.dimensions.values()) {
         // Get the spawn position of the dimension.
-        const sx = dimension.properties.spawnPosition[0] >> 4;
-        const sz = dimension.properties.spawnPosition[2] >> 4;
+        // const sx = dimension.properties.spawnPosition[0] >> 4;
+        // const sz = dimension.properties.spawnPosition[2] >> 4;
 
         // Get the view distance of the dimension.
         const viewDistance = dimension.viewDistance;
@@ -751,21 +769,25 @@ class LevelDBProvider extends WorldProvider {
         );
 
         // Iterate over the chunks to pregenerate.
-        for (let x = -viewDistance; x <= viewDistance; x++) {
-          for (let z = -viewDistance; z <= viewDistance; z++) {
-            // Read the chunk from the provider.
-            const chunk = world.provider.readChunk(sx + x, sz + z, dimension);
+        // for (let x = -viewDistance; x <= viewDistance; x++) {
+        //   for (let z = -viewDistance; z <= viewDistance; z++) {
+        //     // Read the chunk from the provider.
+        //     const chunk = await world.provider.readChunk(
+        //       sx + x,
+        //       sz + z,
+        //       dimension
+        //     );
 
-            // Check if the chunk is ready.
-            if (!chunk.ready) continue;
+        //     // Check if the chunk is ready.
+        //     if (!chunk.ready) continue;
 
-            // Serialize the chunk, the will cache the chunk in the provider.
-            chunk.cache = Chunk.serialize(chunk);
+        //     // Serialize the chunk, the will cache the chunk in the provider.
+        //     chunk.cache = Chunk.serialize(chunk);
 
-            // Set the dirty flag to false.
-            chunk.dirty = false;
-          }
-        }
+        //     // Set the dirty flag to false.
+        //     chunk.dirty = false;
+        //   }
+        // }
 
         // Log the success message.
         world.logger.success(
@@ -778,11 +800,11 @@ class LevelDBProvider extends WorldProvider {
     }
   }
 
-  public static create(
+  public static async create(
     serenity: Serenity,
     properties: WorldProviderProperties,
     worldProperties?: Partial<WorldProperties>
-  ): World {
+  ): Promise<World> {
     // Resolve the path for the worlds directory.
     const path = resolve(properties.path);
 
@@ -824,8 +846,8 @@ class LevelDBProvider extends WorldProvider {
     // Prepare the dimensions for the world.
     for (const dimension of world.dimensions.values()) {
       // Get the spawn position of the dimension.
-      const sx = dimension.properties.spawnPosition[0] >> 4;
-      const sz = dimension.properties.spawnPosition[2] >> 4;
+      // const sx = dimension.properties.spawnPosition[0] >> 4;
+      // const sz = dimension.properties.spawnPosition[2] >> 4;
 
       // Get the view distance of the dimension.
       const viewDistance = dimension.viewDistance;
@@ -838,22 +860,26 @@ class LevelDBProvider extends WorldProvider {
         `Preparing §c${amount}§r chunks for dimension §a${dimension.identifier}§r.`
       );
 
-      // Iterate over the chunks to pregenerate.
-      for (let x = -viewDistance; x <= viewDistance; x++) {
-        for (let z = -viewDistance; z <= viewDistance; z++) {
-          // Read the chunk from the provider.
-          const chunk = world.provider.readChunk(sx + x, sz + z, dimension);
+      // // Iterate over the chunks to pregenerate.
+      // for (let x = -viewDistance; x <= viewDistance; x++) {
+      //   for (let z = -viewDistance; z <= viewDistance; z++) {
+      //     // Read the chunk from the provider.
+      //     const chunk = await world.provider.readChunk(
+      //       sx + x,
+      //       sz + z,
+      //       dimension
+      //     );
 
-          // Check if the chunk is ready.
-          if (!chunk.ready) continue;
+      //     // Check if the chunk is ready.
+      //     if (!chunk.ready) continue;
 
-          // Serialize the chunk, the will cache the chunk in the provider.
-          chunk.cache = Chunk.serialize(chunk);
+      //     // Serialize the chunk, the will cache the chunk in the provider.
+      //     chunk.cache = Chunk.serialize(chunk);
 
-          // Set the dirty flag to false.
-          chunk.dirty = false;
-        }
-      }
+      //     // Set the dirty flag to false.
+      //     chunk.dirty = false;
+      //   }
+      // }
 
       // Log the success message.
       world.logger.success(

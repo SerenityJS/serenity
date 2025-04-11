@@ -44,7 +44,7 @@ class InternalProvider extends WorldProvider {
     this.buffers.set(key, buffer);
   }
 
-  public readChunk(cx: number, cz: number, dimension: Dimension): Chunk {
+  public async readChunk(chunk: Chunk, dimension: Dimension): Promise<Chunk> {
     // Check if the chunks contain the dimension.
     if (!this.chunks.has(dimension)) {
       this.chunks.set(dimension, new Map());
@@ -54,21 +54,19 @@ class InternalProvider extends WorldProvider {
     const chunks = this.chunks.get(dimension) as Map<bigint, Chunk>;
 
     // Check if the chunks contain the chunk hash.
-    if (!chunks.has(ChunkCoords.hash({ x: cx, z: cz }))) {
-      chunks.set(
-        ChunkCoords.hash({ x: cx, z: cz }),
-        dimension.generator.apply(cx, cz)
-      );
+    if (!chunks.has(chunk.hash)) {
+      // Generate the chunk from the generator.
+      const resultant = await dimension.generator.apply!(chunk.x, chunk.z);
+
+      // Set the chunk in the chunks map.
+      chunks.set(chunk.hash, chunk.insert(resultant));
     }
 
-    // Get the chunk from the chunks map for the dimension.
-    const chunk = chunks.get(ChunkCoords.hash({ x: cx, z: cz })) as Chunk;
-
     // Return the chunk.
-    return chunk;
+    return chunks.get(chunk.hash) as Chunk;
   }
 
-  public writeChunk(chunk: Chunk, dimension: Dimension): void {
+  public async writeChunk(chunk: Chunk, dimension: Dimension): Promise<void> {
     // Check if the chunks contain the dimension.
     if (!this.chunks.has(dimension)) {
       this.chunks.set(dimension, new Map());
@@ -156,16 +154,16 @@ class InternalProvider extends WorldProvider {
     players.set(player.uuid, player);
   }
 
-  public static initialize(): void {
+  public static async initialize(): Promise<void> {
     // Do nothing as the internal provider does not require initialization
     return;
   }
 
-  public static create(
+  public static async create(
     serenity: Serenity,
     _properties: WorldProviderProperties,
     worldProperties?: WorldProperties
-  ): World {
+  ): Promise<World> {
     // Create a new provider instance
     const provider = new this();
 

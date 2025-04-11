@@ -1,3 +1,5 @@
+import { BlockPosition } from "@serenityjs/protocol";
+
 import { Serenity } from "../../serenity";
 import {
   BlockEntry,
@@ -28,6 +30,11 @@ class WorldProvider {
    */
   public readonly identifier = (this.constructor as typeof WorldProvider)
     .identifier;
+
+  /**
+   * The cached chunks for the provider.
+   */
+  public readonly chunks: Map<Dimension, Map<bigint, Chunk>> = new Map();
 
   /**
    * The world that the provider belongs to.
@@ -76,12 +83,11 @@ class WorldProvider {
   }
 
   /**
-   * Reads a chunk for a specified dimension from the provider.
-   * @param cx The chunk x coordinate.
-   * @param cz The chunk z coordinate.
+   * Read a chunk for a specified dimension from the provider.
+   * @param chunk The chunk where the data will be written to.
    * @param dimension The dimension to read the chunk from.
    */
-  public readChunk(_cx: number, _cz: number, _dimension: Dimension): Chunk {
+  public async readChunk(_chunk: Chunk, _dimension: Dimension): Promise<Chunk> {
     throw new Error(`${this.identifier}.readChunk() is not implemented!`);
   }
 
@@ -90,7 +96,7 @@ class WorldProvider {
    * @param chunk The chunk to write.
    * @param dimension The dimension to write the chunk to.
    */
-  public writeChunk(_chunk: Chunk, _dimension: Dimension): void {
+  public async writeChunk(_chunk: Chunk, _dimension: Dimension): Promise<void> {
     throw new Error(`${this.identifier}.writeChunk() is not implemented!`);
   }
 
@@ -160,8 +166,9 @@ class WorldProvider {
   /**
    * Reads the available blocks for a specified dimension.
    * @param dimension The dimension to read the available blocks for.
+   * @returns An array of block positions.
    */
-  public readAvailableBlocks(_dimension: Dimension): Array<bigint> {
+  public readAvailableBlocks(_dimension: Dimension): Array<BlockPosition> {
     throw new Error(
       `${this.identifier}.readAvailableBlocks() is not implemented!`
     );
@@ -170,11 +177,11 @@ class WorldProvider {
   /**
    * Writes the available blocks for a specified dimension.
    * @param dimension The dimension to write the available blocks for.
-   * @param blocks The blocks to write.
+   * @param positions The positions of the blocks to write.
    */
   public writeAvailableBlocks(
     _dimension: Dimension,
-    _blocks: Array<bigint>
+    _positions: Array<BlockPosition>
   ): void {
     throw new Error(
       `${this.identifier}.writeAvailableBlocks() is not implemented!`
@@ -183,10 +190,13 @@ class WorldProvider {
 
   /**
    * Reads a block from the provider.
-   * @param hash The position hash to read the block from.
+   * @param position The position of the block to read.
    * @param dimension The dimension to read the block from.
    */
-  public readBlock(_hash: bigint, _dimension: Dimension): BlockEntry {
+  public readBlock(
+    _position: BlockPosition,
+    _dimension: Dimension
+  ): BlockEntry {
     throw new Error(`${this.identifier}.readBlock() is not implemented!`);
   }
 
@@ -205,18 +215,18 @@ class WorldProvider {
    * @param serenity The serenity instance to use.
    * @param properties The properties to use for the provider.
    */
-  public static initialize(
+  public static async initialize(
     _serenity: Serenity,
     _properties: WorldProviderProperties
-  ): void {
+  ): Promise<void> {
     throw new Error(`${this.identifier}.initialize() is not implemented!`);
   }
 
-  public static create(
+  public static async create(
     _serenity: Serenity,
     _properties: WorldProviderProperties,
     _worldProperties?: Partial<WorldProperties>
-  ): World {
+  ): Promise<World> {
     throw new Error(`${this.identifier}.create() is not implemented!`);
   }
 }
