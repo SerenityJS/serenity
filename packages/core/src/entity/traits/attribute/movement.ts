@@ -171,6 +171,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
         Math.pow(direction.z, 2)
     );
 
+    if (magnitude == 0) return new Vector3f(0, 0, 0);
     // Return the normalized direction
     return direction.divide(magnitude);
   }

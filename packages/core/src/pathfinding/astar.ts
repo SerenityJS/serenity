@@ -22,13 +22,16 @@ class Astar {
     start.heuristic = start.distance(target);
 
     this.openSet.insert(start);
-
     while (this.openSet.size > 0) {
       if (Date.now() - startTime > 10_000) break;
       const currentNode = this.openSet.pop()!;
       this.closedSet.add(currentNode);
 
-      if (maxDistance && currentNode.distance(target) > maxDistance) break;
+      if (
+        maxDistance !== undefined &&
+        currentNode.distance(target) > maxDistance
+      )
+        break;
       if (currentNode.equals(target)) {
         return this.reconstructPath(currentNode, target);
       }
