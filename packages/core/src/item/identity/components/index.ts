@@ -6,3 +6,4 @@ export * from "./wearable";
 export * from "./max-stack-size";
 export * from "./icon";
 export * from "./item-properties";
+export * from "./cooldown";

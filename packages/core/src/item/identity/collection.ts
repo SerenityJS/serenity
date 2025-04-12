@@ -3,6 +3,8 @@ import { CompoundTag } from "@serenityjs/nbt";
 import {
   ItemTypeBlockPlacerComponent,
   ItemTypeCanDestroyInCreativeComponent,
+  ItemTypeCooldownComponent,
+  ItemTypeCooldownComponentOptions,
   ItemTypeDisplayNameComponent,
   ItemTypeIconComponent,
   ItemTypeMaxStackComponent,
@@ -302,6 +304,44 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
       // Check if properties are defined
       if (properties) {
         // Assign the properties to the wearable component
+        Object.assign(component, properties);
+      }
+    }
+  }
+
+  /**
+   * Get the cooldown component of the item type.
+   * @returns The cooldown component of the item type.
+   */
+  public getCooldown(): ItemTypeCooldownComponent {
+    // Check if the cooldown component exists.
+    if (this.has(ItemTypeCooldownComponent)) {
+      // Return the cooldown component.
+      return this.get(ItemTypeCooldownComponent);
+    }
+
+    // Add the cooldown component.
+    return this.add(ItemTypeCooldownComponent, {});
+  }
+
+  /**
+   * Set the cooldown component of the item type.
+   * @param properties The properties of the cooldown component
+   */
+  public setCooldown(
+    properties?: Partial<ItemTypeCooldownComponentOptions>
+  ): void {
+    // Check if the cooldown component exists.
+    if (!this.has(ItemTypeCooldownComponent)) {
+      // Add the cooldown component.
+      this.add(ItemTypeCooldownComponent, properties);
+    } else {
+      // Get the cooldown component
+      const component = this.get(ItemTypeCooldownComponent);
+
+      // Check if properties are defined
+      if (properties) {
+        // Assign the properties to the cooldown component
         Object.assign(component, properties);
       }
     }
