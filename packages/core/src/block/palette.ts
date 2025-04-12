@@ -247,7 +247,11 @@ class BlockPalette {
     // Iterate over the provided types.
     for (const type of types) {
       // Get the identifier of the passed type.
-      const identifier = typeof type === "string" ? type : type.identifier;
+      let identifier = typeof type === "string" ? type : type.identifier;
+
+      // Check if the block trait has a state.
+      if (typeof type !== "string" && type.state)
+        identifier += "@" + type.state;
 
       // Check if the trait exists.
       if (!this.traits.has(identifier)) continue;

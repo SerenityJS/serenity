@@ -1,5 +1,5 @@
 ## Introduction
-Plugins all developers to create server sided modifications to the base server software. SerenityJS provides a powerfull set of apis to allow full control over your server. We provide a TypeScript and JavaSample plugin template, which can be found [here](https://github.com/SerenityJS/sample-plugin).
+Plugins allow developers to create server sided modifications or extensions to the base server software. SerenityJS provides a powerfull set of tools to allow full control over your server. We provide a TypeScript and JavaSample plugin template, which can be found at our [sample-plugin](https://github.com/SerenityJS/sample-plugin) repository.
 
 ## Creating a new Plugin project
 When creating a new plugin, you will need to have [NodeJS (LTS)](https://nodejs.org/en/), and [Visual Studio Code](https://code.visualstudio.com/) installed, and optionally [Rust](https://www.rust-lang.org/).
