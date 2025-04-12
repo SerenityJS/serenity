@@ -7,13 +7,13 @@ import { PlayerClosedContainerSignal } from "..";
 class ContainerCloseHandler extends NetworkHandler {
   public static readonly packet = Packet.ContainerClose;
 
-  public handle(_: ContainerClosePacket, connection: Connection): void {
+  public handle(packet: ContainerClosePacket, connection: Connection): void {
     // Get the player by the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
     // Check if the player has an opened container
-    if (!player.openedContainer) return;
+    if (!player.openedContainer) return player.send(packet);
 
     // Create a new PlayerClosedContainerSignal
     new PlayerClosedContainerSignal(player, player.openedContainer).emit();
