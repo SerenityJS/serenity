@@ -384,6 +384,49 @@ class ItemStack<T extends keyof Items = keyof Items> {
   }
 
   /**
+   * Start a cooldown for the item stack.
+   * @param duration The duration of the cooldown in ticks.
+   */
+  public startCooldown(duration: number): void {
+    // Call the onStartCooldown trait event
+    for (const [identifier, trait] of this.traits) {
+      // Attempt to trigger the onStartCooldown trait event
+      try {
+        trait.onStartCooldown?.(duration);
+      } catch (reason) {
+        // Log the error to the console
+        this.world.serenity.logger.error(
+          `Failed to trigger onStartCooldown trait event for item "${this.type.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the item
+        this.traits.delete(identifier);
+      }
+    }
+
+    // Create a new schedule for the cooldown
+    this.world.schedule(duration).on(() => {
+      // Call the onStopCooldown trait event
+      for (const [identifier, trait] of this.traits) {
+        // Attempt to trigger the onStopCooldown trait event
+        try {
+          trait.onStopCooldown?.();
+        } catch (reason) {
+          // Log the error to the console
+          this.world.serenity.logger.error(
+            `Failed to trigger onStopCooldown trait event for item "${this.type.identifier}"`,
+            reason
+          );
+
+          // Remove the trait from the item
+          this.traits.delete(identifier);
+        }
+      }
+    });
+  }
+
+  /**
    * Whether the itemstack has the specified trait.
    * @param trait The trait to check for
    * @returns Whether the itemstack has the trait
