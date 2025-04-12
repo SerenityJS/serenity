@@ -96,6 +96,17 @@ class ItemTrait<T extends ItemIdentifier> extends Trait {
   public onRelease?(player: Player): void;
 
   /**
+   * Called when the item has been signaled to cooldown.
+   * @param duration The duration of the cooldown in ticks.
+   */
+  public onStartCooldown?(duration: number): void;
+
+  /**
+   * Called when the item cooldown has stopped.
+   */
+  public onStopCooldown?(): void;
+
+  /**
    * Called when the container that the item is stored in is opened.
    * @param player The player that opened the container.
    */
