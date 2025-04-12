@@ -9,7 +9,7 @@ import {
 import { NetworkHandler } from "../network";
 import { ItemStack } from "../item";
 import { EntityInventoryTrait, PlayerCursorTrait } from "../entity";
-import { PlayerContainerInteractionSignal } from "..";
+import { PlayerContainerInteractionSignal } from "../events";
 
 class ItemStackRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ItemStackRequest;

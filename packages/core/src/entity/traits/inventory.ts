@@ -53,6 +53,11 @@ class EntityInventoryTrait extends EntityTrait {
   public selectedSlot: number = 0;
 
   /**
+   * Whether the container is opened or not.
+   */
+  public opened = false;
+
+  /**
    * Creates a new entity inventory trait.
    * @param entity The entity that this trait will be attached to.
    */
@@ -117,6 +122,36 @@ class EntityInventoryTrait extends EntityTrait {
 
     // Send the packet to the player
     this.entity.send(packet);
+  }
+
+  /**
+   * Called when the container is opened.
+   */
+  public onOpen(): void {}
+
+  /**
+   * Called when the container is closed.
+   */
+  public onClose(): void {}
+
+  public onTick(): void {
+    // Check if the container has occupants and the entity is not opened
+    if (!this.opened && this.container.occupants.size > 0) {
+      // Set the enity state to open
+      this.opened = true;
+
+      // Call the onOpen method
+      this.onOpen();
+    }
+
+    // Check if the container has no occupants
+    if (this.opened && this.container.occupants.size === 0) {
+      // Set the entity state to closed
+      this.opened = false;
+
+      // Call the onClose method
+      this.onClose();
+    }
   }
 
   public onContainerUpdate(container: Container): void {

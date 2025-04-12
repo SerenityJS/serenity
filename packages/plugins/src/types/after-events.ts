@@ -18,6 +18,7 @@ interface PluginAfterEvents {
   ) => void;
   afterEntityHit?: (event: Core.EntityHitSignal) => void;
   afterEntityHurt?: (event: Core.EntityHurtSignal) => void;
+  afterEntityDropItem?: (event: Core.EntityDropItemSignal) => void;
   afterEntityEffectAdd?: (event: Core.EffectAddSignal) => void;
   afterEntityEffectRemove?: (event: Core.EffectRemoveSignal) => void;
   afterPlayerJoin?: (event: Core.PlayerJoinSignal) => void;
@@ -25,7 +26,6 @@ interface PluginAfterEvents {
   afterPlayerChat?: (event: Core.PlayerChatSignal) => void;
   afterPlayerPlaceBlock?: (event: Core.PlayerPlaceBlockSignal) => void;
   afterPlayerBreakBlock?: (event: Core.PlayerBreakBlockSignal) => void;
-  afterPlayerDropItem?: (event: Core.PlayerDropItemSignal) => void;
   afterPlayerGamemodeChange?: (event: Core.PlayerGamemodeChangeSignal) => void;
   afterPlayerAbilityUpdate?: (event: Core.PlayerAbilityUpdateSignal) => void;
   afterPlayerStartUsingItem?: (event: Core.PlayerStartUsingItemSignal) => void;
