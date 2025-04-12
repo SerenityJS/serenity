@@ -15,6 +15,7 @@ import {
   Gamemode,
   MoveMode,
   MovePlayerPacket,
+  PlayerStartItemCooldownPacket,
   PlaySoundPacket,
   SerializedSkin,
   SetActorMotionPacket,
@@ -37,7 +38,12 @@ import {
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
-import { ItemBundleTrait, ItemStack, ItemType } from "../item";
+import {
+  ItemBundleTrait,
+  ItemStack,
+  ItemType,
+  ItemTypeCooldownComponent
+} from "../item";
 import {
   EntityDimensionChangeSignal,
   PlayerGamemodeChangeSignal
@@ -49,6 +55,7 @@ import { DefaultPlayerProperties } from "../constants";
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
 import {
+  EntityInventoryTrait,
   PlayerChunkRenderingTrait,
   PlayerCraftingInputTrait,
   PlayerCursorTrait,
@@ -661,6 +668,42 @@ class Player extends Entity {
   public setSpawnPoint(position: Vector3f): void {
     // Set the spawn point of the player
     this.setDynamicProperty("spawnPoint", [position.x, position.y, position.z]);
+  }
+
+  /**
+   * Starts an item cooldown for a specific category.
+   * @param category The category of the item cooldown.
+   * @param duration The duration of the cooldown in ticks.
+   */
+  public startItemCooldown(category: string, duration: number): void {
+    // Create a new PlayerStartItemCooldownPacket
+    const packet = new PlayerStartItemCooldownPacket();
+    packet.category = category;
+    packet.duration = duration * 2;
+
+    // Check if the player has the inventory trait
+    if (this.hasTrait(EntityInventoryTrait)) {
+      // Get the container from the inventory trait
+      const { container } = this.getTrait(EntityInventoryTrait);
+
+      // Iterate over the items in the container
+      for (const item of container.storage) {
+        // Check if the item is air or if it doesn't have a cooldown component
+        if (!item || !item.components.has(ItemTypeCooldownComponent)) continue;
+
+        // Get the cooldown component of the item
+        const cooldown = item.components.getCooldown();
+
+        // Check if the cooldown category matches the provided category
+        if (cooldown.getCategory() !== category) continue;
+
+        // Start the cooldown on the item
+        item.startCooldown(duration);
+      }
+    }
+
+    // Send the packet to the player
+    return this.send(packet);
   }
 
   /**
