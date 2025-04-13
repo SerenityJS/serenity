@@ -1,8 +1,6 @@
 import { CompoundTag, ListTag, ShortTag, TagType } from "@serenityjs/nbt";
 import { Enchantment } from "@serenityjs/protocol";
 
-import { ItemIdentifier } from "../../enums";
-
 import { ItemTrait } from "./trait";
 
 interface EnchantmentValue {
@@ -10,7 +8,7 @@ interface EnchantmentValue {
   lvl: ShortTag;
 }
 
-class ItemEnchantableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemEnchantableTrait extends ItemTrait {
   public static readonly identifier = "enchantable";
 
   /**

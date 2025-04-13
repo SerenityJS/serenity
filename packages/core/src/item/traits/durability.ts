@@ -1,10 +1,15 @@
 import { IntTag } from "@serenityjs/nbt";
 import { LevelSoundEvent, LevelSoundEventPacket } from "@serenityjs/protocol";
 
-import { ItemStack, ItemTrait, ItemUseOptions, Player } from "../..";
-import { ItemIdentifier, ItemToolTier } from "../../enums";
+import { ItemToolTier } from "../../enums";
 
-class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+import { ItemTrait } from "./trait";
+
+import type { ItemStack } from "../stack";
+import type { Player } from "../../entity";
+import type { ItemStackUseOptions } from "../types";
+
+class ItemDurabilityTrait extends ItemTrait {
   public static readonly identifier = "durability";
   public static readonly tag = "minecraft:is_tool";
 
@@ -55,7 +60,7 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    * Creates a new instance of the item durability trait.
    * @param item The item stack that this trait will be attached to.
    */
-  public constructor(item: ItemStack<T>) {
+  public constructor(item: ItemStack) {
     super(item);
 
     // Check for vanilla tool tiers and set the max durability
@@ -98,7 +103,7 @@ class ItemDurabilityTrait<T extends ItemIdentifier> extends ItemTrait<T> {
 
   public onUse(
     player: Player,
-    options: Partial<ItemUseOptions>
+    options: Partial<ItemStackUseOptions>
   ): boolean | void {
     // Check if a predicted durability was provided
     if (options.predictedDurability === undefined) return;

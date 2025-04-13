@@ -329,8 +329,8 @@ class Container {
    */
   public clear(): void {
     // Clear all slots in the container.
-    this.storage = Array.from({ length: this.storage.length }, () => null)
-   
+    this.storage = Array.from({ length: this.storage.length }, () => null);
+
     // Check if there's anyone viewing the container.
     if (this.occupants.size == 0) return;
     // Update the container contents

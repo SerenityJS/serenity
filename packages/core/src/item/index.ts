@@ -3,6 +3,7 @@ export * from "./creative";
 export * from "./palette";
 export * from "./traits";
 export * from "./stack";
+export * from "./types";
 
 import * as Traits from "./traits";
 

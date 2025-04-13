@@ -1,10 +1,8 @@
 import { ByteTag } from "@serenityjs/nbt";
 
-import { ItemIdentifier } from "../../enums";
-
 import { ItemTrait } from "./trait";
 
-class ItemKeepOnDieTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemKeepOnDieTrait extends ItemTrait {
   public static readonly identifier = "keep_on_die";
 
   public get keep(): boolean {

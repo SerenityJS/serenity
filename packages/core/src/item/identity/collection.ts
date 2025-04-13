@@ -2,13 +2,16 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import {
   ItemTypeBlockPlacerComponent,
+  ItemTypeBlockPlacerComponentOptions,
   ItemTypeCanDestroyInCreativeComponent,
   ItemTypeCooldownComponent,
   ItemTypeCooldownComponentOptions,
   ItemTypeDisplayNameComponent,
   ItemTypeIconComponent,
+  ItemTypeIconComponentOptions,
   ItemTypeMaxStackComponent,
-  ItemTypeWearableComponent
+  ItemTypeWearableComponent,
+  ItemTypeWearableComponentOptions
 } from "./components";
 import { ItemType } from "./type";
 import { ItemTypeComponent } from "./components/component";
@@ -123,7 +126,7 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the max stack size component exists.
     if (this.has(ItemTypeMaxStackComponent)) {
       // Return the max stack size value.
-      return this.get(ItemTypeMaxStackComponent).value;
+      return this.get(ItemTypeMaxStackComponent).getMaxStackSize();
     }
 
     // Return the default max stack size value.
@@ -138,7 +141,7 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the max stack size component exists.
     if (this.has(ItemTypeMaxStackComponent)) {
       // Set the max stack size value.
-      this.get(ItemTypeMaxStackComponent).value = value;
+      this.get(ItemTypeMaxStackComponent).setMaxStackSize(value);
     } else {
       // Add the max stack size component.
       this.add(ItemTypeMaxStackComponent, value);
@@ -165,21 +168,30 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
    * @param properties The properties of the block placer component
    */
   public setBlockPlacer(
-    properties?: Partial<ItemTypeBlockPlacerComponent>
+    options?: Partial<ItemTypeBlockPlacerComponentOptions>
   ): void {
     // Check if the block placer component exists.
     if (!this.has(ItemTypeBlockPlacerComponent)) {
       // Add the block placer component.
-      this.add(ItemTypeBlockPlacerComponent, properties);
+      this.add(ItemTypeBlockPlacerComponent, options);
     } else {
       // Get the block placer component
       const component = this.get(ItemTypeBlockPlacerComponent);
 
-      // Check if properties are defined
-      if (properties) {
-        // Assign the properties to the block placer component
-        Object.assign(component, properties);
-      }
+      // Check if a block identifier was provided
+      if (options?.blockIdentifier)
+        // Set the block identifier of the block placer component.
+        component.setBlockIdentifier(options.blockIdentifier);
+
+      // Check if a block image was provided
+      if (options?.useBlockAsIcon)
+        // Set whether to use the block as the icon.
+        component.setUseBlockAsIcon(options.useBlockAsIcon);
+
+      // Check if a list of blocks was provided
+      if (options?.useOnBlocks)
+        // Set the blocks that the item can be used on.
+        component.setUseOnBlocks(options.useOnBlocks);
     }
   }
 
@@ -191,7 +203,7 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the display name component exists.
     if (this.has(ItemTypeDisplayNameComponent)) {
       // Return the display name value.
-      return this.get(ItemTypeDisplayNameComponent).value;
+      return this.get(ItemTypeDisplayNameComponent).getDisplayName();
     }
 
     // Return the default display name value.
@@ -206,7 +218,7 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the display name component exists.
     if (this.has(ItemTypeDisplayNameComponent)) {
       // Set the display name value.
-      this.get(ItemTypeDisplayNameComponent).value = value;
+      this.get(ItemTypeDisplayNameComponent).setDisplayName(value);
     } else {
       // Add the display name component.
       this.add(ItemTypeDisplayNameComponent, value);
@@ -220,8 +232,11 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
   public getCanDestroyInCreative(): boolean {
     // Check if the can destroy in creative component exists.
     if (this.has(ItemTypeCanDestroyInCreativeComponent)) {
+      // Get the can destroy in creative component.
+      const component = this.get(ItemTypeCanDestroyInCreativeComponent);
+
       // Return the can destroy in creative value.
-      return this.get(ItemTypeCanDestroyInCreativeComponent).value;
+      return component.getCanDestroyInCreative();
     }
 
     // Return the default can destroy in creative value.
@@ -235,8 +250,11 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
   public setCanDestroyInCreative(value: boolean): void {
     // Check if the can destroy in creative component exists.
     if (this.has(ItemTypeCanDestroyInCreativeComponent)) {
+      // Get the can destroy in creative component.
+      const component = this.get(ItemTypeCanDestroyInCreativeComponent);
+
       // Set the can destroy in creative value.
-      this.get(ItemTypeCanDestroyInCreativeComponent).value = value;
+      component.setCanDestroyInCreative(value);
     } else {
       // Add the can destroy in creative component.
       this.add(ItemTypeCanDestroyInCreativeComponent, value);
@@ -247,29 +265,35 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
    * Get the icon of the item type.
    * @returns The icon of the item type.
    */
-  public getIcon(): string {
+  public getIcon(): ItemTypeIconComponent {
     // Check if the icon component exists.
     if (this.has(ItemTypeIconComponent)) {
-      // Return the icon value.
-      return this.get(ItemTypeIconComponent).value;
+      // Return the icon component.
+      return this.get(ItemTypeIconComponent);
     }
 
-    // Return the default icon value.
-    return "";
+    // Add the icon component.
+    return this.add(ItemTypeIconComponent, {});
   }
 
   /**
    * Set the icon of the item type.
    * @param value The icon value.
    */
-  public setIcon(value: string): void {
+  public setIcon(options?: Partial<ItemTypeIconComponentOptions>): void {
     // Check if the icon component exists.
-    if (this.has(ItemTypeIconComponent)) {
-      // Set the icon value.
-      this.get(ItemTypeIconComponent).value = value;
-    } else {
+    if (!this.has(ItemTypeIconComponent)) {
       // Add the icon component.
-      this.add(ItemTypeIconComponent, value);
+      this.add(ItemTypeIconComponent, options);
+    } else {
+      // Get the icon component
+      const component = this.get(ItemTypeIconComponent);
+
+      // Check if an icon was provided
+      if (options?.default) component.setDefaultIcon(options.default);
+
+      // Check if a dyed icon was provided
+      if (options?.dyed) component.setDyedIcon(options.dyed);
     }
   }
 
@@ -290,22 +314,28 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
 
   /**
    * Set the wearable component of the item type.
-   * @param properties The properties of the wearable component
+   * @param options The options of the wearable component.
    */
-  public setWearable(properties?: Partial<ItemTypeWearableComponent>): void {
+  public setWearable(
+    options?: Partial<ItemTypeWearableComponentOptions>
+  ): void {
     // Check if the wearable component exists.
     if (!this.has(ItemTypeWearableComponent)) {
       // Add the wearable component.
-      this.add(ItemTypeWearableComponent, properties);
+      this.add(ItemTypeWearableComponent, options);
     } else {
       // Get the wearable component
       const component = this.get(ItemTypeWearableComponent);
 
-      // Check if properties are defined
-      if (properties) {
-        // Assign the properties to the wearable component
-        Object.assign(component, properties);
-      }
+      // Check if a protection value was provided
+      if (options?.protection)
+        // Set the protection value of the wearable component.
+        component.setProtection(options.protection);
+
+      // Check if a wearable slot was provided
+      if (options?.slot)
+        // Set the wearable slot of the wearable component.
+        component.setWearableSlot(options.slot);
     }
   }
 
@@ -326,24 +356,28 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
 
   /**
    * Set the cooldown component of the item type.
-   * @param properties The properties of the cooldown component
+   * @param options The options of the cooldown component.
    */
   public setCooldown(
-    properties?: Partial<ItemTypeCooldownComponentOptions>
+    options?: Partial<ItemTypeCooldownComponentOptions>
   ): void {
     // Check if the cooldown component exists.
     if (!this.has(ItemTypeCooldownComponent)) {
       // Add the cooldown component.
-      this.add(ItemTypeCooldownComponent, properties);
+      this.add(ItemTypeCooldownComponent, options);
     } else {
       // Get the cooldown component
       const component = this.get(ItemTypeCooldownComponent);
 
-      // Check if properties are defined
-      if (properties) {
-        // Assign the properties to the cooldown component
-        Object.assign(component, properties);
-      }
+      // Check if a category was provided
+      if (options?.category)
+        // Set the category of the cooldown component.
+        component.setCategory(options.category);
+
+      // Check if a cooldown was provided
+      if (options?.duration)
+        // Set the duration of the cooldown component.
+        component.setDuration(options.duration);
     }
   }
 }

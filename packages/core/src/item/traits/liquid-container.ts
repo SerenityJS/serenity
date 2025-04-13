@@ -2,12 +2,12 @@ import { Gamemode, ItemUseMethod } from "@serenityjs/protocol";
 
 import { Player } from "../../entity";
 import { BlockIdentifier, ItemIdentifier } from "../../enums";
-import { ItemUseOnBlockOptions } from "../../types";
+import { ItemStackUseOnBlockOptions } from "../types";
 import { ItemStack } from "../stack";
 
 import { ItemTrait } from "./trait";
 
-class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemLiquidContainerTrait extends ItemTrait {
   public static readonly identifier = "liquid_container";
 
   public static readonly types = [
@@ -18,7 +18,7 @@ class ItemLiquidContainerTrait<T extends ItemIdentifier> extends ItemTrait<T> {
 
   public onUseOnBlock(
     player: Player,
-    options: ItemUseOnBlockOptions
+    options: ItemStackUseOnBlockOptions
   ): ItemUseMethod | void {
     // Check if the useMethod is unknown
     if (options.method !== ItemUseMethod.Place) return;

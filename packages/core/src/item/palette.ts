@@ -1,7 +1,7 @@
 import { CreativeItemCategory, CreativeItemGroup } from "@serenityjs/protocol";
 
-import { Items } from "../types";
 import { ItemEnum } from "../commands";
+import { ItemIdentifier } from "../enums";
 
 import { CustomItemType, ItemType } from "./identity";
 import { CreateContentGroup, CreativeItemDescriptor } from "./creative";
@@ -49,8 +49,8 @@ class ItemPalette {
    * @param identifier The item identifier to get.
    * @returns The item type from the palette.
    */
-  public getType<T extends keyof Items>(identifier: T): ItemType<T> | null {
-    return this.types.get(identifier) as ItemType<T>;
+  public getType(identifier: ItemIdentifier): ItemType | null {
+    return this.types.get(identifier) ?? null;
   }
 
   /**

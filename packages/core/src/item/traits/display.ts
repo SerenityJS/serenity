@@ -2,8 +2,6 @@ import NodeBuffer from "node:buffer";
 
 import { CompoundTag, ListTag, StringTag, TagType } from "@serenityjs/nbt";
 
-import { ItemIdentifier } from "../../enums";
-
 import { ItemTrait } from "./trait";
 
 interface DisplayValue {
@@ -11,7 +9,7 @@ interface DisplayValue {
   lore?: ListTag<StringTag>;
 }
 
-class ItemDisplayTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemDisplayTrait extends ItemTrait {
   public static readonly identifier = "display";
 
   /**

@@ -8,24 +8,6 @@ class ItemTypeMaxStackComponent extends ItemTypeComponent {
   public static readonly identifier = "minecraft:max_stack_size";
 
   /**
-   * The maximum stack size of the item type.
-   */
-  public get value(): number {
-    return this.component.getTag<ByteTag>("value")?.value ?? 64;
-  }
-
-  /**
-   * The maximum stack size of the item type.
-   */
-  public set value(value: number) {
-    // Check if the value is valid. If not, set it to the default value.
-    if (value < 0 || value > 64) value = 64;
-
-    // Create the max stack size tag with the value.
-    this.component.createByteTag({ name: "value", value });
-  }
-
-  /**
    * Create a new max stack size component for an item type.
    * @param type The item type that the component will be attached to.
    * @param value The maximum stack size of the item type.
@@ -35,7 +17,31 @@ class ItemTypeMaxStackComponent extends ItemTypeComponent {
     super(type);
 
     // Assign the max stack size value.
-    this.value = value ?? 64;
+    this.setMaxStackSize(value ?? 64);
+  }
+
+  /**
+   * Get the max stack size component.
+   * @returns The max stack size component.
+   */
+  public getMaxStackSize(): number {
+    // Get the max stack size component.
+    const component = this.component.getTag<ByteTag>(this.identifier);
+
+    // Return the max stack size.
+    return component?.value ?? 64;
+  }
+
+  /**
+   * Set the max stack size component.
+   * @param value The max stack size component.
+   */
+  public setMaxStackSize(value: number): void {
+    // Check if the value is valid. If not, set it to the default value.
+    if (value < 0 || value > 64) value = 64;
+
+    // Set the max stack size component.
+    this.component.createByteTag({ name: this.identifier, value });
   }
 }
 

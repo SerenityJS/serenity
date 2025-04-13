@@ -9,7 +9,6 @@ import {
 
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
-import { ItemStackEntry, JSONLikeObject } from "../../types";
 import { EntityIdentifier } from "../../enums";
 import {
   ItemEnchantableTrait,
@@ -22,12 +21,15 @@ import { Container } from "../../container";
 import { EntityInventoryTrait } from "./inventory";
 import { EntityTrait } from "./trait";
 
+import type { JSONLikeObject } from "../../types";
+import type { ItemStackDataEntry } from "../../item";
+
 interface EntityEquipmentTraitProperties extends JSONLikeObject {
-  head: ItemStackEntry | null;
-  chest: ItemStackEntry | null;
-  legs: ItemStackEntry | null;
-  feet: ItemStackEntry | null;
-  offhand: ItemStackEntry | null;
+  head: ItemStackDataEntry | null;
+  chest: ItemStackDataEntry | null;
+  legs: ItemStackDataEntry | null;
+  feet: ItemStackDataEntry | null;
+  offhand: ItemStackDataEntry | null;
 }
 
 class EntityEquipmentTrait extends EntityTrait {

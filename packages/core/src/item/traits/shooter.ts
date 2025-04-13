@@ -5,7 +5,7 @@ import { EntityIdentifier, ItemIdentifier } from "../../enums";
 
 import { ItemTrait } from "./trait";
 
-class ItemShooterTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemShooterTrait extends ItemTrait {
   public static readonly identifier = "shooter";
   public static readonly types = [ItemIdentifier.Bow, ItemIdentifier.Crossbow];
 

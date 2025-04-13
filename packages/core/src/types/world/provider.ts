@@ -1,7 +1,7 @@
 import { AbilityIndex, ActorFlag } from "@serenityjs/protocol";
 
 import { JSONLikeObject, JSONLikeValue } from "../json";
-import { BlockIdentifier, EntityIdentifier, ItemIdentifier } from "../../enums";
+import { BlockIdentifier, EntityIdentifier } from "../../enums";
 
 interface WorldProviderProperties {
   /**
@@ -86,38 +86,6 @@ interface PlayerEntry extends EntityEntry {
   abilities: Array<[AbilityIndex, boolean]>;
 }
 
-interface ItemStackEntry extends JSONLikeObject {
-  /**
-   * The identifier of the item stack.
-   */
-  identifier: ItemIdentifier;
-
-  /**
-   * The amount of the item stack.
-   */
-  amount: number;
-
-  /**
-   * The metadata value of the item stack.
-   */
-  metadata: number;
-
-  /**
-   * The traits attached to the item stack.
-   */
-  traits: Array<string>;
-
-  /**
-   * The dynamic properties attached to the item stack.
-   */
-  dynamicProperties: Array<[string, JSONLikeValue]>;
-
-  /**
-   * The nbt data serialized as a base64 string.
-   */
-  nbtProperties: string;
-}
-
 interface BlockEntry extends JSONLikeObject {
   /**
    * The identifier of the block.
@@ -150,10 +118,4 @@ interface BlockEntry extends JSONLikeObject {
   nbtProperties: string;
 }
 
-export {
-  WorldProviderProperties,
-  EntityEntry,
-  PlayerEntry,
-  ItemStackEntry,
-  BlockEntry
-};
+export { WorldProviderProperties, EntityEntry, PlayerEntry, BlockEntry };

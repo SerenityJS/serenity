@@ -1,10 +1,10 @@
 import { ByteTag } from "@serenityjs/nbt";
 
-import { ItemIdentifier, ItemLockMode } from "../../enums";
+import { ItemLockMode } from "../../enums";
 
 import { ItemTrait } from "./trait";
 
-class ItemLockTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemLockTrait extends ItemTrait {
   public static readonly identifier = "lock";
 
   /**

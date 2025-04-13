@@ -16,11 +16,13 @@ import { Block } from "../block";
 import { Container } from "../../container";
 import {
   BlockInteractionOptions,
-  BlockInventoryTraitOptions,
-  ItemStackEntry,
-  ItemStorage
+  BlockInventoryTraitOptions
 } from "../../types";
-import { ItemStack } from "../../item";
+import {
+  ItemStack,
+  type ItemStackDataEntry,
+  type ItemStackStorage
+} from "../../item";
 
 import { BlockTrait } from "./trait";
 
@@ -33,15 +35,15 @@ class BlockInventoryTrait extends BlockTrait {
   /**
    * The property used to store the inventory items.
    */
-  public get property(): ItemStorage {
-    return this.block.getDynamicProperty("inventory") as ItemStorage;
+  public get property(): ItemStackStorage {
+    return this.block.getDynamicProperty("inventory") as ItemStackStorage;
   }
 
   /**
    * The property used to store the inventory items.
    */
-  public set property(value: ItemStorage) {
-    this.block.setDynamicProperty<ItemStorage>("inventory", value);
+  public set property(value: ItemStackStorage) {
+    this.block.setDynamicProperty<ItemStackStorage>("inventory", value);
   }
 
   /**
@@ -113,7 +115,7 @@ class BlockInventoryTrait extends BlockTrait {
     if (container !== this.container) return;
 
     // Prepare the items array
-    const items: Array<[number, ItemStackEntry]> = [];
+    const items: Array<[number, ItemStackDataEntry]> = [];
 
     // Iterate over each item in the container
     for (let i = 0; i < this.container.size; i++) {
@@ -227,7 +229,8 @@ class BlockInventoryTrait extends BlockTrait {
 
   public onAdd(): void {
     // Get the item storage property
-    const property = this.block.getDynamicProperty<ItemStorage>("inventory");
+    const property =
+      this.block.getDynamicProperty<ItemStackStorage>("inventory");
 
     // Check if the block has an inventory property
     if (property) {
@@ -241,7 +244,7 @@ class BlockInventoryTrait extends BlockTrait {
       }
     } else {
       // Create the item storage property
-      this.block.setDynamicProperty<ItemStorage>("inventory", {
+      this.block.setDynamicProperty<ItemStackStorage>("inventory", {
         size: this.container.size,
         items: []
       });

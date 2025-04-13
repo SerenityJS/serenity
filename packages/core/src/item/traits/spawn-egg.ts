@@ -1,12 +1,14 @@
 import { ItemUseMethod, BlockPosition } from "@serenityjs/protocol";
 
-import { Entity, Player } from "../../entity";
-import { EntityIdentifier, ItemIdentifier } from "../../enums";
-import { EntityEntry, ItemUseOnBlockOptions } from "../../types";
+import { EntityIdentifier } from "../../enums";
+import { Entity, type Player } from "../../entity";
 
 import { ItemTrait } from "./trait";
 
-class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+import type { EntityEntry } from "../../types";
+import type { ItemStackUseOnBlockOptions } from "../types";
+
+class ItemSpawnEggTrait extends ItemTrait {
   public static readonly identifier = "spawn_egg";
   public static readonly tag = "minecraft:spawn_egg";
 
@@ -26,7 +28,10 @@ class ItemSpawnEggTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     this.entityType = entityType;
   }
 
-  public onUseOnBlock(player: Player, options: ItemUseOnBlockOptions): void {
+  public onUseOnBlock(
+    player: Player,
+    options: ItemStackUseOnBlockOptions
+  ): void {
     // Check if the entity type is defined.
     if (options.method !== ItemUseMethod.Place || !this.entityType) return;
 

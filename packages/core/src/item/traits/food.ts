@@ -1,18 +1,18 @@
 import { ItemUseMethod } from "@serenityjs/protocol";
 
 import { Player, PlayerHungerTrait } from "../../entity";
-import { ItemUseOptions } from "../../types";
+import { ItemStackUseOptions } from "../types";
 import { ItemIdentifier } from "../../enums";
 
 import { ItemTrait } from "./trait";
 
-class ItemFoodTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemFoodTrait extends ItemTrait {
   public static readonly identifier = "food";
   public static readonly tag = "minecraft:is_food";
 
   public onUse(
     player: Player,
-    options: Partial<ItemUseOptions>
+    options: Partial<ItemStackUseOptions>
   ): void | ItemUseMethod {
     // Check if the item use method is not a use
     if (options.method !== ItemUseMethod.Unknown) return;

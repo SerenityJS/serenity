@@ -15,8 +15,7 @@ import {
 import {
   CommandResponse,
   DimensionProperties,
-  EntityQueryOptions,
-  Items
+  EntityQueryOptions
 } from "../types";
 import {
   Entity,
@@ -525,7 +524,7 @@ class Dimension {
     const maxCount = options?.count ?? Infinity;
 
     // Filter the players based on the options
-    for (const player of this.serenity.players.values()) {
+    for (const [, player] of this.serenity.players) {
       // Check if the count is reached
       if (maxCount <= players.length) break;
 
@@ -543,6 +542,8 @@ class Dimension {
       // Add the player to the player list
       players.push(player);
     }
+
+    // Return the filtered players
     return players;
   }
 
@@ -583,8 +584,7 @@ class Dimension {
 
     // Filter the entities based on the options
     for (const entity of this.entities.values()) {
-
-      // Check if the count is reached 
+      // Check if the count is reached
       if (maxCount <= entities.length) break;
 
       //Check if the entity is within the maximum distance
@@ -598,6 +598,8 @@ class Dimension {
       // Add the entity to the entity list
       entities.push(entity);
     }
+
+    // Return the filtered entities
     return entities;
   }
 
@@ -681,10 +683,7 @@ class Dimension {
    * @param position The position of the item.
    * @returns The entity that was spawned.
    */
-  public spawnItem<T extends keyof Items>(
-    itemStack: ItemStack<T>,
-    position: IPosition
-  ): Entity {
+  public spawnItem(itemStack: ItemStack, position: IPosition): Entity {
     // Create a new Entity instance
     const entity = new Entity(this, EntityIdentifier.Item);
 
@@ -777,8 +776,7 @@ class Dimension {
    */
   public broadcast(...packets: Array<DataPacket>): void {
     // Iterate over all the entities in the dimension
-    for (const player of this.getPlayers())
-      player.send(...packets); // Send the packet to the player
+    for (const player of this.getPlayers()) player.send(...packets); // Send the packet to the player
   }
 
   /**
@@ -788,8 +786,7 @@ class Dimension {
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {
     // Iterate over all the entities in the dimension
-    for (const player of this.getPlayers())
-      player.sendImmediate(...packets); // Send the packet to the player
+    for (const player of this.getPlayers()) player.sendImmediate(...packets); // Send the packet to the player
   }
 
   /**
@@ -797,7 +794,10 @@ class Dimension {
    * @param player The player to exclude from the broadcast.
    * @param packets The packets to broadcast.
    */
-  public broadcastExcept(excludedPlayer: Player, ...packets: Array<DataPacket>): void {
+  public broadcastExcept(
+    excludedPlayer: Player,
+    ...packets: Array<DataPacket>
+  ): void {
     // Iterate over all the entities in the dimension
     for (const player of this.getPlayers())
       if (excludedPlayer !== player) player.send(...packets); // Send the packet to the player

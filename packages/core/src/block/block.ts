@@ -13,12 +13,11 @@ import {
   BlockEntry,
   BlockInteractionOptions,
   BlockProperties,
-  ItemStackProperties,
   JSONLikeObject,
   JSONLikeValue
 } from "../types";
 import { Chunk } from "../world/chunk";
-import { ItemStack, ItemType } from "../item";
+import { ItemStack, ItemType, type ItemStackOptions } from "../item";
 import {
   BlockIdentifier,
   BlockToolType,
@@ -620,10 +619,10 @@ class Block {
 
   /**
    * Gets the item stack of the block.
-   * @param properties The additional properties to apply to the item stack.
+   * @param options The options for the item stack.
    * @returns The item stack of the block.
    */
-  public getItemStack(properties?: Partial<ItemStackProperties>): ItemStack {
+  public getItemStack(options?: Partial<ItemStackOptions>): ItemStack {
     // Get the itemPalette from the world.
     const palette = this.world.itemPalette;
 
@@ -631,7 +630,7 @@ class Block {
     const type = palette.resolveType(this.type) as ItemType;
 
     // Create a new item stack with the type.
-    const itemStack = new ItemStack(type, properties);
+    const itemStack = new ItemStack(type, options);
 
     // Return the item stack.
     return itemStack;

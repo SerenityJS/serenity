@@ -7,15 +7,15 @@ import {
 import { BinaryStream } from "@serenityjs/binarystream";
 import { ITEM_METADATA, ITEM_TYPES, TOOL_TYPES } from "@serenityjs/data";
 
-import { Items, ItemTypeProperties } from "../../types";
 import { ItemIdentifier, ItemToolTier, ItemToolType } from "../../enums";
 import { BlockType } from "../../block";
 
 import { ItemTypeComponentCollection } from "./collection";
 
 import type { ItemTrait } from "../traits";
+import type { ItemTypeOptions } from "../types";
 
-class ItemType<T extends keyof Items = keyof Items> {
+class ItemType {
   /**
    * A collective registry of all item types.
    */
@@ -72,7 +72,7 @@ class ItemType<T extends keyof Items = keyof Items> {
   /**
    * The identifier of the item type.
    */
-  public readonly identifier: T;
+  public readonly identifier: ItemIdentifier;
 
   /**
    * The network of the item type.
@@ -119,7 +119,7 @@ class ItemType<T extends keyof Items = keyof Items> {
   /**
    * Whether the item type is component based.
    */
-  public readonly isComponentBased: boolean;
+  public isComponentBased: boolean;
 
   public creativeCategory: CreativeItemCategory;
 
@@ -182,9 +182,9 @@ class ItemType<T extends keyof Items = keyof Items> {
    * @param properties The properties of the item type.
    */
   public constructor(
-    identifier: T,
+    identifier: ItemIdentifier,
     network: number,
-    properties?: Partial<ItemTypeProperties>
+    properties?: Partial<ItemTypeOptions>
   ) {
     // Assign the identifier and network of the item type.
     this.identifier = identifier;
@@ -193,6 +193,12 @@ class ItemType<T extends keyof Items = keyof Items> {
     // Assign the properties of the item type first.
     // As this will be used to define the item type.
     this.properties = properties?.properties ?? new CompoundTag();
+
+    // Create a id tag.
+    this.properties.createIntTag({ name: "id", value: this.network });
+
+    // Create a name tag.
+    this.properties.createStringTag({ name: "name", value: this.identifier });
 
     // Assign the properties of the item type.
     this.version = properties?.version ?? 1;
@@ -210,7 +216,7 @@ class ItemType<T extends keyof Items = keyof Items> {
 
     // Assign the component based properties of the item type.
     this.components.setMaxStackSize(properties?.maxAmount ?? 64);
-    this.components.setBlockPlacer({ useBlockAsIcon: true, useOn: [] });
+    this.components.setBlockPlacer({ useBlockAsIcon: true, useOnBlocks: [] });
   }
 
   /**
@@ -259,8 +265,8 @@ class ItemType<T extends keyof Items = keyof Items> {
   /**
    * Get the item type from the registry.
    */
-  public static get<T extends keyof Items>(identifier: T): ItemType<T> | null {
-    return ItemType.types.get(identifier) as ItemType<T>;
+  public static get(identifier: ItemIdentifier): ItemType | null {
+    return ItemType.types.get(identifier) ?? null;
   }
 
   /**

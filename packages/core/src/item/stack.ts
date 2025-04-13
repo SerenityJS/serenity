@@ -7,16 +7,7 @@ import {
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
-import {
-  BlockEntry,
-  Items,
-  ItemStackEntry,
-  ItemStackProperties,
-  ItemUseOnBlockOptions,
-  ItemUseOnEntityOptions,
-  ItemUseOptions,
-  JSONLikeValue
-} from "../types";
+import { BlockEntry, JSONLikeValue } from "../types";
 import { Player } from "../entity";
 import { World } from "../world";
 import {
@@ -24,25 +15,34 @@ import {
   PlayerUseItemOnEntitySignal,
   PlayerUseItemSignal
 } from "../events";
-import {
-  DefaultItemStackEntry,
-  DefaultItemStackProperties
-} from "../constants";
 
-import { ItemType, ItemTypeComponentCollection } from "./identity";
+import {
+  ItemType,
+  type ItemTypeComponent,
+  ItemTypeComponentCollection
+} from "./identity";
 import { ItemTrait } from "./traits";
 import { ItemStackNbtMap } from "./maps";
+import {
+  type ItemStackOptions,
+  type ItemStackDataEntry,
+  type ItemStackUseOptions,
+  type ItemStackUseOnBlockOptions,
+  type ItemStackUseOnEntityOptions,
+  DefaultItemStackOptions,
+  DefaultItemStackDataEntry
+} from "./types";
 
-class ItemStack<T extends keyof Items = keyof Items> {
+class ItemStack {
   /**
    * The type of the item stack.
    */
-  public readonly type: ItemType<T>;
+  public readonly type: ItemType;
 
   /**
    * The identifier of the item stack.
    */
-  public readonly identifier: T;
+  public readonly identifier: ItemIdentifier;
 
   /**
    * The dynamic properties of the item stack.
@@ -52,7 +52,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
   /**
    * The traits of the item stack.
    */
-  public readonly traits = new Map<string, ItemTrait<T>>();
+  public readonly traits = new Map<string, ItemTrait>();
 
   /**
    * The nbt data of the item stack.
@@ -119,35 +119,40 @@ class ItemStack<T extends keyof Items = keyof Items> {
     return this.type.components;
   }
 
+  /**
+   * Create a new item stack instance.
+   * @param identifier The identifier or item type of the item stack.
+   * @param options The options for the item stack.
+   */
   public constructor(
-    identifier: T | ItemIdentifier | ItemType<T>,
-    properties?: Partial<ItemStackProperties>
+    identifier: ItemIdentifier | ItemType,
+    options?: Partial<ItemStackOptions>
   ) {
     // Assign the type of the item stack
     this.type =
       identifier instanceof ItemType
         ? identifier
-        : (ItemType.get(identifier as T) as ItemType<T>); // TODO: Fix this, fetch from palette
+        : (ItemType.get(identifier) as ItemType); // TODO: Fix this, fetch from palette
 
     // Assign the identifier of the item stack
     this.identifier = this.type.identifier;
 
     // Spread the default properties and the provided properties
-    const props = { ...DefaultItemStackProperties, ...properties };
+    options = { ...DefaultItemStackOptions, ...options };
 
     // Assign the properties to the item stack
-    this.amount = props.amount;
-    this.metadata = props.metadata;
+    this.amount = options.amount!;
+    this.metadata = options.metadata!;
 
     // Check if a world was provided
-    if (props.world) {
+    if (options.world) {
       // Assign the world to the item stack
-      this.world = props.world;
+      this.world = options.world;
 
       // Check if a entry was provided
-      if (props.entry)
+      if (options.dataEntry)
         // Load the data entry for the item stack
-        this.loadDataEntry(props.world, props.entry);
+        this.loadDataEntry(options.world, options.dataEntry);
     }
 
     // Iterate over the traits of the item type
@@ -211,7 +216,10 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param options The options for the item use.
    * @returns Whether the item use was successful; default is true.
    */
-  public use(player: Player, options: ItemUseOptions): boolean | ItemUseMethod {
+  public use(
+    player: Player,
+    options: ItemStackUseOptions
+  ): boolean | ItemUseMethod {
     // Trigger the item onUse trait event
     let canceled = false;
     for (const trait of this.traits.values()) {
@@ -265,7 +273,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
   public useOnBlock(
     player: Player,
-    options: ItemUseOnBlockOptions
+    options: ItemStackUseOnBlockOptions
   ): boolean | ItemUseMethod {
     // Trigger the item onUse trait event
     let canceled = false;
@@ -325,7 +333,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
 
   public useOnEntity(
     player: Player,
-    options: ItemUseOnEntityOptions
+    options: ItemStackUseOnEntityOptions
   ): boolean | ItemUseMethod {
     // Trigger the item onUse trait event
     let canceled = false;
@@ -431,7 +439,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param trait The trait to check for
    * @returns Whether the itemstack has the trait
    */
-  public hasTrait(trait: string | typeof ItemTrait<T>): boolean {
+  public hasTrait(trait: string | typeof ItemTrait): boolean {
     return this.traits.has(
       typeof trait === "string" ? trait : trait.identifier
     );
@@ -442,31 +450,31 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param trait The trait to get from the itemstack
    * @returns The trait if it exists, otherwise null
    */
-  public getTrait<K extends typeof ItemTrait<T>>(trait: K): InstanceType<K>;
+  public getTrait<K extends typeof ItemTrait>(trait: K): InstanceType<K>;
 
   /**
    * Gets the specified trait from the itemstack.
    * @param trait The trait to get from the itemstack
    * @returns The trait if it exists, otherwise null
    */
-  public getTrait(trait: string): ItemTrait<T> | null;
+  public getTrait(trait: string): ItemTrait | null;
 
   /**
    * Gets the specified trait from the itemstack.
    * @param trait The trait to get from the itemstack
    * @returns The trait if it exists, otherwise null
    */
-  public getTrait(trait: string | typeof ItemTrait<T>): ItemTrait<T> | null {
+  public getTrait(trait: string | typeof ItemTrait): ItemTrait | null {
     return this.traits.get(
       typeof trait === "string" ? trait : trait.identifier
-    ) as ItemTrait<T> | null;
+    ) as ItemTrait | null;
   }
 
   /**
    * Removes the specified trait from the itemstack.
    * @param trait The trait to remove
    */
-  public removeTrait(trait: string | typeof ItemTrait<T>): void {
+  public removeTrait(trait: string | typeof ItemTrait): void {
     // Get the trait from the itemstack
     const instance = this.traits.get(
       typeof trait === "string" ? trait : trait.identifier
@@ -485,8 +493,8 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param options The additional options to pass to the trait.
    * @returns The trait instance that was added to the itemstack.
    */
-  public addTrait<K extends typeof ItemTrait<T>>(
-    trait: K | ItemTrait<T>,
+  public addTrait<K extends typeof ItemTrait>(
+    trait: K | ItemTrait,
     options?: ConstructorParameters<K>[1]
   ): InstanceType<K> {
     // Check if the trait already exists
@@ -528,6 +536,28 @@ class ItemStack<T extends keyof Items = keyof Items> {
       // Return null as the trait was not added
       return null as InstanceType<K>;
     }
+  }
+
+  /**
+   * Checks if the itemstack has the specified component.
+   * @param component The component to check for.
+   * @returns Whether the itemstack has the component.
+   */
+  public hasComponent(component: string | typeof ItemTypeComponent): boolean {
+    return this.components.has(
+      typeof component === "string" ? component : component.identifier
+    );
+  }
+
+  /**
+   * Gets the specified component from the itemstack.
+   * @param component The component to get from the itemstack.
+   * @returns The component instance.
+   */
+  public getComponent<K extends typeof ItemTypeComponent>(
+    component: K
+  ): InstanceType<K> {
+    return this.components.get(component) as InstanceType<K>;
   }
 
   /**
@@ -604,7 +634,7 @@ class ItemStack<T extends keyof Items = keyof Items> {
     // Iterate over the traits.
     for (const [identifier, trait] of this.traits) {
       // Get the other trait.
-      const otherTrait = other.traits.get(identifier) as ItemTrait<T>;
+      const otherTrait = other.traits.get(identifier) as ItemTrait;
 
       // Check if the other trait exists.
       if (!otherTrait) return false;
@@ -653,9 +683,9 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * Gets the data entry for the item stack.
    * @returns The data entry for the item stack.
    */
-  public getDataEntry(): ItemStackEntry {
+  public getDataEntry(): ItemStackDataEntry {
     // Create the item stack entry.
-    const entry: ItemStackEntry = {
+    const entry: ItemStackDataEntry = {
       identifier: this.type.identifier,
       amount: this.amount,
       metadata: this.metadata,
@@ -676,12 +706,12 @@ class ItemStack<T extends keyof Items = keyof Items> {
    */
   public loadDataEntry(
     world: World,
-    entry: ItemStackEntry,
+    entry: ItemStackDataEntry,
     overwrite = true
   ): void {
     // Spread the default item stack entry and the provided entry
     // This will add any missing properties to the entry
-    entry = { ...DefaultItemStackEntry, ...entry };
+    entry = { ...DefaultItemStackDataEntry, ...entry };
 
     // Check that the identifiers match.
     if (entry.identifier !== this.type.identifier)
@@ -805,11 +835,14 @@ class ItemStack<T extends keyof Items = keyof Items> {
    * @param world The world to create the item stack in.
    * @returns The item stack.
    */
-  public static fromDataEntry(entry: ItemStackEntry, world?: World): ItemStack {
-    return new this(entry.identifier as ItemIdentifier, {
-      metadata: entry.metadata,
-      amount: entry.amount,
-      entry,
+  public static fromDataEntry(
+    dataEntry: ItemStackDataEntry,
+    world?: World
+  ): ItemStack {
+    return new this(dataEntry.identifier as ItemIdentifier, {
+      metadata: dataEntry.metadata,
+      amount: dataEntry.amount,
+      dataEntry,
       world
     });
   }
@@ -823,4 +856,4 @@ class ItemStack<T extends keyof Items = keyof Items> {
   }
 }
 
-export { ItemStack, DefaultItemStackProperties };
+export { ItemStack };

@@ -1,12 +1,11 @@
 import { Enchantment } from "@serenityjs/protocol";
 
-import { ItemIdentifier } from "../../enums";
 import { ItemWeaponComponent } from "../../types";
 
 import { ItemEnchantableTrait } from "./enchantable";
 import { ItemTrait } from "./trait";
 
-class ItemWeaponTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemWeaponTrait extends ItemTrait {
   public static readonly identifier = "weapon";
   public static readonly tag: string = "minecraft:is_weapon";
 

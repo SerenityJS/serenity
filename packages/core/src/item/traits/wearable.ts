@@ -6,13 +6,15 @@ import {
   WearableSlot
 } from "@serenityjs/protocol";
 
-import { ItemUseOptions, JSONLikeObject } from "../../types";
-import { ItemIdentifier, ItemWearableTier } from "../../enums";
+import { ItemWearableTier } from "../../enums";
 import { ItemStack } from "../stack";
 import { Entity, EntityEquipmentTrait, Player } from "../../entity";
 import { ItemTypeWearableComponent } from "../identity";
 
 import { ItemTrait } from "./trait";
+
+import type { JSONLikeObject } from "../../types";
+import type { ItemStackUseOptions } from "../types";
 
 interface ItemWearableTraitProperties extends JSONLikeObject {
   /**
@@ -31,7 +33,7 @@ interface ItemWearableTraitProperties extends JSONLikeObject {
   tier: ItemWearableTier;
 }
 
-class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemWearableTrait extends ItemTrait {
   public static readonly identifier = "wearable";
 
   // If the base item type contains this tag, it is considered wearable.
@@ -97,7 +99,7 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    * @param properties The optional properties of the wearable trait.
    */
   public constructor(
-    item: ItemStack<T>,
+    item: ItemStack,
     properties?: Partial<ItemWearableTraitProperties>
   ) {
     super(item);
@@ -112,8 +114,8 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
         const component = item.type.components.get(ItemTypeWearableComponent);
 
         // Assign the properties from the component to the wearable trait
-        this.properties.protection = component.protection;
-        this.properties.slot = component.slot;
+        this.properties.protection = component.getProtection();
+        this.properties.slot = component.getWearableSlot();
       }
       // This will be for vanilla item types
       // Check if the item type has an armor tag
@@ -189,7 +191,10 @@ class ItemWearableTrait<T extends ItemIdentifier> extends ItemTrait<T> {
     return Object.values(WearableSlot).indexOf(this.properties.slot);
   }
 
-  public onUse(player: Player, options: ItemUseOptions): ItemUseMethod | void {
+  public onUse(
+    player: Player,
+    options: ItemStackUseOptions
+  ): ItemUseMethod | void {
     // Check if the item use method is not a click or if the use was canceled
     if (options.method !== ItemUseMethod.Interact || options.canceled) return;
 

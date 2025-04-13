@@ -15,7 +15,7 @@ import { Container } from "../../container";
 
 import { ItemTrait } from "./trait";
 
-class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
+class ItemBundleTrait extends ItemTrait {
   public static readonly identifier = "dynamic_container";
 
   public static readonly types = [
@@ -43,7 +43,7 @@ class ItemBundleTrait<T extends ItemIdentifier> extends ItemTrait<T> {
    */
   public readonly container: Container;
 
-  public constructor(item: ItemStack<T>) {
+  public constructor(item: ItemStack) {
     super(item);
 
     // Check if the item has a bundle id.

@@ -1,9 +1,9 @@
-import { ItemIdentifier, ItemToolTier } from "../../enums";
+import { ItemToolTier } from "../../enums";
 import { ItemWeaponComponent } from "../../types";
 
 import { ItemWeaponTrait } from "./weapon";
 
-class ItemSwordTrait<T extends ItemIdentifier> extends ItemWeaponTrait<T> {
+class ItemSwordTrait extends ItemWeaponTrait {
   public static readonly tag = "minecraft:is_sword";
 
   public onAdd(): void {

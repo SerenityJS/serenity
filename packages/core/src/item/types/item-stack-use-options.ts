@@ -3,7 +3,7 @@ import { BlockFace, ItemUseMethod, Vector3f } from "@serenityjs/protocol";
 import { Block } from "../../block";
 import { Entity } from "../../entity";
 
-interface ItemUseOptions {
+interface ItemStackUseOptions {
   /**
    * The use method of the item.
    */
@@ -20,7 +20,7 @@ interface ItemUseOptions {
   canceled?: boolean;
 }
 
-interface ItemUseOnBlockOptions extends ItemUseOptions {
+interface ItemStackUseOnBlockOptions extends ItemStackUseOptions {
   /**
    * The target block that the item is being used on.
    */
@@ -37,11 +37,15 @@ interface ItemUseOnBlockOptions extends ItemUseOptions {
   face: BlockFace;
 }
 
-interface ItemUseOnEntityOptions extends ItemUseOptions {
+interface ItemStackUseOnEntityOptions extends ItemStackUseOptions {
   /**
    * The target entity that the item is being used on.
    */
   targetEntity: Entity;
 }
 
-export { ItemUseOptions, ItemUseOnBlockOptions, ItemUseOnEntityOptions };
+export {
+  ItemStackUseOptions,
+  ItemStackUseOnBlockOptions,
+  ItemStackUseOnEntityOptions
+};

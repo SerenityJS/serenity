@@ -312,6 +312,34 @@ class Player extends Entity {
   }
 
   /**
+   * Check if the player has a specific permission.
+   * @param permission The permission to check.
+   * @returns True if the player has the permission, false otherwise.
+   */
+  public hasPermission(permission: string): boolean {
+    // Check if the player has the permission
+    return this.permissions.has(permission);
+  }
+
+  /**
+   * Add a permission to the player.
+   * @param permission The permission to add.
+   */
+  public addPermission(permission: string): void {
+    // Add the permission to the player
+    this.permissions.add(permission);
+  }
+
+  /**
+   * Remove a permission from the player.
+   * @param permission The permission to remove.
+   */
+  public removePermission(permission: string): void {
+    // Remove the permission from the player
+    this.permissions.remove(permission);
+  }
+
+  /**
    * Sends a message to the player
    * @param message The message that will be sent.
    */

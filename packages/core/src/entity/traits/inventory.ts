@@ -12,12 +12,13 @@ import {
 import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
-import { ItemKeepOnDieTrait, ItemStack } from "../../item";
 import {
-  EntityInventoryTraitOptions,
-  ItemStackEntry,
-  ItemStorage
-} from "../../types";
+  ItemKeepOnDieTrait,
+  ItemStack,
+  ItemStackDataEntry,
+  type ItemStackStorage
+} from "../../item";
+import { EntityInventoryTraitOptions } from "../../types";
 import { Container } from "../../container";
 import { Player } from "../player";
 
@@ -36,15 +37,15 @@ class EntityInventoryTrait extends EntityTrait {
   /**
    * The dynamic property used to store the inventory items.
    */
-  public get property(): ItemStorage {
-    return this.entity.getDynamicProperty("inventory") as ItemStorage;
+  public get property(): ItemStackStorage {
+    return this.entity.getDynamicProperty("inventory") as ItemStackStorage;
   }
 
   /**
    * The dynamic property used to store the inventory items.
    */
-  public set property(value: ItemStorage) {
-    this.entity.setDynamicProperty<ItemStorage>("inventory", value);
+  public set property(value: ItemStackStorage) {
+    this.entity.setDynamicProperty<ItemStackStorage>("inventory", value);
   }
 
   /**
@@ -159,7 +160,7 @@ class EntityInventoryTrait extends EntityTrait {
     if (container !== this.container) return;
 
     // Prepare the items array
-    const items: Array<[number, ItemStackEntry]> = [];
+    const items: Array<[number, ItemStackDataEntry]> = [];
 
     // Iterate over the container slots
     for (let i = 0; i < this.container.size; i++) {
@@ -186,7 +187,7 @@ class EntityInventoryTrait extends EntityTrait {
           amount: entry.amount,
           metadata: entry.metadata,
           world: this.entity.world,
-          entry
+          dataEntry: entry
         });
 
         // Set the item stack to the equipment slot
@@ -205,7 +206,7 @@ class EntityInventoryTrait extends EntityTrait {
     if (this.entity.hasDynamicProperty("inventory")) return;
 
     // Create the item storage property
-    this.entity.setDynamicProperty<ItemStorage>("inventory", {
+    this.entity.setDynamicProperty<ItemStackStorage>("inventory", {
       size: this.container.size,
       items: []
     });

@@ -11,21 +11,60 @@ import { ItemType } from "../type";
 
 import { ItemTypeComponent } from "./component";
 
+interface ItemTypeBlockPlacerComponentOptions {
+  /**
+   * The block identifier that the item type will place.
+   */
+  blockIdentifier: BlockIdentifier | string;
+
+  /**
+   * Whether the block image should be used as the item icon.
+   */
+  useBlockAsIcon: boolean;
+
+  /**
+   * The blocks that this item can be used on.
+   */
+  useOnBlocks: Array<BlockIdentifier | string>;
+}
+
 class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
   public static readonly identifier = "minecraft:block_placer";
 
   /**
-   * The block type that the item type will place when used.
+   * Create a new block placer component for an item type.
+   * @param type The item type that the component will be attached to.
+   * @param properties The properties of the block placer component.
    */
-  public get blockIdentifier(): BlockIdentifier | string {
+  public constructor(
+    type: ItemType,
+    options?: Partial<ItemTypeBlockPlacerComponentOptions>
+  ) {
+    super(type);
+
+    // Get the block identifier from the properties.
+    const identifier = type.blockType?.identifier ?? BlockIdentifier.Air;
+
+    // Set the block placer properties.
+    this.setBlockIdentifier(options?.blockIdentifier ?? identifier);
+    this.setUseBlockAsIcon(options?.useBlockAsIcon ?? true);
+    this.setUseOnBlocks(options?.useOnBlocks ?? []);
+  }
+
+  /**
+   * Get the block identifier that the item type will place.
+   * @returns The block identifier.
+   */
+  public getBlockIdentifier(): BlockIdentifier | string {
     // Get the block identifier from the block tag.
     return this.component.getTag<StringTag>("block")?.value as BlockIdentifier;
   }
 
   /**
-   * The block type that the item type will place when used.
+   * Set the block identifier that the item type will place.
+   * @param value The block identifier.
    */
-  public set blockIdentifier(value: BlockIdentifier | string) {
+  public setBlockIdentifier(value: BlockIdentifier | string): void {
     // Create a new block tag.
     this.component.createStringTag({
       name: "block",
@@ -34,16 +73,19 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
   }
 
   /**
-   * Whether the block image should be used as the item icon.
+   * Get the whether the block image should be used as the item icon.
+   * @returns Whether the block image is the item icon.
    */
-  public get useBlockAsIcon(): boolean {
+  public getUseBlockAsIcon(): boolean {
     return this.component.getTag<ByteTag>("canUseBlockAsIcon")?.value === 1;
   }
 
   /**
-   * Whether the block image should be used as the item icon.
+   * Set the whether the block image should be used as the item icon.
+   * @param value Whether the block image is the item icon.
    */
-  public set useBlockAsIcon(value: boolean) {
+  public setUseBlockAsIcon(value: boolean): void {
+    // Create a new block tag.
     this.component.createByteTag({
       name: "canUseBlockAsIcon",
       value: value ? 1 : 0
@@ -51,10 +93,10 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
   }
 
   /**
-   * The block types that the item type can be used on.
-   * If the query is empty, the item can be used on any block.
+   * Get the blocks that this item can be used on.
+   * @returns The blocks that this item can be used on.
    */
-  public get useOn(): Array<BlockIdentifier | string> {
+  public getUseOnBlocks(): Array<BlockIdentifier | string> {
     // Get the use on tag.
     const useOn =
       this.component.getTag<ListTag<CompoundTag<unknown>>>("use_on");
@@ -66,10 +108,10 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
   }
 
   /**
-   * The block types that the item type can be used on.
-   * If the query is empty, the item can be used on any block.
+   * Set the blocks that this item can be used on.
+   * @param value The blocks that this item can be used on.
    */
-  public set useOn(value: Array<BlockIdentifier | string>) {
+  public setUseOnBlocks(value: Array<BlockIdentifier | string>): void {
     // Create the use on list tag.
     const useOn = this.component.createListTag({
       name: "use_on",
@@ -90,26 +132,6 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
     // Set the use on list to the component.
     this.component.setTag("use_on", useOn);
   }
-
-  /**
-   * Create a new block placer component for an item type.
-   * @param type The item type that the component will be attached to.
-   * @param properties The properties of the block placer component.
-   */
-  public constructor(
-    type: ItemType,
-    properties?: Partial<ItemTypeBlockPlacerComponent>
-  ) {
-    super(type);
-
-    // Get the block identifier from the properties.
-    const identifier = type.blockType?.identifier ?? BlockIdentifier.Air;
-
-    // Set the block placer properties.
-    this.blockIdentifier = properties?.blockIdentifier ?? identifier;
-    this.useBlockAsIcon = properties?.useBlockAsIcon ?? true;
-    this.useOn = properties?.useOn ?? [];
-  }
 }
 
-export { ItemTypeBlockPlacerComponent };
+export { ItemTypeBlockPlacerComponent, ItemTypeBlockPlacerComponentOptions };

@@ -10,11 +10,12 @@ import { EntityIdentifier, ItemIdentifier } from "../../enums";
 import { ItemStack } from "../../item";
 import { Entity } from "../entity";
 import { Player } from "../player";
-import { ItemStackEntry } from "../../types";
 import { TraitOnTickDetails } from "../../trait";
 
 import { EntityTrait } from "./trait";
 import { EntityInventoryTrait } from "./inventory";
+
+import type { ItemStackDataEntry } from "../../item";
 
 class EntityItemStackTrait extends EntityTrait {
   public static readonly identifier = "itemstack";
@@ -68,12 +69,14 @@ class EntityItemStackTrait extends EntityTrait {
     }
 
     // Get the component of the item stack from the entity
-    const entry = entity.dynamicProperties.get("itemstack") as ItemStackEntry;
+    const entry = entity.dynamicProperties.get(
+      "itemstack"
+    ) as ItemStackDataEntry;
 
     // Check if the entry exists
     if (entry) {
       // Set the item stack of the component
-      this.itemStack = new ItemStack(entry.identifier, { entry });
+      this.itemStack = new ItemStack(entry.identifier, { dataEntry: entry });
     } else {
       // Set the item stack of the component
       this.itemStack = new ItemStack(ItemIdentifier.Air);
