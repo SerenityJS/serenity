@@ -329,7 +329,12 @@ class Container {
    */
   public clear(): void {
     // Clear all slots in the container.
-    for (let i = 0; i < this.size; i++) this.clearSlot(i);
+    this.storage = Array.from({ length: this.storage.length }, () => null)
+   
+    // Check if there's anyone viewing the container.
+    if (this.occupants.size == 0) return;
+    // Update the container contents
+    this.update();
   }
 
   /**

@@ -55,25 +55,27 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     let armor: MobArmorEquipmentPacket | undefined;
 
     // Check if the entity has an equipment component
-    if (armor) {
+    if (entity.hasTrait(EntityEquipmentTrait)) {
       // Get the equipment component
       const trait = entity.getTrait(EntityEquipmentTrait);
-      armor = new MobArmorEquipmentPacket();
 
       // Set the head, chest, legs, and feet armor
-      const head = trait.getEquipment(EquipmentSlot.Head) ?? ItemStack.empty();
+      const head = trait.getEquipment(EquipmentSlot.Head);
       const chest =
-        trait.getEquipment(EquipmentSlot.Chest) ?? ItemStack.empty();
-      const legs = trait.getEquipment(EquipmentSlot.Legs) ?? ItemStack.empty();
-      const feet = trait.getEquipment(EquipmentSlot.Feet) ?? ItemStack.empty();
+        trait.getEquipment(EquipmentSlot.Chest);
+      const legs = trait.getEquipment(EquipmentSlot.Legs);
+      const feet = trait.getEquipment(EquipmentSlot.Feet);
 
-      // Assign the packet properties
-      armor.runtimeId = entity.runtimeId;
-      armor.helmet = ItemStack.toNetworkStack(head);
-      armor.chestplate = ItemStack.toNetworkStack(chest);
-      armor.leggings = ItemStack.toNetworkStack(legs);
-      armor.boots = ItemStack.toNetworkStack(feet);
-      armor.body = ItemStack.toNetworkStack(ItemStack.empty());
+      if (head && chest && legs && feet) {
+        // Assign the packet properties
+        armor = new MobArmorEquipmentPacket();
+        armor.runtimeId = entity.runtimeId;
+        armor.helmet = ItemStack.toNetworkStack(head);
+        armor.chestplate = ItemStack.toNetworkStack(chest);
+        armor.leggings = ItemStack.toNetworkStack(legs);
+        armor.boots = ItemStack.toNetworkStack(feet);
+        armor.body = ItemStack.toNetworkStack(ItemStack.empty());
+      }
     }
 
     // Check if the entity is a player

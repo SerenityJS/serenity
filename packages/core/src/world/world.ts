@@ -303,20 +303,7 @@ class World extends Emitter<WorldEventSignals> {
    * @returns An array of players.
    */
   public getPlayers(): Array<Player> {
-    // Prepare an array of players
-    const players: Array<Player> = [];
-
-    // Iterate over each dimension
-    for (const dimension of this.dimensions.values()) {
-      // Get the players in the dimension
-      const dimensionPlayers = dimension.getPlayers();
-
-      // Add the players to the array
-      players.push(...dimensionPlayers);
-    }
-
-    // Return the players
-    return players;
+    return [...this.serenity.players.values()];
   }
 
   /**

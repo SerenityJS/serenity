@@ -209,8 +209,8 @@ class Dimension {
     const playerPositions = players.map((player) => player.position);
 
     // Iterate over all the entities in the dimension
-    for (const [, entity] of this.entities) {
-      // Check if there is a player within the simulation distance to tick the entity
+    for (const entity of this.getEntities()) {
+      // Check if there is a entity within the simulation distance to tick the entity
       const inSimulationRange = playerPositions.some((player) => {
         return player.distance(entity.position) <= this.simulationDistance << 4;
       });
@@ -518,34 +518,32 @@ class Dimension {
     // Prepare an array to hold the players
     const players: Array<Player> = [];
 
-    // Iterate over all the players in serenity instance
-    for (const [, player] of this.serenity.players)
-      if (player.dimension === this) players.push(player); // Check if the player is in the dimension
-
-    // Check if there are no options provided
-    if (!options) return players;
-
     // Get the position, max distance, and min distance from the options
-    const position = options.position ?? { x: 0, y: 0, z: 0 };
-    const maxDistance = options.maxDistance ?? 0;
-    const minDistance = options.minDistance ?? 0;
+    const position = options?.position ?? { x: 0, y: 0, z: 0 };
+    const maxDistance = options?.maxDistance ?? 0;
+    const minDistance = options?.minDistance ?? 0;
+    const maxCount = options?.count ?? Infinity;
 
     // Filter the players based on the options
-    return players.filter((player, index) => {
+    for (const player of this.serenity.players.values()) {
       // Check if the count is reached
-      if (options.count && options.count <= index) return false;
+      if (maxCount <= players.length) break;
+
+      // Check if the player dimension is the same as this dimension
+      if (player.dimension !== this) continue;
 
       // Check if the player is within the maximum distance
       if (maxDistance > 0 && player.position.distance(position) > maxDistance)
-        return false;
+        continue;
 
       // Check if the player is within the minimum distance
       if (minDistance > 0 && player.position.distance(position) < minDistance)
-        return false;
+        continue;
 
-      // Return the player
-      return true;
-    });
+      // Add the player to the player list
+      players.push(player);
+    }
+    return players;
   }
 
   /**
@@ -577,33 +575,30 @@ class Dimension {
     // Prepare an array to hold the entities
     const entities: Array<Entity> = [];
 
-    // Get all the entities in the dimension
-    for (const [, entity] of this.entities) entities.push(entity);
-
-    // Check if there are no options provided
-    if (!options) return entities;
-
     // Get the position, max distance, and min distance from the options
-    const position = options.position ?? { x: 0, y: 0, z: 0 };
-    const maxDistance = options.maxDistance ?? 0;
-    const minDistance = options.minDistance ?? 0;
+    const position = options?.position ?? { x: 0, y: 0, z: 0 };
+    const maxDistance = options?.maxDistance ?? 0;
+    const minDistance = options?.minDistance ?? 0;
+    const maxCount = options?.count ?? Infinity;
 
     // Filter the entities based on the options
-    return [...this.entities.values()].filter((entity, index) => {
-      // Check if the count is reached
-      if (options.count && options.count <= index) return false;
+    for (const entity of this.entities.values()) {
 
-      // Check if the entity is within the maximum distance
+      // Check if the count is reached 
+      if (maxCount <= entities.length) break;
+
+      //Check if the entity is within the maximum distance
       if (maxDistance > 0 && entity.position.distance(position) > maxDistance)
-        return false;
+        continue;
 
       // Check if the entity is within the minimum distance
       if (minDistance > 0 && entity.position.distance(position) < minDistance)
-        return false;
+        continue;
 
-      // Return the entity
-      return true;
-    });
+      // Add the entity to the entity list
+      entities.push(entity);
+    }
+    return entities;
   }
 
   /**
@@ -782,8 +777,8 @@ class Dimension {
    */
   public broadcast(...packets: Array<DataPacket>): void {
     // Iterate over all the entities in the dimension
-    for (const [, entity] of this.entities)
-      if (entity.isPlayer()) entity.send(...packets); // Check if the entity is a player
+    for (const player of this.getPlayers())
+      player.send(...packets); // Send the packet to the player
   }
 
   /**
@@ -793,8 +788,8 @@ class Dimension {
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {
     // Iterate over all the entities in the dimension
-    for (const [, entity] of this.entities)
-      if (entity.isPlayer()) entity.sendImmediate(...packets); // Check if the entity is a player
+    for (const player of this.getPlayers())
+      player.sendImmediate(...packets); // Send the packet to the player
   }
 
   /**
@@ -802,10 +797,10 @@ class Dimension {
    * @param player The player to exclude from the broadcast.
    * @param packets The packets to broadcast.
    */
-  public broadcastExcept(player: Player, ...packets: Array<DataPacket>): void {
+  public broadcastExcept(excludedPlayer: Player, ...packets: Array<DataPacket>): void {
     // Iterate over all the entities in the dimension
-    for (const [, entity] of this.entities)
-      if (entity.isPlayer() && entity !== player) entity.send(...packets); // Check if the entity is a player
+    for (const player of this.getPlayers())
+      if (excludedPlayer !== player) player.send(...packets); // Send the packet to the player
   }
 }
 
