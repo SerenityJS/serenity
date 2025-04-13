@@ -23,7 +23,7 @@ import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
-import { PlayerDropItemSignal, PlayerPlaceBlockSignal } from "../events";
+import { PlayerPlaceBlockSignal } from "../events";
 import { BlockEntry, BlockPlacementOptions } from "../types";
 
 class InventoryTransactionHandler extends NetworkHandler {
@@ -126,27 +126,6 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Get the player's inventory trait
           const inventory = player.getTrait(EntityInventoryTrait);
-
-          // Get the item stack from the player's inventory
-          const itemStack = inventory.container.getItem(
-            action.slot
-          ) as ItemStack;
-
-          // Create a new PlayerDropItemSignal
-          const signal = new PlayerDropItemSignal(
-            player,
-            itemStack,
-            amount
-          ).emit();
-
-          // If the signal was canceled, we don't want to drop the item
-          if (!signal) {
-            // Update the item stack in the inventory
-            itemStack.update();
-
-            // Break from the switch statement
-            break;
-          }
 
           // Make the player drop the item
           player.dropItem(inventory.selectedSlot, amount, inventory.container);

@@ -20,6 +20,7 @@ interface PluginBeforeEvents {
   ) => boolean;
   beforeEntityHit?: (event: Core.EntityHitSignal) => boolean;
   beforeEntityHurt?: (event: Core.EntityHurtSignal) => boolean;
+  beforeEntityDropItem?: (event: Core.EntityDropItemSignal) => boolean;
   beforeEntityEffectAdd?: (event: Core.EffectAddSignal) => boolean;
   beforeEntityEffectRemove?: (event: Core.EffectRemoveSignal) => boolean;
   beforePlayerJoin?: (event: Core.PlayerJoinSignal) => boolean;
@@ -27,7 +28,6 @@ interface PluginBeforeEvents {
   beforePlayerChat?: (event: Core.PlayerChatSignal) => boolean;
   beforePlayerPlaceBlock?: (event: Core.PlayerPlaceBlockSignal) => boolean;
   beforePlayerBreakBlock?: (event: Core.PlayerBreakBlockSignal) => boolean;
-  beforePlayerDropItem?: (event: Core.PlayerDropItemSignal) => boolean;
   beforePlayerGamemodeChange?: (
     event: Core.PlayerGamemodeChangeSignal
   ) => boolean;

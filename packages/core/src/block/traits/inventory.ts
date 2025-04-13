@@ -133,7 +133,7 @@ class BlockInventoryTrait extends BlockTrait {
 
   public onTick(): void {
     // Check if the container has occupants and the block is not opened
-    if (this.container.occupants.size > 0 && !this.opened) {
+    if (!this.opened && this.container.occupants.size > 0) {
       // Set the block state to open
       this.opened = true;
 
@@ -142,7 +142,7 @@ class BlockInventoryTrait extends BlockTrait {
     }
 
     // Check if the container has no occupants
-    if (this.container.occupants.size === 0 && this.opened) {
+    if (this.opened && this.container.occupants.size === 0) {
       // Set the block state to closed
       this.opened = false;
 

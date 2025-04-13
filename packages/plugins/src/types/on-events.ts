@@ -19,6 +19,7 @@ interface PluginOnEvents {
   onEntityAttributeUpdate?: (event: Core.EntityAttributeUpdateSignal) => void;
   onEntityHit?: (event: Core.EntityHitSignal) => void;
   onEntityHurt?: (event: Core.EntityHurtSignal) => void;
+  onEntityDropItem?: (event: Core.EntityDropItemSignal) => void;
   onEntityEffectAdd?: (event: Core.EffectAddSignal) => void;
   onEntityEffectRemove?: (event: Core.EffectRemoveSignal) => void;
   onPlayerJoin?: (event: Core.PlayerJoinSignal) => void;
@@ -26,7 +27,6 @@ interface PluginOnEvents {
   onPlayerChat?: (event: Core.PlayerChatSignal) => void;
   onPlayerPlaceBlock?: (event: Core.PlayerPlaceBlockSignal) => void;
   onPlayerBreakBlock?: (event: Core.PlayerBreakBlockSignal) => void;
-  onPlayerDropItem?: (event: Core.PlayerDropItemSignal) => void;
   onPlayerGamemodeChange?: (event: Core.PlayerGamemodeChangeSignal) => void;
   onPlayerAbilityUpdate?: (event: Core.PlayerAbilityUpdateSignal) => void;
   onPlayerStartUsingItem?: (event: Core.PlayerStartUsingItemSignal) => void;

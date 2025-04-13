@@ -4,6 +4,7 @@ import {
   ActorDataType,
   ActorFlag,
   Attribute,
+  ContainerId,
   ContainerName,
   DataItem,
   EffectType,
@@ -40,6 +41,7 @@ import {
   EntityDespawnedSignal,
   EntityDiedSignal,
   EntityDimensionChangeSignal,
+  EntityDropItemSignal,
   EntityHitSignal,
   EntitySpawnedSignal,
   PlayerInteractWithEntitySignal
@@ -1269,10 +1271,47 @@ class Entity {
     if (!this.hasTrait(EntityInventoryTrait)) return false;
 
     // Get the item from the slot
-    const item = container.takeItem(slot, amount);
+    let itemStack = container.getItem(slot);
 
     // Check if the item is valid
-    if (!item) return false;
+    if (!itemStack) return false;
+
+    // Create a new EntityDropItemSignal
+    const signal = new EntityDropItemSignal(this, itemStack, amount);
+
+    // Check if the signal was cancelled
+    if (!signal.emit()) {
+      // Update the item stack
+      itemStack.update();
+
+      // Check if the container is a cursor & if the entity is a player
+      if (container.identifier === ContainerId.Ui && this.isPlayer()) {
+        // Check if the player has an opened container
+        if (!this.openedContainer) return false;
+
+        // Get the item stack from the cursor container
+        const itemStack = container.takeItem(slot, amount);
+        if (!itemStack) return false;
+
+        // Attempt to add the itemStack to the opened container
+        if (!this.openedContainer.addItem(itemStack)) {
+          // Get the inventory trait of the player
+          const inventory = this.getTrait(EntityInventoryTrait);
+
+          // Check if the inventory is valid
+          if (!inventory) return false;
+
+          // Add the itemStack to the player's inventory
+          inventory.container.addItem(itemStack);
+        }
+      }
+
+      // Return false as the item was not dropped
+      return false;
+    }
+
+    // Take the amount of items from the item stack
+    itemStack = container.takeItem(slot, amount)!;
 
     // Get the entity's position and rotation
     const { x, y, z } = this.position;
@@ -1290,11 +1329,14 @@ class Entity {
     // Calculate the velocity of the entity based on the entity's rotation
     const velocity = new Vector3f(vx, vy, vz).divide(2);
 
-    // Spawn the entity
-    const entity = this.dimension.spawnItem(item, new Vector3f(x, y + 1.25, z));
+    // Spawn the entity in the dimension
+    signal.itemStackEntity = this.dimension.spawnItem(
+      itemStack,
+      new Vector3f(x, y + 1.25, z)
+    );
 
     // Set the velocity of the entity
-    entity.addMotion(velocity.add(this.velocity));
+    signal.itemStackEntity.addMotion(velocity.add(this.velocity));
 
     // Return true as the item was dropped
     return true;

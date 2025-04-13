@@ -16,7 +16,7 @@ import type {
   PlayerAbilityUpdateSignal,
   PlayerBreakBlockSignal,
   PlayerChatSignal,
-  PlayerDropItemSignal,
+  EntityDropItemSignal,
   PlayerGamemodeChangeSignal,
   PlayerInteractWithBlockSignal,
   PlayerInteractWithEntitySignal,
@@ -53,6 +53,7 @@ interface WorldEventSignals {
   [WorldEvent.EntityHit]: [EntityHitSignal];
   [WorldEvent.EntityDied]: [EntityDiedSignal];
   [WorldEvent.EntityHurt]: [EntityHurtSignal];
+  [WorldEvent.EntityDropItem]: [EntityDropItemSignal];
   [WorldEvent.HealthChanged]: [EntityHealthChangedSignal];
   [WorldEvent.EffectAdd]: [EffectAddSignal];
   [WorldEvent.EffectRemove]: [EffectRemoveSignal];
@@ -62,7 +63,6 @@ interface WorldEventSignals {
   [WorldEvent.PlayerChat]: [PlayerChatSignal];
   [WorldEvent.PlayerPlaceBlock]: [PlayerPlaceBlockSignal];
   [WorldEvent.PlayerBreakBlock]: [PlayerBreakBlockSignal];
-  [WorldEvent.PlayerDropItem]: [PlayerDropItemSignal];
   [WorldEvent.PlayerGamemodeChange]: [PlayerGamemodeChangeSignal];
   [WorldEvent.PlayerAbilityUpdate]: [PlayerAbilityUpdateSignal];
   [WorldEvent.PlayerStartUsingItem]: [PlayerStartUsingItemSignal];
