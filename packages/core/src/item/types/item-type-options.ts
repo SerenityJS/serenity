@@ -30,7 +30,7 @@ interface ItemTypeOptions {
   tool: ItemToolType;
   tier: ItemToolTier;
   tags: Array<string>;
-  blockType: BlockType | null;
+  blockType: BlockType;
   creativeCategory: CreativeItemCategory;
   creativeGroup: CreativeItemGroup | string;
 }

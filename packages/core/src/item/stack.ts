@@ -18,6 +18,7 @@ import {
 
 import {
   ItemType,
+  ItemTypeBlockPlacerComponent,
   type ItemTypeComponent,
   ItemTypeComponentCollection
 } from "./identity";
@@ -767,15 +768,28 @@ class ItemStack {
   public static toNetworkInstance(
     item: ItemStack
   ): NetworkItemInstanceDescriptor {
-    // Get the permutation of the block.
-    const permutation = item.type.blockType?.permutations[item.metadata];
+    // Prepare the network block id.
+    let networkBlockId = 0;
+
+    // Check if the item type is a block placer component.
+    if (item.type.components.has(ItemTypeBlockPlacerComponent)) {
+      // Get the block placer component from the item type.
+      const blockPlacer = item.type.components.getBlockPlacer();
+
+      // Get the block type from the block placer.
+      const blockType = blockPlacer.getBlockType();
+
+      // Get the permutation from the block type.
+      const permutation = blockType.permutations[item.metadata];
+      if (permutation) networkBlockId = permutation.networkId;
+    }
 
     // Return the item instance descriptor.
     return {
       network: item.type.network,
       stackSize: item.amount,
       metadata: item.metadata,
-      networkBlockId: permutation?.networkId ?? 0,
+      networkBlockId,
       extras: {
         nbt: item.nbt.toCompound(),
         canDestroy: [],

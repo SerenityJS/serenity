@@ -9,29 +9,31 @@ class BlockTypeFrictionComponent extends BlockTypeComponent {
   public static readonly identifier = "minecraft:friction";
 
   /**
-   * The friction of the block property.
-   */
-  public get friction(): number {
-    return this.component.getTag<FloatTag>("value")?.value ?? 0;
-  }
-
-  /**
-   * The friction of the block property.
-   */
-  public set friction(value: number) {
-    this.component.createFloatTag({ name: "value", value });
-  }
-
-  /**
    * Create a new friction property for a block definition.
    * @param block The block definition that this property will be attached to.
    * @param friction The friction of the block type.
    */
-  public constructor(block: BlockType | BlockPermutation, friction = 0) {
+  public constructor(block: BlockType | BlockPermutation, friction?: number) {
     super(block);
 
     // Set the friction value.
-    this.friction = friction;
+    this.setFriction(friction ?? 0);
+  }
+
+  /**
+   * Set the friction of the block property.
+   * @param value The friction of the block property.
+   */
+  public getFriction(): number {
+    return this.component.getTag<FloatTag>("value")?.value ?? 0;
+  }
+
+  /**
+   * Set the friction of the block property.
+   * @param value The friction of the block property.
+   */
+  public setFriction(value: number): void {
+    this.component.createFloatTag({ name: "value", value });
   }
 }
 

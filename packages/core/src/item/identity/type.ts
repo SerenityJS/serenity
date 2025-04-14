@@ -41,7 +41,7 @@ class ItemType {
       const level = index === undefined ? ItemToolTier.None : index + 1;
 
       // Get the block type for the item type.
-      const blockType = BlockType.types.get(type.identifier) ?? null;
+      const blockType = BlockType.types.get(type.identifier);
 
       const stream = new BinaryStream(
         Buffer.from(metadata.properties, "base64")
@@ -83,11 +83,6 @@ class ItemType {
    * The version of the item type.
    */
   public readonly version: number = 1;
-
-  /**
-   * The block type of the item type.
-   */
-  public readonly blockType: BlockType | null = null;
 
   /**
    * The tool type of the item type.
@@ -206,7 +201,6 @@ class ItemType {
     this.tier = properties?.tier as ItemToolTier;
     this.tags = properties?.tags ?? [];
     this.isComponentBased = properties?.isComponentBased ?? true;
-    this.blockType = properties?.blockType ?? null;
 
     // Assign the creative properties of the item type.
     this.creativeCategory =
@@ -216,7 +210,7 @@ class ItemType {
 
     // Assign the component based properties of the item type.
     this.components.setMaxStackSize(properties?.maxAmount ?? 64);
-    this.components.setBlockPlacer({ useBlockAsIcon: true, useOnBlocks: [] });
+    this.components.setBlockPlacer({ blockType: properties?.blockType });
   }
 
   /**
@@ -293,8 +287,16 @@ class ItemType {
    */
   public static resolve(type: BlockType): ItemType | null {
     return (
-      [...ItemType.types.values()].find((item) => item.blockType === type) ??
-      null
+      [...ItemType.types.values()].find((item) => {
+        // Check if the item type is a block placer component.
+        if (!item.components.hasBlockPlacer()) return false;
+
+        // Get the block placer component from the item type.
+        const blockPlacer = item.components.getBlockPlacer();
+
+        // Check if the block placer component is not null.
+        return blockPlacer.getBlockType() === type;
+      }) ?? null
     );
   }
 
@@ -310,10 +312,23 @@ class ItemType {
     stackSize: number = 1,
     nbt: CompoundTag<unknown> | null = null
   ): NetworkItemInstanceDescriptor {
+    // Prepare the network block id.
+    let networkBlockId = 0;
+
+    // Check if the item type is a block placer component.
+    if (type.components.hasBlockPlacer()) {
+      // Get the block placer component from the item type.
+      const blockPlacer = type.components.getBlockPlacer();
+
+      // Set the network block id to the block placer component.
+      networkBlockId = blockPlacer.getBlockType().getPermutation().networkId;
+    }
+
+    // Return the network item instance descriptor.
     return {
       network: type.network,
       metadata: 0,
-      networkBlockId: type.blockType?.getPermutation().networkId ?? 0,
+      networkBlockId,
       stackSize,
       extras: {
         canDestroy: [],

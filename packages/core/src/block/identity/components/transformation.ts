@@ -5,23 +5,61 @@ import { BlockPermutation } from "../permutation";
 
 import { BlockTypeComponent } from "./component";
 
-const DefaultTransformationProperties: Partial<BlockTypeTransformationComponent> =
-  {
-    translation: [0, 0, 0],
-    rotation: [0, 0, 0],
-    scale: [1, 1, 1],
-    rotation_pivot: [0, 0, 0],
-    scale_pivot: [0, 0, 0]
-  };
+interface BlockTypeTransformationComponentOptions {
+  /**
+   * How many pixels to translate the block in the x, y, and z directions.
+   */
+  translation: [number, number, number];
+
+  /**
+   * How many degrees to rotate the block around the x, y, and z axes.
+   */
+  rotation: [number, number, number];
+
+  /**
+   * How much to scale the block in the x, y, and z directions.
+   */
+  scale: [number, number, number];
+
+  /**
+   * The pivot point around which the block will be rotated.
+   */
+  rotation_pivot: [number, number, number];
+
+  /**
+   * The pivot point around which the block will be scaled.
+   */
+  scale_pivot: [number, number, number];
+}
 
 class BlockTypeTransformationComponent extends BlockTypeComponent {
   public static readonly identifier = "minecraft:transformation";
 
   /**
-   * How many pixels to translate the geometry.
+   * Create a new block selection box property for a block definition.
+   * @param block The block type or permutation.
+   * @param options The options for the transformation.
    */
-  public get translation(): [number, number, number] {
-    // Get the translation of the of the transformation
+  public constructor(
+    block: BlockType | BlockPermutation,
+    options?: Partial<BlockTypeTransformationComponentOptions>
+  ) {
+    super(block);
+
+    // Assign the default transformation properties
+    this.setTranslation(options?.translation ?? [0, 0, 0]);
+    this.setRotation(options?.rotation ?? [0, 0, 0]);
+    this.setScale(options?.scale ?? [1, 1, 1]);
+    this.setRotationPivot(options?.rotation_pivot ?? [0, 0, 0]);
+    this.setScalePivot(options?.scale_pivot ?? [0, 0, 0]);
+  }
+
+  /**
+   * Get the translation of the block type.
+   * @returns The translation of the block type as a tuple.
+   */
+  public getTranslation(): [number, number, number] {
+    // Get the translation of the block type
     const x = this.component.getTag<FloatTag>("TX")?.value ?? 0;
     const y = this.component.getTag<FloatTag>("TY")?.value ?? 0;
     const z = this.component.getTag<FloatTag>("TZ")?.value ?? 0;
@@ -31,20 +69,22 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
   }
 
   /**
-   * How many pixels to translate the geometry.
+   * Set the translation of the block type.
+   * @param value The translation of the block type as a tuple.
    */
-  public set translation(value: [number, number, number]) {
-    // Set the translation of the transformation
+  public setTranslation(value: [number, number, number]): void {
+    // Set the translation of the block type
     this.component.createFloatTag({ name: "TX", value: value[0] });
     this.component.createFloatTag({ name: "TY", value: value[1] });
     this.component.createFloatTag({ name: "TZ", value: value[2] });
   }
 
   /**
-   * How many degrees to rotate the geometry. Must be in increments of 90. Can be negative. If not in increment of 90, the game will round to the nearest 90 increment.
+   * Get the rotation of the block type.
+   * @returns The rotation of the block type as a tuple.
    */
-  public get rotation(): [number, number, number] {
-    // Get the rotation of the transformation
+  public getRotation(): [number, number, number] {
+    // Get the rotation of the block type
     const x = this.component.getTag<IntTag>("RX")?.value ?? 0;
     const y = this.component.getTag<IntTag>("RY")?.value ?? 0;
     const z = this.component.getTag<IntTag>("RZ")?.value ?? 0;
@@ -54,25 +94,27 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
   }
 
   /**
-   * How many degrees to rotate the geometry. Must be in increments of 90. Can be negative. If not in increment of 90, the game will round to the nearest 90 increment.
+   * Set the rotation of the block type.
+   * @param value The rotation of the block type as a tuple.
    */
-  public set rotation(value: [number, number, number]) {
-    // Normalize the translation values
+  public setRotation(value: [number, number, number]): void {
+    // Normalize the rotation values
     const rx = Math.floor(value[0] / 90) % 4;
     const ry = Math.floor(value[1] / 90) % 4;
     const rz = Math.floor(value[2] / 90) % 4;
 
-    // Set the rotation of the transformation
+    // Set the rotation of the block type
     this.component.createIntTag({ name: "RX", value: rx });
     this.component.createIntTag({ name: "RY", value: ry });
     this.component.createIntTag({ name: "RZ", value: rz });
   }
 
   /**
-   * How many pixels to scale the geometry.
+   * Get the scale of the block type.
+   * @returns The scale of the block type as a tuple.
    */
-  public get scale(): [number, number, number] {
-    // Get the scale of the transformation
+  public getScale(): [number, number, number] {
+    // Get the scale of the block type
     const x = this.component.getTag<FloatTag>("SX")?.value ?? 1;
     const y = this.component.getTag<FloatTag>("SY")?.value ?? 1;
     const z = this.component.getTag<FloatTag>("SZ")?.value ?? 1;
@@ -82,20 +124,22 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
   }
 
   /**
-   * How many pixels to scale the geometry.
+   * Set the scale of the block type.
+   * @param value The scale of the block type as a tuple.
    */
-  public set scale(value: [number, number, number]) {
-    // Set the scale of the transformation
+  public setScale(value: [number, number, number]): void {
+    // Set the scale of the block type
     this.component.createFloatTag({ name: "SX", value: value[0] });
     this.component.createFloatTag({ name: "SY", value: value[1] });
     this.component.createFloatTag({ name: "SZ", value: value[2] });
   }
 
   /**
-   * The pivot point to rotate the geometry around.
+   * Get the rotation pivot of the block type.
+   * @returns The rotation pivot of the block type as a tuple.
    */
-  public get rotation_pivot(): [number, number, number] {
-    // Get the rotation pivot of the transformation
+  public getRotationPivot(): [number, number, number] {
+    // Get the rotation pivot of the block type
     const x = this.component.getTag<FloatTag>("RXP")?.value ?? 0;
     const y = this.component.getTag<FloatTag>("RYP")?.value ?? 0;
     const z = this.component.getTag<FloatTag>("RZP")?.value ?? 0;
@@ -105,20 +149,22 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
   }
 
   /**
-   * The pivot point to rotate the geometry around.
+   * Set the rotation pivot of the block type.
+   * @param value The rotation pivot of the block type as a tuple.
    */
-  public set rotation_pivot(value: [number, number, number]) {
-    // Set the rotation pivot of the transformation
+  public setRotationPivot(value: [number, number, number]): void {
+    // Set the rotation pivot of the block type
     this.component.createFloatTag({ name: "RXP", value: value[0] });
     this.component.createFloatTag({ name: "RYP", value: value[1] });
     this.component.createFloatTag({ name: "RZP", value: value[2] });
   }
 
   /**
-   * The pivot point to scale the geometry around.
+   * Get the scale pivot of the block type.
+   * @returns The scale pivot of the block type as a tuple.
    */
-  public get scale_pivot(): [number, number, number] {
-    // Get the scale pivot of the transformation
+  public getScalePivot(): [number, number, number] {
+    // Get the scale pivot of the block type
     const x = this.component.getTag<FloatTag>("SXP")?.value ?? 0;
     const y = this.component.getTag<FloatTag>("SYP")?.value ?? 0;
     const z = this.component.getTag<FloatTag>("SZP")?.value ?? 0;
@@ -128,43 +174,18 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
   }
 
   /**
-   * The pivot point to scale the geometry around.
+   * Set the scale pivot of the block type.
+   * @param value The scale pivot of the block type as a tuple.
    */
-  public set scale_pivot(value: [number, number, number]) {
-    // Set the scale pivot of the transformation
+  public setScalePivot(value: [number, number, number]): void {
+    // Set the scale pivot of the block type
     this.component.createFloatTag({ name: "SXP", value: value[0] });
     this.component.createFloatTag({ name: "SYP", value: value[1] });
     this.component.createFloatTag({ name: "SZP", value: value[2] });
   }
-
-  /**
-   * Create a new block selection box property for a block definition
-   * @param block The block type or permutation
-   * @param properties The selection box properties
-   */
-  public constructor(
-    block: BlockType | BlockPermutation,
-    properties?: Partial<BlockTypeTransformationComponent>
-  ) {
-    super(block);
-
-    // Assign the default transformation properties
-    properties = { ...DefaultTransformationProperties, ...properties };
-
-    // Create an hasJsonVersionBeforeValidation tag for the property
-    this.component.createByteTag({
-      name: "hasJsonVersionBeforeValidation",
-      value: 0
-    });
-
-    // Set the properties of the transformation
-    if (properties?.translation) this.translation = properties.translation;
-    if (properties?.rotation) this.rotation = properties.rotation;
-    if (properties?.scale) this.scale = properties.scale;
-    if (properties?.rotation_pivot)
-      this.rotation_pivot = properties.rotation_pivot;
-    if (properties?.scale_pivot) this.scale_pivot = properties.scale_pivot;
-  }
 }
 
-export { BlockTypeTransformationComponent };
+export {
+  BlockTypeTransformationComponent,
+  BlockTypeTransformationComponentOptions
+};

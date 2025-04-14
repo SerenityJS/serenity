@@ -15,12 +15,12 @@ class BlockCraftingTableTrait extends BlockInventoryTrait {
    * @param block The block create the trait for.
    */
   public constructor(block: Block) {
-    // Get the crafting table grid size
-    const { gridSize } = block.type.components.getCraftingTable();
+    // Get the crafting table component from the block
+    const component = block.type.components.getCraftingTable();
 
     // Call the super constructor
     super(block, {
-      size: gridSize ** 2, // Calculate the size of the crafting table
+      size: component.getGridSize() ** 2, // Calculate the size of the crafting table
       type: ContainerType.Workbench
     });
   }

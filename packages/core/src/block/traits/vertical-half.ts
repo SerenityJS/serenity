@@ -23,10 +23,10 @@ class VerticalHalfTrait extends BlockTrait {
     const itemStack = origin.getHeldItem();
 
     // Check if the stack has a block type
-    if (!itemStack || !itemStack.type.blockType) return true;
+    if (!itemStack || !itemStack.components.hasBlockPlacer()) return true;
 
     // Get the block type of the item
-    const blockType = itemStack.type.blockType;
+    const blockType = itemStack.components.getBlockPlacer().getBlockType();
 
     // Check if the block type is equal to the interacting block
     if (blockType !== this.block.type) return true;

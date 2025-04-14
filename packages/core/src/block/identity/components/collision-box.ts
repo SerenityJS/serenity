@@ -1,24 +1,51 @@
 import { FloatTag, ListTag, TagType } from "@serenityjs/nbt";
 
-import { BlockType } from "../type";
-import { BlockPermutation } from "../permutation";
-
 import { BlockTypeComponent } from "./component";
 
-const DefaultCollisionBoxProperties = {
-  origin: [-8, 0, -8],
-  size: [16, 16, 16]
-};
+import type { BlockPermutation } from "../permutation";
+import type { BlockType } from "../type";
+
+interface BlockTypeCollisionBoxComponentOptions {
+  /**
+   * The origin of the collision box relative to the block.
+   * The default value is [-8, 0, -8].
+   */
+  origin: [number, number, number];
+
+  /**
+   * The size of the collision box relative to the block.
+   * The default value is [16, 16, 16].
+   */
+  size: [number, number, number];
+}
 
 class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
   public static readonly identifier = "minecraft:collision_box";
 
   /**
-   * The start position of the collision box in the block space
-   * Default is [0, 0, 0]
-   * Centered is [-8, -8, -8]
+   * Create a new block collision box property for a block definition
+   * @param block The block type or permutation
+   * @param options The options for the collision box
    */
-  public get origin(): [number, number, number] {
+  public constructor(
+    block: BlockType | BlockPermutation,
+    options?: Partial<BlockTypeCollisionBoxComponentOptions>
+  ) {
+    super(block);
+
+    // Create an enabled tag for the property
+    this.component.createByteTag({ name: "enabled", value: 1 });
+
+    // Set the default values for the collision box
+    this.setOrigin(options?.origin ?? [-8, 0, -8]);
+    this.setSize(options?.size ?? [16, 16, 16]);
+  }
+
+  /**
+   * Get the origin of the collision box
+   * @returns The origin of the collision box as a tuple
+   */
+  public getOrigin(): [number, number, number] {
     // Get the origin of the collision box
     const { value } = this.component.getTag<ListTag<FloatTag>>("origin");
 
@@ -27,11 +54,10 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
   }
 
   /**
-   * The start position of the collision box in the block space
-   * Default is [0, 0, 0]
-   * Centered is [-8, -8, -8]
+   * Set the origin of the collision box
+   * @param value The origin of the collision box as a tuple
    */
-  public set origin(value: [number, number, number]) {
+  public setOrigin(value: [number, number, number]): void {
     // Set the origin of the collision box
     const origin = this.component.createListTag({
       name: "origin",
@@ -45,9 +71,10 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
   }
 
   /**
-   * The size of the collision box in the block space
+   * Get the size of the collision box
+   * @returns The size of the collision box as a tuple
    */
-  public get size(): [number, number, number] {
+  public getSize(): [number, number, number] {
     // Get the size of the collision box
     const { value } = this.component.getTag<ListTag<FloatTag>>("size");
 
@@ -56,9 +83,10 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
   }
 
   /**
-   * The size of the collision box in the block space
+   * Set the size of the collision box
+   * @param value The size of the collision box as a tuple
    */
-  public set size(value: [number, number, number]) {
+  public setSize(value: [number, number, number]): void {
     // Set the size of the collision box
     const size = this.component.createListTag({
       name: "size",
@@ -70,24 +98,9 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
     size.push(new FloatTag({ value: value[1] }));
     size.push(new FloatTag({ value: value[2] }));
   }
-
-  /**
-   * Create a new block collision box property for a block definition
-   * @param block The block type or permutation
-   * @param properties The collision box properties
-   */
-  public constructor(
-    block: BlockType | BlockPermutation,
-    properties?: Partial<BlockTypeCollisionBoxComponent>
-  ) {
-    super(block);
-
-    // Assign the default collision box properties
-    Object.assign(this, { ...DefaultCollisionBoxProperties, ...properties });
-
-    // Create an enabled tag for the property
-    this.component.createByteTag({ name: "enabled", value: 1 });
-  }
 }
 
-export { BlockTypeCollisionBoxComponent };
+export {
+  BlockTypeCollisionBoxComponent,
+  BlockTypeCollisionBoxComponentOptions
+};

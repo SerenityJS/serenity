@@ -180,12 +180,18 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Get the held item stack from the player
         const stack = player.getHeldItem();
 
+        // Check if the stack exists and if not return
+        if (!stack) return;
+
+        // Determine if the item stack is a block placer
+        const placingBlock = stack.components.hasBlockPlacer();
+
         // Interact with the block
         const results = interacting.interact({
           origin: player,
           clickedPosition: transaction.clickPosition,
           clickedFace: transaction.face,
-          placingBlock: stack ? !stack.type.blockType?.air : false
+          placingBlock
         });
 
         // Check if the interaction failed, or if the interaction opened a container
@@ -233,7 +239,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           else if (player.gamemode === Gamemode.Survival) stack.decrement();
 
           // Check if a block type is present for the item stack
-          const blockType = stack.type.blockType;
+          const blockType = stack.components.getBlockPlacer().getBlockType();
 
           // Check if the block type exists and is not air
           if (!blockType || blockType.identifier === BlockIdentifier.Air)

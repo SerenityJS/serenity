@@ -60,7 +60,16 @@ class ItemPalette {
    */
   public resolveType(type: BlockType): ItemType | null {
     return (
-      [...this.types.values()].find((item) => item.blockType === type) ?? null
+      [...this.types.values()].find((item) => {
+        // Check if the item type is a block placer component.
+        if (!item.components.hasBlockPlacer()) return false;
+
+        // Get the block placer component from the item type.
+        const blockPlacer = item.components.getBlockPlacer();
+
+        // Check if the block placer component is not null.
+        return blockPlacer.getBlockType() === type;
+      }) ?? null
     );
   }
 

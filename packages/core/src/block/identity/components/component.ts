@@ -19,12 +19,12 @@ class BlockTypeComponent {
   /**
    * The properties collection of the block type.
    */
-  public readonly collection: BlockTypeComponentCollection;
+  protected readonly collection: BlockTypeComponentCollection;
 
   /**
    * The block type of the component.
    */
-  public readonly type: BlockType;
+  protected readonly type: BlockType;
 
   /**
    * The component value of the block type.

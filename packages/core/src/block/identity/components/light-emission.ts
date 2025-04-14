@@ -9,29 +9,34 @@ class BlockTypeLightEmissionComponent extends BlockTypeComponent {
   public static readonly identifier = "minecraft:light_emission";
 
   /**
-   * The amount of light that the block property will emit.
+   * Create a new light emission property for a block definition.
+   * @param block The block definition that this property will be attached to.
+   * @param lightEmission The amount of light that the block property will emit.
    */
-  public set lightEmission(value: number) {
-    this.component.createByteTag({ name: "emission", value });
+  public constructor(
+    block: BlockType | BlockPermutation,
+    lightEmission?: number
+  ) {
+    super(block);
+
+    // Set the light emission value.
+    this.setLightEmission(lightEmission ?? 0);
   }
 
   /**
-   * The amount of light that the block property will emit.
+   * Get the light emission of the block type.
+   * @returns The light emission of the block type.
    */
-  public get lightEmission(): number {
+  public getLightEmission(): number {
     return this.component.getTag<ByteTag>("emission")?.value ?? 0;
   }
 
   /**
-   * Create a new light emission property for a block definition.
-   * @param permutation The block definition that this property will be attached to.
-   * @param lightEmission The amount of light that the block property will emit.
+   * Set the light emission of the block type.
+   * @param value The light emission of the block type.
    */
-  public constructor(block: BlockType | BlockPermutation, lightEmission = 0) {
-    super(block);
-
-    // Set the light emission value.
-    this.lightEmission = lightEmission;
+  public setLightEmission(value: number): void {
+    this.component.createByteTag({ name: "emission", value });
   }
 }
 

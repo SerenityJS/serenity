@@ -1,21 +1,28 @@
 import { CompoundTag } from "@serenityjs/nbt";
 
-import { MaterialInstanceProperties } from "../../types";
-
-import { BlockPermutation } from "./permutation";
-import { BlockType } from "./type";
 import {
+  type BlockTypeComponent,
+  type MaterialInstanceOptions,
+  type BlockTypeCollisionBoxComponentOptions,
+  type BlockTypeCraftingTableComponentOptions,
+  type BlockTypeGeometryComponentOptions,
+  type BlockTypeMaterialInstancesComponentOptions,
+  type BlockTypeSelectionBoxComponentOptions,
+  type BlockTypeTransformationComponentOptions,
   BlockTypeCollisionBoxComponent,
   BlockTypeCraftingTableComponent,
   BlockTypeFrictionComponent,
   BlockTypeGeometryComponent,
-  BlockTypeHardnessComponent,
+  BlockTypeDestructableByMiningComponent,
   BlockTypeInteractableComponent,
   BlockTypeLightEmissionComponent,
   BlockTypeMaterialInstancesComponent,
   BlockTypeSelectionBoxComponent,
-  type BlockTypeComponent
+  BlockTypeTransformationComponent
 } from "./components";
+
+import type { BlockType } from "./type";
+import type { BlockPermutation } from "./permutation";
 
 class BlockTypeComponentCollection extends CompoundTag<unknown> {
   /**
@@ -106,14 +113,22 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
   }
 
   /**
+   * Get whether the block has a hardness component.
+   * @returns True if the block has a hardness component, false otherwise.
+   */
+  public hasHardness(): boolean {
+    return this.has(BlockTypeDestructableByMiningComponent);
+  }
+
+  /**
    * Get the hardness component value of the block.
    * @returns The hardness value of the block.
    */
   public getHardness(): number {
     // Check if the hardness component exists.
-    if (this.has(BlockTypeHardnessComponent)) {
+    if (this.has(BlockTypeDestructableByMiningComponent)) {
       // Return the hardness value of the component.
-      return this.get(BlockTypeHardnessComponent).hardness;
+      return this.get(BlockTypeDestructableByMiningComponent).getHardness();
     }
 
     // Return the default hardness value.
@@ -126,13 +141,21 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
    */
   public setHardness(value: number): void {
     // Check if the hardness component exists.
-    if (this.has(BlockTypeHardnessComponent)) {
+    if (this.has(BlockTypeDestructableByMiningComponent)) {
       // Set the hardness value of the component.
-      this.get(BlockTypeHardnessComponent)!.hardness = value;
+      this.get(BlockTypeDestructableByMiningComponent).setHardness(value);
     } else {
       // Add the hardness component to the block.
-      this.add(BlockTypeHardnessComponent, value);
+      this.add(BlockTypeDestructableByMiningComponent, value);
     }
+  }
+
+  /**
+   * Get whether the block has a friction component.
+   * @returns True if the block has a friction component, false otherwise.
+   */
+  public hasFriction(): boolean {
+    return this.has(BlockTypeFrictionComponent);
   }
 
   /**
@@ -143,7 +166,7 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the friction component exists.
     if (this.has(BlockTypeFrictionComponent)) {
       // Return the friction value of the component.
-      return this.get(BlockTypeFrictionComponent)!.friction;
+      return this.get(BlockTypeFrictionComponent).getFriction();
     }
 
     // Return the default friction value.
@@ -158,11 +181,19 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the friction component exists.
     if (this.has(BlockTypeFrictionComponent)) {
       // Set the friction value of the component.
-      this.get(BlockTypeFrictionComponent)!.friction = value;
+      this.get(BlockTypeFrictionComponent).setFriction(value);
     } else {
       // Add the friction component to the block.
       this.add(BlockTypeFrictionComponent, value);
     }
+  }
+
+  /**
+   * Get whether the block has a light emission component.
+   * @returns True if the block has a light emission component, false otherwise.
+   */
+  public hasLightEmission(): boolean {
+    return this.has(BlockTypeLightEmissionComponent);
   }
 
   /**
@@ -173,7 +204,7 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the light emission component exists.
     if (this.has(BlockTypeLightEmissionComponent)) {
       // Return the light emission value of the component.
-      return this.get(BlockTypeLightEmissionComponent)!.lightEmission;
+      return this.get(BlockTypeLightEmissionComponent).getLightEmission();
     }
 
     // Return the default light emission value.
@@ -188,11 +219,19 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
     // Check if the light emission component exists.
     if (this.has(BlockTypeLightEmissionComponent)) {
       // Set the light emission value of the component.
-      this.get(BlockTypeLightEmissionComponent)!.lightEmission = value;
+      this.get(BlockTypeLightEmissionComponent).setLightEmission(value);
     } else {
       // Add the light emission component to the block.
       this.add(BlockTypeLightEmissionComponent, value);
     }
+  }
+
+  /**
+   * Get whether the block has a interactable component.
+   * @returns True if the block has a interactable component, false otherwise.
+   */
+  public hasInteractable(): boolean {
+    return this.has(BlockTypeInteractableComponent);
   }
 
   /**
@@ -217,6 +256,14 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
    * Get the geometry component of the block.
    * @returns The geometry component of the block.
    */
+  public hasGeometry(): boolean {
+    return this.has(BlockTypeGeometryComponent);
+  }
+
+  /**
+   * Get the geometry component of the block.
+   * @returns The geometry component of the block.
+   */
   public getGeometry(): BlockTypeGeometryComponent {
     // Check if the geometry component exists.
     if (!this.has(BlockTypeGeometryComponent)) {
@@ -230,29 +277,34 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
 
   /**
    * Set the geometry component of the block.
-   * @param properties The properties of the geometry component.
+   * @param options The options of the geometry component.
    * @returns The geometry component of the block.
    */
   public setGeometry(
-    properties?: Partial<BlockTypeGeometryComponent>
+    options?: Partial<BlockTypeGeometryComponentOptions>
   ): BlockTypeGeometryComponent {
     // Check if the geometry component exists.
     if (!this.has(BlockTypeGeometryComponent)) {
       // Add the geometry component to the block.
-      this.add(BlockTypeGeometryComponent, properties);
+      this.add(BlockTypeGeometryComponent, options);
     } else {
       // Get the geometry component of the block.
       const geometry = this.getGeometry();
 
-      // Check if the properties are defined.
-      if (properties) {
-        // Assign the properties to the geometry component.
-        Object.assign(geometry, properties);
-      }
+      // Check if the model identifier is defined.
+      if (options?.identifier) geometry.setModelIdentifier(options.identifier);
     }
 
     // Return the geometry component.
     return this.getGeometry();
+  }
+
+  /**
+   * Get the material instances component of the block.
+   * @returns The material instances component of the block.
+   */
+  public hasMaterialInstances(): boolean {
+    return this.has(BlockTypeMaterialInstancesComponent);
   }
 
   /**
@@ -272,29 +324,43 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
 
   /**
    * Set the material instances component of the block.
-   * @param properties The properties of the material instances component.
+   * @param options The options of the material instances component.
    * @returns The material instances component of the block.
    */
   public setMaterialInstances(
-    properties?: Record<string, MaterialInstanceProperties>
+    options?: Partial<BlockTypeMaterialInstancesComponentOptions>
   ): BlockTypeMaterialInstancesComponent {
     // Check if the material instances component exists.
     if (!this.has(BlockTypeMaterialInstancesComponent)) {
       // Add the material instances component to the block.
-      this.add(BlockTypeMaterialInstancesComponent, properties);
+      this.add(BlockTypeMaterialInstancesComponent, options);
     } else {
       // Get the material instances component of the block.
       const materialInstances = this.getMaterialInstances();
 
-      // Check if the properties are defined.
-      if (properties) {
-        // Assign the properties to the material instances component.
-        Object.assign(materialInstances, properties);
+      // Check if the materials are defined.
+      if (options) {
+        // Iterate over the materials.
+        for (const key in options) {
+          // Get the material instance options.
+          const instance = options[key] as MaterialInstanceOptions;
+
+          // Create a new material instance.
+          materialInstances.createMaterialInstance(key, instance);
+        }
       }
     }
 
     // Return the material instances component.
     return this.getMaterialInstances();
+  }
+
+  /**
+   * Get the selection box component of the block.
+   * @returns The selection box component of the block.
+   */
+  public hasSelectionBox(): boolean {
+    return this.has(BlockTypeSelectionBoxComponent);
   }
 
   /**
@@ -314,29 +380,37 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
 
   /**
    * Set the selection box component of the block.
-   * @param properties The properties of the selection box component.
+   * @param options The options of the selection box component.
    * @returns The selection box component of the block.
    */
   public setSelectionBox(
-    properties?: Partial<BlockTypeSelectionBoxComponent>
+    options?: Partial<BlockTypeSelectionBoxComponentOptions>
   ): BlockTypeSelectionBoxComponent {
     // Check if the selection box component exists.
     if (!this.has(BlockTypeSelectionBoxComponent)) {
       // Add the selection box component to the block.
-      this.add(BlockTypeSelectionBoxComponent, properties);
+      this.add(BlockTypeSelectionBoxComponent, options);
     } else {
       // Get the selection box component of the block.
       const selectionBox = this.getSelectionBox();
 
-      // Check if the properties are defined.
-      if (properties) {
-        // Assign the properties to the selection box component.
-        Object.assign(selectionBox, properties);
-      }
+      // Check if the origin is defined.
+      if (options?.origin) selectionBox.setOrigin(options.origin);
+
+      // Check if the size is defined.
+      if (options?.size) selectionBox.setSize(options.size);
     }
 
     // Return the selection box component.
     return this.getSelectionBox();
+  }
+
+  /**
+   * Get the collision box component of the block.
+   * @returns True if the block has a collision box component, false otherwise.
+   */
+  public hasCollisionBox(): boolean {
+    return this.has(BlockTypeCollisionBoxComponent);
   }
 
   /**
@@ -356,29 +430,37 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
 
   /**
    * Set the collision box component of the block.
-   * @param properties The properties of the collision box component.
+   * @param options The options of the collision box component.
    * @returns The collision box component of the block.
    */
   public setCollisionBox(
-    properties?: Partial<BlockTypeCollisionBoxComponent>
+    options?: Partial<BlockTypeCollisionBoxComponentOptions>
   ): BlockTypeCollisionBoxComponent {
     // Check if the collision box component exists.
     if (!this.has(BlockTypeCollisionBoxComponent)) {
       // Add the collision box component to the block.
-      this.add(BlockTypeCollisionBoxComponent, properties);
+      this.add(BlockTypeCollisionBoxComponent, options);
     } else {
       // Get the collision box component of the block.
       const collisionBox = this.getCollisionBox();
 
-      // Check if the properties are defined.
-      if (properties) {
-        // Assign the properties to the collision box component.
-        Object.assign(collisionBox, properties);
-      }
+      // Check if the origin is defined.
+      if (options?.origin) collisionBox.setOrigin(options.origin);
+
+      // Check if the size is defined.
+      if (options?.size) collisionBox.setSize(options.size);
     }
 
     // Return the collision box component.
     return this.getCollisionBox();
+  }
+
+  /**
+   * Get the crafting table component of the block.
+   * @returns True if the block has a crafting table component, false otherwise.
+   */
+  public hasCraftingTable(): boolean {
+    return this.has(BlockTypeCraftingTableComponent);
   }
 
   /**
@@ -399,28 +481,86 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
   /**
    * Set the crafting table component of the block.
    * @param properties The properties of the crafting table component.
-   * @returns The crafting table component of the
+   * @returns The crafting table component of the block.
    */
   public setCraftingTable(
-    properties?: Partial<BlockTypeCraftingTableComponent>
+    options?: Partial<BlockTypeCraftingTableComponentOptions>
   ): BlockTypeCraftingTableComponent {
     // Check if the crafting table component exists.
     if (!this.has(BlockTypeCraftingTableComponent)) {
       // Add the crafting table component to the block.
-      this.add(BlockTypeCraftingTableComponent, properties);
+      this.add(BlockTypeCraftingTableComponent, options);
     } else {
       // Get the crafting table component of the block.
       const craftingTable = this.getCraftingTable();
 
-      // Check if the properties are defined.
-      if (properties) {
-        // Assign the properties to the crafting table component.
-        Object.assign(craftingTable, properties);
-      }
+      // Check if the table name is defined.
+      if (options?.table_name) craftingTable.setTableName(options.table_name);
+
+      // Check if the crafting tags are defined.
+      if (options?.crafting_tags)
+        craftingTable.setCraftingTags(options.crafting_tags);
+
+      // Check if the grid size is defined.
+      if (options?.grid_size) craftingTable.setGridSize(options.grid_size);
     }
 
     // Return the crafting table component.
     return this.getCraftingTable();
+  }
+
+  /**
+   * Get the transformation component of the block.
+   * @returns The transformation component of the block.
+   */
+  public getTransformation(): BlockTypeTransformationComponent {
+    // Check if the transformation component exists.
+    if (!this.has(BlockTypeTransformationComponent)) {
+      // Add the transformation component to the block.
+      return this.add(BlockTypeTransformationComponent, {});
+    }
+
+    // Return the transformation component
+    return this.get(BlockTypeTransformationComponent);
+  }
+
+  /**
+   * Set the transformation component of the block.
+   * @param options The options of the transformation component.
+   * @returns The transformation component of the block.
+   */
+  public setTransformation(
+    options?: Partial<BlockTypeTransformationComponentOptions>
+  ): BlockTypeTransformationComponent {
+    // Check if the transformation component exists.
+    if (!this.has(BlockTypeTransformationComponent)) {
+      // Add the transformation component to the block.
+      this.add(BlockTypeTransformationComponent, options);
+    } else {
+      // Get the transformation component of the block.
+      const transformation = this.getTransformation();
+
+      // Check if the translation is defined.
+      if (options?.translation)
+        transformation.setTranslation(options.translation);
+
+      // Check if the rotation is defined.
+      if (options?.rotation) transformation.setRotation(options.rotation);
+
+      // Check if the scale is defined.
+      if (options?.scale) transformation.setScale(options.scale);
+
+      // Check if the rotation pivot is defined.
+      if (options?.rotation_pivot)
+        transformation.setRotationPivot(options.rotation_pivot);
+
+      // Check if the scale pivot is defined.
+      if (options?.scale_pivot)
+        transformation.setScalePivot(options.scale_pivot);
+    }
+
+    // Return the transformation component.
+    return this.getTransformation();
   }
 }
 

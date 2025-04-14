@@ -119,6 +119,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
   }
 
   /**
+   * Check if the item type has a max stack size component.
+   * @returns Whether the item type has a max stack size component.
+   */
+  public hasMaxStackSize(): boolean {
+    // Check if the max stack size component exists.
+    return this.has(ItemTypeMaxStackComponent);
+  }
+
+  /**
    * Get the max stack size of the item type.
    * @returns The max stack size of the item type.
    */
@@ -146,6 +155,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
       // Add the max stack size component.
       this.add(ItemTypeMaxStackComponent, value);
     }
+  }
+
+  /**
+   * Check if the item type has a block placer component.
+   * @returns Whether the item type has a block placer component.
+   */
+  public hasBlockPlacer(): boolean {
+    // Check if the block placer component exists.
+    return this.has(ItemTypeBlockPlacerComponent);
   }
 
   /**
@@ -178,10 +196,10 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
       // Get the block placer component
       const component = this.get(ItemTypeBlockPlacerComponent);
 
-      // Check if a block identifier was provided
-      if (options?.blockIdentifier)
-        // Set the block identifier of the block placer component.
-        component.setBlockIdentifier(options.blockIdentifier);
+      // Check if a block type was provided
+      if (options?.blockType)
+        // Set the block type of the block placer component.
+        component.setBlockType(options.blockType);
 
       // Check if a block image was provided
       if (options?.useBlockAsIcon)
@@ -193,6 +211,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
         // Set the blocks that the item can be used on.
         component.setUseOnBlocks(options.useOnBlocks);
     }
+  }
+
+  /**
+   * Check if the item type has a display name component.
+   * @returns Whether the item type has a display name component.
+   */
+  public hasDisplayName(): boolean {
+    // Check if the display name component exists.
+    return this.has(ItemTypeDisplayNameComponent);
   }
 
   /**
@@ -223,6 +250,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
       // Add the display name component.
       this.add(ItemTypeDisplayNameComponent, value);
     }
+  }
+
+  /**
+   * Check if the item type has a can destroy in creative component.
+   * @returns Whether the item type has a can destroy in creative component.
+   */
+  public hasCanDestroyInCreative(): boolean {
+    // Check if the can destroy in creative component exists.
+    return this.has(ItemTypeCanDestroyInCreativeComponent);
   }
 
   /**
@@ -262,6 +298,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
   }
 
   /**
+   * Check if the item type has an icon component.
+   * @returns Whether the item type has an icon component.
+   */
+  public hasIcon(): boolean {
+    // Check if the icon component exists.
+    return this.has(ItemTypeIconComponent);
+  }
+
+  /**
    * Get the icon of the item type.
    * @returns The icon of the item type.
    */
@@ -295,6 +340,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
       // Check if a dyed icon was provided
       if (options?.dyed) component.setDyedIcon(options.dyed);
     }
+  }
+
+  /**
+   * Check if the item type has a wearable component.
+   * @returns Whether the item type has a wearable component.
+   */
+  public hasWearable(): boolean {
+    // Check if the wearable component exists.
+    return this.has(ItemTypeWearableComponent);
   }
 
   /**
@@ -337,6 +391,15 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
         // Set the wearable slot of the wearable component.
         component.setWearableSlot(options.slot);
     }
+  }
+
+  /**
+   * Check if the item type has a cooldown component.
+   * @returns Whether the item type has a cooldown component.
+   */
+  public hasCooldown(): boolean {
+    // Check if the cooldown component exists.
+    return this.has(ItemTypeCooldownComponent);
   }
 
   /**

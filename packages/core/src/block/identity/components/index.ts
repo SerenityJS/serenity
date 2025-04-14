@@ -3,7 +3,7 @@ export * from "./light-emission";
 export * from "./material-instances";
 export * from "./geometry";
 export * from "./interactable";
-export * from "./hardness";
+export * from "./destructible-by-mining";
 export * from "./friction";
 export * from "./collision-box";
 export * from "./selection-box";

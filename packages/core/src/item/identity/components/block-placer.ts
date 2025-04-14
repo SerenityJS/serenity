@@ -7,15 +7,17 @@ import {
 } from "@serenityjs/nbt";
 
 import { BlockIdentifier } from "../../../enums";
-import { ItemType } from "../type";
+import { BlockType } from "../../../block";
 
 import { ItemTypeComponent } from "./component";
 
+import type { ItemType } from "../type";
+
 interface ItemTypeBlockPlacerComponentOptions {
   /**
-   * The block identifier that the item type will place.
+   * The block type that the item type will place.
    */
-  blockIdentifier: BlockIdentifier | string;
+  blockType: BlockType;
 
   /**
    * Whether the block image should be used as the item icon.
@@ -32,6 +34,11 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
   public static readonly identifier = "minecraft:block_placer";
 
   /**
+   * The block type that the item type will place.
+   */
+  protected blockType: BlockType | null = null;
+
+  /**
    * Create a new block placer component for an item type.
    * @param type The item type that the component will be attached to.
    * @param properties The properties of the block placer component.
@@ -42,33 +49,32 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
   ) {
     super(type);
 
-    // Get the block identifier from the properties.
-    const identifier = type.blockType?.identifier ?? BlockIdentifier.Air;
-
     // Set the block placer properties.
-    this.setBlockIdentifier(options?.blockIdentifier ?? identifier);
+    this.setBlockType(options?.blockType ?? BlockType.get(BlockIdentifier.Air));
     this.setUseBlockAsIcon(options?.useBlockAsIcon ?? true);
     this.setUseOnBlocks(options?.useOnBlocks ?? []);
   }
 
   /**
-   * Get the block identifier that the item type will place.
-   * @returns The block identifier.
+   * Get the block type that the item type will place.
+   * @returns The block type that the item type will place.
    */
-  public getBlockIdentifier(): BlockIdentifier | string {
-    // Get the block identifier from the block tag.
-    return this.component.getTag<StringTag>("block")?.value as BlockIdentifier;
+  public getBlockType(): BlockType {
+    return this.blockType ?? BlockType.get(BlockIdentifier.Air);
   }
 
   /**
-   * Set the block identifier that the item type will place.
-   * @param value The block identifier.
+   * Set the block type that the item type will place.
+   * @param value The block type or block identifier.
    */
-  public setBlockIdentifier(value: BlockIdentifier | string): void {
+  public setBlockType(type: BlockType): void {
+    // Set the block type.
+    this.blockType = type;
+
     // Create a new block tag.
     this.component.createStringTag({
       name: "block",
-      value: value
+      value: type.identifier
     });
   }
 
