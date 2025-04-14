@@ -180,11 +180,8 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Get the held item stack from the player
         const stack = player.getHeldItem();
 
-        // Check if the stack exists and if not return
-        if (!stack) return;
-
         // Determine if the item stack is a block placer
-        const placingBlock = stack.components.hasBlockPlacer();
+        const placingBlock = stack?.components.hasBlockPlacer() ?? false;
 
         // Interact with the block
         const results = interacting.interact({
