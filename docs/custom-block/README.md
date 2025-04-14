@@ -39,7 +39,7 @@ materials.createMaterialInstance("*", {
 });
 ```
 
-# Block Permutations
+## Block Permutations
 Block permutations are a way to define different variations of a block called states. Each permutation can have its own set of component properties. To create a permutation, you can use the `createPermutation` method on the `CustomBlockType` instance. The state of a permutation can be a string, number, or boolean.
 
 ```typescript
@@ -62,7 +62,7 @@ const permutation2 = exampleBlockType.createPermutation({ powered: true });
 permutation2.components.setLightEmission(15); // Level 15 will emit light
 ```
 
-# Block Traits
+## Block Traits
 Block traits are a way to define additional properties for a block. These traits can be used to define the behavior of the block in the game. For example, you can define a trait that makes the block emit light when interacted with. To create a trait, you create a new class that extends the `BlockTrait` class. Below is an example of how to create a simple block trait that makes the block emit light when interacted with.
 
 First we need to extends upon the code above, we need to make the base block type interactable. This is done by calling the `setIsInteractable` method within the components property of the block type. This will allow us to properly interact with the block in the game.
@@ -98,7 +98,7 @@ Once the trait is defined, you can register it with the block type. This means w
 exampleBlockType.registerTrait(ExampleBlockTrait);
 ```
 
-# Conclusion
+## Conclusion
 In this guide, we have covered the basics of creating a custom block in Serenity. We have defined a custom block type, created permutations, and added traits to define the behavior of the block. Once these steps are completed, you will need to register the block type to the world instance. This is done by calling the `registerType` method on the `blockPalette` property of the world instance.
 
 ```typescript
