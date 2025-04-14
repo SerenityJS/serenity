@@ -61,3 +61,51 @@ permutation1.components.setLightEmission(0); // Level 0 will not emit light
 const permutation2 = exampleBlockType.createPermutation({ powered: true });
 permutation2.components.setLightEmission(15); // Level 15 will emit light
 ```
+
+# Block Traits
+Block traits are a way to define additional properties for a block. These traits can be used to define the behavior of the block in the game. For example, you can define a trait that makes the block emit light when interacted with. To create a trait, you create a new class that extends the `BlockTrait` class. Below is an example of how to create a simple block trait that makes the block emit light when interacted with.
+
+First we need to extends upon the code above, we need to make the base block type interactable. This is done by calling the `setIsInteractable` method within the components property of the block type. This will allow us to properly interact with the block in the game.
+
+```typescript
+// This will make the block type interactable
+exampleBlockType.components.setIsInteractable(true);
+```
+
+Next, we can create a new class that extends the `BlockTrait` class. This class will define the behavior of the block when it is interacted with. In this example, we will create a trait that makes the block emit light when interacted with. Traits add a sense of reusability to the code, as they can be used in multiple blocks. This is similar to how components are used in the block type.
+
+```typescript
+import { BlockTrait } from '@serenityjs/core';
+
+class ExampleBlockTrait extends BlockTrait {
+  // Every trait must have a unique identifier
+  public static readonly identifier = "serenity:example_block_trait";
+
+  public onInteract(): void {
+    // Get the powered state of the block, which we defined in the permutation
+    const state = this.block.getState("powered");
+
+    // Toggle the powered state of the block
+    this.block.setState("powered", !state);
+  }
+}
+```
+
+Once the trait is defined, you can register it with the block type. This means when the block is initially created, it will have the trait applied to it. You can register the trait by calling the `registerTrait` method on the block type instance.
+
+```typescript
+// The block type will now have the trait applied to it
+exampleBlockType.registerTrait(ExampleBlockTrait);
+```
+
+# Conclusion
+In this guide, we have covered the basics of creating a custom block in Serenity. We have defined a custom block type, created permutations, and added traits to define the behavior of the block. Once these steps are completed, you will need to register the block type to the world instance. This is done by calling the `registerType` method on the `blockPalette` property of the world instance.
+
+```typescript
+world.blockPalette.registerType(exampleBlockType);
+
+// Optionally, you can register the block trait as well
+world.blockPalette.registerTrait(ExampleBlockTrait);
+```
+
+If you are interested in the full code snippet, you can find it [here](https://github.com/SerenityJS/serenity/tree/main/docs/custom-block/code.ts)!

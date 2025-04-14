@@ -28,7 +28,7 @@
   ],
   "projectDocuments": [
     "./README.md",
-    "./docs/*.md",
+    "./docs/*/*.md"
   ],
   "readme": "./README.md",
   "themeColor": "#8560e9",
