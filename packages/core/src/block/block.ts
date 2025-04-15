@@ -37,6 +37,7 @@ import {
   BlockPermutation,
   BlockType,
   BlockTypeCollisionBoxComponent,
+  BlockTypeGeometryComponent,
   BlockTypeSelectionBoxComponent
 } from "./identity";
 
@@ -982,6 +983,23 @@ class Block {
     // Check if the type has selection box.
     if (this.type.components.hasSelectionBox())
       return this.type.components.getSelectionBox();
+
+    // If not, return null.
+    return null;
+  }
+
+  /**
+   * Get the geometry of the block.
+   * @returns The geometry of the block.
+   */
+  public getGeometry(): BlockTypeGeometryComponent | null {
+    // Check if the permutation has geometry component.
+    if (this.permutation.components.hasGeometry())
+      return this.permutation.components.getGeometry();
+
+    // Check if the type has geometry component.
+    if (this.type.components.hasGeometry())
+      return this.type.components.getGeometry();
 
     // If not, return null.
     return null;
