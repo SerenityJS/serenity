@@ -330,10 +330,20 @@ class Block {
     return this.dimension.getChunk(cx, cz);
   }
 
+  /**
+   * Get the a specific state of the block.
+   * @param key The key of the state to get.
+   * @returns The value of the state.
+   */
   public getState<T>(key: string): T {
     return this.permutation.state[key as keyof BlockPermutation["state"]] as T;
   }
 
+  /**
+   * Sets the state of the block.
+   * @param key The key of the state to set.
+   * @param value The value of the state to set.
+   */
   public setState<T>(key: string, value: T): void {
     // Get the current state of the block
     const current = this.permutation.state;
@@ -592,29 +602,6 @@ class Block {
     if (this.getToolType() === BlockToolType.None) return true;
 
     return true;
-  }
-
-  /**
-   * Get the time it takes to break the block.
-   * @param itemStack The item stack used to break the block.
-   * @returns The time it takes to break the block.
-   */
-  public getBreakTime(itemStack?: ItemStack | null): number {
-    // Get the block permutation components.
-    const components = this.permutation.components;
-
-    // Get the hardness of the block.
-    let hardness = components.getHardness();
-
-    if (!itemStack && this.getToolType() === BlockToolType.None) {
-      hardness *= 1.5;
-    } else if (itemStack && this.isToolCompatible(itemStack)) {
-      hardness *= 1.5;
-    } else {
-      hardness *= 5;
-    }
-
-    return Math.ceil(hardness * 20);
   }
 
   /**
@@ -899,6 +886,50 @@ class Block {
       // Add the velocity to the item entity.
       itemEntity.addMotion(velocity);
     }
+  }
+
+  /**
+   * Get the time it takes to break the block.
+   * @param itemStack The item stack used to break the block.
+   * @returns The time it takes to break the block.
+   */
+  public getBreakTime(itemStack?: ItemStack | null): number {
+    let hardness = 0;
+
+    // Check if the permutation has hardness level.
+    if (this.permutation.components.hasHardness())
+      hardness = this.permutation.components.getHardness();
+
+    // Check if the type has hardness level.
+    if (this.type.components.hasHardness())
+      hardness = this.type.components.getHardness();
+
+    if (!itemStack && this.getToolType() === BlockToolType.None) {
+      hardness *= 1.5;
+    } else if (itemStack && this.isToolCompatible(itemStack)) {
+      hardness *= 1.5;
+    } else {
+      hardness *= 5;
+    }
+
+    return Math.ceil(hardness * 20);
+  }
+
+  /**
+   * Get the amount of light emitted by the block.
+   * @returns The amount of light emitted by the block.
+   */
+  public getLightEmission(): number {
+    // Check if the permutation has light emission level.
+    if (this.permutation.components.hasLightEmission())
+      return this.permutation.components.getLightEmission();
+
+    // Check if the type has light emission level.
+    if (this.type.components.hasLightEmission())
+      return this.type.components.getLightEmission();
+
+    // If not, return 0.
+    return 0;
   }
 
   /**
