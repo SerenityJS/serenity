@@ -933,6 +933,23 @@ class Block {
   }
 
   /**
+   * Get the amount of friction of the block.
+   * @returns The amount of friction of the block.
+   */
+  public getFriction(): number {
+    // Check if the permutation has friction level.
+    if (this.permutation.components.hasFriction())
+      return this.permutation.components.getFriction();
+
+    // Check if the type has friction level.
+    if (this.type.components.hasFriction())
+      return this.type.components.getFriction();
+
+    // If not, return 0.
+    return 0;
+  }
+
+  /**
    * Gets the block's data as a database entry.
    * @returns The block entry object.
    */
