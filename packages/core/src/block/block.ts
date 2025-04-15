@@ -33,8 +33,12 @@ import { DefaultBlockEntry } from "../constants";
 
 import { BlockDirectionTrait, BlockTrait } from "./traits";
 import { NbtMap } from "./maps";
-
-import { BlockPermutation, BlockType } from ".";
+import {
+  BlockPermutation,
+  BlockType,
+  BlockTypeCollisionBoxComponent,
+  BlockTypeSelectionBoxComponent
+} from "./identity";
 
 /**
  * Block is a class the represents an instance of a block in a dimension of a world.
@@ -947,6 +951,40 @@ class Block {
 
     // If not, return 0.
     return 0;
+  }
+
+  /**
+   * Get the collision box of the block.
+   * @returns The collision box of the block.
+   */
+  public getCollisionBox(): BlockTypeCollisionBoxComponent | null {
+    // Check if the permutation has collision box.
+    if (this.permutation.components.hasCollisionBox())
+      return this.permutation.components.getCollisionBox();
+
+    // Check if the type has collision box.
+    if (this.type.components.hasCollisionBox())
+      return this.type.components.getCollisionBox();
+
+    // If not, return null.
+    return null;
+  }
+
+  /**
+   * Get the selection box of the block.
+   * @returns The selection box of the block.
+   */
+  public getSelectionBox(): BlockTypeSelectionBoxComponent | null {
+    // Check if the permutation has selection box.
+    if (this.permutation.components.hasSelectionBox())
+      return this.permutation.components.getSelectionBox();
+
+    // Check if the type has selection box.
+    if (this.type.components.hasSelectionBox())
+      return this.type.components.getSelectionBox();
+
+    // If not, return null.
+    return null;
   }
 
   /**
