@@ -149,6 +149,7 @@ import { SetDefaultGamemodePacket } from "./set-default-gamemode";
 import { MotionPredictHintsPacket } from "./motion-prediction-hints";
 import { ClientCacheStatusPacket } from "./client-cache-status";
 import { AddPaintingPacket } from "./add-painting";
+import { PlayerUpdateEntityOverridesPacket } from "./player-update-entity-overrides";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -296,7 +297,8 @@ const Packets = {
   [Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket, // 312
   [Packet.CurrentStructureFeature]: CurrectStructureFeaturePacket, // 314
   [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket, // 315
-  [Packet.MovementEffect]: MovementEffectPacket // 318
+  [Packet.MovementEffect]: MovementEffectPacket, // 318
+  [Packet.PlayerUpdateEntityOverrides]: PlayerUpdateEntityOverridesPacket // 325
 };
 
 export { Packets };

@@ -150,3 +150,4 @@ export * from "./update-player-game-type";
 export * from "./set-last-hurt-by";
 export * from "./update-block-sync";
 export * from "./update-subchunk-blocks";
+export * from "./player-update-entity-overrides";

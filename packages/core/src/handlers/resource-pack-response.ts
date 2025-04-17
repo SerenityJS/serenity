@@ -14,7 +14,8 @@ import {
   ResourcePackStackPacket,
   StartGamePacket,
   ItemRegistryPacket,
-  PermissionLevel
+  PermissionLevel,
+  SyncActorPropertyPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, TagType } from "@serenityjs/nbt";
@@ -260,6 +261,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           listType: TagType.Compound
         });
 
+        const propertiesSync: Array<SyncActorPropertyPacket> = [];
+
         // Push all the entity types to the list
         for (const entry of world.entityPalette.getAllTypes()) {
           // Create a new compound tag for the entity
@@ -267,12 +270,22 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
           // Push the entity to the list
           list.value.push(entity);
+
+          // Check if the entity has properties
+          if (entry.properties.size > 0) {
+            // Create a new SyncActorPropertyPacket
+            const packet = new SyncActorPropertyPacket();
+            packet.properties = EntityType.toPropertiesNbt(entry);
+
+            // Push the packet to the properties sync array
+            propertiesSync.push(packet);
+          }
         }
 
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        player.sendImmediate(packet, status, actors, items);
+        player.sendImmediate(packet, status, actors, items, ...propertiesSync);
       }
     }
   }

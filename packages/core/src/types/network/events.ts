@@ -146,7 +146,8 @@ import type {
   SetLastHurtByPacket,
   SetDefaultGamemodePacket,
   MotionPredictHintsPacket,
-  AddPaintingPacket
+  AddPaintingPacket,
+  PlayerUpdateEntityOverridesPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -363,6 +364,9 @@ interface NetworkEvents {
   [Packet.MotionPredictHints]: [NetworkPacketEvent<MotionPredictHintsPacket>];
   [Packet.ClientCacheStatus]: [NetworkPacketEvent<ClientCacheStatusPacket>];
   [Packet.AddPainting]: [NetworkPacketEvent<AddPaintingPacket>];
+  [Packet.PlayerUpdateEntityOverrides]: [
+    NetworkPacketEvent<PlayerUpdateEntityOverridesPacket>
+  ];
 }
 
 export { NetworkEvents };

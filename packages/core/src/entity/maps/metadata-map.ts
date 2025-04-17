@@ -1,7 +1,6 @@
 import {
   ActorDataId,
   DataItem,
-  PropertySyncData,
   SetActorDataPacket
 } from "@serenityjs/protocol";
 
@@ -74,7 +73,7 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
       ? this.entity.inputTick
       : this.entity.dimension.world.currentTick;
     packet.data = [...this.entity.metadata.values()];
-    packet.properties = new PropertySyncData([], []);
+    packet.properties = this.entity.sharedProperties.getPropertySyncData();
 
     // Iterate over the flags set on the entity
     for (const [flag, enabled] of this.entity.flags)

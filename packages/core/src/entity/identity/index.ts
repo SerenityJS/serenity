@@ -3,3 +3,4 @@ import "./registry";
 
 export * from "./type";
 export * from "./custom";
+export * from "./properties";

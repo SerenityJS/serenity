@@ -1,8 +1,4 @@
-import {
-  ActorFlag,
-  PropertySyncData,
-  SetActorDataPacket
-} from "@serenityjs/protocol";
+import { ActorFlag, SetActorDataPacket } from "@serenityjs/protocol";
 
 import { Entity } from "../entity";
 import { EntityFlagUpdateSignal } from "../../events";
@@ -69,7 +65,7 @@ class ActorFlagMap extends Map<ActorFlag, boolean> {
       ? this.entity.inputTick
       : this.entity.dimension.world.currentTick;
     packet.data = [...this.entity.metadata.values()];
-    packet.properties = new PropertySyncData([], []);
+    packet.properties = this.entity.sharedProperties.getPropertySyncData();
 
     // Iterate over the flags set on the entity
     for (const [flag, enabled] of this.entity.flags)

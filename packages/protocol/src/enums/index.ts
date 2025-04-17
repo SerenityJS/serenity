@@ -108,3 +108,5 @@ export * from "./wearable-slot";
 export * from "./creative-item-group";
 export * from "./graphics-mode";
 export * from "./update-type";
+export * from "./entity-property-type";
+export * from "./player-update-entity-overrides-type";

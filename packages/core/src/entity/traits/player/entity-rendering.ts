@@ -9,7 +9,6 @@ import {
   MobArmorEquipmentPacket,
   NetworkItemStackDescriptor,
   PermissionLevel,
-  PropertySyncData,
   RemoveEntityPacket,
   Vector3f
 } from "@serenityjs/protocol";
@@ -61,8 +60,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
       // Set the head, chest, legs, and feet armor
       const head = trait.getEquipment(EquipmentSlot.Head);
-      const chest =
-        trait.getEquipment(EquipmentSlot.Chest);
+      const chest = trait.getEquipment(EquipmentSlot.Chest);
       const legs = trait.getEquipment(EquipmentSlot.Legs);
       const feet = trait.getEquipment(EquipmentSlot.Feet);
 
@@ -105,7 +103,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
           : ItemStack.toNetworkStack(heldItem);
       packet.gamemode = entity.gamemode;
       packet.data = [...entity.metadata.values()];
-      packet.properties = new PropertySyncData([], []);
+      packet.properties = entity.sharedProperties.getPropertySyncData();
       packet.uniqueEntityId = entity.uniqueId;
       packet.premissionLevel = entity.isOp
         ? PermissionLevel.Operator
@@ -191,7 +189,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.bodyYaw = entity.rotation.yaw;
     packet.attributes = [];
     packet.data = [...entity.metadata.values()];
-    packet.properties = new PropertySyncData([], []);
+    packet.properties = entity.sharedProperties.getPropertySyncData();
     packet.links = [];
 
     // Send the packet to the player

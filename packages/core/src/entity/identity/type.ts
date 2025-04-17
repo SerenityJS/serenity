@@ -1,4 +1,11 @@
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, TagType } from "@serenityjs/nbt";
+
+import {
+  EntityBooleanProperty,
+  EntityFloatProperty,
+  EntityIntProperty,
+  type EntityProperty
+} from "./properties";
 
 import type { EntityTrait } from "../traits";
 import type { EntityIdentifier } from "../../enums";
@@ -34,6 +41,8 @@ class EntityType {
    * The default components of the entity type.
    */
   public readonly components: Array<string>;
+
+  public readonly properties = new Map<string, EntityProperty>();
 
   /**
    * Create a new entity type.
@@ -81,6 +90,80 @@ class EntityType {
   }
 
   /**
+   * Create a new integer property for the entity type.
+   * @param identifier The identifier of the property.
+   * @param range The value range of the property. (min to max)
+   * @param defaultValue The default value of the property, if not specified, minimum value will be used.
+   * @returns The created integer property.
+   */
+  public createIntProperty(
+    identifier: string,
+    range: [number, number],
+    defaultValue?: number
+  ): EntityIntProperty {
+    // Create a new integer property.
+    const property = new EntityIntProperty(
+      identifier,
+      range[0],
+      range[1],
+      defaultValue
+    );
+
+    // Add the property to the entity type.
+    this.properties.set(identifier, property);
+
+    // Return the property.
+    return property;
+  }
+
+  /**
+   * Create a new float property for the entity type.
+   * @param identifier The identifier of the property.
+   * @param range The value range of the property. (min to max)
+   * @param defaultValue The default value of the property, if not specified, minimum value will be used.
+   * @returns The created float property.
+   */
+  public createFloatProperty(
+    identifier: string,
+    range: [number, number],
+    defaultValue?: number
+  ): EntityFloatProperty {
+    // Create a new float property.
+    const property = new EntityFloatProperty(
+      identifier,
+      range[0],
+      range[1],
+      defaultValue
+    );
+
+    // Add the property to the entity type.
+    this.properties.set(identifier, property);
+
+    // Return the property.
+    return property;
+  }
+
+  /**
+   * Create a new boolean property for the entity type.
+   * @param identifier The identifier of the property.
+   * @param defaultValue The default value of the property, if not specified, false will be used.
+   * @returns The created boolean property.
+   */
+  public createBooleanProperty(
+    identifier: string,
+    defaultValue?: boolean
+  ): EntityBooleanProperty {
+    // Create a new boolean property.
+    const property = new EntityBooleanProperty(identifier, defaultValue);
+
+    // Add the property to the entity type.
+    this.properties.set(identifier, property);
+
+    // Return the property.
+    return property;
+  }
+
+  /**
    * Get the entity type from the registry.
    * @param identifier The identifier of the entity type.
    * @returns The entity type, if found; otherwise, null.
@@ -107,6 +190,37 @@ class EntityType {
     root.createStringTag({ name: "id", value: type.identifier });
     root.createIntTag({ name: "rid", value: type.network });
     root.createByteTag({ name: "summonable", value: 1 });
+
+    // Return the root compound tag.
+    return root;
+  }
+
+  public static toPropertiesNbt(type: EntityType): CompoundTag<unknown> {
+    // Create a root compound tag for the entity type properties.
+    const root = new CompoundTag();
+
+    // Create a compound tag for the entity identifier.
+    root.createStringTag({ name: "type", value: type.identifier });
+
+    // Sort the properties by their identifier.
+    const keys = [...type.properties.keys()].sort();
+    const values: Array<CompoundTag<unknown>> = [];
+
+    // Iterate over the sorted keys.
+    for (const key of keys) {
+      // Create a compound tag for each property.
+      const property = type.properties.get(key) as EntityProperty;
+
+      // Push the property compound tag to the values array.
+      values.push(property.compound);
+    }
+
+    // Create a list tag for the properties.
+    root.createListTag({
+      name: "properties",
+      value: values,
+      listType: TagType.Compound
+    });
 
     // Return the root compound tag.
     return root;

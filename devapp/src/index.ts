@@ -1,5 +1,8 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import { Serenity, LevelDBProvider, CustomEntityType } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
+
+const entityType = new CustomEntityType("pokeb:pokestop");
+entityType.createBooleanProperty("pokeb:used", false);
 
 // Create a new Serenity instance
 const serenity = new Serenity({
