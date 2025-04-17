@@ -2,6 +2,7 @@ import { CompoundTag, TagType } from "@serenityjs/nbt";
 
 import {
   EntityBooleanProperty,
+  EntityEnumProperty,
   EntityFloatProperty,
   EntityIntProperty,
   type EntityProperty
@@ -155,6 +156,28 @@ class EntityType {
   ): EntityBooleanProperty {
     // Create a new boolean property.
     const property = new EntityBooleanProperty(identifier, defaultValue);
+
+    // Add the property to the entity type.
+    this.properties.set(identifier, property);
+
+    // Return the property.
+    return property;
+  }
+
+  /**
+   * Create a new enum property for the entity type.
+   * @param identifier The identifier of the property.
+   * @param values The possible values of the property.
+   * @param defaultValue The default value of the property, if not specified, the first value will be used.
+   * @returns The created enum property.
+   */
+  public createEnumProperty(
+    identifier: string,
+    values: Array<string>,
+    defaultValue?: string
+  ): EntityEnumProperty {
+    // Create a new enum property.
+    const property = new EntityEnumProperty(identifier, values, defaultValue);
 
     // Add the property to the entity type.
     this.properties.set(identifier, property);
