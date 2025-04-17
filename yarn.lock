@@ -1479,6 +1479,7 @@ __metadata:
   dependencies:
     "@serenityjs/binarystream": "npm:^2.7.0"
     "@serenityjs/core": "npm:*"
+    "@serenityjs/emitter": "npm:*"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/protocol": "npm:*"

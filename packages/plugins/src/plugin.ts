@@ -1,5 +1,6 @@
 import { Serenity } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
+import { Emitter } from "@serenityjs/emitter";
 
 import { Pipeline } from "./pipeline";
 import { PluginType } from "./enums";
@@ -10,9 +11,21 @@ import {
   PluginItemRegistry
 } from "./registry";
 
-interface PluginProperties extends Partial<PluginEvents> {
+interface PluginOptions extends Partial<PluginEvents> {
+  /**
+   * The logger instance for the plugin.
+   */
   logger: Logger;
+
+  /**
+   * The type of the plugin.
+   */
   type: PluginType;
+
+  /**
+   * The maximum number of listeners for the plugin.
+   */
+  maxListeners: number;
 }
 
 /**
@@ -46,7 +59,7 @@ interface PluginProperties extends Partial<PluginEvents> {
  * export default new SamplePlugin();
  * ```
  */
-class Plugin implements PluginProperties {
+class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
   /**
    * The identifier of the plugin.
    */
@@ -113,29 +126,32 @@ class Plugin implements PluginProperties {
    * Create a new plugin instance.
    * @param identifier The identifier of the plugin.
    * @param version The version of the plugin.
-   * @param properties The properties of the plugin.
+   * @param options The options of the plugin.
    */
   public constructor(
     identifier: string,
     version: string,
-    properties?: Partial<PluginProperties>
+    options?: Partial<PluginOptions>
   ) {
+    // Call the super method with the max listeners
+    super(options?.maxListeners);
+
     // Set the identifier and version of the plugin
     this.identifier = identifier;
     this.version = version;
 
     // Set the logger for the plugin
     this.logger =
-      properties?.logger ??
+      options?.logger ??
       new Logger(`${identifier}@${version}`, LoggerColors.Blue);
 
     // Set the type of the plugin
-    this.type = properties?.type ?? PluginType.Addon;
+    this.type = options?.type ?? PluginType.Addon;
 
-    // Set the on initialize, start up, and shut down properties
-    if (properties?.onInitialize) this.onInitialize = properties.onInitialize;
-    if (properties?.onStartUp) this.onStartUp = properties.onStartUp;
-    if (properties?.onShutDown) this.onShutDown = properties.onShutDown;
+    // Set the on initialize, start up, and shut down options
+    if (options?.onInitialize) this.onInitialize = options.onInitialize;
+    if (options?.onStartUp) this.onStartUp = options.onStartUp;
+    if (options?.onShutDown) this.onShutDown = options.onShutDown;
   }
 
   /**
@@ -182,4 +198,4 @@ class Plugin implements PluginProperties {
   }
 }
 
-export { Plugin, PluginProperties };
+export { Plugin, PluginOptions };

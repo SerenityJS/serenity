@@ -30,6 +30,7 @@
   "dependencies": {
     "@serenityjs/binarystream": "^2.7.0",
     "@serenityjs/core": "*",
+    "@serenityjs/emitter": "*",
     "@serenityjs/logger": "*",
     "@serenityjs/protocol": "*"
   }
