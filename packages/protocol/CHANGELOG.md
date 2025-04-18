@@ -1,5 +1,17 @@
 # @serenityjs/protocol
 
+## 0.8.0
+
+### Minor Changes
+
+- [`7afde6d`](https://github.com/SerenityJS/serenity/commit/7afde6d98ab6c157ae581593669cc66df78571d2) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.0-beta
+
+### Patch Changes
+
+- Updated dependencies [[`7afde6d`](https://github.com/SerenityJS/serenity/commit/7afde6d98ab6c157ae581593669cc66df78571d2)]:
+  - @serenityjs/nbt@0.8.0
+  - @serenityjs/raknet@0.8.0
+
 ## 0.7.8
 
 ### Patch Changes
