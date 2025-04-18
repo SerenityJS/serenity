@@ -755,7 +755,11 @@ class Block {
     // Check if the block was interacted with by a player
     if (options.origin) {
       // Create a new PlayerInteractWithBlockSignal
-      const signal = new PlayerInteractWithBlockSignal(options.origin, this);
+      const signal = new PlayerInteractWithBlockSignal(
+        options.origin,
+        this,
+        options.placingBlock
+      );
 
       // Emit the signal to the server
       options.cancel = !signal.emit();

@@ -45,7 +45,12 @@ const register = (world: World) => {
           );
 
           // Fill the region with the specified block
-          dimension.fill(from, to, type.getPermutation());
+          const amount = dimension.fill(from, to, type.getPermutation());
+
+          // Return the success message of how many blocks were filled
+          return {
+            message: `§7Successfully filled §u${amount}§7 blocks with §u${result}§7.§r`
+          };
         }
       );
     },

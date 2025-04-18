@@ -4,24 +4,24 @@ import type { ActorLinkType } from "../../enums";
 import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ActorLink extends DataType {
-  public riddenEntityUnique: bigint;
-  public riderEntityUnique: bigint;
+  public riddenUniqueId: bigint;
+  public riderUniqueId: bigint;
   public type: ActorLinkType;
   public immediate: boolean;
   public riderInitiated: boolean;
   public vehicleAngularVelocity: number;
 
   public constructor(
-    riddenEntityUnique: bigint,
-    riderEntityUnique: bigint,
+    riddenUniqueId: bigint,
+    riderUniqueId: bigint,
     type: ActorLinkType,
     immediate: boolean,
     riderInitiated: boolean,
     vehicleAngularVelocity: number
   ) {
     super();
-    this.riddenEntityUnique = riddenEntityUnique;
-    this.riderEntityUnique = riderEntityUnique;
+    this.riddenUniqueId = riddenUniqueId;
+    this.riderUniqueId = riderUniqueId;
     this.type = type;
     this.immediate = immediate;
     this.riderInitiated = riderInitiated;
@@ -29,8 +29,8 @@ class ActorLink extends DataType {
   }
 
   public static write(stream: BinaryStream, value: ActorLink): void {
-    stream.writeVarLong(value.riddenEntityUnique);
-    stream.writeVarLong(value.riderEntityUnique);
+    stream.writeZigZong(value.riddenUniqueId);
+    stream.writeZigZong(value.riderUniqueId);
     stream.writeByte(value.type);
     stream.writeBool(value.immediate);
     stream.writeBool(value.riderInitiated);
@@ -39,8 +39,8 @@ class ActorLink extends DataType {
 
   public static read(stream: BinaryStream): ActorLink {
     return new ActorLink(
-      stream.readVarLong(),
-      stream.readVarLong(),
+      stream.readZigZong(),
+      stream.readZigZong(),
       stream.readByte(),
       stream.readBool(),
       stream.readBool(),

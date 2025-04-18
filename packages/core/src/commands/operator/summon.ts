@@ -1,6 +1,6 @@
 import { Vector3f } from "@serenityjs/protocol";
 
-import { EntityEnum, PositionEnum } from "../enums";
+import { BooleanEnum, EntityEnum, PositionEnum, StringEnum } from "../enums";
 import { Entity } from "../../entity";
 import { EntityIdentifier } from "../../enums";
 
@@ -18,7 +18,9 @@ const register = (world: World) => {
       // Create an overload for the command
       registry.overload(
         {
-          entity: EntityEnum
+          entity: EntityEnum,
+          nameTag: [StringEnum, true],
+          alwaysVisible: [BooleanEnum, true]
         },
         (context) => {
           // Check if the origin is a dimension, if so, throw an error
@@ -36,10 +38,18 @@ const register = (world: World) => {
           const { x, y, z } = context.origin.position.floor();
 
           // Spawn the entity at the specified location
-          context.origin.dimension.spawnEntity(
+          const entity = context.origin.dimension.spawnEntity(
             identifier,
             new Vector3f(x, y, z)
           );
+
+          // Check if a name tag was provided
+          if (context.nameTag.result) {
+            entity.nameTag = context.nameTag.result as string;
+            entity.alwaysShowNameTag = context.alwaysVisible.result
+              ? true
+              : false;
+          }
 
           // Send the success message
           return {
@@ -52,7 +62,9 @@ const register = (world: World) => {
       registry.overload(
         {
           entity: EntityEnum,
-          position: PositionEnum
+          position: PositionEnum,
+          nameTag: [StringEnum, true],
+          alwaysVisible: [BooleanEnum, true]
         },
         (context) => {
           // Get the result of the entity and position
@@ -68,7 +80,18 @@ const register = (world: World) => {
               : context.origin;
 
           // Summon the entity at the specified location
-          dimension.spawnEntity(identifier, new Vector3f(x, y, z));
+          const entity = dimension.spawnEntity(
+            identifier,
+            new Vector3f(x, y, z)
+          );
+
+          // Check if a name tag was provided
+          if (context.nameTag.result) {
+            entity.nameTag = context.nameTag.result as string;
+            entity.alwaysShowNameTag = context.alwaysVisible.result
+              ? true
+              : false;
+          }
         }
       );
     },

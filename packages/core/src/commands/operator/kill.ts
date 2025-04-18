@@ -44,6 +44,8 @@ const register = (world: World) => {
           // Prepare the return message
           const message = [];
 
+          let killCount = 0;
+
           // Loop through all the targets
           for (const target of targets) {
             if (
@@ -52,7 +54,7 @@ const register = (world: World) => {
             ) {
               // Append the message
               message.push(
-                `§cPlayer §4${target.username}§c is in a gamemode that cannot be killed.§r`
+                `§7Player §c${target.username}§7 is in a gamemode that cannot be killed.§r`
               );
 
               // Skip the player
@@ -62,10 +64,18 @@ const register = (world: World) => {
             // Kill the entity
             target.kill();
 
-            // Append the message
+            // Increment the kill count
+            killCount++;
+          }
+
+          if (killCount > 0) {
+            // Push the amount of entities that were killed.
             message.push(
-              `§aKilled §2${target.isPlayer() ? target.username : target.uniqueId}§a.`
+              `§7Successfully killed §u${killCount}§7 entit${killCount > 1 ? "ies" : "y"}.§r`
             );
+          } else {
+            // Push that no entities were found.
+            message.push(`§7No targets matched the selector.`);
           }
 
           // Return the message

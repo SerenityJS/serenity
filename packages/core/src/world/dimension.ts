@@ -608,12 +608,13 @@ class Dimension {
    * @param from The starting position.
    * @param to The ending position.
    * @param permutation The permutation to fill the region with.
+   * @returns The amount of blocks that were filled.
    */
   public fill(
     from: IPosition,
     to: IPosition,
     permutation: BlockPermutation
-  ): void {
+  ): number {
     // Get the min and max coordinates
     const minX = Math.min(from.x, to.x);
     const minY = Math.min(from.y, to.y);
@@ -624,6 +625,9 @@ class Dimension {
 
     // Hold the updated chunks
     const updatedChunks = new Set<Chunk>();
+
+    // Hold the amount of blocks that were filled
+    let filledBlocks = 0;
 
     // Iterate over the coordinates
     for (let x = minX; x <= maxX; x++) {
@@ -640,12 +644,18 @@ class Dimension {
 
           // Set the chunk to dirty
           chunk.dirty = true;
+
+          // Increment the filled blocks
+          filledBlocks++;
         }
       }
     }
 
     // Set the updated chunks
     for (const chunk of updatedChunks) this.setChunk(chunk);
+
+    // Return the amount of blocks that were filled
+    return filledBlocks;
   }
 
   /**

@@ -55,7 +55,7 @@ enum ActorDataId {
   Reserved053 = 53,
   Reserved054 = 54,
   FuseTime = 55,
-  Reserved056 = 56,
+  SeatPosition = 56,
   SeatLockPassengerRotation = 57,
   SeatLockPassengerRotationDegrees = 58,
   SeatRotationOffset = 59,

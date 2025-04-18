@@ -24,11 +24,18 @@ class PlayerInteractWithBlockSignal extends EventSignal {
    */
   public itemStack: ItemStack | null;
 
-  public constructor(source: Player, block: Block) {
+  /**
+   * Whether the interaction will result in a block being placed.
+   * The position of the block will be relative to the `clickedFace` property.
+   */
+  public placingBlock: boolean;
+
+  public constructor(source: Player, block: Block, placingBlock = false) {
     super(source.world);
     this.source = source;
     this.block = block;
     this.itemStack = source.getHeldItem();
+    this.placingBlock = placingBlock;
   }
 }
 
