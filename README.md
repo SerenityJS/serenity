@@ -35,9 +35,7 @@ Serenity is a robust and flexible Minecraft Bedrock Edition Server Software that
 
 Before installing Serenity you first need to make sure you have the latest recommended version of [Node.js](https://nodejs.org/en/) installed on your machine. Once installed, it is recommended to fully restart your machine to allow for the full Node.js experience to be enabled. You will also need to use an integrated development environment of personal choice. [Visual Studio Code](https://code.visualstudio.com/) is the recommended environment for Serenity development.
 
-Serenity is built off of the foundation of [Yarn Workspaces](https://yarnpkg.com/features/workspaces) for quick and easy development. Before installing Serenity, you will first need to install [Yarn](https://yarnpkg.com/). To do this, please read through the [Installation Guide](https://yarnpkg.com/getting-started/install) provided by the developers of Yarn.
-
-Serenity has started development on a plugin system. This system allows modification to the Serenity software while providing a full api to completely interact with the server. Check out the [sample-plugin](https://github.com/SerenityJS/sample-plugin) to get started.
+Serenity has an easy to use plugin system. This system allows modification to the Serenity software while providing a full api to completely interact with the server. Plugins can be written in Typescript or JavaScript. Check out the [sample-plugin](https://github.com/SerenityJS/sample-plugin) to get started. Rather than providing a seperate api for plugins, they have direct access to the same set of api's we use to build Serenity, so explore our documentation for usage.
 
 ### Installing Serenity
 We provide pre-built server executable binaries for both the latest and beta releases. You will need a GitHub account to access the artifacts download via our [server-binaries](https://github.com/SerenityJS/server-binaries/actions) repository. The server binary executable is a more traditional approach that relies heavily on self or community made plugins.
@@ -60,6 +58,8 @@ pnpm create serenity
 ### Installing Serenity Locally
 
 Installing Serenity locally allows developers to make changes to the core of the application. Clone or download a local copy of the Serenity repository to a preferred area on your machine. You can then open the Serenity folder in your preferred integrated development environment. You will now need to run a few terminal commands before starting.
+
+Serenity is built off of the foundation of [Yarn Workspaces](https://yarnpkg.com/features/workspaces) for quick and easy development. Before installing Serenity, you will first need to install [Yarn](https://yarnpkg.com/). To do this, please read through the [Installation Guide](https://yarnpkg.com/getting-started/install) provided by the developers of Yarn.
 
 #### Setting Up Locally
 
