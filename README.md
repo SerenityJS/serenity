@@ -40,8 +40,9 @@ Serenity is built off of the foundation of [Yarn Workspaces](https://yarnpkg.com
 Serenity has started development on a plugin system. This system allows modification to the Serenity software while providing a full api to completely interact with the server. Check out the [sample-plugin](https://github.com/SerenityJS/sample-plugin) to get started.
 
 ### Installing Serenity
+We provide pre-built server executable binaries for both the latest and beta releases. You will need a GitHub account to access the artifacts download via our [server-binaries](https://github.com/SerenityJS/server-binaries/actions) repository. The server binary executable is a more traditional approach that relies heavily on self or community made plugins.
 
-We provide an easy to use CLI installer process. Run the following command of your choice, and follow the install prompts.
+We also provide an easy to use CLI installer process. The CLI scaffolds a new traditional NodeJS project with the SerenityJS packages pre-installed. This approach allows a deeper integration of Serenity into new or existing NodeJS projects. This method will work on any machine, if the machine can run NodeJS. To get started, run the following command of your choice, and follow the install prompts.
 
 ```bash
 #npm
@@ -66,4 +67,4 @@ Installing Serenity locally allows developers to make changes to the core of the
 
 - Next you are now ready to build the project, since the project is coded in TypeScript, it will first need to be compiled to JavaScript before running. To do this, run the command `yarn build`, this command will then compile the project into JavaScript.
 
-- Finally you are now ready to start the Serenity server. To do this run the command `yarn dev`, you should then see the server starting in the console.
+- Finally you are now ready to start the Serenity server. First you will need to point your terminal to the devapp directory via `cd devapp`. Next run the command `yarn dev`, you should then see the server starting in the console.
