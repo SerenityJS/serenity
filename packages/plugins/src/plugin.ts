@@ -10,6 +10,7 @@ import {
   PluginEntityRegistry,
   PluginItemRegistry
 } from "./registry";
+import { PluginPriority } from "./enums/priority";
 
 interface PluginOptions extends Partial<PluginEvents> {
   /**
@@ -21,6 +22,11 @@ interface PluginOptions extends Partial<PluginEvents> {
    * The type of the plugin.
    */
   type: PluginType;
+
+  /**
+   * The type of the plugin.
+   */
+  priority: PluginPriority;
 
   /**
    * The maximum number of listeners for the plugin.
@@ -79,6 +85,12 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * The type of the plugin.
    */
   public readonly type: PluginType;
+
+  /**
+   * The priority of the plugin.
+   * @note This is used to determine the order in which plugins are loaded.
+   */
+  public readonly priority: PluginPriority = PluginPriority.Normal;
 
   /**
    * The block registry for the plugin.
