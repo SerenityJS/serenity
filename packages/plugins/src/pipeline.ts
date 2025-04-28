@@ -146,6 +146,9 @@ class Pipeline {
       dirent.isFile() ? dirent.name.endsWith(".plugin") : false
     );
 
+    // Array to hold the ordered plugins
+    const orderedPlugins: Plugin[] = []
+
     // Iterate over all the bundled plugins, and import them
     for (const bundle of bundles) {
       // Attempt to load the plugin
@@ -194,9 +197,8 @@ class Pipeline {
           // Add the plugin to the plugins map
           this.plugins.set(plugin.identifier, plugin);
 
-          // Initialize the plugin and bind the events
-          plugin.onInitialize(plugin);
-          this.bindEvents(plugin);
+          // Push the plugin to the ordered plugins array
+          orderedPlugins.push(plugin);
 
           // Add the plugin to the plugins enum
           PluginsEnum.options.push(plugin.identifier);
@@ -307,9 +309,9 @@ class Pipeline {
         // Add the plugin to the plugins enum
         PluginsEnum.options.push(plugin.identifier);
 
-        // Initialize the plugin, and bind the events
-        plugin.onInitialize(plugin);
-        this.bindEvents(plugin);
+        // Push the plugin to the ordered plugins array
+        orderedPlugins.push(plugin);
+
       } catch (reason) {
         // Log the error
         this.logger.error(
@@ -317,6 +319,27 @@ class Pipeline {
           reason
         );
       }
+    }
+
+    // Sort the plugins by their priority
+    orderedPlugins.sort((a, b) => {
+      // Sort by priority first
+      if (a.priority !== b.priority) {
+        return b.priority - a.priority; // Higher priority comes first
+      }
+
+      // If priority is the same, sort by identifier alphabetically
+      if (a.identifier < b.identifier) return -1;
+      if (a.identifier > b.identifier) return 1;
+      return 0;
+    });
+
+
+    // Iterate over all the plugins, and initialize them
+    for (const plugin of orderedPlugins) {
+      // Initialize the plugin, and bind the events
+      plugin.onInitialize(plugin);
+      this.bindEvents(plugin);
     }
   }
 
