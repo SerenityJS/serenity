@@ -11,7 +11,6 @@ import {
   MoveActorDeltaPacket,
   MoveDeltaFlags,
   Rotation,
-  Vector2f,
   Vector3f
 } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
@@ -65,6 +64,7 @@ import {
   AttributeMap,
   EntitySharedPropertiesMap
 } from "./maps";
+import { EntityInputInfo } from "./input-info";
 
 class Entity {
   /**
@@ -151,6 +151,11 @@ class Entity {
    * The tags that are attached to the entity
    */
   public readonly tags = new Set<string>();
+
+  /**
+   * The input info of the entity
+   */
+  public readonly inputInfo = new EntityInputInfo();
 
   /**
    * The scoreboard identity of the entity.
@@ -500,69 +505,12 @@ class Entity {
    * Sets and sends the entity head rotation
    * @param rotation The new entity's head rotation
    */
-  public setHeadRotation(rotation: Vector2f): void {
+  public setRotation(rotation: Rotation): void {
     // Set the entity rotation
-    this.rotation.headYaw = rotation.y;
-    this.rotation.pitch = rotation.x;
+    this.rotation.set(rotation);
 
-    // Create a new MoveActorDeltaPacket
-    const packet = new MoveActorDeltaPacket();
-
-    // Assign the packet properties
-    packet.runtimeId = this.runtimeId;
-    packet.flags = MoveDeltaFlags.All;
-    packet.x = this.position.x;
-
-    // Asjust the y position of the entity
-    packet.y = this.isPlayer() ? this.position.y : this.position.y - 0.1;
-
-    // Assign the z position and rotation properties
-    packet.z = this.position.z;
-    packet.yaw = this.rotation.yaw;
-    packet.headYaw = this.rotation.headYaw;
-    packet.pitch = this.rotation.pitch;
-
-    // Get the entity's hitbox height
-    const collision = this.getTrait(EntityCollisionTrait);
-
-    // Get the height of the entity
-    const height = collision?.height ?? 1.62;
-
-    // Adjust the y position of the entity
-    if (!this.isPlayer() && !this.isItem()) packet.y -= height;
-
-    // Check if the entity is on the ground
-    if (this.onGround) packet.flags |= MoveDeltaFlags.OnGround;
-
-    // Broadcast the packet to all players
-    if (this.isPlayer()) {
-      // Iterate over all players in the dimension
-      for (const player of this.dimension.getPlayers()) {
-        // Check if the player is the moving entity
-        if (player === this) continue;
-
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
-
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.uniqueId)) continue;
-
-        // Send the packet to the player
-        player.send(packet);
-      }
-    } else {
-      // Iterate over all players in the dimension
-      for (const player of this.dimension.getPlayers()) {
-        // Get the players entity rendering trait
-        const rendering = player.getTrait(PlayerEntityRenderingTrait);
-
-        // Check if the player has the entity in their entities list
-        if (!rendering.entities.has(this.uniqueId)) continue;
-
-        // Send the packet to the player
-        player.send(packet);
-      }
-    }
+    // Update the position of the entity
+    return this.teleport(this.position);
   }
 
   /**
@@ -1145,8 +1093,8 @@ class Entity {
     packet.headYaw = this.rotation.headYaw;
     packet.pitch = this.rotation.pitch;
 
-    // Adjust the y position to account for the entity's height
-    packet.y += this.getCollisionHeight();
+    // Adjust the y position to account for the player's collision height
+    if (this.isPlayer()) packet.y += this.getCollisionHeight();
 
     // Indicate that the entity must move
     packet.flags |= MoveDeltaFlags.ForceMove;

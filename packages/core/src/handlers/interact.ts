@@ -2,7 +2,7 @@ import { InteractAction, InteractPacket, Packet } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { EntityInventoryTrait } from "../entity";
+import { EntityInventoryTrait, EntityRidingTrait } from "../entity";
 
 class InteractHandler extends NetworkHandler {
   public static readonly packet = Packet.Interact;
@@ -47,14 +47,28 @@ class InteractHandler extends NetworkHandler {
         const entity = dimension.getEntity(packet.actorRuntimeId, true);
 
         // Check if the entity has a inventory trait
-        if (!entity || !entity.hasTrait(EntityInventoryTrait))
-          throw new Error("Entity does not have an inventory trait");
+        if (!entity || !entity.hasTrait(EntityInventoryTrait)) {
+          // Get the player's inventory trait
+          const { container } = player.getTrait(EntityInventoryTrait);
 
-        // Get the inventory trait from the entity
-        const { container } = entity.getTrait(EntityInventoryTrait);
+          // Show the container to the player
+          return container.show(player);
+        } else {
+          // Get the inventory trait from the entity
+          const { container } = entity.getTrait(EntityInventoryTrait);
 
-        // Show the container to the player
-        return container.show(player);
+          // Show the container to the player
+          return container.show(player);
+        }
+      }
+
+      // The action occurs when the player dismounts from an entity
+      case InteractAction.StopRiding: {
+        // Get the riding trait from the player
+        const riding = player.getTrait(EntityRidingTrait);
+
+        // Remove the player from the riding entity
+        return riding.getRideableTrait().removeRider(player);
       }
     }
   }

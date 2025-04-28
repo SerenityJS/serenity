@@ -24,7 +24,7 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { Player } from "../entity";
+import { EntityMovementTrait, EntityRidingTrait, Player } from "../entity";
 import {
   PlayerStartUsingItemSignal,
   PlayerStopUsingItemSignal,
@@ -39,8 +39,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
-    // Update the player's input tick
-    player.inputTick = packet.inputTick;
+    // Update the player's input information
+    player.inputInfo.tick = packet.inputTick;
+    player.inputInfo.movementVector.x = packet.rawMoveVector.x;
+    player.inputInfo.movementVector.y = packet.rawMoveVector.y;
 
     // Adjust the player's position based on the input data
     packet.position.y -= player.getCollisionHeight();
@@ -87,8 +89,56 @@ class PlayerAuthInputHandler extends NetworkHandler {
     // Set the player's rotation
     player.rotation.set(rotation);
 
+    // Check if the player is riding an entity
+    if (player.hasTrait(EntityRidingTrait)) {
+      // Get the riding trait from the player
+      const riding = player.getTrait(EntityRidingTrait);
+
+      // Check if the riding entity is valid
+      if (!riding.entityRidingOn) return player.removeTrait(EntityRidingTrait);
+
+      // Get the seat from the riding entity and check if it has a driver
+      const seat = riding.getSeat();
+      if (!seat || !seat.driver) return;
+
+      // Get the movement trait from the entity
+      const movement = riding.entityRidingOn.getTrait(EntityMovementTrait);
+
+      // Get movement amount from input
+      let forward = player.inputInfo.movementVector.y;
+      let strafe = player.inputInfo.movementVector.x;
+
+      // Normalize diagonal movement (optional but recommended)
+      if (strafe !== 0 && forward !== 0) {
+        const invSqrt2 = 1 / Math.sqrt(2); // ≈ 0.7071
+        forward *= invSqrt2;
+        strafe *= invSqrt2;
+      }
+
+      // Get movement speed
+      const speed = movement.currentValue; // (this is blocks per second normally)
+
+      // Calculate input motion vector
+      const moveX = strafe * speed;
+      const moveZ = forward * speed;
+
+      // Get the head yaw in radians
+      const headYawRad = (rotation.headYaw * Math.PI) / 180;
+
+      // Rotate movement vector by head yaw
+      const sinYaw = Math.sin(headYawRad);
+      const cosYaw = Math.cos(headYawRad);
+
+      // Calculate the new x and z components of the motion vector
+      const vx = moveX * cosYaw - moveZ * sinYaw;
+      const vz = moveZ * cosYaw + moveX * sinYaw;
+
+      // Add motion to the entity based on the rotated vector
+      riding.entityRidingOn.addMotion(new Vector3f(vx, 0, vz));
+    }
+
     // Set the player device information
-    player.clientSystemInfo.inputMode = packet.inputMode;
+    player.clientSystemInfo.inputMode = packet.inputMode; // TODO: move this to input info
     player.clientSystemInfo.interactionMode = packet.interactionMode;
     player.clientSystemInfo.playMode = packet.playMode;
 
@@ -308,6 +358,29 @@ class PlayerAuthInputHandler extends NetworkHandler {
               trait.onStartUse?.(player, { method: ItemUseMethod.UseTool });
           break;
         }
+
+        // case InputData.Up: {
+        //   // Check if the player is riding an entity
+        //   if (!player.hasTrait(EntityRidingTrait)) break;
+
+        //   // Get the riding trait from the player
+        //   const riding = player.getTrait(EntityRidingTrait);
+
+        //   // Add motion to the entity based on the rotation of the entity
+        //   const rotation = riding.entityRidingOn.rotation;
+
+        //   // Get the movement trait from the entity
+        //   const movement = riding.entityRidingOn.getTrait(EntityMovementTrait);
+
+        //   const headYawRad = (rotation.headYaw * Math.PI) / 180;
+
+        //   const vx = -Math.sin(headYawRad) * movement.currentValue;
+        //   const vz = Math.cos(headYawRad) * movement.currentValue;
+
+        //   riding.entityRidingOn.addMotion(new Vector3f(vx, 0, vz));
+
+        //   break;
+        // }
       }
     }
   }

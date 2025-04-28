@@ -43,6 +43,15 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
     return result;
   }
 
+  /**
+   * Push a new data item to the metadata set
+   * @param value The data item to push
+   * @returns The metadata set
+   */
+  public push(value: DataItem): this {
+    return this.set(value.identifier, value);
+  }
+
   public delete(key: ActorDataId): boolean {
     // Call the original delete method
     const result = super.delete(key);
@@ -70,7 +79,7 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
     const packet = new SetActorDataPacket();
     packet.runtimeEntityId = this.entity.runtimeId;
     packet.inputTick = this.entity.isPlayer()
-      ? this.entity.inputTick
+      ? this.entity.inputInfo.tick
       : this.entity.dimension.world.currentTick;
     packet.data = [...this.entity.metadata.values()];
     packet.properties = this.entity.sharedProperties.getPropertySyncData();

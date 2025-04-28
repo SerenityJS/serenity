@@ -1,6 +1,8 @@
 import {
   AbilityLayerType,
   AbilitySet,
+  ActorLink,
+  ActorLinkType,
   AddEntityPacket,
   AddItemActorPacket,
   AddPlayerPacket,
@@ -19,8 +21,9 @@ import { ItemStack } from "../../../item";
 import { EntityItemStackTrait } from "../item-stack";
 import { EntityEquipmentTrait } from "../equipment";
 import { Entity } from "../../entity";
-import { EntityDespawnOptions, EntitySpawnOptions } from "../../..";
+import { EntityRidingTrait } from "..";
 import { TraitOnTickDetails } from "../../../trait";
+import { EntityDespawnOptions, EntitySpawnOptions } from "../../..";
 
 import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
@@ -76,6 +79,24 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       }
     }
 
+    // Set the ridden unique id
+    let riddenUniqueId = 0n;
+
+    // Check if the entity has a riding trait
+    if (entity.hasTrait(EntityRidingTrait)) {
+      // Get the riding trait
+      const riding = entity.getTrait(EntityRidingTrait);
+
+      // Check if the entity is riding another entity
+      if (riding.entityRidingOn) {
+        // Get the entity that this entity is riding on
+        const target = riding.entityRidingOn;
+
+        // Set the ridden unique id
+        riddenUniqueId = target.uniqueId;
+      }
+    }
+
     // Check if the entity is a player
     if (entity.isPlayer()) {
       // Create a new AddPlayerPacket
@@ -127,6 +148,22 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.links = [];
       packet.deviceId = entity.clientSystemInfo.identifier;
       packet.deviceOS = entity.clientSystemInfo.os;
+
+      // Check if the entity is riding another entity
+      if (riddenUniqueId !== 0n) {
+        // Create a new ActorLink
+        const link = new ActorLink(
+          riddenUniqueId,
+          entity.uniqueId,
+          ActorLinkType.Rider,
+          true,
+          false,
+          0
+        );
+
+        // Push the link to the packet
+        packet.links.push(link);
+      }
 
       // Adjust the player's position for rendering
       packet.position.y += entity.getCollisionHeight(); // Adjust the y position for the player
@@ -191,6 +228,22 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.data = [...entity.metadata.values()];
     packet.properties = entity.sharedProperties.getPropertySyncData();
     packet.links = [];
+
+    // Check if the entity is riding another entity
+    if (riddenUniqueId !== 0n) {
+      // Create a new ActorLink
+      const link = new ActorLink(
+        riddenUniqueId,
+        entity.uniqueId,
+        ActorLinkType.Rider,
+        true,
+        false,
+        0
+      );
+
+      // Push the link to the packet
+      packet.links.push(link);
+    }
 
     // Send the packet to the player
     this.player.send(packet);

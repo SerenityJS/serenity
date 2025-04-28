@@ -8,8 +8,7 @@ import {
   EntityDeathOptions,
   EntityDespawnOptions,
   EntityFallOnBlockTraitEvent,
-  EntitySpawnOptions,
-  JSONLikeObject
+  EntitySpawnOptions
 } from "../../types";
 import { Dimension } from "../../world";
 
@@ -42,7 +41,7 @@ class EntityTrait extends Trait {
    * @param entity The entity that this trait will be attached to.
    * @param options additional options for the entity trait.
    */
-  public constructor(entity: Entity, _options?: JSONLikeObject) {
+  public constructor(entity: Entity, _options?: unknown) {
     super();
 
     // Assign the properties of the entity trait.

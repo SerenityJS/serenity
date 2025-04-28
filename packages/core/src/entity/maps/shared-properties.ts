@@ -109,7 +109,7 @@ class EntitySharedPropertiesMap extends Map<string, number | boolean | string> {
     const packet = new SetActorDataPacket();
     packet.runtimeEntityId = this.entity.runtimeId;
     packet.inputTick = this.entity.isPlayer()
-      ? this.entity.inputTick
+      ? this.entity.inputInfo.tick
       : this.entity.dimension.world.currentTick;
     packet.data = [...this.entity.metadata.values()];
     packet.properties = this.getPropertySyncData();

@@ -3,12 +3,13 @@ import {
   BlockPosition,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
-  Vector2f,
+  Rotation,
   Vector3f
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
 import { PlayerEntityRenderingTrait } from "../player";
+import { EntityRidingTrait } from "../rideable";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -55,6 +56,22 @@ class EntityMovementTrait extends EntityAttributeTrait {
 
     // Check if the entity is not moving, and if the entity is not a player
     if (!this.entity.isMoving) return;
+
+    // Check if the entity is riding another entity
+    if (this.entity.hasTrait(EntityRidingTrait)) {
+      // Get the riding trait from the entity
+      const riding = this.entity.getTrait(EntityRidingTrait);
+
+      // Check if the riding entity is valid
+      if (!riding.entityRidingOn)
+        return this.entity.removeTrait(EntityRidingTrait); // If not, remove the riding trait
+
+      // Check if the riding entity has a seat and if the seat is a driver
+      const seat = riding.getSeat();
+      if (seat && seat.driver)
+        // Set the riding entity's position and rotation
+        riding.entityRidingOn.rotation.set(this.entity.rotation);
+    }
 
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();
@@ -135,7 +152,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     if (pitch > 180) yaw -= 360;
     if (pitch < -180) yaw += 360;
 
-    this.entity.setHeadRotation(new Vector2f(pitch, yaw));
+    this.entity.setRotation(new Rotation(yaw, pitch, yaw));
   }
 
   /**

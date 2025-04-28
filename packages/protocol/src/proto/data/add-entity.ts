@@ -12,8 +12,9 @@ import {
   DataItem,
   Vector3f,
   EntityAttributes,
-  Links,
-  PropertySyncData
+  ActorLinkSet,
+  PropertySyncData,
+  ActorLink
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -32,7 +33,7 @@ class AddEntityPacket extends DataPacket {
   @Serialize(EntityAttributes) public attributes!: Array<EntityAttributes>;
   @Serialize(DataItem) public data!: Array<DataItem>;
   @Serialize(PropertySyncData) public properties!: PropertySyncData;
-  @Serialize(Links) public links!: Array<Links>;
+  @Serialize(ActorLinkSet) public links!: Array<ActorLink>;
 }
 
 export { AddEntityPacket };

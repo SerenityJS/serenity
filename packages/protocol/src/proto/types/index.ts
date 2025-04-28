@@ -20,7 +20,7 @@ export * from "./interact-position";
 export * from "./attribute";
 export * from "./attribute-modifier";
 export * from "./chunk-coords";
-export * from "./links";
+export * from "./actor-link-set";
 export * from "./modal-form-data";
 export * from "./modal-form-canceled";
 export * from "./entity-attributes";

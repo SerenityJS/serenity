@@ -55,6 +55,7 @@ import { DefaultPlayerProperties } from "../constants";
 import { Entity } from "./entity";
 import { AbilityMap } from "./maps";
 import {
+  EntityRidingTrait,
   EntityInventoryTrait,
   PlayerChunkRenderingTrait,
   PlayerCraftingInputTrait,
@@ -116,11 +117,6 @@ class Player extends Entity {
    * The permission level of the player.
    */
   public readonly permissions: PermissionMember;
-
-  /**
-   * The current input tick of the player
-   */
-  public inputTick = 0n;
 
   /**
    * The pending forms of the player
@@ -195,7 +191,7 @@ class Player extends Entity {
     const packet = new UpdatePlayerGameTypePacket();
     packet.gamemode = value;
     packet.uniqueActorId = this.uniqueId;
-    packet.inputTick = this.inputTick;
+    packet.inputTick = this.inputInfo.tick;
 
     // Broadcast the packet to the dimension
     this.dimension.broadcast(packet);
@@ -375,7 +371,7 @@ class Player extends Entity {
     // Set the properties of the packet
     packet.runtimeId = this.runtimeId;
     packet.motion = this.velocity;
-    packet.inputTick = this.inputTick;
+    packet.inputTick = this.inputInfo.tick;
 
     // Broadcast the packet to the dimension
     this.dimension.broadcast(packet);
@@ -545,6 +541,18 @@ class Player extends Entity {
     // Call the parent method to teleport the player
     super.teleport(position, dimension);
 
+    // Prepare the ridden runtime id
+    let riddenRuntimeId = 0n;
+
+    // Check if the player is riding another entity
+    if (this.getTrait(EntityRidingTrait)) {
+      // Get the riding trait
+      const riding = this.getTrait(EntityRidingTrait);
+
+      // Get the runtime id of the entity being ridden
+      riddenRuntimeId = riding.entityRidingOn.runtimeId;
+    }
+
     // Check if the dimension is not provided
     if (!dimension) {
       // Create a new MovePlayerPacket
@@ -558,9 +566,9 @@ class Player extends Entity {
       packet.headYaw = this.rotation.headYaw;
       packet.mode = MoveMode.Teleport;
       packet.onGround = this.onGround;
-      packet.riddenRuntimeId = 0n;
+      packet.riddenRuntimeId = riddenRuntimeId;
       packet.cause = new TeleportCause(4, 0);
-      packet.inputTick = this.inputTick;
+      packet.inputTick = this.inputInfo.tick;
 
       // Adjust the y position to account for the hitbox height
       packet.position.y += this.getCollisionHeight();

@@ -19,8 +19,10 @@ for (const key in Traits) {
   // Get the entity trait
   const trait = Traits[key as keyof typeof Traits];
 
+  if (!(trait as typeof Traits.EntityTrait).identifier) continue;
+
   // Push the entity trait to the list
-  EntityTraits.push(trait);
+  EntityTraits.push(trait as typeof Traits.EntityTrait);
 }
 
 export { EntityTraits };

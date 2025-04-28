@@ -70,7 +70,7 @@ class AttributeMap extends Map<AttributeName, Attribute> {
     const packet = new UpdateAttributesPacket();
     packet.runtimeActorId = this.entity.runtimeId;
     packet.inputTick = this.entity.isPlayer()
-      ? this.entity.inputTick
+      ? this.entity.inputInfo.tick
       : this.entity.dimension.world.currentTick;
 
     // NOTE: You don't need to resend all attributes if only one attribute is updated

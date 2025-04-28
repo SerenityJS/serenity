@@ -23,7 +23,8 @@ import {
   DataItem,
   Vector3f,
   AbilityLayer,
-  Links,
+  ActorLinkSet,
+  ActorLink,
   NetworkItemStackDescriptor
 } from "../types";
 
@@ -50,7 +51,7 @@ class AddPlayerPacket extends DataPacket {
   @Serialize(Uint8) public premissionLevel!: PermissionLevel;
   @Serialize(Uint8) public commandPermission!: CommandPermissionLevel;
   @Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
-  @Serialize(Links) public links!: Array<Links>;
+  @Serialize(ActorLinkSet) public links!: Array<ActorLink>;
   @Serialize(VarString) public deviceId!: string;
   @Serialize(Int32, Endianness.Little) public deviceOS!: DeviceOS;
 }

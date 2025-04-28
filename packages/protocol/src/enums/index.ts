@@ -110,3 +110,4 @@ export * from "./graphics-mode";
 export * from "./update-type";
 export * from "./entity-property-type";
 export * from "./player-update-entity-overrides-type";
+export * from "./client-input-locks-flag";
