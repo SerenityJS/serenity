@@ -133,7 +133,7 @@ class Dimension {
       const block = this.getTopmostBlock(position);
 
       // Set the spawn position to the topmost block
-      if (block) position.y = block.position.y + 3;
+      if (block) position.y = block.position.y + 4;
       // Set the spawn position to the topmost block
       else position.y = 0;
 
