@@ -35,14 +35,12 @@ class ItemTypeIconComponent extends ItemTypeComponent {
     // Set the icon and dyed icon of the item.
     this.setDefaultIcon(options?.default ?? "");
     this.setDyedIcon(options?.dyed ?? "");
-  }
 
-  private getProperties(): ItemTypeItemPropertiesComponent {
     // Get the item properties component.
     const properties = this.collection.get(ItemTypeItemPropertiesComponent);
 
-    // Check if the item properties component is null.
-    return properties;
+    // Create the icon component.
+    properties.component.createCompoundTag({ name: this.identifier });
   }
 
   /**
@@ -50,13 +48,8 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    * @returns The icon of the item.
    */
   public getDefaultIcon(): string {
-    // Get the icon component from the item properties.
-    const component = this.getProperties().component.getTag<
-      CompoundTag<unknown>
-    >(this.identifier);
-
     // Get the textures component.
-    const textures = component?.getTag<CompoundTag<unknown>>("textures");
+    const textures = this.component?.getTag<CompoundTag<unknown>>("textures");
 
     // Return the default texture.
     return textures?.getTag<StringTag>("default")?.value;
@@ -67,13 +60,8 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    * @param value The icon of the item.
    */
   public setDefaultIcon(value: string): void {
-    // Get the icon component from the item properties.
-    const component = this.getProperties().component.createCompoundTag({
-      name: this.identifier
-    });
-
     // Get the textures component.
-    const textures = component.createCompoundTag({ name: "textures" });
+    const textures = this.component.createCompoundTag({ name: "textures" });
 
     // Set the default texture.
     textures.createStringTag({ name: "default", value });
@@ -84,13 +72,8 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    * @returns The dyed icon of the item.
    */
   public getDyedIcon(): string {
-    // Get the icon component from the item properties.
-    const component = this.getProperties().component.getTag<
-      CompoundTag<unknown>
-    >(this.identifier);
-
     // Get the textures component.
-    const textures = component?.getTag<CompoundTag<unknown>>("textures");
+    const textures = this.component?.getTag<CompoundTag<unknown>>("textures");
 
     // Return the default texture.
     return textures?.getTag<StringTag>("dyed")?.value;
@@ -101,13 +84,8 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    * @param value The dyed icon of the item.
    */
   public setDyedIcon(value: string): void {
-    // Get the icon component from the item properties.
-    const component = this.getProperties().component.createCompoundTag({
-      name: this.identifier
-    });
-
     // Get the textures component.
-    const textures = component.createCompoundTag({ name: "textures" });
+    const textures = this.component.createCompoundTag({ name: "textures" });
 
     // Set the default texture.
     textures.createStringTag({ name: "dyed", value });
