@@ -7,7 +7,6 @@
  * The default priority is Normal.
  */
 enum PluginPriority {
-
   /**
    * A low priority plugin will be loaded after other plugins.
    * Useful for reacting to changes or final adjustments.
@@ -26,6 +25,5 @@ enum PluginPriority {
    */
   High
 }
-
 
 export { PluginPriority };
