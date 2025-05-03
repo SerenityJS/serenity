@@ -27,9 +27,9 @@ const register = (world: World) => {
           switch (operation) {
             case "set": {
               // Check if the value is not a number
-              if (!value)
+              if (typeof value !== "number" || Number.isNaN(value) || value < 0)
                 throw new Error(
-                  "Invalid value for time of day, expected a integer"
+                  "Invalid value for time of day, expected a positive integer"
                 );
 
               // Set the time of day
@@ -44,9 +44,9 @@ const register = (world: World) => {
 
             case "add": {
               // Check if the value is not a number
-              if (!value)
+              if (typeof value !== "number" || Number.isNaN(value) || value < 0)
                 throw new Error(
-                  "Invalid value for time of day, expected a integer"
+                  "Invalid value for time of day, expected a positive integer"
                 );
 
               // Add the time of day
