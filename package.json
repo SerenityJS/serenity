@@ -9,7 +9,8 @@
     "build:docs": "typedoc",
     "lint": "turbo lint ",
     "lint:fix": "turbo lint -- --fix",
-    "test": "exit 0",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest watch",
     "clean": "rimraf -g '**/{dist,node_modules}' || true",
     "running-top-level-from-any-directory": "yarn run -T ...",
     "postversion": "yarn install && yarn prepare",
@@ -27,13 +28,15 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-angular": "^19.5.0",
     "@turbo/gen": "2.2.3",
+    "@vitest/coverage-v8": "3.1.2",
     "husky": "^9.1.6",
     "rimraf": "6.0.1",
     "turbo": "2.2.3",
     "typedoc": "0.28.2",
     "typedoc-material-theme": "^1.4.0",
     "typedoc-plugin-extras": "^4.0.0",
-    "typedoc-plugin-rename-defaults": "^0.7.1"
+    "typedoc-plugin-rename-defaults": "^0.7.1",
+    "vitest": "3.1.2"
   },
   "engines": {
     "node": ">= 22.0.0"
