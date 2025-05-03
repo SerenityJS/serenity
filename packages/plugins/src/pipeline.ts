@@ -7,6 +7,7 @@ import {
   unlinkSync,
   writeFileSync
 } from "node:fs";
+import { readdir, readFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
 import { execSync } from "node:child_process";
@@ -242,76 +243,76 @@ class Pipeline {
     }
 
     // Filter out all the directories from the entries
-    const directories = readdirSync(resolve(this.path), {
-      withFileTypes: true
-    }).filter((dirent) => dirent.isDirectory());
+    const directories = (
+      await readdir(resolve(this.path), {
+        withFileTypes: true
+      })
+    ).filter((dirent) => dirent.isDirectory());
 
-    // Iterate over all the directories, checking if they are valid plugins
-    for (const directory of directories) {
-      // Attempt to load the plugin
-      try {
-        // Get the path to the plugin
-        const path = resolve(this.path, directory.name);
+    // Iterate over all the directories, checking if they are valid plugins using Promise.all
+    await Promise.all(
+      directories.map(async (directory) => {
+        // Attempt to load the plugin
+        try {
+          // Get the path to the plugin
+          const path = resolve(this.path, directory.name);
 
-        // Check if the plugin has a package.json file, if not, skip the plugin
-        if (!existsSync(resolve(path, "package.json"))) continue;
+          // Check if the plugin has a package.json file, if not, skip the plugin
+          if (!existsSync(resolve(path, "package.json"))) return;
 
-        // Read the package.json file
-        const manifest = JSON.parse(
-          readFileSync(resolve(path, "package.json"), "utf-8")
-        ) as PluginPackage;
+          // Read the package.json file
+          const manifest = JSON.parse(
+            await readFile(resolve(path, "package.json"), "utf-8")
+          ) as PluginPackage;
 
-        // Get the main entry point for the plugin
-        const main = resolve(path, manifest.main);
+          // Get the main entry point for the plugin
+          const main = resolve(path, manifest.main);
 
-        // Check if the provided entry point is valid
-        if (!existsSync(resolve(path, main))) {
-          this.logger.warn(
-            `Unable to load plugin §1${manifest.name}§8@§1${manifest.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+          // Check if the provided entry point is valid
+          if (!existsSync(resolve(path, main))) {
+            this.logger.warn(
+              `Unable to load plugin §1${manifest.name}§8@§1${manifest.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+            );
+            return;
+          }
+
+          // Import the plugin module
+          const module = (await import(resolve(path, main))).default;
+
+          // Get the plugin class from the module
+          const plugin = module.default as Plugin;
+
+          // Check if the plugin has already been loaded
+          if (this.plugins.has(plugin.identifier)) {
+            this.logger.warn(
+              `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
+            );
+            return;
+          }
+
+          // Set the pipeline, serenity, and path for the plugin
+          plugin.pipeline = this;
+          plugin.serenity = this.serenity;
+          plugin.path = path;
+          plugin.isBundled = false;
+
+          // Add the plugin to the plugins map
+          this.plugins.set(plugin.identifier, plugin);
+
+          // Add the plugin to the plugins enum
+          PluginsEnum.options.push(plugin.identifier);
+
+          // Push the plugin to the ordered plugins array
+          orderedPlugins.push(plugin);
+        } catch (reason) {
+          // Log the error
+          this.logger.error(
+            `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, directory.name))}", skipping the plugin.`,
+            reason
           );
-
-          // Skip the plugin
-          continue;
         }
-
-        // Import the plugin module
-        const module = (await import(resolve(path, main))).default;
-
-        // Get the plugin class from the module
-        const plugin = module.default as Plugin;
-
-        // Check if the plugin has already been loaded
-        if (this.plugins.has(plugin.identifier)) {
-          this.logger.warn(
-            `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
-          );
-
-          // Skip the plugin
-          continue;
-        }
-
-        // Set the pipeline, serenity, and path for the plugin
-        plugin.pipeline = this;
-        plugin.serenity = this.serenity;
-        plugin.path = path;
-        plugin.isBundled = false;
-
-        // Add the plugin to the plugins map
-        this.plugins.set(plugin.identifier, plugin);
-
-        // Add the plugin to the plugins enum
-        PluginsEnum.options.push(plugin.identifier);
-
-        // Push the plugin to the ordered plugins array
-        orderedPlugins.push(plugin);
-      } catch (reason) {
-        // Log the error
-        this.logger.error(
-          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, directory.name))}", skipping the plugin.`,
-          reason
-        );
-      }
-    }
+      })
+    );
 
     // Sort the plugins by their priority
     orderedPlugins.sort((a, b) => {
