@@ -53,8 +53,8 @@ const register = (world: World, pipeline: Pipeline) => {
           action: PluginActionsEnum,
           plugin: PluginsEnum
         },
-        ({ action, plugin }) => {
-          // Check if the action is reload
+        async ({ action, plugin }) => {
+          // Check if the action is reload or bundle
           if (action.result !== "reload" && action.result !== "bundle") return;
 
           // Get the plugin from the pipeline
@@ -67,7 +67,7 @@ const register = (world: World, pipeline: Pipeline) => {
           // Check if the action is reload
           if (action.result === "reload") {
             // Reload the plugin
-            pipeline.reload(pluginInstance);
+            await pipeline.reload(pluginInstance);
 
             // Send the message to the origin
             return {

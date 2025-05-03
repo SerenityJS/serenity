@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import {
   existsSync,
   mkdirSync,
@@ -25,13 +24,11 @@ import { PluginType } from "./enums";
 interface PipelineProperties {
   path: string;
   commands: boolean;
-  initialize: boolean;
 }
 
 const DefaultPipelineProperties: PipelineProperties = {
   path: "./plugins",
-  commands: true,
-  initialize: true
+  commands: true
 };
 
 class Pipeline {
@@ -122,15 +119,12 @@ class Pipeline {
           .registerTrait(...plugin.entities.traits);
       }
     });
-
-    // Check if the plugins should be initialized
-    if (this.properties.initialize) this.initialize();
   }
 
   /**
    * Initializes the plugins pipeline.
    */
-  public initialize(): void {
+  public async initialize(): Promise<void> {
     // Check if the plugins directory exists
     if (!existsSync(resolve(this.path)))
       // If not, create the plugins directory
@@ -147,7 +141,7 @@ class Pipeline {
     );
 
     // Array to hold the ordered plugins
-    const orderedPlugins: Plugin[] = []
+    const orderedPlugins: Array<Plugin> = [];
 
     // Iterate over all the bundled plugins, and import them
     for (const bundle of bundles) {
@@ -173,7 +167,7 @@ class Pipeline {
           writeFileSync(tempPath, index);
 
           // Import the plugin module
-          const module = require(tempPath);
+          const module = (await import(tempPath)).default;
 
           // Get the plugin class from the module
           const plugin = module.default as Plugin;
@@ -268,7 +262,6 @@ class Pipeline {
         ) as PluginPackage;
 
         // Get the main entry point for the plugin
-        // const main = resolve(path, this.esm ? manifest.module : manifest.main);
         const main = resolve(path, manifest.main);
 
         // Check if the provided entry point is valid
@@ -282,7 +275,7 @@ class Pipeline {
         }
 
         // Import the plugin module
-        const module = require(resolve(path, main));
+        const module = (await import(resolve(path, main))).default;
 
         // Get the plugin class from the module
         const plugin = module.default as Plugin;
@@ -311,7 +304,6 @@ class Pipeline {
 
         // Push the plugin to the ordered plugins array
         orderedPlugins.push(plugin);
-
       } catch (reason) {
         // Log the error
         this.logger.error(
@@ -333,7 +325,6 @@ class Pipeline {
       if (a.identifier > b.identifier) return 1;
       return 0;
     });
-
 
     // Iterate over all the plugins, and initialize them
     for (const plugin of orderedPlugins) {
@@ -365,7 +356,7 @@ class Pipeline {
     }
   }
 
-  public reload(plugin: Plugin): void {
+  public async reload(plugin: Plugin): Promise<void> {
     // Shut down the plugin
     plugin.onShutDown(plugin);
 
@@ -384,22 +375,19 @@ class Pipeline {
 
     // Attempt to load the plugin
     try {
-      // Import the plugin module
+      // Read the package.json file
+      const manifest = JSON.parse(
+        readFileSync(resolve(path, "package.json"), "utf-8")
+      ) as PluginPackage;
 
-      const module = require(path);
+      // Get the main entry point for the plugin
+      const main = resolve(path, manifest.main);
+
+      // Import the plugin module
+      const module = (await import(resolve(path, main))).default;
 
       // Get the plugin class from the module
       const rPlugin = module.default as Plugin;
-
-      // Check if the plugin is an instance of the Plugin class
-      if (!(rPlugin instanceof Plugin)) {
-        this.logger.warn(
-          `Unable to reload plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
-        );
-
-        // Skip the plugin
-        return;
-      }
 
       // Set the pipeline, serenity, and path for the plugin
       rPlugin.pipeline = this;

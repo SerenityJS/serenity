@@ -12,10 +12,13 @@ const serenity = new Serenity({
 });
 
 // Create a new plugin pipeline
-new Pipeline(serenity, { path: "./plugins" });
+const pipeline = new Pipeline(serenity, { path: "./plugins" });
 
-// Register the LevelDBProvider
-serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
+// Initialize the pipeline
+pipeline.initialize().then(() => {
+  // Register the LevelDBProvider
+  serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
 
-// Start the server
-serenity.start();
+  // Start the server
+  return serenity.start();
+});
