@@ -1,0 +1,35 @@
+{
+  "name": "@serenityjs/console",
+  "author": "Serenity",
+  "license": "MIT",
+  "version": "0.8.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "repository": "https://github.com/SerenityJS/serenity/tree/main/packages/console",
+  "files": [
+    "dist/**",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@serenityjs/internal-config": "*",
+    "@swc/core": "1.7.42",
+    "@types/node": "22.8.6",
+    "eslint": "9.13.0",
+    "tsup": "8.3.5",
+    "typescript": "5.6.3"
+  },
+  "dependencies": {
+    "@serenityjs/core": "*",
+    "@serenityjs/emitter": "*",
+    "colorette": "2.0.20",
+    "moment": "2.30.1"
+  }
+}
