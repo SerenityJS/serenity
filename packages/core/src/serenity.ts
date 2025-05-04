@@ -23,7 +23,7 @@ import {
   type WorldProvider
 } from "./world";
 import { Player } from "./entity";
-import { ConsoleInterface, WorldEnum, CommandPalette } from "./commands";
+import { WorldEnum, CommandPalette } from "./commands";
 import { PermissionGroup, PermissionMember } from "./permissions";
 import { ServerEvent, ServerState } from "./enums";
 import { ResourcePackManager } from "./resource-packs";
@@ -88,11 +88,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * The players that are currently connected to the server
    */
   public readonly players = new Map<Connection, Player>();
-
-  /**
-   * The console command interface for the server
-   */
-  public readonly console = new ConsoleInterface(this);
 
   /**
    * The permissions interface for the server.
@@ -341,9 +336,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * Stops the server and closes all connections
    */
   public stop(): void {
-    // Close the console interface
-    this.console.interface.close();
-
     // Emit the server shutdown event
     this.emit(ServerEvent.Stop, 0 as never);
 
