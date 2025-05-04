@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@serenityjs/internal-config": "*",
+    "@serenityjs/internal-config": "workspace:*",
     "@swc/core": "1.7.42",
     "@types/node": "22.8.6",
     "eslint": "9.13.0",
@@ -28,13 +28,13 @@
   },
   "dependencies": {
     "@serenityjs/binarystream": "2.7.0",
-    "@serenityjs/data": "*",
-    "@serenityjs/emitter": "*",
+    "@serenityjs/data": "workspace:*",
+    "@serenityjs/emitter": "workspace:*",
     "@serenityjs/leveldb": "^1.1.1",
-    "@serenityjs/logger": "*",
-    "@serenityjs/nbt": "*",
-    "@serenityjs/protocol": "*",
-    "@serenityjs/raknet": "*",
+    "@serenityjs/logger": "workspace:*",
+    "@serenityjs/nbt": "workspace:*",
+    "@serenityjs/protocol": "workspace:*",
+    "@serenityjs/raknet": "workspace:*",
     "fast-jwt": "4.0.5",
     "simplex-noise": "4.0.3"
   }

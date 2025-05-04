@@ -13,14 +13,14 @@
   },
   "dependencies": {
     "@serenityjs/binarystream": "2.7.0",
-    "@serenityjs/core": "*",
-    "@serenityjs/logger": "*",
-    "@serenityjs/nbt": "*",
-    "@serenityjs/plugins": "*",
-    "@serenityjs/raknet": "*"
+    "@serenityjs/core": "workspace:*",
+    "@serenityjs/logger": "workspace:*",
+    "@serenityjs/nbt": "workspace:*",
+    "@serenityjs/plugins": "workspace:*",
+    "@serenityjs/raknet": "workspace:*"
   },
   "devDependencies": {
-    "@serenityjs/internal-config": "*",
+    "@serenityjs/internal-config": "workspace:*",
     "@swc/core": "1.7.42",
     "@types/node": "22.8.6",
     "eslint": "9.13.0",
