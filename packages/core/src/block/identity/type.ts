@@ -56,10 +56,10 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 
       // Register the block type.
       const instance = new this(type.identifier as BlockIdentifier, {
-        loggable: type.loggable,
+        loggable: false,
         air: type.air,
         liquid: type.liquid,
-        solid: type.solid,
+        solid: type.air ? false : type.liquid ? false : true,
         tags: type.tags
       });
 

@@ -147,7 +147,7 @@ class Pipeline {
     );
 
     // Array to hold the ordered plugins
-    const orderedPlugins: Plugin[] = []
+    const orderedPlugins: Array<Plugin> = [];
 
     // Iterate over all the bundled plugins, and import them
     for (const bundle of bundles) {
@@ -311,7 +311,6 @@ class Pipeline {
 
         // Push the plugin to the ordered plugins array
         orderedPlugins.push(plugin);
-
       } catch (reason) {
         // Log the error
         this.logger.error(
@@ -333,7 +332,6 @@ class Pipeline {
       if (a.identifier > b.identifier) return 1;
       return 0;
     });
-
 
     // Iterate over all the plugins, and initialize them
     for (const plugin of orderedPlugins) {
