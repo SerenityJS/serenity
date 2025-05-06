@@ -4,6 +4,7 @@ import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { PlayerListAction } from "../../enums";
 
 import { SerializedSkin } from "./serialized-skin";
+import { Color } from "./color";
 
 class PlayerListRecord extends DataType {
   /**
@@ -57,6 +58,11 @@ class PlayerListRecord extends DataType {
   public readonly isVisitor: boolean | null;
 
   /**
+   * The locator bar color of the player.
+   */
+  public readonly locatorColor: Color | null = null;
+
+  /**
    * Creates a new player record.
    *
    * @param uuid The uuid of the player.
@@ -69,6 +75,7 @@ class PlayerListRecord extends DataType {
    * @param isTeacher Whether the player is a teacher.
    * @param isHost Whether the player is a host.
    * @param isVisitor Whether the player is a visitor.
+   * @param locatorColor The locator bar color of the player.
    */
   public constructor(
     uuid: string,
@@ -80,7 +87,8 @@ class PlayerListRecord extends DataType {
     skin?: SerializedSkin | null,
     isTeacher?: boolean | null,
     isHost?: boolean | null,
-    isVisitor?: boolean | null
+    isVisitor?: boolean | null,
+    locatorColor?: Color | null
   ) {
     super();
     this.uuid = uuid;
@@ -93,6 +101,7 @@ class PlayerListRecord extends DataType {
     this.isTeacher = isTeacher ?? null;
     this.isHost = isHost ?? null;
     this.isVisitor = isVisitor ?? null;
+    this.locatorColor = locatorColor ?? null;
   }
 
   public static read(
@@ -155,6 +164,9 @@ class PlayerListRecord extends DataType {
       // Read whether the player is a visitor.
       const isVisitor = stream.readBool();
 
+      // Read the locator bar color of the player.
+      const locatorColor = Color.read(stream);
+
       // Add the record to the array.
       records.push(
         new PlayerListRecord(
@@ -167,7 +179,8 @@ class PlayerListRecord extends DataType {
           skin,
           isTeacher,
           isHost,
-          isVisitor
+          isVisitor,
+          locatorColor
         )
       );
     }
@@ -233,6 +246,9 @@ class PlayerListRecord extends DataType {
 
       // Write whether the player is a visitor.
       stream.writeBool(record.isVisitor as boolean);
+
+      // Write the locator bar color of the player.
+      Color.write(stream, record.locatorColor as Color);
     }
 
     // Write the verification data.
