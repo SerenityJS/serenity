@@ -1,5 +1,6 @@
 {
   "name": "@serenityjs/core",
+  "type": "module",
   "author": "Serenity",
   "license": "MIT",
   "version": "0.8.0",

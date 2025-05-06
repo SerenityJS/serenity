@@ -1,17 +1,25 @@
 name: Test
 on:
-    push:
-    pull_request:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
-    lint:
-        name: Test
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
+  lint:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-            - name: Install
-              uses: ./.github/common/install
+      - name: Install
+        uses: ./.github/common/install
 
-            - name: Test
-              run: yarn test
+      - name: Test
+        run: yarn test
+
+      - name: Report Coverage to GitHub
+        if: ${{ !cancelled() }}
+        uses: davelosert/vitest-coverage-report-action@v2.8.0
