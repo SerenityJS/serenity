@@ -1,5 +1,11 @@
 # @serenityjs/logger
 
+## 0.8.1
+
+### Patch Changes
+
+- [`ce6d280`](https://github.com/SerenityJS/serenity/commit/ce6d280630b5cc94c9eb42e284416269fec599a6) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.1-beta
+
 ## 0.8.0
 
 ### Minor Changes
