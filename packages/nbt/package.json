@@ -2,7 +2,7 @@
   "name": "@serenityjs/nbt",
   "author": "Serenity",
   "license": "MIT",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
