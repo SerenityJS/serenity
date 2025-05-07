@@ -1,5 +1,11 @@
 # @serenityjs/nbt
 
+## 0.8.2
+
+### Patch Changes
+
+- [`a084c4f`](https://github.com/SerenityJS/serenity/commit/a084c4f5e83cf128ee259b75cbd37731eef497fa) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.2-beta
+
 ## 0.8.1
 
 ### Patch Changes
