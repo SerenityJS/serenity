@@ -4,7 +4,6 @@ import {
   LevelSoundEventPacket
 } from "@serenityjs/protocol";
 
-import { Block } from "../block";
 import { BlockInteractionOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
@@ -13,21 +12,27 @@ class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open-bit";
   public static readonly state = "open_bit";
 
-  public onInteract({ origin }: BlockInteractionOptions): boolean {
+  public onInteract({ origin, cancel }: BlockInteractionOptions): boolean {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return false;
 
-    // Check if the player can open doors
-    if (!origin.abilities.doorsAndSwitches) return false;
+    // Check if the interaction has been cancelled
+    if (cancel || !origin.abilities.doorsAndSwitches) {
+      // Get the current state of the block
+      const state = this.block.getState<boolean>("open_bit");
+
+      // Revert the state of the block
+      this.setBit(state, true);
+
+      // Return false to cancel the interaction
+      return false;
+    }
 
     // Get the state of the block
-    const state = this.block.permutation.state as Record<string, unknown>;
-
-    // Get the open bit of the block
-    const openBit = state.open_bit as boolean;
+    const state = this.block.getState<boolean>("open_bit");
 
     // Set the bit of the block
-    this.setBit(!openBit);
+    this.setBit(!state);
 
     // If the player is sneaking, we should place the block and interact with it door.
     // If the player is not sneaking, we should just interact with the door.
@@ -35,64 +40,14 @@ class BlockOpenBitTrait extends BlockTrait {
   }
 
   public setBit(open: boolean, silent = false): void {
-    // Get the block type
-    const type = this.block.type;
-
     // Get the state of the block
-    const state = this.block.permutation.state as Record<string, unknown>;
+    const state = this.block.getState<boolean>("open_bit");
 
-    // Check if the block is a door
-    if (typeof state["upper_block_bit"] === "boolean") {
-      // Get the upper block bit of the block
-      const upperBlockBit = state["upper_block_bit"] as boolean;
+    // Check if the state is already set
+    if (state === open) return;
 
-      // Get the above and below blocks
-      // Get the above and below blocks
-      const above: Block = upperBlockBit ? this.block : this.block.above();
-      const below: Block = upperBlockBit ? this.block.below() : this.block;
-
-      // Get the state of the above block
-      const aboveState = above.permutation.state as Record<string, unknown>;
-
-      // Create the state of the above block
-      const aboveNewState = {
-        ...aboveState,
-        open_bit: open
-      };
-
-      // Get the permutation of the above block
-      const abovePermutation = type.getPermutation(aboveNewState);
-
-      // Set the permutation of the above block
-      if (abovePermutation) above.setPermutation(abovePermutation);
-
-      // Get the state of the below block
-      const belowState = below.permutation.state as Record<string, unknown>;
-
-      // Create the state of the below block
-      const belowNewState = {
-        ...belowState,
-        open_bit: open
-      };
-
-      // Get the permutation of the below block
-      const belowPermutation = type.getPermutation(belowNewState);
-
-      // Set the permutation of the below block
-      if (belowPermutation) below.setPermutation(belowPermutation);
-    } else {
-      // Create the state of the block
-      const newState = {
-        ...state,
-        open_bit: open
-      };
-
-      // Get the permutation of the block
-      const permutation = type.getPermutation(newState);
-
-      // Set the permutation of the block
-      if (permutation) this.block.setPermutation(permutation);
-    }
+    // Update the state of the block
+    this.block.setState("open_bit", open);
 
     // Check if the block is silent
     if (silent) return;

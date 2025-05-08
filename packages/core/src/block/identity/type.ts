@@ -59,7 +59,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
         loggable: false,
         air: type.air,
         liquid: type.liquid,
-        solid: type.air ? false : type.liquid ? false : true,
+        solid: type.solid,
         tags: type.tags
       });
 

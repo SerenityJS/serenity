@@ -8,6 +8,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -23,6 +24,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -39,6 +41,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -52,6 +55,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -64,6 +68,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -82,6 +87,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -97,6 +103,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -113,6 +120,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -126,6 +134,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -137,6 +146,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -149,6 +159,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -162,6 +173,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -175,6 +187,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -192,6 +205,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -207,6 +221,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -225,6 +240,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -238,6 +254,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -251,6 +268,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "rail_data_bit",
       "rail_direction"
@@ -262,6 +280,7 @@
     "tags": [],
     "air": true,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -272,6 +291,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -280,6 +300,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -290,6 +311,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -300,6 +322,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:block_face"
     ]
@@ -313,6 +336,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -324,6 +348,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -334,6 +359,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -346,6 +372,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -358,6 +385,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -372,6 +400,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -388,6 +417,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -398,6 +428,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -408,6 +439,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -421,6 +453,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -434,6 +467,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -444,6 +478,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit",
       "bamboo_leaf_size",
@@ -458,6 +493,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -471,6 +507,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -485,6 +522,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -500,6 +538,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -512,6 +551,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -524,6 +564,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -542,6 +583,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -557,6 +599,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -567,6 +610,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -579,6 +623,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -591,6 +636,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -604,6 +650,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -615,6 +662,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -625,6 +673,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -637,6 +686,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -649,6 +699,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -666,6 +717,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -681,6 +733,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -699,6 +752,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -714,6 +768,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction",
       "open_bit"
@@ -725,6 +780,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -735,6 +791,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -747,6 +804,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -755,6 +813,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "head_piece_bit",
@@ -769,6 +828,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "infiniburn_bit"
     ]
@@ -781,6 +841,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "direction",
       "honey_level"
@@ -794,6 +855,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "direction",
       "honey_level"
@@ -807,6 +869,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth"
     ]
@@ -819,6 +882,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attachment",
       "direction",
@@ -833,6 +897,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "big_dripleaf_head",
       "big_dripleaf_tilt",
@@ -848,6 +913,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -863,6 +929,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -879,6 +946,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -892,6 +960,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -904,6 +973,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -922,6 +992,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -937,6 +1008,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -953,6 +1025,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -966,6 +1039,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -977,6 +1051,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -989,6 +1064,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -1002,6 +1078,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1015,6 +1092,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1032,6 +1110,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -1047,6 +1126,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -1065,6 +1145,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -1078,6 +1159,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -1088,6 +1170,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -1099,6 +1182,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -1109,6 +1193,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1119,6 +1204,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1129,6 +1215,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1139,6 +1226,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -1153,6 +1241,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1161,6 +1250,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1169,6 +1259,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1179,6 +1270,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1187,6 +1279,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1197,6 +1290,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1207,6 +1301,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1219,6 +1314,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1231,6 +1327,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1244,6 +1341,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -1262,6 +1360,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -1272,6 +1371,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -1283,6 +1383,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -1293,6 +1394,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1303,6 +1405,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1313,6 +1416,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1323,6 +1427,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -1335,6 +1440,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1345,6 +1451,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1357,6 +1464,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1365,6 +1473,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1373,6 +1482,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1383,6 +1493,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1391,6 +1502,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1401,6 +1513,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "deprecated",
       "pillar_axis"
@@ -1414,6 +1527,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1424,6 +1538,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -1438,6 +1553,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1448,6 +1564,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1456,6 +1573,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -1466,6 +1584,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -1480,6 +1599,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "brewing_stand_slot_a_bit",
       "brewing_stand_slot_b_bit",
@@ -1495,6 +1615,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1506,6 +1627,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1519,6 +1641,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -1531,6 +1654,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -1545,6 +1669,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -1559,6 +1684,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -1570,6 +1696,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -1580,6 +1707,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1590,6 +1718,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1600,6 +1729,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1610,6 +1740,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -1620,6 +1751,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1630,6 +1762,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "huge_mushroom_bits"
     ]
@@ -1644,6 +1777,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1652,6 +1786,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1660,6 +1795,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1670,6 +1806,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1678,6 +1815,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1686,6 +1824,7 @@
     "tags": [],
     "air": true,
     "liquid": false,
+    "solid": false,
     "states": [
       "drag_down"
     ]
@@ -1696,6 +1835,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1706,6 +1846,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1714,6 +1855,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -1724,6 +1866,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -1736,6 +1879,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1744,6 +1888,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1752,6 +1897,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age"
     ]
@@ -1762,6 +1908,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -1770,6 +1917,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "bite_counter"
     ]
@@ -1782,6 +1930,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1792,6 +1941,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "sculk_sensor_phase"
@@ -1805,6 +1955,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1815,6 +1966,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "extinguished",
       "minecraft:cardinal_direction"
@@ -1826,6 +1978,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -1837,6 +1990,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -1849,6 +2003,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth"
     ]
@@ -1861,6 +2016,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1872,6 +2028,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -1879,7 +2036,7 @@
   {
     "identifier": "minecraft:cauldron",
     "components": [
-      "minecraft:fluidContainer"
+      "minecraft:fluid_container"
     ],
     "tags": [
       "minecraft:is_pickaxe_item_destructible",
@@ -1887,6 +2044,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "cauldron_liquid",
       "fill_level"
@@ -1898,6 +2056,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growing_plant_age"
     ]
@@ -1908,6 +2067,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growing_plant_age"
     ]
@@ -1918,6 +2078,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growing_plant_age"
     ]
@@ -1930,6 +2091,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "pillar_axis"
     ]
@@ -1940,6 +2102,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "conditional_bit",
       "facing_direction"
@@ -1953,6 +2116,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -1964,6 +2128,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -1978,6 +2143,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -1993,6 +2159,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2005,6 +2172,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2017,6 +2185,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -2035,6 +2204,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -2050,6 +2220,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -2064,6 +2235,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -2076,6 +2248,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2087,6 +2260,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -2097,6 +2271,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -2109,6 +2284,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2121,6 +2297,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -2138,6 +2315,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -2153,6 +2331,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -2171,6 +2350,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -2184,6 +2364,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -2199,6 +2380,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -2211,6 +2393,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -2224,6 +2407,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "books_stored",
       "direction"
@@ -2239,6 +2423,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2249,6 +2434,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2259,6 +2445,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2269,6 +2456,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2279,6 +2467,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -2291,6 +2480,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2301,6 +2491,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2311,6 +2502,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2321,6 +2513,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2331,6 +2524,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2341,6 +2535,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2351,6 +2546,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age"
     ]
@@ -2363,6 +2559,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2373,6 +2570,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2381,6 +2579,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2391,6 +2590,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2403,6 +2603,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2415,6 +2616,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2425,6 +2627,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2435,6 +2638,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2447,6 +2651,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2459,6 +2664,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -2472,6 +2678,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -2489,6 +2696,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2500,6 +2708,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2513,6 +2722,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2526,6 +2736,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -2542,6 +2753,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age",
       "direction"
@@ -2553,6 +2765,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -2563,6 +2776,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -2573,6 +2787,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -2583,6 +2798,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -2593,6 +2809,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "conditional_bit",
       "facing_direction"
@@ -2606,6 +2823,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "composter_fill_level"
     ]
@@ -2618,6 +2836,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction"
     ]
@@ -2630,6 +2849,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2642,6 +2862,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2654,6 +2875,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -2668,6 +2890,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -2685,6 +2908,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2697,6 +2921,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2710,6 +2935,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -2724,6 +2950,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2734,6 +2961,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2744,6 +2972,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2754,6 +2983,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2764,6 +2994,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2774,6 +3005,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2784,6 +3016,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "crafting",
       "orientation",
@@ -2798,6 +3031,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2808,6 +3042,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "creaking_heart_state",
       "natural",
@@ -2820,6 +3055,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -2832,6 +3068,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -2846,6 +3083,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -2861,6 +3099,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2873,6 +3112,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2884,6 +3124,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -2896,6 +3137,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2910,6 +3152,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -2925,6 +3168,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -2938,6 +3182,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2948,6 +3193,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -2958,6 +3204,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -2968,6 +3215,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -2978,6 +3226,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -2990,6 +3239,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3006,6 +3256,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -3018,6 +3269,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -3032,6 +3284,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -3049,6 +3302,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -3062,6 +3316,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3074,6 +3329,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3085,6 +3341,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3099,6 +3356,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3112,6 +3370,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3122,6 +3381,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3134,6 +3394,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3146,6 +3407,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3156,6 +3418,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3168,6 +3431,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3178,6 +3442,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -3189,6 +3454,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -3199,6 +3465,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3209,6 +3476,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3219,6 +3487,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3229,6 +3498,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -3243,6 +3513,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3251,6 +3522,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3259,6 +3531,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3269,6 +3542,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3277,6 +3551,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3287,6 +3562,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -3299,6 +3575,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3310,6 +3587,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -3325,6 +3603,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -3341,6 +3620,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3354,6 +3634,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3366,6 +3647,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -3384,6 +3666,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -3399,6 +3682,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -3415,6 +3699,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -3428,6 +3713,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3439,6 +3725,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -3451,6 +3738,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -3464,6 +3752,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3477,6 +3766,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3493,6 +3783,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -3508,6 +3799,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -3520,6 +3812,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3530,6 +3823,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3542,6 +3836,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3554,6 +3849,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3571,6 +3867,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -3587,6 +3884,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -3599,6 +3897,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -3611,6 +3910,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -3621,6 +3921,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3631,6 +3932,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3639,6 +3941,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -3649,6 +3952,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -3659,6 +3963,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3669,6 +3974,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3677,6 +3983,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -3687,6 +3994,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -3697,6 +4005,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3707,6 +4016,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3715,6 +4025,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -3725,6 +4036,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -3735,6 +4047,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3745,6 +4058,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3753,6 +4067,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -3763,6 +4078,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -3773,6 +4089,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3783,6 +4100,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3791,6 +4109,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -3801,6 +4120,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -3811,6 +4131,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -3819,6 +4140,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction"
     ]
@@ -3831,6 +4153,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -3843,6 +4166,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3855,6 +4179,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -3867,6 +4192,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -3880,6 +4206,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -3896,6 +4223,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3908,6 +4236,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3920,6 +4249,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3933,6 +4263,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3946,6 +4277,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3959,6 +4291,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3972,6 +4305,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3983,6 +4317,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -3996,6 +4331,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4006,6 +4342,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4018,6 +4355,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4030,6 +4368,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4043,6 +4382,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -4059,6 +4399,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4067,6 +4408,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4078,6 +4420,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "rail_data_bit",
       "rail_direction"
@@ -4092,6 +4435,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4105,6 +4449,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4116,6 +4461,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4126,6 +4472,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4138,6 +4485,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4150,6 +4498,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -4164,6 +4513,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -4182,6 +4532,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4193,6 +4544,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4205,6 +4557,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction",
       "triggered_bit"
@@ -4219,6 +4572,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -4229,6 +4583,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -4237,6 +4592,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -4247,6 +4603,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "rehydration_level"
@@ -4260,6 +4617,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4271,6 +4629,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4283,6 +4642,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction",
       "triggered_bit"
@@ -4294,6 +4654,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4302,6 +4663,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4310,6 +4672,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4318,6 +4681,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4326,6 +4690,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4334,6 +4699,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4342,6 +4708,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4350,6 +4717,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4358,6 +4726,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4366,6 +4735,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4374,6 +4744,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4382,6 +4753,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4390,6 +4762,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4398,6 +4771,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4406,6 +4780,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4414,6 +4789,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4422,6 +4798,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4430,6 +4807,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4438,6 +4816,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4446,6 +4825,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4454,6 +4834,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4462,6 +4843,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4470,6 +4852,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4478,6 +4861,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4486,6 +4870,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4494,6 +4879,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4502,6 +4888,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4510,6 +4897,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4518,6 +4906,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4526,6 +4915,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4534,6 +4924,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4542,6 +4933,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4550,6 +4942,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4558,6 +4951,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4566,6 +4960,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4574,6 +4969,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4582,6 +4978,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4590,6 +4987,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4598,6 +4996,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4606,6 +5005,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4614,6 +5014,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4622,6 +5023,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4630,6 +5032,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4638,6 +5041,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4646,6 +5050,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4654,6 +5059,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4662,6 +5068,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4670,6 +5077,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4678,6 +5086,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4686,6 +5095,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4694,6 +5104,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4702,6 +5113,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4710,6 +5122,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4718,6 +5131,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4726,6 +5140,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4734,6 +5149,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4742,6 +5158,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4750,6 +5167,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4758,6 +5176,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4766,6 +5185,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4774,6 +5194,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4782,6 +5203,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4790,6 +5212,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4798,6 +5221,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4806,6 +5230,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4814,6 +5239,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4822,6 +5248,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4830,6 +5257,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4838,6 +5266,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4846,6 +5275,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4854,6 +5284,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4862,6 +5293,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4870,6 +5302,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4878,6 +5311,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4886,6 +5320,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4894,6 +5329,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4902,6 +5338,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4910,6 +5347,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4918,6 +5356,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4926,6 +5365,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4934,6 +5374,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4942,6 +5383,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4950,6 +5392,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4958,6 +5401,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4966,6 +5410,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4974,6 +5419,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4982,6 +5428,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4990,6 +5437,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -4998,6 +5446,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5006,6 +5455,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5014,6 +5464,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5022,6 +5473,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5030,6 +5482,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5038,6 +5491,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5046,6 +5500,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5054,6 +5509,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5062,6 +5518,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5070,6 +5527,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5078,6 +5536,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5086,6 +5545,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5094,6 +5554,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5102,6 +5563,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5110,6 +5572,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5118,6 +5581,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5126,6 +5590,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5134,6 +5599,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5142,6 +5608,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5150,6 +5617,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5158,6 +5626,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5166,6 +5635,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5174,6 +5644,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5182,6 +5653,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5190,6 +5662,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5198,6 +5671,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5206,6 +5680,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5214,6 +5689,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5222,6 +5698,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5230,6 +5707,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5238,6 +5716,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5248,6 +5727,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction"
     ]
@@ -5261,6 +5741,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5274,6 +5755,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5284,6 +5766,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5294,6 +5777,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5307,6 +5791,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5315,6 +5800,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5325,6 +5811,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "end_portal_eye_bit",
       "minecraft:cardinal_direction"
@@ -5336,6 +5823,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -5348,6 +5836,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5358,6 +5847,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5370,6 +5860,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5383,6 +5874,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -5399,6 +5891,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -5413,6 +5906,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5425,6 +5919,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5437,6 +5932,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -5451,6 +5947,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -5468,6 +5965,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5481,6 +5979,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -5497,6 +5996,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5508,6 +6008,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5522,6 +6023,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5536,6 +6038,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5549,6 +6052,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "moisturized_amount"
     ]
@@ -5563,6 +6067,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -5575,6 +6080,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5583,6 +6089,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age"
     ]
@@ -5593,6 +6100,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5603,6 +6111,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5611,6 +6120,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -5621,6 +6131,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -5631,6 +6142,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5642,6 +6154,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5650,6 +6163,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "update_bit"
     ]
@@ -5660,6 +6174,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5668,6 +6183,7 @@
     "tags": [],
     "air": false,
     "liquid": true,
+    "solid": false,
     "states": [
       "liquid_depth"
     ]
@@ -5680,6 +6196,7 @@
     ],
     "air": false,
     "liquid": true,
+    "solid": false,
     "states": [
       "liquid_depth"
     ]
@@ -5690,6 +6207,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction",
       "item_frame_map_bit",
@@ -5702,6 +6220,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5710,6 +6229,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age"
     ]
@@ -5724,6 +6244,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -5736,6 +6257,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5744,6 +6266,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5752,6 +6275,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5760,6 +6284,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction",
       "item_frame_map_bit",
@@ -5774,6 +6299,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "multi_face_direction_bits"
     ]
@@ -5784,6 +6310,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5796,6 +6323,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5809,6 +6337,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5820,6 +6349,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "rail_data_bit",
       "rail_direction"
@@ -5834,6 +6364,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5844,6 +6375,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5856,6 +6388,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -5868,6 +6401,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -5882,6 +6416,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -5901,6 +6436,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5912,6 +6448,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5923,6 +6460,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5931,6 +6469,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -5942,6 +6481,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -5952,6 +6492,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -5962,6 +6503,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5972,6 +6514,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -5982,6 +6525,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -5996,6 +6540,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6004,6 +6549,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6012,6 +6558,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6022,6 +6569,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6030,6 +6578,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6038,6 +6587,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -6049,6 +6599,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -6059,6 +6610,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6069,6 +6621,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6079,6 +6632,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6089,6 +6643,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -6103,6 +6658,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6111,6 +6667,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6119,6 +6676,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6129,6 +6687,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6137,6 +6696,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6147,6 +6707,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attachment",
       "direction"
@@ -6158,6 +6719,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6166,6 +6728,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6174,6 +6737,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6182,6 +6746,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6190,6 +6755,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6198,6 +6764,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6206,6 +6773,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6214,6 +6782,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6222,6 +6791,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6230,6 +6800,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6238,6 +6809,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6246,6 +6818,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6254,6 +6827,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6262,6 +6836,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6270,6 +6845,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6278,6 +6854,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6286,6 +6863,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6294,6 +6872,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6302,6 +6881,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6310,6 +6890,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6318,6 +6899,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6326,6 +6908,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6334,6 +6917,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6342,6 +6926,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6350,6 +6935,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6358,6 +6944,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6366,6 +6953,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6374,6 +6962,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6382,6 +6971,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6390,6 +6980,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6398,6 +6989,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6406,6 +6998,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6414,6 +7007,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6422,6 +7016,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6430,6 +7025,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6440,6 +7036,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6450,6 +7047,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "deprecated",
       "pillar_axis"
@@ -6463,6 +7061,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6473,6 +7072,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -6483,6 +7083,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6491,6 +7092,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6503,6 +7105,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction",
       "toggle_bit"
@@ -6514,6 +7117,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6524,6 +7128,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6532,6 +7137,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -6542,6 +7148,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -6554,6 +7161,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6564,6 +7172,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6574,6 +7183,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6584,6 +7194,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6594,6 +7205,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -6606,6 +7218,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6616,6 +7229,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6626,6 +7240,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6637,6 +7252,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6649,6 +7265,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6661,6 +7278,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -6679,6 +7297,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6691,6 +7310,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -6703,6 +7323,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction",
       "rotation"
@@ -6719,6 +7340,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6730,6 +7352,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -6745,6 +7368,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -6761,6 +7385,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -6774,6 +7399,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -6786,6 +7412,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -6804,6 +7431,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -6819,6 +7447,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -6835,6 +7464,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -6848,6 +7478,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -6859,6 +7490,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -6871,6 +7503,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -6884,6 +7517,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -6897,6 +7531,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -6914,6 +7549,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -6929,6 +7565,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -6947,6 +7584,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -6960,6 +7598,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -6970,6 +7609,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "kelp_age"
     ]
@@ -6982,6 +7622,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction"
     ]
@@ -6995,6 +7636,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -7007,6 +7649,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "hanging"
     ]
@@ -7020,6 +7663,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7033,6 +7677,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7043,6 +7688,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:block_face"
     ]
@@ -7055,6 +7701,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upper_block_bit"
     ]
@@ -7065,6 +7712,7 @@
     "tags": [],
     "air": false,
     "liquid": true,
+    "solid": false,
     "states": [
       "liquid_depth"
     ]
@@ -7075,6 +7723,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth",
       "minecraft:cardinal_direction"
@@ -7090,6 +7739,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "powered_bit"
@@ -7101,6 +7751,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lever_direction",
       "open_bit"
@@ -7112,6 +7763,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7120,6 +7772,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7128,6 +7781,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7136,6 +7790,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7144,6 +7799,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7152,6 +7808,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7160,6 +7817,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7168,6 +7826,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7176,6 +7835,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7184,6 +7844,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7192,6 +7853,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7200,6 +7862,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7208,6 +7871,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7216,6 +7880,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7224,6 +7889,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7232,6 +7898,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7240,6 +7907,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -7251,6 +7919,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -7261,6 +7930,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7271,6 +7941,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7281,6 +7952,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7291,6 +7963,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -7305,6 +7978,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7313,6 +7987,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7321,6 +7996,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7331,6 +8007,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7339,6 +8016,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7347,6 +8025,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -7358,6 +8037,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -7368,6 +8048,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7378,6 +8059,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7388,6 +8070,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7400,6 +8083,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7408,6 +8092,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7416,6 +8101,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7426,6 +8112,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7434,6 +8121,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7444,6 +8132,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -7457,6 +8146,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -7469,6 +8159,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upper_block_bit"
     ]
@@ -7481,6 +8172,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7489,6 +8181,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -7500,6 +8193,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -7510,6 +8204,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7520,6 +8215,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7530,6 +8226,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7540,6 +8237,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -7554,6 +8252,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7562,6 +8261,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7570,6 +8270,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7580,6 +8281,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7588,6 +8290,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7600,6 +8303,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -7615,6 +8319,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7627,6 +8332,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -7640,6 +8346,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -7650,6 +8357,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7663,6 +8371,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7675,6 +8384,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -7687,6 +8397,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7697,6 +8408,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "direction"
     ]
@@ -7707,6 +8419,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -7718,6 +8431,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -7728,6 +8442,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7738,6 +8453,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7748,6 +8464,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7758,6 +8475,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -7772,6 +8490,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7780,6 +8499,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7788,6 +8508,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7798,6 +8519,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7806,6 +8528,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7816,6 +8539,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7827,6 +8551,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -7841,6 +8566,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -7856,6 +8582,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -7868,6 +8595,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7880,6 +8608,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -7898,6 +8627,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -7913,6 +8643,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -7927,6 +8658,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -7939,6 +8671,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -7950,6 +8683,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -7960,6 +8694,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "hanging",
       "propagule_stage"
@@ -7973,6 +8708,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7983,6 +8719,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -7995,6 +8732,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8012,6 +8750,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -8027,6 +8766,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -8045,6 +8785,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -8058,6 +8799,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -8070,6 +8812,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction"
     ]
@@ -8082,6 +8825,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:block_face"
     ]
@@ -8094,6 +8838,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8102,6 +8847,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction",
       "growth"
@@ -8117,6 +8863,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8129,6 +8876,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8139,6 +8887,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8150,6 +8899,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8160,6 +8910,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8172,6 +8923,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8184,6 +8936,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8198,6 +8951,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -8214,6 +8968,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8226,6 +8981,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8238,6 +8994,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8252,6 +9009,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -8268,6 +9026,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8279,6 +9038,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8289,6 +9049,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8301,6 +9062,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8313,6 +9075,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8326,6 +9089,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -8342,6 +9106,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8353,6 +9118,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -8365,6 +9131,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "huge_mushroom_bits"
     ]
@@ -8378,6 +9145,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8388,6 +9156,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8399,6 +9168,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8411,6 +9181,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8422,6 +9193,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8434,6 +9206,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8448,6 +9221,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -8464,6 +9238,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8472,6 +9247,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8480,6 +9256,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age"
     ]
@@ -8492,6 +9269,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8503,6 +9281,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8513,6 +9292,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8523,6 +9303,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8535,6 +9316,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8547,6 +9329,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8560,6 +9343,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8571,6 +9355,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8584,6 +9369,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8598,6 +9384,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -8613,6 +9400,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -8629,6 +9417,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -8642,6 +9431,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8652,6 +9442,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -8665,6 +9456,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8678,6 +9470,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8692,6 +9485,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -8704,6 +9498,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:facing_direction",
       "powered_bit"
@@ -8719,6 +9514,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8727,6 +9523,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -8737,6 +9534,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8745,6 +9543,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -8756,6 +9555,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -8766,6 +9566,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8776,6 +9577,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8786,6 +9588,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8796,6 +9599,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -8810,6 +9614,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8818,6 +9623,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8826,6 +9632,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8836,6 +9643,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8846,6 +9654,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8854,6 +9663,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8864,6 +9674,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8876,6 +9687,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8888,6 +9700,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8900,6 +9713,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -8914,6 +9728,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -8931,6 +9746,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -8944,6 +9760,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -8960,6 +9777,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -8971,6 +9789,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -8985,6 +9804,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -8999,6 +9819,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9011,6 +9832,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9021,6 +9843,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9029,6 +9852,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "tip"
     ]
@@ -9043,6 +9867,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9053,6 +9878,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "pale_moss_carpet_side_east",
       "pale_moss_carpet_side_north",
@@ -9070,6 +9896,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -9084,6 +9911,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -9099,6 +9927,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9111,6 +9940,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -9123,6 +9953,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -9141,6 +9972,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -9156,6 +9988,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -9170,6 +10003,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -9182,6 +10016,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9193,6 +10028,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -9203,6 +10039,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -9215,6 +10052,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9227,6 +10065,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9244,6 +10083,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -9259,6 +10099,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -9277,6 +10118,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -9290,6 +10132,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -9300,6 +10143,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -9312,6 +10156,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upper_block_bit"
     ]
@@ -9325,6 +10170,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9338,6 +10184,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9348,6 +10195,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -9358,6 +10206,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -9369,6 +10218,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -9379,6 +10229,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -9389,6 +10240,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9399,6 +10251,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9409,6 +10262,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -9419,6 +10273,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth",
       "minecraft:cardinal_direction"
@@ -9434,6 +10289,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -9442,6 +10298,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -9450,6 +10307,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -9460,6 +10318,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9470,6 +10329,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -9478,6 +10338,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9490,6 +10351,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -9502,6 +10364,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -9515,6 +10378,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth",
       "upper_block_bit"
@@ -9528,6 +10392,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upper_block_bit"
     ]
@@ -9538,6 +10403,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -9551,6 +10417,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9561,6 +10428,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "dripstone_thickness",
       "hanging"
@@ -9575,6 +10443,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9585,6 +10454,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9597,6 +10467,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9609,6 +10480,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9622,6 +10494,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -9634,6 +10507,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9644,6 +10518,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9656,6 +10531,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9668,6 +10544,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9681,6 +10558,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -9697,6 +10575,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9707,6 +10586,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -9720,6 +10600,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9732,6 +10613,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -9744,6 +10626,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9756,6 +10639,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9769,6 +10653,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -9785,6 +10670,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9795,6 +10681,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9807,6 +10694,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9819,6 +10707,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9832,6 +10721,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -9849,6 +10739,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9859,6 +10750,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9871,6 +10763,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9883,6 +10776,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9897,6 +10791,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9907,6 +10802,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9919,6 +10815,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9931,6 +10828,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9944,6 +10842,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -9954,6 +10853,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9966,6 +10866,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -9978,6 +10879,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -9991,6 +10893,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -10007,6 +10910,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10015,6 +10919,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "portal_axis"
     ]
@@ -10027,6 +10932,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth"
     ]
@@ -10037,6 +10943,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10045,6 +10952,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "output_lit_bit",
@@ -10057,6 +10965,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "repeater_delay"
@@ -10070,6 +10979,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10080,6 +10990,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10092,6 +11003,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10104,6 +11016,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10114,6 +11027,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -10127,6 +11041,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10139,6 +11054,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10151,6 +11067,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -10165,6 +11082,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -10182,6 +11100,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -10192,6 +11111,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction",
       "growth"
@@ -10203,6 +11123,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -10214,6 +11135,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -10224,6 +11146,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10234,6 +11157,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10244,6 +11168,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10254,6 +11179,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -10268,6 +11194,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10276,6 +11203,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10284,6 +11212,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10294,6 +11223,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10302,6 +11232,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10312,6 +11243,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -10324,6 +11256,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10336,6 +11269,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -10348,6 +11282,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10360,6 +11295,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -10373,6 +11309,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -10385,6 +11322,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10396,6 +11334,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10408,6 +11347,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10418,6 +11358,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -10431,6 +11372,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10443,6 +11385,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -10457,6 +11400,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "rail_direction"
     ]
@@ -10471,6 +11415,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10484,6 +11429,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10497,6 +11443,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10505,6 +11452,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -10516,6 +11464,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -10526,6 +11475,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10536,6 +11486,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10546,6 +11497,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10556,6 +11508,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -10566,6 +11519,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10576,6 +11530,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "huge_mushroom_bits"
     ]
@@ -10588,6 +11543,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10598,6 +11554,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10610,6 +11567,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10622,6 +11580,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -10636,6 +11595,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -10653,6 +11613,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10663,6 +11624,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10673,6 +11635,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10685,6 +11648,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10697,6 +11661,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -10711,6 +11676,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -10729,6 +11695,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10737,6 +11704,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10745,6 +11713,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10755,6 +11724,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10765,6 +11735,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -10773,6 +11744,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10783,6 +11755,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10791,6 +11764,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10804,6 +11778,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10812,6 +11787,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -10822,6 +11798,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -10832,6 +11809,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age"
     ]
@@ -10842,6 +11820,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10850,6 +11829,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "conditional_bit",
       "facing_direction"
@@ -10861,6 +11841,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10871,6 +11852,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10883,6 +11865,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -10895,6 +11878,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -10908,6 +11892,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -10924,6 +11909,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10932,6 +11918,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "multi_face_direction_bits"
     ]
@@ -10945,6 +11932,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "respawn_anchor_charge"
     ]
@@ -10957,6 +11945,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upper_block_bit"
     ]
@@ -10970,6 +11959,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10980,6 +11970,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -10991,6 +11982,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11004,6 +11996,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11016,6 +12009,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -11030,6 +12024,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -11046,6 +12041,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "stability",
       "stability_check"
@@ -11059,6 +12055,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11069,6 +12066,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "bloom"
     ]
@@ -11081,6 +12079,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "sculk_sensor_phase"
     ]
@@ -11093,6 +12092,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "active",
       "can_summon"
@@ -11106,6 +12106,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "multi_face_direction_bits"
     ]
@@ -11116,6 +12117,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11124,6 +12126,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "cluster_count",
       "dead_bit"
@@ -11135,6 +12138,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "sea_grass_type"
     ]
@@ -11145,6 +12149,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -11153,6 +12158,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -11163,6 +12169,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11173,6 +12180,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -11183,6 +12191,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -11193,6 +12202,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11203,6 +12213,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:block_face"
     ]
@@ -11213,6 +12224,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "upper_block_bit"
@@ -11227,6 +12239,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11239,6 +12252,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -11251,6 +12265,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11261,6 +12276,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -11273,6 +12289,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11285,6 +12302,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11297,6 +12315,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -11310,6 +12329,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11320,6 +12340,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11332,6 +12353,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11344,6 +12366,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -11357,6 +12380,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11367,6 +12391,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11379,6 +12404,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11391,6 +12417,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -11404,6 +12431,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11415,6 +12443,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11428,6 +12457,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11438,6 +12468,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "cracked_state"
     ]
@@ -11450,6 +12481,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11461,6 +12493,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "covered_bit",
       "height"
@@ -11474,6 +12507,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "extinguished",
       "minecraft:cardinal_direction"
@@ -11485,6 +12519,7 @@
     "tags": [],
     "air": true,
     "liquid": false,
+    "solid": false,
     "states": [
       "age"
     ]
@@ -11497,6 +12532,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "hanging"
     ]
@@ -11509,6 +12545,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11519,6 +12556,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11527,6 +12565,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -11539,6 +12578,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11547,6 +12587,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -11558,6 +12599,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -11573,6 +12615,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -11589,6 +12632,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11602,6 +12646,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -11614,6 +12659,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -11632,6 +12678,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -11647,6 +12694,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "persistent_bit",
       "update_bit"
@@ -11663,6 +12711,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -11676,6 +12725,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11687,6 +12737,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -11699,6 +12750,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "age_bit"
     ]
@@ -11712,6 +12764,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11725,6 +12778,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -11742,6 +12796,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -11757,6 +12812,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -11775,6 +12831,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -11788,6 +12845,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -11800,6 +12858,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -11816,6 +12875,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -11830,6 +12890,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -11842,6 +12903,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -11855,6 +12917,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11866,6 +12929,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11879,6 +12943,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -11891,6 +12956,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -11905,6 +12971,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -11921,6 +12988,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -11932,6 +13000,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -11946,6 +13015,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -11959,6 +13029,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -11972,6 +13043,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -11985,6 +13057,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -11998,6 +13071,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12010,6 +13084,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12023,6 +13098,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12036,6 +13112,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12049,6 +13126,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12062,6 +13140,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12074,6 +13153,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12086,6 +13166,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12099,6 +13180,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12112,6 +13194,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12125,6 +13208,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12138,6 +13222,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12151,6 +13236,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12164,6 +13250,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12177,6 +13264,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12190,6 +13278,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12203,6 +13292,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12216,6 +13306,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12229,6 +13320,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12242,6 +13334,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12254,6 +13347,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12266,6 +13360,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12276,6 +13371,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "structure_block_type"
     ]
@@ -12286,6 +13382,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12296,6 +13393,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upper_block_bit"
     ]
@@ -12309,6 +13407,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "brushed_progress",
       "hanging"
@@ -12323,6 +13422,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "brushed_progress",
       "hanging"
@@ -12336,6 +13436,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth"
     ]
@@ -12346,6 +13447,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12356,6 +13458,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upper_block_bit"
     ]
@@ -12368,6 +13471,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -12376,6 +13480,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12384,6 +13489,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "explode_bit"
     ]
@@ -12394,6 +13500,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -12404,6 +13511,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12414,6 +13522,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth"
     ]
@@ -12429,6 +13538,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -12445,6 +13555,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction"
     ]
@@ -12457,6 +13568,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "ominous",
       "trial_spawner_state"
@@ -12468,6 +13580,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "disarmed_bit",
@@ -12481,6 +13594,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "direction",
@@ -12493,6 +13607,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12503,6 +13618,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -12511,6 +13627,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_fan_direction"
     ]
@@ -12521,6 +13638,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "coral_direction"
     ]
@@ -12533,6 +13651,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -12543,6 +13662,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -12555,6 +13675,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -12567,6 +13688,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -12580,6 +13702,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -12596,6 +13719,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -12606,6 +13730,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -12618,6 +13743,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -12630,6 +13756,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -12643,6 +13770,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "wall_connection_type_east",
       "wall_connection_type_north",
@@ -12657,6 +13785,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "cracked_state",
       "turtle_egg_count"
@@ -12668,6 +13797,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "twisting_vines_age"
     ]
@@ -12678,6 +13808,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "explode_bit"
     ]
@@ -12688,6 +13819,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -12702,6 +13834,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12710,6 +13843,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -12718,6 +13852,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "torch_facing_direction"
     ]
@@ -12728,6 +13863,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "output_lit_bit",
@@ -12740,6 +13876,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:cardinal_direction",
       "repeater_delay"
@@ -12753,6 +13890,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:cardinal_direction",
       "ominous",
@@ -12765,6 +13903,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12777,6 +13916,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "vine_direction_bits"
     ]
@@ -12789,6 +13929,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -12805,6 +13946,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -12817,6 +13959,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -12831,6 +13974,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -12846,6 +13990,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -12858,6 +14003,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12869,6 +14015,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "in_wall_bit",
       "minecraft:cardinal_direction",
@@ -12881,6 +14028,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12895,6 +14043,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "attached_bit",
       "facing_direction",
@@ -12910,6 +14059,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -12923,6 +14073,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -12933,6 +14084,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -12943,6 +14095,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -12953,6 +14106,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -12963,6 +14117,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -12975,6 +14130,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -12991,6 +14147,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "ground_sign_direction"
     ]
@@ -13003,6 +14160,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "pillar_axis"
     ]
@@ -13017,6 +14175,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -13034,6 +14193,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -13046,6 +14206,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13056,6 +14217,7 @@
     ],
     "air": false,
     "liquid": true,
+    "solid": false,
     "states": [
       "liquid_depth"
     ]
@@ -13066,6 +14228,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13078,6 +14241,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13090,6 +14254,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13102,6 +14267,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -13116,6 +14282,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -13133,6 +14300,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13146,6 +14314,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -13162,6 +14331,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13173,6 +14343,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13187,6 +14358,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -13201,6 +14373,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13215,6 +14388,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13227,6 +14401,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13239,6 +14414,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -13253,6 +14429,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -13270,6 +14447,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13283,6 +14461,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -13299,6 +14478,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13310,6 +14490,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13324,6 +14505,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -13338,6 +14520,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13352,6 +14535,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13364,6 +14548,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13376,6 +14561,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -13390,6 +14576,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -13407,6 +14594,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13420,6 +14608,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -13436,6 +14625,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13448,6 +14638,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13462,6 +14653,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -13477,6 +14669,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13491,6 +14684,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13503,6 +14697,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13515,6 +14710,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -13529,6 +14725,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -13546,6 +14743,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13559,6 +14757,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -13575,6 +14774,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13586,6 +14786,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13600,6 +14801,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -13614,6 +14816,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13628,6 +14831,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13640,6 +14844,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13652,6 +14857,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "lit",
       "powered_bit"
@@ -13666,6 +14872,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -13683,6 +14890,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13696,6 +14904,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "direction",
       "open_bit",
@@ -13712,6 +14921,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13723,6 +14933,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13737,6 +14948,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "upside_down_bit",
       "weirdo_direction"
@@ -13751,6 +14963,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "minecraft:vertical_half"
     ]
@@ -13764,6 +14977,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13772,6 +14986,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "weeping_vines_age"
     ]
@@ -13784,6 +14999,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13794,6 +15010,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth"
     ]
@@ -13804,6 +15021,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -13815,6 +15033,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -13825,6 +15044,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13835,6 +15055,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13845,6 +15066,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13855,6 +15077,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -13869,6 +15092,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13877,6 +15101,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13885,6 +15110,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13895,6 +15121,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13905,6 +15132,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13913,6 +15141,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -13921,6 +15150,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "growth",
       "minecraft:cardinal_direction"
@@ -13932,6 +15162,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -13940,6 +15171,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
@@ -13953,6 +15185,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "button_pressed_bit",
       "facing_direction"
@@ -13968,6 +15201,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "door_hinge_bit",
       "minecraft:cardinal_direction",
@@ -13984,6 +15218,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "redstone_signal"
     ]
@@ -13994,6 +15229,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "candles",
       "lit"
@@ -14005,6 +15241,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "lit"
     ]
@@ -14015,6 +15252,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -14025,6 +15263,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -14035,6 +15274,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -14045,6 +15285,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": [
       "facing_direction"
     ]
@@ -14059,6 +15300,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -14067,6 +15309,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -14075,6 +15318,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -14085,6 +15329,7 @@
     ],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -14093,6 +15338,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": true,
     "states": []
   },
   {
@@ -14101,6 +15347,7 @@
     "tags": [],
     "air": false,
     "liquid": false,
+    "solid": false,
     "states": [
       "facing_direction"
     ]
