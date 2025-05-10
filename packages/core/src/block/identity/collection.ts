@@ -18,7 +18,8 @@ import {
   BlockTypeLightEmissionComponent,
   BlockTypeMaterialInstancesComponent,
   BlockTypeSelectionBoxComponent,
-  BlockTypeTransformationComponent
+  BlockTypeTransformationComponent,
+  BlockTypeDisplayNameComponent
 } from "./components";
 
 import type { BlockType } from "./type";
@@ -250,6 +251,44 @@ class BlockTypeComponentCollection extends CompoundTag<unknown> {
     // Check if component should be added or removed.
     if (value) this.add(BlockTypeInteractableComponent, undefined);
     else this.remove(BlockTypeInteractableComponent);
+  }
+
+  /**
+   * Get whether the block has a display name component.
+   * @returns True if the block has a display name component, false otherwise.
+   */
+  public hasDisplayName(): boolean {
+    return this.has(BlockTypeDisplayNameComponent);
+  }
+
+  /**
+   * Get the display name component of the block.
+   * @returns The display name component of the block.
+   */
+  public getDisplayName(): string {
+    // Check if the display name component exists.
+    if (!this.has(BlockTypeDisplayNameComponent)) {
+      // Add the display name component to the block.
+      return this.add(BlockTypeDisplayNameComponent, "").getDisplayName();
+    }
+
+    // Return the display name component
+    return this.get(BlockTypeDisplayNameComponent).getDisplayName();
+  }
+
+  /**
+   * Set the display name component of the block.
+   * @param value The display name of the block.
+   */
+  public setDisplayName(value: string): void {
+    // Check if the display name component exists.
+    if (!this.has(BlockTypeDisplayNameComponent)) {
+      // Add the display name component to the block.
+      this.add(BlockTypeDisplayNameComponent, value);
+    } else {
+      // Set the display name of the block.
+      this.get(BlockTypeDisplayNameComponent).setDisplayName(value);
+    }
   }
 
   /**
