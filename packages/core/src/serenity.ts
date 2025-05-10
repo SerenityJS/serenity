@@ -764,6 +764,8 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       unpause: () => {
         // Unpause the simulation
         simulation.paused = false;
+        // Reset the last run time to avoid possible integer overflow
+        simulation.lastRunTime = process.hrtime.bigint();
       },
       destroy: () => {
         this.simulations.delete(simulation);

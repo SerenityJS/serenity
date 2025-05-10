@@ -22,11 +22,11 @@ interface Simulation {
 interface SimulationInstance {
   simulation: Simulation;
   /**
-   * Pauses the simulation. The deltaTime will reflect time paused.
+   * Pauses the simulation.
    */
   pause: () => void;
   /**
-   * Unpauses the simulation. The deltaTime will reflect time paused.
+   * Unpauses the simulation. lastRunTime is set to the current time to avoid a massive time delta.
    */
   unpause: () => void;
   /**
