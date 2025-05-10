@@ -358,29 +358,6 @@ class PlayerAuthInputHandler extends NetworkHandler {
               trait.onStartUse?.(player, { method: ItemUseMethod.UseTool });
           break;
         }
-
-        // case InputData.Up: {
-        //   // Check if the player is riding an entity
-        //   if (!player.hasTrait(EntityRidingTrait)) break;
-
-        //   // Get the riding trait from the player
-        //   const riding = player.getTrait(EntityRidingTrait);
-
-        //   // Add motion to the entity based on the rotation of the entity
-        //   const rotation = riding.entityRidingOn.rotation;
-
-        //   // Get the movement trait from the entity
-        //   const movement = riding.entityRidingOn.getTrait(EntityMovementTrait);
-
-        //   const headYawRad = (rotation.headYaw * Math.PI) / 180;
-
-        //   const vx = -Math.sin(headYawRad) * movement.currentValue;
-        //   const vz = Math.cos(headYawRad) * movement.currentValue;
-
-        //   riding.entityRidingOn.addMotion(new Vector3f(vx, 0, vz));
-
-        //   break;
-        // }
       }
     }
   }
@@ -460,7 +437,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Call the block onStartBreak trait methods
           let canceled = false;
-          for (const trait of block.traits.values()) {
+          for (const [, trait] of block.traits) {
             // Check if the start break was successful
             const success = trait.onStartBreak?.(player);
 
@@ -504,7 +481,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             ).emit();
 
             // Call the item onStartUse trait methods
-            for (const trait of heldItem.traits.values()) {
+            for (const [, trait] of heldItem.traits) {
               // Check if the start use was successful
               const success = trait.onStartUse?.(player, { method });
 
@@ -530,12 +507,12 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case PlayerActionType.AbortDestroyBlock: {
           // Check if the player already has a block target
           if (player.blockTarget) {
+            // Get the block from the players block target
+            const block = dimension.getBlock(player.blockTarget);
+
             // Call the block onStopBreak trait methods
             // We will ignore the result of the method
-            for (const trait of dimension
-              .getBlock(player.blockTarget)
-              .traits.values())
-              trait.onStopBreak?.(player);
+            for (const [, trait] of block.traits) trait.onStopBreak?.(player);
 
             // Create a new LevelEventPacket for the block break
             const packet = new LevelEventPacket();
@@ -570,6 +547,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case PlayerActionType.PredictDestroyBlock: {
           // Get the block from the action position
           const block = dimension.getBlock(action.position);
+
+          // Create a new LevelEventPacket for the block break
+          const packet = new LevelEventPacket();
+          packet.event = LevelEvent.StopBlockCracking;
+          packet.position = BlockPosition.toVector3f(block.position);
+          packet.data = 0;
+
+          // Broadcast the packet to the dimension
+          dimension.broadcast(packet);
 
           // Check if the player does not have a block target
           // And if the player is not in creative mode; also check if the signal was canceled
