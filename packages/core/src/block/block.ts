@@ -991,8 +991,12 @@ class Block {
       }
 
       // Check if no efficiency was applied, and if the block has requirements.
-      if (this.type.hasRequirements() && efficiency === 1) hardness *= 5;
-      else if (!this.type.hasRequirements()) hardness *= 1.5;
+      if (efficiency === 1) {
+        // Apply incompatible efficiency.
+        if (this.type.hasRequirements()) hardness *= 5;
+        // Apply compatible efficiency.
+        else hardness *= 1.5;
+      }
     }
     // Apply defualt hardness.
     else hardness *= 5;

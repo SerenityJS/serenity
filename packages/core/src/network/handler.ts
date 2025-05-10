@@ -17,7 +17,15 @@ class NetworkHandler {
   /**
    * The network instance that the network handler is attached to.
    */
-  public readonly network: Network;
+  public get network(): Network {
+    return this.serenity.network;
+  }
+
+  /**
+   * The packet that the network handler is listening for.
+   */
+  public readonly packet: Packet = (this.constructor as typeof NetworkHandler)
+    .packet;
 
   /**
    * Creates a new network handler with the specified serenity instance.
@@ -25,7 +33,6 @@ class NetworkHandler {
    */
   public constructor(serenity: Serenity) {
     this.serenity = serenity;
-    this.network = serenity.network;
   }
 
   /**

@@ -30,9 +30,20 @@ import {
   PlayerStopUsingItemSignal,
   PlayerUseItemSignal
 } from "../events";
+import { TickSchedule } from "../world";
 
 class PlayerAuthInputHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAuthInput;
+
+  /**
+   * The pending schedules for the server-side block break.
+   */
+  private readonly schedules = new Map<bigint, TickSchedule>();
+
+  /**
+   * The set of players that should skip client prediction.
+   */
+  private readonly skipClientPrediction = new Set<bigint>();
 
   public handle(packet: PlayerAuthInputPacket, connection: Connection): void {
     // Get the player from the connection
@@ -468,6 +479,72 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Broadcast the packet to the dimension
           dimension.broadcast(packet);
 
+          // Check if a schedule already exists for the player
+          if (this.schedules.has(player.uniqueId)) {
+            // Get the schedule from the dimension
+            const schedule = this.schedules.get(player.uniqueId)!;
+
+            // Cancel the schedule
+            schedule.cancel();
+
+            // Remove the schedule from the map
+            this.schedules.delete(player.uniqueId);
+          }
+
+          // Check if the break time is valid
+          if (breakTime > 0 && breakTime < 9999) {
+            // Create a new schedule for the player
+            const schedule = dimension.schedule(breakTime);
+
+            // Wait for the schedule to finish
+            schedule.on(() => {
+              // Delete the schedule from the map
+              this.schedules.delete(player.uniqueId);
+
+              // Check if the player does not have a block target
+              // And if the player is not in creative mode; also check if the signal was canceled
+              if (
+                player.blockTarget !== block.position &&
+                player.gamemode !== Gamemode.Creative
+              ) {
+                // Create a new UpdateBlockPacket for the block update
+                const packet = new UpdateBlockPacket();
+                packet.position = BlockPosition.toVector3f(block.position);
+                packet.layer = UpdateBlockLayerType.Normal;
+                packet.flags = UpdateBlockFlagsType.Network;
+                packet.networkBlockId = block.permutation.networkId;
+
+                // Send the packet to the player
+                return player.send(packet);
+              } else {
+                // Attempt to break the block
+                const success = block.destroy({
+                  origin: player,
+                  dropLoot: true
+                });
+
+                // Check if the block was not destroyed
+                if (!success) {
+                  // Create a new UpdateBlockPacket for the block update
+                  const packet = new UpdateBlockPacket();
+                  packet.position = BlockPosition.toVector3f(block.position);
+                  packet.layer = UpdateBlockLayerType.Normal;
+                  packet.flags = UpdateBlockFlagsType.Network;
+                  packet.networkBlockId = block.permutation.networkId;
+
+                  // Add the player to the skip client prediction set
+                  this.skipClientPrediction.add(player.uniqueId);
+
+                  // Send the packet to the player
+                  return player.send(packet);
+                }
+              }
+            });
+
+            // Add the schedule to the map
+            this.schedules.set(player.uniqueId, schedule);
+          }
+
           // Check if the player was holding an item
           if (heldItem) {
             // Set the use method for the trait
@@ -527,6 +604,18 @@ class PlayerAuthInputHandler extends NetworkHandler {
             player.blockTarget = null;
           }
 
+          // Check if the player has a schedule
+          if (this.schedules.has(player.uniqueId)) {
+            // Get the schedule from the dimension
+            const schedule = this.schedules.get(player.uniqueId)!;
+
+            // Cancel the schedule
+            schedule.cancel();
+
+            // Remove the schedule from the map
+            this.schedules.delete(player.uniqueId);
+          }
+
           // Check if the player was holding an item
           if (player.itemTarget) {
             // Create a new PlayerStopUsingItemSignal
@@ -556,6 +645,34 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Broadcast the packet to the dimension
           dimension.broadcast(packet);
+
+          // Check if the client prediction should be skipped
+          if (this.skipClientPrediction.has(player.uniqueId)) {
+            // Remove the player from the skip client prediction set
+            this.skipClientPrediction.delete(player.uniqueId);
+
+            // Create a new update block packet for the block update
+            const packet = new UpdateBlockPacket();
+            packet.position = BlockPosition.toVector3f(block.position);
+            packet.layer = UpdateBlockLayerType.Normal;
+            packet.flags = UpdateBlockFlagsType.Network;
+            packet.networkBlockId = block.permutation.networkId;
+
+            // Send the packet to the player
+            return player.send(packet);
+          }
+
+          // Check if there is a pending server-side break schedule
+          if (this.schedules.has(player.uniqueId)) {
+            // Get the schedule from the dimension
+            const schedule = this.schedules.get(player.uniqueId)!;
+
+            // Cancel the schedule
+            schedule.cancel();
+
+            // Remove the schedule from the map
+            this.schedules.delete(player.uniqueId);
+          }
 
           // Check if the player does not have a block target
           // And if the player is not in creative mode; also check if the signal was canceled
