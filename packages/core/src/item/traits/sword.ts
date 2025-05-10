@@ -1,4 +1,4 @@
-import { ItemToolTier } from "../../enums";
+import { ItemTypeToolTier } from "../../enums";
 import { ItemWeaponComponent } from "../../types";
 
 import { ItemWeaponTrait } from "./weapon";
@@ -15,38 +15,38 @@ class ItemSwordTrait extends ItemWeaponTrait {
     let criticalDamage = 4;
 
     // Switch based on the tier of the item
-    switch (this.item.type.tier) {
-      case ItemToolTier.Wooden: {
+    switch (this.item.type.getToolTier()) {
+      case ItemTypeToolTier.Wooden: {
         baseDamage = 4;
         criticalDamage = 6;
         break;
       }
 
-      case ItemToolTier.Stone: {
+      case ItemTypeToolTier.Stone: {
         baseDamage = 5;
         criticalDamage = 7;
         break;
       }
 
-      case ItemToolTier.Iron: {
+      case ItemTypeToolTier.Iron: {
         baseDamage = 6;
         criticalDamage = 8;
         break;
       }
 
-      case ItemToolTier.Gold: {
+      case ItemTypeToolTier.Golden: {
         baseDamage = 4;
         criticalDamage = 6;
         break;
       }
 
-      case ItemToolTier.Diamond: {
+      case ItemTypeToolTier.Diamond: {
         baseDamage = 7;
         criticalDamage = 9;
         break;
       }
 
-      case ItemToolTier.Netherite: {
+      case ItemTypeToolTier.Netherite: {
         baseDamage = 8;
         criticalDamage = 10;
         break;

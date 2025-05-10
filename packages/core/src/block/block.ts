@@ -596,18 +596,9 @@ class Block {
    * Gets the tool required to break the block.
    * @returns The tool required to break the block.
    */
-  public isToolCompatible(_itemStack: ItemStack): boolean {
-    // Get the block permutation components
-    const components = this.permutation.components;
-
-    // If the hardness is less than 0, no tool is compatible.
-    if (components.getHardness() < 0) return false;
-
-    // Check if the tool type is none.
-    if (this.getToolType() === BlockToolType.None) return true;
-
-    return true;
-  }
+  // public isToolCompatible(_itemStack: ItemStack): boolean {
+  //   return false;
+  // }
 
   /**
    * Gets the item stack of the block.
@@ -904,6 +895,7 @@ class Block {
    */
   public getBreakTime(itemStack?: ItemStack | null): number {
     let hardness = 0;
+    let efficiency = 1;
 
     // Check if the permutation has hardness level.
     if (this.permutation.components.hasHardness())
@@ -913,15 +905,49 @@ class Block {
     if (this.type.components.hasHardness())
       hardness = this.type.components.getHardness();
 
-    if (!itemStack && this.getToolType() === BlockToolType.None) {
-      hardness *= 1.5;
-    } else if (itemStack && this.isToolCompatible(itemStack)) {
-      hardness *= 1.5;
-    } else {
-      hardness *= 5;
-    }
+    // Check if there is no item stack and the block has requirements.
+    if (!itemStack && !this.type.hasRequirements()) hardness *= 1.5;
+    // Check if an item stack is provided and the block has requirements.
+    else if (itemStack) {
+      // Check if the block can be broken with a pickaxe, and if the item stack is a pickaxe.
+      if (this.type.destructibleWithPickaxe() && itemStack.type.isPickaxe()) {
+        // Apply the pickaxe efficiency.
+        efficiency *= 1.5 * itemStack.type.getToolTier();
+      }
 
-    return Math.ceil(hardness * 20);
+      // Check if the block can be broken with an axe, and if the item stack is an axe.
+      if (this.type.destructibleWithAxe() && itemStack.type.isAxe()) {
+        // Apply the axe efficiency.
+        efficiency *= 1.5 * itemStack.type.getToolTier();
+      }
+
+      // Check if the block can be broken with a shovel, and if the item stack is a shovel.
+      if (this.type.destructibleWithShovel() && itemStack.type.isShovel()) {
+        // Apply the shovel efficiency.
+        efficiency *= 1.5 * itemStack.type.getToolTier();
+      }
+
+      // Check if the block can be broken with a hoe, and if the item stack is a hoe.
+      if (this.type.destructibleWithHoe() && itemStack.type.isHoe()) {
+        // Apply the hoe efficiency.
+        efficiency *= 1.5 * itemStack.type.getToolTier();
+      }
+
+      // Check if the block can be broken with a sword, and if the item stack is a sword.
+      if (this.type.destructibleWithSword() && itemStack.type.isSword()) {
+        // Apply the sword efficiency.
+        efficiency *= 1.5 * itemStack.type.getToolTier();
+      }
+
+      // Check if no efficiency was applied, and if the block has requirements.
+      if (this.type.hasRequirements() && efficiency === 1) hardness *= 5;
+      else if (!this.type.hasRequirements()) hardness *= 1.5;
+    }
+    // Apply defualt hardness.
+    else hardness *= 5;
+
+    // Return the calculated break time.
+    return Math.ceil((hardness /= efficiency) * 20);
   }
 
   /**

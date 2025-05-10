@@ -5,9 +5,9 @@ import {
   NetworkItemInstanceDescriptor
 } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
-import { ITEM_METADATA, ITEM_TYPES, TOOL_TYPES } from "@serenityjs/data";
+import { ITEM_METADATA, ITEM_TYPES } from "@serenityjs/data";
 
-import { ItemIdentifier, ItemToolTier, ItemToolType } from "../../enums";
+import { ItemIdentifier, ItemToolType, ItemTypeToolTier } from "../../enums";
 import { BlockType } from "../../block";
 
 import { ItemTypeComponentCollection } from "./collection";
@@ -33,13 +33,6 @@ class ItemType {
       // Check if the metadata exists.
       if (!metadata) continue; // If not, then continue to the next item type.
 
-      // Get the tool type for the item type.
-      const tool = TOOL_TYPES.find((tool) =>
-        tool.types.includes(type.identifier)
-      );
-      const index = tool?.types.indexOf(type.identifier);
-      const level = index === undefined ? ItemToolTier.None : index + 1;
-
       // Get the block type for the item type.
       const blockType = BlockType.types.get(type.identifier);
 
@@ -58,8 +51,6 @@ class ItemType {
           isComponentBased: metadata.isComponentBased,
           version: metadata.itemVersion,
           maxAmount: type.maxAmount,
-          tool: tool?.network,
-          tier: level,
           tags: type.tags ?? []
         }
       );
@@ -83,17 +74,6 @@ class ItemType {
    * The version of the item type.
    */
   public readonly version: number = 1;
-
-  /**
-   * The tool type of the item type.
-   */
-  public readonly tool: ItemToolType;
-
-  /**
-   * The tool tier of the item type.
-   */
-  public readonly tier: ItemToolTier;
-
   /**
    * The tags of the item type.
    */
@@ -197,8 +177,6 @@ class ItemType {
 
     // Assign the properties of the item type.
     this.version = properties?.version ?? 1;
-    this.tool = properties?.tool as ItemToolType;
-    this.tier = properties?.tier as ItemToolTier;
     this.tags = properties?.tags ?? [];
     this.isComponentBased = properties?.isComponentBased ?? true;
 
@@ -249,11 +227,81 @@ class ItemType {
   }
 
   /**
-   * Determine if the item type is a tool.
-   * @returns Whether the item type is a tool.
+   * Whether the item type is a pickaxe.
+   * @note This method evaluates if the item type contains the `minecraft:is_pickaxe` tag.
+   * @returns True if the item type is a pickaxe, false otherwise.
    */
-  public isTool(): boolean {
-    return this.tool !== ItemToolType.None && this.tier !== ItemToolTier.None;
+  public isPickaxe(): boolean {
+    return this.tags.includes("minecraft:is_pickaxe");
+  }
+
+  /**
+   * Whether the item type is a axe.
+   * @note This method evaluates if the item type contains the `minecraft:is_axe` tag.
+   * @returns True if the item type is a axe, false otherwise.
+   */
+  public isAxe(): boolean {
+    return this.tags.includes("minecraft:is_axe");
+  }
+
+  /**
+   * Whether the item type is a shovel.
+   * @note This method evaluates if the item type contains the `minecraft:is_shovel` tag.
+   * @returns True if the item type is a shovel, false otherwise.
+   */
+  public isShovel(): boolean {
+    return this.tags.includes("minecraft:is_shovel");
+  }
+
+  /**
+   * Whether the item type is a hoe.
+   * @note This method evaluates if the item type contains the `minecraft:is_hoe` tag.
+   * @returns True if the item type is a hoe, false otherwise.
+   */
+  public isHoe(): boolean {
+    return this.tags.includes("minecraft:is_hoe");
+  }
+
+  /**
+   * Whether the item type is a sword.
+   * @note This method evaluates if the item type contains the `minecraft:is_sword` tag.
+   * @returns True if the item type is a sword, false otherwise.
+   */
+  public isSword(): boolean {
+    return this.tags.includes("minecraft:is_sword");
+  }
+
+  /**
+   * Get the tier of the item type.
+   * @note This method evaluates the item type tags to determine the tier.
+   * @returns The tier of the item type.
+   */
+  public getToolTier(): ItemTypeToolTier {
+    // Iterate over the item tags.
+    for (const tag of this.tags) {
+      // Check if the tag is a rarity tier.
+      switch (tag) {
+        case "minecraft:wooden_tier":
+          return ItemTypeToolTier.Wooden;
+
+        case "minecraft:stone_tier":
+          return ItemTypeToolTier.Stone;
+
+        case "minecraft:iron_tier":
+          return ItemTypeToolTier.Iron;
+
+        case "minecraft:golden_tier":
+          return ItemTypeToolTier.Golden;
+
+        case "minecraft:diamond_tier":
+          return ItemTypeToolTier.Diamond;
+
+        case "minecraft:netherite_tier":
+          return ItemTypeToolTier.Netherite;
+      }
+    }
+
+    return ItemTypeToolTier.None;
   }
 
   /**
