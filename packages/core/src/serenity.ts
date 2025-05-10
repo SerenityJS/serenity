@@ -749,7 +749,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     const simulation: Simulation = {
       paused: false,
       frequency,
-      lastRunTime: BigInt(0),
+      lastRunTime: process.hrtime.bigint(),
       callback
     };
 
