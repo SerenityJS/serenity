@@ -424,7 +424,7 @@ class Block {
    * @returns Whether the block type has the tag.
    */
   public hasTag(tag: string): boolean {
-    return this.type.tags.includes(tag);
+    return this.type.hasTag(tag);
   }
 
   /**
