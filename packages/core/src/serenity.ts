@@ -28,6 +28,11 @@ import { PermissionGroup, PermissionMember } from "./permissions";
 import { ServerEvent, ServerState } from "./enums";
 import { ResourcePackManager } from "./resource-packs";
 import { IPermissions } from "./types/permissions";
+import {
+  Simulation,
+  SimulationCallback,
+  SimulationInstance
+} from "./simulation";
 
 import type {
   ServerEvents,
@@ -109,6 +114,12 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * These schedules will be executed when the server ticks.
    */
   public readonly schedules = new Set<TickSchedule>();
+
+  /**
+   * The simulations that are currently active on the server.
+   * These simulations will be executed at a higher frequency than the server ticks.
+   */
+  public readonly simulations = new Set<Simulation>();
 
   /**
    * The global commands registry for the server.
@@ -241,6 +252,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Create a ticking loop that will run every 50ms
     const tick = () => {
+      // If the server is shutting down we will destroy all simulations
+      if (this.state === ServerState.ShuttingDown) {
+        this.simulations.clear();
+      }
+
       // Check if the server is still alive
       if (this.state === ServerState.ShuttingDown && this.schedules.size <= 0) {
         // Stop the raknet server
@@ -262,6 +278,18 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
       // Check if the server should tick
       if (delta < 0.01) return setTimeout(tick, 0);
+
+      // Run the simulations
+      for (const simulation of this.simulations) {
+        if (simulation.paused) continue;
+        const now = process.hrtime.bigint();
+        const deltaTime = Number(now - simulation.lastRunTime) / 1e9;
+
+        if (deltaTime < simulation.frequency) continue;
+
+        simulation.callback(deltaTime);
+        simulation.lastRunTime = now;
+      }
 
       // Check if the server should tick the raknet connections
       if (delta >= 1 / RAKNET_TPS) {
@@ -706,6 +734,41 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     } catch {
       return false;
     }
+  }
+
+  /**
+   * Simulates the callback at the specified frequency. This will run at a higher frequency then minecraft ticks.
+   * @param frequency Simulation frequency in seconds. The server game loop is capped at 100 simulations per second.
+   * @param callback The callback to run when its time to simulate.
+   * @returns An object containing some controls for the simulation.
+   */
+  public simulate(
+    frequency: number,
+    callback: SimulationCallback
+  ): SimulationInstance {
+    const simulation: Simulation = {
+      paused: false,
+      frequency,
+      lastRunTime: BigInt(0),
+      callback
+    };
+
+    this.simulations.add(simulation);
+
+    return {
+      simulation,
+      pause: () => {
+        // Pause the simulation
+        simulation.paused = true;
+      },
+      unpause: () => {
+        // Unpause the simulation
+        simulation.paused = false;
+      },
+      destroy: () => {
+        this.simulations.delete(simulation);
+      }
+    } as const;
   }
 }
 
