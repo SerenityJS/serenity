@@ -1,6 +1,7 @@
 import {
   BlockFace,
   BlockPosition,
+  Enchantment,
   Gamemode,
   LevelEvent,
   LevelEventPacket,
@@ -17,7 +18,12 @@ import {
   JSONLikeValue
 } from "../types";
 import { Chunk } from "../world/chunk";
-import { ItemStack, ItemType, type ItemStackOptions } from "../item";
+import {
+  ItemEnchantableTrait,
+  ItemStack,
+  ItemType,
+  type ItemStackOptions
+} from "../item";
 import {
   BlockIdentifier,
   BlockToolType,
@@ -913,30 +919,75 @@ class Block {
       if (this.type.destructibleWithPickaxe() && itemStack.type.isPickaxe()) {
         // Apply the pickaxe efficiency.
         efficiency *= 1.5 * itemStack.type.getToolTier();
+
+        // Check if the item stack has the enchantable trait.
+        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+          // Get the enchantable trait from the item stack.
+          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+
+          // Add the efficiency enchantment to the efficiency multiplier.
+          efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
+        }
       }
 
       // Check if the block can be broken with an axe, and if the item stack is an axe.
       if (this.type.destructibleWithAxe() && itemStack.type.isAxe()) {
         // Apply the axe efficiency.
         efficiency *= 1.5 * itemStack.type.getToolTier();
+
+        // Check if the item stack has the enchantable trait.
+        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+          // Get the enchantable trait from the item stack.
+          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+
+          // Add the efficiency enchantment to the efficiency multiplier.
+          efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
+        }
       }
 
       // Check if the block can be broken with a shovel, and if the item stack is a shovel.
       if (this.type.destructibleWithShovel() && itemStack.type.isShovel()) {
         // Apply the shovel efficiency.
         efficiency *= 1.5 * itemStack.type.getToolTier();
+
+        // Check if the item stack has the enchantable trait.
+        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+          // Get the enchantable trait from the item stack.
+          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+
+          // Add the efficiency enchantment to the efficiency multiplier.
+          efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
+        }
       }
 
       // Check if the block can be broken with a hoe, and if the item stack is a hoe.
       if (this.type.destructibleWithHoe() && itemStack.type.isHoe()) {
         // Apply the hoe efficiency.
         efficiency *= 1.5 * itemStack.type.getToolTier();
+
+        // Check if the item stack has the enchantable trait.
+        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+          // Get the enchantable trait from the item stack.
+          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+
+          // Add the efficiency enchantment to the efficiency multiplier.
+          efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
+        }
       }
 
       // Check if the block can be broken with a sword, and if the item stack is a sword.
       if (this.type.destructibleWithSword() && itemStack.type.isSword()) {
         // Apply the sword efficiency.
         efficiency *= 1.5 * itemStack.type.getToolTier();
+
+        // Check if the item stack has the enchantable trait.
+        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+          // Get the enchantable trait from the item stack.
+          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+
+          // Add the efficiency enchantment to the efficiency multiplier.
+          efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
+        }
       }
 
       // Check if no efficiency was applied, and if the block has requirements.
