@@ -1,4 +1,5 @@
 import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import { Console } from "@serenityjs/console";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -16,6 +17,9 @@ new Pipeline(serenity, { path: "./plugins" });
 
 // Register the LevelDBProvider
 serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
+
+// Create a new console
+new Console(serenity);
 
 // Start the server
 serenity.start();
