@@ -1,4 +1,4 @@
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, StringTag, TagType } from "@serenityjs/nbt";
 import {
   CreativeItemCategory,
   CreativeItemGroup,
@@ -7,7 +7,7 @@ import {
 import { BinaryStream } from "@serenityjs/binarystream";
 import { ITEM_METADATA, ITEM_TYPES } from "@serenityjs/data";
 
-import { ItemIdentifier, ItemToolType, ItemTypeToolTier } from "../../enums";
+import { ItemIdentifier, ItemTypeToolTier } from "../../enums";
 import { BlockType } from "../../block";
 
 import { ItemTypeComponentCollection } from "./collection";
@@ -74,10 +74,6 @@ class ItemType {
    * The version of the item type.
    */
   public readonly version: number = 1;
-  /**
-   * The tags of the item type.
-   */
-  public readonly tags: Array<string>;
 
   /**
    * The nbt properties definition of the item type.
@@ -177,7 +173,7 @@ class ItemType {
 
     // Assign the properties of the item type.
     this.version = properties?.version ?? 1;
-    this.tags = properties?.tags ?? [];
+    this.setTags(properties?.tags ?? []);
     this.isComponentBased = properties?.isComponentBased ?? true;
 
     // Assign the creative properties of the item type.
@@ -227,12 +223,122 @@ class ItemType {
   }
 
   /**
+   * Get the tags of the item type.
+   * @returns The tags of the item type.
+   */
+  public getTags(): Array<string> {
+    // Check if the item type contains the item tags component.
+    if (!this.components.hasTag("item_tags")) {
+      // If not, create the item tags component.
+      this.components.createListTag({
+        name: "item_tags",
+        listType: TagType.String
+      });
+    }
+
+    // Get the item tags component from the item type.
+    const itemTags = this.components.getTag<ListTag<StringTag>>("item_tags");
+
+    // Map the item tags be strings.
+    return itemTags.value.map((tag) => tag.value);
+  }
+
+  /**
+   * Set the tags of the item type.
+   * @param tags The tags to set.
+   * @returns The item type instance.
+   */
+  public setTags(tags: Array<string>): this {
+    // Create the item tags component.
+    this.components.createListTag({
+      name: "item_tags",
+      listType: TagType.String,
+      value: tags.map((value) => new StringTag({ value }))
+    });
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Add a tag to the item type.
+   * @param tags The tags to add.
+   * @returns The item type instance.
+   */
+  public addTag(...tags: Array<string>): this {
+    // Check if the item type contains the item tags component.
+    if (!this.components.hasTag("item_tags")) {
+      // If not, create the item tags component.
+      this.components.createListTag({
+        name: "item_tags",
+        listType: TagType.String
+      });
+    }
+
+    // Get the item tags component from the item type.
+    const itemTags = this.components.getTag<ListTag<StringTag>>("item_tags");
+
+    // Add the tags to the item type.
+    for (const tag of tags) {
+      // Check if the tag is not already in the item type.
+      if (itemTags.value.some((t) => t.value === tag)) continue;
+
+      // Add the tag to the item type.
+      itemTags.push(new StringTag({ value: tag }));
+    }
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Remove a tag from the item type.
+   * @param tags The tags to remove.
+   * @returns The item type instance.
+   */
+  public removeTag(...tags: Array<string>): this {
+    // Check if the item type contains the item tags component.
+    if (!this.components.hasTag("item_tags")) {
+      // If not, create the item tags component.
+      this.components.createListTag({
+        name: "item_tags",
+        listType: TagType.String
+      });
+    }
+
+    // Get the item tags component from the item type.
+    const itemTags = this.components.getTag<ListTag<StringTag>>("item_tags");
+
+    // Remove the tags from the item type.
+    for (const tag of tags) {
+      // Check if the tag is not in the item type.
+      if (!itemTags.value.some((t) => t.value === tag)) continue;
+
+      // Remove the tag from the item type.
+      itemTags.value = itemTags.value.filter((t) => t.value !== tag);
+    }
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Check if the item type has a tag.
+   * @param tag The tag to check.
+   * @returns True if the item type has the tag, false otherwise.
+   */
+  public hasTag(tag: string): boolean {
+    // Check if the item type contains the item tags component.
+    return this.getTags().includes(tag);
+  }
+
+  /**
    * Whether the item type is a pickaxe.
    * @note This method evaluates if the item type contains the `minecraft:is_pickaxe` tag.
    * @returns True if the item type is a pickaxe, false otherwise.
    */
   public isPickaxe(): boolean {
-    return this.tags.includes("minecraft:is_pickaxe");
+    return this.getTags().includes("minecraft:is_pickaxe");
   }
 
   /**
@@ -241,7 +347,7 @@ class ItemType {
    * @returns True if the item type is a axe, false otherwise.
    */
   public isAxe(): boolean {
-    return this.tags.includes("minecraft:is_axe");
+    return this.getTags().includes("minecraft:is_axe");
   }
 
   /**
@@ -250,7 +356,7 @@ class ItemType {
    * @returns True if the item type is a shovel, false otherwise.
    */
   public isShovel(): boolean {
-    return this.tags.includes("minecraft:is_shovel");
+    return this.getTags().includes("minecraft:is_shovel");
   }
 
   /**
@@ -259,7 +365,7 @@ class ItemType {
    * @returns True if the item type is a hoe, false otherwise.
    */
   public isHoe(): boolean {
-    return this.tags.includes("minecraft:is_hoe");
+    return this.getTags().includes("minecraft:is_hoe");
   }
 
   /**
@@ -268,7 +374,7 @@ class ItemType {
    * @returns True if the item type is a sword, false otherwise.
    */
   public isSword(): boolean {
-    return this.tags.includes("minecraft:is_sword");
+    return this.getTags().includes("minecraft:is_sword");
   }
 
   /**
@@ -278,7 +384,7 @@ class ItemType {
    */
   public getToolTier(): ItemTypeToolTier {
     // Iterate over the item tags.
-    for (const tag of this.tags) {
+    for (const tag of this.getTags()) {
       // Check if the tag is a rarity tier.
       switch (tag) {
         case "minecraft:wooden_tier":

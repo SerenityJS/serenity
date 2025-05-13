@@ -425,15 +425,6 @@ class Block {
   }
 
   /**
-   * Checks if the block type has the specified tag.
-   * @param tag The tag to check for.
-   * @returns Whether the block type has the tag.
-   */
-  public hasTag(tag: string): boolean {
-    return this.type.hasTag(tag);
-  }
-
-  /**
    * Whether the block has the specified dynamic property.
    * @param key The key of the dynamic property to check for.
    * @returns Whether the block has the dynamic property.

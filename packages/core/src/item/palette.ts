@@ -115,7 +115,7 @@ class ItemPalette {
         }
 
         // Check if the trait has a tag and the item type has the tag.
-        else if (trait.tag && type.tags.includes(trait.tag)) {
+        else if (trait.tag && type.hasTag(trait.tag)) {
           // Register the trait to the item type.
           type.registerTrait(trait);
         }
@@ -161,7 +161,7 @@ class ItemPalette {
         }
 
         // Check if the trait has a tag and the item type has the tag.
-        else if (trait.tag && type.tags.includes(trait.tag)) {
+        else if (trait.tag && type.hasTag(trait.tag)) {
           // Register the trait to the item type.
           type.registerTrait(trait);
         }

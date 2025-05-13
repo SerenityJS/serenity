@@ -172,7 +172,7 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Send the packet to the player
           return player.send(packet);
-        } else if (interacting.hasTag("plant")) {
+        } else if (interacting.type.hasTag("plant")) {
           // Set the resultant block to the interacting block
           resultant = interacting;
         }
