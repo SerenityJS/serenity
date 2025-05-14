@@ -7,3 +7,4 @@ export * from "./max-stack-size";
 export * from "./icon";
 export * from "./item-properties";
 export * from "./cooldown";
+export * from "./digger";

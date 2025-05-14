@@ -891,16 +891,42 @@ class Block {
    * @returns The time it takes to break the block.
    */
   public getBreakTime(itemStack?: ItemStack | null): number {
-    let hardness = 0;
-    let efficiency = 1;
+    // Determine the base hardness & efficiency of the block.
+    let hardness = this.getHardness();
+    let efficiency = itemStack?.type.getToolTier() ?? 1;
 
-    // Check if the permutation has hardness level.
-    if (this.permutation.components.hasHardness())
-      hardness = this.permutation.components.getHardness();
+    // Check if the efficiency is less than or equal to 0.
+    if (efficiency <= 0) efficiency = 1; // Apply default efficiency.
 
-    // Check if the type has hardness level.
-    if (this.type.components.hasHardness())
-      hardness = this.type.components.getHardness();
+    // Check if the item stack is provided and has the digger component.
+    if (itemStack && itemStack.components.hasDigger()) {
+      // Get the digger component from the item stack.
+      const digger = itemStack.components.getDigger();
+
+      // Iterate over the digger speeds.
+      for (const { speed, type, tags } of digger.getDestructionSpeeds()) {
+        // Check if the block type matches the digger type.
+        if (type === this.type) {
+          // Apply the digger speed to the efficiency.
+          efficiency *= speed;
+
+          // Break out of the loop if the block type matches.
+          break;
+        }
+
+        // Check if the block has any of the digger tags.
+        for (const tag of tags ?? []) {
+          // Check if the block type has the digger tag.
+          if (this.type.hasTag(tag)) {
+            // Apply the digger speed to the efficiency.
+            efficiency *= speed;
+
+            // Break out of the loop if the block type matches.
+            break;
+          }
+        }
+      }
+    }
 
     // Check if there is no item stack and the block has requirements.
     if (!itemStack && !this.type.hasRequirements()) hardness *= 1.5;
@@ -909,7 +935,7 @@ class Block {
       // Check if the block can be broken with a pickaxe, and if the item stack is a pickaxe.
       if (this.type.destructibleWithPickaxe() && itemStack.type.isPickaxe()) {
         // Apply the pickaxe efficiency.
-        efficiency *= 1.5 * itemStack.type.getToolTier();
+        efficiency *= 1.5;
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -924,7 +950,7 @@ class Block {
       // Check if the block can be broken with an axe, and if the item stack is an axe.
       if (this.type.destructibleWithAxe() && itemStack.type.isAxe()) {
         // Apply the axe efficiency.
-        efficiency *= 1.5 * itemStack.type.getToolTier();
+        efficiency *= 1.5;
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -939,7 +965,7 @@ class Block {
       // Check if the block can be broken with a shovel, and if the item stack is a shovel.
       if (this.type.destructibleWithShovel() && itemStack.type.isShovel()) {
         // Apply the shovel efficiency.
-        efficiency *= 1.5 * itemStack.type.getToolTier();
+        efficiency *= 1.5;
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -954,7 +980,7 @@ class Block {
       // Check if the block can be broken with a hoe, and if the item stack is a hoe.
       if (this.type.destructibleWithHoe() && itemStack.type.isHoe()) {
         // Apply the hoe efficiency.
-        efficiency *= 1.5 * itemStack.type.getToolTier();
+        efficiency *= 1.5;
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -969,7 +995,7 @@ class Block {
       // Check if the block can be broken with a sword, and if the item stack is a sword.
       if (this.type.destructibleWithSword() && itemStack.type.isSword()) {
         // Apply the sword efficiency.
-        efficiency *= 1.5 * itemStack.type.getToolTier();
+        efficiency *= 1.5;
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -994,6 +1020,23 @@ class Block {
 
     // Return the calculated break time.
     return Math.ceil((hardness /= efficiency) * 20);
+  }
+
+  /**
+   * Get the hardness of the block.
+   * @returns The hardness level of the block.
+   */
+  public getHardness(): number {
+    // Check if the permutation has hardness level.
+    if (this.permutation.components.hasHardness())
+      return this.permutation.components.getHardness();
+
+    // Check if the type has hardness level.
+    if (this.type.components.hasHardness())
+      return this.type.components.getHardness();
+
+    // If not, return 0.
+    return 0;
   }
 
   /**
