@@ -2,7 +2,7 @@
   "name": "@serenityjs/plugins",
   "author": "Serenity",
   "license": "MIT",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
