@@ -20,6 +20,18 @@ interface ItemTypeIconComponentOptions {
 class ItemTypeIconComponent extends ItemTypeComponent {
   public static readonly identifier = "minecraft:icon";
 
+  public get component(): CompoundTag<unknown> {
+    // Get the item properties component.
+    const properties = this.collection.get(ItemTypeItemPropertiesComponent);
+
+    // Check if the item properties component exists.
+    if (!properties.component.hasTag(this.identifier))
+      properties.component.createCompoundTag({ name: this.identifier });
+
+    // Return the icon component.
+    return properties.component.getTag<CompoundTag<unknown>>(this.identifier);
+  }
+
   /**
    * Creates a new icon component.
    * @param type The type of the item.
@@ -35,12 +47,6 @@ class ItemTypeIconComponent extends ItemTypeComponent {
     // Set the icon and dyed icon of the item.
     this.setDefaultIcon(options?.default ?? "");
     this.setDyedIcon(options?.dyed ?? "");
-
-    // Get the item properties component.
-    const properties = this.collection.get(ItemTypeItemPropertiesComponent);
-
-    // Create the icon component.
-    properties.component.createCompoundTag({ name: this.identifier });
   }
 
   /**
@@ -60,8 +66,12 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    * @param value The icon of the item.
    */
   public setDefaultIcon(value: string): void {
-    // Get the textures component.
-    const textures = this.component.createCompoundTag({ name: "textures" });
+    // Check if the component contains the textures tag.
+    if (!this.component.hasTag("textures"))
+      this.component.createCompoundTag({ name: "textures" });
+
+    // Get the textures tag.
+    const textures = this.component.getTag<CompoundTag<unknown>>("textures");
 
     // Set the default texture.
     textures.createStringTag({ name: "default", value });
@@ -84,8 +94,12 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    * @param value The dyed icon of the item.
    */
   public setDyedIcon(value: string): void {
-    // Get the textures component.
-    const textures = this.component.createCompoundTag({ name: "textures" });
+    // Check if the component contains the textures tag.
+    if (!this.component.hasTag("textures"))
+      this.component.createCompoundTag({ name: "textures" });
+
+    // Get the textures tag.
+    const textures = this.component.getTag<CompoundTag<unknown>>("textures");
 
     // Set the default texture.
     textures.createStringTag({ name: "dyed", value });
