@@ -1350,6 +1350,7 @@ __metadata:
     "@types/node": "npm:22.8.6"
     eslint: "npm:9.13.0"
     fast-jwt: "npm:4.0.5"
+    fflate: "npm:^0.8.2"
     simplex-noise: "npm:4.0.3"
     tsup: "npm:8.3.5"
     typescript: "npm:5.6.3"
@@ -4484,6 +4485,13 @@ __metadata:
     picomatch:
       optional: true
   checksum: 10c0/d13c10120e9625adf21d8d80481586200759928c19405a816b77dd28eaeb80e7c59c5def3e2941508045eb06d34eb47fad865ccc8bf98e6ab988bb0ed160fb6f
+  languageName: node
+  linkType: hard
+
+"fflate@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "fflate@npm:0.8.2"
+  checksum: 10c0/03448d630c0a583abea594835a9fdb2aaf7d67787055a761515bf4ed862913cfd693b4c4ffd5c3f3b355a70cf1e19033e9ae5aedcca103188aaff91b8bd6e293
   languageName: node
   linkType: hard
 

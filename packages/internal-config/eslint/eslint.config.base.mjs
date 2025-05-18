@@ -24,6 +24,7 @@ export const serenity = config({
     "@typescript-eslint/no-invalid-void-type": "off",
     "@typescript-eslint/prefer-literal-enum-member": "off",
     "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-dynamic-delete": "off",
   },
 });
 

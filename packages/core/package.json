@@ -36,6 +36,7 @@
     "@serenityjs/protocol": "*",
     "@serenityjs/raknet": "*",
     "fast-jwt": "4.0.5",
+    "fflate": "^0.8.2",
     "simplex-noise": "4.0.3"
   }
 }

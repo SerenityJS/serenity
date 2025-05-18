@@ -13,6 +13,6 @@ export * from "./container";
 export * from "./trait";
 export * from "./ui";
 export * from "./loot";
-export * from "./resource-packs";
+export * from "./resources";
 export * from "./pathfinding";
 export * from "./permissions";

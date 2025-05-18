@@ -26,7 +26,7 @@ import { Player } from "./entity";
 import { ConsoleInterface, WorldEnum, CommandPalette } from "./commands";
 import { PermissionGroup, PermissionMember } from "./permissions";
 import { ServerEvent, ServerState } from "./enums";
-import { ResourcePackManager } from "./resource-packs";
+import { Resources } from "./resources";
 import { IPermissions } from "./types/permissions";
 import {
   Simulation,
@@ -45,7 +45,7 @@ import type {
 
 const DefaultSerenityProperties: SerenityProperties = {
   permissions: "./permissions.json",
-  resourcePacks: "./resource_packs",
+  resources: "./resources",
   movementValidation: true,
   movementRewindThreshold: 0.4,
   ticksPerSecond: 20,
@@ -107,7 +107,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * The resource pack manager for the server.
    */
-  public readonly resourcePacks: ResourcePackManager;
+  public readonly resources: Resources;
 
   /**
    * The tick schedules that are currently active on the server.
@@ -229,10 +229,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     }
 
     // Create the resource pack manager
-    this.resourcePacks =
-      typeof this.properties.resourcePacks === "string"
-        ? new ResourcePackManager({ path: this.properties.resourcePacks })
-        : new ResourcePackManager(this.properties.resourcePacks);
+    this.resources =
+      typeof this.properties.resources === "string"
+        ? new Resources({ path: this.properties.resources })
+        : new Resources(this.properties.resources);
 
     // Write the properties to the properties path
     if (properties?.path) this.writeProperties(properties.path);

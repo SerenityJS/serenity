@@ -15,13 +15,14 @@ import {
   StartGamePacket,
   ItemRegistryPacket,
   PermissionLevel,
-  SyncActorPropertyPacket
+  SyncActorPropertyPacket,
+  PackType
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, TagType } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
-import { ResourcePack } from "../resource-packs";
+import { Resources } from "../resources";
 import { EntityType } from "../entity";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
@@ -38,9 +39,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
     // Get the players current world
     const world = player.dimension.world;
 
-    this.serenity.resourcePacks.logger.debug(
-      `Player '${player.username}' responded to resource packs with response '${ResourcePackResponse[packet.response]}' (${packet.response})`
-    );
+    // this.serenity.resources.logger.debug(
+    //   `Player '${player.username}' responded to resource packs with response '${ResourcePackResponse[packet.response]}' (${packet.response})`
+    // );
 
     switch (packet.response) {
       default: {
@@ -58,40 +59,46 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           DisconnectReason.Kicked
         );
 
-        this.serenity.resourcePacks.logger.info(
-          `Kicked player '${player.username}' for refusing required resource packs.`
-        );
+        // this.serenity.resources.logger.info(
+        //   `Kicked player '${player.username}' for refusing required resource packs.`
+        // );
 
         return;
       }
 
       case ResourcePackResponse.SendPacks: {
-        this.serenity.resourcePacks.logger.info(
-          `Player '${player.username}' requested ${packet.packs.length} resource packs.`
-        );
+        // this.serenity.resourcePacks.logger.info(
+        //   `Player '${player.username}' requested ${packet.packs.length} resource packs.`
+        // );
 
         for (const packId of packet.packs) {
-          const pack = this.serenity.resourcePacks.getPack(packId);
+          // Split the packId into uuid and version
+          const [uuid, _version] = packId.split("_") as [string, string];
+
+          const pack = this.serenity.resources.packs.get(uuid);
 
           // This should never happen
           if (!pack) {
-            this.serenity.resourcePacks.logger.error(
-              `Player '${player.username}' requested pack '${packId}' which cannot be found.`
-            );
+            // this.serenity.resourcePacks.logger.error(
+            //   `Player '${player.username}' requested pack '${packId}' which cannot be found.`
+            // );
             // Not sure if this blocks the login process, may need to kick the player if so.
             // More testing needed, especially if we plan to implement dynamically changing the pack stack while the server is running.
             continue;
           }
 
+          // Compress the pack into a buffer
+          const buffer = pack.compress();
+
           const dataInfoPacket = new ResourcePackDataInfoPacket();
 
           dataInfoPacket.packId = packId;
-          dataInfoPacket.maxChunkSize = ResourcePack.MAX_CHUNK_SIZE;
+          dataInfoPacket.maxChunkSize = Resources.MAX_CHUNK_SIZE;
           dataInfoPacket.chunkCount = pack.getChunkCount();
-          dataInfoPacket.fileSize = pack.compressedSize;
-          dataInfoPacket.fileHash = pack.getHash();
+          dataInfoPacket.fileSize = BigInt(buffer.byteLength);
+          dataInfoPacket.fileHash = pack.generateHash();
           dataInfoPacket.isPremium = false;
-          dataInfoPacket.packType = pack.packType;
+          dataInfoPacket.packType = PackType.Resources;
 
           player.send(dataInfoPacket);
         }
@@ -110,10 +117,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         stack.hasEditorPacks = false;
 
         stack.texturePacks = [];
-        for (const pack of this.serenity.resourcePacks.getPacks()) {
+        for (const [uuid, pack] of this.serenity.resources.packs) {
           const packInfo = new ResourceIdVersions(
             pack.name,
-            pack.uuid,
+            uuid,
             pack.version
           );
 
