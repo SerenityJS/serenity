@@ -8,3 +8,4 @@ export * from "./icon";
 export * from "./item-properties";
 export * from "./cooldown";
 export * from "./digger";
+export * from "./hand_equipped";

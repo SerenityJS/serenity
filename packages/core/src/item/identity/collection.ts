@@ -9,6 +9,7 @@ import {
   ItemTypeDiggerComponent,
   ItemTypeDiggerComponentOptions,
   ItemTypeDisplayNameComponent,
+  ItemTypeHandEquippedComponent,
   ItemTypeIconComponent,
   ItemTypeIconComponentOptions,
   ItemTypeMaxStackComponent,
@@ -487,6 +488,45 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
       if (options?.destroySpeeds)
         // Set the destruction speeds of the digger component.
         component.setDestructionSpeeds(options.destroySpeeds);
+    }
+  }
+
+  /**
+   * Check if the item type has a hand equipped component.
+   * @returns Whether the item type has a hand equipped component.
+   */
+  public hasHandEquipped(): boolean {
+    // Check if the hand equipped component exists.
+    return this.has(ItemTypeHandEquippedComponent);
+  }
+
+  /**
+   * Get the hand equipped component of the item type.
+   * @returns The hand equipped component of the item type.
+   */
+  public getHandEquipped(): ItemTypeHandEquippedComponent {
+    // Check if the hand equipped component exists.
+    if (this.has(ItemTypeHandEquippedComponent)) {
+      // Return the hand equipped component.
+      return this.get(ItemTypeHandEquippedComponent);
+    }
+
+    // Add the hand equipped component.
+    return this.add(ItemTypeHandEquippedComponent, false);
+  }
+
+  /**
+   * Set the hand equipped component of the item type.
+   * @param value The hand equipped value.
+   */
+  public setHandEquipped(value: boolean): void {
+    // Check if the hand equipped component exists.
+    if (this.has(ItemTypeHandEquippedComponent)) {
+      // Set the hand equipped value.
+      this.get(ItemTypeHandEquippedComponent).setHandEquipped(value);
+    } else {
+      // Add the hand equipped component.
+      this.add(ItemTypeHandEquippedComponent, value);
     }
   }
 }
