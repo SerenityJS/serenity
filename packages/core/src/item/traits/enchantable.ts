@@ -83,6 +83,38 @@ class ItemEnchantableTrait extends ItemTrait {
   }
 
   /**
+   * Removes an enchantment from the item stack.
+   * @param id The enchantment id.
+   */
+  public removeEnchantment(id: Enchantment): void {
+    // Get the enchantment list tag from the item stack's NBT
+    const ench =
+      this.item.nbt.get<ListTag<CompoundTag<EnchantmentValue>>>("ench");
+
+    // Check if the enchantment list tag exists
+    if (ench) {
+      // Filter out the enchantment with the specified id
+      ench.value = ench.value.filter((value) => value.value.id.value !== id);
+
+      // Set the nbt's enchantment list tag
+      this.item.nbt.set("ench", ench);
+    }
+  }
+
+  /**
+   * Sets an enchantment on the item stack.
+   * @param id The enchantment id.
+   * @param level The enchantment level.
+   */
+  public setEnchantment(id: Enchantment, level: number): void {
+    // Check if the enchantment already exists
+    if (this.hasEnchantment(id)) this.removeEnchantment(id);
+
+    // Add the enchantment to the item stack
+    this.addEnchantment(id, level);
+  }
+
+  /**
    * Gets the enchantment list tag from the item stack's NBT.
    * @returns The enchantment list tag.
    */
