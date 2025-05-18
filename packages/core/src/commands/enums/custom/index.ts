@@ -11,3 +11,4 @@ export * from "./world";
 export * from "./time-operation";
 export * from "./trait-action";
 export * from "./entity-trait";
+export * from "./enchantments";
