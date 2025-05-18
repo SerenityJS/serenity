@@ -6,7 +6,6 @@ import { ItemTypeComponent } from "./component";
 
 class ItemTypeDisplayNameComponent extends ItemTypeComponent {
   public static readonly identifier = "minecraft:display_name";
-
   /**
    * Create a new display name component for an item type.
    * @param type The item type that the component will be attached to.
@@ -25,7 +24,7 @@ class ItemTypeDisplayNameComponent extends ItemTypeComponent {
    */
   public getDisplayName(): string {
     // Get the display name component.
-    const component = this.component.getTag<StringTag>(this.identifier);
+    const component = this.component.getTag<StringTag>("value");
 
     // Return the display name.
     return component?.value ?? "";
@@ -37,7 +36,7 @@ class ItemTypeDisplayNameComponent extends ItemTypeComponent {
    */
   public setDisplayName(value: string): void {
     // Set the display name component.
-    this.component.createStringTag({ name: this.identifier, value });
+    this.component.createStringTag({ name: "value", value });
   }
 }
 
