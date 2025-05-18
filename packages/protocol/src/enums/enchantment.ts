@@ -36,9 +36,12 @@ enum Enchantment {
   Piercing = 34,
   QuickCharge = 35,
   SoulSpeed = 36,
-  SweepingEdge = 37,
-  None = 38,
-  Unknown = 39
+  SwiftSneak = 37,
+  WindBurst = 38,
+  Density = 39,
+  Breach = 40,
+  NumEnchantments,
+  InvalidEnchantment
 }
 
 export { Enchantment };
