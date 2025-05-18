@@ -426,6 +426,15 @@
     ]
   },
   {
+    "identifier": "creaking_heart_state",
+    "type": "string",
+    "values": [
+      "uprooted",
+      "dormant",
+      "awake"
+    ]
+  },
+  {
     "identifier": "damage",
     "type": "string",
     "values": [
@@ -1206,6 +1215,16 @@
       13,
       14,
       15
+    ]
+  },
+  {
+    "identifier": "rehydration_level",
+    "type": "int",
+    "values": [
+      0,
+      1,
+      2,
+      3
     ]
   },
   {

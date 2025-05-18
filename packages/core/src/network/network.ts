@@ -81,7 +81,7 @@ class Network extends Emitter<NetworkEvents> {
   /**
    * The registered handlers that are being used to handle incoming packets
    */
-  public readonly handlers = new Set<typeof NetworkHandler>();
+  public readonly handlers = new Set<NetworkHandler>();
 
   /**
    * The current compression method that is being used for the network
@@ -170,7 +170,7 @@ class Network extends Emitter<NetworkEvents> {
    * @param handler The handler to register to the network
    */
   public registerHandler(handler: typeof NetworkHandler): void {
-    this.handlers.add(handler);
+    this.handlers.add(new handler(this.serenity));
   }
 
   /**
@@ -178,7 +178,15 @@ class Network extends Emitter<NetworkEvents> {
    * @param handler The handler to unregister from the network
    */
   public unregisterHandler(handler: typeof NetworkHandler): void {
-    this.handlers.delete(handler);
+    // Iterate over all the handlers that are registered to the network
+    for (const x of this.handlers) {
+      // Check if the handler is the same as the one that is being unregistered
+      if (x.constructor.name === handler.name) {
+        // Remove the handler from the handlers set
+        this.handlers.delete(x);
+        break;
+      }
+    }
   }
 
   /**
@@ -375,11 +383,8 @@ class Network extends Emitter<NetworkEvents> {
             if (handler.packet === packetId) {
               // Attempt to handle the packet with the handler.
               try {
-                // Create a new instance of the handler with the serenity instance.
-                const instance = new handler(this.serenity);
-
                 // Call the handle method for the handler.
-                instance.handle(packet, connection);
+                handler.handle(packet, connection);
               } catch (reason) {
                 // Log the handling error if the packet could not be handled.
                 this.logger.error(

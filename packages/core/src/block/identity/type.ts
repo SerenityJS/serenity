@@ -1,4 +1,4 @@
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, StringTag, TagType } from "@serenityjs/nbt";
 import { NetworkBlockTypeDefinition } from "@serenityjs/protocol";
 import {
   BLOCK_DROPS,
@@ -56,7 +56,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 
       // Register the block type.
       const instance = new this(type.identifier as BlockIdentifier, {
-        loggable: type.loggable,
+        loggable: false,
         air: type.air,
         liquid: type.liquid,
         solid: type.solid,
@@ -135,11 +135,6 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * Whether the block type is solid.
    */
   public readonly solid: boolean;
-
-  /**
-   * The default tags of the block type.
-   */
-  public readonly tags: Array<string> = [];
 
   /**
    * The default item drops of the block type.
@@ -228,8 +223,10 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     this.air = properties?.air ?? false;
     this.liquid = properties?.liquid ?? false;
     this.solid = properties?.solid ?? false;
-    this.tags = properties?.tags ?? [];
     this.properties = properties?.properties ?? new CompoundTag();
+
+    // Assign the block type tags to the block type.
+    if (properties?.tags) this.setTags(properties.tags);
   }
 
   /**
@@ -290,6 +287,289 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
 
     // Return this instance.
     return this;
+  }
+
+  /**
+   * Get the tags of the block type.
+   * @returns An array of tags.
+   */
+  public getTags(): Array<string> {
+    // Check if the block type properties has the block tags tag.
+    if (!this.properties.hasTag("blockTags")) {
+      // If not, create the block tags tag.
+      this.properties.createListTag({
+        name: "blockTags",
+        listType: TagType.String
+      });
+    }
+
+    // Get the block tags tag from the block type properties.
+    const tagsList = this.properties.getTag<ListTag<StringTag>>("blockTags");
+
+    // Map the tags to the list.
+    return tagsList.value.map((tag) => tag.value);
+  }
+
+  /**
+   * Set the tags of the block type.
+   * @param tags The tags to set.
+   * @returns The block type instance.
+   */
+  public setTags(tags: Array<string>): this {
+    // Create the block tags tag for the properties.
+    this.properties.createListTag({
+      name: "blockTags",
+      listType: TagType.String,
+      value: tags.map((tag) => new StringTag({ value: tag }))
+    });
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Add tags to the block type.
+   * @param tags The tags to add.
+   * @returns The block type instance.
+   */
+  public addTag(...tags: Array<string>): this {
+    // Check if the block type properties has the block tags tag.
+    if (!this.properties.hasTag("blockTags")) {
+      // If not, create the block tags tag.
+      this.properties.createListTag({
+        name: "blockTags",
+        listType: TagType.String
+      });
+    }
+
+    // Get the block tags tag from the block type properties.
+    const tagsList = this.properties.getTag<ListTag<StringTag>>("blockTags");
+
+    // Add the tags to the list.
+    for (const tag of tags) {
+      // Check if the tag is already in the list.
+      if (tagsList.value.some((t) => t.value === tag)) continue;
+
+      // Add the tag to the list.
+      tagsList.push(new StringTag({ value: tag }));
+    }
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Remove tags from the block type.
+   * @param tags The tags to remove.
+   * @returns The block type instance.
+   */
+  public removeTag(...tags: Array<string>): this {
+    // Check if the block type properties has the block tags tag.
+    if (!this.properties.hasTag("blockTags")) {
+      // If not, create the block tags tag.
+      this.properties.createListTag({
+        name: "blockTags",
+        listType: TagType.String
+      });
+    }
+
+    // Get the block tags tag from the block type properties.
+    const tagsList = this.properties.getTag<ListTag<StringTag>>("blockTags");
+
+    // Remove the tags from the list.
+    for (const tag of tags) {
+      // Find the index of the tag in the list.
+      const index = tagsList.value.findIndex((t) => t.value === tag);
+
+      // Check if the tag is not in the list.
+      if (index === -1) continue;
+
+      // Remove the tag from the list.
+      tagsList.value.splice(index, 1);
+    }
+
+    // Return this instance.
+    return this;
+  }
+
+  /**
+   * Check if the block type has a tag.
+   * @param tag The tag to check.
+   * @returns True if the block type has the tag, false otherwise.
+   */
+  public hasTag(tag: string): boolean {
+    // Check if the block type properties has the block tags tag.
+    return this.getTags().includes(tag);
+  }
+
+  /**
+   * Checks if the block type requires a pickaxe to be mined.
+   * @note This method evaluates if the block type has the "*_pick_diggable" tag.
+   * @returns True if the block type requires a pickaxe, false otherwise.
+   */
+  public requiresPickaxe(): boolean {
+    // Get the tags of the block type.
+    const tags = this.getTags();
+
+    // Check if the block type has the pickaxe diggable tags.
+    return (
+      tags.includes("stone") ||
+      tags.includes("wooden_pick_diggable") ||
+      tags.includes("stone_pick_diggable") ||
+      tags.includes("iron_pick_diggable") ||
+      tags.includes("gold_pick_diggable") ||
+      tags.includes("diamond_pick_diggable") ||
+      tags.includes("netherite_pick_diggable")
+    );
+  }
+
+  /**
+   * Checks if the block type is destructible with a pickaxe.
+   * This applies a speed boost to the pickaxe when mining the block.
+   * @note This method evaluates if the block type has the "minecraft:is_pickaxe_item_destructible" tag.
+   * @returns True if the block type is destructible with a pickaxe, false otherwise.
+   */
+  public destructibleWithPickaxe(): boolean {
+    // Check if the block type has the pickaxe destructible tag.
+    return this.getTags().includes("minecraft:is_pickaxe_item_destructible");
+  }
+
+  /**
+   * Checks if the block type requires a shovel to be mined.
+   * @note This method evaluates if the block type has the "*_shovel_diggable" tag.
+   * @returns True if the block type requires a shovel, false otherwise.
+   */
+  public requiresShovel(): boolean {
+    // Get the tags of the block type.
+    const tags = this.getTags();
+
+    // Check if the block type has the shovel diggable tags.
+    return (
+      tags.includes("wooden_shovel_diggable") ||
+      tags.includes("stone_shovel_diggable") ||
+      tags.includes("iron_shovel_diggable") ||
+      tags.includes("gold_shovel_diggable") ||
+      tags.includes("diamond_shovel_diggable") ||
+      tags.includes("netherite_shovel_diggable")
+    );
+  }
+
+  /**
+   * Checks if the block type is destructible with a shovel.
+   * This applies a speed boost to the shovel when mining the block.
+   * @note This method evaluates if the block type has the "minecraft:is_shovel_item_destructible" tag.
+   * @returns True if the block type is destructible with a shovel, false otherwise.
+   */
+  public destructibleWithShovel(): boolean {
+    // Check if the block type has the shovel destructible tag.
+    return this.getTags().includes("minecraft:is_shovel_item_destructible");
+  }
+
+  /**
+   * Checks if the block type requires an axe to be mined.
+   * @note This method evaluates if the block type has the "*_axe_diggable" tag.
+   * @returns True if the block type requires an axe, false otherwise.
+   */
+  public requiresAxe(): boolean {
+    // Get the tags of the block type.
+    const tags = this.getTags();
+
+    // Check if the block type has the axe diggable tags.
+    return (
+      tags.includes("wooden_axe_diggable") ||
+      tags.includes("stone_axe_diggable") ||
+      tags.includes("iron_axe_diggable") ||
+      tags.includes("gold_axe_diggable") ||
+      tags.includes("diamond_axe_diggable") ||
+      tags.includes("netherite_axe_diggable")
+    );
+  }
+
+  /**
+   * Checks if the block type is destructible with an axe.
+   * This applies a speed boost to the axe when mining the block.
+   * @note This method evaluates if the block type has the "minecraft:is_axe_item_destructible" tag.
+   * @returns True if the block type is destructible with an axe, false otherwise.
+   */
+  public destructibleWithAxe(): boolean {
+    // Check if the block type has the axe destructible tag.
+    return this.getTags().includes("minecraft:is_axe_item_destructible");
+  }
+
+  /**
+   * Checks if the block type requires a hoe to be mined.
+   * @note This method evaluates if the block type has the "*_hoe_diggable" tag.
+   * @returns True if the block type requires a hoe, false otherwise.
+   */
+  public requiresHoe(): boolean {
+    // Get the tags of the block type.
+    const tags = this.getTags();
+
+    // Check if the block type has the hoe diggable tags.
+    return (
+      tags.includes("wooden_hoe_diggable") ||
+      tags.includes("stone_hoe_diggable") ||
+      tags.includes("iron_hoe_diggable") ||
+      tags.includes("gold_hoe_diggable") ||
+      tags.includes("diamond_hoe_diggable") ||
+      tags.includes("netherite_hoe_diggable")
+    );
+  }
+
+  /**
+   * Checks if the block type is destructible with a hoe.
+   * This applies a speed boost to the hoe when mining the block.
+   * @note This method evaluates if the block type has the "minecraft:is_hoe_item_destructible" tag.
+   * @returns True if the block type is destructible with a hoe, false
+   */
+  public destructibleWithHoe(): boolean {
+    // Check if the block type has the hoe destructible tag.
+    return this.getTags().includes("minecraft:is_hoe_item_destructible");
+  }
+
+  /**
+   * Checks if the block type requires a sword to be mined.
+   * @note This method evaluates if the block type has the "*_sword_diggable" tag.
+   * @returns True if the block type requires a sword, false otherwise.
+   */
+  public requiresSword(): boolean {
+    // Get the tags of the block type.
+    const tags = this.getTags();
+
+    // Check if the block type has the sword diggable tags.
+    return (
+      tags.includes("wooden_sword_diggable") ||
+      tags.includes("stone_sword_diggable") ||
+      tags.includes("iron_sword_diggable") ||
+      tags.includes("gold_sword_diggable") ||
+      tags.includes("diamond_sword_diggable") ||
+      tags.includes("netherite_sword_diggable")
+    );
+  }
+
+  /**
+   * Checks if the block type is destructible with a sword.
+   * This applies a speed boost to the sword when mining the block.
+   * @note This method evaluates if the block type has the "minecraft:is_sword_item_destructible" tag.
+   * @returns True if the block type is destructible with a sword, false otherwise.
+   */
+  public destructibleWithSword(): boolean {
+    // Check if the block type has the sword destructible tag.
+    return this.getTags().includes("minecraft:is_sword_item_destructible");
+  }
+
+  /**
+   * Check if the block type has any requirements to be mined.
+   * @returns True if the block type has any requirements, false otherwise.
+   */
+  public hasRequirements(): boolean {
+    return (
+      this.requiresPickaxe() ||
+      this.requiresShovel() ||
+      this.requiresAxe() ||
+      this.requiresHoe() ||
+      this.requiresSword()
+    );
   }
 
   /**

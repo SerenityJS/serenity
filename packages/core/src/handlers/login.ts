@@ -138,21 +138,24 @@ class LoginHandler extends NetworkHandler {
     login.status = PlayStatus.LoginSuccess;
 
     const packs = new ResourcePacksInfoPacket();
-    packs.mustAccept = this.serenity.resourcePacks.mustAccept;
+    packs.mustAccept = this.serenity.resources.properties.mustAccept;
     packs.hasAddons = false;
     packs.hasScripts = false;
     packs.worldTemplateUuid = "00000000-0000-0000-0000-000000000000";
     packs.worldTemplateVersion = "";
 
     packs.packs = [];
-    for (const pack of this.serenity.resourcePacks.getPacks()) {
+    for (const [, pack] of this.serenity.resources.packs) {
+      // Compress the pack
+      const buffer = pack.compress();
+
       const packInfo = new TexturePackInfo(
         pack.uuid,
-        pack.contentKey,
-        pack.hasScripts,
+        String(),
+        false,
         pack.isRtx,
-        pack.originalSize,
-        pack.selectedSubpack ?? "",
+        BigInt(buffer.byteLength),
+        String(),
         pack.uuid,
         pack.version,
         false,

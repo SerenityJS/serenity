@@ -6,6 +6,8 @@ import {
   ItemTypeCanDestroyInCreativeComponent,
   ItemTypeCooldownComponent,
   ItemTypeCooldownComponentOptions,
+  ItemTypeDiggerComponent,
+  ItemTypeDiggerComponentOptions,
   ItemTypeDisplayNameComponent,
   ItemTypeIconComponent,
   ItemTypeIconComponentOptions,
@@ -441,6 +443,50 @@ class ItemTypeComponentCollection extends CompoundTag<unknown> {
       if (options?.duration)
         // Set the duration of the cooldown component.
         component.setDuration(options.duration);
+    }
+  }
+
+  /**
+   * Check if the item type has a digger component.
+   * @returns Whether the item type has a digger component.
+   */
+  public hasDigger(): boolean {
+    // Check if the digger component exists.
+    return this.has(ItemTypeDiggerComponent);
+  }
+
+  /**
+   * Get the digger component of the item type.
+   * @returns The digger component of the item type.
+   */
+  public getDigger(): ItemTypeDiggerComponent {
+    // Check if the digger component exists.
+    if (this.has(ItemTypeDiggerComponent)) {
+      // Return the digger component.
+      return this.get(ItemTypeDiggerComponent);
+    }
+
+    // Add the digger component.
+    return this.add(ItemTypeDiggerComponent, {});
+  }
+
+  /**
+   * Set the digger component of the item type.
+   * @param options The options of the digger component.
+   */
+  public setDigger(options?: Partial<ItemTypeDiggerComponentOptions>): void {
+    // Check if the digger component exists.
+    if (!this.has(ItemTypeDiggerComponent)) {
+      // Add the digger component.
+      this.add(ItemTypeDiggerComponent, options);
+    } else {
+      // Get the digger component
+      const component = this.get(ItemTypeDiggerComponent);
+
+      // Check if a speed was provided
+      if (options?.destroySpeeds)
+        // Set the destruction speeds of the digger component.
+        component.setDestructionSpeeds(options.destroySpeeds);
     }
   }
 }

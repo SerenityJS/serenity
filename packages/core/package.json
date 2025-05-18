@@ -2,7 +2,7 @@
   "name": "@serenityjs/core",
   "author": "Serenity",
   "license": "MIT",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -36,6 +36,7 @@
     "@serenityjs/protocol": "*",
     "@serenityjs/raknet": "*",
     "fast-jwt": "4.0.5",
+    "fflate": "^0.8.2",
     "simplex-noise": "4.0.3"
   }
 }

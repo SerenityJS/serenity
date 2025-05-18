@@ -109,7 +109,20 @@ export class Chunk {
     this.z = z;
     this.type = type;
     this.hash = ChunkCoords.hash({ x, z });
-    this.subchunks = subchunks ?? Array.from({ length: Chunk.MAX_SUB_CHUNKS });
+    this.subchunks = subchunks ?? [];
+
+    // Fill the sub chunks with empty sub chunks.
+    for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; index++) {
+      // Check if the sub chunk exists.
+      if (this.subchunks[index]) continue;
+
+      // Create a new sub chunk.
+      const subchunk = new SubChunk();
+      subchunk.index = index - 4;
+
+      // Set the sub chunk.
+      this.subchunks[index] = subchunk;
+    }
   }
 
   /**
@@ -326,7 +339,7 @@ export class Chunk {
       } else {
         // Create an empty sub chunk.
         const subchunk = new SubChunk();
-        subchunk.index = index;
+        subchunk.index = index - 4;
 
         // Serialize an empty sub chunk.
         SubChunk.serialize(subchunk, stream, nbt);

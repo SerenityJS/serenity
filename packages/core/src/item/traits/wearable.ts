@@ -132,7 +132,7 @@ class ItemWearableTrait extends ItemTrait {
         }
 
         // Get the item tags
-        const tags = this.item.type.tags;
+        const tags = this.item.type.getTags();
 
         // Tier will be determined by if the item contains a specific tag
         if (tags.includes("minecraft:minecraft:leather_tier")) {

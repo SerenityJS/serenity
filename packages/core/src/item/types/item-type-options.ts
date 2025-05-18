@@ -4,7 +4,6 @@ import type {
 } from "@serenityjs/protocol";
 import type { CompoundTag } from "@serenityjs/nbt";
 import type { BlockType } from "../../block";
-import type { ItemToolTier, ItemToolType } from "../../enums";
 
 interface ItemTypeOptions {
   /**
@@ -27,8 +26,6 @@ interface ItemTypeOptions {
    */
   maxAmount: number;
 
-  tool: ItemToolType;
-  tier: ItemToolTier;
   tags: Array<string>;
   blockType: BlockType;
   creativeCategory: CreativeItemCategory;

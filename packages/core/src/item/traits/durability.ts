@@ -1,7 +1,7 @@
 import { IntTag } from "@serenityjs/nbt";
 import { LevelSoundEvent, LevelSoundEventPacket } from "@serenityjs/protocol";
 
-import { ItemToolTier } from "../../enums";
+import { ItemTypeToolTier } from "../../enums";
 
 import { ItemTrait } from "./trait";
 
@@ -64,23 +64,23 @@ class ItemDurabilityTrait extends ItemTrait {
     super(item);
 
     // Check for vanilla tool tiers and set the max durability
-    switch (item.type.tier) {
-      case ItemToolTier.Wooden:
+    switch (item.type.getToolTier()) {
+      case ItemTypeToolTier.Wooden:
         this.maxDurability = 59;
         break;
-      case ItemToolTier.Stone:
+      case ItemTypeToolTier.Stone:
         this.maxDurability = 131;
         break;
-      case ItemToolTier.Iron:
+      case ItemTypeToolTier.Iron:
         this.maxDurability = 250;
         break;
-      case ItemToolTier.Gold:
+      case ItemTypeToolTier.Golden:
         this.maxDurability = 32;
         break;
-      case ItemToolTier.Diamond:
+      case ItemTypeToolTier.Diamond:
         this.maxDurability = 1561;
         break;
-      case ItemToolTier.Netherite:
+      case ItemTypeToolTier.Netherite:
         this.maxDurability = 2031;
     }
   }

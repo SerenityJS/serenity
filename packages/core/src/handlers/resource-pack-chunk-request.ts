@@ -6,7 +6,7 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { ResourcePack } from "../resource-packs";
+import { Resources } from "../resources";
 
 class ResourcePackChunkRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackChunkRequest;
@@ -19,7 +19,10 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
-    const pack = this.serenity.resourcePacks.getPack(packet.packId);
+    // Split the uuid and version
+    const [uuid, _version] = packet.packId.split("_") as [string, string];
+
+    const pack = this.serenity.resources.packs.get(uuid);
 
     // This should never happen
     if (!pack) {
@@ -30,9 +33,7 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
     const chunkPacket = new ResourcePackChunkDataPacket();
     chunkPacket.packId = packet.packId;
     chunkPacket.chunkId = packet.chunkId;
-    chunkPacket.byteOffset = BigInt(
-      packet.chunkId * ResourcePack.MAX_CHUNK_SIZE
-    );
+    chunkPacket.byteOffset = BigInt(packet.chunkId * Resources.MAX_CHUNK_SIZE);
     chunkPacket.chunkData = pack.getChunk(packet.chunkId);
 
     player.sendImmediate(chunkPacket);

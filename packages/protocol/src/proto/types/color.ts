@@ -80,7 +80,13 @@ class Color extends DataType {
     return new Color(alpha, red, green, blue);
   }
 
-  public static override write(stream: BinaryStream, value: Color): void {
+  public static read(stream: BinaryStream): Color {
+    const color = stream.readUint32();
+
+    return Color.fromInt(color);
+  }
+
+  public static write(stream: BinaryStream, value: Color): void {
     stream.writeUint32(value.toInt());
   }
 }

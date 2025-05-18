@@ -1,11 +1,11 @@
-enum ItemToolTier {
+enum ItemTypeToolTier {
   None,
   Wooden,
   Stone,
   Iron,
-  Gold,
+  Golden,
   Diamond,
   Netherite
 }
 
-export { ItemToolTier };
+export { ItemTypeToolTier };
