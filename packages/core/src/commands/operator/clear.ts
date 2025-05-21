@@ -16,67 +16,98 @@ const register = (world: World) => {
       registry.overload(
         {
           target: TargetEnum,
-          item: [ItemEnum, true],
-          metadata: [IntegerEnum, true],
-          amount: [IntegerEnum, true]
+          itemName: [ItemEnum, true],
+          data: [IntegerEnum, true],
+          maxCount: [IntegerEnum, true]
         },
         (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
           // Get the result of the item, amount, and metadata
-          const itemResult = context.item?.result as string | undefined;
+          const itemResult = context.itemName?.result as string | undefined;
           const itemIdentifier = itemResult
             ? `${itemResult.includes(":") ? "" : "minecraft:"}${itemResult}`
             : undefined;
-          const itemMetadata = context.metadata?.result ?? 0;
-          const itemAmount = context.amount?.result;
-          let itemCount = 0;
+          const itemMetadata = context.data?.result;
+          const maxAmount = context.maxCount?.result;
 
+          // Check if the amount is greater than 0
+          if (maxAmount && maxAmount <= 0) {
+            return { message: "Amount must be greater than 0" };
+          }
+
+          // Check if there are no targets
           if (targets.length === 0) {
             return { message: "No targets matched selector" };
           }
 
+          // The total removed item count
+          let totalRemovedItemCount = 0;
+
           for (const target of targets) {
+            // Check if the target has an inventory
             if (!target.hasTrait(EntityInventoryTrait)) continue;
             const { container } = target.getTrait(EntityInventoryTrait);
 
+            // If there is no specified item, clear the entire inventory
             if (!itemResult) {
+              totalRemovedItemCount += Object.entries(container.storage)
+                .map((i) => i[1]?.amount ?? 0)
+                .reduce((a, b) => a + b, 0);
               container.clear();
               continue;
             }
 
+            // The removed item count per target
+            let removedItemCount = 0;
+
             for (const [slot, itemStack] of Object.entries(container.storage)) {
+              // Check if the item stack is valid
               if (
+                // Check For Null
                 !itemStack ||
-                (itemStack.type.identifier !== itemIdentifier &&
-                  itemStack.metadata !== itemMetadata)
+                // Check For Incorrect Identifier
+                itemStack.type.identifier !== itemIdentifier ||
+                // Check For Metadata
+                (itemMetadata && itemStack.metadata !== itemMetadata)
               ) {
                 continue;
               }
 
-              const stackAmount = itemStack.amount;
-              const remaining = stackAmount - (itemAmount ?? 1);
+              // If there is a max amount, check if the item stack is greater than the max amount
+              // If there is no max amount, clear the item stack
+              if (maxAmount) {
+                const stackAmount = itemStack.amount;
+                const remaining = stackAmount - (maxAmount - removedItemCount);
 
-              if (remaining < 0) {
-                container.clearSlot(Number.parseInt(slot));
-                itemCount += stackAmount;
+                if (remaining <= 0) {
+                  container.clearSlot(Number.parseInt(slot));
+                  removedItemCount += stackAmount;
+                } else {
+                  itemStack.setAmount(Math.max(remaining, 0));
+                  removedItemCount += Math.min(maxAmount, stackAmount);
+                }
+                // Stop if the removed item count is greater than or equal to the max amount
+                if (removedItemCount >= maxAmount) {
+                  totalRemovedItemCount += removedItemCount;
+                  break;
+                }
               } else {
-                itemStack.setAmount(Math.max(remaining, 0));
-                itemCount += Math.min(itemAmount ?? 1, stackAmount);
+                container.clearSlot(Number.parseInt(slot));
+                removedItemCount += itemStack.amount;
               }
-
-              if (itemCount >= (itemAmount ?? 1)) break;
+              totalRemovedItemCount += removedItemCount;
             }
           }
 
           return {
-            message: `Cleared the inventory of ${targets.length} entities`
+            message: `Cleared the inventory of ${targets.length} entities, removed ${totalRemovedItemCount} items`
           };
         }
       );
     },
-    () => {}
+    () => { }
   );
 };
 
