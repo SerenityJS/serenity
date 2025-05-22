@@ -11,6 +11,7 @@ class ResourcePacksInfoPacket extends DataPacket {
   @Serialize(Bool) public mustAccept!: boolean;
   @Serialize(Bool) public hasAddons!: boolean;
   @Serialize(Bool) public hasScripts!: boolean;
+  @Serialize(Bool) public forceDisableVibrantVisuals!: boolean;
   @Serialize(Uuid) public worldTemplateUuid!: string;
   @Serialize(VarString) public worldTemplateVersion!: string;
   @Serialize(TexturePackInfo) public packs!: Array<TexturePackInfo>;

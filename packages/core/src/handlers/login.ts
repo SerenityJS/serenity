@@ -141,6 +141,7 @@ class LoginHandler extends NetworkHandler {
     packs.mustAccept = this.serenity.resources.properties.mustAccept;
     packs.hasAddons = false;
     packs.hasScripts = false;
+    packs.forceDisableVibrantVisuals = false;
     packs.worldTemplateUuid = "00000000-0000-0000-0000-000000000000";
     packs.worldTemplateVersion = "";
 
@@ -183,8 +184,11 @@ class LoginHandler extends NetworkHandler {
     // Contains data about the users client. (Device, game version, etc.)
     const clientData: ClientData = this.decoder(tokens.client);
 
-    // Parse the identity chain data
-    const chains: Array<string> = JSON.parse(tokens.identity).chain;
+    // Parse the identity data from the tokens
+    const identity: { Certificate: string } = JSON.parse(tokens.identity);
+
+    // Get the identity chain from the identity data
+    const chains: Array<string> = JSON.parse(identity.Certificate).chain;
 
     // Decode the chains
     const decodedChains = chains.map((chain) => this.decoder(chain));

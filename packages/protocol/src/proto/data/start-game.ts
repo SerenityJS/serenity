@@ -96,6 +96,7 @@ class StartGamePacket extends DataPacket {
   @Serialize(VarString) public serverIdentfier!: string;
   @Serialize(VarString) public worldIdentifier!: string;
   @Serialize(VarString) public scenarioIdentifier!: string;
+  // @Serialize(VarString) public ownerIdentifier!: string; // Note: This is a documented change, but causes issues with the client.
   @Serialize(VarString) public levelId!: string;
   @Serialize(VarString) public worldName!: string;
   @Serialize(VarString) public premiumWorldTemplateId!: string;
