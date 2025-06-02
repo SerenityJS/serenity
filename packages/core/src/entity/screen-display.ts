@@ -6,7 +6,8 @@ import {
   SetTitlePacket,
   TextPacket,
   TextPacketType,
-  TitleType
+  TitleType,
+  ToastRequestPacket
 } from "@serenityjs/protocol";
 
 import { TitleDisplayOptions } from "../types";
@@ -184,6 +185,21 @@ class ScreenDisplay {
     packet.xuid = this.player.xuid;
     packet.platformChatId = String();
     packet.filtered = text; // TODO: Filter the text.
+
+    // Send the packet to the player.
+    this.player.send(packet);
+  }
+
+  /**
+   * Set the toast of the player;
+   * @param title The title of the toast.
+   * @param message The text to display.
+   */
+  public setToast(title: string, text: string): void {
+    // Create a new Toast Packet
+    const packet = new ToastRequestPacket();
+    packet.title = title;
+    packet.message = text;
 
     // Send the packet to the player.
     this.player.send(packet);
