@@ -7,7 +7,7 @@ import {
   TextPacket,
   TextPacketType,
   TitleType,
-  ToastRequestPacket,
+  ToastRequestPacket
 } from "@serenityjs/protocol";
 
 import { TitleDisplayOptions } from "../types";
