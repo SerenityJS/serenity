@@ -26,6 +26,7 @@ import { NpcRequestHandler } from "./npc-request";
 import { PacketViolationWarningHandler } from "./packet-violation-warning";
 import { CommandBlockUpdateHandler } from "./command-block-update";
 import { SetDefaultGamemodeHander } from "./set-default-gamemode";
+import { SetDifficultyHander } from "./set-difficulty";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -55,7 +56,8 @@ const Handlers = [
   NpcRequestHandler,
   PacketViolationWarningHandler,
   CommandBlockUpdateHandler,
-  SetDefaultGamemodeHander
+  SetDefaultGamemodeHander,
+  SetDifficultyHander
 ];
 
 export { Handlers };
