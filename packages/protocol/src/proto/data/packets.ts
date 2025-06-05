@@ -150,6 +150,7 @@ import { MotionPredictHintsPacket } from "./motion-prediction-hints";
 import { ClientCacheStatusPacket } from "./client-cache-status";
 import { AddPaintingPacket } from "./add-painting";
 import { PlayerUpdateEntityOverridesPacket } from "./player-update-entity-overrides";
+import { ServerScriptDebugDrawerPacket } from "./server-script-debug-drawer";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -298,7 +299,8 @@ const Packets = {
   [Packet.CurrentStructureFeature]: CurrectStructureFeaturePacket, // 314
   [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket, // 315
   [Packet.MovementEffect]: MovementEffectPacket, // 318
-  [Packet.PlayerUpdateEntityOverrides]: PlayerUpdateEntityOverridesPacket // 325
+  [Packet.PlayerUpdateEntityOverrides]: PlayerUpdateEntityOverridesPacket, // 325
+  [Packet.ServerScriptDebugDrawer]: ServerScriptDebugDrawerPacket // 328
 };
 
 export { Packets };

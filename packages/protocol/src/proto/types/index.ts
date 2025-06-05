@@ -140,3 +140,4 @@ export * from "./creative-group";
 export * from "./block-update";
 export * from "./subchunk-blocks";
 export * from "./player-update-entity-overrides-value";
+export * from "./script-debug-shape";
