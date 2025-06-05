@@ -20,8 +20,7 @@ import {
   type Difficulty,
   type Gamemode,
   Packet,
-  type PermissionLevel,
-  ServerAuthMovementMode
+  type PermissionLevel
 } from "../../enums";
 import {
   Vector3f,
@@ -96,12 +95,11 @@ class StartGamePacket extends DataPacket {
   @Serialize(VarString) public serverIdentfier!: string;
   @Serialize(VarString) public worldIdentifier!: string;
   @Serialize(VarString) public scenarioIdentifier!: string;
-  // @Serialize(VarString) public ownerIdentifier!: string; // Note: This is a documented change, but causes issues with the client.
+  @Serialize(VarString) public ownerIdentifier!: string;
   @Serialize(VarString) public levelId!: string;
   @Serialize(VarString) public worldName!: string;
   @Serialize(VarString) public premiumWorldTemplateId!: string;
   @Serialize(Bool) public isTrial!: boolean;
-  @Serialize(ZigZag) public movementAuthority!: ServerAuthMovementMode;
   @Serialize(ZigZag) public rewindHistorySize!: number;
   @Serialize(Bool) public serverAuthoritativeBlockBreaking!: boolean;
   @Serialize(Int64, Endianness.Little) public currentTick!: bigint;

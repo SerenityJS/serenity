@@ -209,12 +209,11 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.serverIdentfier = "SerenityJS";
         packet.worldIdentifier = player.world.identifier;
         packet.scenarioIdentifier = "SerenityJS";
-        // packet.ownerIdentifier = player.username;
+        packet.ownerIdentifier = player.username;
         packet.levelId = "SerenityJS";
         packet.worldName = player.world.identifier;
         packet.premiumWorldTemplateId = player.world.identifier;
         packet.isTrial = false;
-        packet.movementAuthority = 2;
         packet.rewindHistorySize = 0;
         packet.serverAuthoritativeBlockBreaking = true;
         packet.currentTick = player.world.currentTick;
