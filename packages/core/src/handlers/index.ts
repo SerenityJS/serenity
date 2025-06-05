@@ -27,6 +27,7 @@ import { PacketViolationWarningHandler } from "./packet-violation-warning";
 import { CommandBlockUpdateHandler } from "./command-block-update";
 import { SetDefaultGamemodeHander } from "./set-default-gamemode";
 import { SetDifficultyHander } from "./set-difficulty";
+import { SetPlayerGameTypeHander } from "./set-player-game-type";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -57,7 +58,8 @@ const Handlers = [
   PacketViolationWarningHandler,
   CommandBlockUpdateHandler,
   SetDefaultGamemodeHander,
-  SetDifficultyHander
+  SetDifficultyHander,
+  SetPlayerGameTypeHander
 ];
 
 export { Handlers };
