@@ -25,6 +25,7 @@ import { EntityPickRequestHandler } from "./entity-pick-request";
 import { NpcRequestHandler } from "./npc-request";
 import { PacketViolationWarningHandler } from "./packet-violation-warning";
 import { CommandBlockUpdateHandler } from "./command-block-update";
+import { SetDefaultGamemodeHander } from "./set-default-gamemode";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -53,7 +54,8 @@ const Handlers = [
   ActorEventHandler,
   NpcRequestHandler,
   PacketViolationWarningHandler,
-  CommandBlockUpdateHandler
+  CommandBlockUpdateHandler,
+  SetDefaultGamemodeHander
 ];
 
 export { Handlers };
