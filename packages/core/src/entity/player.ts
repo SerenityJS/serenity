@@ -336,6 +336,15 @@ class Player extends Entity {
   }
 
   /**
+   * Get the permissions of the player.
+   * @returns An array of permissions that the player has.
+   */
+  public getPermissions(): Array<string> {
+    // Return the permissions of the player
+    return this.permissions.permissions;
+  }
+
+  /**
    * Sends a message to the player
    * @param message The message that will be sent.
    */
