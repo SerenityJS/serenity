@@ -56,6 +56,7 @@ jobs:
       - name: 🧪 Create Beta Version (if not published)
         if: steps.changesets.outputs.published != 'true'
         run: |
+          git checkout main
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           yarn run version:beta
           yarn run release:beta
