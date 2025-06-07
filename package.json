@@ -16,6 +16,8 @@
     "version:beta": "yarn changeset version --snapshot beta",
     "release": "yarn changeset publish",
     "release:beta": "yarn changeset publish --no-git-tag --snapshot --tag beta",
+    "bundle": "bun build --compile --packages bundle --target=bun --outfile=dist/serenityjs-latest bundle/index.ts",
+    "bundle:beta": "bun build --compile --packages bundle --target=bun --outfile=dist/serenityjs-beta bundle/index.ts",
     "changeset": "changeset",
     "prepare": "husky"
   },
@@ -26,6 +28,7 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-angular": "^19.5.0",
     "@turbo/gen": "2.2.3",
+    "@types/bun": "latest",
     "husky": "^9.1.6",
     "rimraf": "6.0.1",
     "turbo": "2.2.3",
@@ -43,5 +46,8 @@
   ],
   "dependencies": {
     "typedoc-plugin-merge-modules": "^7.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
   }
 }
