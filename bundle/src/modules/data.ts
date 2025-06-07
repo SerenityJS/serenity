@@ -1,4 +1,4 @@
-import * as module from "@serenityjs/data";
+import * as module from "../../../packages/data";
 
 import type { PluginBuilder } from "bun";
 
@@ -6,7 +6,7 @@ function inject(builder: PluginBuilder) {
   builder.module("@serenityjs/data", () => {
     return {
       exports: module,
-      loader: "object"
+      loader: "object",
     };
   });
 }

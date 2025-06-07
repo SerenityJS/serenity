@@ -1,7 +1,7 @@
 import { isMainThread } from "node:worker_threads";
 
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
-import { Pipeline } from "@serenityjs/plugins";
+import { Serenity, LevelDBProvider } from "../../packages/core";
+import { Pipeline } from "../../packages/plugins";
 
 import { Modules } from "./modules";
 
@@ -11,7 +11,7 @@ Bun.plugin({
   setup(build) {
     // Inject all modules
     for (const inject of Modules) inject(build);
-  }
+  },
 });
 
 // Check if the current thread is the main thread
@@ -21,8 +21,8 @@ if (isMainThread) {
     path: "./properties.json",
     serenity: {
       permissions: "./permissions.json",
-      resources: "./resource_packs"
-    }
+      resources: "./resource_packs",
+    },
   });
 
   // Create a new plugin pipeline

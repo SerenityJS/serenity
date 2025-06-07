@@ -6,7 +6,7 @@ function inject(builder: PluginBuilder) {
   builder.module("@serenityjs/leveldb", () => {
     return {
       exports: module,
-      loader: "object"
+      loader: "object",
     };
   });
 }
