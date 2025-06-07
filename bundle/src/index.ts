@@ -1,18 +1,20 @@
 import { isMainThread } from "node:worker_threads";
 
 import { Serenity, LevelDBProvider } from "../../packages/core";
-import { Pipeline } from "../../packages/plugins";
 
-import { Modules } from "./modules";
+// import { Serenity, LevelDBProvider } from "../../packages/core";
+// import { Pipeline } from "../../packages/plugins";
 
-// Inject all modules
-Bun.plugin({
-  name: "SerenityJS Native Module Injection",
-  setup(build) {
-    // Inject all modules
-    for (const inject of Modules) inject(build);
-  },
-});
+// import { Modules } from "./modules";
+
+// // Inject all modules
+// Bun.plugin({
+//   name: "SerenityJS Native Module Injection",
+//   setup(build) {
+//     // Inject all modules
+//     for (const inject of Modules) inject(build);
+//   },
+// });
 
 // Check if the current thread is the main thread
 if (isMainThread) {
@@ -26,7 +28,7 @@ if (isMainThread) {
   });
 
   // Create a new plugin pipeline
-  new Pipeline(serenity, { path: "./plugins" });
+  // new Pipeline(serenity, { path: "./plugins" });
 
   // Register the LevelDBProvider
   serenity.registerProvider(LevelDBProvider, { path: "./worlds" });

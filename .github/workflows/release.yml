@@ -82,10 +82,10 @@ jobs:
           bun-version: latest
 
       - name: 📦 Install Dependencies
-        run: bun install
+        run: yarn
 
       - name: 🏗️ Build SerenityJS (Stable)
-        run: bun run bundle:latest
+        run: yarn bundle:latest
 
       - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v4
@@ -114,10 +114,10 @@ jobs:
           bun-version: latest
 
       - name: 📦 Install Dependencies
-        run: bun install
+        run: yarn
 
       - name: 🏗️ Build SerenityJS (Beta)
-        run: bun run bundle:beta
+        run: yarn bundle:beta
 
       - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v4
