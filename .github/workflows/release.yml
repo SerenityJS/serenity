@@ -76,6 +76,12 @@ jobs:
         with:
           submodules: recursive
 
+      - name: 🔧 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
       - name: 🔧 Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
@@ -84,7 +90,10 @@ jobs:
       - name: 📦 Install Dependencies
         run: yarn
 
-      - name: 🏗️ Build SerenityJS (Stable)
+      - name: 🔧 Build
+        run: yarn build
+
+      - name: 🏗️ Bundle SerenityJS (Latest)
         run: yarn bundle:latest
 
       - name: 📤 Upload Build Artifact
@@ -113,11 +122,20 @@ jobs:
         with:
           bun-version: latest
 
+      - name: 🔧 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
       - name: 📦 Install Dependencies
         run: yarn
 
-      - name: 🏗️ Build SerenityJS (Beta)
-        run: yarn bundle:beta
+      - name: 🔧 Build
+        run: yarn build
+
+      - name: 🏗️ Bundle Serenity (Beta
+        run: yarn bundle:beta)
 
       - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v4
