@@ -1,4 +1,4 @@
-import * as module from "../../packages/raknet/dist";
+import * as module from "@serenityjs/raknet";
 
 import type { PluginBuilder } from "bun";
 

@@ -1,4 +1,4 @@
-import * as module from "../../../packages/protocol";
+import * as module from "@serenityjs/protocol";
 
 import type { PluginBuilder } from "bun";
 

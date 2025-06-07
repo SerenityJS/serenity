@@ -1,4 +1,4 @@
-import * as module from "../../../packages/data";
+import * as module from "@serenityjs/data";
 
 import type { PluginBuilder } from "bun";
 

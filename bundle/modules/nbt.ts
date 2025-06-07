@@ -1,4 +1,4 @@
-import * as module from "../../../packages/nbt";
+import * as module from "@serenityjs/nbt";
 
 import type { PluginBuilder } from "bun";
 
