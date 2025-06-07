@@ -893,10 +893,7 @@ class Block {
   public getBreakTime(itemStack?: ItemStack | null): number {
     // Determine the base hardness & efficiency of the block.
     let hardness = this.getHardness();
-    let efficiency = itemStack?.type.getToolTier() ?? 1;
-
-    // Check if the efficiency is less than or equal to 0.
-    if (efficiency <= 0) efficiency = 1; // Apply default efficiency.
+    let efficiency = 1;
 
     // Check if the item stack is provided and has the digger component.
     if (itemStack && itemStack.components.hasDigger()) {
@@ -935,7 +932,7 @@ class Block {
       // Check if the block can be broken with a pickaxe, and if the item stack is a pickaxe.
       if (this.type.destructibleWithPickaxe() && itemStack.type.isPickaxe()) {
         // Apply the pickaxe efficiency.
-        efficiency *= 1.5;
+        efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -950,7 +947,7 @@ class Block {
       // Check if the block can be broken with an axe, and if the item stack is an axe.
       if (this.type.destructibleWithAxe() && itemStack.type.isAxe()) {
         // Apply the axe efficiency.
-        efficiency *= 1.5;
+        efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -965,7 +962,7 @@ class Block {
       // Check if the block can be broken with a shovel, and if the item stack is a shovel.
       if (this.type.destructibleWithShovel() && itemStack.type.isShovel()) {
         // Apply the shovel efficiency.
-        efficiency *= 1.5;
+        efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -980,7 +977,7 @@ class Block {
       // Check if the block can be broken with a hoe, and if the item stack is a hoe.
       if (this.type.destructibleWithHoe() && itemStack.type.isHoe()) {
         // Apply the hoe efficiency.
-        efficiency *= 1.5;
+        efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
@@ -995,7 +992,7 @@ class Block {
       // Check if the block can be broken with a sword, and if the item stack is a sword.
       if (this.type.destructibleWithSword() && itemStack.type.isSword()) {
         // Apply the sword efficiency.
-        efficiency *= 1.5;
+        efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
         if (itemStack.hasTrait(ItemEnchantableTrait)) {
