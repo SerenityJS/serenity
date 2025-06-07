@@ -85,7 +85,7 @@ jobs:
         run: bun install
 
       - name: 🏗️ Build SerenityJS (Stable)
-        run: bun run build:latest
+        run: bun run bundle:latest
 
       - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v4
@@ -117,7 +117,7 @@ jobs:
         run: bun install
 
       - name: 🏗️ Build SerenityJS (Beta)
-        run: bun run build:beta
+        run: bun run bundle:beta
 
       - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v4
