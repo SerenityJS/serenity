@@ -1,7 +1,0 @@
-{
-  "extends": "@serenityjs/internal-config/typescript",
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
-}

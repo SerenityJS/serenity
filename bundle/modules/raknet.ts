@@ -1,4 +1,4 @@
-import * as module from "../../../packages/raknet";
+import * as module from "../../packages/raknet/dist";
 
 import type { PluginBuilder } from "bun";
 

@@ -1,6 +1,6 @@
 import { isMainThread } from "node:worker_threads";
 
-import { Serenity, LevelDBProvider } from "../../packages/core";
+import { Serenity, LevelDBProvider } from "../packages/core/dist";
 
 // import { Serenity, LevelDBProvider } from "../../packages/core";
 // import { Pipeline } from "../../packages/plugins";
