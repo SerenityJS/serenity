@@ -1,61 +1,125 @@
-name: Release
+name: 📦 Release & Build SerenityJS
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
-    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-    release:
-        name: Release
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
-                
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20
-                  cache: yarn
-            
-            - name: Install Dependencies
-              run: yarn install
+  release:
+    name: 🚀 Changeset Release
+    runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-            - name: Build
-              run: yarn build
+      - name: 🔧 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
 
-            - name: Create Release Pull Request or Publish to NPM
-              id: changesets
-              uses: changesets/action@v1
-              with:
-                  createGithubReleases: true
-                  version: yarn run version
-                  publish: yarn run release
-                  setupGitUser: true
-                  commit: |
-                      Changeset: Increment package & dependecy versions.
+      - name: 📦 Install Dependencies
+        run: yarn install
 
-                      Congratulations on the new release! 🎉
-                      This is an automated commit triggered by the `release` workflow.
-                  title: "chore(release): release packages"
+      - name: 🏗️ Build
+        run: yarn build
 
-            - name: Create Beta Release
-              if: steps.changesets.outputs.published != 'true'
-              run: |
-                  git checkout main
-                  echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-                  yarn run version:beta
-                  yarn run release:beta
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: 📦 Create Release or Version PR
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          createGithubReleases: true
+          version: yarn run version
+          publish: yarn run release
+          setupGitUser: true
+          commit: |
+            Changeset: Increment package & dependency versions.
+
+            Automated commit from `release` workflow.
+          title: "chore(release): release packages"
+
+      - name: 🧪 Create Beta Version (if not published)
+        if: steps.changesets.outputs.published != 'true'
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          yarn run version:beta
+          yarn run release:beta
+
+  build-binaries:
+    name: 🛠️ Build Binaries for All Platforms
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: 🔧 Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 📦 Install Dependencies
+        run: bun install
+
+      - name: 🏗️ Build SerenityJS (Stable)
+        run: bun run build:latest
+
+      - name: 📤 Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: serenityjs-${{ matrix.os }}
+          path: dist
+
+  build-binaries-beta:
+    name: 🧪 Build Beta Binaries
+    needs: release
+    if: needs.release.outputs.published != 'true'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: 🔧 Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: 📦 Install Dependencies
+        run: bun install
+
+      - name: 🏗️ Build SerenityJS (Beta)
+        run: bun run build:beta
+
+      - name: 📤 Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: serenityjs-beta-${{ matrix.os }}
+          path: dist
