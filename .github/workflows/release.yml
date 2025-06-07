@@ -80,6 +80,9 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+      
+      - name: 📂 Change Directory
+        run: cd bundle
 
       - name: 📦 Install Dependencies
         run: bun install
@@ -112,6 +115,9 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+
+      - name: 📂 Change Directory
+        run: cd bundle
 
       - name: 📦 Install Dependencies
         run: bun install
