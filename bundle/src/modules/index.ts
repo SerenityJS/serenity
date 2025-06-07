@@ -20,6 +20,6 @@ const Modules = [
   Plugins,
   Protocol,
   Raknet
-]
+];
 
 export { Modules };

@@ -2870,6 +2870,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bundler@workspace:bundle":
+  version: 0.0.0-use.local
+  resolution: "bundler@workspace:bundle"
+  dependencies:
+    "@serenityjs/binarystream": "npm:2.7.0"
+    "@serenityjs/core": "npm:*"
+    "@serenityjs/internal-config": "npm:*"
+    "@serenityjs/logger": "npm:*"
+    "@serenityjs/nbt": "npm:*"
+    "@serenityjs/plugins": "npm:*"
+    "@serenityjs/raknet": "npm:*"
+    "@swc/core": "npm:1.7.42"
+    "@types/node": "npm:22.8.6"
+    eslint: "npm:9.13.0"
+    tsup: "npm:8.3.5"
+    typescript: "npm:5.6.3"
+  languageName: unknown
+  linkType: soft
+
 "cac@npm:^6.7.14":
   version: 6.7.14
   resolution: "cac@npm:6.7.14"

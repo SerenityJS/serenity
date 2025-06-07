@@ -1,4 +1,4 @@
-name: 📦 Release & Build SerenityJS
+name: 📦 Build & Release SerenityJS
 
 on:
   push:

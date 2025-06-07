@@ -42,7 +42,8 @@
   },
   "workspaces": [
     "packages/*",
-    "devapp"
+    "devapp",
+    "bundle"
   ],
   "dependencies": {
     "typedoc-plugin-merge-modules": "^7.0.0"

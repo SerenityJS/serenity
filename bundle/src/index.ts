@@ -3,7 +3,7 @@ import { isMainThread } from "node:worker_threads";
 import { Serenity, LevelDBProvider } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
-import { Modules } from "./modules"
+import { Modules } from "./modules";
 
 // Inject all modules
 Bun.plugin({
@@ -11,7 +11,7 @@ Bun.plugin({
   setup(build) {
     // Inject all modules
     for (const inject of Modules) inject(build);
-  },
+  }
 });
 
 // Check if the current thread is the main thread

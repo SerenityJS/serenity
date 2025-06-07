@@ -26,6 +26,13 @@ export const serenity = config({
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-dynamic-delete": "off",
   },
+  languageOptions: {
+    parserOptions: {
+      projectService: {
+        maximumDefaultProjectFileMatchCount_THIS_WILL_SLOW_DOWN_LINTING: 10000,
+      },
+    },
+  },
 });
 
 export { config };
