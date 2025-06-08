@@ -62,7 +62,7 @@ jobs:
           yarn run release:beta
 
   build-binaries:
-    name: 🛠️ Build Binaries for All Platforms
+    name: 🛠️ Build Release Binaries
     needs: release
     if: needs.release.outputs.published == 'true'
     runs-on: ${{ matrix.os }}
