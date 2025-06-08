@@ -41,7 +41,7 @@ Before installing Serenity you first need to make sure you have the latest recom
 Serenity has an easy to use plugin system. This system allows modification to the Serenity software while providing a full api to completely interact with the server. Plugins can be written in Typescript or JavaScript. Check out the [sample-plugin](https://github.com/SerenityJS/sample-plugin) to get started. Rather than providing a seperate api for plugins, they have direct access to the same set of api's we use to build Serenity, so explore our documentation for usage.
 
 ### Installing Serenity
-We provide pre-built server executable binaries for both the latest and beta releases. You will need a GitHub account to access the artifacts download via our [server-binaries](https://github.com/SerenityJS/server-binaries/actions) repository. The server binary executable is a more traditional approach that relies heavily on self or community made plugins.
+We provide pre-built server executable binaries for both the latest and beta releases. You will need a GitHub account to access the artifacts download the [server binaries](https://github.com/SerenityJS/serenity/actions/workflows/release.yml) from GitHub Actions. The server binary executable is a more traditional approach that relies heavily on self or community made plugins.
 
 We also provide an easy to use CLI installer process. The CLI scaffolds a new traditional NodeJS project with the SerenityJS packages pre-installed. This approach allows a deeper integration of Serenity into new or existing NodeJS projects. This method will work on any machine, if the machine can run NodeJS. To get started, run the following command of your choice, and follow the install prompts.
 
