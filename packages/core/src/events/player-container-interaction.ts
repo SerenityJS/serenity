@@ -37,6 +37,11 @@ class PlayerContainerInteractionSignal extends EventSignal {
   public readonly amount: number;
 
   /**
+   * The request id of the container interaction.
+   */
+  public readonly requestId: number;
+
+  /**
    * Creates a new player container interaction signal.
    * @param player The player that interacted with a container.
    * @param sourceContainer The source container that the player interacted with.
@@ -44,6 +49,7 @@ class PlayerContainerInteractionSignal extends EventSignal {
    * @param destinationContainer The destination container that the player interacted with.
    * @param destinationSlot The slot in the destination container that the player interacted with.
    * @param amount The amount of items that were selected.
+   * @param requestId The request id of the container interaction.
    */
   public constructor(
     player: Player,
@@ -51,7 +57,8 @@ class PlayerContainerInteractionSignal extends EventSignal {
     sourceSlot: number,
     destinationContainer: Container | null,
     destinationSlot: number | null,
-    amount: number
+    amount: number,
+    requestId: number
   ) {
     super(player.world);
     this.player = player;
@@ -60,6 +67,7 @@ class PlayerContainerInteractionSignal extends EventSignal {
     this.destinationContainer = destinationContainer;
     this.destinationSlot = destinationSlot;
     this.amount = amount;
+    this.requestId = requestId;
   }
 }
 
