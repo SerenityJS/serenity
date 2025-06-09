@@ -20,9 +20,9 @@ class ItemStackRequestHandler extends NetworkHandler {
     if (!player) return connection.disconnect();
 
     // Loop through the requests.
-    for (const request of packet.requests) {
+    for (const _request of packet.requests) {
       // Loop through the actions.
-      for (const action of request.actions) {
+      for (const action of _request.actions) {
         // Check if the action is a take or place action.
         if (action.takeOrPlace) {
           // Get the request.
@@ -76,7 +76,8 @@ class ItemStackRequestHandler extends NetworkHandler {
             sourceSlot,
             destination,
             destinationSlot,
-            amount
+            amount,
+            _request.clientRequestId
           );
 
           // Emit the signal, and check if it was cancelled.
@@ -141,7 +142,8 @@ class ItemStackRequestHandler extends NetworkHandler {
             slot,
             null,
             null,
-            amount
+            amount,
+            _request.clientRequestId
           );
 
           // Emit the signal, and check if it was cancelled.
@@ -202,7 +204,8 @@ class ItemStackRequestHandler extends NetworkHandler {
             sourceSlot,
             destination,
             destinationSlot,
-            1
+            1,
+            _request.clientRequestId
           );
 
           // Emit the signal, and check if it was cancelled.
@@ -261,7 +264,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 
         if (action.craftRecipe) {
           // Get the item instance action.
-          const itemInstanceAction = request
+          const itemInstanceAction = _request
             .actions[1] as ItemStackRequestAction;
 
           // Check if the item instance action exists.
@@ -272,7 +275,7 @@ class ItemStackRequestHandler extends NetworkHandler {
           const descriptors = itemInstanceAction.resultsDeprecated.resultants;
 
           // Get the destination action.
-          const destinationAction = request.actions.at(
+          const destinationAction = _request.actions.at(
             -1
           ) as ItemStackRequestAction;
 
@@ -312,7 +315,7 @@ class ItemStackRequestHandler extends NetworkHandler {
 
         if (action.craftCreative) {
           // Get the destination request.
-          const destinationAction = request
+          const destinationAction = _request
             .actions[2] as ItemStackRequestAction;
 
           // Check if the destination exists.
