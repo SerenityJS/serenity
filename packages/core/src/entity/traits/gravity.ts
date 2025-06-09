@@ -127,11 +127,14 @@ class EntityGravityTrait extends EntityTrait {
     const fallDamage = Math.max(0, event.fallDistance - 3);
     if (fallDamage <= 0) return;
 
-    // Get the entity health trait
-    const health = this.entity.getTrait(EntityHealthTrait);
+    // Check if the entity has a health trait
+    if (this.entity.hasTrait(EntityHealthTrait)) {
+      // Get the entity health trait
+      const health = this.entity.getTrait(EntityHealthTrait);
 
-    // Apply the fall damage to the entity
-    health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
+      // Apply the fall damage to the entity
+      health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
+    }
   }
 }
 
