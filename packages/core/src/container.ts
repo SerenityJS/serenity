@@ -238,7 +238,8 @@ class Container {
       newItem.dynamicProperties.set(key, value);
 
     // Clone the traits of the item to the new item.
-    for (const trait of item.traits.values()) trait.clone(newItem);
+    for (const trait of item.traits.values())
+      newItem.addTrait(trait.clone(newItem));
 
     // Update the slot for all occupants.
     this.updateSlot(slot);

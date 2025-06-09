@@ -139,11 +139,9 @@ class Scoreboard {
     });
 
     // Send the display and scores to the player if specified, otherwise broadcast it to the world
-    if (player) {
-      player.send(display, scores);
-    } else {
-      this.world.broadcast(display, scores);
-    }
+    if (player) player.send(display, scores);
+    else this.world.broadcast(display, scores);
+
     // Set the objective at the display slot
     this.slots.set(slot, objective);
 

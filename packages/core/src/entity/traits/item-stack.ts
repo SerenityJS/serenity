@@ -6,7 +6,6 @@ import {
   TakeItemActorPacket
 } from "@serenityjs/protocol";
 
-import { EntityIdentifier, ItemIdentifier } from "../../enums";
 import { ItemStack } from "../../item";
 import { Entity } from "../entity";
 import { Player } from "../player";
@@ -16,6 +15,28 @@ import { EntityTrait } from "./trait";
 import { EntityInventoryTrait } from "./inventory";
 
 import type { ItemStackDataEntry } from "../../item";
+
+interface EntityItemStackTraitOptions {
+  /**
+   * The item stack of the component.
+   */
+  itemStack: ItemStack;
+
+  /**
+   * The lifespan of the item in ticks.
+   */
+  lifeSpan?: number;
+
+  /**
+   * Whether the item can be merged with other items.
+   */
+  canMerge?: boolean;
+
+  /**
+   * Whether the item can despawn according to its lifespan.
+   */
+  canDespawn?: boolean;
+}
 
 class EntityItemStackTrait extends EntityTrait {
   public static readonly identifier = "itemstack";
@@ -28,12 +49,22 @@ class EntityItemStackTrait extends EntityTrait {
   /**
    * The item stack of the component.
    */
-  public itemStack: ItemStack;
+  public readonly itemStack: ItemStack;
 
   /**
    * The lifespan of the item in ticks.
    */
   public lifeSpan: number = 6000;
+
+  /**
+   * Whether the item can be merged with other items.
+   */
+  public canMerge = true;
+
+  /**
+   * Whether the item can despawn according to its lifespan.
+   */
+  public canDespawn = true;
 
   /**
    * The pickup tick of the item.
@@ -50,56 +81,46 @@ class EntityItemStackTrait extends EntityTrait {
    */
   protected isMerging = false;
 
+  /**
+   * The target entity that the item is merging with.
+   */
   protected mergingEntity: Entity | null = null;
 
   /**
-   * Creates a new entity inventory component.
-   *
-   * @param entity The entity of the component.
-   * @param itemStack The item stack of the component.
-   * @returns A new entity inventory component.
+   * Creates a new instance of the EntityItemStackTrait.
+   * @param entity The entity that the trait is attached to.
+   * @param options The options for the trait, including the item stack and lifespan.
    */
-  public constructor(entity: Entity) {
+  public constructor(entity: Entity, options?: EntityItemStackTraitOptions) {
     super(entity);
 
-    // Check if the entity type is an item
-    // If not we throw an error
-    if (entity.type.identifier !== EntityIdentifier.Item) {
-      throw new Error("Entity must be an item");
-    }
+    // Check if an item stack is provided in the options
+    if (options?.itemStack) {
+      // Set the item stack of the trait
+      this.itemStack = options.itemStack;
+    } else if (entity.hasDynamicProperty("itemstack")) {
+      // Get the item stack from the entity's dynamic properties
+      const entry = entity.getDynamicProperty<ItemStackDataEntry>("itemstack")!;
 
-    // Get the component of the item stack from the entity
-    const entry = entity.dynamicProperties.get(
-      "itemstack"
-    ) as ItemStackDataEntry;
-
-    // Check if the entry exists
-    if (entry) {
-      // Set the item stack of the component
-      this.itemStack = new ItemStack(entry.identifier, { dataEntry: entry });
+      // Create a new item stack from the entry
+      this.itemStack = new ItemStack(entry.identifier, {
+        dataEntry: entry,
+        world: entity.world
+      });
     } else {
-      // Set the item stack of the component
-      this.itemStack = new ItemStack(ItemIdentifier.Air);
+      // Throw an error if no item stack is provided
+      throw new Error(
+        "A valid itemstack or itemstack dynamic property is required to create an EntityItemStackTrait."
+      );
     }
 
     // Set the birth tick of the item
     this.birthTick = entity.dimension.world.currentTick;
-  }
 
-  /**
-   * Gets the lifespan of the item.
-   * @returns The lifespan of the item.
-   */
-  public getLifeSpan(): number {
-    return this.lifeSpan;
-  }
-
-  /**
-   * Sets the lifespan of the item.
-   * @param value The lifespan of the item.
-   */
-  public setLifeSpan(value: number): void {
-    this.lifeSpan = value;
+    // Set the additional options for the trait
+    if (options?.lifeSpan) this.lifeSpan = options.lifeSpan;
+    if (options?.canMerge !== undefined) this.canMerge = options.canMerge;
+    if (options?.canDespawn !== undefined) this.canDespawn = options.canDespawn;
   }
 
   /**
@@ -118,37 +139,56 @@ class EntityItemStackTrait extends EntityTrait {
   }
 
   public increment(amount?: number): void {
+    // Increment the item stack by the specified amount
     this.itemStack.increment(amount);
 
-    // Set the item stack component of the entity
-    this.entity.dynamicProperties.set(
-      "itemstack",
-      this.itemStack.getDataEntry()
-    );
+    // Get the data entry of the item stack
+    const entry = this.itemStack.getDataEntry();
 
+    // Set the item stack component of the entity
+    this.entity.setDynamicProperty("itemstack", entry);
+
+    // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
     packet.event = ActorEvent.UpdateStackSize;
     packet.data = this.itemStack.amount;
     packet.actorRuntimeId = this.entity.runtimeId;
 
+    // Broadcast the packet to the dimension
     this.entity.dimension.broadcast(packet);
   }
 
   public decrement(amount?: number): void {
+    // Decrement the item stack by the specified amount
     this.itemStack.decrement(amount);
 
-    // Set the item stack component of the entity
-    this.entity.dynamicProperties.set(
-      "itemstack",
-      this.itemStack.getDataEntry()
-    );
+    // Get the data entry of the item stack
+    const entry = this.itemStack.getDataEntry();
 
+    // Set the item stack component of the entity
+    this.entity.setDynamicProperty("itemstack", entry);
+
+    // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
     packet.event = ActorEvent.UpdateStackSize;
     packet.data = this.itemStack.amount;
     packet.actorRuntimeId = this.entity.runtimeId;
 
+    // Broadcast the packet to the dimension
     this.entity.dimension.broadcast(packet);
+  }
+
+  public onAdd(): void {
+    // Get the data entry of the item stack
+    const entry = this.itemStack.getDataEntry();
+
+    // Set the item stack dynamic property of the entity
+    this.entity.setDynamicProperty("itemstack", entry);
+  }
+
+  public onRemove(): void {
+    // Remove the item stack dynamic property of the entity
+    this.entity.removeDynamicProperty("itemstack");
   }
 
   public onTick(details: TraitOnTickDetails): void {
@@ -158,7 +198,17 @@ class EntityItemStackTrait extends EntityTrait {
     // Check if the current tick is a multiple of 5, if the entity is alive
     if (details.currentTick % 5n !== 0n || !this.entity.isAlive) return;
 
+    // Check if the item has a lifespan and if it has exceeded it
     if (
+      this.canDespawn && // Check if the item can despawn
+      this.lifeSpan > 0 && // Check if the item has a lifespan
+      details.currentTick - this.birthTick >= BigInt(this.lifeSpan)
+    )
+      this.entity.despawn(); // Despawn the item if it has exceeded its lifespan
+
+    // Check if the item is ready to merge with an identical item
+    if (
+      this.canMerge && // Check if the item can be merged
       this.entity.onGround && // Check if the entity is on the ground
       this.pickupTick === -1n && // And if the item does not have a pickup tick
       this.itemStack.amount < this.itemStack.maxAmount && // Check if the item stack is not full
@@ -281,4 +331,4 @@ class EntityItemStackTrait extends EntityTrait {
   }
 }
 
-export { EntityItemStackTrait };
+export { EntityItemStackTrait, EntityItemStackTraitOptions };

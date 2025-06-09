@@ -706,8 +706,7 @@ class Dimension {
     entity.position.z = position.z;
 
     // Create a new item trait, this will register the item to the entity
-    const trait = entity.addTrait(EntityItemStackTrait);
-    trait.itemStack = itemStack;
+    entity.addTrait(EntityItemStackTrait, { itemStack });
 
     // Add gravity and physics traits to the entity
     entity.addTrait(EntityGravityTrait);

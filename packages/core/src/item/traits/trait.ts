@@ -151,8 +151,8 @@ class ItemTrait extends Trait {
       // Skip the item.
       if (key === "item") continue;
 
-      // @ts-expect-error
-      component[key] = value;
+      // @ts-ignore: We know the key is a valid key of ItemTrait
+      component[key as keyof ItemTrait] = value as never;
     }
 
     // Return the trait
