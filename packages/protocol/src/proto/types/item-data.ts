@@ -29,7 +29,7 @@ class ItemData extends DataType {
    * The additional properties of the item type.
    * This is also known as the vanilla component data.
    */
-  public properties: CompoundTag<unknown>;
+  public properties: CompoundTag;
 
   /**
    * Creates a new item type.
@@ -44,7 +44,7 @@ class ItemData extends DataType {
     networkId: number,
     isComponentBased: boolean,
     itemVersion: number,
-    properties: CompoundTag<unknown>
+    properties: CompoundTag
   ) {
     super();
 
@@ -79,7 +79,11 @@ class ItemData extends DataType {
       const version = stream.readZigZag();
 
       // Read the properties of the item.
-      const properties = CompoundTag.read(stream, true);
+      const properties = CompoundTag.read(stream, {
+        name: true,
+        type: true,
+        varint: true
+      });
 
       // Push the data to the array.
       data.push(
@@ -113,7 +117,11 @@ class ItemData extends DataType {
       stream.writeZigZag(item.itemVersion);
 
       // Write the properties of the item.
-      CompoundTag.write(stream, item.properties, true);
+      CompoundTag.write(stream, item.properties, {
+        name: true,
+        type: true,
+        varint: true
+      });
     }
   }
 }

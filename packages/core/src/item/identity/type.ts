@@ -1,4 +1,4 @@
-import { CompoundTag, ListTag, StringTag, TagType } from "@serenityjs/nbt";
+import { CompoundTag, IntTag, ListTag, StringTag } from "@serenityjs/nbt";
 import {
   CreativeItemCategory,
   CreativeItemGroup,
@@ -79,7 +79,7 @@ class ItemType {
    * The nbt properties definition of the item type.
    * This contains the vanilla component definitions.
    */
-  public readonly properties: CompoundTag<unknown>;
+  public readonly properties: CompoundTag;
 
   /**
    * The traits that are bound to the item type.
@@ -115,10 +115,9 @@ class ItemType {
    */
   public get components(): ItemTypeComponentCollection {
     // Check if the item type contains the components tag.
-    if (this.properties.hasTag("components")) {
+    if (this.properties.has("components")) {
       // Get the components tag from the item type.
-      const components =
-        this.properties.getTag<CompoundTag<unknown>>("components");
+      const components = this.properties.get<CompoundTag>("components");
 
       // Check if the components is instance of the component collection.
       if (components instanceof ItemTypeComponentCollection) return components;
@@ -127,10 +126,10 @@ class ItemType {
       const collection = new ItemTypeComponentCollection(this);
 
       // Assign the components to the collection.
-      collection.value = components.value;
+      collection.push(...(components?.values() ?? []));
 
       // Set the components tag to the item type.
-      this.properties.setTag("components", collection);
+      this.properties.set("components", collection);
 
       // Return the component collection.
       return collection;
@@ -140,7 +139,7 @@ class ItemType {
     const components = new ItemTypeComponentCollection(this);
 
     // Add the components tag to the item type.
-    this.properties.addTag(components);
+    this.properties.add(components);
 
     // Return the components collection.
     return components;
@@ -165,11 +164,9 @@ class ItemType {
     // As this will be used to define the item type.
     this.properties = properties?.properties ?? new CompoundTag();
 
-    // Create a id tag.
-    this.properties.createIntTag({ name: "id", value: this.network });
-
-    // Create a name tag.
-    this.properties.createStringTag({ name: "name", value: this.identifier });
+    // Create a new tag for item identifier and network.
+    this.properties.add(new IntTag(this.network, "id"));
+    this.properties.add(new StringTag(this.identifier, "name"));
 
     // Assign the properties of the item type.
     this.version = properties?.version ?? 1;
@@ -228,19 +225,19 @@ class ItemType {
    */
   public getTags(): Array<string> {
     // Check if the item type contains the item tags component.
-    if (!this.components.hasTag("item_tags")) {
-      // If not, create the item tags component.
-      this.components.createListTag({
-        name: "item_tags",
-        listType: TagType.String
-      });
+    if (!this.components.has("item_tags")) {
+      // Create a new item tags component if it does not exist.
+      const itemTags = new ListTag<StringTag>([], "item_tags");
+
+      // Add the item tags component to the item type.
+      this.components.add(itemTags);
     }
 
     // Get the item tags component from the item type.
-    const itemTags = this.components.getTag<ListTag<StringTag>>("item_tags");
+    const itemTags = this.components.get<ListTag<StringTag>>("item_tags") ?? [];
 
     // Map the item tags be strings.
-    return itemTags.value.map((tag) => tag.value);
+    return itemTags.map((tag) => tag.valueOf());
   }
 
   /**
@@ -249,12 +246,14 @@ class ItemType {
    * @returns The item type instance.
    */
   public setTags(tags: Array<string>): this {
-    // Create the item tags component.
-    this.components.createListTag({
-      name: "item_tags",
-      listType: TagType.String,
-      value: tags.map((value) => new StringTag({ value }))
-    });
+    // Create a new list tag for the item tags.
+    const itemTags = new ListTag<StringTag>([], "item_tags");
+
+    // Iterate over the tags and add them to the item tags component.
+    for (const tag of tags) itemTags.push(new StringTag(tag));
+
+    // Set the item tags component to the item type.
+    this.components.set("item_tags", itemTags);
 
     // Return this instance.
     return this;
@@ -267,24 +266,24 @@ class ItemType {
    */
   public addTag(...tags: Array<string>): this {
     // Check if the item type contains the item tags component.
-    if (!this.components.hasTag("item_tags")) {
-      // If not, create the item tags component.
-      this.components.createListTag({
-        name: "item_tags",
-        listType: TagType.String
-      });
+    if (!this.components.has("item_tags")) {
+      // Create a new item tags component if it does not exist.
+      const itemTags = new ListTag<StringTag>([], "item_tags");
+
+      // Add the item tags component to the item type.
+      this.components.add(itemTags);
     }
 
     // Get the item tags component from the item type.
-    const itemTags = this.components.getTag<ListTag<StringTag>>("item_tags");
+    const itemTags = this.components.get<ListTag<StringTag>>("item_tags")!;
 
     // Add the tags to the item type.
     for (const tag of tags) {
       // Check if the tag is not already in the item type.
-      if (itemTags.value.some((t) => t.value === tag)) continue;
+      if (itemTags.some((t) => t.valueOf() === tag)) continue;
 
       // Add the tag to the item type.
-      itemTags.push(new StringTag({ value: tag }));
+      itemTags.push(new StringTag(tag));
     }
 
     // Return this instance.
@@ -298,25 +297,24 @@ class ItemType {
    */
   public removeTag(...tags: Array<string>): this {
     // Check if the item type contains the item tags component.
-    if (!this.components.hasTag("item_tags")) {
-      // If not, create the item tags component.
-      this.components.createListTag({
-        name: "item_tags",
-        listType: TagType.String
-      });
+    if (!this.components.has("item_tags")) {
+      // Create a new item tags component if it does not exist.
+      const itemTags = new ListTag<StringTag>([], "item_tags");
+
+      // Add the item tags component to the item type.
+      this.components.add(itemTags);
     }
 
     // Get the item tags component from the item type.
-    const itemTags = this.components.getTag<ListTag<StringTag>>("item_tags");
+    const itemTags = this.components.get<ListTag<StringTag>>("item_tags")!;
 
-    // Remove the tags from the item type.
-    for (const tag of tags) {
-      // Check if the tag is not in the item type.
-      if (!itemTags.value.some((t) => t.value === tag)) continue;
+    // Filter out the tags that are not in the item type.
+    const newTags = itemTags.filter(
+      (tag) => !tags.some((t) => t === tag.valueOf())
+    );
 
-      // Remove the tag from the item type.
-      itemTags.value = itemTags.value.filter((t) => t.value !== tag);
-    }
+    // Set the new tags to the item type.
+    this.components.set("item_tags", new ListTag(newTags, "item_tags"));
 
     // Return this instance.
     return this;
@@ -464,7 +462,7 @@ class ItemType {
   public static toNetworkInstance(
     type: ItemType,
     stackSize: number = 1,
-    nbt: CompoundTag<unknown> | null = null
+    nbt: CompoundTag | null = null
   ): NetworkItemInstanceDescriptor {
     // Prepare the network block id.
     let networkBlockId = 0;

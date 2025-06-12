@@ -19,7 +19,7 @@ class ItemLockTrait extends ItemTrait {
     const mode = this.item.nbt.get<ByteTag>("minecraft:item_lock");
 
     // Return the lock mode value.
-    return mode.value;
+    return mode?.valueOf() ?? ItemLockMode.None;
   }
 
   /**
@@ -31,38 +31,16 @@ class ItemLockTrait extends ItemTrait {
     if (mode === ItemLockMode.None)
       return this.item.removeTrait(this.identifier);
 
-    // Check if the item stack already has a lock mode
-    if (this.item.nbt.has("minecraft:item_lock")) {
-      // Update the lock mode value
-      const lockTag = this.item.nbt.get<ByteTag>("minecraft:item_lock");
-      lockTag.value = mode;
-
-      // Set the updated lock mode in the item stack's nbt.
-      this.item.nbt.set(lockTag.name, lockTag);
-    } else {
-      // Create a new byte nbt tag for the lock mode.
-      const lockTag = new ByteTag({
-        name: "minecraft:item_lock",
-        value: mode
-      });
-
-      // Add the lock mode to the item stack's nbt.
-      this.item.nbt.add(lockTag);
-    }
+    // Set the lock mode in the item stack's nbt.
+    this.item.nbt.add(new ByteTag(mode, "minecraft:item_lock"));
   }
 
   public onAdd(): void {
     // Check if the item stack already has a lock mode
     if (this.item.nbt.has("minecraft:item_lock")) return;
 
-    // Create a new byte nbt tag for the lock mode.
-    const mode = new ByteTag({
-      name: "minecraft:item_lock",
-      value: ItemLockMode.LockToSlot
-    });
-
     // Add the lock mode to the item stack's nbt.
-    this.item.nbt.add(mode);
+    this.item.nbt.add(new ByteTag(ItemLockMode.None, "minecraft:item_lock"));
   }
 
   public onRemove(): void {

@@ -80,7 +80,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
         // Assign the packet values
         packet.position = block.position;
-        packet.nbt = block.nbt.toCompound();
+        packet.nbt = block.nbt;
 
         // Send the packet to the player
         this.player.send(packet);

@@ -1,4 +1,4 @@
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, StringTag } from "@serenityjs/nbt";
 import { MaterialRenderMethod } from "@serenityjs/protocol";
 
 import { BlockPermutation } from "../permutation";
@@ -42,7 +42,7 @@ class BlockTypeMaterialInstancesComponent extends BlockTypeComponent {
   /**
    * The material instances of the block.
    */
-  public readonly materials: CompoundTag<unknown>;
+  public readonly materials: CompoundTag;
 
   /**
    * Create a new material instances property for a block definition.
@@ -56,10 +56,13 @@ class BlockTypeMaterialInstancesComponent extends BlockTypeComponent {
     super(block);
 
     // Create a material instances tag.
-    this.component.createCompoundTag({ name: "mappings" }); // Not sure what this is.
+    this.component.add(new CompoundTag("mappings"));
 
     // Create the material instances tag.
-    this.materials = this.component.createCompoundTag({ name: "materials" });
+    this.materials = new CompoundTag("materials");
+
+    // Add the material instances tag to the component.
+    this.component.add(this.materials);
 
     // Add the material instances.
     if (options) {
@@ -84,35 +87,38 @@ class BlockTypeMaterialInstancesComponent extends BlockTypeComponent {
     options: Partial<MaterialInstanceOptions>
   ): void {
     // Create a new material instance tag.
-    const instance = this.materials.createCompoundTag({ name: key });
+    const instance = this.materials.add(new CompoundTag(key));
 
     // Set the texture value of the material instance.
-    instance.createStringTag({ name: "texture", value: options.texture ?? "" });
+    instance.add(new StringTag(options.texture ?? "", "texture"));
 
     // Set the render method value of the material instance.
-    instance.createStringTag({
-      name: "render_method",
-      value: options.render_method ?? MaterialRenderMethod.AlphaTest
-    });
+    instance.add(
+      new StringTag(
+        options.render_method ?? MaterialRenderMethod.AlphaTest,
+        "render_method"
+      )
+    );
 
     // Set the face dimming value of the material instance.
-    instance.createByteTag({
-      name: "face_dimming",
-      value: options.face_dimming ? 1 : 0
-    });
+    instance.add(
+      new StringTag(options.face_dimming ? "true" : "false", "face_dimming")
+    );
 
     // Set the ambient occlusion value of the material instance.
-    instance.createByteTag({
-      name: "ambient_occlusion",
-      value: options.ambient_occlusion ? 1 : 0
-    });
+    instance.add(
+      new StringTag(
+        options.ambient_occlusion ? "true" : "false",
+        "ambient_occlusion"
+      )
+    );
   }
 
   /**
    * Remove a material instance.
    */
   public removeMaterialInstance(key: string): void {
-    this.materials.removeTag(key);
+    this.materials.delete(key);
   }
 }
 

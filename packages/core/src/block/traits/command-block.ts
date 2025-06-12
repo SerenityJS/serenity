@@ -73,7 +73,7 @@ class BlockCommandBlockTrait extends BlockTrait {
     const command = this.block.nbt.get<StringTag>("Command");
 
     // Return the command if it exists
-    return command ? command.value : "";
+    return command ? command.valueOf() : "";
   }
 
   /**
@@ -82,7 +82,7 @@ class BlockCommandBlockTrait extends BlockTrait {
    */
   public setCommand(value: string): void {
     // Create the command NBT tag
-    const command = new StringTag({ name: "Command", value });
+    const command = new StringTag(value, "Command");
 
     // Set the command NBT tag
     this.block.nbt.set("Command", command);
@@ -97,7 +97,7 @@ class BlockCommandBlockTrait extends BlockTrait {
     const lastOutput = this.block.nbt.get<StringTag>("LastOutput");
 
     // Return the last output if it exists
-    return lastOutput ? lastOutput.value : "";
+    return lastOutput ? lastOutput.valueOf() : "";
   }
 
   /**
@@ -106,7 +106,7 @@ class BlockCommandBlockTrait extends BlockTrait {
    */
   public setLastOutput(value: string): void {
     // Create the last output NBT tag
-    const lastOutput = new StringTag({ name: "LastOutput", value });
+    const lastOutput = new StringTag(value, "LastOutput");
 
     // Set the last output NBT tag
     this.block.nbt.set("LastOutput", lastOutput);
@@ -121,7 +121,7 @@ class BlockCommandBlockTrait extends BlockTrait {
     const tickDelay = this.block.nbt.get<IntTag>("TickDelay");
 
     // Return the tick delay if it exists
-    return tickDelay ? tickDelay.value : 0;
+    return tickDelay ? tickDelay.valueOf() : 0;
   }
 
   /**
@@ -130,7 +130,7 @@ class BlockCommandBlockTrait extends BlockTrait {
    */
   public setTickDelay(value: number): void {
     // Create the tick delay NBT tag
-    const tickDelay = new IntTag({ name: "TickDelay", value });
+    const tickDelay = new IntTag(value, "TickDelay");
 
     // Set the tick delay NBT tag
     this.block.nbt.set("TickDelay", tickDelay);
@@ -145,7 +145,7 @@ class BlockCommandBlockTrait extends BlockTrait {
     const alwaysActive = this.block.nbt.get<ByteTag>("auto");
 
     // Return the always active if it exists
-    return alwaysActive ? alwaysActive.value === 1 : false;
+    return alwaysActive ? alwaysActive.valueOf() === 1 : false;
   }
 
   /**
@@ -154,7 +154,7 @@ class BlockCommandBlockTrait extends BlockTrait {
    */
   public setAlwaysActive(value: boolean): void {
     // Create the always active NBT tag
-    const alwaysActive = new ByteTag({ name: "auto", value: value ? 1 : 0 });
+    const alwaysActive = new ByteTag(value ? 1 : 0, "auto");
 
     // Set the always active NBT tag
     this.block.nbt.set("auto", alwaysActive);
@@ -165,12 +165,12 @@ class BlockCommandBlockTrait extends BlockTrait {
     const powered = this.block.nbt.get<ByteTag>("powered");
 
     // Return the powered if it exists
-    return powered ? powered.value === 1 : false;
+    return powered ? powered.valueOf() === 1 : false;
   }
 
   public setPowered(value: boolean): void {
     // Create the powered NBT tag
-    const powered = new ByteTag({ name: "powered", value: value ? 1 : 0 });
+    const powered = new ByteTag(value ? 1 : 0, "powered");
 
     // Set the powered NBT tag
     this.block.nbt.set("powered", powered);

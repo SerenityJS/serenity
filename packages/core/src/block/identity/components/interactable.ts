@@ -1,3 +1,5 @@
+import { ByteTag } from "@serenityjs/nbt";
+
 import { BlockPermutation } from "../permutation";
 import { BlockType } from "../type";
 
@@ -16,15 +18,8 @@ class BlockTypeInteractableComponent extends BlockTypeComponent {
     super(block);
 
     // Create the custom component property.
-    this.component.createByteTag({
-      name: "hasPlayerInteract",
-      value: 1
-    });
-
-    this.component.createByteTag({
-      name: "hasPlayerPlacing",
-      value: 1
-    });
+    this.component.add(new ByteTag(1, "hasPlayerInteract"));
+    this.component.add(new ByteTag(1, "hasPlayerPlacing"));
   }
 }
 

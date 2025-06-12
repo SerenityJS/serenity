@@ -160,7 +160,7 @@ class ItemStack {
     for (const [, trait] of this.type.traits) this.addTrait(trait);
 
     // Add base the nbt properties to the item stack
-    this.nbt.add(...this.type.properties.getTags());
+    this.nbt.push(...this.type.properties.values());
   }
 
   /**
@@ -545,7 +545,7 @@ class ItemStack {
    * @returns Whether the itemstack has the component.
    */
   public hasComponent(component: string | typeof ItemTypeComponent): boolean {
-    return this.components.has(
+    return this.components.hasComponent(
       typeof component === "string" ? component : component.identifier
     );
   }
@@ -558,7 +558,7 @@ class ItemStack {
   public getComponent<K extends typeof ItemTypeComponent>(
     component: K
   ): InstanceType<K> {
-    return this.components.get(component) as InstanceType<K>;
+    return this.components.getComponent(component) as InstanceType<K>;
   }
 
   /**
@@ -652,7 +652,7 @@ class ItemStack {
       // Check if the other value exists.
       if (!otherValue) return false;
 
-      // // Get the snbt values of the nbt.
+      // Get the snbt values of the nbt.
       const snbt = JSON.stringify(value.toJSON());
       const otherSnbt = JSON.stringify(otherValue.toJSON());
 
@@ -772,7 +772,7 @@ class ItemStack {
     let networkBlockId = 0;
 
     // Check if the item type is a block placer component.
-    if (item.type.components.has(ItemTypeBlockPlacerComponent)) {
+    if (item.type.components.hasComponent(ItemTypeBlockPlacerComponent)) {
       // Get the block placer component from the item type.
       const blockPlacer = item.type.components.getBlockPlacer();
 
@@ -791,7 +791,7 @@ class ItemStack {
       metadata: item.metadata,
       networkBlockId,
       extras: {
-        nbt: item.nbt.toCompound(),
+        nbt: item.nbt,
         canDestroy: [],
         canPlaceOn: []
       }
@@ -837,7 +837,7 @@ class ItemStack {
 
     // Check if the descriptor has extras.
     if (descriptor.extras?.nbt)
-      item.nbt.add(...descriptor.extras.nbt.getTags());
+      item.nbt.push(...descriptor.extras.nbt.values());
 
     // Return the item stack.
     return item;

@@ -42,10 +42,10 @@ class ItemTypeWearableComponent extends ItemTypeComponent {
    */
   public getProtection(): number {
     // Get the protection component.
-    const component = this.component.getTag<IntTag>(this.identifier);
+    const component = this.component.get<IntTag>("protection");
 
     // Return the protection value.
-    return component?.value ?? 0;
+    return component?.valueOf() ?? 0;
   }
 
   /**
@@ -54,7 +54,7 @@ class ItemTypeWearableComponent extends ItemTypeComponent {
    */
   public setProtection(value: number): void {
     // Set the protection component.
-    this.component.createIntTag({ name: this.identifier, value });
+    this.component.add(new IntTag(value, "protection"));
   }
 
   /**
@@ -63,10 +63,10 @@ class ItemTypeWearableComponent extends ItemTypeComponent {
    */
   public getWearableSlot(): WearableSlot {
     // Get the wearable slot component.
-    const component = this.component.getTag<StringTag>(this.identifier);
+    const component = this.component.get<StringTag>("slot");
 
     // Return the wearable slot.
-    return component?.value as WearableSlot;
+    return component?.valueOf() as WearableSlot;
   }
 
   /**
@@ -75,7 +75,7 @@ class ItemTypeWearableComponent extends ItemTypeComponent {
    */
   public setWearableSlot(value: WearableSlot): void {
     // Set the wearable slot component.
-    this.component.createStringTag({ name: this.identifier, value });
+    this.component.add(new StringTag(value, "slot"));
   }
 }
 

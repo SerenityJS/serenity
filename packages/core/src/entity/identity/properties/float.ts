@@ -1,22 +1,9 @@
 import { EntityPropertyType } from "@serenityjs/protocol";
+import { FloatTag } from "@serenityjs/nbt";
 
-import { EntityProperty, type EntityPropertyData } from "./property";
+import { EntityProperty } from "./property";
 
-import type { FloatTag } from "@serenityjs/nbt";
-
-interface EntityFloatPropertyData extends EntityPropertyData {
-  /**
-   * The minimum value of the property.
-   */
-  min: FloatTag;
-
-  /**
-   * The maximum value of the property.
-   */
-  max: FloatTag;
-}
-
-class EntityFloatProperty extends EntityProperty<EntityFloatPropertyData> {
+class EntityFloatProperty extends EntityProperty {
   /**
    * The current value of the property.
    */
@@ -50,7 +37,7 @@ class EntityFloatProperty extends EntityProperty<EntityFloatPropertyData> {
    * @returns The minimum value of the property.
    */
   public getMin(): number {
-    return this.compound.getTag<FloatTag>("min")?.value ?? 0;
+    return this.compound.get<FloatTag>("min")?.valueOf() ?? 0;
   }
 
   /**
@@ -58,7 +45,7 @@ class EntityFloatProperty extends EntityProperty<EntityFloatPropertyData> {
    * @param min The minimum value of the property.
    */
   public setMin(min: number): void {
-    this.compound.createFloatTag({ name: "min", value: min });
+    this.compound.add(new FloatTag(min, "min"));
   }
 
   /**
@@ -66,7 +53,7 @@ class EntityFloatProperty extends EntityProperty<EntityFloatPropertyData> {
    * @returns The maximum value of the property.
    */
   public getMax(): number {
-    return this.compound.getTag<FloatTag>("max")?.value ?? 0;
+    return this.compound.get<FloatTag>("max")?.valueOf() ?? 0;
   }
 
   /**
@@ -74,8 +61,8 @@ class EntityFloatProperty extends EntityProperty<EntityFloatPropertyData> {
    * @param max The maximum value of the property.
    */
   public setMax(max: number): void {
-    this.compound.createFloatTag({ name: "max", value: max });
+    this.compound.add(new FloatTag(max, "max"));
   }
 }
 
-export { EntityFloatProperty, EntityFloatPropertyData };
+export { EntityFloatProperty };

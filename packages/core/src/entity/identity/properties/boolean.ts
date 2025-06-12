@@ -1,8 +1,8 @@
 import { EntityPropertyType } from "@serenityjs/protocol";
 
-import { EntityProperty, type EntityPropertyData } from "./property";
+import { EntityProperty } from "./property";
 
-class EntityBooleanProperty extends EntityProperty<EntityPropertyData> {
+class EntityBooleanProperty extends EntityProperty {
   /**
    * The current value of the property.
    */

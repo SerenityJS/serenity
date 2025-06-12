@@ -2,55 +2,94 @@ import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { TagType } from "../enum";
 
-import { ReadingProperties, Tag, WritingProperties } from "./tag";
+import { BaseTag } from "./base-tag";
+import { ReadWriteOptions } from "./read-write-options";
 
-class DoubleTag extends Tag<number> {
-  public static readonly type = TagType.Double;
+class DoubleTag extends Number implements BaseTag {
+  public readonly type = TagType.Double;
+
+  public name: string | null;
+
+  /**
+   * Create a new DoubleTag instance.
+   * @param value The double value.
+   * @param name The name of the tag, defaults to null.
+   */
+  public constructor(value: number, name?: string | null) {
+    super(value);
+    this.name = name ?? null;
+  }
+
+  public toJSON(): number {
+    // Convert the byte value to a JSON number.
+    return this.valueOf();
+  }
 
   public static read(
     stream: BinaryStream,
-    varint: boolean,
-    properties: Partial<ReadingProperties> = { name: true, type: true }
-  ): Tag {
-    // Check if type checking is enabled.
-    if (properties.type) {
-      // Read the type of the tag.
-      const type = stream.readByte() as TagType;
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
+  ): DoubleTag {
+    // Check if the tag type is expected.
+    if (options?.type) {
+      // Read the tag type.
+      const type: TagType = stream.readInt8();
 
-      // Check if the type is correct.
-      if (type !== this.type) {
+      // Verify that the tag type matches the expected type.
+      if (type !== TagType.Double) {
+        // Throw an error if the type does not match.
         throw new Error(
-          `Expected tag type to be ${TagType[this.type]}, received ${TagType[type] ?? type}.`
+          `Expected tag type to be ${TagType[TagType.Double]}, received ${TagType[type] ?? type}.`
         );
       }
     }
 
-    // Read the name of the tag.
-    const name = properties.name
-      ? this.readString(stream, varint)
-      : (null as unknown as string);
+    // Prepare a variable to hold the name of the tag.
+    let name: string | null = null;
 
-    // Read the value of the tag.
+    // Check if the tag name is expected.
+    if (options?.name) {
+      // Read the length of the name based on the varint option.
+      const length = options?.varint
+        ? stream.readVarInt()
+        : stream.readInt16(Endianness.Little);
+
+      // Read the name from the stream.
+      const buffer = stream.readBuffer(length);
+
+      // Convert the buffer to a string.
+      name = String.fromCharCode(...buffer);
+    }
+
+    // Read the double value from the stream.
     const value = stream.readFloat64(Endianness.Little);
 
-    // Read the value of the tag.
-    return new this({ name, value });
+    // Create and return a new DoubleTag instance.
+    return new this(value, name);
   }
 
   public static write(
     stream: BinaryStream,
     value: DoubleTag,
-    varint: boolean,
-    properties: Partial<WritingProperties> = { name: true, type: true }
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
   ): void {
-    // Check if the type of the tag should be written.
-    if (properties.type) stream.writeByte(this.type);
+    // Check if the tag type should be written.
+    if (options?.type) stream.writeInt8(value.type);
 
-    // Check if the name of the tag should be written.
-    if (properties.name) this.writeString(value.name, stream, varint);
+    // Check if the tag name should be written.
+    if (options?.name) {
+      // Convert the name to a buffer.
+      const buffer = Buffer.from(value.name ?? "", "utf8");
 
-    // Write the value of the tag.
-    stream.writeFloat64(value.value, Endianness.Little);
+      // Write the length of the name based on the varint option.
+      if (options.varint) stream.writeVarInt(buffer.length);
+      else stream.writeInt16(buffer.length, Endianness.Little);
+
+      // Write the name buffer to the stream.
+      stream.writeBuffer(buffer);
+    }
+
+    // Write the double value to the stream.
+    stream.writeFloat64(value.valueOf(), Endianness.Little);
   }
 }
 

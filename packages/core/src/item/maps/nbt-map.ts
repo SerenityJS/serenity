@@ -1,9 +1,9 @@
-import { CompoundTag, Tag } from "@serenityjs/nbt";
+import { BaseTag, CompoundTag } from "@serenityjs/nbt";
 import { BinaryStream } from "@serenityjs/binarystream";
 
 import { ItemStack } from "../stack";
 
-class ItemStackNbtMap extends Map<string, Tag> {
+class ItemStackNbtMap extends CompoundTag {
   /**
    * The item stack that the nbt map is attached to.
    */
@@ -18,28 +18,33 @@ class ItemStackNbtMap extends Map<string, Tag> {
     this.itemStack = itemStack;
   }
 
-  public get<T extends Tag>(key: string): T {
-    return super.get(key) as T;
-  }
+  public set<T extends BaseTag>(key: string, value: T): this {
+    // Call the original set method
+    super.set(key, value);
 
-  public add(...tags: Array<Tag<unknown>>): this {
-    for (const tag of tags) {
-      // Call the original set method
-      super.set(tag.name, tag);
-
-      // Update the nbt data when a new value is added
-      this.update();
-    }
+    // Update the nbt data when a new value is set
+    this.update();
 
     // Return the result
     return this;
   }
 
-  public set(key: string, value: Tag<unknown>): this {
-    // Call the original set method
-    const result = super.set(key, value);
+  public push<T extends BaseTag>(...tags: Array<T>): this {
+    // Call the original add method
+    super.push(...tags);
 
-    // Update the nbt data when a new value is added
+    // Update the nbt data when a new tag is added
+    this.update();
+
+    // Return the result
+    return this;
+  }
+
+  public add<T extends BaseTag>(tag: T): T {
+    // Call the original add method
+    const result = super.add(tag);
+
+    // Update the nbt data when a new tag is added
     this.update();
 
     // Return the result
@@ -65,45 +70,12 @@ class ItemStackNbtMap extends Map<string, Tag> {
     this.update();
   }
 
-  /**
-   * Converts the nbt map to a compound tag.
-   * @returns
-   */
-  public toCompound(name: string = ""): CompoundTag<unknown> {
-    // Create a new compound tag
-    const root = new CompoundTag({ name, value: {} });
-
-    // Iterate over the map
-    for (const [_, value] of this) {
-      // Add the tag to the compound
-      root.addTag(value);
-    }
-
-    // Return the compound
-    return root;
-  }
-
-  /**
-   * Adds the tags from a compound to the map.
-   * @param root The compound tag to add the tags from.
-   */
-  public fromCompound(root: CompoundTag<unknown>): void {
-    // Iterate over the tags in the compound
-    for (const tag of root.getTags()) {
-      // Set the tag in the map
-      this.set(tag.name, tag);
-    }
-  }
-
   public serialize(): Buffer {
-    // Get the compound tag from the map
-    const root = this.toCompound();
-
     // Create a new BinaryStream to write the data
     const stream = new BinaryStream();
 
     // Write the compound tag to the stream
-    CompoundTag.write(stream, root);
+    CompoundTag.write(stream, this);
 
     // Return the buffer
     return stream.getBuffer();
@@ -116,8 +88,8 @@ class ItemStackNbtMap extends Map<string, Tag> {
     // Read the compound tag from the stream
     const root = CompoundTag.read(stream);
 
-    // Add the tags from the compound to the map
-    this.fromCompound(root);
+    // Add all the values from the root compound tag to this map.
+    this.push(...root.values());
   }
 
   protected update(): void {

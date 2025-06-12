@@ -1,4 +1,4 @@
-import { FloatTag, ListTag, TagType } from "@serenityjs/nbt";
+import { ByteTag, FloatTag, ListTag } from "@serenityjs/nbt";
 
 import { BlockTypeComponent } from "./component";
 
@@ -34,7 +34,7 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
     super(block);
 
     // Create an enabled tag for the property
-    this.component.createByteTag({ name: "enabled", value: 1 });
+    this.component.add(new ByteTag(1, "enabled"));
 
     // Set the default values for the collision box
     this.setOrigin(options?.origin ?? [-8, 0, -8]);
@@ -47,10 +47,10 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
    */
   public getOrigin(): [number, number, number] {
     // Get the origin of the collision box
-    const { value } = this.component.getTag<ListTag<FloatTag>>("origin");
+    const value = this.component.get<ListTag<FloatTag>>("origin")!;
 
     // Return the origin as a tuple
-    return [value[0]!.value, value[1]!.value, value[2]!.value];
+    return [value[0]!.valueOf(), value[1]!.valueOf(), value[2]!.valueOf()];
   }
 
   /**
@@ -59,15 +59,15 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
    */
   public setOrigin(value: [number, number, number]): void {
     // Set the origin of the collision box
-    const origin = this.component.createListTag({
-      name: "origin",
-      listType: TagType.Float
-    });
+    const origin = new ListTag<FloatTag>([], "origin");
+
+    // Add the origin tag to the component
+    this.component.add(origin);
 
     // Set the origin values
-    origin.push(new FloatTag({ value: value[0] }));
-    origin.push(new FloatTag({ value: value[1] }));
-    origin.push(new FloatTag({ value: value[2] }));
+    origin.push(new FloatTag(value[0]));
+    origin.push(new FloatTag(value[1]));
+    origin.push(new FloatTag(value[2]));
   }
 
   /**
@@ -76,10 +76,10 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
    */
   public getSize(): [number, number, number] {
     // Get the size of the collision box
-    const { value } = this.component.getTag<ListTag<FloatTag>>("size");
+    const value = this.component.get<ListTag<FloatTag>>("size")!;
 
     // Return the size as a tuple
-    return [value[0]!.value, value[1]!.value, value[2]!.value];
+    return [value[0]!.valueOf(), value[1]!.valueOf(), value[2]!.valueOf()];
   }
 
   /**
@@ -88,15 +88,15 @@ class BlockTypeCollisionBoxComponent extends BlockTypeComponent {
    */
   public setSize(value: [number, number, number]): void {
     // Set the size of the collision box
-    const size = this.component.createListTag({
-      name: "size",
-      listType: TagType.Float
-    });
+    const size = new ListTag<FloatTag>([], "size");
+
+    // Add the size tag to the component
+    this.component.add(size);
 
     // Set the size values
-    size.push(new FloatTag({ value: value[0] }));
-    size.push(new FloatTag({ value: value[1] }));
-    size.push(new FloatTag({ value: value[2] }));
+    size.push(new FloatTag(value[0]));
+    size.push(new FloatTag(value[1]));
+    size.push(new FloatTag(value[2]));
   }
 }
 

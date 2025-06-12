@@ -48,7 +48,7 @@ class BlockTypeCraftingTableComponent extends BlockTypeComponent {
    */
   public getTableName(): string {
     // Get the table name of the crafting table
-    return this.component.getTag<StringTag>("table_name")?.value ?? "";
+    return this.component.get<StringTag>("table_name")?.valueOf() ?? "";
   }
 
   /**
@@ -57,7 +57,7 @@ class BlockTypeCraftingTableComponent extends BlockTypeComponent {
    */
   public setTableName(value: string): void {
     // Set the table name of the crafting table
-    this.component.createStringTag({ name: "table_name", value });
+    this.component.add(new StringTag(value, "table_name"));
   }
 
   /**
@@ -66,10 +66,10 @@ class BlockTypeCraftingTableComponent extends BlockTypeComponent {
    */
   public getCraftingTags(): Array<string> {
     // Get the crafting tags of the crafting table
-    const tag = this.component.getTag<ListTag<StringTag>>("crafting_tags");
+    const tag = this.component.get<ListTag<StringTag>>("crafting_tags");
 
     // Return the crafting tags of the crafting table
-    return tag?.value.map((tag) => tag.value) ?? [];
+    return tag?.map((tag) => tag.valueOf()) ?? [];
   }
 
   /**
@@ -78,15 +78,13 @@ class BlockTypeCraftingTableComponent extends BlockTypeComponent {
    */
   public setCraftingTags(value: Array<string>): void {
     // Set the crafting tags of the crafting table
-    const tag = this.component.createListTag({
-      name: "crafting_tags",
-      listType: StringTag.type
-    });
+    const tags = new ListTag<StringTag>([], "crafting_tag");
 
     // Set the crafting tags of the crafting table
-    for (const tagValue of value) {
-      tag.push(new StringTag({ value: tagValue }));
-    }
+    for (const tagValue of value) tags.push(new StringTag(tagValue));
+
+    // Add the crafting tags to the list tag
+    this.component.add(tags);
   }
 
   /**
@@ -95,7 +93,7 @@ class BlockTypeCraftingTableComponent extends BlockTypeComponent {
    */
   public getGridSize(): number {
     // Get the grid size of the crafting table
-    return this.component.getTag<IntTag>("grid_size")?.value ?? 0;
+    return this.component.get<IntTag>("grid_size")?.valueOf() ?? 0;
   }
 
   /**
@@ -104,7 +102,7 @@ class BlockTypeCraftingTableComponent extends BlockTypeComponent {
    */
   public setGridSize(value: number): void {
     // Set the grid size of the crafting table
-    this.component.createIntTag({ name: "grid_size", value });
+    this.component.add(new IntTag(value, "grid_size"));
   }
 }
 

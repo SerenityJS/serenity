@@ -1,4 +1,4 @@
-import { CompoundTag, ListTag, StringTag, TagType } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 import { NetworkBlockTypeDefinition } from "@serenityjs/protocol";
 import {
   BLOCK_DROPS,
@@ -170,10 +170,9 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    */
   public get components(): BlockTypeComponentCollection {
     // Check if the block type contains the components tag.
-    if (this.properties.hasTag("components")) {
+    if (this.properties.has("components")) {
       // Get the components tag from the block type.
-      const components =
-        this.properties.getTag<CompoundTag<unknown>>("components");
+      const components = this.properties.get<CompoundTag>("components");
 
       // Check if the components is instance of the component collection.
       if (components instanceof BlockTypeComponentCollection) return components;
@@ -182,10 +181,10 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
       const collection = new BlockTypeComponentCollection(this);
 
       // Assign the components to the collection.
-      collection.value = components.value;
+      collection.push(...(components?.values() ?? []));
 
       // Set the components tag to the block type.
-      this.properties.setTag("components", collection);
+      this.properties.set("components", collection);
 
       // Return the component collection.
       return collection;
@@ -195,7 +194,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     const collection = new BlockTypeComponentCollection(this);
 
     // Add the components tag to the block type.
-    this.properties.addTag(collection);
+    this.properties.add(collection);
 
     // Return the components tag.
     return collection;
@@ -206,7 +205,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * This is determined by the presence of any components in the block type.
    */
   public get isComponentBased(): boolean {
-    return this.components.getTags().length > 0;
+    return this.components.size > 0;
   }
 
   /**
@@ -295,19 +294,19 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    */
   public getTags(): Array<string> {
     // Check if the block type properties has the block tags tag.
-    if (!this.properties.hasTag("blockTags")) {
+    if (!this.properties.has("blockTags")) {
       // If not, create the block tags tag.
-      this.properties.createListTag({
-        name: "blockTags",
-        listType: TagType.String
-      });
+      const blockTags = new ListTag<StringTag>([], "blockTags");
+
+      // Add the block tags tag to the properties.
+      this.properties.add(blockTags);
     }
 
     // Get the block tags tag from the block type properties.
-    const tagsList = this.properties.getTag<ListTag<StringTag>>("blockTags");
+    const tags = this.properties.get<ListTag<StringTag>>("blockTags") ?? [];
 
     // Map the tags to the list.
-    return tagsList.value.map((tag) => tag.value);
+    return tags.map((tag) => tag.valueOf());
   }
 
   /**
@@ -317,11 +316,13 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    */
   public setTags(tags: Array<string>): this {
     // Create the block tags tag for the properties.
-    this.properties.createListTag({
-      name: "blockTags",
-      listType: TagType.String,
-      value: tags.map((tag) => new StringTag({ value: tag }))
-    });
+    const blockTags = new ListTag<StringTag>([], "blockTags");
+
+    // Iterate over the tags and add them to the block tags tag.
+    for (const tag of tags) blockTags.push(new StringTag(tag));
+
+    // Set the block tags tag to the block type properties.
+    this.properties.set("blockTags", blockTags);
 
     // Return this instance.
     return this;
@@ -334,24 +335,24 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    */
   public addTag(...tags: Array<string>): this {
     // Check if the block type properties has the block tags tag.
-    if (!this.properties.hasTag("blockTags")) {
-      // If not, create the block tags tag.
-      this.properties.createListTag({
-        name: "blockTags",
-        listType: TagType.String
-      });
+    if (!this.properties.has("blockTags")) {
+      // Create the block tags tag.
+      const blockTags = new ListTag<StringTag>([], "blockTags");
+
+      // Add the block tags tag to the properties.
+      this.properties.add(blockTags);
     }
 
     // Get the block tags tag from the block type properties.
-    const tagsList = this.properties.getTag<ListTag<StringTag>>("blockTags");
+    const tagsList = this.properties.get<ListTag<StringTag>>("blockTags")!;
 
     // Add the tags to the list.
     for (const tag of tags) {
       // Check if the tag is already in the list.
-      if (tagsList.value.some((t) => t.value === tag)) continue;
+      if (tagsList.some((t) => t.valueOf() === tag)) continue;
 
       // Add the tag to the list.
-      tagsList.push(new StringTag({ value: tag }));
+      tagsList.push(new StringTag(tag));
     }
 
     // Return this instance.
@@ -365,28 +366,27 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    */
   public removeTag(...tags: Array<string>): this {
     // Check if the block type properties has the block tags tag.
-    if (!this.properties.hasTag("blockTags")) {
+    if (!this.properties.has("blockTags")) {
       // If not, create the block tags tag.
-      this.properties.createListTag({
-        name: "blockTags",
-        listType: TagType.String
-      });
+      const blockTags = new ListTag<StringTag>([], "blockTags");
+
+      // Add the block tags tag to the properties.
+      this.properties.add(blockTags);
     }
 
     // Get the block tags tag from the block type properties.
-    const tagsList = this.properties.getTag<ListTag<StringTag>>("blockTags");
+    const tagsList = this.properties.get<ListTag<StringTag>>("blockTags")!;
 
-    // Remove the tags from the list.
-    for (const tag of tags) {
-      // Find the index of the tag in the list.
-      const index = tagsList.value.findIndex((t) => t.value === tag);
+    // Filter our the tags that are not in the list.
+    const filteredTags = tagsList.filter(
+      (tag) => !tags.some((t) => t === tag.valueOf())
+    );
 
-      // Check if the tag is not in the list.
-      if (index === -1) continue;
-
-      // Remove the tag from the list.
-      tagsList.value.splice(index, 1);
-    }
+    // Set the filtered tags to the block tags tag.
+    this.properties.set(
+      "blockTags",
+      new ListTag<StringTag>(filteredTags, "blockTags")
+    );
 
     // Return this instance.
     return this;

@@ -1,19 +1,16 @@
 import { BinaryStream } from "@serenityjs/binarystream";
 import {
+  BaseTag,
   ByteTag,
   CompoundTag,
   IntTag,
+  ListTag,
   LongTag,
   StringTag,
   TagType
 } from "@serenityjs/nbt";
 
-import {
-  BlockState,
-  BlockTypeNbtPermutationDefinition,
-  BlockTypeNbtStateDefinition,
-  GenericBlockState
-} from "../../types";
+import { BlockState, GenericBlockState } from "../../types";
 import { BlockIdentifier } from "../../enums";
 
 import { BlockType } from "./type";
@@ -68,7 +65,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    * This is determined by the presence of any components in the block permutation.
    */
   public get isComponentBased(): boolean {
-    return this.components.getTags().length > 0;
+    return this.components.size > 0;
   }
 
   /**
@@ -227,8 +224,12 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     Object.assign(permutation.components, components);
 
     // Get the properties of the block type.
-    const typeProperties = type.properties.value.properties;
-    const permutations = type.properties.value.permutations;
+    const typeProperties =
+      type.properties.get<ListTag<CompoundTag>>("properties");
+
+    // Get the permutations of the block type.
+    const permutations =
+      type.properties.get<ListTag<CompoundTag>>("permutations");
 
     // Get the keys of the block state.
     const keys = Object.keys(sorted);
@@ -241,49 +242,49 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
         const value = sorted[key];
 
         // Find the property in the properties.
-        let property = typeProperties.value.find(
-          ({ value }) => value.name.value === key
-        );
+        let property = typeProperties.find((value) => {
+          // Get the name tag of the property.
+          const name = value.get<StringTag>("name");
+
+          // Check if the name tag exists and matches the key.
+          return name && name.valueOf() === key;
+        });
 
         // If the property does not exist, create a new property.
         if (!property) {
           // Create a new property tag.
-          property = new CompoundTag<BlockTypeNbtStateDefinition>();
+          property = new CompoundTag();
 
           // Create the name tag for the property.
-          property.createStringTag({ name: "name", value: key });
+          property.add(new StringTag(key, "name"));
 
           // Create the value tag for the property.
-          property.createListTag({
-            name: "enum",
-            listType: this.getTagType(value)
-          });
+          property.add(new ListTag<BaseTag>([], "enum"));
 
           // Add the property to the properties.
           typeProperties.push(property);
         }
 
+        // Check if the value is a boolean.
+        const enums = property.get<ListTag<BaseTag>>("enum");
+
         // Find the index of the value in the property.
-        const index = property.value.enum.value.find(
-          (tag) => tag.value === value
-        );
+        const index = enums?.find((tag) => tag.valueOf() === value);
 
         // Add the value to the property if it does not exist.
-        if (index === undefined) {
-          property.value.enum.value.push(this.createTag(value));
-        }
+        if (!index) enums?.push(this.createTag(value));
       }
     }
 
     if (permutations) {
       // Create a new permutation tag.
-      const tag = new CompoundTag<BlockTypeNbtPermutationDefinition>();
+      const tag = new CompoundTag();
 
       // Create the condition tag for the permutation.
-      tag.createStringTag({ name: "condition", value: permutation.query });
+      tag.add(new StringTag(permutation.query, "condition"));
 
       // Add the permutation properties to the tag.
-      tag.addTag(permutation.components);
+      tag.push(permutation.components);
 
       // Add the permutation to the permutations.
       permutations.push(tag);
@@ -293,15 +294,12 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     return permutation;
   }
 
-  public static toNbt(permutation: BlockPermutation): CompoundTag<unknown> {
-    const nbt = new CompoundTag({ name: "", value: {} });
+  public static toNbt(permutation: BlockPermutation): CompoundTag {
+    const nbt = new CompoundTag();
 
-    const name = new StringTag({
-      name: "name",
-      value: permutation.type.identifier
-    });
+    nbt.add(new StringTag(permutation.type.identifier, "name"));
 
-    const states = new CompoundTag({ name: "states", value: {} });
+    const states = nbt.add(new CompoundTag("states"));
 
     const keys = Object.keys(permutation.state);
     const values = Object.values(permutation.state);
@@ -311,41 +309,36 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 
       switch (typeof value) {
         case "number": {
-          states.addTag(new IntTag({ name: key, value }));
+          states.add(new IntTag(value, key));
           break;
         }
 
         case "string": {
-          states.addTag(new StringTag({ name: key, value }));
+          states.add(new StringTag(value, key));
           break;
         }
 
         case "boolean": {
-          states.addTag(new ByteTag({ name: key, value: value ? 1 : 0 }));
+          states.add(new ByteTag(value ? 1 : 0, key));
           break;
         }
       }
     }
 
-    nbt.addTag(name);
-    nbt.addTag(states);
-
     return nbt;
   }
 
-  public static fromNbt(nbt: CompoundTag<unknown>): BlockPermutation {
-    const name = nbt.getTag("name") as StringTag;
-    const states = nbt.getTag("states") as CompoundTag<unknown>;
+  public static fromNbt(nbt: CompoundTag): BlockPermutation {
+    const name = nbt.get("name") as StringTag;
+    const states = nbt.get("states") as CompoundTag;
 
     const state: Record<string, number | string> = {};
 
-    const raw = states.value as Record<string, IntTag | StringTag | ByteTag>;
-
-    for (const [key, tag] of Object.entries(raw)) {
-      state[key] = tag.value;
+    for (const [key, tag] of states.entries()) {
+      state[key] = tag.valueOf() as number | string;
     }
 
-    return BlockPermutation.resolve(name.value as BlockIdentifier, state);
+    return BlockPermutation.resolve(name.valueOf() as BlockIdentifier, state);
   }
 
   protected static getTagType(value: unknown): TagType {
@@ -363,18 +356,16 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     }
   }
 
-  protected static createTag(
-    value: unknown
-  ): StringTag | IntTag | LongTag | ByteTag {
+  protected static createTag(value: unknown): BaseTag {
     switch (typeof value) {
       case "boolean":
-        return new ByteTag({ value: value ? 1 : 0 });
+        return new ByteTag(value ? 1 : 0);
       case "number":
-        return new IntTag({ value });
+        return new IntTag(value);
       case "bigint":
-        return new LongTag({ value });
+        return new LongTag(value);
       case "string":
-        return new StringTag({ value });
+        return new StringTag(value);
       default:
         throw new Error(`Unsupported value type: ${typeof value}`);
     }
@@ -386,11 +377,11 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     const values = Object.values(state);
 
     // Create a new compound tag with the name of the identifier.
-    const root = new CompoundTag({ name: "", value: {} });
-    root.addTag(new StringTag({ name: "name", value: identifier }));
+    const root = new CompoundTag();
+    root.add(new StringTag(identifier, "name"));
 
     // Create a new compound tag with the name of "states".
-    const states = new CompoundTag({ name: "states", value: {} });
+    const states = root.add(new CompoundTag("states"));
 
     // Loop through each key and value in the state object.
     for (const [index, key] of keys.entries()) {
@@ -398,24 +389,21 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
 
       switch (typeof value) {
         case "number": {
-          states.addTag(new IntTag({ name: key, value }));
+          states.add(new IntTag(value, key));
           break;
         }
 
         case "string": {
-          states.addTag(new StringTag({ name: key, value }));
+          states.add(new StringTag(value, key));
           break;
         }
 
         case "boolean": {
-          states.addTag(new ByteTag({ name: key, value: value ? 1 : 0 }));
+          states.add(new ByteTag(value ? 1 : 0, key));
           break;
         }
       }
     }
-
-    // Add the states tag to the root tag.
-    root.addTag(states);
 
     // Create a new binary stream and write the root tag to it.
     const stream = new BinaryStream();

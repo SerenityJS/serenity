@@ -22,18 +22,15 @@ class ItemTypeCanDestroyInCreativeComponent extends ItemTypeComponent {
 
   public getCanDestroyInCreative(): boolean {
     // Get the can destroy in creative component.
-    const component = this.component.getTag<ByteTag>("value");
+    const component = this.component.get<ByteTag>("value");
 
     // Return the can destroy in creative value.
-    return component?.value === 1;
+    return component?.valueOf() === 1;
   }
 
   public setCanDestroyInCreative(value: boolean): void {
     // Set the can destroy in creative component.
-    this.component.createByteTag({
-      name: "value",
-      value: value ? 1 : 0
-    });
+    this.component.add(new ByteTag(value ? 1 : 0, "value"));
   }
 }
 

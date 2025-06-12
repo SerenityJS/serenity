@@ -28,8 +28,8 @@ class ItemTypeComponent {
   /**
    * The component value of the item type.
    */
-  protected get component(): CompoundTag<unknown> {
-    return this.collection.getTag<CompoundTag<unknown>>(this.identifier);
+  protected get component(): CompoundTag {
+    return this.collection.get<CompoundTag>(this.identifier) as CompoundTag;
   }
 
   /**
@@ -43,12 +43,12 @@ class ItemTypeComponent {
     this.type = type;
     this.collection = type.components;
 
-    // If not, create the component.
-    this.collection.createCompoundTag({ name: this.identifier });
+    // Create a new compound tag for the component.
+    this.collection.add(new CompoundTag(this.identifier));
 
     // Add the component to the collection, if it doesn't already exist.
-    if (!this.collection.entries.has(this.identifier))
-      this.collection.entries.set(this.identifier, this);
+    if (!this.collection.components.has(this.identifier))
+      this.collection.components.set(this.identifier, this);
   }
 }
 

@@ -1,13 +1,6 @@
-import NodeBuffer from "node:buffer";
-
-import { CompoundTag, ListTag, StringTag, TagType } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 
 import { ItemTrait } from "./trait";
-
-interface DisplayValue {
-  name?: StringTag;
-  lore?: ListTag<StringTag>;
-}
 
 class ItemDisplayTrait extends ItemTrait {
   public static readonly identifier = "display";
@@ -17,13 +10,14 @@ class ItemDisplayTrait extends ItemTrait {
    * @returns The custom name if it exists; otherwise, null.
    */
   public getName(): string | null {
-    const display = this.item.nbt.get<CompoundTag<DisplayValue>>("display");
+    // Get the display tag from the item stack
+    const display = this.item.nbt.get<CompoundTag>("display");
 
-    if (!display || !display.value.name) {
-      return null;
-    }
+    // Check if the display tag exists and has a Name tag
+    if (!display || !display.has("Name")) return null;
 
-    const name = display.value.name.value;
+    // Get the Name tag from the display tag
+    const name = display.get<StringTag>("Name")!.valueOf();
 
     // Return the custom name
     return name;
@@ -34,16 +28,17 @@ class ItemDisplayTrait extends ItemTrait {
    * @param name The item stack custom name.
    */
   public setName(name: string): void {
-    if (!NodeBuffer.isUtf8(Buffer.from(name))) {
-      throw new Error("The given name is not a valid UTF-8 string.");
-    }
+    // Get the display tag from the item stack
+    let display = this.item.nbt.get<CompoundTag>("display");
 
-    const display = this.item.nbt.get<CompoundTag<DisplayValue>>("display");
+    // If the display tag does not exist, create a new one
+    if (!display) display = new CompoundTag("display");
 
-    if (display) {
-      display.createStringTag(new StringTag({ name: "Name", value: name }));
-    }
+    // Check if the name is empty
+    if (name.length <= 0) display.delete("Name");
+    else display.add(new StringTag(name, "Name"));
 
+    // Set the display tag back to the item stack to update it
     this.item.nbt.set("display", display);
   }
 
@@ -51,20 +46,26 @@ class ItemDisplayTrait extends ItemTrait {
    * Gets the lore list on the item stack.
    * @returns The map of lore texts.
    */
-  public getLore(): Map<number, string> {
-    const display = this.item.nbt.get<CompoundTag<DisplayValue>>("display");
+  public getLore(): Array<string> {
+    // Get the display tag from the item stack
+    const display = this.item.nbt.get<CompoundTag>("display");
 
-    const lore = new Map<number, string>();
+    // Create an empty array to hold the lore texts
+    const lore: Array<string> = [];
 
-    if (display.hasTag("Lore")) {
-      for (const [index, tag] of display
-        .getTag<ListTag<StringTag>>("Lore")
-        .value.entries()) {
-        lore.set(index, tag.value);
-      }
+    // If the display tag does not exist, return the empty lore array
+    if (!display) return lore;
+
+    // Check if the display tag exists and has a Lore tag
+    if (display.has("Lore")) {
+      // Get the lore tag from the display tag
+      const tags = display.get<ListTag<StringTag>>("Lore") ?? [];
+
+      // Iterate through the lore tags and add their values to the lore array
+      for (const tag of tags) lore.push(tag.valueOf());
     }
 
-    // Return the map of lore texts
+    // Return the lore array
     return lore;
   }
 
@@ -73,28 +74,23 @@ class ItemDisplayTrait extends ItemTrait {
    * @param lore The lore array.
    */
   public setLore(lore: Array<string>): void {
-    const display = this.item.nbt.get<CompoundTag<DisplayValue>>("display");
+    // Get the display tag from the item stack
+    let display = this.item.nbt.get<CompoundTag>("display");
 
-    const list = [...lore.values()].map((value) => new StringTag({ value }));
+    // If the display tag does not exist, create a new one
+    if (!display) display = new CompoundTag("display");
 
-    display.createListTag(
-      new ListTag({ name: "Lore", value: [...list], listType: TagType.String })
-    );
+    // If the lore array is empty, remove the Lore tags
+    if (lore.length <= 0) display.delete("Lore");
+    else {
+      // Create a new list tag for the lore
+      const list = display.add(new ListTag<StringTag>([], "Lore"));
 
-    // Set the nbt's display tag
-    this.item.nbt.set("display", display);
-  }
-
-  /**
-   * Clears the custom name from item stack
-   */
-  public clearName(): void {
-    const display = this.item.nbt.get<CompoundTag<DisplayValue>>("display");
-
-    if (display.hasTag("Name")) {
-      display.removeTag("Name");
+      // Iterate through the lore array and add each lore text as a StringTag
+      for (const text of lore) list.push(new StringTag(text));
     }
 
+    // Set the display tag back to the item stack to update it
     this.item.nbt.set("display", display);
   }
 
@@ -102,10 +98,7 @@ class ItemDisplayTrait extends ItemTrait {
     // Check if the item has the display tag
     if (!this.item.nbt.has("display")) {
       // Create the display tag
-      const display = new CompoundTag({
-        name: "display",
-        value: []
-      });
+      const display = new CompoundTag("display");
 
       // Add the display tag to the item stack's NBT
       this.item.nbt.add(display);
@@ -115,14 +108,6 @@ class ItemDisplayTrait extends ItemTrait {
   public onRemove(): void {
     // Remove the display tag from the item stack's NBT
     this.item.nbt.delete("display");
-  }
-
-  /**
-   * Gets the display tag from the item stack's NBT.
-   * @returns The display tag.
-   */
-  public getNbt(): CompoundTag<DisplayValue> {
-    return this.item.nbt.get<CompoundTag<DisplayValue>>("display");
   }
 }
 

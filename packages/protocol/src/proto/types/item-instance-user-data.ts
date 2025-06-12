@@ -7,7 +7,7 @@ class ItemInstanceUserData extends DataType {
   /**
    * The NBT data for the item.
    */
-  public nbt: CompoundTag<unknown> | null;
+  public nbt: CompoundTag | null;
 
   /**
    * Blocks the item can be placed on.
@@ -31,7 +31,7 @@ class ItemInstanceUserData extends DataType {
    * @param canDestroy Blocks the item can destroy.
    */
   public constructor(
-    nbt: CompoundTag<unknown> | null,
+    nbt: CompoundTag | null,
     canPlaceOn: Array<string>,
     canDestroy: Array<string>,
     ticking?: bigint | null
@@ -53,7 +53,7 @@ class ItemInstanceUserData extends DataType {
 
     // Check if the marker indicates nbt data.
     // If it does, read the nbt data.
-    let nbt: CompoundTag<unknown> | null;
+    let nbt: CompoundTag | null;
     if (marker === 0xff_ff) {
       // Read the nbt version.
       const version = stream.readInt8();
@@ -131,7 +131,7 @@ class ItemInstanceUserData extends DataType {
       stream.writeInt8(0x01);
 
       // Write the compound tag.
-      CompoundTag.write(stream, value.nbt, false);
+      CompoundTag.write(stream, value.nbt);
     } else {
       // Write the nbt marker for no nbt data.
       stream.writeUint16(0x00_00, Endianness.Little);

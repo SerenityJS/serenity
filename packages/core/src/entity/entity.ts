@@ -975,10 +975,10 @@ class Entity {
         // Check if the item has a ItemBundleTrait
         if (item.hasTrait(ItemBundleTrait)) {
           // Get the bundle trait
-          const bundle = item.getTrait(ItemBundleTrait);
+          const _bundle = item.getTrait(ItemBundleTrait);
 
           // Check if the bundle has the dynamic id
-          if (bundle.dynamicId === dynamicId) return bundle.container;
+          // if (bundle.dynamicId === dynamicId) return bundle.container;
         }
       }
     }

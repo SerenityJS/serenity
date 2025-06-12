@@ -20,16 +20,18 @@ interface ItemTypeIconComponentOptions {
 class ItemTypeIconComponent extends ItemTypeComponent {
   public static readonly identifier = "minecraft:icon";
 
-  public get component(): CompoundTag<unknown> {
+  public get component(): CompoundTag {
     // Get the item properties component.
-    const properties = this.collection.get(ItemTypeItemPropertiesComponent);
+    const properties = this.collection.getComponent(
+      ItemTypeItemPropertiesComponent
+    );
 
     // Check if the item properties component exists.
-    if (!properties.component.hasTag(this.identifier))
-      properties.component.createCompoundTag({ name: this.identifier });
+    if (!properties.component.has(this.identifier))
+      properties.component.add(new CompoundTag(this.identifier));
 
     // Return the icon component.
-    return properties.component.getTag<CompoundTag<unknown>>(this.identifier);
+    return properties.component.get<CompoundTag>(this.identifier)!;
   }
 
   /**
@@ -55,10 +57,10 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    */
   public getDefaultIcon(): string {
     // Get the textures component.
-    const textures = this.component?.getTag<CompoundTag<unknown>>("textures");
+    const textures = this.component.get<CompoundTag>("textures");
 
     // Return the default texture.
-    return textures?.getTag<StringTag>("default")?.value;
+    return textures?.get<StringTag>("default")?.valueOf() ?? "";
   }
 
   /**
@@ -67,14 +69,14 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    */
   public setDefaultIcon(value: string): void {
     // Check if the component contains the textures tag.
-    if (!this.component.hasTag("textures"))
-      this.component.createCompoundTag({ name: "textures" });
+    if (!this.component.has("textures"))
+      this.component.add(new CompoundTag("textures"));
 
     // Get the textures tag.
-    const textures = this.component.getTag<CompoundTag<unknown>>("textures");
+    const textures = this.component.get<CompoundTag>("textures")!;
 
     // Set the default texture.
-    textures.createStringTag({ name: "default", value });
+    textures.add(new StringTag(value, "default"));
   }
 
   /**
@@ -83,10 +85,10 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    */
   public getDyedIcon(): string {
     // Get the textures component.
-    const textures = this.component?.getTag<CompoundTag<unknown>>("textures");
+    const textures = this.component.get<CompoundTag>("textures");
 
     // Return the default texture.
-    return textures?.getTag<StringTag>("dyed")?.value;
+    return textures?.get<StringTag>("dyed")?.valueOf() ?? "";
   }
 
   /**
@@ -95,14 +97,14 @@ class ItemTypeIconComponent extends ItemTypeComponent {
    */
   public setDyedIcon(value: string): void {
     // Check if the component contains the textures tag.
-    if (!this.component.hasTag("textures"))
-      this.component.createCompoundTag({ name: "textures" });
+    if (!this.component.has("textures"))
+      this.component.add(new CompoundTag("textures"));
 
     // Get the textures tag.
-    const textures = this.component.getTag<CompoundTag<unknown>>("textures");
+    const textures = this.component.get<CompoundTag>("textures")!;
 
     // Set the default texture.
-    textures.createStringTag({ name: "dyed", value });
+    textures.add(new StringTag(value, "dyed"));
   }
 }
 

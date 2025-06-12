@@ -2,304 +2,415 @@ import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { TagType } from "../enum";
 
+import { BaseTag } from "./base-tag";
+import { ReadWriteOptions } from "./read-write-options";
 import { ByteTag } from "./byte";
-import { IntTag } from "./int";
-import { StringTag } from "./string";
-import { ReadingProperties, Tag, TagProperties } from "./tag";
 import { ShortTag } from "./short";
+import { IntTag } from "./int";
 import { LongTag } from "./long";
-import { DoubleTag } from "./double";
-import { CompoundTag } from "./compound";
 import { FloatTag } from "./float";
+import { DoubleTag } from "./double";
+import { StringTag } from "./string";
+import { CompoundTag } from "./compound";
+import { ByteListTag } from "./byte-list";
 
-type GenericList<T extends Tag<unknown>> = Array<T>;
+class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
+  public readonly type = TagType.List;
 
-class ListTag<T extends Tag> extends Tag<GenericList<T>> {
-  public static readonly type = TagType.List;
+  public name: string | null;
 
-  public readonly listType: TagType;
-
-  public value: GenericList<T> = [];
-
-  public constructor(
-    properties: Partial<TagProperties<GenericList<T>>> & { listType: TagType }
-  ) {
-    super(properties);
-
-    this.value = properties.value ?? [];
-    this.listType = properties.listType;
+  /**
+   * Create a new ListTag instance.
+   * @param elements The elements of the list.
+   * @param name The name of the tag, defaults to null.
+   */
+  public constructor(elements: Array<T> = [], name?: string | null) {
+    // Call the parent constructor to initialize the array.
+    super(...elements);
+    this.name = name ?? null;
   }
 
-  public push(...tag: Array<T>): void {
-    this.value.push(...tag);
+  public map<U>(
+    callbackfn: (value: T, index: number, array: Array<T>) => U,
+    thisArg?: unknown
+  ): Array<U> {
+    const array = Array.from(this);
+
+    // Map the elements of the list using the provided callback function.
+    return array.map(callbackfn, thisArg);
   }
 
-  public static read<T extends Tag>(
+  public toJSON(): Array<unknown> {
+    // Convert the list elements to a JSON array.
+    return this.map((element) => element.toJSON());
+  }
+
+  public static read<T extends BaseTag>(
     stream: BinaryStream,
-    varint: boolean,
-    properties: Partial<ReadingProperties> = { name: true, type: true }
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
   ): ListTag<T> {
-    // Check if type checking is enabled.
-    if (properties.type) {
-      // Read the type of the tag.
-      const type = stream.readByte() as TagType;
+    // Check if the tag type is expected.
+    if (options?.type) {
+      // Read the tag type.
+      const type: TagType = stream.readInt8();
 
-      // Check if the type is correct.
-      if (type !== this.type) {
+      // Verify that the tag type matches the expected type.
+      if (type !== TagType.List) {
+        // Throw an error if the type does not match.
         throw new Error(
-          `Expected tag type to be ${TagType[this.type]}, received ${TagType[type] ?? type}.`
+          `Expected tag type to be ${TagType[TagType.List]}, received ${TagType[type] ?? type}.`
         );
       }
     }
 
-    // Read the name of the tag.
-    const name = properties.name
-      ? this.readString(stream, varint)
-      : (null as unknown as string);
+    // Prepare a variable to hold the name of the tag.
+    let name: string | null = null;
 
-    // Read the type of the tag.
-    const type = stream.readByte() as TagType;
+    // Check if the tag name is expected.
+    if (options?.name) {
+      // Read the length of the name based on the varint option.
+      const length = options?.varint
+        ? stream.readVarInt()
+        : stream.readInt16(Endianness.Little);
+
+      // Read the name from the stream.
+      const buffer = stream.readBuffer(length);
+
+      // Convert the buffer to a string.
+      name = String.fromCharCode(...buffer);
+    }
+
+    // Read the type of elements in the list.
+    const type: TagType = stream.readInt8();
 
     // Read the length of the list.
-    const length = varint
+    const length = options?.varint
       ? stream.readZigZag()
       : stream.readInt32(Endianness.Little);
 
-    // Create a new list tag.
-    const tag = new this<T>({ name, value: [], listType: type });
+    // Create a new ListTag instance.
+    const tag = new this<T>([], name);
 
-    // Read the list tags.
+    // Read the list elements based on the type.
     for (let i = 0; i < length; i++) {
       switch (type) {
-        default: {
-          throw new Error(
-            `Unhandled tag type while reading List: ${TagType[type] ?? type}, offset: ${stream.offset}.`
-          );
-        }
+        default:
+          throw new Error(`Unsupported list type: ${TagType[type] ?? type}`);
 
         case TagType.Byte: {
-          // Read the element tag, and add it to the list tag.
-          const element = ByteTag.read(stream, varint, {
+          // Read the next element as a ByteTag.
+          const element = ByteTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Short: {
-          // Read the element tag, and add it to the list tag.
-          const element = ShortTag.read(stream, varint, {
+          // Read the next element as a ShortTag.
+          const element = ShortTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Int: {
-          // Read the element tag, and add it to the list tag.
-          const element = IntTag.read(stream, varint, {
+          // Read the next element as an IntTag.
+          const element = IntTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Long: {
-          // Read the element tag, and add it to the list tag.
-          const element = LongTag.read(stream, varint, {
+          // Read the next element as a LongTag.
+          const element = LongTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Float: {
-          // Read the element tag, and add it to the list tag.
-          const element = FloatTag.read(stream, varint, {
+          // Read the next element as a FloatTag.
+          const element = FloatTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Double: {
-          // Read the element tag, and add it to the list tag.
-          const element = DoubleTag.read(stream, varint, {
+          // Read the next element as a DoubleTag.
+          const element = DoubleTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
-        case TagType.ByteArray: {
-          // Read the element tag, and add it to the list tag.
-          const element = ByteTag.read(stream, varint, {
+        case TagType.ByteList: {
+          // Read the next element as a ByteListTag.
+          const element = ByteListTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.String: {
-          // Read the element tag, and add it to the list tag.
-          const element = StringTag.read(stream, varint, {
+          // Read the next element as a StringTag.
+          const element = StringTag.read(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.List: {
-          // Read the element tag, and add it to the list tag.
-          const element = ListTag.read(stream, varint, {
+          // Read the next element as a ListTag.
+          const element = ListTag.read<T>(stream, {
+            ...options,
             name: false,
             type: false
           });
 
-          tag.value.push(element as unknown as T);
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Compound: {
-          // Read the element tag, and add it to the list tag.
-          const element = CompoundTag.read(stream, varint, { name: false });
-          tag.value.push(element as unknown as T);
+          // Read the next element as a CompoundTag.
+          const element = CompoundTag.read(stream, {
+            ...options,
+            name: false,
+            type: false
+          });
+
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
           continue;
         }
       }
     }
 
-    // Return the list tag.
+    // Return the tag with the type and name set.
     return tag;
   }
 
-  public static write<T extends Tag>(
+  public static write<T extends BaseTag>(
     stream: BinaryStream,
     value: ListTag<T>,
-    varint: boolean,
-    properties: Partial<ReadingProperties> = { name: true, type: true }
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
   ): void {
-    // Check if the type of the tag should be written.
-    if (properties.type) stream.writeByte(this.type);
+    // Check if the tag type should be written.
+    if (options?.type) stream.writeInt8(value.type);
 
-    // Check if the name of the tag should be written.
-    if (properties.name) this.writeString(value.name, stream, varint);
+    // Check if the tag name should be written.
+    if (options?.name) {
+      // Convert the name to a buffer.
+      const buffer = Buffer.from(value.name ?? "", "utf8");
 
-    // Write the type of the list.
-    stream.writeByte(value.listType);
+      // Write the length of the name based on the varint option.
+      if (options.varint) stream.writeVarInt(buffer.length);
+      else stream.writeInt16(buffer.length, Endianness.Little);
+
+      // Write the name buffer to the stream.
+      stream.writeBuffer(buffer);
+    }
+
+    // Check if an element is present in the list.
+    if (!value[0]) {
+      // If not, write an empty list type and length.
+      stream.writeInt8(TagType.Byte);
+    } else {
+      // If so, get the type of the first element.
+      const type = value[0].type;
+
+      // Write the type of the list.
+      stream.writeInt8(type);
+    }
 
     // Write the length of the list.
-    if (varint) stream.writeZigZag(value.value.length);
-    else stream.writeInt32(value.value.length, Endianness.Little);
+    if (options?.varint) stream.writeZigZag(value.length);
+    else stream.writeInt32(value.length, Endianness.Little);
 
-    // Write the list tags.
-    for (const element of value.value) {
-      // Check if the element matches the list type.
-      if (element.type !== value.listType) {
-        throw new Error(
-          `Expected tag type to be ${TagType[value.listType]}, received ${TagType[element.type]}.`
-        );
-      }
-
-      switch (value.listType) {
+    // Iterate over each element in the list.
+    for (const element of value) {
+      // Handle each type of element based on its tag type.
+      switch (element.type) {
         case TagType.Byte: {
-          ByteTag.write(stream, element as ByteTag, varint, {
+          // Write the element as a ByteTag.
+          ByteTag.write(stream, element as unknown as ByteTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Short: {
-          ShortTag.write(stream, element as ShortTag, varint, {
+          // Write the element as a ShortTag.
+          ShortTag.write(stream, element as unknown as ShortTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Int: {
-          IntTag.write(stream, element as IntTag, varint, {
+          // Write the element as an IntTag.
+          IntTag.write(stream, element as unknown as IntTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Long: {
-          LongTag.write(stream, element as LongTag, varint, {
+          // Write the element as a LongTag.
+          LongTag.write(stream, element as unknown as LongTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Float: {
-          FloatTag.write(stream, element as FloatTag, varint, {
+          // Write the element as a FloatTag.
+          FloatTag.write(stream, element as unknown as FloatTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Double: {
-          DoubleTag.write(stream, element as DoubleTag, varint, {
+          // Write the element as a DoubleTag.
+          DoubleTag.write(stream, element as unknown as DoubleTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
-        case TagType.ByteArray: {
-          ByteTag.write(stream, element as ByteTag, varint, {
+        case TagType.ByteList: {
+          // Write the element as a ByteTag.
+          ByteListTag.write(stream, element as unknown as ByteListTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.String: {
-          StringTag.write(stream, element as StringTag, varint, {
+          // Write the element as a StringTag.
+          StringTag.write(stream, element as unknown as StringTag, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.List: {
-          ListTag.write(stream, element as unknown as ListTag<Tag>, varint, {
+          // Write the element as a ListTag.
+          ListTag.write(stream, element as unknown as ListTag<T>, {
+            ...options,
             name: false,
             type: false
           });
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Compound: {
-          CompoundTag.write(
-            stream,
-            element as unknown as CompoundTag<unknown>,
-            varint,
-            {
-              name: false,
-              type: false
-            }
-          );
+          // Write the element as a CompoundTag.
+          CompoundTag.write(stream, element as unknown as CompoundTag, {
+            ...options,
+            name: false,
+            type: false
+          });
+
+          // Continue to the next iteration.
           continue;
         }
       }

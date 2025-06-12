@@ -25,7 +25,7 @@ class BlockTypeFrictionComponent extends BlockTypeComponent {
    * @param value The friction of the block property.
    */
   public getFriction(): number {
-    return this.component.getTag<FloatTag>("value")?.value ?? 0;
+    return this.component.get<FloatTag>("value")?.valueOf() ?? 0;
   }
 
   /**
@@ -33,7 +33,7 @@ class BlockTypeFrictionComponent extends BlockTypeComponent {
    * @param value The friction of the block property.
    */
   public setFriction(value: number): void {
-    this.component.createFloatTag({ name: "value", value });
+    this.component.add(new FloatTag(value, "value"));
   }
 }
 

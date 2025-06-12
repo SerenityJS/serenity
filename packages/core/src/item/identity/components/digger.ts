@@ -66,10 +66,10 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
    */
   public getUseEfficiency(): boolean {
     // Get the use efficiency property
-    const { value } = this.component.getTag<ByteTag>("use_efficiency");
+    const component = this.component.get<ByteTag>("use_efficiency");
 
     // Return true if the value is 1, false otherwise
-    return value === 1;
+    return component?.valueOf() === 1;
   }
 
   /**
@@ -78,10 +78,7 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
    */
   public setUseEfficiency(value: boolean): void {
     // Set the use efficiency property
-    this.component.createByteTag({
-      name: "use_efficiency",
-      value: value ? 1 : 0
-    });
+    this.component.add(new ByteTag(value ? 1 : 0, "use_efficiency"));
   }
 
   /**
@@ -90,21 +87,22 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
    */
   public getDestructionSpeeds(): Array<ItemTypeDiggerDestroySpeed> {
     // Get the destroy speeds property
-    const { value } =
-      this.component.getTag<ListTag<CompoundTag<unknown>>>("destroy_speeds");
+    const component =
+      this.component.get<ListTag<CompoundTag>>("destroy_speeds")!;
 
     // Map the destroy speeds to the correct type
-    return value.map((tag) => {
+    return component.map((tag) => {
       // Get the block tag from the root
-      const block = tag.getTag<CompoundTag<unknown>>("block");
+      const block = tag.get<CompoundTag>("block")!;
 
       // Get the block type from the block tag
-      const identifier = block.getTag<StringTag>("name")?.value;
+      const identifier = block.get<StringTag>("name")?.valueOf() ?? "";
 
       // Parse the molang query to get the tags
       const regex = block
-        .getTag<StringTag>("tags")
-        ?.value.match(/(?:q|query)\.any_tag\(([^)]+)\)/);
+        .get<StringTag>("tags")
+        ?.valueOf()
+        .match(/(?:q|query)\.any_tag\(([^)]+)\)/);
 
       // Filter the tags to get the block tags
       const tags: Array<string> = regex?.[1] ? regex[1].split(",") : [];
@@ -114,7 +112,7 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
         tags[i] = tags[i]!.replace(/'/g, "").trim();
 
       // Get the speed tag from the root
-      const speed = tag.getTag<IntTag>("speed")?.value ?? 0;
+      const speed = tag.get<IntTag>("speed")?.valueOf() ?? 0;
 
       // Check if the identifier is valid
       if (identifier.length > 0)
@@ -140,23 +138,21 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
     speeds: Array<Partial<ItemTypeDiggerDestroySpeed>>
   ): void {
     // Create a new list tag for the destroy speeds
-    const list = this.component.createListTag<CompoundTag<unknown>>({
-      name: "destroy_speeds",
-      listType: CompoundTag.type
-    });
+    const list = new ListTag<CompoundTag>([], "destroy_speeds");
+
+    // Add the list to the component
+    this.component.add(list);
 
     // Iterate over the speeds and add them to the list
     for (const speed of speeds) {
       // Create a new root compound tag for the speed
-      const root = new CompoundTag<unknown>();
+      const root = new CompoundTag();
 
-      // Create a new compound tag for the block
-      const block = root.createCompoundTag({ name: "block" });
+      // Create a new block compound tag for the speed
+      const block = new CompoundTag();
 
-      block.createStringTag({
-        name: "name",
-        value: speed.type?.identifier ?? String()
-      });
+      // Create a new string tag for the block type
+      block.add(new StringTag(speed.type?.identifier ?? "", "name"));
 
       // Create a new molang query for the block tags
       const query = speed.tags
@@ -164,13 +160,13 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
         : "";
 
       // Create a new string tag for the block tags
-      block.createStringTag({
-        name: "tags",
-        value: query
-      });
+      block.add(new StringTag(query, "tags"));
 
       // Create a new int tag for the speed
-      root.createIntTag({ name: "speed", value: speed.speed ?? 0 });
+      root.add(new IntTag(speed.speed ?? 0, "speed"));
+
+      // Add the block tag to the root
+      root.add(block);
 
       // Add the tag to the list
       list.push(root);

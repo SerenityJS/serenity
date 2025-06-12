@@ -41,10 +41,10 @@ class ItemTypeCooldownComponent extends ItemTypeComponent {
    */
   public getCategory(): string {
     // Get the category component.
-    const category = this.component.getTag<StringTag>("category");
+    const category = this.component.get<StringTag>("category");
 
     // Return the category.
-    return category?.value ?? "cooldown." + this.type.identifier;
+    return category?.valueOf() ?? "cooldown." + this.type.identifier;
   }
 
   /**
@@ -53,7 +53,7 @@ class ItemTypeCooldownComponent extends ItemTypeComponent {
    */
   public setCategory(value: string): void {
     // Set the category component.
-    this.component.createStringTag({ name: "category", value });
+    this.component.add(new StringTag(value, "category"));
   }
 
   /**
@@ -63,10 +63,10 @@ class ItemTypeCooldownComponent extends ItemTypeComponent {
    */
   public getDuration(ticks = false): number {
     // Get the duration component.
-    const duration = this.component.getTag<FloatTag>("duration");
+    const duration = this.component.get<FloatTag>("duration");
 
     // Return the duration.
-    const seconds = duration?.value ?? 0;
+    const seconds = duration?.valueOf() ?? 0;
 
     // Return the duration in seconds or ticks.
     return ticks ? seconds * 20 : seconds;
@@ -82,7 +82,7 @@ class ItemTypeCooldownComponent extends ItemTypeComponent {
     const duration = ticks ? value / 20 : value;
 
     // Set the duration component.
-    this.component.createFloatTag({ name: "duration", value: duration });
+    this.component.add(new FloatTag(duration, "duration"));
   }
 }
 

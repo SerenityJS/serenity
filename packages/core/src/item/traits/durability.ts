@@ -33,27 +33,15 @@ class ItemDurabilityTrait extends ItemTrait {
     const damage = this.item.nbt.get<IntTag>("Damage");
 
     // Return the damage value if it exists; otherwise, 0
-    return damage?.value ?? 0;
+    return damage?.valueOf() ?? 0;
   }
 
   /**
    * The amount of damage that the item stack has taken.
    */
   public set damage(value: number) {
-    // Get the Damage tag from the item stack's NBT
-    const damage = this.item.nbt.get<IntTag>("Damage");
-
-    // Set the damage value if the tag exists
-    if (damage) {
-      // Update the Damage tag with the specified value
-      damage.value = value;
-
-      // Update the item stack's NBT
-      this.item.nbt.set("Damage", damage);
-    } else {
-      // Create the Damage tag with the specified value
-      this.item.nbt.add(new IntTag({ name: "Damage", value }));
-    }
+    // Set the Damage tag on the item stack's NBT
+    this.item.nbt.add(new IntTag(value, "Damage"));
   }
 
   /**
@@ -89,7 +77,7 @@ class ItemDurabilityTrait extends ItemTrait {
     // Check if the item has the Damage tag
     if (!this.item.nbt.has("Damage")) {
       // Create the Damage tag with an initial value of 0
-      const damage = new IntTag({ name: "Damage", value: 0 });
+      const damage = new IntTag(0, "Damage");
 
       // Set the Damage tag on the item stack's NBT
       this.item.nbt.add(damage);

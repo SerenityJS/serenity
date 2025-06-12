@@ -7,7 +7,7 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.SyncActorProperty)
 class SyncActorPropertyPacket extends DataPacket {
-  @Serialize(CompoundTag, true) public properties!: CompoundTag<unknown>;
+  @Serialize(CompoundTag, true) public properties!: CompoundTag;
 }
 
 export { SyncActorPropertyPacket };

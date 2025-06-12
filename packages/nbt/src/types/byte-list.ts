@@ -5,30 +5,41 @@ import { TagType } from "../enum";
 import { BaseTag } from "./base-tag";
 import { ReadWriteOptions } from "./read-write-options";
 
-class ByteTag extends Number implements BaseTag {
-  public readonly type = TagType.Byte;
+class ByteListTag extends Array<number> implements BaseTag {
+  public readonly type = TagType.ByteList;
 
   public name: string | null;
 
   /**
-   * Create a new ByteTag instance.
-   * @param value The byte value.
+   * Create a new ByteListTag instance.
+   * @param elements The elements of the byte list.
    * @param name The name of the tag, defaults to null.
    */
-  public constructor(value: number, name?: string | null) {
-    super(value);
+  public constructor(elements: Array<number>, name?: string | null) {
+    super(...elements);
     this.name = name ?? null;
   }
 
-  public toJSON(): number {
-    // Convert the byte value to a JSON number.
-    return this.valueOf();
+  public map<U>(
+    callbackfn: (value: number, index: number, array: Array<number>) => U,
+    thisArg?: unknown
+  ): Array<U> {
+    // Convert the byte list to a regular array.
+    const array = Array.from(this);
+
+    // Map the elements of the list using the provided callback function.
+    return array.map(callbackfn, thisArg);
+  }
+
+  public toJSON(): Array<number> {
+    // Convert the byte list to a JSON array.
+    return this.map((value) => value.valueOf());
   }
 
   public static read(
     stream: BinaryStream,
     options: ReadWriteOptions = { name: true, type: true, varint: false }
-  ): ByteTag {
+  ): ByteListTag {
     // Check if the tag type is expected.
     if (options?.type) {
       // Read the tag type.
@@ -60,16 +71,21 @@ class ByteTag extends Number implements BaseTag {
       name = String.fromCharCode(...buffer);
     }
 
-    // Read the byte value from the stream.
-    const value = stream.readInt8();
+    // Read the length of the byte list based on the varint option.
+    const length = options?.varint
+      ? stream.readZigZag()
+      : stream.readInt32(Endianness.Little);
 
-    // Create and return a new ByteTag instance.
+    // Read the byte values from the stream.
+    const value = stream.read(length);
+
+    // Create and return a new ByteListTag instance.
     return new this(value, name);
   }
 
   public static write(
     stream: BinaryStream,
-    value: ByteTag,
+    value: ByteListTag,
     options: ReadWriteOptions = { name: true, type: true, varint: false }
   ): void {
     // Check if the tag type should be written.
@@ -88,9 +104,13 @@ class ByteTag extends Number implements BaseTag {
       stream.writeBuffer(buffer);
     }
 
-    // Write the byte value to the stream.
-    stream.writeInt8(value.valueOf());
+    // Write the length of the byte list based on the varint option.
+    if (options?.varint) stream.writeZigZag(value.length);
+    else stream.writeInt32(value.length, Endianness.Little);
+
+    // Write the byte values to the stream.
+    stream.write(value.map((byte) => byte?.valueOf() ?? 0));
   }
 }
 
-export { ByteTag };
+export { ByteListTag };

@@ -1,23 +1,11 @@
 import { CompoundTag, IntTag, StringTag } from "@serenityjs/nbt";
 import { EntityPropertyType } from "@serenityjs/protocol";
 
-interface EntityPropertyData {
-  /**
-   * The name of the property.
-   */
-  name: StringTag;
-
-  /**
-   * The type of the property.
-   */
-  type: IntTag;
-}
-
-class EntityProperty<T = EntityPropertyData> {
+class EntityProperty {
   /**
    * The compound tag that contains the property data.
    */
-  public readonly compound = new CompoundTag<T>();
+  public readonly compound = new CompoundTag();
 
   /**
    * The current value of the property.
@@ -41,7 +29,7 @@ class EntityProperty<T = EntityPropertyData> {
    * @returns The entity property.
    */
   public setIdentifier(identifier: string): void {
-    this.compound.createStringTag({ name: "name", value: identifier });
+    this.compound.add(new StringTag(identifier, "name"));
   }
 
   /**
@@ -49,7 +37,7 @@ class EntityProperty<T = EntityPropertyData> {
    * @returns The identifier of the property.
    */
   public getIdentifier(): string {
-    return this.compound.getTag<StringTag>("name")?.value ?? "";
+    return this.compound.get<StringTag>("name")?.valueOf() ?? "";
   }
 
   /**
@@ -58,7 +46,7 @@ class EntityProperty<T = EntityPropertyData> {
    * @returns The entity property.
    */
   public setType(type: EntityPropertyType): void {
-    this.compound.createIntTag({ name: "type", value: type });
+    this.compound.add(new IntTag(type, "type"));
   }
 
   /**
@@ -66,8 +54,8 @@ class EntityProperty<T = EntityPropertyData> {
    * @returns The type of the property.
    */
   public getType(): EntityPropertyType {
-    return this.compound.getTag<IntTag>("type")?.value ?? -1;
+    return this.compound.get<IntTag>("type")?.valueOf() ?? -1;
   }
 }
 
-export { EntityProperty, EntityPropertyData };
+export { EntityProperty };

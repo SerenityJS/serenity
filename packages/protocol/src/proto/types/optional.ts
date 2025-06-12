@@ -40,6 +40,7 @@ class Optional extends DataType {
       // ? Use the static write method of a Valid Stream Type
       value = valueType.read(
         stream,
+        // @ts-ignore
         endian as undefined,
         parameter as undefined
       );

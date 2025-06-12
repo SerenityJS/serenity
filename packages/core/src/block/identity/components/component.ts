@@ -29,8 +29,8 @@ class BlockTypeComponent {
   /**
    * The component value of the block type.
    */
-  protected get component(): CompoundTag<unknown> {
-    return this.collection.getTag<CompoundTag<unknown>>(this.identifier);
+  protected get component(): CompoundTag {
+    return this.collection.get<CompoundTag>(this.identifier)!;
   }
 
   /**
@@ -45,12 +45,12 @@ class BlockTypeComponent {
     this.type = block instanceof BlockPermutation ? block.type : block;
     this.collection = block.components;
 
-    // If not, create the property.
-    this.collection.createCompoundTag({ name: this.identifier });
+    // Create a new compound tag for the component
+    this.collection.add(new CompoundTag(this.identifier));
 
     // Add the property to the collection, if it doesn't already exist.
-    if (!this.collection.entries.has(this.identifier))
-      this.collection.entries.set(this.identifier, this);
+    if (!this.collection.components.has(this.identifier))
+      this.collection.components.set(this.identifier, this);
   }
 }
 

@@ -1,4 +1,4 @@
-import { StringTag } from "@serenityjs/nbt";
+import { CompoundTag, StringTag } from "@serenityjs/nbt";
 
 import { BlockTypeComponent } from "./component";
 
@@ -27,7 +27,7 @@ class BlockTypeGeometryComponent extends BlockTypeComponent {
     super(block);
 
     // TODO: Implement bone visibility.
-    this.component.createCompoundTag({ name: "bone_visibility" });
+    this.component.add(new CompoundTag("bone_visibility"));
 
     // Create the geometry property
     this.setModelIdentifier(options?.identifier ?? "geometry.none");
@@ -39,7 +39,7 @@ class BlockTypeGeometryComponent extends BlockTypeComponent {
    */
   public getModelIdentifier(): string {
     // Get the model of the geometry
-    return this.component.getTag<StringTag>("identifier")?.value ?? "";
+    return this.component.get<StringTag>("identifier")?.valueOf() ?? "";
   }
 
   /**
@@ -48,7 +48,7 @@ class BlockTypeGeometryComponent extends BlockTypeComponent {
    */
   public setModelIdentifier(value: string): void {
     // Set the model of the geometry
-    this.component.createStringTag({ name: "identifier", value });
+    this.component.add(new StringTag(value, "identifier"));
   }
 }
 

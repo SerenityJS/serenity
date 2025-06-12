@@ -6,12 +6,12 @@ enum TagType {
   Long = 0x04,
   Float = 0x05,
   Double = 0x06,
-  ByteArray = 0x07,
+  ByteList = 0x07,
   String = 0x08,
   List = 0x09,
   Compound = 0x0a,
-  IntArray = 0x0b,
-  LongArray = 0x0c
+  IntList = 0x0b,
+  LongList = 0x0c
 }
 
 export { TagType };

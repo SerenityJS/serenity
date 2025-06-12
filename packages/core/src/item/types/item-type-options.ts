@@ -9,7 +9,7 @@ interface ItemTypeOptions {
   /**
    * The nbt definition for the item type properties.
    */
-  properties: CompoundTag<unknown>;
+  properties: CompoundTag;
 
   /**
    * Whether the item type is component based.

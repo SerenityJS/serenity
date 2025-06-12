@@ -1,16 +1,9 @@
 import { EntityPropertyType } from "@serenityjs/protocol";
-import { ListTag, StringTag, TagType } from "@serenityjs/nbt";
+import { ListTag, StringTag } from "@serenityjs/nbt";
 
-import { EntityProperty, type EntityPropertyData } from "./property";
+import { EntityProperty } from "./property";
 
-interface EntityEnumPropertyData extends EntityPropertyData {
-  /**
-   * The strings that the property can take.
-   */
-  enum: ListTag<StringTag>;
-}
-
-class EntityEnumProperty extends EntityProperty<EntityEnumPropertyData> {
+class EntityEnumProperty extends EntityProperty {
   /**
    * The current value of the property.
    */
@@ -42,8 +35,8 @@ class EntityEnumProperty extends EntityProperty<EntityEnumPropertyData> {
   public getEnum(): Array<string> {
     return (
       this.compound
-        .getTag<ListTag<StringTag>>("enum")
-        ?.value.map((tag) => tag.value) ?? []
+        .get<ListTag<StringTag>>("enum")
+        ?.map((tag) => tag.valueOf()) ?? []
     );
   }
 
@@ -52,12 +45,13 @@ class EntityEnumProperty extends EntityProperty<EntityEnumPropertyData> {
    * @param values The strings that the property can take.
    */
   public setEnum(values: Array<string>): void {
-    this.compound.createListTag<StringTag>({
-      name: "enum",
-      value: values.map((value) => new StringTag({ name: "value", value })),
-      listType: TagType.String
-    });
+    this.compound.add(
+      new ListTag<StringTag>(
+        values.map((value) => new StringTag(value)),
+        "enum"
+      )
+    );
   }
 }
 
-export { EntityEnumProperty, EntityEnumPropertyData };
+export { EntityEnumProperty };

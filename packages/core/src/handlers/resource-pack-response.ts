@@ -19,7 +19,7 @@ import {
   PackType
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { CompoundTag, TagType } from "@serenityjs/nbt";
+import { CompoundTag, ListTag } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
 import { Resources } from "../resources";
@@ -262,11 +262,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         actors.data = new CompoundTag();
 
         // Create a new list tag for the entities
-        const list = actors.data.createListTag<CompoundTag<unknown>>({
-          name: "idlist",
-          value: [],
-          listType: TagType.Compound
-        });
+        const list = actors.data.add(new ListTag<CompoundTag>([], "idlist"));
 
         const propertiesSync: Array<SyncActorPropertyPacket> = [];
 
@@ -276,7 +272,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           const entity = EntityType.toNbt(entry);
 
           // Push the entity to the list
-          list.value.push(entity);
+          list.push(entity);
 
           // Check if the entity has properties
           if (entry.properties.size > 0) {
@@ -291,6 +287,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
+
+        // player.sendImmediate(actors, items, ...propertiesSync);
+        // player.sendImmediate(items);
 
         player.sendImmediate(packet, status, actors, items, ...propertiesSync);
       }

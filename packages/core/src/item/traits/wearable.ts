@@ -109,9 +109,9 @@ class ItemWearableTrait extends ItemTrait {
     else {
       // Check if the item type has the wearable component
       // This is usually for custom item types
-      if (item.type.components.has(ItemTypeWearableComponent)) {
+      if (item.hasComponent(ItemTypeWearableComponent)) {
         // Get the wearable component from the item type
-        const component = item.type.components.get(ItemTypeWearableComponent);
+        const component = item.getComponent(ItemTypeWearableComponent);
 
         // Assign the properties from the component to the wearable trait
         this.properties.protection = component.getProtection();

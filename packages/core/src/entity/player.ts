@@ -414,10 +414,10 @@ class Player extends Entity {
         // Check if the item has a ItemBundleTrait
         if (item.hasTrait(ItemBundleTrait)) {
           // Get the bundle trait
-          const bundle = item.getTrait(ItemBundleTrait);
+          const _bundle = item.getTrait(ItemBundleTrait);
 
           // Check if the bundle has the dynamic id
-          if (bundle.dynamicId === dynamicId) return bundle.container;
+          // if (bundle.dynamicId === dynamicId) return bundle.container;
         }
       }
     }
@@ -734,7 +734,8 @@ class Player extends Entity {
       // Iterate over the items in the container
       for (const item of container.storage) {
         // Check if the item is air or if it doesn't have a cooldown component
-        if (!item || !item.components.has(ItemTypeCooldownComponent)) continue;
+        if (!item || !item.components.hasComponent(ItemTypeCooldownComponent))
+          continue;
 
         // Get the cooldown component of the item
         const cooldown = item.components.getCooldown();

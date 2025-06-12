@@ -1,4 +1,10 @@
-import { CompoundTag, TagType } from "@serenityjs/nbt";
+import {
+  ByteTag,
+  CompoundTag,
+  IntTag,
+  ListTag,
+  StringTag
+} from "@serenityjs/nbt";
 
 import {
   EntityBooleanProperty,
@@ -203,31 +209,31 @@ class EntityType {
     return [...EntityType.types.values()];
   }
 
-  public static toNbt(type: EntityType): CompoundTag<unknown> {
+  public static toNbt(type: EntityType): CompoundTag {
     // Create a root compound tag for the entity type.
     const root = new CompoundTag();
 
     // Create a compound tag for the entity data.
-    root.createStringTag({ name: "bid", value: "" });
-    root.createByteTag({ name: "hasspawnegg", value: 1 });
-    root.createStringTag({ name: "id", value: type.identifier });
-    root.createIntTag({ name: "rid", value: type.network });
-    root.createByteTag({ name: "summonable", value: 1 });
+    root.add(new StringTag("", "bid"));
+    root.add(new ByteTag(1, "hasspawnegg"));
+    root.add(new StringTag(type.identifier, "id"));
+    root.add(new IntTag(type.network, "rid"));
+    root.add(new ByteTag(1, "summonable"));
 
     // Return the root compound tag.
     return root;
   }
 
-  public static toPropertiesNbt(type: EntityType): CompoundTag<unknown> {
+  public static toPropertiesNbt(type: EntityType): CompoundTag {
     // Create a root compound tag for the entity type properties.
     const root = new CompoundTag();
 
     // Create a compound tag for the entity identifier.
-    root.createStringTag({ name: "type", value: type.identifier });
+    root.add(new StringTag(type.identifier, "type"));
 
     // Sort the properties by their identifier.
     const keys = [...type.properties.keys()].sort();
-    const values: Array<CompoundTag<unknown>> = [];
+    const values: Array<CompoundTag> = [];
 
     // Iterate over the sorted keys.
     for (const key of keys) {
@@ -239,11 +245,10 @@ class EntityType {
     }
 
     // Create a list tag for the properties.
-    root.createListTag({
-      name: "properties",
-      value: values,
-      listType: TagType.Compound
-    });
+    const list = new ListTag<CompoundTag>(values, "properties");
+
+    // Add the list tag to the root compound tag.
+    root.add(list);
 
     // Return the root compound tag.
     return root;

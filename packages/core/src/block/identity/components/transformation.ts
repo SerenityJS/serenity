@@ -60,9 +60,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public getTranslation(): [number, number, number] {
     // Get the translation of the block type
-    const x = this.component.getTag<FloatTag>("TX")?.value ?? 0;
-    const y = this.component.getTag<FloatTag>("TY")?.value ?? 0;
-    const z = this.component.getTag<FloatTag>("TZ")?.value ?? 0;
+    const x = this.component.get<FloatTag>("TX")?.valueOf() ?? 0;
+    const y = this.component.get<FloatTag>("TY")?.valueOf() ?? 0;
+    const z = this.component.get<FloatTag>("TZ")?.valueOf() ?? 0;
 
     // Return the translation as a tuple
     return [x, y, z];
@@ -74,9 +74,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public setTranslation(value: [number, number, number]): void {
     // Set the translation of the block type
-    this.component.createFloatTag({ name: "TX", value: value[0] });
-    this.component.createFloatTag({ name: "TY", value: value[1] });
-    this.component.createFloatTag({ name: "TZ", value: value[2] });
+    this.component.add(new FloatTag(value[0], "TX"));
+    this.component.add(new FloatTag(value[1], "TY"));
+    this.component.add(new FloatTag(value[2], "TZ"));
   }
 
   /**
@@ -85,9 +85,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public getRotation(): [number, number, number] {
     // Get the rotation of the block type
-    const x = this.component.getTag<IntTag>("RX")?.value ?? 0;
-    const y = this.component.getTag<IntTag>("RY")?.value ?? 0;
-    const z = this.component.getTag<IntTag>("RZ")?.value ?? 0;
+    const x = this.component.get<IntTag>("RX")?.valueOf() ?? 0;
+    const y = this.component.get<IntTag>("RY")?.valueOf() ?? 0;
+    const z = this.component.get<IntTag>("RZ")?.valueOf() ?? 0;
 
     // Return the rotation as a tuple
     return [x * 90, y * 90, z * 90];
@@ -104,9 +104,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
     const rz = Math.floor(value[2] / 90) % 4;
 
     // Set the rotation of the block type
-    this.component.createIntTag({ name: "RX", value: rx });
-    this.component.createIntTag({ name: "RY", value: ry });
-    this.component.createIntTag({ name: "RZ", value: rz });
+    this.component.add(new IntTag(rx, "RX"));
+    this.component.add(new IntTag(ry, "RY"));
+    this.component.add(new IntTag(rz, "RZ"));
   }
 
   /**
@@ -115,9 +115,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public getScale(): [number, number, number] {
     // Get the scale of the block type
-    const x = this.component.getTag<FloatTag>("SX")?.value ?? 1;
-    const y = this.component.getTag<FloatTag>("SY")?.value ?? 1;
-    const z = this.component.getTag<FloatTag>("SZ")?.value ?? 1;
+    const x = this.component.get<FloatTag>("SX")?.valueOf() ?? 1;
+    const y = this.component.get<FloatTag>("SY")?.valueOf() ?? 1;
+    const z = this.component.get<FloatTag>("SZ")?.valueOf() ?? 1;
 
     // Return the scale as a tuple
     return [x, y, z];
@@ -129,9 +129,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public setScale(value: [number, number, number]): void {
     // Set the scale of the block type
-    this.component.createFloatTag({ name: "SX", value: value[0] });
-    this.component.createFloatTag({ name: "SY", value: value[1] });
-    this.component.createFloatTag({ name: "SZ", value: value[2] });
+    this.component.add(new FloatTag(value[0], "SX"));
+    this.component.add(new FloatTag(value[1], "SY"));
+    this.component.add(new FloatTag(value[2], "SZ"));
   }
 
   /**
@@ -140,9 +140,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public getRotationPivot(): [number, number, number] {
     // Get the rotation pivot of the block type
-    const x = this.component.getTag<FloatTag>("RXP")?.value ?? 0;
-    const y = this.component.getTag<FloatTag>("RYP")?.value ?? 0;
-    const z = this.component.getTag<FloatTag>("RZP")?.value ?? 0;
+    const x = this.component.get<FloatTag>("RXP")?.valueOf() ?? 0;
+    const y = this.component.get<FloatTag>("RYP")?.valueOf() ?? 0;
+    const z = this.component.get<FloatTag>("RZP")?.valueOf() ?? 0;
 
     // Return the rotation pivot as a tuple
     return [x, y, z];
@@ -154,9 +154,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public setRotationPivot(value: [number, number, number]): void {
     // Set the rotation pivot of the block type
-    this.component.createFloatTag({ name: "RXP", value: value[0] });
-    this.component.createFloatTag({ name: "RYP", value: value[1] });
-    this.component.createFloatTag({ name: "RZP", value: value[2] });
+    this.component.add(new FloatTag(value[0], "RXP"));
+    this.component.add(new FloatTag(value[1], "RYP"));
+    this.component.add(new FloatTag(value[2], "RZP"));
   }
 
   /**
@@ -165,9 +165,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public getScalePivot(): [number, number, number] {
     // Get the scale pivot of the block type
-    const x = this.component.getTag<FloatTag>("SXP")?.value ?? 0;
-    const y = this.component.getTag<FloatTag>("SYP")?.value ?? 0;
-    const z = this.component.getTag<FloatTag>("SZP")?.value ?? 0;
+    const x = this.component.get<FloatTag>("SXP")?.valueOf() ?? 0;
+    const y = this.component.get<FloatTag>("SYP")?.valueOf() ?? 0;
+    const z = this.component.get<FloatTag>("SZP")?.valueOf() ?? 0;
 
     // Return the scale pivot as a tuple
     return [x, y, z];
@@ -179,9 +179,9 @@ class BlockTypeTransformationComponent extends BlockTypeComponent {
    */
   public setScalePivot(value: [number, number, number]): void {
     // Set the scale pivot of the block type
-    this.component.createFloatTag({ name: "SXP", value: value[0] });
-    this.component.createFloatTag({ name: "SYP", value: value[1] });
-    this.component.createFloatTag({ name: "SZP", value: value[2] });
+    this.component.add(new FloatTag(value[0], "SXP"));
+    this.component.add(new FloatTag(value[1], "SYP"));
+    this.component.add(new FloatTag(value[2], "SZP"));
   }
 }
 

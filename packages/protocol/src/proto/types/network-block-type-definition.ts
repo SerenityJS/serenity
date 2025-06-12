@@ -13,14 +13,14 @@ class NetworkBlockTypeDefinition extends DataType {
    * The nbt data for the block type definition.
    * This includes the states, permutations, and other properties of the block type.
    */
-  public readonly nbt: CompoundTag<unknown>;
+  public readonly nbt: CompoundTag;
 
   /**
    * Create a new block definition.
    * @param identifier The identifier of the block type definition.
    * @param nbt The nbt data for the block type definition.
    */
-  public constructor(identifier: string, nbt: CompoundTag<unknown>) {
+  public constructor(identifier: string, nbt: CompoundTag) {
     super();
     this.identifier = identifier;
     this.nbt = nbt;
@@ -40,7 +40,11 @@ class NetworkBlockTypeDefinition extends DataType {
       const name = stream.readVarString();
 
       // Read the nbt for the property.
-      const nbt = CompoundTag.read(stream, true);
+      const nbt = CompoundTag.read(stream, {
+        name: true,
+        type: true,
+        varint: true
+      });
 
       // Push the rule to the array.
       properties.push(new this(name, nbt));
@@ -63,7 +67,11 @@ class NetworkBlockTypeDefinition extends DataType {
       stream.writeVarString(property.identifier);
 
       // Write the nbt for the property.
-      CompoundTag.write(stream, property.nbt, true);
+      CompoundTag.write(stream, property.nbt, {
+        name: true,
+        type: true,
+        varint: true
+      });
     }
   }
 }

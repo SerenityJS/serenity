@@ -26,10 +26,10 @@ class ItemTypeMaxStackComponent extends ItemTypeComponent {
    */
   public getMaxStackSize(): number {
     // Get the max stack size component.
-    const component = this.component.getTag<ByteTag>(this.identifier);
+    const component = this.component.get<ByteTag>("value");
 
     // Return the max stack size.
-    return component?.value ?? 64;
+    return component?.valueOf() ?? 64;
   }
 
   /**
@@ -41,7 +41,7 @@ class ItemTypeMaxStackComponent extends ItemTypeComponent {
     if (value < 0 || value > 64) value = 64;
 
     // Set the max stack size component.
-    this.component.createByteTag({ name: this.identifier, value });
+    this.component.add(new ByteTag(value, "value"));
   }
 }
 

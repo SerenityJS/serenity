@@ -25,7 +25,7 @@ class BlockTypeDestructableByMiningComponent extends BlockTypeComponent {
    * @returns The hardness of the block type.
    */
   public getHardness(): number {
-    return this.component.getTag<FloatTag>("value")?.value ?? 0;
+    return this.component.get<FloatTag>("value")?.valueOf() ?? 0;
   }
 
   /**
@@ -33,7 +33,7 @@ class BlockTypeDestructableByMiningComponent extends BlockTypeComponent {
    * @param value The hardness of the block type.
    */
   public setHardness(value: number): void {
-    this.component.createFloatTag({ name: "value", value });
+    this.component.add(new FloatTag(value, "value"));
   }
 }
 

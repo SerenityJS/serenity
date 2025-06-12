@@ -1,483 +1,455 @@
-/* eslint-disable @typescript-eslint/no-dynamic-delete */
-import { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { TagType } from "../enum";
 
-import {
-  ReadingProperties,
-  Tag,
-  TagProperties,
-  WritingProperties
-} from "./tag";
 import { ByteTag } from "./byte";
-import { StringTag } from "./string";
+import { BaseTag } from "./base-tag";
+import { ReadWriteOptions } from "./read-write-options";
 import { ShortTag } from "./short";
 import { IntTag } from "./int";
 import { LongTag } from "./long";
-import { DoubleTag } from "./double";
-import { ListTag } from "./list";
 import { FloatTag } from "./float";
-import { ByteArrayTag } from "./byte-array";
+import { DoubleTag } from "./double";
+import { StringTag } from "./string";
+import { ListTag } from "./list";
+import { ByteListTag } from "./byte-list";
 
-type GenericCompound<T = Record<string, Tag>> = T;
+class CompoundTag extends Map<string, BaseTag> implements BaseTag {
+  public readonly type = TagType.Compound;
 
-class CompoundTag<T> extends Tag<GenericCompound<T>> {
-  public static readonly type = TagType.Compound;
+  public name: string | null;
 
-  public value: T = {} as T;
-
-  public constructor(properties?: Partial<TagProperties<T>>) {
-    super(properties);
-
-    this.value = properties?.value ?? ({} as T);
+  /**
+   * Create a new CompoundTag instance.
+   * @param name The name of the tag, defaults to null.
+   */
+  public constructor(name?: string | null) {
+    super();
+    this.name = name ?? null;
   }
 
-  public hasTag(name: string): boolean {
-    return name in (this.value as Record<string, Tag>);
-  }
+  public toJSON(): Record<string, unknown> {
+    // Convert the map to a JSON object.
+    const json: Record<string, unknown> = {};
 
-  public getTag<K extends Tag>(name: string): K {
-    return this.value[name as keyof T] as K;
-  }
-
-  public getTags(): Array<Tag> {
-    return Object.values(this.value as Record<string, Tag>);
-  }
-
-  public setTag(name: string, tag: Tag): void {
-    this.value[name as keyof T] = tag as unknown as T[keyof T];
-  }
-
-  public addTag(tag: Tag): void {
-    this.value[tag.name as keyof T] = tag as unknown as T[keyof T];
-  }
-
-  public removeTag(name: string): void {
-    delete this.value[name as keyof T];
-  }
-
-  public createByteTag(properties: Partial<TagProperties<number>>): ByteTag {
-    // Create a new byte tag.
-    const tag = new ByteTag(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createShortTag(properties: Partial<TagProperties<number>>): ShortTag {
-    // Create a new short tag.
-    const tag = new ShortTag(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createIntTag(properties: Partial<TagProperties<number>>): IntTag {
-    // Create a new int tag.
-    const tag = new IntTag(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createLongTag(properties: Partial<TagProperties<bigint>>): LongTag {
-    // Create a new long tag.
-    const tag = new LongTag(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createFloatTag(properties: Partial<TagProperties<number>>): FloatTag {
-    // Create a new float tag.
-    const tag = new FloatTag(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createDoubleTag(
-    properties: Partial<TagProperties<number>>
-  ): DoubleTag {
-    // Create a new double tag.
-    const tag = new DoubleTag(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createStringTag(
-    properties: Partial<TagProperties<string>>
-  ): StringTag {
-    // Create a new string tag.
-    const tag = new StringTag(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createListTag<T extends Tag>(
-    properties: Partial<TagProperties<Array<T>>> & { listType: TagType }
-  ): ListTag<T> {
-    // Create a new list tag.
-    const tag = new ListTag<T>(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public createCompoundTag<T>(
-    properties: Partial<TagProperties<GenericCompound<T>>>
-  ): CompoundTag<T> {
-    // Create a new compound tag.
-    const tag = new CompoundTag<T>(properties);
-
-    // Add the tag to the compound tag.
-    this.addTag(tag);
-
-    // Return the tag.
-    return tag;
-  }
-
-  public toJSON(): TagProperties<T> & { type: TagType } {
-    const json: Record<string, T> = {};
-
-    for (const [key, value] of Object.entries(
-      this.value as Record<string, Tag>
-    )) {
-      // @ts-ignore
+    // Iterate over each tag in the compound tag.
+    for (const [key, value] of this) {
+      // Add the tag to the JSON object using its key.
       json[key] = value.toJSON();
     }
 
-    return { name: this.name, value: json as T, type: this.type };
+    // Return the JSON object.
+    return json;
   }
 
-  public static read<T>(
-    stream: BinaryStream,
-    varint: boolean = false,
-    properties: Partial<ReadingProperties> = { name: true, type: true }
-  ): CompoundTag<T> {
-    // Check if type checking is enabled.
-    if (properties.type) {
-      // Read the type of the tag.
-      const type = stream.readByte() as TagType;
+  /**
+   * Get a nbt tag by its key.
+   * @param key The key of the tag to retrieve.
+   * @returns The tag associated with the key, or undefined if not found.
+   */
+  public get<T extends BaseTag>(key: string): T | undefined {
+    // Call the original get method from Map and cast the result to T.
+    return super.get(key) as T | undefined;
+  }
 
-      // Check if the type is correct.
-      if (type !== this.type) {
+  /**
+   * Set a nbt tag with a specific key.
+   * @param key The key to associate with the tag.
+   * @param value The tag to set.
+   * @returns The current instance for method chaining.
+   */
+  public set<T extends BaseTag>(key: string, value: T): this {
+    // Call the original set method from Map.
+    super.set(key, value);
+
+    // Return the current instance for method chaining.
+    return this;
+  }
+
+  /**
+   * Add multiple tags to the compound tag.
+   * @param tags An array of tags to add.
+   * @returns The current instance for method chaining.
+   */
+  public push<T extends BaseTag>(...tags: Array<T>): this {
+    // Iterate over each tag in the provided array.
+    for (const tag of tags) {
+      // Set the tag in the map using its name or an empty string if the name is null.
+      super.set(tag.name ?? "", tag);
+    }
+
+    // Return the current instance for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a single tag to the compound tag.
+   * @param tag The tag to add to the compound tag.
+   * @returns The tag that was added.
+   */
+  public add<T extends BaseTag>(tag: T): T {
+    // Add the tag to the compound tag using its name or an empty string if the name is null.
+    this.set(tag.name ?? "", tag);
+
+    // Return the tag that was added.
+    return tag;
+  }
+
+  public static read(
+    stream: BinaryStream,
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
+  ): CompoundTag {
+    // Check if the tag type is expected.
+    if (options?.type) {
+      // Read the tag type.
+      const type: TagType = stream.readInt8();
+
+      // Verify that the tag type matches the expected type.
+      if (type !== TagType.Compound) {
+        // Throw an error if the type does not match.
         throw new Error(
-          `Expected tag type to be ${TagType[this.type]}, received ${TagType[type] ?? type}.`
+          `Expected tag type to be ${TagType[TagType.Compound]}, received ${TagType[type] ?? type}.`
         );
       }
     }
 
-    // Read the name of the tag.
-    const name = properties.name
-      ? this.readString(stream, varint)
-      : (null as unknown as string);
+    // Prepare a variable to hold the name of the tag.
+    let name: string | null = null;
 
-    // Create a new compound tag.
-    const tag = new this<T>({ name, value: {} as T });
+    // Check if the tag name is expected.
+    if (options?.name) {
+      // Read the length of the name based on the varint option.
+      const length = options?.varint
+        ? stream.readVarInt()
+        : stream.readInt16(Endianness.Little);
 
-    // Read the tags within the compound tag.
+      // Read the name from the stream.
+      const buffer = stream.readBuffer(length);
+
+      // Convert the buffer to a string.
+      name = String.fromCharCode(...buffer);
+    }
+
+    // Create a new CompoundTag instance.
+    const tag = new CompoundTag(name);
+
+    // Read the tags until the end of the stream or a null tag is encountered.
     do {
       // Read the next tag type.
-      const type = stream.readByte() as TagType;
+      const type: TagType = stream.readInt8();
 
-      // Break if the tag type is the end tag.
+      // Check if the tag type is End, which indicates the end of the compound tag.
       if (type === TagType.End) break;
 
+      // Handle the tag type based on its value.
       switch (type) {
-        default: {
-          throw new Error(
-            `Unhandled tag type while reading Compound: ${TagType[type] ?? type}, offset: ${stream.offset}.`
-          );
-        }
+        default:
+          throw new Error(`Unsupported tag type: ${TagType[type] ?? type}.`);
 
         case TagType.Byte: {
-          // Read the element tag, and add it to the compound tag.
-          const element = ByteTag.read(stream, varint, {
+          // Read the next element as a ByteTag.
+          const element = ByteTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Short: {
-          // Read the element tag, and add it to the compound tag.
-          const element = ShortTag.read(stream, varint, {
+          // Read the next element as a ShortTag.
+          const element = ShortTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Int: {
-          // Read the element tag, and add it to the compound tag.
-          const element = IntTag.read(stream, varint, {
+          // Read the next element as an IntTag.
+          const element = IntTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Long: {
-          // Read the element tag, and add it to the compound tag.
-          const element = LongTag.read(stream, varint, {
+          // Read the next element as a LongTag.
+          const element = LongTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Float: {
-          // Read the element tag, and add it to the compound tag.
-          const element = FloatTag.read(stream, varint, {
+          // Read the next element as a FloatTag.
+          const element = FloatTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Double: {
-          // Read the element tag, and add it to the compound tag.
-          const element = DoubleTag.read(stream, varint, {
+          // Read the next element as a DoubleTag.
+          const element = DoubleTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
-        case TagType.ByteArray: {
-          // Read the element tag, and add it to the compound tag.
-          const element = ByteArrayTag.read(stream, varint, {
+        case TagType.ByteList: {
+          // Read the next element as a ByteListTag.
+          const element = ByteListTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.String: {
-          // Read the element tag, and add it to the compound tag.
-          const element = StringTag.read(stream, varint, {
+          // Read the next element as a StringTag.
+          const element = StringTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.List: {
-          // Read the element tag, and add it to the compound tag.
-          const element = ListTag.read(stream, varint, {
+          // Read the next element as a ListTag.
+          const element = ListTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Compound: {
-          // Read the element tag, and add it to the compound tag.
-          const element = this.read(stream, varint, {
+          // Read the next element as a CompoundTag.
+          const element = CompoundTag.read(stream, {
+            ...options,
             name: true,
             type: false
           });
 
-          tag.value[element.name as keyof T] = element as unknown as T[keyof T];
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
           continue;
         }
       }
     } while (stream.cursorAtEnd() === false);
 
-    // Return the compound tag.
+    // Return the CompoundTag instance.
     return tag;
   }
 
-  public static write<T>(
+  public static write(
     stream: BinaryStream,
-    value: CompoundTag<T>,
-    varint: boolean = false,
-    properties: Partial<WritingProperties> = { name: true, type: true }
+    value: CompoundTag,
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
   ): void {
-    // Check if the type of the tag should be written.
-    if (properties.type) stream.writeByte(this.type);
+    // Check if the tag type should be written.
+    if (options?.type) stream.writeInt8(value.type);
 
-    // Check if the name of the tag should be written.
-    if (properties.name) this.writeString(value.name, stream, varint);
+    // Check if the tag name should be written.
+    if (options?.name) {
+      // Convert the name to a buffer.
+      const buffer = Buffer.from(value.name ?? "", "utf8");
 
-    // Get the keys of the compound tag.
-    const keys = Object.keys(value.value as Record<string, Tag>);
+      // Write the length of the name based on the varint option.
+      if (options.varint) stream.writeVarInt(buffer.length);
+      else stream.writeInt16(buffer.length, Endianness.Little);
 
-    // Write the tags within the compound tag.
-    for (const key of keys) {
-      // Get the tag from the compound tag.
-      const tag = value.value[key as keyof T] as Tag;
+      // Write the name buffer to the stream.
+      stream.writeBuffer(buffer);
+    }
 
-      // Write the tag to the binary stream.
-      stream.writeByte(tag.type);
-
+    // Iterate over each tag in the CompoundTag instance.
+    for (const [, tag] of value) {
       switch (tag.type) {
-        default: {
-          throw new Error(
-            `Unhandled tag type while writing Compound: ${TagType[tag.type] ?? tag.type}.`
-          );
-        }
-
         case TagType.Byte: {
-          // Write the element tag to the binary stream.
-          ByteTag.write(stream, tag as ByteTag, varint, {
+          // Write the ByteTag to the stream.
+          ByteTag.write(stream, tag as ByteTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Short: {
-          // Write the element tag to the binary stream.
-          ShortTag.write(stream, tag as ShortTag, varint, {
+          // Write the ShortTag to the stream.
+          ShortTag.write(stream, tag as ShortTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Int: {
-          // Write the element tag to the binary stream.
-          IntTag.write(stream, tag as IntTag, varint, {
+          // Write the IntTag to the stream.
+          IntTag.write(stream, tag as IntTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Long: {
-          // Write the element tag to the binary stream.
-          LongTag.write(stream, tag as LongTag, varint, {
+          // Write the LongTag to the stream.
+          LongTag.write(stream, tag as LongTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Float: {
-          // Write the element tag to the binary stream.
-          FloatTag.write(stream, tag as FloatTag, varint, {
+          // Write the FloatTag to the stream.
+          FloatTag.write(stream, tag as FloatTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Double: {
-          // Write the element tag to the binary stream.
-          DoubleTag.write(stream, tag as DoubleTag, varint, {
+          // Write the DoubleTag to the stream.
+          DoubleTag.write(stream, tag as DoubleTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
-        case TagType.ByteArray: {
-          // Write the element tag to the binary stream.
-          ByteArrayTag.write(stream, tag as ByteArrayTag, varint, {
+        case TagType.ByteList: {
+          // Write the ByteListTag to the stream.
+          ByteListTag.write(stream, tag as ByteListTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.String: {
-          // Write the element tag to the binary stream.
-          StringTag.write(stream, tag as StringTag, varint, {
+          // Write the StringTag to the stream.
+          StringTag.write(stream, tag as StringTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.List: {
-          // Write the element tag to the binary stream.
-          ListTag.write(stream, tag as ListTag<Tag>, varint, {
+          // Write the ListTag to the stream.
+          ListTag.write(stream, tag as ListTag<BaseTag>, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
 
         case TagType.Compound: {
-          // Write the element tag to the binary stream.
-          this.write(stream, tag as CompoundTag<unknown>, varint, {
+          // Write the CompoundTag to the stream.
+          CompoundTag.write(stream, tag as CompoundTag, {
+            ...options,
             name: true,
-            type: false
+            type: true
           });
 
+          // Continue to the next iteration.
           continue;
         }
       }
     }
 
-    // Write the end tag to the binary stream.
-    stream.writeByte(TagType.End);
-  }
-
-  public static from<T>(
-    buffer: Buffer,
-    varint: boolean = false
-  ): CompoundTag<T> {
-    // Create a new binary stream.
-    const stream = new BinaryStream(buffer);
-
-    // Read the tag from the binary stream.
-    return this.read(stream, varint);
+    // Write the End tag to indicate the end of the compound tag.
+    stream.writeInt8(TagType.End);
   }
 }
 

@@ -32,12 +32,12 @@ interface BlockProperties {
 }
 
 interface BlockTypeNbtDefinition {
-  components: CompoundTag<unknown>;
-  menu_category: CompoundTag<unknown>;
-  vanilla_block_data: CompoundTag<unknown>;
+  components: CompoundTag;
+  menu_category: CompoundTag;
+  vanilla_block_data: CompoundTag;
   molangVersion: IntTag;
-  properties: ListTag<CompoundTag<BlockTypeNbtStateDefinition>>;
-  permutations: ListTag<CompoundTag<BlockTypeNbtPermutationDefinition>>;
+  properties: ListTag<CompoundTag>;
+  permutations: ListTag<CompoundTag>;
 }
 
 interface BlockTypeNbtStateDefinition {
@@ -49,7 +49,7 @@ interface BlockTypeNbtPermutationDefinition {
   condition: StringTag;
 }
 
-type BlockTypeDefinition = CompoundTag<BlockTypeNbtDefinition>;
+type BlockTypeDefinition = CompoundTag;
 
 export {
   BlockProperties,

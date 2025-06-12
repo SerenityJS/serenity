@@ -1,4 +1,4 @@
-import { TagType } from "@serenityjs/nbt";
+import { CompoundTag, IntTag, ListTag, StringTag } from "@serenityjs/nbt";
 
 import { CustomBlockProperties, GenericBlockState } from "../../types";
 import { BlockIdentifier, ItemCategory } from "../../enums";
@@ -27,46 +27,35 @@ class CustomBlockType extends BlockType {
     super(identifier as BlockIdentifier, properties);
 
     // Create a molang version tag.
-    this.properties.createIntTag({ name: "molangVersion", value: 0 });
+    this.properties.add(new IntTag(0, "molangVersion"));
 
     // Create a compound tag for the block data.
-    const data = this.properties.createCompoundTag({
-      name: "vanilla_block_data"
-    });
+    const data = this.properties.add(new CompoundTag("vanilla_block_data"));
 
     // Add the block ID to the block data.
-    data.createIntTag({ name: "block_id", value: this.networkId });
+    data.add(new IntTag(this.networkId, "block_id"));
 
     // Create a compound tag for the menu category.
-    const menuCategory = this.properties.createCompoundTag({
-      name: "menu_category"
-    });
+    const menuCategory = this.properties.add(new CompoundTag("menu_category"));
 
     // Add the category to the menu category.
-    menuCategory.createStringTag({
-      name: "category",
-      value: properties?.creativeCategory ?? ItemCategory.Construction
-    });
+    menuCategory.add(
+      new StringTag(
+        properties?.creativeCategory ?? ItemCategory.Construction,
+        "category"
+      )
+    );
 
     // Add the group to the menu category.
     if (properties?.creativeGroup) {
-      menuCategory.createStringTag({
-        name: "group",
-        value: properties.creativeGroup
-      });
+      menuCategory.add(new StringTag(properties.creativeGroup, "group"));
     }
 
     // Create a list tag for the properties.
-    this.properties.createListTag({
-      name: "properties",
-      listType: TagType.Compound
-    });
+    this.properties.add(new ListTag<CompoundTag>([], "properties"));
 
     // Create a list tag for the permutations.
-    this.properties.createListTag({
-      name: "permutations",
-      listType: TagType.Compound
-    });
+    this.properties.add(new ListTag<CompoundTag>([], "permutations"));
   }
 
   /**

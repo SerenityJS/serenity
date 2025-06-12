@@ -25,10 +25,10 @@ class ItemTypeHandEquippedComponent extends ItemTypeComponent {
    */
   public getHandEquipped(): boolean {
     // Get the hand equipped component.
-    const component = this.component.getTag<ByteTag>("value");
+    const component = this.component.get<ByteTag>("value");
 
     // Return the hand equipped value.
-    return component?.value === 1;
+    return component?.valueOf() === 1;
   }
 
   /**
@@ -37,10 +37,7 @@ class ItemTypeHandEquippedComponent extends ItemTypeComponent {
    */
   public setHandEquipped(value: boolean): void {
     // Set the hand equipped component.
-    this.component.createByteTag({
-      name: "value",
-      value: value ? 1 : 0
-    });
+    this.component.add(new ByteTag(value ? 1 : 0, "value"));
   }
 }
 

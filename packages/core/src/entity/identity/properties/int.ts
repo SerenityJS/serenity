@@ -1,22 +1,9 @@
 import { EntityPropertyType } from "@serenityjs/protocol";
+import { IntTag } from "@serenityjs/nbt";
 
-import { EntityProperty, type EntityPropertyData } from "./property";
+import { EntityProperty } from "./property";
 
-import type { IntTag } from "@serenityjs/nbt";
-
-interface EntityIntPropertyData extends EntityPropertyData {
-  /**
-   * The minimum value of the property.
-   */
-  min: IntTag;
-
-  /**
-   * The maximum value of the property.
-   */
-  max: IntTag;
-}
-
-class EntityIntProperty extends EntityProperty<EntityIntPropertyData> {
+class EntityIntProperty extends EntityProperty {
   /**
    * The current value of the property.
    */
@@ -50,7 +37,7 @@ class EntityIntProperty extends EntityProperty<EntityIntPropertyData> {
    * @returns The minimum value of the property.
    */
   public getMin(): number {
-    return this.compound.getTag<IntTag>("min")?.value ?? 0;
+    return this.compound.get<IntTag>("min")?.valueOf() ?? 0;
   }
 
   /**
@@ -58,7 +45,7 @@ class EntityIntProperty extends EntityProperty<EntityIntPropertyData> {
    * @param min The minimum value of the property.
    */
   public setMin(min: number): void {
-    this.compound.createIntTag({ name: "min", value: min });
+    this.compound.add(new IntTag(min, "min"));
   }
 
   /**
@@ -66,7 +53,7 @@ class EntityIntProperty extends EntityProperty<EntityIntPropertyData> {
    * @returns The maximum value of the property.
    */
   public getMax(): number {
-    return this.compound.getTag<IntTag>("max")?.value ?? 0;
+    return this.compound.get<IntTag>("max")?.valueOf() ?? 0;
   }
 
   /**
@@ -74,8 +61,8 @@ class EntityIntProperty extends EntityProperty<EntityIntPropertyData> {
    * @param max The maximum value of the property.
    */
   public setMax(max: number): void {
-    this.compound.createIntTag({ name: "max", value: max });
+    this.compound.add(new IntTag(max, "max"));
   }
 }
 
-export { EntityIntProperty, EntityIntPropertyData };
+export { EntityIntProperty };

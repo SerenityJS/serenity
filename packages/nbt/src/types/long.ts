@@ -2,69 +2,97 @@ import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 import { TagType } from "../enum";
 
-import {
-  ReadingProperties,
-  Tag,
-  TagProperties,
-  WritingProperties
-} from "./tag";
+import { BaseTag } from "./base-tag";
+import { ReadWriteOptions } from "./read-write-options";
 
-class LongTag extends Tag<bigint> {
-  public static readonly type = TagType.Long;
+class LongTag extends String implements BaseTag {
+  public readonly type = TagType.Long;
 
-  public toJSON(): TagProperties<bigint> & { type: TagType } {
-    const value = (this.value.toString() + "n") as unknown as bigint;
+  public name: string | null;
 
-    return { name: this.name, value, type: this.type };
+  /**
+   * Create a new LongTag instance.
+   * @param value The long value.
+   * @param name The name of the tag, defaults to null.
+   */
+  public constructor(value: bigint, name?: string | null) {
+    super(value);
+    this.name = name ?? null;
+  }
+
+  public toJSON(): string {
+    // Convert the short value to a JSON number.
+    return this.valueOf() + "n";
   }
 
   public static read(
     stream: BinaryStream,
-    varint: boolean,
-    properties: Partial<ReadingProperties> = { name: true, type: true }
-  ): Tag {
-    // Check if type checking is enabled.
-    if (properties.type) {
-      // Read the type of the tag.
-      const type = stream.readByte() as TagType;
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
+  ): LongTag {
+    // Check if the tag type is expected.
+    if (options?.type) {
+      // Read the tag type.
+      const type: TagType = stream.readInt8();
 
-      // Check if the type is correct.
-      if (type !== this.type) {
+      // Verify that the tag type matches the expected type.
+      if (type !== TagType.Long) {
+        // Throw an error if the type does not match.
         throw new Error(
-          `Expected tag type to be ${TagType[this.type]}, received ${TagType[type] ?? type}.`
+          `Expected tag type to be ${TagType[TagType.Long]}, received ${TagType[type] ?? type}.`
         );
       }
     }
 
-    // Read the name of the tag.
-    const name = properties.name
-      ? this.readString(stream, varint)
-      : (null as unknown as string);
+    // Prepare a variable to hold the name of the tag.
+    let name: string | null = null;
 
-    // Read the value of the tag.
-    const value = varint
-      ? stream.readVarLong()
-      : stream.readLong(Endianness.Little);
+    // Check if the tag name is expected.
+    if (options?.name) {
+      // Read the length of the name based on the varint option.
+      const length = options?.varint
+        ? stream.readVarInt()
+        : stream.readInt16(Endianness.Little);
 
-    // Read the value of the tag.
-    return new this({ name, value });
+      // Read the name from the stream.
+      const buffer = stream.readBuffer(length);
+
+      // Convert the buffer to a string.
+      name = String.fromCharCode(...buffer);
+    }
+
+    // Read the long value from the stream.
+    const value = options?.varint
+      ? stream.readZigZong()
+      : stream.readInt64(Endianness.Little);
+
+    // Create and return a new LongTag instance.
+    return new this(value, name);
   }
 
   public static write(
     stream: BinaryStream,
     value: LongTag,
-    varint: boolean,
-    properties: Partial<WritingProperties> = { name: true, type: true }
+    options: ReadWriteOptions = { name: true, type: true, varint: false }
   ): void {
-    // Check if the type of the tag should be written.
-    if (properties.type) stream.writeByte(this.type);
+    // Check if the tag type should be written.
+    if (options?.type) stream.writeInt8(value.type);
 
-    // Check if the name of the tag should be written.
-    if (properties.name) this.writeString(value.name, stream, varint);
+    // Check if the tag name should be written.
+    if (options?.name) {
+      // Convert the name to a buffer.
+      const buffer = Buffer.from(value.name ?? "", "utf8");
 
-    // Write the value of the tag.
-    if (varint) stream.writeVarLong(value.value);
-    else stream.writeLong(value.value, Endianness.Little);
+      // Write the length of the name based on the varint option.
+      if (options.varint) stream.writeVarInt(buffer.length);
+      else stream.writeInt16(buffer.length, Endianness.Little);
+
+      // Write the name buffer to the stream.
+      stream.writeBuffer(buffer);
+    }
+
+    // Write the long value to the stream.
+    if (options?.varint) stream.writeZigZong(BigInt(value.valueOf()));
+    else stream.writeInt64(BigInt(value.valueOf()), Endianness.Little);
   }
 }
 

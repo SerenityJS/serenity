@@ -81,7 +81,11 @@ class DataItem<T = unknown> extends DataType {
         }
 
         case ActorDataType.CompoundTag: {
-          value = CompoundTag.read(stream, true);
+          value = CompoundTag.read(stream, {
+            name: true,
+            type: true,
+            varint: true
+          });
           break;
         }
 
@@ -152,7 +156,11 @@ class DataItem<T = unknown> extends DataType {
         }
 
         case ActorDataType.CompoundTag: {
-          CompoundTag.write(stream, item.value as CompoundTag<unknown>);
+          CompoundTag.write(stream, item.value as CompoundTag, {
+            name: true,
+            type: true,
+            varint: true
+          });
           break;
         }
 

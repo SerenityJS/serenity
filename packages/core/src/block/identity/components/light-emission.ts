@@ -28,7 +28,7 @@ class BlockTypeLightEmissionComponent extends BlockTypeComponent {
    * @returns The light emission of the block type.
    */
   public getLightEmission(): number {
-    return this.component.getTag<ByteTag>("emission")?.value ?? 0;
+    return this.component.get<ByteTag>("emission")?.valueOf() ?? 0;
   }
 
   /**
@@ -36,7 +36,7 @@ class BlockTypeLightEmissionComponent extends BlockTypeComponent {
    * @param value The light emission of the block type.
    */
   public setLightEmission(value: number): void {
-    this.component.createByteTag({ name: "emission", value });
+    this.component.add(new ByteTag(value, "emission"));
   }
 }
 

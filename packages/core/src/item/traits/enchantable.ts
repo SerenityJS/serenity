@@ -1,12 +1,7 @@
-import { CompoundTag, ListTag, ShortTag, TagType } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, ShortTag } from "@serenityjs/nbt";
 import { Enchantment } from "@serenityjs/protocol";
 
 import { ItemTrait } from "./trait";
-
-interface EnchantmentValue {
-  id: ShortTag;
-  lvl: ShortTag;
-}
 
 class ItemEnchantableTrait extends ItemTrait {
   public static readonly identifier = "enchantable";
@@ -17,17 +12,23 @@ class ItemEnchantableTrait extends ItemTrait {
    */
   public getEnchantments(): Map<Enchantment, number> {
     // Get the enchantment list tag from the item stack's NBT
-    const ench =
-      this.item.nbt.get<ListTag<CompoundTag<EnchantmentValue>>>("ench");
+    const ench = this.item.nbt.get<ListTag<CompoundTag>>("ench");
 
     // Create a new map to store the enchantments
     const enchantments = new Map<Enchantment, number>();
 
     // Check if the enchantment list tag exists
-    if (ench)
+    if (ench) {
       // Iterate over each enchantment in the list tag
-      for (const { value } of ench.value)
-        enchantments.set(value.id.value, value.lvl.value);
+      for (const element of ench) {
+        // Get the enchantment id and level from the compound tag
+        const id: Enchantment = element.get<ShortTag>("id")?.valueOf() ?? 0;
+        const level: number = element.get<ShortTag>("lvl")?.valueOf() ?? 0;
+
+        // Add the enchantment id and level to the map
+        enchantments.set(id, level);
+      }
+    }
 
     // Return the map of enchantments
     return enchantments;
@@ -62,24 +63,23 @@ class ItemEnchantableTrait extends ItemTrait {
    */
   public addEnchantment(id: Enchantment, level: number): void {
     // Get the enchantment list tag from the item stack's NBT
-    const ench =
-      this.item.nbt.get<ListTag<CompoundTag<EnchantmentValue>>>("ench");
+    const ench = this.item.nbt.get<ListTag<CompoundTag>>("ench");
 
     // Check if the enchantment list tag exists
     if (ench) {
       // Create a new enchantment value
-      const value = new CompoundTag<EnchantmentValue>();
+      const value = new CompoundTag();
 
       // Set the enchantment value's id and level
-      value.createShortTag({ name: "id", value: id });
-      value.createShortTag({ name: "lvl", value: level });
+      value.add(new ShortTag(id, "id"));
+      value.add(new ShortTag(level, "lvl"));
 
       // Add the enchantment value to the list tag
       ench.push(value);
-    }
 
-    // Set the nbt's enchantment list tag
-    this.item.nbt.set("ench", ench);
+      // Set the nbt's enchantment list tag
+      this.item.nbt.set("ench", ench);
+    }
   }
 
   /**
@@ -88,16 +88,17 @@ class ItemEnchantableTrait extends ItemTrait {
    */
   public removeEnchantment(id: Enchantment): void {
     // Get the enchantment list tag from the item stack's NBT
-    const ench =
-      this.item.nbt.get<ListTag<CompoundTag<EnchantmentValue>>>("ench");
+    const ench = this.item.nbt.get<ListTag<CompoundTag>>("ench");
 
     // Check if the enchantment list tag exists
     if (ench) {
       // Filter out the enchantment with the specified id
-      ench.value = ench.value.filter((value) => value.value.id.value !== id);
+      const filtered = ench.filter(
+        (element) => element.get<ShortTag>("id")?.valueOf() !== id
+      );
 
-      // Set the nbt's enchantment list tag
-      this.item.nbt.set("ench", ench);
+      // Set the filtered enchantment list tag back to the item stack's NBT
+      this.item.nbt.set("ench", new ListTag(filtered, "ench"));
     }
   }
 
@@ -118,19 +119,15 @@ class ItemEnchantableTrait extends ItemTrait {
    * Gets the enchantment list tag from the item stack's NBT.
    * @returns The enchantment list tag.
    */
-  public getNbt(): ListTag<CompoundTag<EnchantmentValue>> {
-    return this.item.nbt.get<ListTag<CompoundTag<EnchantmentValue>>>("ench");
+  public getNbt(): ListTag<CompoundTag> {
+    return this.item.nbt.get<ListTag<CompoundTag>>("ench")!;
   }
 
   public onAdd(): void {
     // Check if the item has the enchantment list tag
     if (!this.item.nbt.has("ench")) {
       // Create the enchantment list tag
-      const ench = new ListTag({
-        name: "ench",
-        value: [],
-        listType: TagType.Compound
-      });
+      const ench = new ListTag([], "ench");
 
       // Add the enchantment list tag to the item stack's NBT
       this.item.nbt.add(ench);

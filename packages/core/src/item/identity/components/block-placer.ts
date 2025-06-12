@@ -1,10 +1,4 @@
-import {
-  ByteTag,
-  CompoundTag,
-  ListTag,
-  StringTag,
-  TagType
-} from "@serenityjs/nbt";
+import { ByteTag, CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 
 import { BlockIdentifier } from "../../../enums";
 import { BlockType } from "../../../block";
@@ -72,10 +66,7 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
     this.blockType = type;
 
     // Create a new block tag.
-    this.component.createStringTag({
-      name: "block",
-      value: type.identifier
-    });
+    this.component.add(new StringTag(type.identifier, "block"));
   }
 
   /**
@@ -83,7 +74,7 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
    * @returns Whether the block image is the item icon.
    */
   public getUseBlockAsIcon(): boolean {
-    return this.component.getTag<ByteTag>("canUseBlockAsIcon")?.value === 1;
+    return this.component.get<ByteTag>("canUseBlockAsIcon")?.valueOf() === 1;
   }
 
   /**
@@ -91,11 +82,8 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
    * @param value Whether the block image is the item icon.
    */
   public setUseBlockAsIcon(value: boolean): void {
-    // Create a new block tag.
-    this.component.createByteTag({
-      name: "canUseBlockAsIcon",
-      value: value ? 1 : 0
-    });
+    // Add a new byte tag to the component indicating if the block image is used as the icon.
+    this.component.add(new ByteTag(value ? 1 : 0, "canUseBlockAsIcon"));
   }
 
   /**
@@ -104,12 +92,11 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
    */
   public getUseOnBlocks(): Array<BlockIdentifier | string> {
     // Get the use on tag.
-    const useOn =
-      this.component.getTag<ListTag<CompoundTag<unknown>>>("use_on");
+    const useOn = this.component.get<ListTag<CompoundTag>>("use_on")!;
 
     // Return the block identifiers.
-    return useOn.value.map((tag) => {
-      return tag.getTag<StringTag>("name")?.value as BlockIdentifier;
+    return useOn.map((tag) => {
+      return tag.get<StringTag>("name")?.valueOf() as BlockIdentifier;
     });
   }
 
@@ -118,25 +105,21 @@ class ItemTypeBlockPlacerComponent extends ItemTypeComponent {
    * @param value The blocks that this item can be used on.
    */
   public setUseOnBlocks(value: Array<BlockIdentifier | string>): void {
-    // Create the use on list tag.
-    const useOn = this.component.createListTag({
-      name: "use_on",
-      listType: TagType.Compound
-    });
+    // Create a new list tag for use on blocks.
+    const useOn = new ListTag<CompoundTag>([], "use_on");
 
+    // Iterate over the blocks and create a tag for each.
     for (const block of value) {
-      // Create the block tag.
-      const tag = new CompoundTag({});
-
-      // Set the block name.
-      tag.createStringTag({ name: "name", value: block });
+      // Create the block tag and set the name.
+      const tag = new CompoundTag();
+      tag.add(new StringTag(block, "name"));
 
       // Add the block to the use on list.
       useOn.push(tag);
     }
 
-    // Set the use on list to the component.
-    this.component.setTag("use_on", useOn);
+    // Add the use on list to the component.
+    this.component.add(useOn);
   }
 }
 

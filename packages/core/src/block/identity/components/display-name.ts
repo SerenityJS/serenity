@@ -26,10 +26,10 @@ class BlockTypeDisplayNameComponent extends BlockTypeComponent {
    */
   public getDisplayName(): string {
     // Get the display name component.
-    const component = this.component.getTag<StringTag>("value");
+    const component = this.component.get<StringTag>("value");
 
     // Return the display name.
-    return component?.value ?? "";
+    return component?.valueOf() ?? "";
   }
 
   /**
@@ -38,7 +38,7 @@ class BlockTypeDisplayNameComponent extends BlockTypeComponent {
    */
   public setDisplayName(value: string): void {
     // Set the display name component.
-    this.component.createStringTag({ name: "value", value });
+    this.component.add(new StringTag(value, "value"));
   }
 }
 
