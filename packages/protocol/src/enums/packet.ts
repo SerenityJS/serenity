@@ -148,7 +148,8 @@ enum Packet {
   CurrentStructureFeature = 0x1_3a, // 314
   ServerboundDiagnosticPacket = 0x1_3b, // 315
   MovementEffect = 0x1_3e, // 318
-  PlayerUpdateEntityOverrides = 0x1_45 // 325
+  PlayerUpdateEntityOverrides = 0x1_45, // 325
+  ServerScriptDebugDrawer = 0x1_48 // 328
 }
 
 export { Packet };
