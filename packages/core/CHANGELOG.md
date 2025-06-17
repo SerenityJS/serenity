@@ -1,5 +1,21 @@
 # @serenityjs/core
 
+## 0.8.3
+
+### Patch Changes
+
+- [`71f2576`](https://github.com/SerenityJS/serenity/commit/71f25765b3bb6a351fddaf9b17649eea6f3417ee) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.3-beta
+
+- [#148](https://github.com/SerenityJS/serenity/pull/148) [`2d47e67`](https://github.com/SerenityJS/serenity/commit/2d47e67747c16437b34e2305c628b4c445f52071) Thanks [@filiphsps](https://github.com/filiphsps)! - Fix the time set/add command to only allow positive integers (or 0)
+
+- Updated dependencies [[`71f2576`](https://github.com/SerenityJS/serenity/commit/71f25765b3bb6a351fddaf9b17649eea6f3417ee)]:
+  - @serenityjs/data@0.8.3
+  - @serenityjs/emitter@0.8.3
+  - @serenityjs/logger@0.8.3
+  - @serenityjs/nbt@0.8.3
+  - @serenityjs/protocol@0.8.3
+  - @serenityjs/raknet@0.8.3
+
 ## 0.8.2
 
 ### Patch Changes
