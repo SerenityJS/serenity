@@ -42,6 +42,17 @@ class NbtMap extends CompoundTag {
     return tag;
   }
 
+  public push<T extends BaseTag>(...tags: Array<T>): this {
+    // Call the super method to add multiple tags
+    super.push(...tags);
+
+    // Update the block with the new NBT data
+    this.update();
+
+    // Return this for chaining
+    return this;
+  }
+
   public set<T extends BaseTag>(key: string, value: T): this {
     // Call the super method to set the tag
     super.set(key, value);

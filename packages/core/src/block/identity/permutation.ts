@@ -61,6 +61,12 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   public readonly components: BlockTypeComponentCollection;
 
   /**
+   * Additional nbt data for the block permutation.
+   * This data is applied to the block when it is placed in the world.
+   */
+  public readonly nbt: CompoundTag = new CompoundTag();
+
+  /**
    * Whether the block permutation is component based.
    * This is determined by the presence of any components in the block permutation.
    */

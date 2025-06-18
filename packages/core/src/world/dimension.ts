@@ -380,11 +380,18 @@ class Dimension {
       // Create a new block with the dimension, position, and permutation
       const block = new Block(this, blockPosition);
 
+      // Push the permutation nbt to the block's nbt
+      block.nbt.push(...permutation.nbt.values());
+
       // Iterate over all the traits and apply them to the block
       for (const [, trait] of permutation.type.traits) block.addTrait(trait);
 
       // If the block has dynamic properties or traits, we will cache the block
-      if (block.dyanamicProperties.size > 0 || block.traits.size > 0)
+      if (
+        block.nbt.size > 0 ||
+        block.dyanamicProperties.size > 0 ||
+        block.traits.size > 0
+      )
         this.blocks.set(hash, block);
 
       // Return the block

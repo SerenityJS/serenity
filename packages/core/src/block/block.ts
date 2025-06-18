@@ -388,7 +388,8 @@ class Block {
   ): void {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
-      // Clear the components and traits if the type has changed.
+      // Clear the nbt, traits, and dynamic properties of the block.
+      this.nbt.clear();
       this.traits.clear();
       this.dyanamicProperties.clear();
     }
@@ -405,12 +406,17 @@ class Block {
     // Check if the entry is provided.
     if (entry) this.loadDataEntry(this.world, entry);
 
+    // Push the nbt data of the permutation to the block's nbt.
+    this.nbt.push(...permutation.nbt.values());
+
     // Iterate over all the traits and apply them to the block
     for (const [, trait] of permutation.type.traits) this.addTrait(trait);
 
     // Check if the block should be cached.
     if (
-      (this.dyanamicProperties.size > 0 || this.traits.size > 0) &&
+      (this.nbt.size > 0 ||
+        this.dyanamicProperties.size > 0 ||
+        this.traits.size > 0) &&
       !this.isAir
     ) {
       // Calculate the block hash using the position
