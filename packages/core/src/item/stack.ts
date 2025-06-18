@@ -22,7 +22,7 @@ import {
   type ItemTypeComponent,
   ItemTypeComponentCollection
 } from "./identity";
-import { ItemStackTrait } from "./traits";
+import { ItemStackDisplayTrait, ItemStackTrait } from "./traits";
 import { ItemStackNbtMap } from "./maps";
 import {
   type ItemStackOptions,
@@ -611,6 +611,20 @@ class ItemStack {
     value: T
   ): void {
     this.dynamicProperties.set(key, value);
+  }
+
+  public getDisplayName(): string {
+    // Check if the item stack has a display trait.
+    if (this.hasTrait(ItemStackDisplayTrait)) {
+      // Get the display trait from the item stack.
+      const display = this.getTrait(ItemStackDisplayTrait);
+
+      // Return the display name if it exists.
+      return display.getDisplayName() ?? "";
+    }
+
+    // Return empty string if the item type does not have a display name.
+    return "";
   }
 
   public equals(other: ItemStack): boolean {

@@ -1,15 +1,55 @@
 import { CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 
+import { ItemStack } from "../stack";
+
 import { ItemStackTrait } from "./trait";
+
+interface ItemStackDisplayTraitOptions {
+  /**
+   * The display name of the item stack.
+   */
+  displayName?: string;
+
+  /**
+   * The lore of the item stack.
+   */
+  lore?: Array<string>;
+}
 
 class ItemStackDisplayTrait extends ItemStackTrait {
   public static readonly identifier = "display";
+  public static readonly components = ["minecraft:display_name"];
+
+  /**
+   * Creates a new display trait for an item stack.
+   * @param item The item stack to which the trait will be applied.
+   * @param options Optional parameters for the display trait, such as display name and lore.
+   */
+  public constructor(
+    item: ItemStack,
+    options?: Partial<ItemStackDisplayTraitOptions>
+  ) {
+    super(item);
+
+    // Check if the item type has a display name component
+    if (item.type.components.hasDisplayName()) {
+      // Get the display name from the item type component
+      const displayName = item.type.components.getDisplayName();
+
+      // Set the display name of the trait
+      this.setDisplayName(displayName);
+    }
+
+    // If options are provided, set the display name and lore
+    if (options?.displayName) this.setDisplayName(options.displayName);
+    if (options?.lore) this.setLore(options.lore);
+  }
 
   /**
    * Gets custom name from the item stack.
    * @returns The custom name if it exists; otherwise, null.
    */
-  public getName(): string | null {
+  public getDisplayName(): string | null {
     // Get the display tag from the item stack
     const display = this.item.nbt.get<CompoundTag>("display");
 
@@ -27,7 +67,7 @@ class ItemStackDisplayTrait extends ItemStackTrait {
    * Adds custom name to the item stack.
    * @param name The item stack custom name.
    */
-  public setName(name: string): void {
+  public setDisplayName(name: string): void {
     // Get the display tag from the item stack
     let display = this.item.nbt.get<CompoundTag>("display");
 
@@ -111,4 +151,4 @@ class ItemStackDisplayTrait extends ItemStackTrait {
   }
 }
 
-export { ItemStackDisplayTrait };
+export { ItemStackDisplayTrait, ItemStackDisplayTraitOptions };
