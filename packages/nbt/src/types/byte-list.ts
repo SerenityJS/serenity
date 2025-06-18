@@ -68,7 +68,7 @@ class ByteListTag extends Array<number> implements BaseTag {
       const buffer = stream.readBuffer(length);
 
       // Convert the buffer to a string.
-      name = String.fromCharCode(...buffer);
+      name = buffer.toString("utf8");
     }
 
     // Read the length of the byte list based on the varint option.

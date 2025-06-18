@@ -57,7 +57,7 @@ class ByteTag extends Number implements BaseTag {
       const buffer = stream.readBuffer(length);
 
       // Convert the buffer to a string.
-      name = String.fromCharCode(...buffer);
+      name = buffer.toString("utf8");
     }
 
     // Read the byte value from the stream.

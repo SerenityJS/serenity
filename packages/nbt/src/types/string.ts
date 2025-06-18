@@ -57,7 +57,7 @@ class StringTag extends String implements BaseTag {
       const buffer = stream.readBuffer(length);
 
       // Convert the buffer to a string.
-      name = String.fromCharCode(...buffer);
+      name = buffer.toString("utf8");
     }
 
     // Read the length of the string value based on the varint option.
@@ -69,7 +69,7 @@ class StringTag extends String implements BaseTag {
     const buffer = stream.readBuffer(length);
 
     // Convert the buffer to a string.
-    const value = String.fromCharCode(...buffer);
+    const value = buffer.toString("utf8");
 
     // Create and return a new StringTag instance.
     return new this(value, name);
