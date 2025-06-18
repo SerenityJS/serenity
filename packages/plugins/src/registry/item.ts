@@ -1,4 +1,4 @@
-import { type ItemTrait, CustomItemType } from "@serenityjs/core";
+import { type ItemStackTrait, CustomItemType } from "@serenityjs/core";
 
 class PluginItemRegistry {
   /**
@@ -9,7 +9,7 @@ class PluginItemRegistry {
   /**
    * The registered custom item traits of the plugin.
    */
-  public readonly traits: Array<typeof ItemTrait> = [];
+  public readonly traits: Array<typeof ItemStackTrait> = [];
 
   /**
    * Registers a custom item type.
@@ -47,7 +47,7 @@ class PluginItemRegistry {
    * @returns The plugin item registry.
    * @note Only register traits during the `onInitialize` event.
    */
-  public registerTrait(...traits: Array<typeof ItemTrait>): this {
+  public registerTrait(...traits: Array<typeof ItemStackTrait>): this {
     // Push the trait to the traits array.
     this.traits.push(...traits);
 
@@ -60,7 +60,7 @@ class PluginItemRegistry {
    * @param trait The custom item trait to unregister.
    * @returns The plugin item registry.
    */
-  public unregisterTrait(trait: typeof ItemTrait): this {
+  public unregisterTrait(trait: typeof ItemStackTrait): this {
     // Find the index of the trait in the traits array.
     const index = this.traits.indexOf(trait);
 

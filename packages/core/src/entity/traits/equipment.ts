@@ -11,10 +11,10 @@ import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { EntityIdentifier } from "../../enums";
 import {
-  ItemEnchantableTrait,
-  ItemKeepOnDieTrait,
+  ItemStackEnchantableTrait,
+  ItemStackKeepOnDieTrait,
   ItemStack,
-  ItemWearableTrait
+  ItemStackWearableTrait
 } from "../../item";
 import { Container } from "../../container";
 
@@ -172,38 +172,38 @@ class EntityEquipmentTrait extends EntityTrait {
     let protection = 0;
 
     // Get the protection values of the armor items
-    protection += head?.getTrait(ItemWearableTrait)?.protection ?? 0;
-    protection += chest?.getTrait(ItemWearableTrait)?.protection ?? 0;
-    protection += legs?.getTrait(ItemWearableTrait)?.protection ?? 0;
-    protection += feet?.getTrait(ItemWearableTrait)?.protection ?? 0;
+    protection += head?.getTrait(ItemStackWearableTrait)?.protection ?? 0;
+    protection += chest?.getTrait(ItemStackWearableTrait)?.protection ?? 0;
+    protection += legs?.getTrait(ItemStackWearableTrait)?.protection ?? 0;
+    protection += feet?.getTrait(ItemStackWearableTrait)?.protection ?? 0;
 
     // Check if the head item is enchantable
-    if (head?.hasTrait(ItemEnchantableTrait)) {
-      const enchantable = head.getTrait(ItemEnchantableTrait);
+    if (head?.hasTrait(ItemStackEnchantableTrait)) {
+      const enchantable = head.getTrait(ItemStackEnchantableTrait);
 
       // Get the protection enchantments of the head item
       protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
     }
 
     // Check if the chest item is enchantable
-    if (chest?.hasTrait(ItemEnchantableTrait)) {
-      const enchantable = chest.getTrait(ItemEnchantableTrait);
+    if (chest?.hasTrait(ItemStackEnchantableTrait)) {
+      const enchantable = chest.getTrait(ItemStackEnchantableTrait);
 
       // Get the protection enchantments of the chest item
       protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
     }
 
     // Check if the legs item is enchantable
-    if (legs?.hasTrait(ItemEnchantableTrait)) {
-      const enchantable = legs.getTrait(ItemEnchantableTrait);
+    if (legs?.hasTrait(ItemStackEnchantableTrait)) {
+      const enchantable = legs.getTrait(ItemStackEnchantableTrait);
 
       // Get the protection enchantments of the legs item
       protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
     }
 
     // Check if the feet item is enchantable
-    if (feet?.hasTrait(ItemEnchantableTrait)) {
-      const enchantable = feet.getTrait(ItemEnchantableTrait);
+    if (feet?.hasTrait(ItemStackEnchantableTrait)) {
+      const enchantable = feet.getTrait(ItemStackEnchantableTrait);
 
       // Get the protection enchantments of the feet item
       protection += enchantable.getEnchantment(Enchantment.Protection) ?? 0;
@@ -318,7 +318,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = this.armor.getItem(slot);
 
       // Check if the item stack is null
-      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+      if (!itemStack || itemStack.hasTrait(ItemStackKeepOnDieTrait)) continue;
 
       // Drop the item stack from the armor container
       const entity = this.dimension.spawnItem(itemStack, this.entity.position);
@@ -341,7 +341,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const itemStack = this.offhand.getItem(slot);
 
       // Check if the item stack is null
-      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+      if (!itemStack || itemStack.hasTrait(ItemStackKeepOnDieTrait)) continue;
 
       // Drop the item stack from the offhand container
       const entity = this.dimension.spawnItem(itemStack, this.entity.position);

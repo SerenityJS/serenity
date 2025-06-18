@@ -8,7 +8,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
-import { ItemWeaponTrait } from "../../../item";
+import { ItemStackWeaponTrait } from "../../../item";
 import { PlayerCombatProperty } from "../../../types";
 import { Entity } from "../../entity";
 import { EntityHealthTrait } from "../attribute";
@@ -270,10 +270,10 @@ class PlayerCombatTrait extends PlayerTrait {
     if (!item) return this.horizontalKnockback;
 
     // Check if the item has a weapon trait.
-    if (!item.hasTrait(ItemWeaponTrait)) return this.horizontalKnockback;
+    if (!item.hasTrait(ItemStackWeaponTrait)) return this.horizontalKnockback;
 
     // Get the weapon trait of the item.
-    const weapon = item.getTrait(ItemWeaponTrait);
+    const weapon = item.getTrait(ItemStackWeaponTrait);
 
     // Return the calculated horizontal reach.
     return this.horizontalKnockback + weapon.getCalculatedKnockback();
@@ -300,10 +300,10 @@ class PlayerCombatTrait extends PlayerTrait {
     if (!item) return 1;
 
     // Check if the item has a weapon trait.
-    if (!item.hasTrait(ItemWeaponTrait)) return 1;
+    if (!item.hasTrait(ItemStackWeaponTrait)) return 1;
 
     // Get the weapon trait of the item.
-    const weapon = item.getTrait(ItemWeaponTrait);
+    const weapon = item.getTrait(ItemStackWeaponTrait);
 
     // Return the calculated damage.
     return critical

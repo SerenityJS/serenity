@@ -22,7 +22,7 @@ import {
   type ItemTypeComponent,
   ItemTypeComponentCollection
 } from "./identity";
-import { ItemTrait } from "./traits";
+import { ItemStackTrait } from "./traits";
 import { ItemStackNbtMap } from "./maps";
 import {
   type ItemStackOptions,
@@ -53,7 +53,7 @@ class ItemStack {
   /**
    * The traits of the item stack.
    */
-  public readonly traits = new Map<string, ItemTrait>();
+  public readonly traits = new Map<string, ItemStackTrait>();
 
   /**
    * The nbt data of the item stack.
@@ -440,7 +440,7 @@ class ItemStack {
    * @param trait The trait to check for
    * @returns Whether the itemstack has the trait
    */
-  public hasTrait(trait: string | typeof ItemTrait): boolean {
+  public hasTrait(trait: string | typeof ItemStackTrait): boolean {
     return this.traits.has(
       typeof trait === "string" ? trait : trait.identifier
     );
@@ -451,31 +451,33 @@ class ItemStack {
    * @param trait The trait to get from the itemstack
    * @returns The trait if it exists, otherwise null
    */
-  public getTrait<K extends typeof ItemTrait>(trait: K): InstanceType<K>;
+  public getTrait<K extends typeof ItemStackTrait>(trait: K): InstanceType<K>;
 
   /**
    * Gets the specified trait from the itemstack.
    * @param trait The trait to get from the itemstack
    * @returns The trait if it exists, otherwise null
    */
-  public getTrait(trait: string): ItemTrait | null;
+  public getTrait(trait: string): ItemStackTrait | null;
 
   /**
    * Gets the specified trait from the itemstack.
    * @param trait The trait to get from the itemstack
    * @returns The trait if it exists, otherwise null
    */
-  public getTrait(trait: string | typeof ItemTrait): ItemTrait | null {
+  public getTrait(
+    trait: string | typeof ItemStackTrait
+  ): ItemStackTrait | null {
     return this.traits.get(
       typeof trait === "string" ? trait : trait.identifier
-    ) as ItemTrait | null;
+    ) as ItemStackTrait | null;
   }
 
   /**
    * Removes the specified trait from the itemstack.
    * @param trait The trait to remove
    */
-  public removeTrait(trait: string | typeof ItemTrait): void {
+  public removeTrait(trait: string | typeof ItemStackTrait): void {
     // Get the trait from the itemstack
     const instance = this.traits.get(
       typeof trait === "string" ? trait : trait.identifier
@@ -494,8 +496,8 @@ class ItemStack {
    * @param options The additional options to pass to the trait.
    * @returns The trait instance that was added to the itemstack.
    */
-  public addTrait<K extends typeof ItemTrait>(
-    trait: K | ItemTrait,
+  public addTrait<K extends typeof ItemStackTrait>(
+    trait: K | ItemStackTrait,
     options?: ConstructorParameters<K>[1]
   ): InstanceType<K> {
     // Check if the trait already exists
@@ -504,8 +506,8 @@ class ItemStack {
 
     // Attempt to add the trait to the itemstack
     try {
-      // Check if the trait is an instance of ItemTrait
-      if (trait instanceof ItemTrait) {
+      // Check if the trait is an instance of ItemStackTrait
+      if (trait instanceof ItemStackTrait) {
         // Add the trait to the itemstack
         this.traits.set(trait.identifier, trait);
 
@@ -635,7 +637,7 @@ class ItemStack {
     // Iterate over the traits.
     for (const [identifier, trait] of this.traits) {
       // Get the other trait.
-      const otherTrait = other.traits.get(identifier) as ItemTrait;
+      const otherTrait = other.traits.get(identifier) as ItemStackTrait;
 
       // Check if the other trait exists.
       if (!otherTrait) return false;

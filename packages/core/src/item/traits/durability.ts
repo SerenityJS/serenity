@@ -3,13 +3,13 @@ import { LevelSoundEvent, LevelSoundEventPacket } from "@serenityjs/protocol";
 
 import { ItemTypeToolTier } from "../../enums";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
 import type { ItemStack } from "../stack";
 import type { Player } from "../../entity";
 import type { ItemStackUseOptions } from "../types";
 
-class ItemDurabilityTrait extends ItemTrait {
+class ItemStackDurabilityTrait extends ItemStackTrait {
   public static readonly identifier = "durability";
   public static readonly tag = "minecraft:is_tool";
 
@@ -121,4 +121,4 @@ class ItemDurabilityTrait extends ItemTrait {
   }
 }
 
-export { ItemDurabilityTrait };
+export { ItemStackDurabilityTrait };

@@ -1,14 +1,14 @@
 import { ItemTypeToolTier } from "../../enums";
 import { ItemWeaponComponent } from "../../types";
 
-import { ItemWeaponTrait } from "./weapon";
+import { ItemStackWeaponTrait } from "./weapon";
 
-class ItemSwordTrait extends ItemWeaponTrait {
+class ItemStackSwordTrait extends ItemStackWeaponTrait {
   public static readonly tag = "minecraft:is_sword";
 
   public onAdd(): void {
     // Check if the item has the weapon component
-    if (this.item.hasDynamicProperty(ItemWeaponTrait.identifier)) return;
+    if (this.item.hasDynamicProperty(ItemStackWeaponTrait.identifier)) return;
 
     // Prepare the base and critical damage values
     let baseDamage = 3;
@@ -55,7 +55,7 @@ class ItemSwordTrait extends ItemWeaponTrait {
 
     // Create a new component for the item
     this.item.addDynamicProperty<ItemWeaponComponent>(
-      ItemWeaponTrait.identifier,
+      ItemStackWeaponTrait.identifier,
       {
         baseDamage,
         criticalDamage
@@ -64,4 +64,4 @@ class ItemSwordTrait extends ItemWeaponTrait {
   }
 }
 
-export { ItemSwordTrait };
+export { ItemStackSwordTrait };

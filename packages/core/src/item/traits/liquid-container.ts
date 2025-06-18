@@ -5,9 +5,9 @@ import { BlockIdentifier, ItemIdentifier } from "../../enums";
 import { ItemStackUseOnBlockOptions } from "../types";
 import { ItemStack } from "../stack";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemLiquidContainerTrait extends ItemTrait {
+class ItemStackLiquidContainerTrait extends ItemStackTrait {
   public static readonly identifier = "liquid_container";
 
   public static readonly types = [
@@ -131,4 +131,4 @@ class ItemLiquidContainerTrait extends ItemTrait {
   }
 }
 
-export { ItemLiquidContainerTrait };
+export { ItemStackLiquidContainerTrait };

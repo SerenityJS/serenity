@@ -10,7 +10,7 @@ import * as Traits from "./traits";
 /**
  * A list of all item stack traits
  */
-const ItemTraits = Array<typeof Traits.ItemTrait>();
+const ItemStackTraits = Array<typeof Traits.ItemStackTrait>();
 
 // Iterate over each trait
 for (const key in Traits) {
@@ -18,7 +18,7 @@ for (const key in Traits) {
   const trait = Traits[key as keyof typeof Traits];
 
   // Push the item trait to the list
-  ItemTraits.push(trait);
+  ItemStackTraits.push(trait);
 }
 
-export { ItemTraits };
+export { ItemStackTraits };

@@ -6,9 +6,9 @@ import { ItemIdentifier } from "../enums";
 import { CustomItemType, ItemType } from "./identity";
 import { CreateContentGroup, CreativeItemDescriptor } from "./creative";
 
-import { ItemTraits } from "./index";
+import { ItemStackTraits } from "./index";
 
-import type { ItemTrait } from "./traits";
+import type { ItemStackTrait } from "./traits";
 import type { BlockType } from "../block";
 
 class ItemPalette {
@@ -25,11 +25,11 @@ class ItemPalette {
   /**
    * The registered item traits for the palette.
    */
-  public readonly traits = new Map<string, typeof ItemTrait>();
+  public readonly traits = new Map<string, typeof ItemStackTrait>();
 
   public constructor() {
     // Register all item traits.
-    this.registerTrait(...ItemTraits);
+    this.registerTrait(...ItemStackTraits);
   }
 
   /**
@@ -143,7 +143,7 @@ class ItemPalette {
    * @param trait The item trait to register.
    * @returns True if the item trait was registered, false otherwise.
    */
-  public registerTrait(...traits: Array<typeof ItemTrait>): this {
+  public registerTrait(...traits: Array<typeof ItemStackTrait>): this {
     // Iterate over the provided traits.
     for (const trait of traits) {
       // Check if the item trait is already registered.
@@ -189,7 +189,9 @@ class ItemPalette {
    * @param types The item trait to unregister, or the identifier of the item trait.
    * @returns The item palette instance.
    */
-  public unregisterTrait(...types: Array<string | typeof ItemTrait>): this {
+  public unregisterTrait(
+    ...types: Array<string | typeof ItemStackTrait>
+  ): this {
     // Iterate over the provided types.
     for (const type of types) {
       // Get the identifier of the type.
@@ -199,7 +201,7 @@ class ItemPalette {
       if (!this.traits.has(identifier)) continue;
 
       // Get the item trait.
-      const trait = this.traits.get(identifier) as typeof ItemTrait;
+      const trait = this.traits.get(identifier) as typeof ItemStackTrait;
 
       // Iterate over the item types.
       for (const [, itemType] of this.types) {
@@ -219,7 +221,7 @@ class ItemPalette {
    * Gets all item traits from the palette.
    * @returns
    */
-  public getAllTraits(): Array<typeof ItemTrait> {
+  public getAllTraits(): Array<typeof ItemStackTrait> {
     return [...this.traits.values()];
   }
 
@@ -228,7 +230,7 @@ class ItemPalette {
    * @param identifier The identifier of the item trait.
    * @returns The item trait from the palette.
    */
-  public getTrait(identifier: string): typeof ItemTrait | null {
+  public getTrait(identifier: string): typeof ItemStackTrait | null {
     return this.traits.get(identifier) ?? null;
   }
 

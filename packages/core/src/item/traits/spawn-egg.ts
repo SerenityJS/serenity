@@ -3,12 +3,12 @@ import { ItemUseMethod, BlockPosition } from "@serenityjs/protocol";
 import { EntityIdentifier } from "../../enums";
 import { Entity, type Player } from "../../entity";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
 import type { EntityEntry } from "../../types";
 import type { ItemStackUseOnBlockOptions } from "../types";
 
-class ItemSpawnEggTrait extends ItemTrait {
+class ItemStackSpawnEggTrait extends ItemStackTrait {
   public static readonly identifier = "spawn_egg";
   public static readonly tag = "minecraft:spawn_egg";
 
@@ -64,4 +64,4 @@ class ItemSpawnEggTrait extends ItemTrait {
   }
 }
 
-export { ItemSpawnEggTrait };
+export { ItemStackSpawnEggTrait };

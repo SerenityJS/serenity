@@ -11,12 +11,12 @@ import { ItemStack } from "../stack";
 import { Entity, EntityEquipmentTrait, Player } from "../../entity";
 import { ItemTypeWearableComponent } from "../identity";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
 import type { JSONLikeObject } from "../../types";
 import type { ItemStackUseOptions } from "../types";
 
-interface ItemWearableTraitProperties extends JSONLikeObject {
+interface ItemStackWearableTraitProperties extends JSONLikeObject {
   /**
    * The amount of protection the wearable item provides.
    */
@@ -33,7 +33,7 @@ interface ItemWearableTraitProperties extends JSONLikeObject {
   tier: ItemWearableTier;
 }
 
-class ItemWearableTrait extends ItemTrait {
+class ItemStackWearableTrait extends ItemStackTrait {
   public static readonly identifier = "wearable";
 
   // If the base item type contains this tag, it is considered wearable.
@@ -45,12 +45,12 @@ class ItemWearableTrait extends ItemTrait {
   /**
    * The dynamic properties of the wearable trait.
    */
-  public get properties(): ItemWearableTraitProperties {
+  public get properties(): ItemStackWearableTraitProperties {
     // Check if the item has a dynamic property for the wearable trait
     if (!this.item.hasDynamicProperty(this.identifier)) {
       // Create a new dynamic property for the wearable trait
-      this.item.setDynamicProperty<ItemWearableTraitProperties>(
-        ItemWearableTrait.identifier,
+      this.item.setDynamicProperty<ItemStackWearableTraitProperties>(
+        ItemStackWearableTrait.identifier,
         {
           protection: 0,
           slot: WearableSlot.Offhand,
@@ -61,8 +61,8 @@ class ItemWearableTrait extends ItemTrait {
 
     // Return the dynamic property for the wearable trait
     return this.item.getDynamicProperty(
-      ItemWearableTrait.identifier
-    ) as ItemWearableTraitProperties;
+      ItemStackWearableTrait.identifier
+    ) as ItemStackWearableTraitProperties;
   }
 
   /**
@@ -100,7 +100,7 @@ class ItemWearableTrait extends ItemTrait {
    */
   public constructor(
     item: ItemStack,
-    properties?: Partial<ItemWearableTraitProperties>
+    properties?: Partial<ItemStackWearableTraitProperties>
   ) {
     super(item);
 
@@ -258,4 +258,4 @@ class ItemWearableTrait extends ItemTrait {
   }
 }
 
-export { ItemWearableTrait, ItemWearableTraitProperties };
+export { ItemStackWearableTrait, ItemStackWearableTraitProperties };

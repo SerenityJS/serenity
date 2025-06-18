@@ -4,9 +4,9 @@ import { Player, PlayerHungerTrait } from "../../entity";
 import { ItemStackUseOptions } from "../types";
 import { ItemIdentifier } from "../../enums";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemFoodTrait extends ItemTrait {
+class ItemStackFoodTrait extends ItemStackTrait {
   public static readonly identifier = "food";
   public static readonly tag = "minecraft:is_food";
 
@@ -46,4 +46,4 @@ class ItemFoodTrait extends ItemTrait {
   }
 }
 
-export { ItemFoodTrait };
+export { ItemStackFoodTrait };

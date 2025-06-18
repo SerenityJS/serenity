@@ -13,7 +13,7 @@ import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import {
-  ItemKeepOnDieTrait,
+  ItemStackKeepOnDieTrait,
   ItemStack,
   ItemStackDataEntry,
   type ItemStackStorage
@@ -261,7 +261,7 @@ class EntityInventoryTrait extends EntityTrait {
       const itemStack = this.container.getItem(slot);
 
       // Check if the item is null
-      if (!itemStack || itemStack.hasTrait(ItemKeepOnDieTrait)) continue;
+      if (!itemStack || itemStack.hasTrait(ItemStackKeepOnDieTrait)) continue;
 
       // Drop the item stack from the armor container
       const entity = this.dimension.spawnItem(itemStack, this.entity.position);

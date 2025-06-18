@@ -2,7 +2,7 @@ import { Enchantment } from "@serenityjs/protocol";
 
 import { EnchantmentsEnum, IntegerEnum, TargetEnum } from "../enums";
 import { EntityInventoryTrait } from "../../entity";
-import { ItemEnchantableTrait } from "../../item";
+import { ItemStackEnchantableTrait } from "../../item";
 
 import type { World } from "../../world";
 
@@ -88,9 +88,9 @@ const register = (world: World) => {
               }
 
               // Get the enchantable trait of the held item
-              const enchantable = heldItem.hasTrait(ItemEnchantableTrait)
-                ? heldItem.getTrait(ItemEnchantableTrait)
-                : heldItem.addTrait(ItemEnchantableTrait);
+              const enchantable = heldItem.hasTrait(ItemStackEnchantableTrait)
+                ? heldItem.getTrait(ItemStackEnchantableTrait)
+                : heldItem.addTrait(ItemStackEnchantableTrait);
 
               // Set the enchantment on the held item
               enchantable.setEnchantment(enchantment, level);

@@ -34,7 +34,7 @@ import {
 import { Serenity } from "../serenity";
 import { Chunk } from "../world/chunk";
 import { Container } from "../container";
-import { ItemBundleTrait, ItemStack } from "../item";
+import { ItemStackBundleTrait, ItemStack } from "../item";
 import { CommandExecutionState } from "../commands";
 import {
   EntityDespawnedSignal,
@@ -972,10 +972,10 @@ class Entity {
         // Check if the item is valid
         if (!item) continue;
 
-        // Check if the item has a ItemBundleTrait
-        if (item.hasTrait(ItemBundleTrait)) {
+        // Check if the item has a ItemStackBundleTrait
+        if (item.hasTrait(ItemStackBundleTrait)) {
           // Get the bundle trait
-          const _bundle = item.getTrait(ItemBundleTrait);
+          const _bundle = item.getTrait(ItemStackBundleTrait);
 
           // Check if the bundle has the dynamic id
           // if (bundle.dynamicId === dynamicId) return bundle.container;

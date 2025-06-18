@@ -1,8 +1,8 @@
 import { CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemDisplayTrait extends ItemTrait {
+class ItemStackDisplayTrait extends ItemStackTrait {
   public static readonly identifier = "display";
 
   /**
@@ -111,4 +111,4 @@ class ItemDisplayTrait extends ItemTrait {
   }
 }
 
-export { ItemDisplayTrait };
+export { ItemStackDisplayTrait };

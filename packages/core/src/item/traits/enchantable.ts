@@ -1,9 +1,9 @@
 import { CompoundTag, ListTag, ShortTag } from "@serenityjs/nbt";
 import { Enchantment } from "@serenityjs/protocol";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemEnchantableTrait extends ItemTrait {
+class ItemStackEnchantableTrait extends ItemStackTrait {
   public static readonly identifier = "enchantable";
 
   /**
@@ -140,4 +140,4 @@ class ItemEnchantableTrait extends ItemTrait {
   }
 }
 
-export { ItemEnchantableTrait };
+export { ItemStackEnchantableTrait };

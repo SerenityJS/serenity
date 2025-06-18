@@ -19,7 +19,7 @@ import {
 } from "../types";
 import { Chunk } from "../world/chunk";
 import {
-  ItemEnchantableTrait,
+  ItemStackEnchantableTrait,
   ItemStack,
   ItemType,
   type ItemStackOptions
@@ -941,9 +941,9 @@ class Block {
         efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
-        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+        if (itemStack.hasTrait(ItemStackEnchantableTrait)) {
           // Get the enchantable trait from the item stack.
-          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+          const enchantable = itemStack.getTrait(ItemStackEnchantableTrait);
 
           // Add the efficiency enchantment to the efficiency multiplier.
           efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
@@ -956,9 +956,9 @@ class Block {
         efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
-        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+        if (itemStack.hasTrait(ItemStackEnchantableTrait)) {
           // Get the enchantable trait from the item stack.
-          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+          const enchantable = itemStack.getTrait(ItemStackEnchantableTrait);
 
           // Add the efficiency enchantment to the efficiency multiplier.
           efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
@@ -971,9 +971,9 @@ class Block {
         efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
-        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+        if (itemStack.hasTrait(ItemStackEnchantableTrait)) {
           // Get the enchantable trait from the item stack.
-          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+          const enchantable = itemStack.getTrait(ItemStackEnchantableTrait);
 
           // Add the efficiency enchantment to the efficiency multiplier.
           efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
@@ -986,9 +986,9 @@ class Block {
         efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
-        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+        if (itemStack.hasTrait(ItemStackEnchantableTrait)) {
           // Get the enchantable trait from the item stack.
-          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+          const enchantable = itemStack.getTrait(ItemStackEnchantableTrait);
 
           // Add the efficiency enchantment to the efficiency multiplier.
           efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
@@ -1001,9 +1001,9 @@ class Block {
         efficiency *= 1.5 * itemStack.type.getToolTier();
 
         // Check if the item stack has the enchantable trait.
-        if (itemStack.hasTrait(ItemEnchantableTrait)) {
+        if (itemStack.hasTrait(ItemStackEnchantableTrait)) {
           // Get the enchantable trait from the item stack.
-          const enchantable = itemStack.getTrait(ItemEnchantableTrait);
+          const enchantable = itemStack.getTrait(ItemStackEnchantableTrait);
 
           // Add the efficiency enchantment to the efficiency multiplier.
           efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;

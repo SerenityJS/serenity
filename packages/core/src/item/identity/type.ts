@@ -12,7 +12,7 @@ import { BlockType } from "../../block";
 
 import { ItemTypeComponentCollection } from "./collection";
 
-import type { ItemTrait } from "../traits";
+import type { ItemStackTrait } from "../traits";
 import type { ItemTypeOptions } from "../types";
 
 class ItemType {
@@ -85,7 +85,7 @@ class ItemType {
    * The traits that are bound to the item type.
    * These traits are used to define custom behavior for the item type.
    */
-  public readonly traits = new Map<string, typeof ItemTrait>();
+  public readonly traits = new Map<string, typeof ItemStackTrait>();
 
   /**
    * Whether the item type is component based.
@@ -189,7 +189,7 @@ class ItemType {
    * @param trait The trait to register.
    * @returns The item type instance.
    */
-  public registerTrait(trait: typeof ItemTrait): this {
+  public registerTrait(trait: typeof ItemStackTrait): this {
     // Check if the trait is already registered.
     if (this.traits.has(trait.identifier)) return this;
 
@@ -205,7 +205,7 @@ class ItemType {
    * @param trait The trait to unregister, or the identifier of the trait.
    * @returns The item type instance.
    */
-  public unregisterTrait(trait: string | typeof ItemTrait): this {
+  public unregisterTrait(trait: string | typeof ItemStackTrait): this {
     // Get the identifier of the trait.
     const identifier = typeof trait === "string" ? trait : trait.identifier;
 

@@ -1,8 +1,8 @@
 import { ByteTag } from "@serenityjs/nbt";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemKeepOnDieTrait extends ItemTrait {
+class ItemStackKeepOnDieTrait extends ItemStackTrait {
   public static readonly identifier = "keep_on_die";
 
   public get keep(): boolean {
@@ -22,4 +22,4 @@ class ItemKeepOnDieTrait extends ItemTrait {
   }
 }
 
-export { ItemKeepOnDieTrait };
+export { ItemStackKeepOnDieTrait };

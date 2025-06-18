@@ -2,10 +2,10 @@ import { Enchantment } from "@serenityjs/protocol";
 
 import { ItemWeaponComponent } from "../../types";
 
-import { ItemEnchantableTrait } from "./enchantable";
-import { ItemTrait } from "./trait";
+import { ItemStackEnchantableTrait } from "./enchantable";
+import { ItemStackTrait } from "./trait";
 
-class ItemWeaponTrait extends ItemTrait {
+class ItemStackWeaponTrait extends ItemStackTrait {
   public static readonly identifier = "weapon";
   public static readonly tag: string = "minecraft:is_weapon";
 
@@ -14,7 +14,7 @@ class ItemWeaponTrait extends ItemTrait {
    */
   public get component(): ItemWeaponComponent {
     return this.item.getDynamicProperty(
-      ItemWeaponTrait.identifier
+      ItemStackWeaponTrait.identifier
     ) as ItemWeaponComponent;
   }
 
@@ -48,11 +48,11 @@ class ItemWeaponTrait extends ItemTrait {
 
   public onAdd(): void {
     // Create if the item does not have the component
-    if (this.item.hasDynamicProperty(ItemWeaponTrait.identifier)) return;
+    if (this.item.hasDynamicProperty(ItemStackWeaponTrait.identifier)) return;
 
     // Creata a new component for the item
     this.item.addDynamicProperty<ItemWeaponComponent>(
-      ItemWeaponTrait.identifier,
+      ItemStackWeaponTrait.identifier,
       {
         baseDamage: 2,
         criticalDamage: 3
@@ -62,7 +62,7 @@ class ItemWeaponTrait extends ItemTrait {
 
   public onRemove(): void {
     // Remove the component from the item
-    this.item.removeDynamicProperty(ItemWeaponTrait.identifier);
+    this.item.removeDynamicProperty(ItemStackWeaponTrait.identifier);
   }
 
   /**
@@ -71,10 +71,10 @@ class ItemWeaponTrait extends ItemTrait {
    */
   public getCalculatedBaseDamage(): number {
     // Check if the item has the enchantment trait
-    if (!this.item.hasTrait(ItemEnchantableTrait)) return this.baseDamage;
+    if (!this.item.hasTrait(ItemStackEnchantableTrait)) return this.baseDamage;
 
     // Get the enchantment trait
-    const enchantable = this.item.getTrait(ItemEnchantableTrait);
+    const enchantable = this.item.getTrait(ItemStackEnchantableTrait);
 
     // Get the sharpness enchantment level
     const sharpness = enchantable.getEnchantment(Enchantment.Sharpness) ?? 0;
@@ -89,10 +89,11 @@ class ItemWeaponTrait extends ItemTrait {
    */
   public getCalculatedCriticalDamage(): number {
     // Check if the item has the enchantment trait
-    if (!this.item.hasTrait(ItemEnchantableTrait)) return this.criticalDamage;
+    if (!this.item.hasTrait(ItemStackEnchantableTrait))
+      return this.criticalDamage;
 
     // Get the enchantment trait
-    const enchantable = this.item.getTrait(ItemEnchantableTrait);
+    const enchantable = this.item.getTrait(ItemStackEnchantableTrait);
 
     // Get the sharpness enchantment level
     const sharpness = enchantable.getEnchantment(Enchantment.Sharpness) ?? 0;
@@ -107,10 +108,10 @@ class ItemWeaponTrait extends ItemTrait {
    */
   public getCalculatedKnockback(): number {
     // Check if the item has the enchantment trait
-    if (!this.item.hasTrait(ItemEnchantableTrait)) return 0;
+    if (!this.item.hasTrait(ItemStackEnchantableTrait)) return 0;
 
     // Get the enchantment trait
-    const enchantable = this.item.getTrait(ItemEnchantableTrait);
+    const enchantable = this.item.getTrait(ItemStackEnchantableTrait);
 
     // Get the knockback enchantment level
     const knockback = enchantable.getEnchantment(Enchantment.Knockback) ?? 0;
@@ -120,4 +121,4 @@ class ItemWeaponTrait extends ItemTrait {
   }
 }
 
-export { ItemWeaponTrait };
+export { ItemStackWeaponTrait };

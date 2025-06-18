@@ -3,9 +3,9 @@ import { Vector3f } from "@serenityjs/protocol";
 import { Player } from "../../entity";
 import { EntityIdentifier, ItemIdentifier } from "../../enums";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemShooterTrait extends ItemTrait {
+class ItemStackShooterTrait extends ItemStackTrait {
   public static readonly identifier = "shooter";
   public static readonly types = [ItemIdentifier.Bow, ItemIdentifier.Crossbow];
 
@@ -54,4 +54,4 @@ class ItemShooterTrait extends ItemTrait {
   }
 }
 
-export { ItemShooterTrait };
+export { ItemStackShooterTrait };

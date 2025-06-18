@@ -12,7 +12,7 @@ import type {
   ItemStackUseOnEntityOptions
 } from "../types";
 
-class ItemTrait extends Trait {
+class ItemStackTrait extends Trait {
   /**
    * The item type identifiers that this trait is compatible with by default.
    */
@@ -130,7 +130,7 @@ class ItemTrait extends Trait {
    * @param other The other item trait to compare.
    * @returns Whether the item traits are equal.
    */
-  public equals(other: ItemTrait): boolean {
+  public equals(other: ItemStackTrait): boolean {
     return this.identifier === other.identifier;
   }
 
@@ -144,15 +144,15 @@ class ItemTrait extends Trait {
     const component = new (this.constructor as new (
       item: ItemStack,
       identifier: string
-    ) => ItemTrait)(item, this.identifier) as this;
+    ) => ItemStackTrait)(item, this.identifier) as this;
 
     // Copy the key-value pairs.
     for (const [key, value] of Object.entries(this)) {
       // Skip the item.
       if (key === "item") continue;
 
-      // @ts-ignore: We know the key is a valid key of ItemTrait
-      component[key as keyof ItemTrait] = value as never;
+      // @ts-ignore: We know the key is a valid key of ItemStackTrait
+      component[key as keyof ItemStackTrait] = value as never;
     }
 
     // Return the trait
@@ -160,4 +160,4 @@ class ItemTrait extends Trait {
   }
 }
 
-export { ItemTrait };
+export { ItemStackTrait };

@@ -2,9 +2,9 @@ import { ByteTag } from "@serenityjs/nbt";
 
 import { ItemLockMode } from "../../enums";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemLockTrait extends ItemTrait {
+class ItemStackLockTrait extends ItemStackTrait {
   public static readonly identifier = "lock";
 
   /**
@@ -52,4 +52,4 @@ class ItemLockTrait extends ItemTrait {
   }
 }
 
-export { ItemLockTrait };
+export { ItemStackLockTrait };

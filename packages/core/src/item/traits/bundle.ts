@@ -1,9 +1,9 @@
 import { ItemIdentifier } from "../../enums";
 import { ItemStack } from "../stack";
 
-import { ItemTrait } from "./trait";
+import { ItemStackTrait } from "./trait";
 
-class ItemBundleTrait extends ItemTrait {
+class ItemStackBundleTrait extends ItemStackTrait {
   public static readonly identifier = "dynamic_container";
 
   public static readonly types = [
@@ -139,4 +139,4 @@ class ItemBundleTrait extends ItemTrait {
   // }
 }
 
-export { ItemBundleTrait };
+export { ItemStackBundleTrait };
