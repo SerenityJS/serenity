@@ -5,7 +5,7 @@ import type { ItemStackDataEntry } from "./item-stack-data-entry";
  * The default item stack options.
  */
 const DefaultItemStackOptions: ItemStackOptions = {
-  amount: 1,
+  stackSize: 1,
   metadata: 0
 };
 
@@ -13,7 +13,7 @@ interface ItemStackOptions {
   /**
    * The amount of items in the stack.
    */
-  amount: number;
+  stackSize: number;
 
   /**
    * The metadata of the item stack.

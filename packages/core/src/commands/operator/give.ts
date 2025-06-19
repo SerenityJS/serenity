@@ -38,7 +38,7 @@ const register = (world: World) => {
           for (const target of targets) {
             // Create the item stack
             const itemStack = new ItemStack(itemIdentifier as ItemIdentifier, {
-              amount,
+              stackSize: amount,
               metadata,
               world
             });

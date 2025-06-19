@@ -108,7 +108,7 @@ class Container {
 
     // Check if the item amount is 0
     // If so, set the slot to null as there is no item
-    if (item.amount === 0) this.clearSlot(slot);
+    if (item.stackSize === 0) this.clearSlot(slot);
 
     // Set the container of the item
     item.container = this;
@@ -130,14 +130,14 @@ class Container {
       if (!slot) return false;
 
       // Check if the item can be stacked.
-      if (slot.amount >= item.maxAmount) return false;
+      if (slot.stackSize >= item.maxStackSize) return false;
 
       // Check if the item is equal to the slot.
       return item.equals(slot);
     });
 
     // Check if the item is maxed.
-    const maxed = item.amount >= item.maxAmount;
+    const maxed = item.stackSize >= item.maxStackSize;
 
     // Check if exists an available slot
     if (slot > -1 && !maxed && item.isStackable) {
@@ -146,15 +146,15 @@ class Container {
 
       // Calculate the amount of items to add.
       const amount = Math.min(
-        item.maxAmount - existingItem.amount,
-        item.amount
+        item.maxStackSize - existingItem.stackSize,
+        item.stackSize
       );
 
       // Add the amount to the existing item.
-      existingItem.increment(amount);
+      existingItem.incrementStack(amount);
 
       // Subtract the amount from the item.
-      item.decrement(amount);
+      item.decrementStack(amount);
 
       // Return true as the item was successfully added.
       return true;
@@ -166,16 +166,16 @@ class Container {
       if (emptySlot === -1) return false;
 
       // Check if the item is maxed.
-      if (item.amount > item.maxAmount) {
+      if (item.stackSize > item.maxStackSize) {
         // Create a full stack item for the empty slot
         const newItem = new ItemStack(item.type, {
           ...item,
-          amount: item.maxAmount
+          stackSize: item.stackSize
         });
 
         // Add the new Item and decrease it
         this.setItem(emptySlot, newItem);
-        item.decrement(item.maxAmount);
+        item.decrementStack(item.maxStackSize);
 
         // Because it is greater than 64 call the function to add the remaining items
         return this.addItem(item);
@@ -200,13 +200,13 @@ class Container {
     if (!item) return null;
 
     // Calculate the amount of items to remove.
-    const removed = Math.min(amount, item.amount);
+    const removed = Math.min(amount, item.stackSize);
 
     // Subtract the amount from the item.
-    item.decrement(removed);
+    item.decrementStack(removed);
 
     // Check if the item amount is 0.
-    if (item.amount === 0) this.storage[slot] = null;
+    if (item.stackSize === 0) this.storage[slot] = null;
 
     // Return the removed item.
     return item;
@@ -224,14 +224,14 @@ class Container {
     if (item === null) return null;
 
     // Calculate the amount of items to remove.
-    const removed = Math.min(amount, item.amount);
-    item.decrement(removed);
+    const removed = Math.min(amount, item.stackSize);
+    item.decrementStack(removed);
 
     // Check if the item amount is 0.
-    if (item.amount === 0) this.clearSlot(slot);
+    if (item.stackSize === 0) this.clearSlot(slot);
 
     // Create a new item with the removed amount.
-    const newItem = new ItemStack(item.type, { ...item, amount: removed });
+    const newItem = new ItemStack(item.type, { ...item, stackSize: removed });
 
     // Clone the dynamic properties of the item to the new item.
     for (const [key, value] of item.dynamicProperties)

@@ -7,7 +7,7 @@ import type { JSONLikeObject, JSONLikeValue } from "../../types";
  */
 const DefaultItemStackDataEntry: ItemStackDataEntry = {
   identifier: ItemIdentifier.Air,
-  amount: 1,
+  stackSize: 1,
   metadata: 0,
   traits: [],
   dynamicProperties: [],
@@ -18,12 +18,12 @@ interface ItemStackDataEntry extends JSONLikeObject {
   /**
    * The identifier of the item stack.
    */
-  identifier: ItemIdentifier;
+  identifier: ItemIdentifier | string;
 
   /**
    * The amount of the item stack.
    */
-  amount: number;
+  stackSize: number;
 
   /**
    * The metadata value of the item stack.

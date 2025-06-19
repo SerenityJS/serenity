@@ -29,7 +29,6 @@ class BlockPickRequestHandler extends NetworkHandler {
 
     // Create a new item stack from the block
     const itemStack = block.getItemStack({
-      amount: 1,
       metadata: addData ? block.permutation.index : 0
     });
 

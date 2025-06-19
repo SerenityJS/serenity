@@ -3,6 +3,7 @@ import { ItemUseMethod } from "@serenityjs/protocol";
 import { ItemIdentifier } from "../../enums";
 import { Trait } from "../../trait";
 
+import type { ItemTypeComponent } from "../identity";
 import type { JSONLikeObject } from "../../types";
 import type { ItemStack } from "../stack";
 import type { Player } from "../../entity";
@@ -16,7 +17,7 @@ class ItemStackTrait extends Trait {
   /**
    * The item type identifiers that this trait is compatible with by default.
    */
-  public static readonly types: Array<ItemIdentifier> = [];
+  public static readonly types: Array<ItemIdentifier | string> = [];
 
   /**
    * The item tag that this trait is compatible with by default.
@@ -28,7 +29,7 @@ class ItemStackTrait extends Trait {
    * The item component that this trait is compatible with by default.
    * If null, the trait will not attach to any item stack by default.
    */
-  public static readonly components: Array<string> = [];
+  public static readonly component: typeof ItemTypeComponent | null = null;
 
   /**
    * The item stack that this trait is attached to.

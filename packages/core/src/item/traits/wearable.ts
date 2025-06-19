@@ -40,7 +40,7 @@ class ItemStackWearableTrait extends ItemStackTrait {
   public static readonly tag = "minecraft:is_armor";
 
   // If the base item type contains this component, it is considered wearable.
-  public static readonly component = "minecraft:wearable";
+  public static readonly component = ItemTypeWearableComponent;
 
   /**
    * The dynamic properties of the wearable trait.

@@ -184,7 +184,7 @@ class EntityInventoryTrait extends EntityTrait {
       try {
         // Create a new item stack
         const itemStack = new ItemStack(entry.identifier, {
-          amount: entry.amount,
+          stackSize: entry.stackSize,
           metadata: entry.metadata,
           world: this.entity.world,
           dataEntry: entry

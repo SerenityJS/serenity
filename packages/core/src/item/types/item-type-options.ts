@@ -24,7 +24,7 @@ interface ItemTypeOptions {
   /**
    * The maximum amount of items that can be stacked.
    */
-  maxAmount: number;
+  maxStackSize: number;
 
   tags: Array<string>;
   blockType: BlockType;

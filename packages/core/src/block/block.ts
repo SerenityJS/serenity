@@ -862,14 +862,14 @@ class Block {
       if (drop.type === BlockIdentifier.Air) continue;
 
       // Roll the drop amount.
-      const amount = drop.roll();
+      const stackSize = drop.roll();
 
-      // Check if the amount is less than or equal to 0.
-      if (amount <= 0) continue;
+      // Check if the stackSize is less than or equal to 0.
+      if (stackSize <= 0) continue;
 
       // Create a new ItemStack.
       const itemStack = new ItemStack(drop.type as ItemIdentifier, {
-        amount,
+        stackSize,
         world: this.dimension.world
       });
 

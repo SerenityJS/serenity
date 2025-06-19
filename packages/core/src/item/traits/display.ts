@@ -1,6 +1,7 @@
 import { CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../stack";
+import { ItemTypeDisplayNameComponent } from "../identity";
 
 import { ItemStackTrait } from "./trait";
 
@@ -18,7 +19,7 @@ interface ItemStackDisplayTraitOptions {
 
 class ItemStackDisplayTrait extends ItemStackTrait {
   public static readonly identifier = "display";
-  public static readonly components = ["minecraft:display_name"];
+  public static readonly component = ItemTypeDisplayNameComponent;
 
   /**
    * Creates a new display trait for an item stack.

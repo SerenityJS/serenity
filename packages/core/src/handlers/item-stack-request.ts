@@ -99,11 +99,11 @@ class ItemStackRequestHandler extends NetworkHandler {
           // Get the destination item.
           const destinationItem = destination.getItem(destinationSlot);
 
-          if (amount <= sourceItem.amount) {
+          if (amount <= sourceItem.stackSize) {
             const item = source.takeItem(sourceSlot, amount);
             if (!item) throw new Error("Invalid item.");
             if (destinationItem) {
-              destinationItem.increment(item.amount);
+              destinationItem.incrementStack(item.stackSize);
             } else {
               destination.setItem(destinationSlot, item);
               // Clear the cursor, this appears to be a bug in the protocol.
@@ -306,7 +306,9 @@ class ItemStackRequestHandler extends NetworkHandler {
               );
 
             // Set the amount of the item stack.
-            itemStack.setAmount(itemStack.amount * action.craftRecipe.amount);
+            itemStack.setStackSize(
+              itemStack.stackSize * action.craftRecipe.amount
+            );
 
             // Add the item stack to the destination.
             destination.addItem(itemStack);
@@ -362,7 +364,7 @@ class ItemStackRequestHandler extends NetworkHandler {
             itemStack.loadDataEntry(world, creativeItem.stackDataEntry, true);
 
           // Set the amount of the item stack.
-          itemStack.amount = amount;
+          itemStack.setStackSize(amount);
 
           // Set the item stack in the container
           container.setItem(destination.slot, itemStack);

@@ -116,7 +116,7 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
       player.dimension.broadcast(packet);
 
       // Decrement the item stack's amount
-      this.item.decrement();
+      this.item.decrementStack();
     }
   }
 }

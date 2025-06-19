@@ -140,7 +140,7 @@ class EntityItemStackTrait extends EntityTrait {
 
   public increment(amount?: number): void {
     // Increment the item stack by the specified amount
-    this.itemStack.increment(amount);
+    this.itemStack.incrementStack(amount);
 
     // Get the data entry of the item stack
     const entry = this.itemStack.getDataEntry();
@@ -151,7 +151,7 @@ class EntityItemStackTrait extends EntityTrait {
     // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
     packet.event = ActorEvent.UpdateStackSize;
-    packet.data = this.itemStack.amount;
+    packet.data = this.itemStack.stackSize;
     packet.actorRuntimeId = this.entity.runtimeId;
 
     // Broadcast the packet to the dimension
@@ -160,7 +160,7 @@ class EntityItemStackTrait extends EntityTrait {
 
   public decrement(amount?: number): void {
     // Decrement the item stack by the specified amount
-    this.itemStack.decrement(amount);
+    this.itemStack.decrementStack(amount);
 
     // Get the data entry of the item stack
     const entry = this.itemStack.getDataEntry();
@@ -171,7 +171,7 @@ class EntityItemStackTrait extends EntityTrait {
     // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
     packet.event = ActorEvent.UpdateStackSize;
-    packet.data = this.itemStack.amount;
+    packet.data = this.itemStack.stackSize;
     packet.actorRuntimeId = this.entity.runtimeId;
 
     // Broadcast the packet to the dimension
@@ -211,7 +211,7 @@ class EntityItemStackTrait extends EntityTrait {
       this.canMerge && // Check if the item can be merged
       this.entity.onGround && // Check if the entity is on the ground
       this.pickupTick === -1n && // And if the item does not have a pickup tick
-      this.itemStack.amount < this.itemStack.maxAmount && // Check if the item stack is not full
+      this.itemStack.stackSize < this.itemStack.maxStackSize && // Check if the item stack is not full
       details.currentTick % 25n === 0n // Check if the current tick is a multiple of 25
     ) {
       // Iterate over the entities in the dimension
@@ -246,13 +246,13 @@ class EntityItemStackTrait extends EntityTrait {
           const existingItem = component.itemStack;
 
           // Check if the existing item stack is full
-          if (existingItem.amount >= existingItem.maxAmount) continue;
+          if (existingItem.stackSize >= existingItem.maxStackSize) continue;
 
           // Check if the item stacks are the same
           if (!existingItem.equals(this.itemStack)) continue;
 
           // Increment the item stack and despawn the existing item
-          this.increment(existingItem.amount);
+          this.increment(existingItem.stackSize);
           component.entity.despawn();
 
           // Set merging to true and set the merging entity

@@ -100,7 +100,7 @@ class ItemStackNbtMap extends CompoundTag {
     const slot = this.itemStack.container.storage.indexOf(this.itemStack);
 
     // Check if the item is 0 or less.
-    if (this.itemStack.amount <= 0) {
+    if (this.itemStack.stackSize <= 0) {
       // Remove the item from the container.
       this.itemStack.container.clearSlot(slot);
     }

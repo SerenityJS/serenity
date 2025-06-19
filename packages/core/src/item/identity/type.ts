@@ -50,7 +50,7 @@ class ItemType {
           blockType,
           isComponentBased: metadata.isComponentBased,
           version: metadata.itemVersion,
-          maxAmount: type.maxAmount,
+          maxStackSize: type.maxAmount,
           tags: type.tags ?? []
         }
       );
@@ -63,7 +63,7 @@ class ItemType {
   /**
    * The identifier of the item type.
    */
-  public readonly identifier: ItemIdentifier;
+  public readonly identifier: ItemIdentifier | string;
 
   /**
    * The network of the item type.
@@ -97,17 +97,10 @@ class ItemType {
   public creativeGroup: CreativeItemGroup | string;
 
   /**
-   * The maximum stack size of the item type.
-   */
-  public get maxAmount(): number {
-    return this.components.getMaxStackSize();
-  }
-
-  /**
    * Whether the item type is stackable.
    */
   public get isStackable(): boolean {
-    return this.maxAmount > 1;
+    return this.components.getMaxStackSize() > 1;
   }
 
   /**
@@ -152,7 +145,7 @@ class ItemType {
    * @param properties The properties of the item type.
    */
   public constructor(
-    identifier: ItemIdentifier,
+    identifier: ItemIdentifier | string,
     network: number,
     properties?: Partial<ItemTypeOptions>
   ) {
@@ -180,7 +173,7 @@ class ItemType {
       properties?.creativeGroup ?? `itemGroup.name.${identifier}`;
 
     // Assign the component based properties of the item type.
-    this.components.setMaxStackSize(properties?.maxAmount ?? 64);
+    this.components.setMaxStackSize(properties?.maxStackSize ?? 64);
     this.components.setBlockPlacer({ blockType: properties?.blockType });
   }
 
@@ -411,7 +404,7 @@ class ItemType {
   /**
    * Get the item type from the registry.
    */
-  public static get(identifier: ItemIdentifier): ItemType | null {
+  public static get(identifier: ItemIdentifier | string): ItemType | null {
     return ItemType.types.get(identifier) ?? null;
   }
 

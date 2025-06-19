@@ -230,10 +230,11 @@ class InventoryTransactionHandler extends NetworkHandler {
           });
 
           // If the item use was canceled, increment the stack
-          if (!useSuccess) return stack.increment();
+          if (!useSuccess) return stack.incrementStack();
           // Check if the player is in survival mode
           // If so, decrement the stack
-          else if (player.gamemode === Gamemode.Survival) stack.decrement();
+          else if (player.gamemode === Gamemode.Survival)
+            stack.decrementStack();
 
           // Check if a block type is present for the item stack
           const blockType = stack.components.getBlockPlacer().getBlockType();

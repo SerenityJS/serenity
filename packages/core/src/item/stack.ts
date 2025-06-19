@@ -43,7 +43,7 @@ class ItemStack {
   /**
    * The identifier of the item stack.
    */
-  public readonly identifier: ItemIdentifier;
+  public readonly identifier: ItemIdentifier | string;
 
   /**
    * The dynamic properties of the item stack.
@@ -61,20 +61,6 @@ class ItemStack {
   public readonly nbt = new ItemStackNbtMap(this);
 
   /**
-   * The maximum stack size of the item stack.
-   */
-  public get maxAmount(): number {
-    return this.type.maxAmount;
-  }
-
-  /**
-   * If the item stack is stackable.
-   */
-  public get isStackable(): boolean {
-    return this.maxAmount > 1;
-  }
-
-  /**
    * The world the item stack is in.
    */
   public world!: World;
@@ -88,7 +74,19 @@ class ItemStack {
   /**
    * The amount of the item stack.
    */
-  public amount: number;
+  public stackSize: number;
+
+  /**
+   * The maximum stack size of the item stack.
+   * This is the maximum amount of items that can be stacked in a single item stack.
+   */
+  public maxStackSize: number = 64; // Default max stack size
+
+  /**
+   * Whether the item stack is stackable.
+   * If true, the item stack can be stacked with other item stacks of the same type.
+   */
+  public isStackable: boolean = true; // Default stackable state
 
   /**
    * The metadata value of the item stack.
@@ -126,34 +124,69 @@ class ItemStack {
    * @param options The options for the item stack.
    */
   public constructor(
-    identifier: ItemIdentifier | ItemType,
+    identifier: ItemIdentifier | ItemType | string,
     options?: Partial<ItemStackOptions>
   ) {
-    // Assign the type of the item stack
-    this.type =
-      identifier instanceof ItemType
-        ? identifier
-        : (ItemType.get(identifier) as ItemType); // TODO: Fix this, fetch from palette
-
-    // Assign the identifier of the item stack
-    this.identifier = this.type.identifier;
-
     // Spread the default properties and the provided properties
     options = { ...DefaultItemStackOptions, ...options };
 
     // Assign the properties to the item stack
-    this.amount = options.amount!;
-    this.metadata = options.metadata!;
+    this.stackSize = options.stackSize as number;
+    this.metadata = options.metadata as number;
 
     // Check if a world was provided
     if (options.world) {
       // Assign the world to the item stack
       this.world = options.world;
 
+      // Check if the provided identifier is an item type or string
+      if (identifier instanceof ItemType) {
+        // If the identifier is an item type, set the type and identifier
+        this.type = identifier;
+        this.identifier = this.type.identifier;
+      } else {
+        // If the identifier is a string, get the item type from the world item palette
+        const type = this.world.itemPalette.getType(identifier);
+
+        // Check if the item type exists in the world item palette
+        if (!type)
+          throw new Error(
+            `Item type "${identifier}" not found in the world item palette.`
+          );
+
+        // Set the type and identifier of the item stack
+        this.type = type;
+        this.identifier = this.type.identifier;
+      }
+
+      // Set the properties that are component based
+      this.maxStackSize = this.type.components.getMaxStackSize();
+      this.isStackable = this.maxStackSize > 1;
+
       // Check if a entry was provided
       if (options.dataEntry)
         // Load the data entry for the item stack
         this.loadDataEntry(options.world, options.dataEntry);
+    } else {
+      // If no world was provided, and the identifier is a item type
+      if (identifier instanceof ItemType) {
+        // Set the type and identifier of the item stack
+        this.type = identifier;
+        this.identifier = this.type.identifier;
+      } else {
+        // Attempt to get the item type from the item global palette
+        const type = ItemType.get(identifier);
+
+        // Check if the item type exists in the global item palette
+        if (!type)
+          throw new Error(
+            `Item type "${identifier}" not found in the global item palette.`
+          );
+
+        // Set the type and identifier of the item stack
+        this.type = type;
+        this.identifier = this.type.identifier;
+      }
     }
 
     // Iterate over the traits of the item type
@@ -174,7 +207,7 @@ class ItemStack {
     const slot = this.container.storage.indexOf(this);
 
     // Check if the item is 0 or less.
-    if (this.amount <= 0) {
+    if (this.stackSize <= 0) {
       // Remove the item from the container.
       this.container.clearSlot(slot);
     }
@@ -184,31 +217,31 @@ class ItemStack {
   }
 
   /**
-   * Set the amount of the item stack.
-   * @param amount The amount to set.
+   * Set the size of the item stack.
+   * @param size The size to set.
    */
-  public setAmount(amount: number): void {
-    // Update the amount of the item stack.
-    this.amount = amount;
+  public setStackSize(size: number): void {
+    // Update the size of the item stack.
+    this.stackSize = size;
 
     // Update the item in the container.
     this.update();
   }
 
   /**
-   * Decrements the amount of the item stack.
-   * @param amount The amount to decrement.
+   * Decrements the size of the item stack.
+   * @param size The size to decrement.
    */
-  public decrement(amount?: number): void {
-    this.setAmount(this.amount - (amount ?? 1));
+  public decrementStack(size?: number): void {
+    this.setStackSize(this.stackSize - (size ?? 1));
   }
 
   /**
-   * Increments the amount of the item stack.
-   * @param amount The amount to increment.
+   * Increments the size of the item stack.
+   * @param size The size to increment.
    */
-  public increment(amount?: number): void {
-    this.setAmount(this.amount + (amount ?? 1));
+  public incrementStack(size?: number): void {
+    this.setStackSize(this.stackSize + (size ?? 1));
   }
 
   /**
@@ -704,7 +737,7 @@ class ItemStack {
     // Create the item stack entry.
     const entry: ItemStackDataEntry = {
       identifier: this.type.identifier,
-      amount: this.amount,
+      stackSize: this.stackSize,
       metadata: this.metadata,
       dynamicProperties: [...this.dynamicProperties.entries()],
       traits: [...this.traits.keys()],
@@ -744,7 +777,7 @@ class ItemStack {
     }
 
     // Update the item stack properties.
-    this.amount = entry.amount;
+    this.stackSize = entry.stackSize;
     this.metadata = entry.metadata;
 
     // Add the dynamic properties to the stack, if it does not already exist
@@ -803,7 +836,7 @@ class ItemStack {
     // Return the item instance descriptor.
     return {
       network: item.type.network,
-      stackSize: item.amount,
+      stackSize: item.stackSize,
       metadata: item.metadata,
       networkBlockId,
       extras: {
@@ -847,7 +880,7 @@ class ItemStack {
 
     // Create the item stack.
     const item = new this(type.identifier, {
-      amount: descriptor.stackSize ?? 1,
+      stackSize: descriptor.stackSize ?? 1,
       metadata: descriptor.metadata ?? 0
     });
 
@@ -871,7 +904,7 @@ class ItemStack {
   ): ItemStack {
     return new this(dataEntry.identifier as ItemIdentifier, {
       metadata: dataEntry.metadata,
-      amount: dataEntry.amount,
+      stackSize: dataEntry.stackSize,
       dataEntry,
       world
     });
@@ -882,7 +915,7 @@ class ItemStack {
    * @returns The empty item stack.
    */
   public static empty(): ItemStack {
-    return new ItemStack(ItemIdentifier.Air, { amount: 0 });
+    return new ItemStack(ItemIdentifier.Air, { stackSize: 0 });
   }
 }
 

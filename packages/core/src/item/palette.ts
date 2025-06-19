@@ -49,7 +49,7 @@ class ItemPalette {
    * @param identifier The item identifier to get.
    * @returns The item type from the palette.
    */
-  public getType(identifier: ItemIdentifier): ItemType | null {
+  public getType(identifier: ItemIdentifier | string): ItemType | null {
     return this.types.get(identifier) ?? null;
   }
 
@@ -121,14 +121,11 @@ class ItemPalette {
         }
 
         // Check if the trait has components, and the item type has the components.
-        else if (trait.components.length > 0) {
-          // Iterate over the components of the trait.
-          for (const component of trait.components) {
-            // Check if the item type has the component.
-            if (type.components.has(component)) {
-              // Register the trait to the item type.
-              type.registerTrait(trait);
-            }
+        else if (trait.component) {
+          // Check if the item type has the component.
+          if (type.components.hasComponent(trait.component)) {
+            // Register the trait to the item type.
+            type.registerTrait(trait);
           }
         }
       }
@@ -167,14 +164,11 @@ class ItemPalette {
         }
 
         // Check if the trait has components and the item type has the components.
-        else if (trait.components.length > 0) {
-          // Iterate over the components of the trait.
-          for (const component of trait.components) {
-            // Check if the item type has the component.
-            if (type.components.has(component)) {
-              // Register the trait to the item type.
-              type.registerTrait(trait);
-            }
+        else if (trait.component) {
+          // Check if the item type has the component.
+          if (type.components.hasComponent(trait.component)) {
+            // Register the trait to the item type.
+            type.registerTrait(trait);
           }
         }
       }
