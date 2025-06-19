@@ -646,6 +646,11 @@ class ItemStack {
     this.dynamicProperties.set(key, value);
   }
 
+  /**
+   * Get the display name of the item stack.
+   * @note This method depends on the `ItemStackDisplayTrait`.
+   * @returns the display name of the item stack.
+   */
   public getDisplayName(): string {
     // Check if the item stack has a display trait.
     if (this.hasTrait(ItemStackDisplayTrait)) {
@@ -658,6 +663,25 @@ class ItemStack {
 
     // Return empty string if the item type does not have a display name.
     return "";
+  }
+
+  /**
+   * Set the display name of the item stack.
+   * @note This method depends on the `ItemStackDisplayTrait`, or adds it if it does not exist.
+   * @param name The display name to set for the item stack.
+   */
+  public setDisplayName(name: string): void {
+    // Check if the item stack has a display trait.
+    if (this.hasTrait(ItemStackDisplayTrait)) {
+      // Get the display trait from the item stack.
+      const display = this.getTrait(ItemStackDisplayTrait);
+
+      // Set the display name of the item stack.
+      display.setDisplayName(name);
+    } else {
+      // Add a new display trait to the item stack.
+      this.addTrait(ItemStackDisplayTrait, { displayName: name });
+    }
   }
 
   public equals(other: ItemStack): boolean {
