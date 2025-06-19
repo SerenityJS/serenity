@@ -9,7 +9,7 @@ interface ItemStackDisplayTraitOptions {
   /**
    * The display name of the item stack.
    */
-  displayName?: string;
+  displayName?: string | null;
 
   /**
    * The lore of the item stack.
@@ -68,7 +68,7 @@ class ItemStackDisplayTrait extends ItemStackTrait {
    * Adds custom name to the item stack.
    * @param name The item stack custom name.
    */
-  public setDisplayName(name: string): void {
+  public setDisplayName(name: string | null): void {
     // Get the display tag from the item stack
     let display = this.item.nbt.get<CompoundTag>("display");
 
@@ -76,7 +76,7 @@ class ItemStackDisplayTrait extends ItemStackTrait {
     if (!display) display = new CompoundTag("display");
 
     // Check if the name is empty
-    if (name.length <= 0) display.delete("Name");
+    if (name === null || name.length <= 0) display.delete("Name");
     else display.add(new StringTag(name, "Name"));
 
     // Set the display tag back to the item stack to update it

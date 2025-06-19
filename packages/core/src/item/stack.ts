@@ -670,7 +670,7 @@ class ItemStack {
    * @note This method depends on the `ItemStackDisplayTrait`, or adds it if it does not exist.
    * @param name The display name to set for the item stack.
    */
-  public setDisplayName(name: string): void {
+  public setDisplayName(name: string | null): void {
     // Check if the item stack has a display trait.
     if (this.hasTrait(ItemStackDisplayTrait)) {
       // Get the display trait from the item stack.
@@ -681,6 +681,44 @@ class ItemStack {
     } else {
       // Add a new display trait to the item stack.
       this.addTrait(ItemStackDisplayTrait, { displayName: name });
+    }
+  }
+
+  /**
+   * Get the lore of the item stack.
+   * @note This method depends on the `ItemStackDisplayTrait`.
+   * @returns The lore of the item stack.
+   */
+  public getLore(): Array<string> {
+    // Check if the item stack has a display trait.
+    if (this.hasTrait(ItemStackDisplayTrait)) {
+      // Get the display trait from the item stack.
+      const display = this.getTrait(ItemStackDisplayTrait);
+
+      // Return the lore of the item stack.
+      return display.getLore();
+    }
+
+    // Return an empty array if the item stack does not have a display trait.
+    return [];
+  }
+
+  /**
+   * Set the lore of the item stack.
+   * @note This method depends on the `ItemStackDisplayTrait`, or adds it if it does not exist.
+   * @param lore The lore to set for the item stack.
+   */
+  public setLore(lore: Array<string>): void {
+    // Check if the item stack has a display trait.
+    if (this.hasTrait(ItemStackDisplayTrait)) {
+      // Get the display trait from the item stack.
+      const display = this.getTrait(ItemStackDisplayTrait);
+
+      // Set the lore of the item stack.
+      display.setLore(lore);
+    } else {
+      // Add a new display trait to the item stack with the lore.
+      this.addTrait(ItemStackDisplayTrait, { lore });
     }
   }
 
