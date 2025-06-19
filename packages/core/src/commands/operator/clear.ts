@@ -55,14 +55,14 @@ const register = (world: World) => {
                 continue;
               }
 
-              const stackAmount = itemStack.amount;
+              const stackAmount = itemStack.stackSize;
               const remaining = stackAmount - (itemAmount ?? 1);
 
               if (remaining < 0) {
                 container.clearSlot(Number.parseInt(slot));
                 itemCount += stackAmount;
               } else {
-                itemStack.setAmount(Math.max(remaining, 0));
+                itemStack.setStackSize(Math.max(remaining, 0));
                 itemCount += Math.min(itemAmount ?? 1, stackAmount);
               }
 
