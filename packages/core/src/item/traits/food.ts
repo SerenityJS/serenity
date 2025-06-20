@@ -51,8 +51,8 @@ class ItemStackFoodTrait extends ItemStackTrait {
     player: Player,
     options: Partial<ItemStackUseOptions>
   ): void | ItemUseMethod {
-    // Check if the item use method is not a use
-    if (options.method !== ItemUseMethod.Unknown) return;
+    // Check if the item use method is not an eat method
+    if (options.method !== ItemUseMethod.Eat) return;
 
     // Get the hunger trait of the player
     const hunger = player.getTrait(PlayerHungerTrait);

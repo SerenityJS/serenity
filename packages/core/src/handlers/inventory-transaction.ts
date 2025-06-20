@@ -330,9 +330,21 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Determine the item use method
         // If the player has started the use of an item, we don't know the method. The method will be determined by an external trait.
         // If the player does not have an item target, the method is an interact.
-        const method = player.itemTarget
-          ? ItemUseMethod.Unknown
-          : ItemUseMethod.Interact;
+        let method: ItemUseMethod = ItemUseMethod.Interact;
+
+        // Check if the player has an item target
+        if (player.itemTarget) {
+          // Get the item target from the player
+          const type = player.itemTarget.type;
+
+          // Check if the item target has a block placer
+          if (type.components.hasBlockPlacer())
+            // Set the use method to place
+            method = ItemUseMethod.Place;
+
+          // Clear the player's item target
+          player.itemTarget = null;
+        }
 
         // Call the onUse method for the item stack
         return void stack.use(player, { method });

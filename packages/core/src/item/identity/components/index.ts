@@ -9,6 +9,7 @@ import { ItemTypeCooldownComponent } from "./cooldown";
 import { ItemTypeDiggerComponent } from "./digger";
 import { ItemTypeHandEquippedComponent } from "./hand_equipped";
 import { ItemTypeFoodComponent } from "./food";
+import { ItemTypeUseModifiersComponent } from "./use-modifiers";
 
 const ItemTypeComponents = [
   ItemTypeCanDestroyInCreativeComponent,
@@ -21,7 +22,8 @@ const ItemTypeComponents = [
   ItemTypeCooldownComponent,
   ItemTypeDiggerComponent,
   ItemTypeHandEquippedComponent,
-  ItemTypeFoodComponent
+  ItemTypeFoodComponent,
+  ItemTypeUseModifiersComponent
 ];
 
 export * from "./component";
@@ -36,5 +38,6 @@ export * from "./cooldown";
 export * from "./digger";
 export * from "./hand_equipped";
 export * from "./food";
+export * from "./use-modifiers";
 
 export { ItemTypeComponents };

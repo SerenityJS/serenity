@@ -183,7 +183,7 @@ class ItemType {
     // Assign the properties of the item type.
     this.version = properties?.version ?? 1;
     this.setTags(properties?.tags ?? []);
-    this.isComponentBased = properties?.isComponentBased ?? true;
+    this.isComponentBased = this.version >= 1;
 
     // Assign the creative properties of the item type.
     this.creativeCategory =

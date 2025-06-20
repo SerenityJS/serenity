@@ -15,6 +15,8 @@ import {
   ItemTypeIconComponent,
   ItemTypeIconComponentOptions,
   ItemTypeMaxStackComponent,
+  ItemTypeUseModifiersComponent,
+  ItemTypeUseModifiersComponentOptions,
   ItemTypeWearableComponent,
   ItemTypeWearableComponentOptions
 } from "./components";
@@ -591,6 +593,57 @@ class ItemTypeComponentCollection extends CompoundTag {
       if (options?.using_converts_to)
         // Set the using converts to value of the food component.
         component.setUsingConvertsTo(options.using_converts_to);
+    }
+  }
+
+  /**
+   * Check if the item type has a use modifiers component.
+   * @returns Whether the item type has a use modifiers component.
+   */
+  public hasUseModifiers(): boolean {
+    // Check if the item type has a use modifiers component.
+    return this.hasComponent(ItemTypeUseModifiersComponent);
+  }
+
+  /**
+   * Get the use modifiers component of the item type.
+   * @returns The use modifiers component of the item type.
+   */
+  public getUseModifiers(): ItemTypeUseModifiersComponent {
+    // Check if the use modifiers component exists.
+    if (this.hasComponent(ItemTypeUseModifiersComponent)) {
+      // Return the use modifiers component.
+      return this.getComponent(ItemTypeUseModifiersComponent);
+    } else {
+      // Add the use modifiers component.
+      return this.addComponent(ItemTypeUseModifiersComponent, {});
+    }
+  }
+
+  /**
+   * Set the use modifiers component of the item type.
+   * @param options The options of the use modifiers component.
+   */
+  public setUseModifiers(
+    options?: Partial<ItemTypeUseModifiersComponentOptions>
+  ): void {
+    // Check if the use modifiers component exists.
+    if (!this.hasComponent(ItemTypeUseModifiersComponent)) {
+      // Add the use modifiers component.
+      this.addComponent(ItemTypeUseModifiersComponent, options);
+    } else {
+      // Get the use modifiers component
+      const component = this.getComponent(ItemTypeUseModifiersComponent);
+
+      // Check if a movement modifier was provided
+      if (options?.movement_modifier)
+        // Set the movement modifier of the use modifiers component.
+        component.setMovementModifier(options.movement_modifier);
+
+      // Check if a use duration was provided
+      if (options?.use_duration)
+        // Set the use duration of the use modifiers component.
+        component.setUseDuration(options.use_duration);
     }
   }
 }

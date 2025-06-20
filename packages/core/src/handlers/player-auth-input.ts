@@ -37,8 +37,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
   /**
    * The pending schedules for the server-side block break.
+   * This is used to handle block break durations and other block-related actions.
    */
-  private readonly schedules = new Map<bigint, TickSchedule>();
+  private readonly blockSchedules = new Map<bigint, TickSchedule>();
+
+  /**
+   * The pending schedules for the server-side item use.
+   * This is used to handle item use durations and other item-related actions.
+   */
+  private readonly itemSchedules = new Map<bigint, TickSchedule>();
 
   /**
    * The set of players that should skip client prediction.
@@ -363,10 +370,76 @@ class PlayerAuthInputHandler extends NetworkHandler {
           player.itemTarget = player.getHeldItem();
 
           // Check if the target item is not null
-          if (player.itemTarget)
+          if (player.itemTarget) {
+            // Get the item from the player
+            const itemStack = player.itemTarget;
+
+            // Create an options object for the item use
+            const options = {
+              method: ItemUseMethod.UseTool,
+              canceled: false
+            };
+
             // Call the item onStartUse trait methods
-            for (const trait of player.itemTarget.traits.values())
-              trait.onStartUse?.(player, { method: ItemUseMethod.UseTool });
+            for (const trait of player.itemTarget.traits.values()) {
+              // Call the trait's onStartUse method
+              const success = trait.onStartUse?.(player, options);
+
+              // Check if the result is undefined or false
+              if (success === undefined) continue; // If the result is undefined, continue
+              if (success === false) options.canceled = true; // If the result is false, cancel the use
+            }
+
+            // Check if the item stack has use modifiers
+            if (options.canceled) continue;
+
+            // Check if the item stack has use modifiers
+            if (itemStack.components.hasUseModifiers()) {
+              // Get the use modifiers from the item stack
+              const modifier = itemStack.components.getUseModifiers();
+
+              // Get the amount of time the item can be used
+              const useTime = Math.floor(modifier.getUseDuration() * 20); // Convert to ticks
+
+              // Schedule the item use
+              const schedule = player.dimension.schedule(useTime - 1);
+
+              // Check if there is a pending server-side item use schedule
+              if (this.itemSchedules.has(player.uniqueId)) {
+                // Get the schedule from the dimension
+                const schedule = this.itemSchedules.get(player.uniqueId)!;
+
+                // Cancel the schedule
+                schedule.cancel();
+
+                // Remove the schedule from the map
+                this.itemSchedules.delete(player.uniqueId);
+              }
+
+              // Add the schedule to the map
+              this.itemSchedules.set(player.uniqueId, schedule);
+
+              // Wait for the schedule to finish
+              schedule.on(() => {
+                // Delete the schedule from the map
+                this.itemSchedules.delete(player.uniqueId);
+
+                // Check if the player does not have an item target
+                if (player.itemTarget !== itemStack) return;
+
+                // Get the item target from the player
+                const type = player.itemTarget.type;
+
+                // Check if the item target has a food component
+                if (type.components.hasFood())
+                  // Set the use method to eat
+                  options.method = ItemUseMethod.Eat;
+
+                // Create a new PlayerUseItemSignal
+                return itemStack.use(player, options);
+              });
+            }
+          }
           break;
         }
       }
@@ -480,15 +553,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
           dimension.broadcast(packet);
 
           // Check if a schedule already exists for the player
-          if (this.schedules.has(player.uniqueId)) {
+          if (this.blockSchedules.has(player.uniqueId)) {
             // Get the schedule from the dimension
-            const schedule = this.schedules.get(player.uniqueId)!;
+            const schedule = this.blockSchedules.get(player.uniqueId)!;
 
             // Cancel the schedule
             schedule.cancel();
 
             // Remove the schedule from the map
-            this.schedules.delete(player.uniqueId);
+            this.blockSchedules.delete(player.uniqueId);
           }
 
           // Check if the break time is valid
@@ -499,7 +572,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             // Wait for the schedule to finish
             schedule.on(() => {
               // Delete the schedule from the map
-              this.schedules.delete(player.uniqueId);
+              this.blockSchedules.delete(player.uniqueId);
 
               // Check if the player does not have a block target
               // And if the player is not in creative mode; also check if the signal was canceled
@@ -542,7 +615,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             });
 
             // Add the schedule to the map
-            this.schedules.set(player.uniqueId, schedule);
+            this.blockSchedules.set(player.uniqueId, schedule);
           }
 
           // Check if the player was holding an item
@@ -605,15 +678,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
           }
 
           // Check if the player has a schedule
-          if (this.schedules.has(player.uniqueId)) {
+          if (this.blockSchedules.has(player.uniqueId)) {
             // Get the schedule from the dimension
-            const schedule = this.schedules.get(player.uniqueId)!;
+            const schedule = this.blockSchedules.get(player.uniqueId)!;
 
             // Cancel the schedule
             schedule.cancel();
 
             // Remove the schedule from the map
-            this.schedules.delete(player.uniqueId);
+            this.blockSchedules.delete(player.uniqueId);
           }
 
           // Check if the player was holding an item
@@ -663,15 +736,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
           }
 
           // Check if there is a pending server-side break schedule
-          if (this.schedules.has(player.uniqueId)) {
+          if (this.blockSchedules.has(player.uniqueId)) {
             // Get the schedule from the dimension
-            const schedule = this.schedules.get(player.uniqueId)!;
+            const schedule = this.blockSchedules.get(player.uniqueId)!;
 
             // Cancel the schedule
             schedule.cancel();
 
             // Remove the schedule from the map
-            this.schedules.delete(player.uniqueId);
+            this.blockSchedules.delete(player.uniqueId);
           }
 
           // Check if the player does not have a block target
