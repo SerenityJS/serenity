@@ -1,4 +1,4 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import { Serenity, LevelDBProvider, ItemType } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance

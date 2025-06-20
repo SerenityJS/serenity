@@ -114,7 +114,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         stack.gameVersion = MINECRAFT_VERSION;
         stack.experiments = [];
         stack.experimentsPreviouslyToggled = false;
-        stack.hasEditorPacks = false;
+        stack.hasEditorPacks = true;
 
         stack.texturePacks = [];
         for (const [uuid, pack] of this.serenity.resources.packs) {
@@ -126,6 +126,13 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
           stack.texturePacks.push(packInfo);
         }
+
+        // Hardcoded Education Edition Resource Pack
+        stack.texturePacks.push({
+          name: "Education Edition Resource Pack",
+          uuid: "0fba4063-dba1-4281-9b89-ff9390653530",
+          version: "1.0.0"
+        });
 
         // Send the ResourcePackStackPacket to the player
         return player.send(stack);

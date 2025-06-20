@@ -1,4 +1,4 @@
-import { CompoundTag } from "@serenityjs/nbt";
+import { BaseTag, CompoundTag } from "@serenityjs/nbt";
 
 import { ItemTypeComponentCollection } from "../collection";
 import { ItemType } from "../type";
@@ -49,6 +49,17 @@ class ItemTypeComponent {
     // Add the component to the collection, if it doesn't already exist.
     if (!this.collection.components.has(this.identifier))
       this.collection.components.set(this.identifier, this);
+  }
+
+  public static from(type: ItemType, defintion: BaseTag): ItemTypeComponent {
+    // Create a new instance of the component using the type and compound tag.
+    const component = new this(type);
+
+    // Set the component's NBT data from the provided compound tag.
+    component.collection.set(component.identifier, defintion);
+
+    // Return the newly created component instance.
+    return component;
   }
 }
 

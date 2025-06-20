@@ -9,6 +9,8 @@ import {
   ItemTypeDiggerComponent,
   ItemTypeDiggerComponentOptions,
   ItemTypeDisplayNameComponent,
+  ItemTypeFoodComponent,
+  ItemTypeFoodComponentOptions,
   ItemTypeHandEquippedComponent,
   ItemTypeIconComponent,
   ItemTypeIconComponentOptions,
@@ -50,10 +52,6 @@ class ItemTypeComponentCollection extends CompoundTag {
   public getComponent<T extends typeof ItemTypeComponent>(
     component: T
   ): InstanceType<T> {
-    // Check if the component exists.
-    if (!this.components.has(component.identifier))
-      return this.addComponent(component, undefined) as InstanceType<T>;
-
     // Get the component from the collection.
     return this.components.get(component.identifier) as InstanceType<T>;
   }
@@ -153,12 +151,12 @@ class ItemTypeComponentCollection extends CompoundTag {
    */
   public setMaxStackSize(value: number): void {
     // Check if the max stack size component exists.
-    if (this.hasComponent(ItemTypeMaxStackComponent)) {
-      // Set the max stack size value.
-      this.getComponent(ItemTypeMaxStackComponent).setMaxStackSize(value);
-    } else {
+    if (!this.hasComponent(ItemTypeMaxStackComponent)) {
       // Add the max stack size component.
       this.addComponent(ItemTypeMaxStackComponent, value);
+    } else {
+      // Set the max stack size value.
+      this.getComponent(ItemTypeMaxStackComponent).setMaxStackSize(value);
     }
   }
 
@@ -180,10 +178,10 @@ class ItemTypeComponentCollection extends CompoundTag {
     if (this.hasComponent(ItemTypeBlockPlacerComponent)) {
       // Return the block placer component.
       return this.getComponent(ItemTypeBlockPlacerComponent);
+    } else {
+      // Add the block placer component.
+      return this.addComponent(ItemTypeBlockPlacerComponent, {});
     }
-
-    // Add the block placer component.
-    return this.addComponent(ItemTypeBlockPlacerComponent, {});
   }
 
   /**
@@ -238,8 +236,8 @@ class ItemTypeComponentCollection extends CompoundTag {
       return this.getComponent(ItemTypeDisplayNameComponent).getDisplayName();
     }
 
-    // Return the default display name value.
-    return this.item.identifier;
+    // Return an empty string if the display name component does not exist.
+    return "";
   }
 
   /**
@@ -248,12 +246,12 @@ class ItemTypeComponentCollection extends CompoundTag {
    */
   public setDisplayName(value: string): void {
     // Check if the display name component exists.
-    if (this.hasComponent(ItemTypeDisplayNameComponent)) {
-      // Set the display name value.
-      this.getComponent(ItemTypeDisplayNameComponent).setDisplayName(value);
-    } else {
+    if (!this.hasComponent(ItemTypeDisplayNameComponent)) {
       // Add the display name component.
       this.addComponent(ItemTypeDisplayNameComponent, value);
+    } else {
+      // Set the display name value.
+      this.getComponent(ItemTypeDisplayNameComponent).setDisplayName(value);
     }
   }
 
@@ -282,7 +280,7 @@ class ItemTypeComponentCollection extends CompoundTag {
       return component.getCanDestroyInCreative();
     }
 
-    // Return the default can destroy in creative value.
+    // Return false if the can destroy in creative component does not exist.
     return true;
   }
 
@@ -292,17 +290,14 @@ class ItemTypeComponentCollection extends CompoundTag {
    */
   public setCanDestroyInCreative(value: boolean): void {
     // Check if the can destroy in creative component exists.
-    if (this.hasComponent(ItemTypeCanDestroyInCreativeComponent)) {
-      // Get the can destroy in creative component.
-      const component = this.getComponent(
-        ItemTypeCanDestroyInCreativeComponent
-      );
-
-      // Set the can destroy in creative value.
-      component.setCanDestroyInCreative(value);
-    } else {
+    if (!this.hasComponent(ItemTypeCanDestroyInCreativeComponent)) {
       // Add the can destroy in creative component.
       this.addComponent(ItemTypeCanDestroyInCreativeComponent, value);
+    } else {
+      // Set the can destroy in creative value.
+      this.getComponent(
+        ItemTypeCanDestroyInCreativeComponent
+      ).setCanDestroyInCreative(value);
     }
   }
 
@@ -324,10 +319,10 @@ class ItemTypeComponentCollection extends CompoundTag {
     if (this.hasComponent(ItemTypeIconComponent)) {
       // Return the icon component.
       return this.getComponent(ItemTypeIconComponent);
+    } else {
+      // Add the icon component.
+      return this.addComponent(ItemTypeIconComponent, {});
     }
-
-    // Add the icon component.
-    return this.addComponent(ItemTypeIconComponent, {});
   }
 
   /**
@@ -343,11 +338,15 @@ class ItemTypeComponentCollection extends CompoundTag {
       // Get the icon component
       const component = this.getComponent(ItemTypeIconComponent);
 
-      // Check if an icon was provided
-      if (options?.default) component.setDefaultIcon(options.default);
+      // Check if a default texture was provided
+      if (options?.default)
+        // Set the texture of the icon component.
+        component.setDefaultIcon(options.default);
 
-      // Check if a dyed icon was provided
-      if (options?.dyed) component.setDyedIcon(options.dyed);
+      // Check if a dyed texture was provided
+      if (options?.dyed)
+        // Set the dyed texture of the icon component.
+        component.setDyedIcon(options.dyed);
     }
   }
 
@@ -369,10 +368,10 @@ class ItemTypeComponentCollection extends CompoundTag {
     if (this.hasComponent(ItemTypeWearableComponent)) {
       // Return the wearable component.
       return this.getComponent(ItemTypeWearableComponent);
+    } else {
+      // Add the wearable component.
+      return this.addComponent(ItemTypeWearableComponent, {});
     }
-
-    // Add the wearable component.
-    return this.addComponent(ItemTypeWearableComponent, {});
   }
 
   /**
@@ -390,15 +389,15 @@ class ItemTypeComponentCollection extends CompoundTag {
       // Get the wearable component
       const component = this.getComponent(ItemTypeWearableComponent);
 
+      // Check if a slot was provided
+      if (options?.slot)
+        // Set the slot of the wearable component.
+        component.setWearableSlot(options.slot);
+
       // Check if a protection value was provided
       if (options?.protection)
         // Set the protection value of the wearable component.
         component.setProtection(options.protection);
-
-      // Check if a wearable slot was provided
-      if (options?.slot)
-        // Set the wearable slot of the wearable component.
-        component.setWearableSlot(options.slot);
     }
   }
 
@@ -420,10 +419,10 @@ class ItemTypeComponentCollection extends CompoundTag {
     if (this.hasComponent(ItemTypeCooldownComponent)) {
       // Return the cooldown component.
       return this.getComponent(ItemTypeCooldownComponent);
+    } else {
+      // Add the cooldown component.
+      return this.addComponent(ItemTypeCooldownComponent, {});
     }
-
-    // Add the cooldown component.
-    return this.addComponent(ItemTypeCooldownComponent, {});
   }
 
   /**
@@ -446,7 +445,7 @@ class ItemTypeComponentCollection extends CompoundTag {
         // Set the category of the cooldown component.
         component.setCategory(options.category);
 
-      // Check if a cooldown was provided
+      // Check if a duration was provided
       if (options?.duration)
         // Set the duration of the cooldown component.
         component.setDuration(options.duration);
@@ -471,10 +470,10 @@ class ItemTypeComponentCollection extends CompoundTag {
     if (this.hasComponent(ItemTypeDiggerComponent)) {
       // Return the digger component.
       return this.getComponent(ItemTypeDiggerComponent);
+    } else {
+      // Add the digger component.
+      return this.addComponent(ItemTypeDiggerComponent, {});
     }
-
-    // Add the digger component.
-    return this.addComponent(ItemTypeDiggerComponent, {});
   }
 
   /**
@@ -490,9 +489,9 @@ class ItemTypeComponentCollection extends CompoundTag {
       // Get the digger component
       const component = this.getComponent(ItemTypeDiggerComponent);
 
-      // Check if a speed was provided
+      // Check if a destroy speeds value was provided
       if (options?.destroySpeeds)
-        // Set the destruction speeds of the digger component.
+        // Set the destroy speeds of the digger component.
         component.setDestructionSpeeds(options.destroySpeeds);
     }
   }
@@ -515,10 +514,10 @@ class ItemTypeComponentCollection extends CompoundTag {
     if (this.hasComponent(ItemTypeHandEquippedComponent)) {
       // Return the hand equipped component.
       return this.getComponent(ItemTypeHandEquippedComponent);
+    } else {
+      // Add the hand equipped component.
+      return this.addComponent(ItemTypeHandEquippedComponent, false);
     }
-
-    // Add the hand equipped component.
-    return this.addComponent(ItemTypeHandEquippedComponent, false);
   }
 
   /**
@@ -527,12 +526,71 @@ class ItemTypeComponentCollection extends CompoundTag {
    */
   public setHandEquipped(value: boolean): void {
     // Check if the hand equipped component exists.
-    if (this.hasComponent(ItemTypeHandEquippedComponent)) {
-      // Set the hand equipped value.
-      this.getComponent(ItemTypeHandEquippedComponent).setHandEquipped(value);
-    } else {
+    if (!this.hasComponent(ItemTypeHandEquippedComponent)) {
       // Add the hand equipped component.
       this.addComponent(ItemTypeHandEquippedComponent, value);
+    } else {
+      // Set the hand equipped value.
+      this.getComponent(ItemTypeHandEquippedComponent).setHandEquipped(value);
+    }
+  }
+
+  /**
+   * Check if the item type has a food component.
+   * @returns Whether the item type has a food component.
+   */
+  public hasFood(): boolean {
+    // Check if the food component exists.
+    return this.hasComponent(ItemTypeFoodComponent);
+  }
+
+  /**
+   * Get the food component of the item type.
+   * @returns The food component of the item type.
+   */
+  public getFood(): ItemTypeFoodComponent {
+    // Check if the food component exists.
+    if (this.hasComponent(ItemTypeFoodComponent)) {
+      // Return the food component.
+      return this.getComponent(ItemTypeFoodComponent);
+    }
+
+    // Add the food component.
+    return this.addComponent(ItemTypeFoodComponent, {});
+  }
+
+  /**
+   * Set the food component of the item type.
+   * @param options The options of the food component.
+   */
+  public setFood(options?: Partial<ItemTypeFoodComponentOptions>): void {
+    // Check if the food component exists.
+    if (!this.hasComponent(ItemTypeFoodComponent)) {
+      // Add the food component.
+      this.addComponent(ItemTypeFoodComponent, options);
+    } else {
+      // Get the food component
+      const component = this.getComponent(ItemTypeFoodComponent);
+
+      // Check if a can always eat value was provided
+      if (options?.can_always_eat)
+        // Set whether the item can always be eaten.
+        component.setCanAlwaysEat(options.can_always_eat);
+
+      // Check if a nutrition value was provided
+      if (options?.nutrition)
+        // Set the nutrition value of the food component.
+        component.setNutrition(options.nutrition);
+
+      // Check if a saturation modifier was provided
+      if (options?.saturation_modifier)
+        // Set the saturation modifier of the food component.
+        component.setSaturationModifier(options.saturation_modifier);
+
+      // Check if a using converts to value was provided
+      if (options?.using_converts_to)
+        // Set the using converts to value of the food component.
+        component.setUsingConvertsTo(options.using_converts_to);
     }
   }
 }

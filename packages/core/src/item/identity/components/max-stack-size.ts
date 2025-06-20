@@ -1,4 +1,10 @@
-import { ByteTag } from "@serenityjs/nbt";
+import {
+  BaseTag,
+  ByteTag,
+  CompoundTag,
+  IntTag,
+  TagType
+} from "@serenityjs/nbt";
 
 import { ItemType } from "../type";
 
@@ -42,6 +48,26 @@ class ItemTypeMaxStackComponent extends ItemTypeComponent {
 
     // Set the max stack size component.
     this.component.add(new ByteTag(value, "value"));
+  }
+
+  public static from(
+    type: ItemType,
+    defintion: BaseTag
+  ): ItemTypeMaxStackComponent {
+    // Create a new instance of the component using the type and compound tag.
+    const component = new this(type);
+
+    // Check if the definition is a IntTag or CompoundTag.
+    if (defintion.type === TagType.Compound) {
+      // Set the component's NBT data from the provided compound tag.
+      component.collection.set(component.identifier, defintion as CompoundTag);
+    } else if (defintion.type === TagType.Int) {
+      // If it's an IntTag, set the max stack size directly.
+      component.setMaxStackSize((defintion as IntTag).valueOf());
+    }
+
+    // Return the newly created component instance.
+    return component;
   }
 }
 

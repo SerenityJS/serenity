@@ -10,6 +10,7 @@ import { ITEM_METADATA, ITEM_TYPES } from "@serenityjs/data";
 import { ItemIdentifier, ItemTypeToolTier } from "../../enums";
 import { BlockType } from "../../block";
 
+import { ItemTypeComponents } from "./components";
 import { ItemTypeComponentCollection } from "./collection";
 
 import type { ItemStackTrait } from "../traits";
@@ -54,6 +55,24 @@ class ItemType {
           tags: type.tags ?? []
         }
       );
+
+      // Iterate over the item type components.
+      for (const component of ItemTypeComponents) {
+        // Get the component definition from the item type.
+        const definition = instance.components.get(component.identifier);
+
+        // Check if the component definition exists and if the item type does not already have the component.
+        if (definition && !instance.components.hasComponent(component)) {
+          // Create a new component instance from the definition.
+          const compInstance = component.from(instance, definition);
+
+          // Register the component instance to the item type.
+          instance.components.components.set(
+            compInstance.identifier,
+            compInstance
+          );
+        }
+      }
 
       // Add the item type to the map.
       this.types.set(instance.identifier, instance);
