@@ -251,7 +251,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           const networkId = item.network;
           const componentBased = item.isComponentBased;
           const itemVersion = item.version;
-          const properties = item.properties;
+          const properties = item.isComponentBased
+            ? item.properties
+            : new CompoundTag();
 
           return new ItemData(
             identifier,
