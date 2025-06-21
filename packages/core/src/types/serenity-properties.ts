@@ -9,7 +9,8 @@ interface SerenityProperties {
   permissions: string | IPermissions | null;
   resources: string | ResourcesProperties;
   movementValidation: boolean;
-  movementRewindThreshold: number;
+  movementHorizontalThreshold: number;
+  movementVerticalThreshold: number;
   ticksPerSecond: number;
   debugLogging: boolean;
 }

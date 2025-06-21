@@ -24,7 +24,12 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { EntityMovementTrait, EntityRidingTrait, Player } from "../entity";
+import {
+  EntityGravityTrait,
+  EntityMovementTrait,
+  EntityRidingTrait,
+  Player
+} from "../entity";
 import {
   PlayerStartUsingItemSignal,
   PlayerStopUsingItemSignal,
@@ -46,6 +51,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
    * This is used to handle item use durations and other item-related actions.
    */
   private readonly itemSchedules = new Map<bigint, TickSchedule>();
+
+  private readonly verticleMultipliers = new Map<bigint, number>();
 
   /**
    * The set of players that should skip client prediction.
@@ -215,11 +222,42 @@ class PlayerAuthInputHandler extends NetworkHandler {
     delta: Vector3f
   ): boolean {
     // Get the player's movement validation properties
-    const { movementValidation, movementRewindThreshold } =
-      this.serenity.properties;
+    const {
+      movementValidation,
+      movementHorizontalThreshold,
+      movementVerticalThreshold
+    } = this.serenity.properties;
 
     // Check if the movement validation is disabled
     if (!movementValidation) return true;
+
+    // Prepare the vertical multiplier
+    let verticalMultiplier = 1.25;
+
+    // Check if the player has a vertical multiplier
+    if (this.verticleMultipliers.has(player.uniqueId)) {
+      // Get the vertical multiplier for the player
+      verticalMultiplier = this.verticleMultipliers.get(player.uniqueId)!;
+
+      // If the player is not falling, remove the vertical multiplier
+      if (!player.isFalling) this.verticleMultipliers.delete(player.uniqueId);
+    }
+
+    // Check if the player has a gravity trait
+    if (player.hasGravity()) {
+      // Get the gravity trait from the player
+      const gravity = player.getTrait(EntityGravityTrait);
+
+      // Calculate the new multiplier based on the falling distance
+      const newMultiplier = gravity.fallingDistance / 2 + 1.25;
+
+      // Check if the new multiplier is greater than the current multiplier
+      if (newMultiplier > verticalMultiplier) {
+        // Update the vertical multiplier for the player
+        this.verticleMultipliers.set(player.uniqueId, newMultiplier);
+        verticalMultiplier = newMultiplier;
+      }
+    }
 
     // Check if the player is in creative mode or spectator mode
     if (player.gamemode === Gamemode.Creative) return true;
@@ -229,13 +267,14 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (player.abilities.get(AbilityIndex.Flying)) return true;
 
     // Check if the delta x is greater than the movement threshold
-    if (Math.abs(delta.x) >= movementRewindThreshold) return false;
+    if (Math.abs(delta.x) >= movementHorizontalThreshold) return false;
 
     // Check if the delta y is greater than the movement threshold
-    if (delta.y >= movementRewindThreshold)
+    if (delta.y >= movementVerticalThreshold * verticalMultiplier) {
       return false; // Return false, as the player is moving up
+    }
     // Check if the delta y is less than the movement threshold
-    else if (delta.y <= -movementRewindThreshold * 1.25) {
+    else if (delta.y <= -(movementVerticalThreshold * verticalMultiplier)) {
       // Check if the player is falling, if so the movement is valid
       if (player.isFalling) return true;
 
@@ -244,7 +283,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     }
 
     // Check if the delta z is greater than the movement threshold
-    if (Math.abs(delta.z) >= movementRewindThreshold) return false;
+    if (Math.abs(delta.z) >= movementHorizontalThreshold) return false;
 
     // Check if the player has teleported
     if (player.position.distance(position) >= 4) return false;

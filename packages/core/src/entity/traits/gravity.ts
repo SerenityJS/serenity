@@ -67,7 +67,7 @@ class EntityGravityTrait extends EntityTrait {
     const block = this.dimension.getTopmostBlock(position.floor());
 
     // Calculate the entity's offset from the block
-    const entityOffset = position.y - this.entity.getCollisionHeight();
+    const entityOffset = position.y - this.entity.getCollisionHeight() / 2;
     // Calculate the distance the entity is from the block
     const distance = Math.round(entityOffset - block.position.y);
 

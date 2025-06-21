@@ -338,9 +338,16 @@ class InventoryTransactionHandler extends NetworkHandler {
           const type = player.itemTarget.type;
 
           // Check if the item target has a block placer
-          if (type.components.hasBlockPlacer())
-            // Set the use method to place
-            method = ItemUseMethod.Place;
+          if (type.components.hasBlockPlacer()) {
+            // Get the block placer from the item target
+            const blockPlacer = type.components.getBlockPlacer();
+
+            // Get the block type from the block placer
+            const blockType = blockPlacer.getBlockType();
+
+            // Check if the block type exists and is not air
+            if (!blockType.air) method = ItemUseMethod.Place;
+          }
 
           // Clear the player's item target
           player.itemTarget = null;

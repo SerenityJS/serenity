@@ -47,7 +47,8 @@ const DefaultSerenityProperties: SerenityProperties = {
   permissions: "./permissions.json",
   resources: "./resources",
   movementValidation: true,
-  movementRewindThreshold: 0.4,
+  movementHorizontalThreshold: 0.4,
+  movementVerticalThreshold: 0.6,
   ticksPerSecond: 20,
   debugLogging: false
 };
