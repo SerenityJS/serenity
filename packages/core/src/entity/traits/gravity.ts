@@ -1,6 +1,6 @@
 import { ActorDamageCause, ActorFlag, Gamemode } from "@serenityjs/protocol";
 
-import { EntityIdentifier } from "../../enums";
+import { BlockIdentifier, EntityIdentifier } from "../../enums";
 import { EntityFallOnBlockTraitEvent } from "../../types";
 
 import { EntityTrait } from "./trait";
@@ -122,6 +122,17 @@ class EntityGravityTrait extends EntityTrait {
     // Check if the entity has fallen less than 10 ticks
     // If so, do not apply fall damage. The player is probably jumping.
     if (event.fallTicks < 10) return;
+
+    // Check if the block is a slime block or honey block
+    if (
+      event.block.identifier === BlockIdentifier.Slime ||
+      event.block.identifier === BlockIdentifier.HoneyBlock
+    )
+      return;
+
+    // Check if the block above the event block is liquid
+    const above = event.block.above();
+    if (above.isLiquid) return;
 
     // Calculate the fall damage for the entity
     const fallDamage = Math.max(0, event.fallDistance - 3);
