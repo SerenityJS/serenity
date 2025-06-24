@@ -1,5 +1,10 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { Float64, VarInt, VarString } from "@serenityjs/binarystream";
+import {
+  Endianness,
+  Float32,
+  VarInt,
+  VarString
+} from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
 import { AnimateEntity } from "../types";
@@ -13,8 +18,8 @@ class AnimateEntityPacket extends DataPacket {
   @Serialize(VarString) public stopExpression!: string;
   @Serialize(VarInt) public stopExpressionVersion!: number;
   @Serialize(VarString) public controller!: string;
-  @Serialize(Float64) public blendOutTime!: number;
-  @Serialize(AnimateEntity) public actorRuntimeIds!: AnimateEntity;
+  @Serialize(Float32, Endianness.Little) public blendOutTime!: number;
+  @Serialize(AnimateEntity) public actorRuntimeIds!: Array<AnimateEntity>;
 }
 
 export { AnimateEntityPacket };
