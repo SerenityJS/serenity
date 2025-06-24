@@ -4,3 +4,4 @@ export * from "./dimension";
 export * from "./provider";
 export * from "./generator";
 export * from "./schedule";
+export * from "./structure";

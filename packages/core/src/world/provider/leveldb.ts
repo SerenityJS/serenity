@@ -10,6 +10,7 @@ import { resolve } from "node:path";
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { Leveldb } from "@serenityjs/leveldb";
 import { BlockPosition } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { Chunk, SubChunk } from "../chunk";
 import { Dimension } from "../dimension";
@@ -26,6 +27,7 @@ import { World } from "../world";
 import { Entity } from "../../entity";
 import { ChunkReadySignal, WorldInitializeSignal } from "../../events";
 import { Block } from "../../block";
+import { Structure } from "../structure";
 
 import { WorldProvider } from "./provider";
 
@@ -739,6 +741,11 @@ class LevelDBProvider extends WorldProvider {
         );
       }
 
+      // Check if the world directory contains a structures directory.
+      if (!existsSync(resolve(worldPath, "structures")))
+        // Create the structures directory if it does not exist.
+        mkdirSync(resolve(worldPath, "structures"));
+
       // Create a new world instance.
       const world = new World(serenity, new this(worldPath), properties);
 
@@ -793,6 +800,45 @@ class LevelDBProvider extends WorldProvider {
         world.logger.success(
           `Successfully pre-generated §c${amount}§r chunks for for dimension §a${dimension.identifier}§r.`
         );
+      }
+
+      // Read all the structures in the world directory.
+      const files = readdirSync(resolve(worldPath, "structures"), {
+        withFileTypes: true
+      }).filter(
+        // Filter only files that end with .mcstructure.
+        (dirent) => dirent.isFile() && dirent.name.endsWith(".mcstructure")
+      );
+
+      // Attempt to read the structures from the world directory.
+      for (const file of files) {
+        try {
+          // Create the structure from the file.
+          const path = resolve(worldPath, "structures", file.name);
+
+          // Read the structure file.
+          const stream = new BinaryStream(readFileSync(path));
+
+          // Create a new structure instance from the file.
+          const structure = Structure.from(world, CompoundTag.read(stream));
+
+          // Parse the identifier from the file name.
+          const identifier = file.name.replace(/\.mcstructure$/, "");
+
+          // Add the structure to the world.
+          world.structures.set(identifier, structure);
+
+          // Log a debug message indicating the structure was loaded.
+          world.logger.debug(
+            `Loaded structure "${identifier}" from file "${file.name}" for world "${world.properties.identifier}."`
+          );
+        } catch (reason) {
+          // Log the error if the structure failed to load.
+          world.logger.error(
+            `Failed to load structure from file ${file.name} for world ${world.properties.identifier}. Reason:`,
+            reason
+          );
+        }
       }
 
       // Register the world with the serenity instance.

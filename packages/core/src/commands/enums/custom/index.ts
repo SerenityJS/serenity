@@ -13,3 +13,4 @@ export * from "./trait-action";
 export * from "./entity-trait";
 export * from "./enchantments";
 export * from "./permissions";
+export * from "./structure";

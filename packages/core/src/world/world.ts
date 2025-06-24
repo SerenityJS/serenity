@@ -31,6 +31,7 @@ import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
 import { TickSchedule } from "./schedule";
 import { Scoreboard } from "./scoreboard";
+import { Structure } from "./structure";
 
 class World extends Emitter<WorldEventSignals> {
   /**
@@ -92,6 +93,8 @@ class World extends Emitter<WorldEventSignals> {
    * The scoreboard for the world.
    */
   public readonly scoreboard = new Scoreboard(this);
+
+  public readonly structures = new Map<string, Structure>();
 
   /**
    * The current gamerules values of the world.

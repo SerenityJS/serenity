@@ -31,6 +31,11 @@ class BlockStorage {
   public static readonly MAX_SIZE = 16 * 16 * 16;
 
   /**
+   * The size of the block storage.
+   */
+  public readonly size: [number, number, number];
+
+  /**
    * The palette of the storage.
    */
   public readonly palette: Array<number>;
@@ -50,19 +55,33 @@ class BlockStorage {
    *
    * @param blocks The optional blocks.
    * @param palette The optional palette.
+   * @param size The size of the block storage.
    */
-  public constructor(palette?: Array<number>, blocks?: Array<number>) {
+  public constructor(
+    palette?: Array<number>,
+    blocks?: Array<number>,
+    size?: [number, number, number]
+  ) {
     // Find the air value.
     const permutation = BlockPermutation.resolve(BlockIdentifier.Air);
     this.air = permutation.networkId;
+
+    // Calculate the size.
+    this.size = size ?? [
+      BlockStorage.MAX_X,
+      BlockStorage.MAX_Y,
+      BlockStorage.MAX_Z
+    ];
+
+    // Calculate the total size.
+    const totalSize = this.size[0] * this.size[1] * this.size[2];
 
     // Assign the palette.
     // When we create chunks, we will provide the palette with the current air value.
     this.palette = palette ?? [this.air];
 
-    // Create the block storage.
-    this.blocks =
-      blocks ?? Array.from({ length: BlockStorage.MAX_SIZE }, () => 0);
+    // Create the blocks array with the given size.
+    this.blocks = blocks ?? Array.from({ length: totalSize }, () => 0);
   }
 
   /**
@@ -82,7 +101,7 @@ class BlockStorage {
    */
   public getState(bx: number, by: number, bz: number): number {
     // Calculate the index.
-    const index = BlockStorage.getIndex(bx, by, bz);
+    const index = this.getIndex(bx, by, bz);
 
     // Get the palette index.
     const paletteIndex = this.blocks[index] ?? 0;
@@ -108,7 +127,7 @@ class BlockStorage {
     }
 
     // Set the block state.
-    this.blocks[BlockStorage.getIndex(bx, by, bz)] = paletteIndex;
+    this.blocks[this.getIndex(bx, by, bz)] = paletteIndex;
   }
 
   /**
@@ -119,8 +138,14 @@ class BlockStorage {
    * @param bz The z coordinate of the block.
    * @returns The index of the block.
    */
-  public static getIndex(bx: number, by: number, bz: number): number {
-    return ((bx & 0xf) << 8) | ((bz & 0xf) << 4) | (by & 0xf);
+  public getIndex(bx: number, by: number, bz: number): number {
+    // Dynamically calculate the index based on size of the block storage.
+    const dx = (bx & (this.size[0] - 1)) << 8; // Shift x by 8 bits
+    const dy = by & (this.size[1] - 1); // y is not shifted
+    const dz = (bz & (this.size[2] - 1)) << 4; // Shift z by 4 bits
+
+    // Ensure the result is an unsigned integer
+    return (dx | dy | dz) >>> 0;
   }
 
   /**
@@ -275,6 +300,9 @@ class BlockStorage {
     const blocks = Array.from<number>({ length: 4096 });
     let position = 0;
 
+    // Create a new BlockStorage instance
+    const storage = new BlockStorage(palette, blocks);
+
     // Iterate over the words
     for (const word of words) {
       // Iterate over the blocks in the word
@@ -293,11 +321,16 @@ class BlockStorage {
         const z = (position >> 4) & 0xf;
 
         // Set the block state in the blocks array
-        blocks[BlockStorage.getIndex(x, y, z)] = state;
+        blocks[storage.getIndex(x, y, z)] = state;
       }
     }
 
-    return new BlockStorage(palette, blocks);
+    // Push the palette and blocks to the storage
+    storage.palette.push(...palette);
+    storage.blocks.push(...blocks);
+
+    // Return the deserialized block storage
+    return storage;
   }
 }
 

@@ -40,6 +40,7 @@ import { World } from "./world";
 import { TerrainGenerator } from "./generator";
 import { Chunk } from "./chunk";
 import { TickSchedule } from "./schedule";
+import { Structure } from "./structure";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -784,6 +785,161 @@ class Dimension {
 
     // Return the schedule
     return schedule;
+  }
+
+  /**
+   * Schedules an execution of a function after a specified amount of ticks asynchronously.
+   * @param ticks The amount of ticks to wait before the schedule is complete.
+   * @returns A promise that resolves when the schedule is complete.
+   */
+  public async scheduleAsync(ticks: number): Promise<void> {
+    return new Promise<void>((resolve) => this.schedule(ticks).on(resolve));
+  }
+
+  /**
+   * Place a structure in the dimension at a specified position.
+   * @param identifier The identifier of the structure or the structure instance itself.
+   * @param position The position to place the structure at.
+   * @throws Will throw an error if the structure is not found.
+   */
+  public placeStructure(
+    identifier: string | Structure,
+    position: IPosition
+  ): void {
+    // Get the structure from the identifier
+    const structure =
+      typeof identifier === "string"
+        ? this.world.structures.get(identifier)
+        : identifier;
+
+    // Check if the structure exists
+    if (!structure) throw new Error(`Structure "${identifier}" not found.`);
+
+    // Create a set to hold the dirty chunks
+    const dirtyChunks = new Set<Chunk>();
+
+    // Prepare an index to iterate over the blocks
+    let index = 0;
+    for (let x = 0; x < structure.size[0]; x++) {
+      for (let y = 0; y < structure.size[1]; y++) {
+        for (let z = 0; z < structure.size[2]; z++) {
+          // Get palette index and permutation hash
+          const paletteIndex = structure.blocks[index] ?? 0;
+          const permutationHash = structure.palette[paletteIndex] ?? 0;
+
+          // Get the permutation from the block palette
+          const permutation =
+            this.world.blockPalette.permutations.get(permutationHash);
+
+          // Check if the permutation exists
+          if (!permutation) continue;
+
+          // Calculate the position of the block
+          const dx = x + position.x;
+          const dy = y + position.y;
+          const dz = z + position.z;
+
+          // Get the chunk of the block
+          const chunk = this.getChunk(dx >> 4, dz >> 4);
+
+          // Set the permutation of the block
+          chunk.setPermutation(
+            { x: dx, y: dy, z: dz },
+            permutation,
+            UpdateBlockLayerType.Normal,
+            true
+          );
+
+          // Add the chunk to the dirty chunks
+          if (!dirtyChunks.has(chunk)) dirtyChunks.add(chunk);
+
+          // Increment the index
+          index++;
+        }
+      }
+    }
+
+    // Set the dirty chunks
+    for (const chunk of dirtyChunks) {
+      this.setChunk(chunk); // Set the chunk in the dimension
+    }
+  }
+
+  /**
+   * Place a structure in the dimension at a specified position asynchronously.
+   * @param identifier The identifier of the structure or the structure instance itself.
+   * @param position The position to place the structure at.
+   * @param ticks The amount of ticks to wait before placing the next batch of blocks.
+   * @param blocksPerTick The amount of blocks to place per tick.
+   * @throws Will throw an error if the structure is not found.
+   */
+  public async placeStructureAsync(
+    identifier: string | Structure,
+    position: IPosition,
+    ticks: number = 1,
+    blocksPerTick: number = 50000
+  ): Promise<void> {
+    // Get the structure from the identifier
+    const structure =
+      typeof identifier === "string"
+        ? this.world.structures.get(identifier)
+        : identifier;
+
+    // Check if the structure exists
+    if (!structure) throw new Error(`Structure "${identifier}" not found.`);
+
+    const [sx, sy, sz] = structure.size; // Get the size of the structure
+    let index = 0; // Prepare an index to iterate over the blocks
+
+    // Create a set to hold the dirty chunks
+    const dirtyChunks = new Set<Chunk>();
+
+    for (let x = 0; x < sx; x++) {
+      for (let y = 0; y < sy; y++) {
+        for (let z = 0; z < sz; z++) {
+          // Get palette index and permutation hash
+          const paletteIndex = structure.blocks[index] ?? 0;
+          const permutationHash = structure.palette[paletteIndex] ?? 0;
+
+          // Get the permutation from the block palette
+          const permutation =
+            this.world.blockPalette.permutations.get(permutationHash);
+
+          // Check if the permutation exists
+          if (!permutation) continue;
+
+          // Calculate the position of the block
+          const dx = x + position.x;
+          const dy = y + position.y;
+          const dz = z + position.z;
+
+          // Get the chunk of the block
+          const chunk = this.getChunk(dx >> 4, dz >> 4);
+
+          // Set the permutation of the block
+          chunk.setPermutation(
+            { x: dx, y: dy, z: dz },
+            permutation,
+            UpdateBlockLayerType.Normal,
+            true
+          );
+
+          // Add the chunk to the updated chunks
+          if (!dirtyChunks.has(chunk)) dirtyChunks.add(chunk);
+
+          // Increment the index
+          index++;
+
+          // Check if we reached the blocks per tick limit
+          if (index % blocksPerTick === 0) await this.scheduleAsync(ticks); // Wait for the specified ticks
+        }
+      }
+    }
+
+    // Set the updated chunks
+    for (const chunk of dirtyChunks) {
+      this.setChunk(chunk); // Set the chunk in the dimension
+    }
   }
 
   /**
