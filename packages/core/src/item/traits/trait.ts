@@ -10,7 +10,8 @@ import type { Player } from "../../entity";
 import type {
   ItemStackUseOptions,
   ItemStackUseOnBlockOptions,
-  ItemStackUseOnEntityOptions
+  ItemStackUseOnEntityOptions,
+  ItemStackDroppedOptions
 } from "../types";
 
 class ItemStackTrait extends Trait {
@@ -125,6 +126,12 @@ class ItemStackTrait extends Trait {
    * @param player The player that closed the container
    */
   public onContainerClose?(player: Player): void;
+
+  /**
+   * Called when the item is dropped by a player or entity.
+   * @param options The options for the item stack that was dropped.
+   */
+  public onDropped?(options: ItemStackDroppedOptions): void;
 
   /**
    * Compares another item trait to this one.
