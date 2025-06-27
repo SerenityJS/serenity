@@ -1,15 +1,29 @@
 import { createInterface } from "node:readline";
 import { stdin, stdout } from "node:process";
 
-import { Serenity } from "../serenity";
+import { Serenity, ServerEvent } from "@serenityjs/core";
 
-class ConsoleInterface {
+// Extend builtin `readline.Interface` type
+declare module "node:readline" {
+  interface Interface {
+    setRawMode?(mode: boolean): void;
+    output: {
+      write: (data: string) => void;
+    };
+    _refreshLine?(): void;
+  }
+}
+
+export class Console {
   protected readonly serenity: Serenity;
 
   public readonly interface = createInterface({
     input: stdin,
     output: stdout,
-    terminal: true
+    terminal: true,
+    tabSize: 2,
+    prompt: "> ",
+    removeHistoryDuplicates: true
   });
 
   public constructor(serenity: Serenity) {
@@ -18,12 +32,57 @@ class ConsoleInterface {
     stdin.setRawMode(true);
     stdin.resume();
 
-    this.interface.on("line", this.onLine.bind(this));
+    serenity.on(ServerEvent.Start, this.start.bind(this));
+    serenity.on(ServerEvent.Stop, this.stop.bind(this));
+  }
 
-    this.interface.setPrompt("> ");
+  /**
+   * Starts the console interface
+   */
+  public start(): void {
+    // HACK: Hijack console.log to write to the readline interface
+    //       this is however fine as the console interface is optional
+    //       and is not required.
+    for (const key in console) {
+      if (!["debug", "log", "info", "warn", "error"].includes(key)) {
+        continue;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (console as any)[key] = (...args: Array<unknown>) => {
+        this.write(args.join(" "));
+      };
+    }
+
+    this.interface.on("line", this.onLine.bind(this));
+  }
+
+  /**
+   * Stops the console interface
+   */
+  public stop(): void {
+    // Close the console interface
+    this.interface.close();
+  }
+
+  private write(line: string): void {
+    // Remove the prompt that's prefixed when logging.
+    this.interface?.output.write(`\x1b[${this.interface.getPrompt().length}D`);
+
+    // Write the line.
+    this.interface?.output.write(`\r${line}\n\r`);
+
+    this.interface?._refreshLine?.();
+    this.interface?.prompt();
   }
 
   protected async onLine(line: string): Promise<void> {
+    // Fix cursor positioning.
+    this.interface?.output.write(`\x1b[2D`);
+
+    // Check if the line is empty.
+    if (line.trim() === "") return;
+
     // Check if the line starts with a /
     // If so, slice the line and execute the command
     const format = line.startsWith("/") ? line.slice(1) : line;
@@ -173,5 +232,3 @@ class ConsoleInterface {
     return { command: newCommand, flags };
   }
 }
-
-export { ConsoleInterface };

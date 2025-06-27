@@ -5,4 +5,3 @@ export * from "./execution-state";
 export * from "./registry";
 export * from "./operator";
 export * from "./common";
-export * from "./console";
