@@ -2,7 +2,7 @@
   "name": "@serenityjs/protocol",
   "author": "Serenity",
   "license": "MIT",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
