@@ -49,7 +49,7 @@ const register = (world: World) => {
           // Loop through all the targets
           for (const target of targets) {
             // Change the world of the target
-            target.teleport(target.position, dimension);
+            target.teleport(dimension.spawnPosition, dimension);
 
             // Append the message
             message.push(
