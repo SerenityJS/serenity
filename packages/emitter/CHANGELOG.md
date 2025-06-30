@@ -1,5 +1,11 @@
 # @serenityjs/emitter
 
+## 0.8.6
+
+### Patch Changes
+
+- [`97946e1`](https://github.com/SerenityJS/serenity/commit/97946e147082d9eb9d482eae2be3b1767f9f6450) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.6-beta
+
 ## 0.8.5
 
 ### Patch Changes
