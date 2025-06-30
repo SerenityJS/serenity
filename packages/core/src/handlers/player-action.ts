@@ -45,7 +45,8 @@ class PlayerActionHandler extends NetworkHandler {
       }
 
       case PlayerActionType.ChangeDimensionAck: {
-        break;
+        // Spawn the player once the dimension has finished loading
+        return void player.spawn({ changedDimensions: true });
       }
 
       case PlayerActionType.Respawn: {

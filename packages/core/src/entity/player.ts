@@ -638,8 +638,8 @@ class Player extends Entity {
       if (!this.hasTrait(PlayerChunkRenderingTrait))
         return void this.spawn({ changedDimensions: true });
 
-      // Schedule the spawn of the player after the dimension has changed
-      this.spawn({ changedDimensions: true });
+      // Spawn the player in the new dimension
+      this.spawn({ changedDimensions: false, initialSpawn: false });
 
       // Get the chunk rendering trait
       const rendering = this.getTrait(PlayerChunkRenderingTrait);
