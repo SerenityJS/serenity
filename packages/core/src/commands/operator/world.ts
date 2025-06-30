@@ -48,8 +48,15 @@ const register = (world: World) => {
 
           // Loop through all the targets
           for (const target of targets) {
+            // Get the spawn position of the dimension
+            const position = dimension.spawnPosition.clone();
+
+            // Center the position on the target
+            position.x += 0.5;
+            position.z += 0.5;
+
             // Change the world of the target
-            target.teleport(dimension.spawnPosition, dimension);
+            target.teleport(position, dimension);
 
             // Append the message
             message.push(

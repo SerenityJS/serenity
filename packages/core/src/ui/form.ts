@@ -78,6 +78,23 @@ class Form<T> {
   }
 
   /**
+   * Shows the form to a player and returns a promise that resolves with the form response.
+   * @param player The player to show the form to.
+   * @returns A promise that resolves with the form response or null if the form was closed without a response.
+   */
+  public showAsync(player: Player): Promise<T | null> {
+    return new Promise((resolve, reject) => {
+      // Show the form to the player and pass the resolve and reject functions
+      this.show(player, (response, error) => {
+        // If there is an error, reject the promise
+        if (error) reject(error);
+        // Resolve the promise with the response
+        else resolve(response);
+      });
+    });
+  }
+
+  /**
    * Closes the form for a player.
    * @param player The player to close the form for.
    */
