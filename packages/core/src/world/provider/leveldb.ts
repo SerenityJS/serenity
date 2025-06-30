@@ -9,7 +9,7 @@ import { resolve } from "node:path";
 
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { Leveldb } from "@serenityjs/leveldb";
-import { BlockPosition } from "@serenityjs/protocol";
+import { BlockPosition, DimensionType } from "@serenityjs/protocol";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { Chunk, SubChunk } from "../chunk";
@@ -264,9 +264,16 @@ class LevelDBProvider extends WorldProvider {
     if (chunks.has(chunk.hash)) return chunks.get(chunk.hash) as Chunk;
     // Check if the leveldb contains the chunk.
     else if (this.hasChunk(chunk.x, chunk.z, dimension)) {
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < Chunk.MAX_SUB_CHUNKS; i++) {
+        // Prepare an offset variable.
+        // This is used to adjust the index for overworld dimensions.
+        let offset = 0;
+
+        // Check if the dimension type is overworld.
+        if (chunk.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
+
         // Calculate the subchunk Y coordinate.
-        const cy = i - 4;
+        const cy = i - offset;
 
         // Read the subchunk from the database.
         const subchunk = this.readSubChunk(chunk.x, cy, chunk.z, dimension);
@@ -311,15 +318,22 @@ class LevelDBProvider extends WorldProvider {
 
     // Iterate through the chunks and write them to the database.
     // TODO: Dimensions can have a data driven min and max subchunk value, we should use that.
-    for (let cy = -4; cy < 16; cy++) {
+    for (let cy = 0; cy < Chunk.MAX_SUB_CHUNKS; cy++) {
+      // Prepare an offset variable.
+      // This is used to adjust the index for overworld dimensions.
+      let offset = 0;
+
+      // Check if the dimension type is overworld.
+      if (chunk.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
+
       // Get the subchunk from the chunk.
-      const subchunk = chunk.getSubChunk(cy + 4);
+      const subchunk = chunk.getSubChunk(cy - offset);
 
       // Check if the subchunk is empty.
       if (!subchunk || subchunk.isEmpty()) continue;
 
       // Write the subchunk to the database.
-      this.writeSubChunk(subchunk, chunk.x, cy, chunk.z, dimension);
+      this.writeSubChunk(subchunk, chunk.x, cy - offset, chunk.z, dimension);
     }
 
     // Set the chunk as not dirty.
@@ -443,9 +457,6 @@ class LevelDBProvider extends WorldProvider {
       cz,
       dimension.indexOf()
     );
-
-    // Set the subchunk index.
-    subchunk.index = cy;
 
     // Serialize the subchunk to a buffer
     const stream = new BinaryStream();

@@ -109,20 +109,7 @@ export class Chunk {
     this.z = z;
     this.type = type;
     this.hash = ChunkCoords.hash({ x, z });
-    this.subchunks = subchunks ?? [];
-
-    // Fill the sub chunks with empty sub chunks.
-    for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; index++) {
-      // Check if the sub chunk exists.
-      if (this.subchunks[index]) continue;
-
-      // Create a new sub chunk.
-      const subchunk = new SubChunk();
-      subchunk.index = index - 4;
-
-      // Set the sub chunk.
-      this.subchunks[index] = subchunk;
-    }
+    this.subchunks = subchunks ?? new Array<SubChunk>(Chunk.MAX_SUB_CHUNKS);
   }
 
   /**
@@ -133,13 +120,12 @@ export class Chunk {
   public getPermutation(position: IPosition, layer = 0): BlockPermutation {
     // Correct the Y level for the overworld.
     const { x, y, z } = position;
-    const yf = this.type === DimensionType.Overworld ? y + 64 : y;
 
     // Get the sub chunk.
-    const subchunk = this.getSubChunk(yf >> 4);
+    const subchunk = this.getSubChunk(y >> 4);
 
     // Get the block state.
-    const state = subchunk.getState(x & 0xf, yf & 0xf, z & 0xf, layer); // 0 = Solids, 1 = Liquids or Logged
+    const state = subchunk.getState(x & 0xf, y & 0xf, z & 0xf, layer); // 0 = Solids, 1 = Liquids or Logged
 
     // Return the permutation.
     return BlockPermutation.permutations.get(state) as BlockPermutation;
@@ -157,19 +143,17 @@ export class Chunk {
     layer = 0,
     dirty = true
   ): void {
+    // Get the x, y and z coordinates from the position.
     const { x, y, z } = position;
 
-    // Correct the Y level for the overworld.
-    const yf = this.type === DimensionType.Overworld ? y + 64 : y;
-
     // Get the sub chunk.
-    const subchunk = this.getSubChunk(yf >> 4);
+    const subchunk = this.getSubChunk(y >> 4);
 
     // Get the block state.
     const state = permutation.networkId;
 
     // Set the block.
-    subchunk.setState(x & 0xf, yf & 0xf, z & 0xf, state, layer); // 0 = Solids, 1 = Liquids or Logged
+    subchunk.setState(x & 0xf, y & 0xf, z & 0xf, state, layer); // 0 = Solids, 1 = Liquids or Logged
 
     // Set the chunk as dirty.
     if (dirty) this.dirty = true;
@@ -222,34 +206,47 @@ export class Chunk {
    * @param index The index.
    */
   public getSubChunk(index: number): SubChunk {
-    // Check if the index is below 0.
-    // Then will we return the bottom sub chunk.
-    if (index < 0) return this.getSubChunk(0);
+    // Prepare an index offset.
+    // This is used to adjust the index for the overworld dimension.
+    let offset = 0;
 
-    // Check if the index is above the maximum sub chunks.
-    // Then will we return the top sub chunk.
-    if (index >= Chunk.MAX_SUB_CHUNKS)
-      return this.getSubChunk(Chunk.MAX_SUB_CHUNKS - 1);
+    // Check if the dimension type is overworld.
+    if (this.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
+
+    // Check if the index is out of bounds.
+    if (index + offset < 0) {
+      // Set the index to 0 & reset the offset.
+      index = offset = 0;
+    } else if (index + offset >= Chunk.MAX_SUB_CHUNKS) {
+      // Set the index to the maximum sub chunks & reset the offset.
+      index = Chunk.MAX_SUB_CHUNKS - 1;
+      offset = 0;
+    }
 
     // Check if the sub chunk exists.
-    if (!this.subchunks[index]) {
-      // Create a new sub chunk.
-      for (let ndex = 0; ndex <= index; ndex++) {
-        // Check if the sub chunk exists.
-        if (this.subchunks[ndex]) continue;
+    if (!this.subchunks[index + offset]) {
+      // Iterate until the sub chunk exists.
+      for (let i = 0; i <= index + offset; i++) {
+        // Check if the sub chunk already exists.
+        if (this.subchunks[i]) continue;
 
         // Create a new sub chunk.
         const subchunk = new SubChunk();
-        subchunk.index =
-          this.type === DimensionType.Overworld ? ndex - 4 : ndex;
+        subchunk.index = i - offset;
 
         // Set the sub chunk.
-        this.subchunks[ndex] = subchunk;
+        this.subchunks[i] = subchunk;
+
+        // Check if the current index is the one we are looking for.
+        if (i === index + offset) {
+          // Return the sub chunk.
+          return subchunk;
+        }
       }
     }
 
     // Return the sub chunk.
-    return this.subchunks[index] as SubChunk;
+    return this.subchunks[index + offset] as SubChunk;
   }
 
   /**
@@ -302,8 +299,11 @@ export class Chunk {
 
     // Copy over the subchunks of the source chunk.
     for (let i = 0; i < source.subchunks.length; i++) {
-      // Copy over the subchunk.
-      this.subchunks[i] = source.subchunks[i] ?? new SubChunk();
+      // Check if the sub chunk exists in the source chunk.
+      if (!source.subchunks[i]) continue;
+
+      // Copy over the sub chunk if it exists.
+      this.subchunks[i] = source.subchunks[i] as SubChunk;
     }
 
     // Copy over the chunk flags.
@@ -329,6 +329,12 @@ export class Chunk {
 
     // Serialize each sub chunk.
     for (let index = 0; index < chunk.getSubChunkSendCount(); index++) {
+      // Prepare an index offset.
+      let offset = 0;
+
+      // Check if the dimension type is overworld.
+      if (chunk.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
+
       // Get the sub chunk.
       const subchunk = chunk.subchunks[index];
 
@@ -339,7 +345,7 @@ export class Chunk {
       } else {
         // Create an empty sub chunk.
         const subchunk = new SubChunk();
-        subchunk.index = index - 4;
+        subchunk.index = index - offset;
 
         // Serialize an empty sub chunk.
         SubChunk.serialize(subchunk, stream, nbt);
@@ -382,10 +388,7 @@ export class Chunk {
     const stream = new BinaryStream(buffer);
 
     // Deserialize each sub chunk.
-    const subchunks: Array<SubChunk> = Array.from(
-      { length: Chunk.MAX_SUB_CHUNKS },
-      () => new SubChunk()
-    );
+    const subchunks = new Array<SubChunk>(Chunk.MAX_SUB_CHUNKS);
 
     // Loop through each sub chunk.
     for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; ++index) {
