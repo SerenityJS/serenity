@@ -53,7 +53,7 @@ const register = (world: World) => {
 
             // Append the message
             message.push(
-              `§aSuccessfully changed the world of §2${target.isPlayer() ? target.username : target.uniqueId}§a to §2${world.properties.identifier}§a in dimension §2${dimension.properties.identifier}§a.§r`
+              `§7Successfully changed the world of §u${target.isPlayer() ? target.username : target.uniqueId}§7 to §u${world.properties.identifier}§7 in dimension §u${dimension.properties.identifier}§7.§r`
             );
           }
 
