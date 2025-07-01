@@ -22,8 +22,9 @@ class ItemTypeIconComponent extends ItemTypeComponent {
 
   public get component(): CompoundTag {
     // Get the item properties component.
-    const properties = this.collection.getComponent(
-      ItemTypeItemPropertiesComponent
+    const properties = this.collection.addComponent(
+      ItemTypeItemPropertiesComponent,
+      {}
     );
 
     // Check if the item properties component exists.

@@ -374,7 +374,6 @@ class Pipeline {
     const path = plugin.path;
 
     // Delete the require cache for the plugin
-    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- Dynamic delete is required here
     delete require.cache[require.resolve(path)];
 
     // Remove the plugin from the serenity instance
