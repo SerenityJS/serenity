@@ -136,10 +136,11 @@ function Proto(id: number) {
               const ctype = type as typeof CompoundTag;
 
               // Set the property using the type.
-              (this[name as keyof BasePacket] as unknown) = ctype.read(
-                this,
-                endian as never
-              );
+              (this[name as keyof BasePacket] as unknown) = ctype.read(this, {
+                name: true,
+                type: true,
+                varint: endian as boolean
+              });
             } else {
               // Convert the type to DataType.
               const dtype = type as typeof DataType;
