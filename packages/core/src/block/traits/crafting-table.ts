@@ -2,13 +2,14 @@ import { ContainerType } from "@serenityjs/protocol";
 
 import { Block } from "../block";
 import { BlockIdentifier } from "../../enums";
+import { BlockTypeCraftingTableComponent } from "../identity";
 
 import { BlockInventoryTrait } from "./inventory";
 
 class BlockCraftingTableTrait extends BlockInventoryTrait {
   public static readonly identifier = "crafting_table";
   public static readonly types = [BlockIdentifier.CraftingTable];
-  public static readonly components = ["minecraft:crafting_table"];
+  public static readonly component = BlockTypeCraftingTableComponent;
 
   /**
    * Creates a new block crafting table trait.

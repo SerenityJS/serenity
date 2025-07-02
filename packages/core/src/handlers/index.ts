@@ -28,6 +28,7 @@ import { CommandBlockUpdateHandler } from "./command-block-update";
 import { SetDefaultGamemodeHander } from "./set-default-gamemode";
 import { SetDifficultyHander } from "./set-difficulty";
 import { SetPlayerGameTypeHander } from "./set-player-game-type";
+import { BlockActorDataHandler } from "./block-actor-data";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -59,7 +60,8 @@ const Handlers = [
   CommandBlockUpdateHandler,
   SetDefaultGamemodeHander,
   SetDifficultyHander,
-  SetPlayerGameTypeHander
+  SetPlayerGameTypeHander,
+  BlockActorDataHandler
 ];
 
 export { Handlers };

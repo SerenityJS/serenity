@@ -11,23 +11,31 @@ import {
 } from "../../types";
 import { Dimension } from "../../world";
 
+import type { BlockTypeComponent } from "../identity";
+
 class BlockTrait extends Trait {
+  /**
+   * The block type identifiers that this trait is compatible with by default.
+   */
+  public static readonly types: Array<BlockIdentifier | string> = [];
+
+  /**
+   * The block tag that this trait is compatible with by default.
+   * If null, the trait will not attach to any block by default.
+   */
+  public static readonly tag: string | null = null;
+
+  /**
+   * The block component that this trait is compatible with by default.
+   * If null, the trait will not attach to any block by default.
+   */
+  public static readonly component: typeof BlockTypeComponent | null = null;
+
   /**
    * The block state key that this trait is compatible with by default.
    * If null, the trait will not be initialized by any block state.
    */
   public static readonly state: string | null = null;
-
-  /**
-   * The block component identifiers that this trait is compatible with by default.
-   * If empty, the trait will not be initialized by any component.
-   */
-  public static readonly components: Array<string> = [];
-
-  /**
-   * The block type identifiers that this trait is compatible with by default.
-   */
-  public static readonly types: Array<BlockIdentifier> = [];
 
   /**
    * The block that this trait is attached to.
@@ -40,17 +48,19 @@ class BlockTrait extends Trait {
   protected readonly dimension: Dimension;
 
   /**
-   * The block state key that this trait is compatible with.
-   * If null, the trait will not be initialized by any block state.
+   * The block tag that this trait is attached to.
    */
-  public readonly state = (this.constructor as typeof BlockTrait).state;
+  public readonly tag = (this.constructor as typeof BlockTrait).tag;
 
   /**
-   * The block component identifiers that this trait is compatible with.
-   * If empty, the trait will not be initialized by any component.
+   * The block component that this trait is attached to.
    */
-  public readonly components = (this.constructor as typeof BlockTrait)
-    .components;
+  public readonly component = (this.constructor as typeof BlockTrait).component;
+
+  /**
+   * The block state key that this trait is attached to.
+   */
+  public readonly state = (this.constructor as typeof BlockTrait).state;
 
   /**
    * Creates a new instance of the block trait.

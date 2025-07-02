@@ -848,6 +848,9 @@ class ItemStack {
         this.dynamicProperties.set(key, value);
     }
 
+    // Deserialize the nbt data.
+    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
+
     // Add the traits to the itemstack, if it does not already exist
     for (const trait of entry.traits) {
       // Check if the palette has the trait
@@ -865,9 +868,6 @@ class ItemStack {
       // Attempt to add the trait to the itemstack
       this.addTrait(traitType);
     }
-
-    // Deserialize the nbt data.
-    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
   }
 
   /**

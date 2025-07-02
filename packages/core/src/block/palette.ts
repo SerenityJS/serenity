@@ -151,15 +151,18 @@ class BlockPalette {
           type.registerTrait(trait);
         }
 
+        // Check if the type contains the tag.
+        else if (trait.tag && type.hasTag(trait.tag)) {
+          // Register the trait to the block type.
+          type.registerTrait(trait);
+        }
+
         // Check if the type contains the components.
-        else if (trait.components.length > 0) {
-          // Iterate over the components of the trait.
-          for (const component of trait.components) {
-            // Check if the block type has the component.
-            if (type.components.has(component)) {
-              // Register the trait to the block type.
-              type.registerTrait(trait);
-            }
+        else if (trait.component) {
+          // Check if the block type has the component.
+          if (type.components.hasComponent(trait.component)) {
+            // Register the trait to the block type.
+            type.registerTrait(trait);
           }
         }
       }
@@ -221,15 +224,18 @@ class BlockPalette {
           type.registerTrait(trait);
         }
 
+        // Check if the trait has a tag, and the block type has the tag.
+        else if (trait.tag && type.hasTag(trait.tag)) {
+          // Register the trait to the block type.
+          type.registerTrait(trait);
+        }
+
         // Check if the trait has components, and the block type has the components.
-        else if (trait.components.length > 0) {
-          // Iterate over the components of the trait.
-          for (const component of trait.components) {
-            // Check if the block type has the component.
-            if (type.components.has(component)) {
-              // Register the trait to the block type.
-              type.registerTrait(trait);
-            }
+        else if (trait.component) {
+          // Check if the block type has the component.
+          if (type.components.hasComponent(trait.component)) {
+            // Register the trait to the block type.
+            type.registerTrait(trait);
           }
         }
       }

@@ -342,6 +342,16 @@ class Block {
   }
 
   /**
+   * Check if the block has a specific state.
+   * @param key The key of the state to check for.
+   * @returns Whether the block has the state or not.
+   */
+  public hasState(key: string): boolean {
+    // Check if the permutation has the state key
+    return Object.prototype.hasOwnProperty.call(this.permutation.state, key);
+  }
+
+  /**
    * Get the a specific state of the block.
    * @param key The key of the state to get.
    * @returns The value of the state.
@@ -1183,6 +1193,9 @@ class Block {
         this.dyanamicProperties.set(key, value);
     }
 
+    // Deserialize the nbt properties of the block
+    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
+
     // Add the traits to the block, if it does not already exist
     for (const trait of entry.traits) {
       // Split the trait identifier and state
@@ -1208,9 +1221,6 @@ class Block {
       // Attempt to add the trait to the block
       this.addTrait(traitType);
     }
-
-    // Deserialize the nbt properties of the block
-    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
   }
 }
 
