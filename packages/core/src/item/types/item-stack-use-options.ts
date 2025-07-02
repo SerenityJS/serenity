@@ -1,6 +1,6 @@
 import { BlockFace, ItemUseMethod, Vector3f } from "@serenityjs/protocol";
 
-import { Block } from "../../block";
+import { Block, BlockType } from "../../block";
 import { Entity } from "../../entity";
 
 interface ItemStackUseOptions {
@@ -35,6 +35,12 @@ interface ItemStackUseOnBlockOptions extends ItemStackUseOptions {
    * The face of the trget block that the item is being used on.
    */
   face: BlockFace;
+
+  /**
+   * The block type that is being placed as a result of the item use.
+   * @note `method` must be `ItemUseMethod.Place` for this to be set.
+   */
+  placingBlock?: BlockType;
 }
 
 interface ItemStackUseOnEntityOptions extends ItemStackUseOptions {

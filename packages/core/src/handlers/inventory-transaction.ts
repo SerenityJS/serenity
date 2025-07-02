@@ -21,7 +21,7 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
-import { ItemStack } from "../item";
+import { ItemStack, ItemStackUseOnBlockOptions } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
 import { PlayerPlaceBlockSignal } from "../events";
 import { BlockEntry, BlockPlacementOptions } from "../types";
@@ -221,32 +221,43 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Verify that the item stack network ids match
           if (stack.type.network !== transaction.item.network) return;
 
-          // Call the useOnBlock method for the item stack
-          const useSuccess = stack.useOnBlock(player, {
+          // Check if a block type is present for the item stack
+          const blockType = stack.components.getBlockPlacer().getBlockType();
+
+          // Create the item use options for placing the block
+          const useOptions: ItemStackUseOnBlockOptions = {
+            canceled: false,
             method: ItemUseMethod.Place,
             targetBlock: interacting,
             clickPosition: transaction.clickPosition,
-            face: transaction.face
-          });
+            face: transaction.face,
+            placingBlock: blockType
+          };
+
+          // Call the useOnBlock method for the item stack
+          const useSuccess = stack.useOnBlock(player, useOptions);
 
           // If the item use was canceled, increment the stack
-          if (!useSuccess) return stack.incrementStack();
+          if (!useSuccess || useOptions.canceled || !useOptions.placingBlock) {
+            // Set the previous permutation of the resultant block
+            resultant.setPermutation(previousPermutation);
+
+            // Increment the stack count
+            return stack.incrementStack();
+          }
           // Check if the player is in survival mode
           // If so, decrement the stack
           else if (player.gamemode === Gamemode.Survival)
             stack.decrementStack();
 
-          // Check if a block type is present for the item stack
-          const blockType = stack.components.getBlockPlacer().getBlockType();
-
           // Check if the block type exists and is not air
-          if (!blockType || blockType.identifier === BlockIdentifier.Air)
+          if (useOptions.placingBlock.identifier === BlockIdentifier.Air)
             return; // If so, we skip the block placement
 
           // Get the permutation to set the block state
           const permutation =
-            blockType.permutations[stack.metadata] ??
-            blockType.getPermutation();
+            useOptions.placingBlock.permutations[stack.metadata] ??
+            useOptions.placingBlock.getPermutation();
 
           // Create a new BlockPlacementOptions object
           const options: BlockPlacementOptions = {

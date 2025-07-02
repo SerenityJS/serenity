@@ -12,3 +12,4 @@ export * from "./sword";
 export * from "./wearable";
 export * from "./shooter";
 export * from "./lock";
+export * from "./sign";
