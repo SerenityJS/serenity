@@ -6,7 +6,7 @@ import type { Packet } from "../../enums";
 /**
  * Represents a Minecraft Bedrock Edition data packet
  */
-abstract class DataPacket extends BasePacket {
+class DataPacket extends BasePacket {
   public static readonly id: Packet;
 
   public static readonly id_type = VarInt;
