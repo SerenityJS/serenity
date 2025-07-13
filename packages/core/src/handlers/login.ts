@@ -91,8 +91,8 @@ class LoginHandler extends NetworkHandler {
       clientData.MemoryTier
     );
 
-    // Read the player data from the world provider.
-    const data = world.provider.readPlayer(uuid, dimension);
+    // Read the player storage data from the world provider.
+    const storage = world.provider.readPlayer(uuid);
 
     // Get the skin from the client data.
     const skin = SerializedSkin.from(clientData);
@@ -107,12 +107,12 @@ class LoginHandler extends NetworkHandler {
     };
 
     // Check if the player data exists
-    if (data) {
+    if (storage) {
       // Set the unique id of the player
-      properties.uniqueId = BigInt(data.uniqueId);
+      properties.uniqueId = storage.getUniqueId();
 
       // Assign the player entry to the properties
-      properties.entry = data;
+      properties.storage = storage;
     }
 
     // Create a new player instance.

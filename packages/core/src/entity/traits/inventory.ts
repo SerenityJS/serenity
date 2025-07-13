@@ -8,16 +8,12 @@ import {
   NetworkItemStackDescriptor,
   Vector3f
 } from "@serenityjs/protocol";
+import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
 
 import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
-import {
-  ItemStackKeepOnDieTrait,
-  ItemStack,
-  ItemStackDataEntry,
-  type ItemStackStorage
-} from "../../item";
+import { ItemStackKeepOnDieTrait, ItemStack } from "../../item";
 import { EntityInventoryTraitOptions } from "../../types";
 import { Container } from "../../container";
 import { Player } from "../player";
@@ -33,20 +29,6 @@ class EntityInventoryTrait extends EntityTrait {
    * The container that holds the inventory items.
    */
   public readonly container: EntityContainer;
-
-  /**
-   * The dynamic property used to store the inventory items.
-   */
-  public get property(): ItemStackStorage {
-    return this.entity.getDynamicProperty("inventory") as ItemStackStorage;
-  }
-
-  /**
-   * The dynamic property used to store the inventory items.
-   */
-  public set property(value: ItemStackStorage) {
-    this.entity.setDynamicProperty<ItemStackStorage>("inventory", value);
-  }
 
   /**
    * The selected slot in the inventory.
@@ -159,8 +141,8 @@ class EntityInventoryTrait extends EntityTrait {
     // Check if the container is not the inventory container
     if (container !== this.container) return;
 
-    // Prepare the items array
-    const items: Array<[number, ItemStackDataEntry]> = [];
+    // Create a new items list tag
+    const items = new ListTag<CompoundTag>();
 
     // Iterate over the container slots
     for (let i = 0; i < this.container.size; i++) {
@@ -170,46 +152,65 @@ class EntityInventoryTrait extends EntityTrait {
       // Check if the item is null
       if (!itemStack) continue;
 
-      // Push the item stack entry to the inventory items
-      items.push([i, itemStack.getDataEntry()]);
+      // Get the item stack level storage
+      const storage = itemStack.getLevelStorage();
+
+      // Create a new int tag for the slot
+      storage.add(new IntTag(i, "Slot"));
+
+      // Add the item stack storage to the items list tag
+      items.push(storage);
     }
 
-    // Set the inventory property to the entity
-    this.property = { size: this.container.size, items };
+    // Add the items to the items list tag
+    this.entity.nbt.set("Items", items);
   }
 
   public onSpawn(): void {
-    // Iterate over each item in the inventory property
-    for (const [slot, entry] of this.property.items) {
-      try {
-        // Create a new item stack
-        const itemStack = new ItemStack(entry.identifier, {
-          stackSize: entry.stackSize,
-          metadata: entry.metadata,
-          world: this.entity.world,
-          dataEntry: entry
-        });
-
-        // Set the item stack to the equipment slot
-        this.container.setItem(slot, itemStack);
-      } catch {
-        // Log the error
-        this.entity.world.logger.error(
-          `Failed to create ItemStack with ItemType "${entry.identifier}", the type does not exist in the ItemPalette.`
-        );
-      }
-    }
+    // Check if the entity is a player, if so update the container
+    if (this.entity.isPlayer()) this.container.update(this.entity);
   }
 
   public onAdd(): void {
-    // Check if the entity has an inventory property
-    if (this.entity.hasDynamicProperty("inventory")) return;
+    // Check if the entity has an items nbt property
+    if (this.entity.nbt.has("Items")) {
+      // Get the items tag from the entity's nbt
+      const items = this.entity.nbt.get<ListTag<CompoundTag>>("Items");
 
-    // Create the item storage property
-    this.entity.setDynamicProperty<ItemStackStorage>("inventory", {
-      size: this.container.size,
-      items: []
-    });
+      // Get the world from the entity
+      const world = this.entity.world;
+
+      // Iterate over each item in the items list
+      for (const storage of items?.values() ?? []) {
+        try {
+          // Create a new item stack from the level storage
+          const itemStack = ItemStack.fromLevelStorage(world, storage);
+
+          // Get the slot from the storage
+          const slot = storage.get<IntTag>("Slot")?.valueOf() ?? 0;
+
+          // Set the item stack to the container
+          this.container.setItem(slot, itemStack);
+        } catch (reason) {
+          // Get the position of the entity
+          const { x, y, z } = this.entity.position.floor();
+
+          // Create a new error message
+          const message = (reason as Error).message || "Unknown error";
+
+          // Log an error if the item stack creation fails
+          world.logger.warn(
+            `Skipping ItemStack for entity container §u${this.entity.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r, as ${message}§r`
+          );
+        }
+      }
+    } else {
+      // Create a new items list tag
+      const items = new ListTag<CompoundTag>([], "Items");
+
+      // Push the items to the entity's nbt
+      this.entity.nbt.add(items);
+    }
 
     // Create the container type metadata
     const type = new DataItem(

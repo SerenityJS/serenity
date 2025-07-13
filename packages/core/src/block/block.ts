@@ -7,11 +7,11 @@ import {
   LevelEventPacket,
   Vector3f
 } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { Dimension, World } from "../world";
 import {
   BlockDestroyOptions,
-  BlockEntry,
   BlockInteractionOptions,
   BlockProperties,
   JSONLikeObject,
@@ -35,7 +35,6 @@ import {
   PlayerBreakBlockSignal,
   PlayerInteractWithBlockSignal
 } from "../events";
-import { DefaultBlockEntry } from "../constants";
 
 import { BlockDirectionTrait, BlockTrait } from "./traits";
 import { NbtMap } from "./maps";
@@ -46,6 +45,7 @@ import {
   BlockTypeGeometryComponent,
   BlockTypeSelectionBoxComponent
 } from "./identity";
+import { BlockLevelStorage } from "./storage";
 
 /**
  * Block is a class the represents an instance of a block in a dimension of a world.
@@ -283,9 +283,9 @@ class Block {
     this.dimension = dimension;
     this.position = position;
 
-    // Check if a data entry is provided
-    if (properties?.entry)
-      this.loadDataEntry(this.dimension.world, properties.entry);
+    // Check if a level storage is provided in the properties
+    if (properties?.storage)
+      this.loadLevelStorage(this.world, properties.storage);
 
     // Add the traits of the block type to the block
     for (const [, trait] of this.type.traits) this.addTrait(trait);
@@ -390,11 +390,11 @@ class Block {
   /**
    * Sets the permutation of the block.
    * @param permutation The permutation to set the block to.
-   * @param entry The block entry to load the block data from.
+   * @param storage The level storage to load into the block.
    */
   public setPermutation(
     permutation: BlockPermutation,
-    entry?: BlockEntry
+    storage?: CompoundTag
   ): void {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
@@ -413,8 +413,8 @@ class Block {
     // Set the permutation of the block.
     this.dimension.setPermutation(this.position, permutation);
 
-    // Check if the entry is provided.
-    if (entry) this.loadDataEntry(this.world, entry);
+    // Check if a level storage is provided.
+    if (storage) this.loadLevelStorage(this.world, storage);
 
     // Push the nbt data of the permutation to the block's nbt.
     this.nbt.push(...permutation.nbt.values());
@@ -1137,89 +1137,70 @@ class Block {
     return null;
   }
 
-  /**
-   * Gets the block's data as a database entry.
-   * @returns The block entry object.
-   */
-  public getDataEntry(): BlockEntry {
-    // Get the position of the block.
-    const { x, y, z } = this.position;
+  public getLevelStorage(): BlockLevelStorage {
+    // Create a new BlockLevelStorage instance with the block's nbt data.
+    const storage = new BlockLevelStorage(this.nbt);
 
-    const traits: Array<string> = [];
+    // Set the properties of the storage.
+    storage.setPosition(this.position);
+    storage.setDynamicProperties([...this.dyanamicProperties.entries()]);
 
-    for (const [identifier, { state }] of this.traits) {
-      if (state) traits.push(`${identifier}@${state}`);
-      else traits.push(identifier);
+    // Prepare an array to hold the traits.
+    const traits = Array<string>();
+
+    // Iterate over the traits and add them to the storage.
+    for (const [trait, { state }] of this.traits) {
+      // Check if the trait has a state.
+      if (state) traits.push(trait + "@" + state);
+      else traits.push(trait);
     }
 
-    // Create the block entry object.
-    const entry: BlockEntry = {
-      identifier: this.type.identifier,
-      permutation: this.permutation.networkId,
-      position: [x, y, z],
-      traits,
-      dynamicProperties: [...this.dyanamicProperties.entries()],
-      nbtProperties: this.nbt.serialize().toString("base64")
-    };
+    // Set the traits of the storage.
+    storage.setTraits(traits);
 
-    // Return the block entry object.
-    return entry;
+    // Return the block level storage instance.
+    return storage;
   }
 
-  /**
-   * Loads the block data from a block entry object.
-   * @param world The world the block is in.
-   * @param entry The block entry object to load the block data from.
-   * @param overwrite Whether to overwrite the block data.
-   */
-  public loadDataEntry(
-    world: World,
-    entry: BlockEntry,
-    overwrite = true
-  ): void {
-    // Spread the default block entry with the provided entry.
-    // This will ensure that all the properties are set.
-    entry = { ...DefaultBlockEntry, ...entry };
+  public loadLevelStorage(world: World, source: CompoundTag): void {
+    // Create a new BlockLevelStorage instance with the provided source.
+    const storage = new BlockLevelStorage(source);
 
-    // Check if the block should be overwritten.
-    if (overwrite) {
-      this.traits.clear();
-      this.dyanamicProperties.clear();
+    // Copy the storage to the blocks nbt.
+    this.nbt.push(...storage.values());
+
+    // Iterate over the dynamic properties and add them to the block.
+    for (const [identifier, value] of storage.getDynamicProperties()) {
+      // Set the dynamic property of the block.
+      this.dyanamicProperties.set(identifier, value);
     }
 
-    // Add the dynamic properties to the block, if it does not already exist.
-    for (const [key, value] of entry.dynamicProperties) {
-      if (!this.dyanamicProperties.has(key))
-        this.dyanamicProperties.set(key, value);
-    }
+    // Iterate over the traits and add them to the block.
+    for (const identifier of storage.getTraits()) {
+      // Check if the trait exists in the block palette.
+      const traitType = world.blockPalette.getTrait(identifier);
 
-    // Deserialize the nbt properties of the block
-    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
+      // Get the position of the block.
+      const { x, y, z } = this.position;
 
-    // Add the traits to the block, if it does not already exist
-    for (const trait of entry.traits) {
-      // Split the trait identifier and state
-      const [identifier, state] = trait.split("@") as [string, string | null];
-
-      // Check if the palette has the trait
-      const traitType = world.blockPalette.getTrait(identifier, state);
-
-      // Check if the trait exists in the palette
+      // If the trait does not exist, log an error and skip it.
       if (!traitType) {
-        // Get the position of the block
-        const { x, y, z } = this.position;
-
-        // Log the error of the trait not existing
-        world.logger.error(
-          `Failed to load trait "${trait}" for block "${this.type.identifier} @ <${x}, ${y}, ${z}>" as it does not exist in the palette`
+        // Log a warning to the console.
+        world.logger.warn(
+          `Skipping BlockTrait for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r, as the trait §u${identifier}§r does not exist in the block palette.`
         );
 
-        // Skip the trait.
+        // Skip the trait if it does not exist.
         continue;
       }
 
-      // Attempt to add the trait to the block
-      this.addTrait(traitType);
+      // Add the trait to the block.
+      const trait = this.addTrait(traitType);
+
+      // Log the loading of the trait.
+      world.logger.debug(
+        `Loaded BlockTrait §u${trait.identifier}§r for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r.`
+      );
     }
   }
 }

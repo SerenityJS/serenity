@@ -1,5 +1,7 @@
 import { DimensionType, Vector3f } from "@serenityjs/protocol";
 
+import { Chunk } from "../../world";
+
 interface DimensionProperties {
   identifier: string;
   type: DimensionType;
@@ -31,6 +33,11 @@ interface EntityQueryOptions {
    * @Note A position is required to use this option.
    */
   minDistance?: number;
+
+  /**
+   * The chunk to query entities from.
+   */
+  chunk?: Chunk;
 }
 
 export { DimensionProperties, EntityQueryOptions };

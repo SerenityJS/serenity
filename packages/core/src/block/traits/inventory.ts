@@ -9,42 +9,29 @@ import {
   LevelSoundEventPacket,
   Vector3f
 } from "@serenityjs/protocol";
+import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
 
 import { BlockIdentifier } from "../../enums";
-import { BlockContainer } from "../index";
+import { BlockContainer } from "../container";
 import { Block } from "../block";
 import { Container } from "../../container";
 import {
   BlockInteractionOptions,
   BlockInventoryTraitOptions
 } from "../../types";
-import {
-  ItemStack,
-  type ItemStackDataEntry,
-  type ItemStackStorage
-} from "../../item";
+import { ItemStack } from "../../item";
 
 import { BlockTrait } from "./trait";
 
 class BlockInventoryTrait extends BlockTrait {
   public static readonly identifier: string = "inventory";
-  public static readonly types = [BlockIdentifier.Chest];
+  public static readonly types = [
+    BlockIdentifier.Chest,
+    BlockIdentifier.TrappedChest,
+    BlockIdentifier.Barrel
+  ];
 
   public container: BlockContainer;
-
-  /**
-   * The property used to store the inventory items.
-   */
-  public get property(): ItemStackStorage {
-    return this.block.getDynamicProperty("inventory") as ItemStackStorage;
-  }
-
-  /**
-   * The property used to store the inventory items.
-   */
-  public set property(value: ItemStackStorage) {
-    this.block.setDynamicProperty<ItemStackStorage>("inventory", value);
-  }
 
   /**
    * Whether the block is opened or not.
@@ -114,23 +101,29 @@ class BlockInventoryTrait extends BlockTrait {
     // Verify the container is the same as the block container
     if (container !== this.container) return;
 
-    // Prepare the items array
-    const items: Array<[number, ItemStackDataEntry]> = [];
+    // Create a new items list tag
+    const items = new ListTag<CompoundTag>();
 
-    // Iterate over each item in the container
+    // Iterate over the container slots
     for (let i = 0; i < this.container.size; i++) {
       // Get the item stack at the index
       const itemStack = this.container.getItem(i);
 
       // Check if the item is null
-      if (itemStack === null) continue;
+      if (!itemStack) continue;
 
-      // Push the item stack entry to the inventory items
-      items.push([i, itemStack.getDataEntry()]);
+      // Get the item stack level storage
+      const storage = itemStack.getLevelStorage();
+
+      // Create a new int tag for the slot
+      storage.add(new IntTag(i, "Slot"));
+
+      // Add the item stack storage to the items list tag
+      items.push(storage);
     }
 
-    // Set the inventory property to the block
-    this.property = { size: this.container.size, items };
+    // Add the items to the items list tag
+    this.block.nbt.set("Items", items);
   }
 
   public onTick(): void {
@@ -184,6 +177,15 @@ class BlockInventoryTrait extends BlockTrait {
         sound.event = LevelSoundEvent.ChestOpen;
         break;
       }
+
+      case BlockIdentifier.Barrel: {
+        sound.event = LevelSoundEvent.BarrelOpen;
+
+        // Set the open bit state
+        this.block.setState("open_bit", true);
+
+        break;
+      }
     }
 
     // Broadcast the block event packet
@@ -221,6 +223,15 @@ class BlockInventoryTrait extends BlockTrait {
         sound.event = LevelSoundEvent.ChestClosed;
         break;
       }
+
+      case BlockIdentifier.Barrel: {
+        sound.event = LevelSoundEvent.BarrelClose;
+
+        // Set the open bit state
+        this.block.setState("open_bit", false);
+
+        break;
+      }
     }
 
     // Broadcast the block event packet
@@ -228,32 +239,50 @@ class BlockInventoryTrait extends BlockTrait {
   }
 
   public onAdd(): void {
-    // Get the item storage property
-    const property =
-      this.block.getDynamicProperty<ItemStackStorage>("inventory");
+    // Check if block has an items nbt property
+    if (this.block.nbt.has("Items")) {
+      // Get the items tag from the block's nbt
+      const items = this.block.nbt.get<ListTag<CompoundTag>>("Items");
 
-    // Check if the block has an inventory property
-    if (property) {
-      // Iterate over the items in the property
-      for (const [slot, item] of property.items) {
-        // Create a new item stack from the item entry
-        const stack = ItemStack.fromDataEntry(item);
+      // Get the world from the block
+      const world = this.block.world;
 
-        // Set the item stack in the container
-        this.container.setItem(slot, stack);
+      // Iterate over each item in the items list
+      for (const storage of items?.values() ?? []) {
+        try {
+          // Create a new item stack from the level storage
+          const itemStack = ItemStack.fromLevelStorage(world, storage);
+
+          // Get the slot from the storage
+          const slot = storage.get<IntTag>("Slot")?.valueOf() ?? 0;
+
+          // Set the item stack to the container
+          this.container.setItem(slot, itemStack);
+        } catch (reason) {
+          // Get the position of the block
+          const { x, y, z } = this.block.position;
+
+          // Create a new error message
+          const message = (reason as Error).message || "Unknown error";
+
+          // Log an error if the item stack creation fails
+          this.block.world.logger.warn(
+            `Skipping ItemStack for block container "§u${this.block.identifier}§r" @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r, as ${message}§r`
+          );
+        }
       }
     } else {
-      // Create the item storage property
-      this.block.setDynamicProperty<ItemStackStorage>("inventory", {
-        size: this.container.size,
-        items: []
-      });
+      // Create a new items list tag
+      const items = new ListTag<CompoundTag>([], "Items");
+
+      // Add the items list tag to the block's nbt
+      this.block.nbt.add(items);
     }
   }
 
   public onRemove(): void {
-    // Remove the item storage property
-    this.block.removeDynamicProperty("inventory");
+    // Delete the items list tag from the block's nbt
+    this.block.nbt.delete("Items");
   }
 }
 

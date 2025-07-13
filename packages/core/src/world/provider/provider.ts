@@ -1,13 +1,7 @@
-import { BlockPosition } from "@serenityjs/protocol";
-
+import { EntityLevelStorage, PlayerLevelStorage } from "../../entity";
+import { BlockLevelStorage } from "../../block";
 import { Serenity } from "../../serenity";
-import {
-  BlockEntry,
-  EntityEntry,
-  PlayerEntry,
-  WorldProperties,
-  WorldProviderProperties
-} from "../../types";
+import { WorldProperties, WorldProviderProperties } from "../../types";
 import { Chunk } from "../chunk/chunk";
 import { Dimension } from "../dimension";
 import { World } from "../world";
@@ -100,114 +94,51 @@ class WorldProvider {
     throw new Error(`${this.identifier}.writeChunk() is not implemented!`);
   }
 
-  /**
-   * Reads the available entities for a specified dimension.
-   * @param dimension The dimension to get the available entities for.
-   * @returns The available entities.
-   */
-  public readAvailableEntities(_dimension: Dimension): Array<bigint> {
-    throw new Error(
-      `${this.identifier}.getAvailableEntities() is not implemented!`
-    );
+  public readChunkEntities(
+    _chunk: Chunk,
+    _dimension: Dimension
+  ): Array<EntityLevelStorage> {
+    throw new Error(`${this.identifier}.readEntities() is not implemented!`);
   }
 
-  /**
-   * Writes the available entities for a specified dimension.
-   * @param dimension The dimension to write the available entities for.
-   * @param entities The entities to write.
-   */
-  public writeAvailableEntities(
+  public writeChunkEntities(
+    _chunk: Chunk,
     _dimension: Dimension,
-    _entities: Array<bigint>
+    _entities: Array<EntityLevelStorage>
   ): void {
-    throw new Error(
-      `${this.identifier}.writeAvailableEntities() is not implemented!`
-    );
+    throw new Error(`${this.identifier}.writeEntities() is not implemented!`);
   }
 
-  /**
-   * Reads an entity from the provider.
-   * @param uniqueId The unique identifier of the entity to read.
-   * @param dimension The dimension to read the entity from.
-   * @returns The entity data.
-   */
-  public readEntity(_uniqueId: bigint, _dimension: Dimension): EntityEntry {
-    throw new Error(`${this.identifier}.readEntity() is not implemented!`);
+  public readChunkBlocks(
+    _chunk: Chunk,
+    _dimension: Dimension
+  ): Array<BlockLevelStorage> {
+    throw new Error(`${this.identifier}.readBlocks() is not implemented!`);
   }
 
-  /**
-   * Writes an entity to the provider.
-   * @param entity The entity data to write.
-   * @param dimension The dimension to write the entity to.
-   */
-  public writeEntity(_entity: EntityEntry, _dimension: Dimension): void {
-    throw new Error(`${this.identifier}.writeEntity() is not implemented!`);
+  public writeChunkBlocks(
+    _chunk: Chunk,
+    _dimension: Dimension,
+    _blocks: Array<BlockLevelStorage>
+  ): void {
+    throw new Error(`${this.identifier}.writeBlocks() is not implemented!`);
   }
 
   /**
    * Reads a players data from the provider.
    * @param uuid The uuid of the player to read.
-   * @param dimension The dimension to read the player from.
    * @returns The player data if found, otherwise null.
    */
-  public readPlayer(_uuid: string, _dimension: Dimension): PlayerEntry | null {
+  public readPlayer(_uuid: string): PlayerLevelStorage | null {
     throw new Error(`${this.identifier}.readPlayer() is not implemented!`);
   }
 
   /**
    * Writes a players data to the provider.
    * @param player The player data to write.
-   * @param dimension The dimension to write the player to.
    */
-  public writePlayer(_player: PlayerEntry, _dimension: Dimension): void {
+  public writePlayer(_player: PlayerLevelStorage): void {
     throw new Error(`${this.identifier}.writePlayer() is not implemented!`);
-  }
-
-  /**
-   * Reads the available blocks for a specified dimension.
-   * @param dimension The dimension to read the available blocks for.
-   * @returns An array of block positions.
-   */
-  public readAvailableBlocks(_dimension: Dimension): Array<BlockPosition> {
-    throw new Error(
-      `${this.identifier}.readAvailableBlocks() is not implemented!`
-    );
-  }
-
-  /**
-   * Writes the available blocks for a specified dimension.
-   * @param dimension The dimension to write the available blocks for.
-   * @param positions The positions of the blocks to write.
-   */
-  public writeAvailableBlocks(
-    _dimension: Dimension,
-    _positions: Array<BlockPosition>
-  ): void {
-    throw new Error(
-      `${this.identifier}.writeAvailableBlocks() is not implemented!`
-    );
-  }
-
-  /**
-   * Reads a block from the provider.
-   * @param position The position of the block to read.
-   * @param dimension The dimension to read the block from.
-   */
-  public readBlock(
-    _position: BlockPosition,
-    _dimension: Dimension
-  ): BlockEntry {
-    throw new Error(`${this.identifier}.readBlock() is not implemented!`);
-  }
-
-  /**
-   * Writes a block to the provider.
-   * @param block The block to write.
-   * @param dimension The dimension to write the block to.
-   * @returns The block data.
-   */
-  public writeBlock(_block: BlockEntry, _dimension: Dimension): void {
-    throw new Error(`${this.identifier}.writeBlock() is not implemented!`);
   }
 
   /**

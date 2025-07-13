@@ -46,7 +46,7 @@ class CommandBlockUpdateHandler extends NetworkHandler {
           if (permutation.type.identifier === block.identifier) return;
 
           // Set the command block permutation
-          return block.setPermutation(permutation, block.getDataEntry());
+          return block.setPermutation(permutation, block.getLevelStorage());
         }
 
         case 1: {
@@ -60,7 +60,7 @@ class CommandBlockUpdateHandler extends NetworkHandler {
           if (permutation.type.identifier === block.identifier) return;
 
           // Set the repeating command block permutation
-          return block.setPermutation(permutation, block.getDataEntry());
+          return block.setPermutation(permutation, block.getLevelStorage());
         }
 
         case 2: {
@@ -74,7 +74,7 @@ class CommandBlockUpdateHandler extends NetworkHandler {
           if (permutation.type.identifier === block.identifier) return;
 
           // Set the chain command block permutation
-          return block.setPermutation(permutation, block.getDataEntry());
+          return block.setPermutation(permutation, block.getLevelStorage());
         }
       }
     }

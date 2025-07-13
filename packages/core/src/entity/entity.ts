@@ -3,7 +3,6 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
-  Attribute,
   ContainerId,
   ContainerName,
   DataItem,
@@ -13,7 +12,7 @@ import {
   Rotation,
   Vector3f
 } from "@serenityjs/protocol";
-import { BinaryStream } from "@serenityjs/binarystream";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { Dimension, World } from "../world";
 import {
@@ -26,7 +25,6 @@ import {
   EntityDeathOptions,
   EntityDespawnOptions,
   EntityEffectOptions,
-  EntityEntry,
   EntityProperties,
   EntitySpawnOptions,
   JSONLikeValue
@@ -65,6 +63,7 @@ import {
   EntitySharedPropertiesMap
 } from "./maps";
 import { EntityInputInfo } from "./input-info";
+import { EntityLevelStorage } from "./storage";
 
 class Entity {
   /**
@@ -146,6 +145,8 @@ class Entity {
    * These values are derived from the components and traits of the entity
    */
   public readonly attributes: AttributeMap;
+
+  public readonly nbt: CompoundTag = new CompoundTag();
 
   /**
    * The tags that are attached to the entity
@@ -365,8 +366,8 @@ class Entity {
     this.scoreboardIdentity = new ScoreboardIdentity(this);
 
     // If the entity is not a player & has an entry
-    if (!this.isPlayer() && properties?.entry)
-      this.loadDataEntry(this.dimension.world, properties.entry);
+    if (!this.isPlayer() && properties?.storage)
+      this.loadLevelStorage(this.world, properties.storage);
 
     // Add the traits of the block type to the entity
     for (const [, trait] of this.type.traits) this.addTrait(trait);
@@ -1446,126 +1447,85 @@ class Entity {
     return (await state.execute()) as Promise<CommandResponse<T>>;
   }
 
-  /**
-   * Gets the entity's data as a database entry.
-   * @returns The entity entry object.
-   */
-  public getDataEntry(): EntityEntry {
-    // Get the x, y, and z position
-    const { x, y, z } = this.position;
+  public getLevelStorage(): EntityLevelStorage {
+    // Create the entity level storage entry
+    const storage = new EntityLevelStorage(this.nbt);
 
-    // Get the yaw, pitch, and headYaw rotation
-    const { yaw, pitch, headYaw } = this.rotation;
+    // Set the properties of the entity level storage entry
+    storage.setIdentifier(this.type.identifier);
+    storage.setUniqueId(this.uniqueId);
+    storage.setPosition(this.position);
+    storage.setRotation(this.rotation);
+    storage.setDynamicProperties([...this.dynamicProperties.entries()]);
+    storage.setTraits([...this.traits.keys()]);
+    storage.setMetadata([...this.metadata.values()]);
+    storage.setFlags([...this.flags.entries()]);
+    storage.setAttributes([...this.attributes.values()]);
 
-    // Write the metadata to a binary stream
-    const metadataStream = new BinaryStream();
-    DataItem.write(metadataStream, [...this.metadata.values()]);
-
-    // Write the attributes to a binary stream
-    const attributesStream = new BinaryStream();
-    Attribute.write(attributesStream, [...this.attributes.values()]);
-
-    // Create the entity entry to save
-    const entry: EntityEntry = {
-      uniqueId: String(this.uniqueId),
-      identifier: this.type.identifier,
-      position: [x, y, z],
-      rotation: [yaw, pitch, headYaw],
-      dynamicProperties: [...this.dynamicProperties.entries()],
-      traits: [...this.traits.keys()],
-      metadata: metadataStream.getBuffer().toString("base64"),
-      flags: [...this.flags.entries()],
-      attributes: attributesStream.getBuffer().toString("base64"),
-      scoreboardIdentity: String(this.scoreboardIdentity.identifier)
-    };
-
-    // Return the entity entry
-    return entry;
+    // Return the entity level storage entry
+    return storage;
   }
 
-  /**
-   * Loads the entity from the provided entity entry.
-   * @param world The world to the entity data is coming from
-   * @param entry The entity entry to load
-   * @param overwrite Whether to overwrite the current entity data; default is true
-   */
-  public loadDataEntry(
-    world: World,
-    entry: EntityEntry,
-    overwrite = true
-  ): void {
-    try {
-      // Check that the identifier matches the entity's identifier
-      if (entry.identifier !== this.type.identifier)
-        throw new Error(
-          "Failed to load entity entry as the identifier does not match the entity's identifier!"
+  public loadLevelStorage(world: World, source: CompoundTag): void {
+    // Create a new stream from the source tag
+    const storage = new EntityLevelStorage(source);
+
+    // Load the additional properties of the entity
+    this.nbt.push(...storage.values());
+
+    // Set the entitys position and rotation
+    this.position.set(storage.getPosition());
+    this.rotation.set(storage.getRotation());
+
+    // Iterate over the dynamic properties
+    for (const [identifier, value] of storage.getDynamicProperties()) {
+      // Set the dynamic property of the entity
+      this.dynamicProperties.set(identifier, value);
+    }
+
+    // Iterate over the metadata
+    for (const value of storage.getMetadata()) {
+      // Set the metadata of the entity
+      this.metadata.set(value.identifier, value);
+    }
+
+    // Iterate over the flags
+    for (const [key, value] of storage.getFlags()) {
+      // Set the flag of the entity
+      this.flags.set(key, value);
+    }
+
+    // Iterate over the attributes
+    for (const value of storage.getAttributes()) {
+      // Set the attribute of the entity
+      this.attributes.set(value.name, value);
+    }
+
+    // Iterate over the traits and add them to the entity
+    for (const identifier of storage.getTraits()) {
+      // Check if the palette has the trait
+      const traitType = world.entityPalette.traits.get(identifier);
+
+      // Get the position of the entity.
+      const { x, y, z } = this.position.floor();
+
+      // Check if the trait exists in the palette
+      if (!traitType) {
+        // Log a warning to the console.
+        world.logger.warn(
+          `Skipping EntityTrait for entity §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r, as the trait §u${identifier}§r does not exist in the entity palette.`
         );
 
-      // Set the entity's position and rotation
-      this.position.x = entry.position[0];
-      this.position.y = entry.position[1];
-      this.position.z = entry.position[2];
-      this.rotation.yaw = entry.rotation[0];
-      this.rotation.pitch = entry.rotation[1];
-      this.rotation.headYaw = entry.rotation[2];
-
-      // Set the entity's scoreboard identity
-      this.scoreboardIdentity = new ScoreboardIdentity(
-        this,
-        BigInt(entry.scoreboardIdentity)
-      );
-
-      // Check if the entity should overwrite the current data
-      if (overwrite) {
-        this.metadata.clear();
-        this.flags.clear();
-        this.attributes.clear();
-        this.dynamicProperties.clear();
-        this.traits.clear();
+        // Skip the trait if it does not exist.
+        continue;
       }
 
-      // Create a new BinaryStream for the metadata
-      const mStream = new BinaryStream(Buffer.from(entry.metadata, "base64"));
-      const metadata = DataItem.read(mStream);
+      // Attempt to add the trait to the entity
+      const trait = this.addTrait(traitType as typeof EntityTrait);
 
-      // Create a new BinaryStream for the attributes
-      const aStream = new BinaryStream(Buffer.from(entry.attributes, "base64"));
-      const attributes = Attribute.read(aStream);
-
-      // Add the metadata to the entity
-      for (const value of metadata) this.metadata.set(value.identifier, value);
-
-      // Add the flags to the entity
-      for (const [key, value] of entry.flags) this.flags.set(key, value);
-
-      // Add the attributes to the entity
-      for (const value of attributes) this.attributes.set(value.name, value);
-
-      // Add the dynamic properties to the entity
-      for (const [key, value] of entry.dynamicProperties)
-        this.dynamicProperties.set(key, value);
-
-      // Add the traits to the entity
-      for (const trait of entry.traits) {
-        // Check if the palette has the trait
-        const traitType = world.entityPalette.traits.get(trait);
-
-        // Check if the trait exists in the palette
-        if (!traitType) {
-          world.logger.error(
-            `Failed to load trait "${trait}" for entity "${this.type.identifier}:${this.uniqueId}" as it does not exist in the palette`
-          );
-
-          continue;
-        }
-
-        // Attempt to add the trait to the entity
-        this.addTrait(traitType as typeof EntityTrait);
-      }
-    } catch {
-      // Log the error to the console
-      this.world.logger.error(
-        `Failed to load entity entry for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}". Entity data will be reset for this entity.`
+      // Log the loading of the trait to the console
+      world.logger.debug(
+        `Loaded EntityTrait §u${trait.identifier}§r for entity §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r.`
       );
     }
   }

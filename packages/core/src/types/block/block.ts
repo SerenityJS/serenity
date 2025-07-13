@@ -7,7 +7,6 @@ import {
   StringTag
 } from "@serenityjs/nbt";
 
-import { BlockEntry } from "../world";
 import { BlockPermutation, ItemDrop } from "../../block";
 import { ItemCategory, ItemGroup } from "../../enums";
 
@@ -28,7 +27,7 @@ interface CustomBlockProperties extends BlockTypeProperties {
 }
 
 interface BlockProperties {
-  entry?: BlockEntry;
+  storage?: CompoundTag;
 }
 
 interface BlockTypeNbtDefinition {

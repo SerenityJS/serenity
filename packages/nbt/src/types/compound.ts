@@ -59,6 +59,9 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
    * @returns The current instance for method chaining.
    */
   public set<T extends BaseTag>(key: string, value: T): this {
+    // Set the name of the tag to the key.
+    value.name = key;
+
     // Call the original set method from Map.
     super.set(key, value);
 

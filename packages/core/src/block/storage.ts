@@ -1,0 +1,182 @@
+import { BinaryStream } from "@serenityjs/binarystream";
+import { CompoundTag, IntTag, ListTag, StringTag } from "@serenityjs/nbt";
+import { BlockPosition } from "@serenityjs/protocol";
+
+import { JSONLikeValue } from "..";
+
+class BlockLevelStorage extends CompoundTag {
+  public constructor(source?: CompoundTag | BlockLevelStorage) {
+    super(); // No tag name is needed for block storage
+
+    // If a source is provided, copy its contents
+    if (source) this.push(...source.values());
+  }
+
+  /**
+   * Get the block position from the storage.
+   * @returns The BlockPosition representing the block's coordinates.
+   */
+  public getPosition(): BlockPosition {
+    // Get the x, y, and z coordinates from the storage
+    const x = this.get<IntTag>("x")?.valueOf() ?? 0;
+    const y = this.get<IntTag>("y")?.valueOf() ?? 0;
+    const z = this.get<IntTag>("z")?.valueOf() ?? 0;
+
+    // Return a new BlockPosition with the coordinates
+    return new BlockPosition(x, y, z);
+  }
+
+  /**
+   * Set the block position in the storage.
+   * @param position The BlockPosition to set in the storage.
+   */
+  public setPosition(position: BlockPosition): void {
+    // Set the x, y, and z coordinates in the storage
+    this.set("x", new IntTag(position.x));
+    this.set("y", new IntTag(position.y));
+    this.set("z", new IntTag(position.z));
+  }
+
+  /**
+   * Get the dynamic properties of the block from the level storage.
+   * @returns An array of tuples containing property identifiers and their values.
+   */
+  public getDynamicProperties(): Array<[string, JSONLikeValue]> {
+    // Prepare an array to hold dynamic properties
+    const properties: Array<[string, JSONLikeValue]> = [];
+
+    // Get the dynamic properties list from the storage
+    const dynamicProperties =
+      this.get<ListTag<CompoundTag>>("dynamic_properties");
+
+    // If the dynamic properties does not exist, return an empty array
+    if (!dynamicProperties) return properties;
+
+    // Iterate over each compound tag in the dynamic properties list
+    for (const property of dynamicProperties.values()) {
+      // Get the property identifier
+      const identifier = property.get<StringTag>("identifier");
+      const value = property.get<StringTag>("value");
+
+      // If both identifier and value exist, add them to the properties array
+      if (identifier && value) {
+        // Push the identifier and parsed value as a tuple to the properties array
+        properties.push([identifier.valueOf(), JSON.parse(value.valueOf())]);
+      }
+    }
+
+    // Return the array of dynamic properties
+    return properties;
+  }
+
+  /**
+   * Set dynamic properties for the block in the level storage.
+   * @param properties An array of tuples containing property identifiers and their values.
+   */
+  public setDynamicProperties(
+    properties: Array<[string, JSONLikeValue]>
+  ): void {
+    // Create a new ListTag for dynamic properties
+    const dynamicProperties = new ListTag<CompoundTag>(
+      [],
+      "dynamic_properties"
+    );
+
+    // Iterate over each property in the provided array
+    for (const [key, value] of properties) {
+      // Create a new CompoundTag for each property
+      const propertyTag = new CompoundTag();
+
+      // Set the identifier and value in the compound tag
+      propertyTag.add(new StringTag(key, "identifier"));
+      propertyTag.add(new StringTag(JSON.stringify(value), "value"));
+
+      // Add the compound tag to the dynamic properties list
+      dynamicProperties.push(propertyTag);
+    }
+
+    // Set the dynamic properties list in the storage
+    this.set("dynamic_properties", dynamicProperties);
+  }
+
+  /**
+   * Get the traits of the block from the level storage.
+   * @returns An array of trait identifiers.
+   */
+  public getTraits(): Array<string> {
+    // Get the traits list from the storage
+    const traits = this.get<ListTag<StringTag>>("traits");
+
+    // If the traits does not exist, return an empty array
+    if (!traits) return [];
+
+    // Prepare an array to hold the trait values
+    const identifiers: Array<string> = [];
+
+    // Iterate over each StringTag in the traits list
+    for (const trait of traits.values()) {
+      // If the trait exists, add its value to the identifiers array
+      if (trait) {
+        identifiers.push(trait.valueOf());
+      }
+    }
+
+    // Return the array of trait identifiers
+    return identifiers;
+  }
+
+  /**
+   * Set traits for the block in the level storage.
+   * @param traits An array of trait identifiers to set.
+   */
+  public setTraits(traits: Array<string>): void {
+    // Create a new ListTag for traits
+    const traitsTag = new ListTag<StringTag>([], "traits");
+
+    // Iterate over each trait in the provided array
+    for (const trait of traits) {
+      // Create a new StringTag for each trait
+      const tag = new StringTag(trait);
+
+      // Add the StringTag to the traits list
+      traitsTag.push(tag);
+    }
+
+    // Set the traits list in the storage
+    this.set("traits", traitsTag);
+  }
+
+  /**
+   * Initialize the BlockLevelStorage from a buffer.
+   * @param buffer The buffer containing the serialized BlockLevelStorage data.
+   * @returns A new BlockLevelStorage instance initialized from the buffer.
+   */
+  public static fromBuffer(buffer: Buffer): BlockLevelStorage {
+    // Create a new BinaryStream from the buffer
+    const stream = new BinaryStream(buffer);
+
+    // Read the CompoundTag from the stream
+    const tag = CompoundTag.read(stream);
+
+    // Return a new BlockLevelStorage instance with the read tag
+    return new this(tag);
+  }
+
+  /**
+   * Convert the BlockLevelStorage to a buffer.
+   * @param storage The BlockLevelStorage or CompoundTag to convert.
+   * @returns A Buffer containing the serialized BlockLevelStorage data.
+   */
+  public static toBuffer(storage: BlockLevelStorage | CompoundTag): Buffer {
+    // Create a new BinaryStream to write the storage
+    const stream = new BinaryStream();
+
+    // Write the storage to the stream
+    this.write(stream, storage);
+
+    // Return the buffer from the stream
+    return stream.getBuffer();
+  }
+}
+
+export { BlockLevelStorage };

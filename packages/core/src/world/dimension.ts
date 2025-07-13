@@ -589,6 +589,7 @@ class Dimension {
     const maxDistance = options?.maxDistance ?? 0;
     const minDistance = options?.minDistance ?? 0;
     const maxCount = options?.count ?? Infinity;
+    const chunk = options?.chunk ?? null;
 
     // Filter the entities based on the options
     for (const entity of this.entities.values()) {
@@ -602,6 +603,19 @@ class Dimension {
       // Check if the entity is within the minimum distance
       if (minDistance > 0 && entity.position.distance(position) < minDistance)
         continue;
+
+      // Check if the entity is in the specified chunk
+      if (chunk) {
+        // Get the position of the entity
+        const position = entity.position.floor();
+
+        // Convert the position to chunk coordinates
+        const cx = position.x >> 4;
+        const cz = position.z >> 4;
+
+        // Check if the entity is in the specified chunk
+        if (cx !== chunk.x || cz !== chunk.z) continue;
+      }
 
       // Add the entity to the entity list
       entities.push(entity);

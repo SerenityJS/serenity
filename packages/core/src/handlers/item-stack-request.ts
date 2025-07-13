@@ -360,8 +360,8 @@ class ItemStackRequestHandler extends NetworkHandler {
           ) as ItemStack;
 
           // Check if the item stack exists.
-          if (creativeItem.stackDataEntry)
-            itemStack.loadDataEntry(world, creativeItem.stackDataEntry, true);
+          if (creativeItem.stackStorage)
+            itemStack.loadLevelStorage(world, creativeItem.stackStorage);
 
           // Set the amount of the item stack.
           itemStack.setStackSize(amount);

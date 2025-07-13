@@ -18,13 +18,14 @@ import {
   UpdateBlockPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack, ItemStackUseOnBlockOptions } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
 import { PlayerPlaceBlockSignal } from "../events";
-import { BlockEntry, BlockPlacementOptions } from "../types";
+import { BlockPlacementOptions } from "../types";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -280,18 +281,13 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Emit the signal
           options.cancel = !signal.emit();
 
-          // Check if the item stack has a block_data component
-          if (stack.dynamicProperties.has("block_data")) {
-            // Get the block data entry from the item stack
-            const entry = stack.dynamicProperties.get(
-              "block_data"
-            ) as BlockEntry;
+          // Check if the item stack has block nbt property
+          if (stack.nbt.has("Block")) {
+            // Get the block level storage from the item stack
+            const storage = stack.nbt.get<CompoundTag>("Block");
 
-            // Set the block data entry to the block
-            resultant.loadDataEntry(resultant.world, entry);
-
-            // Set the permutation of the block with the block data
-            resultant.setPermutation(permutation, entry);
+            // Set the permutation of the block with the storage
+            resultant.setPermutation(permutation, storage);
           } else {
             // Set the permutation of the block
             resultant.setPermutation(permutation);

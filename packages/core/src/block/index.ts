@@ -3,6 +3,7 @@ export * from "./traits";
 export * from "./palette";
 export * from "./block";
 export * from "./container";
+export * from "./storage";
 
 import * as Traits from "./traits";
 

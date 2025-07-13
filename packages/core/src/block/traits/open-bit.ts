@@ -5,6 +5,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { BlockInteractionOptions } from "../../types";
+import { BlockIdentifier } from "../../enums";
 
 import { BlockTrait } from "./trait";
 
@@ -12,9 +13,12 @@ class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open-bit";
   public static readonly state = "open_bit";
 
-  public onInteract({ origin, cancel }: BlockInteractionOptions): boolean {
+  public onInteract({ origin, cancel }: BlockInteractionOptions): void {
     // Check if the origin is a player
-    if (!origin || !origin.isPlayer()) return false;
+    if (!origin || !origin.isPlayer()) return;
+
+    // Check if the block is a barrel
+    if (this.block.type.identifier === BlockIdentifier.Barrel) return;
 
     // Check if the interaction has been cancelled
     if (cancel || !origin.abilities.doorsAndSwitches) {
@@ -22,10 +26,7 @@ class BlockOpenBitTrait extends BlockTrait {
       const state = this.block.getState<boolean>("open_bit");
 
       // Revert the state of the block
-      this.setBit(state, true);
-
-      // Return false to cancel the interaction
-      return false;
+      return this.setBit(state, true);
     }
 
     // Get the state of the block
@@ -33,10 +34,6 @@ class BlockOpenBitTrait extends BlockTrait {
 
     // Set the bit of the block
     this.setBit(!state);
-
-    // If the player is sneaking, we should place the block and interact with it door.
-    // If the player is not sneaking, we should just interact with the door.
-    return origin.isSneaking; // The sneaking state of the player will be used to determine the action.
   }
 
   public setBit(open: boolean, silent = false): void {
@@ -77,6 +74,13 @@ class BlockOpenBitTrait extends BlockTrait {
       packet.event = open
         ? LevelSoundEvent.FenceGateOpen
         : LevelSoundEvent.FenceGateClose;
+    }
+
+    // Check if the block is a barrel
+    if (identifier.includes("barrel")) {
+      packet.event = open
+        ? LevelSoundEvent.BarrelOpen
+        : LevelSoundEvent.BarrelClose;
     }
 
     // Send the packet to the dimension

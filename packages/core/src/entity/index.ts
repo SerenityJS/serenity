@@ -6,6 +6,7 @@ export * from "./traits";
 export * from "./maps";
 export * from "./palette";
 export * from "./system-info";
+export * from "./storage";
 
 import * as Traits from "./traits";
 

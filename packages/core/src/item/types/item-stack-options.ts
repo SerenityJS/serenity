@@ -1,5 +1,6 @@
+import { ItemStackLevelStorage } from "../storage";
+
 import type { World } from "../../world";
-import type { ItemStackDataEntry } from "./item-stack-data-entry";
 
 /**
  * The default item stack options.
@@ -26,9 +27,9 @@ interface ItemStackOptions {
   world?: World;
 
   /**
-   * The item stack data entry, used for serialization and deserialization.
+   * The level storage for the item stack.
    */
-  dataEntry?: ItemStackDataEntry;
+  storage?: ItemStackLevelStorage;
 }
 
 export { ItemStackOptions, DefaultItemStackOptions };

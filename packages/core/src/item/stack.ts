@@ -4,10 +4,11 @@ import {
   NetworkItemInstanceDescriptor,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
-import { BlockEntry, JSONLikeValue } from "../types";
+import { JSONLikeValue } from "../types";
 import { Player } from "../entity";
 import { World } from "../world";
 import {
@@ -26,13 +27,12 @@ import { ItemStackDisplayTrait, ItemStackTrait } from "./traits";
 import { ItemStackNbtMap } from "./maps";
 import {
   type ItemStackOptions,
-  type ItemStackDataEntry,
   type ItemStackUseOptions,
   type ItemStackUseOnBlockOptions,
   type ItemStackUseOnEntityOptions,
-  DefaultItemStackOptions,
-  DefaultItemStackDataEntry
+  DefaultItemStackOptions
 } from "./types";
+import { ItemStackLevelStorage } from "./storage";
 
 class ItemStack {
   /**
@@ -163,10 +163,10 @@ class ItemStack {
       this.maxStackSize = this.type.components.getMaxStackSize();
       this.isStackable = this.maxStackSize > 1;
 
-      // Check if a entry was provided
-      if (options.dataEntry)
-        // Load the data entry for the item stack
-        this.loadDataEntry(options.world, options.dataEntry);
+      // Check if a level storage was provided
+      if (options.storage)
+        // Load the level storage for the item stack
+        this.loadLevelStorage(options.world, options.storage);
     } else {
       // If no world was provided, and the identifier is a item type
       if (identifier instanceof ItemType) {
@@ -775,98 +775,64 @@ class ItemStack {
     return true;
   }
 
-  /**
-   * Get the block data for the item stack.
-   * @returns The block data for the item stack.
-   */
-  public getBlockData(): BlockEntry {
-    return this.dynamicProperties.get("block_data") as BlockEntry;
+  public getLevelStorage(): ItemStackLevelStorage {
+    // Create a new level storage for the item stack.
+    const storage = new ItemStackLevelStorage();
+
+    // Set the properties of the level storage.
+    storage.setIdentifier(this.identifier);
+    storage.setStackSize(this.stackSize);
+    storage.setMetadata(this.metadata);
+    storage.setStackNbt(this.nbt);
+    storage.setDynamicProperties([...this.dynamicProperties.entries()]);
+    storage.setTraits([...this.traits.keys()]);
+
+    // Return the item stack level storage.
+    return storage;
   }
 
-  /**
-   * Set the block data for the item stack.
-   * @param data The block data to set.
-   */
-  public setBlockData(data: BlockEntry): void {
-    this.dynamicProperties.set("block_data", data);
-  }
+  public loadLevelStorage(world: World, source: CompoundTag): void {
+    // Create a new level storage for the item stack.
+    const storage = new ItemStackLevelStorage(source);
 
-  /**
-   * Gets the data entry for the item stack.
-   * @returns The data entry for the item stack.
-   */
-  public getDataEntry(): ItemStackDataEntry {
-    // Create the item stack entry.
-    const entry: ItemStackDataEntry = {
-      identifier: this.type.identifier,
-      stackSize: this.stackSize,
-      metadata: this.metadata,
-      dynamicProperties: [...this.dynamicProperties.entries()],
-      traits: [...this.traits.keys()],
-      nbtProperties: this.nbt.serialize().toString("base64")
-    };
+    // Set the world of the item stack.
+    this.world = world;
 
-    // Return the item stack entry.
-    return entry;
-  }
+    // Copy the nbt data from the level storage to the item stack.
+    this.nbt.push(...storage.getStackNbt().values());
 
-  /**
-   * Loads the data entry for the item stack.
-   * @param world The world to load the item stack in.
-   * @param entry The item stack entry to load.
-   * @param overwrite Whether to overwrite the existing data.
-   */
-  public loadDataEntry(
-    world: World,
-    entry: ItemStackDataEntry,
-    overwrite = true
-  ): void {
-    // Spread the default item stack entry and the provided entry
-    // This will add any missing properties to the entry
-    entry = { ...DefaultItemStackDataEntry, ...entry };
+    // Set the properties of the item stack from the level storage.
+    this.setStackSize(storage.getStackSize());
+    this.metadata = storage.getMetadata();
 
-    // Check that the identifiers match.
-    if (entry.identifier !== this.type.identifier)
-      throw new Error(
-        "Failed to load itemstack entry as the type identifier does not match!"
-      );
-
-    // Check if the entry should overwrite the existing data.
-    if (overwrite) {
-      // Clear the dynamic properties and traits.
-      this.dynamicProperties.clear();
-      this.traits.clear();
+    // Iterate over the dynamic properties and set them on the item stack.
+    for (const [key, value] of storage.getDynamicProperties()) {
+      this.dynamicProperties.set(key, value);
     }
 
-    // Update the item stack properties.
-    this.stackSize = entry.stackSize;
-    this.metadata = entry.metadata;
+    // Iterate over the traits and add them to the item stack.
+    for (const identifier of storage.getTraits()) {
+      // Get the trait from the item type.
+      const itemTrait = world.itemPalette.getTrait(identifier);
 
-    // Add the dynamic properties to the stack, if it does not already exist
-    for (const [key, value] of entry.dynamicProperties) {
-      if (!this.dynamicProperties.has(key))
-        this.dynamicProperties.set(key, value);
-    }
-
-    // Deserialize the nbt data.
-    this.nbt.deserialize(Buffer.from(entry.nbtProperties, "base64"));
-
-    // Add the traits to the itemstack, if it does not already exist
-    for (const trait of entry.traits) {
-      // Check if the palette has the trait
-      const traitType = world.itemPalette.traits.get(trait);
-
-      // Check if the trait exists in the palette
-      if (!traitType) {
-        world.logger.error(
-          `Failed to load trait "${trait}" for itemstack "${this.type.identifier}" as it does not exist in the palette`
+      // Check if the trait exists in the item type.
+      if (!itemTrait) {
+        // Log a warning to the console.
+        world.logger.warn(
+          `Skipping ItemStackTrait for item §u${this.identifier}§r as the trait §u${identifier}§r does not exist in the item palette.`
         );
 
+        // Skip the trait if it does not exist.
         continue;
       }
 
-      // Attempt to add the trait to the itemstack
-      this.addTrait(traitType);
+      // Add the trait to the item stack.
+      const trait = this.addTrait(itemTrait);
+
+      // Log the loading of the trait.
+      world.logger.debug(
+        `Loaded ItemStackTrait §u${trait.identifier}§r for item §u${this.identifier}§r.`
+      );
     }
   }
 
@@ -954,22 +920,30 @@ class ItemStack {
     return item;
   }
 
-  /**
-   * Creates an item stack from a data entry.
-   * @param entry The data entry to create the item stack from.
-   * @param world The world to create the item stack in.
-   * @returns The item stack.
-   */
-  public static fromDataEntry(
-    dataEntry: ItemStackDataEntry,
-    world?: World
-  ): ItemStack {
-    return new this(dataEntry.identifier as ItemIdentifier, {
-      metadata: dataEntry.metadata,
-      stackSize: dataEntry.stackSize,
-      dataEntry,
-      world
+  public static fromLevelStorage(world: World, source: CompoundTag): ItemStack {
+    // Create a new item stack from the level storage.
+    const storage = new ItemStackLevelStorage(source);
+
+    // Get the item identifier from the storage.
+    const identifier = storage.getIdentifier();
+
+    // Get the item type from the world item palette.
+    const type = world.itemPalette.getType(identifier);
+
+    // Check if the item type exists in the world item palette.
+    if (!type)
+      throw new Error(
+        `ItemType "§u${identifier}§r" was not found in the world item palette.`
+      );
+
+    // Create a new item stack from the identifier.
+    const stack = new ItemStack(type, {
+      world,
+      storage
     });
+
+    // Return the item stack.
+    return stack;
   }
 
   /**

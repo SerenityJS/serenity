@@ -1,8 +1,7 @@
 import { NetworkItemInstanceDescriptor } from "@serenityjs/protocol";
 
 import { ItemType } from "../identity";
-
-import type { ItemStackDataEntry } from "../types";
+import { ItemStackLevelStorage } from "../storage";
 
 class CreativeItemDescriptor {
   /**
@@ -16,24 +15,24 @@ class CreativeItemDescriptor {
   public readonly descriptor: NetworkItemInstanceDescriptor;
 
   /**
-   * The stack data of the descriptor.
+   * The level storage for the item stack.
    */
-  public readonly stackDataEntry: ItemStackDataEntry | null;
+  public readonly stackStorage: ItemStackLevelStorage | null;
 
   /**
    * Creates a new creative item descriptor.
    * @param type The item type of the descriptor.
    * @param descriptor The network item instance descriptor.
-   * @param stackDataEntry The stack data of the descriptor.
+   * @param stackStorage The level storage for the item stack.
    */
   public constructor(
     type: ItemType,
     descriptor?: NetworkItemInstanceDescriptor,
-    stackDataEntry?: ItemStackDataEntry
+    stackStorage?: ItemStackLevelStorage | null
   ) {
     this.type = type;
     this.descriptor = descriptor ?? ItemType.toNetworkInstance(type);
-    this.stackDataEntry = stackDataEntry ?? null;
+    this.stackStorage = stackStorage ?? null;
   }
 }
 

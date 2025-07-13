@@ -6,6 +6,7 @@ import {
   MobArmorEquipmentPacket,
   Vector3f
 } from "@serenityjs/protocol";
+import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
 
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
@@ -20,17 +21,6 @@ import { Container } from "../../container";
 
 import { EntityInventoryTrait } from "./inventory";
 import { EntityTrait } from "./trait";
-
-import type { JSONLikeObject } from "../../types";
-import type { ItemStackDataEntry } from "../../item";
-
-interface EntityEquipmentTraitProperties extends JSONLikeObject {
-  head: ItemStackDataEntry | null;
-  chest: ItemStackDataEntry | null;
-  legs: ItemStackDataEntry | null;
-  feet: ItemStackDataEntry | null;
-  offhand: ItemStackDataEntry | null;
-}
 
 class EntityEquipmentTrait extends EntityTrait {
   public static readonly identifier = "equipment";
@@ -47,39 +37,10 @@ class EntityEquipmentTrait extends EntityTrait {
   public readonly offhand: EntityContainer;
 
   /**
-   * The dynamic property used to store the equipment items.
-   */
-  public get properties(): EntityEquipmentTraitProperties {
-    // Check if the entity has a dynamic property for the equipment trait
-    if (!this.entity.hasDynamicProperty(this.identifier)) {
-      // Create a new dynamic property for the equipment trait
-      this.entity.setDynamicProperty<EntityEquipmentTraitProperties>(
-        this.identifier,
-        {
-          head: null,
-          chest: null,
-          legs: null,
-          feet: null,
-          offhand: null
-        }
-      );
-    }
-
-    // Return the dynamic property for the equipment trait
-    return this.entity.getDynamicProperty(
-      this.identifier
-    ) as EntityEquipmentTraitProperties;
-  }
-
-  /**
    * Create a new equipment trait for the entity.
    * @param entity The entity to apply the equipment trait to.
-   * @param properties The optional properties of the equipment trait.
    */
-  public constructor(
-    entity: Entity,
-    properties?: Partial<EntityEquipmentTraitProperties>
-  ) {
+  public constructor(entity: Entity) {
     super(entity);
 
     // Create the armor container
@@ -97,9 +58,6 @@ class EntityEquipmentTrait extends EntityTrait {
       ContainerId.Offhand,
       1
     );
-
-    // Assign the properties to the equipment trait, if defined
-    if (properties) Object.assign(this.properties, properties);
   }
 
   /**
@@ -217,26 +175,65 @@ class EntityEquipmentTrait extends EntityTrait {
     // Check if the container is not the armor or offhand container
     if (container !== this.armor && container !== this.offhand) return;
 
+    // Create a new list tag for the armor items
+    const armor = new ListTag<CompoundTag>([], "Armor");
+
     const head = this.armor.getItem(EquipmentSlot.Head);
     const chest = this.armor.getItem(EquipmentSlot.Chest);
     const legs = this.armor.getItem(EquipmentSlot.Legs);
     const feet = this.armor.getItem(EquipmentSlot.Feet);
     const offhand = this.offhand.getItem(0);
 
-    // Assign the head item to the properties
-    this.properties.head = head ? head.getDataEntry() : null;
+    // Check if the head item is not null
+    if (head) {
+      // Get the level storage of the head item
+      const headStorage = head.getLevelStorage();
 
-    // Assign the chest item to the properties
-    this.properties.chest = chest ? chest.getDataEntry() : null;
+      // Create a new int tag for the head slot
+      headStorage.add(new IntTag(EquipmentSlot.Head, "Slot"));
 
-    // Assign the legs item to the properties
-    this.properties.legs = legs ? legs.getDataEntry() : null;
+      // Push the head storage to the armor list
+      armor.push(headStorage);
+    }
 
-    // Assign the feet item to the properties
-    this.properties.feet = feet ? feet.getDataEntry() : null;
+    // Check if the chest item is not null
+    if (chest) {
+      // Get the level storage of the chest item
+      const chestStorage = chest.getLevelStorage();
 
-    // Assign the offhand item to the properties
-    this.properties.offhand = offhand ? offhand.getDataEntry() : null;
+      // Create a new int tag for the chest slot
+      chestStorage.add(new IntTag(EquipmentSlot.Chest, "Slot"));
+
+      // Push the chest storage to the armor list
+      armor.push(chestStorage);
+    }
+
+    // Check if the legs item is not null
+    if (legs) {
+      // Get the level storage of the legs item
+      const legsStorage = legs.getLevelStorage();
+
+      // Create a new int tag for the legs slot
+      legsStorage.add(new IntTag(EquipmentSlot.Legs, "Slot"));
+
+      // Push the legs storage to the armor list
+      armor.push(legsStorage);
+    }
+
+    // Check if the feet item is not null
+    if (feet) {
+      // Get the level storage of the feet item
+      const feetStorage = feet.getLevelStorage();
+
+      // Create a new int tag for the feet slot
+      feetStorage.add(new IntTag(EquipmentSlot.Feet, "Slot"));
+
+      // Push the feet storage to the armor list
+      armor.push(feetStorage);
+    }
+
+    // Set the armor list to the entity's nbt
+    this.entity.nbt.add(armor);
 
     // Create a new MobArmorEquipmentPacket, and assign the equipment properties
     const packet = new MobArmorEquipmentPacket();
@@ -252,59 +249,39 @@ class EntityEquipmentTrait extends EntityTrait {
   }
 
   public onSpawn(): void {
-    // Get the equipment properties
-    // Clone the properties to avoid reference issues
-    const properties = { ...this.properties };
+    // Get the armor tag from the entity's nbt
+    const armor = this.entity.nbt.get<ListTag<CompoundTag>>("Armor")!.values();
 
-    // Check if a head item is defined
-    if (properties.head) {
-      // Create a new item stack using the head item entry
-      const itemStack = ItemStack.fromDataEntry(properties.head);
+    // Get the world from the entity
+    const world = this.entity.world;
 
-      // Set the item stack to the head equipment slot
-      this.setEqupment(EquipmentSlot.Head, itemStack);
-    }
+    // Iterate over the armor items
+    for (const storage of armor) {
+      // Create a new item stack from the level storage
+      const itemStack = ItemStack.fromLevelStorage(world, storage);
 
-    // Check if a chest item is defined
-    if (properties.chest) {
-      // Create a new item stack using the chest item entry
-      const itemStack = ItemStack.fromDataEntry(properties.chest);
+      // Get the slot from the storage
+      const slot = storage.get<IntTag>("Slot")?.valueOf() ?? 0;
 
-      // Set the item stack to the chest equipment slot
-      this.setEqupment(EquipmentSlot.Chest, itemStack);
-    }
-
-    // Check if a legs item is defined
-    if (properties.legs) {
-      // Create a new item stack using the legs item entry
-      const itemStack = ItemStack.fromDataEntry(properties.legs);
-
-      // Set the item stack to the legs equipment slot
-      this.setEqupment(EquipmentSlot.Legs, itemStack);
-    }
-
-    // Check if a feet item is defined
-    if (properties.feet) {
-      // Create a new item stack using the feet item entry
-      const itemStack = ItemStack.fromDataEntry(properties.feet);
-
-      // Set the item stack to the feet equipment slot
-      this.setEqupment(EquipmentSlot.Feet, itemStack);
-    }
-
-    // Check if an offhand item is defined
-    if (properties.offhand) {
-      // Create a new item stack using the offhand item entry
-      const itemStack = ItemStack.fromDataEntry(properties.offhand);
-
-      // Set the item stack to the offhand equipment slot
-      this.setEqupment(EquipmentSlot.Offhand, itemStack);
+      // Set the item stack to the equipment slot
+      this.setEqupment(slot, itemStack);
     }
   }
 
+  public onAdd(): void {
+    // Check if the entity has an armor tag
+    if (this.entity.nbt.has("Armor")) return;
+
+    // Create a new armor list tag
+    const armor = new ListTag<CompoundTag>([], "Armor");
+
+    // Add the armor list tag to the entity's nbt
+    this.entity.nbt.add(armor);
+  }
+
   public onRemove(): void {
-    // Remove the equipment properties
-    this.entity.removeDynamicProperty(this.identifier);
+    // Delete the armor tag from the entity's nbt
+    this.entity.nbt.delete("Armor");
   }
 
   public onDeath(): void {

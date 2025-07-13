@@ -1,8 +1,8 @@
-import { EntityEntry } from "../world";
+import { CompoundTag } from "@serenityjs/nbt";
 
 interface EntityProperties {
   uniqueId: bigint;
-  entry?: EntityEntry;
+  storage?: CompoundTag;
 }
 
 export { EntityProperties };

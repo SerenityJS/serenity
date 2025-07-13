@@ -23,7 +23,7 @@ class DisconnectHandler extends NetworkHandler {
     player.despawn();
 
     // Save the player's data
-    player.world.provider.writePlayer(player.getDataEntry(), player.dimension);
+    player.world.provider.writePlayer(player.getLevelStorage());
 
     // Nullify the player's permissions
     player.permissions.player = null;

@@ -28,10 +28,10 @@ import {
   UpdatePlayerGameTypePacket,
   Vector3f
 } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import {
   EntitySpawnOptions,
-  PlayerEntry,
   PlayerProperties,
   PlaySoundOptions
 } from "../types";
@@ -64,6 +64,7 @@ import {
 } from "./traits";
 import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
+import { PlayerLevelStorage } from "./storage";
 
 class Player extends Entity {
   /**
@@ -249,8 +250,8 @@ class Player extends Entity {
     this.permissions.player = this; // Set the player instance to the permission member
 
     // If the player properties contains an entry, load it
-    if (properties?.entry)
-      this.loadDataEntry(dimension.world, properties.entry);
+    if (properties?.storage)
+      this.loadLevelStorage(dimension.world, properties.storage);
 
     // Add the traits of the player type
     for (const [, trait] of this.type.traits) this.addTrait(trait);
@@ -755,69 +756,30 @@ class Player extends Entity {
     return this.send(packet);
   }
 
-  /**
-   * Gets the player's data as a database entry
-   * @returns The player entry
-   */
-  public getDataEntry(): PlayerEntry {
-    // Create the player entry to save
-    const entry: PlayerEntry = {
-      username: this.username,
-      xuid: this.xuid,
-      uuid: this.uuid,
-      abilities: [...this.abilities.entries()],
-      ...super.getDataEntry()
-    };
+  public getLevelStorage(): PlayerLevelStorage {
+    // Call the super method to get the player level storage
+    const storage = new PlayerLevelStorage(super.getLevelStorage());
 
-    // Return the player entry
-    return entry;
+    // Set the player properties in the storage
+    storage.setUsername(this.username);
+    storage.setXuid(this.xuid);
+    storage.setUuid(this.uuid);
+    storage.setAbilities([...this.abilities.entries()]);
+
+    // Return the player level storage
+    return storage;
   }
 
-  /**
-   * Load the player from the provided player entry
-   * @param world The world the player data is coming from
-   * @param entry The player entry to load
-   * @param overwrite Whether to overwrite the current player data; default is true
-   */
-  public loadDataEntry(
-    world: World,
-    entry: PlayerEntry,
-    overwrite = true
-  ): void {
-    // Call the super method to load the player data
-    super.loadDataEntry(world, entry, overwrite);
+  public loadLevelStorage(world: World, source: CompoundTag): void {
+    // Call the super method to load the player level storage
+    super.loadLevelStorage(world, source);
 
-    try {
-      // Check that the username matches the player's username
-      if (entry.username !== this.username)
-        throw new Error(
-          "Failed to load player entry as the username does not match the player's username!"
-        );
+    // Create a new PlayerLevelStorage instance
+    const storage = new PlayerLevelStorage(source);
 
-      // Check that the uuid matches the player's uuid
-      if (entry.uuid !== this.uuid)
-        throw new Error(
-          "Failed to load player entry as the uuid does not match the player's uuid!"
-        );
-
-      // Check that the xuid matches the player's xuid
-      if (entry.xuid !== this.xuid)
-        throw new Error(
-          "Failed to load player entry as the xuid does not match the player's xuid!"
-        );
-
-      // Check if the player should overwrite the current data
-      if (overwrite) this.abilities.clear();
-
-      // Add the abilities to the player
-      for (const [key, value] of entry.abilities)
-        this.abilities.set(key, value);
-    } catch {
-      // Log the error to the console
-      this.world.logger.error(
-        `Failed to load player entry for player "${this.username}" in dimension "${this.dimension.identifier}". Player data will be reset for this player.`
-      );
-    }
+    // Load the abilities from the storage
+    for (const [key, value] of storage.getAbilities())
+      this.abilities.set(key, value);
   }
 }
 

@@ -5,6 +5,7 @@ import {
   LevelSoundEventPacket,
   TakeItemActorPacket
 } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemStack } from "../../item";
 import { Entity } from "../entity";
@@ -13,8 +14,6 @@ import { TraitOnTickDetails } from "../../trait";
 
 import { EntityTrait } from "./trait";
 import { EntityInventoryTrait } from "./inventory";
-
-import type { ItemStackDataEntry } from "../../item";
 
 interface EntityItemStackTraitOptions {
   /**
@@ -98,15 +97,12 @@ class EntityItemStackTrait extends EntityTrait {
     if (options?.itemStack) {
       // Set the item stack of the trait
       this.itemStack = options.itemStack;
-    } else if (entity.hasDynamicProperty("itemstack")) {
-      // Get the item stack from the entity's dynamic properties
-      const entry = entity.getDynamicProperty<ItemStackDataEntry>("itemstack")!;
+    } else if (entity.nbt.has("Item")) {
+      // Get the item tag from the entity's nbt
+      const entry = entity.nbt.get<CompoundTag>("Item")!;
 
-      // Create a new item stack from the entry
-      this.itemStack = new ItemStack(entry.identifier, {
-        dataEntry: entry,
-        world: entity.world
-      });
+      // Create a new item stack from the level storage entry
+      this.itemStack = ItemStack.fromLevelStorage(this.entity.world, entry);
     } else {
       // Throw an error if no item stack is provided
       throw new Error(
@@ -121,6 +117,12 @@ class EntityItemStackTrait extends EntityTrait {
     if (options?.lifeSpan) this.lifeSpan = options.lifeSpan;
     if (options?.canMerge !== undefined) this.canMerge = options.canMerge;
     if (options?.canDespawn !== undefined) this.canDespawn = options.canDespawn;
+
+    // Get the item stack level storage entry
+    const storage = this.itemStack.getLevelStorage();
+
+    // Set the item stack storage in the entity's nbt
+    entity.nbt.set("Item", storage);
   }
 
   /**
@@ -142,11 +144,11 @@ class EntityItemStackTrait extends EntityTrait {
     // Increment the item stack by the specified amount
     this.itemStack.incrementStack(amount);
 
-    // Get the data entry of the item stack
-    const entry = this.itemStack.getDataEntry();
+    // Get the level storage entry of the item stack
+    const entry = this.itemStack.getLevelStorage();
 
-    // Set the item stack component of the entity
-    this.entity.setDynamicProperty("itemstack", entry);
+    // Update the nbt of the entity with the item stack data
+    this.entity.nbt.set("Item", entry);
 
     // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
@@ -162,11 +164,11 @@ class EntityItemStackTrait extends EntityTrait {
     // Decrement the item stack by the specified amount
     this.itemStack.decrementStack(amount);
 
-    // Get the data entry of the item stack
-    const entry = this.itemStack.getDataEntry();
+    // Get the level storage entry of the item stack
+    const entry = this.itemStack.getLevelStorage();
 
-    // Set the item stack component of the entity
-    this.entity.setDynamicProperty("itemstack", entry);
+    // Update the nbt of the entity with the item stack data
+    this.entity.nbt.set("Item", entry);
 
     // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
@@ -179,16 +181,16 @@ class EntityItemStackTrait extends EntityTrait {
   }
 
   public onAdd(): void {
-    // Get the data entry of the item stack
-    const entry = this.itemStack.getDataEntry();
+    // Get the item stack level storage entry
+    const entry = this.itemStack.getLevelStorage();
 
-    // Set the item stack dynamic property of the entity
-    this.entity.setDynamicProperty("itemstack", entry);
+    // Set the item stack data in the entity's nbt
+    this.entity.nbt.set("Item", entry);
   }
 
   public onRemove(): void {
-    // Remove the item stack dynamic property of the entity
-    this.entity.removeDynamicProperty("itemstack");
+    // Delete the item stack data from the entity's nbt
+    this.entity.nbt.delete("Item");
   }
 
   public onTick(details: TraitOnTickDetails): void {

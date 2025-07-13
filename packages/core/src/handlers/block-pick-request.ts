@@ -34,11 +34,11 @@ class BlockPickRequestHandler extends NetworkHandler {
 
     // Check if block data should be added to the item stack
     if (addData) {
-      // Get the data entry of the block
-      const entry = block.getDataEntry();
+      // Get the level storage of the block
+      const storage = block.getLevelStorage();
 
-      // Add the entry to the item stack components
-      itemStack.dynamicProperties.set("block_data", entry);
+      // Add the block's level storage to the item stack
+      itemStack.nbt.set("Block", storage);
     }
 
     // Get the player's inventory container

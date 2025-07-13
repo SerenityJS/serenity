@@ -4,6 +4,7 @@ export * from "./palette";
 export * from "./traits";
 export * from "./stack";
 export * from "./types";
+export * from "./storage";
 
 import * as Traits from "./traits";
 

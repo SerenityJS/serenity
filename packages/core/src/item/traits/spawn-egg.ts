@@ -1,11 +1,11 @@
 import { ItemUseMethod, BlockPosition } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { EntityIdentifier } from "../../enums";
 import { Entity, type Player } from "../../entity";
 
 import { ItemStackTrait } from "./trait";
 
-import type { EntityEntry } from "../../types";
 import type { ItemStackUseOnBlockOptions } from "../types";
 
 class ItemStackSpawnEggTrait extends ItemStackTrait {
@@ -41,13 +41,12 @@ class ItemStackSpawnEggTrait extends ItemStackTrait {
       .add({ x: 0, y: -0.75, z: 0 });
 
     // Check if any entity data should be added to the entity.
-    const entry =
-      this.item.getDynamicProperty<EntityEntry>("entity_data") ?? undefined;
+    const storage = this.item.nbt.get<CompoundTag>("Entity");
 
     // Check if the entity data entry is defined.
-    if (entry) {
+    if (storage) {
       // Create the entity with the entity data.
-      const entity = new Entity(player.dimension, this.entityType, { entry });
+      const entity = new Entity(player.dimension, this.entityType, { storage });
 
       // Increase the Y position by 1.
       position.y += 1;

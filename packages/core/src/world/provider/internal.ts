@@ -1,15 +1,11 @@
 import { ChunkCoords } from "@serenityjs/protocol";
 
 import { Serenity } from "../../serenity";
-import {
-  EntityEntry,
-  PlayerEntry,
-  WorldProperties,
-  WorldProviderProperties
-} from "../../types";
+import { WorldProperties, WorldProviderProperties } from "../../types";
 import { Chunk } from "../chunk";
 import { World } from "../world";
 import { Dimension } from "../dimension";
+import { EntityLevelStorage, PlayerLevelStorage } from "../../entity";
 
 import { WorldProvider } from "./provider";
 
@@ -24,12 +20,15 @@ class InternalProvider extends WorldProvider {
   /**
    * The entities that exist for the world.
    */
-  public readonly entities = new Map<Dimension, Map<bigint, EntityEntry>>();
+  public readonly entities = new Map<
+    Dimension,
+    Map<bigint, EntityLevelStorage>
+  >();
 
   /**
    * The players that exist for the world.
    */
-  public readonly players = new Map<Dimension, Map<string, PlayerEntry>>();
+  public readonly players = new Map<string, PlayerLevelStorage>();
 
   /**
    * The buffer properties that exist for the world.
@@ -79,79 +78,63 @@ class InternalProvider extends WorldProvider {
     chunks.set(ChunkCoords.hash({ x: chunk.x, z: chunk.z }), chunk);
   }
 
-  public getAvailableEntities(dimension: Dimension): Array<bigint> {
-    // Check if the entities contain the dimension.
-    if (!this.entities.has(dimension)) {
-      this.entities.set(dimension, new Map());
-    }
+  // public getAvailableEntities(dimension: Dimension): Array<bigint> {
+  //   // Check if the entities contain the dimension.
+  //   if (!this.entities.has(dimension)) {
+  //     this.entities.set(dimension, new Map());
+  //   }
 
-    // Get the dimension entities.
-    const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
+  //   // Get the dimension entities.
+  //   const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
 
-    // Return the entity unique ids.
-    return [...entities].map(([uniqueId]) => uniqueId);
-  }
+  //   // Return the entity unique ids.
+  //   return [...entities].map(([uniqueId]) => uniqueId);
+  // }
 
-  public readEntity(uniqueId: bigint, dimension: Dimension): EntityEntry {
-    // Check if the entities contain the dimension.
-    if (!this.entities.has(dimension)) {
-      this.entities.set(dimension, new Map());
-    }
+  // public readEntity(uniqueId: bigint, dimension: Dimension): EntityEntry {
+  //   // Check if the entities contain the dimension.
+  //   if (!this.entities.has(dimension)) {
+  //     this.entities.set(dimension, new Map());
+  //   }
 
-    // Get the dimension entities.
-    const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
+  //   // Get the dimension entities.
+  //   const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
 
-    // Check if the entities contain the unique id.
-    if (!entities.has(uniqueId)) {
-      throw new Error(`Entity with unique id ${uniqueId} not found!`);
-    }
+  //   // Check if the entities contain the unique id.
+  //   if (!entities.has(uniqueId)) {
+  //     throw new Error(`Entity with unique id ${uniqueId} not found!`);
+  //   }
 
-    // Return the entity.
-    return entities.get(uniqueId) as EntityEntry;
-  }
+  //   // Return the entity.
+  //   return entities.get(uniqueId) as EntityEntry;
+  // }
 
-  public writeEntity(entity: EntityEntry, dimension: Dimension): void {
-    // Check if the entities contain the dimension.
-    if (!this.entities.has(dimension)) {
-      this.entities.set(dimension, new Map());
-    }
+  // public writeEntity(entity: EntityEntry, dimension: Dimension): void {
+  //   // Check if the entities contain the dimension.
+  //   if (!this.entities.has(dimension)) {
+  //     this.entities.set(dimension, new Map());
+  //   }
 
-    // Get the dimension entities.
-    const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
+  //   // Get the dimension entities.
+  //   const entities = this.entities.get(dimension) as Map<bigint, EntityEntry>;
 
-    // Set the entity.
-    entities.set(BigInt(entity.uniqueId), entity);
-  }
+  //   // Set the entity.
+  //   entities.set(BigInt(entity.uniqueId), entity);
+  // }
 
-  public readPlayer(uuid: string, dimension: Dimension): PlayerEntry | null {
+  public readPlayer(uuid: string): PlayerLevelStorage | null {
     // Check if the players contain the dimension.
-    if (!this.players.has(dimension)) {
-      this.players.set(dimension, new Map());
-    }
-
-    // Get the dimension players.
-    const players = this.players.get(dimension) as Map<string, PlayerEntry>;
-
-    // Check if the players contain the uuid.
-    if (!players.has(uuid)) {
-      return null;
+    if (!this.players.has(uuid)) {
+      return null; // Player not found
     }
 
     // Return the player.
-    return players.get(uuid) as PlayerEntry;
+    return this.players.get(uuid) as PlayerLevelStorage;
   }
 
-  public writePlayer(player: PlayerEntry, dimension: Dimension): void {
-    // Check if the players contain the dimension.
-    if (!this.players.has(dimension)) {
-      this.players.set(dimension, new Map());
-    }
-
-    // Get the dimension players.
-    const players = this.players.get(dimension) as Map<string, PlayerEntry>;
-
-    // Set the player.
-    players.set(player.uuid, player);
+  public writePlayer(player: PlayerLevelStorage): void {
+    // Set the player in the players map.
+    this.players.set(player.getUuid(), player);
   }
 
   public static async initialize(): Promise<void> {

@@ -44,11 +44,11 @@ class EntityPickRequestHandler extends NetworkHandler {
 
     // Check if the entity data should be added to the item stack.
     if (withData) {
-      // Get the entity data entry.
-      const entry = entity.getDataEntry();
+      // Get the entity level storage.
+      const entry = entity.getLevelStorage();
 
-      // Add the entity data entry to the item stack components.
-      itemStack.dynamicProperties.set("entity_data", entry);
+      // Add the entity data entry to the item stack nbt.
+      itemStack.nbt.set("Entity", entry);
     }
 
     // Get the player's inventory container.

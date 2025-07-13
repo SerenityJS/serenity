@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@serenityjs/binarystream": "2.7.1",
+    "@serenityjs/binarystream": "^2.7.3",
     "@serenityjs/core": "*",
     "@serenityjs/logger": "*",
     "@serenityjs/nbt": "*",
