@@ -1,5 +1,19 @@
 # @serenityjs/core
 
+## 0.8.6
+
+### Patch Changes
+
+- [`97946e1`](https://github.com/SerenityJS/serenity/commit/97946e147082d9eb9d482eae2be3b1767f9f6450) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.6-beta
+
+- Updated dependencies [[`97946e1`](https://github.com/SerenityJS/serenity/commit/97946e147082d9eb9d482eae2be3b1767f9f6450)]:
+  - @serenityjs/data@0.8.6
+  - @serenityjs/emitter@0.8.6
+  - @serenityjs/logger@0.8.6
+  - @serenityjs/nbt@0.8.6
+  - @serenityjs/protocol@0.8.6
+  - @serenityjs/raknet@0.8.6
+
 ## 0.8.5
 
 ### Patch Changes
