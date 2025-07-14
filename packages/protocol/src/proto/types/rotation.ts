@@ -1,7 +1,9 @@
 import { DataType } from "@serenityjs/raknet";
 
+import { Vector2f } from "./vector2f";
+import { Vector3f } from "./vector3f";
+
 import type { BinaryStream } from "@serenityjs/binarystream";
-import type { Vector3f } from "./vector3f";
 
 class Rotation extends DataType {
   /**
@@ -78,6 +80,36 @@ class Rotation extends DataType {
     const floor = vector.floor();
 
     return new Rotation(floor.x, floor.y, floor.z);
+  }
+
+  /**
+   * Converts the rotation to a vector3f.
+   *
+   * @param rotation The rotation to convert.
+   * @returns The vector3f that was converted.
+   */
+  public static toVector3f(rotation: Rotation): Vector3f {
+    return new Vector3f(rotation.yaw, rotation.pitch, rotation.headYaw);
+  }
+
+  /**
+   * Converts the rotation to a vector2f.
+   *
+   * @param vector The vector3f to convert.
+   * @returns The vector2f that was converted.
+   */
+  public static fromVector2f(vector: Vector3f): Vector2f {
+    return new Vector2f(vector.x, vector.y);
+  }
+
+  /**
+   * Converts the rotation to a vector2f.
+   *
+   * @param rotation The rotation to convert.
+   * @returns The vector2f that was converted.
+   */
+  public static toVector2f(rotation: Rotation): Vector2f {
+    return new Vector2f(rotation.yaw, rotation.pitch);
   }
 
   /**

@@ -22,7 +22,7 @@ enum ActorDataId {
   OldSwell = 20,
   SwellDirection = 21,
   ChargeAmount = 22,
-  CarryBlockRuntimeId = 23,
+  DEPRECATED_CarryBlockRuntimeId = 23,
   ClientEvent = 24,
   UsingItem = 25,
   PlayerFlags = 26,

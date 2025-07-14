@@ -242,6 +242,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.worldTemplateId = "00000000000000000000000000000000";
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
+        packet.tickDeathSysteams = true; // TODO: This is a new field in 1.21.100, needs to be tested.
         packet.serverControlledSounds = true;
 
         // Get all the custom item properties

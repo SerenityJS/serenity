@@ -80,7 +80,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
       const rewind = new CorrectPlayerMovePredictionPacket();
       rewind.prediction = PredictionType.Player;
       rewind.position = player.position;
-      rewind.velocity = new Vector3f(0, 0, 0);
+      rewind.positionDelta = player.position.subtract(packet.position);
+      rewind.rotation = Rotation.toVector2f(player.rotation);
+      rewind.vehicleAngularVelocity = 0; // TODO: Handle vehicle angular velocity
       rewind.onGround = player.onGround;
       rewind.inputTick = packet.inputTick;
 
