@@ -10,6 +10,7 @@ import EntityTypes from "./json/entity_types.json";
 import CreativeGroups from "./json/creative_groups.json";
 import CreativeContent from "./json/creative_content.json";
 import CraftingData from "./bin/crafting_data.json";
+import BiomeDefinitions from "./bin/biome_definitions.json";
 
 // JSON data
 const BLOCK_STATES = BlockStates;
@@ -26,6 +27,7 @@ const CREATIVE_CONTENT = CreativeContent;
 
 // Buffer data
 const CRAFTING_DATA = Buffer.from(CraftingData.base64, "base64");
+const BIOME_DEFINITIONS = Buffer.from(BiomeDefinitions.base64, "base64");
 
 export {
   BLOCK_STATES,
@@ -39,5 +41,6 @@ export {
   ENTITY_TYPES,
   CREATIVE_GROUPS,
   CREATIVE_CONTENT,
-  CRAFTING_DATA
+  CRAFTING_DATA,
+  BIOME_DEFINITIONS
 };
