@@ -86,48 +86,65 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
    * @returns An array of destruction speeds.
    */
   public getDestructionSpeeds(): Array<ItemTypeDiggerDestroySpeed> {
-    // Get the destroy speeds property
-    const component =
-      this.component.get<ListTag<CompoundTag>>("destroy_speeds")!;
+    // Check if the component contains the destroy speeds
+    if (!this.component.has("destroy_speeds")) return [];
 
-    // Map the destroy speeds to the correct type
-    return component.map((tag) => {
-      // Get the block tag from the root
-      const block = tag.get<CompoundTag>("block")!;
+    // Get the destroy speeds from the component
+    const speeds = this.component.get<ListTag<CompoundTag>>("destroy_speeds")!;
 
-      // Get the block type from the block tag
-      const identifier = block.get<StringTag>("name")?.valueOf() ?? "";
+    // Prepare a new array to hold the destruction speeds
+    const destroySpeeds: Array<ItemTypeDiggerDestroySpeed> = [];
 
-      // Parse the molang query to get the tags
-      const regex = block
-        .get<StringTag>("tags")
-        ?.valueOf()
-        .match(/(?:q|query)\.any_tag\(([^)]+)\)/);
+    for (const entry of speeds) {
+      // Get the speed from the entry
+      const speed = entry.get<IntTag>("speed")?.valueOf() ?? 0;
 
-      // Filter the tags to get the block tags
-      const tags: Array<string> = regex?.[1] ? regex[1].split(",") : [];
+      // Prepare a block type variable
+      let type: BlockType | undefined = undefined;
+      let tags: Array<string> | undefined = undefined;
 
-      // Remove the quotes from the tags
-      for (let i = 0; i < tags.length; i++)
-        tags[i] = tags[i]!.replace(/'/g, "").trim();
+      // Check if the entry has a block tag
+      if (entry.has("block")) {
+        // Check if the block tag has a name
+        const block = entry.get<CompoundTag>("block")!;
 
-      // Get the speed tag from the root
-      const speed = tag.get<IntTag>("speed")?.valueOf() ?? 0;
+        // Check if the block has a name
+        if (block.has("name")) {
+          // Get the block type from the block tag
+          const identifier = block.get<StringTag>("name")?.valueOf() ?? "";
 
-      // Check if the identifier is valid
-      if (identifier.length > 0)
-        return {
-          speed,
-          tags,
-          type: BlockType.get(identifier as BlockIdentifier)
-        };
+          // Get the block type from the identifier
+          type = BlockType.get(identifier as BlockIdentifier);
+        }
 
-      // If the identifier is not valid, return an empty object
-      return {
+        // Check if the block has tags
+        if (block.has("tags")) {
+          // Get the tags from the block tag
+          const blockTags = block.get<StringTag>("tags")?.valueOf() ?? "";
+
+          // Parse the tags into an array
+          const parsedTags = blockTags.match(/(?:q|query)\.any_tag\(([^)]+)\)/);
+
+          // If the tags were parsed, split them into an array
+          if (parsedTags && parsedTags[1]) {
+            // Split the tags by comma and remove quotes
+            tags = parsedTags[1]
+              .split(",")
+              .map((tag) => tag.replace(/'/g, "").trim());
+          }
+        }
+      }
+
+      // Add the destruction speed to the array
+      destroySpeeds.push({
         speed,
+        type,
         tags
-      };
-    });
+      });
+    }
+
+    // Return the destruction speeds
+    return destroySpeeds;
   }
 
   /**
@@ -148,25 +165,31 @@ class ItemTypeDiggerComponent extends ItemTypeComponent {
       // Create a new root compound tag for the speed
       const root = new CompoundTag();
 
-      // Create a new block compound tag for the speed
-      const block = new CompoundTag();
-
-      // Create a new string tag for the block type
-      block.add(new StringTag(speed.type?.identifier ?? "", "name"));
-
-      // Create a new molang query for the block tags
-      const query = speed.tags
-        ? `query.any_tag(${speed.tags.map((x) => `'${x}'`)})`
-        : "";
-
-      // Create a new string tag for the block tags
-      block.add(new StringTag(query, "tags"));
-
       // Create a new int tag for the speed
       root.add(new IntTag(speed.speed ?? 0, "speed"));
 
-      // Add the block tag to the root
-      root.add(block);
+      // Check if the type or tags are defined
+      if (speed.type || speed.tags) {
+        // Create a new block compound tag for the speed
+        const block = new CompoundTag("block");
+
+        // Check if the type is defined and add it to the block tag
+        if (speed.type) block.add(new StringTag(speed.type.identifier, "name"));
+
+        // Check if the tags are defined
+        if (speed.tags && speed.tags.length > 0) {
+          // Create a new molang query for the block tags
+          const query = speed.tags
+            ? `query.any_tag(${speed.tags.map((x) => `'${x}'`)})`
+            : "";
+
+          // Create a new string tag for the block tags
+          block.add(new StringTag(query, "tags"));
+        }
+
+        // Add the block tag to the root
+        root.add(block);
+      }
 
       // Add the tag to the list
       list.push(root);
