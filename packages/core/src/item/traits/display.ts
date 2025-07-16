@@ -32,18 +32,22 @@ class ItemStackDisplayTrait extends ItemStackTrait {
   ) {
     super(item);
 
-    // Check if the item type has a display name component
-    if (item.type.components.hasDisplayName()) {
-      // Get the display name from the item type component
-      const displayName = item.type.components.getDisplayName();
-
-      // Set the display name of the trait
-      this.setDisplayName(displayName);
-    }
-
     // If options are provided, set the display name and lore
     if (options?.displayName) this.setDisplayName(options.displayName);
     if (options?.lore) this.setLore(options.lore);
+  }
+
+  /**
+   * Gets the display name component from the item stack.
+   * @note This may be a resource translation key.
+   * @returns The display name component identifier.
+   */
+  public getComponentName(): string {
+    // Get the display name component from the item stack
+    const component = this.item.getComponent(ItemTypeDisplayNameComponent);
+
+    // If the component exists, return its identifier; otherwise, return null
+    return component.getDisplayName();
   }
 
   /**
