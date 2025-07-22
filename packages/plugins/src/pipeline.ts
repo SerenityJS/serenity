@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import {
   existsSync,
   mkdirSync,
@@ -8,6 +7,7 @@ import {
   unlinkSync,
   writeFileSync
 } from "node:fs";
+import { readdir, readFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
 import { execSync } from "node:child_process";
@@ -25,13 +25,11 @@ import { PluginType } from "./enums";
 interface PipelineProperties {
   path: string;
   commands: boolean;
-  initialize: boolean;
 }
 
 const DefaultPipelineProperties: PipelineProperties = {
   path: "./plugins",
-  commands: true,
-  initialize: true
+  commands: true
 };
 
 class Pipeline {
@@ -122,15 +120,12 @@ class Pipeline {
           .registerTrait(...plugin.entities.traits);
       }
     });
-
-    // Check if the plugins should be initialized
-    if (this.properties.initialize) this.initialize();
   }
 
   /**
    * Initializes the plugins pipeline.
    */
-  public initialize(): void {
+  public async initialize(): Promise<void> {
     // Check if the plugins directory exists
     if (!existsSync(resolve(this.path)))
       // If not, create the plugins directory
@@ -173,7 +168,7 @@ class Pipeline {
           writeFileSync(tempPath, index);
 
           // Import the plugin module
-          const module = require(tempPath);
+          const module = (await import(tempPath)).default;
 
           // Get the plugin class from the module
           const plugin = module.default as Plugin;
@@ -248,77 +243,76 @@ class Pipeline {
     }
 
     // Filter out all the directories from the entries
-    const directories = readdirSync(resolve(this.path), {
-      withFileTypes: true
-    }).filter((dirent) => dirent.isDirectory());
+    const directories = (
+      await readdir(resolve(this.path), {
+        withFileTypes: true
+      })
+    ).filter((dirent) => dirent.isDirectory());
 
-    // Iterate over all the directories, checking if they are valid plugins
-    for (const directory of directories) {
-      // Attempt to load the plugin
-      try {
-        // Get the path to the plugin
-        const path = resolve(this.path, directory.name);
+    // Iterate over all the directories, checking if they are valid plugins using Promise.all
+    await Promise.all(
+      directories.map(async (directory) => {
+        // Attempt to load the plugin
+        try {
+          // Get the path to the plugin
+          const path = resolve(this.path, directory.name);
 
-        // Check if the plugin has a package.json file, if not, skip the plugin
-        if (!existsSync(resolve(path, "package.json"))) continue;
+          // Check if the plugin has a package.json file, if not, skip the plugin
+          if (!existsSync(resolve(path, "package.json"))) return;
 
-        // Read the package.json file
-        const manifest = JSON.parse(
-          readFileSync(resolve(path, "package.json"), "utf-8")
-        ) as PluginPackage;
+          // Read the package.json file
+          const manifest = JSON.parse(
+            await readFile(resolve(path, "package.json"), "utf-8")
+          ) as PluginPackage;
 
-        // Get the main entry point for the plugin
-        // const main = resolve(path, this.esm ? manifest.module : manifest.main);
-        const main = resolve(path, manifest.main);
+          // Get the main entry point for the plugin
+          const main = resolve(path, manifest.main);
 
-        // Check if the provided entry point is valid
-        if (!existsSync(resolve(path, main))) {
-          this.logger.warn(
-            `Unable to load plugin §1${manifest.name}§8@§1${manifest.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+          // Check if the provided entry point is valid
+          if (!existsSync(resolve(path, main))) {
+            this.logger.warn(
+              `Unable to load plugin §1${manifest.name}§8@§1${manifest.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+            );
+            return;
+          }
+
+          // Import the plugin module
+          const module = (await import(resolve(path, main))).default;
+
+          // Get the plugin class from the module
+          const plugin = module.default as Plugin;
+
+          // Check if the plugin has already been loaded
+          if (this.plugins.has(plugin.identifier)) {
+            this.logger.warn(
+              `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
+            );
+            return;
+          }
+
+          // Set the pipeline, serenity, and path for the plugin
+          plugin.pipeline = this;
+          plugin.serenity = this.serenity;
+          plugin.path = path;
+          plugin.isBundled = false;
+
+          // Add the plugin to the plugins map
+          this.plugins.set(plugin.identifier, plugin);
+
+          // Add the plugin to the plugins enum
+          PluginsEnum.options.push(plugin.identifier);
+
+          // Push the plugin to the ordered plugins array
+          orderedPlugins.push(plugin);
+        } catch (reason) {
+          // Log the error
+          this.logger.error(
+            `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, directory.name))}", skipping the plugin.`,
+            reason
           );
-
-          // Skip the plugin
-          continue;
         }
-
-        // Import the plugin module
-        const module = require(resolve(path, main));
-
-        // Get the plugin class from the module
-        const plugin = module.default as Plugin;
-
-        // Check if the plugin has already been loaded
-        if (this.plugins.has(plugin.identifier)) {
-          this.logger.warn(
-            `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
-          );
-
-          // Skip the plugin
-          continue;
-        }
-
-        // Set the pipeline, serenity, and path for the plugin
-        plugin.pipeline = this;
-        plugin.serenity = this.serenity;
-        plugin.path = path;
-        plugin.isBundled = false;
-
-        // Add the plugin to the plugins map
-        this.plugins.set(plugin.identifier, plugin);
-
-        // Add the plugin to the plugins enum
-        PluginsEnum.options.push(plugin.identifier);
-
-        // Push the plugin to the ordered plugins array
-        orderedPlugins.push(plugin);
-      } catch (reason) {
-        // Log the error
-        this.logger.error(
-          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, directory.name))}", skipping the plugin.`,
-          reason
-        );
-      }
-    }
+      })
+    );
 
     // Sort the plugins by their priority
     orderedPlugins.sort((a, b) => {
@@ -363,7 +357,7 @@ class Pipeline {
     }
   }
 
-  public reload(plugin: Plugin): void {
+  public async reload(plugin: Plugin): Promise<void> {
     // Shut down the plugin
     plugin.onShutDown(plugin);
 
@@ -381,22 +375,19 @@ class Pipeline {
 
     // Attempt to load the plugin
     try {
-      // Import the plugin module
+      // Read the package.json file
+      const manifest = JSON.parse(
+        readFileSync(resolve(path, "package.json"), "utf-8")
+      ) as PluginPackage;
 
-      const module = require(path);
+      // Get the main entry point for the plugin
+      const main = resolve(path, manifest.main);
+
+      // Import the plugin module
+      const module = (await import(resolve(path, main))).default;
 
       // Get the plugin class from the module
       const rPlugin = module.default as Plugin;
-
-      // Check if the plugin is an instance of the Plugin class
-      if (!(rPlugin instanceof Plugin)) {
-        this.logger.warn(
-          `Unable to reload plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
-        );
-
-        // Skip the plugin
-        return;
-      }
 
       // Set the pipeline, serenity, and path for the plugin
       rPlugin.pipeline = this;
