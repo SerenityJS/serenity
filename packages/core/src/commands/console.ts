@@ -1,5 +1,6 @@
 import { createInterface } from "node:readline";
 import { stdin, stdout } from "node:process";
+import { ReadStream } from "node:tty";
 
 import { Serenity } from "../serenity";
 
@@ -15,7 +16,10 @@ class ConsoleInterface {
   public constructor(serenity: Serenity) {
     this.serenity = serenity;
 
-    stdin.setRawMode(true);
+    // TTY checks (this enabled hosts / rcon's to get server logs while running the server in the background)
+    if (stdin instanceof ReadStream && stdin.isTTY) {
+      stdin.setRawMode(true);
+    }
     stdin.resume();
 
     this.interface.on("line", this.onLine.bind(this));
