@@ -1,8 +1,8 @@
 export * from "./login-tokens";
 export * from "./behavior-pack-info";
-export * from "./texture-pack-info";
+export * from "./resource-pack-descriptor";
 export * from "./pack-links";
-export * from "./resource-pack-ids";
+export * from "./requested-resource-pack";
 export * from "./resource-id-versions";
 export * from "./experiments";
 export * from "./vector3f";
@@ -141,3 +141,4 @@ export * from "./subchunk-blocks";
 export * from "./player-update-entity-overrides-value";
 export * from "./script-debug-shape";
 export * from "./uuid";
+export * from "./byte-array";

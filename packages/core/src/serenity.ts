@@ -45,7 +45,11 @@ import type {
 
 const DefaultSerenityProperties: SerenityProperties = {
   permissions: "./permissions.json",
-  resources: "./resources",
+  resources: {
+    path: "./resource_packs",
+    mustAccept: true,
+    chunkDownloadTimeout: 1
+  },
   movementValidation: true,
   movementHorizontalThreshold: 0.4,
   movementVerticalThreshold: 0.6,

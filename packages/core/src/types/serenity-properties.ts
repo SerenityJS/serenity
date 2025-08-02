@@ -7,7 +7,7 @@ import { IPermissions } from "./permissions";
 
 interface SerenityProperties {
   permissions: string | IPermissions | null;
-  resources: string | ResourcesProperties;
+  resources: string | Partial<ResourcesProperties>;
   movementValidation: boolean;
   movementHorizontalThreshold: number;
   movementVerticalThreshold: number;

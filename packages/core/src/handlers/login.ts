@@ -9,8 +9,7 @@ import {
   PlayStatus,
   PlayStatusPacket,
   ResourcePacksInfoPacket,
-  SerializedSkin,
-  TexturePackInfo
+  SerializedSkin
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { createDecoder } from "fast-jwt";
@@ -137,34 +136,15 @@ class LoginHandler extends NetworkHandler {
     const login = new PlayStatusPacket();
     login.status = PlayStatus.LoginSuccess;
 
-    const packs = new ResourcePacksInfoPacket();
-    packs.mustAccept = this.serenity.resources.properties.mustAccept;
-    packs.hasAddons = false;
-    packs.hasScripts = false;
-    packs.forceDisableVibrantVisuals = false;
-    packs.worldTemplateUuid = "00000000-0000-0000-0000-000000000000";
-    packs.worldTemplateVersion = "";
-
-    packs.packs = [];
-    for (const [, pack] of this.serenity.resources.packs) {
-      // Compress the pack
-      const buffer = pack.compress();
-
-      const packInfo = new TexturePackInfo(
-        pack.uuid,
-        String(),
-        false,
-        pack.isRtx,
-        BigInt(buffer.byteLength),
-        String(),
-        pack.uuid,
-        pack.version,
-        false,
-        "" // TODO: CDN links
-      );
-
-      packs.packs.push(packInfo);
-    }
+    // Create a new ResourcePacksInfoPacket
+    const resources = new ResourcePacksInfoPacket();
+    resources.mustAccept = this.serenity.resources.properties.mustAccept;
+    resources.hasAddons = false;
+    resources.hasScripts = false;
+    resources.forceDisableVibrantVisuals = false;
+    resources.worldTemplateUuid = "00000000-0000-0000-0000-000000000000";
+    resources.worldTemplateVersion = "";
+    resources.packs = this.serenity.resources.getAllPackDescriptors();
 
     // Log the join event to the console
     world.logger.info(
@@ -172,7 +152,7 @@ class LoginHandler extends NetworkHandler {
     );
 
     // Send the player the login status packet and the resource pack info packet.
-    player.send(login, packs);
+    player.send(login, resources);
   }
 
   /**

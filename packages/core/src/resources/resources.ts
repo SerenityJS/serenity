@@ -1,6 +1,8 @@
 import { resolve } from "node:path";
 import { existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
 
+import { ResourcePackDescriptor } from "@serenityjs/protocol";
+
 import { ResourceManifest } from "..";
 
 import { ResourcePack } from "./pack";
@@ -14,12 +16,14 @@ interface ResourcesProperties {
   path: string | null;
   mustAccept: boolean;
   resources: Array<ResourceEntry>;
+  chunkDownloadTimeout: number;
 }
 
 const DefaultResourcesProperties: ResourcesProperties = {
   path: null,
   mustAccept: true,
-  resources: []
+  resources: [],
+  chunkDownloadTimeout: 1
 };
 
 type FileMap<T = Buffer> = Record<string, T>;
@@ -126,6 +130,15 @@ class Resources {
 
     // Create & return a new resource pack instance
     return new ResourcePack(path, manifest, fileTree);
+  }
+
+  /**
+   * Get all resource pack descriptors.
+   * @returns An array of ResourcePackDescriptor instances.
+   */
+  public getAllPackDescriptors(): Array<ResourcePackDescriptor> {
+    // Map the resource packs to the ResourcePackDescriptor
+    return [...this.packs.values()].map((pack) => pack.getDescriptor());
   }
 }
 

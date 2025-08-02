@@ -2,46 +2,98 @@ import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
 
 import { Uuid } from "./uuid";
 
-class TexturePackInfo extends DataType {
-  public contentIdentity: string;
-  public contentKey: string;
-  public hasScripts: boolean;
-  public rtxEnabled: boolean;
-  public size: bigint;
-  public subpackName: string;
+class ResourcePackDescriptor extends DataType {
+  /**
+   * The uuid of the resource pack.
+   */
   public uuid: string;
-  public version: string;
-  public addonPack: boolean;
-  public cdnLink: string;
 
+  /**
+   * The version of the resource pack.
+   */
+  public version: string;
+
+  /**
+   * The size of the resource pack.
+   */
+  public size: bigint;
+
+  /**
+   * The content key of the resource pack.
+   */
+  public contentKey: string;
+
+  /**
+   * The name of the subpack if applicable.
+   */
+  public subpackName: string;
+
+  /**
+   * The content identity of the resource pack.
+   */
+  public contentIdentity: string;
+
+  /**
+   * Whether the resource pack has scripts.
+   */
+  public hasScripts: boolean;
+
+  /**
+   * Whether the resource pack is apart of an addon pack.
+   */
+  public isAddonPack: boolean;
+
+  /**
+   * Whether the resource pack has RTX capabilities enabled.
+   */
+  public hasRtxCapabilities: boolean;
+
+  /**
+   * The CDN link for the resource pack, if applicable.
+   */
+  public cdnUrl: string;
+
+  /**
+   * Creates a new instance of ResourcePackDescriptor.
+   * @param uuid The UUID of the resource pack.
+   * @param contentKey The content key of the resource pack.
+   * @param hasScripts Whether the resource pack has scripts.
+   * @param rtxEnabled Whether the resource pack has RTX capabilities enabled.
+   * @param size The size of the resource pack.
+   * @param subpackName The name of the subpack, if applicable.
+   * @param contentIdentity The content identity of the resource pack.
+   * @param version The version of the resource pack.
+   * @param addonPack Whether the resource pack is part of an addon pack.
+   * @param cdnLink The CDN link for the resource pack, if applicable.
+   */
   public constructor(
-    contentIdentity: string,
+    uuid: string,
     contentKey: string,
     hasScripts: boolean,
     rtxEnabled: boolean,
     size: bigint,
     subpackName: string,
-    uuid: string,
+    contentIdentity: string,
     version: string,
     addonPack: boolean,
     cdnLink: string
   ) {
     super();
-    this.contentIdentity = contentIdentity;
+    this.uuid = uuid;
     this.contentKey = contentKey;
     this.hasScripts = hasScripts;
-    this.rtxEnabled = rtxEnabled;
+    this.hasRtxCapabilities = rtxEnabled;
     this.size = size;
     this.subpackName = subpackName;
-    this.uuid = uuid;
+    this.contentIdentity = contentIdentity;
     this.version = version;
-    this.addonPack = addonPack;
-    this.cdnLink = cdnLink;
+    this.isAddonPack = addonPack;
+    this.cdnUrl = cdnLink;
   }
 
-  public static override read(stream: BinaryStream): Array<TexturePackInfo> {
+  public static read(stream: BinaryStream): Array<ResourcePackDescriptor> {
     // Prepare an array to store the packs.
-    const packs: Array<TexturePackInfo> = [];
+    const packs: Array<ResourcePackDescriptor> = [];
 
     // Read the number of packs.
     const amount = stream.readInt16(Endianness.Little);
@@ -64,13 +116,13 @@ class TexturePackInfo extends DataType {
       // Push the pack to the array.
       packs.push(
         new this(
-          contentIdentity,
+          uuid,
           contentKey,
           hasScripts,
           rtxEnabled,
           size,
           subpackName,
-          uuid,
+          contentIdentity,
           version,
           addonPack,
           cdnLink
@@ -82,9 +134,9 @@ class TexturePackInfo extends DataType {
     return packs;
   }
 
-  public static override write(
+  public static write(
     stream: BinaryStream,
-    value: Array<TexturePackInfo>
+    value: Array<ResourcePackDescriptor>
   ): void {
     // Write the number of packs given in the array.
     stream.writeInt16(value.length, Endianness.Little);
@@ -99,11 +151,11 @@ class TexturePackInfo extends DataType {
       stream.writeVarString(pack.subpackName);
       stream.writeVarString(pack.contentIdentity);
       stream.writeBool(pack.hasScripts);
-      stream.writeBool(pack.rtxEnabled);
-      stream.writeBool(pack.addonPack);
-      stream.writeVarString(pack.cdnLink);
+      stream.writeBool(pack.isAddonPack);
+      stream.writeBool(pack.hasRtxCapabilities);
+      stream.writeVarString(pack.cdnUrl);
     }
   }
 }
 
-export { TexturePackInfo };
+export { ResourcePackDescriptor };

@@ -39,10 +39,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
     // Get the players current world
     const world = player.dimension.world;
 
-    // this.serenity.resources.logger.debug(
-    //   `Player '${player.username}' responded to resource packs with response '${ResourcePackResponse[packet.response]}' (${packet.response})`
-    // );
-
     switch (packet.response) {
       default: {
         // Debug the unhandled ResourcePackClientResponse
@@ -67,40 +63,40 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
       }
 
       case ResourcePackResponse.SendPacks: {
-        // this.serenity.resourcePacks.logger.info(
-        //   `Player '${player.username}' requested ${packet.packs.length} resource packs.`
-        // );
-
-        for (const packId of packet.packs) {
-          // Split the packId into uuid and version
-          const [uuid, _version] = packId.split("_") as [string, string];
-
-          const pack = this.serenity.resources.packs.get(uuid);
+        // Iterate through the requested packs
+        for (const requested of packet.packs) {
+          // Get the pack by its UUID
+          const pack = this.serenity.resources.packs.get(requested.uuid);
 
           // This should never happen
           if (!pack) {
-            // this.serenity.resourcePacks.logger.error(
-            //   `Player '${player.username}' requested pack '${packId}' which cannot be found.`
-            // );
-            // Not sure if this blocks the login process, may need to kick the player if so.
-            // More testing needed, especially if we plan to implement dynamically changing the pack stack while the server is running.
-            continue;
+            // Disconnect the player
+            player.disconnect(
+              `Requested resource pack "${requested.uuid}" not found.`,
+              DisconnectReason.ResourcePackLoadingFailed
+            );
+
+            // Break the loop
+            break;
           }
 
           // Compress the pack into a buffer
           const buffer = pack.compress();
 
-          const dataInfoPacket = new ResourcePackDataInfoPacket();
+          // Create a new ResourcePackDataInfoPacket
+          const information = new ResourcePackDataInfoPacket();
 
-          dataInfoPacket.packId = packId;
-          dataInfoPacket.maxChunkSize = Resources.MAX_CHUNK_SIZE;
-          dataInfoPacket.chunkCount = pack.getChunkCount();
-          dataInfoPacket.fileSize = BigInt(buffer.byteLength);
-          dataInfoPacket.fileHash = pack.generateHash();
-          dataInfoPacket.isPremium = false;
-          dataInfoPacket.packType = PackType.Resources;
+          // Set the properties of the packet
+          information.uuid = requested.uuid;
+          information.chunkSize = Resources.MAX_CHUNK_SIZE;
+          information.chunkCount = pack.getChunkCount();
+          information.fileSize = BigInt(buffer.byteLength);
+          information.fileHash = pack.generateHash();
+          information.isPremium = false;
+          information.packType = PackType.Resources;
 
-          player.send(dataInfoPacket);
+          // Send the ResourcePackDataInfoPacket to the player
+          player.send(information);
         }
 
         return;

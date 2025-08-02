@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 
 import { zipSync } from "fflate";
+import { ResourcePackDescriptor } from "@serenityjs/protocol";
 
 import { ResourceManifest } from "../types";
 
@@ -177,6 +178,28 @@ class ResourcePack {
 
     // Create a hash of the compressed data
     return createHash("sha256").update(this.cache).digest();
+  }
+
+  public getDescriptor(): ResourcePackDescriptor {
+    // Get the size of the compressed data
+    const size = BigInt(this.compress().byteLength);
+
+    // Create a new ResourcePackDescriptor instance
+    const descriptor = new ResourcePackDescriptor(
+      this.uuid,
+      "",
+      false,
+      false,
+      size,
+      "",
+      "",
+      this.version,
+      false,
+      ""
+    );
+
+    // Return the descriptor
+    return descriptor;
   }
 }
 

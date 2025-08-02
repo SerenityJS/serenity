@@ -1,53 +1,56 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { Proto } from "@serenityjs/raknet";
+import {
+  Endianness,
+  Uint8,
+  Uint32,
+  Uint64,
+  VarString,
+  Bool
+} from "@serenityjs/binarystream";
+import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet, type PackType } from "../../enums";
+import { ByteArray } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.ResourcePackDataInfo)
 class ResourcePackDataInfoPacket extends DataPacket {
-  public packId!: string;
-  public maxChunkSize!: number;
-  public chunkCount!: number;
-  public fileSize!: bigint;
-  public fileHash!: Buffer;
-  public isPremium!: boolean;
-  public packType!: PackType;
+  /**
+   * The unique identifier for the resource pack.
+   */
+  @Serialize(VarString) public uuid!: string;
 
-  public override serialize(): Buffer {
-    this.writeVarInt(Packet.ResourcePackDataInfo);
+  /**
+   * The chunk size for the resource pack data.
+   */
+  @Serialize(Uint32, { endian: Endianness.Little }) public chunkSize!: number;
 
-    this.writeVarString(this.packId);
-    this.writeUint32(this.maxChunkSize, Endianness.Little);
-    this.writeUint32(this.chunkCount, Endianness.Little);
-    this.writeUint64(this.fileSize, Endianness.Little);
+  /**
+   * The total number of chunks in the resource pack.
+   */
+  @Serialize(Uint32, { endian: Endianness.Little }) public chunkCount!: number;
 
-    this.writeVarInt(this.fileHash.byteLength);
-    this.write(this.fileHash);
+  /**
+   * The file size of the resource pack in bytes.
+   */
+  @Serialize(Uint64, { endian: Endianness.Little }) public fileSize!: bigint;
 
-    this.writeBool(this.isPremium);
-    this.writeUint8(this.packType);
+  /**
+   * The hash of the file, used for verification.
+   */
+  @Serialize(ByteArray) public fileHash!: Buffer;
 
-    return this.getBuffer();
-  }
+  /**
+   * Indicates whether the resource pack is a premium pack.
+   * Premium packs require an entitlement to access.
+   */
+  @Serialize(Bool) public isPremium!: boolean;
 
-  public override deserialize(): this {
-    this.readVarInt();
-
-    this.packId = this.readVarString();
-    this.maxChunkSize = this.readUint32(Endianness.Little);
-    this.chunkCount = this.readUint32(Endianness.Little);
-    this.fileSize = this.readUint64(Endianness.Little);
-
-    const hashLength = this.readVarInt();
-    this.fileHash = this.read(hashLength);
-
-    this.isPremium = this.readBool();
-    this.packType = this.readUint8();
-
-    return this;
-  }
+  /**
+   * The type of the resource pack, such as behavior or texture pack.
+   * @see {@link PackType}
+   */
+  @Serialize(Uint8) public packType!: PackType;
 }
 
 export { ResourcePackDataInfoPacket };
