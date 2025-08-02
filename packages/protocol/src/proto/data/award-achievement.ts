@@ -7,7 +7,7 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.AwardAchievement)
 class AwardAchievementPacket extends DataPacket {
-  @Serialize(Int32, Endianness.Little) public identifier!: number;
+  @Serialize(Int32, { endian: Endianness.Little }) public identifier!: number;
 }
 
 export { AwardAchievementPacket };

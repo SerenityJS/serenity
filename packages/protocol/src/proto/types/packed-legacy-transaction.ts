@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { ContainerId } from "../../enums";
 
@@ -27,7 +26,7 @@ class PackedLegacyTransaction extends DataType {
 
   public static read(stream: BinaryStream): PackedLegacyTransaction {
     // Read the container id
-    const containerId = stream.readUint8();
+    const containerId = stream.readInt8();
 
     // Read the amount of changed slots
     const amount = stream.readVarInt();
@@ -38,7 +37,7 @@ class PackedLegacyTransaction extends DataType {
     // Loop through the amount of changed slots
     for (let index = 0; index < amount; index++) {
       // Read the changed slot
-      const slot = stream.readByte();
+      const slot = stream.readUint8();
 
       // Push the changed slot to the array
       changedSlots.push(slot);
@@ -53,7 +52,7 @@ class PackedLegacyTransaction extends DataType {
     value: PackedLegacyTransaction
   ): void {
     // Write the container id
-    stream.writeUint8(value.containerId);
+    stream.writeInt8(value.containerId);
 
     // Write the amount of changed slots
     stream.writeVarInt(value.changedSlots.length);
@@ -61,7 +60,7 @@ class PackedLegacyTransaction extends DataType {
     // Loop through the changed slots
     for (const slot of value.changedSlots) {
       // Write the changed slot
-      stream.writeByte(slot);
+      stream.writeUint8(slot);
     }
   }
 }

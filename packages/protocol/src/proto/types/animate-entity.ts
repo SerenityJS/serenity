@@ -1,6 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class AnimateEntity extends DataType {
   public actorRuntimeId!: bigint;
@@ -10,7 +8,7 @@ class AnimateEntity extends DataType {
     this.actorRuntimeId = actorRuntimeId;
   }
 
-  public static override read(stream: BinaryStream): Array<AnimateEntity> {
+  public static read(stream: BinaryStream): Array<AnimateEntity> {
     const elements: Array<AnimateEntity> = [];
 
     const amount = stream.readVarInt();
@@ -26,10 +24,7 @@ class AnimateEntity extends DataType {
     return elements;
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: Array<AnimateEntity>
-  ): void {
+  public static write(stream: BinaryStream, value: Array<AnimateEntity>): void {
     stream.writeVarInt(value.length);
 
     for (const entries of value) {

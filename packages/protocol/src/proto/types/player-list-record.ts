@@ -1,10 +1,11 @@
-import { DataType } from "@serenityjs/raknet";
-import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { PlayerListAction } from "../../enums";
 
 import { SerializedSkin } from "./serialized-skin";
 import { Color } from "./color";
+import { Uuid } from "./uuid";
 
 class PlayerListRecord extends DataType {
   /**
@@ -106,11 +107,10 @@ class PlayerListRecord extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _endian: Endianness,
-    action: PlayerListAction
+    options: PacketDataTypeOptions<PlayerListAction>
   ): Array<PlayerListRecord> {
     // Check if the action is to remove a player.
-    if (action === PlayerListAction.Remove) {
+    if (options.parameter === PlayerListAction.Remove) {
       // Read the amount of uuids of the players to remove.
       const uuidsLength = stream.readVarInt();
 
@@ -119,7 +119,11 @@ class PlayerListRecord extends DataType {
 
       // Read the uuids of the players to remove.
       for (let index = 0; index < uuidsLength; index++) {
-        playersToRemove.push(new PlayerListRecord(stream.readUuid()));
+        // Read the uuid of the player to remove.
+        const uuid = Uuid.read(stream);
+
+        // Push a new PlayerListRecord to the array.
+        playersToRemove.push(new this(uuid));
       }
 
       // Return the players to remove.
@@ -135,7 +139,7 @@ class PlayerListRecord extends DataType {
     // Read the records.
     for (let index = 0; index < recordsLength; index++) {
       // Read the uuid of the player.
-      const uuid = stream.readUuid();
+      const uuid = Uuid.read(stream);
 
       // Read the unique actor id of the player.
       const uniqueId = stream.readZigZong();
@@ -198,17 +202,17 @@ class PlayerListRecord extends DataType {
   public static write(
     stream: BinaryStream,
     records: Array<PlayerListRecord>,
-    _endian: Endianness,
-    action: PlayerListAction
+    options: PacketDataTypeOptions<PlayerListAction>
   ): void {
     // Write the amount of records.
     stream.writeVarInt(records.length);
 
     // Check if the action is to remove a player.
-    if (action === PlayerListAction.Remove) {
+    if (options.parameter === PlayerListAction.Remove) {
       // Write the uuids of the players to remove.
       for (const record of records) {
-        stream.writeUuid(record.uuid);
+        // Write the uuid of the player to remove.
+        Uuid.write(stream, record.uuid);
       }
 
       // We are done here.
@@ -218,7 +222,7 @@ class PlayerListRecord extends DataType {
     // Write the records.
     for (const record of records) {
       // Write the uuid of the player.
-      stream.writeUuid(record.uuid);
+      Uuid.write(stream, record.uuid);
 
       // Write the unique actor id of the player.
       stream.writeZigZong(record.uniqueId as bigint);

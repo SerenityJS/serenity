@@ -1,5 +1,4 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { BlockUpdate } from "./block-update";
 
@@ -11,14 +10,10 @@ export class SubchunkBlocks extends DataType {
     this.blocks = blocks;
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: SubchunkBlocks,
-    _: Endianness
-  ): void {
+  public static write(stream: BinaryStream, value: SubchunkBlocks): void {
     stream.writeVarInt(value.blocks.length);
     for (const block of value.blocks) {
-      BlockUpdate.write(stream, block, _);
+      BlockUpdate.write(stream, block);
     }
   }
 

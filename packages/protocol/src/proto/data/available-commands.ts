@@ -1,4 +1,3 @@
-import { Endianness } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
@@ -22,7 +21,7 @@ class AvailableCommandsPacket extends DataPacket {
   public chainedSubcommandValues!: Array<string>;
 
   @Serialize(PostFixes) public postFixes!: Array<string>;
-  @Serialize(Enums, Endianness.Little, "enumValues")
+  @Serialize(Enums, { parameter: "enumValues" })
   public enums!: Array<Enums>;
 
   @Serialize(Subcommands) public subcommands!: Array<Subcommands>;

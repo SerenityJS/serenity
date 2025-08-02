@@ -65,7 +65,7 @@ class ByteListTag extends Array<number> implements BaseTag {
         : stream.readInt16(Endianness.Little);
 
       // Read the name from the stream.
-      const buffer = stream.readBuffer(length);
+      const buffer = stream.read(length);
 
       // Convert the buffer to a string.
       name = buffer.toString("utf8");
@@ -77,7 +77,7 @@ class ByteListTag extends Array<number> implements BaseTag {
       : stream.readInt32(Endianness.Little);
 
     // Read the byte values from the stream.
-    const value = stream.read(length);
+    const value = Array.from(stream.read(length));
 
     // Create and return a new ByteListTag instance.
     return new this(value, name);
@@ -101,7 +101,7 @@ class ByteListTag extends Array<number> implements BaseTag {
       else stream.writeInt16(buffer.length, Endianness.Little);
 
       // Write the name buffer to the stream.
-      stream.writeBuffer(buffer);
+      stream.write(buffer);
     }
 
     // Write the length of the byte list based on the varint option.
@@ -109,7 +109,7 @@ class ByteListTag extends Array<number> implements BaseTag {
     else stream.writeInt32(value.length, Endianness.Little);
 
     // Write the byte values to the stream.
-    stream.write(value.map((byte) => byte?.valueOf() ?? 0));
+    stream.write(Buffer.from(value.map((byte) => byte?.valueOf() ?? 0)));
   }
 }
 

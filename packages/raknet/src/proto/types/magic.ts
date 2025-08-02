@@ -1,6 +1,4 @@
-import { DataType } from "./type";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 const MagicBuffer = Buffer.from(
   "\u0000\u00FF\u00FF\u0000\u00FE\u00FE\u00FE\u00FE\u00FD\u00FD\u00FD\u00FD\u0012\u0034\u0056\u0078",
@@ -18,7 +16,7 @@ class Magic extends DataType {
    * @returns The magic data type.
    */
   public static read(stream: BinaryStream): Buffer {
-    return stream.readBuffer(MagicBuffer.length);
+    return stream.read(MagicBuffer.length);
   }
 
   /**
@@ -26,7 +24,7 @@ class Magic extends DataType {
    * @param stream The binary stream to write to.
    */
   public static write(stream: BinaryStream): void {
-    stream.writeBuffer(MagicBuffer);
+    stream.write(MagicBuffer);
   }
 }
 

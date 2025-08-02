@@ -1,4 +1,4 @@
-import { Long } from "@serenityjs/binarystream";
+import { Int64 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -13,12 +13,12 @@ class ConnectionRequest extends BasePacket {
   /**
    * The client guid of the request.
    */
-  @Serialize(Long) public client!: bigint;
+  @Serialize(Int64) public client!: bigint;
 
   /**
    * The timestamp of the request.
    */
-  @Serialize(Long) public timestamp!: bigint;
+  @Serialize(Int64) public timestamp!: bigint;
 }
 
 export { ConnectionRequest };

@@ -54,8 +54,8 @@ class Ack extends BasePacket {
 
       ++records;
 
-      this.writeUShort(records);
-      this.writeBuffer(stream.getBuffer());
+      this.writeUint16(records);
+      this.write(stream.getBuffer());
     }
 
     return this.getBuffer();
@@ -65,7 +65,7 @@ class Ack extends BasePacket {
   public override deserialize(): this {
     this.readUint8();
     this.sequences = [];
-    const recordCount = this.readUShort();
+    const recordCount = this.readUint16();
     for (let index = 0; index < recordCount; index++) {
       const range = this.readBool(); // False for range, True for no range
       if (range) {

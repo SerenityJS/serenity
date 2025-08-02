@@ -1,5 +1,4 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class Fogs extends DataType {
   public fogs: Array<string>;

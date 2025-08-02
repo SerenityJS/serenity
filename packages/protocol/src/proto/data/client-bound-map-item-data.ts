@@ -1,11 +1,5 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import {
-  Bool,
-  Byte,
-  Endianness,
-  VarInt,
-  ZigZong
-} from "@serenityjs/binarystream";
+import { Bool, Uint8, VarInt, ZigZong } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
 import {
@@ -29,7 +23,7 @@ class ClientBoundMapItemDataPacket extends DataPacket {
   @Serialize(VarInt)
   public flags!: number;
 
-  @Serialize(Byte)
+  @Serialize(Uint8)
   public dimension!: number;
 
   @Serialize(Bool)
@@ -38,31 +32,31 @@ class ClientBoundMapItemDataPacket extends DataPacket {
   @Serialize(BlockPosition)
   public origin!: BlockPosition;
 
-  @Serialize(MapCreationBits, Endianness.Little, "flags")
+  @Serialize(MapCreationBits, { parameter: "flags" })
   public mapIncludedIn!: Array<bigint> | null;
 
-  @Serialize(MapScale, Endianness.Little, "flags")
+  @Serialize(MapScale, { parameter: "flags" })
   public scale!: number | null;
 
-  @Serialize(MapTrackedItems, Endianness.Little, "flags")
+  @Serialize(MapTrackedItems, { parameter: "flags" })
   public trackedActors!: Array<MapTrackedItem> | null;
 
-  @Serialize(MapDecorationBits, Endianness.Little, "flags")
+  @Serialize(MapDecorationBits, { parameter: "flags" })
   public decorations!: Array<MapDecoration> | null;
 
-  @Serialize(MapTextureUpdateBits, Endianness.Little, "flags")
+  @Serialize(MapTextureUpdateBits, { parameter: "flags" })
   public width!: number | null;
 
-  @Serialize(MapTextureUpdateBits, Endianness.Little, "flags")
+  @Serialize(MapTextureUpdateBits, { parameter: "flags" })
   public height!: number | null;
 
-  @Serialize(MapTextureUpdateBits, Endianness.Little, "flags")
+  @Serialize(MapTextureUpdateBits, { parameter: "flags" })
   public xCoordinate!: number | null;
 
-  @Serialize(MapTextureUpdateBits, Endianness.Little, "flags")
+  @Serialize(MapTextureUpdateBits, { parameter: "flags" })
   public yCoordinate!: number | null;
 
-  @Serialize(MapTextureUpdateBits, Endianness.Little, "flags")
+  @Serialize(MapTextureUpdateBits, { parameter: "flags" })
   public pixels!: Array<number> | null;
 }
 

@@ -1,4 +1,4 @@
-import { Uint8, Endianness, VarLong } from "@serenityjs/binarystream";
+import { Uint8, VarLong } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { type InteractAction, Packet } from "../../enums";
@@ -10,7 +10,7 @@ import { DataPacket } from "./data-packet";
 class InteractPacket extends DataPacket {
   @Serialize(Uint8) public action!: InteractAction;
   @Serialize(VarLong) public actorRuntimeId!: bigint;
-  @Serialize(InteractPosition, Endianness.Big, "action")
+  @Serialize(InteractPosition, { parameter: "action" })
   public position!: Vector3f;
 }
 

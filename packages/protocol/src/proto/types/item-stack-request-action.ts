@@ -1,4 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { ItemStackRequestActionType } from "../../enums";
 
@@ -15,7 +15,6 @@ import { ItemStackRequestActionCraftCreative } from "./item-stack-request-action
 import { ItemStackRequestActionOptional } from "./item-stack-request-action-optional";
 import { ItemStackRequestActionResultsDeprecated } from "./item-stack-request-action-results-deprecated";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type { ItemStackRequestActionCraftLoomRequest } from "./item-stack-request-action-craft-loom-request";
 import type { ItemStackRequestActionCraftGrindstoneRequest } from "./item-stack-request-action-craft-grindstone-request";
 

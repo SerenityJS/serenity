@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 
 class CameraFadeDuration extends DataType {
   public fadeIn: number;

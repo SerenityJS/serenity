@@ -1,5 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
-import { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { CommandBlockMode } from "../../enums";
 
@@ -48,11 +48,10 @@ class CommandBlockSettings extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: 0,
-    isBlock: boolean
+    options?: PacketDataTypeOptions<boolean>
   ): CommandBlockSettings | null {
     // Check if the block is not a command block
-    if (isBlock === false) return null;
+    if (options?.parameter === false) return null;
 
     // Read the position
     const position = BlockPosition.read(stream);
@@ -73,11 +72,10 @@ class CommandBlockSettings extends DataType {
   public static write(
     stream: BinaryStream,
     value: CommandBlockSettings,
-    _: 0,
-    isBlock: boolean
+    options?: PacketDataTypeOptions<boolean>
   ): void {
     // Check if the block is not a command block
-    if (isBlock === false) return;
+    if (options?.parameter === false) return;
 
     // Write the position
     BlockPosition.write(stream, value.position);

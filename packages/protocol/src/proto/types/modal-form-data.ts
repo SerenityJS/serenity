@@ -1,25 +1,22 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class ModalFormData extends DataType {
   public static override read(
     stream: BinaryStream,
-    _endian: Endianness,
-    response: boolean
+    options?: PacketDataTypeOptions<boolean>
   ): string | null {
     // Check if the response is true.
-    return response ? stream.readVarString() : null;
+    return options?.parameter ? stream.readVarString() : null;
   }
 
   public static override write(
     stream: BinaryStream,
     value: string | null,
-    _endian: Endianness,
-    response: boolean
+    options?: PacketDataTypeOptions<boolean>
   ): void {
     // Check if the response is true.
-    if (response) {
+    if (options?.parameter) {
       // Write the id field.
       stream.writeVarString(value!);
     }

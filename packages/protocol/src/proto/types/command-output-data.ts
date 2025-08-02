@@ -1,9 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { CommandOriginData } from "./command-origin-data";
 import { CommandOutputMessage } from "./command-output-message";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 enum CommandOutputType {
   TYPE_LAST,
@@ -34,9 +32,9 @@ class CommandOutputData extends DataType {
     this.data = data;
   }
 
-  public static override read(stream: BinaryStream): CommandOutputData {
+  public static read(stream: BinaryStream): CommandOutputData {
     const originData = CommandOriginData.read(stream);
-    const outputType = stream.readByte();
+    const outputType = stream.readUint8();
     const successCount = stream.readVarInt();
 
     const amount = stream.readVarInt();
@@ -60,13 +58,10 @@ class CommandOutputData extends DataType {
     );
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: CommandOutputData
-  ): void {
+  public static write(stream: BinaryStream, value: CommandOutputData): void {
     CommandOriginData.write(stream, value.originData);
 
-    stream.writeByte(value.outputType);
+    stream.writeUint8(value.outputType);
     stream.writeVarInt(value.successCount);
 
     stream.writeVarInt(value.messages.length);

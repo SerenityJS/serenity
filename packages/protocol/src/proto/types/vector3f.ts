@@ -1,10 +1,8 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { BlockPosition } from "./block-position";
 
 import type { IPosition } from "../../types";
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * A 3D vector with floating point precision.
@@ -276,7 +274,7 @@ class Vector3f extends DataType implements IPosition {
    * @param stream The stream to read from.
    * @returns The 3D vector that was read.
    */
-  public static override read(stream: BinaryStream): Vector3f {
+  public static read(stream: BinaryStream): Vector3f {
     // Reads a x, y, z float from the stream
     const x = stream.readFloat32(Endianness.Little);
     const y = stream.readFloat32(Endianness.Little);
@@ -292,7 +290,7 @@ class Vector3f extends DataType implements IPosition {
    * @param stream The stream to write to.
    * @param value The 3D vector to write.
    */
-  public static override write(stream: BinaryStream, value: Vector3f): void {
+  public static write(stream: BinaryStream, value: Vector3f): void {
     // Writes a x, y, z float to the stream
     stream.writeFloat32(value.x, Endianness.Little);
     stream.writeFloat32(value.y, Endianness.Little);

@@ -1,5 +1,5 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { MapTrackedItem } from "./map-tracked-item";
 
@@ -9,10 +9,9 @@ class MapDecorationBits extends DataType {
   public static write(
     stream: BinaryStream,
     value: Array<MapDecoration>,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): void {
-    if ((parameter & 0x4) == 0x0) return;
+    if ((options?.parameter && options.parameter & 0x4) == 0x0) return;
     stream.writeVarInt(value.length);
 
     for (const item of value) {
@@ -22,10 +21,9 @@ class MapDecorationBits extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): Array<MapTrackedItem> | Array<MapDecoration> | null {
-    if ((parameter & 0x4) == 0x0) return null;
+    if ((options?.parameter && options.parameter & 0x4) == 0x0) return null;
     const count = stream.readVarInt();
     const result: Array<MapDecoration> = [];
 
@@ -40,10 +38,9 @@ class MapTrackedItems extends DataType {
   public static write(
     stream: BinaryStream,
     value: Array<MapTrackedItem>,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): void {
-    if ((parameter & 0x4) == 0x0) return;
+    if ((options?.parameter && options.parameter & 0x4) == 0x0) return;
     stream.writeVarInt(value.length);
 
     for (const item of value) {
@@ -53,10 +50,9 @@ class MapTrackedItems extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): Array<MapTrackedItem> | null {
-    if ((parameter & 0x4) == 0x0) return null;
+    if ((options?.parameter && options.parameter & 0x4) == 0x0) return null;
     const count = stream.readVarInt();
 
     const result: Array<MapTrackedItem> = [];

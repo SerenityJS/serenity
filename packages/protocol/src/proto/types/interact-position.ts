@@ -1,21 +1,19 @@
-import { DataType } from "@serenityjs/raknet";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { InteractAction } from "../../enums";
 
 import { Vector3f } from "./vector3f";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
-
 class InteractPosition extends DataType {
   public static read(
     stream: BinaryStream,
-    _: 0,
-    action: InteractAction
+    options?: PacketDataTypeOptions<InteractAction>
   ): Vector3f | null {
     // Check if the action is InteractUpdate or StopRiding.
     if (
-      action === InteractAction.InteractUpdate ||
-      action === InteractAction.StopRiding
+      options?.parameter === InteractAction.InteractUpdate ||
+      options?.parameter === InteractAction.StopRiding
     ) {
       return Vector3f.read(stream);
     }
@@ -27,13 +25,12 @@ class InteractPosition extends DataType {
   public static write(
     stream: BinaryStream,
     value: Vector3f,
-    _: 0,
-    action: InteractAction
+    options?: PacketDataTypeOptions<InteractAction>
   ): void {
     // Check if the action is InteractUpdate or StopRiding.
     if (
-      action === InteractAction.InteractUpdate ||
-      action === InteractAction.StopRiding
+      options?.parameter === InteractAction.InteractUpdate ||
+      options?.parameter === InteractAction.StopRiding
     ) {
       Vector3f.write(stream, value);
     }

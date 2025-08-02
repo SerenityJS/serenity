@@ -1,4 +1,4 @@
-import { Bool, Byte, VarInt, VarLong, ZigZag } from "@serenityjs/binarystream";
+import { Bool, Uint8, VarInt, VarLong, ZigZag } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { type EffectType, type MobEffectEvents, Packet } from "../../enums";
@@ -9,7 +9,7 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.MobEffect)
 class MobEffectPacket extends DataPacket {
   @Serialize(VarLong) public runtimeId!: bigint;
-  @Serialize(Byte) public eventId!: MobEffectEvents;
+  @Serialize(Uint8) public eventId!: MobEffectEvents;
   @Serialize(ZigZag) public effectId!: EffectType;
   @Serialize(ZigZag) public amplifier!: number;
   @Serialize(Bool) public particles!: boolean;

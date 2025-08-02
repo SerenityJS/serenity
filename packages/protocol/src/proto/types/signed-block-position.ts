@@ -1,6 +1,6 @@
-import { BlockPosition } from "./block-position";
+import { BinaryStream } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BlockPosition } from "./block-position";
 
 class SignedBlockPosition extends BlockPosition {
   public static read(stream: BinaryStream): SignedBlockPosition {

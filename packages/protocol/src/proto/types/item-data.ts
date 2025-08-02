@@ -1,8 +1,5 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ItemData extends DataType {
   /**

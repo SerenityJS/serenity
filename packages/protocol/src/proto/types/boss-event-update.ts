@@ -1,5 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
-import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
+import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { type BossEventColor, BossEventUpdateType } from "../../enums";
 
@@ -33,13 +33,12 @@ class BossEventUpdate extends DataType {
     this.overlay = overlay;
   }
 
-  public static override read(
+  public static read(
     stream: BinaryStream,
-    _endian: Endianness,
-    type: BossEventUpdateType
+    options?: PacketDataTypeOptions<BossEventUpdateType>
   ): BossEventUpdate | null {
     // Switch on the event type.
-    switch (type) {
+    switch (options?.parameter) {
       case BossEventUpdateType.Add:
       case BossEventUpdateType.Remove: {
         return null;
@@ -98,16 +97,18 @@ class BossEventUpdate extends DataType {
         return new this(playerUniqueId);
       }
     }
+
+    // If no event type matched, return null.
+    return null;
   }
 
-  public static override write(
+  public static write(
     stream: BinaryStream,
     value: BossEventUpdate,
-    _endian: Endianness,
-    type: BossEventUpdateType
+    options?: PacketDataTypeOptions<BossEventUpdateType>
   ): void {
     // Switch on the event type.
-    switch (type) {
+    switch (options?.parameter) {
       // Handled elsewhere
       case BossEventUpdateType.Add:
       case BossEventUpdateType.Remove: {

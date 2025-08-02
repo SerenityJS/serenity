@@ -7,7 +7,7 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.AvailableActorIdentifiers)
 class AvailableActorIdentifiersPacket extends DataPacket {
-  @Serialize(CompoundTag, true) public data!: CompoundTag;
+  @Serialize(CompoundTag, { varint: true }) public data!: CompoundTag;
 }
 
 export { AvailableActorIdentifiersPacket };

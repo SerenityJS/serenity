@@ -1,9 +1,8 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 import { Vector3f } from "./vector3f";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type { ItemReleaseInventoryTransactionType } from "../../enums";
 
 class ItemReleaseInventoryTransaction extends DataType {

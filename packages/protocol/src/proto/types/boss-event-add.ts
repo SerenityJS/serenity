@@ -1,9 +1,7 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { type BossEventColor, BossEventUpdateType } from "../../enums";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class BossEventAdd extends DataType {
   public readonly title: string;
@@ -27,13 +25,12 @@ class BossEventAdd extends DataType {
     this.overlay = overlay;
   }
 
-  public static override read(
+  public static read(
     stream: BinaryStream,
-    _endian: Endianness,
-    type: BossEventUpdateType
+    options?: PacketDataTypeOptions<BossEventUpdateType>
   ): BossEventAdd | null {
     // Check if the type is an add event.
-    if (type === BossEventUpdateType.Add) {
+    if (options?.parameter === BossEventUpdateType.Add) {
       // Read the fields for the add event.
       const name = stream.readVarString();
       stream.readVarString(); // Filtered name
@@ -49,14 +46,13 @@ class BossEventAdd extends DataType {
     }
   }
 
-  public static override write(
+  public static write(
     stream: BinaryStream,
     value: BossEventAdd,
-    _endian: Endianness,
-    type: BossEventUpdateType
+    options?: PacketDataTypeOptions<BossEventUpdateType>
   ): void {
     // Check if the type is an add event.
-    if (type === BossEventUpdateType.Add) {
+    if (options?.parameter === BossEventUpdateType.Add) {
       // Write the fields for the add event.
       stream.writeVarString(value.title);
       stream.writeVarString(value.title); // Filtered name

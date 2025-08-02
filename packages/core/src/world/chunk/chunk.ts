@@ -354,12 +354,12 @@ export class Chunk {
 
     // Biomes?
     for (let index = 0; index < 24; index++) {
-      stream.writeByte(0);
+      stream.writeUint8(0);
       stream.writeVarInt(1 << 1);
     }
 
     // Border blocks?
-    stream.writeByte(0);
+    stream.writeUint8(0);
 
     // Set the cache of the chunk.
     chunk.cache = stream.getBuffer();
@@ -392,7 +392,7 @@ export class Chunk {
 
     // Loop through each sub chunk.
     for (let index = 0; index < Chunk.MAX_SUB_CHUNKS; ++index) {
-      const header = stream.get(stream.offset);
+      const header = stream.buffer[stream.offset];
 
       if (header !== 8 && header !== 9) break;
       subchunks[index] = SubChunk.deserialize(stream, nbt);
@@ -400,12 +400,12 @@ export class Chunk {
 
     // Biomes?
     for (let index = 0; index < 24; index++) {
-      stream.readByte();
+      stream.readUint8();
       stream.readVarInt();
     }
 
     // Border blocks?
-    stream.readByte();
+    stream.readUint8();
 
     // Create a new chunk.
     const chunk = new Chunk(x, z, type, subchunks);

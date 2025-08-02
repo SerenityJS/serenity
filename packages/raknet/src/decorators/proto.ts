@@ -1,8 +1,8 @@
 import { CompoundTag } from "@serenityjs/nbt";
 
-import type { Endianness } from "@serenityjs/binarystream";
-import type { BasePacket, DataType } from "../proto";
-import type { PacketMetadata } from "../types/packet";
+import type { DataType } from "@serenityjs/binarystream";
+import type { BasePacket } from "../proto";
+import type { PacketDataTypeOptions, PacketMetadata } from "../types/packet";
 
 /**
  * Proto decorator for packet classes.
@@ -29,8 +29,8 @@ function Proto(id: number) {
     if (!properties.includes("serialize"))
       // Define the serialize method for the packet.
       target.prototype.serialize = function () {
-        // Flush the binary stream.
-        this.flush();
+        // Reset the offset of the binary stream.
+        this.offset = 0;
 
         // Write the packet id using the id type.
         target.id_type.write(this, target.id as never);
@@ -40,9 +40,9 @@ function Proto(id: number) {
         if (!metadata) return this.getBuffer();
 
         // Loop through the metadata and write the properties to the binary stream.
-        for (const { name, type, endian, parameter } of metadata) {
+        for (const { name, type, options } of metadata) {
           // Check if there is a parameter for type testing.
-          if (parameter) {
+          if (options?.parameter) {
             // Check if the type is a compound tag.
             if (type.prototype === CompoundTag.prototype)
               throw new Error(
@@ -50,7 +50,7 @@ function Proto(id: number) {
               );
 
             // Pull the value from the class using the parameter.
-            const value = this[parameter as keyof BasePacket];
+            const parameter = this[options.parameter as keyof BasePacket];
 
             // Convert the type to DataType.
             const dtype = type as typeof DataType;
@@ -59,7 +59,10 @@ function Proto(id: number) {
             const data = (this as never)[name];
 
             // Write the property to the binary stream using the type.
-            dtype.write(this, data, endian as Endianness, value);
+            dtype.write(this, data, {
+              ...options,
+              parameter
+            } as PacketDataTypeOptions);
           } else {
             // Check if the type is a compound tag.
             if (type.prototype === CompoundTag.prototype) {
@@ -71,9 +74,10 @@ function Proto(id: number) {
 
               // Write the property to the binary stream using the type.
               ctype.write(this, tag, {
+                ...options,
+                varint: options?.varint ?? false,
                 name: true,
-                type: true,
-                varint: endian as boolean
+                type: true
               });
             } else {
               // Convert the type to DataType.
@@ -83,7 +87,7 @@ function Proto(id: number) {
               const data = (this as never)[name];
 
               // Write the property to the binary stream using the type.
-              dtype.write(this, data, endian as Endianness);
+              dtype.write(this, data, options);
             }
           }
         }
@@ -96,10 +100,6 @@ function Proto(id: number) {
     // This allows custom packets to override the default deserialization.
     if (!properties.includes("deserialize"))
       target.prototype.deserialize = function () {
-        // Check if the binary stream is empty.
-        // If so, return the packet. This means the packet has already been deserialized.
-        if (this.binary.length === 0) return this;
-
         // Read the packet id using the id type.
         target.id_type.read(this);
 
@@ -108,9 +108,9 @@ function Proto(id: number) {
         if (!metadata) return this;
 
         // Loop through the metadata and read the properties from the binary stream.
-        for (const { name, type, endian, parameter } of metadata) {
+        for (const { name, type, options } of metadata) {
           // Check if there is a parameter for type testing.
-          if (parameter) {
+          if (options?.parameter) {
             // Check if the type is a compound tag.
             if (type.prototype === CompoundTag.prototype)
               throw new Error(
@@ -118,17 +118,16 @@ function Proto(id: number) {
               );
 
             // Read the property from the binary stream using the parameter.
-            const value = this[parameter as keyof BasePacket];
+            const parameter = this[options.parameter as keyof BasePacket];
 
             // Convert the type to DataType.
             const dtype = type as typeof DataType;
 
             // Set the property using the parameter and the type.
-            (this[name as keyof BasePacket] as unknown) = dtype.read(
-              this,
-              endian as Endianness,
-              value
-            );
+            (this[name as keyof BasePacket] as unknown) = dtype.read(this, {
+              ...options,
+              parameter
+            } as PacketDataTypeOptions);
           } else {
             // Check if the type is a compound tag.
             if (type.prototype === CompoundTag.prototype) {
@@ -137,9 +136,10 @@ function Proto(id: number) {
 
               // Set the property using the type.
               (this[name as keyof BasePacket] as unknown) = ctype.read(this, {
+                ...options,
+                varint: options?.varint ?? false,
                 name: true,
-                type: true,
-                varint: endian as boolean
+                type: true
               });
             } else {
               // Convert the type to DataType.
@@ -148,7 +148,7 @@ function Proto(id: number) {
               // Set the property using the type.
               (this[name as keyof BasePacket] as unknown) = dtype.read(
                 this,
-                endian as Endianness
+                options
               );
             }
           }

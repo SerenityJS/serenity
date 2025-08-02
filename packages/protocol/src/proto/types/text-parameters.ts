@@ -1,20 +1,18 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { TextPacketType } from "../../enums";
 
-import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
-
 class TextParameters extends DataType {
-  public static override read(
+  public static read(
     stream: BinaryStream,
-    _: Endianness,
-    type: TextPacketType
+    options: PacketDataTypeOptions<TextPacketType>
   ): Array<string> | null {
     // Check if the type is Raw, Whisper or Announcement.
     if (
-      type === TextPacketType.Translation ||
-      type === TextPacketType.Popup ||
-      type === TextPacketType.JukeboxPopup
+      options.parameter === TextPacketType.Translation ||
+      options.parameter === TextPacketType.Popup ||
+      options.parameter === TextPacketType.JukeboxPopup
     ) {
       // Prepare an array to store the parameters.
       const parameters: Array<string> = [];
@@ -36,17 +34,16 @@ class TextParameters extends DataType {
     }
   }
 
-  public static override write(
+  public static write(
     stream: BinaryStream,
     value: Array<string>,
-    _: Endianness,
-    type: TextPacketType
+    options: PacketDataTypeOptions<TextPacketType>
   ): void {
     // Check if the type is Raw, Whisper or Announcement.
     if (
-      type === TextPacketType.Translation ||
-      type === TextPacketType.Popup ||
-      type === TextPacketType.JukeboxPopup
+      options.parameter === TextPacketType.Translation ||
+      options.parameter === TextPacketType.Popup ||
+      options.parameter === TextPacketType.JukeboxPopup
     ) {
       // Write the number of parameters.
       stream.writeVarInt(value.length);

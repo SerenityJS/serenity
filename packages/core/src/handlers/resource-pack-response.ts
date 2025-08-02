@@ -227,7 +227,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.enchantmentSeed = player.world.properties.seed;
 
         // Map the custom blocks definitions to the packet
-        packet.blockTypeDefinitions = [];
         packet.blockTypeDefinitions = world.blockPalette
           .getAllTypes()
           .map((type) => type.getNetworkDefinition());
@@ -239,7 +238,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.propertyData2 = 0x00;
         packet.propertyData3 = 0x00;
         packet.blockPaletteChecksum = 0n;
-        packet.worldTemplateId = "00000000000000000000000000000000";
+        packet.worldTemplateId = "00000000-0000-0000-0000-000000000000";
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
@@ -295,9 +294,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        // player.sendImmediate(actors, items, ...propertiesSync);
-        // player.sendImmediate(items);
-
+        // Send the packets to the player
         player.sendImmediate(packet, status, actors, items, ...propertiesSync);
       }
     }

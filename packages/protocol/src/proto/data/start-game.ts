@@ -11,8 +11,7 @@ import {
   VarLong,
   VarString,
   ZigZag,
-  ZigZong,
-  Uuid
+  ZigZong
 } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
@@ -23,6 +22,7 @@ import {
   type PermissionLevel
 } from "../../enums";
 import {
+  Uuid,
   Vector3f,
   BlockPosition,
   GameRules,
@@ -38,10 +38,10 @@ class StartGamePacket extends DataPacket {
   @Serialize(VarLong) public runtimeEntityId!: bigint;
   @Serialize(ZigZag) public playerGamemode!: Gamemode;
   @Serialize(Vector3f) public playerPosition!: Vector3f;
-  @Serialize(Float32, Endianness.Little) public pitch!: number;
-  @Serialize(Float32, Endianness.Little) public yaw!: number;
-  @Serialize(Uint64, Endianness.Little) public seed!: bigint;
-  @Serialize(Int16, Endianness.Little) public biomeType!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public pitch!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public yaw!: number;
+  @Serialize(Uint64, { endian: Endianness.Little }) public seed!: bigint;
+  @Serialize(Int16, { endian: Endianness.Little }) public biomeType!: number;
   @Serialize(VarString) public biomeName!: string;
   @Serialize(ZigZag) public dimension!: number;
   @Serialize(ZigZag) public generator!: number;
@@ -57,8 +57,9 @@ class StartGamePacket extends DataPacket {
   @Serialize(ZigZag) public eduOffer!: number;
   @Serialize(Bool) public eduFeatures!: boolean;
   @Serialize(VarString) public eduProductUuid!: string;
-  @Serialize(Float32, Endianness.Little) public rainLevel!: number;
-  @Serialize(Float32, Endianness.Little) public lightningLevel!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public rainLevel!: number;
+  @Serialize(Float32, { endian: Endianness.Little })
+  public lightningLevel!: number;
   @Serialize(Bool) public confirmedPlatformLockedContent!: boolean;
   @Serialize(Bool) public multiplayerGame!: boolean;
   @Serialize(Bool) public broadcastToLan!: boolean;
@@ -72,7 +73,8 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public bonusChest!: boolean;
   @Serialize(Bool) public mapEnabled!: boolean;
   @Serialize(Uint8) public permissionLevel!: PermissionLevel;
-  @Serialize(Int32, Endianness.Little) public serverChunkTickRange!: number;
+  @Serialize(Int32, { endian: Endianness.Little })
+  public serverChunkTickRange!: number;
   @Serialize(Bool) public hasLockedBehaviorPack!: boolean;
   @Serialize(Bool) public hasLockedResourcePack!: boolean;
   @Serialize(Bool) public isFromLockedWorldTemplate!: boolean;
@@ -84,8 +86,10 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public customSkinsDisabled!: boolean;
   @Serialize(Bool) public emoteChatMuted!: boolean;
   @Serialize(VarString) public gameVersion!: string;
-  @Serialize(Int32, Endianness.Little) public limitedWorldWidth!: number;
-  @Serialize(Int32, Endianness.Little) public limitedWorldLength!: number;
+  @Serialize(Int32, { endian: Endianness.Little })
+  public limitedWorldWidth!: number;
+  @Serialize(Int32, { endian: Endianness.Little })
+  public limitedWorldLength!: number;
   @Serialize(Bool) public isNewNether!: boolean;
   @Serialize(VarString) public eduResourceUriButtonName!: string;
   @Serialize(VarString) public eduResourceUriLink!: string;
@@ -102,7 +106,7 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public isTrial!: boolean;
   @Serialize(ZigZag) public rewindHistorySize!: number;
   @Serialize(Bool) public serverAuthoritativeBlockBreaking!: boolean;
-  @Serialize(Int64, Endianness.Little) public currentTick!: bigint;
+  @Serialize(Int64, { endian: Endianness.Little }) public currentTick!: bigint;
   @Serialize(ZigZag) public enchantmentSeed!: number;
 
   /**
@@ -117,7 +121,8 @@ class StartGamePacket extends DataPacket {
   @Serialize(Uint8) public propertyData1!: unknown; // TODO
   @Serialize(Uint8) public propertyData2!: unknown; // TODO -> This is a single property, but is a nbt stream.
   @Serialize(Uint8) public propertyData3!: unknown; // TODO
-  @Serialize(Uint64, Endianness.Little) public blockPaletteChecksum!: bigint;
+  @Serialize(Uint64, { endian: Endianness.Little })
+  public blockPaletteChecksum!: bigint;
   @Serialize(Uuid) public worldTemplateId!: string;
   @Serialize(Bool) public clientSideGeneration!: boolean;
   @Serialize(Bool) public blockNetworkIdsAreHashes!: boolean;

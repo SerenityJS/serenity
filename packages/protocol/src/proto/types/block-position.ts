@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { Vector3f } from "./vector3f";
 

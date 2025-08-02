@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ItemStacks extends DataType {
   public static override read(

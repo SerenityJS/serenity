@@ -18,7 +18,9 @@ class AnimateEntityPacket extends DataPacket {
   @Serialize(VarString) public stopExpression!: string;
   @Serialize(VarInt) public stopExpressionVersion!: number;
   @Serialize(VarString) public controller!: string;
-  @Serialize(Float32, Endianness.Little) public blendOutTime!: number;
+  @Serialize(Float32, { endian: Endianness.Little })
+  public blendOutTime!: number;
+
   @Serialize(AnimateEntity) public actorRuntimeIds!: Array<AnimateEntity>;
 }
 

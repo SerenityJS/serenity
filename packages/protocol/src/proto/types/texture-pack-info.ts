@@ -1,7 +1,6 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Uuid } from "./uuid";
 
 class TexturePackInfo extends DataType {
   public contentIdentity: string;
@@ -51,7 +50,7 @@ class TexturePackInfo extends DataType {
     // Reading the individual fields in the stream.
     for (let index = 0; index < amount; index++) {
       // Read all the fields for the pack.
-      const uuid = stream.readUuid();
+      const uuid = Uuid.read(stream);
       const version = stream.readVarString();
       const size = stream.readUint64(Endianness.Little);
       const contentKey = stream.readVarString();
@@ -93,7 +92,7 @@ class TexturePackInfo extends DataType {
     // Loop through the packs.
     for (const pack of value) {
       // Write the fields for the pack.
-      stream.writeUuid(pack.uuid);
+      Uuid.write(stream, pack.uuid);
       stream.writeVarString(pack.version);
       stream.writeUint64(pack.size, Endianness.Little);
       stream.writeVarString(pack.contentKey);

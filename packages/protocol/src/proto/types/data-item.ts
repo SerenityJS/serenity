@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { type ActorDataId, ActorDataType } from "../../enums";

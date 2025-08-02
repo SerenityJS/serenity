@@ -1,6 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Uuid } from "./uuid";
 
 enum CommandOriginDataTypes {
   ORIGIN_PLAYER,
@@ -36,9 +36,9 @@ class CommandOriginData extends DataType {
     this.playerActorUniqueId = playerActorUniqueId ?? 0n;
   }
 
-  public static override read(stream: BinaryStream): CommandOriginData {
+  public static read(stream: BinaryStream): CommandOriginData {
     const origin = stream.readVarInt();
-    const uuid = stream.readUuid();
+    const uuid = Uuid.read(stream);
     const requestId = stream.readVarString();
     let playerActorUniqueId = 0n;
 
@@ -52,12 +52,9 @@ class CommandOriginData extends DataType {
     return new CommandOriginData(origin, uuid, requestId, playerActorUniqueId);
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: CommandOriginData
-  ): void {
+  public static write(stream: BinaryStream, value: CommandOriginData): void {
     stream.writeVarInt(value.origin);
-    stream.writeUuid(value.uuid);
+    Uuid.write(stream, value.uuid);
     stream.writeVarString(value.requestId);
 
     if (

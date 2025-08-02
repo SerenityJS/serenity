@@ -1,4 +1,4 @@
-import { Long, Short } from "@serenityjs/binarystream";
+import { Int64, Int16 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -19,7 +19,7 @@ class ConnectionRequestAccepted extends BasePacket {
   /**
    * The system index of the request.
    */
-  @Serialize(Short) public systemIndex!: number;
+  @Serialize(Int16) public systemIndex!: number;
 
   /**
    * The system address of the request.
@@ -29,12 +29,12 @@ class ConnectionRequestAccepted extends BasePacket {
   /**
    * The request timestamp of the request.
    */
-  @Serialize(Long) public requestTimestamp!: bigint;
+  @Serialize(Int64) public requestTimestamp!: bigint;
 
   /**
    * The timestamp of the request.
    */
-  @Serialize(Long) public timestamp!: bigint;
+  @Serialize(Int64) public timestamp!: bigint;
 }
 
 export { ConnectionRequestAccepted };

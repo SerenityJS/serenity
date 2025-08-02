@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { FullContainerName } from "./full-container-name";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ItemStackRequestSlotInfo extends DataType {
   /**

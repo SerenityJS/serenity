@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { StructureSettings } from "./structure-settings";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class StructureEditorData extends DataType {
   public structureName: string;

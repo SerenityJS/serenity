@@ -1,6 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class ResourceIdVersions extends DataType {
   public name: string;
@@ -14,7 +12,7 @@ class ResourceIdVersions extends DataType {
     this.version = version;
   }
 
-  public static override read(stream: BinaryStream): Array<ResourceIdVersions> {
+  public static read(stream: BinaryStream): Array<ResourceIdVersions> {
     // Prepare an array to store the packs.
     const packs: Array<ResourceIdVersions> = [];
 
@@ -37,7 +35,7 @@ class ResourceIdVersions extends DataType {
     return packs;
   }
 
-  public static override write(
+  public static write(
     stream: BinaryStream,
     value: Array<ResourceIdVersions>
   ): void {

@@ -1,6 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 class DisconnectMessage extends DataType {
   /**
@@ -26,11 +25,10 @@ class DisconnectMessage extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: Endianness,
-    hideDisconnectScreen: boolean
+    options: PacketDataTypeOptions<boolean>
   ): DisconnectMessage {
     // Check if the disconnect screen should be hidden.
-    if (hideDisconnectScreen) return new DisconnectMessage();
+    if (options.parameter === true) return new this();
 
     // Read the message.
     const message = stream.readVarString();
@@ -45,11 +43,10 @@ class DisconnectMessage extends DataType {
   public static write(
     stream: BinaryStream,
     value: DisconnectMessage,
-    _: Endianness,
-    hideDisconnectScreen: boolean
+    options: PacketDataTypeOptions<boolean>
   ): void {
     // Check if the disconnect screen should be hidden.
-    if (hideDisconnectScreen) return;
+    if (options.parameter === true) return;
 
     // Write the message.
     stream.writeVarString(value.message ?? "Disconnected from server.");

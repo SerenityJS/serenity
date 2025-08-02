@@ -10,8 +10,8 @@ import { DataPacket } from "./data-packet";
 class PlaySoundPacket extends DataPacket {
   @Serialize(VarString) public name!: string;
   @Serialize(BlockPosition) public position!: BlockPosition;
-  @Serialize(Float32, Endianness.Little) public volume!: number;
-  @Serialize(Float32, Endianness.Little) public pitch!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public volume!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public pitch!: number;
 }
 
 export { PlaySoundPacket };

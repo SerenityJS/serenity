@@ -1,25 +1,25 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 class MapScale extends DataType {
   public static write(
     stream: BinaryStream,
     value: number,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): void {
-    if ((parameter & (0x2 | 0x4 | 0x8)) == 0) return;
+    if ((options?.parameter && options.parameter & (0x2 | 0x4 | 0x8)) == 0)
+      return;
 
-    stream.writeByte(value);
+    stream.writeUint8(value);
   }
 
   public static read(
     stream: BinaryStream,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): number | null {
-    if ((parameter & (0x2 | 0x4 | 0x8)) == 0) return null;
-    return stream.readByte();
+    if ((options?.parameter && options.parameter & (0x2 | 0x4 | 0x8)) == 0)
+      return null;
+    return stream.readUint8();
   }
 
   private static checkFlag(flags: number, flag: number): boolean {

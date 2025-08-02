@@ -10,7 +10,7 @@ import type { Packet } from "../enums";
  */
 function getPacketId(buffer: Buffer): Packet {
   // Create a new BinaryStream from the buffer.
-  const stream = BinaryStream.fromBuffer(buffer);
+  const stream = new BinaryStream(buffer);
 
   // Return the VarInt.
   return stream.readVarInt();

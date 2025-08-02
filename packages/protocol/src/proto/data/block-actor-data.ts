@@ -9,7 +9,7 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.BlockActorData)
 class BlockActorDataPacket extends DataPacket {
   @Serialize(BlockPosition) public position!: BlockPosition;
-  @Serialize(CompoundTag, true) public nbt!: CompoundTag;
+  @Serialize(CompoundTag, { varint: true }) public nbt!: CompoundTag;
 }
 
 export { BlockActorDataPacket };

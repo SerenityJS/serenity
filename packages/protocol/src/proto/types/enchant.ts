@@ -1,6 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class Enchant extends DataType {
   public id: number;
@@ -19,8 +17,8 @@ class Enchant extends DataType {
     const amount = stream.readVarInt();
 
     for (let index = 0; index < amount; index++) {
-      const id = stream.readByte();
-      const level = stream.readByte();
+      const id = stream.readUint8();
+      const level = stream.readUint8();
 
       enchants.push(new Enchant(id, level));
     }
@@ -35,8 +33,8 @@ class Enchant extends DataType {
     stream.writeVarInt(value.length);
 
     for (const enchant of value) {
-      stream.writeByte(enchant.id);
-      stream.writeByte(enchant.level);
+      stream.writeUint8(enchant.id);
+      stream.writeUint8(enchant.level);
     }
   }
 }

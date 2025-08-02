@@ -1,8 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { MoveMode } from "../../enums";
-
-import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 class TeleportCause extends DataType {
   public cause: number;
@@ -16,12 +15,11 @@ class TeleportCause extends DataType {
 
   public static override read(
     stream: BinaryStream,
-    endian: Endianness,
-    mode: MoveMode
+    options: PacketDataTypeOptions<MoveMode>
   ): TeleportCause | null {
-    if (mode === MoveMode.Teleport) {
-      const cause = stream.readInt32(endian);
-      const sourceEntityType = stream.readInt32(endian);
+    if (options.parameter === MoveMode.Teleport) {
+      const cause = stream.readInt32(Endianness.Little);
+      const sourceEntityType = stream.readInt32(Endianness.Little);
 
       return new TeleportCause(cause, sourceEntityType);
     } else {
@@ -32,12 +30,11 @@ class TeleportCause extends DataType {
   public static override write(
     stream: BinaryStream,
     value: TeleportCause,
-    endian: Endianness,
-    mode: MoveMode
+    options: PacketDataTypeOptions<MoveMode>
   ): void {
-    if (mode === MoveMode.Teleport) {
-      stream.writeInt32(value.cause, endian);
-      stream.writeInt32(value.sourceEntityType, endian);
+    if (options.parameter === MoveMode.Teleport) {
+      stream.writeInt32(value.cause, Endianness.Little);
+      stream.writeInt32(value.sourceEntityType, Endianness.Little);
     }
   }
 }

@@ -1,6 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Uuid } from "./uuid";
 
 class Emotes extends DataType {
   public uuid: string;
@@ -17,7 +17,7 @@ class Emotes extends DataType {
     const amount = stream.readVarInt();
 
     for (let index = 0; index < amount; index++) {
-      const uuid = stream.readUuid();
+      const uuid = Uuid.read(stream);
       emotes.push(new Emotes(uuid));
     }
 
@@ -31,7 +31,7 @@ class Emotes extends DataType {
     stream.writeVarInt(value.length);
 
     for (const pack of value) {
-      stream.writeUuid(pack.uuid);
+      Uuid.write(stream, pack.uuid);
     }
   }
 }

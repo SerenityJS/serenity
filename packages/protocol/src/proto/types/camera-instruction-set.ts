@@ -1,8 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
-import { Bool, Endianness, type BinaryStream } from "@serenityjs/binarystream";
+import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { CameraSetEasing } from "./camera-set-easing";
-import { Optional } from "./optional";
+// import { Optional } from "./optional";
 import { Vector3f } from "./vector3f";
 import { Vector2f } from "./vector2f";
 
@@ -30,11 +29,11 @@ class CameraSetInstruction extends DataType {
 
   public static write(stream: BinaryStream, value: CameraSetInstruction): void {
     stream.writeInt32(value.runtimeId, Endianness.Little);
-    Optional.write(stream, value.easing, undefined, null, CameraSetEasing);
-    Optional.write(stream, value.position, undefined, null, Vector3f);
-    Optional.write(stream, value.rotation, undefined, null, Vector2f);
-    Optional.write(stream, value.facing, undefined, null, Vector3f);
-    Optional.write(stream, undefined, undefined, undefined, Bool);
+    // Optional.write(stream, value.easing, undefined, null, CameraSetEasing);
+    // Optional.write(stream, value.position, undefined, null, Vector3f);
+    // Optional.write(stream, value.rotation, undefined, null, Vector2f);
+    // Optional.write(stream, value.facing, undefined, null, Vector3f);
+    // Optional.write(stream, undefined, undefined, undefined, Bool);
   }
 }
 

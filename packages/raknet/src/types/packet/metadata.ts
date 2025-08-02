@@ -1,11 +1,10 @@
-import type { Endianness } from "@serenityjs/binarystream";
-import type { ValidTypes } from "./valid";
+import type { PacketDataTypeOptions } from "./options";
+import type { DataType } from "@serenityjs/binarystream";
 
 interface PacketMetadata {
-  endian: Endianness | boolean;
   name: string;
-  parameter: string;
-  type: ValidTypes;
+  type: typeof DataType;
+  options?: PacketDataTypeOptions;
 }
 
 export type { PacketMetadata };

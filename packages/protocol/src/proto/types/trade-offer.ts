@@ -1,6 +1,5 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-import { CompoundTag, ListTag, TagType } from "@serenityjs/nbt";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { CompoundTag, ListTag } from "@serenityjs/nbt";
 
 class TradeOffer extends DataType {
   public buyA: CompoundTag;

@@ -466,7 +466,7 @@ class LevelDBProvider extends WorldProvider {
 
         // Push the entity storage to the array.
         entities.push(storage);
-      } while (!stream.cursorAtEnd());
+      } while (!stream.feof());
 
       // Return the entities from the database.
       return entities;
@@ -539,7 +539,7 @@ class LevelDBProvider extends WorldProvider {
 
         // Push the block storage to the array.
         blocks.push(storage);
-      } while (!stream.cursorAtEnd());
+      } while (!stream.feof());
 
       // Return the blocks from the database.
       return blocks;
@@ -786,10 +786,10 @@ class LevelDBProvider extends WorldProvider {
     if (index !== 0) stream.writeInt32(index, Endianness.Little);
 
     // Write the query key to the stream.
-    stream.writeByte(0x2f);
+    stream.writeUint8(0x2f);
 
     // Write the subchunk index to the stream.
-    stream.writeByte(cy);
+    stream.writeInt8(cy);
 
     // Return the buffer from the stream.
     return stream.getBuffer();
@@ -820,7 +820,7 @@ class LevelDBProvider extends WorldProvider {
     }
 
     // Write the chunk version byte to the stream.
-    stream.writeByte(0x2c);
+    stream.writeUint8(0x2c);
 
     // Return the buffer from the stream
     return stream.getBuffer();
@@ -856,11 +856,8 @@ class LevelDBProvider extends WorldProvider {
    * @returns The buffer key for the entity storage
    */
   public static buildEntityStorageKey(uniqueId: bigint): Buffer {
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
-
-    // Write the key symbol to the stream.
-    stream.writeBuffer(Buffer.from("actorprefix", "ascii"));
+    // Create a new BinaryStream instance with a prefix.
+    const stream = new BinaryStream(Buffer.from("actorprefix", "ascii"));
 
     // Write the unique identifier to the stream.
     stream.writeInt64(uniqueId, Endianness.Little);
@@ -885,7 +882,7 @@ class LevelDBProvider extends WorldProvider {
       stream.writeUint32(dimension.indexOf(), Endianness.Little);
 
     // Write the key symbol to the stream.
-    stream.writeByte(49); // Block actor list key symbol
+    stream.writeUint8(49); // Block actor list key symbol
 
     // Return the buffer from the stream.
     return stream.getBuffer();

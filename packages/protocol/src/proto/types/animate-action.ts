@@ -1,30 +1,27 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { AnimateId } from "../../enums";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
-
 class AnimateAction extends DataType {
-  public static override read(
+  public static read(
     stream: BinaryStream,
-    endian: Endianness,
-    id: AnimateId
+    options?: PacketDataTypeOptions
   ): number | null {
     // Check if the id is RowRight or RowLeft.
-    if (id === AnimateId.RowRight || id === AnimateId.RowLeft) {
+    if (
+      options?.parameter === AnimateId.RowRight ||
+      options?.parameter === AnimateId.RowLeft
+    ) {
       // Read the boat rowing time
-      return stream.readFloat32(endian);
+      return stream.readFloat32(Endianness.Little);
     }
 
     // Return null if the id is not RowRight or RowLeft.
     return null;
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: number | null
-  ): void {
+  public static write(stream: BinaryStream, value: number | null): void {
     // Check if the value is not null.
     if (value !== null) {
       // Write the boat rowing time.

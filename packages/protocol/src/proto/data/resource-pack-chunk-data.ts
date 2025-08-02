@@ -19,7 +19,7 @@ class ResourcePackChunkDataPacket extends DataPacket {
     this.writeUint64(this.byteOffset, Endianness.Little);
 
     this.writeVarInt(this.chunkData.byteLength);
-    this.writeBuffer(this.chunkData);
+    this.write(this.chunkData);
 
     return this.getBuffer();
   }
@@ -31,7 +31,7 @@ class ResourcePackChunkDataPacket extends DataPacket {
     this.byteOffset = this.readUint64(Endianness.Little);
 
     const length = this.readVarInt();
-    this.chunkData = this.readBuffer(length);
+    this.chunkData = this.read(length);
 
     return this;
   }

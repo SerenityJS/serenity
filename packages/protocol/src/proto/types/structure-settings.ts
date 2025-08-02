@@ -1,9 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { BlockPosition } from "./block-position";
 import { Vector3f } from "./vector3f";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class StructureSettings extends DataType {
   public structurePalletName: string;
@@ -62,7 +60,7 @@ class StructureSettings extends DataType {
     BlockPosition.write(stream, value.size);
     BlockPosition.write(stream, value.offset);
     stream.writeZigZong(value.lastEdit);
-    stream.writeByte(value.animationMode);
+    stream.writeInt8(value.animationMode);
     stream.writeFloat32(value.animationSeconds);
     stream.writeFloat32(value.integrityValue);
     stream.writeUint32(value.integritySeed);
@@ -78,9 +76,9 @@ class StructureSettings extends DataType {
       BlockPosition.read(stream), // ? Size
       BlockPosition.read(stream), // ? Offset
       stream.readZigZong(), // ? Last Edit Unique ID
-      stream.readByte(), // ? Rotation
-      stream.readByte(), // ? Mirror
-      stream.readByte(), // ? Animation Mode
+      stream.readInt8(), // ? Rotation
+      stream.readInt8(), // ? Mirror
+      stream.readInt8(), // ? Animation Mode
       stream.readFloat32(), // ? Animation Seconds
       stream.readFloat32(), // ? Integrity value
       stream.readUint32(), // ? Integrity seed

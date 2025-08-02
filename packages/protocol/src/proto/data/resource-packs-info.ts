@@ -1,8 +1,8 @@
-import { Bool, Uuid, VarString } from "@serenityjs/binarystream";
+import { Bool, VarString } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
-import { TexturePackInfo } from "../types";
+import { Uuid, TexturePackInfo } from "../types";
 
 import { DataPacket } from "./data-packet";
 

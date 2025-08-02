@@ -1,6 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 /**
  * Represents a piece of a persona skin.

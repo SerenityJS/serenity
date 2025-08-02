@@ -1,7 +1,6 @@
-import { DataType } from "./type";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import type { RemoteInfo } from "node:dgram";
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * Represents an address data type.
@@ -62,15 +61,15 @@ export class Address extends DataType {
       for (const bit of addressBits) {
         stream.writeUint8(Number.parseInt(bit, 10) ^ 0xff);
       }
-      stream.writeUShort(value.port);
+      stream.writeUint16(value.port);
     } else if (value.version === 6) {
-      stream.writeUShort(23);
-      stream.writeUShort(value.port);
+      stream.writeUint16(23);
+      stream.writeUint16(value.port);
       stream.writeUint32(0);
       const addressParts = value.address.split(":");
       for (const part of addressParts) {
         const num = Number.parseInt(part, 16);
-        stream.writeUShort(num ^ 0xffff);
+        stream.writeUint16(num ^ 0xffff);
       }
       stream.writeUint32(0);
     }
@@ -85,21 +84,21 @@ export class Address extends DataType {
     const version = stream.readUint8();
     if (version === 4) {
       const bytes = stream.read(4);
-      const address = bytes.map((byte) => (byte ^ 0xff).toString()).join(".");
-      const port = stream.readUShort();
+      const address = bytes.map((byte) => byte ^ 0xff).join(".");
+      const port = stream.readUint16();
       return new Address(address, port, version);
     }
     if (version === 6) {
-      stream.skip(2);
-      const port = stream.readUShort();
-      stream.skip(4);
+      stream.offset += 2; // Skip the first two bytes
+      const port = stream.readUint16();
+      stream.offset += 4; // Skip the next four bytes
       const addressParts = [];
       for (let i = 0; i < 8; i++) {
-        const part = stream.readUShort() ^ 0xffff;
+        const part = stream.readUint16() ^ 0xffff;
         addressParts.push(part.toString(16).padStart(4, "0"));
       }
       const address = addressParts.join(":");
-      stream.skip(4);
+      stream.offset += 4; // Skip the last four bytes
       return new Address(address, port, version);
     }
     return new Address("", 0, 0);

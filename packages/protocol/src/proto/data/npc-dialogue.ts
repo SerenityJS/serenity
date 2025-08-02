@@ -12,7 +12,9 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.NpcDialogue)
 class NpcDialoguePacket extends DataPacket {
-  @Serialize(Uint64, Endianness.Little) public uniqueEntityId!: bigint;
+  @Serialize(Uint64, { endian: Endianness.Little })
+  public uniqueEntityId!: bigint;
+
   @Serialize(ZigZag) public action!: NpcDialogueAction;
   @Serialize(VarString) public dialogue!: string;
   @Serialize(VarString) public scene!: string;

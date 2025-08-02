@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { type ContainerId, InventorySourceType } from "../../enums";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * Represents the source of an inventory action.

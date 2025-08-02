@@ -1,7 +1,6 @@
 import {
   Endianness,
   Float32,
-  Uuid,
   VarLong,
   VarString,
   ZigZag,
@@ -25,7 +24,8 @@ import {
   AbilityLayer,
   ActorLinkSet,
   ActorLink,
-  NetworkItemStackDescriptor
+  NetworkItemStackDescriptor,
+  Uuid
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -38,22 +38,25 @@ class AddPlayerPacket extends DataPacket {
   @Serialize(VarString) public platformChatId!: string;
   @Serialize(Vector3f) public position!: Vector3f;
   @Serialize(Vector3f) public velocity!: Vector3f;
-  @Serialize(Float32, Endianness.Little) public pitch!: number;
-  @Serialize(Float32, Endianness.Little) public yaw!: number;
-  @Serialize(Float32, Endianness.Little) public headYaw!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public pitch!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public yaw!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public headYaw!: number;
   @Serialize(NetworkItemStackDescriptor)
   public heldItem!: NetworkItemStackDescriptor;
 
   @Serialize(ZigZag) public gamemode!: Gamemode;
   @Serialize(DataItem) public data!: Array<DataItem>;
   @Serialize(PropertySyncData) public properties!: PropertySyncData;
-  @Serialize(Int64, Endianness.Little) public uniqueEntityId!: bigint;
+
+  @Serialize(Int64, { endian: Endianness.Little })
+  public uniqueEntityId!: bigint;
+
   @Serialize(Uint8) public premissionLevel!: PermissionLevel;
   @Serialize(Uint8) public commandPermission!: CommandPermissionLevel;
   @Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
   @Serialize(ActorLinkSet) public links!: Array<ActorLink>;
   @Serialize(VarString) public deviceId!: string;
-  @Serialize(Int32, Endianness.Little) public deviceOS!: DeviceOS;
+  @Serialize(Int32, { endian: Endianness.Little }) public deviceOS!: DeviceOS;
 }
 
 export { AddPlayerPacket };

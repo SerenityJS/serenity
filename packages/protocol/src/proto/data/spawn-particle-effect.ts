@@ -1,14 +1,14 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { Byte, ZigZong, VarString } from "@serenityjs/binarystream";
+import { Uint8, ZigZong, VarString, Bool } from "@serenityjs/binarystream";
 
-import { Optional, Vector3f } from "../types";
+import { Vector3f } from "../types";
 import { Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.SpawnParticleEffect)
 class SpawnParticleEffectPacket extends DataPacket {
-  @Serialize(Byte)
+  @Serialize(Uint8)
   public dimensionId!: number;
 
   @Serialize(ZigZong)
@@ -21,7 +21,7 @@ class SpawnParticleEffectPacket extends DataPacket {
   public effectName!: string;
 
   // ! Unknown value, if the value is invalid, the client exits because the packet is broken, in mostly cases this can be not defined
-  @Serialize(Optional)
+  @Serialize(Bool)
   public molangVariables!: string | null;
 }
 

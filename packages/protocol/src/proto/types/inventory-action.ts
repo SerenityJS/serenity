@@ -1,9 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { InventorySource } from "./inventory-source";
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * Represents an inventory action with in a inventory transaction.

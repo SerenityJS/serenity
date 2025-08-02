@@ -1,4 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { CraftingDataEntryType } from "../../enums";
 
@@ -10,8 +10,6 @@ import { FurnanceRecipe } from "./furnance-recipe";
 import { ShapedRecipe } from "./shaped-recipe";
 import { SmithingTrimRecipe } from "./smithing-trim-recipe";
 import { UserDataShapelessRecipe } from "./user-data-shapeless-recipe";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class CraftingDataEntry extends DataType {
   public readonly type: CraftingDataEntryType;

@@ -1,10 +1,8 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { UnlockingContext } from "../../enums";
 
 import { RecipeIngredient } from "./recipe-ingredient";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class RecipeUnlockingRequirement extends DataType {
   /**
@@ -34,7 +32,7 @@ class RecipeUnlockingRequirement extends DataType {
 
   public static read(stream: BinaryStream): RecipeUnlockingRequirement {
     // Read the context
-    const context = stream.readByte() as UnlockingContext;
+    const context = stream.readUint8() as UnlockingContext;
 
     // If the context not `None`, return a new instance with the context
     if (context !== UnlockingContext.None)
@@ -64,7 +62,7 @@ class RecipeUnlockingRequirement extends DataType {
     value: RecipeUnlockingRequirement
   ): void {
     // Write the context
-    stream.writeByte(value.context);
+    stream.writeUint8(value.context);
 
     // If the context is `None`, write the number of ingredients and loop through them
     if (value.context === UnlockingContext.None) {

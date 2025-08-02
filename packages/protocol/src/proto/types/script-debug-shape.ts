@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 
 import { ScriptDebugShapeType } from "../../enums";
 

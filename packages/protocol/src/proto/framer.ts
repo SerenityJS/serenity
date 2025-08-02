@@ -7,10 +7,10 @@ class Framer {
 
     do {
       const length = stream.readVarInt();
-      const buffer = stream.readBuffer(length);
+      const buffer = stream.read(length);
 
       frames.push(buffer);
-    } while (!stream.cursorAtEnd());
+    } while (!stream.feof());
 
     return frames;
   }
@@ -20,7 +20,7 @@ class Framer {
 
     for (const buffer of buffers) {
       stream.writeVarInt(buffer.length);
-      stream.writeBuffer(buffer);
+      stream.write(buffer);
     }
 
     return stream.getBuffer();

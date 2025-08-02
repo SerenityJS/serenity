@@ -1,8 +1,6 @@
-import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 
 import { Bitflags, Reliability } from "../../enums";
-
-import { DataType } from "./type";
 
 /**
  * Represents a frame data type.
@@ -186,11 +184,11 @@ class Frame extends DataType {
       }
 
       // Read the payload.
-      frame.payload = stream.readBuffer(length);
+      frame.payload = stream.read(length);
 
       // Add the frame to the array.
       frames.push(frame);
-    } while (!stream.cursorAtEnd());
+    } while (!stream.feof());
 
     // Return the frames.
     return frames;
@@ -240,7 +238,7 @@ class Frame extends DataType {
       }
 
       // Write the payload.
-      stream.writeBuffer(frame.payload);
+      stream.write(frame.payload);
     }
   }
 }

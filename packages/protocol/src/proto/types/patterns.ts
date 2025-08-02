@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { TrimDataPattern } from "../../types";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class Patterns extends DataType {
   public patterns: Array<TrimDataPattern>;

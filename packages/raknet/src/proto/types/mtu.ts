@@ -1,6 +1,4 @@
-import { DataType } from "./type";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 /**
  * Represents a maximum transmission unit data type.
@@ -13,7 +11,7 @@ class MTU extends DataType {
    * @returns The mtu data type.
    */
   public static read(stream: BinaryStream): number {
-    return stream.getBuffer().byteLength;
+    return stream.buffer.byteLength;
   }
 
   /**
@@ -22,7 +20,7 @@ class MTU extends DataType {
    * @param value The value to write.
    */
   public static write(stream: BinaryStream, value: number): void {
-    stream.writeBuffer(Buffer.alloc(value - stream.getBuffer().length));
+    stream.write(Buffer.alloc(value - stream.getBuffer().length));
   }
 }
 

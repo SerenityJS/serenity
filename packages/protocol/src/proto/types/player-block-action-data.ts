@@ -1,8 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { SignedBlockPosition } from "./signed-block-position";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type { BlockFace, PlayerActionType } from "../../enums";
 
 class PlayerBlockActionData extends DataType {

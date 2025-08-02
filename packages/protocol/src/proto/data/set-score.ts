@@ -9,7 +9,8 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.SetScore)
 class SetScorePacket extends DataPacket {
   @Serialize(VarInt) public type!: ScoreboardActionType;
-  @Serialize(ScoreEntry, 0, "type") public entries!: Array<ScoreEntry>;
+  @Serialize(ScoreEntry, { parameter: "type" })
+  public entries!: Array<ScoreEntry>;
 }
 
 export { SetScorePacket };

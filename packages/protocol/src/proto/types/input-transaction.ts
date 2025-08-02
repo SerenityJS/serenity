@@ -1,10 +1,8 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { LegacyTransaction } from "./legacy-transaction";
 import { InventoryAction } from "./inventory-action";
 import { ItemUseInventoryTransaction } from "./item-use-inventory-transaction";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class InputTransaction extends DataType {
   public legacyTransaction!: LegacyTransaction;

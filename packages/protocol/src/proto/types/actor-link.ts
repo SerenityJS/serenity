@@ -1,7 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import type { ActorLinkType } from "../../enums";
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class ActorLink extends DataType {
   public riddenUniqueId: bigint;
@@ -31,7 +30,7 @@ class ActorLink extends DataType {
   public static write(stream: BinaryStream, value: ActorLink): void {
     stream.writeZigZong(value.riddenUniqueId);
     stream.writeZigZong(value.riderUniqueId);
-    stream.writeByte(value.type);
+    stream.writeUint8(value.type);
     stream.writeBool(value.immediate);
     stream.writeBool(value.riderInitiated);
     stream.writeFloat32(value.vehicleAngularVelocity);
@@ -41,7 +40,7 @@ class ActorLink extends DataType {
     return new ActorLink(
       stream.readZigZong(),
       stream.readZigZong(),
-      stream.readByte(),
+      stream.readUint8(),
       stream.readBool(),
       stream.readBool(),
       stream.readFloat32()

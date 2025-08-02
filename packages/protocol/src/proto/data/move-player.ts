@@ -18,13 +18,13 @@ import { DataPacket } from "./data-packet";
 class MovePlayerPacket extends DataPacket {
   @Serialize(VarLong) public runtimeId!: bigint;
   @Serialize(Vector3f) public position!: Vector3f;
-  @Serialize(Float32, Endianness.Little) public pitch!: number;
-  @Serialize(Float32, Endianness.Little) public yaw!: number;
-  @Serialize(Float32, Endianness.Little) public headYaw!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public pitch!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public yaw!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public headYaw!: number;
   @Serialize(Uint8) public mode!: MoveMode;
   @Serialize(Bool) public onGround!: boolean;
   @Serialize(VarLong) public riddenRuntimeId!: bigint;
-  @Serialize(TeleportCause, Endianness.Little, "mode")
+  @Serialize(TeleportCause, { parameter: "mode" })
   public cause!: TeleportCause | null;
   @Serialize(PlayerInputTick) public inputTick!: bigint;
 }

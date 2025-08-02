@@ -1,9 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { RecipeIngredient } from "./recipe-ingredient";
 import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class SmithingTransformRecipe extends DataType {
   /**

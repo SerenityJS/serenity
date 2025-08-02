@@ -187,7 +187,7 @@ class BlockStorage {
     }
 
     // Write the bits per block (shifted and flagged)
-    stream.writeByte((bitsPerBlock << 1) | 1);
+    stream.writeUint8((bitsPerBlock << 1) | 1);
 
     // Calculate block and word sizes
     const blocksPerWord = Math.floor(32 / bitsPerBlock);
@@ -253,7 +253,7 @@ class BlockStorage {
    */
   public static deserialize(stream: BinaryStream, nbt = false): BlockStorage {
     // Read the bits per block
-    const paletteAndFlag = stream.readByte();
+    const paletteAndFlag = stream.readUint8();
     const bitsPerBlock = paletteAndFlag >> 1;
 
     // Check if the palette is using runtime IDs.

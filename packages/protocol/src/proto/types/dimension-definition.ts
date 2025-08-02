@@ -1,7 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import type { GeneratorType } from "../../enums";
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class DimensionDefinition extends DataType {
   public identifier: string;

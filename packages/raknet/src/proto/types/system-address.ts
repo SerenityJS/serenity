@@ -1,7 +1,7 @@
-import { DataType } from "./type";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+
 import { Address } from "./address";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type { NetworkIdentifier } from "../../types";
 
 /**

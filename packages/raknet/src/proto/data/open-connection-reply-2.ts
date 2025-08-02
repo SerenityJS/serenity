@@ -1,4 +1,4 @@
-import { Long, Bool, Short } from "@serenityjs/binarystream";
+import { Int64, Bool, Int16 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -19,7 +19,7 @@ class OpenConnectionReply2 extends BasePacket {
   /**
    * The server guid of the reply.
    */
-  @Serialize(Long) public guid!: bigint;
+  @Serialize(Int64) public guid!: bigint;
 
   /**
    * Client adrress.
@@ -29,7 +29,7 @@ class OpenConnectionReply2 extends BasePacket {
   /**
    * The maximum transfer unit of the reply.
    */
-  @Serialize(Short) public mtu!: number;
+  @Serialize(Int16) public mtu!: number;
 
   /**
    * If raknet is using encryption.

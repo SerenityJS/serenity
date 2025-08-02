@@ -1,4 +1,4 @@
-import { Long, String16 } from "@serenityjs/binarystream";
+import { Int64, String16 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -14,12 +14,12 @@ class UnconnectedPong extends BasePacket {
   /**
    * The timestamp of the pong.
    */
-  @Serialize(Long) public timestamp!: bigint;
+  @Serialize(Int64) public timestamp!: bigint;
 
   /**
    * The server guid of the pong.
    */
-  @Serialize(Long) public guid!: bigint;
+  @Serialize(Int64) public guid!: bigint;
 
   /**
    * The magic bytes of the pong.

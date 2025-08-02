@@ -1,6 +1,4 @@
-import { BinaryStream, Uint8 } from "@serenityjs/binarystream";
-
-import type { ValidTypes } from "../../types";
+import { BinaryStream, Uint8, type DataType } from "@serenityjs/binarystream";
 
 /**
  * Represents a packet.
@@ -14,14 +12,7 @@ abstract class BasePacket extends BinaryStream {
   /**
    * The packet id data type.
    */
-  public static id_type: ValidTypes = Uint8;
-
-  /**
-   * Flushes the binary stream.
-   */
-  public flush(): void {
-    this.binary = [];
-  }
+  public static id_type: typeof DataType = Uint8;
 
   /**
    * Gets the packet id.
@@ -35,7 +26,7 @@ abstract class BasePacket extends BinaryStream {
    * Gets the packet id data type.
    * @returns The packet id data type.
    */
-  public getIdType(): ValidTypes {
+  public getIdType(): typeof DataType {
     throw new Error("BasePacket.getIdType() is not implemented.");
   }
 

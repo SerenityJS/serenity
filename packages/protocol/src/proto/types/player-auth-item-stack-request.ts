@@ -1,5 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { InputData } from "../../enums";
 
@@ -51,11 +51,11 @@ class PlayerAuthItemStackRequest extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: unknown,
-    data: PlayerAuthInputData
+    options: PacketDataTypeOptions<PlayerAuthInputData>
   ): PlayerAuthItemStackRequest | null {
     // Check if the input data has the block actions flag
-    if (!data.hasFlag(InputData.PerformItemStackRequest)) return null;
+    if (!options.parameter?.hasFlag(InputData.PerformItemStackRequest))
+      return null; // Return null if the flag is not set
 
     // Read the client request id.
     const clientRequestId = stream.readZigZag();
@@ -88,11 +88,10 @@ class PlayerAuthItemStackRequest extends DataType {
   public static write(
     stream: BinaryStream,
     value: ItemStackRequest,
-    _: unknown,
-    data: PlayerAuthInputData
+    options: PacketDataTypeOptions<PlayerAuthInputData>
   ): void {
     // Check if the input data has the block actions flag
-    if (!data.hasFlag(InputData.PerformItemStackRequest)) return;
+    if (!options.parameter?.hasFlag(InputData.PerformItemStackRequest)) return; // Return if the flag is not set
 
     // Write the client request id.
     stream.writeZigZag(value.clientRequestId);

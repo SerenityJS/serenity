@@ -15,7 +15,7 @@ class FrameSet extends BasePacket {
   /**
    * The sequence of the frame set.
    */
-  @Serialize(Uint24, Endianness.Little) public sequence!: number;
+  @Serialize(Uint24, { endian: Endianness.Little }) public sequence!: number;
 
   /**
    * The frames of the frame set.

@@ -1,5 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
-import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
+import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { ScoreboardActionType, ScoreboardIdentityType } from "../../enums";
 
@@ -62,8 +62,7 @@ class ScoreEntry extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: Endianness,
-    type: ScoreboardActionType
+    options: PacketDataTypeOptions<ScoreboardActionType>
   ): Array<ScoreEntry> {
     // Prepare an array to store entries.
     const entries: Array<ScoreEntry> = [];
@@ -82,9 +81,9 @@ class ScoreEntry extends DataType {
       let customName: string | null = null;
 
       // Check if the action type is to change a score.
-      if (type === ScoreboardActionType.Change) {
+      if (options.parameter === ScoreboardActionType.Change) {
         // Read the identity type.
-        identityType = stream.readByte() as ScoreboardIdentityType;
+        identityType = stream.readUint8() as ScoreboardIdentityType;
 
         // Switch based on the identity type.
         switch (identityType) {
@@ -123,8 +122,7 @@ class ScoreEntry extends DataType {
   public static write(
     stream: BinaryStream,
     value: Array<ScoreEntry>,
-    _: Endianness,
-    type: ScoreboardActionType
+    options: PacketDataTypeOptions<ScoreboardActionType>
   ): void {
     // Write the number of entries.
     stream.writeVarInt(value.length);
@@ -137,9 +135,9 @@ class ScoreEntry extends DataType {
       stream.writeInt32(entry.score, Endianness.Little);
 
       // Check if the action type is to change a score.
-      if (type === ScoreboardActionType.Change) {
+      if (options.parameter === ScoreboardActionType.Change) {
         // Write the identity type.
-        stream.writeByte(entry.identityType as number);
+        stream.writeUint8(entry.identityType as number);
 
         // Switch based on the identity type.
         switch (entry.identityType) {

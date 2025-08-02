@@ -1,14 +1,13 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 class CommandBlockActorRuntimeId extends DataType {
   public static read(
     stream: BinaryStream,
-    _: 0,
-    isBlock: boolean
+    options?: PacketDataTypeOptions<boolean>
   ): bigint | null {
     // Check if the block is not a command block
-    if (isBlock === true) return null;
+    if (options?.parameter === true) return null;
 
     // Read the runtime ID
     return stream.readVarLong();
@@ -17,11 +16,10 @@ class CommandBlockActorRuntimeId extends DataType {
   public static write(
     stream: BinaryStream,
     value: bigint,
-    _: 0,
-    isBlock: boolean
+    options?: PacketDataTypeOptions<boolean>
   ): void {
     // Check if the block is not a command block
-    if (isBlock === false) return;
+    if (options?.parameter === false) return;
 
     // Write the runtime ID
     stream.writeVarLong(value);

@@ -1,8 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { BookEditAction } from "../../enums";
-
-import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 class BookActions extends DataType {
   public pageIndex: number;
@@ -28,8 +27,7 @@ class BookActions extends DataType {
 
   public static override read(
     stream: BinaryStream,
-    _: Endianness,
-    action: BookEditAction
+    options?: PacketDataTypeOptions<BookEditAction>
   ) {
     let pageIndex = 0;
     let pageIndexB = 0;
@@ -37,21 +35,21 @@ class BookActions extends DataType {
     let textB = "";
     let xuid = "";
 
-    switch (action) {
+    switch (options?.parameter) {
       case BookEditAction.ReplacePage:
       case BookEditAction.AddPage: {
-        pageIndex = stream.readByte();
+        pageIndex = stream.readUint8();
         textA = stream.readVarString();
         textB = stream.readVarString();
         break;
       }
       case BookEditAction.DeletePage: {
-        pageIndex = stream.readByte();
+        pageIndex = stream.readUint8();
         break;
       }
       case BookEditAction.SwapPage: {
-        pageIndex = stream.readByte();
-        pageIndexB = stream.readByte();
+        pageIndex = stream.readUint8();
+        pageIndexB = stream.readUint8();
         break;
       }
       case BookEditAction.Finalize: {
@@ -63,27 +61,26 @@ class BookActions extends DataType {
     return new BookActions(pageIndex, textA, textB, xuid, pageIndexB);
   }
 
-  public static override write(
+  public static write(
     stream: BinaryStream,
     value: BookActions,
-    _: Endianness,
-    action: BookEditAction
+    options?: PacketDataTypeOptions<BookEditAction>
   ): void {
-    switch (action) {
+    switch (options?.parameter) {
       case BookEditAction.ReplacePage:
       case BookEditAction.AddPage: {
-        stream.writeByte(value.pageIndex);
+        stream.writeUint8(value.pageIndex);
         stream.writeVarString(value.textA);
         stream.writeVarString(value.textB);
         break;
       }
       case BookEditAction.DeletePage: {
-        stream.writeByte(value.pageIndex);
+        stream.writeUint8(value.pageIndex);
         break;
       }
       case BookEditAction.SwapPage: {
-        stream.writeByte(value.pageIndex);
-        stream.writeByte(value.pageIndexB);
+        stream.writeUint8(value.pageIndex);
+        stream.writeUint8(value.pageIndexB);
         break;
       }
       case BookEditAction.Finalize: {

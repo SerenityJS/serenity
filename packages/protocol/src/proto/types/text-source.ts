@@ -1,19 +1,17 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { TextPacketType } from "../../enums";
-
-import type { BinaryStream, Endianness } from "@serenityjs/binarystream";
 
 class TextSource extends DataType {
   public static override read(
     stream: BinaryStream,
-    _: Endianness,
-    type: TextPacketType
+    options: PacketDataTypeOptions<TextPacketType>
   ): string | null {
     // Check if the type is Chat, Whisper or Announcement.
-    return type === TextPacketType.Chat ||
-      type === TextPacketType.Whisper ||
-      type === TextPacketType.Announcement
+    return options.parameter === TextPacketType.Chat ||
+      options.parameter === TextPacketType.Whisper ||
+      options.parameter === TextPacketType.Announcement
       ? stream.readVarString()
       : null;
   }
@@ -21,14 +19,13 @@ class TextSource extends DataType {
   public static override write(
     stream: BinaryStream,
     value: string,
-    _: Endianness,
-    type: TextPacketType
+    options: PacketDataTypeOptions<TextPacketType>
   ): void {
     // Check if the type is Chat, Whisper or Announcement.
     if (
-      type === TextPacketType.Chat ||
-      type === TextPacketType.Whisper ||
-      type === TextPacketType.Announcement
+      options.parameter === TextPacketType.Chat ||
+      options.parameter === TextPacketType.Whisper ||
+      options.parameter === TextPacketType.Announcement
     ) {
       // Write the string to the stream.
       stream.writeVarString(value);

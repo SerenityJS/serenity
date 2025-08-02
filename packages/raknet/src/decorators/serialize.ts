@@ -1,13 +1,8 @@
-import { Endianness } from "@serenityjs/binarystream";
-
-import type { ValidTypes } from "../types";
+import type { PacketDataTypeOptions } from "../types";
+import type { DataType } from "@serenityjs/binarystream";
 import type { BasePacket } from "../proto";
 
-function Serialize(
-  type: ValidTypes,
-  endian: Endianness | boolean = Endianness.Big,
-  parameter?: string
-) {
+function Serialize(type: typeof DataType, options?: PacketDataTypeOptions) {
   // Check if the wasnt a type provided.
   if (!type) throw new Error("@Serialize() failed, no type provided.");
 
@@ -17,7 +12,7 @@ function Serialize(
     const properties = Reflect.getMetadata("properties", target) || [];
 
     // Push the property to the properties array.
-    properties.push({ name, type, endian, parameter });
+    properties.push({ name, type, options });
 
     // Set the properties metadata.
     Reflect.defineMetadata("properties", properties, target);

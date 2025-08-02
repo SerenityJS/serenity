@@ -1,14 +1,13 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 class MapCreationBits extends DataType {
   public static write(
     stream: BinaryStream,
     value: Array<bigint>,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): void {
-    if ((parameter & 0x8) == 0x0) return;
+    if ((options?.parameter && options.parameter & 0x8) == 0x0) return;
     stream.writeVarInt(value.length);
 
     for (const bit of value) {
@@ -18,10 +17,9 @@ class MapCreationBits extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: Endianness,
-    parameter: number
+    options?: PacketDataTypeOptions<number>
   ): Array<bigint> | null {
-    if ((parameter & 0x8) == 0x0) return null;
+    if ((options?.parameter && options.parameter & 0x8) == 0x0) return null;
     const amount = stream.readVarInt();
     const bits: Array<bigint> = [];
 

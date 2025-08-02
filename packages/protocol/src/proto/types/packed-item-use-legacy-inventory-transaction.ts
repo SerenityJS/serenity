@@ -1,10 +1,10 @@
-import { DataType } from "@serenityjs/raknet";
-import { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
-import { PlayerAuthInputData } from "../../../dist";
 import { InputData } from "../../enums";
 
 import { PackedLegacyTransaction } from "./packed-legacy-transaction";
+import { PlayerAuthInputData } from "./player-auth-input-data";
 
 class PackedItemUseLegacyInventoryTransaction extends DataType {
   /**
@@ -30,11 +30,11 @@ class PackedItemUseLegacyInventoryTransaction extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _: unknown,
-    data: PlayerAuthInputData
+    options: PacketDataTypeOptions<PlayerAuthInputData>
   ): PackedItemUseLegacyInventoryTransaction | null {
     // Check if the input data has the item interaction flag
-    if (!data.hasFlag(InputData.PerformItemInteraction)) return null;
+    if (!options.parameter?.hasFlag(InputData.PerformItemInteraction))
+      return null;
 
     // Read the id of the transaction
     const id = stream.readZigZag();
@@ -64,11 +64,10 @@ class PackedItemUseLegacyInventoryTransaction extends DataType {
   public static write(
     stream: BinaryStream,
     value: PackedItemUseLegacyInventoryTransaction,
-    _: unknown,
-    data: PlayerAuthInputData
+    options: PacketDataTypeOptions<PlayerAuthInputData>
   ): void {
     // Check if the input data has the item interaction flag
-    if (!data.hasFlag(InputData.PerformItemInteraction)) return;
+    if (!options.parameter?.hasFlag(InputData.PerformItemInteraction)) return;
 
     // Write the id of the transaction
     stream.writeZigZag(value.id);

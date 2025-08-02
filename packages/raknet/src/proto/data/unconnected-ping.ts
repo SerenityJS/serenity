@@ -1,4 +1,4 @@
-import { Long } from "@serenityjs/binarystream";
+import { Int64 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -14,7 +14,7 @@ class UnconnectedPing extends BasePacket {
   /**
    * The timestamp of the ping.
    */
-  @Serialize(Long) public timestamp!: bigint;
+  @Serialize(Int64) public timestamp!: bigint;
 
   /**
    * The magic bytes of the ping.
@@ -24,7 +24,7 @@ class UnconnectedPing extends BasePacket {
   /**
    * The client guid of the ping.
    */
-  @Serialize(Long) public client!: bigint;
+  @Serialize(Int64) public client!: bigint;
 }
 
 export { UnconnectedPing };

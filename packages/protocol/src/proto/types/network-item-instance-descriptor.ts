@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 
 import { ItemInstanceUserData } from "./item-instance-user-data";
 
@@ -50,7 +49,7 @@ class NetworkItemInstanceDescriptor extends DataType {
     const length = stream.readVarInt();
     const extras =
       length > 0
-        ? ItemInstanceUserData.read(stream, Endianness.Little, network)
+        ? ItemInstanceUserData.read(stream, { parameter: network })
         : null;
 
     // Return the item instance descriptor.
@@ -88,18 +87,18 @@ class NetworkItemInstanceDescriptor extends DataType {
       const extras = new BinaryStream();
 
       // Write the extra data to the stream.
-      ItemInstanceUserData.write(
-        extras,
-        value.extras,
-        Endianness.Little,
-        value.network
-      );
+      ItemInstanceUserData.write(extras, value.extras, {
+        parameter: value.network
+      });
+
+      // Get the buffer from the extras stream.
+      const buffer = extras.getBuffer();
 
       // Write the length of the extra data to the main stream.
-      stream.writeVarInt(extras.binary.length);
+      stream.writeVarInt(buffer.length);
 
       // Write the extra data to the main stream.
-      stream.write(extras.binary);
+      stream.write(buffer);
     } else {
       // Write 0 to the main stream, since there is no extra data.
       stream.writeVarInt(0);

@@ -1,9 +1,7 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class VariableStringArray extends DataType {
-  public static override read(stream: BinaryStream): Array<string> {
+  public static read(stream: BinaryStream): Array<string> {
     // Prepare an array to store the strings.
     const strings: Array<string> = [];
 
@@ -21,10 +19,7 @@ class VariableStringArray extends DataType {
     return strings;
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: Array<string>
-  ): void {
+  public static write(stream: BinaryStream, value: Array<string>): void {
     // Write the number of strings given in the array.
     stream.writeVarInt(value.length);
 

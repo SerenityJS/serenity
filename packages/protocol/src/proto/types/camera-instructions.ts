@@ -1,7 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
-import { Bool, type BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import { Optional } from "./optional";
 import { CameraSetInstruction } from "./camera-instruction-set";
 import { CameraFadeInstruction } from "./camera-instruction-fade";
 
@@ -21,10 +19,10 @@ class CameraInstructions extends DataType {
     this.Fade = Fade;
   }
 
-  public static write(stream: BinaryStream, value: CameraInstructions): void {
-    Optional.write(stream, value.Set, undefined, null, CameraSetInstruction);
-    Optional.write(stream, value.Clear, undefined, null, Bool);
-    Optional.write(stream, value.Fade, undefined, null, CameraFadeInstruction);
+  public static write(_stream: BinaryStream, _value: CameraInstructions): void {
+    // Optional.write(stream, value.Set, undefined, null, CameraSetInstruction);
+    // Optional.write(stream, value.Clear, undefined, null, Bool);
+    // Optional.write(stream, value.Fade, undefined, null, CameraFadeInstruction);
   }
 }
 

@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { TrimDataMaterial } from "../../types";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class Materials extends DataType {
   public materials: Array<TrimDataMaterial>;

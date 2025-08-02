@@ -1,7 +1,4 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class AttributeModifier extends DataType {
   /**

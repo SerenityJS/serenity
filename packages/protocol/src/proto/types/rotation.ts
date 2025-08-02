@@ -1,6 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type { Vector3f } from "./vector3f";
 
 class Rotation extends DataType {
@@ -87,10 +86,10 @@ class Rotation extends DataType {
    * @returns The rotation that was read.
    */
   public static override read(stream: BinaryStream): Rotation {
-    // Read a yaw, pitch, headYaw byte from the stream
-    const yaw = stream.readByte() * (360 / 256);
-    const pitch = stream.readByte() * (360 / 256);
-    const headYaw = stream.readByte() * (360 / 256);
+    // Read a yaw, pitch, headYaw Int8 from the stream
+    const yaw = stream.readInt8() * (360 / 256);
+    const pitch = stream.readInt8() * (360 / 256);
+    const headYaw = stream.readInt8() * (360 / 256);
 
     return new Rotation(yaw, pitch, headYaw);
   }
@@ -102,9 +101,9 @@ class Rotation extends DataType {
    * @param value The rotation to write.
    */
   public static override write(stream: BinaryStream, value: Rotation): void {
-    stream.writeByte(Math.floor(value.pitch / (360 / 256)));
-    stream.writeByte(Math.floor(value.headYaw / (360 / 256)));
-    stream.writeByte(Math.floor(value.yaw / (360 / 256)));
+    stream.writeInt8(Math.floor(value.pitch / (360 / 256)));
+    stream.writeInt8(Math.floor(value.headYaw / (360 / 256)));
+    stream.writeInt8(Math.floor(value.yaw / (360 / 256)));
   }
 }
 

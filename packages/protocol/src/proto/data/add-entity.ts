@@ -26,10 +26,10 @@ class AddEntityPacket extends DataPacket {
   @Serialize(VarString) public identifier!: string;
   @Serialize(Vector3f) public position!: Vector3f;
   @Serialize(Vector3f) public velocity!: Vector3f;
-  @Serialize(Float32, Endianness.Little) public pitch!: number;
-  @Serialize(Float32, Endianness.Little) public yaw!: number;
-  @Serialize(Float32, Endianness.Little) public headYaw!: number;
-  @Serialize(Float32, Endianness.Little) public bodyYaw!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public pitch!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public yaw!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public headYaw!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public bodyYaw!: number;
   @Serialize(EntityAttributes) public attributes!: Array<EntityAttributes>;
   @Serialize(DataItem) public data!: Array<DataItem>;
   @Serialize(PropertySyncData) public properties!: PropertySyncData;

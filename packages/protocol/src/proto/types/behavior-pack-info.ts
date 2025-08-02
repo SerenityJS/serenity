@@ -1,7 +1,4 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
 
 class BehaviorPackInfo extends DataType {
   public contentIdentity: string;

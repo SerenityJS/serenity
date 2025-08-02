@@ -1,6 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class DynamicEnums extends DataType {
   public name: string;
@@ -12,7 +10,7 @@ class DynamicEnums extends DataType {
     this.values = values;
   }
 
-  public static override read(stream: BinaryStream): Array<DynamicEnums> {
+  public static read(stream: BinaryStream): Array<DynamicEnums> {
     // Prepare an array to store the enums.
     const enums: Array<DynamicEnums> = [];
 
@@ -44,10 +42,7 @@ class DynamicEnums extends DataType {
     return enums;
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: Array<DynamicEnums>
-  ): void {
+  public static write(stream: BinaryStream, value: Array<DynamicEnums>): void {
     // Write the number of enums given in the array.
     stream.writeVarInt(value.length);
 

@@ -59,7 +59,7 @@ class Server extends Emitter<RaknetEvents> {
   /**
    * The server guid for the server instance.
    */
-  public readonly guid = BigInt(Math.floor(Math.random() * 2 ** 64));
+  public readonly guid = BigInt(Math.floor(Math.random() * 2 ** 63));
 
   /**
    * The address the raknet server is bound to.

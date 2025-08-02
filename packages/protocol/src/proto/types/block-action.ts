@@ -1,10 +1,8 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { PlayerActionType } from "../../enums";
 
 import { Vector3f } from "./vector3f";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class BlockAction extends DataType {
   public action!: PlayerActionType;

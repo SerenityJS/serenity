@@ -1,5 +1,4 @@
-import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class Experiments extends DataType {
   public enabled: boolean;

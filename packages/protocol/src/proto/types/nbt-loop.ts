@@ -1,5 +1,4 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 
 class NbtLoop extends DataType {
@@ -12,7 +11,9 @@ class NbtLoop extends DataType {
 
   public static read(stream: BinaryStream): NbtLoop {
     try {
-      const buffer = stream.readRemainingBuffer();
+      const remaining = stream.buffer.length - stream.offset;
+
+      const buffer = stream.read(remaining);
       const wrappedBuffer = new BinaryStream(
         Buffer.concat([Buffer.from([0x0a, 0x00]), buffer, Buffer.from([0x00])])
       );
@@ -29,7 +30,7 @@ class NbtLoop extends DataType {
 
   public static write(stream: BinaryStream, entry: NbtLoop): void {
     if (entry.data === null) {
-      stream.writeBuffer(Buffer.from([0x00]));
+      stream.write(Buffer.from([0x00]));
       return;
     }
 
@@ -45,7 +46,7 @@ class NbtLoop extends DataType {
       // Remove the compound wrapper (first 2 bytes and last byte)
       const unwrappedBuffer = buffer.slice(2, buffer.length - 1);
 
-      stream.writeBuffer(unwrappedBuffer);
+      stream.write(unwrappedBuffer);
     } catch (reason) {
       throw new Error(`Error writing NbtLoop: ${(reason as Error).message}`);
     }

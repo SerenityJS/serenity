@@ -1,4 +1,4 @@
-import { Long } from "@serenityjs/binarystream";
+import { Int64 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -24,12 +24,12 @@ class NewIncomingConnection extends BasePacket {
   /**
    * The incoming timestamp of the reply.
    */
-  @Serialize(Long) public incomingTimestamp!: bigint;
+  @Serialize(Int64) public incomingTimestamp!: bigint;
 
   /**
    * The server timestamp of the reply.
    */
-  @Serialize(Long) public serverTimestamp!: bigint;
+  @Serialize(Int64) public serverTimestamp!: bigint;
 }
 
 export { NewIncomingConnection };

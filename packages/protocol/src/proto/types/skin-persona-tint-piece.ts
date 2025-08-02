@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { Endianness, type BinaryStream } from "@serenityjs/binarystream";
+import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
 
 /**
  * Represents a tint piece of a persona skin.

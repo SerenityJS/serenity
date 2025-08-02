@@ -7,8 +7,10 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.EntityPickRequest)
 class EntityPickRequestPacket extends DataPacket {
-  @Serialize(Uint64, Endianness.Little) public uniqueActorId!: bigint; // lu64
-  @Serialize(Uint8) public slot!: number; //u8
+  @Serialize(Uint64, { endian: Endianness.Little })
+  public uniqueActorId!: bigint;
+
+  @Serialize(Uint8) public slot!: number;
   @Serialize(Bool) public withData!: boolean;
 }
 

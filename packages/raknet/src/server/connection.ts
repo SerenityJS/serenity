@@ -559,7 +559,7 @@ class Connection {
           const sframe = fragment.get(index) as Frame;
 
           // Write the payload to the stream
-          stream.writeBuffer(sframe.payload);
+          stream.write(sframe.payload);
         }
 
         // Construct the new frame

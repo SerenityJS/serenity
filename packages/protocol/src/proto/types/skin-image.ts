@@ -1,5 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 
 /**
  * Represents a skin related image.
@@ -39,7 +38,7 @@ class SkinImage extends DataType {
     const width = stream.readUint32(Endianness.Little);
     const height = stream.readUint32(Endianness.Little);
     const length = stream.readVarInt();
-    const buffer = stream.readBuffer(length);
+    const buffer = stream.read(length);
 
     // Return the new skin image.
     return new SkinImage(width, height, buffer);
@@ -50,7 +49,7 @@ class SkinImage extends DataType {
     stream.writeUint32(image.width, Endianness.Little);
     stream.writeUint32(image.height, Endianness.Little);
     stream.writeVarInt(image.data.length);
-    stream.writeBuffer(image.data);
+    stream.write(image.data);
   }
 }
 

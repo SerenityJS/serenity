@@ -1,5 +1,4 @@
-import { BinaryStream } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { MapDecorationType } from "../../enums";
 
@@ -34,20 +33,20 @@ class MapDecoration extends DataType {
   }
 
   public static write(stream: BinaryStream, value: MapDecoration): void {
-    stream.writeByte(value.type);
-    stream.writeByte(value.rotation);
-    stream.writeByte(value.x);
-    stream.writeByte(value.y);
+    stream.writeUint8(value.type);
+    stream.writeUint8(value.rotation);
+    stream.writeUint8(value.x);
+    stream.writeUint8(value.y);
     stream.writeVarString(value.label);
     stream.writeVarInt(value.color);
   }
 
   public static read(stream: BinaryStream): MapDecoration {
     return new MapDecoration(
-      stream.readByte(), // ? Type
-      stream.readByte(), // ? Rotation
-      stream.readByte(), // ? X
-      stream.readByte(), // ? Y
+      stream.readUint8(), // ? Type
+      stream.readUint8(), // ? Rotation
+      stream.readUint8(), // ? X
+      stream.readUint8(), // ? Y
       stream.readVarString(), // ? Label
       stream.readVarInt() // ? Color
     );

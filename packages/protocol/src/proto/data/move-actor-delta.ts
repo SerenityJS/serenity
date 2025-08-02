@@ -9,10 +9,10 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.MoveActorDelta)
 class MoveActorDeltaPacket extends DataPacket {
   @Serialize(VarLong) public runtimeId!: bigint;
-  @Serialize(Uint16, Endianness.Little) public flags!: number;
-  @Serialize(Float32, Endianness.Little) public x!: number;
-  @Serialize(Float32, Endianness.Little) public y!: number;
-  @Serialize(Float32, Endianness.Little) public z!: number;
+  @Serialize(Uint16, { endian: Endianness.Little }) public flags!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public x!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public y!: number;
+  @Serialize(Float32, { endian: Endianness.Little }) public z!: number;
   @Serialize(RotationByte) public pitch!: number;
   @Serialize(RotationByte) public yaw!: number;
   @Serialize(RotationByte) public headYaw!: number;

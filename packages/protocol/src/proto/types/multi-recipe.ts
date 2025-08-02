@@ -1,6 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Uuid } from "./uuid";
 
 class MultiRecipe extends DataType {
   /**
@@ -26,7 +26,7 @@ class MultiRecipe extends DataType {
 
   public static read(stream: BinaryStream): MultiRecipe {
     // Read the uuid of the recipe.
-    const uuid = stream.readUuid();
+    const uuid = Uuid.read(stream);
 
     // Read the network id of the recipe.
     const networkId = stream.readVarInt();
@@ -37,7 +37,7 @@ class MultiRecipe extends DataType {
 
   public static write(stream: BinaryStream, value: MultiRecipe): void {
     // Write the uuid of the recipe.
-    stream.writeUuid(value.uuid);
+    Uuid.write(stream, value.uuid);
 
     // Write the network id of the recipe.
     stream.writeVarInt(value.networkId);

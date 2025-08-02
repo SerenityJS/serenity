@@ -8,7 +8,7 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.Transfer)
 class TransferPacket extends DataPacket {
   @Serialize(VarString) public address!: string;
-  @Serialize(Uint16, Endianness.Little) public port!: number;
+  @Serialize(Uint16, { endian: Endianness.Little }) public port!: number;
   @Serialize(Bool) public reloadWorld!: boolean;
 }
 

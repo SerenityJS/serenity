@@ -8,7 +8,7 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.ResourcePackChunkRequest)
 class ResourcePackChunkRequestPacket extends DataPacket {
   @Serialize(VarString) public packId!: string;
-  @Serialize(Uint32, Endianness.Little) public chunkId!: number;
+  @Serialize(Uint32, { endian: Endianness.Little }) public chunkId!: number;
 }
 
 export { ResourcePackChunkRequestPacket };

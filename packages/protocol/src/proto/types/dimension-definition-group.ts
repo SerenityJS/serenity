@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { DimensionDefinition } from "./dimension-definition";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class DimensionDefinitionGroup extends DataType {
   public definitions: Array<DimensionDefinition>;

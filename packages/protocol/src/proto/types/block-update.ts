@@ -1,5 +1,4 @@
-import { BinaryStream, Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { BlockPosition } from "./block-position";
 
@@ -25,11 +24,7 @@ export class BlockUpdate extends DataType {
     this.type = type;
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: BlockUpdate,
-    _: Endianness
-  ): void {
+  public static write(stream: BinaryStream, value: BlockUpdate): void {
     BlockPosition.write(stream, value.position);
     stream.writeVarInt(value.runtimeId);
     stream.writeVarInt(value.flags);

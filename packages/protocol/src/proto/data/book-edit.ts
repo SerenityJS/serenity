@@ -14,7 +14,7 @@ class BookEditPacket extends DataPacket {
   @Serialize(Uint8)
   public bookSlot!: number;
 
-  @Serialize(BookActions, false, "action")
+  @Serialize(BookActions, { parameter: "action" })
   public actions!: BookActions;
 }
 

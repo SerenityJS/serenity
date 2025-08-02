@@ -7,9 +7,11 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.RequestPermissions)
 class RequestPermissionsPacket extends DataPacket {
-  @Serialize(Int64, Endianness.Little) public actorUniqueId!: bigint;
+  @Serialize(Int64, { endian: Endianness.Little })
+  public actorUniqueId!: bigint;
+
   @Serialize(ZigZag) public permissionLevel!: PermissionLevel;
-  @Serialize(Uint16, Endianness.Little) public flags!: number;
+  @Serialize(Uint16, { endian: Endianness.Little }) public flags!: number;
 
   public getFlag(flag: PermissionFlag): boolean {
     return (this.flags & flag) === flag;

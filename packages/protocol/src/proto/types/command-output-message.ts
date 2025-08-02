@@ -1,6 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class CommandOutputMessage extends DataType {
   public isInternal: boolean;
@@ -18,7 +16,7 @@ class CommandOutputMessage extends DataType {
     this.parameters = parameters;
   }
 
-  public static override read(stream: BinaryStream): CommandOutputMessage {
+  public static read(stream: BinaryStream): CommandOutputMessage {
     const isInternal = stream.readBool();
     const messageId = stream.readVarString();
 
@@ -32,10 +30,7 @@ class CommandOutputMessage extends DataType {
     return new CommandOutputMessage(isInternal, messageId, parameters);
   }
 
-  public static override write(
-    stream: BinaryStream,
-    value: CommandOutputMessage
-  ): void {
+  public static write(stream: BinaryStream, value: CommandOutputMessage): void {
     stream.writeBool(value.isInternal);
     stream.writeVarString(value.messageId);
 

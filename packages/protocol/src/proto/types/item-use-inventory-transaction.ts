@@ -1,10 +1,9 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { BlockPosition } from "./block-position";
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 import { Vector3f } from "./vector3f";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type {
   BlockFace,
   ItemUseInventoryTransactionType,

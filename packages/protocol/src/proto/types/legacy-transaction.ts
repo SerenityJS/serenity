@@ -1,6 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type { ContainerId } from "../../enums";
 
 interface Transactions {

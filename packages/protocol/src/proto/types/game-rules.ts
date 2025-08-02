@@ -1,9 +1,6 @@
-import { Endianness } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
 
 import { GameRuleType } from "../../enums";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class GameRules extends DataType {
   public editable: boolean;

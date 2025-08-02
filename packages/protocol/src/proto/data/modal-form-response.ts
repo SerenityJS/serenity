@@ -1,4 +1,4 @@
-import { VarInt, Bool, Endianness } from "@serenityjs/binarystream";
+import { VarInt, Bool } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
@@ -12,12 +12,12 @@ import type { ModalFormCanceledReason } from "../../enums";
 class ModalFormResponsePacket extends DataPacket {
   @Serialize(VarInt) public id!: number;
   @Serialize(Bool) public response!: boolean;
-  @Serialize(ModalFormData, Endianness.Big, "response") public data!:
+  @Serialize(ModalFormData, { parameter: "response" }) public data!:
     | string
     | null;
 
   @Serialize(Bool) public canceled!: boolean;
-  @Serialize(ModalFormCanceled, Endianness.Big, "canceled")
+  @Serialize(ModalFormCanceled, { parameter: "canceled" })
   public reason!: ModalFormCanceledReason | null;
 }
 

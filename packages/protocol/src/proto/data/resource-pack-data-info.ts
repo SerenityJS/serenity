@@ -24,7 +24,7 @@ class ResourcePackDataInfoPacket extends DataPacket {
     this.writeUint64(this.fileSize, Endianness.Little);
 
     this.writeVarInt(this.fileHash.byteLength);
-    this.writeBuffer(this.fileHash);
+    this.write(this.fileHash);
 
     this.writeBool(this.isPremium);
     this.writeUint8(this.packType);
@@ -41,7 +41,7 @@ class ResourcePackDataInfoPacket extends DataPacket {
     this.fileSize = this.readUint64(Endianness.Little);
 
     const hashLength = this.readVarInt();
-    this.fileHash = this.readBuffer(hashLength);
+    this.fileHash = this.read(hashLength);
 
     this.isPremium = this.readBool();
     this.packType = this.readUint8();

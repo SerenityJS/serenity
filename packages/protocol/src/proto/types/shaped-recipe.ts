@@ -1,10 +1,9 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { RecipeIngredient } from "./recipe-ingredient";
 import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
 import { RecipeUnlockingRequirement } from "./recipe-unlocking-requirement";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { Uuid } from "./uuid";
 
 class ShapedRecipe extends DataType {
   /**
@@ -141,7 +140,7 @@ class ShapedRecipe extends DataType {
     }
 
     // Read the UUID
-    const uuid = stream.readUuid();
+    const uuid = Uuid.read(stream);
 
     // Read the tag
     const tag = stream.readVarString();
@@ -200,7 +199,7 @@ class ShapedRecipe extends DataType {
     }
 
     // Write the UUID
-    stream.writeUuid(value.uuid);
+    Uuid.write(stream, value.uuid);
 
     // Write the tag
     stream.writeVarString(value.tag);

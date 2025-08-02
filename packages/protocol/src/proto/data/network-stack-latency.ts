@@ -7,7 +7,7 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.NetworkStackLatency)
 class NetworkStackLatencyPacket extends DataPacket {
-  @Serialize(Uint64, Endianness.Little) public timestamp!: bigint;
+  @Serialize(Uint64, { endian: Endianness.Little }) public timestamp!: bigint;
   @Serialize(Bool) public fromServer!: boolean;
 }
 

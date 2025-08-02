@@ -1,4 +1,4 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { ComplexInventoryTransaction } from "../../enums";
 
@@ -6,8 +6,6 @@ import { InventoryAction } from "./inventory-action";
 import { ItemUseInventoryTransaction } from "./item-use-inventory-transaction";
 import { ItemUseOnEntityInventoryTransaction } from "./item-use-on-entity-inventory-transaction";
 import { ItemReleaseInventoryTransaction } from "./item-release-inventory-transaction";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 /**
  * Represents an inventory transaction.

@@ -7,7 +7,8 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.OnScreenTextureAnimation)
 class OnScreenTextureAnimationPacket extends DataPacket {
-  @Serialize(Uint32, Endianness.Little) public effectId!: EffectType;
+  @Serialize(Uint32, { endian: Endianness.Little })
+  public effectId!: EffectType;
 }
 
 export { OnScreenTextureAnimationPacket };

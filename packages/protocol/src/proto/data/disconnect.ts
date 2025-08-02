@@ -10,7 +10,7 @@ import { DataPacket } from "./data-packet";
 class DisconnectPacket extends DataPacket {
   @Serialize(ZigZag) public reason!: DisconnectReason;
   @Serialize(Bool) public hideDisconnectScreen!: boolean;
-  @Serialize(DisconnectMessage, 0, "hideDisconnectScreen")
+  @Serialize(DisconnectMessage, { parameter: "hideDisconnectScreen" })
   public message!: DisconnectMessage;
 }
 

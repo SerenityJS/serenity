@@ -1,4 +1,4 @@
-import { Long } from "@serenityjs/binarystream";
+import { Int64 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -13,12 +13,12 @@ class ConnectedPong extends BasePacket {
   /**
    * The timestamp of the ping.
    */
-  @Serialize(Long) public pingTimestamp!: bigint;
+  @Serialize(Int64) public pingTimestamp!: bigint;
 
   /**
    * The timestamp of the pong.
    */
-  @Serialize(Long) public timestamp!: bigint;
+  @Serialize(Int64) public timestamp!: bigint;
 }
 
 export { ConnectedPong };

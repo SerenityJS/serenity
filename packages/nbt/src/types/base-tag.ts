@@ -1,10 +1,10 @@
-import { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { TagType } from "../enum";
 
 import { ReadWriteOptions } from "./read-write-options";
 
-abstract class BaseTag {
+abstract class BaseTag extends DataType {
   /**
    * The nbt tag type of the data type.
    */

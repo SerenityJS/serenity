@@ -54,14 +54,14 @@ class DoubleTag extends Number implements BaseTag {
         : stream.readInt16(Endianness.Little);
 
       // Read the name from the stream.
-      const buffer = stream.readBuffer(length);
+      const buffer = stream.read(length);
 
       // Convert the buffer to a string.
       name = buffer.toString("utf8");
     }
 
     // Read the double value from the stream.
-    const value = stream.readFloat64(Endianness.Little);
+    const value = stream.readFloat32(Endianness.Little);
 
     // Create and return a new DoubleTag instance.
     return new this(value, name);
@@ -85,11 +85,11 @@ class DoubleTag extends Number implements BaseTag {
       else stream.writeInt16(buffer.length, Endianness.Little);
 
       // Write the name buffer to the stream.
-      stream.writeBuffer(buffer);
+      stream.write(buffer);
     }
 
     // Write the double value to the stream.
-    stream.writeFloat64(value.valueOf(), Endianness.Little);
+    stream.writeFloat32(value.valueOf(), Endianness.Little);
   }
 }
 

@@ -1,5 +1,8 @@
-import { DataType } from "@serenityjs/raknet";
-import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
+import {
+  type BinaryStream,
+  Endianness,
+  DataType
+} from "@serenityjs/binarystream";
 
 import { AbilityIndex } from "../../enums";
 

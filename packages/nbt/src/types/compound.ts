@@ -127,7 +127,7 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
         : stream.readInt16(Endianness.Little);
 
       // Read the name from the stream.
-      const buffer = stream.readBuffer(length);
+      const buffer = stream.read(length);
 
       // Convert the buffer to a string.
       name = buffer.toString("utf8");
@@ -299,7 +299,7 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
           continue;
         }
       }
-    } while (stream.cursorAtEnd() === false);
+    } while (stream.feof() === false);
 
     // Return the CompoundTag instance.
     return tag;
@@ -323,7 +323,7 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
       else stream.writeInt16(buffer.length, Endianness.Little);
 
       // Write the name buffer to the stream.
-      stream.writeBuffer(buffer);
+      stream.write(buffer);
     }
 
     // Iterate over each tag in the CompoundTag instance.

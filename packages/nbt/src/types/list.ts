@@ -74,7 +74,7 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
         : stream.readInt16(Endianness.Little);
 
       // Read the name from the stream.
-      const buffer = stream.readBuffer(length);
+      const buffer = stream.read(length);
 
       // Convert the buffer to a string.
       name = buffer.toString("utf8");
@@ -271,7 +271,7 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
       else stream.writeInt16(buffer.length, Endianness.Little);
 
       // Write the name buffer to the stream.
-      stream.writeBuffer(buffer);
+      stream.write(buffer);
     }
 
     // Check if an element is present in the list.

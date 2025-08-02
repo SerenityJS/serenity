@@ -1,8 +1,8 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { Uuid, VarString, Bool } from "@serenityjs/binarystream";
+import { VarString, Bool } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
-import { SerializedSkin } from "../types";
+import { SerializedSkin, Uuid } from "../types";
 
 import { DataPacket } from "./data-packet";
 

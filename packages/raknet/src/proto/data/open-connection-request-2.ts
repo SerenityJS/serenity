@@ -1,4 +1,4 @@
-import { Long, Short } from "@serenityjs/binarystream";
+import { Int64, Int16 } from "@serenityjs/binarystream";
 
 import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
@@ -24,12 +24,12 @@ class OpenConnectionRequest2 extends BasePacket {
   /**
    * The mtu of the request.
    */
-  @Serialize(Short) public mtu!: number;
+  @Serialize(Int16) public mtu!: number;
 
   /**
    * The client guid of the request.
    */
-  @Serialize(Long) public client!: bigint;
+  @Serialize(Int64) public client!: bigint;
 }
 
 export { OpenConnectionRequest2 };

@@ -1,5 +1,5 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { Byte, VarLong } from "@serenityjs/binarystream";
+import { Uint8, VarLong } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
 
@@ -10,7 +10,7 @@ class ShowCreditsPacket extends DataPacket {
   @Serialize(VarLong)
   public playerRuntimeId!: bigint;
 
-  @Serialize(Byte)
+  @Serialize(Uint8)
   public creditsState!: number;
 }
 

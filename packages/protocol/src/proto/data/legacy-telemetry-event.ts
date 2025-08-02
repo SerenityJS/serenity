@@ -18,7 +18,7 @@ class LegacyTelemetryEventPacket extends DataPacket {
     this.writeVarInt(Packet.LegacyTelemetryEvent);
     this.writeVarLong(this.unique_id);
     this.writeVarInt(this.type);
-    this.writeByte(this.use_player_id);
+    this.writeUint8(this.use_player_id);
 
     switch (this.type) {
       case TelemetryEventType.AchievementAwarded: {
@@ -183,7 +183,7 @@ class LegacyTelemetryEventPacket extends DataPacket {
       }
       case TelemetryEventType.ItemUsed: {
         const iu = this.event_data as LegacyTelemetryEventData["ItemUsed"];
-        this.writeShort(iu.itemId);
+        this.writeInt16(iu.itemId);
         this.writeVarInt(iu.itemAux);
         this.writeVarInt(iu.useMethod);
         this.writeVarInt(iu.useCount);
@@ -211,7 +211,7 @@ class LegacyTelemetryEventPacket extends DataPacket {
     this.readVarInt();
     this.unique_id = this.readVarLong();
     this.type = this.readVarInt() as TelemetryEventType;
-    this.use_player_id = this.readByte();
+    this.use_player_id = this.readUint8();
     switch (this.type) {
       case TelemetryEventType.AchievementAwarded:
         this.event_data = { achievementId: this.readVarInt() };
@@ -376,7 +376,7 @@ class LegacyTelemetryEventPacket extends DataPacket {
         break;
       case TelemetryEventType.ItemUsed:
         this.event_data = {
-          itemId: this.readShort(),
+          itemId: this.readInt16(),
           itemAux: this.readVarInt(),
           useMethod: this.readVarInt(),
           useCount: this.readVarInt()

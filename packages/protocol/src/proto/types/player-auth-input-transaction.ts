@@ -1,10 +1,10 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { InputData } from "../../enums";
 
 import { InputTransaction } from "./input-transaction";
 
-import type { BinaryStream } from "@serenityjs/binarystream";
 import type { PlayerAuthInputData } from "./player-auth-input-data";
 
 export class PlayerAuthInputTransaction extends DataType {
@@ -18,19 +18,18 @@ export class PlayerAuthInputTransaction extends DataType {
   public static write(
     stream: BinaryStream,
     value: InputTransaction,
-    _: unknown,
-    data: PlayerAuthInputData
+    options: PacketDataTypeOptions<PlayerAuthInputData>
   ) {
-    if (!data.hasFlag(InputData.PerformItemInteraction)) return;
+    if (!options.parameter?.hasFlag(InputData.PerformItemInteraction)) return;
     InputTransaction.write(stream, value);
   }
 
   public static read(
     stream: BinaryStream,
-    _: unknown,
-    data: PlayerAuthInputData
+    options: PacketDataTypeOptions<PlayerAuthInputData>
   ): InputTransaction | null {
-    if (!data.hasFlag(InputData.PerformItemInteraction)) return null;
+    if (!options.parameter?.hasFlag(InputData.PerformItemInteraction))
+      return null;
     return InputTransaction.read(stream);
   }
 }

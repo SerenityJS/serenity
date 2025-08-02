@@ -2,10 +2,10 @@ import {
   Uint16,
   Uint32,
   Uint8,
-  type BinaryStream,
-  type Endianness
+  BinaryStream,
+  DataType
 } from "@serenityjs/binarystream";
-import { DataType } from "@serenityjs/raknet";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 /**
  * Represents a enum for the available command packet.
@@ -34,9 +34,11 @@ class Enums extends DataType {
 
   public static override read(
     stream: BinaryStream,
-    endian: Endianness,
-    enumValues: Array<string>
+    options?: PacketDataTypeOptions<Array<string>>
   ): Array<Enums> {
+    // Get the enum values from the options, if provided.
+    const enumValues = options?.parameter ?? [];
+
     // Prepare an array to store the enums.
     const enums: Array<Enums> = [];
 
@@ -67,7 +69,7 @@ class Enums extends DataType {
               : Uint32;
 
         // Read the value and push it to the array.
-        values.push(method.read(stream, endian));
+        values.push(method.read(stream, options));
       }
 
       // Push the enum to the array.
@@ -81,9 +83,11 @@ class Enums extends DataType {
   public static override write(
     stream: BinaryStream,
     value: Array<Enums>,
-    endian: Endianness,
-    enumValues: Array<string>
+    options?: PacketDataTypeOptions<Array<string>>
   ): void {
+    // Get the enum values from the options, if provided.
+    const enumValues = options?.parameter ?? [];
+
     // Write the number of enums.
     stream.writeVarInt(value.length);
 
@@ -108,7 +112,7 @@ class Enums extends DataType {
               : Uint32;
 
         // Write the value to the stream.
-        method.write(stream, value, endian);
+        method.write(stream, value, options);
       }
     }
   }

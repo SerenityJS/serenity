@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { RecipeIngredient } from "./recipe-ingredient";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class SmithingTrimRecipe extends DataType {
   /**

@@ -1,8 +1,9 @@
-import { type BinaryStream, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
-import { DataType } from "@serenityjs/raknet";
+import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 import { SHIELD_NETWORK_ID } from "../../constants";
+
 class ItemInstanceUserData extends DataType {
   /**
    * The NBT data for the item.
@@ -45,8 +46,7 @@ class ItemInstanceUserData extends DataType {
 
   public static read(
     stream: BinaryStream,
-    _endian: Endianness,
-    id: number
+    options?: PacketDataTypeOptions<number>
   ): ItemInstanceUserData {
     // Read the data marker.
     const marker = stream.readUint16(Endianness.Little);
@@ -110,7 +110,9 @@ class ItemInstanceUserData extends DataType {
 
     // Check if the item is a shield.
     const ticking =
-      id === SHIELD_NETWORK_ID ? stream.readInt64(Endianness.Little) : null;
+      options?.parameter === SHIELD_NETWORK_ID
+        ? stream.readInt64(Endianness.Little)
+        : null;
 
     // Return the instance.
     return new ItemInstanceUserData(nbt, canPlaceOn, canDestroy, ticking);
@@ -119,8 +121,7 @@ class ItemInstanceUserData extends DataType {
   public static write(
     stream: BinaryStream,
     value: ItemInstanceUserData,
-    _endian: Endianness,
-    id: number
+    options?: PacketDataTypeOptions<number>
   ): void {
     // Check if the nbt is null.
     if (value.nbt) {
@@ -158,7 +159,7 @@ class ItemInstanceUserData extends DataType {
     }
 
     // Check if the item is a shield.
-    if (id === SHIELD_NETWORK_ID) {
+    if (options?.parameter === SHIELD_NETWORK_ID) {
       stream.writeInt64(value.ticking ?? BigInt(0), Endianness.Little);
     }
   }

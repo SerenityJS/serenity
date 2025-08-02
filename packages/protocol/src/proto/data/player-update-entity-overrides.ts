@@ -11,7 +11,7 @@ class PlayerUpdateEntityOverridesPacket extends DataPacket {
   @Serialize(VarLong) public uniqueActorId!: bigint;
   @Serialize(VarInt) public propertyIndex!: number;
   @Serialize(Uint8) public updateType!: PlayerUpdateEntityOverridesType;
-  @Serialize(PlayerUpdateEntityOverridesValue, 0, "updateType")
+  @Serialize(PlayerUpdateEntityOverridesValue, { parameter: "updateType" })
   public value!: number | null;
 }
 

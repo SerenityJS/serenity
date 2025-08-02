@@ -40,7 +40,7 @@ class LevelChunkPacket extends DataPacket {
       }
     }
     this.writeVarInt(this.data.length);
-    this.writeBuffer(this.data);
+    this.write(this.data);
     return this.getBuffer();
   }
 
@@ -65,12 +65,12 @@ class LevelChunkPacket extends DataPacket {
 
       this.blobs = [];
       for (let index = 0; index < blobCount; index++) {
-        this.blobs.push(this.readLong(Endianness.Little));
+        this.blobs.push(this.readInt64(Endianness.Little));
       }
     }
 
     const dataLength = this.readVarInt();
-    this.data = this.readBuffer(dataLength);
+    this.data = this.read(dataLength);
     return this;
   }
 }

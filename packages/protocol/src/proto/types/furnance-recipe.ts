@@ -1,8 +1,6 @@
-import { DataType } from "@serenityjs/raknet";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
 
 class FurnanceRecipe extends DataType {
   /**

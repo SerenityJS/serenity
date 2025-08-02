@@ -1,7 +1,5 @@
-import { DataType } from "@serenityjs/raknet";
 import { CompoundTag } from "@serenityjs/nbt";
-
-import type { BinaryStream } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class NetworkBlockTypeDefinition extends DataType {
   /**
