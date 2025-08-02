@@ -7,15 +7,10 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { ResourcePack, Resources } from "../resources";
-import { TickSchedule } from "../world";
 import { Player } from "../entity";
 
 class ResourcePackChunkRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackChunkRequest;
-
-  public readonly queue = new Map<string, Array<number>>();
-
-  public schedule: TickSchedule | null = null;
 
   public handle(
     packet: ResourcePackChunkRequestPacket,
@@ -41,8 +36,12 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
     }
 
     // Check if we receive all the chunks for the pack
-    if (packet.chunkId >= pack.getChunkCount() - 1)
-      this.sendResourcePack(pack, player); // Start sending the resource pack
+    if (packet.chunkId >= pack.getChunkCount() - 1) {
+      // Schedule the next chunk to be sent
+      player.world
+        .schedule(this.serenity.resources.properties.chunkDownloadTimeout + 25) // Add a small delay to ensure the client has time to process the last chunk
+        .on(() => this.sendResourcePack(pack, player));
+    }
   }
 
   /**
