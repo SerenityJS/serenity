@@ -15,25 +15,21 @@ interface ResourceEntry {
 interface ResourcesProperties {
   path: string | null;
   mustAccept: boolean;
-  resources: Array<ResourceEntry>;
+  resources?: Array<ResourceEntry>;
   chunkDownloadTimeout: number;
+  chunkMaxSize: number;
 }
 
 const DefaultResourcesProperties: ResourcesProperties = {
   path: null,
   mustAccept: true,
-  resources: [],
-  chunkDownloadTimeout: 1
+  chunkDownloadTimeout: 1,
+  chunkMaxSize: 1024 * 64 // 256 KB
 };
 
 type FileMap<T = Buffer> = Record<string, T>;
 
 class Resources {
-  /**
-   * The maximum size of a resource chunk sent down the wire in bytes.
-   */
-  public static readonly MAX_CHUNK_SIZE = 1024 * 256;
-
   /**
    * The properties of the resources.
    */
@@ -142,4 +138,9 @@ class Resources {
   }
 }
 
-export { Resources, type ResourcesProperties, type FileMap };
+export {
+  Resources,
+  type ResourcesProperties,
+  type FileMap,
+  DefaultResourcesProperties
+};

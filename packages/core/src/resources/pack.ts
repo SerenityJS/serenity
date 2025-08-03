@@ -5,7 +5,7 @@ import { ResourcePackDescriptor } from "@serenityjs/protocol";
 
 import { ResourceManifest } from "../types";
 
-import { FileMap, Resources } from "./resources";
+import { FileMap } from "./resources";
 
 class ResourcePack {
   /**
@@ -138,31 +138,30 @@ class ResourcePack {
 
   /**
    * Get the amount of chunks that need to be sent to the client for this pack.
+   * @param maxChunkSize The maximum size of a chunk in bytes.
    * @returns The number of chunks.
    */
-  public getChunkCount(): number {
+  public getChunkCount(maxChunkSize: number): number {
     // Check if the cache is empty
     if (this.cache.length === 0) this.compress();
 
     // Calculate the number of chunks based on the size of the compressed data
-    return Math.ceil(this.cache.byteLength / Resources.MAX_CHUNK_SIZE);
+    return Math.ceil(this.cache.byteLength / maxChunkSize);
   }
 
   /**
    * Get the chunk data for a specific index.
    * @param index The index of the chunk.
+   * @param maxChunkSize The maximum size of a chunk in bytes.
    * @returns The chunk data as a Buffer.
    */
-  public getChunk(index: number): Buffer {
+  public getChunk(index: number, maxChunkSize: number): Buffer {
     // Check if the cache is empty
     if (this.cache.length === 0) this.compress();
 
     // Calculate the start and end of the chunk
-    const start = Resources.MAX_CHUNK_SIZE * index;
-    const end = Math.min(
-      start + Resources.MAX_CHUNK_SIZE,
-      this.cache.byteLength
-    );
+    const start = maxChunkSize * index;
+    const end = Math.min(start + maxChunkSize, this.cache.byteLength);
 
     // Return the chunk data
     return this.cache.subarray(start, end);

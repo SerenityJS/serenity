@@ -1,3 +1,5 @@
+import { maxHeaderSize } from "node:http";
+
 import {
   Packet,
   ResourcePackChunkDataPacket,
@@ -6,7 +8,7 @@ import {
 import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
-import { ResourcePack, Resources } from "../resources";
+import { ResourcePack } from "../resources";
 import { Player } from "../entity";
 
 class ResourcePackChunkRequestHandler extends NetworkHandler {
@@ -36,7 +38,7 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
     }
 
     // Check if we receive all the chunks for the pack
-    if (packet.chunkId >= pack.getChunkCount() - 1) {
+    if (packet.chunkId >= pack.getChunkCount(maxHeaderSize) - 1) {
       // Schedule the next chunk to be sent
       player.world
         .schedule(this.serenity.resources.properties.chunkDownloadTimeout + 25) // Add a small delay to ensure the client has time to process the last chunk
@@ -55,15 +57,18 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
     player: Player,
     chunk = 0
   ): Promise<void> {
+    // Get the maximum size of a chunk
+    const maxChunkSize = this.serenity.resources.properties.chunkMaxSize;
+
     // Check if we are done sending chunks
-    if (chunk >= pack.getChunkCount()) return;
+    if (chunk >= pack.getChunkCount(maxChunkSize)) return;
 
     // Create a new ResourcePackChunkDataPacket
     const chunkPacket = new ResourcePackChunkDataPacket();
     chunkPacket.packId = pack.uuid;
     chunkPacket.chunkId = chunk;
-    chunkPacket.byteOffset = BigInt(chunk * Resources.MAX_CHUNK_SIZE);
-    chunkPacket.chunkData = pack.getChunk(chunk);
+    chunkPacket.byteOffset = BigInt(chunk * maxChunkSize);
+    chunkPacket.chunkData = pack.getChunk(chunk, maxChunkSize);
 
     // Check if the player is still connected
     if (!this.serenity.players.has(player.connection)) return;
@@ -73,7 +78,7 @@ class ResourcePackChunkRequestHandler extends NetworkHandler {
 
     // Log the sending of the chunk
     this.serenity.logger.debug(
-      `Sending chunk ${chunk + 1}/${pack.getChunkCount()} for pack ${pack.uuid} to player ${player.username}`
+      `Sending chunk ${chunk + 1}/${pack.getChunkCount(maxChunkSize)} for pack ${pack.uuid} to player ${player.username}`
     );
 
     // Schedule the next chunk to be sent

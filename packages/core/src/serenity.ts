@@ -26,7 +26,7 @@ import { Player } from "./entity";
 import { ConsoleInterface, WorldEnum, CommandPalette } from "./commands";
 import { PermissionGroup, PermissionMember } from "./permissions";
 import { ServerEvent, ServerState } from "./enums";
-import { Resources } from "./resources";
+import { DefaultResourcesProperties, Resources } from "./resources";
 import { IPermissions } from "./types/permissions";
 import {
   Simulation,
@@ -45,11 +45,7 @@ import type {
 
 const DefaultSerenityProperties: SerenityProperties = {
   permissions: "./permissions.json",
-  resources: {
-    path: "./resource_packs",
-    mustAccept: true,
-    chunkDownloadTimeout: 1
-  },
+  resources: DefaultResourcesProperties,
   movementValidation: true,
   movementHorizontalThreshold: 0.4,
   movementVerticalThreshold: 0.6,

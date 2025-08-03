@@ -22,7 +22,6 @@ import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, ListTag } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
-import { Resources } from "../resources";
 import { EntityType } from "../entity";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
@@ -86,10 +85,13 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           // Create a new ResourcePackDataInfoPacket
           const information = new ResourcePackDataInfoPacket();
 
+          // Get the max chunk size
+          const maxChunkSize = this.serenity.resources.properties.chunkMaxSize;
+
           // Set the properties of the packet
           information.uuid = requested.uuid;
-          information.chunkSize = Resources.MAX_CHUNK_SIZE;
-          information.chunkCount = pack.getChunkCount();
+          information.chunkSize = maxChunkSize;
+          information.chunkCount = pack.getChunkCount(maxChunkSize);
           information.fileSize = BigInt(buffer.byteLength);
           information.fileHash = pack.generateHash();
           information.isPremium = false;

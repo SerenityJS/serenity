@@ -21,7 +21,6 @@ if (isMainThread) {
     path: "./properties.json",
     serenity: {
       permissions: "./permissions.json",
-      resources: "./resource_packs",
     },
   });
 
