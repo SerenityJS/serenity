@@ -9,6 +9,8 @@ import {
   ItemTypeDiggerComponent,
   ItemTypeDiggerComponentOptions,
   ItemTypeDisplayNameComponent,
+  ItemTypeDurabilityComponent,
+  ItemTypeDurabilityComponentOptions,
   ItemTypeFoodComponent,
   ItemTypeFoodComponentOptions,
   ItemTypeHandEquippedComponent,
@@ -644,6 +646,44 @@ class ItemTypeComponentCollection extends CompoundTag {
       if (options?.use_duration)
         // Set the use duration of the use modifiers component.
         component.setUseDuration(options.use_duration);
+    }
+  }
+
+  /**
+   * Get the durability component of the item type.
+   * @returns The durability component of the item type.
+   */
+  public getDurability(): ItemTypeComponent {
+    // Check if the durability component exists.
+    if (this.hasComponent(ItemTypeDurabilityComponent)) {
+      // Return the durability component.
+      return this.getComponent(ItemTypeDurabilityComponent);
+    } else {
+      // Add the durability component.
+      return this.addComponent(ItemTypeDurabilityComponent, {});
+    }
+  }
+
+  /**
+   * Set the durability component of the item type.
+   * @param options The options of the durability component.
+   */
+  public setDurability(
+    options?: Partial<ItemTypeDurabilityComponentOptions>
+  ): void {
+    // Check if the durability component exists.
+    if (!this.hasComponent(ItemTypeDurabilityComponent)) {
+      // Add the durability component.
+      this.addComponent(ItemTypeDurabilityComponent, options);
+    } else {
+      // Get the durability component
+      const component = this.getComponent(ItemTypeDurabilityComponent);
+
+      // Set the damage chance of the durability component.
+      component.setDamageChance(options?.damage_chance ?? { max: 0, min: 0 });
+
+      // Set the max durability of the durability component.
+      component.setMaxDurability(options?.max_durability ?? 0);
     }
   }
 }

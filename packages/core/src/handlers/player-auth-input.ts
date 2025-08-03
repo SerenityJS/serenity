@@ -635,6 +635,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
                   dropLoot: true
                 });
 
+                // Get the held item from the player
+                const stack = player.getHeldItem();
+
                 // Check if the block was not destroyed
                 if (!success) {
                   // Create a new UpdateBlockPacket for the block update
@@ -649,6 +652,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
                   // Send the packet to the player
                   return player.send(packet);
+                } else if (stack) {
+                  // Set the use method for the trait
+                  const method = ItemUseMethod.UseTool;
+
+                  // Call the item onUse trait methods
+                  stack.use(player, { method });
+
+                  // Create a new PlayerUseItemSignal
+                  new PlayerUseItemSignal(player, stack, method).emit();
                 }
               }
             });
@@ -826,13 +838,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
           // Get the item stack from the player
           const stack = player.itemTarget;
 
-          // Set the use method for the trait, predicted durability, and target block
+          // Set the use method for the trai
           const method = ItemUseMethod.UseTool;
-          const predictedDurability = request.predictedDurability;
-          const _targetBlock = block;
 
-          // Check if the predicted durability will equal the item stack durability
-          stack.use(player, { method, predictedDurability });
+          // Call the item onUse trait methods
+          stack.use(player, { method });
 
           // Create a new PlayerUseItemSignal
           new PlayerUseItemSignal(player, stack, method).emit();

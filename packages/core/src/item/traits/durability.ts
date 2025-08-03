@@ -1,8 +1,19 @@
 import { IntTag } from "@serenityjs/nbt";
-import { LevelSoundEvent, LevelSoundEventPacket } from "@serenityjs/protocol";
+import {
+  Enchantment,
+  ItemUseMethod,
+  LevelSoundEvent,
+  LevelSoundEventPacket
+} from "@serenityjs/protocol";
 
 import { ItemTypeToolTier } from "../../enums";
+import {
+  ItemTypeDurabilityComponent,
+  ItemTypeDurabilityDamageChance
+} from "../identity";
+import { ItemStackDamagedSignal } from "../../events";
 
+import { ItemStackEnchantableTrait } from "./enchantable";
 import { ItemStackTrait } from "./trait";
 
 import type { ItemStack } from "../stack";
@@ -12,23 +23,21 @@ import type { ItemStackUseOptions } from "../types";
 class ItemStackDurabilityTrait extends ItemStackTrait {
   public static readonly identifier = "durability";
   public static readonly tag = "minecraft:is_tool";
+  public static readonly component = ItemTypeDurabilityComponent;
 
   /**
-   * The maximum durability of the item stack.
+   * Creates a new instance of the item durability trait.
+   * @param item The item stack that this trait will be attached to.
    */
-  public maxDurability: number = 50;
-
-  /**
-   * The remaining durability of the item stack.
-   */
-  public get remainingDurability(): number {
-    return this.maxDurability - this.damage;
+  public constructor(item: ItemStack) {
+    super(item);
   }
 
   /**
-   * The amount of damage that the item stack has taken.
+   * Get the current damage of the item stack.
+   * @returns The current damage of the item stack.
    */
-  public get damage(): number {
+  public getDamage(): number {
     // Get the Damage tag from the item stack's NBT
     const damage = this.item.nbt.get<IntTag>("Damage");
 
@@ -37,39 +46,95 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
   }
 
   /**
-   * The amount of damage that the item stack has taken.
+   * Set the current damage of the item stack.
+   * @param value The new damage value to set for the item stack.
    */
-  public set damage(value: number) {
+  public setDamage(value: number): void {
     // Set the Damage tag on the item stack's NBT
     this.item.nbt.add(new IntTag(value, "Damage"));
   }
+  /**
+   * Get the maximum chance that this item would be damaged using the damageRange property, given an unbreaking enchantment level.
+   * @returns The damage chance of the item stack.
+   */
+  public getDamageChance(unbreakingEnchantmentLevel: number = 0): number {
+    // Prepare the base chance variable
+    let baseChance: number;
+
+    // Check if the item has a durability component
+    if (this.item.hasComponent(ItemTypeDurabilityComponent)) {
+      // Get the durability component from the item type
+      const component = this.item.getComponent(ItemTypeDurabilityComponent);
+
+      // Get the damage chance from the component
+      const { max, min } = component.getDamageChance();
+
+      // Chance should be a float between 0 and 1
+      baseChance = (Math.random() * (max - min) + min) / 10;
+    } else {
+      // If no durability component is set, return a default damage chance
+      baseChance = 1;
+    }
+
+    // Calculate the final damage chance based on the unbreaking enchantment level
+    const finalChance =
+      baseChance /
+      (Math.floor(Math.random() * (unbreakingEnchantmentLevel + 1)) + 1);
+
+    // Return the final damage chance
+    return finalChance;
+  }
 
   /**
-   * Creates a new instance of the item durability trait.
-   * @param item The item stack that this trait will be attached to.
+   * Get the damage chance range of the item stack.
+   * @note This value is determined by the item's durability component.
+   * @returns The damage chance range of the item stack.
    */
-  public constructor(item: ItemStack) {
-    super(item);
+  public getDamageChanceRange(): ItemTypeDurabilityDamageChance {
+    // Check if the item has a durability component
+    if (this.item.hasComponent(ItemTypeDurabilityComponent)) {
+      // Get the durability component from the item type
+      const component = this.item.getComponent(ItemTypeDurabilityComponent);
 
-    // Check for vanilla tool tiers and set the max durability
-    switch (item.type.getToolTier()) {
-      case ItemTypeToolTier.Wooden:
-        this.maxDurability = 59;
-        break;
-      case ItemTypeToolTier.Stone:
-        this.maxDurability = 131;
-        break;
-      case ItemTypeToolTier.Iron:
-        this.maxDurability = 250;
-        break;
-      case ItemTypeToolTier.Golden:
-        this.maxDurability = 32;
-        break;
-      case ItemTypeToolTier.Diamond:
-        this.maxDurability = 1561;
-        break;
-      case ItemTypeToolTier.Netherite:
-        this.maxDurability = 2031;
+      // Return the damage chance from the component
+      return component.getDamageChance();
+    } else {
+      // If no durability component is set, return a default damage chance range
+      return { max: 1, min: 1 };
+    }
+  }
+
+  /**
+   * Get the maximum durability of the item stack.
+   * @returns The maximum durability of the item stack.
+   */
+  public getMaxDurability(): number {
+    // Check if the item has a durability component
+    if (this.item.hasComponent(ItemTypeDurabilityComponent)) {
+      // Get the durability component from the item type
+      const component = this.item.getComponent(ItemTypeDurabilityComponent);
+
+      // Return the maximum durability from the component
+      return component.getMaxDurability();
+    } else {
+      // Check for vanilla tool tiers and return the max durability
+      switch (this.item.type.getToolTier()) {
+        default:
+        case ItemTypeToolTier.None:
+          return 25; // Default durability if no tier is set
+        case ItemTypeToolTier.Wooden:
+          return 59;
+        case ItemTypeToolTier.Stone:
+          return 131;
+        case ItemTypeToolTier.Iron:
+          return 250;
+        case ItemTypeToolTier.Golden:
+          return 32;
+        case ItemTypeToolTier.Diamond:
+          return 1561;
+        case ItemTypeToolTier.Netherite:
+          return 2031;
+      }
     }
   }
 
@@ -92,16 +157,48 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
   public onUse(
     player: Player,
     options: Partial<ItemStackUseOptions>
-  ): boolean | void {
-    // Check if a predicted durability was provided
-    if (options.predictedDurability === undefined) return;
+  ): void | boolean {
+    // Check if the use method is not canceled and is a tool use
+    if (options.canceled || options.method !== ItemUseMethod.UseTool) return;
 
-    // Check if the predicted durability is less than the current damage
-    if (options.predictedDurability === this.damage + 1)
-      this.damage = options.predictedDurability;
+    // Get the current damage of the item stack
+    const currentDamage = this.getDamage();
+
+    // Prepare a variable for the unbreaking level
+    let unbreakingLevel = 0;
+
+    // Check if the item stack has an enchantable trait
+    if (this.item.hasTrait(ItemStackEnchantableTrait)) {
+      // Get the unbreaking level from the enchantable trait
+      const trait = this.item.getTrait(ItemStackEnchantableTrait);
+
+      // Set the unbreaking level from the enchantment, defaulting to 0 if not found
+      unbreakingLevel = trait.getEnchantment(Enchantment.Unbreaking) ?? 0;
+    }
+
+    // Get the damage chance for the item stack using the unbreaking level
+    const damageChance = this.getDamageChance(unbreakingLevel);
+
+    // Determine if the item should lose durability
+    if (Math.random() < damageChance) {
+      // Create a new ItemStackDamagedSignal
+      const signal = new ItemStackDamagedSignal(this.item, this.getDamage(), 1);
+
+      // Emit the signal to notify that the item stack was damaged
+      const success = signal.emit();
+
+      // Check if the signal was canceled
+      if (!success) return false;
+
+      // Increment the current damage by the damage dealt
+      const newDamage = currentDamage + signal.durbabilityDamageDealt;
+
+      // Set the new damage value on the item stack
+      this.setDamage(newDamage);
+    }
 
     // Check if the item stack has reached its maximum durability
-    if (this.damage >= this.maxDurability) {
+    if (this.getDamage() >= this.getMaxDurability()) {
       // Create a new LevelSoundEventPacket for the item stack breaking
       const packet = new LevelSoundEventPacket();
       packet.event = LevelSoundEvent.Break;
@@ -117,6 +214,9 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
 
       // Decrement the item stack's amount
       this.item.decrementStack();
+
+      // Check if the item stack is empty after decrementing
+      if (this.item.stackSize > 0) this.setDamage(0); // Reset damage if still usable
     }
   }
 }

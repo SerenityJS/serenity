@@ -36,7 +36,8 @@ enum WorldEvent {
   PlayerClosedContainer,
   PlayerContainerInteraction,
   BlockUpdate,
-  BlockPermutationUpdate
+  BlockPermutationUpdate,
+  ItemStackDamaged
 }
 
 export { WorldEvent };

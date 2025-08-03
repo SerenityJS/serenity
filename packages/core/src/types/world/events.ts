@@ -37,7 +37,8 @@ import type {
   PlayerInitializedSignal,
   PlayerUseItemOnBlockSignal,
   PlayerUseItemOnEntitySignal,
-  BlockPermutationUpdateSignal
+  BlockPermutationUpdateSignal,
+  ItemStackDamagedSignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -79,6 +80,7 @@ interface WorldEventSignals {
   [WorldEvent.PlayerContainerInteraction]: [PlayerContainerInteractionSignal];
   [WorldEvent.BlockUpdate]: [];
   [WorldEvent.BlockPermutationUpdate]: [BlockPermutationUpdateSignal];
+  [WorldEvent.ItemStackDamaged]: [ItemStackDamagedSignal];
 }
 
 export { WorldEventSignals };
