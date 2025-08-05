@@ -24,17 +24,20 @@ class EntityHealthTrait extends EntityAttributeTrait {
     damager?: Entity,
     cause?: ActorDamageCause
   ): void {
+    // Create a new EntityHurtSignal
     const signal = new EntityHurtSignal(this.entity, amount, cause, damager);
 
+    // Emit the signal and check if it was cancelled
     if (!signal.emit()) return;
+
     // Calculate the new health value
-    this.currentValue -= amount;
+    this.currentValue -= signal.amount;
 
     // Create a new ActorEventPacket
     const packet = new ActorEventPacket();
     packet.actorRuntimeId = this.entity.runtimeId;
     packet.event = ActorEvent.Hurt;
-    packet.data = cause ?? ActorDamageCause.None;
+    packet.data = signal.cause ?? ActorDamageCause.None;
 
     // Broadcast the packet to all players
     this.entity.dimension.broadcast(packet);
@@ -42,7 +45,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
     // Check if the health is less than or equal to 0
     // If so, the entity is dead
     if (this.currentValue <= 0)
-      this.entity.kill({ killerSource: damager, damageCause: cause });
+      this.entity.kill({ killerSource: damager, damageCause: signal.cause });
   }
 
   public onAdd(): void {

@@ -11,6 +11,7 @@ import { ItemTypeHandEquippedComponent } from "./hand_equipped";
 import { ItemTypeFoodComponent } from "./food";
 import { ItemTypeUseModifiersComponent } from "./use-modifiers";
 import { ItemTypeDurabilityComponent } from "./durability";
+import { ItemTypeDamageComponent } from "./damage";
 
 const ItemTypeComponents = [
   ItemTypeCanDestroyInCreativeComponent,
@@ -25,7 +26,8 @@ const ItemTypeComponents = [
   ItemTypeHandEquippedComponent,
   ItemTypeFoodComponent,
   ItemTypeUseModifiersComponent,
-  ItemTypeDurabilityComponent
+  ItemTypeDurabilityComponent,
+  ItemTypeDamageComponent
 ];
 
 export * from "./component";
@@ -42,5 +44,6 @@ export * from "./hand_equipped";
 export * from "./food";
 export * from "./use-modifiers";
 export * from "./durability";
+export * from "./damage";
 
 export { ItemTypeComponents };

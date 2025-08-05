@@ -6,6 +6,7 @@ import {
   ItemTypeCanDestroyInCreativeComponent,
   ItemTypeCooldownComponent,
   ItemTypeCooldownComponentOptions,
+  ItemTypeDamageComponent,
   ItemTypeDiggerComponent,
   ItemTypeDiggerComponentOptions,
   ItemTypeDisplayNameComponent,
@@ -684,6 +685,45 @@ class ItemTypeComponentCollection extends CompoundTag {
 
       // Set the max durability of the durability component.
       component.setMaxDurability(options?.max_durability ?? 0);
+    }
+  }
+
+  /**
+   * Check if the item type has a damage component.
+   * @returns Whether the item type has a damage component.
+   */
+  public hasDamage(): boolean {
+    // Check if the damage component exists.
+    return this.hasComponent(ItemTypeDamageComponent);
+  }
+
+  /**
+   * Get the damage component of the item type.
+   * @returns The damage component of the item type.
+   */
+  public getDamage(): number {
+    // Check if the damage component exists.
+    if (this.hasComponent(ItemTypeDamageComponent)) {
+      // Return the damage value.
+      return this.getComponent(ItemTypeDamageComponent).getDamage();
+    }
+
+    // Return the default damage value.
+    return 1;
+  }
+
+  /**
+   * Set the damage component of the item type.
+   * @param value The damage value.
+   */
+  public setDamage(value: number): void {
+    // Check if the damage component exists.
+    if (!this.hasComponent(ItemTypeDamageComponent)) {
+      // Add the damage component.
+      this.addComponent(ItemTypeDamageComponent, value);
+    } else {
+      // Set the damage value.
+      this.getComponent(ItemTypeDamageComponent).setDamage(value);
     }
   }
 }

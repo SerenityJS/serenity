@@ -8,7 +8,6 @@ export * from "./food";
 export * from "./spawn-egg";
 export * from "./liquid-container";
 export * from "./weapon";
-export * from "./sword";
 export * from "./wearable";
 export * from "./shooter";
 export * from "./lock";

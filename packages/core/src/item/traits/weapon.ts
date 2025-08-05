@@ -1,6 +1,8 @@
 import { Enchantment } from "@serenityjs/protocol";
 
 import { ItemWeaponComponent } from "../../types";
+import { ItemTypeDamageComponent } from "../identity";
+import { ItemIdentifier, ItemTypeToolTier } from "../../enums";
 
 import { ItemStackEnchantableTrait } from "./enchantable";
 import { ItemStackTrait } from "./trait";
@@ -8,6 +10,21 @@ import { ItemStackTrait } from "./trait";
 class ItemStackWeaponTrait extends ItemStackTrait {
   public static readonly identifier = "weapon";
   public static readonly tag: string = "minecraft:is_weapon";
+  public static readonly component = ItemTypeDamageComponent;
+  public static readonly types = [
+    ItemIdentifier.WoodenSword,
+    ItemIdentifier.WoodenAxe,
+    ItemIdentifier.StoneSword,
+    ItemIdentifier.StoneAxe,
+    ItemIdentifier.IronSword,
+    ItemIdentifier.IronAxe,
+    ItemIdentifier.GoldenSword,
+    ItemIdentifier.GoldenAxe,
+    ItemIdentifier.DiamondSword,
+    ItemIdentifier.DiamondAxe,
+    ItemIdentifier.NetheriteSword,
+    ItemIdentifier.NetheriteAxe
+  ];
 
   /**
    * The weapon component data for the item.
@@ -50,12 +67,65 @@ class ItemStackWeaponTrait extends ItemStackTrait {
     // Create if the item does not have the component
     if (this.item.hasDynamicProperty(ItemStackWeaponTrait.identifier)) return;
 
+    // Prepare the base and critical damage values
+    let baseDamage = 2;
+    let criticalDamage = 3;
+
+    // Check if the item type has a damage component
+    if (this.item.hasComponent(ItemTypeDamageComponent)) {
+      // Get the damage component from the item type
+      const damage = this.item.getComponent(ItemTypeDamageComponent);
+
+      // Set the base and critical damage from the damage component
+      baseDamage = damage.getDamage();
+      criticalDamage = damage.getDamage() + 1;
+    } else {
+      // Switch based on the tier of the item
+      switch (this.item.type.getToolTier()) {
+        case ItemTypeToolTier.Wooden: {
+          baseDamage = 4;
+          criticalDamage = 6;
+          break;
+        }
+
+        case ItemTypeToolTier.Stone: {
+          baseDamage = 5;
+          criticalDamage = 7;
+          break;
+        }
+
+        case ItemTypeToolTier.Iron: {
+          baseDamage = 6;
+          criticalDamage = 8;
+          break;
+        }
+
+        case ItemTypeToolTier.Golden: {
+          baseDamage = 4;
+          criticalDamage = 6;
+          break;
+        }
+
+        case ItemTypeToolTier.Diamond: {
+          baseDamage = 7;
+          criticalDamage = 9;
+          break;
+        }
+
+        case ItemTypeToolTier.Netherite: {
+          baseDamage = 8;
+          criticalDamage = 10;
+          break;
+        }
+      }
+    }
+
     // Creata a new component for the item
     this.item.addDynamicProperty<ItemWeaponComponent>(
       ItemStackWeaponTrait.identifier,
       {
-        baseDamage: 2,
-        criticalDamage: 3
+        baseDamage,
+        criticalDamage
       }
     );
   }

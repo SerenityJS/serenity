@@ -19,25 +19,25 @@ class EntityHurtSignal extends EventSignal {
   public readonly damagingEntity?: Entity;
 
   /**
-   * The amount of damage dealed to the entity.
-   */
-  public readonly damage: number;
-
-  /**
    * The cause of the damage dealed to the entity
    */
-  public readonly cause?: ActorDamageCause;
+  public cause?: ActorDamageCause;
+
+  /**
+   * The amount of damage dealed to the entity.
+   */
+  public amount: number;
 
   public constructor(
     hurtEntity: Entity,
-    damage: number,
+    amount: number,
     cause?: ActorDamageCause,
     damagingEntity?: Entity
   ) {
     super(hurtEntity.world);
     this.hurtEntity = hurtEntity;
     this.damagingEntity = damagingEntity;
-    this.damage = damage;
+    this.amount = amount;
     this.cause = cause;
   }
 }
