@@ -133,6 +133,7 @@ import type {
   StartGamePacket,
   StopSoundPacket,
   StructureBlockUpdatePacket,
+  SubChunkPacket,
   SubChunkRequestPacket,
   SyncActorPropertyPacket,
   TakeItemActorPacket,
@@ -322,6 +323,7 @@ interface NetworkEvents {
   ];
   [Packet.UpdateTrade]: [NetworkPacketEvent<UpdateTradePacket>];
   [Packet.NpcDialogue]: [NetworkPacketEvent<NpcDialoguePacket>];
+  [Packet.SubChunk]: [NetworkPacketEvent<SubChunkPacket>];
   [Packet.SubChunkRequest]: [NetworkPacketEvent<SubChunkRequestPacket>];
   [Packet.ScriptMessage]: [NetworkPacketEvent<ScriptMessagePacket>];
   [Packet.RequestPermissions]: [NetworkPacketEvent<RequestPermissionsPacket>];

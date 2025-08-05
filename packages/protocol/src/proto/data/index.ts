@@ -136,6 +136,7 @@ export * from "./spawn-particle-effect";
 export * from "./start-game";
 export * from "./stop-sound";
 export * from "./structure-block-update";
+export * from "./subchunk";
 export * from "./subchunk-request";
 export * from "./sync-actor-property";
 export * from "./take-item-actor";

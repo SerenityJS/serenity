@@ -135,6 +135,7 @@ import { SpawnParticleEffectPacket } from "./spawn-particle-effect";
 import { StartGamePacket } from "./start-game";
 import { StopSoundPacket } from "./stop-sound";
 import { StructureBlockUpdatePacket } from "./structure-block-update";
+import { SubChunkPacket } from "./subchunk";
 import { SubChunkRequestPacket } from "./subchunk-request";
 import { SyncActorPropertyPacket } from "./sync-actor-property";
 import { TakeItemActorPacket } from "./take-item-actor";
@@ -277,6 +278,7 @@ const Packets = {
   [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169
   [Packet.UpdateSubchunkBlocks]: UpdateSubchunkBlocksPacket, // 172
+  [Packet.SubChunk]: SubChunkPacket, // 174
   [Packet.SubChunkRequest]: SubChunkRequestPacket,
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
   [Packet.ScriptMessage]: ScriptMessagePacket, // 177

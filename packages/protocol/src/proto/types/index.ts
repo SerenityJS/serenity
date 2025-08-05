@@ -130,6 +130,8 @@ export * from "./skin-persona-tint-piece";
 export * from "./structure-editor-data";
 export * from "./structure-settings";
 export * from "./subchunk-blocks";
+export * from "./subchunk-entry";
+export * from "./subchunk-entry-without-cache";
 export * from "./subchunk-requests";
 export * from "./subcommands";
 export * from "./teleport-cause";
@@ -143,4 +145,4 @@ export * from "./uuid";
 export * from "./variable-string-array";
 export * from "./vector2f";
 export * from "./vector3f";
-
+export * from "./vector3i";
