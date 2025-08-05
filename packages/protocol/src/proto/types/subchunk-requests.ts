@@ -13,12 +13,12 @@ export class SubChunkRequests extends DataType {
   }
 
   public static read(stream: BinaryStream): Array<SubChunkRequests> {
-    let requests: Array<SubChunkRequests> = [];
+    const requests: Array<SubChunkRequests> = [];
     const count = stream.readUint32(Endianness.Little);
     for (let i = 0; i < count; i++) {
       requests.push(new SubChunkRequests(
-        stream.readInt8(), 
-        stream.readInt8(), 
+        stream.readInt8(),
+        stream.readInt8(),
         stream.readInt8())
       );
     }
