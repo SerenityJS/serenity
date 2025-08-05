@@ -131,6 +131,7 @@ export * from "./structure-editor-data";
 export * from "./structure-settings";
 export * from "./subchunk-blocks";
 export * from "./subchunk-entry";
+export * from "./subchunk-entry-with-cache";
 export * from "./subchunk-entry-without-cache";
 export * from "./subchunk-requests";
 export * from "./subcommands";
