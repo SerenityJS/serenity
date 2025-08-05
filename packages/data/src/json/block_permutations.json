@@ -38396,6 +38396,34 @@
     }
   },
   {
+    "identifier": "minecraft:copper_chest",
+    "hash": -1655334147,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_chest",
+    "hash": 1415168726,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_chest",
+    "hash": -327497521,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_chest",
+    "hash": -939955404,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:copper_door",
     "hash": -245914351,
     "state": {
@@ -59445,6 +59473,34 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chest",
+    "hash": -1395830354,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chest",
+    "hash": -1679379457,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chest",
+    "hash": 987437688,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chest",
+    "hash": 526176197,
+    "state": {
+      "minecraft:cardinal_direction": "east"
     }
   },
   {
@@ -90193,6 +90249,34 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chest",
+    "hash": 1456752037,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chest",
+    "hash": -81893266,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chest",
+    "hash": -1538055545,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chest",
+    "hash": -1066251444,
+    "state": {
+      "minecraft:cardinal_direction": "east"
     }
   },
   {
@@ -139226,6 +139310,34 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_copper_chest",
+    "hash": 1455197165,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_chest",
+    "hash": 322492582,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_chest",
+    "hash": -1874727137,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_chest",
+    "hash": -1802041372,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:waxed_copper_door",
     "hash": -1349928671,
     "state": {
@@ -139831,6 +139943,34 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chest",
+    "hash": -1890892130,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chest",
+    "hash": 1510085775,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chest",
+    "hash": -500711928,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chest",
+    "hash": 275364469,
+    "state": {
+      "minecraft:cardinal_direction": "east"
     }
   },
   {
@@ -140442,6 +140582,34 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_oxidized_copper_chest",
+    "hash": 951216869,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chest",
+    "hash": -674110546,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chest",
+    "hash": 1084588487,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chest",
+    "hash": -491680628,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_copper_door",
     "hash": 309906281,
     "state": {
@@ -141050,6 +141218,34 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_weathered_copper_chest",
+    "hash": -1984259271,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chest",
+    "hash": 764532058,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chest",
+    "hash": 998383803,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chest",
+    "hash": -1228087696,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:waxed_weathered_copper_door",
     "hash": 257631597,
     "state": {
@@ -141655,6 +141851,34 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chest",
+    "hash": 404145537,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chest",
+    "hash": 852883890,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chest",
+    "hash": -710286221,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chest",
+    "hash": -1186976024,
+    "state": {
+      "minecraft:cardinal_direction": "east"
     }
   },
   {

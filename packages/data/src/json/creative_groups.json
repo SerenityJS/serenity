@@ -571,6 +571,11 @@
   },
   {
     "category": 4,
+    "name": "",
+    "icon": "minecraft:air"
+  },
+  {
+    "category": 4,
     "name": "itemGroup.name.chemistrytable",
     "icon": "minecraft:lab_table"
   },

@@ -124,6 +124,7 @@ enum ActorFlag {
   Collidable = 121,
   WASDAirControlled = 122,
   DoesServerAuthOnlyDismount = 123,
+  BodyRotationAlwaysFollowsHead = 124,
   Count
 }
 

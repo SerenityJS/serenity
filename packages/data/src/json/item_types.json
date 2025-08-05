@@ -1,22 +1,7 @@
 [
   {
-    "identifier": "minecraft:scaffolding",
+    "identifier": "minecraft:air",
     "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:cyan_dye",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:stripped_pale_oak_wood",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
-    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -41,6 +26,27 @@
   {
     "identifier": "minecraft:acacia_fence_gate",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cyan_dye",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:scaffolding",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:stripped_pale_oak_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1097,6 +1103,12 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:mossy_stone_brick_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:oak_chest_boat",
     "tags": [
       "minecraft:boat",
@@ -1119,12 +1131,6 @@
     "tags": [
       "minecraft:planks"
     ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:mossy_stone_brick_slab",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2095,13 +2101,13 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:brick_wall",
+    "identifier": "minecraft:sugar",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:sugar",
+    "identifier": "minecraft:brick_wall",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -2444,6 +2450,17 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:copper_hoe",
+    "tags": [
+      "minecraft:digger",
+      "minecraft:is_hoe",
+      "minecraft:is_tool",
+      "minecraft:copper_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:dark_oak_wood",
     "tags": [
       "minecraft:logs",
@@ -2603,6 +2620,12 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:wheat",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:dark_oak_door",
     "tags": [
       "minecraft:door"
@@ -2626,12 +2649,6 @@
   },
   {
     "identifier": "minecraft:element_46",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:wheat",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -2834,20 +2851,6 @@
   {
     "identifier": "minecraft:waxed_exposed_cut_copper",
     "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:ladder",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:chiseled_stone_bricks",
-    "tags": [
-      "minecraft:stone_bricks"
-    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3098,6 +3101,30 @@
   {
     "identifier": "minecraft:polished_diorite_slab",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:prismarine_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_boots",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:copper_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:iron_door",
+    "tags": [
+      "minecraft:door"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3366,12 +3393,6 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:emerald_ore",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:birch_leaves",
     "tags": [],
     "stackable": true,
@@ -3452,6 +3473,35 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:exposed_copper_chest",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_egg",
+    "tags": [
+      "minecraft:egg"
+    ],
+    "stackable": true,
+    "maxAmount": 16
+  },
+  {
+    "identifier": "minecraft:pale_oak_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:blue_glazed_terracotta",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:nether_gold_ore",
     "tags": [],
     "stackable": true,
@@ -3467,6 +3517,12 @@
     ],
     "stackable": false,
     "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chest",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
   },
   {
     "identifier": "minecraft:lime_bundle",
@@ -3703,20 +3759,6 @@
   {
     "identifier": "minecraft:bone_meal",
     "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:prismarine_stairs",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:iron_door",
-    "tags": [
-      "minecraft:door"
-    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4086,6 +4128,17 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:copper_pickaxe",
+    "tags": [
+      "minecraft:digger",
+      "minecraft:is_pickaxe",
+      "minecraft:is_tool",
+      "minecraft:copper_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:gold_ore",
     "tags": [],
     "stackable": true,
@@ -4240,6 +4293,16 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:copper_chestplate",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:copper_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:resin_block",
     "tags": [],
     "stackable": true,
@@ -4316,6 +4379,14 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:dark_oak_sign",
+    "tags": [
+      "minecraft:sign"
+    ],
+    "stackable": true,
+    "maxAmount": 16
+  },
+  {
     "identifier": "minecraft:cobblestone",
     "tags": [
       "minecraft:stone_crafting_materials",
@@ -4323,14 +4394,6 @@
     ],
     "stackable": true,
     "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:dark_oak_sign",
-    "tags": [
-      "minecraft:sign"
-    ],
-    "stackable": true,
-    "maxAmount": 16
   },
   {
     "identifier": "minecraft:moss_carpet",
@@ -4345,16 +4408,16 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:calcite",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:strider_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
     ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:calcite",
+    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4502,6 +4565,21 @@
   },
   {
     "identifier": "minecraft:deepslate_brick_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:blackstone",
+    "tags": [
+      "minecraft:stone_crafting_materials",
+      "minecraft:stone_tool_materials"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chest",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -4910,7 +4988,7 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:element_43",
+    "identifier": "minecraft:hay_block",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -4922,7 +5000,7 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:hay_block",
+    "identifier": "minecraft:element_43",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5182,6 +5260,16 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:copper_sword",
+    "tags": [
+      "minecraft:is_sword",
+      "minecraft:is_tool",
+      "minecraft:copper_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_copper_door",
     "tags": [
       "minecraft:door"
@@ -5264,6 +5352,18 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:cut_sandstone_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chest",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:purple_bundle",
     "tags": [],
     "stackable": false,
@@ -5310,15 +5410,6 @@
   {
     "identifier": "minecraft:element_42",
     "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:blackstone",
-    "tags": [
-      "minecraft:stone_crafting_materials",
-      "minecraft:stone_tool_materials"
-    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5400,6 +5491,12 @@
   },
   {
     "identifier": "minecraft:acacia_pressure_plate",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_chest",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5503,12 +5600,6 @@
   },
   {
     "identifier": "minecraft:element_95",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:cut_sandstone_slab",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5622,6 +5713,16 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_leggings",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:copper_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:purple_stained_glass",
@@ -5884,6 +5985,20 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:ladder",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:chiseled_stone_bricks",
+    "tags": [
+      "minecraft:stone_bricks"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:hard_cyan_stained_glass_pane",
     "tags": [],
     "stackable": true,
@@ -5908,6 +6023,12 @@
     ],
     "stackable": false,
     "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:emerald_ore",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
   },
   {
     "identifier": "minecraft:brick_block",
@@ -6086,12 +6207,6 @@
     "tags": [
       "minecraft:wooden_slabs"
     ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:poisonous_potato",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6602,10 +6717,24 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:waxed_copper_chest",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:obsidian",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:music_disc_lava_chicken",
+    "tags": [
+      "minecraft:music_disc"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:kelp",
@@ -6705,29 +6834,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:brown_egg",
-    "tags": [
-      "minecraft:egg"
-    ],
-    "stackable": true,
-    "maxAmount": 16
-  },
-  {
-    "identifier": "minecraft:pale_oak_wood",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:blue_glazed_terracotta",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:dolphin_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
@@ -6794,6 +6900,16 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_helmet",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:copper_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:deepslate_coal_ore",
@@ -6926,6 +7042,14 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:copper_golem_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:structure_void",
     "tags": [],
     "stackable": true,
@@ -6974,6 +7098,12 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:waxed_weathered_copper_chest",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:honeycomb_block",
     "tags": [],
     "stackable": true,
@@ -7010,6 +7140,12 @@
     "tags": [
       "minecraft:vibration_damper"
     ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chest",
+    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7934,12 +8070,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:petrified_oak_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:netherite_leggings",
     "tags": [
       "minecraft:is_armor",
@@ -8159,6 +8289,17 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:copper_axe",
+    "tags": [
+      "minecraft:digger",
+      "minecraft:is_axe",
+      "minecraft:is_tool",
+      "minecraft:copper_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:stripped_dark_oak_wood",
     "tags": [
       "minecraft:logs",
@@ -8271,6 +8412,18 @@
   },
   {
     "identifier": "minecraft:melon_seeds",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:petrified_oak_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poisonous_potato",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -8789,22 +8942,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:armadillo_scute",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:chainmail_boots",
-    "tags": [
-      "minecraft:is_armor",
-      "minecraft:chainmail_tier",
-      "minecraft:trimmable_armors"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
     "identifier": "minecraft:mutton",
     "tags": [
       "minecraft:is_food",
@@ -9018,6 +9155,12 @@
     "tags": [
       "minecraft:spawn_egg"
     ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_nugget",
+    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9291,6 +9434,22 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:armadillo_scute",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:chainmail_boots",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:chainmail_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:golden_boots",
     "tags": [
       "minecraft:is_armor",
@@ -9449,6 +9608,17 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:copper_shovel",
+    "tags": [
+      "minecraft:digger",
+      "minecraft:is_shovel",
+      "minecraft:is_tool",
+      "minecraft:copper_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:golden_hoe",
     "tags": [
       "minecraft:digger",
@@ -9524,14 +9694,82 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:white_bundle",
+    "tags": [],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:dragon_breath",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:white_bundle",
+    "identifier": "minecraft:light_gray_harness",
+    "tags": [
+      "minecraft:harness"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:nether_star",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_harness",
+    "tags": [
+      "minecraft:harness"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:yellow_harness",
+    "tags": [
+      "minecraft:harness"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:green_harness",
+    "tags": [
+      "minecraft:harness"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:music_disc_cat",
+    "tags": [
+      "minecraft:music_disc"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:spyglass",
+    "tags": [],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:blue_harness",
+    "tags": [
+      "minecraft:harness"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:magenta_harness",
+    "tags": [
+      "minecraft:harness"
+    ],
     "stackable": false,
     "maxAmount": 1
   },
@@ -9615,74 +9853,6 @@
   {
     "identifier": "minecraft:potion",
     "tags": [],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:music_disc_cat",
-    "tags": [
-      "minecraft:music_disc"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:blue_harness",
-    "tags": [
-      "minecraft:harness"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:spyglass",
-    "tags": [],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:light_gray_harness",
-    "tags": [
-      "minecraft:harness"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:nether_star",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:brown_harness",
-    "tags": [
-      "minecraft:harness"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:yellow_harness",
-    "tags": [
-      "minecraft:harness"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:green_harness",
-    "tags": [
-      "minecraft:harness"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:magenta_harness",
-    "tags": [
-      "minecraft:harness"
-    ],
     "stackable": false,
     "maxAmount": 1
   },
@@ -9933,6 +10103,14 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:music_disc_tears",
+    "tags": [
+      "minecraft:music_disc"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:danger_pottery_sherd",
     "tags": [
       "minecraft:decorated_pot_sherds"
@@ -10153,18 +10331,6 @@
     ],
     "stackable": false,
     "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:lodestone_compass",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:air",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 255
   },
   {
     "identifier": "minecraft:firework_rocket",
@@ -10502,13 +10668,19 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:border_block",
+    "identifier": "minecraft:lodestone_compass",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:light_block_2",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:border_block",
     "tags": [],
     "stackable": true,
     "maxAmount": 64

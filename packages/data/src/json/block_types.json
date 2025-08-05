@@ -2882,6 +2882,24 @@
     ]
   },
   {
+    "identifier": "minecraft:copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:copper_door",
     "components": [],
     "tags": [
@@ -5936,6 +5954,24 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
     ]
   },
   {
@@ -9717,6 +9753,24 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
     ]
   },
   {
@@ -14274,6 +14328,24 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_copper_door",
     "components": [],
     "tags": [
@@ -14421,6 +14493,24 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_exposed_copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_exposed_copper_door",
     "components": [],
     "tags": [
@@ -14565,6 +14655,24 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
     ]
   },
   {
@@ -14717,6 +14825,24 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_weathered_copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_weathered_copper_door",
     "components": [],
     "tags": [
@@ -14861,6 +14987,24 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chest",
+    "components": [
+      "minecraft:inventory"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "stone_pick_diggable",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
     ]
   },
   {
