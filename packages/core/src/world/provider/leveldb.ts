@@ -81,41 +81,50 @@ class LevelDBProvider extends WorldProvider {
   }
 
   public onStartup(): void {
-    // Pregenerate the dimensions for the world.
-    for (const [, dimension] of this.world.dimensions) {
-      // Get the spawn position of the dimension.
-      const sx = dimension.properties.spawnPosition[0] >> 4;
-      const sz = dimension.properties.spawnPosition[2] >> 4;
+    // Schedule the world to be ready after 80 ticks.
+    const schedule = this.world.schedule(80);
 
-      // Get the view distance of the dimension.
-      const viewDistance = dimension.viewDistance;
+    // Create a new method to hold the pregeneration logic.
+    const pregenerate = () => {
+      // Pregenerate the dimensions for the world.
+      for (const [, dimension] of this.world.dimensions) {
+        // Get the spawn position of the dimension.
+        const sx = dimension.properties.spawnPosition[0] >> 4;
+        const sz = dimension.properties.spawnPosition[2] >> 4;
 
-      // Prepare the amount of chunks to pregenerate.
-      let chunkCount: number = 0;
+        // Get the view distance of the dimension.
+        const viewDistance = dimension.viewDistance;
 
-      // Iterate through the chunks to pregenerate.
-      for (let x = sx - viewDistance; x <= sx + viewDistance; x++) {
-        for (let z = sz - viewDistance; z <= sz + viewDistance; z++) {
-          // Create a new chunk instance.
-          const chunk = new Chunk(x, z, dimension.type);
+        // Prepare the amount of chunks to pregenerate.
+        let chunkCount: number = 0;
 
-          // Read the chunk from the filesystem.
-          this.readChunk(chunk, dimension);
+        // Iterate through the chunks to pregenerate.
+        for (let x = sx - viewDistance; x <= sx + viewDistance; x++) {
+          for (let z = sz - viewDistance; z <= sz + viewDistance; z++) {
+            // Create a new chunk instance.
+            const chunk = new Chunk(x, z, dimension.type);
 
-          // Increment the count of pregenerated chunks.
-          chunkCount++;
+            // Read the chunk from the filesystem.
+            this.readChunk(chunk, dimension);
+
+            // Increment the count of pregenerated chunks.
+            chunkCount++;
+          }
         }
+
+        // Get the amount of entities and blocks in the dimension.
+        const entityCount = dimension.entities.size;
+        const blockCount = dimension.blocks.size;
+
+        // Log the amount of chunks to pregenerate.
+        this.world.logger.info(
+          `Successfully pre-generated §u${chunkCount}§r chunks for dimension §u${dimension.identifier}§r which contains §u${entityCount}§r entities and §u${blockCount}§r blocks.`
+        );
       }
+    };
 
-      // Get the amount of entities and blocks in the dimension.
-      const entityCount = dimension.entities.size;
-      const blockCount = dimension.blocks.size;
-
-      // Log the amount of chunks to pregenerate.
-      this.world.logger.info(
-        `Successfully pre-generated §u${chunkCount}§r chunks for dimension §u${dimension.identifier}§r which contains §u${entityCount}§r entities and §u${blockCount}§r blocks.`
-      );
-    }
+    // Call the pregenerate method immediately.
+    schedule.on(pregenerate);
   }
 
   public onSave(): void {

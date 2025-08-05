@@ -13,7 +13,7 @@ interface ResourceEntry {
 }
 
 interface ResourcesProperties {
-  path: string | null;
+  path?: string;
   mustAccept: boolean;
   resources?: Array<ResourceEntry>;
   chunkDownloadTimeout: number;
@@ -21,7 +21,7 @@ interface ResourcesProperties {
 }
 
 const DefaultResourcesProperties: ResourcesProperties = {
-  path: null,
+  path: "./resource_packs",
   mustAccept: true,
   chunkDownloadTimeout: 1,
   chunkMaxSize: 1024 * 64 // 256 KB

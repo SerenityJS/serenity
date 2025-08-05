@@ -58,7 +58,7 @@ class ResourcePack {
    * The UUID of the resource pack.
    */
   public get uuid(): string {
-    return this.manifest.header.uuid;
+    return this.manifest.header.uuid.toLowerCase();
   }
 
   /**
