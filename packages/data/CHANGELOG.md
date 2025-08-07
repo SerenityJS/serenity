@@ -1,5 +1,11 @@
 # @serenityjs/data
 
+## 0.8.7
+
+### Patch Changes
+
+- [`2c0fbcd`](https://github.com/SerenityJS/serenity/commit/2c0fbcdd354a70ea2839ed1bc2214b148de2c18a) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.7-beta
+
 ## 0.8.6
 
 ### Patch Changes
