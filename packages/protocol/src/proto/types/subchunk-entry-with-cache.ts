@@ -1,10 +1,12 @@
 import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
+
 import { HeightMapDataType, SubChunkResult } from "../../enums";
+
 import { Vector3i } from "./vector3i";
 
 export class SubChunkEntryWithCache extends DataType {
   public offset: Vector3i;
-  public result: SubChunkResult
+  public result: SubChunkResult;
   public payload: Buffer | null;
   public heightMap: HeightMapDataType;
   public heightMapData: Buffer | null = null;
@@ -12,7 +14,7 @@ export class SubChunkEntryWithCache extends DataType {
   public renderHeightMapData: Buffer | null = null;
   public blobId: bigint = 0n;
 
-  constructor(
+  public constructor(
     offset: Vector3i,
     result: SubChunkResult,
     payload: Buffer | null,
@@ -24,7 +26,7 @@ export class SubChunkEntryWithCache extends DataType {
   ) {
     super();
     this.offset = offset;
-    this.result = result
+    this.result = result;
     this.payload = payload;
     this.heightMap = heightMap;
     this.heightMapData = heightMapData;
@@ -59,8 +61,19 @@ export class SubChunkEntryWithCache extends DataType {
       }
 
       const blobId = stream.readUint64(Endianness.Little);
-      entries.push(new SubChunkEntryWithCache(offset, result, payload, heightMap, heightMapData, renderHeightMap, renderHeightMapData, blobId));
+      entries.push(
+        new SubChunkEntryWithCache(
+          offset,
+          result,
+          payload,
+          heightMap,
+          heightMapData,
+          renderHeightMap,
+          renderHeightMapData,
+          blobId
+        )
+      );
     }
     return entries;
   }
-};
+}

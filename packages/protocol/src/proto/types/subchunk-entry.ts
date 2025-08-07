@@ -1,6 +1,8 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 import { PacketDataTypeOptions } from "@serenityjs/raknet";
+
 import { SubChunkPacket } from "../data";
+
 import { SubChunkEntryWithCache } from "./subchunk-entry-with-cache";
 import { SubChunkEntryWithoutCache } from "./subchunk-entry-without-cache";
 
@@ -17,5 +19,4 @@ export class SubChunkEntry extends DataType {
     }
     return null;
   }
-
 }

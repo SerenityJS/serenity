@@ -1,7 +1,9 @@
 import { ZigZag } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
+
 import { DimensionType, Packet } from "../../enums";
 import { SignedBlockPosition, SubChunkRequests } from "../types";
+
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.SubChunkRequest)
