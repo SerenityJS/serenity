@@ -6,12 +6,12 @@ class TickSchedule {
   /**
    * The amount of ticks to wait before the schedule is complete.
    */
-  public readonly scheduledTick: bigint;
+  public scheduledTick: bigint;
 
   /**
    * The tick at which the schedule will be complete.
    */
-  public readonly completeTick: bigint;
+  public completeTick: bigint;
 
   /**
    * The callbacks to call when the schedule is complete.

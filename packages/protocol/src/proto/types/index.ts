@@ -142,3 +142,4 @@ export * from "./player-update-entity-overrides-value";
 export * from "./script-debug-shape";
 export * from "./uuid";
 export * from "./byte-array";
+export * from "./resource-packs-client-request";
