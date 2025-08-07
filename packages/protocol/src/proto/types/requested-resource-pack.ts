@@ -1,4 +1,4 @@
-import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class RequestedResourcePack extends DataType {
   /**
@@ -22,45 +22,26 @@ class RequestedResourcePack extends DataType {
     this.version = version;
   }
 
-  public static read(stream: BinaryStream): Array<RequestedResourcePack> {
-    // Prepare an array to store the packs.
-    const packs: Array<RequestedResourcePack> = [];
+  public static read(stream: BinaryStream): RequestedResourcePack {
+    // Read the pack entry from the stream.
+    const entry = stream.readVarString();
 
-    // Read the number of packs.
-    const amount = stream.readUint16(Endianness.Little);
+    // Split the entry into uuid and version.
+    const [uuid, version] = entry.split("_") as [string, string];
 
-    // We then loop through the amount of packs.
-    // Reading the individual fields in the stream.
-    for (let index = 0; index < amount; index++) {
-      // Read the pack entry from the stream.
-      const entry = stream.readVarString();
-
-      // Split the entry into uuid and version.
-      const [uuid, version] = entry.split("_") as [string, string];
-
-      // Push the pack to the array.
-      packs.push(new this(uuid, version));
-    }
-
-    // Return the packs.
-    return packs;
+    // Return a new instance of RequestedResourcePack with the uuid and version.
+    return new this(uuid, version);
   }
 
   public static write(
     stream: BinaryStream,
-    value: Array<RequestedResourcePack>
+    value: RequestedResourcePack
   ): void {
-    // Write the number of packs given in the array.
-    stream.writeUint16(value.length, Endianness.Little);
+    // Create the entry string.
+    const entry = `${value.uuid}_${value.version}`;
 
-    // Loop through each pack and write its data to the stream.
-    for (const pack of value) {
-      // Create the entry string.
-      const entry = `${pack.uuid}_${pack.version}`;
-
-      // Write the entry to the stream.
-      stream.writeVarString(entry);
-    }
+    // Write the entry to the stream.
+    stream.writeVarString(entry);
   }
 }
 

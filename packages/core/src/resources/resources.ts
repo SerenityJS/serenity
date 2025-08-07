@@ -24,7 +24,7 @@ const DefaultResourcesProperties: ResourcesProperties = {
   path: "./resource_packs",
   mustAccept: true,
   chunkDownloadTimeout: 1,
-  chunkMaxSize: 1024 * 64 // 256 KB
+  chunkMaxSize: 1024 * 256
 };
 
 type FileMap<T = Buffer> = Record<string, T>;

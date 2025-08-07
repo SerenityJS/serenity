@@ -9,6 +9,12 @@ import { FileMap } from "./resources";
 
 class ResourcePack {
   /**
+   * The information about the resource pack.
+   */
+  public static packInformation: string =
+    "This resource pack was downloaded from a SerenityJS server.\nFor more information, visit https://serenityjs.net";
+
+  /**
    * The path to the main directory of the resource pack.
    */
   public readonly path: string;
@@ -45,6 +51,9 @@ class ResourcePack {
 
     // If the file tree is not provided, create an empty object
     this.fileTree = fileTree ?? {};
+
+    // Set the pack information file in the file tree
+    this.setFile("serenityjs", Buffer.from(ResourcePack.packInformation));
   }
 
   /**
@@ -177,6 +186,14 @@ class ResourcePack {
 
     // Create a hash of the compressed data
     return createHash("sha256").update(this.cache).digest();
+  }
+
+  public getSize(): number {
+    // Check if the cache is empty
+    if (this.cache.length === 0) this.compress();
+
+    // Return the size of the compressed data
+    return this.cache.byteLength;
   }
 
   public getDescriptor(): ResourcePackDescriptor {

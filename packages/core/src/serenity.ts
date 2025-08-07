@@ -385,7 +385,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       player.world.provider.writePlayer(player.getLevelStorage());
 
       // Disconnect the player from the server
-      player.disconnect("Server closed.", DisconnectReason.Shutdown);
+      player.disconnect("Server closed.", DisconnectReason.Disconnected);
     }
 
     // Shutdown all world providers
