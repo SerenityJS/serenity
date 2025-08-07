@@ -125,6 +125,8 @@ enum Packet {
   SyncActorProperty = 0xa5, // 165
   NpcDialogue = 0xa9, // 169
   UpdateSubchunkBlocks = 0xac, // 172
+  SubChunk = 0xae, // 174
+  SubChunkRequest = 0xaf, // 175
   PlayerStartItemCooldown = 0xb0, // 176
   ScriptMessage = 0xb1, // 177
   DimensionData = 0xb4, // 180
