@@ -13,7 +13,6 @@ export * from "./block-update";
 export * from "./book-actions";
 export * from "./boss-event-add";
 export * from "./boss-event-update";
-export * from "./byte-array";
 export * from "./camera-fade-duration";
 export * from "./camera-instruction-fade";
 export * from "./camera-instruction-set";
