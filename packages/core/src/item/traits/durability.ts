@@ -1,6 +1,7 @@
 import { IntTag } from "@serenityjs/nbt";
 import {
   Enchantment,
+  Gamemode,
   ItemUseMethod,
   LevelSoundEvent,
   LevelSoundEventPacket
@@ -18,7 +19,10 @@ import { ItemStackTrait } from "./trait";
 
 import type { ItemStack } from "../stack";
 import type { Player } from "../../entity";
-import type { ItemStackUseOptions } from "../types";
+import type {
+  ItemStackUseOnEntityOptions,
+  ItemStackUseOptions
+} from "../types";
 
 class ItemStackDurabilityTrait extends ItemStackTrait {
   public static readonly identifier = "durability";
@@ -154,6 +158,20 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
     this.item.nbt.delete("Damage");
   }
 
+  public onUseOnEntity(
+    player: Player,
+    options: ItemStackUseOnEntityOptions
+  ): void | boolean {
+    // Check if the use method is not canceled and is a tool use
+    if (options.canceled || options.method !== ItemUseMethod.Attack) return;
+
+    // Check if the player is in creative mode
+    if (player.gamemode === Gamemode.Creative) return;
+
+    // Process the damage for the item stack
+    return this.processDamage(player);
+  }
+
   public onUse(
     player: Player,
     options: Partial<ItemStackUseOptions>
@@ -161,6 +179,18 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
     // Check if the use method is not canceled and is a tool use
     if (options.canceled || options.method !== ItemUseMethod.UseTool) return;
 
+    // Check if the player is in creative mode
+    if (player.gamemode === Gamemode.Creative) return;
+
+    // Process the damage for the item stack
+    return this.processDamage(player);
+  }
+
+  /**
+   * Process the damage for the item stack.
+   * @param player The player that is using the item stack.
+   */
+  protected processDamage(player: Player): void | boolean {
     // Get the current damage of the item stack
     const currentDamage = this.getDamage();
 

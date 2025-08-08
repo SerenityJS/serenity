@@ -10,11 +10,6 @@ interface ItemStackUseOptions {
   method: ItemUseMethod;
 
   /**
-   * The predicted amount of durability used during the use of the item.
-   */
-  predictedDurability?: number | null;
-
-  /**
    * Whether the use of the item was canceled.
    */
   canceled?: boolean;
