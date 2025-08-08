@@ -21,16 +21,19 @@ class ItemStackTrait extends Trait {
   public static readonly types: Array<ItemIdentifier | string> = [];
 
   /**
-   * The item tag that this trait is compatible with by default.
+   * The item tag(s) that this trait is compatible with by default.
    * If null, the trait will not attach to any item stack by default.
    */
-  public static readonly tag: string | null = null;
+  public static readonly tag: string | Array<string> | null = null;
 
   /**
-   * The item component that this trait is compatible with by default.
+   * The item component(s) that this trait is compatible with by default.
    * If null, the trait will not attach to any item stack by default.
    */
-  public static readonly component: typeof ItemTypeComponent | null = null;
+  public static readonly component:
+    | typeof ItemTypeComponent
+    | Array<typeof ItemTypeComponent>
+    | null = null;
 
   /**
    * The item stack that this trait is attached to.

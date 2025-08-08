@@ -115,17 +115,42 @@ class ItemPalette {
         }
 
         // Check if the trait has a tag and the item type has the tag.
-        else if (trait.tag && type.hasTag(trait.tag)) {
-          // Register the trait to the item type.
-          type.registerTrait(trait);
+        else if (trait.tag) {
+          // Check if the trait tag is a string or an array.
+          if (typeof trait.tag === "string") {
+            // Check if the item type has the tag.
+            if (type.hasTag(trait.tag)) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
+          } else {
+            // Check if the item type has any of the tags.
+            if (trait.tag.some((tag) => type.hasTag(tag))) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
+          }
         }
 
         // Check if the trait has components, and the item type has the components.
         else if (trait.component) {
-          // Check if the item type has the component.
-          if (type.components.hasComponent(trait.component)) {
-            // Register the trait to the item type.
-            type.registerTrait(trait);
+          // Check if the trait component is a object or an array.
+          if (typeof trait.component === "function") {
+            // Check if the item type has the component.
+            if (type.components.hasComponent(trait.component)) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
+          } else {
+            // Check if the item type has any of the components.
+            if (
+              trait.component.some((component) =>
+                type.components.hasComponent(component)
+              )
+            ) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
           }
         }
       }
@@ -158,17 +183,39 @@ class ItemPalette {
         }
 
         // Check if the trait has a tag and the item type has the tag.
-        else if (trait.tag && type.hasTag(trait.tag)) {
-          // Register the trait to the item type.
-          type.registerTrait(trait);
+        else if (trait.tag) {
+          // Check if the trait tag is a string or an array.
+          if (typeof trait.tag === "string") {
+            // Register the trait to the item type.
+            type.registerTrait(trait);
+          } else {
+            // Check if the item type has any of the tags.
+            if (trait.tag.some((tag) => type.hasTag(tag))) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
+          }
         }
 
         // Check if the trait has components and the item type has the components.
         else if (trait.component) {
-          // Check if the item type has the component.
-          if (type.components.hasComponent(trait.component)) {
-            // Register the trait to the item type.
-            type.registerTrait(trait);
+          // Check if the trait component is a object or an array.
+          if (typeof trait.component === "function") {
+            // Check if the item type has the component.
+            if (type.components.hasComponent(trait.component)) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
+          } else {
+            // Check if the item type has any of the components.
+            if (
+              trait.component.some((component) =>
+                type.components.hasComponent(component)
+              )
+            ) {
+              // Register the trait to the item type.
+              type.registerTrait(trait);
+            }
           }
         }
       }

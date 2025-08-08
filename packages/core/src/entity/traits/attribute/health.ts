@@ -8,7 +8,9 @@ import {
 import { EntityIdentifier } from "../../../enums";
 import { EntityHurtSignal } from "../../../events";
 import { Entity } from "../../entity";
-import { EntitySpawnOptions } from "../../..";
+import { EntityEquipmentTrait } from "../equipment";
+import { EntitySpawnOptions } from "../../../types";
+import { ItemStackDurabilityTrait } from "../../../item";
 
 import { EntityAttributeTrait } from "./attribute";
 
@@ -41,6 +43,27 @@ class EntityHealthTrait extends EntityAttributeTrait {
 
     // Broadcast the packet to all players
     this.entity.dimension.broadcast(packet);
+
+    // Check if the entity has a EntityEquipmentTrait
+    if (this.entity.hasTrait(EntityEquipmentTrait)) {
+      // Get the EntityEquipmentTrait
+      const equipment = this.entity.getTrait(EntityEquipmentTrait);
+
+      // Iterate through the armor storage and process durability for each item stack
+      for (const itemStack of equipment.armor.storage) {
+        // Check if the item stack is not null
+        if (!itemStack) continue;
+
+        // Check if the item stack has a durability trait
+        if (itemStack.hasTrait(ItemStackDurabilityTrait)) {
+          // Get the durability trait
+          const durabilityTrait = itemStack.getTrait(ItemStackDurabilityTrait);
+
+          // Process the damage for the item stack
+          durabilityTrait.processDamage(this.entity);
+        }
+      }
+    }
 
     // Check if the health is less than or equal to 0
     // If so, the entity is dead

@@ -18,7 +18,7 @@ import { ItemStackEnchantableTrait } from "./enchantable";
 import { ItemStackTrait } from "./trait";
 
 import type { ItemStack } from "../stack";
-import type { Player } from "../../entity";
+import type { Entity, Player } from "../../entity";
 import type {
   ItemStackUseOnEntityOptions,
   ItemStackUseOptions
@@ -26,7 +26,7 @@ import type {
 
 class ItemStackDurabilityTrait extends ItemStackTrait {
   public static readonly identifier = "durability";
-  public static readonly tag = "minecraft:is_tool";
+  public static readonly tag = ["minecraft:is_tool", "minecraft:is_armor"];
   public static readonly component = ItemTypeDurabilityComponent;
 
   /**
@@ -188,9 +188,9 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
 
   /**
    * Process the damage for the item stack.
-   * @param player The player that is using the item stack.
+   * @param entity The entity that owns the item stack.
    */
-  protected processDamage(player: Player): void | boolean {
+  public processDamage(entity: Entity): void | boolean {
     // Get the current damage of the item stack
     const currentDamage = this.getDamage();
 
@@ -232,15 +232,15 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
       // Create a new LevelSoundEventPacket for the item stack breaking
       const packet = new LevelSoundEventPacket();
       packet.event = LevelSoundEvent.Break;
-      packet.position = player.position;
+      packet.position = entity.position;
       packet.actorIdentifier = this.item.identifier;
       packet.data = -1;
       packet.isBabyMob = false;
       packet.isGlobal = false;
       packet.uniqueActorId = -1n;
 
-      // Broadcast the sound event packet to the player's dimension
-      player.dimension.broadcast(packet);
+      // Broadcast the sound event packet to the entity's dimension
+      entity.dimension.broadcast(packet);
 
       // Decrement the item stack's amount
       this.item.decrementStack();
