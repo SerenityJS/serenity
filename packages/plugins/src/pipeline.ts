@@ -178,6 +178,9 @@ class Pipeline {
           // Get the plugin class from the module
           const plugin = module.default as Plugin;
 
+          // Link the module to the pipeline
+          this.linkModule(plugin.identifier, module);
+
           // Check if the plugin has already been loaded
           if (this.plugins.has(plugin.identifier)) {
             this.logger.warn(
@@ -286,6 +289,9 @@ class Pipeline {
 
         // Get the plugin class from the module
         const plugin = module.default as Plugin;
+
+        // Link the module to the pipeline
+        this.linkModule(plugin.identifier, module);
 
         // Check if the plugin has already been loaded
         if (this.plugins.has(plugin.identifier)) {
@@ -526,6 +532,32 @@ class Pipeline {
           this.serenity.after(index, value.bind(plugin) as () => void);
       }
     }
+  }
+
+  /**
+   * Link a module to the pipeline.
+   * @param name The name of the module to link.
+   * @param module The module to link.
+   */
+  public linkModule(name: string, module: unknown): void {
+    // Get the runtime of the server
+    const isBun = process.versions.bun === undefined ? false : true;
+
+    // Module linking is only supported in Bun
+    if (!isBun) return;
+
+    // Inject the module into the Bun plugin system
+    Bun.plugin({
+      name: `serenityjs.plugin.${name}`,
+      setup(builder) {
+        builder.module(name, () => {
+          return {
+            exports: module as Record<string, unknown>,
+            loader: "object"
+          };
+        });
+      }
+    });
   }
 }
 
