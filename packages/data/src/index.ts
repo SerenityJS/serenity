@@ -9,6 +9,8 @@ import ToolTypes from "./json/tool_types.json";
 import EntityTypes from "./json/entity_types.json";
 import CreativeGroups from "./json/creative_groups.json";
 import CreativeContent from "./json/creative_content.json";
+import ShapelessRecipes from "./json/shapeless.json";
+import ShapedRecipes from "./json/shaped.json";
 import CraftingData from "./bin/crafting_data.json";
 import BiomeDefinitions from "./bin/biome_definitions.json";
 
@@ -24,6 +26,8 @@ const TOOL_TYPES = ToolTypes;
 const ENTITY_TYPES = EntityTypes;
 const CREATIVE_GROUPS = CreativeGroups;
 const CREATIVE_CONTENT = CreativeContent;
+const SHAPELESS_RECIPES = ShapelessRecipes;
+const SHAPED_RECIPES = ShapedRecipes;
 
 // Buffer data
 const CRAFTING_DATA = Buffer.from(CraftingData.base64, "base64");
@@ -41,6 +45,8 @@ export {
   ENTITY_TYPES,
   CREATIVE_GROUPS,
   CREATIVE_CONTENT,
+  SHAPELESS_RECIPES,
+  SHAPED_RECIPES,
   CRAFTING_DATA,
   BIOME_DEFINITIONS
 };

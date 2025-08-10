@@ -2,7 +2,8 @@ import { CompoundTag, IntTag, ListTag, StringTag } from "@serenityjs/nbt";
 import {
   CreativeItemCategory,
   CreativeItemGroup,
-  NetworkItemInstanceDescriptor
+  NetworkItemInstanceDescriptor,
+  NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
 import { ITEM_METADATA, ITEM_TYPES } from "@serenityjs/data";
@@ -21,6 +22,8 @@ class ItemType {
    * A collective registry of all item types.
    */
   public static readonly types = new Map<string, ItemType>();
+
+  public static AIR: ItemType;
 
   // Register all the item types.
   static {
@@ -77,6 +80,9 @@ class ItemType {
       // Add the item type to the map.
       this.types.set(instance.identifier, instance);
     }
+
+    // Set the AIR item type.
+    this.AIR = this.types.get("minecraft:air")!;
   }
 
   /**
@@ -469,7 +475,7 @@ class ItemType {
    * @param type The item type to convert.
    * @param stackSize The stack size of the item type, default 1.
    * @param nbt The NBT of the item type, default null.
-   * @returns
+   * @returns The network item instance descriptor.
    */
   public static toNetworkInstance(
     type: ItemType,
@@ -499,6 +505,23 @@ class ItemType {
         canPlaceOn: [],
         nbt
       }
+    };
+  }
+
+  /**
+   * Converts the item type to a network item stack descriptor.
+   * @note Method is used on the protocol level.
+   * @param type The item type to convert.
+   * @returns The network item stack descriptor.
+   */
+  public static toNetworkStack(type: ItemType): NetworkItemStackDescriptor {
+    // Get network item instance descriptor.
+    const instance = ItemType.toNetworkInstance(type);
+
+    // Return the item stack descriptor.
+    return {
+      ...instance,
+      stackNetId: null // TODO: Implement stackNetId, this is so that the server can track the item stack.
     };
   }
 }

@@ -11,44 +11,28 @@ import { ShapedRecipe } from "./shaped-recipe";
 import { SmithingTrimRecipe } from "./smithing-trim-recipe";
 import { UserDataShapelessRecipe } from "./user-data-shapeless-recipe";
 
+type CraftingDataEntryRecipe =
+  | ShapelessRecipe
+  | ShapedRecipe
+  | FurnanceRecipe
+  | FurnanceAuxRecipe
+  | MultiRecipe
+  | UserDataShapelessRecipe
+  | ShapelessRecipe
+  | SmithingTransformRecipe
+  | SmithingTrimRecipe;
+
 class CraftingDataEntry extends DataType {
   public readonly type: CraftingDataEntryType;
-  public readonly shapeless: ShapelessRecipe | null;
-  public readonly shaped: ShapedRecipe | null;
-  public readonly furnace: FurnanceRecipe | null;
-  public readonly furnaceAux: FurnanceAuxRecipe | null;
-  public readonly multi: MultiRecipe | null;
-  public readonly userDataShapeless: UserDataShapelessRecipe | null;
-  public readonly shapelessChemistry: ShapelessRecipe | null;
-  public readonly shapedChemistry: ShapedRecipe | null;
-  public readonly smithingTransform: SmithingTransformRecipe | null;
-  public readonly smithingTrim: SmithingTrimRecipe | null;
+  public readonly recipe: CraftingDataEntryRecipe;
 
   public constructor(
     type: CraftingDataEntryType,
-    shapeless: ShapelessRecipe | null,
-    shaped: ShapedRecipe | null,
-    furnace: FurnanceRecipe | null,
-    furnaceAux: FurnanceAuxRecipe | null,
-    multi: MultiRecipe | null,
-    userDataShapeless: UserDataShapelessRecipe | null,
-    shapelessChemistry: ShapelessRecipe | null,
-    shapedChemistry: ShapedRecipe | null,
-    smithingTransform: SmithingTransformRecipe | null,
-    smithingTrim: SmithingTrimRecipe | null
+    recipe: CraftingDataEntryRecipe
   ) {
     super();
     this.type = type;
-    this.shapeless = shapeless;
-    this.shaped = shaped;
-    this.furnace = furnace;
-    this.furnaceAux = furnaceAux;
-    this.multi = multi;
-    this.userDataShapeless = userDataShapeless;
-    this.shapelessChemistry = shapelessChemistry;
-    this.shapedChemistry = shapedChemistry;
-    this.smithingTransform = smithingTransform;
-    this.smithingTrim = smithingTrim;
+    this.recipe = recipe;
   }
 
   public static read(stream: BinaryStream): Array<CraftingDataEntry> {
@@ -63,17 +47,8 @@ class CraftingDataEntry extends DataType {
       // Read the type of the entry.
       const type = stream.readZigZag() as CraftingDataEntryType;
 
-      // Prepare the variables to store the recipes.
-      let shapeless: ShapelessRecipe | null = null;
-      let shaped: ShapedRecipe | null = null;
-      let furnace: FurnanceRecipe | null = null;
-      let furnaceAux: FurnanceAuxRecipe | null = null;
-      let multi: MultiRecipe | null = null;
-      let userDataShapeless: UserDataShapelessRecipe | null = null;
-      let shapelessChemistry: ShapelessRecipe | null = null;
-      let shapedChemistry: ShapedRecipe | null = null;
-      let smithingTransform: SmithingTransformRecipe | null = null;
-      let smithingTrim: SmithingTrimRecipe | null = null;
+      // Prepare the variables to store the recipe.
+      let recipe: CraftingDataEntryRecipe;
 
       // Read the recipe based on the type.
       switch (type) {
@@ -84,70 +59,58 @@ class CraftingDataEntry extends DataType {
         }
 
         case CraftingDataEntryType.ShapelessRecipe: {
-          shapeless = ShapelessRecipe.read(stream);
+          recipe = ShapelessRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.ShapedRecipe: {
-          shaped = ShapedRecipe.read(stream);
+          recipe = ShapedRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.FurnaceRecipe: {
-          furnace = FurnanceRecipe.read(stream);
+          recipe = FurnanceRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.FurnaceAuxRecipe: {
-          furnaceAux = FurnanceAuxRecipe.read(stream);
+          recipe = FurnanceAuxRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.MultiRecipe: {
-          multi = MultiRecipe.read(stream);
+          recipe = MultiRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.UserDataShapelessRecipe: {
-          userDataShapeless = ShapelessRecipe.read(stream);
+          recipe = ShapelessRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.ShapelessChemistryRecipe: {
-          shapelessChemistry = ShapelessRecipe.read(stream);
+          recipe = ShapelessRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.ShapedChemistryRecipe: {
-          shapedChemistry = ShapedRecipe.read(stream);
+          recipe = ShapedRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.SmithingTransformRecipe: {
-          smithingTransform = SmithingTransformRecipe.read(stream);
+          recipe = SmithingTransformRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.SmithingTrimRecipe: {
-          smithingTrim = SmithingTrimRecipe.read(stream);
+          recipe = SmithingTrimRecipe.read(stream);
           break;
         }
       }
 
       // Create the crafting data entry.
-      const entry = new this(
-        type,
-        shapeless,
-        shaped,
-        furnace,
-        furnaceAux,
-        multi,
-        userDataShapeless,
-        shapelessChemistry,
-        shapedChemistry,
-        smithingTransform,
-        smithingTrim
-      );
+      const entry = new this(type, recipe);
 
       // Push the entry to the entries array.
       entries.push(entry);
@@ -176,67 +139,55 @@ class CraftingDataEntry extends DataType {
         }
 
         case CraftingDataEntryType.ShapelessRecipe: {
-          ShapelessRecipe.write(stream, entry.shapeless as ShapelessRecipe);
+          ShapelessRecipe.write(stream, entry.recipe as ShapelessRecipe);
           break;
         }
 
         case CraftingDataEntryType.ShapedRecipe: {
-          ShapedRecipe.write(stream, entry.shaped as ShapedRecipe);
+          ShapedRecipe.write(stream, entry.recipe as ShapedRecipe);
           break;
         }
 
         case CraftingDataEntryType.FurnaceRecipe: {
-          FurnanceRecipe.write(stream, entry.furnace as FurnanceRecipe);
+          FurnanceRecipe.write(stream, entry.recipe as FurnanceRecipe);
           break;
         }
 
         case CraftingDataEntryType.FurnaceAuxRecipe: {
-          FurnanceAuxRecipe.write(
-            stream,
-            entry.furnaceAux as FurnanceAuxRecipe
-          );
+          FurnanceAuxRecipe.write(stream, entry.recipe as FurnanceAuxRecipe);
           break;
         }
 
         case CraftingDataEntryType.MultiRecipe: {
-          MultiRecipe.write(stream, entry.multi as MultiRecipe);
+          MultiRecipe.write(stream, entry.recipe as MultiRecipe);
           break;
         }
 
         case CraftingDataEntryType.UserDataShapelessRecipe: {
-          ShapelessRecipe.write(
-            stream,
-            entry.userDataShapeless as ShapelessRecipe
-          );
+          ShapelessRecipe.write(stream, entry.recipe as ShapelessRecipe);
           break;
         }
 
         case CraftingDataEntryType.ShapelessChemistryRecipe: {
-          ShapelessRecipe.write(
-            stream,
-            entry.shapelessChemistry as ShapelessRecipe
-          );
+          ShapelessRecipe.write(stream, entry.recipe as ShapelessRecipe);
           break;
         }
 
         case CraftingDataEntryType.ShapedChemistryRecipe: {
-          ShapedRecipe.write(stream, entry.shapedChemistry as ShapedRecipe);
+          ShapedRecipe.write(stream, entry.recipe as ShapedRecipe);
           break;
         }
 
         case CraftingDataEntryType.SmithingTransformRecipe: {
           SmithingTransformRecipe.write(
             stream,
-            entry.smithingTransform as SmithingTransformRecipe
+            entry.recipe as SmithingTransformRecipe
           );
           break;
         }
 
         case CraftingDataEntryType.SmithingTrimRecipe: {
-          SmithingTrimRecipe.write(
-            stream,
-            entry.smithingTrim as SmithingTrimRecipe
-          );
+          SmithingTrimRecipe.write(stream, entry.recipe as SmithingTrimRecipe);
           break;
         }
       }

@@ -5,6 +5,7 @@ import { ItemIdentifier } from "../enums";
 
 import { CustomItemType, ItemType } from "./identity";
 import { CreateContentGroup, CreativeItemDescriptor } from "./creative";
+import { Recipe } from "./recipes";
 
 import { ItemStackTraits } from "./index";
 
@@ -26,6 +27,11 @@ class ItemPalette {
    * The registered item traits for the palette.
    */
   public readonly traits = new Map<string, typeof ItemStackTrait>();
+
+  /**
+   * The registered recipes for the palette.
+   */
+  public readonly recipes = Recipe.recipes;
 
   public constructor() {
     // Register all item traits.
@@ -115,14 +121,11 @@ class ItemPalette {
         }
 
         // Check if the trait has a tag and the item type has the tag.
-        else if (trait.tag) {
+        if (trait.tag) {
           // Check if the trait tag is a string or an array.
           if (typeof trait.tag === "string") {
             // Check if the item type has the tag.
-            if (type.hasTag(trait.tag)) {
-              // Register the trait to the item type.
-              type.registerTrait(trait);
-            }
+            if (type.hasTag(trait.tag)) type.registerTrait(trait);
           } else {
             // Check if the item type has any of the tags.
             if (trait.tag.some((tag) => type.hasTag(tag))) {
@@ -133,7 +136,7 @@ class ItemPalette {
         }
 
         // Check if the trait has components, and the item type has the components.
-        else if (trait.component) {
+        if (trait.component) {
           // Check if the trait component is a object or an array.
           if (typeof trait.component === "function") {
             // Check if the item type has the component.
@@ -183,11 +186,11 @@ class ItemPalette {
         }
 
         // Check if the trait has a tag and the item type has the tag.
-        else if (trait.tag) {
+        if (trait.tag) {
           // Check if the trait tag is a string or an array.
           if (typeof trait.tag === "string") {
             // Register the trait to the item type.
-            type.registerTrait(trait);
+            if (type.hasTag(trait.tag)) type.registerTrait(trait);
           } else {
             // Check if the item type has any of the tags.
             if (trait.tag.some((tag) => type.hasTag(tag))) {
@@ -198,7 +201,7 @@ class ItemPalette {
         }
 
         // Check if the trait has components and the item type has the components.
-        else if (trait.component) {
+        if (trait.component) {
           // Check if the trait component is a object or an array.
           if (typeof trait.component === "function") {
             // Check if the item type has the component.
@@ -402,6 +405,44 @@ class ItemPalette {
 
     // Add the item to the creative content group.
     contentGroup.registerItem(type);
+  }
+
+  /**
+   * Register a recipe to the palette.
+   * @param recipe The recipe to register.
+   */
+  public registerRecipe(recipe: Recipe): void {
+    // Check if the recipe is already registered.
+    if (this.recipes.has(recipe.identifier)) return;
+
+    // Register the recipe.
+    this.recipes.set(recipe.identifier, recipe);
+  }
+
+  /**
+   * Unregister a recipe from the palette.
+   * @param recipe The recipe to unregister.
+   */
+  public unregisterRecipe(recipe: Recipe): void {
+    // Check if the recipe is registered.
+    if (!this.recipes.has(recipe.identifier)) return;
+
+    // Unregister the recipe.
+    this.recipes.delete(recipe.identifier);
+  }
+
+  /**
+   * Get a recipe by its network ID.
+   * @param networkId The network ID of the recipe to get.
+   * @returns The recipe with the specified network ID, or null if not found.
+   */
+  public getRecipeByNetworkId(networkId: number): Recipe | null {
+    // Find the recipe with the specified network ID.
+    return (
+      [...this.recipes.values()].find(
+        (recipe) => recipe.recipeNetworkId === networkId
+      ) ?? null
+    );
   }
 }
 

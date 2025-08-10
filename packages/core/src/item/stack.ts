@@ -893,6 +893,24 @@ class ItemStack {
   }
 
   /**
+   * Creates a new item stack from another item stack.
+   * @param other The other item stack to copy from.
+   * @returns A new item stack instance with the same properties as the other item stack.
+   */
+  public static from(other: ItemStack): ItemStack {
+    // Create a new item stack from the other item stack.
+    const itemStack = new ItemStack(other.type, {
+      stackSize: other.stackSize,
+      metadata: other.metadata,
+      world: other.world,
+      storage: other.getLevelStorage()
+    });
+
+    // Return the new item stack.
+    return itemStack;
+  }
+
+  /**
    * Converts a network item instance descriptor to an item stack.
    * @param descriptor The network item instance descriptor.
    * @returns The item stack.

@@ -78,7 +78,7 @@ class BlockTypeCraftingTableComponent extends BlockTypeComponent {
    */
   public setCraftingTags(value: Array<string>): void {
     // Set the crafting tags of the crafting table
-    const tags = new ListTag<StringTag>([], "crafting_tag");
+    const tags = new ListTag<StringTag>([], "crafting_tags");
 
     // Set the crafting tags of the crafting table
     for (const tagValue of value) tags.push(new StringTag(tagValue));

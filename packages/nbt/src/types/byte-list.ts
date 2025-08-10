@@ -33,7 +33,7 @@ class ByteListTag extends Array<number> implements BaseTag {
 
   public toJSON(): Array<number> {
     // Convert the byte list to a JSON array.
-    return this.map((value) => value.valueOf());
+    return this.map((value) => value?.valueOf() ?? 0);
   }
 
   public static read(

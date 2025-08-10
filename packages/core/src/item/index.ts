@@ -5,6 +5,7 @@ export * from "./traits";
 export * from "./stack";
 export * from "./types";
 export * from "./storage";
+export * from "./recipes";
 
 import * as Traits from "./traits";
 

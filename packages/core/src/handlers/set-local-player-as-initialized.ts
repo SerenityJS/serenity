@@ -43,7 +43,7 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
     // Send the player the crafting data
     player.send(
-      SetLocalPlayerAsInitializedHandler.CraftingData,
+      // SetLocalPlayerAsInitializedHandler.CraftingData,
       SetLocalPlayerAsInitializedHandler.BiomeDefinitions
     );
 

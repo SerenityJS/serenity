@@ -7,8 +7,8 @@ import {
 } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "../network";
-import { ItemStack } from "../item";
-import { EntityInventoryTrait, PlayerCursorTrait } from "../entity";
+import { ItemStack, ItemType } from "../item";
+import { PlayerCraftingInputTrait, PlayerCursorTrait } from "../entity";
 import { PlayerContainerInteractionSignal } from "../events";
 
 class ItemStackRequestHandler extends NetworkHandler {
@@ -34,10 +34,6 @@ class ItemStackRequestHandler extends NetworkHandler {
 
           // Get the amount of items to take or place.
           const amount = request.amount ?? 1;
-
-          // Check if the source type is a creative output.
-          if (sourceContainer.identifier === ContainerName.CreativeOutput)
-            break;
 
           // Fetch the source container from the player.
           const source = player.getContainer(
@@ -68,6 +64,49 @@ class ItemStackRequestHandler extends NetworkHandler {
 
           // Get the destination slot
           const destinationSlot = request.destination.slot % destination.size;
+
+          // Check if the source type is a creative output.
+          if (sourceContainer.identifier === ContainerName.CreativeOutput) {
+            // Get the player's crafting input trait.
+            const craftingInput = player.getTrait(PlayerCraftingInputTrait);
+
+            // Check if the crafting input exists.
+            if (
+              craftingInput?.pendingCraftingRecipe &&
+              craftingInput.pendingCraftingAmount
+            ) {
+              // Get the recipe from the crafting input.
+              const recipe = craftingInput.pendingCraftingRecipe;
+              const amount = craftingInput.pendingCraftingAmount;
+
+              // Iterate over the resultants of the recipe.
+              for (const item of recipe.resultants) {
+                // Check if the item is an ItemType.
+                if (item instanceof ItemType) {
+                  // Convert the ItemType to an ItemStack.
+                  const itemStack = new ItemStack(item, { stackSize: amount });
+
+                  // Add the item stack to the player's inventory.
+                  destination?.setItem(destinationSlot, itemStack);
+                } else {
+                  // Copy the item stack and set the stack size.
+                  const itemStack = ItemStack.from(item);
+
+                  // Get the current stack size and multiply it by the amount.
+                  itemStack.setStackSize(itemStack.stackSize * amount);
+
+                  // Add the item stack to the player's inventory.
+                  destination?.setItem(destinationSlot, itemStack);
+                }
+              }
+
+              // Clear the pending crafting recipe and amount.
+              craftingInput.pendingCraftingRecipe = null;
+              craftingInput.pendingCraftingAmount = null;
+            }
+
+            continue;
+          }
 
           // Create a new PlayerContainerInteractionSignal.
           const signal = new PlayerContainerInteractionSignal(
@@ -237,82 +276,48 @@ class ItemStackRequestHandler extends NetworkHandler {
         // Check if the action is a destroy or consume action.
         if (action.destroyOrConsume) {
           // Get the request.
-          const request = action.destroyOrConsume;
+          const { source, amount } = action.destroyOrConsume;
 
-          // Get the source.
-          const source = request.source;
-          if (!source) continue;
+          // Get the source container.
+          const container = player.getContainer(source.container.identifier);
 
-          // Check if the source is the cursor.
-          if (source.container.identifier === ContainerName.Cursor) {
-            // Get the cursor component.
-            const cursor = player.getTrait(PlayerCursorTrait);
+          // Check if the container exists.
+          if (!container) continue;
 
-            // Clear the cursor.
-            cursor.container.clearSlot(0);
-          } else {
-            // Get the inventory component
-            const inventory = player.getTrait(EntityInventoryTrait);
+          // Calculate the source slot.
+          const slot = source.slot % container.size;
 
-            // Get the source slot.
-            const slot = source.slot % inventory.container.size;
+          // Get the item from the container.
+          const item = container.getItem(slot);
 
-            // Clear the source.
-            inventory.container.clearSlot(slot);
-          }
+          // Check if the item exists.
+          if (item) item.decrementStack(amount);
         }
 
         if (action.craftRecipe) {
-          // Get the item instance action.
-          const itemInstanceAction = _request
-            .actions[1] as ItemStackRequestAction;
+          // Get the craft recipe action.
+          const { recipeId, amount } = action.craftRecipe;
 
-          // Check if the item instance action exists.
-          if (!itemInstanceAction.resultsDeprecated)
-            throw new Error("Invalid item instance action.");
+          // Get the recipe from the player's item palette.
+          const recipe =
+            player.world.itemPalette.getRecipeByNetworkId(recipeId);
 
-          // Get the items being crafted.
-          const descriptors = itemInstanceAction.resultsDeprecated.resultants;
-
-          // Get the destination action.
-          const destinationAction = _request.actions.at(
-            -1
-          ) as ItemStackRequestAction;
-
-          // Check if the destination action exists.
-          if (!destinationAction.takeOrPlace)
-            throw new Error("Invalid destination action.");
-
-          // Get the destination.
-          const destination = player.getContainer(
-            destinationAction.takeOrPlace.destination.container.identifier
-          );
-
-          // Check if the destination exists.
-          if (!destination)
+          // Check if the recipe exists.
+          if (!recipe)
             throw new Error(
-              `Invalid destination: ${destinationAction.takeOrPlace.destination.container.identifier}`
+              `Invalid recipe: ${recipeId} for player ${player.username}`
             );
 
-          // Add the items to the destination.
-          for (const descriptor of descriptors) {
-            // Convert the descriptor to an item stack.
-            const itemStack = ItemStack.fromNetworkInstance(descriptor);
+          // Get the players crafting input trait.
+          const craftingInput = player.getTrait(PlayerCraftingInputTrait);
 
-            // Check if the item stack exists
-            if (!itemStack)
-              throw new Error(
-                "Failed to convert network descriptor to item stack."
-              );
+          // Check if the crafting input exists.
+          if (!craftingInput)
+            throw new Error("Player does not have a crafting input trait.");
 
-            // Set the amount of the item stack.
-            itemStack.setStackSize(
-              itemStack.stackSize * action.craftRecipe.amount
-            );
-
-            // Add the item stack to the destination.
-            destination.addItem(itemStack);
-          }
+          // Set the pending crafting recipe.
+          craftingInput.pendingCraftingRecipe = recipe;
+          craftingInput.pendingCraftingAmount = amount;
         }
 
         if (action.craftCreative) {

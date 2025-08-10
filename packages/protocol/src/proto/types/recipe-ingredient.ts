@@ -25,6 +25,13 @@ interface RecipeIngredientComplexAlias {
   name: string;
 }
 
+type RecipeIngredientType =
+  | RecipeIngredientDefault
+  | RecipeIngredientMolang
+  | RecipeIngredientItemTag
+  | RecipeIngredientDeferred
+  | RecipeIngredientComplexAlias;
+
 // WHY
 class RecipeIngredient extends DataType {
   /**
@@ -33,29 +40,9 @@ class RecipeIngredient extends DataType {
   public readonly type: InternalType;
 
   /**
-   * If the ingredient is a default item, this is the item's network ID and metadata.
+   * The the ingredient item definition based on the type.
    */
-  public readonly default: RecipeIngredientDefault | null;
-
-  /**
-   * If the ingredient is a molang item, this is the molang string and version
-   */
-  public readonly molang: RecipeIngredientMolang | null;
-
-  /**
-   * If the ingredient is an item tag, this is the tag.
-   */
-  public readonly itemTag: RecipeIngredientItemTag | null;
-
-  /**
-   * If the ingredient is a deferred item, this is the name and metadata.
-   */
-  public readonly deferred: RecipeIngredientDeferred | null;
-
-  /**
-   * If the ingredient is a complex alias, this is the name
-   */
-  public readonly complexAlias: RecipeIngredientComplexAlias | null;
+  public readonly definition: RecipeIngredientType | null;
 
   /**
    * The stack size of the ingredient
@@ -65,42 +52,26 @@ class RecipeIngredient extends DataType {
   /**
    * Constructor for the RecipeIngredient class
    * @param type The type of the ingredient.
-   * @param default_ If the ingredient is a default item, this is the item's network ID and metadata.
-   * @param molang If the ingredient is a molang item, this is the molang string and version
-   * @param itemTag If the ingredient is an item tag, this is the tag.
-   * @param deferred If the ingredient is a deferred item, this is the name and metadata.
-   * @param complexAlias If the ingredient is a complex alias, this is the name
    * @param stackSize The stack size of the ingredient
+   * @param definition The the ingredient item definition based on the type.
    */
   public constructor(
     type: InternalType,
-    default_: RecipeIngredientDefault | null,
-    molang: RecipeIngredientMolang | null,
-    itemTag: RecipeIngredientItemTag | null,
-    deferred: RecipeIngredientDeferred | null,
-    complexAlias: RecipeIngredientComplexAlias | null,
-    stackSize: number
+    stackSize: number,
+    definition: RecipeIngredientType | null
   ) {
     super();
     this.type = type;
-    this.default = default_;
-    this.molang = molang;
-    this.itemTag = itemTag;
-    this.deferred = deferred;
-    this.complexAlias = complexAlias;
     this.stackSize = stackSize;
+    this.definition = definition;
   }
 
   public static read(stream: BinaryStream): RecipeIngredient {
     // Read the type
     const type = stream.readUint8();
 
-    // Initialize the default, molang, itemTag, deferred, and complexAlias variables
-    let default_: RecipeIngredientDefault | null = null;
-    let molang: RecipeIngredientMolang | null = null;
-    let itemTag: RecipeIngredientItemTag | null = null;
-    let deferred: RecipeIngredientDeferred | null = null;
-    let complexAlias: RecipeIngredientComplexAlias | null = null;
+    // Initialize the definition variable
+    let definition: RecipeIngredientType | null = null;
 
     // Switch based on the type
     switch (type) {
@@ -123,7 +94,7 @@ class RecipeIngredient extends DataType {
           networkId === 0 ? 0 : stream.readInt16(Endianness.Little);
 
         // Set the default variable
-        default_ = { networkId, metadata };
+        definition = { networkId, metadata };
 
         break;
       }
@@ -136,7 +107,7 @@ class RecipeIngredient extends DataType {
         const version = stream.readUint8();
 
         // Set the molang variable
-        molang = { molang: molang_, version };
+        definition = { molang: molang_, version };
         break;
       }
 
@@ -145,7 +116,7 @@ class RecipeIngredient extends DataType {
         const tag = stream.readVarString();
 
         // Set the itemTag variable
-        itemTag = { tag };
+        definition = { tag };
         break;
       }
 
@@ -157,7 +128,7 @@ class RecipeIngredient extends DataType {
         const metadata = stream.readInt16(Endianness.Little);
 
         // Set the deferred variable
-        deferred = { name, metadata };
+        definition = { name, metadata };
         break;
       }
 
@@ -166,7 +137,7 @@ class RecipeIngredient extends DataType {
         const name = stream.readVarString();
 
         // Set the complexAlias variable
-        complexAlias = { name };
+        definition = { name };
         break;
       }
     }
@@ -175,15 +146,7 @@ class RecipeIngredient extends DataType {
     const stackSize = stream.readZigZag();
 
     // Return the new RecipeIngredient instance
-    return new this(
-      type,
-      default_,
-      molang,
-      itemTag,
-      deferred,
-      complexAlias,
-      stackSize
-    );
+    return new this(type, stackSize, definition);
   }
 
   public static write(stream: BinaryStream, value: RecipeIngredient): void {
@@ -202,14 +165,14 @@ class RecipeIngredient extends DataType {
 
       case InternalType.Default: {
         // Check if the default variable is null
-        const default_ = value.default as RecipeIngredientDefault;
+        const definition = value.definition as RecipeIngredientDefault;
 
         // Write the network ID
-        stream.writeInt16(default_.networkId, Endianness.Little);
+        stream.writeInt16(definition.networkId, Endianness.Little);
 
         // Write the metadata
-        if (default_.networkId !== 0) {
-          stream.writeInt16(default_.metadata, Endianness.Little);
+        if (definition.networkId !== 0) {
+          stream.writeInt16(definition.metadata, Endianness.Little);
         }
 
         break;
@@ -217,7 +180,7 @@ class RecipeIngredient extends DataType {
 
       case InternalType.Molang: {
         // Check if the molang variable is null
-        const molang = value.molang as RecipeIngredientMolang;
+        const molang = value.definition as RecipeIngredientMolang;
 
         // Write the molang string
         stream.writeVarString(molang.molang);
@@ -230,7 +193,7 @@ class RecipeIngredient extends DataType {
 
       case InternalType.ItemTag: {
         // Check if the itemTag variable is null
-        const itemTag = value.itemTag as RecipeIngredientItemTag;
+        const itemTag = value.definition as RecipeIngredientItemTag;
 
         // Write the tag
         stream.writeVarString(itemTag.tag);
@@ -240,7 +203,7 @@ class RecipeIngredient extends DataType {
 
       case InternalType.Deferred: {
         // Check if the deferred variable is null
-        const deferred = value.deferred as RecipeIngredientDeferred;
+        const deferred = value.definition as RecipeIngredientDeferred;
 
         // Write the name
         stream.writeVarString(deferred.name);
@@ -253,7 +216,7 @@ class RecipeIngredient extends DataType {
 
       case InternalType.ComplexAlias: {
         // Check if the complexAlias variable is null
-        const complexAlias = value.complexAlias as RecipeIngredientComplexAlias;
+        const complexAlias = value.definition as RecipeIngredientComplexAlias;
 
         // Write the name
         stream.writeVarString(complexAlias.name);

@@ -4,6 +4,8 @@ import {
   BlockPosition,
   ChangeDimensionPacket,
   ContainerName,
+  CraftingDataEntryType,
+  CraftingDataPacket,
   CreativeContentPacket,
   CreativeGroup,
   CreativeItem,
@@ -42,7 +44,9 @@ import {
   ItemStackBundleTrait,
   ItemStack,
   ItemType,
-  ItemTypeCooldownComponent
+  ItemTypeCooldownComponent,
+  ShapelessCraftingRecipe,
+  ShapedCraftingRecipe
 } from "../item";
 import {
   EntityDimensionChangeSignal,
@@ -495,8 +499,46 @@ class Player extends Entity {
       }
     );
 
-    // Send the available creative content to the player
-    this.send(content);
+    const recipes = new CraftingDataPacket();
+
+    recipes.clearRecipes = false;
+    recipes.containers = [];
+    recipes.crafting = [];
+    recipes.materitalReducers = [];
+    recipes.potions = [];
+
+    // Iterate over the recipes in the item palette
+    for (const [, recipe] of this.world.itemPalette.recipes) {
+      // Check if the recipe is a ShapedCraftingRecipe
+      if (recipe instanceof ShapelessCraftingRecipe) {
+        // Convert the recipe to a network format
+        const shapeless = ShapelessCraftingRecipe.toNetwork(recipe);
+
+        // Iterate over the shapeless recipes and add them to the packet
+        for (const recipe of shapeless) {
+          // Add the recipe to the crafting data packet
+          recipes.crafting.push({
+            type: CraftingDataEntryType.ShapelessRecipe,
+            recipe
+          });
+        }
+      } else if (recipe instanceof ShapedCraftingRecipe) {
+        // Convert the recipe to a network format
+        const shaped = ShapedCraftingRecipe.toNetwork(recipe);
+
+        // Iterate over the shaped recipes and add them to the packet
+        for (const recipe of shaped) {
+          // Add the recipe to the crafting data packet
+          recipes.crafting.push({
+            type: CraftingDataEntryType.ShapedRecipe,
+            recipe
+          });
+        }
+      }
+    }
+
+    // Send the available creative content & crafting data to the player
+    this.send(content, recipes);
 
     // Teleport the player to their position
     // This fixes an issue where the player is sometimes stuck in the ground
