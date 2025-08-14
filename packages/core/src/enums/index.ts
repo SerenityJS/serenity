@@ -17,3 +17,4 @@ export * from "./item-wearable-tier";
 export * from "./server-state";
 export * from "./facing-direction";
 export * from "./item-lock-mode";
+export * from "./block-material-sound";

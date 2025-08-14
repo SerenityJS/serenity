@@ -109,6 +109,9 @@ class NbtMap extends CompoundTag {
   }
 
   public update(player?: Player): void {
+    // CHeck if there is any NBT data to update
+    if (this.size === 0) return;
+
     // Create a new BlockActorData packet
     const packet = new BlockActorDataPacket();
 

@@ -7,7 +7,7 @@ import {
   BLOCK_TYPES
 } from "@serenityjs/data";
 
-import { BlockIdentifier } from "../../enums";
+import { BlockIdentifier, BlockMaterialSound } from "../../enums";
 import {
   BlockState,
   BlockTypeDefinition,
@@ -570,6 +570,52 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
       this.requiresHoe() ||
       this.requiresSword()
     );
+  }
+
+  /**
+   * Gets the material sound of the block type.
+   * @returns The material sound of the block type.
+   */
+  public getMaterialSound(): BlockMaterialSound {
+    // Get the "vanilla_block_data" compound tag.
+    const data = this.properties.get<CompoundTag>("vanilla_block_data");
+
+    // Check if the data tag exists.
+    if (!data) {
+      throw new Error(
+        "Custom block type does not have a vanilla block data tag."
+      );
+    }
+
+    // Get the material sound from the data tag.
+    const material = data.get<StringTag>("material");
+
+    // Check if the material sound exists.
+    if (!material) {
+      throw new Error("Custom block type does not have a material sound.");
+    }
+
+    // Return the material sound as a BlockMaterialSound enum value.
+    return material.valueOf() as BlockMaterialSound;
+  }
+
+  /**
+   * Get the material sound of the block type.
+   * @param sound The material sound to set for the block type.
+   */
+  public setMaterialSound(sound: BlockMaterialSound): void {
+    // Get the "vanilla_block_data" compound tag.
+    const data = this.properties.get<CompoundTag>("vanilla_block_data");
+
+    // Check if the data tag exists.
+    if (!data) {
+      throw new Error(
+        "Custom block type does not have a vanilla block data tag."
+      );
+    }
+
+    // Set the material sound in the data tag.
+    data.add(new StringTag(sound, "material"));
   }
 
   /**
