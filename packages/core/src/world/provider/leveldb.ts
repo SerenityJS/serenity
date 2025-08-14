@@ -258,6 +258,9 @@ class LevelDBProvider extends WorldProvider {
       // If so, emit a new ChunkReadySignal.
       if (chunk.ready) new ChunkReadySignal(dimension, chunk).emit();
 
+      // Call the applyStructures method to generate structures.
+      void dimension.generator.applyStructures?.(chunk);
+
       // Return the generated chunk.
       return chunk;
     }

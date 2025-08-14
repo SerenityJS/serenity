@@ -54,6 +54,12 @@ class TerrainGenerator {
   public async apply(_cx: number, _cz: number): Promise<Chunk> {
     throw new Error(`${this.identifier}.apply() is not implemented`);
   }
+
+  /**
+   * Generates structures at a given chunk.
+   * @param chunk The chunk to apply structures to.
+   */
+  public async applyStructures?(_chunk: Chunk): Promise<void>;
 }
 
 export { TerrainGenerator };
