@@ -167,10 +167,10 @@ class TerrainGenerator {
   }
 
   /**
-   * Generates structures at a given chunk.
-   * @param chunk The chunk to apply structures to.
+   * Called after a chunk is generated to populate it with features.
+   * @param chunk The chunk that was recently generated.
    */
-  public async applyStructures?(_chunk: Chunk): Promise<void>;
+  public async populate?(_chunk: Chunk): Promise<void>;
 }
 
 export { TerrainGenerator };
