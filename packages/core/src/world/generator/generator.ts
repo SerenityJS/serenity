@@ -57,7 +57,7 @@ class TerrainGenerator {
   /**
    * The chunk queue for the generator.
    */
-  private readonly queue = new Map<bigint, (value: Chunk) => void>();
+  public readonly queue = new Map<bigint, (value: Chunk) => void>();
 
   /**
    * Creates a new terrain generator with the specified properties.
@@ -137,6 +137,18 @@ class TerrainGenerator {
     return new Promise((resolve) => {
       // Generate the hash for the chunk.
       const hash = ChunkCoords.hash({ x: cx, z: cz });
+
+      // Check if the chunk is already in the queue.
+      if (this.queue.has(hash)) {
+        // Create an unready empty chunk to return.
+        const chunk = new Chunk(cx, cz, this.dimension.type);
+
+        // Set the chunk as not ready.
+        chunk.ready = false;
+
+        // Immediately resolve with the unready chunk.
+        return resolve(chunk);
+      }
 
       // Add the chunk to the queue with a unique identifier.
       this.queue.set(hash, resolve);
