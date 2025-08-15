@@ -40,4 +40,26 @@ interface EntityQueryOptions {
   chunk?: Chunk;
 }
 
-export { DimensionProperties, EntityQueryOptions };
+interface StructurePlaceOptions {
+  /**
+   * The amount of ticks to animate the structure placement over.
+   */
+  animationTicks?: number;
+
+  /**
+   * The number of blocks to place per animation tick.
+   */
+  blocksPerAnimationTick?: number;
+
+  /**
+   * Whether to mark the chunks as dirty after placing the structure.
+   */
+  markAsDirty?: boolean;
+
+  /**
+   * If the structure should place air blocks.
+   */
+  placeAirBlocks?: boolean;
+}
+
+export { DimensionProperties, EntityQueryOptions, StructurePlaceOptions };

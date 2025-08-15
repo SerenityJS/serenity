@@ -46,7 +46,7 @@ const register = (world: World) => {
               const position = context.position.result!.floor();
 
               // Load the structure into the dimension
-              await dimension.placeStructureAsync(structure, position);
+              await dimension.placeStructure(structure, position);
 
               // Send a success message
               return {

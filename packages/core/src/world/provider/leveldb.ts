@@ -265,11 +265,13 @@ class LevelDBProvider extends WorldProvider {
       chunks.set(chunk.hash, chunk.insert(resultant));
 
       // Check if the chunk is ready.
-      // If so, emit a new ChunkReadySignal.
-      if (chunk.ready) new ChunkReadySignal(dimension, chunk).emit();
+      if (chunk.ready) {
+        // Emit a new ChunkReadySignal for the dimension and chunk.
+        new ChunkReadySignal(dimension, chunk).emit();
 
-      // Call the applyStructures method to generate structures.
-      void dimension.generator.populate?.(chunk);
+        // Call the populate method of the dimension generator.
+        await dimension.generator.populate?.(chunk);
+      }
 
       // Return the generated chunk.
       return chunk;

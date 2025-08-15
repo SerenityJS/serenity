@@ -1,6 +1,5 @@
 import { BlockIdentifier } from "../enums";
-import { BlockState } from "../types";
-import { BlockEnum } from "..";
+import { BlockEnum, GenericBlockState } from "..";
 
 import { BlockPermutation, BlockType, CustomBlockType } from "./identity";
 
@@ -68,18 +67,19 @@ class BlockPalette {
    * @param state The block state to resolve.
    * @returns The block permutation from the palette.
    */
-  public resolvePermutation<T extends keyof BlockState>(
-    identifier: T,
-    state?: BlockState[T]
-  ): BlockPermutation<T> {
+  public resolvePermutation(
+    identifier: BlockIdentifier | string | number,
+    state?: GenericBlockState
+  ): BlockPermutation {
     // Get the block type from the registry.
-    const type = this.resolveType(identifier as BlockIdentifier);
+    const type =
+      typeof identifier === "number"
+        ? this.permutations.get(identifier)?.type
+        : this.types.get(identifier);
 
     // Check if the block type exists.
     if (!type)
-      return this.resolvePermutation(
-        BlockIdentifier.Air
-      ) as BlockPermutation<T>;
+      return this.resolvePermutation(BlockIdentifier.Air) as BlockPermutation;
 
     // Check if the state is not provided.
     const permutation = type.permutations.find((permutation) => {
@@ -109,11 +109,11 @@ class BlockPalette {
     // Check if the block permutation does not exist.
     if (!permutation) {
       // Return the default permutation if the state is not found.
-      return type.permutations[0] as BlockPermutation<T>;
+      return type.permutations[0] as BlockPermutation;
     }
 
     // Return the block permutation.
-    return permutation as BlockPermutation<T>;
+    return permutation as BlockPermutation;
   }
 
   /**

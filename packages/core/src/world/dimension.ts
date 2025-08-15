@@ -15,7 +15,8 @@ import {
 import {
   CommandResponse,
   DimensionProperties,
-  EntityQueryOptions
+  EntityQueryOptions,
+  StructurePlaceOptions
 } from "../types";
 import {
   Entity,
@@ -31,7 +32,7 @@ import {
 } from "../entity";
 import { Block, BlockPermutation } from "../block";
 import { ItemStack } from "../item";
-import { EntityIdentifier } from "../enums";
+import { BlockIdentifier, EntityIdentifier } from "../enums";
 import { Serenity } from "../serenity";
 import { CommandExecutionState } from "../commands";
 import { BlockPermutationUpdateSignal } from "../events";
@@ -811,87 +812,16 @@ class Dimension {
   }
 
   /**
-   * Place a structure in the dimension at a specified position.
-   * @param identifier The identifier of the structure or the structure instance itself.
-   * @param position The position to place the structure at.
-   * @throws Will throw an error if the structure is not found.
-   */
-  public placeStructure(
-    identifier: string | Structure,
-    position: IPosition
-  ): void {
-    // Get the structure from the identifier
-    const structure =
-      typeof identifier === "string"
-        ? this.world.structures.get(identifier)
-        : identifier;
-
-    // Check if the structure exists
-    if (!structure) throw new Error(`Structure "${identifier}" not found.`);
-
-    // Create a set to hold the dirty chunks
-    const dirtyChunks = new Set<Chunk>();
-
-    // Prepare an index to iterate over the blocks
-    let index = 0;
-    for (let x = 0; x < structure.size[0]; x++) {
-      for (let y = 0; y < structure.size[1]; y++) {
-        for (let z = 0; z < structure.size[2]; z++) {
-          // Get palette index and permutation hash
-          const paletteIndex = structure.blocks[index] ?? 0;
-          const permutationHash = structure.palette[paletteIndex] ?? 0;
-
-          // Get the permutation from the block palette
-          const permutation =
-            this.world.blockPalette.permutations.get(permutationHash);
-
-          // Check if the permutation exists
-          if (!permutation) continue;
-
-          // Calculate the position of the block
-          const dx = x + position.x;
-          const dy = y + position.y;
-          const dz = z + position.z;
-
-          // Get the chunk of the block
-          const chunk = this.getChunk(dx >> 4, dz >> 4);
-
-          // Set the permutation of the block
-          chunk.setPermutation(
-            { x: dx, y: dy, z: dz },
-            permutation,
-            UpdateBlockLayerType.Normal,
-            true
-          );
-
-          // Add the chunk to the dirty chunks
-          if (!dirtyChunks.has(chunk)) dirtyChunks.add(chunk);
-
-          // Increment the index
-          index++;
-        }
-      }
-    }
-
-    // Set the dirty chunks
-    for (const chunk of dirtyChunks) {
-      this.setChunk(chunk); // Set the chunk in the dimension
-    }
-  }
-
-  /**
    * Place a structure in the dimension at a specified position asynchronously.
    * @param identifier The identifier of the structure or the structure instance itself.
    * @param position The position to place the structure at.
-   * @param ticks The amount of ticks to wait before placing the next batch of blocks.
-   * @param blocksPerTick The amount of blocks to place per tick.
+   * @param options The options to place the structure with.
    * @throws Will throw an error if the structure is not found.
    */
-  public async placeStructureAsync(
+  public async placeStructure(
     identifier: string | Structure,
     position: IPosition,
-    ticks: number = 1,
-    blocksPerTick: number = 50000
+    options?: StructurePlaceOptions
   ): Promise<void> {
     // Get the structure from the identifier
     const structure =
@@ -901,6 +831,12 @@ class Dimension {
 
     // Check if the structure exists
     if (!structure) throw new Error(`Structure "${identifier}" not found.`);
+
+    // Get the blocks per tick and ticks from the options
+    const animationTicks = options?.animationTicks ?? 0;
+    const blocksPerAnimationTick = options?.blocksPerAnimationTick ?? 50000;
+    const markAsDirty = options?.markAsDirty ?? true;
+    const placeAirBlocks = options?.placeAirBlocks ?? false;
 
     const [sx, sy, sz] = structure.size; // Get the size of the structure
     let index = 0; // Prepare an index to iterate over the blocks
@@ -917,10 +853,21 @@ class Dimension {
 
           // Get the permutation from the block palette
           const permutation =
-            this.world.blockPalette.permutations.get(permutationHash);
+            this.world.blockPalette.resolvePermutation(permutationHash);
 
           // Check if the permutation exists
           if (!permutation) continue;
+
+          // Check if the block is air and we are not placing air blocks
+          if (
+            permutation.type.identifier === BlockIdentifier.Air &&
+            !placeAirBlocks // Validate if we should skip air blocks
+          ) {
+            // Increment the index and continue to the next block
+            index++;
+
+            continue; // Skip to the next block
+          }
 
           // Calculate the position of the block
           const dx = x + position.x;
@@ -939,13 +886,14 @@ class Dimension {
           );
 
           // Add the chunk to the updated chunks
-          if (!dirtyChunks.has(chunk)) dirtyChunks.add(chunk);
+          if (markAsDirty && !dirtyChunks.has(chunk)) dirtyChunks.add(chunk);
 
           // Increment the index
           index++;
 
           // Check if we reached the blocks per tick limit
-          if (index % blocksPerTick === 0) await this.scheduleAsync(ticks); // Wait for the specified ticks
+          if (index % blocksPerAnimationTick === 0)
+            await this.scheduleAsync(animationTicks); // Wait for the specified ticks
         }
       }
     }

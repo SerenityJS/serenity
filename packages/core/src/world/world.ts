@@ -504,6 +504,15 @@ class World extends Emitter<WorldEventSignals> {
     // Broadcast the packet to all players
     this.broadcast(packet);
   }
+
+  /**
+   * Get a structure by the identifier from the world
+   * @param identifier The identifier of the structure
+   * @returns The structure, if found; otherwise, null
+   */
+  public getStructure(identifier: string): Structure | null {
+    return this.structures.get(identifier) ?? null;
+  }
 }
 
 export { World };
