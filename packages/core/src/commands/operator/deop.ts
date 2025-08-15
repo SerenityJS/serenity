@@ -43,7 +43,7 @@ const register = (world: World) => {
             if (!target.isOp) {
               // Append the message
               message.push(
-                `§7Player §4${target.username}§7 is not a server operator.§r`
+                `§7Player §c${target.username}§7 is not a server operator.§r`
               );
 
               // Skip to the next target

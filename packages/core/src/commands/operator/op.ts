@@ -32,7 +32,7 @@ const register = (world: World) => {
             if (!target.isPlayer()) {
               // Append the message
               message.push(
-                `§cEntity §4${target.uniqueId}§c is not a player.§r`
+                `§7Entity §c${target.uniqueId}§7 is not a player.§r`
               );
 
               // Skip to the next target
@@ -43,7 +43,7 @@ const register = (world: World) => {
             if (target.isOp) {
               // Append the message
               message.push(
-                `§cPlayer §4${target.username}§c is already a server operator or has a higher permission level.§r`
+                `§7Player §c${target.username}§7 is already a server operator or has a higher permission level.§r`
               );
 
               // Skip to the next target
@@ -55,7 +55,7 @@ const register = (world: World) => {
 
             // Append the message
             message.push(
-              `§aSuccessfully made §2${target.username}§a a server operator.§r`
+              `§7Successfully made §u${target.username}§7 a server operator.§r`
             );
           }
 
