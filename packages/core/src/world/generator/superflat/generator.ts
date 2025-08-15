@@ -11,17 +11,6 @@ class SuperflatGenerator extends TerrainGenerator {
     // Return the chunk
     return chunk;
   }
-
-  public async populate(chunk: Chunk): Promise<void> {
-    const x = chunk.x << 4;
-    const z = chunk.z << 4;
-
-    await this.dimension.placeStructure(
-      "test",
-      { x, y: -50, z },
-      { markAsDirty: false }
-    );
-  }
 }
 
 export { SuperflatGenerator };
