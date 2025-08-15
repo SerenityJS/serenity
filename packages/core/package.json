@@ -21,7 +21,7 @@
   "devDependencies": {
     "@serenityjs/internal-config": "*",
     "@swc/core": "1.7.42",
-    "@types/node": "22.8.6",
+    "@types/node": "^24.2.1",
     "eslint": "9.13.0",
     "tsup": "8.3.5",
     "typescript": "5.6.3"

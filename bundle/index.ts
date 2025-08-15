@@ -1,6 +1,6 @@
 import { isMainThread } from "node:worker_threads";
 
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import { Serenity, LevelDBProvider, SuperflatWorker } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 import { Modules } from "./modules";
@@ -16,6 +16,9 @@ Bun.plugin({
 
 // Check if the current thread is the main thread
 if (isMainThread) {
+  // Set the path for the SuperflatWorker
+  SuperflatWorker.path = process.argv[1] || __filename;
+
   // Create a new Serenity instance
   const serenity = new Serenity({
     path: "./properties.json",

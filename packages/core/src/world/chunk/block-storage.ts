@@ -76,9 +76,8 @@ class BlockStorage {
     // Calculate the total size.
     const totalSize = this.size[0] * this.size[1] * this.size[2];
 
-    // Assign the palette.
-    // When we create chunks, we will provide the palette with the current air value.
-    this.palette = palette ?? [this.air];
+    // Create the palette with at least the air block.
+    this.palette = palette ?? Array.from({ length: 1 }, () => this.air);
 
     // Create the blocks array with the given size.
     this.blocks = blocks ?? Array.from({ length: totalSize }, () => 0);
@@ -224,6 +223,9 @@ class BlockStorage {
 
     // Serialize palette values
     for (const state of storage.palette) {
+      // If the state is 0, break as the is no more states to write.
+      if (state === 0) break;
+
       // Check if the serialization type is NBT
       if (nbt) {
         // Get the permutation from the state

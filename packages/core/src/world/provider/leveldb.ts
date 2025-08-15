@@ -59,9 +59,19 @@ class LevelDBProvider extends WorldProvider {
   public onShutdown(): void {
     // Save the world properties to the world directory.
     // First we need to get all the dimension properties.
-    const dimensions: Array<DimensionProperties> = [
-      ...this.world.dimensions.values()
-    ].map((dimension) => dimension.properties);
+    const dimensions: Array<DimensionProperties> = [];
+
+    // Iterate through all the dimensions in the world.
+    for (const [, dimension] of this.world.dimensions) {
+      // Push the dimension properties to the array.
+      dimensions.push(dimension.properties);
+
+      // Check if the dimension has a generator with a worker.
+      if (dimension.generator.worker) {
+        // Terminate the worker thread.
+        dimension.generator.worker.terminate();
+      }
+    }
 
     // Get the world properties.
     const properties = this.world.properties;

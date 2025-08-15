@@ -38,7 +38,7 @@ class Structure extends BlockStorage {
     const size = options?.size || [0, 0, 0];
 
     // Call the parent constructor with the calculated size.
-    super([], [], size);
+    super(undefined, undefined, size);
 
     this.size = size;
   }

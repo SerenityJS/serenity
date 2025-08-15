@@ -3,5 +3,6 @@ export * from "./chunk";
 export * from "./dimension";
 export * from "./provider";
 export * from "./generator";
+export * from "./worker";
 export * from "./schedule";
 export * from "./structure";
