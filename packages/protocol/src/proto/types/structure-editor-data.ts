@@ -4,6 +4,7 @@ import { StructureSettings } from "./structure-settings";
 
 class StructureEditorData extends DataType {
   public structureName: string;
+  public filteredStructureName: string;
   public dataField: string;
   public includePlayers: boolean;
   public showBoundingBox: boolean;
@@ -13,6 +14,7 @@ class StructureEditorData extends DataType {
 
   public constructor(
     structureName: string,
+    filteredStructureName: string,
     dataField: string,
     includePlayers: boolean,
     showBoundingBox: boolean,
@@ -22,6 +24,7 @@ class StructureEditorData extends DataType {
   ) {
     super();
     this.structureName = structureName;
+    this.filteredStructureName = filteredStructureName;
     this.dataField = dataField;
     this.includePlayers = includePlayers;
     this.showBoundingBox = showBoundingBox;
@@ -32,10 +35,11 @@ class StructureEditorData extends DataType {
 
   public static write(stream: BinaryStream, value: StructureEditorData): void {
     stream.writeVarString(value.structureName);
+    stream.writeVarString(value.filteredStructureName);
     stream.writeVarString(value.dataField);
     stream.writeBool(value.includePlayers);
     stream.writeBool(value.showBoundingBox);
-    stream.writeVarInt(value.blockType);
+    stream.writeZigZag(value.blockType);
     StructureSettings.write(stream, value.structureSetting);
     stream.writeVarInt(value.redstoneSaveMode);
   }
@@ -43,10 +47,11 @@ class StructureEditorData extends DataType {
   public static read(stream: BinaryStream): StructureEditorData {
     return new StructureEditorData(
       stream.readVarString(), // ? Structure Name
+      stream.readVarString(), // ? Filtered Structure Name
       stream.readVarString(), // ? Data Field
       stream.readBool(), // ? Include Players
       stream.readBool(), // ? Show Bounding Box
-      stream.readVarInt(), // ? Block Type
+      stream.readZigZag(), // ? Block Type
       StructureSettings.read(stream), // ? Structure Settings
       stream.readVarInt() // ? Redstone Save Mode
     );
