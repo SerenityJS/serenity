@@ -19,7 +19,8 @@ import {
   BlockTypeMaterialInstancesComponent,
   BlockTypeSelectionBoxComponent,
   BlockTypeTransformationComponent,
-  BlockTypeDisplayNameComponent
+  BlockTypeDisplayNameComponent,
+  BlockTypeLightDampeningComponent
 } from "./components";
 
 import type { BlockType } from "./type";
@@ -234,6 +235,48 @@ class BlockTypeComponentCollection extends CompoundTag {
     } else {
       // Add the light emission component to the block.
       this.addComponent(BlockTypeLightEmissionComponent, value);
+    }
+  }
+
+  /**
+   * Whether the block has a light dampening component.
+   * @returns True if the block has a light dampening component, false otherwise.
+   */
+  public hasLightDampening(): boolean {
+    return this.hasComponent(BlockTypeLightDampeningComponent);
+  }
+
+  /**
+   * Get the light dampening value of the block.
+   * @returns The light dampening value of the block.
+   */
+  public getLightDampening(): number {
+    // Check if the light dampening component exists.
+    if (this.hasComponent(BlockTypeLightDampeningComponent)) {
+      // Return the light dampening value of the component.
+      return this.getComponent(
+        BlockTypeLightDampeningComponent
+      ).getLightDampening();
+    }
+
+    // Return the default light dampening value.
+    return 0;
+  }
+
+  /**
+   * Set the light dampening value of the block.
+   * @param value The light dampening value to set.
+   */
+  public setLightDampening(value: number): void {
+    // Check if the light dampening component exists.
+    if (this.hasComponent(BlockTypeLightDampeningComponent)) {
+      // Set the light dampening value of the component.
+      this.getComponent(BlockTypeLightDampeningComponent).setLightDampening(
+        value
+      );
+    } else {
+      // Add the light dampening component to the block.
+      this.addComponent(BlockTypeLightDampeningComponent, value);
     }
   }
 

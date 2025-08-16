@@ -10,3 +10,4 @@ export * from "./selection-box";
 export * from "./transformation";
 export * from "./crafting-table";
 export * from "./display-name";
+export * from "./light-dampening";
