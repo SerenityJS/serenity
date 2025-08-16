@@ -1,5 +1,6 @@
 import About from "./about";
+import Help from "./help";
 
-const CommonCommands = [About];
+const CommonCommands = [About, Help];
 
 export { CommonCommands };

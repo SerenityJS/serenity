@@ -5,7 +5,7 @@ import type { World } from "../../world";
 const register = (world: World) => {
   world.commandPalette.register(
     "about",
-    "Get information about the server",
+    "Get information about the server.",
     () => {
       // Get the runtime of the server
       const runtime = process.versions.bun === undefined ? "node.js" : "bun.sh";
