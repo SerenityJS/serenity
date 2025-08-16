@@ -9,8 +9,6 @@ const serenity = new Serenity({
   }
 });
 
-// serenity.on(WorldEvent.WorldInitialize, ({ world }) => register(world));
-
 // Create a new plugin pipeline
 new Pipeline(serenity, { path: "./plugins" });
 
