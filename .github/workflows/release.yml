@@ -189,10 +189,8 @@ jobs:
       - name: 📝 Compose release notes
         id: notes
         run: |
-          echo "body<<'EOF'" >> $GITHUB_OUTPUT
-          echo "Automated binary release for ${GITHUB_REPOSITORY} ${{
-            needs.release.outputs.version
-          }}." >> $GITHUB_OUTPUT
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "Automated binary release for ${GITHUB_REPOSITORY} ${{ needs.release.outputs.version }}." >> $GITHUB_OUTPUT
           echo "" >> $GITHUB_OUTPUT
           echo "Includes prebuilt bundles for Linux, macOS, and Windows." >> $GITHUB_OUTPUT
           echo "" >> $GITHUB_OUTPUT
