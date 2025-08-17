@@ -13,6 +13,7 @@ concurrency:
 permissions:
   contents: write   # needed to create GitHub releases
   actions: read
+  pull-requests: write
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
