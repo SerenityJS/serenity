@@ -1,5 +1,15 @@
 # @serenityjs/protocol
 
+## 0.8.9
+
+### Patch Changes
+
+- [`fb9b9dd`](https://github.com/SerenityJS/serenity/commit/fb9b9ddc4782f176a7af7defca1a8fa7bf5cc2cf) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.9-beta
+
+- Updated dependencies [[`fb9b9dd`](https://github.com/SerenityJS/serenity/commit/fb9b9ddc4782f176a7af7defca1a8fa7bf5cc2cf)]:
+  - @serenityjs/nbt@0.8.9
+  - @serenityjs/raknet@0.8.9
+
 ## 0.8.8
 
 ### Patch Changes
