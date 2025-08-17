@@ -60,6 +60,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         packet.cacheEnabled = false;
         packet.data = Chunk.serialize(chunk);
 
+        // Rent the chunk from the provider
+        this.dimension.world.provider.rentChunk(chunk.hash, this.dimension);
+
         // Return the packet
         return packet;
       });
@@ -190,8 +193,14 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       // Send the packet to the player
       this.player.send(packet);
 
+      // Get the hash of the chunk
+      const hash = ChunkCoords.hash(coord);
+
+      // Return the chunk to the provider
+      this.dimension.world.provider.returnChunk(hash, this.dimension);
+
       // Remove the chunk from the player's view
-      this.chunks.delete(ChunkCoords.hash(coord));
+      this.chunks.delete(hash);
     }
   }
 

@@ -531,6 +531,7 @@ class Dimension {
     const maxDistance = options?.maxDistance ?? 0;
     const minDistance = options?.minDistance ?? 0;
     const maxCount = options?.count ?? Infinity;
+    const chunk = options?.chunk ?? null;
 
     // Filter the players based on the options
     for (const [, player] of this.serenity.players) {
@@ -547,6 +548,19 @@ class Dimension {
       // Check if the player is within the minimum distance
       if (minDistance > 0 && player.position.distance(position) < minDistance)
         continue;
+
+      // Check if the player is in the specified chunk
+      if (chunk) {
+        // Get the position of the player
+        const position = player.position.floor();
+
+        // Convert the position to chunk coordinates
+        const cx = position.x >> 4;
+        const cz = position.z >> 4;
+
+        // Check if the player is in the specified chunk
+        if (cx !== chunk.x || cz !== chunk.z) continue;
+      }
 
       // Add the player to the player list
       players.push(player);
