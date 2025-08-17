@@ -10,6 +10,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write   # needed to create GitHub releases
+  actions: read
+
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -21,6 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       published: ${{ steps.changesets.outputs.published }}
+      version: ${{ steps.read_version.outputs.version }}
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
@@ -52,6 +57,11 @@ jobs:
 
             Automated commit from `release` workflow.
           title: "chore(release): release packages"
+
+      # Read the repo/root version from package.json after changesets runs.
+      - name: 🔖 Read version
+        id: read_version
+        run: echo "version=v$(node -p \"require('./packages/core/package.json').version\")" >> "$GITHUB_OUTPUT"
 
       - name: 🧪 Create Beta Version (if not published)
         if: steps.changesets.outputs.published != 'true'
@@ -101,6 +111,8 @@ jobs:
         with:
           name: serenityjs-${{ matrix.os }}
           path: dist
+          if-no-files-found: error
+          compression-level: 6
 
   build-binaries-beta:
     name: 🧪 Build Beta Binaries
@@ -142,3 +154,59 @@ jobs:
         with:
           name: serenityjs-beta-${{ matrix.os }}
           path: dist
+          if-no-files-found: error
+          compression-level: 6
+
+  release-binaries:
+    name: 🧷 Create GitHub Release (attach binaries)
+    needs: [release, build-binaries]
+    if: needs.release.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: serenityjs-*
+          merge-multiple: false
+
+      - name: 📦 Package artifacts (zip/tar)
+        run: |
+          set -euxo pipefail
+          cd artifacts
+          # Each artifact is a folder named like "serenityjs-<os>" containing dist/*
+          for d in serenityjs-*; do
+            [ -d "$d" ] || continue
+            # Prefer zip for cross-platform consumability
+            (cd "$d" && zip -r "../${d}.zip" .)
+            tar -czf "${d}.tar.gz" "$d"
+          done
+          ls -la
+
+      - name: 📝 Compose release notes
+        id: notes
+        run: |
+          echo "body<<'EOF'" >> $GITHUB_OUTPUT
+          echo "Automated binary release for ${GITHUB_REPOSITORY} ${{
+            needs.release.outputs.version
+          }}." >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "Includes prebuilt bundles for Linux, macOS, and Windows." >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "- Build: ${GITHUB_RUN_ID}" >> $GITHUB_OUTPUT
+          echo "- Commit: ${GITHUB_SHA}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Create/Update Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.release.outputs.version }}     # e.g. v1.2.3
+          name: "SerenityJS ${{ needs.release.outputs.version }}"
+          body: ${{ steps.notes.outputs.body }}
+          draft: false
+          prerelease: false
+          files: |
+            artifacts/*.zip
+            artifacts/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
