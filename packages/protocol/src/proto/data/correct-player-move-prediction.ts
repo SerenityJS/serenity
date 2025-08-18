@@ -12,8 +12,8 @@ class CorrectPlayerMovePredictionPacket extends DataPacket {
   @Serialize(Vector3f) public position!: Vector3f;
   @Serialize(Vector3f) public positionDelta!: Vector3f;
   @Serialize(Vector2f) public rotation!: Vector2f;
-  @Serialize(Float32, { endian: Endianness.Little })
-  public vehicleAngularVelocity!: number;
+  @Serialize(Float32, { endian: Endianness.Little, optional: true })
+  public vehicleAngularVelocity?: number;
 
   @Serialize(Bool) public onGround!: boolean;
   @Serialize(PlayerInputTick) public inputTick!: PlayerInputTick;
