@@ -322,7 +322,7 @@ class EntityItemStackTrait extends EntityTrait {
       const distance = player.position.distance(this.entity.position);
 
       // Check if the distance is less than 1.5 blocks
-      if (distance <= 1.0) {
+      if (distance <= 1.75) {
         // Set the player as the target
         this.target = player;
 
