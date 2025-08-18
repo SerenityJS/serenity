@@ -82,7 +82,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
       rewind.position = player.position;
       rewind.positionDelta = player.position.subtract(packet.position);
       rewind.rotation = Rotation.toVector2f(player.rotation);
-      rewind.vehicleAngularVelocity = 0; // TODO: Handle vehicle angular velocity
+      rewind.vehicleAngularVelocity = undefined; // TODO: Handle vehicle angular velocity
       rewind.onGround = player.onGround;
       rewind.inputTick = packet.inputTick;
 

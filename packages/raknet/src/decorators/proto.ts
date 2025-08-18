@@ -58,6 +58,18 @@ function Proto(id: number) {
             // Pull the data from the class.
             const data = (this as never)[name];
 
+            // Check if the property is optional.
+            if (options.optional && data === undefined) {
+              // Write a boolean false to indicate the property is not defined.
+              this.writeBool(false);
+
+              // Skip serialization for this property.
+              continue;
+            } else if (options.optional) {
+              // Write a boolean true to indicate the property is defined.
+              this.writeBool(true);
+            }
+
             // Write the property to the binary stream using the type.
             dtype.write(this, data, {
               ...options,
@@ -72,6 +84,18 @@ function Proto(id: number) {
               // Pull the tag from the class.
               const tag = (this as never)[name] as CompoundTag;
 
+              // Check if the property is optional.
+              if (options?.optional && tag === undefined) {
+                // Write a boolean false to indicate the property is not defined.
+                this.writeBool(false);
+
+                // Skip serialization for this property.
+                continue;
+              } else if (options?.optional) {
+                // Write a boolean true to indicate the property is defined.
+                this.writeBool(true);
+              }
+
               // Write the property to the binary stream using the type.
               ctype.write(this, tag, {
                 ...options,
@@ -85,6 +109,18 @@ function Proto(id: number) {
 
               // Pull the data from the class.
               const data = (this as never)[name];
+
+              // Check if the property is optional.
+              if (options?.optional && data === undefined) {
+                // Write a boolean false to indicate the property is not defined.
+                this.writeBool(false);
+
+                // Skip serialization for this property.
+                continue;
+              } else if (options?.optional) {
+                // Write a boolean true to indicate the property is defined.
+                this.writeBool(true);
+              }
 
               // Write the property to the binary stream using the type.
               dtype.write(this, data, options);
@@ -123,6 +159,16 @@ function Proto(id: number) {
             // Convert the type to DataType.
             const dtype = type as typeof DataType;
 
+            // Check if the property is optional.
+            if (options.optional && this.readBool() === false) {
+              // Set the property to undefined if it is not defined.
+              (this[name as keyof BasePacket] as unknown) = undefined;
+              continue;
+            } else if (options.optional) {
+              // Read the boolean true to indicate the property is defined.
+              this.readBool();
+            }
+
             // Set the property using the parameter and the type.
             (this[name as keyof BasePacket] as unknown) = dtype.read(this, {
               ...options,
@@ -134,6 +180,16 @@ function Proto(id: number) {
               // Convert the type to CompoundTag.
               const ctype = type as typeof CompoundTag;
 
+              // Check if the property is optional.
+              if (options?.optional && this.readBool() === false) {
+                // Set the property to undefined if it is not defined.
+                (this[name as keyof BasePacket] as unknown) = undefined;
+                continue;
+              } else if (options?.optional) {
+                // Read the boolean true to indicate the property is defined.
+                this.readBool();
+              }
+
               // Set the property using the type.
               (this[name as keyof BasePacket] as unknown) = ctype.read(this, {
                 ...options,
@@ -144,6 +200,16 @@ function Proto(id: number) {
             } else {
               // Convert the type to DataType.
               const dtype = type as typeof DataType;
+
+              // Check if the property is optional.
+              if (options?.optional && this.readBool() === false) {
+                // Set the property to undefined if it is not defined.
+                (this[name as keyof BasePacket] as unknown) = undefined;
+                continue;
+              } else if (options?.optional) {
+                // Read the boolean true to indicate the property is defined.
+                this.readBool();
+              }
 
               // Set the property using the type.
               (this[name as keyof BasePacket] as unknown) = dtype.read(

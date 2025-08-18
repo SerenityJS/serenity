@@ -6,6 +6,7 @@ interface PacketDataTypeOptions<T = PacketDataTypeOptionsUnknown>
   extends DataTypeOptions {
   parameter?: T;
   varint?: boolean;
+  optional?: boolean;
 }
 
 export type { PacketDataTypeOptions };
