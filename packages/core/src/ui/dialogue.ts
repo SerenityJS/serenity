@@ -87,7 +87,27 @@ class DialogueForm extends Form<number> {
     return this;
   }
 
-  public show(player: Player, result: FormResult<number>): this {
+  /**
+   * Shows the dialogue synchronously to a player.
+   * @param player The player to show the form to.
+   * @param result The result callback to call when the form is submitted.
+   */
+  public show(player: Player, result: FormResult<number>): void;
+
+  /**
+   * Shows the dialogue asynchronously to a player.
+   * @param player The player to show the form to.
+   * @returns A promise that resolves with the form response or an error.
+   * @note If the form is cancelled, it resolves with an error.
+   * @note If the form is submitted, it resolves with the form response.
+   */
+  public show(player: Player): Promise<number | Error>;
+
+  // Overloaded method to handle both synchronous and asynchronous form showing
+  public show(
+    player: Player,
+    result?: FormResult<number>
+  ): void | Promise<number | Error> {
     // Check if the target has a NPC metadata.
     if (!this.target.metadata.has(ActorDataId.HasNpc)) {
       // Create the data item for the NPC metadata.
@@ -98,15 +118,13 @@ class DialogueForm extends Form<number> {
     }
 
     // Map the buttons to the dialogue buttons.
-    const buttons = this.buttons.map((button) => {
-      return {
-        button_name: button.text,
-        text: button.text,
-        mode: 0,
-        type: 1,
-        data: []
-      };
-    });
+    const buttons = this.buttons.map((button) => ({
+      button_name: button.text,
+      text: button.text,
+      mode: 0,
+      type: 1,
+      data: []
+    }));
 
     // Create a new NpcDialoguePacket.
     const packet = new NpcDialoguePacket();
@@ -125,14 +143,36 @@ class DialogueForm extends Form<number> {
     packet.name = this.title;
     packet.json = JSON.stringify(buttons);
 
-    // Add the form to the pending forms map.
-    player.pendingForms.set(this.formId, { player, result, instance: this });
+    // Check if a result callback is provided
+    if (result) {
+      // Add the form to the player's pending forms.
+      player.pendingForms.set(this.formId, {
+        player,
+        result,
+        instance: this
+      });
 
-    // Send the packet to the player.
-    player.send(packet);
+      // Send the packet to the player.
+      player.send(packet);
+    } else {
+      // Return a promise that resolves with the form response.
+      return new Promise((resolve) => {
+        // Add the form to the player's pending forms with resolve and reject functions.
+        player.pendingForms.set(this.formId, {
+          player,
+          result: (response, error) => {
+            // If there is an error, resolve with an error
+            if (error) resolve(error);
+            // Otherwise, resolve with the response
+            else resolve(response as unknown as number);
+          },
+          instance: this
+        });
 
-    // Return the form instance.
-    return this;
+        // Send the packet to the player.
+        player.send(packet);
+      });
+    }
   }
 
   public close(player: Player): void {

@@ -52,11 +52,26 @@ class Form<T> {
   }
 
   /**
-   * Shows the form to a player.
+   * Show the form synchronously to a player.
    * @param player The player to show the form to.
-   * @returns The form response; the value of the form.
+   * @param result The result callback to call when the form is submitted.
    */
-  public show(player: Player, result: FormResult<T>): this {
+  public show(player: Player, result: FormResult<T>): void;
+
+  /**
+   * Show the form asynchronously to a player.
+   * @param player The player to show the form to.
+   * @returns A promise that resolves with the form response or an error.
+   * @note If the form is cancelled, it resolves with an error.
+   * @note If the form is submitted, it resolves with the form response.
+   */
+  public show(player: Player): Promise<T | Error>;
+
+  // Overloaded method to handle both synchronous and asynchronous form showing
+  public show(
+    player: Player,
+    result?: FormResult<T>
+  ): void | Promise<T | Error> {
     // Get the form payload from the class.
     const payload = JSON.stringify(this);
 
@@ -70,28 +85,31 @@ class Form<T> {
     // Send the packet to the player.
     player.send(packet);
 
-    // Add the player to the pending forms map.
-    player.pendingForms.set(this.formId, { player, result, instance: this });
-
-    // Return the form.
-    return this;
-  }
-
-  /**
-   * Shows the form to a player and returns a promise that resolves with the form response.
-   * @param player The player to show the form to.
-   * @returns A promise that resolves with the form response or null if the form was closed without a response.
-   */
-  public showAsync(player: Player): Promise<T | null> {
-    return new Promise((resolve, reject) => {
-      // Show the form to the player and pass the resolve and reject functions
-      this.show(player, (response, error) => {
-        // If there is an error, reject the promise
-        if (error) reject(error);
-        // Resolve the promise with the response
-        else resolve(response);
+    // If a result callback is provided
+    if (result) {
+      // Add the form to the player's pending forms.
+      player.pendingForms.set(this.formId, {
+        player,
+        result,
+        instance: this
       });
-    });
+    }
+    // Otherwise, return a promise that resolves with the form response.
+    else {
+      return new Promise((resolve) => {
+        // Add the form to the player's pending forms with resolve and reject functions.
+        player.pendingForms.set(this.formId, {
+          player,
+          result: (response, error) => {
+            // If there is an error, resolve with null
+            if (error) resolve(error);
+            // Otherwise, resolve with the response
+            else resolve(response as T);
+          },
+          instance: this
+        });
+      });
+    }
   }
 
   /**

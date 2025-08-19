@@ -40,6 +40,8 @@ class ModalFormResponseHandler extends NetworkHandler {
       // Return the form with the response.
       participant.result(response, null);
     }
+
+    // Delete the participant from the pending forms.
     player.pendingForms.delete(packet.id);
   }
 }
