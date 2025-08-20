@@ -9,7 +9,7 @@ import { EntityIdentifier } from "../../../enums";
 import { EntityHurtSignal } from "../../../events";
 import { Entity } from "../../entity";
 import { EntityEquipmentTrait } from "../equipment";
-import { EntitySpawnOptions } from "../../../types";
+import { EntityDespawnOptions, EntitySpawnOptions } from "../../../types";
 import { ItemStackDurabilityTrait } from "../../../item";
 
 import { EntityAttributeTrait } from "./attribute";
@@ -87,6 +87,12 @@ class EntityHealthTrait extends EntityAttributeTrait {
 
     // Reset the health value
     this.currentValue = this.defaultValue;
+  }
+
+  public onDespawn(details: EntityDespawnOptions): void {
+    // If the entity is disconnected & the current value is less than or equal to the minimum value,
+    if (details.disconnected && this.currentValue <= this.minimumValue)
+      this.currentValue = this.maximumValue; // Reset the health value to the maximum value
   }
 
   public onDeath(): void {

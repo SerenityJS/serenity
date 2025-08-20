@@ -309,7 +309,7 @@ class Player extends Entity {
     this.sendImmediate(packet);
 
     // Despawn the player from the world
-    this.despawn();
+    this.despawn({ disconnected: true, hasDied: false });
   }
 
   /**

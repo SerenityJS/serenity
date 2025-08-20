@@ -46,6 +46,12 @@ interface EntityDespawnOptions {
    * If the entity is despawning due to death.
    */
   hasDied: boolean;
+
+  /**
+   * @note This is only used for players.
+   * If the player is disconnecting from the server.
+   */
+  disconnected?: boolean;
 }
 
 interface EntityDeathOptions {

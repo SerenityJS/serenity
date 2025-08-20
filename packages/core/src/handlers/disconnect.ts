@@ -20,7 +20,7 @@ class DisconnectHandler extends NetworkHandler {
     ).emit();
 
     // Despawn the player
-    player.despawn();
+    player.despawn({ disconnected: true, hasDied: false });
 
     // Save the player's data
     player.world.provider.writePlayer(player.getLevelStorage());
