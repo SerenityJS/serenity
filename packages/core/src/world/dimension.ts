@@ -150,7 +150,7 @@ class Dimension {
   /**
    * The spawn position of the dimension.
    */
-  public set spawnPosition(value: Vector3f) {
+  public set spawnPosition(value: IPosition) {
     this.properties.spawnPosition = [value.x, value.y, value.z];
   }
 

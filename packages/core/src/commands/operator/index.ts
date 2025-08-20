@@ -21,6 +21,7 @@ import SPAWNPOINT from "./spawnpoint";
 import ENCHANT from "./enchant";
 import PERMISSIONS from "./permissions";
 import STRUCTURE from "./structure";
+import SETDIMENSIONSPAWN from "./setdimensionspawn";
 
 // Define all the serenity operator commands
 const OperatorCommands = [
@@ -46,7 +47,8 @@ const OperatorCommands = [
   SPAWNPOINT,
   ENCHANT,
   PERMISSIONS,
-  STRUCTURE
+  STRUCTURE,
+  SETDIMENSIONSPAWN
 ];
 
 export { OperatorCommands };
