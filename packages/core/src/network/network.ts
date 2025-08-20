@@ -43,12 +43,14 @@ const DefaultProperties: ConnectionProperties = {
 interface NetworkProperties {
   compressionMethod: CompressionMethod;
   compressionThreshold: number;
+  frameMonitoring: boolean;
   packetsPerFrame: number;
 }
 
 const DefaultNetworkProperties: NetworkProperties = {
   compressionMethod: CompressionMethod.Zlib,
   compressionThreshold: 256,
+  frameMonitoring: true,
   packetsPerFrame: 64
 };
 
@@ -163,6 +165,17 @@ class Network extends Emitter<NetworkEvents> {
 
     // Register the handlers to the network
     for (const handler of handlers || []) this.registerHandler(handler);
+
+    // Check if frame monitoring is enabled
+    if (this.properties.frameMonitoring) {
+      // Log a debug message that frame monitoring is enabled
+      this.logger.debug(
+        `Frame monitoring is §aenabled§r; connections sending more than §u${this.properties.packetsPerFrame} packets-per-frame§r will be disconnected.`
+      );
+    } else {
+      // Log a debug message that frame monitoring is disabled
+      this.logger.debug(`Frame monitoring is §cdisabled§r.`);
+    }
   }
 
   /**
@@ -170,7 +183,13 @@ class Network extends Emitter<NetworkEvents> {
    * @param handler The handler to register to the network
    */
   public registerHandler(handler: typeof NetworkHandler): void {
+    // Add the handler to the handlers set
     this.handlers.add(new handler(this.serenity));
+
+    // Log a debug message that the handler has been registered
+    this.logger.debug(
+      `Registered handler §u${handler.name}§r which will listen for client bound §u${Packet[handler.packet]}§r packets.`
+    );
   }
 
   /**
@@ -187,6 +206,11 @@ class Network extends Emitter<NetworkEvents> {
         break;
       }
     }
+
+    // Log a debug message that the handler has been unregistered
+    this.logger.debug(
+      `Unregistered handler §u${handler.name}§r which will no longer listen for client bound §u${Packet[handler.packet]}§r packets.`
+    );
   }
 
   /**
@@ -205,7 +229,7 @@ class Network extends Emitter<NetworkEvents> {
 
     // Log a debug message that a connection has been established
     this.logger.debug(
-      `Connection established with ${connection.rinfo.address}:${connection.rinfo.port}`
+      `Connection established from §u${connection.rinfo.address}§r:§u${connection.rinfo.port}§r.`
     );
   }
 
@@ -302,10 +326,13 @@ class Network extends Emitter<NetworkEvents> {
       // Check if the frames amount is greater than the packets per frame.
       // If so, we will log a warning and disconnect the session.
       // This could be an attempt to crash the server, or some other malicious intent.
-      if (frames.length > this.properties.packetsPerFrame) {
+      if (
+        this.properties.frameMonitoring && // Check if frame monitoring is enabled
+        frames.length > this.properties.packetsPerFrame
+      ) {
         // Log a warning if too many packets were sent at once.
         this.logger.warn(
-          `Received too many packets from "${connection.rinfo.address}:${connection.rinfo.port}", disconnecting the session.`
+          `Received ${frames.length} packets from "${connection.rinfo.address}:${connection.rinfo.port}", which exceeds the packets per frame limit of ${this.properties.packetsPerFrame}. Disconnecting the session.`
         );
 
         // Disconnect the session if too many packets were sent at once.
@@ -325,7 +352,7 @@ class Network extends Emitter<NetworkEvents> {
         if (!packetType) {
           // Log a debug message if no packet was found for the packet id.
           this.logger.debug(
-            `No packet serializer/deserializer found for packet id ${Packet[packetId] ?? packetId}.`
+            `No packet serializer/deserializer found for packet §u${Packet[packetId] ?? packetId}§r.`
           );
 
           // Skip the packet if no packet was found for the packet id.
@@ -353,7 +380,7 @@ class Network extends Emitter<NetworkEvents> {
           if (!network || !all) {
             // Log a debug message if the packet was cancelled by an external listener.
             this.logger.debug(
-              `Packet received with id ${Packet[packetId] ?? packetId} was cancelled by an external listener.`
+              `Packet received with id §u${Packet[packetId] ?? packetId}§r was cancelled by an external listener.`
             );
 
             // Skip the packet if it was cancelled by an external listener.
@@ -369,7 +396,7 @@ class Network extends Emitter<NetworkEvents> {
           if (handlers.length === 0) {
             // Debug log that no handlers were found for the packet id.
             this.logger.debug(
-              `No handlers found for packet ${Packet[packetId]}, with id ${packetId}`
+              `No handlers found for packet §u${Packet[packetId]} §r(§u${packetId}§r).`
             );
 
             // Skip the packet if no handlers were found for the packet id.
