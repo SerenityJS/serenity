@@ -306,7 +306,9 @@ class World extends Emitter<WorldEventSignals> {
    * @returns An array of players.
    */
   public getPlayers(): Array<Player> {
-    return [...this.serenity.players.values()];
+    return [...this.serenity.players.values()].filter(
+      (player) => player.world === this
+    );
   }
 
   /**

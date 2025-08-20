@@ -6,6 +6,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
+import { EntityDespawnOptions } from "../../..";
 
 import { PlayerTrait } from "./trait";
 
@@ -52,9 +53,7 @@ class PlayerListTrait extends PlayerTrait {
     const players = this.player.dimension.world.getPlayers();
 
     // Filter out the players that are already in the player list & if the player is spawned
-    const adding = players.filter(
-      (player) => !this.players.has(player.uuid) && player.isAlive
-    );
+    const adding = players.filter((player) => !this.players.has(player.uuid));
 
     // Create a new player list packet for the players that need to be added to the player list
     const add = new PlayerListPacket();
@@ -102,9 +101,9 @@ class PlayerListTrait extends PlayerTrait {
     for (const uuid of removing) this.players.delete(uuid);
   }
 
-  public onDespawn(): void {
+  public onDespawn(details: EntityDespawnOptions): void {
     // Clear the player list
-    this.clear();
+    if (details.disconnected) this.clear();
   }
 
   public onRemove(): void {
