@@ -90,15 +90,25 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
     // Get the enchantment list tag from the item stack's NBT
     const ench = this.item.nbt.get<ListTag<CompoundTag>>("ench");
 
+    // Create a new list tag to filter out the enchantment to remove
+    const fitered = new ListTag<CompoundTag>([], "ench");
+
     // Check if the enchantment list tag exists
     if (ench) {
-      // Filter out the enchantment with the specified id
-      const filtered = ench.filter(
-        (element) => element.get<ShortTag>("id")?.valueOf() !== id
-      );
+      // Iterate over the enchantments and filter out the one to remove
+      for (const tag of ench) {
+        // Get the enchantment id from the tag
+        const enchantmentId = tag.get<ShortTag>("id")?.valueOf();
+
+        // If the enchantment id matches, remove the tag
+        if (enchantmentId === id) continue;
+
+        // Otherwise, add the tag to the filtered list
+        fitered.push(tag);
+      }
 
       // Set the filtered enchantment list tag back to the item stack's NBT
-      this.item.nbt.set("ench", new ListTag(filtered, "ench"));
+      this.item.nbt.set("ench", fitered);
     }
   }
 
