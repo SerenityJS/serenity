@@ -178,7 +178,7 @@ class PlayerCombatTrait extends PlayerTrait {
       this.getCalculatedHorizontalKnockback();
 
     // Calculate the vertical knockback
-    const y = this.getCalculatedVerticalKnockback() * 0.9;
+    const y = this.getCalculatedVerticalKnockback();
 
     // Calculate the horizontal knockback in the z direction
     const z =
@@ -186,14 +186,17 @@ class PlayerCombatTrait extends PlayerTrait {
       Math.cos(pitchRad) *
       this.getCalculatedHorizontalKnockback();
 
+    // Create a new vector for the knockback velocity.
+    const newVelocity = new Vector3f(x, y, z);
+
+    // Check if the target has an existing velocity in the y direction.
+    if (target.velocity.y !== 0) newVelocity.y = target.velocity.y;
+
     // Set the velocity of the entity
-    target.addMotion(new Vector3f(x, y, z));
+    target.setMotion(newVelocity);
 
     // Check if the player is critical attacking the entity.
-    const critical =
-      !this.isOnCriticalCooldown &&
-      this.player.isSprinting &&
-      !this.player.onGround;
+    const critical = !this.isOnCriticalCooldown && !this.player.onGround;
 
     // Get the calculated damage of the player.
     let damage = this.getCalculatedDamage(critical);
