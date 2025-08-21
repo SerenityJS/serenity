@@ -832,6 +832,39 @@ class Player extends Entity {
     }
   }
 
+  /**
+   * Get the current xp experience progress of the player.
+   * @returns The current experience progress of the player.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public getExperience(): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Return the experience from the PlayerLevelingTrait
+      return this.getTrait(PlayerLevelingTrait).getExperience();
+    }
+
+    // If the PlayerLevelingTrait is not present, return 0
+    return 0;
+  }
+
+  /**
+   * Set the current xp experience progress of the player.
+   * @param value The new experience progress to set for the player.
+   * @throws Will throw an error if the experience value is not between 0 and 1.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public setExperience(value: number): void {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Set the experience in the PlayerLevelingTrait
+      this.getTrait(PlayerLevelingTrait).setExperience(value);
+    } else {
+      // Add the PlayerLevelingTrait to the player
+      this.addTrait(PlayerLevelingTrait).setExperience(value);
+    }
+  }
+
   public getLevelStorage(): PlayerLevelStorage {
     // Call the super method to get the player level storage
     const storage = new PlayerLevelStorage(super.getLevelStorage());
