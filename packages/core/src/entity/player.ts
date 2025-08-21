@@ -64,7 +64,8 @@ import {
   PlayerChunkRenderingTrait,
   PlayerCraftingInputTrait,
   PlayerCursorTrait,
-  PlayerTrait
+  PlayerTrait,
+  PlayerLevelingTrait
 } from "./traits";
 import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
@@ -796,6 +797,39 @@ class Player extends Entity {
 
     // Send the packet to the player
     return this.send(packet);
+  }
+
+  /**
+   * Get the current xp level of the player.
+   * @returns The current level of the player.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public getLevel(): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Return the level from the PlayerLevelingTrait
+      return this.getTrait(PlayerLevelingTrait).getLevel();
+    }
+
+    // If the PlayerLevelingTrait is not present, return 0
+    return 0;
+  }
+
+  /**
+   * Set the current xp level of the player.
+   * @param value The new level to set for the player.
+   * @throws Will throw an error if the level is not a non-negative integer.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public setLevel(value: number): void {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Set the level in the PlayerLevelingTrait
+      this.getTrait(PlayerLevelingTrait).setLevel(value);
+    } else {
+      // Add the PlayerLevelingTrait to the player
+      this.addTrait(PlayerLevelingTrait).setLevel(value);
+    }
   }
 
   public getLevelStorage(): PlayerLevelStorage {
