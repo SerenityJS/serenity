@@ -833,6 +833,35 @@ class Player extends Entity {
   }
 
   /**
+   * Add xp levels to the player.
+   * @param value The number of levels to add to the player.
+   * @returns The new level of the player after adding the specified value.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public addLevels(value: number): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Get the PlayerLevelingTrait
+      const leveling = this.getTrait(PlayerLevelingTrait);
+
+      // Get the current level
+      const currentLevel = leveling.getLevel();
+
+      // Set the new level
+      leveling.setLevel(currentLevel + value);
+
+      // Return the new level
+      return leveling.getLevel();
+    } else {
+      // Add the PlayerLevelingTrait to the player and set the level
+      this.addTrait(PlayerLevelingTrait).setLevel(value);
+
+      // Return the new level
+      return value;
+    }
+  }
+
+  /**
    * Get the current xp experience progress of the player.
    * @returns The current experience progress of the player.
    * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
@@ -862,6 +891,35 @@ class Player extends Entity {
     } else {
       // Add the PlayerLevelingTrait to the player
       this.addTrait(PlayerLevelingTrait).setExperience(value);
+    }
+  }
+
+  /**
+   * Add experience to the player.
+   * @param value The amount of experience to add.
+   * @returns The new experience progress of the player after adding the specified value.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public addExperience(value: number): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Get the PlayerLevelingTrait
+      const leveling = this.getTrait(PlayerLevelingTrait);
+
+      // Get the current experience
+      const currentExperience = leveling.getExperience();
+
+      // Set the new experience
+      leveling.setExperience(currentExperience + value);
+
+      // Return the new experience
+      return leveling.getExperience();
+    } else {
+      // Add the PlayerLevelingTrait to the player and set the experience
+      this.addTrait(PlayerLevelingTrait).setExperience(value);
+
+      // Return the new experience
+      return value;
     }
   }
 
