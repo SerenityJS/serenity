@@ -48,13 +48,15 @@ class PlayerLevelingTrait extends PlayerTrait {
    * @throws Will throw an error if the experience value is not between 0 and 1.
    */
   public setExperience(value: number): void {
-    // Ensure the experience value is between 0 and 1
-    if (value < 0 || value > 1) {
-      throw new Error("Experience value must be between 0 and 1.");
-    }
+    // Parse the value to ensure it is a float
+    const levels = Math.trunc(value);
+    const float = value - levels;
+
+    // Set the level if the levels are greater than 0
+    if (levels > 0) this.setLevel(levels);
 
     // Set the PlayerLevelProgress tag in the player's NBT
-    this.player.nbt.set("PlayerLevelProgress", new FloatTag(value));
+    this.player.nbt.set("PlayerLevelProgress", new FloatTag(float));
 
     // Refresh the player's attributes after setting the experience
     this.refreshAttributes();

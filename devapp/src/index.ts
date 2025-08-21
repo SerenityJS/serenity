@@ -16,15 +16,23 @@ const serenity = new Serenity({
   }
 });
 
+serenity.on(WorldEvent.PlayerJoin, ({ player }) => {
+  player.setExperience(0);
+  player.setLevel(0);
+});
+
 serenity.on(WorldEvent.WorldInitialize, ({ world }) => {
+  let total = 0;
+
   world.commandPalette.register("test", "", ({ origin }) => {
     if (!(origin instanceof Player)) return;
+    // Generate a random level and experience from 0.0 to 10.0
+    const randomLevel = Math.random() * 10;
 
-    const leveling = origin.getTrait(PlayerLevelingTrait);
+    origin.addExperience(randomLevel);
+    total += randomLevel;
 
-    const currentLevel = leveling.getExperience();
-
-    leveling.setExperience(currentLevel + 0.1);
+    console.log(total);
   });
 });
 

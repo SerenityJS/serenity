@@ -818,7 +818,6 @@ class Player extends Entity {
   /**
    * Set the current xp level of the player.
    * @param value The new level to set for the player.
-   * @throws Will throw an error if the level is not a non-negative integer.
    * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
    */
   public setLevel(value: number): void {
@@ -880,7 +879,6 @@ class Player extends Entity {
   /**
    * Set the current xp experience progress of the player.
    * @param value The new experience progress to set for the player.
-   * @throws Will throw an error if the experience value is not between 0 and 1.
    * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
    */
   public setExperience(value: number): void {
@@ -909,17 +907,78 @@ class Player extends Entity {
       // Get the current experience
       const currentExperience = leveling.getExperience();
 
+      // Calculate the new experience value
+      const levels = Math.trunc(currentExperience + value);
+      const float = currentExperience + value - levels;
+
       // Set the new experience
-      leveling.setExperience(currentExperience + value);
+      leveling.setExperience(float);
+
+      // Check if the levels are greater than 0
+      if (levels > 0) this.addLevels(levels);
 
       // Return the new experience
       return leveling.getExperience();
     } else {
+      // Parse the value to ensure it is a float
+      const levels = Math.trunc(value);
+      const float = value - levels;
+
       // Add the PlayerLevelingTrait to the player and set the experience
-      this.addTrait(PlayerLevelingTrait).setExperience(value);
+      this.addTrait(PlayerLevelingTrait).setExperience(float);
+
+      // Check if the levels are greater than 0
+      if (levels > 0) this.addLevels(levels);
 
       // Return the new experience
       return value;
+    }
+  }
+
+  /**
+   * Get the total xp of the player.
+   * @returns The total experience of the player, which is the sum of the level and experience.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public getTotalXp(): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Get the PlayerLevelingTrait
+      const leveling = this.getTrait(PlayerLevelingTrait);
+
+      // Return the total experience of the player
+      return leveling.getLevel() + leveling.getExperience();
+    }
+
+    // If the PlayerLevelingTrait is not present, return 0
+    return 0;
+  }
+
+  /**
+   * Set the total xp of the player.
+   * @param value The total experience to set for the player.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public setTotalXp(value: number): void {
+    // Parse the value to ensure it is a float
+    const level = Math.trunc(value);
+    const experience = value - level;
+
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Get the PlayerLevelingTrait
+      const leveling = this.getTrait(PlayerLevelingTrait);
+
+      // Set the level and experience in the PlayerLevelingTrait
+      leveling.setLevel(level);
+      leveling.setExperience(experience);
+    } else {
+      // Add the PlayerLevelingTrait to the player
+      const leveling = this.addTrait(PlayerLevelingTrait);
+
+      // Set the level and experience in the PlayerLevelingTrait
+      leveling.setLevel(level);
+      leveling.setExperience(experience);
     }
   }
 
