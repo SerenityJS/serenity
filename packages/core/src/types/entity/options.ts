@@ -48,6 +48,11 @@ interface EntityDespawnOptions {
   hasDied: boolean;
 
   /**
+   * If the entity is despawning due to a dimension change.
+   */
+  changedDimensions: boolean;
+
+  /**
    * @note This is only used for players.
    * If the player is disconnecting from the server.
    */

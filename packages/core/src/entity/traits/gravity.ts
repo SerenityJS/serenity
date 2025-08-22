@@ -1,7 +1,11 @@
 import { ActorDamageCause, ActorFlag, Gamemode } from "@serenityjs/protocol";
 
 import { BlockIdentifier, EntityIdentifier } from "../../enums";
-import { EntityFallOnBlockTraitEvent } from "../../types";
+import {
+  EntityDespawnOptions,
+  EntityFallOnBlockTraitEvent,
+  EntitySpawnOptions
+} from "../../types";
 
 import { EntityTrait } from "./trait";
 import { EntityHealthTrait } from "./attribute";
@@ -145,6 +149,22 @@ class EntityGravityTrait extends EntityTrait {
 
       // Apply the fall damage to the entity
       health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
+    }
+  }
+
+  public onDespawn(details: EntityDespawnOptions): void {
+    // Check if the entity is despawning due to dimension change
+    if (details.changedDimensions) {
+      // Set the entity flag for gravity to false
+      this.entity.flags.set(ActorFlag.HasGravity, false);
+    }
+  }
+
+  public onSpawn(details: EntitySpawnOptions): void {
+    // Check if the entity is spawning due to dimension change
+    if (details.changedDimensions) {
+      // Set the entity flag for gravity to true
+      this.entity.flags.set(ActorFlag.HasGravity, true);
     }
   }
 }

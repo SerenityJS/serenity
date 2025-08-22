@@ -801,6 +801,7 @@ class Entity {
     // Spread the default options
     options = {
       hasDied: false,
+      changedDimensions: false,
       ...options
     };
 
@@ -884,7 +885,7 @@ class Entity {
       else {
         // Iterate over the traits of the entity
         for (const trait of this.traits.values())
-          trait.onDespawn?.({ hasDied: true });
+          trait.onDespawn?.({ hasDied: true, changedDimensions: false });
       }
     });
   }
@@ -1116,7 +1117,7 @@ class Entity {
     if (this.dimension === dimension) return;
 
     // Despawn the entity from the current dimension
-    this.despawn();
+    this.despawn({ changedDimensions: true });
 
     // Create a new EntityDimensionChangeSignal
     new EntityDimensionChangeSignal(this, this.dimension, dimension).emit();

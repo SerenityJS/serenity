@@ -640,7 +640,7 @@ class Player extends Entity {
     if (this.dimension === dimension) return;
 
     // Despawn the player from the current dimension
-    this.despawn();
+    this.despawn({ changedDimensions: true });
 
     // Create a new EntityDimensionChangeSignal
     new EntityDimensionChangeSignal(this, this.dimension, dimension).emit();

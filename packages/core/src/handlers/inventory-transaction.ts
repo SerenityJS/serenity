@@ -181,8 +181,21 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Get the held item stack from the player
         const stack = player.getHeldItem();
 
+        // Prepare a flag to determine if the item stack is a block placer
+        let placingBlock = true;
+
+        // Get the block placer from the item type
+        const blockPlacer = stack?.type.components.getBlockPlacer();
+
         // Determine if the item stack is a block placer
-        const placingBlock = stack?.components.hasBlockPlacer() ?? false;
+        if (blockPalette) {
+          // Get the block type from the block placer
+          const blockType = blockPlacer?.getBlockType();
+
+          // Check if the block type exists and is not air
+          if (!blockType || blockType.identifier === BlockIdentifier.Air)
+            placingBlock = false;
+        }
 
         // Interact with the block
         const results = interacting.interact({
@@ -192,9 +205,28 @@ class InventoryTransactionHandler extends NetworkHandler {
           placingBlock
         });
 
-        // Check if the interaction failed, or if the interaction opened a container
-        if (results.cancel || !results.placingBlock || player.openedContainer)
-          return; // If so, we skip the block placement
+        // Check if the interaction was canceled and the player is placing a block
+        if (results.cancel && results.placingBlock) {
+          // Update the item stack to reflect the interaction
+          if (stack) stack.update();
+
+          // Create a new UpdateBlockPacket to revert the block state
+          const packet = new UpdateBlockPacket();
+          packet.position = resultant.position;
+          packet.networkBlockId = resultant.permutation.networkId;
+          packet.layer = UpdateBlockLayerType.Normal;
+          packet.flags = UpdateBlockFlagsType.Network;
+
+          // Send the packet to the player
+          return player.send(packet);
+        } else if (
+          results.cancel || // If the interaction was canceled by a trait
+          !results.placingBlock || // If the interaction did not place a block
+          player.openedContainer // If the interaction opened a container for the player
+        ) {
+          // If any condition is true, we do not want to place a block
+          return stack?.update(); // Update the item stack to reflect the interaction
+        }
 
         // Check if the client prediction failed to place the block
         if (transaction.clientPrediction === PredictedResult.Failure) {
@@ -317,9 +349,13 @@ class InventoryTransactionHandler extends NetworkHandler {
           sound.uniqueActorId = -1n;
 
           // Check if the block placement was canceled, revert the block
-          if (options.cancel)
+          if (options.cancel) {
+            // Increment the item stack
+            stack.incrementStack();
+
+            // Revert the block to its previous state
             return resultant.setPermutation(previousPermutation);
-          else return resultant.dimension.broadcast(sound); // If not, broadcast the sound
+          } else return resultant.dimension.broadcast(sound); // If not, broadcast the sound
         }
       }
 
