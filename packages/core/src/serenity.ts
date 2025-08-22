@@ -49,6 +49,7 @@ const DefaultSerenityProperties: SerenityProperties = {
   movementValidation: true,
   movementHorizontalThreshold: 0.4,
   movementVerticalThreshold: 0.6,
+  shutdownMessage: "Server is shutting down.",
   ticksPerSecond: 20,
   debugLogging: false
 };
@@ -385,7 +386,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       player.world.provider.writePlayer(player.getLevelStorage());
 
       // Disconnect the player from the server
-      player.disconnect("Server closed.", DisconnectReason.Disconnected);
+      player.disconnect(
+        this.properties.shutdownMessage, // Use the shutdown message from the properties
+        DisconnectReason.Disconnected
+      );
     }
 
     // Shutdown all world providers
