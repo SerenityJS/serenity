@@ -6,7 +6,7 @@ interface ResourcePackEntry {
 interface ResourcePacksProperties {
   path: string | null;
   mustAcceptPacks: boolean;
-  resourcePacks: Array<ResourcePackEntry>;
+  resources: Array<ResourcePackEntry>;
 }
 
 export { ResourcePackEntry, ResourcePacksProperties };

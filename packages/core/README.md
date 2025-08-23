@@ -11,7 +11,7 @@ const serenity = new Serenity({
   path: "./properties.json",
   serenity: {
     permissions: "./permissions.json",
-    resourcePacks: "./resource_packs",
+    resources: "./resource_packs",
   }
 });
 
