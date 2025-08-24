@@ -54,11 +54,6 @@ class Pipeline {
   public readonly plugins = new Map<string, Plugin>();
 
   /**
-   * The temporary paths used by the pipeline.
-   */
-  protected readonly tempPaths = new Set<string>();
-
-  /**
    * Whether the pipeline is running in ESM mode.
    */
   public readonly esm: boolean =
@@ -409,6 +404,15 @@ class Pipeline {
       // Initialize the plugin, and bind the events
       plugin.onInitialize(plugin);
       this.bindEvents(plugin);
+
+      // Check if the plugin is bundled
+      if (plugin.isBundled) {
+        // Create a temporary path for the plugin
+        const temp = resolve(this.path, `${plugin.path.slice(0, -7)}.js`);
+
+        // Delete the temporary file if it exists
+        if (existsSync(temp)) setTimeout(() => unlinkSync(temp));
+      }
     }
   }
 
@@ -426,12 +430,6 @@ class Pipeline {
   public stop(): void {
     // Shut down all the plugins
     for (const plugin of this.plugins.values()) plugin.onShutDown(plugin);
-
-    // Delete all the temporary files
-    for (const tempPath of this.tempPaths) {
-      // Delete the temporary file
-      unlinkSync(tempPath);
-    }
   }
 
   /**
@@ -444,13 +442,16 @@ class Pipeline {
     source: string,
     isBundled = false
   ): Plugin | null {
+    // Create a temporary path for the plugin
+    const temp = resolve(path.slice(0, -7) + ".js");
+
     // Write the source to the temporary path
-    writeFileSync(resolve(path.slice(0, -7)), source);
+    writeFileSync(resolve(temp), source);
 
     // Attempt to load the plugin
     try {
       // Attempt to import the plugin module
-      const module = require(resolve(path.slice(0, -7)));
+      const module = require(resolve(temp));
 
       // Get the plugin class from the module
       const plugin = module.default as Plugin;
@@ -461,9 +462,6 @@ class Pipeline {
         this.logger.warn(
           `Unable to load plugin §u${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
         );
-
-        // Delete the temporary file
-        unlinkSync(resolve(path.slice(0, -7)));
 
         // Skip the plugin
         return null;
@@ -484,9 +482,6 @@ class Pipeline {
       // Add the plugin to the plugins enum
       PluginsEnum.options.push(plugin.identifier);
 
-      // Delete the temporary file
-      unlinkSync(resolve(path.slice(0, -7)));
-
       // Return the plugin
       return plugin;
     } catch (reason) {
@@ -496,9 +491,6 @@ class Pipeline {
         reason
       );
     }
-
-    // Delete the temporary file
-    unlinkSync(resolve(path.slice(0, -7)));
 
     // Return null if the plugin failed to load
     return null;
