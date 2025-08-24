@@ -1,9 +1,8 @@
-import { Serenity } from "@serenityjs/core";
+import { ResourcePack, Serenity } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Emitter } from "@serenityjs/emitter";
 
 import { Pipeline } from "./pipeline";
-import { PluginType } from "./enums";
 import { PluginEvents } from "./types";
 import {
   PluginBlockRegistry,
@@ -17,11 +16,6 @@ interface PluginOptions extends Partial<PluginEvents> {
    * The logger instance for the plugin.
    */
   logger: Logger;
-
-  /**
-   * The type of the plugin.
-   */
-  type: PluginType;
 
   /**
    * The type of the plugin.
@@ -82,11 +76,6 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
   public readonly logger: Logger;
 
   /**
-   * The type of the plugin.
-   */
-  public readonly type: PluginType;
-
-  /**
    * The priority of the plugin.
    * @note This is used to determine the order in which plugins are loaded.
    */
@@ -109,6 +98,8 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * @note Only register types/traits during the `onInitialize` event.
    */
   public readonly entities = new PluginEntityRegistry();
+
+  public readonly resources = new Set<ResourcePack>();
 
   /**
    * The path to the plugin.
@@ -156,9 +147,6 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
     this.logger =
       options?.logger ??
       new Logger(`${identifier}@${version}`, LoggerColors.Blue);
-
-    // Set the type of the plugin
-    this.type = options?.type ?? PluginType.Addon;
 
     // Set the on initialize, start up, and shut down options
     if (options?.onInitialize) this.onInitialize = options.onInitialize;

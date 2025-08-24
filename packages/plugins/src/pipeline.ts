@@ -4,13 +4,11 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
-  renameSync,
   unlinkSync,
   writeFileSync
 } from "node:fs";
 import { relative, resolve } from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
-import { execSync } from "node:child_process";
 
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Serenity, ServerEvent, WorldEvent } from "@serenityjs/core";
@@ -20,7 +18,7 @@ import { PluginPackage } from "./types";
 import { Plugin } from "./plugin";
 import Command from "./commands/command";
 import { PluginsEnum } from "./commands";
-import { PluginType } from "./enums";
+import { PluginType, PluginHeader } from "./enums";
 
 interface PipelineProperties {
   path: string;
@@ -160,86 +158,115 @@ class Pipeline {
         const buffer = inflateSync(readFileSync(path));
         const stream = new BinaryStream(buffer);
 
-        // Read the plugin type from the stream
-        const type = stream.readByte();
+        // Read the plugin header from the stream
+        const type = stream.readByte() as PluginType | PluginHeader;
 
-        // Check if the plugin type is valid
-        if (type === PluginType.Addon) {
-          // Read the module entry point from the stream
-          const index = stream.readRemainingBuffer().toString("utf-8");
+        switch (type) {
+          case PluginHeader.HasNoResources: {
+            // Read the length of the index file from the stream
+            const length = stream.readVarInt();
 
-          // Write the module or main entry points to temporary files
-          const tempPath = resolve(this.path, bundle.name.slice(0, -7));
-          writeFileSync(tempPath, index);
+            // Read the module entry point from the stream
+            const index = stream.readBuffer(length).toString("utf-8");
 
-          // Import the plugin module
-          const module = require(tempPath);
+            // Load the plugin from the text source
+            const plugin = this.loadFromTextSource(path, index, true);
 
-          // Get the plugin class from the module
-          const plugin = module.default as Plugin;
+            // Push the plugin to the ordered plugins array
+            if (plugin) orderedPlugins.push(plugin);
 
-          // Link the module to the pipeline
-          this.linkModule(plugin.identifier, module);
-
-          // Check if the plugin has already been loaded
-          if (this.plugins.has(plugin.identifier)) {
-            this.logger.warn(
-              `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
-            );
-
-            // Skip the plugin
-            continue;
+            // Break out of the switch statement
+            break;
           }
 
-          // Set the pipeline, serenity, and path for the plugin
-          plugin.pipeline = this;
-          plugin.serenity = this.serenity;
-          plugin.path = path;
-          plugin.isBundled = true;
+          case PluginHeader.HasResources: {
+            // Read the length of the index file from the stream
+            const length = stream.readVarInt();
 
-          // Add the plugin to the plugins map
-          this.plugins.set(plugin.identifier, plugin);
+            // Read the module entry point from the stream
+            const index = stream.readBuffer(length).toString("utf-8");
 
-          // Push the plugin to the ordered plugins array
-          orderedPlugins.push(plugin);
+            // Load the plugin from the text source
+            const plugin = this.loadFromTextSource(path, index, true);
 
-          // Add the plugin to the plugins enum
-          PluginsEnum.options.push(plugin.identifier);
+            // Check if the plugin was loaded successfully
+            if (!plugin) break;
 
-          // Add the temporary path to the set
-          this.tempPaths.add(tempPath);
-        } else if (type === PluginType.Api) {
-          // Read the buffer from the stream
-          const buffer = stream.readRemainingBuffer();
+            // Push the plugin to the ordered plugins array
+            orderedPlugins.push(plugin);
 
-          // Delete the .plugin file
-          unlinkSync(path);
+            // Read the amount of resources from the stream
+            const resources = stream.readVarInt();
 
-          // Write the buffer to a temporary file
-          const tempPath = resolve(this.path, bundle.name.slice(0, -7));
+            // Iterate over all the resources, and read them from the stream
+            for (let i = 0; i < resources; i++) {
+              // Attempt to read the resource pack
+              try {
+                // Read the length of the resource pack from the stream
+                const length = stream.readVarInt();
 
-          // Write the buffer to the temporary file
-          writeFileSync(tempPath, buffer);
+                // Read the resource pack from the stream
+                const buffer = stream.readBuffer(length);
 
-          // Extract the tarball to the plugins directory
-          execSync(`tar -xzf ${tempPath} -C ${this.path}`, {
-            stdio: "ignore"
-          });
+                // Load the resource pack from the buffer
+                const resource = this.serenity.resources.loadFromZip(buffer);
 
-          // Delete the temporary file
-          unlinkSync(tempPath);
+                // Log the successful load of the resource pack
+                plugin.logger.success(
+                  `Loaded resource pack §u${resource.name}§r (§8${resource.uuid}§r).`
+                );
 
-          // Get the plugin name from the tarball
-          const name = bundle.name.slice(0, -7);
+                // Add the resource pack to the plugin resources set
+                plugin.resources.add(resource);
+              } catch (reason) {
+                // Log the error if the resource pack failed to load
+                this.logger.error(
+                  `Failed to load resource pack §8${relative(
+                    process.cwd(),
+                    resolve(this.path, bundle.name)
+                  )}§r for plugin §1${plugin.identifier}§r.`,
+                  reason
+                );
+              }
+            }
 
-          // Rename the extracted "package" directory to the plugin name
-          renameSync(resolve(this.path, "package"), resolve(this.path, name));
+            // Break out of the switch statement
+            break;
+          }
 
-          // Install the dependencies for the plugin
-          execSync("npm install", {
-            cwd: resolve(this.path, name),
-            stdio: "ignore"
-          });
+          // DEPRECATED: Eventually remove support for these plugin types
+          case PluginType.Addon: {
+            // We will handle addon plugins, but mention that they are deprecated
+            this.logger.warn(
+              `The plugin §1${relative(
+                process.cwd(),
+                resolve(this.path, bundle.name)
+              )}§r is using a deprecated plugin type (Addon). Please update the plugin to use the new plugin system.`
+            );
+
+            // Read the module entry point from the stream
+            const index = stream.readRemainingBuffer().toString("utf-8");
+
+            // Load the plugin from the text source
+            const plugin = this.loadFromTextSource(path, index, true);
+
+            // Push the plugin to the ordered plugins array
+            if (plugin) orderedPlugins.push(plugin);
+
+            // Break out of the switch statement
+            break;
+          }
+
+          // DEPRECATED: Eventually remove support for these plugin types
+          case PluginType.Api: {
+            // We no longer support API plugins
+            this.logger.error(
+              `The plugin §1${relative(
+                process.cwd(),
+                resolve(this.path, bundle.name)
+              )}§r is using a deprecated plugin type (API). API plugins are no longer supported. Please update the plugin to use the new plugin system.`
+            );
+          }
         }
       } catch (reason) {
         // Log the error
@@ -271,13 +298,12 @@ class Pipeline {
         ) as PluginPackage;
 
         // Get the main entry point for the plugin
-        // const main = resolve(path, this.esm ? manifest.module : manifest.main);
         const main = resolve(path, manifest.main);
 
         // Check if the provided entry point is valid
         if (!existsSync(resolve(path, main))) {
           this.logger.warn(
-            `Unable to load plugin §1${manifest.name}§8@§1${manifest.version}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+            `Unable to load plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${manifest.version ?? "unknown-version"}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
           );
 
           // Skip the plugin
@@ -290,13 +316,10 @@ class Pipeline {
         // Get the plugin class from the module
         const plugin = module.default as Plugin;
 
-        // Link the module to the pipeline
-        this.linkModule(plugin.identifier, module);
-
         // Check if the plugin has already been loaded
         if (this.plugins.has(plugin.identifier)) {
           this.logger.warn(
-            `Unable to load plugin §1${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
+            `Unable to load plugin §u${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
           );
 
           // Skip the plugin
@@ -309,6 +332,9 @@ class Pipeline {
         plugin.path = path;
         plugin.isBundled = false;
 
+        // Link the module to the pipeline
+        this.linkModule(plugin.identifier, module);
+
         // Add the plugin to the plugins map
         this.plugins.set(plugin.identifier, plugin);
 
@@ -317,6 +343,45 @@ class Pipeline {
 
         // Push the plugin to the ordered plugins array
         orderedPlugins.push(plugin);
+
+        // Check if a "resource_packs" directory exists in the plugin
+        if (!existsSync(resolve(path, "resource_packs"))) {
+          // Create the resource_packs directory
+          mkdirSync(resolve(path, "resource_packs"));
+        }
+
+        // Read the contents of the resource_pack directory, only including directories
+        const resources = readdirSync(resolve(path, "resource_packs"), {
+          withFileTypes: true
+        }).filter((dirent) => dirent.isDirectory());
+
+        // Iterate over all the resource pack directories, and attempt to load them
+        for (const resource of resources) {
+          // Attempt to load the resource pack
+          try {
+            // Read the resource pack, and add it to the serenity resources
+            const pack = this.serenity.resources.loadFromPath(
+              resolve(path, "resource_packs", resource.name)
+            );
+
+            // Log the successful load of the resource pack
+            plugin.logger.success(
+              `Loaded resource pack §u${pack.name}§r (§8${pack.uuid}§r).`
+            );
+
+            // Add the resource pack to the plugin resources set
+            plugin.resources.add(pack);
+          } catch (reason) {
+            // Log the error if the resource pack failed to load
+            this.logger.error(
+              `Failed to load resource pack §8${relative(
+                process.cwd(),
+                resolve(path, "resource_packs", resource.name)
+              )}§r for plugin §1${plugin.identifier}§r.`,
+              reason
+            );
+          }
+        }
       } catch (reason) {
         // Log the error
         this.logger.error(
@@ -369,6 +434,76 @@ class Pipeline {
     }
   }
 
+  /**
+   * Load a plugin from a text source.
+   * @param source The source code of the plugin.
+   * @param isBundled Whether the plugin is bundled or not.
+   */
+  public loadFromTextSource(
+    path: string,
+    source: string,
+    isBundled = false
+  ): Plugin | null {
+    // Write the source to the temporary path
+    writeFileSync(resolve(path.slice(0, -7)), source);
+
+    // Attempt to load the plugin
+    try {
+      // Attempt to import the plugin module
+      const module = require(resolve(path.slice(0, -7)));
+
+      // Get the plugin class from the module
+      const plugin = module.default as Plugin;
+
+      // Check if the plugin has already been loaded
+      if (this.plugins.has(plugin.identifier)) {
+        // Log the warning that the plugin is already loaded
+        this.logger.warn(
+          `Unable to load plugin §u${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
+        );
+
+        // Delete the temporary file
+        unlinkSync(resolve(path.slice(0, -7)));
+
+        // Skip the plugin
+        return null;
+      }
+
+      // Set the pipeline, serenity, and path for the plugin
+      plugin.pipeline = this;
+      plugin.serenity = this.serenity;
+      plugin.path = resolve(path);
+      plugin.isBundled = isBundled;
+
+      // Link the module to the pipeline
+      this.linkModule(plugin.identifier, module);
+
+      // Add the plugin to the plugins map
+      this.plugins.set(plugin.identifier, plugin);
+
+      // Add the plugin to the plugins enum
+      PluginsEnum.options.push(plugin.identifier);
+
+      // Delete the temporary file
+      unlinkSync(resolve(path.slice(0, -7)));
+
+      // Return the plugin
+      return plugin;
+    } catch (reason) {
+      // Log the error
+      this.logger.error(
+        `Failed to load plugin from §8${relative(process.cwd(), path)}§r, skipping the plugin.`,
+        reason
+      );
+    }
+
+    // Delete the temporary file
+    unlinkSync(resolve(path.slice(0, -7)));
+
+    // Return null if the plugin failed to load
+    return null;
+  }
+
   public reload(plugin: Plugin): void {
     // Shut down the plugin
     plugin.onShutDown(plugin);
@@ -385,50 +520,146 @@ class Pipeline {
     // Remove the plugin from the serenity instance
     this.serenity.removePath(path);
 
-    // Attempt to load the plugin
-    try {
-      // Import the plugin module
+    // Iterate over all the resources in the plugin, and remove them from the serenity instance
+    for (const resource of plugin.resources) {
+      // Remove the resource pack from the serenity instance
+      this.serenity.resources.packs.delete(resource.uuid);
+    }
 
-      const module = require(path);
+    if (plugin.isBundled) {
+      // Read the .plugin file and inflate it, and create a new binary stream
+      const buffer = inflateSync(readFileSync(path));
 
-      // Get the plugin class from the module
-      const rPlugin = module.default as Plugin;
+      // Create a new binary stream from the buffer
+      const stream = new BinaryStream(buffer);
 
-      // Check if the plugin is an instance of the Plugin class
-      if (!(rPlugin instanceof Plugin)) {
+      // Read the plugin header from the stream
+      const type = stream.readByte() as PluginType | PluginHeader;
+
+      switch (type) {
+        case PluginHeader.HasNoResources: {
+          // Read the length of the index file from the stream
+          const length = stream.readVarInt();
+
+          // Read the module entry point from the stream
+          const index = stream.readBuffer(length).toString("utf-8");
+
+          // Load the plugin from the text source
+          const newPlugin = this.loadFromTextSource(path, index, true);
+
+          // Check if the plugin was loaded successfully
+          if (!newPlugin) break;
+
+          // Initialize the plugin, and bind the events
+          newPlugin.onInitialize(newPlugin);
+          this.bindEvents(newPlugin);
+
+          // Start up the plugin
+          newPlugin.onStartUp(newPlugin);
+
+          // Break out of the switch statement
+          break;
+        }
+
+        case PluginHeader.HasResources: {
+          // Read the length of the index file from the stream
+          const length = stream.readVarInt();
+
+          // Read the module entry point from the stream
+          const index = stream.readBuffer(length).toString("utf-8");
+
+          // Load the plugin from the text source
+          const newPlugin = this.loadFromTextSource(path, index, true);
+
+          // Check if the plugin was loaded successfully
+          if (!newPlugin) break;
+
+          // Initialize the plugin, and bind the events
+          newPlugin.onInitialize(newPlugin);
+          this.bindEvents(newPlugin);
+
+          // Start up the plugin
+          newPlugin.onStartUp(newPlugin);
+
+          // Read the amount of resources from the stream
+          const resources = stream.readVarInt();
+
+          // Iterate over all the resources, and read them from the stream
+          for (let i = 0; i < resources; i++) {
+            // Attempt to load the resource pack
+            try {
+              // Read the length of the resource pack from the stream
+              const length = stream.readVarInt();
+
+              // Read the resource pack from the stream
+              const buffer = stream.readBuffer(length);
+
+              // Load the resource pack from the buffer
+              const resource = this.serenity.resources.loadFromZip(buffer);
+
+              // Log the successful load of the resource pack
+              newPlugin.logger.success(
+                `Loaded resource pack §u${resource.name}§r (§8${resource.uuid}§r).`
+              );
+
+              // Add the resource pack to the plugin resources set
+              newPlugin.resources.add(resource);
+            } catch (reason) {
+              // Log the error if the resource pack failed to load
+              this.logger.error(
+                `Failed to load resource pack §8${relative(
+                  process.cwd(),
+                  resolve(this.path, path)
+                )}§r for plugin §1${newPlugin.identifier}§r.`,
+                reason
+              );
+            }
+          }
+        }
+      }
+    } else {
+      // Read the package.json file
+      const manifest = JSON.parse(
+        readFileSync(resolve(path, "package.json"), "utf-8")
+      ) as PluginPackage;
+
+      // Get the main entry point for the plugin
+      const main = resolve(path, manifest.main);
+
+      // Check if the provided entry point is valid
+      if (!existsSync(resolve(path, main))) {
         this.logger.warn(
-          `Unable to reload plugin from §8${relative(process.cwd(), path)}§r, the plugin is not an instance of the Plugin class.`
+          `Unable to reload plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${manifest.version ?? "unknown-version"}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
         );
 
         // Skip the plugin
         return;
       }
 
+      // Attempt to import the plugin module
+      const module = require(resolve(path, main));
+
+      // Get the plugin class from the module
+      const newPlugin = module.default as Plugin;
+
       // Set the pipeline, serenity, and path for the plugin
-      rPlugin.pipeline = this;
-      rPlugin.serenity = this.serenity;
-      rPlugin.path = path;
+      newPlugin.pipeline = this;
+      newPlugin.serenity = this.serenity;
+      newPlugin.path = path;
+      newPlugin.isBundled = false;
+
+      // Link the module to the pipeline
+      this.linkModule(newPlugin.identifier, module);
 
       // Add the plugin to the plugins map
-      this.plugins.set(rPlugin.identifier, rPlugin);
+      this.plugins.set(newPlugin.identifier, newPlugin);
 
-      // Initialize the plugin
-      rPlugin.onInitialize(rPlugin);
-      this.bindEvents(rPlugin);
+      // Add the plugin to the plugins enum
+      PluginsEnum.options.push(newPlugin.identifier);
 
-      // Start up the plugin
-      rPlugin.onStartUp(rPlugin);
-
-      // Log the successful reload
-      this.logger.info(
-        `Successfully reloaded plugin §1${rPlugin.identifier}§r from §8${relative(process.cwd(), path)}§r.`
-      );
-    } catch (reason) {
-      // Log the error
-      this.logger.error(
-        `Failed to reload plugin from §8${relative(process.cwd(), path)}§r, skipping the plugin.`,
-        reason
-      );
+      // Initialize the plugin, and bind the events
+      newPlugin.onInitialize(newPlugin);
+      this.bindEvents(newPlugin);
     }
   }
 
@@ -436,50 +667,77 @@ class Pipeline {
     // Create a new BinaryStream instance
     const stream = new BinaryStream();
 
+    // Determine the plugin header based on the resources
+    const header =
+      plugin.resources.size > 0
+        ? PluginHeader.HasResources
+        : PluginHeader.HasNoResources;
+
     // Write the plugin type to the stream
-    stream.writeByte(plugin.type);
+    stream.writeByte(header);
 
-    if (plugin.type === PluginType.Addon) {
-      // Get the addon path
-      const inputPath = resolve(plugin.path, "dist");
+    // Switch based on the plugin header
+    switch (header) {
+      case PluginHeader.HasNoResources: {
+        // Get the path to the plugin's compiled index file
+        const path = resolve(plugin.path, "dist", "index.js");
 
-      // Read the index file
-      const index = readFileSync(resolve(inputPath, "index.js"));
+        // Read the index file from the plugin
+        const index = readFileSync(path);
 
-      // Write the module entry point to the stream
-      stream.writeBuffer(index);
+        // Write the length of the index file to the stream
+        stream.writeVarInt(index.byteLength);
 
-      // Write the BinaryStream to the output path
-      writeFileSync(
-        resolve(this.path, `${plugin.identifier}.plugin`),
-        deflateSync(stream.getBuffer())
-      );
-    } else if (plugin.type === PluginType.Api) {
-      // Pack the plugin
-      execSync("npm pack", { cwd: plugin.path, stdio: "ignore" });
+        // Write the index file to the stream
+        stream.writeBuffer(index);
 
-      // Get the tarball path
-      const tarball = readdirSync(plugin.path).find((file) =>
-        file.endsWith(".tgz")
-      );
+        // Write the BinaryStream to the output path
+        writeFileSync(
+          resolve(this.path, `${plugin.identifier}-v${plugin.version}.plugin`),
+          deflateSync(stream.getBuffer())
+        );
 
-      // Check if the tarball exists
-      if (!tarball) throw new Error("Packed tarball not found.");
+        // Break out of the switch statement
+        break;
+      }
 
-      // Read the tarball file
-      const buffer = readFileSync(resolve(plugin.path, tarball));
+      case PluginHeader.HasResources: {
+        // Get the path to the plugin's compiled index file
+        const path = resolve(plugin.path, "dist", "index.js");
 
-      // Delete the tarball file
-      unlinkSync(resolve(plugin.path, tarball));
+        // Read the index file from the plugin
+        const index = readFileSync(path);
 
-      // Write the buffer to the output path
-      stream.writeBuffer(buffer);
+        // Write the length of the index file to the stream
+        stream.writeVarInt(index.byteLength);
 
-      // Write the buffer to the output path
-      writeFileSync(
-        resolve(this.path, `${plugin.identifier}.plugin`),
-        deflateSync(stream.getBuffer())
-      );
+        // Write the index file to the stream
+        stream.writeBuffer(index);
+
+        // Write the amount of resources to the stream
+        stream.writeVarInt(plugin.resources.size);
+
+        // Iterate over all the resources, and write them to the stream
+        for (const resource of plugin.resources) {
+          // Compress the resource pack into a buffer
+          const buffer = resource.compress();
+
+          // Write the length of the resource pack to the stream
+          stream.writeVarInt(buffer.byteLength);
+
+          // Write the resource pack to the stream
+          stream.writeBuffer(buffer);
+        }
+
+        // Write the BinaryStream to the output path
+        writeFileSync(
+          resolve(this.path, `${plugin.identifier}-v${plugin.version}.plugin`),
+          deflateSync(stream.getBuffer())
+        );
+
+        // Break out of the switch statement
+        break;
+      }
     }
   }
 

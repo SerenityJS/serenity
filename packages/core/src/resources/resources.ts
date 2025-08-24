@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
 
+import { unzipSync } from "fflate";
 import { ResourcePackDescriptor } from "@serenityjs/protocol";
 
 import { ResourceManifest } from "..";
@@ -76,6 +77,74 @@ class Resources {
         }
       }
     }
+  }
+
+  /**
+   * Load a resource pack from a given path.
+   * @param path The path to the resource pack.
+   * @returns The loaded ResourcePack instance.
+   */
+  public loadFromPath(path: string): ResourcePack {
+    // Read the pack from the provided path
+    const pack = this.readPack(path);
+
+    // Check if the pack is already loaded
+    if (this.packs.has(pack.uuid))
+      throw new Error(
+        `The resource pack with the UUID ${pack.uuid} is already loaded.`
+      );
+
+    // Add the pack to the list of packs
+    this.packs.set(pack.uuid, pack);
+
+    // Return the pack
+    return pack;
+  }
+
+  /**
+   * Load a resource pack from a zip buffer.
+   * @param buffer The zip buffer containing the resource pack.
+   * @returns The loaded ResourcePack instance.
+   */
+  public loadFromZip(buffer: Buffer): ResourcePack {
+    // Unzip the buffer into a file tree
+    const fileTree = unzipSync(buffer) as FileMap<Uint8Array>;
+
+    // Check if the manifest file exists in the file tree
+    if (!fileTree["manifest.json"]) {
+      // Throw an error if the manifest file is missing
+      throw new Error(
+        `The provided zip does not contain a manifest.json file.`
+      );
+    }
+
+    // Parse the manifest file
+    const manifest = JSON.parse(
+      new TextDecoder().decode(fileTree["manifest.json"])
+    ) as ResourceManifest;
+
+    // Prepare the file tree for the resource pack
+    const resourceFileTree: FileMap<Buffer | FileMap> = {};
+
+    // Populate the resource file tree
+    for (const [key, value] of Object.entries(fileTree)) {
+      resourceFileTree[key] = Buffer.from(value);
+    }
+
+    // Create a new resource pack instance
+    const pack = new ResourcePack("in-memory", manifest, resourceFileTree);
+
+    // Check if the pack is already loaded
+    if (this.packs.has(pack.uuid))
+      throw new Error(
+        `The resource pack with the UUID ${pack.uuid} is already loaded.`
+      );
+
+    // Add the pack to the list of packs
+    this.packs.set(pack.uuid, pack);
+
+    // Return the pack
+    return pack;
   }
 
   private readPack(path: string): ResourcePack {
