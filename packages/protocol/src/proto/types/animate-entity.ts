@@ -14,7 +14,7 @@ class AnimateEntity extends DataType {
     const amount = stream.readVarInt();
 
     for (let index = 0; index < amount; index++) {
-      const actorRuntimeId = stream.readZigZong();
+      const actorRuntimeId = stream.readVarLong();
 
       const entry = new AnimateEntity(actorRuntimeId);
 
@@ -28,7 +28,7 @@ class AnimateEntity extends DataType {
     stream.writeVarInt(value.length);
 
     for (const entries of value) {
-      stream.writeZigZong(entries.actorRuntimeId);
+      stream.writeVarLong(entries.actorRuntimeId);
     }
   }
 }
