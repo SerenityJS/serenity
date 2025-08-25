@@ -168,13 +168,14 @@ class Dimension {
     this.properties = { ...DefaultDimensionProperties, ...properties };
 
     // Get the generator from the serenity instance
-    const generator = this.serenity.getGenerator(this.properties.generator);
+    let generator = this.serenity.getGenerator(this.properties.generator);
 
     // Check if the generator exists
-    if (!generator)
-      throw new Error(
-        `Failed to find generator "${this.properties.generator}" for dimension "${this.properties.identifier}"`
-      );
+    if (!generator) {
+      // Get the first generator in the serenity instance
+      generator = this.serenity.generators.values().next()
+        .value as typeof TerrainGenerator;
+    }
 
     // Assign the generator to the dimension
     this.generator = new generator(this, { seed: world.properties.seed });

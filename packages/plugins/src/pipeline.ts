@@ -408,7 +408,7 @@ class Pipeline {
       // Check if the plugin is bundled
       if (plugin.isBundled) {
         // Create a temporary path for the plugin
-        const temp = resolve(this.path, `${plugin.path.slice(0, -7)}.js`);
+        const temp = resolve(plugin.path.slice(0, -7).replace(/\./g, "_"));
 
         // Delete the temporary file if it exists
         if (existsSync(temp)) process.nextTick(() => unlinkSync(temp));
@@ -443,7 +443,7 @@ class Pipeline {
     isBundled = false
   ): Plugin | null {
     // Create a temporary path for the plugin
-    const temp = resolve(path.slice(0, -7) + ".js");
+    const temp = resolve(path.slice(0, -7).replace(/\./g, "_"));
 
     // Write the source to the temporary path
     writeFileSync(resolve(temp), source);
@@ -462,6 +462,9 @@ class Pipeline {
         this.logger.warn(
           `Unable to load plugin §u${plugin.identifier}§r, the plugin is already loaded in the pipeline.`
         );
+
+        // Remove the temporary file
+        unlinkSync(resolve(temp));
 
         // Skip the plugin
         return null;
@@ -490,6 +493,9 @@ class Pipeline {
         `Failed to load plugin from §8${relative(process.cwd(), path)}§r, skipping the plugin.`,
         reason
       );
+
+      // Remove the temporary file
+      unlinkSync(resolve(temp));
     }
 
     // Return null if the plugin failed to load

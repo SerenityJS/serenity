@@ -24,7 +24,7 @@ class AnimateEntityPacket extends DataPacket {
   @Serialize(Float32, { endian: Endianness.Little })
   public blendOutTime!: number;
 
-  @Serialize(AnimateEntity) public actorRuntimeIds!: Array<AnimateEntity>;
+  @Serialize(AnimateEntity) public actorRuntimeIds!: Array<bigint>;
 }
 
 export { AnimateEntityPacket };
