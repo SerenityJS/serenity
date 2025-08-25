@@ -411,7 +411,7 @@ class Pipeline {
         const temp = resolve(this.path, `${plugin.path.slice(0, -7)}.js`);
 
         // Delete the temporary file if it exists
-        if (existsSync(temp)) setTimeout(() => unlinkSync(temp));
+        if (existsSync(temp)) process.nextTick(() => unlinkSync(temp));
       }
     }
   }
