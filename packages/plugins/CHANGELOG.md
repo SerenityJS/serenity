@@ -1,5 +1,17 @@
 # @serenityjs/plugins
 
+## 0.8.12
+
+### Patch Changes
+
+- [`0a28554`](https://github.com/SerenityJS/serenity/commit/0a285541c9f61f51ab93dabdc0e895121e9e8936) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.12-beta
+
+- Updated dependencies [[`0a28554`](https://github.com/SerenityJS/serenity/commit/0a285541c9f61f51ab93dabdc0e895121e9e8936)]:
+  - @serenityjs/core@0.8.12
+  - @serenityjs/emitter@0.8.12
+  - @serenityjs/logger@0.8.12
+  - @serenityjs/protocol@0.8.12
+
 ## 0.8.11
 
 ### Patch Changes
