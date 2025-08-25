@@ -3,6 +3,7 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
+  AnimateEntityPacket,
   ContainerId,
   ContainerName,
   DataItem,
@@ -64,6 +65,7 @@ import {
 } from "./maps";
 import { EntityInputInfo } from "./input-info";
 import { EntityLevelStorage } from "./storage";
+import { PlayerAnimationOptions } from "./types";
 
 class Entity {
   /**
@@ -1446,6 +1448,38 @@ class Entity {
 
     // Execute the command state
     return (await state.execute()) as Promise<CommandResponse<T>>;
+  }
+
+  /**
+   * Make an entity play an animation.
+   * @param animation The animation name to play.
+   * @param options Additional options for the animation.
+   */
+  public playAnimation(
+    animation: string,
+    options?: PlayerAnimationOptions
+  ): void {
+    // Create a new AnimateEntityPacket
+    const packet = new AnimateEntityPacket();
+
+    // Assign the packet properties
+    packet.animation = animation;
+    packet.nextState = options?.nextState ?? "default";
+    packet.stopExpression =
+      options?.stopExpression ?? "query.any_animation_finished";
+    packet.stopExpressionVersion = 1;
+    packet.controller = options?.controller ?? "__runtime_controller";
+    packet.blendOutTime = options?.blendOutTime ?? 0.0;
+    packet.actorRuntimeIds = [this.runtimeId];
+
+    // Check if a players array was provided
+    if (options?.players) {
+      // Iterate over the players and send the packet to each player
+      for (const player of options.players) player.send(packet);
+    } else {
+      // Broadcast the packet to the dimension
+      this.dimension.broadcast(packet);
+    }
   }
 
   public getLevelStorage(): EntityLevelStorage {

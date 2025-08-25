@@ -7,6 +7,7 @@ export * from "./maps";
 export * from "./palette";
 export * from "./system-info";
 export * from "./storage";
+export * from "./types";
 
 import * as Traits from "./traits";
 
