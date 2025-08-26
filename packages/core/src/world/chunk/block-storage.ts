@@ -327,10 +327,6 @@ class BlockStorage {
       }
     }
 
-    // Push the palette and blocks to the storage
-    storage.palette.push(...palette);
-    storage.blocks.push(...blocks);
-
     // Return the deserialized block storage
     return storage;
   }
