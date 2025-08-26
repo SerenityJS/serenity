@@ -806,9 +806,12 @@ class Dimension {
    * @param ticks The amount of ticks to wait before the schedule is complete.
    * @returns The created tick schedule.
    */
-  public schedule(ticks: number): TickSchedule {
+  public schedule(ticks: number, callback?: () => void): TickSchedule {
     // Create a new tick schedule
     const schedule = new TickSchedule(ticks, this);
+
+    // Register the callback if it exists
+    if (callback) schedule.on(callback);
 
     // Add the schedule to the world
     this.serenity.schedules.add(schedule);

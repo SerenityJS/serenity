@@ -689,7 +689,7 @@ class Player extends Entity {
       const rendering = this.getTrait(PlayerChunkRenderingTrait);
 
       // Send the player the spawn chunks
-      return rendering.send(...rendering.next());
+      return void rendering.send(...rendering.next());
     }
   }
 

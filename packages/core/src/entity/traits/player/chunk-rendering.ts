@@ -13,7 +13,6 @@ import { PlayerTrait } from "./trait";
 
 class PlayerChunkRenderingTrait extends PlayerTrait {
   public static readonly identifier = "chunk_rendering";
-
   public static readonly types = [EntityIdentifier.Player];
 
   /**
@@ -30,7 +29,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * Sends a chunk to the player.
    * @param chunks The chunks to send to the player.
    */
-  public send(...chunks: Array<Chunk>): void {
+  public async send(...chunks: Array<Chunk>): Promise<void> {
     // Get the amount of chunks to send
     const amount = chunks.length;
 
@@ -43,11 +42,20 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       const start = index * 8;
       const end = Math.min(start + 8, amount);
 
+      // Create a new NetworkChunkPublisherUpdatePacket
+      const update = new NetworkChunkPublisherUpdatePacket();
+      update.radius = this.viewDistance << 4;
+      update.coordinate = this.player.position.floor();
+      update.savedChunks = []; // Prepare an array to hold the chunk coordinates
+
       // Get the chunks to send
       const batch = chunks.slice(start, end);
       const levelChunks = batch.map((chunk) => {
         // Add the chunk to the player's view
         this.chunks.add(chunk.hash);
+
+        // Push the chunk to the update packet
+        update.savedChunks.push({ x: chunk.x, z: chunk.z });
 
         // Create a new LevelChunkPacket
         const packet = new LevelChunkPacket();
@@ -68,7 +76,10 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       });
 
       // Send the packets to the player
-      this.player.send(...levelChunks);
+      this.player.send(...levelChunks, update);
+
+      // Schedule the next batch on the next tick
+      await new Promise((resolve) => setTimeout(resolve, 15));
     }
 
     // Iterate over the blocks in the dimension
@@ -160,8 +171,8 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       }
     }
 
-    // Return the chunks
-    return chunks;
+    // Return the chunks sorted in a radial order
+    return this.radialSort(chunks, cx, cz);
   }
 
   /**
@@ -204,7 +215,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     }
   }
 
-  public onTick(): void {
+  public async onTick(): Promise<void> {
     // Check if the player is spawned
     if (!this.player.isAlive) return;
 
@@ -212,23 +223,8 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     const chunks = this.next();
 
     // Check if there are any chunks to send
-    if (chunks.length > 0) {
-      // Send the chunks to the player
-      this.send(...chunks);
-
-      // Create a new NetworkChunkPublisherUpdatePacket
-      const update = new NetworkChunkPublisherUpdatePacket();
-
-      // Assign the values to the packet
-      update.radius = this.viewDistance << 4;
-      update.coordinate = this.player.position.floor();
-      update.savedChunks = [...this.chunks].map((hash) =>
-        ChunkCoords.unhash(hash)
-      );
-
-      // Send the packets to the player
-      this.player.send(update);
-    } else {
+    if (chunks.length > 0) await this.send(...chunks);
+    else {
       // Check if any chunks need to be removed from the player's view
       for (const hash of this.chunks) {
         // Get the distance between the player and the chunk
@@ -244,6 +240,25 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         }
       }
     }
+  }
+
+  /**
+   * Sorts chunks in a radial order from the center chunk.
+   * @param chunks The chunks to sort.
+   * @param cx The x coordinate of the center chunk.
+   * @param cz The z coordinate of the center chunk.
+   * @returns The sorted chunks.
+   */
+  private radialSort(
+    chunks: Array<Chunk>,
+    cx: number,
+    cz: number
+  ): Array<Chunk> {
+    return chunks.sort((a, b) => {
+      const da = Math.hypot(a.x - cx, a.z - cz);
+      const db = Math.hypot(b.x - cx, b.z - cz);
+      return da - db;
+    });
   }
 
   public onRemove(): void {
