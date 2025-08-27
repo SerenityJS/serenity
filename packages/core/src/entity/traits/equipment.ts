@@ -65,7 +65,7 @@ class EntityEquipmentTrait extends EntityTrait {
    * @param slot The equipment slot to set the item stack to.
    * @param itemStack The item stack to set to the equipment slot.
    */
-  public setEqupment(slot: EquipmentSlot, itemStack: ItemStack): void {
+  public setEquipment(slot: EquipmentSlot, itemStack: ItemStack): void {
     // Check if the slot is the head slot
     if (slot === EquipmentSlot.Offhand)
       // Set the item stack to the offhand container
