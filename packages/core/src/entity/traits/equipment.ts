@@ -264,7 +264,7 @@ class EntityEquipmentTrait extends EntityTrait {
       const slot = storage.get<IntTag>("Slot")?.valueOf() ?? 0;
 
       // Set the item stack to the equipment slot
-      this.setEqupment(slot, itemStack);
+      this.setEquipment(slot, itemStack);
     }
   }
 

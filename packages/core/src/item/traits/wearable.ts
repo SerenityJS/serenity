@@ -177,7 +177,7 @@ class ItemStackWearableTrait extends ItemStackTrait {
     // Check if the item isn't in a container
     if (currentSlot === -1)
       // Set the item to the equipment slot
-      return equipment.setEqupment(this.getEquipmentSlot(), this.item);
+      return equipment.setEquipment(this.getEquipmentSlot(), this.item);
 
     // Swap the item from the player's inventory to the equipment slot
     equipment.swapFromInventory(currentSlot, this.getEquipmentSlot());
