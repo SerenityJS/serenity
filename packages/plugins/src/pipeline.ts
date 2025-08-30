@@ -129,13 +129,29 @@ class Pipeline {
       // If not, create the plugins directory
       mkdirSync(resolve(this.path), { recursive: true });
 
+    // Check if a plugins data directory exists
+    if (!existsSync(resolve(this.path, "data")))
+      // If not, create the plugins data directory
+      mkdirSync(resolve(this.path, "data"), { recursive: true });
+
+    // Check if a plugins configs directory exists
+    if (!existsSync(resolve(this.path, "configs")))
+      // If not, create the plugins configs directory
+      mkdirSync(resolve(this.path, "configs"), { recursive: true });
+
     // Read all the entries in the plugins directory
+    // And filter out the data and configs directories
     const entries = readdirSync(resolve(this.path), {
       withFileTypes: true
-    });
+    }).filter((dirent) =>
+      dirent.isDirectory()
+        ? dirent.name !== "data" && dirent.name !== "configs"
+        : true
+    );
 
     // Filter out all the files that have a .plugin extension
     const bundles = entries.filter((dirent) =>
+      // Check if the entry is a file, and if it has a .plugin extension
       dirent.isFile() ? dirent.name.endsWith(".plugin") : false
     );
 
@@ -401,6 +417,24 @@ class Pipeline {
 
     // Iterate over all the plugins, and initialize them
     for (const plugin of orderedPlugins) {
+      // Check if the plugin has config defined
+      if (Object.keys(plugin.config as object).length > 0) {
+        // Create the path to the plugin config file
+        const path = resolve(this.path, "configs", `${plugin.identifier}.json`);
+
+        // Check if a config file exists for the plugin
+        if (!existsSync(path)) {
+          // Write the default config to the config file
+          writeFileSync(path, JSON.stringify(plugin.config, null, 2));
+        } else {
+          // Read the config file
+          const data = JSON.parse(readFileSync(path, "utf-8"));
+
+          // Assign the config data to the plugin config
+          Object.assign(plugin.config as object, data);
+        }
+      }
+
       // Initialize the plugin, and bind the events
       plugin.onInitialize(plugin);
       this.bindEvents(plugin);

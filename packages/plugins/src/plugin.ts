@@ -1,3 +1,6 @@
+import { resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+
 import { ResourcePack, Serenity } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Emitter } from "@serenityjs/emitter";
@@ -99,7 +102,15 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    */
   public readonly entities = new PluginEntityRegistry();
 
+  /**
+   * The resource packs provided by the plugin.
+   */
   public readonly resources = new Set<ResourcePack>();
+
+  /**
+   * The config of the plugin.
+   */
+  public readonly config: unknown = {};
 
   /**
    * The path to the plugin.
@@ -195,6 +206,90 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    */
   public onShutDown(_plugin: Plugin): void {
     // Override this method in your plugin
+  }
+
+  /**
+   * Check if a file exists in the plugin data directory.
+   * @param path The path to the file to check.
+   * @returns True if the file exists, otherwise false.
+   */
+  public hasFile(path: string): boolean {
+    // Check if the pipeline is defined.
+    if (!this.pipeline) return false;
+
+    // Resolve the path to the plugin data directory
+    const dataPath = resolve(this.pipeline.path, "data", this.identifier);
+
+    // Check if the plugin data path exists
+    if (!existsSync(dataPath)) return false;
+
+    // Resolve the full path to the file
+    const fullPath = resolve(dataPath, path);
+
+    // Check if the file exists
+    return existsSync(fullPath);
+  }
+
+  /**
+   * Read a file from the plugin data directory.
+   * @param path The path to the file to read.
+   * @returns The file data if it exists, otherwise null.
+   */
+  public readFile(path: string): Buffer | null {
+    // Check if the pipeline is defined.
+    if (!this.pipeline) return null;
+
+    // Resolve the path to the plugin data directory
+    const dataPath = resolve(this.pipeline.path, "data", this.identifier);
+
+    // Check if the plugin data path exists
+    if (!existsSync(dataPath)) return null;
+
+    // Resolve the full path to the file
+    const fullPath = resolve(dataPath, path);
+
+    // Check if the file exists
+    if (!existsSync(fullPath)) return null;
+
+    // Return the file data
+    return Buffer.from(readFileSync(fullPath));
+  }
+
+  /**
+   * Write a file to the plugin data directory.
+   * @param path The path to the file to write.
+   * @param data The file data to write.
+   */
+  public writeFile(path: string, data: Buffer | string): void {
+    // Check if the pipeline is defined.
+    if (!this.pipeline) return;
+
+    // Resolve the path to the plugin data directory
+    const dataPath = resolve(this.pipeline.path, "data", this.identifier);
+
+    // Check if the plugin data path exists
+    if (!existsSync(dataPath))
+      // If it doesn't, make the directory
+      mkdirSync(dataPath, { recursive: true });
+
+    // Resolve the full path to the file
+    const fullPath = resolve(dataPath, path);
+
+    // Write the file data
+    return writeFileSync(fullPath, data);
+  }
+
+  /**
+   * Define the config for the plugin.
+   * @param definition The config definition.
+   * @returns The config object.
+   */
+  public defineConfig<T>(definition: T): T {
+    // Assign the values to the config object
+    Object.assign(this.config as object, definition);
+
+    // Return the config object
+    return this.config as T;
   }
 }
 
