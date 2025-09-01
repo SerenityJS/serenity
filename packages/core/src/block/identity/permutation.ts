@@ -9,6 +9,7 @@ import {
   StringTag,
   TagType
 } from "@serenityjs/nbt";
+import { BLOCK_STATE_VERSION } from "@serenityjs/protocol";
 
 import { BlockState, GenericBlockState } from "../../types";
 import { BlockIdentifier } from "../../enums";
@@ -303,19 +304,32 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     return permutation;
   }
 
-  public static toNbt(permutation: BlockPermutation): CompoundTag {
-    const nbt = new CompoundTag();
+  /**
+   * Convert the block permutation to a compound tag. (Used for disk storage)
+   * @param permutation The block permutation to convert.
+   * @returns The compound tag representation of the block permutation.
+   */
+  public static toCompound(permutation: BlockPermutation): CompoundTag {
+    // Create a new compound tag for the block permutation.
+    const root = new CompoundTag();
 
-    nbt.add(new StringTag(permutation.type.identifier, "name"));
+    // Add the name and version tags to the root tag.
+    root.add(new StringTag(permutation.type.identifier, "name"));
+    root.add(new IntTag(BLOCK_STATE_VERSION, "version"));
 
-    const states = nbt.add(new CompoundTag("states"));
+    // Create a new compound tag with the name of "states".
+    const states = root.add(new CompoundTag("states"));
 
+    // Separate the keys and values of the state object.
     const keys = Object.keys(permutation.state);
     const values = Object.values(permutation.state);
 
+    // Loop through each key and value in the state object.
     for (const [index, key] of keys.entries()) {
+      // Get the value of the state.
       const value = values[index];
 
+      // Switch the type of the value and create the appropriate tag.
       switch (typeof value) {
         case "number": {
           states.add(new IntTag(value, key));
@@ -334,10 +348,16 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
       }
     }
 
-    return nbt;
+    // Return the root tag.
+    return root;
   }
 
-  public static fromNbt(nbt: CompoundTag): BlockPermutation {
+  /**
+   * Get a block permutation from a compound tag. (Used for disk storage)
+   * @param nbt The compound tag to convert.
+   * @returns The block permutation.
+   */
+  public static fromCompound(nbt: CompoundTag): BlockPermutation {
     const name = nbt.get("name") as StringTag;
     const states = nbt.get("states") as CompoundTag;
 

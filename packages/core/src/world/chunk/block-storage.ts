@@ -236,7 +236,7 @@ class BlockStorage {
           throw new Error(`Unknown permutation state: ${state}`);
 
         // Serialize the permutation to NBT
-        const data = BlockPermutation.toNbt(permutation);
+        const data = BlockPermutation.toCompound(permutation);
 
         // Write the NBT data to the stream
         CompoundTag.write(stream, data);
@@ -285,7 +285,7 @@ class BlockStorage {
         const data = CompoundTag.read(stream);
 
         // Deserialize the permutation from NBT
-        const permutation = BlockPermutation.fromNbt(data);
+        const permutation = BlockPermutation.fromCompound(data);
 
         // Check if the permutation exists
         if (!permutation) throw new Error(`Unknown permutation state: ${data}`);

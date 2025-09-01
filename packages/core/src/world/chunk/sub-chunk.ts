@@ -1,6 +1,7 @@
 import { BinaryStream } from "@serenityjs/binarystream";
 
 import { BlockStorage } from "./block-storage";
+import { BiomeStorage } from "./biome-storage";
 
 /**
  * Represents a sub chunk.
@@ -15,6 +16,11 @@ export class SubChunk {
    * The layers of the sub chunk.
    */
   public readonly layers: Array<BlockStorage>;
+
+  /**
+   * The biomes of the sub chunk.
+   */
+  public biomes: BiomeStorage = new BiomeStorage();
 
   /**
    * The index of the sub chunk.
@@ -108,6 +114,30 @@ export class SubChunk {
 
     // Set the block state.
     storage.setState(bx, by, bz, state);
+  }
+
+  /**
+   * Get the biome at the given block position.
+   * @param bx The x coordinate of the block.
+   * @param by The y coordinate of the block.
+   * @param bz The z coordinate of the block.
+   * @returns The biome at the given block position.
+   */
+  public getBiome(bx: number, by: number, bz: number): number {
+    // Fetch the biome from the biome storage.
+    return this.biomes.getBiome(bx, by, bz);
+  }
+
+  /**
+   * Set the biome at the given block position.
+   * @param bx The x coordinate of the block.
+   * @param by The y coordinate of the block.
+   * @param bz The z coordinate of the block.
+   * @param biome The biome to set at the given block position.
+   */
+  public setBiome(bx: number, by: number, bz: number, biome: number): void {
+    // Set the biome in the biome storage.
+    this.biomes.setBiome(bx, by, bz, biome);
   }
 
   /**

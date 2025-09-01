@@ -1,4 +1,4 @@
-import { resolve } from "node:path";
+import { resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 import { ResourcePack, Serenity } from "@serenityjs/core";
@@ -226,6 +226,16 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
     // Resolve the full path to the file
     const fullPath = resolve(dataPath, path);
 
+    // Ensure the resolved path is still inside dataPath (prevents "../" escapes)
+    if (!fullPath.startsWith(dataPath + sep)) {
+      // Log a warning if an illegal path attempt is made
+      this.logger.warn(
+        `Attempted to check for an illegal path: ${path}. Operation aborted.`
+      );
+
+      return false; // Illegal path attempt
+    }
+
     // Check if the file exists
     return existsSync(fullPath);
   }
@@ -236,22 +246,29 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * @returns The file data if it exists, otherwise null.
    */
   public readFile(path: string): Buffer | null {
-    // Check if the pipeline is defined.
     if (!this.pipeline) return null;
 
-    // Resolve the path to the plugin data directory
+    // Base plugin data directory
     const dataPath = resolve(this.pipeline.path, "data", this.identifier);
-
-    // Check if the plugin data path exists
     if (!existsSync(dataPath)) return null;
 
-    // Resolve the full path to the file
+    // Resolve the requested file path
     const fullPath = resolve(dataPath, path);
 
-    // Check if the file exists
+    // Ensure the resolved path is still inside dataPath (prevents "../" escapes)
+    if (!fullPath.startsWith(dataPath + sep)) {
+      // Log a warning if an illegal path attempt is made
+      this.logger.warn(
+        `Attempted to read from an illegal path: ${path}. Operation aborted.`
+      );
+
+      return null; // Illegal path attempt
+    }
+
+    // Check if file exists
     if (!existsSync(fullPath)) return null;
 
-    // Return the file data
+    // Read and return the file data
     return Buffer.from(readFileSync(fullPath));
   }
 
@@ -274,6 +291,16 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
 
     // Resolve the full path to the file
     const fullPath = resolve(dataPath, path);
+
+    // Ensure the resolved path is still inside dataPath (prevents "../" escapes)
+    if (!fullPath.startsWith(dataPath + sep)) {
+      // Log a warning if an illegal path attempt is made
+      this.logger.warn(
+        `Attempted to write to an illegal path: ${path}. Operation aborted.`
+      );
+
+      return; // Illegal path attempt
+    }
 
     // Write the file data
     return writeFileSync(fullPath, data);

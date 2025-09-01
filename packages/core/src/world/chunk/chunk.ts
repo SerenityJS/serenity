@@ -9,6 +9,7 @@ import { BlockIdentifier } from "../../enums";
 import { BlockPermutation } from "../../block";
 
 import { SubChunk } from "./sub-chunk";
+import { BiomeStorage } from "./biome-storage";
 
 /**
  * Represents a chunk within a Dimension instance. Chunks hold sub chunks, which hold block states (BlockPermutations). Chunks can be dirty, meaning they have been modified and need to be saved.
@@ -154,6 +155,45 @@ export class Chunk {
 
     // Set the block.
     subchunk.setState(x & 0xf, y & 0xf, z & 0xf, state, layer); // 0 = Solids, 1 = Liquids or Logged
+
+    // Set the chunk as dirty.
+    if (dirty) this.dirty = true;
+
+    // Set the cache as null.
+    this.cache = null;
+  }
+
+  /**
+   * Get the biome at the given position.
+   * @param position The block position to get the biome at.
+   * @returns The biome at the given block position.
+   */
+  public getBiome(position: IPosition): number {
+    // Get the x, y and z coordinates from the position.
+    const { x, y, z } = position;
+
+    // Get the sub chunk.
+    const subchunk = this.getSubChunk(y >> 4);
+
+    // Fetch the biome from the biome storage.
+    return subchunk.getBiome(x & 0xf, y & 0xf, z & 0xf);
+  }
+
+  /**
+   * Set the biome at the given position.
+   * @param position The block position to set the biome at.
+   * @param biome The biome to set at the given block position.
+   * @param dirty If the chunk should be marked as dirty. Default is true.
+   */
+  public setBiome(position: IPosition, biome: number, dirty = true): void {
+    // Get the x, y and z coordinates from the position.
+    const { x, y, z } = position;
+
+    // Get the sub chunk.
+    const subchunk = this.getSubChunk(y >> 4);
+
+    // Set the biome in the biome storage.
+    subchunk.setBiome(x & 0xf, y & 0xf, z & 0xf, biome);
 
     // Set the chunk as dirty.
     if (dirty) this.dirty = true;
@@ -327,8 +367,10 @@ export class Chunk {
     // Create a new stream.
     const stream = new BinaryStream();
 
+    const subChunkCount = chunk.getSubChunkSendCount();
+
     // Serialize each sub chunk.
-    for (let index = 0; index < chunk.getSubChunkSendCount(); index++) {
+    for (let index = 0; index < subChunkCount; index++) {
       // Prepare an index offset.
       let offset = 0;
 
@@ -352,10 +394,16 @@ export class Chunk {
       }
     }
 
-    // Biomes?
-    for (let index = 0; index < 24; index++) {
-      stream.writeUint8(0);
-      stream.writeVarInt(1 << 1);
+    // Iterate through each sub chunk and serialize the biomes.
+    for (let index = 0; index < subChunkCount; index++) {
+      // Get the sub chunk.
+      const subchunk = chunk.subchunks[index];
+
+      // Check if the sub chunk exists.
+      if (!subchunk || subchunk.isEmpty()) continue;
+
+      // Serialize the biomes.
+      BiomeStorage.serialize(subchunk.biomes, stream);
     }
 
     // Border blocks?
@@ -398,10 +446,13 @@ export class Chunk {
       subchunks[index] = SubChunk.deserialize(stream, nbt);
     }
 
-    // Biomes?
-    for (let index = 0; index < 24; index++) {
-      stream.readUint8();
-      stream.readVarInt();
+    // Iterate through each sub chunk and deserialize the biomes.
+    for (const subchunk of subchunks) {
+      // Check if the sub chunk exists.
+      if (!subchunk || subchunk.isEmpty()) continue;
+
+      // Deserialize the biomes.
+      subchunk.biomes = BiomeStorage.deserialize(stream);
     }
 
     // Border blocks?

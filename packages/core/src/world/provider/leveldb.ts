@@ -911,6 +911,28 @@ class LevelDBProvider extends WorldProvider {
     // Return the buffer from the stream.
     return stream.getBuffer();
   }
+
+  public static buildBiomeStorageKey(
+    cx: number,
+    cz: number,
+    index: number
+  ): Buffer {
+    // Create a new BinaryStream instance.
+    const stream = new BinaryStream();
+
+    // Write the chunk coordinates to the stream.
+    stream.writeInt32(cx, Endianness.Little);
+    stream.writeInt32(cz, Endianness.Little);
+
+    // Check if the index is not 0.
+    if (index !== 0) stream.writeInt32(index, Endianness.Little);
+
+    // Write the biome key symbol to the stream.
+    stream.writeUint8(0x2b);
+
+    // Return the buffer from the stream
+    return stream.getBuffer();
+  }
 }
 
 export { LevelDBProvider };

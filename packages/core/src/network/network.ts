@@ -558,7 +558,21 @@ class Network extends Emitter<NetworkEvents> {
     connection: Connection,
     ...packets: Array<DataPacket>
   ): void {
-    this.send(connection, Priority.Normal, ...packets);
+    // Check if the connection is not in the connections map
+    if (!this.connections.has(connection)) return;
+
+    try {
+      this.send(connection, Priority.Normal, ...packets);
+    } catch (reason) {
+      // Log the sending error if the packets could not be sent
+      this.logger.error(
+        `Failed to send packet(s) to ${connection.rinfo.address}:${connection.rinfo.port}`,
+        reason
+      );
+
+      // Delete the connection from the connections map
+      this.serenity.players.delete(connection);
+    }
   }
 
   /**
@@ -570,7 +584,21 @@ class Network extends Emitter<NetworkEvents> {
     connection: Connection,
     ...packets: Array<DataPacket>
   ): void {
-    this.send(connection, Priority.Immediate, ...packets);
+    // Check if the connection is not in the connections map
+    if (!this.connections.has(connection)) return;
+
+    try {
+      this.send(connection, Priority.Immediate, ...packets);
+    } catch (reason) {
+      // Log the sending error if the packets could not be sent
+      this.logger.error(
+        `Failed to send packet(s) to ${connection.rinfo.address}:${connection.rinfo.port}`,
+        reason
+      );
+
+      // Delete the connection from the connections map
+      this.serenity.players.delete(connection);
+    }
   }
 
   /**

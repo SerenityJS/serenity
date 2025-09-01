@@ -117,7 +117,7 @@ class Structure extends BlockStorage {
       const permutation = BlockPermutation.resolve(networkId);
 
       // Convert the permutation to NBT and add it to the block palette.
-      const nbt = BlockPermutation.toNbt(permutation);
+      const nbt = BlockPermutation.toCompound(permutation);
 
       // Push the NBT to the block palette.
       blockPalette.push(nbt);
