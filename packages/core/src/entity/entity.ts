@@ -1078,6 +1078,28 @@ class Entity {
    * @param dimension The dimension to teleport the entity to; optional.
    */
   public teleport(position: Vector3f, dimension?: Dimension): void {
+    // Iterate over the traits of the entity
+    for (const [identifier, trait] of this.traits) {
+      // Attempt to trigger the onTeleport trait event
+      try {
+        // Call the onTeleport trait event
+        trait.onTeleport?.({
+          from: this.position,
+          to: position,
+          changedDimensions: !!dimension
+        });
+      } catch (reason) {
+        // Log the error to the console
+        this.serenity.logger.error(
+          `(EntityTrait::${identifier}) Failed to trigger onTeleport trait event for entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the entity
+        this.traits.delete(identifier);
+      }
+    }
+
     // Set the position of the entity
     this.position.set(position);
 

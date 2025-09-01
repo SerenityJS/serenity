@@ -1,5 +1,4 @@
 import {
-  BlockActorDataPacket,
   ChunkCoords,
   LevelChunkPacket,
   NetworkChunkPublisherUpdatePacket
@@ -7,7 +6,7 @@ import {
 
 import { EntityIdentifier } from "../../../enums";
 import { Chunk } from "../../../world/chunk";
-import { EntityDespawnOptions, EntitySpawnOptions } from "../../..";
+import { EntityDespawnOptions, EntitySpawnOptions } from "../../../types";
 
 import { PlayerTrait } from "./trait";
 
@@ -25,6 +24,14 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    */
   public viewDistance = this.player.dimension.viewDistance;
 
+  /**
+   * A cache of radial offsets for different view distances.
+   */
+  private readonly offsetCache = new Map<number, Int16Array>();
+
+  /**
+   * The number of chunks currently being sent to the player.
+   */
   private sendingQueue = 0;
 
   /**
@@ -40,6 +47,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
     // Iterate over the batches
     for (let index = 0; index < batches; index++) {
+      // Check if there are still chunks to send
+      if (this.sendingQueue <= 0) break; // Break if so
+
       // Get the start and end index of the batch
       const start = index * 8;
       const end = Math.min(start + 8, amount);
@@ -84,27 +94,30 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       this.sendingQueue -= batch.length;
 
       // Schedule the next batch on the next tick
-      await new Promise((resolve) => setTimeout(resolve, 15));
+      await new Promise((resolve) =>
+        // Resolve on the next tick of the dimension
+        this.dimension.schedule(1, resolve as () => void)
+      );
     }
 
     // Iterate over the blocks in the dimension
-    for (const [, block] of this.player.dimension.blocks) {
-      // Check if the block has NBT data
-      if (block.nbt.size === 0) continue;
+    // for (const [, block] of this.player.dimension.blocks) {
+    //   // Check if the block has NBT data
+    //   if (block.nbt.size === 0) continue;
 
-      // Check if the block is in the chunks
-      if (chunks.some((chunk) => block.getChunk() === chunk)) {
-        // Create a new BlockActorData packet
-        const packet = new BlockActorDataPacket();
+    //   // Check if the block is in the chunks
+    //   if (chunks.some((chunk) => block.getChunk() === chunk)) {
+    //     // Create a new BlockActorData packet
+    //     const packet = new BlockActorDataPacket();
 
-        // Assign the packet values
-        packet.position = block.position;
-        packet.nbt = block.nbt;
+    //     // Assign the packet values
+    //     packet.position = block.position;
+    //     packet.nbt = block.nbt;
 
-        // Send the packet to the player
-        this.player.send(packet);
-      }
-    }
+    //     // Send the packet to the player
+    //     this.player.send(packet);
+    //   }
+    // }
   }
 
   /**
@@ -140,44 +153,39 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * @returns An array of chunk hashes to send to the player.
    */
   public next(distance?: number): Array<Chunk> {
-    // Calculate the chunk position of the entity
+    // Get the player's current chunk position
     const cx = this.player.position.x >> 4;
     const cz = this.player.position.z >> 4;
 
-    // Calculate the distance or use the simulation distance of the dimension
-    const d = distance ?? this.viewDistance;
+    // Use the player's view distance if no distance is provided
+    const d = Math.floor(distance ?? this.viewDistance);
 
-    // Prepare an array to store the chunks that need to be sent to the player.
-    const chunks: Array<Chunk> = [];
+    // Get the radial offsets for the distance
+    const offsets = this.getRadialOffsets(d);
+    const out: Array<Chunk> = [];
 
-    // Get the chunks to render, we want to get the chunks from the inside out
-    for (let dx = -d; dx <= d; dx++) {
-      for (let dz = -d; dz <= d; dz++) {
-        // Get the hash of the chunk
-        const hash = ChunkCoords.hash({ x: cx + dx, z: cz + dz });
+    // Stream candidates in near→far order; no nested loops, no sort, no sqrt
+    for (let i = 0; i < offsets.length; i += 2) {
+      // Get the chunk coordinates
+      const x = cx + offsets[i]!;
+      const z = cz + offsets[i + 1]!;
 
-        // Check if the chunk is already rendered
-        if (this.chunks.has(hash)) continue;
+      // Calculate the hash of the chunk
+      const hash = ChunkCoords.hash({ x, z });
 
-        // Calculate the distance between the player and the chunk
-        const distance = Math.hypot(dx, dz);
+      // Skip if we've already sent this chunk
+      if (this.chunks.has(hash)) continue;
 
-        // Check if the chunk is within the view distance
-        if (distance <= d + 0.5) {
-          // Get the chunk from the dimension
-          const chunk = this.player.dimension.getChunk(cx + dx, cz + dz);
+      // Get the chunk from the dimension
+      const chunk = this.player.dimension.getChunk(x, z);
+      if (!chunk.ready || this.chunks.has(chunk.hash)) continue; // Skip if the chunk is not ready
 
-          // Check if the chunk is ready
-          if (!chunk.ready) continue;
-
-          // Add the chunk to the chunks array
-          chunks.push(chunk);
-        }
-      }
+      // Add the chunk if it hasn't been sent to the player yet
+      out.push(chunk);
     }
 
-    // Return the chunks sorted in a radial order
-    return this.radialSort(chunks, cx, cz);
+    // Return the chunks
+    return out;
   }
 
   /**
@@ -222,48 +230,60 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
   public async onTick(): Promise<void> {
     // Check if the player is spawned
-    if (!this.player.isAlive || this.sendingQueue > 0) return;
+    if (!this.player.isAlive) return;
 
-    // Get the next chunks to send to the player
-    const chunks = this.next();
-
-    // Check if there are any chunks to send
-    if (chunks.length > 0) await this.send(...chunks);
-    else {
+    // Check if we are still sending chunks
+    if (this.sendingQueue > 0) {
       // Check if any chunks need to be removed from the player's view
       for (const hash of this.chunks) {
         // Get the distance between the player and the chunk
         const distance = this.distance(hash);
-
         // Check if the chunk is outside of the player's view distance
         if (distance > this.viewDistance + 0.5) {
           // Get the chunk position
           const { x, z } = ChunkCoords.unhash(hash);
-
           // Clear the chunk from the player's view
           this.clear({ x, z });
         }
       }
     }
+    // If not, get the next set of chunks to send
+    else {
+      // Get the next set of chunks to send
+      const chunks = this.next();
+
+      // Check if there are any chunks to send
+      if (chunks.length > 0) await this.send(...chunks);
+    }
   }
 
-  /**
-   * Sorts chunks in a radial order from the center chunk.
-   * @param chunks The chunks to sort.
-   * @param cx The x coordinate of the center chunk.
-   * @param cz The z coordinate of the center chunk.
-   * @returns The sorted chunks.
-   */
-  private radialSort(
-    chunks: Array<Chunk>,
-    cx: number,
-    cz: number
-  ): Array<Chunk> {
-    return chunks.sort((a, b) => {
-      const da = Math.hypot(a.x - cx, a.z - cz);
-      const db = Math.hypot(b.x - cx, b.z - cz);
-      return da - db;
-    });
+  private getRadialOffsets(d: number): Int16Array {
+    // Check if we have the offsets cached
+    const cached = this.offsetCache.get(d);
+    if (cached) return cached; // Return cached offsets if available
+
+    const r2 = (d + 0.5) * (d + 0.5);
+
+    // Worst case (full square): (2d+1)^2 entries; store as [dx, dz] pairs
+    const tmp: Array<[number, number, number]> = [];
+    for (let dx = -d; dx <= d; dx++) {
+      for (let dz = -d; dz <= d; dz++) {
+        const dist2 = dx * dx + dz * dz;
+        if (dist2 <= r2) tmp.push([dist2, dx, dz]);
+      }
+    }
+    // Radial order without sqrt
+    tmp.sort((a, b) => a[0] - b[0]);
+
+    // Pack into a compact typed array: [dx0, dz0, dx1, dz1, ...]
+    const packed = new Int16Array(tmp.length * 2);
+    for (let i = 0, j = 0; i < tmp.length; i++) {
+      packed[j++] = tmp[i]![1];
+      packed[j++] = tmp[i]![2];
+    }
+
+    this.offsetCache.set(d, packed);
+    return packed;
   }
 
   public onRemove(): void {
@@ -278,6 +298,11 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
   public onSpawn(details: EntitySpawnOptions): void {
     if (details.changedDimensions) this.clear();
+  }
+
+  public onTeleport(): void {
+    // Reset the sending queue
+    if (this.sendingQueue > 0) this.sendingQueue = 0;
   }
 }
 

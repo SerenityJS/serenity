@@ -1,7 +1,8 @@
 import {
   ActorDamageCause,
   ContainerId,
-  ContainerType
+  ContainerType,
+  IPosition
 } from "@serenityjs/protocol";
 
 import { Entity } from "../../entity";
@@ -71,9 +72,27 @@ interface EntityDeathOptions {
   damageCause: ActorDamageCause;
 }
 
+interface EntityTeleportOptions {
+  /**
+   * The position the entity is teleporting from.
+   */
+  from: IPosition;
+
+  /**
+   * The position the entity is teleporting to.
+   */
+  to: IPosition;
+
+  /**
+   * Whether the entity is teleporting due to a dimension change.
+   */
+  changedDimensions: boolean;
+}
+
 export {
   EntityInventoryTraitOptions,
   EntitySpawnOptions,
   EntityDespawnOptions,
-  EntityDeathOptions
+  EntityDeathOptions,
+  EntityTeleportOptions
 };

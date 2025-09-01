@@ -8,7 +8,8 @@ import {
   EntityDeathOptions,
   EntityDespawnOptions,
   EntityFallOnBlockTraitEvent,
-  EntitySpawnOptions
+  EntitySpawnOptions,
+  EntityTeleportOptions
 } from "../../types";
 import { Dimension } from "../../world";
 
@@ -65,6 +66,12 @@ class EntityTrait extends Trait {
    * @param details The details of the entity death.
    */
   public onDeath?(details: EntityDeathOptions): void;
+
+  /**
+   * Called when the entity that this trait is attached to is teleported.
+   * @param details The details of the entity teleport.
+   */
+  public onTeleport?(details: EntityTeleportOptions): void;
 
   /**
    * Called when the entity that this trait is attached to is interacted with by a player.

@@ -205,11 +205,8 @@ class WorldProvider {
         // Get the chunk from the chunks map
         const chunk = chunks.get(hash);
 
-        // If the chunk exists, return it to the provider
-        if (!chunk) return;
-
-        // Write the chunk to the provider
-        if (chunk.dirty) this.writeChunk(chunk, dimension);
+        // Skip if the chunk does not exist or is dirty
+        if (!chunk || chunk.dirty) return;
 
         // Remove the chunk from the provider's cache
         chunks.delete(hash);
