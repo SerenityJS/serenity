@@ -304,8 +304,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           // Calculate the spawn distance (1/3 of the view distance)
           const spawnDistance = Math.floor(trait.viewDistance / 3);
 
-          console.log(spawnDistance);
-
+          // Send the initial chunks to the player
           trait.send(...trait.next(spawnDistance));
         }
       }
