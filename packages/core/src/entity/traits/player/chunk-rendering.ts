@@ -25,13 +25,15 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    */
   public viewDistance = this.player.dimension.viewDistance;
 
+  private sendingQueue = 0;
+
   /**
    * Sends a chunk to the player.
    * @param chunks The chunks to send to the player.
    */
   public async send(...chunks: Array<Chunk>): Promise<void> {
     // Get the amount of chunks to send
-    const amount = chunks.length;
+    const amount = (this.sendingQueue = chunks.length);
 
     // We want to send the chunks in batches of 8
     const batches = Math.ceil(amount / 8);
@@ -77,6 +79,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
       // Send the packets to the player
       this.player.send(...levelChunks, update);
+
+      // Decrease the sending queue
+      this.sendingQueue -= batch.length;
 
       // Schedule the next batch on the next tick
       await new Promise((resolve) => setTimeout(resolve, 15));
@@ -217,7 +222,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
   public async onTick(): Promise<void> {
     // Check if the player is spawned
-    if (!this.player.isAlive) return;
+    if (!this.player.isAlive || this.sendingQueue > 0) return;
 
     // Get the next chunks to send to the player
     const chunks = this.next();

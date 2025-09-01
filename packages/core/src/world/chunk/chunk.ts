@@ -346,9 +346,10 @@ export class Chunk {
       this.subchunks[i] = source.subchunks[i] as SubChunk;
     }
 
-    // Copy over the chunk flags.
+    // Copy over the chunk flags & cache.
     this.dirty = source.dirty;
     this.ready = source.ready;
+    this.cache = source.cache;
 
     // Return the target chunk.
     return this;
@@ -460,6 +461,9 @@ export class Chunk {
 
     // Create a new chunk.
     const chunk = new Chunk(x, z, type, subchunks);
+
+    // Set the cache of the chunk.
+    chunk.cache = buffer;
 
     // Return the chunk.
     return chunk;
