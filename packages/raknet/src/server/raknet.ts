@@ -244,7 +244,7 @@ class Server extends Emitter<RaknetEvents> {
     const header = buffer[0];
 
     // Sanity check for the packet header
-    if (!header) throw new Error("Invalid packet header");
+    if (!header) return;
 
     // Check if the datagram is an offline packet, if so handle it accordingly
     const offline = (header & Bitflags.Valid) === 0;
