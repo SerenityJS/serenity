@@ -81,15 +81,16 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
   ) {
     this.pluginIdentifier = pluginIdentifier;
     this.configFolder = configFolder;
-    // Ensure properties is always a Map
-    if (options?.properties instanceof Map) {
-      this.properties = options.properties as Map<
-        keyof T,
-        ConfigProperty<ConfigPropertyType>
-      >;
-    } else {
-      this.properties = new Map();
-    }
+
+    // Initialize properties map
+    this.properties = new Map();
+    if (options.properties)
+      for (const [key, value] of Object.entries(options.properties))
+        this.properties.set(
+          key as keyof T,
+          value as ConfigProperty<ConfigPropertyType>
+        );
+
     this.parser = options?.parser ?? PluginJsonConfigParser;
     this.logger = logger;
   }
@@ -110,17 +111,8 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
   public addProperty<K extends string, PT extends ConfigPropertyType>(
     property: AddPropertyInput<K, PT>
   ): PluginConfigSystem<T & { [P in K]: ConfigPropertyTypes<PT> }> {
-    // Shallow copy the existing properties, ensure it's a Map
-    const newProperties =
-      this.properties instanceof Map
-        ? (new Map(this.properties) as Map<
-            keyof (T & { [P in K]: ConfigPropertyTypes<PT> }),
-            ConfigProperty<ConfigPropertyType>
-          >)
-        : new Map();
-
     // Add the new property
-    newProperties.set(property.name, {
+    this.properties.set(property.name, {
       type: property.type,
       defaultValue: property.defaultValue,
       description: property.description,
@@ -131,7 +123,7 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
       this.pluginIdentifier,
       this.configFolder,
       this.logger,
-      { properties: newProperties, parser: this.parser }
+      { properties: this.properties, parser: this.parser }
     );
   }
 
