@@ -1,5 +1,3 @@
-import { resolve } from "node:path";
-
 import { ResourcePack, Serenity } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Emitter } from "@serenityjs/emitter";
@@ -13,7 +11,7 @@ import {
 } from "./registry";
 import { PluginPriority } from "./enums/priority";
 import { PluginFileSystem } from "./fileSystem";
-import { PluginConfig } from "./config/pluginConfig";
+import { PluginConfigSystem } from "./config/pluginConfig";
 
 interface PluginOptions extends Partial<PluginEvents> {
   /**
@@ -112,7 +110,7 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * The config of the plugin.
    * @Note This is only available after the plugin is initialized.
    */
-  public config!: PluginConfig<Record<string, unknown>>;
+  public config!: PluginConfigSystem<Record<string, unknown>>;
 
   /**
    * The file system for the plugin.

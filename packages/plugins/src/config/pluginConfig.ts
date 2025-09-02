@@ -1,10 +1,11 @@
 import { resolve } from "path";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+
 import { Logger } from "@serenityjs/logger";
 
-import { JsonConfigParser } from "./configParser";
+import { PluginJsonConfigParser } from "./configParser";
 
-import type { ConfigParser } from "./configParser";
+import type { PluginConfigParser } from "./configParser";
 
 type ConfigPropertyType =
   | BooleanConstructor
@@ -38,7 +39,7 @@ interface AddPropertyInput<K extends string, PT extends ConfigPropertyType> {
 /**
  * Represents the configuration for a plugin.
  */
-class PluginConfig<T extends Record<string, unknown>> {
+class PluginConfigSystem<T extends Record<string, unknown>> {
   /**
    * The unique identifier for the plugin.
    */
@@ -52,7 +53,7 @@ class PluginConfig<T extends Record<string, unknown>> {
   /**
    * The parser used for reading and writing configuration.
    */
-  private parser: typeof ConfigParser;
+  private parser: typeof PluginConfigParser;
 
   /**
    * The folder where the plugin's configuration file is stored.
@@ -75,7 +76,7 @@ class PluginConfig<T extends Record<string, unknown>> {
     logger: Logger,
     options?: {
       properties?: Map<keyof T, ConfigProperty<ConfigPropertyType>> | unknown;
-      parser?: typeof ConfigParser;
+      parser?: typeof PluginConfigParser;
     }
   ) {
     this.pluginIdentifier = pluginIdentifier;
@@ -89,7 +90,7 @@ class PluginConfig<T extends Record<string, unknown>> {
     } else {
       this.properties = new Map();
     }
-    this.parser = options?.parser ?? JsonConfigParser;
+    this.parser = options?.parser ?? PluginJsonConfigParser;
     this.logger = logger;
   }
 
@@ -97,7 +98,7 @@ class PluginConfig<T extends Record<string, unknown>> {
    * Sets the parser used for reading and writing configuration.
    * @param parser The parser to use.
    */
-  public setParser(parser: typeof ConfigParser) {
+  public setParser(parser: typeof PluginConfigParser) {
     this.parser = parser;
   }
 
@@ -108,7 +109,7 @@ class PluginConfig<T extends Record<string, unknown>> {
    */
   public addProperty<K extends string, PT extends ConfigPropertyType>(
     property: AddPropertyInput<K, PT>
-  ): PluginConfig<T & { [P in K]: ConfigPropertyTypes<PT> }> {
+  ): PluginConfigSystem<T & { [P in K]: ConfigPropertyTypes<PT> }> {
     // Shallow copy the existing properties, ensure it's a Map
     const newProperties =
       this.properties instanceof Map
@@ -126,7 +127,7 @@ class PluginConfig<T extends Record<string, unknown>> {
     });
 
     // Return a new instance of PluginConfig with the updated properties
-    return new PluginConfig<T & { [P in K]: ConfigPropertyTypes<PT> }>(
+    return new PluginConfigSystem<T & { [P in K]: ConfigPropertyTypes<PT> }>(
       this.pluginIdentifier,
       this.configFolder,
       this.logger,
@@ -218,4 +219,9 @@ class PluginConfig<T extends Record<string, unknown>> {
   }
 }
 
-export { PluginConfig, ConfigPropertyType, ConfigProperty, AddPropertyInput };
+export {
+  PluginConfigSystem,
+  ConfigPropertyType,
+  ConfigProperty,
+  AddPropertyInput,
+};

@@ -2,7 +2,7 @@ import { Logger } from "@serenityjs/logger";
 
 import { ConfigProperty, ConfigPropertyType } from "./pluginConfig";
 
-class ConfigParser {
+class PluginConfigParser {
   /**
    * The file extension used for configuration file.
    */
@@ -53,7 +53,7 @@ class ConfigParser {
   }
 }
 
-class JsonConfigParser extends ConfigParser {
+class PluginJsonConfigParser extends PluginConfigParser {
   public static fileExtension: string = "json";
 
   public static read<T extends Record<string, unknown>>(string: string): T {
@@ -65,4 +65,4 @@ class JsonConfigParser extends ConfigParser {
   }
 }
 
-export { ConfigParser, JsonConfigParser };
+export { PluginConfigParser, PluginJsonConfigParser };

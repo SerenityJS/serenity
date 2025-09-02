@@ -19,7 +19,7 @@ import { Plugin } from "./plugin";
 import Command from "./commands/command";
 import { PluginsEnum } from "./commands";
 import { PluginType, PluginHeader } from "./enums";
-import { PluginConfig } from "./config/pluginConfig";
+import { PluginConfigSystem } from "./config/pluginConfig";
 import { PluginFileSystem } from "./fileSystem";
 
 interface PipelineProperties {
@@ -360,7 +360,7 @@ class Pipeline {
         );
 
         // Set the config for the plugin
-        plugin.config = new PluginConfig(
+        plugin.config = new PluginConfigSystem(
           plugin.identifier,
           resolve(this.path, "configs"),
           plugin.logger
