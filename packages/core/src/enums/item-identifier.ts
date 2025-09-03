@@ -1358,5 +1358,14 @@ export enum ItemIdentifier {
   PurpleBundle = "minecraft:purple_bundle",
   RedBundle = "minecraft:red_bundle",
   WhiteBundle = "minecraft:white_bundle",
-  YellowBundle = "minecraft:yellow_bundle"
+  YellowBundle = "minecraft:yellow_bundle",
+  CopperPickaxe = "minecraft:copper_pickaxe",
+  CopperAxe = "minecraft:copper_axe",
+  CopperShovel = "minecraft:copper_shovel",
+  CopperHoe = "minecraft:copper_hoe",
+  CopperSword = "minecraft:copper_sword",
+  CopperHelmet = "minecraft:copper_helmet",
+  CopperChestplate = "minecraft:copper_chestplate",
+  CopperLeggings = "minecraft:copper_leggings",
+  CopperBoots = "minecraft:copper_boots"
 }

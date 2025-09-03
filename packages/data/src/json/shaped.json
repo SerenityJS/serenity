@@ -2074,6 +2074,626 @@
     ]
   },
   {
+    "identifier": "harness_color_0",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:black_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:black_harness",
+        "instance": "3gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_1",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:red_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:red_harness",
+        "instance": "+AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_10",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:lime_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:lime_harness",
+        "instance": "7gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_11",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:yellow_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:yellow_harness",
+        "instance": "/AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_12",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:light_blue_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:light_blue_harness",
+        "instance": "6gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_13",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:magenta_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:magenta_harness",
+        "instance": "8AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_14",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:orange_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:orange_harness",
+        "instance": "8gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_15",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:white_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:white_harness",
+        "instance": "+gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_16",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:black_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:black_harness",
+        "instance": "3gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_17",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:brown_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:brown_harness",
+        "instance": "4gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_18",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:blue_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:blue_harness",
+        "instance": "4AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_19",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:white_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:white_harness",
+        "instance": "+gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_2",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:green_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:green_harness",
+        "instance": "6AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_3",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:brown_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:brown_harness",
+        "instance": "4gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_4",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:blue_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:blue_harness",
+        "instance": "4AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_5",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:purple_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:purple_harness",
+        "instance": "9gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_6",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:cyan_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:cyan_harness",
+        "instance": "5AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_7",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:light_gray_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:light_gray_harness",
+        "instance": "7AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_8",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:gray_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:gray_harness",
+        "instance": "5gsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "harness_color_9",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "BCB",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:glass",
+        "metadata": 0
+      },
+      "C": {
+        "type": "minecraft:pink_wool",
+        "metadata": 0
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:pink_harness",
+        "instance": "9AsBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
     "identifier": "heiroglyphs_redsandstone_recipeId",
     "priority": 50,
     "tag": "crafting_table",
@@ -2485,7 +3105,7 @@
     "resultants": [
       {
         "type": "minecraft:acacia_fence_gate",
-        "instance": "9gIBAAC8vKDuCQoAAAAAAAAAAAAA"
+        "instance": "9gIBAADAhrufDgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -2501,7 +3121,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -2605,6 +3225,29 @@
       {
         "type": "minecraft:acacia_planks",
         "instance": "ywsEAADXhJ23BwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:acacia_shelf_from_stripped_acacia_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_acacia_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:acacia_shelf",
+        "instance": "tRAGAADIl6yqAwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -3004,7 +3647,7 @@
     "resultants": [
       {
         "type": "minecraft:bamboo_fence_gate",
-        "instance": "hwgBAADn1IPLBgoAAAAAAAAAAAAA"
+        "instance": "hwgBAADcooGCDgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -3020,7 +3663,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -3192,7 +3835,30 @@
     "resultants": [
       {
         "type": "minecraft:bamboo_raft",
-        "instance": "5AoBAAAACgAAAAAAAAAAAAA="
+        "instance": "4goBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf_from_stripped_bamboo_block",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_bamboo_block",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:bamboo_shelf",
+        "instance": "vxAGAADM0bjCDAoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -3219,7 +3885,7 @@
     "resultants": [
       {
         "type": "minecraft:bamboo_sign",
-        "instance": "4goDAAAACgAAAAAAAAAAAAA="
+        "instance": "4AoDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -3551,7 +4217,7 @@
     "resultants": [
       {
         "type": "minecraft:birch_fence_gate",
-        "instance": "8AIBAADpw4DkBwoAAAAAAAAAAAAA"
+        "instance": "8AIBAADKzpT1CQoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -3567,7 +4233,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -3671,6 +4337,29 @@
       {
         "type": "minecraft:birch_planks",
         "instance": "xwsEAACBhZPyDQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:birch_shelf_from_stripped_birch_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_birch_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:birch_shelf",
+        "instance": "sRAGAADl46QYCgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4409,7 +5098,7 @@
     "resultants": [
       {
         "type": "minecraft:bolt_armor_trim_smithing_template",
-        "instance": "vgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "vAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4440,7 +5129,7 @@
     "resultants": [
       {
         "type": "minecraft:bolt_armor_trim_smithing_template",
-        "instance": "vgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "vAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5078,7 +5767,7 @@
     "resultants": [
       {
         "type": "minecraft:brush",
-        "instance": "mAsBAAAACgAAAAAAAAAAAAA="
+        "instance": "lgsBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5152,8 +5841,7 @@
         "metadata": 32767
       },
       "C": {
-        "type": "minecraft:egg",
-        "metadata": 32767
+        "tag": "minecraft:egg"
       },
       "D": {
         "type": "minecraft:wheat",
@@ -6311,8 +6999,8 @@
     },
     "resultants": [
       {
-        "type": "minecraft:chain",
-        "instance": "oAoBAAAACgAAAAAAAAAAAAA="
+        "type": "minecraft:iron_chain",
+        "instance": "uwQBAACb5JW7AwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -6335,7 +7023,7 @@
     "resultants": [
       {
         "type": "minecraft:cherry_boat",
-        "instance": "3AoBAAAACgAAAAAAAAAAAAA="
+        "instance": "2goBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6435,7 +7123,7 @@
     "resultants": [
       {
         "type": "minecraft:cherry_fence_gate",
-        "instance": "qQgBAAD+257dDAoAAAAAAAAAAAAA"
+        "instance": "qQgBAACyyafCCAoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -6451,7 +7139,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -6582,6 +7270,29 @@
     ]
   },
   {
+    "identifier": "minecraft:cherry_shelf_from_stripped_cherry_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_cherry_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:cherry_shelf",
+        "instance": "uxAGAACqhIz4AgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:cherry_sign",
     "priority": 0,
     "tag": "crafting_table",
@@ -6604,7 +7315,7 @@
     "resultants": [
       {
         "type": "minecraft:cherry_sign",
-        "instance": "4AoDAAAACgAAAAAAAAAAAAA="
+        "instance": "3goDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7105,7 +7816,7 @@
     "resultants": [
       {
         "type": "minecraft:coast_armor_trim_smithing_template",
-        "instance": "oAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "ngsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7428,6 +8139,56 @@
     ]
   },
   {
+    "identifier": "minecraft:copper_axe",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AA",
+      "AB",
+      " B"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:stick",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_axe",
+        "instance": "hgwBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_bars",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "AAA",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_bars",
+        "instance": "0xAQAACfto6HCQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:copper_block_from_ingots",
     "priority": 1,
     "tag": "crafting_table",
@@ -7447,6 +8208,29 @@
       {
         "type": "minecraft:copper_block",
         "instance": "pwUBAADvrfO1BAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_boots",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "A A",
+      "A A",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_boots",
+        "instance": "kAwBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7478,6 +8262,83 @@
       {
         "type": "minecraft:copper_bulb",
         "instance": "jwwEAADM2PsmCgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_chain",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "A",
+      "B",
+      "A"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_nugget",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_chain",
+        "instance": "4xABAADmqsqYCwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_chest",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "ABA",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:chest",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_chest",
+        "instance": "jRABAADh3Km4AgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_chestplate",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "A A",
+      "AAA",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_chestplate",
+        "instance": "jAwBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7528,13 +8389,270 @@
     ]
   },
   {
-    "identifier": "minecraft:copper_trapdoor",
+    "identifier": "minecraft:copper_helmet",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "A A",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_helmet",
+        "instance": "igwBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_hoe",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AA",
+      " B",
+      " B"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:stick",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_hoe",
+        "instance": "iAwBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_ingot_from_nuggets",
     "priority": 0,
     "tag": "crafting_table",
     "symmetrical": true,
     "pattern": [
       "AAA",
       "AAA",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_nugget",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_ingot",
+        "instance": "tAgBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_lantern",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "ABA",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_nugget",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:copper_torch",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_lantern",
+        "instance": "9RABAACehZjiBAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_leggings",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "A A",
+      "A A"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_leggings",
+        "instance": "jgwBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_nugget",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "A",
+      "",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_nugget",
+        "instance": "kgwJAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_pickaxe",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      " B ",
+      " B "
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:stick",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_pickaxe",
+        "instance": "hAwBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_shovel",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "A",
+      "B",
+      "B"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:stick",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_shovel",
+        "instance": "ggwBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_sword",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "A",
+      "A",
+      "B"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_ingot",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:stick",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_sword",
+        "instance": "gAwBAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "A",
+      "B",
+      "C"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:copper_nugget",
+        "metadata": 32767
+      },
+      "B": {
+        "tag": "minecraft:coals"
+      },
+      "C": {
+        "type": "minecraft:stick",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:copper_torch",
+        "instance": "8xAEAADa3tW3AQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_trapdoor",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AA",
+      "AA",
       ""
     ],
     "key": {
@@ -8275,7 +9393,7 @@
     "resultants": [
       {
         "type": "minecraft:creaking_heart",
-        "instance": "5w8BAAC9uvDrDgoAAAAAAAAAAAAA"
+        "instance": "5w8BAADdsPGDBgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -8375,7 +9493,7 @@
     "resultants": [
       {
         "type": "minecraft:crimson_fence_gate",
-        "instance": "gwQBAACXs9bqCQoAAAAAAAAAAAAA"
+        "instance": "gwQBAADMzezOBAoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -8391,7 +9509,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -8541,6 +9659,29 @@
       {
         "type": "minecraft:crimson_pressure_plate",
         "instance": "iwQBAADM3fq1AQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:crimson_shelf_from_stripped_crimson_stem",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_crimson_stem",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:crimson_shelf",
+        "instance": "wRAGAADko9ypCgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -8952,7 +10093,7 @@
     "resultants": [
       {
         "type": "minecraft:dark_oak_fence_gate",
-        "instance": "9AIBAACfzPuRDAoAAAAAAAAAAAAA"
+        "instance": "9AIBAACkpZ/2DgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -8968,7 +10109,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -9072,6 +10213,29 @@
       {
         "type": "minecraft:dark_oak_planks",
         "instance": "zQsEAACssc7XAwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf_from_stripped_dark_oak_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_dark_oak_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:dark_oak_shelf",
+        "instance": "txAGAAD81e2IBgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -9907,6 +11071,33 @@
     ]
   },
   {
+    "identifier": "minecraft:dried_ghast",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "ABA",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:ghast_tear",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:soul_sand",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:dried_ghast",
+        "instance": "hRABAADZmc/TCwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:dried_kelp",
     "priority": 0,
     "tag": "crafting_table",
@@ -10051,7 +11242,7 @@
     "resultants": [
       {
         "type": "minecraft:dune_armor_trim_smithing_template",
-        "instance": "ngsCAAAACgAAAAAAAAAAAAA="
+        "instance": "nAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10228,7 +11419,7 @@
     "resultants": [
       {
         "type": "minecraft:end_crystal",
-        "instance": "tgwBAAAACgAAAAAAAAAAAAA="
+        "instance": "9gwBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10390,7 +11581,7 @@
     "resultants": [
       {
         "type": "minecraft:eye_armor_trim_smithing_template",
-        "instance": "pgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "pAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10444,7 +11635,7 @@
     "resultants": [
       {
         "type": "minecraft:fence_gate",
-        "instance": "1gEBAAD8vcq9AgoAAAAAAAAAAAAA"
+        "instance": "1gEBAAD/9qL6DQoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -10609,7 +11800,7 @@
     "resultants": [
       {
         "type": "minecraft:flow_armor_trim_smithing_template",
-        "instance": "vAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "ugsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11885,7 +13076,7 @@
     "resultants": [
       {
         "type": "minecraft:host_armor_trim_smithing_template",
-        "instance": "ugsCAAAACgAAAAAAAAAAAAA="
+        "instance": "uAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12527,7 +13718,7 @@
     "resultants": [
       {
         "type": "minecraft:jungle_fence_gate",
-        "instance": "8gIBAAD5j/2RCQoAAAAAAAAAAAAA"
+        "instance": "8gIBAACartjpAwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -12543,7 +13734,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -12647,6 +13838,29 @@
       {
         "type": "minecraft:jungle_planks",
         "instance": "yQsEAACuyoKmCAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:jungle_shelf_from_stripped_jungle_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_jungle_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:jungle_shelf",
+        "instance": "sxAGAADt+un1DAoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -12845,16 +14059,12 @@
     "symmetrical": true,
     "pattern": [
       "AA ",
-      "AB ",
+      "AA ",
       "  A"
     ],
     "key": {
       "A": {
         "type": "minecraft:string",
-        "metadata": 32767
-      },
-      "B": {
-        "type": "minecraft:slime_ball",
         "metadata": 32767
       }
     },
@@ -13541,7 +14751,7 @@
     "resultants": [
       {
         "type": "minecraft:lightning_rod",
-        "instance": "7wQBAADpnpr4DwoAAAAAAAAAAAAA"
+        "instance": "7wQBAACi0qyaCwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -13796,7 +15006,7 @@
         "metadata": 32767
       },
       "B": {
-        "type": "minecraft:netherite_ingot",
+        "type": "minecraft:iron_ingot",
         "metadata": 32767
       }
     },
@@ -14164,7 +15374,7 @@
     "resultants": [
       {
         "type": "minecraft:mangrove_boat",
-        "instance": "wAoBAAAACgAAAAAAAAAAAAA="
+        "instance": "vgoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14210,7 +15420,7 @@
     "resultants": [
       {
         "type": "minecraft:mangrove_door",
-        "instance": "vAoDAAAACgAAAAAAAAAAAAA="
+        "instance": "ugoDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14264,7 +15474,7 @@
     "resultants": [
       {
         "type": "minecraft:mangrove_fence_gate",
-        "instance": "1wcBAADB+fnRDQoAAAAAAAAAAAAA"
+        "instance": "1wcBAACN/5cECgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14280,7 +15490,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -14411,6 +15621,29 @@
     ]
   },
   {
+    "identifier": "minecraft:mangrove_shelf_from_stripped_mangrove_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_mangrove_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:mangrove_shelf",
+        "instance": "uRAGAAD6vNmDAgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:mangrove_sign",
     "priority": 0,
     "tag": "crafting_table",
@@ -14433,7 +15666,7 @@
     "resultants": [
       {
         "type": "minecraft:mangrove_sign",
-        "instance": "vgoDAAAACgAAAAAAAAAAAAA="
+        "instance": "vAoDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15043,7 +16276,7 @@
     "resultants": [
       {
         "type": "minecraft:netherite_upgrade_smithing_template",
-        "instance": "mgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "mAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15193,7 +16426,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -15297,6 +16530,29 @@
       {
         "type": "minecraft:oak_planks",
         "instance": "CgQAAOzq2KgOCgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:oak_shelf_from_stripped_oak_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_oak_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:oak_shelf",
+        "instance": "rRAGAADD0N2KAwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15772,7 +17028,7 @@
     "resultants": [
       {
         "type": "minecraft:pale_oak_boat",
-        "instance": "0AsBAAAACgAAAAAAAAAAAAA="
+        "instance": "zgsBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15872,7 +17128,7 @@
     "resultants": [
       {
         "type": "minecraft:pale_oak_fence_gate",
-        "instance": "vw8BAADYxbjoBAoAAAAAAAAAAAAA"
+        "instance": "vw8BAADj6eiPAwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15888,7 +17144,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -16019,6 +17275,29 @@
     ]
   },
   {
+    "identifier": "minecraft:pale_oak_shelf_from_stripped_pale_oak_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_pale_oak_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:pale_oak_shelf",
+        "instance": "vRAGAACco92yCgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:pale_oak_sign",
     "priority": 0,
     "tag": "crafting_table",
@@ -16041,7 +17320,7 @@
     "resultants": [
       {
         "type": "minecraft:pale_oak_sign",
-        "instance": "1AsDAAAACgAAAAAAAAAAAAA="
+        "instance": "0gsDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -17634,7 +18913,7 @@
     "resultants": [
       {
         "type": "minecraft:raiser_armor_trim_smithing_template",
-        "instance": "tgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "tAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -17795,7 +19074,7 @@
     "resultants": [
       {
         "type": "minecraft:music_disc_5",
-        "instance": "wgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "wAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -17822,7 +19101,7 @@
     "resultants": [
       {
         "type": "minecraft:recovery_compass",
-        "instance": "1goBAAAACgAAAAAAAAAAAAA="
+        "instance": "1AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -17849,7 +19128,7 @@
     "resultants": [
       {
         "type": "minecraft:recovery_compass",
-        "instance": "1goBAAAACgAAAAAAAAAAAAA="
+        "instance": "1AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -18545,7 +19824,34 @@
     "resultants": [
       {
         "type": "minecraft:rib_armor_trim_smithing_template",
-        "instance": "rgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "rAsCAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:saddle",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      " A ",
+      "ABA",
+      ""
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:leather",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:iron_ingot",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:saddle",
+        "instance": "mAYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -18745,7 +20051,7 @@
     "resultants": [
       {
         "type": "minecraft:sentry_armor_trim_smithing_template",
-        "instance": "nAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "mgsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -18776,7 +20082,7 @@
     "resultants": [
       {
         "type": "minecraft:shaper_armor_trim_smithing_template",
-        "instance": "uAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "tgsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -19126,7 +20432,7 @@
     "resultants": [
       {
         "type": "minecraft:silence_armor_trim_smithing_template",
-        "instance": "sgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "sAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -19855,7 +21161,7 @@
     "resultants": [
       {
         "type": "minecraft:snout_armor_trim_smithing_template",
-        "instance": "rAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "qgsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -19930,7 +21236,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -19961,7 +21267,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -19992,7 +21298,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20023,7 +21329,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20054,7 +21360,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20085,7 +21391,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20116,7 +21422,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20146,7 +21452,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20176,7 +21482,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20207,7 +21513,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20238,7 +21544,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20269,7 +21575,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20300,7 +21606,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20331,7 +21637,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20362,7 +21668,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20392,7 +21698,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20422,7 +21728,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20452,7 +21758,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20483,7 +21789,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20514,7 +21820,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20545,7 +21851,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20576,7 +21882,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20607,7 +21913,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20638,7 +21944,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20668,7 +21974,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20699,7 +22005,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20730,7 +22036,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20761,7 +22067,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20792,7 +22098,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20823,7 +22129,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20854,7 +22160,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20885,7 +22191,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20916,7 +22222,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20947,7 +22253,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -20978,7 +22284,7 @@
     "resultants": [
       {
         "type": "minecraft:soul_campfire",
-        "instance": "pgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -21151,7 +22457,7 @@
     "resultants": [
       {
         "type": "minecraft:spire_armor_trim_smithing_template",
-        "instance": "sAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "rgsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -21251,7 +22557,7 @@
     "resultants": [
       {
         "type": "minecraft:spruce_fence_gate",
-        "instance": "7gIBAACk8MujDwoAAAAAAAAAAAAA"
+        "instance": "7gIBAADI/P3KDAoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -21267,7 +22573,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -21371,6 +22677,29 @@
       {
         "type": "minecraft:spruce_planks",
         "instance": "xQsEAADQxo+DDAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:spruce_shelf_from_stripped_spruce_log",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_spruce_log",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:spruce_shelf",
+        "instance": "rxAGAAC4goH+AgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -21489,7 +22818,7 @@
     "resultants": [
       {
         "type": "minecraft:spyglass",
-        "instance": "rAoBAAAACgAAAAAAAAAAAAA="
+        "instance": "qgoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -22320,7 +23649,7 @@
     "resultants": [
       {
         "type": "minecraft:tide_armor_trim_smithing_template",
-        "instance": "qgsCAAAACgAAAAAAAAAAAAA="
+        "instance": "qAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -22737,7 +24066,7 @@
     "resultants": [
       {
         "type": "minecraft:vex_armor_trim_smithing_template",
-        "instance": "qAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "pgsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -22768,7 +24097,7 @@
     "resultants": [
       {
         "type": "minecraft:ward_armor_trim_smithing_template",
-        "instance": "pAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "ogsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -22868,7 +24197,7 @@
     "resultants": [
       {
         "type": "minecraft:warped_fence_gate",
-        "instance": "hQQBAADdgYCkBAoAAAAAAAAAAAAA"
+        "instance": "hQQBAACJ06HFAgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -22911,7 +24240,7 @@
     ],
     "key": {
       "A": {
-        "type": "minecraft:chain",
+        "type": "minecraft:iron_chain",
         "metadata": 32767
       },
       "B": {
@@ -23061,6 +24390,29 @@
       {
         "type": "minecraft:warped_pressure_plate",
         "instance": "jQQBAADVuf2FDwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:warped_shelf_from_stripped_warped_stem",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "   ",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:stripped_warped_stem",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:warped_shelf",
+        "instance": "wxAGAADJtt7fCgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -23495,7 +24847,7 @@
     "resultants": [
       {
         "type": "minecraft:wayfinder_armor_trim_smithing_template",
-        "instance": "tAsCAAAACgAAAAAAAAAAAAA="
+        "instance": "sgsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -23834,7 +25186,7 @@
     "resultants": [
       {
         "type": "minecraft:wild_armor_trim_smithing_template",
-        "instance": "ogsCAAAACgAAAAAAAAAAAAA="
+        "instance": "oAsCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -23857,7 +25209,7 @@
     "resultants": [
       {
         "type": "minecraft:wolf_armor",
-        "instance": "ygsBAAAACgAAAAAAAAAAAAA="
+        "instance": "yAsBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },

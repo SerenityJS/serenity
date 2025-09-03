@@ -16,6 +16,8 @@ class ItemStackWeaponTrait extends ItemStackTrait {
     ItemIdentifier.WoodenAxe,
     ItemIdentifier.StoneSword,
     ItemIdentifier.StoneAxe,
+    ItemIdentifier.CopperSword,
+    ItemIdentifier.CopperAxe,
     ItemIdentifier.IronSword,
     ItemIdentifier.IronAxe,
     ItemIdentifier.GoldenSword,
@@ -89,6 +91,12 @@ class ItemStackWeaponTrait extends ItemStackTrait {
         }
 
         case ItemTypeToolTier.Stone: {
+          baseDamage = 5;
+          criticalDamage = 7;
+          break;
+        }
+
+        case ItemTypeToolTier.Copper: {
           baseDamage = 5;
           criticalDamage = 7;
           break;

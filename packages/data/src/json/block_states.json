@@ -1152,6 +1152,16 @@
     ]
   },
   {
+    "identifier": "powered_shelf_type",
+    "type": "int",
+    "values": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
     "identifier": "prismarine_block_type",
     "type": "string",
     "values": [

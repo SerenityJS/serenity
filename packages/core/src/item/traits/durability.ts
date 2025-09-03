@@ -130,6 +130,8 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
           return 59;
         case ItemTypeToolTier.Stone:
           return 131;
+        case ItemTypeToolTier.Copper:
+          return 196;
         case ItemTypeToolTier.Iron:
           return 250;
         case ItemTypeToolTier.Golden:

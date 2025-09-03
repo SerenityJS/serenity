@@ -409,6 +409,9 @@ class ItemType {
         case "minecraft:stone_tier":
           return ItemTypeToolTier.Stone;
 
+        case "minecraft:copper_tier":
+          return ItemTypeToolTier.Copper;
+
         case "minecraft:iron_tier":
           return ItemTypeToolTier.Iron;
 

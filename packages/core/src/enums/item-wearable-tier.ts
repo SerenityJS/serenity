@@ -1,6 +1,7 @@
 enum ItemWearableTier {
   Generic,
   Leather,
+  Copper,
   Chainmail,
   Iron,
   Gold,

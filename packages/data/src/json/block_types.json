@@ -165,6 +165,22 @@
     ]
   },
   {
+    "identifier": "minecraft:acacia_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
+  },
+  {
     "identifier": "minecraft:acacia_slab",
     "components": [],
     "tags": [
@@ -679,6 +695,22 @@
     ]
   },
   {
+    "identifier": "minecraft:bamboo_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
+  },
+  {
     "identifier": "minecraft:bamboo_slab",
     "components": [],
     "tags": [
@@ -1067,6 +1099,22 @@
     "solid": false,
     "states": [
       "age_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
     ]
   },
   {
@@ -2084,19 +2132,6 @@
     ]
   },
   {
-    "identifier": "minecraft:chain",
-    "components": [],
-    "tags": [
-      "minecraft:is_pickaxe_item_destructible"
-    ],
-    "air": false,
-    "liquid": false,
-    "solid": false,
-    "states": [
-      "pillar_axis"
-    ]
-  },
-  {
     "identifier": "minecraft:chain_command_block",
     "components": [],
     "tags": [],
@@ -2274,6 +2309,22 @@
     "solid": false,
     "states": [
       "age_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
     ]
   },
   {
@@ -2853,6 +2904,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:copper_block",
     "components": [],
     "tags": [
@@ -2879,6 +2942,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -2917,6 +2993,20 @@
     ]
   },
   {
+    "identifier": "minecraft:copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:copper_grate",
     "components": [],
     "tags": [
@@ -2930,6 +3020,19 @@
     "states": []
   },
   {
+    "identifier": "minecraft:copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
+  },
+  {
     "identifier": "minecraft:copper_ore",
     "components": [],
     "tags": [
@@ -2941,6 +3044,17 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "components": [],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "torch_facing_direction"
+    ]
   },
   {
     "identifier": "minecraft:copper_trapdoor",
@@ -3235,6 +3349,22 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
   },
   {
     "identifier": "minecraft:crimson_slab",
@@ -3759,6 +3889,22 @@
     "solid": false,
     "states": [
       "age_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
     ]
   },
   {
@@ -5941,6 +6087,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:exposed_copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:exposed_copper_bulb",
     "components": [],
     "tags": [
@@ -5954,6 +6112,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -5992,6 +6163,20 @@
     ]
   },
   {
+    "identifier": "minecraft:exposed_copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:exposed_copper_grate",
     "components": [],
     "tags": [
@@ -6003,6 +6188,19 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:exposed_copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
   },
   {
     "identifier": "minecraft:exposed_copper_trapdoor",
@@ -6077,6 +6275,21 @@
     "solid": true,
     "states": [
       "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction",
+      "powered_bit"
     ]
   },
   {
@@ -7305,6 +7518,19 @@
     "states": []
   },
   {
+    "identifier": "minecraft:iron_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
     "identifier": "minecraft:iron_door",
     "components": [],
     "tags": [
@@ -7542,6 +7768,22 @@
     "solid": false,
     "states": [
       "age_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
     ]
   },
   {
@@ -8184,7 +8426,8 @@
     "liquid": false,
     "solid": false,
     "states": [
-      "facing_direction"
+      "facing_direction",
+      "powered_bit"
     ]
   },
   {
@@ -8746,6 +8989,22 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
   },
   {
     "identifier": "minecraft:mangrove_slab",
@@ -9484,6 +9743,22 @@
     ]
   },
   {
+    "identifier": "minecraft:oak_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
+  },
+  {
     "identifier": "minecraft:oak_slab",
     "components": [],
     "tags": [
@@ -9740,6 +10015,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:oxidized_copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:oxidized_copper_bulb",
     "components": [],
     "tags": [
@@ -9753,6 +10040,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -9791,6 +10091,20 @@
     ]
   },
   {
+    "identifier": "minecraft:oxidized_copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:oxidized_copper_grate",
     "components": [],
     "tags": [
@@ -9802,6 +10116,19 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
   },
   {
     "identifier": "minecraft:oxidized_copper_trapdoor",
@@ -9876,6 +10203,21 @@
     "solid": true,
     "states": [
       "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction",
+      "powered_bit"
     ]
   },
   {
@@ -10096,6 +10438,22 @@
     "solid": false,
     "states": [
       "age_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
     ]
   },
   {
@@ -12810,6 +13168,22 @@
     ]
   },
   {
+    "identifier": "minecraft:spruce_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
+  },
+  {
     "identifier": "minecraft:spruce_slab",
     "components": [],
     "tags": [
@@ -14164,6 +14538,22 @@
     "states": []
   },
   {
+    "identifier": "minecraft:warped_shelf",
+    "components": [],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
+  },
+  {
     "identifier": "minecraft:warped_slab",
     "components": [],
     "tags": [
@@ -14312,6 +14702,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:waxed_copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:waxed_copper_bulb",
     "components": [],
     "tags": [
@@ -14325,6 +14727,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:waxed_copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -14363,6 +14778,20 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_copper_grate",
     "components": [],
     "tags": [
@@ -14374,6 +14803,19 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:waxed_copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
   },
   {
     "identifier": "minecraft:waxed_copper_trapdoor",
@@ -14477,6 +14919,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:waxed_exposed_copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:waxed_exposed_copper_bulb",
     "components": [],
     "tags": [
@@ -14490,6 +14944,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -14528,6 +14995,20 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_exposed_copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_exposed_copper_grate",
     "components": [],
     "tags": [
@@ -14539,6 +15020,19 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_trapdoor",
@@ -14616,6 +15110,36 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction",
+      "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction",
+      "powered_bit"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_chiseled_copper",
     "components": [],
     "tags": [
@@ -14642,6 +15166,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:waxed_oxidized_copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_copper_bulb",
     "components": [],
     "tags": [
@@ -14655,6 +15191,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -14693,6 +15242,20 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_oxidized_copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_copper_grate",
     "components": [],
     "tags": [
@@ -14704,6 +15267,19 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
   },
   {
     "identifier": "minecraft:waxed_oxidized_copper_trapdoor",
@@ -14783,6 +15359,21 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction",
+      "powered_bit"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_weathered_chiseled_copper",
     "components": [],
     "tags": [
@@ -14809,6 +15400,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:waxed_weathered_copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:waxed_weathered_copper_bulb",
     "components": [],
     "tags": [
@@ -14822,6 +15425,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -14860,6 +15476,20 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_weathered_copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:waxed_weathered_copper_grate",
     "components": [],
     "tags": [
@@ -14871,6 +15501,19 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
   },
   {
     "identifier": "minecraft:waxed_weathered_copper_trapdoor",
@@ -14948,6 +15591,21 @@
     ]
   },
   {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction",
+      "powered_bit"
+    ]
+  },
+  {
     "identifier": "minecraft:weathered_chiseled_copper",
     "components": [],
     "tags": [
@@ -14974,6 +15632,18 @@
     "states": []
   },
   {
+    "identifier": "minecraft:weathered_copper_bars",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
+  },
+  {
     "identifier": "minecraft:weathered_copper_bulb",
     "components": [],
     "tags": [
@@ -14987,6 +15657,19 @@
     "states": [
       "lit",
       "powered_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chain",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -15025,6 +15708,20 @@
     ]
   },
   {
+    "identifier": "minecraft:weathered_copper_golem_statue",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "stone_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
     "identifier": "minecraft:weathered_copper_grate",
     "components": [],
     "tags": [
@@ -15036,6 +15733,19 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:weathered_copper_lantern",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "hanging"
+    ]
   },
   {
     "identifier": "minecraft:weathered_copper_trapdoor",
@@ -15110,6 +15820,21 @@
     "solid": true,
     "states": [
       "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction",
+      "powered_bit"
     ]
   },
   {

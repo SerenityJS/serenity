@@ -141,6 +141,9 @@ class ItemStackWearableTrait extends ItemStackTrait {
         } else if (tags.includes("minecraft:chainmail_tier")) {
           this.properties.tier = ItemWearableTier.Chainmail;
           this.properties.protection = 2;
+        } else if (tags.includes("minecraft:copper_tier")) {
+          this.properties.tier = ItemWearableTier.Copper;
+          this.properties.protection = 2;
         } else if (tags.includes("minecraft:iron_tier")) {
           this.properties.tier = ItemWearableTier.Iron;
           this.properties.protection = 3;
