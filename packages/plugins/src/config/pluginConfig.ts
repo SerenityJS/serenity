@@ -84,7 +84,7 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
 
     // Initialize properties map
     this.properties = new Map();
-    if (options.properties)
+    if (options && options.properties)
       for (const [key, value] of Object.entries(options.properties))
         this.properties.set(
           key as keyof T,
