@@ -151,6 +151,7 @@ class Logger {
       if (typeof argument === "string") {
         return formatMinecraftColorCode(argument as string);
       }
+      return argument;
     });
 
     return colorized;
