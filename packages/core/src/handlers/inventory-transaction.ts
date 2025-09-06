@@ -206,7 +206,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         });
 
         // Check if the interaction was canceled and the player is placing a block
-        if (results.cancel && results.placingBlock) {
+        if (results.cancel || player.openedContainer) {
           // Update the item stack to reflect the interaction
           if (stack) stack.update();
 
@@ -219,13 +219,6 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Send the packet to the player
           return player.send(packet);
-        } else if (
-          results.cancel || // If the interaction was canceled by a trait
-          !results.placingBlock || // If the interaction did not place a block
-          player.openedContainer // If the interaction opened a container for the player
-        ) {
-          // If any condition is true, we do not want to place a block
-          return stack?.update(); // Update the item stack to reflect the interaction
         }
 
         // Check if the client prediction failed to place the block
