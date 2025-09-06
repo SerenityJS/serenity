@@ -515,6 +515,23 @@ class World extends Emitter<WorldEventSignals> {
   public getStructure(identifier: string): Structure | null {
     return this.structures.get(identifier) ?? null;
   }
+
+  /**
+   * Adds a structure with the given identifier.
+   * @param identifier The identifier of the structure
+   * @param structure The structure to be registered
+   */
+  public addStructure(identifier: string, structure: Structure): void {
+    this.structures.set(identifier, structure);
+  }
+
+  /**
+   * Removes a structure by the identifier from the world
+   * @param identifier The identifier of the structure
+   */
+  public removeStructure(identifier: string): void {
+    this.structures.delete(identifier);
+  }
 }
 
 export { World };
