@@ -12,7 +12,7 @@ import { Leveldb } from "@serenityjs/leveldb";
 import { BlockPosition, DimensionType } from "@serenityjs/protocol";
 import { CompoundTag } from "@serenityjs/nbt";
 
-import { Chunk, SubChunk } from "../chunk";
+import { BiomeStorage, Chunk, SubChunk } from "../chunk";
 import { Dimension } from "../dimension";
 import { Serenity } from "../../serenity";
 import {
@@ -229,6 +229,22 @@ class LevelDBProvider extends WorldProvider {
         chunk.subchunks[i] = subchunk;
       }
 
+      // Read the biomes from the chunk.
+      const biomes = this.readChunkBiomes(chunk, dimension);
+
+      // Iterate through the biomes and add them to the chunk.
+      for (let i = 0; i < biomes.length; i++) {
+        // Get the corresponding subchunk and biome.
+        const subchunk = chunk.subchunks[i];
+        const biome = biomes[i];
+
+        // Check if the subchunk and biome exist.
+        if (!subchunk || !biome) continue;
+
+        // Set the biome storage of the subchunk.
+        subchunk.biomes = biome;
+      }
+
       // Set the chunk as ready.
       chunk.ready = true;
 
@@ -331,6 +347,9 @@ class LevelDBProvider extends WorldProvider {
       // Write the subchunk to the database.
       this.writeSubChunk(subchunk, chunk.x, cy - offset, chunk.z, dimension);
     }
+
+    // Write the chunk biomes to the database.
+    this.writeChunkBiomes(chunk, dimension);
 
     // Set the chunk as not dirty.
     chunk.dirty = false;
@@ -634,6 +653,67 @@ class LevelDBProvider extends WorldProvider {
 
     // Write the player data to the database.
     this.db.put(Buffer.from(key), stream.getBuffer());
+  }
+
+  public readChunkBiomes(
+    chunk: Chunk,
+    dimension: Dimension
+  ): Array<BiomeStorage> {
+    // Create a key for the chunk biomes.
+    const biomeListKey = LevelDBProvider.buildBiomeStorageKey(
+      chunk.x,
+      chunk.z,
+      dimension.indexOf()
+    );
+
+    // Attempt to read the biomes from the database.
+    try {
+      // Prepare an array to store the biome storages.
+      const biomes = new Array<BiomeStorage>();
+
+      // Create a new BinaryStream instance from the database.
+      const stream = new BinaryStream(this.db.get(biomeListKey));
+
+      stream.read(512); // Heightmap (not used currently)
+
+      // Iterate through the subchunks of the chunk.
+      for (let i = 0; i < chunk.subchunks.length; i++) {
+        // Read the biome storage from the stream.
+        const storage = BiomeStorage.deserialize(stream, true);
+
+        // Push the biome storage to the array.
+        biomes.push(storage);
+      }
+
+      // Return the biome storages.
+      return biomes;
+    } catch {
+      // Return an empty array if an error occurs.
+      return [];
+    }
+  }
+
+  public writeChunkBiomes(chunk: Chunk, dimension: Dimension): void {
+    // Create a key for the chunk biomes.
+    const biomeListKey = LevelDBProvider.buildBiomeStorageKey(
+      chunk.x,
+      chunk.z,
+      dimension.indexOf()
+    );
+
+    // Create a new BinaryStream instance.
+    const stream = new BinaryStream();
+
+    stream.write(Buffer.alloc(512)); // Heightmap (not used currently)
+
+    // Iterate through the subchunks of the chunk.
+    for (const subchunk of chunk.subchunks) {
+      // Write the biome storage to the stream.
+      BiomeStorage.serialize(subchunk.biomes, stream, true);
+    }
+
+    // Write the stream to the database.
+    this.db.put(biomeListKey, stream.getBuffer());
   }
 
   public static async initialize(
