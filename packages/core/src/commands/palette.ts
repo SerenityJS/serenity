@@ -4,7 +4,7 @@ import { CommandRegistry } from "./registry";
 import type {
   CommandCallback,
   CommandContext,
-  CommandRegistryCallback
+  CommandRegistryCallback,
 } from "../types";
 
 class CommandPalette {
@@ -90,7 +90,7 @@ class CommandPalette {
 
     const regCallback = callback
       ? (registry as CommandRegistryCallback)
-      : () => { };
+      : () => {};
 
     // Execute the registry callback
     regCallback(regInstance);
@@ -106,8 +106,16 @@ class CommandPalette {
     // Set the command in the commands map
     this.commands.set(name, command as Command<unknown>);
 
-    for (let alias of regInstance.aliases) {
-      this.commands.set(alias, new Command<T>(alias, description, regInstance, execCallback) as Command<unknown>)
+    for (const alias of regInstance.aliases) {
+      this.commands.set(
+        alias,
+        new Command<T>(
+          alias,
+          description,
+          regInstance,
+          execCallback
+        ) as Command<unknown>
+      );
     }
 
     // Return the command
