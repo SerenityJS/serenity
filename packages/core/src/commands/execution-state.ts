@@ -87,20 +87,20 @@ class CommandExecutionState {
   public execute(): CommandResponse | Promise<CommandResponse> {
     // Check if the command is undefined.
     // If it is, we will throw an error.
-    if (!this.command) {
-      throw new TypeError(
-        `Unknown command executed. Please make sure the command exists, and that you have permission to use it.`
-      );
-    }
+    try {
+      if (!this.command) {
+        throw new TypeError(
+          `Unknown command executed. Please make sure the command exists, and that you have permission to use it.`
+        );
+      }
 
-    // Create a global context object with the origin.
-    const globalContext = { origin: this.origin } as CommandContext<
-      Record<string, unknown>
-    >;
+      // Create a global context object with the origin.
+      const globalContext = { origin: this.origin } as CommandContext<
+        Record<string, unknown>
+      >;
 
-    // Iterate through the overloads and find a match.
-    for (const [overload, callback] of this.command.registry.overloads) {
-      try {
+      // Iterate through the overloads and find a match.
+      for (const [overload, callback] of this.command.registry.overloads) {
         // Create a new context object with the origin.
         const context = { origin: this.origin } as CommandContext<
           Record<string, Enum>
@@ -171,14 +171,22 @@ class CommandExecutionState {
 
         // Overload is a match.
         return (callback(context) ?? {}) as CommandResponse;
-      } catch {
-        // If validation error, continue to the next match.
-        continue;
       }
-    }
 
-    // Call the global callback with the global context object.
-    return (this.command.callback(globalContext) ?? {}) as CommandResponse;
+      // Call the global callback with the global context object.
+      return (this.command.callback(globalContext) ?? {}) as CommandResponse;
+    } catch (e) {
+      if (e instanceof TypeError) {
+        return {
+          message: `§c${e.message}`
+        };
+      }
+
+      // Catches unknown errors.
+      return {
+        message: "§cAn unknown error occurred.",
+      };
+    }
   }
 
   protected parse(source: string): Array<string> {
