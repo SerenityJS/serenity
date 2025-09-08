@@ -109,68 +109,73 @@ class CommandExecutionState {
         // Create a new state object with the split array.
         const state = new CommandArgumentPointer(this, this.split);
 
-        // Iterate through the overload keys and extract the arguments.
-        for (const key in overload) {
-          const value = overload[key];
+        try {
+          // Iterate through the overload keys and extract the arguments.
+          for (const key in overload) {
+            const value = overload[key];
 
-          // If value is null or undefined, i quit.
-          if (!value) continue;
+            // If value is null or undefined, i quit.
+            if (!value) continue;
 
-          // Check for array.
-          if (Array.isArray(value)) {
-            // Get the enum and optional flag.
-            const [type, optional] = value;
+            // Check for array.
+            if (Array.isArray(value)) {
+              // Get the enum and optional flag.
+              const [type, optional] = value;
 
-            // Check if the argument is optional and if there are any arguments left.
-            if (!optional && state.offset >= state.arguments.length) {
-              throw new TypeError(`Argument ${key} is required.`);
+              // Check if the argument is optional and if there are any arguments left.
+              if (!optional && state.offset >= state.arguments.length) {
+                throw new TypeError(`Argument ${key} is required.`);
+              }
+
+              // Extract the argument from the split array.
+              const value_ = type.extract(state as CommandArgumentPointer);
+
+              // Declare if the value is optional.
+              if (value_) value_.optional = optional;
+
+              context[key] = value_ ?? type.default;
+            } else {
+              // Extract the argument from the split array.
+              const value_ = value.extract(state as CommandArgumentPointer);
+
+              // Declare that the enum value is not optional.
+              if (value_) value_.optional = false;
+
+              context[key] = value_ ?? value.default;
             }
-
-            // Extract the argument from the split array.
-            const value_ = type.extract(state as CommandArgumentPointer);
-
-            // Declare if the value is optional.
-            if (value_) value_.optional = optional;
-
-            context[key] = value_ ?? type.default;
-          } else {
-            // Extract the argument from the split array.
-            const value_ = value.extract(state as CommandArgumentPointer);
-
-            // Declare that the enum value is not optional.
-            if (value_) value_.optional = false;
-
-            context[key] = value_ ?? value.default;
           }
-        }
 
-        // Add the context object to the global context object.
-        Object.assign(globalContext, context);
+          // Add the context object to the global context object.
+          Object.assign(globalContext, context);
 
-        // Check if there are any arguments left in the split array.
-        // If there are, we will continue to the next overload.
-        if (state.offset < state.arguments.length) continue;
+          // Check if there are any arguments left in the split array.
+          // If there are, we will continue to the next overload.
+          if (state.offset < state.arguments.length) continue;
 
-        // Check that the length of the context object is the same as the overload object.
-        if (Object.keys(context).length !== Object.keys(overload).length + 1)
-          continue;
-
-        // Iterate through the context object and try to validate.
-        for (const [_, value] of Object.entries(context)) {
-          if (!(value instanceof Enum)) continue;
-
-          const result = value.result;
-
-          // Check if the value is optional and if it is not valid.
-          if (value.optional && (result === null || result === undefined))
+          // Check that the length of the context object is the same as the overload object.
+          if (Object.keys(context).length !== Object.keys(overload).length + 1)
             continue;
 
-          // Validate the value.
-          value.validate(true);
-        }
+          // Iterate through the context object and try to validate.
+          for (const [_, value] of Object.entries(context)) {
+            if (!(value instanceof Enum)) continue;
 
-        // Overload is a match.
-        return (callback(context) ?? {}) as CommandResponse;
+            const result = value.result;
+
+            // Check if the value is optional and if it is not valid.
+            if (value.optional && (result === null || result === undefined))
+              continue;
+
+            // Validate the value.
+            value.validate(true);
+          }
+
+          // Overload is a match.
+          return (callback(context) ?? {}) as CommandResponse;
+        } catch (error) {
+          // If there is an error, we will continue to the next overload.
+          continue;
+        }
       }
 
       // Call the global callback with the global context object.
@@ -182,9 +187,15 @@ class CommandExecutionState {
         };
       }
 
+      if (e instanceof Error) {
+        return {
+          message: `§c${e.message}`
+        };
+      }
+
       // Catches unknown errors.
       return {
-        message: "§cAn unknown error occurred.",
+        message: e ? "§cAn unknown error occurred: " + e : "§cAn unknown error occurred.",
       };
     }
   }
