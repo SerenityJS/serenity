@@ -375,7 +375,6 @@ class Connection {
     for (const sequence of ack.sequences) {
       // Check if this is the sequence we're tracking for ping calculation
       if (this.lastAckId !== null && sequence === this.lastAckId) {
-        // Calculate ping: round trip time divided by 2 (since it's send + receive)
         const roundTripTime = Date.now() - this.ackTimeStamp;
         this.ping = Math.round(roundTripTime);
         
@@ -405,6 +404,16 @@ class Connection {
 
     // Iterate over the sequences in the nack packet
     for (const sequence of nack.sequences) {
+      // Check if this is the sequence we're tracking for ping calculation
+      if (this.lastAckId !== null && sequence === this.lastAckId) {
+        const roundTripTime = Date.now() - this.ackTimeStamp;
+        this.ping = Math.round(roundTripTime);
+        
+        // Reset ping tracking
+        this.lastAckId = null;
+        this.ackTimeStamp = 0;
+      }
+
       // Get the frames from the output backup
       const frames = this.outputBackup.get(sequence) ?? [];
 
