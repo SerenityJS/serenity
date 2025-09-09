@@ -377,7 +377,7 @@ class Connection {
       if (this.lastAckId !== null && sequence === this.lastAckId) {
         // Calculate ping: round trip time divided by 2 (since it's send + receive)
         const roundTripTime = Date.now() - this.ackTimeStamp;
-        this.ping = Math.round(roundTripTime / 2);
+        this.ping = Math.round(roundTripTime);
         
         // Reset ping tracking
         this.lastAckId = null;
