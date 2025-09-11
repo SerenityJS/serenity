@@ -830,11 +830,12 @@ class Block {
     if (options.cancel) return false;
 
     // Check if the origin is a player.
-    if (options?.origin?.isPlayer() && options?.dropLoot) {
-      // Check if the player is in survival mode.
-      if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
-    } // If the origin is not a player, drop the loot if specified.
-    else if (options?.dropLoot) this.spawnLoot();
+    if (this.world.gamerules.doTileDrops === true)
+      if (options?.origin?.isPlayer() && options?.dropLoot) {
+        // Check if the player is in survival mode.
+        if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
+      } // If the origin is not a player, drop the loot if specified.
+      else if (options?.dropLoot) this.spawnLoot();
 
     // Create a new LevelEventPacket to broadcast the block break.
     const packet = new LevelEventPacket();
