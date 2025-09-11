@@ -30,7 +30,7 @@ import {
   UpdatePlayerGameTypePacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, FloatTag } from "@serenityjs/nbt";
 
 import {
   EntitySpawnOptions,
@@ -904,34 +904,110 @@ class Player extends Entity {
       // Get the PlayerLevelingTrait
       const leveling = this.getTrait(PlayerLevelingTrait);
 
-      // Get the current experience
-      const currentExperience = leveling.getExperience();
+      // Get the current experience and level
+      let currentXp = leveling.getExperience();
+      currentXp += value;
 
-      // Calculate the new experience value
-      const levels = Math.trunc(currentExperience + value);
-      const float = currentExperience + value - levels;
+      let currentLevel = leveling.getLevel();
+      let xpForNextLevel = 0;
 
-      // Set the new experience
-      leveling.setExperience(float);
+      if (currentLevel >= 31) {
+        xpForNextLevel = 9 * currentLevel - 158;
+      } else if (currentLevel >= 16) {
+        xpForNextLevel = 5 * currentLevel - 38;
+      } else {
+        xpForNextLevel = 2 * currentLevel + 7;
+      }
 
-      // Check if the levels are greater than 0
-      if (levels > 0) this.addLevels(levels);
+      while (currentXp >= xpForNextLevel) {
+        currentXp -= xpForNextLevel;
+        currentLevel++;
 
-      // Return the new experience
-      return leveling.getExperience();
+        if (currentLevel >= 31) {
+          xpForNextLevel = 9 * currentLevel - 158;
+        } else if (currentLevel >= 16) {
+          xpForNextLevel = 5 * currentLevel - 38;
+        } else {
+          xpForNextLevel = 2 * currentLevel + 7;
+        }
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+      this.nbt.set("PlayerLevelProgress", new FloatTag(xpForNextLevel > 0 ? currentXp / xpForNextLevel : 0))
+      leveling.refreshAttributes()
+
+      // Return the new experience points
+      return currentXp;
     } else {
-      // Parse the value to ensure it is a float
-      const levels = Math.trunc(value);
-      const float = value - levels;
+      // Add the PlayerLevelingTrait to the player
+      const leveling = this.addTrait(PlayerLevelingTrait);
+      leveling.setExperience(value);
+      return leveling.getExperience()
+    }
+  }
 
-      // Add the PlayerLevelingTrait to the player and set the experience
-      this.addTrait(PlayerLevelingTrait).setExperience(float);
+  /**
+ * Remove experience from the player.
+ * @param value The amount of experience to remove.
+ * @returns The new experience progress of the player after adding the specified value.
+ * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+ */
+  public removeExperience(value: number): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Get the PlayerLevelingTrait
+      const leveling = this.getTrait(PlayerLevelingTrait);
 
-      // Check if the levels are greater than 0
-      if (levels > 0) this.addLevels(levels);
+      // Get the current experience and level
+      let currentXp = leveling.getExperience();
+      currentXp -= value;
 
-      // Return the new experience
-      return value;
+      let currentLevel = leveling.getLevel();
+
+      while (currentXp < 0) {
+        currentLevel--;
+
+        if (currentLevel < 0) {
+          currentLevel = 0;
+          currentXp = 0;
+          break;
+        }
+
+        let xpForPreviousLevel = 0;
+        if (currentLevel >= 31) {
+          xpForPreviousLevel = 9 * currentLevel - 158;
+        } else if (currentLevel >= 16) {
+          xpForPreviousLevel = 5 * currentLevel - 38;
+        } else {
+          xpForPreviousLevel = 2 * currentLevel + 7;
+        }
+
+        currentXp += xpForPreviousLevel;
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+
+      let xpForNextLevel = 0;
+      if (currentLevel >= 31) {
+        xpForNextLevel = 9 * currentLevel - 158;
+      } else if (currentLevel >= 16) {
+        xpForNextLevel = 5 * currentLevel - 38;
+      } else {
+        xpForNextLevel = 2 * currentLevel + 7;
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+      this.nbt.set("PlayerLevelProgress", new FloatTag(xpForNextLevel > 0 ? currentXp / xpForNextLevel : 0))
+      leveling.refreshAttributes()
+
+      // Return the new experience points
+      return currentXp;
+    } else {
+      // If the trait doesn't exist, there's no experience to remove.
+      return 0;
     }
   }
 
@@ -947,7 +1023,7 @@ class Player extends Entity {
       const leveling = this.getTrait(PlayerLevelingTrait);
 
       // Return the total experience of the player
-      return leveling.getLevel() + leveling.getExperience();
+      return leveling.getTotalXp()
     }
 
     // If the PlayerLevelingTrait is not present, return 0
@@ -1006,6 +1082,13 @@ class Player extends Entity {
     // Load the abilities from the storage
     for (const [key, value] of storage.getAbilities())
       this.abilities.set(key, value);
+  }
+
+  /**
+   * The latency of the connection in milliseconds.
+  */
+  public get ping(): number {
+    return this.connection.ping;
   }
 }
 
