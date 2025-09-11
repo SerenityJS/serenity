@@ -17,6 +17,7 @@ import { DGRAM_HEADER_SIZE, DGRAM_MTU_OVERHEAD } from "../constants";
 
 import type { RemoteInfo } from "node:dgram";
 import type { Server } from "./raknet";
+import { parseConfigFileTextToJson } from "typescript";
 
 /**
  * Represents a connection in the server
@@ -77,6 +78,21 @@ class Connection {
   protected outputReliableIndex = 0;
 
   /**
+   * Latency of the connection in milliseconds
+   */
+  public ping: number = 0;
+
+  /**
+   * The last ACK ID that was sent, used for ping calculation
+   */
+  public lastAckId: number | null = null;
+
+  /**
+   * The timestamp when the last ACK-tracked packet was sent
+   */
+  public ackTimeStamp: number = 0;
+
+  /**
    * Creates a new connection
    * @param server The server instance
    * @param rinfo The remote info
@@ -105,6 +121,7 @@ class Connection {
     // Outputs
     this.outputOrderIndex = Array.from<number>({ length: 32 }).fill(0);
     this.outputSequenceIndex = Array.from<number>({ length: 32 }).fill(0);
+
   }
 
   /**
@@ -356,6 +373,16 @@ class Connection {
 
     // Iterate over the sequences in the ack packet
     for (const sequence of ack.sequences) {
+      // Check if this is the sequence we're tracking for ping calculation
+      if (this.lastAckId !== null && sequence === this.lastAckId) {
+        const roundTripTime = Date.now() - this.ackTimeStamp;
+        this.ping = Math.round(roundTripTime);
+
+        // Reset ping tracking
+        this.lastAckId = null;
+        this.ackTimeStamp = 0;
+      }
+
       // Check if the ack is not found
       if (!this.outputBackup.has(sequence))
         this.server.logger.debug(
@@ -377,6 +404,16 @@ class Connection {
 
     // Iterate over the sequences in the nack packet
     for (const sequence of nack.sequences) {
+      // Check if this is the sequence we're tracking for ping calculation
+      if (this.lastAckId !== null && sequence === this.lastAckId) {
+        const roundTripTime = Date.now() - this.ackTimeStamp;
+        this.ping = Math.round(roundTripTime);
+
+        // Reset ping tracking
+        this.lastAckId = null;
+        this.ackTimeStamp = 0;
+      }
+
       // Get the frames from the output backup
       const frames = this.outputBackup.get(sequence) ?? [];
 
@@ -468,7 +505,7 @@ class Connection {
     if (frame.isSequenced()) {
       if (
         frame.sequenceIndex <
-          (this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
+        (this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
         frame.orderIndex < (this.inputOrderIndex[frame.orderChannel] as number)
       ) {
         // Log a debug message for out of order frames
@@ -687,6 +724,12 @@ class Connection {
 
     // Add the frame set to the backup map
     this.outputBackup.set(frameset.sequence, frameset.frames);
+
+    // Track this sequence for ping calculation if we're not already tracking one
+    if (this.lastAckId === null) {
+      this.lastAckId = frameset.sequence;
+      this.ackTimeStamp = Date.now();
+    }
 
     // Remove the frames from the queue
     for (const frame of frameset.frames) this.outputFrames.delete(frame);

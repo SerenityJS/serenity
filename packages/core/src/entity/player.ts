@@ -1007,6 +1007,13 @@ class Player extends Entity {
     for (const [key, value] of storage.getAbilities())
       this.abilities.set(key, value);
   }
+
+  /**
+   * The latency of the connection in milliseconds.
+  */
+  public get ping(): number {
+    return this.connection.ping;
+  }
 }
 
 export { Player };
