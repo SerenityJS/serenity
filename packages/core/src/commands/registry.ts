@@ -18,6 +18,11 @@ class CommandRegistry {
   public permissions: Array<string> = [];
 
   /**
+   * The aliases for this command.
+   */
+  public aliases: Array<string> = [];
+
+  /**
    * The will make the command appear with a `debug` flag in the available commands list.
    */
   public debug = false;
@@ -50,7 +55,7 @@ class CommandRegistry {
     if (callback) {
       this.overloads.set(options, callback as CommandCallback);
     } else {
-      this.overloads.set(options, () => {});
+      this.overloads.set(options, () => { });
     }
 
     // Return the registry.
