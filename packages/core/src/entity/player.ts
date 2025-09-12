@@ -30,7 +30,7 @@ import {
   UpdatePlayerGameTypePacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, FloatTag } from "@serenityjs/nbt";
 
 import {
   EntitySpawnOptions,
@@ -894,44 +894,42 @@ class Player extends Entity {
 
   /**
    * Add experience to the player.
-   * @param value The amount of experience to add.
+   * @param amount The amount of experience to add.
    * @returns The new experience progress of the player after adding the specified value.
    * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
    */
-  public addExperience(value: number): number {
+  public addExperience(amount: number): number {
     // Check if the player has the PlayerLevelingTrait
     if (this.hasTrait(PlayerLevelingTrait)) {
       // Get the PlayerLevelingTrait
       const leveling = this.getTrait(PlayerLevelingTrait);
 
-      // Get the current experience
-      const currentExperience = leveling.getExperience();
-
-      // Calculate the new experience value
-      const levels = Math.trunc(currentExperience + value);
-      const float = currentExperience + value - levels;
-
-      // Set the new experience
-      leveling.setExperience(float);
-
-      // Check if the levels are greater than 0
-      if (levels > 0) this.addLevels(levels);
-
-      // Return the new experience
-      return leveling.getExperience();
+      // Add experience and return the total experience of the player
+      return leveling.addExperience(amount)
     } else {
-      // Parse the value to ensure it is a float
-      const levels = Math.trunc(value);
-      const float = value - levels;
+      const leveling = this.addTrait(PlayerLevelingTrait);
+      leveling.setExperience(amount)
+      return leveling.getExperience()
+    }
+  }
 
-      // Add the PlayerLevelingTrait to the player and set the experience
-      this.addTrait(PlayerLevelingTrait).setExperience(float);
+  /**
+ * Remove experience from the player.
+ * @param amount The amount of experience to remove.
+ * @returns The new experience progress of the player after adding the specified value.
+ * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+ */
+  public removeExperience(amount: number): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Get the PlayerLevelingTrait
+      const leveling = this.getTrait(PlayerLevelingTrait);
 
-      // Check if the levels are greater than 0
-      if (levels > 0) this.addLevels(levels);
-
-      // Return the new experience
-      return value;
+      //Remove experience and return the total experience of the player
+      return leveling.addExperience(amount)
+    } else {
+      const leveling = this.addTrait(PlayerLevelingTrait);
+      return leveling.getExperience()
     }
   }
 
@@ -947,7 +945,7 @@ class Player extends Entity {
       const leveling = this.getTrait(PlayerLevelingTrait);
 
       // Return the total experience of the player
-      return leveling.getLevel() + leveling.getExperience();
+      return leveling.getTotalXp()
     }
 
     // If the PlayerLevelingTrait is not present, return 0
