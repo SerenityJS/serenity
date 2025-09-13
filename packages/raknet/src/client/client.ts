@@ -4,7 +4,7 @@ import Emitter from "@serenityjs/emitter";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 
 import { NetworkSession } from "../shared";
-import { Packet, Priority, Status } from "../enums";
+import { Bitflags, Packet, Priority, Status } from "../enums";
 import {
   Ack,
   Address,
@@ -64,6 +64,13 @@ export class Client extends Emitter<ClientEvents> {
   }
 
   public ping(): void {
+    if (this.status === Status.Connected) {
+      const ping = new ConnectedPing();
+      ping.timestamp = BigInt(Date.now());
+      this.frameAndSend(ping.serialize(), Priority.Normal);
+      return;
+    }
+
     const ping = new UnconnectedPing();
     ping.client = this.options.guid;
     ping.timestamp = BigInt(Date.now());
@@ -103,8 +110,8 @@ export class Client extends Emitter<ClientEvents> {
   public incomingBatch(payload: Buffer): void {
     const id = payload[0];
     switch (id) {
-      case 254: {
-        this.emit("encapsulated", payload);
+      case 0xfe: {
+        void this.emit("encapsulated", payload);
         break;
       }
       case Packet.ConnectedPong: {
@@ -130,6 +137,7 @@ export class Client extends Emitter<ClientEvents> {
         nic.incomingTimestamp = BigInt(Date.now());
         nic.serverTimestamp = accepted.timestamp;
         this.frameAndSend(nic.serialize(), Priority.Immediate);
+        this.status = Status.Connected;
         this.emit("connect");
         break;
       }
