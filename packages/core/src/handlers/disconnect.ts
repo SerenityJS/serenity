@@ -22,8 +22,12 @@ class DisconnectHandler extends NetworkHandler {
     // Despawn the player
     player.despawn({ disconnected: true, hasDied: false });
 
-    // Save the player's data
+    // Save the player's data in their current world.
     player.world.provider.writePlayer(player.getLevelStorage());
+
+    // Save the player's data in the default world.
+    const defaultWorld = this.serenity.getWorld()
+    defaultWorld.provider.writePlayer(player.getLevelStorage());
 
     // Nullify the player's permissions
     player.permissions.player = null;
