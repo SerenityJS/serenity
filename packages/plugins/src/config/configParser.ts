@@ -1,7 +1,10 @@
 import { Logger } from "@serenityjs/logger";
 
-import { ConfigProperty, ConfigPropertyType } from "./pluginConfig";
+import { ConfigPropertyMap } from "./pluginConfig";
 
+/**
+ * Base class for plugin configuration parsers.
+ */
 class PluginConfigParser {
   /**
    * The file extension used for configuration file.
@@ -10,18 +13,25 @@ class PluginConfigParser {
 
   public static validate<T extends Record<string, unknown>>(
     obj: T,
-    properties: Map<keyof T, ConfigProperty<ConfigPropertyType>>,
+    properties: ConfigPropertyMap,
     logger?: Logger
   ): boolean {
+    // Boolean flag to track validation status
     let isValid = true;
-    properties.forEach((prop, key) => {
+
+    Object.entries(properties).forEach(([key, prop]) => {
+      // Get the value of the property from the object
       const value = obj[key];
+
+      // Check if the value is missing
       if (value == undefined) {
         logger?.error(
           `Failed to Validate Config: Missing required property: ${String(key)}`
         );
         isValid = false;
-      } else if (typeof value !== prop.type.name.toLowerCase()) {
+      }
+      // Check if the value is of the expected type
+      else if (typeof value !== prop.type.name.toLowerCase()) {
         logger?.error(
           `Failed to Validate Config: Invalid type for property ${String(
             key
@@ -53,6 +63,9 @@ class PluginConfigParser {
   }
 }
 
+/**
+ * JSON configuration parser for plugins.
+ */
 class PluginJsonConfigParser extends PluginConfigParser {
   public static fileExtension: string = "json";
 

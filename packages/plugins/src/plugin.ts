@@ -11,7 +11,7 @@ import {
 } from "./registry";
 import { PluginPriority } from "./enums/priority";
 import { PluginFileSystem } from "./fileSystem";
-import { PluginConfigSystem } from "./config/pluginConfig";
+import { PluginConfigSystem } from "./config";
 
 interface PluginOptions extends Partial<PluginEvents> {
   /**
@@ -110,7 +110,7 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * The config of the plugin.
    * @Note This is only available after the plugin is initialized.
    */
-  public config!: PluginConfigSystem<Record<string, unknown>>;
+  public config!: PluginConfigSystem;
 
   /**
    * The file system for the plugin.

@@ -7,39 +7,41 @@ import { PluginJsonConfigParser } from "./configParser";
 
 import type { PluginConfigParser } from "./configParser";
 
-type ConfigPropertyType =
+type ConfigValueType =
   | BooleanConstructor
   | NumberConstructor
   | StringConstructor;
 
 // Map constructors to primitive types
-type ConfigPropertyTypes<T extends ConfigPropertyType> =
-  T extends BooleanConstructor
-    ? boolean
-    : T extends NumberConstructor
-    ? number
-    : T extends StringConstructor
-    ? string
-    : never;
+type ConfigValue<T extends ConfigValueType> = T extends BooleanConstructor
+  ? boolean
+  : T extends NumberConstructor
+  ? number
+  : T extends StringConstructor
+  ? string
+  : never;
 
-interface ConfigProperty<T extends ConfigPropertyType> {
+interface ConfigPropertyDescriptor<T extends ConfigValueType> {
+  name: string;
   type: T;
-  defaultValue: ConfigPropertyTypes<T>;
+  defaultValue: ConfigValue<T>;
   description?: string;
 }
 
-// Property descriptor passed to addProperty
-interface AddPropertyInput<K extends string, PT extends ConfigPropertyType> {
-  name: K;
-  type: PT;
-  defaultValue: ConfigPropertyTypes<PT>;
-  description?: string;
-}
+type ConfigPropertyMap = Record<
+  string,
+  ConfigPropertyDescriptor<ConfigValueType>
+>;
+
+type ConfigDefaultValues = Record<
+  string,
+  ConfigPropertyDescriptor<ConfigValueType>["defaultValue"]
+>;
 
 /**
  * Represents the configuration for a plugin.
  */
-class PluginConfigSystem<T extends Record<string, unknown>> {
+class PluginConfigSystem {
   /**
    * The unique identifier for the plugin.
    */
@@ -48,7 +50,7 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
   /**
    * A map of configuration properties for the plugin.
    */
-  private properties: Map<keyof T, ConfigProperty<ConfigPropertyType>>;
+  private propertyDescriptors: ConfigPropertyMap = {};
 
   /**
    * The parser used for reading and writing configuration.
@@ -66,30 +68,31 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
   private logger: Logger;
 
   /**
-   * Creates an instance of the PluginConfig class.
+   * Creates an instance of the PluginConfigSystem class.
    * @param pluginIdentifier The unique identifier for the plugin.
-   * @param properties A map of configuration properties for the plugin.
+   * @param configFolder The folder where the configuration file is stored.
+   * @param logger The logger instance for the plugin.
+   * @param options Optional configuration options.
    */
   public constructor(
     pluginIdentifier: string,
     configFolder: string,
     logger: Logger,
     options?: {
-      properties?: Map<keyof T, ConfigProperty<ConfigPropertyType>> | unknown;
+      propertyDescriptors?: ConfigPropertyMap;
       parser?: typeof PluginConfigParser;
     }
   ) {
     this.pluginIdentifier = pluginIdentifier;
     this.configFolder = configFolder;
 
-    // Initialize properties map
-    this.properties = new Map();
-    if (options && options.properties)
-      for (const [key, value] of Object.entries(options.properties))
-        this.properties.set(
-          key as keyof T,
-          value as ConfigProperty<ConfigPropertyType>
-        );
+    // Initialize property descriptors map
+    if (options?.propertyDescriptors) {
+      for (const [key, value] of Object.entries(options.propertyDescriptors)) {
+        this.propertyDescriptors[key] =
+          value as ConfigPropertyDescriptor<ConfigValueType>;
+      }
+    }
 
     this.parser = options?.parser ?? PluginJsonConfigParser;
     this.logger = logger;
@@ -106,73 +109,65 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
   /**
    * Adds a new property to the plugin configuration.
    * @param property The property descriptor for the new property.
-   * @returns A new instance of PluginConfig with the added property.
+   * @returns A new instance of PluginConfigSystem with the added property.
    */
-  public addProperty<K extends string, PT extends ConfigPropertyType>(
-    property: AddPropertyInput<K, PT>
-  ): PluginConfigSystem<T & { [P in K]: ConfigPropertyTypes<PT> }> {
+  public addProperty<PT extends ConfigValueType>(property: {
+    name: string;
+    type: PT;
+    defaultValue: ConfigValue<PT>;
+    description?: string;
+  }): PluginConfigSystem {
     // Add the new property
-    this.properties.set(property.name, {
+    this.propertyDescriptors[property.name] = {
+      name: property.name,
       type: property.type,
       defaultValue: property.defaultValue,
       description: property.description,
-    });
+    };
 
-    // Return a new instance of PluginConfig with the updated properties
-    return new PluginConfigSystem<T & { [P in K]: ConfigPropertyTypes<PT> }>(
-      this.pluginIdentifier,
-      this.configFolder,
-      this.logger,
-      { properties: this.properties, parser: this.parser }
-    );
+    // Return the updated instance
+    return this;
   }
 
   /**
    * Gets the configuration properties for the plugin.
    * @returns A mapping of property names to their configuration details.
    */
-  public getProperties(): {
-    [K in keyof T]: {
-      type: ConfigPropertyType;
-      defaultValue: T[K];
-      description?: string;
-    };
-  } {
-    const result = {} as {
-      [K in keyof T]: {
-        type: ConfigPropertyType;
-        defaultValue: T[K];
-        description?: string;
-      };
-    };
+  public getProperties() {
+    const result: ConfigPropertyMap = {};
 
-    this.properties.forEach((prop, key) => {
-      result[key as keyof T] = {
+    for (const [key, prop] of Object.entries(this.propertyDescriptors))
+      result[key] = {
+        name: prop.name,
         type: prop.type,
-        defaultValue: prop.defaultValue as T[keyof T],
+        defaultValue: prop.defaultValue,
         description: prop.description,
       };
-    });
 
     return result;
   }
 
-  public getDefaultConfig(): T {
-    const defaultConfig = {} as T;
-    this.properties.forEach((prop, key) => {
-      defaultConfig[key as keyof T] = prop.defaultValue as T[keyof T];
-    });
-    return defaultConfig;
+  /**
+   * Gets the default configuration values for the plugin.
+   * @returns A mapping of property names to their default values.
+   */
+  public getDefaultConfig<T extends ConfigDefaultValues>(): T {
+    const defaultConfig: ConfigDefaultValues = {};
+    for (const [key, prop] of Object.entries(this.propertyDescriptors)) {
+      defaultConfig[key] = prop.defaultValue;
+    }
+    return defaultConfig as T;
   }
 
   /**
    * Fetches the plugin's configuration.
    * @returns The plugin's configuration.
    */
-  public fetchConfiguration(): T {
+  public fetchConfiguration<T extends ConfigDefaultValues>(): T {
     // Ensure the config folder exists
-    if (!existsSync(this.configFolder))
+    if (!existsSync(this.configFolder)) {
       mkdirSync(this.configFolder, { recursive: true });
+    }
 
     // Define the path to the configuration file
     const configFilePath = resolve(
@@ -185,35 +180,36 @@ class PluginConfigSystem<T extends Record<string, unknown>> {
       const defaultConfig = this.getDefaultConfig();
 
       // Parse the default configuration
-      const parsedData = this.parser.write<T>(defaultConfig);
+      const parsedData = this.parser.write<ConfigDefaultValues>(defaultConfig);
 
       // Write the parsed configuration to the file
       writeFileSync(configFilePath, parsedData);
 
       // Return the default configuration
-      return defaultConfig;
+      return defaultConfig as T;
     } else {
       // Read the configuration file
       const data = readFileSync(configFilePath, "utf-8");
 
       // Parse the configuration file
-      const parsedData = this.parser.read<T>(data);
+      const parsedData = this.parser.read<ConfigDefaultValues>(data);
 
       // Validate the parsed configuration
-      const isValid = this.parser.validate<T>(
+      const isValid = this.parser.validate<ConfigDefaultValues>(
         parsedData,
-        this.properties,
+        this.propertyDescriptors,
         this.logger
       );
 
-      return isValid ? parsedData : this.getDefaultConfig();
+      return isValid ? (parsedData as T) : this.getDefaultConfig();
     }
   }
 }
 
 export {
   PluginConfigSystem,
-  ConfigPropertyType,
-  ConfigProperty,
-  AddPropertyInput,
+  ConfigValueType,
+  ConfigDefaultValues,
+  ConfigPropertyDescriptor,
+  ConfigPropertyMap,
 };
