@@ -7,18 +7,6 @@ import { ValidEnum } from ".";
 import type { Dimension } from "../../../world";
 import type { CommandArgumentPointer } from "../../execution-state";
 
-enum TargetSelectorQuery {
-  Name = "name",
-  Tag = "tag",
-  Range = "r",
-  RangeMin = "rm",
-  Count = "c",
-  Type = "type",
-  Mode = "m",
-  Level = "l",
-  LevelMin = "lm",
-}
-
 class TargetEnum extends ValidEnum {
   /**
    * The type of the enum.
@@ -106,7 +94,6 @@ class TargetEnum extends ValidEnum {
       // Return the filtered players.
       return new TargetEnum(players);
     } else if (isSelector) return this.parseSelector(target, pointer);
-    else return new TargetEnum(null);
   }
 
   /**
@@ -154,6 +141,7 @@ class TargetEnum extends ValidEnum {
         return { key: key.trim(), value: value.trim() };
       });
 
+    // Handle the selector based on its symbol.
     switch (symbol) {
       // Handle "all players" selector.
       case "a": {
@@ -196,15 +184,13 @@ class TargetEnum extends ValidEnum {
         const nearest = players.reduce((prev, curr) => {
           const prevPos = prev.position;
           const currPos = curr.position;
-          const prevDist = Math.sqrt(
-            (prevPos.x - commandPosition.x) ** 2 +
-              (prevPos.y - commandPosition.y) ** 2 +
-              (prevPos.z - commandPosition.z) ** 2
+          const prevDist = TargetEnum.calculateDistance(
+            prevPos,
+            commandPosition
           );
-          const currDist = Math.sqrt(
-            (currPos.x - commandPosition.x) ** 2 +
-              (currPos.y - commandPosition.y) ** 2 +
-              (currPos.z - commandPosition.z) ** 2
+          const currDist = TargetEnum.calculateDistance(
+            currPos,
+            commandPosition
           );
 
           if (prevDist === currDist) return Math.random() < 0.5 ? prev : curr;
@@ -231,15 +217,13 @@ class TargetEnum extends ValidEnum {
         const nearest = entities.reduce((prev, curr) => {
           const prevPos = prev.position;
           const currPos = curr.position;
-          const prevDist = Math.sqrt(
-            (prevPos.x - commandPosition.x) ** 2 +
-              (prevPos.y - commandPosition.y) ** 2 +
-              (prevPos.z - commandPosition.z) ** 2
+          const prevDist = TargetEnum.calculateDistance(
+            prevPos,
+            commandPosition
           );
-          const currDist = Math.sqrt(
-            (currPos.x - commandPosition.x) ** 2 +
-              (currPos.y - commandPosition.y) ** 2 +
-              (currPos.z - commandPosition.z) ** 2
+          const currDist = TargetEnum.calculateDistance(
+            currPos,
+            commandPosition
           );
 
           if (prevDist === currDist) return Math.random() < 0.5 ? prev : curr;
@@ -329,7 +313,7 @@ class TargetEnum extends ValidEnum {
         // Loop through each query and check if the entity matches.
         switch (key) {
           // Handle name query.
-          case TargetSelectorQuery.Name:
+          case "name":
             if (entity instanceof Player) {
               if (isNegated) {
                 if (entity.username === queryValue) match = false;
@@ -346,7 +330,7 @@ class TargetEnum extends ValidEnum {
             break;
 
           // Handle tag query.
-          case TargetSelectorQuery.Tag:
+          case "tag":
             if (isNegated) {
               if (entity.hasTag(queryValue)) match = false;
             } else {
@@ -355,14 +339,13 @@ class TargetEnum extends ValidEnum {
             break;
 
           // Handle range query.
-          case TargetSelectorQuery.Range: {
+          case "r": {
             const range = Number.parseFloat(queryValue);
             const entityPos = entity.position;
 
-            const distance = Math.sqrt(
-              (entityPos.x - commandPosition.x) ** 2 +
-                (entityPos.y - commandPosition.y) ** 2 +
-                (entityPos.z - commandPosition.z) ** 2
+            const distance = TargetEnum.calculateDistance(
+              entityPos,
+              commandPosition
             );
 
             // If entity is out of range, it's not a match.
@@ -371,13 +354,12 @@ class TargetEnum extends ValidEnum {
           }
 
           // Handle minimum range query.
-          case TargetSelectorQuery.RangeMin: {
+          case "rm": {
             const range = Number.parseFloat(queryValue);
             const entityPos = entity.position;
-            const distance = Math.sqrt(
-              (entityPos.x - commandPosition.x) ** 2 +
-                (entityPos.y - commandPosition.y) ** 2 +
-                (entityPos.z - commandPosition.z) ** 2
+            const distance = TargetEnum.calculateDistance(
+              entityPos,
+              commandPosition
             );
             // If entity is within minimum range, it's not a match.
             if (distance < range) match = false;
@@ -385,14 +367,14 @@ class TargetEnum extends ValidEnum {
           }
 
           // Handle count query.
-          case TargetSelectorQuery.Count: {
+          case "c": {
             const count = Number.parseInt(queryValue);
             if (results.length >= count) match = false;
             break;
           }
 
           // Handle type query.
-          case TargetSelectorQuery.Type: {
+          case "type": {
             const type = queryValue;
             const entityType = entity.type.identifier;
 
@@ -405,7 +387,7 @@ class TargetEnum extends ValidEnum {
           }
 
           // Handle mode query.
-          case TargetSelectorQuery.Mode: {
+          case "m": {
             if (!(entity instanceof Player))
               throw new SyntaxError(
                 `Mode query can only be used with players.`
@@ -442,7 +424,7 @@ class TargetEnum extends ValidEnum {
           }
 
           // Handle level query.
-          case TargetSelectorQuery.Level: {
+          case "l": {
             if (!(entity instanceof Player))
               throw new SyntaxError(
                 `Level query can only be used with players.`
@@ -461,7 +443,7 @@ class TargetEnum extends ValidEnum {
           }
 
           // Handle minimum level query.
-          case TargetSelectorQuery.LevelMin: {
+          case "lm": {
             if (!(entity instanceof Player))
               throw new SyntaxError(
                 `LevelMin query can only be used with players.`
@@ -489,6 +471,16 @@ class TargetEnum extends ValidEnum {
     }
     return results;
   }
+
+  /**
+   * Calculates the Euclidean distance between two points in 3D space.
+   * @param a The first point.
+   * @param b The second point.
+   * @returns The distance between the two points.
+   */
+  private static calculateDistance(a: Vector3f, b: Vector3f): number {
+    return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2);
+  }
 }
 
-export { TargetEnum, TargetSelectorQuery };
+export { TargetEnum };
