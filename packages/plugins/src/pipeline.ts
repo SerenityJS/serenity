@@ -5,7 +5,7 @@ import {
   readdirSync,
   readFileSync,
   unlinkSync,
-  writeFileSync
+  writeFileSync,
 } from "node:fs";
 import { relative, resolve } from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
@@ -19,6 +19,8 @@ import { Plugin } from "./plugin";
 import Command from "./commands/command";
 import { PluginsEnum } from "./commands";
 import { PluginType, PluginHeader } from "./enums";
+import { PluginConfigSystem } from "./config";
+import { PluginFileSystem } from "./fileSystem";
 
 interface PipelineProperties {
   path: string;
@@ -29,7 +31,7 @@ interface PipelineProperties {
 const DefaultPipelineProperties: PipelineProperties = {
   path: "./plugins",
   commands: true,
-  initialize: true
+  initialize: true,
 };
 
 class Pipeline {
@@ -142,7 +144,7 @@ class Pipeline {
     // Read all the entries in the plugins directory
     // And filter out the data and configs directories
     const entries = readdirSync(resolve(this.path), {
-      withFileTypes: true
+      withFileTypes: true,
     }).filter((dirent) =>
       dirent.isDirectory()
         ? dirent.name !== "data" && dirent.name !== "configs"
@@ -282,7 +284,10 @@ class Pipeline {
       } catch (reason) {
         // Log the error
         this.logger.error(
-          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, bundle.name))}", skipping the plugin.`,
+          `Failed to load plugin from "${relative(
+            process.cwd(),
+            resolve(this.path, bundle.name)
+          )}", skipping the plugin.`,
           reason
         );
       }
@@ -290,7 +295,7 @@ class Pipeline {
 
     // Filter out all the directories from the entries
     const directories = readdirSync(resolve(this.path), {
-      withFileTypes: true
+      withFileTypes: true,
     }).filter((dirent) => dirent.isDirectory());
 
     // Iterate over all the directories, checking if they are valid plugins
@@ -314,7 +319,12 @@ class Pipeline {
         // Check if the provided entry point is valid
         if (!existsSync(resolve(path, main))) {
           this.logger.warn(
-            `Unable to load plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${manifest.version ?? "unknown-version"}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+            `Unable to load plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${
+              manifest.version ?? "unknown-version"
+            }§r, the main entry path "§8${relative(
+              process.cwd(),
+              resolve(path, main)
+            )}§r" was not found in the directory.`
           );
 
           // Skip the plugin
@@ -343,6 +353,19 @@ class Pipeline {
         plugin.path = path;
         plugin.isBundled = false;
 
+        // Set the file system for the plugin
+        plugin.fileSystem = new PluginFileSystem(
+          resolve(this.path, "data", plugin.identifier),
+          plugin.logger
+        );
+
+        // Set the config for the plugin
+        plugin.config = new PluginConfigSystem(
+          plugin.identifier,
+          resolve(this.path, "configs"),
+          plugin.logger
+        );
+
         // Link the module to the pipeline
         this.linkModule(plugin.identifier, module);
 
@@ -363,7 +386,7 @@ class Pipeline {
 
         // Read the contents of the resource_pack directory, only including directories
         const resources = readdirSync(resolve(path, "resource_packs"), {
-          withFileTypes: true
+          withFileTypes: true,
         }).filter((dirent) => dirent.isDirectory());
 
         // Iterate over all the resource pack directories, and attempt to load them
@@ -396,7 +419,10 @@ class Pipeline {
       } catch (reason) {
         // Log the error
         this.logger.error(
-          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, directory.name))}", skipping the plugin.`,
+          `Failed to load plugin from "${relative(
+            process.cwd(),
+            resolve(this.path, directory.name)
+          )}", skipping the plugin.`,
           reason
         );
       }
@@ -417,24 +443,6 @@ class Pipeline {
 
     // Iterate over all the plugins, and initialize them
     for (const plugin of orderedPlugins) {
-      // Check if the plugin has config defined
-      if (Object.keys(plugin.config as object).length > 0) {
-        // Create the path to the plugin config file
-        const path = resolve(this.path, "configs", `${plugin.identifier}.json`);
-
-        // Check if a config file exists for the plugin
-        if (!existsSync(path)) {
-          // Write the default config to the config file
-          writeFileSync(path, JSON.stringify(plugin.config, null, 2));
-        } else {
-          // Read the config file
-          const data = JSON.parse(readFileSync(path, "utf-8"));
-
-          // Assign the config data to the plugin config
-          Object.assign(plugin.config as object, data);
-        }
-      }
-
       // Initialize the plugin, and bind the events
       plugin.onInitialize(plugin);
       this.bindEvents(plugin);
@@ -510,6 +518,19 @@ class Pipeline {
       plugin.path = resolve(path);
       plugin.isBundled = isBundled;
 
+      // Set the file system for the plugin
+      plugin.fileSystem = new PluginFileSystem(
+        resolve(this.path, "data", plugin.identifier),
+        plugin.logger
+      );
+
+      // Set the config for the plugin
+      plugin.config = new PluginConfigSystem(
+        plugin.identifier,
+        resolve(this.path, "configs"),
+        plugin.logger
+      );
+
       // Link the module to the pipeline
       this.linkModule(plugin.identifier, module);
 
@@ -524,7 +545,10 @@ class Pipeline {
     } catch (reason) {
       // Log the error
       this.logger.error(
-        `Failed to load plugin from §8${relative(process.cwd(), path)}§r, skipping the plugin.`,
+        `Failed to load plugin from §8${relative(
+          process.cwd(),
+          path
+        )}§r, skipping the plugin.`,
         reason
       );
 
@@ -661,7 +685,12 @@ class Pipeline {
       // Check if the provided entry point is valid
       if (!existsSync(resolve(path, main))) {
         this.logger.warn(
-          `Unable to reload plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${manifest.version ?? "unknown-version"}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+          `Unable to reload plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${
+            manifest.version ?? "unknown-version"
+          }§r, the main entry path "§8${relative(
+            process.cwd(),
+            resolve(path, main)
+          )}§r" was not found in the directory.`
         );
 
         // Skip the plugin
@@ -679,6 +708,19 @@ class Pipeline {
       newPlugin.serenity = this.serenity;
       newPlugin.path = path;
       newPlugin.isBundled = false;
+
+      // Set the file system for the plugin
+      newPlugin.fileSystem = new PluginFileSystem(
+        resolve(this.path, "data", newPlugin.identifier),
+        newPlugin.logger
+      );
+
+      // Set the config for the plugin
+      newPlugin.config = new PluginConfigSystem(
+        newPlugin.identifier,
+        resolve(this.path, "configs"),
+        newPlugin.logger
+      );
 
       // Link the module to the pipeline
       this.linkModule(newPlugin.identifier, module);
@@ -843,10 +885,10 @@ class Pipeline {
         builder.module(name, () => {
           return {
             exports: module as Record<string, unknown>,
-            loader: "object"
+            loader: "object",
           };
         });
-      }
+      },
     });
   }
 }
