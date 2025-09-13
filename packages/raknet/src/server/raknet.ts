@@ -7,11 +7,11 @@ import {
   MAX_MTU_SIZE,
   MIN_MTU_SIZE,
   RAKNET_PROTOCOL,
-  RAKNET_TICK_LEN
+  RAKNET_TICK_LEN,
 } from "../constants";
 import { Bitflags } from "../enums";
 
-import { Offline } from "./offline";
+import { Offline } from "../shared/offline";
 
 import type { RaknetEvents, RaknetServerProperties } from "../types";
 import type { Connection } from "./connection";
@@ -24,7 +24,7 @@ const DefaultRaknetServerProperties: RaknetServerProperties = {
   message: "Raknet Server",
   maxConnections: 40,
   mtuMaxSize: MAX_MTU_SIZE,
-  mtuMinSize: MIN_MTU_SIZE
+  mtuMinSize: MIN_MTU_SIZE,
 };
 
 /**
