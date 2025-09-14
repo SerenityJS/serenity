@@ -500,9 +500,11 @@ class Player extends Entity {
       }
     );
 
+    // Create a new CraftingDataPacket, and map the crafting recipes to the packet
     const recipes = new CraftingDataPacket();
 
-    recipes.clearRecipes = false;
+    // Assign the recipe properties
+    recipes.clearRecipes = true;
     recipes.containers = [];
     recipes.crafting = [];
     recipes.materitalReducers = [];

@@ -520,11 +520,12 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Check if the player already has a block target
           if (player.blockTarget) {
+            // Get the target block from the dimension
+            const target = dimension.getBlock(player.blockTarget);
+
             // Call the block onStopBreak trait methods
             // We will ignore the result of the method
-            for (const trait of dimension
-              .getBlock(player.blockTarget)
-              .traits.values())
+            for (const trait of target.getAllTraits())
               trait.onStopBreak?.(player);
 
             // Create a new LevelEventPacket for the block break
@@ -562,7 +563,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Call the block onStartBreak trait methods
           let canceled = false;
-          for (const [, trait] of block.traits) {
+          for (const trait of block.getAllTraits()) {
             // Check if the start break was successful
             const success = trait.onStartBreak?.(player);
 
@@ -715,7 +716,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
             // Call the block onStopBreak trait methods
             // We will ignore the result of the method
-            for (const [, trait] of block.traits) trait.onStopBreak?.(player);
+            for (const trait of block.getAllTraits())
+              trait.onStopBreak?.(player);
 
             // Create a new LevelEventPacket for the block break
             const packet = new LevelEventPacket();

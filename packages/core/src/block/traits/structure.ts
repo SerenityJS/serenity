@@ -33,7 +33,7 @@ class BlockStructureTrait extends BlockTrait {
    */
   public getMode(): number {
     // Get the mode from the block's NBT data
-    return this.block.nbt.get<IntTag>("data")?.valueOf() || 0;
+    return this.block.getStorageEntry<IntTag>("data")?.valueOf() || 0;
   }
 
   /**
@@ -42,7 +42,7 @@ class BlockStructureTrait extends BlockTrait {
    */
   public setMode(mode: number): void {
     // Set the mode in the block's NBT data
-    this.block.nbt.set("data", new IntTag(mode));
+    this.block.setStorageEntry("data", new IntTag(mode));
   }
 
   /**
@@ -51,7 +51,7 @@ class BlockStructureTrait extends BlockTrait {
    */
   public getStructureName(): string {
     // Get the structure name from the block's NBT data
-    const tag = this.block.nbt.get<StringTag>("structureName");
+    const tag = this.block.getStorageEntry<StringTag>("structureName");
 
     // Return the structure name or an empty string if not set
     return tag?.valueOf() || "";
@@ -63,7 +63,7 @@ class BlockStructureTrait extends BlockTrait {
    */
   public setStructureName(name: string): void {
     // Set the structure name in the block's NBT data
-    this.block.nbt.set("structureName", new StringTag(name));
+    this.block.setStorageEntry("structureName", new StringTag(name));
   }
 
   /**
@@ -72,9 +72,12 @@ class BlockStructureTrait extends BlockTrait {
    */
   public getSize(): IPosition {
     // Get the structure size from the block's NBT data
-    const x = this.block.nbt.get<IntTag>("xStructureSize")?.valueOf() || 0;
-    const y = this.block.nbt.get<IntTag>("yStructureSize")?.valueOf() || 0;
-    const z = this.block.nbt.get<IntTag>("zStructureSize")?.valueOf() || 0;
+    const x =
+      this.block.getStorageEntry<IntTag>("xStructureSize")?.valueOf() || 0;
+    const y =
+      this.block.getStorageEntry<IntTag>("yStructureSize")?.valueOf() || 0;
+    const z =
+      this.block.getStorageEntry<IntTag>("zStructureSize")?.valueOf() || 0;
 
     // Return the size as an IPosition
     return { x, y, z };
@@ -86,9 +89,9 @@ class BlockStructureTrait extends BlockTrait {
    */
   public setSize(size: IPosition): void {
     // Set the structure size in the block's NBT data
-    this.block.nbt.set("xStructureSize", new IntTag(size.x));
-    this.block.nbt.set("yStructureSize", new IntTag(size.y));
-    this.block.nbt.set("zStructureSize", new IntTag(size.z));
+    this.block.setStorageEntry("xStructureSize", new IntTag(size.x));
+    this.block.setStorageEntry("yStructureSize", new IntTag(size.y));
+    this.block.setStorageEntry("zStructureSize", new IntTag(size.z));
   }
 
   /**
@@ -97,9 +100,12 @@ class BlockStructureTrait extends BlockTrait {
    */
   public getOffset(): IPosition {
     // Get the structure offset from the block's NBT data
-    const x = this.block.nbt.get<IntTag>("xStructureOffset")?.valueOf() || 0;
-    const y = this.block.nbt.get<IntTag>("yStructureOffset")?.valueOf() || 0;
-    const z = this.block.nbt.get<IntTag>("zStructureOffset")?.valueOf() || 0;
+    const x =
+      this.block.getStorageEntry<IntTag>("xStructureOffset")?.valueOf() || 0;
+    const y =
+      this.block.getStorageEntry<IntTag>("yStructureOffset")?.valueOf() || 0;
+    const z =
+      this.block.getStorageEntry<IntTag>("zStructureOffset")?.valueOf() || 0;
 
     // Return the offset as an IPosition
     return { x, y, z };
@@ -111,9 +117,9 @@ class BlockStructureTrait extends BlockTrait {
    */
   public setOffset(offset: IPosition): void {
     // Set the structure offset in the block's NBT data
-    this.block.nbt.set("xStructureOffset", new IntTag(offset.x));
-    this.block.nbt.set("yStructureOffset", new IntTag(offset.y));
-    this.block.nbt.set("zStructureOffset", new IntTag(offset.z));
+    this.block.setStorageEntry("xStructureOffset", new IntTag(offset.x));
+    this.block.setStorageEntry("yStructureOffset", new IntTag(offset.y));
+    this.block.setStorageEntry("zStructureOffset", new IntTag(offset.z));
   }
 
   /**
@@ -121,7 +127,9 @@ class BlockStructureTrait extends BlockTrait {
    * @returns True if the bounding box is visible, false otherwise.
    */
   public getBoundingBoxVisible(): boolean {
-    return this.block.nbt.get<ByteTag>("showBoundingBox")?.valueOf() === 1;
+    return (
+      this.block.getStorageEntry<ByteTag>("showBoundingBox")?.valueOf() === 1
+    );
   }
 
   /**
@@ -129,7 +137,7 @@ class BlockStructureTrait extends BlockTrait {
    * @param visible True to make the bounding box visible, false to hide it.
    */
   public setBoundingBoxVisible(visible: boolean): void {
-    this.block.nbt.set("showBoundingBox", new ByteTag(visible ? 1 : 0));
+    this.block.setStorageEntry("showBoundingBox", new ByteTag(visible ? 1 : 0));
   }
 }
 

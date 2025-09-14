@@ -16,32 +16,51 @@ import { ByteListTag } from "./byte-list";
 
 class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
   public readonly type = TagType.List;
-
   public name: string | null;
 
-  /**
-   * Create a new ListTag instance.
-   * @param elements The elements of the list.
-   * @param name The name of the tag, defaults to null.
-   */
-  public constructor(elements: Array<T> = [], name?: string | null) {
-    // Call the parent constructor to initialize the array.
-    super(...elements);
+  // Accept array | iterable | single T | numeric length
+  public constructor(
+    elements?: Array<T> | Iterable<T> | T | number,
+    name?: string | null
+  ) {
+    if (typeof elements === "number") {
+      // numeric length ctor behavior
+      super(elements);
+    } else {
+      super(); // start empty; push safely
+      if (elements !== undefined && elements !== null) {
+        const maybeIterable = elements as unknown as Iterable<T>;
+        if (
+          typeof maybeIterable[Symbol.iterator] === "function" &&
+          typeof elements !== "string"
+        ) {
+          for (const el of maybeIterable as Iterable<T>) this.push(el);
+        } else {
+          // treat as a single element
+          this.push(elements as T);
+        }
+      }
+    }
     this.name = name ?? null;
+  }
+
+  // Keep array methods returning plain arrays (optional but often desired)
+  public static get [Symbol.species]() {
+    return Array;
   }
 
   public map<U>(
     callbackfn: (value: T, index: number, array: Array<T>) => U,
     thisArg?: unknown
   ): Array<U> {
-    const array = Array.from(this);
+    return Array.from(this).map(callbackfn, thisArg);
+  }
 
-    // Map the elements of the list using the provided callback function.
-    return array.map(callbackfn, thisArg);
+  public slice(start?: number, end?: number): Array<T> {
+    return Array.from(this).slice(start, end);
   }
 
   public toJSON(): Array<unknown> {
-    // Convert the list elements to a JSON array.
     return this.map((element) => element.toJSON());
   }
 

@@ -59,6 +59,12 @@ class Dimension {
   protected readonly serenity: Serenity;
 
   /**
+   * The chunks that have been quieried from the provider.
+   * This is used to prevent the reinstantiation of blocks and entities when a chunk is being loaded multiple times.
+   */
+  private readonly queriedChunksFromProvider = new Set<bigint>();
+
+  /**
    * The properties of the dimension.
    */
   public readonly properties: DimensionProperties = DefaultDimensionProperties;
@@ -285,18 +291,18 @@ class Dimension {
 
         // Iterate over all the traits in the block
         // Try to tick the block trait
-        for (const [identifier, trait] of block.traits)
+        for (const trait of block.getAllTraits())
           try {
             trait.onTick?.({ currentTick, deltaTick });
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(
-              `Failed to tick block trait "${identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+              `Failed to tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
               reason
             );
 
             // Remove the trait from the block
-            block.traits.delete(identifier);
+            block.removeTrait(trait.identifier);
           }
       } else if (block.isTicking) {
         // If the block is not in simulation range, stop ticking it
@@ -324,7 +330,38 @@ class Dimension {
     const chunks = this.world.provider.chunks.get(this);
 
     // Check if the targeted chunk is cached, if so, return it
-    if (chunks && chunks.has(hash)) return chunks.get(hash)!; // Check if the chunk is in the cache
+    if (chunks && chunks.has(hash)) {
+      // Fetch the chunk from the cache
+      const chunk = chunks.get(hash) as Chunk;
+
+      // Check if the chunk has been queried from the provider before
+      if (!this.queriedChunksFromProvider.has(hash)) {
+        // Add the chunk hash to the queried chunks set
+        // NOTE: Must add has before fetching the block data to prevent stack overflow
+        this.queriedChunksFromProvider.add(hash);
+
+        // Get all the block data from the chunk
+        const storages = chunk.getAllBlockStorages();
+
+        // Check if there is any block storage in the chunk
+        if (storages.length > 0) {
+          // Iterate through the blocks and add them to the chunk.
+          for (const storage of storages) {
+            // Get the position of the block storage
+            const position = storage.getPosition();
+
+            // Create a new block instance using the block storage
+            const block = new Block(this, position, storage);
+
+            // Add the block to the block cache
+            this.blocks.set(BlockPosition.hash(block.position), block);
+          }
+        }
+      }
+
+      // Return the cached chunk
+      if (chunk.ready) return chunk;
+    }
 
     // Create a new chunk to pass to the provider
     const chunk = new Chunk(cx, cz, this.type);
@@ -333,7 +370,35 @@ class Dimension {
     chunk.ready = false;
 
     // Await for the chunk to be generated
-    this.world.provider.readChunk(chunk, this);
+    this.world.provider.readChunk(chunk, this).then((chunk) => {
+      // Check if the chunk has been queried from the provider before
+      if (!this.queriedChunksFromProvider.has(hash)) {
+        // Add the chunk hash to the queried chunks set
+        this.queriedChunksFromProvider.add(hash);
+
+        // Get all the block data from the chunk
+        const storages = chunk.getAllBlockStorages();
+
+        // Check if there is any block storage in the chunk
+        if (storages.length > 0) {
+          // Iterate through the blocks and add them to the chunk.
+          for (const storage of storages) {
+            console.log(storage.toJSON());
+
+            // Get the position of the block storage
+            const position = storage.getPosition();
+
+            // Create a new block instance using the block storage
+            const block = new Block(this, position, storage);
+
+            // Add the block to the block cache
+            this.blocks.set(BlockPosition.hash(block.position), block);
+          }
+        }
+      }
+
+      return;
+    });
 
     return chunk; // Return the chunk
   }
@@ -384,17 +449,13 @@ class Dimension {
       const block = new Block(this, blockPosition);
 
       // Push the permutation nbt to the block's nbt
-      block.nbt.push(...permutation.nbt.values());
+      block.pushStorageEntry(...permutation.nbt.values());
 
       // Iterate over all the traits and apply them to the block
       for (const [, trait] of permutation.type.traits) block.addTrait(trait);
 
       // If the block has dynamic properties or traits, we will cache the block
-      if (
-        block.nbt.size > 0 ||
-        block.dyanamicProperties.size > 0 ||
-        block.traits.size > 0
-      )
+      if (block.getStorage().size > 0 || block.getAllTraits().length > 0)
         this.blocks.set(hash, block);
 
       // Return the block

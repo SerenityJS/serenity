@@ -1,4 +1,4 @@
-import { Serenity, LevelDBProvider } from "@serenityjs/core";
+import { Serenity, LevelDBProvider, WorldEvent } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 // Create a new Serenity instance
@@ -8,6 +8,12 @@ const serenity = new Serenity({
     permissions: "./permissions.json",
     debugLogging: true
   }
+});
+
+serenity.on(WorldEvent.PlayerInteractWithBlock, ({ source, block }) => {
+  if (!source.isSneaking) return;
+
+  console.log(block.getStorage().toJSON());
 });
 
 // Create a new plugin pipeline
