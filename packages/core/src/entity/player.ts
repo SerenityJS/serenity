@@ -351,6 +351,14 @@ class Player extends Entity {
   }
 
   /**
+   * Get the round-trip ping of the player in milliseconds.
+   * @returns The ping of the player in milliseconds.
+   */
+  public getPing(): number {
+    return this.connection.ping;
+  }
+
+  /**
    * Sends a message to the player
    * @param message The message that will be sent.
    */
@@ -1008,13 +1016,6 @@ class Player extends Entity {
     // Load the abilities from the storage
     for (const [key, value] of storage.getAbilities())
       this.abilities.set(key, value);
-  }
-
-  /**
-   * The latency of the connection in milliseconds.
-  */
-  public get ping(): number {
-    return this.connection.ping;
   }
 }
 
