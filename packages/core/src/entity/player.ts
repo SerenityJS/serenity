@@ -894,42 +894,120 @@ class Player extends Entity {
 
   /**
    * Add experience to the player.
-   * @param amount The amount of experience to add.
+   * @param value The amount of experience to add.
    * @returns The new experience progress of the player after adding the specified value.
    * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
    */
-  public addExperience(amount: number): number {
+  public addExperience(value: number): number {
     // Check if the player has the PlayerLevelingTrait
     if (this.hasTrait(PlayerLevelingTrait)) {
       // Get the PlayerLevelingTrait
       const leveling = this.getTrait(PlayerLevelingTrait);
 
-      // Add experience and return the total experience of the player
-      return leveling.addExperience(amount)
+      // Get the current experience and level
+      let currentXp = leveling.getExperience();
+      currentXp += value;
+
+      let currentLevel = leveling.getLevel();
+      let xpForNextLevel = 0;
+
+      if (currentLevel >= 31) {
+        xpForNextLevel = 9 * currentLevel - 158;
+      } else if (currentLevel >= 16) {
+        xpForNextLevel = 5 * currentLevel - 38;
+      } else {
+        xpForNextLevel = 2 * currentLevel + 7;
+      }
+
+      while (currentXp >= xpForNextLevel) {
+        currentXp -= xpForNextLevel;
+        currentLevel++;
+
+        if (currentLevel >= 31) {
+          xpForNextLevel = 9 * currentLevel - 158;
+        } else if (currentLevel >= 16) {
+          xpForNextLevel = 5 * currentLevel - 38;
+        } else {
+          xpForNextLevel = 2 * currentLevel + 7;
+        }
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+      this.nbt.set("PlayerLevelProgress", new FloatTag(xpForNextLevel > 0 ? currentXp / xpForNextLevel : 0))
+      leveling.refreshAttributes()
+
+      // Return the new experience points
+      return currentXp;
     } else {
+      // Add the PlayerLevelingTrait to the player
       const leveling = this.addTrait(PlayerLevelingTrait);
-      leveling.setExperience(amount)
+      leveling.setExperience(value);
       return leveling.getExperience()
     }
   }
 
   /**
  * Remove experience from the player.
- * @param amount The amount of experience to remove.
+ * @param value The amount of experience to remove.
  * @returns The new experience progress of the player after adding the specified value.
  * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
  */
-  public removeExperience(amount: number): number {
+  public removeExperience(value: number): number {
     // Check if the player has the PlayerLevelingTrait
     if (this.hasTrait(PlayerLevelingTrait)) {
       // Get the PlayerLevelingTrait
       const leveling = this.getTrait(PlayerLevelingTrait);
 
-      //Remove experience and return the total experience of the player
-      return leveling.addExperience(amount)
+      // Get the current experience and level
+      let currentXp = leveling.getExperience();
+      currentXp -= value;
+
+      let currentLevel = leveling.getLevel();
+
+      while (currentXp < 0) {
+        currentLevel--;
+
+        if (currentLevel < 0) {
+          currentLevel = 0;
+          currentXp = 0;
+          break;
+        }
+
+        let xpForPreviousLevel = 0;
+        if (currentLevel >= 31) {
+          xpForPreviousLevel = 9 * currentLevel - 158;
+        } else if (currentLevel >= 16) {
+          xpForPreviousLevel = 5 * currentLevel - 38;
+        } else {
+          xpForPreviousLevel = 2 * currentLevel + 7;
+        }
+
+        currentXp += xpForPreviousLevel;
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+
+      let xpForNextLevel = 0;
+      if (currentLevel >= 31) {
+        xpForNextLevel = 9 * currentLevel - 158;
+      } else if (currentLevel >= 16) {
+        xpForNextLevel = 5 * currentLevel - 38;
+      } else {
+        xpForNextLevel = 2 * currentLevel + 7;
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+      this.nbt.set("PlayerLevelProgress", new FloatTag(xpForNextLevel > 0 ? currentXp / xpForNextLevel : 0))
+      leveling.refreshAttributes()
+
+      // Return the new experience points
+      return currentXp;
     } else {
-      const leveling = this.addTrait(PlayerLevelingTrait);
-      return leveling.getExperience()
+      // If the trait doesn't exist, there's no experience to remove.
+      return 0;
     }
   }
 
