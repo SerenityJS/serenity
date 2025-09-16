@@ -26,7 +26,8 @@ const DefaultWorldProperties: WorldProperties = {
     keepInventory: false,
     fallDamage: true,
     fireDamage: true,
-    drowningDamage: true
+    drowningDamage: true,
+    randomTickSpeed: 1
   }
 };
 

@@ -53,6 +53,11 @@ class Trait {
   public onTick?(details: TraitOnTickDetails): void;
 
   /**
+   * Called when the trait is random ticked by the dimension.
+   */
+  public onRandomTick?(): void;
+
+  /**
    * Clones the trait with the specified arguments.
    * @param arguments The arguments to clone the trait with.
    */

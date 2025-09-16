@@ -42,6 +42,7 @@ import { TerrainGenerator } from "./generator";
 import { Chunk } from "./chunk";
 import { TickSchedule } from "./schedule";
 import { Structure } from "./structure";
+import { shuffle } from "../helpers/shuffle";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -274,6 +275,40 @@ class Dimension {
       } else if (entity.isTicking) {
         // If the entity is not in simulation range, stop ticking it
         entity.isTicking = false;
+      }
+    }
+
+    // Get ticked chunks (chunks that players are in)
+    const chunks: Chunk[] = [...new Set(players.map((player) => player.getChunk()))];
+
+    const randomTickSpeed = (this.world.gamerules.randomTickSpeed as number | undefined) ?? 1
+
+    // Iterate over all the chunks ticked by players in the dimension.
+    for (const chunk of chunks) {
+
+      // Get a random assortment of the blocks in the chunk.
+      const blocks = shuffle(chunk.getAllBlockStorages())
+
+      // Random ticks occur to one block in every ticked subchunk, and there are 24 subchunks in a vanilla chunk.
+      for (let i = 0; i < (randomTickSpeed * 24); i++) {
+        // Select random block to tick.
+        const block = this.getBlock(blocks[i]!.getPosition())
+
+        // Iterate over all the traits in the block
+        // Try to tick the block trait
+        for (const trait of block.getAllTraits())
+          try {
+            trait.onRandomTick?.();
+          } catch (reason) {
+            // Log the error to the console
+            this.world.logger.error(
+              `Failed to random tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+              reason
+            );
+
+            // Remove the trait from the block
+            block.removeTrait(trait.identifier);
+          }
       }
     }
 
