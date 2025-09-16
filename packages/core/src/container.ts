@@ -170,7 +170,7 @@ class Container {
         // Create a full stack item for the empty slot
         const newItem = new ItemStack(item.type, {
           ...item,
-          stackSize: item.stackSize
+          stackSize: item.maxStackSize
         });
 
         // Add the new Item and decrease it
