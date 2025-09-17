@@ -62,56 +62,47 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
    * @param level The enchantment level.
    */
   public addEnchantment(id: Enchantment, level: number): void {
+
     // Get the enchantment list tag from the item stack's NBT
     const ench = this.item.nbt.get<ListTag<CompoundTag>>("ench");
 
     // Create a new list tag to filter out duplicates
     const filtered = new ListTag<CompoundTag>([], "ench");
 
-    // Track the highest level instance of this enchantment on the item already.
-    let high = 0
-
     // Check if the enchantment list tag exists
-    if (ench) {
+    if (!ench) return;
 
-      // Check for duplicate enchantments.
-      for (const tag of ench) {
-        // Get the enchantment id from the tag
-        const enchantmentId = tag.get<ShortTag>("id")?.valueOf();
+    // Check for duplicate enchnatments.
+    for (const tag of ench) {
 
-        // If the enchantment id matches, remove the tag
-        if (enchantmentId === id) {
+      // Get the enchantment id.
+      const enchantmentId = tag.get<ShortTag>("id")?.valueOf();
 
-          // Check if the enchantment has a higher level than the one we're adding.
-          const enchantmentLevel = tag.get<ShortTag>("lvl")?.valueOf() ?? -1
+      // Get the enchantment level.
+      const enchantmentLevel = tag.get<ShortTag>("lvl")?.valueOf() ?? -1;
 
-          // Set the new highest level to the enchantment level.
-          if (enchantmentLevel > high) {
-            high = enchantmentLevel
-          }
+      // Check if the enchantment matches the one we are trying to add.
+      if (enchantmentId === id) {
 
-        } else {
-          // Otherwise, add the tag to the filtered list
-          filtered.push(tag);
-        }
+        // If the enchantment level is higher than the one we're adding, let it be.
+        if (enchantmentLevel > level) throw new Error("Enchantment level is higher than target level.")
+
+        // Create new enchantment tag.
+        const enchantment = new CompoundTag();
+
+        // Set ID and level.
+        enchantment.add(new ShortTag(id, "id"));
+        enchantment.add(new ShortTag(level, "lvl"));
+
+        // Add the new enchantment.
+        filtered.push(enchantment);
       }
-
-      // No change, the enchantment already exists on the item with a value greater than or equal to as the current level.
-      if (high >= level) throw new Error("Enchantment already exists on the item.")
-
-      // Create a new enchantment value
-      const value = new CompoundTag();
-
-      // Set the enchantment value's id and level
-      value.add(new ShortTag(id, "id"));
-      value.add(new ShortTag(level, "lvl"));
-
-      // Add the enchantment value to the list tag
-      filtered.push(value);
-
-      // Set the nbt's enchantment list tag
-      this.item.nbt.set("ench", filtered);
+      // If the enchantment is not a match, add it to the new enchantments list.
+      filtered.push(tag);
     }
+
+    // Update the enchantments nbt.
+    this.item.nbt.set("ench", filtered);
   }
 
   /**
