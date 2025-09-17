@@ -14,7 +14,6 @@ import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
 import { BlockIdentifier } from "../../enums";
 import { BlockContainer } from "../container";
 import { Block } from "../block";
-import { Container } from "../../container";
 import {
   BlockInteractionOptions,
   BlockInventoryTraitOptions
@@ -97,35 +96,6 @@ class BlockInventoryTrait extends BlockTrait {
     }
   }
 
-  public onContainerUpdate(container: Container): void {
-    // Verify the container is the same as the block container
-    if (container !== this.container) return;
-
-    // Create a new items list tag
-    const items = new ListTag<CompoundTag>();
-
-    // Iterate over the container slots
-    for (let i = 0; i < this.container.size; i++) {
-      // Get the item stack at the index
-      const itemStack = this.container.getItem(i);
-
-      // Check if the item is null
-      if (!itemStack) continue;
-
-      // Get the item stack level storage
-      const storage = itemStack.getLevelStorage();
-
-      // Create a new int tag for the slot
-      storage.add(new IntTag(i, "Slot"));
-
-      // Add the item stack storage to the items list tag
-      items.push(storage);
-    }
-
-    // Add the items to the items list tag
-    this.block.nbt.set("Items", items);
-  }
-
   public onTick(): void {
     // Check if the container has occupants and the block is not opened
     if (!this.opened && this.container.occupants.size > 0) {
@@ -150,6 +120,30 @@ class BlockInventoryTrait extends BlockTrait {
    * Called when the state of the inventory is set to open.
    */
   public onOpen(): void {
+    // Create a new items list tag
+    const items = new ListTag<CompoundTag>();
+
+    // Iterate over the container slots
+    for (let i = 0; i < this.container.size; i++) {
+      // Get the item stack at the index
+      const itemStack = this.container.getItem(i);
+
+      // Check if the item is null
+      if (!itemStack) continue;
+
+      // Get the item stack level storage
+      const storage = itemStack.getLevelStorage();
+
+      // Create a new int tag for the slot
+      storage.add(new IntTag(i, "Slot"));
+
+      // Add the item stack storage to the items list tag
+      items.push(storage);
+    }
+
+    // Add the items to the items list tag
+    this.block.setStorageEntry("Items", items);
+
     // Create a new BlockEventPacket
     const event = new BlockEventPacket();
     event.position = this.block.position;
@@ -196,6 +190,30 @@ class BlockInventoryTrait extends BlockTrait {
    * Called when the state of the inventory is set to close.
    */
   public onClose(): void {
+    // Create a new items list tag
+    const items = new ListTag<CompoundTag>();
+
+    // Iterate over the container slots
+    for (let i = 0; i < this.container.size; i++) {
+      // Get the item stack at the index
+      const itemStack = this.container.getItem(i);
+
+      // Check if the item is null
+      if (!itemStack) continue;
+
+      // Get the item stack level storage
+      const storage = itemStack.getLevelStorage();
+
+      // Create a new int tag for the slot
+      storage.add(new IntTag(i, "Slot"));
+
+      // Add the item stack storage to the items list tag
+      items.push(storage);
+    }
+
+    // Add the items to the items list tag
+    this.block.setStorageEntry("Items", items);
+
     // Create a new block event packet
     const packet = new BlockEventPacket();
     packet.position = this.block.position;
@@ -240,9 +258,9 @@ class BlockInventoryTrait extends BlockTrait {
 
   public onAdd(): void {
     // Check if block has an items nbt property
-    if (this.block.nbt.has("Items")) {
+    if (this.block.hasStorageEntry("Items")) {
       // Get the items tag from the block's nbt
-      const items = this.block.nbt.get<ListTag<CompoundTag>>("Items");
+      const items = this.block.getStorageEntry<ListTag<CompoundTag>>("Items");
 
       // Get the world from the block
       const world = this.block.world;
@@ -276,13 +294,13 @@ class BlockInventoryTrait extends BlockTrait {
       const items = new ListTag<CompoundTag>([], "Items");
 
       // Add the items list tag to the block's nbt
-      this.block.nbt.add(items);
+      this.block.addStorageEntry(items);
     }
   }
 
   public onRemove(): void {
     // Delete the items list tag from the block's nbt
-    this.block.nbt.delete("Items");
+    this.block.deleteStorageEntry("Items");
   }
 }
 

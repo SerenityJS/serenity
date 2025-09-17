@@ -6,4 +6,4 @@ export * from "./generator";
 export * from "./worker";
 export * from "./schedule";
 export * from "./structure";
-export * from "./scoreboard"
+export * from "./scoreboard";

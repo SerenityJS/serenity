@@ -1,4 +1,5 @@
 import {
+  BlockPosition,
   ChunkCoords,
   DimensionType,
   type IPosition
@@ -6,7 +7,7 @@ import {
 import { BinaryStream } from "@serenityjs/binarystream";
 
 import { BlockIdentifier } from "../../enums";
-import { BlockPermutation } from "../../block";
+import { BlockLevelStorage, BlockPermutation } from "../../block";
 
 import { SubChunk } from "./sub-chunk";
 import { BiomeStorage } from "./biome-storage";
@@ -51,6 +52,15 @@ export class Chunk {
    * The maximum amount of sub chunks.
    */
   public static readonly MAX_SUB_CHUNKS = 24;
+
+  /**
+   * The block level storage of the chunk, mapped by their position hash.
+   */
+  private readonly blocks: Map<bigint, BlockLevelStorage> = new Map();
+
+  /**
+   *
+   */
 
   /**
    * The dimension type of the chunk.
@@ -307,6 +317,69 @@ export class Chunk {
 
     // Return the count.
     return Chunk.MAX_SUB_CHUNKS - count;
+  }
+
+  /**
+   * Get all the block storage of the chunk.
+   * @returns An array of all the block storage compound tags.
+   */
+  public getAllBlockStorages(): Array<BlockLevelStorage> {
+    return Array.from(this.blocks.values());
+  }
+
+  /**
+   * Check if the chunk has block storage at the given position.
+   * @param position The position to check for block storage.
+   * @returns True if the chunk has block storage at the given position, false otherwise.
+   */
+  public hasBlockStorage(position: IPosition): boolean {
+    // Convert the position to a bigint key.
+    const key = BlockPosition.hash(BlockPosition.from(position));
+
+    // Return if the block storage exists.
+    return this.blocks.has(key);
+  }
+
+  /**
+   * Get the block storage at the given position.
+   * @param position The position to get the block storage at.
+   * @returns The block storage compound tag, or null if none exists.
+   */
+  public getBlockStorage(position: IPosition): BlockLevelStorage | null {
+    // Convert the position to a bigint key.
+    const key = BlockPosition.hash(BlockPosition.from(position));
+
+    // Return the block storage.
+    return this.blocks.get(key) || null;
+  }
+
+  /**
+   * Set the block storage at the given block position.
+   * @param position The block position to set the block storage at.
+   * @param data The block storage compound tag, or null to delete the block storage.
+   * @param dirty If the chunk should be marked as dirty. Default is true.
+   */
+  public setBlockStorage(
+    position: IPosition,
+    data: BlockLevelStorage | null,
+    dirty = true
+  ): void {
+    // Convert the position to a bigint key.
+    const key = BlockPosition.hash(BlockPosition.from(position));
+
+    // Check if data is given.
+    if (data) {
+      // Set the position of the data.
+      data.setPosition(BlockPosition.from(position));
+
+      // Set the block storage in the map.
+      this.blocks.set(key, data);
+    }
+    // If no data is given, delete the block data.
+    else this.blocks.delete(key);
+
+    // Set the chunk as dirty.
+    if (dirty) this.dirty = true;
   }
 
   /**

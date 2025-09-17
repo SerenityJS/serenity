@@ -26,10 +26,6 @@ interface CustomBlockProperties extends BlockTypeProperties {
   creativeGroup: ItemGroup;
 }
 
-interface BlockProperties {
-  storage?: CompoundTag;
-}
-
 interface BlockTypeNbtDefinition {
   components: CompoundTag;
   menu_category: CompoundTag;
@@ -51,7 +47,6 @@ interface BlockTypeNbtPermutationDefinition {
 type BlockTypeDefinition = CompoundTag;
 
 export {
-  BlockProperties,
   CustomBlockProperties,
   BlockTypeProperties,
   BlockTypeNbtDefinition,

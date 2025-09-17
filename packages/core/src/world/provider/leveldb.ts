@@ -9,7 +9,7 @@ import { resolve } from "node:path";
 
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { Leveldb } from "@serenityjs/leveldb";
-import { BlockPosition, DimensionType } from "@serenityjs/protocol";
+import { DimensionType } from "@serenityjs/protocol";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { BiomeStorage, Chunk, SubChunk } from "../chunk";
@@ -24,7 +24,7 @@ import { World } from "../world";
 import { ChunkReadySignal, WorldInitializeSignal } from "../../events";
 import { Structure } from "../structure";
 import { Entity, EntityLevelStorage, PlayerLevelStorage } from "../../entity";
-import { Block, BlockLevelStorage } from "../..";
+import { BlockLevelStorage } from "../../block";
 
 import { WorldProvider } from "./provider";
 
@@ -245,12 +245,6 @@ class LevelDBProvider extends WorldProvider {
         subchunk.biomes = biome;
       }
 
-      // Set the chunk as ready.
-      chunk.ready = true;
-
-      // Add the chunk to the cache.
-      chunks.set(chunk.hash, chunk);
-
       // Read the blocks from the chunk.
       const blocks = this.readChunkBlocks(chunk, dimension);
 
@@ -258,18 +252,16 @@ class LevelDBProvider extends WorldProvider {
       if (blocks.length > 0) {
         // Iterate through the blocks and add them to the chunk.
         for (const storage of blocks) {
-          // Create a new block instance of the block permutation.
-          const block = new Block(dimension, storage.getPosition(), {
-            storage
-          });
-
-          // Hash the block position to use as a key.
-          const hash = BlockPosition.hash(block.position);
-
-          // Add the block to the dimension blocks collection.
-          dimension.blocks.set(hash, block);
+          // Set the block storage in the chunk.
+          chunk.setBlockStorage(storage.getPosition(), storage, false);
         }
       }
+
+      // Set the chunk as ready.
+      chunk.ready = true;
+
+      // Add the chunk to the cache.
+      chunks.set(chunk.hash, chunk);
 
       // Return the chunk.
       return chunk;
@@ -305,25 +297,15 @@ class LevelDBProvider extends WorldProvider {
     this.writeChunkEntities(chunk, dimension, entities);
 
     // Get the blocks that are in the chunk.
-    const blocks = [...dimension.blocks]
-      .filter(([, block]) => {
-        // Convert the block position to chunk coordinates.
-        const cx = block.position.x >> 4;
-        const cz = block.position.z >> 4;
-
-        // Check if the block is in the chunk.
-        if (cx !== chunk.x || cz !== chunk.z) return false;
-
-        // Return true if the block is in the chunk.
-        return true;
-      })
-      .map(([, block]) => block.getLevelStorage()); // Map the blocks to their level storage.
-
-    // Write the block list to the database.
-    this.writeChunkBlocks(chunk, dimension, blocks);
+    const blocks = chunk
+      .getAllBlockStorages()
+      .filter((storage) => storage.size > 0); // Filter out empty block storages.
 
     // Check if the chunk is empty.
     if (chunk.isEmpty() || !chunk.dirty) return;
+
+    // Write the block list to the database.
+    this.writeChunkBlocks(chunk, dimension, blocks);
 
     // Write the chunk version, in this case will be 40
     this.writeChunkVersion(chunk.x, chunk.z, dimension, 40);
@@ -578,7 +560,7 @@ class LevelDBProvider extends WorldProvider {
         const compound = CompoundTag.read(stream);
 
         // Convert the compound tag to a BlockLevelStorage instance.
-        const storage = new BlockLevelStorage(compound);
+        const storage = new BlockLevelStorage(chunk, compound);
 
         // Push the block storage to the array.
         blocks.push(storage);

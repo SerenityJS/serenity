@@ -28,30 +28,61 @@ class SetActorDataPacket extends DataPacket {
   );
 
   /**
+   * The second set of flags of the actor.
+   */
+  private actorFlagSet2 = new DataItem(
+    ActorDataId.Reserved092,
+    ActorDataType.Long,
+    0n
+  );
+
+  /**
    * Sets the flag of the actor.
    * @param flag The flag to set.
    * @param enabled Whether the flag should be enabled.
    */
   public setActorFlag(flag: ActorFlag, enabled: boolean): void {
-    // Calculate the value of the flag.
-    const value = enabled
-      ? this.actorFlagSet.value ^ (1n << BigInt(flag))
-      : this.actorFlagSet.value ^ (0n << BigInt(flag));
+    // Calculate the data ID based on the flag.
+    const dataId = flag >= 64 ? ActorDataId.Reserved092 : ActorDataId.Reserved0;
 
-    // Set the value of the flag.
-    this.actorFlagSet.value = value;
+    // Update the flag based on the data ID.
+    if (dataId === ActorDataId.Reserved0) {
+      // Calculate the value of the flag.
+      const value = enabled
+        ? this.actorFlagSet.value ^ (1n << BigInt(flag % 64))
+        : this.actorFlagSet.value ^ (0n << BigInt(flag % 64));
 
-    // Create a new data item.
-    const data = new DataItem(ActorDataId.Reserved0, ActorDataType.Long, value);
+      // Set the value of the flag.
+      this.actorFlagSet.value = value;
 
-    // Replace the data item.
-    const index = this.data.findIndex(
-      (item) => item.identifier === ActorDataId.Reserved0
-    );
+      // Create a new data item.
+      const data = new DataItem(dataId, ActorDataType.Long, value);
 
-    // Replace the data item if it exists.
-    if (index !== -1) this.data[index] = data;
-    else this.data.push(data);
+      // Replace the data item.
+      const index = this.data.findIndex((item) => item.identifier === dataId);
+
+      // Replace the data item if it exists.
+      if (index !== -1) this.data[index] = data;
+      else this.data.push(data);
+    } else {
+      // Calculate the value of the flag.
+      const value = enabled
+        ? this.actorFlagSet2.value ^ (1n << BigInt(flag % 64))
+        : this.actorFlagSet2.value ^ (0n << BigInt(flag % 64));
+
+      // Set the value of the flag.
+      this.actorFlagSet2.value = value;
+
+      // Create a new data item.
+      const data = new DataItem(dataId, ActorDataType.Long, value);
+
+      // Replace the data item.
+      const index = this.data.findIndex((item) => item.identifier === dataId);
+
+      // Replace the data item if it exists.
+      if (index !== -1) this.data[index] = data;
+      else this.data.push(data);
+    }
   }
 
   /**
@@ -60,11 +91,15 @@ class SetActorDataPacket extends DataPacket {
    * @returns Whether the flag is enabled.
    */
   public getActorFlag(flag: ActorFlag): boolean {
-    // Calculate the value of the flag.
-    const value = this.actorFlagSet.value & (1n << BigInt(flag));
+    // Calculate the data ID based on the flag.
+    const dataId = flag >= 64 ? ActorDataId.Reserved092 : ActorDataId.Reserved0;
 
-    // Return the value of the flag.
-    return value === 1n;
+    // Get the value of the flag based on the data ID.
+    if (dataId === ActorDataId.Reserved0) {
+      return (this.actorFlagSet.value & (1n << BigInt(flag % 64))) !== 0n;
+    } else {
+      return (this.actorFlagSet2.value & (1n << BigInt(flag % 64))) !== 0n;
+    }
   }
 }
 

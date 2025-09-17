@@ -205,9 +205,7 @@ class FileSystemProvider extends WorldProvider {
           // Iterate through the blocks and add them to the chunk.
           for (const storage of blocks) {
             // Create a new block instance of the block permutation.
-            const block = new Block(dimension, storage.getPosition(), {
-              storage
-            });
+            const block = new Block(dimension, storage.getPosition());
 
             // Hash the block position to use as a key.
             const hash = BlockPosition.hash(block.position);
@@ -258,7 +256,7 @@ class FileSystemProvider extends WorldProvider {
         // Return true if the block is in the chunk.
         return true;
       })
-      .map(([, block]) => block.getLevelStorage()); // Map the blocks to their level storage.
+      .map(([, block]) => block.getStorage()); // Map the blocks to their level storage.
 
     // Write the block list to the database.
     this.writeChunkBlocks(chunk, dimension, blocks);
@@ -408,7 +406,7 @@ class FileSystemProvider extends WorldProvider {
     const blocks = [...root.get<ListTag<CompoundTag>>("blocks")!.values()];
 
     // Map the blocks to BlockLevelStorage instances.
-    return blocks.map((block) => new BlockLevelStorage(block));
+    return blocks.map((block) => new BlockLevelStorage(chunk, block));
   }
 
   public writeChunkBlocks(

@@ -148,9 +148,9 @@ class Logger {
 
   public colorize(...arguments_: Array<unknown>): Array<unknown> {
     const colorized = arguments_.map((argument) => {
-      if (typeof argument === "string") {
+      if (typeof argument === "string")
         return formatMinecraftColorCode(argument as string);
-      }
+      else return argument;
     });
 
     return colorized;
