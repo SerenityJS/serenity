@@ -42,7 +42,6 @@ import { TerrainGenerator } from "./generator";
 import { Chunk } from "./chunk";
 import { TickSchedule } from "./schedule";
 import { Structure } from "./structure";
-import { shuffle } from "../helpers/shuffle";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -285,30 +284,36 @@ class Dimension {
 
     // Iterate over all the chunks ticked by players in the dimension.
     for (const chunk of chunks) {
+      const chunkX = chunk.x * 16
+      const chunkZ = chunk.z * 16
+      for (let y = -64; y < 320; y += 16) {
+        for (let i = 0; i < randomTickSpeed; i++) {
+          const block = this.getBlock({
+            x: Math.floor(Math.random() * 16) + chunkX,
+            y: Math.floor(Math.random() * 16) + y,
+            z: Math.floor(Math.random() * 16) + chunkZ,
+          })
+          // Iterate over all the traits in the block
+          // Try to random tick the block trait
+          const traits = block.getAllTraits()
 
-      // Get a random assortment of the blocks in the chunk.
-      const blocks = shuffle(chunk.getAllBlockStorages())
+          // If the block has no traits, continue.
+          if (traits.length === 0) continue
 
-      // Random ticks occur to one block in every ticked subchunk, and there are 24 subchunks in a vanilla chunk.
-      for (let i = 0; i < (randomTickSpeed * 24); i++) {
-        // Select random block to tick.
-        const block = this.getBlock(blocks[i]!.getPosition())
+          for (const trait of traits)
+            try {
+              trait.onRandomTick?.();
+            } catch (reason) {
+              // Log the error to the console
+              this.world.logger.error(
+                `Failed to random tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+                reason
+              );
 
-        // Iterate over all the traits in the block
-        // Try to tick the block trait
-        for (const trait of block.getAllTraits())
-          try {
-            trait.onRandomTick?.();
-          } catch (reason) {
-            // Log the error to the console
-            this.world.logger.error(
-              `Failed to random tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
-              reason
-            );
-
-            // Remove the trait from the block
-            block.removeTrait(trait.identifier);
-          }
+              // Remove the trait from the block
+              block.removeTrait(trait.identifier);
+            }
+        }
       }
     }
 
@@ -326,7 +331,12 @@ class Dimension {
 
         // Iterate over all the traits in the block
         // Try to tick the block trait
-        for (const trait of block.getAllTraits())
+        const traits = block.getAllTraits()
+
+        // If the block has no traits, continue.
+        if (traits.length === 0) continue
+
+        for (const trait of traits)
           try {
             trait.onTick?.({ currentTick, deltaTick });
           } catch (reason) {
