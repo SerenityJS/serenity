@@ -278,7 +278,8 @@ class Dimension {
     }
 
     // Get random tick speed for calculating the chance of a random tick.
-    const randomTickSpeed = (this.world.gamerules.randomTickSpeed as number | undefined) ?? 1
+    const randomTickGamerule = (this.world.gamerules.randomTickSpeed as number | undefined) ?? 1
+    const randomTickSpeed = Math.max(Math.floor(4096 / randomTickGamerule), 0)
 
     // Iterate over all the blocks in the dimension
     for (const [, block] of this.blocks) {
@@ -306,7 +307,7 @@ class Dimension {
             trait.onTick?.({ currentTick, deltaTick });
 
             // Simulating the chance for a block to be random ticked (x blocks are chosen in a 16x16x16 subchunk every tick).
-            if (Math.floor(Math.random() * 4096 * randomTickSpeed) === 0) trait.onRandomTick?.()
+            if (Math.floor(Math.random() * randomTickSpeed) === 0) trait.onRandomTick?.()
 
           } catch (reason) {
             // Log the error to the console
