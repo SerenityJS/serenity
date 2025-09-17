@@ -277,45 +277,8 @@ class Dimension {
       }
     }
 
-    // Get ticked chunks (chunks that players are in)
-    const chunks: Chunk[] = [...new Set(players.map((player) => player.getChunk()))];
-
+    // Get random tick speed for calculating the chance of a random tick.
     const randomTickSpeed = (this.world.gamerules.randomTickSpeed as number | undefined) ?? 1
-
-    // Iterate over all the chunks ticked by players in the dimension.
-    for (const chunk of chunks) {
-      const chunkX = chunk.x * 16
-      const chunkZ = chunk.z * 16
-      for (let y = -64; y < 320; y += 16) {
-        for (let i = 0; i < randomTickSpeed; i++) {
-          const block = this.getBlock({
-            x: Math.floor(Math.random() * 16) + chunkX,
-            y: Math.floor(Math.random() * 16) + y,
-            z: Math.floor(Math.random() * 16) + chunkZ,
-          })
-          // Iterate over all the traits in the block
-          // Try to random tick the block trait
-          const traits = block.getAllTraits()
-
-          // If the block has no traits, continue.
-          if (traits.length === 0) continue
-
-          for (const trait of traits)
-            try {
-              trait.onRandomTick?.();
-            } catch (reason) {
-              // Log the error to the console
-              this.world.logger.error(
-                `Failed to random tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
-                reason
-              );
-
-              // Remove the trait from the block
-              block.removeTrait(trait.identifier);
-            }
-        }
-      }
-    }
 
     // Iterate over all the blocks in the dimension
     for (const [, block] of this.blocks) {
@@ -338,7 +301,13 @@ class Dimension {
 
         for (const trait of traits)
           try {
+
+            // If the block has a tick event, execute it.
             trait.onTick?.({ currentTick, deltaTick });
+
+            // Simulating the chance for a block to be random ticked (x blocks are chosen in a 16x16x16 subchunk every tick).
+            if (Math.floor(Math.random() * 4096 * randomTickSpeed) === 0) trait.onRandomTick?.()
+
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(
