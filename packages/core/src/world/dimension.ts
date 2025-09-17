@@ -383,7 +383,6 @@ class Dimension {
         if (storages.length > 0) {
           // Iterate through the blocks and add them to the chunk.
           for (const storage of storages) {
-            console.log(storage.toJSON());
 
             // Get the position of the block storage
             const position = storage.getPosition();
