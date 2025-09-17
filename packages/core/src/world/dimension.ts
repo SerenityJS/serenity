@@ -213,6 +213,11 @@ class Dimension {
     // Get the current tick of the world
     const currentTick = this.world.currentTick;
 
+    // Get random tick speed for calculating the chance of a random tick.
+    const randomTickGamerule =
+      (this.world.gamerules?.randomTickSpeed as number) ?? 1;
+    const randomTickSpeed = Math.max(1, Math.min(4096, randomTickGamerule));
+
     // Get all the player positions in the dimension.
     const playerPositions = players.map((player) => player.position);
 
@@ -233,6 +238,9 @@ class Dimension {
           try {
             // Tick the trait
             trait.onTick?.({ currentTick, deltaTick });
+
+            // Check if the trait should be randomly ticked
+            if (trait.shouldRandomTick(randomTickSpeed)) trait.onRandomTick?.();
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(
@@ -259,6 +267,10 @@ class Dimension {
               try {
                 // Tick the item trait
                 trait.onTick?.({ currentTick, deltaTick });
+
+                // Check if the trait should be randomly ticked
+                if (trait.shouldRandomTick(randomTickSpeed))
+                  trait.onRandomTick?.();
               } catch (reason) {
                 // Log the error to the console
                 this.world.logger.error(
@@ -277,10 +289,6 @@ class Dimension {
       }
     }
 
-    // Get random tick speed for calculating the chance of a random tick.
-    const randomTickGamerule = (this.world.gamerules.randomTickSpeed as number | undefined) ?? 1
-    const randomTickSpeed = Math.max(Math.floor(4096 / randomTickGamerule), 0)
-
     // Iterate over all the blocks in the dimension
     for (const [, block] of this.blocks) {
       // Check if there is a player within the simulation distance to tick the block
@@ -295,20 +303,17 @@ class Dimension {
 
         // Iterate over all the traits in the block
         // Try to tick the block trait
-        const traits = block.getAllTraits()
+        const traits = block.getAllTraits();
 
         // If the block has no traits, continue.
-        if (traits.length === 0) continue
-
+        if (traits.length === 0) continue;
         for (const trait of traits)
           try {
-
             // If the block has a tick event, execute it.
             trait.onTick?.({ currentTick, deltaTick });
 
-            // Simulating the chance for a block to be random ticked (x blocks are chosen in a 16x16x16 subchunk every tick).
-            if (Math.random() < (1 / randomTickSpeed)) trait.onRandomTick?.()
-
+            // Check if the trait should be randomly ticked
+            if (trait.shouldRandomTick(randomTickSpeed)) trait.onRandomTick?.();
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(

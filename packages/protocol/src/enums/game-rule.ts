@@ -30,7 +30,8 @@ enum GameRule {
   ShowBorderEffect = "showBorderEffect",
   ShowRecipeMessages = "showRecipeMessages",
   ProjectilesCanBreakBlocks = "projectilesCanBreakBlocks",
-  TNTExplosionDropDecay = "tntExplosionDropDecay"
+  TNTExplosionDropDecay = "tntExplosionDropDecay",
+  RandomTickSpeed = "randomTickSpeed"
 }
 
 export { GameRule };
