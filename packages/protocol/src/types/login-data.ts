@@ -1,3 +1,5 @@
+import { AuthenticationType } from "./authentication-type";
+
 interface ClientData {
   AnimatedImageData: Array<AnimatedImageData>;
   ArmSize: string;
@@ -78,6 +80,7 @@ interface LoginTokenData {
   clientData: ClientData;
   identityData: IdentityData;
   publicKey: string;
+  authenticationType: AuthenticationType
 }
 
 export type { LoginTokenData, IdentityData, ClientData };
