@@ -31,7 +31,7 @@ class Trait {
   /**
    * The chance of this trait being randomly ticked each tick.
    */
-  private readonly randomTickProbability: [number, number] = [0, 1];
+  private readonly randomTickProbability: [number, number] = [1, 4096];
 
   /**
    * Creates a new instance of the trait.
