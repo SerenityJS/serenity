@@ -25,18 +25,11 @@ class EntityXpOrbTrait extends EntityTrait {
    * @param value The experience points to set the orb to be worth.
    */
   public setExperienceValue(value: number): void {
-    // Validate the input value
-    if (value < 1) {
-      throw new Error("Experience value must be at least 1.");
-    }
-
     // Set the "ExperienceValue" tag in the entity's NBT data
     this.entity.nbt.set("ExperienceValue", new IntTag(value));
   }
 
   public onTick(): void {
-    // We want the orb to follow the closest player
-
     // Get the position of the orb
     const position = this.entity.position;
 
