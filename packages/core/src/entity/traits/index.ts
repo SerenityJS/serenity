@@ -13,3 +13,4 @@ export * from "./equipment";
 export * from "./npc";
 export * from "./look-at-player";
 export * from "./rideable";
+export * from "./xp-orb";

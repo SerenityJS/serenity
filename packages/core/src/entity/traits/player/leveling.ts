@@ -1,5 +1,8 @@
-import { Attribute, AttributeName } from "@serenityjs/protocol";
+import { Attribute, AttributeName, Vector3f } from "@serenityjs/protocol";
 import { FloatTag, IntTag } from "@serenityjs/nbt";
+
+import { EntityIdentifier } from "../../../enums";
+import { EntityXpOrbTrait } from "../xp-orb";
 
 import { PlayerTrait } from "./trait";
 
@@ -165,7 +168,44 @@ class PlayerLevelingTrait extends PlayerTrait {
     // Check if keep inventory is enabled, if so, do not reset level or experience
     if (this.player.world.gamerules.keepInventory === true) return;
 
-    // TODO: Spawn experience orbs on death
+    // Calculate the amount of xp orbs to spawn
+    const experience = this.getTotalExperienceForLevel(this.getLevel());
+
+    // Calculate the number of orbs to spawn (1 orb per 5 xp)
+    const orbCount = Math.floor(experience / 150) + 1;
+
+    // Get the player's position
+    const position = this.player.position;
+
+    // Iterate and spawn the xp orbs
+    for (let i = 0; i < orbCount; i++) {
+      // Calculate the amount of xp for the orb (max 5 xp per orb)
+      const xp = Math.min(150, experience - i * 150);
+
+      // Spawn the xp orb entity
+      const orb = this.dimension.spawnEntity(EntityIdentifier.XpOrb, position);
+
+      // Add the EntityXpOrbTrait to the orb
+      const trait = orb.addTrait(EntityXpOrbTrait);
+
+      // Set the experience value of the orb
+      trait.setExperienceValue(xp);
+
+      // Generate random motion for the orb
+      const motion = new Vector3f(
+        (Math.random() - 0.5) * 0.2,
+        Math.random() * 0.2 + 0.1,
+        (Math.random() - 0.5) * 0.2
+      );
+
+      // Increase the motion to be more pronounced
+      motion.x *= 5;
+      motion.y *= 5;
+      motion.z *= 5;
+
+      // Set the motion of the orb
+      orb.addMotion(motion);
+    }
 
     // Reset the player's level and experience progress on death
     this.setLevel(0);
