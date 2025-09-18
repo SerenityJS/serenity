@@ -568,28 +568,30 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public unregisterWorld(world: World): boolean {
     // Check if the world is registered
     if (!this.worlds.has(world.identifier)) {
-      this.logger.error(`World is not registered and cannot be unregistered: ${world.identifier}`);
+      this.logger.error(
+        `World is not registered and cannot be unregistered: ${world.identifier}`
+      );
 
       // Return false if the world is not registered
       return false;
     }
 
     // Call the onShutdown method of the world provider
-    world.provider.onShutdown()
+    world.provider.onShutdown();
 
     // Remove all listeners of the world provider.
-    world.removeAll()
+    world.removeAll();
 
     // Remove the world from registered worlds.
-    this.worlds.delete(world.identifier)
+    this.worlds.delete(world.identifier);
 
     // Remove the world from the worlds enum.
-    WorldEnum.options.splice(WorldEnum.options.indexOf(world.identifier), 1)
+    WorldEnum.options.splice(WorldEnum.options.indexOf(world.identifier), 1);
 
     // Log that the world has been unregistered.
     this.logger.debug(`Unregistered world: ${world.identifier}`);
 
-    return true
+    return true;
   }
 
   /**

@@ -75,15 +75,15 @@ class PlayerLevelingTrait extends PlayerTrait {
   }
 
   /**
- * Gets the total amount of experience points the player has.
- * @returns The total amount of experience points.
- */
+   * Gets the total amount of experience points the player has.
+   * @returns The total amount of experience points.
+   */
   public getTotalXp(): number {
     const levelXp = this.getTotalExperienceForLevel(this.getLevel());
     const experience = this.getExperience();
 
     // Level XP + experience = total experience.
-    return levelXp + experience
+    return levelXp + experience;
   }
 
   /**
@@ -96,7 +96,9 @@ class PlayerLevelingTrait extends PlayerTrait {
       throw new Error("Experience points cannot be negative.");
     }
 
+    // Prepare variables for level calculation.
     let level = 0;
+
     // Find the player's level based on the total experience points.
     while (this.getTotalExperienceForLevel(level + 1) <= amount) {
       level++;
@@ -159,10 +161,21 @@ class PlayerLevelingTrait extends PlayerTrait {
     this.player.nbt.delete("PlayerLevelProgress");
   }
 
+  public onDeath(): void {
+    // Check if keep inventory is enabled, if so, do not reset level or experience
+    if (this.player.world.gamerules.keepInventory === true) return;
+
+    // TODO: Spawn experience orbs on death
+
+    // Reset the player's level and experience progress on death
+    this.setLevel(0);
+    this.setExperienceProgress(0);
+  }
+
   /**
    * Refreshes the player's attributes based on the current level and experience.
    */
-  public refreshAttributes(): void {
+  private refreshAttributes(): void {
     // Check if the player has a PlayerLevel attribute
     if (this.player.attributes.has(AttributeName.PlayerLevel)) {
       // Get the PlayerLevel attribute
