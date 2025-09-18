@@ -49,6 +49,7 @@ const DefaultSerenityProperties: SerenityProperties = {
   movementValidation: true,
   movementHorizontalThreshold: 0.4,
   movementVerticalThreshold: 0.6,
+  allowUnsignedConnections: false,
   shutdownMessage: "Server is shutting down.",
   ticksPerSecond: 20,
   debugLogging: false
