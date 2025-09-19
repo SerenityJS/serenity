@@ -169,7 +169,8 @@ class PlayerLevelingTrait extends PlayerTrait {
     if (this.player.world.gamerules.keepInventory === true) return;
 
     // Calculate the amount of xp orbs to spawn
-    const experience = this.getTotalExperienceForLevel(this.getLevel());
+    const experience =
+      this.getTotalExperienceForLevel(this.getLevel()) + this.getExperience();
 
     // Calculate the number of orbs to spawn (1 orb per 5 xp)
     const orbCount = Math.floor(experience / 150) + 1;
@@ -199,9 +200,9 @@ class PlayerLevelingTrait extends PlayerTrait {
       );
 
       // Increase the motion to be more pronounced
-      motion.x *= 5;
-      motion.y *= 5;
-      motion.z *= 5;
+      motion.x *= 2.5;
+      motion.y *= 2;
+      motion.z *= 2.5;
 
       // Set the motion of the orb
       orb.addMotion(motion);

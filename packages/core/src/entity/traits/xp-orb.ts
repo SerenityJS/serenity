@@ -1,4 +1,4 @@
-import { Vector3f } from "@serenityjs/protocol";
+import { LevelEvent, LevelEventPacket, Vector3f } from "@serenityjs/protocol";
 import { IntTag } from "@serenityjs/nbt";
 
 import { Player } from "../player";
@@ -8,7 +8,6 @@ import { EntityTrait } from "./trait";
 
 class EntityXpOrbTrait extends EntityTrait {
   public static readonly identifier = "xp_orb";
-
   public static readonly types = [EntityIdentifier.XpOrb];
 
   /**
@@ -60,7 +59,16 @@ class EntityXpOrbTrait extends EntityTrait {
 
     // Check if the orb is within 0.25 blocks of the player
     const distance = position.distance(player.position);
-    if (distance < 0.3) {
+    if (distance < 0.5) {
+      // Create a level event packet to play the experience orb pickup sound
+      const packet = new LevelEventPacket();
+      packet.event = LevelEvent.SoundExperienceOrbPickup;
+      packet.position = this.entity.position;
+      packet.data = 0;
+
+      // Broadcast the packet to all players in the dimension
+      this.dimension.broadcast(packet);
+
       // Add the experience to the player
       player.addExperience(this.getExperienceValue());
 
