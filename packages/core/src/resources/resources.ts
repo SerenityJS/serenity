@@ -182,7 +182,8 @@ class Resources {
           // Get the relative path of the file
           const relativePath = fullPath
             .replace(path + "\\", "")
-            .replace(/\\/g, "/");
+            .replace(/\\/g, "/") // Windows compatibility
+            .replace(path + "/", ""); // Unix compatibility
 
           // Assign the content to the file tree
           fileTree[relativePath] = content;
