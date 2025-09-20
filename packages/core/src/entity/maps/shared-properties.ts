@@ -114,8 +114,6 @@ class EntitySharedPropertiesMap extends Map<string, number | boolean | string> {
     packet.data = [...this.entity.metadata.values()];
     packet.properties = this.getPropertySyncData();
 
-    console.log(packet.properties);
-
     // Iterate over the flags set on the entity
     for (const [flag, enabled] of this.entity.flags)
       packet.setActorFlag(flag, enabled);

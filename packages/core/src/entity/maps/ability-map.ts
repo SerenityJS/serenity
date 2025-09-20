@@ -202,7 +202,7 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
     packet.entityUniqueId = this.player.uniqueId;
     packet.abilities = [
       {
-        type: AbilityLayerType.Base,
+        type: AbilityLayerType.Commands,
         abilities: [...this.player.abilities.entries()].map(
           ([ability, value]) => new AbilitySet(ability, value)
         ),
