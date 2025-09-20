@@ -1,8 +1,7 @@
-import { Attribute, AttributeName, Vector3f } from "@serenityjs/protocol";
+import { Attribute, AttributeName } from "@serenityjs/protocol";
 import { FloatTag, IntTag } from "@serenityjs/nbt";
 
-import { EntityIdentifier } from "../../../enums";
-import { EntityXpOrbTrait } from "../xp-orb";
+import { PlayerDropExperienceSignal } from "../../../events";
 
 import { PlayerTrait } from "./trait";
 
@@ -169,10 +168,10 @@ class PlayerLevelingTrait extends PlayerTrait {
     if (this.player.world.gamerules.keepInventory === true) return;
 
     // Calculate the amount of xp orbs to spawn
-    const experience =
+    let experience =
       this.getTotalExperienceForLevel(this.getLevel()) + this.getExperience();
 
-    // Calculate the number of orbs to spawn (1 orb per 5 xp)
+    // Calculate the number of orbs to spawn (based on 150 xp per orb)
     const orbCount = Math.floor(experience / 150) + 1;
 
     // Get the player's position
@@ -180,37 +179,28 @@ class PlayerLevelingTrait extends PlayerTrait {
 
     // Iterate and spawn the xp orbs
     for (let i = 0; i < orbCount; i++) {
-      // Calculate the amount of xp for the orb (max 5 xp per orb)
-      const xp = Math.min(150, experience - i * 150);
+      // Calculate the amount of xp for the orb (maximum 150 xp per orb)
+      const xp = Math.min(150, experience);
 
-      // Spawn the xp orb entity
-      const orb = this.dimension.spawnEntity(EntityIdentifier.XpOrb, position);
+      // Create a new PlayerDropExperienceSignal
+      const signal = new PlayerDropExperienceSignal(this.player, xp);
 
-      // Add the EntityXpOrbTrait to the orb
-      const trait = orb.addTrait(EntityXpOrbTrait);
+      // Emit the signal and check if it was cancelled
+      if (!signal.emit()) continue;
 
-      // Set the experience value of the orb
-      trait.setExperienceValue(xp);
+      // Spawn the xp orb entity in the dimension
+      this.dimension.spawnExperienceOrb(signal.amount, position);
 
-      // Generate random motion for the orb
-      const motion = new Vector3f(
-        (Math.random() - 0.5) * 0.2,
-        Math.random() * 0.2 + 0.1,
-        (Math.random() - 0.5) * 0.2
-      );
-
-      // Increase the motion to be more pronounced
-      motion.x *= 2.5;
-      motion.y *= 2;
-      motion.z *= 2.5;
-
-      // Set the motion of the orb
-      orb.addMotion(motion);
+      // Decrement the remaining experience
+      experience -= signal.amount;
     }
 
-    // Reset the player's level and experience progress on death
+    // Reset the players level and progress
     this.setLevel(0);
     this.setExperienceProgress(0);
+
+    // Set the player's level and experience to 0
+    this.setExperience(experience);
   }
 
   /**

@@ -27,6 +27,7 @@ import {
   EntityMovementTrait,
   EntityPhysicsTrait,
   EntityType,
+  EntityXpOrbTrait,
   Player,
   PlayerChunkRenderingTrait
 } from "../entity";
@@ -835,6 +836,53 @@ class Dimension {
     entity.spawn();
 
     // Return the item entity
+    return entity;
+  }
+
+  /**
+   * Spawns an experience orb in the dimension.
+   * @param experience The amount of experience the orb will give.
+   * @param position The position to spawn the orb at.
+   * @returns The entity instance that was spawned.
+   */
+  public spawnExperienceOrb(experience: number, position: IPosition): Entity {
+    // Create a new Entity instance
+    const entity = new Entity(this, EntityIdentifier.XpOrb);
+
+    // Set the entity position
+    entity.position.set(position);
+
+    // Add the xp orb trait to the entity
+    const trait = entity.addTrait(EntityXpOrbTrait);
+
+    // Set the experience in the trait
+    trait.setExperienceValue(experience);
+
+    // Add gravity and physics traits to the entity
+    entity.addTrait(EntityGravityTrait);
+    entity.addTrait(EntityPhysicsTrait);
+    entity.addTrait(EntityMovementTrait);
+    entity.addTrait(EntityCollisionTrait);
+
+    // Spawn the xp orb entity
+    entity.spawn();
+
+    // Generate random motion for the orb
+    const motion = new Vector3f(
+      (Math.random() - 0.5) * 0.2,
+      Math.random() * 0.2 + 0.1,
+      (Math.random() - 0.5) * 0.2
+    );
+
+    // Increase the motion to be more pronounced
+    motion.x *= 2.5;
+    motion.y *= 2;
+    motion.z *= 2.5;
+
+    // Set the motion of the entity
+    entity.setMotion(motion);
+
+    // Return the xp orb entity
     return entity;
   }
 
