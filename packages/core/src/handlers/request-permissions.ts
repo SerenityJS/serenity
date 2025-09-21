@@ -36,17 +36,14 @@ class RequestPermissionsHandler extends NetworkHandler {
     const canTeleport = packet.getFlag(PermissionFlag.Teleport);
 
     // Set the permission flags for the target player
-    target.abilities.superSet(AbilityIndex.Build, canBuild);
-    target.abilities.superSet(AbilityIndex.Mine, canMine);
-    target.abilities.superSet(AbilityIndex.DoorsAndSwitches, canUseDnS);
-    target.abilities.superSet(AbilityIndex.OpenContainers, canOpenContainers);
-    target.abilities.superSet(AbilityIndex.AttackPlayers, canAttackPlayers);
-    target.abilities.superSet(AbilityIndex.AttackMobs, canAttackMobs);
-    target.abilities.superSet(AbilityIndex.OperatorCommands, canUseOC);
-    target.abilities.superSet(AbilityIndex.Teleport, canTeleport);
-
-    // Send the abilities to the target player
-    target.abilities.update();
+    target.abilities.setAbility(AbilityIndex.Build, canBuild);
+    target.abilities.setAbility(AbilityIndex.Mine, canMine);
+    target.abilities.setAbility(AbilityIndex.DoorsAndSwitches, canUseDnS);
+    target.abilities.setAbility(AbilityIndex.OpenContainers, canOpenContainers);
+    target.abilities.setAbility(AbilityIndex.AttackPlayers, canAttackPlayers);
+    target.abilities.setAbility(AbilityIndex.AttackMobs, canAttackMobs);
+    target.abilities.setAbility(AbilityIndex.OperatorCommands, canUseOC);
+    target.abilities.setAbility(AbilityIndex.Teleport, canTeleport);
   }
 }
 

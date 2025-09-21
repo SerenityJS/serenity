@@ -141,14 +141,14 @@ class PlayerCombatTrait extends PlayerTrait {
     // Check if the target is a player, and if the player is allowed to attack players.
     if (
       target.isPlayer() &&
-      !this.player.abilities.get(AbilityIndex.AttackPlayers)
+      !this.player.abilities.getAbility(AbilityIndex.AttackPlayers)
     )
       return;
 
     // Check if the target is not a player, and if the player is allowed to attack mobs.
     if (
       !target.isPlayer() &&
-      !this.player.abilities.get(AbilityIndex.AttackMobs)
+      !this.player.abilities.getAbility(AbilityIndex.AttackMobs)
     )
       return;
 

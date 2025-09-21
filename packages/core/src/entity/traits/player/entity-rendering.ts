@@ -1,6 +1,4 @@
 import {
-  AbilityLayerType,
-  AbilitySet,
   ActorLink,
   ActorLinkType,
   AddEntityPacket,
@@ -135,17 +133,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         ? CommandPermissionLevel.Operator
         : CommandPermissionLevel.Normal;
 
-      packet.abilities = [
-        {
-          type: AbilityLayerType.Base,
-          abilities: [...entity.abilities.entries()].map(
-            ([ability, value]) => new AbilitySet(ability, value)
-          ),
-          walkSpeed: 0.1,
-          verticalFlySpeed: 1.0,
-          flySpeed: 0.05
-        }
-      ];
+      packet.abilities = entity.abilities.getAllAbilitiesAsLayers();
       packet.links = [];
       packet.deviceId = entity.clientSystemInfo.identifier;
       packet.deviceOS = entity.clientSystemInfo.os;

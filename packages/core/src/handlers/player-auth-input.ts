@@ -266,7 +266,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (player.gamemode === Gamemode.Spectator) return true;
 
     // Check if the player is flying, if so the movement is valid.
-    if (player.abilities.get(AbilityIndex.Flying)) return true;
+    if (player.abilities.getAbility(AbilityIndex.Flying)) return true;
 
     // Check if the delta x is greater than the movement threshold
     if (Math.abs(delta.x) >= movementHorizontalThreshold) return false;
@@ -388,17 +388,17 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartFlying:
         case InputData.StopFlying: {
           // Get the flying ability from the player
-          const flying = player.abilities.get(AbilityIndex.Flying) ?? false;
-          const mayFly = player.abilities.get(AbilityIndex.MayFly) ?? false;
+          const flying = player.abilities.getAbility(AbilityIndex.Flying);
+          const mayFly = player.abilities.getAbility(AbilityIndex.MayFly);
 
           // Check if the player is not allowed to fly
           // This stops the Horion fly exploit
           if (!flying && !mayFly) {
             // Disable flying if the player does not have the may fly ability
-            player.abilities.set(AbilityIndex.Flying, false);
+            player.abilities.setAbility(AbilityIndex.Flying, false);
           } else {
             // Set the flying ability based on the action
-            player.abilities.set(AbilityIndex.Flying, !flying);
+            player.abilities.setAbility(AbilityIndex.Flying, !flying);
           }
           break;
         }
