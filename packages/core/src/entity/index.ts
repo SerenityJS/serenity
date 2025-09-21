@@ -8,6 +8,7 @@ export * from "./palette";
 export * from "./system-info";
 export * from "./storage";
 export * from "./types";
+export * from "./shared-properties";
 
 import * as Traits from "./traits";
 

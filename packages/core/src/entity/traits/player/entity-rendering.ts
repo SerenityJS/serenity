@@ -124,7 +124,8 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
           : ItemStack.toNetworkStack(heldItem);
       packet.gamemode = entity.gamemode;
       packet.data = [...entity.metadata.values()];
-      packet.properties = entity.sharedProperties.getPropertySyncData();
+      packet.properties =
+        entity.sharedProperties.getSharedPropertiesAsSyncData();
       packet.uniqueEntityId = entity.uniqueId;
       packet.premissionLevel = entity.isOp
         ? PermissionLevel.Operator
@@ -226,7 +227,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.bodyYaw = entity.rotation.yaw;
     packet.attributes = [];
     packet.data = [...entity.metadata.values()];
-    packet.properties = entity.sharedProperties.getPropertySyncData();
+    packet.properties = entity.sharedProperties.getSharedPropertiesAsSyncData();
     packet.links = [];
 
     // Check if the entity is riding another entity

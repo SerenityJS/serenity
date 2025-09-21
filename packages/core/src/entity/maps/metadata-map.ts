@@ -82,7 +82,8 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
       ? this.entity.inputInfo.tick
       : this.entity.dimension.world.currentTick;
     packet.data = [...this.entity.metadata.values()];
-    packet.properties = this.entity.sharedProperties.getPropertySyncData();
+    packet.properties =
+      this.entity.sharedProperties.getSharedPropertiesAsSyncData();
 
     // Iterate over the flags set on the entity
     for (const [flag, enabled] of this.entity.flags)

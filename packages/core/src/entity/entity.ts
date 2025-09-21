@@ -57,15 +57,11 @@ import {
   PlayerEntityRenderingTrait
 } from "./traits";
 import { Player } from "./player";
-import {
-  MetadataMap,
-  ActorFlagMap,
-  AttributeMap,
-  EntitySharedPropertiesMap
-} from "./maps";
+import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
 import { EntityInputInfo } from "./input-info";
 import { EntityLevelStorage } from "./storage";
 import { PlayerAnimationOptions } from "./types";
+import { EntitySharedProperties } from "./shared-properties";
 
 class Entity {
   /**
@@ -128,7 +124,7 @@ class Entity {
    * These properites are shared to the client to be used in resource pack elements.
    * They can also be queried via the `molang` engine for use in resource packs.
    */
-  public readonly sharedProperties: EntitySharedPropertiesMap;
+  public readonly sharedProperties: EntitySharedProperties;
 
   /**
    * The metadata that is attached to the entity
@@ -356,7 +352,7 @@ class Entity {
       : properties.uniqueId;
 
     // Create the maps for the entity
-    this.sharedProperties = new EntitySharedPropertiesMap(this);
+    this.sharedProperties = new EntitySharedProperties(this);
     this.metadata = new MetadataMap(this);
     this.flags = new ActorFlagMap(this);
     this.attributes = new AttributeMap(this);
@@ -658,29 +654,6 @@ class Entity {
     value: T
   ): void {
     this.dynamicProperties.set(key, value);
-  }
-
-  /**
-   * Get the shared property of the entity that is shared with the client.
-   * @param identifier The identifier of the property.
-   * @returns The value of the property.
-   */
-  public getSharedProperty<T extends string | number | boolean>(
-    identifier: string
-  ): T | null {
-    return (this.sharedProperties.get(identifier) as T) ?? null;
-  }
-
-  /**
-   * Sets the shared property of the entity that is shared with the client.
-   * @param identifier The identifier of the property.
-   * @param value The value of the property.
-   */
-  public setSharedProperty<T extends string | number | boolean>(
-    identifier: string,
-    value: T
-  ): void {
-    this.sharedProperties.set(identifier, value);
   }
 
   /**
