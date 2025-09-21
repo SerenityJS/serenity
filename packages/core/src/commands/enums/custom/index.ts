@@ -2,6 +2,8 @@ export * from "./soft";
 export * from "./custom";
 export * from "./boolean";
 export * from "./gamemode";
+export * from "./effect"
+export * from "./clear"
 export * from "./ability";
 export * from "./block";
 export * from "./entity";
