@@ -583,7 +583,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Get the players held item, and calculate the break time
           const heldItem = player.getHeldItem();
-          const breakTime = block.getBreakTime(heldItem);
+          const breakTime = block.getBreakTime(heldItem, player);
 
           // Create a new LevelEventPacket for the block break
           const packet = new LevelEventPacket();
