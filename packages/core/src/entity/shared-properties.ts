@@ -193,7 +193,7 @@ class EntitySharedProperties {
     packet.properties = this.getSharedPropertiesAsSyncData();
 
     // Iterate over the flags set on the entity
-    for (const [flat, enabled] of this.entity.flags)
+    for (const [flat, enabled] of this.entity.flags.getAllActorFlags())
       packet.setActorFlag(flat, enabled);
 
     // Send the packet to the dimension

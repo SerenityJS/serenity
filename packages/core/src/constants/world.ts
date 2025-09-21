@@ -23,6 +23,7 @@ const DefaultWorldProperties: WorldProperties = {
     showDaysPlayed: false,
     doDayLightCycle: true,
     doImmediateRespawn: false,
+    doTileDrops: true,
     keepInventory: false,
     fallDamage: true,
     fireDamage: true,

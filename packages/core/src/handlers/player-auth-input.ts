@@ -308,7 +308,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartSneaking:
         case InputData.StopSneaking: {
           // Get the sneaking flag from the player
-          const sneaking = player.flags.get(ActorFlag.Sneaking) ?? false;
+          const sneaking =
+            player.flags.getActorFlag(ActorFlag.Sneaking) ?? false;
 
           // Check if the player is already sneaking
           if (sneaking === true) {
@@ -322,7 +323,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           }
 
           // Set the sneaking flag based on the action
-          player.flags.set(ActorFlag.Sneaking, !sneaking);
+          player.flags.setActorFlag(ActorFlag.Sneaking, !sneaking);
           break;
         }
 
@@ -330,7 +331,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartSprinting:
         case InputData.StopSprinting: {
           // Get the sprinting flag from the player
-          const sprinting = player.flags.get(ActorFlag.Sprinting) ?? false;
+          const sprinting =
+            player.flags.getActorFlag(ActorFlag.Sprinting) ?? false;
 
           // Check if the player is already sprinting
           if (sprinting === true) {
@@ -344,7 +346,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           }
 
           // Set the sprinting flag based on the action
-          player.flags.set(ActorFlag.Sprinting, !sprinting);
+          player.flags.setActorFlag(ActorFlag.Sprinting, !sprinting);
           break;
         }
 
@@ -352,10 +354,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartSwimming:
         case InputData.StopSwimming: {
           // Get the swimming flag from the player
-          const swimming = player.flags.get(ActorFlag.Swimming) ?? false;
+          const swimming =
+            player.flags.getActorFlag(ActorFlag.Swimming) ?? false;
 
           // Set the swimming flag based on the action
-          player.flags.set(ActorFlag.Swimming, !swimming);
+          player.flags.setActorFlag(ActorFlag.Swimming, !swimming);
           break;
         }
 
@@ -363,10 +366,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartCrawling:
         case InputData.StopCrawling: {
           // Get the crawling flag from the player
-          const crawling = player.flags.get(ActorFlag.Crawling) ?? false;
+          const crawling =
+            player.flags.getActorFlag(ActorFlag.Crawling) ?? false;
 
           // Set the crawling flag based on the action
-          player.flags.set(ActorFlag.Crawling, !crawling);
+          player.flags.setActorFlag(ActorFlag.Crawling, !crawling);
           break;
         }
 
@@ -374,10 +378,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartGliding:
         case InputData.StopGliding: {
           // Get the gliding flag from the player
-          const gliding = player.flags.get(ActorFlag.Gliding) ?? false;
+          const gliding = player.flags.getActorFlag(ActorFlag.Gliding) ?? false;
 
           // Set the gliding flag based on the action
-          player.flags.set(ActorFlag.Gliding, !gliding);
+          player.flags.setActorFlag(ActorFlag.Gliding, !gliding);
           break;
         }
 

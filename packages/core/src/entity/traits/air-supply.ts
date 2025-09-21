@@ -20,7 +20,10 @@ class EntityAirSupplyTrait extends EntityTrait {
 
   public onTick(): void {
     // Check if the entity is not alive or is not breathing.
-    if (!this.entity.isAlive || !this.entity.flags.get(ActorFlag.Breathing))
+    if (
+      !this.entity.isAlive ||
+      !this.entity.flags.getActorFlag(ActorFlag.Breathing)
+    )
       return;
 
     if (
@@ -80,9 +83,9 @@ class EntityAirSupplyTrait extends EntityTrait {
 
   public onSpawn(): void {
     // Check if the entity has a metadata flag value for gravity
-    if (!this.entity.flags.has(ActorFlag.Breathing)) {
+    if (!this.entity.flags.getActorFlag(ActorFlag.Breathing)) {
       // Set the entity flag for gravity
-      this.entity.flags.set(ActorFlag.Breathing, true);
+      this.entity.flags.setActorFlag(ActorFlag.Breathing, true);
     }
 
     if (!this.entity.metadata.has(ActorDataId.AirSupply)) {

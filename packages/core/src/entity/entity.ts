@@ -57,11 +57,12 @@ import {
   PlayerEntityRenderingTrait
 } from "./traits";
 import { Player } from "./player";
-import { MetadataMap, ActorFlagMap, AttributeMap } from "./maps";
+import { MetadataMap, AttributeMap } from "./maps";
 import { EntityInputInfo } from "./input-info";
 import { EntityLevelStorage } from "./storage";
 import { PlayerAnimationOptions } from "./types";
 import { EntitySharedProperties } from "./shared-properties";
+import { EntityActorFlags } from "./actor-flags";
 
 class Entity {
   /**
@@ -136,7 +137,7 @@ class Entity {
    * The flags that are attached to the entity
    * These values are derived from the components and traits of the entity
    */
-  public readonly flags: ActorFlagMap;
+  public readonly flags: EntityActorFlags;
 
   /**
    * The attributes that are attached to the entity
@@ -354,7 +355,7 @@ class Entity {
     // Create the maps for the entity
     this.sharedProperties = new EntitySharedProperties(this);
     this.metadata = new MetadataMap(this);
-    this.flags = new ActorFlagMap(this);
+    this.flags = new EntityActorFlags(this);
     this.attributes = new AttributeMap(this);
 
     // Set the position of the entity
@@ -398,21 +399,21 @@ class Entity {
    * Whether the entity is sneaking or not.
    */
   public get isSneaking(): boolean {
-    return this.flags.get(ActorFlag.Sneaking) ?? false;
+    return this.flags.getActorFlag(ActorFlag.Sneaking) ?? false;
   }
 
   /**
    * Whether the entity is sprinting or not.
    */
   public get isSprinting(): boolean {
-    return this.flags.get(ActorFlag.Sprinting) ?? false;
+    return this.flags.getActorFlag(ActorFlag.Sprinting) ?? false;
   }
 
   /**
    * Whether the entity is swimming or not.
    */
   public get isSwimming(): boolean {
-    return this.flags.get(ActorFlag.Swimming) ?? false;
+    return this.flags.getActorFlag(ActorFlag.Swimming) ?? false;
   }
 
   /**
@@ -1489,7 +1490,7 @@ class Entity {
     storage.setDynamicProperties([...this.dynamicProperties.entries()]);
     storage.setTraits([...this.traits.keys()]);
     storage.setMetadata([...this.metadata.values()]);
-    storage.setFlags([...this.flags.entries()]);
+    storage.setFlags(this.flags.getAllActorFlags());
     storage.setAttributes([...this.attributes.values()]);
 
     // Return the entity level storage entry
@@ -1522,7 +1523,7 @@ class Entity {
     // Iterate over the flags
     for (const [key, value] of storage.getFlags()) {
       // Set the flag of the entity
-      this.flags.set(key, value);
+      this.flags.setActorFlag(key, value);
     }
 
     // Iterate over the attributes

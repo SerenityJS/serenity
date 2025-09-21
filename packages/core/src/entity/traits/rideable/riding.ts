@@ -106,7 +106,7 @@ class EntityRidingTrait extends EntityTrait {
 
   public onAdd(): void {
     // Set the riding flag on the entity.
-    this.entity.flags.set(ActorFlag.Riding, true);
+    this.entity.flags.setActorFlag(ActorFlag.Riding, true);
 
     // Check if the target entity has the rideable trait.
     if (!this.entityRidingOn.hasTrait(EntityRideableTrait))
@@ -115,7 +115,7 @@ class EntityRidingTrait extends EntityTrait {
 
   public onRemove(): void {
     // Remove the riding flag from the entity.
-    this.entity.flags.delete(ActorFlag.Riding);
+    this.entity.flags.setActorFlag(ActorFlag.Riding);
   }
 }
 

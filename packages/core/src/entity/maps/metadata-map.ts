@@ -86,7 +86,7 @@ class MetadataMap extends Map<ActorDataId, DataItem> {
       this.entity.sharedProperties.getSharedPropertiesAsSyncData();
 
     // Iterate over the flags set on the entity
-    for (const [flag, enabled] of this.entity.flags)
+    for (const [flag, enabled] of this.entity.flags.getAllActorFlags())
       packet.setActorFlag(flag, enabled);
 
     // Send the packet to the dimension
