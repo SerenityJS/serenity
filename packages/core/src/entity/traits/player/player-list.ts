@@ -92,7 +92,6 @@ class PlayerListTrait extends PlayerTrait {
       this.players.add(player.uuid);
 
       // Update the player's metadata and abilities
-      player.metadata.update();
       player.abilities.update();
       player.abilities.update();
     }

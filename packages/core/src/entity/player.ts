@@ -20,6 +20,7 @@ import {
   PlayerStartItemCooldownPacket,
   PlaySoundPacket,
   SerializedSkin,
+  SetActorDataPacket,
   SetActorMotionPacket,
   ShowProfilePacket,
   StopSoundPacket,
@@ -482,6 +483,17 @@ class Player extends Entity {
     // Update the abilities of the player
     this.abilities.update();
 
+    // Create a new SetActorDataPacket
+    const data = new SetActorDataPacket();
+    data.runtimeEntityId = this.runtimeId;
+    data.inputTick = this.inputInfo.tick;
+    data.data = this.metadata.getAllActorMetadataAsDataItems();
+    data.properties = this.sharedProperties.getSharedPropertiesAsSyncData();
+
+    // Iterate over the flags set on the entity
+    for (const [flat, enabled] of this.flags.getAllActorFlags())
+      data.setActorFlag(flat, enabled);
+
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
 
@@ -549,7 +561,7 @@ class Player extends Entity {
     }
 
     // Send the available creative content & crafting data to the player
-    this.send(content, recipes);
+    this.send(data, content, recipes);
 
     // Teleport the player to their position
     // This fixes an issue where the player is sometimes stuck in the ground

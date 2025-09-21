@@ -123,7 +123,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
           ? new NetworkItemStackDescriptor(0)
           : ItemStack.toNetworkStack(heldItem);
       packet.gamemode = entity.gamemode;
-      packet.data = [...entity.metadata.values()];
+      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
       packet.properties =
         entity.sharedProperties.getSharedPropertiesAsSyncData();
       packet.uniqueEntityId = entity.uniqueId;
@@ -201,7 +201,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
       packet.position = position;
       packet.velocity = entity.velocity;
-      packet.data = [...entity.metadata.values()];
+      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
       packet.fromFishing = false;
 
       // Send the packet to the player
@@ -226,7 +226,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.headYaw = entity.rotation.headYaw;
     packet.bodyYaw = entity.rotation.yaw;
     packet.attributes = [];
-    packet.data = [...entity.metadata.values()];
+    packet.data = entity.metadata.getAllActorMetadataAsDataItems();
     packet.properties = entity.sharedProperties.getSharedPropertiesAsSyncData();
     packet.links = [];
 

@@ -2,7 +2,6 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
-  DataItem,
   Vector3f
 } from "@serenityjs/protocol";
 
@@ -37,15 +36,12 @@ class EntityRidingTrait extends EntityTrait {
    * @param position The position of the seat.
    */
   public setSeatPosition(position: Vector3f): void {
-    // Create a new data item for the seat position.
-    const seatPosition = new DataItem(
+    // Set the seat position data item in the entity's metadata.
+    this.entity.metadata.setActorMetadata(
       ActorDataId.SeatPosition,
       ActorDataType.Vec3,
       position
     );
-
-    // Update the seat position data item in the entity's metadata.
-    this.entity.metadata.push(seatPosition);
   }
 
   /**
@@ -53,15 +49,12 @@ class EntityRidingTrait extends EntityTrait {
    * @param rotation The rotation of the seat lock.
    */
   public setSeatLockRotation(rotation: number): void {
-    // Create a new data item for the seat lock rotation.
-    const seatLockRotation = new DataItem(
+    // Update the seat lock rotation data item in the entity's metadata.
+    this.entity.metadata.setActorMetadata(
       ActorDataId.SeatLockPassengerRotation,
       ActorDataType.Float,
       rotation
     );
-
-    // Update the seat lock rotation data item in the entity's metadata.
-    this.entity.metadata.push(seatLockRotation);
   }
 
   /**
@@ -69,15 +62,12 @@ class EntityRidingTrait extends EntityTrait {
    * @param rotation The rotation of the seat.
    */
   public setSeatRotation(rotation: number): void {
-    // Create a new data item for the seat rotation.
-    const seatRotation = new DataItem(
+    // Update the seat rotation data item in the entity's metadata.
+    this.entity.metadata.setActorMetadata(
       ActorDataId.SeatRotationOffset,
       ActorDataType.Float,
       rotation
     );
-
-    // Update the seat rotation data item in the entity's metadata.
-    this.entity.metadata.push(seatRotation);
   }
 
   /**

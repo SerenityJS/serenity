@@ -6,7 +6,6 @@ import {
   AnimateEntityPacket,
   ContainerId,
   ContainerName,
-  DataItem,
   EffectType,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
@@ -57,12 +56,13 @@ import {
   PlayerEntityRenderingTrait
 } from "./traits";
 import { Player } from "./player";
-import { MetadataMap, AttributeMap } from "./maps";
+import { AttributeMap } from "./maps";
 import { EntityInputInfo } from "./input-info";
 import { EntityLevelStorage } from "./storage";
 import { PlayerAnimationOptions } from "./types";
 import { EntitySharedProperties } from "./shared-properties";
 import { EntityActorFlags } from "./actor-flags";
+import { EntityActorMetadata } from "./actor-metadata";
 
 class Entity {
   /**
@@ -131,7 +131,7 @@ class Entity {
    * The metadata that is attached to the entity
    * These values are derived from the components and traits of the entity
    */
-  public readonly metadata: MetadataMap;
+  public readonly metadata: EntityActorMetadata;
 
   /**
    * The flags that are attached to the entity
@@ -210,13 +210,16 @@ class Entity {
    */
   public get nameTag(): string {
     // Check if the entity has a name metadata
-    if (!this.metadata.has(ActorDataId.Name)) return "";
+    if (!this.metadata.hasActorMetadata(ActorDataId.Name)) return "";
 
     // Get the name metadata
-    const item = this.metadata.get<string>(ActorDataId.Name);
+    const nameTag = this.metadata.getActorMetadata(
+      ActorDataId.Name,
+      ActorDataType.String
+    );
 
     // Return the name metadata
-    return item?.value;
+    return nameTag ?? "";
   }
 
   public get lastAttacker(): Entity | null {
@@ -232,11 +235,12 @@ class Entity {
    * The name tag of the entity
    */
   public set nameTag(value: string) {
-    // Create a new DataItem for the name metadata
-    const item = new DataItem(ActorDataId.Name, ActorDataType.String, value);
-
     // Set the name metadata
-    this.metadata.set(ActorDataId.Name, item);
+    this.metadata.setActorMetadata(
+      ActorDataId.Name,
+      ActorDataType.String,
+      value
+    );
   }
 
   /**
@@ -244,28 +248,29 @@ class Entity {
    */
   public get alwaysShowNameTag(): boolean {
     // Check if the entity has a name tag visibility metadata
-    if (!this.metadata.has(ActorDataId.NametagAlwaysShow)) return false;
+    if (!this.metadata.hasActorMetadata(ActorDataId.NametagAlwaysShow))
+      return false;
 
     // Get the name tag visibility metadata
-    const item = this.metadata.get<number>(ActorDataId.NametagAlwaysShow);
+    const alwaysShow = this.metadata.getActorMetadata(
+      ActorDataId.NametagAlwaysShow,
+      ActorDataType.Byte
+    );
 
     // Return the name tag visibility metadata
-    return item?.value === 1;
+    return alwaysShow === 1;
   }
 
   /**
    * Whether the entity name tag is always visible.
    */
   public set alwaysShowNameTag(value: boolean) {
-    // Create a new DataItem for the name tag visibility metadata
-    const item = new DataItem(
+    // Set the name tag visibility metadata
+    this.metadata.setActorMetadata(
       ActorDataId.NametagAlwaysShow,
       ActorDataType.Byte,
       value ? 1 : 0
     );
-
-    // Set the name tag visibility metadata
-    this.metadata.set(ActorDataId.NametagAlwaysShow, item);
   }
 
   /**
@@ -273,24 +278,28 @@ class Entity {
    */
   public get variant(): number {
     // Check if the entity has a variant metadata
-    if (!this.metadata.has(ActorDataId.Variant)) return 0;
+    if (!this.metadata.hasActorMetadata(ActorDataId.Variant)) return 0;
 
     // Get the variant metadata
-    const item = this.metadata.get<number>(ActorDataId.Variant);
+    const variant = this.metadata.getActorMetadata(
+      ActorDataId.Variant,
+      ActorDataType.Int
+    );
 
     // Return the variant metadata
-    return item?.value;
+    return variant ?? 0;
   }
 
   /**
    * The variant index of the entity.
    */
   public set variant(value: number) {
-    // Create a new DataItem for the variant metadata
-    const item = new DataItem(ActorDataId.Variant, ActorDataType.Int, value);
-
     // Set the variant metadata
-    this.metadata.set(ActorDataId.Variant, item);
+    this.metadata.setActorMetadata(
+      ActorDataId.Variant,
+      ActorDataType.Int,
+      value
+    );
   }
 
   /**
@@ -298,28 +307,28 @@ class Entity {
    */
   public get scale(): number {
     // Check if the entity has a scale metadata
-    if (!this.metadata.has(ActorDataId.Reserved038)) return 1;
+    if (!this.metadata.hasActorMetadata(ActorDataId.Reserved038)) return 1;
 
     // Get the scale metadata
-    const item = this.metadata.get<number>(ActorDataId.Reserved038);
+    const scale = this.metadata.getActorMetadata(
+      ActorDataId.Reserved038,
+      ActorDataType.Float
+    );
 
     // Return the scale metadata
-    return item?.value;
+    return scale ?? 1;
   }
 
   /**
    * The scale of the entity.
    */
   public set scale(value: number) {
-    // Create a new DataItem for the scale metadata
-    const item = new DataItem(
+    // Set the scale metadata
+    this.metadata.setActorMetadata(
       ActorDataId.Reserved038,
       ActorDataType.Float,
       value
     );
-
-    // Set the scale metadata
-    this.metadata.set(ActorDataId.Reserved038, item);
   }
 
   /**
@@ -354,7 +363,7 @@ class Entity {
 
     // Create the maps for the entity
     this.sharedProperties = new EntitySharedProperties(this);
-    this.metadata = new MetadataMap(this);
+    this.metadata = new EntityActorMetadata(this);
     this.flags = new EntityActorFlags(this);
     this.attributes = new AttributeMap(this);
 
@@ -763,7 +772,6 @@ class Entity {
     }
 
     // Update the entity actor data & attributes
-    this.metadata.update();
     this.attributes.update();
 
     // Return the entity
@@ -1489,7 +1497,7 @@ class Entity {
     storage.setRotation(this.rotation);
     storage.setDynamicProperties([...this.dynamicProperties.entries()]);
     storage.setTraits([...this.traits.keys()]);
-    storage.setMetadata([...this.metadata.values()]);
+    storage.setMetadata(this.metadata.getAllActorMetadataAsDataItems());
     storage.setFlags(this.flags.getAllActorFlags());
     storage.setAttributes([...this.attributes.values()]);
 
@@ -1517,7 +1525,8 @@ class Entity {
     // Iterate over the metadata
     for (const value of storage.getMetadata()) {
       // Set the metadata of the entity
-      this.metadata.set(value.identifier, value);
+      // @ts-ignore - this will be fixed in a future update
+      this.metadata.setActorMetadata(value.identifier, value.type, value.value);
     }
 
     // Iterate over the flags

@@ -202,10 +202,17 @@ class AbilityMap extends Map<AbilityIndex, boolean> {
     packet.entityUniqueId = this.player.uniqueId;
     packet.abilities = [
       {
+        type: AbilityLayerType.Base,
+        abilities: [...this.player.abilities.entries()]
+          .filter(([x]) => x !== AbilityIndex.MayFly)
+          .map(([ability, value]) => new AbilitySet(ability, value)),
+        walkSpeed: 0.1,
+        verticalFlySpeed: 1,
+        flySpeed: 0.05
+      },
+      {
         type: AbilityLayerType.Commands,
-        abilities: [...this.player.abilities.entries()].map(
-          ([ability, value]) => new AbilitySet(ability, value)
-        ),
+        abilities: [new AbilitySet(AbilityIndex.MayFly, this.mayFly)],
         walkSpeed: 0.1,
         verticalFlySpeed: 1,
         flySpeed: 0.05

@@ -189,7 +189,7 @@ class EntitySharedProperties {
     packet.inputTick = this.entity.isPlayer()
       ? this.entity.inputInfo.tick
       : this.entity.dimension.world.currentTick;
-    packet.data = [...this.entity.metadata.values()];
+    packet.data = this.entity.metadata.getAllActorMetadataAsDataItems();
     packet.properties = this.getSharedPropertiesAsSyncData();
 
     // Iterate over the flags set on the entity

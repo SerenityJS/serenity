@@ -3,7 +3,6 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
-  DataItem,
   EffectType,
   Gamemode
 } from "@serenityjs/protocol";
@@ -88,32 +87,30 @@ class EntityAirSupplyTrait extends EntityTrait {
       this.entity.flags.setActorFlag(ActorFlag.Breathing, true);
     }
 
-    if (!this.entity.metadata.has(ActorDataId.AirSupply)) {
+    if (!this.entity.metadata.hasActorMetadata(ActorDataId.AirSupply)) {
       // Set the default air supply value
       this.setAirSupplyTicks(300);
     }
   }
 
   public getAirSupplyTicks(): number {
-    const airSupplyData = this.entity.metadata.get(ActorDataId.AirSupply);
+    const airSupplyValue = this.entity.metadata.getActorMetadata(
+      ActorDataId.AirSupply,
+      ActorDataType.Short
+    );
 
-    if (airSupplyData) {
-      return airSupplyData.value as number;
-    }
+    if (airSupplyValue) return airSupplyValue;
 
     return 0;
   }
 
   public setAirSupplyTicks(ticks: number): void {
-    // Create the air supply data item.
-    const airSupplyData = new DataItem(
+    // Update the current air supply data
+    this.entity.metadata.setActorMetadata(
       ActorDataId.AirSupply,
       ActorDataType.Short,
       ticks
     );
-
-    // Update the current air supply data
-    this.entity.metadata.set(ActorDataId.AirSupply, airSupplyData);
   }
 }
 

@@ -3,7 +3,6 @@ import {
   ActorDataType,
   ContainerId,
   ContainerType,
-  DataItem,
   MobEquipmentPacket,
   NetworkItemStackDescriptor,
   Vector3f
@@ -212,23 +211,19 @@ class EntityInventoryTrait extends EntityTrait {
       this.entity.nbt.add(items);
     }
 
-    // Create the container type metadata
-    const type = new DataItem(
+    // Set the container type metadata
+    this.entity.metadata.setActorMetadata(
       ActorDataId.ContainerType,
       ActorDataType.Byte,
       this.container.type
     );
 
-    // Create the container size metadata
-    const set = new DataItem(
+    // Set the container size metadata
+    this.entity.metadata.setActorMetadata(
       ActorDataId.ContainerSize,
       ActorDataType.Int,
       this.container.size
     );
-
-    // Set the container metadata
-    this.entity.metadata.set(ActorDataId.ContainerType, type);
-    this.entity.metadata.set(ActorDataId.ContainerSize, set);
   }
 
   public onRemove(): void {
@@ -236,8 +231,8 @@ class EntityInventoryTrait extends EntityTrait {
     this.entity.removeDynamicProperty("inventory");
 
     // Remove the container metadata
-    this.entity.metadata.delete(ActorDataId.ContainerType);
-    this.entity.metadata.delete(ActorDataId.ContainerSize);
+    this.entity.metadata.setActorMetadata(ActorDataId.ContainerType, null);
+    this.entity.metadata.setActorMetadata(ActorDataId.ContainerSize, null);
   }
 
   public onInteract(player: Player, method: EntityInteractMethod): void {
