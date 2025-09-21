@@ -14,6 +14,7 @@ import {
   ZigZong
 } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import {
   type Difficulty,
@@ -118,9 +119,7 @@ class StartGamePacket extends DataPacket {
   @Serialize(VarString) public multiplayerCorrelationId!: string;
   @Serialize(Bool) public serverAuthoritativeInventory!: boolean;
   @Serialize(VarString) public engine!: string;
-  @Serialize(Uint8) public propertyData1!: unknown; // TODO
-  @Serialize(Uint8) public propertyData2!: unknown; // TODO -> This is a single property, but is a nbt stream.
-  @Serialize(Uint8) public propertyData3!: unknown; // TODO
+  @Serialize(CompoundTag, { varint: true }) public properties!: CompoundTag;
   @Serialize(Uint64, { endian: Endianness.Little })
   public blockPaletteChecksum!: bigint;
   @Serialize(Uuid) public worldTemplateId!: string;
