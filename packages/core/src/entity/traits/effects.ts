@@ -124,6 +124,12 @@ class EntityEffectsTrait extends EntityTrait {
     }
     // eslint fix
     if (!effect) return;
+
+    // Prevent stacking effect bonuses.
+    if (this.effects.has(effectType)) {
+      this.remove(effectType)
+    }
+
     const signal = new EffectAddSignal(this.entity, effect);
 
     if (!signal.emit()) return;
