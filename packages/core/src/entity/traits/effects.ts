@@ -89,7 +89,7 @@ class EntityEffectsTrait extends EntityTrait {
    * Retrieves all active effects on the entity.
    * @returns An array of active effects.
    */
-  public getEffects(): EffectType[] {
+  public getEffects(): Array<EffectType> {
     return [...this.effects.keys()];
   }
 
