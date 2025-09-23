@@ -26,6 +26,7 @@ import { WorldTickSignal } from "../events";
 import { EffectPallete } from "../effect";
 import { TimeOfDay } from "../enums";
 import { DefaultWorldProperties } from "../constants";
+import { BiomePalette } from "../biome";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -83,6 +84,11 @@ class World extends Emitter<WorldEventSignals> {
    * The item palette of the world.
    */
   public readonly itemPalette = new ItemPalette();
+
+  /**
+   * The biome palette of the world.
+   */
+  public readonly biomePalette = new BiomePalette();
 
   /**
    * The command palette of the world.

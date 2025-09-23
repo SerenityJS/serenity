@@ -147,3 +147,6 @@ export * from "./vector3f";
 export * from "./vector3i";
 export * from "./byte-array";
 export * from "./resource-packs-client-request";
+export * from "./biome-definition-list";
+export * from "./biome-definition-data";
+export * from "./biome-string-list";

@@ -508,6 +508,9 @@ class Player extends Entity {
     const gamemode = new SetPlayerGameTypePacket();
     gamemode.gamemode = this.gamemode;
 
+    // Get the biome definitions from the world's biome palette
+    const biomes = this.world.biomePalette.getBiomeDefinitionList();
+
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
 
@@ -574,8 +577,11 @@ class Player extends Entity {
       }
     }
 
-    // Send the available creative content & crafting data to the player
-    this.send(data, abilities, gamemode, content, recipes);
+    // Send the data, abilities, and gamemode packets to the player
+    this.send(data, abilities, gamemode);
+
+    // Send the biome definitions, creative content, and crafting data to the player
+    this.send(biomes, content, recipes);
 
     // Teleport the player to their position
     // This fixes an issue where the player is sometimes stuck in the ground

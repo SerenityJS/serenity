@@ -4,6 +4,7 @@ export * from "./commands";
 export * from "./item";
 export * from "./entity";
 export * from "./block";
+export * from "./biome";
 export * from "./world";
 export * from "./types";
 export * from "./events";
