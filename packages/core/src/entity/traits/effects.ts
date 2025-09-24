@@ -86,6 +86,14 @@ class EntityEffectsTrait extends EntityTrait {
   }
 
   /**
+   * Retrieves all active effects on the entity.
+   * @returns An array of active effects.
+   */
+  public getEffects(): Array<EffectType> {
+    return [...this.effects.keys()];
+  }
+
+  /**
    * Adds a new effect to the entity.
    *
    * @param effectType - The type of the effect to add.
@@ -116,6 +124,12 @@ class EntityEffectsTrait extends EntityTrait {
     }
     // eslint fix
     if (!effect) return;
+
+    // Prevent stacking effect bonuses.
+    if (this.effects.has(effectType)) {
+      this.remove(effectType)
+    }
+
     const signal = new EffectAddSignal(this.entity, effect);
 
     if (!signal.emit()) return;

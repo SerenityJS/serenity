@@ -44,6 +44,7 @@ import {
   BlockTypeSelectionBoxComponent
 } from "./identity";
 import { BlockLevelStorage } from "./storage";
+import { Player } from "../entity";
 
 /**
  * Block is a class the represents an instance of a block in a dimension of a world.
@@ -1099,7 +1100,7 @@ class Block {
    * @param itemStack The item stack used to break the block.
    * @returns The time it takes to break the block.
    */
-  public getBreakTime(itemStack?: ItemStack | null): number {
+  public getBreakTime(itemStack?: ItemStack | null, player?: Player): number {
     // Determine the base hardness & efficiency of the block.
     let hardness = this.getHardness();
     let efficiency = 1;
@@ -1212,6 +1213,9 @@ class Block {
           efficiency *= enchantable.getEnchantment(Enchantment.Efficiency) ?? 1;
         }
       }
+
+      // Apply player mining speed multiplier, used by effects like haste.
+      if (player) efficiency *= player.miningSpeed
 
       // Check if no efficiency was applied, and if the block has requirements.
       if (efficiency === 1) {

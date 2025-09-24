@@ -154,6 +154,11 @@ class Player extends Entity {
   public entityTarget: Entity | null = null;
 
   /**
+   * The current additional mining speed multiplier of the player.
+   */
+  public miningSpeed: number = 1;
+
+  /**
    * The gamemode of the player.
    */
   public get gamemode(): Gamemode {
