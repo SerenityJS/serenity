@@ -85,13 +85,14 @@ class Logger {
    * @param arguments_ - The arguments to log.
    */
   public error(...arguments_: Array<unknown>): void {
+    const colorized = this.colorize(...arguments_);
     const format =
       `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${
         LoggerColors.DarkGray + "["
       }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.DarkRed + "Error"}${LoggerColors.DarkGray + "]"}` +
       LoggerColors.Reset;
 
-    console.log(format, ...arguments_);
+    console.log(format, ...colorized);
   }
 
   /**
