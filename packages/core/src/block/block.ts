@@ -44,6 +44,10 @@ import {
   BlockTypeSelectionBoxComponent
 } from "./identity";
 import { BlockLevelStorage } from "./storage";
+<<<<<<< Updated upstream
+=======
+import { Player, PlayerHungerTrait } from "../entity";
+>>>>>>> Stashed changes
 
 /**
  * Block is a class the represents an instance of a block in a dimension of a world.
@@ -997,6 +1001,10 @@ class Block {
     if (options?.origin && options.origin.isPlayer()) {
       // Create a new PlayerBreakBlockSignal
       const signal = new PlayerBreakBlockSignal(this, options.origin);
+
+      // Handle exhaustion.
+      const hunger = options.origin.getTrait(PlayerHungerTrait)
+      if (hunger) hunger.exhaustion += 0.005;
 
       // Emit the signal to the server
       options.cancel = !signal.emit();
