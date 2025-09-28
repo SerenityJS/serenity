@@ -50,7 +50,7 @@ const register = (world: World) => {
           for (const target of targets) {
             if (
               target instanceof Player &&
-              IGNORED_GAMEMODES.has(target.gamemode)
+              IGNORED_GAMEMODES.has(target.getGamemode())
             ) {
               // Append the message
               message.push(

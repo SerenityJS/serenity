@@ -274,7 +274,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           }
           // Check if the player is in survival mode
           // If so, decrement the stack
-          else if (player.gamemode === Gamemode.Survival)
+          else if (player.getGamemode() === Gamemode.Survival)
             stack.decrementStack();
 
           // Check if the block type exists and is not air

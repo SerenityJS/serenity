@@ -2,7 +2,7 @@ import { ItemUseMethod, BlockPosition } from "@serenityjs/protocol";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import { EntityIdentifier } from "../../enums";
-import { Entity, type Player } from "../../entity";
+import { Entity, EntityLevelStorage, type Player } from "../../entity";
 
 import { ItemStackTrait } from "./trait";
 
@@ -41,7 +41,7 @@ class ItemStackSpawnEggTrait extends ItemStackTrait {
       .add({ x: 0, y: -0.75, z: 0 });
 
     // Check if any entity data should be added to the entity.
-    const storage = this.item.nbt.get<CompoundTag>("Entity");
+    const storage = this.item.nbt.get<EntityLevelStorage>("Entity");
 
     // Check if the entity data entry is defined.
     if (storage) {
@@ -52,7 +52,7 @@ class ItemStackSpawnEggTrait extends ItemStackTrait {
       position.y += 1;
 
       // Set the entity position.
-      entity.position.set(position);
+      entity.position = position;
 
       // Spawn the entity in the player's dimension.
       entity.spawn();

@@ -1025,7 +1025,8 @@ class Block {
     if (this.world.gamerules.doTileDrops === true)
       if (options?.origin?.isPlayer() && options?.dropLoot) {
         // Check if the player is in survival mode.
-        if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
+        if (options.origin.getGamemode() === Gamemode.Survival)
+          this.spawnLoot();
       } // If the origin is not a player, drop the loot if specified.
       else if (options?.dropLoot) this.spawnLoot();
 

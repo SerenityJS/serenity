@@ -40,14 +40,18 @@ class EntityNpcTrait extends EntityTrait {
    * The property used to store the npc dialogue form data.
    */
   public get property(): EntityNpcDialogueProperty {
-    return this.entity.getDynamicProperty("npc") as EntityNpcDialogueProperty;
+    return this.entity
+      .getStorage()
+      .getDynamicProperty("npc") as EntityNpcDialogueProperty;
   }
 
   /**
    * The property used to store the npc dialogue form data.
    */
   public set property(value: EntityNpcDialogueProperty) {
-    this.entity.setDynamicProperty<EntityNpcDialogueProperty>("npc", value);
+    this.entity
+      .getStorage()
+      .setDynamicProperty<EntityNpcDialogueProperty>("npc", value);
   }
 
   /**
@@ -120,14 +124,16 @@ class EntityNpcTrait extends EntityTrait {
 
   public onAdd(): void {
     // Check if the entity has a npc component
-    if (this.entity.hasDynamicProperty(this.identifier)) return;
+    if (this.entity.getStorage().hasDynamicProperty(this.identifier)) return;
 
     // Add the npc component to the entity
-    this.entity.addDynamicProperty<EntityNpcDialogueProperty>(this.identifier, {
-      title: "NPC",
-      dialogue: "",
-      buttons: []
-    });
+    this.entity
+      .getStorage()
+      .setDynamicProperty<EntityNpcDialogueProperty>(this.identifier, {
+        title: "NPC",
+        dialogue: "",
+        buttons: []
+      });
 
     // Add the metadata item to the entity
     this.entity.metadata.setActorMetadata(
@@ -139,7 +145,7 @@ class EntityNpcTrait extends EntityTrait {
 
   public onRemove(): void {
     // Remove the npc component from the entity
-    this.entity.removeDynamicProperty(this.identifier);
+    this.entity.getStorage().removeDynamicProperty(this.identifier);
 
     // Remove the metadata item from the entity
     this.entity.metadata.setActorMetadata(ActorDataId.HasNpc, null);
@@ -149,7 +155,7 @@ class EntityNpcTrait extends EntityTrait {
     // Check if the player is in creative mode and attacking the entity
     if (
       method === EntityInteractMethod.Attack &&
-      player.gamemode === Gamemode.Creative
+      player.getGamemode() === Gamemode.Creative
     ) {
       // Remove the entity from the dimension
       this.entity.despawn();

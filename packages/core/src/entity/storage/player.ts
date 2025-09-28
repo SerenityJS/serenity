@@ -1,57 +1,60 @@
 import {
   ByteTag,
   CompoundTag,
+  FloatTag,
   IntTag,
   ListTag,
   StringTag
 } from "@serenityjs/nbt";
-import { AbilityIndex } from "@serenityjs/protocol";
-import { BinaryStream } from "@serenityjs/binarystream";
+import { AbilityIndex, Vector3f } from "@serenityjs/protocol";
+
+import { Player } from "../player";
 
 import { EntityLevelStorage } from "./entity";
 
 class PlayerLevelStorage extends EntityLevelStorage {
-  public constructor(source?: CompoundTag | PlayerLevelStorage) {
-    super(source);
+  public constructor(player: Player, source?: CompoundTag) {
+    super(player); // Pass the player as the entity
+
+    // If a source is provided, copy its contents
+    if (source) this.push(...source.values());
+
+    // Load dynamic properties from the source if available
+    const properties = this.get<ListTag<CompoundTag>>(
+      EntityLevelStorage.DYNAMIC_PROPERTIES_KEY
+    );
+
+    // Check if properties exist
+    if (properties) {
+      // Populate the dynamic properties map
+      for (const property of properties.values()) {
+        // Get the identifier of the property
+        const identifier = property.get<StringTag>("identifier");
+
+        // If the identifier exists, add the property to the map
+        if (identifier)
+          this.dynamicProperties.set(identifier.valueOf(), property);
+      }
+    }
   }
 
-  public getUsername(): string {
-    // Get the username from the storage
-    const username = this.get<StringTag>("username");
+  /**
+   * Set the position of the player.
+   * @param position The new position to set for the player.
+   */
+  public override setPosition(position: Vector3f): void {
+    // Create a new ListTag for the position
+    const posTag = new ListTag<FloatTag>(
+      [
+        new FloatTag(position.x),
+        new FloatTag(position.y),
+        new FloatTag(position.z)
+      ],
+      "Pos"
+    );
 
-    // If the username exists, return its value
-    return username ? username.valueOf() : "";
-  }
-
-  public setUsername(username: string): void {
-    // Set the username in the storage
-    this.set("username", new StringTag(username, "username"));
-  }
-
-  public getXuid(): string {
-    // Get the xuid from the storage
-    const xuid = this.get<StringTag>("xuid");
-
-    // If the xuid exists, return its value
-    return xuid ? xuid.valueOf() : "";
-  }
-
-  public setXuid(xuid: string): void {
-    // Set the xuid in the storage
-    this.set("xuid", new StringTag(xuid, "xuid"));
-  }
-
-  public getUuid(): string {
-    // Get the uuid from the storage
-    const uuid = this.get<StringTag>("uuid");
-
-    // If the uuid exists, return its value
-    return uuid ? uuid.valueOf() : "";
-  }
-
-  public setUuid(uuid: string): void {
-    // Set the uuid in the storage
-    this.set("uuid", new StringTag(uuid, "uuid"));
+    // Set the Pos tag in the storage
+    this.set("Pos", posTag);
   }
 
   public getAbilities(): Array<[AbilityIndex, boolean]> {
@@ -99,38 +102,6 @@ class PlayerLevelStorage extends EntityLevelStorage {
 
     // Set the abilities list in the storage
     this.set("abilities", abilityList);
-  }
-
-  /**
-   * Initialize the PlayerLevelStorage from a buffer.
-   * @param buffer The buffer containing the serialized PlayerLevelStorage data.
-   * @returns A new PlayerLevelStorage instance initialized from the buffer.
-   */
-  public static fromBuffer(buffer: Buffer): PlayerLevelStorage {
-    // Create a new BinaryStream from the buffer
-    const stream = new BinaryStream(buffer);
-
-    // Read the CompoundTag from the stream
-    const tag = CompoundTag.read(stream);
-
-    // Return a new PlayerLevelStorage instance with the read tag
-    return new this(tag);
-  }
-
-  /**
-   * Convert the PlayerLevelStorage to a buffer.
-   * @param storage The PlayerLevelStorage or CompoundTag to convert.
-   * @returns A Buffer containing the serialized PlayerLevelStorage data.
-   */
-  public static toBuffer(storage: PlayerLevelStorage | CompoundTag): Buffer {
-    // Create a new BinaryStream to write the storage
-    const stream = new BinaryStream();
-
-    // Write the storage to the stream
-    this.write(stream, storage);
-
-    // Return the buffer from the stream
-    return stream.getBuffer();
   }
 }
 

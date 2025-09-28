@@ -166,7 +166,7 @@ class BlockSignTrait extends BlockTrait {
     if (cancel || !origin || !origin.isPlayer() || placingBlock) return;
 
     // Check if the player is in creative mode
-    if (origin.gamemode !== Gamemode.Creative) return;
+    if (origin.getGamemode() !== Gamemode.Creative) return;
 
     // Get the state of the block for ground sign direction
     const state = this.block.getState<number>("ground_sign_direction");

@@ -132,10 +132,10 @@ class InternalProvider extends WorldProvider {
     return this.players.get(uuid) as PlayerLevelStorage;
   }
 
-  public writePlayer(player: PlayerLevelStorage): void {
-    // Set the player in the players map.
-    this.players.set(player.getUuid(), player);
-  }
+  // public writePlayer(player: PlayerLevelStorage): void {
+  //   // Set the player in the players map.
+  //   this.players.set(player.getUuid(), player);
+  // }
 
   public static async initialize(): Promise<void> {
     // Do nothing as the internal provider does not require initialization

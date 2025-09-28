@@ -27,8 +27,8 @@ class EntityAirSupplyTrait extends EntityTrait {
 
     if (
       this.entity.isPlayer() &&
-      this.entity.gamemode != Gamemode.Survival &&
-      this.entity.gamemode != Gamemode.Adventure
+      this.entity.getGamemode() != Gamemode.Survival &&
+      this.entity.getGamemode() != Gamemode.Adventure
     )
       return;
 

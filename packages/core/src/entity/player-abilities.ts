@@ -15,6 +15,12 @@ import { ByteTag, CompoundTag, FloatTag } from "@serenityjs/nbt";
 import { Player } from "./player";
 
 const AbilityNameToIndex: Record<string, AbilityIndex> = {
+  build: AbilityIndex.Build,
+  mine: AbilityIndex.Mine,
+  doorsandswitches: AbilityIndex.DoorsAndSwitches,
+  opencontainers: AbilityIndex.OpenContainers,
+  attackplayers: AbilityIndex.AttackPlayers,
+  attackmobs: AbilityIndex.AttackMobs,
   operatorcommands: AbilityIndex.OperatorCommands,
   teleport: AbilityIndex.Teleport,
   invulnerable: AbilityIndex.Invulnerable,
@@ -33,14 +39,19 @@ const AbilityNameToIndex: Record<string, AbilityIndex> = {
 
 class PlayerAbilities {
   /**
+   * The storage key for abilities.
+   */
+  private static readonly ABILITIES_KEY = "abilities";
+
+  /**
    * The player that the abilities are attached to.
    */
   private readonly player: Player;
 
   /**
-   * The map of abilities for the player.
+   * The abilities map holding ability indices and their corresponding boolean values.
    */
-  private readonly abilities = new Map<AbilityIndex, boolean>();
+  private readonly abilities = new Map<AbilityIndex, ByteTag>();
 
   private flySpeed = 0.05;
 
@@ -56,13 +67,44 @@ class PlayerAbilities {
     // Assign the player to the private field
     this.player = player;
 
-    // Read the abilities from the player's NBT storage
-    this.readFromStorage();
+    // Get the initial abilities from the player's storage
+    const abilities = player.getStorageEntry<CompoundTag>(
+      PlayerAbilities.ABILITIES_KEY
+    );
 
-    // Add the default base abilities to the player
-    for (const [ability, value] of Object.entries(DefaultAbilityValues)) {
-      if (!this.abilities.has(+ability as AbilityIndex))
-        this.abilities.set(+ability as AbilityIndex, value);
+    // If there are no abilities, initialize with default values
+    if (abilities) {
+      // Populate the abilities map
+      for (const [name, index] of Object.entries(AbilityNameToIndex)) {
+        // Get the ability value from the compound tag
+        const value = abilities.get<ByteTag>(name.toLowerCase());
+
+        // If the value exists, add the ability to the map
+        if (value) this.abilities.set(index, value);
+      }
+
+      // Get the fly speed from the compound tag
+      const flySpeed = abilities.get<FloatTag>("flySpeed");
+      if (flySpeed) this.flySpeed = flySpeed.valueOf();
+
+      // Get the vertical fly speed from the compound tag
+      const verticalFlySpeed = abilities.get<FloatTag>("flyingSpeed");
+      if (verticalFlySpeed) this.verticalFlySpeed = verticalFlySpeed.valueOf();
+
+      // Get the walk speed from the compound tag
+      const walkSpeed = abilities.get<FloatTag>("walkSpeed");
+      if (walkSpeed) this.walkSpeed = walkSpeed.valueOf();
+    }
+
+    // Initialize any missing abilities with default values
+    for (const [index, value] of Object.entries(DefaultAbilityValues)) {
+      // Get the ability index as a number
+      const abilityIndex = Number(index) as AbilityIndex;
+
+      // If the ability is not already set, initialize it with the default value
+      if (!this.abilities.has(abilityIndex)) {
+        this.abilities.set(abilityIndex, new ByteTag(value ? 1 : 0));
+      }
     }
   }
 
@@ -71,7 +113,16 @@ class PlayerAbilities {
    * @returns An array of tuples containing the abilities and their values.
    */
   public getAllAbilities(): Array<[AbilityIndex, boolean]> {
-    return Array.from(this.abilities.entries());
+    // Create an array to hold the abilities
+    const abilities: Array<[AbilityIndex, boolean]> = [];
+
+    // Iterate over the abilities map and push each ability to the array
+    for (const [ability, value] of this.abilities) {
+      abilities.push([ability, value.valueOf() === 1]);
+    }
+
+    // Return the abilities array
+    return abilities;
   }
 
   /**
@@ -80,7 +131,7 @@ class PlayerAbilities {
    * @returns The value of the ability, or false if it is not set.
    */
   public getAbility(index: AbilityIndex): boolean {
-    return this.abilities.get(index) ?? false;
+    return this.abilities.get(index)?.valueOf() === 1 || false;
   }
 
   /**
@@ -90,7 +141,7 @@ class PlayerAbilities {
    */
   public setAbility(index: AbilityIndex, value: boolean): void {
     // Set the ability in the map
-    this.abilities.set(index, value);
+    this.abilities.set(index, new ByteTag(value ? 1 : 0));
 
     // Create a new UpdateAbilitiesPacket
     const packet = new UpdateAbilitiesPacket();
@@ -113,7 +164,7 @@ class PlayerAbilities {
     // so we need to resend the SetPlayerGameTypePacket to ensure the player stays in creative mode.
 
     // Check if the player is in creative mode
-    if (this.player.gamemode === Gamemode.Creative) {
+    if (this.player.getGamemode() === Gamemode.Creative) {
       // Ensure the player is in creative mode
       const packet = new SetPlayerGameTypePacket();
 
@@ -123,6 +174,32 @@ class PlayerAbilities {
       // Send the packet to the player
       this.player.send(packet);
     }
+
+    // Create a new compound tag to hold the abilities
+    const abilitiesTag = new CompoundTag();
+
+    // Iterate over the abilities map and set each ability in the compound tag
+    for (const [ability, value] of this.abilities) {
+      // Attempt to get the ability name from the index
+      const abilityName = Object.keys(AbilityNameToIndex).find(
+        (key) => AbilityNameToIndex[key] === ability
+      );
+
+      // If the ability name exists, set it in the compound tag
+      if (abilityName) abilitiesTag.set(abilityName.toLowerCase(), value);
+    }
+
+    // Set the fly speed in the compound tag
+    abilitiesTag.set("flySpeed", new FloatTag(this.flySpeed));
+
+    // Set the vertical fly speed in the compound tag
+    abilitiesTag.set("flyingSpeed", new FloatTag(this.verticalFlySpeed));
+
+    // Set the walk speed in the compound tag
+    abilitiesTag.set("walkSpeed", new FloatTag(this.walkSpeed));
+
+    // Set the abilities in the player's NBT storage
+    this.player.setStorageEntry(PlayerAbilities.ABILITIES_KEY, abilitiesTag);
   }
 
   /**
@@ -188,7 +265,9 @@ class PlayerAbilities {
       type: AbilityLayerType.Base,
       abilities: [...this.abilities.entries()]
         .filter(([x]) => x !== AbilityIndex.MayFly)
-        .map(([ability, value]) => new AbilitySet(ability, value)),
+        .map(
+          ([ability, value]) => new AbilitySet(ability, value.valueOf() === 1)
+        ),
       walkSpeed: this.walkSpeed,
       verticalFlySpeed: this.verticalFlySpeed,
       flySpeed: this.flySpeed
@@ -210,39 +289,6 @@ class PlayerAbilities {
 
     // Return the layers array
     return layers;
-  }
-
-  /**
-   * Read the abilities from the player's NBT storage.
-   */
-  private readFromStorage(): void {
-    // Read the abilities from the player's NBT storage
-    const storage = this.player.nbt.get<CompoundTag>("abilities");
-
-    // Check if the storage exists
-    if (storage) {
-      // Iterate over the base ability names and their corresponding indices
-      for (const [name, index] of Object.entries(AbilityNameToIndex)) {
-        // Attempt to get the ability from the storage
-        const tag = storage.get<ByteTag>(name.toLowerCase());
-
-        // If the tag exists, set the ability in the map
-        if (tag) this.abilities.set(index, tag.valueOf() !== 0);
-      }
-
-      // Attempt to get the fly speed from the storage
-      const flySpeedTag = storage.get<FloatTag>("flySpeed");
-      if (flySpeedTag) this.flySpeed = flySpeedTag.valueOf();
-
-      // Attempt to get the vertical fly speed from the storage
-      const verticalFlySpeedTag = storage.get<FloatTag>("flyingSpeed");
-      if (verticalFlySpeedTag)
-        this.verticalFlySpeed = verticalFlySpeedTag.valueOf();
-
-      // Attempt to get the walk speed from the storage
-      const walkSpeedTag = storage.get<FloatTag>("walkSpeed");
-      if (walkSpeedTag) this.walkSpeed = walkSpeedTag.valueOf();
-    }
   }
 }
 

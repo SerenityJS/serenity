@@ -10,7 +10,7 @@ import { resolve } from "node:path";
 import { BinaryStream, Endianness } from "@serenityjs/binarystream";
 import { Leveldb } from "@serenityjs/leveldb";
 import { DimensionType } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, LongTag } from "@serenityjs/nbt";
 
 import { BiomeStorage, Chunk, SubChunk } from "../chunk";
 import { Dimension } from "../dimension";
@@ -23,7 +23,6 @@ import {
 import { World } from "../world";
 import { ChunkReadySignal, WorldInitializeSignal } from "../../events";
 import { Structure } from "../structure";
-import { Entity, EntityLevelStorage, PlayerLevelStorage } from "../../entity";
 import { BlockLevelStorage } from "../../block";
 
 import { WorldProvider } from "./provider";
@@ -161,40 +160,6 @@ class LevelDBProvider extends WorldProvider {
   }
 
   public async readChunk(chunk: Chunk, dimension: Dimension): Promise<Chunk> {
-    // Read the entities from the chunk.
-    const entities = this.readChunkEntities(chunk, dimension);
-
-    // Check if there are any entities in the chunk.
-    if (entities.length > 0) {
-      // Iterate through the entities and add them to the chunk.
-      for (const storage of entities) {
-        // Get the entity type from the dimension's entity palette.
-        const type = dimension.world.entityPalette.getType(
-          storage.getIdentifier()
-        );
-
-        // Check if the entity type exists.
-        if (!type) {
-          // Log a warning if the entity type does not exist.
-          this.world.logger.warn(
-            `Failed to load entity of type "§u${storage.getIdentifier()}§r" in dimension "§u${dimension.identifier}§r" as the entity type does not exist. Please ensure the entity type is registered in the world entity palette.`
-          );
-
-          // Skip to the next entity.
-          continue;
-        }
-
-        // Create a new entity instance.
-        const entity = new Entity(dimension, type, {
-          uniqueId: storage.getUniqueId(), // Provide the unique ID from the storage
-          storage // Provide the storage for the entity
-        });
-
-        // Spawn the entity in the dimension.
-        entity.spawn();
-      }
-    }
-
     // Check if the chunks contain the dimension.
     if (!this.chunks.has(dimension)) {
       this.chunks.set(dimension, new Map());
@@ -245,6 +210,24 @@ class LevelDBProvider extends WorldProvider {
         subchunk.biomes = biome;
       }
 
+      // Read the entities from the database.
+      const entities = this.readChunkEntities(chunk, dimension);
+
+      // Check if there are any entities in the chunk.
+      if (entities.length > 0) {
+        // Iterate through the entities and add them to the chunk.
+        for (const storage of entities) {
+          // Get the unique id of the entity.
+          const uniqueId = storage.get<LongTag>("UniqueID");
+
+          // Skip if the unique id does not exist.
+          if (!uniqueId) continue;
+
+          // Set the entity storage in the chunk.
+          chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
+        }
+      }
+
       // Read the blocks from the chunk.
       const blocks = this.readChunkBlocks(chunk, dimension);
 
@@ -269,6 +252,24 @@ class LevelDBProvider extends WorldProvider {
       // Generate a new chunk if it does not exist.
       const resultant = await dimension.generator.apply(chunk.x, chunk.z);
 
+      // Read the entities from the database.
+      const entities = this.readChunkEntities(chunk, dimension);
+
+      // Check if there are any entities in the chunk.
+      if (entities.length > 0) {
+        // Iterate through the entities and add them to the chunk.
+        for (const storage of entities) {
+          // Get the unique id of the entity.
+          const uniqueId = storage.get<LongTag>("UniqueID");
+
+          // Skip if the unique id does not exist.
+          if (!uniqueId) continue;
+
+          // Set the entity storage in the chunk.
+          chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
+        }
+      }
+
       // Add the chunk to the cache.
       chunks.set(chunk.hash, chunk.insert(resultant));
 
@@ -288,12 +289,9 @@ class LevelDBProvider extends WorldProvider {
 
   public async writeChunk(chunk: Chunk, dimension: Dimension): Promise<void> {
     // Get the entities that are in the chunk.
-    const entities = dimension
-      .getEntities({ chunk })
-      .filter((entity) => !entity.isPlayer()) // Remove players from the entities list.
-      .map((entity) => entity.getLevelStorage()); // Map the entities to their level storage.
+    const entities = chunk.getAllEntityStorages();
 
-    // Write the chunk entities to the database.
+    // Write the chunk entities to the database, regardless of dirty state.
     this.writeChunkEntities(chunk, dimension, entities);
 
     // Get the blocks that are in the chunk.
@@ -301,11 +299,11 @@ class LevelDBProvider extends WorldProvider {
       .getAllBlockStorages()
       .filter((storage) => storage.size > 0); // Filter out empty block storages.
 
-    // Check if the chunk is empty.
-    if (chunk.isEmpty() || !chunk.dirty) return;
-
     // Write the block list to the database.
     this.writeChunkBlocks(chunk, dimension, blocks);
+
+    // Check if the chunk is empty and not dirty
+    if (chunk.isEmpty() || !chunk.dirty) return;
 
     // Write the chunk version, in this case will be 40
     this.writeChunkVersion(chunk.x, chunk.z, dimension, 40);
@@ -466,7 +464,7 @@ class LevelDBProvider extends WorldProvider {
   public readChunkEntities(
     chunk: Chunk,
     dimension: Dimension
-  ): Array<EntityLevelStorage> {
+  ): Array<CompoundTag> {
     // Create a key for the chunk entities.
     const entityListKey = LevelDBProvider.buildEntityListKey(chunk, dimension);
 
@@ -476,7 +474,7 @@ class LevelDBProvider extends WorldProvider {
       const stream = new BinaryStream(this.db.get(entityListKey));
 
       // Prepare an array to store the entities.
-      const entities = new Array<EntityLevelStorage>();
+      const entities = new Array<CompoundTag>();
 
       // Read all the entities from the stream.
       do {
@@ -486,8 +484,14 @@ class LevelDBProvider extends WorldProvider {
         // Create a key for the entity data.
         const entityKey = LevelDBProvider.buildEntityStorageKey(uniqueId);
 
-        // Read the entity data from the database.
-        const storage = EntityLevelStorage.fromBuffer(this.db.get(entityKey));
+        // Read the player data from the database.
+        const buffer = this.db.get(entityKey);
+
+        // Create a new BinaryStream instance.
+        const storageStream = new BinaryStream(buffer);
+
+        // Read the player data from the stream.
+        const storage = CompoundTag.read(storageStream);
 
         // Push the entity storage to the array.
         entities.push(storage);
@@ -507,7 +511,7 @@ class LevelDBProvider extends WorldProvider {
   public writeChunkEntities(
     chunk: Chunk,
     dimension: Dimension,
-    entities: Array<EntityLevelStorage>
+    entities: Array<[bigint, CompoundTag]>
   ): void {
     // Create a key for the chunk entities.
     const entityListKey = LevelDBProvider.buildEntityListKey(chunk, dimension);
@@ -516,20 +520,21 @@ class LevelDBProvider extends WorldProvider {
     const stream = new BinaryStream();
 
     // Write the unique identifiers of the entities to the stream.
-    for (const entity of entities) {
+    for (const [uniqueId, storage] of entities) {
       // Write the unique identifier of the entity to the stream.
-      stream.writeInt64(entity.getUniqueId(), Endianness.Little);
+      stream.writeInt64(uniqueId, Endianness.Little);
 
       // Build a key for the entity storage.
-      const entityStorageKey = LevelDBProvider.buildEntityStorageKey(
-        entity.getUniqueId()
-      );
+      const entityStorageKey = LevelDBProvider.buildEntityStorageKey(uniqueId);
 
-      // Get the entity storage buffer.
-      const storage = EntityLevelStorage.toBuffer(entity);
+      // Create a new BinaryStream instance.
+      const storageStream = new BinaryStream();
+
+      // Write the entity storage to a buffer stream.
+      CompoundTag.write(storageStream, storage);
 
       // Write the entity storage to the database.
-      this.db.put(entityStorageKey, storage);
+      this.db.put(entityStorageKey, storageStream.getBuffer());
     }
 
     // Write the stream to the database.
@@ -601,7 +606,7 @@ class LevelDBProvider extends WorldProvider {
     this.db.put(blockListKey, stream.getBuffer());
   }
 
-  public readPlayer(uuid: string): PlayerLevelStorage | null {
+  public readPlayer(uuid: string): CompoundTag | null {
     // Attempt to read the player from the database.
     try {
       // Create a key for the player.
@@ -614,7 +619,7 @@ class LevelDBProvider extends WorldProvider {
       const stream = new BinaryStream(buffer);
 
       // Read the player data from the stream.
-      const data = new PlayerLevelStorage(CompoundTag.read(stream));
+      const data = CompoundTag.read(stream);
 
       // Return the player data.
       return data;
@@ -623,7 +628,7 @@ class LevelDBProvider extends WorldProvider {
     }
   }
 
-  public writePlayer(player: PlayerLevelStorage): void {
+  public writePlayer(uuid: string, player: CompoundTag): void {
     // Create a new BinaryStream instance.
     const stream = new BinaryStream();
 
@@ -631,7 +636,7 @@ class LevelDBProvider extends WorldProvider {
     CompoundTag.write(stream, player);
 
     // Create a key for the player.
-    const key = `player_server_${player.getUuid()}`;
+    const key = `player_server_${uuid}`;
 
     // Write the player data to the database.
     this.db.put(Buffer.from(key), stream.getBuffer());

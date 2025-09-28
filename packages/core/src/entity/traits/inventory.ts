@@ -162,7 +162,7 @@ class EntityInventoryTrait extends EntityTrait {
     }
 
     // Add the items to the items list tag
-    this.entity.nbt.set("Items", items);
+    this.entity.setStorageEntry("Items", items);
   }
 
   public onSpawn(): void {
@@ -172,9 +172,9 @@ class EntityInventoryTrait extends EntityTrait {
 
   public onAdd(): void {
     // Check if the entity has an items nbt property
-    if (this.entity.nbt.has("Items")) {
+    if (this.entity.hasStorageEntry("Items")) {
       // Get the items tag from the entity's nbt
-      const items = this.entity.nbt.get<ListTag<CompoundTag>>("Items");
+      const items = this.entity.getStorageEntry<ListTag<CompoundTag>>("Items");
 
       // Get the world from the entity
       const world = this.entity.world;
@@ -208,7 +208,7 @@ class EntityInventoryTrait extends EntityTrait {
       const items = new ListTag<CompoundTag>([], "Items");
 
       // Push the items to the entity's nbt
-      this.entity.nbt.add(items);
+      this.entity.addStorageEntry(items);
     }
 
     // Set the container type metadata
@@ -227,9 +227,6 @@ class EntityInventoryTrait extends EntityTrait {
   }
 
   public onRemove(): void {
-    // Remove the item storage property
-    this.entity.removeDynamicProperty("inventory");
-
     // Remove the container metadata
     this.entity.metadata.setActorMetadata(ActorDataId.ContainerType, null);
     this.entity.metadata.setActorMetadata(ActorDataId.ContainerSize, null);

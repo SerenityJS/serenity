@@ -120,7 +120,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         heldItem === null
           ? new NetworkItemStackDescriptor(0)
           : ItemStack.toNetworkStack(heldItem);
-      packet.gamemode = entity.gamemode;
+      packet.gamemode = entity.getGamemode();
       packet.data = entity.metadata.getAllActorMetadataAsDataItems();
       packet.properties =
         entity.sharedProperties.getSharedPropertiesAsSyncData();

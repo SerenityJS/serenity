@@ -5,6 +5,7 @@ import {
   type IPosition
 } from "@serenityjs/protocol";
 import { BinaryStream } from "@serenityjs/binarystream";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { BlockIdentifier } from "../../enums";
 import { BlockLevelStorage, BlockPermutation } from "../../block";
@@ -60,8 +61,9 @@ export class Chunk {
   private readonly blocks: Map<bigint, BlockLevelStorage> = new Map();
 
   /**
-   *
+   * The entity level storage of the chunk, mapped by their unique id.
    */
+  private readonly entities: Map<bigint, CompoundTag> = new Map();
 
   /**
    * The dimension type of the chunk.
@@ -381,6 +383,32 @@ export class Chunk {
     }
     // If no data is given, delete the block data.
     else this.blocks.delete(key);
+
+    // Set the chunk as dirty.
+    if (dirty) this.dirty = true;
+  }
+
+  public getAllEntityStorages(): Array<[bigint, CompoundTag]> {
+    return Array.from(this.entities.entries());
+  }
+
+  public hasEntityStorage(uniqueId: bigint): boolean {
+    return this.entities.has(uniqueId);
+  }
+
+  public getEntityStorage(uniqueId: bigint): CompoundTag | null {
+    return this.entities.get(uniqueId) || null;
+  }
+
+  public setEntityStorage(
+    uniqueId: bigint,
+    data: CompoundTag | null,
+    dirty = true
+  ): void {
+    // If data is given, set the entity storage in the map.
+    if (data) this.entities.set(uniqueId, data);
+    // If no data is given, delete the entity data.
+    else this.entities.delete(uniqueId);
 
     // Set the chunk as dirty.
     if (dirty) this.dirty = true;

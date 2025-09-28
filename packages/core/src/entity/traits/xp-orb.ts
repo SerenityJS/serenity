@@ -16,7 +16,9 @@ class EntityXpOrbTrait extends EntityTrait {
    */
   public getExperienceValue(): number {
     // Fetch the "ExperienceValue" tag from the entity's NBT data
-    return this.entity.nbt.get<IntTag>("ExperienceValue")?.valueOf() ?? 1;
+    return (
+      this.entity.getStorageEntry<IntTag>("ExperienceValue")?.valueOf() ?? 1
+    );
   }
 
   /**
@@ -25,7 +27,7 @@ class EntityXpOrbTrait extends EntityTrait {
    */
   public setExperienceValue(value: number): void {
     // Set the "ExperienceValue" tag in the entity's NBT data
-    this.entity.nbt.set("ExperienceValue", new IntTag(value));
+    this.entity.setStorageEntry("ExperienceValue", new IntTag(value));
   }
 
   public onTick(): void {
@@ -79,15 +81,15 @@ class EntityXpOrbTrait extends EntityTrait {
 
   public onAdd(): void {
     // Check if the entity has a "ExperienceValue" tag
-    if (this.entity.nbt.has("ExperienceValue")) return;
+    if (this.entity.hasStorageEntry("ExperienceValue")) return;
 
     // Set the "ExperienceValue" tag to 1
-    this.entity.nbt.add(new IntTag(1, "ExperienceValue"));
+    this.entity.addStorageEntry(new IntTag(1, "ExperienceValue"));
   }
 
   public onRemove(): void {
     // Remove the "ExperienceValue" tag from the entity
-    this.entity.nbt.delete("ExperienceValue");
+    this.entity.removeStorageEntry("ExperienceValue");
   }
 }
 

@@ -1,7 +1,8 @@
 import {
   PlayerActionPacket,
   Packet,
-  PlayerActionType
+  PlayerActionType,
+  Vector3f
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
@@ -53,8 +54,14 @@ class PlayerActionHandler extends NetworkHandler {
         // Spawn the player when they request to respawn
         player.spawn({ initialSpawn: false });
 
+        // Get the player's spawn point
+        const { x, y, z } = player.getSpawnPoint();
+
+        // Create a vector for the spawn point
+        const vector = new Vector3f(x, y, z);
+
         // Teleport the player back to the spawn point
-        return player.teleport(player.getSpawnPoint());
+        return player.teleport(vector);
       }
     }
   }

@@ -119,8 +119,8 @@ class EntityGravityTrait extends EntityTrait {
       if (!this.entity.world.gamerules.fallDamage) return;
 
       // Check if the entity is in creative mode or spectator mode
-      if (this.entity.gamemode === Gamemode.Creative) return;
-      if (this.entity.gamemode === Gamemode.Spectator) return;
+      if (this.entity.getGamemode() === Gamemode.Creative) return;
+      if (this.entity.getGamemode() === Gamemode.Spectator) return;
     }
 
     // Check if the entity has fallen less than 10 ticks

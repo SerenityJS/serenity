@@ -46,7 +46,7 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     if (!this.player.isAlive) return;
 
     // Get the gamemode of the player
-    const gamemode = this.player.gamemode;
+    const gamemode = this.player.getGamemode();
 
     // Check if the player is in spectator or creative mode
     if (gamemode === Gamemode.Spectator || gamemode === Gamemode.Creative)

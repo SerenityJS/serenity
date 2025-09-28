@@ -14,7 +14,7 @@ class PlayerLevelingTrait extends PlayerTrait {
    */
   public getLevel(): number {
     // Get the PlayerLevel tag from the player's NBT
-    return this.player.nbt.get<IntTag>("PlayerLevel")?.valueOf() ?? 0;
+    return this.player.getStorageEntry<IntTag>("PlayerLevel")?.valueOf() ?? 0;
   }
 
   /**
@@ -29,7 +29,7 @@ class PlayerLevelingTrait extends PlayerTrait {
     }
 
     // Set the PlayerLevel tag in the player's NBT
-    this.player.nbt.set("PlayerLevel", new IntTag(value));
+    this.player.setStorageEntry("PlayerLevel", new IntTag(value));
 
     // Refresh the player's attributes after setting the level
     this.refreshAttributes();
@@ -40,7 +40,10 @@ class PlayerLevelingTrait extends PlayerTrait {
    * @returns The current experience progress of the player (0-1).
    */
   public getExperienceProgress(): number {
-    return this.player.nbt.get<FloatTag>("PlayerLevelProgress")?.valueOf() ?? 0;
+    return (
+      this.player.getStorageEntry<FloatTag>("PlayerLevelProgress")?.valueOf() ??
+      0
+    );
   }
 
   /**
@@ -52,7 +55,7 @@ class PlayerLevelingTrait extends PlayerTrait {
     if (value < 0 || value > 1) {
       throw new Error("Experience progress must be between 0 and 1.");
     }
-    this.player.nbt.set("PlayerLevelProgress", new FloatTag(value));
+    this.player.setStorageEntry("PlayerLevelProgress", new FloatTag(value));
     this.refreshAttributes();
   }
 
@@ -147,20 +150,20 @@ class PlayerLevelingTrait extends PlayerTrait {
 
   public onAdd(): void {
     // Check if the player has a PlayerLevel tag
-    if (!this.player.nbt.has("PlayerLevel"))
+    if (!this.player.hasStorageEntry("PlayerLevel"))
       // Create a new PlayerLevel tag with default value 0
-      this.player.nbt.add(new IntTag(0, "PlayerLevel"));
+      this.player.addStorageEntry(new IntTag(0, "PlayerLevel"));
 
     // Check if the player has a PlayerLevelProgress tag
-    if (!this.player.nbt.has("PlayerLevelProgress"))
+    if (!this.player.hasStorageEntry("PlayerLevelProgress"))
       // Create a new PlayerLevelProgress tag with default value 0
-      this.player.nbt.add(new FloatTag(0, "PlayerLevelProgress"));
+      this.player.addStorageEntry(new FloatTag(0, "PlayerLevelProgress"));
   }
 
   public onRemove(): void {
     // Remove the PlayerLevel and PlayerLevelProgress tags from the player's NBT
-    this.player.nbt.delete("PlayerLevel");
-    this.player.nbt.delete("PlayerLevelProgress");
+    this.player.removeStorageEntry("PlayerLevel");
+    this.player.removeStorageEntry("PlayerLevelProgress");
   }
 
   public onDeath(): void {
@@ -208,9 +211,9 @@ class PlayerLevelingTrait extends PlayerTrait {
    */
   private refreshAttributes(): void {
     // Check if the player has a PlayerLevel attribute
-    if (this.player.attributes.has(AttributeName.PlayerLevel)) {
+    if (this.player.attributes.hasAttribute(AttributeName.PlayerLevel)) {
       // Get the PlayerLevel attribute
-      const attribute = this.player.attributes.get(
+      const attribute = this.player.attributes.getAttribute(
         AttributeName.PlayerLevel
       ) as Attribute;
 
@@ -218,7 +221,7 @@ class PlayerLevelingTrait extends PlayerTrait {
       attribute.current = this.getLevel();
 
       // Update the PlayerLevel attribute in the player's attributes
-      this.player.attributes.update(attribute);
+      this.player.attributes.setAttribute(attribute);
     } else {
       // Create a new PlayerLevel attribute
       const attribute = Attribute.create(AttributeName.PlayerLevel, 0, 3.4e38);
@@ -227,13 +230,13 @@ class PlayerLevelingTrait extends PlayerTrait {
       attribute.current = this.getLevel();
 
       // Add the PlayerLevel attribute to the player's attributes
-      this.player.attributes.add(attribute);
+      this.player.attributes.setAttribute(attribute);
     }
 
     // Check if the player has a PlayerExperience attribute
-    if (this.player.attributes.has(AttributeName.PlayerExperience)) {
+    if (this.player.attributes.hasAttribute(AttributeName.PlayerExperience)) {
       // Get the PlayerExperience attribute
-      const attribute = this.player.attributes.get(
+      const attribute = this.player.attributes.getAttribute(
         AttributeName.PlayerExperience
       ) as Attribute;
 
@@ -241,7 +244,7 @@ class PlayerLevelingTrait extends PlayerTrait {
       attribute.current = this.getExperienceProgress();
 
       // Update the PlayerExperience attribute in the player's attributes
-      this.player.attributes.update(attribute);
+      this.player.attributes.setAttribute(attribute);
     } else {
       // Create a new PlayerExperience attribute
       const attribute = Attribute.create(AttributeName.PlayerExperience, 0, 1);
@@ -250,7 +253,7 @@ class PlayerLevelingTrait extends PlayerTrait {
       attribute.current = this.getExperienceProgress();
 
       // Add the PlayerExperience attribute to the player's attributes
-      this.player.attributes.add(attribute);
+      this.player.attributes.setAttribute(attribute);
     }
   }
 }

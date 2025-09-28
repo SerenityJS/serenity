@@ -15,6 +15,7 @@ import {
   DisconnectPacket,
   DisconnectReason,
   Gamemode,
+  IPosition,
   MoveMode,
   MovePlayerPacket,
   PermissionLevel,
@@ -34,14 +35,14 @@ import {
   UpdatePlayerGameTypePacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
+import { IntTag } from "@serenityjs/nbt";
 
 import {
   EntitySpawnOptions,
   PlayerProperties,
   PlaySoundOptions
 } from "../types";
-import { Dimension, World } from "../world";
+import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
 import {
@@ -134,6 +135,11 @@ class Player extends Entity {
   public pendingForms: Map<number, FormParticipant<never>> = new Map();
 
   /**
+   *
+   */
+  protected readonly storage: PlayerLevelStorage;
+
+  /**
    * The container that the player is currently viewing.
    */
   public openedContainer: Container | null = null;
@@ -152,60 +158,6 @@ class Player extends Entity {
    * The target entity that the player is currently looking at.
    */
   public entityTarget: Entity | null = null;
-
-  /**
-   * The gamemode of the player.
-   */
-  public get gamemode(): Gamemode {
-    // Check if the player has the gamemode component
-    if (!this.dynamicProperties.has("gamemode"))
-      // Set the default gamemode for the player
-      this.dynamicProperties.set("gamemode", this.world.getDefaultGamemode());
-
-    // Return the gamemode of the player
-    return this.dynamicProperties.get("gamemode") as Gamemode;
-  }
-
-  /**
-   * The gamemode of the player.
-   */
-  public set gamemode(value: Gamemode) {
-    const signal = new PlayerGamemodeChangeSignal(this, this.gamemode, value);
-
-    if (!signal.emit()) return;
-
-    // Set the gamemode of the player
-    this.dynamicProperties.set("gamemode", value);
-
-    // Call the onGamemodeChange event for the player
-    for (const trait of this.traits.values()) trait.onGamemodeChange?.(value);
-
-    // Enable or disable the ability to fly based on the gamemode
-    switch (value) {
-      case Gamemode.Survival:
-      case Gamemode.Adventure: {
-        // Disable the ability to fly
-        this.abilities.setAbility(AbilityIndex.MayFly, false);
-        break;
-      }
-
-      case Gamemode.Creative:
-      case Gamemode.Spectator: {
-        // Enable the ability to fly
-        this.abilities.setAbility(AbilityIndex.MayFly, true);
-        break;
-      }
-    }
-
-    // Create a new UpdatePlayerGameTypePacket
-    const packet = new UpdatePlayerGameTypePacket();
-    packet.gamemode = value;
-    packet.uniqueActorId = this.uniqueId;
-    packet.inputTick = this.inputInfo.tick;
-
-    // Broadcast the packet to the dimension
-    this.dimension.broadcast(packet);
-  }
 
   /**
    * Whether the player has operator permissions.
@@ -246,9 +198,6 @@ class Player extends Entity {
     // Spread the default properties and the provided properties
     const props = { ...DefaultPlayerProperties, ...properties };
 
-    // Create a new abilities map for the player
-    this.abilities = new PlayerAbilities(this);
-
     // Assign the properties to the player
     this.username = props.username;
     this.xuid = props.xuid;
@@ -262,14 +211,62 @@ class Player extends Entity {
     this.permissions.player = this; // Set the player instance to the permission member
 
     // If the player properties contains an entry, load it
-    if (properties?.storage)
-      this.loadLevelStorage(dimension.world, properties.storage);
+    if (properties?.storage) {
+      // Assign the storage to the player
+      this.storage = new PlayerLevelStorage(this, properties.storage);
+    } else {
+      // Create a new storage for the player
+      this.storage = new PlayerLevelStorage(this);
 
-    // Add the traits of the player type
-    for (const [, trait] of this.type.traits) this.addTrait(trait);
+      // Set the identifier of the entity
+      this.storage.setIdentifier(this.type.identifier);
+
+      // Assign a new unique id to the entity
+      const uniqueId = Entity.createUniqueId(this.type.network, this.runtimeId);
+
+      // Set the unique id of the player
+      this.storage.setUniqueId(uniqueId);
+
+      // Set the player's position to the spawn position of the dimension
+      this.storage.setPosition(dimension.spawnPosition);
+    }
+
+    // Create a new abilities map for the player
+    this.abilities = new PlayerAbilities(this);
 
     // Set the ability for operator commands
     this.abilities.setAbility(AbilityIndex.OperatorCommands, this.isOp);
+
+    // Add the traits of the player type
+    for (const [, trait] of this.type.traits) this.addTrait(trait);
+  }
+
+  // --- DEPRECATED - REMOVE IN FUTURE ---
+
+  /**
+   * The current gamemode of the player.
+   * @deprecated Use `getGamemode()` instead.
+   * Will be removed in version 0.8.14.
+   */
+  public get gamemode(): Gamemode {
+    this.world.logger.warn(
+      "The 'Player.gamemode' is deprecated. Please use 'getGamemode()' instead."
+    );
+
+    return this.getGamemode();
+  }
+
+  /**
+   * Set the current gamemode of the player.
+   * @deprecated Use `setGamemode()` instead.
+   * Will be removed in version 0.8.14.
+   */
+  public set gamemode(value: Gamemode) {
+    this.world.logger.warn(
+      "The 'Player.gamemode' is deprecated. Please use 'setGamemode()' instead."
+    );
+
+    this.setGamemode(value);
   }
 
   /**
@@ -312,6 +309,80 @@ class Player extends Entity {
 
     // Despawn the player from the world
     this.despawn({ disconnected: true, hasDied: false });
+  }
+
+  /**
+   * Get the current gamemode of the player.
+   * @returns The gamemode of the player.
+   */
+  public getGamemode(): Gamemode {
+    // Get the storage entry for the gamemode
+    const entry = this.storage.get<IntTag>("PlayerGameMode");
+
+    // Check if an entry exists
+    if (!entry) {
+      // Get the default gamemode from the world
+      const defaultGamemode = this.world.getDefaultGamemode();
+
+      // Set the storage entry for the gamemode
+      this.storage.set("PlayerGameMode", new IntTag(defaultGamemode));
+
+      // Return the default gamemode
+      return defaultGamemode;
+    } else {
+      // Return the gamemode value
+      return entry.valueOf() as Gamemode;
+    }
+  }
+
+  /**
+   * Set the current gamemode of the player.
+   * @param gamemode The gamemode to set the player to.
+   */
+  public setGamemode(gamemode: Gamemode): void {
+    // Set the storage entry for the gamemode
+    this.storage.set("PlayerGameMode", new IntTag(gamemode));
+
+    const signal = new PlayerGamemodeChangeSignal(
+      this,
+      this.getGamemode(),
+      gamemode
+    );
+
+    if (!signal.emit()) return;
+
+    // Set the gamemode of the player
+    this.dynamicProperties.set("gamemode", gamemode);
+
+    // Call the onGamemodeChange event for the player
+    for (const trait of this.traits.values())
+      trait.onGamemodeChange?.(gamemode);
+
+    // Enable or disable the ability to fly based on the gamemode
+    switch (gamemode) {
+      case Gamemode.Survival:
+      case Gamemode.Adventure: {
+        // Disable the ability to fly
+        this.abilities.setAbility(AbilityIndex.MayFly, false);
+        break;
+      }
+
+      case Gamemode.Creative:
+      case Gamemode.Spectator: {
+        // Enable the ability to fly
+        this.abilities.setAbility(AbilityIndex.MayFly, true);
+        break;
+      }
+    }
+
+    // Create a new UpdatePlayerGameTypePacket
+    const packet = new UpdatePlayerGameTypePacket();
+    packet.gamemode = gamemode;
+    packet.uniqueActorId = this.uniqueId;
+    packet.inputTick = this.inputInfo.tick;
+
+    // Broadcast the packet to the dimension
+    this.dimension.broadcast(packet);
   }
 
   /**
@@ -506,7 +577,7 @@ class Player extends Entity {
 
     // Set the player's gamemode
     const gamemode = new SetPlayerGameTypePacket();
-    gamemode.gamemode = this.gamemode;
+    gamemode.gamemode = this.getGamemode();
 
     // Get the biome definitions from the world's biome palette
     const biomes = this.world.biomePalette.getBiomeDefinitionList();
@@ -778,30 +849,36 @@ class Player extends Entity {
    * Get the spawn point of the player.
    * @returns The spawn point of the player.
    */
-  public getSpawnPoint(): Vector3f {
-    // Check if the player has the spawn point dynamic property
-    if (!this.hasDynamicProperty("spawnPoint")) {
-      // Get the spawn position of the dimension
-      const { x, y, z } = this.dimension.spawnPosition;
+  public getSpawnPoint(): IPosition {
+    // Get the storage entries for the spawn point
+    const x = this.storage.get<IntTag>("SpawnX");
+    const y = this.storage.get<IntTag>("SpawnY");
+    const z = this.storage.get<IntTag>("SpawnZ");
 
-      // Set the spawn point of the player
-      this.setDynamicProperty<Array<number>>("spawnPoint", [x, y, z]);
+    // Check if the entries exist
+    if (x && y && z) {
+      // Return the spawn point as a position object
+      return { x: x.valueOf(), y: y.valueOf(), z: z.valueOf() };
     }
 
-    // Get the spawn point of the player
-    const position = this.getDynamicProperty("spawnPoint") as Array<number>;
-
-    // Return the spawn point as a Vector3f
-    return Vector3f.fromArray(position);
+    // If the entries do not exist, return the dimension's spawn position
+    return this.dimension.spawnPosition;
   }
 
   /**
    * Set the spawn point of the player.
    * @param position The position to set the spawn point to.
    */
-  public setSpawnPoint(position: Vector3f): void {
-    // Set the spawn point of the player
-    this.setDynamicProperty("spawnPoint", [position.x, position.y, position.z]);
+  public setSpawnPoint(position: IPosition): void {
+    // Create IntTags for the position
+    const x = new IntTag(Math.floor(position.x));
+    const y = new IntTag(Math.floor(position.y));
+    const z = new IntTag(Math.floor(position.z));
+
+    // Set the dynamic property for the spawn point
+    this.setStorageEntry("SpawnX", x);
+    this.setStorageEntry("SpawnY", y);
+    this.setStorageEntry("SpawnZ", z);
   }
 
   /**
@@ -1106,37 +1183,12 @@ class Player extends Entity {
     }
   }
 
-  public getLevelStorage(): PlayerLevelStorage {
-    // Call the super method to get the player level storage
-    const storage = new PlayerLevelStorage(super.getLevelStorage());
-
-    // Set the player properties in the storage
-    storage.setUsername(this.username);
-    storage.setXuid(this.xuid);
-    storage.setUuid(this.uuid);
-    storage.setAbilities(this.abilities.getAllAbilities());
-
-    // Return the player level storage
-    return storage;
-  }
-
-  public loadLevelStorage(world: World, source: CompoundTag): void {
-    // Call the super method to load the player level storage
-    super.loadLevelStorage(world, source);
-
-    // Create a new PlayerLevelStorage instance
-    const storage = new PlayerLevelStorage(source);
-
-    // Load the abilities from the storage
-    for (const [key, value] of storage.getAbilities())
-      this.abilities.setAbility(key, value);
-  }
-
   /**
-   * The latency of the connection in milliseconds.
+   * Get the nbt storage of the player.
+   * @returns The nbt storage of the player.
    */
-  public get ping(): number {
-    return this.connection.ping;
+  public getStorage(): PlayerLevelStorage {
+    return this.storage;
   }
 }
 

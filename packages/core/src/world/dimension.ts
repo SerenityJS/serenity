@@ -11,6 +11,7 @@ import {
   UpdateBlockPacket,
   Vector3f
 } from "@serenityjs/protocol";
+import { StringTag } from "@serenityjs/nbt";
 
 import {
   CommandResponse,
@@ -363,12 +364,12 @@ class Dimension {
         this.queriedChunksFromProvider.add(hash);
 
         // Get all the block data from the chunk
-        const storages = chunk.getAllBlockStorages();
+        const blockStorages = chunk.getAllBlockStorages();
 
         // Check if there is any block storage in the chunk
-        if (storages.length > 0) {
+        if (blockStorages.length > 0) {
           // Iterate through the blocks and add them to the chunk.
-          for (const storage of storages) {
+          for (const storage of blockStorages) {
             // Get the position of the block storage
             const position = storage.getPosition();
 
@@ -377,6 +378,34 @@ class Dimension {
 
             // Add the block to the block cache
             this.blocks.set(BlockPosition.hash(block.position), block);
+          }
+        }
+
+        // Get all the entity data from the chunk
+        const entities = chunk.getAllEntityStorages();
+
+        // Check if there is any entity storage in the chunk
+        if (entities.length > 0) {
+          // Iterate through the entities and add them to the chunk.
+          for (const [, storage] of entities) {
+            // Get the identifier of the entity
+            const identifier = storage.get<StringTag>("identifier");
+
+            console.log(
+              "provider load",
+              identifier?.valueOf(),
+              storage.toJSON()
+            );
+
+            // Skip if the identifier does not exist or if the entity is a player
+            if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
+              continue;
+
+            // Create a new entity instance using the entity storage
+            const entity = new Entity(this, identifier.valueOf(), { storage });
+
+            // Spawn the entity in the dimension
+            entity.spawn({ initialSpawn: false });
           }
         }
       }
@@ -399,12 +428,12 @@ class Dimension {
         this.queriedChunksFromProvider.add(hash);
 
         // Get all the block data from the chunk
-        const storages = chunk.getAllBlockStorages();
+        const blockStorages = chunk.getAllBlockStorages();
 
         // Check if there is any block storage in the chunk
-        if (storages.length > 0) {
+        if (blockStorages.length > 0) {
           // Iterate through the blocks and add them to the chunk.
-          for (const storage of storages) {
+          for (const storage of blockStorages) {
             // Get the position of the block storage
             const position = storage.getPosition();
 
@@ -413,6 +442,34 @@ class Dimension {
 
             // Add the block to the block cache
             this.blocks.set(BlockPosition.hash(block.position), block);
+          }
+        }
+
+        // Get all the entity data from the chunk
+        const entities = chunk.getAllEntityStorages();
+
+        // Check if there is any entity storage in the chunk
+        if (entities.length > 0) {
+          // Iterate through the entities and add them to the chunk.
+          for (const [, storage] of entities) {
+            // Get the identifier of the entity
+            const identifier = storage.get<StringTag>("identifier");
+
+            console.log(
+              "generator load",
+              identifier?.valueOf(),
+              storage.toJSON()
+            );
+
+            // Skip if the identifier does not exist or if the entity is a player
+            if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
+              continue;
+
+            // Create a new entity instance using the entity storage
+            const entity = new Entity(this, identifier.valueOf(), { storage });
+
+            // Spawn the entity in the dimension
+            entity.spawn({ initialSpawn: false });
           }
         }
       }
@@ -824,6 +881,9 @@ class Dimension {
     // Create a new Entity instance with the dimension and type
     const entity = new Entity(this, type);
 
+    // Get the x y z from the position
+    const { x, y, z } = position;
+
     // As a Serenity standard, we will add the gravity, physics, movement traits to the entity
     entity.addTrait(EntityGravityTrait);
     entity.addTrait(EntityPhysicsTrait);
@@ -831,9 +891,7 @@ class Dimension {
     entity.addTrait(EntityCollisionTrait);
 
     // Set the entity position
-    entity.position.x = position.x;
-    entity.position.y = position.y + 1;
-    entity.position.z = position.z;
+    entity.position = new Vector3f(x, y + 1, z);
 
     // Spawn the entity
     return entity.spawn();
@@ -853,10 +911,11 @@ class Dimension {
     // Set the world in the item stack if it doesn't exist
     if (!itemStack.world) itemStack.world = this.world;
 
+    // Get the x y z from the position
+    const { x, y, z } = position;
+
     // Set the entity position
-    entity.position.x = position.x;
-    entity.position.y = position.y;
-    entity.position.z = position.z;
+    entity.position = new Vector3f(x, y, z);
 
     // Create a new item trait, this will register the item to the entity
     entity.addTrait(EntityItemStackTrait, { itemStack });

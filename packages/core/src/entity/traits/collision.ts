@@ -91,7 +91,7 @@ class EntityCollisionTrait extends EntityTrait {
     if (!this.entity.isPlayer()) return;
 
     // If the player is now in spectator mode, collision should be disabled
-    if (this.entity.gamemode === Gamemode.Spectator)
+    if (this.entity.getGamemode() === Gamemode.Spectator)
       this.entity.flags.setActorFlag(ActorFlag.HasCollision, false);
     // If the player is not in spectator mode, collision should be enabled
     else this.entity.flags.setActorFlag(ActorFlag.HasCollision, true);

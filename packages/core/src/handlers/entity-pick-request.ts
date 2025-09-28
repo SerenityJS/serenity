@@ -19,7 +19,7 @@ class EntityPickRequestHandler extends NetworkHandler {
     if (!player) return connection.disconnect();
 
     // Check if the player is in creative mode.
-    if (player.gamemode !== Gamemode.Creative) return;
+    if (player.getGamemode() !== Gamemode.Creative) return;
 
     // Separate the unique actor ID and with data from the packet.
     const { uniqueActorId, withData } = packet;
@@ -45,7 +45,7 @@ class EntityPickRequestHandler extends NetworkHandler {
     // Check if the entity data should be added to the item stack.
     if (withData) {
       // Get the entity level storage.
-      const entry = entity.getLevelStorage();
+      const entry = entity.getStorage();
 
       // Add the entity data entry to the item stack nbt.
       itemStack.nbt.set("Entity", entry);

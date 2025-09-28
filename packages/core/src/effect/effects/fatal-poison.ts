@@ -22,7 +22,7 @@ class FatalPoisonEffect extends Effect {
     if (Number(entity.dimension.world.currentTick) % ticksPerSecond != 0)
       return;
 
-    if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
+    if (entity.isPlayer() && entity.getGamemode() == Gamemode.Creative) return;
     const entityHealth = entity.getTrait(EntityHealthTrait);
     entityHealth.applyDamage(1, undefined, ActorDamageCause.Magic);
   }

@@ -25,7 +25,7 @@ class BlockPickRequestHandler extends NetworkHandler {
     for (const trait of block.getAllTraits()) trait.onPick?.(player, addData);
 
     // Check if the player is in creative mode
-    if (player.gamemode !== Gamemode.Creative) return;
+    if (player.getGamemode() !== Gamemode.Creative) return;
 
     // Create a new item stack from the block
     const itemStack = block.getItemStack({

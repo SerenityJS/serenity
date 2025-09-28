@@ -262,8 +262,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
     }
 
     // Check if the player is in creative mode or spectator mode
-    if (player.gamemode === Gamemode.Creative) return true;
-    if (player.gamemode === Gamemode.Spectator) return true;
+    if (player.getGamemode() === Gamemode.Creative) return true;
+    if (player.getGamemode() === Gamemode.Spectator) return true;
 
     // Check if the player is flying, if so the movement is valid.
     if (player.abilities.getAbility(AbilityIndex.Flying)) return true;
@@ -288,7 +288,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (Math.abs(delta.z) >= movementHorizontalThreshold) return false;
 
     // Check if the player has teleported
-    if (player.position.distance(position) >= 4) return false;
+    if (position.distance(position) >= 4) return false;
 
     // Return true, as the movement is valid
     return true;
@@ -520,7 +520,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case PlayerActionType.StartDestroyBlock: {
           // Check if the player is in creative mode
           // If so, skip the block break
-          if (player.gamemode === Gamemode.Creative) continue;
+          if (player.getGamemode() === Gamemode.Creative) continue;
 
           // Check if the player already has a block target
           if (player.blockTarget) {
@@ -624,7 +624,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
               // And if the player is not in creative mode; also check if the signal was canceled
               if (
                 player.blockTarget !== block.position &&
-                player.gamemode !== Gamemode.Creative
+                player.getGamemode() !== Gamemode.Creative
               ) {
                 // Create a new UpdateBlockPacket for the block update
                 const packet = new UpdateBlockPacket();
@@ -808,7 +808,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Check if the player does not have a block target
           // And if the player is not in creative mode; also check if the signal was canceled
-          if (!player.blockTarget && player.gamemode !== Gamemode.Creative) {
+          if (
+            !player.blockTarget &&
+            player.getGamemode() !== Gamemode.Creative
+          ) {
             // Create a new UpdateBlockPacket for the block update
             const packet = new UpdateBlockPacket();
             packet.position = BlockPosition.toVector3f(block.position);

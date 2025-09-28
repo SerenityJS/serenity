@@ -166,7 +166,7 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
     if (options.canceled || options.method !== ItemUseMethod.Attack) return;
 
     // Check if the player is in creative mode
-    if (player.gamemode === Gamemode.Creative) return;
+    if (player.getGamemode() === Gamemode.Creative) return;
 
     // Process the damage for the item stack
     return this.processDamage(player);
@@ -180,7 +180,7 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
     if (options.canceled || options.method !== ItemUseMethod.UseTool) return;
 
     // Check if the player is in creative mode
-    if (player.gamemode === Gamemode.Creative) return;
+    if (player.getGamemode() === Gamemode.Creative) return;
 
     // Process the damage for the item stack
     return this.processDamage(player);
