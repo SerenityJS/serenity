@@ -45,7 +45,7 @@ class NpcRequestHandler extends NetworkHandler {
       switch (packet.type) {
         case NpcRequestType.SetName: {
           // Update the entity name tag with the packet actions.
-          entity.nameTag = packet.actions;
+          entity.setNametag(packet.actions);
           break;
         }
 

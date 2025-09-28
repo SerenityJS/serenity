@@ -204,7 +204,6 @@ class Player extends Entity {
     this.uuid = props.uuid;
     this.clientSystemInfo = props.clientSystemInfo;
     this.skin = props.skin;
-    this.alwaysShowNameTag = true;
 
     // Get the player's permission level from the permissions map
     this.permissions = this.serenity.getPermissionMember(this);
@@ -230,6 +229,10 @@ class Player extends Entity {
       // Set the player's position to the spawn position of the dimension
       this.storage.setPosition(dimension.spawnPosition);
     }
+
+    // Set the player's nametag to always be visible by default
+    this.setNametag(this.username);
+    this.setNametagAlwaysVisible(true);
 
     // Create a new abilities map for the player
     this.abilities = new PlayerAbilities(this);

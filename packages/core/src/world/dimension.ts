@@ -391,12 +391,6 @@ class Dimension {
             // Get the identifier of the entity
             const identifier = storage.get<StringTag>("identifier");
 
-            console.log(
-              "provider load",
-              identifier?.valueOf(),
-              storage.toJSON()
-            );
-
             // Skip if the identifier does not exist or if the entity is a player
             if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
               continue;
@@ -454,12 +448,6 @@ class Dimension {
           for (const [, storage] of entities) {
             // Get the identifier of the entity
             const identifier = storage.get<StringTag>("identifier");
-
-            console.log(
-              "generator load",
-              identifier?.valueOf(),
-              storage.toJSON()
-            );
 
             // Skip if the identifier does not exist or if the entity is a player
             if (!identifier || identifier.valueOf() === EntityIdentifier.Player)

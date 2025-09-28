@@ -53,6 +53,7 @@ import {
   EntityEquipmentTrait,
   EntityGravityTrait,
   EntityInventoryTrait,
+  EntityNameableTrait,
   EntityTrait,
   PlayerEntityRenderingTrait
 } from "./traits";
@@ -208,23 +209,6 @@ class Entity {
    */
   public isTicking = true;
 
-  /**
-   * The name tag of the entity.
-   */
-  public get nameTag(): string {
-    // Check if the entity has a name metadata
-    if (!this.metadata.hasActorMetadata(ActorDataId.Name)) return "";
-
-    // Get the name metadata
-    const nameTag = this.metadata.getActorMetadata(
-      ActorDataId.Name,
-      ActorDataType.String
-    );
-
-    // Return the name metadata
-    return nameTag ?? "";
-  }
-
   public get lastAttacker(): Entity | null {
     const currentTick = this.world.currentTick;
 
@@ -232,48 +216,6 @@ class Entity {
       this.lastDamageSource = null;
     }
     return this.lastDamageSource;
-  }
-
-  /**
-   * The name tag of the entity
-   */
-  public set nameTag(value: string) {
-    // Set the name metadata
-    this.metadata.setActorMetadata(
-      ActorDataId.Name,
-      ActorDataType.String,
-      value
-    );
-  }
-
-  /**
-   * Whether the entity name tag is always visible.
-   */
-  public get alwaysShowNameTag(): boolean {
-    // Check if the entity has a name tag visibility metadata
-    if (!this.metadata.hasActorMetadata(ActorDataId.NametagAlwaysShow))
-      return false;
-
-    // Get the name tag visibility metadata
-    const alwaysShow = this.metadata.getActorMetadata(
-      ActorDataId.NametagAlwaysShow,
-      ActorDataType.Byte
-    );
-
-    // Return the name tag visibility metadata
-    return alwaysShow === 1;
-  }
-
-  /**
-   * Whether the entity name tag is always visible.
-   */
-  public set alwaysShowNameTag(value: boolean) {
-    // Set the name tag visibility metadata
-    this.metadata.setActorMetadata(
-      ActorDataId.NametagAlwaysShow,
-      ActorDataType.Byte,
-      value ? 1 : 0
-    );
   }
 
   /**
@@ -438,6 +380,66 @@ class Entity {
   }
 
   /**
+   * The name tag of the entity.
+   * @deprecated Use `getNametag` and `setNametag` methods instead.
+   * Will be removed in version 0.8.14 and above.
+   */
+  public get nameTag(): string {
+    // Log a warning that the nameTag property is deprecated
+    this.world.logger.warn(
+      `The 'Entity.nameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametag' and 'Entity.setNametag' methods instead.`
+    );
+
+    // Return the nametag of the entity
+    return this.getNametag();
+  }
+
+  /**
+   * The name tag of the entity.
+   * @deprecated Use `getNametag` and `setNametag` methods instead.
+   * Will be removed in version 0.8.14 and above.
+   */
+  public set nameTag(value: string) {
+    // Log a warning that the nameTag property is deprecated
+    this.world.logger.warn(
+      `The 'Entity.nameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametag' and 'Entity.setNametag' methods instead.`
+    );
+
+    // Set the nametag of the entity
+    this.setNametag(value);
+  }
+
+  /**
+   * Whether the entity name tag is always visible.
+   * @deprecated Use `getNametagAlwaysVisible` and `setNametagAlwaysVisible` methods instead.
+   * Will be removed in version 0.8.14 and above.
+   */
+  public get alwaysShowNameTag(): boolean {
+    // Log a warning that the alwaysShowNameTag property is deprecated
+    this.world.logger.warn(
+      `The 'Entity.alwaysShowNameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametagAlwaysVisible' and 'Entity.setNametagAlwaysVisible' methods instead.`
+    );
+
+    // Return the nametag visibility of the entity
+    return this.getNametagAlwaysVisible();
+  }
+
+  /**
+   * Whether the entity name tag is always visible.
+   * @deprecated Use `getNametagAlwaysVisible` and `setNametagAlwaysVisible` methods instead.
+   * Will be removed in version 0.8.14 and above.
+   */
+  public set alwaysShowNameTag(value: boolean) {
+    // Log a warning that the alwaysShowNameTag property is deprecated
+    this.world.logger.warn(
+      `The 'Entity.alwaysShowNameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametagAlwaysVisible' and 'Entity.setNametagAlwaysVisible' methods instead.`
+    );
+
+    // Set the nametag visibility of the entity
+    this.setNametagAlwaysVisible(value);
+  }
+
+  /**
    * The current world the entity is in.
    */
   public get world(): World {
@@ -493,6 +495,78 @@ class Entity {
    */
   public get isSwimming(): boolean {
     return this.flags.getActorFlag(ActorFlag.Swimming) ?? false;
+  }
+
+  /**
+   * Get the nametag of the entity.
+   * @returns The nametag of the entity.
+   */
+  public getNametag(): string {
+    // Check if the entity has a nameable trait
+    const nameable = this.getTrait(EntityNameableTrait);
+
+    // If the entity has a nameable trait, return the nametag from the trait
+    if (nameable) return nameable.getNametag();
+
+    // Otherwise, return an empty string
+    return "";
+  }
+
+  /**
+   * Set the nametag of the entity.
+   * @param nametag The nametag to set the entity to.
+   */
+  public setNametag(nametag: string): void {
+    // Check if the entity has a nameable trait
+    if (!this.hasTrait(EntityNameableTrait)) {
+      // If the entity does not have a nameable trait, add the trait
+      const trait = this.addTrait(EntityNameableTrait);
+
+      // Set the nametag in the trait
+      trait.setNametag(nametag);
+    } else {
+      // If the entity has a nameable trait, get the trait
+      const trait = this.getTrait(EntityNameableTrait);
+
+      // Set the nametag in the trait
+      trait.setNametag(nametag);
+    }
+  }
+
+  /**
+   * Get whether the nametag is always visible.
+   * @returns Whether the nametag is always visible.
+   */
+  public getNametagAlwaysVisible(): boolean {
+    // Check if the entity has a nameable trait
+    const nameable = this.getTrait(EntityNameableTrait);
+
+    // If the entity has a nameable trait, return the nametag visibility from the trait
+    if (nameable) return nameable.getNametagAlwaysVisible();
+
+    // Otherwise, return false
+    return false;
+  }
+
+  /**
+   * Set whether the nametag is always visible.
+   * @param visible Whether the nametag should be always visible.
+   */
+  public setNametagAlwaysVisible(visible: boolean): void {
+    // Check if the entity has a nameable trait
+    if (!this.hasTrait(EntityNameableTrait)) {
+      // If the entity does not have a nameable trait, add the trait
+      const trait = this.addTrait(EntityNameableTrait);
+
+      // Set the nametag visibility in the trait
+      trait.setNametagAlwaysVisible(visible);
+    } else {
+      // If the entity has a nameable trait, get the trait
+      const trait = this.getTrait(EntityNameableTrait);
+
+      // Set the nametag visibility in the trait
+      trait.setNametagAlwaysVisible(visible);
+    }
   }
 
   /**
@@ -1581,25 +1655,6 @@ class Entity {
       this.dimension.broadcast(packet);
     }
   }
-
-  // public getLevelStorage(): EntityLevelStorage {
-  //   // Create the entity level storage entry
-  //   const storage = new EntityLevelStorage(this);
-
-  //   // Set the properties of the entity level storage entry
-  //   storage.setIdentifier(this.type.identifier);
-  //   storage.setUniqueId(this.uniqueId);
-  //   // storage.setPosition(this.position);
-  //   storage.setRotation(this.rotation);
-  //   storage.setDynamicProperties([...this.dynamicProperties.entries()]);
-  //   storage.setTraits([...this.traits.keys()]);
-  //   storage.setMetadata(this.metadata.getAllActorMetadataAsDataItems());
-  //   storage.setFlags(this.flags.getAllActorFlags());
-  //   storage.setAttributes([...this.attributes.values()]);
-
-  //   // Return the entity level storage entry
-  //   return storage;
-  // }
 
   /**
    * Creates a new unique id for the entity.

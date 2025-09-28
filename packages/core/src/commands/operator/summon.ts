@@ -45,10 +45,10 @@ const register = (world: World) => {
 
           // Check if a name tag was provided
           if (context.nameTag.result) {
-            entity.nameTag = context.nameTag.result as string;
-            entity.alwaysShowNameTag = context.alwaysVisible.result
-              ? true
-              : false;
+            entity.setNametag(context.nameTag.result as string);
+            entity.setNametagAlwaysVisible(
+              context.alwaysVisible.result ?? false
+            );
           }
 
           // Send the success message
@@ -87,10 +87,10 @@ const register = (world: World) => {
 
           // Check if a name tag was provided
           if (context.nameTag.result) {
-            entity.nameTag = context.nameTag.result as string;
-            entity.alwaysShowNameTag = context.alwaysVisible.result
-              ? true
-              : false;
+            entity.setNametag(context.nameTag.result as string);
+            entity.setNametagAlwaysVisible(
+              context.alwaysVisible.result ?? false
+            );
           }
         }
       );
