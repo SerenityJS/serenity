@@ -33,7 +33,7 @@ import {
   TransferPacket,
   UpdateAbilitiesPacket,
   UpdatePlayerGameTypePacket,
-  Vector3f,
+  Vector3f
 } from "@serenityjs/protocol";
 import { IntTag } from "@serenityjs/nbt";
 
@@ -42,7 +42,7 @@ import {
   PlayerProperties,
   PlaySoundOptions,
   RawMessage,
-  RawText,
+  RawText
 } from "../types";
 import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
@@ -653,7 +653,7 @@ class Player extends Entity {
           // Add the recipe to the crafting data packet
           recipes.crafting.push({
             type: CraftingDataEntryType.ShapedRecipe,
-            recipe,
+            recipe
           });
         }
       }
