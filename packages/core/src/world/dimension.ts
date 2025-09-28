@@ -19,7 +19,7 @@ import {
   EntityQueryOptions,
   RawMessage,
   RawText,
-  StructurePlaceOptions,
+  StructurePlaceOptions
 } from "../types";
 import {
   Entity,
