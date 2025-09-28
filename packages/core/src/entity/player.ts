@@ -32,6 +32,7 @@ import {
   TransferPacket,
   UpdateAbilitiesPacket,
   UpdatePlayerGameTypePacket,
+  Vector3f,
 } from "@serenityjs/protocol";
 import { CompoundTag } from "@serenityjs/nbt";
 
@@ -578,7 +579,7 @@ class Player extends Entity {
           // Add the recipe to the crafting data packet
           recipes.crafting.push({
             type: CraftingDataEntryType.ShapedRecipe,
-            recipe
+            recipe,
           });
         }
       }
