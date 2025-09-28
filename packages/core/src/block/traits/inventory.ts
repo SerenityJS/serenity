@@ -62,7 +62,10 @@ class BlockInventoryTrait extends BlockTrait {
     if (cancel || !origin) return;
 
     // Check if the player is sneaking
-    if (origin.isSneaking || !origin.abilities.get(AbilityIndex.OpenContainers))
+    if (
+      origin.isSneaking ||
+      !origin.abilities.getAbility(AbilityIndex.OpenContainers)
+    )
       return;
 
     // Show the container to the player

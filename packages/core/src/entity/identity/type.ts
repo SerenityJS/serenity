@@ -49,7 +49,10 @@ class EntityType {
    */
   public readonly components: Array<string>;
 
-  public readonly properties = new Map<string, EntityProperty>();
+  /**
+   * The properties that are bound to the entity type.
+   */
+  private readonly properties = new Map<string, EntityProperty>();
 
   /**
    * Create a new entity type.
@@ -94,6 +97,23 @@ class EntityType {
 
     // Return this instance.
     return this;
+  }
+
+  /**
+   * Get all properties of the entity type.
+   * @returns An array of all properties of the entity type.
+   */
+  public getAllProperties(): Array<[string, EntityProperty]> {
+    return Array.from(this.properties.entries());
+  }
+
+  /**
+   * Check if the entity type has a property with the given identifier.
+   * @param identifier The identifier of the property.
+   * @returns True if the property exists, false otherwise.
+   */
+  public hasProperty(identifier: string): boolean {
+    return this.properties.has(identifier);
   }
 
   /**

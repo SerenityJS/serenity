@@ -8,6 +8,8 @@ export * from "./palette";
 export * from "./system-info";
 export * from "./storage";
 export * from "./types";
+export * from "./shared-properties";
+export * from "./actor-flags";
 
 import * as Traits from "./traits";
 

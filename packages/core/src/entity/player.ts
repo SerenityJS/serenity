@@ -3,6 +3,7 @@ import {
   AbilityIndex,
   BlockPosition,
   ChangeDimensionPacket,
+  CommandPermissionLevel,
   ContainerName,
   CraftingDataEntryType,
   CraftingDataPacket,
@@ -10,23 +11,26 @@ import {
   CreativeGroup,
   CreativeItem,
   DataPacket,
-  DefaultAbilityValues,
   DisconnectMessage,
   DisconnectPacket,
   DisconnectReason,
   Gamemode,
   MoveMode,
   MovePlayerPacket,
+  PermissionLevel,
   PlayerStartItemCooldownPacket,
   PlaySoundPacket,
   SerializedSkin,
+  SetActorDataPacket,
   SetActorMotionPacket,
+  SetPlayerGameTypePacket,
   ShowProfilePacket,
   StopSoundPacket,
   TeleportCause,
   TextPacket,
   TextPacketType,
   TransferPacket,
+  UpdateAbilitiesPacket,
   UpdatePlayerGameTypePacket,
 } from "@serenityjs/protocol";
 import { CompoundTag } from "@serenityjs/nbt";
@@ -58,7 +62,6 @@ import { PermissionMember } from "../permissions";
 import { DefaultPlayerProperties } from "../constants";
 
 import { Entity } from "./entity";
-import { AbilityMap } from "./maps";
 import {
   EntityRidingTrait,
   EntityInventoryTrait,
@@ -71,6 +74,7 @@ import {
 import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
 import { PlayerLevelStorage } from "./storage";
+import { PlayerAbilities } from "./player-abilities";
 
 class Player extends Entity {
   /**
@@ -101,7 +105,7 @@ class Player extends Entity {
   /**
    * The current abilities of the player, and whether they are enabled
    */
-  public readonly abilities = new AbilityMap(this);
+  public readonly abilities: PlayerAbilities;
 
   /**
    * The player's device information.
@@ -182,14 +186,14 @@ class Player extends Entity {
       case Gamemode.Survival:
       case Gamemode.Adventure: {
         // Disable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, false);
+        this.abilities.setAbility(AbilityIndex.MayFly, false);
         break;
       }
 
       case Gamemode.Creative:
       case Gamemode.Spectator: {
         // Enable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, true);
+        this.abilities.setAbility(AbilityIndex.MayFly, true);
         break;
       }
     }
@@ -220,8 +224,8 @@ class Player extends Entity {
     else this.permissions.remove("serenity.operator");
 
     // Update the player's abilities
-    this.abilities.set(AbilityIndex.OperatorCommands, value);
-    this.abilities.set(AbilityIndex.Teleport, value);
+    this.abilities.setAbility(AbilityIndex.OperatorCommands, value);
+    this.abilities.setAbility(AbilityIndex.Teleport, value);
   }
 
   /**
@@ -243,6 +247,9 @@ class Player extends Entity {
     // Spread the default properties and the provided properties
     const props = { ...DefaultPlayerProperties, ...properties };
 
+    // Create a new abilities map for the player
+    this.abilities = new PlayerAbilities(this);
+
     // Assign the properties to the player
     this.username = props.username;
     this.xuid = props.xuid;
@@ -262,14 +269,8 @@ class Player extends Entity {
     // Add the traits of the player type
     for (const [, trait] of this.type.traits) this.addTrait(trait);
 
-    // Add the default abilities to the player
-    for (const [ability, value] of Object.entries(DefaultAbilityValues)) {
-      if (!this.abilities.has(+ability as AbilityIndex))
-        this.abilities.set(+ability as AbilityIndex, value);
-    }
-
     // Set the ability for operator commands
-    this.abilities.operatorCommands = this.isOp;
+    this.abilities.setAbility(AbilityIndex.OperatorCommands, this.isOp);
   }
 
   /**
@@ -486,8 +487,36 @@ class Player extends Entity {
     // Call the super method to spawn the player
     super.spawn(options);
 
-    // Update the abilities of the player
-    this.abilities.update();
+    // Create a new SetActorDataPacket
+    const data = new SetActorDataPacket();
+    data.runtimeEntityId = this.runtimeId;
+    data.inputTick = this.inputInfo.tick;
+    data.data = this.metadata.getAllActorMetadataAsDataItems();
+    data.properties = this.sharedProperties.getSharedPropertiesAsSyncData();
+
+    // Iterate over the flags set on the entity
+    for (const [flat, enabled] of this.flags.getAllActorFlags())
+      data.setActorFlag(flat, enabled);
+
+    // Create a new UpdateAbilitiesPacket
+    const abilities = new UpdateAbilitiesPacket();
+    abilities.permissionLevel = this.isOp
+      ? PermissionLevel.Operator
+      : PermissionLevel.Member;
+
+    abilities.commandPermissionLevel = this.isOp
+      ? CommandPermissionLevel.Operator
+      : CommandPermissionLevel.Normal;
+
+    abilities.entityUniqueId = this.uniqueId;
+    abilities.abilities = this.abilities.getAllAbilitiesAsLayers();
+
+    // Set the player's gamemode
+    const gamemode = new SetPlayerGameTypePacket();
+    gamemode.gamemode = this.gamemode;
+
+    // Get the biome definitions from the world's biome palette
+    const biomes = this.world.biomePalette.getBiomeDefinitionList();
 
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
@@ -555,8 +584,11 @@ class Player extends Entity {
       }
     }
 
-    // Send the available creative content & crafting data to the player
-    this.send(content, recipes);
+    // Send the data, abilities, and gamemode packets to the player
+    this.send(data, abilities, gamemode);
+
+    // Send the biome definitions, creative content, and crafting data to the player
+    this.send(biomes, content, recipes);
 
     // Teleport the player to their position
     // This fixes an issue where the player is sometimes stuck in the ground
@@ -1089,7 +1121,7 @@ class Player extends Entity {
     storage.setUsername(this.username);
     storage.setXuid(this.xuid);
     storage.setUuid(this.uuid);
-    storage.setAbilities([...this.abilities.entries()]);
+    storage.setAbilities(this.abilities.getAllAbilities());
 
     // Return the player level storage
     return storage;
@@ -1104,7 +1136,7 @@ class Player extends Entity {
 
     // Load the abilities from the storage
     for (const [key, value] of storage.getAbilities())
-      this.abilities.set(key, value);
+      this.abilities.setAbility(key, value);
   }
 
   /**

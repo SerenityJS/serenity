@@ -1,9 +1,4 @@
-import {
-  ActorDataId,
-  ActorDataType,
-  DataItem,
-  Gamemode
-} from "@serenityjs/protocol";
+import { ActorDataId, ActorDataType, Gamemode } from "@serenityjs/protocol";
 
 import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { JSONLikeObject } from "../../types";
@@ -134,11 +129,12 @@ class EntityNpcTrait extends EntityTrait {
       buttons: []
     });
 
-    // Create a new metadata item for the npc component
-    const metadata = new DataItem(ActorDataId.HasNpc, ActorDataType.Byte, 1);
-
     // Add the metadata item to the entity
-    this.entity.metadata.set(ActorDataId.HasNpc, metadata);
+    this.entity.metadata.setActorMetadata(
+      ActorDataId.HasNpc,
+      ActorDataType.Byte,
+      1
+    );
   }
 
   public onRemove(): void {
@@ -146,7 +142,7 @@ class EntityNpcTrait extends EntityTrait {
     this.entity.removeDynamicProperty(this.identifier);
 
     // Remove the metadata item from the entity
-    this.entity.metadata.delete(ActorDataId.HasNpc);
+    this.entity.metadata.setActorMetadata(ActorDataId.HasNpc, null);
   }
 
   public onInteract(player: Player, method: EntityInteractMethod): void {

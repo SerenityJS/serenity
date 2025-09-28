@@ -39,6 +39,7 @@ import { BlockIdentifier, EntityIdentifier } from "../enums";
 import { Serenity } from "../serenity";
 import { CommandExecutionState } from "../commands";
 import { BlockPermutationUpdateSignal } from "../events";
+import { BiomeType } from "../biome";
 
 import { World } from "./world";
 import { TerrainGenerator } from "./generator";
@@ -443,6 +444,40 @@ class Dimension {
 
     // Write the chunk to the provider
     return void this.world.provider.writeChunk(chunk, this);
+  }
+
+  /**
+   * Get a biome from the dimension at a given position.
+   * @param position The position to get the biome from.
+   * @returns The biome at the specified position.
+   */
+  public getBiome(position: IPosition): BiomeType {
+    // Convert the position to a chunk position
+    const cx = position.x >> 4;
+    const cz = position.z >> 4;
+
+    // Get the chunk of the provided position
+    const chunk = this.getChunk(cx, cz);
+
+    // Get the biome from the chunk
+    return chunk.getBiome(position);
+  }
+
+  /**
+   * Set a biome in the dimension at a given position.
+   * @param position The position to set the biome at.
+   * @param biome The biome to set.
+   */
+  public setBiome(position: IPosition, biome: BiomeType): void {
+    // Convert the position to a chunk position
+    const cx = position.x >> 4;
+    const cz = position.z >> 4;
+
+    // Get the chunk of the provided position
+    const chunk = this.getChunk(cx, cz);
+
+    // Set the biome in the chunk
+    chunk.setBiome(position, biome);
   }
 
   /**

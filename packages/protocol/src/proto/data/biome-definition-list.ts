@@ -1,32 +1,23 @@
-import { Buffer } from "node:buffer";
-
-import { Proto } from "@serenityjs/raknet";
+import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
+import { BiomeDefinitionList, BiomeStringList } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.BiomeDefinitionList)
 class BiomeDefinitionListPacket extends DataPacket {
-  public biomes!: Buffer;
+  /**
+   * The biome definitions in the packet.
+   */
+  @Serialize(BiomeDefinitionList)
+  public definitions!: Array<BiomeDefinitionList>;
 
-  public serialize(): Buffer {
-    this.writeVarInt(Packet.BiomeDefinitionList);
-    this.write(this.biomes);
-
-    return this.getBuffer();
-  }
-
-  public deserialize(): this {
-    this.readVarInt();
-
-    // Get the remaining length of the buffer after reading the packet ID
-    const remainingLength = Buffer.byteLength(this.buffer) - this.offset;
-
-    this.biomes = this.read(remainingLength);
-
-    return this;
-  }
+  /**
+   * The biome identifiers in the packet.
+   */
+  @Serialize(BiomeStringList)
+  public identifiers!: Array<string>;
 }
 
 export { BiomeDefinitionListPacket };
