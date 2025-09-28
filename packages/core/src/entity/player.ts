@@ -32,14 +32,16 @@ import {
   TransferPacket,
   UpdateAbilitiesPacket,
   UpdatePlayerGameTypePacket,
-  Vector3f
+  Vector3f,
 } from "@serenityjs/protocol";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import {
   EntitySpawnOptions,
   PlayerProperties,
-  PlaySoundOptions
+  PlaySoundOptions,
+  RawMessage,
+  RawText,
 } from "../types";
 import { Dimension, World } from "../world";
 import { EntityIdentifier } from "../enums";
@@ -363,21 +365,27 @@ class Player extends Entity {
    * Sends a message to the player
    * @param message The message that will be sent.
    */
-  public sendMessage(message: string): void {
+  public sendMessage(message: string | RawMessage): void {
     // Construct the text packet.
     const packet = new TextPacket();
 
+    // Prepare the raw text object.
+    const rawText: RawText = {};
+
+    // Check if the message is a string or RawMessage
+    if (typeof message === "string") rawText.rawtext = [{ text: message }];
+    else rawText.rawtext = message.rawtext;
+
     // Assign the packet data.
-    packet.type = TextPacketType.Raw;
-    packet.needsTranslation = false;
+    packet.type = TextPacketType.Json;
+    packet.needsTranslation = true;
     packet.source = null;
-    packet.message = message;
+    packet.message = JSON.stringify(rawText);
     packet.parameters = null;
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = "";
+    packet.filtered = JSON.stringify(rawText);
 
-    // Send the packet.
     this.send(packet);
   }
 
@@ -571,7 +579,7 @@ class Player extends Entity {
           // Add the recipe to the crafting data packet
           recipes.crafting.push({
             type: CraftingDataEntryType.ShapedRecipe,
-            recipe
+            recipe,
           });
         }
       }

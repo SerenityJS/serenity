@@ -15,6 +15,8 @@ import Emitter from "@serenityjs/emitter";
 import { Serenity } from "../serenity";
 import {
   DimensionProperties,
+  RawMessage,
+  RawText,
   WorldEventSignals,
   WorldProperties
 } from "../types";
@@ -254,19 +256,26 @@ class World extends Emitter<WorldEventSignals> {
    * Broadcasts a message to all players in the world.
    * @param message The message to broadcast.
    */
-  public sendMessage(message: string): void {
+  public sendMessage(message: string | RawMessage): void {
     // Construct the text packet.
     const packet = new TextPacket();
 
+    // Prepare the raw text object.
+    const rawText: RawText = {};
+
+    // Check if the message is a string or RawMessage
+    if (typeof message === "string") rawText.rawtext = [{ text: message }];
+    else rawText.rawtext = message.rawtext;
+
     // Assign the packet data.
-    packet.type = TextPacketType.Raw;
-    packet.needsTranslation = false;
+    packet.type = TextPacketType.Json;
+    packet.needsTranslation = true;
     packet.source = null;
-    packet.message = message;
+    packet.message = JSON.stringify(rawText);
     packet.parameters = null;
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = message;
+    packet.filtered = JSON.stringify(rawText);
 
     this.broadcast(packet);
   }
