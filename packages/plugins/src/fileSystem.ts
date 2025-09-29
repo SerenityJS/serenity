@@ -51,25 +51,22 @@ class PluginFileSystem {
     // Ensure the path is within the plugin's data directory
     if (!path.startsWith(this.dataPath + sep)) {
       this.logger.warn(
-        `Attempted to access invalid path: ${path}. Path must be within the plugin's data directory.`
+        `Invalid path: ${path}. Path must be within the plugin's data directory.`
       );
       return false;
     }
 
-    // If an expected type is provided, ensure the path matches the expected type
-    if (expectedType) {
-      if (!existsSync(path)) return false;
-
-      const stat = statSync(path);
-      if (
-        (expectedType === "file" && !stat.isFile()) ||
-        (expectedType === "directory" && !stat.isDirectory())
-      ) {
-        this.logger.warn(
-          `Attempted to access invalid path: ${path}. Path is not a valid ${expectedType}.`
-        );
-        return false;
-      }
+    // Determine if the path is expected to be a file or directory
+    const fileRegex = /.*\..+/; // Matches paths with a dot followed by one or more characters
+    const hasExtension = fileRegex.test(path);
+    if (
+      (expectedType === "file" && !hasExtension) ||
+      (expectedType === "directory" && hasExtension)
+    ) {
+      this.logger.warn(
+        `Invalid path: ${path}. Path is not a valid ${expectedType}.`
+      );
+      return false;
     }
 
     return true;

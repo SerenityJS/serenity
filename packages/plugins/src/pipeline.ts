@@ -346,7 +346,7 @@ class Pipeline {
 
         // Set the file system for the plugin
         plugin.fileSystem = new PluginFileSystem(
-          resolve(plugin.path, "data", plugin.identifier),
+          resolve(plugin.path, "../data", plugin.identifier),
           plugin.logger
         );
 
@@ -519,7 +519,7 @@ class Pipeline {
 
       // Set the file system for the plugin
       plugin.fileSystem = new PluginFileSystem(
-        resolve(plugin.path, "data", plugin.identifier),
+        resolve(plugin.path, "../data", plugin.identifier),
         plugin.logger
       );
 
@@ -695,7 +695,7 @@ class Pipeline {
 
       // Set the file system for the plugin
       newPlugin.fileSystem = new PluginFileSystem(
-        resolve(newPlugin.path, "data", newPlugin.identifier),
+        resolve(newPlugin.path, "../data", newPlugin.identifier),
         newPlugin.logger
       );
 
