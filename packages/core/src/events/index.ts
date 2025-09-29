@@ -38,3 +38,4 @@ export * from "./entity-die";
 export * from "./block-update";
 export * from "./block-permutation-update";
 export * from "./item-stack-damaged";
+export * from "./player-drop-experience";

@@ -1,30 +1,70 @@
 import {
-  ByteTag,
   CompoundTag,
   FloatTag,
-  IntTag,
   ListTag,
   LongTag,
   StringTag
 } from "@serenityjs/nbt";
-import {
-  ActorFlag,
-  Attribute,
-  DataItem,
-  Rotation,
-  Vector3f
-} from "@serenityjs/protocol";
-import { BinaryStream } from "@serenityjs/binarystream";
+import { Rotation, Vector3f } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
 import { JSONLikeValue } from "../../types";
+import { Entity } from "../entity";
+import { Chunk } from "../../world";
+
+import { PlayerLevelStorage } from "./player";
 
 class EntityLevelStorage extends CompoundTag {
-  public constructor(source?: CompoundTag | EntityLevelStorage) {
+  /**
+   * The storage key for dynamic properties.
+   */
+  protected static readonly DYNAMIC_PROPERTIES_KEY = "dynamic_properties";
+
+  /**
+   * The entity associated with this level storage.
+   */
+  private readonly entity: Entity;
+
+  /**
+   * The dynamic properties map holding property identifiers and their corresponding CompoundTag representations.
+   */
+  protected readonly dynamicProperties = new Map<string, CompoundTag>();
+
+  /**
+   * The chunk where the entity is currently stored (used for position updates).
+   */
+  private storedChunk: Chunk | null = null;
+
+  public constructor(entity: Entity, source?: CompoundTag) {
     super(); // No tag name needed for entity level storage
+
+    // Assign the entity to the storage
+    this.entity = entity;
 
     // If a source is provided, copy its contents
     if (source) this.push(...source.values());
+
+    // Load dynamic properties from the source if available
+    const properties = this.get<ListTag<CompoundTag>>(
+      EntityLevelStorage.DYNAMIC_PROPERTIES_KEY
+    );
+
+    // Check if properties exist
+    if (properties) {
+      // Populate the dynamic properties map
+      for (const property of properties.values()) {
+        // Get the identifier of the property
+        const identifier = property.get<StringTag>("identifier");
+
+        // If the identifier exists, add the property to the map
+        if (identifier)
+          this.dynamicProperties.set(identifier.valueOf(), property);
+      }
+    }
+  }
+
+  public isPlayer(): this is PlayerLevelStorage {
+    return this.entity instanceof Entity && this.entity.isPlayer();
   }
 
   /**
@@ -98,8 +138,14 @@ class EntityLevelStorage extends CompoundTag {
       const y = elements[1].valueOf();
       const z = elements[2].valueOf();
 
-      // Return a new Vector3f instance
-      return new Vector3f(x, y, z);
+      // Create a new Vector3f instance
+      const vector = new Vector3f(x, y, z);
+
+      // Bind the set method to update the position in storage
+      vector.set = this.setPosition.bind(this);
+
+      // Return the Vector3f instance
+      return vector;
     } else {
       throw new Error("Entity position not found in level storage.");
     }
@@ -110,6 +156,41 @@ class EntityLevelStorage extends CompoundTag {
    * @param position The position to set as a Vector3f instance.
    */
   public setPosition(position: Vector3f): void {
+    // Check if there is a stored chunk
+    if (this.storedChunk) {
+      // Get the new chunk based on the position
+      const cx = Math.floor(position.x) >> 4;
+      const cz = Math.floor(position.z) >> 4;
+
+      // Get the chunk from the entity's dimension
+      const chunk = this.entity.dimension.getChunk(cx, cz);
+
+      // If the chunk is different from the stored chunk, update it
+      if (chunk && chunk !== this.storedChunk) {
+        // Remove the entity from the old chunk
+        this.storedChunk.setEntityStorage(this.entity.uniqueId, null);
+
+        // Update the stored chunk
+        this.storedChunk = chunk;
+
+        // Add the entity to the new chunk
+        this.storedChunk.setEntityStorage(this.entity.uniqueId, this);
+      }
+    } else {
+      // If there is no stored chunk, get the chunk based on the position
+      const cx = Math.floor(position.x) >> 4;
+      const cz = Math.floor(position.z) >> 4;
+
+      // Get the chunk from the entity's dimension
+      const chunk = this.entity.dimension.getChunk(cx, cz);
+
+      // If the chunk exists, store it and add the entity to it
+      if (chunk) {
+        this.storedChunk = chunk;
+        this.storedChunk.setEntityStorage(this.entity.uniqueId, this);
+      }
+    }
+
     // Create a new ListTag for the position
     const posTag = new ListTag<FloatTag>(
       [
@@ -142,10 +223,23 @@ class EntityLevelStorage extends CompoundTag {
       const yaw = elements[0].valueOf();
       const pitch = elements[1].valueOf();
 
-      // Return a new Rotation instance
-      return new Rotation(yaw, pitch, yaw);
+      // Create a new Rotation instance
+      const vector = new Rotation(yaw, pitch, yaw);
+
+      // Bind the set method to update the rotation in storage
+      vector.set = this.setRotation.bind(this);
+
+      // Return the Rotation instance
+      return vector;
     } else {
-      throw new Error("Entity rotation not found in level storage.");
+      // Create a default rotation if not found
+      const defaultRotation = new Rotation(0, 0, 0);
+
+      // Set the default rotation in storage
+      this.setRotation(defaultRotation);
+
+      // Return the default rotation
+      return this.getRotation();
     }
   }
 
@@ -165,30 +259,31 @@ class EntityLevelStorage extends CompoundTag {
   }
 
   /**
-   * Get the dynamic properties of the entity from the level storage.
-   * @returns An array of tuples containing property identifiers and their values.
+   * Get all dynamic properties from the level storage.
+   * @returns An array of tuples containing property identifier and its value.
    */
-  public getDynamicProperties(): Array<[string, JSONLikeValue]> {
-    // Prepare an array to hold dynamic properties
+  public getAllDynamicProperties(): Array<[string, JSONLikeValue]> {
+    // Create an array to hold all dynamic properties
     const properties: Array<[string, JSONLikeValue]> = [];
 
-    // Get the dynamic properties list from the storage
-    const dynamicProperties =
-      this.get<ListTag<CompoundTag>>("dynamic_properties");
+    // Iterate over the dynamicProperties map and push each entry to the array
+    for (const [identifier, tag] of this.dynamicProperties.entries()) {
+      // Get the value from the CompoundTag
+      const valueTag = tag.get<StringTag>("value");
 
-    // If the dynamic properties does not exist, return an empty array
-    if (!dynamicProperties) return properties;
+      // If the value tag exists, parse its value and add it to the properties array
+      if (valueTag) {
+        // Attempt to parse the value as JSON
+        try {
+          // Attempt to parse the value as JSON
+          const parsedValue = JSON.parse(valueTag.valueOf());
 
-    // Iterate over each compound tag in the dynamic properties list
-    for (const property of dynamicProperties.values()) {
-      // Get the property identifier
-      const identifier = property.get<StringTag>("identifier");
-      const value = property.get<StringTag>("value");
-
-      // If both identifier and value exist, add them to the properties array
-      if (identifier && value) {
-        // Push the identifier and parsed value as a tuple to the properties array
-        properties.push([identifier.valueOf(), JSON.parse(value.valueOf())]);
+          // Push the identifier and parsed value as a tuple to the properties array
+          properties.push([identifier, parsedValue]);
+        } catch {
+          // If parsing fails, store the raw string value
+          properties.push([identifier, valueTag.valueOf()]);
+        }
       }
     }
 
@@ -197,33 +292,87 @@ class EntityLevelStorage extends CompoundTag {
   }
 
   /**
-   * Set dynamic properties for the entity in the level storage.
-   * @param properties An array of tuples containing property identifiers and their values.
+   * Check if a dynamic property exists in the level storage.
+   * @param identifier The identifier of the dynamic property to check.
+   * @returns True if the property exists, false otherwise.
    */
-  public setDynamicProperties(
-    properties: Array<[string, JSONLikeValue]>
-  ): void {
-    // Create a new ListTag for dynamic properties
-    const dynamicProperties = new ListTag<CompoundTag>(
-      [],
-      "dynamic_properties"
-    );
+  public hasDynamicProperty(identifier: string): boolean {
+    return this.dynamicProperties.has(identifier);
+  }
 
-    // Iterate over each property in the provided array
-    for (const [key, value] of properties) {
-      // Create a new CompoundTag for each property
-      const propertyTag = new CompoundTag();
+  /**
+   * Get a dynamic property by its identifier.
+   * @param identifier The identifier of the dynamic property to retrieve.
+   * @returns The value of the dynamic property, or null if not found.
+   */
+  public getDynamicProperty<T extends JSONLikeValue>(
+    identifier: string
+  ): T | null {
+    // Get the CompoundTag for the given identifier
+    const tag = this.dynamicProperties.get(identifier);
 
-      // Set the identifier and value in the compound tag
-      propertyTag.add(new StringTag(key, "identifier"));
-      propertyTag.add(new StringTag(JSON.stringify(value), "value"));
+    // If the tag exists, get the value and parse it as JSON
+    if (tag) {
+      const valueTag = tag.get<StringTag>("value");
 
-      // Add the compound tag to the dynamic properties list
-      dynamicProperties.push(propertyTag);
+      // If the value tag exists, attempt to parse its value as JSON
+      if (valueTag) {
+        try {
+          return JSON.parse(valueTag.valueOf());
+        } catch {
+          // If parsing fails, return the raw string value
+          return valueTag.valueOf() as T;
+        }
+      }
     }
 
-    // Set the dynamic properties list in the storage
-    this.set("dynamic_properties", dynamicProperties);
+    // If the tag or value does not exist, return null
+    return null;
+  }
+
+  /**
+   * Set a dynamic property in the level storage.
+   * @param identifier The identifier of the dynamic property to set.
+   * @param value The value of the dynamic property to set.
+   */
+  public setDynamicProperty<T extends JSONLikeValue>(
+    identifier: string,
+    value: T
+  ): void {
+    // Create a new CompoundTag for the dynamic property
+    const propertyTag = new CompoundTag();
+
+    // Set the identifier and value in the compound tag
+    propertyTag.add(new StringTag(identifier, "identifier"));
+    propertyTag.add(new StringTag(JSON.stringify(value), "value"));
+
+    // Add or update the dynamic property in the map
+    this.dynamicProperties.set(identifier, propertyTag);
+
+    // Create a new ListTag to hold the dynamic properties
+    const propertiesList = new ListTag<CompoundTag>(
+      this.dynamicProperties.values()
+    );
+
+    // Update the entity's storage with the new dynamic properties
+    this.set(EntityLevelStorage.DYNAMIC_PROPERTIES_KEY, propertiesList);
+  }
+
+  /**
+   * Remove a dynamic property from the level storage.
+   * @param identifier The identifier of the dynamic property to remove.
+   */
+  public removeDynamicProperty(identifier: string): void {
+    // Remove the dynamic property from the map
+    this.dynamicProperties.delete(identifier);
+
+    // Create a new ListTag to hold the dynamic properties
+    const propertiesList = new ListTag<CompoundTag>(
+      this.dynamicProperties.values()
+    );
+
+    // Update the entity's storage with the new dynamic properties
+    this.set(EntityLevelStorage.DYNAMIC_PROPERTIES_KEY, propertiesList);
   }
 
   /**
@@ -273,165 +422,59 @@ class EntityLevelStorage extends CompoundTag {
     this.set("traits", traitsTag);
   }
 
-  /**
-   * Get the metadata of the entity from the level storage.
-   * @returns An array of DataItem instances representing the metadata.
-   */
-  public getMetadata(): Array<DataItem> {
-    // Get the metadata list from the storage
-    const metadata = this.get<StringTag>("metadata");
+  public hasTrait(identifier: string): boolean {
+    // Get the existing traits list
+    const traits = super.get<ListTag<StringTag>>("traits");
 
-    // If the metadata does not exist, return an empty array
-    if (!metadata) return [];
+    // If the traits list does not exist, return false
+    if (!traits) return false;
 
-    // Create a BinaryStream from the metadata value
-    const buffer = Buffer.from(metadata.valueOf(), "base64");
-    const stream = new BinaryStream(buffer);
-
-    // Read the metadata entries from the stream
-    return DataItem.read(stream);
-  }
-
-  /**
-   * Set metadata for the entity in the level storage.
-   * @param metadata An array of DataItem instances to set as metadata.
-   */
-  public setMetadata(metadata: Array<DataItem>): void {
-    // Create a new BinaryStream to write the metadata
-    const stream = new BinaryStream();
-
-    // Write the items to the stream
-    DataItem.write(stream, metadata);
-
-    // Convert the stream to a base64 string
-    const base64Metadata = stream.getBuffer().toString("base64");
-
-    // Set the metadata in the storage as a StringTag
-    this.set("metadata", new StringTag(base64Metadata, "metadata"));
-  }
-
-  /**
-   * Get the flags of the entity from the level storage.
-   * @returns An array of tuples containing ActorFlag and its boolean value.
-   */
-  public getFlags(): Array<[ActorFlag, boolean]> {
-    // Get the flags list from the storage
-    const flags = this.get<ListTag<CompoundTag>>("flags");
-
-    // If the flags does not exist, return an empty array
-    if (!flags) return [];
-
-    // Prepare an array to hold the flag tuples
-    const flagTuples: Array<[ActorFlag, boolean]> = [];
-
-    // Iterate over each compound tag in the flags list
-    for (const flag of flags.values()) {
-      // Get the flag identifier and value
-      const id = flag.get<IntTag>("flag");
-      const value = flag.get<ByteTag>("value");
-
-      // If both id and value exist, add them as a tuple to the array
-      if (id && value) {
-        flagTuples.push([id.valueOf() as ActorFlag, value.valueOf() === 1]);
+    // Iterate over each StringTag in the traits list
+    for (const trait of traits.values()) {
+      // If the trait exists and matches the identifier, return true
+      if (trait && trait.valueOf() === identifier) {
+        return true;
       }
     }
 
-    // Return the array of flag tuples
-    return flagTuples;
+    // If no matching trait was found, return false
+    return false;
   }
 
-  /**
-   * Set flags for the entity in the level storage.
-   * @param flags An array of tuples containing ActorFlag and its boolean value.
-   */
-  public setFlags(flags: Array<[ActorFlag, boolean]>): void {
-    // Create a new ListTag for flags
-    const flagsTag = new ListTag<CompoundTag>([], "flags");
+  public addTrait(identifier: string): void {
+    // Check if the trait already exists
+    if (this.hasTrait(identifier)) return;
 
-    // Iterate over each flag tuple in the provided array
-    for (const [flag, value] of flags) {
-      // Create a new CompoundTag for each flag
-      const flagTag = new CompoundTag();
+    // Get the existing traits list
+    const traits = super.get<ListTag<StringTag>>("traits");
 
-      // Set the flag identifier and value in the compound tag
-      flagTag.set("flag", new IntTag(flag, "flag"));
-      flagTag.set("value", new ByteTag(value ? 1 : 0, "value"));
-
-      // Add the compound tag to the flags list
-      flagsTag.push(flagTag);
+    // If the traits list does not exist, create a new one
+    if (!traits) {
+      const newList = new ListTag<StringTag>([], "traits");
+      super.set("traits", newList);
     }
 
-    // Set the flags list in the storage
-    this.set("flags", flagsTag);
+    // Add the new trait identifier to the traits list
+    super.get<ListTag<StringTag>>("traits")!.push(new StringTag(identifier));
   }
 
-  /**
-   * Get the flags of the entity from the level storage.
-   * @returns An array of tuples containing ActorFlag and its boolean value.
-   */
-  public getAttributes(): Array<Attribute> {
-    // Get the attributes list from the storage
-    const attributes = this.get<StringTag>("attributes");
+  public removeTrait(identifier: string): void {
+    // Check if the trait exists
+    if (!this.hasTrait(identifier)) return;
 
-    // If the attributes does not exist, return an empty array
-    if (!attributes) return [];
+    // Get the existing traits list
+    const traits = super.get<ListTag<StringTag>>("traits");
 
-    // Create a BinaryStream from the attributes value
-    const buffer = Buffer.from(attributes.valueOf(), "base64");
-    const stream = new BinaryStream(buffer);
+    // If the traits list does not exist, return early
+    if (!traits) return;
 
-    // Read the attributes from the stream
-    return Attribute.read(stream);
-  }
+    // Find the index of the trait with the given identifier
+    const index = traits.findIndex((trait) => trait?.valueOf() === identifier);
 
-  /**
-   * Set attributes for the entity in the level storage.
-   * @param attributes An array of Attribute instances to set.
-   */
-  public setAttributes(attributes: Array<Attribute>): void {
-    // Create a new BinaryStream to write the attributes
-    const stream = new BinaryStream();
-
-    // Write the attributes to the stream
-    Attribute.write(stream, attributes);
-
-    // Convert the stream to a base64 string
-    const base64Attributes = stream.getBuffer().toString("base64");
-
-    // Set the attributes in the storage as a StringTag
-    this.set("attributes", new StringTag(base64Attributes, "attributes"));
-  }
-
-  /**
-   * Initialize the EntityLevelStorage from a buffer.
-   * @param buffer The buffer containing the serialized EntityLevelStorage data.
-   * @returns A new EntityLevelStorage instance initialized from the buffer.
-   */
-  public static fromBuffer(buffer: Buffer): EntityLevelStorage {
-    // Create a new BinaryStream from the buffer
-    const stream = new BinaryStream(buffer);
-
-    // Read the CompoundTag from the stream
-    const tag = CompoundTag.read(stream);
-
-    // Return a new EntityLevelStorage instance with the read tag
-    return new this(tag);
-  }
-
-  /**
-   * Convert the EntityLevelStorage to a buffer.
-   * @param storage The EntityLevelStorage or CompoundTag to convert.
-   * @returns A Buffer containing the serialized EntityLevelStorage data.
-   */
-  public static toBuffer(storage: EntityLevelStorage | CompoundTag): Buffer {
-    // Create a new BinaryStream to write the storage
-    const stream = new BinaryStream();
-
-    // Write the storage to the stream
-    this.write(stream, storage);
-
-    // Return the buffer from the stream
-    return stream.getBuffer();
+    // If the trait was found, remove it from the list
+    if (index !== -1) {
+      traits.splice(index, 1);
+    }
   }
 }
 

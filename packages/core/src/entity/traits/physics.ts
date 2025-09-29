@@ -15,6 +15,9 @@ class EntityPhysicsTrait extends EntityTrait {
     // Get the entity's collision trait
     const collision = this.entity.getTrait(EntityCollisionTrait);
 
+    // Get the entity's position
+    const position = this.entity.position;
+
     // Check if the entity has a collision trait
     if (collision) {
       // Check if the entity is colliding with a wall
@@ -27,13 +30,13 @@ class EntityPhysicsTrait extends EntityTrait {
       }
       // If not, apply the x velocity to the entity
       else {
-        this.entity.position.x += this.entity.velocity.x;
+        position.x += this.entity.velocity.x;
         this.entity.velocity.x *= collision.frictionForce;
       }
 
       // Check if the entity is colling with the ground
       if (collision.yAxisCollision === -1 && this.entity.velocity.y < 0) {
-        this.entity.position.y = Math.round(this.entity.position.y);
+        position.y = Math.round(position.y);
 
         // Reset the y velocity to the gravity force or zero
         this.entity.velocity.y = 0;
@@ -46,7 +49,7 @@ class EntityPhysicsTrait extends EntityTrait {
           : 0;
       }
       // Apply the y velocity to the entity
-      else this.entity.position.y += this.entity.velocity.y;
+      else position.y += this.entity.velocity.y;
 
       // Check if the entity is colliding with a wall
       if (collision.zAxisCollision === -1 && this.entity.velocity.z < 0) {
@@ -58,13 +61,13 @@ class EntityPhysicsTrait extends EntityTrait {
       }
       // If not, apply the z velocity to the entity
       else {
-        this.entity.position.z += this.entity.velocity.z;
+        position.z += this.entity.velocity.z;
         this.entity.velocity.z *= collision.frictionForce;
       }
     } else {
-      this.entity.position.x += this.entity.velocity.x;
-      this.entity.position.y += this.entity.velocity.y;
-      this.entity.position.z += this.entity.velocity.z;
+      position.x += this.entity.velocity.x;
+      position.y += this.entity.velocity.y;
+      position.z += this.entity.velocity.z;
     }
 
     // Check if the entity's velocity is getting close to 0
@@ -76,6 +79,9 @@ class EntityPhysicsTrait extends EntityTrait {
     // Check if the entity is moving
     if (this.entity.velocity.isZero()) this.entity.isMoving = false;
     else this.entity.isMoving = true;
+
+    // Set the entity's position
+    this.entity.position = position;
   }
 }
 

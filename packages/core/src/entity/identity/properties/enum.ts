@@ -20,10 +20,13 @@ class EntityEnumProperty extends EntityProperty {
     values: Array<string>,
     defaultValue?: string
   ) {
-    super(EntityPropertyType.Float, identifier);
+    super(EntityPropertyType.Enum, identifier);
 
     // Check if the values are empty
     if (!values[0]) throw new Error("Values cannot be empty");
+
+    // Set the enum values of the property
+    this.setEnum(values);
 
     // Set the current value of the property
     this.currentValue = values[values.indexOf(defaultValue ?? values[0])] ?? "";
@@ -33,11 +36,9 @@ class EntityEnumProperty extends EntityProperty {
    * Get the enum values of the property.
    */
   public getEnum(): Array<string> {
-    return (
-      this.compound
-        .get<ListTag<StringTag>>("enum")
-        ?.map((tag) => tag.valueOf()) ?? []
-    );
+    const enumTag = this.compound.get<ListTag<StringTag>>("enum");
+    if (!enumTag) return [];
+    return enumTag.map((tag) => tag.valueOf());
   }
 
   /**
@@ -45,12 +46,9 @@ class EntityEnumProperty extends EntityProperty {
    * @param values The strings that the property can take.
    */
   public setEnum(values: Array<string>): void {
-    this.compound.add(
-      new ListTag<StringTag>(
-        values.map((value) => new StringTag(value)),
-        "enum"
-      )
-    );
+    const enumTags = values.map((value) => new StringTag(value));
+    const enumListTag = new ListTag<StringTag>(enumTags, "enum");
+    this.compound.add(enumListTag);
   }
 }
 

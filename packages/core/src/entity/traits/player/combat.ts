@@ -24,9 +24,9 @@ class PlayerCombatTrait extends PlayerTrait {
    * The combat property data for the player.
    */
   public get property(): PlayerCombatProperty {
-    return this.player.getDynamicProperty(
-      PlayerCombatTrait.identifier
-    ) as PlayerCombatProperty;
+    return this.player
+      .getStorage()
+      .getDynamicProperty(PlayerCombatTrait.identifier) as PlayerCombatProperty;
   }
 
   /**
@@ -111,24 +111,28 @@ class PlayerCombatTrait extends PlayerTrait {
 
   public onAdd(): void {
     // Check if the player has a combat property.
-    if (this.player.hasDynamicProperty(PlayerCombatTrait.identifier)) return;
+    if (
+      this.player.getStorage().hasDynamicProperty(PlayerCombatTrait.identifier)
+    )
+      return;
 
     // Create a new combat property.
-    this.player.addDynamicProperty<PlayerCombatProperty>(
-      PlayerCombatTrait.identifier,
-      {
+    this.player
+      .getStorage()
+      .setDynamicProperty<PlayerCombatProperty>(PlayerCombatTrait.identifier, {
         horizontalMaxReach: 3,
         verticalMaxReach: 3,
         horizontalKnockback: 0.4,
         verticalKnockback: 0.4,
         combatCooldown: 5
-      }
-    );
+      });
   }
 
   public onRemove(): void {
     // Remove the combat property from the player.
-    this.player.removeDynamicProperty(PlayerCombatTrait.identifier);
+    this.player
+      .getStorage()
+      .removeDynamicProperty(PlayerCombatTrait.identifier);
   }
 
   public onAttackEntity(target: Entity): void {
@@ -141,22 +145,22 @@ class PlayerCombatTrait extends PlayerTrait {
     // Check if the target is a player, and if the player is allowed to attack players.
     if (
       target.isPlayer() &&
-      !this.player.abilities.get(AbilityIndex.AttackPlayers)
+      !this.player.abilities.getAbility(AbilityIndex.AttackPlayers)
     )
       return;
 
     // Check if the target is not a player, and if the player is allowed to attack mobs.
     if (
       !target.isPlayer() &&
-      !this.player.abilities.get(AbilityIndex.AttackMobs)
+      !this.player.abilities.getAbility(AbilityIndex.AttackMobs)
     )
       return;
 
     // Check if the target is a player, and if the target is in creative or spectator mode.
     if (
       target.isPlayer() &&
-      (target.gamemode === Gamemode.Creative ||
-        target.gamemode === Gamemode.Spectator)
+      (target.getGamemode() === Gamemode.Creative ||
+        target.getGamemode() === Gamemode.Spectator)
     )
       return;
 

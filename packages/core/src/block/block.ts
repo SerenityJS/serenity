@@ -1,4 +1,5 @@
 import {
+  BlockActorDataPacket,
   BlockFace,
   BlockPosition,
   Enchantment,
@@ -7,14 +8,12 @@ import {
   LevelEventPacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
+import { BaseTag } from "@serenityjs/nbt";
 
 import { Dimension, World } from "../world";
 import {
   BlockDestroyOptions,
   BlockInteractionOptions,
-  BlockProperties,
-  JSONLikeObject,
   JSONLikeValue
 } from "../types";
 import { Chunk } from "../world/chunk";
@@ -37,7 +36,6 @@ import {
 } from "../events";
 
 import { BlockDirectionTrait, BlockTrait } from "./traits";
-import { NbtMap } from "./maps";
 import {
   BlockPermutation,
   BlockType,
@@ -64,6 +62,13 @@ class Block {
   protected readonly serenity: Serenity;
 
   /**
+   * The traits that are attached to the block.
+   * Traits add additional behavior to the block and only the trait identifier will be saved with the world database.
+   * Traits generally use components or nbt to store additional data.
+   */
+  private readonly traits = new Map<string, BlockTrait>();
+
+  /**
    * The dimension the block is in.
    */
   public readonly dimension: Dimension;
@@ -72,28 +77,6 @@ class Block {
    * The position of the block. (x, y, z)
    */
   public readonly position: BlockPosition;
-
-  /**
-   * The dynamic properties that are attached to the block.
-   * Dynamic properties is additional data that is attached to the block and will be saved with the world database.
-   * These are usaully used by traits to store additional data, but can be used by other systems as well.
-   */
-  public readonly dyanamicProperties = new Map<string, JSONLikeValue>();
-
-  /**
-   * The traits that are attached to the block.
-   * Traits add additional behavior to the block and only the trait identifier will be saved with the world database.
-   * Traits generally use components or nbt to store additional data.
-   */
-  public readonly traits = new Map<string, BlockTrait>();
-
-  /**
-   * The nbt data that is attached to the block.
-   * Nbt data is additional data that is attached to the block and will be saved with the world database.
-   * The format of the nbt data is exactly the same as the nbt format of vanilla Minecraft.
-   * This data is used to apply additional metadata to the block. (Custom Name, Chest Open/Closed, etc.)
-   */
-  public readonly nbt = new NbtMap(this);
 
   /**
    * The block type of the block.
@@ -276,16 +259,46 @@ class Block {
   public constructor(
     dimension: Dimension,
     position: BlockPosition,
-    properties?: Partial<BlockProperties>
+    storage?: BlockLevelStorage
   ) {
     // Assign the properties to the block
     this.serenity = dimension.world.serenity;
     this.dimension = dimension;
     this.position = position;
 
-    // Check if a level storage is provided in the properties
-    if (properties?.storage)
-      this.loadLevelStorage(this.world, properties.storage);
+    // Get the chunk the block is in
+    const chunk = this.getChunk();
+
+    // If a storage is provided, set it in the chunk
+    if (storage) chunk.setBlockStorage(position, storage, false);
+
+    // Iterate over the traits of the block's storage and add them to the block
+    for (const identifier of this.getStorage().getTraits()) {
+      // Check if the trait exists in the block palette.
+      const traitType = this.world.blockPalette.getTrait(identifier);
+
+      // Get the position of the block.
+      const { x, y, z } = this.position;
+
+      // If the trait does not exist, log an error and skip it.
+      if (!traitType) {
+        // Log a warning to the console.
+        this.world.logger.warn(
+          `Skipping BlockTrait for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r, as the trait §u${identifier}§r does not exist in the block palette.`
+        );
+
+        // Skip the trait if it does not exist.
+        continue;
+      }
+
+      // Add the trait to the block.
+      const trait = this.addTrait(traitType);
+
+      // Log the loading of the trait.
+      this.world.logger.debug(
+        `Loaded BlockTrait §u${trait.identifier}§r for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r.`
+      );
+    }
 
     // Add the traits of the block type to the block
     for (const [, trait] of this.type.traits) this.addTrait(trait);
@@ -394,14 +407,13 @@ class Block {
    */
   public setPermutation(
     permutation: BlockPermutation,
-    storage?: CompoundTag
+    storage?: BlockLevelStorage
   ): void {
     // Check if the type of the permutation has changed.
     if (this.permutation.type !== permutation.type) {
       // Clear the nbt, traits, and dynamic properties of the block.
-      this.nbt.clear();
+      this.getStorage().clear();
       this.traits.clear();
-      this.dyanamicProperties.clear();
     }
 
     // Check if the block is air.
@@ -414,21 +426,50 @@ class Block {
     this.dimension.setPermutation(this.position, permutation);
 
     // Check if a level storage is provided.
-    if (storage) this.loadLevelStorage(this.world, storage);
+    if (storage) {
+      // Get the chunk the block is in.
+      const chunk = this.getChunk();
+
+      // Set the block storage in the chunk.
+      chunk.setBlockStorage(this.position, storage, false);
+
+      // Iterate over the traits of the block's storage and add them to the block
+      for (const identifier of this.getStorage().getTraits()) {
+        // Check if the trait exists in the block palette.
+        const traitType = this.world.blockPalette.getTrait(identifier);
+
+        // Get the position of the block.
+        const { x, y, z } = this.position;
+
+        // If the trait does not exist, log an error and skip it.
+        if (!traitType) {
+          // Log a warning to the console.
+          this.world.logger.warn(
+            `Skipping BlockTrait for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r, as the trait §u${identifier}§r does not exist in the block palette.`
+          );
+
+          // Skip the trait if it does not exist.
+          continue;
+        }
+
+        // Add the trait to the block.
+        const trait = this.addTrait(traitType);
+
+        // Log the loading of the trait.
+        this.world.logger.debug(
+          `Loaded BlockTrait §u${trait.identifier}§r for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r.`
+        );
+      }
+    }
 
     // Push the nbt data of the permutation to the block's nbt.
-    this.nbt.push(...permutation.nbt.values());
+    this.getStorage().push(...permutation.nbt.values());
 
     // Iterate over all the traits and apply them to the block
     for (const [, trait] of permutation.type.traits) this.addTrait(trait);
 
     // Check if the block should be cached.
-    if (
-      (this.nbt.size > 0 ||
-        this.dyanamicProperties.size > 0 ||
-        this.traits.size > 0) &&
-      !this.isAir
-    ) {
+    if ((this.getStorage().size > 0 || this.traits.size > 0) && !this.isAir) {
       // Calculate the block hash using the position
       const hash = BlockPosition.hash(this.position);
 
@@ -446,7 +487,7 @@ class Block {
    * @returns Whether the block has the dynamic property.
    */
   public hasDynamicProperty(key: string): boolean {
-    return this.dyanamicProperties.has(key);
+    return this.getStorage().hasDynamicProperty(key);
   }
 
   /**
@@ -454,8 +495,8 @@ class Block {
    * @param key The key of the dynamic property to get from the block.
    * @returns The dynamic property if it exists, otherwise null.
    */
-  public getDynamicProperty<T extends JSONLikeObject>(key: string): T | null {
-    return this.dyanamicProperties.get(key) as T | null;
+  public getDynamicProperty<T extends JSONLikeValue>(key: string): T | null {
+    return this.getStorage().getDynamicProperty<T>(key);
   }
 
   /**
@@ -463,7 +504,7 @@ class Block {
    * @param key The key of the dynamic to remove.
    */
   public removeDynamicProperty(key: string): void {
-    this.dyanamicProperties.delete(key);
+    this.getStorage().removeDynamicProperty(key);
   }
 
   /**
@@ -471,8 +512,8 @@ class Block {
    * @param key The key of the dynamic property to add.
    * @param property The dynamic property to add.
    */
-  public addDynamicProperty(key: string, property: JSONLikeObject): void {
-    this.dyanamicProperties.set(key, property);
+  public addDynamicProperty(key: string, property: JSONLikeValue): void {
+    this.getStorage().addDynamicProperty(key, property);
   }
 
   /**
@@ -480,11 +521,19 @@ class Block {
    * @param key The key of the dynamic property to set.
    * @param property The dynamic property to set.
    */
-  public setDynamicProperty<T extends JSONLikeObject>(
+  public setDynamicProperty<T extends JSONLikeValue>(
     key: string,
     property: T
   ): void {
-    this.dyanamicProperties.set(key, property);
+    this.getStorage().setDynamicProperty(key, property);
+  }
+
+  /**
+   * Get all dynamic properties of the block.
+   * @returns A map of all dynamic properties of the block.
+   */
+  public getAllDynamicProperties(): Array<[string, JSONLikeValue]> {
+    return this.getStorage().getDynamicProperties();
   }
 
   /**
@@ -493,9 +542,11 @@ class Block {
    * @returns Whether the block has the trait
    */
   public hasTrait(trait: string | typeof BlockTrait): boolean {
-    return this.traits.has(
-      typeof trait === "string" ? trait : trait.identifier
-    );
+    // Get the identifier of the trait
+    const identifier = typeof trait === "string" ? trait : trait.identifier;
+
+    // Return whether the block has the trait
+    return this.traits.has(identifier);
   }
 
   /**
@@ -528,16 +579,23 @@ class Block {
    * @param trait The trait to remove
    */
   public removeTrait(trait: string | typeof BlockTrait): void {
+    // Determine the identifier of the trait
+    let identifier = typeof trait === "string" ? trait : trait.identifier;
+
     // Get the trait from the block
-    const instance = this.traits.get(
-      typeof trait === "string" ? trait : trait.identifier
-    );
+    const instance = this.traits.get(identifier);
 
     // Call the onRemove method of the trait
     instance?.onRemove?.();
 
     // Remove the trait from the block
-    this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
+    this.traits.delete(identifier);
+
+    // If the trait has a state, append it to the identifier
+    if (instance?.state) identifier += "@" + instance.state;
+
+    // Remove the trait from the block's storage
+    this.getStorage().removeTrait(identifier);
   }
 
   /**
@@ -578,6 +636,14 @@ class Block {
       // Call the onAdd method of the trait
       instance.onAdd?.();
 
+      // If the trait has a state, append it to the identifier
+      const identifier = instance.state
+        ? instance.identifier + "@" + instance.state
+        : instance.identifier;
+
+      // Add the trait to the block's storage
+      this.getStorage().addTrait(identifier);
+
       // Return the trait that was added
       return instance;
     } catch (reason) {
@@ -596,6 +662,140 @@ class Block {
   }
 
   /**
+   * Get all traits currently applied to the block.
+   * @returns An array of all traits currently applied to the block.
+   */
+  public getAllTraits(): Array<BlockTrait> {
+    return [...this.traits.values()];
+  }
+
+  /**
+   * Get the nbt level storage for the block.
+   * @returns The current level storage of the block.
+   */
+  public getStorage(): BlockLevelStorage {
+    // Get the chunk the block is in
+    const chunk = this.getChunk();
+
+    // Prepare a variable to hold the block storage
+    let storage: BlockLevelStorage;
+
+    // Check if the chunk has a block storage for the block position
+    if (chunk.hasBlockStorage(this.position)) {
+      // Get the block storage from the chunk
+      storage = chunk.getBlockStorage(this.position) as BlockLevelStorage;
+    } else {
+      // Create a new block storage for the block
+      storage = new BlockLevelStorage(chunk);
+
+      // Set the position of the block storage
+      storage.setPosition(this.position);
+
+      // Set the new block storage in the chunk's block storage map
+      chunk.setBlockStorage(this.position, storage, false);
+    }
+
+    // Return the new block storage
+    return storage;
+  }
+
+  /**
+   * Check if the level storage has a specific tag entry.
+   * @param name The name of the tag entry to check for.
+   * @returns Whether the tag entry exists or not.
+   */
+  public hasStorageEntry(name: string): boolean {
+    return this.getStorage().has(name);
+  }
+
+  /**
+   * Get a specific tag entry from the level storage.
+   * @param name The name of the tag entry to get.
+   * @returns The tag entry if it exists, otherwise null.
+   */
+  public getStorageEntry<T extends BaseTag>(name: string): T | null {
+    return this.getStorage().get<T>(name) ?? null;
+  }
+
+  /**
+   * Set a specific tag entry in the level storage.
+   * @param name The name of the tag entry to set.
+   * @param tag The tag entry to set.
+   */
+  public setStorageEntry<T extends BaseTag>(name: string, tag: T): void {
+    // Set the tag in the storage
+    this.getStorage().set(name, tag);
+
+    // Send a storage update packet to all players in the dimension
+    this.sendStorageUpdate();
+  }
+
+  /**
+   * Adds a tag entry to the level storage.
+   * @param tag The tag entry to add.
+   * @returns The tag entry that was added.
+   */
+  public addStorageEntry<T extends BaseTag>(tag: T): T {
+    // Validate that the tag has a name
+    if (!tag.name) throw new Error("Tag must have a name");
+
+    // Send a storage update packet to all players in the dimension
+    this.sendStorageUpdate();
+
+    // Add the tag to the storage
+    return this.getStorage().add(tag);
+  }
+
+  /**
+   * Pushes multiple tag entries to the level storage.
+   * @param tags The tag entries to push.
+   */
+  public pushStorageEntry(...tags: Array<BaseTag>): void {
+    // Validate that all tags have a name
+    for (const tag of tags) {
+      if (!tag.name) throw new Error("All tags must have a name");
+    }
+
+    // Send a storage update packet to all players in the dimension
+    this.sendStorageUpdate();
+
+    // Push the tags to the storage
+    this.getStorage().push(...tags);
+  }
+
+  /**
+   * Deletes a tag entry from the level storage.
+   * @param name The name of the tag entry to delete.
+   * @returns Whether the tag entry was deleted or not.
+   */
+  public deleteStorageEntry(name: string): boolean {
+    // Send a storage update packet to all players in the dimension
+    this.sendStorageUpdate();
+
+    // Delete the tag from the storage
+    return this.getStorage().delete(name);
+  }
+
+  /**
+   * Sends the current level storage to all players in the dimension.
+   */
+  public sendStorageUpdate(dirty = true): void {
+    // Check if the storage is empty
+    if (this.getStorage().size === 0) return;
+
+    // Create a new BlockActorDataPacket
+    const packet = new BlockActorDataPacket();
+    packet.position = this.position;
+    packet.nbt = this.getStorage();
+
+    // Mark the storage as dirty if specified
+    if (dirty) this.getChunk().dirty = true;
+
+    // Send the packet to all players in the dimension
+    this.dimension.broadcast(packet);
+  }
+
+  /**
    * Gets the tool type required to break the block.
    * @returns
    */
@@ -604,14 +804,6 @@ class Block {
 
     return BlockToolType.None;
   }
-
-  /**
-   * Gets the tool required to break the block.
-   * @returns The tool required to break the block.
-   */
-  // public isToolCompatible(_itemStack: ItemStack): boolean {
-  //   return false;
-  // }
 
   /**
    * Gets the item stack of the block.
@@ -830,11 +1022,13 @@ class Block {
     if (options.cancel) return false;
 
     // Check if the origin is a player.
-    if (options?.origin?.isPlayer() && options?.dropLoot) {
-      // Check if the player is in survival mode.
-      if (options.origin.gamemode === Gamemode.Survival) this.spawnLoot();
-    } // If the origin is not a player, drop the loot if specified.
-    else if (options?.dropLoot) this.spawnLoot();
+    if (this.world.gamerules.doTileDrops === true)
+      if (options?.origin?.isPlayer() && options?.dropLoot) {
+        // Check if the player is in survival mode.
+        if (options.origin.getGamemode() === Gamemode.Survival)
+          this.spawnLoot();
+      } // If the origin is not a player, drop the loot if specified.
+      else if (options?.dropLoot) this.spawnLoot();
 
     // Create a new LevelEventPacket to broadcast the block break.
     const packet = new LevelEventPacket();
@@ -1135,73 +1329,6 @@ class Block {
 
     // If not, return null.
     return null;
-  }
-
-  public getLevelStorage(): BlockLevelStorage {
-    // Create a new BlockLevelStorage instance with the block's nbt data.
-    const storage = new BlockLevelStorage(this.nbt);
-
-    // Set the properties of the storage.
-    storage.setPosition(this.position);
-    storage.setDynamicProperties([...this.dyanamicProperties.entries()]);
-
-    // Prepare an array to hold the traits.
-    const traits = Array<string>();
-
-    // Iterate over the traits and add them to the storage.
-    for (const [trait, { state }] of this.traits) {
-      // Check if the trait has a state.
-      if (state) traits.push(trait + "@" + state);
-      else traits.push(trait);
-    }
-
-    // Set the traits of the storage.
-    storage.setTraits(traits);
-
-    // Return the block level storage instance.
-    return storage;
-  }
-
-  public loadLevelStorage(world: World, source: CompoundTag): void {
-    // Create a new BlockLevelStorage instance with the provided source.
-    const storage = new BlockLevelStorage(source);
-
-    // Copy the storage to the blocks nbt.
-    this.nbt.push(...storage.values());
-
-    // Iterate over the dynamic properties and add them to the block.
-    for (const [identifier, value] of storage.getDynamicProperties()) {
-      // Set the dynamic property of the block.
-      this.dyanamicProperties.set(identifier, value);
-    }
-
-    // Iterate over the traits and add them to the block.
-    for (const identifier of storage.getTraits()) {
-      // Check if the trait exists in the block palette.
-      const traitType = world.blockPalette.getTrait(identifier);
-
-      // Get the position of the block.
-      const { x, y, z } = this.position;
-
-      // If the trait does not exist, log an error and skip it.
-      if (!traitType) {
-        // Log a warning to the console.
-        world.logger.warn(
-          `Skipping BlockTrait for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r, as the trait §u${identifier}§r does not exist in the block palette.`
-        );
-
-        // Skip the trait if it does not exist.
-        continue;
-      }
-
-      // Add the trait to the block.
-      const trait = this.addTrait(traitType);
-
-      // Log the loading of the trait.
-      world.logger.debug(
-        `Loaded BlockTrait §u${trait.identifier}§r for block §u${this.identifier}§r @ §7(§u${x}§7, §u${y}§7, §u${z}§7)§r.`
-      );
-    }
   }
 }
 

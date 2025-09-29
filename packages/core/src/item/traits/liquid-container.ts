@@ -82,7 +82,7 @@ class ItemStackLiquidContainerTrait extends ItemStackTrait {
         }
 
         // Check if the player is in creative mode
-        if (player.gamemode !== Gamemode.Creative) {
+        if (player.getGamemode() !== Gamemode.Creative) {
           // Create a new ItemStack to replace the water bucket
           const itemStack = new ItemStack(ItemIdentifier.Bucket);
 
@@ -113,7 +113,7 @@ class ItemStackLiquidContainerTrait extends ItemStackTrait {
         }
 
         // Check if the player is in creative mode
-        if (player.gamemode !== Gamemode.Creative) {
+        if (player.getGamemode() !== Gamemode.Creative) {
           // Create a new ItemStack to replace the lava bucket
           const itemStack = new ItemStack(ItemIdentifier.Bucket);
 

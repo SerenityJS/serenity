@@ -26,7 +26,7 @@ class EmoteHandler extends NetworkHandler {
     if (!signal) return;
 
     // Set the player's emote flag
-    player.flags.set(ActorFlag.Emoting, true);
+    player.flags.setActorFlag(ActorFlag.Emoting, true);
 
     // Schedule the emote to stop after the tick length
     dimension.schedule(packet.tickLength).on(() => {
@@ -34,7 +34,7 @@ class EmoteHandler extends NetworkHandler {
       new PlayerStopEmotingSignal(player, packet.emoteId).emit();
 
       // Clear the player's emote flag
-      player.flags.set(ActorFlag.Emoting, false);
+      player.flags.setActorFlag(ActorFlag.Emoting, false);
     });
 
     // Broadcast the emote to all players in the dimension

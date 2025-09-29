@@ -32,13 +32,17 @@
 
 Serenity is a robust and flexible Minecraft Bedrock Edition Server Software that was built from the ground up using [Rust](https://www.rust-lang.org/) and [TypeScript](https://www.typescriptlang.org/). Serenity provides a well written set of apis and tools for building Minecraft Bedrock servers, allowing developers to focus on creating unique game-play experiences, without worrying about the underlying network and protocol details. Serenity is in a active state of development, though is now approaching its first stable release. As some vanilla features are missing, we are working as hard as possible to implement these important features.
 
+### Serenity Plugins
+
+Serenity has a powerful plugin system that allows developers to modify and extend the functionality of the server. Plugins can be written in either TypeScript or JavaScript, and have access to the same APIs used to build Serenity itself. This means that developers can create unique gameplay experiences without having to worry about the underlying network and protocol details.
+
+We have a public plugin repository where users can share and discover plugins made by the community. You can find the plugin repository [here](https://plugins.serenityjs.net). If you are interested in creating your own plugins, please refer to our [sample-plugin](https://github.com/SerenityJS/sample-plugin). The sample-plugin repository provides the basic structure and approach needed to create a plugin for Serenity.
+
 ## Getting Started
 
 ### Prerequisites
 
 Before installing Serenity you first need to make sure you have the latest recommended version of [Node.js](https://nodejs.org/en/) installed on your machine. Once installed, it is recommended to fully restart your machine to allow for the full Node.js experience to be enabled. You will also need to use an integrated development environment of personal choice. [Visual Studio Code](https://code.visualstudio.com/) is the recommended environment for Serenity development.
-
-Serenity has an easy to use plugin system. This system allows modification to the Serenity software while providing a full api to completely interact with the server. Plugins can be written in Typescript or JavaScript. Check out the [sample-plugin](https://github.com/SerenityJS/sample-plugin) to get started. Rather than providing a seperate api for plugins, they have direct access to the same set of api's we use to build Serenity, so explore our documentation for usage.
 
 ### Installing Serenity
 We provide pre-built server executable binaries for both the latest and beta releases. You can download the latest server binaries via [releases.](https://github.com/SerenityJS/serenity/releases) You can also download our beta releases, but a GitHub account is needed to access the [artifacts](https://github.com/SerenityJS/serenity/actions/workflows/release.yml) from GitHub Actions. The server binary executable is a more traditional approach that relies heavily on self or community made plugins.

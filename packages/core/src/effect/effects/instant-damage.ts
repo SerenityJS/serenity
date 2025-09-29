@@ -12,7 +12,7 @@ class InstantDamageEffect extends Effect {
     // TODO: Undead check for healing
     //if (entity)
 
-    if (entity.isPlayer() && entity.gamemode == Gamemode.Creative) return;
+    if (entity.isPlayer() && entity.getGamemode() == Gamemode.Creative) return;
     const healthTrait = entity.getTrait(EntityHealthTrait);
 
     if (!healthTrait) return;

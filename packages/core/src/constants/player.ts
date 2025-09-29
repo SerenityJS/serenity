@@ -7,7 +7,6 @@ const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
   xuid: "0000000000000000",
   uuid: "00000000-0000-0000-0000-000000000000",
-  uniqueId: -1n,
   clientSystemInfo: ClientSystemInfo.empty(),
   skin: SerializedSkin.empty()
 };

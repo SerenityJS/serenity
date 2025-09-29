@@ -15,7 +15,7 @@ class SetPlayerGameTypeHander extends NetworkHandler {
     if (!player.isOp) return;
 
     // Set the gamemode for the player
-    player.gamemode = packet.gamemode;
+    player.setGamemode(packet.gamemode);
   }
 }
 

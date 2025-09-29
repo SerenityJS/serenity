@@ -15,7 +15,7 @@ class BlockSignTrait extends BlockTrait {
    */
   public getFrontText(): string {
     // Get the front text from the block's NBT data
-    const frontText = this.block.nbt.get<CompoundTag>("FrontText");
+    const frontText = this.block.getStorageEntry<CompoundTag>("FrontText");
 
     // Return the text value of the front text, or an empty string if it doesn't exist
     return frontText?.get<StringTag>("Text")?.valueOf() ?? "";
@@ -27,15 +27,16 @@ class BlockSignTrait extends BlockTrait {
    */
   public setFrontText(text: string): void {
     // Check if the block has a front text in its NBT data
-    if (!this.block.nbt.has("FrontText")) this.onAdd();
+    if (!this.block.hasStorageEntry("FrontText")) this.onAdd();
 
     // Get the front text from the block's NBT data
-    const frontText = this.block.nbt.get<CompoundTag>("FrontText")!;
+    const frontText = this.block.getStorageEntry<CompoundTag>("FrontText")!;
 
     // Set the text value of the front text
     frontText.set("Text", new StringTag(text, "Text"));
 
-    this.block.nbt.update(); // Update the block's NBT data after setting the text
+    // Send a storage update packet to all players in the dimension
+    this.block.sendStorageUpdate();
   }
 
   /**
@@ -44,7 +45,7 @@ class BlockSignTrait extends BlockTrait {
    */
   public getFrontTextColor(): Color {
     // Get the front text from the block's NBT data
-    const frontText = this.block.nbt.get<CompoundTag>("FrontText");
+    const frontText = this.block.getStorageEntry<CompoundTag>("FrontText");
 
     // Get the color value of the front text, or return a default color if it doesn't exist
     const value = frontText?.get<IntTag>("SignTextColor")?.valueOf() ?? 0;
@@ -58,15 +59,16 @@ class BlockSignTrait extends BlockTrait {
    */
   public setFrontTextColor(color: Color): void {
     // Check if the block has a front text in its NBT data
-    if (!this.block.nbt.has("FrontText")) this.onAdd();
+    if (!this.block.hasStorageEntry("FrontText")) this.onAdd();
 
     // Get the front text from the block's NBT data
-    const frontText = this.block.nbt.get<CompoundTag>("FrontText")!;
+    const frontText = this.block.getStorageEntry<CompoundTag>("FrontText")!;
 
     // Set the color value of the front text
     frontText.set("SignTextColor", new IntTag(color.toInt(), "SignTextColor"));
 
-    this.block.nbt.update(); // Update the block's NBT data after setting the color
+    // Send a storage update packet to all players in the dimension
+    this.block.sendStorageUpdate();
   }
 
   /**
@@ -75,7 +77,7 @@ class BlockSignTrait extends BlockTrait {
    */
   public getBackText(): string {
     // Get the back text from the block's NBT data
-    const backText = this.block.nbt.get<CompoundTag>("BackText");
+    const backText = this.block.getStorageEntry<CompoundTag>("BackText");
 
     // Return the text value of the back text, or an empty string if it doesn't exist
     return backText?.get<StringTag>("Text")?.valueOf() ?? "";
@@ -87,15 +89,16 @@ class BlockSignTrait extends BlockTrait {
    */
   public setBackText(text: string): void {
     // Check if the block has a back text in its NBT data
-    if (!this.block.nbt.has("BackText")) this.onAdd();
+    if (!this.block.hasStorageEntry("BackText")) this.onAdd();
 
     // Get the back text from the block's NBT data
-    const backText = this.block.nbt.get<CompoundTag>("BackText")!;
+    const backText = this.block.getStorageEntry<CompoundTag>("BackText")!;
 
     // Set the text value of the back text
     backText.set("Text", new StringTag(text, "Text"));
 
-    this.block.nbt.update(); // Update the block's NBT data after setting the text
+    // Send a storage update packet to all players in the dimension
+    this.block.sendStorageUpdate();
   }
 
   /**
@@ -104,7 +107,7 @@ class BlockSignTrait extends BlockTrait {
    */
   public getBackTextColor(): Color {
     // Get the back text from the block's NBT data
-    const backText = this.block.nbt.get<CompoundTag>("BackText");
+    const backText = this.block.getStorageEntry<CompoundTag>("BackText");
 
     // Get the color value of the back text, or return a default color if it doesn't exist
     const value = backText?.get<IntTag>("SignTextColor")?.valueOf() ?? 0;
@@ -118,15 +121,16 @@ class BlockSignTrait extends BlockTrait {
    */
   public setBackTextColor(color: Color): void {
     // Check if the block has a back text in its NBT data
-    if (!this.block.nbt.has("BackText")) this.onAdd();
+    if (!this.block.hasStorageEntry("BackText")) this.onAdd();
 
     // Get the back text from the block's NBT data
-    const backText = this.block.nbt.get<CompoundTag>("BackText")!;
+    const backText = this.block.getStorageEntry<CompoundTag>("BackText")!;
 
     // Set the color value of the back text
     backText.set("SignTextColor", new IntTag(color.toInt(), "SignTextColor"));
 
-    this.block.nbt.update(); // Update the block's NBT data after setting the color
+    // Send a storage update packet to all players in the dimension
+    this.block.sendStorageUpdate();
   }
 
   public onPlace(options: BlockPlacementOptions): void {
@@ -162,7 +166,7 @@ class BlockSignTrait extends BlockTrait {
     if (cancel || !origin || !origin.isPlayer() || placingBlock) return;
 
     // Check if the player is in creative mode
-    if (origin.gamemode !== Gamemode.Creative) return;
+    if (origin.getGamemode() !== Gamemode.Creative) return;
 
     // Get the state of the block for ground sign direction
     const state = this.block.getState<number>("ground_sign_direction");
@@ -188,7 +192,7 @@ class BlockSignTrait extends BlockTrait {
 
   public onAdd(): void {
     // Check if the block has a front text in its NBT data
-    if (!this.block.nbt.has("FrontText")) {
+    if (!this.block.hasStorageEntry("FrontText")) {
       // Create a new CompoundTag for the front text
       const frontText = new CompoundTag("FrontText");
 
@@ -199,11 +203,11 @@ class BlockSignTrait extends BlockTrait {
       frontText.push(new IntTag(-16777216, "SignTextColor")); // Default color for the sign text
 
       // Add the front text to the block's NBT data
-      this.block.nbt.push(frontText);
+      this.block.pushStorageEntry(frontText);
     }
 
     // Check if the block has a back text in its NBT data
-    if (!this.block.nbt.has("BackText")) {
+    if (!this.block.hasStorageEntry("BackText")) {
       // Create a new CompoundTag for the back text
       const backText = new CompoundTag("BackText");
 
@@ -214,16 +218,16 @@ class BlockSignTrait extends BlockTrait {
       backText.push(new IntTag(-16777216, "SignTextColor")); // Default color for the sign text
 
       // Add the back text to the block's NBT data
-      this.block.nbt.push(backText);
+      this.block.pushStorageEntry(backText);
     }
   }
 
   public onRemove(): void {
     // Remove the front text from the block's NBT data
-    this.block.nbt.delete("FrontText");
+    this.block.deleteStorageEntry("FrontText");
 
     // Remove the back text from the block's NBT data
-    this.block.nbt.delete("BackText");
+    this.block.deleteStorageEntry("BackText");
   }
 }
 

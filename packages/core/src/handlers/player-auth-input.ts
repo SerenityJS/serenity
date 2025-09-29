@@ -262,11 +262,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
     }
 
     // Check if the player is in creative mode or spectator mode
-    if (player.gamemode === Gamemode.Creative) return true;
-    if (player.gamemode === Gamemode.Spectator) return true;
+    if (player.getGamemode() === Gamemode.Creative) return true;
+    if (player.getGamemode() === Gamemode.Spectator) return true;
 
     // Check if the player is flying, if so the movement is valid.
-    if (player.abilities.get(AbilityIndex.Flying)) return true;
+    if (player.abilities.getAbility(AbilityIndex.Flying)) return true;
 
     // Check if the delta x is greater than the movement threshold
     if (Math.abs(delta.x) >= movementHorizontalThreshold) return false;
@@ -288,7 +288,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
     if (Math.abs(delta.z) >= movementHorizontalThreshold) return false;
 
     // Check if the player has teleported
-    if (player.position.distance(position) >= 4) return false;
+    if (position.distance(position) >= 4) return false;
 
     // Return true, as the movement is valid
     return true;
@@ -308,7 +308,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartSneaking:
         case InputData.StopSneaking: {
           // Get the sneaking flag from the player
-          const sneaking = player.flags.get(ActorFlag.Sneaking) ?? false;
+          const sneaking =
+            player.flags.getActorFlag(ActorFlag.Sneaking) ?? false;
 
           // Check if the player is already sneaking
           if (sneaking === true) {
@@ -322,7 +323,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           }
 
           // Set the sneaking flag based on the action
-          player.flags.set(ActorFlag.Sneaking, !sneaking);
+          player.flags.setActorFlag(ActorFlag.Sneaking, !sneaking);
           break;
         }
 
@@ -330,7 +331,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartSprinting:
         case InputData.StopSprinting: {
           // Get the sprinting flag from the player
-          const sprinting = player.flags.get(ActorFlag.Sprinting) ?? false;
+          const sprinting =
+            player.flags.getActorFlag(ActorFlag.Sprinting) ?? false;
 
           // Check if the player is already sprinting
           if (sprinting === true) {
@@ -344,7 +346,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
           }
 
           // Set the sprinting flag based on the action
-          player.flags.set(ActorFlag.Sprinting, !sprinting);
+          player.flags.setActorFlag(ActorFlag.Sprinting, !sprinting);
           break;
         }
 
@@ -352,10 +354,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartSwimming:
         case InputData.StopSwimming: {
           // Get the swimming flag from the player
-          const swimming = player.flags.get(ActorFlag.Swimming) ?? false;
+          const swimming =
+            player.flags.getActorFlag(ActorFlag.Swimming) ?? false;
 
           // Set the swimming flag based on the action
-          player.flags.set(ActorFlag.Swimming, !swimming);
+          player.flags.setActorFlag(ActorFlag.Swimming, !swimming);
           break;
         }
 
@@ -363,10 +366,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartCrawling:
         case InputData.StopCrawling: {
           // Get the crawling flag from the player
-          const crawling = player.flags.get(ActorFlag.Crawling) ?? false;
+          const crawling =
+            player.flags.getActorFlag(ActorFlag.Crawling) ?? false;
 
           // Set the crawling flag based on the action
-          player.flags.set(ActorFlag.Crawling, !crawling);
+          player.flags.setActorFlag(ActorFlag.Crawling, !crawling);
           break;
         }
 
@@ -374,27 +378,27 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartGliding:
         case InputData.StopGliding: {
           // Get the gliding flag from the player
-          const gliding = player.flags.get(ActorFlag.Gliding) ?? false;
+          const gliding = player.flags.getActorFlag(ActorFlag.Gliding) ?? false;
 
           // Set the gliding flag based on the action
-          player.flags.set(ActorFlag.Gliding, !gliding);
+          player.flags.setActorFlag(ActorFlag.Gliding, !gliding);
           break;
         }
 
         case InputData.StartFlying:
         case InputData.StopFlying: {
           // Get the flying ability from the player
-          const flying = player.abilities.get(AbilityIndex.Flying) ?? false;
-          const mayFly = player.abilities.get(AbilityIndex.MayFly) ?? false;
+          const flying = player.abilities.getAbility(AbilityIndex.Flying);
+          const mayFly = player.abilities.getAbility(AbilityIndex.MayFly);
 
           // Check if the player is not allowed to fly
           // This stops the Horion fly exploit
           if (!flying && !mayFly) {
             // Disable flying if the player does not have the may fly ability
-            player.abilities.set(AbilityIndex.Flying, false);
+            player.abilities.setAbility(AbilityIndex.Flying, false);
           } else {
             // Set the flying ability based on the action
-            player.abilities.set(AbilityIndex.Flying, !flying);
+            player.abilities.setAbility(AbilityIndex.Flying, !flying);
           }
           break;
         }
@@ -516,15 +520,16 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case PlayerActionType.StartDestroyBlock: {
           // Check if the player is in creative mode
           // If so, skip the block break
-          if (player.gamemode === Gamemode.Creative) continue;
+          if (player.getGamemode() === Gamemode.Creative) continue;
 
           // Check if the player already has a block target
           if (player.blockTarget) {
+            // Get the target block from the dimension
+            const target = dimension.getBlock(player.blockTarget);
+
             // Call the block onStopBreak trait methods
             // We will ignore the result of the method
-            for (const trait of dimension
-              .getBlock(player.blockTarget)
-              .traits.values())
+            for (const trait of target.getAllTraits())
               trait.onStopBreak?.(player);
 
             // Create a new LevelEventPacket for the block break
@@ -562,7 +567,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Call the block onStartBreak trait methods
           let canceled = false;
-          for (const [, trait] of block.traits) {
+          for (const trait of block.getAllTraits()) {
             // Check if the start break was successful
             const success = trait.onStartBreak?.(player);
 
@@ -619,7 +624,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
               // And if the player is not in creative mode; also check if the signal was canceled
               if (
                 player.blockTarget !== block.position &&
-                player.gamemode !== Gamemode.Creative
+                player.getGamemode() !== Gamemode.Creative
               ) {
                 // Create a new UpdateBlockPacket for the block update
                 const packet = new UpdateBlockPacket();
@@ -715,7 +720,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
             // Call the block onStopBreak trait methods
             // We will ignore the result of the method
-            for (const [, trait] of block.traits) trait.onStopBreak?.(player);
+            for (const trait of block.getAllTraits())
+              trait.onStopBreak?.(player);
 
             // Create a new LevelEventPacket for the block break
             const packet = new LevelEventPacket();
@@ -802,7 +808,10 @@ class PlayerAuthInputHandler extends NetworkHandler {
 
           // Check if the player does not have a block target
           // And if the player is not in creative mode; also check if the signal was canceled
-          if (!player.blockTarget && player.gamemode !== Gamemode.Creative) {
+          if (
+            !player.blockTarget &&
+            player.getGamemode() !== Gamemode.Creative
+          ) {
             // Create a new UpdateBlockPacket for the block update
             const packet = new UpdateBlockPacket();
             packet.position = BlockPosition.toVector3f(block.position);

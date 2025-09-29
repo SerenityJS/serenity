@@ -140,7 +140,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const packet = new StartGamePacket();
         packet.entityId = player.uniqueId;
         packet.runtimeEntityId = player.runtimeId;
-        packet.playerGamemode = player.gamemode;
+        packet.playerGamemode = player.getGamemode();
         packet.playerPosition = player.position.add({ x: 0, y: 1.75, z: 0 });
         packet.pitch = player.rotation.pitch;
         packet.yaw = player.rotation.yaw;
@@ -232,9 +232,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
         packet.serverAuthoritativeInventory = true;
         packet.engine = "SerenityJS";
-        packet.propertyData1 = 0x0a;
-        packet.propertyData2 = 0x00;
-        packet.propertyData3 = 0x00;
+        packet.properties = EntityType.toPropertiesNbt(player.type);
         packet.blockPaletteChecksum = 0n;
         packet.worldTemplateId = "00000000-0000-0000-0000-000000000000";
         packet.clientSideGeneration = false;
@@ -280,7 +278,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
           list.push(entity);
 
           // Check if the entity has properties
-          if (entry.properties.size > 0) {
+          if (entry.getAllProperties().length > 0) {
             // Create a new SyncActorPropertyPacket
             const packet = new SyncActorPropertyPacket();
             packet.properties = EntityType.toPropertiesNbt(entry);

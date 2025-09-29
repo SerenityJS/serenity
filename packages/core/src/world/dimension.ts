@@ -11,11 +11,14 @@ import {
   UpdateBlockPacket,
   Vector3f
 } from "@serenityjs/protocol";
+import { StringTag } from "@serenityjs/nbt";
 
 import {
   CommandResponse,
   DimensionProperties,
   EntityQueryOptions,
+  RawMessage,
+  RawText,
   StructurePlaceOptions
 } from "../types";
 import {
@@ -27,6 +30,7 @@ import {
   EntityMovementTrait,
   EntityPhysicsTrait,
   EntityType,
+  EntityXpOrbTrait,
   Player,
   PlayerChunkRenderingTrait
 } from "../entity";
@@ -36,6 +40,7 @@ import { BlockIdentifier, EntityIdentifier } from "../enums";
 import { Serenity } from "../serenity";
 import { CommandExecutionState } from "../commands";
 import { BlockPermutationUpdateSignal } from "../events";
+import { BiomeType } from "../biome";
 
 import { World } from "./world";
 import { TerrainGenerator } from "./generator";
@@ -57,6 +62,12 @@ class Dimension {
    * The serenity instance of the server.
    */
   protected readonly serenity: Serenity;
+
+  /**
+   * The chunks that have been quieried from the provider.
+   * This is used to prevent the reinstantiation of blocks and entities when a chunk is being loaded multiple times.
+   */
+  private readonly queriedChunksFromProvider = new Set<bigint>();
 
   /**
    * The properties of the dimension.
@@ -207,6 +218,11 @@ class Dimension {
     // Get the current tick of the world
     const currentTick = this.world.currentTick;
 
+    // Get random tick speed for calculating the chance of a random tick.
+    const randomTickGamerule =
+      (this.world.gamerules?.randomTickSpeed as number) ?? 1;
+    const randomTickSpeed = Math.max(1, Math.min(4096, randomTickGamerule));
+
     // Get all the player positions in the dimension.
     const playerPositions = players.map((player) => player.position);
 
@@ -227,6 +243,9 @@ class Dimension {
           try {
             // Tick the trait
             trait.onTick?.({ currentTick, deltaTick });
+
+            // Check if the trait should be randomly ticked
+            if (trait.shouldRandomTick(randomTickSpeed)) trait.onRandomTick?.();
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(
@@ -253,6 +272,10 @@ class Dimension {
               try {
                 // Tick the item trait
                 trait.onTick?.({ currentTick, deltaTick });
+
+                // Check if the trait should be randomly ticked
+                if (trait.shouldRandomTick(randomTickSpeed))
+                  trait.onRandomTick?.();
               } catch (reason) {
                 // Log the error to the console
                 this.world.logger.error(
@@ -285,18 +308,26 @@ class Dimension {
 
         // Iterate over all the traits in the block
         // Try to tick the block trait
-        for (const [identifier, trait] of block.traits)
+        const traits = block.getAllTraits();
+
+        // If the block has no traits, continue.
+        if (traits.length === 0) continue;
+        for (const trait of traits)
           try {
+            // If the block has a tick event, execute it.
             trait.onTick?.({ currentTick, deltaTick });
+
+            // Check if the trait should be randomly ticked
+            if (trait.shouldRandomTick(randomTickSpeed)) trait.onRandomTick?.();
           } catch (reason) {
             // Log the error to the console
             this.world.logger.error(
-              `Failed to tick block trait "${identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
+              `Failed to tick block trait "${trait.identifier}" for block "${block.position.x}, ${block.position.y}, ${block.position.z}" in dimension "${this.identifier}"`,
               reason
             );
 
             // Remove the trait from the block
-            block.traits.delete(identifier);
+            block.removeTrait(trait.identifier);
           }
       } else if (block.isTicking) {
         // If the block is not in simulation range, stop ticking it
@@ -324,7 +355,60 @@ class Dimension {
     const chunks = this.world.provider.chunks.get(this);
 
     // Check if the targeted chunk is cached, if so, return it
-    if (chunks && chunks.has(hash)) return chunks.get(hash)!; // Check if the chunk is in the cache
+    if (chunks && chunks.has(hash)) {
+      // Fetch the chunk from the cache
+      const chunk = chunks.get(hash) as Chunk;
+
+      // Check if the chunk has been queried from the provider before
+      if (!this.queriedChunksFromProvider.has(hash)) {
+        // Add the chunk hash to the queried chunks set
+        // NOTE: Must add has before fetching the block data to prevent stack overflow
+        this.queriedChunksFromProvider.add(hash);
+
+        // Get all the block data from the chunk
+        const blockStorages = chunk.getAllBlockStorages();
+
+        // Check if there is any block storage in the chunk
+        if (blockStorages.length > 0) {
+          // Iterate through the blocks and add them to the chunk.
+          for (const storage of blockStorages) {
+            // Get the position of the block storage
+            const position = storage.getPosition();
+
+            // Create a new block instance using the block storage
+            const block = new Block(this, position, storage);
+
+            // Add the block to the block cache
+            this.blocks.set(BlockPosition.hash(block.position), block);
+          }
+        }
+
+        // Get all the entity data from the chunk
+        const entities = chunk.getAllEntityStorages();
+
+        // Check if there is any entity storage in the chunk
+        if (entities.length > 0) {
+          // Iterate through the entities and add them to the chunk.
+          for (const [, storage] of entities) {
+            // Get the identifier of the entity
+            const identifier = storage.get<StringTag>("identifier");
+
+            // Skip if the identifier does not exist or if the entity is a player
+            if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
+              continue;
+
+            // Create a new entity instance using the entity storage
+            const entity = new Entity(this, identifier.valueOf(), { storage });
+
+            // Spawn the entity in the dimension
+            entity.spawn({ initialSpawn: false });
+          }
+        }
+      }
+
+      // Return the cached chunk
+      if (chunk.ready) return chunk;
+    }
 
     // Create a new chunk to pass to the provider
     const chunk = new Chunk(cx, cz, this.type);
@@ -333,7 +417,55 @@ class Dimension {
     chunk.ready = false;
 
     // Await for the chunk to be generated
-    this.world.provider.readChunk(chunk, this);
+    this.world.provider.readChunk(chunk, this).then((chunk) => {
+      // Check if the chunk has been queried from the provider before
+      if (!this.queriedChunksFromProvider.has(hash)) {
+        // Add the chunk hash to the queried chunks set
+        this.queriedChunksFromProvider.add(hash);
+
+        // Get all the block data from the chunk
+        const blockStorages = chunk.getAllBlockStorages();
+
+        // Check if there is any block storage in the chunk
+        if (blockStorages.length > 0) {
+          // Iterate through the blocks and add them to the chunk.
+          for (const storage of blockStorages) {
+            // Get the position of the block storage
+            const position = storage.getPosition();
+
+            // Create a new block instance using the block storage
+            const block = new Block(this, position, storage);
+
+            // Add the block to the block cache
+            this.blocks.set(BlockPosition.hash(block.position), block);
+          }
+        }
+
+        // Get all the entity data from the chunk
+        const entities = chunk.getAllEntityStorages();
+
+        // Check if there is any entity storage in the chunk
+        if (entities.length > 0) {
+          // Iterate through the entities and add them to the chunk.
+          for (const [, storage] of entities) {
+            // Get the identifier of the entity
+            const identifier = storage.get<StringTag>("identifier");
+
+            // Skip if the identifier does not exist or if the entity is a player
+            if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
+              continue;
+
+            // Create a new entity instance using the entity storage
+            const entity = new Entity(this, identifier.valueOf(), { storage });
+
+            // Spawn the entity in the dimension
+            entity.spawn({ initialSpawn: false });
+          }
+        }
+      }
+
+      return;
+    });
 
     return chunk; // Return the chunk
   }
@@ -357,6 +489,40 @@ class Dimension {
 
     // Write the chunk to the provider
     return void this.world.provider.writeChunk(chunk, this);
+  }
+
+  /**
+   * Get a biome from the dimension at a given position.
+   * @param position The position to get the biome from.
+   * @returns The biome at the specified position.
+   */
+  public getBiome(position: IPosition): BiomeType {
+    // Convert the position to a chunk position
+    const cx = position.x >> 4;
+    const cz = position.z >> 4;
+
+    // Get the chunk of the provided position
+    const chunk = this.getChunk(cx, cz);
+
+    // Get the biome from the chunk
+    return chunk.getBiome(position);
+  }
+
+  /**
+   * Set a biome in the dimension at a given position.
+   * @param position The position to set the biome at.
+   * @param biome The biome to set.
+   */
+  public setBiome(position: IPosition, biome: BiomeType): void {
+    // Convert the position to a chunk position
+    const cx = position.x >> 4;
+    const cz = position.z >> 4;
+
+    // Get the chunk of the provided position
+    const chunk = this.getChunk(cx, cz);
+
+    // Set the biome in the chunk
+    chunk.setBiome(position, biome);
   }
 
   /**
@@ -384,17 +550,13 @@ class Dimension {
       const block = new Block(this, blockPosition);
 
       // Push the permutation nbt to the block's nbt
-      block.nbt.push(...permutation.nbt.values());
+      block.pushStorageEntry(...permutation.nbt.values());
 
       // Iterate over all the traits and apply them to the block
       for (const [, trait] of permutation.type.traits) block.addTrait(trait);
 
       // If the block has dynamic properties or traits, we will cache the block
-      if (
-        block.nbt.size > 0 ||
-        block.dyanamicProperties.size > 0 ||
-        block.traits.size > 0
-      )
+      if (block.getStorage().size > 0 || block.getAllTraits().length > 0)
         this.blocks.set(hash, block);
 
       // Return the block
@@ -501,21 +663,27 @@ class Dimension {
    * Broadcasts a message to all players in the dimension.
    * @param message The message to broadcast.
    */
-  public sendMessage(message: string): void {
+  public sendMessage(message: string | RawMessage): void {
     // Construct the text packet.
     const packet = new TextPacket();
 
+    // Prepare the raw text object.
+    const rawText: RawText = {};
+
+    // Check if the message is a string or RawMessage
+    if (typeof message === "string") rawText.rawtext = [{ text: message }];
+    else rawText.rawtext = message.rawtext;
+
     // Assign the packet data.
-    packet.type = TextPacketType.Raw;
-    packet.needsTranslation = false;
+    packet.type = TextPacketType.Json;
+    packet.needsTranslation = true;
     packet.source = null;
-    packet.message = message;
+    packet.message = JSON.stringify(rawText);
     packet.parameters = null;
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = message;
+    packet.filtered = JSON.stringify(rawText);
 
-    // Send the packet.
     this.broadcast(packet);
   }
 
@@ -709,6 +877,9 @@ class Dimension {
     // Create a new Entity instance with the dimension and type
     const entity = new Entity(this, type);
 
+    // Get the x y z from the position
+    const { x, y, z } = position;
+
     // As a Serenity standard, we will add the gravity, physics, movement traits to the entity
     entity.addTrait(EntityGravityTrait);
     entity.addTrait(EntityPhysicsTrait);
@@ -716,9 +887,7 @@ class Dimension {
     entity.addTrait(EntityCollisionTrait);
 
     // Set the entity position
-    entity.position.x = position.x;
-    entity.position.y = position.y + 1;
-    entity.position.z = position.z;
+    entity.position = new Vector3f(x, y + 1, z);
 
     // Spawn the entity
     return entity.spawn();
@@ -738,10 +907,11 @@ class Dimension {
     // Set the world in the item stack if it doesn't exist
     if (!itemStack.world) itemStack.world = this.world;
 
+    // Get the x y z from the position
+    const { x, y, z } = position;
+
     // Set the entity position
-    entity.position.x = position.x;
-    entity.position.y = position.y;
-    entity.position.z = position.z;
+    entity.position = new Vector3f(x, y, z);
 
     // Create a new item trait, this will register the item to the entity
     entity.addTrait(EntityItemStackTrait, { itemStack });
@@ -756,6 +926,53 @@ class Dimension {
     entity.spawn();
 
     // Return the item entity
+    return entity;
+  }
+
+  /**
+   * Spawns an experience orb in the dimension.
+   * @param experience The amount of experience the orb will give.
+   * @param position The position to spawn the orb at.
+   * @returns The entity instance that was spawned.
+   */
+  public spawnExperienceOrb(experience: number, position: IPosition): Entity {
+    // Create a new Entity instance
+    const entity = new Entity(this, EntityIdentifier.XpOrb);
+
+    // Set the entity position
+    entity.position.set(position);
+
+    // Add the xp orb trait to the entity
+    const trait = entity.addTrait(EntityXpOrbTrait);
+
+    // Set the experience in the trait
+    trait.setExperienceValue(experience);
+
+    // Add gravity and physics traits to the entity
+    entity.addTrait(EntityGravityTrait);
+    entity.addTrait(EntityPhysicsTrait);
+    entity.addTrait(EntityMovementTrait);
+    entity.addTrait(EntityCollisionTrait);
+
+    // Spawn the xp orb entity
+    entity.spawn();
+
+    // Generate random motion for the orb
+    const motion = new Vector3f(
+      (Math.random() - 0.5) * 0.2,
+      Math.random() * 0.2 + 0.1,
+      (Math.random() - 0.5) * 0.2
+    );
+
+    // Increase the motion to be more pronounced
+    motion.x *= 2.5;
+    motion.y *= 2;
+    motion.z *= 2.5;
+
+    // Set the motion of the entity
+    entity.setMotion(motion);
+
+    // Return the xp orb entity
     return entity;
   }
 

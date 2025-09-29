@@ -53,9 +53,9 @@ class EntityRideableTrait extends EntityTrait {
    */
   public get property(): EntityRideableTraitOptions {
     // Return the dynamic property for the rideable trait
-    return this.entity.getDynamicProperty(
-      this.identifier
-    ) as EntityRideableTraitOptions;
+    return this.entity
+      .getStorage()
+      .getDynamicProperty(this.identifier) as EntityRideableTraitOptions;
   }
 
   /**
@@ -64,7 +64,7 @@ class EntityRideableTrait extends EntityTrait {
    */
   public set property(value: EntityRideableTraitOptions) {
     // Check if the entity has a dynamic property for the rideable trait
-    this.entity.setDynamicProperty(this.identifier, value);
+    this.entity.getStorage().setDynamicProperty(this.identifier, value);
   }
 
   /**
@@ -331,7 +331,7 @@ class EntityRideableTrait extends EntityTrait {
 
   public onRemove(): void {
     // Remove the dynamic property for the rideable trait
-    this.entity.removeDynamicProperty(this.identifier);
+    this.entity.getStorage().removeDynamicProperty(this.identifier);
 
     // Iterate over the riders in the set
     for (const [, uniqueId] of this.riders) {

@@ -33,17 +33,17 @@ class EntityGravityTrait extends EntityTrait {
 
   public onAdd(): void {
     // Check if the entity has a metadata flag value for gravity
-    if (!this.entity.flags.has(ActorFlag.HasGravity)) {
+    if (!this.entity.flags.getActorFlag(ActorFlag.HasGravity)) {
       // Set the entity flag for gravity
-      this.entity.flags.set(ActorFlag.HasGravity, true);
+      this.entity.flags.setActorFlag(ActorFlag.HasGravity, true);
     }
   }
 
   public onRemove(): void {
     // Check if the entity has a metadata flag value for gravity
-    if (this.entity.flags.has(ActorFlag.HasGravity)) {
+    if (this.entity.flags.getActorFlag(ActorFlag.HasGravity)) {
       // Remove the entity flag for gravity
-      this.entity.flags.delete(ActorFlag.HasGravity);
+      this.entity.flags.setActorFlag(ActorFlag.HasGravity);
     }
   }
 
@@ -119,8 +119,8 @@ class EntityGravityTrait extends EntityTrait {
       if (!this.entity.world.gamerules.fallDamage) return;
 
       // Check if the entity is in creative mode or spectator mode
-      if (this.entity.gamemode === Gamemode.Creative) return;
-      if (this.entity.gamemode === Gamemode.Spectator) return;
+      if (this.entity.getGamemode() === Gamemode.Creative) return;
+      if (this.entity.getGamemode() === Gamemode.Spectator) return;
     }
 
     // Check if the entity has fallen less than 10 ticks
@@ -156,7 +156,7 @@ class EntityGravityTrait extends EntityTrait {
     // Check if the entity is despawning due to dimension change
     if (details.changedDimensions) {
       // Set the entity flag for gravity to false
-      this.entity.flags.set(ActorFlag.HasGravity, false);
+      this.entity.flags.setActorFlag(ActorFlag.HasGravity, false);
     }
   }
 
@@ -164,7 +164,7 @@ class EntityGravityTrait extends EntityTrait {
     // Check if the entity is spawning due to dimension change
     if (details.changedDimensions) {
       // Set the entity flag for gravity to true
-      this.entity.flags.set(ActorFlag.HasGravity, true);
+      this.entity.flags.setActorFlag(ActorFlag.HasGravity, true);
     }
   }
 }

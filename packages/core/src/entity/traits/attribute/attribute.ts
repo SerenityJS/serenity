@@ -42,7 +42,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.min = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    this.entity.attributes.setAttribute(attribute);
   }
 
   /**
@@ -67,7 +67,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.max = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    this.entity.attributes.setAttribute(attribute);
   }
 
   /**
@@ -92,7 +92,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.default = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    this.entity.attributes.setAttribute(attribute);
   }
 
   /**
@@ -117,7 +117,7 @@ class EntityAttributeTrait extends EntityTrait {
     attribute.current = Math.trunc(value * 10000) / 10000;
 
     // Update the attribute in the entity
-    this.entity.attributes.add(attribute);
+    this.entity.attributes.setAttribute(attribute);
   }
 
   /**
@@ -125,7 +125,7 @@ class EntityAttributeTrait extends EntityTrait {
    * @returns The saturation attribute of the entity
    */
   public getAttribute(): Attribute {
-    return this.entity.attributes.get(this.attribute) as Attribute;
+    return this.entity.attributes.getAttribute(this.attribute) as Attribute;
   }
 
   /**
@@ -138,7 +138,7 @@ class EntityAttributeTrait extends EntityTrait {
 
   public onAdd(properties?: AttributeProperties): void {
     // Check if the entity has a saturation attribute
-    if (!this.entity.attributes.has(this.attribute)) {
+    if (!this.entity.attributes.hasAttribute(this.attribute)) {
       // If not, create a new saturation attribute for the entity
       const attribute = new Attribute(
         properties?.minimumValue ?? 0,
@@ -152,13 +152,13 @@ class EntityAttributeTrait extends EntityTrait {
       );
 
       // Add the attribute to the entity
-      this.entity.attributes.add(attribute);
+      this.entity.attributes.setAttribute(attribute);
     }
   }
 
   public onRemove(): void {
     // Remove the saturation attribute from the entity
-    this.entity.attributes.delete(this.attribute);
+    this.entity.attributes.removeAttribute(this.attribute);
   }
 }
 

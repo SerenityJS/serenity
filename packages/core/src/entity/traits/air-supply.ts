@@ -3,7 +3,6 @@ import {
   ActorDataId,
   ActorDataType,
   ActorFlag,
-  DataItem,
   EffectType,
   Gamemode
 } from "@serenityjs/protocol";
@@ -20,13 +19,16 @@ class EntityAirSupplyTrait extends EntityTrait {
 
   public onTick(): void {
     // Check if the entity is not alive or is not breathing.
-    if (!this.entity.isAlive || !this.entity.flags.get(ActorFlag.Breathing))
+    if (
+      !this.entity.isAlive ||
+      !this.entity.flags.getActorFlag(ActorFlag.Breathing)
+    )
       return;
 
     if (
       this.entity.isPlayer() &&
-      this.entity.gamemode != Gamemode.Survival &&
-      this.entity.gamemode != Gamemode.Adventure
+      this.entity.getGamemode() != Gamemode.Survival &&
+      this.entity.getGamemode() != Gamemode.Adventure
     )
       return;
 
@@ -80,37 +82,35 @@ class EntityAirSupplyTrait extends EntityTrait {
 
   public onSpawn(): void {
     // Check if the entity has a metadata flag value for gravity
-    if (!this.entity.flags.has(ActorFlag.Breathing)) {
+    if (!this.entity.flags.getActorFlag(ActorFlag.Breathing)) {
       // Set the entity flag for gravity
-      this.entity.flags.set(ActorFlag.Breathing, true);
+      this.entity.flags.setActorFlag(ActorFlag.Breathing, true);
     }
 
-    if (!this.entity.metadata.has(ActorDataId.AirSupply)) {
+    if (!this.entity.metadata.hasActorMetadata(ActorDataId.AirSupply)) {
       // Set the default air supply value
       this.setAirSupplyTicks(300);
     }
   }
 
   public getAirSupplyTicks(): number {
-    const airSupplyData = this.entity.metadata.get(ActorDataId.AirSupply);
+    const airSupplyValue = this.entity.metadata.getActorMetadata(
+      ActorDataId.AirSupply,
+      ActorDataType.Short
+    );
 
-    if (airSupplyData) {
-      return airSupplyData.value as number;
-    }
+    if (airSupplyValue) return airSupplyValue;
 
     return 0;
   }
 
   public setAirSupplyTicks(ticks: number): void {
-    // Create the air supply data item.
-    const airSupplyData = new DataItem(
+    // Update the current air supply data
+    this.entity.metadata.setActorMetadata(
       ActorDataId.AirSupply,
       ActorDataType.Short,
       ticks
     );
-
-    // Update the current air supply data
-    this.entity.metadata.set(ActorDataId.AirSupply, airSupplyData);
   }
 }
 

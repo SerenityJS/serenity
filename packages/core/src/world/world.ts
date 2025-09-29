@@ -15,6 +15,8 @@ import Emitter from "@serenityjs/emitter";
 import { Serenity } from "../serenity";
 import {
   DimensionProperties,
+  RawMessage,
+  RawText,
   WorldEventSignals,
   WorldProperties
 } from "../types";
@@ -26,6 +28,7 @@ import { WorldTickSignal } from "../events";
 import { EffectPallete } from "../effect";
 import { TimeOfDay } from "../enums";
 import { DefaultWorldProperties } from "../constants";
+import { BiomePalette } from "../biome";
 
 import { WorldProvider } from "./provider";
 import { DefaultDimensionProperties, Dimension } from "./dimension";
@@ -83,6 +86,11 @@ class World extends Emitter<WorldEventSignals> {
    * The item palette of the world.
    */
   public readonly itemPalette = new ItemPalette();
+
+  /**
+   * The biome palette of the world.
+   */
+  public readonly biomePalette = new BiomePalette();
 
   /**
    * The command palette of the world.
@@ -248,19 +256,26 @@ class World extends Emitter<WorldEventSignals> {
    * Broadcasts a message to all players in the world.
    * @param message The message to broadcast.
    */
-  public sendMessage(message: string): void {
+  public sendMessage(message: string | RawMessage): void {
     // Construct the text packet.
     const packet = new TextPacket();
 
+    // Prepare the raw text object.
+    const rawText: RawText = {};
+
+    // Check if the message is a string or RawMessage
+    if (typeof message === "string") rawText.rawtext = [{ text: message }];
+    else rawText.rawtext = message.rawtext;
+
     // Assign the packet data.
-    packet.type = TextPacketType.Raw;
-    packet.needsTranslation = false;
+    packet.type = TextPacketType.Json;
+    packet.needsTranslation = true;
     packet.source = null;
-    packet.message = message;
+    packet.message = JSON.stringify(rawText);
     packet.parameters = null;
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = message;
+    packet.filtered = JSON.stringify(rawText);
 
     this.broadcast(packet);
   }
@@ -514,6 +529,23 @@ class World extends Emitter<WorldEventSignals> {
    */
   public getStructure(identifier: string): Structure | null {
     return this.structures.get(identifier) ?? null;
+  }
+
+  /**
+   * Adds a structure with the given identifier.
+   * @param identifier The identifier of the structure
+   * @param structure The structure to be registered
+   */
+  public addStructure(identifier: string, structure: Structure): void {
+    this.structures.set(identifier, structure);
+  }
+
+  /**
+   * Removes a structure by the identifier from the world
+   * @param identifier The identifier of the structure
+   */
+  public removeStructure(identifier: string): void {
+    this.structures.delete(identifier);
   }
 }
 

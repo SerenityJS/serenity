@@ -1,11 +1,10 @@
 import {
-  BiomeDefinitionListPacket,
   CraftingDataPacket,
   Packet,
   SetLocalPlayerAsInitializedPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { CRAFTING_DATA, BIOME_DEFINITIONS } from "@serenityjs/data";
+import { CRAFTING_DATA } from "@serenityjs/data";
 
 import { NetworkHandler } from "../network";
 import { PlayerInitializedSignal } from "../events";
@@ -16,11 +15,6 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
   // TODO: remove this when we have a recipe system
   public static readonly CraftingData = new CraftingDataPacket(
     CRAFTING_DATA
-  ).deserialize();
-
-  // TODO: remove this when we have a biome system
-  public static readonly BiomeDefinitions = new BiomeDefinitionListPacket(
-    BIOME_DEFINITIONS
   ).deserialize();
 
   public handle(
@@ -40,12 +34,6 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
     // Emit the signal and check if it was emitted successfully
     if (!signal.emit()) return;
-
-    // Send the player the crafting data
-    player.send(
-      // SetLocalPlayerAsInitializedHandler.CraftingData,
-      SetLocalPlayerAsInitializedHandler.BiomeDefinitions
-    );
 
     // Spawn the player
     player.spawn({ initialSpawn: true });

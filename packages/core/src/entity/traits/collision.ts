@@ -75,15 +75,15 @@ class EntityCollisionTrait extends EntityTrait {
     }
 
     // Check if the entity has a metadata flag value for gravity
-    if (!this.entity.flags.has(ActorFlag.HasCollision)) {
+    if (!this.entity.flags.getActorFlag(ActorFlag.HasCollision)) {
       // Set the entity flag for gravity
-      this.entity.flags.set(ActorFlag.HasCollision, true);
+      this.entity.flags.setActorFlag(ActorFlag.HasCollision, true);
     }
   }
 
   public onRemove(): void {
     // Remove the entity flag for gravity
-    this.entity.flags.delete(ActorFlag.HasCollision);
+    this.entity.flags.setActorFlag(ActorFlag.HasCollision);
   }
 
   public onGamemodeChange(): void {
@@ -91,10 +91,10 @@ class EntityCollisionTrait extends EntityTrait {
     if (!this.entity.isPlayer()) return;
 
     // If the player is now in spectator mode, collision should be disabled
-    if (this.entity.gamemode === Gamemode.Spectator)
-      this.entity.flags.set(ActorFlag.HasCollision, false);
+    if (this.entity.getGamemode() === Gamemode.Spectator)
+      this.entity.flags.setActorFlag(ActorFlag.HasCollision, false);
     // If the player is not in spectator mode, collision should be enabled
-    else this.entity.flags.set(ActorFlag.HasCollision, true);
+    else this.entity.flags.setActorFlag(ActorFlag.HasCollision, true);
   }
 
   public onTick(): void {

@@ -7,6 +7,7 @@ import ItemTypes from "./json/item_types.json";
 import ItemMetadata from "./json/item_metadata.json";
 import ToolTypes from "./json/tool_types.json";
 import EntityTypes from "./json/entity_types.json";
+import BiomeTypes from "./json/biome_types.json";
 import CreativeGroups from "./json/creative_groups.json";
 import CreativeContent from "./json/creative_content.json";
 import ShapelessRecipes from "./json/shapeless.json";
@@ -24,6 +25,7 @@ const ITEM_TYPES = ItemTypes;
 const ITEM_METADATA = ItemMetadata;
 const TOOL_TYPES = ToolTypes;
 const ENTITY_TYPES = EntityTypes;
+const BIOME_TYPES = BiomeTypes;
 const CREATIVE_GROUPS = CreativeGroups;
 const CREATIVE_CONTENT = CreativeContent;
 const SHAPELESS_RECIPES = ShapelessRecipes;
@@ -43,6 +45,7 @@ export {
   ITEM_METADATA,
   TOOL_TYPES,
   ENTITY_TYPES,
+  BIOME_TYPES,
   CREATIVE_GROUPS,
   CREATIVE_CONTENT,
   SHAPELESS_RECIPES,

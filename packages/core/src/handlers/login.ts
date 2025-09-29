@@ -105,14 +105,8 @@ class LoginHandler extends NetworkHandler {
       skin
     };
 
-    // Check if the player data exists
-    if (storage) {
-      // Set the unique id of the player
-      properties.uniqueId = storage.getUniqueId();
-
-      // Assign the player entry to the properties
-      properties.storage = storage;
-    }
+    // Assign the storage if it exists.
+    if (storage) properties.storage = storage;
 
     // Create a new player instance.
     const player = new Player(dimension, connection, properties);

@@ -1,4 +1,5 @@
 import {
+  AbilityIndex,
   BlockPosition,
   LevelSoundEvent,
   LevelSoundEventPacket
@@ -21,7 +22,7 @@ class BlockOpenBitTrait extends BlockTrait {
     if (this.block.type.identifier === BlockIdentifier.Barrel) return;
 
     // Check if the interaction has been cancelled
-    if (cancel || !origin.abilities.doorsAndSwitches) {
+    if (cancel || !origin.abilities.getAbility(AbilityIndex.DoorsAndSwitches)) {
       // Get the current state of the block
       const state = this.block.getState<boolean>("open_bit");
 

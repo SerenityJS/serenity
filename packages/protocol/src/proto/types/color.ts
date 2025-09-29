@@ -79,13 +79,13 @@ class Color extends DataType {
   }
 
   public static read(stream: BinaryStream): Color {
-    const color = stream.readUint32();
+    const color = stream.readInt32();
 
     return Color.fromInt(color);
   }
 
   public static write(stream: BinaryStream, value: Color): void {
-    stream.writeUint32(value.toInt());
+    stream.writeInt32(value.toInt());
   }
 }
 

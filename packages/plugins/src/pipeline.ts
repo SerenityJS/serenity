@@ -19,6 +19,7 @@ import { Plugin } from "./plugin";
 import Command from "./commands/command";
 import { PluginsEnum } from "./commands";
 import { PluginType, PluginHeader } from "./enums";
+import { PluginFileSystem } from "./fileSystem";
 
 interface PipelineProperties {
   path: string;
@@ -343,6 +344,12 @@ class Pipeline {
         plugin.path = path;
         plugin.isBundled = false;
 
+        // Set the file system for the plugin
+        plugin.fileSystem = new PluginFileSystem(
+          resolve(plugin.path, "../data", plugin.identifier),
+          plugin.logger
+        );
+
         // Link the module to the pipeline
         this.linkModule(plugin.identifier, module);
 
@@ -509,6 +516,12 @@ class Pipeline {
       plugin.serenity = this.serenity;
       plugin.path = resolve(path);
       plugin.isBundled = isBundled;
+
+      // Set the file system for the plugin
+      plugin.fileSystem = new PluginFileSystem(
+        resolve(plugin.path, "../data", plugin.identifier),
+        plugin.logger
+      );
 
       // Link the module to the pipeline
       this.linkModule(plugin.identifier, module);
@@ -679,6 +692,12 @@ class Pipeline {
       newPlugin.serenity = this.serenity;
       newPlugin.path = path;
       newPlugin.isBundled = false;
+
+      // Set the file system for the plugin
+      newPlugin.fileSystem = new PluginFileSystem(
+        resolve(newPlugin.path, "../data", newPlugin.identifier),
+        newPlugin.logger
+      );
 
       // Link the module to the pipeline
       this.linkModule(newPlugin.identifier, module);

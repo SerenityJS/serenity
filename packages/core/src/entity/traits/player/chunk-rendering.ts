@@ -1,5 +1,7 @@
 import {
+  BlockActorDataPacket,
   ChunkCoords,
+  DataPacket,
   LevelChunkPacket,
   NetworkChunkPublisherUpdatePacket
 } from "@serenityjs/protocol";
@@ -60,9 +62,12 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       update.coordinate = this.player.position.floor();
       update.savedChunks = []; // Prepare an array to hold the chunk coordinates
 
+      // Create an array to hold the packets to send
+      const packets: Array<DataPacket> = [];
+
       // Get the chunks to send
       const batch = chunks.slice(start, end);
-      const levelChunks = batch.map((chunk) => {
+      for (const chunk of batch) {
         // Add the chunk to the player's view
         this.chunks.add(chunk.hash);
 
@@ -83,12 +88,28 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         // Rent the chunk from the provider
         this.dimension.world.provider.rentChunk(chunk.hash, this.dimension);
 
-        // Return the packet
-        return packet;
-      });
+        // Add the packet to the packets array
+        packets.push(packet);
+
+        // Iterate over the block storages in the chunk to ensure they are loaded
+        for (const storage of chunk.getAllBlockStorages()) {
+          // Check if the block storage has data
+          if (storage.size === 0) continue;
+
+          // Create a new BlockActorData packet
+          const packet = new BlockActorDataPacket();
+
+          // Assign the packet values
+          packet.position = storage.getPosition();
+          packet.nbt = storage;
+
+          // Add the block packet to the packets array
+          packets.push(packet);
+        }
+      }
 
       // Send the packets to the player
-      this.player.send(...levelChunks, update);
+      this.player.send(...packets, update);
 
       // Decrease the sending queue
       this.sendingQueue -= batch.length;
@@ -99,25 +120,6 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         this.dimension.schedule(1, resolve as () => void)
       );
     }
-
-    // Iterate over the blocks in the dimension
-    // for (const [, block] of this.player.dimension.blocks) {
-    //   // Check if the block has NBT data
-    //   if (block.nbt.size === 0) continue;
-
-    //   // Check if the block is in the chunks
-    //   if (chunks.some((chunk) => block.getChunk() === chunk)) {
-    //     // Create a new BlockActorData packet
-    //     const packet = new BlockActorDataPacket();
-
-    //     // Assign the packet values
-    //     packet.position = block.position;
-    //     packet.nbt = block.nbt;
-
-    //     // Send the packet to the player
-    //     this.player.send(packet);
-    //   }
-    // }
   }
 
   /**

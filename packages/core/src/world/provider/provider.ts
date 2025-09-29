@@ -1,4 +1,5 @@
-import { EntityLevelStorage, PlayerLevelStorage } from "../../entity";
+import { CompoundTag } from "@serenityjs/nbt";
+
 import { BlockLevelStorage } from "../../block";
 import { Serenity } from "../../serenity";
 import { WorldProperties, WorldProviderProperties } from "../../types";
@@ -102,14 +103,14 @@ class WorldProvider {
   public readChunkEntities(
     _chunk: Chunk,
     _dimension: Dimension
-  ): Array<EntityLevelStorage> {
+  ): Array<CompoundTag> {
     throw new Error(`${this.identifier}.readEntities() is not implemented!`);
   }
 
   public writeChunkEntities(
     _chunk: Chunk,
     _dimension: Dimension,
-    _entities: Array<EntityLevelStorage>
+    _entities: Array<[bigint, CompoundTag]>
   ): void {
     throw new Error(`${this.identifier}.writeEntities() is not implemented!`);
   }
@@ -134,15 +135,16 @@ class WorldProvider {
    * @param uuid The uuid of the player to read.
    * @returns The player data if found, otherwise null.
    */
-  public readPlayer(_uuid: string): PlayerLevelStorage | null {
+  public readPlayer(_uuid: string): CompoundTag | null {
     throw new Error(`${this.identifier}.readPlayer() is not implemented!`);
   }
 
   /**
    * Writes a players data to the provider.
+   * @param uuid The uuid of the player to write.
    * @param player The player data to write.
    */
-  public writePlayer(_player: PlayerLevelStorage): void {
+  public writePlayer(_uuid: string, _player: CompoundTag): void {
     throw new Error(`${this.identifier}.writePlayer() is not implemented!`);
   }
 

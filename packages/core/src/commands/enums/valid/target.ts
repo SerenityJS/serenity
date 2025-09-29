@@ -162,7 +162,9 @@ class TargetEnum extends ValidEnum {
 
                   // Check if the nametag matches the query.
                   if (
-                    negate ? entity.nameTag === name : entity.nameTag !== name
+                    negate
+                      ? entity.getNametag() === name
+                      : entity.getNametag() !== name
                   )
                     return false;
                   break;

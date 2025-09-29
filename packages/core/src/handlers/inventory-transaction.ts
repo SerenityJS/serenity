@@ -26,6 +26,7 @@ import { ItemStack, ItemStackUseOnBlockOptions } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
 import { PlayerPlaceBlockSignal } from "../events";
 import { BlockPlacementOptions } from "../types";
+import { BlockLevelStorage } from "..";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -206,7 +207,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         });
 
         // Check if the interaction was canceled and the player is placing a block
-        if (results.cancel && results.placingBlock) {
+        if (results.cancel || player.openedContainer) {
           // Update the item stack to reflect the interaction
           if (stack) stack.update();
 
@@ -219,13 +220,6 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Send the packet to the player
           return player.send(packet);
-        } else if (
-          results.cancel || // If the interaction was canceled by a trait
-          !results.placingBlock || // If the interaction did not place a block
-          player.openedContainer // If the interaction opened a container for the player
-        ) {
-          // If any condition is true, we do not want to place a block
-          return stack?.update(); // Update the item stack to reflect the interaction
         }
 
         // Check if the client prediction failed to place the block
@@ -280,7 +274,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           }
           // Check if the player is in survival mode
           // If so, decrement the stack
-          else if (player.gamemode === Gamemode.Survival)
+          else if (player.getGamemode() === Gamemode.Survival)
             stack.decrementStack();
 
           // Check if the block type exists and is not air
@@ -316,7 +310,10 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Check if the item stack has block nbt property
           if (stack.nbt.has("Block")) {
             // Get the block level storage from the item stack
-            const storage = stack.nbt.get<CompoundTag>("Block");
+            const storage = new BlockLevelStorage(
+              resultant.getChunk(), // The chunk the block is in
+              stack.nbt.get<CompoundTag>("Block")! // The block nbt data from the item stack
+            );
 
             // Set the permutation of the block with the storage
             resultant.setPermutation(permutation, storage);
@@ -326,7 +323,7 @@ class InventoryTransactionHandler extends NetworkHandler {
           }
 
           // Call the block onPlace trait methods
-          for (const trait of resultant.traits.values()) {
+          for (const trait of resultant.getAllTraits()) {
             // Check if the start break was successful
             const success = trait.onPlace?.(options);
 

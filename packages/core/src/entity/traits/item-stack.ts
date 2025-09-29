@@ -97,9 +97,9 @@ class EntityItemStackTrait extends EntityTrait {
     if (options?.itemStack) {
       // Set the item stack of the trait
       this.itemStack = options.itemStack;
-    } else if (entity.nbt.has("Item")) {
+    } else if (entity.hasStorageEntry("Item")) {
       // Get the item tag from the entity's nbt
-      const entry = entity.nbt.get<CompoundTag>("Item")!;
+      const entry = entity.getStorageEntry<CompoundTag>("Item")!;
 
       // Create a new item stack from the level storage entry
       this.itemStack = ItemStack.fromLevelStorage(this.entity.world, entry);
@@ -122,7 +122,7 @@ class EntityItemStackTrait extends EntityTrait {
     const storage = this.itemStack.getLevelStorage();
 
     // Set the item stack storage in the entity's nbt
-    entity.nbt.set("Item", storage);
+    entity.setStorageEntry("Item", storage);
   }
 
   /**
@@ -148,7 +148,7 @@ class EntityItemStackTrait extends EntityTrait {
     const entry = this.itemStack.getLevelStorage();
 
     // Update the nbt of the entity with the item stack data
-    this.entity.nbt.set("Item", entry);
+    this.entity.setStorageEntry("Item", entry);
 
     // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
@@ -168,7 +168,7 @@ class EntityItemStackTrait extends EntityTrait {
     const entry = this.itemStack.getLevelStorage();
 
     // Update the nbt of the entity with the item stack data
-    this.entity.nbt.set("Item", entry);
+    this.entity.setStorageEntry("Item", entry);
 
     // Create a new actor event packet to update the stack size
     const packet = new ActorEventPacket();
@@ -185,12 +185,12 @@ class EntityItemStackTrait extends EntityTrait {
     const entry = this.itemStack.getLevelStorage();
 
     // Set the item stack data in the entity's nbt
-    this.entity.nbt.set("Item", entry);
+    this.entity.setStorageEntry("Item", entry);
   }
 
   public onRemove(): void {
     // Delete the item stack data from the entity's nbt
-    this.entity.nbt.delete("Item");
+    this.entity.removeStorageEntry("Item");
   }
 
   public onTick(details: TraitOnTickDetails): void {

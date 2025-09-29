@@ -22,10 +22,10 @@ class BlockPickRequestHandler extends NetworkHandler {
     const block = dimension.getBlock({ x, y, z });
 
     // Call the onPick trait methods of the block
-    for (const trait of block.traits.values()) trait.onPick?.(player, addData);
+    for (const trait of block.getAllTraits()) trait.onPick?.(player, addData);
 
     // Check if the player is in creative mode
-    if (player.gamemode !== Gamemode.Creative) return;
+    if (player.getGamemode() !== Gamemode.Creative) return;
 
     // Create a new item stack from the block
     const itemStack = block.getItemStack({
@@ -35,7 +35,7 @@ class BlockPickRequestHandler extends NetworkHandler {
     // Check if block data should be added to the item stack
     if (addData) {
       // Get the level storage of the block
-      const storage = block.getLevelStorage();
+      const storage = block.getStorage();
 
       // Add the block's level storage to the item stack
       itemStack.nbt.set("Block", storage);

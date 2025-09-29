@@ -1,7 +1,6 @@
 import {
   ActorDataId,
   ActorDataType,
-  DataItem,
   ModalFormType,
   NpcDialogueAction,
   NpcDialoguePacket
@@ -109,12 +108,13 @@ class DialogueForm extends Form<number> {
     result?: FormResult<number>
   ): void | Promise<number | Error> {
     // Check if the target has a NPC metadata.
-    if (!this.target.metadata.has(ActorDataId.HasNpc)) {
-      // Create the data item for the NPC metadata.
-      const data = new DataItem(ActorDataId.HasNpc, ActorDataType.Byte, 1);
-
+    if (!this.target.metadata.hasActorMetadata(ActorDataId.HasNpc)) {
       // Set the NPC metadata to the target.
-      this.target.metadata.set(ActorDataId.HasNpc, data);
+      this.target.metadata.setActorMetadata(
+        ActorDataId.HasNpc,
+        ActorDataType.Byte,
+        1
+      );
     }
 
     // Map the buttons to the dialogue buttons.

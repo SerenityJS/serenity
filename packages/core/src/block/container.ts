@@ -43,7 +43,7 @@ class BlockContainer extends Container {
     super.update(player);
 
     // Call the onContainerUpdate method for the block traits
-    for (const trait of this.block.traits.values()) {
+    for (const trait of this.block.getAllTraits()) {
       try {
         // Call the trait method
         trait.onContainerUpdate?.(this);
@@ -58,7 +58,7 @@ class BlockContainer extends Container {
         );
 
         // Remove the trait from the block
-        this.block.traits.delete(trait.identifier);
+        this.block.removeTrait(trait.identifier);
       }
     }
   }

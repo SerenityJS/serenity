@@ -383,7 +383,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Disconnect all players
     for (const player of this.players.values()) {
       // Write the player data to the world provider
-      player.world.provider.writePlayer(player.getLevelStorage());
+      player.world.provider.writePlayer(player.uuid, player.getStorage());
 
       // Disconnect the player from the server
       player.disconnect(
@@ -562,6 +562,35 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     WorldEnum.options.push(world.identifier);
 
     // Return true if the world was successfully registered
+    return true;
+  }
+
+  public unregisterWorld(world: World): boolean {
+    // Check if the world is registered
+    if (!this.worlds.has(world.identifier)) {
+      this.logger.error(
+        `World is not registered and cannot be unregistered: ${world.identifier}`
+      );
+
+      // Return false if the world is not registered
+      return false;
+    }
+
+    // Call the onShutdown method of the world provider
+    world.provider.onShutdown();
+
+    // Remove all listeners of the world provider.
+    world.removeAll();
+
+    // Remove the world from registered worlds.
+    this.worlds.delete(world.identifier);
+
+    // Remove the world from the worlds enum.
+    WorldEnum.options.splice(WorldEnum.options.indexOf(world.identifier), 1);
+
+    // Log that the world has been unregistered.
+    this.logger.debug(`Unregistered world: ${world.identifier}`);
+
     return true;
   }
 

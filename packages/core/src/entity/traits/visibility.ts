@@ -12,17 +12,17 @@ class EntityInvisibilityTrait extends EntityTrait {
 
   public onAdd(): void {
     // Check if the entity has a metadata flag value for invisibility
-    if (!this.entity.flags.has(ActorFlag.Invisible)) {
+    if (!this.entity.flags.getActorFlag(ActorFlag.Invisible)) {
       // Set the entity flag for invisibility
-      this.entity.flags.set(ActorFlag.Invisible, false);
+      this.entity.flags.setActorFlag(ActorFlag.Invisible, false);
     }
   }
 
   public onRemove(): void {
     // Check if the entity has a metadata flag value for invisibility
-    if (this.entity.flags.has(ActorFlag.Invisible)) {
+    if (this.entity.flags.getActorFlag(ActorFlag.Invisible)) {
       // Remove the entity flag for invisibility
-      this.entity.flags.delete(ActorFlag.Invisible);
+      this.entity.flags.setActorFlag(ActorFlag.Invisible);
     }
   }
 
@@ -31,7 +31,7 @@ class EntityInvisibilityTrait extends EntityTrait {
    * @param value Wether or not the entity will be visible.
    */
   public setInvisibility(value: boolean): void {
-    this.entity.flags.set(ActorFlag.Invisible, value);
+    this.entity.flags.setActorFlag(ActorFlag.Invisible, value);
   }
 }
 

@@ -47,7 +47,7 @@ const register = (world: World) => {
             }
 
             // Update the ability for the entity
-            entity.abilities.set(ability, enabled);
+            entity.abilities.setAbility(ability, enabled);
 
             // Push the message to the array
             message.push(

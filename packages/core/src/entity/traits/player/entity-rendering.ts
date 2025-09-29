@@ -1,6 +1,4 @@
 import {
-  AbilityLayerType,
-  AbilitySet,
   ActorLink,
   ActorLinkType,
   AddEntityPacket,
@@ -122,9 +120,10 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         heldItem === null
           ? new NetworkItemStackDescriptor(0)
           : ItemStack.toNetworkStack(heldItem);
-      packet.gamemode = entity.gamemode;
-      packet.data = [...entity.metadata.values()];
-      packet.properties = entity.sharedProperties.getPropertySyncData();
+      packet.gamemode = entity.getGamemode();
+      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+      packet.properties =
+        entity.sharedProperties.getSharedPropertiesAsSyncData();
       packet.uniqueEntityId = entity.uniqueId;
       packet.premissionLevel = entity.isOp
         ? PermissionLevel.Operator
@@ -134,17 +133,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         ? CommandPermissionLevel.Operator
         : CommandPermissionLevel.Normal;
 
-      packet.abilities = [
-        {
-          type: AbilityLayerType.Base,
-          abilities: [...entity.abilities.entries()].map(
-            ([ability, value]) => new AbilitySet(ability, value)
-          ),
-          walkSpeed: 0.1,
-          verticalFlySpeed: 1.0,
-          flySpeed: 0.05
-        }
-      ];
+      packet.abilities = entity.abilities.getAllAbilitiesAsLayers();
       packet.links = [];
       packet.deviceId = entity.clientSystemInfo.identifier;
       packet.deviceOS = entity.clientSystemInfo.os;
@@ -200,7 +189,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
       packet.position = position;
       packet.velocity = entity.velocity;
-      packet.data = [...entity.metadata.values()];
+      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
       packet.fromFishing = false;
 
       // Send the packet to the player
@@ -225,8 +214,8 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.headYaw = entity.rotation.headYaw;
     packet.bodyYaw = entity.rotation.yaw;
     packet.attributes = [];
-    packet.data = [...entity.metadata.values()];
-    packet.properties = entity.sharedProperties.getPropertySyncData();
+    packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+    packet.properties = entity.sharedProperties.getSharedPropertiesAsSyncData();
     packet.links = [];
 
     // Check if the entity is riding another entity

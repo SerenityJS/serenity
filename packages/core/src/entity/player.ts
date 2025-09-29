@@ -3,6 +3,7 @@ import {
   AbilityIndex,
   BlockPosition,
   ChangeDimensionPacket,
+  CommandPermissionLevel,
   ContainerName,
   CraftingDataEntryType,
   CraftingDataPacket,
@@ -10,34 +11,40 @@ import {
   CreativeGroup,
   CreativeItem,
   DataPacket,
-  DefaultAbilityValues,
   DisconnectMessage,
   DisconnectPacket,
   DisconnectReason,
   Gamemode,
+  IPosition,
   MoveMode,
   MovePlayerPacket,
+  PermissionLevel,
   PlayerStartItemCooldownPacket,
   PlaySoundPacket,
   SerializedSkin,
+  SetActorDataPacket,
   SetActorMotionPacket,
+  SetPlayerGameTypePacket,
   ShowProfilePacket,
   StopSoundPacket,
   TeleportCause,
   TextPacket,
   TextPacketType,
   TransferPacket,
+  UpdateAbilitiesPacket,
   UpdatePlayerGameTypePacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
+import { IntTag } from "@serenityjs/nbt";
 
 import {
   EntitySpawnOptions,
   PlayerProperties,
-  PlaySoundOptions
+  PlaySoundOptions,
+  RawMessage,
+  RawText
 } from "../types";
-import { Dimension, World } from "../world";
+import { Dimension } from "../world";
 import { EntityIdentifier } from "../enums";
 import { Container } from "../container";
 import {
@@ -57,7 +64,6 @@ import { PermissionMember } from "../permissions";
 import { DefaultPlayerProperties } from "../constants";
 
 import { Entity } from "./entity";
-import { AbilityMap } from "./maps";
 import {
   EntityRidingTrait,
   EntityInventoryTrait,
@@ -70,6 +76,7 @@ import {
 import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
 import { PlayerLevelStorage } from "./storage";
+import { PlayerAbilities } from "./player-abilities";
 
 class Player extends Entity {
   /**
@@ -100,7 +107,7 @@ class Player extends Entity {
   /**
    * The current abilities of the player, and whether they are enabled
    */
-  public readonly abilities = new AbilityMap(this);
+  public readonly abilities: PlayerAbilities;
 
   /**
    * The player's device information.
@@ -130,6 +137,11 @@ class Player extends Entity {
   public pendingForms: Map<number, FormParticipant<never>> = new Map();
 
   /**
+   *
+   */
+  protected readonly storage: PlayerLevelStorage;
+
+  /**
    * The container that the player is currently viewing.
    */
   public openedContainer: Container | null = null;
@@ -150,60 +162,6 @@ class Player extends Entity {
   public entityTarget: Entity | null = null;
 
   /**
-   * The gamemode of the player.
-   */
-  public get gamemode(): Gamemode {
-    // Check if the player has the gamemode component
-    if (!this.dynamicProperties.has("gamemode"))
-      // Set the default gamemode for the player
-      this.dynamicProperties.set("gamemode", this.world.getDefaultGamemode());
-
-    // Return the gamemode of the player
-    return this.dynamicProperties.get("gamemode") as Gamemode;
-  }
-
-  /**
-   * The gamemode of the player.
-   */
-  public set gamemode(value: Gamemode) {
-    const signal = new PlayerGamemodeChangeSignal(this, this.gamemode, value);
-
-    if (!signal.emit()) return;
-
-    // Set the gamemode of the player
-    this.dynamicProperties.set("gamemode", value);
-
-    // Call the onGamemodeChange event for the player
-    for (const trait of this.traits.values()) trait.onGamemodeChange?.(value);
-
-    // Enable or disable the ability to fly based on the gamemode
-    switch (value) {
-      case Gamemode.Survival:
-      case Gamemode.Adventure: {
-        // Disable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, false);
-        break;
-      }
-
-      case Gamemode.Creative:
-      case Gamemode.Spectator: {
-        // Enable the ability to fly
-        this.abilities.set(AbilityIndex.MayFly, true);
-        break;
-      }
-    }
-
-    // Create a new UpdatePlayerGameTypePacket
-    const packet = new UpdatePlayerGameTypePacket();
-    packet.gamemode = value;
-    packet.uniqueActorId = this.uniqueId;
-    packet.inputTick = this.inputInfo.tick;
-
-    // Broadcast the packet to the dimension
-    this.dimension.broadcast(packet);
-  }
-
-  /**
    * Whether the player has operator permissions.
    */
   public get isOp(): boolean {
@@ -219,8 +177,8 @@ class Player extends Entity {
     else this.permissions.remove("serenity.operator");
 
     // Update the player's abilities
-    this.abilities.set(AbilityIndex.OperatorCommands, value);
-    this.abilities.set(AbilityIndex.Teleport, value);
+    this.abilities.setAbility(AbilityIndex.OperatorCommands, value);
+    this.abilities.setAbility(AbilityIndex.Teleport, value);
   }
 
   /**
@@ -248,27 +206,72 @@ class Player extends Entity {
     this.uuid = props.uuid;
     this.clientSystemInfo = props.clientSystemInfo;
     this.skin = props.skin;
-    this.alwaysShowNameTag = true;
 
     // Get the player's permission level from the permissions map
     this.permissions = this.serenity.getPermissionMember(this);
     this.permissions.player = this; // Set the player instance to the permission member
 
     // If the player properties contains an entry, load it
-    if (properties?.storage)
-      this.loadLevelStorage(dimension.world, properties.storage);
+    if (properties?.storage) {
+      // Assign the storage to the player
+      this.storage = new PlayerLevelStorage(this, properties.storage);
+    } else {
+      // Create a new storage for the player
+      this.storage = new PlayerLevelStorage(this);
+
+      // Set the identifier of the entity
+      this.storage.setIdentifier(this.type.identifier);
+
+      // Assign a new unique id to the entity
+      const uniqueId = Entity.createUniqueId(this.type.network, this.runtimeId);
+
+      // Set the unique id of the player
+      this.storage.setUniqueId(uniqueId);
+
+      // Set the player's position to the spawn position of the dimension
+      this.storage.setPosition(dimension.spawnPosition);
+    }
+
+    // Set the player's nametag to always be visible by default
+    this.setNametag(this.username);
+    this.setNametagAlwaysVisible(true);
+
+    // Create a new abilities map for the player
+    this.abilities = new PlayerAbilities(this);
+
+    // Set the ability for operator commands
+    this.abilities.setAbility(AbilityIndex.OperatorCommands, this.isOp);
 
     // Add the traits of the player type
     for (const [, trait] of this.type.traits) this.addTrait(trait);
+  }
 
-    // Add the default abilities to the player
-    for (const [ability, value] of Object.entries(DefaultAbilityValues)) {
-      if (!this.abilities.has(+ability as AbilityIndex))
-        this.abilities.set(+ability as AbilityIndex, value);
-    }
+  // --- DEPRECATED - REMOVE IN FUTURE ---
 
-    // Set the ability for operator commands
-    this.abilities.operatorCommands = this.isOp;
+  /**
+   * The current gamemode of the player.
+   * @deprecated Use `getGamemode()` instead.
+   * Will be removed in version 0.8.14.
+   */
+  public get gamemode(): Gamemode {
+    this.world.logger.warn(
+      "The 'Player.gamemode' is deprecated. Please use 'getGamemode()' instead."
+    );
+
+    return this.getGamemode();
+  }
+
+  /**
+   * Set the current gamemode of the player.
+   * @deprecated Use `setGamemode()` instead.
+   * Will be removed in version 0.8.14.
+   */
+  public set gamemode(value: Gamemode) {
+    this.world.logger.warn(
+      "The 'Player.gamemode' is deprecated. Please use 'setGamemode()' instead."
+    );
+
+    this.setGamemode(value);
   }
 
   /**
@@ -314,6 +317,80 @@ class Player extends Entity {
   }
 
   /**
+   * Get the current gamemode of the player.
+   * @returns The gamemode of the player.
+   */
+  public getGamemode(): Gamemode {
+    // Get the storage entry for the gamemode
+    const entry = this.storage.get<IntTag>("PlayerGameMode");
+
+    // Check if an entry exists
+    if (!entry) {
+      // Get the default gamemode from the world
+      const defaultGamemode = this.world.getDefaultGamemode();
+
+      // Set the storage entry for the gamemode
+      this.storage.set("PlayerGameMode", new IntTag(defaultGamemode));
+
+      // Return the default gamemode
+      return defaultGamemode;
+    } else {
+      // Return the gamemode value
+      return entry.valueOf() as Gamemode;
+    }
+  }
+
+  /**
+   * Set the current gamemode of the player.
+   * @param gamemode The gamemode to set the player to.
+   */
+  public setGamemode(gamemode: Gamemode): void {
+    // Set the storage entry for the gamemode
+    this.storage.set("PlayerGameMode", new IntTag(gamemode));
+
+    const signal = new PlayerGamemodeChangeSignal(
+      this,
+      this.getGamemode(),
+      gamemode
+    );
+
+    if (!signal.emit()) return;
+
+    // Set the gamemode of the player
+    this.dynamicProperties.set("gamemode", gamemode);
+
+    // Call the onGamemodeChange event for the player
+    for (const trait of this.traits.values())
+      trait.onGamemodeChange?.(gamemode);
+
+    // Enable or disable the ability to fly based on the gamemode
+    switch (gamemode) {
+      case Gamemode.Survival:
+      case Gamemode.Adventure: {
+        // Disable the ability to fly
+        this.abilities.setAbility(AbilityIndex.MayFly, false);
+        break;
+      }
+
+      case Gamemode.Creative:
+      case Gamemode.Spectator: {
+        // Enable the ability to fly
+        this.abilities.setAbility(AbilityIndex.MayFly, true);
+        break;
+      }
+    }
+
+    // Create a new UpdatePlayerGameTypePacket
+    const packet = new UpdatePlayerGameTypePacket();
+    packet.gamemode = gamemode;
+    packet.uniqueActorId = this.uniqueId;
+    packet.inputTick = this.inputInfo.tick;
+
+    // Broadcast the packet to the dimension
+    this.dimension.broadcast(packet);
+  }
+
+  /**
    * Check if the player has a specific permission.
    * @param permission The permission to check.
    * @returns True if the player has the permission, false otherwise.
@@ -351,24 +428,38 @@ class Player extends Entity {
   }
 
   /**
+   * Get the round-trip ping of the player in milliseconds.
+   * @returns The ping of the player in milliseconds.
+   */
+  public getPing(): number {
+    return this.connection.ping;
+  }
+
+  /**
    * Sends a message to the player
    * @param message The message that will be sent.
    */
-  public sendMessage(message: string): void {
+  public sendMessage(message: string | RawMessage): void {
     // Construct the text packet.
     const packet = new TextPacket();
 
+    // Prepare the raw text object.
+    const rawText: RawText = {};
+
+    // Check if the message is a string or RawMessage
+    if (typeof message === "string") rawText.rawtext = [{ text: message }];
+    else rawText.rawtext = message.rawtext;
+
     // Assign the packet data.
-    packet.type = TextPacketType.Raw;
-    packet.needsTranslation = false;
+    packet.type = TextPacketType.Json;
+    packet.needsTranslation = true;
     packet.source = null;
-    packet.message = message;
+    packet.message = JSON.stringify(rawText);
     packet.parameters = null;
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = "";
+    packet.filtered = JSON.stringify(rawText);
 
-    // Send the packet.
     this.send(packet);
   }
 
@@ -471,8 +562,36 @@ class Player extends Entity {
     // Call the super method to spawn the player
     super.spawn(options);
 
-    // Update the abilities of the player
-    this.abilities.update();
+    // Create a new SetActorDataPacket
+    const data = new SetActorDataPacket();
+    data.runtimeEntityId = this.runtimeId;
+    data.inputTick = this.inputInfo.tick;
+    data.data = this.metadata.getAllActorMetadataAsDataItems();
+    data.properties = this.sharedProperties.getSharedPropertiesAsSyncData();
+
+    // Iterate over the flags set on the entity
+    for (const [flat, enabled] of this.flags.getAllActorFlags())
+      data.setActorFlag(flat, enabled);
+
+    // Create a new UpdateAbilitiesPacket
+    const abilities = new UpdateAbilitiesPacket();
+    abilities.permissionLevel = this.isOp
+      ? PermissionLevel.Operator
+      : PermissionLevel.Member;
+
+    abilities.commandPermissionLevel = this.isOp
+      ? CommandPermissionLevel.Operator
+      : CommandPermissionLevel.Normal;
+
+    abilities.entityUniqueId = this.uniqueId;
+    abilities.abilities = this.abilities.getAllAbilitiesAsLayers();
+
+    // Set the player's gamemode
+    const gamemode = new SetPlayerGameTypePacket();
+    gamemode.gamemode = this.getGamemode();
+
+    // Get the biome definitions from the world's biome palette
+    const biomes = this.world.biomePalette.getBiomeDefinitionList();
 
     // Create a new CreativeContentPacket, and map the creative content to the packet
     const content = new CreativeContentPacket();
@@ -500,9 +619,11 @@ class Player extends Entity {
       }
     );
 
+    // Create a new CraftingDataPacket, and map the crafting recipes to the packet
     const recipes = new CraftingDataPacket();
 
-    recipes.clearRecipes = false;
+    // Assign the recipe properties
+    recipes.clearRecipes = true;
     recipes.containers = [];
     recipes.crafting = [];
     recipes.materitalReducers = [];
@@ -538,8 +659,11 @@ class Player extends Entity {
       }
     }
 
-    // Send the available creative content & crafting data to the player
-    this.send(content, recipes);
+    // Send the data, abilities, and gamemode packets to the player
+    this.send(data, abilities, gamemode);
+
+    // Send the biome definitions, creative content, and crafting data to the player
+    this.send(biomes, content, recipes);
 
     // Teleport the player to their position
     // This fixes an issue where the player is sometimes stuck in the ground
@@ -736,30 +860,36 @@ class Player extends Entity {
    * Get the spawn point of the player.
    * @returns The spawn point of the player.
    */
-  public getSpawnPoint(): Vector3f {
-    // Check if the player has the spawn point dynamic property
-    if (!this.hasDynamicProperty("spawnPoint")) {
-      // Get the spawn position of the dimension
-      const { x, y, z } = this.dimension.spawnPosition;
+  public getSpawnPoint(): IPosition {
+    // Get the storage entries for the spawn point
+    const x = this.storage.get<IntTag>("SpawnX");
+    const y = this.storage.get<IntTag>("SpawnY");
+    const z = this.storage.get<IntTag>("SpawnZ");
 
-      // Set the spawn point of the player
-      this.setDynamicProperty<Array<number>>("spawnPoint", [x, y, z]);
+    // Check if the entries exist
+    if (x && y && z) {
+      // Return the spawn point as a position object
+      return { x: x.valueOf(), y: y.valueOf(), z: z.valueOf() };
     }
 
-    // Get the spawn point of the player
-    const position = this.getDynamicProperty("spawnPoint") as Array<number>;
-
-    // Return the spawn point as a Vector3f
-    return Vector3f.fromArray(position);
+    // If the entries do not exist, return the dimension's spawn position
+    return this.dimension.spawnPosition;
   }
 
   /**
    * Set the spawn point of the player.
    * @param position The position to set the spawn point to.
    */
-  public setSpawnPoint(position: Vector3f): void {
-    // Set the spawn point of the player
-    this.setDynamicProperty("spawnPoint", [position.x, position.y, position.z]);
+  public setSpawnPoint(position: IPosition): void {
+    // Create IntTags for the position
+    const x = new IntTag(Math.floor(position.x));
+    const y = new IntTag(Math.floor(position.y));
+    const z = new IntTag(Math.floor(position.z));
+
+    // Set the dynamic property for the spawn point
+    this.setStorageEntry("SpawnX", x);
+    this.setStorageEntry("SpawnY", y);
+    this.setStorageEntry("SpawnZ", z);
   }
 
   /**
@@ -904,34 +1034,116 @@ class Player extends Entity {
       // Get the PlayerLevelingTrait
       const leveling = this.getTrait(PlayerLevelingTrait);
 
-      // Get the current experience
-      const currentExperience = leveling.getExperience();
+      // Get the current experience and level
+      let currentXp = leveling.getExperience();
+      currentXp += value;
 
-      // Calculate the new experience value
-      const levels = Math.trunc(currentExperience + value);
-      const float = currentExperience + value - levels;
+      let currentLevel = leveling.getLevel();
+      let xpForNextLevel = 0;
 
-      // Set the new experience
-      leveling.setExperience(float);
+      if (currentLevel >= 31) {
+        xpForNextLevel = 9 * currentLevel - 158;
+      } else if (currentLevel >= 16) {
+        xpForNextLevel = 5 * currentLevel - 38;
+      } else {
+        xpForNextLevel = 2 * currentLevel + 7;
+      }
 
-      // Check if the levels are greater than 0
-      if (levels > 0) this.addLevels(levels);
+      while (currentXp >= xpForNextLevel) {
+        currentXp -= xpForNextLevel;
+        currentLevel++;
 
-      // Return the new experience
-      return leveling.getExperience();
+        if (currentLevel >= 31) {
+          xpForNextLevel = 9 * currentLevel - 158;
+        } else if (currentLevel >= 16) {
+          xpForNextLevel = 5 * currentLevel - 38;
+        } else {
+          xpForNextLevel = 2 * currentLevel + 7;
+        }
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+      leveling.setExperienceProgress(
+        xpForNextLevel > 0 ? currentXp / xpForNextLevel : 0
+      );
+
+      // Return the new experience points
+      return currentXp;
     } else {
-      // Parse the value to ensure it is a float
-      const levels = Math.trunc(value);
-      const float = value - levels;
+      // Add the PlayerLevelingTrait to the player
+      const leveling = this.addTrait(PlayerLevelingTrait);
 
-      // Add the PlayerLevelingTrait to the player and set the experience
-      this.addTrait(PlayerLevelingTrait).setExperience(float);
+      // Set the experience in the PlayerLevelingTrait
+      leveling.setExperience(value);
 
-      // Check if the levels are greater than 0
-      if (levels > 0) this.addLevels(levels);
+      // Return the new experience points
+      return leveling.getExperience();
+    }
+  }
 
-      // Return the new experience
-      return value;
+  /**
+   * Remove experience from the player.
+   * @param value The amount of experience to remove.
+   * @returns The new experience progress of the player after adding the specified value.
+   * @note This method is dependent on the `PlayerLevelingTrait` being added to the player.
+   */
+  public removeExperience(value: number): number {
+    // Check if the player has the PlayerLevelingTrait
+    if (this.hasTrait(PlayerLevelingTrait)) {
+      // Get the PlayerLevelingTrait
+      const leveling = this.getTrait(PlayerLevelingTrait);
+
+      // Get the current experience and level
+      let currentXp = leveling.getExperience();
+      currentXp -= value;
+
+      let currentLevel = leveling.getLevel();
+
+      while (currentXp < 0) {
+        currentLevel--;
+
+        if (currentLevel < 0) {
+          currentLevel = 0;
+          currentXp = 0;
+          break;
+        }
+
+        let xpForPreviousLevel = 0;
+        if (currentLevel >= 31) {
+          xpForPreviousLevel = 9 * currentLevel - 158;
+        } else if (currentLevel >= 16) {
+          xpForPreviousLevel = 5 * currentLevel - 38;
+        } else {
+          xpForPreviousLevel = 2 * currentLevel + 7;
+        }
+
+        currentXp += xpForPreviousLevel;
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+
+      let xpForNextLevel = 0;
+      if (currentLevel >= 31) {
+        xpForNextLevel = 9 * currentLevel - 158;
+      } else if (currentLevel >= 16) {
+        xpForNextLevel = 5 * currentLevel - 38;
+      } else {
+        xpForNextLevel = 2 * currentLevel + 7;
+      }
+
+      // Set the new level and experience progress
+      leveling.setLevel(currentLevel);
+      leveling.setExperienceProgress(
+        xpForNextLevel > 0 ? currentXp / xpForNextLevel : 0
+      );
+
+      // Return the new experience points
+      return currentXp;
+    } else {
+      // If the trait doesn't exist, there's no experience to remove.
+      return 0;
     }
   }
 
@@ -947,7 +1159,7 @@ class Player extends Entity {
       const leveling = this.getTrait(PlayerLevelingTrait);
 
       // Return the total experience of the player
-      return leveling.getLevel() + leveling.getExperience();
+      return leveling.getTotalXp();
     }
 
     // If the PlayerLevelingTrait is not present, return 0
@@ -982,30 +1194,12 @@ class Player extends Entity {
     }
   }
 
-  public getLevelStorage(): PlayerLevelStorage {
-    // Call the super method to get the player level storage
-    const storage = new PlayerLevelStorage(super.getLevelStorage());
-
-    // Set the player properties in the storage
-    storage.setUsername(this.username);
-    storage.setXuid(this.xuid);
-    storage.setUuid(this.uuid);
-    storage.setAbilities([...this.abilities.entries()]);
-
-    // Return the player level storage
-    return storage;
-  }
-
-  public loadLevelStorage(world: World, source: CompoundTag): void {
-    // Call the super method to load the player level storage
-    super.loadLevelStorage(world, source);
-
-    // Create a new PlayerLevelStorage instance
-    const storage = new PlayerLevelStorage(source);
-
-    // Load the abilities from the storage
-    for (const [key, value] of storage.getAbilities())
-      this.abilities.set(key, value);
+  /**
+   * Get the nbt storage of the player.
+   * @returns The nbt storage of the player.
+   */
+  public getStorage(): PlayerLevelStorage {
+    return this.storage;
   }
 }
 

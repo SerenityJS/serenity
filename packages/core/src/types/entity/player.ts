@@ -1,6 +1,7 @@
 import { IPosition, SerializedSkin } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
-import { ClientSystemInfo, PlayerLevelStorage } from "../../entity";
+import { ClientSystemInfo } from "../../entity";
 
 import { EntityProperties } from "./entity";
 
@@ -10,7 +11,7 @@ interface PlayerProperties extends EntityProperties {
   uuid: string;
   skin: SerializedSkin;
   clientSystemInfo: ClientSystemInfo;
-  storage?: PlayerLevelStorage;
+  storage?: CompoundTag;
 }
 
 interface PlaySoundOptions {

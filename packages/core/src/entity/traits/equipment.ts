@@ -233,7 +233,7 @@ class EntityEquipmentTrait extends EntityTrait {
     }
 
     // Set the armor list to the entity's nbt
-    this.entity.nbt.add(armor);
+    this.entity.addStorageEntry(armor);
 
     // Create a new MobArmorEquipmentPacket, and assign the equipment properties
     const packet = new MobArmorEquipmentPacket();
@@ -250,7 +250,9 @@ class EntityEquipmentTrait extends EntityTrait {
 
   public onSpawn(): void {
     // Get the armor tag from the entity's nbt
-    const armor = this.entity.nbt.get<ListTag<CompoundTag>>("Armor")!.values();
+    const armor = this.entity
+      .getStorageEntry<ListTag<CompoundTag>>("Armor")!
+      .values();
 
     // Get the world from the entity
     const world = this.entity.world;
@@ -270,18 +272,18 @@ class EntityEquipmentTrait extends EntityTrait {
 
   public onAdd(): void {
     // Check if the entity has an armor tag
-    if (this.entity.nbt.has("Armor")) return;
+    if (this.entity.hasStorageEntry("Armor")) return;
 
     // Create a new armor list tag
     const armor = new ListTag<CompoundTag>([], "Armor");
 
     // Add the armor list tag to the entity's nbt
-    this.entity.nbt.add(armor);
+    this.entity.addStorageEntry(armor);
   }
 
   public onRemove(): void {
     // Delete the armor tag from the entity's nbt
-    this.entity.nbt.delete("Armor");
+    this.entity.removeStorageEntry("Armor");
   }
 
   public onDeath(): void {
