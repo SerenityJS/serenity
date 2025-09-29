@@ -58,12 +58,7 @@ class PluginFileSystem {
 
     // If an expected type is provided, ensure the path matches the expected type
     if (expectedType) {
-      if (!existsSync(path)) {
-        this.logger.warn(
-          `Attempted to access invalid path: ${path}. Path does not exist.`
-        );
-        return false;
-      }
+      if (!existsSync(path)) return false;
 
       const stat = statSync(path);
       if (
