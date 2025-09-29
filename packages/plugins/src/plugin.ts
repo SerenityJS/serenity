@@ -1,6 +1,3 @@
-import { resolve, sep } from "node:path";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-
 import { ResourcePack, Serenity } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Emitter } from "@serenityjs/emitter";
@@ -13,6 +10,7 @@ import {
   PluginItemRegistry
 } from "./registry";
 import { PluginPriority } from "./enums/priority";
+import { PluginFileSystem } from "./fileSystem";
 
 interface PluginOptions extends Partial<PluginEvents> {
   /**
@@ -113,6 +111,12 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
   public readonly config: unknown = {};
 
   /**
+   * The file system for the plugin.
+   * @Note This is only available after the plugin is initialized.
+   */
+  public fileSystem!: PluginFileSystem;
+
+  /**
    * The path to the plugin.
    * @Note This is only available after the plugin is initialized.
    */
@@ -206,104 +210,6 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    */
   public onShutDown(_plugin: Plugin): void {
     // Override this method in your plugin
-  }
-
-  /**
-   * Check if a file exists in the plugin data directory.
-   * @param path The path to the file to check.
-   * @returns True if the file exists, otherwise false.
-   */
-  public hasFile(path: string): boolean {
-    // Check if the pipeline is defined.
-    if (!this.pipeline) return false;
-
-    // Resolve the path to the plugin data directory
-    const dataPath = resolve(this.pipeline.path, "data", this.identifier);
-
-    // Check if the plugin data path exists
-    if (!existsSync(dataPath)) return false;
-
-    // Resolve the full path to the file
-    const fullPath = resolve(dataPath, path);
-
-    // Ensure the resolved path is still inside dataPath (prevents "../" escapes)
-    if (!fullPath.startsWith(dataPath + sep)) {
-      // Log a warning if an illegal path attempt is made
-      this.logger.warn(
-        `Attempted to check for an illegal path: ${path}. Operation aborted.`
-      );
-
-      return false; // Illegal path attempt
-    }
-
-    // Check if the file exists
-    return existsSync(fullPath);
-  }
-
-  /**
-   * Read a file from the plugin data directory.
-   * @param path The path to the file to read.
-   * @returns The file data if it exists, otherwise null.
-   */
-  public readFile(path: string): Buffer | null {
-    if (!this.pipeline) return null;
-
-    // Base plugin data directory
-    const dataPath = resolve(this.pipeline.path, "data", this.identifier);
-    if (!existsSync(dataPath)) return null;
-
-    // Resolve the requested file path
-    const fullPath = resolve(dataPath, path);
-
-    // Ensure the resolved path is still inside dataPath (prevents "../" escapes)
-    if (!fullPath.startsWith(dataPath + sep)) {
-      // Log a warning if an illegal path attempt is made
-      this.logger.warn(
-        `Attempted to read from an illegal path: ${path}. Operation aborted.`
-      );
-
-      return null; // Illegal path attempt
-    }
-
-    // Check if file exists
-    if (!existsSync(fullPath)) return null;
-
-    // Read and return the file data
-    return Buffer.from(readFileSync(fullPath));
-  }
-
-  /**
-   * Write a file to the plugin data directory.
-   * @param path The path to the file to write.
-   * @param data The file data to write.
-   */
-  public writeFile(path: string, data: Buffer | string): void {
-    // Check if the pipeline is defined.
-    if (!this.pipeline) return;
-
-    // Resolve the path to the plugin data directory
-    const dataPath = resolve(this.pipeline.path, "data", this.identifier);
-
-    // Check if the plugin data path exists
-    if (!existsSync(dataPath))
-      // If it doesn't, make the directory
-      mkdirSync(dataPath, { recursive: true });
-
-    // Resolve the full path to the file
-    const fullPath = resolve(dataPath, path);
-
-    // Ensure the resolved path is still inside dataPath (prevents "../" escapes)
-    if (!fullPath.startsWith(dataPath + sep)) {
-      // Log a warning if an illegal path attempt is made
-      this.logger.warn(
-        `Attempted to write to an illegal path: ${path}. Operation aborted.`
-      );
-
-      return; // Illegal path attempt
-    }
-
-    // Write the file data
-    return writeFileSync(fullPath, data);
   }
 
   /**
