@@ -1,5 +1,16 @@
 # @serenityjs/raknet
 
+## 0.8.13
+
+### Patch Changes
+
+- [`8e38833`](https://github.com/SerenityJS/serenity/commit/8e388337a890ce89f61415742966bdc39f972337) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.13-beta
+
+- Updated dependencies [[`8e38833`](https://github.com/SerenityJS/serenity/commit/8e388337a890ce89f61415742966bdc39f972337)]:
+  - @serenityjs/emitter@0.8.13
+  - @serenityjs/logger@0.8.13
+  - @serenityjs/nbt@0.8.13
+
 ## 0.8.12
 
 ### Patch Changes
