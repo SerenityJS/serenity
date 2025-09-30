@@ -641,7 +641,7 @@
   },
   {
     "type": "minecraft:mangrove_door",
-    "instance": "vAoBAAAACgAAAAAAAAAAAAA=",
+    "instance": "ugoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 5
   },
   {
@@ -822,6 +822,46 @@
   {
     "type": "minecraft:iron_bars",
     "instance": "ygEBAADF0MPfDQoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:copper_bars",
+    "instance": "0xABAACfto6HCQoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:exposed_copper_bars",
+    "instance": "1RABAADSlZfvAwoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:weathered_copper_bars",
+    "instance": "1xABAADYt6KvDgoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:oxidized_copper_bars",
+    "instance": "2RABAADPn4udDwoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:waxed_copper_bars",
+    "instance": "2xABAADA7o7TDQoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:waxed_exposed_copper_bars",
+    "instance": "3RABAADy8beVDQoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:waxed_weathered_copper_bars",
+    "instance": "3xABAACnz4iKAQoAAAAAAAAAAAAA",
+    "groupIndex": 7
+  },
+  {
+    "type": "minecraft:waxed_oxidized_copper_bars",
+    "instance": "4RABAACQ58ghCgAAAAAAAAAAAAA=",
     "groupIndex": 7
   },
   {
@@ -1480,13 +1520,13 @@
     "groupIndex": 16
   },
   {
-    "type": "minecraft:weathered_copper",
-    "instance": "qwUBAADgzMmUCQoAAAAAAAAAAAAA",
+    "type": "minecraft:exposed_copper",
+    "instance": "qQUBAADeo6u8BAoAAAAAAAAAAAAA",
     "groupIndex": 16
   },
   {
-    "type": "minecraft:exposed_copper",
-    "instance": "qQUBAADeo6u8BAoAAAAAAAAAAAAA",
+    "type": "minecraft:weathered_copper",
+    "instance": "qwUBAADgzMmUCQoAAAAAAAAAAAAA",
     "groupIndex": 16
   },
   {
@@ -3701,7 +3741,7 @@
   },
   {
     "type": "minecraft:nether_sprouts",
-    "instance": "pAoBAAAACgAAAAAAAAAAAAA=",
+    "instance": "ogoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 38
   },
   {
@@ -4316,12 +4356,12 @@
   },
   {
     "type": "minecraft:brown_egg",
-    "instance": "3AsBAAAACgAAAAAAAAAAAAA=",
+    "instance": "2gsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 45
   },
   {
     "type": "minecraft:blue_egg",
-    "instance": "2gsBAAAACgAAAAAAAAAAAAA=",
+    "instance": "2AsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 45
   },
   {
@@ -4726,32 +4766,32 @@
   },
   {
     "type": "minecraft:warden_spawn_egg",
-    "instance": "ugoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 48
-  },
-  {
-    "type": "minecraft:allay_spawn_egg",
     "instance": "uAoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
+    "type": "minecraft:allay_spawn_egg",
+    "instance": "tgoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 48
+  },
+  {
     "type": "minecraft:frog_spawn_egg",
-    "instance": "sgoBAAAACgAAAAAAAAAAAAA=",
+    "instance": "sAoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
     "type": "minecraft:tadpole_spawn_egg",
-    "instance": "tAoBAAAACgAAAAAAAAAAAAA=",
+    "instance": "sgoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
     "type": "minecraft:trader_llama_spawn_egg",
-    "instance": "2goBAAAACgAAAAAAAAAAAAA=",
+    "instance": "2AoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
     "type": "minecraft:camel_spawn_egg",
-    "instance": "6AoBAAAACgAAAAAAAAAAAAA=",
+    "instance": "5goBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
@@ -4820,6 +4860,11 @@
     "groupIndex": 48
   },
   {
+    "type": "minecraft:copper_golem_spawn_egg",
+    "instance": "/gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 48
+  },
+  {
     "type": "minecraft:snow_golem_spawn_egg",
     "instance": "rAgBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
@@ -4836,7 +4881,7 @@
   },
   {
     "type": "minecraft:armadillo_spawn_egg",
-    "instance": "xgsBAAAACgAAAAAAAAAAAAA=",
+    "instance": "xAsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
@@ -4846,17 +4891,12 @@
   },
   {
     "type": "minecraft:creaking_spawn_egg",
-    "instance": "1gsBAAAACgAAAAAAAAAAAAA=",
+    "instance": "1AsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
     "type": "minecraft:happy_ghast_spawn_egg",
-    "instance": "3gsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 48
-  },
-  {
-    "type": "minecraft:copper_golem_spawn_egg",
-    "instance": "gAwBAAAACgAAAAAAAAAAAAA=",
+    "instance": "3AsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 48
   },
   {
@@ -5020,6 +5060,11 @@
     "groupIndex": 53
   },
   {
+    "type": "minecraft:copper_helmet",
+    "instance": "igwBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 53
+  },
+  {
     "type": "minecraft:chainmail_helmet",
     "instance": "2AUBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 53
@@ -5045,13 +5090,13 @@
     "groupIndex": 53
   },
   {
-    "type": "minecraft:copper_helmet",
-    "instance": "jAwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 53
-  },
-  {
     "type": "minecraft:leather_chestplate",
     "instance": "0gUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 54
+  },
+  {
+    "type": "minecraft:copper_chestplate",
+    "instance": "jAwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 54
   },
   {
@@ -5080,13 +5125,13 @@
     "groupIndex": 54
   },
   {
-    "type": "minecraft:copper_chestplate",
-    "instance": "jgwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 54
-  },
-  {
     "type": "minecraft:leather_leggings",
     "instance": "1AUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 55
+  },
+  {
+    "type": "minecraft:copper_leggings",
+    "instance": "jgwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 55
   },
   {
@@ -5115,13 +5160,13 @@
     "groupIndex": 55
   },
   {
-    "type": "minecraft:copper_leggings",
-    "instance": "kAwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 55
-  },
-  {
     "type": "minecraft:leather_boots",
     "instance": "1gUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 56
+  },
+  {
+    "type": "minecraft:copper_boots",
+    "instance": "kAwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 56
   },
   {
@@ -5150,11 +5195,6 @@
     "groupIndex": 56
   },
   {
-    "type": "minecraft:copper_boots",
-    "instance": "kgwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 56
-  },
-  {
     "type": "minecraft:wooden_sword",
     "instance": "mAUBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 57
@@ -5162,6 +5202,11 @@
   {
     "type": "minecraft:stone_sword",
     "instance": "oAUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 57
+  },
+  {
+    "type": "minecraft:copper_sword",
+    "instance": "gAwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 57
   },
   {
@@ -5185,11 +5230,6 @@
     "groupIndex": 57
   },
   {
-    "type": "minecraft:copper_sword",
-    "instance": "ggwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 57
-  },
-  {
     "type": "minecraft:wooden_axe",
     "instance": "ngUBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 58
@@ -5197,6 +5237,11 @@
   {
     "type": "minecraft:stone_axe",
     "instance": "pgUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 58
+  },
+  {
+    "type": "minecraft:copper_axe",
+    "instance": "hgwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 58
   },
   {
@@ -5220,11 +5265,6 @@
     "groupIndex": 58
   },
   {
-    "type": "minecraft:copper_axe",
-    "instance": "iAwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 58
-  },
-  {
     "type": "minecraft:wooden_pickaxe",
     "instance": "nAUBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 59
@@ -5232,6 +5272,11 @@
   {
     "type": "minecraft:stone_pickaxe",
     "instance": "pAUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 59
+  },
+  {
+    "type": "minecraft:copper_pickaxe",
+    "instance": "hAwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 59
   },
   {
@@ -5255,11 +5300,6 @@
     "groupIndex": 59
   },
   {
-    "type": "minecraft:copper_pickaxe",
-    "instance": "hgwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 59
-  },
-  {
     "type": "minecraft:wooden_shovel",
     "instance": "mgUBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 60
@@ -5267,6 +5307,11 @@
   {
     "type": "minecraft:stone_shovel",
     "instance": "ogUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 60
+  },
+  {
+    "type": "minecraft:copper_shovel",
+    "instance": "ggwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 60
   },
   {
@@ -5290,11 +5335,6 @@
     "groupIndex": 60
   },
   {
-    "type": "minecraft:copper_shovel",
-    "instance": "hAwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 60
-  },
-  {
     "type": "minecraft:wooden_hoe",
     "instance": "xAUBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 61
@@ -5302,6 +5342,11 @@
   {
     "type": "minecraft:stone_hoe",
     "instance": "xgUBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 61
+  },
+  {
+    "type": "minecraft:copper_hoe",
+    "instance": "iAwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 61
   },
   {
@@ -5322,11 +5367,6 @@
   {
     "type": "minecraft:netherite_hoe",
     "instance": "iAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 61
-  },
-  {
-    "type": "minecraft:copper_hoe",
-    "instance": "igwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 61
   },
   {
@@ -5701,47 +5741,47 @@
   },
   {
     "type": "minecraft:recovery_compass",
-    "instance": "1goBAAAACgAAAAAAAAAAAAA=",
+    "instance": "1AoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 67
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAAACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAEACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAEACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAIACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAIACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAMACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAMACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAQACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAQACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAUACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAUACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAYACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAYACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
     "type": "minecraft:goat_horn",
-    "instance": "sAoBAAcACgAAAAAAAAAAAAA=",
+    "instance": "rgoBAAcACgAAAAAAAAAAAAA=",
     "groupIndex": 68
   },
   {
@@ -5761,82 +5801,82 @@
   },
   {
     "type": "minecraft:white_harness",
-    "instance": "/AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:light_gray_harness",
-    "instance": "7gsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:gray_harness",
-    "instance": "6AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:black_harness",
-    "instance": "4AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:brown_harness",
-    "instance": "5AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:red_harness",
     "instance": "+gsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 70
   },
   {
-    "type": "minecraft:orange_harness",
-    "instance": "9AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:yellow_harness",
-    "instance": "/gsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:lime_harness",
-    "instance": "8AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:green_harness",
-    "instance": "6gsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:cyan_harness",
-    "instance": "5gsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 70
-  },
-  {
-    "type": "minecraft:light_blue_harness",
+    "type": "minecraft:light_gray_harness",
     "instance": "7AsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 70
   },
   {
-    "type": "minecraft:blue_harness",
+    "type": "minecraft:gray_harness",
+    "instance": "5gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:black_harness",
+    "instance": "3gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:brown_harness",
     "instance": "4gsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 70
   },
   {
-    "type": "minecraft:purple_harness",
+    "type": "minecraft:red_harness",
     "instance": "+AsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 70
   },
   {
-    "type": "minecraft:magenta_harness",
+    "type": "minecraft:orange_harness",
     "instance": "8gsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 70
   },
   {
-    "type": "minecraft:pink_harness",
+    "type": "minecraft:yellow_harness",
+    "instance": "/AsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:lime_harness",
+    "instance": "7gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:green_harness",
+    "instance": "6AsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:cyan_harness",
+    "instance": "5AsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:light_blue_harness",
+    "instance": "6gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:blue_harness",
+    "instance": "4AsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:purple_harness",
     "instance": "9gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:magenta_harness",
+    "instance": "8AsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 70
+  },
+  {
+    "type": "minecraft:pink_harness",
+    "instance": "9AsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 70
   },
   {
@@ -5930,6 +5970,11 @@
     "groupIndex": 72
   },
   {
+    "type": "minecraft:copper_horse_armor",
+    "instance": "lAwBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 72
+  },
+  {
     "type": "minecraft:iron_horse_armor",
     "instance": "6AgBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 72
@@ -5946,7 +5991,7 @@
   },
   {
     "type": "minecraft:wolf_armor",
-    "instance": "ygsBAAAACgAAAAAAAAAAAAA=",
+    "instance": "yAsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 73
   },
   {
@@ -6706,12 +6751,12 @@
   },
   {
     "type": "minecraft:spyglass",
-    "instance": "rAoBAAAACgAAAAAAAAAAAAA=",
+    "instance": "qgoBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 78
   },
   {
     "type": "minecraft:brush",
-    "instance": "mAsBAAAACgAAAAAAAAAAAAA=",
+    "instance": "lgsBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 78
   },
   {
@@ -6810,6 +6855,11 @@
     "groupIndex": 81
   },
   {
+    "type": "minecraft:copper_torch",
+    "instance": "8xABAADa3tW3AQoAAAAAAAAAAAAA",
+    "groupIndex": 81
+  },
+  {
     "type": "minecraft:sea_pickle",
     "instance": "twIBAACQ1qGmBgoAAAAAAAAAAAAA",
     "groupIndex": 81
@@ -6817,3181 +6867,3396 @@
   {
     "type": "minecraft:lantern",
     "instance": "nwMBAAC3yqPPAQoAAAAAAAAAAAAA",
-    "groupIndex": 81
+    "groupIndex": 82
   },
   {
     "type": "minecraft:soul_lantern",
     "instance": "mQQBAACx3oCMBwoAAAAAAAAAAAAA",
-    "groupIndex": 81
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:copper_lantern",
+    "instance": "9RABAACehZjiBAoAAAAAAAAAAAAA",
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:exposed_copper_lantern",
+    "instance": "9xABAADL5cfxDwoAAAAAAAAAAAAA",
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:weathered_copper_lantern",
+    "instance": "+RABAADhqLSeCQoAAAAAAAAAAAAA",
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:oxidized_copper_lantern",
+    "instance": "+xABAADO797DDwoAAAAAAAAAAAAA",
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:waxed_copper_lantern",
+    "instance": "/RABAADRrd/iBgoAAAAAAAAAAAAA",
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:waxed_exposed_copper_lantern",
+    "instance": "/xABAADkmsTWCgoAAAAAAAAAAAAA",
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:waxed_weathered_copper_lantern",
+    "instance": "gREBAADhjc2kDwoAAAAAAAAAAAAA",
+    "groupIndex": 82
+  },
+  {
+    "type": "minecraft:waxed_oxidized_copper_lantern",
+    "instance": "gxEBAACu18SlDgoAAAAAAAAAAAAA",
+    "groupIndex": 82
   },
   {
     "type": "minecraft:candle",
     "instance": "twYBAAD2hYDTAQoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:white_candle",
     "instance": "uQYBAADG1tOJDQoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:orange_candle",
     "instance": "uwYBAAC+3vrjBgoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:magenta_candle",
     "instance": "vQYBAACRuJfnDQoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:light_blue_candle",
     "instance": "vwYBAADLyOzYAQoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:yellow_candle",
     "instance": "wQYBAACFyrbsCgoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:lime_candle",
     "instance": "wwYBAAC/64/tAgoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:pink_candle",
     "instance": "xQYBAADJrMS5AwoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:gray_candle",
     "instance": "xwYBAAC8646NAQoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:light_gray_candle",
     "instance": "yQYBAADegfWsDwoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:cyan_candle",
     "instance": "ywYBAADMiYSRBwoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:purple_candle",
     "instance": "zQYBAACxzZbnDwoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:blue_candle",
     "instance": "zwYBAADe6piOCAoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:brown_candle",
     "instance": "0QYBAADIkq3gDgoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:green_candle",
     "instance": "0wYBAACyzOG5BwoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:red_candle",
     "instance": "1QYBAAC2vftsCgAAAAAAAAAAAAA=",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:black_candle",
     "instance": "1wYBAADNxInmAwoAAAAAAAAAAAAA",
-    "groupIndex": 82
+    "groupIndex": 83
   },
   {
     "type": "minecraft:crafting_table",
     "instance": "dAEAAICzgYcNCgAAAAAAAAAAAAA=",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:cartography_table",
     "instance": "jwMBAADGhJ23BgoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:fletching_table",
     "instance": "kQMBAAC6mt2lCQoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:smithing_table",
     "instance": "kwMBAADF8vSvBgoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:beehive",
     "instance": "tQMBAAD+pbytAwoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:suspicious_sand",
     "instance": "oQgBAACt7bj5DwoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:suspicious_gravel",
     "instance": "+QgBAAD4hkwKAAAAAAAAAAAAAA==",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:campfire",
     "instance": "4AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:soul_campfire",
-    "instance": "pgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 83
+    "instance": "pAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 84
   },
   {
     "type": "minecraft:furnace",
     "instance": "egEAAM3m+ZgGCgAAAAAAAAAAAAA=",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:blast_furnace",
     "instance": "hwMBAAC4x6j7DwoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:smoker",
     "instance": "iwMBAAC1zvqzBgoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:respawn_anchor",
     "instance": "nwQBAAC0zuCRDQoAAAAAAAAAAAAA",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:brewing_stand",
     "instance": "lAcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 83
+    "groupIndex": 84
   },
   {
     "type": "minecraft:anvil",
     "instance": "ogIBAACtjZSDDgoAAAAAAAAAAAAA",
-    "groupIndex": 84
+    "groupIndex": 85
   },
   {
     "type": "minecraft:chipped_anvil",
     "instance": "/Q4BAADtorm2DQoAAAAAAAAAAAAA",
-    "groupIndex": 84
+    "groupIndex": 85
   },
   {
     "type": "minecraft:damaged_anvil",
     "instance": "/w4BAAC96vC9AwoAAAAAAAAAAAAA",
-    "groupIndex": 84
+    "groupIndex": 85
   },
   {
     "type": "minecraft:grindstone",
     "instance": "hQMBAADwyui8BwoAAAAAAAAAAAAA",
-    "groupIndex": 85
+    "groupIndex": 86
   },
   {
     "type": "minecraft:enchanting_table",
     "instance": "6AEBAADKoYyVCQoAAAAAAAAAAAAA",
-    "groupIndex": 85
+    "groupIndex": 86
   },
   {
     "type": "minecraft:bookshelf",
     "instance": "XgEAANGn/7MOCgAAAAAAAAAAAAA=",
-    "groupIndex": 85
+    "groupIndex": 86
   },
   {
     "type": "minecraft:chiseled_bookshelf",
     "instance": "mwgBAADr0cTUDQoAAAAAAAAAAAAA",
-    "groupIndex": 85
+    "groupIndex": 86
+  },
+  {
+    "type": "minecraft:oak_shelf",
+    "instance": "rRABAADD0N2KAwoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:spruce_shelf",
+    "instance": "rxABAAC4goH+AgoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:birch_shelf",
+    "instance": "sRABAADl46QYCgAAAAAAAAAAAAA=",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:jungle_shelf",
+    "instance": "sxABAADt+un1DAoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:acacia_shelf",
+    "instance": "tRABAADIl6yqAwoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:dark_oak_shelf",
+    "instance": "txABAAD81e2IBgoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:mangrove_shelf",
+    "instance": "uRABAAD6vNmDAgoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:cherry_shelf",
+    "instance": "uxABAACqhIz4AgoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:pale_oak_shelf",
+    "instance": "vRABAACco92yCgoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:bamboo_shelf",
+    "instance": "vxABAADM0bjCDAoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:crimson_shelf",
+    "instance": "wRABAADko9ypCgoAAAAAAAAAAAAA",
+    "groupIndex": 87
+  },
+  {
+    "type": "minecraft:warped_shelf",
+    "instance": "wxABAADJtt7fCgoAAAAAAAAAAAAA",
+    "groupIndex": 87
   },
   {
     "type": "minecraft:lectern",
     "instance": "gwMBAACP6v6ABwoAAAAAAAAAAAAA",
-    "groupIndex": 85
+    "groupIndex": 88
   },
   {
     "type": "minecraft:cauldron",
     "instance": "lgcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 85
+    "groupIndex": 88
   },
   {
     "type": "minecraft:composter",
     "instance": "qQMBAADkrdDuBQoAAAAAAAAAAAAA",
-    "groupIndex": 85
+    "groupIndex": 88
   },
   {
     "type": "minecraft:chest",
     "instance": "bAEAAOPz1bcICgAAAAAAAAAAAAA=",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:trapped_chest",
     "instance": "pAIBAADGl7GWBgoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:ender_chest",
     "instance": "hAIBAACOo5SeCQoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:copper_chest",
     "instance": "jRABAADh3Km4AgoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:exposed_copper_chest",
     "instance": "jxABAADw6ditBwoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:weathered_copper_chest",
     "instance": "kRABAACZ7rClBQoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:oxidized_copper_chest",
     "instance": "kxABAADx9ea6CwoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:waxed_copper_chest",
     "instance": "lRABAADBw/D7DQoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:waxed_exposed_copper_chest",
     "instance": "lxABAADvh8LdAwoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:waxed_weathered_copper_chest",
     "instance": "mRABAAD2gpG4BwoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:waxed_oxidized_copper_chest",
     "instance": "mxABAACOh6yKCAoAAAAAAAAAAAAA",
-    "groupIndex": 86
+    "groupIndex": 89
   },
   {
     "type": "minecraft:barrel",
     "instance": "lQMBAADyx/e8AQoAAAAAAAAAAAAA",
-    "groupIndex": 87
+    "groupIndex": 90
   },
   {
     "type": "minecraft:undyed_shulker_box",
     "instance": "mgMBAADB0c6jDAoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:white_shulker_box",
     "instance": "tAMBAADjueLeAgoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:light_gray_shulker_box",
     "instance": "1wkBAAD7raW2AQoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:gray_shulker_box",
     "instance": "1QkBAADu4trsAgoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:black_shulker_box",
     "instance": "5QkBAAC48evOBgoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:brown_shulker_box",
     "instance": "3wkBAADS8cuWDAoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:red_shulker_box",
     "instance": "4wkBAAC0/9b/BAoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:orange_shulker_box",
     "instance": "yQkBAACrxufyDAoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:yellow_shulker_box",
     "instance": "zwkBAACghNTkBAoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:lime_shulker_box",
     "instance": "0QkBAADtnqzVCgoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:green_shulker_box",
     "instance": "4QkBAADnnLulDwoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:cyan_shulker_box",
     "instance": "2QkBAADxlLy6DwoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:light_blue_shulker_box",
     "instance": "zQkBAACuvKjMBgoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:blue_shulker_box",
     "instance": "3QkBAACcg5evCwoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:purple_shulker_box",
     "instance": "2wkBAACk2aWODAoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:magenta_shulker_box",
     "instance": "ywkBAADkq76+CgoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:pink_shulker_box",
     "instance": "0wkBAADjv9fJAwoAAAAAAAAAAAAA",
-    "groupIndex": 88
+    "groupIndex": 91
   },
   {
     "type": "minecraft:armor_stand",
     "instance": "kgkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 89
+    "groupIndex": 92
+  },
+  {
+    "type": "minecraft:copper_golem_statue",
+    "instance": "nRABAAC3q7POBwoAAAAAAAAAAAAA",
+    "groupIndex": 93
+  },
+  {
+    "type": "minecraft:exposed_copper_golem_statue",
+    "instance": "nxABAADypaXJCAoAAAAAAAAAAAAA",
+    "groupIndex": 93
+  },
+  {
+    "type": "minecraft:weathered_copper_golem_statue",
+    "instance": "oRABAADvsJy2CwoAAAAAAAAAAAAA",
+    "groupIndex": 93
+  },
+  {
+    "type": "minecraft:oxidized_copper_golem_statue",
+    "instance": "oxABAAD49MuEDwoAAAAAAAAAAAAA",
+    "groupIndex": 93
+  },
+  {
+    "type": "minecraft:waxed_copper_golem_statue",
+    "instance": "pRABAADol8z6AQoAAAAAAAAAAAAA",
+    "groupIndex": 93
+  },
+  {
+    "type": "minecraft:waxed_exposed_copper_golem_statue",
+    "instance": "pxABAACS2PDmCAoAAAAAAAAAAAAA",
+    "groupIndex": 93
+  },
+  {
+    "type": "minecraft:waxed_weathered_copper_golem_statue",
+    "instance": "qRABAADv4KayCgoAAAAAAAAAAAAA",
+    "groupIndex": 93
+  },
+  {
+    "type": "minecraft:waxed_oxidized_copper_golem_statue",
+    "instance": "qxABAADnyarkCQoAAAAAAAAAAAAA",
+    "groupIndex": 93
   },
   {
     "type": "minecraft:noteblock",
     "instance": "MgEAAPrRqp4BCgAAAAAAAAAAAAA=",
-    "groupIndex": 89
+    "groupIndex": 94
   },
   {
     "type": "minecraft:jukebox",
     "instance": "qAEBAADMnpL7CwoAAAAAAAAAAAAA",
-    "groupIndex": 89
+    "groupIndex": 94
   },
   {
     "type": "minecraft:music_disc_13",
     "instance": "7ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_cat",
     "instance": "8AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_blocks",
     "instance": "8ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_chirp",
     "instance": "9AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_far",
     "instance": "9ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_mall",
     "instance": "+AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_mellohi",
     "instance": "+ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_stal",
     "instance": "/AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_strad",
     "instance": "/ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_ward",
     "instance": "gAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_11",
     "instance": "ggkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_wait",
     "instance": "hAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_otherside",
-    "instance": "rgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "instance": "rAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_5",
-    "instance": "wgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "instance": "wAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_pigstep",
-    "instance": "ogoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "instance": "oAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_relic",
-    "instance": "wAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "instance": "vgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_creator",
     "instance": "2AwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_creator_music_box",
     "instance": "2gwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_precipice",
     "instance": "3AwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_tears",
     "instance": "3gwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:music_disc_lava_chicken",
     "instance": "4AwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 90
+    "groupIndex": 95
   },
   {
     "type": "minecraft:disc_fragment_5",
-    "instance": "xAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 91
+    "instance": "wgoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 96
   },
   {
     "type": "minecraft:glowstone_dust",
     "instance": "yAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 91
+    "groupIndex": 96
   },
   {
     "type": "minecraft:glowstone",
     "instance": "sgEBAAC3krCaDwoAAAAAAAAAAAAA",
-    "groupIndex": 91
+    "groupIndex": 96
   },
   {
     "type": "minecraft:redstone_lamp",
     "instance": "9gEBAADe0eH/BAoAAAAAAAAAAAAA",
-    "groupIndex": 91
+    "groupIndex": 96
   },
   {
     "type": "minecraft:sea_lantern",
     "instance": "0gIBAADXsNDyBgoAAAAAAAAAAAAA",
-    "groupIndex": 91
+    "groupIndex": 96
   },
   {
     "type": "minecraft:oak_sign",
     "instance": "/gUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:spruce_sign",
     "instance": "wgkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:birch_sign",
     "instance": "xAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:jungle_sign",
     "instance": "xgkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:acacia_sign",
     "instance": "yAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:dark_oak_sign",
     "instance": "ygkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:mangrove_sign",
-    "instance": "vgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "instance": "vAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 97
   },
   {
     "type": "minecraft:cherry_sign",
-    "instance": "4AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "instance": "3goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 97
   },
   {
     "type": "minecraft:pale_oak_sign",
-    "instance": "1AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "instance": "0gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 97
   },
   {
     "type": "minecraft:bamboo_sign",
-    "instance": "4goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "instance": "4AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 97
   },
   {
     "type": "minecraft:crimson_sign",
     "instance": "lgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:warped_sign",
     "instance": "mAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 92
+    "groupIndex": 97
   },
   {
     "type": "minecraft:oak_hanging_sign",
     "instance": "5wcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:spruce_hanging_sign",
     "instance": "6QcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:birch_hanging_sign",
     "instance": "6wcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:jungle_hanging_sign",
     "instance": "7QcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:acacia_hanging_sign",
     "instance": "7wcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:dark_oak_hanging_sign",
     "instance": "8QcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:mangrove_hanging_sign",
     "instance": "9wcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:cherry_hanging_sign",
     "instance": "qwgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:pale_oak_hanging_sign",
     "instance": "wQ8BAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:bamboo_hanging_sign",
     "instance": "kwgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:crimson_hanging_sign",
     "instance": "8wcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:warped_hanging_sign",
     "instance": "9QcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 93
+    "groupIndex": 98
   },
   {
     "type": "minecraft:painting",
     "instance": "/AUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:frame",
     "instance": "xggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:glow_frame",
-    "instance": "qAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "instance": "pgoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 99
   },
   {
     "type": "minecraft:honey_bottle",
     "instance": "5gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:flower_pot",
     "instance": "yAgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:bowl",
     "instance": "tAUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:bucket",
     "instance": "ggYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:milk_bucket",
     "instance": "hAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:water_bucket",
     "instance": "hgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:lava_bucket",
     "instance": "iAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:cod_bucket",
     "instance": "igYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:salmon_bucket",
     "instance": "jAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:tropical_fish_bucket",
     "instance": "jgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:pufferfish_bucket",
     "instance": "kAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:powder_snow_bucket",
     "instance": "kgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:axolotl_bucket",
     "instance": "lAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "groupIndex": 99
   },
   {
     "type": "minecraft:tadpole_bucket",
-    "instance": "tgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 94
+    "instance": "tAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 99
   },
   {
     "type": "minecraft:player_head",
     "instance": "jQ8BAAC1/sD+CgoAAAAAAAAAAAAA",
-    "groupIndex": 95
+    "groupIndex": 100
   },
   {
     "type": "minecraft:zombie_head",
     "instance": "iw8BAACg777gAQoAAAAAAAAAAAAA",
-    "groupIndex": 95
+    "groupIndex": 100
   },
   {
     "type": "minecraft:creeper_head",
     "instance": "jw8BAACOsY/pDgoAAAAAAAAAAAAA",
-    "groupIndex": 95
+    "groupIndex": 100
   },
   {
     "type": "minecraft:dragon_head",
     "instance": "kQ8BAACBnI6SCQoAAAAAAAAAAAAA",
-    "groupIndex": 95
+    "groupIndex": 100
   },
   {
     "type": "minecraft:skeleton_skull",
     "instance": "oAIBAAD667D5DQoAAAAAAAAAAAAA",
-    "groupIndex": 95
+    "groupIndex": 100
   },
   {
     "type": "minecraft:wither_skeleton_skull",
     "instance": "iQ8BAADTpaReCgAAAAAAAAAAAAA=",
-    "groupIndex": 95
+    "groupIndex": 100
   },
   {
     "type": "minecraft:piglin_head",
     "instance": "kw8BAACGxZrxCgoAAAAAAAAAAAAA",
-    "groupIndex": 95
+    "groupIndex": 100
+  },
+  {
+    "type": "minecraft:lightning_rod",
+    "instance": "7wQBAACi0qyaCwoAAAAAAAAAAAAA",
+    "groupIndex": 101
+  },
+  {
+    "type": "minecraft:exposed_lightning_rod",
+    "instance": "xRABAACn8N6NCwoAAAAAAAAAAAAA",
+    "groupIndex": 101
+  },
+  {
+    "type": "minecraft:weathered_lightning_rod",
+    "instance": "xxABAACt7IWDAgoAAAAAAAAAAAAA",
+    "groupIndex": 101
+  },
+  {
+    "type": "minecraft:oxidized_lightning_rod",
+    "instance": "yRABAACCx8vZDAoAAAAAAAAAAAAA",
+    "groupIndex": 101
+  },
+  {
+    "type": "minecraft:waxed_lightning_rod",
+    "instance": "yxABAADizdGdDgoAAAAAAAAAAAAA",
+    "groupIndex": 101
+  },
+  {
+    "type": "minecraft:waxed_exposed_lightning_rod",
+    "instance": "zRABAACnibjvBwoAAAAAAAAAAAAA",
+    "groupIndex": 101
+  },
+  {
+    "type": "minecraft:waxed_weathered_lightning_rod",
+    "instance": "zxABAADN+LqtCwoAAAAAAAAAAAAA",
+    "groupIndex": 101
+  },
+  {
+    "type": "minecraft:waxed_oxidized_lightning_rod",
+    "instance": "0RABAADN+PuACgoAAAAAAAAAAAAA",
+    "groupIndex": 101
   },
   {
     "type": "minecraft:beacon",
     "instance": "lAIBAAC+jfGXBAoAAAAAAAAAAAAA",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:bell",
     "instance": "mwMBAACJxOH+CgoAAAAAAAAAAAAA",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:conduit",
     "instance": "uQIBAACsw6vxDAoAAAAAAAAAAAAA",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:stonecutter_block",
     "instance": "iQMBAADNxva+DgoAAAAAAAAAAAAA",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:coal",
     "instance": "jAUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:charcoal",
     "instance": "jgUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:diamond",
     "instance": "kAUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:iron_nugget",
     "instance": "tAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:raw_iron",
     "instance": "tggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:raw_gold",
     "instance": "uAgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
+  },
+  {
+    "type": "minecraft:copper_nugget",
+    "instance": "kgwBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 102
   },
   {
     "type": "minecraft:raw_copper",
     "instance": "uggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:copper_ingot",
     "instance": "tAgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:iron_ingot",
     "instance": "kgUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:netherite_scrap",
     "instance": "lAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:netherite_ingot",
     "instance": "igoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:gold_nugget",
     "instance": "iAcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:gold_ingot",
     "instance": "lAUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:emerald",
     "instance": "xAgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:quartz",
     "instance": "2ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:clay_ball",
     "instance": "tAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:brick",
     "instance": "sgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:netherbrick",
     "instance": "2AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:resin_brick",
-    "instance": "2AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "instance": "1gsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 102
   },
   {
     "type": "minecraft:prismarine_shard",
     "instance": "rAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:amethyst_shard",
-    "instance": "qgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "instance": "qAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 102
   },
   {
     "type": "minecraft:prismarine_crystals",
     "instance": "jAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:nautilus_shell",
     "instance": "tgkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:heart_of_the_sea",
     "instance": "uAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:turtle_scute",
     "instance": "ugkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:armadillo_scute",
-    "instance": "yAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "instance": "xgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 102
   },
   {
     "type": "minecraft:phantom_membrane",
     "instance": "vgkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:string",
     "instance": "vgUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:feather",
     "instance": "wAUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:flint",
     "instance": "+gUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:gunpowder",
     "instance": "wgUBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:leather",
     "instance": "rgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:rabbit_hide",
     "instance": "5AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:rabbit_foot",
     "instance": "4ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:fire_charge",
     "instance": "vggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:blaze_rod",
     "instance": "ggcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:breeze_rod",
     "instance": "pAQBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:heavy_core",
     "instance": "9wQBAADLpoexCAoAAAAAAAAAAAAA",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:blaze_powder",
     "instance": "kAcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:magma_cream",
     "instance": "kgcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:fermented_spider_eye",
     "instance": "jgcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:echo_shard",
-    "instance": "2AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "instance": "1goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 102
   },
   {
     "type": "minecraft:dragon_breath",
     "instance": "ogkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:shulker_shell",
     "instance": "rgkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:ghast_tear",
     "instance": "hgcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:slime_ball",
     "instance": "vAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:ender_pearl",
     "instance": "gAcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:ender_eye",
     "instance": "mAcBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:nether_star",
     "instance": "zggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:end_rod",
     "instance": "oAMBAADs4PvMBAoAAAAAAAAAAAAA",
-    "groupIndex": 96
-  },
-  {
-    "type": "minecraft:lightning_rod",
-    "instance": "7wQBAADpnpr4DwoAAAAAAAAAAAAA",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:end_crystal",
     "instance": "9gwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:paper",
     "instance": "uAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:book",
     "instance": "ugYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:writable_book",
     "instance": "wAgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 96
+    "groupIndex": 102
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAAACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAAACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAAACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAQACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAQACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAgACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkAwACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBAACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBAACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBAACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBQACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkBwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCQACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCQACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCQACAwBsdmwFAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCgACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCgACAwBsdmwFAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCwACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkCwACAwBsdmwFAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDAACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDwACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkDwACAwBsdmwFAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEQACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEwACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkEwACAwBsdmwFAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkFAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkFAACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkFQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkFgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkFwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkFwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkFwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkGAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkGAACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkGAACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkGQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkGQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkGgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkGwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHQACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHQACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHQACAwBsdmwFAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkHwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIgACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkIwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJAACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJAACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJQACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJQACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJQACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJgACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJgACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJgACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJwACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJwACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJwACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJwACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkJwACAwBsdmwFAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkKAACAwBsdmwBAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkKAACAwBsdmwCAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkKAACAwBsdmwDAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:enchanted_book",
     "instance": "1AgBAAAAK///AQoAAAkEAGVuY2gKAQAAAAICAGlkKAACAwBsdmwEAAAAAAAAAAAAAAA=",
-    "groupIndex": 97
+    "groupIndex": 103
   },
   {
     "type": "minecraft:oak_boat",
     "instance": "ogYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "groupIndex": 104
   },
   {
     "type": "minecraft:spruce_boat",
     "instance": "qAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "groupIndex": 104
   },
   {
     "type": "minecraft:birch_boat",
     "instance": "pAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "groupIndex": 104
   },
   {
     "type": "minecraft:jungle_boat",
     "instance": "pgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "groupIndex": 104
   },
   {
     "type": "minecraft:acacia_boat",
     "instance": "qgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "groupIndex": 104
   },
   {
     "type": "minecraft:dark_oak_boat",
     "instance": "rAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "groupIndex": 104
   },
   {
     "type": "minecraft:mangrove_boat",
-    "instance": "wAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "instance": "vgoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 104
   },
   {
     "type": "minecraft:cherry_boat",
-    "instance": "3AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "instance": "2goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 104
   },
   {
     "type": "minecraft:pale_oak_boat",
-    "instance": "0AsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "instance": "zgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 104
   },
   {
     "type": "minecraft:bamboo_raft",
-    "instance": "5AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 98
+    "instance": "4goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 104
   },
   {
     "type": "minecraft:oak_chest_boat",
-    "instance": "xgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "xAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:spruce_chest_boat",
-    "instance": "zAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "ygoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:birch_chest_boat",
-    "instance": "yAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "xgoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:jungle_chest_boat",
-    "instance": "ygoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "yAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:acacia_chest_boat",
-    "instance": "zgoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "zAoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:dark_oak_chest_boat",
-    "instance": "0AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "zgoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:mangrove_chest_boat",
-    "instance": "0goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "0AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:cherry_chest_boat",
-    "instance": "3goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "3AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:pale_oak_chest_boat",
-    "instance": "0gsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "0AsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:bamboo_chest_raft",
-    "instance": "5goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 99
+    "instance": "5AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 105
   },
   {
     "type": "minecraft:rail",
     "instance": "hAEBAACD1o32DAoAAAAAAAAAAAAA",
-    "groupIndex": 100
+    "groupIndex": 106
   },
   {
     "type": "minecraft:golden_rail",
     "instance": "NgEAAPidiPMFCgAAAAAAAAAAAAA=",
-    "groupIndex": 100
+    "groupIndex": 106
   },
   {
     "type": "minecraft:detector_rail",
     "instance": "OAEAANWSzfAOCgAAAAAAAAAAAAA=",
-    "groupIndex": 100
+    "groupIndex": 106
   },
   {
     "type": "minecraft:activator_rail",
     "instance": "/AEBAAC1otjNDAoAAAAAAAAAAAAA",
-    "groupIndex": 100
+    "groupIndex": 106
   },
   {
     "type": "minecraft:minecart",
     "instance": "lgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 101
+    "groupIndex": 107
   },
   {
     "type": "minecraft:chest_minecart",
     "instance": "vgYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 101
+    "groupIndex": 107
   },
   {
     "type": "minecraft:hopper_minecart",
     "instance": "3ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 101
+    "groupIndex": 107
   },
   {
     "type": "minecraft:tnt_minecart",
     "instance": "3AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 101
+    "groupIndex": 107
   },
   {
     "type": "minecraft:redstone",
     "instance": "nAYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 102
+    "groupIndex": 108
   },
   {
     "type": "minecraft:redstone_block",
     "instance": "sAIBAACqsvXoAwoAAAAAAAAAAAAA",
-    "groupIndex": 102
+    "groupIndex": 108
   },
   {
     "type": "minecraft:redstone_torch",
     "instance": "mAEBAACPjaTwBgoAAAAAAAAAAAAA",
-    "groupIndex": 102
+    "groupIndex": 108
   },
   {
     "type": "minecraft:lever",
     "instance": "igEBAADfg83zCAoAAAAAAAAAAAAA",
-    "groupIndex": 102
+    "groupIndex": 108
   },
   {
     "type": "minecraft:wooden_button",
     "instance": "ngIBAACozs6LAwoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:spruce_button",
     "instance": "nwIBAAC3vPWXCgoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:birch_button",
     "instance": "mQIBAADKpf2tBQoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:jungle_button",
     "instance": "nQIBAACFjLSXDQoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:acacia_button",
     "instance": "lwIBAACg/ZSRAQoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:dark_oak_button",
     "instance": "mwIBAAC8v5OgDAoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:mangrove_button",
     "instance": "zQcBAACCkMrRAQoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:cherry_button",
     "instance": "owgBAADtpqn9BQoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:pale_oak_button",
     "instance": "uQ8BAADbxLGxDAoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:bamboo_button",
     "instance": "/QcBAAC03vfwBwoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:stone_button",
     "instance": "mgEBAACY+8HWBQoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:crimson_button",
     "instance": "hwQBAACLiITpBgoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:warped_button",
     "instance": "iQQBAADO+8jXBgoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:polished_blackstone_button",
     "instance": "zwQBAADjr5GMAwoAAAAAAAAAAAAA",
-    "groupIndex": 103
+    "groupIndex": 109
   },
   {
     "type": "minecraft:tripwire_hook",
     "instance": "hgIBAACbkejqDgoAAAAAAAAAAAAA",
-    "groupIndex": 104
+    "groupIndex": 110
   },
   {
     "type": "minecraft:wooden_pressure_plate",
     "instance": "kAEBAACXs5y8BAoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:spruce_pressure_plate",
     "instance": "swIBAADostjQAQoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:birch_pressure_plate",
     "instance": "rQIBAADB+5W0AgoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:jungle_pressure_plate",
     "instance": "sQIBAADuvqqABAoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:acacia_pressure_plate",
     "instance": "qwIBAACA9p7yCwoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:dark_oak_pressure_plate",
     "instance": "rwIBAACrn5u0CgoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:mangrove_pressure_plate",
     "instance": "0wcBAACJ6efnBgoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:cherry_pressure_plate",
     "instance": "swgBAACZsK2gCAoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:pale_oak_pressure_plate",
     "instance": "yQ8BAADj69z0CAoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:bamboo_pressure_plate",
     "instance": "gwgBAACM8vPlDgoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:crimson_pressure_plate",
     "instance": "iwQBAADM3fq1AQoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:warped_pressure_plate",
     "instance": "jQQBAADVuf2FDwoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:stone_pressure_plate",
     "instance": "jAEBAADnjZbmBwoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:light_weighted_pressure_plate",
     "instance": "pgIBAACjifqXDgoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:heavy_weighted_pressure_plate",
     "instance": "qAIBAADRq6/rCAoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:polished_blackstone_pressure_plate",
     "instance": "zQQBAAC0p/KWDgoAAAAAAAAAAAAA",
-    "groupIndex": 105
+    "groupIndex": 111
   },
   {
     "type": "minecraft:observer",
     "instance": "9gMBAAD/3rWYAwoAAAAAAAAAAAAA",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:daylight_detector",
     "instance": "rgIBAADcutHVDwoAAAAAAAAAAAAA",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:repeater",
     "instance": "+gYBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:comparator",
     "instance": "1ggBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:hopper",
     "instance": "4AgBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:dropper",
     "instance": "+gEBAADB/43CCQoAAAAAAAAAAAAA",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:dispenser",
     "instance": "LgEAAMDpwNwHCgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:crafter",
     "instance": "8QQBAADhyKXEAgoAAAAAAAAAAAAA",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:piston",
     "instance": "QgEAAOD+r84OCgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:sticky_piston",
     "instance": "OgEAAIGw/uwOCgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:tnt",
     "instance": "XAEAAIrM/9EECgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:name_tag",
     "instance": "igkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:loom",
     "instance": "lwMBAACB8vCCBQoAAAAAAAAAAAAA",
-    "groupIndex": 106
+    "groupIndex": 112
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAAAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAgAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAcAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAA8AGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAwAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAA4AGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAEAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAQAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAUAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAA0AGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAkAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAMAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAsAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAoAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAIAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAAYAGv//AQoAAAMEAFR5cGUAAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:banner",
     "instance": "sAkBAA8AGv//AQoAAAMEAFR5cGUBAAAAAAAAAAAAAAAA",
-    "groupIndex": 107
+    "groupIndex": 113
   },
   {
     "type": "minecraft:creeper_banner_pattern",
     "instance": "zgkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:skull_banner_pattern",
     "instance": "0AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:flower_banner_pattern",
     "instance": "zAkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:mojang_banner_pattern",
     "instance": "0gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:field_masoned_banner_pattern",
     "instance": "1AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:bordure_indented_banner_pattern",
     "instance": "1gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:piglin_banner_pattern",
     "instance": "2AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:globe_banner_pattern",
     "instance": "2gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:flow_banner_pattern",
     "instance": "3AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:guster_banner_pattern",
     "instance": "3gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 108
+    "groupIndex": 114
   },
   {
     "type": "minecraft:angler_pottery_sherd",
-    "instance": "6goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "6AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:archer_pottery_sherd",
-    "instance": "7AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "6goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:arms_up_pottery_sherd",
-    "instance": "7goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "7AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:blade_pottery_sherd",
-    "instance": "8AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "7goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:brewer_pottery_sherd",
-    "instance": "8goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "8AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:burn_pottery_sherd",
-    "instance": "9AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "8goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:danger_pottery_sherd",
-    "instance": "9goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "9AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:explorer_pottery_sherd",
-    "instance": "+AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "9goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:flow_pottery_sherd",
-    "instance": "+goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "+AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:friend_pottery_sherd",
-    "instance": "/AoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "+goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:guster_pottery_sherd",
-    "instance": "/goBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "/AoBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:heart_pottery_sherd",
-    "instance": "gAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "/goBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:heartbreak_pottery_sherd",
-    "instance": "ggsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "gAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:howl_pottery_sherd",
-    "instance": "hAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "ggsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:miner_pottery_sherd",
-    "instance": "hgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "hAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:mourner_pottery_sherd",
-    "instance": "iAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "hgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:plenty_pottery_sherd",
-    "instance": "igsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "iAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:prize_pottery_sherd",
-    "instance": "jAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "igsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:scrape_pottery_sherd",
-    "instance": "jgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "jAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:sheaf_pottery_sherd",
-    "instance": "kAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "jgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:shelter_pottery_sherd",
-    "instance": "kgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "kAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:skull_pottery_sherd",
-    "instance": "lAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "kgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:snort_pottery_sherd",
-    "instance": "lgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 109
+    "instance": "lAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 115
   },
   {
     "type": "minecraft:netherite_upgrade_smithing_template",
-    "instance": "mgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "mAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:sentry_armor_trim_smithing_template",
-    "instance": "nAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "mgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:vex_armor_trim_smithing_template",
-    "instance": "qAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "pgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:wild_armor_trim_smithing_template",
-    "instance": "ogsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "oAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:coast_armor_trim_smithing_template",
-    "instance": "oAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "ngsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:dune_armor_trim_smithing_template",
-    "instance": "ngsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "nAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:wayfinder_armor_trim_smithing_template",
-    "instance": "tAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "sgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:shaper_armor_trim_smithing_template",
-    "instance": "uAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "tgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:raiser_armor_trim_smithing_template",
-    "instance": "tgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "tAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:host_armor_trim_smithing_template",
-    "instance": "ugsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "uAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:ward_armor_trim_smithing_template",
-    "instance": "pAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "ogsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:silence_armor_trim_smithing_template",
-    "instance": "sgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "sAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:tide_armor_trim_smithing_template",
-    "instance": "qgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "qAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:snout_armor_trim_smithing_template",
-    "instance": "rAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "qgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:rib_armor_trim_smithing_template",
-    "instance": "rgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "rAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:eye_armor_trim_smithing_template",
-    "instance": "pgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "pAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:spire_armor_trim_smithing_template",
-    "instance": "sAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "rgsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:flow_armor_trim_smithing_template",
-    "instance": "vAsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "ugsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:bolt_armor_trim_smithing_template",
-    "instance": "vgsBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 110
+    "instance": "vAsBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 116
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAOP//AQoAAAoJAEZpcmV3b3JrcwkKAEV4cGxvc2lvbnMBAAAAAAEGAEZsaWdodAEAAAAAAAAAAAAA",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAlAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAnAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA=",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAmwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBwAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA==",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAowH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDwAAAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAoAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAogH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDgAAAAAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA=",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAlQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAQAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA==",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAmAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA==",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAmQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBQAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA=",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAoQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDQAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA==",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAnQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCQAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAlwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAwAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAnwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCwAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA=",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAngH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCgAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA==",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAlgH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAgAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA=",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_rocket",
     "instance": "0AgBAAAAmgH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBgAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA",
-    "groupIndex": 111
+    "groupIndex": 117
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAAAjQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvciEdHf8AAAAAAAAAAAA=",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAgAlQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcggAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yUk9H/wAAAAAAAAAAAA==",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAcAlAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgcAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KXnZ3/AAAAAAAAAAAA",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAA8AnAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg8AAAAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcvDw8P8AAAAAAAAAAAA=",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAwAmQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgwAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvctqzOv8AAAAAAAAAAAA=",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAA4AmwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg4AAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yHYD5/wAAAAAAAAAAAA==",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAEAjgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgEAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3ImLrD/AAAAAAAAAAAA",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAQAkQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgQAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KqRDz/AAAAAAAAAAAA",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAUAkgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgUAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yuDKJ/wAAAAAAAAAAAA==",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAA0AmgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg0AAAAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3K9Tsf/AAAAAAAAAAAA",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAkAlgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgkAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcqqL8/8AAAAAAAAAAAA=",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAMAkAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgMAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcjJUg/8AAAAAAAAAAAA=",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAsAmAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgsAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yPdj+/wAAAAAAAAAAAA==",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAoAlwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgoAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3Ifx4D/AAAAAAAAAAAA",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAIAjwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgIAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yFnxe/wAAAAAAAAAAAA==",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
     "type": "minecraft:firework_star",
     "instance": "0ggBAAYAkwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgYAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcpycFv8AAAAAAAAAAAA=",
-    "groupIndex": 112
+    "groupIndex": 118
   },
   {
-    "type": "minecraft:chain",
-    "instance": "oAoBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 113
+    "type": "minecraft:iron_chain",
+    "instance": "uwQBAACb5JW7AwoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:copper_chain",
+    "instance": "4xABAADmqsqYCwoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:exposed_copper_chain",
+    "instance": "5RABAADEwrCHDAoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:weathered_copper_chain",
+    "instance": "5xABAADxrZDsCQoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:oxidized_copper_chain",
+    "instance": "6RABAAD2xOz7BgoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:waxed_copper_chain",
+    "instance": "6xABAADGhJf0DAoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:waxed_exposed_copper_chain",
+    "instance": "7RABAADbgsf3CAoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:waxed_weathered_copper_chain",
+    "instance": "7xABAAC+n86cDwoAAAAAAAAAAAAA",
+    "groupIndex": 119
+  },
+  {
+    "type": "minecraft:waxed_oxidized_copper_chain",
+    "instance": "8RABAAD2193KCQoAAAAAAAAAAAAA",
+    "groupIndex": 119
   },
   {
     "type": "minecraft:target",
     "instance": "3QMBAACf3IyjBgoAAAAAAAAAAAAA",
-    "groupIndex": 113
+    "groupIndex": 120
   },
   {
     "type": "minecraft:decorated_pot",
     "instance": "zQgBAADg+a3EAgoAAAAAAAAAAAAA",
-    "groupIndex": 113
+    "groupIndex": 120
   },
   {
     "type": "minecraft:trial_key",
     "instance": "qAQBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 113
+    "groupIndex": 120
   },
   {
     "type": "minecraft:ominous_trial_key",
     "instance": "pgQBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 113
-  },
-  {
-    "type": "minecraft:copper_nugget",
-    "instance": "lAwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 114
+    "groupIndex": 120
   },
   {
     "type": "minecraft:element_constructor",
     "instance": "tQ8BAACP/rL5DQoAAAAAAAAAAAAA",
-    "groupIndex": 115
+    "groupIndex": 121
   },
   {
     "type": "minecraft:compound_creator",
     "instance": "3AMBAADUsda9BgoAAAAAAAAAAAAA",
-    "groupIndex": 115
+    "groupIndex": 121
   },
   {
     "type": "minecraft:lab_table",
     "instance": "tw8BAADWjrHQDAoAAAAAAAAAAAAA",
-    "groupIndex": 115
+    "groupIndex": 121
   },
   {
     "type": "minecraft:material_reducer",
     "instance": "sw8BAACT1IrSCgoAAAAAAAAAAAAA",
-    "groupIndex": 115
+    "groupIndex": 121
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAEACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAIACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAMACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAQACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAUACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAYACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAcACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAgACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAkACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAAoACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAA0ACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAA4ACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAA8ACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABAACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABEACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABIACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABMACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABQACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABUACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABYACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABcACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABgACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABkACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABoACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABsACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBABwACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAB0ACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAB4ACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBAB8ACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBACAACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBACEACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBACMACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBACQACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:compound",
     "instance": "7gkBACUACgAAAAAAAAAAAAA=",
-    "groupIndex": 116
+    "groupIndex": 122
   },
   {
     "type": "minecraft:rapid_fertilizer",
     "instance": "9AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:ice_bomb",
     "instance": "8AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:bleach",
     "instance": "8gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:underwater_torch",
     "instance": "3gMBAADF5ozIAwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:underwater_tnt",
     "instance": "sQ8BAADD+7XaBQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:chemical_heat",
     "instance": "gAMBAADmmK7iBAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:colored_torch_blue",
     "instance": "mAMBAAC5joz5DAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:colored_torch_purple",
     "instance": "hw8BAACWq/KVDQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:colored_torch_red",
     "instance": "lAMBAADmz6ShDQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:colored_torch_green",
     "instance": "hQ8BAADCg8jECAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:medicine",
     "instance": "+AkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:medicine",
     "instance": "+AkBAAEACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:medicine",
     "instance": "+AkBAAIACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:medicine",
     "instance": "+AkBAAMACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_glass",
     "instance": "+gMBAACNr//iBQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_glass_pane",
     "instance": "/AIBAADehuGxAgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_white_stained_glass",
     "instance": "/AMBAADIgbOtBwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_orange_stained_glass",
     "instance": "3woBAAC7mNOCBwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_magenta_stained_glass",
     "instance": "4QoBAAD3tbjzDQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_light_blue_stained_glass",
     "instance": "4woBAACGkbC2DgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_yellow_stained_glass",
     "instance": "5QoBAAD/25uvBwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_lime_stained_glass",
     "instance": "5woBAADCzbuUBgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_pink_stained_glass",
     "instance": "6QoBAADb9aIdCgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_gray_stained_glass",
     "instance": "6woBAACx2/esCgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_light_gray_stained_glass",
     "instance": "7QoBAACLh4K9BgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_cyan_stained_glass",
     "instance": "7woBAACh+9XyCgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_purple_stained_glass",
     "instance": "8QoBAADj6qiuCAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_blue_stained_glass",
     "instance": "8woBAACbz9WLCgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_brown_stained_glass",
     "instance": "9QoBAADu3JLvAwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_green_stained_glass",
     "instance": "9woBAACUnJmLDQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_red_stained_glass",
     "instance": "+QoBAADQ3u0aCgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_black_stained_glass",
     "instance": "+woBAACL+aqCDAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_white_stained_glass_pane",
     "instance": "/gIBAACIsdKtCAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_orange_stained_glass_pane",
     "instance": "owoBAAD8/dfyDQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_magenta_stained_glass_pane",
     "instance": "pQoBAADf6pDBBgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_light_blue_stained_glass_pane",
     "instance": "pwoBAADdjaLWCAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_yellow_stained_glass_pane",
     "instance": "qQoBAADQqdKjDwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_lime_stained_glass_pane",
     "instance": "qwoBAADJ1N7nAQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_pink_stained_glass_pane",
     "instance": "rQoBAACzxeX9BAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_gray_stained_glass_pane",
     "instance": "rwoBAADKx96YCgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_light_gray_stained_glass_pane",
     "instance": "sQoBAACsrrCLCAoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_cyan_stained_glass_pane",
     "instance": "swoBAACqod/BDwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_purple_stained_glass_pane",
     "instance": "tQoBAAD8jo+mCgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_blue_stained_glass_pane",
     "instance": "twoBAADMhcvFDwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_brown_stained_glass_pane",
     "instance": "uQoBAADCk6/bBwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_green_stained_glass_pane",
     "instance": "uwoBAAC82JWKDwoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_red_stained_glass_pane",
     "instance": "vQoBAAD3vuXqCgoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:hard_black_stained_glass_pane",
     "instance": "vwoBAACsyrOUCQoAAAAAAAAAAAAA",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAEACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAIACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAMACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAQACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAUACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAYACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAcACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAgACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAkACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAoACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAsACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAAwACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAA0ACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAA4ACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:balloon",
     "instance": "9gkBAA8ACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAEACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAIACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAMACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAQACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAUACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAYACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAgACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAkACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAoACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAsACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAAwACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAA0ACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAA4ACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:glow_stick",
     "instance": "/AkBAA8ACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:sparkler",
     "instance": "+gkBAAQACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:sparkler",
     "instance": "+gkBAAIACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:sparkler",
     "instance": "+gkBAA4ACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:sparkler",
     "instance": "+gkBAAUACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   },
   {
     "type": "minecraft:sparkler",
     "instance": "+gkBAAEACgAAAAAAAAAAAAA=",
-    "groupIndex": 117
+    "groupIndex": 123
   }
 ]

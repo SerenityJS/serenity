@@ -310,7 +310,7 @@ class SerializedSkin extends DataType {
   public static from(data: ClientData): SerializedSkin {
     return {
       identifier: data.SkinId,
-      playFabIdentifier: data.PlayFabId,
+      playFabIdentifier: "",
       resourcePatch: Buffer.from(data.SkinResourcePatch, "base64").toString(
         "utf8"
       ),

@@ -36,8 +36,8 @@
   },
   {
     "category": 1,
-    "name": "",
-    "icon": "minecraft:air"
+    "name": "itemGroup.name.bars",
+    "icon": "minecraft:iron_bars"
   },
   {
     "category": 1,
@@ -411,6 +411,11 @@
   },
   {
     "category": 4,
+    "name": "itemGroup.name.lanterns",
+    "icon": "minecraft:lantern"
+  },
+  {
+    "category": 4,
     "name": "itemGroup.name.candles",
     "icon": "minecraft:candle"
   },
@@ -431,6 +436,16 @@
   },
   {
     "category": 4,
+    "name": "itemGroup.name.shelf",
+    "icon": "minecraft:oak_shelf"
+  },
+  {
+    "category": 4,
+    "name": "",
+    "icon": "minecraft:air"
+  },
+  {
+    "category": 4,
     "name": "itemGroup.name.chest",
     "icon": "minecraft:chest"
   },
@@ -443,6 +458,16 @@
     "category": 4,
     "name": "itemGroup.name.shulkerBox",
     "icon": "minecraft:undyed_shulker_box"
+  },
+  {
+    "category": 4,
+    "name": "",
+    "icon": "minecraft:air"
+  },
+  {
+    "category": 4,
+    "name": "itemGroup.name.copper_golem_statue",
+    "icon": "minecraft:copper_golem_statue"
   },
   {
     "category": 4,
@@ -478,6 +503,11 @@
     "category": 4,
     "name": "itemGroup.name.skull",
     "icon": "minecraft:creeper_head"
+  },
+  {
+    "category": 4,
+    "name": "itemGroup.name.lightning_rod",
+    "icon": "minecraft:lightning_rod"
   },
   {
     "category": 4,
@@ -566,8 +596,8 @@
   },
   {
     "category": 4,
-    "name": "",
-    "icon": "minecraft:air"
+    "name": "itemGroup.name.chains",
+    "icon": "minecraft:iron_chain"
   },
   {
     "category": 4,

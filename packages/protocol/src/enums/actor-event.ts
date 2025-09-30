@@ -32,7 +32,7 @@ enum ActorEvent {
   PrimeTntCart = 31,
   PrimeCreeper = 32,
   AirSupply = 33,
-  AddPlayerLevels = 34,
+  DEPRECATED_AddPlayerLevels = 34,
   GuardianMiningFatigue = 35,
   AgentSwingArm = 36,
   DragonStartDeathAnim = 37,

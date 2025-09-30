@@ -416,6 +416,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
       tags.includes("stone") ||
       tags.includes("wooden_pick_diggable") ||
       tags.includes("stone_pick_diggable") ||
+      tags.includes("copper_pick_diggable") ||
       tags.includes("iron_pick_diggable") ||
       tags.includes("gold_pick_diggable") ||
       tags.includes("diamond_pick_diggable") ||
@@ -447,6 +448,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     return (
       tags.includes("wooden_shovel_diggable") ||
       tags.includes("stone_shovel_diggable") ||
+      tags.includes("copper_shovel_diggable") ||
       tags.includes("iron_shovel_diggable") ||
       tags.includes("gold_shovel_diggable") ||
       tags.includes("diamond_shovel_diggable") ||
@@ -478,6 +480,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     return (
       tags.includes("wooden_axe_diggable") ||
       tags.includes("stone_axe_diggable") ||
+      tags.includes("copper_axe_diggable") ||
       tags.includes("iron_axe_diggable") ||
       tags.includes("gold_axe_diggable") ||
       tags.includes("diamond_axe_diggable") ||
@@ -509,6 +512,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     return (
       tags.includes("wooden_hoe_diggable") ||
       tags.includes("stone_hoe_diggable") ||
+      tags.includes("copper_hoe_diggable") ||
       tags.includes("iron_hoe_diggable") ||
       tags.includes("gold_hoe_diggable") ||
       tags.includes("diamond_hoe_diggable") ||
@@ -540,6 +544,7 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
     return (
       tags.includes("wooden_sword_diggable") ||
       tags.includes("stone_sword_diggable") ||
+      tags.includes("copper_sword_diggable") ||
       tags.includes("iron_sword_diggable") ||
       tags.includes("gold_sword_diggable") ||
       tags.includes("diamond_sword_diggable") ||

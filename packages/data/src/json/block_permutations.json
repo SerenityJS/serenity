@@ -4603,6 +4603,294 @@
     }
   },
   {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 447055332,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 385580509,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 324105686,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 262630863,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -399189699,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -337714876,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -522139345,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -460664522,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -494422145,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -432947322,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -371472499,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -309997676,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 192715838,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 131241015,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 315665484,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 254190661,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 1950561126,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 1889086303,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 2073510772,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 2012035949,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 1897397639,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 1958872462,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 2020347285,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 2081822108,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 390704285,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 452179108,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 267754639,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": 329229462,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -150359228,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -211834051,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -273308874,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:acacia_shelf",
+    "hash": -334783697,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
     "identifier": "minecraft:acacia_slab",
     "hash": 1549458206,
     "state": {
@@ -11984,6 +12272,294 @@
     }
   },
   {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1680282726,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1618807903,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1803232372,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1741757549,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1627119239,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1688594062,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1750068885,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1811543708,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 266572805,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 328047628,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 143623159,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 205097982,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1589075276,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1527600453,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1466125630,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1404650807,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": -741311844,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": -802786667,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": -864261490,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": -925736313,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": -29717355,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 31757468,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": -152667001,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": -91192178,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1936176575,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1997651398,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 2059126221,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 2120601044,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1188873342,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1127398519,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1311822988,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:bamboo_shelf",
+    "hash": 1250348165,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
     "identifier": "minecraft:bamboo_slab",
     "hash": -1212928172,
     "state": {
@@ -18261,6 +18837,294 @@
     "hash": -1241184895,
     "state": {
       "age_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -25467123,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 36007700,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -148416769,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -86941946,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1073901708,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1135376531,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1196851354,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1258326177,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 780872348,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 719397525,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 657922702,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 596447879,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 1492466837,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 1553941660,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 1369517191,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 1430992014,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1308118709,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1246643886,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1185169063,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -1123694240,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -856682566,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -918157389,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -733732920,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -795207743,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 624887486,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 563412663,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 747837132,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 686362309,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -62250497,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": -775674,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 60699149,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:birch_shelf",
+    "hash": 122173972,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
     }
   },
   {
@@ -26354,27 +27218,6 @@
     }
   },
   {
-    "identifier": "minecraft:chain",
-    "hash": 382164252,
-    "state": {
-      "pillar_axis": "y"
-    }
-  },
-  {
-    "identifier": "minecraft:chain",
-    "hash": 1437470823,
-    "state": {
-      "pillar_axis": "x"
-    }
-  },
-  {
-    "identifier": "minecraft:chain",
-    "hash": -746883331,
-    "state": {
-      "pillar_axis": "z"
-    }
-  },
-  {
     "identifier": "minecraft:chain_command_block",
     "hash": 1828746574,
     "state": {
@@ -31076,6 +31919,294 @@
     "hash": -1668593131,
     "state": {
       "age_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 394363157,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 455837980,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 271413511,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 332888334,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -317231332,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -378706155,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -440180978,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -501655801,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 889185844,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 827711021,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 766236198,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 704761375,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 1195896013,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 1257370836,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 1072946367,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 1134421190,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 61210723,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 122685546,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 184160369,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 245635192,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 13006226,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -48468597,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 135955872,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 74481049,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -1305994314,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -1367469137,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -1183044668,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -1244519491,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": -17122857,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 44351966,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 105826789,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:cherry_shelf",
+    "hash": 167301612,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
     }
   },
   {
@@ -38359,6 +39490,11 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:copper_bars",
+    "hash": -1215417744,
+    "state": {}
+  },
+  {
     "identifier": "minecraft:copper_block",
     "hash": -593390456,
     "state": {}
@@ -38393,6 +39529,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:copper_chain",
+    "hash": 1502169779,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_chain",
+    "hash": 446863208,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_chain",
+    "hash": -1737490946,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -38744,14 +39901,98 @@
     }
   },
   {
+    "identifier": "minecraft:copper_golem_statue",
+    "hash": -1021733596,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_golem_statue",
+    "hash": -1419652247,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_golem_statue",
+    "hash": 883925650,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_golem_statue",
+    "hash": -1065887557,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:copper_grate",
     "hash": 596285486,
     "state": {}
   },
   {
+    "identifier": "minecraft:copper_lantern",
+    "hash": 639828303,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:copper_lantern",
+    "hash": -415478268,
+    "state": {
+      "hanging": true
+    }
+  },
+  {
     "identifier": "minecraft:copper_ore",
     "hash": -1478483411,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "hash": 192591789,
+    "state": {
+      "torch_facing_direction": "unknown"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "hash": -444187439,
+    "state": {
+      "torch_facing_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "hash": 1577683875,
+    "state": {
+      "torch_facing_direction": "east"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "hash": 529097594,
+    "state": {
+      "torch_facing_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "hash": -1808015012,
+    "state": {
+      "torch_facing_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:copper_torch",
+    "hash": -415203900,
+    "state": {
+      "torch_facing_direction": "top"
+    }
   },
   {
     "identifier": "minecraft:copper_trapdoor",
@@ -44141,6 +45382,294 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1385924850,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1324450027,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1508874496,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1447399673,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1086773693,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1025298870,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -963824047,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -902349224,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -829476471,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -768001648,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -952426117,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -890951294,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -437431920,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -498906743,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -560381566,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -621856389,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1215096040,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1276570863,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1338045686,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1399520509,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1617950449,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1679425272,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1495000803,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 1556475626,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -2034421605,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1972946782,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1911471959,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": -1849997136,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 556306314,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 494831491,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 679255960,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:crimson_shelf",
+    "hash": 617781137,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
     "identifier": "minecraft:crimson_slab",
     "hash": 1615941900,
     "state": {
@@ -49485,6 +51014,294 @@
     "hash": 1210199928,
     "state": {
       "age_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 814593406,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 753118583,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 937543052,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 876068229,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 1561896639,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 1623371462,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 1684846285,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 1746321108,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 178176429,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 239651252,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 55226783,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 116701606,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 866406164,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 804931341,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 743456518,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 681981695,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 1042878596,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 981403773,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 919928950,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": 858454127,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -322372899,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -260898076,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -445322545,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -383847722,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -397055065,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -335580242,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -274105419,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -212630596,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -1670382202,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -1731857025,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -1547432556,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:dark_oak_shelf",
+    "hash": -1608907379,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
     }
   },
   {
@@ -59444,6 +61261,11 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:exposed_copper_bars",
+    "hash": 519234921,
+    "state": {}
+  },
+  {
     "identifier": "minecraft:exposed_copper_bulb",
     "hash": -2033617845,
     "state": {
@@ -59473,6 +61295,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chain",
+    "hash": 1618350242,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chain",
+    "hash": -1621310483,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_chain",
+    "hash": 563043671,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -59824,9 +61667,51 @@
     }
   },
   {
+    "identifier": "minecraft:exposed_copper_golem_statue",
+    "hash": 1150593401,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_golem_statue",
+    "hash": -2116256102,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_golem_statue",
+    "hash": -437257221,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_golem_statue",
+    "hash": -2044708432,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:exposed_copper_grate",
     "hash": -1263973663,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:exposed_copper_lantern",
+    "hash": -2132343142,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_copper_lantern",
+    "hash": -1077036571,
+    "state": {
+      "hanging": true
+    }
   },
   {
     "identifier": "minecraft:exposed_copper_trapdoor",
@@ -60067,6 +61952,102 @@
     "hash": 449796727,
     "state": {
       "minecraft:vertical_half": "top"
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -1490803732,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -435497161,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": 860623807,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -194682764,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -40941726,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": 1014364845,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": 623514653,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -431791918,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -89272376,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": 966034195,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -605638997,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:exposed_lightning_rod",
+    "hash": -1660945568,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
     }
   },
   {
@@ -64864,6 +66845,27 @@
     "identifier": "minecraft:iron_block",
     "hash": -939070369,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:iron_chain",
+    "hash": -464697614,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:iron_chain",
+    "hash": 590608957,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:iron_chain",
+    "hash": -1520004185,
+    "state": {
+      "pillar_axis": "z"
+    }
   },
   {
     "identifier": "minecraft:iron_door",
@@ -70135,6 +72137,294 @@
     }
   },
   {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -1734164151,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -1672689328,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -1857113797,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -1795638974,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 1959317584,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 1897842761,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 1836367938,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 1774893115,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 2086055776,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 2024580953,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 1963106130,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 1901631307,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 726850521,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 788325344,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 603900875,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 665375698,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 431168279,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 492643102,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 554117925,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": 615592748,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -803250698,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -864725521,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -680301052,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -741775875,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -394036198,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -455511021,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -271086552,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -332561375,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -325051861,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -263577038,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -202102215,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:jungle_shelf",
+    "hash": -140627392,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
     "identifier": "minecraft:jungle_slab",
     "hash": -2088068891,
     "state": {
@@ -71895,44 +74185,98 @@
   },
   {
     "identifier": "minecraft:lightning_rod",
-    "hash": -2139310005,
+    "hash": 1504023697,
     "state": {
-      "facing_direction": 0
+      "facing_direction": 0,
+      "powered_bit": false
     }
   },
   {
     "identifier": "minecraft:lightning_rod",
-    "hash": -2077835182,
+    "hash": 448717126,
     "state": {
-      "facing_direction": 1
+      "facing_direction": 0,
+      "powered_bit": true
     }
   },
   {
     "identifier": "minecraft:lightning_rod",
-    "hash": -2016360359,
+    "hash": -572042554,
     "state": {
-      "facing_direction": 2
+      "facing_direction": 1,
+      "powered_bit": false
     }
   },
   {
     "identifier": "minecraft:lightning_rod",
-    "hash": -1954885536,
+    "hash": 483264017,
     "state": {
-      "facing_direction": 3
+      "facing_direction": 1,
+      "powered_bit": true
     }
   },
   {
     "identifier": "minecraft:lightning_rod",
-    "hash": 1909757999,
+    "hash": 223958755,
     "state": {
-      "facing_direction": 4
+      "facing_direction": 2,
+      "powered_bit": false
     }
   },
   {
     "identifier": "minecraft:lightning_rod",
-    "hash": 1971232822,
+    "hash": -831347816,
     "state": {
-      "facing_direction": 5
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:lightning_rod",
+    "hash": 1664151456,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:lightning_rod",
+    "hash": -1575509269,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:lightning_rod",
+    "hash": -2034788587,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:lightning_rod",
+    "hash": 1204872138,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:lightning_rod",
+    "hash": -1002622694,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:lightning_rod",
+    "hash": 52683877,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
     }
   },
   {
@@ -77112,6 +79456,294 @@
     "identifier": "minecraft:mangrove_roots",
     "hash": 503319956,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 272314173,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 333788996,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 149364527,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 210839350,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 1118559204,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 1057084381,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 995609558,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 934134735,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -112930580,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -174405403,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -235880226,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -297355049,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -348968539,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -287493716,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -471918185,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -410443362,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -370333477,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -308858654,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -247383831,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": -185909008,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 1939188170,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 1877713347,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 2062137816,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 2000662993,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 690382446,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 628907623,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 813332092,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 751857269,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 743992047,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 805466870,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 866941693,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:mangrove_shelf",
+    "hash": 928416516,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
   },
   {
     "identifier": "minecraft:mangrove_slab",
@@ -89814,6 +92446,294 @@
     }
   },
   {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -413905954,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -475380777,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -290956308,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -352431131,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -550864225,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -489389402,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -427914579,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -366439756,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 659925133,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 721399956,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 536975487,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 598450310,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -388509452,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -449984275,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -511459098,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -572933921,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -160188316,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -221663139,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -283137962,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -344612785,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -1006433347,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -944958524,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -1129382993,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": -1067908170,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 698991879,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 760466702,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 821941525,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 883416348,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 752155366,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 690680543,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 875105012,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:oak_shelf",
+    "hash": 813630189,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
     "identifier": "minecraft:oak_slab",
     "hash": -1547796892,
     "state": {
@@ -90220,6 +93140,11 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:oxidized_copper_bars",
+    "hash": -2043766760,
+    "state": {}
+  },
+  {
     "identifier": "minecraft:oxidized_copper_bulb",
     "hash": 16042046,
     "state": {
@@ -90249,6 +93174,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chain",
+    "hash": 935170363,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chain",
+    "hash": -120136208,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_chain",
+    "hash": 1990476934,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -90600,9 +93546,51 @@
     }
   },
   {
+    "identifier": "minecraft:oxidized_copper_golem_statue",
+    "hash": 2018082108,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_golem_statue",
+    "hash": -1000583887,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_golem_statue",
+    "hash": -682103206,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_golem_statue",
+    "hash": 1021287427,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:oxidized_copper_grate",
     "hash": 1903310502,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_lantern",
+    "hash": 2084297703,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_lantern",
+    "hash": 1028991132,
+    "state": {
+      "hanging": true
+    }
   },
   {
     "identifier": "minecraft:oxidized_copper_trapdoor",
@@ -90843,6 +93831,102 @@
     "hash": 1893234246,
     "state": {
       "minecraft:vertical_half": "top"
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": 1704554945,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": 649248374,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": 865362998,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": 1920669569,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": 819357971,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": -235948600,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": -1831416496,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": -776109925,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": -1478734395,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": 1760926330,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": -1242499766,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:oxidized_lightning_rod",
+    "hash": -187193195,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
     }
   },
   {
@@ -97257,6 +100341,294 @@
     "hash": 773371752,
     "state": {
       "age_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1395370190,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1333895367,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1518319836,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1456845013,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1724568271,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1786043094,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1847517917,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1908992740,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": -2111244771,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": -2049769948,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 2060772879,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 2122247702,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1642659012,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1581184189,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1519709366,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1458234543,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": -2137611148,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 2095881325,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 2034406502,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1972931679,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": -1089176563,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": -1027701740,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": -1212126209,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": -1150651386,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1936982135,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1998456958,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 2059931781,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 2121406604,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1373523542,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1312048719,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1496473188,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:pale_oak_shelf",
+    "hash": 1434998365,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
     }
   },
   {
@@ -124869,6 +128241,294 @@
     }
   },
   {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 400564380,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 339089557,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 277614734,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 216139911,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1112158869,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1173633692,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 989209223,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1050684046,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -1382595897,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -1321121074,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -1259646251,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -1198171428,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 2113957286,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 2052482463,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -2058060364,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -2119535187,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -80456562,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -141931385,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 42493084,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -18981739,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1304021391,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1365496214,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1426971037,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1488445860,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -1879074459,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -1817599636,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -2002024105,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": -1940549282,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1596802732,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1535327909,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1473853086,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:spruce_shelf",
+    "hash": 1412378263,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
     "identifier": "minecraft:spruce_slab",
     "hash": 1636743342,
     "state": {
@@ -138749,6 +142409,294 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1442565541,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1381090718,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1319615895,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1258141072,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 866956106,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 805481283,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 989905752,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 928430929,
+    "state": {
+      "minecraft:cardinal_direction": "south",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 1621250222,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 1559775399,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 1744199868,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": 1682725045,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -797851601,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -736376778,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -674901955,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -613427132,
+    "state": {
+      "minecraft:cardinal_direction": "west",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1724113211,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1662638388,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1847062857,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1785588034,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -732582388,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -794057211,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -855532034,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -917006857,
+    "state": {
+      "minecraft:cardinal_direction": "north",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -190584756,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -252059579,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -313534402,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -375009225,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": false,
+      "powered_shelf_type": 3
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1513087227,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 0
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1451612404,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 1
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1636036873,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 2
+    }
+  },
+  {
+    "identifier": "minecraft:warped_shelf",
+    "hash": -1574562050,
+    "state": {
+      "minecraft:cardinal_direction": "east",
+      "powered_bit": true,
+      "powered_shelf_type": 3
+    }
+  },
+  {
     "identifier": "minecraft:warped_slab",
     "hash": -726324521,
     "state": {
@@ -139278,6 +143226,11 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:waxed_copper_bars",
+    "hash": 1831984032,
+    "state": {}
+  },
+  {
     "identifier": "minecraft:waxed_copper_bulb",
     "hash": -2045350410,
     "state": {
@@ -139307,6 +143260,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_chain",
+    "hash": 1732436259,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_chain",
+    "hash": 677129688,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_chain",
+    "hash": -1507224466,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -139658,9 +143632,51 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_copper_golem_statue",
+    "hash": 262768116,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_golem_statue",
+    "hash": 1704946329,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_golem_statue",
+    "hash": 1737150786,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_golem_statue",
+    "hash": 1085790219,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:waxed_copper_grate",
     "hash": 1619208318,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:waxed_copper_lantern",
+    "hash": -908847977,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_copper_lantern",
+    "hash": -1964154548,
+    "state": {
+      "hanging": true
+    }
   },
   {
     "identifier": "minecraft:waxed_copper_trapdoor",
@@ -139914,6 +143930,11 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:waxed_exposed_copper_bars",
+    "hash": 1767308409,
+    "state": {}
+  },
+  {
     "identifier": "minecraft:waxed_exposed_copper_bulb",
     "hash": 1508731,
     "state": {
@@ -139943,6 +143964,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chain",
+    "hash": -1199104174,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chain",
+    "hash": -143797603,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_chain",
+    "hash": 2040556551,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -140294,9 +144336,51 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_exposed_copper_golem_statue",
+    "hash": 1181619721,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_golem_statue",
+    "hash": 858312394,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_golem_statue",
+    "hash": 1020574507,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_golem_statue",
+    "hash": -703979136,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:waxed_exposed_copper_grate",
     "hash": 1125768945,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_lantern",
+    "hash": 1432913586,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_lantern",
+    "hash": -1806747139,
+    "state": {
+      "hanging": true
+    }
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_trapdoor",
@@ -140540,6 +144624,198 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -1056375380,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -1068809,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": 70267775,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -985038796,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -1827155678,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -771849107,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -1399813923,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": 1839846802,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -608726904,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": 446579667,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": 575707243,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_lightning_rod",
+    "hash": -479599328,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 1910125425,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 854818854,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 946623014,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 2001929585,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": -1174191037,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 2065469688,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 1592340992,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": -1647319733,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 588506485,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": -466800086,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": -358354694,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_lightning_rod",
+    "hash": 696951877,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
+    }
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_chiseled_copper",
     "hash": -1157960737,
     "state": {}
@@ -140547,6 +144823,11 @@
   {
     "identifier": "minecraft:waxed_oxidized_copper",
     "hash": -1317255528,
+    "state": {}
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_bars",
+    "hash": 35199432,
     "state": {}
   },
   {
@@ -140579,6 +144860,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chain",
+    "hash": 1286321659,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chain",
+    "hash": 231015088,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chain",
+    "hash": -1953339066,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -140930,9 +145232,51 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_oxidized_copper_golem_statue",
+    "hash": -1313165940,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_golem_statue",
+    "hash": -164492639,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_golem_statue",
+    "hash": 1285348554,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_golem_statue",
+    "hash": 1545280915,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_copper_grate",
     "hash": 1235641318,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_lantern",
+    "hash": 1918408151,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_lantern",
+    "hash": 863101580,
+    "state": {
+      "hanging": true
+    }
   },
   {
     "identifier": "minecraft:waxed_oxidized_copper_trapdoor",
@@ -141176,6 +145520,102 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": -1343192615,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": 1896468110,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": 2100470830,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": -1139189895,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": 732756523,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": -322550048,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": 1249123144,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": -1990537581,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": 1961910173,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": 906603602,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": 1297453794,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_lightning_rod",
+    "hash": -1942206931,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
+    }
+  },
+  {
     "identifier": "minecraft:waxed_weathered_chiseled_copper",
     "hash": -488767429,
     "state": {}
@@ -141183,6 +145623,11 @@
   {
     "identifier": "minecraft:waxed_weathered_copper",
     "hash": -38144880,
+    "state": {}
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_bars",
+    "hash": -144774100,
     "state": {}
   },
   {
@@ -141215,6 +145660,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chain",
+    "hash": 2043267039,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chain",
+    "hash": 987960468,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chain",
+    "hash": -1196393686,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -141566,9 +146032,51 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_weathered_copper_golem_statue",
+    "hash": -1394923576,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_golem_statue",
+    "hash": -346492555,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_golem_statue",
+    "hash": 1429712102,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_golem_statue",
+    "hash": 1742919087,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:waxed_weathered_copper_grate",
     "hash": -1251980246,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_lantern",
+    "hash": -2051646321,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_lantern",
+    "hash": 1188014404,
+    "state": {
+      "hanging": true
+    }
   },
   {
     "identifier": "minecraft:waxed_weathered_copper_trapdoor",
@@ -141812,6 +146320,102 @@
     }
   },
   {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": -1524063783,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 1715596942,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 1919599662,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": -1320061063,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 551885355,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": -503421216,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 1068251976,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 2123558547,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 1781039005,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 725732434,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": 1116582626,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_lightning_rod",
+    "hash": -2123078099,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
+    }
+  },
+  {
     "identifier": "minecraft:weathered_chiseled_copper",
     "hash": 2100169659,
     "state": {}
@@ -141819,6 +146423,11 @@
   {
     "identifier": "minecraft:weathered_copper",
     "hash": 1229534000,
+    "state": {}
+  },
+  {
+    "identifier": "minecraft:weathered_copper_bars",
+    "hash": 1928613356,
     "state": {}
   },
   {
@@ -141851,6 +146460,27 @@
     "state": {
       "lit": true,
       "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chain",
+    "hash": -1321339769,
+    "state": {
+      "pillar_axis": "y"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chain",
+    "hash": 1918320956,
+    "state": {
+      "pillar_axis": "x"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_chain",
+    "hash": -266033198,
+    "state": {
+      "pillar_axis": "z"
     }
   },
   {
@@ -142202,9 +146832,51 @@
     }
   },
   {
+    "identifier": "minecraft:weathered_copper_golem_statue",
+    "hash": -1533250616,
+    "state": {
+      "minecraft:cardinal_direction": "south"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_golem_statue",
+    "hash": -1785596555,
+    "state": {
+      "minecraft:cardinal_direction": "west"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_golem_statue",
+    "hash": 1291385062,
+    "state": {
+      "minecraft:cardinal_direction": "north"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_golem_statue",
+    "hash": 303815087,
+    "state": {
+      "minecraft:cardinal_direction": "east"
+    }
+  },
+  {
     "identifier": "minecraft:weathered_copper_grate",
     "hash": 1315604322,
     "state": {}
+  },
+  {
+    "identifier": "minecraft:weathered_copper_lantern",
+    "hash": -1239845425,
+    "state": {
+      "hanging": false
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_copper_lantern",
+    "hash": 1999815300,
+    "state": {
+      "hanging": true
+    }
   },
   {
     "identifier": "minecraft:weathered_copper_trapdoor",
@@ -142445,6 +147117,102 @@
     "hash": -541302674,
     "state": {
       "minecraft:vertical_half": "top"
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": -271629079,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": -1326935650,
+    "state": {
+      "facing_direction": 0,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": -1233986370,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": -178679799,
+    "state": {
+      "facing_direction": 1,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": 1056572795,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": 1266224,
+    "state": {
+      "facing_direction": 2,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": 173887896,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": 1229194467,
+    "state": {
+      "facing_direction": 3,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": 247030381,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": -808276190,
+    "state": {
+      "facing_direction": 4,
+      "powered_bit": true
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": 122970930,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": false
+    }
+  },
+  {
+    "identifier": "minecraft:weathered_lightning_rod",
+    "hash": 1178277501,
+    "state": {
+      "facing_direction": 5,
+      "powered_bit": true
     }
   },
   {

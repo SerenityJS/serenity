@@ -122,9 +122,10 @@ enum ActorFlag {
   RendersWhenInvisible = 119,
   BodyRotationAxisAligned = 120,
   Collidable = 121,
-  WASDAirControlled = 122,
+  WASDFreeCameraControlled = 122,
   DoesServerAuthOnlyDismount = 123,
   BodyRotationAlwaysFollowsHead = 124,
+  CanUseVerticalMovementAction = 125,
   Count
 }
 
