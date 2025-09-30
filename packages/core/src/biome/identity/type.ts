@@ -22,10 +22,7 @@ class BiomeType {
       // Assign the biome properties.
       type.temperature = definition.temperature;
       type.downfall = definition.downfall;
-      type.redSporeDensity = definition.redSporeDensity;
-      type.blueSporeDensity = definition.blueSporeDensity;
-      type.ashDensity = definition.ashDensity;
-      type.whiteAshDensity = definition.whiteAshDensity;
+      type.snowFoilage = definition.snowFoilage;
       type.depth = definition.depth;
       type.scale = definition.scale;
       type.waterColor = Color.fromInt(definition.waterColor);
@@ -63,24 +60,9 @@ class BiomeType {
   public downfall: number = 0.4;
 
   /**
-   * The amount of visual red spores in the biome type. [0.0 - 1.0]
+   * How frozen leaves appear in the biome. [0.0 - 1.0]
    */
-  public redSporeDensity: number = 0;
-
-  /**
-   * The amount of visual blue spores in the biome type. [0.0 - 1.0]
-   */
-  public blueSporeDensity: number = 0;
-
-  /**
-   * The amount of visual ash in the biome type. [0.0 - 1.0]
-   */
-  public ashDensity: number = 0;
-
-  /**
-   * The amount of visual white ash in the biome type. [0.0 - 1.0]
-   */
-  public whiteAshDensity: number = 0;
+  public snowFoilage: number = 0;
 
   /**
    * The depth of the biome type, affects terrain generation.
