@@ -46,7 +46,12 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
    */
   public addEntity(entity: Entity): void {
     // Check if the entity is already rendered
-    if (this.entities.has(entity.uniqueId)) return;
+    if (
+      this.entities.has(entity.uniqueId) ||
+      !entity.isAlive || // Verify the entity is alive
+      !entity.isTicking // Verify the entity is ticking (in the world
+    )
+      return;
 
     // Add the entity to the rendered entities
     this.entities.add(entity.uniqueId);
@@ -269,7 +274,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
 
     // Check if the current tick is divisible by 20
     // This is to ensure that the rendering is done every second
-    if (details.currentTick % 50n !== 0n) return;
+    if (details.currentTick % 20n !== 0n) return;
 
     // Check if the player has a chunk rendering component
     const component = this.player.getTrait(PlayerChunkRenderingTrait);

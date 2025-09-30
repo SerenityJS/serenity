@@ -868,11 +868,13 @@ class Dimension {
    * Spawns an entity in the dimension.
    * @param type The type of the entity.
    * @param position The position of the entity.
+   * @param spawnImmediately Whether to spawn the entity immediately; defaults to true.
    * @returns The entity that was spawned.
    */
   public spawnEntity(
     type: EntityIdentifier | EntityType,
-    position: Vector3f
+    position: Vector3f,
+    spawnImmediately = true
   ): Entity {
     // Create a new Entity instance with the dimension and type
     const entity = new Entity(this, type);
@@ -889,8 +891,11 @@ class Dimension {
     // Set the entity position
     entity.position = new Vector3f(x, y + 1, z);
 
-    // Spawn the entity
-    return entity.spawn();
+    // Spawn the entity in the dimension
+    if (spawnImmediately) entity.spawn();
+
+    // Return the entity
+    return entity;
   }
 
   /**
