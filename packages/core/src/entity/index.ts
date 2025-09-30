@@ -9,6 +9,7 @@ export * from "./storage";
 export * from "./types";
 export * from "./shared-properties";
 export * from "./actor-flags";
+export * from "./skin";
 
 import * as Traits from "./traits";
 

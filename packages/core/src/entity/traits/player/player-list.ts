@@ -63,7 +63,7 @@ class PlayerListTrait extends PlayerTrait {
       uuid: player.uuid,
       xuid: player.xuid,
       username: player.username,
-      skin: player.skin,
+      skin: player.skin.getSerialized(),
       platformBuild: player.clientSystemInfo.os,
       platformChatIdentifier: "",
       isHost: false,

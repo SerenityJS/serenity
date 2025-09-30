@@ -77,6 +77,7 @@ import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
 import { PlayerLevelStorage } from "./storage";
 import { PlayerAbilities } from "./player-abilities";
+import { PlayerSkin } from "./skin";
 
 class Player extends Entity {
   /**
@@ -115,9 +116,9 @@ class Player extends Entity {
   public readonly clientSystemInfo: ClientSystemInfo;
 
   /**
-   * The skin of the player
+   * The current skin of the player.
    */
-  public readonly skin: SerializedSkin;
+  public readonly skin: PlayerSkin;
 
   /**
    * The screen display for the player.
@@ -205,7 +206,7 @@ class Player extends Entity {
     this.xuid = props.xuid;
     this.uuid = props.uuid;
     this.clientSystemInfo = props.clientSystemInfo;
-    this.skin = props.skin;
+    this.skin = new PlayerSkin(this, props.skin);
 
     // Get the player's permission level from the permissions map
     this.permissions = this.serenity.getPermissionMember(this);
