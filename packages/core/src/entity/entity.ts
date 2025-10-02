@@ -17,6 +17,7 @@ import { BaseTag, CompoundTag } from "@serenityjs/nbt";
 
 import { Dimension, World } from "../world";
 import {
+  BlockIdentifier,
   CardinalDirection,
   EntityIdentifier,
   EntityInteractMethod
@@ -639,6 +640,105 @@ class Entity {
       Math.cos(yawRadians) * Math.cos(pitchRadians) // Z component of the view vector
     );
   }
+
+  /**
+   * Computes the block the player is looking at by raytracing using their view direction.
+   * @param maxDistance The maximum distance from the player in blocks to check for a block. Default is 5.
+   * @returns The block the player is looking at, or null if no block is found.
+   */
+  public getBlockFromViewDirection(
+    maxDistance: number = 5,
+  ) {
+    // Get the dimension the player is in.
+    const dimension = this.dimension;
+
+    // Get the player's position and normalized view direction.
+    const position = this.position;
+    const directionVector = this.getViewDirection().normalize();
+
+    const eyePosition = new Vector3f(
+      position.x,
+      position.y + 1.62,
+      position.z
+    );
+
+    // Position that is currently being checked.
+    let currentBlock = eyePosition.floor();
+
+    // Check if the player's head is in a block.
+    const startingBlock = dimension.getBlock(currentBlock);
+    if (startingBlock && startingBlock.identifier !== BlockIdentifier.Air) {
+      return startingBlock;
+    }
+
+    // Determine step direction.
+    const step = new Vector3f(
+      Math.sign(directionVector.x),
+      Math.sign(directionVector.y),
+      Math.sign(directionVector.z)
+    );
+
+    // Calculate distance of one block in a given direction.
+    const tdelta = new Vector3f(
+      directionVector.x === 0 ? Infinity : Math.abs(1 / directionVector.x),
+      directionVector.y === 0 ? Infinity : Math.abs(1 / directionVector.y),
+      directionVector.z === 0 ? Infinity : Math.abs(1 / directionVector.z)
+    );
+
+    // Calculate the distance to the next block.
+    const dist = new Vector3f(
+      step.x > 0 ? currentBlock.x + 1 - eyePosition.x : eyePosition.x - currentBlock.x,
+      step.y > 0 ? currentBlock.y + 1 - eyePosition.y : eyePosition.y - currentBlock.y,
+      step.z > 0 ? currentBlock.z + 1 - eyePosition.z : eyePosition.z - currentBlock.z
+    );
+
+    // Calculate the total distance from the player's position to next block.
+    let tmax = new Vector3f(
+      tdelta.x * dist.x,
+      tdelta.y * dist.y,
+      tdelta.z * dist.z
+    );
+
+    let distance = 0;
+
+    // Step through blocks until we reach max distance.
+    while (distance < maxDistance) {
+      if (tmax.x < tmax.y) {
+        if (tmax.x < tmax.z) {
+          distance = tmax.x;
+          currentBlock.x += step.x;
+          tmax.x += tdelta.x;
+        } else {
+          distance = tmax.z;
+          currentBlock.z += step.z;
+          tmax.z += tdelta.z;
+        }
+      } else {
+        if (tmax.y < tmax.z) {
+          distance = tmax.y;
+          currentBlock.y += step.y;
+          tmax.y += tdelta.y;
+        } else {
+          distance = tmax.z;
+          currentBlock.z += step.z;
+          tmax.z += tdelta.z;
+        }
+      }
+
+      // See if we've hit the max distance.
+      if (distance >= maxDistance) break;
+
+      const block = dimension.getBlock(currentBlock);
+      if (block && block.identifier !== BlockIdentifier.Air) {
+        // Return the block.
+        return block;
+      }
+    }
+
+    // Return null if no block is found.
+    return null;
+  }
+
 
   /**
    * Computes the entity's head location
