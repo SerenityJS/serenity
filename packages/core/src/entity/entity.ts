@@ -663,10 +663,10 @@ class Entity {
     );
 
     // Position that is currently being checked.
-    let currentBlock = eyePosition.floor();
+    const currentPos = eyePosition.floor();
 
     // Check if the player's head is in a block.
-    const startingBlock = dimension.getBlock(currentBlock);
+    const startingBlock = dimension.getBlock(currentPos);
     if (startingBlock && startingBlock.identifier !== BlockIdentifier.Air) {
       return startingBlock;
     }
@@ -687,13 +687,13 @@ class Entity {
 
     // Calculate the distance to the next block.
     const dist = new Vector3f(
-      step.x > 0 ? currentBlock.x + 1 - eyePosition.x : eyePosition.x - currentBlock.x,
-      step.y > 0 ? currentBlock.y + 1 - eyePosition.y : eyePosition.y - currentBlock.y,
-      step.z > 0 ? currentBlock.z + 1 - eyePosition.z : eyePosition.z - currentBlock.z
+      step.x > 0 ? currentPos.x + 1 - eyePosition.x : eyePosition.x - currentPos.x,
+      step.y > 0 ? currentPos.y + 1 - eyePosition.y : eyePosition.y - currentPos.y,
+      step.z > 0 ? currentPos.z + 1 - eyePosition.z : eyePosition.z - currentPos.z
     );
 
     // Calculate the total distance from the player's position to next block.
-    let tmax = new Vector3f(
+    const tmax = new Vector3f(
       tdelta.x * dist.x,
       tdelta.y * dist.y,
       tdelta.z * dist.z
@@ -706,21 +706,21 @@ class Entity {
       if (tmax.x < tmax.y) {
         if (tmax.x < tmax.z) {
           distance = tmax.x;
-          currentBlock.x += step.x;
+          currentPos.x += step.x;
           tmax.x += tdelta.x;
         } else {
           distance = tmax.z;
-          currentBlock.z += step.z;
+          currentPos.z += step.z;
           tmax.z += tdelta.z;
         }
       } else {
         if (tmax.y < tmax.z) {
           distance = tmax.y;
-          currentBlock.y += step.y;
+          currentPos.y += step.y;
           tmax.y += tdelta.y;
         } else {
           distance = tmax.z;
-          currentBlock.z += step.z;
+          currentPos.z += step.z;
           tmax.z += tdelta.z;
         }
       }
@@ -728,7 +728,7 @@ class Entity {
       // See if we've hit the max distance.
       if (distance >= maxDistance) break;
 
-      const block = dimension.getBlock(currentBlock);
+      const block = dimension.getBlock(currentPos);
       if (block && block.identifier !== BlockIdentifier.Air) {
         // Return the block.
         return block;
