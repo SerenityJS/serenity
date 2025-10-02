@@ -646,12 +646,12 @@ class Entity {
    * @param maxDistance The maximum distance from the player in blocks to check for a block. Default is 5.
    * @returns The block the player is looking at, or null if no block is found.
    */
-  public getBlockFromViewDirection(options: BlockRaycastOptions) {
+  public getBlockFromViewDirection(options: BlockRaycastOptions = {}) {
 
     // Get options.
-    const includeLiquids = options?.includeLiquidBlocks ?? false;
-    const includePassable = options?.includePassableBlocks ?? false;
-    const maxDistance = options?.maxDistance ?? 5;
+    const includeLiquids = options.includeLiquidBlocks ?? false;
+    const includePassable = options.includePassableBlocks ?? false;
+    const maxDistance = options.maxDistance ?? 5;
 
     // Get the dimension the player is in.
     const dimension = this.dimension;
