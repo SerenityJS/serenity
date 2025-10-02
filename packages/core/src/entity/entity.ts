@@ -61,7 +61,7 @@ import {
 import { Player } from "./player";
 import { EntityInputInfo } from "./input-info";
 import { EntityLevelStorage } from "./storage";
-import { PlayerAnimationOptions } from "./types";
+import { BlockRaycastOptions, PlayerAnimationOptions } from "./types";
 import { EntitySharedProperties } from "./shared-properties";
 import { EntityActorFlags } from "./actor-flags";
 import { EntityActorMetadata } from "./actor-metadata";
@@ -646,9 +646,13 @@ class Entity {
    * @param maxDistance The maximum distance from the player in blocks to check for a block. Default is 5.
    * @returns The block the player is looking at, or null if no block is found.
    */
-  public getBlockFromViewDirection(
-    maxDistance: number = 5,
-  ) {
+  public getBlockFromViewDirection(options: BlockRaycastOptions) {
+
+    // Get options.
+    const includeLiquids = options?.includeLiquidBlocks ?? false;
+    const includePassable = options?.includePassableBlocks ?? false;
+    const maxDistance = options?.maxDistance ?? 5;
+
     // Get the dimension the player is in.
     const dimension = this.dimension;
 
@@ -672,56 +676,56 @@ class Entity {
     }
 
     // Determine step direction.
-    const step = new Vector3f(
+    const stepDirection = new Vector3f(
       Math.sign(directionVector.x),
       Math.sign(directionVector.y),
       Math.sign(directionVector.z)
     );
 
     // Calculate distance of one block in a given direction.
-    const tdelta = new Vector3f(
+    const tDelta = new Vector3f(
       directionVector.x === 0 ? Infinity : Math.abs(1 / directionVector.x),
       directionVector.y === 0 ? Infinity : Math.abs(1 / directionVector.y),
       directionVector.z === 0 ? Infinity : Math.abs(1 / directionVector.z)
     );
 
     // Calculate the distance to the next block.
-    const dist = new Vector3f(
-      step.x > 0 ? currentPos.x + 1 - eyePosition.x : eyePosition.x - currentPos.x,
-      step.y > 0 ? currentPos.y + 1 - eyePosition.y : eyePosition.y - currentPos.y,
-      step.z > 0 ? currentPos.z + 1 - eyePosition.z : eyePosition.z - currentPos.z
+    const nextDistance = new Vector3f(
+      stepDirection.x > 0 ? currentPos.x + 1 - eyePosition.x : eyePosition.x - currentPos.x,
+      stepDirection.y > 0 ? currentPos.y + 1 - eyePosition.y : eyePosition.y - currentPos.y,
+      stepDirection.z > 0 ? currentPos.z + 1 - eyePosition.z : eyePosition.z - currentPos.z
     );
 
     // Calculate the total distance from the player's position to next block.
-    const tmax = new Vector3f(
-      tdelta.x * dist.x,
-      tdelta.y * dist.y,
-      tdelta.z * dist.z
+    const tMax = new Vector3f(
+      tDelta.x * nextDistance.x,
+      tDelta.y * nextDistance.y,
+      tDelta.z * nextDistance.z
     );
 
     let distance = 0;
 
     // Step through blocks until we reach max distance.
     while (distance < maxDistance) {
-      if (tmax.x < tmax.y) {
-        if (tmax.x < tmax.z) {
-          distance = tmax.x;
-          currentPos.x += step.x;
-          tmax.x += tdelta.x;
+      if (tMax.x < tMax.y) {
+        if (tMax.x < tMax.z) {
+          distance = tMax.x;
+          currentPos.x += stepDirection.x;
+          tMax.x += tDelta.x;
         } else {
-          distance = tmax.z;
-          currentPos.z += step.z;
-          tmax.z += tdelta.z;
+          distance = tMax.z;
+          currentPos.z += stepDirection.z;
+          tMax.z += tDelta.z;
         }
       } else {
-        if (tmax.y < tmax.z) {
-          distance = tmax.y;
-          currentPos.y += step.y;
-          tmax.y += tdelta.y;
+        if (tMax.y < tMax.z) {
+          distance = tMax.y;
+          currentPos.y += stepDirection.y;
+          tMax.y += tDelta.y;
         } else {
-          distance = tmax.z;
-          currentPos.z += step.z;
-          tmax.z += tdelta.z;
+          distance = tMax.z;
+          currentPos.z += stepDirection.z;
+          tMax.z += tDelta.z;
         }
       }
 
@@ -729,7 +733,13 @@ class Entity {
       if (distance >= maxDistance) break;
 
       const block = dimension.getBlock(currentPos);
-      if (block && block.identifier !== BlockIdentifier.Air) {
+      if (block && !block.isAir) {
+        // Liquid block check.
+        if (!includeLiquids && block.isLiquid) continue;
+
+        // Passable block check.
+        // Unused, we don't have a system for this.
+
         // Return the block.
         return block;
       }
