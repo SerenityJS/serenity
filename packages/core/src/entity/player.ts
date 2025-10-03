@@ -21,7 +21,6 @@ import {
   PermissionLevel,
   PlayerStartItemCooldownPacket,
   PlaySoundPacket,
-  SerializedSkin,
   SetActorDataPacket,
   SetActorMotionPacket,
   SetPlayerGameTypePacket,

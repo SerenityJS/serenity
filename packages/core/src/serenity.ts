@@ -382,8 +382,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Disconnect all players
     for (const player of this.players.values()) {
-      // Write the player data to the world provider
-      player.world.provider.writePlayer(player.uuid, player.getStorage());
+      // Get the default world from the serenity instance
+      const world = this.getWorld(); // Default world
+
+      // Write the player's data to the storage
+      world.provider.writePlayer(player.uuid, player.getStorage());
 
       // Disconnect the player from the server
       player.disconnect(
