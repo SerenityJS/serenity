@@ -6,7 +6,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
-import { EntityDespawnOptions } from "../../..";
+import { EntityDespawnOptions, Player } from "../../..";
 
 import { PlayerTrait } from "./trait";
 
@@ -23,13 +23,13 @@ class PlayerListTrait extends PlayerTrait {
   /**
    * Clears the player list.
    */
-  public clear(): void {
+  public clear(player?: Player): void {
     // Remove all the players from the player list
     const remove = new PlayerListPacket();
     remove.action = PlayerListAction.Remove;
-    remove.records = [...this.players].map(
-      (uuid) => new PlayerListRecord(uuid)
-    );
+    remove.records = player
+      ? [new PlayerListRecord(player.uuid)]
+      : [...this.players].map((uuid) => new PlayerListRecord(uuid));
 
     // Clear the player list
     this.players.clear();

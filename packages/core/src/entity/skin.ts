@@ -4,6 +4,7 @@ import { SerializedSkin, SkinImage } from "@serenityjs/protocol";
 import { Bitmap, Jimp } from "jimp";
 
 import { Player } from "./player";
+import { PlayerListTrait } from "./traits";
 
 class PlayerSkin {
   /**
@@ -97,6 +98,18 @@ class PlayerSkin {
 
     // Set the geometry data in the source.
     this.source.geometryData = JSON.stringify(parsed);
+
+    // Iterate through all the players in the world and clear their player list trait
+    for (const player of this.player.world.getPlayers()) {
+      // Check if the player has the player list trait
+      if (!player.hasTrait(PlayerListTrait)) continue;
+
+      // Get the player list trait
+      const trait = player.getTrait(PlayerListTrait);
+
+      // Clear the player list trait for the player
+      trait.clear(player);
+    }
   }
 
   /**
@@ -134,6 +147,18 @@ class PlayerSkin {
 
       // Set the skin image in the source
       this.source.skinImage = new SkinImage(width, height, data);
+    }
+
+    // Iterate through all the players in the world and clear their player list trait
+    for (const player of this.player.world.getPlayers()) {
+      // Check if the player has the player list trait
+      if (!player.hasTrait(PlayerListTrait)) continue;
+
+      // Get the player list trait
+      const trait = player.getTrait(PlayerListTrait);
+
+      // Clear the player list trait for the player
+      trait.clear(player);
     }
   }
 
