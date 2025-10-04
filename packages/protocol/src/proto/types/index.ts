@@ -1,4 +1,5 @@
 export * from "./ability-layer";
+export * from "./optional";
 export * from "./ability-set";
 export * from "./actor-link";
 export * from "./actor-link-set";
@@ -14,6 +15,9 @@ export * from "./book-actions";
 export * from "./boss-event-add";
 export * from "./boss-event-update";
 export * from "./camera-fade-duration";
+export * from "./camera-preset-aim-assist-definition";
+export * from "./camera-instruction-target";
+export * from "./camera-instruction-fov";
 export * from "./camera-instruction-fade";
 export * from "./camera-instruction-set";
 export * from "./camera-instructions";

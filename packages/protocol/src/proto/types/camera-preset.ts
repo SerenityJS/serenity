@@ -1,192 +1,198 @@
-import {
-  // Bool,
-  // Endianness,
-  // Float32,
-  // Uint8,
-  // type BinaryStream,
-  DataType
-} from "@serenityjs/binarystream";
+import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
 
 import { Vector3f } from "./vector3f";
 import { Vector2f } from "./vector2f";
+import { OptionalIO } from "./optional";
+import { CameraPresetAimAssistDefinition } from "./camera-preset-aim-assist-definition";
 
-import type { CameraAudioListener } from "../../enums";
+import type { CameraAudioListener, CameraControlScheme } from "../../enums";
 
 class CameraPreset extends DataType {
   public name: string;
   public parent: string;
   public position?: Vector3f;
   public rotation?: Vector2f;
-  public speed?: number;
+  public rotationSpeed?: number;
   public snapToTarget?: boolean;
+  public horizontalRotationLimit?: Vector2f;
+  public verticalRotationLimit?: Vector2f;
+  public continueTargeting?: boolean;
+  public blockListeningRadius?: number;
   public viewOffset?: Vector2f;
   public entityOffset?: Vector3f;
   public radius?: number;
+  public yawLimitMin?: number;
+  public yawLimitMax?: number;
   public listener?: CameraAudioListener;
   public effects?: boolean;
+  public aimAssist?: CameraPresetAimAssistDefinition;
+  public controlScheme?: CameraControlScheme;
 
   public constructor(
     name: string,
     parent: string,
     position?: Vector3f,
     rotation?: Vector2f,
-    speed?: number,
+    rotationSpeed?: number,
     snapToTarget?: boolean,
+    horizontalRotationLimit?: Vector2f,
+    verticalRotationLimit?: Vector2f,
+    continueTargeting?: boolean,
+    blockListeningRadius?: number,
     viewOffset?: Vector2f,
     entityOffset?: Vector3f,
     radius?: number,
+    yawLimitMin?: number,
+    yawLimitMax?: number,
     listener?: CameraAudioListener,
-    effects?: boolean
+    effects?: boolean,
+    aimAssist?: CameraPresetAimAssistDefinition,
+    controlScheme?: CameraControlScheme
   ) {
     super();
     this.name = name;
     this.parent = parent;
     this.position = position;
     this.rotation = rotation;
-    this.speed = speed;
+    this.rotationSpeed = rotationSpeed;
     this.snapToTarget = snapToTarget;
+    this.horizontalRotationLimit = horizontalRotationLimit;
+    this.verticalRotationLimit = verticalRotationLimit;
+    this.continueTargeting = continueTargeting;
+    this.blockListeningRadius = blockListeningRadius;
     this.viewOffset = viewOffset;
     this.entityOffset = entityOffset;
     this.radius = radius;
+    this.yawLimitMin = yawLimitMin;
+    this.yawLimitMax = yawLimitMax;
     this.listener = listener;
     this.effects = effects;
+    this.aimAssist = aimAssist;
+    this.controlScheme = controlScheme;
   }
 
-  // public static read(stream: BinaryStream): Array<CameraPreset> {
-  //   const presets: Array<CameraPreset> = [];
-  //   const size = stream.readVarInt();
+  public static write(
+    stream: BinaryStream,
+    presets: Array<CameraPreset>
+  ): void {
+    stream.writeVarInt(presets.length);
+    for (const preset of presets) {
+      stream.writeVarString(preset.name);
+      stream.writeVarString(preset.parent);
 
-  //   for (let index = 0; index < size; index++) {
-  //     presets.push(
-  //       new CameraPreset(
-  //         stream.readVarString(), // name
-  //         stream.readVarString(), // parent
-  //         new Vector3f( // position
-  //           Optional.read(
-  //             stream,
-  //             Endianness.Little,
-  //             undefined,
-  //             Float32
-  //           ) as number,
-  //           Optional.read(
-  //             stream,
-  //             Endianness.Little,
-  //             undefined,
-  //             Float32
-  //           ) as number,
-  //           Optional.read(
-  //             stream,
-  //             Endianness.Little,
-  //             undefined,
-  //             Float32
-  //           ) as number
-  //         ),
-  //         new Vector2f( // rotation
-  //           Optional.read(
-  //             stream,
-  //             Endianness.Little,
-  //             undefined,
-  //             Float32
-  //           ) as number,
-  //           Optional.read(
-  //             stream,
-  //             Endianness.Little,
-  //             undefined,
-  //             Float32
-  //           ) as number
-  //         ),
-  //         Optional.read(
-  //           stream,
-  //           Endianness.Little,
-  //           undefined,
-  //           Float32
-  //         ) as number, // speed
-  //         Optional.read(stream, undefined, undefined, Bool) as boolean, // snapToTarget
-  //         Optional.read(stream, undefined, undefined, Vector2f) as Vector2f, // viewOffset
-  //         Optional.read(stream, undefined, undefined, Vector3f) as Vector3f, // entityOffset
-  //         Optional.read(
-  //           stream,
-  //           Endianness.Little,
-  //           undefined,
-  //           Float32
-  //         ) as number, // radius
-  //         Optional.read(
-  //           stream,
-  //           undefined,
-  //           undefined,
-  //           Uint8
-  //         ) as CameraAudioListener, // listener
-  //         Optional.read(stream, undefined, undefined, Bool) as boolean // effects
-  //       )
-  //     );
-  //   }
-  //   return presets;
-  // }
+      OptionalIO.write(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.position?.x
+      ); // position x
 
-  // public static write(
-  //   stream: BinaryStream,
-  //   presets: Array<CameraPreset>
-  // ): void {
-  //   stream.writeVarInt(presets.length);
-  //   for (const preset of presets) {
-  //     stream.writeVarString(preset.name);
-  //     stream.writeVarString(preset.parent);
+      OptionalIO.write(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.position?.y
+      ); // position y
 
-  //     Optional.write(
-  //       stream,
-  //       preset.position?.x,
-  //       Endianness.Little,
-  //       null,
-  //       Float32
-  //     ); // position x
+      OptionalIO.write(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.position?.z
+      ); // position z
 
-  //     Optional.write(
-  //       stream,
-  //       preset.position?.y,
-  //       Endianness.Little,
-  //       null,
-  //       Float32
-  //     ); // position y
+      OptionalIO.write(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.rotation?.x
+      ); // rotation x
 
-  //     Optional.write(
-  //       stream,
-  //       preset.position?.z,
-  //       Endianness.Little,
-  //       null,
-  //       Float32
-  //     ); // position z
+      OptionalIO.write(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.rotation?.y
+      ); // rotation y
 
-  //     Optional.write(
-  //       stream,
-  //       preset.rotation?.x,
-  //       Endianness.Little,
-  //       null,
-  //       Float32
-  //     ); // rotation x
+      OptionalIO.write<number>(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.rotationSpeed
+      ); // speed
 
-  //     Optional.write(
-  //       stream,
-  //       preset.rotation?.y,
-  //       Endianness.Little,
-  //       null,
-  //       Float32
-  //     ); // rotation y
+      OptionalIO.write<boolean>(
+        stream,
+        (_, value) => stream.writeBool(value),
+        preset.snapToTarget
+      ); // snapToTarget
 
-  //     Optional.write(stream, preset.speed, Endianness.Little, null, Float32); // speed
+      OptionalIO.write<Vector2f>(
+        stream,
+        Vector2f.write,
+        preset.horizontalRotationLimit
+      );
 
-  //     Optional.write(stream, preset.snapToTarget, undefined, null, Bool); // snapToTarget
+      OptionalIO.write<Vector2f>(
+        stream,
+        Vector2f.write,
+        preset.verticalRotationLimit
+      );
 
-  //     Optional.write(stream, preset.viewOffset, undefined, null, Vector2f); // viewOffset
+      OptionalIO.write<boolean>(
+        stream,
+        (_, value) => stream.writeBool(value),
+        preset.continueTargeting
+      );
 
-  //     Optional.write(stream, preset.entityOffset, undefined, null, Vector3f); // entityOffset
+      OptionalIO.write<number>(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.blockListeningRadius
+      );
 
-  //     Optional.write(stream, preset.radius, Endianness.Little, null, Float32); // radius
+      OptionalIO.write<Vector2f>(stream, Vector2f.write, preset.viewOffset); // viewOffset
 
-  //     Optional.write(stream, preset.listener, undefined, null, Uint8); // listener
+      OptionalIO.write<Vector3f>(stream, Vector3f.write, preset.entityOffset); // entityOffset
 
-  //     Optional.write(stream, preset.effects, undefined, null, Bool); // effects
-  //   }
-  // }
+      OptionalIO.write<number>(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.radius
+      ); // radius
+
+      OptionalIO.write<number>(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.yawLimitMin
+      );
+
+      OptionalIO.write<number>(
+        stream,
+        (_, value) => stream.writeFloat32(value, Endianness.Little),
+        preset.yawLimitMax
+      );
+
+      OptionalIO.write<number>(
+        stream,
+        (_, value) => stream.writeUint8(value),
+        preset.listener
+      ); // listener
+
+      OptionalIO.write<boolean>(
+        stream,
+        (_, value) => stream.writeBool(value),
+        preset.effects
+      ); // effects
+
+      OptionalIO.write<CameraPresetAimAssistDefinition>(
+        stream,
+        CameraPresetAimAssistDefinition.write,
+        preset.aimAssist
+      );
+
+      OptionalIO.write<number>(
+        stream,
+        (_, value) => stream.writeUint8(value),
+        preset.controlScheme
+      );
+    }
+  }
 }
 
 export { CameraPreset };
