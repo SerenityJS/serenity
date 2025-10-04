@@ -2,6 +2,7 @@ import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { CameraFadeDuration } from "./camera-fade-duration";
 import { Vector3f } from "./vector3f";
+import { OptionalIO } from "./optional";
 
 class CameraFadeInstruction extends DataType {
   public duration?: CameraFadeDuration;
@@ -14,11 +15,16 @@ class CameraFadeInstruction extends DataType {
   }
 
   public static write(
-    _stream: BinaryStream,
-    _value: CameraFadeInstruction
+    stream: BinaryStream,
+    value: CameraFadeInstruction
   ): void {
-    // Optional.write(stream, value.duration, undefined, null, CameraFadeDuration);
-    // Optional.write(stream, value.color, undefined, null, Vector3f);
+    OptionalIO.write<CameraFadeDuration>(
+      stream,
+      CameraFadeDuration.write,
+      value.duration
+    );
+
+    OptionalIO.write<Vector3f>(stream, Vector3f.write, value.color);
   }
 }
 
