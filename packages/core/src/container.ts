@@ -41,13 +41,23 @@ class Container {
    * The size of the container.
    */
   public set size(value: number) {
-    this.storage = Array.from({ length: value }, () => null);
+    // Validate the size
+    if (value < 0) throw new Error("Container size cannot be negative.");
+
+    // Keep the existing items
+    const existingItems = this.storage.slice(0, value);
+
+    // Create a new storage array with the new size
+    this.storage = Array.from(
+      { length: value },
+      (_, i) => existingItems[i] || null
+    );
   }
 
   /**
    * The storage of the container.
    */
-  public storage: Array<ItemStack | null>;
+  public storage: Array<ItemStack | null> = [];
 
   /**
    * The amount of empty slots in the container.

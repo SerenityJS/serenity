@@ -15,3 +15,4 @@ export * from "./button";
 export * from "./crafting-table";
 export * from "./sign";
 export * from "./structure";
+export * from "./chest";
