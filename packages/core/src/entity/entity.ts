@@ -827,9 +827,12 @@ class Entity {
    * @returns The chunk the entity is in
    */
   public getChunk(): Chunk {
+    // Get the floored x and z position of the entity
+    const { x, z } = this.position.floor();
+
     // Convert the position to a chunk position
-    const cx = this.position.x >> 4;
-    const cz = this.position.z >> 4;
+    const cx = x >> 4;
+    const cz = z >> 4;
 
     // Get the chunk from the dimension
     return this.dimension.getChunk(cx, cz);
