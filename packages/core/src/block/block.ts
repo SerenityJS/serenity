@@ -1085,9 +1085,9 @@ class Block {
 
       // Add random x & z velocity to the item entity.
       const velocity = new Vector3f(
-        Math.random() * 0.1 - 0.05,
-        itemEntity.velocity.y,
-        Math.random() * 0.1 - 0.05
+        Math.random() * 0.2 - 0.1,
+        Math.random() * 0.1 + 0.15,
+        Math.random() * 0.2 - 0.1
       );
 
       // Add the velocity to the item entity.
