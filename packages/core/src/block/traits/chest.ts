@@ -7,7 +7,7 @@ import {
 } from "@serenityjs/protocol";
 import { IntTag } from "@serenityjs/nbt";
 
-import { Block, BlockInteractionOptions } from "../..";
+import { Block, BlockDestroyOptions, BlockInteractionOptions } from "../..";
 import { BlockIdentifier } from "../../enums";
 
 import { BlockInventoryTrait } from "./inventory";
@@ -107,7 +107,10 @@ class BlockChestTrait extends BlockInventoryTrait {
     }
   }
 
-  public onBreak(): void {
+  public onBreak(options?: BlockDestroyOptions): void {
+    // Check if the break was cancelled or there is no origin
+    if (!options?.origin || options?.cancel) return;
+
     // Call the super method
     super.onBreak();
 

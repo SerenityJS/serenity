@@ -10,6 +10,7 @@ import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
 import { BlockContainer } from "../container";
 import { Block } from "../block";
 import {
+  BlockDestroyOptions,
   BlockInteractionOptions,
   BlockInventoryTraitOptions
 } from "../../types";
@@ -62,7 +63,10 @@ class BlockInventoryTrait extends BlockTrait {
     this.container.show(origin);
   }
 
-  public onBreak(): void {
+  public onBreak(options?: BlockDestroyOptions): void {
+    // Check if the break was cancelled or there is no origin
+    if (!options?.origin || options?.cancel) return;
+
     // Loop through the items in the container
     for (const item of this.container.storage) {
       // Check if the item is valid
