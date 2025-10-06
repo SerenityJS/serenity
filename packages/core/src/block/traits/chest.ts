@@ -100,10 +100,6 @@ class BlockChestTrait extends BlockInventoryTrait {
       // Set the parent/child relationship
       this.setIsPairParent(true);
       trait.setIsPairParent(false);
-
-      console.log(
-        `Paired chest at ${this.block.position.toString()} with chest at ${source.position.toString()}`
-      );
     }
   }
 
