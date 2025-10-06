@@ -109,7 +109,7 @@ class BlockChestTrait extends BlockInventoryTrait {
     if (!options?.origin || options?.cancel) return;
 
     // Call the super method
-    super.onBreak();
+    super.onBreak(options);
 
     // Check if the chest is paired
     if (this.isPaired()) {
