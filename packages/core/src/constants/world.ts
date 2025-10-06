@@ -28,7 +28,8 @@ const DefaultWorldProperties: WorldProperties = {
     fallDamage: true,
     fireDamage: true,
     drowningDamage: true,
-    randomTickSpeed: 1
+    randomTickSpeed: 1,
+    locatorBar: false
   }
 };
 
