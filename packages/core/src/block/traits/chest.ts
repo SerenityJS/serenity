@@ -13,6 +13,7 @@ import { BlockIdentifier } from "../../enums";
 import { BlockInventoryTrait } from "./inventory";
 
 class BlockChestTrait extends BlockInventoryTrait {
+  public static readonly identifier: string = "chest";
   public static readonly types = [
     BlockIdentifier.Chest,
     BlockIdentifier.TrappedChest

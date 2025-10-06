@@ -9,6 +9,7 @@ import { BlockIdentifier } from "../../enums";
 import { BlockInventoryTrait } from "./inventory";
 
 class BlockBarrelTrait extends BlockInventoryTrait {
+  public static readonly identifier: string = "barrel";
   public static readonly types = [BlockIdentifier.Barrel];
 
   public onOpen(silent?: boolean): void {
