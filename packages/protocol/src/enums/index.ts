@@ -114,3 +114,5 @@ export * from "./update-type";
 export * from "./violation-severity";
 export * from "./violation-type";
 export * from "./wearable-slot";
+export * from "./control-scheme";
+export * from "./aim-assist-mode";
