@@ -184,14 +184,20 @@ class LevelDBProvider extends WorldProvider {
         // Calculate the subchunk Y coordinate.
         const cy = i - offset;
 
-        // Read the subchunk from the database.
-        const subchunk = this.readSubChunk(chunk.x, cy, chunk.z, dimension);
+        // Attempt to read the subchunk from the database.
+        try {
+          // Read the subchunk from the database.
+          const subchunk = this.readSubChunk(chunk.x, cy, chunk.z, dimension);
 
-        // Check if the subchunk is empty.
-        if (subchunk.isEmpty()) continue;
+          // Check if the subchunk is empty.
+          if (subchunk.isEmpty()) continue;
 
-        // Push the subchunk to the chunk.
-        chunk.subchunks[i] = subchunk;
+          // Push the subchunk to the chunk.
+          chunk.subchunks[i] = subchunk;
+        } catch {
+          // Break the loop if an error occurs while reading the subchunk.
+          break;
+        }
       }
 
       // Read the biomes from the chunk.
@@ -399,35 +405,22 @@ class LevelDBProvider extends WorldProvider {
     cz: number,
     dimension: Dimension
   ): SubChunk {
-    // Attempt to read the subchunk from the database.
-    try {
-      // Build the subchunk key for the database.
-      const key = LevelDBProvider.buildSubChunkKey(
-        cx,
-        cy,
-        cz,
-        dimension.indexOf()
-      );
+    // Build the subchunk key for the database.
+    const key = LevelDBProvider.buildSubChunkKey(
+      cx,
+      cy,
+      cz,
+      dimension.indexOf()
+    );
 
-      // Deserialize the subchunk from the database.
-      const subchunk = SubChunk.from(this.db.get(key), true);
+    // Deserialize the subchunk from the database.
+    const subchunk = SubChunk.from(this.db.get(key), true);
 
-      // Set the chunk y coordinate of the subchunk.
-      subchunk.index = cy;
+    // Set the chunk y coordinate of the subchunk.
+    subchunk.index = cy;
 
-      // Return the subchunk from the database.
-      return subchunk;
-    } catch {
-      // If an error occurs, return a new subchunk.
-      // These means the subchunk does not exist.
-      const subchunk = new SubChunk();
-
-      // Set the chunk y coordinate of the subchunk.
-      subchunk.index = cy;
-
-      // Return the new subchunk.
-      return subchunk;
-    }
+    // Return the subchunk from the database.
+    return subchunk;
   }
 
   /**
