@@ -326,8 +326,8 @@ class ItemStackRequestHandler extends NetworkHandler {
             .actions[2] as ItemStackRequestAction;
 
           // Check if the destination exists.
-          if (!destinationAction.takeOrPlace)
-            throw new Error("Invalid destination.");
+          if (!destinationAction?.takeOrPlace)
+            throw new Error("Take or place action is required.");
 
           // Get the destination.
           const destination = destinationAction.takeOrPlace.destination;

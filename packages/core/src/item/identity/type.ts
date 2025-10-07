@@ -96,11 +96,6 @@ class ItemType {
   public readonly network: number;
 
   /**
-   * The version of the item type.
-   */
-  public readonly version: number = 1;
-
-  /**
    * The nbt properties definition of the item type.
    * This contains the vanilla component definitions.
    */
@@ -113,9 +108,15 @@ class ItemType {
   public readonly traits = new Map<string, typeof ItemStackTrait>();
 
   /**
+   * The version of the item type.
+   * The version also corresponds if the item type is component based or not.
+   */
+  private version: number = 1;
+
+  /**
    * Whether the item type is component based.
    */
-  public isComponentBased: boolean;
+  private isComponentBased: boolean;
 
   public creativeCategory: CreativeItemCategory;
 
@@ -200,6 +201,40 @@ class ItemType {
     // Assign the component based properties of the item type.
     this.components.setMaxStackSize(properties?.maxStackSize ?? 64);
     this.components.setBlockPlacer({ blockType: properties?.blockType });
+  }
+
+  /**
+   * Get whether the item type is component based.
+   * @returns True if the item type is component based, false otherwise.
+   */
+  public getIsComponentBased(): boolean {
+    return this.isComponentBased;
+  }
+
+  /**
+   * Set whether the item type is component based.
+   * @param value True to set the item type as component based, false otherwise.
+   */
+  public setIsComponentBased(value: boolean): void {
+    this.isComponentBased = value;
+    this.version = value ? 1 : 2;
+  }
+
+  /**
+   * Get the version of the item type.
+   * @returns The version of the item type.
+   */
+  public getVersion(): number {
+    return this.version;
+  }
+
+  /**
+   * Set the version of the item type.
+   * @param version The version to set.
+   */
+  public setVersion(version: number): void {
+    this.version = version;
+    this.isComponentBased = version >= 1;
   }
 
   /**

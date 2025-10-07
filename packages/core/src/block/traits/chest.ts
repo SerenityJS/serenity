@@ -108,9 +108,6 @@ class BlockChestTrait extends BlockInventoryTrait {
     // Check if the break was cancelled or there is no origin
     if (!options?.origin || options?.cancel) return;
 
-    // Call the super method
-    super.onBreak(options);
-
     // Check if the chest is paired
     if (this.isPaired()) {
       // Get the paired position
@@ -125,24 +122,38 @@ class BlockChestTrait extends BlockInventoryTrait {
 
       // Check if the block is the parent
       if (this.getIsPairParent()) {
-        // Move items from this container to the paired container
+        // Move the child items from the parent container to the child container
         for (let i = 27; i < this.container.size; i++) {
-          // Get the item from the container
+          // Get the item from this container
           const item = this.container.getItem(i);
 
           // Move the item to the paired container
-          if (item)
+          if (item) {
             this.container.swapItems(i, i - 27, pairedChestTrait.container);
+          }
+        }
+
+        // Close the container for all occupants
+        for (const occupant of this.container.occupants) {
+          // Close the container for each occupant
+          this.container.close(occupant);
         }
       } else {
-        // Move items from the paired container to this container
-        for (let i = 0; i < pairedChestTrait.container.size; i++) {
-          // Get the item from the paired container
+        // Move the child items from the parent container to the child container
+        for (let i = 27; i < pairedChestTrait.container.size; i++) {
+          // Get the item from this container
           const item = pairedChestTrait.container.getItem(i);
 
-          // Move the item to this container
-          if (item)
-            pairedChestTrait.container.swapItems(i, i + 27, this.container);
+          // Move the item to the paired container
+          if (item) {
+            pairedChestTrait.container.swapItems(i, i - 27, this.container);
+          }
+        }
+
+        // Close the container for all occupants of the paired chest
+        for (const occupant of pairedChestTrait.container.occupants) {
+          // Close the container for each occupant
+          pairedChestTrait.container.close(occupant);
         }
       }
 
@@ -155,7 +166,16 @@ class BlockChestTrait extends BlockInventoryTrait {
         // Clear the pairing
         pairedBlock.getTrait(BlockChestTrait).clearPaired();
       }
+    } else {
+      // Close the container for all occupants
+      for (const occupant of this.container.occupants) {
+        // Close the container for each occupant
+        this.container.close(occupant);
+      }
     }
+
+    // Call the super method
+    super.onBreak(options);
   }
 
   public onInteract({ cancel, origin }: BlockInteractionOptions): void {

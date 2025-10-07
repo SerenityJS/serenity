@@ -22,7 +22,7 @@ import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, ListTag } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
-import { EntityType, PlayerChunkRenderingTrait } from "../entity";
+import { EntityType } from "../entity";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
@@ -245,9 +245,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         items.definitions = world.itemPalette.getAllTypes().map((item) => {
           const identifier = item.identifier;
           const networkId = item.network;
-          const componentBased = item.isComponentBased;
-          const itemVersion = item.version;
-          const properties = item.isComponentBased
+          const componentBased = item.getIsComponentBased();
+          const itemVersion = item.getVersion();
+          const properties = item.getIsComponentBased()
             ? item.properties
             : new CompoundTag();
 
@@ -293,18 +293,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
         // Send the packets to the player
         player.sendImmediate(packet, status, actors, items, ...propertiesSync);
-
-        // Check if the player has the chunk rendering trait
-        if (player.hasTrait(PlayerChunkRenderingTrait)) {
-          // Get the player's chunk rendering trait
-          const trait = player.getTrait(PlayerChunkRenderingTrait);
-
-          // Calculate the spawn distance (1/3 of the view distance)
-          const spawnDistance = Math.floor(trait.viewDistance / 3);
-
-          // Send the initial chunks to the player
-          trait.send(...trait.next(spawnDistance));
-        }
       }
     }
   }
