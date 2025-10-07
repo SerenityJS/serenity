@@ -3,12 +3,36 @@ import {
   IntTag,
   FloatTag,
   StringTag,
-  CompoundTag
+  CompoundTag,
+  ListTag
 } from "@serenityjs/nbt";
+import { EffectType } from "@serenityjs/protocol";
 
 import { ItemType } from "../type";
 
 import { ItemTypeComponent } from "./component";
+
+interface ItemTypeFoodEffectOptions {
+  /**
+   * The name of the effect to apply when the food is consumed.
+   */
+  name: keyof typeof EffectType;
+
+  /**
+   * The chance (0 to 1) of the effect being applied when the food is consumed.
+   */
+  chance: number;
+
+  /**
+   * The duration of the effect in seconds.
+   */
+  duration: number;
+
+  /**
+   * The amplifier level of the effect.
+   */
+  amplifier: number;
+}
 
 interface ItemTypeFoodComponentOptions {
   /**
@@ -32,6 +56,11 @@ interface ItemTypeFoodComponentOptions {
    * The item type that this food component converts to when used.
    */
   using_converts_to: ItemType;
+
+  /**
+   * Effects that are applied when the food is consumed.
+   */
+  effects: ItemTypeFoodEffectOptions[];
 }
 
 class ItemTypeFoodComponent extends ItemTypeComponent {
@@ -61,6 +90,7 @@ class ItemTypeFoodComponent extends ItemTypeComponent {
       this.setSaturationModifier(options.saturation_modifier);
     if (options?.using_converts_to)
       this.setUsingConvertsTo(options.using_converts_to);
+    if (options?.effects) this.setEffects(options.effects);
   }
 
   /**
@@ -195,6 +225,67 @@ class ItemTypeFoodComponent extends ItemTypeComponent {
     const tag = this.component.add(new CompoundTag("using_converts_to"));
     tag.add(new StringTag(type.identifier, "name"));
   }
+
+  /**
+   * Get the effects that are applied when the food is consumed.
+   * @returns An array of the effect info.
+   */
+  public getEffects(): { id: number, chance: number, duration: number, amplifier: number }[] {
+    // Get the effects list tag.
+    const tag = this.component.get<ListTag<CompoundTag>>("effects");
+
+    // Create an array to hold the read effects.
+    const effects: { id: number, chance: number, duration: number, amplifier: number }[] = [];
+
+    // Check if the tag exists and has a list of effects
+    if (tag) {
+
+      // Iterate over each effect in the list
+      for (const effectTag of tag.values()) {
+
+        // Extract the effect properties from the tag
+        const id = effectTag.get<IntTag>("id")?.valueOf() as number;
+        const chance = effectTag.get<FloatTag>("chance")?.valueOf() as number;
+        const duration = effectTag.get<IntTag>("duration")?.valueOf() as number;
+        const amplifier = effectTag.get<IntTag>("amplifier")?.valueOf() as number;
+
+        // Add the effect to the effects array
+        effects.push({
+          id,
+          chance: chance ?? 1,
+          duration: duration ?? 0,
+          amplifier: amplifier ?? 0
+        });
+      }
+    }
+
+    // Return the array of effects
+    return effects;
+  }
+
+  /**
+   * Set the effects that are applied when the food is consumed.
+   * @param effects An array of the effect info to set.
+   */
+  public setEffects(effects: ItemTypeFoodEffectOptions[]): void {
+    // Create a new list tag for the effects
+    const tag = new ListTag<CompoundTag>();
+
+    // Iterate over each effect in the provided array
+    for (const effect of effects) {
+      // Create a new compound tag for the effect
+      const effectTag = new CompoundTag();
+
+      // Add the effect properties to the tag
+      effectTag.add(new IntTag(EffectType[effect.name], "id"));
+      effectTag.add(new FloatTag(effect.chance, "chance"));
+      effectTag.add(new IntTag(effect.duration, "duration"));
+      effectTag.add(new ByteTag(effect.amplifier, "amplifier"));
+
+      // Add the effect tag to the effect list
+      tag.push(effectTag);
+    }
+  }
 }
 
-export { ItemTypeFoodComponent, ItemTypeFoodComponentOptions };
+export { ItemTypeFoodComponent, ItemTypeFoodComponentOptions, ItemTypeFoodEffectOptions };
