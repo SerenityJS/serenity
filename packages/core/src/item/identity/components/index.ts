@@ -12,6 +12,7 @@ import { ItemTypeFoodComponent } from "./food";
 import { ItemTypeUseModifiersComponent } from "./use-modifiers";
 import { ItemTypeDurabilityComponent } from "./durability";
 import { ItemTypeDamageComponent } from "./damage";
+import { ItemTypeUseAnimationComponent } from "./use-animation";
 
 const ItemTypeComponents = [
   ItemTypeCanDestroyInCreativeComponent,
@@ -27,7 +28,8 @@ const ItemTypeComponents = [
   ItemTypeFoodComponent,
   ItemTypeUseModifiersComponent,
   ItemTypeDurabilityComponent,
-  ItemTypeDamageComponent
+  ItemTypeDamageComponent,
+  ItemTypeUseAnimationComponent
 ];
 
 export * from "./component";
@@ -45,5 +47,6 @@ export * from "./food";
 export * from "./use-modifiers";
 export * from "./durability";
 export * from "./damage";
+export * from "./use-animation";
 
 export { ItemTypeComponents };
