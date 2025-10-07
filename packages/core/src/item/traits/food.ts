@@ -29,6 +29,11 @@ class ItemStackFoodTrait extends ItemStackTrait {
   public saturationModifier: number = 1;
 
   /**
+   * The effects that are applied when the food is consumed.
+   */
+  public effects: { id: number, chance: number, duration: number, amplifier: number }[] = [];
+
+  /**
    * Creates a new instance of the item food trait.
    * @param item The item stack that this trait will be attached to.
    */
@@ -44,6 +49,7 @@ class ItemStackFoodTrait extends ItemStackTrait {
       this.canAlwaysEat = component.getCanAlwaysEat();
       this.nutrition = component.getNutrition();
       this.saturationModifier = component.getSaturationModifier();
+      this.effects = component.getEffects();
     }
   }
 
@@ -58,11 +64,20 @@ class ItemStackFoodTrait extends ItemStackTrait {
     const hunger = player.getTrait(PlayerHungerTrait);
 
     // Check if the hunger is full or if the item cannot be consumed
-    if (hunger.currentValue >= hunger.maximumValue) return;
+    if (hunger.currentValue >= hunger.maximumValue && !this.canAlwaysEat) return;
 
     // Increase the player's hunger and saturation
     hunger.currentValue += this.nutrition;
     hunger.saturation += this.nutrition * this.saturationModifier * 2;
+
+    // Apply effect(s) if defined
+    for (const effect of this.effects) {
+      // Check if the effect should be applied
+      if (Math.random() <= effect.chance) {
+        // Apply the effect to the player
+        player.addEffect(effect.id, effect.duration, { amplifier: effect.amplifier });
+      }
+    }
 
     // Decrease the item stack
     this.item.decrementStack();
