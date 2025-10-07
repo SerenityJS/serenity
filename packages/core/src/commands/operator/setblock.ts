@@ -56,7 +56,7 @@ const register = (world: World) => {
 
           // Return the message
           return {
-            message: `§aSuccessfully set block at §2${position.x}§a, §2${position.y}§a, §2${position.z}§a to §2${type.identifier}§a.§r`
+            message: `§7Successfully set block at §u${position.x}§7, §u${position.y}§7, §u${position.z}§7 to §u${type.identifier}§7.§r`
           };
         }
       );
