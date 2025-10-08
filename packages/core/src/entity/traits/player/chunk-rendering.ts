@@ -50,7 +50,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     // Iterate over the batches
     for (let index = 0; index < batches; index++) {
       // Check if there are still chunks to send
-      if (this.sendingQueue <= 0) break; // Break if so
+      if (this.sendingQueue <= 0 || !this.entity.isAlive) break; // Break if so
 
       // Get the start and end index of the batch
       const start = index * 8;
