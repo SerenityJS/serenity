@@ -42,10 +42,10 @@ import {
   PlaySoundOptions,
   RawMessage,
   RawText
-} from "../types";
-import { Dimension } from "../world";
-import { EntityIdentifier } from "../enums";
-import { Container } from "../container";
+} from "../../types";
+import { Dimension } from "../../world";
+import { EntityIdentifier } from "../../enums";
+import { Container } from "../../container";
 import {
   ItemStackBundleTrait,
   ItemStack,
@@ -53,16 +53,15 @@ import {
   ItemTypeCooldownComponent,
   ShapelessCraftingRecipe,
   ShapedCraftingRecipe
-} from "../item";
+} from "../../item";
 import {
   EntityDimensionChangeSignal,
   PlayerGamemodeChangeSignal
-} from "../events";
-import { FormParticipant } from "../ui";
-import { PermissionMember } from "../permissions";
-import { DefaultPlayerProperties } from "../constants";
-
-import { Entity } from "./entity";
+} from "../../events";
+import { FormParticipant } from "../../ui";
+import { PermissionMember } from "../../permissions";
+import { DefaultPlayerProperties } from "../../constants";
+import { Entity } from "../entity";
 import {
   EntityRidingTrait,
   EntityInventoryTrait,
@@ -71,12 +70,14 @@ import {
   PlayerCursorTrait,
   PlayerTrait,
   PlayerLevelingTrait
-} from "./traits";
+} from "../traits";
+import { PlayerLevelStorage } from "../storage";
+import { PlayerSkin } from "../skin";
+
 import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
-import { PlayerLevelStorage } from "./storage";
-import { PlayerAbilities } from "./player-abilities";
-import { PlayerSkin } from "./skin";
+import { PlayerAbilities } from "./abilities";
+import { PlayerCamera } from "./camera";
 
 class Player extends Entity {
   /**
@@ -125,6 +126,11 @@ class Player extends Entity {
    * This is also used to send title and subtitle messages to the player.
    */
   public readonly onScreenDisplay = new ScreenDisplay(this);
+
+  /**
+   * The camera of the player, used for camera effects.
+   */
+  public readonly camera = new PlayerCamera(this);
 
   /**
    * The permission level of the player.

@@ -7,65 +7,65 @@ import { CameraTargetInstruction } from "./camera-instruction-target";
 import { CameraFOVInstruction } from "./camera-instruction-fov";
 
 class CameraInstructions extends DataType {
-  public Set?: CameraSetInstruction;
-  public Clear?: boolean;
-  public Fade?: CameraFadeInstruction;
-  public Target?: CameraTargetInstruction;
-  public RemoveTarget?: boolean;
-  public FOV?: CameraFOVInstruction;
+  public set?: CameraSetInstruction;
+  public clear?: boolean;
+  public fade?: CameraFadeInstruction;
+  public target?: CameraTargetInstruction;
+  public removeTarget?: boolean;
+  public fov?: CameraFOVInstruction;
 
   public constructor(
-    Set?: CameraSetInstruction,
-    Clear?: boolean,
-    Fade?: CameraFadeInstruction,
-    Target?: CameraTargetInstruction,
-    RemoveTarget?: boolean,
-    FOV?: CameraFOVInstruction
+    set?: CameraSetInstruction,
+    clear?: boolean,
+    fade?: CameraFadeInstruction,
+    target?: CameraTargetInstruction,
+    removeTarget?: boolean,
+    fov?: CameraFOVInstruction
   ) {
     super();
-    this.Set = Set;
-    this.Clear = Clear;
-    this.Fade = Fade;
-    this.Target = Target;
-    this.RemoveTarget = RemoveTarget;
-    this.FOV = FOV;
+    this.set = set;
+    this.clear = clear;
+    this.fade = fade;
+    this.target = target;
+    this.removeTarget = removeTarget;
+    this.fov = fov;
   }
 
   public static write(stream: BinaryStream, value: CameraInstructions): void {
     OptionalIO.write<CameraSetInstruction>(
       stream,
       CameraSetInstruction.write,
-      value.Set
+      value.set
     );
 
     OptionalIO.write<boolean>(
       stream,
       (_, value) => stream.writeBool(value),
-      value.Clear
+      value.clear
     );
 
     OptionalIO.write<CameraFadeInstruction>(
       stream,
       CameraFadeInstruction.write,
-      value.Fade
+      value.fade
     );
 
     OptionalIO.write<CameraTargetInstruction>(
       stream,
       CameraTargetInstruction.write,
-      value.Target
+      value.target
     );
 
     OptionalIO.write<boolean>(
       stream,
       (_, value) => stream.writeBool(value),
-      value.RemoveTarget
+      value.removeTarget
     );
 
     OptionalIO.write<CameraFOVInstruction>(
       stream,
       CameraFOVInstruction.write,
-      value.FOV
+      value.fov
     );
   }
 }

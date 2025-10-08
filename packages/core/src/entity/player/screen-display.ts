@@ -10,9 +10,9 @@ import {
   ToastRequestPacket
 } from "@serenityjs/protocol";
 
-import { TitleDisplayOptions } from "../types";
+import { TitleDisplayOptions } from "../../types";
 
-import type { Player } from "./player";
+import type { Player } from ".";
 
 class ScreenDisplay {
   /**

@@ -13,7 +13,7 @@ import {
   UpdateAttributesPacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { BaseTag, CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
+import { BaseTag, ListTag, StringTag } from "@serenityjs/nbt";
 
 import { Dimension, World } from "../world";
 import {
@@ -76,6 +76,11 @@ class Entity {
    * The serenity instance of the server
    */
   protected readonly serenity: Serenity;
+
+  /**
+   * The storage of the entity. This is used to persist data about the entity between server restarts.
+   */
+  protected readonly storage: EntityLevelStorage;
 
   /**
    * The type of the entity.
@@ -145,11 +150,6 @@ class Entity {
    * These values are derived from the components and traits of the entity
    */
   public readonly attributes: EntityAttributes;
-
-  /**
-   *
-   */
-  protected readonly storage: EntityLevelStorage;
 
   /**
    * The input info of the entity
@@ -355,83 +355,6 @@ class Entity {
 
     // Add the traits of the block type to the entity
     for (const [, trait] of this.type.traits) this.addTrait(trait);
-  }
-
-  // --- DEPRECATED - REMOVE IN FUTURE ---
-
-  /**
-   * The NBT data of the entity.
-   * @deprecated Use `getStorageEntry` and `setStorageEntry` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public get nbt(): CompoundTag {
-    // Log a warning that the nbt property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.nbt' property is deprecated and will be removed in a future version. Please use 'Entity.getStorageEntry' and 'Entity.setStorageEntry' methods instead.`
-    );
-
-    // Return the storage of the entity
-    return this.storage;
-  }
-
-  /**
-   * The name tag of the entity.
-   * @deprecated Use `getNametag` and `setNametag` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public get nameTag(): string {
-    // Log a warning that the nameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.nameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametag' and 'Entity.setNametag' methods instead.`
-    );
-
-    // Return the nametag of the entity
-    return this.getNametag();
-  }
-
-  /**
-   * The name tag of the entity.
-   * @deprecated Use `getNametag` and `setNametag` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public set nameTag(value: string) {
-    // Log a warning that the nameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.nameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametag' and 'Entity.setNametag' methods instead.`
-    );
-
-    // Set the nametag of the entity
-    this.setNametag(value);
-  }
-
-  /**
-   * Whether the entity name tag is always visible.
-   * @deprecated Use `getNametagAlwaysVisible` and `setNametagAlwaysVisible` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public get alwaysShowNameTag(): boolean {
-    // Log a warning that the alwaysShowNameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.alwaysShowNameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametagAlwaysVisible' and 'Entity.setNametagAlwaysVisible' methods instead.`
-    );
-
-    // Return the nametag visibility of the entity
-    return this.getNametagAlwaysVisible();
-  }
-
-  /**
-   * Whether the entity name tag is always visible.
-   * @deprecated Use `getNametagAlwaysVisible` and `setNametagAlwaysVisible` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public set alwaysShowNameTag(value: boolean) {
-    // Log a warning that the alwaysShowNameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.alwaysShowNameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametagAlwaysVisible' and 'Entity.setNametagAlwaysVisible' methods instead.`
-    );
-
-    // Set the nametag visibility of the entity
-    this.setNametagAlwaysVisible(value);
   }
 
   /**

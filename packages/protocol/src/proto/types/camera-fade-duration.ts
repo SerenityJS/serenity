@@ -1,21 +1,21 @@
 import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 
 class CameraFadeDuration extends DataType {
-  public fadeIn: number;
-  public hold: number;
-  public fadeOut: number;
+  public fadeInTime: number;
+  public holdTime: number;
+  public fadeOutTime: number;
 
   public constructor(fadeIn: number, holdDuration: number, fadeOut: number) {
     super();
-    this.fadeIn = fadeIn;
-    this.hold = holdDuration;
-    this.fadeOut = fadeOut;
+    this.fadeInTime = fadeIn;
+    this.holdTime = holdDuration;
+    this.fadeOutTime = fadeOut;
   }
 
   public static write(stream: BinaryStream, value: CameraFadeDuration): void {
-    stream.writeFloat32(value.fadeIn, Endianness.Little);
-    stream.writeFloat32(value.hold, Endianness.Little);
-    stream.writeFloat32(value.fadeOut, Endianness.Little);
+    stream.writeFloat32(value.fadeInTime, Endianness.Little);
+    stream.writeFloat32(value.holdTime, Endianness.Little);
+    stream.writeFloat32(value.fadeOutTime, Endianness.Little);
   }
 }
 

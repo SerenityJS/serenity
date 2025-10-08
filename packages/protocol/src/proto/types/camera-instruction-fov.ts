@@ -3,10 +3,10 @@ import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
 import { EasingType } from "../../enums";
 
 class CameraFOVInstruction extends DataType {
-  public FieldOfView: number;
-  public EaseTime: number;
-  public EaseType: EasingType;
-  public Clear: boolean;
+  public fieldOfView: number;
+  public easeTime: number;
+  public easeType: EasingType;
+  public clear: boolean;
 
   public constructor(
     fov: number,
@@ -15,17 +15,17 @@ class CameraFOVInstruction extends DataType {
     clear: boolean
   ) {
     super();
-    this.FieldOfView = fov;
-    this.EaseTime = easeTime;
-    this.EaseType = easingType;
-    this.Clear = clear;
+    this.fieldOfView = fov;
+    this.easeTime = easeTime;
+    this.easeType = easingType;
+    this.clear = clear;
   }
 
   public static write(stream: BinaryStream, value: CameraFOVInstruction): void {
-    stream.writeFloat32(value.FieldOfView, Endianness.Little);
-    stream.writeFloat32(value.EaseTime, Endianness.Little);
-    stream.writeUint8(value.EaseType);
-    stream.writeBool(value.Clear);
+    stream.writeFloat32(value.fieldOfView, Endianness.Little);
+    stream.writeFloat32(value.easeTime, Endianness.Little);
+    stream.writeUint8(value.easeType);
+    stream.writeBool(value.clear);
   }
 }
 
