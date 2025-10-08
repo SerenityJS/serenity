@@ -117,6 +117,17 @@ class EntityType {
   }
 
   /**
+   * Get a property of the entity type by its identifier.
+   * @param identifier The identifier of the property.
+   * @returns The property if found, null otherwise.
+   */
+  public getProperty<T extends EntityProperty = EntityProperty>(
+    identifier: string
+  ): T | null {
+    return (this.properties.get(identifier) as T) ?? null;
+  }
+
+  /**
    * Create a new integer property for the entity type.
    * @param identifier The identifier of the property.
    * @param range The value range of the property. (min to max)

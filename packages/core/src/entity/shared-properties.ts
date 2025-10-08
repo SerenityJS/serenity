@@ -3,10 +3,16 @@ import {
   PropertySyncData,
   SetActorDataPacket
 } from "@serenityjs/protocol";
+import {
+  ByteTag,
+  CompoundTag,
+  FloatTag,
+  IntTag,
+  StringTag
+} from "@serenityjs/nbt";
 
 import { Entity } from "./entity";
 import {
-  EntityBooleanProperty,
   EntityEnumProperty,
   EntityFloatProperty,
   EntityIntProperty,
@@ -17,14 +23,14 @@ type SharedPropertyValue = string | number | boolean;
 
 class EntitySharedProperties {
   /**
+   * The NBT key used to store the properties in the entity's storage.
+   */
+  private static readonly PROPERTIES_KEY = "properties";
+
+  /**
    * The entity that this property map is attached to.
    */
   private readonly entity: Entity;
-
-  /**
-   * The current properties of the entity.
-   */
-  private readonly properties = new Map<string, EntityProperty>();
 
   /**
    * Create a new entity property map
@@ -34,9 +40,39 @@ class EntitySharedProperties {
     // Assign the entity to the property map
     this.entity = entity;
 
-    // Copy the properties from the entity type
-    for (const [key, value] of entity.type.getAllProperties())
-      this.properties.set(key, value);
+    // Check if the entity has any properties in its storage
+    if (!this.entity.hasStorageEntry(EntitySharedProperties.PROPERTIES_KEY)) {
+      // If not, initialize an empty properties storage
+      this.entity.setStorageEntry(
+        EntitySharedProperties.PROPERTIES_KEY,
+        new CompoundTag()
+      );
+    }
+
+    // Create independent copies of properties from the entity type
+    for (const [key, value] of entity.type.getAllProperties()) {
+      // Check if the property already exists in the entity's storage
+      if (this.hasSharedProperty(key)) continue;
+
+      // Set the property in the entity's storage with its current value
+      this.setSharedProperty(key, value.currentValue as SharedPropertyValue);
+    }
+
+    // Ensure all properties in the entity's storage exist in the entity type
+    for (const [key] of this.getAllSharedProperties()) {
+      // Check if the property exists in the entity type
+      if (entity.type.hasProperty(key)) continue;
+
+      // Remove the property from the entity's storage if it doesn't exist in the entity type
+      this.entity
+        .getStorageEntry<CompoundTag>(EntitySharedProperties.PROPERTIES_KEY)!
+        .delete(key);
+
+      // Log a warning to the console
+      this.entity.world.logger.warn(
+        `Property §u${key}§r does not exist on entity type §u${entity.type.identifier}§r, removing it from the entity instance.`
+      );
+    }
   }
 
   /**
@@ -47,12 +83,47 @@ class EntitySharedProperties {
     // Prepare the result array
     const result: Array<[string, SharedPropertyValue]> = [];
 
-    // Iterate over the properties and add them to the result array
-    for (const [key, value] of this.properties)
-      result.push([key, value.currentValue as SharedPropertyValue]);
+    // Get the properties storage from the entity
+    const storage = this.entity.getStorageEntry<CompoundTag>(
+      EntitySharedProperties.PROPERTIES_KEY
+    );
+
+    // If there is no properties storage, return an empty array
+    if (!storage) return result;
+
+    // Iterate over the properties map
+    for (const [identifier, property] of storage.entries()) {
+      // Cast the property to the appropriate tag type
+      const tag = property as StringTag | FloatTag | IntTag | ByteTag;
+
+      // Switch based on the tag type and push the value to the result array
+      switch (tag.constructor) {
+        case StringTag:
+          result.push([identifier, tag.valueOf()]);
+          break;
+        case FloatTag:
+          result.push([identifier, tag.valueOf()]);
+          break;
+        case IntTag:
+          result.push([identifier, tag.valueOf()]);
+          break;
+        case ByteTag:
+          result.push([identifier, tag.valueOf() !== 0]);
+          break;
+      }
+    }
 
     // Return the result array
     return result;
+  }
+
+  /**
+   * Check if the entity has a shared property with the given identifier.
+   * @param identifier The identifier of the property.
+   * @returns True if the property exists, false otherwise.
+   */
+  public hasSharedProperty(identifier: string): boolean {
+    return this.getAllSharedProperties().some(([key]) => key === identifier);
   }
 
   /**
@@ -65,18 +136,50 @@ class EntitySharedProperties {
     identifier: string
   ): T {
     // Validate that the property exists on the entity type
-    if (!this.properties.has(identifier)) {
+    if (!this.entity.type.hasProperty(identifier)) {
       // Throw an error if the property does not exist
       throw new Error(
         `Property "${identifier}" does not exist on entity type "${this.entity.type.identifier}"`
       );
     }
 
-    // Get the property from the entity type
-    const property = this.properties.get(identifier) as EntityProperty;
+    // Get the properties storage from the entity
+    const storage = this.entity.getStorageEntry<CompoundTag>(
+      EntitySharedProperties.PROPERTIES_KEY
+    );
 
-    // Return the current value of the property
-    return property.currentValue as T;
+    // If there is no properties storage, throw an error
+    if (!storage) {
+      throw new Error(
+        `The entity "${this.entity.type.identifier}" is missing its properties storage. This indicates a logic error.`
+      );
+    }
+
+    // Iterate over the properties map
+    for (const [key, property] of storage.entries()) {
+      // Check if the key matches the identifier
+      if (key === identifier) {
+        // Cast the property to the appropriate tag type
+        const tag = property as StringTag | FloatTag | IntTag | ByteTag;
+
+        // Switch based on the tag type and return the value
+        switch (tag.constructor) {
+          case StringTag:
+            return tag.valueOf() as T;
+          case FloatTag:
+            return tag.valueOf() as T;
+          case IntTag:
+            return tag.valueOf() as T;
+          case ByteTag:
+            return (tag.valueOf() !== 0) as T;
+        }
+      }
+    }
+
+    // Throw an error if the property is not found
+    throw new Error(
+      `Property "${identifier}" not found on entity instance "${this.entity.type.identifier}" but it exists on the entity type. This indicates a logic error.`
+    );
   }
 
   /**
@@ -89,15 +192,27 @@ class EntitySharedProperties {
     value: T
   ): void {
     // Validate that the property exists on the entity type
-    if (!this.properties.has(identifier)) {
+    if (!this.entity.type.hasProperty(identifier)) {
       // Throw an error if the property does not exist
       throw new Error(
         `Property "${identifier}" does not exist on entity type "${this.entity.type.identifier}"`
       );
     }
 
+    // Get the storage from the entity
+    const storage = this.entity.getStorageEntry<CompoundTag>(
+      EntitySharedProperties.PROPERTIES_KEY
+    );
+
+    // If there is no storage, throw an error
+    if (!storage) {
+      throw new Error(
+        `The entity "${this.entity.type.identifier}" is missing its properties storage. This indicates a logic error.`
+      );
+    }
+
     // Get the property from the entity type
-    const property = this.properties.get(identifier) as EntityProperty;
+    const property = this.entity.type.getProperty(identifier) as EntityProperty;
 
     // Validate the value based on the property type
     switch (property.getType()) {
@@ -117,8 +232,8 @@ class EntitySharedProperties {
             `Property "${identifier}" must be between ${intProperty.getMin()} and ${intProperty.getMax()}, received ${value}`
           );
 
-        // Set the value of the property
-        intProperty.currentValue = value;
+        // Set the value in the storage
+        storage.set(identifier, new IntTag(value, identifier));
         break;
       }
 
@@ -138,8 +253,8 @@ class EntitySharedProperties {
             `Property "${identifier}" must be between ${floatProperty.getMin()} and ${floatProperty.getMax()}, received ${value}`
           );
 
-        // Set the value of the property
-        floatProperty.currentValue = value;
+        // Set the value in the storage
+        storage.set(identifier, new FloatTag(value, identifier));
         break;
       }
 
@@ -150,11 +265,8 @@ class EntitySharedProperties {
             `Property "${identifier}" must be a boolean, received "${typeof value}"`
           );
 
-        // Cast the property to a boolean property
-        const booleanProperty = property as EntityBooleanProperty;
-
-        // Set the value of the property
-        booleanProperty.currentValue = value;
+        // Set the value in the storage
+        storage.set(identifier, new ByteTag(value ? 1 : 0, identifier));
         break;
       }
 
@@ -177,8 +289,8 @@ class EntitySharedProperties {
               .join(", ")}, received "${value}"`
           );
 
-        // Set the value of the property
-        enumProperty.currentValue = value;
+        // Set the value in the storage
+        storage.set(identifier, new StringTag(value, identifier));
         break;
       }
     }
@@ -206,7 +318,7 @@ class EntitySharedProperties {
    */
   public resetSharedProperty(identifier: string): void {
     // Validate that the property exists on the entity type
-    if (!this.properties.has(identifier)) {
+    if (!this.entity.type.hasProperty(identifier)) {
       // Throw an error if the property does not exist
       throw new Error(
         `Property "${identifier}" does not exist on entity type "${this.entity.type.identifier}"`
@@ -214,7 +326,7 @@ class EntitySharedProperties {
     }
 
     // Get the property from the entity type
-    const property = this.properties.get(identifier) as EntityProperty;
+    const property = this.entity.type.getProperty(identifier) as EntityProperty;
 
     // Reset the value of the property based on its type
     switch (property.getType()) {
@@ -259,30 +371,35 @@ class EntitySharedProperties {
     const property = new PropertySyncData([], []);
 
     // Sort the key list to ensure the order is consistent
-    const keys = [...this.properties.keys()].sort();
+    const keys = [...this.getAllSharedProperties().map(([key]) => key)].sort();
     for (const [index, key] of keys.entries()) {
       // Get the value from the map
-      const value = this.properties.get(key) as EntityProperty;
+      const value = this.getSharedProperty(key);
 
       // Check if the value is a int property
-      if (value instanceof EntityIntProperty) {
+      if (typeof value === "number" && Number.isInteger(value)) {
         // Push the value to the ints
-        property.ints.push({ index, value: value.currentValue });
+        property.ints.push({ index, value });
       }
       // Check if the value is a float property
-      else if (value instanceof EntityFloatProperty) {
+      else if (typeof value === "number" && !Number.isInteger(value)) {
         // Push the value to the floats
-        property.floats.push({ index, value: value.currentValue });
+        property.floats.push({ index, value });
       }
       // Check if the value is a boolean property
-      else if (value instanceof EntityBooleanProperty) {
+      else if (typeof value === "boolean") {
         // Push the value to the ints
-        property.ints.push({ index, value: value.currentValue ? 1 : 0 });
+        property.ints.push({ index, value: value ? 1 : 0 });
       }
       // Check if the value is an enum property
-      else if (value instanceof EntityEnumProperty) {
+      else if (typeof value === "string") {
+        // Get the property from the entity type
+        const definition = this.entity.type.getProperty(
+          key
+        ) as EntityEnumProperty;
+
         // Get the index of the value in the enum
-        const enumValue = value.getEnum().indexOf(value.currentValue);
+        const enumValue = definition.getEnum().indexOf(value);
 
         // Push the value to the ints
         property.ints.push({ index, value: enumValue });
