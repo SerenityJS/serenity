@@ -34,9 +34,108 @@ class EntitySharedProperties {
     // Assign the entity to the property map
     this.entity = entity;
 
-    // Copy the properties from the entity type
-    for (const [key, value] of entity.type.getAllProperties())
-      this.properties.set(key, value);
+    // Create independent copies of properties from the entity type
+    for (const [key, value] of entity.type.getAllProperties()) {
+      // Create a deep copy of the property to ensure isolation between entities
+      const propertyCopy = this.createPropertyCopy(value);
+      this.properties.set(key, propertyCopy);
+    }
+
+    // Load saved property values from NBT storage
+    this.loadPropertiesFromStorage();
+  }
+
+  /**
+   * Create a deep copy of an entity property to ensure isolation between entities
+   * @param originalProperty The original property to copy
+   * @returns A new independent copy of the property
+   */
+  private createPropertyCopy(originalProperty: EntityProperty): EntityProperty {
+    // Create a new instance based on the property type
+    switch (originalProperty.getType()) {
+      case EntityPropertyType.Int: {
+        const intProp = originalProperty as EntityIntProperty;
+        const copy = new EntityIntProperty(
+          intProp.getIdentifier(),
+          intProp.getMin(),
+          intProp.getMax(),
+          intProp.currentValue
+        );
+        return copy;
+      }
+
+      case EntityPropertyType.Float: {
+        const floatProp = originalProperty as EntityFloatProperty;
+        const copy = new EntityFloatProperty(
+          floatProp.getIdentifier(),
+          floatProp.getMin(),
+          floatProp.getMax(),
+          floatProp.currentValue
+        );
+        return copy;
+      }
+
+      case EntityPropertyType.Boolean: {
+        const boolProp = originalProperty as EntityBooleanProperty;
+        const copy = new EntityBooleanProperty(
+          boolProp.getIdentifier(),
+          boolProp.currentValue
+        );
+        return copy;
+      }
+
+      case EntityPropertyType.Enum: {
+        const enumProp = originalProperty as EntityEnumProperty;
+        const copy = new EntityEnumProperty(
+          enumProp.getIdentifier(),
+          enumProp.getEnum(),
+          enumProp.currentValue
+        );
+        return copy;
+      }
+
+      default:
+        throw new Error(`Unknown property type: ${originalProperty.getType()}`);
+    }
+  }
+
+  /**
+   * Load saved property values from the entity's NBT storage
+   */
+  private loadPropertiesFromStorage(): void {
+    // Load each property from storage
+    for (const [key, property] of this.properties) {
+      try {
+        // Try to get the saved value from storage
+        const savedValue = this.entity
+          .getStorage()
+          .getDynamicProperty<SharedPropertyValue>(`shared_property_${key}`);
+        if (savedValue !== null) {
+          // Set the property value from storage
+          property.currentValue = savedValue;
+        }
+      } catch (reason) {
+        // If loading fails, keep the default value
+        console.warn(`Failed to load property ${key} from storage:`, reason);
+      }
+    }
+  }
+
+  /**
+   * Save property values to the entity's NBT storage
+   */
+  private savePropertiesToStorage(): void {
+    // Save each property to storage
+    for (const [key, property] of this.properties) {
+      try {
+        // Save the current value to storage
+        this.entity
+          .getStorage()
+          .setDynamicProperty(`shared_property_${key}`, property.currentValue);
+      } catch (reason) {
+        console.error(`Failed to save property ${key} to storage:`, reason);
+      }
+    }
   }
 
   /**
@@ -198,6 +297,9 @@ class EntitySharedProperties {
 
     // Send the packet to the dimension
     this.entity.dimension.broadcast(packet);
+
+    // Save the property to NBT storage for persistence
+    this.savePropertiesToStorage();
   }
 
   /**
