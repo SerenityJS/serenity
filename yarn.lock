@@ -1801,7 +1801,7 @@ __metadata:
     "@serenityjs/data": "npm:*"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/internal-config": "npm:*"
-    "@serenityjs/leveldb": "npm:^1.1.1"
+    "@serenityjs/leveldb": "npm:^1.3.0"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"
     "@serenityjs/protocol": "npm:*"
@@ -1857,42 +1857,42 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/leveldb-darwin-arm64@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@serenityjs/leveldb-darwin-arm64@npm:1.1.1"
+"@serenityjs/leveldb-darwin-arm64@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@serenityjs/leveldb-darwin-arm64@npm:1.3.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@serenityjs/leveldb-darwin-x64@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@serenityjs/leveldb-darwin-x64@npm:1.1.1"
+"@serenityjs/leveldb-darwin-x64@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@serenityjs/leveldb-darwin-x64@npm:1.3.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@serenityjs/leveldb-linux-x64-gnu@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@serenityjs/leveldb-linux-x64-gnu@npm:1.1.1"
+"@serenityjs/leveldb-linux-x64-gnu@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@serenityjs/leveldb-linux-x64-gnu@npm:1.3.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@serenityjs/leveldb-win32-x64-msvc@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@serenityjs/leveldb-win32-x64-msvc@npm:1.1.1"
+"@serenityjs/leveldb-win32-x64-msvc@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@serenityjs/leveldb-win32-x64-msvc@npm:1.3.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@serenityjs/leveldb@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@serenityjs/leveldb@npm:1.1.1"
+"@serenityjs/leveldb@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@serenityjs/leveldb@npm:1.3.0"
   dependencies:
-    "@serenityjs/leveldb-darwin-arm64": "npm:1.1.1"
-    "@serenityjs/leveldb-darwin-x64": "npm:1.1.1"
-    "@serenityjs/leveldb-linux-x64-gnu": "npm:1.1.1"
-    "@serenityjs/leveldb-win32-x64-msvc": "npm:1.1.1"
+    "@serenityjs/leveldb-darwin-arm64": "npm:1.3.0"
+    "@serenityjs/leveldb-darwin-x64": "npm:1.3.0"
+    "@serenityjs/leveldb-linux-x64-gnu": "npm:1.3.0"
+    "@serenityjs/leveldb-win32-x64-msvc": "npm:1.3.0"
   dependenciesMeta:
     "@serenityjs/leveldb-darwin-arm64":
       optional: true
@@ -1902,7 +1902,7 @@ __metadata:
       optional: true
     "@serenityjs/leveldb-win32-x64-msvc":
       optional: true
-  checksum: 10c0/527d0086583054d2ba29d638f77ed3805af2efe1da7c1383d94ef41b65056724e93367324115695b0b12c4e431daa25ca1cedc368c418fae01f1b3feed930b9b
+  checksum: 10c0/366461fa63123ef6853491ded4ed72c17a58e32dea69338b660577254835c1227fb6d65e767b7b8bcdb56c1e1479f52c600065fd93f67801a475cfaab967befb
   languageName: node
   linkType: hard
 

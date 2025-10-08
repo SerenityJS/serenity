@@ -31,7 +31,7 @@
     "@serenityjs/binarystream": "^3.0.10",
     "@serenityjs/data": "*",
     "@serenityjs/emitter": "*",
-    "@serenityjs/leveldb": "^1.1.1",
+    "@serenityjs/leveldb": "^1.3.0",
     "@serenityjs/logger": "*",
     "@serenityjs/nbt": "*",
     "@serenityjs/protocol": "*",
