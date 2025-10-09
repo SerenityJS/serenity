@@ -10,7 +10,7 @@ import {
   PluginItemRegistry
 } from "./registry";
 import { PluginPriority } from "./enums/priority";
-import { PluginFileSystem } from "./fileSystem";
+import { PluginFileSystem } from "./file-system";
 
 interface PluginOptions extends Partial<PluginEvents> {
   /**
