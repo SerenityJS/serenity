@@ -320,10 +320,10 @@ class Entity {
     }
 
     // Create the maps for the entity
-    this.sharedProperties = new EntitySharedProperties(this);
     this.metadata = new EntityActorMetadata(this);
     this.flags = new EntityActorFlags(this);
     this.attributes = new EntityAttributes(this);
+    this.sharedProperties = new EntitySharedProperties(this);
 
     // Iterate over the traits in the storage and add them to the entity
     for (const identifier of this.storage.getTraits()) {
