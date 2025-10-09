@@ -13,6 +13,7 @@ import { EntityDespawnOptions, EntitySpawnOptions } from "../../../types";
 import { ItemStackDurabilityTrait } from "../../../item";
 
 import { EntityAttributeTrait } from "./attribute";
+import { PlayerHungerTrait } from "../..";
 
 class EntityHealthTrait extends EntityAttributeTrait {
   public static readonly identifier = "health";
@@ -63,6 +64,15 @@ class EntityHealthTrait extends EntityAttributeTrait {
           durabilityTrait.processDamage(this.entity);
         }
       }
+    }
+
+    // Check if the entity has a PlayerHungerTrait
+    if (this.entity.hasTrait(PlayerHungerTrait)) {
+      // Get the PlayerHungerTrait
+      const hunger = this.entity.getTrait(PlayerHungerTrait);
+
+      // Increase the exhaustion of the player
+      hunger.exhaustion += 0.1;
     }
 
     // Check if the health is less than or equal to 0
