@@ -1,26 +1,32 @@
-import { Packet } from "../enums";
+import { Packet, Priority } from "../enums";
 import {
   Address,
+  ConnectionRequest,
   IncompatibleProtocolVersion,
   OpenConnectionReply1,
   OpenConnectionReply2,
   OpenConnectionRequest1,
   OpenConnectionRequest2,
   UnconnectedPing,
-  UnconnectedPong
+  UnconnectedPong,
 } from "../proto";
 import { RAKNET_PROTOCOL, UDP_HEADER_SIZE } from "../constants";
+import { Connection } from "../server/connection";
+import { Client } from "../client";
 
-import { Connection } from "./connection";
-
+import type { Server } from "../server/raknet";
 import type { RemoteInfo } from "node:dgram";
-import type { Server } from "./raknet";
 
 class Offline {
   /**
    * The raknet server instance
    */
   public static server: Server;
+
+  /**
+   * The raknet client instance
+   */
+  public static client: Client;
 
   /**
    * Handles all incoming offline datagrams from remote clients
@@ -96,7 +102,7 @@ class Offline {
         "Survival",
         1,
         this.server.port,
-        this.server.port + 1
+        this.server.port + 1,
       ].join(";") + ";";
 
     // Send the unconnected pong packet to the remote client
@@ -213,6 +219,24 @@ class Offline {
 
     // Send the open connection reply 2 packet to the remote client
     return this.server.send(reply.serialize(), rinfo);
+  }
+
+  public static openConnectionReply1(buffer: Buffer, rinfo: RemoteInfo): void {
+    const reply = new OpenConnectionReply1(buffer).deserialize();
+    const request2 = new OpenConnectionRequest2();
+    request2.address = Address.fromIdentifier(rinfo);
+    request2.client = Offline.client.options.guid;
+    request2.mtu = reply.mtu;
+    Offline.client.send(request2.serialize());
+  }
+
+  public static openConnectionReply2(): void {
+    // const reply = new OpenConnectionReply2(buffer).deserialize();
+    const request = new ConnectionRequest();
+    request.client = Offline.client.options.guid;
+    request.timestamp = BigInt(Date.now());
+    const serialized = request.serialize();
+    Offline.client.frameAndSend(serialized, Priority.Immediate);
   }
 }
 
