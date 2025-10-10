@@ -19,7 +19,7 @@ import { Plugin } from "./plugin";
 import Command from "./commands/command";
 import { PluginsEnum } from "./commands";
 import { PluginType, PluginHeader } from "./enums";
-import { PluginFileSystem } from "./fileSystem";
+import { PluginFileSystem } from "./file-system";
 
 interface PipelineProperties {
   path: string;
