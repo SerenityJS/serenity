@@ -358,15 +358,25 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    * @returns The block permutation.
    */
   public static fromCompound(nbt: CompoundTag): BlockPermutation {
-    const name = nbt.get("name") as StringTag;
-    const states = nbt.get("states") as CompoundTag;
+    // Get the name and states tags from the compound tag.
+    const name = nbt.get<StringTag>("name");
+    const states = nbt.get<CompoundTag>("states");
 
+    // Check if the name tag exists.
+    if (!name) throw new Error(`Block permutation is missing the 'name' tag.`);
+
+    // Create a new state object.
     const state: Record<string, number | string> = {};
 
-    for (const [key, tag] of states.entries()) {
-      state[key] = tag.valueOf() as number | string;
+    // Check if the states tag exists.
+    if (states) {
+      // Iterate over each tag in the states compound tag.
+      for (const [key, tag] of states.entries()) {
+        state[key] = tag.valueOf() as number | string;
+      }
     }
 
+    // Resolve and return the block permutation.
     return BlockPermutation.resolve(name.valueOf() as BlockIdentifier, state);
   }
 

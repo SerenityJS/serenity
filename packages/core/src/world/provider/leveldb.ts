@@ -195,8 +195,8 @@ class LevelDBProvider extends WorldProvider {
           // Push the subchunk to the chunk.
           chunk.subchunks[i] = subchunk;
         } catch {
-          // Break the loop if an error occurs while reading the subchunk.
-          break;
+          // We can ignore any error that occurs while reading the subchunk.
+          continue;
         }
       }
 
