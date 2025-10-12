@@ -68,6 +68,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       // Get the chunks to send
       const batch = chunks.slice(start, end);
       for (const chunk of batch) {
+        // Check if the sending queue is cleared
+        if (this.sendingQueue <= 0) break;
+
         // Add the chunk to the player's view
         this.chunks.add(chunk.hash);
 
