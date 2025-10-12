@@ -195,6 +195,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * @param position The position of the chunk to clear.
    */
   public clear(position?: ChunkCoords): void {
+    // Clear the sending queue
+    this.sendingQueue = 0;
+
     // Convert the hashes to coordinates
     const coords = position
       ? [position]
