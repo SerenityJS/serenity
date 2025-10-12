@@ -470,7 +470,7 @@ class Dimension {
         if (!trait.chunks.has(chunk.hash)) continue;
 
         // Send the chunk to the player
-        trait.send(chunk);
+        trait.send(this, chunk);
       }
 
       // Return the chunk
@@ -494,7 +494,7 @@ class Dimension {
       if (!trait.chunks.has(chunk.hash)) continue;
 
       // Send the chunk to the player
-      trait.send(chunk);
+      trait.send(this, chunk);
     }
   }
 

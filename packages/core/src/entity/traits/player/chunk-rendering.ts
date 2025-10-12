@@ -8,7 +8,8 @@ import {
 
 import { EntityIdentifier } from "../../../enums";
 import { Chunk } from "../../../world/chunk";
-import { EntityDespawnOptions, EntitySpawnOptions } from "../../../types";
+import { EntityDespawnOptions } from "../../../types";
+import { Dimension } from "../../../world";
 
 import { PlayerTrait } from "./trait";
 
@@ -40,7 +41,10 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * Sends a chunk to the player.
    * @param chunks The chunks to send to the player.
    */
-  public async send(...chunks: Array<Chunk>): Promise<void> {
+  public async send(
+    dimension: Dimension,
+    ...chunks: Array<Chunk>
+  ): Promise<void> {
     // Get the amount of chunks to send
     const amount = (this.sendingQueue = chunks.length);
 
@@ -50,7 +54,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     // Iterate over the batches
     for (let index = 0; index < batches; index++) {
       // Check if there are still chunks to send
-      if (this.sendingQueue <= 0 || !this.entity.isAlive) break; // Break if so
+      if (!this.entity.isAlive || dimension !== this.dimension) return;
 
       // Get the start and end index of the batch
       const start = index * 8;
@@ -69,7 +73,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       const batch = chunks.slice(start, end);
       for (const chunk of batch) {
         // Check if the sending queue is cleared
-        if (this.sendingQueue <= 0) break;
+        if (dimension !== this.dimension) return;
 
         // Add the chunk to the player's view
         this.chunks.add(chunk.hash);
@@ -246,10 +250,12 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       for (const hash of this.chunks) {
         // Get the distance between the player and the chunk
         const distance = this.distance(hash);
+
         // Check if the chunk is outside of the player's view distance
         if (distance > this.viewDistance + 0.5) {
           // Get the chunk position
           const { x, z } = ChunkCoords.unhash(hash);
+
           // Clear the chunk from the player's view
           this.clear({ x, z });
         }
@@ -261,7 +267,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       const chunks = this.next();
 
       // Check if there are any chunks to send
-      if (chunks.length > 0) await this.send(...chunks);
+      if (chunks.length > 0) await this.send(this.dimension, ...chunks);
     }
   }
 
@@ -301,11 +307,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
   public onDespawn(options: EntityDespawnOptions): void {
     // Clear the chunks from the player's view if the player has not died
-    if (!options.hasDied) this.clear();
-  }
-
-  public onSpawn(details: EntitySpawnOptions): void {
-    if (details.changedDimensions) this.clear();
+    if (!options.hasDied || options.changedDimensions) this.clear();
   }
 
   public onTeleport(): void {
