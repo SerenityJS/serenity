@@ -19,7 +19,7 @@ import {
   DimensionProperties
 } from "../../types";
 import { World } from "../world";
-import { ChunkReadySignal, WorldInitializeSignal } from "../../events";
+import { WorldInitializeSignal } from "../../events";
 import { Structure } from "../structure";
 import { Chunk } from "../chunk";
 import { Dimension } from "../dimension";
@@ -192,9 +192,6 @@ class FileSystemProvider extends WorldProvider {
           }
         }
 
-        // Set the chunk as ready.
-        chunk.ready = true;
-
         // Add the chunk to the dimension's chunk map.
         chunks.set(chunk.hash, chunk.insert(resultant));
 
@@ -206,9 +203,6 @@ class FileSystemProvider extends WorldProvider {
 
         // Add the chunk to the dimension's chunk map.
         chunks.set(chunk.hash, chunk.insert(resultant));
-
-        // Check if the chunk is ready.
-        if (chunk.ready) new ChunkReadySignal(dimension, chunk).emit();
 
         // Return the chunk.
         return chunk;

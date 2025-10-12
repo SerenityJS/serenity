@@ -101,11 +101,6 @@ export class Chunk {
   public dirty = false;
 
   /**
-   * If the chunk is ready to be sent to the client.
-   */
-  public ready = true;
-
-  /**
    * Creates a new chunk.
    *
    * @param type The dimension type of the chunk.
@@ -453,7 +448,6 @@ export class Chunk {
 
     // Copy over the chunk flags & cache.
     this.dirty = source.dirty;
-    this.ready = source.ready;
     this.cache = source.cache;
 
     // Return the target chunk.

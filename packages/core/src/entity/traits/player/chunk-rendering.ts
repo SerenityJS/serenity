@@ -180,7 +180,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
       // Get the chunk from the dimension
       const chunk = this.player.dimension.getChunk(x, z);
-      if (!chunk.ready || this.chunks.has(chunk.hash)) continue; // Skip if the chunk is not ready
+      if (this.chunks.has(chunk.hash)) continue; // Skip if the chunk is not ready
 
       // Add the chunk if it hasn't been sent to the player yet
       out.push(chunk);

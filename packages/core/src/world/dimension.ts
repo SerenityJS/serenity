@@ -407,14 +407,11 @@ class Dimension {
       }
 
       // Return the cached chunk
-      if (chunk.ready) return chunk;
+      return chunk;
     }
 
     // Create a new chunk to pass to the provider
     const chunk = new Chunk(cx, cz, this.type);
-
-    // Mark the chunk as not ready
-    chunk.ready = false;
 
     // Await for the chunk to be generated
     this.world.provider.readChunk(chunk, this).then((chunk) => {
@@ -464,7 +461,20 @@ class Dimension {
         }
       }
 
-      return;
+      // Iterate over all the players in the dimension
+      for (const player of this.getPlayers()) {
+        // Get the player's chunk rendering trait
+        const trait = player.getTrait(PlayerChunkRenderingTrait);
+
+        // Check if the player has the chunk being set
+        if (!trait.chunks.has(chunk.hash)) continue;
+
+        // Send the chunk to the player
+        trait.send(chunk);
+      }
+
+      // Return the chunk
+      return chunk;
     });
 
     return chunk; // Return the chunk
@@ -486,9 +496,6 @@ class Dimension {
       // Send the chunk to the player
       trait.send(chunk);
     }
-
-    // Write the chunk to the provider
-    return void this.world.provider.writeChunk(chunk, this);
   }
 
   /**
