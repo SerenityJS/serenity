@@ -21,7 +21,7 @@ import {
   WorldProviderProperties
 } from "../../types";
 import { World } from "../world";
-import { ChunkReadySignal, WorldInitializeSignal } from "../../events";
+import { WorldInitializeSignal } from "../../events";
 import { Structure } from "../structure";
 import { BlockLevelStorage } from "../../block";
 
@@ -195,8 +195,8 @@ class LevelDBProvider extends WorldProvider {
           // Push the subchunk to the chunk.
           chunk.subchunks[i] = subchunk;
         } catch {
-          // Break the loop if an error occurs while reading the subchunk.
-          break;
+          // We can ignore any error that occurs while reading the subchunk.
+          continue;
         }
       }
 
@@ -246,9 +246,6 @@ class LevelDBProvider extends WorldProvider {
         }
       }
 
-      // Set the chunk as ready.
-      chunk.ready = true;
-
       // Add the chunk to the cache.
       chunks.set(chunk.hash, chunk);
 
@@ -279,14 +276,8 @@ class LevelDBProvider extends WorldProvider {
       // Add the chunk to the cache.
       chunks.set(chunk.hash, chunk.insert(resultant));
 
-      // Check if the chunk is ready.
-      if (chunk.ready) {
-        // Emit a new ChunkReadySignal for the dimension and chunk.
-        new ChunkReadySignal(dimension, chunk).emit();
-
-        // Call the populate method of the dimension generator.
-        await dimension.generator.populate?.(chunk);
-      }
+      // Call the populate method of the dimension generator.
+      await dimension.generator.populate?.(chunk);
 
       // Return the generated chunk.
       return chunk;

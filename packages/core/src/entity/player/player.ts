@@ -788,7 +788,7 @@ class Player extends Entity {
       const rendering = this.getTrait(PlayerChunkRenderingTrait);
 
       // Send the player the spawn chunks
-      rendering.send(...rendering.next());
+      rendering.send(this.dimension, ...rendering.next());
 
       // Spawn the player in the new dimension
       return void this.spawn({ changedDimensions: true });
@@ -819,7 +819,7 @@ class Player extends Entity {
       const rendering = this.getTrait(PlayerChunkRenderingTrait);
 
       // Send the player the spawn chunks
-      return void rendering.send(...rendering.next());
+      return void rendering.send(this.dimension, ...rendering.next());
     }
   }
 

@@ -82,6 +82,9 @@ class BlockChestTrait extends BlockInventoryTrait {
     // If there is no source, return
     if (!source || source === this.block) return;
 
+    // Check that the blocks are adjacent.
+    if (this.block.position.y !== source.position.y) return;
+
     if (source.hasTrait(BlockChestTrait) && !this.isPaired()) {
       // Get the chest trait from the source block
       const trait = source.getTrait(BlockChestTrait);
@@ -180,6 +183,11 @@ class BlockChestTrait extends BlockInventoryTrait {
 
   public onInteract({ cancel, origin }: BlockInteractionOptions): void {
     if (cancel || !origin) return;
+
+    if (this.isPaired() && this.getIsPairParent() && this.container.size !== 54) {
+      // Update the container size
+      this.container.size = 54;
+    }
 
     // Check if the chest is paired and this chest is the child
     if (this.isPaired() && !this.getIsPairParent()) {

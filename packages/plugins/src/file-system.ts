@@ -4,8 +4,7 @@ import {
   mkdirSync,
   writeFileSync,
   rmSync,
-  statSync,
-  readdirSync,
+  readdirSync
 } from "fs";
 import { resolve, sep, isAbsolute } from "path";
 
@@ -181,7 +180,7 @@ class PluginFileSystem {
     path: string,
     options: { recursive: boolean; force: boolean } = {
       recursive: false,
-      force: false,
+      force: false
     }
   ): void {
     // Check if the plugin data path exists
