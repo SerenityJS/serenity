@@ -20,6 +20,7 @@ import {
 } from "./identity";
 
 type SharedPropertyValue = string | number | boolean;
+type SharedPropertyTag = StringTag | FloatTag | IntTag | ByteTag;
 
 class EntitySharedProperties {
   /**
@@ -33,6 +34,11 @@ class EntitySharedProperties {
   private readonly entity: Entity;
 
   /**
+   * The properties map holding property identifiers and their corresponding Tag representations.
+   */
+  private readonly properties = new Map<string, SharedPropertyTag>();
+
+  /**
    * Create a new entity property map
    * @param entity The entity that this property map is attached to
    */
@@ -40,13 +46,18 @@ class EntitySharedProperties {
     // Assign the entity to the property map
     this.entity = entity;
 
-    // Check if the entity has any properties in its storage
-    if (!this.entity.hasStorageEntry(EntitySharedProperties.PROPERTIES_KEY)) {
-      // If not, initialize an empty properties storage
-      this.entity.setStorageEntry(
-        EntitySharedProperties.PROPERTIES_KEY,
-        new CompoundTag()
-      );
+    // Get the initial properties from the entity's storage
+    const properties = entity.getStorageEntry<CompoundTag>(
+      EntitySharedProperties.PROPERTIES_KEY
+    );
+
+    // Check if there are any properties
+    if (properties) {
+      // Populate the properties map
+      for (const [key, value] of properties.entries()) {
+        // Set the property in the map
+        this.properties.set(key, value as SharedPropertyTag);
+      }
     }
 
     // Create independent copies of properties from the entity type
@@ -59,14 +70,12 @@ class EntitySharedProperties {
     }
 
     // Ensure all properties in the entity's storage exist in the entity type
-    for (const [key] of this.getAllSharedProperties()) {
+    for (const [key] of this.properties) {
       // Check if the property exists in the entity type
       if (entity.type.hasProperty(key)) continue;
 
-      // Remove the property from the entity's storage if it doesn't exist in the entity type
-      this.entity
-        .getStorageEntry<CompoundTag>(EntitySharedProperties.PROPERTIES_KEY)!
-        .delete(key);
+      // Delete the property from the entity's storage
+      this.properties.delete(key);
 
       // Log a warning to the console
       this.entity.world.logger.warn(
@@ -83,16 +92,8 @@ class EntitySharedProperties {
     // Prepare the result array
     const result: Array<[string, SharedPropertyValue]> = [];
 
-    // Get the properties storage from the entity
-    const storage = this.entity.getStorageEntry<CompoundTag>(
-      EntitySharedProperties.PROPERTIES_KEY
-    );
-
-    // If there is no properties storage, return an empty array
-    if (!storage) return result;
-
     // Iterate over the properties map
-    for (const [identifier, property] of storage.entries()) {
+    for (const [identifier, property] of this.properties) {
       // Cast the property to the appropriate tag type
       const tag = property as StringTag | FloatTag | IntTag | ByteTag;
 
@@ -123,7 +124,7 @@ class EntitySharedProperties {
    * @returns True if the property exists, false otherwise.
    */
   public hasSharedProperty(identifier: string): boolean {
-    return this.getAllSharedProperties().some(([key]) => key === identifier);
+    return this.properties.has(identifier);
   }
 
   /**
@@ -143,43 +144,34 @@ class EntitySharedProperties {
       );
     }
 
-    // Get the properties storage from the entity
-    const storage = this.entity.getStorageEntry<CompoundTag>(
-      EntitySharedProperties.PROPERTIES_KEY
-    );
+    // Get the property from from the properties map
+    const property = this.properties.get(identifier);
 
-    // If there is no properties storage, throw an error
-    if (!storage) {
+    // If there is no property, throw an error
+    if (!property) {
+      // Throw an error if the property is not found
       throw new Error(
-        `The entity "${this.entity.type.identifier}" is missing its properties storage. This indicates a logic error.`
+        `Property "${identifier}" not found on entity instance "${this.entity.type.identifier}" but it exists on the entity type. This indicates a logic error.`
       );
     }
 
-    // Iterate over the properties map
-    for (const [key, property] of storage.entries()) {
-      // Check if the key matches the identifier
-      if (key === identifier) {
-        // Cast the property to the appropriate tag type
-        const tag = property as StringTag | FloatTag | IntTag | ByteTag;
+    // Switch based on the tag type and return the value
+    switch (property.constructor) {
+      case StringTag:
+        return property.valueOf() as T;
+      case FloatTag:
+        return property.valueOf() as T;
+      case IntTag:
+        return property.valueOf() as T;
+      case ByteTag:
+        return (property.valueOf() !== 0) as T;
 
-        // Switch based on the tag type and return the value
-        switch (tag.constructor) {
-          case StringTag:
-            return tag.valueOf() as T;
-          case FloatTag:
-            return tag.valueOf() as T;
-          case IntTag:
-            return tag.valueOf() as T;
-          case ByteTag:
-            return (tag.valueOf() !== 0) as T;
-        }
-      }
+      // Fallback for unsupported tag types
+      default:
+        throw new Error(
+          `Unsupported property tag type: ${property.constructor.name}`
+        ); // Should never happen
     }
-
-    // Throw an error if the property is not found
-    throw new Error(
-      `Property "${identifier}" not found on entity instance "${this.entity.type.identifier}" but it exists on the entity type. This indicates a logic error.`
-    );
   }
 
   /**
@@ -196,18 +188,6 @@ class EntitySharedProperties {
       // Throw an error if the property does not exist
       throw new Error(
         `Property "${identifier}" does not exist on entity type "${this.entity.type.identifier}"`
-      );
-    }
-
-    // Get the storage from the entity
-    const storage = this.entity.getStorageEntry<CompoundTag>(
-      EntitySharedProperties.PROPERTIES_KEY
-    );
-
-    // If there is no storage, throw an error
-    if (!storage) {
-      throw new Error(
-        `The entity "${this.entity.type.identifier}" is missing its properties storage. This indicates a logic error.`
       );
     }
 
@@ -233,7 +213,7 @@ class EntitySharedProperties {
           );
 
         // Set the value in the storage
-        storage.set(identifier, new IntTag(value, identifier));
+        this.properties.set(identifier, new IntTag(value, identifier));
         break;
       }
 
@@ -254,7 +234,7 @@ class EntitySharedProperties {
           );
 
         // Set the value in the storage
-        storage.set(identifier, new FloatTag(value, identifier));
+        this.properties.set(identifier, new FloatTag(value, identifier));
         break;
       }
 
@@ -266,7 +246,7 @@ class EntitySharedProperties {
           );
 
         // Set the value in the storage
-        storage.set(identifier, new ByteTag(value ? 1 : 0, identifier));
+        this.properties.set(identifier, new ByteTag(value ? 1 : 0, identifier));
         break;
       }
 
@@ -290,10 +270,22 @@ class EntitySharedProperties {
           );
 
         // Set the value in the storage
-        storage.set(identifier, new StringTag(value, identifier));
+        this.properties.set(identifier, new StringTag(value, identifier));
         break;
       }
     }
+
+    // Create a new CompoundTag to hold the properties
+    const compound = new CompoundTag();
+    for (const [key, tag] of this.properties) {
+      compound.set(key, tag);
+    }
+
+    // Update the entity's storage with the new properties
+    this.entity.setStorageEntry(
+      EntitySharedProperties.PROPERTIES_KEY,
+      compound
+    );
 
     // Create a new SetActorDataPacket
     const packet = new SetActorDataPacket();
