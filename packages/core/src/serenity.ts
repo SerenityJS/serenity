@@ -487,40 +487,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     return this.generators.get(identifier) ?? null;
   }
 
-  /**
-   * Creates a new world using the specified provider
-   * @param provider The provider to use for the world
-   * @param properties The properties to use for the world
-   * @returns The created world, if successful; otherwise, false
-   */
-  public async createWorld(
-    provider: typeof WorldProvider,
-    properties?: Partial<WorldProperties>
-  ): Promise<World | null> {
-    // Get the provider properties from the registered providers
-    const providerProperties = this.providers.get(provider);
-
-    // Check if the provider is registered
-    if (!providerProperties) {
-      // Log that the provider is not registered
-      this.logger.error(
-        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
-      );
-
-      // Return false if the provider is not registered
-      return null;
-    }
-
-    // Create a new world using the provider
-    const world = await provider.create(this, providerProperties, properties);
-
-    // Register the world with the server
-    this.registerWorld(world);
-
-    // Return the created world
-    return world;
-  }
-
   public getWorld(): World;
   public getWorld(identifier: string): World | null;
   public getWorld(identifier?: string): World | null {
@@ -542,6 +508,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     return [...this.worlds.values()];
   }
 
+  /**
+   * Registers a world with the server
+   * @param world The world to register
+   * @returns Whether the world was successfully registered or not
+   */
   public registerWorld(world: World): boolean {
     // Check if the world is already registered
     if (this.worlds.has(world.identifier)) {
@@ -568,6 +539,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     return true;
   }
 
+  /**
+   * Unregisters a world from the server
+   * @param world The world to unregister
+   * @returns Whether the world was successfully unregistered or not
+   */
   public unregisterWorld(world: World): boolean {
     // Check if the world is registered
     if (!this.worlds.has(world.identifier)) {
@@ -595,6 +571,147 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     this.logger.debug(`Unregistered world: ${world.identifier}`);
 
     return true;
+  }
+
+  /**
+   * Creates a new world at the provider's worlds directory.
+   * @param provider The provider to use for the world.
+   * @param properties The properties to use for the world.
+   * @returns The created world, if successful; otherwise, false.
+   */
+  public async createWorldAtProviderTarget(
+    provider: typeof WorldProvider,
+    properties?: Partial<WorldProperties>
+  ): Promise<World | null> {
+    // Get the provider properties from the registered providers
+    const providerProperties = this.providers.get(provider);
+
+    // Check if the provider is registered
+    if (!providerProperties) {
+      // Log that the provider is not registered
+      this.logger.error(
+        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
+      );
+
+      // Return false if the provider is not registered
+      return null;
+    }
+
+    // Create a new world using the provider
+    const world = await provider.create(this, providerProperties, properties);
+
+    // Register the world with the server
+    this.registerWorld(world);
+
+    // Return the created world
+    return world;
+  }
+
+  /**
+   * Attempt to register a world from an existing path
+   * @param provider The provider to use for the world
+   * @param path The path to load the world from
+   * @returns The loaded world, if successful; otherwise, null
+   */
+  public async registerWorldFromPath(
+    provider: typeof WorldProvider,
+    path: string
+  ): Promise<World | null> {
+    // Get the provider properties from the registered providers
+    const providerProperties = this.providers.get(provider);
+
+    // Check if the provider is registered
+    if (!providerProperties) {
+      // Log that the provider is not registered
+      this.logger.error(
+        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
+      );
+
+      // Return false if the provider is not registered
+      return null;
+    }
+
+    // Prepare a variable to hold the loaded world
+    let world: World | null = null;
+
+    // Attempt to load the world from the specified path
+    try {
+      world = await provider.loadFromExistingPath(this, path);
+    } catch (reason) {
+      // Log the error if the world failed to load
+      this.logger.error(`Failed to load world from path: ${path}`, reason);
+    }
+
+    // Check if the world was loaded successfully
+    if (!world) {
+      // Log that the world failed to load
+      this.logger.error(`Failed to load world from path: ${path}`);
+
+      // Return null if the world failed to load
+      return null;
+    }
+
+    // Register the world with the server
+    this.registerWorld(world);
+
+    // Return the loaded world
+    return world;
+  }
+
+  /**
+   * Create a world from at a given path
+   * @param provider The provider to use for the world
+   * @param path The path to create the world at
+   * @param worldProperties The world properties to use for the world
+   * @returns The created world, if successful; otherwise, null
+   */
+  public async createWorldFromPath(
+    provider: typeof WorldProvider,
+    path: string,
+    worldProperties?: Partial<WorldProperties>
+  ): Promise<World | null> {
+    // Get the provider properties from the registered providers
+    const providerProperties = this.providers.get(provider);
+
+    // Check if the provider is registered
+    if (!providerProperties) {
+      // Log that the provider is not registered
+      this.logger.error(
+        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
+      );
+
+      // Return false if the provider is not registered
+      return null;
+    }
+
+    // Prepare a variable to hold the created world
+    let world: World | null = null;
+
+    // Attempt to create the world from the specified path
+    try {
+      world = await provider.createFromGivenPath(this, path, worldProperties);
+    } catch (reason) {
+      // Log the error if the world failed to create
+      this.logger.error(`Failed to create world from path: ${path}`, reason);
+
+      // Attempt to register the world from the path if creation failed
+      world = await this.registerWorldFromPath(provider, path);
+    }
+
+    // Check if the world was created successfully
+    if (!world) {
+      // Log that the world failed to create
+      this.logger.error(`Failed to create world from path: ${path}`);
+
+      // Return null if the world failed to create
+      return null;
+    }
+
+    // Register the world with the server
+    this.registerWorld(world);
+
+    // Return the created world
+    return world;
   }
 
   /**

@@ -12,20 +12,21 @@ import { Leveldb } from "@serenityjs/leveldb";
 import { DimensionType } from "@serenityjs/protocol";
 import { CompoundTag, LongTag } from "@serenityjs/nbt";
 
-import { BiomeStorage, Chunk, SubChunk } from "../chunk";
-import { Dimension } from "../dimension";
-import { Serenity } from "../../serenity";
+import { BiomeStorage, Chunk, SubChunk } from "../../chunk";
+import { Dimension } from "../../dimension";
+import { Serenity } from "../../../serenity";
 import {
   DimensionProperties,
   WorldProperties,
   WorldProviderProperties
-} from "../../types";
-import { World } from "../world";
-import { WorldInitializeSignal } from "../../events";
-import { Structure } from "../structure";
-import { BlockLevelStorage } from "../../block";
+} from "../../../types";
+import { World } from "../../world";
+import { WorldInitializeSignal } from "../../../events";
+import { Structure } from "../../structure";
+import { BlockLevelStorage } from "../../../block";
+import { WorldProvider } from "../provider";
 
-import { WorldProvider } from "./provider";
+import { LevelDBKeyBuilder } from "./key-builder";
 
 class LevelDBProvider extends WorldProvider {
   public static readonly identifier: string = "leveldb";
@@ -346,7 +347,7 @@ class LevelDBProvider extends WorldProvider {
     version: number
   ): void {
     // Create a key for the chunk version
-    const key = LevelDBProvider.buildChunkVersionKey(
+    const key = LevelDBKeyBuilder.buildChunkVersionKey(
       cx,
       cz,
       dimension.indexOf()
@@ -365,7 +366,7 @@ class LevelDBProvider extends WorldProvider {
   public hasChunk(cx: number, cz: number, dimension: Dimension): boolean {
     try {
       // Create a key for the chunk version.
-      const key = LevelDBProvider.buildChunkVersionKey(
+      const key = LevelDBKeyBuilder.buildChunkVersionKey(
         cx,
         cz,
         dimension.indexOf()
@@ -397,7 +398,7 @@ class LevelDBProvider extends WorldProvider {
     dimension: Dimension
   ): SubChunk {
     // Build the subchunk key for the database.
-    const key = LevelDBProvider.buildSubChunkKey(
+    const key = LevelDBKeyBuilder.buildSubChunkKey(
       cx,
       cy,
       cz,
@@ -430,7 +431,7 @@ class LevelDBProvider extends WorldProvider {
     dimension: Dimension
   ): void {
     // Create a key for the subchunk.
-    const key = LevelDBProvider.buildSubChunkKey(
+    const key = LevelDBKeyBuilder.buildSubChunkKey(
       cx,
       cy,
       cz,
@@ -450,7 +451,10 @@ class LevelDBProvider extends WorldProvider {
     dimension: Dimension
   ): Array<CompoundTag> {
     // Create a key for the chunk entities.
-    const entityListKey = LevelDBProvider.buildEntityListKey(chunk, dimension);
+    const entityListKey = LevelDBKeyBuilder.buildEntityListKey(
+      chunk,
+      dimension
+    );
 
     // Attempt to read the entities from the database.
     try {
@@ -466,7 +470,7 @@ class LevelDBProvider extends WorldProvider {
         const uniqueId = stream.readInt64(Endianness.Little);
 
         // Create a key for the entity data.
-        const entityKey = LevelDBProvider.buildEntityStorageKey(uniqueId);
+        const entityKey = LevelDBKeyBuilder.buildEntityStorageKey(uniqueId);
 
         // Read the player data from the database.
         const buffer = this.db.get(entityKey);
@@ -498,7 +502,10 @@ class LevelDBProvider extends WorldProvider {
     entities: Array<[bigint, CompoundTag]>
   ): void {
     // Create a key for the chunk entities.
-    const entityListKey = LevelDBProvider.buildEntityListKey(chunk, dimension);
+    const entityListKey = LevelDBKeyBuilder.buildEntityListKey(
+      chunk,
+      dimension
+    );
 
     // Create a new BinaryStream instance.
     const stream = new BinaryStream();
@@ -509,7 +516,8 @@ class LevelDBProvider extends WorldProvider {
       stream.writeInt64(uniqueId, Endianness.Little);
 
       // Build a key for the entity storage.
-      const entityStorageKey = LevelDBProvider.buildEntityStorageKey(uniqueId);
+      const entityStorageKey =
+        LevelDBKeyBuilder.buildEntityStorageKey(uniqueId);
 
       // Create a new BinaryStream instance.
       const storageStream = new BinaryStream();
@@ -530,7 +538,7 @@ class LevelDBProvider extends WorldProvider {
     dimension: Dimension
   ): Array<BlockLevelStorage> {
     // Create a key for the chunk blocks.
-    const blockListKey = LevelDBProvider.buildBlockStorageListKey(
+    const blockListKey = LevelDBKeyBuilder.buildBlockStorageListKey(
       chunk,
       dimension
     );
@@ -572,7 +580,7 @@ class LevelDBProvider extends WorldProvider {
     blocks: Array<BlockLevelStorage>
   ): void {
     // Create a key for the chunk blocks.
-    const blockListKey = LevelDBProvider.buildBlockStorageListKey(
+    const blockListKey = LevelDBKeyBuilder.buildBlockStorageListKey(
       chunk,
       dimension
     );
@@ -631,7 +639,7 @@ class LevelDBProvider extends WorldProvider {
     dimension: Dimension
   ): Array<BiomeStorage> {
     // Create a key for the chunk biomes.
-    const biomeListKey = LevelDBProvider.buildBiomeStorageKey(
+    const biomeListKey = LevelDBKeyBuilder.buildBiomeStorageKey(
       chunk.x,
       chunk.z,
       dimension.indexOf()
@@ -666,7 +674,7 @@ class LevelDBProvider extends WorldProvider {
 
   public writeChunkBiomes(chunk: Chunk, dimension: Dimension): void {
     // Create a key for the chunk biomes.
-    const biomeListKey = LevelDBProvider.buildBiomeStorageKey(
+    const biomeListKey = LevelDBKeyBuilder.buildBiomeStorageKey(
       chunk.x,
       chunk.z,
       dimension.indexOf()
@@ -836,153 +844,84 @@ class LevelDBProvider extends WorldProvider {
     return world;
   }
 
-  /**
-   * Build a subchunk key for the database.
-   * @param cx The chunk X coordinate.
-   * @param cy The subchunk Y coordinate.
-   * @param cz The chunk Z coordinate.
-   * @param index The dimension index.
-   * @returns The buffer key for the subchunk
-   */
-  public static buildSubChunkKey(
-    cx: number,
-    cy: number,
-    cz: number,
-    index: number
-  ): Buffer {
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
+  public static async loadFromExistingPath(
+    serenity: Serenity,
+    path: string
+  ): Promise<World> {
+    // Resolve the path for the world directory.
+    path = resolve(path);
 
-    // Write the chunk coordinates to the stream.
-    stream.writeInt32(cx, Endianness.Little);
-    stream.writeInt32(cz, Endianness.Little);
+    // Check if the path provided exists.
+    // If it does not exist, throw an error.
+    if (!existsSync(path))
+      throw new Error(
+        `World directory at path ${path} does not exist, try creating it instead.`
+      );
 
-    // Check if the index is not 0.
-    if (index !== 0) stream.writeInt32(index, Endianness.Little);
-
-    // Write the query key to the stream.
-    stream.writeUint8(0x2f);
-
-    // Write the subchunk index to the stream.
-    stream.writeInt8(cy);
-
-    // Return the buffer from the stream.
-    return stream.getBuffer();
-  }
-
-  /**
-   * Build a chunk version key for the database.
-   * @param cx The chunk X coordinate.
-   * @param cz The chunk Z coordinate.
-   * @param index The dimension index.
-   * @returns The buffer key for the chunk version
-   */
-  public static buildChunkVersionKey(
-    cx: number,
-    cz: number,
-    index: number
-  ): Buffer {
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
-
-    // Write the chunk coordinates to the stream.
-    stream.writeInt32(cx, Endianness.Little);
-    stream.writeInt32(cz, Endianness.Little);
-
-    // Check if the index is not 0.
-    if (index !== 0) {
-      stream.writeInt32(index, Endianness.Little);
+    // Get the world properties.
+    let worldProperties: Partial<WorldProperties> = {};
+    if (existsSync(resolve(path, "properties.json"))) {
+      // Read the properties of the world.
+      worldProperties = JSON.parse(
+        readFileSync(resolve(path, "properties.json"), "utf-8")
+      );
     }
 
-    // Write the chunk version byte to the stream.
-    stream.writeUint8(0x2c);
+    // Check if a world identifier was provided.
+    if (!worldProperties.identifier)
+      throw new Error(
+        `World at path ${path} does not have a valid identifier in its properties file.`
+      );
 
-    // Return the buffer from the stream
-    return stream.getBuffer();
+    // Create a new world instance.
+    const world = new World(serenity, new this(path), worldProperties);
+
+    // Create a new WorldInitializedSignal instance.
+    new WorldInitializeSignal(world).emit();
+
+    // Return the loaded world.
+    return world;
   }
 
-  /**
-   * Build an entity list key for the database.
-   * @param dimension The dimension to build the key for.
-   * @returns The buffer key for the actor list
-   */
-  public static buildEntityListKey(chunk: Chunk, dimension: Dimension): Buffer {
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
+  public static async createFromGivenPath(
+    serenity: Serenity,
+    path: string,
+    worldProperties?: Partial<WorldProperties>
+  ): Promise<World> {
+    // Resolve the path for the world directory.
+    path = resolve(path);
 
-    // Write the key symbol to the stream
-    stream.writeInt32(0x64_69_67_70);
+    // Check if the path provided exists.
+    // If it does exist, throw an error.
+    if (existsSync(path))
+      throw new Error(
+        `World directory at path ${path} already exists, try loading it instead.`
+      );
 
-    // Check if the index is not 0.
-    if (dimension.indexOf() !== 0)
-      stream.writeInt32(dimension.indexOf(), Endianness.Little);
+    // Check if a world identifier was provided.
+    if (!worldProperties?.identifier)
+      throw new Error("A world identifier is required to create a new world.");
 
-    // Write the chunk coordinates to the stream.
-    stream.writeInt32(chunk.x, Endianness.Little);
-    stream.writeInt32(chunk.z, Endianness.Little);
+    // Create the world directory.
+    mkdirSync(path, { recursive: true });
 
-    // Return the buffer from the stream.
-    return stream.getBuffer();
-  }
+    // Create a new world instance.
+    const world = new World(serenity, new this(path), worldProperties);
 
-  /**
-   * Build an entity storage key for the database.
-   * @param uniqueId The unique identifier of the entity.
-   * @returns The buffer key for the entity storage
-   */
-  public static buildEntityStorageKey(uniqueId: bigint): Buffer {
-    // Create a new BinaryStream instance with a prefix.
-    const stream = new BinaryStream(Buffer.from("actorprefix", "ascii"));
+    // Assign the world to the provider.
+    world.provider.world = world;
 
-    // Write the unique identifier to the stream.
-    stream.writeInt64(uniqueId, Endianness.Little);
+    // Create a new WorldInitializedSignal instance.
+    new WorldInitializeSignal(world).emit();
 
-    // Return the buffer from the stream.
-    return stream.getBuffer();
-  }
+    // Create the properties file for the world.
+    writeFileSync(
+      resolve(path, "properties.json"),
+      JSON.stringify(world.properties, null, 2)
+    );
 
-  public static buildBlockStorageListKey(
-    chunk: Chunk,
-    dimension: Dimension
-  ): Buffer {
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
-
-    // Write the chunk coordinates to the stream.
-    stream.writeInt32(chunk.x, Endianness.Little);
-    stream.writeInt32(chunk.z, Endianness.Little);
-
-    // Check if the index is not 0.
-    if (dimension.indexOf() !== 0)
-      stream.writeUint32(dimension.indexOf(), Endianness.Little);
-
-    // Write the key symbol to the stream.
-    stream.writeUint8(49); // Block actor list key symbol
-
-    // Return the buffer from the stream.
-    return stream.getBuffer();
-  }
-
-  public static buildBiomeStorageKey(
-    cx: number,
-    cz: number,
-    index: number
-  ): Buffer {
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
-
-    // Write the chunk coordinates to the stream.
-    stream.writeInt32(cx, Endianness.Little);
-    stream.writeInt32(cz, Endianness.Little);
-
-    // Check if the index is not 0.
-    if (index !== 0) stream.writeInt32(index, Endianness.Little);
-
-    // Write the biome key symbol to the stream.
-    stream.writeUint8(0x2b);
-
-    // Return the buffer from the stream
-    return stream.getBuffer();
+    // Return the created world.
+    return world;
   }
 }
 
