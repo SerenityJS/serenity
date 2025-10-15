@@ -1,5 +1,5 @@
 import Gamemode from "./gamemode";
-import Gamerule from "./gamerule"
+import Gamerule from "./gamerule";
 import Ability from "./ability";
 import Clear from "./clear";
 import Fill from "./fill";

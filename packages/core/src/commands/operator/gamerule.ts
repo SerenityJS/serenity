@@ -22,22 +22,24 @@ const register = (world: World) => {
         },
         (context) => {
           // Get the gamerule from the context
-          const gamerule = context.rule.result!
+          const gamerule = context.rule.result!;
 
           // Get the new value from the context
-          const value = context.value.result
+          const value = context.value.result;
 
           if (value === null) {
             // If no value is defined, print the current rule value.
-            const currentValue = world.gamerules[gamerule as GameRule]
-            return { message: `§f${gamerule} = ${currentValue}` }
+            const currentValue = world.gamerules[gamerule as GameRule];
+            return { message: `§f${gamerule} = ${currentValue}` };
           } else {
             // Set the new rule value.
-            world.gamerules[gamerule as GameRule] = value
+            world.gamerules[gamerule as GameRule] = value;
           }
 
           // Return the success message
-          return { message: `§fGamerule ${gamerule} has been updated to ${value}` };
+          return {
+            message: `§fGamerule ${gamerule} has been updated to ${value}`
+          };
         }
       );
 
@@ -49,26 +51,28 @@ const register = (world: World) => {
         },
         (context) => {
           // Get the gamerule from the context
-          const gamerule = context.rule.result!
+          const gamerule = context.rule.result!;
 
           // Get the new value from the context
-          const value = context.value.result
+          const value = context.value.result;
 
           if (value === null) {
             // If no value is defined, print the current rule value.
-            const currentValue = world.gamerules[gamerule as GameRule]
-            return { message: `§f${gamerule} = ${currentValue}` }
+            const currentValue = world.gamerules[gamerule as GameRule];
+            return { message: `§f${gamerule} = ${currentValue}` };
           } else {
             // Set the new rule value.
-            world.gamerules[gamerule as GameRule] = value
+            world.gamerules[gamerule as GameRule] = value;
           }
 
           // Return the success message
-          return { message: `§fGamerule ${gamerule} has been updated to ${value}` };
+          return {
+            message: `§fGamerule ${gamerule} has been updated to ${value}`
+          };
         }
       );
     },
-    () => { }
+    () => {}
   );
 };
 
