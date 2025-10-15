@@ -31,7 +31,8 @@ enum GameRule {
   ShowRecipeMessages = "showRecipeMessages",
   ProjectilesCanBreakBlocks = "projectilesCanBreakBlocks",
   TNTExplosionDropDecay = "tntExplosionDropDecay",
-  RandomTickSpeed = "randomTickSpeed"
+  RandomTickSpeed = "randomTickSpeed",
+  LocatorBar = "locatorBar"
 }
 
 export { GameRule };
