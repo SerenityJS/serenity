@@ -10,7 +10,6 @@ import {
 
 import { BinaryStream } from "@serenityjs/binarystream";
 import { CompoundTag, ListTag, LongTag } from "@serenityjs/nbt";
-import { BlockPosition } from "@serenityjs/protocol";
 
 import { Serenity } from "../../serenity";
 import {
@@ -23,7 +22,7 @@ import { WorldInitializeSignal } from "../../events";
 import { Structure } from "../structure";
 import { Chunk } from "../chunk";
 import { Dimension } from "../dimension";
-import { Block, BlockLevelStorage } from "../../block";
+import { BlockLevelStorage } from "../../block";
 
 import { WorldProvider } from "./provider";
 
@@ -181,14 +180,8 @@ class FileSystemProvider extends WorldProvider {
         if (blocks.length > 0) {
           // Iterate through the blocks and add them to the chunk.
           for (const storage of blocks) {
-            // Create a new block instance of the block permutation.
-            const block = new Block(dimension, storage.getPosition());
-
-            // Hash the block position to use as a key.
-            const hash = BlockPosition.hash(block.position);
-
-            // Add the block to the dimension blocks collection.
-            dimension.blocks.set(hash, block);
+            // Set the block storage in the chunk.
+            chunk.setBlockStorage(storage.getPosition(), storage, false);
           }
         }
 
