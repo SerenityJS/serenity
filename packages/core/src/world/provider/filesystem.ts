@@ -197,6 +197,9 @@ class FileSystemProvider extends WorldProvider {
         // Add the chunk to the dimension's chunk map.
         chunks.set(chunk.hash, chunk.insert(resultant));
 
+        // Populate the chunk with structures and other features.
+        await dimension.generator.populate?.(chunk);
+
         // Return the chunk.
         return chunk;
       }
