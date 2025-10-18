@@ -617,20 +617,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     provider: typeof WorldProvider,
     path: string
   ): Promise<World | null> {
-    // Get the provider properties from the registered providers
-    const providerProperties = this.providers.get(provider);
-
-    // Check if the provider is registered
-    if (!providerProperties) {
-      // Log that the provider is not registered
-      this.logger.error(
-        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
-      );
-
-      // Return false if the provider is not registered
-      return null;
-    }
-
     // Prepare a variable to hold the loaded world
     let world: World | null = null;
 
@@ -670,20 +656,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     path: string,
     worldProperties?: Partial<WorldProperties>
   ): Promise<World | null> {
-    // Get the provider properties from the registered providers
-    const providerProperties = this.providers.get(provider);
-
-    // Check if the provider is registered
-    if (!providerProperties) {
-      // Log that the provider is not registered
-      this.logger.error(
-        `Failed to create world, as the given provider is not registered: ${provider.identifier}`
-      );
-
-      // Return false if the provider is not registered
-      return null;
-    }
-
     // Prepare a variable to hold the created world
     let world: World | null = null;
 
