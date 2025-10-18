@@ -645,6 +645,86 @@ class FileSystemProvider extends WorldProvider {
     // Return the created world instance.
     return world;
   }
+
+  public static async loadFromExistingPath(
+    serenity: Serenity,
+    path: string
+  ): Promise<World> {
+    // Resolve the path for the world directory.
+    path = resolve(path);
+
+    // Check if the path provided exists.
+    // If it does not exist, throw an error.
+    if (!existsSync(path))
+      throw new Error(
+        `World directory at path ${path} does not exist, try creating it instead.`
+      );
+
+    // Get the world properties.
+    let worldProperties: Partial<WorldProperties> = {};
+    if (existsSync(resolve(path, "properties.json"))) {
+      // Read the properties of the world.
+      worldProperties = JSON.parse(
+        readFileSync(resolve(path, "properties.json"), "utf-8")
+      );
+    }
+
+    // Check if a world identifier was provided.
+    if (!worldProperties.identifier)
+      throw new Error(
+        `World at path ${path} does not have a valid identifier in its properties file.`
+      );
+
+    // Create a new world instance.
+    const world = new World(serenity, new this(path), worldProperties);
+
+    // Create a new WorldInitializedSignal instance.
+    new WorldInitializeSignal(world).emit();
+
+    // Return the created world instance.
+    return world;
+  }
+
+  public static async createFromGivenPath(
+    serenity: Serenity,
+    path: string,
+    worldProperties?: Partial<WorldProperties>
+  ): Promise<World> {
+    // Resolve the path for the world directory.
+    path = resolve(path);
+
+    // Check if the path provided exists.
+    // If it does exist, throw an error.
+    if (existsSync(path))
+      throw new Error(
+        `World directory at path ${path} already exists, try loading it instead.`
+      );
+
+    // Check if a world identifier was provided.
+    if (!worldProperties?.identifier)
+      throw new Error("A world identifier is required to create a new world.");
+
+    // Create the world directory.
+    mkdirSync(path, { recursive: true });
+
+    // Create a new world instance.
+    const world = new World(serenity, new this(path), worldProperties);
+
+    // Assign the world to the provider.
+    world.provider.world = world;
+
+    // Create a new WorldInitializedSignal instance.
+    new WorldInitializeSignal(world).emit();
+
+    // Create the properties file for the world.
+    writeFileSync(
+      resolve(path, "properties.json"),
+      JSON.stringify(world.properties, null, 2)
+    );
+
+    // Return the created world.
+    return world;
+  }
 }
 
 export { FileSystemProvider };
