@@ -2,6 +2,7 @@ import { Attribute, AttributeName } from "@serenityjs/protocol";
 import { FloatTag, IntTag } from "@serenityjs/nbt";
 
 import { PlayerDropExperienceSignal } from "../../../events";
+import { EntityDeathOptions } from "../../..";
 
 import { PlayerTrait } from "./trait";
 
@@ -166,9 +167,10 @@ class PlayerLevelingTrait extends PlayerTrait {
     this.player.removeStorageEntry("PlayerLevelProgress");
   }
 
-  public onDeath(): void {
+  public onDeath(options: EntityDeathOptions): void {
     // Check if keep inventory is enabled, if so, do not reset level or experience
-    if (this.player.world.gamerules.keepInventory === true) return;
+    if (options.cancel || this.player.world.gamerules.keepInventory === true)
+      return;
 
     // Calculate the amount of xp orbs to spawn
     let experience =

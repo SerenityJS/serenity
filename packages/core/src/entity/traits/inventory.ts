@@ -13,7 +13,7 @@ import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStackKeepOnDieTrait, ItemStack } from "../../item";
-import { EntityInventoryTraitOptions } from "../../types";
+import { EntityDeathOptions, EntityInventoryTraitOptions } from "../../types";
 import { Container } from "../../container";
 import { Player } from "../player";
 
@@ -243,9 +243,12 @@ class EntityInventoryTrait extends EntityTrait {
     this.container.show(player);
   }
 
-  public onDeath(): void {
+  public onDeath(options: EntityDeathOptions): void {
     // Check if the entity is a player, and the keep inventory gamerule is enabled
-    if (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+    if (
+      options.cancel ||
+      (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+    )
       return;
 
     // Iterate over the container slots
