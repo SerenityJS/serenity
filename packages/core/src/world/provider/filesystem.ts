@@ -678,6 +678,45 @@ class FileSystemProvider extends WorldProvider {
     // Create a new world instance.
     const world = new World(serenity, new this(path), worldProperties);
 
+    // Check if the world directory contains a dimensions directory.
+    if (!existsSync(resolve(path, "dimensions")))
+      // Create the dimensions directory if it does not exist.
+      mkdirSync(resolve(path, "dimensions"));
+
+    // Check if the world directory contains a players directory.
+    if (!existsSync(resolve(path, "players")))
+      // Create the players directory if it does not exist.
+      mkdirSync(resolve(path, "players"));
+
+    // Check if the world directory contains a structures directory.
+    if (!existsSync(resolve(path, "structures")))
+      // Create the structures directory if it does not exist.
+      mkdirSync(resolve(path, "structures"));
+
+    // Iterate through all the dimensions in the world directory.
+    for (const [identifier] of world.dimensions) {
+      const dimensionPath = resolve(path, "dimensions", identifier);
+
+      // Check if the dimension directory exists.
+      if (!existsSync(dimensionPath))
+        // Create the dimension directory if it does not exist.
+        mkdirSync(dimensionPath);
+
+      // Check if the dimension directory contains a chunks directory.
+      if (!existsSync(resolve(dimensionPath, "chunks")))
+        // Create the chunks directory if it does not exist.
+        mkdirSync(resolve(dimensionPath, "chunks"));
+
+      // Check if the dimension directory contains an entities directory.
+      if (!existsSync(resolve(dimensionPath, "entities")))
+        // Create the entities directory if it does not exist.
+        mkdirSync(resolve(dimensionPath, "entities"));
+
+      // Check if the dimension directory contains a blocks directory.
+      if (!existsSync(resolve(dimensionPath, "blocks")))
+        // Create the blocks directory if it does not exist.
+        mkdirSync(resolve(dimensionPath, "blocks"));
+    }
     // Create a new WorldInitializedSignal instance.
     new WorldInitializeSignal(world).emit();
 
@@ -710,8 +749,45 @@ class FileSystemProvider extends WorldProvider {
     // Create a new world instance.
     const world = new World(serenity, new this(path), worldProperties);
 
-    // Assign the world to the provider.
-    world.provider.world = world;
+    // Check if the world directory contains a dimensions directory.
+    if (!existsSync(resolve(path, "dimensions")))
+      // Create the dimensions directory if it does not exist.
+      mkdirSync(resolve(path, "dimensions"));
+
+    // Check if the world directory contains a players directory.
+    if (!existsSync(resolve(path, "players")))
+      // Create the players directory if it does not exist.
+      mkdirSync(resolve(path, "players"));
+
+    // Check if the world directory contains a structures directory.
+    if (!existsSync(resolve(path, "structures")))
+      // Create the structures directory if it does not exist.
+      mkdirSync(resolve(path, "structures"));
+
+    // Iterate through all the dimensions in the world directory.
+    for (const [identifier] of world.dimensions) {
+      const dimensionPath = resolve(path, "dimensions", identifier);
+
+      // Check if the dimension directory exists.
+      if (!existsSync(dimensionPath))
+        // Create the dimension directory if it does not exist.
+        mkdirSync(dimensionPath);
+
+      // Check if the dimension directory contains a chunks directory.
+      if (!existsSync(resolve(dimensionPath, "chunks")))
+        // Create the chunks directory if it does not exist.
+        mkdirSync(resolve(dimensionPath, "chunks"));
+
+      // Check if the dimension directory contains an entities directory.
+      if (!existsSync(resolve(dimensionPath, "entities")))
+        // Create the entities directory if it does not exist.
+        mkdirSync(resolve(dimensionPath, "entities"));
+
+      // Check if the dimension directory contains a blocks directory.
+      if (!existsSync(resolve(dimensionPath, "blocks")))
+        // Create the blocks directory if it does not exist.
+        mkdirSync(resolve(dimensionPath, "blocks"));
+    }
 
     // Create a new WorldInitializedSignal instance.
     new WorldInitializeSignal(world).emit();
