@@ -18,6 +18,7 @@ import { NetworkHandler } from "../network";
 import { ClientSystemInfo, Player } from "../entity";
 import { PlayerProperties } from "../types";
 import { PlayerJoinSignal } from "../events";
+import { AuthenticationType } from "@serenityjs/protocol/src/types/authentication-type";
 
 class LoginHandler extends NetworkHandler {
   public static readonly packet = Packet.Login;
@@ -28,7 +29,23 @@ class LoginHandler extends NetworkHandler {
     // Decode the tokens given by the client.
     // This contains the client data, identity data, and public key.
     // Along with the players XUID, display name, and uuid.
-    const { clientData, identityData } = LoginHandler.decode(packet.tokens);
+    const { clientData, identityData, authenticationType } = LoginHandler.decode(packet.tokens);
+
+    // Check if the authentication type is valid.
+    // The LoginPacket passes one of three authentication types:
+    // 0 - Standard, the player is using their own token to connect.
+    // 1 - The connection is coming from a guest split screen session using the host's token.
+    // 2 - The connection is not authenticated.
+    // By default, we do not want to allow guest or unauthenticated connections to the server.
+
+    if (authenticationType !== AuthenticationType.Full && !this.serenity.properties.allowUnsignedConnections) {
+      // Disconnect the player.
+      return this.network.disconnectConnection(
+        connection,
+        "Failed to authenticate. Make sure you are connected to Xbox Live before joining the server.",
+        DisconnectReason.NotAuthenticated
+      );
+    }
 
     // Get the clients xuid and username.
     const xuid = identityData.XUID;
@@ -159,7 +176,7 @@ class LoginHandler extends NetworkHandler {
     const clientData: ClientData = this.decoder(tokens.client);
 
     // Parse the identity data from the tokens
-    const identity: { Certificate: string } = JSON.parse(tokens.identity);
+    const identity: { AuthenticationType: number, Certificate: string } = JSON.parse(tokens.identity);
 
     // Get the identity chain from the identity data
     const chains: Array<string> = JSON.parse(identity.Certificate).chain;
@@ -181,7 +198,8 @@ class LoginHandler extends NetworkHandler {
     return {
       clientData,
       identityData,
-      publicKey
+      publicKey,
+      authenticationType: identity.AuthenticationType
     };
   }
 }
