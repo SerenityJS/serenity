@@ -18,6 +18,7 @@ import {
   ItemStackWearableTrait
 } from "../../item";
 import { Container } from "../../container";
+import { EntityDeathOptions } from "../..";
 
 import { EntityInventoryTrait } from "./inventory";
 import { EntityTrait } from "./trait";
@@ -286,9 +287,12 @@ class EntityEquipmentTrait extends EntityTrait {
     this.entity.removeStorageEntry("Armor");
   }
 
-  public onDeath(): void {
+  public onDeath(options: EntityDeathOptions): void {
     // Check if the entity is a player, and the keep inventory gamerule is enabled
-    if (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+    if (
+      options.cancel ||
+      (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+    )
       return;
 
     // Iterate over the armor container slots

@@ -938,15 +938,25 @@ class Entity {
     options = {
       killerSource: null,
       damageCause: ActorDamageCause.None,
+      cancel: false,
       ...options
     };
 
     // Create a new EntityDieSignal
-    new EntityDiedSignal(this, options as EntityDeathOptions).emit();
+    const success = new EntityDiedSignal(
+      this,
+      options as EntityDeathOptions
+    ).emit();
+
+    // Set the cancel option based on the signal result
+    options.cancel = !success;
 
     // Trigger the onDeath trait event for the entity
     for (const [, trait] of this.traits)
       trait.onDeath?.(options as EntityDeathOptions);
+
+    // Check if the death was cancelled
+    if (options.cancel) return;
 
     // Set the entity as not alive
     this.isAlive = false;
