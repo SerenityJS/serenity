@@ -39,7 +39,8 @@ import type {
   PlayerUseItemOnEntitySignal,
   BlockPermutationUpdateSignal,
   ItemStackDamagedSignal,
-  PlayerDropExperienceSignal
+  PlayerDropExperienceSignal,
+  PlayerEditSignSignal
 } from "../../events";
 
 interface WorldEventSignals {
@@ -80,6 +81,7 @@ interface WorldEventSignals {
   [WorldEvent.PlayerClosedContainer]: [PlayerClosedContainerSignal];
   [WorldEvent.PlayerContainerInteraction]: [PlayerContainerInteractionSignal];
   [WorldEvent.PlayerDropExperience]: [PlayerDropExperienceSignal];
+  [WorldEvent.PlayerEditSign]: [PlayerEditSignSignal];
   [WorldEvent.BlockUpdate]: [];
   [WorldEvent.BlockPermutationUpdate]: [BlockPermutationUpdateSignal];
   [WorldEvent.ItemStackDamaged]: [ItemStackDamagedSignal];
