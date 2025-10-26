@@ -87,7 +87,7 @@ class ItemStackLiquidContainerTrait extends ItemStackTrait {
           const itemStack = new ItemStack(ItemIdentifier.Bucket);
 
           // Get the current slot of the item
-          const slot = this.item.slot;
+          const slot = this.item.getSlot();
 
           // Set the new ItemStack in the slot
           this.item.container?.setItem(slot, itemStack);
@@ -118,7 +118,7 @@ class ItemStackLiquidContainerTrait extends ItemStackTrait {
           const itemStack = new ItemStack(ItemIdentifier.Bucket);
 
           // Get the current slot of the item
-          const slot = this.item.slot;
+          const slot = this.item.getSlot();
 
           // Set the new ItemStack in the slot
           this.item.container?.setItem(slot, itemStack);

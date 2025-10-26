@@ -1382,19 +1382,19 @@ class Entity {
     };
 
     // Iterate over the traits of the item stack
-    for (const [identifier, trait] of itemStack.traits) {
+    for (const trait of itemStack.getAllTraits()) {
       try {
         // Call the onDropped trait event
         trait.onDropped?.(options);
       } catch (reason) {
         // Log the error to the console
         this.world.serenity.logger.error(
-          `Failed to trigger onDropped trait event for item "${identifier}" in entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          `Failed to trigger onDropped trait event for item "${trait.identifier}" in entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
           reason
         );
 
         // Remove the trait from the item stack
-        itemStack.traits.delete(identifier);
+        itemStack.removeTrait(trait.identifier);
       }
     }
 
@@ -1404,7 +1404,7 @@ class Entity {
     // Check if the signal was cancelled
     if (!signal.emit() || options.cancelled) {
       // Update the item stack
-      itemStack.update();
+      itemStack.container?.updateSlot(itemStack.getSlot());
 
       // Check if the container is a cursor & if the entity is a player
       if (container.identifier === ContainerId.Ui && this.isPlayer()) {

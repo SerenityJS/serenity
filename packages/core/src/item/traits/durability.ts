@@ -248,7 +248,7 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
       this.item.decrementStack();
 
       // Check if the item stack is empty after decrementing
-      if (this.item.stackSize > 0) this.setDamage(0); // Reset damage if still usable
+      if (this.item.getStackSize() > 0) this.setDamage(0); // Reset damage if still usable
     }
   }
 }
