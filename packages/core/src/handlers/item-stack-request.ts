@@ -87,7 +87,18 @@ class ItemStackRequestHandler extends NetworkHandler {
                   const itemStack = new ItemStack(item, { stackSize: amount });
 
                   // Add the item stack to the player's inventory.
-                  destination?.setItem(destinationSlot, itemStack);
+                  const destinationItem = destination.getItem(destinationSlot);
+                  if (destinationItem && destinationItem.identifier === itemStack.identifier) {
+                    const count = Math.min(destinationItem.maxStackSize - destinationItem.getStackSize(), itemStack.getStackSize());
+                    destinationItem.incrementStack(count);
+                    itemStack.setStackSize(itemStack.getStackSize() - count);
+                  }
+                  let addCount = itemStack.getStackSize();
+                  while (addCount > 0) {
+                    itemStack.setStackSize(Math.min(addCount, itemStack.maxStackSize));
+                    destination?.addItem(itemStack);
+                    addCount -= itemStack.getStackSize();
+                  }
                 } else {
                   // Copy the item stack and set the stack size.
                   const itemStack = ItemStack.from(item);
@@ -96,7 +107,21 @@ class ItemStackRequestHandler extends NetworkHandler {
                   itemStack.setStackSize(itemStack.getStackSize() * amount);
 
                   // Add the item stack to the player's inventory.
-                  destination?.setItem(destinationSlot, itemStack);
+                  const destinationItem = destination.getItem(destinationSlot);
+                  if (destinationItem && destinationItem.identifier === itemStack.identifier) {
+                    const count = Math.min(destinationItem.maxStackSize - destinationItem.getStackSize(), itemStack.getStackSize());
+                    destinationItem.incrementStack(count);
+                    itemStack.setStackSize(itemStack.getStackSize() - count);
+                  }
+                  let addCount = itemStack.getStackSize();
+                  const items = destination.storage
+                  while (addCount > 0) {
+                    const emptySlot = items.indexOf(null);
+                    if (emptySlot === -1) break;
+                    itemStack.setStackSize(Math.min(addCount, itemStack.maxStackSize));
+                    destination?.setItem(emptySlot, itemStack);
+                    addCount -= itemStack.getStackSize();
+                  }
                 }
               }
 
@@ -291,7 +316,10 @@ class ItemStackRequestHandler extends NetworkHandler {
           const item = container.getItem(slot);
 
           // Check if the item exists.
-          if (item) item.decrementStack(amount);
+          if (item) {
+            if (item.getStackSize() > 1) item.decrementStack(amount);
+            else container.clearSlot(slot);
+          }
         }
 
         if (action.craftRecipe) {
