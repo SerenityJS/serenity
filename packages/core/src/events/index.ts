@@ -40,3 +40,4 @@ export * from "./block-permutation-update";
 export * from "./item-stack-damaged";
 export * from "./player-drop-experience";
 export * from "./player-edit-sign";
+export * from "./player-craft-recipe";

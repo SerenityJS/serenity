@@ -8,8 +8,15 @@ import {
 
 import { NetworkHandler } from "../network";
 import { ItemStack, ItemType } from "../item";
-import { PlayerCraftingInputTrait, PlayerCursorTrait } from "../entity";
-import { PlayerContainerInteractionSignal } from "../events";
+import {
+  EntityInventoryTrait,
+  PlayerCraftingInputTrait,
+  PlayerCursorTrait
+} from "../entity";
+import {
+  PlayerContainerInteractionSignal,
+  PlayerCraftRecipeSignal
+} from "../events";
 
 class ItemStackRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ItemStackRequest;
@@ -284,6 +291,42 @@ class ItemStackRequestHandler extends NetworkHandler {
           // Check if the container exists.
           if (!container) continue;
 
+          // Check if the source is the crafting input.
+          // NOTE: Handles the canceling of crafting when items are removed from the crafting grid.
+          if (source.container.identifier === ContainerName.CraftingInput) {
+            // Get the player's crafting input trait.
+            const craftingInput = player.getTrait(PlayerCraftingInputTrait);
+
+            // Check if the crafting input exists.
+            if (!craftingInput)
+              throw new Error("Player does not have a crafting input trait.");
+
+            // Check if there is a pending crafting recipe.
+            if (!craftingInput.pendingCraftingRecipe) {
+              // Get the source slot.
+              const slot = source.slot % container.size;
+
+              // Get the item from the container.
+              const item = container.takeItem(slot, amount);
+
+              // Check if the item exists.
+              if (item) {
+                // Move the item to the player's inventory.
+                const inventory = player.getTrait(EntityInventoryTrait);
+
+                // Check if the inventory exists.
+                if (!inventory)
+                  throw new Error("Player does not have an inventory trait.");
+
+                // Add the item to the inventory.
+                inventory.container.addItem(item);
+              }
+
+              // Break out of the action.
+              continue;
+            }
+          }
+
           // Calculate the source slot.
           const slot = source.slot % container.size;
 
@@ -315,9 +358,22 @@ class ItemStackRequestHandler extends NetworkHandler {
           if (!craftingInput)
             throw new Error("Player does not have a crafting input trait.");
 
-          // Set the pending crafting recipe.
-          craftingInput.pendingCraftingRecipe = recipe;
-          craftingInput.pendingCraftingAmount = amount;
+          // Create a new PlayerCraftRecipeSignal.
+          const signal = new PlayerCraftRecipeSignal(player, recipe, amount);
+
+          // Emit the signal.
+          if (!signal.emit()) {
+            // Nullify the pending crafting recipe and amount.
+            craftingInput.pendingCraftingRecipe = null;
+            craftingInput.pendingCraftingAmount = null;
+
+            // Continue to the next action.
+            continue;
+          }
+
+          // Set the pending crafting recipe and amount.
+          craftingInput.pendingCraftingRecipe = signal.recipe;
+          craftingInput.pendingCraftingAmount = signal.amount;
         }
 
         if (action.craftCreative) {

@@ -37,6 +37,7 @@ enum WorldEvent {
   PlayerContainerInteraction,
   PlayerDropExperience,
   PlayerEditSign,
+  PlayerCraftRecipe,
   BlockUpdate,
   BlockPermutationUpdate,
   ItemStackDamaged
