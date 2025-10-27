@@ -11,6 +11,7 @@ interface SerenityProperties {
   movementValidation: boolean;
   movementHorizontalThreshold: number;
   movementVerticalThreshold: number;
+  allowUnsignedConnections: boolean;
   shutdownMessage: string;
   ticksPerSecond: number;
   debugLogging: boolean;
