@@ -14,12 +14,12 @@ class NewIncomingConnection extends BasePacket {
   /**
    * the server adress of the reply.
    */
-  @Serialize(Address) public serverAddress!: string;
+  @Serialize(Address) public serverAddress!: Address;
 
   /**
    * unknown what this is used for.
    */
-  @Serialize(Address) public internalAddress!: string;
+  @Serialize(Address) public internalAddress!: Address;
 
   /**
    * The incoming timestamp of the reply.
