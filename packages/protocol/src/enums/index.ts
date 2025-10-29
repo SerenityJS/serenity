@@ -116,3 +116,4 @@ export * from "./violation-type";
 export * from "./wearable-slot";
 export * from "./control-scheme";
 export * from "./aim-assist-mode";
+export * from "./graphics-override-parameter-type";

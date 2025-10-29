@@ -49,6 +49,7 @@ export * from "./emote";
 export * from "./emote-list";
 export * from "./entity-pick-request";
 export * from "./game-rules-changed";
+export * from "./graphics-override-parameter";
 export * from "./hurt-armor";
 export * from "./interact";
 export * from "./inventory-content";

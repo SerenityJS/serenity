@@ -45,6 +45,7 @@ import type {
   EmotePacket,
   EntityPickRequestPacket,
   GameRulesChangedPacket,
+  GraphicsOverrideParameterPacket,
   HurtArmorPacket,
   InteractPacket,
   InventoryContentPacket,
@@ -374,6 +375,9 @@ interface NetworkEvents {
   ];
   [Packet.ServerScriptDebugDrawer]: [
     NetworkPacketEvent<ServerScriptDebugDrawerPacket>
+  ];
+  [Packet.GraphicsOverrideParameter]: [
+    NetworkPacketEvent<GraphicsOverrideParameterPacket>
   ];
 }
 
