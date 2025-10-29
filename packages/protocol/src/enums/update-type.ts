@@ -1,8 +1,7 @@
 enum UpdateType {
-  ClearOverrides = 0,
-  RemoveOverride = 1,
-  SetIntOverride = 2,
-  SetFloatOverride = 3
+  None,
+  Neighbors,
+  Connections
 }
 
 export { UpdateType };
