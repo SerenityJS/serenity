@@ -60,7 +60,7 @@ interface ItemTypeFoodComponentOptions {
   /**
    * Effects that are applied when the food is consumed.
    */
-  effects: ItemTypeFoodEffectOptions[];
+  effects: Array<ItemTypeFoodEffectOptions>;
 }
 
 class ItemTypeFoodComponent extends ItemTypeComponent {
@@ -230,24 +230,34 @@ class ItemTypeFoodComponent extends ItemTypeComponent {
    * Get the effects that are applied when the food is consumed.
    * @returns An array of the effect info.
    */
-  public getEffects(): { id: number, chance: number, duration: number, amplifier: number }[] {
+  public getEffects(): Array<{
+    id: number;
+    chance: number;
+    duration: number;
+    amplifier: number;
+  }> {
     // Get the effects list tag.
     const tag = this.component.get<ListTag<CompoundTag>>("effects");
 
     // Create an array to hold the read effects.
-    const effects: { id: number, chance: number, duration: number, amplifier: number }[] = [];
+    const effects: Array<{
+      id: number;
+      chance: number;
+      duration: number;
+      amplifier: number;
+    }> = [];
 
     // Check if the tag exists and has a list of effects
     if (tag) {
-
       // Iterate over each effect in the list
       for (const effectTag of tag.values()) {
-
         // Extract the effect properties from the tag
         const id = effectTag.get<IntTag>("id")?.valueOf() as number;
         const chance = effectTag.get<FloatTag>("chance")?.valueOf() as number;
         const duration = effectTag.get<IntTag>("duration")?.valueOf() as number;
-        const amplifier = effectTag.get<IntTag>("amplifier")?.valueOf() as number;
+        const amplifier = effectTag
+          .get<IntTag>("amplifier")
+          ?.valueOf() as number;
 
         // Add the effect to the effects array
         effects.push({
@@ -267,7 +277,7 @@ class ItemTypeFoodComponent extends ItemTypeComponent {
    * Set the effects that are applied when the food is consumed.
    * @param effects An array of the effect info to set.
    */
-  public setEffects(effects: ItemTypeFoodEffectOptions[]): void {
+  public setEffects(effects: Array<ItemTypeFoodEffectOptions>): void {
     // Create a new list tag for the effects
     const tag = new ListTag<CompoundTag>();
 
@@ -288,4 +298,8 @@ class ItemTypeFoodComponent extends ItemTypeComponent {
   }
 }
 
-export { ItemTypeFoodComponent, ItemTypeFoodComponentOptions, ItemTypeFoodEffectOptions };
+export {
+  ItemTypeFoodComponent,
+  ItemTypeFoodComponentOptions,
+  ItemTypeFoodEffectOptions
+};

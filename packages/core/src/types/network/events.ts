@@ -151,7 +151,7 @@ import type {
   UpdateClientInputLocksPacket,
   UpdatePlayerGameTypePacket,
   UpdateSubchunkBlocksPacket,
-  UpdateTradePacket,
+  UpdateTradePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
