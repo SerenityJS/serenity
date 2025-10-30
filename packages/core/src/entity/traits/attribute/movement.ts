@@ -131,10 +131,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     const vector = BlockPosition.toVector3f(position);
 
     // Calculate the direction to the target position
-    const direction = this.calculateDirection(
-      this.entity.position,
-      vector
-    );
+    const direction = this.calculateDirection(this.entity.position, vector);
 
     // Calculate the yaw and pitch from the direction
     let yaw = Math.atan2(direction.z, direction.x) * (180 / Math.PI) - 90;
@@ -167,10 +164,7 @@ class EntityMovementTrait extends EntityAttributeTrait {
     if (this.positionTarget === null) this.positionTarget = position;
 
     // Calculate the direction to the target position
-    const direction = this.calculateDirection(
-      this.entity.position,
-      position
-    );
+    const direction = this.calculateDirection(this.entity.position, position);
 
     // Apply the movement speed to the direction
     direction.x *= this.currentValue * 2.5;

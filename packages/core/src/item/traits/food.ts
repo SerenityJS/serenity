@@ -31,7 +31,12 @@ class ItemStackFoodTrait extends ItemStackTrait {
   /**
    * The effects that are applied when the food is consumed.
    */
-  public effects: { id: number, chance: number, duration: number, amplifier: number }[] = [];
+  public effects: Array<{
+    id: number;
+    chance: number;
+    duration: number;
+    amplifier: number;
+  }> = [];
 
   /**
    * Creates a new instance of the item food trait.
@@ -64,7 +69,8 @@ class ItemStackFoodTrait extends ItemStackTrait {
     const hunger = player.getTrait(PlayerHungerTrait);
 
     // Check if the hunger is full or if the item cannot be consumed
-    if (hunger.currentValue >= hunger.maximumValue && !this.canAlwaysEat) return;
+    if (hunger.currentValue >= hunger.maximumValue && !this.canAlwaysEat)
+      return;
 
     // Increase the player's hunger and saturation
     hunger.currentValue += this.nutrition;
@@ -75,7 +81,9 @@ class ItemStackFoodTrait extends ItemStackTrait {
       // Check if the effect should be applied
       if (Math.random() <= effect.chance) {
         // Apply the effect to the player
-        player.addEffect(effect.id, effect.duration, { amplifier: effect.amplifier });
+        player.addEffect(effect.id, effect.duration, {
+          amplifier: effect.amplifier
+        });
       }
     }
 

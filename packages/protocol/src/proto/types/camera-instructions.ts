@@ -5,6 +5,8 @@ import { CameraFadeInstruction } from "./camera-instruction-fade";
 import { OptionalIO } from "./optional";
 import { CameraTargetInstruction } from "./camera-instruction-target";
 import { CameraFOVInstruction } from "./camera-instruction-fov";
+import { CameraSplineInstruction } from "./camera-instruction-spline";
+import { CameraAttachEntityInstruction } from "./camera-instruction-attach-entity";
 
 class CameraInstructions extends DataType {
   public set?: CameraSetInstruction;
@@ -13,6 +15,9 @@ class CameraInstructions extends DataType {
   public target?: CameraTargetInstruction;
   public removeTarget?: boolean;
   public fov?: CameraFOVInstruction;
+  public spline?: CameraSplineInstruction;
+  public attachToEntity?: CameraAttachEntityInstruction;
+  public detachFromEntity?: boolean;
 
   public constructor(
     set?: CameraSetInstruction,
@@ -20,7 +25,10 @@ class CameraInstructions extends DataType {
     fade?: CameraFadeInstruction,
     target?: CameraTargetInstruction,
     removeTarget?: boolean,
-    fov?: CameraFOVInstruction
+    fov?: CameraFOVInstruction,
+    spline?: CameraSplineInstruction,
+    attachToEntity?: CameraAttachEntityInstruction,
+    detachFromEntity?: boolean
   ) {
     super();
     this.set = set;
@@ -29,6 +37,9 @@ class CameraInstructions extends DataType {
     this.target = target;
     this.removeTarget = removeTarget;
     this.fov = fov;
+    this.spline = spline;
+    this.attachToEntity = attachToEntity;
+    this.detachFromEntity = detachFromEntity;
   }
 
   public static write(stream: BinaryStream, value: CameraInstructions): void {
@@ -66,6 +77,24 @@ class CameraInstructions extends DataType {
       stream,
       CameraFOVInstruction.write,
       value.fov
+    );
+
+    OptionalIO.write<CameraSplineInstruction>(
+      stream,
+      CameraSplineInstruction.write,
+      value.spline
+    );
+
+    OptionalIO.write<CameraAttachEntityInstruction>(
+      stream,
+      CameraAttachEntityInstruction.write,
+      value.attachToEntity
+    );
+
+    OptionalIO.write<boolean>(
+      stream,
+      (_, value) => stream.writeBool(value),
+      value.detachFromEntity
     );
   }
 }

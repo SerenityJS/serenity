@@ -184,7 +184,11 @@ class BlockChestTrait extends BlockInventoryTrait {
   public onInteract({ cancel, origin }: BlockInteractionOptions): void {
     if (cancel || !origin) return;
 
-    if (this.isPaired() && this.getIsPairParent() && this.container.size !== 54) {
+    if (
+      this.isPaired() &&
+      this.getIsPairParent() &&
+      this.container.size !== 54
+    ) {
       // Update the container size
       this.container.size = 54;
     }

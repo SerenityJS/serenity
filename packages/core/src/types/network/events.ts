@@ -45,6 +45,7 @@ import type {
   EmotePacket,
   EntityPickRequestPacket,
   GameRulesChangedPacket,
+  GraphicsOverrideParameterPacket,
   HurtArmorPacket,
   InteractPacket,
   InventoryContentPacket,
@@ -150,7 +151,7 @@ import type {
   UpdateClientInputLocksPacket,
   UpdatePlayerGameTypePacket,
   UpdateSubchunkBlocksPacket,
-  UpdateTradePacket,
+  UpdateTradePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -374,6 +375,9 @@ interface NetworkEvents {
   ];
   [Packet.ServerScriptDebugDrawer]: [
     NetworkPacketEvent<ServerScriptDebugDrawerPacket>
+  ];
+  [Packet.GraphicsOverrideParameter]: [
+    NetworkPacketEvent<GraphicsOverrideParameterPacket>
   ];
 }
 

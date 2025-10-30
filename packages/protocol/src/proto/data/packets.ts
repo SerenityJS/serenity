@@ -47,6 +47,7 @@ import { DisconnectPacket } from "./disconnect";
 import { EmotePacket } from "./emote";
 import { EmoteListPacket } from "./emote-list";
 import { EntityPickRequestPacket } from "./entity-pick-request";
+import { GraphicsOverrideParameterPacket } from "./graphics-override-parameter";
 import { GameRulesChangedPacket } from "./game-rules-changed";
 import { HurtArmorPacket } from "./hurt-armor";
 import { InteractPacket } from "./interact";
@@ -304,7 +305,8 @@ const Packets = {
   [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket, // 315
   [Packet.MovementEffect]: MovementEffectPacket, // 318
   [Packet.PlayerUpdateEntityOverrides]: PlayerUpdateEntityOverridesPacket, // 325
-  [Packet.ServerScriptDebugDrawer]: ServerScriptDebugDrawerPacket // 328
+  [Packet.ServerScriptDebugDrawer]: ServerScriptDebugDrawerPacket, // 328
+  [Packet.GraphicsOverrideParameter]: GraphicsOverrideParameterPacket // 329
 };
 
 export { Packets };
