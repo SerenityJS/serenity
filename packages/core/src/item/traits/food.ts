@@ -31,7 +31,12 @@ class ItemStackFoodTrait extends ItemStackTrait {
   /**
    * The effects that are applied when the food is consumed.
    */
-  public effects: { id: number, chance: number, duration: number, amplifier: number }[] = [];
+  public effects: Array<{
+    id: number;
+    chance: number;
+    duration: number;
+    amplifier: number;
+  }> = [];
 
   /**
    * Creates a new instance of the item food trait.
