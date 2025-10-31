@@ -24,16 +24,42 @@ class GraphicsOverrideParameterPayload extends DataType {
     this.resetParameter = resetParameter;
   }
 
+  public static read(stream: BinaryStream): GraphicsOverrideParameterPayload {
+    const keyframeCount = stream.readVarInt();
+    const parameterKeyframeValues: Map<number, Vector3f> = new Map();
+
+    for (let i = 0; i < keyframeCount; i++) {
+      const time = stream.readFloat32();
+      const vector = Vector3f.read(stream);
+
+      parameterKeyframeValues.set(time, vector);
+    }
+
+    const biomeIdentifier = stream.readVarString();
+    const parameterIdentifier =
+      stream.readUint8() as GraphicsOverrideParameterType;
+    const resetParameter = stream.readBool();
+
+    return new GraphicsOverrideParameterPayload(
+      parameterKeyframeValues,
+      biomeIdentifier,
+      parameterIdentifier,
+      resetParameter
+    );
+  }
+
   public static write(
     stream: BinaryStream,
     value: GraphicsOverrideParameterPayload
   ): void {
-    for (const [key, vector] of value.parameterKeyframeValues) {
-      stream.writeFloat32(key);
+    stream.writeVarInt(value.parameterKeyframeValues.size);
+
+    for (const [time, vector] of value.parameterKeyframeValues) {
+      stream.writeFloat32(time);
       Vector3f.write(stream, vector);
     }
 
-    stream.writeString32(value.biomeIdentifier);
+    stream.writeVarString(value.biomeIdentifier);
 
     stream.writeUint8(value.parameterIdentifier);
     stream.writeBool(value.resetParameter);
