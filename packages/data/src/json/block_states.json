@@ -856,6 +856,38 @@
     ]
   },
   {
+    "identifier": "minecraft:connection_east",
+    "type": "bool",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
+    "identifier": "minecraft:connection_north",
+    "type": "bool",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
+    "identifier": "minecraft:connection_south",
+    "type": "bool",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
+    "identifier": "minecraft:connection_west",
+    "type": "bool",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
     "identifier": "minecraft:facing_direction",
     "type": "string",
     "values": [

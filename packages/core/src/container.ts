@@ -118,7 +118,7 @@ class Container {
 
     // Check if the item amount is 0
     // If so, set the slot to null as there is no item
-    if (item.stackSize === 0) this.clearSlot(slot);
+    if (item.getStackSize() === 0) this.clearSlot(slot);
 
     // Set the container of the item
     item.container = this;
@@ -140,14 +140,14 @@ class Container {
       if (!slot) return false;
 
       // Check if the item can be stacked.
-      if (slot.stackSize >= item.maxStackSize) return false;
+      if (slot.getStackSize() >= item.maxStackSize) return false;
 
       // Check if the item is equal to the slot.
       return item.equals(slot);
     });
 
     // Check if the item is maxed.
-    const maxed = item.stackSize >= item.maxStackSize;
+    const maxed = item.getStackSize() >= item.maxStackSize;
 
     // Check if exists an available slot
     if (slot > -1 && !maxed && item.isStackable) {
@@ -156,8 +156,8 @@ class Container {
 
       // Calculate the amount of items to add.
       const amount = Math.min(
-        item.maxStackSize - existingItem.stackSize,
-        item.stackSize
+        item.maxStackSize - existingItem.getStackSize(),
+        item.getStackSize()
       );
 
       // Add the amount to the existing item.
@@ -176,7 +176,7 @@ class Container {
       if (emptySlot === -1) return false;
 
       // Check if the item is maxed.
-      if (item.stackSize > item.maxStackSize) {
+      if (item.getStackSize() > item.maxStackSize) {
         // Create a full stack item for the empty slot
         const newItem = new ItemStack(item.type, {
           ...item,
@@ -210,13 +210,13 @@ class Container {
     if (!item) return null;
 
     // Calculate the amount of items to remove.
-    const removed = Math.min(amount, item.stackSize);
+    const removed = Math.min(amount, item.getStackSize());
 
     // Subtract the amount from the item.
     item.decrementStack(removed);
 
     // Check if the item amount is 0.
-    if (item.stackSize === 0) this.storage[slot] = null;
+    if (item.getStackSize() === 0) this.storage[slot] = null;
 
     // Return the removed item.
     return item;
@@ -234,28 +234,32 @@ class Container {
     if (item === null) return null;
 
     // Calculate the amount of items to remove.
-    const removed = Math.min(amount, item.stackSize);
+    const removed = Math.min(amount, item.getStackSize());
     item.decrementStack(removed);
 
     // Check if the item amount is 0.
-    if (item.stackSize === 0) this.clearSlot(slot);
+    if (item.getStackSize() === 0) this.clearSlot(slot);
 
     // Create a new item with the removed amount.
-    const newItem = new ItemStack(item.type, { ...item, stackSize: removed });
+    const newItem = new ItemStack(item.type, {
+      ...item,
+      stackSize: removed,
+      storage: undefined
+    });
 
     // Clone the dynamic properties of the item to the new item.
-    for (const [key, value] of item.dynamicProperties)
-      newItem.dynamicProperties.set(key, value);
+    for (const [key, value] of item.getStorage().getAllDynamicProperties())
+      newItem.getStorage().setDynamicProperty(key, value);
 
     // Clone the traits of the item to the new item.
-    for (const trait of item.traits.values())
+    for (const trait of item.getAllTraits())
       newItem.addTrait(trait.clone(newItem));
 
     // Update the slot for all occupants.
     this.updateSlot(slot);
 
     // Clone the NBT tags of the item.
-    for (const tag of item.nbt.values()) {
+    for (const tag of item.getStorage().getStackNbt().values()) {
       newItem.nbt.add(tag);
     }
 
@@ -421,7 +425,7 @@ class Container {
       if (!item) continue;
 
       // Iterate over the traits of the item and call the onContainerOpen method.
-      for (const trait of item.traits.values()) trait.onContainerOpen?.(player);
+      for (const trait of item.getAllTraits()) trait.onContainerOpen?.(player);
     }
   }
 
@@ -465,8 +469,7 @@ class Container {
       if (!item) continue;
 
       // Iterate over the traits of the item and call the onContainerClose method.
-      for (const trait of item.traits.values())
-        trait.onContainerClose?.(player);
+      for (const trait of item.getAllTraits()) trait.onContainerClose?.(player);
     }
   }
 }

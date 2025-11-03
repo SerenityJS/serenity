@@ -426,7 +426,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             };
 
             // Call the item onStartUse trait methods
-            for (const trait of player.itemTarget.traits.values()) {
+            for (const trait of player.itemTarget.getAllTraits()) {
               // Call the trait's onStartUse method
               const success = trait.onStartUse?.(player, options);
 
@@ -689,7 +689,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             ).emit();
 
             // Call the item onStartUse trait methods
-            for (const [, trait] of heldItem.traits) {
+            for (const trait of heldItem.getAllTraits()) {
               // Check if the start use was successful
               const success = trait.onStartUse?.(player, { method });
 
@@ -754,7 +754,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
             new PlayerStopUsingItemSignal(player, player.itemTarget).emit();
 
             // Call the item onStopUse trait methods
-            for (const trait of player.itemTarget.traits.values())
+            for (const trait of player.itemTarget.getAllTraits())
               trait.onStopUse?.(player, { method: ItemUseMethod.UseTool });
 
             // Reset the players item use time

@@ -59,6 +59,14 @@ class EntityContainer extends Container {
     if (this.entity.isPlayer()) this.update(this.entity);
   }
 
+  public clear(): void {
+    // Call the original clear method
+    super.clear();
+
+    // Update the container if the entity is a player
+    if (this.entity.isPlayer()) this.update(this.entity);
+  }
+
   public update(player?: Player): void {
     // Call the original update method
     super.update(player);

@@ -129,7 +129,7 @@ class BlockInventoryTrait extends BlockTrait {
       if (!itemStack) continue;
 
       // Get the item stack level storage
-      const storage = itemStack.getLevelStorage();
+      const storage = itemStack.getStorage();
 
       // Create a new int tag for the slot
       storage.add(new IntTag(i, "Slot"));
@@ -158,7 +158,7 @@ class BlockInventoryTrait extends BlockTrait {
       if (!itemStack) continue;
 
       // Get the item stack level storage
-      const storage = itemStack.getLevelStorage();
+      const storage = itemStack.getStorage();
 
       // Create a new int tag for the slot
       storage.add(new IntTag(i, "Slot"));

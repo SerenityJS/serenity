@@ -20,26 +20,26 @@ const register = (world: World) => {
           target: TargetEnum,
           item: ItemEnum,
           amount: [IntegerEnum, true],
-          metadata: [IntegerEnum, true]
+          auxiliary: [IntegerEnum, true]
         },
         (context) => {
           // Get the targets from the context
           const targets = context.target.result as Array<Entity>;
 
-          // Get the result of the item, amount, and metadata
+          // Get the result of the item, amount, and auxiliary
           const itemResult = context.item.result as string;
           const itemIdentifier = itemResult.includes(":")
             ? itemResult
             : `minecraft:${itemResult}`;
-          const amount = context.amount?.result ?? 1;
-          const metadata = context.metadata?.result ?? 0;
+          const stackSize = context.amount?.result ?? 1;
+          const auxiliary = context.auxiliary?.result ?? 0;
 
           // Loop through the targets
           for (const target of targets) {
             // Create the item stack
             const itemStack = new ItemStack(itemIdentifier as ItemIdentifier, {
-              stackSize: amount,
-              metadata,
+              stackSize,
+              auxiliary,
               world
             });
 
@@ -52,7 +52,7 @@ const register = (world: World) => {
 
           // Send the success message
           return {
-            message: `§7Successfully gave §ux${amount} ${itemIdentifier}§7 to §u${targets.length}§7 entities.`
+            message: `§7Successfully gave §ux${stackSize} ${itemIdentifier}§7 to §u${targets.length}§7 entities.`
           };
         }
       );

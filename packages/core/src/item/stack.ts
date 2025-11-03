@@ -4,11 +4,10 @@ import {
   NetworkItemInstanceDescriptor,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
+import { CompoundTag, StringTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
 import { ItemIdentifier } from "../enums";
-import { JSONLikeValue } from "../types";
 import { Player } from "../entity";
 import { World } from "../world";
 import {
@@ -16,7 +15,9 @@ import {
   PlayerUseItemOnEntitySignal,
   PlayerUseItemSignal
 } from "../events";
+import { JSONLikeValue } from "../types";
 
+import { ItemStackInstanceStorage } from "./instance-storage";
 import {
   ItemType,
   ItemTypeBlockPlacerComponent,
@@ -24,7 +25,6 @@ import {
   ItemTypeComponentCollection
 } from "./identity";
 import { ItemStackDisplayTrait, ItemStackTrait } from "./traits";
-import { ItemStackNbtMap } from "./maps";
 import {
   type ItemStackOptions,
   type ItemStackUseOptions,
@@ -46,19 +46,19 @@ class ItemStack {
   public readonly identifier: ItemIdentifier | string;
 
   /**
-   * The dynamic properties of the item stack.
+   * The nbt data of the item stack.
    */
-  public readonly dynamicProperties = new Map<string, JSONLikeValue>();
+  public readonly nbt: ItemStackInstanceStorage;
 
   /**
    * The traits of the item stack.
    */
-  public readonly traits = new Map<string, ItemStackTrait>();
+  private readonly traits = new Map<string, ItemStackTrait>();
 
   /**
-   * The nbt data of the item stack.
+   * The storage of the item stack.
    */
-  public readonly nbt = new ItemStackNbtMap(this);
+  private readonly storage: ItemStackLevelStorage;
 
   /**
    * The world the item stack is in.
@@ -72,11 +72,6 @@ class ItemStack {
   public container: Container | null = null;
 
   /**
-   * The amount of the item stack.
-   */
-  public stackSize: number;
-
-  /**
    * The maximum stack size of the item stack.
    * This is the maximum amount of items that can be stacked in a single item stack.
    */
@@ -87,29 +82,6 @@ class ItemStack {
    * If true, the item stack can be stacked with other item stacks of the same type.
    */
   public isStackable: boolean = true; // Default stackable state
-
-  /**
-   * The metadata value of the item stack.
-   */
-  public metadata: number;
-
-  /**
-   * The slot of the item stack in the container.
-   */
-  public get slot(): number {
-    return this.container?.storage.indexOf(this) ?? -1;
-  }
-
-  /**
-   * The slot of the item stack in the container.
-   */
-  public set slot(value: number) {
-    // Check if the item is not in a container.
-    if (!this.container) return;
-
-    // Set the item in the container.
-    this.container.swapItems(this.slot, value);
-  }
 
   /**
    * The components of the item stack type.
@@ -129,10 +101,6 @@ class ItemStack {
   ) {
     // Spread the default properties and the provided properties
     options = { ...DefaultItemStackOptions, ...options };
-
-    // Assign the properties to the item stack
-    this.stackSize = options.stackSize as number;
-    this.metadata = options.metadata as number;
 
     // Check if a world was provided
     if (options.world) {
@@ -162,11 +130,6 @@ class ItemStack {
       // Set the properties that are component based
       this.maxStackSize = this.type.components.getMaxStackSize();
       this.isStackable = this.maxStackSize > 1;
-
-      // Check if a level storage was provided
-      if (options.storage)
-        // Load the level storage for the item stack
-        this.loadLevelStorage(options.world, options.storage);
     } else {
       // If no world was provided, and the identifier is a item type
       if (identifier instanceof ItemType) {
@@ -189,31 +152,60 @@ class ItemStack {
       }
     }
 
+    // Check if a level storage was provided
+    if (options.storage) {
+      // Assign the storage to the item stack
+      this.storage = new ItemStackLevelStorage(this, options.storage);
+    } else {
+      // Create a new storage for the item stack
+      this.storage = new ItemStackLevelStorage(this);
+
+      // Set the identifier in the storage
+      this.storage.setIdentifier(this.identifier);
+
+      // Check if a stack size or auxiliary value was provided
+      if (options.stackSize) this.storage.setStackSize(options.stackSize);
+      if (options.auxiliary) this.storage.setAuxiliaryValue(options.auxiliary);
+    }
+
+    // Create a new NBT instance storage for the item stack
+    this.nbt = new ItemStackInstanceStorage(this, this.storage.getStackNbt());
+
+    // Iterate over the traits in the storage and add them to the item
+    for (const identifier of this.storage.getTraits()) {
+      // Check if the trait exists in the item palette.
+      const traitType = this.world.itemPalette.getTrait(identifier);
+
+      // If the trait does not exist, log an error and skip it.
+      if (!traitType) {
+        // Log a warning to the console.
+        this.world.logger.warn(
+          `Skipping ItemStackTrait for stack §u${this.identifier}§r as the trait §u${identifier}§r does not exist in the item palette.`
+        );
+
+        // Skip the trait if it does not exist.
+        continue;
+      }
+
+      // Add the trait to the item.
+      const trait = this.addTrait(traitType as typeof ItemStackTrait);
+
+      // Log the loading of the trait.
+      this.world.logger.debug(
+        `Loaded ItemStackTrait §u${trait.identifier}§r for stack §u${this.identifier}§r.`
+      );
+    }
+
     // Iterate over the traits of the item type
     for (const [, trait] of this.type.traits) this.addTrait(trait);
-
-    // Add base the nbt properties to the item stack
-    this.nbt.push(...this.type.properties.values());
   }
 
   /**
-   * Updates the item stack in the container.
+   * The amount of items in the item stack.
+   * @returns The size of the item stack.
    */
-  public update(): void {
-    // Check if the item is in a container.
-    if (!this.container) return;
-
-    // Get the slot of the item in the container.
-    const slot = this.container.storage.indexOf(this);
-
-    // Check if the item is 0 or less.
-    if (this.stackSize <= 0) {
-      // Remove the item from the container.
-      this.container.clearSlot(slot);
-    }
-
-    // Set the item in the container.
-    else this.container.setItem(slot, this);
+  public getStackSize(): number {
+    return this.storage.getStackSize();
   }
 
   /**
@@ -222,10 +214,7 @@ class ItemStack {
    */
   public setStackSize(size: number): void {
     // Update the size of the item stack.
-    this.stackSize = size;
-
-    // Update the item in the container.
-    this.update();
+    this.storage.setStackSize(size);
   }
 
   /**
@@ -233,7 +222,7 @@ class ItemStack {
    * @param size The size to decrement.
    */
   public decrementStack(size?: number): void {
-    this.setStackSize(this.stackSize - (size ?? 1));
+    this.setStackSize(this.getStackSize() - (size ?? 1));
   }
 
   /**
@@ -241,7 +230,48 @@ class ItemStack {
    * @param size The size to increment.
    */
   public incrementStack(size?: number): void {
-    this.setStackSize(this.stackSize + (size ?? 1));
+    this.setStackSize(this.getStackSize() + (size ?? 1));
+  }
+
+  /**
+   * Get the auxiliary value of the item stack.
+   * @returns The auxiliary value of the item stack.
+   */
+  public getAuxiliaryValue(): number {
+    return this.storage.getAuxiliaryValue();
+  }
+
+  /**
+   * Set the auxiliary value of the item stack.
+   * @param value The auxiliary value to set.
+   */
+  public setAuxiliaryValue(value: number): void {
+    this.storage.setAuxiliaryValue(value);
+  }
+
+  /**
+   * Get the slot of the item stack in its container.
+   * @returns The slot of the item stack, or -1 if not in a container.
+   */
+  public getSlot(): number {
+    // Index of the item stack in its container
+    const slot = this.container?.storage.indexOf(this);
+
+    // Return the slot, or -1 if not in a container
+    return slot ?? -1;
+  }
+
+  /**
+   * Set the slot of the item stack in its container.
+   * @param value The slot to set the item stack to.
+   * @returns The slot of the item stack, or -1 if not in a container.
+   */
+  public setSlot(value: number): void {
+    // Check if the item is not in a container.
+    if (!this.container) return;
+
+    // Set the item in the container.
+    this.container.swapItems(this.getSlot(), value);
   }
 
   /**
@@ -469,6 +499,14 @@ class ItemStack {
   }
 
   /**
+   * Get all traits of the itemstack.
+   * @returns An array of all itemstack traits.
+   */
+  public getAllTraits(): Array<ItemStackTrait> {
+    return Array.from(this.traits.values());
+  }
+
+  /**
    * Whether the itemstack has the specified trait.
    * @param trait The trait to check for
    * @returns Whether the itemstack has the trait
@@ -511,16 +549,20 @@ class ItemStack {
    * @param trait The trait to remove
    */
   public removeTrait(trait: string | typeof ItemStackTrait): void {
+    // Get the identifier of the trait
+    const identifier = typeof trait === "string" ? trait : trait.identifier;
+
     // Get the trait from the itemstack
-    const instance = this.traits.get(
-      typeof trait === "string" ? trait : trait.identifier
-    );
+    const instance = this.traits.get(identifier);
 
     // Call the onRemove trait event
     instance?.onRemove?.();
 
     // Remove the trait from the itemstack
-    this.traits.delete(typeof trait === "string" ? trait : trait.identifier);
+    this.traits.delete(identifier);
+
+    // Remove the trait from the itemstack storage
+    this.storage.removeTrait(identifier);
   }
 
   /**
@@ -558,6 +600,9 @@ class ItemStack {
 
         // Call the onAdd trait event
         instance.onAdd?.();
+
+        // Add the trait to the itemstack storage
+        this.storage.addTrait(instance.identifier);
 
         // Return the trait that was added
         return instance as InstanceType<K>;
@@ -597,45 +642,33 @@ class ItemStack {
   }
 
   /**
-   * Checks if the itemstack has the specified dynamic property.
+   * Get all dynamic properties of the item stack.
+   * @returns An array of all dynamic properties.
+   */
+  public getAllDynamicProperties(): Array<[string, JSONLikeValue]> {
+    return this.storage.getAllDynamicProperties();
+  }
+
+  /**
+   * Check if the item stack has a dynamic property.
    * @param key The key of the dynamic property.
-   * @returns Whether the itemstack has the dynamic property.
+   * @returns Whether the item stack has the dynamic property.
    */
   public hasDynamicProperty(key: string): boolean {
-    return this.dynamicProperties.has(key);
+    return this.storage.hasDynamicProperty(key);
   }
 
   /**
-   * Gets the specified dynamic property from the itemstack.
+   * Get a dynamic property from the item stack.
    * @param key The key of the dynamic property.
-   * @returns The dynamic property if it exists, otherwise null
+   * @returns The dynamic property value, or null if it does not exist.
    */
   public getDynamicProperty<T extends JSONLikeValue>(key: string): T | null {
-    return this.dynamicProperties.get(key) as T | null;
+    return this.storage.getDynamicProperty<T>(key);
   }
 
   /**
-   * Removes the specified dynamic property from the itemstack.
-   * @param key The key of the dynamic property.
-   */
-  public removeDynamicProperty(key: string): void {
-    this.dynamicProperties.delete(key);
-  }
-
-  /**
-   * Adds a dynamic property to the itemstack.
-   * @param key The key of the dynamic property.
-   * @param value The value of the dynamic property.
-   */
-  public addDynamicProperty<T extends JSONLikeValue>(
-    key: string,
-    value: T
-  ): void {
-    this.dynamicProperties.set(key, value);
-  }
-
-  /**
-   * Sets the specified dynamic property of the itemstack.
+   * Set a dynamic property on the item stack.
    * @param key The key of the dynamic property.
    * @param value The value of the dynamic property.
    */
@@ -643,7 +676,15 @@ class ItemStack {
     key: string,
     value: T
   ): void {
-    this.dynamicProperties.set(key, value);
+    this.storage.setDynamicProperty<T>(key, value);
+  }
+
+  /**
+   * Remove a dynamic property from the item stack.
+   * @param key The key of the dynamic property.
+   */
+  public removeDynamicProperty(key: string): void {
+    this.storage.removeDynamicProperty(key);
   }
 
   /**
@@ -722,22 +763,33 @@ class ItemStack {
     }
   }
 
+  /**
+   * Get the level storage of the item stack.
+   * @returns The item stack level storage.
+   */
+  public getStorage(): ItemStackLevelStorage {
+    return this.storage;
+  }
+
   public equals(other: ItemStack): boolean {
     // Check if the identifiers & aux are equal.
     if (this.type.identifier !== other.type.identifier) return false;
-    if (this.metadata !== other.metadata) return false;
-    if (this.dynamicProperties.size !== other.dynamicProperties.size)
+    if (this.getAuxiliaryValue() !== other.getAuxiliaryValue()) return false;
+    if (
+      this.storage.getAllDynamicProperties().length !==
+      other.storage.getAllDynamicProperties().length
+    )
       return false;
     if (this.traits.size !== other.traits.size) return false;
     if (this.nbt.size !== other.nbt.size) return false;
 
     // Stringify the dynamicProperties.
     const dynamicProperties = JSON.stringify([
-      ...this.dynamicProperties.entries()
+      ...this.storage.getAllDynamicProperties()
     ]);
 
     const otherDynamicProperties = JSON.stringify([
-      ...other.dynamicProperties.entries()
+      ...other.storage.getAllDynamicProperties()
     ]);
 
     // Check if the dynamicProperties are equal.
@@ -775,67 +827,6 @@ class ItemStack {
     return true;
   }
 
-  public getLevelStorage(): ItemStackLevelStorage {
-    // Create a new level storage for the item stack.
-    const storage = new ItemStackLevelStorage();
-
-    // Set the properties of the level storage.
-    storage.setIdentifier(this.identifier);
-    storage.setStackSize(this.stackSize);
-    storage.setMetadata(this.metadata);
-    storage.setStackNbt(this.nbt);
-    storage.setDynamicProperties([...this.dynamicProperties.entries()]);
-    storage.setTraits([...this.traits.keys()]);
-
-    // Return the item stack level storage.
-    return storage;
-  }
-
-  public loadLevelStorage(world: World, source: CompoundTag): void {
-    // Create a new level storage for the item stack.
-    const storage = new ItemStackLevelStorage(source);
-
-    // Set the world of the item stack.
-    this.world = world;
-
-    // Copy the nbt data from the level storage to the item stack.
-    this.nbt.push(...storage.getStackNbt().values());
-
-    // Set the properties of the item stack from the level storage.
-    this.setStackSize(storage.getStackSize());
-    this.metadata = storage.getMetadata();
-
-    // Iterate over the dynamic properties and set them on the item stack.
-    for (const [key, value] of storage.getDynamicProperties()) {
-      this.dynamicProperties.set(key, value);
-    }
-
-    // Iterate over the traits and add them to the item stack.
-    for (const identifier of storage.getTraits()) {
-      // Get the trait from the item type.
-      const itemTrait = world.itemPalette.getTrait(identifier);
-
-      // Check if the trait exists in the item type.
-      if (!itemTrait) {
-        // Log a warning to the console.
-        world.logger.warn(
-          `Skipping ItemStackTrait for item §u${this.identifier}§r as the trait §u${identifier}§r does not exist in the item palette.`
-        );
-
-        // Skip the trait if it does not exist.
-        continue;
-      }
-
-      // Add the trait to the item stack.
-      const trait = this.addTrait(itemTrait);
-
-      // Log the loading of the trait.
-      world.logger.debug(
-        `Loaded ItemStackTrait §u${trait.identifier}§r for item §u${this.identifier}§r.`
-      );
-    }
-  }
-
   /**
    * Converts the item stack to a network item instance descriptor.
    * Which is used on the protocol level.
@@ -857,15 +848,15 @@ class ItemStack {
       const blockType = blockPlacer.getBlockType();
 
       // Get the permutation from the block type.
-      const permutation = blockType.permutations[item.metadata];
+      const permutation = blockType.permutations[item.getAuxiliaryValue()];
       if (permutation) networkBlockId = permutation.networkId;
     }
 
     // Return the item instance descriptor.
     return {
       network: item.type.network,
-      stackSize: item.stackSize,
-      metadata: item.metadata,
+      stackSize: item.getStackSize(),
+      metadata: item.getAuxiliaryValue(),
       networkBlockId,
       extras: {
         nbt: item.nbt,
@@ -900,10 +891,10 @@ class ItemStack {
   public static from(other: ItemStack): ItemStack {
     // Create a new item stack from the other item stack.
     const itemStack = new ItemStack(other.type, {
-      stackSize: other.stackSize,
-      metadata: other.metadata,
+      stackSize: other.getStackSize(),
+      auxiliary: other.getAuxiliaryValue(),
       world: other.world,
-      storage: other.getLevelStorage()
+      storage: other.storage
     });
 
     // Return the new item stack.
@@ -916,7 +907,8 @@ class ItemStack {
    * @returns The item stack.
    */
   public static fromNetworkInstance(
-    descriptor: NetworkItemInstanceDescriptor
+    descriptor: NetworkItemInstanceDescriptor,
+    options?: Partial<ItemStackOptions>
   ): ItemStack | null {
     // Get the item type from the network.
     const type = ItemType.getByNetwork(descriptor.network);
@@ -927,7 +919,8 @@ class ItemStack {
     // Create the item stack.
     const item = new this(type.identifier, {
       stackSize: descriptor.stackSize ?? 1,
-      metadata: descriptor.metadata ?? 0
+      auxiliary: descriptor.metadata ?? 0,
+      ...options
     });
 
     // Check if the descriptor has extras.
@@ -938,12 +931,18 @@ class ItemStack {
     return item;
   }
 
-  public static fromLevelStorage(world: World, source: CompoundTag): ItemStack {
-    // Create a new item stack from the level storage.
-    const storage = new ItemStackLevelStorage(source);
-
+  public static fromLevelStorage(
+    world: World,
+    storage: CompoundTag
+  ): ItemStack {
     // Get the item identifier from the storage.
-    const identifier = storage.getIdentifier();
+    const identifier = storage.get<StringTag>("Name")?.valueOf();
+
+    // Check if the identifier exists in the storage.
+    if (!identifier)
+      throw new Error(
+        `ItemStack level storage is missing the "Name" tag required to identify the item type.`
+      );
 
     // Get the item type from the world item palette.
     const type = world.itemPalette.getType(identifier);

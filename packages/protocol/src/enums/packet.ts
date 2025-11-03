@@ -151,7 +151,8 @@ enum Packet {
   ServerboundDiagnosticPacket = 0x1_3b, // 315
   MovementEffect = 0x1_3e, // 318
   PlayerUpdateEntityOverrides = 0x1_45, // 325
-  ServerScriptDebugDrawer = 0x1_48 // 328
+  ServerScriptDebugDrawer = 0x1_48, // 328
+  GraphicsOverrideParameter = 0x1_4b // 331
 }
 
 export { Packet };
