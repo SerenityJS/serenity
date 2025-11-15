@@ -1,5 +1,6 @@
 import type {
   ActorEventPacket,
+  AddBehaviorTreePacket,
   AddEntityPacket,
   AddItemActorPacket,
   AddPaintingPacket,
@@ -8,6 +9,7 @@ import type {
   AnimatePacket,
   AvailableActorIdentifiersPacket,
   AvailableCommandsPacket,
+  AutomationClientConnectPacket,
   AwardAchievementPacket,
   BiomeDefinitionListPacket,
   BlockActorDataPacket,
@@ -54,6 +56,7 @@ import type {
   ItemRegistryPacket,
   ItemStackRequestPacket,
   ItemStackResponsePacket,
+  LabTablePacket,
   LegacyTelemetryEventPacket,
   LevelChunkPacket,
   LevelEventGenericPacket,
@@ -80,6 +83,7 @@ import type {
   OpenSignPacket,
   Packet,
   PacketViolationWarningPacket,
+  PhotoTransferPacket,
   PlaySoundPacket,
   PlayStatusPacket,
   PlayerActionPacket,
@@ -91,6 +95,7 @@ import type {
   PlayerSkinPacket,
   PlayerStartItemCooldownPacket,
   PlayerUpdateEntityOverridesPacket,
+  PurchaseReceiptPacket,
   RemoveEntityPacket,
   RemoveObjectivePacket,
   RequestChunkRadiusPacket,
@@ -106,6 +111,7 @@ import type {
   RiderJumpPacket,
   ScriptMessagePacket,
   ServerScriptDebugDrawerPacket,
+  ServerSettingsRequestPacket,
   ServerSettingsResponsePacket,
   ServerToClientHandshakePacket,
   ServerboundDiagnosticsPacket,
@@ -128,9 +134,12 @@ import type {
   SetSpawnPositionPacket,
   SetTimePacket,
   SetTitlePacket,
+  SimpleEventPacket,
   ShowCreditsPacket,
   ShowProfilePacket,
+  ShowStoreOfferPacket,
   SpawnParticleEffectPacket,
+  SpawnExperienceOrbPacket,
   StartGamePacket,
   StopSoundPacket,
   StructureBlockUpdatePacket,
@@ -150,6 +159,7 @@ import type {
   UpdateBlockSyncPacket,
   UpdateClientInputLocksPacket,
   UpdatePlayerGameTypePacket,
+  UpdateSoftEnumPacket,
   UpdateSubchunkBlocksPacket,
   UpdateTradePacket
 } from "@serenityjs/protocol";
@@ -378,6 +388,20 @@ interface NetworkEvents {
   ];
   [Packet.GraphicsOverrideParameter]: [
     NetworkPacketEvent<GraphicsOverrideParameterPacket>
+  ];
+  [Packet.PurchaseReceipt]: [NetworkPacketEvent<PurchaseReceiptPacket>];
+  [Packet.AutomationClientConnect]: [
+    NetworkPacketEvent<AutomationClientConnectPacket>
+  ];
+  [Packet.ShowStoreOffer]: [NetworkPacketEvent<ShowStoreOfferPacket>];
+  [Packet.SimpleEvent]: [NetworkPacketEvent<SimpleEventPacket>];
+  [Packet.SpawnExperienceOrb]: [NetworkPacketEvent<SpawnExperienceOrbPacket>];
+  [Packet.AddBehaviorTree]: [NetworkPacketEvent<AddBehaviorTreePacket>];
+  [Packet.PhotoTransfer]: [NetworkPacketEvent<PhotoTransferPacket>];
+  [Packet.UpdateSoftEnum]: [NetworkPacketEvent<UpdateSoftEnumPacket>];
+  [Packet.LabTable]: [NetworkPacketEvent<LabTablePacket>];
+  [Packet.ServerSettingsRequest]: [
+    NetworkPacketEvent<ServerSettingsRequestPacket>
   ];
 }
 
