@@ -5,6 +5,7 @@ import type {
   AddItemActorPacket,
   AddPaintingPacket,
   AddPlayerPacket,
+  AgentActionEventPacket,
   AnimateEntityPacket,
   AnimatePacket,
   AvailableActorIdentifiersPacket,
@@ -21,12 +22,14 @@ import type {
   CameraPresetsPacket,
   CameraShakePacket,
   ChangeDimensionPacket,
+  ChangeMobPropertyPacket,
   ChunkRadiusUpdatePacket,
   ClientBoundDebugRendererPacket,
   ClientBoundMapItemDataPacket,
   ClientCacheStatusPacket,
   ClientToServerHandshakePacket,
   ClientboundCloseFormPacket,
+  CodeBuilderSourcePacket,
   CommandBlockUpdatePacket,
   CommandOutputPacket,
   CommandRequestPacket,
@@ -37,6 +40,7 @@ import type {
   CorrectPlayerMovePredictionPacket,
   CraftingDataPacket,
   CreativeContentPacket,
+  CreatePhotoPacket,
   CurrectStructureFeaturePacket,
   DataPacket,
   DeathInfoPacket,
@@ -46,8 +50,10 @@ import type {
   EmoteListPacket,
   EmotePacket,
   EntityPickRequestPacket,
+  EduUriResourcePacket,
   GameRulesChangedPacket,
   GraphicsOverrideParameterPacket,
+  GuiDataPickItemPacket,
   HurtArmorPacket,
   InteractPacket,
   InventoryContentPacket,
@@ -58,6 +64,7 @@ import type {
   ItemStackResponsePacket,
   LabTablePacket,
   LegacyTelemetryEventPacket,
+  LessonProgressPacket,
   LevelChunkPacket,
   LevelEventGenericPacket,
   LevelEventPacket,
@@ -94,6 +101,7 @@ import type {
   PlayerListPacket,
   PlayerSkinPacket,
   PlayerStartItemCooldownPacket,
+  PlayerToggleCrafterRequestPacket,
   PlayerUpdateEntityOverridesPacket,
   PurchaseReceiptPacket,
   RemoveEntityPacket,
@@ -148,6 +156,7 @@ import type {
   SyncActorPropertyPacket,
   TakeItemActorPacket,
   TextPacket,
+  TickingAreasLoadStatusPacket,
   ToastRequestPacket,
   TransferPacket,
   TrimDataPacket,
@@ -158,6 +167,7 @@ import type {
   UpdateBlockPacket,
   UpdateBlockSyncPacket,
   UpdateClientInputLocksPacket,
+  UpdateEquipPacket,
   UpdatePlayerGameTypePacket,
   UpdateSoftEnumPacket,
   UpdateSubchunkBlocksPacket,
@@ -402,6 +412,26 @@ interface NetworkEvents {
   [Packet.LabTable]: [NetworkPacketEvent<LabTablePacket>];
   [Packet.ServerSettingsRequest]: [
     NetworkPacketEvent<ServerSettingsRequestPacket>
+  ];
+  [Packet.GuiDataPickItem]: [NetworkPacketEvent<GuiDataPickItemPacket>];
+  [Packet.UpdateEquip]: [NetworkPacketEvent<UpdateEquipPacket>];
+  [Packet.EduUriResource]: [NetworkPacketEvent<EduUriResourcePacket>];
+  [Packet.CreatePhoto]: [NetworkPacketEvent<CreatePhotoPacket>];
+  [Packet.CodeBuilderSource]: [NetworkPacketEvent<CodeBuilderSourcePacket>];
+  [Packet.TickingAreasLoadStatus]: [
+    NetworkPacketEvent<TickingAreasLoadStatusPacket>
+  ];
+  [Packet.AgentActionEvent]: [NetworkPacketEvent<AgentActionEventPacket>];
+  [Packet.ChangeMobProperty]: [NetworkPacketEvent<ChangeMobPropertyPacket>];
+  [Packet.LessonProgress]: [NetworkPacketEvent<LessonProgressPacket>];
+  [Packet.EditorNetwork]: [NetworkPacketEvent<DataPacket>];
+  [Packet.FeatureRegistry]: [NetworkPacketEvent<DataPacket>];
+  [Packet.ServerStats]: [NetworkPacketEvent<DataPacket>];
+  [Packet.GameTestRequest]: [NetworkPacketEvent<DataPacket>];
+  [Packet.GameTestResponse]: [NetworkPacketEvent<DataPacket>];
+  [Packet.AgentAnimation]: [NetworkPacketEvent<DataPacket>];
+  [Packet.PlayerToggleCrafterRequest]: [
+    NetworkPacketEvent<PlayerToggleCrafterRequestPacket>
   ];
 }
 

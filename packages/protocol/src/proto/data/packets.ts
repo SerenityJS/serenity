@@ -164,6 +164,22 @@ import { UpdatePlayerGameTypePacket } from "./update-player-game-type";
 import { UpdateSoftEnumPacket } from "./update-soft-enum";
 import { UpdateSubchunkBlocksPacket } from "./update-subchunk-blocks";
 import { UpdateTradePacket } from "./update-trade";
+import { GuiDataPickItemPacket } from "./gui-data-pick-item";
+import { UpdateEquipPacket } from "./update-equip";
+import { EduUriResourcePacket } from "./edu-uri-resource";
+import { CreatePhotoPacket } from "./create-photo";
+import { TickingAreasLoadStatusPacket } from "./ticking-areas-load-status";
+import { AgentActionEventPacket } from "./agent-action-event";
+import { ChangeMobPropertyPacket } from "./change-mob-property";
+import { LessonProgressPacket } from "./lesson-progress";
+import { EditorNetworkPacket } from "./editor-network";
+import { FeatureRegistryPacket } from "./feature-registry";
+import { ServerStatsPacket } from "./server-stats";
+import { GameTestRequestPacket } from "./game-test-request";
+import { GameTestResponsePacket } from "./game-test-response";
+import { AgentAnimationPacket } from "./agent-animation";
+import { PlayerToggleCrafterRequestPacket } from "./player-toggle-crafter-request";
+import { CodeBuilderSourcePacket } from "./code-builder-source";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -214,6 +230,7 @@ const Packets = {
   [Packet.InventorySlot]: InventorySlotPacket, // 50
   [Packet.ContainerSetData]: ContainerSetDataPacket, // 51
   [Packet.CraftingData]: CraftingDataPacket, // 52
+  [Packet.GuiDataPickItem]: GuiDataPickItemPacket, // 54
   [Packet.BlockActorData]: BlockActorDataPacket, // 56
   [Packet.LevelChunk]: LevelChunkPacket, // 58
   [Packet.SetCommandsEnabled]: SetCommandsEnabledPacket, // 59
@@ -236,6 +253,7 @@ const Packets = {
   [Packet.CommandBlockUpdate]: CommandBlockUpdatePacket, // 78
   [Packet.CommandOutput]: CommandOutputPacket, // 79
   [Packet.UpdateTrade]: UpdateTradePacket, // 80
+  [Packet.UpdateEquip]: UpdateEquipPacket, // 81
   [Packet.ResourcePackDataInfo]: ResourcePackDataInfoPacket, // 82
   [Packet.ResourcePackChunkData]: ResourcePackChunkDataPacket, // 83
   [Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
@@ -298,18 +316,30 @@ const Packets = {
   [Packet.ClientBoundDebugRenderer]: ClientBoundDebugRendererPacket, // 163
   [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169
+  [Packet.EduUriResource]: EduUriResourcePacket, // 170
+  [Packet.CreatePhoto]: CreatePhotoPacket, // 171
   [Packet.UpdateSubchunkBlocks]: UpdateSubchunkBlocksPacket, // 172
   [Packet.SubChunk]: SubChunkPacket, // 174
   [Packet.SubChunkRequest]: SubChunkRequestPacket, // 175
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
   [Packet.ScriptMessage]: ScriptMessagePacket, // 177
+  [Packet.CodeBuilderSource]: CodeBuilderSourcePacket, // 178
+  [Packet.TickingAreasLoadStatus]: TickingAreasLoadStatusPacket, // 179
   [Packet.DimensionData]: DimensionDataPacket, // 180
+  [Packet.AgentActionEvent]: AgentActionEventPacket, // 181
+  [Packet.ChangeMobProperty]: ChangeMobPropertyPacket, // 182
+  [Packet.LessonProgress]: LessonProgressPacket, // 183
   [Packet.RequestPermissions]: RequestPermissionsPacket, // 185
   [Packet.ToastRequest]: ToastRequestPacket, // 186
   [Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
   [Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
   [Packet.DeathInfo]: DeathInfoPacket, // 189
+  [Packet.EditorNetwork]: EditorNetworkPacket, // 190
+  [Packet.FeatureRegistry]: FeatureRegistryPacket, // 191
+  [Packet.ServerStats]: ServerStatsPacket, // 192
   [Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
+  [Packet.GameTestRequest]: GameTestRequestPacket, // 194
+  [Packet.GameTestResponse]: GameTestResponsePacket, // 195
   [Packet.UpdateClientInputLocks]: UpdateClientInputLocksPacket, // 196
   [Packet.CameraPresetsPacket]: CameraPresetsPacket, // 198
   [Packet.UnlockedRecipes]: UnlockedRecipesPacket, // 199
@@ -317,6 +347,8 @@ const Packets = {
   [Packet.TrimData]: TrimDataPacket, // 302
   [Packet.OpenSign]: OpenSignPacket, // 303
   [Packet.SetPlayerInventoryOptions]: SetPlayerInventoryOptionsPacket, // 307
+  [Packet.AgentAnimation]: AgentAnimationPacket, // 304
+  [Packet.PlayerToggleCrafterRequest]: PlayerToggleCrafterRequestPacket, // 306
   [Packet.SetHud]: SetHudPacket, // 308
   [Packet.AwardAchievement]: AwardAchievementPacket, // 309
   [Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310

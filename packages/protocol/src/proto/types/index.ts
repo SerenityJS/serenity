@@ -51,6 +51,7 @@ export * from "./enum-constraints";
 export * from "./enum-values";
 export * from "./enums";
 export * from "./experiments";
+export * from "./feature-data-list";
 export * from "./fogs";
 export * from "./full-container-name";
 export * from "./furnance-recipe";

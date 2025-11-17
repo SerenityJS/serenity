@@ -7,7 +7,7 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.AddBehaviorTree)
 class AddBehaviorTreePacket extends DataPacket {
-  @Serialize(VarString) public json!: string;
+  @Serialize(VarString) public treeStructureJson!: string;
 }
 
 export { AddBehaviorTreePacket };
