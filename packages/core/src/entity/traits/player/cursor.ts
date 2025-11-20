@@ -22,11 +22,6 @@ class PlayerCursorTrait extends PlayerTrait {
   public readonly containerType: ContainerType = ContainerType.Inventory;
 
   /**
-   * The identifier of the container that this trait represents.
-   */
-  public readonly containerId: ContainerId = ContainerId.Ui;
-
-  /**
    * The amount of slots in the inventory.
    */
   public readonly inventorySize: number = 1;
@@ -43,9 +38,11 @@ class PlayerCursorTrait extends PlayerTrait {
     this.container = new EntityContainer(
       player,
       this.containerType,
-      this.containerId,
       this.inventorySize
     );
+
+    // Assign the container identifier
+    this.container.identifier = ContainerId.Ui;
   }
 }
 

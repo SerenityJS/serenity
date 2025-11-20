@@ -1,7 +1,6 @@
 import {
   AbilityIndex,
   BlockPosition,
-  ContainerId,
   ContainerType,
   Vector3f
 } from "@serenityjs/protocol";
@@ -43,7 +42,6 @@ class BlockInventoryTrait extends BlockTrait {
     this.container = new BlockContainer(
       block,
       options?.type ?? ContainerType.Container,
-      options?.identifier ?? ContainerId.None,
       27
     );
   }

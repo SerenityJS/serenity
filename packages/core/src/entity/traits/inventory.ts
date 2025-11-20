@@ -56,13 +56,12 @@ class EntityInventoryTrait extends EntityTrait {
       entity.isPlayer()
         ? ContainerType.Inventory
         : (options?.type ?? ContainerType.Container),
-      // Determine the container identifier
-      entity.isPlayer()
-        ? ContainerId.Inventory
-        : (options?.identifier ?? ContainerId.None),
       // Determine the container size
       entity.isPlayer() ? 36 : (options?.size ?? 27)
     );
+
+    // Assign the container identifier
+    this.container.identifier = ContainerId.Inventory;
   }
 
   /**
@@ -94,7 +93,7 @@ class EntityInventoryTrait extends EntityTrait {
 
     // Assign the packet properties
     packet.runtimeEntityId = this.entity.runtimeId;
-    packet.containerId = this.container.identifier;
+    packet.containerId = ContainerId.Inventory;
     packet.selectedSlot = slot;
     packet.slot = slot;
     packet.item = itemDescriptor;
@@ -167,7 +166,7 @@ class EntityInventoryTrait extends EntityTrait {
 
   public onSpawn(): void {
     // Check if the entity is a player, if so update the container
-    if (this.entity.isPlayer()) this.container.update(this.entity);
+    if (this.entity.isPlayer()) this.container.update();
   }
 
   public onAdd(): void {

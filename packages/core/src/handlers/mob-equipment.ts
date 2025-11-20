@@ -1,4 +1,5 @@
 import {
+  ContainerId,
   MobEquipmentPacket,
   NetworkItemStackDescriptor,
   Packet
@@ -31,7 +32,7 @@ class MobEquipmentHandler extends NetworkHandler {
     update.runtimeEntityId = player.runtimeId;
     update.slot = packet.selectedSlot;
     update.selectedSlot = packet.selectedSlot;
-    update.containerId = inventory.container.identifier;
+    update.containerId = ContainerId.Inventory;
     update.item =
       item === null
         ? new NetworkItemStackDescriptor(0)

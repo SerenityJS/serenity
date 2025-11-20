@@ -559,7 +559,7 @@ class ItemType {
     // Return the item stack descriptor.
     return {
       ...instance,
-      stackNetId: null // TODO: Implement stackNetId, this is so that the server can track the item stack.
+      itemStackId: null // TODO: Implement stackNetId, this is so that the server can track the item stack.
     };
   }
 }
