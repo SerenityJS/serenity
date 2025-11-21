@@ -3,13 +3,13 @@ import {
   NetworkSettingsPacket,
   Packet,
   PROTOCOL_VERSION,
+  COMPATIBLE_PROTOCOL_VERSIONS,
   type RequestNetworkSettingsPacket
 } from "@serenityjs/protocol";
 
 import { NetworkHandler } from "../network";
 
 import type { Connection } from "@serenityjs/raknet";
-import { COMPATIBLE_PROTOCOL_VERSIONS } from "@serenityjs/protocol/src";
 
 class RequestNetworkSettingsHandler extends NetworkHandler {
   public static readonly packet = Packet.RequestNetworkSettings;
