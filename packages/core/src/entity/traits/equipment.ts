@@ -1,5 +1,4 @@
 import {
-  ContainerId,
   ContainerType,
   Enchantment,
   EquipmentSlot,
@@ -45,20 +44,10 @@ class EntityEquipmentTrait extends EntityTrait {
     super(entity);
 
     // Create the armor container
-    this.armor = new EntityContainer(
-      entity,
-      ContainerType.Armor,
-      ContainerId.Armor,
-      4
-    );
+    this.armor = new EntityContainer(entity, ContainerType.Armor, 4);
 
     // Create the offhand container
-    this.offhand = new EntityContainer(
-      entity,
-      ContainerType.Inventory,
-      ContainerId.Offhand,
-      1
-    );
+    this.offhand = new EntityContainer(entity, ContainerType.Inventory, 1);
   }
 
   /**

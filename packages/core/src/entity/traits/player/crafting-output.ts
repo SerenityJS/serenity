@@ -6,25 +6,25 @@ import { Player } from "../../player";
 
 import { PlayerTrait } from "./trait";
 
-class PlayerCraftingInputTrait extends PlayerTrait {
-  public static readonly identifier = "crafting_input";
+class PlayerCraftingOutputTrait extends PlayerTrait {
+  public static readonly identifier = "crafting_output";
   public static readonly types = [EntityIdentifier.Player];
 
   /**
-   * The container that holds the inventory items.
+   * The container that holds the output item.
    */
   public readonly container: EntityContainer;
 
   /**
-   * Creates a new entity inventory trait.
+   * Creates a new player crafting output trait.
    * @param player The player that this trait will be attached to.
    */
   public constructor(player: Player) {
     super(player);
 
     // Create a new container
-    this.container = new EntityContainer(player, ContainerType.Workbench, 9);
+    this.container = new EntityContainer(player, ContainerType.Inventory, 1);
   }
 }
 
-export { PlayerCraftingInputTrait };
+export { PlayerCraftingOutputTrait };

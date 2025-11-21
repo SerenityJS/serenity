@@ -52,13 +52,13 @@ class InteractHandler extends NetworkHandler {
           const { container } = player.getTrait(EntityInventoryTrait);
 
           // Show the container to the player
-          return container.show(player);
+          return void container.show(player);
         } else {
           // Get the inventory trait from the entity
           const { container } = entity.getTrait(EntityInventoryTrait);
 
           // Show the container to the player
-          return container.show(player);
+          return void container.show(player);
         }
       }
 

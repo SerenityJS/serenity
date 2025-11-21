@@ -8,3 +8,4 @@ export * from "./crafting-input";
 export * from "./combat";
 export * from "./command-executor";
 export * from "./leveling";
+export * from "./crafting-output";

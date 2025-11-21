@@ -14,6 +14,7 @@ import {
   DisconnectMessage,
   DisconnectPacket,
   DisconnectReason,
+  FullContainerName,
   Gamemode,
   IPosition,
   MoveMode,
@@ -69,7 +70,8 @@ import {
   PlayerCraftingInputTrait,
   PlayerCursorTrait,
   PlayerTrait,
-  PlayerLevelingTrait
+  PlayerLevelingTrait,
+  PlayerCraftingOutputTrait
 } from "../traits";
 import { PlayerLevelStorage } from "../storage";
 import { PlayerSkin } from "../skin";
@@ -493,15 +495,12 @@ class Player extends Entity {
    * Get a container from the player.
    * @param name The name of the container to get.
    */
-  public getContainer(
-    name: ContainerName,
-    dynamicId?: number
-  ): Container | null {
+  public getContainer(name: FullContainerName): Container | null {
     // Check if the super instance will fetch the container
-    const container = super.getContainer(name, dynamicId);
+    const container = super.getContainer(name);
 
     // Check if the container is null and the name is dynamic
-    if (container === null && name === ContainerName.Dynamic) {
+    if (container === null && name.identifier === ContainerName.Dynamic) {
       // Check if the player has the cursor trait
       if (!this.hasTrait(PlayerCursorTrait))
         throw new Error("The player does not have a cursor trait.");
@@ -529,7 +528,7 @@ class Player extends Entity {
     if (container !== null) return container;
 
     // Switch the container name
-    switch (name) {
+    switch (name.identifier) {
       default: {
         // Return the opened container if it exists
         return this.openedContainer;
@@ -545,6 +544,19 @@ class Player extends Entity {
 
         // Return the crafting input container
         return craftingInput.container;
+      }
+
+      case ContainerName.CraftingOutput:
+      case ContainerName.CreativeOutput: {
+        // Check if the player has the crafting output trait
+        if (!this.hasTrait(PlayerCraftingOutputTrait))
+          throw new Error("The player does not have a crafting output trait.");
+
+        // Get the crafting output trait
+        const craftingOutput = this.getTrait(PlayerCraftingOutputTrait);
+
+        // Return the crafting output container
+        return craftingOutput.container;
       }
 
       case ContainerName.Cursor: {

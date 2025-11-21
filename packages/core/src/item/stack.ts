@@ -24,7 +24,11 @@ import {
   type ItemTypeComponent,
   ItemTypeComponentCollection
 } from "./identity";
-import { ItemStackDisplayTrait, ItemStackTrait } from "./traits";
+import {
+  ItemStackDisplayTrait,
+  ItemStackDurabilityTrait,
+  ItemStackTrait
+} from "./traits";
 import {
   type ItemStackOptions,
   type ItemStackUseOptions,
@@ -35,6 +39,11 @@ import {
 import { ItemStackLevelStorage } from "./storage";
 
 class ItemStack {
+  /**
+   * The next network stack ID to assign to a new item stack.
+   */
+  private static nextNetworkStackId = 0;
+
   /**
    * The type of the item stack.
    */
@@ -59,6 +68,11 @@ class ItemStack {
    * The storage of the item stack.
    */
   private readonly storage: ItemStackLevelStorage;
+
+  /**
+   * The network stack id of the item stack.
+   */
+  public readonly networkStackId: number = ++ItemStack.nextNetworkStackId;
 
   /**
    * The world the item stack is in.
@@ -764,6 +778,24 @@ class ItemStack {
   }
 
   /**
+   * Get the durability of the item stack.
+   * @returns The durability of the item stack.
+   */
+  public getDamgeDurability(): number {
+    // Check if the item stack has a durability trait.
+    if (this.hasTrait(ItemStackDurabilityTrait)) {
+      // Get the durability trait from the item stack.
+      const durability = this.getTrait(ItemStackDurabilityTrait);
+
+      // Return the durability of the item stack.
+      return durability.getDamage();
+    }
+
+    // Return 0 if the item stack does not have a durability trait.
+    return 0;
+  }
+
+  /**
    * Get the level storage of the item stack.
    * @returns The item stack level storage.
    */
@@ -879,7 +911,7 @@ class ItemStack {
     // Return the item stack descriptor.
     return {
       ...instance,
-      stackNetId: null // TODO: Implement stackNetId, this is so that the server can track the item stack.
+      itemStackId: item.networkStackId
     };
   }
 

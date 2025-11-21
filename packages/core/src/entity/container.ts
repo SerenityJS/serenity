@@ -2,7 +2,11 @@ import {
   BlockPosition,
   ContainerId,
   ContainerOpenPacket,
-  ContainerType
+  ContainerType,
+  FullContainerName,
+  InventoryContentPacket,
+  InventorySlotPacket,
+  NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 
 import { Container } from "../container";
@@ -18,13 +22,8 @@ class EntityContainer extends Container {
    */
   public readonly entity: Entity;
 
-  public constructor(
-    entity: Entity,
-    type: ContainerType,
-    identifier: ContainerId,
-    size: number
-  ) {
-    super(type, identifier, size);
+  public constructor(entity: Entity, type: ContainerType, size: number) {
+    super(type, size);
     this.entity = entity;
   }
 
@@ -46,30 +45,68 @@ class EntityContainer extends Container {
 
     // Iterate through the traits of the item type and add them to the item stack
     for (const [, trait] of itemStack.type.traits) itemStack.addTrait(trait);
-
-    // Update the container if the entity is a player
-    if (this.entity.isPlayer()) this.update(this.entity);
   }
 
   public clearSlot(slot: number): void {
     // Call the original clearSlot method
     super.clearSlot(slot);
-
-    // Update the container if the entity is a player
-    if (this.entity.isPlayer()) this.update(this.entity);
   }
 
   public clear(): void {
     // Call the original clear method
     super.clear();
-
-    // Update the container if the entity is a player
-    if (this.entity.isPlayer()) this.update(this.entity);
   }
 
-  public update(player?: Player): void {
+  public updateSlot(slot: number): void {
+    // Call the original updateSlot method
+    super.updateSlot(slot);
+    if (this.entity.isPlayer()) {
+      // Create a new InventorySlotPacket.
+      const packet = new InventorySlotPacket();
+      const itemStack = this.storage.at(slot);
+      // Set properties of the packet.
+      packet.slot = slot;
+      packet.item = itemStack
+        ? ItemStack.toNetworkStack(itemStack)
+        : new NetworkItemStackDescriptor(0);
+      packet.fullContainerName = new FullContainerName(0, 0);
+      packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
+      packet.containerId = this.identifier ?? ContainerId.None;
+      // Send the packet to the player.
+      this.entity.send(packet);
+    }
+  }
+
+  public update(): void {
     // Call the original update method
-    super.update(player);
+    super.update();
+
+    // Check if the entity is a player
+    if (this.entity.isPlayer()) {
+      // Create a new InventoryContentPacket.
+      const packet = new InventoryContentPacket();
+
+      // Set the properties of the packet.
+      packet.containerId =
+        this.type === ContainerType.Inventory
+          ? ContainerId.Inventory
+          : ContainerId.Ui;
+      packet.fullContainerName = new FullContainerName(0, 0);
+      packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
+
+      // Map the items in the storage to network item stack descriptors.
+      packet.items = this.storage.map((item) => {
+        // If the item is null, return a new NetworkItemStackDescriptor.
+        // This will indicate that the slot is empty.
+        if (!item) return new NetworkItemStackDescriptor(0);
+
+        // Convert the item stack to a network item stack descriptor
+        return ItemStack.toNetworkStack(item);
+      });
+
+      // Send the packet to the player.
+      this.entity.send(packet);
+    }
 
     // Call the onContainerUpdate method for the block traits
     for (const trait of this.entity.traits.values()) {
@@ -89,36 +126,36 @@ class EntityContainer extends Container {
     }
   }
 
-  public show(player: Player): void {
+  public show(player: Player): number {
     // Create a new PlayerOpenedContainerSignal
     const signal = new PlayerOpenedContainerSignal(player, this);
 
     // Check if the signal was cancelled
-    if (!signal.emit()) return;
+    if (!signal.emit()) return ContainerId.None;
 
     // Call the original show method
-    super.show(player);
+    const identifier = super.show(player);
 
     // Create a new ContainerOpenPacket
     const packet = new ContainerOpenPacket();
 
+    // Get if the container is owned by the player
+    const owned = this.isOwnedBy(player);
+
     // Assign the properties
-    packet.identifier = this.identifier;
-    packet.type = this.type;
+    packet.identifier = owned ? ContainerId.Inventory : identifier;
+    packet.type = owned ? ContainerType.Inventory : this.type;
     packet.position = BlockPosition.fromVector3f(this.entity.position);
     packet.uniqueId = this.entity.uniqueId;
 
-    // Check if the container is the player's inventory, and the player is not the owner
-    if (this.identifier === ContainerId.Inventory && !this.isOwnedBy(player)) {
-      // Set the container type to the player's inventory
-      packet.type = ContainerType.Container;
-      packet.identifier = ContainerId.None;
-    }
-
+    // Send the packet to the player
     player.send(packet);
 
     // Update the container
     this.update();
+
+    // Return the container identifier
+    return identifier;
   }
 }
 

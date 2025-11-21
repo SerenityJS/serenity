@@ -64,7 +64,7 @@ export * from "./inventory-right-tab";
 export * from "./inventory-source-type";
 export * from "./item-release-inventory-transaction-type";
 export * from "./item-stack-request-action-type";
-export * from "./item-stack-status";
+export * from "./item-stack-repsonse-result";
 export * from "./item-use-inventory-transaction-type";
 export * from "./item-use-method";
 export * from "./item-use-on-entity-inventory-transaction-type";

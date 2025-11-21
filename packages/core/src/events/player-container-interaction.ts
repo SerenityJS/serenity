@@ -33,13 +33,9 @@ class PlayerContainerInteractionSignal extends EventSignal {
 
   /**
    * The amount of items that were selected.
+   * If -1, it indicates that the entire stack was moved.
    */
   public readonly amount: number;
-
-  /**
-   * The request id of the container interaction.
-   */
-  public readonly requestId: number;
 
   /**
    * Creates a new player container interaction signal.
@@ -57,8 +53,7 @@ class PlayerContainerInteractionSignal extends EventSignal {
     sourceSlot: number,
     destinationContainer: Container | null,
     destinationSlot: number | null,
-    amount: number,
-    requestId: number
+    amount: number
   ) {
     super(player.world);
     this.player = player;
@@ -67,7 +62,6 @@ class PlayerContainerInteractionSignal extends EventSignal {
     this.destinationContainer = destinationContainer;
     this.destinationSlot = destinationSlot;
     this.amount = amount;
-    this.requestId = requestId;
   }
 }
 
