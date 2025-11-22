@@ -1,9 +1,7 @@
 import { createHash } from "node:crypto";
 
 import {
-  ClientData,
   DisconnectReason,
-  IdentityData,
   LoginPacket,
   LoginTokenData,
   LoginTokens,
@@ -14,7 +12,6 @@ import {
   SerializedSkin
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { createDecoder } from "fast-jwt";
 import {
   Authentication,
   AuthenticationType
@@ -27,8 +24,6 @@ import { PlayerJoinSignal } from "../events";
 
 class LoginHandler extends NetworkHandler {
   public static readonly packet = Packet.Login;
-
-  public static decoder = createDecoder();
 
   public handle(packet: LoginPacket, connection: Connection): void {
     // Decode the tokens given by the client.
@@ -99,7 +94,6 @@ class LoginHandler extends NetworkHandler {
             "There are no dimensions registered within the world instance.",
             DisconnectReason.WorldCorruption
           );
-
         // Create a new ClientSystemInfo instance.
         const clientSystemInfo = new ClientSystemInfo(
           clientData.DeviceId,
@@ -187,33 +181,12 @@ class LoginHandler extends NetworkHandler {
    * @returns The decoded login token data
    */
   public static decode(tokens: LoginTokens): LoginTokenData {
-    // Contains data about the users client. (Device, game version, etc.)
-    const clientData: ClientData = this.decoder(tokens.client);
-
-    // Parse the identity data from the tokens
-    const identity: { Certificate: string } = JSON.parse(tokens.identity);
-
-    // Get the identity chain from the identity data
-    const chains: Array<string> = JSON.parse(identity.Certificate).chain;
-
-    // Decode the chains
-    const decodedChains = chains.map((chain) => this.decoder(chain));
-
-    // Contains mainly metadata, but also includes important XBL data (displayName, xuid, identity uuid, etc.)
-    const identityData: IdentityData = decodedChains.find(
-      (chain) => chain.extraData !== undefined
-    )?.extraData;
-
-    // Public key for encryption
-    // TODO: Implement encryption
-    const publicKey = decodedChains.find(
-      (chain) => chain.identityPublicKey !== undefined
-    )?.identityPublicKey;
-
     return {
-      clientData,
-      identityData,
-      publicKey
+      clientData: Authentication.partialParse(
+        Authentication.split(tokens.client)[1]
+      ),
+      identityData: null!,
+      publicKey: null!
     };
   }
 }
