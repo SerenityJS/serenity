@@ -10,6 +10,7 @@ import {
 
 import { ItemStack } from "./item";
 import { EntityContainer, type Player } from "./entity";
+import { ItemIdentifier } from "./enums";
 
 /**
  * Represents a container.
@@ -121,7 +122,8 @@ class Container {
 
     // Check if the item amount is 0
     // If so, set the slot to null as there is no item
-    if (item.getStackSize() === 0) this.clearSlot(slot);
+    if (item.getStackSize() === 0 || item.identifier == ItemIdentifier.Air)
+      this.clearSlot(slot);
 
     // Set the container of the item
     item.container = this;
