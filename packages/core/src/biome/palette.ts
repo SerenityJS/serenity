@@ -146,6 +146,9 @@ class BiomePalette {
       packet.definitions.push(definition);
     }
 
+    // Serialize the packet to a buffer.
+    packet.serialize();
+
     // Cache the packet.
     this.packetCache = packet;
 
