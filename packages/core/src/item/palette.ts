@@ -5,8 +5,11 @@ import {
   CreativeGroup,
   CreativeItem,
   CreativeItemCategory,
-  CreativeItemGroup
+  CreativeItemGroup,
+  ItemData,
+  ItemRegistryPacket
 } from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemEnum } from "../commands";
 import { ItemIdentifier } from "../enums";
@@ -44,6 +47,11 @@ class ItemPalette {
    * The registered recipes for the palette.
    */
   public readonly recipes = Recipe.recipes;
+
+  /**
+   * The cached item registry packet.
+   */
+  private itemRegistryCache: ItemRegistryPacket | null = null;
 
   /**
    * The cached creative content packet.
@@ -183,6 +191,44 @@ class ItemPalette {
 
     // Return this instance.
     return this;
+  }
+
+  /**
+   * Gets the item registry packet.
+   * @returns The item registry packet.
+   */
+  public getItemRegistry(): ItemRegistryPacket {
+    // Check if the item registry cache is not null.
+    if (this.itemRegistryCache) return this.itemRegistryCache;
+
+    // Create a new ItemRegistryPacket, and map the item types to the packet
+    const registry = new ItemRegistryPacket();
+    registry.definitions = [...this.types.values()].map((item) => {
+      const identifier = item.identifier;
+      const networkId = item.network;
+      const componentBased = item.getIsComponentBased();
+      const itemVersion = item.getVersion();
+      const properties = item.getIsComponentBased()
+        ? item.properties
+        : new CompoundTag();
+
+      return new ItemData(
+        identifier,
+        networkId,
+        componentBased,
+        itemVersion,
+        properties
+      );
+    });
+
+    // Serialize the item registry packet to a buffer
+    registry.serialize();
+
+    // Cache the item registry packet
+    this.itemRegistryCache = registry;
+
+    // Return the item registry cache
+    return this.itemRegistryCache;
   }
 
   /**
