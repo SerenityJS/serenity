@@ -180,6 +180,11 @@ class Connection {
    * Disconnects the connection
    */
   public disconnect(): void {
+    if (
+      this.status === Status.Disconnected ||
+      this.status === Status.Disconnecting
+    )
+      return;
     // Set the status to disconnecting
     this.status = Status.Disconnecting;
 
@@ -503,7 +508,7 @@ class Connection {
     if (frame.isSequenced()) {
       if (
         frame.sequenceIndex <
-          (this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
+        (this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
         frame.orderIndex < (this.inputOrderIndex[frame.orderChannel] as number)
       ) {
         // Log a debug message for out of order frames
