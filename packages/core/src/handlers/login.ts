@@ -115,6 +115,9 @@ class LoginHandler extends NetworkHandler {
     // Set the players xuid and username.
     this.serenity.players.set(connection, player);
 
+    // Notify the world that a player has been added.
+    world.onPlayerChange(player);
+
     // Create a new PlayerJoinSignal
     const signal = new PlayerJoinSignal(player).emit();
 
