@@ -2,7 +2,6 @@ import {
   AvailableActorIdentifiersPacket,
   DisconnectReason,
   GameRuleType,
-  ItemData,
   MINECRAFT_VERSION,
   Packet,
   PlayStatus,
@@ -13,7 +12,6 @@ import {
   ResourcePackResponse,
   ResourcePackStackPacket,
   StartGamePacket,
-  ItemRegistryPacket,
   PermissionLevel,
   SyncActorPropertyPacket,
   PackType
@@ -172,16 +170,16 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.texturePacksRequired = false;
 
         // Assign the gamerules to the packet
-        packet.gamerules = packet.gamerules = Object.entries(
-          world.gamerules
-        ).map(([name, value]) => {
-          // Get the type of the value
-          const type =
-            typeof value === "boolean" ? GameRuleType.Bool : GameRuleType.Int;
+        packet.gamerules = Object.entries(world.gamerules).map(
+          ([name, value]) => {
+            // Get the type of the value
+            const type =
+              typeof value === "boolean" ? GameRuleType.Bool : GameRuleType.Int;
 
-          // Create the gamerule object
-          return { name, type, value, editable: true };
-        });
+            // Create the gamerule object
+            return { name, type, value, editable: true };
+          }
+        );
 
         packet.experiments = [];
         packet.experimentsPreviouslyToggled = false;
@@ -240,25 +238,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.tickDeathSystems = true; // This is a new property in 1.21.100
         packet.serverControlledSounds = true;
 
-        // Get all the custom item properties
-        const items = new ItemRegistryPacket();
-        items.definitions = world.itemPalette.getAllTypes().map((item) => {
-          const identifier = item.identifier;
-          const networkId = item.network;
-          const componentBased = item.getIsComponentBased();
-          const itemVersion = item.getVersion();
-          const properties = item.getIsComponentBased()
-            ? item.properties
-            : new CompoundTag();
-
-          return new ItemData(
-            identifier,
-            networkId,
-            componentBased,
-            itemVersion,
-            properties
-          );
-        });
+        // Get the item registry packet from the world's item palette
+        const registry = world.itemPalette.getItemRegistry();
 
         // Get the available actor identifiers
         const actors = new AvailableActorIdentifiersPacket();
@@ -292,7 +273,13 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         status.status = PlayStatus.PlayerSpawn;
 
         // Send the packets to the player
-        player.sendImmediate(packet, status, actors, items, ...propertiesSync);
+        player.sendImmediate(
+          packet,
+          status,
+          actors,
+          registry,
+          ...propertiesSync
+        );
       }
     }
   }
