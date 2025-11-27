@@ -11,6 +11,7 @@ import {
   TextPacketType
 } from "@serenityjs/protocol";
 import Emitter from "@serenityjs/emitter";
+import { Connection } from "@serenityjs/raknet";
 
 import { Serenity } from "../serenity";
 import {
@@ -20,7 +21,7 @@ import {
   WorldEventSignals,
   WorldProperties
 } from "../types";
-import { Entity, EntityPalette, Player } from "../entity";
+import { Entity, EntityPalette, Player, PlayerListTrait } from "../entity";
 import { ItemPalette } from "../item";
 import { BlockPalette } from "../block";
 import { OperatorCommands, CommandPalette, CommonCommands } from "../commands";
@@ -61,6 +62,11 @@ class World extends Emitter<WorldEventSignals> {
    * The dimensions of the world.
    */
   public readonly dimensions = new Map<string, Dimension>();
+
+  /**
+   * The players in the world.
+   */
+  public readonly players: Map<Connection, Player>;
 
   /**
    * The logger of the world.
@@ -134,6 +140,9 @@ class World extends Emitter<WorldEventSignals> {
     this.serenity = serenity;
     this.provider = provider;
 
+    // Create the player map for the world.
+    this.players = new Map();
+
     // Assign the world to the provider
     this.provider.world = this;
 
@@ -156,6 +165,23 @@ class World extends Emitter<WorldEventSignals> {
 
     // Register the dimensions from the properties
     for (const entry of this.properties.dimensions) this.createDimension(entry);
+  }
+
+  /**
+   * Tells the world when a player was added/removed from the world.
+   * @param player The player that was added/removed from the world.
+   */
+  public onPlayerChange(player: Player): void {
+    const toRemove = this.players.has(player.connection);
+
+    if (toRemove) this.players.delete(player.connection);
+    else this.players.set(player.connection, player);
+
+    for (const playerToUpdate of this.players.values()) {
+      const playerListTrait = playerToUpdate.getTrait(PlayerListTrait);
+
+      playerListTrait.update(player, toRemove);
+    }
   }
 
   /**
@@ -313,7 +339,7 @@ class World extends Emitter<WorldEventSignals> {
    * @returns An array of dimensions
    */
   public getDimensions(): Array<Dimension> {
-    return [...this.dimensions.values()];
+    return Array.from(this.dimensions.values());
   }
 
   /**
@@ -321,9 +347,7 @@ class World extends Emitter<WorldEventSignals> {
    * @returns An array of players.
    */
   public getPlayers(): Array<Player> {
-    return [...this.serenity.players.values()].filter(
-      (player) => player.world === this
-    );
+    return Array.from(this.players.values());
   }
 
   /**
