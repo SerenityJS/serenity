@@ -75,8 +75,6 @@ class Form<T> {
     // Get the form payload from the class.
     const payload = JSON.stringify(this);
 
-    console.log("Showing form:", payload);
-
     // Create a new ModalFormRequestPacket.
     const packet = new ModalFormRequestPacket();
 
