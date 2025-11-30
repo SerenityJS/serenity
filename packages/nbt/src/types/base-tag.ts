@@ -18,7 +18,7 @@ abstract class BaseTag extends DataType {
   /**
    * Convert the tag to a JSON object.
    */
-  public abstract toJSON(): unknown;
+  public abstract toJSON<T = unknown>(): T;
 
   /**
    * Read the nbt tag from the stream.

@@ -20,9 +20,9 @@ class FloatTag extends Number implements BaseTag {
     this.name = name ?? null;
   }
 
-  public toJSON(): number {
+  public toJSON<T = number>(): T {
     // Convert the short value to a JSON number.
-    return this.valueOf();
+    return this.valueOf() as T;
   }
 
   public static read(

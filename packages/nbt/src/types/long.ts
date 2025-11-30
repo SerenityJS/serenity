@@ -20,9 +20,9 @@ class LongTag extends String implements BaseTag {
     this.name = name ?? null;
   }
 
-  public toJSON(): string {
+  public toJSON<T = string>(): T {
     // Convert the short value to a JSON number.
-    return this.valueOf() + "n";
+    return (this.valueOf() + "n") as T;
   }
 
   public static read(

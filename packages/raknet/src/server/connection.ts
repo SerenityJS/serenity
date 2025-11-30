@@ -508,7 +508,7 @@ class Connection {
     if (frame.isSequenced()) {
       if (
         frame.sequenceIndex <
-        (this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
+          (this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
         frame.orderIndex < (this.inputOrderIndex[frame.orderChannel] as number)
       ) {
         // Log a debug message for out of order frames
