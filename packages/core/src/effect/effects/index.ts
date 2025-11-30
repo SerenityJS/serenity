@@ -13,3 +13,4 @@ export * from "./fatal-poison";
 export * from "./slowness";
 export * from "./invisibility";
 export * from "./water-breathing";
+export * from "./slow-falling";
