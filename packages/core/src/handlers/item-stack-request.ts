@@ -22,8 +22,7 @@ import { ItemStack } from "../item";
 import { Player } from "../entity";
 import {
   PlayerContainerInteractionSignal,
-  PlayerCraftRecipeSignal,
-  EntityDropItemSignal
+  PlayerCraftRecipeSignal
 } from "../events";
 
 class ItemStackRequestHandler extends NetworkHandler {
@@ -313,10 +312,13 @@ class ItemStackRequestHandler extends NetworkHandler {
     // Get the amount to drop.
     const amount = action.amount;
 
-    // Create and emit an EntityDropItemSignal
-    const signal = new EntityDropItemSignal(
+    // Create and emit a PlayerContainerInteractionSignal
+    const signal = new PlayerContainerInteractionSignal(
       player,
-      source.getItem(sourceSlot)!,
+      source,
+      sourceSlot,
+      null,
+      null,
       amount
     );
     if (!signal.emit()) return null;
