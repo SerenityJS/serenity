@@ -505,7 +505,7 @@ class Entity {
       this.getTrait(EntityEffectsTrait) ?? this.addTrait(EntityEffectsTrait);
 
     // Add the effect to the entity.
-    effectTrait.add(effectType, duration * 40, options);
+    effectTrait.addEffect(effectType, duration * 40, options);
   }
 
   /**
@@ -514,9 +514,9 @@ class Entity {
    */
   public removeEffect(effectType: EffectType): void {
     const effectTrait = this.getTrait(EntityEffectsTrait);
-    if (!effectTrait || !effectTrait.has(effectType)) return;
 
-    effectTrait.remove(effectType);
+    if (!effectTrait) return;
+    effectTrait.removeEffect(effectType);
   }
 
   /**
@@ -526,7 +526,7 @@ class Entity {
    */
   public hasEffect(effectType: EffectType): boolean {
     const effectTrait = this.getTrait(EntityEffectsTrait);
-    return effectTrait?.has(effectType) ?? false;
+    return effectTrait?.effectMap.has(effectType) ?? false;
   }
 
   /**
