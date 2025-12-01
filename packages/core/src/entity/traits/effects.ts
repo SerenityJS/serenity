@@ -119,9 +119,10 @@ class EntityEffectsTrait extends EntityTrait {
 
   public onSpawn(): void {
     const world = this.entity.world;
-    const effectList = this.entity.getStorageEntry(
-      "entity_effects"
-    ) as ListTag<CompoundTag>;
+    const effectList =
+      this.entity.getStorageEntry<ListTag<CompoundTag>>("entity_effects");
+
+    if (!effectList) return;
 
     for (const effectTag of effectList) {
       const effectType = effectTag
