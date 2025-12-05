@@ -301,7 +301,8 @@ class InventoryTransactionHandler extends NetworkHandler {
             player,
             permutation,
             transaction.face,
-            transaction.clickPosition
+            transaction.clickPosition,
+            stack
           );
 
           // Emit the signal

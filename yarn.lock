@@ -68,6 +68,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bedrock-apis/carolina-authentication@npm:^1.0.0-beta.3":
+  version: 1.0.0-beta.3
+  resolution: "@bedrock-apis/carolina-authentication@npm:1.0.0-beta.3"
+  checksum: 10c0/3a1a7dea7e90c4af861a5196d693d4e609f81bf56b4200d595d2c1e9d944582d79281f4da2dca4d416c158a0f1ba2203ddd1e51bb40b4c6af8d045a66ae62b7a
+  languageName: node
+  linkType: hard
+
 "@changesets/apply-release-plan@npm:^7.0.5":
   version: 7.0.12
   resolution: "@changesets/apply-release-plan@npm:7.0.12"
@@ -1796,6 +1803,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/core@workspace:packages/core"
   dependencies:
+    "@bedrock-apis/carolina-authentication": "npm:^1.0.0-beta.3"
     "@napi-rs/canvas": "npm:^0.1.80"
     "@serenityjs/binarystream": "npm:^3.0.10"
     "@serenityjs/data": "npm:*"

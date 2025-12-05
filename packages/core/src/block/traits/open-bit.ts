@@ -60,7 +60,7 @@ class BlockOpenBitTrait extends BlockTrait {
     packet.position = BlockPosition.toVector3f(this.block.position);
     packet.actorIdentifier = String();
     packet.isBabyMob = false;
-    packet.isGlobal = true;
+    packet.isGlobal = false;
     packet.uniqueActorId = -1n;
 
     // Check if the block is a trapdoor

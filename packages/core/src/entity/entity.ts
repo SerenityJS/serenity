@@ -4,9 +4,9 @@ import {
   ActorDataType,
   ActorFlag,
   AnimateEntityPacket,
-  ContainerId,
   ContainerName,
   EffectType,
+  FullContainerName,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
   Rotation,
@@ -505,7 +505,7 @@ class Entity {
       this.getTrait(EntityEffectsTrait) ?? this.addTrait(EntityEffectsTrait);
 
     // Add the effect to the entity.
-    effectTrait.add(effectType, duration * 40, options);
+    effectTrait.addEffect(effectType, duration * 40, options);
   }
 
   /**
@@ -514,9 +514,9 @@ class Entity {
    */
   public removeEffect(effectType: EffectType): void {
     const effectTrait = this.getTrait(EntityEffectsTrait);
-    if (!effectTrait || !effectTrait.has(effectType)) return;
 
-    effectTrait.remove(effectType);
+    if (!effectTrait) return;
+    effectTrait.removeEffect(effectType);
   }
 
   /**
@@ -526,7 +526,7 @@ class Entity {
    */
   public hasEffect(effectType: EffectType): boolean {
     const effectTrait = this.getTrait(EntityEffectsTrait);
-    return effectTrait?.has(effectType) ?? false;
+    return effectTrait?.effectMap.has(effectType) ?? false;
   }
 
   /**
@@ -1042,12 +1042,9 @@ class Entity {
    * Get a container from the entity.
    * @param name The name of the container.
    */
-  public getContainer(
-    name: ContainerName,
-    dynamicId?: number
-  ): Container | null {
+  public getContainer(name: FullContainerName): Container | null {
     // Check if a dynamic id was provided
-    if (dynamicId) {
+    if (name.dynamicIdentifier) {
       // Check if the entity has an inventory trait
       if (!this.hasTrait(EntityInventoryTrait)) return null;
 
@@ -1071,7 +1068,7 @@ class Entity {
     }
 
     // Switch name of the container
-    switch (name) {
+    switch (name.identifier) {
       default: {
         // Return null if the container name is not valid
         return null;
@@ -1086,7 +1083,7 @@ class Entity {
         const equipment = this.getTrait(EntityEquipmentTrait);
 
         // Check if the container name is armor or offhand
-        if (name === ContainerName.Armor) return equipment.armor;
+        if (name.identifier === ContainerName.Armor) return equipment.armor;
         else return equipment.offhand;
       }
 
@@ -1407,7 +1404,7 @@ class Entity {
       itemStack.container?.updateSlot(itemStack.getSlot());
 
       // Check if the container is a cursor & if the entity is a player
-      if (container.identifier === ContainerId.Ui && this.isPlayer()) {
+      if (this.isPlayer()) {
         // Check if the player has an opened container
         if (!this.openedContainer) return false;
 

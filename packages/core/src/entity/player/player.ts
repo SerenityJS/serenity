@@ -5,15 +5,11 @@ import {
   ChangeDimensionPacket,
   CommandPermissionLevel,
   ContainerName,
-  CraftingDataEntryType,
-  CraftingDataPacket,
-  CreativeContentPacket,
-  CreativeGroup,
-  CreativeItem,
   DataPacket,
   DisconnectMessage,
   DisconnectPacket,
   DisconnectReason,
+  FullContainerName,
   Gamemode,
   IPosition,
   MoveMode,
@@ -49,10 +45,7 @@ import { Container } from "../../container";
 import {
   ItemStackBundleTrait,
   ItemStack,
-  ItemType,
-  ItemTypeCooldownComponent,
-  ShapelessCraftingRecipe,
-  ShapedCraftingRecipe
+  ItemTypeCooldownComponent
 } from "../../item";
 import {
   EntityDimensionChangeSignal,
@@ -69,7 +62,8 @@ import {
   PlayerCraftingInputTrait,
   PlayerCursorTrait,
   PlayerTrait,
-  PlayerLevelingTrait
+  PlayerLevelingTrait,
+  PlayerCraftingOutputTrait
 } from "../traits";
 import { PlayerLevelStorage } from "../storage";
 import { PlayerSkin } from "../skin";
@@ -493,15 +487,12 @@ class Player extends Entity {
    * Get a container from the player.
    * @param name The name of the container to get.
    */
-  public getContainer(
-    name: ContainerName,
-    dynamicId?: number
-  ): Container | null {
+  public getContainer(name: FullContainerName): Container | null {
     // Check if the super instance will fetch the container
-    const container = super.getContainer(name, dynamicId);
+    const container = super.getContainer(name);
 
     // Check if the container is null and the name is dynamic
-    if (container === null && name === ContainerName.Dynamic) {
+    if (container === null && name.identifier === ContainerName.Dynamic) {
       // Check if the player has the cursor trait
       if (!this.hasTrait(PlayerCursorTrait))
         throw new Error("The player does not have a cursor trait.");
@@ -529,7 +520,7 @@ class Player extends Entity {
     if (container !== null) return container;
 
     // Switch the container name
-    switch (name) {
+    switch (name.identifier) {
       default: {
         // Return the opened container if it exists
         return this.openedContainer;
@@ -545,6 +536,19 @@ class Player extends Entity {
 
         // Return the crafting input container
         return craftingInput.container;
+      }
+
+      case ContainerName.CraftingOutput:
+      case ContainerName.CreativeOutput: {
+        // Check if the player has the crafting output trait
+        if (!this.hasTrait(PlayerCraftingOutputTrait))
+          throw new Error("The player does not have a crafting output trait.");
+
+        // Get the crafting output trait
+        const craftingOutput = this.getTrait(PlayerCraftingOutputTrait);
+
+        // Return the crafting output container
+        return craftingOutput.container;
       }
 
       case ContainerName.Cursor: {
@@ -599,71 +603,11 @@ class Player extends Entity {
     // Get the biome definitions from the world's biome palette
     const biomes = this.world.biomePalette.getBiomeDefinitionList();
 
-    // Create a new CreativeContentPacket, and map the creative content to the packet
-    const content = new CreativeContentPacket();
+    // Get the creative content from the world's item palette
+    const content = this.world.itemPalette.getCreativeContent();
 
-    // Prepare an array to store the creative items
-    content.items = [];
-
-    // Map the creative content to the packet
-    content.groups = [...this.world.itemPalette.creativeGroups].map(
-      ([index, group]) => {
-        // Iterate over the items in the group
-        for (const { descriptor } of group.items) {
-          // Get the next index for the item
-          const itemIndex = content.items.length;
-
-          // Create and push the creative item to the packet
-          content.items.push(new CreativeItem(itemIndex, descriptor, index));
-        }
-
-        // Get the icon item type from the map
-        const icon = ItemType.toNetworkInstance(group.icon);
-
-        // Create a new creative group
-        return new CreativeGroup(group.category, group.identifier, icon);
-      }
-    );
-
-    // Create a new CraftingDataPacket, and map the crafting recipes to the packet
-    const recipes = new CraftingDataPacket();
-
-    // Assign the recipe properties
-    recipes.clearRecipes = true;
-    recipes.containers = [];
-    recipes.crafting = [];
-    recipes.materitalReducers = [];
-    recipes.potions = [];
-
-    // Iterate over the recipes in the item palette
-    for (const [, recipe] of this.world.itemPalette.recipes) {
-      // Check if the recipe is a ShapedCraftingRecipe
-      if (recipe instanceof ShapelessCraftingRecipe) {
-        // Convert the recipe to a network format
-        const shapeless = ShapelessCraftingRecipe.toNetwork(recipe);
-
-        // Iterate over the shapeless recipes and add them to the packet
-        for (const recipe of shapeless) {
-          // Add the recipe to the crafting data packet
-          recipes.crafting.push({
-            type: CraftingDataEntryType.ShapelessRecipe,
-            recipe
-          });
-        }
-      } else if (recipe instanceof ShapedCraftingRecipe) {
-        // Convert the recipe to a network format
-        const shaped = ShapedCraftingRecipe.toNetwork(recipe);
-
-        // Iterate over the shaped recipes and add them to the packet
-        for (const recipe of shaped) {
-          // Add the recipe to the crafting data packet
-          recipes.crafting.push({
-            type: CraftingDataEntryType.ShapedRecipe,
-            recipe
-          });
-        }
-      }
-    }
+    // Get the crafting recipes from the world's item palette
+    const recipes = this.world.itemPalette.getCraftingRecipes();
 
     // Send the data, abilities, and gamemode packets to the player
     this.send(data, abilities, gamemode);

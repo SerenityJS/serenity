@@ -10,8 +10,8 @@ import { Entity, EntityHealthTrait } from "../../entity";
 import { Effect } from "./effect";
 
 class PoisonEffect extends Effect {
-  public static type: EffectType = EffectType.Poison;
-  public static instant: boolean = false;
+  public static readonly type: EffectType = EffectType.Poison;
+  public instant: boolean = false;
   public color: Color = new Color(255, 78, 147, 49);
 
   public onTick?(entity: Entity): void {

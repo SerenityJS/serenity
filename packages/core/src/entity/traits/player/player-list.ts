@@ -6,7 +6,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
-import { EntityDespawnOptions, Player } from "../../..";
+import { EntityDespawnOptions, EntitySpawnOptions, Player } from "../../..";
 
 import { PlayerTrait } from "./trait";
 
@@ -38,66 +38,68 @@ class PlayerListTrait extends PlayerTrait {
     this.player.send(remove);
   }
 
-  public onTick(): void {
-    // Check if the player is spawned
-    if (!this.player.isAlive) return;
+  public update(player: Player, toRemove: boolean): void {
+    // If a player left, we are going to remove it from the player list
+    if (toRemove) {
+      const removePacket = new PlayerListPacket();
+      removePacket.action = PlayerListAction.Remove;
+      removePacket.records = [new PlayerListRecord(player.uuid)];
+      this.players.delete(player.uuid);
+      return this.player.send(removePacket);
+    }
+    // If a player joined, then we are going to add it with all its information
+    const addPacket = new PlayerListPacket();
+    addPacket.action = PlayerListAction.Add;
+    addPacket.records = [
+      {
+        uniqueId: player.uniqueId,
+        uuid: player.uuid,
+        xuid: player.xuid,
+        username: player.username,
+        skin: player.skin.getSerialized(),
+        platformBuild: player.clientSystemInfo.os,
+        platformChatIdentifier: "",
+        isHost: false,
+        isVisitor: false,
+        isTeacher: false,
+        locatorColor: new Color(0, 0, 0, 0)
+      }
+    ];
 
-    // Get the current tick of the world
-    const currentTick = this.player.dimension.world.currentTick;
+    this.players.add(player.uuid);
+    this.player.send(addPacket);
+  }
 
-    // Check if the current tick is divisible by 20
-    // We don't need this running every tick
-    if (currentTick % 20n !== 0n) return;
-
-    // Get all the players in the player's world
-    const players = this.player.dimension.world.getPlayers();
-
-    // Filter out the players that are already in the player list & if the player is spawned
-    const adding = players.filter((player) => !this.players.has(player.uuid));
+  public onSpawn(details: EntitySpawnOptions): void {
+    // We only want to sync all of the player list if the player is joining to the server
+    if (!details.initialSpawn) return;
 
     // Create a new player list packet for the players that need to be added to the player list
     const add = new PlayerListPacket();
     add.action = PlayerListAction.Add;
-    add.records = adding.map((player) => ({
-      uniqueId: player.uniqueId,
-      uuid: player.uuid,
-      xuid: player.xuid,
-      username: player.username,
-      skin: player.skin.getSerialized(),
-      platformBuild: player.clientSystemInfo.os,
-      platformChatIdentifier: "",
-      isHost: false,
-      isVisitor: false,
-      isTeacher: false,
-      locatorColor: new Color(0, 0, 0, 0)
-    }));
+    add.records = [];
 
-    // Filter out the players that need to be removed from the player list
-    const removing = [...this.players].filter(
-      (uuid) => !players.some((x) => x.uuid === uuid)
-    );
-
-    // Create a new player list packet for the players that need to be removed from the player list
-    const remove = new PlayerListPacket();
-    remove.action = PlayerListAction.Remove;
-    remove.records = removing.map((uuid) => new PlayerListRecord(uuid));
-
-    // Send the player list packets to the player
-    if (add.records.length > 0) this.player.send(add);
-    if (remove.records.length > 0) this.player.send(remove);
-
-    // Update the player list
-    for (const player of adding) {
-      // Add the player to the player list
-      this.players.add(player.uuid);
+    for (const player of this.player.dimension.world.getPlayers()) {
+      if (this.players.has(player.uuid)) continue;
+      add.records.push({
+        uniqueId: player.uniqueId,
+        uuid: player.uuid,
+        xuid: player.xuid,
+        username: player.username,
+        skin: player.skin.getSerialized(),
+        platformBuild: player.clientSystemInfo.os,
+        platformChatIdentifier: "",
+        isHost: false,
+        isVisitor: false,
+        isTeacher: false,
+        locatorColor: new Color(0, 0, 0, 0)
+      });
     }
 
-    // Update the player list
-    for (const uuid of removing) this.players.delete(uuid);
+    this.player.send(add);
   }
 
   public onDespawn(details: EntityDespawnOptions): void {
-    // Clear the player list
     if (details.disconnected) this.clear();
   }
 

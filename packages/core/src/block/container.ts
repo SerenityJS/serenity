@@ -17,13 +17,8 @@ class BlockContainer extends Container {
    */
   public readonly block: Block;
 
-  public constructor(
-    block: Block,
-    type: ContainerType,
-    identifier: ContainerId,
-    size: number
-  ) {
-    super(type, identifier, size);
+  public constructor(block: Block, type: ContainerType, size: number) {
+    super(type, size);
     this.block = block;
   }
 
@@ -38,9 +33,9 @@ class BlockContainer extends Container {
     for (const [, trait] of itemStack.type.traits) itemStack.addTrait(trait);
   }
 
-  public update(player?: Player): void {
+  public update(): void {
     // Call the original update method
-    super.update(player);
+    super.update();
 
     // Call the onContainerUpdate method for the block traits
     for (const trait of this.block.getAllTraits()) {
@@ -50,34 +45,32 @@ class BlockContainer extends Container {
       } catch (reason) {
         // Get the block position
         const { x, y, z } = this.block.position;
-
         // Log the error to the console
         this.block.world.logger.error(
           `Failed to trigger onContainerUpdate trait event for block "${this.block.type.identifier}:${x},${y},${z}" in dimension "${this.block.dimension.identifier}"`,
           reason
         );
-
         // Remove the trait from the block
         this.block.removeTrait(trait.identifier);
       }
     }
   }
 
-  public show(player: Player): void {
+  public show(player: Player): number {
     // Create a new PlayerOpenedContainerSignal
     const signal = new PlayerOpenedContainerSignal(player, this);
 
     // Check if the signal was cancelled
-    if (!signal.emit()) return;
+    if (!signal.emit()) return ContainerId.None;
 
     // Call the original show method
-    super.show(player);
+    const identifier = super.show(player);
 
     // Create a new ContainerOpenPacket
     const packet = new ContainerOpenPacket();
 
     // Assign the properties
-    packet.identifier = this.identifier;
+    packet.identifier = identifier;
     packet.type = this.type;
     packet.position = this.block.position;
     packet.uniqueId =
@@ -88,6 +81,9 @@ class BlockContainer extends Container {
 
     // Update the container
     this.update();
+
+    // Return the container identifier
+    return identifier;
   }
 }
 

@@ -6,7 +6,7 @@ import { Effect } from "./effect";
 
 class InstantHealthEffect extends Effect {
   public static readonly type: EffectType = EffectType.InstantHealth;
-  public static readonly instant: boolean = true;
+  public readonly instant: boolean = true;
 
   public onAdd(entity: Entity): void {
     const healthTrait = entity.getTrait(EntityHealthTrait);

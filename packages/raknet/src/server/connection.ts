@@ -180,6 +180,11 @@ class Connection {
    * Disconnects the connection
    */
   public disconnect(): void {
+    if (
+      this.status === Status.Disconnected ||
+      this.status === Status.Disconnecting
+    )
+      return;
     // Set the status to disconnecting
     this.status = Status.Disconnecting;
 

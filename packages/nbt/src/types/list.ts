@@ -60,8 +60,8 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
     return Array.from(this).slice(start, end);
   }
 
-  public toJSON(): Array<unknown> {
-    return this.map((element) => element.toJSON());
+  public toJSON<T = Array<unknown>>(): T {
+    return this.map((element) => element.toJSON()) as T;
   }
 
   public static read<T extends BaseTag>(

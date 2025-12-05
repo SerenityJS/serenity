@@ -3,6 +3,7 @@ import {
   NetworkSettingsPacket,
   Packet,
   PROTOCOL_VERSION,
+  COMPATIBLE_PROTOCOL_VERSIONS,
   type RequestNetworkSettingsPacket
 } from "@serenityjs/protocol";
 
@@ -21,20 +22,22 @@ class RequestNetworkSettingsHandler extends NetworkHandler {
     // This would mean the client needs to be updated.
     // Also check if the servers protocol is less than the clients protocol.
     // This would mean the server needs to be updated.
-    if (PROTOCOL_VERSION > packet.protocol) {
-      // Send the client the servers protocol version.
-      return this.network.disconnectConnection(
-        connection,
-        "Outdated client! Please use the latest version of Minecraft Bedrock.",
-        DisconnectReason.OutdatedClient
-      );
-    } else if (PROTOCOL_VERSION < packet.protocol) {
-      // Send the client the servers protocol version.
-      return this.network.disconnectConnection(
-        connection,
-        "Outdated server! Please wait for the server to be updated.",
-        DisconnectReason.OutdatedServer
-      );
+    if (!COMPATIBLE_PROTOCOL_VERSIONS.has(packet.protocol)) {
+      if (PROTOCOL_VERSION > packet.protocol) {
+        // Send the client the servers protocol version.
+        return this.network.disconnectConnection(
+          connection,
+          "Outdated client! Please use the latest version of Minecraft Bedrock.",
+          DisconnectReason.OutdatedClient
+        );
+      } else if (PROTOCOL_VERSION < packet.protocol) {
+        // Send the client the servers protocol version.
+        return this.network.disconnectConnection(
+          connection,
+          "Outdated server! Please wait for the server to be updated.",
+          DisconnectReason.OutdatedServer
+        );
+      }
     }
 
     // Once we have determined that the client is using the correct protocol version,

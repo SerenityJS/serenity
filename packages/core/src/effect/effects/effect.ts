@@ -1,4 +1,5 @@
 import { Color, EffectType } from "@serenityjs/protocol";
+import { ByteTag, CompoundTag, IntTag, ShortTag } from "@serenityjs/nbt";
 
 import { Entity } from "../../entity";
 
@@ -7,7 +8,7 @@ class Effect {
   public static readonly type: EffectType;
 
   // Whether the effect is instantaneous or not. Default is false.
-  public static readonly instant: boolean = false;
+  public readonly instant: boolean = false;
 
   // The effect's particle color.
   public readonly color: Color = new Color(255, 255, 255, 255);
@@ -26,7 +27,7 @@ class Effect {
     amplifier?: number,
     showParticles?: boolean
   ) {
-    this.duration = Object.getPrototypeOf(this).instant ? 0 : duration;
+    this.duration = this.instant ? 0 : duration;
     this.amplifier = amplifier ?? 0;
     this.showParticles = showParticles ?? true;
   }
@@ -38,6 +39,28 @@ class Effect {
       amplifier: this.amplifier,
       showParticles: this.showParticles
     });
+  }
+
+  public serialize(): CompoundTag {
+    const compoundTag = new CompoundTag();
+    const effectType = (this.constructor as typeof Effect).type;
+
+    compoundTag.add(new ByteTag(effectType, "effect_type"));
+    compoundTag.add(new IntTag(this.duration, "effect_duration"));
+    compoundTag.add(new ShortTag(this.amplifier, "effect_amplifier"));
+    compoundTag.add(new ByteTag(Number(this.showParticles), "show_particles"));
+
+    return compoundTag;
+  }
+
+  public static deserialize(compoundTag: CompoundTag): Effect {
+    const effectDuration = compoundTag.get<IntTag>("effect_duration")!.toJSON();
+    const showParticles = Boolean(compoundTag.get<ByteTag>("show_particles")!);
+    const effectAmplifier = compoundTag
+      .get<ShortTag>("effect_amplifier")!
+      .toJSON();
+
+    return new this(effectDuration, effectAmplifier, showParticles);
   }
 
   /**

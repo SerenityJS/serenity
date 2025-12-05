@@ -1,3 +1,5 @@
+import "./polyfill";
+
 export * from "./serenity";
 export * from "./network";
 export * from "./commands";
