@@ -28,7 +28,7 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
     this.name = name ?? null;
   }
 
-  public toJSON(): Record<string, unknown> {
+  public toJSON<T = Record<string, unknown>>(): T {
     // Convert the map to a JSON object.
     const json: Record<string, unknown> = {};
 
@@ -39,7 +39,7 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
     }
 
     // Return the JSON object.
-    return json;
+    return json as T;
   }
 
   /**

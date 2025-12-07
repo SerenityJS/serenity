@@ -20,9 +20,9 @@ class StringTag extends String implements BaseTag {
     this.name = name ?? null;
   }
 
-  public toJSON(): string {
+  public toJSON<T = string>(): T {
     // Convert the byte value to a JSON number.
-    return this.valueOf();
+    return this.valueOf() as T;
   }
 
   public static read(
