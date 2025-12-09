@@ -1,8 +1,8 @@
 import { BlockPickRequestPacket, Gamemode, Packet } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 
-import { NetworkHandler } from "../network";
 import { EntityInventoryTrait } from "../entity";
+import { NetworkHandler } from "../network";
 
 class BlockPickRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.BlockPickRequest;
@@ -45,7 +45,11 @@ class BlockPickRequestHandler extends NetworkHandler {
     const { container, selectedSlot } = player.getTrait(EntityInventoryTrait);
 
     // Add the item stack to the player's inventory
-    container.setItem(selectedSlot, itemStack);
+    if (container.getItem(selectedSlot)) {
+      container.addItem(itemStack)
+    } else {
+      container.setItem(selectedSlot, itemStack);
+    }
   }
 }
 
