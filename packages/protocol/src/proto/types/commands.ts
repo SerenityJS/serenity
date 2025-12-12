@@ -1,5 +1,7 @@
 import { Endianness, DataType, BinaryStream } from "@serenityjs/binarystream";
 
+import { CommandPermissionLevel } from "../../enums";
+
 interface CommandsOverload {
   chaining: boolean;
   parameters: Array<OverloadParameter>;
@@ -34,7 +36,7 @@ class Commands extends DataType {
   /**
    * The permission level of the command.
    */
-  public readonly permissionLevel: number;
+  public readonly permissionLevel: CommandPermissionLevel;
 
   /**
    * The alias of the command.
@@ -55,7 +57,7 @@ class Commands extends DataType {
     name: string,
     description: string,
     flags: number,
-    permissionLevel: number,
+    permissionLevel: CommandPermissionLevel,
     alias: number,
     subcommands: Array<number>,
     overloads: Array<CommandsOverload>
@@ -84,7 +86,7 @@ class Commands extends DataType {
       const name = stream.readVarString();
       const description = stream.readVarString();
       const flags = stream.readUint16(Endianness.Little);
-      const permissionLevel = stream.readUint8();
+      const permissionLevel = stream.readVarString() as CommandPermissionLevel;
       const alias = stream.readInt32(Endianness.Little);
 
       // Prepare an array to store the subcommands.
@@ -165,7 +167,7 @@ class Commands extends DataType {
       stream.writeVarString(name);
       stream.writeVarString(description);
       stream.writeUint16(flags, Endianness.Little);
-      stream.writeUint8(permissionLevel);
+      stream.writeVarString(permissionLevel);
       stream.writeInt32(alias, Endianness.Little);
 
       stream.writeVarInt(subcommands.length);

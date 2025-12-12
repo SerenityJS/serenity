@@ -98,7 +98,7 @@ class PlayerCommandExecutorTrait extends PlayerTrait {
       return {
         name: command.name,
         description: command.description,
-        permissionLevel: CommandPermissionLevel.Normal,
+        permissionLevel: CommandPermissionLevel.Any,
         subcommands: [],
         flags: command.registry.debug ? 1 : 0,
         alias: -1,

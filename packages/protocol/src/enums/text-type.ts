@@ -1,4 +1,4 @@
-enum TextPacketType {
+enum TextType {
   Raw,
   Chat,
   Translation,
@@ -13,4 +13,4 @@ enum TextPacketType {
   JsonAnnouncement
 }
 
-export { TextPacketType };
+export { TextType };

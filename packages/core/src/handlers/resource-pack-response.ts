@@ -106,7 +106,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         // Create a new ResourcePackStackPacket
         const stack = new ResourcePackStackPacket();
         stack.mustAccept = false; // this.serenity.resourcePacks.mustAcceptResourcePacks;
-        stack.behaviorPacks = [];
         stack.gameVersion = MINECRAFT_VERSION;
         stack.experiments = [];
         stack.experimentsPreviouslyToggled = false;
@@ -235,7 +234,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.worldTemplateId = "00000000-0000-0000-0000-000000000000";
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
-        packet.tickDeathSystems = true; // This is a new property in 1.21.100
         packet.serverControlledSounds = true;
 
         // Get the item registry packet from the world's item palette

@@ -135,8 +135,8 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         : PermissionLevel.Member;
 
       packet.commandPermission = entity.isOp
-        ? CommandPermissionLevel.Operator
-        : CommandPermissionLevel.Normal;
+        ? CommandPermissionLevel.GameDirectors
+        : CommandPermissionLevel.Any;
 
       packet.abilities = entity.abilities.getAllAbilitiesAsLayers();
       packet.links = [];

@@ -15,6 +15,7 @@ class MobEffectPacket extends DataPacket {
   @Serialize(Bool) public particles!: boolean;
   @Serialize(VarInt) public duration!: number;
   @Serialize(PlayerInputTick) public inputTick!: bigint;
+  @Serialize(Bool) public isAmbient!: boolean;
 }
 
 export { MobEffectPacket };

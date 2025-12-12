@@ -3,7 +3,7 @@ import {
   ActorDamageCause,
   AnimatePacket,
   Vector3f,
-  AnimateId,
+  AnimateType,
   Gamemode
 } from "@serenityjs/protocol";
 import { FloatTag } from "@serenityjs/nbt";
@@ -262,9 +262,9 @@ class PlayerCombatTrait extends PlayerTrait {
       const packet = new AnimatePacket();
 
       // Set the properties of the animate packet.
-      packet.id = AnimateId.CriticalHit;
-      packet.runtimeEntityId = target.runtimeId;
-      packet.boatRowingTime = null;
+      packet.type = AnimateType.CriticalHit;
+      packet.actorRuntimeId = target.runtimeId;
+      packet.data = 0;
 
       // Broadcast the animate packet to the dimension of the player.
       this.player.dimension.broadcast(packet);

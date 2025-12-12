@@ -13,19 +13,19 @@ class TextHandler extends NetworkHandler {
     if (!player) return connection.disconnect();
 
     // Create a new PlayerChatSignal
-    const signal = new PlayerChatSignal(player, packet.message);
+    const signal = new PlayerChatSignal(player, packet.variant.message);
 
     // If the signal was canceled, return
     if (!signal.emit()) return;
 
     // Set the message of the packet to the signal message
-    packet.message = signal.message;
+    packet.variant.message = signal.message;
 
     // Call the block onStartBreak trait methods
     let canceled = false;
     for (const trait of player.traits.values()) {
       // Check if the start break was successful
-      const success = trait.onChat?.(packet.message);
+      const success = trait.onChat?.(packet.variant.message);
 
       // If the result is undefined, continue
       // As the trait does not implement the method
@@ -42,7 +42,7 @@ class TextHandler extends NetworkHandler {
 
       // Log the chat to the console
       player.dimension.world.logger.info(
-        `§8[§9${player.username}§8] Chat:§r ${packet.message}`
+        `§8[§9${player.username}§8] Chat:§r ${packet.variant.message}`
       );
     }
   }

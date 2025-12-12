@@ -5,7 +5,9 @@ import {
   DimensionType,
   IPosition,
   TextPacket,
-  TextPacketType,
+  TextType,
+  TextVariant,
+  TextVariantType,
   UpdateBlockFlagsType,
   UpdateBlockLayerType,
   UpdateBlockPacket,
@@ -681,16 +683,17 @@ class Dimension {
     if (typeof message === "string") rawText.rawtext = [{ text: message }];
     else rawText.rawtext = message.rawtext;
 
+    // Stringify the raw text.
+    const text = JSON.stringify(rawText);
+
     // Assign the packet data.
-    packet.type = TextPacketType.Json;
-    packet.needsTranslation = true;
-    packet.source = null;
-    packet.message = JSON.stringify(rawText);
-    packet.parameters = null;
+    packet.isLocalized = true;
+    packet.variantType = TextVariantType.MessageOnly;
+    packet.variant = new TextVariant(text, TextType.Json);
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = JSON.stringify(rawText);
 
+    // Broadcast the packet to the dimension.
     this.broadcast(packet);
   }
 

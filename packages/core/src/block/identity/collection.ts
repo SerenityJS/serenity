@@ -540,10 +540,7 @@ class BlockTypeComponentCollection extends CompoundTag {
       const collisionBox = this.getCollisionBox();
 
       // Check if the origin is defined.
-      if (options?.origin) collisionBox.setOrigin(options.origin);
-
-      // Check if the size is defined.
-      if (options?.size) collisionBox.setSize(options.size);
+      if (options?.boxes) collisionBox.setBoxes(options.boxes);
     }
 
     // Return the collision box component.

@@ -1,24 +1,22 @@
 import { Uint8, Bool, VarString } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
-import { type TextPacketType, Packet } from "../../enums";
-import { TextSource, TextParameters } from "../types";
+import { Packet, TextVariantType } from "../../enums";
+import { TextVariant } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.Text)
 class TextPacket extends DataPacket {
-  @Serialize(Uint8) public type!: TextPacketType;
-  @Serialize(Bool) public needsTranslation!: boolean;
-  @Serialize(TextSource, { parameter: "type" }) public source!: string | null;
+  @Serialize(Bool) public isLocalized!: boolean;
+  @Serialize(Uint8) public variantType!: TextVariantType;
 
-  @Serialize(VarString) public message!: string;
-  @Serialize(TextParameters, { parameter: "type" })
-  public parameters!: Array<string> | null;
+  @Serialize(TextVariant, { parameter: "variantType" })
+  public variant!: TextVariant;
 
   @Serialize(VarString) public xuid!: string;
   @Serialize(VarString) public platformChatId!: string;
-  @Serialize(VarString) public filtered!: string;
+  @Serialize(VarString, { optional: true }) public filtered!: string | null;
 }
 
 export { TextPacket };

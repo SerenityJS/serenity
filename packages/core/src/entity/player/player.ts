@@ -24,7 +24,9 @@ import {
   StopSoundPacket,
   TeleportCause,
   TextPacket,
-  TextPacketType,
+  TextType,
+  TextVariant,
+  TextVariantType,
   TransferPacket,
   UpdateAbilitiesPacket,
   UpdatePlayerGameTypePacket,
@@ -246,34 +248,6 @@ class Player extends Entity {
     for (const [, trait] of this.type.traits) this.addTrait(trait);
   }
 
-  // --- DEPRECATED - REMOVE IN FUTURE ---
-
-  /**
-   * The current gamemode of the player.
-   * @deprecated Use `getGamemode()` instead.
-   * Will be removed in version 0.8.14.
-   */
-  public get gamemode(): Gamemode {
-    this.world.logger.warn(
-      "The 'Player.gamemode' is deprecated. Please use 'getGamemode()' instead."
-    );
-
-    return this.getGamemode();
-  }
-
-  /**
-   * Set the current gamemode of the player.
-   * @deprecated Use `setGamemode()` instead.
-   * Will be removed in version 0.8.14.
-   */
-  public set gamemode(value: Gamemode) {
-    this.world.logger.warn(
-      "The 'Player.gamemode' is deprecated. Please use 'setGamemode()' instead."
-    );
-
-    this.setGamemode(value);
-  }
-
   /**
    * Send packets to the player (Normal Priority)
    * @param packets The packets to send to the player
@@ -345,16 +319,18 @@ class Player extends Entity {
    * @param gamemode The gamemode to set the player to.
    */
   public setGamemode(gamemode: Gamemode): void {
-    // Set the storage entry for the gamemode
-    this.storage.set("PlayerGameMode", new IntTag(gamemode));
-
+    // Create and emit a new PlayerGamemodeChangeSignal
     const signal = new PlayerGamemodeChangeSignal(
       this,
       this.getGamemode(),
       gamemode
     );
 
+    // Check if the signal was canceled
     if (!signal.emit()) return;
+
+    // Set the storage entry for the gamemode
+    this.storage.set("PlayerGameMode", new IntTag(gamemode));
 
     // Set the gamemode of the player
     this.dynamicProperties.set("gamemode", gamemode);
@@ -386,8 +362,15 @@ class Player extends Entity {
     packet.uniqueActorId = this.uniqueId;
     packet.inputTick = this.inputInfo.tick;
 
+    // Create a new SetPlayerGameTypePacket
+    const update = new SetPlayerGameTypePacket();
+    packet.gamemode = gamemode;
+
     // Broadcast the packet to the dimension
     this.dimension.broadcast(packet);
+
+    // Send the update packet to the player
+    this.send(update, packet);
   }
 
   /**
@@ -450,16 +433,17 @@ class Player extends Entity {
     if (typeof message === "string") rawText.rawtext = [{ text: message }];
     else rawText.rawtext = message.rawtext;
 
+    // Stringify the raw text.
+    const text = JSON.stringify(rawText);
+
     // Assign the packet data.
-    packet.type = TextPacketType.Json;
-    packet.needsTranslation = true;
-    packet.source = null;
-    packet.message = JSON.stringify(rawText);
-    packet.parameters = null;
+    packet.isLocalized = true;
+    packet.variantType = TextVariantType.MessageOnly;
+    packet.variant = new TextVariant(text, TextType.Json);
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = JSON.stringify(rawText);
 
+    // Send the packet to the player.
     this.send(packet);
   }
 
@@ -590,8 +574,8 @@ class Player extends Entity {
       : PermissionLevel.Member;
 
     abilities.commandPermissionLevel = this.isOp
-      ? CommandPermissionLevel.Operator
-      : CommandPermissionLevel.Normal;
+      ? CommandPermissionLevel.GameDirectors
+      : CommandPermissionLevel.Any;
 
     abilities.entityUniqueId = this.uniqueId;
     abilities.abilities = this.abilities.getAllAbilitiesAsLayers();
@@ -609,7 +593,7 @@ class Player extends Entity {
     // Get the crafting recipes from the world's item palette
     const recipes = this.world.itemPalette.getCraftingRecipes();
 
-    // Send the data, abilities, and gamemode packets to the player
+    // // Send the data, abilities, and gamemode packets to the player
     this.send(data, abilities, gamemode);
 
     // Send the biome definitions, creative content, and crafting data to the player

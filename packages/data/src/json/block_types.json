@@ -198,6 +198,7 @@
     "identifier": "minecraft:acacia_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible",
       "wood"
     ],
@@ -397,6 +398,7 @@
     "identifier": "minecraft:andesite_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -648,6 +650,7 @@
     "identifier": "minecraft:bamboo_mosaic_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible"
     ],
     "air": false,
@@ -727,6 +730,7 @@
     "identifier": "minecraft:bamboo_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible"
     ],
     "air": false,
@@ -1135,6 +1139,7 @@
     "identifier": "minecraft:birch_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible",
       "wood"
     ],
@@ -1371,6 +1376,7 @@
     "identifier": "minecraft:blackstone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -1698,6 +1704,7 @@
     "identifier": "minecraft:brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -2344,6 +2351,7 @@
     "identifier": "minecraft:cherry_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible"
     ],
     "air": false,
@@ -2711,6 +2719,7 @@
     "identifier": "minecraft:cobbled_deepslate_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -3383,6 +3392,7 @@
     "identifier": "minecraft:crimson_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible"
     ],
     "air": false,
@@ -3498,6 +3508,7 @@
     "identifier": "minecraft:cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
@@ -3925,6 +3936,7 @@
     "identifier": "minecraft:dark_oak_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible",
       "wood"
     ],
@@ -4009,6 +4021,7 @@
     "identifier": "minecraft:dark_prismarine_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -4352,6 +4365,7 @@
     "identifier": "minecraft:deepslate_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -4528,6 +4542,7 @@
     "identifier": "minecraft:deepslate_tile_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -4658,6 +4673,7 @@
     "identifier": "minecraft:diorite_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -5937,6 +5953,7 @@
     "identifier": "minecraft:end_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -6251,6 +6268,7 @@
     "identifier": "minecraft:exposed_cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
@@ -6646,6 +6664,7 @@
     "identifier": "minecraft:granite_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -7804,6 +7823,7 @@
     "identifier": "minecraft:jungle_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible",
       "wood"
     ],
@@ -9023,6 +9043,7 @@
     "identifier": "minecraft:mangrove_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible"
     ],
     "air": false,
@@ -9227,6 +9248,7 @@
     "identifier": "minecraft:mossy_cobblestone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -9285,6 +9307,7 @@
     "identifier": "minecraft:mossy_stone_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -9366,6 +9389,7 @@
     "identifier": "minecraft:mud_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -9497,6 +9521,7 @@
     "identifier": "minecraft:nether_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -9620,6 +9645,7 @@
     "identifier": "minecraft:normal_stone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -9776,6 +9802,7 @@
     "identifier": "minecraft:oak_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible",
       "wood"
     ],
@@ -10179,6 +10206,7 @@
     "identifier": "minecraft:oxidized_cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
@@ -10473,6 +10501,7 @@
     "identifier": "minecraft:pale_oak_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible"
     ],
     "air": false,
@@ -10888,6 +10917,7 @@
     "identifier": "minecraft:polished_andesite_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -10952,6 +10982,7 @@
     "identifier": "minecraft:polished_blackstone_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11047,6 +11078,7 @@
     "identifier": "minecraft:polished_blackstone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11115,6 +11147,7 @@
     "identifier": "minecraft:polished_deepslate_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11184,6 +11217,7 @@
     "identifier": "minecraft:polished_diorite_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11236,6 +11270,7 @@
     "identifier": "minecraft:polished_granite_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11287,6 +11322,7 @@
     "identifier": "minecraft:polished_tuff_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11435,6 +11471,7 @@
     "identifier": "minecraft:prismarine_bricks_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11475,6 +11512,7 @@
     "identifier": "minecraft:prismarine_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11703,6 +11741,7 @@
     "identifier": "minecraft:purpur_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11793,6 +11832,7 @@
     "identifier": "minecraft:quartz_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -11988,6 +12028,7 @@
     "identifier": "minecraft:red_nether_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -12069,6 +12110,7 @@
     "identifier": "minecraft:red_sandstone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -12286,6 +12328,7 @@
     "identifier": "minecraft:resin_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -12417,6 +12460,7 @@
     "identifier": "minecraft:sandstone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -12723,6 +12767,7 @@
     "identifier": "minecraft:smooth_quartz_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -12774,6 +12819,7 @@
     "identifier": "minecraft:smooth_red_sandstone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -12825,6 +12871,7 @@
     "identifier": "minecraft:smooth_sandstone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -13201,6 +13248,7 @@
     "identifier": "minecraft:spruce_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible",
       "wood"
     ],
@@ -13380,6 +13428,7 @@
     "identifier": "minecraft:stone_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -13452,6 +13501,7 @@
     "identifier": "minecraft:stone_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "stone"
     ],
@@ -14112,6 +14162,7 @@
     "identifier": "minecraft:tuff_brick_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -14180,6 +14231,7 @@
     "identifier": "minecraft:tuff_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible"
     ],
     "air": false,
@@ -14570,6 +14622,7 @@
     "identifier": "minecraft:warped_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_axe_item_destructible"
     ],
     "air": false,
@@ -14866,6 +14919,7 @@
     "identifier": "minecraft:waxed_cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
@@ -15083,6 +15137,7 @@
     "identifier": "minecraft:waxed_exposed_cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
@@ -15331,6 +15386,7 @@
     "identifier": "minecraft:waxed_oxidized_cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
@@ -15564,6 +15620,7 @@
     "identifier": "minecraft:waxed_weathered_cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"
@@ -15796,6 +15853,7 @@
     "identifier": "minecraft:weathered_cut_copper_stairs",
     "components": [],
     "tags": [
+      "minecraft:cornerable_stairs",
       "minecraft:is_pickaxe_item_destructible",
       "minecraft:stone_tier_destructible",
       "stone_pick_diggable"

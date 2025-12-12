@@ -164,9 +164,6 @@ function Proto(id: number) {
               // Set the property to undefined if it is not defined.
               (this[name as keyof BasePacket] as unknown) = undefined;
               continue;
-            } else if (options.optional) {
-              // Read the boolean true to indicate the property is defined.
-              this.readBool();
             }
 
             // Set the property using the parameter and the type.
@@ -185,9 +182,6 @@ function Proto(id: number) {
                 // Set the property to undefined if it is not defined.
                 (this[name as keyof BasePacket] as unknown) = undefined;
                 continue;
-              } else if (options?.optional) {
-                // Read the boolean true to indicate the property is defined.
-                this.readBool();
               }
 
               // Set the property using the type.
@@ -206,9 +200,6 @@ function Proto(id: number) {
                 // Set the property to undefined if it is not defined.
                 (this[name as keyof BasePacket] as unknown) = undefined;
                 continue;
-              } else if (options?.optional) {
-                // Read the boolean true to indicate the property is defined.
-                this.readBool();
               }
 
               // Set the property using the type.
