@@ -43,11 +43,19 @@ class BlockPickRequestHandler extends NetworkHandler {
 
     // Get the player's inventory container
     const { container, selectedSlot } = player.getTrait(EntityInventoryTrait);
+    const hotbarSize = 9;
+    const isHotbarFull = container.storage
+      .slice(0, hotbarSize)
+      .every((slot) => slot !== null);
+    const selectedSlotItem = container.getItem(selectedSlot);
 
     // Add the item stack to the player's inventory
-    if (container.getItem(selectedSlot)) {
-      container.addItem(itemStack)
-    } else {
+    if (!selectedSlotItem || isHotbarFull) {
+      container.setItem(selectedSlot, itemStack);
+      return;
+    }
+
+    if (!container.addItem(itemStack)) {
       container.setItem(selectedSlot, itemStack);
     }
   }
