@@ -25,7 +25,7 @@ class Form<T> {
   /**
    * The next form id to use when creating a new form.
    */
-  public static formId = 0;
+  private static formId = 0;
 
   /**
    * The form id of the form.
@@ -124,6 +124,10 @@ class Form<T> {
     player.send(packet);
   }
 
+  /**
+   * Updates the form for a player.
+   * @param player The player to update the form for.
+   */
   public update(player: Player): void {
     // Check if the form has a pending response
     if (!player.pendingForms.has(this.formId)) return;

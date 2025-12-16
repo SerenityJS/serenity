@@ -2,8 +2,10 @@ import {
   BlockActorDataPacket,
   ChunkCoords,
   DataPacket,
+  IPosition,
   LevelChunkPacket,
-  NetworkChunkPublisherUpdatePacket
+  NetworkChunkPublisherUpdatePacket,
+  UpdateBlockPacket
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
@@ -112,6 +114,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
           // Add the block packet to the packets array
           packets.push(packet);
+
+          // Push tile fix packets
+          packets.push(...this.getTileFixPackets(storage.getPosition()));
         }
       }
 
@@ -298,6 +303,27 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
 
     this.offsetCache.set(d, packed);
     return packed;
+  }
+
+  public getTileFixPackets(position: IPosition): Array<DataPacket> {
+    // Fetch the block at the position
+    const block = this.dimension.getBlock(position);
+
+    // Create two UpdateBlockPackets to fix tile entities
+    const packet1 = new UpdateBlockPacket();
+    packet1.position = block.position;
+    packet1.layer = 0;
+    packet1.flags = 0;
+    packet1.networkBlockId = 0;
+
+    const packet2 = new UpdateBlockPacket();
+    packet2.position = block.position;
+    packet2.layer = 0;
+    packet2.flags = 0;
+    packet2.networkBlockId = block.permutation.networkId;
+
+    // Return the packets
+    return [packet1, packet2];
   }
 
   public onRemove(): void {
