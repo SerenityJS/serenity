@@ -1,5 +1,5 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Uint8, VarLong, ZigZag } from "@serenityjs/binarystream";
+import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet } from "../../enums";
 
