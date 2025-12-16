@@ -1,5 +1,5 @@
 enum ContainerDataType {
-  FurnanceTickCount = 0,
+  FurnaceTickCount = 0,
   FurnaceLitTime = 1,
   FurnaceLitDuration = 2,
   FurnaceStoredXp = 3,
