@@ -5,7 +5,9 @@ import {
   DimensionType,
   IPosition,
   TextPacket,
-  TextPacketType,
+  TextType,
+  TextVariant,
+  TextVariantType,
   UpdateBlockFlagsType,
   UpdateBlockLayerType,
   UpdateBlockPacket,
@@ -268,7 +270,7 @@ class Dimension {
             if (!item) continue;
 
             // Iterate over all the traits in the item
-            for (const [identifier, trait] of item.traits)
+            for (const trait of item.getAllTraits())
               try {
                 // Tick the item trait
                 trait.onTick?.({ currentTick, deltaTick });
@@ -279,12 +281,12 @@ class Dimension {
               } catch (reason) {
                 // Log the error to the console
                 this.world.logger.error(
-                  `Failed to tick item trait "${identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
+                  `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
                   reason
                 );
 
                 // Remove the trait from the item
-                item.traits.delete(identifier);
+                item.removeTrait(trait.identifier);
               }
           }
         }
@@ -407,14 +409,11 @@ class Dimension {
       }
 
       // Return the cached chunk
-      if (chunk.ready) return chunk;
+      return chunk;
     }
 
     // Create a new chunk to pass to the provider
     const chunk = new Chunk(cx, cz, this.type);
-
-    // Mark the chunk as not ready
-    chunk.ready = false;
 
     // Await for the chunk to be generated
     this.world.provider.readChunk(chunk, this).then((chunk) => {
@@ -464,7 +463,20 @@ class Dimension {
         }
       }
 
-      return;
+      // Iterate over all the players in the dimension
+      for (const player of this.getPlayers()) {
+        // Get the player's chunk rendering trait
+        const trait = player.getTrait(PlayerChunkRenderingTrait);
+
+        // Check if the player has the chunk being set
+        if (!trait.chunks.has(chunk.hash)) continue;
+
+        // Send the chunk to the player
+        trait.send(this, chunk);
+      }
+
+      // Return the chunk
+      return chunk;
     });
 
     return chunk; // Return the chunk
@@ -484,11 +496,8 @@ class Dimension {
       if (!trait.chunks.has(chunk.hash)) continue;
 
       // Send the chunk to the player
-      trait.send(chunk);
+      trait.send(this, chunk);
     }
-
-    // Write the chunk to the provider
-    return void this.world.provider.writeChunk(chunk, this);
   }
 
   /**
@@ -674,16 +683,17 @@ class Dimension {
     if (typeof message === "string") rawText.rawtext = [{ text: message }];
     else rawText.rawtext = message.rawtext;
 
+    // Stringify the raw text.
+    const text = JSON.stringify(rawText);
+
     // Assign the packet data.
-    packet.type = TextPacketType.Json;
-    packet.needsTranslation = true;
-    packet.source = null;
-    packet.message = JSON.stringify(rawText);
-    packet.parameters = null;
+    packet.isLocalized = true;
+    packet.variantType = TextVariantType.MessageOnly;
+    packet.variant = new TextVariant(text, TextType.Json);
     packet.xuid = "";
     packet.platformChatId = "";
-    packet.filtered = JSON.stringify(rawText);
 
+    // Broadcast the packet to the dimension.
     this.broadcast(packet);
   }
 

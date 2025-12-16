@@ -13,7 +13,7 @@ import { EntityIdentifier, EntityInteractMethod } from "../../enums";
 import { EntityContainer } from "../container";
 import { Entity } from "../entity";
 import { ItemStackKeepOnDieTrait, ItemStack } from "../../item";
-import { EntityInventoryTraitOptions } from "../../types";
+import { EntityDeathOptions, EntityInventoryTraitOptions } from "../../types";
 import { Container } from "../../container";
 import { Player } from "../player";
 
@@ -56,13 +56,12 @@ class EntityInventoryTrait extends EntityTrait {
       entity.isPlayer()
         ? ContainerType.Inventory
         : (options?.type ?? ContainerType.Container),
-      // Determine the container identifier
-      entity.isPlayer()
-        ? ContainerId.Inventory
-        : (options?.identifier ?? ContainerId.None),
       // Determine the container size
       entity.isPlayer() ? 36 : (options?.size ?? 27)
     );
+
+    // Assign the container identifier
+    this.container.identifier = ContainerId.Inventory;
   }
 
   /**
@@ -94,7 +93,7 @@ class EntityInventoryTrait extends EntityTrait {
 
     // Assign the packet properties
     packet.runtimeEntityId = this.entity.runtimeId;
-    packet.containerId = this.container.identifier;
+    packet.containerId = ContainerId.Inventory;
     packet.selectedSlot = slot;
     packet.slot = slot;
     packet.item = itemDescriptor;
@@ -152,7 +151,7 @@ class EntityInventoryTrait extends EntityTrait {
       if (!itemStack) continue;
 
       // Get the item stack level storage
-      const storage = itemStack.getLevelStorage();
+      const storage = itemStack.getStorage();
 
       // Create a new int tag for the slot
       storage.add(new IntTag(i, "Slot"));
@@ -167,7 +166,7 @@ class EntityInventoryTrait extends EntityTrait {
 
   public onSpawn(): void {
     // Check if the entity is a player, if so update the container
-    if (this.entity.isPlayer()) this.container.update(this.entity);
+    if (this.entity.isPlayer()) this.container.update();
   }
 
   public onAdd(): void {
@@ -243,9 +242,12 @@ class EntityInventoryTrait extends EntityTrait {
     this.container.show(player);
   }
 
-  public onDeath(): void {
+  public onDeath(options: EntityDeathOptions): void {
     // Check if the entity is a player, and the keep inventory gamerule is enabled
-    if (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+    if (
+      options.cancel ||
+      (this.entity.isPlayer() && this.entity.world.gamerules.keepInventory)
+    )
       return;
 
     // Iterate over the container slots

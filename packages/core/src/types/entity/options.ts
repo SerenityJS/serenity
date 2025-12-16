@@ -70,6 +70,11 @@ interface EntityDeathOptions {
    * The cause of the damage that killed the target entity.
    */
   damageCause: ActorDamageCause;
+
+  /**
+   * Whether to cancel the death event.
+   */
+  cancel: boolean;
 }
 
 interface EntityTeleportOptions {

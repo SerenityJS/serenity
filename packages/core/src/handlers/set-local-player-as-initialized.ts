@@ -1,21 +1,14 @@
 import {
-  CraftingDataPacket,
   Packet,
   SetLocalPlayerAsInitializedPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { CRAFTING_DATA } from "@serenityjs/data";
 
 import { NetworkHandler } from "../network";
 import { PlayerInitializedSignal } from "../events";
 
 class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
   public static readonly packet = Packet.SetLocalPlayerAsInitialized;
-
-  // TODO: remove this when we have a recipe system
-  public static readonly CraftingData = new CraftingDataPacket(
-    CRAFTING_DATA
-  ).deserialize();
 
   public handle(
     packet: SetLocalPlayerAsInitializedPacket,

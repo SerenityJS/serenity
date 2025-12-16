@@ -1,20 +1,15 @@
 import {
   AbilityIndex,
-  BlockEventPacket,
-  BlockEventType,
   BlockPosition,
-  ContainerId,
   ContainerType,
-  LevelSoundEvent,
-  LevelSoundEventPacket,
   Vector3f
 } from "@serenityjs/protocol";
 import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
 
-import { BlockIdentifier } from "../../enums";
 import { BlockContainer } from "../container";
 import { Block } from "../block";
 import {
+  BlockDestroyOptions,
   BlockInteractionOptions,
   BlockInventoryTraitOptions
 } from "../../types";
@@ -24,11 +19,6 @@ import { BlockTrait } from "./trait";
 
 class BlockInventoryTrait extends BlockTrait {
   public static readonly identifier: string = "inventory";
-  public static readonly types = [
-    BlockIdentifier.Chest,
-    BlockIdentifier.TrappedChest,
-    BlockIdentifier.Barrel
-  ];
 
   public container: BlockContainer;
 
@@ -52,7 +42,6 @@ class BlockInventoryTrait extends BlockTrait {
     this.container = new BlockContainer(
       block,
       options?.type ?? ContainerType.Container,
-      options?.identifier ?? ContainerId.None,
       27
     );
   }
@@ -72,7 +61,10 @@ class BlockInventoryTrait extends BlockTrait {
     this.container.show(origin);
   }
 
-  public onBreak(): void {
+  public onBreak(options?: BlockDestroyOptions): void {
+    // Check if the break was cancelled or there is no origin
+    if (!options?.origin || options?.cancel) return;
+
     // Loop through the items in the container
     for (const item of this.container.storage) {
       // Check if the item is valid
@@ -122,7 +114,7 @@ class BlockInventoryTrait extends BlockTrait {
   /**
    * Called when the state of the inventory is set to open.
    */
-  public onOpen(): void {
+  public onOpen(_silent?: boolean): void {
     // Create a new items list tag
     const items = new ListTag<CompoundTag>();
 
@@ -135,7 +127,7 @@ class BlockInventoryTrait extends BlockTrait {
       if (!itemStack) continue;
 
       // Get the item stack level storage
-      const storage = itemStack.getLevelStorage();
+      const storage = itemStack.getStorage();
 
       // Create a new int tag for the slot
       storage.add(new IntTag(i, "Slot"));
@@ -146,53 +138,12 @@ class BlockInventoryTrait extends BlockTrait {
 
     // Add the items to the items list tag
     this.block.setStorageEntry("Items", items);
-
-    // Create a new BlockEventPacket
-    const event = new BlockEventPacket();
-    event.position = this.block.position;
-    event.type = BlockEventType.ChangeState;
-    event.data = 1;
-
-    // Create a new LevelSoundEventPacket
-    const sound = new LevelSoundEventPacket();
-    sound.position = BlockPosition.toVector3f(this.block.position);
-    sound.data = this.block.permutation.networkId;
-    sound.actorIdentifier = String();
-    sound.isBabyMob = false;
-    sound.isGlobal = false;
-    sound.uniqueActorId = -1n;
-
-    // Set the sound event based on the block type
-    switch (this.block.identifier) {
-      default: {
-        sound.event = -1 as LevelSoundEvent;
-        break;
-      }
-
-      case BlockIdentifier.Chest:
-      case BlockIdentifier.TrappedChest: {
-        sound.event = LevelSoundEvent.ChestOpen;
-        break;
-      }
-
-      case BlockIdentifier.Barrel: {
-        sound.event = LevelSoundEvent.BarrelOpen;
-
-        // Set the open bit state
-        this.block.setState("open_bit", true);
-
-        break;
-      }
-    }
-
-    // Broadcast the block event packet
-    this.block.dimension.broadcast(event, sound);
   }
 
   /**
    * Called when the state of the inventory is set to close.
    */
-  public onClose(): void {
+  public onClose(_silent?: boolean): void {
     // Create a new items list tag
     const items = new ListTag<CompoundTag>();
 
@@ -205,7 +156,7 @@ class BlockInventoryTrait extends BlockTrait {
       if (!itemStack) continue;
 
       // Get the item stack level storage
-      const storage = itemStack.getLevelStorage();
+      const storage = itemStack.getStorage();
 
       // Create a new int tag for the slot
       storage.add(new IntTag(i, "Slot"));
@@ -216,47 +167,6 @@ class BlockInventoryTrait extends BlockTrait {
 
     // Add the items to the items list tag
     this.block.setStorageEntry("Items", items);
-
-    // Create a new block event packet
-    const packet = new BlockEventPacket();
-    packet.position = this.block.position;
-    packet.type = BlockEventType.ChangeState;
-    packet.data = 0;
-
-    // Create a new level sound event packet
-    const sound = new LevelSoundEventPacket();
-    sound.position = BlockPosition.toVector3f(this.block.position);
-    sound.data = this.block.permutation.networkId;
-    sound.actorIdentifier = String();
-    sound.isBabyMob = false;
-    sound.isGlobal = false;
-    sound.uniqueActorId = -1n;
-
-    // Set the sound event based on the block type
-    switch (this.block.type.identifier) {
-      default: {
-        sound.event = -1 as LevelSoundEvent;
-        break;
-      }
-
-      case BlockIdentifier.Chest:
-      case BlockIdentifier.TrappedChest: {
-        sound.event = LevelSoundEvent.ChestClosed;
-        break;
-      }
-
-      case BlockIdentifier.Barrel: {
-        sound.event = LevelSoundEvent.BarrelClose;
-
-        // Set the open bit state
-        this.block.setState("open_bit", false);
-
-        break;
-      }
-    }
-
-    // Broadcast the block event packet
-    this.block.dimension.broadcast(packet, sound);
   }
 
   public onAdd(): void {

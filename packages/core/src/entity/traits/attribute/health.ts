@@ -9,7 +9,11 @@ import { EntityIdentifier } from "../../../enums";
 import { EntityHurtSignal } from "../../../events";
 import { Entity } from "../../entity";
 import { EntityEquipmentTrait } from "../equipment";
-import { EntityDespawnOptions, EntitySpawnOptions } from "../../../types";
+import {
+  EntityDeathOptions,
+  EntityDespawnOptions,
+  EntitySpawnOptions
+} from "../../../types";
 import { ItemStackDurabilityTrait } from "../../../item";
 
 import { EntityAttributeTrait } from "./attribute";
@@ -95,7 +99,17 @@ class EntityHealthTrait extends EntityAttributeTrait {
       this.currentValue = this.maximumValue; // Reset the health value to the maximum value
   }
 
-  public onDeath(): void {
+  public onDeath(details: EntityDeathOptions): void {
+    // Check if the death was cancelled
+    if (details.cancel) {
+      // Set the current health value to the minimum value
+      this.currentValue = this.maximumValue;
+
+      // Return early
+      return;
+    }
+
+    // Set the current health value to the minimum value
     this.currentValue = this.minimumValue;
   }
 }

@@ -9,8 +9,6 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.ResourcePackStack)
 class ResourcePackStackPacket extends DataPacket {
   @Serialize(Bool) public mustAccept!: boolean;
-  @Serialize(ResourceIdVersions)
-  public behaviorPacks!: Array<ResourceIdVersions>;
 
   @Serialize(ResourceIdVersions)
   public texturePacks!: Array<ResourceIdVersions>;

@@ -73,7 +73,7 @@ class ScoreEntry extends DataType {
     // Loop through the entries.
     for (let index = 0; index < count; index++) {
       // Read the entries.
-      const scoreboardId = stream.readVarLong();
+      const scoreboardId = stream.readZigZong();
       const objectiveName = stream.readVarString();
       const score = stream.readInt32(Endianness.Little);
       let identityType: ScoreboardIdentityType | null = null;
@@ -130,7 +130,7 @@ class ScoreEntry extends DataType {
     // Loop through the entries.
     for (const entry of value) {
       // Write the entries.
-      stream.writeVarLong(entry.scoreboardId);
+      stream.writeZigZong(entry.scoreboardId);
       stream.writeVarString(entry.objectiveName);
       stream.writeInt32(entry.score, Endianness.Little);
 

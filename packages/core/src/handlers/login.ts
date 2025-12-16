@@ -1,7 +1,8 @@
+import { createHash } from "node:crypto";
+
 import {
   ClientData,
   DisconnectReason,
-  IdentityData,
   LoginPacket,
   LoginTokenData,
   LoginTokens,
@@ -12,7 +13,10 @@ import {
   SerializedSkin
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { createDecoder } from "fast-jwt";
+import {
+  Authentication,
+  AuthenticationType
+} from "@bedrock-apis/carolina-authentication";
 
 import { NetworkHandler } from "../network";
 import { ClientSystemInfo, Player } from "../entity";
@@ -22,37 +26,36 @@ import { PlayerJoinSignal } from "../events";
 class LoginHandler extends NetworkHandler {
   public static readonly packet = Packet.Login;
 
-  public static decoder = createDecoder();
-
-  public handle(packet: LoginPacket, connection: Connection): void {
+  public async auth(
+    packet: LoginPacket,
+    connection: Connection
+  ): Promise<void> {
+    const { AuthenticationType: type, Token } = Authentication.parse(
+      packet.tokens.identity
+    );
     // Decode the tokens given by the client.
     // This contains the client data, identity data, and public key.
     // Along with the players XUID, display name, and uuid.
-    const { clientData, identityData } = LoginHandler.decode(packet.tokens);
 
-    // Get the clients xuid and username.
-    const xuid = identityData.XUID;
-    const uuid = identityData.identity;
-    const username = identityData.displayName;
-
-    // Check if the xuid is smaller than 16 characters.
-    // If so then the xuid is invalid.
-    // Not sure if this is the best way to check if the xuid is valid, but it works for now.
-    // Possibly add a xuid resolver in the future, but may leave that up to plugins.
-    if (xuid.length < 16) {
-      // Disconnect the player.
-      return this.network.disconnectConnection(
+    if (type === AuthenticationType.OfflineSelfSigned)
+      return void this.network.disconnectConnection(
         connection,
-        "Failed to connect due to having an invalid xuid. Make sure you are connected to Xbox Live before joining the server.",
-        DisconnectReason.InvalidTenant
+        "Offline mode is not supported. Please connect to xbox services",
+        DisconnectReason.EmptyAuthFromDiscovery
       );
-    }
+
+    const { cpk, xid, xname } = await Authentication.authenticate(Token);
+    const uuid = LoginHandler.getUUIDFromXUID(xid);
+    const clientData = await Authentication.verify<ClientData>(
+      packet.tokens.client,
+      cpk
+    );
 
     // Check if the player is already connected.
     // And if so, disconnect the player the player currently connected.
-    if (this.serenity.getPlayerByXuid(xuid)) {
+    if (this.serenity.getPlayerByXuid(xid)) {
       // Get the player to disconnect.
-      const player = this.serenity.getPlayerByXuid(xuid) as Player;
+      const player = this.serenity.getPlayerByXuid(xid) as Player;
 
       // Disconnect the player.
       player.disconnect(
@@ -70,7 +73,6 @@ class LoginHandler extends NetworkHandler {
         "There are no worlds registered within the server process.",
         DisconnectReason.WorldCorruption
       );
-
     // Get the default dimension, and check if it is undefined.
     // If so, then disconnect the player.
     const dimension = world.getDimension();
@@ -80,7 +82,6 @@ class LoginHandler extends NetworkHandler {
         "There are no dimensions registered within the world instance.",
         DisconnectReason.WorldCorruption
       );
-
     // Create a new ClientSystemInfo instance.
     const clientSystemInfo = new ClientSystemInfo(
       clientData.DeviceId,
@@ -98,8 +99,8 @@ class LoginHandler extends NetworkHandler {
 
     // Create the properties for the player
     const properties: Partial<PlayerProperties> = {
-      username,
-      xuid,
+      username: xname,
+      xuid: xid,
       uuid,
       clientSystemInfo,
       skin
@@ -114,12 +115,15 @@ class LoginHandler extends NetworkHandler {
     // Set the players xuid and username.
     this.serenity.players.set(connection, player);
 
+    // Notify the world that a player has been added.
+    world.onPlayerChange(player);
+
     // Create a new PlayerJoinSignal
     const signal = new PlayerJoinSignal(player).emit();
 
     // Check if the signal was cancelled.
     if (!signal)
-      return player.disconnect(
+      return void player.disconnect(
         "Failed to join the server.",
         DisconnectReason.Kicked
       );
@@ -148,42 +152,41 @@ class LoginHandler extends NetworkHandler {
     // Send the player the login status packet and the resource pack info packet.
     player.send(login, resources);
   }
-
+  public handle(packet: LoginPacket, connection: Connection): void {
+    this.auth(packet, connection).catch((reason) =>
+      this.network.disconnectConnection(
+        connection,
+        "Your client is not authenticated or your authentication token expired. Error:\n" +
+          reason,
+        DisconnectReason.NotAuthenticated
+      )
+    );
+  }
+  public static getUUIDFromXUID(xuid: string): string {
+    return uuidFromBytes(
+      new TextEncoder().encode(`pocket-auth-1-xuid:${xuid}`)
+    );
+  }
   /**
    * Decodes the login tokens and returns the data
    * @param tokens The login tokens
    * @returns The decoded login token data
    */
   public static decode(tokens: LoginTokens): LoginTokenData {
-    // Contains data about the users client. (Device, game version, etc.)
-    const clientData: ClientData = this.decoder(tokens.client);
-
-    // Parse the identity data from the tokens
-    const identity: { Certificate: string } = JSON.parse(tokens.identity);
-
-    // Get the identity chain from the identity data
-    const chains: Array<string> = JSON.parse(identity.Certificate).chain;
-
-    // Decode the chains
-    const decodedChains = chains.map((chain) => this.decoder(chain));
-
-    // Contains mainly metadata, but also includes important XBL data (displayName, xuid, identity uuid, etc.)
-    const identityData: IdentityData = decodedChains.find(
-      (chain) => chain.extraData !== undefined
-    )?.extraData;
-
-    // Public key for encryption
-    // TODO: Implement encryption
-    const publicKey = decodedChains.find(
-      (chain) => chain.identityPublicKey !== undefined
-    )?.identityPublicKey;
-
     return {
-      clientData,
-      identityData,
-      publicKey
+      clientData: Authentication.partialParse(
+        Authentication.split(tokens.client)[1]
+      ),
+      identityData: null!,
+      publicKey: null!
     };
   }
 }
 
+function uuidFromBytes(input: Uint8Array): string {
+  const bytes = createHash("md5").update(input).digest();
+  bytes[6] = (bytes[6]! & 0x0f) | 0x30; // version 3
+  bytes[8] = (bytes[8]! & 0x3f) | 0x80; // RFC 4122 variant
+  return `${bytes.subarray(0, 4).toHex()}-${bytes.subarray(4, 6).toHex()}-${bytes.subarray(6, 8).toHex()}-${bytes.subarray(8, 10).toHex()}-${bytes.subarray(10, 16).toHex()}`;
+}
 export { LoginHandler };

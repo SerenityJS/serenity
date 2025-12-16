@@ -1,6 +1,6 @@
 import { SerializedSkin } from "@serenityjs/protocol";
 
-import { ClientSystemInfo } from "../entity/system-info";
+import { ClientSystemInfo } from "../entity/player/system-info";
 import { PlayerProperties } from "../types";
 
 const DefaultPlayerProperties: PlayerProperties = {

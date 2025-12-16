@@ -12,7 +12,7 @@
     "resultants": [
       {
         "type": "minecraft:string",
-        "instance": "vgUBAAAACgAAAAAAAAAAAAA="
+        "instance": "zAUBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -33,7 +33,7 @@
     "resultants": [
       {
         "type": "minecraft:empty_map",
-        "instance": "yggBAAIACgAAAAAAAAAAAAA="
+        "instance": "1ggBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -50,7 +50,7 @@
     "resultants": [
       {
         "type": "minecraft:empty_map",
-        "instance": "yggBAAAACgAAAAAAAAAAAAA="
+        "instance": "1ggBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -1139,6 +1139,40 @@
       {
         "type": "minecraft:cut_copper_stairs",
         "instance": "wwUBAACN0oCKAgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:stonecutter_cut_red_sandstone_slab",
+    "priority": 0,
+    "tag": "stonecutter",
+    "ingredients": [
+      {
+        "type": "minecraft:cut_red_sandstone",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:cut_red_sandstone_slab",
+        "instance": "iQ4CAACh/abfAwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:stonecutter_cut_sandstone_slab",
+    "priority": 0,
+    "tag": "stonecutter",
+    "ingredients": [
+      {
+        "type": "minecraft:cut_sandstone",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:cut_sandstone_slab",
+        "instance": "hw4CAACJxoaRDwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -4321,7 +4355,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4342,7 +4376,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4363,7 +4397,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4384,7 +4418,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4405,7 +4439,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4426,7 +4460,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4447,7 +4481,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4468,7 +4502,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4489,7 +4523,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4510,7 +4544,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4531,7 +4565,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4552,7 +4586,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4573,7 +4607,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4594,7 +4628,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4615,7 +4649,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4636,7 +4670,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4657,7 +4691,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4678,7 +4712,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4699,7 +4733,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4720,7 +4754,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4741,7 +4775,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4762,7 +4796,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4783,7 +4817,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4804,7 +4838,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4825,7 +4859,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4846,7 +4880,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4867,7 +4901,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4888,7 +4922,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4909,7 +4943,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4930,7 +4964,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAUACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4951,7 +4985,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4972,7 +5006,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -4993,7 +5027,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5014,7 +5048,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5035,7 +5069,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5056,7 +5090,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5077,7 +5111,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5098,7 +5132,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5119,7 +5153,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5140,7 +5174,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5161,7 +5195,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5182,7 +5216,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5203,7 +5237,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5224,7 +5258,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5245,7 +5279,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAQACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5266,7 +5300,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5287,7 +5321,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5308,7 +5342,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5329,7 +5363,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5350,7 +5384,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5371,7 +5405,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5392,7 +5426,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5413,7 +5447,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5434,7 +5468,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5455,7 +5489,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5476,7 +5510,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5497,7 +5531,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5518,7 +5552,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5539,7 +5573,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5560,7 +5594,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAMACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5581,7 +5615,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5602,7 +5636,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5623,7 +5657,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5644,7 +5678,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5665,7 +5699,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5686,7 +5720,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5707,7 +5741,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5728,7 +5762,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5749,7 +5783,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5770,7 +5804,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5791,7 +5825,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5812,7 +5846,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5833,7 +5867,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5854,7 +5888,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5875,7 +5909,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAIACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5896,7 +5930,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5917,7 +5951,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5938,7 +5972,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5959,7 +5993,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -5980,7 +6014,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6001,7 +6035,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6022,7 +6056,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6043,7 +6077,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6064,7 +6098,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6085,7 +6119,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6106,7 +6140,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6127,7 +6161,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6148,7 +6182,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6169,7 +6203,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6190,7 +6224,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAEACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6211,7 +6245,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6232,7 +6266,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6253,7 +6287,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6274,7 +6308,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6295,7 +6329,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6316,7 +6350,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6337,7 +6371,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6358,7 +6392,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6379,7 +6413,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6400,7 +6434,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6421,7 +6455,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6442,7 +6476,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6463,7 +6497,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6484,7 +6518,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6505,7 +6539,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6526,7 +6560,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6547,7 +6581,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6568,7 +6602,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6589,7 +6623,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6610,7 +6644,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6631,7 +6665,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6652,7 +6686,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6673,7 +6707,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6694,7 +6728,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6715,7 +6749,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6736,7 +6770,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6757,7 +6791,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6778,7 +6812,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6799,7 +6833,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6820,7 +6854,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA8ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA8ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6841,7 +6875,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6862,7 +6896,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6883,7 +6917,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6904,7 +6938,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6925,7 +6959,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6946,7 +6980,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6967,7 +7001,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -6988,7 +7022,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7009,7 +7043,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7030,7 +7064,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7051,7 +7085,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7072,7 +7106,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7093,7 +7127,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7114,7 +7148,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7135,7 +7169,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7156,7 +7190,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7177,7 +7211,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7198,7 +7232,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7219,7 +7253,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7240,7 +7274,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7261,7 +7295,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7282,7 +7316,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7303,7 +7337,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7324,7 +7358,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7345,7 +7379,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7366,7 +7400,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7387,7 +7421,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7408,7 +7442,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7429,7 +7463,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7450,7 +7484,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7471,7 +7505,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7492,7 +7526,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7513,7 +7547,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7534,7 +7568,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7555,7 +7589,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7576,7 +7610,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7597,7 +7631,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7618,7 +7652,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7639,7 +7673,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7660,7 +7694,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7681,7 +7715,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7702,7 +7736,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7723,7 +7757,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7744,7 +7778,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7765,7 +7799,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7786,7 +7820,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7807,7 +7841,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7828,7 +7862,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7849,7 +7883,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7870,7 +7904,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7891,7 +7925,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7912,7 +7946,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7933,7 +7967,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7954,7 +7988,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7975,7 +8009,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -7996,7 +8030,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8017,7 +8051,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8038,7 +8072,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8059,7 +8093,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8080,7 +8114,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA4ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA4ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8101,7 +8135,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8122,7 +8156,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8143,7 +8177,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8164,7 +8198,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8185,7 +8219,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8206,7 +8240,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8227,7 +8261,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8248,7 +8282,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8269,7 +8303,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8290,7 +8324,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8311,7 +8345,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8332,7 +8366,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8353,7 +8387,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8374,7 +8408,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8395,7 +8429,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAA0ACgAAAAAAAAAAAAA="
+        "instance": "hAcBAA0ACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8416,7 +8450,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8437,7 +8471,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8458,7 +8492,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8479,7 +8513,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8500,7 +8534,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8521,7 +8555,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8542,7 +8576,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8563,7 +8597,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8584,7 +8618,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8605,7 +8639,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8626,7 +8660,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8647,7 +8681,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8668,7 +8702,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8689,7 +8723,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8710,7 +8744,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAwACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8731,7 +8765,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8752,7 +8786,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8773,7 +8807,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8794,7 +8828,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8815,7 +8849,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8836,7 +8870,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8857,7 +8891,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8878,7 +8912,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8899,7 +8933,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8920,7 +8954,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8941,7 +8975,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8962,7 +8996,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -8983,7 +9017,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9004,7 +9038,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9025,7 +9059,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAsACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9046,7 +9080,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9067,7 +9101,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9088,7 +9122,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9109,7 +9143,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9130,7 +9164,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9151,7 +9185,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9172,7 +9206,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9193,7 +9227,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9214,7 +9248,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9235,7 +9269,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9256,7 +9290,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9277,7 +9311,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9298,7 +9332,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9319,7 +9353,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9340,7 +9374,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAoACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9361,7 +9395,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9382,7 +9416,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9403,7 +9437,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9424,7 +9458,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9445,7 +9479,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9466,7 +9500,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9487,7 +9521,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9508,7 +9542,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9529,7 +9563,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9550,7 +9584,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9571,7 +9605,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9592,7 +9626,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9613,7 +9647,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9634,7 +9668,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9655,7 +9689,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAkACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9676,7 +9710,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9697,7 +9731,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9718,7 +9752,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9739,7 +9773,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9760,7 +9794,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9781,7 +9815,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9802,7 +9836,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9823,7 +9857,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9844,7 +9878,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9865,7 +9899,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9886,7 +9920,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9907,7 +9941,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9928,7 +9962,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9949,7 +9983,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9970,7 +10004,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAgACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -9991,7 +10025,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10012,7 +10046,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10033,7 +10067,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10054,7 +10088,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10075,7 +10109,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10096,7 +10130,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10117,7 +10151,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10138,7 +10172,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10159,7 +10193,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10180,7 +10214,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10201,7 +10235,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10222,7 +10256,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10243,7 +10277,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10264,7 +10298,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10285,7 +10319,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAcACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10306,7 +10340,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10327,7 +10361,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10348,7 +10382,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10369,7 +10403,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10390,7 +10424,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10411,7 +10445,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10432,7 +10466,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10453,7 +10487,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10474,7 +10508,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10495,7 +10529,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10516,7 +10550,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10537,7 +10571,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10558,7 +10592,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10579,7 +10613,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10600,7 +10634,7 @@
     "resultants": [
       {
         "type": "minecraft:bed",
-        "instance": "+AYBAAYACgAAAAAAAAAAAAA="
+        "instance": "hAcBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10625,7 +10659,7 @@
     "resultants": [
       {
         "type": "minecraft:fire_charge",
-        "instance": "vggDAAAACgAAAAAAAAAAAAA="
+        "instance": "yggDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10649,7 +10683,7 @@
     "resultants": [
       {
         "type": "minecraft:fire_charge",
-        "instance": "vggDAAAACgAAAAAAAAAAAAA="
+        "instance": "yggDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10670,7 +10704,7 @@
     "resultants": [
       {
         "type": "minecraft:acacia_chest_boat",
-        "instance": "zgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "2AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10712,7 +10746,7 @@
     "resultants": [
       {
         "type": "minecraft:bamboo_chest_raft",
-        "instance": "5goBAAAACgAAAAAAAAAAAAA="
+        "instance": "8AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10733,7 +10767,7 @@
     "resultants": [
       {
         "type": "minecraft:field_masoned_banner_pattern",
-        "instance": "1AkBAAAACgAAAAAAAAAAAAA="
+        "instance": "4AkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10754,7 +10788,7 @@
     "resultants": [
       {
         "type": "minecraft:creeper_banner_pattern",
-        "instance": "zgkBAAAACgAAAAAAAAAAAAA="
+        "instance": "2gkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10775,7 +10809,7 @@
     "resultants": [
       {
         "type": "minecraft:flower_banner_pattern",
-        "instance": "zAkBAAAACgAAAAAAAAAAAAA="
+        "instance": "2AkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10796,7 +10830,7 @@
     "resultants": [
       {
         "type": "minecraft:skull_banner_pattern",
-        "instance": "0AkBAAAACgAAAAAAAAAAAAA="
+        "instance": "3AkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10817,7 +10851,7 @@
     "resultants": [
       {
         "type": "minecraft:mojang_banner_pattern",
-        "instance": "0gkBAAAACgAAAAAAAAAAAAA="
+        "instance": "3gkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10838,7 +10872,7 @@
     "resultants": [
       {
         "type": "minecraft:bordure_indented_banner_pattern",
-        "instance": "1gkBAAAACgAAAAAAAAAAAAA="
+        "instance": "4gkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10859,7 +10893,7 @@
     "resultants": [
       {
         "type": "minecraft:empty_map",
-        "instance": "yggBAAIACgAAAAAAAAAAAAA="
+        "instance": "1ggBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10900,7 +10934,7 @@
     "resultants": [
       {
         "type": "minecraft:beetroot_soup",
-        "instance": "6AQBAAAACgAAAAAAAAAAAAA="
+        "instance": "9gQBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -10921,7 +10955,7 @@
     "resultants": [
       {
         "type": "minecraft:birch_chest_boat",
-        "instance": "yAoBAAAACgAAAAAAAAAAAAA="
+        "instance": "0goBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11078,7 +11112,7 @@
     "resultants": [
       {
         "type": "minecraft:black_dye",
-        "instance": "ygYBAAAACgAAAAAAAAAAAAA="
+        "instance": "1gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11095,7 +11129,7 @@
     "resultants": [
       {
         "type": "minecraft:black_dye",
-        "instance": "ygYBAAAACgAAAAAAAAAAAAA="
+        "instance": "1gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11112,7 +11146,7 @@
     "resultants": [
       {
         "type": "minecraft:blaze_powder",
-        "instance": "kAcCAAAACgAAAAAAAAAAAAA="
+        "instance": "nAcCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11269,7 +11303,7 @@
     "resultants": [
       {
         "type": "minecraft:blue_dye",
-        "instance": "0gYBAAAACgAAAAAAAAAAAAA="
+        "instance": "3gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11286,7 +11320,7 @@
     "resultants": [
       {
         "type": "minecraft:blue_dye",
-        "instance": "0gYBAAAACgAAAAAAAAAAAAA="
+        "instance": "3gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11303,7 +11337,7 @@
     "resultants": [
       {
         "type": "minecraft:bone_meal",
-        "instance": "6gYJAAAACgAAAAAAAAAAAAA="
+        "instance": "9gYJAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11320,7 +11354,7 @@
     "resultants": [
       {
         "type": "minecraft:bone_meal",
-        "instance": "6gYDAAAACgAAAAAAAAAAAAA="
+        "instance": "9gYDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11349,7 +11383,7 @@
     "resultants": [
       {
         "type": "minecraft:book",
-        "instance": "ugYBAAAACgAAAAAAAAAAAAA="
+        "instance": "xgYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11506,7 +11540,7 @@
     "resultants": [
       {
         "type": "minecraft:brown_dye",
-        "instance": "0AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "3AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11527,7 +11561,7 @@
     "resultants": [
       {
         "type": "minecraft:cherry_chest_boat",
-        "instance": "3goBAAAACgAAAAAAAAAAAAA="
+        "instance": "6AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11548,7 +11582,7 @@
     "resultants": [
       {
         "type": "minecraft:oak_chest_boat",
-        "instance": "xgoBAAAACgAAAAAAAAAAAAA="
+        "instance": "0AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11569,7 +11603,7 @@
     "resultants": [
       {
         "type": "minecraft:chest_minecart",
-        "instance": "vgYBAAAACgAAAAAAAAAAAAA="
+        "instance": "ygYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11660,7 +11694,7 @@
     "resultants": [
       {
         "type": "minecraft:cyan_dye",
-        "instance": "1gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "4gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11681,7 +11715,7 @@
     "resultants": [
       {
         "type": "minecraft:cyan_dye",
-        "instance": "1gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "4gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11698,7 +11732,7 @@
     "resultants": [
       {
         "type": "minecraft:cyan_dye",
-        "instance": "1gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "4gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11719,7 +11753,7 @@
     "resultants": [
       {
         "type": "minecraft:dark_oak_chest_boat",
-        "instance": "0AoBAAAACgAAAAAAAAAAAAA="
+        "instance": "2goBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11740,7 +11774,7 @@
     "resultants": [
       {
         "type": "minecraft:empty_map",
-        "instance": "yggBAAIACgAAAAAAAAAAAAA="
+        "instance": "1ggBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11761,7 +11795,7 @@
     "resultants": [
       {
         "type": "minecraft:ender_eye",
-        "instance": "mAcBAAAACgAAAAAAAAAAAAA="
+        "instance": "pAcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11786,7 +11820,7 @@
     "resultants": [
       {
         "type": "minecraft:fermented_spider_eye",
-        "instance": "jgcBAAAACgAAAAAAAAAAAAA="
+        "instance": "mgcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11807,7 +11841,7 @@
     "resultants": [
       {
         "type": "minecraft:flint_and_steel",
-        "instance": "hgUBAAAACgAAAAAAAAAAAAA="
+        "instance": "lAUBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11828,7 +11862,7 @@
     "resultants": [
       {
         "type": "minecraft:glow_frame",
-        "instance": "qAoBAAAACgAAAAAAAAAAAAA="
+        "instance": "sgoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11940,7 +11974,7 @@
     "resultants": [
       {
         "type": "minecraft:gray_dye",
-        "instance": "2gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "5gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11961,7 +11995,7 @@
     "resultants": [
       {
         "type": "minecraft:gray_dye",
-        "instance": "2gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "5gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11978,7 +12012,7 @@
     "resultants": [
       {
         "type": "minecraft:gray_dye",
-        "instance": "2gYBAAAACgAAAAAAAAAAAAA="
+        "instance": "5gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -11999,7 +12033,7 @@
     "resultants": [
       {
         "type": "minecraft:gray_dye",
-        "instance": "2gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "5gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12020,7 +12054,7 @@
     "resultants": [
       {
         "type": "minecraft:gray_dye",
-        "instance": "2gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "5gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12123,7 +12157,7 @@
     "resultants": [
       {
         "type": "minecraft:honey_bottle",
-        "instance": "5gkEAAAACgAAAAAAAAAAAAA="
+        "instance": "8gkEAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12144,7 +12178,7 @@
     "resultants": [
       {
         "type": "minecraft:hopper_minecart",
-        "instance": "3ggBAAAACgAAAAAAAAAAAAA="
+        "instance": "6ggBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12165,7 +12199,7 @@
     "resultants": [
       {
         "type": "minecraft:jungle_chest_boat",
-        "instance": "ygoBAAAACgAAAAAAAAAAAAA="
+        "instance": "1AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12256,7 +12290,7 @@
     "resultants": [
       {
         "type": "minecraft:light_blue_dye",
-        "instance": "4gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "7gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12277,7 +12311,7 @@
     "resultants": [
       {
         "type": "minecraft:light_blue_dye",
-        "instance": "4gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "7gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12294,7 +12328,7 @@
     "resultants": [
       {
         "type": "minecraft:light_blue_dye",
-        "instance": "4gYBAAAACgAAAAAAAAAAAAA="
+        "instance": "7gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12315,7 +12349,7 @@
     "resultants": [
       {
         "type": "minecraft:light_blue_dye",
-        "instance": "4gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "7gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12336,7 +12370,7 @@
     "resultants": [
       {
         "type": "minecraft:light_blue_dye",
-        "instance": "4gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "7gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12431,7 +12465,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYDAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12448,7 +12482,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12473,7 +12507,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYDAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12494,7 +12528,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12515,7 +12549,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12540,7 +12574,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYDAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12565,7 +12599,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYDAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12582,7 +12616,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12599,7 +12633,7 @@
     "resultants": [
       {
         "type": "minecraft:light_gray_dye",
-        "instance": "2AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "5AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12690,7 +12724,7 @@
     "resultants": [
       {
         "type": "minecraft:lime_dye",
-        "instance": "3gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "6gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12711,7 +12745,7 @@
     "resultants": [
       {
         "type": "minecraft:lime_dye",
-        "instance": "3gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "6gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12806,7 +12840,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYDAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12823,7 +12857,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12852,7 +12886,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYEAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYEAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12881,7 +12915,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYEAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYEAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12910,7 +12944,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYEAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYEAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12939,7 +12973,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYEAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYEAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12964,7 +12998,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYDAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYDAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12981,7 +13015,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13002,7 +13036,7 @@
     "resultants": [
       {
         "type": "minecraft:magenta_dye",
-        "instance": "5AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "8AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13023,7 +13057,7 @@
     "resultants": [
       {
         "type": "minecraft:magma_cream",
-        "instance": "kgcBAAAACgAAAAAAAAAAAAA="
+        "instance": "ngcBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13044,7 +13078,7 @@
     "resultants": [
       {
         "type": "minecraft:mangrove_chest_boat",
-        "instance": "0goBAAAACgAAAAAAAAAAAAA="
+        "instance": "3AoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13174,7 +13208,7 @@
     "resultants": [
       {
         "type": "minecraft:mushroom_stew",
-        "instance": "tAQBAAAACgAAAAAAAAAAAAA="
+        "instance": "wgQBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13219,7 +13253,7 @@
     "resultants": [
       {
         "type": "minecraft:netherite_ingot",
-        "instance": "igoBAAAACgAAAAAAAAAAAAA="
+        "instance": "lgoBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13306,7 +13340,7 @@
     "resultants": [
       {
         "type": "minecraft:orange_dye",
-        "instance": "5gYBAAAACgAAAAAAAAAAAAA="
+        "instance": "8gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13323,7 +13357,7 @@
     "resultants": [
       {
         "type": "minecraft:orange_dye",
-        "instance": "5gYBAAAACgAAAAAAAAAAAAA="
+        "instance": "8gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13344,7 +13378,7 @@
     "resultants": [
       {
         "type": "minecraft:orange_dye",
-        "instance": "5gYCAAAACgAAAAAAAAAAAAA="
+        "instance": "8gYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13361,7 +13395,7 @@
     "resultants": [
       {
         "type": "minecraft:orange_dye",
-        "instance": "5gYBAAAACgAAAAAAAAAAAAA="
+        "instance": "8gYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13403,7 +13437,7 @@
     "resultants": [
       {
         "type": "minecraft:pale_oak_chest_boat",
-        "instance": "0gsBAAAACgAAAAAAAAAAAAA="
+        "instance": "2gsBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13494,7 +13528,24 @@
     "resultants": [
       {
         "type": "minecraft:pink_dye",
-        "instance": "3AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "6AYCAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:pink_dye_from_cactus_flower",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:cactus_flower",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:pink_dye",
+        "instance": "6AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13511,7 +13562,7 @@
     "resultants": [
       {
         "type": "minecraft:pink_dye",
-        "instance": "3AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "6AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13528,7 +13579,7 @@
     "resultants": [
       {
         "type": "minecraft:pink_dye",
-        "instance": "3AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "6AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13545,7 +13596,7 @@
     "resultants": [
       {
         "type": "minecraft:pink_dye",
-        "instance": "3AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "6AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13566,7 +13617,7 @@
     "resultants": [
       {
         "type": "minecraft:pink_dye",
-        "instance": "3AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "6AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13584,14 +13635,13 @@
         "metadata": 32767
       },
       {
-        "type": "minecraft:egg",
-        "metadata": 32767
+        "tag": "minecraft:egg"
       }
     ],
     "resultants": [
       {
         "type": "minecraft:pumpkin_pie",
-        "instance": "5AQBAAAACgAAAAAAAAAAAAA="
+        "instance": "8gQBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13682,7 +13732,7 @@
     "resultants": [
       {
         "type": "minecraft:purple_dye",
-        "instance": "1AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "4AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13703,7 +13753,7 @@
     "resultants": [
       {
         "type": "minecraft:purple_dye",
-        "instance": "1AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "4AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13736,7 +13786,7 @@
     "resultants": [
       {
         "type": "minecraft:rabbit_stew",
-        "instance": "8AQBAAAACgAAAAAAAAAAAAA="
+        "instance": "/gQBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13769,7 +13819,7 @@
     "resultants": [
       {
         "type": "minecraft:rabbit_stew",
-        "instance": "8AQBAAAACgAAAAAAAAAAAAA="
+        "instance": "/gQBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13856,7 +13906,7 @@
     "resultants": [
       {
         "type": "minecraft:red_dye",
-        "instance": "zAYBAAAACgAAAAAAAAAAAAA="
+        "instance": "2AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13873,7 +13923,7 @@
     "resultants": [
       {
         "type": "minecraft:red_dye",
-        "instance": "zAYBAAAACgAAAAAAAAAAAAA="
+        "instance": "2AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13890,7 +13940,7 @@
     "resultants": [
       {
         "type": "minecraft:red_dye",
-        "instance": "zAYCAAAACgAAAAAAAAAAAAA="
+        "instance": "2AYCAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13907,7 +13957,7 @@
     "resultants": [
       {
         "type": "minecraft:red_dye",
-        "instance": "zAYBAAAACgAAAAAAAAAAAAA="
+        "instance": "2AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13928,7 +13978,7 @@
     "resultants": [
       {
         "type": "minecraft:spruce_chest_boat",
-        "instance": "zAoBAAAACgAAAAAAAAAAAAA="
+        "instance": "1goBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13957,7 +14007,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAcACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAcACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -13986,7 +14036,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAMACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAMACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14015,7 +14065,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAYACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAYACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14044,7 +14094,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAwACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAwACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14073,7 +14123,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAEACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAEACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14102,7 +14152,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAUACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAUACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14131,7 +14181,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAQACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAQACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14160,7 +14210,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAsACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAsACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14189,7 +14239,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAgACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAgACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14218,7 +14268,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAAACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14247,7 +14297,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAoACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAoACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14276,7 +14326,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAIACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14305,7 +14355,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAIACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14334,7 +14384,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAIACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14363,7 +14413,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAIACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAIACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14392,7 +14442,7 @@
     "resultants": [
       {
         "type": "minecraft:suspicious_stew",
-        "instance": "4gkBAAkACgAAAAAAAAAAAAA="
+        "instance": "7gkBAAkACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14413,7 +14463,7 @@
     "resultants": [
       {
         "type": "minecraft:tnt_minecart",
-        "instance": "3AgBAAAACgAAAAAAAAAAAAA="
+        "instance": "6AgBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14523,6 +14573,27 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_copper_bars",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:copper_bars",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_copper_bars",
+        "instance": "2xABAADA7o7TDQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_copper_block",
     "priority": 1,
     "tag": "crafting_table",
@@ -14565,6 +14636,48 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_copper_chain",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:copper_chain",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_copper_chain",
+        "instance": "6xABAADGhJf0DAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_copper_chest",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:copper_chest",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_copper_chest",
+        "instance": "lRABAADBw/D7DQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_copper_door",
     "priority": 1,
     "tag": "crafting_table",
@@ -14586,6 +14699,27 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_copper_golem_statue",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:copper_golem_statue",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_copper_golem_statue",
+        "instance": "pRABAADol8z6AQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_copper_grate",
     "priority": 1,
     "tag": "crafting_table",
@@ -14603,6 +14737,27 @@
       {
         "type": "minecraft:waxed_copper_grate",
         "instance": "hwwBAAD8oZmIDAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_copper_lantern",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:copper_lantern",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_copper_lantern",
+        "instance": "/RABAADRrd/iBgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -14712,6 +14867,27 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_exposed_copper_bars",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:exposed_copper_bars",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_exposed_copper_bars",
+        "instance": "3RABAADy8beVDQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_exposed_copper_bulb",
     "priority": 1,
     "tag": "crafting_table",
@@ -14729,6 +14905,48 @@
       {
         "type": "minecraft:waxed_exposed_copper_bulb",
         "instance": "mQwBAAD2lbgBCgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_exposed_copper_chain",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:exposed_copper_chain",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_exposed_copper_chain",
+        "instance": "7RABAADbgsf3CAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_exposed_copper_chest",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:exposed_copper_chest",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_exposed_copper_chest",
+        "instance": "lxABAADvh8LdAwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -14754,6 +14972,27 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_exposed_copper_golem_statue",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:exposed_copper_golem_statue",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_exposed_copper_golem_statue",
+        "instance": "pxABAACS2PDmCAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_exposed_copper_grate",
     "priority": 1,
     "tag": "crafting_table",
@@ -14771,6 +15010,27 @@
       {
         "type": "minecraft:waxed_exposed_copper_grate",
         "instance": "iQwBAADi+86xCAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_exposed_copper_lantern",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:exposed_copper_lantern",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_exposed_copper_lantern",
+        "instance": "/xABAADkmsTWCgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -14859,6 +15119,48 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_exposed_lightning_rod",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:exposed_lightning_rod",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_exposed_lightning_rod",
+        "instance": "zRABAACnibjvBwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_lightning_rod",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:lightning_rod",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_lightning_rod",
+        "instance": "yxABAADizdGdDgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_oxidized_copper",
     "priority": 1,
     "tag": "crafting_table",
@@ -14876,6 +15178,27 @@
       {
         "type": "minecraft:waxed_oxidized_copper",
         "instance": "+wYBAADP5Z3oCQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_oxidized_copper_bars",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:oxidized_copper_bars",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_oxidized_copper_bars",
+        "instance": "4RABAACQ58ghCgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -14901,6 +15224,48 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_oxidized_copper_chain",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:oxidized_copper_chain",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_oxidized_copper_chain",
+        "instance": "8RABAAD2193KCQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_oxidized_copper_chest",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:oxidized_copper_chest",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_oxidized_copper_chest",
+        "instance": "mxABAACOh6yKCAoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_oxidized_copper_door",
     "priority": 1,
     "tag": "crafting_table",
@@ -14922,6 +15287,27 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_oxidized_copper_golem_statue",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:oxidized_copper_golem_statue",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_oxidized_copper_golem_statue",
+        "instance": "qxABAADnyarkCQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_oxidized_copper_grate",
     "priority": 1,
     "tag": "crafting_table",
@@ -14939,6 +15325,27 @@
       {
         "type": "minecraft:waxed_oxidized_copper_grate",
         "instance": "jQwBAADMj7OaCQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_oxidized_copper_lantern",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:oxidized_copper_lantern",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_oxidized_copper_lantern",
+        "instance": "gxEBAACu18SlDgoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15027,6 +15434,27 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_oxidized_lightning_rod",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:oxidized_lightning_rod",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_oxidized_lightning_rod",
+        "instance": "0RABAADN+PuACgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_weathered_copper",
     "priority": 1,
     "tag": "crafting_table",
@@ -15044,6 +15472,27 @@
       {
         "type": "minecraft:waxed_weathered_copper",
         "instance": "swUBAADfrbAkCgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_weathered_copper_bars",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:weathered_copper_bars",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_weathered_copper_bars",
+        "instance": "3xABAACnz4iKAQoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15069,6 +15518,48 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_weathered_copper_chain",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:weathered_copper_chain",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_weathered_copper_chain",
+        "instance": "7xABAAC+n86cDwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_weathered_copper_chest",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:weathered_copper_chest",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_weathered_copper_chest",
+        "instance": "mRABAAD2gpG4BwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_weathered_copper_door",
     "priority": 1,
     "tag": "crafting_table",
@@ -15090,6 +15581,27 @@
     ]
   },
   {
+    "identifier": "minecraft:waxing_weathered_copper_golem_statue",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:weathered_copper_golem_statue",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_weathered_copper_golem_statue",
+        "instance": "qRABAADv4KayCgoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
     "identifier": "minecraft:waxing_weathered_copper_grate",
     "priority": 1,
     "tag": "crafting_table",
@@ -15107,6 +15619,27 @@
       {
         "type": "minecraft:waxed_weathered_copper_grate",
         "instance": "iwwBAACrz/2pCQoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_weathered_copper_lantern",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:weathered_copper_lantern",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_weathered_copper_lantern",
+        "instance": "gREBAADhjc2kDwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15191,6 +15724,27 @@
       {
         "type": "minecraft:waxed_weathered_cut_copper_stairs",
         "instance": "zwUBAADyweuxCwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:waxing_weathered_lightning_rod",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:weathered_lightning_rod",
+        "metadata": 32767
+      },
+      {
+        "type": "minecraft:honeycomb",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:waxed_weathered_lightning_rod",
+        "instance": "zxABAADN+LqtCwoAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15347,7 +15901,7 @@
     "resultants": [
       {
         "type": "minecraft:white_dye",
-        "instance": "6AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "9AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15364,7 +15918,7 @@
     "resultants": [
       {
         "type": "minecraft:white_dye",
-        "instance": "6AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "9AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15381,7 +15935,7 @@
     "resultants": [
       {
         "type": "minecraft:wind_charge",
-        "instance": "qgQEAAAACgAAAAAAAAAAAAA="
+        "instance": "uAQEAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15406,7 +15960,7 @@
     "resultants": [
       {
         "type": "minecraft:writable_book",
-        "instance": "wAgBAAAACgAAAAAAAAAAAAA="
+        "instance": "zAgBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15493,7 +16047,7 @@
     "resultants": [
       {
         "type": "minecraft:yellow_dye",
-        "instance": "4AYBAAAACgAAAAAAAAAAAAA="
+        "instance": "7AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15510,7 +16064,24 @@
     "resultants": [
       {
         "type": "minecraft:yellow_dye",
-        "instance": "4AYCAAAACgAAAAAAAAAAAAA="
+        "instance": "7AYCAAAACgAAAAAAAAAAAAA="
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:yellow_dye_from_wildflowers",
+    "priority": 0,
+    "tag": "crafting_table",
+    "ingredients": [
+      {
+        "type": "minecraft:wildflowers",
+        "metadata": 32767
+      }
+    ],
+    "resultants": [
+      {
+        "type": "minecraft:yellow_dye",
+        "instance": "7AYBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15535,7 +16106,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAlAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAlAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15560,7 +16131,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAngH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCgAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
+        "instance": "3AgDAAAAngH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCgAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
       }
     ]
   },
@@ -15585,7 +16156,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAnwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCwAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
+        "instance": "3AgDAAAAnwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCwAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15610,7 +16181,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAoAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAoAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15635,7 +16206,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAoQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDQAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
+        "instance": "3AgDAAAAoQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDQAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
       }
     ]
   },
@@ -15660,7 +16231,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAogH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDgAAAAAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
+        "instance": "3AgDAAAAogH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDgAAAAAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15685,7 +16256,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAowH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDwAAAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAowH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDwAAAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15710,7 +16281,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAlAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAlAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15735,7 +16306,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAlwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAwAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAlwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAwAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15760,7 +16331,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAmAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
+        "instance": "3AgDAAAAmAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
       }
     ]
   },
@@ -15785,7 +16356,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAowH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDwAAAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAowH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yDwAAAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15810,7 +16381,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAlQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAQAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
+        "instance": "3AgDAAAAlQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAQAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
       }
     ]
   },
@@ -15835,7 +16406,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAlgH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAgAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
+        "instance": "3AgDAAAAlgH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAgAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15860,7 +16431,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAlwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAwAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAlwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yAwAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15885,7 +16456,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAmAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
+        "instance": "3AgDAAAAmAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
       }
     ]
   },
@@ -15910,7 +16481,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAmQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBQAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
+        "instance": "3AgDAAAAmQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBQAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
       }
     ]
   },
@@ -15935,7 +16506,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAmgH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBgAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAmgH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBgAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -15960,7 +16531,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAmwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBwAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
+        "instance": "3AgDAAAAmwH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yBwAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAABBgBGbGlnaHQBAAAAAAAAAAAAAA=="
       }
     ]
   },
@@ -15985,7 +16556,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAnAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
+        "instance": "3AgDAAAAnAH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAAAAAAAAAAAAA="
       }
     ]
   },
@@ -16010,7 +16581,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAnQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCQAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAnQH//wEKAAAKCQBGaXJld29ya3MJCgBFeHBsb3Npb25zCgEAAAAHDQBGaXJld29ya0NvbG9yCQAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },
@@ -16031,7 +16602,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAAAjQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvciEdHf8AAAAAAAAAAAA="
+        "instance": "3ggBAAAAjQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvciEdHf8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16052,7 +16623,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAoAlwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgoAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3Ifx4D/AAAAAAAAAAAA"
+        "instance": "3ggBAAoAlwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgoAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3Ifx4D/AAAAAAAAAAAA"
       }
     ]
   },
@@ -16073,7 +16644,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAsAmAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgsAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yPdj+/wAAAAAAAAAAAA=="
+        "instance": "3ggBAAsAmAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgsAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yPdj+/wAAAAAAAAAAAA=="
       }
     ]
   },
@@ -16094,7 +16665,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAwAmQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgwAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvctqzOv8AAAAAAAAAAAA="
+        "instance": "3ggBAAwAmQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgwAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvctqzOv8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16115,7 +16686,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAA0AmgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg0AAAAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3K9Tsf/AAAAAAAAAAAA"
+        "instance": "3ggBAA0AmgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg0AAAAAAAAAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3K9Tsf/AAAAAAAAAAAA"
       }
     ]
   },
@@ -16136,7 +16707,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAA4AmwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg4AAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yHYD5/wAAAAAAAAAAAA=="
+        "instance": "3ggBAA4AmwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg4AAAAAAAAAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yHYD5/wAAAAAAAAAAAA=="
       }
     ]
   },
@@ -16157,7 +16728,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAA8AnAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg8AAAAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcvDw8P8AAAAAAAAAAAA="
+        "instance": "3ggBAA8AnAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg8AAAAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcvDw8P8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16178,7 +16749,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAAAjQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvciEdHf8AAAAAAAAAAAA="
+        "instance": "3ggBAAAAjQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvciEdHf8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16199,7 +16770,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAMAkAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgMAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcjJUg/8AAAAAAAAAAAA="
+        "instance": "3ggBAAMAkAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgMAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcjJUg/8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16220,7 +16791,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAQAkQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgQAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KqRDz/AAAAAAAAAAAA"
+        "instance": "3ggBAAQAkQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgQAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KqRDz/AAAAAAAAAAAA"
       }
     ]
   },
@@ -16241,7 +16812,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAA8AnAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg8AAAAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcvDw8P8AAAAAAAAAAAA="
+        "instance": "3ggBAA8AnAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcg8AAAAAAAAAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcvDw8P8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16262,7 +16833,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAEAjgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgEAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3ImLrD/AAAAAAAAAAAA"
+        "instance": "3ggBAAEAjgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgEAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3ImLrD/AAAAAAAAAAAA"
       }
     ]
   },
@@ -16283,7 +16854,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAIAjwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgIAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yFnxe/wAAAAAAAAAAAA=="
+        "instance": "3ggBAAIAjwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgIAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yFnxe/wAAAAAAAAAAAA=="
       }
     ]
   },
@@ -16304,7 +16875,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAMAkAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgMAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcjJUg/8AAAAAAAAAAAA="
+        "instance": "3ggBAAMAkAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgMAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcjJUg/8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16325,7 +16896,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAQAkQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgQAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KqRDz/AAAAAAAAAAAA"
+        "instance": "3ggBAAQAkQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgQAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KqRDz/AAAAAAAAAAAA"
       }
     ]
   },
@@ -16346,7 +16917,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAUAkgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgUAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yuDKJ/wAAAAAAAAAAAA=="
+        "instance": "3ggBAAUAkgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgUAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yuDKJ/wAAAAAAAAAAAA=="
       }
     ]
   },
@@ -16367,7 +16938,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAYAkwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgYAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcpycFv8AAAAAAAAAAAA="
+        "instance": "3ggBAAYAkwH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgYAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcpycFv8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16388,7 +16959,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAcAlAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgcAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KXnZ3/AAAAAAAAAAAA"
+        "instance": "3ggBAAcAlAH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgcAAAAAAAAAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAwsAY3VzdG9tQ29sb3KXnZ3/AAAAAAAAAAAA"
       }
     ]
   },
@@ -16409,7 +16980,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAgAlQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcggAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yUk9H/wAAAAAAAAAAAA=="
+        "instance": "3ggBAAgAlQH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcggAAAAAAAAAAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yUk9H/wAAAAAAAAAAAA=="
       }
     ]
   },
@@ -16430,7 +17001,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_star",
-        "instance": "0ggBAAkAlgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgkAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcqqL8/8AAAAAAAAAAAA="
+        "instance": "3ggBAAkAlgH//wEKAAAKDQBGaXJld29ya3NJdGVtBw0ARmlyZXdvcmtDb2xvcgkAAAAAAAAAAAAAAAAHDABGaXJld29ya0ZhZGUAAAAAAQ8ARmlyZXdvcmtGbGlja2VyAAENAEZpcmV3b3JrVHJhaWwAAQwARmlyZXdvcmtUeXBlAAADCwBjdXN0b21Db2xvcqqL8/8AAAAAAAAAAAA="
       }
     ]
   },
@@ -16451,7 +17022,7 @@
     "resultants": [
       {
         "type": "minecraft:firework_rocket",
-        "instance": "0AgDAAAAOP//AQoAAAoJAEZpcmV3b3JrcwkKAEV4cGxvc2lvbnMBAAAAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
+        "instance": "3AgDAAAAOP//AQoAAAoJAEZpcmV3b3JrcwkKAEV4cGxvc2lvbnMBAAAAAAEGAEZsaWdodAEAAAAAAAAAAAAA"
       }
     ]
   },

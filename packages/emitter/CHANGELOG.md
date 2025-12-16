@@ -1,5 +1,23 @@
 # @serenityjs/emitter
 
+## 0.8.16
+
+### Patch Changes
+
+- [`389f5d8`](https://github.com/SerenityJS/serenity/commit/389f5d8dc44c2f11d6bd54db92c37c67b86d6418) Thanks [@PMK744](https://github.com/PMK744)! - init 0.8.16-beta
+
+## 0.8.15
+
+### Patch Changes
+
+- [`4ea00c0`](https://github.com/SerenityJS/serenity/commit/4ea00c0c76cb910d725b91a21fa88271e6409e69) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.15-beta
+
+## 0.8.14
+
+### Patch Changes
+
+- [`15979f9`](https://github.com/SerenityJS/serenity/commit/15979f9e46b8441ac107b7c394d20461f140203c) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.14-beta
+
 ## 0.8.13
 
 ### Patch Changes

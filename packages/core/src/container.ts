@@ -10,6 +10,7 @@ import {
 
 import { ItemStack } from "./item";
 import { EntityContainer, type Player } from "./entity";
+import { ItemIdentifier } from "./enums";
 
 /**
  * Represents a container.
@@ -18,17 +19,18 @@ class Container {
   /**
    * The occupants of the container.
    */
-  public readonly occupants = new Set<Player>();
+  public readonly occupants = new Map<Player, number>();
 
   /**
    * The type of the container.
    */
-  public type: ContainerType;
+  public readonly type: ContainerType;
 
   /**
-   * The identifier of the container.
+   * The identifier override of the container.
+   * If null, the container will assign a incremental identifier for each player.
    */
-  public identifier: ContainerId;
+  public identifier: ContainerId | null = null;
 
   /**
    * The size of the container.
@@ -41,13 +43,23 @@ class Container {
    * The size of the container.
    */
   public set size(value: number) {
-    this.storage = Array.from({ length: value }, () => null);
+    // Validate the size
+    if (value < 0) throw new Error("Container size cannot be negative.");
+
+    // Keep the existing items
+    const existingItems = this.storage.slice(0, value);
+
+    // Create a new storage array with the new size
+    this.storage = Array.from(
+      { length: value },
+      (_, i) => existingItems[i] || null
+    );
   }
 
   /**
    * The storage of the container.
    */
-  public storage: Array<ItemStack | null>;
+  public storage: Array<ItemStack | null> = [];
 
   /**
    * The amount of empty slots in the container.
@@ -68,14 +80,9 @@ class Container {
    * @param identifier The type of the container.
    * @param size The size of the container.
    */
-  public constructor(
-    type: ContainerType,
-    identifier: ContainerId,
-    size: number
-  ) {
+  public constructor(type: ContainerType, size: number) {
     // Assign the properties
     this.type = type;
-    this.identifier = identifier;
     this.size = size;
     this.storage = Array.from({ length: size }, () => null);
   }
@@ -94,6 +101,10 @@ class Container {
    * @returns The item in the slot.
    */
   public getItem(slot: number): ItemStack | null {
+    // Modulo the slot to avoid out of bounds errors.
+    slot = slot % this.size;
+
+    // Return the item in the slot
     return this.storage[slot] ?? null;
   }
 
@@ -103,12 +114,16 @@ class Container {
    * @param item The item to set.
    */
   public setItem(slot: number, item: ItemStack): void {
+    // Modulo the slot to avoid out of bounds errors.
+    slot = slot % this.size;
+
     // Set the item in the slot
     this.storage[slot] = item;
 
     // Check if the item amount is 0
     // If so, set the slot to null as there is no item
-    if (item.stackSize === 0) this.clearSlot(slot);
+    if (item.getStackSize() === 0 || item.identifier == ItemIdentifier.Air)
+      this.clearSlot(slot);
 
     // Set the container of the item
     item.container = this;
@@ -130,14 +145,14 @@ class Container {
       if (!slot) return false;
 
       // Check if the item can be stacked.
-      if (slot.stackSize >= item.maxStackSize) return false;
+      if (slot.getStackSize() >= item.maxStackSize) return false;
 
       // Check if the item is equal to the slot.
       return item.equals(slot);
     });
 
     // Check if the item is maxed.
-    const maxed = item.stackSize >= item.maxStackSize;
+    const maxed = item.getStackSize() >= item.maxStackSize;
 
     // Check if exists an available slot
     if (slot > -1 && !maxed && item.isStackable) {
@@ -146,8 +161,8 @@ class Container {
 
       // Calculate the amount of items to add.
       const amount = Math.min(
-        item.maxStackSize - existingItem.stackSize,
-        item.stackSize
+        item.maxStackSize - existingItem.getStackSize(),
+        item.getStackSize()
       );
 
       // Add the amount to the existing item.
@@ -166,7 +181,7 @@ class Container {
       if (emptySlot === -1) return false;
 
       // Check if the item is maxed.
-      if (item.stackSize > item.maxStackSize) {
+      if (item.getStackSize() > item.maxStackSize) {
         // Create a full stack item for the empty slot
         const newItem = new ItemStack(item.type, {
           ...item,
@@ -195,18 +210,21 @@ class Container {
    * @param amount The amount of the item to remove.
    */
   public removeItem(slot: number, amount: number): ItemStack | null {
+    // Modulo the slot to avoid out of bounds errors.
+    slot = slot % this.size;
+
     // Get the item from the slot.
     const item = this.getItem(slot);
     if (!item) return null;
 
     // Calculate the amount of items to remove.
-    const removed = Math.min(amount, item.stackSize);
+    const removed = Math.min(amount, item.getStackSize());
 
     // Subtract the amount from the item.
     item.decrementStack(removed);
 
     // Check if the item amount is 0.
-    if (item.stackSize === 0) this.storage[slot] = null;
+    if (item.getStackSize() === 0) this.storage[slot] = null;
 
     // Return the removed item.
     return item;
@@ -219,33 +237,49 @@ class Container {
    * @returns The taken item.
    */
   public takeItem(slot: number, amount: number): ItemStack | null {
+    // Modulo the slot to avoid out of bounds errors.
+    slot = slot % this.size;
+
     // Get the item in the slot.
     const item = this.getItem(slot);
     if (item === null) return null;
 
+    // Check if the amount is equal to the item stack size.
+    if (amount == item.getStackSize()) {
+      // Clear the slot.
+      this.clearSlot(slot);
+
+      // Return the item.
+      return item;
+    }
+
     // Calculate the amount of items to remove.
-    const removed = Math.min(amount, item.stackSize);
+    const removed = Math.min(amount, item.getStackSize());
     item.decrementStack(removed);
 
     // Check if the item amount is 0.
-    if (item.stackSize === 0) this.clearSlot(slot);
+    if (item.getStackSize() === 0) this.clearSlot(slot);
 
     // Create a new item with the removed amount.
-    const newItem = new ItemStack(item.type, { ...item, stackSize: removed });
+    const newItem = new ItemStack(item.type, {
+      ...item,
+      stackSize: removed,
+      storage: undefined
+    });
 
     // Clone the dynamic properties of the item to the new item.
-    for (const [key, value] of item.dynamicProperties)
-      newItem.dynamicProperties.set(key, value);
+    for (const [key, value] of item.getStorage().getAllDynamicProperties())
+      newItem.getStorage().setDynamicProperty(key, value);
 
     // Clone the traits of the item to the new item.
-    for (const trait of item.traits.values())
+    for (const trait of item.getAllTraits())
       newItem.addTrait(trait.clone(newItem));
 
     // Update the slot for all occupants.
     this.updateSlot(slot);
 
     // Clone the NBT tags of the item.
-    for (const tag of item.nbt.values()) {
+    for (const tag of item.getStorage().getStackNbt().values()) {
       newItem.nbt.add(tag);
     }
 
@@ -264,6 +298,10 @@ class Container {
     otherSlot: number,
     otherContainer?: Container
   ): void {
+    // Modulo the slots to avoid out of bounds errors.
+    slot = slot % this.size;
+    otherSlot = otherSlot % (otherContainer?.size ?? this.size);
+
     // Assign the target container
     const targetContainer = otherContainer ?? this;
 
@@ -284,6 +322,9 @@ class Container {
    * @param slot The slot to clear.
    */
   public clearSlot(slot: number): void {
+    // Modulo the slot to avoid out of bounds errors.
+    slot = slot % this.size;
+
     // Set the slot to null.
     this.storage[slot] = null;
 
@@ -302,7 +343,6 @@ class Container {
     const itemStack = this.storage.at(slot);
 
     // Set properties of the packet.
-    packet.containerId = this.identifier;
     packet.slot = slot;
     packet.item = itemStack
       ? ItemStack.toNetworkStack(itemStack)
@@ -310,16 +350,10 @@ class Container {
     packet.fullContainerName = new FullContainerName(0, 0);
     packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
-    for (const player of this.occupants) {
-      // Check if the container is a player inventory, and if its not owned by the player.
-      if (
-        this.isEntityContainer() &&
-        this.identifier === ContainerId.Inventory &&
-        !this.isOwnedBy(player)
-      )
-        // If so, set the container id to none.
-        packet.containerId = ContainerId.None;
-
+    // Iterate over the occupants and send the packet.
+    for (const [player, identifier] of this.occupants) {
+      // Set the container id of the packet.
+      packet.containerId = identifier;
       // Send the packet to the player.
       player.send(packet);
     }
@@ -341,12 +375,11 @@ class Container {
   /**
    * Updates the contents of the container.
    */
-  public update(player?: Player): void {
+  public update(): void {
     // Create a new InventoryContentPacket.
     const packet = new InventoryContentPacket();
 
     // Set the properties of the packet.
-    packet.containerId = this.identifier;
     packet.fullContainerName = new FullContainerName(0, 0);
     packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
@@ -360,47 +393,31 @@ class Container {
       return ItemStack.toNetworkStack(item);
     });
 
-    // Check if the player is provided.
-    if (player) {
-      // Check if the container is a player inventory, and if its not owned by the player.
-      if (
-        this.isEntityContainer() &&
-        this.identifier === ContainerId.Inventory &&
-        !this.isOwnedBy(player)
-      )
-        // If so, set the container id to none.
-        packet.containerId = ContainerId.None;
+    // Send the packet to the occupants.
+    for (const [player, identifier] of this.occupants) {
+      // Set the container id of the packet.
+      packet.containerId = identifier;
 
       // Send the packet to the player.
       player.send(packet);
-    } else {
-      // Send the packet to the occupants.
-      for (const player of this.occupants) {
-        // Check if the container is a player inventory, and if its not owned by the player.
-        if (
-          this.isEntityContainer() &&
-          this.identifier === ContainerId.Inventory &&
-          !this.isOwnedBy(player)
-        )
-          // If so, set the container id to none.
-          packet.containerId = ContainerId.None;
-
-        player.send(packet);
-      }
     }
   }
 
   /**
    * Shows the container to a player.
    * @param player The player to show the container to.
+   * @returns The container identifier assigned to the player.
    */
-  public show(player: Player): void {
+  public show(player: Player): number {
     // Check if the player is already viewing a container.
     // If so, close the container.
     if (player.openedContainer) player.openedContainer.close(player);
 
+    // Get a new container identifier for the player.
+    const identifier = Container.getNextContainerId();
+
     // Add the player to the occupants.
-    this.occupants.add(player);
+    this.occupants.set(player, identifier);
 
     // Set the opened container of the player.
     player.openedContainer = this;
@@ -411,8 +428,11 @@ class Container {
       if (!item) continue;
 
       // Iterate over the traits of the item and call the onContainerOpen method.
-      for (const trait of item.traits.values()) trait.onContainerOpen?.(player);
+      for (const trait of item.getAllTraits()) trait.onContainerOpen?.(player);
     }
+
+    // Return the container identifier assigned to the player.
+    return identifier;
   }
 
   /**
@@ -425,20 +445,14 @@ class Container {
     if (!this.occupants.has(player))
       throw new Error("Player is not viewing the container.");
 
+    // Get the container identifier for the player.
+    const identifier = this.occupants.get(player) as number;
+
     // Create a new ContainerClosePacket.
     const packet = new ContainerClosePacket();
-    packet.identifier = this.identifier;
+    packet.identifier = identifier;
     packet.type = this.type;
     packet.serverInitiated = serverInitiated;
-
-    // Check if the container is a player inventory, and if its not owned by the player.
-    if (
-      this.isEntityContainer() &&
-      this.identifier === ContainerId.Inventory &&
-      !this.isOwnedBy(player)
-    )
-      // If so, set the container id to none.
-      packet.identifier = ContainerId.None;
 
     // Send the packet to the player.
     player.send(packet);
@@ -455,9 +469,34 @@ class Container {
       if (!item) continue;
 
       // Iterate over the traits of the item and call the onContainerClose method.
-      for (const trait of item.traits.values())
-        trait.onContainerClose?.(player);
+      for (const trait of item.getAllTraits()) trait.onContainerClose?.(player);
     }
+  }
+
+  /**
+   * The next container identifier.
+   */
+  private static nextContainerId = ContainerId.First;
+
+  /**
+   * Gets the next container identifier.
+   * @returns The next container identifier.
+   */
+  public static getNextContainerId(): ContainerId {
+    // Increment the current container id
+    let id = Container.nextContainerId++;
+
+    // Wrap around if exceeds the last container id
+    if (id > ContainerId.Last) {
+      // Assign the next container id to the first container id
+      Container.nextContainerId = ContainerId.First;
+
+      // Increment the id to return
+      id = Container.nextContainerId;
+    }
+
+    // Return the id
+    return id;
   }
 }
 

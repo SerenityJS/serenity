@@ -1,5 +1,4 @@
 import { ItemUseMethod, BlockPosition } from "@serenityjs/protocol";
-import { CompoundTag } from "@serenityjs/nbt";
 
 import { EntityIdentifier } from "../../enums";
 import { Entity, EntityLevelStorage, type Player } from "../../entity";

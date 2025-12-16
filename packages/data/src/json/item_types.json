@@ -101,13 +101,13 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:shroomlight",
+    "identifier": "minecraft:yellow_candle",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:yellow_candle",
+    "identifier": "minecraft:shroomlight",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -1414,6 +1414,15 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:netherite_horse_armor",
+    "tags": [
+      "minecraft:horse_armor",
+      "minecraft:netherite_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:element_41",
     "tags": [],
     "stackable": true,
@@ -1486,7 +1495,8 @@
   {
     "identifier": "minecraft:diamond_horse_armor",
     "tags": [
-      "minecraft:horse_armor"
+      "minecraft:horse_armor",
+      "minecraft:transformable_items"
     ],
     "stackable": false,
     "maxAmount": 1
@@ -2077,6 +2087,15 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:stone_spear",
+    "tags": [
+      "minecraft:stone_tier",
+      "minecraft:is_spear"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:acacia_door",
     "tags": [
       "minecraft:door"
@@ -2498,26 +2517,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:copper_hoe",
-    "tags": [
-      "minecraft:digger",
-      "minecraft:is_hoe",
-      "minecraft:is_tool",
-      "minecraft:copper_tier"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:dark_oak_wood",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:tuff_brick_wall",
     "tags": [],
     "stackable": true,
@@ -2903,6 +2902,16 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:iron_chestplate",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:iron_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:waxed_oxidized_cut_copper_slab",
     "tags": [],
     "stackable": true,
@@ -2914,16 +2923,6 @@
       "minecraft:is_armor",
       "minecraft:diamond_tier",
       "minecraft:transformable_items",
-      "minecraft:trimmable_armors"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:iron_chestplate",
-    "tags": [
-      "minecraft:is_armor",
-      "minecraft:iron_tier",
       "minecraft:trimmable_armors"
     ],
     "stackable": false,
@@ -3628,16 +3627,16 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:dark_oak_slab",
-    "tags": [
-      "minecraft:wooden_slabs"
-    ],
+    "identifier": "minecraft:yellow_stained_glass_pane",
+    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:yellow_stained_glass_pane",
-    "tags": [],
+    "identifier": "minecraft:dark_oak_slab",
+    "tags": [
+      "minecraft:wooden_slabs"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4015,6 +4014,14 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_nautilus_armor",
+    "tags": [
+      "minecraft:nautilus_armor"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:lime_glazed_terracotta",
@@ -4705,6 +4712,14 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:camel_husk_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:waxed_exposed_copper_chest",
     "tags": [],
     "stackable": true,
@@ -4983,6 +4998,15 @@
     ],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:wooden_spear",
+    "tags": [
+      "minecraft:wooden_tier",
+      "minecraft:is_spear"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:creeper_spawn_egg",
@@ -5948,6 +5972,14 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:golden_nautilus_armor",
+    "tags": [
+      "minecraft:nautilus_armor"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:shelter_pottery_sherd",
     "tags": [
       "minecraft:decorated_pot_sherds"
@@ -6277,6 +6309,15 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:netherite_nautilus_armor",
+    "tags": [
+      "minecraft:nautilus_armor",
+      "minecraft:netherite_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:normal_stone_slab",
@@ -7032,20 +7073,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:dolphin_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:infested_stone",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:exposed_chiseled_copper",
     "tags": [],
     "stackable": true,
@@ -7096,6 +7123,15 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:diamond_nautilus_armor",
+    "tags": [
+      "minecraft:nautilus_armor",
+      "minecraft:transformable_items"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_bulb",
@@ -7177,13 +7213,13 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:raw_iron_block",
+    "identifier": "minecraft:crimson_roots",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:crimson_roots",
+    "identifier": "minecraft:raw_iron_block",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -8345,6 +8381,15 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:golden_spear",
+    "tags": [
+      "minecraft:golden_tier",
+      "minecraft:is_spear"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:gray_bundle",
     "tags": [],
     "stackable": false,
@@ -8467,6 +8512,40 @@
     ],
     "stackable": false,
     "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:copper_hoe",
+    "tags": [
+      "minecraft:digger",
+      "minecraft:is_hoe",
+      "minecraft:is_tool",
+      "minecraft:copper_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:dark_oak_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:dolphin_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:infested_stone",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
   },
   {
     "identifier": "minecraft:amethyst_shard",
@@ -8645,6 +8724,15 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_spear",
+    "tags": [
+      "minecraft:copper_tier",
+      "minecraft:is_spear"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:suspicious_stew",
@@ -9260,6 +9348,31 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:warped_shelf",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:wooden_sword",
+    "tags": [
+      "minecraft:is_sword",
+      "minecraft:is_tool",
+      "minecraft:wooden_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:netherite_spear",
+    "tags": [
+      "minecraft:netherite_tier",
+      "minecraft:is_spear"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:brown_mushroom_block",
     "tags": [],
     "stackable": true,
@@ -9338,6 +9451,30 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:mule_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:parrot_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:armadillo_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:ocelot_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
@@ -9360,6 +9497,44 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:loom",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:axolotl_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:nautilus_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:music_disc_precipice",
+    "tags": [
+      "minecraft:music_disc"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:allay_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:mooshroom_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
@@ -9368,7 +9543,7 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:parrot_spawn_egg",
+    "identifier": "minecraft:sniffer_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
     ],
@@ -9376,7 +9551,51 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:mule_spawn_egg",
+    "identifier": "minecraft:snow_golem_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:soul_torch",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:parched_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:copper_nugget",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cooked_porkchop",
+    "tags": [
+      "minecraft:is_food",
+      "minecraft:is_meat",
+      "minecraft:is_cooked"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sculk",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:zombie_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
     ],
@@ -9398,7 +9617,72 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:enderman_spawn_egg",
+    "identifier": "minecraft:zombie_nautilus_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:guardian_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:phantom_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:evoker_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:netherite_axe",
+    "tags": [
+      "minecraft:digger",
+      "minecraft:is_axe",
+      "minecraft:is_tool",
+      "minecraft:netherite_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:vindicator_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:happy_ghast_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:damaged_anvil",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:piglin_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
     ],
@@ -9439,66 +9723,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:copper_nugget",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:cooked_porkchop",
-    "tags": [
-      "minecraft:is_food",
-      "minecraft:is_meat",
-      "minecraft:is_cooked"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:sculk",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:zombie_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:music_disc_precipice",
-    "tags": [
-      "minecraft:music_disc"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:guardian_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:damaged_anvil",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:piglin_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:zoglin_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
@@ -9507,88 +9731,7 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:loom",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:axolotl_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:allay_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:netherite_axe",
-    "tags": [
-      "minecraft:digger",
-      "minecraft:is_axe",
-      "minecraft:is_tool",
-      "minecraft:netherite_tier"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:vindicator_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:evoker_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:phantom_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:snow_golem_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:sniffer_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:armadillo_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:happy_ghast_spawn_egg",
+    "identifier": "minecraft:enderman_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
     ],
@@ -9749,27 +9892,30 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:warped_shelf",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:wooden_sword",
-    "tags": [
-      "minecraft:is_sword",
-      "minecraft:is_tool",
-      "minecraft:wooden_tier"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
     "identifier": "minecraft:golden_sword",
     "tags": [
       "minecraft:is_sword",
       "minecraft:is_tool",
       "minecraft:golden_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:iron_spear",
+    "tags": [
+      "minecraft:iron_tier",
+      "minecraft:is_spear"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:diamond_spear",
+    "tags": [
+      "minecraft:diamond_tier",
+      "minecraft:transformable_items",
+      "minecraft:is_spear"
     ],
     "stackable": false,
     "maxAmount": 1
@@ -10120,6 +10266,20 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:hard_white_stained_glass_pane",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:iron_nautilus_armor",
+    "tags": [
+      "minecraft:nautilus_armor"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
     "identifier": "minecraft:turtle_helmet",
     "tags": [
       "minecraft:is_armor",
@@ -10142,12 +10302,6 @@
   },
   {
     "identifier": "minecraft:torch",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:soul_torch",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -10974,12 +11128,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:hard_white_stained_glass_pane",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:hard_yellow_stained_glass_pane",
     "tags": [],
     "stackable": true,
@@ -10998,6 +11146,12 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:light_block_2",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:light_block_15",
     "tags": [],
     "stackable": true,
@@ -11005,12 +11159,6 @@
   },
   {
     "identifier": "minecraft:lodestone_compass",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:light_block_2",
     "tags": [],
     "stackable": true,
     "maxAmount": 64

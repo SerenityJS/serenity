@@ -2,7 +2,6 @@ import {
   AvailableActorIdentifiersPacket,
   DisconnectReason,
   GameRuleType,
-  ItemData,
   MINECRAFT_VERSION,
   Packet,
   PlayStatus,
@@ -13,7 +12,6 @@ import {
   ResourcePackResponse,
   ResourcePackStackPacket,
   StartGamePacket,
-  ItemRegistryPacket,
   PermissionLevel,
   SyncActorPropertyPacket,
   PackType
@@ -22,7 +20,7 @@ import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, ListTag } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
-import { EntityType, PlayerChunkRenderingTrait } from "../entity";
+import { EntityType } from "../entity";
 
 class ResourcePackClientResponseHandler extends NetworkHandler {
   public static readonly packet = Packet.ResourcePackClientResponse;
@@ -108,7 +106,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         // Create a new ResourcePackStackPacket
         const stack = new ResourcePackStackPacket();
         stack.mustAccept = false; // this.serenity.resourcePacks.mustAcceptResourcePacks;
-        stack.behaviorPacks = [];
         stack.gameVersion = MINECRAFT_VERSION;
         stack.experiments = [];
         stack.experimentsPreviouslyToggled = false;
@@ -172,16 +169,16 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.texturePacksRequired = false;
 
         // Assign the gamerules to the packet
-        packet.gamerules = packet.gamerules = Object.entries(
-          world.gamerules
-        ).map(([name, value]) => {
-          // Get the type of the value
-          const type =
-            typeof value === "boolean" ? GameRuleType.Bool : GameRuleType.Int;
+        packet.gamerules = Object.entries(world.gamerules).map(
+          ([name, value]) => {
+            // Get the type of the value
+            const type =
+              typeof value === "boolean" ? GameRuleType.Bool : GameRuleType.Int;
 
-          // Create the gamerule object
-          return { name, type, value, editable: true };
-        });
+            // Create the gamerule object
+            return { name, type, value, editable: true };
+          }
+        );
 
         packet.experiments = [];
         packet.experimentsPreviouslyToggled = false;
@@ -237,28 +234,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.worldTemplateId = "00000000-0000-0000-0000-000000000000";
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
-        packet.tickDeathSystems = true; // This is a new property in 1.21.100
         packet.serverControlledSounds = true;
 
-        // Get all the custom item properties
-        const items = new ItemRegistryPacket();
-        items.definitions = world.itemPalette.getAllTypes().map((item) => {
-          const identifier = item.identifier;
-          const networkId = item.network;
-          const componentBased = item.isComponentBased;
-          const itemVersion = item.version;
-          const properties = item.isComponentBased
-            ? item.properties
-            : new CompoundTag();
-
-          return new ItemData(
-            identifier,
-            networkId,
-            componentBased,
-            itemVersion,
-            properties
-          );
-        });
+        // Get the item registry packet from the world's item palette
+        const registry = world.itemPalette.getItemRegistry();
 
         // Get the available actor identifiers
         const actors = new AvailableActorIdentifiersPacket();
@@ -292,19 +271,13 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         status.status = PlayStatus.PlayerSpawn;
 
         // Send the packets to the player
-        player.sendImmediate(packet, status, actors, items, ...propertiesSync);
-
-        // Check if the player has the chunk rendering trait
-        if (player.hasTrait(PlayerChunkRenderingTrait)) {
-          // Get the player's chunk rendering trait
-          const trait = player.getTrait(PlayerChunkRenderingTrait);
-
-          // Calculate the spawn distance (1/3 of the view distance)
-          const spawnDistance = Math.floor(trait.viewDistance / 3);
-
-          // Send the initial chunks to the player
-          trait.send(...trait.next(spawnDistance));
-        }
+        player.sendImmediate(
+          packet,
+          status,
+          actors,
+          registry,
+          ...propertiesSync
+        );
       }
     }
   }

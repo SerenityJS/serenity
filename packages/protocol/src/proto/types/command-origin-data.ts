@@ -1,65 +1,77 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
+import { CommandOriginType } from "../../enums";
+
 import { Uuid } from "./uuid";
 
-enum CommandOriginDataTypes {
-  ORIGIN_PLAYER,
-  ORIGIN_BLOCK,
-  ORIGIN_MINECART_BLOCK,
-  ORIGIN_DEV_CONSOLE,
-  ORIGIN_TEST,
-  ORIGIN_AUTOMATION_PLAYER,
-  ORIGIN_CLIENT_AUTOMATION,
-  ORIGIN_DEDICATED_SERVER,
-  ORIGIN_ENTITY,
-  ORIGIN_VIRTUAL,
-  ORIGIN_GAME_ARGUMENT,
-  ORIGIN_ENTITY_SERVER
-}
-
 class CommandOriginData extends DataType {
-  public origin: CommandOriginDataTypes;
+  /**
+   * The type of the command origin.
+   */
+  public type: CommandOriginType;
+
+  /**
+   * The uuid of the command origin.
+   */
   public uuid: string;
+
+  /**
+   * The request ID of the command origin.
+   */
   public requestId: string;
+
+  /**
+   * The unique ID of the player actor.
+   */
   public playerActorUniqueId: bigint;
 
+  /**
+   * Creates a new command origin data.
+   * @param type The type of the command origin.
+   * @param uuid The uuid of the command origin.
+   * @param requestId The request ID of the command origin.
+   * @param playerActorUniqueId The unique ID of the player actor.
+   */
   public constructor(
-    origin: CommandOriginDataTypes,
+    type: CommandOriginType,
     uuid: string,
     requestId: string,
     playerActorUniqueId: bigint
   ) {
     super();
-    this.origin = origin;
+    this.type = type;
     this.uuid = uuid;
     this.requestId = requestId;
     this.playerActorUniqueId = playerActorUniqueId ?? 0n;
   }
 
   public static read(stream: BinaryStream): CommandOriginData {
-    const origin = stream.readVarInt();
+    const type = stream.readVarString() as CommandOriginType;
     const uuid = Uuid.read(stream);
     const requestId = stream.readVarString();
     let playerActorUniqueId = 0n;
 
+    // Check if the origin type is DevConsole or Test
     if (
-      origin === CommandOriginDataTypes.ORIGIN_DEV_CONSOLE ||
-      origin === CommandOriginDataTypes.ORIGIN_TEST
+      type === CommandOriginType.DevConsole ||
+      type === CommandOriginType.Test
     ) {
       playerActorUniqueId = stream.readVarLong();
     }
 
-    return new CommandOriginData(origin, uuid, requestId, playerActorUniqueId);
+    // Return a new command origin data.
+    return new this(type, uuid, requestId, playerActorUniqueId);
   }
 
   public static write(stream: BinaryStream, value: CommandOriginData): void {
-    stream.writeVarInt(value.origin);
+    stream.writeVarString(value.type);
     Uuid.write(stream, value.uuid);
     stream.writeVarString(value.requestId);
 
+    // Check if the origin type is DevConsole or Test
     if (
-      value.origin === CommandOriginDataTypes.ORIGIN_DEV_CONSOLE ||
-      value.origin === CommandOriginDataTypes.ORIGIN_TEST
+      value.type === CommandOriginType.DevConsole ||
+      value.type === CommandOriginType.Test
     ) {
       stream.writeVarLong(value.playerActorUniqueId);
     }

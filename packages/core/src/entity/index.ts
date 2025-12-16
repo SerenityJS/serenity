@@ -4,7 +4,6 @@ export * from "./player";
 export * from "./container";
 export * from "./traits";
 export * from "./palette";
-export * from "./system-info";
 export * from "./storage";
 export * from "./types";
 export * from "./shared-properties";

@@ -143,9 +143,6 @@ class TerrainGenerator {
         // Create an unready empty chunk to return.
         const chunk = new Chunk(cx, cz, this.dimension.type);
 
-        // Set the chunk as not ready.
-        chunk.ready = false;
-
         // Immediately resolve with the unready chunk.
         return resolve(chunk);
       }

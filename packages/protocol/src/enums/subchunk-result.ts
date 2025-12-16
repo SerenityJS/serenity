@@ -1,9 +1,0 @@
-export enum SubChunkResult {
-  UNDEFINED = 0,
-  SUCCESS = 1,
-  CHUNK_NOT_FOUND = 2,
-  INVALID_DIMENSION = 3,
-  PLAYER_NOT_FOUND = 4,
-  Y_INDEX_OUT_OF_BOUNDS = 5,
-  SUCCESS_ALL_AIR = 6
-}

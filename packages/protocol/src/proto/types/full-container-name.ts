@@ -44,7 +44,8 @@ class FullContainerName extends DataType {
     // Write the identifier.
     stream.writeUint8(value.identifier);
 
-    if (value.dynamicIdentifier) {
+    // Check if the identifier is dynamic.
+    if (value.dynamicIdentifier !== undefined) {
       // Write a bool indicating that the identifier is dynamic.
       stream.writeBool(true);
 

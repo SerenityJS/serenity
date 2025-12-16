@@ -22,9 +22,9 @@ class NetworkItemStackDescriptor extends DataType {
   public readonly metadata: number | null;
 
   /**
-   * The stack net id of the item.
+   * The network id of the item stack.
    */
-  public readonly stackNetId: number | null;
+  public readonly itemStackId: number | null;
 
   /**
    * The network block id of the item.
@@ -41,7 +41,7 @@ class NetworkItemStackDescriptor extends DataType {
    * @param id The network id of the item.
    * @param stackSize The size of the stack.
    * @param metadata The metadata of the item.
-   * @param stackNetId The stack net id of the item.
+   * @param itemStackId The network id of the item stack.
    * @param networkBlockid The network block id of the item.
    * @param extras The extra data of the item.
    */
@@ -49,7 +49,7 @@ class NetworkItemStackDescriptor extends DataType {
     network: number,
     stackSize?: number | null,
     metadata?: number | null,
-    stackNetId?: number | null,
+    itemStackId?: number | null,
     networkBlockid?: number | null,
     extras?: ItemInstanceUserData | null
   ) {
@@ -57,7 +57,7 @@ class NetworkItemStackDescriptor extends DataType {
     this.network = network;
     this.stackSize = stackSize ?? null;
     this.metadata = metadata ?? null;
-    this.stackNetId = stackNetId ?? null;
+    this.itemStackId = itemStackId ?? null;
     this.networkBlockId = networkBlockid ?? null;
     this.extras = extras ?? null;
   }
@@ -75,7 +75,7 @@ class NetworkItemStackDescriptor extends DataType {
     const metadata = stream.readVarInt();
 
     // Check if the stack net id should be included.
-    const stackNetId = stream.readBool() ? stream.readVarInt() : null;
+    const itemStackId = stream.readBool() ? stream.readZigZag() : null;
 
     // Read the block runtime id.
     const networkBlockId = stream.readZigZag();
@@ -95,7 +95,7 @@ class NetworkItemStackDescriptor extends DataType {
       network,
       stackSize,
       metadata,
-      stackNetId,
+      itemStackId,
       networkBlockId,
       extras
     );
@@ -117,11 +117,11 @@ class NetworkItemStackDescriptor extends DataType {
     stream.writeVarInt(value.metadata ?? 0);
 
     // Check if the stack net id should be included.
-    if (value.stackNetId) {
+    if (value.itemStackId) {
       // Write a boolean to indicate that the stack net id is included.
       // Then write the stack net id.
       stream.writeBool(true);
-      stream.writeVarInt(value.stackNetId);
+      stream.writeZigZag(value.itemStackId);
     } else {
       // Write a boolean to indicate that the stack net id is not included.
       stream.writeBool(false);

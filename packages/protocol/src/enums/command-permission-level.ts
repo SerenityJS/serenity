@@ -1,10 +1,10 @@
 enum CommandPermissionLevel {
-  Normal,
-  Operator,
-  Automation,
-  Host,
-  Owner,
-  Internal
+  Any = "Any",
+  GameDirectors = "GameDirectors",
+  Admin = "Admin",
+  Host = "Host",
+  Owner = "Owner",
+  Internal = "Internal"
 }
 
 export { CommandPermissionLevel };

@@ -129,7 +129,7 @@ class CreateContentGroup {
       const instance = new CreativeItemDescriptor(
         type.type,
         descriptor ?? ItemStack.toNetworkInstance(type),
-        type.getLevelStorage()
+        type.getStorage()
       );
 
       // Register the item to the creative group.

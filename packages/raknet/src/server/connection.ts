@@ -17,7 +17,6 @@ import { DGRAM_HEADER_SIZE, DGRAM_MTU_OVERHEAD } from "../constants";
 
 import type { RemoteInfo } from "node:dgram";
 import type { Server } from "./raknet";
-import { parseConfigFileTextToJson } from "typescript";
 
 /**
  * Represents a connection in the server
@@ -121,7 +120,6 @@ class Connection {
     // Outputs
     this.outputOrderIndex = Array.from<number>({ length: 32 }).fill(0);
     this.outputSequenceIndex = Array.from<number>({ length: 32 }).fill(0);
-
   }
 
   /**
@@ -182,6 +180,11 @@ class Connection {
    * Disconnects the connection
    */
   public disconnect(): void {
+    if (
+      this.status === Status.Disconnected ||
+      this.status === Status.Disconnecting
+    )
+      return;
     // Set the status to disconnecting
     this.status = Status.Disconnecting;
 
@@ -377,7 +380,7 @@ class Connection {
       if (this.lastAckId !== null && sequence === this.lastAckId) {
         const roundTripTime = Date.now() - this.ackTimeStamp;
         this.ping = Math.round(roundTripTime);
-        
+
         // Reset ping tracking
         this.lastAckId = null;
         this.ackTimeStamp = 0;
@@ -408,7 +411,7 @@ class Connection {
       if (this.lastAckId !== null && sequence === this.lastAckId) {
         const roundTripTime = Date.now() - this.ackTimeStamp;
         this.ping = Math.round(roundTripTime);
-        
+
         // Reset ping tracking
         this.lastAckId = null;
         this.ackTimeStamp = 0;

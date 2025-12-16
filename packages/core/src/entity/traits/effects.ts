@@ -5,95 +5,60 @@ import {
   MobEffectEvents,
   MobEffectPacket
 } from "@serenityjs/protocol";
+import { ListTag, CompoundTag, ByteTag } from "@serenityjs/nbt";
 
 import { Effect } from "../../effect";
 import { EntityIdentifier } from "../../enums";
-import { EntityEffectOptions } from "../../types";
+import { EntityDespawnOptions, EntityEffectOptions } from "../../types";
 import { EffectAddSignal, EffectRemoveSignal } from "../../events";
+import { Entity } from "../entity";
 
 import { EntityTrait } from "./trait";
 
-interface savedEffect {
+interface MobEffectOptions {
+  action: MobEffectEvents;
   effectType: EffectType;
-  duration: number;
-  amplifier: number;
-  showParticles: boolean;
+  effect?: Effect;
 }
 
 class EntityEffectsTrait extends EntityTrait {
-  public static readonly type = [EntityIdentifier.Player];
-  public static readonly identifier = "effects";
+  public static readonly types = [EntityIdentifier.Player];
 
-  private readonly effects: Map<EffectType, Effect> = new Map();
+  public static readonly identifier = "entity_effects";
 
-  public onTick(): void {
-    for (const [type, effect] of this.effects) {
-      effect.onTick?.(this.entity);
+  public readonly effectMap: Map<EffectType, Effect>;
 
-      if (!effect.isExpired()) {
-        // Reduce the effect duration by two ticks.
-        effect.duration -= 2;
-        continue;
-      }
-      this.remove(type);
-    }
+  public constructor(entity: Entity) {
+    super(entity);
 
-    const particleInterval = this.effects.size > 1 ? 8n : 2n;
-    // Spawn a particle based on the effect size interval.
-    if (this.entity.world.currentTick % particleInterval == 0n) {
-      const effect = this.getParticleEffect();
-
-      if (!effect) return;
-      // Spawn the particle.
-      const packet = new LevelEventPacket();
-      packet.event = LevelEvent.ParticleLegacyEvent | 34;
-      packet.data = effect.color.toInt();
-      packet.position = this.entity.position;
-      this.entity.dimension.broadcast(packet);
-    }
+    this.effectMap = new Map();
   }
 
-  public remove(effectType: EffectType): void {
-    if (!this.effects.has(effectType)) return;
+  public onTick(): void {
+    for (const [type, effect] of this.effectMap) {
+      if (effect.isExpired()) {
+        this.removeEffect(type);
+        continue;
+      }
+      effect.duration -= 2;
+      effect.onTick?.(this.entity);
+    }
+    this.handleParticles();
+  }
+
+  public removeEffect(effectType: EffectType): void {
+    if (!this.effectMap.has(effectType)) return;
     const signal = new EffectRemoveSignal(this.entity, effectType);
 
     signal.emit();
-    this.effects.get(effectType)?.onRemove?.(this.entity);
-    this.effects.delete(effectType);
+    this.effectMap.get(effectType)?.onRemove?.(this.entity);
+    this.effectMap.delete(effectType);
 
     if (!this.entity.isPlayer()) return;
-    // Create the effect removal packet.
-    const packet = new MobEffectPacket();
-    packet.runtimeId = this.entity.runtimeId;
-    packet.eventId = MobEffectEvents.EffectRemove;
-    packet.effectId = effectType;
-    packet.particles = false;
-    packet.amplifier = 0;
-    packet.duration = 0;
-    packet.inputTick = this.entity.world.currentTick;
-
-    this.entity.send(packet);
+    this.sendPacket({ action: MobEffectEvents.EffectRemove, effectType });
   }
 
-  /**
-   * Checks if the entity has an active effect of the specified type.
-   *
-   * @param effectType - The type of the effect to check.
-   * @returns `true` if the entity has an active effect of the specified type; otherwise, `false`.
-   */
-  public has(effectType: EffectType): boolean {
-    return this.effects.has(effectType);
-  }
-
-  /**
-   * Adds a new effect to the entity.
-   *
-   * @param effectType - The type of the effect to add.
-   * @param duration - The duration of the effect in ticks.
-   * @param amplifier - The amplifier of the effect. Optional, defaults to 0.
-   * @param showParticles - Whether the effect should show particles. Optional, defaults to true.
-   */
-  public add(
+  public addEffect(
     effectType: EffectType,
     duration: number,
     options?: EntityEffectOptions
@@ -103,85 +68,108 @@ class EntityEffectsTrait extends EntityTrait {
 
     // Get the effect type builder
     const effectBuilder = this.entity.world.effectPalette.getEffect(effectType);
-    let effect = this.effects.get(effectType);
+    let effect = this.effectMap.get(effectType);
 
-    // If there's no active effect and there's effect builder, create a new effect
-    if (!effect && effectBuilder)
+    if (!effect) {
+      if (!effectBuilder) return;
       effect = new effectBuilder(duration, amplifier, showParticles);
-    else if (effect) {
+    } else {
       // Adjust the current effect properties
       effect.duration = effect.duration + duration;
       effect.amplifier = Math.max(effect.amplifier, amplifier ?? 0);
       effect.showParticles = showParticles ?? true;
+
+      // Send a modify packet to the player.
+      return this.sendPacket({
+        effectType,
+        effect,
+        action: MobEffectEvents.EffectModify
+      });
     }
-    // eslint fix
-    if (!effect) return;
     const signal = new EffectAddSignal(this.entity, effect);
 
     if (!signal.emit()) return;
-
     effect.onAdd?.(this.entity);
-    this.effects.set(effectType, effect);
+    this.effectMap.set(effectType, effect);
 
     // If the entity is not a player, exit.
     if (!this.entity.isPlayer()) return;
-    // Create the effect addition packet.
-    const packet = new MobEffectPacket();
-    packet.runtimeId = this.entity.runtimeId;
-    packet.eventId = MobEffectEvents.EffectAdd;
-    packet.effectId = effectType;
-    packet.particles = effect.showParticles;
-    packet.amplifier = effect.amplifier;
-    packet.duration = effect.duration;
-    packet.inputTick = this.entity.world.currentTick;
+    this.sendPacket({
+      action: MobEffectEvents.EffectAdd,
+      effectType,
+      effect
+    });
+  }
 
-    // Send the packet to the player.
+  private sendPacket(packetOptions: MobEffectOptions): void {
+    if (!this.entity.isPlayer()) return;
+    const { effectType, action, effect } = packetOptions;
+    const packet = new MobEffectPacket();
+
+    packet.runtimeId = this.entity.runtimeId;
+    packet.eventId = action;
+    packet.effectId = effectType;
+    packet.particles = effect?.showParticles ?? false;
+    packet.amplifier = effect?.amplifier ?? 0;
+    packet.duration = effect?.duration ?? 0;
+    packet.inputTick = this.entity.world.currentTick;
+    packet.isAmbient = false; // TODO: investigate ambient effects
+
     this.entity.send(packet);
   }
 
-  /**
-   * Retrieves a random particle effect from the entity's active effects list.
-   *
-   * @returns The randomly selected particle effect or `undefined` if no particle effects are available.
-   */
-  private getParticleEffect(): Effect {
-    // Filter the effects to only include those with showParticles set to true.
-    const effects = [...this.effects.values()].filter(
-      (effect) => effect.showParticles
-    );
-
-    // Return the selected effect or undefined if no particle effects are available.
-    return effects[Math.floor(Math.random() * effects.length)]!;
-  }
-
-  /*
-   * This function retrieves the saved effects from the entity's dynamic properties.
-   * creates new instances of the effects using the data, and adds them to the entity's effects list.
-   * The saved effects are loaded from the "entity_effects" component, which is expected to be an array of objects
-   */
   public onSpawn(): void {
-    // Load the effects from the saved data.
-    const entityEffects = (this.entity.dynamicProperties.get(
-      "entity_effects"
-    ) ?? []) as Array<unknown> as Array<savedEffect>;
+    const world = this.entity.world;
+    const effectList =
+      this.entity.getStorageEntry<ListTag<CompoundTag>>("entity_effects");
 
-    for (const effectEntry of entityEffects) {
-      const { effectType, duration, amplifier, showParticles } = effectEntry;
-      const effect = this.entity.world.effectPalette.getEffect(effectType);
+    if (!effectList) return;
 
-      if (!effect) return;
-      this.effects.set(
+    for (const effectTag of effectList) {
+      const effectType = effectTag
+        .get<ByteTag>("effect_type")!
+        .toJSON() as EffectType;
+      const effectBuilder = world.effectPalette.getEffect(effectType);
+
+      if (!effectBuilder) continue;
+      const effect = effectBuilder.deserialize(effectTag);
+
+      this.effectMap.set(effectType, effect);
+      // If the entity is not a player, exit.
+      if (!this.entity.isPlayer()) return;
+      this.sendPacket({
+        action: MobEffectEvents.EffectAdd,
         effectType,
-        new effect(duration, amplifier, showParticles)
-      );
+        effect
+      });
     }
   }
 
-  public onDespawn(): void {
-    this.entity.dynamicProperties.set(
-      "entity_effects",
-      [...this.effects.values()].map((effect) => effect.toString())
-    );
+  public onDespawn(details: EntityDespawnOptions): void {
+    if (!details.disconnected) return;
+    const entityEffects = new ListTag();
+
+    for (const effect of this.effectMap.values()) {
+      entityEffects.push(effect.serialize());
+    }
+    this.entity.setStorageEntry("entity_effects", entityEffects);
+  }
+
+  public handleParticles(): void {
+    if (this.effectMap.size == 0) return;
+    const particleInterval = 10n;
+
+    if (this.entity.world.currentTick % particleInterval != 0n) return;
+    for (const effect of this.effectMap.values()) {
+      if (!effect.showParticles) continue;
+
+      const particlePacket = new LevelEventPacket();
+      particlePacket.event = LevelEvent.ParticleLegacyEvent | 34;
+      particlePacket.data = effect.color.toInt();
+      particlePacket.position = this.entity.position;
+
+      this.entity.dimension.broadcast(particlePacket);
+    }
   }
 }
 

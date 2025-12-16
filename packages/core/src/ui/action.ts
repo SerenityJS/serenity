@@ -11,10 +11,11 @@ interface ActionFormImage {
 }
 
 /**
- * Represents a button that can be shown on an action form.
+ * Represents an element that can be added to an action form.
  */
-interface ActionFormButton {
-  text: string;
+interface ActionFormElement {
+  type: "header" | "label" | "divider" | "button";
+  text?: string;
   image?: ActionFormImage;
 }
 
@@ -55,9 +56,9 @@ class ActionForm extends Form<number> {
   public readonly type = ModalFormType.Action;
 
   /**
-   * The buttons of the form.
+   * The elements of the form.
    */
-  public readonly buttons: Array<ActionFormButton> = [];
+  private elements: Array<ActionFormElement> = [];
 
   /**
    * The content of the form.
@@ -77,15 +78,70 @@ class ActionForm extends Form<number> {
   }
 
   /**
+   * Clears all elements from the form.
+   */
+  public clearElements(): void {
+    // Reset the elements array
+    this.elements = [];
+  }
+
+  /**
+   * Clears a specific element from the form.
+   * @param index The index of the element to clear.
+   */
+  public clearElement(index: number): void {
+    // Remove the element at the specified index
+    this.elements.splice(index, 1);
+  }
+
+  /**
    * Adds a button to the form.
    */
   public button(text: string, image?: ActionFormImage): this {
     // Push the button to the buttons array
-    this.buttons.push({ text, image });
+    this.elements.push({ type: "button", text, image });
+
+    // Return this instance
+    return this;
+  }
+
+  /**
+   * Adds a header element to the form.
+   * @param text The text of the header
+   * @returns This ActionForm instance
+   */
+  public header(text: string): this {
+    // Push the header element to the elements array
+    this.elements.push({ type: "header", text });
+
+    // Return this instance
+    return this;
+  }
+
+  /**
+   * Adds a label element to the form.
+   * @param text The text of the label
+   * @returns This ActionForm instance
+   */
+  public label(text: string): this {
+    // Push the label element to the elements array
+    this.elements.push({ type: "label", text });
+
+    // Return this instance
+    return this;
+  }
+
+  /**
+   * Adds a divider element to the form.
+   * @returns This ActionForm instance
+   */
+  public divider(): this {
+    // Push the divider element to the elements array
+    this.elements.push({ type: "divider", text: "" });
 
     // Return this instance
     return this;
   }
 }
 
-export { ActionForm, ActionFormButton, ActionFormImage };
+export { ActionForm, ActionFormImage, ActionFormElement };

@@ -4,16 +4,16 @@ import {
   ActorDataType,
   ActorFlag,
   AnimateEntityPacket,
-  ContainerId,
   ContainerName,
   EffectType,
+  FullContainerName,
   MoveActorDeltaPacket,
   MoveDeltaFlags,
   Rotation,
   UpdateAttributesPacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { BaseTag, CompoundTag } from "@serenityjs/nbt";
+import { BaseTag, ListTag, StringTag } from "@serenityjs/nbt";
 
 import { Dimension, World } from "../world";
 import {
@@ -77,6 +77,11 @@ class Entity {
    * The serenity instance of the server
    */
   protected readonly serenity: Serenity;
+
+  /**
+   * The storage of the entity. This is used to persist data about the entity between server restarts.
+   */
+  protected readonly storage: EntityLevelStorage;
 
   /**
    * The type of the entity.
@@ -146,16 +151,6 @@ class Entity {
    * These values are derived from the components and traits of the entity
    */
   public readonly attributes: EntityAttributes;
-
-  /**
-   *
-   */
-  protected readonly storage: EntityLevelStorage;
-
-  /**
-   * The tags that are attached to the entity
-   */
-  public readonly tags = new Set<string>();
 
   /**
    * The input info of the entity
@@ -326,10 +321,10 @@ class Entity {
     }
 
     // Create the maps for the entity
-    this.sharedProperties = new EntitySharedProperties(this);
     this.metadata = new EntityActorMetadata(this);
     this.flags = new EntityActorFlags(this);
     this.attributes = new EntityAttributes(this);
+    this.sharedProperties = new EntitySharedProperties(this);
 
     // Iterate over the traits in the storage and add them to the entity
     for (const identifier of this.storage.getTraits()) {
@@ -361,83 +356,6 @@ class Entity {
 
     // Add the traits of the block type to the entity
     for (const [, trait] of this.type.traits) this.addTrait(trait);
-  }
-
-  // --- DEPRECATED - REMOVE IN FUTURE ---
-
-  /**
-   * The NBT data of the entity.
-   * @deprecated Use `getStorageEntry` and `setStorageEntry` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public get nbt(): CompoundTag {
-    // Log a warning that the nbt property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.nbt' property is deprecated and will be removed in a future version. Please use 'Entity.getStorageEntry' and 'Entity.setStorageEntry' methods instead.`
-    );
-
-    // Return the storage of the entity
-    return this.storage;
-  }
-
-  /**
-   * The name tag of the entity.
-   * @deprecated Use `getNametag` and `setNametag` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public get nameTag(): string {
-    // Log a warning that the nameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.nameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametag' and 'Entity.setNametag' methods instead.`
-    );
-
-    // Return the nametag of the entity
-    return this.getNametag();
-  }
-
-  /**
-   * The name tag of the entity.
-   * @deprecated Use `getNametag` and `setNametag` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public set nameTag(value: string) {
-    // Log a warning that the nameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.nameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametag' and 'Entity.setNametag' methods instead.`
-    );
-
-    // Set the nametag of the entity
-    this.setNametag(value);
-  }
-
-  /**
-   * Whether the entity name tag is always visible.
-   * @deprecated Use `getNametagAlwaysVisible` and `setNametagAlwaysVisible` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public get alwaysShowNameTag(): boolean {
-    // Log a warning that the alwaysShowNameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.alwaysShowNameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametagAlwaysVisible' and 'Entity.setNametagAlwaysVisible' methods instead.`
-    );
-
-    // Return the nametag visibility of the entity
-    return this.getNametagAlwaysVisible();
-  }
-
-  /**
-   * Whether the entity name tag is always visible.
-   * @deprecated Use `getNametagAlwaysVisible` and `setNametagAlwaysVisible` methods instead.
-   * Will be removed in version 0.8.14 and above.
-   */
-  public set alwaysShowNameTag(value: boolean) {
-    // Log a warning that the alwaysShowNameTag property is deprecated
-    this.world.logger.warn(
-      `The 'Entity.alwaysShowNameTag' property is deprecated and will be removed in a future version. Please use 'Entity.getNametagAlwaysVisible' and 'Entity.setNametagAlwaysVisible' methods instead.`
-    );
-
-    // Set the nametag visibility of the entity
-    this.setNametagAlwaysVisible(value);
   }
 
   /**
@@ -588,7 +506,7 @@ class Entity {
       this.getTrait(EntityEffectsTrait) ?? this.addTrait(EntityEffectsTrait);
 
     // Add the effect to the entity.
-    effectTrait.add(effectType, duration * 40, options);
+    effectTrait.addEffect(effectType, duration * 40, options);
   }
 
   /**
@@ -597,9 +515,9 @@ class Entity {
    */
   public removeEffect(effectType: EffectType): void {
     const effectTrait = this.getTrait(EntityEffectsTrait);
-    if (!effectTrait || !effectTrait.has(effectType)) return;
 
-    effectTrait.remove(effectType);
+    if (!effectTrait) return;
+    effectTrait.removeEffect(effectType);
   }
 
   /**
@@ -609,7 +527,7 @@ class Entity {
    */
   public hasEffect(effectType: EffectType): boolean {
     const effectTrait = this.getTrait(EntityEffectsTrait);
-    return effectTrait?.has(effectType) ?? false;
+    return effectTrait?.effectMap.has(effectType) ?? false;
   }
 
   /**
@@ -937,9 +855,12 @@ class Entity {
    * @returns The chunk the entity is in
    */
   public getChunk(): Chunk {
+    // Get the floored x and z position of the entity
+    const { x, z } = this.position.floor();
+
     // Convert the position to a chunk position
-    const cx = this.position.x >> 4;
-    const cz = this.position.z >> 4;
+    const cx = x >> 4;
+    const cz = z >> 4;
 
     // Get the chunk from the dimension
     return this.dimension.getChunk(cx, cz);
@@ -1127,15 +1048,25 @@ class Entity {
     options = {
       killerSource: null,
       damageCause: ActorDamageCause.None,
+      cancel: false,
       ...options
     };
 
     // Create a new EntityDieSignal
-    new EntityDiedSignal(this, options as EntityDeathOptions).emit();
+    const success = new EntityDiedSignal(
+      this,
+      options as EntityDeathOptions
+    ).emit();
+
+    // Set the cancel option based on the signal result
+    options.cancel = !success;
 
     // Trigger the onDeath trait event for the entity
     for (const [, trait] of this.traits)
       trait.onDeath?.(options as EntityDeathOptions);
+
+    // Check if the death was cancelled
+    if (options.cancel) return;
 
     // Set the entity as not alive
     this.isAlive = false;
@@ -1221,12 +1152,9 @@ class Entity {
    * Get a container from the entity.
    * @param name The name of the container.
    */
-  public getContainer(
-    name: ContainerName,
-    dynamicId?: number
-  ): Container | null {
+  public getContainer(name: FullContainerName): Container | null {
     // Check if a dynamic id was provided
-    if (dynamicId) {
+    if (name.dynamicIdentifier) {
       // Check if the entity has an inventory trait
       if (!this.hasTrait(EntityInventoryTrait)) return null;
 
@@ -1250,7 +1178,7 @@ class Entity {
     }
 
     // Switch name of the container
-    switch (name) {
+    switch (name.identifier) {
       default: {
         // Return null if the container name is not valid
         return null;
@@ -1265,7 +1193,7 @@ class Entity {
         const equipment = this.getTrait(EntityEquipmentTrait);
 
         // Check if the container name is armor or offhand
-        if (name === ContainerName.Armor) return equipment.armor;
+        if (name.identifier === ContainerName.Armor) return equipment.armor;
         else return equipment.offhand;
       }
 
@@ -1561,19 +1489,19 @@ class Entity {
     };
 
     // Iterate over the traits of the item stack
-    for (const [identifier, trait] of itemStack.traits) {
+    for (const trait of itemStack.getAllTraits()) {
       try {
         // Call the onDropped trait event
         trait.onDropped?.(options);
       } catch (reason) {
         // Log the error to the console
         this.world.serenity.logger.error(
-          `Failed to trigger onDropped trait event for item "${identifier}" in entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
+          `Failed to trigger onDropped trait event for item "${trait.identifier}" in entity "${this.type.identifier}:${this.uniqueId}" in dimension "${this.dimension.identifier}"`,
           reason
         );
 
         // Remove the trait from the item stack
-        itemStack.traits.delete(identifier);
+        itemStack.removeTrait(trait.identifier);
       }
     }
 
@@ -1583,10 +1511,10 @@ class Entity {
     // Check if the signal was cancelled
     if (!signal.emit() || options.cancelled) {
       // Update the item stack
-      itemStack.update();
+      itemStack.container?.updateSlot(itemStack.getSlot());
 
       // Check if the container is a cursor & if the entity is a player
-      if (container.identifier === ContainerId.Ui && this.isPlayer()) {
+      if (this.isPlayer()) {
         // Check if the player has an opened container
         if (!this.openedContainer) return false;
 
@@ -1644,20 +1572,33 @@ class Entity {
   }
 
   /**
+   * Gets the tags of the entity.
+   * @returns The tags of the entity.
+   */
+  public getTags(): Array<string> {
+    // Get the tags entry from the storage
+    const entry = this.getStorageEntry<ListTag<StringTag>>("Tags");
+
+    // Return the tags as an array
+    if (!entry) return [];
+
+    // Push the tags to an array
+    const tags: Array<string> = [];
+
+    // Push the tags to the array
+    for (const tag of entry.values()) tags.push(tag.valueOf());
+
+    // Return the tags
+    return tags;
+  }
+
+  /**
    * Whether or not the entity has a tag.
    * @param tag The tag to check.
    * @returns Whether or not the entity has the tag.
    */
   public hasTag(tag: string): boolean {
-    return this.tags.has(tag);
-  }
-
-  /**
-   * Gets the tags of the entity.
-   * @returns The tags of the entity.
-   */
-  public getTags(): Array<string> {
-    return [...this.tags];
+    return this.getTags().includes(tag);
   }
 
   /**
@@ -1667,10 +1608,22 @@ class Entity {
    */
   public addTag(tag: string): boolean {
     // Check if the tag already exists
-    if (this.tags.has(tag)) return false;
+    if (this.hasTag(tag)) return false;
 
-    // Tags are read-only
-    this.tags.add(tag);
+    // Get the tags entry from the storage
+    let entry = this.getStorageEntry<ListTag<StringTag>>("Tags");
+
+    // Check if the entry exists, if not create it
+    if (!entry) {
+      // Create a new list tag entry with the tag
+      entry = new ListTag<StringTag>([new StringTag(tag)]);
+
+      // Set the name of the entry
+      this.setStorageEntry("Tags", entry);
+    } else {
+      // Add the tag to the entry
+      entry.push(new StringTag(tag));
+    }
 
     // Return true as the tag was added
     return true;
@@ -1683,10 +1636,22 @@ class Entity {
    */
   public removeTag(tag: string): boolean {
     // Check if the tag exists
-    if (!this.tags.has(tag)) return false;
+    if (!this.hasTag(tag)) return false;
 
-    // Remove the tag from the entity
-    this.tags.delete(tag);
+    // Get the tags entry from the storage
+    const entry = this.getStorageEntry<ListTag<StringTag>>("Tags");
+
+    // Check if the entry exists
+    if (!entry) return false;
+
+    // Find the index of the tag
+    const index = entry.findIndex((t) => t.valueOf() === tag);
+
+    // Check if the index is valid
+    if (index === -1) return false;
+
+    // Remove the tag from the entry
+    entry.splice(index, 1);
 
     // Return true as the tag was removed
     return true;

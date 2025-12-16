@@ -18,6 +18,7 @@ import {
   ItemTypeIconComponent,
   ItemTypeIconComponentOptions,
   ItemTypeMaxStackComponent,
+  ItemTypeUseAnimationComponent,
   ItemTypeUseModifiersComponent,
   ItemTypeUseModifiersComponentOptions,
   ItemTypeWearableComponent,
@@ -724,6 +725,38 @@ class ItemTypeComponentCollection extends CompoundTag {
     } else {
       // Set the damage value.
       this.getComponent(ItemTypeDamageComponent).setDamage(value);
+    }
+  }
+
+  /**
+   * Check if the item type has a use animation component.
+   * @returns Whether the item type has a use animation component.
+   */
+  public hasUseAnimation(): boolean {
+    return this.hasComponent(ItemTypeUseAnimationComponent);
+  }
+
+  /**
+   * Get the use animation of the item type.
+   * @returns The use animation of the item type.
+   */
+  public getUseAnimation(): string {
+    if (this.hasComponent(ItemTypeUseAnimationComponent)) {
+      return this.getComponent(ItemTypeUseAnimationComponent).getUseAnimation();
+    }
+
+    return "none";
+  }
+
+  /**
+   * Set the use animation of the item type.
+   * @param value The use animation value.
+   */
+  public setUseAnimation(value: string): void {
+    if (!this.hasComponent(ItemTypeUseAnimationComponent)) {
+      this.addComponent(ItemTypeUseAnimationComponent, value);
+    } else {
+      this.getComponent(ItemTypeUseAnimationComponent).setUseAnimation(value);
     }
   }
 }

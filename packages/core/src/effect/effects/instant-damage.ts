@@ -6,7 +6,7 @@ import { Effect } from "./effect";
 
 class InstantDamageEffect extends Effect {
   public static readonly type: EffectType = EffectType.InstantDamage;
-  public static readonly instant: boolean = true;
+  public readonly instant: boolean = true;
 
   public onAdd(entity: Entity): void {
     // TODO: Undead check for healing

@@ -15,3 +15,6 @@ export * from "./button";
 export * from "./crafting-table";
 export * from "./sign";
 export * from "./structure";
+export * from "./chest";
+export * from "./barrel";
+export * from "./shulker-box";

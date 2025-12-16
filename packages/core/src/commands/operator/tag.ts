@@ -45,14 +45,22 @@ const register = (world: World) => {
                 // Add the tag to the entity
                 const added = entity.addTag(tag);
 
+                // Get the name of the entity
+                let name = entity.isPlayer()
+                  ? entity.username
+                  : entity.getNametag();
+
+                // Check if the name is empty
+                if (name.length <= 0) name = entity.identifier;
+
                 // Push the message to the array
                 if (added) {
-                  message.push(
-                    `§7Added tag §a${tag}§7 to §c${entity.uniqueId}§7`
-                  );
+                  // Push the success message to the array
+                  message.push(`§7Added tag §u${tag}§7 to §u${name}§7.`);
                 } else {
+                  // Push the failure message to the array
                   message.push(
-                    `§7Tag §a${tag}§7 already exists on §c${entity.uniqueId}§7`
+                    `§7Tag §u${tag}§7 already exists on §u${name}§7.`
                   );
                 }
                 break;
@@ -65,14 +73,22 @@ const register = (world: World) => {
                 // Remove the tag from the entity
                 const removed = entity.removeTag(tag);
 
+                // Get the name of the entity
+                let name = entity.isPlayer()
+                  ? entity.username
+                  : entity.getNametag();
+
+                // Check if the name is empty
+                if (name.length <= 0) name = entity.identifier;
+
                 // Push the message to the array
                 if (removed) {
-                  message.push(
-                    `§7Removed tag §a${tag}§7 from §c${entity.uniqueId}§7`
-                  );
+                  // Push the success message to the array
+                  message.push(`§7Removed tag §u${tag}§7 from §u${name}§7.`);
                 } else {
+                  // Push the failure message to the array
                   message.push(
-                    `§7Tag §a${tag}§7 does not exist on §c${entity.uniqueId}§7`
+                    `§7Tag §u${tag}§7 does not exist on §u${name}§7.`
                   );
                 }
 
@@ -83,14 +99,22 @@ const register = (world: World) => {
                 // Get the tags of the entity
                 const tags = entity.getTags();
 
+                // Get the name of the entity
+                let name = entity.isPlayer()
+                  ? entity.username
+                  : entity.getNametag();
+
+                // Check if the name is empty
+                if (name.length <= 0) name = entity.identifier;
+
                 // Push the message to the array
                 if (tags.length === 0) {
-                  message.push(`§c${entity.uniqueId}§7 has no tags.`);
+                  // Push the no tags message to the array
+                  message.push(`§u${name}§7 has no tags.`);
                 } else {
+                  // Push the tags message to the array
                   message.push(
-                    `§c${
-                      entity.uniqueId
-                    }§7 has the following tags: §a${tags.join("§7, §a")}`
+                    `§u${name}§7 has the following tags: §8[§u${tags.join("§8, §u")}§8]§r`
                   );
                 }
 

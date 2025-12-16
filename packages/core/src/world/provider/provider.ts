@@ -238,6 +238,36 @@ class WorldProvider {
   ): Promise<World> {
     throw new Error(`${this.identifier}.create() is not implemented!`);
   }
+
+  /**
+   * Loads a world from an existing path.
+   * @param serenity The serenity instance to use.
+   * @param path The path to load the world from.
+   */
+  public static async loadFromExistingPath(
+    _serenity: Serenity,
+    _path: string
+  ): Promise<World> {
+    throw new Error(
+      `${this.identifier}.loadFromExistingPath() is not implemented!`
+    );
+  }
+
+  /**
+   * Creates a world from a given path.
+   * @param serenity The serenity instance to use.
+   * @param path The path to load the world from.
+   * @param worldProperties The world properties to use for the world.
+   */
+  public static async createFromGivenPath(
+    _serenity: Serenity,
+    _path: string,
+    _worldProperties?: Partial<WorldProperties>
+  ): Promise<World> {
+    throw new Error(
+      `${this.identifier}.createFromGivenPath() is not implemented!`
+    );
+  }
 }
 
 export { WorldProvider, DefaultWorldProviderProperties };

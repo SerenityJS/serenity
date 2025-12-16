@@ -4,6 +4,7 @@
 import { Packet } from "../../enums";
 
 import { ActorEventPacket } from "./actor-event";
+import { AddBehaviorTreePacket } from "./add-behavior-tree";
 import { AddEntityPacket } from "./add-entity";
 import { AddItemActorPacket } from "./add-item-actor";
 import { AddPaintingPacket } from "./add-painting";
@@ -12,6 +13,7 @@ import { AnimatePacket } from "./animate";
 import { AnimateEntityPacket } from "./animate-entity";
 import { AvailableActorIdentifiersPacket } from "./available-actor-identifiers";
 import { AvailableCommandsPacket } from "./available-commands";
+import { AutomationClientConnectPacket } from "./automation-client-connect";
 import { AwardAchievementPacket } from "./award-achievement";
 import { BiomeDefinitionListPacket } from "./biome-definition-list";
 import { BlockActorDataPacket } from "./block-actor-data";
@@ -47,6 +49,7 @@ import { DisconnectPacket } from "./disconnect";
 import { EmotePacket } from "./emote";
 import { EmoteListPacket } from "./emote-list";
 import { EntityPickRequestPacket } from "./entity-pick-request";
+import { GraphicsOverrideParameterPacket } from "./graphics-override-parameter";
 import { GameRulesChangedPacket } from "./game-rules-changed";
 import { HurtArmorPacket } from "./hurt-armor";
 import { InteractPacket } from "./interact";
@@ -56,6 +59,7 @@ import { InventoryTransactionPacket } from "./inventory-transaction";
 import { ItemRegistryPacket } from "./item-registry";
 import { ItemStackRequestPacket } from "./item-stack-request";
 import { ItemStackResponsePacket } from "./item-stack-response";
+import { LabTablePacket } from "./lab-table";
 import { LegacyTelemetryEventPacket } from "./legacy-telemetry-event";
 import { LevelChunkPacket } from "./level-chunk";
 import { LevelEventPacket } from "./level-event";
@@ -81,6 +85,7 @@ import { NpcRequestPacket } from "./npc-request";
 import { OnScreenTextureAnimationPacket } from "./on-screen-texture-animation";
 import { OpenSignPacket } from "./open-sign";
 import { PacketViolationWarningPacket } from "./packet-violation-warning";
+import { PhotoTransferPacket } from "./photo-transfer";
 import { PlaySoundPacket } from "./play-sound";
 import { PlayStatusPacket } from "./play-status";
 import { PlayerActionPacket } from "./player-action";
@@ -92,6 +97,7 @@ import { PlayerListPacket } from "./player-list";
 import { PlayerSkinPacket } from "./player-skin";
 import { PlayerStartItemCooldownPacket } from "./player-start-item-cooldown";
 import { PlayerUpdateEntityOverridesPacket } from "./player-update-entity-overrides";
+import { PurchaseReceiptPacket } from "./purchase-receipt";
 import { RemoveEntityPacket } from "./remove-entity";
 import { RemoveObjectivePacket } from "./remove-objective";
 import { RequestChunkRadiusPacket } from "./request-chunk-radius";
@@ -108,6 +114,7 @@ import { RiderJumpPacket } from "./rider-jump";
 import { ScriptMessagePacket } from "./script-message";
 import { ServerboundLoadingScreenPacketPacket } from "./server-bound-loading-screen";
 import { ServerScriptDebugDrawerPacket } from "./server-script-debug-drawer";
+import { ServerSettingsRequestPacket } from "./server-settings-request";
 import { ServerSettingsResponsePacket } from "./server-settings-response";
 import { ServerToClientHandshakePacket } from "./server-to-client-handshake";
 import { ServerboundDiagnosticsPacket } from "./serverbound-diagnostics";
@@ -129,9 +136,12 @@ import { SetScoreboardIdentityPacket } from "./set-scoreboard-identity";
 import { SetSpawnPositionPacket } from "./set-spawn-position";
 import { SetTimePacket } from "./set-time";
 import { SetTitlePacket } from "./set-title";
+import { SimpleEventPacket } from "./simple-event";
 import { ShowCreditsPacket } from "./show-credits";
 import { ShowProfilePacket } from "./show-profile";
+import { ShowStoreOfferPacket } from "./show-store-offer";
 import { SpawnParticleEffectPacket } from "./spawn-particle-effect";
+import { SpawnExperienceOrbPacket } from "./spawn-experience-orb";
 import { StartGamePacket } from "./start-game";
 import { StopSoundPacket } from "./stop-sound";
 import { StructureBlockUpdatePacket } from "./structure-block-update";
@@ -151,8 +161,25 @@ import { UpdateBlockPacket } from "./update-block";
 import { UpdateBlockSyncPacket } from "./update-block-sync";
 import { UpdateClientInputLocksPacket } from "./update-client-input-locks";
 import { UpdatePlayerGameTypePacket } from "./update-player-game-type";
+import { UpdateSoftEnumPacket } from "./update-soft-enum";
 import { UpdateSubchunkBlocksPacket } from "./update-subchunk-blocks";
 import { UpdateTradePacket } from "./update-trade";
+import { GuiDataPickItemPacket } from "./gui-data-pick-item";
+import { UpdateEquipPacket } from "./update-equip";
+import { EduUriResourcePacket } from "./edu-uri-resource";
+import { CreatePhotoPacket } from "./create-photo";
+import { TickingAreasLoadStatusPacket } from "./ticking-areas-load-status";
+import { AgentActionEventPacket } from "./agent-action-event";
+import { ChangeMobPropertyPacket } from "./change-mob-property";
+import { LessonProgressPacket } from "./lesson-progress";
+import { EditorNetworkPacket } from "./editor-network";
+import { FeatureRegistryPacket } from "./feature-registry";
+import { ServerStatsPacket } from "./server-stats";
+import { GameTestRequestPacket } from "./game-test-request";
+import { GameTestResponsePacket } from "./game-test-response";
+import { AgentAnimationPacket } from "./agent-animation";
+import { PlayerToggleCrafterRequestPacket } from "./player-toggle-crafter-request";
+import { CodeBuilderSourcePacket } from "./code-builder-source";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -179,7 +206,7 @@ const Packets = {
   [Packet.LevelEvent]: LevelEventPacket, // 25
   [Packet.BlockEvent]: BlockEventPacket, // 26
   [Packet.ActorEvent]: ActorEventPacket, // 27
-  [Packet.MobEffect]: MobEffectPacket,
+  [Packet.MobEffect]: MobEffectPacket, // 28
   [Packet.UpdateAttributes]: UpdateAttributesPacket, // 29
   [Packet.InventoryTransaction]: InventoryTransactionPacket, // 30
   [Packet.MobEquipment]: MobEquipmentPacket, // 31
@@ -203,6 +230,7 @@ const Packets = {
   [Packet.InventorySlot]: InventorySlotPacket, // 50
   [Packet.ContainerSetData]: ContainerSetDataPacket, // 51
   [Packet.CraftingData]: CraftingDataPacket, // 52
+  [Packet.GuiDataPickItem]: GuiDataPickItemPacket, // 54
   [Packet.BlockActorData]: BlockActorDataPacket, // 56
   [Packet.LevelChunk]: LevelChunkPacket, // 58
   [Packet.SetCommandsEnabled]: SetCommandsEnabledPacket, // 59
@@ -210,7 +238,9 @@ const Packets = {
   [Packet.ChangeDimension]: ChangeDimensionPacket, // 61
   [Packet.SetPlayerGameType]: SetPlayerGameTypePacket, // 62
   [Packet.PlayerList]: PlayerListPacket, // 63
+  [Packet.SimpleEvent]: SimpleEventPacket, // 64
   [Packet.LegacyTelemetryEvent]: LegacyTelemetryEventPacket, // 65
+  [Packet.SpawnExperienceOrb]: SpawnExperienceOrbPacket, // 66
   [Packet.ClientBoundMapItemData]: ClientBoundMapItemDataPacket, // 67
   [Packet.MapInfoRequest]: MapInfoRequestPacket, // 68
   [Packet.RequestChunkRadius]: RequestChunkRadiusPacket, // 69
@@ -223,6 +253,7 @@ const Packets = {
   [Packet.CommandBlockUpdate]: CommandBlockUpdatePacket, // 78
   [Packet.CommandOutput]: CommandOutputPacket, // 79
   [Packet.UpdateTrade]: UpdateTradePacket, // 80
+  [Packet.UpdateEquip]: UpdateEquipPacket, // 81
   [Packet.ResourcePackDataInfo]: ResourcePackDataInfoPacket, // 82
   [Packet.ResourcePackChunkData]: ResourcePackChunkDataPacket, // 83
   [Packet.ResourcePackChunkRequest]: ResourcePackChunkRequestPacket, // 84
@@ -230,23 +261,31 @@ const Packets = {
   [Packet.PlaySound]: PlaySoundPacket, // 86
   [Packet.StopSound]: StopSoundPacket, // 87
   [Packet.SetTitle]: SetTitlePacket, // 88
+  [Packet.AddBehaviorTree]: AddBehaviorTreePacket, // 89
   [Packet.StructureBlockUpdate]: StructureBlockUpdatePacket, // 90
+  [Packet.ShowStoreOffer]: ShowStoreOfferPacket, // 91
+  [Packet.PurchaseReceipt]: PurchaseReceiptPacket, // 92
   [Packet.PlayerSkin]: PlayerSkinPacket, // 93
+  [Packet.AutomationClientConnect]: AutomationClientConnectPacket, // 95
   [Packet.SetLastHurtBy]: SetLastHurtByPacket, // 96
   [Packet.BookEdit]: BookEditPacket, // 97
   [Packet.NpcRequest]: NpcRequestPacket, // 98
+  [Packet.PhotoTransfer]: PhotoTransferPacket, // 99
   [Packet.ModalFormRequest]: ModalFormRequestPacket, // 100
   [Packet.ModalFormResponse]: ModalFormResponsePacket, // 101
+  [Packet.ServerSettingsRequest]: ServerSettingsRequestPacket, // 102
   [Packet.ServerSettingsResponse]: ServerSettingsResponsePacket, // 103
   [Packet.ShowProfile]: ShowProfilePacket, // 104
   [Packet.SetDefaultGamemode]: SetDefaultGamemodePacket, // 105
   [Packet.RemoveObjective]: RemoveObjectivePacket, // 106
   [Packet.SetDisplayObjective]: SetDisplayObjectivePacket, // 107
   [Packet.SetScore]: SetScorePacket, // 108
+  [Packet.LabTable]: LabTablePacket, // 109
   [Packet.UpdateBlockSync]: UpdateBlockSyncPacket, // 110
   [Packet.MoveActorDelta]: MoveActorDeltaPacket, // 111
   [Packet.SetScoreboardIdentity]: SetScoreboardIdentityPacket, // 112
   [Packet.SetLocalPlayerAsInitialized]: SetLocalPlayerAsInitializedPacket, // 113
+  [Packet.UpdateSoftEnum]: UpdateSoftEnumPacket, // 114
   [Packet.NetworkStackLatency]: NetworkStackLatencyPacket, // 115
   [Packet.SpawnParticleEffect]: SpawnParticleEffectPacket, // 118
   [Packet.AvailableActorIdentifiers]: AvailableActorIdentifiersPacket, // 119
@@ -277,18 +316,30 @@ const Packets = {
   [Packet.ClientBoundDebugRenderer]: ClientBoundDebugRendererPacket, // 163
   [Packet.SyncActorProperty]: SyncActorPropertyPacket, // 165
   [Packet.NpcDialogue]: NpcDialoguePacket, // 169
+  [Packet.EduUriResource]: EduUriResourcePacket, // 170
+  [Packet.CreatePhoto]: CreatePhotoPacket, // 171
   [Packet.UpdateSubchunkBlocks]: UpdateSubchunkBlocksPacket, // 172
   [Packet.SubChunk]: SubChunkPacket, // 174
-  [Packet.SubChunkRequest]: SubChunkRequestPacket,
+  [Packet.SubChunkRequest]: SubChunkRequestPacket, // 175
   [Packet.PlayerStartItemCooldown]: PlayerStartItemCooldownPacket, // 176
   [Packet.ScriptMessage]: ScriptMessagePacket, // 177
+  [Packet.CodeBuilderSource]: CodeBuilderSourcePacket, // 178
+  [Packet.TickingAreasLoadStatus]: TickingAreasLoadStatusPacket, // 179
   [Packet.DimensionData]: DimensionDataPacket, // 180
+  [Packet.AgentActionEvent]: AgentActionEventPacket, // 181
+  [Packet.ChangeMobProperty]: ChangeMobPropertyPacket, // 182
+  [Packet.LessonProgress]: LessonProgressPacket, // 183
   [Packet.RequestPermissions]: RequestPermissionsPacket, // 185
   [Packet.ToastRequest]: ToastRequestPacket, // 186
   [Packet.UpdateAbilities]: UpdateAbilitiesPacket, // 187
   [Packet.UpdateAdventureSettings]: UpdateAdventureSettingsPacket, // 188
   [Packet.DeathInfo]: DeathInfoPacket, // 189
+  [Packet.EditorNetwork]: EditorNetworkPacket, // 190
+  [Packet.FeatureRegistry]: FeatureRegistryPacket, // 191
+  [Packet.ServerStats]: ServerStatsPacket, // 192
   [Packet.RequestNetworkSettings]: RequestNetworkSettingsPacket, // 193
+  [Packet.GameTestRequest]: GameTestRequestPacket, // 194
+  [Packet.GameTestResponse]: GameTestResponsePacket, // 195
   [Packet.UpdateClientInputLocks]: UpdateClientInputLocksPacket, // 196
   [Packet.CameraPresetsPacket]: CameraPresetsPacket, // 198
   [Packet.UnlockedRecipes]: UnlockedRecipesPacket, // 199
@@ -296,6 +347,8 @@ const Packets = {
   [Packet.TrimData]: TrimDataPacket, // 302
   [Packet.OpenSign]: OpenSignPacket, // 303
   [Packet.SetPlayerInventoryOptions]: SetPlayerInventoryOptionsPacket, // 307
+  [Packet.AgentAnimation]: AgentAnimationPacket, // 304
+  [Packet.PlayerToggleCrafterRequest]: PlayerToggleCrafterRequestPacket, // 306
   [Packet.SetHud]: SetHudPacket, // 308
   [Packet.AwardAchievement]: AwardAchievementPacket, // 309
   [Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310
@@ -304,7 +357,8 @@ const Packets = {
   [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket, // 315
   [Packet.MovementEffect]: MovementEffectPacket, // 318
   [Packet.PlayerUpdateEntityOverrides]: PlayerUpdateEntityOverridesPacket, // 325
-  [Packet.ServerScriptDebugDrawer]: ServerScriptDebugDrawerPacket // 328
+  [Packet.ServerScriptDebugDrawer]: ServerScriptDebugDrawerPacket, // 328
+  [Packet.GraphicsOverrideParameter]: GraphicsOverrideParameterPacket // 329
 };
 
 export { Packets };

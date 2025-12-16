@@ -3,13 +3,13 @@ import {
   ActorDamageCause,
   AnimatePacket,
   Vector3f,
-  AnimateId,
+  AnimateType,
   Gamemode
 } from "@serenityjs/protocol";
+import { FloatTag } from "@serenityjs/nbt";
 
 import { EntityIdentifier } from "../../../enums";
 import { ItemStackWeaponTrait } from "../../../item";
-import { PlayerCombatProperty } from "../../../types";
 import { Entity } from "../../entity";
 import { EntityHealthTrait } from "../attribute";
 import { EntityEquipmentTrait } from "../equipment";
@@ -21,118 +21,169 @@ class PlayerCombatTrait extends PlayerTrait {
   public static readonly types = [EntityIdentifier.Player];
 
   /**
-   * The combat property data for the player.
-   */
-  public get property(): PlayerCombatProperty {
-    return this.player
-      .getStorage()
-      .getDynamicProperty(PlayerCombatTrait.identifier) as PlayerCombatProperty;
-  }
-
-  /**
-   * The maximum reach of the player horizontally.
-   */
-  public get horizontalMaxReach(): number {
-    return this.property.horizontalMaxReach;
-  }
-
-  /**
-   * The maximum reach of the player horizontally.
-   */
-  public set horizontalMaxReach(value: number) {
-    this.property.horizontalMaxReach = value;
-  }
-
-  /**
-   * The maximum reach of the player vertically.
-   */
-  public get verticalMaxReach(): number {
-    return this.property.verticalMaxReach;
-  }
-
-  /**
-   * The maximum reach of the player vertically.
-   */
-  public set verticalMaxReach(value: number) {
-    this.property.verticalMaxReach = value;
-  }
-
-  /**
-   * The horizontal knockback of the player.
-   */
-  public get horizontalKnockback(): number {
-    return this.property.horizontalKnockback;
-  }
-
-  /**
-   * The horizontal knockback of the player.
-   */
-  public set horizontalKnockback(value: number) {
-    this.property.horizontalKnockback = value;
-  }
-
-  /**
-   * The vertical knockback of the player.
-   */
-  public get verticalKnockback(): number {
-    return this.property.verticalKnockback;
-  }
-
-  /**
-   * The vertical knockback of the player.
-   */
-  public set verticalKnockback(value: number) {
-    this.property.verticalKnockback = value;
-  }
-
-  /**
-   * The amount of ticks till the player can attack again.
-   */
-  public get combatCooldown(): number {
-    return this.property.combatCooldown;
-  }
-
-  /**
-   * The amount of ticks till the player can attack again.
-   */
-  public set combatCooldown(value: number) {
-    this.property.combatCooldown = value;
-  }
-
-  /**
    * Whether the player is on cooldown.
    */
-  public isOnCooldown: boolean = false;
+  private isOnCooldown: boolean = false;
 
   /**
    * Whether the player is on critical cooldown.
    */
-  public isOnCriticalCooldown: boolean = false;
+  private isOnCriticalCooldown: boolean = false;
 
-  public onAdd(): void {
-    // Check if the player has a combat property.
-    if (
-      this.player.getStorage().hasDynamicProperty(PlayerCombatTrait.identifier)
-    )
-      return;
-
-    // Create a new combat property.
-    this.player
-      .getStorage()
-      .setDynamicProperty<PlayerCombatProperty>(PlayerCombatTrait.identifier, {
-        horizontalMaxReach: 3,
-        verticalMaxReach: 3,
-        horizontalKnockback: 0.4,
-        verticalKnockback: 0.4,
-        combatCooldown: 5
-      });
+  /**
+   * Whether the player is currently on combat cooldown.
+   * @returns Whether the player is on combat cooldown.
+   */
+  public getIsOnCooldown(): boolean {
+    return this.isOnCooldown;
   }
 
-  public onRemove(): void {
-    // Remove the combat property from the player.
-    this.player
-      .getStorage()
-      .removeDynamicProperty(PlayerCombatTrait.identifier);
+  /**
+   * Whether the player is currently on critical combat cooldown.
+   * @returns Whether the player is on critical combat cooldown.
+   */
+  public getIsOnCriticalCooldown(): boolean {
+    return this.isOnCriticalCooldown;
+  }
+
+  /**
+   * Get the horizontal max reach of the player.
+   * @returns The horizontal max reach of the player.
+   */
+  public getHorizontalMaxReach(): number {
+    // Fetch the horizontal max reach from the player storage.
+    const value = this.player.getStorageEntry<FloatTag>("horizontalMaxReach");
+
+    // Return the horizontal max reach or the default value of 3.
+    return value ? value.valueOf() : 3;
+  }
+
+  /**
+   * Set the horizontal max reach of the player.
+   * @param value The horizontal max reach to set.
+   */
+  public setHorizontalMaxReach(value: number): void {
+    // Set the horizontal max reach in the player storage.
+    this.player.setStorageEntry("horizontalMaxReach", new FloatTag(value));
+  }
+
+  /**
+   * Reset the horizontal max reach of the player to the default value.
+   */
+  public resetHorizontalMaxReachToDefault(): void {
+    this.player.removeStorageEntry("horizontalMaxReach");
+  }
+
+  /**
+   * Get the vertical max reach of the player.
+   * @returns The vertical max reach of the player.
+   */
+  public getVerticalMaxReach(): number {
+    // Fetch the vertical max reach from the player storage.
+    const value = this.player.getStorageEntry<FloatTag>("verticalMaxReach");
+
+    // Return the vertical max reach or the default value of 3.
+    return value ? value.valueOf() : 3;
+  }
+
+  /**
+   * Set the vertical max reach of the player.
+   * @param value The vertical max reach to set.
+   */
+  public setVerticalMaxReach(value: number): void {
+    // Set the vertical max reach in the player storage.
+    this.player.setStorageEntry("verticalMaxReach", new FloatTag(value));
+  }
+
+  /**
+   * Reset the vertical max reach of the player to the default value.
+   */
+  public resetVerticalMaxReachToDefault(): void {
+    this.player.removeStorageEntry("verticalMaxReach");
+  }
+
+  /**
+   * Get the horizontal knockback of the player.
+   * @returns The horizontal knockback of the player.
+   */
+  public getHorizontalKnockback(): number {
+    // Fetch the horizontal knockback from the player storage.
+    const value = this.player.getStorageEntry<FloatTag>("horizontalKnockback");
+
+    // Return the horizontal knockback or the default value of 0.4.
+    return value ? value.valueOf() : 0.4;
+  }
+
+  /**
+   * Set the horizontal knockback of the player.
+   * @param value The horizontal knockback to set.
+   */
+  public setHorizontalKnockback(value: number): void {
+    // Set the horizontal knockback in the player storage.
+    this.player.setStorageEntry("horizontalKnockback", new FloatTag(value));
+  }
+
+  /**
+   * Reset the horizontal knockback of the player to the default value.
+   */
+  public resetHorizontalKnockbackToDefault(): void {
+    this.player.removeStorageEntry("horizontalKnockback");
+  }
+
+  /**
+   * Get the vertical knockback of the player.
+   * @returns The vertical knockback of the player.
+   */
+  public getVerticalKnockback(): number {
+    // Fetch the vertical knockback from the player storage.
+    const value = this.player.getStorageEntry<FloatTag>("verticalKnockback");
+
+    // Return the vertical knockback or the default value of 0.4.
+    return value ? value.valueOf() : 0.4;
+  }
+
+  /**
+   * Set the vertical knockback of the player.
+   * @param value The vertical knockback to set.
+   */
+  public setVerticalKnockback(value: number): void {
+    // Set the vertical knockback in the player storage.
+    this.player.setStorageEntry("verticalKnockback", new FloatTag(value));
+  }
+
+  /**
+   * Reset the vertical knockback of the player to the default value.
+   */
+  public resetVerticalKnockbackToDefault(): void {
+    this.player.removeStorageEntry("verticalKnockback");
+  }
+
+  /**
+   * Get the combat cooldown of the player.
+   * @returns The combat cooldown of the player.
+   */
+  public getCombatCooldown(): number {
+    // Fetch the combat cooldown from the player storage.
+    const value = this.player.getStorageEntry<FloatTag>("combatCooldown");
+
+    // Return the combat cooldown or the default value of 5.
+    return value ? value.valueOf() : 5;
+  }
+
+  /**
+   * Set the combat cooldown of the player.
+   * @param value The combat cooldown to set.
+   */
+  public setCombatCooldown(value: number): void {
+    // Set the combat cooldown in the player storage.
+    this.player.setStorageEntry("combatCooldown", new FloatTag(value));
+  }
+
+  /**
+   * Reset the combat cooldown of the player to the default value.
+   */
+  public resetCombatCooldownToDefault(): void {
+    this.player.removeStorageEntry("combatCooldown");
   }
 
   public onAttackEntity(target: Entity): void {
@@ -211,9 +262,9 @@ class PlayerCombatTrait extends PlayerTrait {
       const packet = new AnimatePacket();
 
       // Set the properties of the animate packet.
-      packet.id = AnimateId.CriticalHit;
-      packet.runtimeEntityId = target.runtimeId;
-      packet.boatRowingTime = null;
+      packet.type = AnimateType.CriticalHit;
+      packet.actorRuntimeId = target.runtimeId;
+      packet.data = 0;
 
       // Broadcast the animate packet to the dimension of the player.
       this.player.dimension.broadcast(packet);
@@ -257,9 +308,9 @@ class PlayerCombatTrait extends PlayerTrait {
     const dz = this.player.position.z - entity.position.z;
 
     // Get the maximum reach of the player.
-    if (Math.abs(dx) > this.horizontalMaxReach) return false;
-    if (Math.abs(dy) > this.verticalMaxReach) return false;
-    if (Math.abs(dz) > this.horizontalMaxReach) return false;
+    if (Math.abs(dx) > this.getHorizontalMaxReach()) return false;
+    if (Math.abs(dy) > this.getVerticalMaxReach()) return false;
+    if (Math.abs(dz) > this.getHorizontalMaxReach()) return false;
 
     // Return whether the entity is in reach of the player.
     return true;
@@ -274,16 +325,17 @@ class PlayerCombatTrait extends PlayerTrait {
     const item = this.player.getHeldItem();
 
     // Check if the item is not defined.
-    if (!item) return this.horizontalKnockback;
+    if (!item) return this.getHorizontalKnockback();
 
     // Check if the item has a weapon trait.
-    if (!item.hasTrait(ItemStackWeaponTrait)) return this.horizontalKnockback;
+    if (!item.hasTrait(ItemStackWeaponTrait))
+      return this.getHorizontalKnockback();
 
     // Get the weapon trait of the item.
     const weapon = item.getTrait(ItemStackWeaponTrait);
 
     // Return the calculated horizontal reach.
-    return this.horizontalKnockback + weapon.getCalculatedKnockback();
+    return this.getHorizontalKnockback() + weapon.getCalculatedKnockback();
   }
 
   /**
@@ -291,7 +343,7 @@ class PlayerCombatTrait extends PlayerTrait {
    * @returns The calculated vertical knockback.
    */
   public getCalculatedVerticalKnockback(): number {
-    return this.verticalKnockback;
+    return this.getVerticalKnockback();
   }
 
   /**
@@ -329,7 +381,7 @@ class PlayerCombatTrait extends PlayerTrait {
     // Schedule the combat cooldown
     this.player.world
       // Schedule the combat cooldown based on the provided ticks or the default combat cooldown.
-      .schedule(ticks ?? this.combatCooldown)
+      .schedule(ticks ?? this.getCombatCooldown())
       .on(() => (this.isOnCooldown = false)); // Set the player off cooldown.
   }
 
@@ -344,7 +396,7 @@ class PlayerCombatTrait extends PlayerTrait {
     // Schedule the combat cooldown
     this.player.world
       // Schedule the combat cooldown based on the provided ticks or the default combat cooldown.
-      .schedule(ticks ?? this.combatCooldown * 5)
+      .schedule(ticks ?? this.getCombatCooldown() * 5)
       .on(() => (this.isOnCriticalCooldown = false)); // Set the player off cooldown.
   }
 }

@@ -1,11 +1,26 @@
-import { CreativeItemCategory, CreativeItemGroup } from "@serenityjs/protocol";
+import {
+  CraftingDataEntryType,
+  CraftingDataPacket,
+  CreativeContentPacket,
+  CreativeGroup,
+  CreativeItem,
+  CreativeItemCategory,
+  CreativeItemGroup,
+  ItemData,
+  ItemRegistryPacket
+} from "@serenityjs/protocol";
+import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemEnum } from "../commands";
 import { ItemIdentifier } from "../enums";
 
 import { CustomItemType, ItemType } from "./identity";
 import { CreateContentGroup, CreativeItemDescriptor } from "./creative";
-import { Recipe } from "./recipes";
+import {
+  Recipe,
+  ShapedCraftingRecipe,
+  ShapelessCraftingRecipe
+} from "./recipes";
 
 import { ItemStackTraits } from "./index";
 
@@ -32,6 +47,21 @@ class ItemPalette {
    * The registered recipes for the palette.
    */
   public readonly recipes = Recipe.recipes;
+
+  /**
+   * The cached item registry packet.
+   */
+  private itemRegistryCache: ItemRegistryPacket | null = null;
+
+  /**
+   * The cached creative content packet.
+   */
+  private creativeContentCache: CreativeContentPacket | null = null;
+
+  /**
+   * The cached crafting recipes packet.
+   */
+  private craftingRecipesCache: CraftingDataPacket | null = null;
 
   public constructor() {
     // Register all item traits.
@@ -164,6 +194,44 @@ class ItemPalette {
   }
 
   /**
+   * Gets the item registry packet.
+   * @returns The item registry packet.
+   */
+  public getItemRegistry(): ItemRegistryPacket {
+    // Check if the item registry cache is not null.
+    if (this.itemRegistryCache) return this.itemRegistryCache;
+
+    // Create a new ItemRegistryPacket, and map the item types to the packet
+    const registry = new ItemRegistryPacket();
+    registry.definitions = [...this.types.values()].map((item) => {
+      const identifier = item.identifier;
+      const networkId = item.network;
+      const componentBased = item.getIsComponentBased();
+      const itemVersion = item.getVersion();
+      const properties = item.getIsComponentBased()
+        ? item.properties
+        : new CompoundTag();
+
+      return new ItemData(
+        identifier,
+        networkId,
+        componentBased,
+        itemVersion,
+        properties
+      );
+    });
+
+    // Serialize the item registry packet to a buffer
+    registry.serialize();
+
+    // Cache the item registry packet
+    this.itemRegistryCache = registry;
+
+    // Return the item registry cache
+    return this.itemRegistryCache;
+  }
+
+  /**
    * Register an item trait to the palette.
    * @param trait The item trait to register.
    * @returns True if the item trait was registered, false otherwise.
@@ -286,6 +354,9 @@ class ItemPalette {
   public createContentGroup(
     properties?: Partial<CreateContentGroup>
   ): CreateContentGroup {
+    // Reset the creative content cache.
+    this.creativeContentCache = null;
+
     // Create a new creative content group.
     const group = new CreateContentGroup(properties);
 
@@ -327,6 +398,9 @@ class ItemPalette {
     // Check if the creative group is already registered with the identifier.
     if (this.getCreativeGroup(group.identifier)) return false;
 
+    // Reset the creative content cache.
+    this.creativeContentCache = null;
+
     // Get the next index for the creative group.
     const index = this.creativeGroups.size;
 
@@ -342,6 +416,9 @@ class ItemPalette {
    * @param value The index or identifier of the creative group to unregister.
    */
   public unregisterCreativeGroup(value: number | string): void {
+    // Reset the creative content cache.
+    this.creativeContentCache = null;
+
     // Check if the index is a number.
     if (typeof value === "number") {
       // Unregister the creative group by index.
@@ -400,11 +477,56 @@ class ItemPalette {
     // Get the creative content group.
     const contentGroup = this.getCreativeGroup(group);
 
+    // Reset the creative content cache.
+    this.creativeContentCache = null;
+
     // Check if the content group exists.
     if (!contentGroup) return;
 
     // Add the item to the creative content group.
     contentGroup.registerItem(type);
+  }
+
+  /**
+   * Get the creative content buffer.
+   * @returns The creative content buffer.
+   */
+  public getCreativeContent(): CreativeContentPacket {
+    // Check if the creative content cache is not null.
+    if (this.creativeContentCache) return this.creativeContentCache;
+
+    // Create a new CreativeContentPacket, and map the creative content to the packet
+    const content = new CreativeContentPacket();
+
+    // Prepare an array to store the creative items
+    content.items = [];
+
+    // Map the creative content to the packet
+    content.groups = [...this.creativeGroups].map(([index, group]) => {
+      // Iterate over the items in the group
+      for (const { descriptor } of group.items) {
+        // Get the next index for the item
+        const itemIndex = content.items.length;
+
+        // Create and push the creative item to the packet
+        content.items.push(new CreativeItem(itemIndex, descriptor, index));
+      }
+
+      // Get the icon item type from the map
+      const icon = ItemType.toNetworkInstance(group.icon);
+
+      // Create a new creative group
+      return new CreativeGroup(group.category, group.identifier, icon);
+    });
+
+    // Serialize the creative content packet to a buffer
+    content.serialize();
+
+    // Cache the creative content buffer
+    this.creativeContentCache = content;
+
+    // Return the creative content cache
+    return this.creativeContentCache;
   }
 
   /**
@@ -414,6 +536,9 @@ class ItemPalette {
   public registerRecipe(recipe: Recipe): void {
     // Check if the recipe is already registered.
     if (this.recipes.has(recipe.identifier)) return;
+
+    // Clear the crafting recipes cache.
+    this.craftingRecipesCache = null;
 
     // Register the recipe.
     this.recipes.set(recipe.identifier, recipe);
@@ -426,6 +551,9 @@ class ItemPalette {
   public unregisterRecipe(recipe: Recipe): void {
     // Check if the recipe is registered.
     if (!this.recipes.has(recipe.identifier)) return;
+
+    // Clear the crafting recipes cache.
+    this.craftingRecipesCache = null;
 
     // Unregister the recipe.
     this.recipes.delete(recipe.identifier);
@@ -443,6 +571,60 @@ class ItemPalette {
         (recipe) => recipe.recipeNetworkId === networkId
       ) ?? null
     );
+  }
+
+  public getCraftingRecipes(): CraftingDataPacket {
+    // Check if the crafting recipes cache is not null.
+    if (this.craftingRecipesCache) return this.craftingRecipesCache;
+
+    // Create a new CraftingDataPacket, and map the crafting recipes to the packet
+    const recipes = new CraftingDataPacket();
+
+    // Assign the recipe properties
+    recipes.clearRecipes = true;
+    recipes.containers = [];
+    recipes.crafting = [];
+    recipes.materitalReducers = [];
+    recipes.potions = [];
+
+    // Iterate over the recipes in the item palette
+    for (const [, recipe] of this.recipes) {
+      // Check if the recipe is a ShapedCraftingRecipe
+      if (recipe instanceof ShapelessCraftingRecipe) {
+        // Convert the recipe to a network format
+        const shapeless = ShapelessCraftingRecipe.toNetwork(recipe);
+
+        // Iterate over the shapeless recipes and add them to the packet
+        for (const recipe of shapeless) {
+          // Add the recipe to the crafting data packet
+          recipes.crafting.push({
+            type: CraftingDataEntryType.ShapelessRecipe,
+            recipe
+          });
+        }
+      } else if (recipe instanceof ShapedCraftingRecipe) {
+        // Convert the recipe to a network format
+        const shaped = ShapedCraftingRecipe.toNetwork(recipe);
+
+        // Iterate over the shaped recipes and add them to the packet
+        for (const recipe of shaped) {
+          // Add the recipe to the crafting data packet
+          recipes.crafting.push({
+            type: CraftingDataEntryType.ShapedRecipe,
+            recipe
+          });
+        }
+      }
+    }
+
+    // Serialize the crafting data packet to a buffer
+    recipes.serialize();
+
+    // Cache the crafting recipes buffer
+    this.craftingRecipesCache = recipes;
+
+    // Return the crafting recipes cache
+    return this.craftingRecipesCache;
   }
 }
 
