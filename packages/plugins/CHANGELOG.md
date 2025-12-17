@@ -1,5 +1,17 @@
 # @serenityjs/plugins
 
+## 0.8.17
+
+### Patch Changes
+
+- [`43d3bb6`](https://github.com/SerenityJS/serenity/commit/43d3bb6394648053788274a6d312f1c00dd0b80d) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.17-beta
+
+- Updated dependencies [[`43d3bb6`](https://github.com/SerenityJS/serenity/commit/43d3bb6394648053788274a6d312f1c00dd0b80d)]:
+  - @serenityjs/core@0.8.17
+  - @serenityjs/emitter@0.8.17
+  - @serenityjs/logger@0.8.17
+  - @serenityjs/protocol@0.8.17
+
 ## 0.8.16
 
 ### Patch Changes
