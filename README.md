@@ -23,7 +23,7 @@
       <img alt="License" src="https://img.shields.io/npm/v/@serenityjs/core?style=for-the-badge&label=NPM&logo=npm&color=red&logoColor=white" />
     </a>
     <a href="https://github.com/Mojang/bedrock-protocol-docs">
-      <img alt="Protocol" src="https://img.shields.io/badge/Protocol-v827-purple?style=for-the-badge" />
+      <img alt="Protocol" src="https://img.shields.io/badge/Protocol-v898-purple?style=for-the-badge" />
     </a>
   </p>
 </p>
