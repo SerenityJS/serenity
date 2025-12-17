@@ -490,6 +490,7 @@ export interface BlockState {
   [BlockIdentifier.WaxedCopperBulb]: import("./blocks").WaxedCopperBulbBlock;
   [BlockIdentifier.AndesiteStairs]: import("./blocks").AndesiteStairsBlock;
   [BlockIdentifier.Sponge]: import("./blocks").SpongeBlock;
+  [BlockIdentifier.WetSponge]: import("./blocks").SpongeBlock;
   [BlockIdentifier.BoneBlock]: import("./blocks").BoneBlockBlock;
   [BlockIdentifier.NormalStoneStairs]: import("./blocks").NormalStoneStairsBlock;
   [BlockIdentifier.WarpedHangingSign]: import("./blocks").WarpedHangingSignBlock;
