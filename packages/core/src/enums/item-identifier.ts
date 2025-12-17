@@ -1367,5 +1367,6 @@ export enum ItemIdentifier {
   CopperHelmet = "minecraft:copper_helmet",
   CopperChestplate = "minecraft:copper_chestplate",
   CopperLeggings = "minecraft:copper_leggings",
-  CopperBoots = "minecraft:copper_boots"
+  CopperBoots = "minecraft:copper_boots",
+  CopperNugget = "minecraft:copper_nugget"
 }
