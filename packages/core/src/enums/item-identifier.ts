@@ -407,6 +407,7 @@ export enum ItemIdentifier {
   Arrow = "minecraft:arrow",
   PolishedDioriteStairs = "minecraft:polished_diorite_stairs",
   Sponge = "minecraft:sponge",
+  WetSponge = "minecraft:wet_sponge",
   AndesiteStairs = "minecraft:andesite_stairs",
   BlackStainedGlass = "minecraft:black_stained_glass",
   LightGrayDye = "minecraft:light_gray_dye",
