@@ -11,13 +11,13 @@ import {
 } from "@serenityjs/nbt";
 import { BLOCK_STATE_VERSION } from "@serenityjs/protocol";
 
-import { BlockState, GenericBlockState } from "../../types";
+import { BlockState } from "../types";
 import { BlockIdentifier } from "../../enums";
 
 import { BlockType } from "./type";
 import { BlockTypeComponentCollection } from "./collection";
 
-class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
+class BlockPermutation {
   /**
    * A collective registry of all block permutations.
    */
@@ -41,12 +41,12 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
   /**
    * The state of the block permutation.
    */
-  public readonly state: BlockState[T];
+  public readonly state: BlockState;
 
   /**
    * The block type of the block permutation.
    */
-  public readonly type: BlockType<T>;
+  public readonly type: BlockType;
 
   /**
    * The Molang conditional query of the block permutation.
@@ -84,8 +84,8 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    */
   public constructor(
     networkId: number,
-    state: BlockState[T],
-    type: BlockType<T>,
+    state: BlockState,
+    type: BlockType,
     query?: string
   ) {
     // Assign the block permutation properties.
@@ -105,7 +105,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
       let query = String();
       for (const key of keys) {
         // Get the value of the block state.
-        let value = state[key as keyof BlockState[T]] as unknown;
+        let value = state[key as keyof BlockState] as unknown;
 
         // Update the value if it is a string.
         value = typeof value === "string" ? `'${value}'` : value;
@@ -127,7 +127,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    * @param identifier The block identifier to match.
    * @param state The block state to match.
    */
-  public matches(state: BlockState[T]): boolean {
+  public matches(state: BlockState): boolean {
     // Check if the block state matches.
     for (const key in state) {
       if (this.state[key] !== state[key]) {
@@ -146,7 +146,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    */
   public static resolve(
     identifier: BlockIdentifier | string | number,
-    state?: GenericBlockState
+    state?: BlockState
   ): BlockPermutation {
     // Get the block type from the registry.
     const type =
@@ -200,7 +200,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
    */
   public static create(
     type: BlockType,
-    state: GenericBlockState = {},
+    state: BlockState = {},
     components: Partial<BlockTypeComponentCollection> = {},
     query?: string
   ): BlockPermutation {
@@ -410,7 +410,7 @@ class BlockPermutation<T extends keyof BlockState = keyof BlockState> {
     }
   }
 
-  public static hash(identifier: string, state: GenericBlockState): number {
+  public static hash(identifier: string, state: BlockState): number {
     // Separate the keys and values of the state object.
     const keys = Object.keys(state);
     const values = Object.values(state);

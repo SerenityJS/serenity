@@ -1,8 +1,8 @@
 import { CompoundTag, IntTag, ListTag, StringTag } from "@serenityjs/nbt";
 
-import { CustomBlockProperties, GenericBlockState } from "../../types";
+import { CustomBlockProperties } from "../../types";
 import { BlockIdentifier, ItemCategory } from "../../enums";
-import { BlockPermutation } from "../..";
+import { BlockPermutation, BlockState } from "../..";
 
 import { BlockType } from "./type";
 import { BlockTypeComponentCollection } from "./collection";
@@ -66,7 +66,7 @@ class CustomBlockType extends BlockType {
    * @returns The block permutation that was created using the state definition.
    */
   public createPermutation(
-    state: GenericBlockState,
+    state: BlockState,
     components?: Partial<BlockTypeComponentCollection>,
     query?: string
   ): BlockPermutation {

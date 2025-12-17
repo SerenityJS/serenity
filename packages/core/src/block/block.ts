@@ -6,6 +6,7 @@ import {
   Gamemode,
   LevelEvent,
   LevelEventPacket,
+  UpdateBlockLayerType,
   Vector3f
 } from "@serenityjs/protocol";
 import { BaseTag } from "@serenityjs/nbt";
@@ -44,6 +45,7 @@ import {
   BlockTypeSelectionBoxComponent
 } from "./identity";
 import { BlockLevelStorage } from "./storage";
+import { BlockState } from "./types";
 
 /**
  * Block is a class the represents an instance of a block in a dimension of a world.
@@ -97,7 +99,7 @@ class Block {
   /**
    * The block identifier of the block. (minecraft:stone, minecraft:oak_log, minecraft:air, etc.)
    */
-  public get identifier(): BlockIdentifier {
+  public get identifier(): BlockIdentifier | string {
     return this.type.identifier;
   }
 
@@ -274,6 +276,17 @@ class Block {
 
     // Iterate over the traits of the block's storage and add them to the block
     for (const identifier of this.getStorage().getTraits()) {
+      // Break if the block is air
+      if (this.type.air) {
+        // Log the skipping of the trait
+        this.world.logger.debug(
+          `Skipping BlockTrait for block §u${this.identifier}§r @ §7(§u${this.position.x}§7, §u${this.position.y}§7, §u${this.position.z}§7)§r, as the block is air.`
+        );
+
+        // Break the loop
+        break;
+      }
+
       // Check if the trait exists in the block palette.
       const traitType = this.world.blockPalette.getTrait(identifier);
 
@@ -383,7 +396,7 @@ class Block {
     const current = this.permutation.state;
 
     // Set the new state of the block
-    const state = { ...current, [key]: value };
+    const state = { ...current, [key]: value } as BlockState;
 
     // Get the permutation of the block
     const permutation = this.type.getPermutation(state);
@@ -416,23 +429,16 @@ class Block {
       this.traits.clear();
     }
 
-    // Check if the block is air.
-    if (permutation.type.air) {
-      // Remove the block from the cache if it is air.
-      this.dimension.blocks.delete(BlockPosition.hash(this.position));
-    }
-
     // Set the permutation of the block.
-    this.dimension.setPermutation(this.position, permutation);
+    this.dimension.setPermutation(
+      this.position,
+      permutation,
+      UpdateBlockLayerType.Normal,
+      storage // Will set the storage in the chunk
+    );
 
     // Check if a level storage is provided.
     if (storage) {
-      // Get the chunk the block is in.
-      const chunk = this.getChunk();
-
-      // Set the block storage in the chunk.
-      chunk.setBlockStorage(this.position, storage, false);
-
       // Iterate over the traits of the block's storage and add them to the block
       for (const identifier of this.getStorage().getTraits()) {
         // Check if the trait exists in the block palette.
