@@ -564,11 +564,12 @@ class Entity {
    * @param maxDistance The maximum distance from the player in blocks to check for a block. Default is 5.
    * @returns The block the player is looking at, or null if no block is found.
    */
-  public getBlockFromViewDirection(options: BlockRaycastOptions = { maxDistance: 5 }) {
-
+  public getBlockFromViewDirection(
+    options: BlockRaycastOptions = { maxDistance: 5 }
+  ) {
     // Get options.
     const includeLiquids = options.includeLiquidBlocks ?? false;
-    const includePassable = options.includePassableBlocks ?? false;
+    // const includePassable = options.includePassableBlocks ?? false;
     const maxDistance = options.maxDistance ?? 5;
 
     // Get the dimension the player is in.
@@ -578,11 +579,7 @@ class Entity {
     const position = this.position;
     const directionVector = this.getViewDirection().normalize();
 
-    const eyePosition = new Vector3f(
-      position.x,
-      position.y + 1.62,
-      position.z
-    );
+    const eyePosition = new Vector3f(position.x, position.y + 1.62, position.z);
 
     // Position that is currently being checked.
     const currentPos = eyePosition.floor();
@@ -609,9 +606,15 @@ class Entity {
 
     // Calculate the distance to the next block.
     const nextDistance = new Vector3f(
-      stepDirection.x > 0 ? currentPos.x + 1 - eyePosition.x : eyePosition.x - currentPos.x,
-      stepDirection.y > 0 ? currentPos.y + 1 - eyePosition.y : eyePosition.y - currentPos.y,
-      stepDirection.z > 0 ? currentPos.z + 1 - eyePosition.z : eyePosition.z - currentPos.z
+      stepDirection.x > 0
+        ? currentPos.x + 1 - eyePosition.x
+        : eyePosition.x - currentPos.x,
+      stepDirection.y > 0
+        ? currentPos.y + 1 - eyePosition.y
+        : eyePosition.y - currentPos.y,
+      stepDirection.z > 0
+        ? currentPos.z + 1 - eyePosition.z
+        : eyePosition.z - currentPos.z
     );
 
     // Calculate the total distance from the player's position to next block.
@@ -666,7 +669,6 @@ class Entity {
     // Return null if no block is found.
     return null;
   }
-
 
   /**
    * Computes the entity's head location

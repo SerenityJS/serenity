@@ -115,9 +115,6 @@ class LoginHandler extends NetworkHandler {
     // Set the players xuid and username.
     this.serenity.players.set(connection, player);
 
-    // Notify the world that a player has been added.
-    world.onPlayerChange(player);
-
     // Create a new PlayerJoinSignal
     const signal = new PlayerJoinSignal(player).emit();
 
@@ -152,6 +149,7 @@ class LoginHandler extends NetworkHandler {
     // Send the player the login status packet and the resource pack info packet.
     player.send(login, resources);
   }
+
   public handle(packet: LoginPacket, connection: Connection): void {
     this.auth(packet, connection).catch((reason) =>
       this.network.disconnectConnection(
@@ -162,11 +160,13 @@ class LoginHandler extends NetworkHandler {
       )
     );
   }
+
   public static getUUIDFromXUID(xuid: string): string {
     return uuidFromBytes(
       new TextEncoder().encode(`pocket-auth-1-xuid:${xuid}`)
     );
   }
+
   /**
    * Decodes the login tokens and returns the data
    * @param tokens The login tokens
@@ -189,4 +189,5 @@ function uuidFromBytes(input: Uint8Array): string {
   bytes[8] = (bytes[8]! & 0x3f) | 0x80; // RFC 4122 variant
   return `${bytes.subarray(0, 4).toHex()}-${bytes.subarray(4, 6).toHex()}-${bytes.subarray(6, 8).toHex()}-${bytes.subarray(8, 10).toHex()}-${bytes.subarray(10, 16).toHex()}`;
 }
+
 export { LoginHandler };

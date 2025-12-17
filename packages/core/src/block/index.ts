@@ -1,3 +1,4 @@
+export * from "./types";
 export * from "./identity";
 export * from "./traits";
 export * from "./palette";

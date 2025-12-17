@@ -4,7 +4,6 @@ import { Connection } from "@serenityjs/raknet";
 import { NetworkHandler } from "../network";
 import { BlockCommandBlockTrait, BlockPermutation } from "../block";
 import { BlockIdentifier } from "../enums";
-import { GenericBlockState } from "../types";
 
 class CommandBlockUpdateHandler extends NetworkHandler {
   public static readonly packet = Packet.CommandBlockUpdate;
@@ -39,7 +38,7 @@ class CommandBlockUpdateHandler extends NetworkHandler {
           // Get the command block permutation
           const permutation = BlockPermutation.resolve(
             BlockIdentifier.CommandBlock,
-            block.permutation.state as GenericBlockState
+            block.permutation.state
           );
 
           // Check if the block is already a command block
@@ -53,7 +52,7 @@ class CommandBlockUpdateHandler extends NetworkHandler {
           // Get the repeating command block permutation
           const permutation = BlockPermutation.resolve(
             BlockIdentifier.RepeatingCommandBlock,
-            block.permutation.state as GenericBlockState
+            block.permutation.state
           );
 
           // Check if the block is already a command block
@@ -67,7 +66,7 @@ class CommandBlockUpdateHandler extends NetworkHandler {
           // Get the chain command block permutation
           const permutation = BlockPermutation.resolve(
             BlockIdentifier.ChainCommandBlock,
-            block.permutation.state as GenericBlockState
+            block.permutation.state
           );
 
           // Check if the block is already a command block

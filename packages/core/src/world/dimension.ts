@@ -36,7 +36,7 @@ import {
   Player,
   PlayerChunkRenderingTrait
 } from "../entity";
-import { Block, BlockPermutation } from "../block";
+import { Block, BlockLevelStorage, BlockPermutation } from "../block";
 import { ItemStack } from "../item";
 import { BlockIdentifier, EntityIdentifier } from "../enums";
 import { Serenity } from "../serenity";
@@ -621,10 +621,14 @@ class Dimension {
   public setPermutation(
     position: IPosition,
     permutation: BlockPermutation,
-    layer = UpdateBlockLayerType.Normal
+    layer = UpdateBlockLayerType.Normal,
+    storage?: BlockLevelStorage
   ): void {
     // Convert the position to a block position
     const blockPosition = BlockPosition.from(position);
+
+    // Get the current permutation of the block
+    const current = this.getPermutation(blockPosition, layer);
 
     // Create a new UpdateBlockPacket to broadcast the change.
     const packet = new UpdateBlockPacket();
@@ -644,11 +648,8 @@ class Dimension {
 
     // Emit the signal and check if it is cancelled
     if (!signal.emit()) {
-      // Get the permutation of the block
-      const permutation = this.getPermutation(blockPosition, layer);
-
       // Assign the permutation to the block
-      packet.networkBlockId = permutation.networkId;
+      packet.networkBlockId = current.networkId;
 
       // Broadcast the packet to the dimension.
       return this.broadcast(packet);
@@ -663,6 +664,21 @@ class Dimension {
 
     // Set the permutation of the block
     chunk.setPermutation(blockPosition, permutation, layer, true);
+
+    // Check if the block type has changed
+    if (permutation.type !== current.type) {
+      // Clear the chunk storage for the block position
+      chunk.setBlockStorage(blockPosition, null);
+    } else if (storage) {
+      // Set the block storage for the block position
+      chunk.setBlockStorage(blockPosition, storage);
+    }
+
+    // Check if the block is now air
+    if (permutation.type.air) {
+      // Remove the block from the block cache if it is air
+      this.blocks.delete(BlockPosition.hash(blockPosition));
+    }
 
     // Broadcast the packet to the dimension.
     this.broadcast(packet);
