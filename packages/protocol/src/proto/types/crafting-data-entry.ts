@@ -2,20 +2,20 @@ import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { CraftingDataEntryType } from "../../enums";
 
+import { FurnaceAuxRecipe } from "./furnace-aux-recipe";
+import { FurnaceRecipe } from "./furnace-recipe";
+import { MultiRecipe } from "./multi-recipe";
+import { ShapedRecipe } from "./shaped-recipe";
 import { ShapelessRecipe } from "./shapeless-recipe";
 import { SmithingTransformRecipe } from "./smithing-transform-recipe";
-import { MultiRecipe } from "./multi-recipe";
-import { FurnanceAuxRecipe } from "./furnance-aux-recipe";
-import { FurnanceRecipe } from "./furnance-recipe";
-import { ShapedRecipe } from "./shaped-recipe";
 import { SmithingTrimRecipe } from "./smithing-trim-recipe";
 import { UserDataShapelessRecipe } from "./user-data-shapeless-recipe";
 
 type CraftingDataEntryRecipe =
   | ShapelessRecipe
   | ShapedRecipe
-  | FurnanceRecipe
-  | FurnanceAuxRecipe
+  | FurnaceRecipe
+  | FurnaceAuxRecipe
   | MultiRecipe
   | UserDataShapelessRecipe
   | ShapelessRecipe
@@ -69,12 +69,12 @@ class CraftingDataEntry extends DataType {
         }
 
         case CraftingDataEntryType.FurnaceRecipe: {
-          recipe = FurnanceRecipe.read(stream);
+          recipe = FurnaceRecipe.read(stream);
           break;
         }
 
         case CraftingDataEntryType.FurnaceAuxRecipe: {
-          recipe = FurnanceAuxRecipe.read(stream);
+          recipe = FurnaceAuxRecipe.read(stream);
           break;
         }
 
@@ -149,12 +149,12 @@ class CraftingDataEntry extends DataType {
         }
 
         case CraftingDataEntryType.FurnaceRecipe: {
-          FurnanceRecipe.write(stream, entry.recipe as FurnanceRecipe);
+          FurnaceRecipe.write(stream, entry.recipe as FurnaceRecipe);
           break;
         }
 
         case CraftingDataEntryType.FurnaceAuxRecipe: {
-          FurnanceAuxRecipe.write(stream, entry.recipe as FurnanceAuxRecipe);
+          FurnaceAuxRecipe.write(stream, entry.recipe as FurnaceAuxRecipe);
           break;
         }
 

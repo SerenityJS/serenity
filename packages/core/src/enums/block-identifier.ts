@@ -363,6 +363,7 @@ export enum BlockIdentifier {
   WaxedCopperBulb = "minecraft:waxed_copper_bulb",
   AndesiteStairs = "minecraft:andesite_stairs",
   Sponge = "minecraft:sponge",
+  WetSponge = "minecraft:wet_sponge",
   BoneBlock = "minecraft:bone_block",
   NormalStoneStairs = "minecraft:normal_stone_stairs",
   WarpedHangingSign = "minecraft:warped_hanging_sign",
