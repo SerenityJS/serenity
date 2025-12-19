@@ -2,7 +2,7 @@ import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
 
-class FurnanceRecipe extends DataType {
+class FurnaceRecipe extends DataType {
   /**
    * The input of the recipe.
    */
@@ -19,7 +19,7 @@ class FurnanceRecipe extends DataType {
   public readonly tag: string;
 
   /**
-   * Creates an instance of FurnanceRecipe.
+   * Creates an instance of FurnaceRecipe.
    * @param data The input of the recipe.
    * @param resultant The result of the recipe.
    * @param tag The tag of the recipe.
@@ -35,7 +35,7 @@ class FurnanceRecipe extends DataType {
     this.tag = tag;
   }
 
-  public static read(stream: BinaryStream): FurnanceRecipe {
+  public static read(stream: BinaryStream): FurnaceRecipe {
     // Read the input of the recipe.
     const data = stream.readZigZag();
 
@@ -46,10 +46,10 @@ class FurnanceRecipe extends DataType {
     const tag = stream.readVarString();
 
     // Return the furnace recipe.
-    return new FurnanceRecipe(data, resultant, tag);
+    return new FurnaceRecipe(data, resultant, tag);
   }
 
-  public static write(stream: BinaryStream, value: FurnanceRecipe): void {
+  public static write(stream: BinaryStream, value: FurnaceRecipe): void {
     // Write the input of the recipe.
     stream.writeZigZag(value.data);
 
@@ -61,4 +61,4 @@ class FurnanceRecipe extends DataType {
   }
 }
 
-export { FurnanceRecipe };
+export { FurnaceRecipe };
