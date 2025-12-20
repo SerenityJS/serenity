@@ -11,6 +11,7 @@ import { ItemStack } from "../../item";
 import { Entity } from "../entity";
 import { Player } from "../player";
 import { TraitOnTickDetails } from "../../trait";
+import { EntityItemPickupSignal } from "../../events";
 
 import { EntityTrait } from "./trait";
 import { EntityInventoryTrait } from "./inventory";
@@ -138,6 +139,10 @@ class EntityItemStackTrait extends EntityTrait {
 
     // Set the pickup tick
     this.pickupTick = this.entity.dimension.world.currentTick;
+
+    // Emit the entity item pickup signal
+    const signal = new EntityItemPickupSignal(this.entity, this.itemStack);
+    signal.emit();
   }
 
   public increment(amount?: number): void {
@@ -191,6 +196,12 @@ class EntityItemStackTrait extends EntityTrait {
   public onRemove(): void {
     // Delete the item stack data from the entity's nbt
     this.entity.removeStorageEntry("Item");
+  }
+
+  private resetTarget(): void {
+    // Reset the target player and pickup tick
+    this.target = null;
+    this.pickupTick = -1n;
   }
 
   public onTick(details: TraitOnTickDetails): void {
@@ -274,15 +285,23 @@ class EntityItemStackTrait extends EntityTrait {
       // Get the players inventory component
       const inventory = this.target.getTrait(EntityInventoryTrait);
 
+      // Emit the entity item pickup signal
+      const signal = new EntityItemPickupSignal(this.target, this.itemStack);
+
+      if (!signal.emit()) {
+        // If the event was cancelled, reset the target player and pickup tick
+        this.resetTarget();
+        // Break the loop
+        return;
+      }
+
       // Add the item to the players inventory
       const success = inventory.container.addItem(this.itemStack);
 
       // Check if the item was added to the inventory
       if (!success) {
         // If not, reset the target player and pickup tick
-        this.target = null;
-        this.pickupTick = -1n;
-
+        this.resetTarget();
         // Break the loop
         return;
       }

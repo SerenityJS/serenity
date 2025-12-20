@@ -19,6 +19,7 @@ interface PluginAfterEvents {
   afterEntityHit?: (event: Core.EntityHitSignal) => void;
   afterEntityHurt?: (event: Core.EntityHurtSignal) => void;
   afterEntityDropItem?: (event: Core.EntityDropItemSignal) => void;
+  afterEntityItemPickup?: (event: Core.EntityItemPickupSignal) => void;
   afterEntityEffectAdd?: (event: Core.EffectAddSignal) => void;
   afterEntityEffectRemove?: (event: Core.EffectRemoveSignal) => void;
   afterPlayerJoin?: (event: Core.PlayerJoinSignal) => void;
