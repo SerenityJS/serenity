@@ -888,6 +888,17 @@
     ]
   },
   {
+    "identifier": "minecraft:corner",
+    "type": "string",
+    "values": [
+      "none",
+      "inner_left",
+      "inner_right",
+      "outer_left",
+      "outer_right"
+    ]
+  },
+  {
     "identifier": "minecraft:facing_direction",
     "type": "string",
     "values": [

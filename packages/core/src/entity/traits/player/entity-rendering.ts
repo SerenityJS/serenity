@@ -13,18 +13,18 @@ import {
   Vector3f
 } from "@serenityjs/protocol";
 
-import { EntityIdentifier } from "../../../enums";
-import { EntityInventoryTrait } from "../inventory";
-import { ItemStack } from "../../../item";
-import { EntityItemStackTrait } from "../item-stack";
-import { EntityEquipmentTrait } from "../equipment";
-import { Entity } from "../../entity";
 import { EntityRidingTrait } from "..";
-import { TraitOnTickDetails } from "../../../trait";
 import { EntityDespawnOptions, EntitySpawnOptions } from "../../..";
+import { EntityIdentifier } from "../../../enums";
+import { ItemStack } from "../../../item";
+import { TraitOnTickDetails } from "../../../trait";
+import { Entity } from "../../entity";
+import { EntityEquipmentTrait } from "../equipment";
+import { EntityInventoryTrait } from "../inventory";
+import { EntityItemStackTrait } from "../item-stack";
 
-import { PlayerTrait } from "./trait";
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
+import { PlayerTrait } from "./trait";
 
 class PlayerEntityRenderingTrait extends PlayerTrait {
   public static readonly identifier = "entity_rendering";
@@ -130,13 +130,13 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.properties =
         entity.sharedProperties.getSharedPropertiesAsSyncData();
       packet.uniqueEntityId = entity.uniqueId;
-      packet.premissionLevel = entity.isOp
+      packet.permissionLevel = entity.isOp
         ? PermissionLevel.Operator
         : PermissionLevel.Member;
 
       packet.commandPermission = entity.isOp
-        ? CommandPermissionLevel.Operator
-        : CommandPermissionLevel.Normal;
+        ? CommandPermissionLevel.GameDirectors
+        : CommandPermissionLevel.Any;
 
       packet.abilities = entity.abilities.getAllAbilitiesAsLayers();
       packet.links = [];

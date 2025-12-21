@@ -1,6 +1,7 @@
 import { BlockEnum, JsonObjectEnum, PositionEnum } from "../enums";
 import { Entity } from "../../entity";
 import { BlockIdentifier } from "../../enums";
+import { BlockState } from "../../block";
 
 import type { Vector3f } from "@serenityjs/protocol";
 import type { World } from "../../world";
@@ -46,7 +47,7 @@ const register = (world: World) => {
           );
 
           // Get the state from the context
-          const state = context.state.result ?? {};
+          const state = (context.state.result ?? {}) as BlockState;
 
           // Get the permutation of the block
           const permutation = type.getPermutation(state);

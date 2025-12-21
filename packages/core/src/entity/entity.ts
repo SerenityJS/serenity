@@ -17,6 +17,7 @@ import { BaseTag, ListTag, StringTag } from "@serenityjs/nbt";
 
 import { Dimension, World } from "../world";
 import {
+  BlockIdentifier,
   CardinalDirection,
   EntityIdentifier,
   EntityInteractMethod
@@ -60,7 +61,7 @@ import {
 import { Player } from "./player";
 import { EntityInputInfo } from "./input-info";
 import { EntityLevelStorage } from "./storage";
-import { PlayerAnimationOptions } from "./types";
+import { BlockRaycastOptions, PlayerAnimationOptions } from "./types";
 import { EntitySharedProperties } from "./shared-properties";
 import { EntityActorFlags } from "./actor-flags";
 import { EntityActorMetadata } from "./actor-metadata";
@@ -556,6 +557,117 @@ class Entity {
       -Math.sin(pitchRadians), // Y component of the view vector (negative for correct orientation)
       Math.cos(yawRadians) * Math.cos(pitchRadians) // Z component of the view vector
     );
+  }
+
+  /**
+   * Computes the block the player is looking at by raytracing using their view direction.
+   * @param maxDistance The maximum distance from the player in blocks to check for a block. Default is 5.
+   * @returns The block the player is looking at, or null if no block is found.
+   */
+  public getBlockFromViewDirection(
+    options: BlockRaycastOptions = { maxDistance: 5 }
+  ) {
+    // Get options.
+    const includeLiquids = options.includeLiquidBlocks ?? false;
+    // const includePassable = options.includePassableBlocks ?? false;
+    const maxDistance = options.maxDistance ?? 5;
+
+    // Get the dimension the player is in.
+    const dimension = this.dimension;
+
+    // Get the player's position and normalized view direction.
+    const position = this.position;
+    const directionVector = this.getViewDirection().normalize();
+
+    const eyePosition = new Vector3f(position.x, position.y + 1.62, position.z);
+
+    // Position that is currently being checked.
+    const currentPos = eyePosition.floor();
+
+    // Check if the player's head is in a block.
+    const startingBlock = dimension.getBlock(currentPos);
+    if (startingBlock && startingBlock.identifier !== BlockIdentifier.Air) {
+      return startingBlock;
+    }
+
+    // Determine step direction.
+    const stepDirection = new Vector3f(
+      Math.sign(directionVector.x),
+      Math.sign(directionVector.y),
+      Math.sign(directionVector.z)
+    );
+
+    // Calculate distance of one block in a given direction.
+    const tDelta = new Vector3f(
+      directionVector.x === 0 ? Infinity : Math.abs(1 / directionVector.x),
+      directionVector.y === 0 ? Infinity : Math.abs(1 / directionVector.y),
+      directionVector.z === 0 ? Infinity : Math.abs(1 / directionVector.z)
+    );
+
+    // Calculate the distance to the next block.
+    const nextDistance = new Vector3f(
+      stepDirection.x > 0
+        ? currentPos.x + 1 - eyePosition.x
+        : eyePosition.x - currentPos.x,
+      stepDirection.y > 0
+        ? currentPos.y + 1 - eyePosition.y
+        : eyePosition.y - currentPos.y,
+      stepDirection.z > 0
+        ? currentPos.z + 1 - eyePosition.z
+        : eyePosition.z - currentPos.z
+    );
+
+    // Calculate the total distance from the player's position to next block.
+    const tMax = new Vector3f(
+      tDelta.x * nextDistance.x,
+      tDelta.y * nextDistance.y,
+      tDelta.z * nextDistance.z
+    );
+
+    let distance = 0;
+
+    // Step through blocks until we reach max distance.
+    while (distance < maxDistance) {
+      if (tMax.x < tMax.y) {
+        if (tMax.x < tMax.z) {
+          distance = tMax.x;
+          currentPos.x += stepDirection.x;
+          tMax.x += tDelta.x;
+        } else {
+          distance = tMax.z;
+          currentPos.z += stepDirection.z;
+          tMax.z += tDelta.z;
+        }
+      } else {
+        if (tMax.y < tMax.z) {
+          distance = tMax.y;
+          currentPos.y += stepDirection.y;
+          tMax.y += tDelta.y;
+        } else {
+          distance = tMax.z;
+          currentPos.z += stepDirection.z;
+          tMax.z += tDelta.z;
+        }
+      }
+
+      // See if we've hit the max distance.
+      if (distance >= maxDistance) break;
+
+      const block = dimension.getBlock(currentPos);
+      if (block && !block.isAir) {
+        // Liquid block check.
+        if (!includeLiquids && block.isLiquid) continue;
+
+        // Passable block check.
+        // Unused, we don't have a system for this.
+
+        // Return the block.
+        return block;
+      }
+    }
+
+    // Return null if no block is found.
+    return null;
   }
 
   /**

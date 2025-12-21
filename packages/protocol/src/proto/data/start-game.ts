@@ -125,7 +125,6 @@ class StartGamePacket extends DataPacket {
   @Serialize(Uuid) public worldTemplateId!: string;
   @Serialize(Bool) public clientSideGeneration!: boolean;
   @Serialize(Bool) public blockNetworkIdsAreHashes!: boolean;
-  @Serialize(Bool) public tickDeathSystems!: boolean;
   @Serialize(Bool) public serverControlledSounds!: boolean;
 }
 

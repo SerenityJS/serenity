@@ -150,8 +150,8 @@ class PlayerAbilities {
       : PermissionLevel.Member;
 
     packet.commandPermissionLevel = this.player.isOp
-      ? CommandPermissionLevel.Operator
-      : CommandPermissionLevel.Normal;
+      ? CommandPermissionLevel.GameDirectors
+      : CommandPermissionLevel.Any;
 
     packet.entityUniqueId = this.player.uniqueId;
     packet.abilities = this.getAllAbilitiesAsLayers();

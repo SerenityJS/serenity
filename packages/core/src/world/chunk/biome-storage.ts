@@ -142,8 +142,6 @@ class BiomeStorage {
     // Calculate bits per biome based on the palette size
     let bitsPerBiome = Math.ceil(Math.log2(storage.palette.length));
 
-    // console.log("Serialize", bitsPerBiome, storage.palette.length);
-
     // Set bitsPerBiome to 1 if calculated as 0, and pad as necessary
     switch (bitsPerBiome) {
       case 0:

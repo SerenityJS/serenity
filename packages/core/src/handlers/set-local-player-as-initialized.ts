@@ -1,21 +1,15 @@
 import {
-  CraftingDataPacket,
   Packet,
   SetLocalPlayerAsInitializedPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { CRAFTING_DATA } from "@serenityjs/data";
 
 import { NetworkHandler } from "../network";
 import { PlayerInitializedSignal } from "../events";
+import { PlayerListTrait } from "../entity";
 
 class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
   public static readonly packet = Packet.SetLocalPlayerAsInitialized;
-
-  // TODO: remove this when we have a recipe system
-  public static readonly CraftingData = new CraftingDataPacket(
-    CRAFTING_DATA
-  ).deserialize();
 
   public handle(
     packet: SetLocalPlayerAsInitializedPacket,
@@ -37,6 +31,18 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
     // Spawn the player
     player.spawn({ initialSpawn: true });
+
+    // Get the world from the player
+    const world = player.world;
+
+    // Iterate through all players in the world and remove the player from their player lists
+    for (const player of world.getPlayers()) {
+      // Fetch the player list trait
+      const trait = player.getTrait(PlayerListTrait);
+
+      // Add the initialized player to the player list
+      if (trait) trait.update(player, false);
+    }
   }
 }
 

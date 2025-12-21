@@ -8,11 +8,8 @@ import {
 } from "@serenityjs/data";
 
 import { BlockIdentifier, BlockMaterialSound } from "../../enums";
-import {
-  BlockState,
-  BlockTypeDefinition,
-  BlockTypeProperties
-} from "../../types";
+import { BlockTypeDefinition, BlockTypeProperties } from "../../types";
+import { BlockState } from "../types";
 
 import { ItemDrop } from "./drops";
 import { BlockTypeComponentCollection } from "./collection";
@@ -34,7 +31,7 @@ import type { BlockTrait } from "../traits";
 	dirtType.identifier // Expected to be "minecraft:dirt"
  * ```
  */
-class BlockType<T extends keyof BlockState = keyof BlockState> {
+class BlockType {
   /**
    * A collective registry of all block types.
    */
@@ -115,7 +112,8 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   /**
    * The identifier of the block type.
    */
-  public readonly identifier: T;
+  public readonly identifier: BlockIdentifier | string;
+
   /**
    * Whether the block type is loggable.
    */
@@ -213,7 +211,10 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * @param identifier The identifier of the block type.
    * @param properties The properties of the block type.
    */
-  public constructor(identifier: T, properties?: Partial<BlockTypeProperties>) {
+  public constructor(
+    identifier: BlockIdentifier | string,
+    properties?: Partial<BlockTypeProperties>
+  ) {
     // Assign the identifier of the block type.
     this.identifier = identifier;
 
@@ -232,17 +233,17 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
    * Get the permutation of the block type.
    * @param state The state of the block type.
    */
-  public getPermutation(state?: BlockState[T]): BlockPermutation<T> {
+  public getPermutation(state?: BlockState): BlockPermutation {
     // Iterate over the permutations.
     for (const permutation of this.permutations) {
       // Check if the permutation matches the state.
-      if (!state || permutation.matches(state as BlockState[T])) {
-        return permutation as BlockPermutation<T>;
+      if (!state || permutation.matches(state as BlockState)) {
+        return permutation as BlockPermutation;
       }
     }
 
     // Return the default permutation if the state is not found.
-    return this.permutations[0] as BlockPermutation<T>;
+    return this.permutations[0] as BlockPermutation;
   }
 
   /**
@@ -626,15 +627,15 @@ class BlockType<T extends keyof BlockState = keyof BlockState> {
   /**
    * Get the block type from the registry.
    */
-  public static get<T extends keyof BlockState>(identifier: T): BlockType<T> {
+  public static get(identifier: BlockIdentifier | string): BlockType {
     // Get the block type from the registry.
     const type = BlockType.types.get(identifier as BlockIdentifier);
 
     // Check if the block type exists.
-    if (!type) return this.get(BlockIdentifier.Air) as BlockType<T>;
+    if (!type) return this.get(BlockIdentifier.Air) as BlockType;
 
     // Return the block type.
-    return type as BlockType<T>;
+    return type as BlockType;
   }
 
   /**

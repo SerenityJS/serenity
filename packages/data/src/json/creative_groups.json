@@ -291,6 +291,11 @@
   },
   {
     "category": 3,
+    "name": "itemGroup.name.spear",
+    "icon": "minecraft:wooden_spear"
+  },
+  {
+    "category": 3,
     "name": "itemGroup.name.axe",
     "icon": "minecraft:wooden_axe"
   },
@@ -363,6 +368,16 @@
     "category": 3,
     "name": "itemGroup.name.horseArmor",
     "icon": "minecraft:leather_horse_armor"
+  },
+  {
+    "category": 3,
+    "name": "",
+    "icon": "minecraft:air"
+  },
+  {
+    "category": 3,
+    "name": "itemGroup.name.nautilus_armor",
+    "icon": "minecraft:copper_nautilus_armor"
   },
   {
     "category": 3,

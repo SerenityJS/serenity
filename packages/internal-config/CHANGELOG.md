@@ -1,5 +1,17 @@
 # @serenityjs/internal-config
 
+## 0.8.17
+
+### Patch Changes
+
+- [`43d3bb6`](https://github.com/SerenityJS/serenity/commit/43d3bb6394648053788274a6d312f1c00dd0b80d) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.17-beta
+
+## 0.8.16
+
+### Patch Changes
+
+- [`389f5d8`](https://github.com/SerenityJS/serenity/commit/389f5d8dc44c2f11d6bd54db92c37c67b86d6418) Thanks [@PMK744](https://github.com/PMK744)! - init 0.8.16-beta
+
 ## 0.8.15
 
 ### Patch Changes

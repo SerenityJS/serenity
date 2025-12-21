@@ -1,9 +1,9 @@
 import { BlockIdentifier } from "../enums";
-import { BlockEnum, GenericBlockState } from "..";
+import { BlockEnum } from "..";
 
 import { BlockPermutation, BlockType, CustomBlockType } from "./identity";
 
-import { BlockTraits } from ".";
+import { BlockState, BlockTraits } from ".";
 
 import type { BlockTrait } from "./traits";
 
@@ -69,7 +69,7 @@ class BlockPalette {
    */
   public resolvePermutation(
     identifier: BlockIdentifier | string | number,
-    state?: GenericBlockState
+    state?: BlockState
   ): BlockPermutation {
     // Get the block type from the registry.
     const type =

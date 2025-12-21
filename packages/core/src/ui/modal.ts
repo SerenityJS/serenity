@@ -43,7 +43,7 @@ class ModalForm<T = Array<unknown>> extends Form<T> {
   /**
    * The content of the form.
    */
-  public readonly content: Array<unknown> = [];
+  private content: Array<unknown> = [];
 
   /**
    * The sumbit button text.
@@ -60,6 +60,23 @@ class ModalForm<T = Array<unknown>> extends Form<T> {
 
     // Assign the form properties
     this.submit = submit ?? "Submit";
+  }
+
+  /**
+   * Clears all elements from the form.
+   */
+  public clearElements(): void {
+    // Reset the content array
+    this.content = [];
+  }
+
+  /**
+   * Clears a specific element from the form.
+   * @param index The index of the element to clear.
+   */
+  public clearElement(index: number): void {
+    // Remove the element at the specified index
+    this.content.splice(index, 1);
   }
 
   /**

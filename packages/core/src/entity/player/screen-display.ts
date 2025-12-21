@@ -5,7 +5,9 @@ import {
   SetHudPacket,
   SetTitlePacket,
   TextPacket,
-  TextPacketType,
+  TextType,
+  TextVariant,
+  TextVariantType,
   TitleType,
   ToastRequestPacket
 } from "@serenityjs/protocol";
@@ -157,14 +159,11 @@ class ScreenDisplay {
   public setJukeboxPopup(text: string): void {
     // Create a new TextPacket.
     const packet = new TextPacket();
-    packet.type = TextPacketType.JukeboxPopup;
-    packet.needsTranslation = false;
-    packet.source = null;
-    packet.message = text;
-    packet.parameters = [];
-    packet.xuid = this.player.xuid;
-    packet.platformChatId = String();
-    packet.filtered = text; // TODO: Filter the text.
+    packet.isLocalized = true;
+    packet.variantType = TextVariantType.MessageOnly;
+    packet.variant = new TextVariant(text, TextType.JukeboxPopup, "", []);
+    packet.xuid = "";
+    packet.platformChatId = "";
 
     // Send the packet to the player.
     this.player.send(packet);
@@ -177,14 +176,11 @@ class ScreenDisplay {
   public setToolTip(text: string): void {
     // Create a new TextPacket.
     const packet = new TextPacket();
-    packet.type = TextPacketType.Tip;
-    packet.needsTranslation = false;
-    packet.source = null;
-    packet.message = text;
-    packet.parameters = [];
-    packet.xuid = this.player.xuid;
-    packet.platformChatId = String();
-    packet.filtered = text; // TODO: Filter the text.
+    packet.isLocalized = true;
+    packet.variantType = TextVariantType.MessageOnly;
+    packet.variant = new TextVariant(text, TextType.Tip);
+    packet.xuid = "";
+    packet.platformChatId = "";
 
     // Send the packet to the player.
     this.player.send(packet);

@@ -1,11 +1,9 @@
 import {
-  Uint16,
   Uint32,
-  Uint8,
   BinaryStream,
-  DataType
+  DataType,
+  Endianness
 } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
 /**
  * Represents a enum for the available command packet.
@@ -32,13 +30,7 @@ class Enums extends DataType {
     this.values = values;
   }
 
-  public static override read(
-    stream: BinaryStream,
-    options?: PacketDataTypeOptions<Array<string>>
-  ): Array<Enums> {
-    // Get the enum values from the options, if provided.
-    const enumValues = options?.parameter ?? [];
-
+  public static override read(stream: BinaryStream): Array<Enums> {
     // Prepare an array to store the enums.
     const enums: Array<Enums> = [];
 
@@ -60,16 +52,7 @@ class Enums extends DataType {
       // We then loop through the amount of values in the enum.
       // Reading the value from the stream.
       for (let index = 0; index < valueAmount; index++) {
-        // length < 0xff ? 0 : length < 0xffff ? 1 : 2
-        const method =
-          enumValues.length < 0xff
-            ? Uint8
-            : enumValues.length < 0xff_ff
-              ? Uint16
-              : Uint32;
-
-        // Read the value and push it to the array.
-        values.push(method.read(stream, options));
+        values.push(Uint32.read(stream, { endian: Endianness.Little }));
       }
 
       // Push the enum to the array.
@@ -82,12 +65,8 @@ class Enums extends DataType {
 
   public static override write(
     stream: BinaryStream,
-    value: Array<Enums>,
-    options?: PacketDataTypeOptions<Array<string>>
+    value: Array<Enums>
   ): void {
-    // Get the enum values from the options, if provided.
-    const enumValues = options?.parameter ?? [];
-
     // Write the number of enums.
     stream.writeVarInt(value.length);
 
@@ -103,16 +82,7 @@ class Enums extends DataType {
       // We then loop through the values in the enum.
       // Writing the value to the stream.
       for (const value of enumValue.values) {
-        // length < 0xff ? 0 : length < 0xffff ? 1 : 2
-        const method =
-          enumValues.length < 0xff
-            ? Uint8
-            : enumValues.length < 0xff_ff
-              ? Uint16
-              : Uint32;
-
-        // Write the value to the stream.
-        method.write(stream, value, options);
+        Uint32.write(stream, value, { endian: Endianness.Little });
       }
     }
   }

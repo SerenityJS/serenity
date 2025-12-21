@@ -113,6 +113,7 @@ class EntityEffectsTrait extends EntityTrait {
     packet.amplifier = effect?.amplifier ?? 0;
     packet.duration = effect?.duration ?? 0;
     packet.inputTick = this.entity.world.currentTick;
+    packet.isAmbient = false; // TODO: investigate ambient effects
 
     this.entity.send(packet);
   }
