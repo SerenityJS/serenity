@@ -21,6 +21,7 @@ interface PluginBeforeEvents {
   beforeEntityHit?: (event: Core.EntityHitSignal) => boolean;
   beforeEntityHurt?: (event: Core.EntityHurtSignal) => boolean;
   beforeEntityDropItem?: (event: Core.EntityDropItemSignal) => boolean;
+  beforeEntityItemPickup?: (event: Core.EntityItemPickupSignal) => boolean;
   beforeEntityEffectAdd?: (event: Core.EffectAddSignal) => boolean;
   beforeEntityEffectRemove?: (event: Core.EffectRemoveSignal) => boolean;
   beforePlayerJoin?: (event: Core.PlayerJoinSignal) => boolean;
