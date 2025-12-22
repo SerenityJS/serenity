@@ -243,3 +243,4 @@ target
 Cargo.lock
 
 *.node
+.vscode/settings.json
