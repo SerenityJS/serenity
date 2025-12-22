@@ -14,6 +14,7 @@ export * from "./player-chat";
 export * from "./player-place-block";
 export * from "./player-break-block";
 export * from "./entity-drop-item";
+export * from "./entity-item-pickup";
 export * from "./player-ability-update";
 export * from "./player-start-using-item";
 export * from "./player-stop-using-item";

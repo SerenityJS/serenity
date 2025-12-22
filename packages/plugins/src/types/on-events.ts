@@ -20,6 +20,7 @@ interface PluginOnEvents {
   onEntityHit?: (event: Core.EntityHitSignal) => void;
   onEntityHurt?: (event: Core.EntityHurtSignal) => void;
   onEntityDropItem?: (event: Core.EntityDropItemSignal) => void;
+  onEntityItemPickup?: (event: Core.EntityItemPickupSignal) => void;
   onEntityEffectAdd?: (event: Core.EffectAddSignal) => void;
   onEntityEffectRemove?: (event: Core.EffectRemoveSignal) => void;
   onPlayerJoin?: (event: Core.PlayerJoinSignal) => void;
