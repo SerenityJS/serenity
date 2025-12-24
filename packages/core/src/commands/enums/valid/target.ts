@@ -211,7 +211,7 @@ class TargetEnum extends ValidEnum {
 
                 //radius
                 case "r": {
-                  let radius = Number(value)
+                  const radius = Number(value)
                   if (isNaN(radius)) return false
 
                   const player = pointer.state.origin as Player;
