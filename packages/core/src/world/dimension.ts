@@ -1,3 +1,4 @@
+import { StringTag } from "@serenityjs/nbt";
 import {
   BlockPosition,
   ChunkCoords,
@@ -13,16 +14,10 @@ import {
   UpdateBlockPacket,
   Vector3f
 } from "@serenityjs/protocol";
-import { StringTag } from "@serenityjs/nbt";
 
-import {
-  CommandResponse,
-  DimensionProperties,
-  EntityQueryOptions,
-  RawMessage,
-  RawText,
-  StructurePlaceOptions
-} from "../types";
+import { BiomeType } from "../biome";
+import { Block, BlockLevelStorage, BlockPermutation } from "../block";
+import { CommandExecutionState } from "../commands";
 import {
   Entity,
   EntityCollisionTrait,
@@ -36,19 +31,24 @@ import {
   Player,
   PlayerChunkRenderingTrait
 } from "../entity";
-import { Block, BlockLevelStorage, BlockPermutation } from "../block";
-import { ItemStack } from "../item";
 import { BlockIdentifier, EntityIdentifier } from "../enums";
-import { Serenity } from "../serenity";
-import { CommandExecutionState } from "../commands";
 import { BlockPermutationUpdateSignal } from "../events";
-import { BiomeType } from "../biome";
+import { ItemStack } from "../item";
+import { Serenity } from "../serenity";
+import {
+  CommandResponse,
+  DimensionProperties,
+  EntityQueryOptions,
+  RawMessage,
+  RawText,
+  StructurePlaceOptions
+} from "../types";
 
-import { World } from "./world";
-import { TerrainGenerator } from "./generator";
 import { Chunk } from "./chunk";
+import { TerrainGenerator } from "./generator";
 import { TickSchedule } from "./schedule";
 import { Structure } from "./structure";
+import { World } from "./world";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -795,14 +795,18 @@ class Dimension {
     const entities: Array<Entity> = [];
 
     // Get the position, max distance, and min distance from the options
-    const position = options?.position ?? { x: 0, y: 0, z: 0 };
+    const position = options?.position ?? new Vector3f(0, 0, 0);
     const maxDistance = options?.maxDistance ?? 0;
     const minDistance = options?.minDistance ?? 0;
     const maxCount = options?.count ?? Infinity;
     const chunk = options?.chunk ?? null;
 
+    const filteredEntities = options?.filterEntityId
+      ? this.entities.values().filter((entity) => entity.identifier === options?.filterEntityId)
+      : this.entities.values();
+
     // Filter the entities based on the options
-    for (const entity of this.entities.values()) {
+    for (const entity of filteredEntities) {
       // Check if the count is reached
       if (maxCount <= entities.length) break;
 
@@ -817,14 +821,23 @@ class Dimension {
       // Check if the entity is in the specified chunk
       if (chunk) {
         // Get the position of the entity
-        const position = entity.position.floor();
+        const entityPos = entity.position.floor();
 
         // Convert the position to chunk coordinates
-        const cx = position.x >> 4;
-        const cz = position.z >> 4;
+        const cx = entityPos.x >> 4;
+        const cz = entityPos.z >> 4;
 
         // Check if the entity is in the specified chunk
         if (cx !== chunk.x || cz !== chunk.z) continue;
+      }
+
+      // Check if the entity is at the specific position if specified
+      const hasPosition = options?.position !== undefined;
+      if (hasPosition && !maxDistance && !minDistance) {
+        const a = entity.position.floor();
+        const b = position?.floor();
+
+        if (a.x !== b.x || a.y !== b.y || a.z !== b.z) continue;
       }
 
       // Add the entity to the entity list
@@ -1204,4 +1217,5 @@ class Dimension {
   }
 }
 
-export { Dimension, DefaultDimensionProperties };
+export { DefaultDimensionProperties, Dimension };
+
