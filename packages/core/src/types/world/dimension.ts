@@ -1,5 +1,6 @@
 import { DimensionType, Vector3f } from "@serenityjs/protocol";
 
+import { EntityIdentifier } from "../../enums";
 import { Chunk } from "../../world";
 
 interface DimensionProperties {
@@ -12,6 +13,11 @@ interface DimensionProperties {
 }
 
 interface EntityQueryOptions {
+
+  /**
+   * Filter the entities by their identifier.
+   */
+  filterEntityId?: EntityIdentifier;
   /**
    * Limit the number of entities to query.
    */

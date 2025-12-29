@@ -209,6 +209,22 @@ class TargetEnum extends ValidEnum {
                   break;
                 }
 
+                //radius
+                case "r": {
+                  const radius = Number(value)
+                  if (isNaN(radius)) return false
+
+                  const player = pointer.state.origin as Player;
+                  if (!(player instanceof Player)) return false
+
+                  const distance = entity.position
+                    .subtract(player.position)
+                    .length();
+                    
+                  if (distance > radius) return false;
+                  break;
+                }
+
                 default: {
                   throw new TypeError(`Invalid query key "${key}"`);
                 }
