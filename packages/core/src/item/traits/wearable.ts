@@ -42,55 +42,17 @@ class ItemStackWearableTrait extends ItemStackTrait {
   // If the base item type contains this component, it is considered wearable.
   public static readonly component = ItemTypeWearableComponent;
 
-  /**
-   * The dynamic properties of the wearable trait.
-   */
-  public get properties(): ItemStackWearableTraitProperties {
-    // Check if the item has a dynamic property for the wearable trait
-    if (!this.item.hasDynamicProperty(this.identifier)) {
-      // Create a new dynamic property for the wearable trait
-      this.item.setDynamicProperty<ItemStackWearableTraitProperties>(
-        ItemStackWearableTrait.identifier,
-        {
-          protection: 0,
-          slot: WearableSlot.Offhand,
-          tier: ItemWearableTier.Generic
-        }
-      );
-    }
+  // The item wearable properties.
+  // NOTE: Maybe we should move this default value somewhere else.
+  public readonly properties: ItemStackWearableTraitProperties = {
+    protection: 0,
+    slot: WearableSlot.Offhand,
+    tier: ItemWearableTier.Generic
+  };
 
-    // Return the dynamic property for the wearable trait
-    return this.item.getDynamicProperty(
-      ItemStackWearableTrait.identifier
-    ) as ItemStackWearableTraitProperties;
-  }
-
-  /**
-   * The amount of protection the wearable item provides.
-   */
+  // The wearable protection.
   public get protection(): number {
     return this.properties.protection;
-  }
-
-  /**
-   * The amount of protection the wearable item provides.
-   */
-  public set protection(value: number) {
-    this.properties.protection = value;
-  }
-
-  /**
-   * The slot the wearable item can be equipped to.
-   */
-  public get slot(): WearableSlot {
-    return this.properties.slot;
-  }
-
-  /**
-   * The slot the wearable item can be equipped to.
-   */
-  public set slot(value: WearableSlot) {
-    this.properties.slot = value;
   }
 
   /**
@@ -159,6 +121,14 @@ class ItemStackWearableTrait extends ItemStackTrait {
         }
       }
     }
+
+    if (!this.item.hasDynamicProperty(this.identifier)) {
+      // Create a new dynamic property for the wearable trait
+      this.item.setDynamicProperty<ItemStackWearableTraitProperties>(
+        ItemStackWearableTrait.identifier,
+        this.properties
+      );
+    }
   }
 
   /**
@@ -183,6 +153,7 @@ class ItemStackWearableTrait extends ItemStackTrait {
       return equipment.setEquipment(this.getEquipmentSlot(), this.item);
 
     // Swap the item from the player's inventory to the equipment slot
+    // Helmet - Main hand = 0 (slot) to 4 (slot)
     equipment.swapFromInventory(currentSlot, this.getEquipmentSlot());
   }
 
