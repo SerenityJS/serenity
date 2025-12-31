@@ -1,42 +1,42 @@
+import { CompoundTag, StringTag } from "@serenityjs/nbt";
 import {
   CompletedUsingItemPacket,
   ItemUseMethod,
   NetworkItemInstanceDescriptor,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
-import { CompoundTag, StringTag } from "@serenityjs/nbt";
 
 import { Container } from "../container";
-import { ItemIdentifier } from "../enums";
 import { Player } from "../entity";
-import { World } from "../world";
+import { ItemIdentifier } from "../enums";
 import {
   PlayerUseItemOnBlockSignal,
   PlayerUseItemOnEntitySignal,
   PlayerUseItemSignal
 } from "../events";
 import { JSONLikeValue } from "../types";
+import { World } from "../world";
 
-import { ItemStackInstanceStorage } from "./instance-storage";
 import {
   ItemType,
   ItemTypeBlockPlacerComponent,
   type ItemTypeComponent,
   ItemTypeComponentCollection
 } from "./identity";
+import { ItemStackInstanceStorage } from "./instance-storage";
+import { ItemStackLevelStorage } from "./storage";
 import {
   ItemStackDisplayTrait,
   ItemStackDurabilityTrait,
   ItemStackTrait
 } from "./traits";
 import {
+  DefaultItemStackOptions,
   type ItemStackOptions,
-  type ItemStackUseOptions,
   type ItemStackUseOnBlockOptions,
   type ItemStackUseOnEntityOptions,
-  DefaultItemStackOptions
+  type ItemStackUseOptions
 } from "./types";
-import { ItemStackLevelStorage } from "./storage";
 
 class ItemStack {
   /**
@@ -781,7 +781,7 @@ class ItemStack {
    * Get the durability of the item stack.
    * @returns The durability of the item stack.
    */
-  public getDamgeDurability(): number {
+  public getDamageDurability(): number {
     // Check if the item stack has a durability trait.
     if (this.hasTrait(ItemStackDurabilityTrait)) {
       // Get the durability trait from the item stack.
