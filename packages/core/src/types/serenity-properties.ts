@@ -14,6 +14,7 @@ interface SerenityProperties {
   shutdownMessage: string;
   ticksPerSecond: number;
   debugLogging: boolean;
+  offlineMode: boolean;
 }
 
 interface ServerProperties {
