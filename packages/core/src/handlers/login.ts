@@ -30,35 +30,57 @@ class LoginHandler extends NetworkHandler {
     packet: LoginPacket,
     connection: Connection
   ): Promise<void> {
-    const { AuthenticationType: type, Token } = Authentication.parse(
+    const { AuthenticationType: type, Token, Certificate } = Authentication.parse(
       packet.tokens.identity
     );
     // Decode the tokens given by the client.
     // This contains the client data, identity data, and public key.
     // Along with the players XUID, display name, and uuid.
 
-    if (type === AuthenticationType.OfflineSelfSigned)
+    if (type === AuthenticationType.OfflineSelfSigned && !this.serenity.properties.offlineMode)
       return void this.network.disconnectConnection(
         connection,
         "Offline mode is not supported. Please connect to xbox services",
         DisconnectReason.EmptyAuthFromDiscovery
       );
 
-    const { cpk, xid, xname } = await Authentication.authenticate(Token);
-    const uuid = LoginHandler.getUUIDFromXUID(xid);
+    // Handle authentication based on mode (online vs offline)
+    let cpk: string;
+    let xid: string;
+    let xname: string;
+    let uuid: string;
+
+    if (type === AuthenticationType.OfflineSelfSigned) {
+      // Offline mode: Token is empty, JWT chain is in Certificate
+      // Certificate is JSON: {"chain": ["jwt1", ...]}
+      if (!Certificate) {
+        throw new Error("Invalid offline login: missing Certificate");
+      }
+      const offlineData = LoginHandler.parseOfflineCertificate(Certificate);
+      cpk = offlineData.cpk;
+      xname = offlineData.displayName;
+      uuid = offlineData.identity || LoginHandler.getUUIDFromUsername(xname);
+      // Generate a fake XUID from username for compatibility with plugins that use XUID for storage
+      xid = LoginHandler.getOfflineXUID(xname);
+    } else {
+      // Online mode: verify with Xbox Live
+      const onlineData = await Authentication.authenticate(Token);
+      cpk = onlineData.cpk;
+      xid = onlineData.xid;
+      xname = onlineData.xname;
+      uuid = LoginHandler.getUUIDFromXUID(xid);
+    }
     const clientData = await Authentication.verify<ClientData>(
       packet.tokens.client,
       cpk
     );
 
-    // Check if the player is already connected.
-    // And if so, disconnect the player the player currently connected.
-    if (this.serenity.getPlayerByXuid(xid)) {
-      // Get the player to disconnect.
-      const player = this.serenity.getPlayerByXuid(xid) as Player;
-
-      // Disconnect the player.
-      player.disconnect(
+    // Check if the player is already connected by XUID
+    const existingPlayer = this.serenity.getPlayerByXuid(xid);
+    
+    if (existingPlayer) {
+      // Disconnect the existing player.
+      existingPlayer.disconnect(
         "You have been disconnected from the server because you logged in from another location.",
         DisconnectReason.LoggedInOtherLocation
       );
@@ -165,6 +187,71 @@ class LoginHandler extends NetworkHandler {
     return uuidFromBytes(
       new TextEncoder().encode(`pocket-auth-1-xuid:${xuid}`)
     );
+  }
+
+  public static getUUIDFromUsername(username: string): string {
+    return uuidFromBytes(
+      new TextEncoder().encode(`OfflinePlayer:${username}`)
+    );
+  }
+
+  /**
+   * Generates a deterministic fake XUID for offline players
+   * Uses a hash of the username to create a consistent 16-digit numeric string
+   * @param username The player's username
+   * @returns A fake XUID string
+   */
+  public static getOfflineXUID(username: string): string {
+    const hash = createHash("sha256")
+      .update(`OfflineXUID:${username}`)
+      .digest();
+    // Take first 8 bytes and convert to a numeric string
+    // XUIDs are typically 16-digit numbers
+    const num = hash.readBigUInt64BE(0);
+    return num.toString().padStart(16, "0").slice(0, 16);
+  }
+
+  /**
+   * Parses an offline mode certificate to extract player identity
+   * @param certificate The Certificate string containing the JWT chain
+   * @returns The parsed offline player data
+   */
+  public static parseOfflineCertificate(certificate: string): {
+    cpk: string;
+    displayName: string;
+    identity: string;
+  } {
+    // Certificate is JSON: {"chain": ["jwt1", ...]}
+    const certData = JSON.parse(certificate) as { chain: string[] };
+    
+    // Find the token with extraData (contains player identity)
+    for (const jwt of certData.chain) {
+      // JWT format: header.payload.signature - we need the payload (middle part)
+      const parts = jwt.split(".");
+      if (parts.length !== 3) continue;
+      
+      // Decode base64url payload
+      const payload = JSON.parse(
+        Buffer.from(parts[1]!, "base64url").toString("utf8")
+      ) as {
+        extraData?: {
+          displayName: string;
+          identity: string;
+          XUID?: string;
+        };
+        identityPublicKey?: string;
+      };
+      
+      if (payload.extraData) {
+        return {
+          cpk: payload.identityPublicKey || "",
+          displayName: payload.extraData.displayName,
+          identity: payload.extraData.identity
+        };
+      }
+    }
+    
+    throw new Error("Invalid offline certificate: missing extraData");
   }
 
   /**
