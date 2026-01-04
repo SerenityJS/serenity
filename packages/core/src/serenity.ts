@@ -51,7 +51,8 @@ const DefaultSerenityProperties: SerenityProperties = {
   movementVerticalThreshold: 0.6,
   shutdownMessage: "Server is shutting down.",
   ticksPerSecond: 20,
-  debugLogging: false
+  debugLogging: false,
+  offlineMode: false,
 };
 
 class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
