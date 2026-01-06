@@ -7,7 +7,7 @@ import { DataPacket } from "./data-packet";
 
 @Proto(Packet.GameRulesChanged)
 class GameRulesChangedPacket extends DataPacket {
-  @Serialize(GameRules) public rules!: GameRules;
+  @Serialize(GameRules) public rules!: GameRules[];
 }
 
 export { GameRulesChangedPacket };
