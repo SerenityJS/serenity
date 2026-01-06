@@ -1,25 +1,18 @@
 import { Worker } from "node:worker_threads";
 
-import { ChunkCoords, DimensionType } from "@serenityjs/protocol";
+import { ChunkCoords } from "@serenityjs/protocol";
 
 import { Chunk } from "../chunk";
 import { TerrainGeneratorProperties } from "../../types";
 import { Dimension } from "../dimension";
+import { WorkerMessage } from "../worker/message";
+import { WorkerMessageType } from "../worker/message-type";
 
 import type { TerrainWorker } from "../worker/worker";
 
 const DefaultTerrainGeneratorProperties: TerrainGeneratorProperties = {
   seed: Math.floor(Math.random() * 0x7fffffff)
 };
-
-interface WorkerData {
-  cx: number;
-  cz: number;
-  type: DimensionType;
-  buffer: Uint8Array;
-  identifier: string;
-  hash: bigint;
-}
 
 class TerrainGenerator {
   /**
@@ -85,27 +78,46 @@ class TerrainGenerator {
       this.worker = prototype.worker.initialize(this.properties);
 
       // Listen for messages from the worker.
-      this.worker.on("message", (data: WorkerData) => {
+      this.worker.on("message", (message: WorkerMessage) => {
         // Check if the identifier matches the generator's identifier.
-        if (data.identifier !== this.identifier) return;
+        if (message.identifier !== this.identifier) return;
 
-        // Check if the queue has the chunk hash.
-        if (!this.queue.has(data.hash)) return;
+        switch (message.type) {
+          case WorkerMessageType.ReadChunkResponse: {
+            // Cast the message to a read chunk response.
+            const response =
+              message as WorkerMessage<WorkerMessageType.ReadChunkResponse>;
 
-        // Get the resolve function from the queue.
-        const resolve = this.queue.get(data.hash)!;
+            // Get the data from the response.
+            const data = response.data;
 
-        // Convert the Uint8Array to a Buffer.
-        const buffer = Buffer.from(data.buffer);
+            // Calculate the chunk hash.
+            const hash = ChunkCoords.hash({ x: data.cx, z: data.cz });
 
-        // Deserialize the chunk from the buffer.
-        const chunk = Chunk.deserialize(data.type, data.cx, data.cz, buffer);
+            // Check if the queue has the chunk hash.
+            if (!this.queue.has(hash)) return;
 
-        // Resolve the promise with the chunk.
-        resolve(chunk);
+            // Get the resolve function from the queue.
+            const resolve = this.queue.get(hash)!;
 
-        // Remove the chunk from the queue.
-        this.queue.delete(data.hash);
+            // Convert the Uint8Array to a Buffer.
+            const buffer = Buffer.from(data.buffer);
+
+            // Deserialize the chunk from the buffer.
+            const chunk = Chunk.deserialize(
+              data.type,
+              data.cx,
+              data.cz,
+              buffer
+            );
+
+            // Resolve the promise with the chunk.
+            resolve(chunk);
+
+            // Remove the chunk from the queue.
+            this.queue.delete(hash);
+          }
+        }
       });
     }
   }
@@ -151,11 +163,14 @@ class TerrainGenerator {
       this.queue.set(hash, resolve);
 
       // Create a data object to send to the worker.
-      const data = {
-        cx,
-        cz,
-        type: this.dimension.type,
-        identifier: this.identifier
+      const data: WorkerMessage = {
+        identifier: this.identifier,
+        type: WorkerMessageType.ReadChunk,
+        data: {
+          cx,
+          cz,
+          type: this.dimension.type
+        }
       };
 
       // Pass the buffer to the worker thread.

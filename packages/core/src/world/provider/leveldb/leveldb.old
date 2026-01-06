@@ -47,7 +47,7 @@ class LevelDBProvider extends WorldProvider {
   public readonly chunks = new Map<Dimension, Map<bigint, Chunk>>();
 
   public constructor(path: string) {
-    super();
+    super(path);
 
     // Set the path of the provider.
     this.path = path;

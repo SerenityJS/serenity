@@ -1,4 +1,7 @@
+import { Worker } from "node:worker_threads";
+
 import { CompoundTag } from "@serenityjs/nbt";
+import { ChunkCoords } from "@serenityjs/protocol";
 
 import { BlockLevelStorage } from "../../block";
 import { Serenity } from "../../serenity";
@@ -6,6 +9,9 @@ import { WorldProperties, WorldProviderProperties } from "../../types";
 import { Chunk } from "../chunk/chunk";
 import { Dimension } from "../dimension";
 import { World } from "../world";
+import { ProviderWorker } from "../worker";
+import { WorkerMessage } from "../worker/message";
+import { WorkerMessageType } from "../worker/message-type";
 
 /**
  * The default world provider properties.
@@ -19,6 +25,11 @@ class WorldProvider {
    * The identifier of the provider.
    */
   public static readonly identifier: string;
+
+  /**
+   * The provider worker for the provider, if applicable.
+   */
+  public static worker: typeof ProviderWorker | null = null;
 
   /**
    * The identifier of the provider.
@@ -37,16 +48,45 @@ class WorldProvider {
   public readonly barrowers = new WeakMap<Dimension, Map<bigint, number>>();
 
   /**
+   * The chunk queue for the provider.
+   */
+  public readonly chunkQueue = new Map<
+    bigint,
+    { resolve: (chunk: Chunk) => void; dimension: Dimension }
+  >();
+
+  /**
    * The world that the provider belongs to.
    */
   public world!: World;
 
   /**
+   * The worker thread for the provider, if applicable.
+   */
+  public readonly worker: Worker | null = null;
+
+  /**
    * Create a new world provider.
    * @param parameters The parameters to use for the provider.
    */
-  public constructor(..._parameters: Array<unknown>) {
-    return this;
+  public constructor(...parameters: Array<unknown>) {
+    // Get the generator prototype.
+    const prototype = this.constructor as typeof WorldProvider;
+
+    // Check if the provider has a worker
+    if (prototype.worker) {
+      // If so, initialize the worker with the provided parameters
+      this.worker = prototype.worker.initialize(parameters);
+
+      // Listen for messages from the worker
+      this.worker.on("message", async (message: WorkerMessage) => {
+        // Check if the identifier matches the provider's identifier.
+        if (message.identifier !== this.identifier) return;
+
+        // Handle the child message
+        await this.onChildMessage(message);
+      });
+    }
   }
 
   /**
@@ -57,7 +97,20 @@ class WorldProvider {
   /**
    * Called when the provider is shutdown.
    */
-  public onShutdown(): void {}
+  public onShutdown(): void {
+    // Check if a worker exists for the provider
+    if (this.worker) {
+      // Post a shutdown message to the worker
+      this.worker.postMessage({
+        identifier: this.identifier,
+        type: WorkerMessageType.Shutdown,
+        data: { threadId: this.worker.threadId }
+      });
+
+      // Terminate the worker thread
+      this.worker.terminate();
+    }
+  }
 
   /**
    * Called when the provider is saved.
@@ -89,6 +142,150 @@ class WorldProvider {
    */
   public async readChunk(_chunk: Chunk, _dimension: Dimension): Promise<Chunk> {
     throw new Error(`${this.identifier}.readChunk() is not implemented!`);
+  }
+
+  protected async handoffReadChunk(
+    chunk: Chunk,
+    dimension: Dimension
+  ): Promise<Chunk> {
+    // Check if a worker is available for the provider.
+    if (!this.worker) {
+      throw new Error(
+        `No worker available for provider ${this.identifier} to handoff readChunk()`
+      );
+    }
+
+    // Create and return a promise that resolves when the worker is done.
+    return new Promise<Chunk>((resolve) => {
+      // Generate the hash for the chunk.
+      const hash = ChunkCoords.hash({ x: chunk.x, z: chunk.z });
+
+      const hasChunkInQueue = this.chunkQueue.has(hash);
+
+      // // Check if the chunk is already in the queue.
+      // if (!this.chunkQueue.has(hash)) {
+      //   // Fetch and return the existing promise for the chunk.
+      //   const existing = this.chunkQueue.get(hash);
+
+      //   // Return the existing promise's resolve function.
+      //   if (existing) return existing.resolve;
+      // }
+
+      // Add the chunk to the queue.
+      this.chunkQueue.set(hash, { resolve, dimension });
+
+      if (!hasChunkInQueue) {
+        // Create the message to send to the worker.
+        const message: WorkerMessage<WorkerMessageType.ReadChunk> = {
+          identifier: this.identifier,
+          type: WorkerMessageType.ReadChunk,
+          data: {
+            cx: chunk.x,
+            cz: chunk.z,
+            type: dimension.type,
+            dimension: dimension.indexOf()
+          }
+        };
+
+        // Send the message to the worker.
+        this.worker?.postMessage(message);
+      }
+    });
+  }
+
+  protected async onChildMessage(message: WorkerMessage): Promise<void> {
+    // Switch on the message type
+    switch (message.type) {
+      case WorkerMessageType.ReadChunkResponse: {
+        // Cast the message to a read chunk response.
+        const response =
+          message as WorkerMessage<WorkerMessageType.ReadChunkResponse>;
+
+        // Destructure the data from the response.
+        const data = response.data;
+
+        // Convert the Uint8Array to a Buffer.
+        const buffer = Buffer.from(data.buffer);
+
+        // Deserialize the chunk from the buffer.
+        const chunk = Chunk.deserialize(data.type, data.cx, data.cz, buffer);
+
+        // Generate the hash for the chunk.
+        const hash = ChunkCoords.hash({ x: data.cx, z: data.cz });
+
+        // Check if the chunk is in the queue.
+        const resolver = this.chunkQueue.get(hash);
+        if (resolver) {
+          // Check if the dimension map exists
+          if (!this.chunks.has(resolver.dimension)) {
+            // Set the chunk in the dimension map
+            this.chunks.set(resolver.dimension, new Map());
+          }
+
+          // Get the chunks map for the dimension
+          const chunks = this.chunks.get(resolver.dimension)!;
+
+          // Add the chunk to the provider's cache
+          chunks.set(hash, chunk);
+
+          console.log("resolving chunk from worker", {
+            hash,
+            dimension: resolver.dimension.indexOf()
+          });
+
+          // Resolve the chunk promise.
+          resolver.resolve(chunk);
+
+          // Remove the chunk from the queue.
+          this.chunkQueue.delete(hash);
+        }
+
+        break;
+      }
+
+      case WorkerMessageType.ReadChunkResponseNull: {
+        // Cast the message to a read chunk response null.
+        const response =
+          message as WorkerMessage<WorkerMessageType.ReadChunkResponseNull>;
+
+        // Destructure the data from the response.
+        const data = response.data;
+
+        // Generate the hash for the chunk.
+        const hash = ChunkCoords.hash({
+          x: data.cx,
+          z: data.cz
+        });
+
+        // Check if the chunk is in the queue.
+        const resolver = this.chunkQueue.get(hash);
+        if (resolver) {
+          // Check if the dimension map exists
+          if (!this.chunks.has(resolver.dimension)) {
+            // Set the chunk in the dimension map
+            this.chunks.set(resolver.dimension, new Map());
+          }
+
+          // Get the chunks map for the dimension
+          const chunks = this.chunks.get(resolver.dimension)!;
+
+          // Generate a chunk from the dimension.
+          const chunk = await resolver.dimension.generator.apply(
+            data.cx,
+            data.cz
+          );
+
+          // Add the chunk to the provider's cache
+          chunks.set(hash, chunk);
+
+          // Resolve the chunk promise.
+          resolver.resolve(chunk);
+
+          // Remove the chunk from the queue.
+          this.chunkQueue.delete(hash);
+        }
+      }
+    }
   }
 
   /**

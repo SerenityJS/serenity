@@ -1,10 +1,14 @@
 import { isMainThread, type Worker } from "node:worker_threads";
 
 import { TerrainGeneratorProperties } from "../../types";
+import { Chunk } from "../chunk";
+
+import { WorkerMessage } from "./message";
+import { WorkerMessageType } from "./message-type";
+import { MessageQueue } from "./message-queue";
 
 import type { DimensionType } from "@serenityjs/protocol";
 import type { TerrainGenerator } from "../generator";
-import type { Chunk } from "../chunk";
 
 class TerrainWorker {
   /**
@@ -18,15 +22,17 @@ class TerrainWorker {
   public readonly properties: TerrainGeneratorProperties;
 
   /**
-   * The generator for the worker.
+   * The parent generator for the worker.
    */
-  public readonly generator: typeof TerrainGenerator;
+  public readonly parent: typeof TerrainGenerator;
+
+  public readonly messages = new MessageQueue();
 
   /**
    * Creates a new worker instance.
    */
   public constructor(
-    generator: typeof TerrainGenerator,
+    parent: typeof TerrainGenerator,
     properties: TerrainGeneratorProperties
   ) {
     // Check if we are in the main thread
@@ -37,7 +43,7 @@ class TerrainWorker {
     this.properties = properties;
 
     // Set the generator of the worker
-    this.generator = generator;
+    this.parent = parent;
   }
 
   /**
@@ -51,7 +57,47 @@ class TerrainWorker {
     _cz: number,
     _type: DimensionType
   ): Promise<Chunk> {
-    throw new Error(`${this.generator.identifier}.apply() is not implemented!`);
+    throw new Error(`${this.parent.identifier}.apply() is not implemented!`);
+  }
+
+  /**
+   * Handles an incoming message to the worker.
+   * @param message The message received by the worker.
+   * @returns The response message to be sent back.
+   */
+  public async onParentMessage(message: WorkerMessage): Promise<WorkerMessage> {
+    // Switch the message type
+    switch (message.type) {
+      case WorkerMessageType.ReadChunk: {
+        // Cast the message to the correct type
+        const request = message as WorkerMessage<WorkerMessageType.ReadChunk>;
+
+        // Destructure the data from the request
+        const { cx, cz, type } = request.data;
+
+        // Read the chunk from the generator
+        const chunk = await this.apply(cx, cz, type);
+
+        // Serialize the chunk into a buffer
+        const buffer = Chunk.serialize(chunk);
+
+        // Return the response message
+        return {
+          identifier: message.identifier,
+          type: WorkerMessageType.ReadChunkResponse,
+          data: {
+            cx,
+            cz,
+            type,
+            buffer
+          }
+        };
+      }
+
+      // Throw an error for unhandled message types
+      default:
+        throw new Error(`Unhandled worker message type: ${message.type}`);
+    }
   }
 
   /**
