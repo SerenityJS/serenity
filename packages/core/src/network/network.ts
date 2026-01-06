@@ -647,6 +647,9 @@ class Network extends Emitter<NetworkEvents> {
 
     // Send the packet to the connection
     this.sendImmediate(connection, packet);
+
+    // Disconnect the RakNet connection after sending the packet
+    setImmediate(() => connection.disconnect());
   }
 }
 

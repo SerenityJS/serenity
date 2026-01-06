@@ -1,12 +1,12 @@
 import {
   Endianness,
   Float32,
-  VarLong,
-  VarString,
-  ZigZag,
+  Int32,
   Int64,
   Uint8,
-  Int32
+  VarLong,
+  VarString,
+  ZigZag
 } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
@@ -18,14 +18,14 @@ import {
   type PermissionLevel
 } from "../../enums";
 import {
-  PropertySyncData,
-  DataItem,
-  Vector3f,
   AbilityLayer,
-  ActorLinkSet,
   ActorLink,
+  ActorLinkSet,
+  DataItem,
   NetworkItemStackDescriptor,
-  Uuid
+  PropertySyncData,
+  Uuid,
+  Vector3f
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -51,7 +51,7 @@ class AddPlayerPacket extends DataPacket {
   @Serialize(Int64, { endian: Endianness.Little })
   public uniqueEntityId!: bigint;
 
-  @Serialize(Uint8) public premissionLevel!: PermissionLevel;
+  @Serialize(Uint8) public permissionLevel!: PermissionLevel;
   @Serialize(Uint8) public commandPermission!: CommandPermissionLevel;
   @Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
   @Serialize(ActorLinkSet) public links!: Array<ActorLink>;

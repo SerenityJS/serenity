@@ -13,6 +13,7 @@ enum WorldEvent {
   EntityHit,
   EntityHurt,
   EntityDropItem,
+  EntityItemPickup,
   EffectAdd,
   EffectRemove,
   PlayerInitialized,
