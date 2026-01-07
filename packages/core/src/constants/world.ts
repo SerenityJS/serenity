@@ -1,6 +1,6 @@
 import { DimensionType } from "@serenityjs/protocol";
 
-import { WorldProperties } from "../types";
+import { WorldProperties } from "../world";
 
 const DefaultWorldProperties: WorldProperties = {
   identifier: "default",

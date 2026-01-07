@@ -15,21 +15,54 @@ import { CompoundTag, LongTag } from "@serenityjs/nbt";
 import { BiomeStorage, Chunk, SubChunk } from "../../chunk";
 import { Dimension } from "../../dimension";
 import { Serenity } from "../../../serenity";
-import {
-  DimensionProperties,
-  WorldProperties,
-  WorldProviderProperties
-} from "../../../types";
+import { WorldProviderProperties } from "../../../types";
 import { World } from "../../world";
 import { WorldInitializeSignal } from "../../../events";
 import { Structure } from "../../structure";
 import { BlockLevelStorage } from "../../../block";
 import { WorldProvider } from "../provider";
+import { DimensionProperties, WorldProperties } from "../../types";
 
 import { LevelDBKeyBuilder } from "./key-builder";
 
 class LevelDBProvider extends WorldProvider {
   public static readonly identifier: string = "leveldb";
+
+  /**
+   * The chunk version written by the provider.
+   */
+  private static readonly CHUNK_VERSION: number = 40;
+
+  /**
+   * Cached buffer for chunk version 40.
+   *
+   * This avoids re-allocating `Buffer.from([40])` for every chunk save.
+   */
+  private static readonly CHUNK_VERSION_BUFFER: Buffer = Buffer.from([
+    LevelDBProvider.CHUNK_VERSION
+  ]);
+
+  /**
+   * A reusable empty heightmap buffer (Bedrock format uses 512 bytes).
+   *
+   * This avoids allocating a new 512-byte buffer every time biomes are written.
+   */
+  private static readonly EMPTY_HEIGHTMAP: Buffer = Buffer.alloc(512);
+
+  /**
+   * Player key prefix.
+   *
+   * The provider stores players using the standard bedrock key format.
+   */
+  private static readonly PLAYER_PREFIX: string = "player_server_";
+
+  /**
+   * How often (in items) we yield back to the event loop while reading.
+   *
+   * Reading a chunk can involve many synchronous DB reads and heavy NBT parsing.
+   * Yielding prevents the server from freezing the main thread for too long.
+   */
+  private static readonly READ_YIELD_MASK: number = 15; // yield every 16 items
 
   /**
    * The path of the provider.
@@ -43,361 +76,459 @@ class LevelDBProvider extends WorldProvider {
 
   /**
    * The loaded chunks in the provider.
+   *
+   * Keyed by: Dimension -> (Chunk hash -> Chunk)
    */
   public readonly chunks = new Map<Dimension, Map<bigint, Chunk>>();
+
+  /**
+   * In-flight chunk reads to prevent duplicate reads/generations for the same chunk.
+   *
+   * Keyed by: Dimension -> (Chunk hash -> Promise<Chunk>)
+   */
+  private readonly inflight = new Map<Dimension, Map<bigint, Promise<Chunk>>>();
+
+  /**
+   * Tracks whether a cached chunk instance is fully loaded (ready).
+   *
+   * IMPORTANT:
+   * We cache a placeholder immediately so "chunk exists" is true during async yields.
+   * Without a readiness flag, another reader can grab the placeholder early and see
+   * missing subchunks.
+   */
+  private readonly chunkReady = new WeakMap<Chunk, boolean>();
 
   public constructor(path: string) {
     super();
 
-    // Set the path of the provider.
+    // Store the provider path.
     this.path = path;
 
-    // Open the database for the provider
+    // Open the LevelDB database at `<path>/db`.
     this.db = Leveldb.open(resolve(path, "db"));
   }
 
-  public onShutdown(): void {
-    // Save the world properties to the world directory.
-    // First we need to get all the dimension properties.
+  /**
+   * Yields control back to the event loop.
+   *
+   * This is used to prevent long synchronous parsing from blocking the server tick loop.
+   */
+  private yieldToMain(): Promise<void> {
+    return new Promise((resolve) => setImmediate(resolve));
+  }
+
+  /**
+   * Attempts to read a value from the database without throwing.
+   *
+   * @param key The DB key to read.
+   * @returns The value buffer, or null if missing.
+   */
+  private tryGet(key: Buffer): Buffer | null {
+    try {
+      const value = this.db.get(key) as unknown as Buffer | undefined | null;
+      return value ? value : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Reads a value from the database and returns a detached copy.
+   *
+   * Some native LevelDB bindings return Buffers backed by pooled / reused native
+   * memory. When yielding, other reads can overwrite that backing memory, causing
+   * previously "loaded" data to become corrupted or appear missing.
+   *
+   * Copying here ensures the returned Buffer is stable for the lifetime of parsing.
+   *
+   * @param key The DB key to read.
+   * @returns A copied buffer, or null if missing.
+   */
+  private safeGet(key: Buffer): Buffer | null {
+    const buffer = this.tryGet(key);
+    return buffer ? Buffer.from(buffer) : null;
+  }
+
+  /**
+   * Writes many entries in the most efficient way the DB supports.
+   *
+   * If the LevelDB wrapper supports `batch`, we use it to reduce overhead and
+   * improve write throughput. Otherwise we fall back to `put` per entry.
+   *
+   * @param entries The set of key/value entries to write.
+   */
+  private putMany(entries: Array<[Buffer, Buffer]>): void {
+    if (entries.length === 0) return;
+
+    const db = this.db as unknown as {
+      batch?: (ops: Array<{ type: "put"; key: Buffer; value: Buffer }>) => void;
+    };
+
+    if (typeof db.batch === "function") {
+      try {
+        db.batch(
+          entries.map(([key, value]) => ({
+            type: "put" as const,
+            key,
+            value
+          }))
+        );
+        return;
+      } catch {
+        // Fall back below
+      }
+    }
+
+    for (const [key, value] of entries) this.db.put(key, value);
+  }
+
+  /**
+   * Gets (or creates) the chunk cache map for a dimension.
+   */
+  private getDimensionChunkCache(dimension: Dimension): Map<bigint, Chunk> {
+    let cache = this.chunks.get(dimension);
+    if (!cache) {
+      cache = new Map();
+      this.chunks.set(dimension, cache);
+    }
+    return cache;
+  }
+
+  /**
+   * Gets (or creates) the in-flight read map for a dimension.
+   */
+  private getDimensionInflight(
+    dimension: Dimension
+  ): Map<bigint, Promise<Chunk>> {
+    let map = this.inflight.get(dimension);
+    if (!map) {
+      map = new Map();
+      this.inflight.set(dimension, map);
+    }
+    return map;
+  }
+
+  public async onShutdown(): Promise<void> {
     const dimensions: Array<DimensionProperties> = [];
 
-    // Iterate through all the dimensions in the world.
     for (const [, dimension] of this.world.dimensions) {
-      // Push the dimension properties to the array.
       dimensions.push(dimension.properties);
 
-      // Check if the dimension has a generator with a worker.
       if (dimension.generator.worker) {
-        // Terminate the worker thread.
         dimension.generator.worker.terminate();
       }
     }
 
-    // Get the world properties.
     const properties = this.world.properties;
     properties.dimensions = dimensions;
 
-    // Write the properties to the world directory.
     writeFileSync(
       resolve(this.path, "properties.json"),
       JSON.stringify(properties, null, 2)
     );
 
-    // Save all the world data.
-    this.onSave();
+    // Await saving the world.
+    await this.onSave();
 
-    // Close the database connection.
+    // Close the database.
     this.db.close();
   }
 
-  public onStartup(): void {
-    // Schedule the world to be ready after 80 ticks.
+  public async onStartup(): Promise<void> {
     const schedule = this.world.schedule(80);
 
-    // Create a new method to hold the pregeneration logic.
-    const pregenerate = () => {
-      // Pregenerate the dimensions for the world.
+    const pregenerate = async () => {
       for (const [, dimension] of this.world.dimensions) {
-        // Get the spawn position of the dimension.
-        const sx = dimension.properties.spawnPosition[0] >> 4;
-        const sz = dimension.properties.spawnPosition[2] >> 4;
+        // Fetch pregeneration options.
+        const pregeneration = dimension.properties.chunkPregeneration ?? [];
 
-        // Get the view distance of the dimension.
-        const viewDistance = dimension.viewDistance;
+        // Prepare a var to track pregenerated chunks.
+        let chunkCount = 0;
 
-        // Prepare the amount of chunks to pregenerate.
-        let chunkCount: number = 0;
+        // Iterate through each pregeneration option.
+        for (const { start, end, memoryLock } of pregeneration) {
+          // Mask to chunk coordinates.
+          const sx = start[0] >> 4;
+          const sz = start[1] >> 4;
+          const ex = end[0] >> 4;
+          const ez = end[1] >> 4;
 
-        // Iterate through the chunks to pregenerate.
-        for (let x = sx - viewDistance; x <= sx + viewDistance; x++) {
-          for (let z = sz - viewDistance; z <= sz + viewDistance; z++) {
-            // Create a new chunk instance.
-            const chunk = new Chunk(x, z, dimension.type);
+          // Iterate through each chunk in the area.
+          for (let x = sx; x <= ex; x++) {
+            for (let z = sz; z <= ez; z++) {
+              // Create a new chunk and read it.
+              let chunk = new Chunk(x, z, dimension.type);
+              chunk = await this.readChunk(chunk, dimension);
 
-            // Read the chunk from the filesystem.
-            this.readChunk(chunk, dimension);
+              // Memory lock the chunk if needed.
+              chunk.memoryLock = memoryLock ?? false;
 
-            // Increment the count of pregenerated chunks.
-            chunkCount++;
+              // Increment the pregenerated chunk count.
+              chunkCount++;
+
+              // Check if we need to yield.
+              if ((chunkCount & LevelDBProvider.READ_YIELD_MASK) === 0) {
+                await this.yieldToMain();
+              }
+            }
           }
         }
 
-        // Get the amount of entities and blocks in the dimension.
         const entityCount = dimension.entities.size;
         const blockCount = dimension.blocks.size;
 
-        // Log the amount of chunks to pregenerate.
         this.world.logger.info(
           `Successfully pre-generated §u${chunkCount}§r chunks for dimension §u${dimension.identifier}§r which contains §u${entityCount}§r entities and §u${blockCount}§r blocks.`
         );
       }
     };
 
-    // Call the pregenerate method immediately.
-    schedule.on(pregenerate);
+    schedule.on(async () => {
+      await pregenerate();
+    });
   }
 
-  public onSave(): void {
-    // Iterate through the chunks and write them to the database.
-    // Iterate through all the dimensions in the chunks map.
+  public async onSave(): Promise<void> {
+    // Iterate through each dimension and its chunks.
     for (const [dimension, chunks] of this.chunks) {
-      // Iterate through all the chunks in the dimension's chunk map.
       for (const chunk of chunks.values()) {
-        // Write the chunk to the filesystem.
-        this.writeChunk(chunk, dimension);
+        // Write the chunk.
+        await this.writeChunk(chunk, dimension);
       }
     }
 
-    // Flush the database to ensure all data is written.
+    // Ensure all data is flushed to disk.
     return this.db.flush();
   }
 
-  public readBuffer(key: string): Buffer {
-    return this.db.get(Buffer.from(key));
+  public readBuffer(key: string | Buffer): Buffer {
+    const bufferKey = Buffer.isBuffer(key) ? key : Buffer.from(key);
+    return this.db.get(bufferKey);
   }
 
-  public writeBuffer(key: string, value: Buffer): void {
-    this.db.put(Buffer.from(key), value);
-  }
-
-  public async readChunk(chunk: Chunk, dimension: Dimension): Promise<Chunk> {
-    // Check if the chunks contain the dimension.
-    if (!this.chunks.has(dimension)) {
-      this.chunks.set(dimension, new Map());
-    }
-
-    // Get the dimension chunks.
-    const chunks = this.chunks.get(dimension) as Map<bigint, Chunk>;
-
-    // Check if the cache contains the chunk.
-    if (chunks.has(chunk.hash)) return chunks.get(chunk.hash) as Chunk;
-    // Check if the leveldb contains the chunk.
-    else if (this.hasChunk(chunk.x, chunk.z, dimension)) {
-      // Iterate through the subchunks of the chunk.
-      for (let i = 0; i < Chunk.MAX_SUB_CHUNKS; i++) {
-        // Prepare an offset variable.
-        // This is used to adjust the index for overworld dimensions.
-        let offset = 0;
-
-        // Check if the dimension type is overworld.
-        if (chunk.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
-
-        // Calculate the subchunk Y coordinate.
-        const cy = i - offset;
-
-        // Attempt to read the subchunk from the database.
-        try {
-          // Read the subchunk from the database.
-          const subchunk = this.readSubChunk(chunk.x, cy, chunk.z, dimension);
-
-          // Check if the subchunk is empty.
-          if (subchunk.isEmpty()) continue;
-
-          // Push the subchunk to the chunk.
-          chunk.subchunks[i] = subchunk;
-        } catch {
-          // We can ignore any error that occurs while reading the subchunk.
-          continue;
-        }
-      }
-
-      // Read the biomes from the chunk.
-      const biomes = this.readChunkBiomes(chunk, dimension);
-
-      // Iterate through the biomes and add them to the chunk.
-      for (let i = 0; i < biomes.length; i++) {
-        // Get the corresponding subchunk and biome.
-        const subchunk = chunk.subchunks[i];
-        const biome = biomes[i];
-
-        // Check if the subchunk and biome exist.
-        if (!subchunk || !biome) continue;
-
-        // Set the biome storage of the subchunk.
-        subchunk.biomes = biome;
-      }
-
-      // Read the entities from the database.
-      const entities = this.readChunkEntities(chunk, dimension);
-
-      // Check if there are any entities in the chunk.
-      if (entities.length > 0) {
-        // Iterate through the entities and add them to the chunk.
-        for (const storage of entities) {
-          // Get the unique id of the entity.
-          const uniqueId = storage.get<LongTag>("UniqueID");
-
-          // Skip if the unique id does not exist.
-          if (!uniqueId) continue;
-
-          // Set the entity storage in the chunk.
-          chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
-        }
-      }
-
-      // Read the blocks from the chunk.
-      const blocks = this.readChunkBlocks(chunk, dimension);
-
-      // Check if there are any blocks in the chunk.
-      if (blocks.length > 0) {
-        // Iterate through the blocks and add them to the chunk.
-        for (const storage of blocks) {
-          // Set the block storage in the chunk.
-          chunk.setBlockStorage(storage.getPosition(), storage, false);
-        }
-      }
-
-      // Add the chunk to the cache.
-      chunks.set(chunk.hash, chunk);
-
-      // Return the chunk.
-      return chunk;
-    } else {
-      // Generate a new chunk if it does not exist.
-      const resultant = await dimension.generator.apply(chunk.x, chunk.z);
-
-      // Read the entities from the database.
-      const entities = this.readChunkEntities(chunk, dimension);
-
-      // Check if there are any entities in the chunk.
-      if (entities.length > 0) {
-        // Iterate through the entities and add them to the chunk.
-        for (const storage of entities) {
-          // Get the unique id of the entity.
-          const uniqueId = storage.get<LongTag>("UniqueID");
-
-          // Skip if the unique id does not exist.
-          if (!uniqueId) continue;
-
-          // Set the entity storage in the chunk.
-          chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
-        }
-      }
-
-      // Add the chunk to the cache.
-      chunks.set(chunk.hash, chunk.insert(resultant));
-
-      // Call the populate method of the dimension generator.
-      await dimension.generator.populate?.(chunk);
-
-      // Return the generated chunk.
-      return chunk;
-    }
-  }
-
-  public async writeChunk(chunk: Chunk, dimension: Dimension): Promise<void> {
-    // Get the entities that are in the chunk.
-    const entities = chunk.getAllEntityStorages();
-
-    // Write the chunk entities to the database, regardless of dirty state.
-    this.writeChunkEntities(chunk, dimension, entities);
-
-    // Get the blocks that are in the chunk.
-    const blocks = chunk
-      .getAllBlockStorages()
-      .filter((storage) => storage.size > 0); // Filter out empty block storages.
-
-    // Write the block list to the database.
-    this.writeChunkBlocks(chunk, dimension, blocks);
-
-    // Check if the chunk is empty and not dirty
-    if (chunk.isEmpty() || !chunk.dirty) return;
-
-    // Write the chunk version, in this case will be 40
-    this.writeChunkVersion(chunk.x, chunk.z, dimension, 40);
-
-    // Iterate through the chunks and write them to the database.
-    // TODO: Dimensions can have a data driven min and max subchunk value, we should use that.
-    for (let cy = 0; cy < Chunk.MAX_SUB_CHUNKS; cy++) {
-      // Prepare an offset variable.
-      // This is used to adjust the index for overworld dimensions.
-      let offset = 0;
-
-      // Check if the dimension type is overworld.
-      if (chunk.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
-
-      // Get the subchunk from the chunk.
-      const subchunk = chunk.getSubChunk(cy - offset);
-
-      // Check if the subchunk is empty.
-      if (!subchunk || subchunk.isEmpty()) continue;
-
-      // Write the subchunk to the database.
-      this.writeSubChunk(subchunk, chunk.x, cy - offset, chunk.z, dimension);
-    }
-
-    // Write the chunk biomes to the database.
-    this.writeChunkBiomes(chunk, dimension);
-
-    // Set the chunk as not dirty.
-    chunk.dirty = false;
+  public writeBuffer(key: string | Buffer, value: Buffer): void {
+    const bufferKey = Buffer.isBuffer(key) ? key : Buffer.from(key);
+    this.db.put(bufferKey, value);
   }
 
   /**
-   * Write the chunk version to the database.
-   * @param cx The chunk X coordinate.
-   * @param cz The chunk Z coordinate.
-   * @param index The dimension index.
-   * @param version The chunk version.
+   * IMPORTANT GUARANTEE:
+   * This Promise only resolves once we have attempted to read ALL subchunk indices
+   * (0..MAX_SUB_CHUNKS-1). No caller will receive a partially-loaded placeholder
+   * unless they bypass `readChunk()` and pull directly from `this.chunks`.
    */
-  public writeChunkVersion(
-    cx: number,
-    cz: number,
-    dimension: Dimension,
-    version: number
-  ): void {
-    // Create a key for the chunk version
-    const key = LevelDBKeyBuilder.buildChunkVersionKey(
-      cx,
-      cz,
+  public async readChunk(chunk: Chunk, dimension: Dimension): Promise<Chunk> {
+    const cache = this.getDimensionChunkCache(dimension);
+    const inflight = this.getDimensionInflight(dimension);
+
+    // ✅ Always prefer the in-flight promise first.
+    const existing = inflight.get(chunk.hash);
+    if (existing) return existing;
+
+    // ✅ If cached and ready, return immediately.
+    const cached = cache.get(chunk.hash);
+    if (cached) {
+      if (this.chunkReady.get(cached) === true) return cached;
+
+      // Cached but not ready => should be loading. If inflight is missing for
+      // any reason, we'll continue and load into the cached instance.
+      chunk = cached;
+    }
+
+    // Insert placeholder if needed and mark not ready.
+    if (!cache.has(chunk.hash)) cache.set(chunk.hash, chunk);
+    this.chunkReady.set(chunk, false);
+
+    const promise = (async () => {
+      await this.readChunkInternal(chunk, dimension);
+      this.chunkReady.set(chunk, true);
+      return chunk;
+    })()
+      .catch((reason) => {
+        cache.delete(chunk.hash);
+        this.chunkReady.delete(chunk);
+        throw reason;
+      })
+      .finally(() => {
+        inflight.delete(chunk.hash);
+      });
+
+    inflight.set(chunk.hash, promise);
+    return promise;
+  }
+
+  private async readChunkInternal(
+    chunk: Chunk,
+    dimension: Dimension
+  ): Promise<void> {
+    const chunkVersionKey = LevelDBKeyBuilder.buildChunkVersionKey(
+      chunk.x,
+      chunk.z,
       dimension.indexOf()
     );
 
-    // Write the chunk version to the database.
-    this.db.put(key, Buffer.from([version]));
+    const chunkExists = this.tryGet(chunkVersionKey) !== null;
+
+    if (chunkExists) {
+      const offset = chunk.type === DimensionType.Overworld ? 4 : 0;
+
+      // Attempt ALL subchunk indices (0..MAX_SUB_CHUNKS-1) regardless of failures.
+      for (let i = 0; i < Chunk.MAX_SUB_CHUNKS; i++) {
+        const cy = i - offset;
+
+        try {
+          const subchunk = this.readSubChunkOrNull(
+            chunk.x,
+            cy,
+            chunk.z,
+            dimension
+          );
+
+          // Set the subchunk if it was found.
+          if (subchunk && !subchunk.isEmpty()) chunk.setSubChunk(cy, subchunk);
+        } catch {
+          // If a single subchunk is corrupt, don't abort the whole chunk load.
+          // It will simply be treated as missing.
+        }
+
+        if ((i & 3) === 3) await this.yieldToMain();
+      }
+
+      const biomes = this.readChunkBiomes(chunk, dimension);
+
+      if (biomes.length > 0) {
+        for (let i = 0; i < biomes.length; i++) {
+          const subchunk = chunk.subchunks[i];
+          const biome = biomes[i];
+
+          if (subchunk && biome) subchunk.biomes = biome;
+
+          if ((i & 7) === 7) await this.yieldToMain();
+        }
+      }
+
+      const entities = this.readChunkEntities(chunk, dimension);
+
+      if (entities.length > 0) {
+        for (let i = 0; i < entities.length; i++) {
+          const storage = entities[i]!;
+          const uniqueId = storage.get<LongTag>("UniqueID");
+
+          if (uniqueId) {
+            chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
+          }
+
+          if ((i & 7) === 7) await this.yieldToMain();
+        }
+      }
+
+      const blocks = this.readChunkBlocks(chunk, dimension);
+
+      if (blocks.length > 0) {
+        for (let i = 0; i < blocks.length; i++) {
+          const storage = blocks[i]!;
+          chunk.setBlockStorage(storage.getPosition(), storage, false);
+
+          if ((i & 7) === 7) await this.yieldToMain();
+        }
+      }
+
+      return;
+    }
+
+    const resultant = await dimension.generator.apply(chunk.x, chunk.z);
+
+    const entities = this.readChunkEntities(chunk, dimension);
+    if (entities.length > 0) {
+      for (let i = 0; i < entities.length; i++) {
+        const storage = entities[i]!;
+        const uniqueId = storage.get<LongTag>("UniqueID");
+
+        if (uniqueId) {
+          chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
+        }
+
+        if ((i & 7) === 7) await this.yieldToMain();
+      }
+    }
+
+    chunk.insert(resultant);
+    await dimension.generator.populate?.(chunk);
   }
 
-  /**
-   * Checks if the database has a chunk.
-   * @param cx The chunk X coordinate.
-   * @param cz The chunk Z coordinate.
-   * @param dimension The dimension to check for the chunk.
-   */
-  public hasChunk(cx: number, cz: number, dimension: Dimension): boolean {
-    try {
-      // Create a key for the chunk version.
-      const key = LevelDBKeyBuilder.buildChunkVersionKey(
-        cx,
-        cz,
+  public async writeChunk(chunk: Chunk, dimension: Dimension): Promise<void> {
+    const writes: Array<[Buffer, Buffer]> = [];
+
+    const entities = chunk.getAllEntityStorages();
+    this.collectChunkEntitiesWrites(chunk, dimension, entities, writes);
+
+    const allBlocks = chunk.getAllBlockStorages();
+
+    if (allBlocks.length > 0) {
+      const nonEmptyBlocks: Array<BlockLevelStorage> = [];
+      for (const storage of allBlocks) {
+        if (storage.size > 0) nonEmptyBlocks.push(storage);
+      }
+
+      this.collectChunkBlocksWrites(chunk, dimension, nonEmptyBlocks, writes);
+    } else {
+      this.collectChunkBlocksWrites(chunk, dimension, [], writes);
+    }
+
+    if (chunk.isEmpty() || !chunk.dirty) {
+      this.putMany(writes);
+      return;
+    }
+
+    const offset = chunk.type === DimensionType.Overworld ? 4 : 0;
+
+    // Write each non-empty subchunk.
+    for (let cy = 0; cy < Chunk.MAX_SUB_CHUNKS; cy++) {
+      const subchunk = chunk.getSubChunk(cy - offset);
+      if (!subchunk || subchunk.isEmpty()) continue;
+
+      const key = LevelDBKeyBuilder.buildSubChunkKey(
+        chunk.x,
+        cy - offset,
+        chunk.z,
         dimension.indexOf()
       );
 
-      // Check if the key exists in the database.
-      const data = this.db.get(key);
-      if (data) return true;
+      const stream = new BinaryStream();
+      SubChunk.serialize(subchunk, stream, true);
 
-      // Return false if the chunk does not exist.
-      return false;
-    } catch {
-      return false;
+      writes.push([key, stream.getBuffer()]);
     }
+
+    // Write biome data.
+    this.collectChunkBiomesWrites(chunk, dimension, writes);
+
+    /**
+     * CRITICAL FIX:
+     * Write the chunk version key LAST.
+     *
+     * Your read path treats "version key exists" as "chunk exists".
+     * If putMany falls back to individual puts (no atomic batch),
+     * writing version first can make partially-written chunks look complete.
+     */
+    const versionKey = LevelDBKeyBuilder.buildChunkVersionKey(
+      chunk.x,
+      chunk.z,
+      dimension.indexOf()
+    );
+    writes.push([versionKey, LevelDBProvider.CHUNK_VERSION_BUFFER]);
+
+    this.putMany(writes);
+
+    chunk.dirty = false;
   }
 
-  /**
-   * Reads a subchunk from the database.
-   * @param cx The chunk X coordinate.
-   * @param cy The subchunk Y coordinate.
-   * @param cz The chunk Z coordinate.
-   * @param dimension The dimension to read the subchunk from.
-   * @returns The subchunk from the database.
-   */
-  public readSubChunk(
+  private readSubChunkOrNull(
     cx: number,
     cy: number,
     cz: number,
     dimension: Dimension
-  ): SubChunk {
-    // Build the subchunk key for the database.
+  ): SubChunk | null {
     const key = LevelDBKeyBuilder.buildSubChunkKey(
       cx,
       cy,
@@ -405,24 +536,26 @@ class LevelDBProvider extends WorldProvider {
       dimension.indexOf()
     );
 
-    // Deserialize the subchunk from the database.
-    const subchunk = SubChunk.from(this.db.get(key), true);
+    const buffer = this.safeGet(key);
+    if (!buffer) return null;
 
-    // Set the chunk y coordinate of the subchunk.
+    const subchunk = SubChunk.from(buffer, true);
     subchunk.index = cy;
 
-    // Return the subchunk from the database.
     return subchunk;
   }
 
-  /**
-   * Writes a subchunk to the database.
-   * @param subchunk The subchunk to write.
-   * @param cx The chunk X coordinate.
-   * @param cy The subchunk Y coordinate.
-   * @param cz The chunk Z coordinate.
-   * @param dimension The dimension to write the subchunk to.
-   */
+  public readSubChunk(
+    cx: number,
+    cy: number,
+    cz: number,
+    dimension: Dimension
+  ): SubChunk {
+    const subchunk = this.readSubChunkOrNull(cx, cy, cz, dimension);
+    if (!subchunk) throw new Error("SubChunk not found.");
+    return subchunk;
+  }
+
   public writeSubChunk(
     subchunk: SubChunk,
     cx: number,
@@ -430,7 +563,6 @@ class LevelDBProvider extends WorldProvider {
     cz: number,
     dimension: Dimension
   ): void {
-    // Create a key for the subchunk.
     const key = LevelDBKeyBuilder.buildSubChunkKey(
       cx,
       cy,
@@ -438,11 +570,9 @@ class LevelDBProvider extends WorldProvider {
       dimension.indexOf()
     );
 
-    // Serialize the subchunk to a buffer
     const stream = new BinaryStream();
     SubChunk.serialize(subchunk, stream, true);
 
-    // Write the subchunk to the database
     this.db.put(key, stream.getBuffer());
   }
 
@@ -450,50 +580,61 @@ class LevelDBProvider extends WorldProvider {
     chunk: Chunk,
     dimension: Dimension
   ): Array<CompoundTag> {
-    // Create a key for the chunk entities.
     const entityListKey = LevelDBKeyBuilder.buildEntityListKey(
       chunk,
       dimension
     );
 
-    // Attempt to read the entities from the database.
+    const listBuffer = this.safeGet(entityListKey);
+    if (!listBuffer || listBuffer.length === 0) return [];
+
     try {
-      // Create a new BinaryStream instance.
-      const stream = new BinaryStream(this.db.get(entityListKey));
+      const stream = new BinaryStream(listBuffer);
+      const entities: Array<CompoundTag> = [];
 
-      // Prepare an array to store the entities.
-      const entities = new Array<CompoundTag>();
-
-      // Read all the entities from the stream.
-      do {
-        // Read the unique identifier from the stream.
+      while (!stream.feof()) {
         const uniqueId = stream.readInt64(Endianness.Little);
-
-        // Create a key for the entity data.
         const entityKey = LevelDBKeyBuilder.buildEntityStorageKey(uniqueId);
 
-        // Read the player data from the database.
-        const buffer = this.db.get(entityKey);
+        const buffer = this.safeGet(entityKey);
+        if (!buffer) continue;
 
-        // Create a new BinaryStream instance.
         const storageStream = new BinaryStream(buffer);
+        entities.push(CompoundTag.read(storageStream));
+      }
 
-        // Read the player data from the stream.
-        const storage = CompoundTag.read(storageStream);
-
-        // Push the entity storage to the array.
-        entities.push(storage);
-      } while (!stream.feof());
-
-      // Return the entities from the database.
       return entities;
     } catch {
-      // We can ignore any error that occurs while reading the entities.
-      // This can happen if the entity list does not exist or is empty.
-
-      // Return an empty array if an error occurs.
       return [];
     }
+  }
+
+  private collectChunkEntitiesWrites(
+    chunk: Chunk,
+    dimension: Dimension,
+    entities: Array<[bigint, CompoundTag]>,
+    writes: Array<[Buffer, Buffer]>
+  ): void {
+    const entityListKey = LevelDBKeyBuilder.buildEntityListKey(
+      chunk,
+      dimension
+    );
+
+    const stream = new BinaryStream();
+
+    for (const [uniqueId, storage] of entities) {
+      stream.writeInt64(uniqueId, Endianness.Little);
+
+      const entityStorageKey =
+        LevelDBKeyBuilder.buildEntityStorageKey(uniqueId);
+
+      const storageStream = new BinaryStream();
+      CompoundTag.write(storageStream, storage);
+
+      writes.push([entityStorageKey, storageStream.getBuffer()]);
+    }
+
+    writes.push([entityListKey, stream.getBuffer()]);
   }
 
   public writeChunkEntities(
@@ -501,77 +642,56 @@ class LevelDBProvider extends WorldProvider {
     dimension: Dimension,
     entities: Array<[bigint, CompoundTag]>
   ): void {
-    // Create a key for the chunk entities.
-    const entityListKey = LevelDBKeyBuilder.buildEntityListKey(
-      chunk,
-      dimension
-    );
-
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
-
-    // Write the unique identifiers of the entities to the stream.
-    for (const [uniqueId, storage] of entities) {
-      // Write the unique identifier of the entity to the stream.
-      stream.writeInt64(uniqueId, Endianness.Little);
-
-      // Build a key for the entity storage.
-      const entityStorageKey =
-        LevelDBKeyBuilder.buildEntityStorageKey(uniqueId);
-
-      // Create a new BinaryStream instance.
-      const storageStream = new BinaryStream();
-
-      // Write the entity storage to a buffer stream.
-      CompoundTag.write(storageStream, storage);
-
-      // Write the entity storage to the database.
-      this.db.put(entityStorageKey, storageStream.getBuffer());
-    }
-
-    // Write the stream to the database.
-    this.db.put(entityListKey, stream.getBuffer());
+    const writes: Array<[Buffer, Buffer]> = [];
+    this.collectChunkEntitiesWrites(chunk, dimension, entities, writes);
+    this.putMany(writes);
   }
 
   public readChunkBlocks(
     chunk: Chunk,
     dimension: Dimension
   ): Array<BlockLevelStorage> {
-    // Create a key for the chunk blocks.
     const blockListKey = LevelDBKeyBuilder.buildBlockStorageListKey(
       chunk,
       dimension
     );
 
-    // Attempt to read the blocks from the database.
+    const buffer = this.safeGet(blockListKey);
+    if (!buffer || buffer.length === 0) return [];
+
     try {
-      // Create a new BinaryStream instance.
-      const stream = new BinaryStream(this.db.get(blockListKey));
+      const stream = new BinaryStream(buffer);
+      const blocks: Array<BlockLevelStorage> = [];
 
-      // Prepare an array to store the blocks.
-      const blocks = new Array<BlockLevelStorage>();
-
-      // Read all the blocks from the stream.
-      do {
-        // Read the compound tag from the stream.
+      while (!stream.feof()) {
         const compound = CompoundTag.read(stream);
+        blocks.push(new BlockLevelStorage(chunk, compound));
+      }
 
-        // Convert the compound tag to a BlockLevelStorage instance.
-        const storage = new BlockLevelStorage(chunk, compound);
-
-        // Push the block storage to the array.
-        blocks.push(storage);
-      } while (!stream.feof());
-
-      // Return the blocks from the database.
       return blocks;
     } catch {
-      // We can ignore any error that occurs while reading the blocks.
-      // This can happen if the block list does not exist or is empty.
-
-      // Return an empty array if an error occurs.
       return [];
     }
+  }
+
+  private collectChunkBlocksWrites(
+    chunk: Chunk,
+    dimension: Dimension,
+    blocks: Array<BlockLevelStorage>,
+    writes: Array<[Buffer, Buffer]>
+  ): void {
+    const blockListKey = LevelDBKeyBuilder.buildBlockStorageListKey(
+      chunk,
+      dimension
+    );
+
+    const stream = new BinaryStream();
+
+    for (const block of blocks) {
+      CompoundTag.write(stream, block);
+    }
+
+    writes.push([blockListKey, stream.getBuffer()]);
   }
 
   public writeChunkBlocks(
@@ -579,212 +699,180 @@ class LevelDBProvider extends WorldProvider {
     dimension: Dimension,
     blocks: Array<BlockLevelStorage>
   ): void {
-    // Create a key for the chunk blocks.
-    const blockListKey = LevelDBKeyBuilder.buildBlockStorageListKey(
-      chunk,
-      dimension
-    );
-
-    // Create a new BinaryStream instance.
-    const stream = new BinaryStream();
-
-    // Write the blocks to the stream.
-    for (const block of blocks) {
-      // Write the block storage to the stream.
-      CompoundTag.write(stream, block);
-    }
-
-    // Write the stream to the database.
-    this.db.put(blockListKey, stream.getBuffer());
+    const writes: Array<[Buffer, Buffer]> = [];
+    this.collectChunkBlocksWrites(chunk, dimension, blocks, writes);
+    this.putMany(writes);
   }
 
   public readPlayer(uuid: string): CompoundTag | null {
-    // Attempt to read the player from the database.
     try {
-      // Create a key for the player.
-      const key = `player_server_${uuid}`;
+      const key = Buffer.from(`${LevelDBProvider.PLAYER_PREFIX}${uuid}`);
+      const buffer = this.safeGet(key);
 
-      // Read the player data from the database.
-      const buffer = this.db.get(Buffer.from(key));
+      if (!buffer) return null;
 
-      // Create a new BinaryStream instance.
       const stream = new BinaryStream(buffer);
-
-      // Read the player data from the stream.
-      const data = CompoundTag.read(stream);
-
-      // Return the player data.
-      return data;
+      return CompoundTag.read(stream);
     } catch {
       return null;
     }
   }
 
   public writePlayer(uuid: string, player: CompoundTag): void {
-    // Create a new BinaryStream instance.
     const stream = new BinaryStream();
-
-    // Write the level storage data to the stream.
     CompoundTag.write(stream, player);
 
-    // Create a key for the player.
-    const key = `player_server_${uuid}`;
-
-    // Write the player data to the database.
-    this.db.put(Buffer.from(key), stream.getBuffer());
+    const key = Buffer.from(`${LevelDBProvider.PLAYER_PREFIX}${uuid}`);
+    this.db.put(key, stream.getBuffer());
   }
 
   public readChunkBiomes(
     chunk: Chunk,
     dimension: Dimension
   ): Array<BiomeStorage> {
-    // Create a key for the chunk biomes.
     const biomeListKey = LevelDBKeyBuilder.buildBiomeStorageKey(
       chunk.x,
       chunk.z,
       dimension.indexOf()
     );
 
-    // Attempt to read the biomes from the database.
+    const buffer = this.safeGet(biomeListKey);
+    if (!buffer || buffer.length === 0) return [];
+
     try {
-      // Prepare an array to store the biome storages.
-      const biomes = new Array<BiomeStorage>();
+      const biomes: Array<BiomeStorage> = [];
+      const stream = new BinaryStream(buffer);
 
-      // Create a new BinaryStream instance from the database.
-      const stream = new BinaryStream(this.db.get(biomeListKey));
+      stream.read(512);
 
-      stream.read(512); // Heightmap (not used currently)
-
-      // Iterate through the subchunks of the chunk.
       for (let i = 0; i < chunk.subchunks.length; i++) {
-        // Read the biome storage from the stream.
-        const storage = BiomeStorage.deserialize(stream, true);
-
-        // Push the biome storage to the array.
-        biomes.push(storage);
+        biomes.push(BiomeStorage.deserialize(stream, true));
       }
 
-      // Return the biome storages.
       return biomes;
     } catch {
-      // Return an empty array if an error occurs.
       return [];
     }
   }
 
-  public writeChunkBiomes(chunk: Chunk, dimension: Dimension): void {
-    // Create a key for the chunk biomes.
+  private collectChunkBiomesWrites(
+    chunk: Chunk,
+    dimension: Dimension,
+    writes: Array<[Buffer, Buffer]>
+  ): void {
     const biomeListKey = LevelDBKeyBuilder.buildBiomeStorageKey(
       chunk.x,
       chunk.z,
       dimension.indexOf()
     );
 
-    // Create a new BinaryStream instance.
     const stream = new BinaryStream();
 
-    stream.write(Buffer.alloc(512)); // Heightmap (not used currently)
+    stream.write(LevelDBProvider.EMPTY_HEIGHTMAP);
 
-    // Iterate through the subchunks of the chunk.
     for (const subchunk of chunk.subchunks) {
-      // Write the biome storage to the stream.
+      // Assumes SubChunk instances exist across the array; if not, this will throw.
+      // Keeping behavior consistent with existing code.
       BiomeStorage.serialize(subchunk.biomes, stream, true);
     }
 
-    // Write the stream to the database.
-    this.db.put(biomeListKey, stream.getBuffer());
+    writes.push([biomeListKey, stream.getBuffer()]);
+  }
+
+  public writeChunkBiomes(chunk: Chunk, dimension: Dimension): void {
+    const writes: Array<[Buffer, Buffer]> = [];
+    this.collectChunkBiomesWrites(chunk, dimension, writes);
+    this.putMany(writes);
+  }
+
+  public writeChunkVersion(
+    cx: number,
+    cz: number,
+    dimension: Dimension,
+    version: number
+  ): void {
+    const key = LevelDBKeyBuilder.buildChunkVersionKey(
+      cx,
+      cz,
+      dimension.indexOf()
+    );
+
+    if (version === LevelDBProvider.CHUNK_VERSION) {
+      this.db.put(key, LevelDBProvider.CHUNK_VERSION_BUFFER);
+      return;
+    }
+
+    this.db.put(key, Buffer.from([version]));
+  }
+
+  public hasChunk(cx: number, cz: number, dimension: Dimension): boolean {
+    const key = LevelDBKeyBuilder.buildChunkVersionKey(
+      cx,
+      cz,
+      dimension.indexOf()
+    );
+
+    return this.tryGet(key) !== null;
   }
 
   public static async initialize(
     serenity: Serenity,
     properties: WorldProviderProperties
   ): Promise<void> {
-    // Resolve the path for the worlds directory.
     const path = resolve(properties.path);
 
-    // Check if the path provided exists.
-    // If it does not exist, create the directory.
     if (!existsSync(path)) mkdirSync(path);
 
-    // Read all the directories in the world directory.
-    // Excluding file types, as a world entry is a directory.
     const directories = readdirSync(path, { withFileTypes: true }).filter(
       (dirent) => dirent.isDirectory()
     );
 
-    // Check if the directory is empty.
-    // If it is, create a new world with the default identifier.
     if (directories.length === 0) {
       serenity.registerWorld(
         await this.create(serenity, properties, { identifier: "default" })
       );
-
       return;
     }
 
-    // Iterate over the world entries in the directory.
     for (const directory of directories) {
-      // Get the path for the world.
       const worldPath = resolve(path, directory.name);
 
-      // Get the world properties.
       let properties: Partial<WorldProperties> = { identifier: directory.name };
-      if (existsSync(resolve(worldPath, "properties.json"))) {
-        // Read the properties of the world.
-        properties = JSON.parse(
-          readFileSync(resolve(worldPath, "properties.json"), "utf-8")
-        );
+      const propertiesPath = resolve(worldPath, "properties.json");
+
+      if (existsSync(propertiesPath)) {
+        properties = JSON.parse(readFileSync(propertiesPath, "utf-8"));
       }
 
-      // Check if the world directory contains a structures directory.
-      if (!existsSync(resolve(worldPath, "structures")))
-        // Create the structures directory if it does not exist.
-        mkdirSync(resolve(worldPath, "structures"));
+      const structuresPath = resolve(worldPath, "structures");
+      if (!existsSync(structuresPath)) mkdirSync(structuresPath);
 
-      // Create a new world instance.
       const world = new World(serenity, new this(worldPath), properties);
 
-      // Create a new WorldInitializedSignal instance.
       new WorldInitializeSignal(world).emit();
 
-      // Write the properties to the world.
-      writeFileSync(
-        resolve(worldPath, "properties.json"),
-        JSON.stringify(world.properties, null, 2)
-      );
+      writeFileSync(propertiesPath, JSON.stringify(world.properties, null, 2));
 
-      // Read all the structures in the world directory.
-      const files = readdirSync(resolve(worldPath, "structures"), {
+      const files = readdirSync(structuresPath, {
         withFileTypes: true
       }).filter(
-        // Filter only files that end with .mcstructure.
         (dirent) => dirent.isFile() && dirent.name.endsWith(".mcstructure")
       );
 
-      // Attempt to read the structures from the world directory.
       for (const file of files) {
         try {
-          // Create the structure from the file.
-          const path = resolve(worldPath, "structures", file.name);
+          const structurePath = resolve(structuresPath, file.name);
+          const stream = new BinaryStream(readFileSync(structurePath));
 
-          // Read the structure file.
-          const stream = new BinaryStream(readFileSync(path));
-
-          // Create a new structure instance from the file.
           const structure = Structure.from(world, CompoundTag.read(stream));
-
-          // Parse the identifier from the file name.
           const identifier = file.name.replace(/\.mcstructure$/, "");
 
-          // Add the structure to the world.
           world.structures.set(identifier, structure);
 
-          // Log a debug message indicating the structure was loaded.
           world.logger.debug(
             `Loaded structure "${identifier}" from file "${file.name}" for world "${world.properties.identifier}."`
           );
         } catch (reason) {
-          // Log the error if the structure failed to load.
           world.logger.error(
             `Failed to load structure from file ${file.name} for world ${world.properties.identifier}. Reason:`,
             reason
@@ -792,7 +880,6 @@ class LevelDBProvider extends WorldProvider {
         }
       }
 
-      // Register the world with the serenity instance.
       serenity.registerWorld(world);
     }
   }
@@ -802,45 +889,33 @@ class LevelDBProvider extends WorldProvider {
     properties: WorldProviderProperties,
     worldProperties?: Partial<WorldProperties>
   ): Promise<World> {
-    // Resolve the path for the worlds directory.
     const path = resolve(properties.path);
 
-    // Check if the path provided exists.
-    // If it does not exist, create the directory.
     if (!existsSync(path)) mkdirSync(path);
 
-    // Check if a world identifier was provided.
     if (!worldProperties?.identifier)
       throw new Error("A world identifier is required to create a new world.");
 
-    // Get the world path from the properties.
     const worldPath = resolve(path, worldProperties.identifier);
 
-    // Check if the world already exists.
     if (existsSync(worldPath))
       throw new Error(
         `World with identifier ${worldProperties.identifier} already exists in the directory.`
       );
 
-    // Create the world directory.
     mkdirSync(worldPath);
 
-    // Create a new world instance.
     const world = new World(serenity, new this(worldPath), worldProperties);
 
-    // Assign the world to the provider.
     world.provider.world = world;
 
-    // Create a new WorldInitializedSignal instance.
     new WorldInitializeSignal(world).emit();
 
-    // Create the properties file for the world.
     writeFileSync(
       resolve(worldPath, "properties.json"),
       JSON.stringify(world.properties, null, 2)
     );
 
-    // Return the created world.
     return world;
   }
 
@@ -848,38 +923,28 @@ class LevelDBProvider extends WorldProvider {
     serenity: Serenity,
     path: string
   ): Promise<World> {
-    // Resolve the path for the world directory.
     path = resolve(path);
 
-    // Check if the path provided exists.
-    // If it does not exist, throw an error.
     if (!existsSync(path))
       throw new Error(
         `World directory at path ${path} does not exist, try creating it instead.`
       );
 
-    // Get the world properties.
     let worldProperties: Partial<WorldProperties> = {};
-    if (existsSync(resolve(path, "properties.json"))) {
-      // Read the properties of the world.
-      worldProperties = JSON.parse(
-        readFileSync(resolve(path, "properties.json"), "utf-8")
-      );
+    const propertiesPath = resolve(path, "properties.json");
+
+    if (existsSync(propertiesPath)) {
+      worldProperties = JSON.parse(readFileSync(propertiesPath, "utf-8"));
     }
 
-    // Check if a world identifier was provided.
     if (!worldProperties.identifier)
       throw new Error(
         `World at path ${path} does not have a valid identifier in its properties file.`
       );
 
-    // Create a new world instance.
     const world = new World(serenity, new this(path), worldProperties);
-
-    // Create a new WorldInitializedSignal instance.
     new WorldInitializeSignal(world).emit();
 
-    // Return the loaded world.
     return world;
   }
 
@@ -888,39 +953,29 @@ class LevelDBProvider extends WorldProvider {
     path: string,
     worldProperties?: Partial<WorldProperties>
   ): Promise<World> {
-    // Resolve the path for the world directory.
     path = resolve(path);
 
-    // Check if the path provided exists.
-    // If it does exist, throw an error.
     if (existsSync(path))
       throw new Error(
         `World directory at path ${path} already exists, try loading it instead.`
       );
 
-    // Check if a world identifier was provided.
     if (!worldProperties?.identifier)
       throw new Error("A world identifier is required to create a new world.");
 
-    // Create the world directory.
     mkdirSync(path, { recursive: true });
 
-    // Create a new world instance.
     const world = new World(serenity, new this(path), worldProperties);
 
-    // Assign the world to the provider.
     world.provider.world = world;
 
-    // Create a new WorldInitializedSignal instance.
     new WorldInitializeSignal(world).emit();
 
-    // Create the properties file for the world.
     writeFileSync(
       resolve(path, "properties.json"),
       JSON.stringify(world.properties, null, 2)
     );
 
-    // Return the created world.
     return world;
   }
 }

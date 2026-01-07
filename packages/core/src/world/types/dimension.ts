@@ -1,19 +1,63 @@
 import { DimensionType, Vector3f } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../enums";
-import { Chunk } from "../../world";
+import { Chunk } from "..";
 
 interface DimensionProperties {
+  /**
+   * The identifier of the dimension.
+   */
   identifier: string;
+
+  /**
+   * The type of the dimension.
+   */
   type: DimensionType;
+
+  /**
+   * The generator used for the dimension.
+   */
   generator: string;
+
+  /**
+   * The view distance of the dimension.
+   */
   viewDistance: number;
+
+  /**
+   * The simulation distance of the dimension.
+   */
   simulationDistance: number;
+
+  /**
+   * The spawn position of the dimension.
+   */
   spawnPosition: [number, number, number];
+
+  /**
+   * The pregeneration options for the dimension.
+   */
+  chunkPregeneration?: Array<DimensionPregenerationOption>;
+}
+
+interface DimensionPregenerationOption {
+  /**
+   * The start coordinates of the pregeneration area.
+   */
+  start: [number, number];
+
+  /**
+   * The end coordinates of the pregeneration area.
+   */
+  end: [number, number];
+
+  /**
+   * Whether to lock the chunk data in memory after pregeneration.
+   */
+  memoryLock?: boolean;
 }
 
 interface EntityQueryOptions {
-
   /**
    * Filter the entities by their identifier.
    */

@@ -20,6 +20,7 @@ import {
   TickSchedule,
   VoidGenerator,
   World,
+  WorldProperties,
   type WorldProvider
 } from "./world";
 import { Player } from "./entity";
@@ -38,7 +39,6 @@ import type {
   ServerEvents,
   SerenityProperties,
   WorldEventSignals,
-  WorldProperties,
   WorldProviderProperties,
   ServerProperties
 } from "./types";
@@ -52,7 +52,7 @@ const DefaultSerenityProperties: SerenityProperties = {
   shutdownMessage: "Server is shutting down.",
   ticksPerSecond: 20,
   debugLogging: false,
-  offlineMode: false,
+  offlineMode: false
 };
 
 class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
@@ -394,10 +394,13 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         this.properties.shutdownMessage, // Use the shutdown message from the properties
         DisconnectReason.Disconnected
       );
+
+      // Remove the player from the players map
+      this.players.delete(player.connection);
     }
 
     // Shutdown all world providers
-    for (const world of this.worlds.values()) world.provider.onShutdown();
+    for (const world of this.worlds.values()) void world.provider.onShutdown();
 
     // Write the permissions to the permissions path
     if (typeof this.properties.permissions === "string")
@@ -531,7 +534,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     this.logger.debug(`Registered world: ${world.identifier}`);
 
     // Call the onStartup method of the world provider
-    world.provider.onStartup();
+    void world.provider.onStartup();
 
     // Add the world to the worlds enum
     WorldEnum.options.push(world.identifier);
@@ -557,7 +560,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     }
 
     // Call the onShutdown method of the world provider
-    world.provider.onShutdown();
+    void world.provider.onShutdown();
 
     // Remove all listeners of the world provider.
     world.removeAll();

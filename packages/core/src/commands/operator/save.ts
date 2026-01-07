@@ -9,13 +9,19 @@ const register = (world: World) => {
       // Set the permissions of the command
       registry.permissions = ["serenity.internal"];
     },
-    () => {
+    async () => {
+      // Get the start time
+      const start = Date.now();
+
       // Save the world
-      world.provider.onSave();
+      await world.provider.onSave();
+
+      // Get the end time
+      const end = Date.now();
 
       // Return a message
       return {
-        message: "World has been saved, check console for additional details."
+        message: `World saved in ${end - start}ms.`
       };
     }
   );
