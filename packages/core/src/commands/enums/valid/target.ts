@@ -211,16 +211,16 @@ class TargetEnum extends ValidEnum {
 
                 //radius
                 case "r": {
-                  const radius = Number(value)
-                  if (isNaN(radius)) return false
+                  const radius = Number(value);
+                  if (Number.isNaN(radius)) return false;
 
                   const player = pointer.state.origin as Player;
-                  if (!(player instanceof Player)) return false
+                  if (!(player instanceof Player)) return false;
 
                   const distance = entity.position
                     .subtract(player.position)
                     .length();
-                    
+
                   if (distance > radius) return false;
                   break;
                 }
