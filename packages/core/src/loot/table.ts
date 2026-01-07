@@ -3,8 +3,15 @@ import { ItemStack } from "../item";
 import { LootPool } from "./pool";
 
 class LootTable {
-  private readonly pools: Set<LootPool> = new Set();
+  /**
+   * The loot pools contained in the loot table.
+   */
+  private readonly pools: Set<LootPool>;
 
+  /**
+   * Creates a new loot table.
+   * @param pools The loot pools that will be contained in the loot table.
+   */
   public constructor(pools: Array<LootPool> | Set<LootPool>) {
     this.pools = new Set(pools);
   }
@@ -32,11 +39,13 @@ class LootTable {
    * @returns The loot resultant of the roll of every pool.
    */
   public getLoot(): Array<ItemStack> {
+    // Prepare an array to store the loot
     const loot: Array<ItemStack> = [];
 
-    for (const pool of this.pools) {
-      loot.push(...pool.roll());
-    }
+    // Roll every pool and add the results to the loot array
+    for (const pool of this.pools) loot.push(...pool.roll());
+
+    // Return the generated loot
     return loot;
   }
 }

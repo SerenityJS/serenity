@@ -40,6 +40,11 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   private sendingQueue = 0;
 
   /**
+   * The number of chunks to send in each batch.
+   */
+  private chunksBatchSize = 32;
+
+  /**
    * Sends a chunk to the player.
    * @param chunks The chunks to send to the player.
    */
@@ -50,8 +55,8 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     // Get the amount of chunks to send
     const amount = (this.sendingQueue = chunks.length);
 
-    // We want to send the chunks in batches of 8
-    const batches = Math.ceil(amount / 8);
+    // We want to send the chunks in batches to avoid overwhelming the player
+    const batches = Math.ceil(amount / this.chunksBatchSize);
 
     // Iterate over the batches
     for (let index = 0; index < batches; index++) {
@@ -59,8 +64,8 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       if (!this.entity.isAlive || dimension !== this.dimension) return;
 
       // Get the start and end index of the batch
-      const start = index * 8;
-      const end = Math.min(start + 8, amount);
+      const start = index * this.chunksBatchSize;
+      const end = Math.min(start + this.chunksBatchSize, amount);
 
       // Create a new NetworkChunkPublisherUpdatePacket
       const update = new NetworkChunkPublisherUpdatePacket();
@@ -339,6 +344,22 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   public onTeleport(): void {
     // Reset the sending queue
     if (this.sendingQueue > 0) this.sendingQueue = 0;
+  }
+
+  /**
+   * The number of chunks to send in each batch.
+   * @returns The number of chunks to send in each batch.
+   */
+  public getChunksBatchSize(): number {
+    return this.chunksBatchSize;
+  }
+
+  /**
+   * Sets the number of chunks to send in each batch.
+   * @param size The number of chunks to send in each batch.
+   */
+  public setChunksBatchSize(size: number): void {
+    this.chunksBatchSize = size;
   }
 }
 

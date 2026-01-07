@@ -65,8 +65,40 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
     // Get the enchantment list tag from the item stack's NBT
     const ench = this.item.nbt.get<ListTag<CompoundTag>>("ench");
 
+    // Create a new list tag to filter out duplicates
+    const filtered = new ListTag<CompoundTag>([], "ench");
+
+    // Track the highest level instance of this enchantment on the item already.
+    let high = 0
+
     // Check if the enchantment list tag exists
     if (ench) {
+
+      // Check for duplicate enchantments.
+      for (const tag of ench) {
+        // Get the enchantment id from the tag
+        const enchantmentId = tag.get<ShortTag>("id")?.valueOf();
+
+        // If the enchantment id matches, remove the tag
+        if (enchantmentId === id) {
+
+          // Check if the enchantment has a higher level than the one we're adding.
+          const enchantmentLevel = tag.get<ShortTag>("lvl")?.valueOf() ?? -1
+
+          // Set the new highest level to the enchantment level.
+          if (enchantmentLevel > high) {
+            high = enchantmentLevel
+          }
+
+        } else {
+          // Otherwise, add the tag to the filtered list
+          filtered.push(tag);
+        }
+      }
+
+      // No change, the enchantment already exists on the item with a value greater than or equal to as the current level.
+      if (high >= level) throw new Error("Enchantment already exists on the item.")
+
       // Create a new enchantment value
       const value = new CompoundTag();
 
@@ -75,10 +107,10 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
       value.add(new ShortTag(level, "lvl"));
 
       // Add the enchantment value to the list tag
-      ench.push(value);
+      filtered.push(value);
 
       // Set the nbt's enchantment list tag
-      this.item.nbt.set("ench", ench);
+      this.item.nbt.set("ench", filtered);
     }
   }
 
@@ -91,7 +123,7 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
     const ench = this.item.nbt.get<ListTag<CompoundTag>>("ench");
 
     // Create a new list tag to filter out the enchantment to remove
-    const fitered = new ListTag<CompoundTag>([], "ench");
+    const filtered = new ListTag<CompoundTag>([], "ench");
 
     // Check if the enchantment list tag exists
     if (ench) {
@@ -104,11 +136,11 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
         if (enchantmentId === id) continue;
 
         // Otherwise, add the tag to the filtered list
-        fitered.push(tag);
+        filtered.push(tag);
       }
 
       // Set the filtered enchantment list tag back to the item stack's NBT
-      this.item.nbt.set("ench", fitered);
+      this.item.nbt.set("ench", filtered);
     }
   }
 

@@ -11326,6 +11326,20 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:water",
+    "networkId": 9,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:lava",
+    "networkId": 11,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:brown_mushroom",
     "networkId": 39,
     "isComponentBased": false,

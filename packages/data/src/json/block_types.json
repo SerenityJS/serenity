@@ -13514,6 +13514,16 @@
     ]
   },
   {
+    "identifier": "minecraft:stonecutter",
+    "components": [],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true
+  },
+  {
     "identifier": "minecraft:stonecutter_block",
     "components": [],
     "tags": [
