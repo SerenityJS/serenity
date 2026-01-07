@@ -57,8 +57,8 @@ const DefaultDimensionProperties: DimensionProperties = {
   spawnPosition: [0, 32767, 0],
   chunkPregeneration: [
     {
-      start: [-1000, -1000],
-      end: [1000, 1000],
+      start: [-400, -400],
+      end: [400, 400],
       memoryLock: true
     }
   ]
