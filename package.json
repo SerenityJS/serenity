@@ -16,8 +16,8 @@
     "version:beta": "yarn changeset version --snapshot beta",
     "release": "yarn changeset publish",
     "release:beta": "yarn changeset publish --no-git-tag --snapshot --tag beta",
-    "bundle": "bun build --compile --packages bundle --target=bun --outfile=dist/serenityjs-latest bundle/index.ts",
-    "bundle:beta": "bun build --compile --packages bundle --target=bun --outfile=dist/serenityjs-beta bundle/index.ts",
+    "bundle": "bun build --compile --compile-autoload-package-json --packages bundle --target=bun --outfile=dist/serenityjs-latest bundle/index.ts",
+    "bundle:beta": "bun build --compile --compile-autoload-package-json --packages bundle --target=bun --outfile=dist/serenityjs-beta bundle/index.ts",
     "changeset": "changeset",
     "prepare": "husky"
   },
