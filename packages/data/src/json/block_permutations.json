@@ -40606,6 +40606,11 @@
     "state": {}
   },
   {
+    "identifier": "minecraft:stonecutter",
+    "hash": -1223440751,
+    "state": {}
+  },
+  {
     "identifier": "minecraft:creaking_heart",
     "hash": -809380911,
     "state": {

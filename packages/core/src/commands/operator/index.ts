@@ -1,4 +1,5 @@
 import Gamemode from "./gamemode";
+import Effect from "./effect";
 import Gamerule from "./gamerule";
 import Ability from "./ability";
 import Clear from "./clear";
@@ -28,6 +29,7 @@ import SETDIMENSIONSPAWN from "./setdimensionspawn";
 const OperatorCommands = [
   Gamemode,
   Gamerule,
+  Effect,
   Ability,
   Clear,
   Fill,

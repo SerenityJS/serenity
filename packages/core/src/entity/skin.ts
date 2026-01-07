@@ -15,7 +15,7 @@ class PlayerSkin {
   /**
    * The original source of the skin.
    */
-  private readonly source: SerializedSkin;
+  private source: SerializedSkin;
 
   /**
    * The custom identifier for the skin.
@@ -168,6 +168,21 @@ class PlayerSkin {
    */
   public getSerialized(): SerializedSkin {
     return this.source;
+  }
+
+  /**
+   * Sets the serialized skin.
+   * @param skin The serialized skin to set.
+   */
+  public setSerialized(skin: SerializedSkin) {
+    this.source = skin;
+  }
+
+  /**
+   * Gets the identifier of the skin.
+   */
+  public get identifier(): string {
+    return this.source.identifier;
   }
 }
 

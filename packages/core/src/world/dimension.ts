@@ -35,20 +35,18 @@ import { BlockIdentifier, EntityIdentifier } from "../enums";
 import { BlockPermutationUpdateSignal } from "../events";
 import { ItemStack } from "../item";
 import { Serenity } from "../serenity";
-import {
-  CommandResponse,
-  DimensionProperties,
-  EntityQueryOptions,
-  RawMessage,
-  RawText,
-  StructurePlaceOptions
-} from "../types";
+import { CommandResponse, RawMessage, RawText } from "../types";
 
 import { Chunk } from "./chunk";
 import { TerrainGenerator } from "./generator";
 import { TickSchedule } from "./schedule";
 import { Structure } from "./structure";
 import { World } from "./world";
+import {
+  DimensionProperties,
+  EntityQueryOptions,
+  StructurePlaceOptions
+} from "./types";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -56,7 +54,14 @@ const DefaultDimensionProperties: DimensionProperties = {
   generator: "void",
   viewDistance: 20,
   simulationDistance: 10,
-  spawnPosition: [0, 32767, 0]
+  spawnPosition: [0, 32767, 0],
+  chunkPregeneration: [
+    {
+      start: [-400, -400],
+      end: [400, 400],
+      memoryLock: true
+    }
+  ]
 };
 
 class Dimension {
@@ -802,7 +807,9 @@ class Dimension {
     const chunk = options?.chunk ?? null;
 
     const filteredEntities = options?.filterEntityId
-      ? this.entities.values().filter((entity) => entity.identifier === options?.filterEntityId)
+      ? this.entities
+          .values()
+          .filter((entity) => entity.identifier === options?.filterEntityId)
       : this.entities.values();
 
     // Filter the entities based on the options
@@ -1218,4 +1225,3 @@ class Dimension {
 }
 
 export { DefaultDimensionProperties, Dimension };
-

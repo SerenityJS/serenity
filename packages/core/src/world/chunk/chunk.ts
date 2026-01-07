@@ -101,6 +101,11 @@ export class Chunk {
   public dirty = false;
 
   /**
+   * If the chunk is memory locked (presists in memory and is not unloaded).
+   */
+  public memoryLock = false;
+
+  /**
    * Creates a new chunk.
    *
    * @param type The dimension type of the chunk.
@@ -298,6 +303,36 @@ export class Chunk {
 
     // Return the sub chunk.
     return this.subchunks[index + offset] as SubChunk;
+  }
+
+  /**
+   * Set the sub chunk at the given index.
+   * @param index The index.
+   * @param subchunk The sub chunk.
+   */
+  public setSubChunk(index: number, subchunk: SubChunk): void {
+    // Prepare an index offset.
+    // This is used to adjust the index for the overworld dimension.
+    let offset = 0;
+
+    // Check if the dimension type is overworld.
+    if (this.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
+
+    // Check if the index is out of bounds.
+    if (index + offset < 0) {
+      // Set the index to 0 & reset the offset.
+      index = offset = 0;
+    } else if (index + offset >= Chunk.MAX_SUB_CHUNKS) {
+      // Set the index to the maximum sub chunks & reset the offset.
+      index = Chunk.MAX_SUB_CHUNKS - 1;
+      offset = 0;
+    }
+
+    // Set the sub chunk.
+    this.subchunks[index + offset] = subchunk;
+
+    // Reset the cache.
+    this.cache = null;
   }
 
   /**

@@ -15,13 +15,7 @@ import {
 import Emitter from "@serenityjs/emitter";
 
 import { Serenity } from "../serenity";
-import {
-  DimensionProperties,
-  RawMessage,
-  RawText,
-  WorldEventSignals,
-  WorldProperties
-} from "../types";
+import { RawMessage, RawText, WorldEventSignals } from "../types";
 import { Entity, EntityPalette, Player } from "../entity";
 import { ItemPalette } from "../item";
 import { BlockPalette } from "../block";
@@ -37,6 +31,7 @@ import { DefaultDimensionProperties, Dimension } from "./dimension";
 import { TickSchedule } from "./schedule";
 import { Scoreboard } from "./scoreboard";
 import { Structure } from "./structure";
+import { DimensionProperties, WorldProperties } from "./types";
 
 class World extends Emitter<WorldEventSignals> {
   /**

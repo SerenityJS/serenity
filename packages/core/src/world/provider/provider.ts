@@ -2,10 +2,11 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import { BlockLevelStorage } from "../../block";
 import { Serenity } from "../../serenity";
-import { WorldProperties, WorldProviderProperties } from "../../types";
+import { WorldProviderProperties } from "../../types";
 import { Chunk } from "../chunk/chunk";
 import { Dimension } from "../dimension";
 import { World } from "../world";
+import { WorldProperties } from "../types";
 
 /**
  * The default world provider properties.
@@ -52,17 +53,17 @@ class WorldProvider {
   /**
    * Called when the provider is started.
    */
-  public onStartup(): void {}
+  public async onStartup(): Promise<void> {}
 
   /**
    * Called when the provider is shutdown.
    */
-  public onShutdown(): void {}
+  public async onShutdown(): Promise<void> {}
 
   /**
    * Called when the provider is saved.
    */
-  public onSave(): void {}
+  public async onSave(): Promise<void> {}
 
   /**
    * Reads a buffer from the provider.
@@ -208,7 +209,7 @@ class WorldProvider {
         const chunk = chunks.get(hash);
 
         // Skip if the chunk does not exist or is dirty
-        if (!chunk || chunk.dirty) return;
+        if (!chunk || chunk.dirty || chunk.memoryLock) return;
 
         // Remove the chunk from the provider's cache
         chunks.delete(hash);

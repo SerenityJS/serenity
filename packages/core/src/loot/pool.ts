@@ -1,13 +1,45 @@
 import { ItemStack } from "../item";
-import { LootEntry } from "../types";
+
+import { LootEntry } from "./entry";
 
 class LootPool {
-  private entries: Array<LootEntry> = [];
-  public rolls: number = 1;
+  /**
+   * The loot entries contained in the pool.
+   */
+  private readonly entries: Array<LootEntry> = [];
 
+  /**
+   * The number of rolls to perform when rolling the pool.
+   */
+  private rolls: number = 1;
+
+  /**
+   * Creates a new loot pool.
+   * @param entries The loot entries that will be contained in the pool.
+   * @param rolls The number of rolls to perform when rolling the pool.
+   */
   public constructor(entries: Array<LootEntry>, rolls: number) {
     this.entries = entries;
     this.rolls = rolls;
+  }
+
+  /**
+   * Gets the number of rolls of the loot pool.
+   * @returns The number of rolls of the loot pool.
+   */
+  public getRolls(): number {
+    return this.rolls;
+  }
+
+  /**
+   * Sets the number of rolls of the loot pool.
+   * @param rolls The number of rolls to set.
+   * @returns The loot pool instance.
+   */
+  public setRolls(rolls: number): this {
+    this.rolls = rolls;
+
+    return this;
   }
 
   /**
@@ -15,23 +47,34 @@ class LootPool {
    * @returns The loot items from the pool roll.
    */
   public roll(): Array<ItemStack> {
+    // Prepare an array to store the results
     const results: Array<ItemStack> = [];
+
+    // Calculate the total weight of all entries
     const totalWeight = this.entries
       .map(({ weight }) => weight)
       .reduce((a, c) => c + a);
 
-    for (let _ = 0; _ < this.rolls; _++) {
+    // Perform the rolls
+    for (let i = 0; i < this.rolls; i++) {
+      // Calculate a random weight
       const randomWeight = Math.random() * totalWeight;
       let accumulative = 0;
 
-      for (const { weight, itemStack, function: callback } of this.entries) {
+      // Find the entry that matches the random weight
+      for (const { weight, itemStack } of this.entries) {
+        // Add the weight to the accumulative
         accumulative += weight;
+
+        // Check if the random weight is less than the accumulative
         if (randomWeight < accumulative) {
-          results.push(callback?.(itemStack) ?? itemStack);
+          results.push(itemStack);
           break;
         }
       }
     }
+
+    // Return the rolled results
     return results;
   }
 
