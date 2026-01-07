@@ -1,3 +1,4 @@
+import { BaseTag } from "@serenityjs/nbt";
 import {
   BlockActorDataPacket,
   BlockFace,
@@ -9,34 +10,33 @@ import {
   UpdateBlockLayerType,
   Vector3f
 } from "@serenityjs/protocol";
-import { BaseTag } from "@serenityjs/nbt";
 
-import { Dimension, World } from "../world";
-import {
-  BlockDestroyOptions,
-  BlockInteractionOptions,
-  JSONLikeValue
-} from "../types";
-import { Chunk } from "../world/chunk";
-import {
-  ItemStackEnchantableTrait,
-  ItemStack,
-  ItemType,
-  type ItemStackOptions
-} from "../item";
 import {
   BlockIdentifier,
   BlockToolType,
   CardinalDirection,
   ItemIdentifier
 } from "../enums";
-import { Serenity } from "../serenity";
 import {
   PlayerBreakBlockSignal,
   PlayerInteractWithBlockSignal
 } from "../events";
+import {
+  ItemStack,
+  ItemStackEnchantableTrait,
+  ItemType,
+  type ItemStackOptions
+} from "../item";
+import { Serenity } from "../serenity";
+import {
+  BlockDestroyOptions,
+  BlockInteractionOptions,
+  JSONLikeValue
+} from "../types";
+import { Dimension, World } from "../world";
+import { Chunk } from "../world/chunk";
 
-import { BlockDirectionTrait, BlockTrait } from "./traits";
+import { PlayerHungerTrait } from "../entity";
 import {
   BlockPermutation,
   BlockType,
@@ -45,6 +45,7 @@ import {
   BlockTypeSelectionBoxComponent
 } from "./identity";
 import { BlockLevelStorage } from "./storage";
+import { BlockDirectionTrait, BlockTrait } from "./traits";
 import { BlockState } from "./types";
 
 /**
@@ -1003,6 +1004,14 @@ class Block {
     if (options?.origin && options.origin.isPlayer()) {
       // Create a new PlayerBreakBlockSignal
       const signal = new PlayerBreakBlockSignal(this, options.origin);
+
+      // Check if the player has the hunger trait
+      if (options.origin.hasTrait(PlayerHungerTrait)) {
+        const hungerTrait = options.origin.getTrait(PlayerHungerTrait);
+
+        // Add exhaustion to the player
+        hungerTrait.exhaustion += 0.005;
+      }
 
       // Emit the signal to the server
       options.cancel = !signal.emit();
