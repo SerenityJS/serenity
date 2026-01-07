@@ -60,9 +60,9 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     if (this.player.isSwimming) this.exhaustion += 0.125;
 
     // Check if the player is exhausted
-    if (this.exhaustion >= 5) {
+    if (this.exhaustion >= 4) {
       // Reset the exhaustion value
-      this.exhaustion -= 5;
+      this.exhaustion -= 4;
 
       // Check if the saturation is greater than 0
       if (this.saturation > 0) {
