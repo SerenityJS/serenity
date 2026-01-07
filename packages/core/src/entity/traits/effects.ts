@@ -58,6 +58,24 @@ class EntityEffectsTrait extends EntityTrait {
     this.sendPacket({ action: MobEffectEvents.EffectRemove, effectType });
   }
 
+  /**
+   * Checks if the entity has an active effect of the specified type.
+   *
+   * @param effectType - The type of the effect to check.
+   * @returns `true` if the entity has an active effect of the specified type; otherwise, `false`.
+   */
+  public hasEffect(effectType: EffectType): boolean {
+    return this.effectMap.has(effectType);
+  }
+
+  /**
+   * Retrieves all active effects on the entity.
+   * @returns An array of active effects.
+   */
+  public getEffects(): Array<EffectType> {
+    return [...this.effectMap.keys()];
+  }
+
   public addEffect(
     effectType: EffectType,
     duration: number,
