@@ -1,7 +1,15 @@
 import { EffectType } from "@serenityjs/protocol";
-import type { World } from "../../world";
-import { BooleanEnum, ClearEnum, EffectEnum, IntegerEnum, TargetEnum } from "../enums";
+
+import {
+  BooleanEnum,
+  ClearEnum,
+  EffectEnum,
+  IntegerEnum,
+  TargetEnum
+} from "../enums";
 import { EntityEffectsTrait } from "../../entity";
+
+import type { World } from "../../world";
 
 const register = (world: World) => {
   // Register the effect command
@@ -17,7 +25,7 @@ const register = (world: World) => {
         {
           target: TargetEnum,
           clear: ClearEnum,
-          effect: [EffectEnum, true],
+          effect: [EffectEnum, true]
         },
         (context) => {
           // Get the target from the context
@@ -25,27 +33,33 @@ const register = (world: World) => {
           const effect = context.effect.result;
           if (!targets) throw new Error("Invalid target.");
 
-          const effectType = EffectType[effect as keyof typeof EffectType]
+          const effectType = EffectType[effect as keyof typeof EffectType];
 
           // Create an array to hold result messages.
-          const messages: string[] = [];
+          const messages: Array<string> = [];
 
           if (effect) {
             for (const target of targets) {
-              const targetName = target.isPlayer() ? target.username : target.getNametag();
+              const targetName = target.isPlayer()
+                ? target.username
+                : target.getNametag();
 
               if (target.hasEffect(effectType)) {
                 target.removeEffect(effectType);
                 messages.push(`§fTook ${effect} from ${targetName}`);
               } else {
-                messages.push(`§cCouldn't take ${effect} from ${targetName} as they do not have the effect`);
+                messages.push(
+                  `§cCouldn't take ${effect} from ${targetName} as they do not have the effect`
+                );
               }
             }
           } else {
             for (const target of targets) {
-              const targetName = target.isPlayer() ? target.username : target.getNametag();
+              const targetName = target.isPlayer()
+                ? target.username
+                : target.getNametag();
 
-              const effects = target.getTrait(EntityEffectsTrait).getEffects()
+              const effects = target.getTrait(EntityEffectsTrait).getEffects();
               for (const effect of effects) {
                 target.removeEffect(effect);
               }
@@ -73,7 +87,7 @@ const register = (world: World) => {
           // Get the target from the context
           const targets = context.target.result;
           const effect = context.effect.result;
-          const effectType = EffectType[effect as keyof typeof EffectType]
+          const effectType = EffectType[effect as keyof typeof EffectType];
           if (!targets) throw new Error("Invalid target.");
           if (!effectType) throw new Error("Invalid effect.");
           const seconds = context.seconds?.result ?? 5;
@@ -81,16 +95,20 @@ const register = (world: World) => {
           const showParticles = !(context.hideParticles?.result ?? false);
 
           // Create an array to hold result messages.
-          const messages: string[] = [];
+          const messages: Array<string> = [];
 
           for (const target of targets) {
-            const targetName = target.isPlayer() ? target.username : target.getNametag();
+            const targetName = target.isPlayer()
+              ? target.username
+              : target.getNametag();
 
             if (target.hasEffect(effectType)) {
               target.removeEffect(effectType);
             }
             target.addEffect(effectType, seconds, { amplifier, showParticles });
-            messages.push(`§fGave ${effectType} * ${amplifier} to ${targetName} for ${seconds} seconds`);
+            messages.push(
+              `§fGave ${effectType} * ${amplifier} to ${targetName} for ${seconds} seconds`
+            );
           }
 
           // Return the message
@@ -100,7 +118,7 @@ const register = (world: World) => {
         }
       );
     },
-    () => { }
+    () => {}
   );
 };
 

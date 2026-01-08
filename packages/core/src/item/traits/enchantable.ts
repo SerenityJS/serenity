@@ -69,11 +69,10 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
     const filtered = new ListTag<CompoundTag>([], "ench");
 
     // Track the highest level instance of this enchantment on the item already.
-    let high = 0
+    let high = 0;
 
     // Check if the enchantment list tag exists
     if (ench) {
-
       // Check for duplicate enchantments.
       for (const tag of ench) {
         // Get the enchantment id from the tag
@@ -81,15 +80,13 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
 
         // If the enchantment id matches, remove the tag
         if (enchantmentId === id) {
-
           // Check if the enchantment has a higher level than the one we're adding.
-          const enchantmentLevel = tag.get<ShortTag>("lvl")?.valueOf() ?? -1
+          const enchantmentLevel = tag.get<ShortTag>("lvl")?.valueOf() ?? -1;
 
           // Set the new highest level to the enchantment level.
           if (enchantmentLevel > high) {
-            high = enchantmentLevel
+            high = enchantmentLevel;
           }
-
         } else {
           // Otherwise, add the tag to the filtered list
           filtered.push(tag);
@@ -97,7 +94,8 @@ class ItemStackEnchantableTrait extends ItemStackTrait {
       }
 
       // No change, the enchantment already exists on the item with a value greater than or equal to as the current level.
-      if (high >= level) throw new Error("Enchantment already exists on the item.")
+      if (high >= level)
+        throw new Error("Enchantment already exists on the item.");
 
       // Create a new enchantment value
       const value = new CompoundTag();
