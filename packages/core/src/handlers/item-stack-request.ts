@@ -1,4 +1,3 @@
-import { Connection } from "@serenityjs/raknet";
 import {
   ContainerName,
   FullContainerName,
@@ -16,14 +15,15 @@ import {
   ItemStackResponseResult,
   Packet
 } from "@serenityjs/protocol";
+import { Connection } from "@serenityjs/raknet";
 
-import { NetworkHandler } from "../network";
-import { ItemStack } from "../item";
 import { Player } from "../entity";
 import {
   PlayerContainerInteractionSignal,
   PlayerCraftRecipeSignal
 } from "../events";
+import { ItemStack } from "../item";
+import { NetworkHandler } from "../network";
 
 class ItemStackRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ItemStackRequest;
@@ -555,7 +555,7 @@ class ItemStackRequestHandler extends NetworkHandler {
           amount: itemStack ? itemStack.getStackSize() : 0,
           customName: itemStack ? itemStack.getDisplayName() : "",
           itemStackId: itemStack ? itemStack.networkStackId : 0,
-          durabilityCorrection: itemStack ? itemStack.getDamgeDurability() : 0,
+          durabilityCorrection: itemStack ? itemStack.getDamageDurability() : 0,
           filterCustomName: itemStack ? itemStack.getDisplayName() : ""
         }
       ]
