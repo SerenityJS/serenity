@@ -21,6 +21,27 @@ class PlayerListTrait extends PlayerTrait {
   public readonly players = new Set<string>();
 
   /**
+   * Whether the player list syncs across worlds.
+   */
+  private listSyncsAcrossWorlds = false;
+
+  /**
+   * Gets whether the player list syncs across worlds.
+   * @returns Whether the player list syncs across worlds.
+   */
+  public getListSyncsAcrossWorlds(): boolean {
+    return this.listSyncsAcrossWorlds;
+  }
+
+  /**
+   * Sets whether the player list syncs across worlds.
+   * @param value Whether the player list syncs across worlds.
+   */
+  public setListSyncsAcrossWorlds(value: boolean): void {
+    this.listSyncsAcrossWorlds = value;
+  }
+
+  /**
    * Clears the player list.
    */
   public clear(player?: Player): void {
@@ -91,30 +112,59 @@ class PlayerListTrait extends PlayerTrait {
   }
 
   public onSpawn(): void {
-    // Iterate over all players in the world
-    for (const player of this.player.world.getPlayers()) {
-      // Fetch the player list trait
-      const trait = player.getTrait(PlayerListTrait);
+    // Check if the player list should sync across worlds
+    if (this.listSyncsAcrossWorlds) {
+      // Iterate over all players in the serenity instance
+      for (const player of this.player.world.serenity.getPlayers()) {
+        // Fetch the player list trait
+        const trait = player.getTrait(PlayerListTrait);
 
-      // Add the player to the player list
-      trait.update(this.player);
+        // Add the player to the player list
+        trait.update(this.player);
 
-      // Add the other player to this player's list
-      this.update(player);
+        // Add the other player to this player's list
+        this.update(player);
+      }
+    } else {
+      // Iterate over all players in the world
+      for (const player of this.player.world.getPlayers()) {
+        // Fetch the player list trait
+        const trait = player.getTrait(PlayerListTrait);
+
+        // Add the player to the player list
+        trait.update(this.player);
+
+        // Add the other player to this player's list
+        this.update(player);
+      }
     }
   }
 
   public onDespawn(): void {
-    // Iterate over all players in the world
-    for (const player of this.player.world.getPlayers()) {
-      // Fetch the player list trait
-      const trait = player.getTrait(PlayerListTrait);
+    if (this.listSyncsAcrossWorlds) {
+      // Iterate over all players in the serenity instance
+      for (const player of this.player.world.serenity.getPlayers()) {
+        // Fetch the player list trait
+        const trait = player.getTrait(PlayerListTrait);
 
-      // Remove the player from the player list
-      trait.update(this.player, true);
+        // Remove the player from the player list
+        trait.update(this.player, true);
 
-      // Remove the other player from this player's list
-      this.update(player, true);
+        // Remove the other player from this player's list
+        this.update(player, true);
+      }
+    } else {
+      // Iterate over all players in the world
+      for (const player of this.player.world.getPlayers()) {
+        // Fetch the player list trait
+        const trait = player.getTrait(PlayerListTrait);
+
+        // Remove the player from the player list
+        trait.update(this.player, true);
+
+        // Remove the other player from this player's list
+        this.update(player, true);
+      }
     }
   }
 
