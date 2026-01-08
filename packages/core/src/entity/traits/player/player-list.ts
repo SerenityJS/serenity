@@ -6,7 +6,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { EntityIdentifier } from "../../../enums";
-import { EntityDespawnOptions, EntitySpawnOptions, Player } from "../../..";
+import { Player } from "../../..";
 
 import { PlayerTrait } from "./trait";
 
@@ -38,19 +38,36 @@ class PlayerListTrait extends PlayerTrait {
     this.player.send(remove);
   }
 
-  public update(player: Player, toRemove: boolean): void {
+  /**
+   * Updates a player in the player list.
+   * @param player The player being updated.
+   * @param shouldRemove Whether the player should be removed from the list.
+   */
+  public update(player: Player, shouldRemove?: boolean): void {
     // If a player left, we are going to remove it from the player list
-    if (toRemove) {
-      const removePacket = new PlayerListPacket();
-      removePacket.action = PlayerListAction.Remove;
-      removePacket.records = [new PlayerListRecord(player.uuid)];
+    if (shouldRemove) {
+      // Check if the player is in the player list
+      if (!this.players.has(player.uuid)) return;
+
+      // Create a new player list packet to remove the player
+      const packet = new PlayerListPacket();
+      packet.action = PlayerListAction.Remove;
+      packet.records = [new PlayerListRecord(player.uuid)];
+
+      // Remove the player from the player list
       this.players.delete(player.uuid);
-      return this.player.send(removePacket);
+
+      // Send the remove packet to the player
+      return this.player.send(packet);
     }
+
+    // Check if the player is already in the player list
+    if (this.players.has(player.uuid)) return;
+
     // If a player joined, then we are going to add it with all its information
-    const addPacket = new PlayerListPacket();
-    addPacket.action = PlayerListAction.Add;
-    addPacket.records = [
+    const packet = new PlayerListPacket();
+    packet.action = PlayerListAction.Add;
+    packet.records = [
       {
         uniqueId: player.uniqueId,
         uuid: player.uuid,
@@ -66,41 +83,39 @@ class PlayerListTrait extends PlayerTrait {
       }
     ];
 
+    // Add the player to the player list
     this.players.add(player.uuid);
-    this.player.send(addPacket);
+
+    // Send the add packet to the player
+    this.player.send(packet);
   }
 
-  public onSpawn(details: EntitySpawnOptions): void {
-    // We only want to sync all of the player list if the player is joining to the server
-    if (!details.initialSpawn) return;
+  public onSpawn(): void {
+    // Iterate over all players in the world
+    for (const player of this.player.world.getPlayers()) {
+      // Fetch the player list trait
+      const trait = player.getTrait(PlayerListTrait);
 
-    // Create a new player list packet for the players that need to be added to the player list
-    const add = new PlayerListPacket();
-    add.action = PlayerListAction.Add;
-    add.records = [];
+      // Add the player to the player list
+      trait.update(this.player);
 
-    for (const player of this.player.dimension.world.getPlayers()) {
-      if (this.players.has(player.uuid)) continue;
-      add.records.push({
-        uniqueId: player.uniqueId,
-        uuid: player.uuid,
-        xuid: player.xuid,
-        username: player.username,
-        skin: player.skin.getSerialized(),
-        platformBuild: player.clientSystemInfo.os,
-        platformChatIdentifier: "",
-        isHost: false,
-        isVisitor: false,
-        isTeacher: false,
-        locatorColor: new Color(0, 0, 0, 0)
-      });
+      // Add the other player to this player's list
+      this.update(player);
     }
-
-    this.player.send(add);
   }
 
-  public onDespawn(details: EntityDespawnOptions): void {
-    if (details.disconnected) this.clear();
+  public onDespawn(): void {
+    // Iterate over all players in the world
+    for (const player of this.player.world.getPlayers()) {
+      // Fetch the player list trait
+      const trait = player.getTrait(PlayerListTrait);
+
+      // Remove the player from the player list
+      trait.update(this.player, true);
+
+      // Remove the other player from this player's list
+      this.update(player, true);
+    }
   }
 
   public onRemove(): void {

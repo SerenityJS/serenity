@@ -3,7 +3,6 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { PlayerLeaveSignal } from "../events";
-import { PlayerListTrait } from "../entity";
 
 class DisconnectHandler extends NetworkHandler {
   public static readonly packet = Packet.Disconnect;
@@ -25,15 +24,6 @@ class DisconnectHandler extends NetworkHandler {
 
     // Get the default world from the serenity instance
     const world = this.serenity.getWorld(); // Default world
-
-    // Iterate through all players in the world and remove the player from their player lists
-    for (const player of world.getPlayers()) {
-      // Fetch the player list trait
-      const trait = player.getTrait(PlayerListTrait);
-
-      // Remove the disconnected player from the player list
-      if (trait) trait.update(player, true);
-    }
 
     // Write the player's data to the storage
     world.provider.writePlayer(player.uuid, player.getStorage());
