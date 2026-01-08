@@ -285,7 +285,7 @@ class EntityEquipmentTrait extends EntityTrait {
       return;
 
     // Iterate over the armor container slots
-    for (let slot = 0; slot < this.armor.size; slot++) {
+    for (let slot = 0; slot < this.armor.getSize(); slot++) {
       // Get the item stack from the armor container
       const itemStack = this.armor.getItem(slot);
 
@@ -308,7 +308,7 @@ class EntityEquipmentTrait extends EntityTrait {
     }
 
     // Iterate over the offhand container slots
-    for (let slot = 0; slot < this.offhand.size; slot++) {
+    for (let slot = 0; slot < this.offhand.getSize(); slot++) {
       // Get the item stack from the offhand container
       const itemStack = this.offhand.getItem(slot);
 

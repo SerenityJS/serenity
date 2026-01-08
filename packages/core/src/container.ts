@@ -12,6 +12,8 @@ import { ItemStack } from "./item";
 import { EntityContainer, type Player } from "./entity";
 import { ItemIdentifier } from "./enums";
 
+import { BlockContainer } from ".";
+
 /**
  * Represents a container.
  */
@@ -31,30 +33,6 @@ class Container {
    * If null, the container will assign a incremental identifier for each player.
    */
   public identifier: ContainerId | null = null;
-
-  /**
-   * The size of the container.
-   */
-  public get size(): number {
-    return this.storage.length;
-  }
-
-  /**
-   * The size of the container.
-   */
-  public set size(value: number) {
-    // Validate the size
-    if (value < 0) throw new Error("Container size cannot be negative.");
-
-    // Keep the existing items
-    const existingItems = this.storage.slice(0, value);
-
-    // Create a new storage array with the new size
-    this.storage = Array.from(
-      { length: value },
-      (_, i) => existingItems[i] || null
-    );
-  }
 
   /**
    * The storage of the container.
@@ -83,7 +61,9 @@ class Container {
   public constructor(type: ContainerType, size: number) {
     // Assign the properties
     this.type = type;
-    this.size = size;
+    this.setSize(size);
+
+    // Initialize the storage with null values
     this.storage = Array.from({ length: size }, () => null);
   }
 
@@ -96,13 +76,47 @@ class Container {
   }
 
   /**
+   * Checks if the container is a block container.
+   * @returns Whether the container is a block container.
+   */
+  public isBlockContainer(): this is BlockContainer {
+    return this instanceof BlockContainer;
+  }
+
+  /**
+   * Gets the size of the container.
+   * @returns The size of the container.
+   */
+  public getSize(): number {
+    return this.storage.length;
+  }
+
+  /**
+   * Sets the size of the container.
+   * @param value The new size of the container.
+   */
+  public setSize(value: number) {
+    // Validate the size
+    if (value < 0) throw new Error("Container size cannot be negative.");
+
+    // Keep the existing items
+    const existingItems = this.storage.slice(0, value);
+
+    // Create a new storage array with the new size
+    this.storage = Array.from(
+      { length: value },
+      (_, i) => existingItems[i] || null
+    );
+  }
+
+  /**
    * Gets an item from the container.
    * @param slot The slot to get the item from.
    * @returns The item in the slot.
    */
   public getItem(slot: number): ItemStack | null {
     // Modulo the slot to avoid out of bounds errors.
-    slot = slot % this.size;
+    slot = slot % this.getSize();
 
     // Return the item in the slot
     return this.storage[slot] ?? null;
@@ -115,7 +129,7 @@ class Container {
    */
   public setItem(slot: number, item: ItemStack): void {
     // Modulo the slot to avoid out of bounds errors.
-    slot = slot % this.size;
+    slot = slot % this.getSize();
 
     // Set the item in the slot
     this.storage[slot] = item;
@@ -211,7 +225,7 @@ class Container {
    */
   public removeItem(slot: number, amount: number): ItemStack | null {
     // Modulo the slot to avoid out of bounds errors.
-    slot = slot % this.size;
+    slot = slot % this.getSize();
 
     // Get the item from the slot.
     const item = this.getItem(slot);
@@ -238,7 +252,7 @@ class Container {
    */
   public takeItem(slot: number, amount: number): ItemStack | null {
     // Modulo the slot to avoid out of bounds errors.
-    slot = slot % this.size;
+    slot = slot % this.getSize();
 
     // Get the item in the slot.
     const item = this.getItem(slot);
@@ -299,8 +313,8 @@ class Container {
     otherContainer?: Container
   ): void {
     // Modulo the slots to avoid out of bounds errors.
-    slot = slot % this.size;
-    otherSlot = otherSlot % (otherContainer?.size ?? this.size);
+    slot = slot % this.getSize();
+    otherSlot = otherSlot % (otherContainer?.getSize() ?? this.getSize());
 
     // Assign the target container
     const targetContainer = otherContainer ?? this;
@@ -323,7 +337,7 @@ class Container {
    */
   public clearSlot(slot: number): void {
     // Modulo the slot to avoid out of bounds errors.
-    slot = slot % this.size;
+    slot = slot % this.getSize();
 
     // Set the slot to null.
     this.storage[slot] = null;

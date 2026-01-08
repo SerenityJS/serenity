@@ -75,7 +75,7 @@ class BlockChestTrait extends BlockInventoryTrait {
     this.block.setStorageEntry("pairlead", new IntTag(isParent ? 1 : 0));
 
     // Update the container size
-    this.container.size = isParent ? 54 : 27;
+    this.container.setSize(isParent ? 54 : 27);
   }
 
   public onUpdate(source?: Block): void {
@@ -126,7 +126,7 @@ class BlockChestTrait extends BlockInventoryTrait {
       // Check if the block is the parent
       if (this.getIsPairParent()) {
         // Move the child items from the parent container to the child container
-        for (let i = 27; i < this.container.size; i++) {
+        for (let i = 27; i < this.container.getSize(); i++) {
           // Get the item from this container
           const item = this.container.getItem(i);
 
@@ -143,7 +143,7 @@ class BlockChestTrait extends BlockInventoryTrait {
         }
       } else {
         // Move the child items from the parent container to the child container
-        for (let i = 27; i < pairedChestTrait.container.size; i++) {
+        for (let i = 27; i < pairedChestTrait.container.getSize(); i++) {
           // Get the item from this container
           const item = pairedChestTrait.container.getItem(i);
 
@@ -187,10 +187,10 @@ class BlockChestTrait extends BlockInventoryTrait {
     if (
       this.isPaired() &&
       this.getIsPairParent() &&
-      this.container.size !== 54
+      this.container.getSize() !== 54
     ) {
       // Update the container size
-      this.container.size = 54;
+      this.container.setSize(54);
     }
 
     // Check if the chest is paired and this chest is the child
@@ -221,7 +221,7 @@ class BlockChestTrait extends BlockInventoryTrait {
       const trait = paired.getTrait(BlockChestTrait);
 
       // Copy the items from the paired container to the new container
-      for (let i = 0; i < trait.container.size; i++) {
+      for (let i = 0; i < trait.container.getSize(); i++) {
         // Get the item from the paired container
         const item = trait.container.getItem(i);
 
@@ -266,7 +266,7 @@ class BlockChestTrait extends BlockInventoryTrait {
       const trait = paired.getTrait(BlockChestTrait);
 
       // Iterate through the second half of the container and move items back to the paired container
-      for (let i = 27; i < this.container.size; i++) {
+      for (let i = 27; i < this.container.getSize(); i++) {
         // Get the item from the container
         const item = this.container.getItem(i);
 
