@@ -72,9 +72,17 @@ class ItemStackFoodTrait extends ItemStackTrait {
     if (hunger.currentValue >= hunger.maximumValue && !this.canAlwaysEat)
       return;
 
-    // Increase the player's hunger and saturation
-    hunger.currentValue += this.nutrition;
-    hunger.saturation += this.nutrition * this.saturationModifier * 2;
+    // Increase the player's hunger not exceeding the maximum value
+    hunger.currentValue = Math.min(
+      hunger.currentValue + this.nutrition,
+      hunger.maximumValue
+    );
+
+    // Increase the player's saturation not exceeding 20
+    hunger.saturation = Math.min(
+      hunger.saturation + this.nutrition * this.saturationModifier,
+      20
+    );
 
     // Apply effect(s) if defined
     for (const effect of this.effects) {

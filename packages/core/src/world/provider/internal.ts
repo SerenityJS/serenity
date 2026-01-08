@@ -1,11 +1,12 @@
 import { ChunkCoords } from "@serenityjs/protocol";
 
 import { Serenity } from "../../serenity";
-import { WorldProperties, WorldProviderProperties } from "../../types";
+import { WorldProviderProperties } from "../../types";
 import { Chunk } from "../chunk";
 import { World } from "../world";
 import { Dimension } from "../dimension";
 import { EntityLevelStorage, PlayerLevelStorage } from "../../entity";
+import { WorldProperties } from "../types";
 
 import { WorldProvider } from "./provider";
 

@@ -5,10 +5,10 @@ import {
   Gamemode
 } from "@serenityjs/protocol";
 
-import { EntityIdentifier } from "../../../enums";
-import { EntityAttributeTrait, EntityHealthTrait } from "../attribute";
-import { Player } from "../../player";
 import { EntitySpawnOptions } from "../../..";
+import { EntityIdentifier } from "../../../enums";
+import { Player } from "../../player";
+import { EntityAttributeTrait, EntityHealthTrait } from "../attribute";
 
 class PlayerHungerTrait extends EntityAttributeTrait {
   public static readonly identifier = "hunger";
@@ -57,12 +57,12 @@ class PlayerHungerTrait extends EntityAttributeTrait {
 
     // Check if the player is sprinting or swimming
     if (this.player.isSprinting) this.exhaustion += 0.1;
-    if (this.player.isSwimming) this.exhaustion += 0.125;
+    if (this.player.isSwimming) this.exhaustion += 0.01;
 
     // Check if the player is exhausted
-    if (this.exhaustion >= 5) {
+    if (this.exhaustion >= 4) {
       // Reset the exhaustion value
-      this.exhaustion -= 5;
+      this.exhaustion -= 4;
 
       // Check if the saturation is greater than 0
       if (this.saturation > 0) {

@@ -12,17 +12,14 @@ import { BinaryStream } from "@serenityjs/binarystream";
 import { CompoundTag, ListTag, LongTag } from "@serenityjs/nbt";
 
 import { Serenity } from "../../serenity";
-import {
-  WorldProviderProperties,
-  WorldProperties,
-  DimensionProperties
-} from "../../types";
+import { WorldProviderProperties } from "../../types";
 import { World } from "../world";
 import { WorldInitializeSignal } from "../../events";
 import { Structure } from "../structure";
 import { Chunk } from "../chunk";
 import { Dimension } from "../dimension";
 import { BlockLevelStorage } from "../../block";
+import { DimensionProperties, WorldProperties } from "../types";
 
 import { WorldProvider } from "./provider";
 
@@ -50,7 +47,7 @@ class FileSystemProvider extends WorldProvider {
     this.path = path;
   }
 
-  public onStartup(): void {
+  public async onStartup(): Promise<void> {
     // Pregenerate the dimensions for the world.
     for (const [, dimension] of this.world.dimensions) {
       // Get the spawn position of the dimension.
@@ -88,7 +85,7 @@ class FileSystemProvider extends WorldProvider {
     }
   }
 
-  public onShutdown(): void {
+  public async onShutdown(): Promise<void> {
     // Save the world properties to the world directory.
     // First we need to get all the dimension properties.
     const dimensions: Array<DimensionProperties> = [
@@ -106,16 +103,16 @@ class FileSystemProvider extends WorldProvider {
     );
 
     // Save the provider state.
-    this.onSave();
+    await this.onSave();
   }
 
-  public onSave(): void {
+  public async onSave(): Promise<void> {
     // Iterate through all the dimensions in the chunks map.
     for (const [dimension, chunks] of this.chunks) {
       // Iterate through all the chunks in the dimension's chunk map.
       for (const chunk of chunks.values()) {
         // Write the chunk to the filesystem.
-        this.writeChunk(chunk, dimension);
+        await this.writeChunk(chunk, dimension);
       }
     }
   }

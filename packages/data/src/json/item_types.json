@@ -1089,6 +1089,36 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:glowingobsidian",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:water",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lava",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:stonecutter",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lit_redstone_lamp",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:water_bucket",
     "tags": [],
     "stackable": false,

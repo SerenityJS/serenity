@@ -425,6 +425,16 @@ class PlayerAuthInputHandler extends NetworkHandler {
               canceled: false
             };
 
+            // Emit the PlayerStartUsingItemSignal
+            const canceled = !new PlayerStartUsingItemSignal(
+              player,
+              itemStack,
+              options.method
+            ).emit();
+
+            // Assign the canceled value to the options
+            options.canceled = canceled;
+
             // Call the item onStartUse trait methods
             for (const trait of player.itemTarget.getAllTraits()) {
               // Call the trait's onStartUse method

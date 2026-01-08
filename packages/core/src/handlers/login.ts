@@ -30,14 +30,19 @@ class LoginHandler extends NetworkHandler {
     packet: LoginPacket,
     connection: Connection
   ): Promise<void> {
-    const { AuthenticationType: type, Token, Certificate } = Authentication.parse(
-      packet.tokens.identity
-    );
+    const {
+      AuthenticationType: type,
+      Token,
+      Certificate
+    } = Authentication.parse(packet.tokens.identity);
     // Decode the tokens given by the client.
     // This contains the client data, identity data, and public key.
     // Along with the players XUID, display name, and uuid.
 
-    if (type === AuthenticationType.OfflineSelfSigned && !this.serenity.properties.offlineMode)
+    if (
+      type === AuthenticationType.OfflineSelfSigned &&
+      !this.serenity.properties.offlineMode
+    )
       return void this.network.disconnectConnection(
         connection,
         "Offline mode is not supported. Please connect to xbox services",
@@ -77,7 +82,7 @@ class LoginHandler extends NetworkHandler {
 
     // Check if the player is already connected by XUID
     const existingPlayer = this.serenity.getPlayerByXuid(xid);
-    
+
     if (existingPlayer) {
       // Disconnect the existing player.
       existingPlayer.disconnect(
@@ -190,9 +195,7 @@ class LoginHandler extends NetworkHandler {
   }
 
   public static getUUIDFromUsername(username: string): string {
-    return uuidFromBytes(
-      new TextEncoder().encode(`OfflinePlayer:${username}`)
-    );
+    return uuidFromBytes(new TextEncoder().encode(`OfflinePlayer:${username}`));
   }
 
   /**
@@ -222,14 +225,14 @@ class LoginHandler extends NetworkHandler {
     identity: string;
   } {
     // Certificate is JSON: {"chain": ["jwt1", ...]}
-    const certData = JSON.parse(certificate) as { chain: string[] };
-    
+    const certData = JSON.parse(certificate) as { chain: Array<string> };
+
     // Find the token with extraData (contains player identity)
     for (const jwt of certData.chain) {
       // JWT format: header.payload.signature - we need the payload (middle part)
       const parts = jwt.split(".");
       if (parts.length !== 3) continue;
-      
+
       // Decode base64url payload
       const payload = JSON.parse(
         Buffer.from(parts[1]!, "base64url").toString("utf8")
@@ -241,7 +244,7 @@ class LoginHandler extends NetworkHandler {
         };
         identityPublicKey?: string;
       };
-      
+
       if (payload.extraData) {
         return {
           cpk: payload.identityPublicKey || "",
@@ -250,7 +253,7 @@ class LoginHandler extends NetworkHandler {
         };
       }
     }
-    
+
     throw new Error("Invalid offline certificate: missing extraData");
   }
 

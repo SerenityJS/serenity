@@ -24,7 +24,7 @@ import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
 import { ItemStack, ItemStackUseOnBlockOptions } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
-import { PlayerPlaceBlockSignal } from "../events";
+import { PlayerPlaceBlockSignal, PlayerStopUsingItemSignal } from "../events";
 import { BlockPlacementOptions } from "../types";
 import { BlockLevelStorage } from "..";
 
@@ -88,10 +88,14 @@ class InventoryTransactionHandler extends NetworkHandler {
           );
 
         // Check if the player is using an item
-        if (player.itemTarget)
+        if (player.itemTarget) {
+          // Create a new PlayerStopUsingItemSignal
+          new PlayerStopUsingItemSignal(player, player.itemTarget).emit();
+
           // Call the onRelease method for the item stack traits
           for (const trait of player.itemTarget.getAllTraits())
-            trait.onRelease?.(player);
+            trait.onStopUse?.(player, { method: ItemUseMethod.Unknown });
+        }
 
         // Set the player's item target to null
         player.itemTarget = null;

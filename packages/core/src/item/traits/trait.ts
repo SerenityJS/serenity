@@ -102,12 +102,6 @@ class ItemStackTrait extends Trait {
   ): boolean | ItemUseMethod | void;
 
   /**
-   * Called when the release action is triggered by a player.
-   * @param player The player that released the item.
-   */
-  public onRelease?(player: Player): void;
-
-  /**
    * Called when the item has been signaled to cooldown.
    * @param duration The duration of the cooldown in ticks.
    */
