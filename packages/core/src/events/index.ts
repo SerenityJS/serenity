@@ -42,3 +42,5 @@ export * from "./item-stack-damaged";
 export * from "./player-drop-experience";
 export * from "./player-edit-sign";
 export * from "./player-craft-recipe";
+export * from "./player-start-breaking-block";
+export * from "./player-stop-breaking-block";

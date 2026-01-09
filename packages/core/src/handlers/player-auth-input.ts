@@ -31,7 +31,9 @@ import {
   Player
 } from "../entity";
 import {
+  PlayerStartBreakingBlockSignal,
   PlayerStartUsingItemSignal,
+  PlayerStopBreakingBlockSignal,
   PlayerStopUsingItemSignal,
   PlayerUseItemSignal
 } from "../events";
@@ -589,6 +591,15 @@ class PlayerAuthInputHandler extends NetworkHandler {
             canceled = !success;
           }
 
+          // Emit the PlayerStartBreakingBlockSignal
+          const signalCanceled = !new PlayerStartBreakingBlockSignal(
+            player,
+            block
+          ).emit();
+
+          // If the signal was canceled, cancel the break
+          if (signalCanceled) canceled = true;
+
           // If the break was canceled, skip the block break
           if (canceled) continue;
 
@@ -732,6 +743,8 @@ class PlayerAuthInputHandler extends NetworkHandler {
             // We will ignore the result of the method
             for (const trait of block.getAllTraits())
               trait.onStopBreak?.(player);
+
+            new PlayerStopBreakingBlockSignal(player, block).emit();
 
             // Create a new LevelEventPacket for the block break
             const packet = new LevelEventPacket();

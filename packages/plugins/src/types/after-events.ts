@@ -27,6 +27,9 @@ interface PluginAfterEvents {
   afterPlayerChat?: (event: Core.PlayerChatSignal) => void;
   afterPlayerPlaceBlock?: (event: Core.PlayerPlaceBlockSignal) => void;
   afterPlayerBreakBlock?: (event: Core.PlayerBreakBlockSignal) => void;
+  afterPlayerStartBreakingBlock?: (
+    event: Core.PlayerStartBreakingBlockSignal
+  ) => void;
   afterPlayerGamemodeChange?: (event: Core.PlayerGamemodeChangeSignal) => void;
   afterPlayerAbilityUpdate?: (event: Core.PlayerAbilityUpdateSignal) => void;
   afterPlayerStartUsingItem?: (event: Core.PlayerStartUsingItemSignal) => void;

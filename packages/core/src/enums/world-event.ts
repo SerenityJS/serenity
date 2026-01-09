@@ -41,7 +41,9 @@ enum WorldEvent {
   PlayerCraftRecipe,
   BlockUpdate,
   BlockPermutationUpdate,
-  ItemStackDamaged
+  ItemStackDamaged,
+  PlayerStartBreakingBlock,
+  PlayerStopBreakingBlock
 }
 
 export { WorldEvent };

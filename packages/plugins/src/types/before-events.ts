@@ -29,6 +29,9 @@ interface PluginBeforeEvents {
   beforePlayerChat?: (event: Core.PlayerChatSignal) => boolean;
   beforePlayerPlaceBlock?: (event: Core.PlayerPlaceBlockSignal) => boolean;
   beforePlayerBreakBlock?: (event: Core.PlayerBreakBlockSignal) => boolean;
+  beforePlayerStartBreakingBlock?: (
+    event: Core.PlayerStartBreakingBlockSignal
+  ) => boolean;
   beforePlayerGamemodeChange?: (
     event: Core.PlayerGamemodeChangeSignal
   ) => boolean;

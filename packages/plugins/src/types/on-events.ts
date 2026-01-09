@@ -28,6 +28,9 @@ interface PluginOnEvents {
   onPlayerChat?: (event: Core.PlayerChatSignal) => void;
   onPlayerPlaceBlock?: (event: Core.PlayerPlaceBlockSignal) => void;
   onPlayerBreakBlock?: (event: Core.PlayerBreakBlockSignal) => void;
+  onPlayerStartBreakingBlock?: (
+    event: Core.PlayerStartBreakingBlockSignal
+  ) => void;
   onPlayerGamemodeChange?: (event: Core.PlayerGamemodeChangeSignal) => void;
   onPlayerAbilityUpdate?: (event: Core.PlayerAbilityUpdateSignal) => void;
   onPlayerStartUsingItem?: (event: Core.PlayerStartUsingItemSignal) => void;
