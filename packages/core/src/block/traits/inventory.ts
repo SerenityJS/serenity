@@ -119,7 +119,7 @@ class BlockInventoryTrait extends BlockTrait {
     const items = new ListTag<CompoundTag>();
 
     // Iterate over the container slots
-    for (let i = 0; i < this.container.size; i++) {
+    for (let i = 0; i < this.container.getSize(); i++) {
       // Get the item stack at the index
       const itemStack = this.container.getItem(i);
 
@@ -148,7 +148,7 @@ class BlockInventoryTrait extends BlockTrait {
     const items = new ListTag<CompoundTag>();
 
     // Iterate over the container slots
-    for (let i = 0; i < this.container.size; i++) {
+    for (let i = 0; i < this.container.getSize(); i++) {
       // Get the item stack at the index
       const itemStack = this.container.getItem(i);
 

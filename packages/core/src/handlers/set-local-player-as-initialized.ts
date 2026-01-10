@@ -6,7 +6,6 @@ import { Connection } from "@serenityjs/raknet";
 
 import { NetworkHandler } from "../network";
 import { PlayerInitializedSignal } from "../events";
-import { PlayerListTrait } from "../entity";
 
 class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
   public static readonly packet = Packet.SetLocalPlayerAsInitialized;
@@ -31,18 +30,6 @@ class SetLocalPlayerAsInitializedHandler extends NetworkHandler {
 
     // Spawn the player
     player.spawn({ initialSpawn: true });
-
-    // Get the world from the player
-    const world = player.world;
-
-    // Iterate through all players in the world and remove the player from their player lists
-    for (const player of world.getPlayers()) {
-      // Fetch the player list trait
-      const trait = player.getTrait(PlayerListTrait);
-
-      // Add the initialized player to the player list
-      if (trait) trait.update(player, false);
-    }
   }
 }
 

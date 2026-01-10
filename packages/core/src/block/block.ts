@@ -35,8 +35,8 @@ import {
 } from "../types";
 import { Dimension, World } from "../world";
 import { Chunk } from "../world/chunk";
-
 import { PlayerHungerTrait } from "../entity";
+
 import {
   BlockPermutation,
   BlockType,

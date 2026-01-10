@@ -57,10 +57,13 @@ class TargetEnum extends ValidEnum {
         ? pointer.state.origin.dimension
         : (pointer.state.origin as Dimension);
 
+    // Fetch the serenity instance from the origin.
+    const serenity = origin.world.serenity;
+
     // Check if the target is a player or starts with @.
     if (
       !target.startsWith("@") &&
-      !origin.getPlayers().some((x) => x.username === target)
+      !serenity.getPlayers().some((x) => x.username === target)
     )
       return new TargetEnum(null);
 
@@ -91,7 +94,7 @@ class TargetEnum extends ValidEnum {
       switch (symbol) {
         // Get all players.
         case "a": {
-          const players = origin.getPlayers().filter((player) => {
+          const players = serenity.getPlayers().filter((player) => {
             // Check if there are any queries.
             if (queries.length === 0) return true;
 
@@ -251,7 +254,7 @@ class TargetEnum extends ValidEnum {
         // Get a random player.
         case "r": {
           // Get all players that match the query.
-          const players = origin.getPlayers().filter((player) => {
+          const players = serenity.getPlayers().filter((player) => {
             // Check if there are any queries.
             if (queries.length === 0) return true;
 
@@ -321,7 +324,7 @@ class TargetEnum extends ValidEnum {
       }
     } else {
       // Filter players by username.
-      const players = origin
+      const players = serenity
         .getPlayers()
         .filter((player) => player.username === target);
 

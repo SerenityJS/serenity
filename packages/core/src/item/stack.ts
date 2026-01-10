@@ -178,7 +178,10 @@ class ItemStack {
       this.storage.setIdentifier(this.identifier);
 
       // Check if a stack size or auxiliary value was provided
-      if (options.stackSize) this.storage.setStackSize(options.stackSize);
+      if (options.stackSize)
+        this.storage.setStackSize(
+          Math.min(options.stackSize, this.maxStackSize)
+        );
       if (options.auxiliary) this.storage.setAuxiliaryValue(options.auxiliary);
     }
 

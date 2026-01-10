@@ -15,8 +15,8 @@ import {
 } from "../../../types";
 import { Entity } from "../../entity";
 import { EntityEquipmentTrait } from "../equipment";
-
 import { PlayerHungerTrait } from "../player";
+
 import { EntityAttributeTrait } from "./attribute";
 
 class EntityHealthTrait extends EntityAttributeTrait {

@@ -52,12 +52,12 @@ const register = (world: World) => {
             throw new Error("Destination must be a single entity");
 
           // Get the position from the destination
-          const position = (destination[0] as Entity).position;
+          const other = destination[0] as Entity;
 
           // Loop through all the targets
           for (const target of targets) {
             // Teleport the entity to the new location
-            target.teleport(position);
+            target.teleport(other.position, other.dimension);
           }
         }
       );

@@ -57,7 +57,7 @@ class EntityInventoryTrait extends EntityTrait {
         ? ContainerType.Inventory
         : (options?.type ?? ContainerType.Container),
       // Determine the container size
-      entity.isPlayer() ? 36 : (options?.size ?? 27)
+      entity.isPlayer() ? (options?.size ?? 36) : (options?.size ?? 27)
     );
 
     // Assign the container identifier
@@ -143,7 +143,7 @@ class EntityInventoryTrait extends EntityTrait {
     const items = new ListTag<CompoundTag>();
 
     // Iterate over the container slots
-    for (let i = 0; i < this.container.size; i++) {
+    for (let i = 0; i < this.container.getSize(); i++) {
       // Get the item stack at the index
       const itemStack = this.container.getItem(i);
 
@@ -221,7 +221,7 @@ class EntityInventoryTrait extends EntityTrait {
     this.entity.metadata.setActorMetadata(
       ActorDataId.ContainerSize,
       ActorDataType.Int,
-      this.container.size
+      this.container.getSize()
     );
   }
 
@@ -251,7 +251,7 @@ class EntityInventoryTrait extends EntityTrait {
       return;
 
     // Iterate over the container slots
-    for (let slot = 0; slot < this.container.size; slot++) {
+    for (let slot = 0; slot < this.container.getSize(); slot++) {
       // Get the item stack at the index
       const itemStack = this.container.getItem(slot);
 

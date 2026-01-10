@@ -31,23 +31,31 @@ const register = (world: World) => {
           const itemIdentifier = itemResult.includes(":")
             ? itemResult
             : `minecraft:${itemResult}`;
-          const stackSize = context.amount?.result ?? 1;
+          let stackSize = context.amount?.result ?? 1;
           const auxiliary = context.auxiliary?.result ?? 0;
 
           // Loop through the targets
           for (const target of targets) {
-            // Create the item stack
-            const itemStack = new ItemStack(itemIdentifier as ItemIdentifier, {
-              stackSize,
-              auxiliary,
-              world
-            });
-
             // Get the player's inventory
             const { container } = target.getTrait(EntityInventoryTrait);
 
-            // Add the item to the player's inventory
-            container.addItem(itemStack);
+            while (stackSize > 0) {
+              // Create the item stack
+              const itemStack = new ItemStack(
+                itemIdentifier as ItemIdentifier,
+                {
+                  stackSize,
+                  auxiliary,
+                  world
+                }
+              );
+
+              // Add the item to the player's inventory
+              container.addItem(itemStack);
+
+              // Decrement the stack size with the created item stack amount.
+              stackSize -= itemStack.getStackSize();
+            }
           }
 
           // Send the success message
