@@ -8,17 +8,17 @@ import {
 } from "@serenityjs/protocol";
 
 import { ItemTypeToolTier } from "../../enums";
+import { ItemStackDamagedSignal } from "../../events";
 import {
   ItemTypeDurabilityComponent,
   ItemTypeDurabilityDamageChance
 } from "../identity";
-import { ItemStackDamagedSignal } from "../../events";
 import { ItemStack } from "../stack";
 
 import { ItemStackEnchantableTrait } from "./enchantable";
 import { ItemStackTrait } from "./trait";
 
-import type { Entity, Player } from "../../entity";
+import { EntityInventoryTrait, type Entity, type Player } from "../../entity";
 import type {
   ItemStackUseOnEntityOptions,
   ItemStackUseOptions
@@ -252,6 +252,9 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
 
       // Check if the item stack is empty after decrementing
       if (this.item.getStackSize() > 0) this.setDamage(0); // Reset damage if still usable
+
+      const entityInventory = entity.getTrait(EntityInventoryTrait);
+      entityInventory.container.update()
     }
   }
 }
