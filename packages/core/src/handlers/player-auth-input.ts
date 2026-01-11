@@ -2,17 +2,24 @@ import {
   AbilityIndex,
   ActorFlag,
   BlockPosition,
+  ContainerName,
   CorrectPlayerMovePredictionPacket,
+  FullContainerName,
   Gamemode,
   InputData,
   ItemStackRequestActionMineBlock,
   ItemStackRequestActionType,
+  ItemStackResponseContainerInfo,
+  ItemStackResponseInfo,
+  ItemStackResponsePacket,
+  ItemStackResponseResult,
   ItemUseMethod,
   LevelEvent,
   LevelEventPacket,
   Packet,
   PlayerActionType,
   PlayerAuthInputPacket,
+  PlayerAuthItemStackRequest,
   PlayerBlockActionData,
   PredictionType,
   Rotation,
@@ -36,6 +43,7 @@ import {
   PlayerUseItemSignal
 } from "../events";
 import { TickSchedule } from "../world";
+import { ItemStack } from "..";
 
 class PlayerAuthInputHandler extends NetworkHandler {
   public static readonly packet = Packet.PlayerAuthInput;
@@ -180,6 +188,12 @@ class PlayerAuthInputHandler extends NetworkHandler {
       player.velocity.x = packet.positionDelta.x;
       player.velocity.y = packet.positionDelta.y + 0.07840000092983246; // The client has a constant gravity force, so we need to add it here
       player.velocity.z = packet.positionDelta.z;
+    }
+
+    // Check if the packet contains an item stack request
+    if (packet.itemStackRequest) {
+      // Handle the item stack request
+      this.handleItemStackRequest(player, packet.itemStackRequest);
     }
 
     // Check if the packet contains block actions
@@ -873,6 +887,139 @@ class PlayerAuthInputHandler extends NetworkHandler {
         }
       }
     }
+  }
+
+  public handleItemStackRequest(
+    player: Player,
+    request: PlayerAuthItemStackRequest
+  ): void {
+    // Create a new ItemStackResponsePacket
+    const response = new ItemStackResponsePacket();
+    response.responses = []; // Create an empty responses array
+
+    // Fast lookup by container identifier to merge slots
+    const containers = new Map<string, ItemStackResponseContainerInfo>();
+
+    // Iterate over the request actions
+    for (const action of request.actions) {
+      // Prepare a result variable
+      let result: Array<ItemStackResponseContainerInfo> | null = null;
+
+      // Handle take or place actions
+      if (action.mineBlock) {
+        // Update the result variable
+        result = this.handleMineBlockAction(player, action.mineBlock);
+      }
+
+      // If a result was obtained, create a new response info
+      if (result) {
+        // Check if there are any containers to report
+        if (result.length === 0) continue;
+
+        // Iterate through the container infos in the result
+        for (const containerInfo of result) {
+          // Prepare a unique key for the container
+          let key = `${containerInfo.fullContainerName.identifier}`;
+
+          // If there is a dynamic identifier, append it to the key
+          if (containerInfo.fullContainerName.dynamicIdentifier !== undefined) {
+            key += `:${containerInfo.fullContainerName.dynamicIdentifier}`;
+          }
+
+          // Check if the container info already exists
+          const existing = containers.get(key);
+
+          // Check if the responses already contain this container info
+          if (existing) {
+            // Merge the slots into the existing container info
+            existing.slots.push(...containerInfo.slots);
+          } else {
+            // Add the container info to the map
+            containers.set(key, containerInfo);
+          }
+        }
+      } else {
+        // Create a new ItemStackResponseInfo with an error result
+        const errorResponse = new ItemStackResponseInfo(
+          ItemStackResponseResult.Error,
+          request.clientRequestId
+        );
+
+        // Add the error response to the responses array
+        response.responses.push(errorResponse);
+
+        // Break out of the actions loop
+        break;
+      }
+    }
+
+    // Check if any containers were added
+    if (containers.size > 0) {
+      // Create a new ItemStackResponseInfo
+      const info = new ItemStackResponseInfo(
+        ItemStackResponseResult.Success,
+        request.clientRequestId,
+        Array.from(containers.values())
+      );
+
+      // Add the info to the responses array
+      response.responses.push(info);
+    }
+
+    // Send the reponse packet to the player
+    player.send(response);
+  }
+
+  public handleMineBlockAction(
+    player: Player,
+    action: ItemStackRequestActionMineBlock
+  ): Array<ItemStackResponseContainerInfo> | null {
+    // Get the source container (inventory) from the player
+    const source = player.getContainer({ identifier: ContainerName.Inventory });
+
+    // If the source container is null, return null
+    if (!source) return null;
+
+    // Get the item stack from the source container
+    const itemStack = source.getItem(action.slot);
+
+    // Build and return the container info
+    return [
+      this.buildContainerInfo(
+        {
+          identifier: ContainerName.Inventory
+        },
+        action.slot,
+        itemStack
+      )
+    ];
+  }
+
+  /**
+   * Builds the container info for the given parameters.
+   * @param containerName The full container name.
+   * @param slot The slot number.
+   * @param itemStack The item stack.
+   * @returns The container info.
+   */
+  private buildContainerInfo(
+    containerName: FullContainerName,
+    slot: number,
+    itemStack: ItemStack | null
+  ): ItemStackResponseContainerInfo {
+    return {
+      fullContainerName: containerName,
+      slots: [
+        {
+          slot: slot,
+          amount: itemStack ? itemStack.getStackSize() : 0,
+          customName: itemStack ? itemStack.getDisplayName() : "",
+          itemStackId: itemStack ? itemStack.networkStackId : 0,
+          durabilityCorrection: itemStack ? itemStack.getDamageDurability() : 0,
+          filterCustomName: itemStack ? itemStack.getDisplayName() : ""
+        }
+      ]
+    };
   }
 }
 

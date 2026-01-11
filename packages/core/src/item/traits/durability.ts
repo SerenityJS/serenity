@@ -1,4 +1,4 @@
-import { IntTag } from "@serenityjs/nbt";
+import { ByteTag, IntTag } from "@serenityjs/nbt";
 import {
   Enchantment,
   Gamemode,
@@ -13,11 +13,11 @@ import {
   ItemTypeDurabilityDamageChance
 } from "../identity";
 import { ItemStackDamagedSignal } from "../../events";
+import { ItemStack } from "../stack";
 
 import { ItemStackEnchantableTrait } from "./enchantable";
 import { ItemStackTrait } from "./trait";
 
-import type { ItemStack } from "../stack";
 import type { Entity, Player } from "../../entity";
 import type {
   ItemStackUseOnEntityOptions,
@@ -35,6 +35,9 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
    */
   public constructor(item: ItemStack) {
     super(item);
+
+    // TODO: Implement unbreakable items properly
+    this.item.nbt.add(new ByteTag(0, "Unbreakable"));
   }
 
   /**

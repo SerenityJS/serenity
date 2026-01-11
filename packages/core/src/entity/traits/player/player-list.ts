@@ -12,7 +12,6 @@ import { PlayerTrait } from "./trait";
 
 class PlayerListTrait extends PlayerTrait {
   public static readonly identifier = "player_list";
-
   public static readonly types = [EntityIdentifier.Player];
 
   /**
