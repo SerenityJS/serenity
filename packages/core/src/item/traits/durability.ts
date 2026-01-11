@@ -253,6 +253,7 @@ class ItemStackDurabilityTrait extends ItemStackTrait {
       // Check if the item stack is empty after decrementing
       if (this.item.getStackSize() > 0) this.setDamage(0); // Reset damage if still usable
 
+      if (!entity.hasTrait(EntityInventoryTrait)) return
       const entityInventory = entity.getTrait(EntityInventoryTrait);
       entityInventory.container.update()
     }
