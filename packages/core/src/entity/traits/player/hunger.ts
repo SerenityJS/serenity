@@ -1,4 +1,5 @@
 import {
+  AbilityIndex,
   ActorDamageCause,
   AttributeName,
   Difficulty,
@@ -42,8 +43,11 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     // Check if the difficulty of the world is peaceful
     if (difficulty === Difficulty.Peaceful) return;
 
+    // Get whether the player is flying
+    const isFlying = this.player.abilities.getAbility(AbilityIndex.Flying);
+
     // Check if the player is alive
-    if (!this.player.isAlive) return;
+    if (!this.player.isAlive || isFlying) return;
 
     // Get the gamemode of the player
     const gamemode = this.player.getGamemode();
