@@ -39,6 +39,19 @@ class EventSignal {
     // Return whether the signal was emitted successfully
     return world && server;
   }
+
+  /**
+   * Emits the signal instance asynchronously.
+   * @returns Whether the signal was emitted successfully; default is true.
+   */
+  public async emitAsync(): Promise<boolean> {
+    // Emit the signal in the world and server
+    const world = await this.world.emitAsync(this.identifier, this);
+    const server = await this.world.serenity.emitAsync(this.identifier, this);
+
+    // Return whether the signal was emitted successfully
+    return world && server;
+  }
 }
 
 export { EventSignal };
