@@ -77,6 +77,42 @@ export class Emitter<T> {
     return !canceled;
   }
 
+  public async emitAsync<K extends keyof T>(
+    event: K,
+    ...arguments_: ForceArray<T[K]>
+  ): Promise<boolean> {
+    const beforeHooks = this._beforeHooks.get(event) ?? [];
+    const listeners = this._listeners.get(event) ?? [];
+    const afterHooks = this._afterHooks.get(event) ?? [];
+
+    let canceled = false;
+
+    for (const hook of beforeHooks) {
+      const result = await hook(...(arguments_ as ForceArray<T[never]>));
+      if (result === false) {
+        canceled = true;
+        break;
+      }
+    }
+
+    if (!canceled) {
+      for (const listener of listeners) {
+        await listener(...(arguments_ as ForceArray<T[never]>));
+      }
+    }
+
+    const afterArgs = [...arguments_, canceled] as [
+      ...ForceArray<T[never]>,
+      boolean
+    ];
+
+    for (const hook of afterHooks) {
+      await hook(...afterArgs);
+    }
+
+    return !canceled;
+  }
+
   private _addListener<K extends keyof T, L>(
     map: Map<K, Array<L>>,
     event: K,

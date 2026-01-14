@@ -143,7 +143,7 @@ class LoginHandler extends NetworkHandler {
     this.serenity.players.set(connection, player);
 
     // Create a new PlayerJoinSignal
-    const signal = new PlayerJoinSignal(player).emit();
+    const signal = await new PlayerJoinSignal(player).emitAsync();
 
     // Check if the signal was cancelled.
     if (!signal)
