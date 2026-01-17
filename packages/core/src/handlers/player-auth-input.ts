@@ -462,6 +462,9 @@ class PlayerAuthInputHandler extends NetworkHandler {
             // Check if the item stack has use modifiers
             if (options.canceled) continue;
 
+            // Set the using item flag for the player
+            player.flags.setActorFlag(ActorFlag.UsingItem, true);
+
             // Check if the item stack has use modifiers
             if (itemStack.components.hasUseModifiers()) {
               // Get the use modifiers from the item stack

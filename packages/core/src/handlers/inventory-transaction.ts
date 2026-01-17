@@ -1,4 +1,5 @@
 import {
+  ActorFlag,
   BlockPosition,
   ComplexInventoryTransaction,
   Gamemode,
@@ -91,6 +92,9 @@ class InventoryTransactionHandler extends NetworkHandler {
         if (player.itemTarget) {
           // Create a new PlayerStopUsingItemSignal
           new PlayerStopUsingItemSignal(player, player.itemTarget).emit();
+
+          // Unset the UsingItem actor flag
+          player.flags.setActorFlag(ActorFlag.UsingItem, false);
 
           // Call the onRelease method for the item stack traits
           for (const trait of player.itemTarget.getAllTraits())
