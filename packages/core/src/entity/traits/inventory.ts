@@ -117,7 +117,7 @@ class EntityInventoryTrait extends EntityTrait {
 
   public onTick(): void {
     // Check if the container has occupants and the entity is not opened
-    if (!this.opened && this.container.occupants.size > 0) {
+    if (!this.opened && this.container.getAllOccupants().length > 0) {
       // Set the enity state to open
       this.opened = true;
 
@@ -125,8 +125,8 @@ class EntityInventoryTrait extends EntityTrait {
       this.onOpen();
     }
 
-    // Check if the container has no occupants
-    if (this.opened && this.container.occupants.size === 0) {
+    // Check if the container has no getAllOccupants()
+    if (this.opened && this.container.getAllOccupants().length === 0) {
       // Set the entity state to closed
       this.opened = false;
 

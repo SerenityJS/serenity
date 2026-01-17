@@ -21,7 +21,7 @@ class Container {
   /**
    * The occupants of the container.
    */
-  public readonly occupants = new Map<Player, number>();
+  private readonly occupants = new Map<Player, number>();
 
   /**
    * The type of the container.
@@ -368,6 +368,7 @@ class Container {
     for (const [player, identifier] of this.occupants) {
       // Set the container id of the packet.
       packet.containerId = identifier;
+
       // Send the packet to the player.
       player.send(packet);
     }
@@ -485,6 +486,14 @@ class Container {
       // Iterate over the traits of the item and call the onContainerClose method.
       for (const trait of item.getAllTraits()) trait.onContainerClose?.(player);
     }
+  }
+
+  /**
+   * Get all occupants of the container.
+   * @returns An array of tuples containing the player and their container identifier.
+   */
+  public getAllOccupants(): Array<[Player, number]> {
+    return Array.from(this.occupants.entries());
   }
 
   /**

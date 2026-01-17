@@ -50,20 +50,29 @@ class EntityContainer extends Container {
   public clearSlot(slot: number): void {
     // Call the original clearSlot method
     super.clearSlot(slot);
+
+    // Update the slot for the player
+    if (this.entity.isPlayer()) this.updateSlot(slot);
   }
 
   public clear(): void {
     // Call the original clear method
     super.clear();
+
+    // Update the container for the player
+    if (this.entity.isPlayer()) this.update();
   }
 
   public updateSlot(slot: number): void {
     // Call the original updateSlot method
     super.updateSlot(slot);
+
+    // Check if the entity is a player
     if (this.entity.isPlayer()) {
       // Create a new InventorySlotPacket.
       const packet = new InventorySlotPacket();
       const itemStack = this.storage.at(slot);
+
       // Set properties of the packet.
       packet.slot = slot;
       packet.item = itemStack
@@ -72,6 +81,7 @@ class EntityContainer extends Container {
       packet.fullContainerName = new FullContainerName(0, 0);
       packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
       packet.containerId = this.identifier ?? ContainerId.None;
+
       // Send the packet to the player.
       this.entity.send(packet);
     }
@@ -87,11 +97,8 @@ class EntityContainer extends Container {
       const packet = new InventoryContentPacket();
 
       // Set the properties of the packet.
-      packet.containerId =
-        this.type === ContainerType.Inventory
-          ? ContainerId.Inventory
-          : ContainerId.Ui;
       packet.fullContainerName = new FullContainerName(0, 0);
+      packet.containerId = this.identifier ?? ContainerId.None;
       packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
       // Map the items in the storage to network item stack descriptors.

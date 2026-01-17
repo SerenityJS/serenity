@@ -137,7 +137,7 @@ class BlockChestTrait extends BlockInventoryTrait {
         }
 
         // Close the container for all occupants
-        for (const [occupant] of this.container.occupants) {
+        for (const [occupant] of this.container.getAllOccupants()) {
           // Close the container for each occupant
           this.container.close(occupant);
         }
@@ -154,7 +154,7 @@ class BlockChestTrait extends BlockInventoryTrait {
         }
 
         // Close the container for all occupants of the paired chest
-        for (const [occupant] of pairedChestTrait.container.occupants) {
+        for (const [occupant] of pairedChestTrait.container.getAllOccupants()) {
           // Close the container for each occupant
           pairedChestTrait.container.close(occupant);
         }
@@ -171,7 +171,7 @@ class BlockChestTrait extends BlockInventoryTrait {
       }
     } else {
       // Close the container for all occupants
-      for (const [occupant] of this.container.occupants) {
+      for (const [occupant] of this.container.getAllOccupants()) {
         // Close the container for each occupant
         this.container.close(occupant);
       }

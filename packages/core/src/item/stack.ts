@@ -921,12 +921,13 @@ class ItemStack {
   /**
    * Creates a new item stack from another item stack.
    * @param other The other item stack to copy from.
+   * @param stackSize Optional stack size for the new item stack. If not provided, the stack size of the other item stack will be used.
    * @returns A new item stack instance with the same properties as the other item stack.
    */
-  public static from(other: ItemStack): ItemStack {
+  public static from(other: ItemStack, stackSize?: number): ItemStack {
     // Create a new item stack from the other item stack.
     const itemStack = new ItemStack(other.type, {
-      stackSize: other.getStackSize(),
+      stackSize: stackSize ?? other.getStackSize(),
       auxiliary: other.getAuxiliaryValue(),
       world: other.world,
       storage: other.storage

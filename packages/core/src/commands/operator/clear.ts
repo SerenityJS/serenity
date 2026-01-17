@@ -1,5 +1,5 @@
 import { IntegerEnum, ItemEnum, TargetEnum } from "../enums";
-import { EntityInventoryTrait, type Entity } from "../../entity";
+import { Entity, EntityInventoryTrait } from "../../entity";
 
 import type { World } from "../../world";
 
@@ -15,14 +15,14 @@ const register = (world: World) => {
       // Create an overload for the command
       registry.overload(
         {
-          target: TargetEnum,
+          target: [TargetEnum, true],
           item: [ItemEnum, true],
           auxiliary: [IntegerEnum, true],
           amount: [IntegerEnum, true]
         },
         (context) => {
           // Get the targets from the context
-          const targets = context.target.result as Array<Entity>;
+          const targets = context.target.result ?? [];
 
           // Get the result of the item, amount, and auxiliary
           const itemResult = context.item?.result as string | undefined;
@@ -33,8 +33,13 @@ const register = (world: World) => {
           const itemAmount = context.amount?.result;
           let itemCount = 0;
 
-          if (targets.length === 0) {
-            return { message: "No targets matched selector" };
+          // Check if no targets were specified and the origin is an entity
+          if (targets.length === 0 && context.origin instanceof Entity) {
+            // Push the origin to the targets array
+            targets.push(context.origin);
+          } else if (targets.length === 0) {
+            // Throw an error if no valid targets were specified
+            throw new Error("No valid targets specified.");
           }
 
           for (const target of targets) {
