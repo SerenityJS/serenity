@@ -161,7 +161,10 @@ class Offline {
 
     // Check if the requested port matches the server port
     // This is a unlikely scenario, but it is possible
-    if (request.address.port !== this.server.port) {
+    if (
+      this.server.properties.validatePort && // Check if port validation is enabled
+      request.address.port !== this.server.port
+    ) {
       // Log a warning message for the mismatched port
       return this.server.logger.warn(
         `Refusing connection from ${rinfo.address}:${rinfo.port} due to mismatched port.`

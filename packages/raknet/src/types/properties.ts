@@ -38,6 +38,11 @@ interface RaknetServerProperties {
    * The max mtu size of the server.
    */
   mtuMinSize: number;
+
+  /**
+   * Whether to validate the port of incoming connections and its packets.
+   */
+  validatePort: boolean;
 }
 
 export { RaknetServerProperties };

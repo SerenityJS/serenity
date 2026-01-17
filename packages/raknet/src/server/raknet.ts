@@ -24,7 +24,8 @@ const DefaultRaknetServerProperties: RaknetServerProperties = {
   message: "Raknet Server",
   maxConnections: 40,
   mtuMaxSize: MAX_MTU_SIZE,
-  mtuMinSize: MIN_MTU_SIZE
+  mtuMinSize: MIN_MTU_SIZE,
+  validatePort: true
 };
 
 /**
