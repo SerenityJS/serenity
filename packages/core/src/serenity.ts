@@ -158,6 +158,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public constructor(properties?: Partial<ServerProperties>) {
     super();
 
+    // Set an error handler for the emitter
+    this.onError((error) =>
+      this.logger.error("An error occurred while emitting an event:", error)
+    );
+
     // Check if a properties path is provided
     if (properties?.path) {
       // Read the properties from the provided path

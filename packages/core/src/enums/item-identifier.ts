@@ -1258,7 +1258,7 @@ export enum ItemIdentifier {
   CodBucket = "minecraft:cod_bucket",
   WitherSpawnEgg = "minecraft:wither_spawn_egg",
   PufferfishBucket = "minecraft:pufferfish_bucket",
-  Skull = "minecraft:skull",
+  SkeletonSkull = "minecraft:skelenton_skull",
   HeartPotterySherd = "minecraft:heart_pottery_sherd",
   Bell = "minecraft:bell",
   Anvil = "minecraft:anvil",

@@ -29,7 +29,14 @@ export class Emitter<T> {
     { event: keyof T; path: string }
   >();
 
-  public constructor(private _maxListeners = 10) {}
+  public constructor(
+    private _maxListeners = 10,
+    onError: Listener<[Error]> | null = null
+  ) {
+    this.errorCallback = onError;
+  }
+
+  private errorCallback: Listener<[Error]> | null = null;
 
   public get maxListeners(): number {
     return this._maxListeners;
@@ -37,6 +44,10 @@ export class Emitter<T> {
 
   public set maxListeners(value: number) {
     this._maxListeners = value;
+  }
+
+  public onError(callback: Listener<[Error]> | null): void {
+    this.errorCallback = callback;
   }
 
   public emit<K extends keyof T>(
@@ -50,16 +61,32 @@ export class Emitter<T> {
     let canceled = false;
 
     for (const hook of beforeHooks) {
-      const result = hook(...(arguments_ as ForceArray<T[never]>));
-      if (result === false) {
-        canceled = true;
-        break;
+      try {
+        const result = hook(...(arguments_ as ForceArray<T[never]>));
+        if (result === false) {
+          canceled = true;
+          break;
+        }
+      } catch (reason) {
+        if (this.errorCallback) {
+          this.errorCallback(reason as Error);
+        } else {
+          throw reason;
+        }
       }
     }
 
     if (!canceled) {
       for (const listener of listeners) {
-        listener(...(arguments_ as ForceArray<T[never]>));
+        try {
+          listener(...(arguments_ as ForceArray<T[never]>));
+        } catch (reason) {
+          if (this.errorCallback) {
+            this.errorCallback(reason as Error);
+          } else {
+            throw reason;
+          }
+        }
       }
     }
 
@@ -70,7 +97,15 @@ export class Emitter<T> {
 
     process.nextTick(() => {
       for (const hook of afterHooks) {
-        hook(...afterArgs);
+        try {
+          hook(...afterArgs);
+        } catch (reason) {
+          if (this.errorCallback) {
+            this.errorCallback(reason as Error);
+          } else {
+            throw reason;
+          }
+        }
       }
     });
 

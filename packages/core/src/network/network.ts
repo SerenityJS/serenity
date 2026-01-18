@@ -140,6 +140,14 @@ class Network extends Emitter<NetworkEvents> {
   ) {
     super();
 
+    // Set an error handler for the emitter
+    this.onError((error) =>
+      this.logger.error(
+        "An error occurred while emitting a network event:",
+        error
+      )
+    );
+
     // Assign the serenity instance to the network
     this.serenity = serenity;
 
