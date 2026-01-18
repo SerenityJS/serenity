@@ -231,7 +231,10 @@ class InventoryTransactionHandler extends NetworkHandler {
         }
 
         // Check if the client prediction failed to place the block
-        if (transaction.clientPrediction === PredictedResult.Failure) {
+        if (
+          !placingBlock || // If not placing a block, we use the item on the block
+          transaction.clientPrediction === PredictedResult.Failure
+        ) {
           // Verify that the item stack exists
           if (!stack) return;
 
