@@ -40,11 +40,6 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   private sendingQueue = 0;
 
   /**
-   * The number of chunks to send in each batch.
-   */
-  private chunksBatchSize = 32;
-
-  /**
    * The last chunk position where we sent a NetworkChunkPublisherUpdatePacket.
    * Used to detect when the player has moved significantly.
    */
@@ -67,7 +62,7 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     const amount = (this.sendingQueue = chunks.length);
 
     // We want to send the chunks in batches to avoid overwhelming the player
-    const batches = Math.ceil(amount / this.chunksBatchSize);
+    const batches = Math.ceil(amount / this.viewDistance);
 
     // Iterate over the batches
     for (let index = 0; index < batches; index++) {
@@ -75,8 +70,8 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       if (!this.entity.isAlive || dimension !== this.dimension) return;
 
       // Get the start and end index of the batch
-      const start = index * this.chunksBatchSize;
-      const end = Math.min(start + this.chunksBatchSize, amount);
+      const start = index * this.viewDistance;
+      const end = Math.min(start + this.viewDistance, amount);
 
       // Create an array to hold the packets to send
       const packets: Array<DataPacket> = [];
@@ -445,16 +440,16 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * The number of chunks to send in each batch.
    * @returns The number of chunks to send in each batch.
    */
-  public getChunksBatchSize(): number {
-    return this.chunksBatchSize;
+  public getviewDistance(): number {
+    return this.viewDistance;
   }
 
   /**
    * Sets the number of chunks to send in each batch.
    * @param size The number of chunks to send in each batch.
    */
-  public setChunksBatchSize(size: number): void {
-    this.chunksBatchSize = size;
+  public setviewDistance(size: number): void {
+    this.viewDistance = size;
   }
 }
 
