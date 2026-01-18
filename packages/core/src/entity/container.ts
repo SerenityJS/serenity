@@ -85,6 +85,23 @@ class EntityContainer extends Container {
       // Send the packet to the player.
       this.entity.send(packet);
     }
+
+    // Call the onContainerUpdate method for the block traits
+    for (const trait of this.entity.traits.values()) {
+      try {
+        // Call the trait method
+        trait.onContainerUpdate?.(this);
+      } catch (reason) {
+        // Log the error to the console
+        this.entity.world.logger.error(
+          `Failed to trigger onContainerUpdate trait event for entity "${this.entity.type.identifier}:${this.entity.uniqueId}" in dimension "${this.entity.dimension.identifier}"`,
+          reason
+        );
+
+        // Remove the trait from the entity
+        this.entity.traits.delete(trait.identifier);
+      }
+    }
   }
 
   public update(): void {

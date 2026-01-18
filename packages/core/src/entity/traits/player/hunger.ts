@@ -72,6 +72,9 @@ class PlayerHungerTrait extends EntityAttributeTrait {
       if (this.saturation > 0) {
         // Decrease the saturation value
         this.saturation--;
+
+        // Set the saturation to a minimum of 0
+        if (this.saturation < 0) this.saturation = 0;
       } else if (this.currentValue > 0) {
         // Decrease the hunger value
         this.currentValue--;
