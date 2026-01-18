@@ -77,6 +77,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         // Check if the sending queue is cleared
         if (dimension !== this.dimension) return;
 
+        // Check if the chunk has already been sent
+        if (this.chunks.has(chunk.hash)) continue;
+
         // Add the chunk to the player's view
         this.chunks.add(chunk.hash);
 
