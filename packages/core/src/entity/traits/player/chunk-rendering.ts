@@ -40,17 +40,6 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   private sendingQueue = 0;
 
   /**
-   * The last chunk position where we sent a NetworkChunkPublisherUpdatePacket.
-   * Used to detect when the player has moved significantly.
-   */
-  private lastUpdatePosition: { x: number; z: number } | null = null;
-
-  /**
-   * The tick counter for periodic updates.
-   */
-  private updateTickCounter = 0;
-
-  /**
    * Sends a chunk to the player.
    * @param chunks The chunks to send to the player.
    */
@@ -73,33 +62,26 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       const start = index * this.viewDistance;
       const end = Math.min(start + this.viewDistance, amount);
 
+      // Create a new NetworkChunkPublisherUpdatePacket
+      const update = new NetworkChunkPublisherUpdatePacket();
+      update.radius = this.viewDistance << 4;
+      update.coordinate = this.player.position.floor();
+      update.savedChunks = []; // Prepare an array to hold the chunk coordinates
+
       // Create an array to hold the packets to send
       const packets: Array<DataPacket> = [];
 
       // Get the chunks to send
       const batch = chunks.slice(start, end);
-
-      // First, add all new chunks to the player's view
       for (const chunk of batch) {
         // Check if the sending queue is cleared
         if (dimension !== this.dimension) return;
 
         // Add the chunk to the player's view
         this.chunks.add(chunk.hash);
-      }
 
-      // Now create the NetworkChunkPublisherUpdatePacket with all chunks within view distance
-      // (including the new ones we just added)
-      const update = new NetworkChunkPublisherUpdatePacket();
-      update.radius = this.viewDistance << 4;
-      update.coordinate = this.player.position.floor();
-      // Include all currently loaded chunks within view distance in savedChunks
-      update.savedChunks = this.getChunksWithinViewDistance();
-
-      // Now process the chunks to create packets
-      for (const chunk of batch) {
-        // Check if the sending queue is cleared
-        if (dimension !== this.dimension) return;
+        // Push the chunk to the update packet
+        update.savedChunks.push({ x: chunk.x, z: chunk.z });
 
         // Create a new LevelChunkPacket
         const packet = new LevelChunkPacket();
@@ -267,105 +249,31 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     // Check if the player is spawned
     if (!this.player.isAlive) return;
 
-    // Always check if any chunks need to be removed from the player's view
-    // This should happen regardless of whether we're sending new chunks
-    const chunksToRemove: Array<ChunkCoords> = [];
-    for (const hash of this.chunks) {
-      // Get the distance between the player and the chunk
-      const distance = this.distance(hash);
-
-      // Check if the chunk is outside of the player's view distance
-      if (distance > this.viewDistance + 0.5) {
-        // Get the chunk position
-        const { x, z } = ChunkCoords.unhash(hash);
-        chunksToRemove.push({ x, z });
-      }
-    }
-
-    // Remove chunks that are outside view distance
-    if (chunksToRemove.length > 0) {
-      for (const coord of chunksToRemove) {
-        this.clear(coord);
-      }
-      // Update the client with the new chunk list after removing chunks
-      this.updateChunkPublisher();
-    }
-
     // Check if we are still sending chunks
     if (this.sendingQueue > 0) {
-      // Continue sending chunks, nothing else to do here
-      return;
-    }
+      // Check if any chunks need to be removed from the player's view
+      for (const hash of this.chunks) {
+        // Get the distance between the player and the chunk
+        const distance = this.distance(hash);
 
-    // Get the next set of chunks to send
-    const chunks = this.next();
+        // Check if the chunk is outside of the player's view distance
+        if (distance > this.viewDistance + 0.5) {
+          // Get the chunk position
+          const { x, z } = ChunkCoords.unhash(hash);
 
-    // Check if there are any chunks to send
-    if (chunks.length > 0) {
-      await this.send(this.dimension, ...chunks);
-    } else {
-      // No new chunks to send, but we should periodically update the chunk publisher
-      // to ensure the client knows which chunks to keep loaded
-      this.updateTickCounter++;
-      const currentChunkX = this.player.position.x >> 4;
-      const currentChunkZ = this.player.position.z >> 4;
-
-      // Update if player moved significantly (more than 2 chunks) or every 20 ticks
-      const shouldUpdate =
-        !this.lastUpdatePosition ||
-        Math.abs(this.lastUpdatePosition.x - currentChunkX) > 2 ||
-        Math.abs(this.lastUpdatePosition.z - currentChunkZ) > 2 ||
-        this.updateTickCounter >= 20;
-
-      if (shouldUpdate) {
-        this.updateChunkPublisher();
-        this.lastUpdatePosition = { x: currentChunkX, z: currentChunkZ };
-        this.updateTickCounter = 0;
+          // Clear the chunk from the player's view
+          this.clear({ x, z });
+        }
       }
     }
-  }
+    // If not, get the next set of chunks to send
+    else {
+      // Get the next set of chunks to send
+      const chunks = this.next();
 
-  /**
-   * Gets all chunks within the player's view distance.
-   * @returns An array of chunk coordinates that should be kept loaded.
-   */
-  private getChunksWithinViewDistance(): Array<ChunkCoords> {
-    const chunks: Array<ChunkCoords> = [];
-    const cx = this.player.position.x >> 4;
-    const cz = this.player.position.z >> 4;
-    const d = Math.floor(this.viewDistance);
-
-    // Get the radial offsets for the distance
-    const offsets = this.getRadialOffsets(d);
-
-    // Iterate over all chunks within view distance
-    for (let i = 0; i < offsets.length; i += 2) {
-      const x = cx + offsets[i]!;
-      const z = cz + offsets[i + 1]!;
-      const hash = ChunkCoords.hash({ x, z });
-
-      // Only include chunks that have been sent to the player
-      if (this.chunks.has(hash)) {
-        chunks.push({ x, z });
-      }
+      // Check if there are any chunks to send
+      if (chunks.length > 0) await this.send(this.dimension, ...chunks);
     }
-
-    return chunks;
-  }
-
-  /**
-   * Updates the NetworkChunkPublisherUpdatePacket with all chunks within view distance.
-   * This tells the client which chunks to keep loaded and which to unload.
-   */
-  private updateChunkPublisher(): void {
-    // Create a new NetworkChunkPublisherUpdatePacket
-    const update = new NetworkChunkPublisherUpdatePacket();
-    update.radius = this.viewDistance << 4;
-    update.coordinate = this.player.position.floor();
-    update.savedChunks = this.getChunksWithinViewDistance();
-
-    // Send the update to the player
-    this.player.send(update);
   }
 
   private getRadialOffsets(d: number): Int16Array {
@@ -431,9 +339,6 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   public onTeleport(): void {
     // Reset the sending queue
     if (this.sendingQueue > 0) this.sendingQueue = 0;
-    // Reset the update position to force an immediate update
-    this.lastUpdatePosition = null;
-    this.updateTickCounter = 0;
   }
 
   /**
