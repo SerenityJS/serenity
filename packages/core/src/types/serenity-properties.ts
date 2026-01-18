@@ -8,6 +8,7 @@ import { IPermissions } from "./permissions";
 interface SerenityProperties {
   permissions: string | IPermissions | null;
   resources: string | Partial<ResourcesProperties>;
+  spawnWorldIdentifier: "default";
   movementValidation: boolean;
   movementHorizontalThreshold: number;
   movementVerticalThreshold: number;

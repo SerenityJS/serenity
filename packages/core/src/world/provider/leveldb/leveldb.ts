@@ -819,20 +819,19 @@ class LevelDBProvider extends WorldProvider {
     serenity: Serenity,
     properties: WorldProviderProperties
   ): Promise<void> {
+    // Resolve the provider path.
     const path = resolve(properties.path);
 
+    // Check if the path exists, and create it if not.
     if (!existsSync(path)) mkdirSync(path);
 
+    // Read all directories in the provider path.
     const directories = readdirSync(path, { withFileTypes: true }).filter(
       (dirent) => dirent.isDirectory()
     );
 
-    if (directories.length === 0) {
-      serenity.registerWorld(
-        await this.create(serenity, properties, { identifier: "default" })
-      );
-      return;
-    }
+    // We track whether we created the spawn world.
+    let loadedSpawnWorld = false;
 
     for (const directory of directories) {
       const worldPath = resolve(path, directory.name);
@@ -852,6 +851,15 @@ class LevelDBProvider extends WorldProvider {
       new WorldInitializeSignal(world).emit();
 
       writeFileSync(propertiesPath, JSON.stringify(world.properties, null, 2));
+
+      // Check if this is the spawn world.
+      if (
+        !loadedSpawnWorld && // Verify we haven't loaded it yet
+        world.properties.identifier === serenity.properties.spawnWorldIdentifier
+      ) {
+        // Mark that we have loaded the spawn world.
+        loadedSpawnWorld = true;
+      }
 
       const files = readdirSync(structuresPath, {
         withFileTypes: true
@@ -881,6 +889,25 @@ class LevelDBProvider extends WorldProvider {
       }
 
       serenity.registerWorld(world);
+    }
+
+    // Check if there are no worlds, and create the spawn world if needed.
+    if (!loadedSpawnWorld || directories.length === 0) {
+      // Register the spawn world.
+      serenity.registerWorld(
+        // Create the spawn world.
+        await this.create(serenity, properties, {
+          identifier: serenity.properties.spawnWorldIdentifier
+        })
+      );
+
+      // Mark that we created the spawn world.
+      loadedSpawnWorld = true;
+
+      // Log the creation of the spawn world.
+      return serenity.logger.info(
+        `The spawn world §u${serenity.properties.spawnWorldIdentifier}§r was not found and has been created automatically.`
+      );
     }
   }
 

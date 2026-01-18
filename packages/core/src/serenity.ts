@@ -46,6 +46,7 @@ import type {
 const DefaultSerenityProperties: SerenityProperties = {
   permissions: "./permissions.json",
   resources: DefaultResourcesProperties,
+  spawnWorldIdentifier: "default",
   movementValidation: true,
   movementHorizontalThreshold: 0.4,
   movementVerticalThreshold: 0.6,
@@ -496,8 +497,8 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public getWorld(identifier?: string): World | null {
     // Check if the identifier is not provided
     if (!identifier) {
-      // Get the first world from the worlds map
-      return this.worlds.values().next().value ?? null;
+      // Return the default world
+      return this.worlds.get(this.properties.spawnWorldIdentifier) ?? null;
     }
 
     // Get the world from the worlds map
