@@ -11,7 +11,8 @@ import type {
   ItemStackUseOptions,
   ItemStackUseOnBlockOptions,
   ItemStackUseOnEntityOptions,
-  ItemStackDroppedOptions
+  ItemStackDroppedOptions,
+  ItemStackHotbarDetails
 } from "../types";
 
 class ItemStackTrait extends Trait {
@@ -129,6 +130,18 @@ class ItemStackTrait extends Trait {
    * @param options The options for the item stack that was dropped.
    */
   public onDropped?(options: ItemStackDroppedOptions): void;
+
+  /**
+   * Called when the item is selected in the hotbar.
+   * @param details The hotbar details.
+   */
+  public onHotbarSelect?(details: ItemStackHotbarDetails): void;
+
+  /**
+   * Called when the item is deselected in the hotbar.
+   * @param details The hotbar details.
+   */
+  public onHotbarDeselect?(details: ItemStackHotbarDetails): void;
 
   /**
    * Compares another item trait to this one.
