@@ -1,4 +1,5 @@
 import {
+  ContainerId,
   ContainerType,
   Enchantment,
   EquipmentSlot,
@@ -45,9 +46,11 @@ class EntityEquipmentTrait extends EntityTrait {
 
     // Create the armor container
     this.armor = new EntityContainer(entity, ContainerType.Armor, 4);
+    this.armor.identifier = ContainerId.Armor; // Override the container identifier
 
     // Create the offhand container
     this.offhand = new EntityContainer(entity, ContainerType.Inventory, 1);
+    this.offhand.identifier = ContainerId.Offhand; // Override the container identifier
   }
 
   /**
