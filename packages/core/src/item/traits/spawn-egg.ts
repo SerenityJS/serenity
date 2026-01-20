@@ -32,7 +32,7 @@ class ItemStackSpawnEggTrait extends ItemStackTrait {
     options: ItemStackUseOnBlockOptions
   ): void {
     // Check if the entity type is defined.
-    if (options.method !== ItemUseMethod.Place || !this.entityType) return;
+    if (options.method !== ItemUseMethod.Interact || !this.entityType) return;
 
     // Calculate the position to spawn the entity.
     const position = BlockPosition.toVector3f(options.targetBlock.position)
@@ -59,6 +59,9 @@ class ItemStackSpawnEggTrait extends ItemStackTrait {
       // Create the entity without the entity data.
       player.dimension.spawnEntity(this.entityType, position);
     }
+
+    // Decrease the item stack size by 1.
+    this.item.decrementStack(1);
   }
 }
 

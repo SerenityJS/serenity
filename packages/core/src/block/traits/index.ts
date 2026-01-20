@@ -18,3 +18,4 @@ export * from "./structure";
 export * from "./chest";
 export * from "./barrel";
 export * from "./shulker-box";
+export * from "./support";
