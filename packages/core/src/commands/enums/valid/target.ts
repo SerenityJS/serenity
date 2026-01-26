@@ -152,8 +152,14 @@ class TargetEnum extends ValidEnum {
           //Get the count limit from the query
           const limit = Number.isFinite(Number(countQuery)) ? Number(countQuery) : origin.getEntities().length;
 
+          const allEntities = origin.getEntities()
+
+          if (queries.length === 0) {
+            return new TargetEnum(allEntities.slice(0, limit));
+          }
+
           // Filter entities by query.
-          const entities = origin.getEntities()
+          const entities = allEntities
             .filter((entity) => {
               // Check if there are any queries.
               if (queries.length === 0) return true;
