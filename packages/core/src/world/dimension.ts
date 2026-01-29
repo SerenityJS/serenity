@@ -421,68 +421,83 @@ class Dimension {
     const chunk = new Chunk(cx, cz, this.type);
 
     // Await for the chunk to be generated
-    this.world.provider.readChunk(chunk, this).then((chunk) => {
-      // Check if the chunk has been queried from the provider before
-      if (!this.queriedChunksFromProvider.has(hash)) {
-        // Add the chunk hash to the queried chunks set
-        this.queriedChunksFromProvider.add(hash);
+    this.world.provider
+      .readChunk(chunk, this)
+      // Await the chunk to be loaded
+      .then((chunk) => {
+        // Check if the chunk has been queried from the provider before
+        if (!this.queriedChunksFromProvider.has(hash)) {
+          // Add the chunk hash to the queried chunks set
+          this.queriedChunksFromProvider.add(hash);
 
-        // Get all the block data from the chunk
-        const blockStorages = chunk.getAllBlockStorages();
+          // Get all the block data from the chunk
+          const blockStorages = chunk.getAllBlockStorages();
 
-        // Check if there is any block storage in the chunk
-        if (blockStorages.length > 0) {
-          // Iterate through the blocks and add them to the chunk.
-          for (const storage of blockStorages) {
-            // Get the position of the block storage
-            const position = storage.getPosition();
+          // Check if there is any block storage in the chunk
+          if (blockStorages.length > 0) {
+            // Iterate through the blocks and add them to the chunk.
+            for (const storage of blockStorages) {
+              // Get the position of the block storage
+              const position = storage.getPosition();
 
-            // Create a new block instance using the block storage
-            const block = new Block(this, position, storage);
+              // Create a new block instance using the block storage
+              const block = new Block(this, position, storage);
 
-            // Add the block to the block cache
-            this.blocks.set(BlockPosition.hash(block.position), block);
+              // Add the block to the block cache
+              this.blocks.set(BlockPosition.hash(block.position), block);
+            }
+          }
+
+          // Get all the entity data from the chunk
+          const entities = chunk.getAllEntityStorages();
+
+          // Check if there is any entity storage in the chunk
+          if (entities.length > 0) {
+            // Iterate through the entities and add them to the chunk.
+            for (const [, storage] of entities) {
+              // Get the identifier of the entity
+              const identifier = storage.get<StringTag>("identifier");
+
+              // Skip if the identifier does not exist or if the entity is a player
+              if (
+                !identifier ||
+                identifier.valueOf() === EntityIdentifier.Player
+              )
+                continue;
+
+              // Create a new entity instance using the entity storage
+              const entity = new Entity(this, identifier.valueOf(), {
+                storage
+              });
+
+              // Spawn the entity in the dimension
+              entity.spawn({ initialSpawn: false });
+            }
           }
         }
 
-        // Get all the entity data from the chunk
-        const entities = chunk.getAllEntityStorages();
+        // Iterate over all the players in the dimension
+        for (const player of this.getPlayers()) {
+          // Get the player's chunk rendering trait
+          const trait = player.getTrait(PlayerChunkRenderingTrait);
 
-        // Check if there is any entity storage in the chunk
-        if (entities.length > 0) {
-          // Iterate through the entities and add them to the chunk.
-          for (const [, storage] of entities) {
-            // Get the identifier of the entity
-            const identifier = storage.get<StringTag>("identifier");
+          // Check if the player has the chunk being set
+          if (!trait.chunks.has(chunk.hash)) continue;
 
-            // Skip if the identifier does not exist or if the entity is a player
-            if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
-              continue;
-
-            // Create a new entity instance using the entity storage
-            const entity = new Entity(this, identifier.valueOf(), { storage });
-
-            // Spawn the entity in the dimension
-            entity.spawn({ initialSpawn: false });
-          }
+          // Send the chunk to the player
+          trait.send(this, chunk);
         }
-      }
 
-      // Iterate over all the players in the dimension
-      for (const player of this.getPlayers()) {
-        // Get the player's chunk rendering trait
-        const trait = player.getTrait(PlayerChunkRenderingTrait);
-
-        // Check if the player has the chunk being set
-        if (!trait.chunks.has(chunk.hash)) continue;
-
-        // Send the chunk to the player
-        trait.send(this, chunk);
-      }
-
-      // Return the chunk
-      return chunk;
-    });
+        // Return the chunk
+        return chunk;
+      })
+      // Catch any errors that occur while loading the chunk
+      .catch((reason) => {
+        this.world.logger.error(
+          `Failed to load chunk at (${cx}, ${cz}) in dimension "${this.identifier}"`,
+          reason
+        );
+      });
 
     return chunk; // Return the chunk
   }
