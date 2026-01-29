@@ -82,12 +82,12 @@ class TargetEnum extends ValidEnum {
       const queries =
         query.length > 0
           ? query
-              .slice(1, -1)
-              .split(",")
-              .flatMap((data) => {
-                const [key, value] = data.split("=");
-                return { key, value };
-              })
+            .slice(1, -1)
+            .split(",")
+            .flatMap((data) => {
+              const [key, value] = data.split("=");
+              return { key, value };
+            })
           : [];
 
       // Check if the symbol is a valid query.
@@ -147,95 +147,110 @@ class TargetEnum extends ValidEnum {
 
         // Get all entities.
         case "e": {
+          //Finds the count query
+          const allEntities = origin.getEntities()
+          if (queries.length === 0) {
+            return new TargetEnum(allEntities);
+          }
+
+          const countQuery = queries.find((entry) => entry.key == "c")?.value;
+          //Get the count limit from the query
+          const limit = Number.isFinite(Number(countQuery)) ? Number(countQuery) : allEntities.length;
+
           // Filter entities by query.
-          const entities = origin.getEntities().filter((entity) => {
-            // Check if there are any queries.
-            if (queries.length === 0) return true;
+          const entities = allEntities
+            .filter((entity) => {
+              // Check if there are any queries.
+              if (queries.length === 0) return true;
 
-            // Check if the entity matches the query.
-            for (const { key, value } of queries) {
-              switch (key) {
-                // Check if the entity name matches the query.
-                case "name": {
-                  // Get the name from the query.
-                  let name = value as string;
+              // Check if the entity matches the query.
+              for (const { key, value } of queries) {
+                switch (key) {
+                  // Check if the entity name matches the query.
+                  case "name": {
+                    // Get the name from the query.
+                    let name = value as string;
 
-                  const negate = name.startsWith("!");
-                  if (negate) name = name.slice(1);
+                    const negate = name.startsWith("!");
+                    if (negate) name = name.slice(1);
 
-                  // Check if the nametag matches the query.
-                  if (
-                    negate
-                      ? entity.getNametag() === name
-                      : entity.getNametag() !== name
-                  )
-                    return false;
-                  break;
-                }
-
-                // Check if the entity type matches the query.
-                case "type": {
-                  // Get the type query.
-                  let type = value as string;
-
-                  // Check if the query is negated.
-                  const negate = type.startsWith("!");
-                  if (negate) type = type.slice(1);
-
-                  // Parse the entity type.
-                  const parsed = type.includes(":")
-                    ? type
-                    : `minecraft:${type}`;
+                    // Check if the nametag matches the query.
+                    if (
+                      negate
+                        ? entity.getNametag() === name
+                        : entity.getNametag() !== name
+                    )
+                      return false;
+                    break;
+                  }
 
                   // Check if the entity type matches the query.
-                  if (
-                    negate
-                      ? parsed == entity.type.identifier
-                      : parsed != entity.type.identifier
-                  )
-                    return false;
-                  break;
-                }
+                  case "type": {
+                    // Get the type query.
+                    let type = value as string;
 
-                // Check if the entity tag matches the query.
-                case "tag": {
-                  // Get the tag query.
-                  let tag = value as string;
+                    // Check if the query is negated.
+                    const negate = type.startsWith("!");
+                    if (negate) type = type.slice(1);
 
-                  // Check if the query is negated.
-                  const negate = tag.startsWith("!");
-                  if (negate) tag = tag.slice(1);
+                    // Parse the entity type.
+                    const parsed = type.includes(":")
+                      ? type
+                      : `minecraft:${type}`;
 
-                  // Check if the player has the tag.
-                  if (negate ? entity.hasTag(tag) : !entity.hasTag(tag))
-                    return false;
-                  break;
-                }
+                    // Check if the entity type matches the query.
+                    if (
+                      negate
+                        ? parsed == entity.type.identifier
+                        : parsed != entity.type.identifier
+                    )
+                      return false;
+                    break;
+                  }
 
-                //radius
-                case "r": {
-                  const radius = Number(value);
-                  if (Number.isNaN(radius)) return false;
+                  // Check if the entity tag matches the query.
+                  case "tag": {
+                    // Get the tag query.
+                    let tag = value as string;
 
-                  const player = pointer.state.origin as Player;
-                  if (!(player instanceof Player)) return false;
+                    // Check if the query is negated.
+                    const negate = tag.startsWith("!");
+                    if (negate) tag = tag.slice(1);
 
-                  const distance = entity.position
-                    .subtract(player.position)
-                    .length();
+                    // Check if the player has the tag.
+                    if (negate ? entity.hasTag(tag) : !entity.hasTag(tag))
+                      return false;
+                    break;
+                  }
 
-                  if (distance > radius) return false;
-                  break;
-                }
+                  //radius
+                  case "r": {
+                    const radius = Number(value);
+                    if (Number.isNaN(radius)) return false;
 
-                default: {
-                  throw new TypeError(`Invalid query key "${key}"`);
+                    const player = pointer.state.origin as Player;
+                    if (!(player instanceof Player)) return false;
+
+                    const distance = entity.position
+                      .subtract(player.position)
+                      .length();
+
+                    if (distance > radius) return false;
+                    break;
+                  }
+
+                  //Allows the "c" query
+                  case "c": break;
+
+                  default: {
+                    throw new TypeError(`Invalid query key "${key}"`);
+                  }
                 }
               }
-            }
 
-            return true;
-          });
+              return true;
+            })
+            .slice(0, limit);
 
           return new TargetEnum(entities);
         }

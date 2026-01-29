@@ -102,10 +102,10 @@ class PlayerHungerTrait extends EntityAttributeTrait {
     if (!this.player.isAlive) return;
 
     // Increase the exhaustion value
-    this.exhaustion += 0.2;
+    this.exhaustion += 0.05;
 
     // Check if the player is sprinting
-    if (this.player.isSprinting) this.exhaustion += 0.5;
+    if (this.player.isSprinting) this.exhaustion += 0.2;
   }
 
   public onSpawn(details: EntitySpawnOptions): void {

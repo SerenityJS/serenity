@@ -424,35 +424,50 @@ class Pipeline {
 
     // Iterate over all the plugins, and initialize them
     for (const plugin of orderedPlugins) {
-      // Check if the plugin has config defined
-      if (Object.keys(plugin.config as object).length > 0) {
-        // Create the path to the plugin config file
-        const path = resolve(this.path, "configs", `${plugin.identifier}.json`);
+      try {
+        // Check if the plugin has config defined
+        if (Object.keys(plugin.config as object).length > 0) {
+          // Create the path to the plugin config file
+          const path = resolve(
+            this.path,
+            "configs",
+            `${plugin.identifier}.json`
+          );
 
-        // Check if a config file exists for the plugin
-        if (!existsSync(path)) {
-          // Write the default config to the config file
-          writeFileSync(path, JSON.stringify(plugin.config, null, 2));
-        } else {
-          // Read the config file
-          const data = JSON.parse(readFileSync(path, "utf-8"));
+          // Check if a config file exists for the plugin
+          if (!existsSync(path)) {
+            // Write the default config to the config file
+            writeFileSync(path, JSON.stringify(plugin.config, null, 2));
+          } else {
+            // Read the config file
+            const data = JSON.parse(readFileSync(path, "utf-8"));
 
-          // Assign the config data to the plugin config
-          Object.assign(plugin.config as object, data);
+            // Assign the config data to the plugin config
+            Object.assign(plugin.config as object, data);
+          }
         }
-      }
 
-      // Initialize the plugin, and bind the events
-      plugin.onInitialize(plugin);
-      this.bindEvents(plugin);
+        // Initialize the plugin, and bind the events
+        plugin.onInitialize(plugin);
+        this.bindEvents(plugin);
 
-      // Check if the plugin is bundled
-      if (plugin.isBundled) {
-        // Create a temporary path for the plugin
-        const temp = resolve(plugin.path.slice(0, -7).replace(/\./g, "_"));
+        // Check if the plugin is bundled
+        if (plugin.isBundled) {
+          // Create a temporary path for the plugin
+          const temp = resolve(plugin.path.slice(0, -7).replace(/\./g, "_"));
 
-        // Delete the temporary file if it exists
-        if (existsSync(temp)) process.nextTick(() => unlinkSync(temp));
+          // Delete the temporary file if it exists
+          if (existsSync(temp)) process.nextTick(() => unlinkSync(temp));
+        }
+      } catch (reason) {
+        // Log the error
+        this.logger.error(
+          `Failed to load plugin from "${relative(
+            process.cwd(),
+            resolve(plugin.path)
+          )}", skipping the plugin.`,
+          reason
+        );
       }
     }
   }
