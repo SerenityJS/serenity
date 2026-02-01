@@ -208,12 +208,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.experimentalGameplayOverride = false;
         packet.chatRestrictionLevel = 0;
         packet.disablePlayerInteractions = false;
-        packet.serverIdentfier = "SerenityJS";
-        packet.worldIdentifier = player.world.identifier;
-        packet.scenarioIdentifier = "SerenityJS";
-        packet.ownerIdentifier = player.username;
-        packet.levelId = "SerenityJS";
-        packet.worldName = player.world.identifier;
+        packet.levelIdentfier = "SerenityJS";
+        packet.levelName = player.world.identifier;
         packet.premiumWorldTemplateId = player.world.identifier;
         packet.isTrial = false;
         packet.rewindHistorySize = 0;
@@ -235,6 +231,15 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
+        packet.containsServerJoinInfo = false;
+        packet.serverTelemetryData = {
+          serverId: "SerenityJS",
+          scenarioId:
+            "serenityjs." +
+            player.world.identifier.toLowerCase().replace(/\s+/g, "-"),
+          worldId: player.world.identifier,
+          ownerId: player.username
+        };
 
         // Get the item registry packet from the world's item palette
         const registry = world.itemPalette.getItemRegistry();

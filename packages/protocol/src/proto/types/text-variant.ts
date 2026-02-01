@@ -46,10 +46,6 @@ class TextVariant extends DataType {
     // Switch the variant type
     switch (options.parameter) {
       case TextVariantType.MessageOnly: {
-        // TODO: This is a bug introduced in 1.21.130
-        // Should be fixed on the next iteration
-        for (let i = 0; i < 6; i++) stream.readVarString();
-
         // Read the variant type
         const type = stream.readUint8();
 
@@ -61,10 +57,6 @@ class TextVariant extends DataType {
       }
 
       case TextVariantType.AuthorAndMessage: {
-        // TODO: This is a bug introduced in 1.21.130
-        // Should be fixed on the next iteration
-        for (let i = 0; i < 3; i++) stream.readVarString();
-
         // Read the variant type
         const type = stream.readUint8();
 
@@ -79,10 +71,6 @@ class TextVariant extends DataType {
       }
 
       case TextVariantType.MessageAndParams: {
-        // TODO: This is a bug introduced in 1.21.130
-        // Should be fixed on the next iteration
-        for (let i = 0; i < 3; i++) stream.readVarString();
-
         // Read the variant type
         const type = stream.readUint8();
 
@@ -112,15 +100,6 @@ class TextVariant extends DataType {
     // Switch the variant type
     switch (options.parameter) {
       case TextVariantType.MessageOnly: {
-        // TODO: This is a bug introduced in 1.21.130
-        stream.writeVarString("raw");
-        stream.writeVarString("tip");
-        stream.writeVarString("systemMessage");
-        stream.writeVarString("textObjectWhisper");
-        stream.writeVarString("textObjectAnnouncement");
-        stream.writeVarString("textObject");
-        // End of bug
-
         // Write the variant type
         stream.writeUint8(value.type);
 
@@ -131,12 +110,6 @@ class TextVariant extends DataType {
       }
 
       case TextVariantType.AuthorAndMessage: {
-        // TODO: This is a bug introduced in 1.21.130
-        stream.writeVarString("chat");
-        stream.writeVarString("whisper");
-        stream.writeVarString("announcement");
-        // End of bug
-
         // Write the variant type
         stream.writeUint8(value.type);
 
@@ -150,12 +123,6 @@ class TextVariant extends DataType {
       }
 
       case TextVariantType.MessageAndParams: {
-        // TODO: This is a bug introduced in 1.21.130
-        stream.writeVarString("translation");
-        stream.writeVarString("popup");
-        stream.writeVarString("jukeboxPopup");
-        // End of bug
-
         // Write the variant type
         stream.writeUint8(value.type);
 
