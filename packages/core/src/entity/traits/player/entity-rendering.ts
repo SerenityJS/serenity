@@ -9,8 +9,7 @@ import {
   MobArmorEquipmentPacket,
   NetworkItemStackDescriptor,
   PermissionLevel,
-  RemoveEntityPacket,
-  Vector3f
+  RemoveEntityPacket
 } from "@serenityjs/protocol";
 
 import { EntityRidingTrait } from "..";
@@ -159,9 +158,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.links.push(link);
       }
 
-      // Adjust the player's position for rendering
-      packet.position.y += entity.getCollisionHeight(); // Adjust the y position for the player
-
       // Send the packet to the player
       this.player.send(packet);
       if (armor) this.player.send(armor);
@@ -169,13 +165,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       // Break out of the function
       return;
     }
-
-    // Adjust the entity's position
-    const position = new Vector3f(
-      entity.position.x,
-      entity.position.y,
-      entity.position.z
-    );
 
     // Check if the entity is an item
     if (entity.isItem()) {
@@ -192,7 +181,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.uniqueId = entity.uniqueId;
       packet.runtimeId = entity.runtimeId;
       packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
-      packet.position = position;
+      packet.position = entity.position;
       packet.velocity = entity.velocity;
       packet.data = entity.metadata.getAllActorMetadataAsDataItems();
       packet.fromFishing = false;
@@ -212,7 +201,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.uniqueEntityId = entity.uniqueId;
     packet.runtimeId = entity.runtimeId;
     packet.identifier = entity.type.identifier;
-    packet.position = position;
+    packet.position = entity.position;
     packet.velocity = entity.velocity;
     packet.pitch = entity.rotation.pitch;
     packet.yaw = entity.rotation.yaw;
