@@ -20,6 +20,7 @@ import Command from "./commands/command";
 import { PluginsEnum } from "./commands";
 import { PluginType, PluginHeader } from "./enums";
 import { PluginFileSystem } from "./file-system";
+import { PluginConfigSystem } from "./config";
 
 interface PipelineProperties {
   path: string;
@@ -283,7 +284,10 @@ class Pipeline {
       } catch (reason) {
         // Log the error
         this.logger.error(
-          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, bundle.name))}", skipping the plugin.`,
+          `Failed to load plugin from "${relative(
+            process.cwd(),
+            resolve(this.path, bundle.name)
+          )}", skipping the plugin.`,
           reason
         );
       }
@@ -315,7 +319,12 @@ class Pipeline {
         // Check if the provided entry point is valid
         if (!existsSync(resolve(path, main))) {
           this.logger.warn(
-            `Unable to load plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${manifest.version ?? "unknown-version"}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+            `Unable to load plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${
+              manifest.version ?? "unknown-version"
+            }§r, the main entry path "§8${relative(
+              process.cwd(),
+              resolve(path, main)
+            )}§r" was not found in the directory.`
           );
 
           // Skip the plugin
@@ -347,6 +356,13 @@ class Pipeline {
         // Set the file system for the plugin
         plugin.fileSystem = new PluginFileSystem(
           resolve(plugin.path, "../data", plugin.identifier),
+          plugin.logger
+        );
+
+        // Set the config system for the plugin
+        plugin.config = new PluginConfigSystem(
+          plugin.identifier,
+          resolve(this.path, "../data"),
           plugin.logger
         );
 
@@ -403,7 +419,10 @@ class Pipeline {
       } catch (reason) {
         // Log the error
         this.logger.error(
-          `Failed to load plugin from "${relative(process.cwd(), resolve(this.path, directory.name))}", skipping the plugin.`,
+          `Failed to load plugin from "${relative(
+            process.cwd(),
+            resolve(this.path, directory.name)
+          )}", skipping the plugin.`,
           reason
         );
       }
@@ -538,6 +557,13 @@ class Pipeline {
         plugin.logger
       );
 
+      // Set the config system for the plugin
+      plugin.config = new PluginConfigSystem(
+        plugin.identifier,
+        resolve(this.path, "../data"),
+        plugin.logger
+      );
+
       // Link the module to the pipeline
       this.linkModule(plugin.identifier, module);
 
@@ -552,7 +578,10 @@ class Pipeline {
     } catch (reason) {
       // Log the error
       this.logger.error(
-        `Failed to load plugin from §8${relative(process.cwd(), path)}§r, skipping the plugin.`,
+        `Failed to load plugin from §8${relative(
+          process.cwd(),
+          path
+        )}§r, skipping the plugin.`,
         reason
       );
 
@@ -689,7 +718,12 @@ class Pipeline {
       // Check if the provided entry point is valid
       if (!existsSync(resolve(path, main))) {
         this.logger.warn(
-          `Unable to reload plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${manifest.version ?? "unknown-version"}§r, the main entry path "§8${relative(process.cwd(), resolve(path, main))}§r" was not found in the directory.`
+          `Unable to reload plugin §u${manifest.name ?? "unknown-plugin"}§8@§u${
+            manifest.version ?? "unknown-version"
+          }§r, the main entry path "§8${relative(
+            process.cwd(),
+            resolve(path, main)
+          )}§r" was not found in the directory.`
         );
 
         // Skip the plugin
@@ -711,6 +745,13 @@ class Pipeline {
       // Set the file system for the plugin
       newPlugin.fileSystem = new PluginFileSystem(
         resolve(newPlugin.path, "../data", newPlugin.identifier),
+        newPlugin.logger
+      );
+
+      // Set the config system for the plugin
+      newPlugin.config = new PluginConfigSystem(
+        newPlugin.identifier,
+        resolve(this.path, "../data"),
         newPlugin.logger
       );
 
