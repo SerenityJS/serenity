@@ -35,9 +35,14 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   private readonly offsetCache = new Map<number, Int16Array>();
 
   /**
-   * The number of chunks currently being sent to the player.
+   * The set of chunk hashes that are pending to be sent to the player.
    */
-  private sendingQueue = 0;
+  private readonly pending = new Set<bigint>();
+
+  /**
+   * Increments to cancel any in-flight send() loops.
+   */
+  private sendGeneration = 0;
 
   /**
    * The last chunk position where we sent a NetworkChunkPublisherUpdatePacket.
@@ -51,6 +56,16 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   private updateTickCounter = 0;
 
   /**
+   * Flag to indicate if a tick is currently in progress.
+   */
+  private tickInProgress = false;
+
+  /**
+   * The queue of chunks to be sent to the player.
+   */
+  private chunkQueue: Array<Chunk> = [];
+
+  /**
    * Sends a chunk to the player.
    * @param chunks The chunks to send to the player.
    */
@@ -58,79 +73,81 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     dimension: Dimension,
     ...chunks: Array<Chunk>
   ): Promise<void> {
-    // Get the amount of chunks to send
-    const amount = (this.sendingQueue = chunks.length);
+    // Capture the current generation
+    const gen = this.sendGeneration;
 
-    // We want to send the chunks in batches to avoid overwhelming the player
+    // Calculate the amount and batches
+    const amount = chunks.length;
     const batches = Math.ceil(amount / this.viewDistance);
 
-    // Iterate over the batches
+    // Iterate over each batch
     for (let index = 0; index < batches; index++) {
-      // Check if there are still chunks to send
+      // Check if the generation has changed
+      if (gen !== this.sendGeneration) return;
+
+      // Check if the player is still alive and in the same dimension
       if (!this.entity.isAlive || dimension !== this.dimension) return;
 
-      // Get the start and end index of the batch
+      // Calculate the start and end indices for the batch
       const start = index * this.viewDistance;
       const end = Math.min(start + this.viewDistance, amount);
-
-      // Create an array to hold the packets to send
       const packets: Array<DataPacket> = [];
-
-      // Get the chunks to send
       const batch = chunks.slice(start, end);
 
-      // First, add all new chunks to the player's view
+      // Process each chunk in the batch
       for (const chunk of batch) {
-        // Check if the sending queue is cleared
+        // Check if the generation has changed
+        if (gen !== this.sendGeneration) return;
+
+        // Check if the player is still in the same dimension
         if (dimension !== this.dimension) return;
 
-        // Add the chunk to the player's view
-        this.chunks.add(chunk.hash);
+        // Check if the chunk is already sent
+        if (!this.chunks.has(chunk.hash)) {
+          // Mark the chunk as sent
+          this.chunks.add(chunk.hash);
+
+          // No longer pending
+          this.pending.delete(chunk.hash);
+
+          // Notify the dimension that the chunk is now watched
+          this.dimension.onChunkWatched(chunk.hash);
+        }
       }
 
-      // Now create the NetworkChunkPublisherUpdatePacket with all chunks within view distance
-      // (including the new ones we just added)
+      // Create the NetworkChunkPublisherUpdatePacket
       const update = new NetworkChunkPublisherUpdatePacket();
       update.radius = this.viewDistance << 4;
       update.coordinate = this.player.position.floor();
-      // Include all currently loaded chunks within view distance in savedChunks
       update.savedChunks = this.getChunksWithinViewDistance();
 
-      // Now process the chunks to create packets
+      // Iterate over each chunk in the batch again to create packets
       for (const chunk of batch) {
-        // Check if the sending queue is cleared
+        // Check if the generation has changed
+        if (gen !== this.sendGeneration) return;
+
+        // Check if the player is still in the same dimension
         if (dimension !== this.dimension) return;
 
-        // Create a new LevelChunkPacket
+        // Create the LevelChunkPacket for the chunk
         const packet = new LevelChunkPacket();
-
-        // Assign the chunk data to the packet
         packet.x = chunk.x;
         packet.z = chunk.z;
         packet.dimension = chunk.type;
         packet.subChunkCount = chunk.getSubChunkSendCount();
         packet.cacheEnabled = false;
         packet.data = Chunk.serialize(chunk);
-
-        // Rent the chunk from the provider
-        this.dimension.world.provider.rentChunk(chunk.hash, this.dimension);
-
-        // Add the packet to the packets array
         packets.push(packet);
 
-        // Iterate over the block storages in the chunk to ensure they are loaded
+        // Iterate over each block storage in the chunk to send BlockActorDataPackets
         for (const storage of chunk.getAllBlockStorages()) {
-          // Check if the block storage has data
+          // Check if the storage has any data
           if (storage.size === 0) continue;
 
-          // Create a new BlockActorData packet
+          // Create the BlockActorDataPacket for the storage
           const packet = new BlockActorDataPacket();
-
-          // Assign the packet values
           packet.position = storage.getPosition();
           packet.nbt = storage;
-
-          // Add the block packet to the packets array
           packets.push(packet);
 
           // Push tile fix packets
@@ -138,17 +155,19 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         }
       }
 
-      // Send the packets to the player
+      // Final cancel check before sending
+      if (gen !== this.sendGeneration) return;
+
+      // Send all packets to the player
       this.player.send(...packets, update);
 
-      // Decrease the sending queue
-      this.sendingQueue -= batch.length;
-
-      // Schedule the next batch on the next tick
+      // Await the next tick before sending the next batch
       await new Promise((resolve) =>
-        // Resolve on the next tick of the dimension
         this.dimension.schedule(1, resolve as () => void)
       );
+
+      // Final cancel check after sending
+      if (gen !== this.sendGeneration) return;
     }
   }
 
@@ -181,43 +200,44 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   /**
    * Gets the next set of chunk hashes to send to the player.
    * @note This method obtains the chunks that are within the player's view distance.
+   * @param out The output array to store the chunk hashes.
    * @param distance The distance to calculate the chunks for.
    * @returns An array of chunk hashes to send to the player.
    */
-  public next(distance?: number): Array<Chunk> {
-    // Get the player's current chunk position
+  public async next(out: Array<Chunk>, distance?: number): Promise<void> {
+    // Get the current generation
+    const gen = this.sendGeneration;
+
+    // Calculate the player's current chunk position
     const cx = this.player.position.x >> 4;
     const cz = this.player.position.z >> 4;
 
-    // Use the player's view distance if no distance is provided
+    // Calculate the distance to get chunks for
     const d = Math.floor(distance ?? this.viewDistance);
-
-    // Get the radial offsets for the distance
     const offsets = this.getRadialOffsets(d);
-    const out: Array<Chunk> = [];
 
-    // Stream candidates in near→far order; no nested loops, no sort, no sqrt
+    // Iterate over all chunks within the specified distance
     for (let i = 0; i < offsets.length; i += 2) {
-      // Get the chunk coordinates
+      // Check if the generation has changed
+      if (gen !== this.sendGeneration) return;
+
+      // Calculate the chunk coordinates
       const x = cx + offsets[i]!;
       const z = cz + offsets[i + 1]!;
-
-      // Calculate the hash of the chunk
       const hash = ChunkCoords.hash({ x, z });
 
-      // Skip if we've already sent this chunk
-      if (this.chunks.has(hash)) continue;
+      // Already tracked or already queued to send
+      if (this.chunks.has(hash) || this.pending.has(hash)) continue;
 
-      // Get the chunk from the dimension
-      const chunk = this.player.dimension.getChunk(x, z);
-      if (this.chunks.has(chunk.hash)) continue; // Skip if the chunk is not ready
+      // Fetch the chunk asynchronously
+      const chunk = await this.player.dimension.getChunkAsync(x, z);
 
-      // Add the chunk if it hasn't been sent to the player yet
+      // Mark as pending so we don't re-queue it next tick
+      this.pending.add(chunk.hash);
+
+      // Add the chunk to the output array
       out.push(chunk);
     }
-
-    // Return the chunks
-    return out;
   }
 
   /**
@@ -225,85 +245,77 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
    * @param position The position of the chunk to clear.
    */
   public clear(position?: ChunkCoords): void {
-    // Clear the sending queue
-    this.sendingQueue = 0;
-
-    // Convert the hashes to coordinates
+    // Calculate which chunks to clear
     const coords = position
       ? [position]
       : [...this.chunks].map((hash) => ChunkCoords.unhash(hash));
 
-    // Create an empty chunk
+    // Create an empty chunk for clearing
     const empty = new Chunk(0, 0, this.player.dimension.type);
 
-    // Iterate over the coordinates
+    // Iterate over each chunk coordinate to clear
     for (const coord of coords) {
-      // Create a new LevelChunkPacket
+      // Create a LevelChunkPacket with empty data
       const packet = new LevelChunkPacket();
-
-      // Assign the chunk data to the packet
-      packet.x = coord.x;
-      packet.z = coord.z;
+      packet.x = coord.x; // Set chunk X coordinate
+      packet.z = coord.z; // Set chunk Z coordinate
       packet.dimension = this.player.dimension.type;
       packet.subChunkCount = empty.getSubChunkSendCount();
       packet.cacheEnabled = false;
       packet.data = Chunk.serialize(empty);
 
-      // Send the packet to the player
+      // Send the empty chunk to the player
       this.player.send(packet);
 
-      // Get the hash of the chunk
+      // Remove the chunk from the tracked set
       const hash = ChunkCoords.hash(coord);
+      if (this.chunks.delete(hash)) {
+        // Notify the dimension that the chunk is no longer watched
+        this.dimension.onChunkUnwatched(hash);
+      }
 
-      // Return the chunk to the provider
-      this.dimension.world.provider.returnChunk(hash, this.dimension);
-
-      // Remove the chunk from the player's view
-      this.chunks.delete(hash);
+      // Also remove from pending if it was queued
+      this.pending.delete(hash);
     }
   }
 
   public async onTick(): Promise<void> {
-    // Check if the player is spawned
-    if (!this.player.isAlive) return;
+    // Check if a tick is already in progress
+    if (this.tickInProgress) return;
+    this.tickInProgress = true;
 
-    // Always check if any chunks need to be removed from the player's view
-    // This should happen regardless of whether we're sending new chunks
-    const chunksToRemove: Array<ChunkCoords> = [];
-    for (const hash of this.chunks) {
-      // Get the distance between the player and the chunk
-      const distance = this.distance(hash);
+    try {
+      // Check if the player is spawned
+      if (!this.player.isAlive) return;
 
-      // Check if the chunk is outside of the player's view distance
-      if (distance > this.viewDistance + 0.5) {
-        // Get the chunk position
-        const { x, z } = ChunkCoords.unhash(hash);
-        chunksToRemove.push({ x, z });
+      // First, flush any queued chunks from the last tick
+      await this.flushChunkQueue();
+
+      // Always check if any chunks need to be removed from the player's view
+      // This should happen regardless of whether we're sending new chunks
+      const chunksToRemove: Array<ChunkCoords> = [];
+      for (const hash of this.chunks) {
+        // Get the distance between the player and the chunk
+        const distance = this.distance(hash);
+
+        // Check if the chunk is outside of the player's view distance
+        if (distance > this.viewDistance + 0.5) {
+          // Get the chunk position
+          const { x, z } = ChunkCoords.unhash(hash);
+          chunksToRemove.push({ x, z });
+        }
       }
-    }
 
-    // Remove chunks that are outside view distance
-    if (chunksToRemove.length > 0) {
-      for (const coord of chunksToRemove) {
-        this.clear(coord);
+      // Remove chunks that are outside view distance
+      if (chunksToRemove.length > 0) {
+        for (const coord of chunksToRemove) {
+          this.clear(coord);
+        }
       }
-      // Update the client with the new chunk list after removing chunks
-      this.updateChunkPublisher();
-    }
 
-    // Check if we are still sending chunks
-    if (this.sendingQueue > 0) {
-      // Continue sending chunks, nothing else to do here
-      return;
-    }
+      // Get the next set of chunks to send
+      await this.next(this.chunkQueue);
 
-    // Get the next set of chunks to send
-    const chunks = this.next();
-
-    // Check if there are any chunks to send
-    if (chunks.length > 0) {
-      await this.send(this.dimension, ...chunks);
-    } else {
       // No new chunks to send, but we should periodically update the chunk publisher
       // to ensure the client knows which chunks to keep loaded
       this.updateTickCounter++;
@@ -317,12 +329,32 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
         Math.abs(this.lastUpdatePosition.z - currentChunkZ) > 2 ||
         this.updateTickCounter >= 20;
 
+      // Check if we should update the chunk publisher
       if (shouldUpdate) {
         this.updateChunkPublisher();
         this.lastUpdatePosition = { x: currentChunkX, z: currentChunkZ };
         this.updateTickCounter = 0;
       }
+    } finally {
+      // Reset the tick in progress flag
+      this.tickInProgress = false;
     }
+  }
+
+  /**
+   * Flushes the chunk queue by sending all queued chunks to the player.
+   * @returns A promise that resolves when all queued chunks have been sent.
+   */
+  private async flushChunkQueue(): Promise<void> {
+    // Check if there are any chunks to send
+    if (this.chunkQueue.length === 0) return;
+
+    // Snapshot queue and clear immediately
+    const toSend = this.chunkQueue;
+    this.chunkQueue = [];
+
+    // Send the chunks
+    await this.send(this.dimension, ...toSend);
   }
 
   /**
@@ -429,8 +461,13 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   }
 
   public onTeleport(): void {
-    // Reset the sending queue
-    if (this.sendingQueue > 0) this.sendingQueue = 0;
+    // Cancel any in-flight send() loops
+    this.sendGeneration++;
+
+    // Clear the pending chunks & queue
+    this.pending.clear();
+    this.chunkQueue = [];
+
     // Reset the update position to force an immediate update
     this.lastUpdatePosition = null;
     this.updateTickCounter = 0;

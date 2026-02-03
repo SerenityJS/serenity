@@ -33,11 +33,6 @@ class WorldProvider {
   public readonly chunks = new WeakMap<Dimension, Map<bigint, Chunk>>();
 
   /**
-   * The barrowers map for the provider.
-   */
-  public readonly barrowers = new WeakMap<Dimension, Map<bigint, number>>();
-
-  /**
    * The world that the provider belongs to.
    */
   public world!: World;
@@ -70,7 +65,7 @@ class WorldProvider {
    * @param key The key to read the buffer from.
    * @returns The buffer data entry.
    */
-  public readBuffer(_key: string): Buffer {
+  public readBuffer(_key: string): Buffer | null {
     throw new Error(`${this.identifier}.readBuffer() is not implemented!`);
   }
 
@@ -147,77 +142,6 @@ class WorldProvider {
    */
   public writePlayer(_uuid: string, _player: CompoundTag): void {
     throw new Error(`${this.identifier}.writePlayer() is not implemented!`);
-  }
-
-  /**
-   * Rents a chunk from the provider, this will increment the barrower count for the chunk.
-   * @param hash The hash of the chunk to rent.
-   * @param dimension The dimension to rent the chunk from.
-   */
-  public rentChunk(hash: bigint, dimension: Dimension): void {
-    // Check if the dimension exists in the barrowers map
-    if (!this.barrowers.has(dimension)) {
-      // If not, create a new map for the dimension
-      this.barrowers.set(dimension, new Map());
-    }
-
-    // Get the barrowers map for the dimension
-    const barrowers = this.barrowers.get(dimension)!;
-
-    // Increment the barrower count for the chunk
-    const count = barrowers.get(hash) ?? 0;
-
-    // Set the new count for the chunk
-    barrowers.set(hash, count + 1);
-  }
-
-  /**
-   * Returns a chunk to the provider, this will decrement the barrower count for the chunk.
-   * @param hash The hash of the chunk to return.
-   * @param dimension The dimension to return the chunk to.
-   */
-  public returnChunk(hash: bigint, dimension: Dimension): void {
-    // Check if the dimension exists in the barrowers map
-    if (!this.barrowers.has(dimension)) {
-      // If not, create a new map for the dimension
-      this.barrowers.set(dimension, new Map());
-    }
-
-    // Get the barrowers map for the dimension
-    const barrowers = this.barrowers.get(dimension)!;
-
-    // Decrement the barrower count for the chunk
-    const count = barrowers.get(hash) ?? 0;
-
-    // If the count is greater than 0, decrement it
-    if (count > 0) {
-      // Calculate the new count
-      const newCount = count - 1;
-
-      // Check if the new count is 0
-      if (newCount === 0) {
-        // Delete the chunk from the barrowers map
-        barrowers.delete(hash);
-
-        // Get the chunk from the provider
-        const chunks = this.chunks.get(dimension);
-
-        // If the chunks map does not exist, return
-        if (!chunks) return;
-
-        // Get the chunk from the chunks map
-        const chunk = chunks.get(hash);
-
-        // Skip if the chunk does not exist or is dirty
-        if (!chunk || chunk.dirty || chunk.memoryLock) return;
-
-        // Remove the chunk from the provider's cache
-        chunks.delete(hash);
-      } else {
-        // Otherwise, set the new count for the chunk
-        barrowers.set(hash, newCount);
-      }
-    }
   }
 
   /**
